@@ -54,8 +54,33 @@ class stack_cas_connection_unix extends stack_cas_connection_base {
         $ret = false;
         $err = '';
         $cwd = null;
-        $newpath = getenv('PATH');
-        $env = array('PATH' => $newpath);
+        // TODO: Think this through:
+        //  1. Originally we gave a blank environment except for PATH.
+        //  2. Now we would set certain initial values and merge those to the underlying one which is already a change probably not to worse but a change still.
+        //  3. To correct that we then allow those changes to be overwritten through the configuration parameter.
+        // Are the changes in 2. a problem? Should we not do them even though they might silently fix many installations? Is the risk of them breaking anything realistic?
+
+        // First initialise env with generic guesses then overwrite them with real env.
+        $env = array('LC_CTYPE' => 'en_GB.UTF-8', 'LANG' => 'en_GB.UTF-8', 'LANGUAGE' => 'en_GB:en', 'MM_CHARSET' => 'UTF-8');
+        if (getenv('PATH') !== false) {
+            $env['PATH'] = getenv('PATH');
+        }
+        if (getenv('LC_CTYPE') !== false) {
+            $env['LC_CTYPE'] = getenv('LC_CTYPE');
+        }
+        if (getenv('LANG') !== false) {
+            $env['LANG'] = getenv('LANG');
+        }
+        if (getenv('LANGUAGE') !== false) {
+            $env['LANGUAGE'] = getenv('LANGUAGE');
+        }
+        if (getenv('MM_CHARSET') !== false) {
+            $env['MM_CHARSET'] = getenv('MM_CHARSET');
+        }
+        // After that inject overrides.
+        foreach($this->env as $key => $value) {
+            $env[$key] = $value;
+        }
 
         $descriptors = array(
             0 => array('pipe', 'r'),

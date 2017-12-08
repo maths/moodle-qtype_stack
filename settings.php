@@ -91,6 +91,10 @@ $settings->add(new admin_setting_configtext('qtype_stack/maximacommand',
         get_string('settingplatformmaximacommand', 'qtype_stack'),
         get_string('settingplatformmaximacommand_desc', 'qtype_stack'), ''));
 
+$settings->add(new admin_setting_configtext('qtype_stack/maximaenvironment',
+        get_string('settingplatformmaximaenvironment', 'qtype_stack'),
+        get_string('settingplatformmaximaenvironment_desc', 'qtype_stack'), ''));
+
 $settings->add(new admin_setting_configtext('qtype_stack/serveruserpass',
         get_string('settingserveruserpass', 'qtype_stack'),
         get_string('settingserveruserpass_desc', 'qtype_stack'), ''));

@@ -17,6 +17,8 @@
 defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/../cas/connector.interface.php');
+require_once(__DIR__ . '/../utils.class.php');
+
 
 
 /**
@@ -43,6 +45,9 @@ abstract class stack_cas_connection_base implements stack_cas_connection {
 
     /** @var stack_debug_log does the debugging. */
     protected $debug;
+
+    /** @var array stores override environment values from config. */
+    protected $env;
 
     /**
      * @var bool whether $CFG->wwwroot contains any '_' characters. If so,
@@ -143,12 +148,40 @@ abstract class stack_cas_connection_base implements stack_cas_connection {
         $this->timeout        = $settings->castimeout;
         $this->serveruserpass = $settings->serveruserpass;
         $this->debug          = $debuglog;
+        $this->env            = array();
         if (strpos($CFG->wwwroot, '_') !== false) {
             $this->wwwroothasunderscores = true;
             $this->wwwrootfixupfind = str_replace('_', '\_', $CFG->wwwroot);
             $this->wwwrootfixupreplace = $CFG->wwwroot;
         } else {
             $this->wwwroothasunderscores = false;
+        }
+
+        if ($settings->maximaenvironment && '' !== $settings->maximaenvironment) {
+            // The value is a comma separated list of KEY=VALUE statements.
+            // Problem is that the VALUE may be quotted and those quoted values may contain commas and even =-chars.
+            // We will unquote the VALUEs as if they were Maxima strings.
+            $tmp = trim($settings->maximaenvironment);
+            $strings = stack_utils::all_substring_strings($tmp);
+            $map = array();
+            $i = 11;
+            foreach ($strings as $str) {
+                $tmp = str_replace('"' . $str . '"','"' . $i . '"', $tmp);
+                $map[$i] = stack_utils::maxima_string_to_php_string('"' . $str . '"');
+                $i = $i + 1;
+            }
+            foreach (explode(',', $tmp) as $pair) {
+                $tmp = explode('=', $pair);
+                $key = trim($tmp[0]);
+                $this->env[$key] = trim($tmp[1]);
+                if (strpos($this->env[$key], '"') !== false) {
+                    $val = $this->env[$key];
+                    foreach ($map as $n => $v) {
+                        $val = str_replace('"' . $n . '"', $v, $val);    
+                    }
+                    $this->env[$key] = $val;
+                }
+            }
         }
     }
 

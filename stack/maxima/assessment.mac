@@ -547,7 +547,10 @@ algebraic_equivalence(SA, SB) :=
        ex:first(args(ex)),
     if (safe_op(ex)="*" or safe_op(ex)="^") then
        if not(any_listp(lambda([ex2], algebraic_equivalence(ex2, 0)), args(ex))) then return(false),
-    if ratsimp(ex)=0 then return(true),
+    ex:errcatch(ratsimp(ex)),
+    if ex=[] then (print("algebraic_equivalence: evaluating the difference of two expressions threw an error."), return(false)),
+    ex:ex[1],
+    if ex=0 then return(true),
     /* Next we expand out the difference. */
     ex:errcatch(ev(fullratsimp(SA-SB), simp)),
     if ex=[] then (print("algebraic_equivalence: evaluating the difference of two expressions threw an error."), return(false)),
@@ -555,7 +558,7 @@ algebraic_equivalence(SA, SB) :=
     if floatnump(ex) then return(false),
     ex:num(ex),  /* after a fullratsimp, we have a ratio.  We should only need to consider the top */
     ex:trigsimp(ex),
-    ex:rectform(ex),
+    if not(freeof(%i, ex)) then ex:rectform(ex),
     ex:exponentialize(ex),
     /* ex:trigreduce(ex), CJS, removed 21/1/2010.  This was breaking ATSingleFrac!  Don't know why. */
     if ratsimp(ex)=0 then return(true),

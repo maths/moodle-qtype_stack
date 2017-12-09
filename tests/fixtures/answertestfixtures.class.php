@@ -102,6 +102,11 @@ class stack_answertest_test_data {
         array('AlgEquiv', '', 'rho*z*V/(4*pi*epsilon[0]*(R^2+z^2)^(3/2))', 'rho*z*V/(4*pi*epsilon[0]*(R^2+z^2)^(3/2))', 1, '',
             'Expressions with subscripts'),
         array('AlgEquiv', '', 'rho*z*V/(4*pi*epsilon[1]*(R^2+z^2)^(3/2))', 'rho*z*V/(4*pi*epsilon[0]*(R^2+z^2)^(3/2))', 0, '', ''),
+        array('AlgEquiv', '', 'sqrt(k/m)*sqrt(m/k)', '1', 1, '', ''),
+        array('AlgEquiv', '', '(2*pi)/(k/m)^(1/2)', '(2*pi)/(k/m)^(1/2)', 1, '', ''),
+        array('AlgEquiv', '', '(2*pi)*(m/k)^(1/2)', '(2*pi)/(k/m)^(1/2)', 1, '', ''),
+        array('AlgEquiv', '', 'sqrt(2*x/10+1)', 'sqrt((2*x+10)/10)', 1, '', ''),
+        array('AlgEquiv', '', '((x+3)^2*(x+3))^(1/3)', '((x+3)*(x^2+6*x+9))^(1/3)', 1, '', ''),
 
         array('AlgEquiv', '', 'rationalized(1+sqrt(3)/3)', 'true', 1, 'ATLogic_True', 'Bad things in denominators'),
         array('AlgEquiv', '', 'rationalized(1+1/sqrt(3))', '[sqrt(3)]', 1, '', ''),
@@ -354,9 +359,7 @@ class stack_answertest_test_data {
         array('AlgEquiv', '', '(sqrt(108)+10)^(1/3)-(sqrt(108)-10)^(1/3)', '2', -2, '', ''),
         array('AlgEquiv', '', '(sqrt(2+sqrt(2))+sqrt(2-sqrt(2)))/(2*sqrt(2))', 'sqrt(sqrt(2)+2)/2', -2, '', ''),
         array('AlgEquiv', '', 'a*(1+sqrt(2))=b', 'a=b*(sqrt(2)-1)/3', -2, 'ATEquation_default', ''),
-        array('AlgEquiv', '', 'sqrt(2*x/10+1)', 'sqrt((2*x+10)/10)', -2, '', ''),
         array('AlgEquiv', '', 'atan(1/2)', '%pi/2-atan(2)', -2, '', 'This is only equivalent for x>=0...', ''),
-        array('AlgEquiv', '', '((x+3)^2*(x+3))^(1/3)', '((x+3)*(x^2+6*x+9))^(1/3)', -2, '', 'Need to factor internally.'),
 
         array('AlgEquiv', '', 'A and B', 'B and A', 1, 'ATLogic_True', 'Logical expressions'),
         array('AlgEquiv', '', 'A and B', 'C and A', 0, '', ''),

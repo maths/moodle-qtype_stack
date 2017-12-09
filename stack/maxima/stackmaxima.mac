@@ -1063,7 +1063,7 @@ ATNumSigFigs(SA, SB, SO) := block([Validity, RawMark, FeedBack, AnswerNote, ret,
       c0:0.0,
     ev(c2:float(abs(abs(rat(SA)*10^(c0+floor(asf)))-abs(rat(SB)*10^(c0+floor(asf))))), simp),
     if (debug) then print([SA,SB,c0,asf,c2]),
-    if not(ev(is(c2<0.5), simp)) then block(
+    if not(ev(is(c2<(0.5)), simp)) then block(
         Validity:true,
         RawMark:false,
         if ev(is(c2<5), simp) then block(
@@ -1831,7 +1831,7 @@ ATGTE(SA,SB) :=
 /* (2.1) p is linear in v, and the coefficients have no common factors  */
 /* (2.2) p is linear in v, and the coefficients of v is -1              */
 /* (3) p is quadratic, the coefficients have no common factors          */
-/*     and p does not factor over the **rational numberss**             */
+/*     and p does not factor over the **rational numbers**              */
 
 /* Is p an irreducible term in v, over the rationals Q? */
 /* Returns a list, of [true/false, FeedBack, true/false] */

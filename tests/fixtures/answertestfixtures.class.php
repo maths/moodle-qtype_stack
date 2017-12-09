@@ -359,7 +359,9 @@ class stack_answertest_test_data {
         array('AlgEquiv', '', '(sqrt(108)+10)^(1/3)-(sqrt(108)-10)^(1/3)', '2', -2, '', ''),
         array('AlgEquiv', '', '(sqrt(2+sqrt(2))+sqrt(2-sqrt(2)))/(2*sqrt(2))', 'sqrt(sqrt(2)+2)/2', -2, '', ''),
         array('AlgEquiv', '', 'a*(1+sqrt(2))=b', 'a=b*(sqrt(2)-1)/3', -2, 'ATEquation_default', ''),
+        array('AlgEquiv', '', 'sqrt(2*x/10+1)', 'sqrt((2*x+10)/10)', -2, '', ''),
         array('AlgEquiv', '', 'atan(1/2)', '%pi/2-atan(2)', -2, '', 'This is only equivalent for x>=0...', ''),
+        array('AlgEquiv', '', '((x+3)^2*(x+3))^(1/3)', '((x+3)*(x^2+6*x+9))^(1/3)', -2, '', 'Need to factor internally.'),
 
         array('AlgEquiv', '', 'A and B', 'B and A', 1, 'ATLogic_True', 'Logical expressions'),
         array('AlgEquiv', '', 'A and B', 'C and A', 0, '', ''),
@@ -1166,6 +1168,30 @@ class stack_answertest_test_data {
         array('NumSigFigs', '[2,0]', '0.00', '0', 1, '', ''),
         array('NumSigFigs', '[3,0]', '0.00', '0', 0, 'ATNumSigFigs_WrongDigits.', ''),
         array('NumSigFigs', '[4,0]', '0.00', '0', 0, 'ATNumSigFigs_WrongDigits.', ''),
+        // Condone too many significant figures.
+        array('NumSigFigs', '[4,-1]', '8.250' ,'8.250', 1, '', 'Condone too many sfs.'),
+        array('NumSigFigs', '[4,-1]', '8.25' ,'8.250', 0, 'ATNumSigFigs_WrongDigits.', ''),
+        array('NumSigFigs', '[4,-1]', '8.250000' ,'8.250', 1, '', ''),
+        array('NumSigFigs', '[4,-1]', '8.250434' ,'8.250', 1, '', ''),
+        array('NumSigFigs', '[2,-1]', '82.4' ,'82', 1, '', ''),
+        array('NumSigFigs', '[2,-1]', '82.5' ,'82', 0, 'ATNumSigFigs_Inaccurate.', ''),
+        array('NumSigFigs', '[2,-1]', '83' ,'82', 0, 'ATNumSigFigs_Inaccurate.', ''),
+        // 1/7 = 0.142857142857...
+        array('NumSigFigs', '[4,-1]', '0.1429' ,'1/7', 1, '', ''),
+        array('NumSigFigs', '[4,-1]', '0.1428' ,'1/7', 0, 'ATNumSigFigs_Inaccurate.', ''),
+        array('NumSigFigs', '[4,-1]', '0.143' ,'1/7', 0, 'ATNumSigFigs_WrongDigits. ATNumSigFigs_Inaccurate.', ''),
+        array('NumSigFigs', '[4,-1]', '0.14285' ,'1/7', 1, '', ''),
+        // Rounded correctly to 5 s.f.
+        array('NumSigFigs', '[4,-1]', '0.14286' ,'1/7', 1, '', ''),
+        // Extra final digit, incorrectly rounded but condoned.
+        array('NumSigFigs', '[2,-1]', '0.142' ,'1/7', 1, '', ''),
+        array('NumSigFigs', '[2,-1]', '0.143' ,'1/7', 1, '', ''),
+        array('NumSigFigs', '[2,-1]', '0.144' ,'1/7', 1, '', ''),
+        array('NumSigFigs', '[2,-1]', '0.14290907676' ,'1/7', 1, '', ''),
+        // While this rounds up to 2 sig figs, we mark is a right because is it basically close enough.
+        array('NumSigFigs', '[2,-1]', '0.145' ,'1/7', 1, '', ''),
+        array('NumSigFigs', '[2,-1]', '0.146' ,'1/7', 0, 'ATNumSigFigs_Inaccurate.', ''),
+        // Teacher does not give a float.
         array('NumSigFigs', '4', '1.279', 'ev(lg(19),logbase=logbasesimp)', 1, '', 'Logarithms, numbers and surds'),
         array('NumSigFigs', '3', '3.14', 'pi', 1, '', ''),
         array('NumSigFigs', '3', '3.15', 'pi', 0, 'ATNumSigFigs_Inaccurate.', ''),

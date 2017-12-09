@@ -15,10 +15,10 @@ Done for version 4.1:
 * Add in an answer test which accepts "at least" n significant figures. (See issue #313)
 * Add in the "string" input type.
 * Add test which checks if there are any rational expressions in the denominator of a fraction.  (Functionality added to LowestTerms test, which looks at the form of rational expressions).
+* Add an option to remove hard-coded "not answered" option from Radio input type. (See issue #304)
 
 To do for version 4.1:
 
-* Remove hard-coded "not answered" option from Radio input type. (See issue #304)
 * Add in test to require a certain number of significant figures/decimal places at validation stage.
 * Add support for matrices with floating point entries, and testing numerical accuracy.
 * Enable individual questions to load Maxima libraries.  (See issue #305)

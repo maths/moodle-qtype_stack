@@ -1153,7 +1153,8 @@ class stack_answertest_test_data {
         array('NumSigFigs', '[2,-1]', '0.143' ,'1/7', 1, '', ''),
         array('NumSigFigs', '[2,-1]', '0.144' ,'1/7', 1, '', ''),
         array('NumSigFigs', '[2,-1]', '0.14290907676' ,'1/7', 1, '', ''),
-        array('NumSigFigs', '[2,-1]', '0.145' ,'1/7', 0, 'ATNumSigFigs_Inaccurate.', ''),
+        // While this rounds up to 2 sig figs, we mark is a right because is it basically close enough.
+        array('NumSigFigs', '[2,-1]', '0.145' ,'1/7', 1, '', ''),
         array('NumSigFigs', '[2,-1]', '0.146' ,'1/7', 0, 'ATNumSigFigs_Inaccurate.', ''),
         // Teacher does not give a float.
         array('NumSigFigs', '4', '1.279', 'ev(lg(19),logbase=logbasesimp)', 1, '', 'Logarithms, numbers and surds'),

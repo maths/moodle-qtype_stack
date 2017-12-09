@@ -9,11 +9,13 @@ How to report bugs and make suggestions is described on the [community](../About
 
 To do for version 4.1:
 
-* Remove hard-coded "not answered" option from Radio input type.
+* Remove hard-coded "not answered" option from Radio input type. (See issue #304)
 * (Done) On the questiontestrun page, have options to (a) delete all question variants.
 * (Done) Make SVG the default image format in Maxima generate plots.
-* Enable individual questions to load Maxima libraries.  (See issue #305).
+* Add in an answer test which accepts "at least" n significant figures. (See issue #313)
 * Add support for matrices with floating point entries, and testing numerical accuracy.
 * Add test which checks if there are any rational expressions in the denominator of a fraction.
-
+* Add in test to require a certain number of significant figures/decimal places at validation stage.
 * Add in support for the syntaxHint in the matrix input.
+
+* Enable individual questions to load Maxima libraries.  (See issue #305)

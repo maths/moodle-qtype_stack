@@ -59,7 +59,7 @@ class stack_string_input extends stack_algebraic_input {
 
         return html_writer::empty_tag('input', $attributes);
     }
-    
+
     /**
      * Transforms the student's response input into an array.
      * Most return the same as went in.

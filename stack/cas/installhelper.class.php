@@ -436,9 +436,7 @@ END;
             self::get_instance()->settings->maximacommand = $oldmaximacommand;
             self::create_maximalocal();
             return array(false, $errmsg);
-        }
-        else
-        {
+        } else {
             return array(true, "DONE.");
         }
     }

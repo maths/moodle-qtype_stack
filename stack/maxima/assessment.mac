@@ -256,7 +256,7 @@ rationalized(ex):= block(
   ex:maplist(denom, find_rationals(ex)),
   ex:flatten(maplist(rational_fail, ex)),
   if emptyp(ex) then return(true),
-  return(ex)  
+  return(ex)
 )$
 
 /* ********************************** */

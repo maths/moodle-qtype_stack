@@ -708,6 +708,7 @@ $string['ATInequality_backwards']       = 'Your inequality appears to be backwar
 
 $string['ATLowestTerms_wrong']          = 'You need to cancel fractions within your answer. ';
 $string['ATLowestTerms_entries']        = 'The following terms in your answer are not in lowest terms.  {$a->m0} Please try again.  ';
+$string['ATLowestTerms_not_rat']        = 'You must clear the following from the denominator of your fraction: {$a->m0}';
 
 $string['ATList_wronglen']              = 'Your list should have {$a->m0} elements, but it actually has {$a->m1}. ';
 $string['ATList_wrongentries']          = 'The entries underlined in red below are those that are incorrect. {$a->m0} ';

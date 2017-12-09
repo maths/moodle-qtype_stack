@@ -1509,8 +1509,9 @@ ATSameTypefun(SA, SB) := block([simp:true, ret],
 )$
 
 /* Tests if the SA equals SB in lowest terms, and gives feedback.
+   Also checks that the denominator is clear of things like sqty(2) and complex numbers.
    Note, this is identical to ATAlgEquiv with simp:false otherwise. */
-ATLowestTerms(SA, SB) := block([simp:false, ret, validity, mark, FeedBack, AnswerNote, SAA],
+ATLowestTerms(SA, SB) := block([simp:false, ret, validity, mark, FeedBack, AnswerNote, SAA, rd],
     /* Turn on simplification and error catch */
     SAA:errcatch(ev(SA, simp, nouns)),
     if (is(SAA = [STACKERROR]) or is(SAA = [])) then
@@ -1533,6 +1534,14 @@ ATLowestTerms(SA, SB) := block([simp:false, ret, validity, mark, FeedBack, Answe
             FeedBack:StackAddFeedback("", "ATLowestTerms_wrong", "")
         else
             FeedBack:StackAddFeedback("", "ATLowestTerms_entries", stack_disp(badNos, "d"))
+    ),
+    /* Check for problems in the denominator. */
+    rd:rationalized(SA),
+    if not(is(rd=true)) then block(
+            mark:false,
+            fbn:"ATLowestTerms_not_rat",
+            FeedBack: StackAddFeedback(FeedBack, fbn, stack_disp(rd, "d")),
+            AnswerNote:StackAddNote(AnswerNote, fbn)
     ),
     return([validity, mark, AnswerNote, FeedBack])
 )$
@@ -2181,14 +2190,14 @@ ATSingleFrac(SA, SB) := block(
     else block(
         rawmk:false,
         ansnote:"ATSingleFrac_part"),
-    fb: StackAddFeedback(fb,ansnote),
-    ansnote:StackAddNote("",ansnote),
+    fb: StackAddFeedback(fb, ansnote),
+    ansnote:StackAddNote("", ansnote),
     /* Check for algebraic equivalence */
     if not(algebraic_equivalence(SA, SB)) then block(
             rawmk:false,
             fbn:"ATSingleFrac_ret_exp",
-            fb: StackAddFeedback(fb,fbn),
-            ansnote:StackAddNote(ansnote,fbn)
+            fb: StackAddFeedback(fb, fbn),
+            ansnote:StackAddNote(ansnote, fbn)
     ),
     return([validity,rawmk,ansnote,fb])
 )$

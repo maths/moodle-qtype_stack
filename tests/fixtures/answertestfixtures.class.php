@@ -734,6 +734,8 @@ class stack_answertest_test_data {
         array('SingleFrac', '', 'a/(-b)', '-a/b', 1, 'ATSingleFrac_true.', ''),
         array('SingleFrac', '', '-(a/b)', '-a/b', 1, 'ATSingleFrac_true.', ''),
         array('SingleFrac', '', '-(1/(n-1))', '1/(1-n)', 1, 'ATSingleFrac_true.', ''),
+        // Use the LowestTerms test for this distinction.
+        array('SingleFrac', '', '1/(1-sqrt(2))', '1/(1-sqrt(2))', 1, 'ATSingleFrac_true.', ''),
 
         array('PartFrac', '', '1/0', '3*x^2', -1, 'STACKERROR_OPTION.', ''),
         array('PartFrac', 'x', '1/0', '3*x^2', -1, 'ATPartFrac_STACKERROR_SAns.', ''),
@@ -1482,8 +1484,15 @@ class stack_answertest_test_data {
         array('LowestTerms', '', 'x^2/x', '0', 1, '', 'Use predicate lowesttermsp'),
         array('LowestTerms', '', '(2*x)/(4*t)', '0', 1, '', ''),
         array('LowestTerms', '', '(2/4)*(x^2/t)', '0', 0, 'ATLowestTerms_entries.', ''),
-        array('LowestTerms', '', 'x^(2/4)', '0', 0, 'ATLowestTerms_entries.', '')
-        );
+        array('LowestTerms', '', 'x^(2/4)', '0', 0, 'ATLowestTerms_entries.', ''),
+        array('LowestTerms', '', 'sqrt(3)/3', 'sqrt(3)/3', 1, '', 'Need to rationalize demoninator'),
+        array('LowestTerms', '', '1/sqrt(3)', 'sqrt(3)/3', 0, 'ATLowestTerms_not_rat.', ''),
+        array('LowestTerms', '', '1/(1-sqrt(2))', '1/(1-sqrt(2))', 0, 'ATLowestTerms_not_rat.', ''),
+        array('LowestTerms', '', '1/(1+i)', '(1-i)/2', 0, 'ATLowestTerms_not_rat.', ''),
+        array('LowestTerms', '', '1+2/sqrt(3)', '(2*sqrt(3)+3)/3', 0, 'ATLowestTerms_not_rat.', ''),
+        array('LowestTerms', '', '1/(1+1/root(3,2))', 'sqrt(3)/(sqrt(3)+1)', 0, 'ATLowestTerms_not_rat.', ''),
+        array('LowestTerms', '', '1/(1+1/root(2,3))', '1/(1+1/root(2,3))', 0, 'ATLowestTerms_not_rat.', '')
+    );
 
     public static function get_raw_test_data() {
         $equiv = new stack_equiv_test_data();

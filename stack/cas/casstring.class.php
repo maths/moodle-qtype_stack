@@ -1591,10 +1591,14 @@ class stack_cas_casstring {
         $this->casstring = 'stack_validate(['.$starredanswer.'], '.$forbidfloats.','.$lowestterms.','.$tans.')';
         if ($validationmethod == 'typeless') {
             // Note, we don't pass in the teacher's as this option is ignored by the typeless validation.
-            $this->casstring = 'stack_validate_typeless(['.$starredanswer.'], '.$forbidfloats.', '.$lowestterms.', false)';
+            $this->casstring = 'stack_validate_typeless(['.$starredanswer.'], '.$forbidfloats.', '.$lowestterms.', false, false)';
+        }
+        if ($validationmethod == 'numerical') {
+            $this->casstring = 'stack_validate_typeless(['.$starredanswer.'],
+                    '.$forbidfloats.', '.$lowestterms.', false, '.$fltfmt.')';
         }
         if ($validationmethod == 'equiv') {
-            $this->casstring = 'stack_validate_typeless(['.$starredanswer.'], '.$forbidfloats.', '.$lowestterms.', true)';
+            $this->casstring = 'stack_validate_typeless(['.$starredanswer.'], '.$forbidfloats.', '.$lowestterms.', true, false)';
         }
         if ($validationmethod == 'units') {
             // Note, we don't pass in forbidfloats as this option is ignored by the units validation.

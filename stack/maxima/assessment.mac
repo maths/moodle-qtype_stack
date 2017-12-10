@@ -516,7 +516,7 @@ make_displayscivalue(ex):= block([n, d, expo, ss],
    ex1:(p*100)-floor(p*100);
    Then ask is "ex1=0.5"?  Actually
    ex1-0.5;
-   returns −1.776356839*10^−15 which shows that (p*100)-floor(p*100)<0.5.  This is due to rounding.
+   returns -1.776356839*10^-15 which shows that (p*100)-floor(p*100)<0.5.  This is due to rounding.
    Both the internal printf, and our attempts in sigfigsfun(...) to write our own function will suffer from
    this kind of problem.
 */

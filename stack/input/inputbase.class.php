@@ -426,7 +426,7 @@ abstract class stack_input {
 
         // Since $lvars and $answer and the other casstrings are passed by reference, into the $session,
         // we don't need to extract updated values from the instantiated $session explicitly.
-        list($valid, $errors, $display) = $this->validation_display($answer, $caslines, $additionalvars, $valid, $errors);
+        list($valid, $errors, $display) = $this->validation_display($answer, $lvars, $caslines, $additionalvars, $valid, $errors);
 
         if ('' == $answer->get_value()) {
             $valid = false;
@@ -576,7 +576,7 @@ abstract class stack_input {
      * @return string any error messages describing validation failures. An empty
      *      string if the input is valid - at least according to this test.
      */
-    protected function validation_display($answer, $caslines, $additionalvars, $valid, $errors) {
+    protected function validation_display($answer, $lvars, $caslines, $additionalvars, $valid, $errors) {
 
         $display = stack_maxima_format_casstring($answer->get_raw_casstring());
         if ('' != $answer->get_errors()) {

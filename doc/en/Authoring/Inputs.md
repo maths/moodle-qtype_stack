@@ -1,14 +1,13 @@
 # Inputs
 
-Inputs are the points at which the student interacts with the question.
-For example, it might be a form box into which the student enters their answer.
+Inputs are the points at which the student interacts with the question.  
+The default (and prototype) is an HTML input box into which a student is expected to type an algebraic expression.
 
 * Only the [question text](CASText.md#question_text) may have inputs.
-* Inputs are not required. Hence it is possible for the teacher to make a
-  statement which asks for no response from the student, i.e. a rhetorical question.
+* Inputs are not required. Hence it is possible for the teacher to make a statement which asks for no response from the student, i.e. a rhetorical question.
 * A question may have as many inputs as needed.
-* Inputs can be positioned anywhere within the
-  [question text](CASText.md#question_text). MathJax does not currently support the inclusion of inputs within equations.
+* Inputs can be positioned anywhere within the [question text](CASText.md#question_text). MathJax does not currently support the inclusion of inputs within equations.
+* All inputs return a Maxima expression.  This might be just the student's answer (in the case of an algebraic input).  MCQ inputs also return a valid Maxima expression.
 
 The position of an input in the [question text](CASText.md#question_text) is denoted by
 
@@ -49,20 +48,19 @@ Currently STACK supports the following kinds of inputs.
 
 #### Algebraic input ####
 
-The default: a form box.
+The default: a form box into which a student is expected to type an algebraic expression.
+
+#### Numerical ####
+
+This input type _requires_ the student to type in a number of some kind.  Any expression with a variable will be rejected as invalid.
+
+Note, some things (like forbid floats) can be applied to any numbers in an algebraic input, other tests (require n decimal places) cannot and can only be applied to a single number in this input type.
+
+See the specific documentation for more information:  [Numerical input](Numerical_input.md).
 
 #### True/False ####
 
 Simple drop down. A Boolean value is assigned to the variable name.
-
-#### Single Character ####
-
-A single letter can be entered.  This is useful for creating multiple choice questions, but is not used regularly.
-
-#### Text area ####
-
-Enter algebraic expressions on multiple lines.  STACK passes the result to [Maxima](../CAS/Maxima.md) as a list.
-Note, the teacher's answer and any syntax hint must be a list!  If you just pass in an expression strange behaviour may result.
 
 #### Matrix ####
 
@@ -72,29 +70,37 @@ This is easier than typing in [Maxima](../CAS/Maxima.md)'s matrix command, but d
 
 _The student may not fill in part of a matrix._  If they do so, the remaining entries will be completed with `?` characters which render the attempt invalid. STACK cannot cope with empty boxes here.
 
-#### Notes input ####
+#### Scientific units ####
 
-This input is a text area into which students may type whatever they choose.  It can be used to gather their notes or "working".  However, this input always returns an empty value to the CAS, so that the contents are never assessed.
-Note that any potential response tree which relies on this input will never get evaluated!
+The support for scientific units includes an input type which enables teachers to check units as valid/invalid. See the separate documentation for [units](Units.md).
 
-#### String input ####
+#### Text area ####
 
-This is a normal input into which students may type whatever they choose.  It is always converted into a Maxima string internally.
-Note that there is no way whatsoever to parse the student's string into a Maxima expresison.  If you accept a string, then it will always remain a string! You can't later check for algebraic equivalence, the only tests available will be simple string matches, regular expressions etc.
+Enter algebraic expressions on multiple lines.  STACK passes the result to [Maxima](../CAS/Maxima.md) as a list.
+Note, the teacher's answer and any syntax hint must be a list!  If you just pass in an expression strange behaviour may result.
 
 #### Equivalence reasoning input ####
 
 The purpose of this input type is to enable students to "reason by equivalence.  See the specific documentation for more information:  [Equivalence reasoning](../CAS/Equivalence_reasoning.md).
 Note, the teacher's answer and any syntax hint must be a list!  If you just pass in an expression strange behaviour may result.
 
+#### Dropdown/Checkbox/Radio ####
 
-#### Dropdown ####
+The dropdown, checkbox and radio input types enable teachers to create [multiple choice](MCQ.md) questions.  See the separate documentation.
 
-The dropdown input type enables teachers to create [multiple choice](MCQ.md) questions.  See the separate documentation.
+#### String input ####
 
-#### Scientific units ####
+This is a normal input into which students may type whatever they choose.  It is always converted into a Maxima string internally.
+Note that there is no way whatsoever to parse the student's string into a Maxima expresison.  If you accept a string, then it will always remain a string! You can't later check for algebraic equivalence, the only tests available will be simple string matches, regular expressions etc.
 
-The support for scientific units includes an input type which enables teachers to check units as valid/invalid. See the separate documentation for [units](Units.md).
+#### Notes input ####
+
+This input is a text area into which students may type whatever they choose.  It can be used to gather their notes or "working".  However, this input always returns an empty value to the CAS, so that the contents are never assessed. Note that any potential response tree which relies on this input will never get evaluated!
+
+#### Single Character ####
+
+A single letter can be entered.  This is useful for creating multiple choice questions, but is not used regularly.
+
 
 ### Model answer ###  {#model_answer}
 

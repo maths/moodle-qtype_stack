@@ -19,6 +19,17 @@ Done for version 4.1:
 
 To do for version 4.1:
 
-* Add in test to require a certain number of significant figures/decimal places at validation stage.
 * Add support for matrices with floating point entries, and testing numerical accuracy.
 * Enable individual questions to load Maxima libraries.  (See issue #305)
+
+### Numbers input type
+
+Require a number, written in a particular form, at validation stage
+
+* A fraction (in lowest terms?)
+* A rationalised number (no variables)
+* A floating point number, given to certain number of significant figures/decimal places.
+* Base N (Next version when this functionality becomes available).
+* Check if decimal separator is in the wrong place #314
+
+Some of this functionality will cascade to the units and matrix input types.

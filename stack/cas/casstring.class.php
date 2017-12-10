@@ -1559,9 +1559,9 @@ class stack_cas_casstring {
                     $lowestterms = true, $tans = null, $validationmethod, $allowwords = '') {
 
         if (!($validationmethod == 'checktype' || $validationmethod == 'typeless' || $validationmethod == 'units'
-            || $validationmethod == 'unitsnegpow' || $validationmethod == 'equiv')) {
+            || $validationmethod == 'unitsnegpow' || $validationmethod == 'equiv' || $validationmethod == 'numerical')) {
             throw new stack_exception('stack_cas_casstring: validationmethod must one of "checktype", "typeless", ' .
-                '"units" or "unitsnegpow" or "equiv", but received "'.$validationmethod.'".');
+                '"units" or "unitsnegpow" or "equiv" or "numerical", but received "'.$validationmethod.'".');
         }
         if (null === $this->valid) {
             $this->validate('s', true, 0, $allowwords);

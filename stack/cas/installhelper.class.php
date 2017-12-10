@@ -31,7 +31,7 @@ class stack_cas_configuration {
     protected static $instance = null;
 
     /** @var This variable controls which optional packages are supported by STACK. */
-    public static $maximalibraries = array('stats', 'distrib', 'descriptive', 'simplex');
+    public static $maximalibraries = array('stats', 'distrib', 'descriptive', 'simplex', 'bitwise', 'logic');
 
     protected $settings;
 

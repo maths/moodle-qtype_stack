@@ -116,6 +116,7 @@ load("intervals.mac");
 load("stackunits.mac");
 load("stacktex.lisp");
 load("utils.mac");
+load("basen.lisp");
 
 texput(QMCHAR, "\\color{red}{?}");
 texput(theta, "\\theta");
@@ -572,6 +573,7 @@ cte(var, ex) := block([str],
 stack_dispvalue(ex) := block(
   ex:detexcolor(ex),
   ex:detexdecorate(ex),
+  ex:make_basenvalue(ex),
   ex:make_displaydpvalue(ex),
   ex:make_displayscivalue(ex),
   ex:opsubst("*",stackunits,ex),

@@ -24,6 +24,39 @@ defined('MOODLE_INTERNAL') || die();
  */
 class stack_algebraic_input extends stack_input {
 
+    public function adapt_to_model_answer($teacheranswer) {
+
+        $matches = null;
+        $found = preg_match("/\bbasen\s*\(([^)]*)\)/", $teacheranswer, $matches);
+        if($found !== 1)
+        {
+            $this->basen_options = null;
+            return;
+        }
+        $params = explode(',', $matches[1]);
+        if(count($params) > 1 && is_numeric($params[1]))
+        {
+            $radix = (int)$params[1];
+            if(count($params) > 2 && is_numeric($params[2]))
+            {
+                $mindigits = (int)$params[2];
+            }
+            else
+            {
+               $mindigits = 0; 
+            }
+            if(count($params) > 3)
+            {
+                $mode = trim($params[3], "\'\"");
+            } else {
+                $mode = 1;
+            }
+            $this->basen_options = new stack_basen_options($radix, $mindigits, $mode);
+        } else {
+            $this->basen_options = null;
+        }
+    }
+
     public function render(stack_input_state $state, $fieldname, $readonly, $tavalue) {
 
         if ($this->errors) {

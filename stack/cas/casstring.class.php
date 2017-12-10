@@ -23,6 +23,7 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/../../locallib.php');
 require_once(__DIR__ . '/../utils.class.php');
+require_once(__DIR__ . '/../basenoptions.class.php');
 require_once(__DIR__ . '/casstring.units.class.php');
 
 class stack_cas_casstring {
@@ -558,7 +559,7 @@ class stack_cas_casstring {
             $this->conditions   = $conditions;
         }
     }
-
+    
     /*********************************************************/
     /* Validation functions                                  */
     /*********************************************************/
@@ -572,7 +573,7 @@ class stack_cas_casstring {
      *              2 - assume single letter variables only.
      * $allowwords enables specific function names (but never those from $globalforbid)
      */
-    private function validate($security='s', $syntax=true, $insertstars=0, $allowwords='') {
+    private function validate($security='s', $syntax=true, $insertstars=0, $allowwords='', $basen_options=null) {
 
         if (!('s' === $security || 't' === $security)) {
             throw new stack_exception('stack_cas_casstring: security level, must be "s" or "t" only.');
@@ -595,9 +596,18 @@ class stack_cas_casstring {
             $this->valid = false;
             return false;
         }
-
+        
         // Remove the contents of "strings".
         $stringles = stack_utils::eliminate_strings($this->casstring);
+
+        // Remove base n numbers
+        $rn = rand(100000,999999);
+        $basenkey = "($rn-$rn)";
+
+        if($basen_options)
+        {
+            list($stringles, $basens) = stack_utils::replace_basen($stringles,$basen_options, " $basenkey " );
+        }
 
         // From now on all checks ignore the contents of "strings" and most definitely do not modify them.
         if (strpos($stringles, '"') !== false) {
@@ -649,6 +659,10 @@ class stack_cas_casstring {
         $split = explode('|>key_val_split<|', $injecttarget, 2);
         $this->casstring = $split[1];
         $this->key = $split[0];
+        
+        if($basen_options) {
+            $this->casstring = stack_utils::unreplace_basen($this->casstring, $basenkey, $basens);
+        }
 
         return $this->valid;
     }
@@ -1417,14 +1431,26 @@ class stack_cas_casstring {
             }
         }
     }
+    
+    private $cached_security=null, $cached_syntax=null, $cached_insertstars=null, $cached_allowwords=null, $cached_basen_options=null;
 
     /*********************************************************/
     /* Return and modify information                         */
     /*********************************************************/
 
-    public function get_valid($security = 's', $syntax = true, $insertstars = 0, $allowwords = '') {
+    public function get_valid($security = 's', $syntax = true, $insertstars = 0, $allowwords = '', $basen_options = null) {
         if (null === $this->valid) {
-            $this->validate($security, $syntax, $insertstars, $allowwords);
+            $this->validate($security, $syntax, $insertstars, $allowwords, $basen_options);
+            $this->cached_security = $security;
+            $this->cached_syntax = $syntax; 
+            $this->cached_insertstars = $insertstars;
+            $this->cached_allowwords = $allowwords;
+            $this->cached_basen_options=$basen_options;
+        } else{
+            if ($this->cached_security !== $security || $this->cached_syntax !== $syntax || $this->cached_insertstars !== $insertstars || $this->cached_allowwords !== $allowwords
+                    || $this->cached_basen_options !== $basen_options) {
+                error_log("get_valid parameter mismatch");
+            }
         }
         return $this->valid;
     }
@@ -1535,7 +1561,7 @@ class stack_cas_casstring {
     // If we "CAS validate" this string, then we need to set various options.
     // If the teacher's answer is null then we use typeless validation, otherwise we check type.
     public function set_cas_validation_casstring($key, $forbidfloats = true,
-                    $lowestterms = true, $tans = null, $validationmethod, $allowwords = '') {
+                    $lowestterms = true, $tans = null, $validationmethod, $allowwords = '', $basen_options = null) {
 
         if (!($validationmethod == 'checktype' || $validationmethod == 'typeless' || $validationmethod == 'units'
             || $validationmethod == 'unitsnegpow' || $validationmethod == 'equiv')) {
@@ -1543,7 +1569,7 @@ class stack_cas_casstring {
                 '"units" or "unitsnegpow" or "equiv", but received "'.$validationmethod.'".');
         }
         if (null === $this->valid) {
-            $this->validate('s', true, 0, $allowwords);
+            $this->validate('s', true, 0, $allowwords, $basen_options );
         }
         if (false === $this->valid) {
             return false;
@@ -1551,6 +1577,28 @@ class stack_cas_casstring {
 
         $this->key = $key;
         $starredanswer = $this->casstring;
+        
+        if(null !== $basen_options)
+        {
+            $basencall = "frombasen(\"$1\"";
+            if("*" === $basen_options->get_radix()) {
+                $basencall .= ",\"*\"";
+            } else {
+                $basencall .= "," . $basen_options->get_radix();
+            }
+            if(null === $basen_options->get_mindigits()) {
+                $basencall .= ",0";
+            } else {
+                $basencall .= "," . $basen_options->get_mindigits();
+            }
+            if(is_numeric($basen_options->get_mode())) {
+                $basencall .= "," . $basen_options->get_mode();
+            } elseif (is_string($basen_options->get_mode())) {
+                $basencall .= ",\"" . $basen_options->get_mode(). "\"";
+            }
+            $basencall .= ")";
+            $starredanswer = stack_utils::replace_basen($starredanswer, $basen_options, $basencall )[0];
+        }
 
         // Turn PHP Booleans into Maxima true & false.
         if ($forbidfloats) {

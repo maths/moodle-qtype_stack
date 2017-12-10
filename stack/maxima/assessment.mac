@@ -379,6 +379,57 @@ displaydptex(ex):=block([ss, n, dp],
 );
 texput(displaydp, displaydptex);
 
+/* This function is designed for displaying base n numbers.                                 */
+/* basen(n, base, mindigits, mode) is an inert function. The tex function converts this to  */
+/* display. The input routines also use its presence in a model answer to decide what base  */
+/* and format the student answer must be in.                                                */
+/* n is the number to be displayed                                                          */
+/* base is the radix (base) of the number for both display and, if in the model answer      */
+/*   field, the input of the student answer.                                                */
+/* mindigits is the minimum number of figures to display and the exact number of places the */
+/*   student is required to enter. 0 or empty here indicates use the minimum.               */
+/* mode is a string controlling the format:                                                 */
+/*    D STACK compatible syntax; does not work for bases 11+                                */
+/*    M Maxima syntax: number should be 0 prefixed if base 11+; the default.                */
+/*    G Greedy syntax: means number can start with any alphanumeric; this is the most       */
+/*      convenient for entry of literal value answer but will seriously hamper use of       */
+/*      expressions containing variables or functions in student answers.                   */
+/*    B Visual Basic number syntax: &HFF &o77 &b11                                          */
+/*    C C/C++/Java number syntax: 0xff 077 0b11                                             */
+/*    S Suffix syntax; number should appear as a subscripted suffix, typed using an _ char. */
+/*                                                                                          */
+/* Note, basen does not actually change the number, it is only for display. Internally the  */
+/* number is still held in the same format.                                                 */
+/* To print out *values* in a given base use this function.                                 */
+
+basentex(ex) := block([a, ss, n, base, mindigits, mode],
+  a: args(ex),
+  /* system(sconcat("logger \"basentex(", string(a), ")\"")), */
+  n : a[1], base: a[2], mindigits: if length(a) > 2 then a[3] else 0, mode: if length(a) = 4 then a[4] else "",
+  if integerp(n) and integerp(base) and base > 1 then
+    (ss:sconcat(
+      (if sequalignore(mode,"M") or mode=1 then
+        "0"
+      else
+        (if sequalignore(mode,"C") or mode=3 then 
+            (if base=2 then "0b" else (if base=8 then "0o" else (if base=16 then "0x" else "0?")))
+        else
+            (if sequalignore(mode,"B") or mode=4 then 
+                (if base=2 then "\\&B" else (if base=8 then "\\&O" else (if base=16 then "\\&H" else "\\&?")))
+            else
+                ""))),
+      "~", string(base), 
+      if integerp(mindigits) and mindigits>0 then sconcat(",", string(mindigits), ",'0R") else "R",
+            (if sequalignore(mode,"S") or mode="_" or mode=5 then 
+                sconcat("_", string(base))
+            else
+                "")),
+    ev(printf(false, ss, ev(n)), simp))
+  else
+    n
+);
+texput(basen,basentex);
+
 make_displaydpvalue(ex):= block([n,d],
     if atom(ex) then return(ex),
     if taylorp(ex) or functionp(ex) or freeof(displaydp, ex) then return(ex),
@@ -392,10 +443,24 @@ make_displaydpvalue(ex):= block([n,d],
     return(apply(dispdpvalue, [n, d]))
 );
 
-remove_displaydp(ex):= block(
+make_basenvalue(ex):= block([n, base, mindigits, mode],
     if atom(ex) then return(ex),
-    if arrayp(ex) then return(arraymake(op(ex), maplist(make_displaydpvalue, args(ex)))),
-    if not(is(safe_op(ex)="displaydp")) then return(apply(op(ex), maplist(make_displaydpvalue, args(ex)))),
+    if taylorp(ex) or functionp(ex) or freeof(basen, ex) then return(ex),
+    if arrayp(ex) then return(arraymake(op(ex), maplist(make_basenvalue, args(ex)))),
+    if not(is(safe_op(ex)="basen")) then return(apply(op(ex), maplist(make_basenvalue, args(ex)))),
+    if not(length(args(ex)) >= 2 and length(args(ex)) <= 4) then error("basen must have between 2 and 4 arguments"),
+    n:ev(first(args(ex)), simp),
+    base:ev(second(args(ex)), simp),
+    mindigits:if length(args(ex)) >= 3 then ev(third(args(ex)), simp) else 0,
+    mode:if length(args(ex)) >= 4 then ev(fourth(args(ex)), simp) else "",
+    if not(integerp(n) and integerp(base) and integerp(mindigits) and stringp(mode)) then return(ex),
+    return(apply(basenvalue, [n, base, mindigits, mode]))
+);
+
+remove_basen(ex):= block(
+    if atom(ex) then return(ex),
+    if arrayp(ex) then return(arraymake(op(ex), maplist(make_basenvalue, args(ex)))),
+    if not(is(safe_op(ex)="basen")) then return(apply(op(ex), maplist(make_basenvalue, args(ex)))),
     return(first(args(ex)))
 );
 
@@ -516,13 +581,17 @@ algebraic_equivalence(SA, SB) :=
     if (safe_op(SA)=safe_op(SB) and (safe_op(SA)="sqrt" or safe_op(SA)="abs")) then
       (SA:first(args(SA)),
        SB:first(args(SB))),
-    /* Remove scientific units and displaydp from expressions. */
+    /* Remove scientific units, displaydp and basen from expressions. */
     SA:ev(SA, stackunits="*"),
     SB:ev(SB, stackunits="*"),
     if not(freeof(displaydp, SA)) then
       SA:remove_displaydp(SA),
     if not(freeof(displaydp, SB)) then
       SA:remove_displaydp(SB),
+    if not(freeof(basen, SA)) then
+      SA:remove_basen(SA),
+    if not(freeof(basen, SB)) then
+      SA:remove_basen(SB),
     /* Remove logarithms to other bases from expressions. */
     if not(freeof(logbase, SA)) then
         SA:ev(SA, logbase=logbasesimp),

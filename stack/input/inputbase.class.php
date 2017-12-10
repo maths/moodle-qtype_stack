@@ -18,6 +18,7 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/../../locallib.php');
 require_once(__DIR__ . '/../options.class.php');
+require_once(__DIR__ . '/../basenoptions.class.php');
 require_once(__DIR__ . '/../cas/casstring.class.php');
 require_once(__DIR__ . '/../cas/cassession.class.php');
 require_once(__DIR__ . '/inputstate.class.php');
@@ -37,6 +38,8 @@ abstract class stack_input {
     const VALID = 'valid';
     const INVALID = 'invalid';
     const SCORE = 'score';
+    
+    protected $basen_options = null;
 
     protected static $allparameternames = array(
         'mustVerify',
@@ -355,7 +358,7 @@ abstract class stack_input {
             list($tvalid, $terrors, $tmodifiedcontents, $tcaslines)
                 = $this->validate_contents($tcontents, $forbiddenkeys, $localoptions);
         } else {
-            $tcaslines = array();
+            $tcaslines = array(); // TODO? Add basen validation?
         }
         $tvalidator = array();
         foreach ($caslines as $index => $cs) {
@@ -391,7 +394,7 @@ abstract class stack_input {
             if (array_key_exists($index, $errors) && '' == $errors[$index]) {
                 $cs->set_cas_validation_casstring($this->name.$index,
                     $this->get_parameter('forbidFloats', false), $this->get_parameter('lowestTerms', false),
-                    $ta, $ivalidationmethod, $this->get_parameter('allowWords', ''));
+                    $ta, $ivalidationmethod, $this->get_parameter('allowWords', ''), $this->basen_options);
                 $sessionvars[] = $cs;
             }
         }
@@ -404,7 +407,7 @@ abstract class stack_input {
         }
         $answer->set_cas_validation_casstring($this->name,
             $this->get_parameter('forbidFloats', false), $this->get_parameter('lowestTerms', false),
-            $teacheranswer, $validationmethod, $this->get_parameter('allowWords', ''));
+            $teacheranswer, $validationmethod, $this->get_parameter('allowWords', ''), $this->basen_options);
         if ($valid && $answer->get_valid()) {
             $sessionvars[] = $answer;
         }
@@ -514,7 +517,7 @@ abstract class stack_input {
             if (2 == $this->get_parameter('insertStars', 0) || 5 == $this->get_parameter('insertStars', 0)) {
                 $val = stack_utils::make_single_char_vars($val, $localoptions,
                         $this->get_parameter('strictSyntax', true), $this->get_parameter('insertStars', 0),
-                        $this->get_parameter('allowWords', ''));
+                        $this->get_parameter('allowWords', ''), $this->basen_options);
             }
 
             $val = stack_utils::logic_nouns_sort($val, 'add');
@@ -523,7 +526,7 @@ abstract class stack_input {
                 $answer->set_units(true);
             }
             $answer->get_valid('s', $this->get_parameter('strictSyntax', true),
-                    $this->get_parameter('insertStars', 0), $allowwords);
+                    $this->get_parameter('insertStars', 0), $allowwords, $this->basen_options);
 
             // Ensure student hasn't used a variable name used by the teacher.
             if ($forbiddenkeys) {
@@ -541,7 +544,7 @@ abstract class stack_input {
             $valid = $valid && $answer->get_valid();
             $errors[] = $answer->get_errors();
         }
-
+        
         return array($valid, $errors, $modifiedcontents, $caslines);
     }
 

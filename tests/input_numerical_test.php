@@ -54,6 +54,14 @@ class stack_numerical_input_test extends qtype_stack_testcase {
         $this->assertEquals('', $state->errors);
     }
 
+    public function test_validate_student_response_div_zero() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('numerical', 'sans1', '3.14*x^2');
+        $state = $el->validate_student_response(array('sans1' => '1/0'), $options, '3.14*x^2', null);
+        $this->assertEquals(stack_input::INVALID, $state->status);
+        $this->assertEquals('Division by zero.', $state->errors);
+    }
+
     public function test_validate_student_response_invalid_variables() {
         $options = new stack_options();
         $el = stack_input_factory::make('numerical', 'sans1', '3.14*x^2');
@@ -93,6 +101,53 @@ class stack_numerical_input_test extends qtype_stack_testcase {
         $this->assertEquals('1/3', $state->contentsmodified);
         $this->assertEquals('\[ \frac{1}{3} \]', $state->contentsdisplayed);
         $this->assertEquals(' This input expects a floating point number.', $state->errors);
+    }
+
+    public function test_validate_student_response_with_rationalnum() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('numerical', 'sans1', '1/2');
+        $el->set_parameter('options', 'rationalnum');
+        $state = $el->validate_student_response(array('sans1' => "3/7"), $options, '3.14', null);
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('3/7', $state->contentsmodified);
+        $this->assertEquals('\[ \frac{3}{7} \]', $state->contentsdisplayed);
+        $this->assertEquals('', $state->errors);
+    }
+
+    public function test_validate_student_response_with_rationalnum_invalid() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('numerical', 'sans1', '1/2');
+        $el->set_parameter('options', 'rationalnum');
+        $state = $el->validate_student_response(array('sans1' => "1 3/7"), $options, '3.14', null);
+        $this->assertEquals(stack_input::INVALID, $state->status);
+        $this->assertEquals('1 3/7', $state->contentsmodified);
+        $this->assertEquals('<span class="stacksyntaxexample">1 3/7</span>', $state->contentsdisplayed);
+        $this->assertEquals('Illegal spaces found in expression '.
+                '<span class="stacksyntaxexample">1<font color="red">_</font>3/7</span>.', $state->errors);
+    }
+
+    public function test_validate_student_response_without_rationalized() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('numerical', 'sans1', 'sqrt(2)/2');
+        $el->set_parameter('options', 'rationalized');
+        $state = $el->validate_student_response(array('sans1' => "1/sqrt(2)"), $options, 'sqrt(2)/2', null);
+        $this->assertEquals(stack_input::INVALID, $state->status);
+        $this->assertEquals('1/sqrt(2)', $state->contentsmodified);
+        $this->assertEquals('\[ \frac{1}{\sqrt{2}} \]', $state->contentsdisplayed);
+        $this->assertEquals(' You must clear the following from the denominator of your fraction: '.
+                '<span class="filter_mathjaxloader_equation"><span class="nolink">'.
+                '\[ \left[ \sqrt{2} \right] \]</span></span>', $state->errors);
+    }
+
+    public function test_validate_student_response_with_rationalized() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('numerical', 'sans1', '1/2');
+        $el->set_parameter('options', 'rationalized');
+        $state = $el->validate_student_response(array('sans1' => "3/7"), $options, '3.14', null);
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('3/7', $state->contentsmodified);
+        $this->assertEquals('\[ \frac{3}{7} \]', $state->contentsdisplayed);
+        $this->assertEquals('', $state->errors);
     }
 
     public function test_validate_student_lowest_terms_1() {

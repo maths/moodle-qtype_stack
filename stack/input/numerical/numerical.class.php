@@ -30,6 +30,18 @@ class stack_numerical_input extends stack_input {
      */
     private $optfloatnum = false;
 
+    /**
+     * @var bool
+     * Is a student required to type in a rational number?
+     */
+    private $optrationalnum = false;
+
+    /**
+     * @var bool
+     * Is the demoninator of any fractions in the student's answer to be free of surds?
+     */
+    private $optrationalized = false;
+
     protected function internal_contruct() {
         $options = $this->get_parameter('options');
 
@@ -42,6 +54,14 @@ class stack_numerical_input extends stack_input {
 
                     case 'floatnum':
                         $this->optfloatnum = true;
+                        break;
+
+                    case 'rationalnum':
+                        $this->optrationalnum = true;
+                        break;
+
+                    case 'rationalized':
+                        $this->optrationalized = true;
                         break;
 
                     default:
@@ -90,7 +110,14 @@ class stack_numerical_input extends stack_input {
         $floatnum = new stack_cas_casstring('floatnump('.$this->name.')');
         $floatnum->get_valid('t');
 
-        return array('floatnum' => $floatnum);
+        $rationalnum = new stack_cas_casstring('rational_numberp('.$this->name.')');
+        $rationalnum->get_valid('t');
+
+        $rationalized = new stack_cas_casstring('rationalized('.$this->name.')');
+        $rationalized->get_valid('t');
+
+        return array('floatnum' => $floatnum, 'rationalnum' => $rationalnum,
+            'rationalized' => $rationalized);
     }
 
     /**
@@ -115,6 +142,11 @@ class stack_numerical_input extends stack_input {
             $display = '\[ ' . $answer->get_display() . ' \]';
         }
 
+        // Guard clause at this point.
+        if (!$valid) {
+            return array($valid, $errors, $display);
+        }
+
         if ($lvars->get_value() != '[]') {
             $valid = false;
             $errors[] = stack_string('numericalinputvarsforbidden');
@@ -126,6 +158,19 @@ class stack_numerical_input extends stack_input {
             $valid = false;
             $errors[] = stack_string('numericalinputmustfloat');
         }
+
+        $rn = $additionalvars['rationalnum'];
+        if ($this->optrationalnum && $rn->get_value() == 'false') {
+            $valid = false;
+            $errors[] = stack_string('numericalinputmustrational');
+        }
+
+        $rn = $additionalvars['rationalized'];
+        if ($this->optrationalized && $rn->get_value() !== 'true') {
+            $valid = false;
+            $errors[] = stack_string('ATLowestTerms_not_rat', array('m0' => '\[ '.$rn->get_display().' \]'));
+        }
+
         return array($valid, $errors, $display);
     }
 

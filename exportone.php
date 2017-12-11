@@ -23,6 +23,10 @@
 
 require_once(__DIR__.'/../../../config.php');
 
+require_once(__DIR__ . '/api/libs/yaml.php');
+require_once(__DIR__ . '/api/libs/yaml_defaults.php');
+require_once(__DIR__ . '/api/libs/export.php');
+
 require_once($CFG->libdir . '/questionlib.php');
 require_once($CFG->dirroot . '/question/format/xml/format.php');
 require_once(__DIR__ . '/locallib.php');
@@ -30,6 +34,7 @@ require_once(__DIR__ . '/locallib.php');
 
 // Get the parameters from the URL.
 $questionid = required_param('questionid', PARAM_INT);
+$exportformat = required_param('exportformat', PARAM_TEXT);
 
 // Load the necessary data.
 $questiondata = $DB->get_record('question', array('id' => $questionid), '*', MUST_EXIST);
@@ -67,4 +72,21 @@ if (!$qformat->exportpreprocess()) {
 if (!$content = $qformat->exportprocess(true)) {
     send_file_not_found();
 }
-send_file($content, $filename, 0, 0, true, true, $qformat->mime_type());
+
+if ($exportformat == 'xml') {
+  // Send the xml.
+  send_file($content, $filename, 0, 0, true, true, $qformat->mime_type());
+}
+// Now add in the conversion to YAML.
+
+$defaults = new qtype_stack_api_yaml_defaults(null);
+$export = new qtype_stack_api_export($content, $defaults);
+$yaml_string = $export->YAML();
+
+$rows = substr_count($yaml_string, "\n")+3;
+
+echo "<form method = 'post' action = 'exportone.php'>";
+echo "<textarea name = 'yaml' cols = '200' rows = '$rows'>";
+echo $yaml_string;
+echo "</textarea>\n";
+echo "</form>\n\n";

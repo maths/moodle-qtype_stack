@@ -28,7 +28,7 @@ class question_graded_automatically_with_countback {
 
 }
 
-interface question_automatically_gradable_with_multiple_parts{
+interface question_automatically_gradable_with_multiple_parts {
 
 }
 
@@ -296,6 +296,7 @@ class qtype_stack_api {
                     $truepenalty = (float) $nodedata['T']['penalty'];
                 }
 
+                $nodeid = (int) $nodedata['name'];
                 $quiet = $nodedata['quiet'];
                 $node = new stack_potentialresponse_node($sans, $tans,
                         (string) $nodedata['answer_test'], (string) $nodedata['test_options'],

@@ -87,6 +87,7 @@ class qtype_stack_api_export
         self::property($yaml, 'prt_partially_correct_html', $q->prtpartiallycorrect->text, 'string', $section);
         self::property($yaml, 'prt_incorrect_html', $q->prtincorrect->text, 'string', $section);
 
+
         $section = 'options';
         $yaml['options'] = array();
 
@@ -203,6 +204,7 @@ class qtype_stack_api_export
         $section = 'tree';
         $res = array();
         $this->property($res, 'auto_simplify', $tree->autosimplify, 'bool', $section);
+//        $this->property($res, 'type', $tree->type, 'string', $section);
         $this->property($res, 'value', $tree->value, 'float', $section);
         $this->property($res, 'first_node', 'node_' . (int) $tree->firstnodename, 'string', $section);
         $this->property($res, 'feedback_variables',  (string) $tree->feedbackvariables->text, 'string', $section);

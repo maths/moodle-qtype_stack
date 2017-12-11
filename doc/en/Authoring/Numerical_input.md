@@ -27,4 +27,5 @@ The "Extra options" field on the input must be a comma separated list of the fol
 
 ## TODO
 
-1. add in support for checking number bases.
+1. add in support for significant figure checking.
+2. add in support for checking number bases.

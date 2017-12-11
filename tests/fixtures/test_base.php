@@ -92,7 +92,7 @@ abstract class qtype_stack_testcase extends advanced_testcase {
         $versionused = get_config('qtype_stack', 'maximaversion');
         if ($versionused == 'default' || !(version_compare($versionused, $version) <= 0)) {
             $this->markTestSkipped(
-                    'Skipping this test because it is known to fail on Maxima older than ' .
+                    'Skipping this test because it is known to fail on Maxima newer than ' .
                     $version . ' and the tests are running with Maxima ' . $versionused . '.');
         }
     }

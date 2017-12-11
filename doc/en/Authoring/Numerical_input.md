@@ -24,3 +24,7 @@ The "Extra options" field on the input must be a comma separated list of the fol
 `mindp(n)`: requires the student to type in `n` or more decimal places.
 
 `maxdp(n)`: requires the student to type in at most `n` decimal places.
+
+## TODO
+
+1. add in support for checking number bases.

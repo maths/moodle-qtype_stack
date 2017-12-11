@@ -20,3 +20,7 @@ The "Extra options" field on the input must be a comma separated list of the fol
 `rationalnum`:  requires the student's answer to be a rational number (i.e. a fracion), as judged by STACK's `rational_numberp` predicate.  Integers are excluded here!
 
 `rationalized`:  requires the demoninator of any fractions in the student's answer to be free of surds and \(i\), as judged by STACK's `rationalized` function.
+
+`mindp(n)`: requires the student to type in `n` or more decimal places.
+
+`maxdp(n)`: requires the student to type in at most `n` decimal places.

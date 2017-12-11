@@ -208,4 +208,90 @@ class stack_numerical_input_test extends qtype_stack_testcase {
         $this->assertEquals('\[ 0.333000 \]', $state->contentsdisplayed);
         $this->assertEquals('', $state->note);
     }
+
+    public function test_validate_student_mindp() {
+        // This test checks the unary minus is *not* in lowest terms.
+        $options = new stack_options();
+        $el = stack_input_factory::make('numerical', 'sans1', '3.14159');
+        $el->set_parameter('options', 'mindp(4)');
+        $state = $el->validate_student_response(array('sans1' => '3.141'), $options, '10', array('tans'));
+        $this->assertEquals(stack_input::INVALID, $state->status);
+        $this->assertEquals(' You must supply at least <span class="filter_mathjaxloader_equation">' .
+                '<span class="nolink">\( 4 \)</span></span> decimal places.', $state->errors);
+    }
+
+    public function test_validate_student_mindp_true() {
+        // This test checks the unary minus is *not* in lowest terms.
+        $options = new stack_options();
+        $el = stack_input_factory::make('numerical', 'sans1', '3.14159');
+        $el->set_parameter('options', 'mindp(4)');
+        $state = $el->validate_student_response(array('sans1' => '3.1416'), $options, '10', array('tans'));
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('', $state->errors);
+    }
+
+    public function test_validate_student_maxdp() {
+        // This test checks the unary minus is *not* in lowest terms.
+        $options = new stack_options();
+        $el = stack_input_factory::make('numerical', 'sans1', '3.14159');
+        $el->set_parameter('options', 'maxdp(4)');
+        $state = $el->validate_student_response(array('sans1' => '3.14159'), $options, '10', array('tans'));
+        $this->assertEquals(stack_input::INVALID, $state->status);
+        $this->assertEquals(' You must supply at most <span class="filter_mathjaxloader_equation">' .
+                '<span class="nolink">\( 4 \)</span></span> decimal places.', $state->errors);
+    }
+
+    public function test_validate_student_maxdp_true() {
+        // This test checks the unary minus is *not* in lowest terms.
+        $options = new stack_options();
+        $el = stack_input_factory::make('numerical', 'sans1', '3.14159');
+        $el->set_parameter('options', 'maxdp(4)');
+        $state = $el->validate_student_response(array('sans1' => '3.1416'), $options, '10', array('tans'));
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('', $state->errors);
+    }
+
+    public function test_validate_student_mindp_maxdp_err() {
+        // This test checks the unary minus is *not* in lowest terms.
+        $options = new stack_options();
+        $el = stack_input_factory::make('numerical', 'sans1', '3.14159');
+        $el->set_parameter('options', 'mindp(4), maxdp(3)');
+        $state = $el->validate_student_response(array('sans1' => '3.141'), $options, '10', array('tans'));
+        $this->assertEquals('<div class="error"><p>The input has generated the following runtime error which prevents ' .
+                'you from answering. Please contact your teacher.</p><p>The required minimum number of decimal ' .
+                'places exceeds the maximum number of decimal places!</p></div>',
+                $el->render($state, 'stack1__ans1', false, null));
+    }
+
+    public function test_validate_student_mindp_maxdp_true() {
+        // This test checks the unary minus is *not* in lowest terms.
+        $options = new stack_options();
+        $el = stack_input_factory::make('numerical', 'sans1', '3.14159');
+        $el->set_parameter('options', 'mindp(3), maxdp(4)');
+        $state = $el->validate_student_response(array('sans1' => '3.141'), $options, '10', array('tans'));
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('', $state->errors);
+    }
+
+    public function test_validate_student_mindp_maxdp_min() {
+        // This test checks the unary minus is *not* in lowest terms.
+        $options = new stack_options();
+        $el = stack_input_factory::make('numerical', 'sans1', '3.14159');
+        $el->set_parameter('options', 'mindp(3), maxdp(4)');
+        $state = $el->validate_student_response(array('sans1' => '3.14'), $options, '10', array('tans'));
+        $this->assertEquals(stack_input::INVALID, $state->status);
+        $this->assertEquals(' You must supply at least <span class="filter_mathjaxloader_equation">' .
+                '<span class="nolink">\( 3 \)</span></span> decimal places.', $state->errors);
+    }
+
+    public function test_validate_student_mindp_maxdp_max() {
+        // This test checks the unary minus is *not* in lowest terms.
+        $options = new stack_options();
+        $el = stack_input_factory::make('numerical', 'sans1', '3.14159');
+        $el->set_parameter('options', 'mindp(3), maxdp(4)');
+        $state = $el->validate_student_response(array('sans1' => '3.14159'), $options, '10', array('tans'));
+        $this->assertEquals(stack_input::INVALID, $state->status);
+        $this->assertEquals(' You must supply at most <span class="filter_mathjaxloader_equation">' .
+                '<span class="nolink">\( 4 \)</span></span> decimal places.', $state->errors);
+    }
 }

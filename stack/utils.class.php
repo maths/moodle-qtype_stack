@@ -1229,4 +1229,18 @@ class stack_utils {
 
         return $str;
     }
+
+    /*
+     * This function takes user input of the form "option(arg)" and splits them up.
+     * Used to sort out options to the inputs field.
+     */
+    public static function parse_option($option) {
+        $arg = '';
+        if (substr($option, -1, 1) == ')') {
+            $ops = explode('(', substr($option, 0, strlen($option) - 1));
+            $option = $ops[0];
+            $arg = trim($ops[1]);
+        }
+        return(array($option, $arg));
+    }
 }

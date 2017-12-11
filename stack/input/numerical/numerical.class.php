@@ -42,6 +42,13 @@ class stack_numerical_input extends stack_input {
      */
     private $optrationalized = false;
 
+    /**
+     * @var int
+     * Require min/max number of decimal places.
+     */
+    private $optmindp = false;
+    private $optmaxdp = false;
+
     protected function internal_contruct() {
         $options = $this->get_parameter('options');
 
@@ -49,6 +56,7 @@ class stack_numerical_input extends stack_input {
             $options = explode(',', $options);
             foreach ($options as $option) {
                 $option = strtolower(trim($option));
+                list($option, $arg) = stack_utils::parse_option($option);
 
                 switch($option) {
 
@@ -64,10 +72,22 @@ class stack_numerical_input extends stack_input {
                         $this->optrationalized = true;
                         break;
 
+                    case 'mindp':
+                        $this->optmindp = $arg;
+                        break;
+
+                    case 'maxdp':
+                        $this->optmaxdp = $arg;
+                        break;
+
                     default:
                         $this->errors[] = stack_string('inputoptionunknown', $option);
                 }
             }
+        }
+
+        if (!is_bool($this->optmindp) && !is_bool($this->optmaxdp) && $this->optmindp > $this->optmaxdp) {
+            $this->errors[] = stack_string('numericalinputminmaxerr');
         }
         return true;
     }
@@ -157,6 +177,16 @@ class stack_numerical_input extends stack_input {
         if ($this->optfloatnum && $fn->get_value() == 'false') {
             $valid = false;
             $errors[] = stack_string('numericalinputmustfloat');
+        }
+
+        $fltfmt = stack_utils::decimal_digits($answer->get_raw_casstring());
+        if (!is_bool($this->optmindp) && $fltfmt['decimalplaces'] < $this->optmindp) {
+            $valid = false;
+            $errors[] = stack_string('numericalinputmindp', $this->optmindp);
+        }
+        if (!is_bool($this->optmaxdp) && $fltfmt['decimalplaces'] > $this->optmaxdp) {
+            $valid = false;
+            $errors[] = stack_string('numericalinputmaxdp', $this->optmaxdp);
         }
 
         $rn = $additionalvars['rationalnum'];

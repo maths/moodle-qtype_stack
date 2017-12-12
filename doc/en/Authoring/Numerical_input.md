@@ -13,7 +13,7 @@ Note, some things (like forbid floats) can be applied to any numbers in an algeb
 
 ## Options
 
-The "Extra options" field on the input must be a comma separated list of the following tags.
+The "Extra options" field on the input must be a comma separated list of the following tags.  Note, these options may not depend on the question variables.
 
 `floatnum`:  requires the student's answer to be a floating point number, as judged by Maxima's `floatnump` predicate.
 
@@ -25,7 +25,12 @@ The "Extra options" field on the input must be a comma separated list of the fol
 
 `maxdp:n`: requires the student to type in at most `n` decimal places.
 
+`minsf:n`: requires the student to type in `n` or more significant figures.
+
+`maxsf:n`: requires the student to type in at most `n` significant figures.
+
 ## TODO
 
-1. add in support for significant figure checking.
-2. add in support for checking number bases.
+1. add in support for checking number bases.
+2. re-factor inputs so other inputs can also use these options.
+3. make these options CAS-text?

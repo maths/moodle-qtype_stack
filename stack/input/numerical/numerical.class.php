@@ -49,6 +49,13 @@ class stack_numerical_input extends stack_input {
     private $optmindp = false;
     private $optmaxdp = false;
 
+    /**
+     * @var int
+     * Require min/max number of significant figures.
+     */
+    private $optminsf = false;
+    private $optmaxsf = false;
+
     protected function internal_contruct() {
         $options = $this->get_parameter('options');
 
@@ -73,11 +80,37 @@ class stack_numerical_input extends stack_input {
                         break;
 
                     case 'mindp':
-                        $this->optmindp = $arg;
+                        if (is_numeric($arg)) {
+                            $this->optmindp = $arg;
+                        } else {
+                            $this->errors[] = stack_string('numericalinputoptinterr', array('opt' => $option, 'val' => $arg));
+                        }
                         break;
 
                     case 'maxdp':
+                        if (is_numeric($arg)) {
+                            $this->optmaxdp = $arg;
+                        } else {
+                            $this->errors[] = stack_string('numericalinputoptinterr', array('opt' => $option, 'val' => $arg));
+                        }
                         $this->optmaxdp = $arg;
+                        break;
+
+                    case 'minsf':
+                        if (is_numeric($arg)) {
+                            $this->optminsf = $arg;
+                        } else {
+                            $this->errors[] = stack_string('numericalinputoptinterr', array('opt' => $option, 'val' => $arg));
+                        }
+                        $this->optminsf = $arg;
+                        break;
+
+                    case 'maxsf':
+                        if (is_numeric($arg)) {
+                            $this->optmaxsf = $arg;
+                        } else {
+                            $this->errors[] = stack_string('numericalinputoptinterr', array('opt' => $option, 'val' => $arg));
+                        }
                         break;
 
                     default:
@@ -86,9 +119,17 @@ class stack_numerical_input extends stack_input {
             }
         }
 
-        if (!is_bool($this->optmindp) && !is_bool($this->optmaxdp) && $this->optmindp > $this->optmaxdp) {
+        if (is_numeric($this->optmindp) && is_numeric($this->optmaxdp) && $this->optmindp > $this->optmaxdp) {
             $this->errors[] = stack_string('numericalinputminmaxerr');
         }
+        if (is_numeric($this->optminsf) && is_numeric($this->optmaxsf) && $this->optminsf > $this->optmaxsf) {
+            $this->errors[] = stack_string('numericalinputminmaxerr');
+        }
+        if ((is_numeric($this->optmindp) || is_numeric($this->optmaxdp))
+                && (is_numeric($this->optminsf) || is_numeric($this->optmaxsf))) {
+            $this->errors[] = stack_string('numericalinputminsfmaxdperr');
+        }
+
         return true;
     }
 
@@ -187,6 +228,14 @@ class stack_numerical_input extends stack_input {
         if (!is_bool($this->optmaxdp) && $fltfmt['decimalplaces'] > $this->optmaxdp) {
             $valid = false;
             $errors[] = stack_string('numericalinputmaxdp', $this->optmaxdp);
+        }
+        if (!is_bool($this->optminsf) && $fltfmt['upperbound'] < $this->optminsf) {
+            $valid = false;
+            $errors[] = stack_string('numericalinputminsf', $this->optminsf);
+        }
+        if (!is_bool($this->optmaxsf) && $fltfmt['lowerbound'] > $this->optmaxsf) {
+            $valid = false;
+            $errors[] = stack_string('numericalinputmaxsf', $this->optmaxsf);
         }
 
         $rn = $additionalvars['rationalnum'];

@@ -29,6 +29,12 @@ The "Extra options" field on the input must be a comma separated list of the fol
 
 `maxsf:n`: requires the student to type in at most `n` significant figures.
 
+You cannot specify both decimal places and significant figures (even if they are min for one and max for the other).
+
+If `mindp=maxdp=n` or `minsf=maxsf=n` then a student will be told to type in exactly `n` places/figures.
+
+Note, where there is ambiguity in the numeber of significant figures (e.g. does 100 have 1 or 3 significant figures?) then the student will be given the benefit of the doubt.
+
 ## TODO
 
 1. add in support for checking number bases.

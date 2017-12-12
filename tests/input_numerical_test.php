@@ -387,4 +387,71 @@ class stack_numerical_input_test extends qtype_stack_testcase {
                 'should be an integer, but in fact it is <code>x</code>.</p></div>',
                 $el->render($state, 'stack1__ans1', false, null));
     }
+
+    public function test_validate_student_minsf_maxsf_equal_true() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('numerical', 'sans1', '3.14159');
+        $el->set_parameter('options', 'minsf:3, maxsf:3');
+        $state = $el->validate_student_response(array('sans1' => '3.14'), $options, '10', array('tans'));
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('', $state->errors);
+    }
+
+    public function test_validate_student_minsf_maxsf_equal_low() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('numerical', 'sans1', '3.14159');
+        $el->set_parameter('options', 'minsf:3, maxsf:3');
+        $state = $el->validate_student_response(array('sans1' => '3.1'), $options, '10', array('tans'));
+        $this->assertEquals(stack_input::INVALID, $state->status);
+        $this->assertEquals(' You must supply exactly <span class="filter_mathjaxloader_equation">' .
+                '<span class="nolink">\( 3 \)</span></span> significant figures.', $state->errors);
+    }
+
+    public function test_validate_student_minsf_maxsf_equal_high() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('numerical', 'sans1', '3.14159');
+        $el->set_parameter('options', 'minsf:3, maxsf:3');
+        $state = $el->validate_student_response(array('sans1' => '3.114'), $options, '10', array('tans'));
+        $this->assertEquals(stack_input::INVALID, $state->status);
+        $this->assertEquals(' You must supply exactly <span class="filter_mathjaxloader_equation">' .
+                '<span class="nolink">\( 3 \)</span></span> significant figures.', $state->errors);
+    }
+
+    public function test_validate_student_minsf_maxsf_equal_ambiguous() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('numerical', 'sans1', '3.14159');
+        $el->set_parameter('options', 'minsf:3, maxsf:3');
+        $state = $el->validate_student_response(array('sans1' => '1000'), $options, '10', array('tans'));
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('', $state->errors);
+    }
+
+    public function test_validate_student_mindp_maxdp_equal_true() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('numerical', 'sans1', '3.14159');
+        $el->set_parameter('options', 'mindp:3, maxdp:3');
+        $state = $el->validate_student_response(array('sans1' => '3.142'), $options, '10', array('tans'));
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('', $state->errors);
+    }
+
+    public function test_validate_student_mindp_maxdp_equal_low() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('numerical', 'sans1', '3.14159');
+        $el->set_parameter('options', 'mindp:3, maxdp:3');
+        $state = $el->validate_student_response(array('sans1' => '3.1'), $options, '10', array('tans'));
+        $this->assertEquals(stack_input::INVALID, $state->status);
+        $this->assertEquals(' You must supply exactly <span class="filter_mathjaxloader_equation">' .
+                '<span class="nolink">\( 3 \)</span></span> decimal places.', $state->errors);
+    }
+
+    public function test_validate_student_mindp_maxdp_equal_high() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('numerical', 'sans1', '3.14159');
+        $el->set_parameter('options', 'mindp:3, maxdp:3');
+        $state = $el->validate_student_response(array('sans1' => '3.1416'), $options, '10', array('tans'));
+        $this->assertEquals(stack_input::INVALID, $state->status);
+        $this->assertEquals(' You must supply exactly <span class="filter_mathjaxloader_equation">' .
+                '<span class="nolink">\( 3 \)</span></span> decimal places.', $state->errors);
+    }
 }

@@ -221,19 +221,35 @@ class stack_numerical_input extends stack_input {
         }
 
         $fltfmt = stack_utils::decimal_digits($answer->get_raw_casstring());
-        if (!is_bool($this->optmindp) && $fltfmt['decimalplaces'] < $this->optmindp) {
+        $accuracychecked = false;
+
+        if (!is_bool($this->optmindp) && !is_bool($this->optmindp) && $this->optmindp == $this->optmaxdp) {
+            $accuracychecked = true;
+            if ($fltfmt['decimalplaces'] < $this->optmindp || $fltfmt['decimalplaces'] > $this->optmaxdp) {
+                $valid = false;
+                $errors[] = stack_string('numericalinputdp', $this->optmindp);
+            }
+        }
+        if (!is_bool($this->optminsf) && !is_bool($this->optminsf) && $this->optminsf == $this->optmaxsf) {
+            $accuracychecked = true;
+            if ($fltfmt['upperbound'] < $this->optminsf || $fltfmt['lowerbound'] > $this->optmaxsf) {
+                $valid = false;
+                $errors[] = stack_string('numericalinputsf', $this->optminsf);
+            }
+        }
+        if (!$accuracychecked && !is_bool($this->optmindp) && $fltfmt['decimalplaces'] < $this->optmindp) {
             $valid = false;
             $errors[] = stack_string('numericalinputmindp', $this->optmindp);
         }
-        if (!is_bool($this->optmaxdp) && $fltfmt['decimalplaces'] > $this->optmaxdp) {
+        if (!$accuracychecked && !is_bool($this->optmaxdp) && $fltfmt['decimalplaces'] > $this->optmaxdp) {
             $valid = false;
             $errors[] = stack_string('numericalinputmaxdp', $this->optmaxdp);
         }
-        if (!is_bool($this->optminsf) && $fltfmt['upperbound'] < $this->optminsf) {
+        if (!$accuracychecked && !is_bool($this->optminsf) && $fltfmt['upperbound'] < $this->optminsf) {
             $valid = false;
             $errors[] = stack_string('numericalinputminsf', $this->optminsf);
         }
-        if (!is_bool($this->optmaxsf) && $fltfmt['lowerbound'] > $this->optmaxsf) {
+        if (!$accuracychecked && !is_bool($this->optmaxsf) && $fltfmt['lowerbound'] > $this->optmaxsf) {
             $valid = false;
             $errors[] = stack_string('numericalinputmaxsf', $this->optmaxsf);
         }

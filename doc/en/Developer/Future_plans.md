@@ -61,6 +61,7 @@ Note, where the feature is listed as "(done)" means we have prototype code in th
 * Make the PRT Score element CAS text, so that a value calculated in the "Feedback variables" could be included here.
 * Refactor the STACK return object in maxima as a structure. ` ? defstruct`.  Note that `@` is the element access operator.
 * Refector blocks parser so that evaluation of anything inside a comment block is ignored, this will allow it to contain contents are syntactically incorrect, e.g. mismatched blocks.
+*   A STACK maxima function which returns the number of decimal places/significant figures in a variable (useful when providing feedback)
 
 ## Features that might be attempted in the future - possible self contained projects ##
 

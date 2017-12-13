@@ -57,6 +57,7 @@ stack_reset(rand_seed) := block(
   /*      */
   OPT_OUTPUT:"LaTeX",
   PLOT_WIDTH:450,
+  PLOT_TAGS:true,
 
   true
 )$
@@ -811,7 +812,9 @@ plot(ex, [ra]) :=  /*stack_web_plot*/
     if not(integerp(PLOT_WIDTH)) then 
         (print(concat("Plot error: PLOT_WIDTH should be an integer but got: ", string(PLOT_WIDTH))),
          return("<center>[Empty plot]</center>")),
-    ufn:concat("<div class=\"stack_plot\"><img src='", URL_BASE, filename, ".", PLOT_TERMINAL, "' alt='", alttext, "' width='", string(PLOT_WIDTH), "' /></div>"),
+    ufn:concat("<img src='", URL_BASE, filename, ".", PLOT_TERMINAL, "' alt='", alttext, "' width='", string(PLOT_WIDTH), "' />"),
+    if PLOT_TAGS then 
+        ufn:concat("<div class=\"stack_plot\">", ufn, "</div>"),
     if OPT_OUTPUT#"MathML" then
       ufn:concat(" <html>", ufn, "</html> "),
     /* Sort out plot_options and preamble*/

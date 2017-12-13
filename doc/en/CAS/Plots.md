@@ -30,6 +30,7 @@ Notes:
 * Only a very few of Maxima's `plot_options` are respected by `plot`, mainly for security reasons.  (`plot` calls an external command `gnuplot` which writes to the server filesystem.)
 * The `draw` package is currently not supported.
 * To change the size of the image (in the `<img>` tag) use the Maxima variable `PLOT_WIDTH`.  This is not an argument to plot, since it is a STACK-related (rather than Maxima related) parameter, instead this is a global variable.  To resize individual plots use a block structure, e.g. `{@(PLOT_WIDTH:200,plot(x^2,[x,-1,1]))@}` and note that all following plots will now have width 200.
+* By default plots are surrounded by the `<div class="stack_plot">`.  This puts whitespace around a plot, and places the plot in the centre of the screen.  To suppress this `div` use the option `PLOT_TAGS:false`.
 
 ## Traditional axes
 

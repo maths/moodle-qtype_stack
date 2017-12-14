@@ -12,6 +12,7 @@ Done for version 4.1:
 * Add in support for the syntaxHint in the matrix input.
 * On the questiontestrun page, have options to (a) delete all question variants.
 * Make SVG the default image format in Maxima generate plots.
+* Add in a `PLOT_WIDTH` option to set the width of a plot.
 * Add in an answer test which accepts "at least" n significant figures. (See issue #313)
 * Add in the "string" input type.
 * Add test which checks if there are any rational expressions in the denominator of a fraction.  (Functionality added to LowestTerms test, which looks at the form of rational expressions).

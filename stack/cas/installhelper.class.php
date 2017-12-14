@@ -66,12 +66,13 @@ class stack_cas_configuration {
         $this->blocksettings['maxima_tempdir'] = stack_utils::convert_slash_paths($CFG->dataroot . '/stack/tmp/');
         $this->blocksettings['IMAGE_DIR']     = stack_utils::convert_slash_paths($CFG->dataroot . '/stack/plots/');
 
+        $this->blocksettings['PLOT_SIZE'] = '[450,300]';
         // These are used by the GNUplot "set terminal" command. Currently no user interface...
         $this->blocksettings['PLOT_TERMINAL'] = 'png';
-        $this->blocksettings['PLOT_TERM_OPT'] = 'large transparent size 450,300';
+        $this->blocksettings['PLOT_TERM_OPT'] = 'large transparent';
         $this->blocksettings['PLOT_TERMINAL'] = 'svg';
         // Note, the quotes need to be protected below.
-        $this->blocksettings['PLOT_TERM_OPT'] = 'size 480,300 dynamic font \",12\" linewidth 1.2';
+        $this->blocksettings['PLOT_TERM_OPT'] = 'dynamic font \",12\" linewidth 1.2';
 
         if ($this->settings->platform === 'win') {
             $this->blocksettings['DEL_CMD']     = 'del';
@@ -216,10 +217,17 @@ STACK_SETUP(ex):=block(
 
 END;
         foreach ($this->blocksettings as $name => $value) {
-            $contents .= <<<END
+            if ($name == 'PLOT_SIZE') {
+                $contents .= <<<END
+    {$name}:{$value},
+
+END;
+            } else {
+                $contents .= <<<END
     {$name}:"{$value}",
 
 END;
+            }
         }
         $contents .= stack_cas_casstring_units::maximalocal_units();
         $contents .= <<<END

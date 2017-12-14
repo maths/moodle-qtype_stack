@@ -473,7 +473,7 @@ class stack_cas_text_test extends qtype_stack_testcase {
 
     public function test_plot_small() {
 
-        $a2 = array('PLOT_WIDTH:200', 'p:sin(x)');
+        $a2 = array('PLOT_SIZE:[200,200]', 'p:sin(x)');
         $s2 = array();
         foreach ($a2 as $s) {
             $cs = new stack_cas_casstring($s);

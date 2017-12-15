@@ -32,4 +32,4 @@ To do for version 4.1:
 * Sort out the "addrow" problem. (See issue #333)
 * Add support for matrices with floating point entries, and testing numerical accuracy.
 * Add a base N check to the numeric input.
-
+* Add in full parser, to address issue #324.

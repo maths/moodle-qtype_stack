@@ -1425,6 +1425,15 @@ class stack_cas_casstring {
     }
 
     private function key_val_split() {
+        if (substr(trim($this->casstring), 0, 4) == 'for ') {
+            $this->key   = '';
+            return true;
+        }
+        if (substr(trim($this->casstring), 0, 5) == 'thru ') {
+            $this->key   = '';
+            return true;
+        }
+
         $i = strpos($this->casstring, ':');
         if (false === $i) {
             $this->key   = '';

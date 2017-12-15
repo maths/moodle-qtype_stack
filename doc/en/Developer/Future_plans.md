@@ -115,5 +115,5 @@ Basic reports now work.
 
 * Really ensure "attempts" list those with meaningful histories.  I.e. if possible filter out navigation to and from the page etc.
 * Add better maxima support functions for off-line analysis.
- * A fully maxima-based representation of the PRT?
+* A fully maxima-based representation of the PRT?
 

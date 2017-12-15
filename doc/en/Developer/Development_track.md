@@ -21,5 +21,14 @@ Done for version 4.1:
 To do for version 4.1:
 
 * Add in test to require a certain number of significant figures/decimal places at validation stage.
+* Refactor inputs to have extra options shared between inputs.
+
+
+## Version 4.2
+
+* Add in a version number to STACK questions.
+* Sort out the "addrow" problem. (see issue #333)
+* Update MCQ to accept units.
 * Add support for matrices with floating point entries, and testing numerical accuracy.
 * Enable individual questions to load Maxima libraries.  (See issue #305)
+

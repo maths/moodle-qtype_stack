@@ -56,6 +56,7 @@ stack_reset(rand_seed) := block(
 
   /*      */
   OPT_OUTPUT:"LaTeX",
+  PLOT_TAGS:true,
 
   true
 )$
@@ -766,8 +767,13 @@ set_plot_option([adapt_depth, 10]);
 set_plot_option([gnuplot_default_term_command, ""]);
 
 plot(ex, [ra]) :=  /*stack_web_plot*/
-    block([simp:true, tfn, tfnp1, tfnp2, tfnp3, afn, ufn, lvs, preamble, sysp, sysr, filename, tn, alt, altc, alttext, ral, ralforbid, pltargs, plotfunmake, plotdebug, plotgrid2d],
+    block([simp:true, tfn, tfnp1, tfnp2, tfnp3, afn, ufn, lvs, preamble, sysp, sysr, filename, tn, alt, altc, alttext, ral, ralforbid, pltargs, plotfunmake, plotdebug, plotgrid2d, psize],
     plotdebug:false,
+    /* Check for size. */
+    if not(listp(PLOT_SIZE)) then error("Plot error: PLOT_SIZE must be a list of two positive integers."),
+    if not(all_list_p(lambda([ex], integerp(ex) and is(ex>0)), PLOT_SIZE)) then 
+        error("Plot error: PLOT_SIZE must be a list of two positive integers, but got:", string(PLOT_SIZE)),
+    psize:concat(" size ", string(PLOT_SIZE[1]), ", ", string(PLOT_SIZE[2])),
     /* Check for grid2d  in the plotoptions. */
     plotgrid2d:false,
     if member(grid2d, ra) or member(STACKGRID, ra) then
@@ -807,7 +813,9 @@ plot(ex, [ra]) :=  /*stack_web_plot*/
     afn:concat("'", IMAGE_DIR, filename, ".", PLOT_TERMINAL, "'"),
     if PLOT_TERMINAL="svg" then
         afn:concat(IMAGE_DIR, filename, ".", PLOT_TERMINAL),
-    ufn:concat("<div class=\"stack_plot\"><img src='", URL_BASE, filename, ".", PLOT_TERMINAL, "' alt='", alttext, "' width='450' /></div>"),
+    ufn:concat("<img src='", URL_BASE, filename, ".", PLOT_TERMINAL, "' alt='", alttext, "' width='", string(PLOT_SIZE[1]), "' />"),
+    if PLOT_TAGS then 
+        ufn:concat("<div class=\"stack_plot\">", ufn, "</div>"),
     if OPT_OUTPUT#"MathML" then
       ufn:concat(" <html>", ufn, "</html> "),
     /* Sort out plot_options and preamble*/
@@ -825,10 +833,10 @@ plot(ex, [ra]) :=  /*stack_web_plot*/
     if plotgrid2d and MAXIMA_VERSION_NUM>34 then
         ral:append(ral, [grid2d]),
     /* Note, the axes option in Maxima doesn't seem to work.... */
-    if not(PLOT_TERMINAL="svg") then preamble:concat(preamble, "set terminal ", PLOT_TERMINAL, "  ", PLOT_TERM_OPT, "
+    if not(PLOT_TERMINAL="svg") then preamble:concat(preamble, "set terminal ", PLOT_TERMINAL, "  ", PLOT_TERM_OPT, psize, "
 set output ", afn),
     /* Gnuplot only allows alpha-numeric characters in the plot name, so not even spaces!  This is a problem with the string function. */
-    if PLOT_TERMINAL="svg" then preamble:concat("set terminal ", PLOT_TERMINAL, " ", PLOT_TERM_OPT),
+    if PLOT_TERMINAL="svg" then preamble:concat("set terminal ", PLOT_TERMINAL, psize, " ", PLOT_TERM_OPT),
     if plotdebug then print(preamble),
     if PLOT_TERMINAL="svg" then set_plot_option([svg_file, afn]),
     if PLOT_TERMINAL="svg" then 
@@ -865,7 +873,6 @@ set output ", afn),
     simp:old_simp,
     return(ufn)
 )$
-
 
 /* ********************************** */
 /* Numerical operations               */

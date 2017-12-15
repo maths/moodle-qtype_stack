@@ -952,12 +952,13 @@ class stack_cas_text_test extends qtype_stack_testcase {
         }
         $cs2 = new stack_cas_session($s2, null, 0);
 
-        $at1 = new stack_cas_text('{@a@}, {@b@}, {@beta47@}', $cs2, 0, 't');
+        $at1 = new stack_cas_text('{@a@}, {@b@}, {@beta47@}, {@beta_47@}',
+            $cs2, 0, 't');
         $this->assertTrue($at1->get_valid());
         $at1->get_display_castext();
 
-        $this->assertEquals('\({{v}_{2\cdot \alpha}}\), \({{v}_{{m}_{n}}}\), \({{\it beta_{47}}}\)',
-                $at1->get_display_castext());
+        $this->assertEquals('\({{v}_{2\cdot \alpha}}\), \({{v}_{{m}_{n}}}\), '.
+            '\({{\it beta_{47}}}\), \({{\beta}_{47}}\)', $at1->get_display_castext());
     }
 
     public function test_maxima_arrays() {

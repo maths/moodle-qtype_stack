@@ -107,9 +107,10 @@ class stack_cas_casstring_test extends basic_testcase {
                 array('x<1 or (x>1 and t<sin(x))', true, true),
                 array('[x<1, x>3]', true, true),
                 array('pg:if x<x0 then f0 else if x<x1 then 1000 else f1', false, true),
-                array('1<x<7', false, false),
-                array('1<a<=x^2', false, false),
-                array('{1<x<y, c>0}', false, false),
+                // Change for issue #324 now stops checking chained inequalities for teachers.
+                array('1<x<7', false, true),
+                array('1<a<=x^2', false, true),
+                array('{1<x<y, c>0}', false, true),
         );
 
         foreach ($cases as $case) {
@@ -924,5 +925,23 @@ class stack_cas_casstring_test extends basic_testcase {
         $this->assertEquals('lg(a, x)', $at1->get_casstring());
         $this->assertEquals('log_x', $at1->get_key());
         $this->assertEquals('logsubs', $at1->get_answernote());
+    }
+
+    public function test_chained_inequalities_S() {
+        $s = 'sa:3<x<5';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertFalse($at1->get_valid('s', true, 0));
+        $this->assertEquals('3<x<5', $at1->get_casstring());
+        $this->assertEquals('sa', $at1->get_key());
+        $this->assertEquals('chained_inequalities', $at1->get_answernote());
+    }
+
+    public function test_chained_inequalities_T() {
+        $s = 'f(x) := if x < 0 then (if x < 1 then 1 else 2) else 3';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertTrue($at1->get_valid('t', true, 0));
+        $this->assertEquals('f(x) := if x < 0 then (if x < 1 then 1 else 2) else 3', $at1->get_casstring());
+        $this->assertEquals('', $at1->get_key());
+        $this->assertEquals('', $at1->get_answernote());
     }
 }

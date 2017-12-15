@@ -617,7 +617,7 @@ class stack_cas_casstring {
         if (strpos($stringles, ',') !== false) {
             $this->check_commas($stringles);
         }
-        $this->check_operators($stringles);
+        $this->check_operators($stringles, $security);
 
         if (preg_match("/[\(\)\{\}\[\]]/", $stringles) == 1) {
             $this->check_parentheses($stringles);
@@ -885,7 +885,7 @@ class stack_cas_casstring {
         }
     }
 
-    private function check_operators($stringles) {
+    private function check_operators($stringles, $security) {
         // Check for spurious operators.
         $spuriousops = array('<>', '||', '&', '..', ',,', '/*', '*/', '==');
         foreach ($spuriousops as $op) {
@@ -910,7 +910,7 @@ class stack_cas_casstring {
             $this->add_error(stack_string('stackCas_backward_inequalities', $a));
             $this->answernote[] = 'backward_inequalities';
             $this->valid = false;
-        } else if (!($this->check_chained_inequalities($stringles))) {
+        } else if ($security == 's' && !($this->check_chained_inequalities($stringles))) {
             $this->add_error(stack_string('stackCas_chained_inequalities'));
             $this->answernote[] = 'chained_inequalities';
             $this->valid = false;

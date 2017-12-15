@@ -473,7 +473,7 @@ class stack_cas_text_test extends qtype_stack_testcase {
 
     public function test_plot_small() {
 
-        $a2 = array('PLOT_SIZE:[200,200]', 'p:sin(x)');
+        $a2 = array('p:sin(x)');
         $s2 = array();
         foreach ($a2 as $s) {
             $cs = new stack_cas_casstring($s);
@@ -482,7 +482,7 @@ class stack_cas_text_test extends qtype_stack_testcase {
         }
         $cs2 = new stack_cas_session($s2, null, 0);
 
-        $at1 = new stack_cas_text('A small plot: {@plot(p, [x,-2,3])@}', $cs2, 0, 't');
+        $at1 = new stack_cas_text('A small plot: {@plot(p, [x,-2,3], [size,200,100])@}', $cs2, 0, 't');
         $this->assertTrue($at1->get_valid());
         $at1->get_display_castext();
 

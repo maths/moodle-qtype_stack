@@ -770,13 +770,8 @@ set_plot_option([adapt_depth, 10]);
 set_plot_option([gnuplot_default_term_command, ""]);
 
 plot(ex, [ra]) :=  /*stack_web_plot*/
-    block([simp:true, tfn, tfnp1, tfnp2, tfnp3, afn, ufn, lvs, preamble, sysp, sysr, filename, tn, alt, altc, alttext, ral, ralforbid, pltargs, plotfunmake, plotdebug, plotgrid2d, psize],
-    plotdebug:false,
-    /* Check for size. */
-    if not(listp(PLOT_SIZE)) then error("Plot error: PLOT_SIZE must be a list of two positive integers."),
-    if not(all_list_p(lambda([ex], integerp(ex) and is(ex>0)), PLOT_SIZE)) then 
-        error("Plot error: PLOT_SIZE must be a list of two positive integers, but got:", string(PLOT_SIZE)),
-    psize:concat(" size ", string(PLOT_SIZE[1]), ", ", string(PLOT_SIZE[2])),
+    block([simp:true, tfn, tfnp1, tfnp2, tfnp3, afn, ufn, lvs, preamble, sysp, sysr, filename, tn, alt, altc, alttext, ral, ralforbid, pltargs, plotfunmake, plotdebug, plotgrid2d, size, psize],
+    plotdebug:fals,
     /* Check for grid2d  in the plotoptions. */
     plotgrid2d:false,
     if member(grid2d, ra) or member(STACKGRID, ra) then
@@ -793,12 +788,23 @@ plot(ex, [ra]) :=  /*stack_web_plot*/
     if length(lvs)>1 then
        (print(concat("Plot error: Can't create a plot with more than one variable, whereas you have: \\(",string(lvs),"\\)")),
        return("<center>[Empty plot]</center>")),
+    /*********************/
     /* Sort out alt-text */
     kill(alt),
     alttext:concat("STACK auto-generated plot of ", string(ex), " with parameters ", string(ral)),
     altc:sublist(ral, lambda([ex], if listp(ex) then is(first(ex) = alt) else false)),
     if not(emptyp(altc)) then (ral:delete(first(altc), ral), alttext:second(first(altc))),
     if not(stringp(alttext)) then (alttext:"ERROR", print("Plot error: the alt tag definition must be a string, but is not."), return("")),
+    /*******************/
+    /* Check for size. */
+    kill(size, psize),
+    psize:sublist(ral, lambda([ex], if listp(ex) then is(first(ex) = size) else false)),
+    if not(emptyp(psize)) then (ral:delete(first(psize), ral), PLOT_SIZE:[second(first(psize)), third(first(psize))]),
+    if not(listp(PLOT_SIZE)) then error("Plot error: PLOT_SIZE must be a list of two positive integers."),
+    if not(all_listp(lambda([ex], is((integerp(ex) and is(ex>0))=true)), PLOT_SIZE)) then 
+        error("Plot error: PLOT_SIZE must be a list of two positive integers, but got:", string(PLOT_SIZE)),
+    psize:concat(" size ", string(PLOT_SIZE[1]), ", ", string(PLOT_SIZE[2])),
+    /**********************************************************/
     /* Remove from option list ral any non-permitted options. */
     kill(y),
     permitted_options: [y, xlabel, ylabel, label, legend, color, style, point_type, nticks, logx, logy, axes, box, plot_realpart, yx_ratio, xtics, ytics, ztics],
@@ -809,6 +815,7 @@ plot(ex, [ra]) :=  /*stack_web_plot*/
     if not(emptyp(ralforbid)) then
         (print(concat("Plot error: STACK does not currently support the following plot2d options: \\(",string(ralforbid),"\\)")),
          return("<center>[Empty plot]</center>")),
+    /********************************************/
     /* Create a unique identifier for the plot. */
     tn:string(absolute_real_time()),
     filename:concat("stackplot","-",tn,"-",string(rand(10^8))),

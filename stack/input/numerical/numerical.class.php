@@ -25,36 +25,23 @@ defined('MOODLE_INTERNAL') || die();
 class stack_numerical_input extends stack_input {
 
     /**
-     * @var bool
-     * Is a student required to type in a float?
+     * From STACK 4.1 we are not going to continue to add input options as columns in the database.
+     * This has numerous problems, and is difficult to maintain. Extra options will be in a JSON-like format.
+     * @var array
      */
-    private $optfloatnum = false;
-
-    /**
-     * @var bool
-     * Is a student required to type in a rational number?
-     */
-    private $optrationalnum = false;
-
-    /**
-     * @var bool
-     * Is the demoninator of any fractions in the student's answer to be free of surds?
-     */
-    private $optrationalized = false;
-
-    /**
-     * @var int
-     * Require min/max number of decimal places.
-     */
-    private $optmindp = false;
-    private $optmaxdp = false;
-
-    /**
-     * @var int
-     * Require min/max number of significant figures.
-     */
-    private $optminsf = false;
-    private $optmaxsf = false;
+    protected $extraoptions = array(
+         // Is a student required to type in a float?
+        'floatnum' => false,
+         // Is the demoninator of any fractions in the student's answer to be free of surds?
+        'rationalnum' => false,
+        'rationalized' => false,
+        // Require min/max number of decimal places?
+        'mindp' => false,
+        'maxdp' => false,
+        // Require min/max number of significant figures?
+        'minsf' => false,
+        'maxsf' => false
+    );
 
     protected function internal_contruct() {
         $options = $this->get_parameter('options');
@@ -65,69 +52,89 @@ class stack_numerical_input extends stack_input {
                 $option = strtolower(trim($option));
                 list($option, $arg) = stack_utils::parse_option($option);
 
+                // Only accept those options specified in the array for this input type.
+                if (array_key_exists($option, $this->extraoptions)) {
+                    if ($arg === '') {
+                        // Extra options with no argument set a Boolean flag.
+                        $this->extraoptions[$option] = true;
+                    } else {
+                        $this->extraoptions[$option] = $arg;
+                    }
+                } else {
+                    $this->errors[] = stack_string('inputoptionunknown', $option);
+                }
+            }
+        }
+        $this->validate_extra_options();
+    }
+
+        /**
+         * Validate the individual extra options.
+         */ 
+        protected function validate_extra_options() {
+
+            foreach ($this->extraoptions as $option => $arg) {
+
                 switch($option) {
 
                     case 'floatnum':
-                        $this->optfloatnum = true;
+                        if (!(is_bool($arg))) {
+                            $this->errors[] = stack_string('numericalinputoptbooplerr', array('opt' => $option, 'val' => $arg));
+                        }
                         break;
 
                     case 'rationalnum':
-                        $this->optrationalnum = true;
+                        if (!(is_bool($arg))) {
+                            $this->errors[] = stack_string('numericalinputoptbooplerr', array('opt' => $option, 'val' => $arg));
+                        }
                         break;
 
                     case 'rationalized':
-                        $this->optrationalized = true;
+                        if (!(is_bool($arg))) {
+                            $this->errors[] = stack_string('numericalinputoptbooplerr', array('opt' => $option, 'val' => $arg));
+                        }
                         break;
 
                     case 'mindp':
-                        if (is_numeric($arg)) {
-                            $this->optmindp = $arg;
-                        } else {
+                        if (!($arg === false || is_numeric($arg))) {
                             $this->errors[] = stack_string('numericalinputoptinterr', array('opt' => $option, 'val' => $arg));
                         }
                         break;
 
                     case 'maxdp':
-                        if (is_numeric($arg)) {
-                            $this->optmaxdp = $arg;
-                        } else {
+                        if (!($arg === false || is_numeric($arg))) {
                             $this->errors[] = stack_string('numericalinputoptinterr', array('opt' => $option, 'val' => $arg));
                         }
-                        $this->optmaxdp = $arg;
                         break;
 
                     case 'minsf':
-                        if (is_numeric($arg)) {
-                            $this->optminsf = $arg;
-                        } else {
+                        if (!($arg === false || is_numeric($arg))) {
                             $this->errors[] = stack_string('numericalinputoptinterr', array('opt' => $option, 'val' => $arg));
                         }
-                        $this->optminsf = $arg;
                         break;
 
                     case 'maxsf':
-                        if (is_numeric($arg)) {
-                            $this->optmaxsf = $arg;
-                        } else {
+                        if (!($arg === false || is_numeric($arg))) {
                             $this->errors[] = stack_string('numericalinputoptinterr', array('opt' => $option, 'val' => $arg));
                         }
                         break;
 
                     default:
                         $this->errors[] = stack_string('inputoptionunknown', $option);
-                }
             }
         }
 
-        if (is_numeric($this->optmindp) && is_numeric($this->optmaxdp) && $this->optmindp > $this->optmaxdp) {
+        if (is_numeric($this->extraoptions['mindp']) && is_numeric($this->extraoptions['maxdp'])
+                && $this->extraoptions['mindp'] > $this->extraoptions['maxdp']) {
             $this->errors[] = stack_string('numericalinputminmaxerr');
         }
-        if (is_numeric($this->optminsf) && is_numeric($this->optmaxsf) && $this->optminsf > $this->optmaxsf) {
+        if (is_numeric($this->extraoptions['minsf']) && is_numeric($this->extraoptions['maxsf'])
+                && $this->extraoptions['minsf'] > $this->extraoptions['maxsf']) {
             $this->errors[] = stack_string('numericalinputminmaxerr');
         }
-        if ((is_numeric($this->optmindp) || is_numeric($this->optmaxdp))
-                && (is_numeric($this->optminsf) || is_numeric($this->optmaxsf))) {
-            $this->errors[] = stack_string('numericalinputminsfmaxdperr');
+        if ((is_numeric($this->extraoptions['mindp']) || is_numeric($this->extraoptions['maxdp']))
+                && (is_numeric($this->extraoptions['minsf']) || is_numeric($this->extraoptions['maxsf']))) {
+                    $this->errors[] = stack_string('numericalinputminsfmaxdperr');
         }
 
         return true;
@@ -165,7 +172,9 @@ class stack_numerical_input extends stack_input {
         return html_writer::empty_tag('input', $attributes);
     }
 
-    /** This function creates additional session variables.
+    /** 
+     * This function creates additional session variables.
+     * If needed, these will be used by the extra options.
      */
     protected function additional_session_variables($caslines, $teacheranswer) {
         $floatnum = new stack_cas_casstring('floatnump('.$this->name.')');
@@ -215,7 +224,7 @@ class stack_numerical_input extends stack_input {
         }
 
         $fn = $additionalvars['floatnum'];
-        if ($this->optfloatnum && $fn->get_value() == 'false') {
+        if ($this->extraoptions['floatnum'] && $fn->get_value() == 'false') {
             $valid = false;
             $errors[] = stack_string('numericalinputmustfloat');
         }
@@ -223,45 +232,46 @@ class stack_numerical_input extends stack_input {
         $fltfmt = stack_utils::decimal_digits($answer->get_raw_casstring());
         $accuracychecked = false;
 
-        if (!is_bool($this->optmindp) && !is_bool($this->optmindp) && $this->optmindp == $this->optmaxdp) {
+        if (!is_bool($this->extraoptions['mindp']) && !is_bool($this->extraoptions['mindp'])
+                && $this->extraoptions['mindp'] == $this->extraoptions['maxdp']) {
             $accuracychecked = true;
-            if ($fltfmt['decimalplaces'] < $this->optmindp || $fltfmt['decimalplaces'] > $this->optmaxdp) {
+            if ($fltfmt['decimalplaces'] < $this->extraoptions['mindp'] || $fltfmt['decimalplaces'] > $this->extraoptions['maxdp']) {
                 $valid = false;
-                $errors[] = stack_string('numericalinputdp', $this->optmindp);
+                $errors[] = stack_string('numericalinputdp', $this->extraoptions['mindp']);
             }
         }
-        if (!is_bool($this->optminsf) && !is_bool($this->optminsf) && $this->optminsf == $this->optmaxsf) {
+        if (!is_bool($this->extraoptions['minsf']) && !is_bool($this->extraoptions['minsf']) && $this->extraoptions['minsf'] == $this->extraoptions['maxsf']) {
             $accuracychecked = true;
-            if ($fltfmt['upperbound'] < $this->optminsf || $fltfmt['lowerbound'] > $this->optmaxsf) {
+            if ($fltfmt['upperbound'] < $this->extraoptions['minsf'] || $fltfmt['lowerbound'] > $this->extraoptions['maxsf']) {
                 $valid = false;
-                $errors[] = stack_string('numericalinputsf', $this->optminsf);
+                $errors[] = stack_string('numericalinputsf', $this->extraoptions['minsf']);
             }
         }
-        if (!$accuracychecked && !is_bool($this->optmindp) && $fltfmt['decimalplaces'] < $this->optmindp) {
+        if (!$accuracychecked && !is_bool($this->extraoptions['mindp']) && $fltfmt['decimalplaces'] < $this->extraoptions['mindp']) {
             $valid = false;
-            $errors[] = stack_string('numericalinputmindp', $this->optmindp);
+            $errors[] = stack_string('numericalinputmindp', $this->extraoptions['mindp']);
         }
-        if (!$accuracychecked && !is_bool($this->optmaxdp) && $fltfmt['decimalplaces'] > $this->optmaxdp) {
+        if (!$accuracychecked && !is_bool($this->extraoptions['maxdp']) && $fltfmt['decimalplaces'] > $this->extraoptions['maxdp']) {
             $valid = false;
-            $errors[] = stack_string('numericalinputmaxdp', $this->optmaxdp);
+            $errors[] = stack_string('numericalinputmaxdp', $this->extraoptions['maxdp']);
         }
-        if (!$accuracychecked && !is_bool($this->optminsf) && $fltfmt['upperbound'] < $this->optminsf) {
+        if (!$accuracychecked && !is_bool($this->extraoptions['minsf']) && $fltfmt['upperbound'] < $this->extraoptions['minsf']) {
             $valid = false;
-            $errors[] = stack_string('numericalinputminsf', $this->optminsf);
+            $errors[] = stack_string('numericalinputminsf', $this->extraoptions['minsf']);
         }
-        if (!$accuracychecked && !is_bool($this->optmaxsf) && $fltfmt['lowerbound'] > $this->optmaxsf) {
+        if (!$accuracychecked && !is_bool($this->extraoptions['maxsf']) && $fltfmt['lowerbound'] > $this->extraoptions['maxsf']) {
             $valid = false;
-            $errors[] = stack_string('numericalinputmaxsf', $this->optmaxsf);
+            $errors[] = stack_string('numericalinputmaxsf', $this->extraoptions['maxsf']);
         }
 
         $rn = $additionalvars['rationalnum'];
-        if ($this->optrationalnum && $rn->get_value() == 'false') {
+        if ($this->extraoptions['rationalnum'] && $rn->get_value() == 'false') {
             $valid = false;
             $errors[] = stack_string('numericalinputmustrational');
         }
 
         $rn = $additionalvars['rationalized'];
-        if ($this->optrationalized && $rn->get_value() !== 'true') {
+        if ($this->extraoptions['rationalized'] && $rn->get_value() !== 'true') {
             $valid = false;
             $errors[] = stack_string('ATLowestTerms_not_rat', array('m0' => '\[ '.$rn->get_display().' \]'));
         }

@@ -327,9 +327,9 @@ abstract class stack_input {
 
         if (array() == $contents or $this->is_blank_response($contents)) {
             // Runtime errors may make it appear as if this response is blank, so we put any errors in here.
-            $errors = $this->errors;
+            $errors = $this->get_errors();
             if ($errors) {
-                $errors = implode(' ', $this->errors);
+                $errors = implode(' ', $errors);
             }
             return new stack_input_state(self::BLANK, array(), '', '', $errors, '', '');
         }
@@ -426,7 +426,7 @@ abstract class stack_input {
 
         // Since $lvars and $answer and the other casstrings are passed by reference, into the $session,
         // we don't need to extract updated values from the instantiated $session explicitly.
-        list($valid, $errors, $display) = $this->validation_display($answer, $caslines, $additionalvars, $valid, $errors);
+        list($valid, $errors, $display) = $this->validation_display($answer, $lvars, $caslines, $additionalvars, $valid, $errors);
 
         if ('' == $answer->get_value()) {
             $valid = false;
@@ -576,7 +576,7 @@ abstract class stack_input {
      * @return string any error messages describing validation failures. An empty
      *      string if the input is valid - at least according to this test.
      */
-    protected function validation_display($answer, $caslines, $additionalvars, $valid, $errors) {
+    protected function validation_display($answer, $lvars, $caslines, $additionalvars, $valid, $errors) {
 
         $display = stack_maxima_format_casstring($answer->get_raw_casstring());
         if ('' != $answer->get_errors()) {
@@ -611,9 +611,9 @@ abstract class stack_input {
      * Render any error messages.
      */
     protected function render_error($error) {
-        $errors = $this->errors;
+        $errors = $this->get_errors();
         if ($errors) {
-            $errors = implode(' ', $this->errors);
+            $errors = implode(' ', $errors);
         }
         $result = html_writer::tag('p', stack_string('ddl_runtime'));
         $result .= html_writer::tag('p', $errors);
@@ -772,6 +772,15 @@ abstract class stack_input {
      * Return the value of any errors.
      */
     public function get_errors() {
-            return $this->errors;
+        if ($this->errors === null) {
+            return null;
+        }
+        // Send each error only once.
+        $errors = array();
+        foreach ($this->errors as $err) {
+            $err = trim($err);
+            $errors[$err] = true;
+        }
+        return array_keys($errors);
     }
 }

@@ -1568,9 +1568,9 @@ class stack_cas_casstring {
                     $lowestterms = true, $tans = null, $validationmethod, $allowwords = '') {
 
         if (!($validationmethod == 'checktype' || $validationmethod == 'typeless' || $validationmethod == 'units'
-            || $validationmethod == 'unitsnegpow' || $validationmethod == 'equiv')) {
+            || $validationmethod == 'unitsnegpow' || $validationmethod == 'equiv' || $validationmethod == 'numerical')) {
             throw new stack_exception('stack_cas_casstring: validationmethod must one of "checktype", "typeless", ' .
-                '"units" or "unitsnegpow" or "equiv", but received "'.$validationmethod.'".');
+                '"units" or "unitsnegpow" or "equiv" or "numerical", but received "'.$validationmethod.'".');
         }
         if (null === $this->valid) {
             $this->validate('s', true, 0, $allowwords);
@@ -1600,10 +1600,14 @@ class stack_cas_casstring {
         $this->casstring = 'stack_validate(['.$starredanswer.'], '.$forbidfloats.','.$lowestterms.','.$tans.')';
         if ($validationmethod == 'typeless') {
             // Note, we don't pass in the teacher's as this option is ignored by the typeless validation.
-            $this->casstring = 'stack_validate_typeless(['.$starredanswer.'], '.$forbidfloats.', '.$lowestterms.', false)';
+            $this->casstring = 'stack_validate_typeless(['.$starredanswer.'], '.$forbidfloats.', '.$lowestterms.', false, false)';
+        }
+        if ($validationmethod == 'numerical') {
+            $this->casstring = 'stack_validate_typeless(['.$starredanswer.'],
+                    '.$forbidfloats.', '.$lowestterms.', false, '.$fltfmt.')';
         }
         if ($validationmethod == 'equiv') {
-            $this->casstring = 'stack_validate_typeless(['.$starredanswer.'], '.$forbidfloats.', '.$lowestterms.', true)';
+            $this->casstring = 'stack_validate_typeless(['.$starredanswer.'], '.$forbidfloats.', '.$lowestterms.', true, false)';
         }
         if ($validationmethod == 'units') {
             // Note, we don't pass in forbidfloats as this option is ignored by the units validation.

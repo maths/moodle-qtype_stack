@@ -17,18 +17,19 @@ Done for version 4.1:
 * Add in the "string" input type.
 * Add test which checks if there are any rational expressions in the denominator of a fraction.  (Functionality added to LowestTerms test, which looks at the form of rational expressions).
 * Add an option to remove hard-coded "not answered" option from Radio input type. (See issue #304)
+* Add in a "numerical" input type which requires a student to type in a number.  This has various options, see the [docs](../Authoring/Numerical_input.md).
 
 To do for version 4.1:
 
-* Add in test to require a certain number of significant figures/decimal places at validation stage.
 * Refactor inputs to have extra options shared between inputs.
-
 
 ## Version 4.2
 
 * Add in a version number to STACK questions.
-* Sort out the "addrow" problem. (see issue #333)
 * Update MCQ to accept units.
-* Add support for matrices with floating point entries, and testing numerical accuracy.
 * Enable individual questions to load Maxima libraries.  (See issue #305)
+* Add an answer test to check if decimal separator is in the wrong place (See issue #314)
+* Sort out the "addrow" problem. (See issue #333)
+* Add support for matrices with floating point entries, and testing numerical accuracy.
+* Add a base N check to the numeric input.
 

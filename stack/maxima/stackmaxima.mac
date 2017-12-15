@@ -804,6 +804,12 @@ plot(ex, [ra]) :=  /*stack_web_plot*/
     if not(all_listp(lambda([ex], is((integerp(ex) and is(ex>0))=true)), PLOT_SIZE)) then 
         error("Plot error: PLOT_SIZE must be a list of two positive integers, but got:", string(PLOT_SIZE)),
     psize:concat(" size ", string(PLOT_SIZE[1]), ", ", string(PLOT_SIZE[2])),
+    /*******************/
+    /* Check for tags. */
+    kill(ptags),
+    ptags:sublist(ral, lambda([ex], if listp(ex) then is(first(ex) = plottags) else false)),
+    if not(emptyp(ptags)) then (ral:delete(first(ptags), ral), PLOT_TAGS:second(first(ptags))),
+    if not(is(PLOT_TAGS=true or PLOT_TAGS=false)) then error("Plot error: the plottags option must be a Boolean."),
     /**********************************************************/
     /* Remove from option list ral any non-permitted options. */
     kill(y),

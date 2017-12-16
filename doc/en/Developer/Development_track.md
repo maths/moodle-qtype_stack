@@ -5,15 +5,17 @@ past development history is documented on [Development history](Development_hist
 
 How to report bugs and make suggestions is described on the [community](../About/Community.md) page.
 
-## Version 4.1
+## Version 4.2
 
-To do for version 4.1:
+To do:
 
-* Remove hard-coded "not answered" option from Radio input type.
-* (Done) On the questiontestrun page, have options to (a) delete all question variants.
-* (Done) Make SVG the default image format in Maxima generate plots.
-* Enable individual questions to load Maxima libraries.  (See issue #305).
+* Add in a version number to STACK questions.
 * Add support for matrices with floating point entries, and testing numerical accuracy.
-* Add test which checks if there are any rational expressions in the denominator of a fraction.
-* Add in support for the syntaxHint in the matrix input.
-* Add in the "string" input type.
+* Refactor equiv_input and MCQ to make use of the new extra options mechanism.
+* Update MCQ to accept units.
+* Add a base N check to the numeric input.
+* Enable individual questions to load Maxima libraries.  (See issue #305)
+* Add an answer test to check if decimal separator is in the wrong place (See issue #314)
+* Sort out the "addrow" problem. (See issue #333)
+* Expand support for input validation options to matrices (e.g. floatnum, rationalize etc.)
+* Add in full parser, to address issue #324.

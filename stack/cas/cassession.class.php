@@ -551,10 +551,13 @@ class stack_cas_session {
                 $cascommands .= ", print(\"$i=[ error= [\"), cte(\"$label\",errcatch($label:$cmd)) ";
             }
 
+            // From Maxima 5.40.0, variable names may only occur once in the local variable list in a block.
+            // This makes sure they only occur once.
+            $csnames = array();
             // The session might, legitimately, attempt to redefine a Maxima global variable,
             // which would throw a spurious error when the block attempts to define them as local.
             if (!(array_key_exists($cleanlabel, self::$maximaglobals))) {
-                $csnames   .= ", $cleanlabel";
+                $csnames[$cleanlabel] = true;
             }
 
             $i++;
@@ -562,7 +565,7 @@ class stack_cas_session {
 
         $cass  = $caspreamble;
         $cass .= 'cab:block([ RANDOM_SEED';
-        $cass .= $csnames;
+        $cass .= implode(array_keys($csnames), ', ');
         $cass .= '], stack_randseed(';
         $cass .= $this->seed.')'.$csvars;
         $cass .= ", print(\"[TimeStamp= [ $this->seed ], Locals= [ \") ";

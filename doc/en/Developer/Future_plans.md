@@ -29,10 +29,7 @@ Note, where the feature is listed as "(done)" means we have prototype code in th
 * A new MCQ input type with a "none of these" option which uses Javascript to degrade to an algebraic input: https://community.articulate.com/articles/how-to-use-an-other-please-specify-answer-option
 * Add an option for "no functions" which will always insert stars and transform "x(" -> "x*(" even when x occurs as both a function and a variable.
 * Make the syntax hint CAS text, to depend on the question variables.
-* Add in much more flexible validation options
- 1. Enforce a certain number of significant figures or decimal places at validation time.
- 2. Reject expressions not correctly rationalized, using `rationalized(ex)`.
-
+* Make the extra options CAS text as well.
 
 ### Improve the editing form ###
 
@@ -61,6 +58,7 @@ Note, where the feature is listed as "(done)" means we have prototype code in th
 * Make the PRT Score element CAS text, so that a value calculated in the "Feedback variables" could be included here.
 * Refactor the STACK return object in maxima as a structure. ` ? defstruct`.  Note that `@` is the element access operator.
 * Refector blocks parser so that evaluation of anything inside a comment block is ignored, this will allow it to contain contents are syntactically incorrect, e.g. mismatched blocks.
+*   A STACK maxima function which returns the number of decimal places/significant figures in a variable (useful when providing feedback)
 
 ## Features that might be attempted in the future - possible self contained projects ##
 
@@ -114,5 +112,5 @@ Basic reports now work.
 
 * Really ensure "attempts" list those with meaningful histories.  I.e. if possible filter out navigation to and from the page etc.
 * Add better maxima support functions for off-line analysis.
- * A fully maxima-based representation of the PRT?
+* A fully maxima-based representation of the PRT?
 

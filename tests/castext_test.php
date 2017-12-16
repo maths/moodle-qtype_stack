@@ -471,6 +471,44 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $this->assertTrue(is_int(strpos($at1->get_errors(), "Plot error: the alt tag definition must be a string, but is not.")));
     }
 
+    public function test_plot_small() {
+
+        $a2 = array('p:sin(x)');
+        $s2 = array();
+        foreach ($a2 as $s) {
+            $cs = new stack_cas_casstring($s);
+            $cs->get_valid('t');
+            $s2[] = $cs;
+        }
+        $cs2 = new stack_cas_session($s2, null, 0);
+
+        $at1 = new stack_cas_text('A small plot: {@plot(p, [x,-2,3], [size,200,100])@}', $cs2, 0, 't');
+        $this->assertTrue($at1->get_valid());
+        $at1->get_display_castext();
+
+        $session = $at1->get_session();
+        $this->assertTrue(is_int(strpos($at1->get_display_castext(), "width='200'")));
+    }
+
+    public function test_plot_nottags() {
+
+        $a2 = array('p:sin(x)');
+        $s2 = array();
+        foreach ($a2 as $s) {
+            $cs = new stack_cas_casstring($s);
+            $cs->get_valid('t');
+            $s2[] = $cs;
+        }
+        $cs2 = new stack_cas_session($s2, null, 0);
+
+        $at1 = new stack_cas_text('A tag-less plot: {@plot(p, [x,-2,3], [plottags,false])@}', $cs2, 0, 't');
+        $this->assertTrue($at1->get_valid());
+        $at1->get_display_castext();
+
+        $session = $at1->get_session();
+        $this->assertFalse(is_int(strpos($at1->get_display_castext(), "<div class=\"stack_plot\">")));
+    }
+
     public function test_plot_option_error() {
 
         $cs2 = new stack_cas_session(array(), null, 0);
@@ -914,12 +952,13 @@ class stack_cas_text_test extends qtype_stack_testcase {
         }
         $cs2 = new stack_cas_session($s2, null, 0);
 
-        $at1 = new stack_cas_text('{@a@}, {@b@}, {@beta47@}', $cs2, 0, 't');
+        $at1 = new stack_cas_text('{@a@}, {@b@}, {@beta47@}, {@beta_47@}',
+            $cs2, 0, 't');
         $this->assertTrue($at1->get_valid());
         $at1->get_display_castext();
 
-        $this->assertEquals('\({{v}_{2\cdot \alpha}}\), \({{v}_{{m}_{n}}}\), \({{\it beta_{47}}}\)',
-                $at1->get_display_castext());
+        $this->assertEquals('\({{v}_{2\cdot \alpha}}\), \({{v}_{{m}_{n}}}\), '.
+            '\({{\it beta_{47}}}\), \({{\beta}_{47}}\)', $at1->get_display_castext());
     }
 
     public function test_maxima_arrays() {

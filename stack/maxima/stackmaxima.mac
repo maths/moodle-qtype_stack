@@ -25,10 +25,6 @@ stack_reset(rand_seed) := block(
   /* Very unlikley the function psi will be needed for assessment and it breaks the session
      when it is used as a variable. */
   kill(psi),
-  /* We need some kind of numerical number to compare against.  */
-  /* This does not work in Maxima 5.13.0, but keep for future reference */
-  /* MAXIMA_VERSION_NUM:parse_string(?subseq(MAXIMA_VERSION,2)) */
-  /*      */
   simpsum:true,
   negdistrib:true,  /* When negdistrib is true, -1 distributes over an expression. E.g., -(x + y) becomes - y - x. */
   display2d:false,
@@ -55,10 +51,12 @@ stack_reset(rand_seed) := block(
 
   MAXIMA_VERSION_STR:?\*autoconf\-version\*,
   MAXIMA_VERSION:map(parse_string, tokens(?\*autoconf\-version\*, 'digitcharp)),
-  MAXIMA_VERSION_NUM:float(MAXIMA_VERSION[2]+MAXIMA_VERSION[3]/10),
+  /* We need the "if" statement below, because versions compiled from source give erroneous results. */
+  MAXIMA_VERSION_NUM:float(MAXIMA_VERSION[2]+(if is(MAXIMA_VERSION[3]<10) then MAXIMA_VERSION[3]/10 else 0)),
 
   /*      */
   OPT_OUTPUT:"LaTeX",
+  PLOT_TAGS:true,
 
   true
 )$
@@ -115,6 +113,8 @@ load("inequalities.mac");
 load("intervals.mac");
 load("stackunits.mac");
 load("stacktex.lisp");
+/* Ensure back compatability with versions before 5.41.0. */
+if is(MAXIMA_VERSION_NUM<40.1) then load("stacktex40.lisp");
 load("utils.mac");
 
 texput(QMCHAR, "\\color{red}{?}");
@@ -670,7 +670,10 @@ stack_validate(expr, ForbidFloats, LowestTerms, TAns) := block([simp:false, exs,
 )$
 
 /* Validate an expression without type checking. Floats and mathematical errors only. */
-stack_validate_typeless(expr, ForbidFloats, LowestTerms, Equiv) := block([simp:false, exs, fvs, fvs1, fvs2],
+stack_validate_typeless(expr, ForbidFloats, LowestTerms, Equiv, fltfmt) := block([simp:false, exs, fvs, fvs1, fvs2],
+  /* If we have a float format, then use it. */
+  if not(is(fltfmt=false)) then
+    stackfltfmt:fltfmt,
   /* Try to simply the expression to catch CAS errors */
   exs:errcatch(ev(expr, simp)),
   if exs = [] then return(false),
@@ -767,8 +770,8 @@ set_plot_option([adapt_depth, 10]);
 set_plot_option([gnuplot_default_term_command, ""]);
 
 plot(ex, [ra]) :=  /*stack_web_plot*/
-    block([simp:true, tfn, tfnp1, tfnp2, tfnp3, afn, ufn, lvs, preamble, sysp, sysr, filename, tn, alt, altc, alttext, ral, ralforbid, pltargs, plotfunmake, plotdebug, plotgrid2d],
-    plotdebug:false,
+    block([simp:true, tfn, tfnp1, tfnp2, tfnp3, afn, ufn, lvs, preamble, sysp, sysr, filename, tn, alt, altc, alttext, ral, ralforbid, pltargs, plotfunmake, plotdebug, plotgrid2d, size, psize],
+    plotdebug:fals,
     /* Check for grid2d  in the plotoptions. */
     plotgrid2d:false,
     if member(grid2d, ra) or member(STACKGRID, ra) then
@@ -785,12 +788,29 @@ plot(ex, [ra]) :=  /*stack_web_plot*/
     if length(lvs)>1 then
        (print(concat("Plot error: Can't create a plot with more than one variable, whereas you have: \\(",string(lvs),"\\)")),
        return("<center>[Empty plot]</center>")),
+    /*********************/
     /* Sort out alt-text */
     kill(alt),
     alttext:concat("STACK auto-generated plot of ", string(ex), " with parameters ", string(ral)),
     altc:sublist(ral, lambda([ex], if listp(ex) then is(first(ex) = alt) else false)),
     if not(emptyp(altc)) then (ral:delete(first(altc), ral), alttext:second(first(altc))),
     if not(stringp(alttext)) then (alttext:"ERROR", print("Plot error: the alt tag definition must be a string, but is not."), return("")),
+    /*******************/
+    /* Check for size. */
+    kill(size, psize),
+    psize:sublist(ral, lambda([ex], if listp(ex) then is(first(ex) = size) else false)),
+    if not(emptyp(psize)) then (ral:delete(first(psize), ral), PLOT_SIZE:[second(first(psize)), third(first(psize))]),
+    if not(listp(PLOT_SIZE)) then error("Plot error: PLOT_SIZE must be a list of two positive integers."),
+    if not(all_listp(lambda([ex], is((integerp(ex) and is(ex>0))=true)), PLOT_SIZE)) then 
+        error("Plot error: PLOT_SIZE must be a list of two positive integers, but got:", string(PLOT_SIZE)),
+    psize:concat(" size ", string(PLOT_SIZE[1]), ", ", string(PLOT_SIZE[2])),
+    /*******************/
+    /* Check for tags. */
+    kill(ptags),
+    ptags:sublist(ral, lambda([ex], if listp(ex) then is(first(ex) = plottags) else false)),
+    if not(emptyp(ptags)) then (ral:delete(first(ptags), ral), PLOT_TAGS:second(first(ptags))),
+    if not(is(PLOT_TAGS=true or PLOT_TAGS=false)) then error("Plot error: the plottags option must be a Boolean."),
+    /**********************************************************/
     /* Remove from option list ral any non-permitted options. */
     kill(y),
     permitted_options: [y, xlabel, ylabel, label, legend, color, style, point_type, nticks, logx, logy, axes, box, plot_realpart, yx_ratio, xtics, ytics, ztics],
@@ -801,6 +821,7 @@ plot(ex, [ra]) :=  /*stack_web_plot*/
     if not(emptyp(ralforbid)) then
         (print(concat("Plot error: STACK does not currently support the following plot2d options: \\(",string(ralforbid),"\\)")),
          return("<center>[Empty plot]</center>")),
+    /********************************************/
     /* Create a unique identifier for the plot. */
     tn:string(absolute_real_time()),
     filename:concat("stackplot","-",tn,"-",string(rand(10^8))),
@@ -808,7 +829,9 @@ plot(ex, [ra]) :=  /*stack_web_plot*/
     afn:concat("'", IMAGE_DIR, filename, ".", PLOT_TERMINAL, "'"),
     if PLOT_TERMINAL="svg" then
         afn:concat(IMAGE_DIR, filename, ".", PLOT_TERMINAL),
-    ufn:concat("<div class=\"stack_plot\"><img src='", URL_BASE, filename, ".", PLOT_TERMINAL, "' alt='", alttext, "' width='450' /></div>"),
+    ufn:concat("<img src='", URL_BASE, filename, ".", PLOT_TERMINAL, "' alt='", alttext, "' width='", string(PLOT_SIZE[1]), "' />"),
+    if PLOT_TAGS then 
+        ufn:concat("<div class=\"stack_plot\">", ufn, "</div>"),
     if OPT_OUTPUT#"MathML" then
       ufn:concat(" <html>", ufn, "</html> "),
     /* Sort out plot_options and preamble*/
@@ -826,10 +849,10 @@ plot(ex, [ra]) :=  /*stack_web_plot*/
     if plotgrid2d and MAXIMA_VERSION_NUM>34 then
         ral:append(ral, [grid2d]),
     /* Note, the axes option in Maxima doesn't seem to work.... */
-    if not(PLOT_TERMINAL="svg") then preamble:concat(preamble, "set terminal ", PLOT_TERMINAL, "  ", PLOT_TERM_OPT, "
+    if not(PLOT_TERMINAL="svg") then preamble:concat(preamble, "set terminal ", PLOT_TERMINAL, "  ", PLOT_TERM_OPT, psize, "
 set output ", afn),
     /* Gnuplot only allows alpha-numeric characters in the plot name, so not even spaces!  This is a problem with the string function. */
-    if PLOT_TERMINAL="svg" then preamble:concat("set terminal ", PLOT_TERMINAL, " ", PLOT_TERM_OPT),
+    if PLOT_TERMINAL="svg" then preamble:concat("set terminal ", PLOT_TERMINAL, psize, " ", PLOT_TERM_OPT),
     if plotdebug then print(preamble),
     if PLOT_TERMINAL="svg" then set_plot_option([svg_file, afn]),
     if PLOT_TERMINAL="svg" then 
@@ -866,7 +889,6 @@ set output ", afn),
     simp:old_simp,
     return(ufn)
 )$
-
 
 /* ********************************** */
 /* Numerical operations               */
@@ -1063,7 +1085,7 @@ ATNumSigFigs(SA, SB, SO) := block([Validity, RawMark, FeedBack, AnswerNote, ret,
       c0:0.0,
     ev(c2:float(abs(abs(rat(SA)*10^(c0+floor(asf)))-abs(rat(SB)*10^(c0+floor(asf))))), simp),
     if (debug) then print([SA,SB,c0,asf,c2]),
-    if not(ev(is(c2<0.5), simp)) then block(
+    if not(ev(is(c2<(0.5)), simp)) then block(
         Validity:true,
         RawMark:false,
         if ev(is(c2<5), simp) then block(
@@ -1509,8 +1531,9 @@ ATSameTypefun(SA, SB) := block([simp:true, ret],
 )$
 
 /* Tests if the SA equals SB in lowest terms, and gives feedback.
+   Also checks that the denominator is clear of things like sqty(2) and complex numbers.
    Note, this is identical to ATAlgEquiv with simp:false otherwise. */
-ATLowestTerms(SA, SB) := block([simp:false, ret, validity, mark, FeedBack, AnswerNote, SAA],
+ATLowestTerms(SA, SB) := block([simp:false, ret, validity, mark, FeedBack, AnswerNote, SAA, rd],
     /* Turn on simplification and error catch */
     SAA:errcatch(ev(SA, simp, nouns)),
     if (is(SAA = [STACKERROR]) or is(SAA = [])) then
@@ -1533,6 +1556,14 @@ ATLowestTerms(SA, SB) := block([simp:false, ret, validity, mark, FeedBack, Answe
             FeedBack:StackAddFeedback("", "ATLowestTerms_wrong", "")
         else
             FeedBack:StackAddFeedback("", "ATLowestTerms_entries", stack_disp(badNos, "d"))
+    ),
+    /* Check for problems in the denominator. */
+    rd:rationalized(SA),
+    if not(is(rd=true)) then block(
+            mark:false,
+            fbn:"ATLowestTerms_not_rat",
+            FeedBack: StackAddFeedback(FeedBack, fbn, stack_disp(rd, "d")),
+            AnswerNote:StackAddNote(AnswerNote, fbn)
     ),
     return([validity, mark, AnswerNote, FeedBack])
 )$
@@ -1831,7 +1862,7 @@ ATGTE(SA,SB) :=
 /* (2.1) p is linear in v, and the coefficients have no common factors  */
 /* (2.2) p is linear in v, and the coefficients of v is -1              */
 /* (3) p is quadratic, the coefficients have no common factors          */
-/*     and p does not factor over the **rational numberss**             */
+/*     and p does not factor over the **rational numbers**              */
 
 /* Is p an irreducible term in v, over the rationals Q? */
 /* Returns a list, of [true/false, FeedBack, true/false] */
@@ -2181,14 +2212,14 @@ ATSingleFrac(SA, SB) := block(
     else block(
         rawmk:false,
         ansnote:"ATSingleFrac_part"),
-    fb: StackAddFeedback(fb,ansnote),
-    ansnote:StackAddNote("",ansnote),
+    fb: StackAddFeedback(fb, ansnote),
+    ansnote:StackAddNote("", ansnote),
     /* Check for algebraic equivalence */
     if not(algebraic_equivalence(SA, SB)) then block(
             rawmk:false,
             fbn:"ATSingleFrac_ret_exp",
-            fb: StackAddFeedback(fb,fbn),
-            ansnote:StackAddNote(ansnote,fbn)
+            fb: StackAddFeedback(fb, fbn),
+            ansnote:StackAddNote(ansnote, fbn)
     ),
     return([validity,rawmk,ansnote,fb])
 )$
@@ -2741,4 +2772,4 @@ load(linearalgebra);
 
 /* Stack expects some output with the version number the output happens at */
 /* maximalocal.mac after additional library loading */
-stackmaximaversion:2017082400$
+stackmaximaversion:2017121600$

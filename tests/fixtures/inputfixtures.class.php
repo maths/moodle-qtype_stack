@@ -468,7 +468,7 @@ class stack_inputvalidation_test_data {
             // @codingStandardsIgnoreEnd
             $phpcasstring = $cs->get_casstring();
             $phpcasstring = substr($phpcasstring, 25);
-            $phpcasstring = substr($phpcasstring, 0, strlen($phpcasstring) - 21);
+            $phpcasstring = substr($phpcasstring, 0, strlen($phpcasstring) - 28);
             $outputphpcasstring = $phpcasstring;
         } else {
             $phpcasstring = '';

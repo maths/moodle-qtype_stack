@@ -102,6 +102,11 @@ class stack_answertest_test_data {
         array('AlgEquiv', '', 'rho*z*V/(4*pi*epsilon[0]*(R^2+z^2)^(3/2))', 'rho*z*V/(4*pi*epsilon[0]*(R^2+z^2)^(3/2))', 1, '',
             'Expressions with subscripts'),
         array('AlgEquiv', '', 'rho*z*V/(4*pi*epsilon[1]*(R^2+z^2)^(3/2))', 'rho*z*V/(4*pi*epsilon[0]*(R^2+z^2)^(3/2))', 0, '', ''),
+        array('AlgEquiv', '', 'sqrt(k/m)*sqrt(m/k)', '1', 1, '', ''),
+        array('AlgEquiv', '', '(2*pi)/(k/m)^(1/2)', '(2*pi)/(k/m)^(1/2)', 1, '', ''),
+        array('AlgEquiv', '', '(2*pi)*(m/k)^(1/2)', '(2*pi)/(k/m)^(1/2)', 1, '', ''),
+        array('AlgEquiv', '', 'sqrt(2*x/10+1)', 'sqrt((2*x+10)/10)', 1, '', ''),
+        array('AlgEquiv', '', '((x+3)^2*(x+3))^(1/3)', '((x+3)*(x^2+6*x+9))^(1/3)', 1, '', ''),
 
         array('AlgEquiv', '', 'rationalized(1+sqrt(3)/3)', 'true', 1, 'ATLogic_True', 'Bad things in denominators'),
         array('AlgEquiv', '', 'rationalized(1+1/sqrt(3))', '[sqrt(3)]', 1, '', ''),
@@ -729,6 +734,8 @@ class stack_answertest_test_data {
         array('SingleFrac', '', 'a/(-b)', '-a/b', 1, 'ATSingleFrac_true.', ''),
         array('SingleFrac', '', '-(a/b)', '-a/b', 1, 'ATSingleFrac_true.', ''),
         array('SingleFrac', '', '-(1/(n-1))', '1/(1-n)', 1, 'ATSingleFrac_true.', ''),
+        // Use the LowestTerms test for this distinction.
+        array('SingleFrac', '', '1/(1-sqrt(2))', '1/(1-sqrt(2))', 1, 'ATSingleFrac_true.', ''),
 
         array('PartFrac', '', '1/0', '3*x^2', -1, 'STACKERROR_OPTION.', ''),
         array('PartFrac', 'x', '1/0', '3*x^2', -1, 'ATPartFrac_STACKERROR_SAns.', ''),
@@ -1163,6 +1170,30 @@ class stack_answertest_test_data {
         array('NumSigFigs', '[2,0]', '0.00', '0', 1, '', ''),
         array('NumSigFigs', '[3,0]', '0.00', '0', 0, 'ATNumSigFigs_WrongDigits.', ''),
         array('NumSigFigs', '[4,0]', '0.00', '0', 0, 'ATNumSigFigs_WrongDigits.', ''),
+        // Condone too many significant figures.
+        array('NumSigFigs', '[4,-1]', '8.250' ,'8.250', 1, '', 'Condone too many sfs.'),
+        array('NumSigFigs', '[4,-1]', '8.25' ,'8.250', 0, 'ATNumSigFigs_WrongDigits.', ''),
+        array('NumSigFigs', '[4,-1]', '8.250000' ,'8.250', 1, '', ''),
+        array('NumSigFigs', '[4,-1]', '8.250434' ,'8.250', 1, '', ''),
+        array('NumSigFigs', '[2,-1]', '82.4' ,'82', 1, '', ''),
+        array('NumSigFigs', '[2,-1]', '82.5' ,'82', 0, 'ATNumSigFigs_Inaccurate.', ''),
+        array('NumSigFigs', '[2,-1]', '83' ,'82', 0, 'ATNumSigFigs_Inaccurate.', ''),
+        // 1/7 = 0.142857142857...
+        array('NumSigFigs', '[4,-1]', '0.1429' ,'1/7', 1, '', ''),
+        array('NumSigFigs', '[4,-1]', '0.1428' ,'1/7', 0, 'ATNumSigFigs_Inaccurate.', ''),
+        array('NumSigFigs', '[4,-1]', '0.143' ,'1/7', 0, 'ATNumSigFigs_WrongDigits. ATNumSigFigs_Inaccurate.', ''),
+        array('NumSigFigs', '[4,-1]', '0.14285' ,'1/7', 1, '', ''),
+        // Rounded correctly to 5 s.f.
+        array('NumSigFigs', '[4,-1]', '0.14286' ,'1/7', 1, '', ''),
+        // Extra final digit, incorrectly rounded but condoned.
+        array('NumSigFigs', '[2,-1]', '0.142' ,'1/7', 1, '', ''),
+        array('NumSigFigs', '[2,-1]', '0.143' ,'1/7', 1, '', ''),
+        array('NumSigFigs', '[2,-1]', '0.144' ,'1/7', 1, '', ''),
+        array('NumSigFigs', '[2,-1]', '0.14290907676' ,'1/7', 1, '', ''),
+        // While this rounds up to 2 sig figs, we mark is a right because is it basically close enough.
+        array('NumSigFigs', '[2,-1]', '0.145' ,'1/7', 1, '', ''),
+        array('NumSigFigs', '[2,-1]', '0.146' ,'1/7', 0, 'ATNumSigFigs_Inaccurate.', ''),
+        // Teacher does not give a float.
         array('NumSigFigs', '4', '1.279', 'ev(lg(19),logbase=logbasesimp)', 1, '', 'Logarithms, numbers and surds'),
         array('NumSigFigs', '3', '3.14', 'pi', 1, '', ''),
         array('NumSigFigs', '3', '3.15', 'pi', 0, 'ATNumSigFigs_Inaccurate.', ''),
@@ -1453,10 +1484,18 @@ class stack_answertest_test_data {
         array('LowestTerms', '', 'x^2/x', '0', 1, '', 'Use predicate lowesttermsp'),
         array('LowestTerms', '', '(2*x)/(4*t)', '0', 1, '', ''),
         array('LowestTerms', '', '(2/4)*(x^2/t)', '0', 0, 'ATLowestTerms_entries.', ''),
-        array('LowestTerms', '', 'x^(2/4)', '0', 0, 'ATLowestTerms_entries.', '')
-        );
+        array('LowestTerms', '', 'x^(2/4)', '0', 0, 'ATLowestTerms_entries.', ''),
+        array('LowestTerms', '', 'sqrt(3)/3', 'sqrt(3)/3', 1, '', 'Need to rationalize demoninator'),
+        array('LowestTerms', '', '1/sqrt(3)', 'sqrt(3)/3', 0, 'ATLowestTerms_not_rat.', ''),
+        array('LowestTerms', '', '1/(1-sqrt(2))', '1/(1-sqrt(2))', 0, 'ATLowestTerms_not_rat.', ''),
+        array('LowestTerms', '', '1/(1+i)', '(1-i)/2', 0, 'ATLowestTerms_not_rat.', ''),
+        array('LowestTerms', '', '1+2/sqrt(3)', '(2*sqrt(3)+3)/3', 0, 'ATLowestTerms_not_rat.', ''),
+        array('LowestTerms', '', '1/(1+1/root(3,2))', 'sqrt(3)/(sqrt(3)+1)', 0, 'ATLowestTerms_not_rat.', ''),
+        array('LowestTerms', '', '1/(1+1/root(2,3))', '1/(1+1/root(2,3))', 0, 'ATLowestTerms_not_rat.', '')
+    );
 
     public static function get_raw_test_data() {
+        return array();
         $equiv = new stack_equiv_test_data();
         return array_merge(self::$rawdata, $equiv->get_answertestfixtures());
     }

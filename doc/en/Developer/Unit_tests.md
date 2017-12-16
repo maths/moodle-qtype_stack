@@ -30,11 +30,15 @@ information near the end, but before the `require_once(dirname(__FILE__) . '/lib
 Other options for the platform are `unix` and `unix-optimised`.
 
     define('QTYPE_STACK_TEST_CONFIG_PLATFORM',        'linux');
-    define('QTYPE_STACK_TEST_CONFIG_MAXIMAVERSION',   '5.31.3');
+    /* It is essential that the MAXIMAVERSION and MAXIMACOMMAND match.
+       That is, you must check that the command executed here really loads
+       the version specified in MAXIMAVERSION.  Some unit tests are version
+       dependent.  */
+    define('QTYPE_STACK_TEST_CONFIG_MAXIMAVERSION',   '5.41.0');
+    define('QTYPE_STACK_TEST_CONFIG_MAXIMACOMMAND',   'maxima --use-version=5.41.0');
     define('QTYPE_STACK_TEST_CONFIG_CASTIMEOUT',      '1');
-    define('QTYPE_STACK_TEST_CONFIG_MAXIMACOMMAND',   '');
-    define('QTYPE_STACK_TEST_CONFIG_PLOTCOMMAND',     '');
     define('QTYPE_STACK_TEST_CONFIG_CASDEBUGGING',    '0');
+    define('QTYPE_STACK_TEST_CONFIG_PLOTCOMMAND',     '');
 
     define('QTYPE_STACK_TEST_CONFIG_CASRESULTSCACHE', 'db');
 

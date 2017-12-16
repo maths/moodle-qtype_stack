@@ -212,6 +212,19 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         $this->assertEquals('Lowest_Terms', $state->note);
     }
 
+    public function test_validate_student_response_with_rationalized() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('algebraic', 'sans1', '1/2');
+        $el->set_parameter('options', 'rationalized');
+        $state = $el->validate_student_response(array('sans1' => "x^2+x/sqrt(2)"), $options, '3.14', null);
+        $this->assertEquals(stack_input::INVALID, $state->status);
+        $this->assertEquals('x^2+x/sqrt(2)', $state->contentsmodified);
+        $this->assertEquals('\[ x^2+\frac{x}{\sqrt{2}} \]', $state->contentsdisplayed);
+        $this->assertEquals(' You must clear the following from the denominator of your fraction: ' .
+                '<span class="filter_mathjaxloader_equation"><span class="nolink">\[ \left[ \sqrt{2} \right] \]' .
+                '</span></span>', $state->errors);
+    }
+
     public function test_validate_student_response_subscripts() {
         $options = new stack_options();
         $el = stack_input_factory::make('algebraic', 'sans1', 'rho*z*V/(4*pi*epsilon[0]*(R^2+z^2)^(3/2))');

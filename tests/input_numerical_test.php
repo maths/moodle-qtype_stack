@@ -65,6 +65,17 @@ class stack_numerical_input_test extends qtype_stack_testcase {
         $this->assertEquals('', $state->errors);
     }
 
+    public function test_validate_student_response_scientific() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('numerical', 'sans1', '3.14');
+        // This input type should ignore the strictSyntax option.
+        $el->set_parameter('strictSyntax', false);
+        $state = $el->validate_student_response(array('sans1' => '2.34e6'), $options, '3.14', null);
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('\[ 2.34E+6 \]', $state->contentsdisplayed);
+        $this->assertEquals('', $state->errors);
+    }
+
     public function test_validate_student_response_div_zero() {
         $options = new stack_options();
         $el = stack_input_factory::make('numerical', 'sans1', '3.14');
@@ -453,5 +464,14 @@ class stack_numerical_input_test extends qtype_stack_testcase {
         $this->assertEquals(stack_input::INVALID, $state->status);
         $this->assertEquals(' You must supply exactly <span class="filter_mathjaxloader_equation">' .
                 '<span class="nolink">\( 3 \)</span></span> decimal places.', $state->errors);
+    }
+
+    public function test_render_syntaxhint() {
+        $el = stack_input_factory::make('numerical', 'sans1', '[a, b, c]');
+        $el->set_parameter('syntaxHint', '?/?');
+        $this->assertEquals('<input type="text" name="stack1__sans1" id="stack1__sans1" '
+                .'size="16.5" style="width: 13.6em" value="?/?" />',
+                $el->render(new stack_input_state(stack_input::BLANK, array(), '', '', '', '', ''),
+                        'stack1__sans1', false, null));
     }
 }

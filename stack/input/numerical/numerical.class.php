@@ -25,113 +25,25 @@ defined('MOODLE_INTERNAL') || die();
 class stack_numerical_input extends stack_input {
 
     /**
-     * @var bool
-     * Is a student required to type in a float?
+     * From STACK 4.1 we are not going to continue to add input options as columns in the database.
+     * This has numerous problems, and is difficult to maintain. Extra options will be in a JSON-like format.
+     * @var array
      */
-    private $optfloatnum = false;
-
-    /**
-     * @var bool
-     * Is a student required to type in a rational number?
-     */
-    private $optrationalnum = false;
-
-    /**
-     * @var bool
-     * Is the demoninator of any fractions in the student's answer to be free of surds?
-     */
-    private $optrationalized = false;
-
-    /**
-     * @var int
-     * Require min/max number of decimal places.
-     */
-    private $optmindp = false;
-    private $optmaxdp = false;
-
-    /**
-     * @var int
-     * Require min/max number of significant figures.
-     */
-    private $optminsf = false;
-    private $optmaxsf = false;
-
-    protected function internal_contruct() {
-        $options = $this->get_parameter('options');
-
-        if (trim($options) != '') {
-            $options = explode(',', $options);
-            foreach ($options as $option) {
-                $option = strtolower(trim($option));
-                list($option, $arg) = stack_utils::parse_option($option);
-
-                switch($option) {
-
-                    case 'floatnum':
-                        $this->optfloatnum = true;
-                        break;
-
-                    case 'rationalnum':
-                        $this->optrationalnum = true;
-                        break;
-
-                    case 'rationalized':
-                        $this->optrationalized = true;
-                        break;
-
-                    case 'mindp':
-                        if (is_numeric($arg)) {
-                            $this->optmindp = $arg;
-                        } else {
-                            $this->errors[] = stack_string('numericalinputoptinterr', array('opt' => $option, 'val' => $arg));
-                        }
-                        break;
-
-                    case 'maxdp':
-                        if (is_numeric($arg)) {
-                            $this->optmaxdp = $arg;
-                        } else {
-                            $this->errors[] = stack_string('numericalinputoptinterr', array('opt' => $option, 'val' => $arg));
-                        }
-                        $this->optmaxdp = $arg;
-                        break;
-
-                    case 'minsf':
-                        if (is_numeric($arg)) {
-                            $this->optminsf = $arg;
-                        } else {
-                            $this->errors[] = stack_string('numericalinputoptinterr', array('opt' => $option, 'val' => $arg));
-                        }
-                        $this->optminsf = $arg;
-                        break;
-
-                    case 'maxsf':
-                        if (is_numeric($arg)) {
-                            $this->optmaxsf = $arg;
-                        } else {
-                            $this->errors[] = stack_string('numericalinputoptinterr', array('opt' => $option, 'val' => $arg));
-                        }
-                        break;
-
-                    default:
-                        $this->errors[] = stack_string('inputoptionunknown', $option);
-                }
-            }
-        }
-
-        if (is_numeric($this->optmindp) && is_numeric($this->optmaxdp) && $this->optmindp > $this->optmaxdp) {
-            $this->errors[] = stack_string('numericalinputminmaxerr');
-        }
-        if (is_numeric($this->optminsf) && is_numeric($this->optmaxsf) && $this->optminsf > $this->optmaxsf) {
-            $this->errors[] = stack_string('numericalinputminmaxerr');
-        }
-        if ((is_numeric($this->optmindp) || is_numeric($this->optmaxdp))
-                && (is_numeric($this->optminsf) || is_numeric($this->optmaxsf))) {
-            $this->errors[] = stack_string('numericalinputminsfmaxdperr');
-        }
-
-        return true;
-    }
+    protected $extraoptions = array(
+        // Forbid variables.  Always true for numerical inputs.
+        'novars' => true,
+        // Is a student required to type in a float?
+        'floatnum' => false,
+         // Is the demoninator of any fractions in the student's answer to be free of surds?
+        'rationalnum' => false,
+        'rationalized' => false,
+        // Require min/max number of decimal places?
+        'mindp' => false,
+        'maxdp' => false,
+        // Require min/max number of significant figures?
+        'minsf' => false,
+        'maxsf' => false
+    );
 
     public function render(stack_input_state $state, $fieldname, $readonly, $tavalue) {
 
@@ -165,110 +77,6 @@ class stack_numerical_input extends stack_input {
         return html_writer::empty_tag('input', $attributes);
     }
 
-    /** This function creates additional session variables.
-     */
-    protected function additional_session_variables($caslines, $teacheranswer) {
-        $floatnum = new stack_cas_casstring('floatnump('.$this->name.')');
-        $floatnum->get_valid('t');
-
-        $rationalnum = new stack_cas_casstring('rational_numberp('.$this->name.')');
-        $rationalnum->get_valid('t');
-
-        $rationalized = new stack_cas_casstring('rationalized('.$this->name.')');
-        $rationalized->get_valid('t');
-
-        return array('floatnum' => $floatnum, 'rationalnum' => $rationalnum,
-            'rationalized' => $rationalized);
-    }
-
-    /**
-     * This function constructs the display of variables during validation.
-     * For many input types this is simply the complete answer.
-     * For text areas and equivalence reasoning this is a more complex arrangement of lines.
-     *
-     * @param stack_casstring $answer, the complete answer.
-     * @return string any error messages describing validation failures. An empty
-     *      string if the input is valid - at least according to this test.
-     */
-    protected function validation_display($answer, $lvars, $caslines, $additionalvars, $valid, $errors) {
-
-        $display = stack_maxima_format_casstring($answer->get_raw_casstring());
-        if ('' != $answer->get_errors()) {
-            $valid = false;
-            $errors = array(stack_maxima_translate($answer->get_errors()));
-        }
-        if (trim($answer->get_display()) == '') {
-            $valid = false;
-        } else {
-            $display = '\[ ' . $answer->get_display() . ' \]';
-        }
-
-        // Guard clause at this point.
-        if (!$valid) {
-            return array($valid, $errors, $display);
-        }
-
-        if ($lvars->get_value() != '[]') {
-            $valid = false;
-            $errors[] = stack_string('numericalinputvarsforbidden');
-            $this->set_parameter('showValidation', 1);
-        }
-
-        $fn = $additionalvars['floatnum'];
-        if ($this->optfloatnum && $fn->get_value() == 'false') {
-            $valid = false;
-            $errors[] = stack_string('numericalinputmustfloat');
-        }
-
-        $fltfmt = stack_utils::decimal_digits($answer->get_raw_casstring());
-        $accuracychecked = false;
-
-        if (!is_bool($this->optmindp) && !is_bool($this->optmindp) && $this->optmindp == $this->optmaxdp) {
-            $accuracychecked = true;
-            if ($fltfmt['decimalplaces'] < $this->optmindp || $fltfmt['decimalplaces'] > $this->optmaxdp) {
-                $valid = false;
-                $errors[] = stack_string('numericalinputdp', $this->optmindp);
-            }
-        }
-        if (!is_bool($this->optminsf) && !is_bool($this->optminsf) && $this->optminsf == $this->optmaxsf) {
-            $accuracychecked = true;
-            if ($fltfmt['upperbound'] < $this->optminsf || $fltfmt['lowerbound'] > $this->optmaxsf) {
-                $valid = false;
-                $errors[] = stack_string('numericalinputsf', $this->optminsf);
-            }
-        }
-        if (!$accuracychecked && !is_bool($this->optmindp) && $fltfmt['decimalplaces'] < $this->optmindp) {
-            $valid = false;
-            $errors[] = stack_string('numericalinputmindp', $this->optmindp);
-        }
-        if (!$accuracychecked && !is_bool($this->optmaxdp) && $fltfmt['decimalplaces'] > $this->optmaxdp) {
-            $valid = false;
-            $errors[] = stack_string('numericalinputmaxdp', $this->optmaxdp);
-        }
-        if (!$accuracychecked && !is_bool($this->optminsf) && $fltfmt['upperbound'] < $this->optminsf) {
-            $valid = false;
-            $errors[] = stack_string('numericalinputminsf', $this->optminsf);
-        }
-        if (!$accuracychecked && !is_bool($this->optmaxsf) && $fltfmt['lowerbound'] > $this->optmaxsf) {
-            $valid = false;
-            $errors[] = stack_string('numericalinputmaxsf', $this->optmaxsf);
-        }
-
-        $rn = $additionalvars['rationalnum'];
-        if ($this->optrationalnum && $rn->get_value() == 'false') {
-            $valid = false;
-            $errors[] = stack_string('numericalinputmustrational');
-        }
-
-        $rn = $additionalvars['rationalized'];
-        if ($this->optrationalized && $rn->get_value() !== 'true') {
-            $valid = false;
-            $errors[] = stack_string('ATLowestTerms_not_rat', array('m0' => '\[ '.$rn->get_display().' \]'));
-        }
-
-        return array($valid, $errors, $display);
-    }
-
     public function add_to_moodleform_testinput(MoodleQuickForm $mform) {
         $mform->addElement('text', $this->name, $this->name, array('size' => $this->parameters['boxWidth']));
         $mform->setDefault($this->name, $this->parameters['syntaxHint']);
@@ -296,6 +104,23 @@ class stack_numerical_input extends stack_input {
             'lowestTerms'        => true,
             'sameType'           => true,
             'options'            => '');
+    }
+
+    /**
+     * Get the value of one of the parameters.
+     * @param string $parameter the parameter name
+     * @param mixed $default the default to return if this parameter is not set.
+     */
+    protected function get_parameter($parameter, $default = null) {
+        // We always want strict syntax for this input type.
+        if ($parameter == 'strictSyntax') {
+            return true;
+        }
+        if (array_key_exists($parameter, $this->parameters)) {
+            return $this->parameters[$parameter];
+        } else {
+            return $default;
+        }
     }
 
     /**

@@ -25,6 +25,21 @@ defined('MOODLE_INTERNAL') || die();
 class stack_units_input extends stack_input {
 
     /**
+     * From STACK 4.1 we are not going to continue to add input options as columns in the database.
+     * This has numerous problems, and is difficult to maintain. Extra options will be in a JSON-like format.
+     * @var array
+     */
+    protected $extraoptions = array(
+        'negpow' => false,
+        // Require min/max number of decimal places?
+        'mindp' => false,
+        'maxdp' => false,
+        // Require min/max number of significant figures?
+        'minsf' => false,
+        'maxsf' => false
+    );
+
+    /**
      * Decide if the student's expression should have units.
      * @var bool.
      */
@@ -73,7 +88,7 @@ class stack_units_input extends stack_input {
             'mustVerify'     => true,
             'showValidation' => 1,
             'boxWidth'       => 15,
-            'strictSyntax'   => false,
+            'strictSyntax'   => true,
             'insertStars'    => 0,
             'syntaxHint'     => '',
             'forbidWords'    => '',
@@ -88,6 +103,23 @@ class stack_units_input extends stack_input {
             // Currently this can only be "negpow", or "mul".
             'options'            => '',
         );
+    }
+
+    /**
+     * Get the value of one of the parameters.
+     * @param string $parameter the parameter name
+     * @param mixed $default the default to return if this parameter is not set.
+     */
+    protected function get_parameter($parameter, $default = null) {
+        // We always want strict syntax for this input type.
+        if ($parameter == 'strictSyntax') {
+            return true;
+        }
+        if (array_key_exists($parameter, $this->parameters)) {
+            return $this->parameters[$parameter];
+        } else {
+            return $default;
+        }
     }
 
     /**
@@ -123,8 +155,7 @@ class stack_units_input extends stack_input {
      */
     protected function get_validation_method() {
         $validationmethod = 'units';
-        $opt = trim($this->get_parameter('options'));
-        if (!(strpos($opt, 'negpow') === false)) {
+        if ($this->extraoptions['negpow']) {
             $validationmethod = 'unitsnegpow';
         }
         return $validationmethod;

@@ -18,9 +18,13 @@ Done for version 4.1:
 * Add an option to remove hard-coded "not answered" option from Radio input type. (See issue #304)
 * Add in a "numerical" input type which requires a student to type in a number.  This has various options, see the [docs](../Authoring/Numerical_input.md).
 
-To do for version 4.1:
+## Version 4.2
+
+To do:
 
 * Add support for matrices with floating point entries, and testing numerical accuracy.
+* Expand support for input validation options to matrices (e.g. floatnum, rationalize etc.)
+* Refactor equiv_input and MCQ to make use of the new extra options mechanism.
 * Add a base N check to the numeric input.
 * Add an answer test to check if decimal separator is in the wrong place #314
 * Enable individual questions to load Maxima libraries.  (See issue #305)

@@ -17,9 +17,9 @@ The "Extra options" field on the input must be a comma separated list of the fol
 
 `floatnum`:  requires the student's answer to be a floating point number, as judged by Maxima's `floatnump` predicate.
 
-`rationalnum`:  requires the student's answer to be a rational number (i.e. a fracion), as judged by STACK's `rational_numberp` predicate.  Integers are excluded here!
+`rationalnum`:  requires the student's answer to be a rational number (i.e. a fraction), as judged by STACK's `rational_numberp` predicate.  Integers are excluded here!
 
-`rationalized`:  requires the demoninator of any fractions in the student's answer to be free of surds and \(i\), as judged by STACK's `rationalized` function.
+`rationalized`:  requires the denominator of any fractions in the student's answer to be free of surds and \(i\), as judged by STACK's `rationalized` function.
 
 `mindp:n`: requires the student to type in `n` or more decimal places.
 
@@ -33,10 +33,6 @@ You cannot specify both decimal places and significant figures (even if they are
 
 If `mindp=maxdp=n` or `minsf=maxsf=n` then a student will be told to type in exactly `n` places/figures.
 
-Note, where there is ambiguity in the numeber of significant figures (e.g. does 100 have 1 or 3 significant figures?) then the student will be given the benefit of the doubt.
+Note, where there is ambiguity in the number of significant figures (e.g. does 100 have 1 or 3 significant figures?) then the student will be given the benefit of the doubt.
 
-## TODO
 
-1. add in support for checking number bases.
-2. re-factor inputs so other inputs can also use these options.
-3. make these options CAS-text?

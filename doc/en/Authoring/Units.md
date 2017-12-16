@@ -34,7 +34,7 @@ Let us assume that the correct answer is `12.1*m/s^2`.
 
 1. Students type this value into STACK exactly as it is above. Note the multiplication sign between
    the number and units. There are options to condone a missing star, or to accept a space.
-2. In entry, the numerical part is bound to the units part with multiplication.  Using multiplication in this way is ambiguous.  To create, and to disambiguate, a dimensional numerical quantity from a number multiplied by units (a subtle distinction at best) STACK has a mostly intert function `stackunits(12.1,m/s^2)`.  Students do not need to use this, but teachers can use it in question variables etc.
+2. In entry, the numerical part is bound to the units part with multiplication.  Using multiplication in this way is ambiguous.  To create, and to disambiguate, a dimensional numerical quantity from a number multiplied by units (a subtle distinction at best) STACK has a mostly inert function `stackunits(12.1,m/s^2)`.  Students do not need to use this, but teachers can use it in question variables etc.
 3. STACK converts the student's answer to SI base units only.
    This function also handles the number coefficients automatically (e.g. `1*km = 1000*m` etc.).
 4. STACK has answer tests which compare dimensional numbers. These tests use (share code with) one of the existing numerical answer tests, such as `NumSigFigs`.
@@ -112,11 +112,11 @@ Similarly, for `NumAbsolute` the option is an absolute difference.  Literally we
 
 ## Dealing with units in Maxima functions, e.g. question variables and PRTs  ##
 
-STACK uses an intert function to represent dimensional numerical quantities.
+STACK uses an inert function to represent dimensional numerical quantities.
 
     stackunits(num, units)
 
-In particular, if we just represented scientific units as a product there would be no way to distinguish between `stackunits(0, m)` and `stackunits(0, s)`.  As a product both would evaluate to `0`, which would appear dimensionless.  A teacher is still likley to want to make comments on units when the numerical part is zero.
+In particular, if we just represented scientific units as a product there would be no way to distinguish between `stackunits(0, m)` and `stackunits(0, s)`.  As a product both would evaluate to `0`, which would appear dimensionless.  A teacher is still likely to want to make comments on units when the numerical part is zero.
 
 The function `stack_unit_si_declare(true)` declares variables as units.  (Note the argument to this function is not used.)  For example, this changes the TeX output of `m` to Roman \(\mathrm{m}\) and not the normal \(m\).  (That units are displayed in Roman is lost to most students!).  Note that the symbols are *only* declared to be units by using `stack_unit_si_declare(true)` first somewhere else in the question, or feedback variables.
 

@@ -720,4 +720,42 @@ class stack_units_input_test extends qtype_stack_testcase {
         $this->assertEquals('\( \left[ \mathrm{m} , \mathrm{s} \right]\) ', $state->lvars);
     }
 
+    public function test_validate_student_minsf_maxsf_equal_true() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('units', 'sans1', '9.81*m/s^2');
+        $el->set_parameter('options', 'minsf:3, maxsf:3');
+        $state = $el->validate_student_response(array('sans1' => '9.81*m/s^2'), $options, '9.81*m/s^2', array('tans'));
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('', $state->errors);
+    }
+
+    public function test_validate_student_minsf_maxsf_equal_low() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('units', 'sans1', '9.81*m/s^2');
+        $el->set_parameter('options', 'minsf:3, maxsf:3');
+        $state = $el->validate_student_response(array('sans1' => '9.8*m/s^2'), $options, '9.81*m/s^2', array('tans'));
+        $this->assertEquals(stack_input::INVALID, $state->status);
+        $this->assertEquals(' You must supply exactly <span class="filter_mathjaxloader_equation">' .
+                '<span class="nolink">\( 3 \)</span></span> significant figures.', $state->errors);
+    }
+
+    public function test_validate_student_minsf_maxsf_equal_high() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('units', 'sans1', '9.81*m/s^2');
+        $el->set_parameter('options', 'minsf:3, maxsf:3');
+        $state = $el->validate_student_response(array('sans1' => '9.816*m/s^2'), $options, '9.81*m/s^2', array('tans'));
+        $this->assertEquals(stack_input::INVALID, $state->status);
+        $this->assertEquals(' You must supply exactly <span class="filter_mathjaxloader_equation">' .
+                '<span class="nolink">\( 3 \)</span></span> significant figures.', $state->errors);
+    }
+
+    public function test_validate_student_minsf_maxsf_equal_ambiguous() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('units', 'sans1', '10000*m/s^2');
+        $el->set_parameter('options', 'minsf:3, maxsf:3');
+        $state = $el->validate_student_response(array('sans1' => '1000*m/s^2'), $options, '9.81*m/s^2', array('tans'));
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('', $state->errors);
+    }
+
 }

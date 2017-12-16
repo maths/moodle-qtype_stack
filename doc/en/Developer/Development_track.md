@@ -17,6 +17,8 @@ Done for version 4.1:
 * Add test which checks if there are any rational expressions in the denominator of a fraction.  (Functionality added to LowestTerms test, which looks at the form of rational expressions).
 * Add an option to remove hard-coded "not answered" option from Radio input type. (See issue #304)
 * Add in a "numerical" input type which requires a student to type in a number.  This has various options, see the [docs](../Authoring/Numerical_input.md).
+* Specify numerical precision for validation in numerical and units input types.
+* Refactor the inputs so that extra options can be added more easily, and shared between inputs.
 
 ## Version 4.2
 

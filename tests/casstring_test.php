@@ -927,7 +927,7 @@ class stack_cas_casstring_test extends basic_testcase {
         $this->assertEquals('logsubs', $at1->get_answernote());
     }
 
-    public function test_chained_inequalities_S() {
+    public function test_chained_inequalities_s() {
         $s = 'sa:3<x<5';
         $at1 = new stack_cas_casstring($s);
         $this->assertFalse($at1->get_valid('s', true, 0));
@@ -936,7 +936,7 @@ class stack_cas_casstring_test extends basic_testcase {
         $this->assertEquals('chained_inequalities', $at1->get_answernote());
     }
 
-    public function test_chained_inequalities_T() {
+    public function test_chained_inequalities_t() {
         $s = 'f(x) := if x < 0 then (if x < 1 then 1 else 2) else 3';
         $at1 = new stack_cas_casstring($s);
         $this->assertTrue($at1->get_valid('t', true, 0));

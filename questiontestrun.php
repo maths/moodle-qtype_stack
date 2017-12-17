@@ -135,7 +135,7 @@ if (!$question->has_random_variants()) {
             ' ' . $OUTPUT->action_icon(question_preview_url($questionid, null, null, null, null, $context),
             new pix_icon('t/preview', get_string('preview'))));
     $variantmatched = true;
-} 
+}
 
 if (empty($question->deployedseeds)) {
     if ($question->has_random_variants()) {

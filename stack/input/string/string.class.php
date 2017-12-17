@@ -117,6 +117,21 @@ class stack_string_input extends stack_algebraic_input {
         return $response;
     }
 
+    /**
+     * Transforms the contents array into a maxima expression.
+     * Most simply take the casstring from the first element of the contents array.
+     *
+     * @param array|string $in
+     * @return string
+     */
+    public function contents_to_maxima($contents) {
+        if (array_key_exists(0, $contents)) {
+            return $this->ensure_string($contents[0]);
+        } else {
+            return '';
+        }
+    }
+
     private function strip_string($ex) {
         $ex = trim($ex);
         if (substr($ex, 0, 1) === '"') {

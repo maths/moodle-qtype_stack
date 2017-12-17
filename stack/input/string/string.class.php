@@ -50,7 +50,7 @@ class stack_string_input extends stack_algebraic_input {
             $attributes[$field] = $this->strip_string(stack_utils::logic_nouns_sort($this->parameters['syntaxHint'], 'remove'));
         } else {
             $value = stack_utils::maxima_string_to_php_string($this->contents_to_maxima($state->contents));
-            $attributes['value'] = $value;
+            $attributes['value'] = $in = $this->strip_string($value);
         }
 
         if ($readonly) {
@@ -83,9 +83,53 @@ class stack_string_input extends stack_algebraic_input {
      * @return string the teacher's answer, displayed to the student in the general feedback.
      */
     public function get_teacher_answer_display($value, $display) {
-        $value = $this->strip_string($value);
         $value = stack_utils::maxima_string_to_php_string($value);
+        $value = $this->strip_string($value);
         return stack_string('teacheranswershow', array('value' => '<code>'.$value.'</code>', 'display' => $display));
+    }
+
+    /**
+     * This is used by the question to get the teacher's correct response.
+     * The dropdown type needs to intercept this to filter the correct answers.
+     * @param unknown_type $in
+     */
+    public function get_correct_response($in) {
+        $value = stack_utils::logic_nouns_sort($in, 'remove');
+        $value = $this->strip_string($value);
+        return $this->maxima_to_response_array($value);
+    }
+
+    /**
+     * Transforms a Maxima expression into an array of raw inputs which are part of a response.
+     * Most inputs are very simple, but textarea and matrix need more here.
+     * This is used to take a Maxima expression, e.g. a Teacher's answer or a test case, and directly transform
+     * it into expected inputs.
+     *
+     * @param array|string $in
+     * @return string
+     */
+    public function maxima_to_response_array($in) {
+        $response[$this->name] = $this->strip_string($in);
+        if ($this->requires_validation()) {
+            // Do not strip strings from the _val, to enable test inputs to work.
+            $response[$this->name . '_val'] = $in;
+        }
+        return $response;
+    }
+
+    /**
+     * Transforms the contents array into a maxima expression.
+     * Most simply take the casstring from the first element of the contents array.
+     *
+     * @param array|string $in
+     * @return string
+     */
+    public function contents_to_maxima($contents) {
+        if (array_key_exists(0, $contents)) {
+            return $this->ensure_string($contents[0]);
+        } else {
+            return '';
+        }
     }
 
     private function strip_string($ex) {

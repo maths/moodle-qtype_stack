@@ -72,7 +72,7 @@ class stack_cas_configuration {
         $this->blocksettings['PLOT_TERM_OPT'] = 'large transparent';
         $this->blocksettings['PLOT_TERMINAL'] = 'svg';
         // Note, the quotes need to be protected below.
-        $this->blocksettings['PLOT_TERM_OPT'] = 'dynamic font \",12\" linewidth 1.2';
+        $this->blocksettings['PLOT_TERM_OPT'] = 'dynamic font \",11\" linewidth 1.2';
 
         if ($this->settings->platform === 'win') {
             $this->blocksettings['DEL_CMD']     = 'del';

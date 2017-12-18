@@ -53,7 +53,11 @@ class qtype_stack_question_test_form extends moodleform {
         // Expected outcome.
         $mform->addElement('header', 'prtsheader', stack_string('expectedoutcomes'));
 
+        $all_inputs = array_keys($question->inputs);
         foreach ($question->prts as $prtname => $prt) {
+            $inputs_used = $prt->get_required_variables($all_inputs);
+            $inputs_used = ': [' . implode(', ' , $inputs_used) . ']';
+
             $elements = array(
                 $mform->createElement('text', $prtname . 'score',
                     stack_string('score'), array('size' => 2)),
@@ -62,7 +66,7 @@ class qtype_stack_question_test_form extends moodleform {
                 $mform->createElement('select', $prtname . 'answernote',
                     stack_string('answernote'), $prt->get_all_answer_notes()),
             );
-            $mform->addGroup($elements, $prtname . 'group', $prtname, ' ', false);
+            $mform->addGroup($elements, $prtname . 'group', $prtname . $inputs_used, ' ', false);
             $mform->setType($prtname . 'score', PARAM_RAW);
             $mform->setType($prtname . 'penalty', PARAM_RAW);
             $mform->setType($prtname . 'answernote', PARAM_RAW);

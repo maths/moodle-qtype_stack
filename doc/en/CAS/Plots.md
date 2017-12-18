@@ -29,7 +29,7 @@ Notes:
 * Currently STACK has `gnuplot` return a basic SVG image.
 * Only a very few of Maxima's `plot_options` are respected by `plot`, mainly for security reasons.  (`plot` calls an external command `gnuplot` which writes to the server filesystem.)
 * The `draw` package is currently not supported.
-* To change the size of the image use the Maxima variable `size`, e.g. `plot2d(x^2,[x,-1,1],[size,250,250])`.
+* To change the size of the image use the Maxima variable `size`, e.g. `plot(x^2,[x,-1,1],[size,250,250])`.
 * By default plots are surrounded by the `<div class="stack_plot">`.  This puts whitespace around a plot, and places the plot in the centre of the screen.  To suppress this `div` use the option `[plottags,false]`.
 
 ## Traditional axes

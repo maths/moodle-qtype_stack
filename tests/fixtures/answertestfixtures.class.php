@@ -46,6 +46,8 @@ class stack_answertest_test_data {
      *    0 = different
      *    1 = same
      *    -1 = "Test fails", but this is trapped.
+     *    -2 = Expected maths failure, where test should return 0.
+     *    -3 = Expected maths failure, where test should return 1.
      * Answer note(s)
      * Comments on this test.
      * Header row in the table (optional).
@@ -107,6 +109,7 @@ class stack_answertest_test_data {
         array('AlgEquiv', '', '(2*pi)*(m/k)^(1/2)', '(2*pi)/(k/m)^(1/2)', 1, '', ''),
         array('AlgEquiv', '', 'sqrt(2*x/10+1)', 'sqrt((2*x+10)/10)', 1, '', ''),
         array('AlgEquiv', '', '((x+3)^2*(x+3))^(1/3)', '((x+3)*(x^2+6*x+9))^(1/3)', 1, '', ''),
+        array('AlgEquiv', '', '((x+3)^2*(x+3))^(1/3)', '((x+3)*(x^2+6*x+9))^(1/3)', 1, '', 'Need to factor internally.'),
 
         array('AlgEquiv', '', 'rationalized(1+sqrt(3)/3)', 'true', 1, 'ATLogic_True', 'Bad things in denominators'),
         array('AlgEquiv', '', 'rationalized(1+1/sqrt(3))', '[sqrt(3)]', 1, '', ''),
@@ -186,12 +189,12 @@ class stack_answertest_test_data {
         array('AlgEquiv', '', '{x-1=0,x>1 and 5>x}', '{x>1 and x<5,x=1}', 1, '', ''),
         array('AlgEquiv', '', '{x-1=0,x>1 and 5>x}', '{x>1 and x<5,x=2}', 0, 'ATSet_wrongentries.', ''),
         array('AlgEquiv', '', '{x-1=0,x>1 and 5>x}', '{x>1 and x<3,x=1}', 0, 'ATSet_wrongentries.', ''),
-        array('AlgEquiv', '', '{-sqrt(2)/sqrt(3)}', '{-2/sqrt(6)}', -2, 'ATSet_wrongentries.',
+        array('AlgEquiv', '', '{-sqrt(2)/sqrt(3)}', '{-2/sqrt(6)}', -3, 'ATSet_wrongentries.',
             'Equivalence for elements of sets is different from expressions: see docs.'),
-        array('AlgEquiv', '', '{[-sqrt(2)/sqrt(3),0],[2/sqrt(6),0]}', '{[2/sqrt(6),0],[-2/sqrt(6),0]}', -2,
+        array('AlgEquiv', '', '{[-sqrt(2)/sqrt(3),0],[2/sqrt(6),0]}', '{[2/sqrt(6),0],[-2/sqrt(6),0]}', -3,
             'ATSet_wrongentries.', ''),
         array('AlgEquiv', '', 'ev(radcan({-sqrt(2)/sqrt(3)}),simp)', 'ev(radcan({-2/sqrt(6)}),simp)', 1, '', ''),
-        array('AlgEquiv', '', '{(x-a)^6000}', '{(a-x)^6000}', -2, 'ATSet_wrongentries.', ''),
+        array('AlgEquiv', '', '{(x-a)^6000}', '{(a-x)^6000}', -3, 'ATSet_wrongentries.', ''),
         array('AlgEquiv', '', '{(k+8)/(k^2+4*k-12),-(2*k+6)/(k^2+4*k-12)}', '{(k+8)/(k^2+4*k-12),-(2*k+6)/(k^2+4*k-12)}',
             1, '', ''),
 
@@ -352,16 +355,15 @@ class stack_answertest_test_data {
         array('AlgEquiv', '', 'cos(x)*cos(2*x)*cos(3*x)', 'product(cos(k*x),k,1,3)', 1, '', ''),
         array('AlgEquiv', '', 'cos(x)*cos(2*x)', 'product(cos(k*x),k,1,3)', 0, '', ''),
         array('AlgEquiv', '', '9.81*m/s^2', 'stackunits(9.81,m/s^2)', 1, '', 'Scientific units are ignored'),
-        array('AlgEquiv', '', '2/%i*ln(sqrt((1+z)/2)+%i*sqrt((1-z)/2))', '-%i*ln(z+i*sqrt(1-z^2))', -2,
+        array('AlgEquiv', '', '2/%i*ln(sqrt((1+z)/2)+%i*sqrt((1-z)/2))', '-%i*ln(z+i*sqrt(1-z^2))', -3,
             '', 'These currently fail'),
-        array('AlgEquiv', '', '(-1)^n*cos(x)^n', '(-cos(x))^n', -2, '', ''),
-        array('AlgEquiv', '', '-inf', 'minf', -2, 'CASError: sign: sign of und is undefined.', ''),
-        array('AlgEquiv', '', '(sqrt(108)+10)^(1/3)-(sqrt(108)-10)^(1/3)', '2', -2, '', ''),
-        array('AlgEquiv', '', '(sqrt(2+sqrt(2))+sqrt(2-sqrt(2)))/(2*sqrt(2))', 'sqrt(sqrt(2)+2)/2', -2, '', ''),
-        array('AlgEquiv', '', 'a*(1+sqrt(2))=b', 'a=b*(sqrt(2)-1)/3', -2, 'ATEquation_default', ''),
-        array('AlgEquiv', '', 'sqrt(2*x/10+1)', 'sqrt((2*x+10)/10)', -2, '', ''),
-        array('AlgEquiv', '', 'atan(1/2)', '%pi/2-atan(2)', -2, '', 'This is only equivalent for x>=0...', ''),
-        array('AlgEquiv', '', '((x+3)^2*(x+3))^(1/3)', '((x+3)*(x^2+6*x+9))^(1/3)', -2, '', 'Need to factor internally.'),
+        array('AlgEquiv', '', '(-1)^n*cos(x)^n', '(-cos(x))^n', -3, '', ''),
+        array('AlgEquiv', '', '-inf', 'minf', -3, 'CASError: sign: sign of und is undefined.', ''),
+        array('AlgEquiv', '', '(sqrt(108)+10)^(1/3)-(sqrt(108)-10)^(1/3)', '2', -3, '', ''),
+        array('AlgEquiv', '', '(sqrt(2+sqrt(2))+sqrt(2-sqrt(2)))/(2*sqrt(2))', 'sqrt(sqrt(2)+2)/2', -3, '', ''),
+        array('AlgEquiv', '', 'a*(1+sqrt(2))=b', 'a=b*(sqrt(2)-1)/3', -3, 'ATEquation_default', ''),
+        array('AlgEquiv', '', 'atan(1/2)', '%pi/2-atan(2)', -3, '', 'This is only equivalent for x>=0...', ''),
+        array('AlgEquiv', '', 'asinh(x)', 'ln(x+sqrt(x^2+1))', -3, '', 'This is true for all x...', ''),
 
         array('AlgEquiv', '', 'A and B', 'B and A', 1, 'ATLogic_True', 'Logical expressions'),
         array('AlgEquiv', '', 'A and B', 'C and A', 0, '', ''),
@@ -935,6 +937,8 @@ class stack_answertest_test_data {
         // Various forms of inverse hyperbolic forms of the integrals.  Consider int(1/(x^2-a^2),x).
         array('Int', 'x', 'log(x-3)/6-log(x+3)/6+c', 'log(x-3)/6-log(x+3)/6', 1, 'ATInt_true_equiv.',
             'Inverse hyperbolic integrals'),
+        array('Int', 'x', 'asinh(x)', 'ln(x+sqrt(x^2+1))', 0, 'ATInt_const.', ''),
+        array('Int', 'x', 'asinh(x)+c', 'ln(x+sqrt(x^2+1))', 1, 'ATInt_true.', ''),
         array('Int', 'x', '-acoth(x/3)/3', 'log(x-3)/6-log(x+3)/6', 0, 'ATInt_const.', ''),
         array('Int', '[x, NOCONST]', '-acoth(x/3)/3', 'log(x-3)/6-log(x+3)/6', 1, 'ATInt_true.', ''),
         array('Int', 'x', '-acoth(x/3)/3+c', 'log(x-3)/6-log(x+3)/6', 1, 'ATInt_true.', ''),
@@ -944,6 +948,7 @@ class stack_answertest_test_data {
         array('Int', 'x', '-acoth(x/a)/a+c', 'log(abs(x-a))/(2*a)-log(abs(x+a))/(2*a)', 1, 'ATInt_true.', ''),
         array('Int', 'x', 'log(x-a)/(2*a)-log(x+a)/(2*a)+c', 'log(abs(x-a))/(2*a)-log(abs(x+a))/(2*a)', 0,
             'ATInt_EqFormalDiff. ATInt_logabs.', ''),
+
         array('Int', 'x', 'log(x-3)/6-log(x+3)/6+c', '-acoth(x/3)/3', 1, 'ATInt_true.', ''),
         array('Int', 'x', 'log(abs(x-3))/6-log(abs(x+3))/6+c', '-acoth(x/3)/3', 1, 'ATInt_true.', ''),
         array('Int', 'x', 'log(x-3)/6-log(x+3)/6', '-acoth(x/3)/3', 0, 'ATInt_const.', ''),
@@ -954,7 +959,7 @@ class stack_answertest_test_data {
         array('Int', 'x', 'atan((x-1)/(x-2))', 'atan(2*x-3)', 0, 'ATInt_generic.', ''),
         // These onse currently fail for mathematical reasons.
         array('Int', 'x', '2/3*sqrt(3)*(atan(sin(x)/(sqrt(3)*(cos(x)+1)))-(atan(sin(x)/(cos(x)+1))))+x/sqrt(3)',
-            '2*atan(sin(x)/(sqrt(3)*(cos(x)+1)))/sqrt(3)', -2, 'ATInt_const.', 'Stoutemyer (currently fails)'),
+            '2*atan(sin(x)/(sqrt(3)*(cos(x)+1)))/sqrt(3)', -3, 'ATInt_const.', 'Stoutemyer (currently fails)'),
 
         array('GT', '', '1/0', '1', -1, 'CASError: Division by zero. | ATGT_STACKERROR_SAns.', ''),
         array('GT', '', '1', '1/0', -1, 'CASError: Division by zero. | ATGT_STACKERROR_TAns.', ''),
@@ -1370,7 +1375,7 @@ class stack_answertest_test_data {
         array('Units', '4', '2640*ft', '0.5*mi', 1, 'ATUnitsSigFigs_WithinRange. ATUnits_compatible_units: in.', ''),
         array('Units', '4', '2650*ft', '0.5*mi', 0,
             'ATUnitsSigFigs_WithinRange. ATNumSigFigs_VeryInaccurate. ATUnits_compatible_units: in.', ''),
-        array('Units', '4', '142.8*C', '415.9*K', -2, 'ATNumSigFigs_VeryInaccurate. ATUnits_incompatible_units.', 'TODO'),
+        array('Units', '4', '142.8*C', '415.9*K', -3, 'ATNumSigFigs_VeryInaccurate. ATUnits_incompatible_units.', 'TODO'),
 
         array('UnitsStrict', '2', '25*g', '0.025*kg', 0, 'ATUnits_compatible_units: kg.', 'Differences from the Units test only'),
         array('UnitsStrict', '1', '1*Mg/10^6', '1*N*s^2/(km)', 0, 'ATUnits_compatible_units: kg.', ''),
@@ -1562,25 +1567,45 @@ class stack_answertest_test_data {
 
         $anomalynote = array();
         $passed = true;
-        if ($rawmark !== $test->expectedscore) {
-            $passed = false;
-            if ($test->expectedscore >= 0) {
+        if ($test->expectedscore >= 0) {
+            if ($rawmark !== $test->expectedscore) {
+                $passed = false;
                 $anomalynote[] = '[SCORE]';
             }
-        }
+        } else {
+            // We expect the test to fail.
+            switch ($test->expectedscore) {
+                case -1: 
+                    if ($errors === 'TEST_FAILED') {
+                        $passed = true;
+                    } else {
+                        $passed = false;
+                        $anomalynote[] = '[Expected test to fail!]';
+                    }
+                    break;
 
-        // The test failed, and we expected it to fail.
-        if ($errors === 'TEST_FAILED') {
-            if (-1 === $test->expectedscore) {
-                $passed = true;
-            } else {
-                $passed = false;
-                $anomalynote[] = '[Expected test to fail!]';
-            }
-        }
-        // These tests are all expected to fail, so we make them all pass.
-        if (-2 === $test->expectedscore) {
-            $passed = true;
+                case -2:
+                    if ($rawmark) {
+                        $passed = true;
+                    } else {
+                        $passed = false;
+                        $anomalynote[] = '[Expected maths failure: got 0, expected 1.]';
+                    }
+                    break;
+
+                case -3:
+                    if ($rawmark) {
+                        $passed = false;
+                        $anomalynote[] = '[Expected maths failure: got 1, expected 0.]';
+                    } else {
+                        $passed = true;
+                    }
+                    break;
+
+                default: 
+                    $passed = false;
+                    $anomalynote[] = '[General failure.]';
+                }
         }
 
         if (!($ansnote === $test->ansnote)) {

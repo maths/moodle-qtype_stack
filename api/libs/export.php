@@ -179,7 +179,8 @@ class qtype_stack_api_export
         $this->property($res['T'], 'next_node', $nextnode, 'string', $section);
         $this->property($res['T'], 'answer_note', $node->trueanswernote, 'string', $section);
         $this->property($res['T'], 'feedback_html', $node->truefeedback->text, 'string', $section);
-        // False branch.
+
+        # false branch
         $section = 'branch-F';
         $res['F'] = array();
         $this->property($res['F'], 'score_mode', $node->falsescoremode, 'string', $section);

@@ -1,5 +1,5 @@
-## default settings
-## At runtime, these will be merged into the user configuration if not present
+## Default settings for STACK questions.
+## At runtime, these will be merged into the user configuration if not present.
 
 default_mark: 1
 

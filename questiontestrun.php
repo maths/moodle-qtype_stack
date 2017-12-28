@@ -69,9 +69,18 @@ $qbankparams['lastchanged'] = $question->id;
 if ($questiondata->hidden) {
     $qbankparams['showhidden'] = 1;
 }
+
+// Create some other useful links.
+$yamlparams = $urlparams;
+$yamlparams['exportformat'] = 'yaml';
+$urlparams['exportformat'] = 'xml';
+
 $questionbanklink = new moodle_url('/question/edit.php', $qbankparams);
 $exportquestionlink = new moodle_url('/question/type/stack/exportone.php', $urlparams);
 $exportquestionlink->param('sesskey', sesskey());
+$yamlquestionlink = new moodle_url('/question/type/stack/exportone.php', $yamlparams);
+$yamlquestionlink->param('sesskey', sesskey());
+
 
 // Create the question usage we will use.
 $quba = question_engine::make_questions_usage_by_activity('qtype_stack', $context);
@@ -402,7 +411,9 @@ echo html_writer::tag('p', html_writer::link($questionbanklink,
 
 if ($canedit) {
     echo html_writer::tag('p',
-            html_writer::link($exportquestionlink, stack_string('exportthisquestion')) .
+            stack_string('exportthisquestion') . ' ' .
+            html_writer::link($exportquestionlink, 'XML') . ' ' .
+            html_writer::link($yamlquestionlink, 'YAML') .
             $OUTPUT->help_icon('exportthisquestion', 'qtype_stack'));
 }
 

@@ -151,6 +151,21 @@ $string['inputtypematrix'] = 'Matrix';
 $string['inputtypenotes'] = 'Notes';
 $string['inputtypeunits'] = 'Units';
 $string['inputtypeequiv'] = 'Equivalence reasoning';
+$string['inputtypestring'] = 'String';
+$string['inputtypenumerical'] = 'Numerical';
+$string['numericalinputvarsforbidden'] = 'This input expects a number, and so may not contain variables.';
+$string['numericalinputmustfloat'] = 'This input expects a floating point number.';
+$string['numericalinputmustrational'] = 'This input expects a fraction or rational number.';
+$string['numericalinputdp'] = 'You must supply exactly \( {$a} \) decimal places.';
+$string['numericalinputsf'] = 'You must supply exactly \( {$a} \) significant figures.';
+$string['numericalinputmindp'] = 'You must supply at least \( {$a} \) decimal places.';
+$string['numericalinputmaxdp'] = 'You must supply at most \( {$a} \) decimal places.';
+$string['numericalinputminsf'] = 'You must supply at least \( {$a} \) significant figures.';
+$string['numericalinputmaxsf'] = 'You must supply at most \( {$a} \) significant figures.';
+$string['numericalinputminmaxerr'] = 'The required minimum number of numerical places exceeds the maximum number of places!';
+$string['numericalinputminsfmaxdperr'] = 'Do not specify requirements for both decimal places and significant figures in the same input.';
+$string['numericalinputoptinterr'] = 'The value of the option <code>{$a->opt}</code> should be an integer, but in fact it is <code>{$a->val}</code>.';
+$string['numericalinputoptboolerr'] = 'The value of the option <code>{$a->opt}</code> should be boolean, but in fact it is <code>{$a->val}</code>.';
 $string['inputwillberemoved'] = 'This input is no longer referred to in the question text. If you save the question now, the data about this input will be lost. Please confirm that you want to do this. Alternatively edit the question text to put back the \'[[input:{$a}]]\' and \'[[validation:{$a}]]\' placeholders.';
 $string['insertstars'] = 'Insert stars';
 $string['insertstars_help'] = 'This option provides a number of different options for inserting stars where multiplication is implied.  Please read the more detailed documentation.';
@@ -422,7 +437,7 @@ $string['deploytestall'] = 'Run all tests on all deployed variants (slow): ';
 $string['editingtestcase'] = 'Editing test case {$a->no} for question {$a->question}';
 $string['editthistestcase'] = 'Edit this test case...';
 $string['expectedanswernote'] = 'Expected answer note';
-$string['expectedoutcomes'] = 'Expected outcomes';
+$string['expectedoutcomes'] = 'Expected PRT outcomes: [inputs used]';
 $string['expectedpenalty'] = 'Expected penalty';
 $string['expectedscore'] = 'Expected score';
 $string['exportthisquestion'] = 'Export this question';
@@ -493,7 +508,7 @@ $string['healthchecksampledisplaytex'] = '\[\sum_{n=1}^\infty \frac{1}{n^2} = \f
 $string['healthchecksampleinlinetex'] = '\(\sum_{n=1}^\infty \frac{1}{n^2} = \frac{\pi^2}{6}\).';
 $string['healthcheckplots'] = 'Graph plotting';
 $string['healthcheckplotsintro'] = 'There should be two different plots.  If two identical plots are seen then this is an error in naming the plot files. If no errors are returned, but a plot is not displayed then one of the following may help.  (i) check read permissions on the two temporary directories. (ii) change the options used by GNUPlot to create the plot. Currently there is no web interface to these options.';
-$string['healthchecksampleplots'] = 'Two example plots below.  {@plot([x^4/(1+x^4),diff(x^4/(1+x^4),x)],[x,-3,3])@} {@plot([sin(x),x,x^2,x^3],[x,-3,3],[y,-3,3],grid2d)@}  A third plot may be displayed here with traditional axes.  (Newer versions of Maxima only.) {@plot([sin(x),x,x^2,x^3],[x,-3,3],[y,-3,3],[box, false],[yx_ratio, 1],[axes, solid],[xtics, -3, 1, 3],[ytics, -3, 1, 3])@}';
+$string['healthchecksampleplots'] = 'Two example plots below.  {@plot([x^4/(1+x^4),diff(x^4/(1+x^4),x)],[x,-3,3])@} {@plot([sin(x),x,x^2,x^3],[x,-3,3],[y,-3,3],grid2d)@}  A third, smaller, plot may be displayed here with traditional axes.  (Newer versions of Maxima only.) {@plot([sin(x),x,x^2,x^3],[x,-3,3],[y,-3,3],[box, false],[yx_ratio, 1],[axes, solid],[xtics, -3, 1, 3],[ytics, -3, 1, 3],[size,250,250])@}';
 $string['healthchecksstackmaximaversion'] = 'Maxima version';
 $string['healthchecksstackmaximaversionfixoptimised'] = 'Please <a href="{$a->url}">rebuild your optimised Maxima executable</a>.';
 $string['healthchecksstackmaximaversionfixserver'] = 'Please rebuild the Maxima code on your MaximaPool server.';
@@ -512,6 +527,8 @@ $string['healthuncachedstack_CAS_calculation'] = 'Expected CAS calculation : {$a
 $string['healthunabletolistavail'] = 'Platform type not currently set to "unix", so unable to list available versions of Maxima.';
 $string['healthautomaxopt'] = 'Automatically create an optimised Maxima image';
 $string['healthautomaxoptintro'] = 'For best performance we need to optimize maxima on a linux machine.  See the <a href="doc/doc.php/CAS/Optimising_Maxima.md">documentation</a> on this issue.';
+$string['healthautomaxopt_succeeded'] = 'Create Optimised Maxima Image SUCCEEDED';
+$string['healthautomaxopt_failed'] = 'Create Optimised Maxima Image FAILED : [{$a->errmsg}]';
 $string['healthautomaxopt_ok'] = 'Maxima image created at: <tt>{$a->command}</tt>';
 $string['healthautomaxopt_notok'] = 'Maxima image not created automatically.';
 $string['healthautomaxopt_nolisp'] = 'Unable to determine LISP version, so Maxima image not created automatically.';
@@ -705,6 +722,7 @@ $string['ATInequality_backwards']       = 'Your inequality appears to be backwar
 
 $string['ATLowestTerms_wrong']          = 'You need to cancel fractions within your answer. ';
 $string['ATLowestTerms_entries']        = 'The following terms in your answer are not in lowest terms.  {$a->m0} Please try again.  ';
+$string['ATLowestTerms_not_rat']        = 'You must clear the following from the denominator of your fraction: {$a->m0}';
 
 $string['ATList_wronglen']              = 'Your list should have {$a->m0} elements, but it actually has {$a->m1}. ';
 $string['ATList_wrongentries']          = 'The entries underlined in red below are those that are incorrect. {$a->m0} ';

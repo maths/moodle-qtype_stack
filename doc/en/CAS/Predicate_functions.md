@@ -38,7 +38,9 @@ The following type predicates are defined by STACK.
 | `expressionp(ex)`         | Determines if \(ex\) is _not_ a matrix, list, set, equation, function or inequality.
 | `polynomialsimpp(ex)`     | Determines if \(ex\) is a polynomial in its own variables.
 | `simp_numberp(ex)`        | Determines if \(ex\) is a number when `simp:false`.
+| `simp_integerp(ex)`       | Determines if \(ex\) is an integer when `simp:false`.
 | `real_numberp(ex)`        | Determines if \(ex\) is a real number.
+| `rational_numberp(ex)`    | Determines if \(ex\) is a rational number.
 | `lowesttermsp(ex)`        | Determines if a fraction \(ex\) is in lowest terms.
 
 
@@ -65,6 +67,12 @@ The following are defined by STACK.
 | `diffp(ex,v,xp,[n]) `     | true if \(ex\) is (optionally \(n\) times) differentiable with respect to \(v\) at \(xp\) (unreliable).
 
 The last two functions rely on Maxima's `limit` command and hence are not robust.
+
+# Related functions #
+
+This is not, strictly speaking, a predicate function.  It is common to want to ensure that a student's expression is free of things like \(\sqrt{2}\), \(a^{1/2}\) or \(1+\sqrt[3]{2}\) in the denominator.  This include any complex numbers.
+
+`rationalized(ex)` searches across the whole expression `ex` and looks in the denominators of any fractions.  If the denominators are free of such things the function returns `true` otherwise the function returns the list of offending expressions.  This design allows efficient feedback of the form ``the denominator in your expression should be free of the following: ...".
 
 ## See also
 

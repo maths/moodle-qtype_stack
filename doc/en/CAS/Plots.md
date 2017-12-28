@@ -29,6 +29,8 @@ Notes:
 * Currently STACK has `gnuplot` return a basic SVG image.
 * Only a very few of Maxima's `plot_options` are respected by `plot`, mainly for security reasons.  (`plot` calls an external command `gnuplot` which writes to the server filesystem.)
 * The `draw` package is currently not supported.
+* To change the size of the image use the Maxima variable `size`, e.g. `plot(x^2,[x,-1,1],[size,250,250])`.
+* By default plots are surrounded by the `<div class="stack_plot">`.  This puts whitespace around a plot, and places the plot in the centre of the screen.  To suppress this `div` use the option `[plottags,false]`.
 
 ## Traditional axes
 
@@ -117,6 +119,33 @@ The following CAStext gives representative examples of the plot2d features suppo
     <h3>Putting the axes in the middle</h3>
     {@plot([x^2/(1+x^2),2*x/(1+x^2)^2], [x, -2, 2], [y,-2.1,2.1], [box, false], [yx_ratio, 1], [axes, solid], [xtics, -2, 0.5, 2],[ytics, -2, 0.5, 2])@}
 
+## Piecewise functions
+
+A piecewise function can be defined with `if` statements.  Note the use of a small gap to create a discontinuous graph.  If you want a larger gap, that is fine as well.
+
+    /* Piecewise function at x0, with discontinuity. */
+    f0:x^3
+    f1:sin(x)
+    x0:2
+    pg1:if x<(x0-1/1000) then f0 else if x<x0+1/1000 then 5000 else f1;
+
+Now use the CASText:
+
+    {@plot(pg1,[x,(x0-5),(x0+5)],[y,-10,10])@}
+
+For a discontinuous function, with the endpoints circled etc. try adding some of the following options.
+
+    f0:x^3
+    f1:sin(x)
+    x0:2
+    pg1:if x<(x0-1/1000) then f0 else if x<x0+1/1000 then 5000 else f1;
+    ps:[style, lines, points, points];
+    pt:[point_type,circle,circle,bullet];
+    pc:[color, blue,red,blue];
+
+Now use the CASText:
+
+    {@plot([pg1, [discrete,[ [x0,ev(f0,x=x0)], [x0,ev(f1,x=x0)]]], [discrete,[ [x0,ev((f0+f1)/2,x=x0)]]] ], [x,(x0-5),(x0+5)], [y,-10,10], ps, pt, pc)@}
 
 ## implicit_plot()  {#implicit}
 

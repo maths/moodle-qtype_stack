@@ -32,7 +32,7 @@ class stack_cas_configuration {
     protected static $instance = null;
 
     /** @var This variable controls which optional packages are supported by STACK. */
-    public static $maximalibraries = array('stats', 'distrib', 'descriptive');
+    public static $maximalibraries = array('stats', 'distrib', 'descriptive', 'simplex');
 
     protected $settings;
 
@@ -71,12 +71,13 @@ class stack_cas_configuration {
         $this->blocksettings['maxima_tempdir'] = stack_utils::convert_slash_paths($CFG->dataroot . '/stack/tmp/');
         $this->blocksettings['IMAGE_DIR']     = stack_utils::convert_slash_paths($CFG->dataroot . '/stack/plots/');
 
+        $this->blocksettings['PLOT_SIZE'] = '[450,300]';
         // These are used by the GNUplot "set terminal" command. Currently no user interface...
         $this->blocksettings['PLOT_TERMINAL'] = 'png';
-        $this->blocksettings['PLOT_TERM_OPT'] = 'large transparent size 450,300';
+        $this->blocksettings['PLOT_TERM_OPT'] = 'large transparent';
         $this->blocksettings['PLOT_TERMINAL'] = 'svg';
         // Note, the quotes need to be protected below.
-        $this->blocksettings['PLOT_TERM_OPT'] = 'size 480,300 dynamic font \",12\" linewidth 1.2';
+        $this->blocksettings['PLOT_TERM_OPT'] = 'dynamic font \",11\" linewidth 1.2';
 
         if ($this->settings->platform === 'win') {
             $this->blocksettings['DEL_CMD']     = 'del';
@@ -221,10 +222,17 @@ STACK_SETUP(ex):=block(
 
 END;
         foreach ($this->blocksettings as $name => $value) {
-            $contents .= <<<END
+            if ($name == 'PLOT_SIZE') {
+                $contents .= <<<END
+    {$name}:{$value},
+
+END;
+            } else {
+                $contents .= <<<END
     {$name}:"{$value}",
 
 END;
+            }
         }
         $contents .= stack_cas_casstring_units::maximalocal_units();
         $contents .= <<<END
@@ -368,7 +376,8 @@ END;
         $config = get_config('qtype_stack');
             // Do not try to generate the optimised image on MS platforms.
         if ($config->platform == 'win') {
-            return false;
+            $errmsg = "Microsoft Windows version cannot be optimised";
+            return array(false, $errmsg);
         }
 
         /*
@@ -379,6 +388,10 @@ END;
         $oldmaximacommand = $config->maximacommand;
         set_config('platform', 'unix', 'qtype_stack');
         set_config('maximacommand', '', 'qtype_stack');
+        stack_utils::get_config()->platform = 'unix';
+        stack_utils::get_config()->maximacommand = '';
+        self::get_instance()->settings->platform = 'unix';
+        self::get_instance()->settings->maximacommand = '';
 
         // Try to make a new version of the maxima local file.
         self::create_maximalocal();
@@ -389,6 +402,7 @@ END;
         if (strpos($genuinedebug, 'eval_string not found') > 0) {
             // If so, get rid of the libraries and try again.
             set_config('maximalibraries', '', 'qtype_stack');
+            stack_utils::get_config()->maximalibraries = '';
             list($message, $genuinedebug, $result) = stack_connection_helper::stackmaxima_genuine_connect();
         }
 
@@ -401,6 +415,10 @@ END;
             if ($result) {
                 set_config('platform', 'unix-optimised', 'qtype_stack');
                 set_config('maximacommand', $commandline, 'qtype_stack');
+                stack_utils::get_config()->platform = 'unix-optimised';
+                stack_utils::get_config()->maximacommand = $commandline;
+                self::get_instance()->settings->platform = 'unix-optimised';
+                self::get_instance()->settings->maximacommand = $commandline;
                 // We need to regenerate this file to supress stackmaxima.mac and libraries being reloaded.
                 self::create_maximalocal();
 
@@ -409,19 +427,30 @@ END;
                 $ts = new stack_cas_session(array($cs));
                 $ts->instantiate();
                 if ($ts->get_value_key('a') != '2') {
+                    $errors = $ts->get_errors();
+                    $errmsg = "Evaluation test failed, errors:$errors";
                     $revert = true;
                 }
             } else {
+                $errmsg = "Automake failed";
                 $revert = true;
             }
         } else {
+            $errmsg = "Uncached connection failed.";
             $revert = true;
         }
 
         if ($revert) {
             set_config('platform', $oldplatform, 'qtype_stack');
             set_config('maximacommand', $oldmaximacommand , 'qtype_stack');
+            stack_utils::get_config()->platform = $oldplatform;
+            stack_utils::get_config()->maximacommand = $oldmaximacommand;
+            self::get_instance()->settings->platform = $oldplatform;
+            self::get_instance()->settings->maximacommand = $oldmaximacommand;
             self::create_maximalocal();
+            return array(false, $errmsg);
+        } else {
+            return array(true, "DONE.");
         }
     }
 }

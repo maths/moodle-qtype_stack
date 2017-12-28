@@ -99,6 +99,19 @@ How do we do the following in Maxima?
 
      factor(radcan((x-1)*(k*(x-1))^a))
 
+## Creating sequences and series
+
+One problem is that `makelist` needs simplification.  To create sequences/series, try something like the following
+
+    an:(-1)^n*2^n/n!
+    N:8
+    S1:ev(makelist(k,k,1,N),simp)
+    S2:maplist(lambda([ex],ev(an,n=ex)),S1)
+    S3:ev(S2,simp)
+    S4apply("+",S3)
+
+Of course, to print out one line in the worked solution you can also `apply("+",S2)` as well.
+
 ## Boolean functions
 
 Maxima has Boolean operators `and`, `or`, and `not`.  These rely on the underlying LISP implementation and as a result the `simp:false` is ignored.  To illustrate the problem, try the following.

@@ -37,6 +37,43 @@ class stack_subscript_testcase extends qtype_stack_testcase {
      * @dataProvider stack_subscripts_test_data::get_raw_test_data
      */
     public function test_subscripts() {
+        $this->skip_if_old_maxima('5.40.0');
+
+        $test1 = stack_subscripts_test_data::test_from_raw(func_get_args());
+        $resultfalse = stack_subscripts_test_data::run_test($test1, false);
+
+        $test2 = stack_subscripts_test_data::test_from_raw(func_get_args());
+        $resulttrue = stack_subscripts_test_data::run_test($test2, true);
+
+        if ('invalid' == $resultfalse->maxima) {
+            $this->assertFalse($resultfalse->valid);
+        } else {
+            $this->assertEquals($resultfalse->maxima, $resultfalse->value);
+            $this->assertEquals($resultfalse->tex, $resultfalse->display);
+        }
+
+        if ('invalid' == $resulttrue->maxima) {
+            $this->assertFalse($resulttrue->valid);
+        } else {
+            $target = $resulttrue->maxima;
+            if ($resulttrue->maximasimp != '!') {
+                $target = $resulttrue->maximasimp;
+            }
+            $this->assertEquals($target, $resulttrue->value);
+            $target = $resulttrue->tex;
+            if ($resulttrue->maximasimp != '!') {
+                $target = $resulttrue->texsimp;
+            }
+            $this->assertEquals($target, $resulttrue->display);
+        }
+    }
+
+    /**
+     * @dataProvider stack_subscripts_test_data::get_raw_test_data_legacy
+     */
+    public function test_subscripts_legacy_maxima() {
+        $this->skip_if_new_maxima('5.40.0');
+
         $test1 = stack_subscripts_test_data::test_from_raw(func_get_args());
         $resultfalse = stack_subscripts_test_data::run_test($test1, false);
 

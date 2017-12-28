@@ -98,6 +98,22 @@ The question text can then be
 
 This indexing with the variable `idx` is quite robust.  Note that indexes in Maxima start at \(1\), whereas `rand(n)` could return zero.
 
+## Random objects satisfying a condition.
+
+It is often necessary to create random objects which satisfy constraints.  For example, if you want to randomly generate a "small" prime number, just select one from a list.
+
+    p:rand([2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97]);
+
+It is much better to (i) enumerate specific cases or (ii) reverse engineer the question to avoid conditional statements than randomly generate examples and "hope" one pops up eventually.  The reason is that the pseudo random number generator will repeat the process from a seed _every time_ the question is generated!  If you put in loops, this could risk delays and time-outs etc.
+
+The following is NOT RECOMMENDED, but enough people have insisted on doing it to document this approach.
+
+If you must (and you risk an infinite loop of course....) you can use Maxima's `for` command.  A simple example is as follows.
+
+    q:1;
+    for k while not(is(primep(q))) do block(q:rand(98)+1);
+
+
 ## See also
 
 [Maxima reference topics](index.md#reference).

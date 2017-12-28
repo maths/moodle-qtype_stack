@@ -24,6 +24,10 @@ defined('MOODLE_INTERNAL') || die();
  */
 class stack_algebraic_input extends stack_input {
 
+    protected $extraoptions = array(
+        'rationalized' => false
+    );
+
     public function render(stack_input_state $state, $fieldname, $readonly, $tavalue) {
 
         if ($this->errors) {
@@ -81,7 +85,8 @@ class stack_algebraic_input extends stack_input {
             'allowWords'         => '',
             'forbidFloats'       => true,
             'lowestTerms'        => true,
-            'sameType'           => true);
+            'sameType'           => true,
+            'options'            => '');
     }
 
     /**

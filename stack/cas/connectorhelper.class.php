@@ -302,6 +302,7 @@ abstract class stack_connection_helper {
                 'cte("CASresult",errcatch(diff(x^n,x))), print("1=[ error= ["), ' .
                 'cte("STACKversion",errcatch(stackmaximaversion)), print("2=[ error= ["), ' .
                 'cte("MAXIMAversion",errcatch(MAXIMA_VERSION_STR)), print("3=[ error= ["), ' .
+                'cte("MAXIMAversionnum",errcatch(MAXIMA_VERSION_NUM)), print("4=[ error= ["), ' .
                 'cte("CAStime",errcatch(CAStime:"'.$date.'")), print("] ]"), return(true));' .
                 "\n";
 
@@ -314,6 +315,12 @@ abstract class stack_connection_helper {
             $message[] = stack_string('stackCas_allFailed');
             $success = false;
         } else {
+            $maximaversionum = 'unknown number';
+            foreach ($results as $result) {
+                if ('MAXIMAversionnum' === $result['key']) {
+                    $maximaversionum = $result['value'];
+                }
+            }
             foreach ($results as $result) {
                 if ('CASresult' === $result['key']) {
                     if ($result['value'] != 'n*x^(n-1)') {
@@ -326,16 +333,15 @@ abstract class stack_connection_helper {
                         $success = false;
                     }
                 } else if ('MAXIMAversion' === $result['key']) {
+                    $maximaversionstr = $result['value'] . ' ('.$maximaversionum.')';
                     if ('default' == $maximaversion) {
                         $message[] = stack_string('healthuncachedstack_CAS_versionnotchecked',
-                                array('actual' => $result['value']));
+                                array('actual' => $maximaversionstr));
                     } else if ($result['value'] != '"'.$maximaversion.'"') {
                         $message[] = stack_string('healthuncachedstack_CAS_version',
-                                array('expected' => $maximaversion, 'actual' => $result['value']));
+                                array('expected' => $maximaversion, 'actual' => $maximaversionstr));
                         $success = false;
                     }
-                } else if ('STACKversion' !== $result['key']) {
-                    $success = false;
                 }
             }
         }

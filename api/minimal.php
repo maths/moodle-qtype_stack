@@ -3,15 +3,17 @@ error_reporting(E_ALL | E_STRICT);
 ini_set('display_errors', 1);
 ini_set('html_errors', 1);
 
-require_once(__DIR__ . '/config.php');
+// TODO: remove this page before relase of the API as part of STACK.
 
-require_once(__DIR__ . '/api/api.php');
-require_once(__DIR__ . '/api/libs/yaml.php');
-require_once(__DIR__ . '/api/libs/yaml_defaults.php');
-require_once(__DIR__ . '/api/libs/export.php');
-require_once(__DIR__ . '/api/libs/tools.php');
-require_once(__DIR__ . '/api/libs/validate.php');
-require_once(__DIR__ . '/question.php');
+require_once(__DIR__ . '/../config.php');
+
+require_once(__DIR__ . '/api.php');
+require_once(__DIR__ . '/libs/yaml.php');
+require_once(__DIR__ . '/libs/yaml_defaults.php');
+require_once(__DIR__ . '/libs/export.php');
+require_once(__DIR__ . '/libs/tools.php');
+require_once(__DIR__ . '/libs/validate.php');
+require_once(__DIR__ . '/../question.php');
 
 $api = new qtype_stack_api();
 
@@ -27,7 +29,7 @@ if ($questionyaml = array_key_exists('yaml', $_POST)) {
   $defaults = new qtype_stack_api_yaml_defaults(null);
   $api_yaml = new qtype_stack_api_yaml($yaml_string, $defaults);
   $questionarray = $api_yaml->get_question();
-  // TODO Max: there is a slight disconnec here between the names in the array, and
+  // TODO Max: there is a slight disconnect here between the names in the array, and
   // the expected values in $api->initialise_question($questionarray).
   print_r($questionarray);
   die();
@@ -36,9 +38,7 @@ if ($questionyaml = array_key_exists('yaml', $_POST)) {
 
 if (!$qsource && $questionParam =  array_key_exists('q', $_GET) ? $_GET['q'] : 'odd-even.xml') {
   $qsource = 'xml';
-  $questionxml = file_get_contents('samplequestions/' . $questionParam);
-  //$questionxml = file_get_contents('samplequestions/test_3_matrix.xml');
-  //$questionxml = file_get_contents('samplequestions/test_1_basic_integral.xml');
+  $questionxml = file_get_contents('../samplequestions/' . $questionParam);
   $question = $api->initialise_question_from_xml($questionxml);
 }
 

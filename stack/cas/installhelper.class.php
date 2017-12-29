@@ -127,7 +127,8 @@ class stack_cas_configuration {
             if (file_exists($plotcommand)) {
                 if (substr_count($plotcommand, ' ') === 0) {
                     $newplotlocation = stack_utils::convert_slash_paths($CFG->dataroot . '/stack/wgnuplot.bat');
-                    if (!file_put_contents($newplotlocation, $this->maxima_win_location() . "gnuplot/bin/wgnuplot.exe %1 %2 %3 %3 %5 %6 %7 \n\n")) {
+                    if (!file_put_contents($newplotlocation, $this->maxima_win_location() .
+                            "gnuplot/bin/wgnuplot.exe %1 %2 %3 %3 %5 %6 %7 \n\n")) {
                         throw new stack_exception('Failed to write wgnuplot batch file to:'. $newplotlocation);
                     }
                 } else {
@@ -198,7 +199,7 @@ class stack_cas_configuration {
             }
             return true;
         }
-        
+
         // If there are spaces within the pathname to the windows batch file we need to copy the batch file.
         if (!copy($batchfilename, $CFG->dataroot . '/stack/maxima.bat')) {
             throw new stack_exception('Could not copy the Maxima batch file ' . $batchfilename .

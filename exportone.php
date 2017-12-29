@@ -77,11 +77,14 @@ if ($exportformat == 'xml') {
   // Send the xml.
   send_file($content, $filename, 0, 0, true, true, $qformat->mime_type());
 }
-// Now add in the conversion to YAML.
-
+// Add in the conversion to YAML.
 $defaults = new qtype_stack_api_yaml_defaults(null);
+// We take the _site_ defaults here, not the YAML defaults.
+$settings = get_config('qtype_stack');
+$defaults->moodle_settings_to_yaml_defaults($settings);
+
 $export = new qtype_stack_api_export($content, $defaults);
-$yaml_string = $export->YAML();
+$yaml_string = $export->yaml();
 
 $rows = substr_count($yaml_string, "\n")+3;
 

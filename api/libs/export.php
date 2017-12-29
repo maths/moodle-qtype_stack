@@ -16,8 +16,7 @@
 
 require_once('input_values.php');
 
-class qtype_stack_api_export
-{
+class qtype_stack_api_export {
 
     private $defaults;
     private $question;
@@ -66,7 +65,7 @@ class qtype_stack_api_export
     }
 
     /**
-     * Exports question as yaml encoded string
+     * Exports question as yaml encoded string.
      * @return string
      */
     public function yaml() {
@@ -79,17 +78,28 @@ class qtype_stack_api_export
         self::property($yaml, 'default_mark', $q->defaultgrade, 'float', $section);
         self::property($yaml, 'question_html', $q->questiontext->text, 'string', $section);
         self::property($yaml, 'penalty', $q->penalty, 'float', $section);
-        self::property($yaml, 'variables', $q->questionvariables->text, 'string', $section);
-        self::property($yaml, 'specific_feedback_html', $q->specificfeedback->text, 'string', $section);
-        self::property($yaml, 'note', $q->questionnote->text, 'string', $section);
-        self::property($yaml, 'worked_solution_html', $q->generalfeedback->text, 'string', $section);
+        if (trim($q->questionvariables->text) != '') {
+            self::property($yaml, 'variables', $q->questionvariables->text, 'string', $section);
+        }
+        if (trim($q->specificfeedback->text) != '') {
+            self::property($yaml, 'specific_feedback_html', $q->specificfeedback->text, 'string', $section);
+        }
+        if (trim($q->questionnote->text) != '') {
+            self::property($yaml, 'note', $q->questionnote->text, 'string', $section);
+        }
+        if (trim($q->generalfeedback->text) != '') {
+            self::property($yaml, 'worked_solution_html', $q->generalfeedback->text, 'string', $section);
+        }
+        /* Note, we do not export the following because there are a mess with html tags...
         self::property($yaml, 'prt_correct_html', $q->prtcorrect->text, 'string', $section);
         self::property($yaml, 'prt_partially_correct_html', $q->prtpartiallycorrect->text, 'string', $section);
         self::property($yaml, 'prt_incorrect_html', $q->prtincorrect->text, 'string', $section);
+        */
 
         $section = 'options';
         $yaml['options'] = array();
 
+        // TODO: should these mappings be in qtype_stack_api_input_values?
         $options = array(
             'sqrtsign' => 'sqrt_sign',
             'assumepositive' => 'assume_positive',
@@ -109,17 +119,23 @@ class qtype_stack_api_export
         foreach ($options as $key => $value) {
             self::property($yaml['options'], $value, $q->$key, 'string', $section);
         }
+        // Everything is default?
+        if ($yaml['options'] === array()) {
+            unset($yaml['options']);
+        }
 
         // Process inputs.
         $this->processinputs($yaml);
         // Process trees.
         $this->processresponsetrees($yaml);
 
+        // TODO: export (& import) all the question tests....
+
         return yaml_emit($yaml, YAML_UTF8_ENCODING);
     }
 
     /**
-     * Process question input and returns it as array
+     * Process question input and returns it as an array.
      * @param SimpleXMLElement $input question input
      * @return array
      */

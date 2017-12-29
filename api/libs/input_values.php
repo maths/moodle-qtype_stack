@@ -22,7 +22,8 @@ class qtype_stack_api_input_values {
             'square' => '[',
             'round' => '(',
             'curly' => '{',
-            'bar' => '['
+            'bar' => '[',
+            'empty' => ''
         ),
         'insert_stars' => array(
             'none' => 0,

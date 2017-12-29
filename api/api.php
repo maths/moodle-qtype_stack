@@ -80,16 +80,7 @@ class qtype_stack_api {
         foreach ($question->inputs as $name => $input) {
             // Get the actual value of the teacher's answer at this point.
 
-            if (!$options->validate) { // Get hidden inputs for score.
-                $state = $question->get_input_state($name, $attempt);
-
-                $skipvalidation = stack_input::BLANK == $state->status ||
-                stack_input::INVALID == $state->status;
-
-                if (!$skipvalidation && $input->requires_validation() && '' !== $state->contents) {
-                    $attempt[$name.'_val'] = $input->contents_to_maxima($state->contents);
-                }
-            } if (!$options->validate) { // Get hidden inputs for score.
+            if (property_exists($options, 'validate') && !$options->validate) {
                 $state = $question->get_input_state($name, $attempt);
 
                 $skipvalidation = stack_input::BLANK == $state->status ||
@@ -279,7 +270,7 @@ class qtype_stack_api {
             $name = (string) $key;
             $nodes = array();
 
-            foreach ($prtdata['nodes'] as $nodedata) {
+            foreach ($prtdata['nodes'] as $nodename => $nodedata) {
                 $sans = new stack_cas_casstring((string) $nodedata['answer']);
                 $sans->get_valid('t');
                 $tans = new stack_cas_casstring((string) $nodedata['model_answer']);
@@ -296,7 +287,7 @@ class qtype_stack_api {
                     $truepenalty = (float) $nodedata['T']['penalty'];
                 }
 
-                $nodeid = (int) $nodedata['name'];
+                $nodeid = (int) $nodename;
                 $quiet = $nodedata['quiet'];
                 $node = new stack_potentialresponse_node($sans, $tans,
                         (string) $nodedata['answer_test'], (string) $nodedata['test_options'],

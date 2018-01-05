@@ -31,6 +31,8 @@ class stack_units_input extends stack_input {
      */
     protected $extraoptions = array(
         'negpow' => false,
+        // Automatically replace stackunits with * for the PRTs. Legacy questions only really.
+        'mul'   => false,
         // Require min/max number of decimal places?
         'mindp' => false,
         'maxdp' => false,
@@ -99,9 +101,9 @@ class stack_units_input extends stack_input {
             'lowestTerms'    => true,
             // The sameType option is ignored by this input type.
             // The answer is essantially required to be a number and units, other types are rejected.
-            'sameType'           => false,
+            'sameType'       => false,
             // Currently this can only be "negpow", or "mul".
-            'options'            => '',
+            'options'        => '',
         );
     }
 

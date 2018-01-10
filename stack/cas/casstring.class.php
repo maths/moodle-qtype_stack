@@ -667,7 +667,7 @@ class stack_cas_casstring {
     }
 
     private function check_constants($stringles) {
-        // Check for % signs, allow %pi %e, %i, %gamma, %phi but nothing else.
+        // Check for % signs, allow a restricted subset of things.
         if (strstr($stringles, '%') !== false) {
             $cmdl = strtolower($stringles);
             preg_match_all("(\%.*)", $cmdl, $found);
@@ -675,7 +675,9 @@ class stack_cas_casstring {
             foreach ($found[0] as $match) {
                 if (!((strpos($match, '%e') !== false) || (strpos($match, '%pi') !== false)
                     || (strpos($match, '%i') !== false) || (strpos($match, '%j') !== false)
-                    || (strpos($match, '%gamma') !== false) || (strpos($match, '%phi') !== false))) {
+                    || (strpos($match, '%gamma') !== false) || (strpos($match, '%phi') !== false)
+                    || (strpos($match, '%and') !== false) || (strpos($match, '%or') !== false)
+                    || (strpos($match, '%union') !== false))) {
                     // Constants %e and %pi are allowed. Any other percentages dissallowed.
                     $this->add_error(stack_string('stackCas_percent',
                             array('expr' => stack_maxima_format_casstring($this->casstring))));

@@ -670,20 +670,13 @@ class stack_cas_casstring {
         // Check for % signs, allow a restricted subset of things.
         if (strstr($stringles, '%') !== false) {
             $cmdl = strtolower($stringles);
-            preg_match_all("(\%.*)", $cmdl, $found);
+            preg_match_all("(\%(?!e|pi|i|j|gamma|phi|and|or|union).*)", $cmdl, $found);
 
             foreach ($found[0] as $match) {
-                if (!((strpos($match, '%e') !== false) || (strpos($match, '%pi') !== false)
-                    || (strpos($match, '%i') !== false) || (strpos($match, '%j') !== false)
-                    || (strpos($match, '%gamma') !== false) || (strpos($match, '%phi') !== false)
-                    || (strpos($match, '%and') !== false) || (strpos($match, '%or') !== false)
-                    || (strpos($match, '%union') !== false))) {
-                    // Constants %e and %pi are allowed. Any other percentages dissallowed.
-                    $this->add_error(stack_string('stackCas_percent',
-                            array('expr' => stack_maxima_format_casstring($this->casstring))));
-                    $this->answernote[] = 'percent';
-                    $this->valid   = false;
-                }
+                $this->add_error(stack_string('stackCas_percent',
+                        array('expr' => stack_maxima_format_casstring($this->casstring))));
+                $this->answernote[] = 'percent';
+                $this->valid   = false;
             }
         }
     }

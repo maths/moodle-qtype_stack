@@ -515,4 +515,5 @@ class qtype_stack_test extends qtype_stack_walkthrough_test_base {
         $this->assertEquals(array('prt1' => 2), $qtype->get_prt_names_from_question('[[feedback:prt1]]',
                 '[[feedback:prt1]]'));
     }
+
 }

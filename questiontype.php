@@ -32,6 +32,7 @@ require_once(__DIR__ . '/stack/cas/keyval.class.php');
 require_once(__DIR__ . '/stack/cas/castext.class.php');
 require_once(__DIR__ . '/stack/questiontest.php');
 require_once(__DIR__ . '/stack/graphlayout/graph.php');
+require_once(__DIR__ . '/lang/multilang.php');
 
 /**
  * Stack question type class.
@@ -82,8 +83,8 @@ class qtype_stack extends question_type {
         }
         $fromform->questionnote = stack_maths::replace_dollars($fromform->questionnote);
 
-        $prtnames = stack_utils::extract_placeholders(
-                $fromform->questiontext['text'] . $fromform->specificfeedback['text'], 'feedback');
+        $prtnames = array_keys($this->get_prt_names_from_question($fromform->questiontext['text'],
+                $fromform->specificfeedback['text']));
         foreach ($prtnames as $prt) {
             foreach ($fromform->{$prt . 'truefeedback'} as &$feedback) {
                 $feedback['text'] = stack_maths::replace_dollars($feedback['text']);
@@ -143,7 +144,7 @@ class qtype_stack extends question_type {
         $options->variantsselectionseed     = $fromform->variantsselectionseed;
         $DB->update_record('qtype_stack_options', $options);
 
-        $inputnames = stack_utils::extract_placeholders($fromform->questiontext, 'input');
+        $inputnames = array_keys($this->get_input_names_from_question_text_lang($fromform->questiontext));
         $inputs = $DB->get_records('qtype_stack_inputs',
                 array('questionid' => $fromform->id), '', 'name, id, questionid');
         $questionhasinputs = false;
@@ -191,8 +192,7 @@ class qtype_stack extends question_type {
             $DB->set_field('question', 'length', 0, array('id' => $fromform->id));
         }
 
-        $prtnames = stack_utils::extract_placeholders(
-                $fromform->questiontext . $options->specificfeedback, 'feedback');
+        $prtnames = array_keys($this->get_prt_names_from_question($fromform->questiontext, $options->specificfeedback));
 
         $prts = $DB->get_records('qtype_stack_prts',
                 array('questionid' => $fromform->id), '', 'name, id, questionid');
@@ -420,7 +420,7 @@ class qtype_stack extends question_type {
         $question->options->set_option('assumereal',  (bool) $questiondata->options->assumereal);
 
         $requiredparams = stack_input_factory::get_parameters_used();
-        foreach (stack_utils::extract_placeholders($question->questiontext, 'input') as $name) {
+        foreach (array_keys($this->get_input_names_from_question_text($question->questiontext)) as $name) {
             $inputdata = $questiondata->inputs[$name];
             $allparameters = array(
                 'boxWidth'        => $inputdata->boxsize,
@@ -458,8 +458,8 @@ class qtype_stack extends question_type {
                     $question->name);
         }
 
-        $combinedtext = $question->questiontext . $question->specificfeedback;
-        foreach (stack_utils::extract_placeholders($combinedtext, 'feedback') as $name) {
+        $prtnames = array_keys($this->get_prt_names_from_question($question->questiontext, $question->specificfeedback));
+        foreach ($prtnames as $name) {
             $prtdata = $questiondata->prts[$name];
             $nodes = array();
             foreach ($prtdata->nodes as $nodedata) {
@@ -1302,7 +1302,6 @@ class qtype_stack extends question_type {
 
         $fixingdollars = array_key_exists('fixdollars', $fromform);
 
-        $inputs = $this->get_input_names_from_question_text($fromform['questiontext']['text']);
         $prts = $this->get_prt_names_from_question($fromform['questiontext']['text'], $fromform['specificfeedback']['text']);
 
         $this->options = new stack_options();
@@ -1332,6 +1331,31 @@ class qtype_stack extends question_type {
                     'questiontextplaceholderswhitespace', $sloppytag);
         }
 
+        // Check multi-language versions all have the same inputs and validation tags.
+        $ml = new stack_multilang();
+        $langs = $ml->languages_used($fromform['questiontext']['text']);
+        if ($langs == array()) {
+            $inputs = $this->get_input_names_from_question_text_lang($fromform['questiontext']['text']);
+        } else {
+            $inputsbylang = array();
+            foreach ($langs as $lang) {
+                $inputsbylang[$lang] = $this->get_input_names_from_question_text_lang(
+                        $ml->filter($fromform['questiontext']['text'], $lang));
+            }
+            // Check they are all equal, but don't fuss about exact differences as feedback.
+            $inputs = reset($inputsbylang);
+            $failed = false;
+            foreach ($langs as $lang) {
+                if ($inputsbylang[$lang] != $inputs) {
+                    $failed = true;
+                }
+            }
+            if ($failed) {
+                $errors['questiontext'][] = stack_string('inputlanguageproblems');
+            }
+        }
+
+        // Check input placholders appear with the correct number of times in the question text.
         foreach ($inputs as $inputname => $counts) {
             list($numinputs, $numvalidations) = $counts;
 
@@ -1602,19 +1626,21 @@ class qtype_stack extends question_type {
         $errors = $this->validate_cas_text($errors, $fromform['questionnote'], 'questionnote', $fixingdollars, clone $session);
 
         // Make a list of all inputs, instantiate it and then look for errors.
-        $inputs = $this->get_input_names_from_question_text($fromform['questiontext']['text']);
+        $inputs = array_keys($this->get_input_names_from_question_text($fromform['questiontext']['text']));
         $inputvalues = array();
-        foreach ($inputs as $inputname => $notused) {
-            $cs = new stack_cas_casstring($inputname.':'.$fromform[$inputname . 'modelans']);
-            $cs->get_valid('t');
-            $inputvalues[] = $cs;
+        foreach ($inputs as $inputname) {
+            if (array_key_exists($inputname . 'modelans', $fromform)) {
+                $cs = new stack_cas_casstring($inputname.':'.$fromform[$inputname . 'modelans']);
+                $cs->get_valid('t');
+                $inputvalues[] = $cs;
+            }
         }
         $inputsession = clone $session;
         $inputsession->add_vars($inputvalues);
         $inputsession->instantiate();
 
         $getdebuginfo = false;
-        foreach ($inputs as $inputname => $notused) {
+        foreach ($inputs as $inputname) {
             if ($inputsession->get_errors_key($inputname)) {
                 $errors[$inputname . 'modelans'][] = $inputsession->get_errors_key($inputname);
                 if ('' == $inputsession->get_value_key($inputname)) {
@@ -1834,7 +1860,18 @@ class qtype_stack extends question_type {
      * @return array of the input names that currently appear in the question text.
      */
     public function get_input_names_from_question_text($questiontext) {
+        $ml = new stack_multilang();
+        $langs = $ml->languages_used($questiontext);
+        if ($langs == array()) {
+            return $this->get_input_names_from_question_text_lang($questiontext);
+        }
 
+        // At this point, all languages are assumed to have the same inputs.
+        $lang = reset($langs);
+        return($this->get_input_names_from_question_text_lang($ml->filter($questiontext, $lang)));
+    }
+
+    private function get_input_names_from_question_text_lang($questiontext) {
         $inputs = stack_utils::extract_placeholders($questiontext, 'input');
         $validations = stack_utils::extract_placeholders($questiontext, 'validation');
         $inputnames = array();
@@ -1871,7 +1908,19 @@ class qtype_stack extends question_type {
      *      text and specific feedback.
      */
     public function get_prt_names_from_question($questiontext, $specificfeedback) {
-        $prts = stack_utils::extract_placeholders($questiontext . $specificfeedback, 'feedback');
+        $ml = new stack_multilang();
+        $langs = $ml->languages_used($questiontext.$specificfeedback);
+        if ($langs == array()) {
+            return $this->get_prt_names_from_question_lang($questiontext.$specificfeedback);
+        }
+
+        // At this point, all languages are assumed to have the same prts.
+        $lang = reset($langs);
+        return($this->get_prt_names_from_question_lang($ml->filter($questiontext.$specificfeedback, $lang)));
+    }
+
+    private function get_prt_names_from_question_lang($text) {
+        $prts = stack_utils::extract_placeholders($text, 'feedback');
         $prtnames = array();
 
         $data = data_submitted();

@@ -1302,8 +1302,6 @@ class qtype_stack extends question_type {
 
         $fixingdollars = array_key_exists('fixdollars', $fromform);
 
-        $prts = $this->get_prt_names_from_question($fromform['questiontext']['text'], $fromform['specificfeedback']['text']);
-
         $this->options = new stack_options();
         $this->options->set_option('multiplicationsign', $fromform['multiplicationsign']);
         $this->options->set_option('complexno',          $fromform['complexno']);
@@ -1323,6 +1321,30 @@ class qtype_stack extends question_type {
         // Question text.
         $errors['questiontext'] = array();
         $errors = $this->validate_cas_text($errors, $fromform['questiontext']['text'], 'questiontext', $fixingdollars);
+
+        // Check multi-language versions all have the same feedback tags.
+        $ml = new stack_multilang();
+        $combinedtext = $fromform['questiontext']['text'] . $fromform['specificfeedback']['text'];
+        $langs = $ml->languages_used($combinedtext);
+        if ($langs == array()) {
+            $prts = $this->get_prt_names_from_question($fromform['questiontext']['text'], $fromform['specificfeedback']['text']);
+        } else {
+            $prtsbylang = array();
+            foreach ($langs as $lang) {
+                $prtsbylang[$lang] = $this->get_prt_names_from_question_lang($ml->filter($combinedtext, $lang));
+            }
+            // Check they are all equal, but don't fuss about exact differences as feedback.
+            $prts = reset($prtsbylang);
+            $failed = false;
+            foreach ($langs as $lang) {
+                if ($prtsbylang[$lang] != $prts) {
+                    $failed = true;
+                }
+            }
+            if ($failed) {
+                $errors['questiontext'][] = stack_string('questiontextfeedbacklanguageproblems');
+            }
+        }
 
         // Check for whitespace following placeholders.
         $sloppytags = $this->validation_get_sloppy_tags($fromform['questiontext']['text']);

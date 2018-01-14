@@ -253,6 +253,7 @@ $string['questiontextmustcontain'] = 'The question text must contain the token \
 $string['questiontextonlycontain'] = 'The question text should only contain the token \'{$a}\' once.';
 $string['questiontextplaceholderswhitespace'] = 'Placeholders may not contain whitespace.  This one appears to do so: \'{$a}\'.';
 $string['questiontextfeedbackonlycontain'] = 'The question text combined with the specific feedback should only contain the token \'{$a}\' once.';
+$string['questiontextfeedbacklanguageproblems'] = 'There are inconsistencies in the feedback tags between langauges.';
 $string['questionvalue'] = 'Question value';
 $string['questionvaluepostive'] = 'Question value must be non-negative.';
 $string['questionvariables'] = 'Question variables';

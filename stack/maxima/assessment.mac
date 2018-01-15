@@ -1252,7 +1252,7 @@ crossproduct(a,b) := block(
    xp the point at which to evaluate. */
 continuousp(ex, v, xp) := block([lp, lm],
     lp: ev(limit(ex, v, xp, minus), simp),
-    lm: ev(limit(ex,v,xp,plus),simp),
+    lm: ev(limit(ex, v, xp, plus), simp),
     /* print(lp), print(lm), */
     if  lp # und
        and lm # und

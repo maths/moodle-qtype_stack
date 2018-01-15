@@ -141,6 +141,7 @@ if (!is_null($deploy)) {
             // Actually deploy the question.
             $question->deploy_variant($seed);
             $numberdeployed++;
+            flush();
         }
     }
 

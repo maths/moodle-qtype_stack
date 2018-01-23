@@ -339,6 +339,9 @@ class stack_answertest_test_data {
         array('AlgEquiv', '', 'x>1 and x<3', 'true', 0, '', ''),
         array('AlgEquiv', '', 'x>1 or x<3', 'true', 1, 'ATLogic_Solver_True', ''),
         array('AlgEquiv', '', 'x>1 or x<3', 'all', 1, 'ATLogic_Solver_True', ''),
+        array('AlgEquiv', '', 'abs(x)<1', 'abs(x)<1', 1, '', ''),
+        array('AlgEquiv', '', 'abs(x)<1', 'abs(x)<2', 0, '', ''),
+        array('AlgEquiv', '', 'abs(x)<1', 'abs(x)>1', 0, 'ATInequality_backwards.', ''),
 
         array('AlgEquiv', '', 'sqrt(12)', '2*sqrt(3)', 1, '', 'Surds'),
         array('AlgEquiv', '', 'sqrt(11+6*sqrt(2))', '3+sqrt(2)', 1, '', ''),

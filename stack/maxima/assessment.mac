@@ -1079,7 +1079,7 @@ abs_replace_eq(ex):=block([exn, assume_pos],
   /* In this function we don't want any extra simplification of variables. */
   assume_pos:false,
   if freeof(abs, ex) then return(ex),
-  if not(equationp(ex) or inequalityp(ex)) then return(ex),
+  if not(equationp(ex)) then return(ex),
   exn:ineqprepare(ex),
   exn:abs_replace(exn),
   if all_listp(equationp, args(exn)) then block(

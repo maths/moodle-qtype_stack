@@ -209,6 +209,12 @@ abstract class stack_input {
                     }
                     break;
 
+                case 'mul':
+                    if (!(is_bool($arg))) {
+                        $this->errors[] = stack_string('numericalinputoptbooplerr', array('opt' => $option, 'val' => $arg));
+                    }
+                    break;
+
                 case 'mindp':
                     if (!($arg === false || is_numeric($arg))) {
                         $this->errors[] = stack_string('numericalinputoptinterr', array('opt' => $option, 'val' => $arg));

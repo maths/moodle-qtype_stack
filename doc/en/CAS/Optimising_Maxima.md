@@ -95,10 +95,6 @@ use the following to generate a stand alone executable:
 * In Maxima, type the commands:
 ~~~~
     load("maximalocal.mac");
-    load("<path>/stackmaxima.mac");
-    load(stats);
-    load(distrib);
-    load(descriptive);
     :lisp (sb-ext:save-lisp-and-die "maxima-optimised" :toplevel #'run :executable t)
 ~~~~
 

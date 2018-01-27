@@ -23,9 +23,11 @@
 
 require_once(__DIR__.'/../../../config.php');
 
-require_once(__DIR__ . '/api/libs/yaml.php');
-require_once(__DIR__ . '/api/libs/yaml_defaults.php');
-require_once(__DIR__ . '/api/libs/export.php');
+if (function_exists('yaml_parse_file')) {
+    require_once(__DIR__ . '/api/libs/yaml.php');
+    require_once(__DIR__ . '/api/libs/yaml_defaults.php');
+    require_once(__DIR__ . '/api/libs/export.php');
+}
 
 require_once($CFG->libdir . '/questionlib.php');
 require_once($CFG->dirroot . '/question/format/xml/format.php');
@@ -76,6 +78,10 @@ if (!$content = $qformat->exportprocess(true)) {
 if ($exportformat == 'xml') {
   // Send the xml.
   send_file($content, $filename, 0, 0, true, true, $qformat->mime_type());
+}
+
+if (!function_exists('yaml_parse_file')) {
+    throw new stack_exception("You must enable YAML support to export in YAML format.");
 }
 // Add in the conversion to YAML.
 $defaults = new qtype_stack_api_yaml_defaults(null);

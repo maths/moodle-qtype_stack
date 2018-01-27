@@ -417,11 +417,15 @@ echo html_writer::tag('p', html_writer::link($questionbanklink,
         stack_string('seethisquestioninthequestionbank')));
 
 if ($canedit) {
+    $links = array(html_writer::link($exportquestionlink, 'XML'));
+    if (function_exists('yaml_parse_file')) {
+        $links[] = html_writer::link($yamlquestionlink, 'YAML');
+    } else {
+        $links[] = stack_string('noyaml', null);
+    }
     echo html_writer::tag('p',
             stack_string('exportthisquestion') . ' ' .
-            html_writer::link($exportquestionlink, 'XML') . ' ' .
-            html_writer::link($yamlquestionlink, 'YAML') .
-            $OUTPUT->help_icon('exportthisquestion', 'qtype_stack'));
+            implode($links, ' ') . ' ' . $OUTPUT->help_icon('exportthisquestion', 'qtype_stack'));
 }
 
 echo $renderquestion;

@@ -18,6 +18,10 @@
  * Minimal functionality needed to display and grade a question in a stateless way.
  */
 
+if (!function_exists(yaml_parse_file())) {
+    throw new Exception("To make use of the STACK API you must have support for YAML.");
+}
+
 require_once("apilib.php");
 require_once(__DIR__ . '/../question.php');
 

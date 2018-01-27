@@ -853,6 +853,9 @@ $string['stackDoc_404message']          = 'File not found.';
 $string['stackDoc_directoryStructure']  = 'Directory structure';
 $string['stackDoc_version']             = 'Your site is running STACK version {$a}.';
 
+// API specific and YAML format.
+$string['noyaml']                 = '(YAML not supported on this server)';
+
 
 // Fact sheets.
 $string['greek_alphabet_name'] = 'The Greek Alphabet';

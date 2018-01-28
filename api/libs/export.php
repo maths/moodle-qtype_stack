@@ -15,6 +15,7 @@
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
 require_once('input_values.php');
+require_once(__DIR__ . '/../../lang/multilang.php');
 
 class qtype_stack_api_export {
 
@@ -41,7 +42,20 @@ class qtype_stack_api_export {
         $value = self::processvalue($value, $type);
         $value = qtype_stack_api_input_values::get_yaml_value($propertyname, $value);
         if (!$this->defaults->isdefault($section, $propertyname, $value)) {
-            $yaml[$propertyname] = $value;
+            // For all string values, we try to tanslate them.
+            if ($type == 'string') {
+                $multilang = new stack_multilang();
+                $languages = $multilang->languages_used($value);
+                if ($languages == array()) {
+                    $yaml[$propertyname] = $value;
+                } else {
+                    foreach($languages as $lang) {
+                        $yaml[$propertyname.'_'.$lang] = $multilang->filter($value, $lang);
+                    }
+                }
+            } else {
+                $yaml[$propertyname] = $value;
+            }
         }
     }
 

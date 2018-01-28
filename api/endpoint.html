@@ -43,6 +43,7 @@
           readOnly: document.getElementById('readOnly').checked,
           feedback: document.getElementById('feedback').checked,
           score: document.getElementById('hasScore').checked,
+          lang:document.getElementById('lang').value,
           prefix: 'codio_',
           answer: collectAnswer(),
           seed: 12313123
@@ -131,6 +132,7 @@
     <input type="checkbox" id="readOnly"/>Read Only |
     <input type="checkbox" id="feedback"/>Feedback |
     <input type="checkbox" id="hasScore"/>Score |
+    Lang: <input type="text" size="3" id="lang"/> |
     <input type="button" onclick="send()" value="Send"/><br/>
     <h1>QuestionText:</h1>
     <div id="output"></div>

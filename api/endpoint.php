@@ -34,6 +34,15 @@ function processrequest() {
     // Parse input JSON and validate it.
     $parsed = validatedata(parseinput());
 
+    // Control the display of feedback, and whether students can change their answer.
+    $options = new stdClass();
+    $options->readonly = $parsed['readOnly'];
+    // Do we display feedback and a score for each part (in a multi-part question)?
+    $options->feedback = $parsed['feedback'];
+    $options->score = $parsed['score'];
+    $options->validate = !$parsed['score'];
+    $options->lang = $parsed['lang'];
+
     $questionyaml = trim($parsed['question']);
 
     $defaults = new qtype_stack_api_yaml_defaults($parsed['defaults']);
@@ -43,22 +52,14 @@ function processrequest() {
         $questionyaml = $export->yaml();
     }
 
-    // Import stack question from yaml string.
+    // Import STACK question from yaml string.
     $importer = new qtype_stack_api_yaml($questionyaml, $defaults);
-    $data = $importer->get_question();
+    $data = $importer->get_question($options->lang);
     $question = $api->initialise_question($data);
     // Make this a definite number, to fix the random numbers.
     $question->seed = $parsed['seed'];
 
     $question->initialise_question_from_seed();
-
-    // Control the display of feedback, and whether students can change their answer.
-    $options = new stdClass();
-    $options->readonly = $parsed['readOnly'];
-    // Do we display feedback and a score for each part (in a multi-part question)?
-    $options->feedback = $parsed['feedback'];
-    $options->score = $parsed['score'];
-    $options->validate = !$parsed['score'];
 
     $attempt = $parsed['answer'];
     $apithen = microtime(true);

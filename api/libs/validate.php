@@ -34,6 +34,7 @@ function validatedata(array $data) {
     $data['feedback'] = (array_key_exists('feedback', $data)) ? $data['feedback'] : false;
     $data['score'] = (array_key_exists('score', $data)) ? $data['score'] : false;
     $data['answer'] = (array_key_exists('answer', $data)) ? $data['answer'] : [];
+    $data['lang'] = (array_key_exists('lang', $data)) ? trim($data['lang']) : '';
     $data['plots_protocol'] = (array_key_exists('plots_protocol', $data)) ? $data['plots_protocol'] : 'https';
 
     $GLOBALS['DOMAIN'] = $data['plots_protocol'] . '://' . $_SERVER['HTTP_HOST'];

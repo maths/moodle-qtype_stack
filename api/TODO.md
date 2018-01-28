@@ -8,7 +8,7 @@
 
 ## Question tests.
 
-1. Export via the Moodle question bank.
+1. _done_ Export via the Moodle question bank.
 2. Import into YAML.
 3. Run all tests.
 
@@ -16,3 +16,6 @@
 
 ## Plots
 
+## STACK import/export
+
+1. in export.php trim off trailing zeros from floats.

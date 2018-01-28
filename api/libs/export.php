@@ -67,14 +67,14 @@ class qtype_stack_api_export {
      */
     private static function processvalue($value, string $type) {
         switch($type) {
-            case "string":
+            case 'string':
                 return (string) $value;
-            case "int":
+            case 'int':
                 return (int) $value;
-            case "float":
+            case 'float':
                 return (float) $value;
-            case "bool":
-                return (bool) ($value == "1");
+            case 'bool':
+                return (bool) ($value == '1');
         }
     }
 
@@ -142,8 +142,13 @@ class qtype_stack_api_export {
         $this->processinputs($yaml);
         // Process trees.
         $this->processresponsetrees($yaml);
+        // Process question tests.
+        $this->processresponsetests($yaml);
 
-        // TODO: export (& import) all the question tests....
+        // Add in the deployed seeds.
+        foreach ($q->deployedseed as $seed) {
+            $yaml['deployedseed'][] = self::processvalue((string) $seed, 'int');
+        }
         return yaml_emit($yaml, YAML_UTF8_ENCODING);
     }
 
@@ -174,7 +179,7 @@ class qtype_stack_api_export {
     }
 
     /**
-     * Process all question inputs and store it in yaml array
+     * Process all question inputs and store it in yaml array.
      * @param array $yaml
      */
     private function processinputs(array &$yaml) {
@@ -185,7 +190,7 @@ class qtype_stack_api_export {
     }
 
     /**
-     * Process question tree node and returns it as array
+     * Process question tree node and returns it as array.
      * @param SimpleXMLElement $node question tree node
      * @return array
      */
@@ -225,7 +230,7 @@ class qtype_stack_api_export {
     }
 
     /**
-     * Process question response tree and returns as array
+     * Process question response tree and returns as array.
      * @param SimpleXMLElement $tree question tree
      * @return array
      */
@@ -245,7 +250,7 @@ class qtype_stack_api_export {
     }
 
     /**
-     * Process all response trees and store it in yaml array
+     * Process all response trees and store it in yaml array.
      * @param array $yaml
      */
     private function processresponsetrees(array &$yaml) {
@@ -253,5 +258,26 @@ class qtype_stack_api_export {
         foreach ($this->question->prt as $tree) {
             $yaml['response_trees'][(string) $tree->name] = $this->getresponsetree($tree);
         }
+    }
+
+    /**
+     * Process all question tests and store them in yaml array.
+     * @param array $yaml
+     */
+    private function processresponsetests(array &$yaml) {
+        foreach ($this->question->qtest as $test) {
+            $res = array();
+            foreach ($test->testinput as $input) {
+                $this->property($res, (string) $input->name, (string) $input->value, 'string', 'input');
+            }
+            foreach ($test->expected as $prt) {
+                $expect['score'] = self::processvalue((string) $prt->expectedscore, 'float');
+                $expect['penalty'] = self::processvalue((string) $prt->expectedpenalty, 'float');
+                $expect['answer_note'] = self::processvalue((string) $prt->expectedanswernote, 'string');
+                $res[(string) $prt->name] = $expect;
+            }
+            $yaml['tests'][(string) $test->testcase] = $res;
+        }
+
     }
 }

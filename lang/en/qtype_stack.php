@@ -432,6 +432,7 @@ $string['deploytoomanyerror'] = 'STACK will try to deploy up to at most 100 new 
 $string['deploymanynonew'] = 'Too many repeated existing question notes were generated.';
 $string['deploymanynotes'] = 'Note, STACK will give up if there are 10 failed attempts to generate a new question note, or when one question test fails.';
 $string['deploymanysuccess'] = 'Number of new variants successfully created, tested and deployed: {$a->no}.';
+$string['deployoutoftime'] = 'Time limit exceeded by using approx {$a->time} seconds.  Please try again to deploy more.';
 $string['deployremoveall'] = 'Undeploy all variants: ';
 $string['deploytestall'] = 'Run all tests on all deployed variants (slow): ';
 $string['editingtestcase'] = 'Editing test case {$a->no} for question {$a->question}';

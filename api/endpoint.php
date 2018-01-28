@@ -27,6 +27,8 @@ require_once(__DIR__ . '/api.php');
 require_once(__DIR__ . '/libs/yaml_defaults.php');
 require_once(__DIR__ . '/libs/yaml.php');
 
+require_once(__DIR__ . '/../stack/questiontest.php');
+
 function processrequest() {
     $then = microtime(true);
 
@@ -66,6 +68,38 @@ function processrequest() {
 
     $res = $api->formulation_and_controls($question, $attempt, $options, $parsed['prefix']);
 
+    // Run question tests.
+    // TODO: this is unfinished.  We need to refactor some of this, and from questiontestrun.php to eliminate any duplication in testing.
+    if (array_key_exists('tests', $data)) {
+        $testresults = array();
+        $seed = 0;
+
+        $questiontests = $data['tests'];
+        $test = $questiontests[1];
+
+        $inputs = array();
+        foreach ($data['inputs'] as $ikey => $val) {
+            if (array_key_exists($ikey, $test)) {
+                $inputs[$ikey] = $test[$ikey];
+            }
+        }
+        $qtest = new stack_question_test($inputs);
+        $attempt = $qtest->compute_response($question, $inputs);
+        $question->initialise_question_from_seed();
+        // TODO: we need to dig inside here, and compare at the potential response tree level.
+        $res = $api->formulation_and_controls($question, $attempt, $options, $parsed['prefix']);
+        // Questions don't have to have a response tree.  It could be a survey.
+        if (array_key_exists('response_trees', $data)) {
+            foreach ($data['response_trees'] as $prtname => $testvals) {
+                if (array_key_exists($prtname, $test)) {
+                    $qtest->add_expected_result($prtname, new stack_potentialresponse_tree_state(1,
+                            true, $test[$prtname]['score'], $test[$prtname]['penalty'], '', array($test[$prtname]['answer_note'])));
+                }
+            }
+        }
+    }
+
+    // Assemble output.
     $json = [
         "questiontext" => replace_plots($res->questiontext),
         "score" => $res->score,

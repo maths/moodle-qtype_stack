@@ -144,7 +144,6 @@ class qtype_stack_api_export {
         $this->processresponsetrees($yaml);
 
         // TODO: export (& import) all the question tests....
-
         return yaml_emit($yaml, YAML_UTF8_ENCODING);
     }
 

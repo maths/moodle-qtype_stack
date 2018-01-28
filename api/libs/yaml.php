@@ -73,27 +73,28 @@ class qtype_stack_api_yaml {
      * @param mixed $question yaml question
      */
     private function convert_values(&$question, $lang) {
-        $castextfields = array('question_html', 'worked_solution_html', 'feedback_html');
+        $castextfields = qtype_stack_api_input_values::CONTENT_FIELDS;
 
         // First consolidate langauges.
         // Note, we don't delete the language versions from the question array.
         foreach ($castextfields as $field) {
+            $fieldhtml = $field . '_html_';
             foreach ($question as $key => $value) {
                 // Note the 0 is not false here.
-                if(stripos($key, $field . '_') === 0) {
-                    $langfound = str_replace($field . '_', '', $key);
+                if(stripos($key, $fieldhtml) === 0) {
+                    $langfound = str_replace($fieldhtml, '', $key);
                     if ($lang == '') {
                         // We are not looking for a specific language, so consolidate them all.
                         $langwrap = '<span lang="' . $langfound .'" class="multilang">' . $value . "</span>\n";
-                        if (array_key_exists($field, $question)) {
-                            $question[$field] .= $langwrap;
+                        if (array_key_exists($fieldhtml, $question)) {
+                            $question[$fieldhtml] .= $langwrap;
                         } else {
-                            $question[$field] = $langwrap;
+                            $question[$fieldhtml] = $langwrap;
                         }
                     }
                     // If we are looking for a specific language and have found it, then just use this value.
                     if ($lang == $langfound) {
-                        $question[$field] = $value;
+                        $question[$fieldhtml] = $value;
                     }
                     // Note, there is no graceful degredation to a default language at this point yet...
                     // However, if you included the $field, this will be used as the default.

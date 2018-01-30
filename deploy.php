@@ -79,11 +79,10 @@ $deploytxt = optional_param('deploymany', null, PARAM_TEXT);
 $starttime = time();
 // The number of seconds we devote to deploying before moving on.  Prevents system hangging.
 // Note, in "safe mode" the set time limit function has no effect.
-$maxtime = 25;
-if (!ini_get('safe_mode')) {
-    $maxtime = 180;
-    set_time_limit($maxtime + 5);
-}
+$maxtime = 180;
+flush(); // Force output to prevent timeouts and to make progress clear.
+core_php_time_limit::raise($maxtime); // Prevent PHP timeouts.
+gc_collect_cycles(); // Because PHP's default memory management is rubbish.
 
 if (!is_null($deploy)) {
 

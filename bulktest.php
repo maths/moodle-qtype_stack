@@ -61,8 +61,8 @@ echo $OUTPUT->header();
 echo $OUTPUT->heading($title);
 
 // Run the tests.
-list($allpassed, $failingtests) = $bulktester->run_all_tests_for_context($context);
+list($allpassed, $failingtests, $notests) = $bulktester->run_all_tests_for_context($context);
 
 // Display the final summary.
-$bulktester->print_overall_result($allpassed, $failingtests);
+$bulktester->print_overall_result($allpassed, $failingtests, $notests);
 echo $OUTPUT->footer();

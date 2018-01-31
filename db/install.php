@@ -37,14 +37,15 @@ function xmldb_qtype_stack_install() {
             file_get_contents($CFG->dirroot . '/question/type/stack/stack/maxima/stackmaxima.mac'), $matches)) {
         throw new coding_exception('Maxima libraries version number not found in stackmaxima.mac.');
     }
-    set_config('stackmaximaversion', $matches[1], 'qtype_stack');
+    stack_utils::get_config()->stackmaximaversion = $matches[1];
 
     // Make an reasonable guess at the OS. (It defaults to 'unix' in settings.php.
     $platform = 'unix';
     if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
         // See http://stackoverflow.com/questions/1482260/how-to-get-the-os-on-which-php-is-running
         // and http://stackoverflow.com/questions/738823/possible-values-for-php-os.
-        set_config('platform', 'win', 'qtype_stack');
+        stack_utils::get_config()->platform = 'win';
+        stack_utils::get_config()->lisp = 'sbcl';
         $platform = 'win';
     }
 

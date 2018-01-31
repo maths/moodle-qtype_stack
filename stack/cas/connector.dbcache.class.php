@@ -156,4 +156,13 @@ class stack_cas_connection_db_cache implements stack_cas_connection {
     public static function entries_count($db) {
         return $db->count_records('qtype_stack_cas_cache');
     }
+
+    /**
+     * Get raw version of the connection.
+     * 
+     * @return stack_cas_connection_base Returns the raw connection object.
+     */
+    public function get_raw() {
+        return $this->rawconnection;
+    }
 }

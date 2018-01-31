@@ -15,7 +15,7 @@
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
 defined('MOODLE_INTERNAL') || die();
-
+require_once(__DIR__ . '/platforms.php');
 /**
  * Connection to Maxima for unix-like systems.
  *
@@ -23,33 +23,14 @@ defined('MOODLE_INTERNAL') || die();
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class stack_cas_connection_unix extends stack_cas_connection_base {
-
-    protected function guess_maxima_command($path) {
-        global $CFG;
-        if (stack_connection_helper::get_platform() == 'unix-optimised') {
-            // We are trying to use a Lisp snapshot of Maxima with all the
-            // STACK libraries loaded.
-            $lispimage = $CFG->dataroot . '/stack/maxima-optimised';
-            if (is_readable($lispimage)) {
-                return $lispimage;
-            }
-        }
-
-        if (is_readable('/Applications/Maxima.app/Contents/Resources/maxima.sh')) {
-            // This is the path on Macs, if Maxima has been installed following
-            // the instructions on Sourceforge.
-            return '/Applications/Maxima.app/Contents/Resources/maxima.sh';
-        }
-
-        // Default guess on Linux, making explicit use of the chosen version number.
-        $maximaversion = stack_connection_helper::get_maximaversion();
-        $maximacommand = 'maxima';
-        if ('default' != $maximaversion) {
-            $maximacommand = 'maxima --use-version='.$maximaversion;
-        }
-        return $maximacommand;
-    }
-
+    
+    /**
+     * Connect directly to the CAS, and return the raw string result.
+     *
+     * @param string $command The string of CAS commands to be processed.
+     * @return string|bool The raw results or FALSE if there was an error.
+     * @throws stack_exception
+     */
     protected function call_maxima($command) {
         $ret = false;
         $err = '';
@@ -116,5 +97,12 @@ class stack_cas_connection_unix extends stack_cas_connection_base {
         }
 
         return $ret;
+    }
+
+    /* On a Unix system list the versions of maxima available for use. */
+    public function get_maxima_available() {
+        $this->command = 'maxima --list-avail';
+        $rawresult = $this->call_maxima('');
+        return $rawresult;
     }
 }

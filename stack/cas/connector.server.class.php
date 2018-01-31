@@ -28,10 +28,15 @@ defined('MOODLE_INTERNAL') || die();
  */
 class stack_cas_connection_server extends stack_cas_connection_base {
 
-    protected function guess_maxima_command($path) {
-        return 'http://localhost:8080/MaximaPool/MaximaPool';
-    }
-
+    /**
+     * 
+     * Connect to the CAS, and return the raw string result.
+     *
+     * @global type $CFG
+     * @param string $command The string of CAS commands to be processed.
+     * @return string|bool The converted HTML string or FALSE if there was an error.
+     * @throws Exception
+     */
     protected function call_maxima($command) {
         global $CFG;
         $err = '';

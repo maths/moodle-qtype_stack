@@ -102,7 +102,17 @@ rev_ineq(ex):=block(
     return(ex)
 )$
 
-/* Checks if we have the wrong inequality. */
+/* Reverses any > or >= inequalities: purely syntactic.
+   This is useful to ensure only <, or <= occur in an expression when we are testing
+   equivalence, without too much simplification.  EqualsComAss does not do this.  */
+make_less_ineq(ex):=block(
+  if atom(ex) then return(ex),
+  if op(ex)=">" then return(rhs(ex)<lhs(ex)),
+  if op(ex)=">=" then return(rhs(ex)<=lhs(ex)),
+  return(apply(op(ex), map(make_less_ineq, args(ex))))
+)$
+
+/* Used to checks if we have the wrong inequality. */
 neg_ineq(ex):=block(
     if safe_op(ex) = "<" then return(lhs(ex) > rhs(ex)),
     if safe_op(ex) = "<=" then return(lhs(ex) >= rhs(ex)),

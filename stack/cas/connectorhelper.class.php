@@ -20,6 +20,7 @@ require_once(__DIR__ . '/connector.interface.php');
 require_once(__DIR__ . '/connector.class.php');
 require_once(__DIR__ . '/connector.dbcache.class.php');
 require_once(__DIR__ . '/installhelper.class.php');
+require_once(__DIR__ . '/platforms.php');
 
 
 /**
@@ -29,7 +30,7 @@ require_once(__DIR__ . '/installhelper.class.php');
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 abstract class stack_connection_helper {
-    /** @var stdClass cached copy of the STACK configuration settings. */
+    /** @var stack_config_settings cached copy of the STACK configuration settings. */
     protected static $config = null;
 
     /** @var moodle_database keeps the connection to the 'otherdb' if we are using that option. */
@@ -50,33 +51,13 @@ abstract class stack_connection_helper {
      */
     public static function make() {
         self::ensure_config_loaded();
+        /** @var stack_platform_base */
+        $platform = stack_platform_base::get_current();
 
         $debuglog = stack_utils::make_debug_log(self::$config->casdebugging);
-
-        switch (self::$config->platform) {
-            case 'win':
-                require_once(__DIR__ . '/connector.windows.class.php');
-                $connection = new stack_cas_connection_windows(self::$config, $debuglog);
-                break;
-            case 'unix':
-            case 'unix-optimised':
-                require_once(__DIR__ . '/connector.unix.class.php');
-                $connection = new stack_cas_connection_unix(self::$config, $debuglog);
-                break;
-            case 'server':
-                require_once(__DIR__ . '/connector.server.class.php');
-                $connection = new stack_cas_connection_server(self::$config, $debuglog);
-                break;
-            case 'tomcat':
-            case 'tomcat-optimised':
-                throw new stack_exception('stack_connection_helper: ' .
-                    '"tomcat" and "tomcat-optimised" settings are obsolete. ' .
-                    ' Please choose "server" setting instead.');
-                break;
-
-            default:
-                throw new stack_exception('stack_cas_connection: Unknown platform ' . self::$config->platform);
-        }
+        require_once(__DIR__ . '/' . $platform->get_connection_source_file());
+        $class = $platform->get_connection_class();
+        $connection = new $class(self::$config, $debuglog, $platform);
 
         switch (self::$config->casresultscache) {
             case 'db':
@@ -118,15 +99,15 @@ abstract class stack_connection_helper {
     }
 
     /**
-     * @return the configured platform type.
+     * @return string the configured platform type.
      */
     public static function get_platform() {
         self::ensure_config_loaded();
         return self::$config->platform;
     }
-
+    
     /**
-     * @return the configured version number.
+     * @return string|null the configured version number.
      */
     public static function get_maximaversion() {
         self::ensure_config_loaded();
@@ -188,7 +169,7 @@ abstract class stack_connection_helper {
     }
 
     /**
-     * @return the version of the STACK Maxima libraries that should be in use.
+     * @return string the version of the STACK Maxima libraries that should be in use.
      */
     public static function get_required_stackmaxima_version() {
         self::ensure_config_loaded();
@@ -246,19 +227,15 @@ abstract class stack_connection_helper {
                 break;
             }
         }
-
-        switch (self::$config->platform) {
-            case 'unix-optimised':
-                $docsurl = new moodle_url('/question/type/stack/doc/doc.php/CAS/Optimising_Maxima.md');
-                $fix = stack_string('healthchecksstackmaximaversionfixoptimised', array('url' => $docsurl->out()));
-                break;
-
-            case 'server':
-                $fix = stack_string('healthchecksstackmaximaversionfixserver');
-                break;
-
-            default:
-                $fix = stack_string('healthchecksstackmaximaversionfixunknown');
+        
+        $platform = stack_platform_base::get_current();
+        if($platform->is_optimised()) {
+            $docsurl = new moodle_url('/question/type/stack/doc/doc.php/CAS/Optimising_Maxima.md');
+            $fix = stack_string('healthchecksstackmaximaversionfixoptimised', array('url' => $docsurl->out()));
+        } elseif($platform->is_server_based()) {
+            $fix = stack_string('healthchecksstackmaximaversionfixserver');
+        } else {
+            $fix = stack_string('healthchecksstackmaximaversionfixunknown');
         }
 
         return array('healthchecksstackmaximaversionmismatch',
@@ -338,7 +315,9 @@ abstract class stack_connection_helper {
                     if ('default' == $maximaversion) {
                         $message[] = stack_string('healthuncachedstack_CAS_versionnotchecked',
                                 array('actual' => $maximaversionstr));
-                    } else if ($result['value'] != '"'.$maximaversion.'"') {
+                    // Trim off any trailing junk from the version number, as present in
+                    // Maxima 5.39.0 for Windows:
+                    } elseif (trim(explode('_', trim($result['value'], '"'), 2)[0], 'a..z') != $maximaversion) {
                         $message[] = stack_string('healthuncachedstack_CAS_version',
                                 array('expected' => $maximaversion, 'actual' => $maximaversionstr));
                         $success = false;
@@ -358,9 +337,9 @@ abstract class stack_connection_helper {
             $message[] = stack_string('healthuncachedstack_CAS_not');
         }
 
-        $message = implode(" ", $message);
+        $message_str = implode(" ", $message);
 
-        return array($message, $debug, $success);
+        return array($message_str, $debug, $success);
     }
 
     /*
@@ -368,12 +347,11 @@ abstract class stack_connection_helper {
      * ensure the lowest level connection to the CAS, without caching.
      */
     public static function stackmaxima_auto_maxima_optimise($genuinedebug) {
-        global $CFG;
-        self::ensure_config_loaded();
+        $platform = stack_platform_base::get_current();
 
-        $imagename = stack_utils::convert_slash_paths($CFG->dataroot . '/stack/maxima_opt_auto');
-
-        $lisp = '1';
+        $imagename = $platform->pathname_to_portable($platform->get_auto_optimised_pathname());
+        
+        $lisp =  strtoupper(self::$config->lisp);
         // Try to guess the lisp version.
         if (!(false === strpos($genuinedebug, 'GNU Common Lisp (GCL)'))) {
             $lisp = 'GCL';
@@ -389,26 +367,21 @@ abstract class stack_connection_helper {
             case 'GCL':
                 $maximacommand = ':lisp (si::save-system "'.$imagename.'")' . "\n";
                 $maximacommand .= 'quit();'."\n";
-                $commandline = stack_utils::convert_slash_paths($imagename . ' -eval \'(cl-user::run)\'');
+                $commandline = $imagename . ' -eval \'(cl-user::run)\'';
                 break;
 
             case 'SBCL':
                 $maximacommand = ':lisp (sb-ext:save-lisp-and-die "'.$imagename.'" :toplevel #\'run :executable t)' . "\n";
-                $commandline = stack_utils::convert_slash_paths($imagename);
+                $commandline = $imagename;
                 break;
 
             case 'CLISP':
-                $imagename .= '.mem';
-                $maximacommand = ':lisp (ext:saveinitmem "'.$imagename.'" :init-function #\'user::run)' . "\n";
+                $maximacommand = ':lisp (ext:saveinitmem "'. preg_replace('/.exe$/', '', $imagename ).'" :init-function #\'user::run :executable t)' . "\n";
                 $maximacommand .= 'quit();'."\n";
-                $lisprun = shell_exec('locate lisp.run');
-                if (trim($lisprun) == '') {
-                    $success = false;
-                    $message = stack_string('healthautomaxopt_nolisprun');
-                    return array($message, '', $success, '');
-                }
-                $lisprun = explode("\n", $lisprun);
-                $commandline = $lisprun[0].' -q -M '.stack_utils::convert_slash_paths($imagename);
+                $commandline = $imagename;
+                // Only currently implemented for Windows.
+                // Copy supporting shared libraries
+                $platform->copy_optimised_support_files();
                 break;
 
             default:
@@ -418,13 +391,11 @@ abstract class stack_connection_helper {
         }
 
         // Really make sure there is no cache.
-        list($results, $debug) = self::stackmaxima_nocache_call($maximacommand);
+        list(, $debug) = self::stackmaxima_nocache_call($maximacommand);
 
         // Question: should we at this stage try to use the optimised image we have created?
         $success = true;
 
-        // Add the timeout command to the message.
-        $commandline = 'timeout --kill-after=10s 10s '.$commandline;
         $message = stack_string('healthautomaxopt_ok', array('command' => $commandline));
         if (!file_exists($imagename)) {
             $success = false;

@@ -23,6 +23,8 @@
  */
 
 defined('MOODLE_INTERNAL') || die();
+require_once(__DIR__ . '/stack/cas/platforms.php');
+require_once(__DIR__ . '/stack/cas/installhelper.class.php');
 
 
 /**
@@ -87,3 +89,150 @@ class qtype_stack_admin_setting_input_types extends admin_setting_configselect {
         return true;
     }
 }
+
+class qtype_stack_admin_messages extends admin_setting {
+
+    private $warnings;
+    private $errors;
+    /**
+     * not a setting, just text
+     * @param string $name unique ascii name, either 'mysetting' for settings that in config, or 'myplugin/mysetting' for ones in config_plugins.
+     * @param string $heading heading
+     * @param string $information text in box
+     */
+    public function __construct($name, $heading, $information, $errors, $warnings) {
+        $this->nosave = true;
+        $this->warnings = $warnings;
+        $this->errors = $errors;
+        parent::__construct($name, $heading, $information, '');
+    }
+
+    /**
+     * Always returns true
+     * @return bool Always returns true
+     */
+    public function get_setting() {
+        return true;
+    }
+
+    /**
+     * Always returns true
+     * @return bool Always returns true
+     */
+    public function get_defaultsetting() {
+        return true;
+    }
+
+    /**
+     * Never write settings
+     * @return string Always returns an empty string
+     */
+    public function write_setting($data) {
+    // do not write any setting
+        return '';
+    }
+
+    /**
+     * Returns an HTML string
+     * @return string Returns an HTML string
+     */
+    public function output_html($data, $query='') {
+        global $OUTPUT;
+        $return = '';
+        if ($this->errors || $this->warnings) {
+            if(is_array($this->errors)) {
+                foreach($this->errors as $e) {
+                    $return .= $OUTPUT->box($OUTPUT->heading(get_string('error'), 5) . $e, 'alert alert-error alert-block');
+                }
+            } elseif ($this->errors) {
+                $return .= $OUTPUT->box($OUTPUT->heading(get_string('error'), 5) . $this->errors, 'alert alert-error alert-block');
+            }
+            if(is_array($this->warnings)) {
+                foreach($this->warnings as $w) {
+                    $return .= $OUTPUT->box($OUTPUT->heading(get_string('warning'), 5) . $w, 'alert alert-warning alert-block');
+                }
+            } elseif ($this->warnings) {
+                $return .= $OUTPUT->box($OUTPUT->heading(get_string('warning'), 5) . $this->warnings, 'alert alert-warning alert-block');
+            }
+        } else {
+            $return .= $OUTPUT->box('None', 'generalbox formsettingheading');
+        }
+        return format_admin_setting($this, $this->visiblename, $return, $this->description, true, '', '', '');
+    }
+}
+
+function qtype_stack_admin_handle_updated($setting_full_name) {
+    qtype_stack_admin_timestamp::handle_updated($setting_full_name);
+}
+
+/**
+ * Hidden setting used to timestamp changes in key settings.
+ *
+ * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+class qtype_stack_admin_timestamp extends admin_setting_configtext {
+    
+    static protected $links = array();
+    protected $updated = FALSE;
+    
+    static public function handle_updated($updated_setting) {
+        global $ADMIN, $PAGE, $CFG;
+        $link = self::$links[$updated_setting];
+        $link[0]->updated = TRUE;
+        stack_utils::get_config()->refresh($link[1]->name);
+    }
+    
+    /**
+     * @param string $name
+     * @param string $visiblename
+     * @param string $description
+     * @param array  $monitored
+     */
+    public function __construct($name, $visiblename, $description, $monitored) {
+        parent::__construct($name, $visiblename, $description, '0', $paramtype=PARAM_INT, $size=12);
+        foreach($monitored as $m) {
+            /**
+             * @var admin_setting $m  
+             */
+            $n = $m->get_full_name();
+            self::$links[$m->get_full_name()] = array($this, $m);
+            $m->set_updatedcallback('qtype_stack_admin_handle_updated');
+        }
+    }
+   
+    public function write_setting($data) {
+        if($this->updated) {
+            $data = time();
+            $this->updated = false;
+        }
+        return parent::write_setting($data);
+    }
+    
+    /**
+     * Returns an XHTML string for the hidden field
+     *
+     * @param string $data
+     * @param string $query
+     * @return string XHTML string for the editor
+     */
+    public function output_html($data, $query='') {
+        return '<div class="form-empty" >' .
+                                    '<input type="hidden"' .
+                                        ' id="'. $this->get_id() .'"' .
+                                        ' name="'. $this->get_full_name() .'"' .
+                                        ' value="'.s($data).'"/></div>';
+        return format_admin_setting($this,
+                                    '',
+                                    '<div class="form-empty" >' .
+                                    '<input type="hidden"' .
+                                        ' id="'. $this->get_id() .'"' .
+                                        ' name="'. $this->get_full_name() .'"' .
+                                        ' value=".s($data)."/></div>',
+                                    '',
+                                    false,
+                                    '',
+                                    '',
+                                    '');
+    }
+}
+

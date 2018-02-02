@@ -35,6 +35,7 @@ require_once(__DIR__ . '/stack/cas/casstring.class.php');
 require_once(__DIR__ . '/stack/cas/cassession.class.php');
 require_once(__DIR__ . '/stack/cas/connector.dbcache.class.php');
 require_once(__DIR__ . '/stack/cas/installhelper.class.php');
+require_once(__DIR__ . '/stack/cas/platforms.php');
 
 
 // Check permissions.
@@ -55,15 +56,33 @@ if (data_submitted() && optional_param('clearcache', false, PARAM_BOOL)) {
     redirect($PAGE->url);
 }
 
+// Do this early because any errors from this will prevent image creation.
+$platform = stack_platform_base::get_current();
+$checkrv = $platform->check_maxima_install();
+$platformerrors = $checkrv['errors']; $platformwarnings = $checkrv['warnings'];
+$errmsg = ""; $warnmsg = "";
+if(count($platformerrors) > 0) {
+    $errmsg = "ERRORS:<ul><li>" . implode('</li><li>', $platformerrors) . '</li></ul>';
+}
+if(count($platformwarnings) > 0) {
+    $warnmsg .= "WARNINGS:<ul><li>" . implode('</li><li>', $platformwarnings) . '</li></ul>';
+}
+
 // Create and store Maxima image if requested.
 if (data_submitted() && optional_param('createmaximaimage', false, PARAM_BOOL)) {
     require_sesskey();
     stack_cas_connection_db_cache::clear_cache($DB);
-    list($ok, $errmsg)  = stack_cas_configuration::create_auto_maxima_image();
-    if ($ok) {
-        redirect($PAGE->url, stack_string('healthautomaxopt_succeeded'), null, \core\output\notification::NOTIFY_SUCCESS);
+    $ok = TRUE;
+    if(count($platformerrors) > 0) {
+        $ok = false;
     } else {
-        redirect($PAGE->url, stack_string('healthautomaxopt_failed', array('errmsg' => $errmsg)), null,
+        list($ok, $errmsg)  = stack_cas_configuration::create_auto_maxima_image();
+    }
+    if ($ok) {
+        redirect($PAGE->url, stack_string('healthautomaxopt_succeeded'), null,
+                \core\output\notification::NOTIFY_SUCCESS);
+    } else {
+        redirect($PAGE->url, stack_string('healthautomaxopt_failed', array('errmsg' => $errmsg . $warnmsg)), null,
                 \core\output\notification::NOTIFY_ERROR);
     }
 }
@@ -76,7 +95,7 @@ echo $OUTPUT->heading($title);
 
 // This array holds summary info, for a table at the end of the pager.
 $summary = array();
-$summary[] = array('', $config->platform );
+$summary[] = array('', $platform->get_desc() );
 
 // LaTeX.
 echo $OUTPUT->heading(stack_string('healthchecklatex'), 3);
@@ -102,19 +121,28 @@ if ($config->mathsdisplay === 'mathjax') {
 echo $OUTPUT->heading(stack_string('healthcheckconfig'), 3);
 
 // Try to list available versions of Maxima (linux only, without the DB).
-if ($config->platform !== 'win') {
-    $connection = stack_connection_helper::make();
-    if (is_a($connection, 'stack_cas_connection_unix')) {
-        echo html_writer::tag('pre', $connection->get_maxima_available());
-    }
+if ($platform->can_list_maxima_versions()) {
+    $connection = stack_connection_helper::make()->get_raw();
+    echo html_writer::tag('pre', $connection->get_maxima_available());
 }
 
 // Check for location of Maxima.
-$maximalocation = stack_cas_configuration::confirm_maxima_win_location();
-if ('' != $maximalocation) {
-    $message = stack_string('healthcheckconfigintro1').' '.html_writer::tag('tt', $maximalocation);
+$maximalocation = $platform->get_maxima_install();
+if (TRUE !== $maximalocation) {
+    $message = stack_string('healthcheckconfigintro1a').' '.html_writer::tag('tt', $maximalocation ? $maximalocation : "* unknown *");
     echo html_writer::tag('p', $message);
-    $summary[] = array(null, $message);
+    $summary[] = array($maximalocation !== NULL, $message);
+}
+
+// Report platform configuration errors and warnings from earlier above.
+if(count($platformerrors)> 0) {
+    echo html_writer::tag('p', $errmsg);
+    $summary[] = array(FALSE, stack_string('healthcheckplatformconfigerrors'));
+}
+
+if(count($platformwarnings)> 0) {
+    echo html_writer::tag('p', $warnmsg);
+    $summary[] = array(null, stack_string('healthcheckplatformconfigwarnings'));
 }
 
 // Check if the current options for library packages are permitted (maximalibraries).
@@ -132,11 +160,21 @@ echo html_writer::tag('textarea', stack_cas_configuration::generate_maximalocal_
         array('readonly' => 'readonly', 'wrap' => 'virtual', 'rows' => '32', 'cols' => '100'));
 
 // Maxima config.
-if (stack_cas_configuration::maxima_bat_is_missing()) {
-    echo $OUTPUT->heading(stack_string('healthcheckmaximabat'), 3);
-    $message = stack_string('healthcheckmaximabatinfo', $CFG->dataroot);
-    echo html_writer::tag('p', $message);
-    $summary[] = array(false, $message);
+echo $OUTPUT->heading(stack_string('healthcheckmaximabat'), 3);
+if ( $platform->requires_launch_script() ) {
+    echo html_writer::tag('p', stack_string('healthcheckmaximabatinfo', $platform->get_launch_script_pathame()));
+    if($platform->check_launch_script() ) {
+        $message = stack_string('healthcheckmaximabatok', $platform->get_launch_script_pathame());
+        echo html_writer::tag('p', $message);
+        $summary[] = array(TRUE, $message);
+    } else {
+        $message = stack_string('healthcheckmaximabaterr', $platform->get_launch_script_pathame());
+        echo html_writer::tag('p', $message);
+        $summary[] = array(FALSE, $message);
+    }
+} else {
+    $message = stack_string('healthcheckmaximabatnotneeded');
+    $summary[] = array(NULL, $message);
 }
 
 // Test an *uncached* call to the CAS.  I.e. a genuine call to the process.
@@ -154,9 +192,11 @@ $genuinecascall = $result;
 output_cas_text(stack_string('healthcheckconnect'),
         stack_string('healthcheckconnectintro'), get_string('healthchecksamplecas', 'qtype_stack'));
 
-// If we have a linux machine, and we are testing the raw connection then we should
+$tryoptimising = ! empty($_REQUEST['trialopt']) && $_REQUEST['trialopt'];
+
+// If we have a platform than can be optimsed and we are testing the raw connection then we should
 // attempt to automatically create an optimized maxima image on the system.
-if ($config->platform === 'unix' and $genuinecascall) {
+if ($tryoptimising && $platform->can_be_auto_optimised() && $genuinecascall) {
     echo $OUTPUT->heading(stack_string('healthautomaxopt'), 3);
     echo html_writer::tag('p', stack_string('healthautomaxoptintro'));
     list($message, $debug, $result, $commandline) = stack_connection_helper::stackmaxima_auto_maxima_optimise($genuinedebug);
@@ -194,7 +234,7 @@ if ('db' == $config->casresultscache) {
 }
 
 // Option to auto-create the Maxima image and store the results.
-if ($config->platform != 'win') {
+if ($platform->can_be_auto_optimised()) {
     echo $OUTPUT->single_button(
         new moodle_url($PAGE->url, array('createmaximaimage' => 1, 'sesskey' => sesskey())),
         stack_string('healthcheckcreateimage'));

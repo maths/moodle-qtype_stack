@@ -25,6 +25,7 @@
 
 require_once(__DIR__ . '/../../../../config.php');
 require_once(__DIR__ . '/docslib.php');
+require_once(__DIR__. '/../stack/utils.class.php');
 
 /*
  *  This file serves the contents of a local directory and renders markup to html
@@ -114,7 +115,7 @@ if ('Site_map' == $lastseg) {
 
 /* Add the version number to the front page.  */
 if ($uri == '/') {
-    $settings = get_config('qtype_stack');
+    $settings = stack_utils::get_config();
     $body .= '<br/>'.stack_string('stackDoc_version', $settings->version);
 }
 

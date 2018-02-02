@@ -17,6 +17,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/../cas/connector.interface.php');
+require_once(__DIR__ . '/platforms.php');
 
 
 /**
@@ -26,6 +27,12 @@ require_once(__DIR__ . '/../cas/connector.interface.php');
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 abstract class stack_cas_connection_base implements stack_cas_connection {
+    /**
+     *
+     * @var stack_platform_base The platform this connection uses / services.
+     */
+    protected $platform;
+
     /** @var string path to write Maxiam error output to. */
     protected $logs;
 
@@ -83,6 +90,16 @@ abstract class stack_cas_connection_base implements stack_cas_connection {
 
         return $unpackedresult;
     }
+    
+    /**
+     * Get raw version of the connection.
+     * 
+     * @return stack_cas_connection_base The default implementation - for raw connections; 
+     * just returns $this.
+     */
+    public function get_raw() {
+        return $this;
+    }
 
     // @codingStandardsIgnoreStart
     /* @see stack_cas_connection::get_debuginfo() */
@@ -91,29 +108,16 @@ abstract class stack_cas_connection_base implements stack_cas_connection {
         return $this->debug->get_log();
     }
 
-    /* On a Unix system list the versions of maxima available for use. */
+    /* By default, platforms cannot list available versions. */
     public function get_maxima_available() {
-        if ('unix' != stack_connection_helper::get_platform()) {
-            return stack_string('healthunabletolistavail');
-        }
-        $this->command = 'maxima --list-avail';
-        $rawresult = $this->call_maxima('');
-        return $rawresult;
+        return stack_string('healthunabletolistavail', $this->platform->get_name());
     }
-
-    /**
-     * Try to determine the name of the Maxima executable to use in command-lines,
-     * if it is not specified in the configuration.
-     * @param string $path the path to the stack workspace folder.
-     * @return string Maxima executable name.
-     */
-    protected abstract function guess_maxima_command($path);
-
+    
     /**
      * Connect directly to the CAS, and return the raw string result.
      *
      * @param string $command The string of CAS commands to be processed.
-     * @return string|boolean The converted HTML string or FALSE if there was an error.
+     * @return string|bool The raw results or FALSE if there was an error.
      */
     protected abstract function call_maxima($command);
 
@@ -122,20 +126,17 @@ abstract class stack_cas_connection_base implements stack_cas_connection {
      * @param stdClass $settings the Maxima configuration settings.
      * @param stack_debug_log $debuglog the debug log to use.
      */
-    public function __construct($settings, stack_debug_log $debuglog) {
+    public function __construct($settings, stack_debug_log $debuglog, $platform) {
         global $CFG;
 
+        $this->platform = $platform;
         $path = $CFG->dataroot . '/stack';
 
         $initcommand = 'load("' . $path . '/maximalocal.mac");' . "\n";
         $initcommand = str_replace("\\", "/", $initcommand);
         $initcommand .= "\n";
 
-        if ('' != trim($settings->maximacommand)) {
-            $cmd = $settings->maximacommand;
-        } else {
-            $cmd = $this->guess_maxima_command($path);
-        }
+        $cmd = $this->platform->get_maxima_command();
 
         $this->logs           = $path;
         $this->command        = $cmd;
@@ -155,7 +156,7 @@ abstract class stack_cas_connection_base implements stack_cas_connection {
     /**
      * Top level Maxima-specific function used to parse CAS output into an array.
      *
-     * @param array $rawresult Raw CAS output
+     * @param string $rawresult Raw CAS output
      * @return array
      */
     protected function unpack_raw_result($rawresult) {

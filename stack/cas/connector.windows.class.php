@@ -15,7 +15,7 @@
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
 defined('MOODLE_INTERNAL') || die();
-
+require_once(__DIR__ . '/platforms.php');
 /**
  * Connection to Maxima for Windows systems.
  *
@@ -24,18 +24,13 @@ defined('MOODLE_INTERNAL') || die();
  */
 class stack_cas_connection_windows extends stack_cas_connection_base {
 
-    protected function guess_maxima_command($path) {
-        if ('default' == stack_connection_helper::get_maximaversion()) {
-            throw new stack_exception("stack_cas_connection: maxima cannot be set to default on Windows platform. ".
-                    "Please choose an explicit version via the administration settings page.");
-        }
-        $cmd = $path . '/maxima.bat';
-        if (!is_readable($cmd)) {
-            throw new stack_exception("stack_cas_connection: maxima launch script {$cmd} does not exist.");
-        }
-        return $cmd;
-    }
-
+    /**
+     * Connect directly to the CAS, and return the raw string result.
+     *
+     * @param string $command The string of CAS commands to be processed.
+     * @return string|bool The raw results or FALSE if there was an error.
+     * @throws stack_exception
+     */
     protected function call_maxima($command) {
         set_time_limit(0); // Note, some users may not want this!
         $ret = false;
@@ -45,7 +40,7 @@ class stack_cas_connection_windows extends stack_cas_connection_base {
             1 => array('pipe', 'w'),
             2 => array('file', $this->logs . "cas_errors.txt", 'a'));
 
-        $cmd = '"'.$this->command.'"';
+        $cmd = $this->command;
         $this->debug->log('Command line', $cmd);
 
         $casprocess = proc_open($cmd, $descriptors, $pipes);

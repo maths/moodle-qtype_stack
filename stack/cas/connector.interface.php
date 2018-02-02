@@ -36,4 +36,11 @@ interface stack_cas_connection {
      *      debugging is enabled by the configuration.
      */
     public function get_debuginfo();
+    
+    /**
+     * Get raw version of the connection.
+     * 
+     * @return stack_cas_connection_base Returns the raw connection object.
+     */
+    public function get_raw();
 }

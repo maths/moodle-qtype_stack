@@ -106,13 +106,64 @@ class stack_debug_log_null implements stack_debug_log {
 
 
 /**
+ * Class implementing minimal write-through refreshable configuration cache. The purpose of the 
+ * class is to ensure that gets can access the config faster, but also that any writes are reflected
+ * globally. This means not only writing through, but also having a reference-proof refresh.
+ */
+
+class stack_config_settings {
+    
+    protected $data;
+    
+    public function __construct() {
+        $this->data = get_config('qtype_stack');
+    }
+    
+    public function __set($name, $value) {
+        set_config($name, $value, 'qtype_stack');
+        $this->data->{$name} = $value;
+    }
+    
+    public function __get($name) {
+        return $this->data->{$name};
+    }
+    
+    public function __isset($name) {
+        return isset($this->data->{$name});
+    }
+    
+    public function __unset($name) {
+        unset($this->data->{$name});
+    }
+    
+    /**
+     * Reference-safe refresh; i.e. all client code with a reference to this object can see the
+     * correctly refreshed data, after just one client call to this function.
+     * 
+     * @param string|null $name null = all, $name = specific setting
+     * @return string|stack_config_settings Returns a string for a single setting, or a reference
+     * to 'this' for a full refresh.
+     */
+    public function refresh($name = NULL) {
+        if($name) {
+            $rv = get_config('qtype_stack', $name);
+            $this->data->{$name} = $rv;
+            return $rv;
+        } else {
+            $this->data = get_config('qtype_stack');
+            return $this;
+        }
+    }
+}
+
+/**
  * Utility methods for processing strings.
  *
  * @copyright  2012 University of Birmingham
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class stack_utils {
-    /** @var object the STACK config data, so we only ever have to load it from the DB once. */
+    /** @var stack_config_settings the STACK config data, so we only ever have to load it from the DB once. */
     protected static $config = null;
 
     /** @var A list of mathematics environments we search for, from AMSmath package 2.0. */
@@ -785,16 +836,22 @@ class stack_utils {
         return preg_match('~^' . self::VALID_NAME_REGEX . '$~', $name);
     }
 
-    /** Get the stack configuration settings. */
+    /**
+     * Get the stack configuration settings. *
+     * @return stack_config_settings Returns an object representing the settings as a write through object.
+     */
     public static function get_config() {
         if (is_null(self::$config)) {
-            self::$config = get_config('qtype_stack');
+            self::$config = new stack_config_settings();
         }
         return self::$config;
     }
 
+    /**
+     * Clears the configuring cache, causing any values to be reloaded.
+     */
     public static function clear_config_cache() {
-        self::$config = null;
+        self::get_config()->refresh();
     }
 
     /**
@@ -1242,5 +1299,27 @@ class stack_utils {
             $arg = trim($ops[1]);
         }
         return(array($option, $arg));
+    }
+
+    /**
+     * Copy folder recursively
+     * 
+     * @param string $src Source directory
+     * @param string $dst Destination directory
+     * @param string|null pattern to match for files
+     */
+    public static function copy_dir_r($src, $dst, $pattern=NULL) {
+        $dir = opendir($src);
+        is_dir($dst) || mkdir($dst);
+        while(false !== ( $file = readdir($dir)) ) {
+            if (( $file != '.' ) && ( $file != '..' )) {
+                if ( is_dir($src . '/' . $file) ) {
+                    recurse_copy($src . '/' . $file, $dst . '/' . $file);
+                } elseif(!$pattern || fnmatch($pattern, $file)) {
+                    copy($src . '/' . $file, $dst . '/' . $file);
+                }
+            }
+        }
+        closedir($dir);
     }
 }

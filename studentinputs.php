@@ -143,7 +143,7 @@ echo '<br/>'.stack_string('testsuiteteststook', array('time' => $rtook));
 echo '<br/>'.stack_string('testsuiteteststookeach', array('time' => $pertest));
 echo '</p>';
 
-$config = get_config('qtype_stack');
+$config = stack_utils::get_config();
 echo html_writer::tag('p', stack_string('healthcheckcache_' . $config->casresultscache));
 
 // Overall summary.

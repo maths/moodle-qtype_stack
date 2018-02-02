@@ -25,12 +25,13 @@ require_once(__DIR__ . '/../utils.class.php');
 require_once(__DIR__ . '/casstring.units.class.php');
 require_once(__DIR__ . '/connectorhelper.class.php');
 require_once(__DIR__ . '/cassession.class.php');
+require_once(__DIR__ . '/platforms.php');
 
 
 class stack_cas_configuration {
     protected static $instance = null;
 
-    /** @var This variable controls which optional packages are supported by STACK. */
+    /** @var array This variable controls which optional packages are supported by STACK. */
     public static $maximalibraries = array('stats', 'distrib', 'descriptive', 'simplex');
 
     protected $settings;
@@ -51,7 +52,9 @@ class stack_cas_configuration {
      */
     public function __construct() {
         global $CFG;
-        $this->settings = get_config('qtype_stack');
+        $this->settings = stack_utils::get_config();
+        /* @var stack_platform_base $platform */
+        $platform = stack_platform_base::get_current();
         $this->date = date("F j, Y, g:i a");
 
         $this->maximacodepath = stack_utils::convert_slash_paths(
@@ -62,7 +65,7 @@ class stack_cas_configuration {
         $this->vnum = (float) substr($this->settings->maximaversion, 2);
 
         $this->blocksettings = array();
-        $this->blocksettings['MAXIMA_PLATFORM'] = $this->settings->platform;
+        $this->blocksettings['MAXIMA_PLATFORM'] = $platform->get_name();
         $this->blocksettings['maxima_tempdir'] = stack_utils::convert_slash_paths($CFG->dataroot . '/stack/tmp/');
         $this->blocksettings['IMAGE_DIR']     = stack_utils::convert_slash_paths($CFG->dataroot . '/stack/plots/');
 
@@ -73,151 +76,42 @@ class stack_cas_configuration {
         $this->blocksettings['PLOT_TERMINAL'] = 'svg';
         // Note, the quotes need to be protected below.
         $this->blocksettings['PLOT_TERM_OPT'] = 'dynamic font \",11\" linewidth 1.2';
-
-        if ($this->settings->platform === 'win') {
-            $this->blocksettings['DEL_CMD']     = 'del';
-            $this->blocksettings['GNUPLOT_CMD'] = $this->get_plotcommand_win();
+        
+        $this->blocksettings['DEL_CMD'] = $platform->get_remove_command();
+        
+        $maximacommand = $platform->get_maxima_command();
+        if($maximacommand == NULL) {
+            throw new stack_exception('Could not locate Maxima.');
         } else {
-            $this->blocksettings['DEL_CMD']     = 'rm';
-            if ((trim($this->settings->plotcommand)) != '') {
-                $this->blocksettings['GNUPLOT_CMD'] = $this->settings->plotcommand;
-            } else if (is_readable('/Applications/Gnuplot.app/Contents/Resources/bin/gnuplot')) {
-                $this->blocksettings['GNUPLOT_CMD'] = '/Applications/Gnuplot.app/Contents/Resources/bin/gnuplot';
+            $plotcommand = $platform->get_plot_command();
+            if($plotcommand == NULL) {
+                throw new stack_exception('Could not locate GNUPLOT.');
             } else {
-                $this->blocksettings['GNUPLOT_CMD'] = 'gnuplot';
+                $this->blocksettings['GNUPLOT_CMD'] = $plotcommand;
+                $this->blocksettings['DEL_CMD']     = $platform->get_remove_command();
             }
         }
+
         // Loop over this array to format them correctly...
-        if ($this->settings->platform === 'win') {
+        if (! $platform->are_all_pathnames_portable()) {
             foreach ($this->blocksettings as $var => $val) {
-                if ($var != 'PLOT_TERM_OPT') {
-                    $this->blocksettings[$var] = addslashes(str_replace( '/', '\\', $val));
+                // Only escape variables that refer to paths; e.g. leave font in PLOT_TERM_OPT alone.
+                if(preg_match("/([^A-Za-z]|^)(CMD|PATH|FILE|DIR)([^A-Za-z]|$)/", $var) > 0) {
+                    $this->blocksettings[$var] = addslashes($platform->pathname_to_native($val));
                 }
             }
         }
 
         $this->blocksettings['MAXIMA_VERSION_EXPECTED'] = $this->settings->maximaversion;
         $this->blocksettings['URL_BASE']       = '!ploturl!';
-        if ($this->settings->platform === 'win') {
-            $this->blocksettings['URL_BASE']       = '!ploturl!/';
-        }
+//        if ($this->settings->platform === 'win') {
+//            $this->blocksettings['URL_BASE']       = '!ploturl!/';
+//        }
     }
 
-    /**
-     * Try to guess the gnuplot command on Windows.
-     * @return string the command.
-     */
-    public function get_plotcommand_win() {
-        global $CFG;
-        if ($this->settings->plotcommand && $this->settings->plotcommand != 'gnuplot') {
-            return $this->settings->plotcommand;
-        }
-
-        // This does its best to find your version of Gnuplot...
-        $maximalocation = $this->maxima_win_location();
-
-        $plotcommands = array();
-        $plotcommands[] = $maximalocation. 'gnuplot/wgnuplot.exe';
-        $plotcommands[] = $maximalocation. 'bin/wgnuplot.exe';
-        $plotcommands[] = $maximalocation. 'gnuplot/bin/wgnuplot.exe';
-
-        // I'm really now totally and finally fed up with dealing with spaces in MS filenames.
-        $newplotlocation = stack_utils::convert_slash_paths($CFG->dataroot . '/stack/wgnuplot.exe');
-        foreach ($plotcommands as $plotcommand) {
-            if (file_exists($plotcommand)) {
-                if (substr_count($plotcommand, ' ') === 0) {
-                    $newplotlocation = stack_utils::convert_slash_paths($CFG->dataroot . '/stack/wgnuplot.bat');
-                    if (!file_put_contents($newplotlocation, $this->maxima_win_location() .
-                            "gnuplot/bin/wgnuplot.exe %1 %2 %3 %3 %5 %6 %7 \n\n")) {
-                        throw new stack_exception('Failed to write wgnuplot batch file to:'. $newplotlocation);
-                    }
-                } else {
-                    copy($plotcommand, $newplotlocation);
-                }
-                return $newplotlocation;
-            }
-        }
-        throw new stack_exception('Could not locate GNUPlot.');
-    }
-
-    public function maxima_win_location() {
-        global $CFG;
-
-        if ($this->settings->platform != 'win') {
-            return '';
-        }
-
-        $locations = array();
-        $locations[] = 'C:/maxima-' . $this->settings->maximaversion . '/';
-        $locations[] = 'C:/maxima-' . $this->settings->maximaversion . 'a/';
-        $locations[] = 'C:/Maxima-' . $this->settings->maximaversion . '/';
-        $locations[] = 'C:/bin/Maxima-gcl-' . $this->settings->maximaversion . '/';
-        $locations[] = 'C:/bin/Maxima-sbcl-' . $this->settings->maximaversion . '/';
-        $locations[] = 'C:/Program Files/Maxima-' . $this->settings->maximaversion . '/';
-        $locations[] = 'C:/Program Files (x86)/Maxima-' . $this->settings->maximaversion . '/';
-        $locations[] = 'C:/Program Files/Maxima-sbcl-' . $this->settings->maximaversion . '/';
-        $locations[] = 'C:/Program Files (x86)/Maxima-sbcl-' . $this->settings->maximaversion . '/';
-        $locations[] = 'C:/Program Files/Maxima-gcl-' . $this->settings->maximaversion . '/';
-        $locations[] = 'C:/Program Files (x86)/Maxima-gcl-' . $this->settings->maximaversion . '/';
-        if ('5.25.1' == $this->settings->maximaversion) {
-            $locations[] = 'C:/Program Files/Maxima-5.25.1-gcl/';
-            $locations[] = 'C:/Program Files (x86)/Maxima-5.25.1-gcl/';
-        }
-        if ('5.28.0' == $this->settings->maximaversion) {
-            $locations[] = 'C:/Program Files/Maxima-5.28.0-2/';
-            $locations[] = 'C:/Program Files (x86)/Maxima-5.28.0-2/';
-        }
-        if ('5.31.1' == $this->settings->maximaversion) {
-            $locations[] = 'C:/Program Files/Maxima-5.31.1-1/';
-            $locations[] = 'C:/Program Files (x86)/Maxima-5.31.1-1/';
-        }
-        $locations[] = 'C:/Program Files/Maxima/';
-        $locations[] = 'C:/Program Files (x86)/Maxima/';
-
-        foreach ($locations as $location) {
-            if (file_exists($location.'bin/maxima.bat')) {
-                return $location;
-            }
-        }
-
-        throw new stack_exception('Could not locate the directory into which Maxima is installed. Tried the following:' .
-                implode(', ', $locations));
-    }
-
-    public function copy_maxima_bat() {
-        global $CFG;
-
-        if ($this->settings->platform != 'win') {
-            return true;
-        }
-        $batchfilename = $this->maxima_win_location() . 'bin/maxima.bat';
-        if (substr_count($batchfilename, ' ') === 0) {
-            $batchfilecontents = "rem Auto-generated Maxima batch file.  \n\n";
-            $batchfilecontents .= $this->maxima_win_location() . 'bin/maxima.bat'."\n\n";
-            if (!file_put_contents($CFG->dataroot . '/stack/maxima.bat', $batchfilecontents)) {
-                throw new stack_exception('Failed to write Maxima batch file.');
-            }
-            return true;
-        }
-
-        // If there are spaces within the pathname to the windows batch file we need to copy the batch file.
-        if (!copy($batchfilename, $CFG->dataroot . '/stack/maxima.bat')) {
-            throw new stack_exception('Could not copy the Maxima batch file ' . $batchfilename .
-                    ' to location ' . $CFG->dataroot . '/stack/maxima.bat');
-        }
-    }
-
-    public function maxima_bat_is_ok() {
-        global $CFG;
-
-        if ($this->settings->platform != 'win') {
-            return true;
-        }
-
-        return is_readable($CFG->dataroot . '/stack/maxima.bat');
-    }
 
     public function get_maximalocal_contents() {
+        $platform = stack_platform_base::get_current();
         $contents = <<<END
 /* ***********************************************************************/
 /* This file is automatically generated at installation time.            */
@@ -257,7 +151,7 @@ END;
 
 END;
 
-        if ($this->settings->platform == 'unix-optimised') {
+        if ($platform->is_optimised()) {
             $contents .= <<<END
 /* We are using an optimised lisp image with maxima and the stack libraries
    pre-loaded. That is why you don't see the familiar load("stackmaxima.mac")$ here.
@@ -272,8 +166,7 @@ END;
 load("stackmaxima.mac")$
 
 END;
-            $maximalib = $this->settings->maximalibraries;
-            $maximalib = explode(',', $maximalib);
+            $maximalib = explode(', ', $this->settings->maximalibraries);
             foreach ($maximalib as $lib) {
                 $lib = trim($lib);
                 // Only include and load supported libraries.
@@ -321,18 +214,32 @@ END;
      * Create the maximalocal.mac file, overwriting it if it already exists.
      */
     public static function create_maximalocal() {
+        $platform = stack_platform_base::get_current();
+        $errors = array(); $cmiRW = $platform->check_maxima_install();
+        extract($cmiRW);
+        if($errors) {
+            throw new stack_exception(stack_string('errormaximalocalunresolvederrors'));
+        }
+        
         make_upload_directory('stack');
         make_upload_directory('stack/logs');
         make_upload_directory('stack/plots');
         make_upload_directory('stack/tmp');
-
-        self::get_instance()->copy_maxima_bat();
 
         if (!file_put_contents(self::maximalocal_location(), self::generate_maximalocal_contents())) {
             throw new stack_exception('Failed to write Maxima configuration file.');
         }
     }
 
+    public static function check_maximalocal() {
+        $instance = self::get_instance();
+        $cts = (empty($instance->settings->criticalsettingsupdated) || !$instance->settings->criticalsettingsupdated) ?
+                0 : (int)$instance->settings->criticalsettingsupdated;
+        $mlfn = self::maximalocal_location();
+        $mlts = is_file($mlfn) ? filemtime($mlfn) : 0;
+        return $mlts > $cts;
+    }
+    
     /**
      * Generate the contents for the maximalocal configuration file.
      * @return string the contents that the maximalocal.mac file should have.
@@ -342,30 +249,13 @@ END;
     }
 
     /**
-     * Generate the contents for the maximalocal configuration file.
-     * @return string the contents that the maximalocal.mac file should have.
-     */
-    public static function maxima_bat_is_missing() {
-        return !self::get_instance()->maxima_bat_is_ok();
-    }
-
-    /**
-     * Generate the directoryname
-     * @return string the contents that the maximalocal.mac file should have.
-     */
-    public static function confirm_maxima_win_location() {
-        return self::get_instance()->maxima_win_location();
-    }
-
-    /**
      * This function checks the current setting match to the supported packages.
      */
     protected function get_validate_maximalibraries() {
 
         $valid = true;
         $message = '';
-        $maximalib = $this->settings->maximalibraries;
-        $maximalib = explode(',', $maximalib);
+        $maximalib = explode(', ', $this->settings->maximalibraries);
         foreach ($maximalib as $lib) {
             $lib = trim($lib);
             // Only include and load supported libraries.
@@ -385,59 +275,64 @@ END;
         return self::get_instance()->get_validate_maximalibraries();
     }
 
-    /*
+    /**
      * This function genuinely recreates the maxima image and stores the results in
      * the configuration settings.
+     * 
+     * @return array Returns an array [0] => TRUE if successful, FALSE otherwise; [1] => error message.
      */
     public static function create_auto_maxima_image() {
-        $config = get_config('qtype_stack');
-            // Do not try to generate the optimised image on MS platforms.
-        if ($config->platform == 'win') {
-            $errmsg = "Microsoft Windows version cannot be optimised";
-            return array(false, $errmsg);
+        $config = stack_utils::get_config();
+        $platform = stack_platform_base::get_current();
+        $rv = $platform->can_be_auto_optimised();
+            // Do not try to generate the optimised image on platforms that do not support it, e.g.
+            // MS + GCL platforms.
+        if (TRUE !== $rv) {
+            return array(false, $platform->get_no_opt_reason());
         }
 
         /*
-         * Revert to the plain unix platform.  This will genuinely call the CAS, and
+         * Revert to the non-optimised platform.  This will genuinely call the CAS, and
          * as a result create a new image.
          */
-        $oldplatform = $config->platform;
+        $oldplatform = $platform->get_name();
         $oldmaximacommand = $config->maximacommand;
-        set_config('platform', 'unix', 'qtype_stack');
-        set_config('maximacommand', '', 'qtype_stack');
-        stack_utils::get_config()->platform = 'unix';
-        stack_utils::get_config()->maximacommand = '';
-        self::get_instance()->settings->platform = 'unix';
-        self::get_instance()->settings->maximacommand = '';
+        $oldlibraries = $config->maximalibraries;
+        $nonoptplatform = $platform->non_optimised()->get_name();
+        $config->platform =  $nonoptplatform;
+        $config->maximacommand =  $platform->get_maxima_preopt_command();
 
         // Try to make a new version of the maxima local file.
         self::create_maximalocal();
+        if($platform->requires_launch_script() && ! $config->bypasslaunchscript) {
+            $platform->generate_launch_script();
+        }
         // Try to actually connect to Maxima.
         list($message, $genuinedebug, $result) = stack_connection_helper::stackmaxima_genuine_connect();
 
         // Check if the libraries look like they are messing things up.
         if (strpos($genuinedebug, 'eval_string not found') > 0) {
             // If so, get rid of the libraries and try again.
-            set_config('maximalibraries', '', 'qtype_stack');
-            stack_utils::get_config()->maximalibraries = '';
+            $config->maximalibraries =  '';
             list($message, $genuinedebug, $result) = stack_connection_helper::stackmaxima_genuine_connect();
         }
 
         $revert = false;
-        if ($result && ($oldplatform == 'unix' || $oldplatform == 'unix-optimised')) {
+        if ($result) {
             // Try to auto make the optimised image.
-            list($message, $genuinedebug, $result, $commandline)
-                 = stack_connection_helper::stackmaxima_auto_maxima_optimise($genuinedebug, true);
+            list($message, $genuinedebug, $result, )
+                 = stack_connection_helper::stackmaxima_auto_maxima_optimise($genuinedebug);
 
             if ($result) {
-                set_config('platform', 'unix-optimised', 'qtype_stack');
-                set_config('maximacommand', $commandline, 'qtype_stack');
-                stack_utils::get_config()->platform = 'unix-optimised';
-                stack_utils::get_config()->maximacommand = $commandline;
-                self::get_instance()->settings->platform = 'unix-optimised';
-                self::get_instance()->settings->maximacommand = $commandline;
-                // We need to regenerate this file to supress stackmaxima.mac and libraries being reloaded.
+                $optplatform = $platform->optimised();
+                $optplatformname = $optplatform->get_name();
+                $config->platform =  $optplatformname;
+                $config->maximacommand =  '';
+
                 self::create_maximalocal();
+                if($optplatform->requires_launch_script() && ! $config->bypasslaunchscript) {
+                    $optplatform->generate_launch_script();
+                }
 
                 // Now we need to check this actually works.
                 $cs = new stack_cas_casstring('a:1+1');
@@ -458,13 +353,13 @@ END;
         }
 
         if ($revert) {
-            set_config('platform', $oldplatform, 'qtype_stack');
-            set_config('maximacommand', $oldmaximacommand , 'qtype_stack');
-            stack_utils::get_config()->platform = $oldplatform;
-            stack_utils::get_config()->maximacommand = $oldmaximacommand;
-            self::get_instance()->settings->platform = $oldplatform;
-            self::get_instance()->settings->maximacommand = $oldmaximacommand;
+            $config->platform =  $oldplatform;
+            $config->maximacommand =  $oldmaximacommand;
+            $config->maximalibraries =  $oldlibraries;
             self::create_maximalocal();
+            if($platform->requires_launch_script() && ! $config->bypasslaunchscript) {
+                $platform->generate_launch_script();
+            }
             return array(false, $errmsg);
         } else {
             return array(true, "DONE.");

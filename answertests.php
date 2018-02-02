@@ -35,6 +35,7 @@ require_once(__DIR__ . '/locallib.php');
 require_once(__DIR__ . '/stack/options.class.php');
 require_once(__DIR__ . '/stack/answertest/controller.class.php');
 require_once(__DIR__ . '/tests/fixtures/answertestfixtures.class.php');
+require_once(__DIR__ . '/stack/utils.class.php');
 
 
 // Get the parameters from the URL.
@@ -176,7 +177,7 @@ if ($notests > 0) {
     echo '<br/>'.stack_string('testsuiteteststookeach', array('time' => $pertest));
     echo '</p>';
 
-    $config = get_config('qtype_stack');
+    $config = stack_utils::get_config();
     echo html_writer::tag('p', stack_string('healthcheckcache_' . $config->casresultscache));
     echo html_writer::tag('p',  stack_string('settingcasmaximaversion').': '.$config->maximaversion);
 }

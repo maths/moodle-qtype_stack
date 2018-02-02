@@ -51,7 +51,7 @@ abstract class stack_connection_helper {
      */
     public static function make() {
         self::ensure_config_loaded();
-        /** @var stack_platform_base */
+        // @var stack_platform_base.
         $platform = stack_platform_base::get_current();
 
         $debuglog = stack_utils::make_debug_log(self::$config->casdebugging);
@@ -105,7 +105,7 @@ abstract class stack_connection_helper {
         self::ensure_config_loaded();
         return self::$config->platform;
     }
-    
+
     /**
      * @return string|null the configured version number.
      */
@@ -227,12 +227,12 @@ abstract class stack_connection_helper {
                 break;
             }
         }
-        
+
         $platform = stack_platform_base::get_current();
-        if($platform->is_optimised()) {
+        if ($platform->is_optimised()) {
             $docsurl = new moodle_url('/question/type/stack/doc/doc.php/CAS/Optimising_Maxima.md');
             $fix = stack_string('healthchecksstackmaximaversionfixoptimised', array('url' => $docsurl->out()));
-        } elseif($platform->is_server_based()) {
+        } else if ($platform->is_server_based()) {
             $fix = stack_string('healthchecksstackmaximaversionfixserver');
         } else {
             $fix = stack_string('healthchecksstackmaximaversionfixunknown');
@@ -315,9 +315,9 @@ abstract class stack_connection_helper {
                     if ('default' == $maximaversion) {
                         $message[] = stack_string('healthuncachedstack_CAS_versionnotchecked',
                                 array('actual' => $maximaversionstr));
-                    // Trim off any trailing junk from the version number, as present in
-                    // Maxima 5.39.0 for Windows:
-                    } elseif (trim(explode('_', trim($result['value'], '"'), 2)[0], 'a..z') != $maximaversion) {
+                        // Trim off any trailing junk from the version number, as present in
+                        // Maxima 5.39.0 for Windows.
+                    } else if (trim(explode('_', trim($result['value'], '"'), 2)[0], 'a..z') != $maximaversion) {
                         $message[] = stack_string('healthuncachedstack_CAS_version',
                                 array('expected' => $maximaversion, 'actual' => $maximaversionstr));
                         $success = false;
@@ -337,9 +337,9 @@ abstract class stack_connection_helper {
             $message[] = stack_string('healthuncachedstack_CAS_not');
         }
 
-        $message_str = implode(" ", $message);
+        $messagestr = implode(" ", $message);
 
-        return array($message_str, $debug, $success);
+        return array($messagestr, $debug, $success);
     }
 
     /*
@@ -350,8 +350,8 @@ abstract class stack_connection_helper {
         $platform = stack_platform_base::get_current();
 
         $imagename = $platform->pathname_to_portable($platform->get_auto_optimised_pathname());
-        
-        $lisp =  strtoupper(self::$config->lisp);
+
+        $lisp = strtoupper(self::$config->lisp);
         // Try to guess the lisp version.
         if (!(false === strpos($genuinedebug, 'GNU Common Lisp (GCL)'))) {
             $lisp = 'GCL';
@@ -376,11 +376,12 @@ abstract class stack_connection_helper {
                 break;
 
             case 'CLISP':
-                $maximacommand = ':lisp (ext:saveinitmem "'. preg_replace('/.exe$/', '', $imagename ).'" :init-function #\'user::run :executable t)' . "\n";
+                $maximacommand = ':lisp (ext:saveinitmem "'. preg_replace('/.exe$/', '', $imagename )
+                    .'" :init-function #\'user::run :executable t)' . "\n";
                 $maximacommand .= 'quit();'."\n";
                 $commandline = $imagename;
                 // Only currently implemented for Windows.
-                // Copy supporting shared libraries
+                // Copy supporting shared libraries.
                 $platform->copy_optimised_support_files();
                 break;
 

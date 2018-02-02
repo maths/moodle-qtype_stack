@@ -23,7 +23,7 @@ require_once(__DIR__ . '/platforms.php');
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class stack_cas_connection_unix extends stack_cas_connection_base {
-    
+
     /**
      * Connect directly to the CAS, and return the raw string result.
      *

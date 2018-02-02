@@ -23,34 +23,33 @@ defined('MOODLE_INTERNAL') || die();
  * @copyright  2018 The Open University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  * @author     Stephen Parry (stephen@edumake.org)
- * 
+ *
  */
 class stack_platform_windows extends stack_platform_base {
-    
+
     /*
      * Member Variables
      * ================
      */
 
-    static protected $lastmaximalocation = NULL;
-    static protected $locations = NULL;
-    static protected $lastmaximaversion = NULL;
-    
-    protected $maximalocation = NULL;
-    protected $maximaversion = NULL;
-    protected $plotexecutable = NULL;
-    protected $lastplotstart = NULL;
-    protected $plotlocations = NULL;
-    
-    protected $default_optimised_pathname = NULL;
-    protected $auto_optimised_pathname = NULL;
-    
+    static protected $lastmaximalocation = null;
+    static protected $locations = null;
+    static protected $lastmaximaversion = null;
+
+    protected $maximalocation = null;
+    protected $maximaversion = null;
+    protected $plotexecutable = null;
+    protected $lastplotstart = null;
+    protected $plotlocations = null;
+
+    protected $default_optimised_pathname = null;
+    protected $auto_optimised_pathname = null;
+
     /*
      * Class Loading and Metadata Member Functions
      * ===========================================
-     * 
+     *
      * These functions manage how platforms are made available to STACK and instantiated.
-     * 
      */
 
     /**
@@ -66,29 +65,29 @@ class stack_platform_windows extends stack_platform_base {
     /*
      * Connection Class Member Functions
      * =================================
-     * These functions link the platform class to the connection class the platform uses
+     * These functions link the platform class to the connection class the platform uses.
      */
-    
+
     /**
      * Get the connection class for this platform.
-     * 
+     *
      * @return string For Windows Returns 'stack_cas_connection_windows'.
-     * 
+     *
      */
     public function get_connection_class() {
         return 'stack_cas_connection_windows';
     }
-    
+
     /**
      * Get the source file for the connection class for this platform.
-     * 
+     *
      * @return string For Windows Returns 'connector.windows.class.php'.
-     * 
+     *
      */
     public function get_connection_source_file() {
         return 'connector.windows.class.php';
     }
-    
+
     /*
      * Pathname Member Functions
      * =========================
@@ -101,51 +100,51 @@ class stack_platform_windows extends stack_platform_base {
     /**
      * Some platforms have native and portable paths (e.g. Windows). For others, such as Unix,
      * all pathnames are portable.
-     * 
-     * @return boolean returns FALSE for the Windows platform.
+     *
+     * @return boolean returns false for the Windows platform.
      */
     public function are_all_pathnames_portable() {
-        return FALSE;
+        return false;
     }
 
     /**
      * Escapes the spaces in a single filename. Does not work for full commands.
-     * @param string $f filename to escape
+     * @param string $f filename to escape.
      * @return string Returns the escaped string.
      */
     static public function escape_spaces($f) {
-        return FALSE===strpos($f, ' ') || FALSE !== strpos($f, '"') ? $f : '"'. $f . '"';
+        return false === strpos($f, ' ') || false !== strpos($f, '"') ? $f : '"'. $f . '"';
     }
-    
+
     /**
-     * 
+     *
      * Compares two pathnames in a platform dependent way. No attempt is made to
      * resolve relative or virtual paths, existent or not. Under windows, pathnames are case
      * insensitive.
-     * 
-     * @param string $p1 full pathname 1
-     * @param string $p2 full path name 2
-     * @return boolean Returns TRUE if the two paths are equal.
+     *
+     * @param string $p1 full pathname 1.
+     * @param string $p2 full path name 2.0
+     * @return boolean Returns true if the two paths are equal.
      */
     public function pathname_equals($p1, $p2) {
         return strcasecmp($this->pathname_to_native($p1), $this->pathname_to_native($p2)) == 0;
     }
-    
+
     /**
      * Extracts arguments from a command line. On most platforms the default implementation will
-     * suffice, which splits the command line arguments on spaces. Platforms that allow spaces in 
+     * suffice, which splits the command line arguments on spaces. Platforms that allow spaces in
      * their command-line pathnames (e.g. Windows) will need more involved processing.
-     * 
+     *
      * @param string $cmd The command line command, including the main program.
      * @return array|null The command line arguments, including the main program.
      */
     public function get_arguments_from_command($cmd) {
         $retval = array();
-        if($cmd && strpos($cmd, '"') !== FALSE) {
-            $in = FALSE;
+        if ($cmd && strpos($cmd, '"') !== false) {
+            $in = false;
             $pieces = explode('"', $cmd);
-            foreach($pieces as $p) {
-                if($in) {
+            foreach ($pieces as $p) {
+                if ($in) {
                     $retval[] = $p;
                 } else {
                     array_merge($retval, explode(' ', trim($p)));
@@ -157,34 +156,34 @@ class stack_platform_windows extends stack_platform_base {
         }
         return $retval;
     }
-    
+
     /*
      * Maxima Program Member Functions
      * ===============================
-     * 
+     *
      * These member functions manipulate configuration, location and files related to how the Maxima
      * executable actually gets executed. The connection class objects actually do the launching and
      * connecting; the installer classes generate some of the less platform specific files, such as
      * maximalocal.mac and any optimised image, but these functions manage the more platform
      * specific aspects, such as where the files are located.
-     * 
+     *
      */
-    
+
     /**
      * Validate and get the location of the Maxima install.
      * @param array $locations If supplied, is filled with the locations that were scanned for an installation.
      * @return null|string Returns:
-     *  - NULL if Maxima install could not be found.
+     *  - null if Maxima install could not be found.
      *  - The path if the Maxima install is found.
      */
     public function get_maxima_install(&$locations = array()) {
         $settings = stack_utils::get_config();
-        if(!isset($settings->maximaversion)){
-            return NULL;
+        if (!isset($settings->maximaversion)) {
+            return null;
         }
-        if(!$this->maximalocation ||  $this->maximaversion !== $settings->maximaversion) {
-            if(!self::$lastmaximalocation || self::$lastmaximaversion !== $settings->maximaversion) {
-                if(!self::$locations) {
+        if (!$this->maximalocation ||  $this->maximaversion !== $settings->maximaversion) {
+            if (!self::$lastmaximalocation || self::$lastmaximaversion !== $settings->maximaversion) {
+                if (!self::$locations) {
                     self::$locations = array();
                     self::$locations[] = 'C:\\maxima-' . $settings->maximaversion . '\\';
                     self::$locations[] = 'C:\\maxima-' . $settings->maximaversion . 'a\\';
@@ -212,7 +211,7 @@ class stack_platform_windows extends stack_platform_base {
                     self::$locations[] = 'C:\\Program Files\\Maxima\\';
                     self::$locations[] = 'C:\\Program Files (x86)\\Maxima\\';
                 }
-                self::$lastmaximalocation = NULL; 
+                self::$lastmaximalocation = null;
                 self::$lastmaximaversion = $settings->maximaversion;
                 foreach (self::$locations as $location) {
                     if (file_exists($location.'bin\\maxima.bat')) {
@@ -227,29 +226,29 @@ class stack_platform_windows extends stack_platform_base {
         $locations = self::$locations;
         return $this->maximalocation;
     }
-    
+
     /**
      * Finds the program file used to launch Maxima when we are not using an optimised executable.
-     * 
+     *
      * @return string|null Returns the full pathname of the program file.
      */
     public function get_maxima_non_opt_filename() {
         $location = $this->get_maxima_install();
-        return $location ? $this->pathname_concat($location , 'bin\\maxima.bat') : NULL;
+        return $location ? $this->pathname_concat($location , 'bin\\maxima.bat') : null;
     }
-    
+
     /**
      * The maxima command (including non-lisp specific parameters) to use for this platform when
      * generating an auto-optimised image, if one is not specified in the admin settings. For platforms
-     * using a launch script, this is the command written to the script, not the command for running 
+     * using a launch script, this is the command written to the script, not the command for running
      * the launch script, i.e. it is like get_maxima_inner_command().
-     * 
+     *
      * @return string Returns the default non-optimised Maxima command.
      */
     public function get_default_maxima_preopt_command() {
         $settings = stack_utils::get_config();
         $retval = $this->escape_spaces($this->pathname_to_native($this->get_maxima_non_opt_filename()));
-        if(isset($settings->lisp) && $settings->lisp && 'default' !== $settings->lisp) {
+        if (isset($settings->lisp) && $settings->lisp && 'default' !== $settings->lisp) {
             $retval .= ' --lisp ' . $settings->lisp;
         }
         return $retval;
@@ -259,7 +258,7 @@ class stack_platform_windows extends stack_platform_base {
      * The maxima command (including arguments) to use by default for this platform. For platforms
      * using a launch script, this the command written to the script, not the command for
      * running the launch script.
-     * 
+     *
      * @return string Returns the default Maxima command.
      */
     public function get_default_maxima_command() {
@@ -275,77 +274,77 @@ class stack_platform_windows extends stack_platform_base {
 
     /**
      * Performs a rudimentary installation check on Maxima.
-     * 
+     *
      * @return array Returns an array of two elements, each an array:
      *  'errors' => array of error strings, 'warnings' => array of warning strings.
-     * 
      */
     public function check_maxima_install() {
-        if(!$this->compare_settings()) {
+        if (!$this->compare_settings()) {
             $this->gather_settings();
             $settings = stack_utils::get_config();
             $errors = array();
             $warnings = array();
-            if(!isset($settings->maximaversion) || !$settings->maximaversion || 'default' === $settings->maximaversion) {
+            if (!isset($settings->maximaversion) || !$settings->maximaversion || 'default' === $settings->maximaversion) {
                 $errors['errormaximaversiondefault'] = stack_string('errormaximaversiondefault');
             } else {
                 $vers = explode('.', $settings->maximaversion);
-                if((int)$vers[0] < 5 || ( (int)$vers[0] === 5 && (int)$vers[1] < 39 )) {
-                    $warnings['errormaximaversionuntested'] = stack_string('errormaximaversionuntested', $settings->maximaversion);
+                if ((int)$vers[0] < 5 || ( (int)$vers[0] === 5 && (int)$vers[1] < 39 )) {
+                    $warnings['errormaximaversionuntested']
+                    = stack_string('errormaximaversionuntested', $settings->maximaversion);
                 }
-                $maxok = FALSE;
-                $maxprog = NULL;
-                if($settings->maximacommand && 'default' !== $settings->maximacommand) {
-                    // Attempt to split the executable from the rest of the command
+                $maxok = false;
+                $maxprog = null;
+                if ($settings->maximacommand && 'default' !== $settings->maximacommand) {
+                    // Attempt to split the executable from the rest of the command.
                     $maxprog = $this->get_arguments_from_command($settings->maximacommand)[0];
                     $maxok = file_exists($maxprog);
-                    if(!$maxok) {
+                    if (!$maxok) {
                         // If it's the optimised image that's missing, make this a warning
                         // otherwise generating the image becomes a real pain.
-                        if($this->is_optimised() && 0 === $this->get_current_optimised_filename()[1]) {
+                        if ($this->is_optimised() && 0 === $this->get_current_optimised_filename()[1]) {
                             $warnings['errormaximanotfound'] = stack_string('errormaximanotfound', $maxprog);
                         } else {
                             $errors['errormaximanotfound'] = stack_string('errormaximanotfound', $maxprog);
                         }
                     }
-                    if(FALSE !== strpos($maxprog, ' ')) {
+                    if (false !== strpos($maxprog, ' ')) {
                         $warnings['errormaximainstallspaces'] = stack_string('errormaximainstallspaces', $maxprog);
                     }
                 } else {
                     $looked = array();
                     $loc = $this->get_maxima_install($looked);
-                    $maxok = ($loc !== NULL);
-                    if(!$maxok) {
+                    $maxok = ($loc !== null);
+                    if (!$maxok) {
                         $errors[] = stack_string('errormaximainstallnotfound', implode(", ", $looked));
                     }
-                    if(FALSE !== strpos($loc, ' ')) {
+                    if (false !== strpos($loc, ' ')) {
                         $warnings['errormaximainstallspaces'] = stack_string('errormaximainstallspaces', $loc);
                     }
                 }
                 $plotcmd = $settings->plotcommand;
-                $plotok = FALSE;
-                if($maxok || ($plotcmd && 'default' !== $plotcmd)) {
-                    $plotprog = NULL;
+                $plotok = false;
+                if ($maxok || ($plotcmd && 'default' !== $plotcmd)) {
+                    $plotprog = null;
                     $looked = array();
-                    if($plotcmd && 'default' !== $plotcmd) {
-                        // Attempt to split the executable from the rest of the command
+                    if ($plotcmd && 'default' !== $plotcmd) {
+                        // Attempt to split the executable from the rest of the command.
                         $args = $this->get_arguments_from_command($plotcmd);
-                        $plotprog = $args ? $args[0]: NULL;
+                        $plotprog = $args ? $args[0] : null;
                     } else {
-                        $plotprog = $this->find_plot_executable(NULL, $looked);
+                        $plotprog = $this->find_plot_executable(null, $looked);
                     }
-                    $plotok = (NULL !== $plotprog && is_executable($plotprog) );
-                    if(!$plotok) {
+                    $plotok = (null !== $plotprog && is_executable($plotprog) );
+                    if (!$plotok) {
                         $warnings['errorgnuplotnotfound'] = stack_string('errorgnuplotnotfound', implode(", ", $looked));
                     }
                 }
             }
-            if($settings->maximacommand || $settings->maximapreoptcommand) {
+            if ($settings->maximacommand || $settings->maximapreoptcommand) {
                 $warnings[] = stack_string('healthcheckwarningcommandoverride');
             }
             $this->errors = $errors;
             $this->warnings = $warnings;
-            if($this->is_optimised()) {
+            if ($this->is_optimised()) {
                 $this->check_image();
             }
         }
@@ -355,32 +354,32 @@ class stack_platform_windows extends stack_platform_base {
     /*
      * Gnu Plot Member Functions
      * =========================
-     * 
+     *
      * These member functions manipulate configuration, location and files related to how the
      * gnuplot executable gets executed.
-     * 
-     */
-    
-    /**
-     * 
-     * @param string|null $start The directory to look within (NULL means use get_maxima_install)
-     * @param array $locations The pathnames relative to $start to try.
-     * @return string|null Returns the location of gnuplot or NULL if it could not be found.
+     *
      */
 
-    public function find_plot_executable($start = NULL, &$locations = array()) {
-        if(!$start) {
+    /**
+     *
+     * @param string|null $start The directory to look within (null means use get_maxima_install)
+     * @param array $locations The pathnames relative to $start to try.
+     * @return string|null Returns the location of gnuplot or null if it could not be found.
+     */
+
+    public function find_plot_executable($start = null, &$locations = array()) {
+        if (!$start) {
             $start = $this->get_maxima_install();
         }
-        if($this->lastplotstart !== $start) {
+        if ($this->lastplotstart !== $start) {
 
-            // This does its best to find your version of Gnuplot...
+            // This does its best to find your version of Gnuplot.
             $plotexecutables = array();
             $plotexecutables[] = $start. 'gnuplot\\wgnuplot.exe';
             $plotexecutables[] = $start. 'bin\\wgnuplot.exe';
             $plotexecutables[] = $start. 'gnuplot\\bin\\wgnuplot.exe';
 
-            $this->plotexecutable = NULL;
+            $this->plotexecutable = null;
             foreach ($plotexecutables as $plotexecutable) {
                 if (file_exists($plotexecutable)) {
                     $this->plotexecutable = $plotexecutable;
@@ -396,22 +395,22 @@ class stack_platform_windows extends stack_platform_base {
 
     /**
      * The default gnuplot command, including any parameters, for this platform.
-     * 
+     *
      * @return string Returns the default command.
      */
     public function get_default_plot_command() {
         return self::escape_spaces($this->find_plot_executable());
     }
-    
+
     /**
      * The remove command for this platform, as used to delete unwanted plot files.
-     * 
+     *
      * @return string Returns the command.
      */
     public function get_remove_command() {
         return "DEL";
     }
-    
+
      /*
      * Optimised Image Member Functions
      * ================================
@@ -424,65 +423,65 @@ class stack_platform_windows extends stack_platform_base {
      * auto-optimised using the healthcheck page. Some platforms will support both, some manual
      * only optimisation, some neither.
      */
-    
+
     /**
      * Determine if this platform can be be auto-optimised. Under Windows GCL cannot be auto-optimised
-     * 
+     *
      * @return bool|string Returns true if this platform can be optimised, or a reason if not.
      */
     public function can_be_auto_optimised() {
         $settings = stack_utils::get_config();
-        return $this->can_be_optimised() && (empty($settings->lisp) ||'gcl' !== $settings->lisp) ? TRUE : stack_string('healthautomaxopt_gclwinmanual');
+        return $this->can_be_optimised() && (empty($settings->lisp) ||'gcl' !== $settings->lisp) ? true : stack_string('healthautomaxopt_gclwinmanual');
     }
-    
+
     /**
      * Get a reason why this platform cannot be optimised.
-     * 
-     * @return string|null Returns explanation or NULL.
+     *
+     * @return string|null Returns explanation or null.
      */
     public function get_no_opt_reason() {
-        return $this->can_be_auto_optimised() ? NULL :  stack_string('healthautomaxopt_gclwinmanual');
+        return $this->can_be_auto_optimised() ? null : stack_string('healthautomaxopt_gclwinmanual');
     }
-    
+
     /**
-     * the full default pathname of the manually optimised binary file on this platform. This is 
+     * the full default pathname of the manually optimised binary file on this platform. This is
      * used if none is explicitly configured via the maximacommand admin setting.
-     * 
+     *
      * @return string Returns the full pathname of the manually optimised binary file.
      */
     public function get_default_optimised_pathname() {
         return $this->default_optimised_pathname;
     }
-    
+
     /**
-     * the full default pathname of the manually optimised binary file on this platform. This is 
-     * used if none is explicitly configured via the maximacommand admin setting. In the case of the 
+     * the full default pathname of the manually optimised binary file on this platform. This is
+     * used if none is explicitly configured via the maximacommand admin setting. In the case of the
      * default command line, this binary takes precedence over the manually optimised one if
      * both are present
-     * 
+     *
      * @return string Returns the full pathname of the auto-optimised binary file.
      */
     public function get_auto_optimised_pathname() {
         return $this->auto_optimised_pathname;
     }
-    
+
     /**
-     * Some lisp implementations require support files even when optimised. . This function will
+     * Some lisp implementations require support files even when optimised. This function will
      * copy them into place.
      */
     public function copy_optimised_support_files() {
-        if(stack_utils::get_config()->lisp == 'clisp') {
+        if (stack_utils::get_config()->lisp == 'clisp') {
             $location = $this->get_maxima_install();
             $dir = dir($location);
-            $src = NULL;
-            while(FALSE !== ($e = $dir->read())) {
-                if(preg_match('/^clisp.*/', $e) !== 0 &&
+            $src = null;
+            while (false !== ($e = $dir->read())) {
+                if (preg_match('/^clisp.*/', $e) !== 0 &&
                         is_dir($src = $this->pathname_concat($this->pathname_concat($location, $e), 'base'))) {
                     $dir->close();
                     break;
                 }
             }
-            if($src) {
+            if ($src) {
                 $dest = $this->get_stack_data_dir();
                 stack_utils::copy_dir_r($src, $dest, "*.dll");
             }
@@ -498,28 +497,28 @@ class stack_platform_windows extends stack_platform_base {
      * the admin settings will be written to the launch script; the launch script will be what
      * actually gets executed. This script is generated specifically by STACK, and is not to be
      * confused with the main startup script that is typically part of the Maxima installation.
-     * 
+     *
      * Depending on the configuration, this launch script may call that main script.
      */
 
     /**
-     * Determines whether this platform and current configuration require a custom generated 
+     * Determines whether this platform and current configuration require a custom generated
      * script to launch Maxima. The Windows platform does normally require a launch script.
-     * 
-     * @return bool Returns TRUE if this platform as currently configured requires a launch script. 
+     *
+     * @return bool Returns true if this platform as currently configured requires a launch script.
      */
     public function requires_launch_script() {
-        return TRUE;
+        return true;
     }
-    
+
     /**
      * Determines location of the custom generated script used to launch Maxima, if it is needed.
-     * This is a script generated specifically by STACK, and is not to be confused with the main 
+     * This is a script generated specifically by STACK, and is not to be confused with the main
      * startup script that is typically part of the Maxima installation.
-     * 
+     *
      * Depending on the configuration, this launch script may call the main script.
-     * 
-     * @return string|null Returns the full filename of the launch script to use or NULL if not needed.
+     *
+     * @return string|null Returns the full filename of the launch script to use or null if not needed.
      */
     public function get_launch_script_pathame() {
         global $CFG;
@@ -529,49 +528,49 @@ class stack_platform_windows extends stack_platform_base {
     /**
      * Determines whether an executable launch script is present. Does not verify whether or not
      * it is up-to-date.
-     * 
-     * @return boolean Return TRUE if the script is present, readable and executable.
+     *
+     * @return boolean Return true if the script is present, readable and executable.
      */
     public function check_launch_script() {
         $lsfn = $this->get_launch_script_pathame();
-        if(is_readable($lsfn)) {
+        if (is_readable($lsfn)) {
             $settings = stack_utils::get_config();
             $cts = (empty($settings->criticalsettingsupdated) || !$settings->criticalsettingsupdated) ?
                     0 : (int)$settings->criticalsettingsupdated;
             $lsts = filemtime($lsfn);
             return $lsts > $cts;
         } else {
-            return FALSE;
+            return false;
         }
     }
-    
+
     /**
      * Generates a launch script for those configurations that need it. This should only be called
      * after check_maxima_install has returned without errors.This is the custom generated
      * script used to launch Maxima. This script is generated specifically by STACK, and is not to
      * be confused with the main startup script that is typically part of the Maxima installation.
-     * 
+     *
      * @thows throws an exception if the file cannot be written.
      */
     public function generate_launch_script() {
         $this->check_maxima_install();
-        if($this->errors) {
+        if ($this->errors) {
             throw new stack_exception(stack_string('errorlaunchscriptunresolvederrors'));
         }
         $settings = stack_utils::get_config();
         $maximalocation = $this->get_maxima_install();
-        
+
         $mcmd = $this->get_maxima_inner_command();
         $mprog = $this->get_maxima_program();
         $ext = pathinfo($mprog, PATHINFO_EXTENSION);
-        if($ext == 'bat' || $ext == 'cmd') {
+        if ($ext == 'bat' || $ext == 'cmd') {
             $mcmd = "call " . $mcmd;
         }
 
         $stackbatchfilename = $this->get_launch_script_pathame();
         $date = date("F j, Y, g:i a");
-// Common; we set up various variables to establish the maxima home directory as = the location of 
-// this script, i.e. the stack data directory.
+        // Common; we set up various variables to establish the maxima home directory as = the location of
+        // this script, i.e. the stack data directory.
         $contents = <<<END
 @echo off
 rem /* ***********************************************************************/
@@ -592,11 +591,11 @@ set "MAXIMA_TEMPDIR=%M%tmp/"
 
 END;
 
-// Optimised executables cannot use the main batch file because they are located in the stack data
-//  directory, so we set up a minimal maxima environment parallel to that produced by the main
-// maxima batch file and execute the optimised image from there.
-    if($this->is_optimised()) {
-        $contents .= <<<END
+        // Optimised executables cannot use the main batch file because they are located in the stack data
+        // directory, so we set up a minimal maxima environment parallel to that produced by the main
+        // maxima batch file and execute the optimised image from there.
+        if ($this->is_optimised()) {
+            $contents .= <<<END
 set version={$settings->maximaversion}
 set prefix=$maximalocation
 set maxima_prefix=$maximalocation
@@ -605,13 +604,13 @@ set verbose=false
 set path=%maxima_prefix%\gnuplot;%maxima_prefix%\gnuplot\bin;%maxima_prefix%\bin;%path%
 
 END;
-    }
-    $contents .= <<<END
+        }
+        $contents .= <<<END
 {$mcmd}
 endlocal
 END;
 
-        // Convert line-endings and write the file, if we can:
+        // Convert line-endings and write the file, if we can.
         if (!file_put_contents($stackbatchfilename, implode("\r\n", explode("\n", $contents)))) {
             throw new stack_exception('Could not create the STACK Maxima batch file: ' . $stackbatchfilename);
         }
@@ -620,15 +619,15 @@ END;
     /**
      * Get the command for actually launching the launch script. On Windows the command must be
      * space escaped.
-     * 
+     *
      * @return string|null Returns the full command for running the launch script, including
-     * params / switches, or NULL if no launch script is needed.
+     * params / switches, or null if no launch script is needed.
      */
     public function get_launch_command() {
         return $this->escape_spaces($this->get_launch_script_pathame());
     }
 }
 
-// Register this platform with the list of platforms:
+// Register this platform with the list of platforms.
 stack_platform_base::register('win', 'stack_platform_windows');
 stack_platform_base::register('win-optimised', 'stack_platform_windows');

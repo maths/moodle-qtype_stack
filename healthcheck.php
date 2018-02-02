@@ -61,10 +61,10 @@ $platform = stack_platform_base::get_current();
 $checkrv = $platform->check_maxima_install();
 $platformerrors = $checkrv['errors']; $platformwarnings = $checkrv['warnings'];
 $errmsg = ""; $warnmsg = "";
-if(count($platformerrors) > 0) {
+if (count($platformerrors) > 0) {
     $errmsg = "ERRORS:<ul><li>" . implode('</li><li>', $platformerrors) . '</li></ul>';
 }
-if(count($platformwarnings) > 0) {
+if (count($platformwarnings) > 0) {
     $warnmsg .= "WARNINGS:<ul><li>" . implode('</li><li>', $platformwarnings) . '</li></ul>';
 }
 
@@ -72,8 +72,8 @@ if(count($platformwarnings) > 0) {
 if (data_submitted() && optional_param('createmaximaimage', false, PARAM_BOOL)) {
     require_sesskey();
     stack_cas_connection_db_cache::clear_cache($DB);
-    $ok = TRUE;
-    if(count($platformerrors) > 0) {
+    $ok = true;
+    if (count($platformerrors) > 0) {
         $ok = false;
     } else {
         list($ok, $errmsg)  = stack_cas_configuration::create_auto_maxima_image();
@@ -128,19 +128,20 @@ if ($platform->can_list_maxima_versions()) {
 
 // Check for location of Maxima.
 $maximalocation = $platform->get_maxima_install();
-if (TRUE !== $maximalocation) {
-    $message = stack_string('healthcheckconfigintro1a').' '.html_writer::tag('tt', $maximalocation ? $maximalocation : "* unknown *");
+if (true !== $maximalocation) {
+    $message = stack_string('healthcheckconfigintro1a').' '
+            .html_writer::tag('tt', $maximalocation ? $maximalocation : "* unknown *");
     echo html_writer::tag('p', $message);
-    $summary[] = array($maximalocation !== NULL, $message);
+    $summary[] = array($maximalocation !== null, $message);
 }
 
 // Report platform configuration errors and warnings from earlier above.
-if(count($platformerrors)> 0) {
+if (count($platformerrors) > 0) {
     echo html_writer::tag('p', $errmsg);
-    $summary[] = array(FALSE, stack_string('healthcheckplatformconfigerrors'));
+    $summary[] = array(false, stack_string('healthcheckplatformconfigerrors'));
 }
 
-if(count($platformwarnings)> 0) {
+if (count($platformwarnings) > 0) {
     echo html_writer::tag('p', $warnmsg);
     $summary[] = array(null, stack_string('healthcheckplatformconfigwarnings'));
 }
@@ -163,18 +164,18 @@ echo html_writer::tag('textarea', stack_cas_configuration::generate_maximalocal_
 echo $OUTPUT->heading(stack_string('healthcheckmaximabat'), 3);
 if ( $platform->requires_launch_script() ) {
     echo html_writer::tag('p', stack_string('healthcheckmaximabatinfo', $platform->get_launch_script_pathame()));
-    if($platform->check_launch_script() ) {
+    if ($platform->check_launch_script() ) {
         $message = stack_string('healthcheckmaximabatok', $platform->get_launch_script_pathame());
         echo html_writer::tag('p', $message);
-        $summary[] = array(TRUE, $message);
+        $summary[] = array(true, $message);
     } else {
         $message = stack_string('healthcheckmaximabaterr', $platform->get_launch_script_pathame());
         echo html_writer::tag('p', $message);
-        $summary[] = array(FALSE, $message);
+        $summary[] = array(false, $message);
     }
 } else {
     $message = stack_string('healthcheckmaximabatnotneeded');
-    $summary[] = array(NULL, $message);
+    $summary[] = array(null, $message);
 }
 
 // Test an *uncached* call to the CAS.  I.e. a genuine call to the process.

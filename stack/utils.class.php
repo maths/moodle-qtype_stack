@@ -23,7 +23,6 @@ defined('MOODLE_INTERNAL') || die();
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-
 /**
  * Interface for a class that stores debug information (or not).
  *
@@ -44,7 +43,6 @@ interface stack_debug_log {
      */
     public function log($heading = '', $message = '');
 }
-
 
 /**
  * Interface for a class that stores debug information (or not).
@@ -104,48 +102,47 @@ class stack_debug_log_null implements stack_debug_log {
     }
 }
 
-
 /**
- * Class implementing minimal write-through refreshable configuration cache. The purpose of the 
+ * Class implementing minimal write-through refreshable configuration cache. The purpose of the
  * class is to ensure that gets can access the config faster, but also that any writes are reflected
  * globally. This means not only writing through, but also having a reference-proof refresh.
  */
 
 class stack_config_settings {
-    
+
     protected $data;
-    
+
     public function __construct() {
         $this->data = get_config('qtype_stack');
     }
-    
+
     public function __set($name, $value) {
         set_config($name, $value, 'qtype_stack');
         $this->data->{$name} = $value;
     }
-    
+
     public function __get($name) {
         return $this->data->{$name};
     }
-    
+
     public function __isset($name) {
         return isset($this->data->{$name});
     }
-    
+
     public function __unset($name) {
         unset($this->data->{$name});
     }
-    
+
     /**
      * Reference-safe refresh; i.e. all client code with a reference to this object can see the
      * correctly refreshed data, after just one client call to this function.
-     * 
+     *
      * @param string|null $name null = all, $name = specific setting
      * @return string|stack_config_settings Returns a string for a single setting, or a reference
      * to 'this' for a full refresh.
      */
-    public function refresh($name = NULL) {
-        if($name) {
+    public function refresh($name = null) {
+        if ($name) {
             $rv = get_config('qtype_stack', $name);
             $this->data->{$name} = $rv;
             return $rv;
@@ -1304,18 +1301,18 @@ class stack_utils {
     /**
      * Copy folder recursively
      * 
-     * @param string $src Source directory
-     * @param string $dst Destination directory
-     * @param string|null pattern to match for files
+     * @param string $src Source directory.
+     * @param string $dst Destination directory.
+     * @param string|null pattern to match for files.
      */
-    public static function copy_dir_r($src, $dst, $pattern=NULL) {
+    public static function copy_dir_r($src, $dst, $pattern = null) {
         $dir = opendir($src);
         is_dir($dst) || mkdir($dst);
-        while(false !== ( $file = readdir($dir)) ) {
+        while (false !== ( $file = readdir($dir)) ) {
             if (( $file != '.' ) && ( $file != '..' )) {
                 if ( is_dir($src . '/' . $file) ) {
                     recurse_copy($src . '/' . $file, $dst . '/' . $file);
-                } elseif(!$pattern || fnmatch($pattern, $file)) {
+                } else if (!$pattern || fnmatch($pattern, $file)) {
                     copy($src . '/' . $file, $dst . '/' . $file);
                 }
             }

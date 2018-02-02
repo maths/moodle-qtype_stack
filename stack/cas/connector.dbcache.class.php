@@ -159,7 +159,7 @@ class stack_cas_connection_db_cache implements stack_cas_connection {
 
     /**
      * Get raw version of the connection.
-     * 
+     *
      * @return stack_cas_connection_base Returns the raw connection object.
      */
     public function get_raw() {

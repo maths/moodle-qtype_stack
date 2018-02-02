@@ -22,17 +22,16 @@ defined('MOODLE_INTERNAL') || die();
  * @copyright  2018 The Open University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  * @author     Stephen Parry (stephen@edumake.org)
- * 
+ *
  */
 class stack_platform_server extends stack_platform_base {
     /*
      * Class Loading and Metadata Member Functions
      * ===========================================
-     * 
+     *
      * These functions manage how platforms are made available to STACK and instantiated.
-     * 
      */
-    
+
     /* No specialized overrides or implementations for Server platform. */
 
     /*
@@ -43,25 +42,25 @@ class stack_platform_server extends stack_platform_base {
 
     /**
      * Get the connection class for this platform.
-     * 
-     * @return string Returns the class name. For Server platform this is 
+     *
+     * @return string Returns the class name. For Server platform this is
      * 'stack_cas_connection_server'.
-     * 
+     *
      */
     public function get_connection_class() {
         return 'stack_cas_connection_server';
     }
-    
+
     /**
      * Get the source file for the connection class for this platform.
-     * 
+     *
      * @return string For Server platform, returns 'connector.server.class.php'.
-     * 
+     *
      */
     public function get_connection_source_file() {
         return 'connector.server.class.php';
     }
-    
+
     /*
      * Pathname Member Functions
      * =========================
@@ -75,11 +74,11 @@ class stack_platform_server extends stack_platform_base {
      * Some platforms have native and portable paths (e.g. Windows). For others, such as Unix,
      * all pathnames are portable.
      * On  Server platform, all pathnames are portable (PATHTYPE_EITHER)
-     * 
-     * @return boolean returns TRUE for this platform
+     *
+     * @return boolean returns true for this platform
      */
     public function are_all_pathnames_portable() {
-        return TRUE;
+        return true;
     }
 
     /**
@@ -93,7 +92,7 @@ class stack_platform_server extends stack_platform_base {
     public function pathname_to_native($path) {
         return $path;
     }
-    
+
     /**
      * Convert a pathname from platform dependent format to PHP portable format form. Ideally,
      * implementations should be able to tolerate being called on a path that is already in PHP
@@ -105,7 +104,6 @@ class stack_platform_server extends stack_platform_base {
     public function pathname_to_portable($path) {
         return $path;
     }
-    
 
     /**
      * Analyses a pathname and determines what format it is in:
@@ -119,24 +117,24 @@ class stack_platform_server extends stack_platform_base {
     public function pathname_type_of($e1) {
         return self::PATHTYPE_EITHER;
     }
-    
+
     /*
      * Maxima Program Member Functions
      * ===============================
-     * 
+     *
      * These member functions manipulate configuration, location and files related to how the Maxima
      * executable actually gets executed. The connection class objects actually do the launching and
      * connecting; the installer classes generate some of the less platform specific files, such as
      * maximalocal.mac and any optimised image, but these functions manage the more platform
      * specific aspects, such as where the files are located.
-     * 
+     *
      */
-    
+
     /**
      * The filename for the maxima executable or script on this platform. Can be absolute, relative
      * or pathless.
      * For the server platform, it not an executable, but a URL to the local server.
-     * 
+     *
      * @return string Maxima executable filename.
      */
     public function default_maxima_filename() {
@@ -145,46 +143,45 @@ class stack_platform_server extends stack_platform_base {
 
     /**
      * The maxima command (including arguments) to use by default for this platform.
-     * 
+     *
      * @return string Maxima command.
      */
     public function get_default_maxima_command() {
         return $this->default_maxima_filename();
     }
-    
+
     /**
      * Performs a rudimentary installation check on Maxima.
-     * 
-     * @return array Returns array(NULL, NULL) on the server platform, as the Maxima installation 
+     *
+     * @return array Returns array(null, null) on the server platform, as the Maxima installation
      * is on the server.
-     * 
+     *
      */
     public function check_maxima_install() {
-        return array(NULL, NULL);
+        return array(null, null);
     }
-    
+
     /*
      * Gnu Plot Member Functions
      * =========================
-     * 
+     *
      * These member functions manipulate configuration, location and files related to how the
      * gnuplot executable gets executed.
-     * 
      */
 
     /**
      * The default gnuplot command for this platform.
-     * 
+     *
      * @return string Returns 'gnuplot' on the server platform, as the server will most likely run
      * Linux or Unix.
      */
     public function get_default_plot_command() {
         return 'gnuplot';
     }
-    
+
     /**
      * The remove command for this platform, as used to delete unwanted plot files.
-     * 
+     *
      * @return string Returns 'rm' on the server platform, as the server will most likely run Linux
      * or Unix.
      */
@@ -208,35 +205,35 @@ class stack_platform_server extends stack_platform_base {
     /**
      * Determine if this platform involves the Maxima image running on some kind of software server,
      * such as Apache Tomcat. This mainly affects the instructions given for image maintenance.
-     * 
-     * @return boolean Returns TRUE for a server based Maxima platform.
+     *
+     * @return boolean Returns true for a server based Maxima platform.
      */
     public function is_server_based() {
-        return TRUE;
+        return true;
     }
-    
+
     /**
-     * the full default pathname of the manually optimised binary file on this platform. This is 
+     * the full default pathname of the manually optimised binary file on this platform. This is
      * used if none is explicitly configured via the maximacommand admin setting.
-     * 
-     * @return string|null Returns NULL on server platform, as optimised images are managed by the
+     *
+     * @return string|null Returns null on server platform, as optimised images are managed by the
      * server.
      */
     public function get_default_optimised_pathname() {
-        return NULL;
+        return null;
     }
-    
+
     /**
-     * the full default pathname of the auto-optimised binary file on this platform. This is 
-     * used if none is explicitly configured via the maximacommand admin setting. In the case of the 
+     * the full default pathname of the auto-optimised binary file on this platform. This is
+     * used if none is explicitly configured via the maximacommand admin setting. In the case of the
      * default command line, this binary takes precedence over the manually optimised one if
      * both or none are present.
-     * 
-     * @return string|null Returns NULL on server platform, as optimised images are managed by the
+     *
+     * @return string|null Returns null on server platform, as optimised images are managed by the
      * server.
      */
     public function get_auto_optimised_pathname() {
-        return NULL;
+        return null;
     }
 
     /*
@@ -248,19 +245,17 @@ class stack_platform_server extends stack_platform_base {
      * the admin settings will be written to the launch script; the launch script will be what
      * actually gets executed. This script is generated specifically by STACK, and is not to be
      * confused with the main startup script that is typically part of the Maxima installation.
-     * 
+     *
      * Depending on the configuration, this launch script may call that main script.
-     * 
      */
-    
+
     /*
      * Server platform does not need a launch script, so no specialized overrides or implementations.
      */
 
-    
 }
 
-// Register this platform with the list of platforms:
+// Register this platform with the list of platforms.
 stack_platform_base::register('server', 'stack_platform_server');
 
 // @TODO: introduce variants for non-Linux servers.

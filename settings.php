@@ -27,12 +27,15 @@ defined('MOODLE_INTERNAL') || die();
 require_once(__DIR__ . '/settingslib.php');
 require_once(__DIR__ . '/stack/options.class.php');
 
-$platform = NULL;
+$platform = null;
 $platformerrors = array(); $platformwarnings = array();
 // Only perform configuration / installation checks if the neccessary config settings
 // are present, i.e. STACK has been installed installed. We use three key settings...
-if(isset(stack_utils::get_config()->platform) && isset(stack_utils::get_config()->maximaversion) && isset(stack_utils::get_config()->maximalibraries)) {
-    // Check the current platform configuration; Store the results in $platform_warnings and $platform_errors:
+if (isset(stack_utils::get_config()->platform)
+        && isset(stack_utils::get_config()->maximaversion)
+        && isset(stack_utils::get_config()->maximalibraries)) {
+    // Check the current platform configuration.
+    // Store the results in $platform_warnings and $platform_errors.
     $platform = stack_platform_base::get_current();
     $checkrv = $platform->check_maxima_install();
     $platformerrors = $checkrv['errors']; $platformwarnings = $checkrv['warnings'];
@@ -150,10 +153,10 @@ $settings->add(new qtype_stack_admin_timestamp('qtype_stack/criticalsettingsupda
 
 
 if ($platform && count($platformerrors) == 0) {
-    if(!$platform->check_launch_script()) {
+    if (!$platform->check_launch_script()) {
         $platform->generate_launch_script();
     }
-    if(!stack_cas_configuration::check_maximalocal()) {
+    if (!stack_cas_configuration::check_maximalocal()) {
         stack_cas_configuration::create_maximalocal();
     }
 }

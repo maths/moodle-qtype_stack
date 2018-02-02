@@ -96,7 +96,8 @@ class qtype_stack_admin_messages extends admin_setting {
     private $errors;
     /**
      * not a setting, just text
-     * @param string $name unique ascii name, either 'mysetting' for settings that in config, or 'myplugin/mysetting' for ones in config_plugins.
+     * @param string $name unique ascii name, either 'mysetting' for settings that in config, or 'myplugin/mysetting'
+     *                     for ones in config_plugins.
      * @param string $heading heading
      * @param string $information text in box
      */
@@ -128,7 +129,7 @@ class qtype_stack_admin_messages extends admin_setting {
      * @return string Always returns an empty string
      */
     public function write_setting($data) {
-    // do not write any setting
+        // Do not write any setting.
         return '';
     }
 
@@ -140,19 +141,23 @@ class qtype_stack_admin_messages extends admin_setting {
         global $OUTPUT;
         $return = '';
         if ($this->errors || $this->warnings) {
-            if(is_array($this->errors)) {
-                foreach($this->errors as $e) {
-                    $return .= $OUTPUT->box($OUTPUT->heading(get_string('error'), 5) . $e, 'alert alert-error alert-block');
+            if (is_array($this->errors)) {
+                foreach ($this->errors as $e) {
+                    $return .= $OUTPUT->box($OUTPUT->heading(get_string('error'), 5)
+                            . $e, 'alert alert-error alert-block');
                 }
-            } elseif ($this->errors) {
-                $return .= $OUTPUT->box($OUTPUT->heading(get_string('error'), 5) . $this->errors, 'alert alert-error alert-block');
+            } else if ($this->errors) {
+                $return .= $OUTPUT->box($OUTPUT->heading(get_string('error'), 5)
+                        . $this->errors, 'alert alert-error alert-block');
             }
-            if(is_array($this->warnings)) {
-                foreach($this->warnings as $w) {
-                    $return .= $OUTPUT->box($OUTPUT->heading(get_string('warning'), 5) . $w, 'alert alert-warning alert-block');
+            if (is_array($this->warnings)) {
+                foreach ($this->warnings as $w) {
+                    $return .= $OUTPUT->box($OUTPUT->heading(get_string('warning'), 5)
+                            . $w, 'alert alert-warning alert-block');
                 }
-            } elseif ($this->warnings) {
-                $return .= $OUTPUT->box($OUTPUT->heading(get_string('warning'), 5) . $this->warnings, 'alert alert-warning alert-block');
+            } else if ($this->warnings) {
+                $return .= $OUTPUT->box($OUTPUT->heading(get_string('warning'), 5)
+                        . $this->warnings, 'alert alert-warning alert-block');
             }
         } else {
             $return .= $OUTPUT->box('None', 'generalbox formsettingheading');
@@ -161,8 +166,8 @@ class qtype_stack_admin_messages extends admin_setting {
     }
 }
 
-function qtype_stack_admin_handle_updated($setting_full_name) {
-    qtype_stack_admin_timestamp::handle_updated($setting_full_name);
+function qtype_stack_admin_handle_updated($settingfullname) {
+    qtype_stack_admin_timestamp::handle_updated($settingfullname);
 }
 
 /**
@@ -171,17 +176,17 @@ function qtype_stack_admin_handle_updated($setting_full_name) {
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class qtype_stack_admin_timestamp extends admin_setting_configtext {
-    
+
     static protected $links = array();
-    protected $updated = FALSE;
-    
-    static public function handle_updated($updated_setting) {
+    protected $updated = true;
+
+    static public function handle_updated($updatedsetting) {
         global $ADMIN, $PAGE, $CFG;
-        $link = self::$links[$updated_setting];
-        $link[0]->updated = TRUE;
+        $link = self::$links[$updatedsetting];
+        $link[0]->updated = true;
         stack_utils::get_config()->refresh($link[1]->name);
     }
-    
+
     /**
      * @param string $name
      * @param string $visiblename
@@ -189,25 +194,22 @@ class qtype_stack_admin_timestamp extends admin_setting_configtext {
      * @param array  $monitored
      */
     public function __construct($name, $visiblename, $description, $monitored) {
-        parent::__construct($name, $visiblename, $description, '0', $paramtype=PARAM_INT, $size=12);
-        foreach($monitored as $m) {
-            /**
-             * @var admin_setting $m  
-             */
+        parent::__construct($name, $visiblename, $description, '0', $paramtype = PARAM_INT, $size = 12);
+        foreach ($monitored as $m) {
             $n = $m->get_full_name();
             self::$links[$m->get_full_name()] = array($this, $m);
             $m->set_updatedcallback('qtype_stack_admin_handle_updated');
         }
     }
-   
+
     public function write_setting($data) {
-        if($this->updated) {
+        if ($this->updated) {
             $data = time();
             $this->updated = false;
         }
         return parent::write_setting($data);
     }
-    
+
     /**
      * Returns an XHTML string for the hidden field
      *

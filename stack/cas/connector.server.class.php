@@ -29,7 +29,6 @@ defined('MOODLE_INTERNAL') || die();
 class stack_cas_connection_server extends stack_cas_connection_base {
 
     /**
-     * 
      * Connect to the CAS, and return the raw string result.
      *
      * @global type $CFG

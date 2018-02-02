@@ -90,11 +90,11 @@ abstract class stack_cas_connection_base implements stack_cas_connection {
 
         return $unpackedresult;
     }
-    
+
     /**
      * Get raw version of the connection.
      * 
-     * @return stack_cas_connection_base The default implementation - for raw connections; 
+     * @return stack_cas_connection_base The default implementation - for raw connections;
      * just returns $this.
      */
     public function get_raw() {

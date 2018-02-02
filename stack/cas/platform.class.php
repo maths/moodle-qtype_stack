@@ -346,16 +346,9 @@ abstract class stack_platform_base {
     public function can_list_maxima_versions() {
         return FALSE;
     }
-    
+
     /**
      * Get a list of versions of any Maxima installations present.
-     * 
-     * @return array|null Returns associative array keyed by version. Each entry contains:
-     *  "version" => version string
-     *  "lisps" => array of lisp names.
-     */
-    /**
-     * Get a list of versions of any Maxima installations present
      * 
      * @return array|null Returns associative array keyed by version. Each entry contains:
      *  "version" => version string
@@ -370,7 +363,7 @@ abstract class stack_platform_base {
             $rv = array();
             foreach ($ma2 as $a) {
                 $matches = array();
-                if (preg_match("^\s*version\s*:?\s*([0-9]+(?:\.[0-9A-Za-z]+)*)(?:\s*,\s*lisp\s*:?\s*([a-zA-Z]+))?", $a, $matches)) {
+                if (preg_match("$^\s*version\s*:?\s*([0-9]+(?:\.[0-9A-Za-z]+)*)(?:\s*,\s*lisp\s*:?\s*([a-zA-Z]+))?$", $a, $matches)) {
                     if(count($matches) > 1) {
                         $v = $matches[1];
                         if(!array_key_exists($v, $matches)) {
@@ -385,7 +378,7 @@ abstract class stack_platform_base {
         }
         return $ma ? $rv : NULL;
     }
-    
+
     /**
      * Validate and get the location of the Maxima install, if it makes sense for this platform.
      * 

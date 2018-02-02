@@ -86,6 +86,7 @@ $settings->add($monitored[] = new admin_setting_configselect('qtype_stack/lisp',
         get_string('settinglisp_desc', 'qtype_stack'),
         strtoupper(substr(PHP_OS, 0, 3)) === 'WIN' ? "win" : "unix",
         array(
+                'default'          => get_string('settinglispdefault',           'qtype_stack'),
                 'gcl'              => get_string('settinglispgcl',               'qtype_stack'),
                 'clisp'            => get_string('settinglispclisp',             'qtype_stack'),
                 'sbcl'             => get_string('settinglispsbcl',              'qtype_stack'))));

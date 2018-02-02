@@ -165,4 +165,9 @@ class stack_cas_connection_db_cache implements stack_cas_connection {
     public function get_raw() {
         return $this->rawconnection;
     }
+
+    public function get_maxima_available() {
+        // TODO: This can't possibly be correct.
+        return '';
+    }
 }

@@ -112,7 +112,7 @@ abstract class stack_cas_connection_base implements stack_cas_connection {
     public function get_maxima_available() {
         return stack_string('healthunabletolistavail', $this->platform->get_name());
     }
-    
+
     /**
      * Connect directly to the CAS, and return the raw string result.
      *

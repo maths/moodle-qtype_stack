@@ -378,6 +378,7 @@ $string['settingplatformtype'] = 'Platform type';
 $string['settingplatformtype_desc'] = 'STACK needs to know what sort of operating system it is running on. The Server option give better performance at the cost of having to set up an additional server. The option "Linux (optimised)" is explained on the Optimising Maxima page in the documentation.';
 $string['settinglisp'] = 'LISP compiler / interpreter';
 $string['settinglisp_desc'] = 'For some platforms, STACK needs to know which LISP interpreter / compiler you wish to use. For Linux platforms this is GCL by default. For Windows it is SBCL.';
+$string['settinglispdefault'] = 'Default';
 $string['settinglispgcl'] = 'GNU Common Lisp (GCL)';
 $string['settinglispclisp'] = 'GNU CLISP (CLISP)';
 $string['settinglispsbcl'] = 'Steel Bank Common Lisp (SBCL)';

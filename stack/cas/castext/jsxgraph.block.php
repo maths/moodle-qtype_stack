@@ -74,7 +74,6 @@ class stack_cas_castext_jsxgraph extends stack_cas_castext_block {
         // The prefix.....
         foreach ($this->get_node()->get_parameters() as $key => $value) {
             if (substr($key, 0, 10) === "input-ref-") {
-                $hasinputrefs = true;
                 $varname = substr($key, 10);
                 $seekcode = self::geninputseek($varname, $divid, $value);
                 $code = "$seekcode\n$code";
@@ -148,16 +147,45 @@ class stack_cas_castext_jsxgraph extends stack_cas_castext_block {
             $errors[] = "The height of a JSXGraph must use a known CSS-length unit.";
         }
 
-        if (!preg_match('/[0-9]*\.?[0-9]+/', $widthtrim)) {
+        if (!preg_match('/^[0-9]*[\.]?[0-9]+$/', $widthtrim)) {
             $valid = false;
             $errors[] = "The numeric portion of the width of a JSXGraph must be a raw number and must not contain any extra chars.";
         }
-        if (!preg_match('/[0-9]*\.?[0-9]+/', $heighttrim)) {
+        if (!preg_match('/^[0-9]*[\.]?[0-9]+$/', $heighttrim)) {
             $valid = false;
             $errors[] = "The numeric portion of the height of a JSXGraph must be a raw number and must not contain any extra chars.";
         }
 
-        // TODO: Check that references have targets...
+        // To check if the input references are ok we need to check the parsers
+        // stats about inputs. Those are stored in the root node.
+        $root = $this->get_node();
+        while ($root->parent !== null) {
+            $root = $root->parent;
+        }
+        $valids = null;
+        foreach ($this->get_node()->get_parameters() as $key => $value) {
+            if (substr($key, 0, 10) === "input-ref-") {
+                $varname = substr($key, 10);
+                if (!array_key_exists('input', $root->get_parameter('ioblocks', array()))
+                    || !array_key_exists($varname, $root->get_parameter('ioblocks')['input'])) {
+                    $errors[] = "The jsxgraph-block only supports referencing inputs present in the same CASText section '$varname' does not exist here.";
+                }
+            } else if ($key !== 'width' && $key !== 'height') {
+                $errors[] = "Unknown parameter '$key' for jsxgraph-block.";
+                if ($valids == null) {
+                  $valids = array('width', 'height');
+                  if (array_key_exists('input', $root->get_parameter('ioblocks', array()))) {
+                      $tmp = $root->get_parameter('ioblocks');
+                      $inputs = array();
+                      foreach ($tmp['input'] as $key => $value) {
+                        $inputs[] = "input-ref-$key";
+                      }
+                      $valids = array_merge($valids, $inputs);
+                  }
+                  $errors[] = "The jsxgraph-block supports only these parameters in this context: '" . implode(', ', $valids) . "'.";
+                }
+            }
+        }
 
 
         // Finally check parent for other issues, should be none.

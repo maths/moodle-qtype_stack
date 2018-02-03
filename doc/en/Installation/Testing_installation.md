@@ -29,6 +29,11 @@ If PHP does not connect to Maxima then this checklist might help.
 1. Maxima version.  If you have installed more than one version of Maxima on your machine you will probably need to choose one explicitly.
 2. If you get the following error `loadfile: failed to load /usr/share/maxima/5.32.1/share/draw/draw.lisp` then remove the optional libraries from `Load optional Maxima libraries:`.  Set this to blank and re-try the healthceck.
 
+## LISP versions
+
+Maxima comes in a variety of versions, each of which can be compiled on a number of LISP systems.  STACK does its best to determine which versions of Maxima you have available and which version of LISP is being used.  However, we recommend you do not use the `default` lisp setting, but instead you explicitly set the LISP version and Maxima version correctly.
+
+
 ## Maxima optional packages
 
 Maxima has a wide range of optional libraries.  Which are loaded on your server is set with the option `qtype_stack | maximalibraries` from the STACK question type settings page.

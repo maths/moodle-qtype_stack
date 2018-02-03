@@ -1,8 +1,12 @@
 # Optimising Maxima
 
-There are several ways to reduce the access and execution time of this CAS which can prove useful for scaling. They have the potential to greatly speed up STACK, and are widely used.  It is particularly important on a Unix system to compile the Maxima code. Please let us know if you try them.
+It is important on a Linux system to compile the Maxima code to get a better performance.  The Healthcheck script will attempt to create an optimised image for you, and you should use this mechanism first.
 
-The instructions for both CLISP and SBCL have been tested and work in STACK 3.  As of November 2015, these are working with Maxima 5.36.1, but some versions of Maxima do have problems.  We now have some code to attempt to automatically generate the LISP images described below.  Beware, however, that when regenerating the image you may have to manually delete the old image which may be write-protected.
+Maxima comes in a variety of versions, each of which can be compiled on a number of LISP systems.  STACK does its best to determine which versions of Maxima you have available and which version of LISP is being used.  However, we recommend you do not use the `default` lisp setting, but instead you explicitly set the LISP version and Maxima version correctly.
+
+If the optimised image is not created for you on request, please contact the developers.  The notes below are intended for developers, or those who chose to compile Maxima from source or those need to create optimised images manually because they have installed Maxima in a non-standard location which we can't auto-detect.
+
+The instructions for both CLISP and SBCL have been tested and work in STACK 4.x.  As of February 2018, these are working with Maxima 5.41.0, but some versions (particularly older versios) of Maxima do have problems.
 
 ## Terminating runaway LISPS ##
 

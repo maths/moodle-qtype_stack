@@ -7,6 +7,8 @@ How to report bugs and make suggestions is described on the [community](../About
 
 ## Version 4.2
 
+Version 4.2 contains re-factored and enhanced code for dealing with Maxima, lisp and platform dependencies.  When upgrading to version 4.2 please expect changes to the settings page, and healthcheck.  You will need to review all setting carefully.
+
 To do:
 
 * Add in a version number to STACK questions.

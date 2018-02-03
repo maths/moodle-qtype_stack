@@ -258,4 +258,4 @@ class stack_platform_server extends stack_platform_base {
 // Register this platform with the list of platforms.
 stack_platform_base::register('server', 'stack_platform_server');
 
-// @TODO: introduce variants for non-Linux servers.
+// TODO: introduce variants for non-Linux servers.

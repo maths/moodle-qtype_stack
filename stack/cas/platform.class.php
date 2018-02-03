@@ -43,13 +43,13 @@ abstract class stack_platform_base {
     /**
      *
      * @var string $name        Full name of this platform.
-     * @var string $base_name   Name with optimisation suffix.
+     * @var string $basename   Name with optimisation suffix.
      * @var bool $optimised     true if this platform is an optimised variant.
      */
     protected $name;
-    protected $base_name;
+    protected $basename;
     protected $optimised;
-    protected $stack_data_dir;
+    protected $stackdatadir;
 
     /**
      *
@@ -63,10 +63,10 @@ abstract class stack_platform_base {
 
     /**
      *
-     * @var array $check_setting_names Names of settings to monitor for changes when caching
+     * @var array $checksettingnames Names of settings to monitor for changes when caching
      * check_maxima_install() calls
      */
-    static protected $check_setting_names = array('lisp',
+    static protected $checksettingnames = array('lisp',
         'maximaversion',
         'maximacommand',
         'serveruserpass',
@@ -74,9 +74,9 @@ abstract class stack_platform_base {
 
     /**
      *
-     * @var array $check_settings Setting values gathered when caching check_maxima_install() calls
+     * @var array $checksettings Setting values gathered when caching check_maxima_install() calls
      */
-    protected $check_settings = null;
+    protected $checksettings = null;
 
     /*
      * Class Loading and Metadata Member Functions
@@ -95,11 +95,11 @@ abstract class stack_platform_base {
         $n = strlen($name);
         $this->optimised = ($n > self::OPTSUFFLEN && substr($name, $n - self::OPTSUFFLEN) == self::OPTSUFF);
         if ($this->optimised) {
-            $this->base_name = substr($name, 0, $n - self::OPTSUFFLEN);
+            $this->basename = substr($name, 0, $n - self::OPTSUFFLEN);
         } else {
-            $this->base_name = $name;
+            $this->basename = $name;
         }
-        $this->stack_data_dir = $this->pathname_concat($this->pathname_concat($CFG->dataroot, "stack"), "");
+        $this->stackdatadir = $this->pathname_concat($this->pathname_concat($CFG->dataroot, "stack"), "");
     }
 
     /**
@@ -167,8 +167,8 @@ abstract class stack_platform_base {
      *
      * @return string Returns the first part of the configured platform type, i.e. without any 'optimised' suffix.
      */
-    public function get_base_name() {
-        return $this->base_name;
+    public function get_basename() {
+        return $this->basename;
     }
 
     /**
@@ -269,8 +269,7 @@ abstract class stack_platform_base {
         if (DIRECTORY_SEPARATOR == '/') {
             return self::PATHTYPE_EITHER;
         } else {
-            return (false !== strpos($pathname, DIRECTORY_SEPARATOR) ? self::PATHTYPE_NATIVE : 0) |
-                    (false !== strpos($pathname, '/') ? self::PATHTYPE_PORTABLE : 0);
+            return (false !== strpos($pathname, DIRECTORY_SEPARATOR) ? self::PATHTYPE_NATIVE : 0) | (false !== strpos($pathname, '/') ? self::PATHTYPE_PORTABLE : 0);
         }
     }
 
@@ -324,7 +323,7 @@ abstract class stack_platform_base {
      * @return string Full pathname of the stack data directory.
      */
     public function get_stack_data_dir() {
-        return $this->stack_data_dir;
+        return $this->stackdatadir;
     }
 
     /*
@@ -364,7 +363,8 @@ abstract class stack_platform_base {
             $rv = array();
             foreach ($ma2 as $a) {
                 $matches = array();
-                if (preg_match("$^\s*version\s*:?\s*([0-9]+(?:\.[0-9A-Za-z]+)*)(?:\s*,\s*lisp\s*:?\s*([a-zA-Z]+))?$", $a, $matches)) {
+                if (preg_match("$^\s*version\s*:?\s*([0-9]+(?:\.[0-9A-Za-z]+)*)(?:\s*,\s*lisp\s*:?\s*([a-zA-Z]+))?$",
+                        $a, $matches)) {
                     if (count($matches) > 1) {
                         $v = $matches[1];
                         if (!array_key_exists($v, $matches)) {
@@ -432,11 +432,11 @@ abstract class stack_platform_base {
      */
     protected function gather_settings() {
         $settings = stack_utils::get_config();
-        foreach (self::$check_setting_names as $n) {
+        foreach (self::$checksettingnames as $n) {
             if (empty($settings->{$n})) {
-                $this->check_settings[$n] = null;
+                $this->checksettings[$n] = null;
             } else {
-                $this->check_settings[$n] = $settings->{$n};
+                $this->checksettings[$n] = $settings->{$n};
             }
         }
     }
@@ -448,15 +448,15 @@ abstract class stack_platform_base {
      */
     protected function compare_settings() {
         $settings = stack_utils::get_config();
-        if (!$this->check_settings) {
+        if (!$this->checksettings) {
             return false;
         }
-        foreach (self::$check_setting_names as $n) {
+        foreach (self::$checksettingnames as $n) {
             $val = null;
             if (isset($settings->{$n})) {
                 $val = $settings->{$n};
             }
-            if ($this->check_settings[$n] !== $val) {
+            if ($this->checksettings[$n] !== $val) {
                 return false;
             }
         }
@@ -475,9 +475,12 @@ abstract class stack_platform_base {
      */
     public function get_maxima_command() {
         $config = stack_utils::get_config();
-        return ($this->requires_launch_script() &&
-                (!isset($config->bypasslaunchscript) || !$config->bypasslaunchscript)) ?
-                 $this->get_launch_command() : $this->get_maxima_inner_command();
+        if ($this->requires_launch_script() && (!isset($config->bypasslaunchscript) || !$config->bypasslaunchscript)) {
+            $command = $this->get_launch_command();
+        } else {
+            $command = $this->get_maxima_inner_command();
+        }
+        return $command;
     }
 
     /**
@@ -492,8 +495,12 @@ abstract class stack_platform_base {
      */
     public function get_maxima_inner_command() {
         $config = stack_utils::get_config();
-        return ($config->maximacommand && $config->maximacommand != '' && $config->maximacommand != 'default') ? 
-            $config->maximacommand : $this->get_default_maxima_command();
+        if ($config->maximacommand && $config->maximacommand != '' && $config->maximacommand != 'default') {
+            $command = $config->maximacommand;
+        } else {
+            $command = $this->get_default_maxima_command();
+        }
+        return $command;
     }
 
     /**
@@ -534,8 +541,13 @@ abstract class stack_platform_base {
      */
     public function get_maxima_preopt_command() {
         $config = stack_utils::get_config();
-        return ($config->maximapreoptcommand && $config->maximapreoptcommand != '' && $config->maximapreoptcommand != 'default') ? 
-            $config->maximapreoptcommand : $this->get_default_maxima_preopt_command();
+        if ($config->maximapreoptcommand && $config->maximapreoptcommand != ''
+                && $config->maximapreoptcommand != 'default') {
+            $command = $config->maximapreoptcommand;
+        } else {
+            $command = $this->get_default_maxima_preopt_command();
+        }
+        return $command;
     }
 
     /**
@@ -609,7 +621,7 @@ abstract class stack_platform_base {
      * @return bool Returns true if this platform can be optimised.
      */
     public function can_be_optimised() {
-        return $this->is_optimised() || array_key_exists($this->base_name . '-optimised', self::$classes );
+        return $this->is_optimised() || array_key_exists($this->basename . '-optimised', self::$classes );
     }
 
     /**
@@ -650,7 +662,7 @@ abstract class stack_platform_base {
         if ($this->is_optimised()) {
             return $this;
         } else {
-            return self::get($this->base_name . self::OPTSUFF);
+            return self::get($this->basename . self::OPTSUFF);
         }
     }
 
@@ -662,7 +674,7 @@ abstract class stack_platform_base {
      */
     public function non_optimised() {
         if ($this->is_optimised()) {
-            return self::get($this->base_name);
+            return self::get($this->basename);
         } else {
             return $this;
         }

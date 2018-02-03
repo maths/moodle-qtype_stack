@@ -97,10 +97,9 @@ class stack_maths {
      *      configuration options.
      */
     protected static function get_output() {
-        // This can get called pretty deep into the installation process,
-        // so we check safely:
-        if (!isset(stack_utils::get_config()->mathsdisplay) || 
-                '' == trim(stack_utils::get_config()->mathsdisplay)) {
+        // This can get called pretty deep into the installation process, so we check safely.
+        if (!isset(stack_utils::get_config()->mathsdisplay)
+                || '' == trim(stack_utils::get_config()->mathsdisplay)) {
             return self::get_output_instance('mathjax');
         }
         return self::get_output_instance(stack_utils::get_config()->mathsdisplay);

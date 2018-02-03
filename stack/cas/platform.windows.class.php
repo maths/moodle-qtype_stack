@@ -42,8 +42,8 @@ class stack_platform_windows extends stack_platform_base {
     protected $lastplotstart = null;
     protected $plotlocations = null;
 
-    protected $default_optimised_pathname = null;
-    protected $auto_optimised_pathname = null;
+    protected $defaultoptimisedpathname = null;
+    protected $autooptimisedpathname = null;
 
     /*
      * Class Loading and Metadata Member Functions
@@ -58,8 +58,8 @@ class stack_platform_windows extends stack_platform_base {
      */
     public function __construct($name) {
         parent::__construct($name);
-        $this->default_optimised_pathname = $this->pathname_concat($this->get_stack_data_dir(), 'maxima-optimised.exe');
-        $this->auto_optimised_pathname = $this->pathname_concat($this->get_stack_data_dir(), 'maxima_opt_auto.exe');
+        $this->defaultoptimisedpathname = $this->pathname_concat($this->get_stack_data_dir(), 'maxima-optimised.exe');
+        $this->autooptimisedpathname = $this->pathname_concat($this->get_stack_data_dir(), 'maxima_opt_auto.exe');
     }
 
     /*
@@ -431,7 +431,8 @@ class stack_platform_windows extends stack_platform_base {
      */
     public function can_be_auto_optimised() {
         $settings = stack_utils::get_config();
-        return $this->can_be_optimised() && (empty($settings->lisp) ||'gcl' !== $settings->lisp) ? true : stack_string('healthautomaxopt_gclwinmanual');
+        return $this->can_be_optimised() && (empty($settings->lisp)
+                ||'gcl' !== $settings->lisp) ? true : stack_string('healthautomaxopt_gclwinmanual');
     }
 
     /**
@@ -450,7 +451,7 @@ class stack_platform_windows extends stack_platform_base {
      * @return string Returns the full pathname of the manually optimised binary file.
      */
     public function get_default_optimised_pathname() {
-        return $this->default_optimised_pathname;
+        return $this->defaultoptimisedpathname;
     }
 
     /**
@@ -462,7 +463,7 @@ class stack_platform_windows extends stack_platform_base {
      * @return string Returns the full pathname of the auto-optimised binary file.
      */
     public function get_auto_optimised_pathname() {
-        return $this->auto_optimised_pathname;
+        return $this->autooptimisedpathname;
     }
 
     /**
@@ -535,8 +536,8 @@ class stack_platform_windows extends stack_platform_base {
         $lsfn = $this->get_launch_script_pathame();
         if (is_readable($lsfn)) {
             $settings = stack_utils::get_config();
-            $cts = (empty($settings->criticalsettingsupdated) || !$settings->criticalsettingsupdated) ?
-                    0 : (int)$settings->criticalsettingsupdated;
+            $cts = (empty($settings->criticalsettingsupdated)
+                || !$settings->criticalsettingsupdated) ? 0 : (int)$settings->criticalsettingsupdated;
             $lsts = filemtime($lsfn);
             return $lsts > $cts;
         } else {

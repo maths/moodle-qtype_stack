@@ -93,7 +93,7 @@ abstract class stack_cas_connection_base implements stack_cas_connection {
 
     /**
      * Get raw version of the connection.
-     * 
+     *
      * @return stack_cas_connection_base The default implementation - for raw connections;
      * just returns $this.
      */

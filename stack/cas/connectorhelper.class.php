@@ -51,7 +51,6 @@ abstract class stack_connection_helper {
      */
     public static function make() {
         self::ensure_config_loaded();
-        // @var stack_platform_base.
         $platform = stack_platform_base::get_current();
 
         $debuglog = stack_utils::make_debug_log(self::$config->casdebugging);

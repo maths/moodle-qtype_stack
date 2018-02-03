@@ -53,7 +53,6 @@ class stack_cas_configuration {
     public function __construct() {
         global $CFG;
         $this->settings = stack_utils::get_config();
-        /* @var stack_platform_base $platform */
         $platform = stack_platform_base::get_current();
         $this->date = date("F j, Y, g:i a");
 
@@ -104,7 +103,7 @@ class stack_cas_configuration {
 
         $this->blocksettings['MAXIMA_VERSION_EXPECTED'] = $this->settings->maximaversion;
         $this->blocksettings['URL_BASE']       = '!ploturl!';
-}
+    }
 
     public function get_maximalocal_contents() {
         $platform = stack_platform_base::get_current();

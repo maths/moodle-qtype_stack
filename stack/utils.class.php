@@ -1300,7 +1300,7 @@ class stack_utils {
 
     /**
      * Copy folder recursively
-     * 
+     *
      * @param string $src Source directory.
      * @param string $dst Destination directory.
      * @param string|null pattern to match for files.

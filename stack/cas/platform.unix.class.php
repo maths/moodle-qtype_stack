@@ -37,8 +37,8 @@ class stack_platform_unix extends stack_platform_base {
      * @var string $auto_optimised_pathname full pathname of the auto-optimised maxima image
      * generated using the healthcheck page.
      */
-    protected $default_optimised_pathname = null;
-    protected $auto_optimised_pathname = null;
+    protected $defaultoptimisedpathname = null;
+    protected $autooptimisedpathname = null;
 
     /*
      * Class Loading and Metadata Member Functions
@@ -65,8 +65,8 @@ class stack_platform_unix extends stack_platform_base {
      */
     public function __construct($name) {
         parent::__construct($name);
-        $this->default_optimised_pathname = $this->pathname_concat($this->get_stack_data_dir(), 'maxima-optimised');
-        $this->auto_optimised_pathname = $this->pathname_concat($this->get_stack_data_dir(), 'maxima_opt_auto');
+        $this->defaultoptimisedpathname = $this->pathname_concat($this->get_stack_data_dir(), 'maxima-optimised');
+        $this->autooptimisedpathname = $this->pathname_concat($this->get_stack_data_dir(), 'maxima_opt_auto');
     }
 
     /*
@@ -382,7 +382,7 @@ class stack_platform_unix extends stack_platform_base {
      * @return string Returns the full pathname of the manually optimised binary file.
      */
     public function get_default_optimised_pathname() {
-        return $this->default_optimised_pathname;
+        return $this->defaultoptimisedpathname;
     }
 
     /**
@@ -395,7 +395,7 @@ class stack_platform_unix extends stack_platform_base {
      * Linux/Unix/MacOSX allow for an optimised image, so should return a meaningful pathname.
      */
     public function get_auto_optimised_pathname() {
-        return $this->auto_optimised_pathname;
+        return $this->autooptimisedpathname;
     }
 
     /*

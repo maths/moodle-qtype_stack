@@ -211,9 +211,9 @@ END;
      */
     public static function create_maximalocal() {
         $platform = stack_platform_base::get_current();
-        $errors = array();
-        $cmirw = $platform->check_maxima_install();
-        extract($cmirw);
+        $cmirv = $platform->check_maxima_install();
+        $errors = $cmirv['errors'];
+        $warnings = $cmirv['warnings'];
         if ($errors) {
             throw new stack_exception(stack_string('errormaximalocalunresolvederrors'));
         }

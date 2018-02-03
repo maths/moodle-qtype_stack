@@ -206,7 +206,7 @@ abstract class stack_platform_base {
     /**
      * Get the a new Maxima connection object for this platform.
      *
-     * @return stack_cas_connection_base Returns an object representing the Maxima connection.
+     * @return stack_cas_connection Returns an object representing the Maxima connection.
      *
      */
     public function get_connection() {
@@ -358,7 +358,7 @@ abstract class stack_platform_base {
      */
     public function get_list_of_maxima_versions() {
         $connection = $this->get_connection();
-        $ma = $connection->get_maxima_available();
+        $ma = $connection->get_raw()->get_maxima_available();
         if ($ma) {
             $ma2 = explode('\n', str_replace('\r', '', $ma));
             $rv = array();

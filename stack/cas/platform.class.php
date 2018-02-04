@@ -17,6 +17,8 @@
 defined('MOODLE_INTERNAL') || die();
 require_once(__DIR__ . '/../../locallib.php');
 require_once(__DIR__ . '/../utils.class.php');
+
+
 /**
  * Base class for classes representing a given Maxima platform.
  *
@@ -31,6 +33,20 @@ abstract class stack_platform_base {
      * Member Variables
      * ================
      */
+
+    /**
+     *
+     * @var string|null The host type of the server.
+     */
+    protected $host = null;
+
+    /**
+     *
+     * @var string $actualmaximaversion
+     * @var string $actuallisp
+     */
+    protected $actualmaximaversion = null;
+    protected $actuallisp = null;
 
     /**
      *
@@ -77,6 +93,15 @@ abstract class stack_platform_base {
      * @var array $checksettings Setting values gathered when caching check_maxima_install() calls
      */
     protected $checksettings = null;
+
+    /**
+     *
+     * @var null|array $availversionlist Associative array containing list of available Maxima versions and
+     * lisp flavours for each version, keyed by version. Each entry contains:
+     *  "version" => version string
+     *  "lisps" => array of lisp names.
+     */
+    protected $availversionlist = null;
 
     /*
      * Class Loading and Metadata Member Functions
@@ -356,28 +381,96 @@ abstract class stack_platform_base {
      *  Linux/Unix/MacOSX support this so should return a valid results.
      */
     public function get_list_of_maxima_versions() {
-        $connection = $this->get_connection();
-        $ma = $connection->get_raw()->get_maxima_available();
-        if ($ma) {
-            $ma2 = explode('\n', str_replace('\r', '', $ma));
-            $rv = array();
-            foreach ($ma2 as $a) {
-                $matches = array();
-                if (preg_match("$^\s*version\s*:?\s*([0-9]+(?:\.[0-9A-Za-z]+)*)(?:\s*,\s*lisp\s*:?\s*([a-zA-Z]+))?$",
-                        $a, $matches)) {
-                    if (count($matches) > 1) {
-                        $v = $matches[1];
-                        if (!array_key_exists($v, $matches)) {
-                            $rv[$v] = array("version" => $v, "lisps" => array());
-                        }
-                        if (count($matches) > 2) {
-                            $rv[$v]['lisps'][] = $matches[2];
+        if (!$this->availversionlist && $this->can_list_maxima_versions()) {
+            $connection = $this->get_connection();
+            $ma = $connection->get_raw()->get_maxima_available();
+            if ($ma) {
+                $ma2 = explode(PHP_EOL, $ma);
+                $rv = array();
+                foreach ($ma2 as $a) {
+                    $matches = array();
+                    if (preg_match("$^\s*version\s*:?\s*([0-9]+(?:\.[0-9A-Za-z]+)*)(?:\s*,\s*lisp\s*:?\s*([a-zA-Z]+))?$",
+                                $a, $matches)) {
+                        if (count($matches) > 1) {
+                            $v = $matches[1];
+                            if (!array_key_exists($v, $rv)) {
+                                $rv[$v] = array("version" => $v, "lisps" => array());
+                            }
+                            if (count($matches) > 2) {
+                                $rv[$v]['lisps'][$matches[2]] = $matches[2];
+                            }
                         }
                     }
                 }
             }
+            $this->availversionlist = $ma ? $rv : null;
         }
-        return $ma ? $rv : null;
+        return $this->availversionlist;
+    }
+
+    /**
+     * Query the maxima currently configured Maxima executable / connection to determine what the actual
+     * host machine is. This will usually involve executing the program / connecting.
+     *
+     * returns string Returns the version as a string or '*unknown*' if that is not currently possible.
+     */
+    public function get_host()
+    {
+        if (!$this->host) {
+            $bi = $this->get_connection()->get_raw()->get_maxima_build_info();
+            $this->host = ($bi && isset($bi->host)) ? $bi->host : '*unknown*';
+        }
+        return $this->host;
+    }
+
+    /**
+     * Query the maxima currently configured Maxima executable / connection to determine what the actual
+     * version of Maxima is. This will usually involve executing the program / connecting.
+     *
+     * returns string Returns the version as a string or '*unknown*' if that is not currently possible.
+     */
+    public function get_actual_maxima_version()
+    {
+        if (!$this->actualmaximaversion) {
+            $bi = $this->get_connection()->get_raw()->get_maxima_build_info();
+            $this->actualmaximaversion = ($bi && isset($bi->version)) ? $bi->version : '*unknown*';
+        }
+        return $this->actualmaximaversion;
+    }
+
+    /**
+     * Query the maxima currently configured Maxima executable / connection to determine which lisp
+     * is actually being used for Maxima. This will usually involve executing the program / connecting.
+     *
+     * returns string Returns the lisp name as a string or '*unknown*' if that is not currently possible.
+     */
+    public function get_actual_lisp()
+    {
+        if (!$this->actuallisp) {
+            $bi = $this->get_connection()->get_raw()->get_maxima_build_info();
+            if (isset($bi->lisp_name)) {
+                $knownlisps = array('gcl' => 'gcl', 'clisp' => 'clisp', 'ecl' => 'ecl',
+                        'ccl' => 'ccl', 'openmcl' => 'openmcl', 'sbcl' => 'sbcl', 'abcl' => 'abcl');
+                if ($this->can_list_maxima_versions()) {
+                    // Get the list of lisps this Maxima install contains:
+                    $installedlisps = $this->get_list_of_lisps(true);
+                    // Merge that with lisps we know of:
+                    $lisps = array_merge( $knownlisps, $installedlisps );
+                } else {
+                    $lisps = $knownlisps;
+                }
+                $pattern = "/(" . implode("|",$lisps) . ")/i";
+                $matches = array();
+                if (1 === preg_match($pattern, $bi->lisp_name, $matches)) {
+                    $this->actuallisp = strtolower($matches[1]);
+                } else {
+                    $this->actuallisp =  '*unknown*';
+                }
+            } else {
+                $this->actuallisp =  '*unknown*';
+            }
+        }
+        return $this->actuallisp;
     }
 
     /**

@@ -207,14 +207,18 @@ END;
 
     /**
      * Create the maximalocal.mac file, overwriting it if it already exists.
+     * @param bool $dontcheck Bypass checks; used during image generation.
+     * @throws stack_exception
      */
-    public static function create_maximalocal() {
+    public static function create_maximalocal($dontcheck = false) {
         $platform = stack_platform_base::get_current();
-        $cmirv = $platform->check_maxima_install();
-        $errors = $cmirv['errors'];
-        $warnings = $cmirv['warnings'];
-        if ($errors) {
-            throw new stack_exception(stack_string('errormaximalocalunresolvederrors'));
+        if (!$dontcheck) {
+            $cmirv = $platform->check_maxima_install();
+            $errors = $cmirv['errors'];
+            $warnings = $cmirv['warnings'];
+            if ($errors) {
+                throw new stack_exception(stack_string('errormaximalocalunresolvederrors'));
+            }
         }
 
         make_upload_directory('stack');
@@ -299,7 +303,7 @@ END;
         $config->maximacommand = $platform->get_maxima_preopt_command();
 
         // Try to make a new version of the maxima local file.
-        self::create_maximalocal();
+        self::create_maximalocal(true);
         if ($platform->requires_launch_script() && ! $config->bypasslaunchscript) {
             $platform->generate_launch_script();
         }
@@ -325,7 +329,7 @@ END;
                 $config->platform = $optplatformname;
                 $config->maximacommand = '';
 
-                self::create_maximalocal();
+                self::create_maximalocal(true);
                 if ($optplatform->requires_launch_script() && ! $config->bypasslaunchscript) {
                     $optplatform->generate_launch_script();
                 }
@@ -352,7 +356,7 @@ END;
             $config->platform = $oldplatform;
             $config->maximacommand = $oldmaximacommand;
             $config->maximalibraries = $oldlibraries;
-            self::create_maximalocal();
+            self::create_maximalocal(true);
             if ($platform->requires_launch_script() && ! $config->bypasslaunchscript) {
                 $platform->generate_launch_script();
             }

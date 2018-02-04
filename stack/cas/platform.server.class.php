@@ -15,6 +15,7 @@
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
 defined('MOODLE_INTERNAL') || die();
+require_once(__DIR__ . '/../cas/connectorhelper.class.php');
 
 /**
  * Class representing a remote server platform, such as tomcat.
@@ -25,6 +26,7 @@ defined('MOODLE_INTERNAL') || die();
  *
  */
 class stack_platform_server extends stack_platform_base {
+
     /*
      * Class Loading and Metadata Member Functions
      * ===========================================
@@ -151,6 +153,30 @@ class stack_platform_server extends stack_platform_base {
     }
 
     /**
+     * Query the maxima currently configured Maxima executable / connection to determine what the actual
+     * version of Maxima is. This will usually involve executing the program / connecting.
+     *
+     * returns string|null Returns the version as a string or null if that is not currently possible.
+     */
+    public function get_actual_maxima_version() {
+        $results =  $this->get_connection()->get_raw()->compute('build_info()@version;');
+        /** @TODO */
+        return 'build_info()@version;';
+    }
+
+    /**
+     * Query the maxima currently configured Maxima executable / connection to determine which lisp
+     * is actually being used for Maxima. This will usually involve executing the program / connecting.
+     *
+     * returns string|null Returns the lisp name as a string or null if that is not currently possible.
+     */
+    public function get_actual_lisp() {
+        $results =  $this->get_connection()->get_raw()->compute('build_info()@lisp_name;');
+        /** @TODO */
+        return 'build_info()@lisp_name;';
+    }
+
+    /**
      * Performs a rudimentary installation check on Maxima.
      *
      * @return array Returns array(null, null) on the server platform, as the Maxima installation
@@ -172,21 +198,29 @@ class stack_platform_server extends stack_platform_base {
     /**
      * The default gnuplot command for this platform.
      *
-     * @return string Returns 'gnuplot' on the server platform, as the server will most likely run
+     * @return string On the server platform, this returns 'gnuplot' for linux and
+     * 'wgnuplot' for windows; this means wgnuplot must be on the path.
      * Linux or Unix.
      */
     public function get_default_plot_command() {
-        return 'gnuplot';
+        if ($this->get_host() && 1 === preg_match("/-(win|windows|w64|w32|win32|win64|mingw|mingw32|mingw64)-/i",$this->serverhost)) {
+            return "wgnuplot";
+        } else {
+            return "gnuplot";
+        }
     }
 
     /**
      * The remove command for this platform, as used to delete unwanted plot files.
      *
-     * @return string Returns 'rm' on the server platform, as the server will most likely run Linux
-     * or Unix.
+     * @return string On the server platform, for Linux this returns 'rm'; for a Windows server it returns 'del';
      */
     public function get_remove_command() {
-        return "rm";
+        if ($this->get_host() && 1 === preg_match("/-(win|windows|w64|w32|win32|win64|mingw|mingw32|mingw64)-/i",$this->serverhost)) {
+            return "del";
+        } else {
+            return "rm";
+        }
     }
 
     /*

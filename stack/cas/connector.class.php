@@ -63,6 +63,8 @@ abstract class stack_cas_connection_base implements stack_cas_connection {
     /** @var string replacement strings in relation to $wwwroothasunderscores. */
     protected $wwwrootfixupreplace;
 
+    protected $maximabuildinfo = null;
+
     // @codingStandardsIgnoreStart
     /* @see stack_cas_connection::compute() */
     // @codingStandardsIgnoreEnd
@@ -111,6 +113,34 @@ abstract class stack_cas_connection_base implements stack_cas_connection {
     /* By default, platforms cannot list available versions. */
     public function get_maxima_available() {
         return stack_string('healthunabletolistavail', $this->platform->get_name());
+    }
+
+    /**
+     * Query the connection for build information, e.g. version, lisp flavour etc.
+     * @return stdClass Returns object containing fields for each relevant build_info() field:
+     *     version      => maxima version,
+     *     host         => host platform,
+     *     lisp_name    => lisp flavour,
+     *     lisp_version => version of lisp flavour.
+     */
+    public function get_maxima_build_info() {
+        if (!$this->maximabuildinfo) {
+            $cmd = '(bi:build_info(),print(concat("build", "_", "info:version:", bi@version,"|host:",bi@host,"|lisp_name:",bi@lisp_name,"|lisp_version:",bi@lisp_version,"|")))$quit()$';
+            $result = $this->call_maxima($cmd);
+            $pattern = '/build_info:version:(?P<version>.*)\\|host:(?P<host>.*)\\|lisp_name:(?P<lisp_name>.*)\\|lisp_version:(?P<lisp_version>.*)\\|/';
+            $matches = array();
+            $rv = preg_match($pattern, $result, $matches);
+            if (false !== $rv && $rv > 0) {
+                $bi = new stdClass();
+                foreach ($matches as $k => $m) {
+                    if (!is_number($k)) {
+                        $bi->{$k} = $m;
+                    }
+                }
+                $this->maximabuildinfo = $bi;
+            }
+        }
+        return $this->maximabuildinfo;
     }
 
     /**

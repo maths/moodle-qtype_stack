@@ -16,6 +16,8 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+require_once(__DIR__ . '/platform.local.class.php');
+
 
 /**
  * Class representing a Microsoft Windows platform, either optimised or non-optimised.
@@ -25,7 +27,7 @@ defined('MOODLE_INTERNAL') || die();
  * @author     Stephen Parry (stephen@edumake.org)
  *
  */
-class stack_platform_windows extends stack_platform_base {
+class stack_platform_windows extends stack_platform_local {
 
     /*
      * Member Variables
@@ -339,9 +341,9 @@ class stack_platform_windows extends stack_platform_base {
                     }
                 }
             }
-            if ($settings->maximacommand || $settings->maximapreoptcommand) {
-                $warnings[] = stack_string('healthcheckwarningcommandoverride');
-            }
+            $this->check_maxima_version($errors);
+            $this->check_lisp($errors);
+            $this->check_overrides($warnings);
             $this->errors = $errors;
             $this->warnings = $warnings;
             if ($this->is_optimised()) {

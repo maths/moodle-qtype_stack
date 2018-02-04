@@ -16,6 +16,9 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+require_once(__DIR__ . '/platform.local.class.php');
+
+
 /**
  * Class representing a Unix- or Linux-like or MacOS X platform, either optimised or non-optimised.
  *
@@ -24,7 +27,7 @@ defined('MOODLE_INTERNAL') || die();
  * @author     Stephen Parry (stephen@edumake.org)
  *
  */
-class stack_platform_unix extends stack_platform_base {
+class stack_platform_unix extends stack_platform_local {
     /*
      * Member Variables
      * ================
@@ -300,23 +303,9 @@ class stack_platform_unix extends stack_platform_base {
                     }
                 }
             }
-            if (isset($settings->maximaversion) && $settings->maximaversion && 'default' !== $settings->maximaversion) {
-                $versions = $this->get_list_of_maxima_versions();
-                if ($versions && !array_key_exists($versions, $settings->maximaversion)) {
-                    $errors[] = stack_string('healthcheckmaximaversionnotpresent',
-                            array("chosen" => $settings->maximaversion,
-                                "available" => implode(', ', array_keys($versions))));
-                } else if (isset($settings->lisp) && $versions && $lisp  = $versions[$settings->maximaversion]->lisps &&
-                        false === array_search($settings->lisp, $lisps) ) {
-                    $errors[] = stack_string('healthcheckmaximaversionlispnotpresent',
-                            array("chosen" => $settings->lisp,
-                                "available" => implode(', ', array_keys($lisps))));
-                }
-            }
-            if ((isset($settings->maximacommand) && $settings->maximacommand) ||
-                    (isset($settings->maximapreoptcommand) && $settings->maximapreoptcommand)) {
-                $warnings[] = stack_string('healthcheckwarningcommandoverride');
-            }
+            $this->check_maxima_version($errors);
+            $this->check_lisp($errors);
+            $this->check_overrides($warnings);
             if (isset($settings->castimeout) && $settings->castimeout && $settings->castimeout > 0 &&
                     isset($settings->exectimeout) && $settings->exectimeout && $settings->exectimeout > 0 &&
                     ($settings->exectimeout <= $settings->castimeout || $settings->castimeout == 0)) {

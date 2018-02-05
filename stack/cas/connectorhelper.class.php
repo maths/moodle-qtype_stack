@@ -303,6 +303,7 @@ abstract class stack_connection_helper {
                 'cte("STACKversion",errcatch(stackmaximaversion)), print("2=[ error= ["), ' .
                 'cte("MAXIMAversion",errcatch(MAXIMA_VERSION_STR)), print("3=[ error= ["), ' .
                 'cte("MAXIMAversionnum",errcatch(MAXIMA_VERSION_NUM)), print("4=[ error= ["), ' .
+                'cte("externalformat",errcatch(adjust_external_format())), print("5=[ error= ["), ' .
                 'cte("CAStime",errcatch(CAStime:"'.$date.'")), print("] ]"), return(true));' .
                 "\n";
 

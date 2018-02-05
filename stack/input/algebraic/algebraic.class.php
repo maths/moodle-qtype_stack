@@ -106,6 +106,7 @@ class stack_algebraic_input extends stack_input {
      * @return string the teacher's answer, displayed to the student in the general feedback.
      */
     public function get_teacher_answer_display($value, $display) {
+        $value = stack_utils::logic_nouns_sort($value, 'remove');
         return stack_string('teacheranswershow', array('value' => '<code>'.$value.'</code>', 'display' => $display));
     }
 }

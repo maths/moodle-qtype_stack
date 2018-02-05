@@ -90,12 +90,17 @@ class stack_cas_configuration {
         // Loop over this array to format them correctly...
         if ($this->settings->platform === 'win') {
             foreach ($this->blocksettings as $var => $val) {
-                $this->blocksettings[$var] = addslashes(str_replace( '/', '\\', $val));
+                if ($var != 'PLOT_TERM_OPT') {
+                    $this->blocksettings[$var] = addslashes(str_replace( '/', '\\', $val));
+                }
             }
         }
 
         $this->blocksettings['MAXIMA_VERSION_EXPECTED'] = $this->settings->maximaversion;
         $this->blocksettings['URL_BASE']       = '!ploturl!';
+        if ($this->settings->platform === 'win') {
+            $this->blocksettings['URL_BASE']       = '!ploturl!/';
+        }
     }
 
     /**
@@ -116,15 +121,22 @@ class stack_cas_configuration {
         $plotcommands[] = $maximalocation. 'bin/wgnuplot.exe';
         $plotcommands[] = $maximalocation. 'gnuplot/bin/wgnuplot.exe';
 
-        // I'm finally fed up with dealing with spaces in MS filenames.
+        // I'm really now totally and finally fed up with dealing with spaces in MS filenames.
         $newplotlocation = stack_utils::convert_slash_paths($CFG->dataroot . '/stack/wgnuplot.exe');
         foreach ($plotcommands as $plotcommand) {
             if (file_exists($plotcommand)) {
-                        copy($plotcommand, $newplotlocation);
-                        return $newplotlocation;
+                if (substr_count($plotcommand, ' ') === 0) {
+                    $newplotlocation = stack_utils::convert_slash_paths($CFG->dataroot . '/stack/wgnuplot.bat');
+                    if (!file_put_contents($newplotlocation, $this->maxima_win_location() .
+                            "gnuplot/bin/wgnuplot.exe %1 %2 %3 %3 %5 %6 %7 \n\n")) {
+                        throw new stack_exception('Failed to write wgnuplot batch file to:'. $newplotlocation);
+                    }
+                } else {
+                    copy($plotcommand, $newplotlocation);
+                }
+                return $newplotlocation;
             }
         }
-
         throw new stack_exception('Could not locate GNUPlot.');
     }
 
@@ -137,6 +149,7 @@ class stack_cas_configuration {
 
         $locations = array();
         $locations[] = 'C:/maxima-' . $this->settings->maximaversion . '/';
+        $locations[] = 'C:/maxima-' . $this->settings->maximaversion . 'a/';
         $locations[] = 'C:/Maxima-' . $this->settings->maximaversion . '/';
         $locations[] = 'C:/bin/Maxima-gcl-' . $this->settings->maximaversion . '/';
         $locations[] = 'C:/bin/Maxima-sbcl-' . $this->settings->maximaversion . '/';
@@ -178,7 +191,16 @@ class stack_cas_configuration {
             return true;
         }
         $batchfilename = $this->maxima_win_location() . 'bin/maxima.bat';
+        if (substr_count($batchfilename, ' ') === 0) {
+            $batchfilecontents = "rem Auto-generated Maxima batch file.  \n\n";
+            $batchfilecontents .= $this->maxima_win_location() . 'bin/maxima.bat'."\n\n";
+            if (!file_put_contents($CFG->dataroot . '/stack/maxima.bat', $batchfilecontents)) {
+                throw new stack_exception('Failed to write Maxima batch file.');
+            }
+            return true;
+        }
 
+        // If there are spaces within the pathname to the windows batch file we need to copy the batch file.
         if (!copy($batchfilename, $CFG->dataroot . '/stack/maxima.bat')) {
             throw new stack_exception('Could not copy the Maxima batch file ' . $batchfilename .
                     ' to location ' . $CFG->dataroot . '/stack/maxima.bat');

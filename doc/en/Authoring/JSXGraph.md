@@ -52,4 +52,15 @@ This question contains an interactive sliding element.
 
 In this example the student can interact with a dynamic diagram to help them understand what is going on.
 
+## An example with a slider
+
+In this example we provide a simple slider.  Notice in this example we use the Javascript notation `a**x` for \(a^x\) and not Maxima's `a^x`.
+
+    [[jsxgraph]]
+      // boundingbox:[left, top, right, bottom]
+      var board = JXG.JSXGraph.initBoard(divid, {boundingbox: [-5, 10, 5, -10], axis: true});
+      var a = board.create('slider',[[-3,6],[2,6],[0,2,6]],{name:'a'}); 
+      curve = board.create('functiongraph', [function(x) {return a.Value()**x}], {strokeWidth:2});
+      board.unsuspendUpdate();
+    [[/jsxgraph]]
 

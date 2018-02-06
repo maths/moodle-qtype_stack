@@ -1127,6 +1127,27 @@ class stack_equiv_test_data {
 
         //******************************************************************************
         $newarg = array();
+        $newarg['section'] = 'Equate coefficients';
+        $samplearguments[] = $newarg;
+
+        $newarg = array();
+        $newarg['title']     = "Simple equate coeffs";
+        $newarg['narrative'] = '';
+        $newarg['casstring'] = "[a*x^2+b*x+c=0,a=0 nounand b=0 nounand c=0,a*x^2+b*x+c=0]";
+        $newarg['debuglist'] = "[EMPTYCHAR,EQUATECOEFFLOSS(x),EQUATECOEFFGAIN(x)]";
+        $newarg['outcome']   = true;
+        $samplearguments[] = $newarg;
+
+        $newarg = array();
+        $newarg['title']     = "Equate coeffs";
+        $newarg['narrative'] = '';
+        $newarg['casstring'] = "[a*x^2+b*x+c=A*x^2+B*x+C,a=A nounand b=B nounand c=C,a*x^2+b*x+c=A*x^2+B*x+C]";
+        $newarg['debuglist'] = "[EMPTYCHAR,EQUATECOEFFLOSS(x),EQUATECOEFFGAIN(x)]";
+        $newarg['outcome']   = true;
+        $samplearguments[] = $newarg;
+
+        //******************************************************************************
+        $newarg = array();
         $newarg['section'] = 'Other cases';
         $samplearguments[] = $newarg;
 

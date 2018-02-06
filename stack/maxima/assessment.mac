@@ -85,6 +85,36 @@ poly_equate_coeffs(p1,p2,v) := block([deg,kloop,cl],
    cl
 );
 
+/* Can we equate coefficients, and if so in what variable? */
+poly_equate_coeffsp(p1, p2) := block([lov1, lov2, poly1, andex1, andex2, numvardiff, vardiff, ansnote],
+    lov1:setify(listofvars(p1)),
+    lov2:setify(listofvars(p2)),
+    numvardiff:ev(length(lov1)-length(lov2), simp),
+    /* The difference in the number of variables has to be exactly one. */
+    if not(is(ev(abs(numvardiff=1),simp))) then return(false),
+    if is(length(lov1)-length(lov2)=1) then block(
+        poly1:lhs(p1)-rhs(p1),
+        andex2:p2,
+        vardiff:first(args(setdifference(lov1,lov2))),
+        ansnote:EQUATECOEFFLOSS(vardiff)
+    ) else (
+        poly1:lhs(p2)-rhs(p2),
+        andex2:p1,
+        vardiff:first(args(setdifference(lov2,lov1))),
+        ansnote:EQUATECOEFFGAIN(vardiff)
+    ),
+    /* In the call below we only check it is a polynomial in its first variable. */
+    if not(polynomialp(poly1, [vardiff],'lambda([ex], true), 'integerp) and safe_op(andex2)="nounand") then return(false),
+    /* We can only equate coefficients of polynomials where the list of */
+    andex1:apply("nounand", args(poly_equate_coeffs(lhs(poly1)-rhs(poly1), 0, vardiff))),
+
+    if debug then print([poly1, andex1, andex2, vardiff]),
+
+    ret:ATAlgEquiv(andex1, andex2),
+    if debug then print(["poly_equate_coeffsp: ", ret]),
+    if first(ret) then return(ansnote) else return(false)
+)$
+
 /* Return the set of operations which occur in the expression. */
 /* Note, this function varies depending on the value of simp!  */
 /* E.g. x+x-> 2*x, so is this a product of sum?                */
@@ -248,7 +278,7 @@ find_rationals(ex) := block(
 /* Toplevel function.
    This returns "true" if the denominators of expressionss are free of sqrt, root, %i or fractional powers.
    It returns a list of offending terms otherwise.
-*/ 
+*/
 rationalized(ex):= block(
   ex:find_rationals(ex),
   if not(listp(ex)) then ex:[ex],
@@ -1327,6 +1357,14 @@ INTCHARtex(ex):=block(
 );
 texput(INTCHAR, INTCHARtex);
 
+EQUATECOEFFLOSStex(ex):=block(
+  sconcat("\\color{green}{\\equiv (\\cdots ? ", tex1(first(args(ex))), ")}")
+);
+texput(EQUATECOEFFLOSS, EQUATECOEFFLOSStex);
+EQUATECOEFFGAINtex(ex):=block(
+  sconcat("\\color{green}{(\\cdots ? ", tex1(first(args(ex))), ")\\equiv}")
+);
+texput(EQUATECOEFFGAIN, EQUATECOEFFGAINtex);
 
 /* We assume the token "all" is the set of real numbers, and "none" means it is empty. */
 declare(all, constant);
@@ -1436,13 +1474,13 @@ stack_eval_arg(ex) := block([eqoutcome, eqoutsymb, eqoutnote, res, id, truthargu
           SAP:ev(exmodpoly[ev(k1-1,simp)], l),
           SAS:ev(exmodsolve[ev(k1-1,simp)], l)
       ),
- 
-      if (debug) then print(SA),
-      if (debug) then print(SB),
-      if (debug) then print(SAP),
-      if (debug) then print(SBP),
-      if (debug) then print(SAS),
-      if (debug) then print(SBS),
+
+      if (debug) then print("SA: ", SA),
+      if (debug) then print("SB: ", SB),
+      if (debug) then print("SAP: ", SAP),
+      if (debug) then print("SBP: ", SBP),
+      if (debug) then print("SAS: ", SAS),
+      if (debug) then print("SBS: ", SBS),
       /* Strings break up an argument into independent blocks. */
       if stringp(SA) or stringp(SB) then block(
           eqoutsymb[ev(id, simp)]:EMPTYCHAR,
@@ -1458,7 +1496,7 @@ stack_eval_arg(ex) := block([eqoutcome, eqoutsymb, eqoutnote, res, id, truthargu
           if (debug) then print("Solved as ", string(SAS), ", ", string(SBS)),
           if (debug) then print("ATAlgEquiv(", string(SAP), ", ", string(SBP), ");"),
           if is(SAS=SBS) then block
-              ([FAA, FAB],
+          ([FAA, FAB, PECret],
               malrulecont:false,
               eqoutcome[ev(id, simp)]:true,
               eqoutsymb[ev(id, simp)]:EQUIVCHAR,
@@ -1468,7 +1506,7 @@ stack_eval_arg(ex) := block([eqoutcome, eqoutsymb, eqoutnote, res, id, truthargu
               FAA:if equationp(SAP) then ev(lhs(SAP)-rhs(SAP), simp) else SAP,
               FAB:if equationp(SBP) then ev(lhs(SBP)-rhs(SBP), simp) else SBP,
               if (debug) then print("Check for SAMEROOTS with: ", string(FAA), ", ", string(FAB)),
-              if ev(is(polynomialpsimp(FAA) and polynomialpsimp(FAB)), simp) then block([facbA,facbB],
+              if ev(is(polynomialpsimp(FAA) and polynomialpsimp(FAB)), simp) then block([facbA, facbB],
                   ATres:ev(ATAlgEquiv(SAP, SBP), simp),
                   if (debug) then print("SAMEROOTS first ATAlgEquiv check: ", SAP, SBP, ATres),
                   /* In this case we establish they are *not* algebraically equivalent. */
@@ -1486,9 +1524,7 @@ stack_eval_arg(ex) := block([eqoutcome, eqoutsymb, eqoutnote, res, id, truthargu
                       )
                   )
               )
-          )
-          else
-             /* Needs to come before checking subsets.  Special case of real single variable equations. */
+          ) else /* Needs to come before checking subsets.  Special case of real single variable equations. */
              if assume_real then block([FAA, FBB, FGCD, ATres],
                FAA:if equationp(SAP) then lhs(SAP)-rhs(SAP) else SAP,
                FAB:if equationp(SBP) then lhs(SBP)-rhs(SBP) else SBP,
@@ -1564,6 +1600,18 @@ stack_eval_arg(ex) := block([eqoutcome, eqoutsymb, eqoutnote, res, id, truthargu
                 eqoutsymb[ev(id, simp)]:EQUIVCHAR,
                 tempnote:sconcat(tempnote, " | ATAlgEquiv_true | ", third(ATres))
                 ),
+
+              /* Check for equating coefficients. */
+              if (debug) then print("Check for Equating coefficients with: ", string(SAP), ", ", string(SBP)),
+              PECret:ev(poly_equate_coeffsp(SAP, SBP), simp),
+              if (debug) then print("Equating coefficients result: ", string(PECret)),
+              if not(is(PECret=false)) then block
+                (
+                eqoutcome[ev(id, simp)]:true,
+                eqoutsymb[ev(id, simp)]:PECret,
+                tempnote:sconcat(tempnote, " | EquateCoeffs | ", string(PECret))
+                ),
+
 
               /* Deal with special cases with assume_pos. */
               if assume_pos then block

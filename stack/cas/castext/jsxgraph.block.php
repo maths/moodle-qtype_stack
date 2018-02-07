@@ -96,7 +96,8 @@ class stack_cas_castext_jsxgraph extends stack_cas_castext_block {
 
         $attributes = array('class' => 'jxgbox', 'style' => $style, 'id' => $divid, 'data-code' => $code);
 
-        $this->get_node()->convert_to_text(html_writer::empty_tag('div', $attributes));
+        // Empty tags seem to be an issue.
+        $this->get_node()->convert_to_text(html_writer::tag('div', '', $attributes));
 
         // We pass the code of the graph in the data-attributes of the element thus avoiding
         // having to pass it through this.

@@ -80,22 +80,27 @@ class stack_cas_castext_jsxgraph extends stack_cas_castext_block {
             }
         }
 
+        // We restrict the actions of the block code a bit by stopping it from
+        // rewriting some things in the surrounding scopes.
+        // Also catch errors inside the code and try to provide console logging
+        // of them for the author.
+        // We could calculate the actual offset but I'll leave that for
+        // someone else. 1+2*n probably, or we could just write all the preamble
+        // on the same line and make the offset always be the same?
+        $code = '"use strict";try{' . $code . '} catch(err) {console.log("STACK JSXGraph error in \"' . $divid . '\", (note a slight varying offset in the error position due to possible input references):");console.log(err);}';
+
         $width  = $this->get_node()->get_parameter('width', '500px');
         $height = $this->get_node()->get_parameter('height', '400px');
 
         $style  = "width:$width;height:$height;";
 
-        $this->get_node()->convert_to_text("<div id='$divid' class='jxgbox' style='$style'></div>");
+        $attributes = array('class' => 'jxgbox', 'style' => $style, 'id' => $divid, 'data-code' => $code);
 
-        // This may prove to be problematic if the version used in any active
-        // official JSXGraph filter differs greatly. This may need to check if
-        // such a filter exists and coerce it to serve a version instead to
-        // avoid dula loading.
-        $PAGE->requires->js(new moodle_url($CFG->wwwroot . '/question/type/stack/thirdparty/jsxgraph/jsxgraphcore.js'), true);
+        $this->get_node()->convert_to_text(html_writer::empty_tag('div', $attributes));
 
-        // Only activate the code if the div actually ended on the page.
-        $code = "if (document.getElementById('" . $divid . "') != null) {" . $code . "};";
-        $PAGE->requires->js_init_call($code);
+        // We pass the code of the graph in the data-attributes of the element thus avoiding
+        // having to pass it through this.
+        $PAGE->requires->js_call_amd('qtype_stack/jsxgraph', 'init', array($divid));
 
         // Up the graph number to generate unique names.
         self::$countgraphs = self::$countgraphs + 1;

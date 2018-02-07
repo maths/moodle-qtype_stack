@@ -31,6 +31,7 @@ $string['pluginnamesummary'] = 'STACK provides mathematical questions for the Mo
 
 // General strings.
 $string['errors'] = 'Errors';
+$string['warnings'] = 'Warnings';
 $string['debuginfo'] = 'Debug info';
 $string['exceptionmessage'] = '{$a}';
 
@@ -527,6 +528,7 @@ $string['healthcheckconfig'] = 'Maxima configuration file';
 $string['healthcheckconfigintro1a'] = 'Found, and using, Maxima in the following directory:';
 $string['healthcheckconfigintro1b'] = 'Found, and using, the following Maxima executable:';
 $string['healthcheckconfigintro2'] = 'Trying to automatically write the Maxima configuration file.';
+$string['healthcheckconfigintro2skip'] = 'Skipping Maxima configuration file write check because of previous errors. The content if generated would be as below:';
 $string['healthcheckconnect'] = 'Trying to connect to the CAS';
 $string['healthcheckconnectintro'] = 'We are trying to evaluate the following CAS text:';
 $string['healthcheckfilters'] = 'Please ensure that the {$a->filter} is enabled on the <a href="{$a->url}">Manage filters</a> page.';
@@ -534,7 +536,7 @@ $string['healthchecklatex'] = 'Check LaTeX is being converted correctly';
 $string['healthchecklatexintro'] = 'STACK generates LaTeX on the fly, and enables teachers to write LaTeX in questions. It assumes that LaTeX will be converted by a moodle filter.  Below are samples of displayed and inline expressions in LaTeX which should be appear correctly in your browser.  Problems here indicate incorrect moodle filter settings, not faults with STACK itself. STACK only uses the single and double dollar notation itself, but some question authors may be relying on the other forms.';
 $string['healthchecklatexmathjax'] = 'STACK relies on the Moodle MathJax filter.  An alternative is to add javascript code to Moodle\'s additional HTML.  See the STACK installation docs for more details of this option.';
 $string['healthcheckmathsdisplaymethod'] = 'Maths display method being used: {$a}.';
-$string['healthcheckmaximabat'] = 'Maxima launch Script';
+$string['healthcheckmaximabat'] = 'Maxima Launch Script';
 $string['healthcheckmaximabatinfo'] = 'STACK on this platform requires a launch script (e.g. a batch file or shell script), called "{$a}", in order to execute Maxima.';
 $string['healthcheckmaximabatnotneeded'] = 'STACK on this platform does not need a launch script (batch or shell script) in order to execute Maxima.';
 $string['healthcheckmaximabatok'] = 'Found, and using, the following launch script: "{$a}"';
@@ -545,6 +547,8 @@ $string['healthchecksampleinlinetex'] = '\(\sum_{n=1}^\infty \frac{1}{n^2} = \fr
 $string['healthcheckplots'] = 'Graph plotting';
 $string['healthcheckplotsintro'] = 'There should be two different plots.  If two identical plots are seen then this is an error in naming the plot files. If no errors are returned, but a plot is not displayed then one of the following may help.  (i) check read permissions on the two temporary directories. (ii) change the options used by GNUPlot to create the plot. Currently there is no web interface to these options.';
 $string['healthchecksampleplots'] = 'Two example plots below.  {@plot([x^4/(1+x^4),diff(x^4/(1+x^4),x)],[x,-3,3])@} {@plot([sin(x),x,x^2,x^3],[x,-3,3],[y,-3,3],grid2d)@}  A third, smaller, plot may be displayed here with traditional axes.  (Newer versions of Maxima only.) {@plot([sin(x),x,x^2,x^3],[x,-3,3],[y,-3,3],[box, false],[yx_ratio, 1],[axes, solid],[xtics, -3, 1, 3],[ytics, -3, 1, 3],[size,250,250])@}';
+$string['healthcheckmaximaversionnotmatch'] = 'Maxima versions do not match: Configuration is set to \'{$a->config}\' actual version is \'{$a->actual}\'';
+$string['healthchecklispnotmatch'] = 'Lisp flavours do not match: Configuration is set to \'{$a->config}\' actual lisp is \'{$a->actual}\'';
 $string['healthchecksstackmaximaversion'] = 'Maxima version';
 $string['healthchecksstackmaximaversionfixoptimised'] = 'Please <a href="{$a->url}">rebuild your optimised Maxima executable</a>.';
 $string['healthchecksstackmaximaversionfixserver'] = 'Please rebuild the Maxima code on your MaximaPool server.';
@@ -552,8 +556,8 @@ $string['healthchecksstackmaximaversionfixunknown'] = 'It is not really clear ho
 $string['healthchecksstackmaximanotupdated'] = 'It seems that STACK has not been properly updated. Please visit the <a href="{$a}">System administration -> Notifications page</a>.';
 $string['healthchecksstackmaximatooold'] = 'So old the version is unknown!';
 $string['healthchecksstackmaximaversionmismatch'] = 'The version of the STACK-Maxima libraries being used ({$a->usedversion}) does not match what is expected ({$a->expectedversion}) by this version of the STACK question type. {$a->fix}';
-$string['healthcheckmaximaversionnotpresent'] = 'The version Maxima in the configuration ${a->chosen} does not appear to be installed. The available versions are {$a->available}';
-$string['healthcheckmaximaversionlispnotpresent'] = 'The flavour of lisp you have chosen ${a->chosen} does not appear to be available in this version of Maxima. The available flavours are {$a->available}';
+$string['healthcheckmaximaversionnotpresent'] = 'The version of Maxima selected in the configuration ({$a->chosen}) does not appear to be installed. The available versions are: {$a->available}';
+$string['healthcheckmaximaversionlispnotpresent'] = 'The flavour of lisp you have chosen ({$a->chosen}) does not appear to be available in this version of Maxima. The available flavours are {$a->available}';
 $string['healthchecksstackmaximaversionok'] = 'Correct and expected STACK-Maxima library version being used ({$a->usedversion}).';
 $string['healthuncached'] = 'Uncached CAS call';
 $string['healthuncachedintro'] = 'This section always sends a genuine call to the CAS, regardless of the current cache settings.  This is needed to ensure the connection to the CAS is really currently working.';
@@ -562,7 +566,7 @@ $string['healthuncachedstack_CAS_not'] = 'CAS returned some data as expected, bu
 $string['healthuncachedstack_CAS_version'] = 'Expected Maxima version : "{$a->expected}".  Actual Maxima version: {$a->actual}.';
 $string['healthuncachedstack_CAS_versionnotchecked'] = 'You have chosen the "default" version of Maxima, so no Maxima version checking is being done.  Your raw connection is actually using version {$a->actual}.';
 $string['healthuncachedstack_CAS_calculation'] = 'Expected CAS calculation : {$a->expected}.  Actual CAS calculation: {$a->actual}.';
-$string['healthunabletolistavail'] = 'Current platform type (${a}) is unable to list available versions of Maxima.';
+$string['healthunabletolistavail'] = 'Current platform type ({$a}) is unable to list available versions of Maxima.';
 $string['healthautomaxopt'] = 'Automatically create an optimised Maxima image';
 $string['healthautomaxoptintro'] = 'For best performance we need to optimize maxima.  See the <a href="doc/doc.php/CAS/Optimising_Maxima.md">documentation</a> on this issue.';
 $string['healthautomaxopt_succeeded'] = 'Create Optimised Maxima Image SUCCEEDED';

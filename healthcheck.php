@@ -62,10 +62,10 @@ $checkrv = $platform->check_maxima_install();
 $platformerrors = $checkrv['errors']; $platformwarnings = $checkrv['warnings'];
 $errmsg = ""; $warnmsg = "";
 if (count($platformerrors) > 0) {
-    $errmsg = "ERRORS:<ul><li>" . implode('</li><li>', $platformerrors) . '</li></ul>';
+    $errmsg = "<ul><li>" . implode('</li><li>', $platformerrors) . '</li></ul>';
 }
 if (count($platformwarnings) > 0) {
-    $warnmsg .= "WARNINGS:<ul><li>" . implode('</li><li>', $platformwarnings) . '</li></ul>';
+    $warnmsg .= "<ul><li>" . implode('</li><li>', $platformwarnings) . '</li></ul>';
 }
 
 // Create and store Maxima image if requested.
@@ -137,12 +137,14 @@ if (true !== $maximalocation) {
 
 // Report platform configuration errors and warnings from earlier above.
 if (count($platformerrors) > 0) {
-    echo html_writer::tag('p', $errmsg);
+    echo $OUTPUT->box($OUTPUT->heading(stack_string('errors'), 5) . $errmsg,
+            'alert alert-error alert-block');
     $summary[] = array(false, stack_string('healthcheckplatformconfigerrors'));
 }
 
 if (count($platformwarnings) > 0) {
-    echo html_writer::tag('p', $warnmsg);
+    echo $OUTPUT->box($OUTPUT->heading(stack_string('warnings'), 5) . $warnmsg,
+            'alert alert-warning alert-block');
     $summary[] = array(null, stack_string('healthcheckplatformconfigwarnings'));
 }
 
@@ -154,17 +156,21 @@ if (!$valid) {
 }
 
 // Try to connect to create maxima local.
-echo html_writer::tag('p', stack_string('healthcheckconfigintro2'));
-stack_cas_configuration::create_maximalocal();
+if ($platformerrors) {
+    echo html_writer::tag('p', stack_string('healthcheckconfigintro2skip'));
+} else {
+    echo html_writer::tag('p', stack_string('healthcheckconfigintro2'));
+    stack_cas_configuration::create_maximalocal();
+}
 
 echo html_writer::tag('textarea', stack_cas_configuration::generate_maximalocal_contents(),
         array('readonly' => 'readonly', 'wrap' => 'virtual', 'rows' => '32', 'cols' => '100'));
 
 // Maxima config.
 echo $OUTPUT->heading(stack_string('healthcheckmaximabat'), 3);
-if ( $platform->requires_launch_script() ) {
+if ($platform->requires_launch_script()) {
     echo html_writer::tag('p', stack_string('healthcheckmaximabatinfo', $platform->get_launch_script_pathame()));
-    if ($platform->check_launch_script() ) {
+    if ($platform->check_launch_script()) {
         $message = stack_string('healthcheckmaximabatok', $platform->get_launch_script_pathame());
         echo html_writer::tag('p', $message);
         $summary[] = array(true, $message);
@@ -175,6 +181,7 @@ if ( $platform->requires_launch_script() ) {
     }
 } else {
     $message = stack_string('healthcheckmaximabatnotneeded');
+    echo html_writer::tag('p', $message);
     $summary[] = array(null, $message);
 }
 

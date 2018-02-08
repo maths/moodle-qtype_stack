@@ -90,46 +90,47 @@ class stack_cas_casstring {
     private static $cache = false;
 
     /** @var array blacklist of globally forbidden CAS keywords. */
-    private static $globalforbid    = array('%th' => true, 'adapth_depth' => true, 'alias' => true, 'aliases' => true,
-                'alphabetic' => true, 'appendfile' => true, 'apropos' => true, 'assume_external_byte_order' => true,
-                'backtrace' => true, 'batch' => true, 'barsplot' => true, 'batchload' => true, 'boxchar' => true,
-                'boxplot' => true, 'bug_report' => true, 'build_info' => true, 'catch' => true, 'close' => true,
-                'closefile' => true, 'compfile' => true, 'compile' => true, 'compile_file' => true, 'concat' => true,
-                'current_let_rule_package' => true, 'data_file_name' => true, 'deactivate' => true, 'debugmode' => true,
-                'define' => true, 'define_variable' => true, 'demo' => true, 'dependencies' => true, 'describe' => true,
-                'dimacs_export' => true, 'dimacs_import' => true, 'entermatrix' => true, 'errcatch' => true, 'error' => true,
-                'error_size' => true, 'error_syms' => true, 'errormsg' => true, 'eval_string' => true, 'example' => true,
-                'feature' => true, 'featurep' => true, 'features' => true, 'file_name' => true, 'file_output_append' => true,
-                'file_search' => true, 'file_search_demo' => true, 'file_search_lisp' => true, 'file_search_maxima' => true,
-                'file_search_tests' => true, 'file_search_usage' => true, 'file_type' => true, 'filename_merge' => true,
-                'flength' => true, 'fortindent' => true, 'fortran' => true, 'fortspaces' => true, 'fposition' => true,
-                'freshline' => true, 'functions' => true, 'fundef' => true, 'funmake' => true, 'grind' => true,
-                'gnuplot_file_name' => true, 'gnuplot_out_file' => true, 'gnuplot_preamble' => true,
-                'gnuplot_ps_term_command' => true, 'gnuplot_term' => true, 'inchar' => true, 'infeval' => true,
-                'infolists' => true, 'kill' => true, 'killcontext' => true, 'labels' => true, 'leftjust' => true,
-                'ldisp' => true, 'ldisplay' => true, 'lisp' => true, 'linechar' => true, 'linel' => true, 'linenum' => true,
+    private static $globalforbid    = array('%th' => true, 'adapth_depth' => true, 'alias' => true,
+                'aliases' => true, 'alphabetic' => true, 'appendfile' => true, 'apropos' => true,
+                'assume_external_byte_order' => true, 'backtrace' => true, 'batch' => true, 'barsplot' => true, 'batchload' => true,
+                'boxchar' => true, 'boxplot' => true, 'bug_report' => true, 'build_info' => true, 'catch' => true,
+                'close' => true, 'closefile' => true, 'compfile' => true, 'compile' => true, 'compile_file' => true,
+                'concat' => true, 'current_let_rule_package' => true, 'data_file_name' => true, 'deactivate' => true,
+                'debugmode' => true, 'define' => true, 'define_variable' => true, 'del_cmd' => true, 'demo' => true,
+                'dependencies' => true, 'describe' => true, 'dimacs_export' => true, 'dimacs_import' => true, 'entermatrix' => true,
+                'errcatch' => true, 'error' => true, 'error_size' => true, 'error_syms' => true, 'errormsg' => true,
+                'eval_string' => true, 'example' => true, 'feature' => true, 'featurep' => true, 'features' => true,
+                'file_name' => true, 'file_output_append' => true, 'file_search' => true, 'file_search_demo' => true,
+                'file_search_lisp' => true, 'file_search_maxima' => true, 'file_search_tests' => true,
+                'file_search_usage' => true, 'file_type' => true, 'filename_merge' => true, 'flength' => true,
+                'fortindent' => true, 'fortran' => true, 'fortspaces' => true, 'fposition' => true, 'freshline' => true,
+                'functions' => true, 'fundef' => true, 'funmake' => true, 'grind' => true, 'gnuplot_file_name' => true,
+                'gnuplot_out_file' => true, 'gnuplot_preamble' => true, 'gnuplot_ps_term_command' => true,
+                'gnuplot_cmd' => true, 'gnuplot_term' => true, 'inchar' => true, 'infeval' => true, 'infolists' => true,
+                'kill' => true, 'killcontext' => true, 'labels' => true, 'leftjust' => true, 'ldisp' => true,
+                'ldisplay' => true, 'lisp' => true, 'linechar' => true, 'linel' => true, 'linenum' => true,
                 'linsolvewarn' => true, 'load' => true, 'load_pathname' => true, 'loadfile' => true, 'loadprint' => true,
-                'macroexpand' => true, 'macroexpand1' => true, 'macroexpansion' => true, 'macros' => true,
-                'manual_demo' => true, 'maxima_tempdir' => true, 'maxima_userdir' => true, 'multiplot_mode' => true,
-                'myoptions' => true, 'newline' => true, 'nolabels' => true, 'opena' => true, 'opena_binary' => true,
-                'openr' => true, 'openr_binary' => true, 'openw' => true, 'openw_binary' => true, 'outchar' => true,
-                'packagefile' => true, 'parse_string' => true, 'pathname_directory' => true, 'pathname_name' => true,
-                'pathname_type' => true, 'pickapart' => true, 'piece' => true, 'playback' => true, 'plotdf' => true,
-                'print' => true, 'print_graph' => true, 'printf' => true, 'printfile' => true, 'prompt' => true,
-                'psfile' => true, 'quit' => true, 'read' => true, 'read_array' => true, 'read_binary_array' => true,
-                'read_binary_list' => true, 'read_binary_matrix' => true, 'read_hashed_array' => true, 'read_list' => true,
-                'read_matrix' => true, 'read_nested_list' => true, 'read_xpm' => true, 'readline' => true, 'readonly' => true,
-                'refcheck' => true, 'rembox' => true, 'remvalue' => true, 'remfunction' => true, 'reset' => true,
-                'rmxchar' => true, 'room' => true, 'run_testsuite' => true, 'run_viewer' => true, 'save' => true,
-                'savedef' => true, 'scatterplot' => true, 'starplot' => true, 'stemplot' => true, 'set_plot_option' => true,
-                'setup_autoload' => true, 'setcheck' => true, 'setcheckbreak' => true, 'setval' => true, 'showtime' => true,
-                'sparse6_export' => true, 'sparse6_import' => true, 'splice' => true, 'sprint' => true, 'status' => true,
-                'stringout' => true, 'supcontext' => true, 'system' => true, 'tcl_output' => true, 'terminal' => true,
-                'tex' => true, 'testsuite_files' => true, 'throw' => true, 'time' => true, 'timer' => true,
-                'timer_devalue' => true, 'timer_info' => true, 'to_lisp' => true, 'trace' => true, 'trace_options' => true,
-                'transcompile' => true, 'translate' => true, 'translate_file' => true, 'transrun' => true, 'ttyoff' => true,
-                'untimer' => true, 'untrace' => true, 'user_preamble' => true, 'values' => true, 'with_stdout' => true,
-                'write_binary_data' => true, 'write_data' => true, 'writefile' => true);
+                'macroexpand' => true, 'macroexpand1' => true, 'macroexpansion' => true, 'macros' => true, 'manual_demo' => true,
+                'maxima_tempdir' => true, 'maxima_userdir' => true, 'multiplot_mode' => true, 'myoptions' => true,
+                'newline' => true, 'nolabels' => true, 'opena' => true, 'opena_binary' => true, 'openr' => true,
+                'openr_binary' => true, 'openw' => true, 'openw_binary' => true, 'outchar' => true, 'packagefile' => true,
+                'parse_string' => true, 'pathname_directory' => true, 'pathname_name' => true, 'pathname_type' => true,
+                'pickapart' => true, 'piece' => true, 'playback' => true, 'plotdf' => true, 'plot_terminal' => true,
+                'plot_term' => true, 'print' => true, 'print_graph' => true, 'printf' => true, 'printfile' => true,
+                'prompt' => true, 'psfile' => true, 'quit' => true, 'read' => true, 'read_array' => true,
+                'read_binary_array' => true, 'read_binary_list' => true, 'read_binary_matrix' => true, 'read_hashed_array' => true,
+                'read_list' => true, 'read_matrix' => true, 'read_nested_list' => true, 'read_xpm' => true, 'readline' => true,
+                'readonly' => true, 'refcheck' => true, 'rembox' => true, 'remvalue' => true, 'remfunction' => true,
+                'reset' => true, 'rmxchar' => true, 'room' => true, 'run_testsuite' => true, 'run_viewer' => true,
+                'save' => true, 'savedef' => true, 'scatterplot' => true, 'starplot' => true, 'stemplot' => true,
+                'set_plot_option' => true, 'setup_autoload' => true, 'setcheck' => true, 'setcheckbreak' => true, 'setval' => true,
+                'showtime' => true, 'sparse6_export' => true, 'sparse6_import' => true, 'splice' => true, 'sprint' => true,
+                'status' => true, 'stringout' => true, 'supcontext' => true, 'system' => true, 'tcl_output' => true,
+                'terminal' => true, 'tex' => true, 'testsuite_files' => true, 'throw' => true, 'time' => true,
+                'timer' => true, 'timer_devalue' => true, 'timer_info' => true, 'to_lisp' => true, 'trace' => true,
+                'trace_options' => true, 'transcompile' => true, 'translate' => true, 'translate_file' => true, 'transrun' => true,
+                'ttyoff' => true, 'untimer' => true, 'untrace' => true, 'user_preamble' => true, 'values' => true,
+                'with_stdout' => true, 'write_binary_data' => true, 'write_data' => true, 'writefile' => true);
 
     /** @var array blacklist of CAS keywords forbidden to teachers. */
     // Note we allow RANDOM_PERMUTATION.
@@ -627,7 +628,7 @@ class stack_cas_casstring {
         if (strpos($stringles, ',') !== false) {
             $this->check_commas($stringles);
         }
-        $this->check_operators($stringles);
+        $this->check_operators($stringles, $security);
 
         if (preg_match("/[\(\)\{\}\[\]]/", $stringles) == 1) {
             $this->check_parentheses($stringles);
@@ -790,7 +791,28 @@ class stack_cas_casstring {
             foreach ($matches as $match) {
                 $badchar = $match[0];
                 if (!array_key_exists($badchar, $invalidchars)) {
-                    $invalidchars[$badchar] = $badchar;
+                    switch ($badchar) {
+                        case "\n":
+                            $invalidchars[$badchar] = "\\n";
+                            break;
+                        case "\r":
+                            $invalidchars[$badchar] = "\\r";
+                            break;
+                        case "\t":
+                            $invalidchars[$badchar] = "\\t";
+                            break;
+                        case "\v":
+                            $invalidchars[$badchar] = "\\v";
+                            break;
+                        case "\e":
+                            $invalidchars[$badchar] = "\\e";
+                            break;
+                        case "\f":
+                            $invalidchars[$badchar] = "\\f";
+                            break;
+                        default:
+                            $invalidchars[$badchar] = $badchar;
+                    }
                 }
             }
             $this->add_error(stack_string('stackCas_forbiddenChar', array( 'char' => implode(", ", array_unique($invalidchars)))));
@@ -878,7 +900,7 @@ class stack_cas_casstring {
         }
     }
 
-    private function check_operators($stringles) {
+    private function check_operators($stringles, $security) {
         // Check for spurious operators.
         $spuriousops = array('<>', '||', '&', '..', ',,', '/*', '*/', '==');
         foreach ($spuriousops as $op) {
@@ -903,7 +925,7 @@ class stack_cas_casstring {
             $this->add_error(stack_string('stackCas_backward_inequalities', $a));
             $this->answernote[] = 'backward_inequalities';
             $this->valid = false;
-        } else if (!($this->check_chained_inequalities($stringles))) {
+        } else if ($security == 's' && !($this->check_chained_inequalities($stringles))) {
             $this->add_error(stack_string('stackCas_chained_inequalities'));
             $this->answernote[] = 'chained_inequalities';
             $this->valid = false;
@@ -1418,6 +1440,15 @@ class stack_cas_casstring {
     }
 
     private function key_val_split() {
+        if (substr(trim($this->casstring), 0, 4) == 'for ') {
+            $this->key   = '';
+            return true;
+        }
+        if (substr(trim($this->casstring), 0, 5) == 'thru ') {
+            $this->key   = '';
+            return true;
+        }
+
         $i = strpos($this->casstring, ':');
         if (false === $i) {
             $this->key   = '';
@@ -1564,9 +1595,9 @@ class stack_cas_casstring {
                     $lowestterms = true, $tans = null, $validationmethod, $allowwords = '', $basen_options = null) {
 
         if (!($validationmethod == 'checktype' || $validationmethod == 'typeless' || $validationmethod == 'units'
-            || $validationmethod == 'unitsnegpow' || $validationmethod == 'equiv')) {
+            || $validationmethod == 'unitsnegpow' || $validationmethod == 'equiv' || $validationmethod == 'numerical')) {
             throw new stack_exception('stack_cas_casstring: validationmethod must one of "checktype", "typeless", ' .
-                '"units" or "unitsnegpow" or "equiv", but received "'.$validationmethod.'".');
+                '"units" or "unitsnegpow" or "equiv" or "numerical", but received "'.$validationmethod.'".');
         }
         if (null === $this->valid) {
             $this->validate('s', true, 0, $allowwords, $basen_options );
@@ -1618,10 +1649,14 @@ class stack_cas_casstring {
         $this->casstring = 'stack_validate(['.$starredanswer.'], '.$forbidfloats.','.$lowestterms.','.$tans.')';
         if ($validationmethod == 'typeless') {
             // Note, we don't pass in the teacher's as this option is ignored by the typeless validation.
-            $this->casstring = 'stack_validate_typeless(['.$starredanswer.'], '.$forbidfloats.', '.$lowestterms.', false)';
+            $this->casstring = 'stack_validate_typeless(['.$starredanswer.'], '.$forbidfloats.', '.$lowestterms.', false, false)';
+        }
+        if ($validationmethod == 'numerical') {
+            $this->casstring = 'stack_validate_typeless(['.$starredanswer.'],
+                    '.$forbidfloats.', '.$lowestterms.', false, '.$fltfmt.')';
         }
         if ($validationmethod == 'equiv') {
-            $this->casstring = 'stack_validate_typeless(['.$starredanswer.'], '.$forbidfloats.', '.$lowestterms.', true)';
+            $this->casstring = 'stack_validate_typeless(['.$starredanswer.'], '.$forbidfloats.', '.$lowestterms.', true, false)';
         }
         if ($validationmethod == 'units') {
             // Note, we don't pass in forbidfloats as this option is ignored by the units validation.

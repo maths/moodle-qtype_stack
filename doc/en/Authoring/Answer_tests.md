@@ -147,7 +147,7 @@ Related tests establish that an expression is _expanded_ or in _partial_
 
 | Expression        | Description
 | ----------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-| LowestTerms       | This test checks that all numbers written in the first expression are in lowest terms.  Notes
+| LowestTerms       | This test checks that all numbers written in the first expression are in lowest terms and that the denominator is clear of surds and complex numbers.  Notes
 |                   |     * if you want to check whether a rational polynomial is written in lowest terms, this is not the test to use.  Instead, apply the [predicate functions](../CAS/Predicate_functions.md)  `lowesttermsp` to the expression.
 |                   |     * the second argument to this function is ignored, i.e. this test does not confirm algebraic equivalence.  You might as well use 0 here.
 | Expanded          | Confirms SAns is equal to `expand(SAns)`.  Note, the second argument to this answer test is not used (but must be non-empty).  Note with this test that an expression such as \(x^2-(a+b)x+ab\) is not considered to be expanded, and this test will return false.
@@ -232,7 +232,7 @@ The following tests do not use Maxima, but instead rely on PHP.
 | String         | This is a string match, ignoring leading and trailing white space which are stripped from all answers, using PHP's trim() function.
 | StringSloppy   | This function first converts both inputs to lower case, then removes all white space from the string and finally performs a strict string comparison.
 | RegExp         | A regular expression match, with the expression passed via the option. This regular expression match is performed with PHP's `preg_match()` function. For example, if you want to test if a string looks like a floating point number then use the regular expression `{[0-9]*\.[0-9]*}`
-|                | **NOTE:** this rest used to use PHP's `ereg()` function which has now been deprecated.
+|                | **NOTE:** this test used to use PHP's `ereg()` function which has now been deprecated.
 
 # Scientific units #
 

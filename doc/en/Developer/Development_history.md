@@ -2,6 +2,23 @@
 
 For current and future plans, see [Development track](Development_track.md) and [Future plans](Future_plans.md).
 
+## STACK 4.1
+
+Released December 2017.
+
+Numerous minor bug fixes and improvements.
+
+* Add in support for the syntaxHint in the matrix input.
+* On the questiontestrun page, have options to (a) delete all question variants.
+* Add in a `size` option to set the size of a plot.
+* Add in an answer test which accepts "at least" n significant figures. (See issue #313)
+* Add in the "string" input type.
+* Add test which checks if there are any rational expressions in the denominator of a fraction.  (Functionality added to LowestTerms test, which looks at the form of rational expressions).
+* Add an option to remove hard-coded "not answered" option from Radio input type. (See issue #304)
+* Add in a "numerical" input type which requires a student to type in a number.  This has various options, see the [docs](../Authoring/Numerical_input.md).
+* Specify numerical precision for validation in numerical and units input types.
+* Refactor the inputs so that extra options can be added more easily, and shared between inputs.
+
 ## STACK 4.0.1
 
 Released August 2017.

@@ -296,7 +296,7 @@ class stack_equiv_input extends stack_input {
      * @return string any error messages describing validation failures. An empty
      *      string if the input is valid - at least according to this test.
      */
-    protected function validation_display($answer, $caslines, $additionalvars, $valid, $errors) {
+    protected function validation_display($answer, $lvars, $caslines, $additionalvars, $valid, $errors) {
         if ($this->optfirstline) {
             $foundfirstline = false;
             foreach ($additionalvars as $index => $cs) {
@@ -340,7 +340,6 @@ class stack_equiv_input extends stack_input {
 
 
     /** This function creates additional session variables.
-     *  Currently only used by the equiv class.
      */
     protected function additional_session_variables($caslines, $teacheranswer) {
         $equivdebug = 'false';

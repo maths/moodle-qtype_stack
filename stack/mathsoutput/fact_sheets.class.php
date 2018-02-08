@@ -67,7 +67,7 @@ abstract class stack_fact_sheets {
     }
 
     /**
-     * This function repaces tags with they HTML value.
+     * This function replaces tags with the HTML value.
      * Note, that at this point we assume we have already validated the text.
      * @param string $text the text in which to expand fact sheet tags.
      * @param qtype_stack_renderer $renderer (options) the STACK renderer, if you have one.

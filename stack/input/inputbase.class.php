@@ -41,21 +41,6 @@ abstract class stack_input {
     
     protected $basen_options = null;
 
-    protected static $allparameternames = array(
-        'mustVerify',
-        'showValidation',
-        'boxWidth',
-        'boxHeight',
-        'strictSyntax',
-        'insertStars',
-        'syntaxHint',
-        'syntaxAttribute',
-        'forbidWords',
-        'allowWords',
-        'forbidFloats',
-        'lowestTerms',
-        'sameType');
-
     /**
      * @var string the name of the input.
      * This name has two functions
@@ -72,6 +57,34 @@ abstract class stack_input {
      * This is assumed to be a valid Maxima string.
      */
     protected $teacheranswer;
+
+    /**
+     * These are the fixed parameters, most of which have hard-wired columns in the Moodle database.
+     * @var array
+     */
+    protected static $allparameternames = array(
+        'mustVerify',
+        'showValidation',
+        'boxWidth',
+        'boxHeight',
+        'strictSyntax',
+        'insertStars',
+        'syntaxHint',
+        'syntaxAttribute',
+        'forbidWords',
+        'allowWords',
+        'forbidFloats',
+        'lowestTerms',
+        'sameType');
+
+    /**
+     * From STACK 4.1 we are not going to continue to add input options as columns in the database.
+     * This has numerous problems, and is difficult to maintain. Extra options will be in a JSON-like format.
+     *
+     * For examples see the numerical input.
+     * @var array
+     */
+    protected $extraoptions = array();
 
     /**
      * The question level options for CAS sessions.
@@ -137,6 +150,124 @@ abstract class stack_input {
      * use this to sort out options.
      */
     protected function internal_contruct() {
+        $options = $this->get_parameter('options');
+
+        if (trim($options) != '') {
+            $options = explode(',', $options);
+            foreach ($options as $option) {
+                $option = strtolower(trim($option));
+                list($option, $arg) = stack_utils::parse_option($option);
+
+                // Only accept those options specified in the array for this input type.
+                if (array_key_exists($option, $this->extraoptions)) {
+                    if ($arg === '') {
+                        // Extra options with no argument set a Boolean flag.
+                        $this->extraoptions[$option] = true;
+                    } else {
+                        $this->extraoptions[$option] = $arg;
+                    }
+                } else {
+                    $this->errors[] = stack_string('inputoptionunknown', $option);
+                }
+            }
+        }
+        $this->validate_extra_options();
+    }
+
+    /**
+     * Validate the individual extra options.
+     */
+    protected function validate_extra_options() {
+
+        foreach ($this->extraoptions as $option => $arg) {
+
+            switch($option) {
+
+                case 'novars':
+                    if (!(is_bool($arg))) {
+                        $this->errors[] = stack_string('numericalinputoptbooplerr', array('opt' => $option, 'val' => $arg));
+                    }
+                    break;
+
+                case 'floatnum':
+                    if (!(is_bool($arg))) {
+                        $this->errors[] = stack_string('numericalinputoptbooplerr', array('opt' => $option, 'val' => $arg));
+                    }
+                    break;
+
+                case 'rationalnum':
+                    if (!(is_bool($arg))) {
+                        $this->errors[] = stack_string('numericalinputoptbooplerr', array('opt' => $option, 'val' => $arg));
+                    }
+                    break;
+
+                case 'rationalized':
+                    if (!(is_bool($arg))) {
+                        $this->errors[] = stack_string('numericalinputoptbooplerr', array('opt' => $option, 'val' => $arg));
+                    }
+                    break;
+
+                case 'negpow':
+                    if (!(is_bool($arg))) {
+                        $this->errors[] = stack_string('numericalinputoptbooplerr', array('opt' => $option, 'val' => $arg));
+                    }
+                    break;
+
+                case 'mindp':
+                    if (!($arg === false || is_numeric($arg))) {
+                        $this->errors[] = stack_string('numericalinputoptinterr', array('opt' => $option, 'val' => $arg));
+                    }
+                    break;
+
+                case 'maxdp':
+                    if (!($arg === false || is_numeric($arg))) {
+                        $this->errors[] = stack_string('numericalinputoptinterr', array('opt' => $option, 'val' => $arg));
+                    }
+                    break;
+
+                case 'minsf':
+                    if (!($arg === false || is_numeric($arg))) {
+                        $this->errors[] = stack_string('numericalinputoptinterr', array('opt' => $option, 'val' => $arg));
+                    }
+                    break;
+
+                case 'maxsf':
+                    if (!($arg === false || is_numeric($arg))) {
+                        $this->errors[] = stack_string('numericalinputoptinterr', array('opt' => $option, 'val' => $arg));
+                    }
+                    break;
+
+                default:
+                    $this->errors[] = stack_string('inputoptionunknown', $option);
+            }
+        }
+
+        $mindp = false;
+        $maxdp = false;
+        $minsf = false;
+        $maxsf = false;
+        if (array_key_exists('mindp', $this->extraoptions)) {
+            $mindp = $this->extraoptions['mindp'];
+        }
+        if (array_key_exists('maxdp', $this->extraoptions)) {
+            $maxdp = $this->extraoptions['maxdp'];
+        }
+        if (array_key_exists('minsf', $this->extraoptions)) {
+            $minsf = $this->extraoptions['minsf'];
+        }
+        if (array_key_exists('maxsf', $this->extraoptions)) {
+            $maxsf = $this->extraoptions['maxsf'];
+        }
+        if (is_numeric($mindp) && is_numeric($maxdp) && $mindp > $maxdp) {
+                    $this->errors[] = stack_string('numericalinputminmaxerr');
+        }
+        if (is_numeric($minsf) && is_numeric($maxsf) && $minsf > $maxsf) {
+                    $this->errors[] = stack_string('numericalinputminmaxerr');
+        }
+        if ((is_numeric($mindp) || is_numeric($maxdp)) && (is_numeric($minsf) || is_numeric($maxsf))) {
+                    $this->errors[] = stack_string('numericalinputminsfmaxdperr');
+        }
+
         return true;
     }
 
@@ -330,9 +461,9 @@ abstract class stack_input {
 
         if (array() == $contents or $this->is_blank_response($contents)) {
             // Runtime errors may make it appear as if this response is blank, so we put any errors in here.
-            $errors = $this->errors;
+            $errors = $this->get_errors();
             if ($errors) {
-                $errors = implode(' ', $this->errors);
+                $errors = implode(' ', $errors);
             }
             return new stack_input_state(self::BLANK, array(), '', '', $errors, '', '');
         }
@@ -429,7 +560,7 @@ abstract class stack_input {
 
         // Since $lvars and $answer and the other casstrings are passed by reference, into the $session,
         // we don't need to extract updated values from the instantiated $session explicitly.
-        list($valid, $errors, $display) = $this->validation_display($answer, $caslines, $additionalvars, $valid, $errors);
+        list($valid, $errors, $display) = $this->validation_display($answer, $lvars, $caslines, $additionalvars, $valid, $errors);
 
         if ('' == $answer->get_value()) {
             $valid = false;
@@ -563,15 +694,37 @@ abstract class stack_input {
         return '';
     }
 
-    /** This function creates additional session variables, possibly using the caslines found so far.
-     *  Currently only used by the equiv class.
+    /**
+     * This function creates additional session variables.
+     * If needed, these will be used by the extra options.
      */
-    protected function additional_session_variables($caslines, $tcaslines) {
-        return array();
+    protected function additional_session_variables($caslines, $teacheranswer) {
+
+        $additionalvars = array();
+
+        if (array_key_exists('floatnum', $this->extraoptions) && $this->extraoptions['floatnum']) {
+            $floatnum = new stack_cas_casstring('floatnump('.$this->name.')');
+            $floatnum->get_valid('t');
+            $additionalvars['floatnum'] = $floatnum;
+        }
+
+        if (array_key_exists('rationalnum', $this->extraoptions) && $this->extraoptions['rationalnum']) {
+            $rationalnum = new stack_cas_casstring('rationalnum('.$this->name.')');
+            $rationalnum->get_valid('t');
+            $additionalvars['rationalnum'] = $rationalnum;
+        }
+
+        if (array_key_exists('rationalized', $this->extraoptions) && $this->extraoptions['rationalized']) {
+            $rationalized = new stack_cas_casstring('rationalized('.$this->name.')');
+            $rationalized->get_valid('t');
+            $additionalvars['rationalized'] = $rationalized;
+        }
+
+        return $additionalvars;
     }
 
     /**
-     * This function constructs the display of variables during validation.
+     * This function constructs the display of variables during validation, and undertakes additional validation.
      * For many input types this is simply the complete answer.
      * For text areas and equivalence reasoning this is a more complex arrangement of lines.
      *
@@ -579,7 +732,7 @@ abstract class stack_input {
      * @return string any error messages describing validation failures. An empty
      *      string if the input is valid - at least according to this test.
      */
-    protected function validation_display($answer, $caslines, $additionalvars, $valid, $errors) {
+    protected function validation_display($answer, $lvars, $caslines, $additionalvars, $valid, $errors) {
 
         $display = stack_maxima_format_casstring($answer->get_raw_casstring());
         if ('' != $answer->get_errors()) {
@@ -590,6 +743,96 @@ abstract class stack_input {
             $valid = false;
         } else {
             $display = '\[ ' . $answer->get_display() . ' \]';
+        }
+
+        // Guard clause at this point.
+        if (!$valid) {
+            return array($valid, $errors, $display);
+        }
+
+        // The "novars" option is only used by the numerical input type.
+        if (array_key_exists('novars', $this->extraoptions)) {
+            if ($lvars->get_value() != '[]') {
+                $valid = false;
+                $errors[] = stack_string('numericalinputvarsforbidden');
+                $this->set_parameter('showValidation', 1);
+            }
+        }
+
+        if (array_key_exists('floatnum', $additionalvars)) {
+            $fn = $additionalvars['floatnum'];
+            if ($this->extraoptions['floatnum'] && $fn->get_value() == 'false') {
+                $valid = false;
+                $errors[] = stack_string('numericalinputmustfloat');
+            }
+        }
+
+        $mindp = false;
+        $maxdp = false;
+        $minsf = false;
+        $maxsf = false;
+        if (array_key_exists('mindp', $this->extraoptions)) {
+            $mindp = $this->extraoptions['mindp'];
+        }
+        if (array_key_exists('maxdp', $this->extraoptions)) {
+            $maxdp = $this->extraoptions['maxdp'];
+        }
+        if (array_key_exists('minsf', $this->extraoptions)) {
+            $minsf = $this->extraoptions['minsf'];
+        }
+        if (array_key_exists('maxsf', $this->extraoptions)) {
+            $maxsf = $this->extraoptions['maxsf'];
+        }
+        // Do we need to check any numerical accuracy at validation stage?
+        if ($mindp || $maxdp || $minsf || $maxsf) {
+            $fltfmt = stack_utils::decimal_digits($answer->get_raw_casstring());
+            $accuracychecked = false;
+            if (!is_bool($mindp) && !is_bool($maxdp) && $mindp == $maxdp) {
+                $accuracychecked = true;
+                if ($fltfmt['decimalplaces'] < $mindp || $fltfmt['decimalplaces'] > $maxdp) {
+                    $valid = false;
+                    $errors[] = stack_string('numericalinputdp', $mindp);
+                }
+            }
+            if (!is_bool($minsf) && !is_bool($minsf) && $minsf == $maxsf) {
+                $accuracychecked = true;
+                if ($fltfmt['upperbound'] < $minsf || $fltfmt['lowerbound'] > $maxsf) {
+                    $valid = false;
+                    $errors[] = stack_string('numericalinputsf', $minsf);
+                }
+            }
+            if (!$accuracychecked && !is_bool($mindp) && $fltfmt['decimalplaces'] < $mindp) {
+                $valid = false;
+                $errors[] = stack_string('numericalinputmindp', $mindp);
+            }
+            if (!$accuracychecked && !is_bool($maxdp) && $fltfmt['decimalplaces'] > $maxdp) {
+                $valid = false;
+                $errors[] = stack_string('numericalinputmaxdp', $maxdp);
+            }
+            if (!$accuracychecked && !is_bool($minsf) && $fltfmt['upperbound'] < $minsf) {
+                $valid = false;
+                $errors[] = stack_string('numericalinputminsf', $minsf);
+            }
+            if (!$accuracychecked && !is_bool($maxsf) && $fltfmt['lowerbound'] > $maxsf) {
+                $valid = false;
+                $errors[] = stack_string('numericalinputmaxsf', $maxsf);
+            }
+        }
+
+        if (array_key_exists('rationalnum', $additionalvars)) {
+            $rn = $additionalvars['rationalnum'];
+            if ($this->extraoptions['rationalnum'] && $rn->get_value() == 'false') {
+                $valid = false;
+                $errors[] = stack_string('numericalinputmustrational');
+            }
+        }
+
+        if (array_key_exists('rationalized', $additionalvars)) {
+            $rn = $additionalvars['rationalized'];
+            if ($this->extraoptions['rationalized'] && $rn->get_value() !== 'true') {
+                $valid = false;
+                $errors[] = stack_string('ATLowestTerms_not_rat', array('m0' => '\[ '.$rn->get_display().' \]'));
+            }
         }
 
         return array($valid, $errors, $display);
@@ -614,9 +857,9 @@ abstract class stack_input {
      * Render any error messages.
      */
     protected function render_error($error) {
-        $errors = $this->errors;
+        $errors = $this->get_errors();
         if ($errors) {
-            $errors = implode(' ', $this->errors);
+            $errors = implode(' ', $errors);
         }
         $result = html_writer::tag('p', stack_string('ddl_runtime'));
         $result .= html_writer::tag('p', $errors);
@@ -775,6 +1018,15 @@ abstract class stack_input {
      * Return the value of any errors.
      */
     public function get_errors() {
-            return $this->errors;
+        if ($this->errors === null) {
+            return null;
+        }
+        // Send each error only once.
+        $errors = array();
+        foreach ($this->errors as $err) {
+            $err = trim($err);
+            $errors[$err] = true;
+        }
+        return array_keys($errors);
     }
 }

@@ -66,12 +66,13 @@ class stack_cas_configuration {
         $this->blocksettings['maxima_tempdir'] = stack_utils::convert_slash_paths($CFG->dataroot . '/stack/tmp/');
         $this->blocksettings['IMAGE_DIR']     = stack_utils::convert_slash_paths($CFG->dataroot . '/stack/plots/');
 
+        $this->blocksettings['PLOT_SIZE'] = '[450,300]';
         // These are used by the GNUplot "set terminal" command. Currently no user interface...
         $this->blocksettings['PLOT_TERMINAL'] = 'png';
-        $this->blocksettings['PLOT_TERM_OPT'] = 'large transparent size 450,300';
+        $this->blocksettings['PLOT_TERM_OPT'] = 'large transparent';
         $this->blocksettings['PLOT_TERMINAL'] = 'svg';
         // Note, the quotes need to be protected below.
-        $this->blocksettings['PLOT_TERM_OPT'] = 'size 480,300 dynamic font \",12\" linewidth 1.2';
+        $this->blocksettings['PLOT_TERM_OPT'] = 'dynamic font \",11\" linewidth 1.2';
 
         if ($this->settings->platform === 'win') {
             $this->blocksettings['DEL_CMD']     = 'del';
@@ -89,12 +90,17 @@ class stack_cas_configuration {
         // Loop over this array to format them correctly...
         if ($this->settings->platform === 'win') {
             foreach ($this->blocksettings as $var => $val) {
-                $this->blocksettings[$var] = addslashes(str_replace( '/', '\\', $val));
+                if ($var != 'PLOT_TERM_OPT') {
+                    $this->blocksettings[$var] = addslashes(str_replace( '/', '\\', $val));
+                }
             }
         }
 
         $this->blocksettings['MAXIMA_VERSION_EXPECTED'] = $this->settings->maximaversion;
         $this->blocksettings['URL_BASE']       = '!ploturl!';
+        if ($this->settings->platform === 'win') {
+            $this->blocksettings['URL_BASE']       = '!ploturl!/';
+        }
     }
 
     /**
@@ -115,15 +121,22 @@ class stack_cas_configuration {
         $plotcommands[] = $maximalocation. 'bin/wgnuplot.exe';
         $plotcommands[] = $maximalocation. 'gnuplot/bin/wgnuplot.exe';
 
-        // I'm finally fed up with dealing with spaces in MS filenames.
+        // I'm really now totally and finally fed up with dealing with spaces in MS filenames.
         $newplotlocation = stack_utils::convert_slash_paths($CFG->dataroot . '/stack/wgnuplot.exe');
         foreach ($plotcommands as $plotcommand) {
             if (file_exists($plotcommand)) {
-                        copy($plotcommand, $newplotlocation);
-                        return $newplotlocation;
+                if (substr_count($plotcommand, ' ') === 0) {
+                    $newplotlocation = stack_utils::convert_slash_paths($CFG->dataroot . '/stack/wgnuplot.bat');
+                    if (!file_put_contents($newplotlocation, $this->maxima_win_location() .
+                            "gnuplot/bin/wgnuplot.exe %1 %2 %3 %3 %5 %6 %7 \n\n")) {
+                        throw new stack_exception('Failed to write wgnuplot batch file to:'. $newplotlocation);
+                    }
+                } else {
+                    copy($plotcommand, $newplotlocation);
+                }
+                return $newplotlocation;
             }
         }
-
         throw new stack_exception('Could not locate GNUPlot.');
     }
 
@@ -136,6 +149,7 @@ class stack_cas_configuration {
 
         $locations = array();
         $locations[] = 'C:/maxima-' . $this->settings->maximaversion . '/';
+        $locations[] = 'C:/maxima-' . $this->settings->maximaversion . 'a/';
         $locations[] = 'C:/Maxima-' . $this->settings->maximaversion . '/';
         $locations[] = 'C:/bin/Maxima-gcl-' . $this->settings->maximaversion . '/';
         $locations[] = 'C:/bin/Maxima-sbcl-' . $this->settings->maximaversion . '/';
@@ -177,7 +191,16 @@ class stack_cas_configuration {
             return true;
         }
         $batchfilename = $this->maxima_win_location() . 'bin/maxima.bat';
+        if (substr_count($batchfilename, ' ') === 0) {
+            $batchfilecontents = "rem Auto-generated Maxima batch file.  \n\n";
+            $batchfilecontents .= $this->maxima_win_location() . 'bin/maxima.bat'."\n\n";
+            if (!file_put_contents($CFG->dataroot . '/stack/maxima.bat', $batchfilecontents)) {
+                throw new stack_exception('Failed to write Maxima batch file.');
+            }
+            return true;
+        }
 
+        // If there are spaces within the pathname to the windows batch file we need to copy the batch file.
         if (!copy($batchfilename, $CFG->dataroot . '/stack/maxima.bat')) {
             throw new stack_exception('Could not copy the Maxima batch file ' . $batchfilename .
                     ' to location ' . $CFG->dataroot . '/stack/maxima.bat');
@@ -216,10 +239,17 @@ STACK_SETUP(ex):=block(
 
 END;
         foreach ($this->blocksettings as $name => $value) {
-            $contents .= <<<END
+            if ($name == 'PLOT_SIZE') {
+                $contents .= <<<END
+    {$name}:{$value},
+
+END;
+            } else {
+                $contents .= <<<END
     {$name}:"{$value}",
 
 END;
+            }
         }
         $contents .= stack_cas_casstring_units::maximalocal_units();
         $contents .= <<<END
@@ -436,9 +466,7 @@ END;
             self::get_instance()->settings->maximacommand = $oldmaximacommand;
             self::create_maximalocal();
             return array(false, $errmsg);
-        }
-        else
-        {
+        } else {
             return array(true, "DONE.");
         }
     }

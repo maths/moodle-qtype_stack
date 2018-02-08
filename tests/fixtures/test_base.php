@@ -42,7 +42,7 @@ abstract class qtype_stack_testcase extends advanced_testcase {
     /* Different underlying versions of LISP (behind Maxima) have different results,
      * especially with the floating point routines upon which Maxima relies.
      *
-     * This must onlu be CLISP or SBCL.
+     * This must only be CLISP or SBCL.
      */
     protected $lisp = 'SBCL';
 
@@ -51,6 +51,7 @@ abstract class qtype_stack_testcase extends advanced_testcase {
 
         stack_utils::clear_config_cache();
         self::setup_test_maxima_connection($this);
+
         $this->resetAfterTest();
     }
 
@@ -76,9 +77,22 @@ abstract class qtype_stack_testcase extends advanced_testcase {
      */
     public function skip_if_old_maxima($version) {
         $versionused = get_config('qtype_stack', 'maximaversion');
+        // The default version of Maxima is never "old".
+        if ($versionused == 'default') {
+            return true;
+        }
         if (version_compare($versionused, $version) <= 0) {
             $this->markTestSkipped(
                     'Skipping this test because it is known to fail on Maxima older than ' .
+                    $version . ' and the tests are running with Maxima ' . $versionused . '.');
+        }
+    }
+
+    public function skip_if_new_maxima($version) {
+        $versionused = get_config('qtype_stack', 'maximaversion');
+        if ($versionused == 'default' || !(version_compare($versionused, $version) <= 0)) {
+            $this->markTestSkipped(
+                    'Skipping this test because it is known to fail on Maxima newer than ' .
                     $version . ' and the tests are running with Maxima ' . $versionused . '.');
         }
     }

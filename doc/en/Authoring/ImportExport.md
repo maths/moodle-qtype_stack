@@ -1,6 +1,6 @@
 # Import and Export of STACK questions
 
-STACK 3 questions now use the "Moodle XML format" to import and export.
+STACK questions use the "Moodle XML format" to import and export.
 
 ## Importing STACK questions
 

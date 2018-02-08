@@ -399,9 +399,9 @@ class stack_cas_text {
         $this->castext = $this->trimmedcastext;
 
         // Another modification. Stops <html> tags from being given $ tags.
-        $this->castext = str_replace('\(<html>', '', $this->castext);
+        $this->castext = str_replace('<html>', '', $this->castext);
         // Bug occurs when maxima returns <html>tags in output, eg plots or div by 0 errors.
-        $this->castext = str_replace('</html>\)', '', $this->castext);
+        $this->castext = str_replace('</html>', '', $this->castext);
         $this->latex_tidy();
 
         $this->instantiated = true;

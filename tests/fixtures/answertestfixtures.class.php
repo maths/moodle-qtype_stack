@@ -46,6 +46,8 @@ class stack_answertest_test_data {
      *    0 = different
      *    1 = same
      *    -1 = "Test fails", but this is trapped.
+     *    -2 = Expected maths failure, where test should return 0.
+     *    -3 = Expected maths failure, where test should return 1.
      * Answer note(s)
      * Comments on this test.
      * Header row in the table (optional).
@@ -102,6 +104,12 @@ class stack_answertest_test_data {
         array('AlgEquiv', '', 'rho*z*V/(4*pi*epsilon[0]*(R^2+z^2)^(3/2))', 'rho*z*V/(4*pi*epsilon[0]*(R^2+z^2)^(3/2))', 1, '',
             'Expressions with subscripts'),
         array('AlgEquiv', '', 'rho*z*V/(4*pi*epsilon[1]*(R^2+z^2)^(3/2))', 'rho*z*V/(4*pi*epsilon[0]*(R^2+z^2)^(3/2))', 0, '', ''),
+        array('AlgEquiv', '', 'sqrt(k/m)*sqrt(m/k)', '1', 1, '', ''),
+        array('AlgEquiv', '', '(2*pi)/(k/m)^(1/2)', '(2*pi)/(k/m)^(1/2)', 1, '', ''),
+        array('AlgEquiv', '', '(2*pi)*(m/k)^(1/2)', '(2*pi)/(k/m)^(1/2)', 1, '', ''),
+        array('AlgEquiv', '', 'sqrt(2*x/10+1)', 'sqrt((2*x+10)/10)', 1, '', ''),
+        array('AlgEquiv', '', '((x+3)^2*(x+3))^(1/3)', '((x+3)*(x^2+6*x+9))^(1/3)', 1, '', ''),
+        array('AlgEquiv', '', '((x+3)^2*(x+3))^(1/3)', '((x+3)*(x^2+6*x+9))^(1/3)', 1, '', 'Need to factor internally.'),
 
         array('AlgEquiv', '', 'rationalized(1+sqrt(3)/3)', 'true', 1, 'ATLogic_True', 'Bad things in denominators'),
         array('AlgEquiv', '', 'rationalized(1+1/sqrt(3))', '[sqrt(3)]', 1, '', ''),
@@ -181,12 +189,12 @@ class stack_answertest_test_data {
         array('AlgEquiv', '', '{x-1=0,x>1 and 5>x}', '{x>1 and x<5,x=1}', 1, '', ''),
         array('AlgEquiv', '', '{x-1=0,x>1 and 5>x}', '{x>1 and x<5,x=2}', 0, 'ATSet_wrongentries.', ''),
         array('AlgEquiv', '', '{x-1=0,x>1 and 5>x}', '{x>1 and x<3,x=1}', 0, 'ATSet_wrongentries.', ''),
-        array('AlgEquiv', '', '{-sqrt(2)/sqrt(3)}', '{-2/sqrt(6)}', -2, 'ATSet_wrongentries.',
+        array('AlgEquiv', '', '{-sqrt(2)/sqrt(3)}', '{-2/sqrt(6)}', -3, 'ATSet_wrongentries.',
             'Equivalence for elements of sets is different from expressions: see docs.'),
-        array('AlgEquiv', '', '{[-sqrt(2)/sqrt(3),0],[2/sqrt(6),0]}', '{[2/sqrt(6),0],[-2/sqrt(6),0]}', -2,
+        array('AlgEquiv', '', '{[-sqrt(2)/sqrt(3),0],[2/sqrt(6),0]}', '{[2/sqrt(6),0],[-2/sqrt(6),0]}', -3,
             'ATSet_wrongentries.', ''),
         array('AlgEquiv', '', 'ev(radcan({-sqrt(2)/sqrt(3)}),simp)', 'ev(radcan({-2/sqrt(6)}),simp)', 1, '', ''),
-        array('AlgEquiv', '', '{(x-a)^6000}', '{(a-x)^6000}', -2, 'ATSet_wrongentries.', ''),
+        array('AlgEquiv', '', '{(x-a)^6000}', '{(a-x)^6000}', -3, 'ATSet_wrongentries.', ''),
         array('AlgEquiv', '', '{(k+8)/(k^2+4*k-12),-(2*k+6)/(k^2+4*k-12)}', '{(k+8)/(k^2+4*k-12),-(2*k+6)/(k^2+4*k-12)}',
             1, '', ''),
 
@@ -225,6 +233,7 @@ class stack_answertest_test_data {
         array('AlgEquiv', '', 'x^6000-x^6001=x^5999', 'x^5999*(1-x+x^2)=0', 1, 'ATEquation_ratio', ''),
         array('AlgEquiv', '', 'x^6000-x^6001=x^5999', 'x^5999*(1-x+x^3)=0', 0, 'ATEquation_default', ''),
         array('AlgEquiv', '', '258552*x^7*(81*x^8+1)^398', 'x^3*(x^4+1)^399', 0, '', ''),
+        array('AlgEquiv', '', 'Ia*(R1+R2+R3)-Ib*R3=0', '-Ia*(R1+R2+R3)+Ib*R3=0', 1, '', ''),
 
         array('AlgEquiv', '', 'x=y', 'x^2=y^2', 0, 'ATEquation_default',
             'Equations: Loose/gain roots with nth powers of each side.'),
@@ -319,7 +328,8 @@ class stack_answertest_test_data {
         array('AlgEquiv', '', '(x < 0 nounor x >= 1) nounand x <= 3', 'x < 0 or (x >= 1 and x <= 3)', 1, 'ATLogic_True', ''),
         array('AlgEquiv', '', '(x < 0 nounor x >= 1) nounand x <= 3', '(x < 0 or x >= 1) and x <= 3', 1,
             'ATLogic_True', ''),
-        array('AlgEquiv', '', 'x^2>4', 'x>2 or x<-2', 1, 'ATLogic_True', ''),
+        array('AlgEquiv', '', '(x < 0 nounor x >= 1) nounand x <= 3', 'x < 0 or (x >= 1 and x <= 3)', 1, 'ATLogic_True', ''),
+        array('AlgEquiv', '', 'natural_domain(1/x^2)', 'natural_domain(1/x)', 1, '', ''),
         array('AlgEquiv', '', 'x^4>=0', 'x^2>=0', 1, '', ''),
         array('AlgEquiv', '', 'x^4>=16', 'x^2>=4', 1, '', ''),
         array('AlgEquiv', '', '2*x^2+x>=6', 'x<=-2 or x>=3/2', 1, 'ATLogic_True', ''),
@@ -330,6 +340,9 @@ class stack_answertest_test_data {
         array('AlgEquiv', '', 'x>1 and x<3', 'true', 0, '', ''),
         array('AlgEquiv', '', 'x>1 or x<3', 'true', 1, 'ATLogic_Solver_True', ''),
         array('AlgEquiv', '', 'x>1 or x<3', 'all', 1, 'ATLogic_Solver_True', ''),
+        array('AlgEquiv', '', 'abs(x)<1', 'abs(x)<1', 1, '', ''),
+        array('AlgEquiv', '', 'abs(x)<1', 'abs(x)<2', 0, '', ''),
+        array('AlgEquiv', '', 'abs(x)<1', 'abs(x)>1', 0, 'ATInequality_backwards.', ''),
 
         array('AlgEquiv', '', 'sqrt(12)', '2*sqrt(3)', 1, '', 'Surds'),
         array('AlgEquiv', '', 'sqrt(11+6*sqrt(2))', '3+sqrt(2)', 1, '', ''),
@@ -347,16 +360,15 @@ class stack_answertest_test_data {
         array('AlgEquiv', '', 'cos(x)*cos(2*x)*cos(3*x)', 'product(cos(k*x),k,1,3)', 1, '', ''),
         array('AlgEquiv', '', 'cos(x)*cos(2*x)', 'product(cos(k*x),k,1,3)', 0, '', ''),
         array('AlgEquiv', '', '9.81*m/s^2', 'stackunits(9.81,m/s^2)', 1, '', 'Scientific units are ignored'),
-        array('AlgEquiv', '', '2/%i*ln(sqrt((1+z)/2)+%i*sqrt((1-z)/2))', '-%i*ln(z+i*sqrt(1-z^2))', -2,
+        array('AlgEquiv', '', '2/%i*ln(sqrt((1+z)/2)+%i*sqrt((1-z)/2))', '-%i*ln(z+i*sqrt(1-z^2))', -3,
             '', 'These currently fail'),
-        array('AlgEquiv', '', '(-1)^n*cos(x)^n', '(-cos(x))^n', -2, '', ''),
-        array('AlgEquiv', '', '-inf', 'minf', -2, 'CASError: sign: sign of und is undefined.', ''),
-        array('AlgEquiv', '', '(sqrt(108)+10)^(1/3)-(sqrt(108)-10)^(1/3)', '2', -2, '', ''),
-        array('AlgEquiv', '', '(sqrt(2+sqrt(2))+sqrt(2-sqrt(2)))/(2*sqrt(2))', 'sqrt(sqrt(2)+2)/2', -2, '', ''),
-        array('AlgEquiv', '', 'a*(1+sqrt(2))=b', 'a=b*(sqrt(2)-1)/3', -2, 'ATEquation_default', ''),
-        array('AlgEquiv', '', 'sqrt(2*x/10+1)', 'sqrt((2*x+10)/10)', -2, '', ''),
-        array('AlgEquiv', '', 'atan(1/2)', '%pi/2-atan(2)', -2, '', 'This is only equivalent for x>=0...', ''),
-        array('AlgEquiv', '', '((x+3)^2*(x+3))^(1/3)', '((x+3)*(x^2+6*x+9))^(1/3)', -2, '', 'Need to factor internally.'),
+        array('AlgEquiv', '', '(-1)^n*cos(x)^n', '(-cos(x))^n', -3, '', ''),
+        array('AlgEquiv', '', '-inf', 'minf', -3, 'CASError: sign: sign of und is undefined.', ''),
+        array('AlgEquiv', '', '(sqrt(108)+10)^(1/3)-(sqrt(108)-10)^(1/3)', '2', -3, '', ''),
+        array('AlgEquiv', '', '(sqrt(2+sqrt(2))+sqrt(2-sqrt(2)))/(2*sqrt(2))', 'sqrt(sqrt(2)+2)/2', -3, '', ''),
+        array('AlgEquiv', '', 'a*(1+sqrt(2))=b', 'a=b*(sqrt(2)-1)/3', -3, 'ATEquation_default', ''),
+        array('AlgEquiv', '', 'atan(1/2)', '%pi/2-atan(2)', -3, '', 'This is only equivalent for x>=0...', ''),
+        array('AlgEquiv', '', 'asinh(x)', 'ln(x+sqrt(x^2+1))', -3, '', 'This is true for all x...', ''),
 
         array('AlgEquiv', '', 'A and B', 'B and A', 1, 'ATLogic_True', 'Logical expressions'),
         array('AlgEquiv', '', 'A and B', 'C and A', 0, '', ''),
@@ -471,6 +483,9 @@ class stack_answertest_test_data {
         array('EqualComAss', '', 'x+1', 'y=2*x+1', 0, 'ATEqualComAss: ATAlgEquiv_SA_not_equation.', ''),
         array('EqualComAss', '', 'y=1+2*x', 'y=2*x+1', 1, '', ''),
         array('EqualComAss', '', 'y=x+x+1', 'y=1+2*x', 0, 'ATEqualComAss: (AlgEquiv:true).', ''),
+        array('EqualComAss', '', 'A and B', 'B and A', 1, '', 'Logic'),
+        array('EqualComAss', '', 'A or B', 'B or A', 1, '', ''),
+        array('EqualComAss', '', 'A or B', 'B and A', 0, 'ATEqualComAss: (AlgEquiv:false).', ''),
         array('EqualComAss', '', '{2*x+1,2}', '{2, 1+x*2}', 1, '', 'Sets'),
         array('EqualComAss', '', '{2*x+1, 1+1}', '{2, 1+x*2}', 0, 'ATEqualComAss: (AlgEquiv:true).', ''),
         array('EqualComAss', '', '{1,2}', '{1,{2}}', 0, 'ATEqualComAss: (AlgEquiv:false)ATSet_wrongentries.', ''),
@@ -489,6 +504,11 @@ class stack_answertest_test_data {
         array('EqualComAss', '', 'cos(x)*cos(2*x)*cos(3*x)', 'product(cos(k*x),k,1,3)', 0, 'ATEqualComAss: (AlgEquiv:true).', ''),
         array('EqualComAss', '', '-6/5 > x', 'x < -6/5', 0, 'ATEqualComAss: (AlgEquiv:true).',
             'Inequalities are not commutative under this test'),
+        array('EqualComAss', '', 'x<1 and -3<x', '-3<x and x<1', 1, '', ''),
+        array('EqualComAss', '', '1>x and -3<x', '-3<x and x<1', 0, 'ATEqualComAss: (AlgEquiv:true).', ''),
+        array('EqualComAss', '', 'make_less_ineq(-6/5 > x)', 'x < -6/5', 1, '', ''),
+        array('EqualComAss', '', 'make_less_ineq(1>x and -3<x)', '-3<x and x<1', 1, '', ''),
+        array('EqualComAss', '', 'make_less_ineq(6/3 > x)', 'x < 2', 0, 'ATEqualComAss: (AlgEquiv:true).', ''),
 
         array('CasEqual', '', '1/0', 'x^2-2*x+1', -1, 'CASError: Division by zero. | ATCASEqual_STACKERROR_SAns.', ''),
         array('CasEqual', '', 'x', '1/0', -1, 'CASError: Division by zero. | ATCASEqual_STACKERROR_TAns.', ''),
@@ -729,6 +749,8 @@ class stack_answertest_test_data {
         array('SingleFrac', '', 'a/(-b)', '-a/b', 1, 'ATSingleFrac_true.', ''),
         array('SingleFrac', '', '-(a/b)', '-a/b', 1, 'ATSingleFrac_true.', ''),
         array('SingleFrac', '', '-(1/(n-1))', '1/(1-n)', 1, 'ATSingleFrac_true.', ''),
+        // Use the LowestTerms test for this distinction.
+        array('SingleFrac', '', '1/(1-sqrt(2))', '1/(1-sqrt(2))', 1, 'ATSingleFrac_true.', ''),
 
         array('PartFrac', '', '1/0', '3*x^2', -1, 'STACKERROR_OPTION.', ''),
         array('PartFrac', 'x', '1/0', '3*x^2', -1, 'ATPartFrac_STACKERROR_SAns.', ''),
@@ -928,6 +950,8 @@ class stack_answertest_test_data {
         // Various forms of inverse hyperbolic forms of the integrals.  Consider int(1/(x^2-a^2),x).
         array('Int', 'x', 'log(x-3)/6-log(x+3)/6+c', 'log(x-3)/6-log(x+3)/6', 1, 'ATInt_true_equiv.',
             'Inverse hyperbolic integrals'),
+        array('Int', 'x', 'asinh(x)', 'ln(x+sqrt(x^2+1))', 0, 'ATInt_const.', ''),
+        array('Int', 'x', 'asinh(x)+c', 'ln(x+sqrt(x^2+1))', 1, 'ATInt_true.', ''),
         array('Int', 'x', '-acoth(x/3)/3', 'log(x-3)/6-log(x+3)/6', 0, 'ATInt_const.', ''),
         array('Int', '[x, NOCONST]', '-acoth(x/3)/3', 'log(x-3)/6-log(x+3)/6', 1, 'ATInt_true.', ''),
         array('Int', 'x', '-acoth(x/3)/3+c', 'log(x-3)/6-log(x+3)/6', 1, 'ATInt_true.', ''),
@@ -937,6 +961,7 @@ class stack_answertest_test_data {
         array('Int', 'x', '-acoth(x/a)/a+c', 'log(abs(x-a))/(2*a)-log(abs(x+a))/(2*a)', 1, 'ATInt_true.', ''),
         array('Int', 'x', 'log(x-a)/(2*a)-log(x+a)/(2*a)+c', 'log(abs(x-a))/(2*a)-log(abs(x+a))/(2*a)', 0,
             'ATInt_EqFormalDiff. ATInt_logabs.', ''),
+
         array('Int', 'x', 'log(x-3)/6-log(x+3)/6+c', '-acoth(x/3)/3', 1, 'ATInt_true.', ''),
         array('Int', 'x', 'log(abs(x-3))/6-log(abs(x+3))/6+c', '-acoth(x/3)/3', 1, 'ATInt_true.', ''),
         array('Int', 'x', 'log(x-3)/6-log(x+3)/6', '-acoth(x/3)/3', 0, 'ATInt_const.', ''),
@@ -947,7 +972,7 @@ class stack_answertest_test_data {
         array('Int', 'x', 'atan((x-1)/(x-2))', 'atan(2*x-3)', 0, 'ATInt_generic.', ''),
         // These onse currently fail for mathematical reasons.
         array('Int', 'x', '2/3*sqrt(3)*(atan(sin(x)/(sqrt(3)*(cos(x)+1)))-(atan(sin(x)/(cos(x)+1))))+x/sqrt(3)',
-            '2*atan(sin(x)/(sqrt(3)*(cos(x)+1)))/sqrt(3)', -2, 'ATInt_const.', 'Stoutemyer (currently fails)'),
+            '2*atan(sin(x)/(sqrt(3)*(cos(x)+1)))/sqrt(3)', -3, 'ATInt_const.', 'Stoutemyer (currently fails)'),
 
         array('GT', '', '1/0', '1', -1, 'CASError: Division by zero. | ATGT_STACKERROR_SAns.', ''),
         array('GT', '', '1', '1/0', -1, 'CASError: Division by zero. | ATGT_STACKERROR_TAns.', ''),
@@ -1163,6 +1188,30 @@ class stack_answertest_test_data {
         array('NumSigFigs', '[2,0]', '0.00', '0', 1, '', ''),
         array('NumSigFigs', '[3,0]', '0.00', '0', 0, 'ATNumSigFigs_WrongDigits.', ''),
         array('NumSigFigs', '[4,0]', '0.00', '0', 0, 'ATNumSigFigs_WrongDigits.', ''),
+        // Condone too many significant figures.
+        array('NumSigFigs', '[4,-1]', '8.250' ,'8.250', 1, '', 'Condone too many sfs.'),
+        array('NumSigFigs', '[4,-1]', '8.25' ,'8.250', 0, 'ATNumSigFigs_WrongDigits.', ''),
+        array('NumSigFigs', '[4,-1]', '8.250000' ,'8.250', 1, '', ''),
+        array('NumSigFigs', '[4,-1]', '8.250434' ,'8.250', 1, '', ''),
+        array('NumSigFigs', '[2,-1]', '82.4' ,'82', 1, '', ''),
+        array('NumSigFigs', '[2,-1]', '82.5' ,'82', 0, 'ATNumSigFigs_Inaccurate.', ''),
+        array('NumSigFigs', '[2,-1]', '83' ,'82', 0, 'ATNumSigFigs_Inaccurate.', ''),
+        // 1/7 = 0.142857142857...
+        array('NumSigFigs', '[4,-1]', '0.1429' ,'1/7', 1, '', ''),
+        array('NumSigFigs', '[4,-1]', '0.1428' ,'1/7', 0, 'ATNumSigFigs_Inaccurate.', ''),
+        array('NumSigFigs', '[4,-1]', '0.143' ,'1/7', 0, 'ATNumSigFigs_WrongDigits. ATNumSigFigs_Inaccurate.', ''),
+        array('NumSigFigs', '[4,-1]', '0.14285' ,'1/7', 1, '', ''),
+        // Rounded correctly to 5 s.f.
+        array('NumSigFigs', '[4,-1]', '0.14286' ,'1/7', 1, '', ''),
+        // Extra final digit, incorrectly rounded but condoned.
+        array('NumSigFigs', '[2,-1]', '0.142' ,'1/7', 1, '', ''),
+        array('NumSigFigs', '[2,-1]', '0.143' ,'1/7', 1, '', ''),
+        array('NumSigFigs', '[2,-1]', '0.144' ,'1/7', 1, '', ''),
+        array('NumSigFigs', '[2,-1]', '0.14290907676' ,'1/7', 1, '', ''),
+        // While this rounds up to 2 sig figs, we mark is a right because is it basically close enough.
+        array('NumSigFigs', '[2,-1]', '0.145' ,'1/7', 1, '', ''),
+        array('NumSigFigs', '[2,-1]', '0.146' ,'1/7', 0, 'ATNumSigFigs_Inaccurate.', ''),
+        // Teacher does not give a float.
         array('NumSigFigs', '4', '1.279', 'ev(lg(19),logbase=logbasesimp)', 1, '', 'Logarithms, numbers and surds'),
         array('NumSigFigs', '3', '3.14', 'pi', 1, '', ''),
         array('NumSigFigs', '3', '3.15', 'pi', 0, 'ATNumSigFigs_Inaccurate.', ''),
@@ -1339,7 +1388,7 @@ class stack_answertest_test_data {
         array('Units', '4', '2640*ft', '0.5*mi', 1, 'ATUnitsSigFigs_WithinRange. ATUnits_compatible_units: in.', ''),
         array('Units', '4', '2650*ft', '0.5*mi', 0,
             'ATUnitsSigFigs_WithinRange. ATNumSigFigs_VeryInaccurate. ATUnits_compatible_units: in.', ''),
-        array('Units', '4', '142.8*C', '415.9*K', -2, 'ATNumSigFigs_VeryInaccurate. ATUnits_incompatible_units.', 'TODO'),
+        array('Units', '4', '142.8*C', '415.9*K', -3, 'ATNumSigFigs_VeryInaccurate. ATUnits_incompatible_units.', 'TODO'),
 
         array('UnitsStrict', '2', '25*g', '0.025*kg', 0, 'ATUnits_compatible_units: kg.', 'Differences from the Units test only'),
         array('UnitsStrict', '1', '1*Mg/10^6', '1*N*s^2/(km)', 0, 'ATUnits_compatible_units: kg.', ''),
@@ -1453,8 +1502,15 @@ class stack_answertest_test_data {
         array('LowestTerms', '', 'x^2/x', '0', 1, '', 'Use predicate lowesttermsp'),
         array('LowestTerms', '', '(2*x)/(4*t)', '0', 1, '', ''),
         array('LowestTerms', '', '(2/4)*(x^2/t)', '0', 0, 'ATLowestTerms_entries.', ''),
-        array('LowestTerms', '', 'x^(2/4)', '0', 0, 'ATLowestTerms_entries.', '')
-        );
+        array('LowestTerms', '', 'x^(2/4)', '0', 0, 'ATLowestTerms_entries.', ''),
+        array('LowestTerms', '', 'sqrt(3)/3', 'sqrt(3)/3', 1, '', 'Need to rationalize demoninator'),
+        array('LowestTerms', '', '1/sqrt(3)', 'sqrt(3)/3', 0, 'ATLowestTerms_not_rat.', ''),
+        array('LowestTerms', '', '1/(1-sqrt(2))', '1/(1-sqrt(2))', 0, 'ATLowestTerms_not_rat.', ''),
+        array('LowestTerms', '', '1/(1+i)', '(1-i)/2', 0, 'ATLowestTerms_not_rat.', ''),
+        array('LowestTerms', '', '1+2/sqrt(3)', '(2*sqrt(3)+3)/3', 0, 'ATLowestTerms_not_rat.', ''),
+        array('LowestTerms', '', '1/(1+1/root(3,2))', 'sqrt(3)/(sqrt(3)+1)', 0, 'ATLowestTerms_not_rat.', ''),
+        array('LowestTerms', '', '1/(1+1/root(2,3))', '1/(1+1/root(2,3))', 0, 'ATLowestTerms_not_rat.', '')
+    );
 
     public static function get_raw_test_data() {
         $equiv = new stack_equiv_test_data();
@@ -1524,25 +1580,45 @@ class stack_answertest_test_data {
 
         $anomalynote = array();
         $passed = true;
-        if ($rawmark !== $test->expectedscore) {
-            $passed = false;
-            if ($test->expectedscore >= 0) {
+        if ($test->expectedscore >= 0) {
+            if ($rawmark !== $test->expectedscore) {
+                $passed = false;
                 $anomalynote[] = '[SCORE]';
             }
-        }
+        } else {
+            // We expect the test to fail.
+            switch ($test->expectedscore) {
+                case -1: 
+                    if ($errors === 'TEST_FAILED') {
+                        $passed = true;
+                    } else {
+                        $passed = false;
+                        $anomalynote[] = '[Expected test to fail!]';
+                    }
+                    break;
 
-        // The test failed, and we expected it to fail.
-        if ($errors === 'TEST_FAILED') {
-            if (-1 === $test->expectedscore) {
-                $passed = true;
-            } else {
-                $passed = false;
-                $anomalynote[] = '[Expected test to fail!]';
-            }
-        }
-        // These tests are all expected to fail, so we make them all pass.
-        if (-2 === $test->expectedscore) {
-            $passed = true;
+                case -2:
+                    if ($rawmark) {
+                        $passed = true;
+                    } else {
+                        $passed = false;
+                        $anomalynote[] = '[Expected maths failure: got 0, expected 1.]';
+                    }
+                    break;
+
+                case -3:
+                    if ($rawmark) {
+                        $passed = false;
+                        $anomalynote[] = '[Expected maths failure: got 1, expected 0.]';
+                    } else {
+                        $passed = true;
+                    }
+                    break;
+
+                default: 
+                    $passed = false;
+                    $anomalynote[] = '[General failure.]';
+                }
         }
 
         if (!($ansnote === $test->ansnote)) {

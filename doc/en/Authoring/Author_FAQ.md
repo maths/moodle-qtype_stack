@@ -41,6 +41,8 @@ The command you need may well not be enabled since you should use one STACK prov
 
 ## How can I use subscripts in STACK ##
 
+Note that normally a maxima atom `theta2` is displayed by Maxima as `{\it theta_2}`. This is problematic as the Greek letter is not rendered as LateX `\theta`, and the subscript is in italic which is wrong.
+
 Maxima "atoms" with a subscript will be displayed using subscripts.  For example
 
     theta_2
@@ -54,8 +56,12 @@ Teachers can create an inert function which displays using subscripts.
 is typeset as \({a}_{b}\) i.e. `{a}_{b}` in LaTeX.  This enables subscipts to be displayed with non-atomic things like
 
     texsub(F,1-2)
-    
-with simplicifation off will be displayed as \({F}_{1-2}\) (with simplifcation off).  The complex expression in the subscript cannot form an atomic Maxima expression.
+
+with simplification off will be displayed as \({F}_{1-2}\) (with simplification off).  The complex expression in the subscript cannot form an atomic Maxima expression.
+
+Note however there is a subtle (and perhaps confusing) difference in the display between the Maxima atoms `a1` and `a_1` in STACK.  The atom `a1` will follow the Maxima default and generate the LaTeX `{\it a_1}` and so the numeral 1 will be in italic, which some people consider incorrect.  The atom `a_1` will use the `texsub` function as an intermediate and generate the LaTeX `{a}_{1}` and so the normal LaTeX rules will render the numeral 1 in Roman, which is correct.  
+
+Note that the process of converting `theta_07` into the intermediate `texsub` form internally results in the `texsub(theta,7)` which removes the leading zero.  This is a known issue, for which a workaround is to directly use `texsub(theta,"07")`.  This does not produce optimal LaTeX.
 
 ## How can I test out STACK specific functions in a Maxima session? ##
 

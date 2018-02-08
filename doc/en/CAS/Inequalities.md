@@ -32,6 +32,10 @@ It also removes duplicate inequalities.  Operating at this syntactic level will 
 
 If the algebraic equivalence test detects inequalities, or systems of inequalities, then this function is automatically applied.
 
+* `make_less_ineq(ex)`
+
+Reverses the order of any inequalities so that we have `A<B` or `A<=B`.  It does no other transformations.  This is useful because when testing equality up to commutativity and associativity we don't perform this transformation.  We need to put all inequalities a particular way round.  See the EqualComAss test examples for usage.
+
 ## See also
 
 [Maxima reference topics](index.md#reference).

@@ -61,10 +61,10 @@ index 7974af2..a6614f2 100644
 +$bulktester = new stack_bulk_tester();
 +
  // Run the tests.
- list($allpassed, $failingtests) = $bulktester->run_all_tests_for_context($context);
+ list($allpassed, $failingtests, $notests) = $bulktester->run_all_tests_for_context($context);
  
  // Display the final summary.
- $bulktester->print_overall_result($allpassed, $failingtests);
+ $bulktester->print_overall_result($allpassed, $failingtests, $notests);
 +
 +// Switch back to the read DB.
 +$DB = $bulktestrealdb;

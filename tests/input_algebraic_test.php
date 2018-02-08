@@ -126,6 +126,9 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         $el = stack_input_factory::make('algebraic', 'sans1', 'x^2/(1+x^2)');
         $state = $el->validate_student_response(array('sans1' => 'x^2'), $options, 'x^2/(1+x^2)', null);
         $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('A correct answer is <span class="filter_mathjaxloader_equation">'
+          . '<span class="nolink">\( \frac{x^2}{1+x^2} \)</span></span>, which can be typed in as follows: '
+          . '<code>x^2/(1+x^2)</code>', $el->get_teacher_answer_display('x^2/(1+x^2)', '\frac{x^2}{1+x^2}'));
     }
 
     public function test_validate_student_response_2() {
@@ -193,6 +196,19 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         $this->assertEquals('Illegal_floats', $state->note);
     }
 
+    public function test_validate_student_response_9() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('algebraic', 'sans1', '1<x nounand x<7');
+        $state = $el->validate_student_response(array('sans1' => '1<x and x<7'), $options, '1<x nounand x<7',
+            array('tans'));
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('1<x nounand x<7', $state->contentsmodified);
+        $this->assertEquals('\[ 1 < x\,{\mbox{ and }}\, x < 7 \]', $state->contentsdisplayed);
+        $this->assertEquals('A correct answer is <span class="filter_mathjaxloader_equation">'
+            . '<span class="nolink">\( 1<x \,{\mbox{and}}\,x<7 \)</span></span>, which can be typed in as follows: '
+            . '<code>1<x and x<7</code>', $el->get_teacher_answer_display('1<x nounand x<7', '1<x \,{\mbox{and}}\,x<7'));
+    }
+
     public function test_validate_student_lowest_terms_1() {
         $options = new stack_options();
         $el = stack_input_factory::make('algebraic', 'sans1', '12/4');
@@ -210,6 +226,19 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         $state = $el->validate_student_response(array('sans1' => '-10/-1'), $options, '10', array('tans'));
         $this->assertEquals(stack_input::INVALID, $state->status);
         $this->assertEquals('Lowest_Terms', $state->note);
+    }
+
+    public function test_validate_student_response_with_rationalized() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('algebraic', 'sans1', '1/2');
+        $el->set_parameter('options', 'rationalized');
+        $state = $el->validate_student_response(array('sans1' => "x^2+x/sqrt(2)"), $options, '3.14', null);
+        $this->assertEquals(stack_input::INVALID, $state->status);
+        $this->assertEquals('x^2+x/sqrt(2)', $state->contentsmodified);
+        $this->assertEquals('\[ x^2+\frac{x}{\sqrt{2}} \]', $state->contentsdisplayed);
+        $this->assertEquals(' You must clear the following from the denominator of your fraction: ' .
+                '<span class="filter_mathjaxloader_equation"><span class="nolink">\[ \left[ \sqrt{2} \right] \]' .
+                '</span></span>', $state->errors);
     }
 
     public function test_validate_student_response_subscripts() {

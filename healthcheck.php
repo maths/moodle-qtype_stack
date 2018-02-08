@@ -60,10 +60,11 @@ if (data_submitted() && optional_param('createmaximaimage', false, PARAM_BOOL)) 
     require_sesskey();
     stack_cas_connection_db_cache::clear_cache($DB);
     list($ok, $errmsg)  = stack_cas_configuration::create_auto_maxima_image();
-    if($ok) {
+    if ($ok) {
         redirect($PAGE->url, stack_string('healthautomaxopt_succeeded'), null, \core\output\notification::NOTIFY_SUCCESS);
     } else {
-        redirect($PAGE->url, stack_string('healthautomaxopt_failed',array('errmsg' => $errmsg)), null, \core\output\notification::NOTIFY_ERROR);
+        redirect($PAGE->url, stack_string('healthautomaxopt_failed', array('errmsg' => $errmsg)), null,
+                \core\output\notification::NOTIFY_ERROR);
     }
 }
 

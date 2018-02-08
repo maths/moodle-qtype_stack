@@ -8,7 +8,7 @@
     </category>
   </question>
 
-<!-- question: 632  -->
+<!-- question: 885  -->
   <question type="stack">
     <name>
       <text>Algebraic input</text>
@@ -23,7 +23,7 @@
     <penalty>0.1000000</penalty>
     <hidden>0</hidden>
     <questionvariables>
-      <text>ta:a*b</text>
+      <text>ta:x^2+2*x+1</text>
     </questionvariables>
     <specificfeedback format="html">
       <text>[[feedback:prt1]]</text>
@@ -43,7 +43,7 @@
     <prtincorrect format="html">
       <text>Incorrect answer.</text>
     </prtincorrect>
-    <multiplicationsign>dot</multiplicationsign>
+    <multiplicationsign>none</multiplicationsign>
     <sqrtsign>1</sqrtsign>
     <complexno>i</complexno>
     <inversetrig>cos-1</inversetrig>
@@ -99,9 +99,35 @@
         </falsefeedback>
       </node>
     </prt>
+    <qtest>
+      <testcase>1</testcase>
+      <testinput>
+        <name>ans1</name>
+        <value>ta</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <testinput>
+        <name>ans1</name>
+        <value>x^2</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt1-1-F</expectedanswernote>
+      </expected>
+    </qtest>
   </question>
 
-<!-- question: 633  -->
+<!-- question: 886  -->
   <question type="stack">
     <name>
       <text>Algebraic input (answer box sizes test)</text>
@@ -338,7 +364,7 @@
     </prt>
   </question>
 
-<!-- question: 634  -->
+<!-- question: 887  -->
   <question type="stack">
     <name>
       <text>Checkbox</text>
@@ -438,7 +464,7 @@ ta:append(ta,[tao]);]]></text>
     </prt>
   </question>
 
-<!-- question: 635  -->
+<!-- question: 888  -->
   <question type="stack">
     <name>
       <text>Checkbox: display strings.</text>
@@ -522,7 +548,7 @@ ta2:int(sin(x)*cos(x),x)]]></text>
     <input>
       <name>ans2</name>
       <type>algebraic</type>
-      <tans>ta2</tans>
+      <tans>ta2+c</tans>
       <boxsize>15</boxsize>
       <strictsyntax>1</strictsyntax>
       <insertstars>0</insertstars>
@@ -673,7 +699,7 @@ ta2:int(sin(x)*cos(x),x)]]></text>
     </qtest>
   </question>
 
-<!-- question: 636  -->
+<!-- question: 889  -->
   <question type="stack">
     <name>
       <text>Dropdown (nonotanswered)</text>
@@ -751,7 +777,7 @@ ta:append(ta,[tao]);]]></text>
       <node>
         <name>0</name>
         <answertest>Diff</answertest>
-        <sans>first(ans1)</sans>
+        <sans>ans1</sans>
         <tans>diff(p,x)</tans>
         <testoptions>x</testoptions>
         <quiet>0</quiet>
@@ -773,9 +799,25 @@ ta:append(ta,[tao]);]]></text>
         </falsefeedback>
       </node>
     </prt>
+    <deployedseed>1548366293</deployedseed>
+    <deployedseed>279927113</deployedseed>
+    <deployedseed>1586831178</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <testinput>
+        <name>ans1</name>
+        <value>tac</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+    </qtest>
   </question>
 
-<!-- question: 637  -->
+<!-- question: 890  -->
   <question type="stack">
     <name>
       <text>Dropdown (shuffle)</text>
@@ -853,8 +895,8 @@ ta:append(ta,[tao]);]]></text>
       <node>
         <name>0</name>
         <answertest>Diff</answertest>
-        <sans>first(ans1)</sans>
-        <tans>diff(p,x)</tans>
+        <sans>ans1</sans>
+        <tans>tac</tans>
         <testoptions>x</testoptions>
         <quiet>0</quiet>
         <truescoremode>=</truescoremode>
@@ -875,9 +917,38 @@ ta:append(ta,[tao]);]]></text>
         </falsefeedback>
       </node>
     </prt>
+    <deployedseed>508437090</deployedseed>
+    <deployedseed>1232925802</deployedseed>
+    <deployedseed>1719219331</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <testinput>
+        <name>ans1</name>
+        <value>tac</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <testinput>
+        <name>ans1</name>
+        <value>p</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt1-1-F</expectedanswernote>
+      </expected>
+    </qtest>
   </question>
 
-<!-- question: 638  -->
+<!-- question: 891  -->
   <question type="stack">
     <name>
       <text>Equiv input test</text>
@@ -902,7 +973,7 @@ ta:[p,x=(4-7)/3,x=-1]</text>
     <questionnote>
       <text></text>
     </questionnote>
-    <questionsimplify>1</questionsimplify>
+    <questionsimplify>0</questionsimplify>
     <assumepositive>0</assumepositive>
     <assumereal>0</assumereal>
     <prtcorrect format="html">
@@ -941,7 +1012,7 @@ ta:[p,x=(4-7)/3,x=-1]</text>
     <prt>
       <name>prt1</name>
       <value>1.0000000</value>
-      <autosimplify>1</autosimplify>
+      <autosimplify>0</autosimplify>
       <feedbackvariables>
         <text></text>
       </feedbackvariables>
@@ -970,9 +1041,22 @@ ta:[p,x=(4-7)/3,x=-1]</text>
         </falsefeedback>
       </node>
     </prt>
+    <qtest>
+      <testcase>1</testcase>
+      <testinput>
+        <name>ans1</name>
+        <value>ta</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+    </qtest>
   </question>
 
-<!-- question: 639  -->
+<!-- question: 892  -->
   <question type="stack">
     <name>
       <text>Matrix</text>
@@ -1017,7 +1101,7 @@ ta:[p,x=(4-7)/3,x=-1]</text>
       <name>ans1</name>
       <type>matrix</type>
       <tans>M</tans>
-      <boxsize>15</boxsize>
+      <boxsize>4</boxsize>
       <strictsyntax>1</strictsyntax>
       <insertstars>0</insertstars>
       <syntaxhint></syntaxhint>
@@ -1063,9 +1147,22 @@ ta:[p,x=(4-7)/3,x=-1]</text>
         </falsefeedback>
       </node>
     </prt>
+    <qtest>
+      <testcase>1</testcase>
+      <testinput>
+        <name>ans1</name>
+        <value>M</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+    </qtest>
   </question>
 
-<!-- question: 640  -->
+<!-- question: 893  -->
   <question type="stack">
     <name>
       <text>Multi-part-MCQ-algebraic</text>
@@ -1149,7 +1246,7 @@ ta2:int(sin(x)*cos(x),x)]]></text>
     <input>
       <name>ans2</name>
       <type>algebraic</type>
-      <tans>ta2</tans>
+      <tans>ta2+c</tans>
       <boxsize>15</boxsize>
       <strictsyntax>1</strictsyntax>
       <insertstars>0</insertstars>
@@ -1300,7 +1397,57 @@ ta2:int(sin(x)*cos(x),x)]]></text>
     </qtest>
   </question>
 
-<!-- question: 641  -->
+<!-- question: 894  -->
+  <question type="stack">
+    <name>
+      <text>No input: randomly generated mathematical text.</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[To solve the quadratic equation \[ {@p2@}=0\] we can first write the quadratic in completed square form \[{@p1@}=0.\]&nbsp; From this we rearrange to get \( {@(x-n1)^2@}={@n2@}^2\).&nbsp; Now we can take square roots, being careful to retain both roots \( {@x-n1@} = \pm {@n2@}\) and so \( x={@n1-n2@}\) or \(x={@n1+n2@}\).<br>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text></text>
+    </generalfeedback>
+    <defaultgrade>0.0000000</defaultgrade>
+    <penalty>0.1000000</penalty>
+    <hidden>0</hidden>
+    <questionvariables>
+      <text>n1:rand(5)+1;
+n2:(1+rand(3));
+p1:(x-n1)^2-n2^2;
+p2:expand(p1)</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text><![CDATA[<br>]]></text>
+    </specificfeedback>
+    <questionnote>
+      <text>{@p1@}</text>
+    </questionnote>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text>Correct answer, well done.</text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text>Your answer is partially correct.</text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text>Incorrect answer.</text>
+    </prtincorrect>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <matrixparens>[</matrixparens>
+    <variantsselectionseed></variantsselectionseed>
+    <deployedseed>518549903</deployedseed>
+    <deployedseed>1675440244</deployedseed>
+    <deployedseed>1367116901</deployedseed>
+    <deployedseed>76056746</deployedseed>
+  </question>
+
+<!-- question: 895  -->
   <question type="stack">
     <name>
       <text>Notes</text>
@@ -1345,7 +1492,7 @@ ta2:int(sin(x)*cos(x),x)]]></text>
       <name>ans1</name>
       <type>notes</type>
       <tans>true</tans>
-      <boxsize>15</boxsize>
+      <boxsize>35</boxsize>
       <strictsyntax>1</strictsyntax>
       <insertstars>0</insertstars>
       <syntaxhint></syntaxhint>
@@ -1393,7 +1540,152 @@ ta2:int(sin(x)*cos(x),x)]]></text>
     </prt>
   </question>
 
-<!-- question: 642  -->
+<!-- question: 896  -->
+  <question type="stack">
+    <name>
+      <text>Numerical</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p></p><p>Type in \(\pi\) to four significant figures.</p><p>[[input:ans1]] [[validation:ans1]]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text></text>
+    </generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.1000000</penalty>
+    <hidden>0</hidden>
+    <questionvariables>
+      <text></text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text>[[feedback:prt1]]</text>
+    </specificfeedback>
+    <questionnote>
+      <text></text>
+    </questionnote>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text>Correct answer, well done.</text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text>Your answer is partially correct.</text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text>Incorrect answer.</text>
+    </prtincorrect>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <matrixparens>[</matrixparens>
+    <variantsselectionseed></variantsselectionseed>
+    <input>
+      <name>ans1</name>
+      <type>numerical</type>
+      <tans>3.141</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint></syntaxhint>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords></forbidwords>
+      <allowwords></allowwords>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>2</showvalidation>
+      <options>minsf:4, maxsf:4</options>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackvariables>
+        <text></text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <answertest>NumSigFigs</answertest>
+        <sans>ans1</sans>
+        <tans>3.141</tans>
+        <testoptions>4</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <qtest>
+      <testcase>1</testcase>
+      <testinput>
+        <name>ans1</name>
+        <value>3.141</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <testinput>
+        <name>ans1</name>
+        <value>3.146</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt1-1-F</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>3</testcase>
+      <testinput>
+        <name>ans1</name>
+        <value>3.14</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore></expectedscore>
+        <expectedpenalty></expectedpenalty>
+        <expectedanswernote>NULL</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>4</testcase>
+      <testinput>
+        <name>ans1</name>
+        <value>3.14159</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore></expectedscore>
+        <expectedpenalty></expectedpenalty>
+        <expectedanswernote>NULL</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+
+<!-- question: 897  -->
   <question type="stack">
     <name>
       <text>Radio (casstring)</text>
@@ -1521,7 +1813,7 @@ ta:append(ta,[tao]);]]></text>
     </qtest>
   </question>
 
-<!-- question: 643  -->
+<!-- question: 898  -->
   <question type="stack">
     <name>
       <text>Radio (nonotanswered)</text>
@@ -1649,7 +1941,7 @@ ta:append(ta,[tao]);]]></text>
     </qtest>
   </question>
 
-<!-- question: 644  -->
+<!-- question: 899  -->
   <question type="stack">
     <name>
       <text>Radio (shuffle)</text>
@@ -1777,7 +2069,7 @@ ta:append(ta,[tao]);]]></text>
     </qtest>
   </question>
 
-<!-- question: 645  -->
+<!-- question: 900  -->
   <question type="stack">
     <name>
       <text>Single char</text>
@@ -1870,7 +2162,7 @@ ta:append(ta,[tao]);]]></text>
     </prt>
   </question>
 
-<!-- question: 615  -->
+<!-- question: 901  -->
   <question type="stack">
     <name>
       <text>String</text>
@@ -2002,13 +2294,13 @@ ta:append(ta,[tao]);]]></text>
     </qtest>
   </question>
 
-<!-- question: 646  -->
+<!-- question: 902  -->
   <question type="stack">
     <name>
       <text>Textarea test</text>
     </name>
     <questiontext format="html">
-      <text><![CDATA[Dummy maths input:&nbsp; \({@ta@}\).<br>[[input:ans1]] [[validation:ans1]]]]></text>
+      <text><![CDATA[The text area allows a student to type in multiple lines.&nbsp; These lines will be returned to Maxima as a list.&nbsp; Try typing in \({@ta@}\).<br>[[input:ans1]] [[validation:ans1]]]]></text>
     </questiontext>
     <generalfeedback format="html">
       <text></text>
@@ -2017,13 +2309,13 @@ ta:append(ta,[tao]);]]></text>
     <penalty>0.1000000</penalty>
     <hidden>0</hidden>
     <questionvariables>
-      <text>ta:[x=1,x=2]</text>
+      <text>ta:[x=1,x=2,{1,2}]</text>
     </questionvariables>
     <specificfeedback format="html">
-      <text><![CDATA[[[feedback:prt1]]&lt;/p&gt;&lt;div&gt;]]></text>
+      <text>[[feedback:prt1]]</text>
     </specificfeedback>
     <questionnote>
-      <text>vendor/bin/phpunit --group qtype_stack</text>
+      <text></text>
     </questionnote>
     <questionsimplify>1</questionsimplify>
     <assumepositive>0</assumepositive>
@@ -2093,9 +2385,22 @@ ta:append(ta,[tao]);]]></text>
         </falsefeedback>
       </node>
     </prt>
+    <qtest>
+      <testcase>1</testcase>
+      <testinput>
+        <name>ans1</name>
+        <value>ta</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+    </qtest>
   </question>
 
-<!-- question: 647  -->
+<!-- question: 903  -->
   <question type="stack">
     <name>
       <text>True/false</text>
@@ -2186,9 +2491,35 @@ ta:append(ta,[tao]);]]></text>
         </falsefeedback>
       </node>
     </prt>
+    <qtest>
+      <testcase>1</testcase>
+      <testinput>
+        <name>ans1</name>
+        <value>true</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.5000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt1-1-F</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <testinput>
+        <name>ans1</name>
+        <value>false</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.5000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+    </qtest>
   </question>
 
-<!-- question: 648  -->
+<!-- question: 904  -->
   <question type="stack">
     <name>
       <text>Units</text>
@@ -2279,6 +2610,19 @@ ta:append(ta,[tao]);]]></text>
         </falsefeedback>
       </node>
     </prt>
+    <qtest>
+      <testcase>1</testcase>
+      <testinput>
+        <name>ans1</name>
+        <value>9.81*m*s^-2</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+    </qtest>
   </question>
 
 </quiz>

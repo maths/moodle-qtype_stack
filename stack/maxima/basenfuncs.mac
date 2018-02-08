@@ -1,0 +1,108 @@
+/*  Author Stephen Parry
+    EduMake Limited
+    Derived from work by Chris Sangwin, University of Edinburgh
+
+    Copyright (C) 2017 Stephen Parry
+    Copyright (C) 2015 Chris Sangwin
+
+    This program is free software: you can redistribute it or modify
+    it under the terms of the GNU General Public License version two.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+    GNU General Public License for details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program. If not, see <http://www.gnu.org/licenses/>. */
+
+
+/****************************************************************/
+/*  Base N functions for STACK Maxima                           */
+/*                                                              */
+/*  Stephen Parry, <sgparry@mainscreen.com>                     */
+/*  V0.1 December  2017                                         */
+/*                                                              */
+/****************************************************************/
+
+/* This function is designed for displaying base n numbers.                                 */
+/* basen(n, base, mode, mindigits) is an inert function. The tex function converts this to  */
+/* display. The input routines also use its presence in a model answer to decide what base  */
+/* and format the student answer must be in.                                                */
+/* n is the number to be displayed                                                          */
+/* base is the radix (base) of the number for both display and, if in the model answer      */
+/*   field, the input of the student answer.                                                */
+/* mode is a string controlling the format:                                                 */
+/*   D  STACK compatible syntax; does not work for bases 11+                                */
+/*   M  Maxima syntax: number should be 0 prefixed if base 11+; the default.                */
+/*   G  Greedy syntax: means number can start with any alphanumeric; this is the most       */
+/*      convenient for entry of literal value answer but will seriously hamper use of       */
+/*      expressions containing variables or functions in student answers.                   */
+/*   B  Visual Basic number syntax: &HFF &o77 &b11                                          */
+/*   B* Visual Basic number syntax: &HFF &o77 &b11, radix at students' discretion.          */
+/*   C  C/C++/Java number syntax: 0xff 077 0b11                                             */
+/*   C* C/C++/Java number syntax: 0xff 077 0b11, radix at students' discretion.             */
+/*   S  Suffix syntax; number should appear as a subscripted suffix, typed using an _ char. */
+/*   S* Suffix syntax; radix at students' discretion.                                       */
+/*                                                                                          */
+/* mindigits is the minimum number of figures to display and the exact number of places the */
+/*   student is required to enter. 0 or empty here indicates use the minimum.               */
+/*                                                                                          */
+/* Note, basen does not actually change the number, it is only for display. Internally the  */
+/* number is still held in the same format.                                                 */
+/* To print out *values* in a given base use this function.                                 */
+
+basentex(ex) := block([a, ss, n, base, mode, ml, mp, mindigits],
+  a: args(ex),
+  n : a[1], base: a[2], mode: if length(a) > 2 then a[3] else 1, mindigits: if length(a) > 3 then a[4] else 0,
+  mp:lookup_basen_mode(mode),
+  if emptyp(mp) then
+    error("basen: Bad mode ", mode, ", should be one of ", summarize_basen_mode_list(), ".")
+  else (
+    ml : mp[1],
+    if integerp(n) and integerp(base) and base > 1 then (
+      (ss:sconcat(
+        (
+          if ml="M"  then
+            "0"
+          else
+            (if ml="C" then 
+              (if base=2 then "0b" else (if base=8 then "0o" else (if base=16 then "0x" else "0?")))
+            else
+              (if ml="B" then 
+                (if base=2 then "\\&B" else (if base=8 then "\\&O" else (if base=16 then "\\&H" else "\\&?")))
+              else
+                ""))),
+        "~", string(base), 
+        if integerp(mindigits) and mindigits>0 then sconcat(",", string(mindigits), ",'0R") else "R",
+          (if ml="S" or ml="_" then
+            sconcat("_", string(base))
+          else
+            "")),
+        ev(printf(false, ss, ev(n)), simp)) )
+    else
+      ev(n,simp) ) );
+
+texput(basen,basentex);
+
+make_basenvalue(ex):= block([n, base, mode, mindigits],
+    if atom(ex) then return(ex),
+    if taylorp(ex) or functionp(ex) or freeof(basen, ex) then return(ex),
+    if arrayp(ex) then return(arraymake(op(ex), maplist(make_basenvalue, args(ex)))),
+    if not(is(safe_op(ex)="basen")) then return(apply(op(ex), maplist(make_basenvalue, args(ex)))),
+    if not(length(args(ex)) >= 2 and length(args(ex)) <= 4) then error("basen must have between 2 and 4 arguments"),
+    n:ev(first(args(ex)), simp),
+    base:ev(second(args(ex)), simp),
+    mode:ev(if length(args(ex)) >= 3 then third(args(ex)) else "M", simp),
+    mindigits:if length(args(ex)) >= 4 then ev(fourth(args(ex)), simp) else 0,
+    if not(integerp(n) and integerp(base) and integerp(mindigits) and not emptyp(lookup_basen_mode(mode))) then return(ex),
+    return(apply(basenvalue, [ n, base, mode, mindigits]))
+);
+
+remove_basen(ex):= block(
+    if atom(ex) then return(ex),
+    if arrayp(ex) then return(arraymake(op(ex), maplist(make_basenvalue, args(ex)))),
+    if not(is(safe_op(ex)="basen")) then return(apply(op(ex), maplist(make_basenvalue, args(ex)))),
+    return(first(args(ex)))
+);
+

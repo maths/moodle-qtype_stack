@@ -15,7 +15,6 @@
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
 defined('MOODLE_INTERNAL') || die();
-require_once(__DIR__ . '/basenoptions.class.php');
 
 /**
  * Various utility classes for Stack.
@@ -623,75 +622,6 @@ class stack_utils {
         return $cleared;
     }
 
-    /* Replaces all basen numbers with a supplied replacement, e.g. 0 for validation tasks */
-    /* returns an array of the substituted string and an array of the replaced substrings */
-    public static function replace_basen($string, $basen_options, $replace) {
-        if( $basen_options == null || $basen_options->get_radix() == 0 )
-            return array($string, array());
-        $radix = $basen_options->get_radix();
-        $mode = $basen_options->get_mode();
-        $r = $radix-1;
-        if($radix <= 10)
-        {
-            $npattern = "0-$r";
-        } elseif($mode == stack_basen_options::BASENMODE_COMPATIBLE) {
-            $npattern = "0-9";
-        } elseif($radix == 11) {
-            $npattern = "0-Aa";
-        } else {
-            $npattern = "0-9A-" . chr(ord("A") + $radix - 11) . "a-" . chr(ord("a") + $radix - 11);
-        }
-        $pattern = "[". $npattern . "]";
-        if($mode == stack_basen_options::BASENMODE_COMPATIBLE) {
-            $pattern = $pattern . "+";
-        } elseif($mode == stack_basen_options::BASENMODE_ZERO_PREFIX) {
-            if($radix <= 10) {
-                $pattern = $pattern . "+";
-            } else {
-                $pattern = "0" . $pattern . "*";
-            }
-        } elseif($mode == stack_basen_options::BASENMODE_GREEDY) {
-            $pattern = $pattern . "+";
-        } elseif($mode == stack_basen_options::BASENMODE_C) {
-            if($radix == 2) {
-                $pattern = "0b" . $pattern . "+";
-            } elseif($radix == 8) {
-                $pattern = "0" . $pattern . "+";
-            } elseif($radix == 16) {
-                $pattern = "0x" . $pattern . "+";
-            }
-        } elseif($mode == stack_basen_options::BASENMODE_BASIC) {
-            if($radix == 2) {
-                $pattern = "&b" . $pattern . "+";
-            } elseif($radix == 8) {
-                $pattern = "&o" . $pattern . "+";
-            } elseif($radix == 16) {
-                $pattern = "&x" . $pattern . "+";
-            }
-        } elseif($mode == stack_basen_options::BASENMODE_SUFFIX) {
-            $pattern = $pattern . "+" . "_$radix";
-        }
-        $pattern = "(" . $pattern . ")([^" . $npattern . ".EeBb]|$)";
-        $pattern = "/" . $pattern . "/";
-        $matches = array(array(),array());
-        preg_match_all($pattern, $string, $matches, PREG_PATTERN_ORDER);
-        return array(preg_replace($pattern, $replace . "$2", $string), $matches[1]);
-    }
-    
-    /* Reinstates any basen numbers in a string */
-    public static function unreplace_basen($string, $replacement, $replaced) {
-        $retval = "";
-        $pieces = explode($replacement,$string);
-        
-        foreach(array_map(null,$replaced,$pieces) as list($r, $piece))
-        {
-            $retval.=$piece;
-            if($r !== null)
-                $retval.=$r;
-        }
-        return $retval;
-    }    
-
     /**
      * Converts a CSV string into an array, removing empty entries.
      *
@@ -1178,7 +1108,7 @@ class stack_utils {
      * variable name has been interpreted as a product of single letters.
      * @param unknown $rawcasstring
      */
-    public static function make_single_char_vars($rawcasstring, $options, $syntax, $stars, $allowwords, $basen_options) {
+    public static function make_single_char_vars($rawcasstring, $options, $syntax, $stars, $allowwords, $basen_options = null) {
 
         // Guard clause:  if we have no letters then we just don't need to call the CAS.
         preg_match("/([A-Za-z].*)/", $rawcasstring, $output);

@@ -118,6 +118,7 @@ load("stacktex.lisp");
 if is(MAXIMA_VERSION_NUM<40.1) then load("stacktex40.lisp");
 load("utils.mac");
 load("basen.lisp");
+load("basenfuncs.mac");
 
 texput(QMCHAR, "\\color{red}{?}");
 texput(theta, "\\theta");

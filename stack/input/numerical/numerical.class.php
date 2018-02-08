@@ -45,6 +45,10 @@ class stack_numerical_input extends stack_input {
         'maxsf' => false
     );
 
+    public function adapt_to_model_answer($teacheranswer) {
+        adapt_to_basen($teacheranswer);
+    }
+
     public function render(stack_input_state $state, $fieldname, $readonly, $tavalue) {
 
         if ($this->errors) {

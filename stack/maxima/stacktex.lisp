@@ -343,29 +343,6 @@
  (msz (mapcar #'(lambda (l) (get-first-char l)) (makestring (format nil (concatenate 'string "~," (format nil "~d" (cadr (cdr x))) "f" ) (cadr x)) )) l r)
 )
 
-;; This function has grind (and hence "string") output the number in the following base.
-;; basen(number, base, mindigits, mode).
-(defprop $basenvalue msz-basenvalue grind)
-(defun msz-basenvalue (x l r)
-;; ($system (format nil "logger \"(~S ~S ~S ~S)\"" 'msz-basenvalue x l r))
- (msz (mapcar #'(lambda (l) (getcharn l 1)) (makestring (format nil
-  (concatenate
-    'string 
-    (cond 
-      ((or (string-equal (fifth x) "M") (equal (fifth x) 1)) "0")
-      ((or (string-equal (fifth x) "C") (equal (fifth x) 3))
-        (list #\0 (cond ((= (third x) 2) #\b) ((= (third x) 8) #\o) ((= (third x) 16) #\x) (t #\?))))
-      ((or (string-equal (fifth x) "B") (equal (fifth x) 4))
-        (list #\& (cond ((= (third x) 2) #\B) ((= (third x) 8) #\O) ((= (third x) 16) #\H) (t #\?))))
-      (t ""))
-    "~" (format nil "~d" (third x)) "," (format nil "~d" (fourth x)) ",'0R" 
-    (cond 
-      ((or (equal (fifth x) "_") (equal (fifth x) "S") (equal (fifth x) 5))
-        (format nil "_~d" (third x)))
-    (t "")))
-  (second x)) )) l r)
-)
-
 ;; Define an "arrayp" function to check if we have a Maxima array.
 (defmfun $arrayp (x) (and (not (atom x)) (cond ((member 'array (car x) :test #'eq) $true) (T $false))))
 

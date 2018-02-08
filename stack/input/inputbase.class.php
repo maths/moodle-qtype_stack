@@ -270,6 +270,61 @@ abstract class stack_input {
 
         return true;
     }
+    
+    private function parse_basen_call($teacheranswer) {
+        $matches = null;
+        $found = preg_match("/\bbasen\s*\(([^)]*)\)/", $teacheranswer, $matches);
+        if($found !== 1)
+        {
+            return null;
+        }
+        $params = explode(',', $matches[1]);
+        if(count($params) > 1 && is_numeric($params[1]))
+        {
+            $radix = (int)$params[1];
+            if(count($params) > 2)
+            {
+                $mode = trim($params[2], "\'\"");
+            } else {
+                $mode = 1;
+            }
+            if(count($params) > 3 && is_numeric($params[3]))
+            {
+                $mindigits = (int)$params[3];
+            }
+            else
+            {
+               $mindigits = 0; 
+            }
+            return new stack_basen_options($radix, $mode, $mindigits);
+        } else {
+            return null;
+        }
+    }
+    
+    protected function adapt_to_basen_elt($teacheranswer, $key) {
+        if (!$this->basen_options)
+        {
+            $this->basen_options = array();
+        }
+        $this->basen_options[$key] = $this->parse_basen_call($teacheranswer);
+    }
+
+    /**
+     * This method is intended to be called from within adapt_to_model_answer
+     * within any base class intended to implement base N numbers.
+     * @param type $teacheranswer
+     */
+    protected function adapt_to_basen($teacheranswer) {
+        
+        if(is_array($teacheranswer))
+        {
+            foreach($teacheranswer as $k => $a)
+                adapt_to_basen_elt($a, $k);
+        } else {
+            $this->basen_options = $this->parse_basen_call($teacheranswer);
+        }
+    }
 
     /**
      * This method gives the input element a chance to adapt itself given the
@@ -489,7 +544,7 @@ abstract class stack_input {
             list($tvalid, $terrors, $tmodifiedcontents, $tcaslines)
                 = $this->validate_contents($tcontents, $forbiddenkeys, $localoptions);
         } else {
-            $tcaslines = array(); // TODO? Add basen validation?
+            $tcaslines = array();
         }
         $tvalidator = array();
         foreach ($caslines as $index => $cs) {
@@ -589,7 +644,7 @@ abstract class stack_input {
         } else {
             $status = self::SCORE;
         }
-
+        
         return new stack_input_state($status, $contents, $interpretedanswer, $display, $errors, $note, $lvarsdisp);
     }
 
@@ -675,7 +730,7 @@ abstract class stack_input {
             $valid = $valid && $answer->get_valid();
             $errors[] = $answer->get_errors();
         }
-        
+
         return array($valid, $errors, $modifiedcontents, $caslines);
     }
 
@@ -834,7 +889,7 @@ abstract class stack_input {
                 $errors[] = stack_string('ATLowestTerms_not_rat', array('m0' => '\[ '.$rn->get_display().' \]'));
             }
         }
-
+        
         return array($valid, $errors, $display);
     }
 

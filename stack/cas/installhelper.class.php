@@ -220,11 +220,8 @@ END;
                 throw new stack_exception(stack_string('errormaximalocalunresolvederrors'));
             }
         }
-
-        make_upload_directory('stack');
-        make_upload_directory('stack/logs');
-        make_upload_directory('stack/plots');
-        make_upload_directory('stack/tmp');
+        
+        $platform->ensure_data_directory();
 
         if (!file_put_contents(self::maximalocal_location(), self::generate_maximalocal_contents())) {
             throw new stack_exception('Failed to write Maxima configuration file.');
@@ -290,6 +287,7 @@ END;
         if (true !== $rv) {
             return array(false, $platform->get_no_opt_reason());
         }
+        $platform->ensure_data_directory();
 
         /*
          * Revert to the non-optimised platform.  This will genuinely call the CAS, and

@@ -33,10 +33,11 @@ class stack_cas_connection_server extends stack_cas_connection_base {
      *
      * @global type $CFG
      * @param string $command The string of CAS commands to be processed.
+     * @param boolean $bypassinit Ignored for server.
      * @return string|bool The converted HTML string or FALSE if there was an error.
      * @throws Exception
      */
-    protected function call_maxima($command) {
+    protected function call_maxima($command, $bypassinit=false) {
         global $CFG;
         $err = '';
 

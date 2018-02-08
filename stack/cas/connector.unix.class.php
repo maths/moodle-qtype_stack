@@ -28,10 +28,13 @@ class stack_cas_connection_unix extends stack_cas_connection_base {
      * Connect directly to the CAS, and return the raw string result.
      *
      * @param string $command The string of CAS commands to be processed.
+     * @param boolean $bypassinit Do not execute $this->initcommand - this usually
+     * avoids loading maximalocal.mac; this is useful during install and when poking
+     * maxima for build_info.
      * @return string|bool The raw results or FALSE if there was an error.
      * @throws stack_exception
      */
-    protected function call_maxima($command) {
+    protected function call_maxima($command, $bypassinit=false) {
         $ret = false;
         $err = '';
         $cwd = null;
@@ -48,8 +51,10 @@ class stack_cas_connection_unix extends stack_cas_connection_base {
             throw new stack_exception('stack_cas_connection: could not open a CAS process');
         }
 
-        if (!fwrite($pipes[0], $this->initcommand)) {
-            throw new stack_exception('stack_cas_connection: could not write to the CAS process.');
+        if(!$bypassinit) {
+            if (!fwrite($pipes[0], $this->initcommand)) {
+                throw new stack_exception('stack_cas_connection: could not write to the CAS process.');
+            }
         }
         fwrite($pipes[0], $command);
         fwrite($pipes[0], 'quit();'."\n\n");
@@ -102,7 +107,7 @@ class stack_cas_connection_unix extends stack_cas_connection_base {
     /* On a Unix system list the versions of maxima available for use. */
     public function get_maxima_available() {
         $this->command = 'maxima --list-avail';
-        $rawresult = $this->call_maxima('');
+        $rawresult = $this->call_maxima('', true);
         return $rawresult;
     }
 }

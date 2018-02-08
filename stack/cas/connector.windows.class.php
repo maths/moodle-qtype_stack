@@ -28,10 +28,13 @@ class stack_cas_connection_windows extends stack_cas_connection_base {
      * Connect directly to the CAS, and return the raw string result.
      *
      * @param string $command The string of CAS commands to be processed.
+     * @param boolean $bypassinit Do not execute $this->initcommand - this usually
+     * avoids loading maximalocal.mac; this is useful during install and when poking
+     * maxima for build_info. On windows this also bypasses the launch script.
      * @return string|bool The raw results or FALSE if there was an error.
      * @throws stack_exception
      */
-    protected function call_maxima($command) {
+    protected function call_maxima($command, $bypassinit = false) {
         set_time_limit(0); // Note, some users may not want this!
         $ret = false;
 
@@ -40,16 +43,26 @@ class stack_cas_connection_windows extends stack_cas_connection_base {
             1 => array('pipe', 'w'),
             2 => array('file', $this->logs . "cas_errors.txt", 'a'));
 
-        $cmd = $this->command;
+        if ($bypassinit) {
+            $cmd = $this->platform->get_maxima_inner_command();
+        } else {
+            $cmd = null;
+        }
+        if(!$cmd) {
+            $cmd = $this->command;
+        }
+        
         $this->debug->log('Command line', $cmd);
-
+        
         $casprocess = proc_open($cmd, $descriptors, $pipes);
         if (!is_resource($casprocess)) {
             throw new stack_exception('stack_cas_connection: Could not open a CAS process.');
         }
 
-        if (!fwrite($pipes[0], $this->initcommand)) {
-            return(false);
+        if (!$bypassinit) {
+            if (!fwrite($pipes[0], $this->initcommand)) {
+                return(false);
+            }
         }
         fwrite($pipes[0], $command);
         fwrite($pipes[0], 'quit();\n\n');

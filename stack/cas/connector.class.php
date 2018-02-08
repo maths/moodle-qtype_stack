@@ -126,7 +126,11 @@ abstract class stack_cas_connection_base implements stack_cas_connection {
     public function get_maxima_build_info() {
         if (!$this->maximabuildinfo) {
             $cmd = '(bi:build_info(),print(concat("build", "_", "info:version:", bi@version,"|host:",bi@host,"|lisp_name:",bi@lisp_name,"|lisp_version:",bi@lisp_version,"|")))$quit()$';
-            $result = $this->call_maxima($cmd);
+            $result = $this->call_maxima($cmd, true);
+            // Maxima sometimes returns garbage escaped newlines in its output...
+            $result = str_replace("\\\r\n", '', $result);
+            $result = str_replace("\\\n", '', $result);
+            $result = str_replace("\\\r", '', $result);
             $pattern = '/build_info:version:(?P<version>.*)\\|host:(?P<host>.*)\\|lisp_name:(?P<lisp_name>.*)\\|lisp_version:(?P<lisp_version>.*)\\|/';
             $matches = array();
             $rv = preg_match($pattern, $result, $matches);
@@ -147,9 +151,12 @@ abstract class stack_cas_connection_base implements stack_cas_connection {
      * Connect directly to the CAS, and return the raw string result.
      *
      * @param string $command The string of CAS commands to be processed.
+     * @param boolean $bypassinit Do not execute $this->initcommand - this usually
+     * avoids loading maximalocal.mac; this is useful during install and when poking
+     * maxima for build_info.
      * @return string|bool The raw results or FALSE if there was an error.
      */
-    protected abstract function call_maxima($command);
+    protected abstract function call_maxima($command, $bypassinit=false);
 
     /**
      * Constructor.

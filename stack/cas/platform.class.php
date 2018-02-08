@@ -485,6 +485,15 @@ abstract class stack_platform_base {
     public function get_maxima_install(&$locations = array()) {
         return true;
     }
+    
+    /**
+     * Ensures the stack data directory is present, if needed for this platform,
+     * and creates it if not.
+     * @return boolean true if directory found / created ok or not needed
+     */
+    public function ensure_data_directory() {
+        return true;
+    }
 
     /*
      * Note on commands:

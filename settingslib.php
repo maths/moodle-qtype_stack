@@ -207,7 +207,50 @@ class qtype_stack_admin_timestamp extends admin_setting_configtext {
             $data = time();
             $this->updated = false;
         }
-        return parent::write_setting($data);
+        $config = stack_utils::get_config();
+        $configsufficient = isset($config->platform)
+            && isset($config->lisp)
+            && isset($config->maximaversion)
+            && isset($config->castimeout)
+            && isset($config->exectimeout)
+            && isset($config->casresultscache)
+            && isset($config->maximapreoptcommand)
+            && isset($config->maximacommand)
+            && isset($config->bypasslaunchscript)
+            && isset($config->plotcommand)
+            && isset($config->maximalibraries)
+            && isset($config->casdebugging);
+
+        if ($configsufficient) {
+            // Check the current platform configuration.
+            // Store the results in $platform_warnings and $platform_errors.
+            $platform = stack_platform_base::get_current();
+            $checkrv = $platform->check_maxima_install();
+            $platformerrors = $checkrv['errors'];
+            if ($platformerrors) {
+                $rv = implode('<br/>', $platformerrors);
+            } else {
+                $rv = '';
+            }
+        } else {
+            $rv = '';
+        }
+        
+        $rv2 = parent::write_setting($data);
+        
+        if (!$rv2) {
+            if (!$rv) {
+                return '';
+            } else {
+                return $rv;
+            }
+        } else {
+            if (!$rv) {
+                return $rv2;
+            } else {
+                return $rv . '<br/>' . $rv2;
+            }
+        }
     }
 
     /**

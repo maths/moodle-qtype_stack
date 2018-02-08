@@ -556,6 +556,7 @@ class stack_platform_windows extends stack_platform_local {
      * @thows throws an exception if the file cannot be written.
      */
     public function generate_launch_script() {
+        $this->ensure_data_directory();
         $this->check_maxima_install();
         if ($this->errors) {
             throw new stack_exception(stack_string('errorlaunchscriptunresolvederrors'));

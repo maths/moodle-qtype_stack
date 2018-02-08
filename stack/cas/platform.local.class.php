@@ -164,4 +164,30 @@ abstract class stack_platform_local extends stack_platform_base {
         return true;
     }
 
+    /*
+     * Maxima Program Member Functions
+     * ===============================
+     *
+     * These member functions manipulate configuration, location and files related to how the Maxima
+     * executable actually gets executed. The connection class objects actually do the launching and
+     * connecting; the installer classes generate some of the less platform specific files, such as
+     * maximalocal.mac and any optimised image, but these functions manage the more platform
+     * specific aspects, such as where the files are located.
+     *
+     */
+
+    /**
+     * Ensures the stack data directory is present, if needed for this platform,
+     * and creates it if not.
+     * @return boolean true if directory found / created ok or not needed
+     */
+    public function ensure_data_directory() {
+        make_upload_directory('stack');
+        make_upload_directory('stack/logs');
+        make_upload_directory('stack/plots');
+        make_upload_directory('stack/tmp');
+        return true;
+    }
+
+
 }

@@ -29,11 +29,24 @@ require_once(__DIR__ . '/stack/options.class.php');
 
 $platform = null;
 $platformerrors = array(); $platformwarnings = array();
+
 // Only perform configuration / installation checks if the neccessary config settings
-// are present, i.e. STACK has been installed installed. We use three key settings...
-if (isset(stack_utils::get_config()->platform)
-        && isset(stack_utils::get_config()->maximaversion)
-        && isset(stack_utils::get_config()->maximalibraries)) {
+// are present, i.e. STACK has been installed and settings saved.
+$config = stack_utils::get_config();
+$configsufficient = isset($config->platform)
+    && isset($config->lisp)
+    && isset($config->maximaversion)
+    && isset($config->castimeout)
+    && isset($config->exectimeout)
+    && isset($config->casresultscache)
+    && isset($config->maximapreoptcommand)
+    && isset($config->maximacommand)
+    && isset($config->bypasslaunchscript)
+    && isset($config->plotcommand)
+    && isset($config->maximalibraries)
+    && isset($config->casdebugging);
+
+if ($configsufficient) {
     // Check the current platform configuration.
     // Store the results in $platform_warnings and $platform_errors.
     $platform = stack_platform_base::get_current();

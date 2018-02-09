@@ -31,7 +31,6 @@ require_once(__DIR__ . '/../stack/input/factory.class.php');
  * @group qtype_stack
  */
 class stack_algebra_input_test extends qtype_stack_testcase {
-
     public function test_internal_validate_parameter() {
         $el = stack_input_factory::make('algebraic', 'input', 'x^2');
         $this->assertTrue($el->validate_parameter('boxWidth', 30));
@@ -266,6 +265,20 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         $state = $el->validate_student_response(array('sans1' => '2x'), $options, '2*x', array('ta'));
         $this->assertEquals(stack_input::INVALID, $state->status);
         $this->assertEquals('missing_stars', $state->note);
+    }
+
+    public function test_validate_student_response_insertstars_sqrt_1() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('algebraic', 'sans1', '2*sqrt(2)/3');
+        $el->set_parameter('insertStars', 1);
+        $el->set_parameter('strictSyntax', false);
+        $state = $el->validate_student_response(array('sans1' => '2*sqrt(+2)/3'), $options, '2*sqrt(2)/3', array('ta'));
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('2*sqrt(+2)/3', $state->contentsmodified);
+        $this->assertEquals('\[ \frac{2\cdot \sqrt{2}}{3} \]', $state->contentsdisplayed);
+        $this->assertEquals('A correct answer is <span class="filter_mathjaxloader_equation">'
+            . '<span class="nolink">\( \frac{2\cdot \sqrt{2}}{3} \)</span></span>, which can be typed in as follows: '
+            . '<code>2*sqrt(2)/3</code>', $el->get_teacher_answer_display('2*sqrt(2)/3', '\frac{2\cdot \sqrt{2}}{3}'));
     }
 
     public function test_validate_student_response_sametype_true_1() {

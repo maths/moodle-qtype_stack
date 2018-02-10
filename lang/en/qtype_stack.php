@@ -661,6 +661,12 @@ $string['Equiv_Illegal_matrix']  = 'Matrices are not allowed when reasoning by e
 $string['CommaError']     = 'Your answer contains commas which are not part of a list, set or matrix.  <ul><li>If you meant to type in a list, please use <tt>{...}</tt>,</li><li>If you meant to type in a set, please use <tt>{...}</tt>.</li></ul>';
 $string['Bad_assignment']   = 'When listing the values of a variable you should do so in the following way: {$a->m0}.  Please modify your input.';
 
+$string['stackBlock_jsxgraph_width']       = 'The width of a JSXGraph must use a known CSS-length unit.';
+$string['stackBlock_jsxgraph_height']      = 'The height of a JSXGraph must use a known CSS-length unit.';
+$string['stackBlock_jsxgraph_width_num']   = 'The numeric portion of the width of a JSXGraph must be a raw number and must not contain any extra chars.';
+$string['stackBlock_jsxgraph_height_num']  = 'The numeric portion of the height of a JSXGraph must be a raw number and must not contain any extra chars.';
+$string['stackBlock_jsxgraph_ref']         = "The jsxgraph-block only supports referencing inputs present in the same CASText section '{$a->var}' does not exist here.";
+$string['stackBlock_jsxgraph_param']       = "The jsxgraph-block supports only these parameters in this context: {$a->param}.";
 
 // Answer tests.
 $string['stackOptions_AnsTest_values_AlgEquiv']            = "AlgEquiv";

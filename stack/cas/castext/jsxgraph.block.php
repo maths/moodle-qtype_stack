@@ -87,7 +87,9 @@ class stack_cas_castext_jsxgraph extends stack_cas_castext_block {
         // We could calculate the actual offset but I'll leave that for
         // someone else. 1+2*n probably, or we could just write all the preamble
         // on the same line and make the offset always be the same?
-        $code = '"use strict";try{' . $code . '} catch(err) {console.log("STACK JSXGraph error in \"' . $divid . '\", (note a slight varying offset in the error position due to possible input references):");console.log(err);}';
+        $code = '"use strict";try{' . $code . '} catch(err) {console.log("STACK JSXGraph error in \"' . $divid
+            . '\", (note a slight varying offset in the error position due to possible input references):")'
+            . 'console.log(err);}';
 
         $width  = $this->get_node()->get_parameter('width', '500px');
         $height = $this->get_node()->get_parameter('height', '400px');
@@ -129,37 +131,36 @@ class stack_cas_castext_jsxgraph extends stack_cas_castext_block {
         $heighttrim = $height;
 
         foreach ($validunits as $suffix) {
-          if (!$widthend && strlen($width) > strlen($suffix) &&
-              substr($width, -strlen($suffix)) === $suffix) {
-            $widthend = true;
-            $widthtrim = substr($width, 0, -strlen($suffix));
-          }
-          if (!$heightend && strlen($height) > strlen($suffix) &&
-              substr($height, -strlen($suffix)) === $suffix) {
-            $heightend = true;
-            $heighttrim = substr($height, 0, -strlen($suffix));
-          }
-          if ($widthend && $heightend) {
-            break;
-          }
+            if (!$widthend && strlen($width) > strlen($suffix) &&
+                    substr($width, -strlen($suffix)) === $suffix) {
+                $widthend = true;
+                $widthtrim = substr($width, 0, -strlen($suffix));
+            }
+            if (!$heightend && strlen($height) > strlen($suffix) &&
+                    substr($height, -strlen($suffix)) === $suffix) {
+                $heightend = true;
+                $heighttrim = substr($height, 0, -strlen($suffix));
+            }
+            if ($widthend && $heightend) {
+                break;
+            }
         }
 
         if (!$widthend) {
             $valid = false;
-            $errors[] = "The width of a JSXGraph must use a known CSS-length unit.";
+            $errors[] = stack_string('stackBlock_jsxgraph_width');
         }
         if (!$heightend) {
             $valid = false;
-            $errors[] = "The height of a JSXGraph must use a known CSS-length unit.";
+            $errors[] = stack_string('stackBlock_jsxgraph_hight');
         }
-
         if (!preg_match('/^[0-9]*[\.]?[0-9]+$/', $widthtrim)) {
             $valid = false;
-            $errors[] = "The numeric portion of the width of a JSXGraph must be a raw number and must not contain any extra chars.";
+            $errors[] = stack_string('stackBlock_jsxgraph_width_num');
         }
         if (!preg_match('/^[0-9]*[\.]?[0-9]+$/', $heighttrim)) {
             $valid = false;
-            $errors[] = "The numeric portion of the height of a JSXGraph must be a raw number and must not contain any extra chars.";
+            $errors[] = stack_string('stackBlock_jsxgraph_height_num');
         }
 
         // To check if the input references are ok we need to check the parsers
@@ -174,25 +175,24 @@ class stack_cas_castext_jsxgraph extends stack_cas_castext_block {
                 $varname = substr($key, 10);
                 if (!array_key_exists('input', $root->get_parameter('ioblocks', array()))
                     || !array_key_exists($varname, $root->get_parameter('ioblocks')['input'])) {
-                    $errors[] = "The jsxgraph-block only supports referencing inputs present in the same CASText section '$varname' does not exist here.";
+                    $errors[] = stack_string('stackBlock_jsxgraph_height_num', array('var' => $varname));
                 }
             } else if ($key !== 'width' && $key !== 'height') {
                 $errors[] = "Unknown parameter '$key' for jsxgraph-block.";
                 if ($valids == null) {
-                  $valids = array('width', 'height');
-                  if (array_key_exists('input', $root->get_parameter('ioblocks', array()))) {
-                      $tmp = $root->get_parameter('ioblocks');
-                      $inputs = array();
-                      foreach ($tmp['input'] as $key => $value) {
-                        $inputs[] = "input-ref-$key";
-                      }
-                      $valids = array_merge($valids, $inputs);
-                  }
-                  $errors[] = "The jsxgraph-block supports only these parameters in this context: '" . implode(', ', $valids) . "'.";
+                    $valids = array('width', 'height');
+                    if (array_key_exists('input', $root->get_parameter('ioblocks', array()))) {
+                        $tmp = $root->get_parameter('ioblocks');
+                        $inputs = array();
+                        foreach ($tmp['input'] as $key => $value) {
+                            $inputs[] = "input-ref-$key";
+                        }
+                        $valids = array_merge($valids, $inputs);
+                    }
+                    $errors[] = stack_string('stackBlock_jsxgraph_param', array('param' => implode(', ', $valids)));
                 }
             }
         }
-
 
         // Finally check parent for other issues, should be none.
         if ($valid) {
@@ -203,10 +203,11 @@ class stack_cas_castext_jsxgraph extends stack_cas_castext_block {
     }
 
     private function geninputseek($name, $targetdiv, $targetvar) {
-      $R = "var tmp = document.getElementById('$targetdiv');";
-      $R .= "while ((tmp = tmp.parentElement) && !(tmp.classList.contains('formulation') && tmp.parentElement.classList.contains('content')));";
-      $R .= "tmp = tmp.querySelector('input[id$=\"_$name\"]');";
-      $R .= "\nvar $targetvar = tmp.id;";
-      return $R;
+        $r = "var tmp = document.getElementById('$targetdiv');";
+        $r .= "while ((tmp = tmp.parentElement) && '
+                . '!(tmp.classList.contains('formulation') && tmp.parentElement.classList.contains('content')));";
+        $r .= "tmp = tmp.querySelector('input[id$=\"_$name\"]');";
+        $r .= "\nvar $targetvar = tmp.id;";
+        return $r;
     }
 }

@@ -9,7 +9,7 @@ How to report bugs and make suggestions is described on the [community](../About
 
 Done:
 
-* Add support for using JSXGraph  `http://jsxgraph.org` for better support of graphics, and as part of an input type.  See [JSXGraph](../Authoring/JSXGraph.md)
+* Add support for using JSXGraph  `http://jsxgraph.org` for better support of interactive graphics, and as part of an input type.  See [JSXGraph](../Authoring/JSXGraph.md)
 
 
 To do:

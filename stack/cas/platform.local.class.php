@@ -95,6 +95,8 @@ abstract class stack_platform_local extends stack_platform_base {
                         $version = $settings->maximaversion;
                     }
                 }
+            } else {
+                $version = null;
             }
             $versions = $this->get_list_of_maxima_versions();
             if($versions) {

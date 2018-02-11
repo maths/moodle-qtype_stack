@@ -92,6 +92,9 @@ $config = stack_utils::get_config();
 // Start output.
 echo $OUTPUT->header();
 echo $OUTPUT->heading($title);
+echo $OUTPUT->box(stack_string('healthcheckreturnto',
+            html_writer::link((string) new moodle_url('/admin/settings.php?section=qtypesettingstack'),
+            get_string('settings', 'moodle'))));
 
 // This array holds summary info, for a table at the end of the pager.
 $summary = array();
@@ -265,7 +268,10 @@ foreach ($summary as $line) {
     $tab .= html_writer::tag('tr', $tl)."\n";
 }
 echo html_writer::tag('table', $tab);
-
+echo '<br/>';
+echo $OUTPUT->box(stack_string('healthcheckreturnto',
+            html_writer::link((string) new moodle_url('/admin/settings.php?section=qtypesettingstack'),
+            get_string('settings', 'moodle'))));
 echo $OUTPUT->footer();
 
 function output_cas_text($title, $intro, $castext) {

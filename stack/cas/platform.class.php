@@ -455,7 +455,11 @@ abstract class stack_platform_base {
                     // Get the list of lisps this Maxima install contains:
                     $installedlisps = $this->get_list_of_lisps(true);
                     // Merge that with lisps we know of:
-                    $lisps = array_merge( $knownlisps, $installedlisps );
+                    if ($installedlisps) {
+                        $lisps = array_merge( $knownlisps, $installedlisps );
+                    } else {
+                        $lisps = $knownlisps;
+                    }
                 } else {
                     $lisps = $knownlisps;
                 }

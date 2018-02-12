@@ -13,7 +13,8 @@ To ease parsing of CASText you should ensure that you are writing valid (X)HTML 
 
 To ensure consistent presentation you should avoid using styles in your CASText, as the styles of the surrounding system may change and cause conflicts. In general all styles are bad with the sole exception being `text-align` in the context of table cells. Otherwise:
 
-* If at all possible remove all styles and the `<span>` tags related to them from the CASText. Most WYSIWYG editors have some **clear formatting** feature to do just this.* You should not define `font-size` anywhere. If you need an heading with big text then use the `<hX>...</hX>` tags, but not with too small or large values of X.
+* If at all possible remove all styles and the `<span>` tags related to them from the CASText. Most WYSIWYG editors have some **clear formatting** feature to do just this.
+* You should not define `font-size` anywhere. If you need an heading with big text then use the `<hX>...</hX>` tags, but not with too small or large values of X.
 * Likewise all other font stylings should be left to the surrounding system but feel free to use `<i>`, `<b>`, `<em>`, and `<strong>` if you need and assume that the surrounding system handles them correctly.
 * Paragraphs are your friends use `<p>...</p>` tags and do not leave your content as raw text. The top level of your CASText document should consist of `<p>`, `<table>`, `<div>`, or CASText block elements not of raw text.
 * In the case of tables and images you may use a bit styling e.g. borders, paddings, margings, and sizes but you should always use relative units when describing those sizes. Scale to match the current font-size or maybe to the width of the viewport or even to the maximum dimension of the display not to pixels as pixels have very different actual sizes on different screens and we cannot assume that the software displaying things will make the same scaling assumptions for them in the future.
@@ -26,7 +27,7 @@ All external files are bad! If you have images or other documents related to the
 
 ## Writing CAS code
 
-The CAS code (internally keyvals and CASStrings) consists of Maxima assignement statements and can suffer from Maximas behaviour changing as well as changes in the STACK provided Maxima functions. There is little you can do about that other than trying to develop your questions on as new as possible Maxima version to give them longer life. Otherwise there are some details that should be noted:
+The CAS code (internally keyvals and CASStrings) consists of Maxima assignment statements and can suffer from Maximas behaviour changing as well as changes in the STACK provided Maxima functions. There is little you can do about that other than trying to develop your questions on as new as possible Maxima version to give them longer life. Otherwise there are some details that should be noted:
 
 * End your statements with semicolons (`;`) this will ease your life if you ever need to copy code to Maxima for testing. In the future semicolons may become mandatory, automatic conversion will however handle that change.
 * Avoid interesting chars in your variable names e.g. `_` has meaning and it is reasonable to assume that new chars might have new meanings in the future.
@@ -67,7 +68,7 @@ As a special rule if your question contains scripting inside CASText section tha
 
 ### Keywords & author attribution
 
-'Tags' i.e. keywords can be connected to questions and you are encouraged to use them. You may try to gain access to a listing of most common ones and see if your ideas about them might have slightly differently typoed on there but worry not about creating a new one.
+'Tags' i.e. keywords can be connected to questions and you are encouraged to use them. You may try to gain access to a listing of most common ones and see if your ideas about them might have been slightly differently typoed over there but worry not about creating a new one.
 
 Author attribution in Abacus happens through keys/tags. Your questions should have a tag referencing your home organisation and one for your name. As some platforms do not support spaces in their keywords you may want to play it safe by writing the author tag as 'LastnameFirstname'. If you are significantly modifying an existing question feel free to add your author tag there but do not remove the existing ones.
 

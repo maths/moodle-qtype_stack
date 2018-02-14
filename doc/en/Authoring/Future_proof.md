@@ -1,12 +1,12 @@
 # Guidelines for ensuring that a question works in the future
 
-Creating a great STACK question takes effort and often people worry about how updating STACK or Moodle or other components running those questions might affect their questions. While there are no guarantees you can increase the ongoing reliability of your guestions by taking the following things into account. 
+Creating a great STACK question takes effort and often people worry about how updating STACK or Moodle or other components running those questions might affect their questions. While there are no guarantees you can increase the ongoing reliability of your questions by taking the following things into account. 
 
 In some parts of this document we mention "Abacus".  The Abacus project is a STACK material sharing organisation that seeks to develop high-quality materials to be implemented following these guidelines. This document ends with additional guidelines adopted by Abacus.  This is both good practice, and will be relevant if you ever intend to join Abacus.
 
 The most important things are listed here.  More detail is below.
 
-1. Build guestions so that it is possible to detect changes in the platform.  All questions must have "question tests", which allow unit testing of each question version.
+1. Build questions so that it is possible to detect changes in the platform.  All questions must have "question tests", which allow unit testing of each question version.
 2. Use simple correct HTML with all closing tags, avoiding explicit style of your own.
 3. Use only simple core LaTeX Maths environments/commands, with only `\(...\)` and `\[...\]` as the maths delimiters.
 4. Avoid linking to externally hosted content, such as pictures and applets.
@@ -22,7 +22,7 @@ To ease parsing of CASText you should ensure that you are writing valid (X)HTML 
 To ensure consistent presentation you should avoid using styles in your CASText, as the styles of the surrounding system may change and cause conflicts. In general all styles are bad with the sole exception being `text-align` in the context of table cells. Otherwise:
 
 * If at all possible remove all styles and the `<span>` tags related to them from the CASText. Most WYSIWYG editors have some **clear formatting** feature to do just this.
-* You should not define `font-size` anywhere. If you need a heading with big text then use the `<hX>...</hX>` tags, but not with too small or large values of X.
+* You should not define `font-size` anywhere. If you need a heading with big text then use the `<hX>...</hX>` tags, but not with too small or large values of X. *In Abacus `<h3>` and `<h4>` are recommended especially in model solutions.*
 * Likewise all other font stylings should be left to the surrounding system but feel free to use `<i>`, `<b>`, `<em>`, and `<strong>` if you need and assume that the surrounding system handles them correctly.
 * You can use the `<code>` tag to explain how to type in answers.
 * Paragraphs are your friends use `<p>...</p>` tags and do not leave your content as raw text. The top level of your CASText document should consist of `<p>`, `<table>`, `<div>`, or CASText block elements not of raw text.
@@ -32,15 +32,15 @@ To ensure consistent presentation you should avoid using styles in your CASText,
 
 If your CASText document contains scripts like JSXGraph content definitions you should ensure that if they require some external files to be evaluated you include those files with the question as links to external files will be broken at some point or the external files themselves change. In the case of JSXGraph use the `jsxgraph` CASText block which will handle the scripts at STACK level.
 
-__All external files/links are bad!__ If you have images or other documents related to the question they should be included in the question. Avoid embedded frames, applets and other interactive content.  To test inclusion you should be able to export the question and import it to a freshly installed raw system on a computer not connected to the internet and those questions should work.
+__All external files/links are bad!__ If you have images or other documents related to the question they should be included in the question. Avoid embedded frames, applets and other interactive content. To test inclusion you should be able to export the question and import it to a freshly installed raw system on a computer not connected to the internet and those questions should work. *There is nothing wrong with internal files of any type, as long as they come with the question.*
 
 ## Writing CAS code
 
 The CAS code (internally keyvals and CASStrings) consists of Maxima assignment statements.  Occasionally, Maxima's behaviour changes as well, and occasionally there are changes in the STACK provided Maxima functions. Changes cannot be avoided, but you can try to develop your questions based on as new as possible Maxima version to give them longer life. Otherwise there are some details that should be noted:
 
 * End your statements with semicolons (`;`) this will ease your life if you ever need to copy code to Maxima for testing. In the future semicolons may become mandatory, automatic conversion will however handle that change.
-* Avoid interesting chars in your variable names e.g. `_` has meaning and it is reasonable to assume that new chars might have new meanings in the future.
-* Newer write to a variable sharing a name with an input!
+* Avoid interesting chars in your variable names e.g. `_` has meaning and it is reasonable to assume that other chars might have new meanings in the future.
+* Never write to a variable sharing a name with an input!
 
 You should also heed to these general guidelines:
 
@@ -95,7 +95,7 @@ Abacus materials are expected to contain model solutions in the 'general feedbac
 
 ### Question note
 
-The question note must be filled correctly, i.e. all random variables must be present in it. It is also recommended that the note provides a summary of the question and solution.
+The question note must be filled correctly, i.e. all random variables must be present in it. It is also recommended that the note provides a summary of the question and answer, if multiple differing solution processes are possible the note should tell which of those is required in the variant. Question notes are used if one selects specific variants for use and all that information will help then.
 
 ### Localisation
 
@@ -105,4 +105,8 @@ Questions are to be localised whitin the question i.e. there must not exist more
 
 It is perfectly acceptable to place the PRT-feedback markker in the question text and it is recommended when dealing with questions with multiple PRTs and inputs. Try to place the feedback near to the things it applies to e.g. feedback for part A at the end of part A before part B starts.
 
+### CAS Code & input and PRT naming
 
+Abacus materials should aim to use English names for the CAS variables, inputs and PRTs to ease debugging by other members. Realistically, when generating new localisations for an existing question the variables should be renamed at the same time unless they are already in English. 
+
+If a variable name could cause confusion you should describe the variable in inline comments. You should use verbose internal variable names but not too verbose, try to aim for less than 10 characters. PascalCase/camelCase is the recommended way of dealing with multi word verbose names.

@@ -615,7 +615,6 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         foreach ($this->prts as $index => $prt) {
 
             $results = $this->get_prt_result($index, $response, $finalsubmit);
-
             if ($results->valid === null) {
                 continue;
             }

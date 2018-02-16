@@ -80,6 +80,7 @@ $settings->add(new admin_setting_configselect('qtype_stack/maximaversion',
                       '5.35.1.2' => '3.35.1.2', '5.36.0' => '5.36.0', '5.36.1' => '5.36.1',
                       '5.37.3' => '5.37.3', // Recently compiled GCL version for Windows is much faster.
                       '5.38.0' => '5.38.0', '5.38.1' => '5.38.1', '5.39.0' => '5.39.0',
+                      '5.40.0' => '5.40.0', '5.41.0' => '5.41.0',
                       'default' => 'default')));
 
 $settings->add(new admin_setting_configtext('qtype_stack/castimeout',
@@ -107,7 +108,7 @@ $settings->add(new admin_setting_configtext('qtype_stack/plotcommand',
 
 $settings->add(new admin_setting_configtext('qtype_stack/maximalibraries',
         get_string('settingmaximalibraries', 'qtype_stack'),
-        get_string('settingmaximalibraries_desc', 'qtype_stack'), 'stats, distrib, descriptive'));
+        get_string('settingmaximalibraries_desc', 'qtype_stack'), 'stats, distrib, descriptive, simplex'));
 
 $settings->add(new admin_setting_configcheckbox('qtype_stack/casdebugging',
         get_string('settingcasdebugging', 'qtype_stack'),

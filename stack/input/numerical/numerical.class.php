@@ -17,12 +17,12 @@
 defined('MOODLE_INTERNAL') || die();
 
 /**
- * An input to support scientific units.  Heavily based on algebraic.
+ * A basic text-field input.
  *
- * @copyright  2015 University of Edinburgh
+ * @copyright  2017 University of Edinburgh
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class stack_units_input extends stack_input {
+class stack_numerical_input extends stack_input {
 
     /**
      * From STACK 4.1 we are not going to continue to add input options as columns in the database.
@@ -30,9 +30,13 @@ class stack_units_input extends stack_input {
      * @var array
      */
     protected $extraoptions = array(
-        'negpow' => false,
-        // Automatically replace stackunits with * for the PRTs. Legacy questions only really.
-        'mul'   => false,
+        // Forbid variables.  Always true for numerical inputs.
+        'novars' => true,
+        // Is a student required to type in a float?
+        'floatnum' => false,
+         // Is the demoninator of any fractions in the student's answer to be free of surds?
+        'rationalnum' => false,
+        'rationalized' => false,
         // Require min/max number of decimal places?
         'mindp' => false,
         'maxdp' => false,
@@ -40,12 +44,6 @@ class stack_units_input extends stack_input {
         'minsf' => false,
         'maxsf' => false
     );
-
-    /**
-     * Decide if the student's expression should have units.
-     * @var bool.
-     */
-    protected $units = true;
 
     public function render(stack_input_state $state, $fieldname, $readonly, $tavalue) {
 
@@ -63,7 +61,11 @@ class stack_units_input extends stack_input {
         );
 
         if ($this->is_blank_response($state->contents)) {
-            $attributes['value'] = $this->parameters['syntaxHint'];
+            $field = 'value';
+            if ($this->parameters['syntaxAttribute'] == '1') {
+                $field = 'placeholder';
+            }
+            $attributes[$field] = stack_utils::logic_nouns_sort($this->parameters['syntaxHint'], 'remove');
         } else {
             $attributes['value'] = $this->contents_to_maxima($state->contents);
         }
@@ -83,28 +85,25 @@ class stack_units_input extends stack_input {
 
     /**
      * Return the default values for the parameters.
+     * Parameters are options a teacher might set.
      * @return array parameters` => default value.
      */
     public static function get_parameters_defaults() {
         return array(
-            'mustVerify'     => true,
-            'showValidation' => 1,
-            'boxWidth'       => 15,
-            'strictSyntax'   => true,
-            'insertStars'    => 0,
-            'syntaxHint'     => '',
-            'forbidWords'    => '',
-            'allowWords'     => '',
-            // The forbidFloats option is ignored by this input type.
-            // The Maxima code does not check for floats.
-            'forbidFloats'   => false,
-            'lowestTerms'    => true,
-            // The sameType option is ignored by this input type.
-            // The answer is essantially required to be a number and units, other types are rejected.
-            'sameType'       => false,
-            // Currently this can only be "negpow", or "mul".
-            'options'        => '',
-        );
+            'mustVerify'         => true,
+            'showValidation'     => 1,
+            'boxWidth'           => 15,
+            // The option strictSyntax as true means we don't insert *s into 192.3e3 etc.
+            'strictSyntax'       => true,
+            'insertStars'        => 0,
+            'syntaxHint'         => '',
+            'syntaxAttribute'    => 0,
+            'forbidWords'        => '',
+            'allowWords'         => '',
+            'forbidFloats'       => false,
+            'lowestTerms'        => true,
+            'sameType'           => true,
+            'options'            => '');
     }
 
     /**
@@ -145,22 +144,7 @@ class stack_units_input extends stack_input {
         return stack_string('teacheranswershow', array('value' => '<code>'.$value.'</code>', 'display' => $display));
     }
 
-    /* Allows individual input types to change the way the list of variables is tagged.
-     * Used by the units input type.
-     */
-    protected function tag_listofvariables($vars) {
-        return html_writer::tag('p', stack_string('studentValidation_listofunits', $vars));
-    }
-
-    /* Allow different input types to change the CAS method used.
-     * In particular, the units test does something different here.
-     */
     protected function get_validation_method() {
-        $validationmethod = 'units';
-        if ($this->extraoptions['negpow']) {
-            $validationmethod = 'unitsnegpow';
-        }
-        return $validationmethod;
+        return 'numerical';
     }
-
 }

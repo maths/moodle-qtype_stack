@@ -15,9 +15,9 @@
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
 require_once('input_values.php');
+require_once(__DIR__ . '/../../lang/multilang.php');
 
-class qtype_stack_api_export
-{
+class qtype_stack_api_export {
 
     private $defaults;
     private $question;
@@ -42,7 +42,20 @@ class qtype_stack_api_export
         $value = self::processvalue($value, $type);
         $value = qtype_stack_api_input_values::get_yaml_value($propertyname, $value);
         if (!$this->defaults->isdefault($section, $propertyname, $value)) {
-            $yaml[$propertyname] = $value;
+            // For all string values, we try to tanslate them.
+            if ($type == 'string') {
+                $multilang = new stack_multilang();
+                $languages = $multilang->languages_used($value);
+                if ($languages == array()) {
+                    $yaml[$propertyname] = $value;
+                } else {
+                    foreach($languages as $lang) {
+                        $yaml[$propertyname.'_'.$lang] = $multilang->filter($value, $lang);
+                    }
+                }
+            } else {
+                $yaml[$propertyname] = $value;
+            }
         }
     }
 
@@ -54,19 +67,19 @@ class qtype_stack_api_export
      */
     private static function processvalue($value, string $type) {
         switch($type) {
-            case "string":
+            case 'string':
                 return (string) $value;
-            case "int":
+            case 'int':
                 return (int) $value;
-            case "float":
+            case 'float':
                 return (float) $value;
-            case "bool":
-                return (bool) ($value == "1");
+            case 'bool':
+                return (bool) ($value == '1');
         }
     }
 
     /**
-     * Exports question as yaml encoded string
+     * Exports question as yaml encoded string.
      * @return string
      */
     public function yaml() {
@@ -79,18 +92,28 @@ class qtype_stack_api_export
         self::property($yaml, 'default_mark', $q->defaultgrade, 'float', $section);
         self::property($yaml, 'question_html', $q->questiontext->text, 'string', $section);
         self::property($yaml, 'penalty', $q->penalty, 'float', $section);
-        self::property($yaml, 'variables', $q->questionvariables->text, 'string', $section);
-        self::property($yaml, 'specific_feedback_html', $q->specificfeedback->text, 'string', $section);
-        self::property($yaml, 'note', $q->questionnote->text, 'string', $section);
-        self::property($yaml, 'worked_solution_html', $q->generalfeedback->text, 'string', $section);
+        if (trim($q->questionvariables->text) != '') {
+            self::property($yaml, 'variables', $q->questionvariables->text, 'string', $section);
+        }
+        if (trim($q->specificfeedback->text) != '') {
+            self::property($yaml, 'specific_feedback_html', $q->specificfeedback->text, 'string', $section);
+        }
+        if (trim($q->questionnote->text) != '') {
+            self::property($yaml, 'note', $q->questionnote->text, 'string', $section);
+        }
+        if (trim($q->generalfeedback->text) != '') {
+            self::property($yaml, 'worked_solution_html', $q->generalfeedback->text, 'string', $section);
+        }
+        /* Note, we do not export the following because there are a mess with html tags...
         self::property($yaml, 'prt_correct_html', $q->prtcorrect->text, 'string', $section);
         self::property($yaml, 'prt_partially_correct_html', $q->prtpartiallycorrect->text, 'string', $section);
         self::property($yaml, 'prt_incorrect_html', $q->prtincorrect->text, 'string', $section);
-
+        */
 
         $section = 'options';
         $yaml['options'] = array();
 
+        // TODO: should these mappings be in qtype_stack_api_input_values?
         $options = array(
             'sqrtsign' => 'sqrt_sign',
             'assumepositive' => 'assume_positive',
@@ -110,17 +133,27 @@ class qtype_stack_api_export
         foreach ($options as $key => $value) {
             self::property($yaml['options'], $value, $q->$key, 'string', $section);
         }
+        // Everything is default?
+        if ($yaml['options'] === array()) {
+            unset($yaml['options']);
+        }
 
         // Process inputs.
         $this->processinputs($yaml);
         // Process trees.
         $this->processresponsetrees($yaml);
+        // Process question tests.
+        $this->processresponsetests($yaml);
 
+        // Add in the deployed seeds.
+        foreach ($q->deployedseed as $seed) {
+            $yaml['deployedseed'][] = self::processvalue((string) $seed, 'int');
+        }
         return yaml_emit($yaml, YAML_UTF8_ENCODING);
     }
 
     /**
-     * Process question input and returns it as array
+     * Process question input and returns it as an array.
      * @param SimpleXMLElement $input question input
      * @return array
      */
@@ -146,7 +179,7 @@ class qtype_stack_api_export
     }
 
     /**
-     * Process all question inputs and store it in yaml array
+     * Process all question inputs and store it in yaml array.
      * @param array $yaml
      */
     private function processinputs(array &$yaml) {
@@ -157,7 +190,7 @@ class qtype_stack_api_export
     }
 
     /**
-     * Process question tree node and returns it as array
+     * Process question tree node and returns it as array.
      * @param SimpleXMLElement $node question tree node
      * @return array
      */
@@ -180,15 +213,22 @@ class qtype_stack_api_export
         $this->property($res['T'], 'next_node', $nextnode, 'string', $section);
         $this->property($res['T'], 'answer_note', $node->trueanswernote, 'string', $section);
         $this->property($res['T'], 'feedback_html', $node->truefeedback->text, 'string', $section);
+
         // False branch.
+>>>>>>> Temporary merge branch 2
         $section = 'branch-F';
         $res['F'] = array();
         $this->property($res['F'], 'score_mode', $node->falsescoremode, 'string', $section);
         $this->property($res['F'], 'score', $node->falsescore, 'float', $section);
         $this->property($res['F'], 'penalty', $node->falsepenalty, 'float', $section);
+<<<<<<< Temporary merge branch 1
+        $next_node = ($node->falsenextnode == -1)? -1 : 'node_' . (string)$node->falsenextnode;
+        $this->property($res['F'], 'next_node', $next_node, 'string', $section);
+=======
         $nextnode = ($node->falsenextnode == -1) ? -1 : 'node_' . (string)$node->falsenextnode;
 
         $this->property($res['F'], 'next_node', $nextnode, 'string', $section);
+>>>>>>> Temporary merge branch 2
         $this->property($res['F'], 'answer_note', $node->falseanswernote, 'string', $section);
         $this->property($res['F'], 'feedback_html', $node->falsefeedback->text, 'string', $section);
 
@@ -196,7 +236,7 @@ class qtype_stack_api_export
     }
 
     /**
-     * Process question response tree and returns as array
+     * Process question response tree and returns as array.
      * @param SimpleXMLElement $tree question tree
      * @return array
      */
@@ -204,7 +244,6 @@ class qtype_stack_api_export
         $section = 'tree';
         $res = array();
         $this->property($res, 'auto_simplify', $tree->autosimplify, 'bool', $section);
-//        $this->property($res, 'type', $tree->type, 'string', $section);
         $this->property($res, 'value', $tree->value, 'float', $section);
         $this->property($res, 'first_node', 'node_' . (int) $tree->firstnodename, 'string', $section);
         $this->property($res, 'feedback_variables',  (string) $tree->feedbackvariables->text, 'string', $section);
@@ -217,7 +256,7 @@ class qtype_stack_api_export
     }
 
     /**
-     * Process all response trees and store it in yaml array
+     * Process all response trees and store it in yaml array.
      * @param array $yaml
      */
     private function processresponsetrees(array &$yaml) {
@@ -225,5 +264,26 @@ class qtype_stack_api_export
         foreach ($this->question->prt as $tree) {
             $yaml['response_trees'][(string) $tree->name] = $this->getresponsetree($tree);
         }
+    }
+
+    /**
+     * Process all question tests and store them in yaml array.
+     * @param array $yaml
+     */
+    private function processresponsetests(array &$yaml) {
+        foreach ($this->question->qtest as $test) {
+            $res = array();
+            foreach ($test->testinput as $input) {
+                $this->property($res, (string) $input->name, (string) $input->value, 'string', 'input');
+            }
+            foreach ($test->expected as $prt) {
+                $expect['score'] = self::processvalue((string) $prt->expectedscore, 'float');
+                $expect['penalty'] = self::processvalue((string) $prt->expectedpenalty, 'float');
+                $expect['answer_note'] = self::processvalue((string) $prt->expectedanswernote, 'string');
+                $res[(string) $prt->name] = $expect;
+            }
+            $yaml['tests'][(string) $test->testcase] = $res;
+        }
+
     }
 }

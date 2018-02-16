@@ -2,6 +2,11 @@
 ## At runtime, these will be merged into the user configuration if not present.
 
 default_mark: 1
+penalty: 0.1
+
+prt_correct_html: "Correct answer, well done."
+prt_partially_correct_html: "Your answer is partially correct."
+prt_incorrect_html: "Incorrect answer."
 
 options:
   simplify: true
@@ -45,3 +50,4 @@ response_trees:
         score: 0
         penalty: 0
         next_node: -1
+

@@ -23,7 +23,7 @@
 /****************************************************************/
 
 MAXIMA_VERSION:map(parse_string, tokens(?\*autoconf\-version\*, 'digitcharp))$
-MAXIMA_VERSION_NUM:float(MAXIMA_VERSION[2]+MAXIMA_VERSION[3]/10)$
+MAXIMA_VERSION_NUM:float(MAXIMA_VERSION[2]+(if is(MAXIMA_VERSION[3]<10) then MAXIMA_VERSION[3]/10 else 0))$
 
 /* ********************************** */
 /* Load contributed packages          */
@@ -91,7 +91,6 @@ poly_equate_coeffs(p1,p2,v) := block([deg,kloop,cl],
 /* E.g. x+x-> 2*x, so is this a product of sum?                */
 get_ops(ex):= setify(flatten(get_ops_helper(ex)))$
 get_ops_helper(ex):=if mapatom(ex) then [] else append([op(ex)],maplist(get_ops_helper,args(ex)))$
-
 
 /* Predicate to test if an operator is used in an expression. */
 op_usedp(ex, opused) := block(
@@ -228,6 +227,38 @@ root([ex]) := block(
   if length(ex) = 2 then return(first(ex)^(1/second(ex)))
 )$
 
+/* Denominators of fractions should not contain sqrt, root, %i or fractional powers. */
+rational_fail(ex) := block(
+  if is(ex=%i) then return([%i]),
+  /* Other atoms are fine. */
+  if atom(ex) then return([]),
+  /* Look for forbidden operators. */
+  if safe_op(ex)="root" then return([ex]),
+  if safe_op(ex)="sqrt" then return([ex]),
+  if safe_op(ex)="^" and rational_numberp(second(args(ex))) then return([ex]),
+  maplist(rational_fail, args(ex))
+)$
+
+/* This function picks out any rationals in the expression. */
+find_rationals(ex) := block(
+  if atom(ex) then return([]),
+  if safe_op(ex)="/" then return(ex),
+  maplist(find_rationals, args(ex))
+)$
+
+/* Toplevel function.
+   This returns "true" if the denominators of expressionss are free of sqrt, root, %i or fractional powers.
+   It returns a list of offending terms otherwise.
+*/ 
+rationalized(ex):= block(
+  ex:find_rationals(ex),
+  if not(listp(ex)) then ex:[ex],
+  ex:maplist(denom, find_rationals(ex)),
+  ex:flatten(maplist(rational_fail, ex)),
+  if emptyp(ex) then return(true),
+  return(ex)
+)$
+
 /* ********************************** */
 /* Numerical operations               */
 /* ********************************** */
@@ -239,6 +270,19 @@ simp_numberp(ex) := block(
   if op(ex)="-" and numberp(first(args(ex))) then return(true),
   false
 )$
+
+simp_integerp(ex) := block(
+  if integerp(ex) then return(true),
+  if atom(ex) then return(false),
+  if op(ex)="-" and integerp(first(args(ex))) then return(true),
+  false
+)$
+
+/* Do we have a rational number?  */
+rational_numberp(ex) := block(
+   if safe_op(ex)="/" and simp_integerp(num(ex)) and simp_integerp(denom(ex)) then return(true),
+   return(false)
+);
 
 /* Do we have a real number?  */
 /* Code taken from Stack_Test */
@@ -449,6 +493,36 @@ make_displayscivalue(ex):= block([n, d, expo, ss],
 )$
 
 /* ********************************** */
+/* Some notes on numerical rounding   */
+/* ********************************** */
+
+/* CJS, Oct 2017.
+
+   To illustrate the problems of numerical rounding with binary floats, see the following examples.
+   printf(false,"~,0f",14.5);
+   printf(false,"~,1f",1.45);
+   printf(false,"~,2f",0.145);
+   printf(false,"~,3f",0.0145);
+   printf(false,"~,4f",0.00145);
+   printf(false,"~,5f",0.000145);
+   printf(false,"~,6f",0.0000145);
+   printf(false,"~,7f",0.00000145);
+   printf(false,"~,8f",0.000000145);
+
+   We might reasonably expect all these to have the last digit as "5", however many of them have "4".
+   This is not caused by bankers' rounding (which round does).
+   This is caused by internal rounding.  To demonstrate this:
+   p:0.145;
+   ex1:(p*100)-floor(p*100);
+   Then ask is "ex1=0.5"?  Actually
+   ex1-0.5;
+   returns -1.776356839*10^-15 which shows that (p*100)-floor(p*100)<0.5.  This is due to rounding.
+   Both the internal printf, and our attempts in sigfigsfun(...) to write our own function will suffer from
+   this kind of problem.
+*/
+
+
+/* ********************************** */
 /* Equivalence                        */
 /* ********************************** */
 
@@ -503,7 +577,10 @@ algebraic_equivalence(SA, SB) :=
        ex:first(args(ex)),
     if (safe_op(ex)="*" or safe_op(ex)="^") then
        if not(any_listp(lambda([ex2], algebraic_equivalence(ex2, 0)), args(ex))) then return(false),
-    if ratsimp(ex)=0 then return(true),
+    ex:errcatch(ratsimp(ex)),
+    if ex=[] then (print("algebraic_equivalence: evaluating the difference of two expressions threw an error."), return(false)),
+    ex:ex[1],
+    if ex=0 then return(true),
     /* Next we expand out the difference. */
     ex:errcatch(ev(fullratsimp(SA-SB), simp)),
     if ex=[] then (print("algebraic_equivalence: evaluating the difference of two expressions threw an error."), return(false)),
@@ -511,7 +588,7 @@ algebraic_equivalence(SA, SB) :=
     if floatnump(ex) then return(false),
     ex:num(ex),  /* after a fullratsimp, we have a ratio.  We should only need to consider the top */
     ex:trigsimp(ex),
-    ex:rectform(ex),
+    if not(freeof(%i, ex)) then ex:rectform(ex),
     ex:exponentialize(ex),
     /* ex:trigreduce(ex), CJS, removed 21/1/2010.  This was breaking ATSingleFrac!  Don't know why. */
     if ratsimp(ex)=0 then return(true),

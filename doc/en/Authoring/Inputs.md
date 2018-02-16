@@ -1,68 +1,68 @@
 # Inputs
 
-Inputs are the points at which the student interacts with the question.
-For example, it might be a form box into which the student enters their answer.
+Inputs are the points at which the student interacts with the question.  
+The default (and prototype) is an HTML input box into which a student is expected to type an algebraic expression.
 
 * Only the [question text](CASText.md#question_text) may have inputs.
-* Inputs are not required. Hence it is possible for the teacher to make a
-  statement which asks for no response from the student, i.e. a rhetorical question.
+* Inputs are not required. Hence it is possible for the teacher to make a statement which asks for no response from the student, i.e. a rhetorical question.
 * A question may have as many inputs as needed.
-* Inputs can be positioned anywhere within the
-  [question text](CASText.md#question_text). MathJax does not currently support the inclusion of inputs within equations.
+* Inputs can be positioned anywhere within the [question text](CASText.md#question_text). MathJax does not currently support the inclusion of inputs within equations.
+* All inputs return a Maxima expression.  This might be just the student's answer (in the case of an algebraic input).  MCQ inputs also return a valid Maxima expression.
 
 The position of an input in the [question text](CASText.md#question_text) is denoted by
 
     [[input:ans1]]
 
-Here `ans1` denotes the name of a [Maxima](../CAS/Maxima.md) variable to which the student's answer is to be assigned.
-This must only be letters (optionally) followed by numbers, as in this example. No special characters are permitted.
+Here `ans1` is the name of a [Maxima](../CAS/Maxima.md) variable to which the student's answer is to be assigned.
+This must only be letters followed (optionally) by numbers, as in this example. No special characters are permitted.
 The input name cannot be more than 18 characters long.
 
-Feedback as to the syntactic validity of a response is by default inserted just after
-the input. Feedback is positioned using tags such as
+Feedback as to the syntactic validity of a response is positioned using a corresponding tag
 
     [[validation:ans1]]
 
-where stuff is the name of the variable. This string is automatically generated if it
-does not exist and is placed after the input. This feedback must be given.
-Inputs have a number of options. Specific inputs may have extra options.
+This tag must be included even if validation is suppressed with an option (see below) and is automatically generated after the input if it does not exist.
 
-To see what sort of validation is done, look at the
+To see what sort of validation is done to a default algebraic input, look at the
 [test suite for validation of student's input](../../../studentinputs.php).
 
-## Input options ##
+Each input may have a number of options and this is potentially complex area with a large range of possibilities.
 
-Each input may have a number of options.
+The basic idea is to reject things as "invalid" to stop students being penalized on a technicality.  This might be requiring an equation, or making floating point numbers within an expression forbidden.
+
+## Basic options ##
 
 ### Student's Answer Key ###  {#Answer_Key}
 
-The maxima variable to which the student's answer is assigned.
-This is set in the Question text using the following syntax, where `ans1` is the variable name to which the student's answer is assigned.
+Every input must have a unique answer key.  This is set in the Question text using the following tag, where `ans1` is the variable name to which the student's answer is assigned.
 
     [[input:ans1]]
 
-Internally you can refer to the student's answer using the variable name `ans1` in the potential response tree, feedback variables and feedback text. The worked solution may not depend on inputs.
+Internally you can refer to the student's answer using the variable name `ans1` in the potential response tree, feedback variables and feedback text. The worked solution (general feedback) may not depend on the inputs.
 
-### Input Type ### {#Input_Type}
+### Model answer ###  {#model_answer}
 
-Currently STACK supports the following kinds of inputs.
+**This field is compulsory.** Every input must have an answer, although this answer is not necessarily the unique correct answer, or even "correct"!  This value will be available as a question variable named `tans`**`n`** (where **`n`** is 1, 2, ...), and it will be displayed to the student as the correct answer.
+
+## Input type ##
+
+Currently STACK supports the following kinds of inputs.  These have a variety of options, as explained below.
 
 #### Algebraic input ####
 
-The default: a form box.
+The default: a form box into which a student is expected to type an algebraic expression.
 
-#### True/False ####
+#### Numerical ####
 
-Simple drop down. A Boolean value is assigned to the variable name.
+This input type _requires_ the student to type in a number of some kind.  Any expression with a variable will be rejected as invalid.
 
-#### Single Character ####
+Note, some things (like forbid floats) can be applied to any numbers in an algebraic input, other tests (require n decimal places) cannot and can only be applied to a single number in this input type.
 
-A single letter can be entered.  This is useful for creating multiple choice questions, but is not used regularly.
+See the specific documentation for more information:  [Numerical input](Numerical_input.md).
 
-#### Text area ####
+#### Scientific units ####
 
-Enter algebraic expressions on multiple lines.  STACK passes the result to [Maxima](../CAS/Maxima.md) as a list.
-Note, the teacher's answer and any syntax hint must be a list!  If you just pass in an expression strange behaviour may result.
+The support for scientific units includes an input type which enables teachers to check units as valid/invalid. See the separate documentation for [units](Units.md).
 
 #### Matrix ####
 
@@ -72,29 +72,38 @@ This is easier than typing in [Maxima](../CAS/Maxima.md)'s matrix command, but d
 
 _The student may not fill in part of a matrix._  If they do so, the remaining entries will be completed with `?` characters which render the attempt invalid. STACK cannot cope with empty boxes here.
 
-#### Notes input ####
+#### Text area ####
 
-This input is a text area into which students may type whatever they choose.  It can be used to gather their notes or "working".  However, this input always returns an empty value to the CAS, so that the contents are never assessed.
-Note that any potential response tree which relies on this input will never get evaluated!
+Enter algebraic expressions on multiple lines.  STACK passes the result to [Maxima](../CAS/Maxima.md) as a list.
+Note, the teacher's answer and any syntax hint must be a list!  If you just pass in an expression strange behaviour may result.
 
 #### Equivalence reasoning input ####
 
-The purpose of this input type is to enable students to "reason by equivalence.  See the specific documentation for more information:  [Equivalence reasoning](../CAS/Equivalence_reasoning.md).
+The purpose of this input type is to enable students to work line by line and reason by equivalence.  See the specific documentation for more information:  [Equivalence reasoning](../CAS/Equivalence_reasoning.md).
 Note, the teacher's answer and any syntax hint must be a list!  If you just pass in an expression strange behaviour may result.
 
+#### True/False ####
 
-#### Dropdown ####
+Simple drop down. A Boolean value is assigned to the variable name.
 
-The dropdown input type enables teachers to create [multiple choice](MCQ.md) questions.  See the separate documentation.
+#### Dropdown/Checkbox/Radio ####
 
-#### Scientific units ####
+The dropdown, checkbox and radio input types enable teachers to create [multiple choice](MCQ.md) questions.  See the separate documentation.
 
-The support for scientific units includes an input type which enables teachers to check units as valid/invalid. See the separate documentation for [units](Units.md).
+#### String input ####
 
-### Model answer ###  {#model_answer}
+This is a normal input into which students may type whatever they choose.  It is always converted into a Maxima string internally.
+Note that there is no way whatsoever to parse the student's string into a Maxima expression.  If you accept a string, then it will always remain a string! You can't later check for algebraic equivalence, the only tests available will be simple string matches, regular expressions etc.
 
-**This field is compulsory.** Every input must have an answer, although this answer is not necessarily the unique correct answer.
-This value will be available as a question variable named `tans`**`n`** (where **`n`** is 1, 2, ...)
+#### Notes input ####
+
+This input is a text area into which students may type whatever they choose.  It can be used to gather their notes or "working".  However, this input always returns an empty value to the CAS, so that the contents are never assessed. Note that any potential response tree which relies on this input will never get evaluated!
+
+#### Single Character ####
+
+A single letter can be entered.  This is useful for creating multiple choice questions, but is not used regularly.
+
+## Options ##
 
 ### Input Box Size ### {#Box_Size}
 
@@ -124,10 +133,10 @@ Please read the notes on [numbers](../CAS/Numbers.md#Floats).
 
 There are six options.
 
-* Don't insert stars:  This does not insert `*` characters automatically into any patterns identified by Strict Syntax as needing them.  Strict Syntax is true and there are any pattern identified the result will be an invalid expression.
-* Insert `*`s for implied multiplication.  If any patterns identified by Strict Syntax as needing `*`s then they will automatically be inserted into the expression quietly.
-* Insert `*`s assuming single character variable names.  In many situations we know that a student will only have single character variable names.  Identify variables in the students answer made up of more than one character then replace these with the product of the letters.
-  * Note, the student's formula is interpreted and variables identified, so \(\sin(ax\) will not end up as `s*i*n*(a*b)` but as `sin(a*v)`.
+* Don't insert stars:  This does not insert `*` characters automatically.  If there are any pattern identified the result will be an invalid expression.
+* Insert `*`s for implied multiplication.  If any patterns are identified as needing `*`s then they will automatically be inserted into the expression quietly.
+* Insert `*`s assuming single character variable names.  In many situations we know that a student will only have single character variable names.  Identify variables in the student's answer made up of more than one character then replace these with the product of the letters.
+  * Note, the student's formula is interpreted and variables identified, so \(\sin(ax)\) will not end up as `s*i*n*(a*x)` but as `sin(a*x)`.
   * Note, in interpreting the student's formula we build an internal tree in order to identify variable names and function names.  Hence \(xe^x\) is interpreted as \( (xe)^x \).  We then identify the variable name `xe` and replace this as `x*e`.  Hence, using this option we have `xe^x` is interpreted as `(x*e)^x` NOT as `x*e^x` which you might expect.  
 
 There are also additional options to insert multiplication signs for spaces.
@@ -234,11 +243,11 @@ Setting this option displays any feedback from this input, including echoing bac
 
 It is often sensible to use a prefix just in front of the form box.  For example
 
-    \(f(x)=[[input:ans1]].\)
+    \(f(x)=\) [[input:ans1]].
 
-This avoids all kinds of problems with students also trying to enter the prefix themselves.  You could also specify units afterwards, but you might also want the studnet to type these in!
+This avoids all kinds of problems with students also trying to enter the prefix themselves.  You could also specify units afterwards, but you might also want the student to type these in!
 
-In Maxima the input `(a,b,c)` is a programatic block element (see Maxima's manual for `block`). Hence we cannot use this directly for the input of coordinates.  Instead, have the students type in an unnamed function like
+In Maxima the input `(a,b,c)` is a programmatic block element (see Maxima's manual for `block`). Hence we cannot use this directly for the input of coordinates.  Instead, have the students type in an unnamed function like
 
     P(x,y)
 
@@ -248,6 +257,37 @@ This technique can be used to enter a set of points
 
 as an answer.  The `op` command can be used to filter our a particular point, and the `args` command becomes a list of coordinates.
 
+## Options summary table ##
+
+This table lists all options, and which inputs use/respect them.  The `.` means the option is ignored.
+
+Options           | Alg | Num | Units | Matrix | Check | Radio | Drop | T/F | TextArea | Equiv | String | Notes
+------------------|-----|-----|-------|--------|-------|-------|------|-----|----------|-------|--------|------
+Box size          |  Y  |  Y  |  Y    |   Y    |   .   |   .   |   .  |  .  |    Y     |   Y   |   Y    |   Y  
+Strict Syn        |  Y  | (1) |  (1)  |   Y    |   .   |   .   |   .  |  .  |    Y     |   Y   |   .    |   .  
+Insert stars      |  Y  |  Y  |  Y    |   Y    |   .   |   .   |   .  |  .  |    Y     |   Y   |   .    |   .  
+Syntax hint       |  Y  |  Y  |  Y    |   Y    |   .   |   .   |   .  |  .  |    Y     |   Y   |   Y    |   Y  
+Hint att          |  Y  |  Y  |  Y    |   Y    |   .   |   .   |   .  |  .  |    Y     |   Y   |   Y    |   Y  
+Forbidden words   |  Y  |  Y  |  Y    |   Y    |   .   |   .   |   .  |  .  |    Y     |   Y   |   .    |   .  
+Allowed words     |  Y  |  Y  |  Y    |   Y    |   .   |   .   |   .  |  .  |    Y     |   Y   |   .    |   .  
+Forbid float      |  Y  |  Y  |  Y    |   Y    |   .   |   .   |   .  |  .  |    Y     |   Y   |   .    |   .  
+Lowest terms      |  Y  |  Y  |  Y    |   Y    |   .   |   .   |   .  |  .  |    Y     |   Y   |   .    |   .  
+Check type        |  Y  |  Y  |  Y    |   Y    |   .   |   .   |   .  |  .  |    .     |   .   |   .    |   .  
+Must verify       |  Y  |  Y  |  Y    |   Y    |   Y   |   Y   |   Y  |  Y  |    Y     |   Y   |   Y    |   .  
+Show validation   |  Y  |  Y  |  Y    |   Y    |   Y   |   Y   |   Y  |  Y  |    Y     |   Y   |   Y    |   .  
+**Extra options:**|     |     |       |        |       |       |      |     |          |       |        |      
+`rationalize`   |  Y  |  Y  |  .    |   .    |   .   |   .   |   .  |  .  |    .     |   .   |   .    |   .  
+min/max sf/dp     |  .  |  Y  |  Y    |   .    |   .   |   .   |   .  |  .  |    .     |   .   |   .    |   .  
+`floatnum`      |  .  |  Y  |  .    |   .    |   .   |   .   |   .  |  .  |    .     |   .   |   .    |   .  
+`rationalnum`   |  .  |  Y  |  .    |   .    |   .   |   .   |   .  |  .  |    .     |   .   |   .    |   .  
+`negpow`        |  .  |  .  |  Y    |   .    |   .   |   .   |   .  |  .  |    .     |   .   |   .    |   .  
+
+For documentation about the various options not documented on this page look at the pages for the specific inputs in which each option is used.
+
+Notes:
+
+1. The numerical and units input type ignore the strict syntax option and always assume strict syntax is "true".  Otherwise patterns for scientific numbers such as `2.23e4` will have multiplication characters inserted.
+
 ## Other input types ##
 
-Adding new inputs should be a straightforward job for the developers.  The only essential requirement is that the result is a valid CAS expression, which includes of course a string data type, or a list.
+Adding new inputs, or options for existing inputs, is a job for the developers.  The only essential requirement is that the result is a valid CAS expression, which includes of course a string data type, or a list.

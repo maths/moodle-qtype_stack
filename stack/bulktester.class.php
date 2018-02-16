@@ -154,11 +154,11 @@ class stack_bulk_tester  {
         }
 
         $flag = '';
-        $ok = $fails === 0;
+        $ok = ($fails === 0);
         if ($ok === false) {
-            $class = 'pass';
-        } else {
             $class = 'fail';
+        } else {
+            $class = 'pass';
             $flag = '* ';
         }
 

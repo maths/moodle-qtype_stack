@@ -41,6 +41,40 @@ class qtype_stack_api_yaml_defaults {
 
     }
 
+    /*
+     * This function converts the settings from a Moodle site into API defaults.
+     * This enables users of Moodle to convert existing STACK questions to yaml without
+     * exporting all the default settings.
+     */
+    public function moodle_settings_to_yaml_defaults($settings) {
+
+        $iv = new qtype_stack_api_input_values();
+
+        $this->defaults['options']['simplify'] = $settings->questionsimplify;
+        $this->defaults['options']['assume_positive'] = $settings->assumepositive;
+        $this->defaults['options']['assume_real'] = $settings->assumereal;
+        $this->defaults['options']['multiplication_sign'] = $settings->multiplicationsign;
+        $this->defaults['options']['sqrt_sign'] = $settings->sqrtsign;
+        $this->defaults['options']['complex_no'] = $settings->complexno;
+        $this->defaults['options']['inverse_trig'] = $settings->inversetrig;
+        $this->defaults['options']['matrix_parens'] = $iv->get_yaml_value('matrix_parens', $settings->matrixparens);
+
+        // TODO: 'syntax_attribute' is set in main.yaml, but I can't find it in $settings.
+        $this->defaults['input']['box_size'] = $settings->inputboxsize;
+        $this->defaults['input']['strict_syntax'] = $settings->inputstrictsyntax;
+        $this->defaults['input']['insert_stars'] = $iv->get_yaml_value('insert_stars', $settings->inputinsertstars);
+        $this->defaults['input']['forbid_words'] = $settings->inputforbidwords;
+        $this->defaults['input']['forbid_float'] = $settings->inputforbidfloat;
+        $this->defaults['input']['require_lowest_terms'] = $settings->inputrequirelowestterms;
+        $this->defaults['input']['check_answer_type'] = $settings->inputcheckanswertype;
+        $this->defaults['input']['must_verify'] = $settings->inputmustverify;
+        $this->defaults['input']['show_validations'] = $settings->inputshowvalidation;
+
+        $this->defaults['prt_correct_html'] = $settings->prtcorrect;
+        $this->defaults['prt_partially_correct_html'] = $settings->prtincorrect;
+        $this->defaults['prt_incorrect_html'] = $settings->prtpartiallycorrect;
+    }
+
     private function get_root($section) {
         $root = $this->defaults[$section];
 

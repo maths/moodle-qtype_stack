@@ -30,22 +30,27 @@ class qtype_stack_api_yaml {
     public function __construct(string $yaml, $defaults) {
         $question = yaml_parse($yaml);
         if ($question === false || !is_array($question)) {
-            throw new Exception("can't parse yaml");
+            throw new Exception("Can't parse yaml.");
         }
         $this->checkkey($question, 'options', array());
         $this->checkkey($question, 'inputs', array());
         $this->checkkey($question, 'response_trees', array());
+        $this->checkkey($question, 'worked_solution_html', '');
+        $this->checkkey($question, 'variables', '');
+        $this->checkkey($question, 'note', '');
+        $this->checkkey($question, 'specific_feedback_html', '');
         $this->defaults = $defaults;
         $this->question = $question;
     }
 
     /**
-     * Apply default values to question
+     * Apply default values to question.
      * @param mixed $question yaml question
      * @param qtype_stack_api_yaml_defaults $defaults
      * @return mixed
      */
     private function apply_defaults($question, $defaults) {
+
         $defaults->apply($question, 'main');
 
         $defaults->apply($question['options'], 'options');
@@ -64,13 +69,41 @@ class qtype_stack_api_yaml {
     }
 
     /**
-     * Convert yaml question values to stack values
+     * Convert yaml question values to stack values.  This includes merging separate language versions.
      * @param mixed $question yaml question
      */
-    private function convert_values(&$question) {
+    private function convert_values(&$question, $lang) {
+        $castextfields = qtype_stack_api_input_values::CONTENT_FIELDS;
+
+        // First consolidate langauges.
+        // Note, we don't delete the language versions from the question array.
+        foreach ($castextfields as $field) {
+            $fieldhtml = $field . '_html_';
+            foreach ($question as $key => $value) {
+                // Note the 0 is not false here.
+                if(stripos($key, $fieldhtml) === 0) {
+                    $langfound = str_replace($fieldhtml, '', $key);
+                    if ($lang == '') {
+                        // We are not looking for a specific language, so consolidate them all.
+                        $langwrap = '<span lang="' . $langfound .'" class="multilang">' . $value . "</span>\n";
+                        if (array_key_exists($fieldhtml, $question)) {
+                            $question[$fieldhtml] .= $langwrap;
+                        } else {
+                            $question[$fieldhtml] = $langwrap;
+                        }
+                    }
+                    // If we are looking for a specific language and have found it, then just use this value.
+                    if ($lang == $langfound) {
+                        $question[$fieldhtml] = $value;
+                    }
+                    // Note, there is no graceful degredation to a default language at this point yet...
+                    // However, if you included the $field, this will be used as the default.
+                }
+            }
+        }
         foreach ($question as $key => &$value) {
             if (is_array($value)) {
-                $this->convert_values($value);
+                $this->convert_values($value, $lang);
             } else {
                 $question[$key] = qtype_stack_api_input_values::get_stack_value($question, $key, $value);
             }
@@ -120,11 +153,12 @@ class qtype_stack_api_yaml {
 
     /**
      * Returns question
+     * @param string $lang The language code for the specified version.  If no string is given, we wrap any langauges in multilang span tags.
      * @return mixed
      */
-    public function get_question() {
+    public function get_question($lang = '') {
         $question = $this->apply_defaults($this->question, $this->defaults);
-        $this->convert_values($question);
+        $this->convert_values($question, $lang);
         $this->num_nodes($question);
         return $question;
     }

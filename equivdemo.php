@@ -83,8 +83,6 @@ $options->set_option('multiplicationsign', 'none');
 $casstrings = array();
 $i = 0;
 $debug = false;
-<<<<<<< HEAD
-=======
 // Set this to display only one argument.  Use the number.
 $onlyarg = false;
 if (array_key_exists('only', $_GET)) {
@@ -100,7 +98,7 @@ if (array_key_exists('fail', $_GET)) {
     $onlyarg = false;
 };
 $verbose = $debug;
->>>>>>> equiv_input
+
 /* Just consider the last in the array. */
 $sa = array_reverse($samplearguments);
 $samplearguments2 = array($sa[0]);

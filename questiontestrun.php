@@ -144,10 +144,14 @@ if (!$question->has_random_variants()) {
             ' ' . $OUTPUT->action_icon(question_preview_url($questionid, null, null, null, null, $context),
             new pix_icon('t/preview', get_string('preview'))));
     $variantmatched = true;
-} else if (empty($question->deployedseeds)) {
-    echo html_writer::tag('p', stack_string('questionnotdeployedyet').' '.
-            $OUTPUT->action_icon(question_preview_url($questionid, null, null, null, null, $context),
-                new pix_icon('t/preview', get_string('preview'))));
+}
+
+if (empty($question->deployedseeds)) {
+    if ($question->has_random_variants()) {
+        echo html_writer::tag('p', stack_string('questionnotdeployedyet').' '.
+                $OUTPUT->action_icon(question_preview_url($questionid, null, null, null, null, $context),
+                    new pix_icon('t/preview', get_string('preview'))));
+    }
 } else {
 
     $notestable = new html_table();
@@ -230,6 +234,7 @@ if (!$variantmatched) {
             array('class' => 'undeployedvariant'));
 }
 
+// Add in some logic for a case where the author removes randomization after variants have been deployed.
 if ($question->has_random_variants()) {
     echo html_writer::start_tag('p');
     echo html_writer::start_tag('form', array('method' => 'get', 'class' => 'switchtovariant',
@@ -262,17 +267,19 @@ if ($question->has_random_variants()) {
         echo ' ' . html_writer::empty_tag('input', array('type' => 'submit', 'value' => get_string('go')));
         echo ' ' . stack_string('deploymanynotes');
         echo html_writer::end_tag('form');
-
-        // Undeploy all the variants.
-        echo html_writer::start_tag('form', array('method' => 'get', 'class' => 'deploymany',
-            'action' => new moodle_url('/question/type/stack/deploy.php', $urlparams)));
-        echo stack_string('deployremoveall');
-        echo html_writer::input_hidden_params(new moodle_url($PAGE->url, array('sesskey' => sesskey(),
-            'undeployall' => 'true')));
-        echo ' ' . html_writer::empty_tag('input', array('type' => 'submit', 'value' => get_string('go')));
-        echo html_writer::end_tag('form');
     }
     echo html_writer::end_tag('p');
+}
+
+if (!(empty($question->deployedseeds)) && $canedit) {
+    // Undeploy all the variants.
+    echo html_writer::start_tag('form', array('method' => 'get', 'class' => 'deploymany',
+            'action' => new moodle_url('/question/type/stack/deploy.php', $urlparams)));
+    echo stack_string('deployremoveall');
+    echo html_writer::input_hidden_params(new moodle_url($PAGE->url, array('sesskey' => sesskey(),
+            'undeployall' => 'true')));
+    echo ' ' . html_writer::empty_tag('input', array('type' => 'submit', 'value' => get_string('go')));
+    echo html_writer::end_tag('form');
 }
 
 // Display the controls to add another question test.
@@ -410,11 +417,15 @@ echo html_writer::tag('p', html_writer::link($questionbanklink,
         stack_string('seethisquestioninthequestionbank')));
 
 if ($canedit) {
+    $links = array(html_writer::link($exportquestionlink, 'XML'));
+    if (function_exists('yaml_parse_file')) {
+        $links[] = html_writer::link($yamlquestionlink, 'YAML');
+    } else {
+        $links[] = stack_string('noyaml', null);
+    }
     echo html_writer::tag('p',
             stack_string('exportthisquestion') . ' ' .
-            html_writer::link($exportquestionlink, 'XML') . ' ' .
-            html_writer::link($yamlquestionlink, 'YAML') .
-            $OUTPUT->help_icon('exportthisquestion', 'qtype_stack'));
+            implode($links, ' ') . ' ' . $OUTPUT->help_icon('exportthisquestion', 'qtype_stack'));
 }
 
 echo $renderquestion;

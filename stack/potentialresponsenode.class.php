@@ -139,7 +139,6 @@ class stack_potentialresponse_node {
         if ($this->required_atoptions() && !$this->process_atoptions()) {
             $ncasopts = $this->atoptions;
         }
-
         $at = new stack_ans_test_controller($this->answertest, $nsans, $ntans, $options, $ncasopts);
         $at->do_test();
 
@@ -190,7 +189,6 @@ class stack_potentialresponse_node {
         }
 
         $results->add_trace($at->get_trace());
-
         return $resultbranch['nextnode'];
     }
 

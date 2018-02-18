@@ -272,7 +272,7 @@ class stack_cas_casstring {
                 'ueivects' => true, 'ufg' => true, 'uforget' => true, 'ug' => true, 'ultraspherical' => true, 'undiff' => true,
                 'unit_step' => true, 'unit_vectors' => true, 'uniteigenvectors' => true, 'unitvector' => true,
                 'unorder' => true, 'uric' => true, 'uricci' => true, 'uriem' => true, 'uriemann' => true,
-                'use_fast_arrays' => true, 'usersetunits' => true, 'uvect' => true, 'vector' => true, 'verbose' => true,
+                'usersetunits' => true, 'uvect' => true, 'vector' => true, 'verbose' => true,
                 'vers' => true, 'warnings' => true, 'weyl' => true, 'wronskian' => true, 'x_voxel' => true, 'xaxis' => true,
                 'xaxis_color' => true, 'xaxis_secondary' => true, 'xaxis_type' => true, 'xaxis_width' => true, 'xrange' => true,
                 'xrange_secondary' => true, 'xtics_axis' => true, 'xtics_rotate' => true, 'xtics_rotate_secondary' => true,

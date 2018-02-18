@@ -175,16 +175,20 @@ class qtype_stack_question extends question_graded_automatically_with_countback
 
     /**
      * Make sure the cache is valid for the current response. If not, clear it.
+     * @param bool $acceptvalid if this is true, then we will grade things even
+     * if the corresponding inputs are only VALID, and not SCORE.
      */
     protected function validate_cache($response, $acceptvalid = null) {
+
         if (is_null($this->lastresponse)) {
-            // Nothing cached yet. No worries.
             $this->lastresponse = $response;
             $this->lastacceptvalid = $acceptvalid;
             return;
         }
 
-        if ($this->lastresponse == $response && (
+        // We really need the PHP === here, as "0.040" == "0.04", even as strings.
+        // See https://stackoverflow.com/questions/80646/ for details.
+        if ($this->lastresponse === $response && (
                 $this->lastacceptvalid === null || $acceptvalid === null || $this->lastacceptvalid === $acceptvalid)) {
             if ($this->lastacceptvalid === null) {
                 $this->lastacceptvalid = $acceptvalid;

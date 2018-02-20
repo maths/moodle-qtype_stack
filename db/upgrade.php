@@ -27,7 +27,6 @@ defined('MOODLE_INTERNAL') || die();
 require_once(__DIR__ . '/../stack/cas/connectorhelper.class.php');
 require_once(__DIR__ . '/../stack/cas/connector.dbcache.class.php');
 require_once(__DIR__ . '/../stack/cas/installhelper.class.php');
-require_once(__DIR__ . '/../stack/utils.class.php');
 
 /**
  * Upgrade code for the Stack question type.
@@ -743,14 +742,14 @@ function xmldb_qtype_stack_upgrade($oldversion) {
                 throw new coding_exception('Maxima libraries version number not found in stackmaxima.mac.');
     }
     $latestversion = $matches[1];
-    $currentlyusedversion = stack_utils::get_config()->stackmaximaversion;
+    $currentlyusedversion = get_config('qtype_stack', 'stackmaximaversion');
 
     if ($latestversion != $currentlyusedversion) {
         stack_cas_connection_db_cache::clear_cache($DB);
     }
 
     // Update the record of the currently used version.
-    stack_utils::get_config()->stackmaximaversion = $latestversion;
+    set_config('stackmaximaversion', $latestversion, 'qtype_stack');
 
     return true;
 }

@@ -30,28 +30,31 @@ require_once(__DIR__ . '/stack/options.class.php');
 $platform = null;
 $platformerrors = array(); $platformwarnings = array();
 
-// Only perform configuration / installation checks if the neccessary config settings
-// are present, i.e. STACK has been installed and settings saved.
-$config = stack_utils::get_config();
-$configsufficient = isset($config->platform)
-    && isset($config->lisp)
-    && isset($config->maximaversion)
-    && isset($config->castimeout)
-    && isset($config->exectimeout)
-    && isset($config->casresultscache)
-    && isset($config->maximapreoptcommand)
-    && isset($config->maximacommand)
-    && isset($config->bypasslaunchscript)
-    && isset($config->plotcommand)
-    && isset($config->maximalibraries)
-    && isset($config->casdebugging);
+// If we are either on the Stack config page, or we are writing stack settings,
+// check if we have full config. If we do, pull in the code to sanity check the
+// configuration:
+if ($PAGE->pagetype == "admin-setting-qtypesettingstack" ||
+        (data_submitted() && array_keys(data_submitted(), "s_qtype_stack_"))) {
 
-if ($configsufficient) {
-    // Check the current platform configuration.
-    // Store the results in $platform_warnings and $platform_errors.
-    $platform = stack_platform_base::get_current();
-    $checkrv = $platform->check_maxima_install();
-    $platformerrors = $checkrv['errors']; $platformwarnings = $checkrv['warnings'];
+    // Only perform configuration / installation checks if the neccessary config settings
+    // are present, i.e. STACK has been installed and settings saved.
+    $config = stack_utils::get_config();
+    $configsufficient = isset($config->platform)
+        && isset($config->lisp)
+        && isset($config->maximaversion)
+        && isset($config->castimeout)
+        && isset($config->exectimeout)
+        && isset($config->casresultscache)
+        && isset($config->maximapreoptcommand)
+        && isset($config->maximacommand)
+        && isset($config->bypasslaunchscript)
+        && isset($config->plotcommand)
+        && isset($config->maximalibraries)
+        && isset($config->casdebugging);
+
+    if ($configsufficient) {
+        require_once(__DIR__ . '/settingscheck.php');
+    }
 }
 
 // Which admin settings will be monitored for critical changes?
@@ -164,16 +167,14 @@ $settings->add(new qtype_stack_admin_timestamp('qtype_stack/criticalsettingsupda
         get_string('settingcriticalsettingsupdated', 'qtype_stack'),
         get_string('settingcriticalsettingsupdated_desc', 'qtype_stack'), $monitored));
 
-
-if ($platform && count($platformerrors) == 0) {
-    if (!$platform->check_launch_script()) {
-        $platform->generate_launch_script();
-    }
-    if (!stack_cas_configuration::check_maximalocal()) {
-        stack_cas_configuration::create_maximalocal();
-    }
+// If we have a full set of options and we are either on the Stack config page,
+// or we are writing stack settings, pull in the code to check the maximalocal
+// and launch script files:
+if ($configsufficient && (
+        $PAGE->pagetype == "admin-setting-qtypesettingstack" ||
+        (data_submitted() && array_keys(data_submitted(), "s_qtype_stack_")))) {
+    require_once(__DIR__ . '/settingsfilegen.php');
 }
-
 
 $settings->add(new admin_setting_configcheckbox('qtype_stack/casdebugging',
         get_string('settingcasdebugging', 'qtype_stack'),

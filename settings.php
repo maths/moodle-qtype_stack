@@ -170,7 +170,7 @@ $settings->add(new qtype_stack_admin_timestamp('qtype_stack/criticalsettingsupda
 // If we have a full set of options and we are either on the Stack config page,
 // or we are writing stack settings, pull in the code to check the maximalocal
 // and launch script files:
-if ($configsufficient && (
+if (isset($configsufficient) && $configsufficient && (
         $PAGE->pagetype == "admin-setting-qtypesettingstack" ||
         (data_submitted() && array_keys(data_submitted(), "s_qtype_stack_")))) {
     require_once(__DIR__ . '/settingsfilegen.php');

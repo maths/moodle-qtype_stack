@@ -88,7 +88,7 @@ class stack_cas_castext_jsxgraph extends stack_cas_castext_block {
         // someone else. 1+2*n probably, or we could just write all the preamble
         // on the same line and make the offset always be the same?
         $code = '"use strict";try{' . $code . '} catch(err) {console.log("STACK JSXGraph error in \"' . $divid
-            . '\", (note a slight varying offset in the error position due to possible input references):")'
+            . '\", (note a slight varying offset in the error position due to possible input references):");'
             . 'console.log(err);}';
 
         $width  = $this->get_node()->get_parameter('width', '500px');
@@ -204,8 +204,8 @@ class stack_cas_castext_jsxgraph extends stack_cas_castext_block {
 
     private function geninputseek($name, $targetdiv, $targetvar) {
         $r = "var tmp = document.getElementById('$targetdiv');";
-        $r .= "while ((tmp = tmp.parentElement) && '
-                . '!(tmp.classList.contains('formulation') && tmp.parentElement.classList.contains('content')));";
+        $r .= 'while ((tmp = tmp.parentElement) && '
+                . '!(tmp.classList.contains("formulation") && tmp.parentElement.classList.contains("content")));';
         $r .= "tmp = tmp.querySelector('input[id$=\"_$name\"]');";
         $r .= "\nvar $targetvar = tmp.id;";
         return $r;

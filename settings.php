@@ -33,8 +33,8 @@ $platformerrors = array(); $platformwarnings = array();
 // If we are either on the Stack config page, or we are writing stack settings,
 // check if we have full config. If we do, pull in the code to sanity check the
 // configuration:
-if ($PAGE->pagetype == "admin-setting-qtypesettingstack" ||
-        (data_submitted() && array_keys(data_submitted(), "s_qtype_stack_"))) {
+$params = preg_grep("/s_qtype_stack_/", array_keys((array)(data_submitted())));
+if ($PAGE->pagetype == "admin-setting-qtypesettingstack" || $params) {
 
     // Only perform configuration / installation checks if the neccessary config settings
     // are present, i.e. STACK has been installed and settings saved.
@@ -171,8 +171,7 @@ $settings->add(new qtype_stack_admin_timestamp('qtype_stack/criticalsettingsupda
 // or we are writing stack settings, pull in the code to check the maximalocal
 // and launch script files:
 if (isset($configsufficient) && $configsufficient && (
-        $PAGE->pagetype == "admin-setting-qtypesettingstack" ||
-        (data_submitted() && array_keys(data_submitted(), "s_qtype_stack_")))) {
+        $PAGE->pagetype == "admin-setting-qtypesettingstack" || $params )) {
     require_once(__DIR__ . '/settingsfilegen.php');
 }
 

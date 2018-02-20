@@ -1083,6 +1083,15 @@ class stack_equiv_test_data {
         $samplearguments[] = $newarg;
 
         $newarg = array();
+        $newarg['title']     = "Further calculus cases";
+        $newarg['narrative'] = '';
+        $newarg['casstring'] = "[3*x^(3/2)-2/x,(9*sqrt(x))/2+2/x^2,3*x^(3/2)-2/x+c]";
+        $newarg['debuglist'] = "[EMPTYCHAR,DIFFCHAR(x),INTCHAR(x)]";
+        $newarg['calculus'] = true;
+        $newarg['outcome']   = true;
+        $samplearguments[] = $newarg;
+
+        $newarg = array();
         $newarg['title']     = "Calculus cases";
         $newarg['narrative'] = 'Calculus cases, with an equals sign, not equivalent.';
         $newarg['casstring'] = "[x^2+1,stackeq(x^3/3+x),stackeq(x^2+1),stackeq(x^3/3+x+c)]";

@@ -96,14 +96,12 @@ class stack_cas_castext_jsxgraph extends stack_cas_castext_block {
 
         $style  = "width:$width;height:$height;";
 
-        $attributes = array('class' => 'jxgbox', 'style' => $style, 'id' => $divid, 'data-code' => $code);
+        $attributes = array('class' => 'jxgbox', 'style' => $style, 'id' => $divid);
 
         // Empty tags seem to be an issue.
         $this->get_node()->convert_to_text(html_writer::tag('div', '', $attributes));
 
-        // We pass the code of the graph in the data-attributes of the element thus avoiding
-        // having to pass it through this.
-        $PAGE->requires->js_call_amd('qtype_stack/jsxgraph', 'init', array($divid));
+        $PAGE->requires->js_call_amd('qtype_stack/jsxgraph', 'init', array($divid, $code));
 
         // Up the graph number to generate unique names.
         self::$countgraphs = self::$countgraphs + 1;

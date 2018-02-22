@@ -1,14 +1,14 @@
 
 // So lets hope this is the correct way to name a Moodle AMD module
-define(['qtype_stack/jsxgraphcore'], function(JXG) {
+define(['qtype_stack/jsxgraphcore', 'core/yui'], function(JXG, Y) {
     return {
-            init: function(divid) {
+            init: function(divid, code) {
                 // This is bad but as we cannot pass direct code as anything but a string...
                 if (!(document.getElementById(divid) === null)) {
-                    var code = document.getElementById(divid).dataset.code;
-                    eval(code);
+                    Y.use('mathjax', function(){
+                        eval(code);
+                    });
                 }
-
             }
         };
     });

@@ -6,7 +6,7 @@
 /* If we want to fix this we'll need to write your own approx-alike function.                      */
 /* C:\Program Files\Maxima-5.22.1\share\maxima\5.22.1\src                                          */
 
-kill(all);
+stack_kill(all);
 LOADDIR:"/home/sangwinc/Documents/linuxnotes/moodle27.mac"$
 LOADDIR:"/var/data/moodle_equiv/equiv/stack/stackmaxima.mac"$
 print("Working from: ")$

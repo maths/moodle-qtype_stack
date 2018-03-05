@@ -19,8 +19,15 @@
 /* Global variable options            */
 /* ********************************** */
 
+stack_kill(ex):= block(
+  c:featurep(all,constant),
+  if c then remove(all, constant),
+  kill(ex),
+  if c then declare(all, constant)
+);
+
 stack_reset(rand_seed) := block(
-  kill(allbut [functions]),
+  stack_kill(allbut [functions]),
   kill(trigsimp),
   /* Very unlikley the function psi will be needed for assessment and it breaks the session
      when it is used as a variable. */

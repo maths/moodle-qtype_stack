@@ -640,7 +640,7 @@ abstract class stack_input {
 
         if (!$valid) {
             $status = self::INVALID;
-        } else if ($this->get_parameter('mustVerify', true) && $validator != $this->contents_to_maxima($contents)) {
+        } else if ($this->get_parameter('mustVerify', true) && !($validator === $this->contents_to_maxima($contents))) {
             $status = self::VALID;
         } else {
             $status = self::SCORE;

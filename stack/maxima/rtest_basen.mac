@@ -1,870 +1,686 @@
+/*************/
+/* frombasen */
+/*************/
+
+/*******************/
+/* Parameter tests */
+/*******************/
+block(errormsg:false, n:errcatch(frombasen(123, X, "X", X)), if emptyp(n) then error else n);
+["~M: ~M is not a string.", "frombasen", 123]$
+
+block(errormsg:false, n:errcatch(frombasen(123, X, "X", 1)), if emptyp(n) then error else n);
+["~M: ~M is not a string.", "frombasen", 123]$
+
+block(errormsg:false, n:errcatch(frombasen(123, X, "_", X)), if emptyp(n) then error else n);
+["~M: ~M is not a string.", "frombasen", 123]$
+
+block(errormsg:false, n:errcatch(frombasen(123, 4, "X", X)), if emptyp(n) then error else n);
+["~M: ~M is not a string.", "frombasen", 123]$
+
+block(errormsg:false, n:errcatch(frombasen("", X, "X", X)), if emptyp(n) then error else n);
+["~M: Empty string.", "frombasen"]$
+
+block(errormsg:false, n:errcatch(frombasen("1111", X, "X", X)), if emptyp(n) then error else n);
+["~M: base of ~M is not an integer between 2 and 36.", "frombasen", X]$
+
+block(errormsg:false, n:errcatch(frombasen("1111", X, "X", 1)), if emptyp(n) then error else n);
+["~M: base of ~M is not an integer between 2 and 36.", "frombasen", X]$
+
+block(errormsg:false, n:errcatch(frombasen("1111", X, "_", X)), if emptyp(n) then error else n);
+["~M: base of ~M is not an integer between 2 and 36.", "frombasen", X]$
+
+block(errormsg:false, n:errcatch(frombasen("1111", X, "X", X)), if emptyp(n) then error else n);
+["~M: base of ~M is not an integer between 2 and 36.", "frombasen", X]$
+
+block(errormsg:false, n:errcatch(frombasen("1111", X, "X", 1)), if emptyp(n) then error else n);
+["~M: base of ~M is not an integer between 2 and 36.", "frombasen", X]$
+
+block(errormsg:false, n:errcatch(frombasen("1111", -1, "_", X)), if emptyp(n) then error else n);
+["~M: base of ~M is not an integer between 2 and 36.", "frombasen", -1]$
+
+block(errormsg:false, n:errcatch(frombasen("1111", 0, "M", X)), if emptyp(n) then error else n);
+["~M: base of ~M is not an integer between 2 and 36.", "frombasen", 0]$
+
+block(errormsg:false, n:errcatch(frombasen("1111", 0, "_*", X)), if emptyp(n) then error else n);
+["~M: minimum number of digits ~M should be an integer 0 or greater.", "frombasen", X]$
+
+block(errormsg:false, n:errcatch(frombasen("1111", 2, "M", X)), if emptyp(n) then error else n);
+["~M: minimum number of digits ~M should be an integer 0 or greater.", "frombasen", X]$
+
+block(errormsg:false, n:errcatch(frombasen("1111", 2, "M", -1)), if emptyp(n) then error else n);
+["~M: minimum number of digits ~M should be an integer 0 or greater.", "frombasen", -1]$
+
+block(errormsg:false, n:errcatch(frombasen("1111", 2, "M")), if emptyp(n) then error else n);
+[15]$
+
+block(errormsg:false, n:errcatch(frombasen("1111", 2)), if emptyp(n) then error else n);
+[15]$
+
+block(errormsg:false, n:errcatch(frombasen("1111", 11, "D")), if emptyp(n) then error else n);
+["~M: base must be 10 or less for default mode.", "frombasen"]$
+
+block(errormsg:false, n:errcatch(frombasen("1111", 11, "D", X)), if emptyp(n) then error else n);
+["~M: base must be 10 or less for default mode.", "frombasen"]$
+
+
 /**********/
 /* Mode D */
 /**********/
-block(errormsg:false, n:errcatch(frombasen("000",2,"D",4)),if emptyp(n) then error else n);
-["frombasen: ~M is in incorrect format for ~M digit base ~M integer.", "000", 4, 2]$
+block(errormsg:false, n:errcatch(frombasen("000", 2, "D", 4)), if emptyp(n) then error else n);
+["~M: ~M contains wrong number of digits for ~M digit base ~M integer.", "frombasen", "000", 4, 2]$
 
-block(errormsg:false, n:errcatch(frombasen("0000",2,"D",4)),if emptyp(n) then error else n);
+block(errormsg:false, n:errcatch(frombasen("0000", 2, "D", 4)), if emptyp(n) then error else n);
 [0]$
 
-block(errormsg:false, n:errcatch(frombasen("00000",2,"D",4)),if emptyp(n) then error else n);
-["frombasen: ~M is in incorrect format for ~M digit base ~M integer.", "00000", 4, 2]$
+block(errormsg:false, n:errcatch(frombasen("00000", 2, "D", 4)), if emptyp(n) then error else n);
+["~M: ~M contains wrong number of digits for ~M digit base ~M integer.", "frombasen", "00000", 4, 2]$
 
-block(errormsg:false, n:errcatch(frombasen("0000",2,"D",0)),if emptyp(n) then error else n);
+block(errormsg:false, n:errcatch(frombasen("0000", 2, "D", 0)), if emptyp(n) then error else n);
 [0]$
 
-block(errormsg:false, n:errcatch(frombasen("111",2,"D",4)),if emptyp(n) then error else n);
-["frombasen: ~M is in incorrect format for ~M digit base ~M integer.", "111", 4, 2]$
+block(errormsg:false, n:errcatch(frombasen("111", 2, "D", 4)), if emptyp(n) then error else n);
+["~M: ~M contains wrong number of digits for ~M digit base ~M integer.", "frombasen", "111", 4, 2]$
 
 
-block(errormsg:false, n:errcatch(frombasen("1111",2,"D",4)),if emptyp(n) then error else n);
+block(errormsg:false, n:errcatch(frombasen("1111", 2, "D", 4)), if emptyp(n) then error else n);
 [15]$
 
-block(errormsg:false, n:errcatch(frombasen("11111",2,"D",4)),if emptyp(n) then error else n);
-["frombasen: ~M is in incorrect format for ~M digit base ~M integer.", "11111", 4, 2]$
+block(errormsg:false, n:errcatch(frombasen("11111", 2, "D", 4)), if emptyp(n) then error else n);
+["~M: ~M contains wrong number of digits for ~M digit base ~M integer.", "frombasen", "11111", 4, 2]$
 
-block(errormsg:false, n:errcatch(frombasen("1111",2,"D",0)),if emptyp(n) then error else n);
+block(errormsg:false, n:errcatch(frombasen("1111", 2, "D", 0)), if emptyp(n) then error else n);
 [15]$
 
-block(errormsg:false, n:errcatch(frombasen("222",2,"D",4)),if emptyp(n) then error else n);
-["frombasen: ~M is in incorrect format for ~M digit base ~M integer.", "222", 4, 2]$
+block(errormsg:false, n:errcatch(frombasen("222", 2, "D", 4)), if emptyp(n) then error else n);
+["~M: ~M is not a valid base ~M integer.", "frombasen", "222", 2]$
 
-block(errormsg:false, n:errcatch(frombasen("2222",2,"D",4)),if emptyp(n) then error else n);
-["frombasen: ~M does not convert to a base ~M integer.", "2222", 2]$
+block(errormsg:false, n:errcatch(frombasen("2222", 2, "D", 4)), if emptyp(n) then error else n);
+["~M: ~M is not a valid base ~M integer.", "frombasen", "2222", 2]$
 
-block(errormsg:false, n:errcatch(frombasen("22222",2,"D",4)),if emptyp(n) then error else n);
-["frombasen: ~M is in incorrect format for ~M digit base ~M integer.", "22222", 4, 2]$
+block(errormsg:false, n:errcatch(frombasen("22222", 2, "D", 4)), if emptyp(n) then error else n);
+["~M: ~M is not a valid base ~M integer.", "frombasen", "22222", 2]$
 
-block(errormsg:false, n:errcatch(frombasen("2222",2,"D",0)),if emptyp(n) then error else n);
-["frombasen: ~M does not convert to a base ~M integer.", "2222", 2]$
+block(errormsg:false, n:errcatch(frombasen("2222", 2, "D", 0)), if emptyp(n) then error else n);
+["~M: ~M is not a valid base ~M integer.", "frombasen", "2222", 2]$
 
-block(errormsg:false, n:errcatch(frombasen("000",16,"D",4)),if emptyp(n) then error else n);
-["frombasen: base must be 10 or less for default mode."]$
+block(errormsg:false, n:errcatch(frombasen("!", 16, "D", 4)), if emptyp(n) then error else n);
+["~M: base must be 10 or less for default mode.", "frombasen"]$
 
-block(errormsg:false, n:errcatch(frombasen("0000",16,"D",4)),if emptyp(n) then error else n);
-["frombasen: base must be 10 or less for default mode."]$
+block(errormsg:false, n:errcatch(frombasen("!", 37, "D", 4)), if emptyp(n) then error else n);
+["~M: base of ~M is not an integer between 2 and 36.", "frombasen", 37]$
 
-block(errormsg:false, n:errcatch(frombasen("00000",16,"D",4)),if emptyp(n) then error else n);
-["frombasen: base must be 10 or less for default mode."]$
-
-block(errormsg:false, n:errcatch(frombasen("0000",16,"D",0)),if emptyp(n) then error else n);
-["frombasen: base must be 10 or less for default mode."]$
-
-block(errormsg:false, n:errcatch(frombasen("AAA",16,"D",4)),if emptyp(n) then error else n);
-["frombasen: base must be 10 or less for default mode."]$
-
-block(errormsg:false, n:errcatch(frombasen("AAAA",16,"D",4)),if emptyp(n) then error else n);
-["frombasen: base must be 10 or less for default mode."]$
-
-block(errormsg:false, n:errcatch(frombasen("AAAAA",16,"D",4)),if emptyp(n) then error else n);
-["frombasen: base must be 10 or less for default mode."]$
-
-block(errormsg:false, n:errcatch(frombasen("AAAA",16,"D",0)),if emptyp(n) then error else n);
-["frombasen: base must be 10 or less for default mode."]$
-
-block(errormsg:false, n:errcatch(frombasen("aaa",16,"D",4)),if emptyp(n) then error else n);
-["frombasen: base must be 10 or less for default mode."]$
-
-block(errormsg:false, n:errcatch(frombasen("aaaa",16,"D",4)),if emptyp(n) then error else n);
-["frombasen: base must be 10 or less for default mode."]$
-
-block(errormsg:false, n:errcatch(frombasen("aaaaa",16,"D",4)),if emptyp(n) then error else n);
-["frombasen: base must be 10 or less for default mode."]$
-
-block(errormsg:false, n:errcatch(frombasen("aaaa",16,"D",0)),if emptyp(n) then error else n);
-["frombasen: base must be 10 or less for default mode."]$
-
-block(errormsg:false, n:errcatch(frombasen("0000",36,"D",4)),if emptyp(n) then error else n);
-["frombasen: base must be 10 or less for default mode."]$
-
-block(errormsg:false, n:errcatch(frombasen("0000",36,"D",0)),if emptyp(n) then error else n);
-["frombasen: base must be 10 or less for default mode."]$
-
-block(errormsg:false, n:errcatch(frombasen("ZZZ",36,"D",4)),if emptyp(n) then error else n);
-["frombasen: base must be 10 or less for default mode."]$
-
-block(errormsg:false, n:errcatch(frombasen("ZZZZ",36,"D",4)),if emptyp(n) then error else n);
-["frombasen: base must be 10 or less for default mode."]$
-
-block(errormsg:false, n:errcatch(frombasen("ZZZZZ",36,"D",4)),if emptyp(n) then error else n);
-["frombasen: base must be 10 or less for default mode."]$
-
-block(errormsg:false, n:errcatch(frombasen("ZZZZ",36,"D",0)),if emptyp(n) then error else n);
-["frombasen: base must be 10 or less for default mode."]$
-
-block(errormsg:false, n:errcatch(frombasen("0ZZZ",36,"D",4)),if emptyp(n) then error else n);
-["frombasen: base must be 10 or less for default mode."]$
-
-block(errormsg:false, n:errcatch(frombasen("0ZZZZ",36,"D",4)),if emptyp(n) then error else n);
-["frombasen: base must be 10 or less for default mode."]$
-
-block(errormsg:false, n:errcatch(frombasen("0ZZZZZ",36,"D",4)),if emptyp(n) then error else n);
-["frombasen: base must be 10 or less for default mode."]$
-
-block(errormsg:false, n:errcatch(frombasen("0ZZZZ",36,"D",0)),if emptyp(n) then error else n);
-["frombasen: base must be 10 or less for default mode."]$
-
-block(errormsg:false, n:errcatch(frombasen("000",37,"D",4)),if emptyp(n) then error else n);
-["frombasen: base of ~M is not an integer between 2 and 36.", 37]$
-
-block(errormsg:false, n:errcatch(frombasen("0000",37,"D",4)),if emptyp(n) then error else n);
-["frombasen: base of ~M is not an integer between 2 and 36.", 37]$
-
-block(errormsg:false, n:errcatch(frombasen("00000",37,"D",4)),if emptyp(n) then error else n);
-["frombasen: base of ~M is not an integer between 2 and 36.", 37]$
-
-block(errormsg:false, n:errcatch(frombasen("0000",37,"D",0)),if emptyp(n) then error else n);
-["frombasen: base of ~M is not an integer between 2 and 36.", 37]$
-
-block(errormsg:false, n:errcatch(frombasen("ZZZ",37,"D",4)),if emptyp(n) then error else n);
-["frombasen: base of ~M is not an integer between 2 and 36.", 37]$
-
-block(errormsg:false, n:errcatch(frombasen("ZZZZ",37,"D",4)),if emptyp(n) then error else n);
-["frombasen: base of ~M is not an integer between 2 and 36.", 37]$
-
-block(errormsg:false, n:errcatch(frombasen("ZZZZZ",37,"D",4)),if emptyp(n) then error else n);
-["frombasen: base of ~M is not an integer between 2 and 36.", 37]$
-
-block(errormsg:false, n:errcatch(frombasen("ZZZZ",37,"D",0)),if emptyp(n) then error else n);
-["frombasen: base of ~M is not an integer between 2 and 36.", 37]$
-
-block(errormsg:false, n:errcatch(frombasen("ZZZZ","W","D",0)),if emptyp(n) then error else n);
-["frombasen: base of ~M is not an integer between 2 and 36.", "W"]$
-
-block(errormsg:false, n:errcatch(frombasen("ZZZZ",2,"D*",0)),if emptyp(n) then error else n);
-["frombasen: cannot combine mode ~M and *, mode must be one of ~M", "D", "B, C, S, _"]$
-
-block(errormsg:false, n:errcatch(frombasen("",2,"D",1)),if emptyp(n) then error else n);
-["frombasen: ~M is in incorrect format for ~M digit base ~M integer.", "", 1, 2]$
-
-block(errormsg:false, n:errcatch(frombasen("",2,"D",2)),if emptyp(n) then error else n);
-["frombasen: ~M is in incorrect format for ~M digit base ~M integer.", "", 2, 2]$
-
-block(errormsg:false, n:errcatch(frombasen("",2,"D",0)),if emptyp(n) then error else n);
-["frombasen: Empty value."]$
-
-block(errormsg:false, n:errcatch(frombasen("",2,"D*",1)),if emptyp(n) then error else n);
-["frombasen: cannot combine mode ~M and *, mode must be one of ~M", "D", "B, C, S, _"]$
-
-block(errormsg:false, n:errcatch(frombasen("",2,"D*",2)),if emptyp(n) then error else n);
-["frombasen: cannot combine mode ~M and *, mode must be one of ~M", "D", "B, C, S, _"]$
-
-block(errormsg:false, n:errcatch(frombasen("",2,"D*",0)),if emptyp(n) then error else n);
-["frombasen: cannot combine mode ~M and *, mode must be one of ~M", "D", "B, C, S, _"]$
-
-block(errormsg:false, n:errcatch(frombasen("",16,"D",1)),if emptyp(n) then error else n);
-["frombasen: base must be 10 or less for default mode."]$
-
-block(errormsg:false, n:errcatch(frombasen("",16,"D",2)),if emptyp(n) then error else n);
-["frombasen: base must be 10 or less for default mode."]$
-
-block(errormsg:false, n:errcatch(frombasen("",16,"D",0)),if emptyp(n) then error else n);
-["frombasen: base must be 10 or less for default mode."]$
-
-block(errormsg:false, n:errcatch(frombasen("",36,"D",1)),if emptyp(n) then error else n);
-["frombasen: base must be 10 or less for default mode."]$
-
-block(errormsg:false, n:errcatch(frombasen("",36,"D",2)),if emptyp(n) then error else n);
-["frombasen: base must be 10 or less for default mode."]$
-
-block(errormsg:false, n:errcatch(frombasen("",36,"D",0)),if emptyp(n) then error else n);
-["frombasen: base must be 10 or less for default mode."]$
-
-block(errormsg:false, n:errcatch(frombasen("",37,"D",1)),if emptyp(n) then error else n);
-["frombasen: base of ~M is not an integer between 2 and 36.", 37]$
-
-block(errormsg:false, n:errcatch(frombasen("",37,"D",2)),if emptyp(n) then error else n);
-["frombasen: base of ~M is not an integer between 2 and 36.", 37]$
-
-block(errormsg:false, n:errcatch(frombasen("",37,"D",0)),if emptyp(n) then error else n);
-["frombasen: base of ~M is not an integer between 2 and 36.", 37]$
-
-block(errormsg:false, n:errcatch(frombasen("1",2,"D",1)),if emptyp(n) then error else n);
+block(errormsg:false, n:errcatch(frombasen("1", 2, "D", 1)), if emptyp(n) then error else n);
 [1]$
 
-block(errormsg:false, n:errcatch(frombasen("1",2,"D",2)),if emptyp(n) then error else n);
-["frombasen: ~M is in incorrect format for ~M digit base ~M integer.", "1", 2, 2]$
-
-block(errormsg:false, n:errcatch(frombasen("1",2,"D",0)),if emptyp(n) then error else n);
+block(errormsg:false, n:errcatch(frombasen("1", 2, "D", 0)), if emptyp(n) then error else n);
 [1]$
 
-block(errormsg:false, n:errcatch(frombasen("1",2,"D*",1)),if emptyp(n) then error else n);
-["frombasen: cannot combine mode ~M and *, mode must be one of ~M", "D", "B, C, S, _"]$
+block(errormsg:false, n:errcatch(frombasen("0", 2, "D", 1)), if emptyp(n) then error else n);
+[0]$
 
-block(errormsg:false, n:errcatch(frombasen("1",2,"D*",2)),if emptyp(n) then error else n);
-["frombasen: cannot combine mode ~M and *, mode must be one of ~M", "D", "B, C, S, _"]$
-
-block(errormsg:false, n:errcatch(frombasen("1",2,"D*",0)),if emptyp(n) then error else n);
-["frombasen: cannot combine mode ~M and *, mode must be one of ~M", "D", "B, C, S, _"]$
-
-block(errormsg:false, n:errcatch(frombasen("F",16,"D",1)),if emptyp(n) then error else n);
-["frombasen: base must be 10 or less for default mode."]$
-
-block(errormsg:false, n:errcatch(frombasen("F",16,"D",2)),if emptyp(n) then error else n);
-["frombasen: base must be 10 or less for default mode."]$
-
-block(errormsg:false, n:errcatch(frombasen("F",16,"D",0)),if emptyp(n) then error else n);
-["frombasen: base must be 10 or less for default mode."]$
-
-block(errormsg:false, n:errcatch(frombasen("Z",36,"D",1)),if emptyp(n) then error else n);
-["frombasen: base must be 10 or less for default mode."]$
-
-block(errormsg:false, n:errcatch(frombasen("Z",36,"D",2)),if emptyp(n) then error else n);
-["frombasen: base must be 10 or less for default mode."]$
-
-block(errormsg:false, n:errcatch(frombasen("Z",36,"D",0)),if emptyp(n) then error else n);
-["frombasen: base must be 10 or less for default mode."]$
-
-block(errormsg:false, n:errcatch(frombasen("Z",37,"D",1)),if emptyp(n) then error else n);
-["frombasen: base of ~M is not an integer between 2 and 36.", 37]$
-
-block(errormsg:false, n:errcatch(frombasen("Z",37,"D",2)),if emptyp(n) then error else n);
-["frombasen: base of ~M is not an integer between 2 and 36.", 37]$
-
-block(errormsg:false, n:errcatch(frombasen("Z",37,"D",0)),if emptyp(n) then error else n);
-["frombasen: base of ~M is not an integer between 2 and 36.", 37]$
-
-block(errormsg:false, n:errcatch(frombasen("2",2,"D",1)),if emptyp(n) then error else n);
-["frombasen: ~M does not convert to a base ~M integer.", "2", 2]$
-
-block(errormsg:false, n:errcatch(frombasen("2",2,"D",2)),if emptyp(n) then error else n);
-["frombasen: ~M is in incorrect format for ~M digit base ~M integer.", "2", 2, 2]$
-
-block(errormsg:false, n:errcatch(frombasen("2",2,"D",0)),if emptyp(n) then error else n);
-["frombasen: ~M does not convert to a base ~M integer.", "2", 2]$
-
-block(errormsg:false, n:errcatch(frombasen("!",2,"D*",1)),if emptyp(n) then error else n);
-["frombasen: cannot combine mode ~M and *, mode must be one of ~M", "D", "B, C, S, _"]$
-
-block(errormsg:false, n:errcatch(frombasen("!",2,"D*",2)),if emptyp(n) then error else n);
-["frombasen: cannot combine mode ~M and *, mode must be one of ~M", "D", "B, C, S, _"]$
-
-block(errormsg:false, n:errcatch(frombasen("!",2,"D*",0)),if emptyp(n) then error else n);
-["frombasen: cannot combine mode ~M and *, mode must be one of ~M", "D", "B, C, S, _"]$
-
-block(errormsg:false, n:errcatch(frombasen("G",16,"D",1)),if emptyp(n) then error else n);
-["frombasen: base must be 10 or less for default mode."]$
-
-block(errormsg:false, n:errcatch(frombasen("G",16,"D",2)),if emptyp(n) then error else n);
-["frombasen: base must be 10 or less for default mode."]$
-
-block(errormsg:false, n:errcatch(frombasen("G",16,"D",0)),if emptyp(n) then error else n);
-["frombasen: base must be 10 or less for default mode."]$
-
-block(errormsg:false, n:errcatch(frombasen("!",36,"D",1)),if emptyp(n) then error else n);
-["frombasen: base must be 10 or less for default mode."]$
-
-block(errormsg:false, n:errcatch(frombasen("!",36,"D",2)),if emptyp(n) then error else n);
-["frombasen: base must be 10 or less for default mode."]$
-
-block(errormsg:false, n:errcatch(frombasen("!",36,"D",0)),if emptyp(n) then error else n);
-["frombasen: base must be 10 or less for default mode."]$
-
-block(errormsg:false, n:errcatch(frombasen("!",37,"D",1)),if emptyp(n) then error else n);
-["frombasen: base of ~M is not an integer between 2 and 36.", 37]$
-
-block(errormsg:false, n:errcatch(frombasen("!",37,"D",2)),if emptyp(n) then error else n);
-["frombasen: base of ~M is not an integer between 2 and 36.", 37]$
-
-block(errormsg:false, n:errcatch(frombasen("!",37,"D",0)),if emptyp(n) then error else n);
-["frombasen: base of ~M is not an integer between 2 and 36.", 37]$
+block(errormsg:false, n:errcatch(frombasen("0", 2, "D", 0)), if emptyp(n) then error else n);
+[0]$
 
 /**********/
 /* Mode M */
 /**********/
-block(errormsg:false, n:errcatch(frombasen("000",2,"M",4)),if emptyp(n) then error else n);
-["frombasen: ~M is in incorrect format for ~M digit base ~M integer.", "000", 4, 2]$
+block(errormsg:false, n:errcatch(frombasen("000", 2, "M", 4)), if emptyp(n) then error else n);
+["~M: ~M contains wrong number of digits for ~M digit base ~M integer.", "frombasen", "000", 4, 2]$
 
-block(errormsg:false, n:errcatch(frombasen("0000",2,"M",4)),if emptyp(n) then error else n);
+block(errormsg:false, n:errcatch(frombasen("0000", 2, "M", 4)), if emptyp(n) then error else n);
 [0]$
 
-block(errormsg:false, n:errcatch(frombasen("00000",2,"M",4)),if emptyp(n) then error else n);
-["frombasen: ~M is in incorrect format for ~M digit base ~M integer.", "00000", 4, 2]$
+block(errormsg:false, n:errcatch(frombasen("00000", 2, "M", 4)), if emptyp(n) then error else n);
+["~M: ~M contains wrong number of digits for ~M digit base ~M integer.", "frombasen", "00000", 4, 2]$
 
-block(errormsg:false, n:errcatch(frombasen("0000",2,"M",0)),if emptyp(n) then error else n);
+block(errormsg:false, n:errcatch(frombasen("0000", 2, "M", 0)), if emptyp(n) then error else n);
 [0]$
 
-block(errormsg:false, n:errcatch(frombasen("111",2,"M",4)),if emptyp(n) then error else n);
-["frombasen: ~M is in incorrect format for ~M digit base ~M integer.", "111", 4, 2]$
+block(errormsg:false, n:errcatch(frombasen("000", 16, "M", 4)), if emptyp(n) then error else n);
+["~M: ~M contains wrong number of digits for ~M digit base ~M integer.", "frombasen", "000", 4, 16]$
 
+block(errormsg:false, n:errcatch(frombasen("0000", 16, "M", 4)), if emptyp(n) then error else n);
+["~M: ~M contains wrong number of digits for ~M digit base ~M integer.", "frombasen", "0000", 4, 16]$
 
-block(errormsg:false, n:errcatch(frombasen("1111",2,"M",4)),if emptyp(n) then error else n);
-[15]$
-
-block(errormsg:false, n:errcatch(frombasen("11111",2,"M",4)),if emptyp(n) then error else n);
-["frombasen: ~M is in incorrect format for ~M digit base ~M integer.", "11111", 4, 2]$
-
-block(errormsg:false, n:errcatch(frombasen("1111",2,"M",0)),if emptyp(n) then error else n);
-[15]$
-
-block(errormsg:false, n:errcatch(frombasen("222",2,"M",4)),if emptyp(n) then error else n);
-["frombasen: ~M is in incorrect format for ~M digit base ~M integer.", "222", 4, 2]$
-
-block(errormsg:false, n:errcatch(frombasen("2222",2,"M",4)),if emptyp(n) then error else n);
-["frombasen: ~M does not convert to a base ~M integer.", "2222", 2]$
-
-block(errormsg:false, n:errcatch(frombasen("22222",2,"M",4)),if emptyp(n) then error else n);
-["frombasen: ~M is in incorrect format for ~M digit base ~M integer.", "22222", 4, 2]$
-
-block(errormsg:false, n:errcatch(frombasen("2222",2,"M",0)),if emptyp(n) then error else n);
-["frombasen: ~M does not convert to a base ~M integer.", "2222", 2]$
-
-block(errormsg:false, n:errcatch(frombasen("000",16,"M",4)),if emptyp(n) then error else n);
-["frombasen: ~M is in incorrect format for ~M digit base ~M integer.", "000", 4, 16]$
-
-block(errormsg:false, n:errcatch(frombasen("0000",16,"M",4)),if emptyp(n) then error else n);
-["frombasen: ~M is in incorrect format for ~M digit base ~M integer.", "0000", 4, 16]$
-
-block(errormsg:false, n:errcatch(frombasen("00000",16,"M",4)),if emptyp(n) then error else n);
+block(errormsg:false, n:errcatch(frombasen("00000", 16, "M", 4)), if emptyp(n) then error else n);
 [0]$
 
-block(errormsg:false, n:errcatch(frombasen("0000",16,"M",0)),if emptyp(n) then error else n);
+block(errormsg:false, n:errcatch(frombasen("0000", 16, "M", 0)), if emptyp(n) then error else n);
 [0]$
 
-block(errormsg:false, n:errcatch(frombasen("AAA",16,"M",4)),if emptyp(n) then error else n);
-["frombasen: ~M~M is incorrect format for base ~M integer.", "", "AAA", 16]$
+block(errormsg:false, n:errcatch(frombasen("AAA", 16, "M", 4)), if emptyp(n) then error else n);
+["~M: Prefix 0 missing from ~M.", "frombasen", "AAA"]$
 
-block(errormsg:false, n:errcatch(frombasen("AAAA",16,"M",4)),if emptyp(n) then error else n);
-["frombasen: ~M~M is incorrect format for base ~M integer.", "", "AAAA", 16]$
+block(errormsg:false, n:errcatch(frombasen("0AAAA", 16, "M", 4)), if emptyp(n) then error else n);
+[43690]$
 
-block(errormsg:false, n:errcatch(frombasen("AAAAA",16,"M",4)),if emptyp(n) then error else n);
-["frombasen: ~M~M is incorrect format for base ~M integer.", "", "AAAAA", 16]$
+block(errormsg:false, n:errcatch(frombasen("0aaaa", 16, "M", 4)), if emptyp(n) then error else n);
+[43690]$
 
-block(errormsg:false, n:errcatch(frombasen("AAAA",16,"M",0)),if emptyp(n) then error else n);
-["frombasen: ~M~M is incorrect format for base ~M integer.", "", "AAAA", 16]$
-
-block(errormsg:false, n:errcatch(frombasen("aaa",16,"M",4)),if emptyp(n) then error else n);
-["frombasen: ~M~M is incorrect format for base ~M integer.", "", "aaa", 16]$
-
-block(errormsg:false, n:errcatch(frombasen("aaaa",16,"M",4)),if emptyp(n) then error else n);
-["frombasen: ~M~M is incorrect format for base ~M integer.", "", "aaaa", 16]$
-
-block(errormsg:false, n:errcatch(frombasen("aaaaa",16,"M",4)),if emptyp(n) then error else n);
-["frombasen: ~M~M is incorrect format for base ~M integer.", "", "aaaaa", 16]$
-
-block(errormsg:false, n:errcatch(frombasen("aaaa",16,"M",0)),if emptyp(n) then error else n);
-["frombasen: ~M~M is incorrect format for base ~M integer.", "", "aaaa", 16]$
-
-block(errormsg:false, n:errcatch(frombasen("0000",36,"M",4)),if emptyp(n) then error else n);
-["frombasen: ~M is in incorrect format for ~M digit base ~M integer.", "0000", 4, 36]$
-
-block(errormsg:false, n:errcatch(frombasen("0000",36,"M",0)),if emptyp(n) then error else n);
+block(errormsg:false, n:errcatch(frombasen("0000", 36, "M", 0)), if emptyp(n) then error else n);
 [0]$
 
-block(errormsg:false, n:errcatch(frombasen("ZZZ",36,"M",4)),if emptyp(n) then error else n);
-["frombasen: ~M~M is incorrect format for base ~M integer.", "", "ZZZ", 36]$
+block(errormsg:false, n:errcatch(frombasen("0ZZZ", 36, "M", 4)), if emptyp(n) then error else n);
+["~M: ~M contains wrong number of digits for ~M digit base ~M integer.", "frombasen", "0ZZZ", 4, 36]$
 
-block(errormsg:false, n:errcatch(frombasen("ZZZZ",36,"M",4)),if emptyp(n) then error else n);
-["frombasen: ~M~M is incorrect format for base ~M integer.", "", "ZZZZ", 36]$
-
-block(errormsg:false, n:errcatch(frombasen("ZZZZZ",36,"M",4)),if emptyp(n) then error else n);
-["frombasen: ~M~M is incorrect format for base ~M integer.", "", "ZZZZZ", 36]$
-
-block(errormsg:false, n:errcatch(frombasen("ZZZZ",36,"M",0)),if emptyp(n) then error else n);
-["frombasen: ~M~M is incorrect format for base ~M integer.", "", "ZZZZ", 36]$
-
-block(errormsg:false, n:errcatch(frombasen("0ZZZ",36,"M",4)),if emptyp(n) then error else n);
-["frombasen: ~M is in incorrect format for ~M digit base ~M integer.", "0ZZZ", 4, 36]$
-
-block(errormsg:false, n:errcatch(frombasen("0ZZZZ",36,"M",4)),if emptyp(n) then error else n);
+block(errormsg:false, n:errcatch(frombasen("0ZZZZ", 36, "M", 4)), if emptyp(n) then error else n);
 [1679615]$
 
-block(errormsg:false, n:errcatch(frombasen("0ZZZZZ",36,"M",4)),if emptyp(n) then error else n);
-["frombasen: ~M is in incorrect format for ~M digit base ~M integer.", "0ZZZZZ", 4, 36]$
+block(errormsg:false, n:errcatch(frombasen("0ZZZZZ", 36, "M", 4)), if emptyp(n) then error else n);
+["~M: ~M contains wrong number of digits for ~M digit base ~M integer.", "frombasen", "0ZZZZZ", 4, 36]$
 
-block(errormsg:false, n:errcatch(frombasen("0ZZZZ",36,"M",0)),if emptyp(n) then error else n);
+block(errormsg:false, n:errcatch(frombasen("0ZZZZ", 36, "M", 0)), if emptyp(n) then error else n);
 [1679615]$
 
-block(errormsg:false, n:errcatch(frombasen("000",37,"M",4)),if emptyp(n) then error else n);
-["frombasen: base of ~M is not an integer between 2 and 36.", 37]$
-
-block(errormsg:false, n:errcatch(frombasen("0000",37,"M",4)),if emptyp(n) then error else n);
-["frombasen: base of ~M is not an integer between 2 and 36.", 37]$
-
-block(errormsg:false, n:errcatch(frombasen("00000",37,"M",4)),if emptyp(n) then error else n);
-["frombasen: base of ~M is not an integer between 2 and 36.", 37]$
-
-block(errormsg:false, n:errcatch(frombasen("0000",37,"M",0)),if emptyp(n) then error else n);
-["frombasen: base of ~M is not an integer between 2 and 36.", 37]$
-
-block(errormsg:false, n:errcatch(frombasen("ZZZ",37,"M",4)),if emptyp(n) then error else n);
-["frombasen: base of ~M is not an integer between 2 and 36.", 37]$
-
-block(errormsg:false, n:errcatch(frombasen("ZZZZ",37,"M",4)),if emptyp(n) then error else n);
-["frombasen: base of ~M is not an integer between 2 and 36.", 37]$
-
-block(errormsg:false, n:errcatch(frombasen("ZZZZZ",37,"M",4)),if emptyp(n) then error else n);
-["frombasen: base of ~M is not an integer between 2 and 36.", 37]$
-
-block(errormsg:false, n:errcatch(frombasen("ZZZZ",37,"M",0)),if emptyp(n) then error else n);
-["frombasen: base of ~M is not an integer between 2 and 36.", 37]$
-
-block(errormsg:false, n:errcatch(frombasen("ZZZZ","W","M",0)),if emptyp(n) then error else n);
-["frombasen: base of ~M is not an integer between 2 and 36.", "W"]$
-
-block(errormsg:false, n:errcatch(frombasen("ZZZZ",2,"M*",0)),if emptyp(n) then error else n);
-["frombasen: cannot combine mode ~M and *, mode must be one of ~M", "M", "B, C, S, _"]$
-
-block(errormsg:false, n:errcatch(frombasen("",2,"M",1)),if emptyp(n) then error else n);
-["frombasen: ~M is in incorrect format for ~M digit base ~M integer.", "", 1, 2]$
-
-block(errormsg:false, n:errcatch(frombasen("",2,"M",2)),if emptyp(n) then error else n);
-["frombasen: ~M is in incorrect format for ~M digit base ~M integer.", "", 2, 2]$
-
-block(errormsg:false, n:errcatch(frombasen("",2,"M",0)),if emptyp(n) then error else n);
-["frombasen: Empty value."]$
-
-block(errormsg:false, n:errcatch(frombasen("",2,"M*",1)),if emptyp(n) then error else n);
-["frombasen: cannot combine mode ~M and *, mode must be one of ~M", "M", "B, C, S, _"]$
-
-block(errormsg:false, n:errcatch(frombasen("",2,"M*",2)),if emptyp(n) then error else n);
-["frombasen: cannot combine mode ~M and *, mode must be one of ~M", "M", "B, C, S, _"]$
-
-block(errormsg:false, n:errcatch(frombasen("",2,"M*",0)),if emptyp(n) then error else n);
-["frombasen: cannot combine mode ~M and *, mode must be one of ~M", "M", "B, C, S, _"]$
-
-block(errormsg:false, n:errcatch(frombasen("",16,"M",1)),if emptyp(n) then error else n);
-["frombasen: ~M~M is incorrect format for base ~M integer.", "", "", 16]$
-
-block(errormsg:false, n:errcatch(frombasen("",16,"M",2)),if emptyp(n) then error else n);
-["frombasen: ~M~M is incorrect format for base ~M integer.", "", "", 16]$
-
-block(errormsg:false, n:errcatch(frombasen("",16,"M",0)),if emptyp(n) then error else n);
-["frombasen: ~M~M is incorrect format for base ~M integer.", "", "", 16]$
-
-block(errormsg:false, n:errcatch(frombasen("",36,"M",1)),if emptyp(n) then error else n);
-["frombasen: ~M~M is incorrect format for base ~M integer.", "", "", 36]$
-
-block(errormsg:false, n:errcatch(frombasen("",36,"M",2)),if emptyp(n) then error else n);
-["frombasen: ~M~M is incorrect format for base ~M integer.", "", "", 36]$
-
-block(errormsg:false, n:errcatch(frombasen("",36,"M",0)),if emptyp(n) then error else n);
-["frombasen: ~M~M is incorrect format for base ~M integer.", "", "", 36]$
-
-block(errormsg:false, n:errcatch(frombasen("",37,"M",1)),if emptyp(n) then error else n);
-["frombasen: base of ~M is not an integer between 2 and 36.", 37]$
-
-block(errormsg:false, n:errcatch(frombasen("",37,"M",2)),if emptyp(n) then error else n);
-["frombasen: base of ~M is not an integer between 2 and 36.", 37]$
-
-block(errormsg:false, n:errcatch(frombasen("",37,"M",0)),if emptyp(n) then error else n);
-["frombasen: base of ~M is not an integer between 2 and 36.", 37]$
-
-block(errormsg:false, n:errcatch(frombasen("0",2,"M",1)),if emptyp(n) then error else n);
+block(errormsg:false, n:errcatch(frombasen("0", 2, "M", 1)), if emptyp(n) then error else n);
 [0]$
 
-block(errormsg:false, n:errcatch(frombasen("0",2,"M",2)),if emptyp(n) then error else n);
-["frombasen: ~M is in incorrect format for ~M digit base ~M integer.", "0", 2, 2]$
+block(errormsg:false, n:errcatch(frombasen("0", 2, "M", 2)), if emptyp(n) then error else n);
+["~M: ~M contains wrong number of digits for ~M digit base ~M integer.", "frombasen", "0", 2, 2]$
 
-block(errormsg:false, n:errcatch(frombasen("0",2,"M",0)),if emptyp(n) then error else n);
+block(errormsg:false, n:errcatch(frombasen("0", 2, "M", 0)), if emptyp(n) then error else n);
 [0]$
 
-block(errormsg:false, n:errcatch(frombasen("0",16,"M",1)),if emptyp(n) then error else n);
-["frombasen: ~M is in incorrect format for ~M digit base ~M integer.", "0", 1, 16]$
-
-block(errormsg:false, n:errcatch(frombasen("0",16,"M",2)),if emptyp(n) then error else n);
-["frombasen: ~M is in incorrect format for ~M digit base ~M integer.", "0", 2, 16]$
-
-block(errormsg:false, n:errcatch(frombasen("0",16,"M",0)),if emptyp(n) then error else n);
-["frombasen: Empty value."]$
-
-block(errormsg:false, n:errcatch(frombasen("0",2,"M*",1)),if emptyp(n) then error else n);
-["frombasen: cannot combine mode ~M and *, mode must be one of ~M", "M", "B, C, S, _"]$
-
-block(errormsg:false, n:errcatch(frombasen("0",2,"M*",2)),if emptyp(n) then error else n);
-["frombasen: cannot combine mode ~M and *, mode must be one of ~M", "M", "B, C, S, _"]$
-
-block(errormsg:false, n:errcatch(frombasen("0",2,"M*",0)),if emptyp(n) then error else n);
-["frombasen: cannot combine mode ~M and *, mode must be one of ~M", "M", "B, C, S, _"]$
-
-block(errormsg:false, n:errcatch(frombasen("1",2,"M",1)),if emptyp(n) then error else n);
+block(errormsg:false, n:errcatch(frombasen("1", 2, "M", 1)), if emptyp(n) then error else n);
 [1]$
 
-block(errormsg:false, n:errcatch(frombasen("1",2,"M",2)),if emptyp(n) then error else n);
-["frombasen: ~M is in incorrect format for ~M digit base ~M integer.", "1", 2, 2]$
+block(errormsg:false, n:errcatch(frombasen("1", 2, "M", 2)), if emptyp(n) then error else n);
+["~M: ~M contains wrong number of digits for ~M digit base ~M integer.", "frombasen", "1", 2, 2]$
 
-block(errormsg:false, n:errcatch(frombasen("1",2,"M",0)),if emptyp(n) then error else n);
+block(errormsg:false, n:errcatch(frombasen("1", 2, "M", 0)), if emptyp(n) then error else n);
 [1]$
 
-block(errormsg:false, n:errcatch(frombasen("1",2,"M*",1)),if emptyp(n) then error else n);
-["frombasen: cannot combine mode ~M and *, mode must be one of ~M", "M", "B, C, S, _"]$
-
-block(errormsg:false, n:errcatch(frombasen("1",2,"M*",2)),if emptyp(n) then error else n);
-["frombasen: cannot combine mode ~M and *, mode must be one of ~M", "M", "B, C, S, _"]$
-
-block(errormsg:false, n:errcatch(frombasen("1",2,"M*",0)),if emptyp(n) then error else n);
-["frombasen: cannot combine mode ~M and *, mode must be one of ~M", "M", "B, C, S, _"]$
-
-block(errormsg:false, n:errcatch(frombasen("F",16,"M",1)),if emptyp(n) then error else n);
-["frombasen: ~M~M is incorrect format for base ~M integer.", "", "F", 16]$
-
-block(errormsg:false, n:errcatch(frombasen("F",16,"M",2)),if emptyp(n) then error else n);
-["frombasen: ~M~M is incorrect format for base ~M integer.", "", "F", 16]$
-
-block(errormsg:false, n:errcatch(frombasen("F",16,"M",0)),if emptyp(n) then error else n);
-["frombasen: ~M~M is incorrect format for base ~M integer.", "", "F", 16]$
-
-block(errormsg:false, n:errcatch(frombasen("Z",36,"M",1)),if emptyp(n) then error else n);
-["frombasen: ~M~M is incorrect format for base ~M integer.", "", "Z", 36]$
-
-block(errormsg:false, n:errcatch(frombasen("Z",36,"M",2)),if emptyp(n) then error else n);
-["frombasen: ~M~M is incorrect format for base ~M integer.", "", "Z", 36]$
-
-block(errormsg:false, n:errcatch(frombasen("Z",36,"M",0)),if emptyp(n) then error else n);
-["frombasen: ~M~M is incorrect format for base ~M integer.", "", "Z", 36]$
-
-block(errormsg:false, n:errcatch(frombasen("Z",37,"M",1)),if emptyp(n) then error else n);
-["frombasen: base of ~M is not an integer between 2 and 36.", 37]$
-
-block(errormsg:false, n:errcatch(frombasen("Z",37,"M",2)),if emptyp(n) then error else n);
-["frombasen: base of ~M is not an integer between 2 and 36.", 37]$
-
-block(errormsg:false, n:errcatch(frombasen("Z",37,"M",0)),if emptyp(n) then error else n);
-["frombasen: base of ~M is not an integer between 2 and 36.", 37]$
-
-block(errormsg:false, n:errcatch(frombasen("2",2,"M",1)),if emptyp(n) then error else n);
-["frombasen: ~M does not convert to a base ~M integer.", "2", 2]$
-
-block(errormsg:false, n:errcatch(frombasen("2",2,"M",2)),if emptyp(n) then error else n);
-["frombasen: ~M is in incorrect format for ~M digit base ~M integer.", "2", 2, 2]$
-
-block(errormsg:false, n:errcatch(frombasen("2",2,"M",0)),if emptyp(n) then error else n);
-["frombasen: ~M does not convert to a base ~M integer.", "2", 2]$
-
-block(errormsg:false, n:errcatch(frombasen("!",2,"M*",1)),if emptyp(n) then error else n);
-["frombasen: cannot combine mode ~M and *, mode must be one of ~M", "M", "B, C, S, _"]$
-
-block(errormsg:false, n:errcatch(frombasen("!",2,"M*",2)),if emptyp(n) then error else n);
-["frombasen: cannot combine mode ~M and *, mode must be one of ~M", "M", "B, C, S, _"]$
-
-block(errormsg:false, n:errcatch(frombasen("!",2,"M*",0)),if emptyp(n) then error else n);
-["frombasen: cannot combine mode ~M and *, mode must be one of ~M", "M", "B, C, S, _"]$
-
-block(errormsg:false, n:errcatch(frombasen("G",16,"M",1)),if emptyp(n) then error else n);
-["frombasen: ~M~M is incorrect format for base ~M integer.", "", "G", 16]$
-
-block(errormsg:false, n:errcatch(frombasen("G",16,"M",2)),if emptyp(n) then error else n);
-["frombasen: ~M~M is incorrect format for base ~M integer.", "", "G", 16]$
-
-block(errormsg:false, n:errcatch(frombasen("G",16,"M",0)),if emptyp(n) then error else n);
-["frombasen: ~M~M is incorrect format for base ~M integer.", "", "G", 16]$
-
-block(errormsg:false, n:errcatch(frombasen("!",36,"M",1)),if emptyp(n) then error else n);
-["frombasen: ~M~M is incorrect format for base ~M integer.", "", "!", 36]$
-
-block(errormsg:false, n:errcatch(frombasen("!",36,"M",2)),if emptyp(n) then error else n);
-["frombasen: ~M~M is incorrect format for base ~M integer.", "", "!", 36]$
-
-block(errormsg:false, n:errcatch(frombasen("!",36,"M",0)),if emptyp(n) then error else n);
-["frombasen: ~M~M is incorrect format for base ~M integer.", "", "!", 36]$
-
-block(errormsg:false, n:errcatch(frombasen("!",37,"M",1)),if emptyp(n) then error else n);
-["frombasen: base of ~M is not an integer between 2 and 36.", 37]$
-
-block(errormsg:false, n:errcatch(frombasen("!",37,"M",2)),if emptyp(n) then error else n);
-["frombasen: base of ~M is not an integer between 2 and 36.", 37]$
-
-block(errormsg:false, n:errcatch(frombasen("!",37,"M",0)),if emptyp(n) then error else n);
-["frombasen: base of ~M is not an integer between 2 and 36.", 37]$
+block(errormsg:false, n:errcatch(frombasen("!", 16, "M", 2)), if emptyp(n) then error else n);
+["~M: Prefix 0 missing from ~M.", "frombasen", "!"]$
 
 /**********/
 /* Mode G */
 /**********/
-block(errormsg:false, n:errcatch(frombasen("000",2,"G",4)),if emptyp(n) then error else n);
-["frombasen: ~M is in incorrect format for ~M digit base ~M integer.", "000", 4, 2]$
+block(errormsg:false, n:errcatch(frombasen("000", 2, "G", 4)), if emptyp(n) then error else n);
+["~M: ~M contains wrong number of digits for ~M digit base ~M integer.", "frombasen", "000", 4, 2]$
 
-block(errormsg:false, n:errcatch(frombasen("0000",2,"G",4)),if emptyp(n) then error else n);
+block(errormsg:false, n:errcatch(frombasen("0000", 2, "G", 4)), if emptyp(n) then error else n);
 [0]$
 
-block(errormsg:false, n:errcatch(frombasen("00000",2,"G",4)),if emptyp(n) then error else n);
-["frombasen: ~M is in incorrect format for ~M digit base ~M integer.", "00000", 4, 2]$
+block(errormsg:false, n:errcatch(frombasen("00000", 2, "G", 4)), if emptyp(n) then error else n);
+["~M: ~M contains wrong number of digits for ~M digit base ~M integer.", "frombasen", "00000", 4, 2]$
 
-block(errormsg:false, n:errcatch(frombasen("0000",2,"G",0)),if emptyp(n) then error else n);
+block(errormsg:false, n:errcatch(frombasen("0000", 2, "G", 0)), if emptyp(n) then error else n);
+[0]$
+block(errormsg:false, n:errcatch(frombasen("000", 16, "G", 4)), if emptyp(n) then error else n);
+["~M: ~M contains wrong number of digits for ~M digit base ~M integer.", "frombasen", "000", 4, 16]$
+
+block(errormsg:false, n:errcatch(frombasen("0000", 16, "G", 4)), if emptyp(n) then error else n);
 [0]$
 
-block(errormsg:false, n:errcatch(frombasen("111",2,"G",4)),if emptyp(n) then error else n);
-["frombasen: ~M is in incorrect format for ~M digit base ~M integer.", "111", 4, 2]$
+block(errormsg:false, n:errcatch(frombasen("00000", 16, "G", 4)), if emptyp(n) then error else n);
+["~M: ~M contains wrong number of digits for ~M digit base ~M integer.", "frombasen", "00000", 4, 16]$
 
-
-block(errormsg:false, n:errcatch(frombasen("1111",2,"G",4)),if emptyp(n) then error else n);
-[15]$
-
-block(errormsg:false, n:errcatch(frombasen("11111",2,"G",4)),if emptyp(n) then error else n);
-["frombasen: ~M is in incorrect format for ~M digit base ~M integer.", "11111", 4, 2]$
-
-block(errormsg:false, n:errcatch(frombasen("1111",2,"G",0)),if emptyp(n) then error else n);
-[15]$
-
-block(errormsg:false, n:errcatch(frombasen("222",2,"G",4)),if emptyp(n) then error else n);
-["frombasen: ~M is in incorrect format for ~M digit base ~M integer.", "222", 4, 2]$
-
-block(errormsg:false, n:errcatch(frombasen("2222",2,"G",4)),if emptyp(n) then error else n);
-["frombasen: ~M does not convert to a base ~M integer.", "2222", 2]$
-
-block(errormsg:false, n:errcatch(frombasen("22222",2,"G",4)),if emptyp(n) then error else n);
-["frombasen: ~M is in incorrect format for ~M digit base ~M integer.", "22222", 4, 2]$
-
-block(errormsg:false, n:errcatch(frombasen("2222",2,"G",0)),if emptyp(n) then error else n);
-["frombasen: ~M does not convert to a base ~M integer.", "2222", 2]$
-
-block(errormsg:false, n:errcatch(frombasen("000",16,"G",4)),if emptyp(n) then error else n);
-["frombasen: ~M is in incorrect format for ~M digit base ~M integer.", "000", 4, 16]$
-
-block(errormsg:false, n:errcatch(frombasen("0000",16,"G",4)),if emptyp(n) then error else n);
+block(errormsg:false, n:errcatch(frombasen("0000", 16, "G", 0)), if emptyp(n) then error else n);
 [0]$
 
-block(errormsg:false, n:errcatch(frombasen("00000",16,"G",4)),if emptyp(n) then error else n);
-["frombasen: ~M is in incorrect format for ~M digit base ~M integer.", "00000", 4, 16]$
+block(errormsg:false, n:errcatch(frombasen("AAA", 16, "G", 4)), if emptyp(n) then error else n);
+["~M: ~M contains wrong number of digits for ~M digit base ~M integer.", "frombasen", "AAA", 4, 16]$
 
-block(errormsg:false, n:errcatch(frombasen("0000",16,"G",0)),if emptyp(n) then error else n);
-[0]$
-
-block(errormsg:false, n:errcatch(frombasen("AAA",16,"G",4)),if emptyp(n) then error else n);
-["frombasen: ~M is in incorrect format for ~M digit base ~M integer.", "AAA", 4, 16]$
-
-block(errormsg:false, n:errcatch(frombasen("AAAA",16,"G",4)),if emptyp(n) then error else n);
+block(errormsg:false, n:errcatch(frombasen("AAAA", 16, "G", 4)), if emptyp(n) then error else n);
 [43690]$
 
-block(errormsg:false, n:errcatch(frombasen("AAAAA",16,"G",4)),if emptyp(n) then error else n);
-["frombasen: ~M is in incorrect format for ~M digit base ~M integer.", "AAAAA", 4, 16]$
+block(errormsg:false, n:errcatch(frombasen("AAAAA", 16, "G", 4)), if emptyp(n) then error else n);
+["~M: ~M contains wrong number of digits for ~M digit base ~M integer.", "frombasen", "AAAAA", 4, 16]$
 
-block(errormsg:false, n:errcatch(frombasen("AAAA",16,"G",0)),if emptyp(n) then error else n);
+block(errormsg:false, n:errcatch(frombasen("AAAA", 16, "G", 0)), if emptyp(n) then error else n);
 [43690]$
 
-block(errormsg:false, n:errcatch(frombasen("aaa",16,"G",4)),if emptyp(n) then error else n);
-["frombasen: ~M is in incorrect format for ~M digit base ~M integer.", "aaa", 4, 16]$
-
-block(errormsg:false, n:errcatch(frombasen("aaaa",16,"G",4)),if emptyp(n) then error else n);
+block(errormsg:false, n:errcatch(frombasen("aaaa", 16, "G", 4)), if emptyp(n) then error else n);
 [43690]$
 
-block(errormsg:false, n:errcatch(frombasen("aaaaa",16,"G",4)),if emptyp(n) then error else n);
-["frombasen: ~M is in incorrect format for ~M digit base ~M integer.", "aaaaa", 4, 16]$
-
-block(errormsg:false, n:errcatch(frombasen("aaaa",16,"G",0)),if emptyp(n) then error else n);
-[43690]$
-
-block(errormsg:false, n:errcatch(frombasen("0000",36,"G",4)),if emptyp(n) then error else n);
-[0]$
-
-block(errormsg:false, n:errcatch(frombasen("0000",36,"G",0)),if emptyp(n) then error else n);
-[0]$
-
-block(errormsg:false, n:errcatch(frombasen("ZZZ",36,"G",4)),if emptyp(n) then error else n);
-["frombasen: ~M is in incorrect format for ~M digit base ~M integer.", "ZZZ", 4, 36]$
-
-block(errormsg:false, n:errcatch(frombasen("ZZZZ",36,"G",4)),if emptyp(n) then error else n);
-[1679615]$
-
-block(errormsg:false, n:errcatch(frombasen("ZZZZZ",36,"G",4)),if emptyp(n) then error else n);
-["frombasen: ~M is in incorrect format for ~M digit base ~M integer.", "ZZZZZ", 4, 36]$
-
-block(errormsg:false, n:errcatch(frombasen("ZZZZ",36,"G",0)),if emptyp(n) then error else n);
-[1679615]$
-
-block(errormsg:false, n:errcatch(frombasen("0ZZZ",36,"G",4)),if emptyp(n) then error else n);
+block(errormsg:false, n:errcatch(frombasen("0ZZZ", 36, "G", 4)), if emptyp(n) then error else n);
 [46655]$
 
-block(errormsg:false, n:errcatch(frombasen("0ZZZZ",36,"G",4)),if emptyp(n) then error else n);
-["frombasen: ~M is in incorrect format for ~M digit base ~M integer.", "0ZZZZ", 4, 36]$
+block(errormsg:false, n:errcatch(frombasen("0ZZZZ", 36, "G", 4)), if emptyp(n) then error else n);
+["~M: ~M contains wrong number of digits for ~M digit base ~M integer.", "frombasen", "0ZZZZ", 4, 36]$
 
-block(errormsg:false, n:errcatch(frombasen("0ZZZZZ",36,"G",4)),if emptyp(n) then error else n);
-["frombasen: ~M is in incorrect format for ~M digit base ~M integer.", "0ZZZZZ", 4, 36]$
+block(errormsg:false, n:errcatch(frombasen("0ZZZZZ", 36, "G", 4)), if emptyp(n) then error else n);
+["~M: ~M contains wrong number of digits for ~M digit base ~M integer.", "frombasen", "0ZZZZZ", 4, 36]$
 
-block(errormsg:false, n:errcatch(frombasen("0ZZZZ",36,"G",0)),if emptyp(n) then error else n);
-[1679615]$
-
-block(errormsg:false, n:errcatch(frombasen("000",37,"G",4)),if emptyp(n) then error else n);
-["frombasen: base of ~M is not an integer between 2 and 36.", 37]$
-
-block(errormsg:false, n:errcatch(frombasen("0000",37,"G",4)),if emptyp(n) then error else n);
-["frombasen: base of ~M is not an integer between 2 and 36.", 37]$
-
-block(errormsg:false, n:errcatch(frombasen("00000",37,"G",4)),if emptyp(n) then error else n);
-["frombasen: base of ~M is not an integer between 2 and 36.", 37]$
-
-block(errormsg:false, n:errcatch(frombasen("0000",37,"G",0)),if emptyp(n) then error else n);
-["frombasen: base of ~M is not an integer between 2 and 36.", 37]$
-
-block(errormsg:false, n:errcatch(frombasen("ZZZ",37,"G",4)),if emptyp(n) then error else n);
-["frombasen: base of ~M is not an integer between 2 and 36.", 37]$
-
-block(errormsg:false, n:errcatch(frombasen("ZZZZ",37,"G",4)),if emptyp(n) then error else n);
-["frombasen: base of ~M is not an integer between 2 and 36.", 37]$
-
-block(errormsg:false, n:errcatch(frombasen("ZZZZZ",37,"G",4)),if emptyp(n) then error else n);
-["frombasen: base of ~M is not an integer between 2 and 36.", 37]$
-
-block(errormsg:false, n:errcatch(frombasen("ZZZZ",37,"G",0)),if emptyp(n) then error else n);
-["frombasen: base of ~M is not an integer between 2 and 36.", 37]$
-
-block(errormsg:false, n:errcatch(frombasen("ZZZZ","W","G",0)),if emptyp(n) then error else n);
-["frombasen: base of ~M is not an integer between 2 and 36.", "W"]$
-
-block(errormsg:false, n:errcatch(frombasen("ZZZZ",2,"G*",0)),if emptyp(n) then error else n);
-["frombasen: cannot combine mode ~M and *, mode must be one of ~M", "G", "B, C, S, _"]$
-
-block(errormsg:false, n:errcatch(frombasen("",2,"G",1)),if emptyp(n) then error else n);
-["frombasen: ~M is in incorrect format for ~M digit base ~M integer.", "", 1, 2]$
-
-block(errormsg:false, n:errcatch(frombasen("",2,"G",2)),if emptyp(n) then error else n);
-["frombasen: ~M is in incorrect format for ~M digit base ~M integer.", "", 2, 2]$
-
-block(errormsg:false, n:errcatch(frombasen("",2,"G",0)),if emptyp(n) then error else n);
-["frombasen: Empty value."]$
-
-block(errormsg:false, n:errcatch(frombasen("",2,"G*",1)),if emptyp(n) then error else n);
-["frombasen: cannot combine mode ~M and *, mode must be one of ~M", "G", "B, C, S, _"]$
-
-block(errormsg:false, n:errcatch(frombasen("",2,"G*",2)),if emptyp(n) then error else n);
-["frombasen: cannot combine mode ~M and *, mode must be one of ~M", "G", "B, C, S, _"]$
-
-block(errormsg:false, n:errcatch(frombasen("",2,"G*",0)),if emptyp(n) then error else n);
-["frombasen: cannot combine mode ~M and *, mode must be one of ~M", "G", "B, C, S, _"]$
-
-block(errormsg:false, n:errcatch(frombasen("",16,"G",1)),if emptyp(n) then error else n);
-["frombasen: ~M is in incorrect format for ~M digit base ~M integer.", "", 1, 16]$
-
-block(errormsg:false, n:errcatch(frombasen("",16,"G",2)),if emptyp(n) then error else n);
-["frombasen: ~M is in incorrect format for ~M digit base ~M integer.", "", 2, 16]$
-
-block(errormsg:false, n:errcatch(frombasen("",16,"G",0)),if emptyp(n) then error else n);
-["frombasen: Empty value."]$
-
-block(errormsg:false, n:errcatch(frombasen("",36,"G",1)),if emptyp(n) then error else n);
-["frombasen: ~M is in incorrect format for ~M digit base ~M integer.", "", 1, 36]$
-
-block(errormsg:false, n:errcatch(frombasen("",36,"G",2)),if emptyp(n) then error else n);
-["frombasen: ~M is in incorrect format for ~M digit base ~M integer.", "", 2, 36]$
-
-block(errormsg:false, n:errcatch(frombasen("",36,"G",0)),if emptyp(n) then error else n);
-["frombasen: Empty value."]$
-
-block(errormsg:false, n:errcatch(frombasen("",37,"G",1)),if emptyp(n) then error else n);
-["frombasen: base of ~M is not an integer between 2 and 36.", 37]$
-
-block(errormsg:false, n:errcatch(frombasen("",37,"G",2)),if emptyp(n) then error else n);
-["frombasen: base of ~M is not an integer between 2 and 36.", 37]$
-
-block(errormsg:false, n:errcatch(frombasen("",37,"G",0)),if emptyp(n) then error else n);
-["frombasen: base of ~M is not an integer between 2 and 36.", 37]$
-
-block(errormsg:false, n:errcatch(frombasen("0",2,"G",1)),if emptyp(n) then error else n);
+block(errormsg:false, n:errcatch(frombasen("0", 2, "G", 1)), if emptyp(n) then error else n);
 [0]$
 
-block(errormsg:false, n:errcatch(frombasen("0",2,"G",2)),if emptyp(n) then error else n);
-["frombasen: ~M is in incorrect format for ~M digit base ~M integer.", "0", 2, 2]$
+block(errormsg:false, n:errcatch(frombasen("0", 2, "G", 2)), if emptyp(n) then error else n);
+["~M: ~M contains wrong number of digits for ~M digit base ~M integer.", "frombasen", "0", 2, 2]$
 
-block(errormsg:false, n:errcatch(frombasen("0",2,"G",0)),if emptyp(n) then error else n);
+block(errormsg:false, n:errcatch(frombasen("0", 2, "G", 0)), if emptyp(n) then error else n);
 [0]$
 
-block(errormsg:false, n:errcatch(frombasen("0",16,"G",1)),if emptyp(n) then error else n);
-[0]$
-
-block(errormsg:false, n:errcatch(frombasen("0",16,"G",2)),if emptyp(n) then error else n);
-["frombasen: ~M is in incorrect format for ~M digit base ~M integer.", "0", 2, 16]$
-
-block(errormsg:false, n:errcatch(frombasen("0",16,"G",0)),if emptyp(n) then error else n);
-[0]$
-
-block(errormsg:false, n:errcatch(frombasen("0",2,"G*",1)),if emptyp(n) then error else n);
-["frombasen: cannot combine mode ~M and *, mode must be one of ~M", "G", "B, C, S, _"]$
-
-block(errormsg:false, n:errcatch(frombasen("0",2,"G*",2)),if emptyp(n) then error else n);
-["frombasen: cannot combine mode ~M and *, mode must be one of ~M", "G", "B, C, S, _"]$
-
-block(errormsg:false, n:errcatch(frombasen("0",2,"G*",0)),if emptyp(n) then error else n);
-["frombasen: cannot combine mode ~M and *, mode must be one of ~M", "G", "B, C, S, _"]$
-
-block(errormsg:false, n:errcatch(frombasen("1",2,"G",1)),if emptyp(n) then error else n);
+block(errormsg:false, n:errcatch(frombasen("1", 2, "G", 1)), if emptyp(n) then error else n);
 [1]$
 
-block(errormsg:false, n:errcatch(frombasen("1",2,"G",2)),if emptyp(n) then error else n);
-["frombasen: ~M is in incorrect format for ~M digit base ~M integer.", "1", 2, 2]$
+block(errormsg:false, n:errcatch(frombasen("1", 2, "G", 2)), if emptyp(n) then error else n);
+["~M: ~M contains wrong number of digits for ~M digit base ~M integer.", "frombasen", "1", 2, 2]$
 
-block(errormsg:false, n:errcatch(frombasen("1",2,"G",0)),if emptyp(n) then error else n);
-[1]$
-
-block(errormsg:false, n:errcatch(frombasen("1",2,"G*",1)),if emptyp(n) then error else n);
-["frombasen: cannot combine mode ~M and *, mode must be one of ~M", "G", "B, C, S, _"]$
-
-block(errormsg:false, n:errcatch(frombasen("1",2,"G*",2)),if emptyp(n) then error else n);
-["frombasen: cannot combine mode ~M and *, mode must be one of ~M", "G", "B, C, S, _"]$
-
-block(errormsg:false, n:errcatch(frombasen("1",2,"G*",0)),if emptyp(n) then error else n);
-["frombasen: cannot combine mode ~M and *, mode must be one of ~M", "G", "B, C, S, _"]$
-
-block(errormsg:false, n:errcatch(frombasen("F",16,"G",1)),if emptyp(n) then error else n);
+block(errormsg:false, n:errcatch(frombasen("F", 16, "G", 1)), if emptyp(n) then error else n);
 [15]$
 
-block(errormsg:false, n:errcatch(frombasen("F",16,"G",2)),if emptyp(n) then error else n);
-["frombasen: ~M is in incorrect format for ~M digit base ~M integer.", "F", 2, 16]$
+block(errormsg:false, n:errcatch(frombasen("F", 16, "G", 2)), if emptyp(n) then error else n);
+["~M: ~M contains wrong number of digits for ~M digit base ~M integer.", "frombasen", "F", 2, 16]$
 
-block(errormsg:false, n:errcatch(frombasen("F",16,"G",0)),if emptyp(n) then error else n);
+block(errormsg:false, n:errcatch(frombasen("F", 16, "G", 0)), if emptyp(n) then error else n);
 [15]$
 
-block(errormsg:false, n:errcatch(frombasen("Z",36,"G",1)),if emptyp(n) then error else n);
-[35]$
+block(errormsg:false, n:errcatch(frombasen("G", 16, "G", 1)), if emptyp(n) then error else n);
+["~M: ~M is not a valid base ~M integer.", "frombasen", "G", 16]$
 
-block(errormsg:false, n:errcatch(frombasen("Z",36,"G",2)),if emptyp(n) then error else n);
-["frombasen: ~M is in incorrect format for ~M digit base ~M integer.", "Z", 2, 36]$
+block(errormsg:false, n:errcatch(frombasen("G", 16, "G", 2)), if emptyp(n) then error else n);
+["~M: ~M is not a valid base ~M integer.", "frombasen", "G", 16]$
 
-block(errormsg:false, n:errcatch(frombasen("Z",36,"G",0)),if emptyp(n) then error else n);
-[35]$
-
-block(errormsg:false, n:errcatch(frombasen("Z",37,"G",1)),if emptyp(n) then error else n);
-["frombasen: base of ~M is not an integer between 2 and 36.", 37]$
-
-block(errormsg:false, n:errcatch(frombasen("Z",37,"G",2)),if emptyp(n) then error else n);
-["frombasen: base of ~M is not an integer between 2 and 36.", 37]$
-
-block(errormsg:false, n:errcatch(frombasen("Z",37,"G",0)),if emptyp(n) then error else n);
-["frombasen: base of ~M is not an integer between 2 and 36.", 37]$
-
-block(errormsg:false, n:errcatch(frombasen("2",2,"G",1)),if emptyp(n) then error else n);
-["frombasen: ~M does not convert to a base ~M integer.", "2", 2]$
-
-block(errormsg:false, n:errcatch(frombasen("2",2,"G",2)),if emptyp(n) then error else n);
-["frombasen: ~M is in incorrect format for ~M digit base ~M integer.", "2", 2, 2]$
-
-block(errormsg:false, n:errcatch(frombasen("2",2,"G",0)),if emptyp(n) then error else n);
-["frombasen: ~M does not convert to a base ~M integer.", "2", 2]$
-
-block(errormsg:false, n:errcatch(frombasen("!",2,"G*",1)),if emptyp(n) then error else n);
-["frombasen: cannot combine mode ~M and *, mode must be one of ~M", "G", "B, C, S, _"]$
-
-block(errormsg:false, n:errcatch(frombasen("!",2,"G*",2)),if emptyp(n) then error else n);
-["frombasen: cannot combine mode ~M and *, mode must be one of ~M", "G", "B, C, S, _"]$
-
-block(errormsg:false, n:errcatch(frombasen("!",2,"G*",0)),if emptyp(n) then error else n);
-["frombasen: cannot combine mode ~M and *, mode must be one of ~M", "G", "B, C, S, _"]$
-
-block(errormsg:false, n:errcatch(frombasen("G",16,"G",1)),if emptyp(n) then error else n);
-["frombasen: ~M does not convert to a base ~M integer.", "G", 16]$
-
-block(errormsg:false, n:errcatch(frombasen("G",16,"G",2)),if emptyp(n) then error else n);
-["frombasen: ~M is in incorrect format for ~M digit base ~M integer.", "G", 2, 16]$
-
-block(errormsg:false, n:errcatch(frombasen("G",16,"G",0)),if emptyp(n) then error else n);
-["frombasen: ~M does not convert to a base ~M integer.", "G", 16]$
-
-block(errormsg:false, n:errcatch(frombasen("!",36,"G",1)),if emptyp(n) then error else n);
-["frombasen: ~M does not convert to a base ~M integer.", "!", 36]$
-
-block(errormsg:false, n:errcatch(frombasen("!",36,"G",2)),if emptyp(n) then error else n);
-["frombasen: ~M is in incorrect format for ~M digit base ~M integer.", "!", 2, 36]$
-
-block(errormsg:false, n:errcatch(frombasen("!",36,"G",0)),if emptyp(n) then error else n);
-["frombasen: ~M does not convert to a base ~M integer.", "!", 36]$
-
-block(errormsg:false, n:errcatch(frombasen("!",37,"G",1)),if emptyp(n) then error else n);
-["frombasen: base of ~M is not an integer between 2 and 36.", 37]$
-
-block(errormsg:false, n:errcatch(frombasen("!",37,"G",2)),if emptyp(n) then error else n);
-["frombasen: base of ~M is not an integer between 2 and 36.", 37]$
-
-block(errormsg:false, n:errcatch(frombasen("!",37,"G",0)),if emptyp(n) then error else n);
-["frombasen: base of ~M is not an integer between 2 and 36.", 37]$
+block(errormsg:false, n:errcatch(frombasen("G", 16, "G", 0)), if emptyp(n) then error else n);
+["~M: ~M is not a valid base ~M integer.", "frombasen", "G", 16]$
 
 /**********/
 /* Mode B */
 /**********/
+block(errormsg:false, n:errcatch(frombasen("&B1111", 2, "B", 4)), if emptyp(n) then error else n);
+[15]$
+
+block(errormsg:false, n:errcatch(frombasen("&b1111", 2, "B", 4)), if emptyp(n) then error else n);
+[15]$
+
+block(errormsg:false, n:errcatch(frombasen("&B1111", 0, "B*", 4)), if emptyp(n) then error else n);
+[15]$
+
+block(errormsg:false, n:errcatch(frombasen("&B1111", 0, "B*", 0)), if emptyp(n) then error else n);
+[15]$
+
+block(errormsg:false, n:errcatch(frombasen("&HFF", 16, "B", 2)), if emptyp(n) then error else n);
+[255]$
+
+block(errormsg:false, n:errcatch(frombasen("&hFF", 16, "B", 2)), if emptyp(n) then error else n);
+[255]$
+
+block(errormsg:false, n:errcatch(frombasen("&hFF", 11, "B*", 0)), if emptyp(n) then error else n);
+[255]$
+
+block(errormsg:false, n:errcatch(frombasen("&O77", 8, "B", 2)), if emptyp(n) then error else n);
+[63]$
+
+block(errormsg:false, n:errcatch(frombasen("&o77", 8, "B", 2)), if emptyp(n) then error else n);
+[63]$
+
+block(errormsg:false, n:errcatch(frombasen("77", 11, "B*", 2)), if emptyp(n) then error else n);
+[77]$
+
+block(errormsg:false, n:errcatch(frombasen("77", 11, "B", 2)), if emptyp(n) then error else n);
+["~M: base must be 2, 8, 10 or 16 for mode ~M.", "frombasen", "B"]$
+
+block(errormsg:false, n:errcatch(frombasen("077", 11, "B*", 3)), if emptyp(n) then error else n);
+[77]$
+
+block(errormsg:false, n:errcatch(frombasen("077", 10, "B", 3)), if emptyp(n) then error else n);
+[77]$
+
+/**********/
+/* Mode C */
+/**********/
+block(errormsg:false, n:errcatch(frombasen("0b1111", 2, "C", 4)), if emptyp(n) then error else n);
+[15]$
+
+block(errormsg:false, n:errcatch(frombasen("0b1111", 2, "c", 4)), if emptyp(n) then error else n);
+[15]$
+
+block(errormsg:false, n:errcatch(frombasen("0B1111", 2, "C", 4)), if emptyp(n) then error else n);
+[15]$
+
+block(errormsg:false, n:errcatch(frombasen("0b1111", 0, "C*", 4)), if emptyp(n) then error else n);
+[15]$
+
+block(errormsg:false, n:errcatch(frombasen("0b1111", 0, "C*", 0)), if emptyp(n) then error else n);
+[15]$
+
+block(errormsg:false, n:errcatch(frombasen("0xFF", 16, "C", 2)), if emptyp(n) then error else n);
+[255]$
+
+block(errormsg:false, n:errcatch(frombasen("0XFF", 16, "C", 2)), if emptyp(n) then error else n);
+[255]$
+
+block(errormsg:false, n:errcatch(frombasen("0xFF", 11, "C*", 0)), if emptyp(n) then error else n);
+[255]$
+
+block(errormsg:false, n:errcatch(frombasen("077", 8, "C", 2)), if emptyp(n) then error else n);
+[63]$
+
+block(errormsg:false, n:errcatch(frombasen("077", 0, "C*", 2)), if emptyp(n) then error else n);
+[63]$
+
+block(errormsg:false, n:errcatch(frombasen("077", 0, "C*", 0)), if emptyp(n) then error else n);
+[63]$
+
+block(errormsg:false, n:errcatch(frombasen("77", 0, "C*", 2)), if emptyp(n) then error else n);
+[77]$
+
+block(errormsg:false, n:errcatch(frombasen("77", 10, "C", 2)), if emptyp(n) then error else n);
+[77]$
+
+/**********/
+/* Mode _ */
+/**********/
+block(errormsg:false, n:errcatch(frombasen("1111_2", 2, "_", 4)), if emptyp(n) then error else n);
+[15]$
+
+block(errormsg:false, n:errcatch(frombasen("1111_2", 2, "_", 0)), if emptyp(n) then error else n);
+[15]$
+
+block(errormsg:false, n:errcatch(frombasen("1111_2", 0, "_*", 4)), if emptyp(n) then error else n);
+[15]$
+
+block(errormsg:false, n:errcatch(frombasen("1111_2", 0, "_*", 0)), if emptyp(n) then error else n);
+[15]$
+
+block(errormsg:false, n:errcatch(frombasen("9999_10", 0, "_*", 4)), if emptyp(n) then error else n);
+[9999]$
+
+block(errormsg:false, n:errcatch(frombasen("0AAA_11", 0, "_*", 4)), if emptyp(n) then error else n);
+["~M: ~M contains wrong number of digits for ~M digit base ~M integer.","frombasen","0AAA_11",4,11]$
+
+block(errormsg:false, n:errcatch(frombasen("0AAAA_11", 0, "_*", 4)), if emptyp(n) then error else n);
+[14640]$
+
+block(errormsg:false, n:errcatch(frombasen("0AAAA_11", 0, "_*", 0)), if emptyp(n) then error else n);
+[14640]$
+
+block(errormsg:false, n:errcatch(frombasen("0AAAAA_11", 0, "_*", 4)), if emptyp(n) then error else n);
+["~M: ~M contains wrong number of digits for ~M digit base ~M integer.","frombasen","0AAAAA_11",4,11]$
+
+block(errormsg:false, n:errcatch(frombasen("AAAA_11", 0, "_*", 4)), if emptyp(n) then error else n);
+["~M: Prefix 0 missing from ~M.","frombasen","AAAA_11"]$
+
+block(errormsg:false, n:errcatch(frombasen("0ZZZZ_36", 0, "_*", 4)), if emptyp(n) then error else n);
+[1679615]$
+
+block(errormsg:false, n:errcatch(frombasen("0ZZZZ_37", 0, "_*", 4)), if emptyp(n) then error else n);
+["~M: base \"~M\" should be an integer between 2 and 36.","frombasen","37"]$
+
+/**********/
+/* Mode S */
+/**********/
+block(errormsg:false, n:errcatch(frombasen("1111_2", 2, "S", 4)), if emptyp(n) then error else n);
+[15]$
+
+block(errormsg:false, n:errcatch(frombasen("1111_2", 2, "S", 0)), if emptyp(n) then error else n);
+[15]$
+
+block(errormsg:false, n:errcatch(frombasen("1111_2", 0, "S*", 4)), if emptyp(n) then error else n);
+[15]$
+
+block(errormsg:false, n:errcatch(frombasen("1111_2", 0, "S*", 0)), if emptyp(n) then error else n);
+[15]$
+
+block(errormsg:false, n:errcatch(frombasen("9999_10", 0, "S*", 4)), if emptyp(n) then error else n);
+[9999]$
+
+block(errormsg:false, n:errcatch(frombasen("0AAA_11", 0, "S*", 4)), if emptyp(n) then error else n);
+[1330]$
+
+block(errormsg:false, n:errcatch(frombasen("0AAAA_11", 0, "S*", 4)), if emptyp(n) then error else n);
+["~M: ~M contains wrong number of digits for ~M digit base ~M integer.","frombasen","0AAAA_11",4,11]$
+
+block(errormsg:false, n:errcatch(frombasen("0AAAA_11", 0, "S*", 0)), if emptyp(n) then error else n);
+[14640]$
+
+block(errormsg:false, n:errcatch(frombasen("0AAAAA_11", 0, "S*", 4)), if emptyp(n) then error else n);
+["~M: ~M contains wrong number of digits for ~M digit base ~M integer.","frombasen","0AAAAA_11",4,11]$
+
+block(errormsg:false, n:errcatch(frombasen("AAAA_11", 0, "S*", 4)), if emptyp(n) then error else n);
+[14640]$
+
+block(errormsg:false, n:errcatch(frombasen("ZZZZ_036", 0, "S*", 4)), if emptyp(n) then error else n);
+["~M: base \"~M\" should be an integer between 2 and 36.","frombasen","036"]$
+
+block(errormsg:false, n:errcatch(frombasen("ZZZZ_36", 0, "S*", 4)), if emptyp(n) then error else n);
+[1679615]$
+
+block(errormsg:false, n:errcatch(frombasen("ZZZZ_37", 0, "S*", 4)), if emptyp(n) then error else n);
+["~M: base \"~M\" should be an integer between 2 and 36.","frombasen","37"]$
+
+
+/*************/
+/* tobasen */
+/*************/
+
+/*******************/
+/* Parameter tests */
+/*******************/
+block(errormsg:false, n:errcatch(tobasen("123", X, "X", X)), if emptyp(n) then error else n);
+["~M: ~M is not an integer.", "tobasen", "123"]$
+
+block(errormsg:false, n:errcatch(tobasen("123", X, "X", 1)), if emptyp(n) then error else n);
+["~M: ~M is not an integer.", "tobasen", "123"]$
+
+block(errormsg:false, n:errcatch(tobasen("123", X, "_", X)), if emptyp(n) then error else n);
+["~M: ~M is not an integer.", "tobasen", "123"]$
+
+block(errormsg:false, n:errcatch(tobasen("123", 4, "X", X)), if emptyp(n) then error else n);
+["~M: ~M is not an integer.", "tobasen", "123"]$
+
+block(errormsg:false, n:errcatch(tobasen(nil, X, "X", X)), if emptyp(n) then error else n);
+["~M: ~M is not an integer.", "tobasen", nil]$
+
+block(errormsg:false, n:errcatch(tobasen(255, X, "X", X)), if emptyp(n) then error else n);
+["~M: base of ~M is not an integer between 2 and 36.", "tobasen", X]$
+
+block(errormsg:false, n:errcatch(tobasen(255, X, "X", 1)), if emptyp(n) then error else n);
+["~M: base of ~M is not an integer between 2 and 36.", "tobasen", X]$
+
+block(errormsg:false, n:errcatch(tobasen(255, X, "_", X)), if emptyp(n) then error else n);
+["~M: base of ~M is not an integer between 2 and 36.", "tobasen", X]$
+
+block(errormsg:false, n:errcatch(tobasen(255, X, "X", X)), if emptyp(n) then error else n);
+["~M: base of ~M is not an integer between 2 and 36.", "tobasen", X]$
+
+block(errormsg:false, n:errcatch(tobasen(255, X, "X", 1)), if emptyp(n) then error else n);
+["~M: base of ~M is not an integer between 2 and 36.", "tobasen", X]$
+
+block(errormsg:false, n:errcatch(tobasen(255, -1, "_", X)), if emptyp(n) then error else n);
+["~M: base of ~M is not an integer between 2 and 36.", "tobasen", -1]$
+
+block(errormsg:false, n:errcatch(tobasen(255, 0, "M", X)), if emptyp(n) then error else n);
+["~M: base of ~M is not an integer between 2 and 36.", "tobasen", 0]$
+
+block(errormsg:false, n:errcatch(tobasen(255, 0, "_*", X)), if emptyp(n) then error else n);
+["~M: minimum number of digits ~M should be an integer 0 or greater.", "tobasen", X]$
+
+block(errormsg:false, n:errcatch(tobasen(255, 2, "M", X)), if emptyp(n) then error else n);
+["~M: minimum number of digits ~M should be an integer 0 or greater.", "tobasen", X]$
+
+block(errormsg:false, n:errcatch(tobasen(255, 2, "M", -1)), if emptyp(n) then error else n);
+["~M: minimum number of digits ~M should be an integer 0 or greater.", "tobasen", -1]$
+
+block(errormsg:false, n:errcatch(tobasen(255, 2, "M")), if emptyp(n) then error else n);
+["11111111"]$
+
+block(errormsg:false, n:errcatch(tobasen(255, 2)), if emptyp(n) then error else n);
+["11111111"]$
+
+block(errormsg:false, n:errcatch(tobasen(255, 11, "D")), if emptyp(n) then error else n);
+["~M: base must be 10 or less for default mode.", "tobasen"]$
+
+block(errormsg:false, n:errcatch(tobasen(255, 11, "D", X)), if emptyp(n) then error else n);
+["~M: base must be 10 or less for default mode.", "tobasen"]$
+
+
+/**********/
+/* Mode D */
+/**********/
+block(errormsg:false, n:errcatch(tobasen(15, 2, "D", 8)), if emptyp(n) then error else n);
+["00001111"]$
+
+block(errormsg:false, n:errcatch(tobasen(15, 2, "D", 4)), if emptyp(n) then error else n);
+["1111"]$
+
+block(errormsg:false, n:errcatch(tobasen(15, 2, "D")), if emptyp(n) then error else n);
+["1111"]$
+
+block(errormsg:false, n:errcatch(tobasen(15, 10, "D")), if emptyp(n) then error else n);
+["15"]$
+
+/**********/
+/* Mode M */
+/**********/
+block(errormsg:false, n:errcatch(tobasen(15, 2, "M", 8)), if emptyp(n) then error else n);
+["00001111"]$
+
+block(errormsg:false, n:errcatch(tobasen(15, 2, "M", 4)), if emptyp(n) then error else n);
+["1111"]$
+
+block(errormsg:false, n:errcatch(tobasen(15, 2, "M")), if emptyp(n) then error else n);
+["1111"]$
+
+block(errormsg:false, n:errcatch(tobasen(15, 10, "M")), if emptyp(n) then error else n);
+["15"]$
+
+block(errormsg:false, n:errcatch(tobasen(15, 11, "M")), if emptyp(n) then error else n);
+["014"]$
+
+block(errormsg:false, n:errcatch(tobasen(43690, 16, "M", 4)), if emptyp(n) then error else n);
+["0AAAA"]$
+
+block(errormsg:false, n:errcatch(tobasen(1679615, 36, "M", 4)), if emptyp(n) then error else n);
+["0ZZZZ"]$
+
+block(errormsg:false, n:errcatch(tobasen(1679615, 36, "M")), if emptyp(n) then error else n);
+["0ZZZZ"]$
+
+/**********/
+/* Mode G */
+/**********/
+block(errormsg:false, n:errcatch(tobasen(15, 2, "G", 8)), if emptyp(n) then error else n);
+["00001111"]$
+
+block(errormsg:false, n:errcatch(tobasen(15, 2, "G", 4)), if emptyp(n) then error else n);
+["1111"]$
+
+block(errormsg:false, n:errcatch(tobasen(15, 2, "G")), if emptyp(n) then error else n);
+["1111"]$
+
+block(errormsg:false, n:errcatch(tobasen(15, 10, "G")), if emptyp(n) then error else n);
+["15"]$
+
+block(errormsg:false, n:errcatch(tobasen(15, 11, "G")), if emptyp(n) then error else n);
+["14"]$
+
+block(errormsg:false, n:errcatch(tobasen(43690, 16, "G", 4)), if emptyp(n) then error else n);
+["AAAA"]$
+
+block(errormsg:false, n:errcatch(tobasen(1679615, 36, "G", 4)), if emptyp(n) then error else n);
+["ZZZZ"]$
+
+block(errormsg:false, n:errcatch(tobasen(1679615, 36, "G")), if emptyp(n) then error else n);
+["ZZZZ"]$
+
+/**********/
+/* Mode B */
+/**********/
+block(errormsg:false, n:errcatch(tobasen(15, 2, "B", 8)), if emptyp(n) then error else n);
+["&B00001111"]$
+
+block(errormsg:false, n:errcatch(tobasen(15, 2, "B", 4)), if emptyp(n) then error else n);
+["&B1111"]$
+
+block(errormsg:false, n:errcatch(tobasen(15, 2, "B")), if emptyp(n) then error else n);
+["&B1111"]$
+
+block(errormsg:false, n:errcatch(tobasen(15, 10, "B")), if emptyp(n) then error else n);
+["15"]$
+
+block(errormsg:false, n:errcatch(tobasen(63, 8, "B", 4)), if emptyp(n) then error else n);
+["&o0077"]$
+
+block(errormsg:false, n:errcatch(tobasen(15, 11, "B")), if emptyp(n) then error else n);
+["~M: base must be 2, 8, 10 or 16 for mode ~M.","tobasen","B"]$
+
+block(errormsg:false, n:errcatch(tobasen(43690, 16, "B", 4)), if emptyp(n) then error else n);
+["&HAAAA"]$
+
+/**********/
+/* Mode C */
+/**********/
+block(errormsg:false, n:errcatch(tobasen(15, 2, "C", 8)), if emptyp(n) then error else n);
+["0b00001111"]$
+
+block(errormsg:false, n:errcatch(tobasen(15, 2, "C", 4)), if emptyp(n) then error else n);
+["0b1111"]$
+
+block(errormsg:false, n:errcatch(tobasen(15, 2, "C")), if emptyp(n) then error else n);
+["0b1111"]$
+
+block(errormsg:false, n:errcatch(tobasen(15, 10, "C")), if emptyp(n) then error else n);
+["15"]$
+
+block(errormsg:false, n:errcatch(tobasen(15, 10, "C", 4)), if emptyp(n) then error else n);
+["0015"]$
+
+block(errormsg:false, n:errcatch(tobasen(63, 8, "C", 4)), if emptyp(n) then error else n);
+["00077"]$
+
+block(errormsg:false, n:errcatch(tobasen(170, 16, "C")), if emptyp(n) then error else n);
+["0xAA"]$
+
+block(errormsg:false, n:errcatch(tobasen(15, 11, "C")), if emptyp(n) then error else n);
+["~M: base must be 2, 8, 10 or 16 for mode ~M.","tobasen","C"]$
+
+block(errormsg:false, n:errcatch(tobasen(43690, 16, "C", 4)), if emptyp(n) then error else n);
+["0xAAAA"]$
+
+/**********/
+/* Mode _ */
+/**********/
+block(errormsg:false, n:errcatch(tobasen(15, 2, "_", 8)), if emptyp(n) then error else n);
+["00001111_2"]$
+
+block(errormsg:false, n:errcatch(tobasen(15, 2, "_", 4)), if emptyp(n) then error else n);
+["1111_2"]$
+
+block(errormsg:false, n:errcatch(tobasen(15, 2, "_")), if emptyp(n) then error else n);
+["1111_2"]$
+
+block(errormsg:false, n:errcatch(tobasen(15, 10, "_")), if emptyp(n) then error else n);
+["15_10"]$
+
+block(errormsg:false, n:errcatch(tobasen(15, 11, "_")), if emptyp(n) then error else n);
+["014_11"]$
+
+block(errormsg:false, n:errcatch(tobasen(43690, 16, "_", 4)), if emptyp(n) then error else n);
+["0AAAA_16"]$
+
+block(errormsg:false, n:errcatch(tobasen(1679615, 36, "_", 4)), if emptyp(n) then error else n);
+["0ZZZZ_36"]$
+
+block(errormsg:false, n:errcatch(tobasen(1679615, 36, "_")), if emptyp(n) then error else n);
+["0ZZZZ_36"]$
+
+/**********/
+/* Mode S */
+/**********/
+block(errormsg:false, n:errcatch(tobasen(15, 2, "S", 8)), if emptyp(n) then error else n);
+["00001111_2"]$
+
+block(errormsg:false, n:errcatch(tobasen(15, 2, "S", 4)), if emptyp(n) then error else n);
+["1111_2"]$
+
+block(errormsg:false, n:errcatch(tobasen(15, 2, "S")), if emptyp(n) then error else n);
+["1111_2"]$
+
+block(errormsg:false, n:errcatch(tobasen(15, 10, "S")), if emptyp(n) then error else n);
+["15_10"]$
+
+block(errormsg:false, n:errcatch(tobasen(15, 11, "S")), if emptyp(n) then error else n);
+["14_11"]$
+
+block(errormsg:false, n:errcatch(tobasen(43690, 16, "S", 4)), if emptyp(n) then error else n);
+["AAAA_16"]$
+
+block(errormsg:false, n:errcatch(tobasen(1679615, 36, "S", 4)), if emptyp(n) then error else n);
+["ZZZZ_36"]$
+
+block(errormsg:false, n:errcatch(tobasen(1679615, 36, "S")), if emptyp(n) then error else n);
+["ZZZZ_36"]$
+

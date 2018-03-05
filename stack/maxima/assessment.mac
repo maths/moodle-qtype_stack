@@ -556,7 +556,7 @@ algebraic_equivalence(SA, SB) :=
     if not(freeof(basen, SA)) then
       SA:remove_basen(SA),
     if not(freeof(basen, SB)) then
-      SA:remove_basen(SB),
+      SB:remove_basen(SB),
     /* Remove logarithms to other bases from expressions. */
     if not(freeof(logbase, SA)) then
         SA:ev(SA, logbase=logbasesimp),

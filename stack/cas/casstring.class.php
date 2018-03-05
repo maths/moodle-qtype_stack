@@ -709,6 +709,7 @@ class stack_cas_casstring {
         // Check for % signs, allow %pi %e, %i, %gamma, %phi but nothing else.
         if (strstr($stringles, '%') !== false) {
             $cmdl = strtolower($stringles);
+            $found=null;
             preg_match_all("(\%.*)", $cmdl, $found);
 
             foreach ($found[0] as $match) {
@@ -812,6 +813,7 @@ class stack_cas_casstring {
         $cmd = trim(stack_utils::logic_nouns_sort($cmd, 'remove'));
 
         // Check for permitted characters.
+        $matches=null;
         if (preg_match_all($allowedcharsregex, $cmd, $matches)) {
             $invalidchars = array();
             foreach ($matches as $match) {
@@ -964,6 +966,7 @@ class stack_cas_casstring {
         $cmd = $stringles;
         // Be forgiving with log10.
         $cmd = str_replace('log10(', 'log_10(', $cmd);
+        $found = null;
         if (preg_match_all("/log_([\S]+?)\(([\S]+?)\)/", $cmd, $found)) {
             foreach ($found[0] as $key => $match) {
                 $argpos = stack_utils::substring_between($cmd, 'log_'.$found[1][$key], ')');
@@ -1191,11 +1194,13 @@ class stack_cas_casstring {
         $cmd = $stringles;
         $strinkeywords = array();
         $pat = "|[\?_A-Za-z0-9]+|";
+        $out = null;
         preg_match_all($pat, $cmd, $out, PREG_PATTERN_ORDER);
         // Filter out some of these matches.
         foreach ($out[0] as $key) {
             // Do we have only numbers, or only 2 characters?
             // These strings are fine.
+            $justnum = null;
             preg_match("|[0-9]+|", $key, $justnum);
 
             if (empty($justnum) and strlen($key) > 2) {
@@ -1289,7 +1294,7 @@ class stack_cas_casstring {
                                         'lower' => stack_maxima_format_casstring(strtolower($key)))));
                             }
                             $this->answernote[] = 'unknownFunctionCase';
-                        } else if ($err = stack_cas_casstring_units::check_units_case($key)) {
+                        } else if (($err = stack_cas_casstring_units::check_units_case($key))) {
                             // We have spotted a case sensitivity problem in the units.
                             $this->add_error($err);
                                 $this->answernote[] = 'unknownUnitsCase';
@@ -1325,7 +1330,6 @@ class stack_cas_casstring {
 
         // Separate out lists, sets, etc.
         $exsplit = explode(',', $ex);
-        $bits = array();
         $ok = true;
         foreach ($exsplit as $bit) {
             $ok = $ok && $this->check_chained_inequalities_ind($bit);
@@ -1399,6 +1403,7 @@ class stack_cas_casstring {
         $found          = false;
         $strinkeywords  = array();
         $pat = "|[\?_A-Za-z0-9]+|";
+        $out = null;
         preg_match_all($pat, $this->casstring, $out, PREG_PATTERN_ORDER);
 
         // Filter out some of these matches.
@@ -1606,7 +1611,7 @@ class stack_cas_casstring {
     // If we "CAS validate" this string, then we need to set various options.
     // If the teacher's answer is null then we use typeless validation, otherwise we check type.
     public function set_cas_validation_casstring($key, $forbidfloats = true,
-                    $lowestterms = true, $tans = null, $validationmethod, $allowwords = '', stack_basen_options $basen_options = null) {
+                    $lowestterms = true, $tans = null, $validationmethod = 'typeless', $allowwords = '', stack_basen_options $basen_options = null) {
 
         if (!($validationmethod == 'checktype' || $validationmethod == 'typeless' || $validationmethod == 'units'
             || $validationmethod == 'unitsnegpow' || $validationmethod == 'equiv' || $validationmethod == 'numerical')) {

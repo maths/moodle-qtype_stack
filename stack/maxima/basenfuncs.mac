@@ -55,33 +55,7 @@
 basentex(ex) := block([a, ss, n, base, mode, ml, mp, mindigits],
   a: args(ex),
   n : a[1], base: a[2], mode: if length(a) > 2 then a[3] else 1, mindigits: if length(a) > 3 then a[4] else 0,
-  mp:lookup_basen_mode(mode),
-  if emptyp(mp) then
-    error("basen: Bad mode ", mode, ", should be one of ", summarize_basen_mode_list(), ".")
-  else (
-    ml : mp[1],
-    if integerp(n) and integerp(base) and base > 1 then (
-      (ss:sconcat(
-        (
-          if ml="M"  then
-            "0"
-          else
-            (if ml="C" then 
-              (if base=2 then "0b" else (if base=8 then "0o" else (if base=16 then "0x" else "0?")))
-            else
-              (if ml="B" then 
-                (if base=2 then "\\&B" else (if base=8 then "\\&O" else (if base=16 then "\\&H" else "\\&?")))
-              else
-                ""))),
-        "~", string(base), 
-        if integerp(mindigits) and mindigits>0 then sconcat(",", string(mindigits), ",'0R") else "R",
-          (if ml="S" or ml="_" then
-            sconcat("_", string(base))
-          else
-            "")),
-        ev(printf(false, ss, ev(n)), simp)) )
-    else
-      ev(n,simp) ) );
+  ev(?tobasen(n, base, mode, mindigits),simp));
 
 texput(basen,basentex);
 

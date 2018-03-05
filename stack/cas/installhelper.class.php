@@ -141,7 +141,6 @@ class stack_cas_configuration {
     }
 
     public function maxima_win_location() {
-        global $CFG;
 
         if ($this->settings->platform != 'win') {
             return '';

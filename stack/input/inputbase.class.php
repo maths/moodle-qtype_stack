@@ -319,8 +319,9 @@ abstract class stack_input {
         
         if(is_array($teacheranswer))
         {
-            foreach($teacheranswer as $k => $a)
+            foreach($teacheranswer as $k => $a) {
                 adapt_to_basen_elt($a, $k);
+            }
         } else {
             $this->basen_options = $this->parse_basen_call($teacheranswer);
         }
@@ -979,7 +980,7 @@ abstract class stack_input {
      * Transforms the student's response input into an array.
      * Most return the same as went in.
      *
-     * @param array|string $in
+     * @param array|string $response
      * @return string
      */
     protected function response_to_contents($response) {
@@ -995,7 +996,7 @@ abstract class stack_input {
      * Transforms the contents array into a maxima expression.
      * Most simply take the casstring from the first element of the contents array.
      *
-     * @param array|string $in
+     * @param array|string $contents
      * @return string
      */
     public function contents_to_maxima($contents) {

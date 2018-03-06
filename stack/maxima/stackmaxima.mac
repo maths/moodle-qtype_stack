@@ -20,6 +20,7 @@
 /* ********************************** */
 
 stack_reset(rand_seed) := block(
+  if featurep(all,constant) then remove(all, constant),
   kill(allbut [functions]),
   kill(trigsimp),
   /* Very unlikley the function psi will be needed for assessment and it breaks the session

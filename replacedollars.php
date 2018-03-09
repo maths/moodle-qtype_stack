@@ -15,11 +15,18 @@
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * This script lets the user create or edit question tests for a question.
+ * This script makes automatic bulk updates to the content of questions
+ * when the STACK syntax has been changed, e.g. @...@ to {@...@}.
+ *
+ * If you have a very large number of questions to process, the output
+ * from this script can overload your web browser. In that case, there
+ * is an un-documented feature. Add preview=0 at the end of the URL.
  *
  * @copyright  2012 the Open University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+
+define('NO_OUTPUT_BUFFERING', true);
 
 require_once(__DIR__.'/../../../config.php');
 
@@ -31,6 +38,7 @@ require_once(__DIR__ . '/stack/utils.class.php');
 // Get the parameters from the URL.
 $contextid = required_param('contextid', PARAM_INT);
 $confirm = optional_param('confirm', false, PARAM_BOOL);
+$preview = optional_param('preview', true, PARAM_BOOL);
 
 // Login and check permissions.
 $context = context::instance_by_id($contextid);
@@ -45,7 +53,7 @@ $PAGE->set_title($title);
 $categories = question_category_options(array($context));
 $categories = reset($categories);
 
-$fixer = new qtype_stack_dollar_fixer();
+$fixer = new qtype_stack_dollar_fixer($preview);
 $questionfields = array('questiontext', 'generalfeedback');
 $qtypestackfields = array('specificfeedback', 'prtcorrect', 'prtpartiallycorrect', 'prtincorrect', 'questionnote');
 $prtnodefields = array('truefeedback', 'falsefeedback');
@@ -55,6 +63,9 @@ $anychanges = false;
 // Display.
 echo $OUTPUT->header();
 echo $OUTPUT->heading($title);
+
+// This page could be long-running, if you have a course with many questions, so release the session.
+core\session\manager::write_close();
 
 foreach ($categories as $key => $category) {
     list($categoryid) = explode(',', $key);
@@ -66,6 +77,9 @@ foreach ($categories as $key => $category) {
 
     foreach ($questions as $question) {
         echo $OUTPUT->heading(format_string($question->name), 4);
+
+        // Prevent time-outs.
+        core_php_time_limit::raise(30);
 
         // Fields in the question table.
         $changes = false;
@@ -138,7 +152,7 @@ if (!$anychanges) {
 
 } else {
     echo $OUTPUT->single_button(new moodle_url('/question/type/stack/replacedollars.php',
-            array('contextid' => $context->id, 'confirm' => 1)), get_string('savechanges'));
+            array('contextid' => $context->id, 'confirm' => 1, 'preview' => $preview)), get_string('savechanges'));
 }
 echo html_writer::tag('p', html_writer::link(new moodle_url('/question/type/stack/replacedollarsindex.php'),
         get_string('back')));
@@ -150,6 +164,8 @@ echo $OUTPUT->footer();
  * This helper class fixes old-style maths delimiters in HTML.
  */
 class qtype_stack_dollar_fixer {
+    /** @var bool whether to output the changes made to the content. */
+    protected $preview;
     /** @var array bit of HTML that we want to un-escape when displaying the updated HTML. */
     protected $newsearch;
     /** @var array what we want to replace $newsearch with. */
@@ -162,7 +178,8 @@ class qtype_stack_dollar_fixer {
     /**
      * Constructor.
      */
-    public function __construct() {
+    public function __construct($preview) {
+        $this->preview = $preview;
         $this->search = array(s('<ins>\[</ins>'), s('<ins>\]</ins>'),
                 s('<ins>\(</ins>'), s('<ins>\)</ins>'),
                 s('<ins>{@</ins>'), s('<ins>@}</ins>'));
@@ -184,11 +201,13 @@ class qtype_stack_dollar_fixer {
             return false;
         }
 
-        $markedup = stack_maths::replace_dollars($question->{$field}, true);
         echo html_writer::tag('p', stack_string('replacedollarsin', $field));
-        echo html_writer::tag('pre', str_replace($this->search, $this->replace,
-                s($markedup)), array('class' => 'questiontext'));
-        echo html_writer::tag('div', stack_ouput_castext($newtext), array('class' => 'questiontext'));
+        if ($this->preview) {
+            $markedup = stack_maths::replace_dollars($question->{$field}, true);
+            echo html_writer::tag('pre', str_replace($this->search, $this->replace,
+                    s($markedup)), array('class' => 'questiontext'));
+            echo html_writer::tag('div', stack_ouput_castext($newtext), array('class' => 'questiontext'));
+        }
 
         $question->{$field} = $newtext;
         return true;

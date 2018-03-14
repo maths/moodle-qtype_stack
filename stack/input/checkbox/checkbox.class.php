@@ -62,7 +62,6 @@ class stack_checkbox_input extends stack_dropdown_input {
         $result = '';
         $values = $this->get_choices();
         $selected = $state->contents;
-
         $selected = array_flip($state->contents);
         $radiobuttons = array();
         $classes = array();
@@ -118,8 +117,8 @@ class stack_checkbox_input extends stack_dropdown_input {
      * @return string
      */
     public function maxima_to_response_array($in) {
-        if ('' == $in || '[]' == $in) {
-            return array($this->name = '');
+        if ('' === $in || '[]' === $in) {
+            return array();
         }
 
         $tc = stack_utils::list_to_array($in, false);

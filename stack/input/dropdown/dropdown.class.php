@@ -430,7 +430,7 @@ class stack_dropdown_input extends stack_input {
      */
     public function maxima_to_response_array($in) {
         if ('' == $in) {
-            return array($this->name = '');
+            return array();
         }
 
         $ddlkey = $this->get_input_ddl_key($in);

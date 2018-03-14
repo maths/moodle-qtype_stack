@@ -53,7 +53,8 @@ class qtype_stack_test_helper extends question_test_helper {
             'single_char_vars', // Tests the insertion of * symbols between letter names.
             'runtime_prt_err', // This generates an error in the PRT at runtime.  With and without guard clause.
             'units', // This question has units inputs, and a numerical test.
-            'equiv_quad' // This question uses equivalence reasoning to solve a quadratic equation.
+            'equiv_quad', // This question uses equivalence reasoning to solve a quadratic equation.
+            'checkbox_all_empty' // Creates a checkbox input with none checked as the correct answer: edge case.
         );
     }
 
@@ -1836,5 +1837,36 @@ class qtype_stack_test_helper extends question_test_helper {
         $formform->qtype = 'stack';
 
         return $formform;
+    }
+
+    /**
+     * @return qtype_stack_question a very elementary question.
+     */
+    public static function make_stack_question_checkbox_all_empty() {
+        $q = self::make_a_stack_question();
+
+        $q->name = 'test-checkbox-empty';
+        $q->questionvariables = '';
+        $q->questiontext = 'Which of these are true? [[input:ans1]]
+                           [[validation:ans1]]';
+
+        $q->specificfeedback = '[[feedback:firsttree]]';
+        $q->penalty = 0.3; // Non-zero and not the default.
+
+        $q->inputs['ans1'] = stack_input_factory::make(
+                'checkbox', 'ans1', '[[x^2+1<0,false],[A,false,"Generalizations are false"]]', null, null);
+
+        $q->options->questionsimplify = 0;
+
+        $sans = new stack_cas_casstring('ans1');
+        $sans->get_valid('t');
+        $tans = new stack_cas_casstring('[]');
+        $tans->get_valid('t');
+        $node = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv');
+        $node->add_branch(0, '=', 0, $q->penalty, -1, '', FORMAT_HTML, 'firsttree-1-F');
+        $node->add_branch(1, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'firsttree-1-T');
+        $q->prts['firsttree'] = new stack_potentialresponse_tree('firsttree', '', false, 1, null, array($node), 0);
+
+        return $q;
     }
 }

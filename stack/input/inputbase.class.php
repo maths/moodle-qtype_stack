@@ -119,6 +119,10 @@ abstract class stack_input {
      *      values, so you only have to give options that are different from the default.
      */
     public function __construct($name, $teacheranswer, $options = null, $parameters = null) {
+        if (trim($name) === '') {
+            throw new stack_exception('stack_input: $name must be non-empty.');
+        }
+
         $this->name = $name;
         $this->teacheranswer = $teacheranswer;
         $class = get_class($this);

@@ -173,6 +173,23 @@
         <INDEX NAME="questionid-testcase-prtname" UNIQUE="true" FIELDS="questionid, testcase, prtname"/>
       </INDEXES>
     </TABLE>
+    <TABLE NAME="qtype_stack_qtest_results" COMMENT="Stores the result the last time each question test was run for each variant of a question">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="questionid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The question this test result belongs to."/>
+        <FIELD NAME="testcase" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Which testcase number this result relates to (as in stack_qtests.testscase)"/>
+        <FIELD NAME="seed" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The seed when this question test was run."/>
+        <FIELD NAME="result" TYPE="int" LENGTH="4" NOTNULL="true" SEQUENCE="false" COMMENT="1 = test passed. 0 = test failed."/>
+        <FIELD NAME="timerun" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The time when the question test was executed to give this result."/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+        <KEY NAME="questionid-testcase" TYPE="foreign" FIELDS="questionid, testcase" REFTABLE="qtype_stack_qtests" REFFIELDS="questionid, testcase"/>
+      </KEYS>
+      <INDEXES>
+        <INDEX NAME="questionid-testcase-seed" UNIQUE="true" FIELDS="questionid, testcase, seed"/>
+      </INDEXES>
+    </TABLE>
     <TABLE NAME="qtype_stack_deployed_seeds" COMMENT="Holds the seeds for the variants of each question that have been deployed.">
       <FIELDS>
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>

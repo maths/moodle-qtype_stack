@@ -824,7 +824,7 @@ class qtype_stack extends question_type {
         $testcases = array();
         foreach ($testcasenumbers as $number => $notused) {
             if (array_key_exists($number, $testinputs)) {
-                $testcase = new stack_question_test($testinputs[$number]);
+                $testcase = new stack_question_test($testinputs[$number], $number);
                 $testcases[$number] = $testcase;
             }
         }
@@ -858,7 +858,7 @@ class qtype_stack extends question_type {
         $inputs = $DB->get_records_menu('qtype_stack_qtest_inputs',
                 array('questionid' => $questionid, 'testcase' => $testcase),
                 'inputname', 'inputname, value');
-        $qtest = new stack_question_test($inputs);
+        $qtest = new stack_question_test($inputs, $testcase);
 
         // Load the expectations.
         $expectations = $DB->get_records('qtype_stack_qtest_expected',
@@ -883,6 +883,7 @@ class qtype_stack extends question_type {
         $DB->delete_records('qtype_stack_qtest_expected', array('questionid' => $questionid));
         $DB->delete_records('qtype_stack_qtest_inputs',   array('questionid' => $questionid));
         $DB->delete_records('qtype_stack_qtests',         array('questionid' => $questionid));
+        $DB->delete_records('qtype_stack_qtest_results',  array('questionid' => $questionid));
         $transaction->allow_commit();
     }
 
@@ -899,6 +900,8 @@ class qtype_stack extends question_type {
         $DB->delete_records('qtype_stack_qtest_inputs',
                 array('questionid' => $questionid, 'testcase' => $testcase));
         $DB->delete_records('qtype_stack_qtests',
+                array('questionid' => $questionid, 'testcase' => $testcase));
+        $DB->delete_records('qtype_stack_qtest_results',
                 array('questionid' => $questionid, 'testcase' => $testcase));
         $transaction->allow_commit();
     }
@@ -1255,7 +1258,7 @@ class qtype_stack extends question_type {
             }
         }
 
-        $testcase = new stack_question_test($inputs);
+        $testcase = new stack_question_test($inputs, $number);
 
         if (isset($xml['#']['expected'])) {
             foreach ($xml['#']['expected'] as $expectedxml) {

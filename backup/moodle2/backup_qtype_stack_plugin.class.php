@@ -84,6 +84,8 @@ class backup_qtype_stack_plugin extends backup_qtype_plugin {
         $stackqtestexpected = new backup_nested_element('stackqtestexpected', array('id'),
                 array('prtname', 'expectedscore', 'expectedpenalty', 'expectedanswernote'));
 
+        // Note, we intentionally don't backup stack_qtest_results. That is derived data.
+
         $stackdeployedseeds = new backup_nested_element('stackdeployedseeds');
         $stackdeployedseed = new backup_nested_element('stackdeployedseed', array('id'), array('seed'));
 

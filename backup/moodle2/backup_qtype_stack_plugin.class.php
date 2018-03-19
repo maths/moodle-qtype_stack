@@ -74,7 +74,7 @@ class backup_qtype_stack_plugin extends backup_qtype_plugin {
                       'falseanswernote', 'falsefeedback', 'falsefeedbackformat'));
 
         $stackqtests = new backup_nested_element('stackqtests');
-        $stackqtest = new backup_nested_element('stackqtest', array('id'), array('testcase'));
+        $stackqtest = new backup_nested_element('stackqtest', array('id'), array('testcase', 'timemodified'));
 
         $stackqtestinputs = new backup_nested_element('stackqtestinputs');
         $stackqtestinput = new backup_nested_element('stackqtestinput', array('id'),

@@ -588,7 +588,11 @@ class qtype_stack extends question_type {
             $testcasedata = new stdClass();
             $testcasedata->questionid = $questionid;
             $testcasedata->testcase = $testcase;
+            $testcasedata->timemodified = time();
             $DB->insert_record('qtype_stack_qtests', $testcasedata);
+        } else {
+            $DB->set_field('qtype_stack_qtests', 'timemodified', time(),
+                    array('questionid' => $questionid, 'testcase' => $testcase));
         }
 
         // Save the input data.

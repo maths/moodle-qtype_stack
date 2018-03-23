@@ -12,6 +12,8 @@ Done:
 * Add support for using JSXGraph  `http://jsxgraph.org` for better support of interactive graphics, and as part of an input type.  See [JSXGraph](../Authoring/JSXGraph.md)
 
 
+Note: newer versions of Maxima require that a variable has been initialised as a list/array before you can assign values to its indices.  For this reason some older questions may stop working when you upgrade to a new version of Maxima.  Please use the bulk test script after each upgrade!  See issue #343.
+
 To do:
 
 * Add in a version number to STACK questions.

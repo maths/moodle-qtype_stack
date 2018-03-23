@@ -119,6 +119,10 @@ abstract class stack_input {
      *      values, so you only have to give options that are different from the default.
      */
     public function __construct($name, $teacheranswer, $options = null, $parameters = null) {
+        if (trim($name) === '') {
+            throw new stack_exception('stack_input: $name must be non-empty.');
+        }
+
         $this->name = $name;
         $this->teacheranswer = $teacheranswer;
         $class = get_class($this);
@@ -581,7 +585,7 @@ abstract class stack_input {
 
         if (!$valid) {
             $status = self::INVALID;
-        } else if ($this->get_parameter('mustVerify', true) && $validator != $this->contents_to_maxima($contents)) {
+        } else if ($this->get_parameter('mustVerify', true) && !($validator === $this->contents_to_maxima($contents))) {
             $status = self::VALID;
         } else {
             $status = self::SCORE;

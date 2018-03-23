@@ -31,7 +31,6 @@ require_once(__DIR__ . '/../stack/input/factory.class.php');
  * @group qtype_stack
  */
 class stack_algebra_input_test extends qtype_stack_testcase {
-
     public function test_internal_validate_parameter() {
         $el = stack_input_factory::make('algebraic', 'input', 'x^2');
         $this->assertTrue($el->validate_parameter('boxWidth', 30));
@@ -126,6 +125,9 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         $el = stack_input_factory::make('algebraic', 'sans1', 'x^2/(1+x^2)');
         $state = $el->validate_student_response(array('sans1' => 'x^2'), $options, 'x^2/(1+x^2)', null);
         $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('A correct answer is <span class="filter_mathjaxloader_equation">'
+          . '<span class="nolink">\( \frac{x^2}{1+x^2} \)</span></span>, which can be typed in as follows: '
+          . '<code>x^2/(1+x^2)</code>', $el->get_teacher_answer_display('x^2/(1+x^2)', '\frac{x^2}{1+x^2}'));
     }
 
     public function test_validate_student_response_2() {
@@ -193,6 +195,19 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         $this->assertEquals('Illegal_floats', $state->note);
     }
 
+    public function test_validate_student_response_9() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('algebraic', 'sans1', '1<x nounand x<7');
+        $state = $el->validate_student_response(array('sans1' => '1<x and x<7'), $options, '1<x nounand x<7',
+            array('tans'));
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('1<x nounand x<7', $state->contentsmodified);
+        $this->assertEquals('\[ 1 < x\,{\mbox{ and }}\, x < 7 \]', $state->contentsdisplayed);
+        $this->assertEquals('A correct answer is <span class="filter_mathjaxloader_equation">'
+            . '<span class="nolink">\( 1<x \,{\mbox{and}}\,x<7 \)</span></span>, which can be typed in as follows: '
+            . '<code>1<x and x<7</code>', $el->get_teacher_answer_display('1<x nounand x<7', '1<x \,{\mbox{and}}\,x<7'));
+    }
+
     public function test_validate_student_lowest_terms_1() {
         $options = new stack_options();
         $el = stack_input_factory::make('algebraic', 'sans1', '12/4');
@@ -250,6 +265,20 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         $state = $el->validate_student_response(array('sans1' => '2x'), $options, '2*x', array('ta'));
         $this->assertEquals(stack_input::INVALID, $state->status);
         $this->assertEquals('missing_stars', $state->note);
+    }
+
+    public function test_validate_student_response_insertstars_sqrt_1() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('algebraic', 'sans1', '2*sqrt(2)/3');
+        $el->set_parameter('insertStars', 1);
+        $el->set_parameter('strictSyntax', false);
+        $state = $el->validate_student_response(array('sans1' => '2*sqrt(+2)/3'), $options, '2*sqrt(2)/3', array('ta'));
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('2*sqrt(+2)/3', $state->contentsmodified);
+        $this->assertEquals('\[ \frac{2\cdot \sqrt{2}}{3} \]', $state->contentsdisplayed);
+        $this->assertEquals('A correct answer is <span class="filter_mathjaxloader_equation">'
+            . '<span class="nolink">\( \frac{2\cdot \sqrt{2}}{3} \)</span></span>, which can be typed in as follows: '
+            . '<code>2*sqrt(2)/3</code>', $el->get_teacher_answer_display('2*sqrt(2)/3', '\frac{2\cdot \sqrt{2}}{3}'));
     }
 
     public function test_validate_student_response_sametype_true_1() {

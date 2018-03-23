@@ -20,6 +20,7 @@
 /* ********************************** */
 
 stack_reset(rand_seed) := block(
+  if featurep(all,constant) then remove(all, constant),
   kill(allbut [functions]),
   kill(trigsimp),
   /* Very unlikley the function psi will be needed for assessment and it breaks the session
@@ -378,14 +379,17 @@ stackfltfmt: "~a";
 /* Some systems are throwing an error here, which is spurious. */
 errcatch(compile(?texnumformat));
 
-/* ********************************** */
-/* Display: Subscripts                */
-/* ********************************** */
+/* **************************************************** */
+/* Display: Subscripts, and strip singular + operators. */
+/* **************************************************** */
 
 stack_disp_sub_script(ex) := block([s],
   if taylorp(ex) then return(ex),
   if safe_setp(ex) then return(apply(set, maplist(stack_disp_sub_script, args(ex)))),
   if arrayp(ex) then return(arraymake(op(ex), maplist(stack_disp_sub_script, args(ex)))),
+  /* Strip out empty plus operators, which cause problems in display with simp:false.             */
+  /* This is not, strictly speaking, a subscript issue, but we don't want another recursive call. */
+  if is(safe_op(ex)="+") and is(length(args(ex))=1) then return(stack_disp_sub_script(first(args(ex)))),
   if not(atom(ex)) then return(apply(op(ex), maplist(stack_disp_sub_script, args(ex)))),
   if simp_numberp(ex) or stringp(ex) or ex or not(ex) then return(ex),
   s: string(ex),

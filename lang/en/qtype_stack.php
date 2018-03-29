@@ -395,7 +395,7 @@ $string['settingmaximalibraries_failed'] = 'It appears as if some of the Maxima 
 $string['replacedollarscount'] = 'This category contains {$a} STACK questions.';
 $string['replacedollarsin'] = 'Fixed maths delimiters in field {$a}';
 $string['replacedollarsindex'] = 'Contexts with STACK questions';
-$string['replacedollarsindexintro'] = 'Clicking on any of the links will take you to a page where you can review the questions for old-style maths delimiters, and automatically fix them.';
+$string['replacedollarsindexintro'] = 'Clicking on any of the links will take you to a page where you can review the questions for old-style maths delimiters, and automatically fix them. If you have too many questions (thousands) in one context, the amount of output will probably overwhelm your web browser, in which case add a preview=0 parameter to the URL and try again.';
 $string['replacedollarsindextitle'] = 'Replace $s in question texts';
 $string['replacedollarsnoproblems'] = 'No problem delimiters found.';
 $string['replacedollarstitle'] = 'Replace $s in question texts in {$a}';

@@ -7,6 +7,8 @@ How to report bugs and make suggestions is described on the [community](../About
 
 ## Version 4.2
 
+Note: newer versions of Maxima require that a variable has been initialised as a list/array before you can assign values to its indices.  For this reason some older questions may stop working when you upgrade to a new version of Maxima.  Please use the bulk test script after each upgrade!  See issue #343.
+
 To do:
 
 * Add in a version number to STACK questions.

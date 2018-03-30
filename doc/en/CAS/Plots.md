@@ -121,13 +121,18 @@ The following CAStext gives representative examples of the plot2d features suppo
 
 ## Piecewise functions
 
-A piecewise function can be defined with `if` statements.  Note the use of a small gap to create a discontinuous graph.  If you want a larger gap, that is fine as well.
+A piecewise function can be defined with `if` statements.
 
     /* Piecewise function at x0, with discontinuity. */
     f0:x^3
     f1:sin(x)
     x0:2
     pg1:if x<(x0-1/1000) then f0 else if x<x0+1/1000 then 5000 else f1;
+
+Notes:
+
+1. Do not use functions, but instead have the conditional statement return an _expression_.  This seems odd, but Maxima's plot command plots expressions not functions.
+2. Note the use of a small gap to create a discontinuous graph.  If you want a larger gap, that is fine as well.
 
 Now use the CASText:
 

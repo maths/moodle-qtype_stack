@@ -20,6 +20,7 @@
 /* ********************************** */
 
 stack_reset(rand_seed) := block(
+  if featurep(all,constant) then remove(all, constant),
   kill(allbut [functions]),
   kill(trigsimp),
   /* Very unlikley the function psi will be needed for assessment and it breaks the session
@@ -378,14 +379,17 @@ stackfltfmt: "~a";
 /* Some systems are throwing an error here, which is spurious. */
 errcatch(compile(?texnumformat));
 
-/* ********************************** */
-/* Display: Subscripts                */
-/* ********************************** */
+/* **************************************************** */
+/* Display: Subscripts, and strip singular + operators. */
+/* **************************************************** */
 
 stack_disp_sub_script(ex) := block([s],
   if taylorp(ex) then return(ex),
   if safe_setp(ex) then return(apply(set, maplist(stack_disp_sub_script, args(ex)))),
   if arrayp(ex) then return(arraymake(op(ex), maplist(stack_disp_sub_script, args(ex)))),
+  /* Strip out empty plus operators, which cause problems in display with simp:false.             */
+  /* This is not, strictly speaking, a subscript issue, but we don't want another recursive call. */
+  if is(safe_op(ex)="+") and is(length(args(ex))=1) then return(stack_disp_sub_script(first(args(ex)))),
   if not(atom(ex)) then return(apply(op(ex), maplist(stack_disp_sub_script, args(ex)))),
   if simp_numberp(ex) or stringp(ex) or ex or not(ex) then return(ex),
   s: string(ex),
@@ -1288,7 +1292,7 @@ stack_eval_assignments(ex) := block([asl, sl],
 
 /* Two equations are the "same" when they have identical roots
    with identical multiplicities. */
-ATEquation(SA, SB) := block([keepfloat, RawMark, SA1, SB1, SB2, R1, R2, R, edgecase],
+ATEquation(SA, SB) := block([keepfloat, RawMark, SA1, SB1, SB2, Rationalex1, Rationalex2, Rationalex, edgecase],
     keepfloat:false,
     RawMark:false,
 
@@ -1318,50 +1322,52 @@ ATEquation(SA, SB) := block([keepfloat, RawMark, SA1, SB1, SB2, R1, R2, R, edgec
         else return([true, false, "ATEquation_lhs_notrhs_op", ""]),
 
     /* First try without expanding out the equations */
-    R1:ev(lhs(factor(SA))-rhs(factor(SA)), simp),
-    R2:ev(lhs(factor(SB))-rhs(factor(SB)), simp),
-    if ATEquation_zerop(R2) then
-        if ATEquation_zerop(R1) then
+    Rationalex1:ev(lhs(factor(SA))-rhs(factor(SA)), simp),
+    Rationalex2:ev(lhs(factor(SB))-rhs(factor(SB)), simp),
+
+    if ATEquation_zerop(Rationalex2) then
+        if ATEquation_zerop(Rationalex1) then
              return([true, true, "ATEquation_zero", ""])
         else return([true, false, "ATEquation_zero_fail", ""]),
     if ATEquation_emptyp(lhs(SB)-rhs(SB)) then
         if ATEquation_emptyp(lhs(SA)-rhs(SA)) then
              return([true, true, "ATEquation_empty", ""])
         else return([true, false, "ATEquation_empty_fail", ""]),
-    if numberp(float(abs(R1/R2))) then
--        return([true, true, "", ""]),    R1:num(ratsimp(R1)),
-    R2:num(ratsimp(R2)),
-    if algebraic_equivalence(abs(R1/R2), 1) then
+    if numberp(float(abs(Rationalex1/Rationalex2))) then
+        return([true, true, "", ""]),    Rationalex1:num(ratsimp(Rationalex1)),
+    Rationalex2:num(ratsimp(Rationalex2)),
+    if algebraic_equivalence(abs(Rationalex1/Rationalex2), 1) then
         return([true, true, "ATEquation_ratio", ""]),
-    R:ratsimp(R1/R2),
-    if numberp(float(abs(R))) then
+    Rationalex:ratsimp(Rationalex1/Rationalex2),
+    if numberp(float(abs(Rationalex))) then
         return([true, true, "ATEquation_num", ""]),
-    R:ratsimp(rectform((%i*R1)/R2)),
-    if numberp(float(abs(R))) then
+    Rationalex:ratsimp(rectform((%i*Rationalex1)/Rationalex2)),
+    if numberp(float(abs(Rationalex))) then
         return([true, true, "ATEquation_num_i", ""]),
     /* Guard clause for efficiency. */
     if freeof(abs, SA) and freeof(abs, SB) then
         return([true, false, "ATEquation_default", ""]),
 
     /* Now try to get rid of absolute value signs. */
-    R1:abs_replace_eq(SA),
-    R1:lhs(R1)-rhs(R1),
-    R2:abs_replace_eq(SB),
-    R2:lhs(R2)-rhs(R2),
-    if ATEquation_zerop(R2) then
-        if ATEquation_zerop(R1) then
+    Rationalex1:abs_replace_eq(SA),
+    Rationalex1:lhs(Rationalex1)-rhs(Rationalex1),
+    Rationalex2:abs_replace_eq(SB),
+    Rationalex2:lhs(Rationalex2)-rhs(Rationalex2),
+    if ATEquation_zerop(Rationalex2) then
+        if ATEquation_zerop(Rationalex1) then
              return([true, true, "ATEquation_abs_zero", ""])
         else return([true, false, "ATEquation_abs_zero_fail", ""]),
-    if numberp(float(abs(R1/R2))) then
--        return([true, true, "", ""]),    R1:num(ratsimp(R1)),
-    R2:num(ratsimp(R2)),
-    if algebraic_equivalence(abs(R1/R2), 1) then
+    if numberp(float(abs(Rationalex1/Rationalex2))) then
+        return([true, true, "", ""]),
+    Rationalex1:num(ratsimp(Rationalex1)),
+    Rationalex2:num(ratsimp(Rationalex2)),
+    if algebraic_equivalence(abs(Rationalex1/Rationalex2), 1) then
         return([true, true, "ATEquation_abs_ratio", ""]),
-    R:ratsimp(R1/R2),
-    if numberp(float(abs(R))) then
+    Rationalex:ratsimp(Rationalex1/Rationalex2),
+    if numberp(float(abs(Rationalex))) then
         return([true, true, "ATEquation_abs_num", ""]),
-    R:ratsimp(rectform((%i*R1)/R2)),
-    if numberp(float(abs(R))) then
+    R:ratsimp(rectform((%i*Rationalex1)/Rationalex2)),
+    if numberp(float(abs(Rationalex))) then
         return([true, true, "ATEquation_abs_num_i", ""]),
 
     return([true, false, "ATEquation_default", ""])

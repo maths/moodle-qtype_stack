@@ -66,6 +66,7 @@ class stack_bulk_tester  {
         }
         $allpassed = true;
         $failingtests = array();
+        $notests = array();
 
         foreach ($categories as $key => $category) {
             list($categoryid) = explode(',', $key);
@@ -80,16 +81,22 @@ class stack_bulk_tester  {
             echo html_writer::tag('p', stack_string('replacedollarscount', count($questionids)));
 
             foreach ($questionids as $questionid => $name) {
+                $question = question_bank::load_question($questionid);
+                $questionname = format_string($name);
+                foreach ($question->deployedseeds as $seed) {
+                    $this->qtype_stack_seed_cache($question, $seed);
+                }
+
                 $tests = question_bank::get_qtype('stack')->load_question_tests($questionid);
                 if (!$tests) {
-                    echo $OUTPUT->heading(html_writer::link(new moodle_url($questiontestsurl,
-                            array('questionid' => $questionid)), format_string($name)), 4);
+                    $questionnamelink = html_writer::link(new moodle_url($questiontestsurl,
+                            array('questionid' => $questionid)), format_string($name));
+                    $notests[] = $questionnamelink;
+                    echo $OUTPUT->heading($questionnamelink, 4);
                     echo html_writer::tag('p', stack_string('bulktestnotests'));
                     continue;
                 }
 
-                $question = question_bank::load_question($questionid);
-                $questionname = format_string($name);
                 $previewurl = new moodle_url($questiontestsurl, array('questionid' => $questionid));
                 if (empty($question->deployedseeds)) {
                     $questionnamelink = html_writer::link($previewurl, $questionname);
@@ -116,8 +123,7 @@ class stack_bulk_tester  {
                 }
             }
         }
-
-        return array($allpassed, $failingtests);
+        return array($allpassed, $failingtests, $notests);
     }
 
     /**
@@ -137,7 +143,9 @@ class stack_bulk_tester  {
 
         // Prepare the question and a usage.
         $question = clone($question);
-        $question->seed = (int) $seed;
+        if (!is_null($seed)) {
+            $question->seed = (int) $seed;
+        }
         $quba = question_engine::make_questions_usage_by_activity('qtype_stack', context_system::instance());
         $quba->set_preferred_behaviour('adaptive');
 
@@ -173,12 +181,54 @@ class stack_bulk_tester  {
     }
 
     /**
+     * Instantial the question to seed the cache.
+     *
+     * @param qtype_stack_question $question the question to test.
+     * @param int|null $seed if we want to force a particular version.
+     * @return array with two elements:
+     *              bool true if the tests passed, else false.
+     *              sring message summarising the number of passes and fails.
+     */
+    public function qtype_stack_seed_cache($question, $seed = null, $quiet = false) {
+        flush(); // Force output to prevent timeouts and to make progress clear.
+        core_php_time_limit::raise(10); // Prevent PHP timeouts.
+        gc_collect_cycles(); // Because PHP's default memory management is rubbish.
+
+        // Prepare the question and a usage.
+        $qu = clone($question);
+
+        // Create the question usage we will use.
+        $quba = question_engine::make_questions_usage_by_activity('qtype_stack', context_system::instance());
+        $quba->set_preferred_behaviour('adaptive');
+        if (!is_null($seed)) {
+            // This is a bit of a hack to force the question to use a particular seed,
+            // even if it is not one of the deployed seeds.
+            $qu->seed = (int) $seed;
+        }
+
+        $slot = $quba->add_question($qu, $qu->defaultmark);
+        $quba->start_question($slot);
+
+        // Prepare the display options.
+        $options = new question_display_options();
+        $options->readonly = true;
+        $options->flags = question_display_options::HIDDEN;
+        $options->suppressruntestslink = true;
+
+        // Create the question text, question note and worked solutions.
+        // This involves instantiation, which seeds the CAS cache in the cases when we have no tests.
+        $renderquestion = $quba->render_question($slot, $options);
+        $workedsolution = $qu->get_generalfeedback_castext();
+        $questionote = $qu->get_question_summary();
+    }
+
+    /**
      * Print an overall summary, with a link back to the bulk test index.
      *
      * @param bool $allpassed whether all the tests passed.
      * @param array $failingtests list of the ones that failed.
      */
-    public function print_overall_result($allpassed, $failingtests) {
+    public function print_overall_result($allpassed, $failingtests, $notests) {
         global $OUTPUT;
         echo $OUTPUT->heading(stack_string('overallresult'), 2);
         if ($allpassed) {
@@ -189,12 +239,23 @@ class stack_bulk_tester  {
                     array('class' => 'overallresult fail'));
         }
 
-        echo $OUTPUT->heading(stack_string('stackInstall_testsuite_failures'), 3);
-        echo html_writer::start_tag('ul');
-        foreach ($failingtests as $message) {
-            echo html_writer::tag('li', $message);
+        if (!empty($failingtests)) {
+            echo $OUTPUT->heading(stack_string('stackInstall_testsuite_failures'), 3);
+            echo html_writer::start_tag('ul');
+            foreach ($failingtests as $message) {
+                echo html_writer::tag('li', $message);
+            }
+            echo html_writer::end_tag('ul');
         }
-        echo html_writer::end_tag('ul');
+
+        if (!empty($notests)) {
+            echo $OUTPUT->heading(stack_string('stackInstall_testsuite_notests'), 3);
+            echo html_writer::start_tag('ul');
+            foreach ($notests as $message) {
+                echo html_writer::tag('li', $message);
+            }
+            echo html_writer::end_tag('ul');
+        }
 
         echo html_writer::tag('p', html_writer::link(new moodle_url('/question/type/stack/bulktestindex.php'),
                 get_string('back')));

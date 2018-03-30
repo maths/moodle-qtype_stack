@@ -24,6 +24,8 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+define('NO_OUTPUT_BUFFERING', true);
+
 require_once(__DIR__ . '/../../../config.php');
 
 require_once($CFG->libdir . '/questionlib.php');
@@ -73,11 +75,11 @@ foreach ($bulktester->get_stack_questions_by_context() as $contextid => $numstac
                 array('startfromcontextid' => $testcontext->id)),
             stack_string('bulktestcontinuefromhere')));
 
-    list($passed, $failingtests) = $bulktester->run_all_tests_for_context($testcontext);
+    list($passed, $failingtests, $notests) = $bulktester->run_all_tests_for_context($testcontext);
     $allpassed = $allpassed && $passed;
     $allfailingtests = array_merge($allfailingtests, $failingtests);
 }
 
 // Display the final summary.
-$bulktester->print_overall_result($allpassed, $allfailingtests);
+$bulktester->print_overall_result($allpassed, $allfailingtests, $notests);
 echo $OUTPUT->footer();

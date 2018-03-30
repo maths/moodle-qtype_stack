@@ -460,8 +460,7 @@ class qtype_stack_renderer extends qtype_renderer {
      * @param string $fact the contents of the fact sheet.
      */
     public function fact_sheet($name, $fact) {
-        static $count = 1;
-        return print_collapsible_region($fact, 'qtype_stack_fact_sheet',
-                'qtype_stack_fact_sheet' . $count++, $name, '', true, true);
+        $name = html_writer::tag('h5', $name);
+        return html_writer::tag('div', $name.$fact, array('class' => 'factsheet'));
     }
 }

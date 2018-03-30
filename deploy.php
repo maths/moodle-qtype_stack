@@ -76,6 +76,14 @@ if (!is_null($undeploy) && $question->deployedseeds) {
 
 $deploy = optional_param('deploymany', null, PARAM_INT);
 $deploytxt = optional_param('deploymany', null, PARAM_TEXT);
+$starttime = time();
+// The number of seconds we devote to deploying before moving on.  Prevents system hangging.
+// Note, in "safe mode" the set time limit function has no effect.
+$maxtime = 180;
+flush(); // Force output to prevent timeouts and to make progress clear.
+core_php_time_limit::raise($maxtime); // Prevent PHP timeouts.
+gc_collect_cycles(); // Because PHP's default memory management is rubbish.
+
 if (!is_null($deploy)) {
 
     if (0 == $deploy) {
@@ -92,7 +100,7 @@ if (!is_null($deploy)) {
     $failedattempts = 0;
     $numberdeployed = 0;
 
-    while ($failedattempts < $maxfailedattempts && $numberdeployed < $deploy) {
+    while ($failedattempts < $maxfailedattempts && $numberdeployed < $deploy && time() - $starttime < $maxtime) {
         // Genrate a new seed.
         $seed = mt_rand();
         $variantdeployed = false;
@@ -141,11 +149,16 @@ if (!is_null($deploy)) {
             // Actually deploy the question.
             $question->deploy_variant($seed);
             $numberdeployed++;
+            flush();
         }
     }
 
     $nexturl->param('deployfeedback', stack_string('deploymanysuccess', array('no' => $numberdeployed)));
     $nexturl->param('seed', $seed);
+    if (time() - $starttime >= $maxtime) {
+        $nexturl->param('deployfeedbackerr', stack_string('deployoutoftime', array('time' => time() - $starttime)));
+        redirect($nexturl);
+    }
     if ($failedattempts >= $maxfailedattempts) {
         $nexturl->param('deployfeedbackerr', stack_string('deploymanynonew'));
     }

@@ -26,6 +26,11 @@ require_once(__DIR__ . '/potentialresponsetree.class.php');
 
 class stack_question_test {
     /**
+     * @var int|null test-case number, if this is a real test stored in the database, else null.
+     */
+    public $testcase;
+
+    /**
      * @var array input name => value to be entered.
      */
     public $inputs;
@@ -38,9 +43,11 @@ class stack_question_test {
     /**
      * Constructor
      * @param array $inputs input name => value to enter.
+     * @param int $testcase test-case number, if this is a real test stored in the database.
      */
-    public function __construct($inputs) {
+    public function __construct($inputs, $testcase = null) {
         $this->inputs = $inputs;
+        $this->testcase = $testcase;
     }
 
     /**
@@ -86,6 +93,10 @@ class stack_question_test {
         foreach ($this->expectedresults as $prtname => $expectedresult) {
             $result = $question->get_prt_result($prtname, $response, false);
             $results->set_prt_result($prtname, $result);
+        }
+
+        if ($this->testcase) {
+            $this->save_result($question, $results);
         }
 
         return $results;
@@ -146,5 +157,34 @@ class stack_question_test {
      */
     public function get_input($inputname) {
         return $this->inputs[$inputname];
+    }
+
+    /**
+     * Store the outcome of running a test in qtype_stack_qtest_results.
+     *
+     * @param qtype_stack_question $question the question being tested.
+     * @param stack_question_test_result $result the test result.
+     */
+    protected function save_result(qtype_stack_question $question,
+            stack_question_test_result $result) {
+        global $DB;
+
+        $existingresult = $DB->get_record('qtype_stack_qtest_results',
+                array('questionid' => $question->id, 'testcase' => $this->testcase, 'seed' => $question->seed),
+                '*', IGNORE_MISSING);
+
+        if ($existingresult) {
+            $existingresult->result = (int) $result->passed();
+            $existingresult->timerun = time();
+            $DB->update_record('qtype_stack_qtest_results', $existingresult);
+        } else {
+            $DB->insert_record('qtype_stack_qtest_results', array(
+                    'questionid' => $question->id,
+                    'testcase' => $this->testcase,
+                    'seed' => $question->seed,
+                    'result' => $result->passed(),
+                    'timerun' => time(),
+            ));
+        }
     }
 }

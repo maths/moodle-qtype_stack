@@ -21,12 +21,15 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+define('NO_OUTPUT_BUFFERING', true);
+
 require_once(__DIR__.'/../../../config.php');
 
 require_once($CFG->libdir . '/questionlib.php');
 require_once(__DIR__ . '/locallib.php');
 require_once(__DIR__ . '/stack/utils.class.php');
 
+$preview = optional_param('preview', true, PARAM_BOOL);
 
 // Login and check permissions.
 $context = context_system::instance();
@@ -50,11 +53,16 @@ $counts = $DB->get_records_sql_menu("
 // Display.
 echo $OUTPUT->header();
 echo $OUTPUT->heading(stack_string('replacedollarsindex'));
+echo html_writer::tag('p', stack_string('replacedollarsindexintro'));
 
 echo html_writer::start_tag('ul');
 foreach ($counts as $contextid => $numstackquestions) {
+    $params = array('contextid' => $contextid);
+    if (!$preview) {
+        $params['preview'] = 0;
+    }
     echo html_writer::tag('li', html_writer::link(
-            new moodle_url('/question/type/stack/replacedollars.php', array('contextid' => $contextid)),
+            new moodle_url('/question/type/stack/replacedollars.php', $params),
             context::instance_by_id($contextid)->get_context_name(true, true) . ' (' . $numstackquestions . ')'));
 }
 echo html_writer::end_tag('ul');

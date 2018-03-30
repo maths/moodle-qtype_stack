@@ -150,8 +150,8 @@ class qtype_stack_question extends question_graded_automatically_with_countback
 
     /**
      * The next three fields cache the results of some expensive computations.
-     * The chache is only vaid for a particular response, so we store the current
-     * response, so that we can clearn the cached information in the result changes.
+     * The chache is only valid for a particular response, so we store the current
+     * response, so that we can learn the cached information in the result changes.
      * See {@link validate_cache()}.
      * @var array
      */
@@ -175,16 +175,20 @@ class qtype_stack_question extends question_graded_automatically_with_countback
 
     /**
      * Make sure the cache is valid for the current response. If not, clear it.
+     * @param bool $acceptvalid if this is true, then we will grade things even
+     * if the corresponding inputs are only VALID, and not SCORE.
      */
     protected function validate_cache($response, $acceptvalid = null) {
+
         if (is_null($this->lastresponse)) {
-            // Nothing cached yet. No worries.
             $this->lastresponse = $response;
             $this->lastacceptvalid = $acceptvalid;
             return;
         }
 
-        if ($this->lastresponse == $response && (
+        // We really need the PHP === here, as "0.040" == "0.04", even as strings.
+        // See https://stackoverflow.com/questions/80646/ for details.
+        if ($this->lastresponse === $response && (
                 $this->lastacceptvalid === null || $acceptvalid === null || $this->lastacceptvalid === $acceptvalid)) {
             if ($this->lastacceptvalid === null) {
                 $this->lastacceptvalid = $acceptvalid;
@@ -201,7 +205,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
 
     /**
      * @return bool do any of the inputs in this question require the student
-     *      validat the input.
+     *      validate the input.
      */
     protected function any_inputs_require_validation() {
         foreach ($this->inputs as $name => $input) {
@@ -467,7 +471,6 @@ class qtype_stack_question extends question_graded_automatically_with_countback
      */
     public function get_input_state($name, $response, $rawinput=false) {
         $this->validate_cache($response, null);
-
         if (array_key_exists($name, $this->inputstates)) {
             return $this->inputstates[$name];
         }
@@ -715,7 +718,6 @@ class qtype_stack_question extends question_graded_automatically_with_countback
      */
     protected function get_prt_input($index, $response, $acceptvalid) {
         $prt = $this->prts[$index];
-
         $prtinput = array();
         foreach ($prt->get_required_variables(array_keys($this->inputs)) as $name) {
             $state = $this->get_input_state($name, $response);

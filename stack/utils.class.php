@@ -595,19 +595,18 @@ class stack_utils {
      * @return string
      */
     public static function eliminate_strings($string) {
-        $cleared = $string;
+        $cleared = '';
         $i = 0;
         $lastslash = false;
         $instring = false;
-        $stringentry = -1;
+        $laststringexit = 0;
         while ($i < strlen($string)) {
             $c = $string[$i];
             $i++;
             if ($instring) {
                 if ($c == '"' && !$lastslash) {
                     $instring = false;
-                    $s = substr($string, $stringentry - 1, ($i - $stringentry + 1));
-                    $cleared = str_replace($s, '""', $cleared);
+                    $laststringexit = $i - 1;
                 } else if ($c == "\\") {
                     $lastslash = !$lastslash;
                 } else if ($lastslash) {
@@ -616,9 +615,10 @@ class stack_utils {
             } else if ($c == '"') {
                 $instring = true;
                 $lastslash = false;
-                $stringentry = $i;
+                $cleared .= substr($string, $laststringexit, $i - $laststringexit);
             }
         }
+        $cleared .= substr($string, $laststringexit);
         return $cleared;
     }
 

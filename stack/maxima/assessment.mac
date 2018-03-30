@@ -1792,10 +1792,16 @@ stack_eval_arg(ex) := block([eqoutcome, eqoutsymb, eqoutnote, res, id, truthargu
               ATres:ev(ATAlgEquiv(SA, FBB), simp),
               if (debug) then print(ATres),
               if second(ATres) then block(
-                  malrulecont:false,
-                  eqoutcome[ev(id, simp)]:false,
-                  eqoutsymb[ev(id, simp)]:IMPLIEDCHAR,
-                  tempnote:sconcat(tempnote, " | SquaredSecond | ", third(ATres))
+                  if assume_pos then block(
+                      eqoutcome[ev(id, simp)]:true,
+                      eqoutsymb[ev(id, simp)]:EQUIVCHAR,
+                      tempnote:sconcat(tempnote, " | SquaredSecondEquiv | ", third(ATres))
+                  ) else block(
+                      malrulecont:false,
+                      eqoutcome[ev(id, simp)]:false,
+                      eqoutsymb[ev(id, simp)]:IMPLIEDCHAR,
+                      tempnote:sconcat(tempnote, " | SquaredSecond | ", third(ATres))
+                  )
               )
           )
       ),

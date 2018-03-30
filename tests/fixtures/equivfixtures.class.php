@@ -385,6 +385,15 @@ class stack_equiv_test_data {
         $newarg['assumepos'] = true;
         $samplearguments[] = $newarg;
 
+        $newarg = array();
+        $newarg['title']     = "Root both sides";
+        $newarg['narrative']  = 'In this context, we should be able to "take the square root" of both sides.';
+        $newarg['casstring'] = "[x^2 = a^2-b,x = sqrt(a^2-b)]";
+        $newarg['debuglist'] = "[ASSUMEPOSVARS,EQUIVCHAR]";
+        $newarg['outcome']   = true;
+        $newarg['assumepos'] = true;
+        $samplearguments[] = $newarg;
+
         //******************************************************************************
         $newarg = array();
         $newarg['section'] = 'Solving simple equations';

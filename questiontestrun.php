@@ -434,9 +434,9 @@ echo  html_writer::tag('pre', $displayqvs);
 echo html_writer::end_tag('div');
 
 // Display the general feedback, aka "Worked solution".
-$qa = new question_attempt($question, 0);
 echo $OUTPUT->heading(stack_string('generalfeedback'), 3);
-echo html_writer::tag('div', html_writer::tag('div', $renderer->general_feedback($qa),
+echo html_writer::tag('div', html_writer::tag('div', $renderer->general_feedback(
+        $quba->get_question_attempt($slot)),
         array('class' => 'outcome generalfeedback')), array('class' => 'que'));
 
 // Add a link to the cas chat to facilitate editing the general feedback.

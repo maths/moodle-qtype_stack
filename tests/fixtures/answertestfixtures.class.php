@@ -350,6 +350,8 @@ class stack_answertest_test_data {
         array('AlgEquiv', '', '(19601-13861*sqrt(2))^(7/4)', '(5*sqrt(2)-7)^7', 0, '', ''),
         array('AlgEquiv', '', '(19601-13861*sqrt(2))^(7/4)', '(5*sqrt(2)-7)^7', 0, '', ''),
         array('AlgEquiv', '', 'sqrt(2*log(26)+4-2*log(2))', 'sqrt(2*log(13)+4)', 1, '', ''),
+        array('AlgEquiv', '', 'sqrt(2)*sqrt(3)+2*(sqrt(2/3))*x-(2/3)*(sqrt(2/3))*x^2+(4/9)*(sqrt(2/3))*x^3',
+            '4*sqrt(6)*x^3/27-(2*sqrt(6)*x^2)/9+(2*sqrt(6)*x)/3+sqrt(6)', 1, '', ''),
         array('AlgEquiv', '', '(n+1)*n!', '(n+1)!', 1, '', 'Factorials'),
         array('AlgEquiv', '', 'n/n!', '1/(n-1)!', 1, '', ''),
         array('AlgEquiv', '', '3*s*diff(q(s),s)', '3*s*diff(q(s),s)', 1, '', 'Unevaluated derviatives'),
@@ -562,6 +564,8 @@ class stack_answertest_test_data {
         array('SameType', '', 'x>1', 'x>=1', 1, '', ''),
         array('SameType', '', 'x>1 and x<3', 'x>=1', 1, '', ''),
         array('SameType', '', '{x>1,x<3}', 'x>=1', 0, '', ''),
+        array('SameType', '', 'sqrt(2)*sqrt(3)+2*(sqrt(2/3))*x-(2/3)*(sqrt(2/3))*x^2+(4/9)*(sqrt(2/3))*x^3',
+            '4*sqrt(6)*x^3/27-(2*sqrt(6)*x^2)/9+(2*sqrt(6)*x)/3+sqrt(6)', 1, '', ''),
 
         array('SysEquiv', '', '1/0', '[(x-1)*(x+1)=0]', -1, 'CASError: Division by zero. | ATSysEquiv_STACKERROR_SAns.',
             'Basic tests'),
@@ -1588,7 +1592,7 @@ class stack_answertest_test_data {
         } else {
             // We expect the test to fail.
             switch ($test->expectedscore) {
-                case -1: 
+                case -1:
                     if ($errors === 'TEST_FAILED') {
                         $passed = true;
                     } else {
@@ -1615,7 +1619,7 @@ class stack_answertest_test_data {
                     }
                     break;
 
-                default: 
+                default:
                     $passed = false;
                     $anomalynote[] = '[General failure.]';
                 }

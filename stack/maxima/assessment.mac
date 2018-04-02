@@ -393,6 +393,16 @@ anyfloatex(ex) := block([partswitch,ret,kloop],
   return(ret)
 )$
 
+/* Apply radcan to things which look like a number. Needed to transform expressions
+   like "2^(3/2)/sqrt(3)-(2*sqrt(6))/3" to zero, without expanding out brackets in general. */
+radcan_num(ex):= block(
+   if atom(ex) then return(ex),
+   /* Something without variables should have radcan applied. */
+   if emptyp(listofvars(ex)) then return(radcan(ex)),
+   apply(op(ex), map(radcan_num, args(ex)))
+)$
+
+
 /* This function is designed for displaying decimal places. It is also useful for currency. */
 /* displaydp(n, dp) is an inert function.  The tex function converts this to display.       */
 /* n is the number to be displayed                                                          */
@@ -591,6 +601,14 @@ algebraic_equivalence(SA, SB) :=
     ex:errcatch(ev(SA-SB, simp)),
     if ex=[] then (print("algebraic_equivalence: evaluating the difference of two expressions threw an error."), return(false)),
     ex:ex[1],
+    ex:append([ex], listofvars([ex])),
+    /* Do our best to collect like terms, and transform numbers to cannonical forms without expanding out. */
+    ex:errcatch(ev(apply(collectterms, ex), simp)),
+    if ex=[] then (print("algebraic_equivalence: evaluating collectterms threw an error."), return(false)),
+    ex:ex[1],
+    ex:errcatch(ev(radcan_num(ex), simp)),
+    if ex=[] then (print("algebraic_equivalence: evaluating radcan_num an error."), return(false)),
+    ex:ex[1],
     if numberp(ex) then
       if rat(ex)=0 then return(true)
       else return (false),
@@ -627,7 +645,6 @@ algebraic_equivalence(SA, SB) :=
     for vi:1 while ex#sqrtdenest(ex) do ex:sqrtdenest(ex),
     if ratsimp(ex)=0 then return(true) else return(false)
     )$
-
 
 /* This test establishes if two expressions appear NOT to be equivalent.
    It does so by evaluating the expressions numerically.        */

@@ -215,20 +215,13 @@ class qtype_stack_api_export {
         $this->property($res['T'], 'feedback_html', $node->truefeedback->text, 'string', $section);
 
         // False branch.
->>>>>>> Temporary merge branch 2
         $section = 'branch-F';
         $res['F'] = array();
         $this->property($res['F'], 'score_mode', $node->falsescoremode, 'string', $section);
         $this->property($res['F'], 'score', $node->falsescore, 'float', $section);
         $this->property($res['F'], 'penalty', $node->falsepenalty, 'float', $section);
-<<<<<<< Temporary merge branch 1
-        $next_node = ($node->falsenextnode == -1)? -1 : 'node_' . (string)$node->falsenextnode;
-        $this->property($res['F'], 'next_node', $next_node, 'string', $section);
-=======
         $nextnode = ($node->falsenextnode == -1) ? -1 : 'node_' . (string)$node->falsenextnode;
-
         $this->property($res['F'], 'next_node', $nextnode, 'string', $section);
->>>>>>> Temporary merge branch 2
         $this->property($res['F'], 'answer_note', $node->falseanswernote, 'string', $section);
         $this->property($res['F'], 'feedback_html', $node->falsefeedback->text, 'string', $section);
 

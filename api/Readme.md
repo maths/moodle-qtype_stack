@@ -23,14 +23,15 @@ This is to prove the functionality of including STACK questions in other interac
     $CFG->dataroot.'/stack/tmp'
 
 4. Copy 'api/config.php.dist' to '$CFG->wwwroot. "/config.php"' and edit the file to reflect your current settings.
-5. Edit 'minimal.php' to run the command '$api->install();'.  This command compiles a Maxima image with your local settings. You will now need to edit 'config.php' to point to your maxima image.  This varies by lisp version, but it might look like this:
+5. Edit 'install.php' to run the command '$api->install();'.  This command compiles a Maxima image with your local settings. You will now need to edit 'config.php' to point to your maxima image.  This varies by lisp version, but it might look like this:
 
     $CFG->maximacommand = 'timeout --kill-after=10s 10s /usr/lib/clisp-2.49/base/lisp.run -q -M /var/data/api/stack/maxima_opt_auto.mem';
 
-6. Comment out the install command in 'minimal.php'.  This should now run a basic question.
-
+6. Make sure 'install.php' can't execute again.
 
 Note, at this stage there is no error trapping....
+
+7. Point your webserver to 'api/endpoint.html' for a basic interaction.  You will need to supply questions in YAML format for this to be operational.
 
 # Docker
 

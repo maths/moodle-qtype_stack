@@ -103,16 +103,6 @@ flush();
 // Load the list of test cases.
 $testscases = question_bank::get_qtype('stack')->load_question_tests($question->id);
 
-// Execute the tests.
-$testresults = array();
-$allpassed = true;
-foreach ($testscases as $key => $testcase) {
-    $testresults[$key] = $testcase->test_question($quba, $question, $seed);
-    if (!$testresults[$key]->passed()) {
-        $allpassed = false;
-    }
-}
-
 $deployfeedback = optional_param('deployfeedback', null, PARAM_TEXT);
 if (!is_null($deployfeedback)) {
     echo html_writer::tag('p', $deployfeedback, array('class' => 'overallresult pass'));
@@ -276,6 +266,18 @@ if (!(empty($question->deployedseeds)) && $canedit) {
 
 // Display the controls to add another question test.
 echo $OUTPUT->heading(stack_string('questiontests'), 2);
+
+\core\session\manager::write_close();
+
+// Execute the tests.
+$testresults = array();
+$allpassed = true;
+foreach ($testscases as $key => $testcase) {
+    $testresults[$key] = $testcase->test_question($quba, $question, $seed);
+    if (!$testresults[$key]->passed()) {
+        $allpassed = false;
+    }
+}
 
 // Display the test results.
 $addlabel = stack_string('addanothertestcase', 'qtype_stack');

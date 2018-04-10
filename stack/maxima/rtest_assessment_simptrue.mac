@@ -72,3 +72,15 @@ stackunits(0.345023,km/s)$
 
 stack_unit_si_present(stackunits(0.023,m/s),[km/s,km/h]);
 stackunits(0.0828,km/h)$
+
+abs_replace_eq(abs(a) = abs(b));
+(a-b)*(a+b)=0$
+
+abs_replace_eq(a^2 = abs(a)*abs(b));
+(a^2-a*b)*(a^2+a*b) = 0$
+
+abs_replace_eq(abs(b+a) = abs(b));
+a*(2*b+a)=0$
+
+abs_replace_eq(abs(b-a)*abs(b+a) = abs(b)*abs(b-a));
+(a^2-a*b)*(3*a*b+a^2)*((-2*b^2)+a*b+a^2)*(2*b^2+a*b+a^2) = 0$

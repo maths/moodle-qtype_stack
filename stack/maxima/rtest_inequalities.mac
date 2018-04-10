@@ -1,0 +1,238 @@
+make_monic(3*x+6)$
+x+2$
+
+ineqprepare(x)$
+x$
+
+ineqprepare(x<1)$
+1-x>0$
+
+ineqprepare(x^2-9<=0)$
+9-x^2>=0$
+
+linear_inequalityp(x>1);
+true$
+
+linear_inequalityp(x>=1);
+true$
+
+linear_inequalityp(x=1);
+false$
+
+linear_inequalityp(x);
+false$
+
+linear_inequalityp(4*x>1-x)$
+true$
+
+linear_inequalityp(x^4+4*x>1-x+x^4)$
+true$
+
+linear_inequalityp(4*x>1-y)$
+false$
+
+linear_inequalityp(4*x>1-x^2)$
+false$
+
+linear_inequalityp(4*x>1-sin(x))$
+false$
+
+linear_inequalityp(x-1<=%pi)$
+true$
+
+inequality_disp(x-1>0)$
+1<x$
+
+inequality_disp(x-1<=%pi)$
+x<=1+%pi$
+
+inequality_disp(x>1);
+1<x$
+
+inequality_disp(2*x>%pi);
+%pi/2<x$
+
+inequality_disp(x>=4);
+4<=x$
+
+inequality_disp(x<1);
+x<1$
+
+inequality_disp(4*x<=28);
+x<=7$
+
+neg_ineq(x>6);
+x<6;
+
+neg_ineq(x>=6);
+x<=6;
+
+neg_ineq(x^2<x);
+x^2>x;
+
+neg_ineq(x);
+x;
+
+neg_ineq_list([x>1,x>2,x>3],[]);
+[x>1,x>2,x>3]$
+
+neg_ineq_list([x>1,x>2,x>3],[1]);
+[x<1,x>2,x>3]$
+
+neg_ineq_list([x>1,x>2,x>3],[1,3]);
+[x<1,x>2,x<3]$
+
+rev_ineq(x>6);
+6<x;
+
+rev_ineq(x>=6);
+6<=x;
+
+rev_ineq(x^2<x);
+x>x^2;
+
+rev_ineq(x);
+x;
+
+single_linear_ineq_reduce([x>1,x>1], [max,min])$
+[x>1]$
+
+/* Empty interval: not sorted out by this function. */
+single_linear_ineq_reduce([x>1,x<-1], [max,min])$
+[x>1,-1>x]$
+
+ineqorder(x^2-1>=5)$
+x^2-6>=0$
+
+ineqorder(x^2-1<5*x)$
+-x^2+5*x+1>0$
+
+ineq_rem_redundant(x>6 and 1<=x);
+x>6$
+
+ineq_rem_redundant(x>=6 and 1<=x);
+x>=6$
+
+ineq_rem_redundant(x>6 and 6<=x);
+x>6$
+
+ineq_rem_redundant(x<1 and 1>=x);
+1>x$
+
+ineq_rem_redundant(x>6 or 6<=x);
+x>=6$
+
+ineq_rem_redundant(x>6 or 1<=x);
+x>=1$
+
+ineq_rem_redundant(x<2 or 2>=x);
+2>=x$
+
+ineq_rem_redundant((x>6 or x>1) and x>=4);
+x>=4$
+
+ineq_rem_redundant((x>6 and 6<=x and y>2 and 6<x));
+x>6 and y>2$
+
+ineq_rem_redundant(1<x and x<%pi and x<20);
+x>1 and %pi>x$
+
+ineq_rem_redundant((x>1) %and (x>1))$
+x>1$
+
+ineq_rem_redundant((x>1) %and (x>3))$
+x>3$
+
+ineq_rem_redundant((x>1) %and (x<3))$
+(3>x) %and (x>1)$
+
+ineq_rem_redundant((x>1) %and (x>=1) %and (x>-5))$
+(x>1)$
+
+ineq_rem_redundant((x>1) %and (x>=1))$
+(x>1)$
+
+ineq_rem_redundant((x>1) %and (x>=1) %and (y>=3) %and (y>2))$
+(x>1) %and (y>=3)$
+
+ineq_rem_redundant(((x>1) %and (x>3)) %or (x=1))$
+(x>3) %or (x=1)$
+
+/* Join an end point. */
+ineq_rem_redundant((x>1) %or (x=1))$
+(x>=1)$
+
+/* Empty interval. */
+ineq_rem_redundant((x>1) %and (x=1))$
+false$
+
+/* Whole line. */
+ineq_rem_redundant((x>1) %or (x<=1))$
+true$
+
+/* Value included. */
+ineq_rem_redundant((x>1) %or (x=3))$
+x>1$
+
+/* Solve inequalities */
+
+inequality_factor_solve(x^2>1);
+(-1>x) %or (x>1)$
+
+inequality_factor_solve(x^2<1);
+((-1 > x) %and (x > 1)) %or ((1 > x) %and (x > -1))$
+
+inequality_factor_solve(x^2>4);
+(-2>x) %or (x>2)$
+
+inequality_factor_solve(x^2>-1);
+true$
+
+inequality_factor_solve(x^2+1<0);
+false$
+
+inequality_factor_solve(x^2+x>1);
+(-(sqrt(5)+1)/2 > x) %or (x > (sqrt(5)-1)/2)$
+
+inequality_factor_solve(x^2+x<1);
+((sqrt(5)-1)/2 > x) %and (x > -(sqrt(5)+1)/2)$
+
+inequality_factor_solve(x^2+x>-1);
+true$
+
+inequality_factor_solve(x^2>3);
+(-sqrt(3) > x) %or (x > sqrt(3))$
+
+inequality_factor_solve(2*x^2>1);
+(-1/sqrt(2) > x) %or (x > 1/sqrt(2))$
+
+inequality_factor_solve(2*x^2<1);
+((-1/sqrt(2) > x) %and (x > 1/sqrt(2))) %or ((1/sqrt(2) > x) %and (x > -1/sqrt(2)))$
+
+inequality_factor_solve(x^3>8);
+x-2>0$
+
+inequality_factor_solve(x^3<8);
+x-2<0$
+
+inequality_factor_solve(x^7>2);
+x-2^(1/7) > 0$
+
+inequality_factor_solve(x^7<=2);
+x-2^(1/7) <= 0$
+
+inequality_factor_solve(x^4>16)$
+(-2>x) %or (x>2)$
+
+inequality_factor_solve(x>0);
+x>0$
+
+inequality_factor_solve(x^2>0);
+(x > 0) %or (x < 0)$
+
+inequality_factor_solve(x^20>0);
+(x > 0) %or (x < 0)$
+
+
+
+

@@ -30,6 +30,7 @@ require_once(__DIR__ . '/../stack/input/factory.class.php');
  * @group qtype_stack
  */
 class stack_checkbox_input_test extends qtype_stack_walkthrough_test_base {
+
     protected function expected_choices() {
         return array(
             '' => stack_string('notanswered'),
@@ -66,7 +67,7 @@ class stack_checkbox_input_test extends qtype_stack_walkthrough_test_base {
                 . '<input type="checkbox" name="stack1__ans1_2" value="2" id="stack1__ans1_2" /><label>'
                 . '\(y+2\)</label></div></div>';
         $this->assertEquals($expected, $el->render(new stack_input_state(
-                stack_input::SCORE, array(''), '', '', '', '', ''), 'stack1__ans1', false));
+                stack_input::SCORE, array(''), '', '', '', '', ''), 'stack1__ans1', false, null));
     }
 
     public function test_simple_casstring_checkbox() {
@@ -79,17 +80,17 @@ class stack_checkbox_input_test extends qtype_stack_walkthrough_test_base {
                 . '<input type="checkbox" name="stack1__ans1_2" value="2" id="stack1__ans1_2" /><label>'
                 . '<code>2+y</code></label></div></div>';
         $this->assertEquals($expected, $el->render(new stack_input_state(
-                stack_input::SCORE, array(''), '', '', '', '', ''), 'stack1__ans1', false));
+                stack_input::SCORE, array(''), '', '', '', '', ''), 'stack1__ans1', false, null));
     }
 
     public function test_bad_teacheranswer() {
         $el = $this->make_checkbox();
         $el->adapt_to_model_answer('[x]');
         $expected = '<div class="error"><p>The input has generated the following runtime error which prevents you from answering.'
-                . ' Please contact your teacher.</p><p>The model answer field for this input is malformed: <code>[x]</code>. '
+                . ' Please contact your teacher.</p><p>The model answer field for this input is malformed: <code>[x]</code>.'
                 . '</p></div>';
         $this->assertEquals($expected, $el->render(new stack_input_state(
-                stack_input::SCORE, array('2'), '', '', '', '', ''), 'stack1__ans1', false));
+                stack_input::SCORE, array('2'), '', '', '', '', ''), 'stack1__ans1', false, null));
     }
 
     public function test_duplicate_values() {
@@ -98,10 +99,10 @@ class stack_checkbox_input_test extends qtype_stack_walkthrough_test_base {
         $el->adapt_to_model_answer('[[1,true],[1,false]]');
         // @codingStandardsIgnoreEnd
         $expected = '<div class="error"><p>The input has generated the following runtime error which prevents you from answering.'
-                .' Please contact your teacher.</p><p>Duplicate values have been found when generating the input options. </p>'
+                .' Please contact your teacher.</p><p>Duplicate values have been found when generating the input options.</p>'
                 .'</div>';
          $this->assertEquals($expected, $el->render(new stack_input_state(
-                stack_input::SCORE, array('2'), '', '', '', '', ''), 'stack1__ans1', false));
+                stack_input::SCORE, array('2'), '', '', '', '', ''), 'stack1__ans1', false, null));
     }
 
     public function test_duplicate_values_ok() {
@@ -114,7 +115,7 @@ class stack_checkbox_input_test extends qtype_stack_walkthrough_test_base {
             . '<input type="checkbox" name="stack1__ans1_2" value="2" id="stack1__ans1_2" checked="checked" /><label>'
             . '\(1\)</label></div></div>';
         $this->assertEquals($expected, $el->render(new stack_input_state(
-                stack_input::SCORE, array('2'), '', '', '', '', ''), 'stack1__ans1', false));
+                stack_input::SCORE, array('2'), '', '', '', '', ''), 'stack1__ans1', false, null));
     }
 
     public function test_render_not_answered() {
@@ -126,7 +127,7 @@ class stack_checkbox_input_test extends qtype_stack_walkthrough_test_base {
             . '<label>\(\sin \left( \pi\cdot n \right)\)</label></div></div>';
         $this->assertEquals($expected,
                 $el->render(new stack_input_state(
-                        stack_input::BLANK, array(), '', '', '', '', ''), 'stack1__ans1', false));
+                        stack_input::BLANK, array(), '', '', '', '', ''), 'stack1__ans1', false, null));
     }
 
     public function test_render_x_plus_1() {
@@ -139,7 +140,7 @@ class stack_checkbox_input_test extends qtype_stack_walkthrough_test_base {
             . '<label><code>sin(pi*n)</code></label></div></div>';
         $this->assertEquals($expected,
                 $el->render(new stack_input_state(
-                        stack_input::SCORE, array('1'), '', '', '', '', ''), 'stack1__ans1', false));
+                        stack_input::SCORE, array('1'), '', '', '', '', ''), 'stack1__ans1', false, null));
     }
 
     public function test_render_latex() {
@@ -150,7 +151,7 @@ class stack_checkbox_input_test extends qtype_stack_walkthrough_test_base {
             . '<input type="checkbox" name="stack1__ans1_3" value="3" id="stack1__ans1_3" checked="checked" />'
             . '<label>\(\sin \left( \pi\cdot n \right)\)</label></div></div>';
         $this->assertEquals($expected, $el->render(new stack_input_state(
-                        stack_input::SCORE, array('3'), '', '', '', '', ''), 'stack1__ans1', false));
+                        stack_input::SCORE, array('3'), '', '', '', '', ''), 'stack1__ans1', false, null));
     }
 
     public function test_render_latexdisplay() {
@@ -161,7 +162,19 @@ class stack_checkbox_input_test extends qtype_stack_walkthrough_test_base {
             . '<input type="checkbox" name="stack1__ans1_3" value="3" id="stack1__ans1_3" checked="checked" />'
             . '<label>\[\sin \left( \pi\cdot n \right)\]</label></div></div>';
         $this->assertEquals($expected, $el->render(new stack_input_state(
-                        stack_input::SCORE, array('3'), '', '', '', '', ''), 'stack1__ans1', false));
+                        stack_input::SCORE, array('3'), '', '', '', '', ''), 'stack1__ans1', false, null));
+    }
+
+    public function test_render_latexdisplaystyle() {
+        $el = $this->make_checkbox(array('options' => 'LaTeXdisplaystyle'));
+        $expected = '<div class="answer"><div><input type="checkbox" name="stack1__ans1_1" value="1" id="stack1__ans1_1" />'
+            . '<label>\(\displaystyle x+1\)</label></div><div>'
+            . '<input type="checkbox" name="stack1__ans1_2" value="2" id="stack1__ans1_2" />'
+            . '<label>\(\displaystyle x+2\)</label></div><div>'
+            . '<input type="checkbox" name="stack1__ans1_3" value="3" id="stack1__ans1_3" checked="checked" />'
+            . '<label>\(\displaystyle \sin \left( \pi\cdot n \right)\)</label></div></div>';
+        $this->assertEquals($expected, $el->render(new stack_input_state(
+                        stack_input::SCORE, array('3'), '', '', '', '', ''), 'stack1__ans1', false, null));
     }
 
     public function test_validate_student_response_blank() {
@@ -201,10 +214,46 @@ class stack_checkbox_input_test extends qtype_stack_walkthrough_test_base {
                 . '<input type="checkbox" name="stack1__ans1_3" value="3" id="stack1__ans1_3" checked="checked" />'
                 . '<label>None of these</label></div></div>';
         $this->assertEquals($expected, $el->render(new stack_input_state(
-                stack_input::SCORE, array('3'), '', '', '', '', ''), 'stack1__ans1', false));
+                stack_input::SCORE, array('3'), '', '', '', '', ''), 'stack1__ans1', false, null));
         $state = $el->validate_student_response(array('ans1_3' => '3'), $options, '2', null);
         $this->assertEquals(stack_input::SCORE, $state->status);
         $this->assertEquals(array('3'), $state->contents);
         $this->assertEquals('[{}]', $state->contentsmodified);
+    }
+
+    public function test_logic_casstring() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('checkbox', 'ans1', '[[x=1 nounor x=2,true],[x=1 nounand x=2,false],[x=1 nounor x=3,false]]',
+                null, array('options' => 'casstring'));
+        $el->adapt_to_model_answer('[[x=1 nounor x=2,true],[x=1 nounand x=2,false],[x=1 nounor x=3,false]]');
+        $expected = '<div class="answer"><div><input type="checkbox" name="stack1__ans1_1" value="1" id="stack1__ans1_1" />'.
+                    '<label><code>x=1 or x=2</code></label></div><div>'.
+                    '<input type="checkbox" name="stack1__ans1_2" value="2" id="stack1__ans1_2" /><label><code>x=1 and x=2</code>'.
+                    '</label></div><div><input type="checkbox" name="stack1__ans1_3" value="3" id="stack1__ans1_3" checked="checked" />'.
+                    '<label><code>x=1 or x=3</code></label></div></div>';
+        $this->assertEquals($expected, $el->render(new stack_input_state(
+                stack_input::SCORE, array('3'), '', '', '', '', ''), 'stack1__ans1', false, null));
+        $state = $el->validate_student_response(array('ans1_3' => '3'), $options, '2', null);
+        $this->assertEquals(stack_input::SCORE, $state->status);
+        $this->assertEquals(array('3'), $state->contents);
+        $this->assertEquals('[x=1 nounor x=3]', $state->contentsmodified);
+    }
+
+    public function test_logic_latex() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('checkbox', 'ans1', '[[x=1 nounor x=2,true],[x=1 nounand x=2,false],[x=1 nounor x=3,false]]',
+                null, array('options' => 'latex'));
+        $el->adapt_to_model_answer('[[x=1 nounor x=2,true],[x=1 nounand x=2,false],[x=1 nounor x=3,false]]');
+        $expected = '<div class="answer"><div><input type="checkbox" name="stack1__ans1_1" value="1" id="stack1__ans1_1" />'.
+                '<label>\(x=1\,{\mbox{ or }}\, x=2\)</label></div><div>'.
+                '<input type="checkbox" name="stack1__ans1_2" value="2" id="stack1__ans1_2" /><label>\(x=1\,{\mbox{ and }}\, x=2\)'.
+                '</label></div><div><input type="checkbox" name="stack1__ans1_3" value="3" id="stack1__ans1_3" checked="checked" />'.
+                '<label>\(x=1\,{\mbox{ or }}\, x=3\)</label></div></div>';
+        $this->assertEquals($expected, $el->render(new stack_input_state(
+                stack_input::SCORE, array('3'), '', '', '', '', ''), 'stack1__ans1', false, null));
+        $state = $el->validate_student_response(array('ans1_3' => '3'), $options, '2', null);
+        $this->assertEquals(stack_input::SCORE, $state->status);
+        $this->assertEquals(array('3'), $state->contents);
+        $this->assertEquals('[x=1 nounor x=3]', $state->contentsmodified);
     }
 }

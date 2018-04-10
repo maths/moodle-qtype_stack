@@ -24,7 +24,11 @@ defined('MOODLE_INTERNAL') || die();
  */
 class stack_algebraic_input extends stack_input {
 
-    public function render(stack_input_state $state, $fieldname, $readonly) {
+    protected $extraoptions = array(
+        'rationalized' => false
+    );
+
+    public function render(stack_input_state $state, $fieldname, $readonly, $tavalue) {
 
         if ($this->errors) {
             return $this->render_error($this->errors);
@@ -34,6 +38,7 @@ class stack_algebraic_input extends stack_input {
         $attributes = array(
             'type'  => 'text',
             'name'  => $fieldname,
+            // Added 'id' for ILIAS.
             'id'    => $fieldname,
             'size'  => $this->parameters['boxWidth'] * 1.1,
             'style' => 'width: '.$size.'em'
@@ -44,7 +49,7 @@ class stack_algebraic_input extends stack_input {
             if ($this->parameters['syntaxAttribute'] == '1') {
                 $field = 'placeholder';
             }
-            $attributes[$field] = $this->parameters['syntaxHint'];
+            $attributes[$field] = stack_utils::logic_nouns_sort($this->parameters['syntaxHint'], 'remove');
         } else {
             $attributes['value'] = $this->contents_to_maxima($state->contents);
         }
@@ -80,7 +85,8 @@ class stack_algebraic_input extends stack_input {
             'allowWords'         => '',
             'forbidFloats'       => true,
             'lowestTerms'        => true,
-            'sameType'           => true);
+            'sameType'           => true,
+            'options'            => '');
     }
 
     /**
@@ -101,6 +107,7 @@ class stack_algebraic_input extends stack_input {
      * @return string the teacher's answer, displayed to the student in the general feedback.
      */
     public function get_teacher_answer_display($value, $display) {
+        $value = stack_utils::logic_nouns_sort($value, 'remove');
         return stack_string('teacheranswershow', array('value' => '<code>'.$value.'</code>', 'display' => $display));
     }
 }

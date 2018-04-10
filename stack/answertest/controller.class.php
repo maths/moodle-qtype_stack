@@ -24,9 +24,7 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/anstest.class.php');
 require_once(__DIR__ . '/at_general_cas.class.php');
-require_once(__DIR__ . '/../cas/connector.class.php');
-require_once(__DIR__ . '/../cas/casstring.class.php');
-require_once(__DIR__ . '/../cas/cassession.class.php');
+
 
 class stack_ans_test_controller {
     protected static $types = array(
@@ -41,6 +39,8 @@ class stack_ans_test_controller {
               'SingleFrac'           => 'stackOptions_AnsTest_values_SingleFrac',
               'PartFrac'             => 'stackOptions_AnsTest_values_PartFrac',
               'CompSquare'           => 'stackOptions_AnsTest_values_CompSquare',
+              'Equiv'                => 'stackOptions_AnsTest_values_Equiv',
+              'EquivFirst'           => 'stackOptions_AnsTest_values_EquivFirst',
               'GT'                   => 'stackOptions_AnsTest_values_GT',
               'GTE'                  => 'stackOptions_AnsTest_values_GTE',
               'SigFigsStrict'        => 'stackOptions_AnsTest_values_SigFigsStrict',
@@ -122,6 +122,23 @@ class stack_ans_test_controller {
             case 'CompSquare':
                 $this->at = new stack_answertest_general_cas($sans, $tans, 'ATCompSquare',
                                     true, $casoption, $options, true, false, true);
+                break;
+
+            case 'Equiv':
+                if (trim($casoption) == '' ) {
+                    // Note the *string* 'null' here is not mistake: this is passed to Maxima.
+                    $this->at = new stack_answertest_general_cas($sans, $tans, 'ATEquiv', true, 'null', $options);
+                } else {
+                    $this->at = new stack_answertest_general_cas($sans, $tans, 'ATEquiv', true, $casoption, $options);
+                }
+                break;
+
+            case 'EquivFirst':
+                if (trim($casoption) == '' ) {
+                    $this->at = new stack_answertest_general_cas($sans, $tans, 'ATEquivFirst', true, 'null', $options);
+                } else {
+                    $this->at = new stack_answertest_general_cas($sans, $tans, 'ATEquivFirst', true, $casoption, $options);
+                }
                 break;
 
             case 'String':

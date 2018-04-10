@@ -35,7 +35,7 @@ class stack_matrix_input extends stack_input {
         $at1->instantiate();
 
         if ('' != $at1->get_errors()) {
-            $this->errors = $at1->get_errors();
+            $this->errors[] = $at1->get_errors();
             return;
         }
 
@@ -135,7 +135,7 @@ class stack_matrix_input extends stack_input {
         $firstrow = array_fill(0, $this->width, '');
         $tc       = array_fill(0, $this->height, $firstrow);
 
-        // Turn the student's answer into a PHP array.
+        // Turn the student's answer, syntax hint, etc., into a PHP array.
         $t = trim($in);
         if ('matrix(' == substr($t, 0, 7)) {
             // @codingStandardsIgnoreStart
@@ -163,8 +163,8 @@ class stack_matrix_input extends stack_input {
      */
     protected function validate_contents($contents, $forbiddenkeys, $localoptions) {
 
-        $errors = $this->extra_validation($contents);
-        $valid = !$errors;
+        $errors = array();
+        $valid = true;
 
         // Now validate the input as CAS code.
         $modifiedcontents = array();
@@ -196,15 +196,16 @@ class stack_matrix_input extends stack_input {
 
                 $modifiedrow[] = $answer->get_casstring();
                 $valid = $valid && $answer->get_valid();
-                $errors .= $answer->get_errors();
+                $errors[] = $answer->get_errors();
             }
             $modifiedcontents[] = $modifiedrow;
         }
 
-        return array($valid, $errors, $modifiedcontents);
+        $caslines = array();
+        return array($valid, $errors, $modifiedcontents, $caslines);
     }
 
-    public function render(stack_input_state $state, $fieldname, $readonly) {
+    public function render(stack_input_state $state, $fieldname, $readonly, $tavalue) {
 
         if ($this->errors) {
             return $this->render_error($this->errors);
@@ -213,10 +214,19 @@ class stack_matrix_input extends stack_input {
         $attributes = array(
             'type' => 'text',
             'name' => $fieldname,
+            // Added 'id' for ILIAS.
+            'id'    => $fieldname,
         );
 
         $tc = $state->contents;
         $blank = $this->is_blank_response($state->contents);
+        if ($blank) {
+            $syntaxhint = stack_utils::logic_nouns_sort($this->parameters['syntaxHint'], 'remove');
+            if (trim($syntaxhint) != '') {
+                $tc = $this->maxima_to_array($syntaxhint);
+                $blank = false;
+            }
+        }
 
         if ($readonly) {
             $readonlyattr = ' readonly="readonly"';
@@ -241,9 +251,6 @@ class stack_matrix_input extends stack_input {
                 $val = '';
                 if (!$blank) {
                     $val = trim($tc[$i][$j]);
-                }
-                if ('?' == $val) {
-                    $val = '';
                 }
                 $name = $fieldname.'_sub_'.$i.'_'.$j;
                 $xhtml .= '<td><input type="text" name="'.$name.'" value="'.$val.'" size="'.
@@ -330,6 +337,20 @@ class stack_matrix_input extends stack_input {
                 break;
         }
         return $valid;
+    }
+
+    /**
+     * The AJAX instant validation method mostly returns a Maxima expression.
+     * Mostly, we need an array, labelled with the input name.
+     *
+     * The matrix type is different.  The javascript creates a single Maxima expression,
+     * and we need to split this up into an array of individual elements.
+     *
+     * @param string $in
+     * @return array
+     */
+    protected function ajax_to_response_array($in) {
+        return  $this->maxima_to_response_array($in);
     }
 
     /**

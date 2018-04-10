@@ -32,7 +32,7 @@ Differentiate \((x-1)^3\) with respect to \(x\).
 
 There are a number of things to notice about this text.
 
-* The text contains LaTeX mathematics environments.
+* The text contains LaTeX mathematics environments.  Do NOT use mathematics environments `$..$` and `$$..$$`.  Instead you must use `\(..\)` and `\[..]\` for inline and displayed mathematics respectively.  (There is an automatic bulk converter if you have a lot of legacy materials!)
 * The tag `[[input:ans1]]` will be replaced by an [input](Inputs.md) labelled `ans1`, i.e this denotes the position of the box into which the student puts their answer.
 * The tag `[[validation:ans1]]` will be replaced by any feedback related to the validity of the input `ans1`.
 
@@ -174,7 +174,7 @@ Update the form so that Node 3 has
 
 The FacForm answer test provides feedback automatically which would be inappropriate here.
 We just need to look at whether the answer is factored.  Hence we choose the quiet option.
-We needed to add $x$ to the "Test opts" to indicate which variable we are using.
+We needed to add \(x\) to the "Test opts" to indicate which variable we are using.
 
 We need to assign outcomes.
 
@@ -182,7 +182,7 @@ We need to assign outcomes.
 2. On the false branch set the `score=1` (well, you may disagree here, but that is up to you!)
 3. On the false branch set the feedback to something like
 
-<textarea readonly="readonly" rows="3" cols="50">
+<textarea readonly="readonly" rows="3" cols="75">
 Your answer is unfactored. There is no need to expand out the expression in this question. You can differentiate using the chain rule directly and keep the answer in factored form.</textarea>
 
 
@@ -203,12 +203,12 @@ STACK 3 uses Maxima's syntax for assignment, which is unusual.  In particular th
 
 Modify the [question variables](KeyVals.md#Question_variables) from the previous example so that
 
-    p : (x-1)^3;
+    p:(x-1)^3;
 
 Then change the [question text](CASText.md#question_text) to
 
 <textarea readonly="readonly" rows="3" cols="50">
-Differentiate @p@ with respect to \(x\).
+Differentiate {@p@} with respect to \(x\).
 [[input:ans1]]
 [[validation:ans1]]</textarea>
 
@@ -216,9 +216,9 @@ and in the inputs change the model answer to
 
     diff(p,x)
 
-Notice that now we have defined a local variable `p`, and used the value of this in the Question text.  The difference is between mathematics enclosed between `$` symbols and `@` symbols. All the text-based fields in the question, including feedback, are [CAS text](CASText.md).  This is HTML into which mathematics can be inserted.  LaTeX is placed between `$`s, and CAS expressions (including your variables) between `@` symbols.  There is more information in the specific documentation.   The CAS expressions are evaluated in the context of the random variables and displayed.
+Notice that now we have defined a local variable `p`, and used the value of this in the Question text.  The difference is between mathematics enclosed between `\(..\)` symbols and `{@..@}` symbols. All the text-based fields in the question, including feedback, are [CAS text](CASText.md).  This is HTML into which mathematics can be inserted.  LaTeX is placed between `\(..\)`s, and CAS expressions (including your variables) between matching `{@..@}` symbols.  There is more information in the specific documentation.   The CAS expressions are evaluated in the context of the random variables and displayed.
 
-Since we have used `@p@` here, the user will not see a \(p\) on the screen when the question is instantiated, but the _displayed value_ of `p`.
+Since we have used `{@p@}` here, the user will not see a \(p\) on the screen when the question is instantiated, but the _displayed value_ of `p`.
 
 Notice also that in the model answer there is a CAS command to differentiate the value of `p` with respect to `x`.
 It is necessary for the CAS to work out the answer in a random question.
@@ -248,7 +248,7 @@ Hence a random question may not have an empty question note.
 
 Fill this in as
 
-    \[ \frac{d}{d@x@}@p@ = @diff(p,x)@ \]
+    \[ \frac{d}{d{@x@}}{@p@} = {@diff(p,x)@} \]
 
 It is crucial to do this now since questions with `rand()` in the question variables may not have an empty question note.  By enforcing this now we prevent frustration later when it would be otherwise impossible to distinguish between random versions of a question.
 
@@ -268,7 +268,7 @@ This contains random numbers, and also examples of variables and expressions sel
 Then change the Question text to
 
 <textarea readonly="readonly" rows="3" cols="50">
-Differentiate @p@ with respect to @v@ .
+Differentiate {@p@} with respect to {@v@}.
 [[input:ans1]]
 [[validation:ans1]]</textarea>
 
@@ -280,7 +280,7 @@ It is often a good idea to use variables in the question at the outset, even if 
 
 You will also need to update the question note to be
 
-    \[ \frac{d}{d@v@}@p@ = @diff(p,v)@ \]
+    \[ \frac{d}{d{@v@}}{@p@} = {@diff(p,v)@} \]
 
 ## Question tests ##
 

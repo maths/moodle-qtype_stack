@@ -57,10 +57,11 @@ class stack_anstest_atnumsigfigs extends stack_anstest {
         if (substr($atopt, 0, 1) == '[') {
             $opts = substr(substr($atopt, 0 , -1), 1);
             $opts = explode(',', $opts);
-            $requiredsigfigs = $opts[0];
-            $requiredaccuracy = $opts[1];
+            $requiredsigfigs = trim($opts[0]);
+            $requiredaccuracy = trim($opts[1]);
         }
         $strictsigfigs = false;
+        $condoneextrasigfigs = false;
         $numaccuracy   = true;
         if ('ATSigFigsStrict' == $this->casfunction) {
             $strictsigfigs = true;
@@ -69,9 +70,15 @@ class stack_anstest_atnumsigfigs extends stack_anstest {
         if ($requiredaccuracy == 0) {
             $numaccuracy   = false;
         }
+        if ('ATNumSigFigs' == $this->casfunction && $requiredaccuracy == -1) {
+            $condoneextrasigfigs = true;
+            $requiredaccuracy = $requiredsigfigs;
+            // Change the options going into the CAS.
+            $atopt = "[$requiredsigfigs,$requiredsigfigs]";
+        }
 
-        if (null == $atopt or '' == $atopt or 0 === $atopt or $requiredsigfigs <= 0 or $requiredaccuracy < 0
-                or !ctype_digit($requiredsigfigs) or !ctype_digit($requiredaccuracy)) {
+        if (null == $atopt or '' == $atopt or 0 === $atopt or $requiredsigfigs <= 0
+                or $requiredaccuracy < 0 or !ctype_digit($requiredsigfigs) or !ctype_digit($requiredaccuracy)) {
             $this->aterror      = 'TEST_FAILED';
             $this->atfeedback   = stack_string('TEST_FAILED', array('errors' => stack_string("AT_MissingOptions")));
             $this->atansnote    = 'STACKERROR_OPTION.';
@@ -95,7 +102,6 @@ class stack_anstest_atnumsigfigs extends stack_anstest {
 
         // Use PHP to establish that the range of significant figures from the student's expression
         // contains the number of significant figures specified by the teacher.
-        $sa = trim($this->sanskey);
         $r = stack_utils::decimal_digits($this->sanskey);
 
         if ($strictsigfigs) {
@@ -104,6 +110,20 @@ class stack_anstest_atnumsigfigs extends stack_anstest {
                 $this->atmark = 1;
             } else if ($r['lowerbound'] <= $this->atoption && $this->atoption <= $r['upperbound']) {
                 $this->atansnote    = $this->casfunction.'_WithinRange. ';
+            }
+        } else if ($condoneextrasigfigs) {
+            // Round the student's answer.
+            $this->sanskey = 'significantfigures('.$this->sanskey.','.$requiredsigfigs.')';
+            if ($requiredsigfigs <= $r['lowerbound']) {
+                $withinrange = true;
+                $this->atmark = 1;
+            } else {
+                $this->atansnote = $this->casfunction.'_WrongDigits. ';
+                // Note, we combine with feedback from the CAS, so we set up a situation which can be combined with
+                // other CAS-generated feedback here.
+                $this->atfeedback = "stack_trans('ATNumSigFigs_WrongDigits');";
+                $this->atmark = 0;
+                $withinrange = false;
             }
         } else {
             if ($requiredsigfigs == $r['lowerbound']) {
@@ -123,7 +143,7 @@ class stack_anstest_atnumsigfigs extends stack_anstest {
             }
         }
 
-        // Do we need to check establish numerical precision with a CAS call?
+        // Do we need to establish numerical precision with a CAS call?
         if (!$numaccuracy) {
             if ($this->atmark) {
                 return true;
@@ -132,8 +152,6 @@ class stack_anstest_atnumsigfigs extends stack_anstest {
             }
         }
 
-        // Use Maxim to establish numerical precision.
-        $ta   = "[$this->tanskey,$atopt]";
         // Sort out options for the CAS session.
         if (null === $this->options) {
             $this->options = new stack_options();
@@ -142,8 +160,9 @@ class stack_anstest_atnumsigfigs extends stack_anstest {
 
         $cascommands = array();
         $cascommands[] = "STACKSA:$this->sanskey";
-        $cascommands[] = "STACKTA:$ta";
-        $cascommands[] = "result:StackReturn({$this->casfunction}(STACKSA,STACKTA))";
+        $cascommands[] = "STACKTA:$this->tanskey";
+        $cascommands[] = "STACKOP:$atopt";
+        $cascommands[] = "result:StackReturn({$this->casfunction}(STACKSA,STACKTA,STACKOP))";
 
         $cts = array();
         foreach ($cascommands as $com) {
@@ -174,8 +193,17 @@ class stack_anstest_atnumsigfigs extends stack_anstest {
             return null;
         }
 
+        if ('' != $session->get_errors_key('STACKOP')) {
+            $this->aterror      = 'TEST_FAILED';
+            $this->atfeedback   = stack_string('TEST_FAILED', array('errors' => $session->get_errors_key('STACKOP')));
+            $this->atansnote    = $this->casfunction.'_STACKERROR_Opt.';
+            $this->atmark       = 0;
+            $this->atvalid      = false;
+            return null;
+        }
+
         $sessionvars = $session->get_session();
-        $result = $sessionvars[2];
+        $result = $sessionvars[3];
 
         if ('' != $result->get_errors()) {
             $this->aterror      = 'TEST_FAILED';

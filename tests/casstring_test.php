@@ -107,9 +107,10 @@ class stack_cas_casstring_test extends basic_testcase {
                 array('x<1 or (x>1 and t<sin(x))', true, true),
                 array('[x<1, x>3]', true, true),
                 array('pg:if x<x0 then f0 else if x<x1 then 1000 else f1', false, true),
-                array('1<x<7', false, false),
-                array('1<a<=x^2', false, false),
-                array('{1<x<y, c>0}', false, false),
+                // Change for issue #324 now stops checking chained inequalities for teachers.
+                array('1<x<7', false, true),
+                array('1<a<=x^2', false, true),
+                array('{1<x<y, c>0}', false, true),
         );
 
         foreach ($cases as $case) {
@@ -232,22 +233,6 @@ class stack_cas_casstring_test extends basic_testcase {
         }
     }
 
-    public function test_html_1() {
-        $s = '</span>n';
-        $at1 = new stack_cas_casstring($s);
-        $this->assertFalse($at1->get_valid('t'));
-        $this->assertEquals('You appear to have some HTML elements in your expression. <pre></span>n</pre>',
-                $at1->get_errors());
-    }
-
-    public function test_html_2() {
-        $s = '<span>n';
-        $at1 = new stack_cas_casstring($s);
-        $this->assertFalse($at1->get_valid('t'));
-        $this->assertEquals('You appear to have some HTML elements in your expression. <pre><span>n</pre>',
-                $at1->get_errors());
-    }
-
     public function test_strings_1() {
         $s = 'a:"hello"';
         $at1 = new stack_cas_casstring($s);
@@ -255,27 +240,60 @@ class stack_cas_casstring_test extends basic_testcase {
     }
 
     public function test_strings_2() {
-        $s = 'a:"hello';
-        $at1 = new stack_cas_casstring($s);
-        $this->assertFalse($at1->get_valid('t'));
-        $this->assertEquals('You are missing a quotation sign <code>"</code>. ',
-                $at1->get_errors());
-    }
-
-    public function test_strings_3() {
         $s = 'a:["2x)",3*x]';
         $at1 = new stack_cas_casstring($s);
         $this->assertTrue($at1->get_valid('t'));
     }
 
+    /* TODO: we need a full parser to check for mismatched string delimiters.
+     * Below are some test cases which need a parser.
+     *
+     *  $s = 'a:"hello';
+     *  $at1 = new stack_cas_casstring($s);
+     *  $this->assertEquals('You are missing a quotation sign <code>"</code>. ', $at1->get_errors());
+     *  $s = 'a:""hello""';
+     *  $at1 = new stack_cas_casstring($s);
+     *  $this->assertFalse($at1->get_valid('t'));
+     *  $s = 'a:"hello"   "hello"';
+     *  $at1 = new stack_cas_casstring($s);
+     *  $this->assertFalse($at1->get_valid('t'));
+     *  $s = 'a:"hello"5';
+     *  $at1 = new stack_cas_casstring($s);
+     *  $this->assertFalse($at1->get_valid('t'));
+     *  $s = 'a:"hello"*5';
+     *  $at1 = new stack_cas_casstring($s);
+     *  $this->assertFalse($at1->get_valid('t'));
+     *  $s = 'a:"hello"  +  "hello"';
+     *  $at1 = new stack_cas_casstring($s);
+     *  $this->assertFalse($at1->get_valid('t'));
+     *  $s = 'a:(5)*"hello"';
+     *  $at1 = new stack_cas_casstring($s);
+     *  $this->assertFalse($at1->get_valid('t'));
+     *  $s = 'a:(5)/"hello"';
+     *  $at1 = new stack_cas_casstring($s);
+     *  $this->assertFalse($at1->get_valid('t'));
+     *  $s = 'a:5-"hello"';
+     *  $at1 = new stack_cas_casstring($s);
+     *  $this->assertFalse($at1->get_valid('t'));
+     *  $s = 'a:[{"hello"},"hello",["hello"]]';
+     *  $at1 = new stack_cas_casstring($s);
+     *  $this->assertTrue($at1->get_valid('t'));
+     *  $s = 'a:cos(pi)"hello"';
+     *  $at1 = new stack_cas_casstring($s);
+     *  $this->assertFalse($at1->get_valid('t'));
+     *  $s = 'a:[{"hello"}"hello"["hello"]]';
+     *  $at1 = new stack_cas_casstring($s);
+     *  $this->assertFalse($at1->get_valid('t'));
+     */
+
     public function test_system_execution() {
-        $s = 'a:eval_string("system(\\\"rm /tmp/test\\\")")';
+        // First the obvious one, just eval that string.
+        $s = 'a:eval_string("system(\\"rm /tmp/test\\")")';
         $at1 = new stack_cas_casstring($s);
         $this->assertFalse($at1->get_valid('t'));
-        $this->assertEquals('The characters @, $ and \ are not allowed in CAS input.',
+        $this->assertEquals('The expression <span class="stacksyntaxexample">eval_string</span> is forbidden.',
                 $at1->get_errors());
 
-        // First the obvious one, just eval that string.
         $s = 'a:eval_string("system(rm /tmp/test)")';
         $at1 = new stack_cas_casstring($s);
         $this->assertFalse($at1->get_valid('t'));
@@ -283,10 +301,10 @@ class stack_cas_casstring_test extends basic_testcase {
                 $at1->get_errors());
 
         // The second requires a bit more, parse but do the eval later.
-        $s = 'a:ev(parse_string("system(\\\"rm /tmp/test\\\")"),eval)';
+        $s = 'a:ev(parse_string("system(\\"rm /tmp/test\\")"),eval)';
         $at1 = new stack_cas_casstring($s);
         $this->assertFalse($at1->get_valid('t'));
-        $this->assertEquals('The characters @, $ and \ are not allowed in CAS input.',
+        $this->assertEquals('The expression <span class="stacksyntaxexample">parse_string</span> is forbidden.',
                 $at1->get_errors());
 
         // Then things get tricky, one needs to write the thing out and eval when reading in.
@@ -307,10 +325,10 @@ class stack_cas_casstring_test extends basic_testcase {
         $this->assertFalse($at1->get_valid('t'));
         $this->assertEquals('The expression <span class="stacksyntaxexample">save</span> is forbidden.',
                 $at1->get_errors());
-        $s = 'a:stringout("/tmp/test", "system(\\\"rm /tmp/test\\\");")';
+        $s = 'a:stringout("/tmp/test", "system(\\"rm /tmp/test\\");")';
         $at1 = new stack_cas_casstring($s);
         $this->assertFalse($at1->get_valid('t'));
-        $this->assertEquals('The characters @, $ and \ are not allowed in CAS input.',
+        $this->assertEquals('The expression <span class="stacksyntaxexample">stringout</span> is forbidden.',
                 $at1->get_errors());
 
         // The corresponding read commands load, loadfile, batch, and batchload are all bad.
@@ -377,7 +395,14 @@ class stack_cas_casstring_test extends basic_testcase {
                 $at1->get_errors());
 
         // And then there is the possibility of using lisp level functions.
-        $s = ':lisp (with-open-file (stream "/tmp/test" :direction :output) (format stream "system(\"rm /tmp/test\");"))';
+        $s = ':lisp (with-open-file (stream "/tmp/test" :direction :output) (format stream "system(\\"rm /tmp/test\\");"))';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertFalse($at1->get_valid('t'));
+        $this->assertEquals('The expression <span class="stacksyntaxexample">lisp</span> is forbidden.',
+                $at1->get_errors());
+        // That last goes wrong due to "strings" not being usable in the lisp way.
+        // Assuming those are in variables we can try this.
+        $s = ':lisp (with-open-file (stream a :direction :output) (format stream b))';
         $at1 = new stack_cas_casstring($s);
         $this->assertFalse($at1->get_valid('t'));
         $this->assertEquals('The expression <span class="stacksyntaxexample">lisp</span> is forbidden.',
@@ -522,6 +547,13 @@ class stack_cas_casstring_test extends basic_testcase {
                 $at1->get_casstring());
     }
 
+    public function test_semicolon() {
+        $s = 'a:3;b:4';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertFalse($at1->get_valid('s'));
+        $this->assertEquals('forbiddenChar', $at1->get_answernote());
+    }
+
     public function test_units_1() {
         $s = 'sa:3.14*mol';
         $at1 = new stack_cas_casstring($s);
@@ -532,12 +564,28 @@ class stack_cas_casstring_test extends basic_testcase {
         $s = 'sa:3.14*moles';
         $at1 = new stack_cas_casstring($s);
         $this->assertFalse($at1->get_valid('s', true, 0));
+        $this->assertEquals('unknownFunction', $at1->get_answernote());
+    }
+
+    public function test_units_2_u() {
+        $s = 'sa:3.14*moles';
+        $at1 = new stack_cas_casstring($s);
+        $at1->set_units(true);
+        $this->assertFalse($at1->get_valid('s', true, 0));
         $this->assertEquals('unitssynonym', $at1->get_answernote());
     }
 
     public function test_units_3() {
         $s = 'sa:3.14*Moles';
         $at1 = new stack_cas_casstring($s);
+        $this->assertFalse($at1->get_valid('s', true, 0));
+        $this->assertEquals('unknownFunction', $at1->get_answernote());
+    }
+
+    public function test_units_3_u() {
+        $s = 'sa:3.14*Moles';
+        $at1 = new stack_cas_casstring($s);
+        $at1->set_units(true);
         $this->assertFalse($at1->get_valid('s', true, 0));
         $this->assertEquals('unitssynonym', $at1->get_answernote());
     }
@@ -570,6 +618,44 @@ class stack_cas_casstring_test extends basic_testcase {
         $this->assertEquals($err, $at1->get_errors());
     }
 
+    public function test_units_7() {
+        $s = '56.7*hr';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertTrue($at1->get_valid('s', true, 0));
+        $this->assertEquals('56.7*hr', $at1->get_casstring());
+        $this->assertEquals('', $at1->get_key());
+        $this->assertEquals('', $at1->get_answernote());
+    }
+
+    public function test_units_8() {
+        $s = '56.7*hr';
+        $at1 = new stack_cas_casstring($s);
+        $at1->set_units(true);
+        $this->assertFalse($at1->get_valid('s', true, 0));
+        $this->assertEquals('56.7*hr', $at1->get_casstring());
+        $this->assertEquals('', $at1->get_key());
+        $this->assertEquals('unitssynonym', $at1->get_answernote());
+    }
+
+    public function test_units_9() {
+        $s = '56.7*kgm/s';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertFalse($at1->get_valid('s', true, 0));
+        $this->assertEquals('56.7*kgm/s', $at1->get_casstring());
+        $this->assertEquals('', $at1->get_key());
+        $this->assertEquals('unknownFunction', $at1->get_answernote());
+    }
+
+    public function test_units_10() {
+        $s = '56.7*kgm/s';
+        $at1 = new stack_cas_casstring($s);
+        $at1->set_units(true);
+        $this->assertTrue($at1->get_valid('s', true, 0));
+        $this->assertEquals('56.7*kg*m/s', $at1->get_casstring());
+        $this->assertEquals('', $at1->get_key());
+        $this->assertEquals('', $at1->get_answernote());
+    }
+
     public function test_units_amu() {
         $s = '520*amu';
         $at1 = new stack_cas_casstring($s);
@@ -590,6 +676,14 @@ class stack_cas_casstring_test extends basic_testcase {
         $err = 'Input of units is case sensitive:  <span class="stacksyntaxexample">mmhg</span> is an unknown unit. '
                    . 'Did you mean one from the following list <span class="stacksyntaxexample">[mmHg]</span>?';
         $this->assertEquals($err, $at1->get_errors());
+    }
+
+    public function test_logic_noun_sort_1() {
+        $s = 'a:x=1 or x=2';
+        $s = stack_utils::logic_nouns_sort($s, 'add');
+        $at1 = new stack_cas_casstring($s);
+        $this->assertTrue($at1->get_valid('s'));
+        $this->assertEquals('x=1 nounor x=2', $at1->get_casstring());
     }
 
     public function test_spaces_1_simple() {
@@ -636,9 +730,10 @@ class stack_cas_casstring_test extends basic_testcase {
 
     public function test_spaces_1_logic() {
         $s = 'a b and c';
+        $s = stack_utils::logic_nouns_sort($s, 'add');
         $at1 = new stack_cas_casstring($s);
         $this->assertFalse($at1->get_valid('s', true, 1));
-        $this->assertEquals('a b and c', $at1->get_casstring());
+        $this->assertEquals('a b nounand c', $at1->get_casstring());
         $err = 'Illegal spaces found in expression <span class="stacksyntaxexample">a<font color="red">_</font>b and c</span>.';
         $this->assertEquals($err, $at1->get_errors());
         $this->assertEquals('spaces', $at1->get_answernote());
@@ -682,9 +777,10 @@ class stack_cas_casstring_test extends basic_testcase {
 
     public function test_spaces_3_logic() {
         $s = 'a b and c';
+        $s = stack_utils::logic_nouns_sort($s, 'add');
         $at1 = new stack_cas_casstring($s);
         $this->assertTrue($at1->get_valid('s', true, 3));
-        $this->assertEquals('a*b and c', $at1->get_casstring());
+        $this->assertEquals('a*b nounand c', $at1->get_casstring());
     }
 
     public function test_spaces_0_insertneeded() {
@@ -750,13 +846,12 @@ class stack_cas_casstring_test extends basic_testcase {
     public function test_spaces_3_sin() {
         $s = 'sin x';
         $at1 = new stack_cas_casstring($s);
-        $this->assertFalse($at1->get_valid('s', true, 3));
-        $this->assertEquals('sin*x', $at1->get_casstring());
-        $err = 'You must apply <span class="stacksyntaxexample">sin</span> to an argument.  '
-                .'You seem to have <span class="stacksyntaxexample">sin*</span>, which looks like you have tried '
-                        .'to use <span class="stacksyntaxexample">sin</span> as a variable name.';
+        $at1->get_valid('s', true, 3);
+        $this->assertEquals('sin x', $at1->get_casstring());
+        $err = 'To apply a trig function to its arguments you must use brackets, not spaces.  '.
+            'For example use <span class="stacksyntaxexample">sin(...)</span> instead.';
                         $this->assertEquals($err, $at1->get_errors());
-                        $this->assertEquals('spaces | trigop', $at1->get_answernote());
+                        $this->assertEquals('trigspace | spaces', $at1->get_answernote());
     }
 
     public function test_spaces_4_insertneeded_true() {
@@ -824,12 +919,29 @@ class stack_cas_casstring_test extends basic_testcase {
     }
 
     public function test_log_key_vals_1() {
-        // This may not what we really want here, but this unit test is a warning.
         $s = 'log_x:log_x(a)';
         $at1 = new stack_cas_casstring($s);
         $this->assertTrue($at1->get_valid('s', true, 0));
         $this->assertEquals('lg(a, x)', $at1->get_casstring());
         $this->assertEquals('log_x', $at1->get_key());
         $this->assertEquals('logsubs', $at1->get_answernote());
+    }
+
+    public function test_chained_inequalities_s() {
+        $s = 'sa:3<x<5';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertFalse($at1->get_valid('s', true, 0));
+        $this->assertEquals('3<x<5', $at1->get_casstring());
+        $this->assertEquals('sa', $at1->get_key());
+        $this->assertEquals('chained_inequalities', $at1->get_answernote());
+    }
+
+    public function test_chained_inequalities_t() {
+        $s = 'f(x) := if x < 0 then (if x < 1 then 1 else 2) else 3';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertTrue($at1->get_valid('t', true, 0));
+        $this->assertEquals('f(x) := if x < 0 then (if x < 1 then 1 else 2) else 3', $at1->get_casstring());
+        $this->assertEquals('', $at1->get_key());
+        $this->assertEquals('', $at1->get_answernote());
     }
 }

@@ -422,11 +422,11 @@ function xmldb_qtype_stack_upgrade($oldversion) {
     }
 
     if ($oldversion < 2012061500) {
-        // Define field questionnote to be dropped from qtype_stack.
+        // Define field markmode to be dropped from qtype_stack.
         $table = new xmldb_table('qtype_stack');
         $field = new xmldb_field('markmode');
 
-        // Conditionally launch drop field questionnote.
+        // Conditionally launch drop field markmode.
         if ($dbman->field_exists($table, $field)) {
             $dbman->drop_field($table, $field);
         }
@@ -685,11 +685,10 @@ function xmldb_qtype_stack_upgrade($oldversion) {
         $DB->set_field_select('qtype_stack_qtest_expected', 'expectedpenalty', '0.6666667',
                 'expectedpenalty BETWEEN ? AND ?', array('0.66', '0.67'));
 
-        // Qtype stack savepoint reached.
         upgrade_plugin_savepoint(true, 2016012902, 'qtype', 'stack');
     }
 
-    if ($oldversion < 2016081902) {
+    if ($oldversion < 2016082000) {
 
         // Define table qtype_stack_inputs to be created.
         $table = new xmldb_table('qtype_stack_inputs');
@@ -701,8 +700,77 @@ function xmldb_qtype_stack_upgrade($oldversion) {
             $dbman->add_field($table, $field);
         }
 
+        upgrade_plugin_savepoint(true, 2016082000, 'qtype', 'stack');
+    }
+
+    if ($oldversion < 2017082300) {
+
+        // Define field assumepositive to be added to qtype_stack_options.
+        $table = new xmldb_table('qtype_stack_options');
+        $field = new xmldb_field('assumereal', XMLDB_TYPE_INTEGER, '4', null, XMLDB_NOTNULL, null, '0', 'assumepositive');
+
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        upgrade_plugin_savepoint(true, 2017082300, 'qtype', 'stack');
+    }
+
+    if ($oldversion < 2017082400) {
+        // Changing type of field questionnote on table qtype_stack_options to text.
+        $table = new xmldb_table('qtype_stack_options');
+        $field = new xmldb_field('questionnote', XMLDB_TYPE_TEXT, 'medium', null, XMLDB_NOTNULL, null, null);
+
+        // Launch change of type for field questionnote.
+        $dbman->change_field_type($table, $field);
+        $dbman->change_field_default($table, $field);
+
         // STACK savepoint reached.
-        upgrade_plugin_savepoint(true, 2016081902, 'qtype', 'stack');
+        upgrade_plugin_savepoint(true, 2017082400, 'qtype', 'stack');
+    }
+
+    if ($oldversion < 2018021900) {
+
+        // Define field timemodified to be added to qtype_stack_qtests.
+        $table = new xmldb_table('qtype_stack_qtests');
+        $field = new xmldb_field('timemodified', XMLDB_TYPE_INTEGER, '10', null, null, null, null, 'testcase');
+
+        // Conditionally launch add field timemodified.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // Stack savepoint reached.
+        upgrade_plugin_savepoint(true, 2018021900, 'qtype', 'stack');
+    }
+
+    if ($oldversion < 2018021901) {
+
+        // Define table qtype_stack_qtest_results to be created.
+        $table = new xmldb_table('qtype_stack_qtest_results');
+
+        // Adding fields to table qtype_stack_qtest_results.
+        $table->add_field('id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null);
+        $table->add_field('questionid', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null);
+        $table->add_field('testcase', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null);
+        $table->add_field('seed', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null);
+        $table->add_field('result', XMLDB_TYPE_INTEGER, '4', null, XMLDB_NOTNULL, null, null);
+        $table->add_field('timerun', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null);
+
+        // Adding keys to table qtype_stack_qtest_results.
+        $table->add_key('primary', XMLDB_KEY_PRIMARY, array('id'));
+        $table->add_key('questionid-testcase', XMLDB_KEY_FOREIGN, array('questionid', 'testcase'), 'qtype_stack_qtests', array('questionid', 'testcase'));
+
+        // Adding indexes to table qtype_stack_qtest_results.
+        $table->add_index('questionid-testcase-seed', XMLDB_INDEX_UNIQUE, array('questionid', 'testcase', 'seed'));
+
+        // Conditionally launch create table for qtype_stack_qtest_results.
+        if (!$dbman->table_exists($table)) {
+            $dbman->create_table($table);
+        }
+
+        // Stack savepoint reached.
+        upgrade_plugin_savepoint(true, 2018021901, 'qtype', 'stack');
     }
 
     // Add new upgrade blocks just above here.
@@ -715,7 +783,7 @@ function xmldb_qtype_stack_upgrade($oldversion) {
     // this bit of code to run every time that qtype_stack is updated.
     if (!preg_match('~stackmaximaversion:(\d{10})~',
             file_get_contents($CFG->dirroot . '/question/type/stack/stack/maxima/stackmaxima.mac'), $matches)) {
-        throw new coding_exception('Maxima libraries version number not found in stackmaxima.mac.');
+                throw new coding_exception('Maxima libraries version number not found in stackmaxima.mac.');
     }
     $latestversion = $matches[1];
     $currentlyusedversion = get_config('qtype_stack', 'stackmaximaversion');

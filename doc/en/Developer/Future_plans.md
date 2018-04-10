@@ -4,7 +4,7 @@ How to report bugs and make suggestions is described on the [community](../About
 
 Note, where the feature is listed as "(done)" means we have prototype code in the testing phase.
 
-## Features to add for STACK 3.6 or later ##
+## Features to add for STACK 4.1 or later ##
 
 ### Units Inputs ###
 
@@ -13,22 +13,23 @@ Note, where the feature is listed as "(done)" means we have prototype code in th
 * Add an option to validation to require compatible units with the teacher's answer, not just some units.
 * Create a mechanism to distinguish between `m/s` and `m*s^-1`, both at validation and answer test levels.
 * Create a mechanism to distinguish between `m/s/s` and `m/s^2`, both at validation and answer test levels.
+* Add support for testing for error bounds in units.  E.g. `9.81+-0.01m/s^2`.  There is already CAS code for this, and the error bounds are an optional 3rd argument to `stackunits`.  This is currently only used to reject students' answers as invalid.
 
 ### Inputs ###
 
-* (underway - in equiv branch) Reasoning by equivalence input type.
 * Add support for coordinates, so students can type in (x,y).  This should be converted internally to a list.
 * Add new input types
- 1. (done - in equiv branch) "scratch working" area in which students can record their thinking etc. alongside the final answer.
- 2. Dragmath (actually, probably use javascript from NUMBAS instead here, or the MathDox editor).
- 3. Sliders.
- 4. Geogebra input (protoype already exisits: needs documentation, testing and support).
- 5. Re-sizable matrix input.  See NUMBAS examples here, with Javascript.
+ 1. Dragmath (actually, probably use javascript from NUMBAS instead here, or the MathDox editor).
+ 2. Sliders.
+ 3. Geogebra input (protoype already exisits: needs documentation, testing and support).
+ 4. Re-sizable matrix input.  See NUMBAS examples here, with Javascript.
 * It is very useful to be able to embed input elements in equations, and this was working in STACK 2.0. However is it possible with MathJax or other Moodle maths filters?
   This might offer one option:  http://stackoverflow.com/questions/23818478/html-input-field-within-a-mathjax-tex-equation
 * In the MCQ input type: Add choose N (correct) from M feature (used at Aalto).
 * A new MCQ input type with a "none of these" option which uses Javascript to degrade to an algebraic input: https://community.articulate.com/articles/how-to-use-an-other-please-specify-answer-option
-* We need to add an option for "no functions" which will always insert stars and transform "x(" -> "x*(" even when x occurs as both a function and a variable.
+* Add an option for "no functions" which will always insert stars and transform "x(" -> "x*(" even when x occurs as both a function and a variable.
+* Make the syntax hint CAS text, to depend on the question variables.
+* Make the extra options CAS text as well.
 
 ### Improve the editing form ###
 
@@ -44,7 +45,6 @@ Note, where the feature is listed as "(done)" means we have prototype code in th
 * Implement "Banker's rounding" option which applies over a whole question, and for all answer tests.
 * Implement "CommaError" checking for CAS strings.  Make comma an option for the decimal separator.
 * Implement "BracketError" option for inputs.  This allows the student's answer to have only those types of parentheses which occur in the teacher's answer.  Types are `(`,`[` and `{`.  So, if a teacher's answer doesn't have any `{` then a student's answer with any `{` or `}` will be invalid.
-* Enable individual questions to load Maxima libraries.
 * It would be very useful to have finer control over the validation feedback. For example, if we have a polynomial with answer boxes for the coefficients, then we should be able to echo back "Your last answer was..." with the whole polynomial, not just the numbers.
 * Make the mark and penalty fields accept arbitrary maxima statements.
 * Decimal separator, both input and output.
@@ -57,6 +57,8 @@ Note, where the feature is listed as "(done)" means we have prototype code in th
  3. Use `defstruct` in Maxima for the return objects. (Note to self: `@` is the element access operator).
 * Make the PRT Score element CAS text, so that a value calculated in the "Feedback variables" could be included here.
 * Refactor the STACK return object in maxima as a structure. ` ? defstruct`.  Note that `@` is the element access operator.
+* Refector blocks parser so that evaluation of anything inside a comment block is ignored, this will allow it to contain contents are syntactically incorrect, e.g. mismatched blocks.
+*   A STACK maxima function which returns the number of decimal places/significant figures in a variable (useful when providing feedback)
 
 ## Features that might be attempted in the future - possible self contained projects ##
 
@@ -69,7 +71,6 @@ Note, where the feature is listed as "(done)" means we have prototype code in th
   * Wiris
 * Possible Maxima packages:
  * Better support for rational expressions, in particular really firm up the PartFrac and SingleFrac functions with better support.
- * Support for inequalities.  This includes real intervals and sets of real numbers.
  * Support for the "draw" package.
 * Add support for qtype_stack in Moodle's lesson module.
 * Improve the way questions are deployed.
@@ -78,11 +79,38 @@ Note, where the feature is listed as "(done)" means we have prototype code in th
 * When validating the editing form, also evaluate the Maxima code in the PRTs, using the teacher's model answers.
 * You cannot use one PRT node to guard the evaluation of another, for example Node 1 check x = 0, and only if that is false, Node 2 do 1 / x. We need to change how PRTs do CAS evaluation.
 
+## Improvements to the "equiv" input type 
+
+* Add an option to display and/or using language strings not '\wedge', '\vee'.
+* Improve spacing of comments, e.g. \intertext{...}?
+* Auto identify what the student has done in a particular step.
+
+Model solutions.
+
+* Follow a "model solution", and give feedback based on the steps used.  E.g. identify where in the students' solution a student deviates from the model solution.
+* Develop a metric to measure the distance between expressions.  Use this as a measure of "step size" when working with expressions.
+
+Add mathematical support in the following order.
+
+1. Equating coefficients as a step in reasoning by equivalence. E.g. \( a x^2+b x+c=r x^2+s x+t \leftrightarrow a=r \mbox{ and } b=s \mbox{ and } c=t\). See `poly_equate_coeffs` in assessment.mac
+2. Solving simple simultaneous equations.  (Interface)
+3. Logarithms and simple logarithmic equations.
+4. Include calculus operations.
+5. Allow students to create and use functions of their own (currently forbidden).
+
+* Add a "Not equals" operator.  For example:
+
+    infix("<>");
+    p:x<>y;
+    texput("<>","{\neq}", infix);
+    tex(p);
+
+
 ## STACK custom reports
 
 Basic reports now work.
 
 * Really ensure "attempts" list those with meaningful histories.  I.e. if possible filter out navigation to and from the page etc.
 * Add better maxima support functions for off-line analysis.
- * A fully maxima-based representation of the PRT?
+* A fully maxima-based representation of the PRT?
 

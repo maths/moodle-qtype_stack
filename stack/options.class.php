@@ -95,6 +95,14 @@ class stack_options {
                 'caskey'     => 'assume_pos',
                 'castype'    => 'ex',
             ),
+            'assumereal'   => array(
+                'type'       => 'boolean',
+                'value'      => false,
+                'strict'     => true,
+                'values'     => array(),
+                'caskey'     => 'assume_real',
+                'castype'    => 'ex',
+            ),
             'matrixparens'   => array(
                 'type'       => 'list',
                 'value'      => '[',
@@ -130,6 +138,7 @@ class stack_options {
         $this->set_option('sqrtsign', (bool) $stackconfig->sqrtsign);
         $this->set_option('simplify', (bool) $stackconfig->questionsimplify);
         $this->set_option('assumepos', (bool) $stackconfig->assumepositive);
+        $this->set_option('assumereal', (bool) $stackconfig->assumereal);
         return true;
     }
 

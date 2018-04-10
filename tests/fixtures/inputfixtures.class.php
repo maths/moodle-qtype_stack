@@ -35,13 +35,12 @@ class stack_inputvalidation_test_data {
     const NOTES         = 6;
 
     protected static $rawdata = array(
-
         array('x', 'php_true', 'x', 'cas_true', 'x', '', "Whitespace"),
         array('xy', 'php_true', 'xy', 'cas_true', '{\it xy}', '', "This is a single variable name, not a product."),
         array('x+1', 'php_true', 'x+1', 'cas_true', 'x+1', '', ""),
         array('x+ 1', 'php_true', 'x+ 1', 'cas_true', 'x+1', '', ""),
         array('x + 1', 'php_true', 'x + 1', 'cas_true', 'x+1', '', "Ok to have some spaces between these operators."),
-        array('sin x', 'php_false', '', '', '', 'spaces', "Maxima does not allow spaces to denote function application."),
+        array('sin x', 'php_false', '', '', '', 'trigspace | spaces', "Maxima does not allow spaces to denote function application."),
         array('x y', 'php_false', '', '', '', 'spaces', "We don't allow spaces to denote implicit multiplication."),
         array('1 x', 'php_false', '', '', '', 'spaces', ""),
         array('1x', 'php_true', '1*x', 'cas_true', '1\cdot x', 'missing_stars', ""),
@@ -49,11 +48,11 @@ class stack_inputvalidation_test_data {
         array('1', 'php_true', '1', 'cas_true', '1', '', "Numbers"),
         array('.1', 'php_true', '.1', 'cas_true', '0.1', 'Illegal_floats', "This is an option."),
         array('1/2', 'php_true', '1/2', 'cas_true', '\frac{1}{2}', '', ""),
-        array('2/4', 'php_true', '2/4', 'cas_true', '\frac{2}{4}','Lowest_Terms',
+        array('2/4', 'php_true', '2/4', 'cas_true', '\frac{2}{4}', 'Lowest_Terms',
             "Rejecting this as 'invalid' not 'wrong' is a question option."),
-        array('-10/-1', 'php_true', '-10/-1', 'cas_true', '\frac{-10}{-1}','Lowest_Terms', ""),
+        array('-10/-1', 'php_true', '-10/-1', 'cas_true', '\frac{-10}{-1}', 'Lowest_Terms', ""),
         array('1/0', 'php_true', '1/0', 'cas_true', '\mathbf{false}', 'CASError: Division by zero.', ""),
-        array('pi', 'php_true', 'pi', 'cas_true', '\pi','', ""),
+        array('pi', 'php_true', 'pi', 'cas_true', '\pi', '', ""),
         array('e', 'php_true', 'e', 'cas_true', 'e', '', "Cannot easily make \(e\) a variable name."),
         array('i', 'php_true', 'i', 'cas_true', '\mathrm{i}', '',
             "Options to make i a variable, or a vector unit.  Note this is not italic."),
@@ -83,7 +82,7 @@ class stack_inputvalidation_test_data {
                 'missing_stars', "Note the subscripting and the implied multiplication."),
         array("a'", 'php_false', '', '', '', 'apostrophe', ""),
         array('X', 'php_true', 'X', 'cas_true', 'X', '', ""),
-        array('aXy1', 'php_false', '', 'cas_true', '', 'missing_stars | unknownFunction', ""),
+        array('aXy1', 'php_true', 'aXy*1', 'cas_true', '{\it aXy}\cdot 1', 'missing_stars', ""),
         array('f(x)', 'php_true', 'f*(x)', 'cas_true', 'f\cdot x', 'missing_stars', "Functions"),
         array('a(x)', 'php_true', 'a*(x)', 'cas_true', 'a\cdot x', 'missing_stars', ""),
         array('b/a(x)', 'php_true', 'b/a*(x)', 'cas_true', '\frac{b}{a}\cdot x', 'missing_stars', ""),
@@ -114,9 +113,9 @@ class stack_inputvalidation_test_data {
         "Ranges and logical operations are currently not supported by Maxima or STACK
         - this is on our wish list. It will result in the ability to deal with systems of inequalities, e.g. \(x<1\ and\ x>-4\)."),
         array('0.1..1.2', 'php_false', '', '', '', 'spuriousop', ""),
-        array('not x', 'php_true', 'not x', 'cas_true', '\neg \left( x \right)', '', ""),
-        array('x and y', 'php_true', 'x and y', 'cas_true', 'x\land y', '', ""),
-        array('x or y', 'php_true', 'x or y', 'cas_true', 'x\lor y', '', ""),
+        array('not x', 'php_true', 'not x', 'cas_true', '{\rm not}\left( x \right)', '', ""),
+        array('x and y', 'php_true', 'x nounand y', 'cas_true', 'x\,{\mbox{ and }}\, y', '', ""),
+        array('x or y', 'php_true', 'x nounor y', 'cas_true', 'x\,{\mbox{ or }}\, y', '', ""),
         array('x xor y', 'php_false', '', '', '', 'spaces', ""),
         array('x isa "number"', 'php_false', '', '', '', 'spaces', ""),
         array('x && y', 'php_false', '', '', '', 'spuriousop', ""),
@@ -140,14 +139,19 @@ class stack_inputvalidation_test_data {
         array('x >= y', 'php_true', 'x >= y', 'cas_true', 'x\geq y', '', ""),
         array('x => y', 'php_false', 'x => y', '', '', 'backward_inequalities', ""),
         array('x => and x<1', 'php_false', 'x => and x<1', '', '', 'backward_inequalities', ""),
-        array('x<1 and x>1', 'php_true', 'x<1 and x>1', 'cas_true', 'x < 1\land x > 1', '', ""),
-        array('x>1 or (x<1 and t<sin(x))', 'php_true', 'x>1 or (x<1 and t<sin(x))', 'cas_true',
-                'x > 1\lor x < 1\land t < \sin \left( x \right)', '', ""),
+        array('x<1 and x>1', 'php_true', 'x<1 nounand x>1', 'cas_true', 'x < 1\,{\mbox{ and }}\, x > 1', '', ""),
+        array('x>1 or (x<1 and t<sin(x))', 'php_true', 'x>1 nounor (x<1 nounand t<sin(x))', 'cas_true',
+                'x > 1\,{\mbox{ or }}\, \left(x < 1\,{\mbox{ and }}\, t < \sin \left( x \right)\right)', '', ""),
         array('1<x<3', 'php_false', '', '', '', 'chained_inequalities', ""),
         array('1<=x<y^2', 'php_false', '', '', '', 'chained_inequalities', ""),
         array('1=<x<3', 'php_false', '', '', '', 'backward_inequalities', ""),
+        array('x=1 or 2', 'php_true', 'x=1 nounor 2', 'cas_true', 'x=1\,{\mbox{ or }}\, 2', 'Bad_assignment', ""),
+        array('x=1 or x=2', 'php_true', 'x=1 nounor x=2', 'cas_true', 'x=1\,{\mbox{ or }}\, x=2', '', ""),
+        array('x=1 or 2 or 3', 'php_true', 'x=1 nounor 2 nounor 3', 'cas_true',
+                'x=1\,{\mbox{ or }}\, 2\,{\mbox{ or }}\, 3', 'Bad_assignment', ""),
         array('[1<x,x<3]', 'php_true', '[1<x,x<3]', 'cas_true', '\left[ 1 < x , x < 3 \right]', '', ""),
-        array('[1<x,y<1 or y>7]', 'php_true', '[1<x,y<1 or y>7]', 'cas_true', '\left[ 1 < x , y < 1\lor y > 7 \right]', '', ""),
+        array('[1 < x,y < 1 or y > 7]', 'php_true', '[1 < x,y < 1 nounor y > 7]', 'cas_true',
+            '\left[ 1 < x , y < 1\,{\mbox{ or }}\, y > 7 \right]', '', ""),
         array('[1<x,1<y<3]', 'php_false', '', '', '', 'chained_inequalities', ""),
         array('x <> y', 'php_false', '', '', '', 'spuriousop', "This isn't permitted in Maxima"),
         array('x+', 'php_false', 'x+', '', '', 'finalChar', "Not enough arguments for op error"),
@@ -155,7 +159,7 @@ class stack_inputvalidation_test_data {
         array('x^', 'php_flase', 'x^', '', '', 'finalChar', ""),
         array('x.', 'php_flase', 'x.', '', '', 'finalChar', ""),
         array('x and', 'php_false', '', '', '', 'spaces', ""),
-        array('!', 'php_true', '!', '', '', 'CASFailedReturn', ""),
+        array('!', 'php_true', '!', 'CASFailedReturn', '', 'CASFailedReturn', ""),
         array('sin', 'php_true', 'sin', 'cas_true', '\sin', '',
         "This names the operator sine, which is a valid expression on its own.
         The classic difference between the function \(f\) and the value of the
@@ -189,6 +193,7 @@ class stack_inputvalidation_test_data {
         array('x)', 'php_false', '', '', '', 'missingLeftBracket', ""),
         array('(x', 'php_false', '', '', '', 'missingRightBracket', ""),
         array('(x+(y)', 'php_false', '', '', '', 'missingRightBracket', ""),
+        array('x-1)^2', 'php_false', '', '', '', 'missingLeftBracket', ""),
         array('x+(y))', 'php_false', '', '', '', 'missingLeftBracket', ""),
         array('f(x))', 'php_false', '', '', '', 'missingLeftBracket | missing_stars', ""),
         array('[x', 'php_false', '', '', '', 'missingRightBracket', ""),
@@ -243,16 +248,18 @@ class stack_inputvalidation_test_data {
         "single-letter variable name followed by known function is an implicit multiplication"),
         array('ycos(2)', 'php_false', '', '', '', 'unknownFunction', ""),
         array('Bgcd(3,2)', 'php_false', '', '', '', 'unknownFunction', ""),
-        array('+1', 'php_true', '+1', 'cas_true', '+1', '', "Unary plus"),
-        array('+0.2', 'php_true', '+0.2', 'cas_true', '+0.2', 'Illegal_floats', ""),
-        array('+e', 'php_true', '+e', 'cas_true', '+e', '', ""),
-        array('+pi', 'php_true', '+pi', 'cas_true', '+\pi', '', ""),
-        array('+i', 'php_true', '+i', 'cas_true', '+\mathrm{i}', '', ""),
-        array('+x', 'php_true', '+x', 'cas_true', '+x', '', ""),
+        array('+1', 'php_true', '+1', 'cas_true', '1', '', "Unary plus"),
+        array('+0.2', 'php_true', '+0.2', 'cas_true', '0.2', 'Illegal_floats', ""),
+        array('+e', 'php_true', '+e', 'cas_true', 'e', '', ""),
+        array('+pi', 'php_true', '+pi', 'cas_true', '\pi', '', ""),
+        array('+i', 'php_true', '+i', 'cas_true', '\mathrm{i}', '', ""),
+        array('+x', 'php_true', '+x', 'cas_true', 'x', '', ""),
+        array('sqrt(+x)', 'php_true', 'sqrt(+x)', 'cas_true', '\sqrt{x}', '', ""),
+        array('1/sin(+x)', 'php_true', '1/sin(+x)', 'cas_true', '\frac{1}{\sin \left( x \right)}', '', ""),
         array('"+"(a,b)', 'php_true', '"+"(a,b)', 'cas_true', 'a+b', '', "This is Maxima specific syntax."),
-        array('(+1)', 'php_true', '(+1)', 'cas_true', '+1', '', ""),
-        array('[1,+2]', 'php_true', '[1,+2]', 'cas_true', '\left[ 1 , +2 \right]', '', ""),
-        array('[+1,+2]', 'php_true', '[+1,+2]', 'cas_true', '\left[ +1 , +2 \right]', '', ""),
+        array('(+1)', 'php_true', '(+1)', 'cas_true', '1', '', ""),
+        array('[1,+2]', 'php_true', '[1,+2]', 'cas_true', '\left[ 1 , 2 \right]', '', ""),
+        array('[+1,+2]', 'php_true', '[+1,+2]', 'cas_true', '\left[ 1 , 2 \right]', '', ""),
         array('-1', 'php_true', '-1', 'cas_true', '-1', '', "Unary minus"),
         array('-0.2', 'php_true', '-0.2', 'cas_true', '-0.2', 'Illegal_floats', ""),
         array('-e', 'php_true', '-e', 'cas_true', '-e', '', ""),
@@ -266,12 +273,18 @@ class stack_inputvalidation_test_data {
         array('y^3-2*y^2-8*y', 'php_true', 'y^3-2*y^2-8*y', 'cas_true', 'y^3-2\cdot y^2-8\cdot y', '', ""),
         array('x^7/7-2*x^6/3-4*x^3/3', 'php_true', 'x^7/7-2*x^6/3-4*x^3/3', 'cas_true',
                 '\frac{x^7}{7}-\frac{2\cdot x^6}{3}-\frac{4\cdot x^3}{3}', '', ""),
+        array('+-1', 'php_true', '+-1', 'cas_true', '\pm 1', '', "Plus and minus"),
+        array('x=+-sqrt(2)', 'php_true', 'x=+-sqrt(2)', 'cas_true', 'x= \pm \sqrt{2}', '', ""),
+        array('(-b+-sqrt(b^2))/(2*a)', 'php_true', '(-b+-sqrt(b^2))/(2*a)', 'cas_true',
+                '\frac{{-b \pm \sqrt{b^2}}}{2\cdot a}', '', ""),
+        array('a+-b', 'php_true', 'a+-b', 'cas_true', '{a \pm b}', '', ""),
         array('x & y', 'php_false', 'x & y', '', '', 'spuriousop', "Synonyms"),
         array('x && y', 'php_false', 'x && y', '', '', 'spuriousop', ""),
-        array('x and y', 'php_true', 'x and y', 'cas_true', 'x\land y', '', ""),
+        array('x and y', 'php_true', 'x nounand y', 'cas_true', 'x\,{\mbox{ and }}\, y', '', ""),
         array('x divides y', 'php_false', '', '', '', 'spaces', ""),
+        array('x*divides*y', 'php_false', '', '', '', 'unknownFunction', ""),
         array('x | y', 'php_true', 'x | y', '', '', 'CASFailedReturn', ""),
-        array('x or y', 'php_true', 'x or y', 'cas_true', 'x\lor y', '', ""),
+        array('x or y', 'php_true', 'x nounor y', 'cas_true', 'x\,{\mbox{ or }}\, y', '', ""),
         array('x || y', 'php_false', 'x || y', 'cas_true', '', 'spuriousop', ""),
         array('sqr(x)', 'php_false', '', '', '', 'unknownFunction', ""),
         array('sqrt(x)', 'php_true', 'sqrt(x)', 'cas_true', '\sqrt{x}', '',
@@ -340,12 +353,14 @@ class stack_inputvalidation_test_data {
         array('tan(x)', 'php_true', 'tan(x)', 'cas_true', '\tan \left( x \right)', '', ""),
         array('sec(x)', 'php_true', 'sec(x)', 'cas_true', '\sec \left( x \right)', '', ""),
         array('cot(x)', 'php_true', 'cot(x)', 'cas_true', '\cot \left( x \right)', '', ""),
-        array('cosec(x)', 'php_true', 'cosec(x)', 'cas_true', '\csc \left( x \right)', '', ""),  // This is now a Maxima alias.
+        array('cosec(x)', 'php_true', 'cosec(x)', 'cas_true', '\csc \left( x \right)', '', ""), /* This is now a Maxima alias. */
+        array('cosec(x)', 'php_true', 'cosec(x)', 'cas_true', '\csc \left( x \right)', '', ""), // This is now a Maxima alias.
         array('Sin(x)', 'php_false', '', '', '', 'unknownFunctionCase', ""),
         array('sim(x)', 'php_false', '', '', '', 'unknownFunction', ""),
         array('asin(x)', 'php_true', 'asin(x)', 'cas_true', '\sin^{-1}\left( x \right)', '', "Maxima uses the asin pattern"),
         array('arcsin(x)', 'php_false', 'arcsin(x)', 'cas_true', '', 'triginv', "Not the arcsin"),
         array('sin^-1(x)', 'php_false', 'sin^-1(x)', 'cas_false', '', 'trigexp | missing_stars', ""),
+        array('cos^2(x)', 'php_false', 'cos^2(x)', 'cas_false', '', 'trigexp | missing_stars', ""),
         array('sin*2*x', 'php_false', 'sin*2*x', 'cas_false', '', 'trigop', ""),
         array('sin[2*x]', 'php_false', 'sin[2*x]', 'cas_false', '', 'trigparens', ""),
         array('cosh(x)', 'php_true', 'cosh(x)', 'cas_true', '\cosh \left( x \right)', '', ""),
@@ -368,26 +383,28 @@ class stack_inputvalidation_test_data {
         array('In(x)', 'php_false', '', '', '', 'stackCas_badLogIn', ""),
         array('log10(x)', 'php_true', 'lg(x, 10)', 'cas_true', '\log_{10}\left(x\right)', 'logsubs', ""),
         array('log_10(x)', 'php_true', 'lg(x, 10)', 'cas_true', '\log_{10}\left(x\right)', 'logsubs', ""),
-
+        array('log_2(a)', 'php_true', 'lg(a, 2)', 'cas_true', '\log_{2}\left(a\right)', 'logsubs', ""),
+        array('log_x(1/(x+b))', 'php_true', 'lg(1/(x+b), x)', 'cas_true', '\log_{x}\left(\frac{1}{x+b}\right)', 'logsubs', ""),
+        array('2+log_x(1/(x+b))*x^2', 'php_true', '2+lg(1/(x+b), x)*x^2', 'cas_true', '2+\log_{x}\left(\frac{1}{x+b}\right)\cdot x^2', 'logsubs', ""),
+        array('log_a(b)*log_b(c)', 'php_true', 'lg(b, a)*lg(c, b)', 'cas_true', '\log_{a}\left(b\right)\cdot \log_{b}\left(c\right)', 'logsubs', ""),
         array('lg(x)', 'php_true', 'lg(x)', 'cas_true', '\log_{10}\left(x\right)', '', "Logarithm to the base \(10\)."),
-        array('lg(10^3)', 'php_true', 'lg(10^3)', 'cas_true', '\log_{10}\left(10^3)', '', ""),
+        array('lg(10^3)', 'php_true', 'lg(10^3)', 'cas_true', '\log_{10}\left(10^3\right)', '', ""),
         array('lg(x,a)', 'php_true', 'lg(x,a)', 'cas_true', '\log_{a}\left(x\right)', '', ""),
         array('log(2x)/x+1/2', 'php_true', 'log(2*x)/x+1/2', 'cas_true',
                 '\frac{\ln \left( 2\cdot x \right)}{x}+\frac{1}{2}', 'missing_stars', ""),
-        array('a++b', 'php_true', 'a++b', 'cas_true', 'a++\left(b\right)', '',
+        array('a++b', 'php_true', 'a++b', 'cas_true', 'a+b', '',
                 "The extra plusses or minuses are interpreted as unary operators on b"),
-        array('a +++ b', 'php_true', 'a +++ b', 'cas_true', 'a+++\left(\left(b\right)\right)', '', ""),
+        array('a +++ b', 'php_true', 'a +++ b', 'cas_true', 'a+b', '', ""),
         array('a --- b', 'php_true', 'a --- b', 'cas_true', 'a-\left(-\left(-b\right)\right)', '', ""),
         array('rho*z*V/(4*pi*epsilon[0]*(R^2+z^2)^(3/2))', 'php_true', 'rho*z*V/(4*pi*epsilon[0]*(R^2+z^2)^(3/2))', 'cas_true',
-                '\frac{\rho\cdot z\cdot V}{4\cdot \pi\cdot \varepsilon_{0}\cdot  \left(R^2+z^2\right)^{\frac{3}{2}}}',
+                '\frac{\rho\cdot z\cdot V}{4\cdot \pi\cdot \varepsilon_{0}\cdot \left(R^2+z^2\right)^{\frac{3}{2}}}',
                 '', "Subscripts"),
         array('a,b,c', 'php_false', 'a,b,c', 'cas_true', '', 'unencpsulated_comma', "Unencapsulated commas"),
         array('3,14159', 'php_false', '3,14159', 'cas_true', '', 'unencpsulated_comma', ""),
         array('0,5*x^2+3', 'php_false', '0,5*x^2+3', 'cas_true', '', 'unencpsulated_comma', ""),
         array('\sqrt{2+x}', 'php_false', '\sqrt{2+x}', 'cas_false', '', 'illegalcaschars', "Student uses LaTeX"),
-        array('sin(x),cos(y)', 'php_true', 'sin(x),cos(y)', 'cas_false', '',
-                'CASError: concat: argument must be an atom; found [sin(x),cos(y)]',
-                "The following are known to fail.  Some are bugs...."),
+        array('sin(x),cos(y)', 'php_true', 'sin(x),cos(y)', 'cas_true', '\sin \left( x \right)',
+                'CommaError', ""),
         array('sum(k^n,n,0,3)', 'php_true', 'sum(k^n,n,0,3)', 'cas_true', '\sum_{n=0}^{3}{k^{n}}', '', "Sums and products"),
         array('product(cos(k*x),k,1,3)', 'php_true', 'product(cos(k*x),k,1,3)', 'cas_true',
             '\prod_{k=1}^{3}{\cos \left( k\cdot x \right)}', '', '')
@@ -438,7 +455,10 @@ class stack_inputvalidation_test_data {
 
         // @codingStandardsIgnoreEnd
 
-        $cs = new stack_cas_casstring($test->rawstring);
+        // This would be done by the input base class.
+        $val = stack_utils::logic_nouns_sort($test->rawstring, 'add');
+
+        $cs = new stack_cas_casstring($val);
         $cs->get_valid('s', false, 1);
         $cs->set_cas_validation_casstring('sans1', true, true, null, 'typeless');
 
@@ -449,7 +469,7 @@ class stack_inputvalidation_test_data {
             // @codingStandardsIgnoreEnd
             $phpcasstring = $cs->get_casstring();
             $phpcasstring = substr($phpcasstring, 25);
-            $phpcasstring = substr($phpcasstring, 0, strlen($phpcasstring) - 12);
+            $phpcasstring = substr($phpcasstring, 0, strlen($phpcasstring) - 28);
             $outputphpcasstring = $phpcasstring;
         } else {
             $phpcasstring = '';
@@ -494,7 +514,7 @@ class stack_inputvalidation_test_data {
             } else {
                 $casexpected = false;
             }
-            if ('' == $cs->get_value()) {
+            if ('' == $cs->get_dispvalue()) {
                 $casvalid = false;
             } else {
                 $casvalid = true;
@@ -513,7 +533,8 @@ class stack_inputvalidation_test_data {
         $answernote = $cs->get_answernote();
         if ($answernote != $test->ansnotes) {
             $passed = false;
-            $errors .= ' '.stack_string('ansnotemismatch').html_writer::tag('pre', s($test->ansnotes));
+            $errors .= ' '.stack_string('ansnotemismatch');
+            $errors .= html_writer::tag('pre', s($test->ansnotes)).html_writer::tag('pre', s($answernote));
         }
 
         $test->passed     = $passed;

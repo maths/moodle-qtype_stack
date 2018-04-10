@@ -40,11 +40,11 @@ class stack_docslib_test extends qtype_stack_testcase {
         global $CFG;
 
         $this->assertEquals(str_replace('WWWROOT', $CFG->wwwroot, '<ul class="dir">' .
-                '<li><a href="http://www.example.com/moodle/question/type/stack/doc.php/Installation/LTI.md">' .
+                '<li><a href="WWWROOT/question/type/stack/doc.php/Installation/LTI.md">' .
                         'LTI</a></li>' .
-                '<li><a href="http://www.example.com/moodle/question/type/stack/doc.php/Installation/Mathjax.md">' .
+                '<li><a href="WWWROOT/question/type/stack/doc.php/Installation/Mathjax.md">' .
                         'Mathjax</a></li>' .
-                '<li><a href="http://www.example.com/moodle/question/type/stack/doc.php/Installation/Maxima.md">Maxima</a></li>' .
+                '<li><a href="WWWROOT/question/type/stack/doc.php/Installation/Maxima.md">Maxima</a></li>' .
                 '<li><a href="WWWROOT/question/type/stack/doc.php/Installation/Testing_installation.md">' .
                         'Testing installation</a></li></ul>'),
                 stack_docs_index($CFG->dirroot . '/question/type/stack/doc/en/Installation',
@@ -54,10 +54,13 @@ class stack_docslib_test extends qtype_stack_testcase {
                 '<li><a href="WWWROOT/question/type/stack/doc.php/Students/Accessibility.md">Accessibility</a></li>' .
                 '<li><a href="WWWROOT/question/type/stack/doc.php/Students/Answer_assessment.md">Answer assessment</a></li>' .
                 '<li><a href="WWWROOT/question/type/stack/doc.php/Students/Answer_input.md">Answer input</a></li>' .
+                '<li><a href="WWWROOT/question/type/stack/doc.php/Students/'.
+                    'Equivalence_reasoning.md">Equivalence reasoning</a></li>' .
                 '<li><a href="WWWROOT/question/type/stack/doc.php/Students/FAQ.md">FAQ</a></li></ul>'),
                 stack_docs_index($CFG->dirroot . '/question/type/stack/doc/en/Students',
                 $CFG->wwwroot . '/question/type/stack/doc.php/Students'));
     }
+
 
     public function test_stack_docs_render_markdown() {
 

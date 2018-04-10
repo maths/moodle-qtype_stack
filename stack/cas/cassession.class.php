@@ -64,9 +64,9 @@ class stack_cas_session {
     private $debuginfo;
 
     /** @var array Global variables. */
-    private static $maximaglobals = array('stackintfmt' => true, 'stackfltfmt' => true);
+    private static $maximaglobals = array('stackintfmt' => true, 'stackfltfmt' => true, 'ibase' => true, 'obase' => true);
 
-    public function __construct($session, $options = null, $seed=null) {
+    public function __construct($session, $options = null, $seed = null) {
 
         if (is_null($session)) {
             $session = array();
@@ -123,7 +123,7 @@ class stack_cas_session {
         return $this->valid;
     }
 
-    /* A helper function which enables an array of stack_cas_casstring to be validated */
+    /* A helper function which enables an array of stack_cas_casstring to be validated. */
     private function validate_array($cmd) {
         $valid  = true;
         foreach ($cmd as $key => $val) {
@@ -139,7 +139,7 @@ class stack_cas_session {
         return $valid;
     }
 
-    /* Check each of the CASStrings for any of the keywords */
+    /* Check each of the CASStrings for any of the keywords. */
     public function check_external_forbidden_words($keywords) {
         if (null === $this->valid) {
             $this->validate();
@@ -208,13 +208,18 @@ class stack_cas_session {
                 }
 
                 if (array_key_exists('display', $result)) {
-                    // Need to add this in here also because strings may contain question mark characters.
-                    $disp = str_replace('QMCHAR', '?', $result['display']);
+                    $disp = $result['display'];
+                    $disp = $this->translate_displayed_tex($disp);
                     $cs->set_display($disp);
                 }
 
                 if (array_key_exists('dispvalue', $result)) {
-                    $val = str_replace('QMCHAR', '?', $result['dispvalue']);
+                    $valfix = array('QMCHAR' => '?');
+                      // Need to add this in here also because strings may contain question mark characters.
+                    $val = $result['dispvalue'];
+                    foreach ($valfix as $key => $fix) {
+                        $val = str_replace($key, $fix, $val);
+                    }
                     $val = str_replace('"!! ', '', $val);
                     $val = str_replace(' !!"', '', $val);
                     $cs->set_dispvalue(trim($val));
@@ -229,7 +234,9 @@ class stack_cas_session {
                 }
 
                 if (array_key_exists('feedback', $result)) {
-                    $cs->set_feedback($result['feedback']);
+                    $feedback = $result['feedback'];
+                    $feedback = $this->translate_displayed_tex($feedback);
+                    $cs->set_feedback($feedback);
                 }
 
             } else if (!$gotvalue) {
@@ -251,8 +258,25 @@ class stack_cas_session {
             $this->errors = '<span class="error">'.stack_string('stackCas_allFailed').'</span>';
             $this->errors .= $this->get_debuginfo();
         }
-
         $this->instantiated = true;
+    }
+
+    /**
+     * Some of the TeX contains language tags which we need to translate.
+     * @param string $str
+     */
+    private function translate_displayed_tex($str) {
+        $dispfix = array('QMCHAR' => '?', '!LEFTSQ!' => '\left[', '!LEFTR!' => '\left(',
+            '!RIGHTSQ!' => '\right]', '!RIGHTR!' => '\right)');
+        // Need to add this in here also because strings may contain question mark characters.
+        foreach ($dispfix as $key => $fix) {
+            $str = str_replace($key, $fix, $str);
+        }
+        $loctags = array('ANDOR', 'SAMEROOTS', 'MISSINGVAR', 'ASSUMEPOSVARS', 'ASSUMEPOSREALVARS');
+        foreach ($loctags as $tag) {
+            $str = str_replace('!'.$tag.'!', stack_string('equiv_'.$tag), $str);
+        }
+        return $str;
     }
 
     public function get_debuginfo() {
@@ -422,7 +446,6 @@ class stack_cas_session {
 
     /* This returns the values of the variables with keys */
     public function get_display_castext($strin) {
-
         if (null === $this->valid) {
             $this->validate();
         }
@@ -444,16 +467,16 @@ class stack_cas_session {
             $disp   = $casstr->get_display();
             $value  = $casstr->get_value();
 
-            $dummy = '@'.$key.'@';
+            $dummy = '{@'.$key.'@}';
 
             // When we have only a single string in the output remove the maths environment.
-            if ($errors == '' and substr(trim($value), 0, 1) == '"' and !(strpos($strin, '\(@'.$key.'@\)') === false)) {
-                $disp = substr(trim($disp), 6, strlen($disp) - 7);
+            if ($errors == '' and substr(trim($value), 0, 1) == '"' and strpos($strin, '\(@'.$key.'@\)') !== false) {
+                $disp = preg_replace('|^\\\\mbox\{(.*)\}$|', '$1', trim($disp));
                 if ($value == '""') {
                     $disp = '';
                 }
                 // TODO: probably check for whitespace, e.g. \( @...@ \).
-                $dummy = '\(@'.$key.'@\)';
+                $dummy = '\({@'.$key.'@}\)';
             }
 
             if ('' !== $errors && null != $errors) {
@@ -507,18 +530,42 @@ class stack_cas_session {
                 $cmd = '0';
             }
 
+            // Special handling for the conditionally evaluated strings.
+            if (count($cs->get_conditions()) > 0) {
+                $conditions = array();
+                foreach ($cs->get_conditions() as $cond) {
+                    // No need to evaluate again if it is already evaluated.
+                    if (array_search($cond, $this->session) !== false
+                            && array_search($cond, $this->session) < array_search($cs, $this->session)) {
+                        $conditions[] = str_replace('?', 'QMCHAR', $cond->get_key());
+                    } else {
+                        $conditions[] = str_replace('?', 'QMCHAR', $cond->get_casstring());
+                    }
+                }
+
+                $condition = implode(" and ", $conditions);
+
+                $cascommands .= ", print(\"$i=[ error= [\"), if $condition then cte(\"$label\",errcatch($label:$cmd)) "
+                        . "else cte(\"$label\",errcatch($label:false)) ";
+            } else {
+                $cascommands .= ", print(\"$i=[ error= [\"), cte(\"$label\",errcatch($label:$cmd)) ";
+            }
+
+            // From Maxima 5.40.0, variable names may only occur once in the local variable list in a block.
+            // This makes sure they only occur once.
+            $csnames = array();
             // The session might, legitimately, attempt to redefine a Maxima global variable,
             // which would throw a spurious error when the block attempts to define them as local.
             if (!(array_key_exists($cleanlabel, self::$maximaglobals))) {
-                $csnames   .= ", $cleanlabel";
+                $csnames[$cleanlabel] = true;
             }
-            $cascommands .= ", print(\"$i=[ error= [\"), cte(\"$label\",errcatch($label:$cmd)) ";
+
             $i++;
         }
 
         $cass  = $caspreamble;
         $cass .= 'cab:block([ RANDOM_SEED';
-        $cass .= $csnames;
+        $cass .= implode(array_keys($csnames), ', ');
         $cass .= '], stack_randseed(';
         $cass .= $this->seed.')'.$csvars;
         $cass .= ", print(\"[TimeStamp= [ $this->seed ], Locals= [ \") ";
@@ -554,5 +601,9 @@ class stack_cas_session {
             }
         }
         return trim($keyvals);
+    }
+
+    public function is_instantiated() {
+        return $this->instantiated !== null;
     }
 }

@@ -1,6 +1,6 @@
 /*  Author Chris Sangwin
-    University of Birmingham
-    Copyright (C) 2013 Chris Sangwin
+    Lougborough University
+    Copyright (C) 2015 Chris Sangwin
 
     This program is free software: you can redistribute it or modify
     it under the terms of the GNU General Public License version two.
@@ -28,7 +28,7 @@ rand_recurse(ex) := block(
     if (integerp(ex) or floatnump(ex) or matrixp(ex) or listp(ex)) then return(rand(ex)),
     if atom(ex) then return(ex),
     if op(ex)=protect then return(first(args(ex))),
-    apply(op(ex),maplist(rand_recurse,args(ex)))
+    apply(op(ex), maplist(rand_recurse, args(ex)))
     );
 
 /* Truncates a polynomial to only terms of degree "d" or less - always expands out */
@@ -41,164 +41,6 @@ poly_truncate(pa,d) := apply("+",maplist(lambda([ex],if hipow(ex,x)>d then 0 els
 /*  V0.2 July 2013                                              */
 /*                                                              */
 /****************************************************************/
-
-/* Determines if we have a linear inequality in one variable */
-linear_inequalityp(ex) := block([ex2],
-   if atom(ex) then return(false),
-   if not(">"= op(ex) or "<"= op(ex) or ">="= op(ex) or "<="= op(ex)) then return(false),
-   ex2:ineqprepare(ex),
-   if not(is(length(listofvars(ex2))=1)) then return(false),
-   if is(degree(lhs(ex2),first(listofvars(ex2)))=1) then return(true),
-   return(false)
-)$
-
-
-/* Reverses the inequality: purely syntactic. */
-rev_ineq(ex):=block(
-  if safe_op(ex)="<" then return(rhs(ex)>lhs(ex)),
-  if safe_op(ex)="<=" then return(rhs(ex)>=lhs(ex)),
-  if safe_op(ex)=">" then return(rhs(ex)<lhs(ex)),
-  if safe_op(ex)=">=" then return(rhs(ex)<=lhs(ex)),
-  return(ex)
-)$
-
-/* Reformat an inequality in an easier to read form, namely a<x or x<a: a syntactic transformation. */
-inequality_disp(ex):=block([ex2,v],
-  if not(linear_inequalityp(ex)) then return(ex),
-  ex2:ineqprepare(ex),
-  v:first(listofvars(ex2)),
-  if equal(coeff(lhs(ex2),v),1) then return(rev_ineq(subst(op(ex2),"=",first(solve(lhs(ex2),v))))),
-  if equal(coeff(lhs(ex2),v),-1) then return(neg_ineq(subst(op(ex2),"=",first(solve(lhs(ex2),v))))),
-  return(ex)
-)$
-
-/* Does the expression define a *single* interval, by means of an inequality?   */
-/* E.g. 1<x and x<7                                                             */
-/* We only accept linear inequalities in one variable, combined by "and"        */
-/* We don't expect this to be the *simplest* form, that is later.               */ 
-/* A single inequality is a half open interval.                                 */
-/* true is the whole real line, false is the empty set.                         */
-interval_inequalityp(ex):= block(
-   /* Emptyset and real line. */
-   if equal(ex, true) then return(true),
-   if equal(ex, false) then return(true),
-   if atom(ex) then return(false),
-   /* Half open intervals */
-   if linear_inequalityp(ex) then return(true),
-   if not(op(ex)="and") then return(false),
-   if is(length(listofvars(ex))>1) then return(false),
-   return(all_listp(linear_inequalityp, args(ex)))
-)$
-
-/* Takes a real interval and returns the canonical form for this inequality  */
-/* a<x and x<b                                                               */
-/* or, true, false, or a single inequality                                   */
-interval_simplify(ex):=block([ex2,v,a,b],
-   if not(interval_inequalityp(ex)) then return(ex),
-   /* We know we have an interval inequality. */
-   if equal(ex, true) then return(true),
-   if equal(ex, false) then return(false),
-   /* Remove redundant inequalities: might leave us with a single one. */
-   ex:ineq_rem_redundant(ex),
-   if linear_inequalityp(ex) then return(inequality_disp(ex)),
-   /* Now we are in business.  We have a single interval, of two inequalities. */
-   ex:map(inequality_disp,ex),
-   v:listofvars(ex),
-   if equal(v,lhs(first(ex))) then ex:second(args(ex)) and first(args(ex)),
-   /* This should now be in the right form. */
-   /* Check for an empty set (2 possibilities) */
-   if (lhs(first(args(ex))))>(rhs(second(args(ex)))) then return(false),
-   if (lhs(first(args(ex))))=(rhs(second(args(ex)))) and not(safe_op(first(args(ex)))="<=" and safe_op(second(args(ex)))="<=") then return(false), 
-   ex
-)$
-
-/* This removes redundant linear inequalities such as x>1 or x>0 -> x>0 */
-ineq_rem_redundant(ex) := block([exl,exn,exg,exl,exo,exv],
-  if atom(ex) then return(ex),
-  if not(op(ex)="and" or op(ex)="or") then return(ex),
-  /* Recurse over the expression */
-  ex:apply(op(ex),maplist(ineq_rem_redundant,args(ex))),
-  if op(ex)="and" then exo:[max,min] else exo:[min,max],
-  exn:sublist(args(ex),lambda([ex2],not(linear_inequalityp(ex2)))),  
-  exl:sublist(args(ex),linear_inequalityp),
-  /* Separate out different variables */
-  exv:listofvars(exl),
-  exl:maplist(lambda([ex],sublist(exl,lambda([ex2],is(listofvars(ex2)=[ex])))),exv),
-  /* At this point we have linear inequalities, in a single variable, separated out into lists for each individual variable. */
-  exl:maplist(lambda([ex],single_linear_ineq_reduce(ex,exo)),exl),
-  exl:flatten(exl),
-  apply(op(ex),append(exn,exl))
-  )$
-
-/* Take a list of linear inequalities the same single variable, and an list of operators, min/max.  
-   Returns the equivalent inequalities.
-*/
-single_linear_ineq_reduce(ex,exo):=block([exg,exl],
-  ex:maplist(ineqprepare,ex),
-  /* Separate out into x>?, x>=? and x<?, x<=?. */
-  exg:sublist(ex,lambda([ex2],is(coeff(lhs(ex2),first(listofvars(ex2)))=1))),
-  exl:sublist(ex,lambda([ex2],is(coeff(lhs(ex2),first(listofvars(ex2)))=-1))),
-  /* Separate into solution and operator */
-  exg:single_linear_ineq_reduce_h(exg,first(exo),true),
-  exl:single_linear_ineq_reduce_h(exl,second(exo),false),
-  append(exg,exl)
-)$
-
-/* Take a list of linear inequalities of the same sign, in a single variable, and an operator, min/max.  
-   Return the single equivalent inequality.
-*/
-single_linear_ineq_reduce_h(exl,exo,odr):=block([m1,m2,m3,exg],
-  if exl=[] then return([]),
-  if not(is(exo=max) or is(exo=min)) then print("ERROR: single_linear_ineq_reduce_h expects second argument to be max or min."),
-  exg:maplist(lambda([ex2],[rhs(first(solve(lhs(ex2)))),op(ex2)]),exl),
-  m1:apply(exo, maplist(first,exg)),
-  m2:sublist(exg,lambda([ex2],is(m1=first(ex2)))),
-  m3:sort(listify(setify(maplist(second,m2)))), /* get list of operators.  Used to sort out >, >= etc. */
-  if (not(odr) and is(exo=max)) or (odr and is(exo=min)) then m3:reverse(m3),
-  [apply(first(m3),if odr then [first(listofvars(exl)),m1] else [m1,first(listofvars(exl))])]
-)$  
-
-/* Solve a single inequality in a single variable by factoring, where possible expressing the result as irreducible inequalities. */
-factor_ineq_solve(ex):=block([ex2,ex3,exop,m,fl,p],
-   if not(inequalityp(ex)) then return(ex),
-   if length(listofvars(ex))#1 then return(ex),
-   ex2:ineqprepare(ex),
-   exop:op(ex2), /* This is for >, >= */
-   ex2:factor(lhs(ex2)),
-   if atom(ex2) then return(ex),
-   /* Create a list of factors */
-   if is(op(ex2)="-") then m:true else m:false,
-   if m then fl:first(args(ex2)) else fl:ex2, 
-   if safe_op(fl)="*" then fl:args(fl) else fl:[fl],
-   /* Turn each inequality back into a list */
-   ex2:maplist(lambda([ex],apply(exop,[ex,0])),fl),
-   if m then ex2[1]:neg_ineq(ex2[1]),
-   /* Create a list of all even permutations, from which we negate those in the list */
-   p:sublist(maplist(listify,listify(powerset(setify(makelist(n,n,length(ex2)))))),lambda([ex],evenp(length(ex)))),
-   ex3:maplist(lambda([l],neg_ineq_list(copylist(ex2),l)),p),
-   /* Tidy up the list */
-   ex3:maplist(lambda([ex],ineq_rem_redundant(apply("and",ex))),ex3),
-   ex3:maplist(interval_simplify,ex3),
-   ex3:reverse(sort(ex3)),
-   ex3:apply("or",ex3)
-)$
-
-/* Negates the inequality */
-neg_ineq(ex):=block(
-  if safe_op(ex)="<" then return(lhs(ex)>rhs(ex)),
-  if safe_op(ex)="<=" then return(lhs(ex)>=rhs(ex)),
-  if safe_op(ex)=">" then return(lhs(ex)<rhs(ex)),
-  if safe_op(ex)=">=" then return(lhs(ex)<=rhs(ex)),
-  return(ex)
-)$
-
-/* This function takes a list of inequalities, ex and a list of index numbers l, and negates each inequality as indexed by l */
-neg_ineq_list(ex,l):=block([k],
-  if emptyp(l) then return(ex),
-  for k: 1 thru length(l) do ex[l[k]]:neg_ineq(ex[l[k]]),
-  ex
-)$
-
 
 /****************************************************************/
 /*  Reporting support functions for STACK                       */
@@ -295,4 +137,39 @@ unary_minus_add_distrib(ex) := block(
   if op(ex) = "-" and op(first(args(ex))) = "+" then return(apply("+", map(lambda([ex2],-ex2), args(first(args(ex)))))),
   apply(op(ex), map(unary_minus_add_distrib, args(ex)) )
 )$
+
+/****************************************************************/
+/*  Square root functions for STACK                             */
+/*                                                              */
+/*  Chris Sangwin, <C.J.Sangwin@ed.ac.uk>                       */
+/*  V0.1 August 2015                                            */
+/*                                                              */
+/****************************************************************/
+
+/* With simp:false */
+
+/* Some examples:  
+p1: (2 + sqrt (2)) * sqrt (2);
+p2:distrib(p1);
+p3:sqrt(a)*sqrt(b)*sqrt(b)*sqrt(b)*sqrt(a)*1*sqrt(b)+1;
+*/
+
+naivesqrt(ex):=block([al],
+  if atom(ex) then return(ex),
+  al:args(ex),
+  if safe_op(ex)="*" then block([alp,alq],
+    alp:sort(sublist(args(ex), lambda([ex2],equal(safe_op(ex2),"sqrt")))),
+    alq:sublist(args(ex), lambda([ex2],not(equal(safe_op(ex2),"sqrt")))),
+    al:append(naivesqrthelper(alp),alq)
+    ),
+  if safe_op(ex)="*" and length(al)=1 then return(naivesqrt(first(al))),
+  apply(op(ex), map(naivesqrt, al))
+);
+
+naivesqrthelper(ex):=block(
+  if length(ex)<2 then return(ex),
+  if equal(first(ex), second(ex)) then return(append([first(args(first(ex)))], naivesqrthelper(rest(rest(ex))))),
+  append([first(ex)], naivesqrthelper(rest(ex)))
+);
+
 

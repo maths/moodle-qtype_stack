@@ -42,7 +42,7 @@ abstract class qtype_stack_testcase extends advanced_testcase {
     /* Different underlying versions of LISP (behind Maxima) have different results,
      * especially with the floating point routines upon which Maxima relies.
      *
-     * This must onlu be CLISP or SBCL.
+     * This must only be CLISP or SBCL.
      */
     protected $lisp = 'SBCL';
 
@@ -51,6 +51,7 @@ abstract class qtype_stack_testcase extends advanced_testcase {
 
         stack_utils::clear_config_cache();
         self::setup_test_maxima_connection($this);
+
         $this->resetAfterTest();
     }
 
@@ -76,9 +77,22 @@ abstract class qtype_stack_testcase extends advanced_testcase {
      */
     public function skip_if_old_maxima($version) {
         $versionused = get_config('qtype_stack', 'maximaversion');
+        // The default version of Maxima is never "old".
+        if ($versionused == 'default') {
+            return true;
+        }
         if (version_compare($versionused, $version) <= 0) {
             $this->markTestSkipped(
                     'Skipping this test because it is known to fail on Maxima older than ' .
+                    $version . ' and the tests are running with Maxima ' . $versionused . '.');
+        }
+    }
+
+    public function skip_if_new_maxima($version) {
+        $versionused = get_config('qtype_stack', 'maximaversion');
+        if ($versionused == 'default' || !(version_compare($versionused, $version) <= 0)) {
+            $this->markTestSkipped(
+                    'Skipping this test because it is known to fail on Maxima newer than ' .
                     $version . ' and the tests are running with Maxima ' . $versionused . '.');
         }
     }
@@ -218,6 +232,29 @@ abstract class qtype_stack_walkthrough_test_base extends qbehaviour_walkthrough_
         $matcher = $this->get_tag_matcher('input', $attributes);
         $this->assertTag($matcher, $this->currentoutput,
                 'Looking for an input with attributes ' . html_writer::attributes($attributes) . ' in ' . $this->currentoutput);
+
+        if ($enabled) {
+            $matcher['attributes']['readonly'] = 'readonly';
+            $this->assertNotTag($matcher, $this->currentoutput,
+                    'input with attributes ' . html_writer::attributes($attributes) .
+                    ' should not be read-only in ' . $this->currentoutput);
+        }
+    }
+
+    protected function check_output_contains_textarea_input($name, $content = null, $enabled = true) {
+        $attributes = array(
+                'name' => $this->quba->get_field_prefix($this->slot) . $name,
+        );
+        if (!$enabled) {
+            $attributes['readonly'] = 'readonly';
+        }
+        $matcher = $this->get_tag_matcher('textarea', $attributes);
+        $this->assertTag($matcher, $this->currentoutput,
+                'Looking for a textarea with attributes ' . html_writer::attributes($attributes) . ' in ' . $this->currentoutput);
+
+        if ($content) {
+            $this->assertRegExp('/' . preg_quote(s($content), '/') . '/', $this->currentoutput);
+        }
 
         if ($enabled) {
             $matcher['attributes']['readonly'] = 'readonly';

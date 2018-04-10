@@ -7,7 +7,7 @@ Maxima chooses an order in which to write terms in an expression.  By default, t
 To alter the order in STACK you can use the Maxima commands `orderless` and `ordergreat`.  To have \(a+b\) you can use
 
     ordergreat(a,b);
-    
+
 See Maxima's documentation for more details.  
 
 Only one `orderless` or `ordergreat` command can be issued in any session.  The last one encountered will be used and the others ignored.  No warnings or errors are issued if more than one is encountered.
@@ -64,14 +64,14 @@ Notice the first subtraction is fine, but the second one is not.  To understand 
 
     ?print(p);
     ((MPLUS) ((MEXPT) $Y 3) ((MMINUS) ((MTIMES) 2 ((MEXPT) $Y 2))) ((MTIMES) ((MMINUS) 8) $Y))
-   
+
 In the structure of this expression the first negative coefficient is `-(2*y^2)` BUT the second is `-(8)*y`.   This again is a crucial but subtle difference!  To address this issue we have a function
-   
+
     unary_minus_sort(p);
 
 which pulls "-" out the front in a specific situation: that of a product with a negative number at the front.  The result here is the anticipated `y^3-2*y^2-8*y`.
 
-Note that STACK's display functions automatically apply `unary_minus_sort(...)` to any expression being displayed. 
+Note that STACK's display functions automatically apply `unary_minus_sort(...)` to any expression being displayed.
 
 ## If you really insist on a cludge....
 
@@ -81,7 +81,7 @@ In some situations you may find you really do need to work at the display level,
     b:1+x^2;
     f:sconcat("\\frac{",StackDISP(a,""),"}{",StackDISP(b,""),"}");
 
-Then you can put in `@f@` into one of the CASText fields.
+Then you can put in `{@f@}` into one of the CASText fields.
 
 ## Tips for manipulating expressions
 
@@ -89,7 +89,7 @@ How do we do the following in Maxima?
 \[ (1-x)^a \times (x-1) \rightarrow  -(1-x)^{a+1}.\]
 Try
 
-    q:(1-x)^a*(x-1); 
+    q:(1-x)^a*(x-1);
     q:ratsubst(z,1-x,q);
     q:subst(z=1-x ,q);
 
@@ -97,7 +97,69 @@ Try
 How do we do the following in Maxima?
 \[ (x-1)(k(x-1))^a \rightarrow  (x-1)^{a+1}k^a.\]
 
-     factor(radcan((x-1)*(k*(x-1))^a)) 
+     factor(radcan((x-1)*(k*(x-1))^a))
+
+## Creating sequences and series
+
+One problem is that `makelist` needs simplification.  To create sequences/series, try something like the following
+
+    an:(-1)^n*2^n/n!
+    N:8
+    S1:ev(makelist(k,k,1,N),simp)
+    S2:maplist(lambda([ex],ev(an,n=ex)),S1)
+    S3:ev(S2,simp)
+    S4apply("+",S3)
+
+Of course, to print out one line in the worked solution you can also `apply("+",S2)` as well.
+
+## Boolean functions
+
+Maxima has Boolean operators `and`, `or`, and `not`.  These rely on the underlying LISP implementation and as a result the `simp:false` is ignored.  To illustrate the problem, try the following.
+
+    simp:false$
+    true and true;
+    x=1 or x=2;
+
+The results respectively (of the second two) are
+
+    true;
+    false;
+
+Note, there is no mechanism in Maxima to represent a list of assignments such as `x=1 or x=2`, which would be a natural way to express the solution to a quadratic equation.
+
+To solve this problem STACK has introduced `nounand` and `nounor` which are commutative and associative operators.
+
+Students do *not* need to use `nounand` and `nounor` in answers.  Any `and` and `or` operators occuring in their answers are always automatically converted into these noun forms.
+
+Teachers *always* need to use `nounand` and `nounor` in CAS expressions when they want to write non-simplifying expressions.  For example, when defining the "teacher's answer" they should use the noun forms as appropriate.  Teachers often need to use Boolean logic, and so need to conciously separate the difference between these operators and concepts.
+
+Note, the answer tests do *not* convert noun forms to the Maxima forms.  Otherwise both `x=1 or x=2` and `x=1 or x=3` would be evaluated to `false` and a teacher could not tell that they are different!  To replace all `nounand` (etc) operators and replace them with the Maxima equivalent, use `noun_logic_remove(ex)`.
+
+## Surds
+
+Imagine you would like the student to expand out \( (\sqrt{5}-2)(\sqrt{5}+4)=2\sqrt{5}-3 \). There are two tests you probably want to apply to the student's answer.
+
+1. Algebraic equivalence with the correct answer: use `ATAlgEquiv`.
+2. That the expression is "expanded": use `ATExpanded`.
+
+You probably then want to make sure a student has "gathered" like terms.  In particular you'd like to make sure a student has either
+\[ 2\sqrt{5}-3 \mbox{ or } \sqrt{20}-3\]
+but not \[ 5+4\sqrt{2}-2\sqrt{2}+6.\]
+This causes a problem because `ATComAss` thinks that \[ 2\sqrt{5}-3 \neq \sqrt{20}-3.\]
+So you can't use `ATComAss` here, and guarantee that all random versions will work by testing that we really have \(5+4\sqrt{2}\) for example.
+
+What we really want is for the functions `sqrt` and `+` to appear precisely once in the student's answer, or that the answer is a sum of two things.
+
+### Control of surds ###
+
+See also the Maxima documentation on `radexpand`.  For example
+
+    radexpand:false$
+    sqrt((2*x+10)/10);
+    radexpand:true$
+    sqrt((2*x+10)/10);
+
+The first of these does not pull out a numerical denominator.  The second does.
 
 ## Further examples
 

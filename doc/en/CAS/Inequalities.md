@@ -10,15 +10,15 @@ You can test if two inequalities are the same using the algebraic equivalence te
 
 Chained inequalities, for example \(1\leq x \leq2\mbox{,}\) are not permitted.  They must be joined by logical connectives, e.g. "\(x>1\) and \(x<7\)". 
 
-Support for inequalities in Maxima (and hence STACK) is currently poor. This is on our list of possible projects, and help would be welcome!
+From version 3.6, support for inequalities in Maxima (particularly single variable real inequalities) was substantially improved.
 
 # Functions to support inequalities
 
-### * `ineqprepare(ex)`
+* `ineqprepare(ex)`
 
 This function ensures an inequality is written in the form `ex>0` or `ex>=0` where `ex` is always simplified.  This is designed for use with the algebraic equivalence answer test in mind.
 
-### * `ineqorder(ex)`
+* `ineqorder(ex)`
 
 This function takes an expression, applies `ineqprepare()`, and then orders the parts.  For example,
 
@@ -32,7 +32,9 @@ It also removes duplicate inequalities.  Operating at this syntactic level will 
 
 If the algebraic equivalence test detects inequalities, or systems of inequalities, then this function is automatically applied.
 
-However, to establish the equivalence of `x^2>1` with `x>1 or x<-1` will require significantly more work.  This is an interesting and open mathematical and CAS challenge!
+* `make_less_ineq(ex)`
+
+Reverses the order of any inequalities so that we have `A<B` or `A<=B`.  It does no other transformations.  This is useful because when testing equality up to commutativity and associativity we don't perform this transformation.  We need to put all inequalities a particular way round.  See the EqualComAss test examples for usage.
 
 ## See also
 

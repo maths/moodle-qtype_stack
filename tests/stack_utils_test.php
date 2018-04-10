@@ -201,8 +201,13 @@ class stack_utils_test extends qtype_stack_testcase {
     }
 
     public function test_eliminate_strings() {
+        $this->assertEquals('before""after', stack_utils::eliminate_strings('before"inside"after'));
+        $this->assertEquals('""after', stack_utils::eliminate_strings('"atstart"after'));
+        $this->assertEquals('before""', stack_utils::eliminate_strings('before"atend"'));
+        $this->assertEquals('""', stack_utils::eliminate_strings('""'));
         $this->assertEquals('stringa:"" and stringb:""', stack_utils::eliminate_strings("stringa:\"test\" and stringb:\"testb\""));
         $this->assertEquals('stringa:"" and stringb:""', stack_utils::eliminate_strings("stringa:\"\" and stringb:\"\\\"\""));
+        $this->assertEquals('ssubst("","",x)', stack_utils::eliminate_strings('ssubst("times",",",x)'));
     }
 
     public function test_decimal_digits() {
@@ -249,7 +254,7 @@ class stack_utils_test extends qtype_stack_testcase {
         );
 
         foreach ($testcases as $test => $result) {
-            $this->assertEquals(stack_utils::make_single_char_vars($test, null, false, 2, ''), $result);
+            $this->assertEquals($result, stack_utils::make_single_char_vars($test, null, false, 2, ''));
         }
 
     }
@@ -271,7 +276,7 @@ class stack_utils_test extends qtype_stack_testcase {
 
         foreach ($testcases as $test => $result) {
             $this->resetAfterTest();
-            $this->assertEquals(stack_utils::make_single_char_vars($test, null, false, 5, ''), $result);
+            $this->assertEquals($result, stack_utils::make_single_char_vars($test, null, false, 5, ''));
         }
 
     }

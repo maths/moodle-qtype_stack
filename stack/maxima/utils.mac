@@ -1,0 +1,115 @@
+/* Misc functions for dealing with Maxima and the other tools. */
+
+/* Takes a Maxima string and converts everything that could cause trouble in a HTML/XML document to entities.
+   Note that if the string already contains entities even them are converted and thus broken. */
+str_to_html(string_to_escape) := block([tmp],
+    tmp: ssubst("&amp;", "&", string_to_escape),
+    tmp: ssubst("&#39;", "'", tmp), /* &apos; is for XHTML, we need to still deal with HTML. */
+    tmp: ssubst("&quot;", "\"", tmp),
+    tmp: ssubst("&gt;", ">", tmp),
+    tmp: ssubst("&lt;", "<", tmp),
+    return(tmp)
+)$
+
+/* Same for generating ECMAScript strings. */
+str_to_js(string_to_escape) := block([tmp,lines],
+    tmp: ssubst("\\\\", "\\", string_to_escape),
+    tmp: ssubst("\\\"", "\"", tmp),
+    tmp: ssubst("\\'", "'", tmp),
+    tmp: ssubst("\\b", ascii(8), tmp),
+    tmp: ssubst("\\t", ascii(9), tmp),
+    tmp: ssubst("\\n", ascii(10), tmp),
+    tmp: ssubst("\\v", ascii(11), tmp),
+    tmp: ssubst("\\r", ascii(13), tmp), /* \b\t\v\r might as well set to "" but maybe someone uses them to do magic. */
+    return(tmp)
+)$
+
+/* Split a Maxima timestamp (seconds from Jan 1 1900) to numbers representing a date.
+   The returned list consists of integers [year, month, day, weekday] where Sunday is 7 (ISO 8601). */
+time_to_date(seconds) := block([y,m,d,S],
+    S: split(first(split(timedate(seconds), " ")), "-"),
+    y: parse_string(S[1]),
+    m: parse_string(S[2]),
+    d: parse_string(S[3]),
+    return([y, m, d, day_for_date(y, m, d)])
+)$
+
+day_for_date(year, month, day) := block([reference, tmp, d],
+    reference: parse_timedate("1900-01-08 12:00:00"), /* That is a Monday, the 1st was also but time-zones can cause trouble here and we need some space for them. */
+    tmp: parse_timedate(sconcat(year, "-", if month < 10 then sconcat("0", month) else month, "-", if day < 10 then sconcat("0", day) else day, " 12:00:00")),
+    d: floor((tmp - reference)/(24*60*60) + 1/2), /* There are these things called leap seconds let's hope they do not add up to 10 hours to one direction at any point during our lifetimes. */
+    while d < 0 do d: d + 7000, /* Considering that Maximas timedate system breaks if given dates from the 19th century this is good enough. */
+    d: 1 + mod(d,7),
+    return(d)
+)$
+
+/* Generates a continuous list of dates between two dates, the second date is not included in the list but the first is. */
+date_list(yearA, monthA, dayA, yearB, monthB, dayB) := block([y, m, d, wd, S, R, c, et, rev],
+    rev: false,
+    if yearA+(monthA/12)+(dayA/366) > yearB+(monthB/12)+(dayB/366) then
+        rev: true,
+    if yearA = yearB and monthA = monthB and dayA = dayB then
+        return([]),
+    c: parse_timedate(sconcat(yearA, "-", if monthA < 10 then sconcat("0", monthA) else monthA, "-", if dayA < 10 then sconcat("0", dayA) else dayA, " 12:00:00")),
+    et: parse_timedate(sconcat(yearB, "-", if monthB < 10 then sconcat("0", monthB) else monthB, "-", if dayB < 10 then sconcat("0", dayB) else dayB, " 12:00:00")),
+    R: [time_to_date(c)],
+    c: if rev then c - 24*60*60 else c + 24*60*60,
+    while (c < et and not rev) or (rev and c > et) do (
+        S: split(first(split(timedate(c), " ")), "-"),
+        y: parse_string(S[1]),
+        m: parse_string(S[2]),
+        d: parse_string(S[3]),
+        wd: if not rev then last(last(R)) + 1 else last(last(R)) - 1,
+        if wd > 7 then wd: 1,
+        if wd = 0 then wd: 7,
+        R: append(R, [[y, m, d, wd]]),
+        c: if rev then c - 24*60*60 else c + 24*60*60
+    ),
+    /* Due to DST and other such fun things that iteration can go over. */
+    S: last(R),
+    if first(S) = yearB and second(S) = monthB and third(S) = dayB then
+        R: rest(R, -1),
+    return(R)
+)$
+
+
+FORBIDDEN_SYMBOLS_SET: {"%th", "adapth_depth", "alias", "aliases", "alphabetic", "appendfile",
+  "apropos", "assume_external_byte_order", "backtrace", "batch", "barsplot", "batchload",
+  "boxchar", "boxplot", "bug_report", "build_info", "catch", "close", "closefile",
+  "compfile", "compile", "compile_file", "concat", "current_let_rule_package",
+  "data_file_name", "deactivate", "debugmode", "define", "define_variable", "del_cmd", "demo",
+  "dependencies", "describe", "dimacs_export", "dimacs_import", "entermatrix",
+  "errcatch", "error", "error_size", "error_syms", "errormsg", "eval_string", "example",
+  "feature", "featurep", "features", "file_name", "file_output_append", "file_search",
+  "file_search_demo", "file_search_lisp", "file_search_maxima", "file_search_tests",
+  "file_search_usage", "file_type", "filename_merge", "flength", "FORBIDDEN_SYMBOLS_SET",
+  "fortindent", "fortran", "fortspaces", "fposition", "freshline", "functions",
+  "fundef", "funmake", "grind", "gnuplot_cmd", "gnuplot_file_name", "gnuplot_out_file",
+  "gnuplot_preamble", "gnuplot_ps_term_command", "gnuplot_term", "inchar", "infeval",
+  "infolists", "kill", "killcontext", "labels", "leftjust", "ldisp", "ldisplay",
+  "lisp", "linechar", "linel", "linenum", "linsolvewarn", "load", "load_pathname",
+  "loadfile", "loadprint", "macroexpand", "macroexpand1", "macroexpansion", "macros",
+  "manual_demo", "maxima_tempdir", "maxima_userdir", "multiplot_mode", "myoptions",
+  "newline", "nolabels", "opena", "opena_binary", "openr", "openr_binary", "openw",
+  "openw_binary", "outchar", "packagefile", "parse_string", "pathname_directory",
+  "pathname_name", "pathname_type", "pickapart", "piece", "playback", "plotdf", "print",
+  "print_graph", "printf", "printfile", "prompt", "psfile", "quit", "read", "read_array",
+  "read_binary_array", "read_binary_list", "read_binary_matrix", "read_hashed_array",
+  "read_list", "read_matrix", "read_nested_list", "read_xpm", "readline", "readonly",
+  "refcheck", "rembox", "remvalue", "remfunction", "reset", "rmxchar", "room",
+  "run_testsuite", "run_viewer", "save", "savedef", "scatterplot", "starplot",
+  "stemplot", "set_plot_option", "setup_autoload", "setcheck", "setcheckbreak",
+  "setval", "showtime", "sparse6_export", "sparse6_import", "splice", "sprint", "status",
+  "stringout", "supcontext", "system", "tcl_output", "terminal", "tex", "testsuite_files",
+  "throw", "time", "timer", "timer_devalue", "timer_info", "to_lisp", "trace", "trace_options",
+  "transcompile", "translate", "translate_file", "transrun", "ttyoff", "untimer",
+  "untrace", "user_preamble", "values", "with_stdout", "write_binary_data", "write_data", "writefile"
+}$
+
+/* This is the allowed version of concat that blocks the possibility to construct certain dangerous things. */
+vconcat([ex]) := block([tmp],
+ tmp: apply(concat, ex),
+ if symbolp(tmp) and elementp(sconcat(tmp), FORBIDDEN_SYMBOLS_SET) then
+   error(sconcat("concat: '", tmp, "' is a forbidden symbol and cannot be constructed.")),
+ return(tmp)
+)$

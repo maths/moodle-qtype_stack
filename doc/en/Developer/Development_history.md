@@ -1,16 +1,76 @@
-# History of previous versions of STACK
+# STACK Development History
 
 For current and future plans, see [Development track](Development_track.md) and [Future plans](Future_plans.md).
 
+## STACK 4.1
+
+Released December 2017.
+
+Numerous minor bug fixes and improvements.
+
+* Add in support for the syntaxHint in the matrix input.
+* On the questiontestrun page, have options to (a) delete all question variants.
+* Add in a `size` option to set the size of a plot.
+* Add in an answer test which accepts "at least" n significant figures. (See issue #313)
+* Add in the "string" input type.
+* Add test which checks if there are any rational expressions in the denominator of a fraction.  (Functionality added to LowestTerms test, which looks at the form of rational expressions).
+* Add an option to remove hard-coded "not answered" option from Radio input type. (See issue #304)
+* Add in a "numerical" input type which requires a student to type in a number.  This has various options, see the [docs](../Authoring/Numerical_input.md).
+* Specify numerical precision for validation in numerical and units input types.
+* Refactor the inputs so that extra options can be added more easily, and shared between inputs.
+
+## STACK 4.0.1
+
+Released August 2017.
+
+This is a bug-fix release, mostly associated with the upgrade process from version 3.X to 4.X.
+
+* Fix a bug in the upgrade script.
+* Fix a bug in the testing procedure in the "question test" script, and improve the way deployed versions are tested.
+* Make SVG the default image format for pictures created by Maxima.  (Old .png code left in place in this release, but no user option to access this functionality.)
+
+## STACK 4.0
+
+Released August 2017.
+
+**STACK 4.0 represents a major release of STACK and is a non-reversible change, with important differences which break back-compatability.**
+
+Note that much of the underlying code in this development have been used at Aalto for many years, with complex questions.  We believe these are battle tested improvements in the functionality.
+
+STACK 4.0 includes the block features and other important changes in CASText.
+
+* To generate the LaTeX displayed form of a CAS variable in castext you must use `{@...@}`.  Note the curly braces which now must be used.  We have an upgrade script for existing questions.
+* To generate the Maxima value of a CAS variable in castext you can use `{#...#}`. This is useful when interfacing with other software, or showing examples to students.
+* CASText now supports conditional statements and adaptive blocks. See [question blocks](../Authoring/Question_blocks.md).
+
+Other changes.
+
+* The question note is no longer limited in size.
+* Mathematics in LaTeX can no longer be supported with `$..$` or `$$..$$`.  This useage has been discouraged for many years, and we have a long-standing "fix" script to convert from dollars to the forms `\(..\)` and `\[..\]`.
+* Remove the artificial limit on the size of CASText.  We now rely on surrounding limits, like POST requests and database limits.  This may result in ugly errors, but we need larger limits to accommodate interactive elements embedded into text fields.
+
+## STACK 3.6
+
+Released July 2017.
+
+This release developed the first version of an input to assess line by line "reasoning by equivalence" input.  See the documentation on [equivalence reasoning](../CAS/Equivalence_reasoning.md).
+
+Other new features and enhancements in this release.
+
+* Modify the text area input so that each line is validated separately.
+* Add a "scratch working" input type in which students can record their thinking etc. alongside the final answer.
+* Support for intervals in STACK, using the Maxima syntax `oo(a,b)` for an open inteval \((a,b)\), `cc(a,b)` for an open inteval \([a,b]\) and `oc(a,b)`, `co(a,b)` for the half open intervals.
+* Much better support for solving and dealing with single variable inequalities.
+
 ## Version 3.5.7
 
-Released June 2017. 
+Released June 2017.
 
 Numerous minor bug fixes and improvements.
 
 ## Version 3.5.6
 
-Released December 2016. 
+Released December 2016.
 
 Numerous minor bug fixes and improvements, particularly with numerical tests and scientific units.
 
@@ -24,11 +84,11 @@ Note, many of these changes have resulted in stricter rules on the acceptability
 1 You can no longer have a feedback variable, or a question variable, with a name that is the same as an input.
 2. `log10` function and `log_b` functions are now handled by STACK, by manipulating the CAS string before it is sent to Maxima. Therefore, if your question previously defined a function with names like that, it will now break.
 3. Variable names with a digit in the middle `eqn1gen` no longer work. (They should never have been used, but used not to break quesitons.)
-4. Previously, unnecessary `\` in CAS text were ignored. E.g. if you have a question variable called `vangle2` then `@\vangle2@` used to work, it does not any more.
+4. Previously, unnecessary `\` in CAS text were ignored. E.g. if you have a question variable called `vangle2` then `{@\vangle2@}` used to work, it does not any more.
 
 ## Version 3.5.5
 
-Released August 2016. 
+Released August 2016.
 
 Numerous minor bug fixes and improvements, particularly with numerical tests and scientific units.
 
@@ -40,8 +100,6 @@ Numerous minor bug fixes and improvements, particularly with numerical tests and
 6. Added a xMaxima file to give more direct access to the sandbox.
 
 ## Version 3.5
-
-Released February 2016. 
 
 Numerous minor bug fixes and improvements.
 
@@ -56,7 +114,7 @@ Numerous minor bug fixes and improvements.
 
 ## Version 3.4
 
-Released September 2015. 
+Released September 2015.
 
 This contains numerous minor bug fixes and improvements.
 
@@ -71,7 +129,7 @@ This contains numerous minor bug fixes and improvements.
 
 ## Version 3.3
 
-Released September 2014. 
+Released September 2014.
 
 This contains numerous minor bug fixes and improvements.
 
@@ -91,7 +149,7 @@ This contains numerous minor bug fixes and improvements.
  9.  Better install (auto OS detection), healtcheck and testing.
  10. When using the Maxima Pool servlet, it is now possible to use any type of HTTP authenication
     (e.g. basic or digest), and there is a separate configuration option, so that you don't need to put the username and password in the URL.
- 
+
 
 ## Version 3.2
 
@@ -135,7 +193,7 @@ Changes since 3.0:
 ### Other improvements
 
 * Create a "tidy question" script that can be used to rename Inputs, PRTs and/or Nodes everywhere in a question.
-* Add CAStext-enabled ALT tags to the automatically generated images. For example, adding a final, optional, string argument to the "plot" command that the system uses as the ALT text of the image. That way, we can say the function that the graph is of. 
+* Add CAStext-enabled ALT tags to the automatically generated images. For example, adding a final, optional, string argument to the "plot" command that the system uses as the ALT text of the image. That way, we can say the function that the graph is of.
 * New option for how inverse trig functions are displayed.
 * A script to run question tests in bulk.
 * Add a new answer test to deal with decimal places.

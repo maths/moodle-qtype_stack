@@ -6,9 +6,9 @@
 /* If we want to fix this we'll need to write your own approx-alike function.                      */
 /* C:\Program Files\Maxima-5.22.1\share\maxima\5.22.1\src                                          */
 
+if featurep(all,constant) then remove(all, constant);
 kill(all);
-/*load("C:/xampp/htdocs/stack-dev/logfiles/maximalocal.mac")$*/
-LOADDIR:"/home/sangwinc/Documents/linuxnotes/moodle27.mac"$
+LOADDIR:"stackmaxima.mac"$
 print("Working from: ")$
 print(LOADDIR)$
 load(LOADDIR)$
@@ -18,10 +18,14 @@ no_fails:0$ all_pass:true$
 simp:true$  
 STT:batch("rtest_assessment_simptrue.mac", test);
 STB:batch("rtest_assessment_simpboth.mac", test);
+STB:batch("rtest_inequalities.mac", test);
+STB:batch("rtest_intervals.mac", test);
 
 simp:false$  
 SFF:batch("rtest_assessment_simpfalse.mac", test);
 SFB:batch("rtest_assessment_simpboth.mac", test);
+STB:batch("rtest_inequalities.mac", test);
+STB:batch("rtest_intervals.mac", test);
 
 print("************ simp is true");
 print(STT);

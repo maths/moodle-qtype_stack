@@ -43,15 +43,17 @@ class qtype_stack_renderer extends qtype_renderer {
         $inputstovaldiate = array();
         $qaid = null;
         foreach ($question->inputs as $name => $input) {
+            // Get the actual value of the teacher's answer at this point.
+            $tavalue = $question->get_session_variable($name);
+
             $fieldname = $qa->get_qt_field_name($name);
             $state = $question->get_input_state($name, $response);
 
             $questiontext = str_replace("[[input:{$name}]]",
-                    $input->render($state, $fieldname, $options->readonly),
+                    $input->render($state, $fieldname, $options->readonly, $tavalue),
                     $questiontext);
 
-            $feedback = $this->input_validation($fieldname . '_val', $input->render_validation($state, $fieldname));
-            $questiontext = str_replace("[[validation:{$name}]]", $feedback, $questiontext);
+            $questiontext = $input->replace_validation_tags($state, $fieldname, $questiontext);
 
             $qaid = $qa->get_database_id();
             if ($input->requires_validation()) {
@@ -245,18 +247,6 @@ class qtype_stack_renderer extends qtype_renderer {
         }
 
         return $overallfeedback . $feedbacktext;
-    }
-
-    /**
-     * @param string $feedback the raw feedback message from the intput element.
-     * @return string Nicely formatted feedback, for display.
-     */
-    protected function input_validation($id, $feedback) {
-        $class = "stackinputfeedback";
-        if (!$feedback) {
-            $class .= ' empty';
-        }
-        return html_writer::tag('div', $feedback, array('class' => $class, 'id' => $id));
     }
 
     /**
@@ -470,8 +460,7 @@ class qtype_stack_renderer extends qtype_renderer {
      * @param string $fact the contents of the fact sheet.
      */
     public function fact_sheet($name, $fact) {
-        static $count = 1;
-        return print_collapsible_region($fact, 'qtype_stack_fact_sheet',
-                'qtype_stack_fact_sheet' . $count++, $name, '', true, true);
+        $name = html_writer::tag('h5', $name);
+        return html_writer::tag('div', $name.$fact, array('class' => 'factsheet'));
     }
 }

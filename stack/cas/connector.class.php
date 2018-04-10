@@ -163,7 +163,6 @@ abstract class stack_cas_connection_base implements stack_cas_connection {
         $errors = false;
         // This adds sufficient closing brackets to make sure we have enough to match.
         $rawresult .= ']]]]';
-
         if ('' == trim($rawresult)) {
             $this->debug->log('Warning, empty result!', 'unpack_raw_result: completely empty result was returned by the CAS.');
             return array();
@@ -178,7 +177,7 @@ abstract class stack_cas_connection_base implements stack_cas_connection {
             $result = strstr($rawresult, '[TimeStamp'); // Remove everything before the timestamp.
         }
 
-        $result = trim(str_replace('#', '', $result));
+        $result = trim(str_replace("\n ", '', $result));
         $result = trim(str_replace("\n", '', $result));
 
         $unp = $this->unpack_helper($result);
@@ -220,7 +219,7 @@ abstract class stack_cas_connection_base implements stack_cas_connection {
                 $local['error'] = '';
             }
             // If there are plots in the output.
-            $plot = isset($local['display']) ? substr_count($local['display'], '<img') : 0;
+            $plot = isset($local['display']) ? substr_count($local['display'], '!ploturl!') : 0;
             if ($plot > 0) {
                 // Plots always contain errors, so remove.
                 $local['error'] = '';
@@ -307,6 +306,11 @@ abstract class stack_cas_connection_base implements stack_cas_connection {
             if (strpos($err, '0 to a negative exponent') !== false) {
                 $err = stack_string('Maxima_DivisionZero');
             }
+
+            if (strpos($err, 'args: argument must be a non-atomic expression;') !== false) {
+                $err = stack_string('Maxima_Args');
+            }
+
             $errorclean[] = $err;
         }
 

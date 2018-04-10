@@ -1,21 +1,23 @@
-# Development track for STACK 3.6 and STACK 4.0
+# Development track for STACK
 
 Requests for features and ideas for developing STACK are all recorded in [Future plans](Future_plans.md). The
 past development history is documented on [Development history](Development_history.md).
 
 How to report bugs and make suggestions is described on the [community](../About/Community.md) page.
 
-As of January 2016 there are two parallel development tracks for STACK.
+## Version 4.2
 
-# STACK 3.6
+Note: newer versions of Maxima require that a variable has been initialised as a list/array before you can assign values to its indices.  For this reason some older questions may stop working when you upgrade to a new version of Maxima.  Please use the bulk test script after each upgrade!  See issue #343.
 
-This track is developing more inputs, including a "reasoning by equivalence" input type.
+To do:
 
-# STACK 4.0
-
-This track adds major new features, and changes the interaction model for STACK substantially.  The goal is to develop STACK 3.6 and STACK 4.0 in parallel.  At a point where both are stable we will decide whether to actually release 3.6, or to merge and release all features as one new major change.
-
-* Expand the CASText format to enable us to embed the _value_ of a variable in CASText, not just the displayed form.
-* Conditionals in CASText adaptive blocks. (Aalto) See [question blocks](../Authoring/Question_blocks.md) for our plans.
-* Add state to the question model.
-
+* Add in a version number to STACK questions.
+* Add support for matrices with floating point entries, and testing numerical accuracy.
+* Refactor equiv_input and MCQ to make use of the new extra options mechanism.
+* Update MCQ to accept units.
+* Add a base N check to the numeric input.
+* Enable individual questions to load Maxima libraries.  (See issue #305)
+* Add an answer test to check if decimal separator is in the wrong place (See issue #314)
+* Sort out the "addrow" problem. (See issue #333)
+* Expand support for input validation options to matrices (e.g. floatnum, rationalize etc.)
+* Add in full parser, to address issue #324.

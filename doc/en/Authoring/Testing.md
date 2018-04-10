@@ -8,6 +8,35 @@ Computer aided assessment of mathematics works in the following phases.
 4. [Adding questions to a quiz](Quiz.md) and use by students.
 5. [Reporting](Reporting.md) and statistical analysis.
 
+## Question authoring checklist ##
+
+High quality question production needs care at each stage.
+
+__Minimal requirements__
+
+1. The question name should be meaningful and consistent, i.e. match up to course, section and topic.  E.g. ILA-3-equation of plane.
+2. Is the phrasing of the question clear to students?
+3. Will students know how to input an answer?  Could a "syntax hint" or message in the question help?
+4. Use question variable stubs throughout, to enable efficient random generation.  (E.g. define correct answer in question variables, rather than hard-wiring a sepcific expression).
+5. Mark correct answer as correct.
+6. Question tests for one correct and one incorrect version. (See below)
+7. Check all options in question, inputs and PRTs.
+
+__Phase 1__
+
+1. Minimal random versions.
+2. Worked solution ("General feedback") reflecting the random variables.
+3. Consider likley mistakes, and add feedback to test for this.
+4. Add at least one question test to test for each eventuality identified above.
+
+__Phase 2__
+
+Use data obtained from one cycle of attempts by students.
+
+1. Did the question operate correctly?  E.g. were correct answers correctly marked, and incorrect answers rejected?
+2. What did students get wrong?  Is there a reason for these answers such as a common misconception?  If so, add nodes to the PRTs to test for this and improve feedback.
+3. Add further question tests to test each misconception.
+4. Is there any significant difference between random versions?
 
 ## Testing for quality control  ##
 
@@ -65,7 +94,7 @@ You can set global [simplification](../CAS/Simplification.md) flags in two place
 1. Globally in the question.
 2. In each potential response tree.
 
-Regardless of what settings you use here the expressions you enter for inputs in question tests are _not_ simplified.  This is necessary.  For example, if your question is "what is \(@a@+@b@\)?" where @a@ and @b@ are randomly generated.  You will need to set the question level option `simplify:false` to prevent the student typing in the sum itself as an answer.  Then you will probably need separate tests for the expressions `a+b` and `ev(a+b,simp)` to make sure the student hasn't typed in the sum instead of the value of the sum.  For this reason, to enable "unsimplified" expressions to be included as question tests we do not simplify test inputs regardless of the options used in the question.
+Regardless of what settings you use here the expressions you enter for inputs in question tests are _not_ simplified.  This is necessary.  For example, if your question is "what is \({@a@}+{@b@}\)?" where {@a@} and {@b@} are randomly generated.  You will need to set the question level option `simplify:false` to prevent the student typing in the sum itself as an answer.  Then you will probably need separate tests for the expressions `a+b` and `ev(a+b,simp)` to make sure the student hasn't typed in the sum instead of the value of the sum.  For this reason, to enable "unsimplified" expressions to be included as question tests we do not simplify test inputs regardless of the options used in the question.
 
 If you have set `simplify:true` everywhere in your question, and you are only establishing algebraic equivalence of your answers anyway, "unsimplified" expressions as inputs to the tests will not matter.
 
@@ -73,5 +102,3 @@ If you have set `simplify:true` everywhere in your question, and you are only es
 ## Next steps
 
 When you are done testing a question which uses randomization, you need to [deploy variants](Deploying.md) of the question.
-
-

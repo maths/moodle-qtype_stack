@@ -44,6 +44,11 @@ class stack_dropdown_input extends stack_input {
     protected $ddldisplay = 'casstring';
 
     /*
+     * Controls whether a "not answered" option is presented to the students.
+     */
+    protected $nonotanswered = true;
+
+    /*
      * This holds the value of those
      * entries which the teacher has indicated are correct.
      */
@@ -76,12 +81,20 @@ class stack_dropdown_input extends stack_input {
                         $this->ddldisplay = 'LaTeXdisplay';
                         break;
 
+                    case 'latexdisplaystyle':
+                        $this->ddldisplay = 'LaTeXdisplaystyle';
+                        break;
+
                     case 'casstring':
                         $this->ddldisplay = 'casstring';
                         break;
 
+                    case 'nonotanswered':
+                        $this->nonotanswered = false;
+                        break;
+
                     default:
-                        throw new stack_exception('stack_dropdown_input: did not recognize the input type option '.$option);
+                        $this->errors[] = stack_string('inputoptionunknown', $option);
                 }
             }
         }
@@ -121,7 +134,7 @@ class stack_dropdown_input extends stack_input {
         }
         $values = stack_utils::list_to_array($str, false);
         if (empty($values)) {
-            $this->errors = stack_string('ddl_badanswer', $teacheranswer);
+            $this->errors[] = stack_string('ddl_badanswer', $teacheranswer);
             $this->teacheranswervalue = '[ERR]';
             $this->teacheranswerdisplay = '<code>'.'[ERR]'.'</code>';
             $this->ddlvalues = null;
@@ -147,7 +160,7 @@ class stack_dropdown_input extends stack_input {
                 if (count($value) >= 2) {
                     // Check for duplicates in the teacher's answer.
                     if (array_key_exists($value[0], $duplicatevalues)) {
-                        $this->errors = stack_string('ddl_duplicates');
+                        $this->errors[] = stack_string('ddl_duplicates');
                     }
                     $duplicatevalues[$value[0]] = true;
                     // Store the answers.
@@ -168,7 +181,7 @@ class stack_dropdown_input extends stack_input {
                     }
                     $ddlvalues[] = $ddlvalue;
                 } else {
-                    $this->errors = stack_string('ddl_badanswer', $teacheranswer);
+                    $this->errors[] = stack_string('ddl_badanswer', $teacheranswer);
                 }
             }
         }
@@ -180,7 +193,7 @@ class stack_dropdown_input extends stack_input {
          * list of the values of those things the teacher said are correct.
          */
         if ($this->ddltype != 'checkbox' && $numbercorrect === 0) {
-            $this->errors .= stack_string('ddl_nocorrectanswersupplied');
+            $this->errors[] = stack_string('ddl_nocorrectanswersupplied');
             return;
         }
         if ($this->ddltype == 'checkbox') {
@@ -204,6 +217,7 @@ class stack_dropdown_input extends stack_input {
                 if (substr($display, 0, 1) == '"' && substr($display, 0, 1) == '"') {
                     $ddlvalues[$key]['display'] = substr($display, 1, strlen($display) - 2);
                 } else {
+                    $display = stack_utils::logic_nouns_sort($display, 'remove');
                     $ddlvalues[$key]['display'] = '<code>'.$display.'</code>';
                 }
             }
@@ -229,7 +243,7 @@ class stack_dropdown_input extends stack_input {
         $at1->instantiate();
 
         if ('' != $at1->get_errors()) {
-            $this->errors .= $at1->get_errors();
+            $this->errors[] = $at1->get_errors();
             return;
         }
 
@@ -243,10 +257,18 @@ class stack_dropdown_input extends stack_input {
             } else {
                 // Note, we've chosen to add LaTeX maths environments here.
                 $disp = $at1->get_display_key('val'.$key);
-                if ($this->ddldisplay === 'LaTeX') {
-                    $ddlvalues[$key]['display'] = '\('.$disp.'\)';
-                } else {
-                    $ddlvalues[$key]['display'] = '\['.$disp.'\]';
+                switch ($this->ddldisplay) {
+                    case 'LaTeX':
+                        $ddlvalues[$key]['display'] = '\('.$disp.'\)';
+                        break;
+                    case 'LaTeXdisplay':
+                        $ddlvalues[$key]['display'] = '\['.$disp.'\]';
+                        break;
+                    case 'LaTeXdisplaystyle':
+                        $ddlvalues[$key]['display'] = '\(\displaystyle '.$disp.'\)';
+                        break;
+                    default:
+                        $ddlvalues[$key]['display'] = '\(\displaystyle '.$disp.'\)';
                 }
             }
         }
@@ -259,12 +281,18 @@ class stack_dropdown_input extends stack_input {
 
         // Make sure the array keys start at 1.  This avoids
         // potential confusion between keys 0 and ''.
-        $values = array_merge(array('' => array('value' => '',
-            'display' => stack_string('notanswered'), 'correct' => false), 0 => null), $values);
+        if ($this->nonotanswered) {
+            $values = array_merge(array('' => array('value' => '',
+                'display' => stack_string('notanswered'), 'correct' => false), 0 => null), $values);
+        } else {
+            $values = array_merge(array(0 => null), $values);
+        }
         unset($values[0]);
         // For the 'checkbox' type remove the "not answered" option.  This isn't needed.
         if ('checkbox' == $this->ddltype) {
-            unset($values['']);
+            if (array_key_exists('', $values)) {
+                unset($values['']);
+            }
         }
         return $values;
     }
@@ -280,8 +308,9 @@ class stack_dropdown_input extends stack_input {
         $valid = true;
         $errors = $this->errors;
         $modifiedcontents = $contents;
+        $caslines = array();
 
-        return array($valid, $errors, $modifiedcontents);
+        return array($valid, $errors, $modifiedcontents, $caslines);
     }
 
     /**
@@ -294,9 +323,7 @@ class stack_dropdown_input extends stack_input {
         return $this->get_input_ddl_value($contents[0]);
     }
 
-    /* This function always returns an array where the key is the CAS "value".
-     * This is needed in various places, e.g. when we check the an answer received is actually
-     * in the list of possible answers.
+    /* This function always returns an array where the key is the key in the ddlvalues.
      */
     protected function get_choices() {
         if (empty($this->ddlvalues)) {
@@ -305,24 +332,18 @@ class stack_dropdown_input extends stack_input {
 
         $values = $this->ddlvalues;
         if (empty($values)) {
-            $this->errors .= stack_string('ddl_empty');
+            $this->errors[] = stack_string('ddl_empty');
             return array();
         }
 
-        // We need to do this step after array_merge.
-        // If the 'value' is an integer, array_merge may renumber it.
         $choices = array();
         foreach ($values as $key => $val) {
-            if (!array_key_exists($val['value'], $choices)) {
-                $choices[$key] = $val['display'];
-            } else {
-                $this->errors .= stack_string('ddl_duplicates');
-            }
+            $choices[$key] = $val['display'];
         }
         return $choices;
     }
 
-    public function render(stack_input_state $state, $fieldname, $readonly) {
+    public function render(stack_input_state $state, $fieldname, $readonly, $tavalue) {
 
         if ($this->errors) {
             return $this->render_error($this->errors);
@@ -343,7 +364,10 @@ class stack_dropdown_input extends stack_input {
             $inputattributes['disabled'] = 'disabled';
         }
 
-        $notanswered = $values[''];
+        $notanswered = '';
+        if (array_key_exists('', $values)) {
+            $notanswered = $values[''];
+        }
         if ($this->ddltype == 'select') {
             unset($values['']);
         }
@@ -406,7 +430,7 @@ class stack_dropdown_input extends stack_input {
      */
     public function maxima_to_response_array($in) {
         if ('' == $in) {
-            return array($this->name = '');
+            return array();
         }
 
         $ddlkey = $this->get_input_ddl_key($in);
@@ -482,7 +506,7 @@ class stack_dropdown_input extends stack_input {
                 return $key;
             }
         }
-        $this->errors = stack_string('ddl_unknown', $value);
+        $this->errors[] = stack_string('ddl_unknown', $value);
 
         return false;
     }

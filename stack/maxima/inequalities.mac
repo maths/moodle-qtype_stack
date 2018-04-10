@@ -1,0 +1,304 @@
+/*  Author Chris Sangwin
+    University of Edinburgh
+    Copyright (C) 2015 Chris Sangwin
+
+    This program is free software: you can redistribute it or modify
+    it under the terms of the GNU General Public License version two.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+    GNU General Public License for details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program. If not, see <http://www.gnu.org/licenses/>. */
+
+
+/********************************************************************/
+/*  A package for manipulating inequalities in Maxima.              */
+/*                                                                  */
+/*  This file relies on assessment.mac, but not on stackmaxima.mac. */
+/*  This makes it useable outside STACK.                            */
+/*                                                                  */
+/*  Chris Sangwin, <chris@sangwin.com>                              */
+/*  V0.1 May 2015                                                   */
+/*                                                                  */
+/********************************************************************/
+
+/* Reduces an inequality to either ? > 0 or ? >=0, which is monic in its variable. */
+ineqprepare(ex) := block([op2, ex2],
+    if mapatom(ex) then return(ex),
+    if safe_op(ex)="%not" then ex:not_ineq(first(args(ex))),
+    if op(ex)="="  then return(make_monic_eq(ev(part(ex,1) - part(ex,2), simp, trigreduce)) = 0),
+    if op(ex)=">"  then return(make_monic(ev(part(ex,1) - part(ex,2), simp, trigreduce)) > 0),
+    if op(ex)=">=" then return(make_monic(ev(part(ex,1) - part(ex,2), simp, trigreduce)) >= 0),
+    if op(ex)="<"  then return(make_monic(ev(part(ex,2) - part(ex,1), simp, trigreduce)) > 0),
+    if op(ex)="<=" then return(make_monic(ev(part(ex,2) - part(ex,1), simp, trigreduce)) >= 0),
+    ex2:args(ex),
+    ex2:map(ineqprepare, ex2),
+    return(apply(op(ex), ex2))
+)$
+
+/* Turn a single variable polynomial expression into a +1/-1 monic polynomial.
+   This is used with inequalities. */
+make_monic(ex) := block([v,vc],
+    if mapatom(ex) then return(ex),
+    if not(polynomialpsimp(ex)) then return(ex),
+    ex:expand(ex),
+    v:listofvars(ex),
+    if v=[] then return(ex),
+    /* Divide by the numerical coefficient of the leading term, without losing the minus sign. */
+    ev(expand(ex/abs(numerical_coeff(ex))), simp)
+)$
+
+/* Return the numerical coefficient of the leading term in expression. */
+numerical_coeff(ex):= block([v, vc],
+  v:listofvars(ex),
+  if v=[] then return(ex),
+  vc:ratcoef(ex, first(v), degree(ex, first(v))),
+  if listofvars(vc)=[] then return(vc),
+  numerical_coeff(vc)
+);
+
+/* This is used with equations. */
+make_monic_eq(ex) := block([v],
+    if mapatom(ex) then return(ex),
+    if not(polynomialpsimp(ex)) then return(ex),
+    ex:expand(ex),
+    /* Divide by the coefficient of the highest power. */
+    v:listofvars(ex),
+    if v=[] then return(ex),
+    poly_normalize(ex,v)
+)$
+
+/* Determines if we have a linear inequality in one variable.
+   This function prepares the inequality.                       */
+linear_inequalityp(ex) := block([ex2],
+    if atom(ex) then return(false),
+    if not(">"= op(ex) or "<"= op(ex) or ">="= op(ex) or "<="= op(ex)) then return(false),
+    ex2:ineqprepare(ex),
+    if not(is(length(listofvars(ex2))=1)) then return(false),
+    if not(polynomialp(lhs(ex2), listofvars(ex2))) then return(false),
+    if is(degree(lhs(ex2), first(listofvars(ex2)))=1) then return(true),
+    return(false)
+)$
+
+/* Reformat an interval inequality in an easier to read form, namely a<x or x<a: a syntactic transformation. */
+inequality_disp(ex) := block([ex2, v],
+    if not(linear_inequalityp(ex)) then return(ex),
+    ex2:ineqprepare(ex),
+    v:first(listofvars(ex2)),
+    if equal(coeff(lhs(ex2), v), 1) then return(rev_ineq(subst(op(ex2), "=", first(solve(lhs(ex2), v))))),
+    if equal(coeff(lhs(ex2), v), -1) then return(neg_ineq(subst(op(ex2), "=", first(solve(lhs(ex2), v))))),
+    return(ex)
+)$
+
+/* Reverses the inequality: purely syntactic. */
+rev_ineq(ex):=block(
+    if safe_op(ex) = "<" then return(rhs(ex) > lhs(ex)),
+    if safe_op(ex) = "<=" then return(rhs(ex) >= lhs(ex)),
+    if safe_op(ex) = ">" then return(rhs(ex) < lhs(ex)),
+    if safe_op(ex) = ">=" then return(rhs(ex) <= lhs(ex)),
+    return(ex)
+)$
+
+/* Reverses any > or >= inequalities: purely syntactic.
+   This is useful to ensure only <, or <= occur in an expression when we are testing
+   equivalence, without too much simplification.  EqualsComAss does not do this.  */
+make_less_ineq(ex):=block(
+  if atom(ex) then return(ex),
+  if op(ex)=">" then return(rhs(ex)<lhs(ex)),
+  if op(ex)=">=" then return(rhs(ex)<=lhs(ex)),
+  return(apply(op(ex), map(make_less_ineq, args(ex))))
+)$
+
+/* Used to checks if we have the wrong inequality. */
+neg_ineq(ex):=block(
+    if safe_op(ex) = "<" then return(lhs(ex) > rhs(ex)),
+    if safe_op(ex) = "<=" then return(lhs(ex) >= rhs(ex)),
+    if safe_op(ex) = ">" then return(lhs(ex) < rhs(ex)),
+    if safe_op(ex) = ">=" then return(lhs(ex) <= rhs(ex)),
+    return(ex)
+)$
+
+/* Negates an inequality. */
+not_ineq(ex):=block(
+    if atom(ex) then return(not(ex)),
+    if safe_op(ex) = "<" then return(lhs(ex) >= rhs(ex)),
+    if safe_op(ex) = "<=" then return(lhs(ex) > rhs(ex)),
+    if safe_op(ex) = ">" then return(lhs(ex) <= rhs(ex)),
+    if safe_op(ex) = ">=" then return(lhs(ex) < rhs(ex)),
+    return(ex)
+)$
+
+/* ex:  a list of inequalities
+   l: a list of index numbers,
+   Function negates each inequality as indexed by l. */
+neg_ineq_list(ex, l) := block([k],
+    if emptyp(l) then return(ex),
+    for k: 1 thru length(l) do ex[ev(l[k], simp)]:neg_ineq(ex[ev(l[k], simp)]),
+    ex
+)$
+
+/*******************************************************************************/
+/* This block of functions removes unessary inequalities from a collection.    */
+ineq_rem_redundant(ex) := block([exl,exn,exg,exo,exv, simp],
+    if atom(ex) then return(ex),
+    if not(safe_op(ex)="nounand" or safe_op(ex)="nounor" or safe_op(ex)="%and" or safe_op(ex)="%or" or safe_op(ex)="and") then
+        return(ex),
+    /* Recurse over the expression. */
+    ex:apply(op(ex), maplist(ineq_rem_redundant, args(ex))),
+
+    if (safe_op(ex)="nounand" or safe_op(ex)="%and" or safe_op(ex)="and") then exo:[max, min] else exo:[min, max],
+    exn:sublist(args(ex), lambda([ex2], not(linear_inequalityp(ex2)))),
+    exl:sublist(args(ex), linear_inequalityp),
+    /* Separate out expressions in a single variable. */
+    exv:listofvars(exl),
+    exl:maplist(lambda([ex],sublist(exl,lambda([ex2], is(listofvars(ex2)=[ex])))), exv),
+    /* At this point we have linear inequalities, in a single variable, separated out into lists for each individual variable. */
+    exl:maplist(lambda([ex], single_linear_ineq_reduce(ex, exo)), exl),
+    exl:flatten(exl),
+    exl:append(exn,exl),
+    if is(length(exl)=1) then return(first(exl)),
+    ex:apply(op(ex), exl)
+)$
+
+/* Take a list of linear inequalities the same single variable, and a list of operators, min/max.
+   Returns the equivalent inequalities.
+*/
+single_linear_ineq_reduce(ex, exo):=block([exg,exl],
+    ex:maplist(ineqprepare,ex),
+    /* Separate out into x>?, x>=? and x<?, x<=?. */
+    exg:sublist(ex, lambda([ex2], is(coeff(lhs(ex2), first(listofvars(ex2))) = 1))),
+    exl:sublist(ex, lambda([ex2], is(coeff(lhs(ex2), first(listofvars(ex2))) = -1))),
+    /* Separate into solution and operator. */
+    exg:single_linear_ineq_reduce_h(exg, first(exo), true),
+    exl:single_linear_ineq_reduce_h(exl, second(exo), false),
+    append(exg, exl)
+)$
+
+/* Take a list of linear inequalities of the same sign, in a single variable, and an operator, min/max.
+   Return the single equivalent inequality.
+*/
+single_linear_ineq_reduce_h(exl, exo, odr):=block([m1,m2,m3,exg],
+    if exl=[] then return([]),
+    if not(is(exo = max) or is(exo = min)) then print("ERROR: single_linear_ineq_reduce_h expects second argument to be max or min."),
+    exg:maplist(lambda([ex2],[rhs(first(solve(lhs(ex2)))), op(ex2)]), exl),
+    m1:apply(exo, maplist(first,exg)),
+    m2:sublist(exg,lambda([ex2],is(m1=first(ex2)))),
+    /* Get list of operators.  Used to sort out >, >= etc. */
+    m3:sort(listify(setify(maplist(second, m2)))),
+    if (not(odr) and is(exo=max)) or (odr and is(exo = min)) then m3:reverse(m3),
+    [apply(first(m3), if odr then [first(listofvars(exl)), m1] else [m1, first(listofvars(exl))])]
+)$
+
+
+/*******************************************************************************/
+/* Solve pol a single inequality a standard form.                              */
+/* ex>0 or ex>=0.                                                              */
+ineqorder(ex) := ineq_rem_redundant(ev(ineqprepare(ex), simp))$
+
+
+/*******************************************************************************/
+/* Takes a real linear inequality in one variable and returns an interval. */
+linear_inequality_to_interval(ex) := block([ex2, v, p, Ans],
+    if not(linear_inequalityp(ex)) then return(ex),
+    ex2:ineqprepare(ex),
+    v:first(listofvars(ex2)),
+    /* We know this solution will exist. */
+    p:rhs(first(solve(lhs(ex2), v))),
+    /* But we can only create an interval if the value is real! */
+    if not(real_numberp(p)) then return({}),
+    Ans:ex,
+    if equal(coeff(lhs(ex2), v), 1) then
+        (
+        if op(ex2)=">" then Ans:oo(p,inf),
+        if op(ex2)=">=" then Ans:co(p,inf)
+        ),
+    if equal(coeff(lhs(ex2), v), -1) then
+        (
+        if op(ex2)=">" then Ans:oo(-inf,p),
+        if op(ex2)=">=" then Ans:oc(-inf,p)
+        ),
+    return(Ans)
+)$
+
+/*******************************************************************************/
+/* Solve a single inequality in a single variable by factoring,                */
+/* where possible expressing the result as irreducible inequalities.           */
+inequality_factor_solve(ex):=block([ex2],
+    if not(inequalityp(ex)) then return(ex),
+    if length(listofvars(ex))#1 then return(ex),
+    ex:ineqprepare(ex),
+    if not(polynomialp(lhs(ex), listofvars(ex))) then return(ex),
+    exop:op(ex), /* This is for >, >= */
+
+    ex2:factor(lhs(ex)),
+    if atom(ex2) then return(ex),
+    /* Create a list of factors */
+    m:false,
+    if is(safe_op(ex2)="-") then block(
+        m:true,
+        ex2:first(args(ex2))
+        ),
+    if is(safe_op(ex2)="/") then ex2:num(ex2),
+
+    if safe_op(fl)="*" then fl:args(ex2) else fl:[ex2],
+    fl:flatten(maplist(factor_ineq, fl)),
+
+    /* This function returns "true" or "false" rather than all/none to better interact with %or and %and. */
+    if is(fl=[]) then return(not(m)),
+    /* Turn each inequality back into a list. */
+    ex2:maplist(lambda([ex],apply(exop,[ex,0])),fl),
+    if m then ex2[1]:neg_ineq(ex2[1]),
+    /* Create a list of all even permutations, from which we negate those in the list */
+    p:sublist(maplist(listify, listify(powerset(setify(makelist(n, n, length(ex2)))))), lambda([ex], evenp(length(ex)))),
+    ex3:maplist(lambda([l], neg_ineq_list(copylist(ex2), l)), p),
+    /* Tidy up the list */
+    ex3:maplist(lambda([ex], ineq_rem_redundant(apply("%and", ex))), ex3),
+    ex3:reverse(sort(ex3)),
+    if is(length(ex3)=1) then first(ex3) else apply("%or", ex3)
+)$
+
+/* Return factors of the expression over the reals, but with the parity of the multiplicity.  */
+factor_ineq(ex) := block([ex2, m],
+  if not(polynomialp(ex, listofvars(ex))) then return(ex),
+  if atom(ex) then [return(ex)],
+  ex2:ev(factor(ex), simp),
+  if atom(ex2) then [return(ex)],
+  /* Create a list of factors */
+  if is(op(ex2)="-") then m:true else m:false,
+  if is(op(ex2)="/") then ex2:num(ex2),
+  /* Even powers and odd powers matter here. */
+  if safe_op(ex) = "^" then
+    if oddp(second(args(ex))) then
+        return([first(args(ex))])
+    else
+        return([first(args(ex)),first(args(ex))]),
+  if safe_op(ex) = "*" then ex:args(ex) else ex:[ex],
+  /* At this point we need to solve irreducible quadratics, and other equations. */
+  ex:maplist(factor_ineq_helper, ex),
+  /* Remove any numbers. */
+  ex:sublist(ex, lambda([ex2], ev(not(is(listofvars(ex2)=[])), simp))),
+  /* Return a list. */
+  return(ex)
+ )$
+
+ /* Return the real factors of a polynomial, in factored form. */
+ factor_ineq_helper(ex):=block([v,ex2,p,simp],
+    v:listofvars(ex),
+    if not(is(length(v)=1)) then return(ex),
+    if safe_op(ex) = "^" then
+      if oddp(second(args(ex))) then
+         (p:false, ex:first(args(ex)))
+      else
+         (p:true, ex:first(args(ex))),
+    ex2:solve(ex, first(v)),
+    ex2:maplist(rhs, ex2),
+    ex2:sublist(ex2, real_numberp),
+    ex2:maplist(lambda([ex3], first(v)-ex3), ex2),
+    simp:false,
+    if p then
+       ex2:append(ex2,ex2),
+    return(flatten(ex2))
+ )$

@@ -595,19 +595,18 @@ class stack_utils {
      * @return string
      */
     public static function eliminate_strings($string) {
-        $cleared = $string;
+        $cleared = '';
         $i = 0;
         $lastslash = false;
         $instring = false;
-        $stringentry = -1;
+        $laststringexit = 0;
         while ($i < strlen($string)) {
             $c = $string[$i];
             $i++;
             if ($instring) {
                 if ($c == '"' && !$lastslash) {
                     $instring = false;
-                    $s = substr($string, $stringentry - 1, ($i - $stringentry + 1));
-                    $cleared = str_replace($s, '""', $cleared);
+                    $laststringexit = $i - 1;
                 } else if ($c == "\\") {
                     $lastslash = !$lastslash;
                 } else if ($lastslash) {
@@ -616,9 +615,10 @@ class stack_utils {
             } else if ($c == '"') {
                 $instring = true;
                 $lastslash = false;
-                $stringentry = $i;
+                $cleared .= substr($string, $laststringexit, $i - $laststringexit);
             }
         }
+        $cleared .= substr($string, $laststringexit);
         return $cleared;
     }
 
@@ -709,7 +709,7 @@ class stack_utils {
         }
     }
 
-    private static function list_to_array_workhorse($list, $rec=true) {
+    private static function list_to_array_workhorse($list, $rec = true) {
         $array = array();
         $list = trim($list);
         $list = substr($list, 1, strlen($list) - 2); // Trims outermost [] only.
@@ -1115,7 +1115,9 @@ class stack_utils {
         if ($output == array()) {
             return $rawcasstring;
         }
+        $rawcasstring = stack_utils::logic_nouns_sort($rawcasstring, 'add');
         $cs = new stack_cas_casstring($rawcasstring);
+        // We need to use the student here to allow a wider range of star patterns.
         $cs->get_valid('s', true, $stars, $allowwords);
 
         // If we have certain errors in this casstring we should bail at this point.
@@ -1183,4 +1185,62 @@ class stack_utils {
         return $casstring;
     }
 
+    /* The purpose of this function is to make all occurances of the logical
+     * operators "and" and "or" into their noun equivalent versions.  The support
+     * for these opertators in Maxima relies on the underlying lisp version and hence
+     * it is impossible to turn simplification off and make them inert.  In particular
+     * expressions such as x=1 or x=2 immediately evaluate to false in Maxima,
+     * which is awkward for students' input.
+     *
+     * Teachers need to use the non-intert forms in loops and conditional statements.
+     *
+     * If the parameter is 'add' we put in noun versions, and if 'remove' we remove them.
+     */
+    public static function logic_nouns_sort($str, $direction) {
+
+        if ($direction != 'add' && $direction != 'remove') {
+            throw new stack_exception('logic_nouns_sort: direction must be "add" or "remove", but received: '. $direction);
+        }
+
+        $connectives = array(' and' => ' nounand', ' or' => ' nounor', ')and' => ') nounand', ')or' => ') nounor');
+        // The last two patterns are fine in the reverse direction as these patterns will have gone.
+
+        foreach ($connectives as $key => $val) {
+            if ($direction === 'add') {
+                $str = str_replace($key, $val, $str);
+            } else {
+                $str = str_replace($val, $key, $str);
+            }
+        }
+
+        if ($direction === 'add') {
+            // Check if we are using equational reasoning.
+            if (substr(trim($str), 0, 1) === "=") {
+                $trimmed = trim(substr(trim($str), 1));
+                if ( $trimmed !== '') {
+                    $str = 'stackeq(' . $trimmed . ')';
+                }
+            }
+        } else {
+            if (substr(trim($str), 0, 8) == 'stackeq(' && substr(trim($str), -1, 1) == ')') {
+                $str = '=' . substr(trim($str), 8, -1);
+            }
+        }
+
+        return $str;
+    }
+
+    /*
+     * This function takes user input of the form "option:arg" and splits them up.
+     * Used to sort out options to the inputs field.
+     */
+    public static function parse_option($option) {
+        $arg = '';
+        if (!(strpos($option, ':') === false)) {
+            $ops = explode(':', $option);
+            $option = $ops[0];
+            $arg = trim($ops[1]);
+        }
+        return(array($option, $arg));
+    }
 }

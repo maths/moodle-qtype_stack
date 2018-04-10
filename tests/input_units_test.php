@@ -36,7 +36,7 @@ class stack_units_input_test extends qtype_stack_testcase {
         $this->assertEquals('<input type="text" name="stack1__ans1" id="stack1__ans1" '
                 .'size="16.5" style="width: 13.6em" value="" />',
                 $el->render(new stack_input_state(stack_input::VALID, array(), '', '', '', '', ''),
-                        'stack1__ans1', false));
+                        'stack1__ans1', false, null));
     }
 
     public function test_render_zero() {
@@ -45,7 +45,7 @@ class stack_units_input_test extends qtype_stack_testcase {
         $this->assertEquals('<input type="text" name="stack1__ans1" id="stack1__ans1" '
                 .'size="16.5" style="width: 13.6em" value="0" />',
                 $el->render(new stack_input_state(stack_input::INVALID, array('0'), '', '', '', '', ''),
-                        'stack1__ans1', false));
+                        'stack1__ans1', false, null));
     }
 
     public function test_render_pre_filled() {
@@ -53,7 +53,7 @@ class stack_units_input_test extends qtype_stack_testcase {
         $this->assertEquals('<input type="text" name="stack1__test" id="stack1__test" '
                 .'size="16.5" style="width: 13.6em" value="m/s" />',
                 $el->render(new stack_input_state(stack_input::VALID, array('m/s'), '', '', '', '', ''),
-                        'stack1__test', false));
+                        'stack1__test', false, null));
     }
 
     public function test_render_basic() {
@@ -62,7 +62,7 @@ class stack_units_input_test extends qtype_stack_testcase {
                 '<input type="text" name="stack1__input" id="stack1__input" '
                 .'size="16.5" style="width: 13.6em" value="9.81*m/s^2" readonly="readonly" />',
                 $el->render(new stack_input_state(stack_input::VALID, array('9.81*m/s^2'), '', '', '', '', ''),
-                        'stack1__input', true));
+                        'stack1__input', true, null));
     }
 
     public function test_render_different_size() {
@@ -71,7 +71,7 @@ class stack_units_input_test extends qtype_stack_testcase {
         $this->assertEquals('<input type="text" name="stack1__input" id="stack1__input" '
                 .'size="33" style="width: 27.1em" value="-9.81*m/s^2" />',
                 $el->render(new stack_input_state(stack_input::VALID, array('-9.81*m/s^2'), '', '', '', '', ''),
-                        'stack1__input', false));
+                        'stack1__input', false, null));
     }
 
     public function test_render_syntaxhint() {
@@ -80,7 +80,7 @@ class stack_units_input_test extends qtype_stack_testcase {
         $this->assertEquals('<input type="text" name="stack1__sans1" id="stack1__sans1" '
                 .'size="16.5" style="width: 13.6em" value="?*m/s^2" />',
                 $el->render(new stack_input_state(stack_input::BLANK, array(), '', '', '', '', ''),
-                        'stack1__sans1', false));
+                        'stack1__sans1', false, null));
     }
 
     public function test_validate_student_response_1() {
@@ -145,7 +145,7 @@ class stack_units_input_test extends qtype_stack_testcase {
         $el->set_parameter('strictSyntax', true);
         $state = $el->validate_student_response(array('sans1' => '9.81m/s^2+tans'), $options, '9.81*m/s^2', array('tans'));
         $this->assertEquals(stack_input::INVALID, $state->status);
-        $this->assertEquals('missing_stars', $state->note);
+        $this->assertEquals('unknownFunction | missing_stars', $state->note);
     }
 
     public function test_validate_student_response_both_units() {
@@ -252,6 +252,18 @@ class stack_units_input_test extends qtype_stack_testcase {
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('1', $state->contentsmodified);
         $this->assertEquals('\[ 1\, \]', $state->contentsdisplayed);
+    }
+
+    public function test_validate_student_response_student_powers_ten() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('units', 'sans1', '9.81*m/s^2');
+        $el->set_parameter('insertStars', 5);
+        $el->set_parameter('strictSyntax', true);
+        $state = $el->validate_student_response(array('sans1' => '9*10^2m^2'), $options, '9.81*m/s^2', array('tans'));
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals("", $state->note);
+        $this->assertEquals('9*10^2*m^2', $state->contentsmodified);
+        $this->assertEquals('\[ 9\cdot 10^2\, \mathrm{m}^2 \]', $state->contentsdisplayed);
     }
 
     public function test_validate_student_response_student_trailingzeros() {
@@ -630,6 +642,17 @@ class stack_units_input_test extends qtype_stack_testcase {
         $this->assertEquals('unknownUnitsCase', $state->note);
     }
 
+    public function test_student_response_units_hz() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('units', 'sans1', '9');
+        $state = $el->validate_student_response(array('sans1' => '9*hz'), $options, '9', null);
+        // In the algebraic input this would be VALID as the hz/Hz test is only done for units.
+        $this->assertEquals(stack_input::INVALID, $state->status);
+        $this->assertEquals('9*hz', $state->contentsmodified);
+        $this->assertEquals('unitssynonym', $state->note);
+        $this->assertEquals('<span class="stacksyntaxexample">9*hz</span>', $state->contentsdisplayed);
+    }
+
     public function test_validate_student_hours() {
         $options = new stack_options();
         $el = stack_input_factory::make('units', 'sans1', '5*hr');
@@ -678,8 +701,61 @@ class stack_units_input_test extends qtype_stack_testcase {
         $state = $el->validate_student_response(array('sans1' => '3.88e-4*1/(M*s)'), $options, '3.88e-4*1/s', null);
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('3.88e-4*1/(M*s)', $state->contentsmodified);
-        $this->assertEquals('\[ 3.88e-4\times {1}/{\left(\mathrm{s}\cdot \mathrm{M}\right)} \]',
+        $this->assertEquals('\[ 3.88e-4\times {1}/{\left(\mathrm{M}\cdot \mathrm{s}\right)} \]',
                 qtype_stack_testcase::prepare_actual_maths($state->contentsdisplayed));
-        $this->assertEquals('\( \left[ \mathrm{s} , \mathrm{M} \right]\) ', $state->lvars);
+        $this->assertEquals('\( \left[ \mathrm{M} , \mathrm{s} \right]\) ', $state->lvars);
     }
+
+    public function test_validate_student_response_display_errors1() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('units', 'sans1', '9.81*m/s^2');
+        $el->set_parameter('insertStars', 1);
+        $el->set_parameter('strictSyntax', true);
+        $state = $el->validate_student_response(array('sans1' => '9.81+-0.01m/s^2'), $options, '9.81*m/s^2', null);
+        $this->assertEquals(stack_input::INVALID, $state->status);
+        $this->assertEquals('Units_SA_errorbounds_invalid', $state->note);
+        $this->assertEquals('9.81+-0.01*m/s^2', $state->contentsmodified);
+        $this->assertEquals('\[ 9.81\pm 0.01\, {\mathrm{m}}/{\mathrm{s}^2} \]',
+                qtype_stack_testcase::prepare_actual_maths($state->contentsdisplayed));
+        $this->assertEquals('\( \left[ \mathrm{m} , \mathrm{s} \right]\) ', $state->lvars);
+    }
+
+    public function test_validate_student_minsf_maxsf_equal_true() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('units', 'sans1', '9.81*m/s^2');
+        $el->set_parameter('options', 'minsf:3, maxsf:3');
+        $state = $el->validate_student_response(array('sans1' => '9.81*m/s^2'), $options, '9.81*m/s^2', array('tans'));
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('', $state->errors);
+    }
+
+    public function test_validate_student_minsf_maxsf_equal_low() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('units', 'sans1', '9.81*m/s^2');
+        $el->set_parameter('options', 'minsf:3, maxsf:3');
+        $state = $el->validate_student_response(array('sans1' => '9.8*m/s^2'), $options, '9.81*m/s^2', array('tans'));
+        $this->assertEquals(stack_input::INVALID, $state->status);
+        $this->assertEquals(' You must supply exactly <span class="filter_mathjaxloader_equation">' .
+                '<span class="nolink">\( 3 \)</span></span> significant figures.', $state->errors);
+    }
+
+    public function test_validate_student_minsf_maxsf_equal_high() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('units', 'sans1', '9.81*m/s^2');
+        $el->set_parameter('options', 'minsf:3, maxsf:3');
+        $state = $el->validate_student_response(array('sans1' => '9.816*m/s^2'), $options, '9.81*m/s^2', array('tans'));
+        $this->assertEquals(stack_input::INVALID, $state->status);
+        $this->assertEquals(' You must supply exactly <span class="filter_mathjaxloader_equation">' .
+                '<span class="nolink">\( 3 \)</span></span> significant figures.', $state->errors);
+    }
+
+    public function test_validate_student_minsf_maxsf_equal_ambiguous() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('units', 'sans1', '10000*m/s^2');
+        $el->set_parameter('options', 'minsf:3, maxsf:3');
+        $state = $el->validate_student_response(array('sans1' => '1000*m/s^2'), $options, '9.81*m/s^2', array('tans'));
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('', $state->errors);
+    }
+
 }

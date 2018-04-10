@@ -1,4 +1,4 @@
-﻿# STACK release process notes.
+# STACK release process notes.
 
 Note, these notes are designed for developers releasing a new version through the Moodle plugin database.  They are probably not useful for anyone else.
 
@@ -15,22 +15,21 @@ Check
 * Readme.md
 * version.php
  * check both the Moodle versions, and the required number. (https://docs.moodle.org/dev/Releases)
-* check version numbers on stackmaxima.mac.
-* check docs
-
-* Commit all changes to git, e.g. "Update version number for the 3.5.5 release."
+* Check version numbers on stackmaxima.mac.
+* Check docs.
+* Commit all changes to git, e.g. "Update version number for the 4.0 release."
 
 ## 2. Run all unit tests.
 
 ## 3. Create new tag with version name.
 
-E.g. "v3.4".
+E.g. "v4.1".
 
-* push to github.
-* push tags to github 
+* Push to github.
+* Push tags to github 
  * Tortoise git: pulldown from push
- * unix: `git tag -a v3.5.5 -m "Update version number for the 3.5.5 release."`
- * unix: `git push --tags`
+ * Unix: `git tag -a v4.1 -m "Update version number for the 4.1 release."`
+ * Unix: `git push --tags`
 
 ## Moodle plugins database entry for the plugin.
 

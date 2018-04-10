@@ -21,7 +21,6 @@ defined('MOODLE_INTERNAL') || die();
 // @copyright  2012 University of Birmingham.
 // @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
 
-require_once(__DIR__ . '/../../locallib.php');
 require_once(__DIR__ . '/../utils.class.php');
 require_once(__DIR__ . '/casstring.units.class.php');
 
@@ -36,8 +35,11 @@ class stack_cas_casstring {
     /** @var bool if the string has passed validation. */
     private $valid;
 
-    /** @var bool */
+    /** @var string */
     private $key;
+
+    /** @var bool whether the string has scientific units. */
+    private $units;
 
     /** @var string any error messages to display to the user. */
     private $errors;
@@ -47,6 +49,12 @@ class stack_cas_casstring {
      *             after the casstring has been processed by the CAS.
      */
     private $value;
+
+    /**
+     * @array of additional CAS strings which are conditions when the main expression can
+     * be evaluated.  I.e. this encapsulates restrictions on the domain of the main value.
+     */
+    private $conditions;
 
     /**
      * @var string A sanitised version of the value, e.g. with decimal places printed
@@ -80,46 +88,47 @@ class stack_cas_casstring {
     private static $cache = false;
 
     /** @var array blacklist of globally forbidden CAS keywords. */
-    private static $globalforbid    = array('%th' => true, 'adapth_depth' => true, 'alias' => true, 'aliases' => true,
-                'alphabetic' => true, 'appendfile' => true, 'apropos' => true, 'assume_external_byte_order' => true,
-                'backtrace' => true, 'batch' => true, 'barsplot' => true, 'batchload' => true, 'boxchar' => true,
-                'boxplot' => true, 'bug_report' => true, 'build_info' => true, 'catch' => true, 'close' => true,
-                'closefile' => true, 'compfile' => true, 'compile' => true, 'compile_file' => true, 'concat' => true,
-                'current_let_rule_package' => true, 'data_file_name' => true, 'deactivate' => true, 'debugmode' => true,
-                'define' => true, 'define_variable' => true, 'demo' => true, 'dependencies' => true, 'describe' => true,
-                'dimacs_export' => true, 'dimacs_import' => true, 'entermatrix' => true, 'errcatch' => true, 'error' => true,
-                'error_size' => true, 'error_syms' => true, 'errormsg' => true, 'eval_string' => true, 'example' => true,
-                'feature' => true, 'featurep' => true, 'features' => true, 'file_name' => true, 'file_output_append' => true,
-                'file_search' => true, 'file_search_demo' => true, 'file_search_lisp' => true, 'file_search_maxima' => true,
-                'file_search_tests' => true, 'file_search_usage' => true, 'file_type' => true, 'filename_merge' => true,
-                'flength' => true, 'fortindent' => true, 'fortran' => true, 'fortspaces' => true, 'fposition' => true,
-                'freshline' => true, 'functions' => true, 'fundef' => true, 'funmake' => true, 'grind' => true,
-                'gnuplot_file_name' => true, 'gnuplot_out_file' => true, 'gnuplot_preamble' => true,
-                'gnuplot_ps_term_command' => true, 'gnuplot_term' => true, 'inchar' => true, 'infeval' => true,
-                'infolists' => true, 'kill' => true, 'killcontext' => true, 'labels' => true, 'leftjust' => true,
-                'ldisp' => true, 'ldisplay' => true, 'lisp' => true, 'linechar' => true, 'linel' => true, 'linenum' => true,
+    private static $globalforbid    = array('%th' => true, 'adapth_depth' => true, 'alias' => true,
+                'aliases' => true, 'alphabetic' => true, 'appendfile' => true, 'apropos' => true,
+                'assume_external_byte_order' => true, 'backtrace' => true, 'batch' => true, 'barsplot' => true, 'batchload' => true,
+                'boxchar' => true, 'boxplot' => true, 'bug_report' => true, 'build_info' => true, 'catch' => true,
+                'close' => true, 'closefile' => true, 'compfile' => true, 'compile' => true, 'compile_file' => true,
+                'concat' => true, 'current_let_rule_package' => true, 'data_file_name' => true, 'deactivate' => true,
+                'debugmode' => true, 'define' => true, 'define_variable' => true, 'del_cmd' => true, 'demo' => true,
+                'dependencies' => true, 'describe' => true, 'dimacs_export' => true, 'dimacs_import' => true, 'entermatrix' => true,
+                'errcatch' => true, 'error' => true, 'error_size' => true, 'error_syms' => true, 'errormsg' => true,
+                'eval_string' => true, 'example' => true, 'feature' => true, 'featurep' => true, 'features' => true,
+                'file_name' => true, 'file_output_append' => true, 'file_search' => true, 'file_search_demo' => true,
+                'file_search_lisp' => true, 'file_search_maxima' => true, 'file_search_tests' => true,
+                'file_search_usage' => true, 'file_type' => true, 'filename_merge' => true, 'flength' => true,
+                'fortindent' => true, 'fortran' => true, 'fortspaces' => true, 'fposition' => true, 'freshline' => true,
+                'functions' => true, 'fundef' => true, 'funmake' => true, 'grind' => true, 'gnuplot_file_name' => true,
+                'gnuplot_out_file' => true, 'gnuplot_preamble' => true, 'gnuplot_ps_term_command' => true,
+                'gnuplot_cmd' => true, 'gnuplot_term' => true, 'inchar' => true, 'infeval' => true, 'infolists' => true,
+                'kill' => true, 'killcontext' => true, 'labels' => true, 'leftjust' => true, 'ldisp' => true,
+                'ldisplay' => true, 'lisp' => true, 'linechar' => true, 'linel' => true, 'linenum' => true,
                 'linsolvewarn' => true, 'load' => true, 'load_pathname' => true, 'loadfile' => true, 'loadprint' => true,
-                'macroexpand' => true, 'macroexpand1' => true, 'macroexpansion' => true, 'macros' => true,
-                'manual_demo' => true, 'maxima_tempdir' => true, 'maxima_userdir' => true, 'multiplot_mode' => true,
-                'myoptions' => true, 'newline' => true, 'nolabels' => true, 'opena' => true, 'opena_binary' => true,
-                'openr' => true, 'openr_binary' => true, 'openw' => true, 'openw_binary' => true, 'outchar' => true,
-                'packagefile' => true, 'parse_string' => true, 'pathname_directory' => true, 'pathname_name' => true,
-                'pathname_type' => true, 'pickapart' => true, 'piece' => true, 'playback' => true, 'plotdf' => true,
-                'print' => true, 'print_graph' => true, 'printf' => true, 'printfile' => true, 'prompt' => true,
-                'psfile' => true, 'quit' => true, 'read' => true, 'read_array' => true, 'read_binary_array' => true,
-                'read_binary_list' => true, 'read_binary_matrix' => true, 'read_hashed_array' => true, 'read_list' => true,
-                'read_matrix' => true, 'read_nested_list' => true, 'read_xpm' => true, 'readline' => true, 'readonly' => true,
-                'refcheck' => true, 'rembox' => true, 'remvalue' => true, 'remfunction' => true, 'reset' => true,
-                'rmxchar' => true, 'room' => true, 'run_testsuite' => true, 'run_viewer' => true, 'save' => true,
-                'savedef' => true, 'scatterplot' => true, 'starplot' => true, 'stemplot' => true, 'set_plot_option' => true,
-                'setup_autoload' => true, 'setcheck' => true, 'setcheckbreak' => true, 'setval' => true, 'showtime' => true,
-                'sparse6_export' => true, 'sparse6_import' => true, 'splice' => true, 'sprint' => true, 'status' => true,
-                'stringout' => true, 'supcontext' => true, 'system' => true, 'tcl_output' => true, 'terminal' => true,
-                'tex' => true, 'testsuite_files' => true, 'throw' => true, 'time' => true, 'timer' => true,
-                'timer_devalue' => true, 'timer_info' => true, 'to_lisp' => true, 'trace' => true, 'trace_options' => true,
-                'transcompile' => true, 'translate' => true, 'translate_file' => true, 'transrun' => true, 'ttyoff' => true,
-                'untimer' => true, 'untrace' => true, 'user_preamble' => true, 'values' => true, 'with_stdout' => true,
-                'write_binary_data' => true, 'write_data' => true, 'writefile' => true);
+                'macroexpand' => true, 'macroexpand1' => true, 'macroexpansion' => true, 'macros' => true, 'manual_demo' => true,
+                'maxima_tempdir' => true, 'maxima_userdir' => true, 'multiplot_mode' => true, 'myoptions' => true,
+                'newline' => true, 'nolabels' => true, 'opena' => true, 'opena_binary' => true, 'openr' => true,
+                'openr_binary' => true, 'openw' => true, 'openw_binary' => true, 'outchar' => true, 'packagefile' => true,
+                'parse_string' => true, 'pathname_directory' => true, 'pathname_name' => true, 'pathname_type' => true,
+                'pickapart' => true, 'piece' => true, 'playback' => true, 'plotdf' => true, 'plot_terminal' => true,
+                'plot_term' => true, 'print' => true, 'print_graph' => true, 'printf' => true, 'printfile' => true,
+                'prompt' => true, 'psfile' => true, 'quit' => true, 'read' => true, 'read_array' => true,
+                'read_binary_array' => true, 'read_binary_list' => true, 'read_binary_matrix' => true, 'read_hashed_array' => true,
+                'read_list' => true, 'read_matrix' => true, 'read_nested_list' => true, 'read_xpm' => true, 'readline' => true,
+                'readonly' => true, 'refcheck' => true, 'rembox' => true, 'remvalue' => true, 'remfunction' => true,
+                'reset' => true, 'rmxchar' => true, 'room' => true, 'run_testsuite' => true, 'run_viewer' => true,
+                'save' => true, 'savedef' => true, 'scatterplot' => true, 'starplot' => true, 'stemplot' => true,
+                'set_plot_option' => true, 'setup_autoload' => true, 'setcheck' => true, 'setcheckbreak' => true, 'setval' => true,
+                'showtime' => true, 'sparse6_export' => true, 'sparse6_import' => true, 'splice' => true, 'sprint' => true,
+                'status' => true, 'stringout' => true, 'supcontext' => true, 'system' => true, 'tcl_output' => true,
+                'terminal' => true, 'tex' => true, 'testsuite_files' => true, 'throw' => true, 'time' => true,
+                'timer' => true, 'timer_devalue' => true, 'timer_info' => true, 'to_lisp' => true, 'trace' => true,
+                'trace_options' => true, 'transcompile' => true, 'translate' => true, 'translate_file' => true, 'transrun' => true,
+                'ttyoff' => true, 'untimer' => true, 'untrace' => true, 'user_preamble' => true, 'values' => true,
+                'with_stdout' => true, 'write_binary_data' => true, 'write_data' => true, 'writefile' => true);
 
     /** @var array blacklist of CAS keywords forbidden to teachers. */
     // Note we allow RANDOM_PERMUTATION.
@@ -195,7 +204,7 @@ class stack_cas_casstring {
                 'lc_u' => true, 'lcharp' => true, 'legendre_p' => true, 'legendre_q' => true, 'leinstein' => true,
                 'let' => true, 'let_rule_packages' => true, 'letrat' => true, 'letrules' => true, 'letsimp' => true,
                 'levi_civita' => true, 'lfg' => true, 'lg' => true, 'lgtreillis' => true, 'li' => true, 'liediff' => true,
-                'lindstedt' => true, 'line_type' => true, 'line_width' => true, 'linear' => true, 'linear_program' => true,
+                'lindstedt' => true, 'line_type' => true, 'line_width' => true, 'linear' => true,
                 'linear_solver' => true, 'lispdisp' => true, 'list_nc_monomials' => true, 'listarray' => true,
                 'listoftens' => true, 'logand' => true, 'logcb' => true, 'logor' => true, 'logxor' => true, 'logz' => true,
                 'lorentz_gauge' => true, 'lpart' => true, 'lriem' => true, 'lriemann' => true, 'lsquares_estimates' => true,
@@ -204,24 +213,24 @@ class stack_cas_casstring {
                 'mainvar' => true, 'make_array' => true, 'make_level_picture' => true, 'make_poly_continent' => true,
                 'make_poly_country' => true, 'make_polygon' => true, 'make_random_state' => true, 'make_rgb_picture' => true,
                 'makebox' => true, 'makeorders' => true, 'mandelbrot' => true, 'maperror' => true, 'mat_function' => true,
-                'max_ord' => true, 'maxapplydepth' => true, 'maxapplyheight' => true, 'maxi' => true, 'maximize_lp' => true,
+                'max_ord' => true, 'maxapplydepth' => true, 'maxapplyheight' => true, 'maxi' => true,
                 'maxnegex' => true, 'maxposex' => true, 'maxpsifracdenom' => true, 'maxpsifracnum' => true,
                 'maxpsinegint' => true, 'maxpsiposint' => true, 'maxtayorder' => true, 'maybe' => true, 'mesh' => true,
                 'mesh_lines_color' => true, 'metricexpandall' => true, 'mini' => true, 'minimalpoly' => true,
-                'minimize_lp' => true, 'minor' => true, 'mnewton' => true, 'mod_big_prime' => true, 'mod_test' => true,
+                'minor' => true, 'mnewton' => true, 'mod_big_prime' => true, 'mod_test' => true,
                 'mod_threshold' => true, 'mode_check_errorp' => true, 'mode_check_warnp' => true, 'mode_checkp' => true,
                 'mode_declare' => true, 'mode_identity' => true, 'modematrix' => true, 'modular_linear_solver' => true,
                 'mon2schur' => true, 'mono' => true, 'monomial_dimensions' => true, 'multi_elem' => true, 'multi_orbit' => true,
                 'multi_pui' => true, 'multinomial' => true, 'multsym' => true, 'natural_unit' => true, 'nc_degree' => true,
                 'negative_picture' => true, 'newcontext' => true, 'newton' => true, 'newtonepsilon' => true,
                 'newtonmaxiter' => true, 'nextlayerfactor' => true, 'niceindices' => true, 'niceindicespref' => true,
-                'nm' => true, 'nmc' => true, 'nonegative_lp' => true, 'nonmetricity' => true, 'nonzeroandfreeof' => true,
+                'nm' => true, 'nmc' => true, 'nonmetricity' => true, 'nonzeroandfreeof' => true,
                 'noundisp' => true, 'np' => true, 'npi' => true, 'nptetrad' => true, 'ntermst' => true, 'ntrig' => true,
                 'numbered_boundaries' => true, 'ode2' => true, 'ode_check' => true, 'odelin' => true, 'optimize' => true,
                 'optimprefix' => true, 'optionset' => true, 'orbit' => true, 'orbits' => true, 'orthopoly_recur' => true,
                 'orthopoly_returns_intervals' => true, 'orthopoly_weight' => true, 'outofpois' => true, 'palette' => true,
                 'parametric_surface' => true, 'pargosper' => true, 'partpol' => true, 'pdf_width' => true, 'permut' => true,
-                'permutation' => true, 'petrov' => true, 'pic_height' => true, 'pic_width' => true, 'picture_equalp' => true,
+                'petrov' => true, 'pic_height' => true, 'pic_width' => true, 'picture_equalp' => true,
                 'picturep' => true, 'piechart' => true, 'plot2d' => true, 'plot3d' => true, 'ploteq' => true,
                 'plot_format' => true, 'plot_options' => true, 'plot_real_part' => true, 'plsquares' => true,
                 'pochhammer' => true, 'pochhammer_max_index' => true, 'points_joined' => true,  'polar' => true,
@@ -261,8 +270,8 @@ class stack_cas_casstring {
                 'treinat' => true, 'trivial_solutions' => true, 'tube' => true, 'tube_extremes' => true, 'tutte_graph' => true,
                 'ueivects' => true, 'ufg' => true, 'uforget' => true, 'ug' => true, 'ultraspherical' => true, 'undiff' => true,
                 'unit_step' => true, 'unit_vectors' => true, 'uniteigenvectors' => true, 'unitvector' => true,
-                'unknown' => true, 'unorder' => true, 'uric' => true, 'uricci' => true, 'uriem' => true, 'uriemann' => true,
-                'use_fast_arrays' => true, 'usersetunits' => true, 'uvect' => true, 'vector' => true, 'verbose' => true,
+                'unorder' => true, 'uric' => true, 'uricci' => true, 'uriem' => true, 'uriemann' => true,
+                'usersetunits' => true, 'uvect' => true, 'vector' => true, 'verbose' => true,
                 'vers' => true, 'warnings' => true, 'weyl' => true, 'wronskian' => true, 'x_voxel' => true, 'xaxis' => true,
                 'xaxis_color' => true, 'xaxis_secondary' => true, 'xaxis_type' => true, 'xaxis_width' => true, 'xrange' => true,
                 'xrange_secondary' => true, 'xtics_axis' => true, 'xtics_rotate' => true, 'xtics_rotate_secondary' => true,
@@ -300,7 +309,7 @@ class stack_cas_casstring {
                 'eighth' => true, 'eivals' => true, 'eivects' => true, 'elementp' => true, 'eliminate' => true,
                 'elliptic_e' => true, 'elliptic_ec' => true, 'elliptic_eu' => true, 'elliptic_f' => true,
                 'elliptic_kc' => true, 'elliptic_pi' => true, 'ematrix' => true, 'emptyp' => true, 'endcons' => true,
-                'epsilon_lp' => true, 'equal' => true, 'equalp' => true, 'equiv_classes' => true, 'erf' => true,
+                'equal' => true, 'equalp' => true, 'equiv_classes' => true, 'erf' => true,
                 'euler' => true, 'ev' => true, 'eval' => true, 'evenp' => true, 'every' => true, 'exp' => true,
                 'expand' => true, 'expandwrt' => true, 'expandwrt_denom' => true, 'expandwrt_factored' => true,
                 'express' => true, 'extremal_subset' => true, 'ezgcd' => true, 'facsum' => true, 'facsum_combine' => true,
@@ -472,7 +481,9 @@ class stack_cas_casstring {
                 'var_normal' => true, 'var_pareto' => true, 'var_poisson' => true, 'var_rayleigh' => true,
                 'var_student_t' => true, 'var_weibull' => true, 'null' => true, 'net' => true, 'texsub' => true,
                 'logbase' => true, 'day' => true, 'year' => true, 'rpm' => true, 'rev' => true, 'product' => true,
-                'gal' => true, 'deg' => true, 'cal' => true, 'btu' => true, 'rem' => true, 'xor' => true, 'root' => true);
+                'gal' => true, 'deg' => true, 'cal' => true, 'btu' => true, 'rem' => true,
+                'nounor' => true, 'nounand' => true, 'xor' => true, 'all' => true, 'none' => true, 'stackeq' => true,
+                'nounint' => true, 'noundiff' => true, 'root' => true);
 
     /**
      * Upper case Greek letters are allowed.
@@ -513,7 +524,7 @@ class stack_cas_casstring {
      */
     // @codingStandardsIgnoreStart
     private static $allowedchars =
-            '0123456789,./\%&{}[]()$@!"\'?`^~*_+qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM;:=><|: -';
+            '0123456789,./\%&{}[]()$@!"\'?`^~*_+qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM:=><|: -';
     // @codingStandardsIgnoreEnd
 
     /**
@@ -521,26 +532,31 @@ class stack_cas_casstring {
      * Note, these are used in regular expression ranges, so - must be at the end, and ^ may not be first.
      */
     // @codingStandardsIgnoreStart
-    private static $disallowedfinalchars = '/+*^#~=,_&`;:$-.';
+    private static $disallowedfinalchars = '/+*^#~=,_&`;:$-.<>';
     // @codingStandardsIgnoreEnd
 
     /**
      * @var all the permitted patterns in which spaces occur.  Simple find and replace.
      */
     private static $spacepatterns = array(
-            ' or ' => 'STACKOR', ' and ' => 'STACKAND', 'not ' => 'STACKNOT'
-    );
+            ' or ' => 'STACKOR', ' and ' => 'STACKAND', 'not ' => 'STACKNOT',
+            ' nounor ' => 'STACKNOUNOR', ' nounand ' => 'STACKNOUNAND');
 
-    public function __construct($rawstring) {
+    public function __construct($rawstring, $conditions = null) {
         $this->rawcasstring   = $rawstring;
-        $this->answernote = array();
-
+        $this->answernote     = array();
         $this->valid          = null;  // If null then the validate command has not yet been run.
 
         if (!is_string($this->rawcasstring)) {
             throw new stack_exception('stack_cas_casstring: rawstring must be a string.');
         }
-
+        $this->rawcasstring = $rawstring;
+        if (!($conditions === null || is_array($conditions))) {
+            throw new stack_exception('stack_cas_casstring: conditions must be null or an array.');
+        }
+        if (count($conditions) != 0) {
+            $this->conditions   = $conditions;
+        }
     }
 
     /*********************************************************/
@@ -572,7 +588,6 @@ class stack_cas_casstring {
 
         $this->valid     = true;
         $this->casstring = $this->rawcasstring;
-        $cmd             = $this->rawcasstring;
 
         // CAS strings must be non-empty.
         if (trim($this->casstring) == '') {
@@ -581,41 +596,78 @@ class stack_cas_casstring {
             return false;
         }
 
-        // Check for matching string delimiters.
-        $cmdsafe = str_replace('\"', '', $cmd);
-        if (stack_utils::check_matching_pairs($cmdsafe, '"') == false) {
+        // Remove the contents of "strings".
+        $stringles = stack_utils::eliminate_strings($this->casstring);
+
+        // From now on all checks ignore the contents of "strings" and most definitely do not modify them.
+        if (strpos($stringles, '"') !== false) {
+            $this->check_string_usage($stringles);
+        }
+        $this->check_constants($stringles);
+
+        if ($this->units) {
+            $stringles = stack_cas_casstring_units::make_units_substitutions($stringles);
+        }
+        // We do this before checking security to provide helpful feedback to students.
+        if ($security == 's') {
+            $this->check_bad_trig($stringles);
+        }
+
+        $this->check_characters($stringles, $security);
+        if (strpos($stringles, ',') !== false) {
+            $this->check_commas($stringles);
+        }
+        $this->check_operators($stringles, $security);
+
+        if (preg_match("/[\(\)\{\}\[\]]/", $stringles) == 1) {
+            $this->check_parentheses($stringles);
+        }
+
+        // This is a special check that also modifies the strings structure.
+        $stringles = $this->check_spaces($stringles, $security, $syntax, $insertstars);
+
+        $this->check_security($stringles, $security, $allowwords);
+
+        // We need to split keyvals off here before we check underscore characters.
+        $this->casstring = $stringles;
+        $this->key_val_split();
+        $stringles = $this->casstring;
+        $stringleskey = $this->key;
+
+        // This is a special check that also modifies the strings structure.
+        // Note this must be before check_stars and check_underscores, but after keyval split!
+        $stringles = $this->check_logs($stringles);
+
+        // This is a special check that also modifies the strings structure.
+        $stringles = $this->check_stars($stringles, $security, $syntax, $insertstars);
+
+        $this->check_underscores($stringles, $security);
+
+        // Inject the strings back. Noting the possibility of strings in the key.
+        $injecttarget = $stringleskey . '|>key_val_split<|' . $stringles;
+        $injecttarget = $this->strings_replace($injecttarget);
+        $split = explode('|>key_val_split<|', $injecttarget, 2);
+        $this->casstring = $split[1];
+        $this->key = $split[0];
+
+        return $this->valid;
+    }
+
+    private function check_string_usage($stringles) {
+        // Check for unexpected "-chars that are a sign of invalid syntax.
+        // Basically, the cases where we have two strings touching, '""""' or pairles ".
+        $spaceles = strtolower(preg_replace('!\s+!', '', $stringles));
+        if (strpos($spaceles, '"""') !== false || strpos(str_replace('""', '', $spaceles), '"') !== false) {
             $this->errors .= stack_string('stackCas_MissingString');
             $this->answernote[] = 'MissingString';
             $this->valid = false;
         }
+    }
 
-        // Now remove any strings from the $cmd.
-        list($cmd, $strings) = $this->strings_remove($cmd);
-
-        // CAS strings may not contain @, $ or \. But a string sure can.
-        if (strpos($cmd, '@') !== false || strpos($cmd, '$') !== false || strpos($cmd, '\\') !== false) {
-            $this->add_error(stack_string('illegalcaschars'));
-            $this->answernote[] = 'illegalcaschars';
-            $this->valid = false;
-            return false;
-        }
-
-        // Search for HTML fragments.  This is hard to do because < is an infix operator!
-        // We cannot search for arbitrary closing tags, e.g. for the pattern '</' because
-        // we pass back strings with HTML in when we have already evaluated plots!
-        $htmlfragments = array('<span', '</span>', '<p>', '</p>');
-        foreach ($htmlfragments as $frag) {
-            if (strpos($cmd, $frag) !== false) {
-                $this->add_error(stack_string('htmlfragment').' <pre>'.$this->strings_replace($cmd, $strings).'</pre>');
-                $this->answernote[] = 'htmlfragment';
-                $this->valid = false;
-                return false;
-            }
-        }
-
+    private function check_constants($stringles) {
         // Check for % signs, allow %pi %e, %i, %gamma, %phi but nothing else.
-        if (strstr($cmd, '%') !== false) {
-            $cmdl = strtolower($cmd);
+        if (strstr($stringles, '%') !== false) {
+            $cmdl = strtolower($stringles);
             preg_match_all("(\%.*)", $cmdl, $found);
 
             foreach ($found[0] as $match) {
@@ -624,27 +676,27 @@ class stack_cas_casstring {
                     || (strpos($match, '%gamma') !== false) || (strpos($match, '%phi') !== false))) {
                     // Constants %e and %pi are allowed. Any other percentages dissallowed.
                     $this->add_error(stack_string('stackCas_percent',
-                            array('expr' => stack_maxima_format_casstring($this->strings_replace($cmd, $strings)))));
+                            array('expr' => stack_maxima_format_casstring($this->casstring))));
                     $this->answernote[] = 'percent';
                     $this->valid   = false;
                 }
             }
         }
+    }
 
-        // These two commands have side effects on $this->casstring, necessitating returning a new $cmd variable.
-        $cmd = $this->check_spaces($security, $syntax, $insertstars);
-
+    private function check_parentheses($cmd) {
+        // Note that $cmd is already stringles.
         $inline = stack_utils::check_bookends($cmd, '(', ')');
         if ($inline !== true) { // The method check_bookends does not return false.
             $this->valid = false;
             if ($inline == 'left') {
                 $this->answernote[] = 'missingLeftBracket';
                 $this->add_error(stack_string('stackCas_missingLeftBracket',
-                    array('bracket' => '(', 'cmd' => stack_maxima_format_casstring($this->strings_replace($cmd, $strings)))));
+                    array('bracket' => '(', 'cmd' => stack_maxima_format_casstring($this->rawcasstring))));
             } else {
                 $this->answernote[] = 'missingRightBracket';
                 $this->add_error(stack_string('stackCas_missingRightBracket',
-                    array('bracket' => ')', 'cmd' => stack_maxima_format_casstring($this->strings_replace($cmd, $strings)))));
+                    array('bracket' => ')', 'cmd' => stack_maxima_format_casstring($this->rawcasstring))));
             }
         }
         $inline = stack_utils::check_bookends($cmd, '{', '}');
@@ -653,11 +705,11 @@ class stack_cas_casstring {
             if ($inline == 'left') {
                 $this->answernote[] = 'missingLeftBracket';
                 $this->add_error(stack_string('stackCas_missingLeftBracket',
-                 array('bracket' => '{', 'cmd' => stack_maxima_format_casstring($this->strings_replace($cmd, $strings)))));
+                 array('bracket' => '{', 'cmd' => stack_maxima_format_casstring($this->rawcasstring))));
             } else {
                 $this->answernote[] = 'missingRightBracket';
                 $this->add_error(stack_string('stackCas_missingRightBracket',
-                 array('bracket' => '}', 'cmd' => stack_maxima_format_casstring($this->strings_replace($cmd, $strings)))));
+                 array('bracket' => '}', 'cmd' => stack_maxima_format_casstring($this->rawcasstring))));
             }
         }
         $inline = stack_utils::check_bookends($cmd, '[', ']');
@@ -666,18 +718,35 @@ class stack_cas_casstring {
             if ($inline == 'left') {
                 $this->answernote[] = 'missingLeftBracket';
                 $this->add_error(stack_string('stackCas_missingLeftBracket',
-                 array('bracket' => '[', 'cmd' => stack_maxima_format_casstring($this->strings_replace($cmd, $strings)))));
+                 array('bracket' => '[', 'cmd' => stack_maxima_format_casstring($this->rawcasstring))));
             } else {
                 $this->answernote[] = 'missingRightBracket';
                 $this->add_error(stack_string('stackCas_missingRightBracket',
-                 array('bracket' => ']', 'cmd' => stack_maxima_format_casstring($this->strings_replace($cmd, $strings)))));
+                 array('bracket' => ']', 'cmd' => stack_maxima_format_casstring($this->rawcasstring))));
             }
         }
 
         if (!stack_utils::check_nested_bookends($cmd)) {
             $this->valid = false;
             $this->add_error(stack_string('stackCas_bracketsdontmatch',
-                     array('cmd' => stack_maxima_format_casstring($this->strings_replace($cmd, $strings)))));
+                     array('cmd' => stack_maxima_format_casstring($this->rawcasstring))));
+        }
+
+        // Check for empty parentheses `()`.
+        if (strpos($cmd, '()') !== false) {
+            $this->valid = false;
+            $this->add_error(stack_string('stackCas_forbiddenWord', array('forbid' => stack_maxima_format_casstring('()'))));
+            $this->answernote[] = 'forbiddenWord';
+        }
+    }
+
+    private function check_characters($cmd, $security) {
+        // Note that $cmd is already stringles.
+        // CAS strings may not contain @, $ or \.
+        if (strpos($cmd, '@') !== false || strpos($cmd, '$') !== false || strpos($cmd, '\\') !== false) {
+            $this->add_error(stack_string('illegalcaschars'));
+            $this->answernote[] = 'illegalcaschars';
+            $this->valid = false;
         }
 
         if ($security == 's') {
@@ -695,53 +764,11 @@ class stack_cas_casstring {
             }
         }
 
-        if ($security == 's') {
-            // Check for bad looking trig functions, e.g. sin^2(x) or tan*2*x
-            // asin etc, will be included automatically, so we don't need them explicitly.
-            $triglist = array('sin', 'cos', 'tan', 'sinh', 'cosh', 'tanh', 'sec', 'cosec', 'cot', 'csc', 'coth', 'csch', 'sech');
-            $funlist  = array('log', 'ln', 'lg', 'exp', 'abs', 'sqrt');
-            foreach (array_merge($triglist, $funlist) as $fun) {
-                if (strpos($cmd, $fun.'^') !== false) {
-                    $this->add_error(stack_string('stackCas_trigexp',
-                        array('forbid' => stack_maxima_format_casstring($fun.'^'))));
-                    $this->answernote[] = 'trigexp';
-                    $this->valid = false;
-                    break;
-                }
-                if (strpos($cmd, $fun.'[') !== false) {
-                    $this->add_error(stack_string('stackCas_trigparens',
-                        array('forbid' => stack_maxima_format_casstring($fun.'(x)'))));
-                    $this->answernote[] = 'trigparens';
-                    $this->valid = false;
-                    break;
-                }
-                $opslist = array('*', '+', '-', '/');
-                foreach ($opslist as $op) {
-                    if (strpos($cmd, $fun.$op) !== false) {
-                        $this->add_error(stack_string('stackCas_trigop',
-                            array('trig' => stack_maxima_format_casstring($fun),
-                                    'forbid' => stack_maxima_format_casstring($fun.$op))));
-                        $this->answernote[] = 'trigop';
-                        $this->valid = false;
-                        break;
-                    }
-                }
-            }
-            foreach ($triglist as $fun) {
-                if (strpos($cmd, 'arc'.$fun) !== false) {
-                    $this->add_error(stack_string('stackCas_triginv',
-                        array('badinv' => stack_maxima_format_casstring('arc'.$fun),
-                                'goodinv' => stack_maxima_format_casstring('a'.$fun))));
-                    $this->answernote[] = 'triginv';
-                    $this->valid = false;
-                    break;
-                }
-            }
-        }
-
         // Only permit the following characters to be sent to the CAS.
-        $cmd = trim($cmd);
         $allowedcharsregex = '~[^' . preg_quote(self::$allowedchars, '~') . ']~u';
+
+        // Need to trim off the "stackeq(..)" operator.
+        $cmd = trim(stack_utils::logic_nouns_sort($cmd, 'remove'));
 
         // Check for permitted characters.
         if (preg_match_all($allowedcharsregex, $cmd, $matches)) {
@@ -749,7 +776,28 @@ class stack_cas_casstring {
             foreach ($matches as $match) {
                 $badchar = $match[0];
                 if (!array_key_exists($badchar, $invalidchars)) {
-                    $invalidchars[$badchar] = $badchar;
+                    switch ($badchar) {
+                        case "\n":
+                            $invalidchars[$badchar] = "\\n";
+                            break;
+                        case "\r":
+                            $invalidchars[$badchar] = "\\r";
+                            break;
+                        case "\t":
+                            $invalidchars[$badchar] = "\\t";
+                            break;
+                        case "\v":
+                            $invalidchars[$badchar] = "\\v";
+                            break;
+                        case "\e":
+                            $invalidchars[$badchar] = "\\e";
+                            break;
+                        case "\f":
+                            $invalidchars[$badchar] = "\\f";
+                            break;
+                        default:
+                            $invalidchars[$badchar] = $badchar;
+                    }
                 }
             }
             $this->add_error(stack_string('stackCas_forbiddenChar', array( 'char' => implode(", ", array_unique($invalidchars)))));
@@ -763,22 +811,85 @@ class stack_cas_casstring {
             $this->valid = false;
             $a = array();
             $a['char'] = $match[0];
-            $a['cmd']  = stack_maxima_format_casstring($this->strings_replace($cmd, $strings));
+            $cdisp = $this->rawcasstring;
+            if ($security == 's') {
+                $cdisp = stack_utils::logic_nouns_sort($cdisp, 'remove');
+            }
+            $a['cmd']  = stack_maxima_format_casstring($cdisp);
             $this->add_error(stack_string('stackCas_finalChar', $a));
             $this->answernote[] = 'finalChar';
         }
+    }
 
-        // Check for empty parentheses `()`.
-        if (strpos($cmd, '()') !== false) {
-            $this->valid = false;
-            $this->add_error(stack_string('stackCas_forbiddenWord', array('forbid' => stack_maxima_format_casstring('()'))));
-            $this->answernote[] = 'forbiddenWord';
+    private function check_bad_trig($cmd) {
+        // Check for bad looking trig functions, e.g. sin^2(x) or tan*2*x
+        // asin etc, will be included automatically, so we don't need them explicitly.
+        $triglist = array('sin', 'cos', 'tan', 'sinh', 'cosh', 'tanh', 'sec', 'cosec', 'cot', 'csc', 'coth', 'csch', 'sech');
+        $funlist  = array('log', 'ln', 'lg', 'exp', 'abs', 'sqrt');
+        foreach (array_merge($triglist, $funlist) as $fun) {
+            if (strpos($cmd, $fun.' ') !== false) {
+                $this->add_error(stack_string('stackCas_trigspace',
+                    array('trig' => stack_maxima_format_casstring($fun.'(...)'))));
+                $this->answernote[] = 'trigspace';
+                $this->valid = false;
+                break;
+            }
+            if (strpos($cmd, $fun.'^') !== false) {
+                $this->add_error(stack_string('stackCas_trigexp',
+                    array('forbid' => stack_maxima_format_casstring($fun.'^'))));
+                $this->answernote[] = 'trigexp';
+                $this->valid = false;
+                break;
+            }
+            if (strpos($cmd, $fun.'[') !== false) {
+                $this->add_error(stack_string('stackCas_trigparens',
+                    array('forbid' => stack_maxima_format_casstring($fun.'(x)'))));
+                $this->answernote[] = 'trigparens';
+                $this->valid = false;
+                break;
+            }
+            $opslist = array('*', '+', '-', '/');
+            foreach ($opslist as $op) {
+                if (strpos($cmd, $fun.$op) !== false) {
+                    $this->add_error(stack_string('stackCas_trigop',
+                        array('trig' => stack_maxima_format_casstring($fun),
+                                'forbid' => stack_maxima_format_casstring($fun.$op))));
+                    $this->answernote[] = 'trigop';
+                    $this->valid = false;
+                    break;
+                }
+            }
         }
+        foreach ($triglist as $fun) {
+            if (strpos($cmd, 'arc'.$fun) !== false) {
+                $this->add_error(stack_string('stackCas_triginv',
+                    array('badinv' => stack_maxima_format_casstring('arc'.$fun),
+                            'goodinv' => stack_maxima_format_casstring('a'.$fun))));
+                $this->answernote[] = 'triginv';
+                $this->valid = false;
+                break;
+            }
+        }
+    }
 
+    private function check_commas($stringles) {
+        // Commas not inside brackets either should be, or indicate a decimal number not
+        // using the decimal point.  In either case this is problematic.
+        // For now, we just look for expressions with a comma, but without brackets.
+        // [TODO]: improve this test to really look for unencapsulated commas.
+        if (!(false === strpos($stringles, ',')) && !(!(false === strpos($stringles, '(')) ||
+                !(false === strpos($stringles, '[')) || !(false === strpos($stringles, '{')) )) {
+            $this->add_error(stack_string('stackCas_unencpsulated_comma'));
+            $this->answernote[] = 'unencpsulated_comma';
+            $this->valid = false;
+        }
+    }
+
+    private function check_operators($stringles, $security) {
         // Check for spurious operators.
         $spuriousops = array('<>', '||', '&', '..', ',,', '/*', '*/', '==');
         foreach ($spuriousops as $op) {
-            if (substr_count($cmd, $op) > 0) {
+            if (substr_count($stringles, $op) > 0) {
                 $this->valid = false;
                 $a = array();
                 $a['cmd']  = stack_maxima_format_casstring($op);
@@ -790,8 +901,8 @@ class stack_cas_casstring {
         // CAS strings may not contain
         // * reversed inequalities, i.e =< is not permitted in place of <=.
         // * chained inequalities 1<x<=3.
-        if (strpos($cmd, '=<') !== false || strpos($cmd, '=>') !== false) {
-            if (strpos($cmd, '=<') !== false) {
+        if (strpos($stringles, '=<') !== false || strpos($stringles, '=>') !== false) {
+            if (strpos($stringles, '=<') !== false) {
                 $a['cmd'] = stack_maxima_format_casstring('=<');
             } else {
                 $a['cmd'] = stack_maxima_format_casstring('=>');
@@ -799,48 +910,32 @@ class stack_cas_casstring {
             $this->add_error(stack_string('stackCas_backward_inequalities', $a));
             $this->answernote[] = 'backward_inequalities';
             $this->valid = false;
-        } else if (!($this->check_chained_inequalities($cmd))) {
+        } else if ($security == 's' && !($this->check_chained_inequalities($stringles))) {
             $this->add_error(stack_string('stackCas_chained_inequalities'));
             $this->answernote[] = 'chained_inequalities';
             $this->valid = false;
         }
+    }
 
-        // Commas not inside brackets either should be, or indicate a decimal number not
-        // using the decimal point.  In either case this is problematic.
-        // For now, we just look for expressions with a comma, but without brackets.
-        // [TODO]: improve this test to really look for unencapsulated commas.
-        if (!(false === strpos($cmd, ',')) && !(!(false === strpos($cmd, '(')) ||
-                !(false === strpos($cmd, '[')) || !(false === strpos($cmd, '{')) )) {
-            $this->add_error(stack_string('stackCas_unencpsulated_comma'));
-            $this->answernote[] = 'unencpsulated_comma';
-            $this->valid = false;
-        }
-
-        // We need to split keyvals off here before we check underscore characters.
-        $this->key_val_split();
-
-            // Check for and replace logarithms log_A(B).
+    private function check_logs($stringles) {
+        // Check for and replace logarithms log_A(B).
         // This has to go before we try to insert *s, otherwise we will have log_10(x) -> log_10*(x) etc.
-        $cmd = $this->casstring;
+        $cmd = $stringles;
         // Be forgiving with log10.
         $cmd = str_replace('log10(', 'log_10(', $cmd);
         if (preg_match_all("/log_([\S]+?)\(([\S]+?)\)/", $cmd, $found)) {
             foreach ($found[0] as $key => $match) {
-                $sub = 'lg(' . $found[2][$key] . ', ' . $found[1][$key] .')';
+                $argpos = stack_utils::substring_between($cmd, 'log_'.$found[1][$key], ')');
+                $argval = stack_utils::substring_between($cmd, '(', ')', $argpos[1] + strlen($found[1][$key]));
+                $match = 'log_'.$found[1][$key].$argval[0];
+                $sub = 'lg(' . substr($argval[0], 1, -1) . ', ' . $found[1][$key] .')';
                 $cmd = str_replace($match, $sub, $cmd);
             }
-            $this->casstring = $cmd;
             $this->answernote[] = 'logsubs';
         }
-
-        $this->check_stars($security, $syntax, $insertstars);
-
-        $this->check_security($security, $allowwords);
-
-        $this->check_underscores($security);
-
-        return $this->valid;
+        return $cmd;
     }
+
 
     /**
      * Checks for spaces in students' expressions.  Is not applied to teachers.
@@ -848,12 +943,8 @@ class stack_cas_casstring {
      * @return bool|string true if no missing *s, false if missing stars but automatically added
      * If stack is set to not add stars automatically, a string indicating the missing stars is returned.
      */
-    private function check_spaces($security, $syntax, $insertstars) {
-
-        $cmd = $this->rawcasstring;
-
-        // Remove the contents of any strings, so we don't test for spaces within them.
-        list ($cmd, $strings) = $this->strings_remove($cmd);
+    private function check_spaces($stringles, $security, $syntax, $insertstars) {
+        $cmd = $stringles;
 
         // Always replace multiple spaces with a single space.
         $cmd = trim($cmd);
@@ -875,10 +966,11 @@ class stack_cas_casstring {
             if ($insertstars === 3 || $insertstars === 4 || $insertstars === 5) {
                 $cmd = str_replace(' ', '*', $cmd);
             } else {
-                $cmds = str_replace(' ', '<font color="red">_</font>', $this->strings_replace($cmd, $strings));
+                $cmds = str_replace(' ', '<font color="red">_</font>', $this->strings_replace($cmd));
                 foreach (self::$spacepatterns as $key => $pat) {
                     $cmds = str_replace($pat, $key, $cmds);
                 }
+                $cmds = stack_utils::logic_nouns_sort($cmds, 'remove');
                 $this->add_error(stack_string('stackCas_spaces', array('expr' => stack_maxima_format_casstring($cmds))));
                 $this->valid = false;
             }
@@ -892,10 +984,11 @@ class stack_cas_casstring {
                 $cmd = str_replace($pat, $key, $cmd);
         }
 
-        if ($insertstars === 3 || $insertstars === 4 || $insertstars === 5) {
-            $cmdn = $this->strings_replace($cmd, $strings);
-            $this->casstring = $cmdn;
+        // Passes many unit tests that think oddly, maybe remove this pointless thing and fix the unit tests instead.
+        if (!$this->valid) {
+            return $stringles;
         }
+
         return $cmd;
     }
 
@@ -905,7 +998,7 @@ class stack_cas_casstring {
      * @return bool|string true if no missing *s, false if missing stars but automatically added
      * If stack is set to not add stars automatically, a string indicating the missing stars is returned.
      */
-    private function check_stars($security, $syntax, $insertstars) {
+    private function check_stars($stringles, $security, $syntax, $insertstars) {
 
         // Some patterns are always invalid syntax, and must have stars.
         $patterns[] = "|(\))(\()|";                   // Simply the pattern ")(".  Must be wrong!
@@ -921,7 +1014,7 @@ class stack_cas_casstring {
         }
 
         if ($security == 's') {
-            $patterns[] = "|([0-9]+)(\()|";           // E.g. 3212 (.
+            $patterns[] = "|([0-9]+)(\()|";           // E.g. 3212(.
             $patterns[] = "|(\Wi)(\()|";    // I.e. i( , the single pattern of i with a bracket, which is always wrong for students.
             if (!$syntax) {
                 $patterns[] = "|(^[A-Za-z])(\()|";    // E.g. a( , that is a single letter.
@@ -943,13 +1036,10 @@ class stack_cas_casstring {
         $missingstring   = '';
 
         // Prevent ? characters calling LISP or the Maxima help file.  Instead, these pass through and are displayed as normal.
-        $cmd = str_replace('?', 'QMCHAR', $this->casstring);
+        $cmd = str_replace('?', 'QMCHAR', $stringles);
 
         // Provide support for the grid2d command, which otherwise breaks insert stars.
         $cmd = str_replace('grid2d', 'STACKGRID', $cmd);
-
-        // Remove the contents of any strings, so we don't test for missing *s within them.
-        list ($cmd, $strings) = $this->strings_remove($cmd);
 
         foreach ($patterns as $pat) {
             if (preg_match($pat, $cmd)) {
@@ -960,45 +1050,37 @@ class stack_cas_casstring {
                     $cmd = preg_replace($pat, "\${1}*\${2}", $cmd);
                 } else {
                     // Flag up the error.
+                    $missingstring = stack_utils::logic_nouns_sort($cmd, 'remove');
                     $missingstring = stack_maxima_format_casstring(preg_replace($pat,
-                        "\${1}<font color=\"red\">*</font>\${2}", $cmd));
+                        "\${1}<font color=\"red\">*</font>\${2}", $missingstring));
                 }
             }
         }
 
-        $cmd = $this->strings_replace($cmd, $strings);
-        $missingstring = $this->strings_replace($missingstring, $strings);
-
         if (false == $missingstar) {
-            // If no missing stars return true.
-            return true;
+            // If no missing stars return original.
+            return $stringles;
         }
         // Guard clause above - we have missing stars detected.
         $this->answernote[] = 'missing_stars';
         if ($insertstars == 1 || $insertstars == 2 || $insertstars == 4 || $insertstars == 5) {
             // If we are going to quietly insert them.
-            $this->casstring = str_replace('QMCHAR', '?', $cmd);
-            return true;
+            return str_replace('QMCHAR', '?', $cmd);
         } else {
             // If missing stars & strict syntax is on return errors.
+            $missingstring = stack_utils::logic_nouns_sort($missingstring, 'remove');
             $a['cmd']  = str_replace('QMCHAR', '?', $missingstring);
             $this->add_error(stack_string('stackCas_MissingStars', $a));
             $this->valid = false;
-            return false;
+            return str_replace('QMCHAR', '?', $cmd);
         }
     }
 
     /* We have added support for subscripts using underscore.  We expect more invalid expressions. */
-    private function check_underscores($security) {
+    private function check_underscores($stringlesvalue, $security) {
+        $strpatterns = array(')_', '_(', ']_', '_[', '}_', '_{');
 
-        $strpatterns[] = ')_';
-        $strpatterns[] = '_(';
-        $strpatterns[] = ']_';
-        $strpatterns[] = '_[';
-        $strpatterns[] = '}_';
-        $strpatterns[] = '_{';
-
-        $cmd = $this->casstring;
+        $cmd = $stringlesvalue;
         $found = array();
         $valid = true;
         foreach ($strpatterns as $pat) {
@@ -1014,7 +1096,6 @@ class stack_cas_casstring {
             $a = implode($found, ', ');
             $this->add_error(stack_string('stackCas_underscores', $a));
         }
-
     }
 
     /**
@@ -1022,8 +1103,7 @@ class stack_cas_casstring {
      *
      * @return bool|string true if passes checks if fails, returns string of forbidden commands
      */
-    private function check_security($security, $rawallowwords) {
-
+    private function check_security($stringles, $security, $rawallowwords) {
         // Create a minimal cache to store words as keys.
         // This gives faster searching using the search functionality of that map.
         if (self::$cache === false) {
@@ -1067,7 +1147,7 @@ class stack_cas_casstring {
         // So to actually allow strings that are usable we no longer check inside strings.
         // In any case what could we have done to a:concat("s","y","s"...);.
         // We need to focus on blocking the evaluation of that string instead.
-        $cmd = stack_utils::eliminate_strings($this->casstring);
+        $cmd = $stringles;
         $strinkeywords = array();
         $pat = "|[\?_A-Za-z0-9]+|";
         preg_match_all($pat, $cmd, $out, PREG_PATTERN_ORDER);
@@ -1088,12 +1168,14 @@ class stack_cas_casstring {
                 $this->valid = false;
             }
 
-            // Check for unit synonyms.
-            list ($fndsynonym, $answernote, $synonymerr) = stack_cas_casstring_units::find_units_synonyms($key);
-            if ($security == 's' and $fndsynonym and !isset($allow[$key])) {
-                $this->add_error($synonymerr);
-                $this->answernote[] = $answernote;
-                $this->valid = false;
+            if ($this->units) {
+                // Check for unit synonyms.
+                list ($fndsynonym, $answernote, $synonymerr) = stack_cas_casstring_units::find_units_synonyms($key);
+                if ($security == 's' and $fndsynonym and !isset($allow[$key])) {
+                    $this->add_error($synonymerr);
+                    $this->answernote[] = $answernote;
+                    $this->valid = false;
+                }
             }
 
         }
@@ -1109,7 +1191,7 @@ class stack_cas_casstring {
             }
         }
         if ($this->valid == false) {
-            return null;
+            return;
         }
 
         $keywords = array();
@@ -1181,7 +1263,6 @@ class stack_cas_casstring {
                 }
             }
         }
-        return null;
     }
 
     /**
@@ -1237,7 +1318,7 @@ class stack_cas_casstring {
 
         // Now check each "middle bit" has one of the following.
         // Note the space before, but not afterwards....
-        $connectives = array(' and', ' or', ' else', ' then', ' do');
+        $connectives = array(' and', ' or', ' else', ' then', ' do', ' nounand', ' nounor');
         $ok = true;
         foreach ($bits as $bit) {
             $onefound = false;
@@ -1344,6 +1425,15 @@ class stack_cas_casstring {
     }
 
     private function key_val_split() {
+        if (substr(trim($this->casstring), 0, 4) == 'for ') {
+            $this->key   = '';
+            return true;
+        }
+        if (substr(trim($this->casstring), 0, 5) == 'thru ') {
+            $this->key   = '';
+            return true;
+        }
+
         $i = strpos($this->casstring, ':');
         if (false === $i) {
             $this->key   = '';
@@ -1362,7 +1452,7 @@ class stack_cas_casstring {
     /* Return and modify information                         */
     /*********************************************************/
 
-    public function get_valid($security='s', $syntax=true, $insertstars=0, $allowwords='') {
+    public function get_valid($security = 's', $syntax = true, $insertstars = 0, $allowwords = '') {
         if (null === $this->valid) {
             $this->validate($security, $syntax, $insertstars, $allowwords);
         }
@@ -1410,6 +1500,10 @@ class stack_cas_casstring {
         return $this->dispvalue;
     }
 
+    public function get_conditions() {
+        return $this->conditions;
+    }
+
     public function set_key($key, $appendkey=true) {
         if (null === $this->valid) {
             $this->validate();
@@ -1420,6 +1514,10 @@ class stack_cas_casstring {
         } else {
             $this->key = $key;
         }
+    }
+
+    public function set_units($val) {
+        $this->units = $val;
     }
 
     public function set_value($val) {
@@ -1465,14 +1563,14 @@ class stack_cas_casstring {
     }
 
     // If we "CAS validate" this string, then we need to set various options.
-    // If the teacher's answer is NULL then we use typeless validation, otherwise we check type.
+    // If the teacher's answer is null then we use typeless validation, otherwise we check type.
     public function set_cas_validation_casstring($key, $forbidfloats = true,
                     $lowestterms = true, $tans = null, $validationmethod, $allowwords = '') {
 
-        if (!($validationmethod == 'checktype' || $validationmethod == 'typeless'
-            || $validationmethod == 'units' || $validationmethod == 'unitsnegpow')) {
+        if (!($validationmethod == 'checktype' || $validationmethod == 'typeless' || $validationmethod == 'units'
+            || $validationmethod == 'unitsnegpow' || $validationmethod == 'equiv' || $validationmethod == 'numerical')) {
             throw new stack_exception('stack_cas_casstring: validationmethod must one of "checktype", "typeless", ' .
-                '"units" or "unitsnegpow", but received "'.validationmethod.'".');
+                '"units" or "unitsnegpow" or "equiv" or "numerical", but received "'.$validationmethod.'".');
         }
         if (null === $this->valid) {
             $this->validate('s', true, 0, $allowwords);
@@ -1499,14 +1597,21 @@ class stack_cas_casstring {
         $fltfmt = stack_utils::decimal_digits($starredanswer);
         $fltfmt = $fltfmt['fltfmt'];
 
-        $this->casstring = 'stack_validate(['.$starredanswer.'],'.$forbidfloats.','.$lowestterms.','.$tans.')';
+        $this->casstring = 'stack_validate(['.$starredanswer.'], '.$forbidfloats.','.$lowestterms.','.$tans.')';
         if ($validationmethod == 'typeless') {
             // Note, we don't pass in the teacher's as this option is ignored by the typeless validation.
-            $this->casstring = 'stack_validate_typeless(['.$starredanswer.'],'.$forbidfloats.','.$lowestterms.')';
+            $this->casstring = 'stack_validate_typeless(['.$starredanswer.'], '.$forbidfloats.', '.$lowestterms.', false, false)';
+        }
+        if ($validationmethod == 'numerical') {
+            $this->casstring = 'stack_validate_typeless(['.$starredanswer.'],
+                    '.$forbidfloats.', '.$lowestterms.', false, '.$fltfmt.')';
+        }
+        if ($validationmethod == 'equiv') {
+            $this->casstring = 'stack_validate_typeless(['.$starredanswer.'], '.$forbidfloats.', '.$lowestterms.', true, false)';
         }
         if ($validationmethod == 'units') {
             // Note, we don't pass in forbidfloats as this option is ignored by the units validation.
-            $this->casstring = 'stack_validate_units(['.$starredanswer.'], '.$lowestterms.','.$tans.', "inline", '.$fltfmt.')';
+            $this->casstring = 'stack_validate_units(['.$starredanswer.'], '.$lowestterms.', '.$tans.', "inline", '.$fltfmt.')';
         }
         if ($validationmethod == 'unitsnegpow') {
             // Note, we don't pass in forbidfloats as this option is ignored by the units validation.
@@ -1516,25 +1621,26 @@ class stack_cas_casstring {
         return true;
     }
 
-    /*
-     *  Remove contents of strings and replace them with safe tags.
+    /**
+     *  Replace the contents of strings to the stringles version.
      */
-    private function strings_remove($cmd) {
-        $strings = stack_utils::all_substring_strings($cmd);
-        foreach ($strings as $key => $string) {
-            $cmd = str_replace('"'.$string.'"', '[STR:'.$key.']', $cmd);
+    private function strings_replace($stringles) {
+        // NOTE: This function should not exist, as this should only happen at the end of validate().
+        // We still have some error messages that need it.
+        $strings = stack_utils::all_substring_strings($this->rawcasstring);
+        if (count($strings) > 0) {
+            $split = explode('""', $stringles);
+            $stringbuilder = array();
+            $i = 0;
+            foreach ($strings as $string) {
+                $stringbuilder[] = $split[$i];
+                $stringbuilder[] = $string;
+                $i++;
+            }
+            $stringbuilder[] = $split[$i];
+            $stringles = implode('"', $stringbuilder);
         }
-        return array($cmd, $strings);
-    }
-
-    /*
-     *  Replace tags with the contents of strings.
-     */
-    private function strings_replace($cmd, $strings) {
-        foreach ($strings as $key => $string) {
-            $cmd = str_replace('[STR:'.$key.']', '"'.$string.'"', $cmd);
-        }
-        return $cmd;
+        return $stringles;
     }
 
     /**
@@ -1544,7 +1650,7 @@ class stack_cas_casstring {
         $searchstrings = array('DivisionZero', 'CommaError', 'Illegal_floats', 'Lowest_Terms', 'SA_not_matrix',
                 'SA_not_list', 'SA_not_equation', 'SA_not_inequality', 'SA_not_set', 'SA_not_expression',
                 'Units_SA_excess_units', 'Units_SA_no_units', 'Units_SA_only_units', 'Units_SA_bad_units',
-                'Variable_function');
+                'Units_SA_errorbounds_invalid', 'Variable_function', 'Bad_assignment');
 
         $foundone = false;
         foreach ($searchstrings as $s) {

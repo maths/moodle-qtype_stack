@@ -219,4 +219,5 @@ class qtype_stack_question_test extends qtype_stack_testcase {
         $expected = array('a' => '3', 'b' => '9', 'ta' => 'x+y', 'ans1' => '5', 'ans2' => '6');
         $this->assertEquals($expected, $q->get_question_var_values());
     }
+
 }

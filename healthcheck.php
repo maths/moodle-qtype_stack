@@ -59,8 +59,13 @@ if (data_submitted() && optional_param('clearcache', false, PARAM_BOOL)) {
 if (data_submitted() && optional_param('createmaximaimage', false, PARAM_BOOL)) {
     require_sesskey();
     stack_cas_connection_db_cache::clear_cache($DB);
-    stack_cas_configuration::create_auto_maxima_image();
-    redirect($PAGE->url);
+    list($ok, $errmsg)  = stack_cas_configuration::create_auto_maxima_image();
+    if ($ok) {
+        redirect($PAGE->url, stack_string('healthautomaxopt_succeeded'), null, \core\output\notification::NOTIFY_SUCCESS);
+    } else {
+        redirect($PAGE->url, stack_string('healthautomaxopt_failed', array('errmsg' => $errmsg)), null,
+                \core\output\notification::NOTIFY_ERROR);
+    }
 }
 
 $config = stack_utils::get_config();
@@ -71,6 +76,7 @@ echo $OUTPUT->heading($title);
 
 // This array holds summary info, for a table at the end of the pager.
 $summary = array();
+$summary[] = array('', $config->platform );
 
 // LaTeX.
 echo $OUTPUT->heading(stack_string('healthchecklatex'), 3);
@@ -96,9 +102,11 @@ if ($config->mathsdisplay === 'mathjax') {
 echo $OUTPUT->heading(stack_string('healthcheckconfig'), 3);
 
 // Try to list available versions of Maxima (linux only, without the DB).
-$connection = stack_connection_helper::make();
-if (is_a($connection, 'stack_cas_connection_unix')) {
-    echo html_writer::tag('pre', $connection->get_maxima_available());
+if ($config->platform !== 'win') {
+    $connection = stack_connection_helper::make();
+    if (is_a($connection, 'stack_cas_connection_unix')) {
+        echo html_writer::tag('pre', $connection->get_maxima_available());
+    }
 }
 
 // Check for location of Maxima.
@@ -109,7 +117,7 @@ if ('' != $maximalocation) {
     $summary[] = array(null, $message);
 }
 
-// Check if the current options for library packaes are permitted (maximalibraries).
+// Check if the current options for library packages are permitted (maximalibraries).
 list($valid, $message) = stack_cas_configuration::validate_maximalibraries();
 if (!$valid) {
     echo html_writer::tag('p', $message);
@@ -221,7 +229,7 @@ function output_cas_text($title, $intro, $castext) {
 
     $ct = new stack_cas_text($castext, null, 0, 't');
 
-    echo html_writer::tag('p', format_text(stack_ouput_castext($ct->get_display_castext())));
+    echo html_writer::tag('p', stack_ouput_castext($ct->get_display_castext()));
     echo output_debug(stack_string('errors'), $ct->get_errors());
     echo output_debug(stack_string('debuginfo'), $ct->get_debuginfo());
 }

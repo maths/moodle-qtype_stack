@@ -1,0 +1,1030 @@
+/*  Author Chris Sangwin
+    University of Edinburgh
+    Copyright (C) 2015 Chris Sangwin
+
+    This program is free software: you can redistribute it or modify
+    it under the terms of the GNU General Public License version two.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+    GNU General Public License for details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program. If not, see <http://www.gnu.org/licenses/>. */
+
+
+/********************************************************************/
+/*  A package for manipulating intervals in Maxima.                 */
+/*  Based on code by Matthew James Read, 2012.                      */
+/*                                                                  */
+/*  Chris Sangwin, <C.J.Sangwin@ed.ac.uk>                           */
+/*  V0.2 June 2017                                                  */
+/*                                                                  */
+/********************************************************************/
+
+/* Defines the check functions for when intervals are entered: */
+/*
+cc_num(x,y) :=
+    block ( [Ans],
+        Ans: 'cc(x,y),                          /* Makes Ans equal to the original interval. Note the ' to stop evaluation or else it would create an infinite loop. */
+        if not ev(real_numberp(x), simp) then                  /* Checks x is a real number. */
+        error("intervals: ",x," should be a real number"),
+        if not ev(real_numberp(y), simp) then                  /* Checks y is a real number. */
+        error("intervals: ",y," should be a real number"),
+        if y<x then Ans:{},                     /* Our interval is the empty set if y<x. */
+        if x=y then Ans:{x},                    /* Simply the set {x} is x=y. */
+        Ans
+        );
+
+oo_num(x,y) :=
+    block ( [Ans],
+        Ans: 'oo(x,y),
+        if ev(not real_numberp(x) and not(x=\inf or x=-\inf ), simp) then
+        error("intervals: ",x," should be a real number"),
+        if ev(not real_numberp(y) and not(y=\inf or y=-\inf ), simp) then
+        error("intervals: ",y," should be a real number"),
+        if y<x then Ans:{},
+        if x=y then Ans:{},
+        Ans
+        );
+
+co_num(x,y) :=
+    block ( [Ans],
+        Ans: 'co(x,y),
+        if ev(not real_numberp(x), simp) then
+        error("intervals: ",x," should be a real number"),
+        if ev((not real_numberp(y) and not(y=\inf or y=-\inf )), simp) then
+        error("intervals: ",y," should be a real number"),
+        if y<x then Ans:{},
+        if x=y then Ans:{},
+        Ans
+        );
+
+oc_num(x,y) :=
+    block ( [Ans],
+        Ans: 'oc(x,y),
+        if ev(not real_numberp(x) and not(x=\inf or x=-\inf )), simp) then
+        error("intervals: ",x," should be a real number"),
+        if ev(not real_numberp(y), simp) then
+        error("intervals: ",y," should be a real number"),
+        if y<x then Ans:{},
+        if x=y then Ans:{},
+        Ans
+        );
+*/
+
+cc_interval_tex(ex) := block([a, b],
+  a:first(args(ex)),
+  b:second(args(ex)),
+  concat("\\left[ ", tex1(a),",\\, ",tex1(b), "\\right]")
+  )$
+texput(cc, cc_interval_tex)$
+
+/* Note, the mismatching square brackets play havoc with the PHP interface. */
+co_interval_tex(ex) := block([a, b],
+  a:first(args(ex)),
+  b:second(args(ex)),
+  /*concat("\\left[ ", tex1(a),",\\, ",tex1(b), "\\right)")*/
+  concat("!LEFTSQ! ", tex1(a),",\\, ",tex1(b), "!RIGHTR!")
+  )$
+texput(co, co_interval_tex)$
+
+oc_interval_tex(ex) := block([a, b],
+  a:first(args(ex)),
+  b:second(args(ex)),
+  /*concat("\\left( ", tex1(a),",\\, ",tex1(b), "\\right]")*/
+  concat("!LEFTR! ", tex1(a),",\\, ",tex1(b), "!RIGHTSQ!")
+  )$
+texput(oc, oc_interval_tex)$
+
+oo_interval_tex(ex) := block([a, b],
+  a:first(args(ex)),
+  b:second(args(ex)),
+  concat("\\left( ", tex1(a),",\\, ",tex1(b), "\\right)")
+  )$
+texput(oo, oo_interval_tex)$
+
+realset_tex(ex) := block([a, b, c],
+  a:first(args(ex)),
+  b:second(args(ex)),
+  c:ev(Complement(b), simp),
+  if setp(c) then
+      concat("{", tex1(a), " \\not\\in {",tex1(c), "}}")
+  else
+      concat("{", tex1(a), " \\in {",tex1(b), "}}")
+  )$
+texput(realset, realset_tex)$
+
+/* Returns True if p is an element of A. False, otherwise: */
+
+inintervalp(p, A) :=
+    block ( [Ans, Args, x, y, Atemp, cc:cc(0,1), oo:oo(0,1), co:co(0,1), oc:oc(0,1), i:1, j:1, n],
+        cc:op(cc), oo:op(oo), co:op(co), oc:op(oc),
+
+        Ans:false,
+        if not ev(real_numberp(p), simp) then
+        error("intervals: ",p," should be a real number"),
+
+        if atom(A) then Ans:false
+        elseif op(A)=set then
+            (
+            Atemp:listify(A),
+            n:length(Atemp),
+            while i<(n+1) do
+                (
+                if p=Atemp[i] then Ans:true,
+                i:i+1 )
+            )
+        elseif not( op(A)="[" ) then
+            (
+            Args:args(A),
+            x:first(Args),
+            y:last(Args),
+            if op(A)=cc then
+                (
+                if (p>=x and p<=y) then Ans:true
+                ),
+            if op(A)=oo then
+                (
+                if (p>x and p<y) then Ans:true
+                ),
+            if op(A)=co then
+                (
+                if (p>=x and p<y) then Ans:true
+                ),
+            if op(A)=oc then
+                (
+                if (p>x and p<=y) then Ans:true
+                )
+            )
+        elseif op(A)="[" then
+            (
+            n:length(A),
+            while j<n+1 do
+                (
+                Atemp:A[j],
+                Ans:inintervalp(p,Atemp),
+                if Ans=false then j:j+1 else j:n+1
+                )
+            )
+        else error("intervals: the interval, ",A,", is not of a recognised form"),
+        Ans
+        );
+
+intervalp(X) :=
+    block ( [A:X, cc:cc(0,1), oo:oo(0,1), co:co(0,1), oc:oc(0,1)],
+        cc:op(cc), oo:op(oo), co:op(co), oc:op(oc),
+
+        if atom(A) then return(false),
+        if ( op(A)=cc or op(A)=oo or op(A)=co or op(A)=oc ) then return(true),
+        false
+        );
+
+realsetp(ex) := block(
+    if is(ex=all) then return(true),
+    if is(ex=none) then return(true),
+    if atom(ex) then return(false),
+    if setp(ex) then return(true),
+    if intervalp(ex) then return(true),
+    if op(ex)=%union then return(all_listp(intervalp, args(ex))),
+    return(false)
+)$
+
+
+/* Make a real set, taking edge cases into account.  This is also a top level function to convert true/false into all/none. */
+realsetmake(v, ex) :=block(
+  if is(ex=false) then return(none),
+  if is(ex={}) then return(none),
+  if is(ex=%union()) then return(none),
+  if is(ex=true) then return(all),
+  if is(ex=all) or is(ex=none) or is(ex=unknown) then return(ex),
+  if atom(ex) then return(ex),
+  if is(safe_op(ex)="realset") then return(ex),
+  return(realset(v, ex))
+)$
+
+/* Predicate to remove trivial cases like oo(a,a) and co(-inf, -inf). */
+trivialintervalp(ex) := block(
+    if atom(ex) then return(false),
+    if setp(ex) and ex={} then return(true),
+    if save_op(ex)="oo" and first(ex)=second(ex) then return(true),
+    if first(ex)=inf then return(true),
+    if second(ex)=-inf then return(true),
+    return(false)
+)$
+
+SimpleUnion(X,Y) :=
+    block ( [A:X, B:Y, Ans, x1, x2, y1, y2, Args1, Args2, Aset, swap:false, setAns:[], cc:cc(0,1), oo:oo(0,1), co:co(0,1), oc:oc(0,1), i:1, j:1, n],
+        cc:op(cc), oo:op(oo), co:op(co), oc:op(oc),
+
+        if atom(A) then
+            Ans:B
+        elseif atom(B) then
+            Ans:A
+        elseif setp(A) then
+                (
+                if setp(B) then
+                    Ans:union(A,B)
+                else
+                    (
+                    Args1:args(B),
+                    x1:first(Args1), y1:last(Args1),
+                    Aset:listify(A),
+                    n:length(Aset),
+                    while i<(n+1) do
+                        ( if (Aset[i]<x1 or Aset[i]>y1) then setAns:cons(Aset[i],setAns)
+                            elseif Aset[i]=x1 then
+                                (
+                                if op(B)=oc then B:cc(x1,y1),
+                                if op(B)=oo then B:co(x1,y1)
+                                )
+                            elseif Aset[i]=y1 then
+                                (
+                                if op(B)=co then B:cc(x1,y1),
+                                if op(B)=oo then B:oc(x1,y1)
+                                ),
+                        i:i+1
+                        ),
+                    if length(setAns)>0 then (setAns:setify(setAns), Ans: [B,setAns] ) else Ans:B
+                    )
+                )
+            elseif setp(B) then
+                    (
+                    Args1:args(A),
+                    x1:first(Args1), y1:last(Args1),
+                    Aset:listify(B),
+                    n:length(Aset),
+                    while i<(n+1) do
+                        (if (Aset[i]<x1 or Aset[i]>y1) then setAns:cons(Aset[i],setAns)
+                            elseif Aset[i]=x1 then
+                                (
+                                if op(A)=oc then A:cc(x1,y1),
+                                if op(A)=oo then A:co(x1,y1)
+                                )
+                            elseif Aset[i]=y1 then
+                                (
+                                if op(A)=co then A:cc(x1,y1),
+                                if op(A)=oo then A:oc(x1,y1)
+                                ),
+                        i:i+1
+                        ),
+                    if length(setAns)>0 then (setAns:setify(setAns), Ans: [A,setAns] ) else Ans:A
+                    ),
+
+        if ( not atom(A) and not atom(B) ) then
+            (
+            Args1:args(A),
+            Args2:args(B),
+
+            if not(atom(A) or setp(A) or atom(B) or setp(B)) then
+                (
+                if first(Args1)<first(Args2) then swap:false,
+                if first(Args1)=first(Args2) then
+                    (
+                    if ( op(A)=co or op(A)=cc ) then swap:false
+                    elseif ( op(B)=co or op(B)=cc ) then swap:true
+                    else swap:false
+                    ),
+                if first(Args1)>first(Args2) then swap:true,
+                if swap=false then
+                    (
+                    x1:first(Args1),
+                    y1:last(Args1),
+                    x2:first(Args2),
+                    y2:last(Args2)
+                    )
+                else
+                    (
+                    Atemp:A,
+                    A:B,
+                    B:Atemp,
+                    x2:first(Args1),
+                    y2:last(Args1),
+                    x1:first(Args2),
+                    y1:last(Args2)
+                    ),
+                if x2>y1 then Ans:[A,B],
+                if (x2<y1 and y2>y1) then
+                    (
+                    if (op(A)=cc or op(A)=co) then
+                        (
+                        if (op(B)=oc or op(B)=cc) then Ans:cc(x1,y2)
+                        elseif (op(B)=oo or op(B)=co) then Ans:co(x1,y2)
+                        )
+                    elseif (op(A)=oc or op(A)=oo) then
+                        (
+                        if (op(B)=oc or op(B)=cc) then Ans:oc(x1,y2)
+                        elseif (op(B)=oo or op(B)=co) then Ans:oo(x1,y2)
+                        )
+                    ),
+                if (x2<y1 and y2=y1) then
+                    (
+                    if (op(B)=oc or op(B)=cc) then
+                        Ans:SimpleUnion( A , {y2} )
+                    else
+                        Ans:A
+                    ),
+                if (x2<y1 and y2<y1) then
+                    Ans:A,
+                if x2=y1 then
+                    (
+                    if ( (op(A)=co or op(A)=oo) and (op(B)=oo or op(B)=oc) ) then
+                        Ans:[A,B]
+                    else
+                        (
+                        if (op(A)=cc or op(A)=co) then
+                            (
+                            if (op(B)=oc or op(B)=cc) then Ans:cc(x1,y2)
+                            elseif (op(B)=oo or op(B)=co) then Ans:co(x1,y2)
+                            )
+                        elseif (op(A)=oc or op(A)=oo) then
+                            (
+                            if (op(B)=oc or op(B)=cc) then Ans:oc(x1,y2)
+                            elseif (op(B)=oo or op(B)=co) then Ans:oo(x1,y2)
+                            )
+                        )
+                    )
+                )
+            ),
+        if safe_op(Ans)="[" then Ans:apply(%union, Ans),
+        Ans
+        );
+
+
+/* Finds the intersection of two "simple" sets: */
+SimpleIntersect(X,Y) :=
+    block ( [A:X, B:Y, Ans, x1, x2, y1, y2, Args1, Args2, Aset, swap:false, lopen:false, ropen:false, setAns:[], cc:cc(0,1), oo:oo(0,1), co:co(0,1), oc:oc(0,1), i:1, n],
+        cc:op(cc), oo:op(oo), co:op(co), oc:op(oc),
+
+        if atom(A) then Ans:{} elseif
+            atom(B) then Ans:{} elseif
+            setp(A) then
+                (
+                if setp(B) then
+                    (
+                    return(intersect(A,B))
+                    )
+                else
+                    (
+                    Args1:args(B),
+                    x1:first(Args1), y1:last(Args1),
+                    Aset:listify(A),
+                    n:length(Aset),
+                    while i<(n+1) do
+                        (if inintervalp(Aset[i],B) then setAns:cons(Aset[i],setAns),
+                        i:i+1),
+                    if length(setAns)>0 then (setAns:setify(setAns), Ans:setAns ) else Ans:{}
+                    )
+                )
+            elseif setp(B) then
+                    (
+                    Args1:args(A),
+                    x1:first(Args1), y1:last(Args1),
+                    Aset:listify(B),
+                    n:length(Aset),
+                    while i<(n+1) do
+                        (if inintervalp(Aset[i],A) then setAns:cons(Aset[i],setAns),
+                        i:i+1
+                        ),
+                    if length(setAns)>0 then (setAns:setify(setAns), Ans:setAns ) else Ans:{}
+                    ),
+        if ( not atom(A) and not atom(B) ) then
+            (
+            Args1:args(A),
+            Args2:args(B),
+
+            if (not atom(A) and not(op(A)=set) and not atom(B) and not(op(B)=set) ) then
+                (
+                if first(Args1)<first(Args2) then swap:false,
+                if first(Args1)=first(Args2) then
+                    ( if ( op(A)=co or op(A)=cc ) then swap:false elseif ( op(B)=co or op(B)=cc ) then swap:true else swap:false ),
+                if first(Args1)>first(Args2) then swap:true,
+
+                if swap=false then
+                    (
+                    x1:first(Args1),
+                    y1:last(Args1),
+                    x2:first(Args2),
+                    y2:last(Args2)
+                    )
+                else
+                    (
+                    Atemp:A,
+                    A:B,
+                    B:Atemp,
+                    x2:first(Args1),
+                    y2:last(Args1),
+                    x1:first(Args2),
+                    y1:last(Args2) ),
+                if x2>y1 then
+                    Ans:{},
+                if (x2<y1 and y2>y1) then
+                    (
+                    if (op(A)=cc or op(A)=oc) then
+                        (
+                        if (op(B)=cc or op(B)=co) then Ans:cc(x2,y1)
+                        elseif (op(B)=oo or op(B)=oc) then Ans:oc(x2,y1)
+                        )
+                    elseif (op(A)=co or op(A)=oo) then
+                        (
+                        if (op(B)=co or op(B)=cc) then Ans:co(x2,y1)
+                        elseif (op(B)=oo or op(B)=oc) then Ans:oo(x2,y1)
+                        )
+                    ),
+                if (x2<y1 and y2<y1) then Ans:B,
+                if (x2<y1 and y2=y1) then
+                    (
+                   if (op(B)=oc or op(B)=oo) then lopen:true,
+                    if (op(B)=oo or op(B)=co or op(A)=oo or op(A)=co) then ropen:true,
+                    if (lopen and ropen) then Ans:oo(x2,y1),
+                    if (lopen and not ropen) then Ans:oc(x2,y1),
+                    if (not lopen and ropen) then Ans:co(x2,y1),
+                    if (not lopen and not ropen) then Ans:cc(x2,y1)
+                    ),
+                if x2=y1 then
+                    (
+                    if ( (op(A)=cc or op(A)=oc) and (op(B)=co or op(B)=cc) ) then Ans:{x2} else Ans:{}
+                    )
+                )
+            ),
+        Ans
+        );
+
+SimpDisjointp(A,B) := if SimpleIntersect(A,B)={} then true else false;
+
+/* Given a *list* of disjoint intervals, returns the same intervals but in ascending order: */
+SortUnion(X) :=
+    block ( [A:X, Ans:[], x, n, i],
+
+        n:length(A),
+        while n>0 do
+            (
+            x:A[1],
+            i:2,
+            while i<n+1 do
+                (
+                if ( first( A[i] ) < first( x ) ) then x:A[i],
+                i:i+1
+                ),
+            Ans:append( Ans, [x] ),
+            A:delete( x, A, 1 ),
+            n:n-1
+            ),
+        Ans
+        );
+
+/* Given a union of disjoint intervals, checks whether any intervals are connected, and if so, joins them up and returns the ammended union: */
+ConnectIntervals(X):=
+    block ( [Ans, n, x, y, i:1],
+
+        if not(op(X)=%union) then error("ConnectIntervals requires a %union of intervals"),
+        Ans:args(X),
+        n:length(Ans),
+        while i<n do
+            (
+            if last( Ans[i] ) >= first( Ans[i+1] ) then
+                (
+                x:SimpleUnion( Ans[i], Ans[i+1] ),
+                if ( not op(x) = "[" ) then
+                    (
+                    Ans:delete( Ans[i+1], Ans, 1 ),
+                    Ans:delete( Ans[i], Ans, 1 ),
+                    Ans:append( Ans, [x] ),
+                    Ans:SortUnion(Ans),
+                    n:n-1,
+                    i:i-1
+                    )
+                ),
+            i:i+1
+            ),
+        if length(Ans) = 1 then return(Ans[1]),
+        Ans:apply(%union, Ans),
+        Ans
+        );
+
+/* Given a union of disjoint sets, returns the "canonical form" of this union: */
+TidyUnion(X):=
+    block ( [A, Ans:[], n, setpart:{}, x, y, i:1],
+        if atom(X) then return(Ans:phi),
+        if listp(X)then X:apply(%union, X),
+
+        if (not (op(X)=%union or op(X)="[") ) then Ans:X
+        else
+            (
+            A:args(X),
+            i:1,
+            n:length(A),
+            while i<n+1 do
+                (
+                if ( setp(A[i]) ) then
+                    (
+                    setpart:union( setpart, A[i] ),
+                    A:delete( A[i], A, 1 ),
+                    i:i-1,
+                    n:n-1
+                    )
+                else if ( trivialintervalp(A[i]) ) then
+                    (
+                    A:delete( A[i], A, 1 ),
+                    i:i-1,
+                    n:n-1
+                    ),
+                i:i+1
+                ),
+            A:SortUnion(A),
+            if length(A)=1 then
+                Ans:apply(%union, A)
+            else
+                Ans:ConnectIntervals(apply(%union, A)),
+            if length(setpart)>0 then Ans:append( args(Ans), [setpart] )
+        ),
+        Ans
+        )$
+
+/* Finds the union of any two sets: */
+Union(X, Y) :=
+    block ( [A, B, Ans:[], Joined:[], sets:{}, add, temp, x, y, m, n, k, i:1, j:1, f:1],
+        if atom(X) then Ans:Y
+        elseif atom(Y) then Ans:X
+        else
+        (
+
+        A:X,
+        if op(X)=%union then A:args(X),
+        B:Y,
+        if op(Y)=%union then B:args(Y),
+
+        if ( ( not op(A)="[" ) and ( not op(B)="[" ) ) then Ans:SimpleUnion(A,B)
+            else
+                (
+                if ( not op(A)="[" ) then (temp:[], A:cons(A,temp) ),
+                if ( not op(B)="[" ) then (temp:[], B:cons(B,temp) )
+                ),
+
+        if ( ( op(A)="[" ) and ( op(B)="[" ) ) then
+            (
+            m:length(A),
+            n:length(B),
+            if (m=1 and n=1) then (A:A[1], B:B[1], Ans:Union(A,B) )
+            else
+            (
+            while i<(m+1)do
+                (
+                if op( A[i] ) = set then
+                    (
+                    sets:SimpleUnion( sets , A[i] ),
+                    A:delete( A[i] , A , 1 ),
+                    i:i-1,
+                    m:m-1
+                    ),
+                i:i+1
+                ),
+            i:1,
+            while j<(n+1)do
+                (
+                if op( B[j] ) = set then
+                    (
+                    sets:SimpleUnion( sets , B[j] ),
+                    B:delete( B[j] , B , 1 ),
+                    j:j-1,
+                    n:n-1
+                    ),
+                j:j+1
+                ),
+            j:1,
+            temp:Ans,
+
+            Joined:append(A,B),
+            Joined:JoinedUnion(Joined),
+            temp:append(temp,Joined),
+
+            if length(sets)>0 then
+                (
+                sets:listify(sets),
+                m:length(temp),
+                n:length(sets),
+                while j<(n+1) do
+                    (
+                    while i<(m+1) do
+                        (
+                        x:first( temp[i] ),
+                        y:last( temp[i] ),
+                        if inintervalp( sets[j], temp[i] ) then
+                            (
+                            sets:delete( sets[j], sets, 1 ),
+                            n:n-1,
+                            j:j-1,
+                            i:m+1
+                            )
+                        elseif ( sets[j]=x or sets[j]=y ) then
+                            (
+                            temp[i]:Union( temp[i], { sets[j] } ) ,
+                            sets:delete( sets[j], sets, 1 ),
+                            n:n-1,
+                            j:j-1,
+                            i:m+1
+                            ),
+                        i:i+1
+                        ),
+                    i:1,
+                    j:j+1
+                    ),
+                j:1,
+                if length(sets)>0 then
+                    (
+                    sets:setify(sets),
+                    temp:cons(sets,temp)
+                    )
+                ),
+            if length(temp)=1 then temp:temp[1],
+            Ans:temp
+            )
+            ),
+        Ans:TidyUnion(Ans)
+        ),
+
+        Ans
+        );
+
+/* When given a union of intervals, this function simplifies the union by joining up any connected intervals: */
+JoinedUnion(X) :=
+    block ( [A, nextA:[], disjoint:[], temp, Ans:[], n, i, j, alldisjoint:false, Joined:[] ],
+
+        A:X,
+        if op(A)=%union then A:args(A),
+        while alldisjoint = false do
+            (
+            alldisjoint:true,
+            n:length(A),
+            disjoint:[],
+            i:1,
+            while i<n+1 do
+                (
+                disjoint: append(disjoint, [true] ),
+                i:i+1
+                ),
+            i:1,
+            while i<n do
+                (
+                j:i+1,
+                while j<n+1 do
+                    (
+                    if ( SimpDisjointp( A[i], A[j] ) ) then
+                        (
+                        if disjoint[j] = true then
+                            (
+                            nextA:delete( A[j], nextA, 1),
+                            nextA:append(nextA, [ A[j] ] )
+                            )
+                        )
+                    else    (
+                        nextA:delete( A[i], nextA, 1),
+                        nextA:delete( A[j], nextA, 1),
+                        temp:SimpleUnion( A[i], A[j] ),
+                        if ( not op(temp) = "[" ) then temp:[temp],
+                        nextA:append(nextA, temp ),
+                        disjoint[i]:false,
+                        disjoint[j]:false,
+                        alldisjoint:false
+                        ),
+                    j:j+1
+                    ),
+                if disjoint[i] = true then
+                    (
+                    nextA:delete( A[i], nextA, 1 ),
+                    nextA:append(nextA, [ A[i] ] )
+                    ),
+                i:i+1
+                ),
+            if alldisjoint = false then A:nextA,
+            nextA:[]
+            ),
+        Ans:A,
+        Ans
+        );
+
+Intersection(X,Y) :=
+    block ([A, B, Ans:[], temp, m, n, i:1, j:1],
+        A:X,
+        B:Y,
+
+        if is(A=all) then return(B)
+        elseif is(B=all) then return(A)
+        elseif atom(A) then Ans:{}
+        elseif atom(B) then Ans:{}
+        else
+        (
+        if op(A)=%union then A:args(A),
+        if op(B)=%union then B:args(B),
+        if ( ( not op(A)="[" ) and ( not op(B)="[" ) ) then Ans:SimpleIntersect(A,B)
+            else
+                (
+                if ( not op(A)="[" ) then (temp:[], A:cons(A,temp) ),
+                if ( not op(B)="[" ) then (temp:[], B:cons(B,temp) )
+                ),
+
+        if ( ( op(A)="[" ) and ( op(B)="[" ) ) then
+            (
+            m:length(A),
+            n:length(B),
+            if (m=1 and n=1) then (A:A[1], B:B[1], Ans:SimpleIntersect(A,B) )
+            else
+                (
+                while i<m+1 do
+                    (
+                    while j<n+1 do
+                        (
+                        temp:SimpleIntersect( A[i], B[j] ),
+                        if not atom(temp) then
+                            (
+                            Ans:append( Ans, [temp] )
+                            ),
+                        j:j+1
+                        ),
+                    j:1,
+                    i:i+1
+                    )
+                )
+            ),
+        if (not atom(Ans)) and op(Ans) = "[" then
+            (
+            if length(Ans)=1 then Ans:Ans[1],
+            if length(Ans)=0 then Ans:{}
+            )
+        ),
+        Ans:TidyUnion(Ans),
+        Ans
+        );
+
+/* Given a *list* of intervals, returns the intersection of all of them. */
+ListIntersect(X) :=
+    block ( [A:X, Ans, n, i, simp],
+        simp:true,
+        if X=[] then return({}),
+        n:length(A),
+        if n=1 then return(first(A)),
+        Ans:A[1],
+        i:2,
+        while i<n+1 do
+            (
+            Ans:Intersection(Ans,A[i]),
+            i:i+1
+            ),
+        Ans
+        );
+
+OrderPoints(X):=
+    block( [A:X, Ans:[], setpart, n, i:1],
+        A:TidyUnion(A),
+        if op( last(A) ) = set then
+            (
+            setpart:listify( last(A) ),
+            A:delete( last(A), A, 1),
+            n:length(A) + length(setpart),
+
+            while i<n+1 do
+                (
+                if length(setpart)>0 then
+                    (
+                    if length(A)=0 then
+                        (
+                        Ans:append( Ans, [ { setpart[1] } ] ),
+                        setpart:delete( setpart[1], setpart, 1 )
+                        )
+                    else
+                        (
+                        if setpart[1] < first( A[1] ) then
+                            (
+                            Ans:append( Ans, [ { setpart[1] } ] ),
+                            setpart:delete( setpart[1], setpart, 1 )
+                            )
+                        else
+                            (
+                            Ans:append( Ans, [ A[1] ] ),
+                            A:delete( A[1], A, 1 )
+                            )
+                        )
+                    ),
+                i:i+1
+                )
+            )
+        else Ans:A,
+        Ans
+        );
+
+
+Complement(X):=
+    block ( [A:X, Ans:[], x, y, cc:cc(0,1), oo:oo(0,1), co:co(0,1), oc:oc(0,1), n, i:1],
+    cc:op(cc), oo:op(oo), co:op(co), oc:op(oc),
+
+    if atom(A) then return( Ans:oo(-inf,inf) ),
+    if not (op(A) = "[" or op(A)=%union) then
+        (
+        if op(A)=set then Ans:SetComplement(A)
+        elseif intervalp(A) then
+            (
+            if op(A)=co then
+                (
+                Ans:append( Ans, [ oo(-inf, first(A) ) ] ),
+                Ans:append( Ans, [ co( last(A), inf) ] )
+                ),
+            if op(A)=cc then
+                (
+                Ans:append( Ans, [ oo(-inf, first(A) ) ] ),
+                Ans:append( Ans, [ oo( last(A), inf) ] )
+                ),
+            if op(A)=oc then
+               (
+               Ans:append( Ans, [ oc(-inf, first(A) ) ] ),
+               Ans:append( Ans, [ oo( last(A), inf) ] )
+               ),
+            if op(A)=oo then
+               (
+               Ans:append( Ans, [ oc(-inf, first(A) ) ] ),
+               Ans:append( Ans, [ co( last(A), inf) ] )
+               )
+            )
+        )
+        else
+        (
+        A:OrderPoints(A),
+        A:args(A),
+
+        /* Just use DeMorgan's laws. */
+        Ans:ev(ListIntersect(maplist(lambda([ex2], TidyUnion(Complement(ex2))), A)), simp),
+
+        if listp(Ans) and length(Ans)=1 then
+            Ans:Ans[1]
+        else if listp(Ans) then
+            Ans:apply(%union, Ans)
+        ),
+
+    Ans
+    );
+
+SetComplement(X):=
+    block ( [A:X, Ans:[], temp, n, i:1],
+        if not(setp(X)) then error("SetComplement requires a set."),
+        A:listify(A),
+        n:length(A),
+        temp:oo( -inf, A[1] ),
+        Ans:[temp],
+        while i<n do
+             (
+            temp:oo( A[i], A[i+1] ),
+            temp:[temp],
+            Ans:append(Ans, temp),
+            i:i+1
+            ),
+        temp:oo( A[n], inf ),
+        temp:[temp],
+        Ans:append( Ans, temp ),
+        apply(%union, Ans)
+        );
+
+/* Turns a single variable system over the reals in to a set of real numbers, together with insoluable bits (if any). */
+single_variable_solver_real(ex) := block([v, rs1, rs2, simp],
+    if is(ex=false) then return(none),
+    if is(ex=true) then return(all),
+    if atom(ex) then return(ex),
+    v:listofvars(ex),
+    if is(length(v)=0) then block
+        (
+        if is(ratsimp(lhs(ex)-rhs(ex))=0) then
+            ex:all
+        else
+            ex:none
+        ),
+    if not(length(v)=1) then return(ex),
+    v:first(v),
+
+    simp:false,
+
+    ex:abs_replace_eq(ex),
+    ex:subst("%and", "nounand", ex),
+    ex:subst("%or", "nounor", ex),
+    /* %not is not an infix operator... */
+    ex:subst(%not, "not", ex),
+    ex:subst("%and", "and", ex),
+    ex:subst("%or", "or", ex),
+
+    if assume_pos then block
+       (
+       ex:ex %and (v>=0)
+       ),
+    ex:de_morgan(ex),
+
+    ex:block([assume_pos:false], single_variable_solver_real_rec(ex, v)),
+
+    if ((safe_op(ex)="[" or safe_op(ex)="%union") and length(args(ex))=1) then ex:first(ex),
+
+    if is(ex={}) then return(none),
+    if is(ex={v}) then return(all),
+    if logic_edgep(ex) then return(ex),
+    if is(equal(ex,oo(-inf,inf))) then return(all),
+
+    rs1:ex,
+    rs2:false,
+    if safe_op(ex)="%or" then block
+        (
+        rs1:ev(sublist(args(ex), realsetp), simp),
+        rs2:ev(sublist(args(ex), lambda([ex2], not realsetp(ex2))), simp),
+        if is(length(rs1)=1) then rs1:first(rs1),
+        rs1:realsetmake(v, rs1),
+        if is(rs1=none) then
+            ex:apply("%or", rs2)
+        else if is(rs1=all) then
+            ex:all
+        else
+            ex:realsetmake(v, rs1) %or apply("%or", rs2)
+    ),
+    if safe_op(ex)="%union" or safe_setp(ex) then
+        ex:realsetmake(v, ex),
+
+    return(ex)
+)$
+
+single_variable_solver_real_rec(ex, v) := block([r0, r1, r2],
+    if atom(ex) then return(ex),
+    if intervalp(ex) then return(ex),
+
+    if equationp(ex) then return(ev(equation_to_intervals(ex, v), simp)),
+    if linear_inequalityp(ex) then return(ev(linear_inequality_to_interval(ex), simp)),
+
+    /* Possible recursion from here. */
+    if inequalityp(ex) then ex:ev(inequality_factor_solve(ex), simp),
+
+    if safe_op(ex)="%or" or safe_op(ex)="%and" then block(
+        r0:maplist(lambda([ex2], single_variable_solver_real_rec(ex2, v)), args(ex)),
+        r1:ev(sublist(r0, realsetp), simp),
+        r2:ev(sublist(r0, lambda([ex2], not(realsetp(ex2)))), simp)
+        ),
+    if safe_op(ex)="%or" then return(ev(apply("%or", append([TidyUnion(r1)], r2)), simp)),
+    if safe_op(ex)="%and" then return(ev(apply("%and", append([ListIntersect(r1)], r2)), simp)),
+
+    return(ex)
+)$
+
+equation_to_intervals(ex,v):=block([sol0,sol1,sol2],
+  sol0:solve(ex,v),
+  if sol0=[] then return({}),
+  if logic_edgep(sol0) then return(sol0),
+  /* We need the "freeof" clause to catch rearrangements of equations. */
+  sol1:sublist(sol0, lambda([ex2], is(lhs(ex2)=v) and freeof(v, rhs(ex2)))),
+  sol2:sublist(sol0, lambda([ex2], not(is(lhs(ex2)=v) and freeof(v, rhs(ex2))))),
+  sol1:maplist(rhs,sol1),
+  sol1:setify(sol1),
+  if is(length(sol2)=1) then
+    sol2:first(sol2)
+  else
+    sol2:apply("%or", sol2),
+  if emptyp(sol1) then
+    return(sol2),
+  return(sol1 %or sol2)
+);
+
+/* Calculate the natural domain of a single-variable term.  */
+natural_domain(ex):=block([v, ex2],
+  if atom(ex) then return(all),
+  v:listofvars(ex),
+  if is(v=[]) then return(all),
+  if not(is(length(v)=1)) then return(unknown),
+  /* We only work over real expressions. */
+  if not(is(freeof(%i, ex))) then return(unknown),
+  v:first(v),
+  /* Recurse using true/false instead of all/none, then convert. */
+  ex2:natural_domain_rec(ex),
+  realsetmake(v, ex2)
+)$
+
+/* Calculate the natural domain of a single-variable term.  */
+natural_domain_rec(ex):=block([v, ex2],
+  if atom(ex) then return(all),
+  v:listofvars(ex),
+  if is(v=[]) then return(all),
+  if not(is(length(v)=1)) then return(unknown),
+  v:first(v),
+
+  if safe_op(ex)="sum" then
+    return(unknown),
+  /* The variables inside this are local.  */
+  if safe_op(ex)="int" then
+    return(unknown),
+  if safe_op(ex)="sqrt" then
+    return(single_variable_solver_real(first(args(ex))>=0)),
+  if safe_op(ex)="ln" or safe_op(ex)="log" or safe_op(ex)="logbase" then
+    return(single_variable_solver_real(first(args(ex))>0)),
+  if safe_op(ex)="/" then
+        ex2:[natural_domain_rec(first(args(ex))), single_variable_solver_real((second(args(ex))>0) %or (second(args(ex))<0))]
+  else
+        ex2:map(natural_domain_rec, args(ex)),
+  /* We have to strip of the realset bit before intersecting. */
+  ex2:map(lambda([ex3], if is(safe_op(ex3)="realset") then second(ex3) else ex3), ex2),
+  /* Only return a define value if we really have one. */
+  if any_listp(lambda([ex3], is(ex3=unknown) or not(realsetp(ex3) or is(ex3=true) or is(ex3=false))), ex2) then
+    ex2:unknown
+  else
+    ex2:ListIntersect(ex2),
+  ex2
+)$

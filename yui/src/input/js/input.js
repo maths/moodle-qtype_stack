@@ -293,7 +293,7 @@ stack_textarea_input.prototype.add_event_handers = function(validator) {
  */
 stack_textarea_input.prototype.get_value = function() {
     var raw = this.textarea.get('value').replace(/^\s+|\s+$/g, '');
-    return '[' + raw.split(/\s*[\r\n]\s*/).join(',') + ']';
+    return raw.split(/\s*[\r\n]\s*/).join('<br>');
 };
 
 /**

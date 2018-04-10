@@ -16,6 +16,8 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+require_once(__DIR__ . '/../cas/cassession.class.php');
+
 /**
  * General answer test which connects to the CAS - prevents duplicate code.
  *
@@ -112,10 +114,6 @@ class stack_answertest_general_cas extends stack_anstest {
                     return null;
                 }
             }
-            $atopt = $this->atoption;
-            $ta   = "[$this->tanskey,$atopt]";
-        } else {
-            $ta = $this->tanskey;
         }
 
         // Sort out options.
@@ -126,10 +124,27 @@ class stack_answertest_general_cas extends stack_anstest {
             $this->options->set_option('simplify', $this->simp);
         }
 
+        // Protect "and" and "or" as noun forms.  In maxima with simp:false these are always verbs.
+        $ta = stack_utils::logic_nouns_sort($this->tanskey, 'add');
+        $sa = stack_utils::logic_nouns_sort($this->sanskey, 'add');
+        $op = stack_utils::logic_nouns_sort($this->atoption, 'add');
+
         $cascommands = array();
-        $cascommands[] = "STACKSA:$this->sanskey";
+        // Normally the prefix equality should be the identity function in the context of answer tests.
+        if ($this->casfunction == 'ATEquiv' || $this->casfunction == 'ATEquivFirst') {
+            // This is a placeholder to ensure the result is always in slot 3.
+            $cascommands[] = "null";
+        } else {
+            $cascommands[] = "stackeq(x):=x";
+        }
+        $cascommands[] = "STACKSA:$sa";
         $cascommands[] = "STACKTA:$ta";
-        $cascommands[] = "result:StackReturn({$this->casfunction}(STACKSA,STACKTA))";
+        if (!$this->processcasoptions || trim($op) === '' ) {
+            $cascommands[] = "result:StackReturn({$this->casfunction}(STACKSA,STACKTA))";
+        } else {
+            $cascommands[] = "STACKOP:$op";
+            $cascommands[] = "result:StackReturn({$this->casfunction}(STACKSA,STACKTA,STACKOP))";
+        }
 
         $cts = array();
         foreach ($cascommands as $com) {
@@ -140,7 +155,6 @@ class stack_answertest_general_cas extends stack_anstest {
 
         $session = new stack_cas_session($cts, $this->options, 0);
         $session->instantiate();
-
         $this->debuginfo = $session->get_debuginfo();
         if ('' != $session->get_errors_key('STACKSA')) {
             $this->aterror      = 'TEST_FAILED';
@@ -160,8 +174,23 @@ class stack_answertest_general_cas extends stack_anstest {
             return null;
         }
 
+        if ($this->processcasoptions && trim($op) !== '') {
+            if ('' != $session->get_errors_key('STACKOP')) {
+                $this->aterror      = 'TEST_FAILED';
+                $this->atfeedback   = stack_string('TEST_FAILED', array('errors' => $session->get_errors_key('STACKTA')));
+                $this->atansnote    = $this->casfunction.'_STACKERROR_Opt.';
+                $this->atmark       = 0;
+                $this->atvalid      = false;
+                return null;
+            }
+        }
+
         $sessionvars = $session->get_session();
-        $result = $sessionvars[2];
+        if (!$this->processcasoptions || trim($op) === '' ) {
+            $result = $sessionvars[3];
+        } else {
+            $result = $sessionvars[4];
+        }
 
         if ('' != $result->get_errors()) {
             $this->aterror      = 'TEST_FAILED';
@@ -176,7 +205,7 @@ class stack_answertest_general_cas extends stack_anstest {
             return null;
         }
 
-        $this->atansnote  = trim($result->get_answernote());
+        $this->atansnote  = str_replace("\n", '', trim($result->get_answernote()));
 
         // Convert the Maxima string 'true' to PHP true.
         if ('true' == $result->get_value()) {
@@ -186,7 +215,6 @@ class stack_answertest_general_cas extends stack_anstest {
         }
         $this->atfeedback = $result->get_feedback();
         $this->atvalid    = $result->get_valid();
-
         if ($this->atmark) {
             return true;
         } else {

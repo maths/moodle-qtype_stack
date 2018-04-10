@@ -21,7 +21,6 @@ defined('MOODLE_INTERNAL') || die();
 // @copyright  2015 University of Edinburgh.
 // @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
 
-require_once(__DIR__ . '/../../locallib.php');
 require_once(__DIR__ . '/../utils.class.php');
 
 class stack_cas_casstring_units {
@@ -115,7 +114,7 @@ class stack_cas_casstring_units {
         array('gal', '3.785*l', 'gal', 'US gallon'),
         array('mbar', '10^2*Pa', 'mbar', 'millibar'),
         array('atm', '101325*Pa', 'atm', 'Standard atmosphere'),
-        array('Torr', '101325/760*Pa', 'Torr', 'torr'),
+        array('torr', '101325/760*Pa', 'torr', 'torr'),
         array('rev', '2*pi*rad', 'rev', 'revolutions'),
         array('deg', 'pi*rad/180', '{}^{o}', 'degrees'),
         array('rpm', 'pi*rad/(30*s)', 'rpm', 'revolutions per minute'),
@@ -128,6 +127,10 @@ class stack_cas_casstring_units {
         // We know these two are not really correct, but there we are.
         array('day', '86400*s', 'day', 'day'),
         array('year', '3.156e7*s', 'year', 'year'),
+        // Some countries are only inching towards the metric system.  Added by user request.
+        array('in', 'in', 'in', 'inch'),
+        array('ft', '12*in', 'ft', 'foot'),
+        array('mi', '5280*12*in', 'mi', 'mile'),
     );
 
     /* This array keeps a list of synoymns which students are likely to use.
@@ -137,12 +140,19 @@ class stack_cas_casstring_units {
         'mol' => array('mols', 'moles', 'mole'),
         'kat' => array('kats', 'katal', 'katals'),
         'rad' => array('radian', 'radians'),
-        'Torr' => array('tor', 'tors', 'torrs'),
+        'torr' => array('tor', 'tors', 'torrs'),
         'amu' => array('amus', 'dalton'),
         'cc' => array('ccm'),
         'Hz' => array('hz'),
         'h' => array('hr', 'hours'),
         'day' => array('days')
+    );
+
+    /* This array keeps a list of substitutions which are made when we deal with units.
+     */
+    private static $unitsubstitutions = array(
+        'Torr' => 'torr',
+        'kgm/s' => 'kg*m/s'
     );
 
     /**
@@ -213,6 +223,10 @@ class stack_cas_casstring_units {
      * @param int len This is the minimum length of string to be needed to be worth considering.
      */
     public static function get_permitted_units($len) {
+        static $cache = array();
+        if (array_key_exists($len, $cache)) {
+            return $cache[$len];
+        }
         $units = array();
         foreach (self::$nonpreficunits as $unit) {
             if (strlen($unit[0]) > $len) {
@@ -230,25 +244,45 @@ class stack_cas_casstring_units {
                 }
             }
         }
+        $cache[$len] = $units;
         return($units);
+    }
+
+    /* Make substitutions in an expression.
+     * @param string $val is student's raw casstring.
+     */
+    public static function make_units_substitutions($val) {
+        foreach (self::$unitsubstitutions as $in => $out) {
+            $val = str_replace($in, $out, $val);
+        }
+
+        return $val;
     }
 
     /* Check to see if the student looks like they have used a synonym instead of a correct unit.
      * @param string $key is just a single atomic key.
      */
     public static function find_units_synonyms($key) {
+        static $cache = false;
+        if ($cache === false) {
+            $cache = array();
+            foreach (self::$unitsynonyms as $ckey => $synonyms) {
+                foreach ($synonyms as $possibleunit) {
+                    $cache[strtolower($possibleunit)] = $ckey;
+                }
+            }
+        }
+
         $fndsynonym = false;
         $answernote = '';
         $synonymerr = '';
-        foreach (self::$unitsynonyms as $ckey => $synonyms) {
-            foreach ($synonyms as $possibleunit) {
-                // Do a case insensitive check for equality here, respecting case sensitivity of the keys.
-                if (strtolower($key) == strtolower($possibleunit) and $ckey != $key) {
-                    $fndsynonym = true;
-                    $answernote = 'unitssynonym';
-                    $synonymerr = stack_string('stackCas_unitssynonym',
-                            array('forbid' => stack_maxima_format_casstring($key), 'unit' => stack_maxima_format_casstring($ckey)));
-                }
+        if (array_key_exists(strtolower($key), $cache)) {
+            if ($cache[strtolower($key)] != $key) {
+                $fndsynonym = true;
+                $answernote = 'unitssynonym';
+                $synonymerr = stack_string('stackCas_unitssynonym',
+                        array('forbid' => stack_maxima_format_casstring($key),
+                                'unit' => stack_maxima_format_casstring($cache[strtolower($key)])));
             }
         }
 
@@ -259,31 +293,44 @@ class stack_cas_casstring_units {
      * @param string $key is just a single atomic key.
      */
     public static function check_units_case($key) {
-        // Note, sometimes there is more than one option.  E.g. M and m give many options.
-        $foundcmds = array();
-        foreach (self::$nonpreficunits as $unit) {
-            $cmd = $unit[0];
-            if (strtolower($key) == strtolower($cmd)) {
-                $foundcmds[] = $cmd;
+        static $valid = false;
+        static $invalid = false;
+        if ($valid === false) {
+            $valid = array();
+            $invalid = array();
+
+            foreach (self::$nonpreficunits as $unit) {
+                $valid[$unit[0]] = true;
             }
-        }
-        foreach (self::$supportedunits as $unit) {
-            $cmd = $unit[0];
-            if (strtolower($key) == strtolower($cmd)) {
-                $foundcmds[] = $cmd;
+            foreach (self::$supportedunits as $unit) {
+                $valid[$unit[0]] = true;
+                foreach (self::$supportedprefix as $prefix) {
+                    $valid[$prefix[0].$unit[0]] = true;
+                }
             }
-            foreach (self::$supportedprefix as $prefix) {
-                $cmd = $prefix[0].$unit[0];
-                if (strtolower($key) == strtolower($cmd)) {
-                    $foundcmds[] = $cmd;
+            foreach ($valid as $k => $noop) {
+                $l = strtolower($k);
+                if (!array_key_exists($l, $valid)) {
+                    if (!array_key_exists($l, $invalid)) {
+                        $invalid[$l] = array($k);
+                    } else {
+                        $invalid[$l][] = $k;
+                    }
                 }
             }
         }
-        if (empty($foundcmds)) {
+
+        // Note, sometimes there is more than one option.  E.g. M and m give many options.
+        $foundcmds = array();
+        if (array_key_exists($key, $valid)) {
             return false;
         }
+        if (!array_key_exists(strtolower($key), $invalid)) {
+            return false;
+        }
+
         return(stack_string('stackCas_unknownUnitsCase',
             array('forbid' => stack_maxima_format_casstring($key),
-                'unit' => stack_maxima_format_casstring('['.implode($foundcmds, ", ").']'))));
+                'unit' => stack_maxima_format_casstring('['.implode($invalid[strtolower($key)], ", ").']'))));
     }
 }

@@ -32,7 +32,7 @@ class stack_radio_input extends stack_dropdown_input {
      */
     protected $ddldisplay = 'LaTeX';
 
-    public function render(stack_input_state $state, $fieldname, $readonly) {
+    public function render(stack_input_state $state, $fieldname, $readonly, $tavalue) {
 
         if ($this->errors) {
             return $this->render_error($this->errors);
@@ -61,6 +61,10 @@ class stack_radio_input extends stack_dropdown_input {
                 $inputattributes['disabled'] = 'disabled';
             }
             $radiobuttons[] = html_writer::empty_tag('input', $inputattributes) . html_writer::tag('label', $ansid);
+            if ('' === $key) {
+                // This separates the "not answered" input from the others.
+                $radiobuttons[] = '<br />';
+            }
         }
 
         $result = '';

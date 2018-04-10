@@ -39,14 +39,13 @@ class stack_answertest_fixtures_cas_testcase extends qtype_stack_testcase {
     public function test_answertest($name, $test) {
         list($passed, $error, $rawmark, $feedback, $ansnote, $anomalynote) = stack_answertest_test_data::run_test($test);
 
-        $this->assertTrue($passed, $anomalynote);
         $this->assertEquals($test->ansnote, $ansnote);
+        $this->assertTrue($passed, $anomalynote);
     }
 
     public function answertest_fixtures() {
 
         $tests = stack_answertest_test_data::get_all();
-
         $testdata = array();
         foreach ($tests as $test) {
             $testname = 'AT' . $test->name .

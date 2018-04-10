@@ -10,6 +10,10 @@
 ;; Fateman's code was ported to Common Lisp by William
 ;; Schelter.
 
+;; 26 Nov 2017.
+;; Note, this commit in Maxmia changed (getcharn f) to (get-first-char).
+;; https://sourceforge.net/p/maxima/code/ci/b27acfa194281f42ef6d2a4ef2434d8dea4705f1/
+
 ;; If you want LaTeX style quotients, first load mactex and second
 ;; define tex-mquotient as follows
 
@@ -33,11 +37,11 @@
 ;; Fix the problem with -27 being printed -(27)
 ;; CJS 21 Jan 2009
 
-(defprop mminus tex-prefix-unaryminus tex)
+(defprop mminus tex-prefix-blank tex)
 ;;(defprop mminus tex-prefix tex)
 (defprop mminus ("-") texsym)
 
-(defun tex-prefix-unaryminus (x l r)
+(defun tex-prefix-blank (x l r)
   (tex (cadr x) (append l (texsym (caar x))) r (caar x) rop))
 
 
@@ -45,7 +49,7 @@
 (defprop &? ("?") texsym)
 
 ;; Allow colour into TeX expressions from Maxima
-;; Thanks to andrej.vodopivec@fmf.uni-lj.si Fri Jan 14 09:32:42 2005 
+;; Thanks to andrej.vodopivec@fmf.uni-lj.si Fri Jan 14 09:32:42 2005
 
 (defun tex-texcolor (x l r)
   (let
@@ -59,6 +63,20 @@
 
 (defprop $texcolor tex-texcolor tex)
 
+;; Allow colour into TeX expressions from Maxima
+;; Thanks to andrej.vodopivec@fmf.uni-lj.si Fri Jan 14 09:32:42 2005
+
+(defun tex-texcolorplain (x l r)
+  (let
+      ((front (append '("{\\color{")
+                      (list (stripdollar (cadr x)))
+                      '("}")))
+       (back (append '("{")
+                     (tex (caddr x) nil nil 'mparen 'mparen)
+                     '("}}"))))
+    (append l front back r)))
+
+(defprop $texcolorplain tex-texcolorplain tex)
 
 (defun tex-texdecorate (x l r)
   (let
@@ -122,7 +140,7 @@
 
     (%sech "{\\rm sech}")
     (%csch "{\\rm csch}")
-    
+
     (%asinh "{\\rm asinh}")
     (%acosh "{\\rm acosh}")
     (%atanh "{\\rm atanh}")
@@ -172,7 +190,7 @@
                 vars ords))))
     `((mquotient) (($blankmult) ,(simplifya numer nil) ,arg) ,denom)
      ))
-     
+
 
 (defun tex-dabbrev (x)
   ;; Format diff(f,x,1,y,1) so that it looks like
@@ -199,7 +217,7 @@
 ;; Chris Sangwin, 8/6/2015.
 (defprop %integrate tex-int tex)
 (defun tex-int (x l r)
-  (let ((s1 (tex (cadr x) nil nil 'mparen 'mparen)) ;;integran, at the request of the OUd delims / & d
+  (let ((s1 (tex (cadr x) nil nil 'mparen 'mparen)) ;;integran, at the request of the OU delims / & d
     (var (tex (caddr x) nil nil 'mparen rop))) ;; variable
     (cond((= (length x) 3)
       (append l `("\\int {" ,@s1 "}{\\;\\mathrm{d}" ,@var "}") r))
@@ -208,7 +226,7 @@
         ;; 1st item is 0
         (hi (tex (nth 4 x) nil nil 'mparen 'mparen)))
         (append l `("\\int_{" ,@low "}^{" ,@hi "}{" ,@s1 "\\;\\mathrm{d}" ,@var "}") r))))))
-        
+
 
 ;; Fine tune the display to enable us to print gamma07 as \gammma_{07},
 ;; Chris Sangwin 7/6/2016.
@@ -243,10 +261,10 @@
                  (expon (caddr x)) ;; this is the exponent
                  (doit (and
                         f ; there is such a function
-                        (member (getcharn f 1) '(#\% #\$)) ;; insist it is a % or $ function
+                        (member (get-first-char f) '(#\% #\$)) ;; insist it is a % or $ function
                         (not (member 'array (cdar fx) :test #'eq)) ; fix for x[i]^2
                         (not (member f '(%sum %product %derivative %integrate %at $texsub
-                                         %lsum %limit $pderivop) :test #'eq)) ;; what else? what a hack...
+                                         %lsum %limit $pderivop $+-) :test #'eq)) ;; what else? what a hack...
                         (or (and (atom expon) (not (numberp expon))) ; f(x)^y is ok
                             (and (atom expon) (numberp expon) (> expon 0))))))
                                         ; f(x)^3 is ok, but not f(x)^-1, which could
@@ -276,6 +294,25 @@
                              (tex x (list "^{")(cons "}" r) 'mparen 'mparen)))))))
     (append l r)))
 
+;; Added by CJS, 10-9-16.  Display an argument.
+(defprop $argument tex-argument tex)
+
+(defun tex-argument(x l r) ;;matrix looks like ((mmatrix)((mlist) a b) ...)
+  (append l `("\\begin{array}{lll}")
+      (mapcan #'(lambda(y)
+              (tex-list (cdr y) nil (list "\\cr ") "&"))
+          (cdr x))
+      '("\\end{array}") r))
+
+;; Added by CJS, 15-5-17.  Display a list as a group with a single curly bracket on the left.
+(defprop $argumentand tex-argumentand tex)
+(defun tex-argumentand(x l r)
+  (append l `("\\left\\{\\begin{array}{l}")
+      (mapcan #'(lambda(y)
+              (tex y nil (list "\\cr ") 'mparen 'mparen))
+          (cdr x))
+      '("\\end{array}\\right.") r))
+
 ;; *************************************************************************************************
 ;; The following code does not affect TeX output, but rather are general functions needed for STACK.
 ;;
@@ -288,7 +325,7 @@
 ;; DANGER: no error checking on the type of arguments.
 (defprop $floatgrind msz-floatgrind grind)
 (defun msz-floatgrind (x l r)
-  (msz (mapcar #'(lambda (l) (getcharn l 1)) (makestring (concatenate 'string "floatgrind(" (format nil (cadr (cdr x)) (cadr x)) ",\"" (cadr (cdr x)) "\")"))) l r)
+  (msz (mapcar #'(lambda (l) (get-first-char l)) (makestring (concatenate 'string "floatgrind(" (format nil (cadr (cdr x)) (cadr x)) ",\"" (cadr (cdr x)) "\")"))) l r)
 )
 
 ;; This function has grind (and hence "string") output the number with the following number of decimal places.
@@ -296,15 +333,17 @@
 ;; DO NOT USE: no error checking on the types of the arguments.
 ;;(defprop $dispdp msz-dispdp grind)
 ;;(defun msz-dispdp (x l r)
-;;  (msz (mapcar #'(lambda (l) (getcharn l 1)) (makestring (concatenate 'string "dispdp(" (format nil (concatenate 'string "~," (format nil "~d" (cadr (cdr x))) "f" ) (cadr x)) "," (format nil "~d" (cadr (cdr x))) ")" ))) l r)
+;;  (msz (mapcar #'(lambda (l) (get-first-char l)) (makestring (concatenate 'string "dispdp(" (format nil (concatenate 'string "~," (format nil "~d" (cadr (cdr x))) "f" ) (cadr x)) "," (format nil "~d" (cadr (cdr x))) ")" ))) l r)
 ;;)
 
 ;; This function has grind (and hence "string") output the number with the following number of decimal places.
 ;; displaydp(number, ndps).
 (defprop $dispdpvalue msz-dispdpvalue grind)
 (defun msz-dispdpvalue (x l r)
- (msz (mapcar #'(lambda (l) (getcharn l 1)) (makestring (format nil (concatenate 'string "~," (format nil "~d" (cadr (cdr x))) "f" ) (cadr x)) )) l r)
+ (msz (mapcar #'(lambda (l) (get-first-char l)) (makestring (format nil (concatenate 'string "~," (format nil "~d" (cadr (cdr x))) "f" ) (cadr x)) )) l r)
 )
 
 ;; Define an "arrayp" function to check if we have a Maxima array.
 (defmfun $arrayp (x) (and (not (atom x)) (cond ((member 'array (car x) :test #'eq) $true) (T $false))))
+
+

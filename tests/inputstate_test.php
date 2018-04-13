@@ -38,16 +38,20 @@ class stack_input_state_test extends basic_testcase {
         $this->assertEquals('CASError', $state->note);
     }
 
+    /**
+     * @expectedException stack_exception
+     */
     public function test_constructor() {
-        $this->setExpectedException('stack_exception');
         $state = new stack_input_state(stack_input::INVALID, 'frog',
                 'frog', 'frog', 'Your answer is not an expression.', '', '');
     }
 
+    /**
+     * @expectedException stack_exception
+     */
     public function test_unrecognised_property() {
         $state = new stack_input_state(stack_input::INVALID, array('frog'),
                 'frog', 'frog', 'Your answer is not an expression.', '', '');
-        $this->setExpectedException('stack_exception');
         $x = $state->unknownproperty;
     }
 }

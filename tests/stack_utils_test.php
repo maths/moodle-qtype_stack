@@ -99,6 +99,9 @@ class stack_utils_test extends qtype_stack_testcase {
         $this->assertEquals(array('hello', 'wor'), stack_utils::all_substring_between('[he[llo] [wor]ld]!', '[', ']'));
     }
 
+    /**
+     * @expectedException stack_exception
+     */
     public function test_replace_between() {
         $this->assertEquals('hello world!', stack_utils::replace_between('hello world!', '[', ']', array()));
         $this->assertEquals('[goodbye] world!', stack_utils::replace_between('[hello] world!', '[', ']', array('goodbye')));
@@ -110,7 +113,6 @@ class stack_utils_test extends qtype_stack_testcase {
         $this->assertEquals('$goodbye$ $all$!',
                 stack_utils::replace_between('$hello$ $world$!', '$', '$', array('goodbye', 'all')));
 
-        $this->setExpectedException('stack_exception');
         $this->assertEquals('goodbye all!', stack_utils::replace_between('$hello$ $world$!', '$', '$', array('1', '2', '3')));
     }
 

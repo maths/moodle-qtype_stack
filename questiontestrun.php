@@ -435,6 +435,16 @@ foreach ($question->get_question_var_values() as $key => $value) {
 echo  html_writer::tag('pre', $displayqvs);
 echo html_writer::end_tag('div');
 
+// Display a representation of the PRT for offline use.
+$offlinemaxima = array();
+foreach ($question->prts as $name => $prt) {
+    $offlinemaxima[] = $prt->get_maxima_representation();
+}
+$offlinemaxima = s(implode("\n", $offlinemaxima));
+echo html_writer::start_tag('div', array('class' => 'questionvariables'));
+echo html_writer::tag('pre', $offlinemaxima);
+echo html_writer::end_tag('div');
+
 // Display the general feedback, aka "Worked solution".
 echo $OUTPUT->heading(stack_string('generalfeedback'), 3);
 echo html_writer::tag('div', html_writer::tag('div', $renderer->general_feedback(

@@ -883,6 +883,34 @@ class stack_cas_session_test extends qtype_stack_testcase {
         }
     }
 
+    public function test_significantfigures_errors() {
+
+        $tests = array(
+                    array('significantfigures(%pi/3,3)', '1.05', ''),
+                    array('significantfigures(%pi/blah,3)', '',
+                        'sigfigsfun(x,n,d) requires a real number as a first argument.  Received:  %pi/blah'),
+                    array('significantfigures(%pi/3,n)', '',
+                        'sigfigsfun(x,n,d) requires an integer as a second argument. Received:  n'),
+        );
+
+        foreach ($tests as $key => $c) {
+            $s = "p{$key}:$c[0]";
+            $cs = new stack_cas_casstring($s);
+            $cs->get_valid('t');
+            $s1[] = $cs;
+        }
+
+        $options = new stack_options();
+        $at1 = new stack_cas_session($s1, $options, 0);
+        $at1->instantiate();
+
+        foreach ($tests as $key => $c) {
+            $sk = "p{$key}";
+            $this->assertEquals($c[1], $at1->get_value_key($sk));
+            $this->assertEquals($c[2], $at1->get_errors_key($sk));
+        }
+    }
+
     public function test_pm_simp_false() {
         $cs = array('c1:a+-b',
             'c2:x=(-b +- sqrt(b^2-4*a*c))/(2*a)',

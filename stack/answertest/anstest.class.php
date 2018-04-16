@@ -203,7 +203,7 @@ class stack_anstest {
      * @return string
      * @access public
      */
-    public function get_trace() {
+    public function get_trace($includeresult) {
 
         $ta   = $this->tanskey;
         $atopt = $this->atoption;
@@ -211,7 +211,11 @@ class stack_anstest {
         if ('' != trim($atopt)) {
             $traceline = $this->get_casfunction() . '(' . $this->sanskey . ', ' . $ta . ', '. trim($atopt) .')';
         }
-        $traceline .= ' = ['.$this->atmark. ', "' . $this->atansnote .'"];';
+        if ($includeresult) {
+            $traceline .= ' = ['.$this->atmark. ', "' . $this->atansnote .'"];';
+        } else {
+            $traceline = trim($traceline) . ';';
+        }
 
         return $traceline;
     }

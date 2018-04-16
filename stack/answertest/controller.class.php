@@ -66,7 +66,7 @@ class stack_ans_test_controller {
 
     /**
      * The answertest object that the functions call.
-     * @var string
+     * @var stack_anstest
      * @access private
      */
     private $at;
@@ -364,8 +364,8 @@ class stack_ans_test_controller {
      * @return string
      * @access public
      */
-    public function get_trace() {
-        return $this->at->get_trace();
+    public function get_trace($includeresult = true) {
+        return $this->at->get_trace($includeresult);
     }
 }
 

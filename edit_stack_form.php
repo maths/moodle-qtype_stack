@@ -1042,7 +1042,7 @@ class qtype_stack_edit_form extends question_edit_form {
             }
         }
 
-        if (empty($inputs) && !empty($prts)) {
+        if (!$this->has_undeleted_inputs($inputs, $fromform) && $this->has_undeleted_prts($prts, $fromform)) {
             $errors['questiontext'][] = stack_string('noprtsifnoinputs');
         }
 
@@ -1104,6 +1104,11 @@ class qtype_stack_edit_form extends question_edit_form {
                 $errors[$inputname . 'deleteconfirm'][] = stack_string('youmustconfirm');
             }
 
+            if ($numinputs == 0 && $numvalidations == 0) {
+                // Input is being deleted. Don't show validation errors.
+                continue;
+            }
+
             if (strlen($inputname) > 18 && !isset($fromform[$inputname . 'deleteconfirm'])) {
                 $errors['questiontext'][] = stack_string('inputnamelength', $inputname);
             }
@@ -1125,6 +1130,9 @@ class qtype_stack_edit_form extends question_edit_form {
                     $errors['specificfeedback'][] = stack_string('prtremovedconfirmbelow', $prtname);
                     $errors[$prtname . 'prtdeleteconfirm'][] = stack_string('youmustconfirm');
                 }
+                // Don't show validation errors relating to a PRT that is to be deleted.
+                continue;
+
             } else if ($count > 1) {
                 $errors['specificfeedback'][] = stack_string(
                         'questiontextfeedbackonlycontain', '[[feedback:' . $prtname . ']]');
@@ -1162,6 +1170,42 @@ class qtype_stack_edit_form extends question_edit_form {
         }
 
         return $errors;
+    }
+
+    /**
+     * Check if there are any inputs that have not been deleted.
+     *
+     * @param array $inputs as returned from get_input_names_from_question_text().
+     * @param array $fromform form data, as passed to validation().
+     * @return bool true if, after editing, this question has inputs.
+     */
+    protected function has_undeleted_inputs($inputs, $fromform) {
+        foreach ($inputs as $inputname => $counts) {
+            list($numinputs, $numvalidations) = $counts;
+
+            if ($numinputs > 0 || $numvalidations > 0 || !$fromform[$inputname . 'deleteconfirm']) {
+                return true;
+            }
+
+            return false;
+        }
+    }
+
+    /**
+     * Check if there are any inputs that have not been deleted.
+     *
+     * @param array $prts as returned from get_prt_names_from_question().
+     * @param array $fromform form data, as passed to validation().
+     * @return bool true if, after editing, this question has inputs.
+     */
+    protected function has_undeleted_prts($prts, $fromform) {
+        foreach ($prts as $prtname => $count) {
+            if ($count > 0 || !$fromform[$prtname . 'prtdeleteconfirm']) {
+                return true;
+            }
+
+            return false;
+        }
     }
 
     /**
@@ -1437,7 +1481,13 @@ class qtype_stack_edit_form extends question_edit_form {
         // Make a list of all inputs, instantiate it and then look for errors.
         $inputs = $this->get_input_names_from_question_text();
         $inputvalues = array();
-        foreach ($inputs as $inputname => $notused) {
+        foreach ($inputs as $inputname => $counts) {
+            list($numinputs, $numvalidations) = $counts;
+            if ($numinputs == 0 && $numvalidations == 0) {
+                // Input is being deleted. Don't validate.
+                continue;
+            }
+
             $cs = new stack_cas_casstring($inputname.':'.$fromform[$inputname . 'modelans']);
             $cs->get_valid('t');
             $inputvalues[] = $cs;

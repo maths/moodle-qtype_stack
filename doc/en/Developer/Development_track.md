@@ -21,6 +21,7 @@ Major features to add in for V4.2
 
 Other minor issues:
 
+* _done_ Output results of PRTs in the `summarise_response` method of `question.php`.  Gives more information for reporting.
 * Re-sizable matrix input.  See Aalto/NUMBAS examples here, with Javascript.
 * Add support for matrices with floating point entries, and testing numerical accuracy.
 * Refactor equiv_input and MCQ to make use of the new extra options mechanism.

@@ -17,9 +17,24 @@ To review work in more detail we need to use two important parts of the question
 
 ## Moodle quiz features ##
 
-Most of the day to day reporting is done through the Moodle quiz features.  Details of the statistics available are online at [
-http://labspace.open.ac.uk/mod/oucontent/view.php?id=470306&direct=1](
-http://labspace.open.ac.uk/mod/oucontent/view.php?id=470306&direct=1).
+Most of the day to day reporting is done through the Moodle quiz features.
+
+For detailed reporting go to
+
+    Quiz administration -> Results -> Reporting
+
+The "response" column shows the raw Maxima input value entered by the student and the validity status, e.g. "blank" (not reported), "invalid", "valid", "score".  The "response" column also shows the value of the [answer note](Potential_response_trees.md#Answer_note) for each potential response tree.
+
+An example note is shown below.  In this question a student has answered with `(x-4)^6+c` for the input `ans1`.
+The potential response tree `prt1` has executed and the note is `ATInt_generic. | 1-0-F`.
+
+    ans1: (x-4)^6+c [score]; prt1: ATInt_generic. | 1-0-F
+
+Notes:
+
+1. If the potential response tree does not execute it will be reported as `prt1: #` to indicate it exists but was not used.
+2. Reporting is stored in the database, so you may need to "regrade" attempts if you update the answer notes.
+3. You can download the responses for offline analysis.  Split over `;` to separate inputs and separate prt answer notes.  Split the individual answer note over `|` to get the route through the tree, and the notes added by the answer tests.
 
 ## Individual STACK item analysis ##
 
@@ -30,7 +45,7 @@ STACK has a bespoke reporting mechanism for analysing responses to questions, gr
 To access the quiz reports you need to navigate to the quiz.  Then follow the chain
 
     Administration -> Quiz administration -> Results -> STACK response analysis.
-    
+
 This page lists all the STACK questions in a particular quiz.  Click on a link to perform an analysis of attempts at an individual question.
 
 The page contains a number of parts.

@@ -422,6 +422,15 @@ class qtype_stack_question extends question_graded_automatically_with_countback
                 $bits[] = $name . ': ' . $input->contents_to_maxima($state->contents) . ' [' . $state->status . ']';
             }
         }
+        // Add in the answer note for this response.
+        foreach ($this->prts as $name => $prt) {
+            $state = $this->get_prt_result($name, $response, false);
+            $note = implode(' | ', $state->answernotes);
+            if (trim($note) == '') {
+                $note = '#';
+            }
+            $bits[] = $name . ": " . $note;
+        }
         return implode('; ', $bits);
     }
 
@@ -441,7 +450,6 @@ class qtype_stack_question extends question_graded_automatically_with_countback
             $teacheranswer = array_merge($teacheranswer,
                     $input->get_correct_response($this->session->get_value_key($name, true)));
         }
-
         return $teacheranswer;
     }
 

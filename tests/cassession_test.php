@@ -857,7 +857,7 @@ class stack_cas_session_test extends qtype_stack_testcase {
                     array('99', '1', '100', '100'),
                     array('0.99', '1', '1', '1'),
                     array('-0.99', '1', '-1', '-1'),
-                    array('0.0000049', '1', '0.000005', 'displaydp(5.0E-6,6)'),
+                    array('0.0000049', '1', '0.000005', 'displaydp(5.0e-6,6)'),
                     array('0', '1', '0', '0'),
                     array('0.0', '1', '0', '0'),
                     array('0', '2', '0.0', 'displaydp(0,1)'),
@@ -879,7 +879,7 @@ class stack_cas_session_test extends qtype_stack_testcase {
         foreach ($tests as $key => $c) {
             $sk = "p{$key}";
             $this->assertEquals($c[2], $at1->get_display_key($sk));
-            $this->assertEquals($c[3], $at1->get_value_key($sk));
+            $this->assertEquals($c[3], strtolower($at1->get_value_key($sk)));
         }
     }
 

@@ -72,7 +72,7 @@ class stack_numerical_input_test extends qtype_stack_testcase {
         $el->set_parameter('strictSyntax', false);
         $state = $el->validate_student_response(array('sans1' => '2.34e6'), $options, '3.14', null);
         $this->assertEquals(stack_input::VALID, $state->status);
-        $this->assertEquals('\[ 2.34E+6 \]', $state->contentsdisplayed);
+        $this->assertEquals('\[ 2.34E+6 \]', strtoupper($state->contentsdisplayed));
         $this->assertEquals('', $state->errors);
     }
 
@@ -118,7 +118,7 @@ class stack_numerical_input_test extends qtype_stack_testcase {
         $state = $el->validate_student_response(array('sans1' => "314e-5"), $options, '3.14', null);
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('314e-5', $state->contentsmodified);
-        $this->assertEquals('\[ 3.14E-3 \]', $state->contentsdisplayed);
+        $this->assertEquals('\[ 3.14E-3 \]', strtoupper($state->contentsdisplayed));
         $this->assertEquals('', $state->errors);
     }
 

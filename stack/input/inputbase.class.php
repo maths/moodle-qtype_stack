@@ -615,7 +615,7 @@ abstract class stack_input {
     protected function is_blank_response($contents) {
         $allblank = true;
         foreach ($contents as $val) {
-            if (!('' == trim($val))) {
+            if (!('' === trim($val))) {
                 $allblank = false;
             }
         }

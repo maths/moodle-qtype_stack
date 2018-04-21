@@ -843,10 +843,11 @@ class qtype_stack extends question_type {
                 array('questionid' => $questionid), 'testcase', 'testcase, 1');
         $testcases = array();
         foreach ($testcasenumbers as $number => $notused) {
-            if (array_key_exists($number, $testinputs)) {
-                $testcase = new stack_question_test($testinputs[$number], $number);
-                $testcases[$number] = $testcase;
+            if (!array_key_exists($number, $testinputs)) {
+                $testinputs[$number] = array();
             }
+            $testcase = new stack_question_test($testinputs[$number], $number);
+            $testcases[$number] = $testcase;
         }
 
         $expecteddata = $DB->get_records('qtype_stack_qtest_expected',
@@ -1324,7 +1325,7 @@ class qtype_stack extends question_type {
         // We slightly break the usual conventions of validation, in that rather
         // than building up $errors as an array of strings, we initially build it
         // up as an array of arrays, then at the end remove any empty arrays,
-        // and implod (' ', ...) any arrays that are non-empty. This makes our
+        // and implode (' ', ...) any arrays that are non-empty. This makes our
         // rather complex validation easier to implement.
 
         // Question text.
@@ -1476,6 +1477,11 @@ class qtype_stack extends question_type {
                 $errors[$inputname . 'deleteconfirm'][] = stack_string('youmustconfirm');
             }
 
+            if ($numinputs == 0 && $numvalidations == 0) {
+                // Input is being deleted. Don't show validation errors.
+                continue;
+            }
+
             if (strlen($inputname) > 18 && !isset($fromform[$inputname . 'deleteconfirm'])) {
                 $errors['questiontext'][] = stack_string('inputnamelength', $inputname);
             }
@@ -1497,6 +1503,9 @@ class qtype_stack extends question_type {
                     $errors['specificfeedback'][] = stack_string('prtremovedconfirmbelow', $prtname);
                     $errors[$prtname . 'prtdeleteconfirm'][] = stack_string('youmustconfirm');
                 }
+                // Don't show validation errors relating to a PRT that is to be deleted.
+                continue;
+
             } else if ($count > 1) {
                 $errors['specificfeedback'][] = stack_string(
                         'questiontextfeedbackonlycontain', '[[feedback:' . $prtname . ']]');

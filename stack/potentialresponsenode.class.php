@@ -355,4 +355,14 @@ class stack_potentialresponse_node {
         $summary->truescoremode  = $this->branches[true]['scoremodification'];
         return $summary;
     }
+
+    public function get_maxima_representation() {
+        $ncasoptions = null;
+        if ($this->required_atoptions()) {
+            $ncasoptions = $this->atoptions;
+        }
+        $at = new stack_ans_test_controller($this->answertest,
+            $this->sans->get_raw_casstring(), $this->tans->get_raw_casstring(), null, $ncasoptions);
+        return $at->get_trace(false);
+    }
 }

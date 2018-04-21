@@ -49,6 +49,13 @@ $PAGE->set_context($context);
 $title = stack_string('replacedollarstitle', $context->get_context_name());
 $PAGE->set_title($title);
 
+if ($context->contextlevel == CONTEXT_MODULE) {
+    // Calling $PAGE->set_context should be enough, but it seems that it is not.
+    // Therefore, we get the right $cm and $course, and set things up ourselves.
+    $cm = get_coursemodule_from_id(false, $context->instanceid, 0, false, MUST_EXIST);
+    $PAGE->set_cm($cm, $DB->get_record('course', array('id' => $cm->course), '*', MUST_EXIST));
+}
+
 // Load the necessary data.
 $categories = question_category_options(array($context));
 $categories = reset($categories);

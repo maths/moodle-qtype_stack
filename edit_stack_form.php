@@ -735,7 +735,6 @@ class qtype_stack_edit_form extends question_edit_form {
 
         $qtype = new qtype_stack();
         list($errors, $warnings) = $qtype->validate_fromform($fromform, $errors);
-
         return $errors;
     }
 

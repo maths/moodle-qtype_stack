@@ -15,7 +15,7 @@ Major features to add in for V4.2
 
 * Add in a version number to STACK questions.
 * Better install code (see #332).
-* JSXGraph support (Matti).
+* JSXGraph support (Matti, and example questions from Artem).
 * Update reasoning by eqivalence (Chris).
 * 1st version of API.
 

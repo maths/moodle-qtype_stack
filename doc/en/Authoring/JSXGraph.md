@@ -64,3 +64,73 @@ In this example we provide a simple slider.  Notice in this example we use the J
       board.unsuspendUpdate();
     [[/jsxgraph]]
 
+
+
+## General considerations when building interactive graphs
+
+In general you should pay attenttion on how your graph reacts to the student returning to the page/question later i.e. will your graph 
+reset to display the original situation or will it atleast move all movable things to the positions the student last left them and if 
+the student can do things that are not actually considered as part of the answer e.g. zoom out or pan the view do you also remember 
+those actions. If your graph is not used for inputting answers then this is not a major issue but if it is then you will need to solve 
+this issue. Basically, storing the state of the interactive graph is a key thing that the author of that graph needs to deal with.
+
+The basic structure of such an graphs logic is as follows:
+
+ 1. Load existing state or if not found initialise with defaults.
+ 2. Draw the graph based on that state.
+ 3. Attach listeners to everything that can be changed in the graph and store those changes into the state in those listeners.
+
+The simplest solution for storing state is to add an String type input field to the question. That input field should not be connected 
+to any PRTs and you should turn off the validation and verification of the field. You can even use the syntax hint feature to pass in a 
+default value but only if that is not parametric. You can use that input field to store the state of the graph as a string, for example 
+as a JSON encoded structure. For example like this, assuming the name of the String input is named "stateStore":
+
+
+    [[jsxgraph input-ref-stateStore="stateRef"]]
+      // Note that the input-ref-X attribute above will store the element identifier of the input X in 
+      // a variable named in the attribute, you can have multiple references to multiple inputs.
+
+      // Create a board like normal.
+      var board = JXG.JSXGraph.initBoard(divid, {axis: true});
+
+      // State represented as an JS-object, first define default then try loading the stored
+      var state = {'x':4, 'y':3};
+      var stateInput = document.getElementById(stateRef);
+      if (stateInput.value && stateInput.value != '') {
+        state = JSON.parse(stateInput.value);
+      }
+
+      // Then make the graph represent the state
+      var p = board.create('point',[state['x'],state['y']]);
+
+      // And finally the most important thing, update the stored state when things change
+      p.on('drag', function() {
+        var newState = {'x':p.X(), 'y':p.Y()};
+        // Encode the state as JSON for storage and store it
+        stateInput.value = JSON.stringify(newState);
+      });
+
+      // As a side note, you typically do not want the state storing input to be directly visible to the user
+      // although it may be handy during development to see what happens in it. You might hide it like this:
+      stateInput.style.display = 'none';
+    [[/jsxgraph]]
+
+
+In that trivial example you only have one point that you can drag around but that points position will be stored and it will be where 
+you left it when you return to the page. However, the position has been stored in a String encoded in JSON format and cannot directly be 
+used in STACK side logic. The JSON format is however very handy if you create objects to store dynamically and want to represent things 
+of more complex nature but in this example we could have just as well have had two separate Numeric inputs storing just the raw 'x' 
+and 'y' coordinates separately as raw numbers and in that case we could have used them directly in STACKs grading logic.
+
+If needed JSON is not impossible to parse in STACK but it is not easy like in JavaScript, mainly because Maxima has no map 
+data-structures and is not object oriented. In any case the JSON string generated in the previous example would look like this:
+
+    stateStore:"{\"x\":4,\"y\":3}";
+
+To parse and manipulate it you can use STACKs custom JSON parsing functions:
+
+    tmp:stackjson_parse(stateStore); /* This returns a STACK-map: [stack_map, [x, 4], [y, 3]] */
+    x:stackmap_get(tmp,"x");         /* 4 */
+    y:stackmap_get(tmp,"y");         /* 3 */
+    tmp:stackmap_set(tmp,"z",x*y);   /* [stack_map, [x, 4], [y, 3], [z, 12]] */
+    json:stackjson_stringify(tmp);   /* "{\"x\":4,\"y\":3,\"z\":12}" */

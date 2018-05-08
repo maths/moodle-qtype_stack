@@ -62,7 +62,7 @@ stackmap_has_key(m, k) := block([tmp, found],
 /* boolean or a stackmap depending on what if finds. Should it find null or empty */
 /* input it returns und. */
 /* Note that we do use stringproc. */
-stackjson_parse(json) := block([r,tmp,tokens,mode,i,lastslash,c,starts,nt,k,v],
+stackjson_parse(json) := block([r,tmp,tokens,mode,i,lastslash,c,starts,nt,k,v,dm],
  r: und,
  if not stringp(json) or is(json="") then return(und),
  tmp:strim(sconcat(ascii(32),ascii(9),ascii(10),ascii(11),ascii(12),ascii(13)),json),
@@ -127,7 +127,7 @@ stackjson_parse(json) := block([r,tmp,tokens,mode,i,lastslash,c,starts,nt,k,v],
 
  /* In the unlikely case that we have an atomic value e.g. string or number exit early. */
  if is(length(tokens)=1) then return(tokens[1]),
-
+ dm:0,
  /* Otherwise reduce grouppings. */
  starts:sublist_indices(tokens, lambda([x], is(x=_stackjson_tokens_list_open) or is(x=_stackjson_tokens_dict_open))),
  while is(length(starts)>0) do (
@@ -152,14 +152,17 @@ stackjson_parse(json) := block([r,tmp,tokens,mode,i,lastslash,c,starts,nt,k,v],
      r:append(r,[[k,v]]),
      i:i+3
     ) else i:i+1
-   )   
+   )  
   ),
   nt:append(nt,[r]),
   i:i+1,
   /* Change this to actual sublist as this is not the way to do it... */
   while is(i<length(tokens)+1) do (nt:append(nt,[tokens[i]]),i:i+1),
+  if is(length(nt)<length(tokens)) then dm:0,
   tokens:nt,
-
+  /* If the string is bad we may loop forever for this we have an automated exit. */
+  dm:dm+1,
+  if is(dm>20) then return(und),
   starts:sublist_indices(tokens, lambda([x], is(x=_stackjson_tokens_list_open) or is(x=_stackjson_tokens_dict_open)))
  ),
  /* At this point the tokens list has been reduced to length of one or things are broken... */
@@ -203,4 +206,31 @@ stack_string_parse_number(somestring) := block([c, b, phase, neg,nege, tmp, i],
  c:ev(c,numer),
  if neg then return(-c),
  return(c)
+)$
+
+
+/* Takes pretty much anything and turns it to a JSON string */
+stackjson_stringify(obj) := block([tmp,r,l],
+ r:und,
+ if is(obj=und) then r:"null"
+ else if is(obj=false) then r:"false"
+ else if is(obj=true) then r:"true"
+ else if stringp(obj) then (
+  tmp:ssubst("\\\\","\\",obj),
+  tmp:ssubst("\\\"","\"",tmp),
+  tmp:ssubst("\\b",ascii(8),tmp),
+  tmp:ssubst("\\t",ascii(9),tmp),
+  tmp:ssubst("\\n",ascii(10),tmp),
+  tmp:ssubst("\\f",ascii(12),tmp),
+  tmp:ssubst("\\r",ascii(13),tmp),
+  r:sconcat("\\\"",tmp,"\\\"")
+ ) else if is_stackmap(obj) then (
+  l:[],
+  for tmp in stackmap_keys(obj) do l:append(l,[sconcat(stackjson_stringify(tmp),":",stackjson_stringify(stackmap_get(obj,tmp)))]), 
+  r:sconcat("{",simplode(l,","),"}")
+ ) else if listp(obj) then r:sconcat("[",simplode(makelist(stackjson_stringify(x),x,obj),","),"]")
+ else if integerp(obj) then r:string(obj)
+ else if numberp(obj) then r:string(float(obj))
+ else r:stackjson_stringify(string(obj)),
+ return(r)
 )$

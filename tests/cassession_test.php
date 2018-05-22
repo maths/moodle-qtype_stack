@@ -857,7 +857,7 @@ class stack_cas_session_test extends qtype_stack_testcase {
                     array('99', '1', '100', '100'),
                     array('0.99', '1', '1', '1'),
                     array('-0.99', '1', '-1', '-1'),
-                    array('0.0000049', '1', '0.000005', 'displaydp(5.0E-6,6)'),
+                    array('0.0000049', '1', '0.000005', 'displaydp(5.0e-6,6)'),
                     array('0', '1', '0', '0'),
                     array('0.0', '1', '0', '0'),
                     array('0', '2', '0.0', 'displaydp(0,1)'),
@@ -879,7 +879,35 @@ class stack_cas_session_test extends qtype_stack_testcase {
         foreach ($tests as $key => $c) {
             $sk = "p{$key}";
             $this->assertEquals($c[2], $at1->get_display_key($sk));
-            $this->assertEquals($c[3], $at1->get_value_key($sk));
+            $this->assertEquals($c[3], strtolower($at1->get_value_key($sk)));
+        }
+    }
+
+    public function test_significantfigures_errors() {
+
+        $tests = array(
+                    array('significantfigures(%pi/3,3)', '1.05', ''),
+                    array('significantfigures(%pi/blah,3)', '',
+                        'sigfigsfun(x,n,d) requires a real number as a first argument.  Received:  %pi/blah'),
+                    array('significantfigures(%pi/3,n)', '',
+                        'sigfigsfun(x,n,d) requires an integer as a second argument. Received:  n'),
+        );
+
+        foreach ($tests as $key => $c) {
+            $s = "p{$key}:$c[0]";
+            $cs = new stack_cas_casstring($s);
+            $cs->get_valid('t');
+            $s1[] = $cs;
+        }
+
+        $options = new stack_options();
+        $at1 = new stack_cas_session($s1, $options, 0);
+        $at1->instantiate();
+
+        foreach ($tests as $key => $c) {
+            $sk = "p{$key}";
+            $this->assertEquals($c[1], $at1->get_value_key($sk));
+            $this->assertEquals($c[2], $at1->get_errors_key($sk));
         }
     }
 

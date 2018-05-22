@@ -22,7 +22,6 @@ Note, where the feature is listed as "(done)" means we have prototype code in th
  1. Dragmath (actually, probably use javascript from NUMBAS instead here, or the MathDox editor).
  2. Sliders.
  3. Geogebra input (protoype already exisits: needs documentation, testing and support).
- 4. Re-sizable matrix input.  See NUMBAS examples here, with Javascript.
 * It is very useful to be able to embed input elements in equations, and this was working in STACK 2.0. However is it possible with MathJax or other Moodle maths filters?
   This might offer one option:  http://stackoverflow.com/questions/23818478/html-input-field-within-a-mathjax-tex-equation
 * In the MCQ input type: Add choose N (correct) from M feature (used at Aalto).

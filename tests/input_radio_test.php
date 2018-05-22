@@ -271,4 +271,22 @@ class stack_radio_input_test extends qtype_stack_walkthrough_test_base {
         $this->assertEquals($expected, $el->render(new stack_input_state(
                 stack_input::SCORE, array('2'), '', '', '', '', ''), 'stack1__ans1', false, null));
     }
+
+    public function test_radio_plots() {
+        // @codingStandardsIgnoreStart
+        $el = stack_input_factory::make('radio', 'ans1',
+                '[[1,true,plot(x,[x,-2,2],[y,-3,3])],[2,false,plot(x^2,[x,-2,2],[y,-3,3])],'
+                . '[3,false,plot(x^3,[x,-2,2],[y,-3,3])]]',
+                null, array());
+        // @codingStandardsIgnoreEnd
+        $render = $el->render(new stack_input_state(
+                stack_input::SCORE, array('2'), '', '', '', '', ''), 'stack1__ans1', false, null);
+        $this->assertTrue(is_int(strpos($render, "<img src='!ploturl!stackplot-")));
+        $this->assertTrue(is_int(strpos($render,
+                "alt='STACK auto-generated plot of x with parameters [[x,-2,2],[y,-3,3]]'")));
+        $this->assertTrue(is_int(strpos($render,
+                "alt='STACK auto-generated plot of x^2 with parameters [[x,-2,2],[y,-3,3]]'")));
+        $this->assertTrue(is_int(strpos($render,
+                "alt='STACK auto-generated plot of x^3 with parameters [[x,-2,2],[y,-3,3]]'")));
+    }
 }

@@ -128,6 +128,8 @@ class stack_equiv_input extends stack_input {
             'id'   => $fieldname,
             'rows' => max(3, count($rows) + 1),
             'cols' => min($boxwidth, 50),
+            'autocapitalize' => 'none',
+            'spellcheck'     => 'false',
         );
 
         if ($readonly) {

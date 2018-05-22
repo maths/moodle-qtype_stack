@@ -20,5 +20,5 @@ Feature: STACK has build in documentation.
 
     When I set the field "cas" to "[[facts:calc_int_methods_parts]]"
     And I press "Send to the CAS"
-    And I follow "Integration by Parts"
+    And I should see "Integration by Parts"
     Then I should see "or alternatively:"

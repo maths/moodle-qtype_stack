@@ -23,6 +23,8 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+define('NO_OUTPUT_BUFFERING', true);
+
 require_once(__DIR__.'/../../../config.php');
 require_once($CFG->dirroot .'/course/lib.php');
 require_once($CFG->libdir .'/filelib.php');
@@ -51,21 +53,29 @@ $PAGE->set_title($title);
 // Clear the cache if requested.
 if (data_submitted() && optional_param('clearcache', false, PARAM_BOOL)) {
     require_sesskey();
+    echo $OUTPUT->header();
     stack_cas_connection_db_cache::clear_cache($DB);
-    redirect($PAGE->url);
+    \core\notification::success(stack_string('clearedthecache'));
+    echo $OUTPUT->continue_button($PAGE->url);
+    echo $OUTPUT->footer();
+    exit;
 }
 
 // Create and store Maxima image if requested.
 if (data_submitted() && optional_param('createmaximaimage', false, PARAM_BOOL)) {
     require_sesskey();
+    echo $OUTPUT->header();
+    echo $OUTPUT->heading(stack_string('healthautomaxopt'));
     stack_cas_connection_db_cache::clear_cache($DB);
-    list($ok, $errmsg)  = stack_cas_configuration::create_auto_maxima_image();
+    list($ok, $errmsg) = stack_cas_configuration::create_auto_maxima_image();
     if ($ok) {
-        redirect($PAGE->url, stack_string('healthautomaxopt_succeeded'), null, \core\output\notification::NOTIFY_SUCCESS);
+        \core\notification::success(stack_string('healthautomaxopt_succeeded'));
     } else {
-        redirect($PAGE->url, stack_string('healthautomaxopt_failed', array('errmsg' => $errmsg)), null,
-                \core\output\notification::NOTIFY_ERROR);
+        \core\notification::error(stack_string('healthautomaxopt_failed', array('errmsg' => $errmsg)));
     }
+    echo $OUTPUT->continue_button($PAGE->url);
+    echo $OUTPUT->footer();
+    exit;
 }
 
 $config = stack_utils::get_config();

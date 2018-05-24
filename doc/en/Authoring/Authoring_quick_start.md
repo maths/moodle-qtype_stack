@@ -1,4 +1,130 @@
-# Authoring quick start 1
+# Introduction to STACK authoring
+
+In this guide we show you how to bring a text book integration question online for automatic marking using STACK. 
+
+We will cover:
+
+1. Authoring a STACK question
+2. 
+
+We assume you are familiar with the following topics:
+
+1. Adding questions to a Moodle quiz
+2. LaTeX formatting
+
+We assume you have access to a Moodle course with editing privileges.
+
+---
+
+
+
+## Introduction to STACK authoring 
+
+Post-16 mathematics students are required to integrate, with respect to x, functions of the form 
+$$
+(px+q)^n
+$$
+Through a process of Deliberate Practice
+
+[^Ericsson, K. A., Krampe, R. T. and Tesch-Romer, C. (1993) 'The role of Deliberate Practice in the acquisition of expert performance', Psychological Review 100 (3) pp. 363-406]: 
+
+students are taught how to integrate a function of a function before, finally, being asked to complete a set of questions from the text book:  
+
+/pic here
+
+In this guide we show you how easy it is to move questions like these online to Moodle.
+
+By using STACK, not only will student responses be marked automatically but we can also catch common slips, like forgetting to include the constant of integration or accidentally differentiating instead of integrating. 
+
+We will use this question from the text book:
+$$
+\int \frac{1}{(6x - 5)^4} dx
+$$
+Here is an example student response, demonstrating two slips:
+
+/pic here
+
+To begin, go to Moodle and navigate to your course's *Course administration* page and, from the *Question bank* section, click on *Questions*:
+
+/pic here/
+
+---
+
+### Adding a STACK question to the Question Bank
+
+On the Question Bank page, press the 'Create new question' button:
+
+/pic
+
+From the 'Choose a question type to add' dialog select 'STACK' and press 'Add'. The 'Editing a STACK question' page is displayed:
+
+/pic
+
+Don't be put off by the amount of configuration options: in order to get started there are only a few we need:
+
+1. Give your question a name, for example the name of the text book question:
+
+/pic
+
+2. Next we need to input the question text. This needs to be in LaTeX format:
+
+/pic
+
+3. We then need to specify our model answer:
+
+/pic
+
+In the next section we learn how to handle the common misconceptions outlined about by building a Potential Response Tree.
+
+---
+
+### Building the Potential Response Tree
+
+Scroll down to the Potential response tree: prt1 section. Here we need to configure a number of tests:
+
+/pic 
+
+Firstly, is the answer completely correct? The student answer is stored in the variable ans1 so type this into SAns. We can provide our model answer again in TAns:
+
+/pic
+
+Of the two slips outlined, the most common is to forget the constant of integration. Let's add another node to handle this:
+
+1. Press the Add another node button:
+
+/pic
+
+2. When Node 1 is false we need to move to Node 2. On the 'Node 1 when false' / Next setting select 'Node 2' from the drop down menu:
+
+/pic
+
+3. In Node 2, set SAns to ans1 and TAns to our model answer but without the C:
+
+/pic
+
+4. Provide some meaningful feedback in Node 2:
+
+/pic
+
+5. Scroll down to the bottom of the page and press the 'Save changes and continue editing' button. See that the nodes in our Potential Response Tree have been linked:
+
+/pic
+
+We now need to complete the rest of the tree, as outlined in the original sketch, above. Here is the completed tree:
+
+
+
+
+
+
+
+
+
+---
+
+---
+
+
 
 Computer aided assessment of mathematics works in the following phases.
 
@@ -12,9 +138,10 @@ Each of these links contains detailed instructions.  The purpose of this page is
 ## Introduction ##
 
 The STACK question type for Moodle is designed as a vehicle to manage mathematical questions. Implicit in this is a data structure which represents them.
+
 This page explains the process of authoring a question, by working through an example.
 
-Questions are edited through the Moodle quiz.  In Moodle, go to the question bank and ask to create a new STACK question.  Do not be put off by the fact the editing form looks complicated.
+
 
 There are lots of fields, but only a few are compulsory.  These are the question name and [question text](CASText.md#question_text). The question text is the string actually displayed to the student, i.e. this is "the question".
 If you have an input (the default is to have one) the teacher's answer must be non-empty.  Nodes in potential response trees have compulsory fields (the default is to provide a tree with one node).

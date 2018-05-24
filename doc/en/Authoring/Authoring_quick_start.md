@@ -20,15 +20,11 @@ We assume you have access to a Moodle course with editing privileges.
 
 ## Introduction to STACK authoring 
 
-Post-16 mathematics students are required to integrate, with respect to x, functions of the form 
-$$
-(px+q)^n
-$$
-Through a process of Deliberate Practice
+Post-16 mathematics students are required to integrate, with respect to \(x\), functions of the form 
 
-[^Ericsson, K. A., Krampe, R. T. and Tesch-Romer, C. (1993) 'The role of Deliberate Practice in the acquisition of expert performance', Psychological Review 100 (3) pp. 363-406]: 
+\( (px+q)^n \)
 
-students are taught how to integrate a function of a function before, finally, being asked to complete a set of questions from the text book:  
+Through a process of Deliberate Practice (see notes, below) students are taught how to integrate a function of a function before, finally, being asked to complete a set of questions from the text book:  
 
 /pic here
 
@@ -114,8 +110,8 @@ We now need to complete the rest of the tree, as outlined in the original sketch
 
 
 
-
-
+Notes:
+Ericsson, K. A., Krampe, R. T. and Tesch-Romer, C. (1993) 'The role of Deliberate Practice in the acquisition of expert performance', Psychological Review 100 (3) pp. 363-406]
 
 
 

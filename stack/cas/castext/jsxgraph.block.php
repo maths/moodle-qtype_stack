@@ -150,7 +150,7 @@ class stack_cas_castext_jsxgraph extends stack_cas_castext_block {
         }
         if (!$heightend) {
             $valid = false;
-            $errors[] = stack_string('stackBlock_jsxgraph_hight');
+            $errors[] = stack_string('stackBlock_jsxgraph_height');
         }
         if (!preg_match('/^[0-9]*[\.]?[0-9]+$/', $widthtrim)) {
             $valid = false;

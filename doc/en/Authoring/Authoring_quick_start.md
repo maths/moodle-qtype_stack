@@ -1,72 +1,72 @@
 # Introduction to STACK authoring
 
-In this guide we show you how to bring a text book integration question online for automatic marking using STACK. 
-
-We will cover:
-
-1. Authoring a STACK question
-2. 
-
-We assume you are familiar with the following topics:
-
-1. Adding questions to a Moodle quiz
-2. LaTeX formatting
-
-We assume you have access to a Moodle course with editing privileges.
-
----
+In this guide we show you how easy it is to convert an integration question to Moodle for automatic marking and feedback.
 
 
+## Before you begin
 
-## Introduction to STACK authoring 
+We assume you are familiar with the following:
 
-Post-16 mathematics students are required to integrate, with respect to \(x\), functions of the form 
+1. Adding questions to a Moodle quiz.
+2. \(\LaTeX\) formatting.
 
-\( (px+q)^n \)
+## Background 
 
-Through a process of Deliberate Practice (see notes, below) students are taught how to integrate a function of a function before, finally, being asked to complete a set of questions from the text book:  
+Our mathematics students are required to integrate, with respect to \(x\), functions of the form \( (px+q)^n \).
 
-/pic here
+Through a process of deliberate practice (see notes, below), students learn how to integrate a simple functions of functions. They are then asked to complete a set of questions from the text book:  
 
-In this guide we show you how easy it is to move questions like these online to Moodle.
+<img src="%CONTENT/Authoring_quick_start/image5.png" width="450px" style="display: block; margin-left: auto; margin-right: auto;" />
 
-By using STACK, not only will student responses be marked automatically but we can also catch common slips, like forgetting to include the constant of integration or accidentally differentiating instead of integrating. 
+In this guide we show you how easy it is to move questions like these online to Moodle and have Moodle automatically grade the student response. Not only that, but we will also see how easy it is to catch common slips, such as (in the case of integration) forgetting to include the constant of integration or accidentally differentiating instead of integrating. 
 
-We will use this question from the text book:
-$$
+At the end of this guide you will be able to:
+
+- Create a new STACK question, ensuring mathematical notation is displayed correctly using \(\LaTeX\) notation.
+- Catch, and provide feedback on, common errors by building a *Potential Response Tree*. 
+- Preview and test STACK questions. 
+
+### Preparing the question
+
+Let us begin by choosing question (g), shown in the screen grab above:
+\(
 \int \frac{1}{(6x - 5)^4} dx
-$$
-Here is an example student response, demonstrating two slips:
+\)
 
-/pic here
-
-To begin, go to Moodle and navigate to your course's *Course administration* page and, from the *Question bank* section, click on *Questions*:
+Below is a student's written response, which demonstrates two common slips:
 
 /pic here/
 
----
+See that the student has:
 
-### Adding a STACK question to the Question Bank
+- Forgotten to include the constant of integration.
+- Differentiated instead of integrated.
 
-On the Question Bank page, press the 'Create new question' button:
+One of the benefits of converting to Moodle using STACK is that it's easy to check for these errors.
+
+### Creating a new STACK question
+
+To begin, go to Moodle and navigate to your course's *Course administration* page and, from the *Question bank* section, click on *Questions*:
+
+<img src="%CONTENT/Authoring_quick_start/image1.png" width="450px" style="display: block; margin-left: auto; margin-right: auto;" />
+
+1. On the Question Bank page, press the 'Create new question' button:
+
+<img src="%CONTENT/Authoring_quick_start/image2.png" width="450px" style="display: block; margin-left: auto; margin-right: auto;" />
+
+2. From the 'Choose a question type to add' dialog select 'STACK' and press 'Add':
+
+<img src="%CONTENT/Authoring_quick_start/image3.png" width="450px" style="display: block; margin-left: auto; margin-right: auto;" />
+
+The 'Editing a STACK question' page is displayed. Don't be put off by the amount of configuration options as, in order to get started, there are only a few we need to worry about. Firstly, give your question a name. This needs to be something meaningful so that you can easily identify it. For example, the name could simply be the question as it's identified in the text book:
+
+<img src="%CONTENT/Authoring_quick_start/image4.png" style="display: block; margin-left: auto; margin-right: auto;" />
+
+3. Next we need to input the question text. This needs to be in \(\LaTeX\) format:
 
 /pic
 
-From the 'Choose a question type to add' dialog select 'STACK' and press 'Add'. The 'Editing a STACK question' page is displayed:
-
-/pic
-
-Don't be put off by the amount of configuration options: in order to get started there are only a few we need:
-
-1. Give your question a name, for example the name of the text book question:
-
-/pic
-
-2. Next we need to input the question text. This needs to be in LaTeX format:
-
-/pic
-
-3. We then need to specify our model answer:
+4. We then need to specify our model answer:
 
 /pic
 

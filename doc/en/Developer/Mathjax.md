@@ -7,7 +7,7 @@ STACK generates LaTeX code on the fly and expects a moodle filter to convert thi
 This is really a question for MathJax, rather than STACK.  MathJax has a lot of options, and configuration settings and so your resulting system will largely depend on this.  See [MathJax](https://www.mathjax.org/) for more details.
 
 For example, blackboard bold symbols can be typeset with \(\mathbb{C}\), which is typeset as `\(\mathbb{C}\)`.
-For actuarial symbols, such as \(\require{enclose} EPV = a _{[25]+5:\enclose{actuarial}{30}} ^ {\space 1}\) see the [documentation](../Actuarial.md).
+For actuarial symbols, such as \(\require{enclose} EPV = a _{[25]+5:\enclose{actuarial}{30}} ^ {\space 1}\) see the [documentation](../Authoring/Actuarial.md).
 
 ### What about mathml? ###
 

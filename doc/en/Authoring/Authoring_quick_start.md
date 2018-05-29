@@ -1,14 +1,13 @@
 # Introduction to STACK authoring
 
-In this guide we show you how easy it is to convert an integration question to Moodle for automatic marking and feedback.
-
+This guide is the "author quickstart" for the STACK system.  We start by showing you how easy it is to convert an integration question to Moodle for automatic marking and feedback.
 
 ## Before you begin
 
 We assume you are familiar with the following:
 
 1. Adding questions to a Moodle quiz.
-2. \(\LaTeX\) formatting.
+2. \(\LaTeX\) formatting.  Some basic examples are provided at the end of the [CASText](CASText.md) documentation.
 
 ## Background 
 

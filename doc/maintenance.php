@@ -73,7 +73,7 @@ function report($d) {
                             // The array $found[0] will have the full a tags, found[1] contains their href properties.
                             // Step two, visit these links and check for 404s.
                             foreach ($found[1] as $i => $link) {
-                                if (strpos($link, 'mailto:') !== 0
+                                if (!(strpos($link, 'mailto:') === false)
                                     and strpos($link, 'maintenance.php') === false
                                     and (strpos($link, 'http') !== 0)) {
                                     // Don't check mailto:, this file (ARGH!)
@@ -85,7 +85,7 @@ function report($d) {
                                         } else {
                                             $link = $webdocs . rtrim($reldir, '/') . '/' . $link;
                                         }
-                                        // It looks like get_headers isn't evaluating these so lets do it manually.
+                                        // It looks like get_headers isn't evaluating these so let's do it manually.
                                         $segs = explode('/', $link);
                                         while (($pos = array_search('.', $segs)) !== false) {
                                             unset($segs[$pos]);
@@ -102,7 +102,7 @@ function report($d) {
                                     }
                                     $hs = get_headers($link);
                                     if (strpos($hs[0], '404') !== false) {
-                                        $a[] = array($fpath, 'E', 'Error 404 [' . $found[0][$i] . '] appears to be a dead link');
+                                        $a[] = array($fpath, 'E', 'Error 404 [' . $found[1][$i] . '] appears to be a dead link.');
                                     } else {
                                         $fileslinkedto[$found[0][$i]] = true;
                                     }
@@ -123,9 +123,14 @@ function report($d) {
     return $a;
 }
 
-?>
 
-<h2>STACK Documentation Maintenance</h2>
+$context = context_system::instance();
+$PAGE->set_context($context);
+$PAGE->set_url('/question/type/stack/doc/maintenance.php');
+$title = "STACK Documentation Maintenance";
+$PAGE->set_title($title);
+
+?>
 
 <p><a href="doc.php">STACK documentation</a></p>
 <p>This script crawls the entire documentation and checks for dead links and other issues.
@@ -148,3 +153,4 @@ echo "</table>";
 ?></pre>
 
 <p>Done.</p>
+

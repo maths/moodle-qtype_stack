@@ -11,11 +11,13 @@ We assume you are familiar with the following:
 
 ## Background 
 
-Our mathematics students are required to integrate, with respect to \(x\), functions of the form \( (px+q)^n \).
+To illustrate question authoring, imagine that the students are required to integrate, with respect to \(x\), functions of the form \( r(px+q)^n \).
 
-Through a process of deliberate practice (see notes, below), students learn how to integrate a simple functions of functions. They are then asked to complete a set of questions from the text book:  
+Through a process of deliberate practice (see notes, below), students learn how to integrate a simple functions of functions. They are then asked to complete a set of questions.  A typical example from the text book is shown below.  
 
-<img src="%CONTENT/Authoring_quick_start/image5.png" width="450px" style="display: block; margin-left: auto; margin-right: auto;" />
+![Integration exercises](%CONTENT/IntegrationExercises.jpg)
+
+(Reproduced with permission from _Advanced Mathematics for AS and A level 2_ (A-level mathematics), Haese Mathematics (2018) [978-1-925489-32-3](http://www.haesemathematics.com/books/advanced-mathematics-2-for-a-level))
 
 In this guide we show you how easy it is to move questions like these online to Moodle and have Moodle automatically grade the student response. Not only that, but we will also see how easy it is to catch common slips, such as (in the case of integration) forgetting to include the constant of integration or accidentally differentiating instead of integrating. 
 
@@ -27,21 +29,33 @@ At the end of this guide you will be able to:
 
 ### Preparing the question
 
-Let us begin by choosing question (g), shown in the screen grab above:
+Let us begin by choosing question (i), shown in the image above:
 \(
-\int \frac{1}{(6x - 5)^4} dx
+\int \frac{5}{(3x - 2)^3} dx
 \)
 
 Below is a student's written response, which demonstrates two common slips:
 
 /pic here/
 
-See that the student has:
+Notice that the student has:
 
 - Forgotten to include the constant of integration.
 - Differentiated instead of integrated.
 
-One of the benefits of converting to Moodle using STACK is that it's easy to check for these errors.
+These are things which students are likley to do with any integration question.  Indeed, students might differentiate by mistake and still add a constant of integration!  In this situation there are also mistakes which are much more specific to the question.
+
+- Forgetting to use substitution and hence not dividing by \(p\), and effectively integrating \( \int r(px+q)^n dx \rightarrow \frac{r}{n+1}(px+q)^{n+1}+c \).
+- having difficulties in increasing a negative number (in this case \(-3\) by one).  In our example \( \int \frac{5}{(3x - 2)^3} dx \rightarrow \frac{5}{3}\frac{1}{(3x - 2)^4}+c\).
+
+One of the benefits of using online assessment, such as STACK, is that it's easy to check for these errors.
+
+When checking a student's answer with STACK a teacher needs to ask themselves _"What are the mathematical properties which makes a student's answer correct/incorrect?"_  In our case these include
+
+1. Is the student's answer a symbolic anti-derivative of the integrand?
+2. Does the student have a constant of integration in an appropriate form?
+
+Then, they might also ask _"What might a student do incorrectly, and what will this give them as an answer?"_  This second question is more difficult, and it is often sensible to review questions after a year and build in better feedback in the light of experience with students.
 
 ### Creating a new STACK question
 

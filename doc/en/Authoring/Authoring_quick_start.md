@@ -1,4 +1,139 @@
-# Authoring quick start 1
+# Introduction to STACK authoring
+
+This guide is the "author quickstart" for the STACK system.  We start by showing you how easy it is to convert an integration question to Moodle for automatic marking and feedback.
+
+## Before you begin
+
+We assume you are familiar with the following:
+
+1. Adding questions to a Moodle quiz.
+2. \(\LaTeX\) formatting.  Some basic examples are provided at the end of the [CASText](CASText.md) documentation.
+
+## Background 
+
+To illustrate question authoring, imagine that the students are required to integrate, with respect to \(x\), functions of the form \( r(px+q)^n \).
+
+Through a process of deliberate practice (see notes, below), students learn how to integrate a simple functions of functions. They are then asked to complete a set of questions.  A typical example from the text book is shown below.  
+
+![Integration exercises](%CONTENT/IntegrationExercises.jpg)
+
+(Reproduced with permission from _Advanced Mathematics for AS and A level 2_ (A-level mathematics), Haese Mathematics (2018) [978-1-925489-32-3](http://www.haesemathematics.com/books/advanced-mathematics-2-for-a-level))
+
+In this guide we show you how easy it is to move questions like these online to Moodle and have Moodle automatically grade the student response. Not only that, but we will also see how easy it is to catch common slips, such as (in the case of integration) forgetting to include the constant of integration or accidentally differentiating instead of integrating. 
+
+At the end of this guide you will be able to:
+
+- Create a new STACK question, ensuring mathematical notation is displayed correctly using \(\LaTeX\) notation.
+- Catch, and provide feedback on, common errors by building a *Potential Response Tree*. 
+- Preview and test STACK questions. 
+
+### Preparing the question
+
+Let us begin by choosing question (i), shown in the image above:
+\(
+\int \frac{5}{(3x - 2)^3} dx
+\)
+
+Below is a student's written response, which demonstrates two common slips:
+
+/pic here/
+
+Notice that the student has:
+
+- Forgotten to include the constant of integration.
+- Differentiated instead of integrated.
+
+These are things which students are likley to do with any integration question.  Indeed, students might differentiate by mistake and still add a constant of integration!  In this situation there are also mistakes which are much more specific to the question.
+
+- Forgetting to use substitution and hence not dividing by \(p\), and effectively integrating \( \int r(px+q)^n dx \rightarrow \frac{r}{n+1}(px+q)^{n+1}+c \).
+- having difficulties in increasing a negative number (in this case \(-3\) by one).  In our example \( \int \frac{5}{(3x - 2)^3} dx \rightarrow \frac{5}{3}\frac{1}{(3x - 2)^4}+c\).
+
+One of the benefits of using online assessment, such as STACK, is that it's easy to check for these errors.
+
+When checking a student's answer with STACK a teacher needs to ask themselves _"What are the mathematical properties which makes a student's answer correct/incorrect?"_  In our case these include
+
+1. Is the student's answer a symbolic anti-derivative of the integrand?
+2. Does the student have a constant of integration in an appropriate form?
+
+Then, they might also ask _"What might a student do incorrectly, and what will this give them as an answer?"_  This second question is more difficult, and it is often sensible to review questions after a year and build in better feedback in the light of experience with students.
+
+### Creating a new STACK question
+
+To begin, go to Moodle and navigate to your course's *Course administration* page and, from the *Question bank* section, click on *Questions*:
+
+<img src="%CONTENT/Authoring_quick_start/image1.png" width="450px" style="display: block; margin-left: auto; margin-right: auto;" />
+
+1. On the Question Bank page, press the 'Create new question' button:
+
+<img src="%CONTENT/Authoring_quick_start/image2.png" width="450px" style="display: block; margin-left: auto; margin-right: auto;" />
+
+2. From the 'Choose a question type to add' dialog select 'STACK' and press 'Add':
+
+<img src="%CONTENT/Authoring_quick_start/image3.png" width="450px" style="display: block; margin-left: auto; margin-right: auto;" />
+
+The 'Editing a STACK question' page is displayed. Don't be put off by the amount of configuration options as, in order to get started, there are only a few we need to worry about. Firstly, give your question a name. This needs to be something meaningful so that you can easily identify it. For example, the name could simply be the question as it's identified in the text book:
+
+<img src="%CONTENT/Authoring_quick_start/image4.png" style="display: block; margin-left: auto; margin-right: auto;" />
+
+3. Next we need to input the question text. This needs to be in \(\LaTeX\) format:
+
+/pic
+
+4. We then need to specify our model answer:
+
+/pic
+
+In the next section we learn how to handle the common misconceptions outlined about by building a Potential Response Tree.
+
+---
+
+### Building the Potential Response Tree
+
+Scroll down to the Potential response tree: prt1 section. Here we need to configure a number of tests:
+
+/pic 
+
+Firstly, is the answer completely correct? The student answer is stored in the variable ans1 so type this into SAns. We can provide our model answer again in TAns:
+
+/pic
+
+Of the two slips outlined, the most common is to forget the constant of integration. Let's add another node to handle this:
+
+1. Press the Add another node button:
+
+/pic
+
+2. When Node 1 is false we need to move to Node 2. On the 'Node 1 when false' / Next setting select 'Node 2' from the drop down menu:
+
+/pic
+
+3. In Node 2, set SAns to ans1 and TAns to our model answer but without the C:
+
+/pic
+
+4. Provide some meaningful feedback in Node 2:
+
+/pic
+
+5. Scroll down to the bottom of the page and press the 'Save changes and continue editing' button. See that the nodes in our Potential Response Tree have been linked:
+
+/pic
+
+We now need to complete the rest of the tree, as outlined in the original sketch, above. Here is the completed tree:
+
+
+
+Notes:
+Ericsson, K. A., Krampe, R. T. and Tesch-Romer, C. (1993) 'The role of Deliberate Practice in the acquisition of expert performance', Psychological Review 100 (3) pp. 363-406]
+
+
+
+
+---
+
+---
+
+
 
 Computer aided assessment of mathematics works in the following phases.
 
@@ -12,9 +147,10 @@ Each of these links contains detailed instructions.  The purpose of this page is
 ## Introduction ##
 
 The STACK question type for Moodle is designed as a vehicle to manage mathematical questions. Implicit in this is a data structure which represents them.
+
 This page explains the process of authoring a question, by working through an example.
 
-Questions are edited through the Moodle quiz.  In Moodle, go to the question bank and ask to create a new STACK question.  Do not be put off by the fact the editing form looks complicated.
+
 
 There are lots of fields, but only a few are compulsory.  These are the question name and [question text](CASText.md#question_text). The question text is the string actually displayed to the student, i.e. this is "the question".
 If you have an input (the default is to have one) the teacher's answer must be non-empty.  Nodes in potential response trees have compulsory fields (the default is to provide a tree with one node).

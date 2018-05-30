@@ -13,11 +13,16 @@ We assume you are familiar with the following:
 
 Our mathematics students are required to integrate, with respect to \(x\), functions of the form \( (px+q)^n \).
 
-Through a process of deliberate practice (see notes, below), students learn how to integrate a simple functions of functions. They are then asked to complete a set of questions from the text book:  
+Through a process of deliberate practice, together with formative assessment, students learn how to integrate a simple function of a function. During this process students attempt questions from the text book, for example:  
 
-<img src="%CONTENT/Authoring_quick_start/image5.png" width="450px" style="display: block; margin-left: auto; margin-right: auto;" />
+![Image of integration questions taken from text book](%CONTENT/Authoring_quick_start/image5.png)
 
-In this guide we show you how easy it is to move questions like these online to Moodle and have Moodle automatically grade the student response. Not only that, but we will also see how easy it is to catch common slips, such as (in the case of integration) forgetting to include the constant of integration or accidentally differentiating instead of integrating. 
+In this introductory guide we show you how easy it is to move questions like these online to Moodle and have Moodle automatically grade the student response. Not only that, but we will also see how easy it is to catch common slips, such as (in the case of our integration example) forgetting to include the constant of integration or accidentally differentiating instead of integrating. 
+
+In this introductory guide we will show you how to:
+
+1. Format a STACK question so that it is displayed correctly to the student
+2. Create a set of responses - potentially catching common errors - by building a potential response tree.
 
 At the end of this guide you will be able to:
 
@@ -27,55 +32,74 @@ At the end of this guide you will be able to:
 
 ### Preparing the question
 
-Let us begin by choosing question (g), shown in the screen grab above:
+Let us begin by choosing question (i), shown above:
 \(
-\int \frac{1}{(6x - 5)^4} dx
+\int \frac{5}{(3x - 2)^3} dx
 \)
 
-Below is a student's written response, which demonstrates two common slips:
+Below is a student's written response which demonstrates some of the more common slips:
 
-/pic here/
+![Image of student's attempt at integration](%CONTENT/Authoring_quick_start/image9.png)
 
-See that the student has:
+See that, amongst other things, the student has:
 
 - Forgotten to include the constant of integration.
-- Differentiated instead of integrated.
+- Decreased the power instead of increasing it.
 
-One of the benefits of converting to Moodle using STACK is that it's easy to check for these errors.
+Through converting this question to Moodle using STACK you will see that it's easy to check for these kinds of errors.
 
 ### Creating a new STACK question
 
 To begin, go to Moodle and navigate to your course's *Course administration* page and, from the *Question bank* section, click on *Questions*:
 
-<img src="%CONTENT/Authoring_quick_start/image1.png" width="450px" style="display: block; margin-left: auto; margin-right: auto;" />
+![Screen grab from course administration page showing link to course Question bank](%CONTENT/Authoring_quick_start/image1.png)
 
 1. On the Question Bank page, press the 'Create new question' button:
 
-<img src="%CONTENT/Authoring_quick_start/image2.png" width="450px" style="display: block; margin-left: auto; margin-right: auto;" />
+![Screen grab of the question bank](%CONTENT/Authoring_quick_start/image2.png)
 
 2. From the 'Choose a question type to add' dialog select 'STACK' and press 'Add':
 
-<img src="%CONTENT/Authoring_quick_start/image3.png" width="450px" style="display: block; margin-left: auto; margin-right: auto;" />
+![Image of the 'Choose a question type to add' dialog](%CONTENT/Authoring_quick_start/image3.png)
 
 The 'Editing a STACK question' page is displayed. Don't be put off by the amount of configuration options as, in order to get started, there are only a few we need to worry about. Firstly, give your question a name. This needs to be something meaningful so that you can easily identify it. For example, the name could simply be the question as it's identified in the text book:
 
-<img src="%CONTENT/Authoring_quick_start/image4.png" style="display: block; margin-left: auto; margin-right: auto;" />
+![Image of integration questions taken from text book](%CONTENT/Authoring_quick_start/image4.png)
 
-3. Next we need to input the question text. This needs to be in \(\LaTeX\) format:
+3. Next we need to input the question text. Essentially, this needs to be in \(\LaTeX\) format:
 
-/pic
+![Example question text, including LaTeX formatting and relevant tags](%CONTENT/Authoring_quick_start/image6.png)
 
-4. We then need to specify our model answer:
+Note that two tags are already included: The [[input:ans1]] tag is replaced by a text box where the student types in their response. The student response is automatically validated as they type and this is displayed where the [[validation:ans1]] is positioned. So we could remodel the question as:
 
-/pic
+![Remodelled question text](%CONTENT/Authoring_quick_start/image7.png) 
 
-In the next section we learn how to handle the common misconceptions outlined about by building a Potential Response Tree.
+Next we need to specify our model answer. Scroll to Input:ans1. Select Algebraic input from the Input type drop-down menu and give the model answer as:
 
----
+    C - (5/6)*(3*x-2)^2
+    
+![Specifying the teacher's model answer](%CONTENT/Authoring_quick_start/image10.png)
+
+Before moving on, scroll down to the bottom of the page and press the Save changes and continue editing button.
+
+In the next section we learn how to build a Potential Response Tree.
 
 ### Building the Potential Response Tree
 
-Scroll down to the Potential response tree: prt1 section. Here we need to configure a number of tests:
+As described in the introduction, there are a number of common errors we can catch. In our integration exercise students may:
+
+1. Differentiate, often from force of habit (a process is misapplied).
+2. Decrement negative powers instead of incrementing them (in effect differentiating instead of integrating).
+3. Forget the constant of integration (a lapse). 
+
+Having identified the errors we want to catch we can now begin to build a Potential Response Tree. Scroll the page to the Potential response tree: prt1 section.
+
+A Potential Response Tree is 
+
+In order to catch 
+Scroll the page to Potential response tree: prt1
+
+
 
 /pic 
 

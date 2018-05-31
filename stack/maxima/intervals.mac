@@ -533,8 +533,8 @@ TidyUnion(X):=
                 i:i+1
                 ),
             A:SortUnion(A),
-            if length(A)=1 then
-                Ans:apply(%union, A)
+            if is(length(A)=1) then
+                Ans:first(A)
             else
                 Ans:ConnectIntervals(apply(%union, A)),
             if length(setpart)>0 then Ans:append( args(Ans), [setpart] )
@@ -917,7 +917,7 @@ single_variable_solver_real(ex) := block([v, rs1, rs2, simp],
 
     ex:block([assume_pos:false], single_variable_solver_real_rec(ex, v)),
 
-    if ((safe_op(ex)="[" or safe_op(ex)="%union") and length(args(ex))=1) then ex:first(ex),
+    if ((safe_op(ex)="[" or safe_op(ex)="%union") and is(length(args(ex))=1)) then ex:first(ex),
 
     if is(ex={}) then return(none),
     if is(ex={v}) then return(all),
@@ -966,8 +966,8 @@ single_variable_solver_real_rec(ex, v) := block([r0, r1, r2],
     return(ex)
 )$
 
-equation_to_intervals(ex,v):=block([sol0,sol1,sol2],
-  sol0:solve(ex,v),
+equation_to_intervals(ex, v):=block([sol0, sol1, sol2],
+  sol0:solve(ex, v),
   if sol0=[] then return({}),
   if logic_edgep(sol0) then return(sol0),
   /* We need the "freeof" clause to catch rearrangements of equations. */

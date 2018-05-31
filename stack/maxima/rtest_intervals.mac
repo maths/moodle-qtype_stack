@@ -52,6 +52,9 @@ realset(x,co(-4/3,inf))$
 natural_domain(sqrt(x-7)/(64-x^2));
 realset(x,%union(co(7,8),oo(8,inf)))$
 
+natural_domain((9*sqrt(x))/2+2/x^2);
+realset(x,oo(0,inf))$
+
 single_variable_solver_real(x^2-4>0);
 realset(x,%union(oo(2,inf),oo(-inf,-2)))$
 

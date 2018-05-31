@@ -35,14 +35,14 @@ class stack_matrix_input_test extends qtype_stack_testcase {
         $this->assertEquals('<table class="matrixtable" id="ans1_container" ' .
                 'style="display:inline; vertical-align: middle;" border="0" cellpadding="1" cellspacing="0">' .
                 '<tbody><tr><td style="border-width: 2px 0px 0px 2px; padding-top: 0.5em">&nbsp;</td>' .
-                '<td><input type="text" name="ans1_sub_0_0" value="" size="5"></td>' .
-                '<td><input type="text" name="ans1_sub_0_1" value="" size="5"></td>' .
-                '<td><input type="text" name="ans1_sub_0_2" value="" size="5"></td>' .
+                '<td><input type="text" name="ans1_sub_0_0" value="" size="5" autocapitalize="none" spellcheck="false"></td>' .
+                '<td><input type="text" name="ans1_sub_0_1" value="" size="5" autocapitalize="none" spellcheck="false"></td>' .
+                '<td><input type="text" name="ans1_sub_0_2" value="" size="5" autocapitalize="none" spellcheck="false"></td>' .
                 '<td style="border-width: 2px 2px 0px 0px; padding-top: 0.5em">&nbsp;</td></tr>' .
                 '<tr><td style="border-width: 0px 0px 2px 2px;">&nbsp;</td>' .
-                '<td><input type="text" name="ans1_sub_1_0" value="" size="5"></td>' .
-                '<td><input type="text" name="ans1_sub_1_1" value="" size="5"></td>' .
-                '<td><input type="text" name="ans1_sub_1_2" value="" size="5"></td>' .
+                '<td><input type="text" name="ans1_sub_1_0" value="" size="5" autocapitalize="none" spellcheck="false"></td>' .
+                '<td><input type="text" name="ans1_sub_1_1" value="" size="5" autocapitalize="none" spellcheck="false"></td>' .
+                '<td><input type="text" name="ans1_sub_1_2" value="" size="5" autocapitalize="none" spellcheck="false"></td>' .
                 '<td style="border-width: 0px 2px 2px 0px; padding-bottom: 0.5em">&nbsp;</td></tr></tbody></table>',
                 $el->render(new stack_input_state(stack_input::BLANK, array(), '', '', '', '', ''),
                         'ans1', false, null));
@@ -66,12 +66,15 @@ class stack_matrix_input_test extends qtype_stack_testcase {
         $el->set_parameter('syntaxHint', 'matrix([a,b],[?,d])');
         $el->adapt_to_model_answer('matrix([1,0],[0,1])');
         $this->assertEquals('<table class="matrixtable" id="ans1_container" style="display:inline; vertical-align: middle;" '.
-              'border="0" cellpadding="1" cellspacing="0"><tbody><tr><td style="border-width: 2px 0px 0px 2px; padding-top: '.
-              '0.5em">&nbsp;</td><td><input type="text" name="ans1_sub_0_0" value="a" size="5"></td><td><input type="text" '.
-              'name="ans1_sub_0_1" value="b" size="5"></td><td style="border-width: 2px 2px 0px 0px; padding-top: 0.5em">'.
-              '&nbsp;</td></tr><tr><td style="border-width: 0px 0px 2px 2px;">&nbsp;</td><td><input type="text" '.
-              'name="ans1_sub_1_0" value="?" size="5"></td><td><input type="text" name="ans1_sub_1_1" value="d" size="5"></td>'.
-              '<td style="border-width: 0px 2px 2px 0px; padding-bottom: 0.5em">&nbsp;</td></tr></tbody></table>',
+                'border="0" cellpadding="1" cellspacing="0">' .
+                '<tbody><tr><td style="border-width: 2px 0px 0px 2px; padding-top: 0.5em">&nbsp;</td>' .
+                '<td><input type="text" name="ans1_sub_0_0" value="a" size="5" autocapitalize="none" spellcheck="false"></td>' .
+                '<td><input type="text" name="ans1_sub_0_1" value="b" size="5" autocapitalize="none" spellcheck="false"></td>' .
+                '<td style="border-width: 2px 2px 0px 0px; padding-top: 0.5em">&nbsp;</td></tr>' .
+                '<tr><td style="border-width: 0px 0px 2px 2px;">&nbsp;</td>' .
+                '<td><input type="text" name="ans1_sub_1_0" value="?" size="5" autocapitalize="none" spellcheck="false"></td>' .
+                '<td><input type="text" name="ans1_sub_1_1" value="d" size="5" autocapitalize="none" spellcheck="false"></td>'.
+                '<td style="border-width: 0px 2px 2px 0px; padding-bottom: 0.5em">&nbsp;</td></tr></tbody></table>',
                 $el->render(new stack_input_state(stack_input::VALID, array(), '', '', '', '', ''),
                         'ans1', false, null));
     }

@@ -29,32 +29,42 @@ require_once(__DIR__ . '/../stack/cas/casstring.class.php');
  */
 class stack_cas_casstring_exception_test extends basic_testcase {
 
+    /**
+     * @expectedException stack_exception
+     */
     public function test_exception_1() {
-        $this->setExpectedException('stack_exception');
         $at1 = new stack_cas_casstring(array());
     }
 
+    /**
+     * @expectedException stack_exception
+     */
     public function test_exception_2() {
         $at1 = new stack_cas_casstring("x=1");
-        $this->setExpectedException('stack_exception');
         $at1->get_valid(false, false, false);
     }
 
+    /**
+     * @expectedException stack_exception
+     */
     public function test_exception_3() {
         $at1 = new stack_cas_casstring("x=1");
-        $this->setExpectedException('stack_exception');
         $at1->get_valid('z', false, 0);
     }
 
+    /**
+     * @expectedException stack_exception
+     */
     public function test_exception_4() {
         $at1 = new stack_cas_casstring("x=1");
-        $this->setExpectedException('stack_exception');
         $at1->get_valid('t', 'a', 0);
     }
 
+    /**
+     * @expectedException stack_exception
+     */
     public function test_exception_5() {
         $at1 = new stack_cas_casstring("x=1");
-        $this->setExpectedException('stack_exception');
         $at1->get_valid('t', true, 'a');
     }
 }

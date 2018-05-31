@@ -356,8 +356,8 @@ class qtype_stack_test_helper extends question_test_helper {
         $tans->get_valid('t');
         $node = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv', null);
         $node->add_branch(0, '=', 0, $q->penalty, -1,
-                'Your answer is not an even function. Look, \[ f(x)-f(-x)={@sa@} \neq 0.\]', FORMAT_HTML, 'odd-0-0');
-        $node->add_branch(1, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'odd-0-1');
+                'Your answer is not an even function. Look, \[ f(x)-f(-x)={@sa@} \neq 0.\]', FORMAT_HTML, 'even-0-0');
+        $node->add_branch(1, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'even-0-1');
         $q->prts['even']    = new stack_potentialresponse_tree('even',
                 '', true, 0.25, $feedbackvars->get_session(), array($node), 0);
 
@@ -379,7 +379,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $node1 = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv', null);
         $node1->add_branch(0, '+', 0, $q->penalty, -1,
                 'Your answer is not an even function. Look, \[ f(x)-f(-x)={@sa2@} \neq 0.\]', FORMAT_HTML, 'oddeven-1-0');
-        $node1->add_branch(1, '+', 0.5, $q->penalty, -1, '', FORMAT_HTML, 'EVEN');
+        $node1->add_branch(1, '+', 0.5, $q->penalty, -1, '', FORMAT_HTML, 'oddeven-1-1');
 
         $q->prts['oddeven'] = new stack_potentialresponse_tree('oddeven',
                 '', true, 0.25, $feedbackvars->get_session(), array($node0, $node1), 0);

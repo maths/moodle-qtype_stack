@@ -823,10 +823,11 @@ class qtype_stack extends question_type {
                 array('questionid' => $questionid), 'testcase', 'testcase, 1');
         $testcases = array();
         foreach ($testcasenumbers as $number => $notused) {
-            if (array_key_exists($number, $testinputs)) {
-                $testcase = new stack_question_test($testinputs[$number], $number);
-                $testcases[$number] = $testcase;
+            if (!array_key_exists($number, $testinputs)) {
+                $testinputs[$number] = array();
             }
+            $testcase = new stack_question_test($testinputs[$number], $number);
+            $testcases[$number] = $testcase;
         }
 
         $expecteddata = $DB->get_records('qtype_stack_qtest_expected',

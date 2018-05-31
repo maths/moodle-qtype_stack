@@ -838,7 +838,7 @@ plot(ex, [ra]) :=  /*stack_web_plot*/
         afn: concat(IMAGE_DIR, filename, ".", PLOT_TERMINAL),
     ufn: concat("<img src='", URL_BASE, filename, ".", PLOT_TERMINAL, "' alt='", alttext, "' width='", string(plot_size[1]), "' />"),
     if plot_tags then 
-        ufn: concat("<div class=\"stack_plot\">", ufn, "</div>"),
+        ufn: concat("<div class='stack_plot'>", ufn, "</div>"),
     if OPT_OUTPUT#"MathML" then
       ufn: concat(" <html>", ufn, "</html> "),
     /* Sort out plot_options and preamble*/
@@ -2781,4 +2781,4 @@ load(linearalgebra);
 
 /* Stack expects some output with the version number the output happens at */
 /* maximalocal.mac after additional library loading */
-stackmaximaversion:2017121800$
+stackmaximaversion:2018030500$

@@ -103,16 +103,6 @@ flush();
 // Load the list of test cases.
 $testscases = question_bank::get_qtype('stack')->load_question_tests($question->id);
 
-// Execute the tests.
-$testresults = array();
-$allpassed = true;
-foreach ($testscases as $key => $testcase) {
-    $testresults[$key] = $testcase->test_question($quba, $question, $seed);
-    if (!$testresults[$key]->passed()) {
-        $allpassed = false;
-    }
-}
-
 $deployfeedback = optional_param('deployfeedback', null, PARAM_TEXT);
 if (!is_null($deployfeedback)) {
     echo html_writer::tag('p', $deployfeedback, array('class' => 'overallresult pass'));
@@ -277,6 +267,18 @@ if (!(empty($question->deployedseeds)) && $canedit) {
 // Display the controls to add another question test.
 echo $OUTPUT->heading(stack_string('questiontests'), 2);
 
+\core\session\manager::write_close();
+
+// Execute the tests.
+$testresults = array();
+$allpassed = true;
+foreach ($testscases as $key => $testcase) {
+    $testresults[$key] = $testcase->test_question($quba, $question, $seed);
+    if (!$testresults[$key]->passed()) {
+        $allpassed = false;
+    }
+}
+
 // Display the test results.
 $addlabel = stack_string('addanothertestcase', 'qtype_stack');
 if (empty($testresults)) {
@@ -431,6 +433,16 @@ foreach ($question->get_question_var_values() as $key => $value) {
     $displayqvs .= s($key) . ' : ' . s($value). ";\n";
 }
 echo  html_writer::tag('pre', $displayqvs);
+echo html_writer::end_tag('div');
+
+// Display a representation of the PRT for offline use.
+$offlinemaxima = array();
+foreach ($question->prts as $name => $prt) {
+    $offlinemaxima[] = $prt->get_maxima_representation();
+}
+$offlinemaxima = s(implode("\n", $offlinemaxima));
+echo html_writer::start_tag('div', array('class' => 'questionvariables'));
+echo html_writer::tag('pre', $offlinemaxima);
 echo html_writer::end_tag('div');
 
 // Display the general feedback, aka "Worked solution".

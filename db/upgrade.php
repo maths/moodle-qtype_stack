@@ -759,7 +759,8 @@ function xmldb_qtype_stack_upgrade($oldversion) {
 
         // Adding keys to table qtype_stack_qtest_results.
         $table->add_key('primary', XMLDB_KEY_PRIMARY, array('id'));
-        $table->add_key('questionid-testcase', XMLDB_KEY_FOREIGN, array('questionid', 'testcase'), 'qtype_stack_qtests', array('questionid', 'testcase'));
+        $table->add_key('questionid-testcase', XMLDB_KEY_FOREIGN, array('questionid', 'testcase'),
+                'qtype_stack_qtests', array('questionid', 'testcase'));
 
         // Adding indexes to table qtype_stack_qtest_results.
         $table->add_index('questionid-testcase-seed', XMLDB_INDEX_UNIQUE, array('questionid', 'testcase', 'seed'));

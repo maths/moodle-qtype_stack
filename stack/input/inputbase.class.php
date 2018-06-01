@@ -268,7 +268,7 @@ abstract class stack_input {
                     break;
 
                 case 'calculus':
-                        if (!(is_bool($arg))) {
+                    if (!(is_bool($arg))) {
                         $this->errors[] = stack_string('numericalinputoptbooplerr', array('opt' => $option, 'val' => $arg));
                     }
                     break;

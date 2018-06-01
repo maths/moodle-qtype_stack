@@ -60,7 +60,8 @@ class stack_units_input_test extends qtype_stack_testcase {
         $el = stack_input_factory::make('units', 'input', '9.81*m/s^2');
         $this->assertEquals(
                 '<input type="text" name="stack1__input" id="stack1__input" '
-                .'size="16.5" style="width: 13.6em" autocapitalize="none" spellcheck="false" value="9.81*m/s^2" readonly="readonly" />',
+                .'size="16.5" style="width: 13.6em" autocapitalize="none" spellcheck="false" value="9.81*m/s^2" '
+                .'readonly="readonly" />',
                 $el->render(new stack_input_state(stack_input::VALID, array('9.81*m/s^2'), '', '', '', '', ''),
                         'stack1__input', true, null));
     }

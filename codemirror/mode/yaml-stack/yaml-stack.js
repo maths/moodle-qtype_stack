@@ -199,6 +199,9 @@ CodeMirror.defineMode("yaml-stack", function(config) {
       }
 
       /* nothing found, continue */
+      state.contentField = false;
+      state.contentModeState = null;
+
       state.pairStart = false;
       state.escaped = (ch == '\\');
       stream.next();

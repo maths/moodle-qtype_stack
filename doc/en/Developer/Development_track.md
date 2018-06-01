@@ -13,22 +13,27 @@ Note: newer versions of Maxima require that a variable has been initialised as a
 
 Major features to add in for V4.2
 
+* _done_ Update reasoning by eqivalence (Chris).
 * Add in a version number to STACK questions.
 * Better install code (see #332).
 * JSXGraph support (Matti, and example questions from Artem).
-* Update reasoning by eqivalence (Chris).
 * 1st version of API.
 
 Other minor issues:
 
 * _done_ Output results of PRTs in the `summarise_response` method of `question.php`.  Gives more information for reporting.
+* _done_ Refactor equiv_input and MCQ to make use of the new extra options mechanism.
+
 * Re-sizable matrix input.  See Aalto/NUMBAS examples here, with Javascript.
 * Add support for matrices with floating point entries, and testing numerical accuracy.
-* Refactor equiv_input and MCQ to make use of the new extra options mechanism.
 * Update MCQ to accept units.
 * Add a base N check to the numeric input.
-* Enable individual questions to load Maxima libraries.  (See issue #305)
 * Add an answer test to check if decimal separator is in the wrong place (See issue #314)
 * Sort out the "addrow" problem. (See issue #333)
 * Expand support for input validation options to matrices (e.g. floatnum, rationalize etc.)
 * Add in full parser, to address issue #324.
+
+
+## Version 4.3
+
+* Enable individual questions to load Maxima libraries.  (See issue #305)

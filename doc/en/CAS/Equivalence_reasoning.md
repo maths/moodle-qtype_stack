@@ -131,11 +131,11 @@ The maxima function `stack_disp_arg(ex, showlogic)` can be used to display a lis
 
 ## Longer term plans
 
-1. Provide better feedback to students about which steps they have taken and what goes wrong.
-2. Define \(x\neq a\) operator.  Needed to exclude single numbers from the domain.
-3. Equivalence using a substitution of one variable for another.  See simultaneous equation example.
-4. Fully implement the ideas in the paper Sangwin, C.J. __An Audited Elementary Algebra__ The Mathematical Gazette, July 2015.
-5. Add in constants of integration into the calculus tests.
+1. Define \(x\neq a\) operator.  Needed to exclude single numbers from the domain.
+2. Add in constants of integration into the calculus tests.
+3. Provide better feedback to students about which steps they have taken and what goes wrong.
+
+In the long term, we may fully implement the ideas in the paper Sangwin, C.J. __An Audited Elementary Algebra__ The Mathematical Gazette, July 2015.
 
 In the future students might also be expected to say what they are doing, e.g. ``add \(a\) to both sides", as well as just do it.  Quite how it does this, and the options available to the teacher is what is most likely to change!  
 

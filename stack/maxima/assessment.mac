@@ -1449,7 +1449,7 @@ stack_eval_arg(ex) := block([eqoutcome, eqoutsymb, eqoutnote, res, id, truthargu
       SA:ev(SA, logbase=logbasesimp),
       exmod[ev(id, simp)]:SA,
 
-      if ev(is(equal(length(listofvars(SA)),1)), simp) then
+      if ev(is(equal(length(listofvars(SA)), 1)), simp) then
           exmodsolve[ev(id, simp)]:ev(single_variable_solver_real(SA), simp)
       else
           exmodsolve[ev(id, simp)]:ev(logical_normal(SA), simp),
@@ -1666,6 +1666,8 @@ stack_eval_arg(ex) := block([eqoutcome, eqoutsymb, eqoutnote, res, id, truthargu
           if is(lhs(SA)=all) or is(lhs(SB)=all) or is(lhs(SA)=none) or is(lhs(SB)=none) then
               malrulecont:false,
 
+          if (debug) and not(malrulecont) then print("** Not actually checking for common mistakes ... **"),
+
           /* We don't allow the stackeq operator for the second argument with calculus. */
           if malrulecont and is(stack_calculus=true) and not(safe_op(ex[ev(id, simp)])="stackeq") then block([SAD, SBD, var, ATres],
               /* (C0) Calculus operations. */
@@ -1700,6 +1702,10 @@ stack_eval_arg(ex) := block([eqoutcome, eqoutsymb, eqoutnote, res, id, truthargu
                   )
               )
           ),
+
+          /* The following rules are only checked when we have no calculus operations. */
+          malrulecont:malrulecont and freeof(int,SA) and freeof(int,SB)
+                      and freeof(diff,SA) and freeof(diff,SB),
 
           if malrulecont then block([FAA, FBB, FGCD, ATres],
               /* (0) Multiplicity of roots. */

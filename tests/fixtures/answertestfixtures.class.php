@@ -707,6 +707,7 @@ class stack_answertest_test_data {
         array('Equiv', '', '[x^2=4,x=2 or x=-2]', '[x^2=4,x=2 or x=-2]', 1, '[EMPTYCHAR,EQUIVCHAR]', ''),
         array('Equiv', '', '[x^2=4,x=+-2,x=2 and x=-2]', '[x^2=4,x=2 or x=-2]', 0, '[EMPTYCHAR,EQUIVCHAR,ANDOR]', ''),
         array('Equiv', '', '[x^2=4,x=2]', '[x^2=4,x=2 or x=-2]', 0, '[EMPTYCHAR,IMPLIEDCHAR]', ''),
+        array('Equiv', '[assumepos]', '[x^2=4,x=2]', '[x^2=4,x=2]', 1, '[ASSUMEPOSVARS,EQUIVCHAR]', ''),
         array('Equiv', '', '[x^2=4,x^2-4=0,(x-2)*(x+2)=0,x=2 or x=-2]', '[x^2=4,x=2 or x=-2]', 1,
             '[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR]', ''),
         array('Equiv', '', '[x^2=4,x= +-2, x=2 or x=-2]', '[x^2=4,x=2 or x=-2]', 1,

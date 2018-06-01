@@ -95,9 +95,11 @@ class qtype_stack extends question_type {
             $options->prtcorrect = '';
             $options->prtpartiallycorrect = '';
             $options->prtincorrect = '';
+            $options->stackversion = get_config('qtype_stack', 'version');
             $options->id = $DB->insert_record('qtype_stack_options', $options);
         }
 
+        $options->stackversion              = $fromform->stackversion; 
         $options->questionvariables         = $fromform->questionvariables;
         $options->specificfeedback          = $this->import_or_save_files($fromform->specificfeedback,
                     $context, 'qtype_stack', 'specificfeedback', $fromform->id);
@@ -377,6 +379,7 @@ class qtype_stack extends question_type {
     protected function initialise_question_instance(question_definition $question, $questiondata) {
         parent::initialise_question_instance($question, $questiondata);
 
+        $question->stackversion              = $questiondata->options->stackversion;
         $question->questionvariables         = $questiondata->options->questionvariables;
         $question->questionnote              = $questiondata->options->questionnote;
         $question->specificfeedback          = $questiondata->options->specificfeedback;
@@ -966,6 +969,9 @@ class qtype_stack extends question_type {
         $output = '';
 
         $options = $questiondata->options;
+        $output .= "    <stackversion>\n";
+        $output .= "      " . $format->writetext($options->stackversion, 0);
+        $output .= "    </stackversion>\n";
         $output .= "    <questionvariables>\n";
         $output .= "      " . $format->writetext($options->questionvariables, 0);
         $output .= "    </questionvariables>\n";
@@ -1089,6 +1095,7 @@ class qtype_stack extends question_type {
         $fromform->questionvariables     = $format->getpath($xml, array('#', 'questionvariables',
                                                             0, '#', 'text', 0, '#'), '', true);
         $fromform->specificfeedback      = $this->import_xml_text($xml, 'specificfeedback', $format, $fromform->questiontextformat);
+        $fromform->stackversion          = $format->getpath($xml, array('#', 'stackversion', 0, '#', 'text', 0, '#'), '', true);
         $fromform->questionnote          = $format->getpath($xml, array('#', 'questionnote', 0, '#', 'text', 0, '#'), '', true);
         $fromform->questionsimplify      = $format->getpath($xml, array('#', 'questionsimplify', 0, '#'), 1);
         $fromform->assumepositive        = $format->getpath($xml, array('#', 'assumepositive', 0, '#'), 0);

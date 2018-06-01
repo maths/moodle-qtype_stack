@@ -472,5 +472,11 @@ $chatparams['cas'] = $question->generalfeedback;
 // to test the general feedback in a random context.
 echo $OUTPUT->single_button(new moodle_url('/question/type/stack/caschat.php', $chatparams), stack_string('chat'));
 
+if ($question->stackversion == null) {
+    echo html_writer::tag('p', stack_string('stackversionnone'));
+} else {
+    echo html_writer::tag('p', stack_string('stackversionedited', $question->stackversion). stack_string('stackversionnow', get_config('qtype_stack', 'version')));
+}
+
 // Finish output.
 echo $OUTPUT->footer();

@@ -37,6 +37,11 @@ $string['exceptionmessage'] = '{$a}';
 // Capability names.
 $string['stack:usediagnostictools'] = 'Use the STACK tools';
 
+// Versions of STACK.
+$string['stackversionedited'] = 'This question was authored with STACK version {$a}.';
+$string['stackversionnow']    = 'The current version of STACK is {$a}.';
+$string['stackversionnone']   = 'This question has not been edited since question version numbering was introduced in STACK 4.2.  Please review your question carefully.';
+
 // Strings used on the editing form.
 $string['addanothernode'] = 'Add another node';
 $string['allnodefeedbackmustusethesameformat'] = 'All the feedback for all the nodes in a PRT must use the same text format.';

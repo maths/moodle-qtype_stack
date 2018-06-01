@@ -43,6 +43,11 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         implements question_automatically_gradable_with_multiple_parts {
 
     /**
+     * @var string STACK specific: Holds the version of the question when it was last saved.
+     */
+    public $stackversion;
+
+    /**
      * @var string STACK specific: variables, as authored by the teacher.
      */
     public $questionvariables;

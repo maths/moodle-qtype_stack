@@ -448,6 +448,10 @@ class qtype_stack_edit_form extends question_edit_form {
         $mform->addHelpButton('questiontext', 'questiontext', 'qtype_stack');
         $mform->addRule('questiontext', stack_string('questiontextnonempty'), 'required', '', 'client');
 
+        $sv =  $mform->createElement('hidden', 'stackversion', get_config('qtype_stack', 'version'));
+        $mform->insertElementBefore($sv, 'questiontext');
+        $mform->setType('stackversion', PARAM_RAW);
+
         $qvars = $mform->createElement('textarea', 'questionvariables',
                 stack_string('questionvariables'), array('rows' => 5, 'cols' => 80));
         $mform->insertElementBefore($qvars, 'questiontext');

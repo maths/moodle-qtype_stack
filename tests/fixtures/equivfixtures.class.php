@@ -247,6 +247,23 @@ class stack_equiv_test_data {
         $samplearguments[] = $newarg;
 
         $newarg = array();
+        $newarg['title']     = "Odd powers";
+        $newarg['narrative'] = '';
+        $newarg['casstring'] = "[x^3=8,x=2]";
+        $newarg['debuglist'] = "[EMPTYCHAR,IMPLIEDCHAR]";
+        $newarg['outcome']   = false;
+        $samplearguments[] = $newarg;
+
+        $newarg = array();
+        $newarg['title']      = "Odd powers, over the reals";
+        $newarg['narrative']  = '';
+        $newarg['casstring']  = "[x^3=8,x=2]";
+        $newarg['debuglist']  = "[EMPTYCHAR,EQUIVCHARREAL]";
+        $newarg['outcome']    = true;
+        $newarg['assumereal'] = true;
+        $samplearguments[] = $newarg;
+
+        $newarg = array();
         $newarg['title']     = "Absolute value (Tricky)";
         $newarg['narrative'] = 'These *equations* are equivalent, but the expressions are not.  ';
         $newarg['casstring'] = "[abs(x-1/2)+abs(x+1/2)=2,abs(x)=1]";
@@ -259,7 +276,7 @@ class stack_equiv_test_data {
         $newarg['narrative'] = '';
         $newarg['casstring'] = "[a^2=9 and a>0,a=3]";
         $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR]";
-        $newarg['outcome']   = 'unsupported';
+        $newarg['outcome']   = true;
         $samplearguments[] = $newarg;
 
         //******************************************************************************
@@ -965,6 +982,84 @@ class stack_equiv_test_data {
 
         //******************************************************************************
         $newarg = array();
+        $newarg['section'] = 'Simultaneous equations and substitution';
+        $samplearguments[] = $newarg;
+
+        $newarg = array();
+        $newarg['title']     = "Linear simultaneous equations";
+        $newarg['narrative'] = 'With sumultaneous equations students must use "and" to join them.';
+        $newarg['casstring'] = "[2*x+3*y=6 and 4*x+9*y=15,2*x+3*y=6 and -2*x=-3,".
+            "3+3*y=6 and 2*x=3,y=1 and x=3/2]";
+        $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR]";
+        $newarg['outcome']   = true;
+        $samplearguments[] = $newarg;
+
+        $newarg = array();
+        $newarg['title']     = "Linear simultaneous equations";
+        $newarg['narrative'] = 'With sumultaneous equations students must use "and" to join them.';
+        $newarg['casstring'] = "[2*x+3*y=6 and 4*x+9*y=15,2*x+3*y=6 and -2*x=-3,".
+                "3+3*y=6 and 2*x=3,y=1 and x=3]";
+        $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,QMCHAR]";
+        $newarg['outcome']   = false;
+        $samplearguments[] = $newarg;
+
+        $newarg = array();
+        $newarg['title']     = "Simultaneous equations";
+        $newarg['narrative'] = '';
+        $newarg['casstring'] = "[x^2+y^2=8 and x=y, 2*x^2=8 and y=x, x^2=4 and y=x, x= +-2 and y=x, ".
+                "(x= 2 and y=x) or (x=-2 and y=x), (x=2 and y=2) or (x=-2 and y=-2)]";
+        $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR]";
+        $newarg['outcome']   = true;
+        $samplearguments[] = $newarg;
+
+        $newarg = array();
+        $newarg['title']     = "Simultaneous equations (without using square roots or substitution)";
+        $newarg['narrative'] = '';
+        $newarg['casstring'] = "[x^2+y^2=5 and x*y=2, x^2+y^2-5=0 and x*y-2=0, x^2-2*x*y+y^2-1=0 and x^2+2*x*y+y^2-9=0, ".
+                "(x-y)^2-1=0 and (x+y)^2-3^2=0, ".
+                "(x-y=1 and x+y=3) or (x-y=-1 and x+y=3) or (x-y=1 and x+y=-3) or (x-y=-1 and x+y=-3), ".
+                "(x=1 and y=2) or (x=2 and y=1) or (x=-2 and y=-1) or (x=-1 and y=-2)]";
+        $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR]";
+        $newarg['outcome']   = true;
+        $samplearguments[] = $newarg;
+
+        $newarg = array();
+        $newarg['title']     = "Simultaneous equations (without using square roots or substitution) 2";
+        $newarg['narrative'] = '';
+        $newarg['casstring'] = "[4*x^2+7*x*y+4*y^2=4 and y=x-4, 4*x^2+7*x*(x-4)+4*(x-4)^2-4=0 and y=x-4, ".
+                "15*x^2-60*x+60=0 and y=x-4, (x-2)^2=0 and y=x-4, x=2 and y=x-4, x=2 and y=-2]";
+        $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR]";
+        $newarg['outcome']   = true;
+        $samplearguments[]   = $newarg;
+
+        $newarg = array();
+        $newarg['title']     = "Substitution";
+        $newarg['narrative'] = '';
+        $newarg['casstring'] = "[a^2=b and a^2=1, b=a^2 and (a=1 or a=-1), (b=1 and a=1) or (b=1 and a=-1)]";
+        $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR]";
+        $newarg['outcome']   = true;
+        $samplearguments[]   = $newarg;
+
+        $newarg = array();
+        $newarg['title']     = "Substitution";
+        $newarg['narrative'] = '';
+        $newarg['casstring'] = "[a^2=b and x=1, b=a^2 and x=1]";
+        $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR]";
+        $newarg['outcome']   = true;
+        $samplearguments[]   = $newarg;
+
+        $newarg = array();
+        $newarg['title']      = "Find two distinct numbers which are the square of each other (needs substitution, not equals)";
+        $newarg['narrative']  = '';
+        $newarg['casstring']  = "[a^2=b and b^2=a, b=a^2 and a^4=a, b=a^2 and a^4-a=0, b=a^2 and a*(a-1)*(a^2+a+1)=0, ".
+                "b=a^2 and (a=0 or a=1 or a^2+a+1=0), (b=0 and a=0) or (b=1 and a=1)]";
+        $newarg['debuglist']  = "[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR]";
+        $newarg['outcome']    = true;
+        $newarg['assumereal'] = true;
+        $samplearguments[]    = $newarg;
+
+        //******************************************************************************
+        $newarg = array();
         $newarg['section'] = 'Inequalities';
         $samplearguments[] = $newarg;
 
@@ -975,6 +1070,16 @@ class stack_equiv_test_data {
                 "((2*x-3)>=0 and (x+2)>=0) or ((2*x-3)<=0 and (x+2)<=0), ".
                 "(x>=3/2 and x>=-2) or (x<=3/2 and x<=-2), x>=3/2 or x <=-2]";
         $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR]";
+        $newarg['outcome']   = 'unsupported';
+        $samplearguments[] = $newarg;
+
+        $newarg = array();
+        $newarg['title']     = "Solving a quadratic inequality";
+        $newarg['narrative'] = 'Solving quadratic inequalities using reasoning by equivalence.';
+        $newarg['casstring'] = "[2*x^2+x>=6, 2*x^2+x-6>=0, (2*x-3)*(x+2)>= 0,".
+                "((2*x-3)>=0 and (x+2)>=0) or ((2*x-3)<=0 and (x+2)<=0), ".
+                "(x>=3/2 and x>=-2) or (x<=3/2 and x<=-2), x>=3/2 or x <=2]";
+        $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,QMCHAR]";
         $newarg['outcome']   = 'unsupported';
         $samplearguments[] = $newarg;
 
@@ -1024,74 +1129,6 @@ class stack_equiv_test_data {
         $newarg['casstring'] = "[x-2>0 and x*(x-2)<15,x>2 and x^2-2*x-15<0,x>2 and (x-5)*(x+3)<0,".
                 "x>2 and ((x<5 and x>-3) or (x>5 and x<-3)),x>7 and (x<5 and x>-3),x>2 and x<5]";
         $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,QMCHAR,QMCHAR]";
-        $newarg['outcome']   = 'unsupported';
-        $samplearguments[] = $newarg;
-
-        //******************************************************************************
-        $newarg = array();
-        $newarg['section'] = 'Simultaneous equations and substitution';
-        $samplearguments[] = $newarg;
-
-        $newarg = array();
-        $newarg['title']     = "Linear simultaneous equations";
-        $newarg['narrative'] = 'With sumultaneous equations students must use "and" to join them.';
-        $newarg['casstring'] = "[2*x+3*y=6 and 4*x+9*y=15,2*x+3*y=6 and -2*x=-3,".
-            "3+3*y=6 and 2*x=3,y=1 and x=3/2]";
-        $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR]";
-        $newarg['outcome']   = 'unsupported';
-        $samplearguments[] = $newarg;
-
-        $newarg = array();
-        $newarg['title']     = "Simultaneous equations";
-        $newarg['narrative'] = '';
-        $newarg['casstring'] = "[x^2+y^2=8 and x=y, 2*x^2=8 and y=x, x^2=4 and y=x, x= +-2 and y=x, ".
-                "(x= 2 and y=x) or (x=-2 and y=x), (x=2 and y=2) or (x=-2 and y=-2)]";
-        $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR]";
-        $newarg['outcome']   = 'unsupported';
-        $samplearguments[] = $newarg;
-
-        $newarg = array();
-        $newarg['title']     = "Simultaneous equations (without using square roots or substitution)";
-        $newarg['narrative'] = '';
-        $newarg['casstring'] = "[x^2+y^2=5 and x*y=2, x^2+y^2-5=0 and x*y-2=0, x^2-2*x*y+y^2-1=0 and x^2+2*x*y+y^2-9=0, ".
-                "(x+y)^2-1=0 and (x-y)^2-3^2=0, ".
-                "(x+y=1 and x-y=3) or (x+y=-1 and x-y=3) or (x+y=1 and x-y=-3) or (x+y=-1 and x-y=-3), ".
-                "(x=1 and y=2) or (x=2 and y=1) or (x=-2 and y=-1) or (x=-1 and y=-2)]";
-        $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR]";
-        $newarg['outcome']   = 'unsupported';
-        $samplearguments[] = $newarg;
-
-        $newarg = array();
-        $newarg['title']     = "Simultaneous equations (without using square roots or substitution) 2";
-        $newarg['narrative'] = '';
-        $newarg['casstring'] = "[4*x^2+7*x*y+4*y^2=0 and y=x-4, 4*x^2+7*x*(x-4)+4*(x-4)^2=0 and y=x-4, ".
-                "15*x^2-60*x+60=0 and y=x-4, (x-2)^2=0 and y=x-4, x=2 and y=x-4, x=2 and y=-2]";
-        $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR]";
-        $newarg['outcome']   = 'unsupported';
-        $samplearguments[] = $newarg;
-
-        $newarg = array();
-        $newarg['title']     = "Substitution";
-        $newarg['narrative'] = '';
-        $newarg['casstring'] = "[a^2=b and a^2=1, b=a^2 and (a=1 or a=-1), (b=1 and a=1) or (b=1 and a=-1)]";
-        $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR]";
-        $newarg['outcome']   = 'unsupported';
-        $samplearguments[] = $newarg;
-
-        $newarg = array();
-        $newarg['title']     = "Substitution";
-        $newarg['narrative'] = '';
-        $newarg['casstring'] = "[a^2=b and x=1, b=a^2 and x=1]";
-        $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR]";
-        $newarg['outcome']   = 'unsupported';
-        $samplearguments[] = $newarg;
-
-        $newarg = array();
-        $newarg['title']     = "Find two distinct numbers which are the square of each other (needs substitution, not equals)";
-        $newarg['narrative'] = '';
-        $newarg['casstring'] = "[a^2=b and b^2=a, b=a^2 and a^4=a, b=a^2 and a^4-a=0, b=a^2 and a*(a-1)*(a^2+a+1)=0, ".
-                "b=a^2 and (a=0 or a=1 or a^2+a+1=0), (b=0 and a=0) or (b=1 and a=1)]";
-        $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR]";
         $newarg['outcome']   = 'unsupported';
         $samplearguments[] = $newarg;
 

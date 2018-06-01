@@ -1034,6 +1034,7 @@ logic_to_poly(ex) := block(
         if (all_listp(equationp, ex2)) then
             ex:apply("*", maplist(lhs, ex2))=0
     ),
+
     return(ex)
 )$
 
@@ -1448,11 +1449,7 @@ stack_eval_arg(ex) := block([eqoutcome, eqoutsymb, eqoutnote, res, id, truthargu
       SA:abs_replace_eq(SA),
       SA:ev(SA, logbase=logbasesimp),
       exmod[ev(id, simp)]:SA,
-
-      if ev(is(equal(length(listofvars(SA)), 1)), simp) then
-          exmodsolve[ev(id, simp)]:ev(single_variable_solver_real(SA), simp)
-      else
-          exmodsolve[ev(id, simp)]:ev(logical_normal(SA), simp),
+      exmodsolve[ev(id, simp)]:stack_eval_arg_solver(SA),
 
       /* Try to turn things into polynomials.  Much more reliable equivalence checking. */
       /* End up in the form p(x) = 0                                                    */
@@ -1866,7 +1863,33 @@ stack_eval_arg(ex) := block([eqoutcome, eqoutsymb, eqoutnote, res, id, truthargu
   ),
   res:matrix(eqoutcome, eqoutsymb, ex, exnatdomain, eqoutnote),
   return(transpose(res))
-);
+)$
+
+/* Try to find a representative of the solution set of the underlying system in a sensible form. 
+   Only support specific situations currently.  
+*/
+stack_eval_arg_solver(ex) := block([ex2],
+
+      ex:logic_to_poly(ex),
+
+      if ev(is(equal(length(listofvars(ex)), 1)), simp) then
+          return(ev(single_variable_solver_real(ex), simp)),
+
+      if safe_op(ex) = "%or" or safe_op(ex) = "nounor" or safe_op(ex) = "or" then 
+          return(ev(logical_normal(apply("%or", maplist(stack_eval_arg_solver, ex))), simp)),
+
+      if safe_op(ex) = "%and" or safe_op(ex) = "nounand" or safe_op(ex) = "and" then block([ex2],
+          /* Solve systems of polynomial equations. (Not inequalities) */
+        ex2:maplist(logic_to_poly, args(ex)),
+        if (all_listp(lambda([ex], equationp(ex) and polynomialpsimp(lhs(ex))), ex2)) then block(
+            ex2:ev(solve(ex2, sort(listofvars(ex2)))), simp),
+            if assume_real then
+                ex2:ev(sublist(ex2, lambda([m], freeof(%i, m))), simp),
+            if not(emptyp(ex2)) then (ex2:map(lambda([ex], apply("%and", ex)), ex2), ex:apply("%or", ex2))
+            ),
+      return(ev(logical_normal(ex), simp))
+)$
+
 
 /* This modifies stack_eval_arg to create something which can be displayed. */
 stack_eval_equiv_arg(ex, showlogic, equivdebug, debuglist) := block([A, k, ret, res, exnew, eqoutsymb, note],

@@ -2,12 +2,13 @@
 
 __NOTE: Reasoning by equivalence was introduced in STACK 3.6.  This area of STACK is still under active development, and features and behaviour may change significantly in future versions, subject to trials with students and feedback from colleagues.__
 
-We currently provide support for basic single variable polynomials, and very simple inequalities.
+We currently provide support for 
 
-There is no support for algebraic manipulations involving 
+- basic single variable polynomials,
+- very simple inequalities,
+- simple simultaneous equations.
 
-- simultaneous equations, 
-- logarithms and trig functions although individual examples may work.
+There is no support for algebraic manipulations involving logarithms and trig functions although individual examples may work.
 
 Wider support is intended for future versions.
 

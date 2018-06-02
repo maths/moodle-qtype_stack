@@ -2006,13 +2006,6 @@ class qtype_stack extends question_type {
             $lastkey = -1;
             foreach ($submitted as $key => $truenextnode) {
                 if (optional_param($prtname . 'nodedelete' . $key, false, PARAM_BOOL)) {
-
-                    // Slightly odd to register the button here, especially since
-                    // now this node has been deleted, this button will not exist,
-                    // but anyway this works, and in necessary to stop the form
-                    // from being submitted.
-                    $this->_form->registerNoSubmitButton($prtname . 'nodedelete' . $key);
-
                     // For deleted nodes, we add them to the tree anyway, and
                     // then remove them again below. We have to do it that way
                     // because we also need to delete links that point to the

@@ -649,6 +649,19 @@ class qtype_stack_edit_form extends question_edit_form {
             foreach ($prt->nodes as $node) {
                 $question = $this->data_preprocessing_node($question, $prtname, $node);
             }
+
+            // Sort out deleting nodes via the Moodle form.
+
+            // If the form has been submitted and is being redisplayed, and this is
+            // an existing PRT, base things on the submitted data.
+            $submitted = optional_param_array($prtname . 'truenextnode', null, PARAM_RAW);
+            if ($submitted) {
+                foreach ($submitted as $key => $truenextnode) {
+                    if (optional_param($prtname . 'nodedelete' . $key, false, PARAM_BOOL)) {
+                        $this->_form->registerNoSubmitButton($prtname . 'nodedelete' . $key);
+                    }
+                }
+            }
         }
 
         return $question;

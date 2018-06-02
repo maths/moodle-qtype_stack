@@ -76,6 +76,10 @@ class restore_qtype_stack_plugin extends restore_qtype_plugin {
 
         $data = (object)$data;
 
+        if (!property_exists($data, 'stackversion')) {
+            $data->stackversion = '';
+        }
+
         if (!property_exists($data, 'inversetrig')) {
             $data->inversetrig = 'cos-1';
         }

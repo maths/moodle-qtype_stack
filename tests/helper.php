@@ -71,6 +71,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->qtype = question_bank::get_qtype('stack');
         $q->contextid = context_system::instance()->id;
 
+        $q->stackversion = get_config('qtype_stack', 'version');
         $q->questionvariables = '';
         $q->specificfeedback = '';
         $q->specificfeedbackformat = FORMAT_HTML;
@@ -1089,6 +1090,7 @@ class qtype_stack_test_helper extends question_test_helper {
 
         $qdata->options = new stdClass();
         $qdata->options->id                        = 0;
+        $qdata->options->stackversion              = get_config('qtype_stack', 'version');
         $qdata->options->questionvariables         = '';
         $qdata->options->specificfeedback          = '[[feedback:firsttree]]';
         $qdata->options->specificfeedbackformat    = FORMAT_HTML;
@@ -1209,6 +1211,7 @@ class qtype_stack_test_helper extends question_test_helper {
 
         $qdata->options = new stdClass();
         $qdata->options->id                        = 0;
+        $qdata->options->stackversion              = get_config('qtype_stack', 'version');
         $qdata->options->questionvariables         = '';
         $qdata->options->specificfeedback          = '';
         $qdata->options->specificfeedbackformat    = FORMAT_HTML;
@@ -1502,6 +1505,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $formform->usecurrentcat = '1';
         $formform->categorymoveto = '2,14';
         $formform->name = 'test-3';
+        $formform->stackversion = get_config('qtype_stack', 'version');
         $formform->questionvariables = '';
         $formform->variantsselectionseed = '';
         $formform->questiontext = array(

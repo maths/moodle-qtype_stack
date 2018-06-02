@@ -158,6 +158,9 @@ class qtype_stack_test extends qtype_stack_walkthrough_test_base {
     <defaultgrade>1</defaultgrade>
     <penalty>0.3333333</penalty>
     <hidden>0</hidden>
+    <stackversion>
+      <text>' . get_config('qtype_stack', 'version') . '</text>
+    </stackversion>
     <questionvariables>
       <text></text>
     </questionvariables>

@@ -141,6 +141,7 @@ $string['inputheading'] = 'Input: {$a}';
 $string['inputnamelength'] = 'Input names cannot be longer than 18 characters. \'{$a}\' is too long.';
 $string['inputremovedconfirmbelow'] = 'Input \'{$a}\' has been removed. Please confirm this below.';
 $string['inputremovedconfirm'] = 'I confirm that I want to remove this input from this question.';
+$string['inputlanguageproblems'] = 'There are inconsistencies in the input and validation tags between langauges.';
 $string['inputs'] = 'Inputs';
 $string['inputtype'] = 'Input type';
 $string['inputtype_help'] = 'This determines the type of the input element, e.g. form field, true/false, text area.';
@@ -257,6 +258,7 @@ $string['questiontextmustcontain'] = 'The question text must contain the token \
 $string['questiontextonlycontain'] = 'The question text should only contain the token \'{$a}\' once.';
 $string['questiontextplaceholderswhitespace'] = 'Placeholders may not contain whitespace.  This one appears to do so: \'{$a}\'.';
 $string['questiontextfeedbackonlycontain'] = 'The question text combined with the specific feedback should only contain the token \'{$a}\' once.';
+$string['questiontextfeedbacklanguageproblems'] = 'There are inconsistencies in the feedback tags between langauges.';
 $string['questionvalue'] = 'Question value';
 $string['questionvaluepostive'] = 'Question value must be non-negative.';
 $string['questionvariables'] = 'Question variables';
@@ -862,7 +864,6 @@ $string['stackDoc_siteMap']             = 'Site map';
 $string['stackDoc_404message']          = 'File not found.';
 $string['stackDoc_directoryStructure']  = 'Directory structure';
 $string['stackDoc_version']             = 'Your site is running STACK version {$a}.';
-
 
 // Fact sheets.
 $string['greek_alphabet_name'] = 'The Greek Alphabet';

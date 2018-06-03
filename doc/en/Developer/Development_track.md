@@ -21,6 +21,8 @@ Major features to add in for V4.2
 
 Other minor issues:
 
+* _done_ Refactor internal question validation away from Moodle editing, and into the question type.  Add in a "warning" system.
+* _done_ Add in native multi-language support, to separate out langagues in the question text.  This is needed so as not to create spurious validation errors, such as "input cannout occur twice".
 * _done_ Output results of PRTs in the `summarise_response` method of `question.php`.  Gives more information for reporting.
 * Re-sizable matrix input.  See Aalto/NUMBAS examples here, with Javascript.
 * Add support for matrices with floating point entries, and testing numerical accuracy.

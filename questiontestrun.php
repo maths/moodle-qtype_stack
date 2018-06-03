@@ -112,6 +112,11 @@ if (!is_null($deployfeedbackerr)) {
     echo html_writer::tag('p', $deployfeedbackerr, array('class' => 'overallresult fail'));
 }
 
+$upgradeerrors = $question->validate_against_stackversion();
+if ($upgradeerrors != '') {
+    echo html_writer::tag('p', $upgradeerrors, array('class' => 'fail'));
+}
+
 // Display the list of deployed variants, with UI to edit the list.
 if ($question->deployedseeds) {
     echo $OUTPUT->heading(stack_string('deployedvariantsn', count($question->deployedseeds)), 3);

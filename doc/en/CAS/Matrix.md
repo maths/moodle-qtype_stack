@@ -12,7 +12,7 @@ is rather interesting.
 The following functions are part of Maxima, but are very useful for us.
 
     rowswap(m,i,j)
-    addrow(m,i,j,k)
+    rowadd(m,i,j,k)
 
 Where ` m[i]: m[i] + k * m[j]`.
 

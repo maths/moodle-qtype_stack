@@ -2086,7 +2086,6 @@ class qtype_stack extends question_type {
         return $graph;
     }
 
-
     /**
      * Helper method to get the list of inputs required by a PRT, given the current
      * state of the form.

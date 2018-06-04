@@ -80,8 +80,8 @@ stackjson_parse(json) := block([r,tmp,tokens,mode,i,lastslash,c,starts,nt,k,v,dm
  i:0,
  tokens:[],
  lastslash:false,
- while is(i<slength(tmp)) do (
-  c:charat(tmp,i+1),
+ while ev(is(i<slength(tmp)), simp) do (
+  c:charat(tmp, ev(i+1, simp)),
   if is(mode="raw") then (
    if is(c="[") then tokens:append(tokens,[_stackjson_tokens_list_open])
    elseif is(c="]") then tokens:append(tokens,[_stackjson_tokens_list_close])
@@ -130,39 +130,39 @@ stackjson_parse(json) := block([r,tmp,tokens,mode,i,lastslash,c,starts,nt,k,v,dm
  dm:0,
  /* Otherwise reduce grouppings. */
  starts:sublist_indices(tokens, lambda([x], is(x=_stackjson_tokens_list_open) or is(x=_stackjson_tokens_dict_open))),
- while is(length(starts)>0) do (
+ while ev(is(length(starts)>0), simp) do (
   r:[],
   nt:[],
   i:1,
   /* Change this to actual sublist as this is not the way to do it... */
-  while is(i<last(starts)) do (nt:append(nt,[tokens[i]]),i:i+1),
+  while ev(is(i<last(starts)), simp) do (nt:append(nt,[tokens[i]]), i:ev(i+1, simp)),
   if is(tokens[last(starts)]=_stackjson_tokens_list_open) then (
    i:last(starts)+1,
    while not is(tokens[i]=_stackjson_tokens_list_close) do (
     if not is(tokens[i]=_stackjson_tokens_list_sep) then r:append(r,[tokens[i]]),
-    i:i+1
+    i:ev(i+1, simp)
    )
   ) else (
    r:["stack_map"],
-   i:last(starts)+1,
-   while not is(tokens[i]=_stackjson_tokens_dict_close) do (
-    if not is(tokens[i]=_stackjson_tokens_list_sep) then (
+   i:ev(last(starts)+1, simp),
+   while not ev(is(tokens[i]=_stackjson_tokens_dict_close), simp) do (
+    if not ev(is(tokens[i]=_stackjson_tokens_list_sep), simp) then (
      k:tokens[i],
-     v:tokens[i+2],
+     v:tokens[ev(i+2, simp)],
      r:append(r,[[k,v]]),
-     i:i+3
-    ) else i:i+1
+     i:ev(i+3, simp)
+    ) else i:ev(i+1, simp)
    )  
   ),
   nt:append(nt,[r]),
   i:i+1,
   /* Change this to actual sublist as this is not the way to do it... */
-  while is(i<length(tokens)+1) do (nt:append(nt,[tokens[i]]),i:i+1),
-  if is(length(nt)<length(tokens)) then dm:0,
+  while ev(is(i<length(tokens)+1), simp) do (nt:append(nt,[tokens[i]]),i:ev(i+1, simp)),
+  if ev(is(length(nt)<length(tokens)), simp) then dm:0,
   tokens:nt,
   /* If the string is bad we may loop forever for this we have an automated exit. */
-  dm:dm+1,
-  if is(dm>20) then return(und),
+  dm:ev(dm+1, simp),
+  if ev(is(dm>20), simp) then return(und),
   starts:sublist_indices(tokens, lambda([x], is(x=_stackjson_tokens_list_open) or is(x=_stackjson_tokens_dict_open)))
  ),
  /* At this point the tokens list has been reduced to length of one or things are broken... */
@@ -174,7 +174,7 @@ stackjson_parse(json) := block([r,tmp,tokens,mode,i,lastslash,c,starts,nt,k,v,dm
 stack_string_hex_to_num(hexstring) := block([c, tmp],
  c:0,
  for tmp in charlist(sdowncase(hexstring)) do c:c*16+(sposition(tmp,"0123456789abcdef")-1),
- return(c)
+ return(ev(c, simp))
 )$
 
 /* Takes a string representing an integer or a float and parses it the hard way to avoid having to eval it. */
@@ -203,7 +203,7 @@ stack_string_parse_number(somestring) := block([c, b, phase, neg,nege, tmp, i],
   )
  ),
  if is(phase="exponent") then if nege then c:c*10^-b else c:c*10^b,
- c:ev(c,numer),
+ c:ev(c, numer, simp),
  if neg then return(-c),
  return(c)
 )$

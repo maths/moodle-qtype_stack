@@ -18,7 +18,7 @@ Then include the following question text, which includes a simple `[[jsxgraph]]`
     <p>Type in an algebraic expression which has the graph shown below.</p>
     [[jsxgraph]]
       // boundingbox:[left, top, right, bottom]
-      var board = JXG.JSXGraph.initBoard(divid, {boundingbox: [-10, 5, 10, -5], axis: true});
+      var board = JXG.JSXGraph.initBoard(divid, {boundingbox: [-10, 5, 10, -5], axis: true, showCopyright: false});
       var f = board.jc.snippet('{#fx#}', true, 'x', true);
       board.create('functiongraph', [f,-10,10]);
     [[/jsxgraph]]
@@ -39,7 +39,7 @@ This question contains an interactive sliding element.
     <p>A graph, together with the tangent line and its slope, are shown below.  Find an algebraic expression for the graph shown below.</p>
     [[jsxgraph]]
       // boundingbox:[left, top, right, bottom]
-      var board = JXG.JSXGraph.initBoard(divid, {boundingbox: [-5, 10, 5, -10], axis: true});
+      var board = JXG.JSXGraph.initBoard(divid, {boundingbox: [-5, 10, 5, -10], axis: true, showCopyright: false});
       var f = board.jc.snippet('{#fx#}', true, 'x', true);
       curve = board.create('functiongraph', [f,-10,10], {strokeWidth:2});
       dcurve = board.create('functiongraph', [JXG.Math.Numerics.D(f),-10,10], {strokeColor:'#ff0000', strokeWidth:1, dash:2});
@@ -58,13 +58,11 @@ In this example we provide a simple slider.  Notice in this example we use the J
 
     [[jsxgraph]]
       // boundingbox:[left, top, right, bottom]
-      var board = JXG.JSXGraph.initBoard(divid, {boundingbox: [-5, 10, 5, -10], axis: true});
+      var board = JXG.JSXGraph.initBoard(divid, {boundingbox: [-5, 10, 5, -10], axis: true, showCopyright: false});
       var a = board.create('slider',[[-3,6],[2,6],[0,2,6]],{name:'a'}); 
       curve = board.create('functiongraph', [function(x) {return a.Value()**x}], {strokeWidth:2});
       board.unsuspendUpdate();
     [[/jsxgraph]]
-
-
 
 ## General considerations when building interactive graphs
 
@@ -91,7 +89,7 @@ as a JSON encoded structure. For example like this, assuming the name of the Str
       // a variable named in the attribute, you can have multiple references to multiple inputs.
 
       // Create a board like normal.
-      var board = JXG.JSXGraph.initBoard(divid, {axis: true});
+      var board = JXG.JSXGraph.initBoard(divid, {axis: true, showCopyright: false});
 
       // State represented as an JS-object, first define default then try loading the stored
       var state = {'x':4, 'y':3};
@@ -134,3 +132,4 @@ To parse and manipulate it you can use STACK's custom JSON parsing functions:
     y:stackmap_get(tmp,"y");         /* 3 */
     tmp:stackmap_set(tmp,"z",x*y);   /* [stack_map, [x, 4], [y, 3], [z, 12]] */
     json:stackjson_stringify(tmp);   /* "{\"x\":4,\"y\":3,\"z\":12}" */
+

@@ -395,7 +395,7 @@ $string['settingmaximalibraries_failed'] = 'It appears as if some of the Maxima 
 $string['replacedollarscount'] = 'This category contains {$a} STACK questions.';
 $string['replacedollarsin'] = 'Fixed maths delimiters in field {$a}';
 $string['replacedollarsindex'] = 'Contexts with STACK questions';
-$string['replacedollarsindexintro'] = 'Clicking on any of the links will take you to a page where you can review the questions for old-style maths delimiters, and automatically fix them.';
+$string['replacedollarsindexintro'] = 'Clicking on any of the links will take you to a page where you can review the questions for old-style maths delimiters, and automatically fix them. If you have too many questions (thousands) in one context, the amount of output will probably overwhelm your web browser, in which case add a preview=0 parameter to the URL and try again.';
 $string['replacedollarsindextitle'] = 'Replace $s in question texts';
 $string['replacedollarsnoproblems'] = 'No problem delimiters found.';
 $string['replacedollarstitle'] = 'Replace $s in question texts in {$a}';
@@ -485,6 +485,9 @@ $string['castext'] = 'CAS text';
 $string['chat_desc'] = 'The <a href="{$a->link}">CAS chat script</a> lets you test the connection to the CAS, and try out Maxima syntax.';
 $string['chatintro'] = 'This page enables CAS text to be evaluated directly. It is a simple script which is a useful minimal example, and a handy way to check if the CAS is working, and to test various inputs.  The first text box enables variables to be defined, the second is for the CAS text itself.';
 $string['chattitle'] = 'Test the connection to the CAS';
+$string['clearedthecache'] = 'CAS cached has been cleared.';
+$string['clearingcachefiles'] = 'Clearing cached STACK plot files {$a->done}/{$a->total}';
+$string['clearingthecache'] = 'Clearing the cache';
 $string['clearthecache'] = 'Clear the cache';
 $string['healthcheck'] = 'STACK healthcheck';
 $string['healthcheck_desc'] = 'The <a href="{$a->link}">healthcheck script</a> helps you verify that all aspects of STACK are working properly.';

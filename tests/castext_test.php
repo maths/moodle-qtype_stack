@@ -506,7 +506,7 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $at1->get_display_castext();
 
         $session = $at1->get_session();
-        $this->assertFalse(is_int(strpos($at1->get_display_castext(), "<div class=\"stack_plot\">")));
+        $this->assertFalse(is_int(strpos($at1->get_display_castext(), "<div class='stack_plot'>")));
     }
 
     public function test_plot_option_error() {

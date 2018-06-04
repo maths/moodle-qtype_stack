@@ -21,7 +21,8 @@ Note, where the feature is listed as "(done)" means we have prototype code in th
 * Add new input types
  1. Dragmath (actually, probably use javascript from NUMBAS instead here, or the MathDox editor).
  2. Sliders.
- 3. Re-sizable matrix input.  See NUMBAS examples here, with Javascript.
+ 3. Geogebra input (protoype already exisits: needs documentation, testing and support).
+ 4. Re-sizable matrix input.  See NUMBAS examples here, with Javascript.
 * It is very useful to be able to embed input elements in equations, and this was working in STACK 2.0. However is it possible with MathJax or other Moodle maths filters?
   This might offer one option:  http://stackoverflow.com/questions/23818478/html-input-field-within-a-mathjax-tex-equation
 * In the MCQ input type: Add choose N (correct) from M feature (used at Aalto).
@@ -39,6 +40,7 @@ Note, where the feature is listed as "(done)" means we have prototype code in th
 
 ### Other ideas ###
 
+* Document ways of using JSXGraph  `http://jsxgraph.org` for better support of graphics.
 * Better options for automatically generated plots.  (Aalto use of tikzpicture?)  (Draw package?)
 * Implement "Banker's rounding" option which applies over a whole question, and for all answer tests.
 * Implement "CommaError" checking for CAS strings.  Make comma an option for the decimal separator.
@@ -48,7 +50,7 @@ Note, where the feature is listed as "(done)" means we have prototype code in th
 * Decimal separator, both input and output.
 * Check CAS/maxima literature on -inf=minf.
 * Introduce a variable so the maxima code "knows the attempt number". [Note to self: check how this changes reporting].  This is now being done with the "state" code in the abacus branch.
-* Facility to import test-cases in-bulk as CSV (or something). Likewise export.
+* See YAML developments: facility to import test-cases in-bulk as CSV (or something). Likewise export.
 * Refactor answer tests.
  1. They should be like inputs. We should return an answer test object, not a controller object.
  2. at->get_at_mark() really ought to be at->matches(), since that is how it is used.
@@ -77,7 +79,21 @@ Note, where the feature is listed as "(done)" means we have prototype code in th
 * When validating the editing form, also evaluate the Maxima code in the PRTs, using the teacher's model answers.
 * You cannot use one PRT node to guard the evaluation of another, for example Node 1 check x = 0, and only if that is false, Node 2 do 1 / x. We need to change how PRTs do CAS evaluation.
 
-## Improvements to the "equiv" input type 
+### Authoring and execution of PRTs.
+
+Can we write the whole PRT as Maxima code?  This seems like an attractive option, but there are some serious problems which make it probably impratical.
+
+1. Error trapping.  Currently, the arguments each answer test are evaluated with Maxima's `errcatch` command independently before the answer test is executed.  This helps track down the source of any error. If we write a single Maxima command for the PRT (not just one node) then it is likely that error trapping will become much more difficult.
+2. Not all answer tests are implemented in pure Maxima!  Answer tests are accessed through this class `moodle-qtype_stack/stack/answertest/controller.class.php` only those which make use of `stack_answertest_general_cas` are pure maxima.  Many of the numerical tests use PHP code to infer the number of significant figures.  While we could (perhaps) rewrite some of these in Maxima, they were written in PHP as it is significantly easier to do so.
+
+So, while it is attractive to ask for the PRT as a single Maxima function it is currently difficult to do so.
+
+The current plan is to produce a solid YAML mark up language for PRTs.
+
+Other (past ideas) were http://zaach.github.com/jison/ or https://github.com/hafriedlander/php-peg.
+
+
+## Improvements to the "equiv" input type
 
 * Add an option to display and/or using language strings not '\wedge', '\vee'.
 * Improve spacing of comments, e.g. \intertext{...}?

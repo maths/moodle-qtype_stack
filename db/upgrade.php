@@ -729,6 +729,50 @@ function xmldb_qtype_stack_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2017082400, 'qtype', 'stack');
     }
 
+    if ($oldversion < 2018021900) {
+
+        // Define field timemodified to be added to qtype_stack_qtests.
+        $table = new xmldb_table('qtype_stack_qtests');
+        $field = new xmldb_field('timemodified', XMLDB_TYPE_INTEGER, '10', null, null, null, null, 'testcase');
+
+        // Conditionally launch add field timemodified.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // Stack savepoint reached.
+        upgrade_plugin_savepoint(true, 2018021900, 'qtype', 'stack');
+    }
+
+    if ($oldversion < 2018021901) {
+
+        // Define table qtype_stack_qtest_results to be created.
+        $table = new xmldb_table('qtype_stack_qtest_results');
+
+        // Adding fields to table qtype_stack_qtest_results.
+        $table->add_field('id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null);
+        $table->add_field('questionid', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null);
+        $table->add_field('testcase', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null);
+        $table->add_field('seed', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null);
+        $table->add_field('result', XMLDB_TYPE_INTEGER, '4', null, XMLDB_NOTNULL, null, null);
+        $table->add_field('timerun', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null);
+
+        // Adding keys to table qtype_stack_qtest_results.
+        $table->add_key('primary', XMLDB_KEY_PRIMARY, array('id'));
+        $table->add_key('questionid-testcase', XMLDB_KEY_FOREIGN, array('questionid', 'testcase'), 'qtype_stack_qtests', array('questionid', 'testcase'));
+
+        // Adding indexes to table qtype_stack_qtest_results.
+        $table->add_index('questionid-testcase-seed', XMLDB_INDEX_UNIQUE, array('questionid', 'testcase', 'seed'));
+
+        // Conditionally launch create table for qtype_stack_qtest_results.
+        if (!$dbman->table_exists($table)) {
+            $dbman->create_table($table);
+        }
+
+        // Stack savepoint reached.
+        upgrade_plugin_savepoint(true, 2018021901, 'qtype', 'stack');
+    }
+
     // Add new upgrade blocks just above here.
 
     // Check the version of the Maxima library code that comes with this version
@@ -744,12 +788,13 @@ function xmldb_qtype_stack_upgrade($oldversion) {
     $latestversion = $matches[1];
     $currentlyusedversion = get_config('qtype_stack', 'stackmaximaversion');
 
+    // Update the record of the currently used version.
+    set_config('stackmaximaversion', $latestversion, 'qtype_stack');
+
+    // If appropriate, clear the CAS cache.
     if ($latestversion != $currentlyusedversion) {
         stack_cas_connection_db_cache::clear_cache($DB);
     }
-
-    // Update the record of the currently used version.
-    set_config('stackmaximaversion', $latestversion, 'qtype_stack');
 
     return true;
 }

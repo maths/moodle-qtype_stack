@@ -143,7 +143,9 @@ class stack_bulk_tester  {
 
         // Prepare the question and a usage.
         $question = clone($question);
-        $question->seed = (int) $seed;
+        if (!is_null($seed)) {
+            $question->seed = (int) $seed;
+        }
         $quba = question_engine::make_questions_usage_by_activity('qtype_stack', context_system::instance());
         $quba->set_preferred_behaviour('adaptive');
 

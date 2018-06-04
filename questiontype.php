@@ -588,7 +588,11 @@ class qtype_stack extends question_type {
             $testcasedata = new stdClass();
             $testcasedata->questionid = $questionid;
             $testcasedata->testcase = $testcase;
+            $testcasedata->timemodified = time();
             $DB->insert_record('qtype_stack_qtests', $testcasedata);
+        } else {
+            $DB->set_field('qtype_stack_qtests', 'timemodified', time(),
+                    array('questionid' => $questionid, 'testcase' => $testcase));
         }
 
         // Save the input data.
@@ -819,10 +823,11 @@ class qtype_stack extends question_type {
                 array('questionid' => $questionid), 'testcase', 'testcase, 1');
         $testcases = array();
         foreach ($testcasenumbers as $number => $notused) {
-            if (array_key_exists($number, $testinputs)) {
-                $testcase = new stack_question_test($testinputs[$number]);
-                $testcases[$number] = $testcase;
+            if (!array_key_exists($number, $testinputs)) {
+                $testinputs[$number] = array();
             }
+            $testcase = new stack_question_test($testinputs[$number], $number);
+            $testcases[$number] = $testcase;
         }
 
         $expecteddata = $DB->get_records('qtype_stack_qtest_expected',
@@ -854,7 +859,7 @@ class qtype_stack extends question_type {
         $inputs = $DB->get_records_menu('qtype_stack_qtest_inputs',
                 array('questionid' => $questionid, 'testcase' => $testcase),
                 'inputname', 'inputname, value');
-        $qtest = new stack_question_test($inputs);
+        $qtest = new stack_question_test($inputs, $testcase);
 
         // Load the expectations.
         $expectations = $DB->get_records('qtype_stack_qtest_expected',
@@ -879,6 +884,7 @@ class qtype_stack extends question_type {
         $DB->delete_records('qtype_stack_qtest_expected', array('questionid' => $questionid));
         $DB->delete_records('qtype_stack_qtest_inputs',   array('questionid' => $questionid));
         $DB->delete_records('qtype_stack_qtests',         array('questionid' => $questionid));
+        $DB->delete_records('qtype_stack_qtest_results',  array('questionid' => $questionid));
         $transaction->allow_commit();
     }
 
@@ -895,6 +901,8 @@ class qtype_stack extends question_type {
         $DB->delete_records('qtype_stack_qtest_inputs',
                 array('questionid' => $questionid, 'testcase' => $testcase));
         $DB->delete_records('qtype_stack_qtests',
+                array('questionid' => $questionid, 'testcase' => $testcase));
+        $DB->delete_records('qtype_stack_qtest_results',
                 array('questionid' => $questionid, 'testcase' => $testcase));
         $transaction->allow_commit();
     }
@@ -1251,7 +1259,7 @@ class qtype_stack extends question_type {
             }
         }
 
-        $testcase = new stack_question_test($inputs);
+        $testcase = new stack_question_test($inputs, $number);
 
         if (isset($xml['#']['expected'])) {
             foreach ($xml['#']['expected'] as $expectedxml) {

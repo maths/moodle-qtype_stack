@@ -195,7 +195,7 @@ Recall again the MCQ are limited to legitimate CAS objects.  The `plot` command 
     p1:plot(x,[x,-2,2],[y,-3,3])
     p2:plot(x^2,[x,-2,2],[y,-3,3])
     p3:plot(x^3,[x,-2,2],[y,-3,3])
-    ta:[[1,true,p1],[2,false,p2],[3,false,p2]]
+    ta:[[1,true,p1],[2,false,p2],[3,false,p3]]
 
 The actual CAS value of the answer returned will be the respective integer selected (radio or dropdown) or list of integers (checkbox).  The PRT can then be used to check the value of the integer (or list) as normal.  
 

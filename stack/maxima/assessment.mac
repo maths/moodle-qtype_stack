@@ -249,7 +249,7 @@ find_rationals(ex) := block(
 /* Toplevel function.
    This returns "true" if the denominators of expressionss are free of sqrt, root, %i or fractional powers.
    It returns a list of offending terms otherwise.
-*/ 
+*/
 rationalized(ex):= block(
   ex:find_rationals(ex),
   if not(listp(ex)) then ex:[ex],
@@ -411,7 +411,9 @@ dispdp(ex, n) := decimalplacesfun(ex, n, true)$
 /* Write numbers in significant figures */
 /* Matti Pauna, Sun, 23 Oct 2011        */
 sigfigsfun(x, n, dispsigfigs) := block([fpprec:128, fpprintprec:16, simp:true, ex, ex1, ex2, dps],
-  if not(integerp(n)) then error("significantfigures(x,n) requires an integer as a second argument."),
+  if not(real_numberp(x)) then error("sigfigsfun(x,n,d) requires a real number as a first argument.  Received: ", string(x)),
+  if not(integerp(n)) then error("sigfigsfun(x,n,d) requires an integer as a second argument. Received: ", string(n)),
+  if not(is(dispsigfigs=true) or is(dispsigfigs=false)) then error("sigfigsfun(x,n,d) requires a boolean as the third argument."),
   if (is(x = 0) or is(x = 0.0)) then
     if (is(n <= 1)) then return(0)
     else if dispsigfigs then return(displaydp(0, n-1))

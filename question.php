@@ -983,11 +983,12 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         // Identify any use of addrow using only a basic string match.
         if ($stackversion < 2018060601) {
             $fields = array('questiontext', 'questionvariables', 'questionnote', 'specificfeedback', 'generalfeedback');
-            foreach ($fields as $field)
+            foreach ($fields as $field) {
                 if (strstr($this->$field, 'addrow')) {
                     $fs = stack_string($field);
                     $errors[] = stack_string('stackversionaddrowerror', $fs);
                 }
+            }
             // Look inside the PRT feedback variables.  Should probably check the feedback as well.
             foreach ($this->prts as $name => $prt) {
                 $kv = $prt->get_feedbackvariables_keyvals();

@@ -133,3 +133,26 @@ To parse and manipulate it you can use STACK's custom JSON parsing functions:
     tmp:stackmap_set(tmp,"z",x*y);   /* [stack_map, [x, 4], [y, 3], [z, 12]] */
     json:stackjson_stringify(tmp);   /* "{\"x\":4,\"y\":3,\"z\":12}" */
 
+
+## Convenience tools for building graphs
+
+The previous section covered the general case of storing the state of the graph and acting on it. Typically, you only need to handle a few points and maybe some sliders and for this task we provide ready made functions that bind those primitive objects to STACK input fields. As these binding functions only deal with singular sliders and points they will also use simpler forms of passing around the values.
+
+The example in the previous section about moving the point around and storing the points position as an JSON object can be redone with the convenience functions in much simpler form. The only major differences being that the value is stored as a raw list of float values, and the input field should not be of the String type instead we can store it as Algebraic input and directly access the values, just make sure you allow float values in that input.
+
+    [[jsxgraph input-ref-stateStore="stateRef"]]
+      // Create a board like normal.
+      var board = JXG.JSXGraph.initBoard(divid, {axis: true, showCopyright: false});
+
+      // Create a point, its initial position will be the default position if no state is present.
+      var p = board.create('point', [4, 3]);
+
+      // Bind it to the input and state stored in it.
+      stack_bind_jxg_point(stateRef, p);
+
+      // As a side note, you typically do not want the state storing input to be directly visible to the user
+      // although it may be handy during development to see what happens in it. You might hide it like this:
+      stateInput.style.display = 'none';
+    [[/jsxgraph]]
+
+For sliders you use the function `stack_bind_jxg_slider(inputRef, slider)` and it stores the sliders value as a raw float. Sliders will however require that you call `board.update()` after binding to them, otherwise the graph may not display the stored state after reload.

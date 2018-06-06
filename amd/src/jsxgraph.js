@@ -31,6 +31,8 @@ define(['qtype_stack/jsxgraphcore-lazy', 'core/yui'], function(JXG, Y) {
                                 // if a value exists move the slider to it.
                                 // the value is stored as a float value "0.43"
                                 slider.setValue(JSON.parse(theInput.value));
+                                slider.board.update();
+                                slider.update();
                             }
 
                             // Then the reverse. Hopefully, 'up' listener is free and the author does

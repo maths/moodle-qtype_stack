@@ -1784,7 +1784,11 @@ class qtype_stack extends question_type {
         }
 
         // Check the nodes.
-        $graph = $this->get_prt_graph($prtname);
+        $question = null;
+        if (property_exists($this, 'question')) {
+            $question = $this->question;
+        }
+        $graph = $this->get_prt_graph($prtname, $question);
         $textformat = null;
         foreach ($graph->get_nodes() as $node) {
             $nodekey = $node->name - 1;
@@ -1984,9 +1988,10 @@ class qtype_stack extends question_type {
     /**
      * Get a list of the PRT notes that should be present for a given PRT.
      * @param string $prtname the name of a PRT.
+     * @param $question the question itself.
      * @return array list of nodes that should be present in the form definitino for this PRT.
      */
-    public function get_prt_graph($prtname) {
+    public function get_prt_graph($prtname, $question) {
         if (array_key_exists($prtname, $this->prtgraph)) {
             return $this->prtgraph[$prtname];
         }
@@ -2047,9 +2052,9 @@ class qtype_stack extends question_type {
 
         // Otherwise, if an existing question is being edited, and this is an
         // existing PRT, base things on the existing question definition.
-        if (!empty($this->question->prts[$prtname]->nodes)) {
+        if (!empty($question->prts[$prtname]->nodes)) {
             $graph = new stack_abstract_graph();
-            foreach ($this->question->prts[$prtname]->nodes as $node) {
+            foreach ($question->prts[$prtname]->nodes as $node) {
                 if ($node->truenextnode == -1) {
                     $left = null;
                 } else {

@@ -1,9 +1,8 @@
-
+/// NOTE! This code does eval() a string with no validation.
 // So lets hope this is the correct way to name a Moodle AMD module
 define(['qtype_stack/jsxgraphcore-lazy', 'core/yui'], function(JXG, Y) {
     return {
             init: function(divid, code) {
-                // This is bad but as we cannot pass direct code as anything but a string...
                 if (!(document.getElementById(divid) === null)) {
                     Y.use('mathjax', function(){
                         // First define some convenience functions for use in graph authoring.
@@ -14,13 +13,71 @@ define(['qtype_stack/jsxgraphcore-lazy', 'core/yui'], function(JXG, Y) {
                                 // if a value exists move the point to it.
                                 // the value is stored as a list of float values e.g. "[1,0.43]"
                                 var coords = JSON.parse(theInput.value);
-                                point.setPosition(JXG.COORDS_BY_USER, coords);
+                                try {
+                                    point.setPosition(JXG.COORDS_BY_USER, coords);
+                                } catch (err) {
+                                    // We do not care about this.
+                                }
+                                point.board.update();
+                                point.update();
                             }
 
-                            // Then the reverse. Hopefully, 'up' listener is free and the author does
-                            // not override it.
-                            point.on('up', function() {
-                                theInput.value = JSON.stringify([point.X(), point.Y()]);
+                            var initialX = point.X();
+                            var initialY = point.Y();
+
+                            // Then the binding from graph to input.
+                            point.board.on('update', function() {
+                                // We do not want to set the input before the point actually moves.
+                                if (initialX != point.X() || initialY != point.Y()) {
+                                    var tmp = JSON.stringify([point.X(), point.Y()]);
+                                    initialX = false; // ignore these after initial change.
+                                    initialY = false;
+                                    if (theInput.value != tmp) {
+                                        // Avoid resetting this, as some event models migth trigger
+                                        // change events even when no change actually happens.
+                                        theInput.value = tmp;
+                                        // As we set the inputs value programmatically no events
+                                        // will be fired. But for two way binding we want to fire them...
+                                        var e = new Event('change');
+                                        theInput.dispatchEvent(e);
+                                    }
+                                }
+                            });
+
+                            var lastValue = JSON.stringify([point.X(), point.Y()]);
+
+                            // Then from input to graph. 'input' for live stuff and 'change' for other.
+                            theInput.addEventListener('input', function(e) {
+                                if (theInput.value != lastValue) {
+                                    // Only when something changed.
+                                    try {
+                                        var tmp = JSON.parse(theInput.value);
+                                        if (typeof tmp[0] == 'number' && typeof tmp[1] == 'number') {
+                                            point.setPosition(JXG.COORDS_BY_USER, tmp);
+                                            point.board.update();
+                                            point.update();
+                                        }
+                                    } catch (err) {
+                                        // We do not care about this.
+                                    }
+                                    lastValue = theInput.value;
+                                }
+                            });
+                            theInput.addEventListener('change', function(e) {
+                                if (theInput.value != lastValue) {
+                                    // Only when something changed.
+                                    try {
+                                        var tmp = JSON.parse(theInput.value);
+                                        if (typeof tmp[0] == 'number' && typeof tmp[1] == 'number') {
+                                            point.setPosition(JXG.COORDS_BY_USER, tmp);
+                                            point.board.update();
+                                            point.update();
+                                        }
+                                    } catch (err) {
+                                        // We do not care about this.
+                                    }
+                                    lastValue = theInput.value;
+                                }
                             });
                         }
 
@@ -30,18 +87,73 @@ define(['qtype_stack/jsxgraphcore-lazy', 'core/yui'], function(JXG, Y) {
                             if (theInput.value && theInput.value != '') {
                                 // if a value exists move the slider to it.
                                 // the value is stored as a float value "0.43"
-                                slider.setValue(JSON.parse(theInput.value));
+                                try {
+                                    slider.setValue(JSON.parse(theInput.value));
+                                } catch (err) {
+                                    // We do not care about this.
+                                }
                                 slider.board.update();
                                 slider.update();
                             }
 
-                            // Then the reverse. Hopefully, 'up' listener is free and the author does
-                            // not override it.
-                            slider.on('up', function() {
-                                theInput.value = JSON.stringify(slider.Value());
+                            var initialValue = slider.Value();
+
+                            // The binding from graph to input.
+                            slider.board.on('update', function() {
+                                // We do not want to set the input before the point actually moves.
+                                if (initialValue != slider.Value()) {
+                                    var tmp = JSON.stringify(slider.Value());
+                                    initialValue = false;
+                                    if (theInput.value != tmp) {
+                                        // Avoid resetting this, as some event models migth trigger
+                                        // change events even when no change actually happens.
+                                        theInput.value = tmp;
+                                        // As we set the inputs value programmatically no events
+                                        // will be fired. But for two way binding we want to fire them...
+                                        var e = new Event('change');
+                                        theInput.dispatchEvent(e);
+                                    }
+                                }
+                            });
+
+                            var lastValue = JSON.stringify(slider.Value());
+
+                            // Then from input to graph. 'input' for live stuff and 'change' for other.
+                            theInput.addEventListener('input', function(e) {
+                                if (theInput.value != lastValue) {
+                                    // Only when something changed.
+                                    try {
+                                        var tmp = JSON.parse(theInput.value);
+                                        if (typeof tmp == 'number') {
+                                            slider.setValue(tmp);
+                                            slider.board.update();
+                                            slider.update();
+                                        }
+                                    } catch (err) {
+                                        // We do not care about this.
+                                    }
+                                    lastValue = theInput.value;
+                                }
+                            });
+                            theInput.addEventListener('change', function(e) {
+                                if (theInput.value != lastValue) {
+                                    // Only when something changed.
+                                    try {
+                                        var tmp = JSON.parse(theInput.value);
+                                        if (typeof tmp == 'number') {
+                                            slider.setValue(tmp);
+                                            slider.board.update();
+                                            slider.update();
+                                        }
+                                    } catch (err) {
+                                        // We do not care about this.
+                                    }
+                                    lastValue = theInput.value;
+                                }
                             });
                         }
 
+                        // This is bad but as we cannot pass direct code as anything but a string...
                         eval(code);
                     });
                 }

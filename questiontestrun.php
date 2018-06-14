@@ -112,6 +112,11 @@ if (!is_null($deployfeedbackerr)) {
     echo html_writer::tag('p', $deployfeedbackerr, array('class' => 'overallresult fail'));
 }
 
+$upgradeerrors = $question->validate_against_stackversion();
+if ($upgradeerrors != '') {
+    echo html_writer::tag('p', $upgradeerrors, array('class' => 'fail'));
+}
+
 // Display the list of deployed variants, with UI to edit the list.
 if ($question->deployedseeds) {
     echo $OUTPUT->heading(stack_string('deployedvariantsn', count($question->deployedseeds)), 3);
@@ -471,6 +476,12 @@ $chatparams['cas'] = $question->generalfeedback;
 // We've chosen not to send a specific seed since it is helpful
 // to test the general feedback in a random context.
 echo $OUTPUT->single_button(new moodle_url('/question/type/stack/caschat.php', $chatparams), stack_string('chat'));
+
+if ($question->stackversion == null) {
+    echo html_writer::tag('p', stack_string('stackversionnone'));
+} else {
+    echo html_writer::tag('p', stack_string('stackversionedited', $question->stackversion). stack_string('stackversionnow', get_config('qtype_stack', 'version')));
+}
 
 // Finish output.
 echo $OUTPUT->footer();

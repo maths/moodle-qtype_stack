@@ -37,6 +37,12 @@ $string['exceptionmessage'] = '{$a}';
 // Capability names.
 $string['stack:usediagnostictools'] = 'Use the STACK tools';
 
+// Versions of STACK.
+$string['stackversionedited'] = 'This question was authored with STACK version {$a}.';
+$string['stackversionnow']    = 'The current version of STACK is {$a}.';
+$string['stackversionnone']   = 'This question has not been edited since question version numbering was introduced in STACK 4.2.  Please review your question carefully.';
+$string['stackversionaddrowerror'] = 'This question uses the "addrow" function in the {$a}, which changed in STACK version 4.2.  Please edit this question to use "rowadd" instead.';
+
 // Strings used on the editing form.
 $string['addanothernode'] = 'Add another node';
 $string['allnodefeedbackmustusethesameformat'] = 'All the feedback for all the nodes in a PRT must use the same text format.';
@@ -548,6 +554,7 @@ $string['stackInstall_testsuite_choose'] = 'Please choose an answer test.';
 $string['stackInstall_testsuite_pass'] = 'All tests passed!';
 $string['stackInstall_testsuite_fail'] = 'Not all tests passed!';
 $string['stackInstall_testsuite_failures'] = 'Tests that failed';
+$string['stackInstall_testsuite_upgrade'] = 'Questions which failed on upgrade.';
 $string['stackInstall_testsuite_notests'] = 'Questions with no tests: please add some!';
 $string['answertest'] = 'Answer test';
 $string['answertest_help'] = 'An answer test is used to compare two expressions to establish whether they satisfy some mathematical criteria.';

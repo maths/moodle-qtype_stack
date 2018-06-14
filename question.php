@@ -43,6 +43,11 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         implements question_automatically_gradable_with_multiple_parts {
 
     /**
+     * @var string STACK specific: Holds the version of the question when it was last saved.
+     */
+    public $stackversion;
+
+    /**
      * @var string STACK specific: variables, as authored by the teacher.
      */
     public $questionvariables;
@@ -964,5 +969,36 @@ class qtype_stack_question extends question_graded_automatically_with_countback
      */
     public function undeploy_variant($seed) {
         $this->qtype->undeploy_variant($this->id, $seed);
+    }
+
+    /**
+     * This function is called by the bulk testing script on upgrade.
+     * This checks if questions use features which have changed.
+     */
+    public function validate_against_stackversion() {
+        $errors = array();
+
+        $stackversion = (int) $this->stackversion;
+
+        // Identify any use of addrow using only a basic string match.
+        if ($stackversion < 2018060601) {
+            $fields = array('questiontext', 'questionvariables', 'questionnote', 'specificfeedback', 'generalfeedback');
+            foreach ($fields as $field) {
+                if (strstr($this->$field, 'addrow')) {
+                    $fs = stack_string($field);
+                    $errors[] = stack_string('stackversionaddrowerror', $fs);
+                }
+            }
+            // Look inside the PRT feedback variables.  Should probably check the feedback as well.
+            foreach ($this->prts as $name => $prt) {
+                $kv = $prt->get_feedbackvariables_keyvals();
+                if (strstr($kv, 'addrow')) {
+                    $fs = stack_string('feedbackvariables') . ' (' . $name . ')';
+                    $errors[] = stack_string('stackversionaddrowerror', $fs);
+                }
+            }
+        }
+
+        return implode(' ', $errors);
     }
 }

@@ -1180,11 +1180,11 @@ rowswap(m,i,j) := block([n, p, r],
     p
 )$
 
-addrow(m,i,j,k) := block([n,p],
-    require_matrix(m, "first", "addrow"),
-    require_integer(i, "second", "addrow"),
-    require_integer(j, "third", "addrow"),
-    require_rational(k, "fourth", "addrow"),
+rowadd(m,i,j,k) := block([n,p],
+    require_matrix(m, "first", "rowadd"),
+    require_integer(i, "second", "rowadd"),
+    require_integer(j, "third", "rowadd"),
+    require_rational(k, "fourth", "rowadd"),
     n : length(m),
     if (i < 1) or (i > n) or (j < 1) or (j > n)
         then error("Array index out of bounds"),
@@ -1194,9 +1194,9 @@ addrow(m,i,j,k) := block([n,p],
 )$
 
 rowmul(m,i,k) := block([n,p],
-    require_matrix(m, "first", "addrow"),
-    require_integer(i, "second", "addrow"),
-    require_rational(k, "fourth", "addrow"),
+    require_matrix(m, "first", "rowmul"),
+    require_integer(i, "second", "rowmul"),
+    require_rational(k, "fourth", "rowmul"),
     n : length(m),
     if (i < 1) or (i > n) then error("Array index out of bounds"),
     p : copymatrix(m),
@@ -1233,7 +1233,7 @@ rref(m):= block([p,nr,nc,i,j,k,pivot,pivot_row,debug],
       p : rowmul(p,ci,1/p[ci,cj]),
     if (debug = 1) then     print (".. Normalisation : ",p),
       for k : 1 thru nr do (
-         if not (k=ci) then (p : addrow (p,k,ci,-p[k,cj]))),
+         if not (k=ci) then (p : rowadd(p,k,ci,-p[k,cj]))),
       ci : ci+1, cj : cj+1)),
   p
 )$

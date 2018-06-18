@@ -129,10 +129,10 @@ data-structures and is not object oriented. In any case, the JSON string generat
 
 To parse and manipulate it you can use STACK's custom JSON parsing functions:
 
-    tmp:stackjson_parse(stateStore); /* This returns a STACK-map: [stack_map, [x, 4], [y, 3]] */
+    tmp:stackjson_parse(stateStore); /* This returns a STACK-map: ["stack_map", ["x", 4], ["y", 3]] */
     x:stackmap_get(tmp,"x");         /* 4 */
     y:stackmap_get(tmp,"y");         /* 3 */
-    tmp:stackmap_set(tmp,"z",x*y);   /* [stack_map, [x, 4], [y, 3], [z, 12]] */
+    tmp:stackmap_set(tmp,"z",x*y);   /* ["stack_map", ["x", 4], ["y", 3], ["z", 12]] */
     json:stackjson_stringify(tmp);   /* "{\"x\":4,\"y\":3,\"z\":12}" */
 
 

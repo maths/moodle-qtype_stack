@@ -4,7 +4,9 @@ STACK supports inclusion of dynamic graphs using JSXGraph: [http://jsxgraph.uni-
 
 Note, we strongly recommend you do not use an HTML aware editor when using JSXGraph questions.  Instead turn off the editor within Moodle and edit the raw HTML.
 
-## Include basic plots.
+    Site administration > Plugins > Text editors > Manage editors
+
+## Include basic plots
 
 This example is based on the documentation for [curve](http://jsxgraph.uni-bayreuth.de/wiki/index.php/Curve) and the [even simpler function plotter](http://jsxgraph.uni-bayreuth.de/wiki/index.php/Even_simpler_function_plotter) example.
 
@@ -13,7 +15,7 @@ To include a basic dynamically generated sketch into a STACK question, first def
     a:rand(6)-3
     fx:sin(x)+a
 
-Then include the following question text, which includes a simple `[[jsxgraph]]` block.  In particular note the lack of `<script>` tags which you might expect to include.
+Then include the following question text, which includes a simple `[[jsxgraph]]` [block](Question_blocks.md).  In particular note the lack of `<script>` tags which you might expect to include.
 
     <p>Type in an algebraic expression which has the graph shown below.</p>
     [[jsxgraph]]
@@ -67,12 +69,12 @@ In this example we provide a simple slider.  Notice in this example we use the J
 ## General considerations when building interactive graphs
 
 In general you should pay attenttion on how your graph reacts to the student returning to the page/question later. For example, will your graph 
-reset to display the original situation or will it atleast move all movable things to the positions the student last left them? If 
+reset to display the original situation or will it at least move all movable things to the positions the student last left them? If 
 the student can do things that are not actually considered as part of the answer, e.g. zoom out or pan the view, do you also remember 
 those actions? If your graph is not used for inputting answers then this is not a major issue but if it is then you will need to solve 
 this issue. Basically, storing the state of the interactive graph is a key thing that the author of that graph needs to deal with.
 
-The basic structure of such an graphs logic is as follows:
+The basic structure of such graph logic is as follows:
 
  1. Load existing state or if not found initialise with defaults.
  2. Draw the graph based on that state.
@@ -88,10 +90,10 @@ as a JSON encoded structure. For example like this, assuming the name of the Str
       // Note that the input-ref-X attribute above will store the element identifier of the input X in 
       // a variable named in the attribute, you can have multiple references to multiple inputs.
 
-      // Create a board like normal.
+      // Create a normal board.
       var board = JXG.JSXGraph.initBoard(divid, {axis: true, showCopyright: false});
 
-      // State represented as an JS-object, first define default then try loading the stored
+      // State represented as a JS-object, first define default then try loading the stored values.
       var state = {'x':4, 'y':3};
       var stateInput = document.getElementById(stateRef);
       if (stateInput.value && stateInput.value != '') {
@@ -101,7 +103,7 @@ as a JSON encoded structure. For example like this, assuming the name of the Str
       // Then make the graph represent the state
       var p = board.create('point',[state['x'],state['y']]);
 
-      // And finally the most important thing, update the stored state when things change
+      // And finally the most important thing, update the stored state when things change.
       p.on('drag', function() {
         var newState = {'x':p.X(), 'y':p.Y()};
         // Encode the state as JSON for storage and store it
@@ -114,7 +116,7 @@ as a JSON encoded structure. For example like this, assuming the name of the Str
     [[/jsxgraph]]
 
 
-In that trivial example you only have one point that you can drag around but that points position will be stored and it will be where 
+In that trivial example you only have one point that you can drag around but the position of that point will be stored and it will be where 
 you left it when you return to the page. However, the position has been stored in a String encoded in JSON format and cannot directly be 
 used in STACK side logic. The JSON format is however very handy if you create objects to store dynamically and want to represent things 
 of more complex nature but in this example we could have just as well have had two separate Numeric inputs storing just the raw 'x' 

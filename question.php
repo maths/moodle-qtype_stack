@@ -999,6 +999,21 @@ class qtype_stack_question extends question_graded_automatically_with_countback
             }
         }
 
+        // Mul is no longer supported.
+        // We don't need to include a date check here because it is not a change in behaviour.
+        foreach ($this->inputs as $inputname => $input) {
+            $options = $input->get_parameter('options');
+            if (trim($options) !== '') {
+                $options = explode(',', $options);
+                foreach ($options as $opt) {
+                    $opt = strtolower(trim($opt));
+                    if ($opt === 'mul') {
+                        $errors[] = stack_string('stackversionmulerror');
+                    }
+                }
+            }
+        }
+
         return implode(' ', $errors);
     }
 }

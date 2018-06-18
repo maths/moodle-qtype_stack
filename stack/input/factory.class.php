@@ -45,9 +45,9 @@ class stack_input_factory {
      * @param array $param some sort of options.
      * @return stack_input the requested input.
      */
-    public static function make($type, $name, $teacheranswer, $options = null, $parameters = null) {
+    public static function make($type, $name, $teacheranswer, $options = null, $parameters = null, $runtime = true) {
         $class = self::class_for_type($type);
-        return new $class($name, $teacheranswer, $options, $parameters);
+        return new $class($name, $teacheranswer, $options, $parameters, $runtime);
     }
 
     /**
@@ -147,6 +147,35 @@ class stack_input_factory {
     }
 
     /**
+     * Return array of the options used by each type of input, for
+     * use in authoring interface, with the fromform mapping.
+     * @return array $typename => array of names of options used.
+     */
+    public static function get_parameters_fromform_mapping($type) {
+        $parametermapping = array(
+            'sameType'           => 'checkanswertype',
+            'mustVerify'         => 'mustverify',
+            'showValidation'     => 'showvalidation',
+            'boxWidth'           => 'boxsize',
+            'strictSyntax'       => 'strictsyntax',
+            'syntaxAttribute'    => 'syntaxattribute',
+            'insertStars'        => 'insertstars',
+            'syntaxHint'         => 'syntaxhint',
+            'forbidWords'        => 'forbidwords',
+            'allowWords'         => 'allowwords',
+            'forbidFloats'       => 'forbidfloat',
+            'lowestTerms'        => 'requirelowestterms',
+            'options'            => 'options');
+
+        $used = self::get_parameters_defaults();
+        $mapping = array();
+        foreach ($used[$type] as $param => $defaults) {
+                $mapping[$param] = $parametermapping[$param];
+        }
+        return $mapping;
+    }
+
+    /**
      * Return array of the default option values for each type of input,
      * for use in authoring interface.
      * @return array $typename => array of option names => default.
@@ -160,5 +189,17 @@ class stack_input_factory {
             self::$parametersdefaults[$type] = $class::get_parameters_defaults();
         }
         return self::$parametersdefaults;
+    }
+
+    /**
+     * Convert a raw value as received from a fromform value into a correct datatype.
+     */
+    public static function convert_parameter_fromform($key, $value) {
+        $booleanparamaters = array('strictSyntax' => true, 'mustVerify' => true, 'sameType' => true,
+            'forbidFloats' => true, 'lowestTerms' => true);
+        if (array_key_exists($key, $booleanparamaters)) {
+            $value = (bool) $value;
+        }
+        return $value;
     }
 }

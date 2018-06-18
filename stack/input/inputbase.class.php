@@ -107,6 +107,12 @@ abstract class stack_input {
     protected $units = false;
 
     /**
+     * Decide if the input is being used at run-time or just constructed elswhere.
+     * @var bool.
+     */
+    protected $runtime = true;
+
+    /**
      * Constructor
      *
      * @param string $name the name of the input. This is the name of the
@@ -117,14 +123,17 @@ abstract class stack_input {
      * @param int $height height of the input.
      * @param array $parameters The options for this input. All the opitions have default
      *      values, so you only have to give options that are different from the default.
+     * @param bool $runtime This decides if we are at runtime (true) or in edit mode.  Can we rely on the value of
+     * the teacher's answer as an instantiated variable?
      */
-    public function __construct($name, $teacheranswer, $options = null, $parameters = null) {
+    public function __construct($name, $teacheranswer, $options = null, $parameters = null, $runtime = true) {
         if (trim($name) === '') {
             throw new stack_exception('stack_input: $name must be non-empty.');
         }
 
         $this->name = $name;
         $this->teacheranswer = $teacheranswer;
+        $this->runtime = $runtime;
         $class = get_class($this);
         $this->parameters = $class::get_parameters_defaults();
 
@@ -178,7 +187,7 @@ abstract class stack_input {
     /**
      * Validate the individual extra options.
      */
-    protected function validate_extra_options() {
+    public function validate_extra_options() {
 
         foreach ($this->extraoptions as $option => $arg) {
 
@@ -236,6 +245,11 @@ abstract class stack_input {
                     if (!($arg === false || is_numeric($arg))) {
                         $this->errors[] = stack_string('numericalinputoptinterr', array('opt' => $option, 'val' => $arg));
                     }
+                    break;
+
+                case 'mul':
+                    // Mul was depricated in version 4.2.
+                    $this->errors[] = stack_string('stackversionmulerror');
                     break;
 
                 default:
@@ -317,7 +331,7 @@ abstract class stack_input {
      * @param string $parameter the parameter name
      * @param mixed $default the default to return if this parameter is not set.
      */
-    protected function get_parameter($parameter, $default = null) {
+    public function get_parameter($parameter, $default = null) {
         if (array_key_exists($parameter, $this->parameters)) {
             return $this->parameters[$parameter];
         } else {
@@ -1029,5 +1043,12 @@ abstract class stack_input {
             $errors[$err] = true;
         }
         return array_keys($errors);
+    }
+
+    /*
+     * Return the value of any errors.
+     */
+    public function get_extra_options() {
+        return $this->extraoptions;
     }
 }

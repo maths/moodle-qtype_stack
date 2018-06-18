@@ -1478,6 +1478,7 @@ class qtype_stack extends question_type {
                 stack_string('questionnote'), $fromform['questionnote']);
 
         // 2) Validate all inputs.
+        $stackinputfactory = new stack_input_factory();
         foreach ($inputs as $inputname => $counts) {
             list($numinputs, $numvalidations) = $counts;
 
@@ -1502,6 +1503,26 @@ class qtype_stack extends question_type {
                 $errors = $this->validate_cas_string($errors,
                         $fromform[$inputname . 'modelans'], $inputname . 'modelans', $inputname . 'modelans');
             }
+
+            $inputtype = $fromform[$inputname . 'type'];
+            $stackinput = $stackinputfactory->make($inputtype, $inputname,
+                    $fromform[$inputname . 'modelans'], null, null, false);
+            $parameters = array();
+            foreach ($stackinputfactory->get_parameters_fromform_mapping($inputtype) as $key => $param) {
+                $paramvalue = $stackinputfactory->convert_parameter_fromform($key, $fromform[$inputname .$param]);
+                $parameters[$key] = $paramvalue;
+                if ('options' !== $key) {
+                    $validityresult = $stackinput->validate_parameter($key, $paramvalue);
+                    if (!($validityresult === true)) {
+                        $errors[$inputname . $param][] = stack_string('inputinvalidparamater');
+                    }
+                }
+            }
+            // Create an input with these parameters, in particular the 'options', and validate that.
+            $stackinput = $stackinputfactory->make($inputtype, $inputname,
+                    $fromform[$inputname . 'modelans'], null, $parameters, false);
+            $stackinput->validate_extra_options();
+            $errors[$inputname . 'options'] = $stackinput->get_errors();
         }
 
         // 3) Validate all prts.

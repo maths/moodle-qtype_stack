@@ -480,7 +480,8 @@ echo $OUTPUT->single_button(new moodle_url('/question/type/stack/caschat.php', $
 if ($question->stackversion == null) {
     echo html_writer::tag('p', stack_string('stackversionnone'));
 } else {
-    echo html_writer::tag('p', stack_string('stackversionedited', $question->stackversion). stack_string('stackversionnow', get_config('qtype_stack', 'version')));
+    echo html_writer::tag('p', stack_string('stackversionedited', $question->stackversion)
+            . stack_string('stackversionnow', get_config('qtype_stack', 'version')));
 }
 
 // Finish output.

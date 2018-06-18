@@ -243,4 +243,12 @@ class qtype_stack_question_test extends qtype_stack_testcase {
 
         $this->assertEquals($expected, $q->validate_against_stackversion());
     }
+
+    public function test_question_mul() {
+        $q = test_question_maker::make_question('stack', 'mul');
+        $expected = 'This question has an input which uses the "mul" option, '
+            .'which is not suppored after STACK version 4.2.  Please edit this question.';
+
+        $this->assertEquals($expected, $q->validate_against_stackversion());
+    }
 }

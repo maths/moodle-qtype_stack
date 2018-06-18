@@ -28,6 +28,7 @@ Note: the behaviour of the maxima `addrow` function has changed.  Use the bulk t
 * _done_ Add in native multi-language support, to separate out langagues in the question text.  This is needed so as not to create spurious validation errors, such as "input cannout occur twice".
 * _done_ Output results of PRTs in the `summarise_response` method of `question.php`.  Gives more information for reporting.
 * _done_ Sort out the "addrow" problem. (See issue #333).  This is changed to "rowadd".
+* _done_ Add in check for "mul" (see issue #339) and better checking of input options.
 
 * Re-sizable matrix input.  See Aalto/NUMBAS examples here, with Javascript.
 * Add support for matrices with floating point entries, and testing numerical accuracy.

@@ -43,8 +43,8 @@ This question contains an interactive sliding element.
       // boundingbox:[left, top, right, bottom]
       var board = JXG.JSXGraph.initBoard(divid, {boundingbox: [-5, 10, 5, -10], axis: true, showCopyright: false});
       var f = board.jc.snippet('{#fx#}', true, 'x', true);
-      curve = board.create('functiongraph', [f,-10,10], {strokeWidth:2});
-      dcurve = board.create('functiongraph', [JXG.Math.Numerics.D(f),-10,10], {strokeColor:'#ff0000', strokeWidth:1, dash:2});
+      var curve = board.create('functiongraph', [f,-10,10], {strokeWidth:2});
+      var dcurve = board.create('functiongraph', [JXG.Math.Numerics.D(f),-10,10], {strokeColor:'#ff0000', strokeWidth:1, dash:2});
       var p = board.create('glider',[1,0,curve], {name:'Drag me'});
       board.create('tangent',[p], {name:'Drag me'});
       var q = board.create('point', [function(){return p.X();}, function(){return JXG.Math.Numerics.D(f)(p.X());} ], {withLabel:false});
@@ -62,7 +62,7 @@ In this example we provide a simple slider.  Notice in this example we use the J
       // boundingbox:[left, top, right, bottom]
       var board = JXG.JSXGraph.initBoard(divid, {boundingbox: [-5, 10, 5, -10], axis: true, showCopyright: false});
       var a = board.create('slider',[[-3,6],[2,6],[0,2,6]],{name:'a'}); 
-      curve = board.create('functiongraph', [function(x) {return a.Value()**x}], {strokeWidth:2});
+      var curve = board.create('functiongraph', [function(x) {return a.Value()**x}], {strokeWidth:2});
       board.unsuspendUpdate();
     [[/jsxgraph]]
 

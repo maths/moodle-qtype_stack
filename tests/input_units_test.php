@@ -30,7 +30,6 @@ require_once(__DIR__ . '/../stack/input/factory.class.php');
  * @group qtype_stack
  */
 class stack_units_input_test extends qtype_stack_testcase {
-
     public function test_render_blank() {
         $el = stack_input_factory::make('units', 'ans1', 'x^2');
         $this->assertEquals('<input type="text" name="stack1__ans1" id="stack1__ans1" '
@@ -437,6 +436,19 @@ class stack_units_input_test extends qtype_stack_testcase {
         $this->assertEquals('\[ {1}/{3}\, {\mathrm{m}}/{\mathrm{s}^2} \]', $state->contentsdisplayed);
     }
 
+    public function test_validate_student_response_negative_number_1() {
+        $options = new stack_options();
+        $options->set_option('simplify', false);
+        $el = stack_input_factory::make('units', 'sans1', 'stackunits(-330,N)');
+        $el->set_parameter('insertStars', 1);
+        $el->set_parameter('strictSyntax', false);
+        $state = $el->validate_student_response(array('sans1' => '-330*N'), $options, 'stackunits(-330,N)', null);
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('-330*N', $state->contentsmodified);
+        $this->assertEquals('\[ -330\, \mathrm{N} \]', $state->contentsdisplayed);
+        $this->assertEquals('stackunits(-330,N)', $el->get_teacher_answer());
+}
+
     public function test_validate_student_response_rational_number_negpow_1() {
         $options = new stack_options();
         $el = stack_input_factory::make('units', 'sans1', '9.81*m/s^2');
@@ -757,5 +769,4 @@ class stack_units_input_test extends qtype_stack_testcase {
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('', $state->errors);
     }
-
 }

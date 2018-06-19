@@ -408,7 +408,7 @@ class stack_inputvalidation_test_data {
         array('sum(k^n,n,0,3)', 'php_true', 'sum(k^n,n,0,3)', 'cas_true', '\sum_{n=0}^{3}{k^{n}}', '', "Sums and products"),
         array('product(cos(k*x),k,1,3)', 'php_true', 'product(cos(k*x),k,1,3)', 'cas_true',
             '\prod_{k=1}^{3}{\cos \left( k\cdot x \right)}', '', '')
-        );
+    );
 
     public static function get_raw_test_data() {
         return self::$rawdata;

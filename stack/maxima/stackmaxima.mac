@@ -540,7 +540,7 @@ unary_minus_pull_helper(ex) := block([fe],
 
 /* Sorts out display of expressions in the case simp:false */
 unary_minus_sort(ex) := block([ex2],
-  if simp or atom(ex) or taylorp(ex) then return(ex),
+  if simp or atom(ex) or taylorp(ex) or functionp(ex) then return(ex),
   ex2: unary_minus_traverse(ex),
   return(unary_minus_pull(ex2))
 )$
@@ -579,7 +579,8 @@ stack_dispvalue(ex) := block(
   ex: detexdecorate(ex),
   ex: make_displaydpvalue(ex),
   ex: make_displayscivalue(ex),
-  ex: opsubst("*", stackunits, ex),
+  if not(stack_disp_control_structurep(ex)) then
+      ex: unary_minus_sort(opsubst("*", stackunits, ex)),
   return(string(ex))
 )$
 

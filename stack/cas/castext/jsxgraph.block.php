@@ -61,9 +61,6 @@ class stack_cas_castext_jsxgraph extends stack_cas_castext_block {
 
         $divid  = "stack-jsxgraph-" . self::$countgraphs;
 
-        // Prefix the code with the id of the div.
-        $code = "var divid = '$divid';\n$code";
-
         // Input ref prefixes.
         // We could simply expose the prefix Moodle uses and let the author work
         // with that but suppose there exists another VLE which does not use
@@ -75,10 +72,13 @@ class stack_cas_castext_jsxgraph extends stack_cas_castext_block {
         foreach ($this->get_node()->get_parameters() as $key => $value) {
             if (substr($key, 0, 10) === "input-ref-") {
                 $varname = substr($key, 10);
-                $seekcode = self::geninputseek($varname, $divid, $value);
+                $seekcode = "var $value=stack_jxg.find_input_id(divid,'$varname');";
                 $code = "$seekcode\n$code";
             }
         }
+
+        // Prefix the code with the id of the div.
+        $code = "var divid = '$divid';\n$code";
 
         // We restrict the actions of the block code a bit by stopping it from
         // rewriting some things in the surrounding scopes.
@@ -101,7 +101,7 @@ class stack_cas_castext_jsxgraph extends stack_cas_castext_block {
         // Empty tags seem to be an issue.
         $this->get_node()->convert_to_text(html_writer::tag('div', '', $attributes));
 
-        $PAGE->requires->js_call_amd('qtype_stack/jsxgraph', 'init', array($divid, $code));
+        $PAGE->requires->js_amd_inline('require(["qtype_stack/jsxgraph","qtype_stack/jsxgraphcore-lazy","core/yui"], function(stack_jxg, JXG, Y){Y.use("mathjax",function(){'.$code.'});});');
 
         // Up the graph number to generate unique names.
         self::$countgraphs = self::$countgraphs + 1;
@@ -198,14 +198,5 @@ class stack_cas_castext_jsxgraph extends stack_cas_castext_block {
         }
 
         return $valid;
-    }
-
-    private function geninputseek($name, $targetdiv, $targetvar) {
-        $r = "var tmp = document.getElementById('$targetdiv');";
-        $r .= 'while ((tmp = tmp.parentElement) && '
-                . '!(tmp.classList.contains("formulation") && tmp.parentElement.classList.contains("content")));';
-        $r .= "tmp = tmp.querySelector('input[id$=\"_$name\"]');";
-        $r .= "\nvar $targetvar = tmp.id;";
-        return $r;
     }
 }

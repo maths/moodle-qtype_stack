@@ -138,7 +138,7 @@ var line = board.create('line', [p1,p2], {straightFirst:false, straightLast:fals
 // There exists a simple convenience method for binding inputs to points
 // It just needs an input reference, defined as a parameter of the jsxgraph-block
 // and a primitive object of the type of the binding, in this case a point.
-stack_bind_jxg_point(ans1Ref, p1);
+stack_jxg.bind_point(ans1Ref, p1);
 
 // Always call board.update() at the end if you have bindings.
 board.update();
@@ -156,7 +156,7 @@ var line = board.create('line', [p1,p2], {straightFirst:false, straightLast:fals
 // There exists a simple convenience method for binding inputs to points
 // It just needs an input reference, defined as a parameter of the jsxgraph-block
 // and a primitive object of the type of the binding, in this case a point.
-stack_bind_jxg_point(ans1Ref, p1);
+stack_jxg.bind_point(ans1Ref, p1);
 
 // Always call board.update() at the end if you have bindings, as they may move things around.
 board.update();
@@ -282,10 +282,10 @@ Test point: [[input:ans2]] [[validation:ans2]]</td>
 var board = JXG.JSXGraph.initBoard(divid, {boundingbox: [-4.5, 4.5, 4.5, -4.5], showNavigation:false, grid:true});
 
 var s1 =  board.create('slider',[[-4,4],[-1,4],[1,1,7]],{name: 'Area', snapWidth: 1, ticks: { drawLabels: true }});
-stack_bind_jxg_slider(ans1Ref, s1);
+stack_jxg.bind_slider(ans1Ref, s1);
 
 var p = board.create('point', [4, 3]);
-stack_bind_jxg_point(ans2Ref, p);
+stack_jxg.bind_point(ans2Ref, p);
 
 var c = board.create('point',[0,0],{visible: false});
 
@@ -302,12 +302,12 @@ board.update();
 var board = JXG.JSXGraph.initBoard(divid, {boundingbox: [-4.5, 4.5, 4.5, -4.5], showNavigation:false, grid:true});
 
 var s1 =  board.create('slider',[[-4,4],[-1,4],[1,1,7]],{name: 'Area', snapWidth: 1, ticks: { drawLabels: true }});
-stack_bind_jxg_slider(ans1Ref, s1);
+stack_jxg.bind_slider(ans1Ref, s1);
 
 var p = board.create('point', [4, 3]);
-stack_bind_jxg_point(ans2Ref, p);
+stack_jxg.bind_point(ans2Ref, p);
 
-function hw() {
+var hw = function(){
  return Math.sqrt(s1.Value())/2.0;
 }
 
@@ -326,10 +326,10 @@ board.update();
 var board = JXG.JSXGraph.initBoard(divid, {boundingbox: [-4.5, 4.5, 4.5, -4.5], showNavigation:false, grid:true});
 
 var s1 =  board.create('slider',[[-4,4],[-1,4],[1,1,7]],{name: 'Area', snapWidth: 1, ticks: { drawLabels: true }});
-stack_bind_jxg_slider(ans1Ref, s1);
+stack_jxg.bind_slider(ans1Ref, s1);
 
 var p = board.create('point', [4, 3]);
-stack_bind_jxg_point(ans2Ref, p);
+stack_jxg.bind_point(ans2Ref, p);
 
 var c = board.create('point',[0,0],{visible: false});
 
@@ -456,7 +456,7 @@ board.update();
       <text><![CDATA[<p>The previous examples have shown the use of simplified binding of single primitives to single inputs, that should cover most use cases but once you start to do more complex things you will need to start building your own binding logic. Some examples of such situations are:</p>
 
 <ul>
-<li>Creation and deletions of arbitrary numbers of points/objects in graph cannot be tracked with one input for object logic as you cannot create inputs. In these cases you need to store more structure into inputs.</li>
+<li>Creation and deletion of arbitrary numbers of points/objects in graph cannot be tracked with one input per object logic as you cannot create inputs. In these cases you need to store more structure into inputs.</li>
 <li>Not dealing with the positions of things might also be an obvious case, if you want to for example track the order the student clicks some edges in some graph use of the simple binding tools will not help.</li>
 </ul>
 
@@ -471,7 +471,7 @@ var board = JXG.JSXGraph.initBoard(divid, {boundingbox: [-5, 5, 5, -5],showNavig
 var points = new Array();
 var i = 0;
 
-// If we have stored state we will get them now.
+// If we have stored state of points we will resurrect them now.
 var theInput = document.getElementById(ans1Ref);
 if (theInput.value && theInput.value != '') {
  var pointList = JSON.parse(theInput.value);
@@ -490,7 +490,7 @@ var green = board.create('circle',[board.create('point',[2,-4],{visible: false})
 var blue = board.create('circle',[board.create('point',[4,-4],{visible: false}),0.7], {	strokeColor:'blue',frozen:true, fixed:true, method:'pointRadius',hasInnerPoints:true});
 
 // A function the we can tie to points so that their color changes.
-function colorDragListener() {
+var colorDragListener = function() {
  // this in this context should be the point.
  if (JXG.Math.Geometry.distance([this.X(),this.Y()],[source.center.X(),source.center.Y()]) < source.Radius()) {
   this.setAttribute({color:'black'});
@@ -504,7 +504,7 @@ function colorDragListener() {
 }
 
 // Another function to handle the release of dragged points and the storage of the state.
-function dropHandler() {
+var dropHandler = function() {
  // this in this context should be the point.
  var newOne = points.indexOf(this);
  if (newOne == -1) {
@@ -569,7 +569,7 @@ var board = JXG.JSXGraph.initBoard(divid, {boundingbox: [-5, 5, 5, -5],showNavig
 var points = new Array();
 var i = 0;
 
-// If we have stored state we will get them now.
+// If we have stored state of points we will resurrect them now.
 var theInput = document.getElementById(ans1Ref);
 if (theInput.value && theInput.value != '') {
  var pointList = JSON.parse(theInput.value);
@@ -588,7 +588,7 @@ var green = board.create('circle',[board.create('point',[2,-4],{visible: false})
 var blue = board.create('circle',[board.create('point',[4,-4],{visible: false}),0.7], {	strokeColor:'blue',frozen:true, fixed:true, method:'pointRadius',hasInnerPoints:true});
 
 // A function the we can tie to points so that their color changes.
-function colorDragListener() {
+var colorDragListener = function() {
  // this in this context should be the point.
  if (JXG.Math.Geometry.distance([this.X(),this.Y()],[source.center.X(),source.center.Y()]) < source.Radius()) {
   this.setAttribute({color:'black'});
@@ -602,7 +602,7 @@ function colorDragListener() {
 }
 
 // Another function to handle the release of dragged points and the storage of the state.
-function dropHandler() {
+var dropHandler = function() {
  // this in this context should be the point.
  var newOne = points.indexOf(this);
  if (newOne == -1) {

@@ -150,11 +150,13 @@ The example in the previous section about moving the point around and storing th
       var p = board.create('point', [4, 3]);
 
       // Bind it to the input and state stored in it.
-      stack_bind_jxg_point(stateRef, p);
+      stack_jxg.bind_point(stateRef, p);
 
       // As a side note, you typically do not want the state storing input to be directly visible to the user
       // although it may be handy during development to see what happens in it. You might hide it like this:
       stateInput.style.display = 'none';
     [[/jsxgraph]]
 
-For sliders you use the function `stack_bind_jxg_slider(inputRef, slider)` and it stores the sliders value as a raw float. Sliders will however require that you call `board.update()` after binding to them, otherwise the graph may not display the stored state after reload.
+For sliders you use the function `stack_jxg.bind_slider(inputRef, slider)` and it stores the sliders value as a raw float. Sliders will however require that you call `board.update()` after binding to them, otherwise the graph may not display the stored state after reload.
+
+You should check the sample questions about JSXGraph binding for examples of these functions in action.

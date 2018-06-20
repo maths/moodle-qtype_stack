@@ -540,7 +540,7 @@ unary_minus_pull_helper(ex) := block([fe],
 
 /* Sorts out display of expressions in the case simp:false */
 unary_minus_sort(ex) := block([ex2],
-  if simp or atom(ex) or taylorp(ex) then return(ex),
+  if simp or atom(ex) or taylorp(ex) or functionp(ex) then return(ex),
   ex2: unary_minus_traverse(ex),
   return(unary_minus_pull(ex2))
 )$
@@ -579,7 +579,8 @@ stack_dispvalue(ex) := block(
   ex: detexdecorate(ex),
   ex: make_displaydpvalue(ex),
   ex: make_displayscivalue(ex),
-  ex: opsubst("*", stackunits, ex),
+  if not(stack_disp_control_structurep(ex)) then
+      ex: unary_minus_sort(opsubst("*", stackunits, ex)),
   return(string(ex))
 )$
 
@@ -807,7 +808,7 @@ plot(ex, [ra]) :=  /*stack_web_plot*/
     psize: sublist(ral, lambda([ex], if listp(ex) then is(first(ex) = size) else false)),
     if not(emptyp(psize)) then (ral:delete(first(psize), ral), plot_size:[second(first(psize)), third(first(psize))]),
     if not(listp(plot_size)) then error("Plot error: plot_size must be a list of two positive integers."),
-    if not(all_listp(lambda([ex], is((integerp(ex) and is(ex>0))=true)), plot_size)) then 
+    if not(all_listp(lambda([ex], is((integerp(ex) and is(ex>0))=true)), plot_size)) then
         error("Plot error: plot_size must be a list of two positive integers, but got:", string(plot_size)),
     psize:concat(" size ", string(plot_size[1]), ", ", string(plot_size[2])),
     /*******************/
@@ -837,7 +838,7 @@ plot(ex, [ra]) :=  /*stack_web_plot*/
     if PLOT_TERMINAL="svg" then
         afn: concat(IMAGE_DIR, filename, ".", PLOT_TERMINAL),
     ufn: concat("<img src='", URL_BASE, filename, ".", PLOT_TERMINAL, "' alt='", alttext, "' width='", string(plot_size[1]), "' />"),
-    if plot_tags then 
+    if plot_tags then
         ufn: concat("<div class='stack_plot'>", ufn, "</div>"),
     if OPT_OUTPUT#"MathML" then
       ufn: concat(" <html>", ufn, "</html> "),
@@ -862,9 +863,9 @@ set output ", afn),
     if PLOT_TERMINAL="svg" then preamble:concat("set terminal ", PLOT_TERMINAL, psize, " ", PLOT_TERM_OPT),
     if plotdebug then print(preamble),
     if PLOT_TERMINAL="svg" then set_plot_option([svg_file, afn]),
-    if PLOT_TERMINAL="svg" then 
+    if PLOT_TERMINAL="svg" then
         set_plot_option([gnuplot_svg_term_command, preamble])
-    else 
+    else
         set_plot_option([gnuplot_preamble, preamble]),
     /* Sort out the name and location of temporary Gnuplot files. */
     tfn:concat(filename, ".plt"),
@@ -956,7 +957,7 @@ ATNumerical(SA, SB, SO, numtype) := block([simp:true, RawMark, FeedBack, AnswerN
 /* We have to define our own working precision. */
 STACK_NUM_TOL:10E-10$
 numabsolutep(sa,ta,tol) :=  if ev(abs(float(sa-ta)), simp) < ev(abs(tol)+STACK_NUM_TOL, simp)  then true else false;
-/* The equality sign below is to accommodate the edge case numrelativep(0.0,0.0,0.0?).  Needed for units tests with things like 0m/s. */ 
+/* The equality sign below is to accommodate the edge case numrelativep(0.0,0.0,0.0?).  Needed for units tests with things like 0m/s. */
 numrelativep(sa,ta,tol) :=  if ev(abs(float(sa-ta)), simp) <= ev(abs(ta*tol*(1+STACK_NUM_TOL)), simp) then true else false;
 
 ATNumerical_list(SA, SB, numtype, tol) := block([SAl, SBl, cl, res, fb:"", an:""],

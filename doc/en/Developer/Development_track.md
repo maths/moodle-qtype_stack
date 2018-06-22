@@ -29,6 +29,7 @@ Note: the behaviour of the maxima `addrow` function has changed.  Use the bulk t
 * _done_ Output results of PRTs in the `summarise_response` method of `question.php`.  Gives more information for reporting.
 * _done_ Sort out the "addrow" problem. (See issue #333).  This is changed to "rowadd".
 * _done_ Add in check for "mul" (see issue #339) and better checking of input options.
+* _done_ Add an answer test to check if decimal separator is in the wrong place (See issue #314)
 
 * Re-sizable matrix input.  See Aalto/NUMBAS examples here, with Javascript.
 * Add support for matrices with floating point entries, and testing numerical accuracy.
@@ -36,6 +37,5 @@ Note: the behaviour of the maxima `addrow` function has changed.  Use the bulk t
 * Update MCQ to accept units.
 * Add a base N check to the numeric input.
 * Enable individual questions to load Maxima libraries.  (See issue #305)
-* Add an answer test to check if decimal separator is in the wrong place (See issue #314)
 * Expand support for input validation options to matrices (e.g. floatnum, rationalize etc.)
 * Add in full parser, to address issue #324.

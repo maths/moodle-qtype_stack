@@ -15,8 +15,7 @@ Major features to add in for V4.2
 
 * Add in a version number to STACK questions.
 * Better install code (see #332).
-* Add support for using JSXGraph  `http://jsxgraph.org` for better support of interactive graphics, and as part of an input type.  See [JSXGraph](../Authoring/JSXGraph.md)
-* JSXGraph support (Matti, and example questions from Artem).
+* _done_ Add support for using JSXGraph  `http://jsxgraph.org` for better support of interactive graphics, and as part of an input type.  See [JSXGraph](../Authoring/JSXGraph.md)
 * Update reasoning by eqivalence (Chris).
 * 1st version of API.
 

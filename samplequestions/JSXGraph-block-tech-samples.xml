@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <quiz>
-<!-- question: 8  -->
+<!-- question: 2162  -->
   <question type="stack">
     <name>
       <text>1. Basic, non bound example of a graph</text>
@@ -118,15 +118,15 @@ brd.update();
     <variantsselectionseed></variantsselectionseed>
   </question>
 
-<!-- question: 9  -->
+<!-- question: 2163  -->
   <question type="stack">
     <name>
       <text><![CDATA[2. "Binding", what does it mean?]]></text>
     </name>
     <questiontext format="moodle_auto_format">
-      <text><![CDATA[<p>"Binding" in the context of STACK + JSXGraph integration means the connecting of a STACK input fields value to some element in the graph so that if the element gets moved the input fields value is changed to represent the change. In the simplest example if you drag a slider from value 1 to value 2 the bound input will be set to 2. This, is obviously important when you wish to use the graph as an input, but it has one other purpose as the VLE on the background stores the values of the input fields we can start remembering things, basically if you dragged the slider to value 2 and left the page the binding logic should be able to ensure that the slider gets placed to that same value if you return to the page as the input will have that previously stored value in it and we can read it.</p>
+      <text><![CDATA[<p>"Binding", in the context of STACK + JSXGraph integration, means connecting the value of a STACK input field to some element in the graph. If the element gets moved the input field's value is also changed. In the simplest example if you drag a slider from value 1 to value 2 the bound input will be set to 2. This is obviously important when you wish to use that part of the graph as an input.  Also, as the VLE in the background stores the values of the input fields we can start remembering state. E.g. f you dragged the slider to value 2 and left the page then the binding logic should be able to ensure that the slider gets placed back to that same value if you return to the page.</p>
 
-<p>As an simplified example of this we now build a graph with a line segment which has two draggable end points one of which is bound and one which is not, please drag them around into positions you remember and then press 'Check', when the checking process reloads the page you should see the bound one staying where you dragged it to and the other to return into its initial position. You should also see that the STACK logic side received the position of the bound point.</p>
+<p>As an simplified example of this we now build a graph with a line segment which has two draggable end points one of which is bound and one which is not. Drag the two points around and then press 'Check'.  When the checking process reloads the page you should see the bound one staying where you dragged it to and the other to return into its initial position. You should also see that the STACK logic side received the position of the bound point.</p>
 
 
 <pre style="line-height:0.9;">[[escape value="[[jsxgraph input-ref-ans1='ans1Ref']]"/]]
@@ -254,13 +254,13 @@ document.getElementById(ans1Ref).style.display = 'none';
     </prt>
   </question>
 
-<!-- question: 10  -->
+<!-- question: 2164  -->
   <question type="stack">
     <name>
       <text><![CDATA[3. "Two-way binding", what does that mean?]]></text>
     </name>
     <questiontext format="moodle_auto_format">
-      <text><![CDATA[<p>Previously we showed that binding both transfers the position of something in the graph to the input and retrieves the stored value of the input on page reload. Basically, one way binging is when the action of graph changes setting the input value. For two way binding we also track the input value after the page has loaded so that if it changes due to any action we change the graph.</p>
+      <text><![CDATA[<p>In the previous example the binding transfers the position of both something in the graph to the input and retrieves the stored value of the input on page reload. Basically, one way binging is when the action in a graph changes setting the input value. For two way binding we also track the input value after the page has loaded so that if it changes due to any action we change the graph.</p>
 
 <p><b>Now why would we want to do that when the graph itself set the value!?</b></p>
 <ul>
@@ -447,7 +447,7 @@ board.update();
     </prt>
   </question>
 
-<!-- question: 11  -->
+<!-- question: 2165  -->
   <question type="stack">
     <name>
       <text>4. JSON and complex binding.</text>

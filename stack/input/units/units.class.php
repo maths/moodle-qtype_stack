@@ -63,7 +63,7 @@ class stack_units_input extends stack_input {
         );
 
         if ($this->is_blank_response($state->contents)) {
-            $attributes['value'] = $this->parameters['syntaxHint'];
+            $attributes['value'] = stack_utils::logic_nouns_sort($this->parameters['syntaxHint'], 'remove');
         } else {
             $attributes['value'] = $this->contents_to_maxima($state->contents);
         }

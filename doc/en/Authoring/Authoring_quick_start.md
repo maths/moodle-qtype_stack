@@ -1,6 +1,13 @@
 # Introduction to STACK authoring
 
-This guide is the "author quickstart" for the STACK system.  We start by showing you how easy it is to convert an integration question to Moodle for automatic marking and feedback.
+Computer aided assessment of mathematics works in the following phases.
+
+1. [Authoring](../Authoring/index.md)
+2. [Testing](Testing.md)
+3. [Deploying](Deploying.md)
+4. [Reporting](Reporting.md)
+
+In this guide we introduce you to STACK question authoring.  We show you how easy it is to convert a senior school-level integration question to Moodle for automatic marking and feedback.
 
 ## Before you begin
 
@@ -19,8 +26,12 @@ To illustrate question authoring, we use the real world example of senior school
 
 In this introductory guide we show you how easy it is to move questions like these online to Moodle and have Moodle automatically grade the student response. Not only that, but we will also see how easy it is to catch common slips, such as (in the case of integration) forgetting to include the constant of integration or accidentally differentiating instead of integrating. 
 
-In this guide we will cover:
+This Introduction to STACK Authoring covers the following:
 
+- Preparing to write a STACK question
+- Creating a new STACK question
+- Planning a Potential Response Tree (PRT)
+- Building the Potential Response Tree
 
 At the end of this guide you will be able to:
 
@@ -29,10 +40,9 @@ At the end of this guide you will be able to:
 - Preview and test STACK questions.
 
 
+### Preparing to write a STACK question
 
-### Preparing the question
-
-Let us begin by choosing question (i), shown in the image above:
+Let us begin by considering question (i) from the text book, shown in the image above:
 \(
 \int \frac{5}{(3x - 2)^3} dx
 \)
@@ -44,51 +54,64 @@ Below is a student's written response, which demonstrates two common slips:
 Notice that the student has:
 
 - Forgotten to include the constant of integration.
-- Differentiated instead of integrated.
+- Differentiated the outer function, instead of integrating.
 
-These are things which students are likley to do with any integration question.  Indeed, students might differentiate by mistake and still add a constant of integration!  In this situation there are also mistakes which are much more specific to the question.
+Of course, these are things which students are likley to do with any integration question.  Indeed, through force of habit students have been known to differentiate by mistake and still add a constant of integration!  Also, there are mistakes students have made which are much more specific to this particular question:
 
 - Forgetting to use substitution and hence not dividing by \(p\), and effectively integrating \( \int r(px+q)^n dx \rightarrow \frac{r}{n+1}(px+q)^{n+1}+c \).
 - having difficulties in increasing a negative number (in this case \(-3\) by one).  In our example \( \int \frac{5}{(3x - 2)^3} dx \rightarrow \frac{5}{3}\frac{1}{(3x - 2)^4}+c\).
 
 One of the benefits of using online assessment, such as STACK, is that it's easy to check for these errors.
 
-When checking a student's answer with STACK a teacher needs to ask themselves _"What are the mathematical properties which makes a student's answer correct/incorrect?"_  In our case these include
+When checking a student's answer with STACK a teacher needs to ask themselves _"What are the mathematical properties which makes a student's answer correct/incorrect?"_  In our case these questions include:
 
-1. Is the student's answer a symbolic anti-derivative of the integrand?
-2. Does the student have a constant of integration in an appropriate form?
+- Is the student's answer a symbolic anti-derivative of the integrand?
+- Does the student have a constant of integration in an appropriate form?
 
-Then, they might also ask _"What might a student do incorrectly, and what will this give them as an answer?"_  This second question is more difficult, and it is often sensible to review questions after a year and build in better feedback in the light of experience with students.
+Next, a teacher needs to ask _"What might a student do incorrectly, and what will this give them as an answer?"_  This second question is more difficult. The answer might come through experience or from asking upfront diagnostic questions (again using STACK). It is often sensible to review questions after a year and build in better feedback in the light of experience with students. 
 
 ### Creating a new STACK question
 
 To begin, go to Moodle and navigate to your course's *Course administration* page and, from the *Question bank* section, click on *Questions*:
 
-<img src="%CONTENT/Authoring_quick_start/image1.png" width="450px" style="display: block; margin-left: auto; margin-right: auto;" />
+![Accessing the Question Bank](%CONTENT/access_the_question_bank.png)
 
 1. On the Question Bank page, press the 'Create new question' button:
 
-<img src="%CONTENT/Authoring_quick_start/image2.png" width="450px" style="display: block; margin-left: auto; margin-right: auto;" />
+![Press the Create new question button](%CONTENT/question_bank_page.png)
 
 2. From the 'Choose a question type to add' dialog select 'STACK' and press 'Add':
 
-<img src="%CONTENT/Authoring_quick_start/image3.png" width="450px" style="display: block; margin-left: auto; margin-right: auto;" />
+![Select STACK question](%CONTENT/select_STACK_question.png)
 
 The 'Editing a STACK question' page is displayed. Don't be put off by the amount of configuration options as, in order to get started, there are only a few we need to worry about. Firstly, give your question a name. This needs to be something meaningful so that you can easily identify it. For example, the name could simply be the question as it's identified in the text book:
 
-<img src="%CONTENT/Authoring_quick_start/image4.png" style="display: block; margin-left: auto; margin-right: auto;" />
+![Select STACK question](%CONTENT/select_STACK_question.png)
 
-3. Next we need to input the question text. This needs to be in \(\LaTeX\) format:
+3. Next we need to input the question text. Essentially, this needs to be in \(\LaTeX\) format:
 
-/pic
+![Adding question text, including LaTeX formatting and relevant tags](%CONTENT/adding_question_text.png)
 
-4. We then need to specify our model answer:
+Note that two tags are already included: The [[input:ans1]] tag is replaced by a text box where the student types in their response. The student response is automatically validated as they type and this is displayed where the [[validation:ans1]] is positioned. So we could remodel the question as:
 
-/pic
+![Remodelled question text](%CONTENT/remodelled_question_text.png) 
 
+Next we need to specify our model answer. Scroll to Input:ans1. Select Algebraic input from the Input type drop-down menu and give the model answer as:
+
+    C - (5/6)*(3*x-2)^2
+    
+![Specifying the teacher's model answer](%CONTENT/model_answer.png)
+
+Before moving on, scroll down to the bottom of the page and press the _Save changes and continue editing_ button.
 In the next section we learn how to handle the common misconceptions outlined about by building a Potential Response Tree.
 
 ---
+
+### Planning a Potential Response Tree (PRT)
+
+This is where we
+
+
 
 ### Building the Potential Response Tree
 
@@ -126,8 +149,6 @@ We now need to complete the rest of the tree, as outlined in the original sketch
 
 
 
-Notes:
-Ericsson, K. A., Krampe, R. T. and Tesch-Romer, C. (1993) 'The role of Deliberate Practice in the acquisition of expert performance', Psychological Review 100 (3) pp. 363-406]
 
 
 

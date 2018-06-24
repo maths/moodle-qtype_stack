@@ -11,21 +11,24 @@ We assume you are familiar with the following:
 
 ## Background 
 
-To illustrate question authoring, imagine that the students are required to integrate, with respect to \(x\), functions of the form \( r(px+q)^n \).
-
-Through a process of deliberate practice (see notes, below), students learn how to integrate a simple functions of functions. They are then asked to complete a set of questions.  A typical example from the text book is shown below.  
+To illustrate question authoring, we use the real world example of senior school mathematics students who are learning to integrate, with respect to \(x\), functions of the form \( r(px+q)^n \). Students are being asked to complete a set of questions from _Advanced Mathematics for AS and A level 2_:  
 
 ![Integration exercises](%CONTENT/IntegrationExercises.jpg)
 
 (Reproduced with permission from _Advanced Mathematics for AS and A level 2_ (A-level mathematics), Haese Mathematics (2018) [978-1-925489-32-3](http://www.haesemathematics.com/books/advanced-mathematics-2-for-a-level))
 
-In this guide we show you how easy it is to move questions like these online to Moodle and have Moodle automatically grade the student response. Not only that, but we will also see how easy it is to catch common slips, such as (in the case of integration) forgetting to include the constant of integration or accidentally differentiating instead of integrating. 
+In this introductory guide we show you how easy it is to move questions like these online to Moodle and have Moodle automatically grade the student response. Not only that, but we will also see how easy it is to catch common slips, such as (in the case of integration) forgetting to include the constant of integration or accidentally differentiating instead of integrating. 
+
+In this guide we will cover:
+
 
 At the end of this guide you will be able to:
 
 - Create a new STACK question, ensuring mathematical notation is displayed correctly using \(\LaTeX\) notation.
 - Catch, and provide feedback on, common errors by building a *Potential Response Tree*. 
-- Preview and test STACK questions. 
+- Preview and test STACK questions.
+
+
 
 ### Preparing the question
 

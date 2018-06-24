@@ -36,7 +36,7 @@ Let us begin by choosing question (i), shown in the image above:
 
 Below is a student's written response, which demonstrates two common slips:
 
-/pic here/
+![Student written response](%CONTENT/student_written_response.png)
 
 Notice that the student has:
 

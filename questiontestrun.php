@@ -42,7 +42,10 @@ require_once(__DIR__ . '/stack/bulktester.class.php');
 $questionid = required_param('questionid', PARAM_INT);
 
 // Load the necessary data.
-$questiondata = $DB->get_record('question', array('id' => $questionid), '*', MUST_EXIST);
+$questiondata = question_bank::load_question_data($questionid);
+if (!$questiondata) {
+    print_error('questiondoesnotexist', 'question');
+}
 $question = question_bank::load_question($questionid);
 
 // Process any other URL parameters, and do require_login.

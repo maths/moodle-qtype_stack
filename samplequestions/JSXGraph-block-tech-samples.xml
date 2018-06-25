@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <quiz>
-<!-- question: 2162  -->
+<!-- question: 13  -->
   <question type="stack">
     <name>
       <text>1. Basic, non bound example of a graph</text>
@@ -45,7 +45,7 @@ for (k=0;k<5;k++) {
    j[k] = brd.create('intersection',[c[k],c[(k+2)%5],0],{name:'',strokeColor:'#EA0000',fillColor:'#EA0000'});
 }
 
-cc = brd.create('circumcircle',[j[0],j[2],j[3]],{strokeColor:'red',strokeWidth:2,point:{strokeColor:'#000000',fillColor:'#000000',size:1}});
+var cc = brd.create('circumcircle',[j[0],j[2],j[3]],{strokeColor:'red',strokeWidth:2,point:{strokeColor:'#000000',fillColor:'#000000',size:1}});
 brd.update();
 [[escape value="[[/jsxgraph]]"/]]</pre>
 
@@ -79,7 +79,7 @@ for (k=0;k<5;k++) {
    j[k] = brd.create('intersection',[c[k],c[(k+2)%5],0],{name:'',strokeColor:'#EA0000',fillColor:'#EA0000'});
 }
 
-cc = brd.create('circumcircle',[j[0],j[2],j[3]],{strokeColor:'red',strokeWidth:2,point:{strokeColor:'#000000',fillColor:'#000000',size:1}});
+var cc = brd.create('circumcircle',[j[0],j[2],j[3]],{strokeColor:'red',strokeWidth:2,point:{strokeColor:'#000000',fillColor:'#000000',size:1}});
 brd.update();
 [[/jsxgraph]]]]></text>
     </questiontext>
@@ -118,7 +118,7 @@ brd.update();
     <variantsselectionseed></variantsselectionseed>
   </question>
 
-<!-- question: 2163  -->
+<!-- question: 14  -->
   <question type="stack">
     <name>
       <text><![CDATA[2. "Binding", what does it mean?]]></text>
@@ -254,7 +254,7 @@ document.getElementById(ans1Ref).style.display = 'none';
     </prt>
   </question>
 
-<!-- question: 2164  -->
+<!-- question: 15  -->
   <question type="stack">
     <name>
       <text><![CDATA[3. "Two-way binding", what does that mean?]]></text>
@@ -447,7 +447,7 @@ board.update();
     </prt>
   </question>
 
-<!-- question: 2165  -->
+<!-- question: 16  -->
   <question type="stack">
     <name>
       <text>4. JSON and complex binding.</text>
@@ -539,6 +539,12 @@ var dropHandler = function() {
   newState[i] = P;
  }
  theInput.value = JSON.stringify(newState);
+
+ // NOTE! You will need to do certain things to make the VLE around you know that things happen, 
+ // for this reason we need to generate a "change" event. In the case of Moodle and this question the event
+ // marks the form modified and causes a warning if the page is left through non saving routes.
+ var e = new Event('change');
+ theInput.dispatchEvent(e);
 }
 
 
@@ -637,6 +643,12 @@ var dropHandler = function() {
   newState[i] = P;
  }
  theInput.value = JSON.stringify(newState);
+
+ // NOTE! You will need to do certain things to make the VLE around you know that things happen, 
+ // for this reason we need to generate a "change" event. In the case of Moodle and this question the event
+ // marks the form modified and causes a warning if the page is left through non saving routes.
+ var e = new Event('change');
+ theInput.dispatchEvent(e);
 }
 
 

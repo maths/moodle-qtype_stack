@@ -87,7 +87,7 @@ class stack_cas_castext_jsxgraph extends stack_cas_castext_block {
         // We could calculate the actual offset but I'll leave that for
         // someone else. 1+2*n probably, or we could just write all the preamble
         // on the same line and make the offset always be the same?
-        $code = '"use strict";try{' . $code . '} catch(err) {console.log("STACK JSXGraph error in \"' . $divid
+        $code = '"use strict";try{if(document.getElementById("' . $divid . '")){' . $code . '}} catch(err) {console.log("STACK JSXGraph error in \"' . $divid
             . '\", (note a slight varying offset in the error position due to possible input references):");'
             . 'console.log(err);}';
 

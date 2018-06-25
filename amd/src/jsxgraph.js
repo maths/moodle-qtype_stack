@@ -6,6 +6,12 @@ define(["qtype_stack/jsxgraphcore-lazy"], function(JXG) {
                 var tmp = document.getElementById(divid);
                 while ((tmp = tmp.parentElement) && !(tmp.classList.contains("formulation") && tmp.parentElement.classList.contains("content"))) {}
                 tmp = tmp.querySelector('input[id$="_' + name + '"]');
+                // We use this function to also tie into the change tracking of Moodle.
+                // We do it here so that all possible code written by authors will also be tracked.
+                // The author just needst to generate a change event they do not need to know how the VLE works.
+                tmp.addEventListener('change', function(e) {
+                    M.core_formchangechecker.set_form_changed();
+                });
                 return tmp.id;
             },
 

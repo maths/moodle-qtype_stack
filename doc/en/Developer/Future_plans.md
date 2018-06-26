@@ -22,6 +22,7 @@ Note, where the feature is listed as "(done)" means we have prototype code in th
  1. Dragmath (actually, probably use javascript from NUMBAS instead here, or the MathDox editor).
  2. Sliders.
  3. Geogebra input (protoype already exisits: needs documentation, testing and support).
+ 4. Re-sizable matrix input.  See NUMBAS examples here, with Javascript.
 * It is very useful to be able to embed input elements in equations, and this was working in STACK 2.0. However is it possible with MathJax or other Moodle maths filters?
   This might offer one option:  http://stackoverflow.com/questions/23818478/html-input-field-within-a-mathjax-tex-equation
 * In the MCQ input type: Add choose N (correct) from M feature (used at Aalto).
@@ -61,6 +62,8 @@ Note, where the feature is listed as "(done)" means we have prototype code in th
 
 ## Features that might be attempted in the future - possible self contained projects ##
 
+* Investigate how a whole PRT might make only one CAS call.
+* Provide an alternative way to edit PRTs in a form of computer code, rather than lots of form fields. For example using http://zaach.github.com/jison/ or https://github.com/hafriedlander/php-peg. 
 * Read other file formats into STACK.  In particular
   * AIM
   * WebWork, including the Open Problem Library:  http://webwork.maa.org/wiki/Open_Problem_Library
@@ -122,3 +125,4 @@ Basic reports now work.
 * Really ensure "attempts" list those with meaningful histories.  I.e. if possible filter out navigation to and from the page etc.
 * Add better maxima support functions for off-line analysis.
 * A fully maxima-based representation of the PRT?
+

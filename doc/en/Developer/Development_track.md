@@ -16,8 +16,8 @@ Note: the behaviour of the maxima `addrow` function has changed.  Use the bulk t
 ### Major features
 
 * _done_ Add in a version number to STACK questions.
-
-* JSXGraph support (Matti, and example questions from Artem).
+* _done_ Add support for using JSXGraph  `http://jsxgraph.org` for better support of interactive graphics, and as part of an input type.  See [JSXGraph](../Authoring/JSXGraph.md)
+* _done_ Add in a version number to STACK questions.
 * Update reasoning by eqivalence (Chris).
 * Better install code (see #332).
 * 1st version of API.

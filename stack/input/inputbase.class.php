@@ -167,7 +167,6 @@ abstract class stack_input {
             foreach ($options as $option) {
                 $option = strtolower(trim($option));
                 list($option, $arg) = stack_utils::parse_option($option);
-
                 // Only accept those options specified in the array for this input type.
                 if (array_key_exists($option, $this->extraoptions)) {
                     if ($arg === '') {
@@ -250,6 +249,41 @@ abstract class stack_input {
                 case 'mul':
                     // Mul was depricated in version 4.2.
                     $this->errors[] = stack_string('stackversionmulerror');
+
+                case 'hideequiv':
+                    if (!(is_bool($arg))) {
+                        $this->errors[] = stack_string('numericalinputoptbooplerr', array('opt' => $option, 'val' => $arg));
+                    }
+                    break;
+
+                case 'comments':
+                    if (!(is_bool($arg))) {
+                        $this->errors[] = stack_string('numericalinputoptbooplerr', array('opt' => $option, 'val' => $arg));
+                    }
+                    break;
+
+                case 'firstline':
+                    if (!(is_bool($arg))) {
+                        $this->errors[] = stack_string('numericalinputoptbooplerr', array('opt' => $option, 'val' => $arg));
+                    }
+                    break;
+
+                case 'assume_pos':
+                    if (!(is_bool($arg))) {
+                        $this->errors[] = stack_string('numericalinputoptbooplerr', array('opt' => $option, 'val' => $arg));
+                    }
+                    break;
+
+                case 'assume_real':
+                    if (!(is_bool($arg))) {
+                        $this->errors[] = stack_string('numericalinputoptbooplerr', array('opt' => $option, 'val' => $arg));
+                    }
+                    break;
+
+                case 'calculus':
+                    if (!(is_bool($arg))) {
+                        $this->errors[] = stack_string('numericalinputoptbooplerr', array('opt' => $option, 'val' => $arg));
+                    }
                     break;
 
                 default:
@@ -443,6 +477,9 @@ abstract class stack_input {
         if (substr(trim($val), 0, 8) == 'stackeq(') {
             $val = '= ' . substr(trim($val), 8, -1);
         }
+        if (substr(trim($val), 0, 9) == 'stacklet(' && substr(trim($val), -1, 1) == ')') {
+            $val = stack_string('equiv_LET') . ' ' . implode('=', explode(',', substr(trim($val), 9, -1)));
+        }
         return $val;
     }
 
@@ -566,7 +603,8 @@ abstract class stack_input {
         if ($lvars->get_valid() && $valid && $answer->get_valid()) {
             $sessionvars[] = $lvars;
         }
-        $additionalvars = $this->additional_session_variables($caslines, $teacheranswer);
+        $additionalvars = array_merge($this->extra_option_variables(),
+                $this->additional_session_variables($caslines, $teacheranswer));
         $sessionvars = array_merge($sessionvars, $additionalvars);
 
         $localoptions->set_option('simplify', false);
@@ -714,6 +752,10 @@ abstract class stack_input {
      * If needed, these will be used by the extra options.
      */
     protected function additional_session_variables($caslines, $teacheranswer) {
+        return array();
+    }
+
+    private function extra_option_variables() {
 
         $additionalvars = array();
 
@@ -733,6 +775,36 @@ abstract class stack_input {
             $rationalized = new stack_cas_casstring('rationalized('.$this->name.')');
             $rationalized->get_valid('t');
             $additionalvars['rationalized'] = $rationalized;
+        }
+
+        if (array_key_exists('assume_pos', $this->extraoptions)) {
+            $assumepos = 'false';
+            if ($this->extraoptions['assume_pos']) {
+                $assumepos = 'true';
+            }
+            $assumepos = new stack_cas_casstring('assume_pos:'.$assumepos);
+            $assumepos->get_valid('t');
+            $additionalvars['assume_pos'] = $assumepos;
+        }
+
+        if (array_key_exists('assume_real', $this->extraoptions)) {
+            $assumereal = 'false';
+            if ($this->extraoptions['assume_real']) {
+                $assumereal = 'true';
+            }
+            $assumereal = new stack_cas_casstring('assume_real:'.$assumereal);
+            $assumereal->get_valid('t');
+            $additionalvars['assume_real'] = $assumereal;
+        }
+
+        if (array_key_exists('calculus', $this->extraoptions)) {
+            $calculus = 'false';
+            if ($this->extraoptions['calculus']) {
+                $calculus = 'true';
+            }
+            $calculus = new stack_cas_casstring('stack_calculus:'.$calculus);
+            $calculus->get_valid('t');
+            $additionalvars['calculus'] = $assumereal;
         }
 
         return $additionalvars;

@@ -11,7 +11,7 @@ STACK es un sistema de evaluación para matemáticas, ciencia y disciplinas rela
 * Una gran variedad de tipos de entradas, incluyendo trabajar línea por línea.
 * Un sistema de código-abierto (GPL).
 
-Bienvenido a la traducción al español de la documentación oficial para el usuario del [proyecto STACK](About/index.md).
+Bienvenido a la traducción al español (en construcción) de la documentación oficial para el usuario del [proyecto STACK](About/index.md).
 
 
 ## Donde comenzar ##

@@ -1,64 +1,64 @@
 # Authoring quick start 1
 
-Computer aided assessment of mathematics works in the following phases.
+Evaluación asistida por computadora de trabajos matemáticos en las siguientes fases.
 
 1. [Authoring](../Authoring/index.md)
 2. [Testing](Testing.md)
 3. [Deploying](Deploying.md)
 4. [Reporting](Reporting.md)
 
-Each of these links contains detailed instructions.  The purpose of this page is to work through a simple example.
+Cada uno de estos enlaces contiene instrucciones detalladas. el propósito de esta página es guiarlo en un ejemplo simple.
 
-## Introduction ##
+## Introducción ##
 
-The STACK question type for Moodle is designed as a vehicle to manage mathematical questions. Implicit in this is a data structure which represents them.
-This page explains the process of authoring a question, by working through an example.
+El tipo de pregunta STACK para Moodle está diseñado como un vehículo para gestionar preguntas matemáticas. Implícito dentro de esto está una estructura que las representa.
+Esta página explica el proceso de fabricación de una pregunta, al trabajar mediante un ejemplo.
 
-Questions are edited through the Moodle quiz.  In Moodle, go to the question bank and ask to create a new STACK question.  Do not be put off by the fact the editing form looks complicated.
+Las preguntas son editadas por medio del exámen (cuestionario) de Moodle.  En Moodle, vaya al Banco de preguntas y pídale crear una nueva pregunta STACK.  No se espante por el hecho de que el formato ara editar se vea complicado.
 
-There are lots of fields, but only a few are compulsory.  These are the question name and [question text](CASText.md#question_text). The question text is the string actually displayed to the student, i.e. this is "the question".
-If you have an input (the default is to have one) the teacher's answer must be non-empty.  Nodes in potential response trees have compulsory fields (the default is to provide a tree with one node).
+Hay muchos campos, pero solo unos cuantos son obligatorios.  Estos son el nombre d ela pregunta y el  [question text](CASText.md#question_text). el texto de la pregunta es la cadena de caracteres que de hecho es mostrada al estudiante; o sea, esta es  "la pregunta".
+Si Usted tiene una contestación para ingresar (el ajuste por defecto es  tener una) la respuesta del profesor debe de estar no-vacía.  Los nodos en los árboles de respuesta potenciales tienen campos obligatorios (el ajuste por defecto es proporcionar un árbol con un nodo).
 
-## An example question ##
+## Una pregunta de ejemplo ##
 
-We are now ready to edit an example question.  The question name is compulsory in Moodle, so choose one now, e.g. `Question 1`.
+Ahora estamos listos para editar una pregunta de ejemplo.  El nombre de la pregunta es obligatorio en Moodle, por lo que elegiremos uno ahora, por ejemplo, `Question 1`.
 
-Ensure the question text contains the following information. It should be possible to cut and paste, but make sure you do not copy the HTML pre-formatted tags!
+Asegúrese de que el texto de la pregunta contenga la siguiente información. Debería de ser posible copiar y pegar, ¡pero asegúrese de que Usted no copia las marcas (tags) pre-formateadas HTML!
 
 <textarea readonly="readonly" rows="3" cols="50">
-Differentiate \((x-1)^3\) with respect to \(x\).
+Diferencíe \((x-1)^3\) con respecto a \(x\).
 [[input:ans1]]
 [[validation:ans1]]</textarea>
 
-There are a number of things to notice about this text.
+Hay varias cosas que observar acerca de este texto.
 
-* The text contains LaTeX mathematics environments.  Do NOT use mathematics environments `$..$` and `$$..$$`.  Instead you must use `\(..\)` and `\[..]\` for inline and displayed mathematics respectively.  (There is an automatic bulk converter if you have a lot of legacy materials!)
-* The tag `[[input:ans1]]` will be replaced by an [input](Inputs.md) labelled `ans1`, i.e this denotes the position of the box into which the student puts their answer.
-* The tag `[[validation:ans1]]` will be replaced by any feedback related to the validity of the input `ans1`.
+* El texto contiene entornos matemáticos LaTeX.  NO USE entornos matemáticos `$..$` ni `$$..$$`.  En su lugar Usted debe utilizar `\(..\)` y `\[..]\` para matemáticas en-línea (inline) y mostradas respectivamente.  (¡Existe un convertidor masivo automático si Usted tuviera muchos materiales antiguos!)
+* La marca (tag) `[[input:ans1]]` será remplazada por un [input](Inputs.md) marcada `ans1`, por ejemplo, esto denota la posición de la caja adentro de la cual el estudiante pone su respuesta.
+* La marca (tag) `[[validation:ans1]]` será remplazada por cualquier retroalimentación relacionada con la validez de la respuesta ingresada `ans1`.
 
-By default, a new question automatically has one [input](Inputs.md), and one algorithm to assess the answer.
+Por defecto, una nueva pregunta automáticamente tiene un [input](Inputs.md), y un algoritmo para valorar la respuesta.
 
-Scroll down:  there will be an [inputs](Inputs.md) section of the editing form.
-Into the model answer type in the answer as a syntactically valid CAS expression, e.g.
+Deslice le curso hacia abajo:  habrá una sección [inputs](Inputs.md) del formato para editar.
+Dentro de la respuesta modelo en la respuesta está una expresión CAS sintácticamente válida, como por ejemplo.
 
     3*(x-1)^2
 
-Now we have a question, and the model answer.  We next have to decide if the student's answer is correct.
+Ahora ya tenemos una pregunta, y la respuesta modelo.  A continuación tenemos que decidir si la respuesta del estudiante es correcta.
 
-## Establishing properties of the student's answer via the potential response tree {#Answer_props_via_prt}
+## Establecer las propiedades de la respuesta del estudiante vía el árbol de respuesta potencial {#Answer_props_via_prt}
 
-To establish properties of student's answers we need an algorithm known as a [potential response tree](Potential_response_trees.md).
+Para establecer propiedades de las respuestas del estudiante, necesitamos un algoritmo conocido como un árbol de respuesta potencial [potential response tree](Potential_response_trees.md).
 
-This tree will allow us to establish the mathematical properties of the student's answer and on the basis of these properties provide outcomes, such as feedback and a score.
+Este árbol nos permitirá establecer las propiedades matemáticas de la respuesta del estudiante y basándonos en esta s propiedades proporcionar resultados, tales como reproalimentación y un puntaje.
 
-In due course, we shall provide [feedback](Feedback.md) which checks
+A su debido tiempo, proporcionaremos [feedback](Feedback.md) que revisa
 
-1. For the correct answer.
-2. To see if the student integrated by mistake.
-3. To see if it is likely that the student expanded out and differentiated.
+1. Para la respuesta correcta.
+2. Ver si el estudiante integró por error.
+3. Ver si es probable que el estudiante expandió y diferenció.
 
-By default, a new question contains one [potential response tree](Potential_response_trees.md) called `prt1`.
-This is the _name_ of the potential response, and it can be anything sensible (letters, optionally followed by numbers, no more than 18 characters).
+Por defecto, una nueva pregunta contiene un [potential response tree](Potential_response_trees.md) llamado `prt1`.
+Este es el _name_ de la respuesta potencial, y puede ser cualquier cosa razonable (letras, opcionalmente seguidas por números, no más de  18 caracteres).
 There can be any number of [potential response trees](Potential_response_trees.md) (including zero).
 Feedback generated by these trees replaces the tag `[[feedback:prt1]]`.
 By default this tag is placed in the Specific feedback field, but it could also be placed in the question text.

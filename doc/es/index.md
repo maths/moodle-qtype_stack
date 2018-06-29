@@ -27,7 +27,7 @@ Bienvenido a la traducción al español de la documentación oficial para el usu
   * [Instrucciones para entradas](Students/Answer_input.md).
   * [Cómo son valoradas las respuestas](Students/Answer_assessment.md).
 * **Administradores**
-  * Para [Instrucciones para instalación](Installation/index.md).
+  * Para [Instrucciones de instalación](Installation/index.md).
 * **[Desarrolladores](Developer/index.md)**
   * [Documentación para desarrolladores](Developer/index.md)
 

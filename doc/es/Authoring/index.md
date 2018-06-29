@@ -1,37 +1,37 @@
-# Authoring
+# Autoríag
 
-Computer aided assessment of mathematics works in the following phases.
+evaluación asistida por computadora de trabajos matemáticos en las siguientes dases.
 
-1. [Authoring](../Authoring/index.md),
-2. [Testing](Testing.md) and
-3. [Deploying](Deploying.md) questions.
-4. [Adding questions to a quiz](Quiz.md) and use by students.
-5. [Reporting](Reporting.md) and statistical analysis.
+1. [Autoría](../Authoring/index.md),
+2. [Pruebas](Testing.md) and
+3. [Despliegue](Deploying.md) questions.
+4. [Añadir reguntas a un examen (cuestionario)](Quiz.md) y uso por estudiantes.
+5. [Reportes](Reporting.md) y análisis estadístico.
 
-Those new to STACK would probably prefer the [Authoring quick start](Authoring_quick_start.md).
+Aquellos que sean nuevos en STACK probablemente preferirían la [Guía rápida de autoría](Authoring_quick_start.md).
 
-* [Authoring quick start 1](Authoring_quick_start.md) A basic question.
-* [Authoring quick start 2](Authoring_quick_start_2.md) Multi-part mathematical questions.
-* [Authoring quick start 3](Authoring_quick_start_3.md) Turning simplification off.
+* [Guía rápida de autoría 1](Authoring_quick_start.md) Una pregunta básica.
+* [Guía rápida de autoría 2](Authoring_quick_start_2.md) Preguntas matemáticas multi-partes.
+* [Guía rápida de autoría 3](Authoring_quick_start_3.md) Desactivando la simplificación.
 
-There are also [Sample questions](Sample_questions.md).
-This page is a reference for all the fields in a question.
+También hay [Preguntas de muestra](Sample_questions.md).
+Esta página es una referencia para todos los campos en una pregunta.
 
-## How STACK questions behave  ##
+## Cómo se comportan las preguntas STACK  ##
 
-* Guidelines to students on [answer assessment](../Students/Answer_assessment.md).
-* [Providing feedback](Feedback.md).
+* Guías para estudiantes acerca de [valoración de la respuesta](../Students/Answer_assessment.md).
+* [Proporcionar retroalimentación](Feedback.md).
 
-## STACK question data structure  ##
+## Estructura de datos de pregunta STACK  ##
 
-A `stackQuestion` is the basic object in the system. Indeed, STACK is designed as a vehicle to manage these questions.
-The table below shows the fields which make up a question.
-The only field which is compulsory is in **bold**.
+Una `stackQuestion` es el objeto básico en el sistema. de hecho, STACK está diseñado como un vehículo para manejar estas preguntas.
+La tabla inferior muestra los campos que componen una pregunta.
+El únco campo que es obligatorio está puesto en **negritas**.
 
-| Name                                                       | Type                                                       | Details
+| Nombre                                                     | Tipo                                                       | Detalles
 | ---------------------------------------------------------- | ---------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-| Name                                                       | Meta                                                       | Names a question
-| [Question variables](KeyVals.md#Question_variables)        | [Question Variables](KeyVals.md#Question_variables)        | These are potentially random variables which can be used to generate a question.
+| Nombre                                                     | Meta                                                       | Nombra una pregunta
+| [Variables de pregunta](KeyVals.md#Question_variables)     | [QVariables de Pregunta](KeyVals.md#Question_variables)    | Estas son variables potencialmente aleatorias que pueden ser usadas para generar una pregunta.
 | [Question text](CASText.md#question_text)                  | [CASText](CASText.md)                                      | This is the question the student actually sees
 | [General feedback](CASText.md#General_feedback)            | [CASText](CASText.md)                                      | The worked solution is only available after an item is closed.
 | [Question note](Question_note.md)                          | [CASText](CASText.md)                                      | Two randomly generated question versions are different, if and only if the question note is different.  Use this field to store useful information which distinguishes versions.

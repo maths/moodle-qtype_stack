@@ -31,7 +31,7 @@ El únco campo que es obligatorio está puesto en **negritas**.
 | Nombre                                                     | Tipo                                                       | Detalles
 | ---------------------------------------------------------- | ---------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 | Nombre                                                     | Meta                                                       | Nombra una pregunta
-| [Variables de pregunta](KeyVals.md#Question_variables)     | [QVariables de Pregunta](KeyVals.md#Question_variables)    | Estas son variables potencialmente aleatorias que pueden ser usadas para generar una pregunta.
+| [Variables de pregunta](KeyVals.md#Question_variables)     | [Variables de Pregunta](KeyVals.md#Question_variables)    | Estas son variables potencialmente aleatorias que pueden ser usadas para generar una pregunta.
 | [Question text](CASText.md#question_text)                  | [CASText](CASText.md)                                      | This is the question the student actually sees
 | [General feedback](CASText.md#General_feedback)            | [CASText](CASText.md)                                      | The worked solution is only available after an item is closed.
 | [Question note](Question_note.md)                          | [CASText](CASText.md)                                      | Two randomly generated question versions are different, if and only if the question note is different.  Use this field to store useful information which distinguishes versions.

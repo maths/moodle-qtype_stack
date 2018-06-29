@@ -4,7 +4,7 @@ Evaluación asistida por computadora de trabajos matemáticos en las siguientes 
 
 1. [Autoría](../Authoring/index.md),
 2. [Pruebas](Testing.md) y
-3. [Despliegue](Deploying.md) qde preguntas.
+3. [Despliegue](Deploying.md) de preguntas.
 4. [Añadir preguntas a un examen (cuestionario)](Quiz.md) y uso por estudiantes.
 5. [Reportes](Reporting.md) y análisis estadístico.
 

@@ -11,25 +11,25 @@ STACK es un sistema de evaluación para matemáticas, ciencia y disciplinas rela
 * Una gran variedad de tipos de entradas, incluyendo trabajar línea por línea.
 * Un sistema de código-abierto (GPL).
 
-Bienvenido a la documentación oficial para el usuario del proyecto [STACK project](About/index.md).
+Bienvenido a la documentación oficial para el usuario del [proyecto STACK](About/index.md).
 
 
 ## Donde comenzar ##
 
 * **Profesores**
-  1. [Authoring questions](Authoring/index.md), incluyendo una [authoring quick start guide](Authoring/Authoring_quick_start.md).
-  2. [Question testing](Authoring/Testing.md).
-  3. [Deploying questions](Authoring/Deploying.md).
-  4. [Reporting](Authoring/Reporting.md)
-  *  [Frequently asked questions](Authoring/Author_FAQ.md)
+  1. [Autoría de preguntas](Authoring/index.md), incluyendo una [guía rápida inicial de autoría](Authoring/Authoring_quick_start.md).
+  2. [Prueba de preguntas](Authoring/Testing.md).
+  3. [Despliegue de preguntas](Authoring/Deploying.md).
+  4. [Reportes](Authoring/Reporting.md)
+  *  [Preguntas Frecuentes](Authoring/Author_FAQ.md)
 * [**Estudiantes**](Students/index.md)
-  * [Frequently asked questions](Students/FAQ.md).
-  * [Input instructions](Students/Answer_input.md).
-  * [How answers are assessed](Students/Answer_assessment.md).
+  * [Preguntas frecuentes](Students/FAQ.md).
+  * [Instrucciones para entradas](Students/Answer_input.md).
+  * [Cómo son valoradas las respuestas](Students/Answer_assessment.md).
 * **Administradores**
-  * Para [Installation instructions](Installation/index.md).
-* **[Developers](Developer/index.md)**
-  * [Developer docs](Developer/index.md)
+  * Para [Instrucciones para instalación](Installation/index.md).
+* **[Desarrolladores](Developer/index.md)**
+  * [Documentación para desarrolladores](Developer/index.md)
 
-Puede encontrar más información acerca de lo que estamos intentando lograr bajo [the philosophy of STACK](About/The_philosophy_of_STACK.md).
+Puede encontrar más información acerca de lo que estamos intentando lograr bajo [la filosofía de STACK](About/The_philosophy_of_STACK.md).
 

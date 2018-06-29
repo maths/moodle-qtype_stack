@@ -3,9 +3,9 @@
 Evaluación asistida por computadora de trabajos matemáticos en las siguientes fases.
 
 1. [Autoría](../Authoring/index.md),
-2. [Pruebas](Testing.md) and
-3. [Despliegue](Deploying.md) questions.
-4. [Añadir reguntas a un examen (cuestionario)](Quiz.md) y uso por estudiantes.
+2. [Pruebas](Testing.md) y
+3. [Despliegue](Deploying.md) qde preguntas.
+4. [Añadir preguntas a un examen (cuestionario)](Quiz.md) y uso por estudiantes.
 5. [Reportes](Reporting.md) y análisis estadístico.
 
 Aquellos que sean nuevos en STACK probablemente preferirían la [Guía rápida de autoría](Authoring_quick_start.md).

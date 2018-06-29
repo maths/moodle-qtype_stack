@@ -1,6 +1,6 @@
-# Autoríag
+# Autoría
 
-evaluación asistida por computadora de trabajos matemáticos en las siguientes dases.
+Evaluación asistida por computadora de trabajos matemáticos en las siguientes fases.
 
 1. [Autoría](../Authoring/index.md),
 2. [Pruebas](Testing.md) and

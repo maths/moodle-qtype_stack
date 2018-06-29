@@ -1,4 +1,4 @@
-# Authoring quick start 1
+# Guía rápida de autoría 1
 
 Evaluación asistida por computadora de trabajos matemáticos en las siguientes fases.
 

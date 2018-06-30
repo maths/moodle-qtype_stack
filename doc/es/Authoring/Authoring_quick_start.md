@@ -117,34 +117,34 @@ El sistema ejecuta el árbol de respuesta potencial y establece si es que su res
 a la respuesta modelo `3*(x-1)^2`.  A continuación, intente tener la respuesta erronea.  Si su servidor no tiene la  "validación instantánea" activada (una opción administrativa/de la instalación) Usted necesitará enviar cada respuesta dos veces.
 tenga en cuenta que todas sus respuestas son almacenadas en una tabla de intentos.
 
-We would really like to add better feedback, so it is time to edit the question again.  Return to the question bank page and click on the link to edit the question.
+A nosotros realmente nos gustaría añadir una mejor retroalimentación, por lo que ahora es el momento para editar nuevamente la pregunta. Regrese a la página del Banco de preguntas y haga click en el enlace para editar la pregunta.
 
-## Better feedback ##
+## Mejor retroalimentación ##
 
-What if the outcome of applying the first answer test was false?
-We would like to check that the student has not integrated by mistake, and we achieve this by adding another potential response node.
+¿Qué pasaría si el resultado de aplicar la primera prueba de respuesta fuera falso?
+Nos gustaría revisar que el estudiante no haya integrado por error, y logramos esto al añadir otro nodo de respuesta potencial.
 
-Close the preview window and edit the question again.  Scroll down to the
-Potential Response Tree and click `[Add another node]` button at the bottom of
-the list of nodes.
+Cierre la ventana de pre-visualización y edite nuevamente lapregunta. Deslice el curso abajo hasta el
+Árbol de Respuesta Potencial y haga click en  el botón para  `[Añadirotro nodo]` al fondo de
+la lista de nodos.
 
-From the false branch of Node 1, change the "Next" field so it is set to  `[Node 2]`.
-If the first test is false, we will then perform the test in Node 2.
+Desde la rama falsa del Nodo 1, cambie el campo para "Siguiente" de forma tal que esté configurado a  `[Nodo 2]`.
+Si la primera prueba es falsa, entonces nosotros realizaremos la prueba en el Nodo 2.
 
-If the student has integrated, they may or may not have added a constant of integration.
-If they have added such a constant we don't know what letter they have used! So, the best way to solve
-this problem is to differentiate their answer and compare it to the question.
+Si el estudiante ha integrado, podría haber o no haber añadido una constante de integración.
+Si ha añadido tal constante, ¡nosotros no sabemos cual letra han usado! Así pues,la mejor maneera para resolver
+este problema es diferenciar su respuesta y compararla a la pregunta.
 
-Update the form so that Node 2 has
+Actualice le formato de forma tal que el Nodo 2 tenga
 
     SAns = diff(ans1,x)
     TAns = (x-1)^3
     Answer test = AlgEquiv
 
-This gives us the test, but what about the outcomes?
+Esto nos da la prueba, ¿pero qué pasa con los resultados?
 
-1. On the true branch set the `score=0`
-2. On the true branch set the feedback to `You appear to have integrated by mistake!`
+1. En la rama verdadera configure el `score=0`
+2. En la rama verdadera configure la retroalimentación a `¡Al parecer Usted ha integrado por error!`
 
 Notice here that STACK also adds an "intelligent note to self" in the [nota de respuesta](Potential_response_trees.md#Answer_note) field.
 This is useful for statistical grouping of similar outcomes when the feedback depends on randomly generated questions,

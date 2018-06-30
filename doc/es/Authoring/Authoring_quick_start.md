@@ -14,9 +14,9 @@ Cada uno de estos enlaces contiene instrucciones detalladas. El propósito de es
 El tipo de pregunta STACK para Moodle está diseñado como un vehículo para gestionar preguntas matemáticas. Implícito dentro de esto está una estructura que las representa.
 Esta página explica el proceso de fabricación de una pregunta, al trabajar mediante un ejemplo.
 
-Las preguntas son editadas por medio del exámen (cuestionario) de Moodle.  En Moodle, vaya al Banco de preguntas y pídale crear una nueva pregunta STACK.  No se espante por el hecho de que el formato ara editar se vea complicado.
+Las preguntas son editadas por medio del exámen (cuestionario) de Moodle.  En Moodle, vaya al Banco de preguntas y pídale crear una nueva pregunta STACK.  No se espante por el hecho de que el formato para editar se vea complicado.
 
-Hay muchos campos, pero solo unos cuantos son obligatorios.  Estos son el nombre d ela pregunta y el  [texto de la pregunta](CASText.md#question_text). el texto de la pregunta es la cadena de caracteres que de hecho es mostrada al estudiante; o sea, esta es  "la pregunta".
+Hay muchos campos, pero solo unos cuantos son obligatorios.  Estos son el nombre de la pregunta y el  [texto de la pregunta](CASText.md#question_text). El texto de la pregunta es la cadena de caracteres que, de hecho, es mostrada al estudiante; o sea, esta es  "la pregunta".
 Si Usted tiene una contestación para ingresar (el ajuste por defecto es  tener una) la respuesta del profesor debe de estar no-vacía.  Los nodos en los árboles de respuesta potenciales tienen campos obligatorios (el ajuste por defecto es proporcionar un árbol con un nodo).
 
 ## Una pregunta de ejemplo ##
@@ -30,15 +30,15 @@ Diferencíe \((x-1)^3\) con respecto a \(x\).
 [[input:ans1]]
 [[validation:ans1]]</textarea>
 
-Hay varias cosas que observar acerca de este texto.
+Hay varias cosas que tener en cuenta acerca de este texto.
 
-* El texto contiene entornos matemáticos LaTeX.  NO USE entornos matemáticos `$..$` ni `$$..$$`.  En su lugar Usted debe utilizar `\(..\)` y `\[..]\` para matemáticas en-línea (inline) y mostradas respectivamente.  (¡Existe un convertidor masivo automático si Usted tuviera muchos materiales antiguos!)
-* La marca (tag) `[[input:ans1]]` será remplazada por una [entrada](Inputs.md) marcada `ans1`, por ejemplo, esto denota la posición de la caja adentro de la cual el estudiante pone su respuesta.
+* El texto contiene entornos matemáticos LaTeX.  NO USE entornos matemáticos `$..$` ni `$$..$$`.  En su lugar Usted debe utilizar `\(..\)` y `\[..]\` para matemáticas en-línea (inline) y mostradas, respectivamente.  (¡Existe un convertidor masivo automático si Usted tuviera muchos materiales antiguos!)
+* La marca (tag) `[[input:ans1]]` será remplazada por una [entrada](Inputs.md) marcada `ans1`; por ejemplo, esto denota la posición de la caja adentro de la cual el estudiante pone su respuesta.
 * La marca (tag) `[[validation:ans1]]` será remplazada por cualquier retroalimentación relacionada con la validez de la respuesta ingresada `ans1`.
 
 Por defecto, una nueva pregunta automáticamente tiene una [entrada](Inputs.md), y un algoritmo para valorar la respuesta.
 
-Deslice le curso hacia abajo:  habrá una sección [entradas](Inputs.md) del formato para editar.
+Deslice el cursor hacia abajo:  habrá una sección de [entradas](Inputs.md) del formato para editar.
 Dentro de la respuesta modelo en la respuesta está una expresión CAS sintácticamente válida, como por ejemplo.
 
     3*(x-1)^2
@@ -47,75 +47,75 @@ Ahora ya tenemos una pregunta, y la respuesta modelo.  A continuación tenemos q
 
 ## Establecer las propiedades de la respuesta del estudiante vía el árbol de respuesta potencial {#Answer_props_via_prt}
 
-Para establecer propiedades de las respuestas del estudiante, necesitamos un algoritmo conocido como un árbol de respuesta potencial [árbol de respuesta potencial](Potential_response_trees.md).
+Para establecer propiedades de las respuestas del estudiante, necesitamos un algoritmo conocido como un  [árbol de respuesta potencial](Potential_response_trees.md).
 
-Este árbol nos permitirá establecer las propiedades matemáticas de la respuesta del estudiante y basándonos en esta s propiedades proporcionar resultados, tales como reproalimentación y un puntaje.
+Este árbol nos permitirá establecer las propiedades matemáticas de la respuesta del estudiante y, basándonos en estas propiedades, proporcionar resultados, tales como retroalimentación y un puntaje.
 
-A su debido tiempo, proporcionaremos [retroalimentación](Feedback.md) que revisa
+A su debido tiempo, proporcionaremos [retroalimentación](Feedback.md), que revisa
 
-1. Para la respuesta correcta.
+1. Que la respuesta sea correcta.
 2. Ver si el estudiante integró por error.
 3. Ver si es probable que el estudiante expandió y diferenció.
 
 Por defecto, una nueva pregunta contiene un [árbol de repuesta potencial](Potential_response_trees.md) llamado `prt1`.
-Este es el _name_ de la respuesta potencial, y puede ser cualquier cosa razonable (letras, opcionalmente seguidas por números, no más de  18 caracteres).
-There can be any number of [árboles de respuesta potencial](Potential_response_trees.md) (including zero).
-Feedback generated by these trees replaces the tag `[[feedback:prt1]]`.
-By default this tag is placed in the Specific feedback field, but it could also be placed in the question text.
+Este es el _nombre_ de la respuesta potencial, y puede ser cualquier cosa razonable (letras, opcionalmente seguidas por números, no más de  18 caracteres).
+Puede haber cualquier número de [árboles de respuesta potencial](Potential_response_trees.md) (incluyendo cero).
+La retroalimentación generada por estos árboles remplaza la marca (tag) `[[feedback:prt1]]`.
+Por defecto, eta marca (tag) es colocada en el campo de Retroalimentación específica (Specific feedback), pero también podría estar colocada en  el texto de la pregunta.
 
-A potential response tree is a non-empty acyclic directed graph of _potential response nodes_.  By default we have one potential response node, and this node is quite simple.
+Un árbol de respuesta potencial es una gráfica dirigida acíclica no-vacía de _nodos de respuesta potencial_.  Por defecto, nosotros tenemos un nodo de respuesta potencial, y este nodo es bastante simple.
 
-1. `SAns` is compared to `TAns` with the answer test, possibly with an option.
-2. If `true` then we execute the `true` branch.
-3. If `false` then we execute the `false` branch.
+1. `SAns` es comparada con `TAns` con la prueba de respuesta, posiblemente con una opción.
+2. Si `true` (verdadera) entonces ejecutamos la rama `true` (verdadera).
+3. Si `false` (falsa) entonces ejecutamos la rama `false` (falsa).
 
-The answer test itself sometimes produces [retroalimentación](Feedback.md) for the student (which the teacher might choose to suppress with the quiet option).  The answer test also produces an internal [nota de respuesta](Potential_response_trees.md#Answer_note) for the teacher which is essential for Reporting students' attempts later.
+La prueba de respuestapor sí misma en ocasiones produce [retroalimentación](Feedback.md) para el estudiante (que el profesor podría elegir suprimir con la opcón quiet).  La prueba de respuesta también produce The answer test also produces una [nota de respuesta](Potential_response_trees.md#Answer_note) interna para el profesor, la cual es esecial para Reportar intentos del estudiante más tarde.
 
-Each branch can then
+Cada rama podría entonces:
 
-* Assign/update the score.
-* Assign formative [retroalimentación](Feedback.md) to the student.
-* Leave an [nota de respuesta](Potential_response_trees.md#Answer_note) for [Reporting](Reporting.md) purposes.
-* Nominate the next potential response node, or end the process `[stop]`.
+* Asignar/actualizar el puntaje.
+* Asignar [retroalimentación](Feedback.md) formativa al estudiante.
+* Dejar una [nota de respuesta](Potential_response_trees.md#Answer_note) para propósitos de [Reportes](Reporting.md).
+* Nominar al nodo de respuesta potencial siguiente, o terminar el proceso `[stop]`.
 
-We refer to the student's answer in computer algebra calculations by using the name `ans1` since we gave this name to the input in the question text.  The model answer was `3*(x-1)^2`.  Update the form fields so that
+Mosotros nos referimos  la respuesta del estudiante en cálculos de álgebra de computadora mediante el uso del nombre `ans1` dado que nosotros le dimos este nombre al ingreso en el texto de la pregunta.  La respuesta modelo era `3*(x-1)^2`.  Actualice  los campos del formato de tal forma que 
 
      SAns = ans1
      TAns = 3*(x-1)^2
      Answer test = AlgEquiv
 
-Then press the `[Save changes]` button.  If the question fails to save check carefully for any errors, correct them and save again.
+Después presione el botón para `[Guardar cambios]`.  Si la progunta no puede guardarse, revise cuidadosamente por sihubiera errores, corríjalos y guarde nuevamente.
 
-This has created and saved a minimal question.  To recap we have
+Esto ha creado y guardado una pregunta mínima.  Para recapitular, nosotros :
 
-1. Typed in the question
-2. Typed in the model answer
-3. Indicated we wish to establish the student's answer is algebraically equivalent to the model answer `3*(x-1)^2`.
+1. Escribimos la pregunta
+2. Escribimos la respuesta modelo
+3. Indicamos que queremos establecer que la respuesta del estudiante sea algebraicamente equivalente a la respuesta modelo `3*(x-1)^2`.
 
-Next we should try out our question, by pressing the preview button from the question bank.
+A continuación deberíamos de probar nuestra pregunta, al presionar el botón para pre-visualizar del Banco de preguntas.
 
-## Previewing the question ##
+## Previsualizar la pregunta ##
 
-Assuming there are no errors, you may now choose the link "preview the question" from the Moodle question bank.
-This takes us to a new form where the teacher can experiment with the question.
+Asumiendo que no hay errores, Usted podría ahora elegir el enlace para "previsualizar la pregunta" desde elBanco de preguntas de Moodle.
+Esto nos lleva a un nuevo formato, donde el profesor puede experimentar con la pregunta.
 
-The Moodle quiz is very flexible.  Under Attempt options, make sure you have "How questions behave" set to "Adaptive Mode". If necessary "Start again with these options".
+El examen (cuestionario) de Moodle es muy flexible. debajo de las opciones para los intentos, asegúrese de que tiene configurado "Como se comportan las preguntas" a "Modo adaptivo". Si fuera necesario "Comience nuevamente con estas opciones".
 
-Try typing in
+Intente ingresar
 
     3*(x-1)^2
 
-into the answer box.
+dentro de la caja para respuesta.
 
-The default is for STACK to use "instant validation".  That is, when the student finishes typing the system automatically validates their answer and provides feedback.  If this does not happen automatically press the `[Check]` button.
+El comportamiento por defecto para STACK es usar  "validación instantánea".  Esto es, cuando el estudiante termina de teclear el sistema valida automáticamente su respuesta y proporciona retroalimentación. Si esto no sucede automáticamente, presione el botón para `[Revisar]`.
 
-The system first establishes the syntactical validity of this answer.
+el sistema primeramente establece la validez sintáctica de esta respuesta.
 
-Press the `[Check]` button again.
+Presione nuevamente el botón para `[Revisar]`.
 
-The system executes the potential response tree and establishes whether your answer is algebraically equivalent
-to the model answer `3*(x-1)^2`.  Next, try getting the question wrong.  If your server does not have "instant validation" switched on (an administrator/installation option) you will need to submit each answer twice.
-Notice all your responses are stored in an attempts table.
+El sistema ejecuta el árbol de respuesta potencial y establece si es que su respuesta es algebraicamente equivalente
+a la respuesta modelo `3*(x-1)^2`.  A continuación, intente tener la respuesta erronea.  Si su servidor no tiene la  "validación instantánea" activada (una opción administrativa/de la instalación) Usted necesitará enviar cada respuesta dos veces.
+tenga en cuenta que todas sus respuestas son almacenadas en una tabla de intentos.
 
 We would really like to add better feedback, so it is time to edit the question again.  Return to the question bank page and click on the link to edit the question.
 

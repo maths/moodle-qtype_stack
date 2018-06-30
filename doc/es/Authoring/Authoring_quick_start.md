@@ -156,15 +156,15 @@ Presione el botón para `[Guardar cambios]` y pre-visualice la pregunta.
 
 Es común que los estudiantes den la respuesta correcta pero usen un método bastante inapropiado.
 Por ejemplo, ellos podrían haber expandido el polinomio y así dar la respuesta en una forma no factorizada.
-En esta situación, nos gustaría proporcionar una retroalimentación alentadora para explicarle al estudiante lo que han hecho mal.
+En esta situación, nos gustaría proporcionar una retroalimentación alentadora para explicarle al estudiante lo que ha hecho mal.
 
 Regrese y elija `[Añadir otro nodo]` de forma similar a la anterior.  Después de todo, nosotros necesitamos aplicar otra prueba de respuesta para identificar esto.
 
 Para usar esta respuesta potencial, edite el Nodo 1, y ahora cambie la rama verdadera (true) para hacer que el Nodo siguiente apunte al nuevo Nodo 3.
-Si nosotros entramos al Nodo 3, sabemos que el estudiante tene la respuesta correcta. Solamente necesitamos establecer si está factorizada o no.
+Si nosotros entramos al Nodo 3, sabemos que el estudiante tiene la respuesta correcta. Solamente necesitamos establecer si está factorizada o no.
 Para establecer esto, necesitamos usar usar una [prueba de respuesta](Answer_tests.md) diferente.
 
-Actualice el formato deforma tal que el Nodo 3 tenga
+Actualice el formato de forma tal que el Nodo 3 tenga
 
     SAns = ans1
     TAns = 3*(x-1)^2
@@ -173,8 +173,8 @@ Actualice el formato deforma tal que el Nodo 3 tenga
     Quiet = Yes.
 
 La prueba de respuesta FacForm proporciona retroalimentación automáticamente, lo que sería inapropiado aquí.
-Nosotros solamente necesitamos ver en donde la respuesta está factorizada. Por eso usamos la opción quiet (que significa silenciosa).
-Necesitamos añadir  \(x\) a las "Test options" (Opciones de la prueba) para indicar cual variable estamos usando.
+Nosotros solamente necesitamos ver si es que la respuesta está factorizada. Por eso usamos la opción quiet (que significa silenciosa).
+Necesitamos añadir  \(x\) a las "Test option\s" (Opciones de la prueba), para indicar cual variable estamos usando.
 
 Necesitamos asignar resultados.
 
@@ -183,13 +183,13 @@ Necesitamos asignar resultados.
 3. En la rama falsa configure la retroalimentación a algo parecido a lo siguiente
 
 <textarea readonly="readonly" rows="3" cols="75">
-Su respuesta está no factorizada. No hay necesidad de expandir la expresión en esta pregunta. Usted puede diferenciar usando la regla de cadena directamente y conservar la respuesta en forma factrizada.</textarea>
+Su respuesta está sin factorizar. No hay necesidad de expandir la expresión en esta pregunta. Usted puede diferenciar usando la regla de cadena directamente y conservar la respuesta en forma factorizada.</textarea>
 
 
-Esta nueva retroalimentación puede ser probada al escribirl una respuesta expandida; por ejemplo `3*x^2-6*x+3`.
+Esta nueva retroalimentación puede ser probada al escribir una respuesta expandida; por ejemplo `3*x^2-6*x+3`.
 
 Usted puede continuar y añadir más nodos de respuesta potencial conforme surja la necesidad. Estos pueden probar más errores sutiles
-basándose en los erores que comunmente hacen los estudiantes. En cada caso puede usarse una [prueba de respuesta](Answer_tests.md) para hacer un tipo diferente de distinción entre las respuestas.
+basándose en los errores que comunmente hacen los estudiantes. En cada caso puede usarse una [prueba de respuesta](Answer_tests.md) para hacer un tipo diferente de distinción entre las respuestas.
 
 ## Random questions ##
 

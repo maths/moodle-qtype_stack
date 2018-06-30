@@ -14,7 +14,7 @@ Cada uno de estos enlaces contiene instrucciones detalladas. El propósito de es
 El tipo de pregunta STACK para Moodle está diseñado como un vehículo para gestionar preguntas matemáticas. Implícito dentro de esto está una estructura que las representa.
 Esta página explica el proceso de fabricación de una pregunta, al trabajar mediante un ejemplo.
 
-Las preguntas son editadas por medio del exámen (cuestionario) de Moodle.  En Moodle, vaya al Banco de preguntas y pídale crear una nueva pregunta STACK.  No se espante por el hecho de que el formato para editar se vea complicado.
+Las preguntas son editadas por medio del exámen (cuestionario) de Moodle.  En Moodle, vaya al Banco de preguntas y pídale crear una nueva pregunta STACK.  No se asuste por el hecho de que el formato para editar se vea complicado.
 
 Hay muchos campos, pero solo unos cuantos son obligatorios.  Estos son el nombre de la pregunta y el  [texto de la pregunta](CASText.md#question_text). El texto de la pregunta es la cadena de caracteres que, de hecho, es mostrada al estudiante; o sea, esta es  "la pregunta".
 Si Usted tiene una contestación para ingresar (el ajuste por defecto es  tener una) la respuesta del profesor debe de estar no-vacía.  Los nodos en los árboles de respuesta potenciales tienen campos obligatorios (el ajuste por defecto es proporcionar un árbol con un nodo).
@@ -61,7 +61,7 @@ Por defecto, una nueva pregunta contiene un [árbol de repuesta potencial](Poten
 Este es el _nombre_ de la respuesta potencial, y puede ser cualquier cosa razonable (letras, opcionalmente seguidas por números, no más de  18 caracteres).
 Puede haber cualquier número de [árboles de respuesta potencial](Potential_response_trees.md) (incluyendo cero).
 La retroalimentación generada por estos árboles remplaza la marca (tag) `[[feedback:prt1]]`.
-Por defecto, eta marca (tag) es colocada en el campo de Retroalimentación específica (Specific feedback), pero también podría estar colocada en  el texto de la pregunta.
+Por defecto, esta marca (tag) es colocada en el campo de Retroalimentación específica (Specific feedback), pero también podría estar colocada en  el texto de la pregunta.
 
 Un árbol de respuesta potencial es una gráfica dirigida acíclica no-vacía de _nodos de respuesta potencial_.  Por defecto, nosotros tenemos un nodo de respuesta potencial, y este nodo es bastante simple.
 
@@ -69,7 +69,7 @@ Un árbol de respuesta potencial es una gráfica dirigida acíclica no-vacía de
 2. Si `true` (verdadera) entonces ejecutamos la rama `true` (verdadera).
 3. Si `false` (falsa) entonces ejecutamos la rama `false` (falsa).
 
-La prueba de respuestapor sí misma en ocasiones produce [retroalimentación](Feedback.md) para el estudiante (que el profesor podría elegir suprimir con la opcón quiet).  La prueba de respuesta también produce The answer test also produces una [nota de respuesta](Potential_response_trees.md#Answer_note) interna para el profesor, la cual es esecial para Reportar intentos del estudiante más tarde.
+La prueba de respuesta por sí misma en ocasiones produce [retroalimentación](Feedback.md) para el estudiante (que el profesor podría elegir suprimir con la opcón quiet).  La prueba de respuesta también produce una [nota de respuesta](Potential_response_trees.md#Answer_note) interna para el profesor, la cual es escecial para Reportar intentos del estudiante más tarde.
 
 Cada rama podría entonces:
 
@@ -78,13 +78,13 @@ Cada rama podría entonces:
 * Dejar una [nota de respuesta](Potential_response_trees.md#Answer_note) para propósitos de [Reportes](Reporting.md).
 * Nominar al nodo de respuesta potencial siguiente, o terminar el proceso `[stop]`.
 
-Mosotros nos referimos  la respuesta del estudiante en cálculos de álgebra de computadora mediante el uso del nombre `ans1` dado que nosotros le dimos este nombre al ingreso en el texto de la pregunta.  La respuesta modelo era `3*(x-1)^2`.  Actualice  los campos del formato de tal forma que 
+Mosotros nos referimos a la respuesta del estudiante en cálculos de álgebra de computadora mediante el uso del nombre `ans1`, dado que nosotros le dimos este nombre al ingreso en el texto de la pregunta.  La respuesta modelo era `3*(x-1)^2`.  Actualice  los campos del formato de tal forma que 
 
      SAns = ans1
      TAns = 3*(x-1)^2
      Answer test = AlgEquiv
 
-Después presione el botón para `[Guardar cambios]`.  Si la progunta no puede guardarse, revise cuidadosamente por sihubiera errores, corríjalos y guarde nuevamente.
+Después presione el botón para `[Guardar cambios]`.  Si la pregunta no puede guardarse, revise cuidadosamente por si hubiera errores, corríjalos y guarde nuevamente.
 
 Esto ha creado y guardado una pregunta mínima.  Para recapitular, nosotros :
 
@@ -96,10 +96,10 @@ A continuación deberíamos de probar nuestra pregunta, al presionar el botón p
 
 ## Previsualizar la pregunta ##
 
-Asumiendo que no hay errores, Usted podría ahora elegir el enlace para "previsualizar la pregunta" desde elBanco de preguntas de Moodle.
+Asumiendo que no hay errores, Usted podría ahora elegir el enlace para "previsualizar la pregunta" desde el Banco de preguntas de Moodle.
 Esto nos lleva a un nuevo formato, donde el profesor puede experimentar con la pregunta.
 
-El examen (cuestionario) de Moodle es muy flexible. debajo de las opciones para los intentos, asegúrese de que tiene configurado "Como se comportan las preguntas" a "Modo adaptivo". Si fuera necesario "Comience nuevamente con estas opciones".
+El examen (cuestionario) de Moodle es muy flexible. Debajo de las opciones para los intentos, asegúrese de que tiene configurado "Como se comportan las preguntas" a "Modo adaptivo". Si fuera necesario "Comience nuevamente con estas opciones".
 
 Intente ingresar
 
@@ -107,15 +107,15 @@ Intente ingresar
 
 dentro de la caja para respuesta.
 
-El comportamiento por defecto para STACK es usar  "validación instantánea".  Esto es, cuando el estudiante termina de teclear el sistema valida automáticamente su respuesta y proporciona retroalimentación. Si esto no sucede automáticamente, presione el botón para `[Revisar]`.
+El comportamiento por defecto para STACK es usar  "validación instantánea".  Esto es, cuando el estudiante termina de teclear, el sistema valida automáticamente su respuesta y proporciona retroalimentación. Si esto no sucede automáticamente, presione el botón para `[Revisar]`.
 
-el sistema primeramente establece la validez sintáctica de esta respuesta.
+El sistema primeramente establece la validez sintáctica de esta respuesta.
 
 Presione nuevamente el botón para `[Revisar]`.
 
 El sistema ejecuta el árbol de respuesta potencial y establece si es que su respuesta es algebraicamente equivalente
 a la respuesta modelo `3*(x-1)^2`.  A continuación, intente tener la respuesta erronea.  Si su servidor no tiene la  "validación instantánea" activada (una opción administrativa/de la instalación) Usted necesitará enviar cada respuesta dos veces.
-tenga en cuenta que todas sus respuestas son almacenadas en una tabla de intentos.
+Tenga en cuenta que todas sus respuestas son almacenadas en una tabla de intentos.
 
 A nosotros realmente nos gustaría añadir una mejor retroalimentación, por lo que ahora es el momento para editar nuevamente la pregunta. Regrese a la página del Banco de preguntas y haga click en el enlace para editar la pregunta.
 
@@ -124,18 +124,18 @@ A nosotros realmente nos gustaría añadir una mejor retroalimentación, por lo 
 ¿Qué pasaría si el resultado de aplicar la primera prueba de respuesta fuera falso?
 Nos gustaría revisar que el estudiante no haya integrado por error, y logramos esto al añadir otro nodo de respuesta potencial.
 
-Cierre la ventana de pre-visualización y edite nuevamente lapregunta. Deslice el curso abajo hasta el
-Árbol de Respuesta Potencial y haga click en  el botón para  `[Añadirotro nodo]` al fondo de
+Cierre la ventana de pre-visualización y edite nuevamente la pregunta. Deslice el cursor hacia abajo hasta el
+Árbol de Respuesta Potencial y haga click en  el botón para  `[Añadir otro nodo]` al fondo de
 la lista de nodos.
 
 Desde la rama falsa del Nodo 1, cambie el campo para "Siguiente" de forma tal que esté configurado a  `[Nodo 2]`.
 Si la primera prueba es falsa, entonces nosotros realizaremos la prueba en el Nodo 2.
 
 Si el estudiante ha integrado, podría haber o no haber añadido una constante de integración.
-Si ha añadido tal constante, ¡nosotros no sabemos cual letra han usado! Así pues,la mejor maneera para resolver
+Si ha añadido tal constante, ¡nosotros no sabemos cual letra ha usado! Así pues, la mejor manera para resolver
 este problema es diferenciar su respuesta y compararla a la pregunta.
 
-Actualice le formato de forma tal que el Nodo 2 tenga
+Actualice el formato de forma tal que el Nodo 2 tenga
 
     SAns = diff(ans1,x)
     TAns = (x-1)^3
@@ -146,25 +146,25 @@ Esto nos da la prueba, ¿pero qué pasa con los resultados?
 1. En la rama verdadera configure el `score=0`
 2. En la rama verdadera configure la retroalimentación a `¡Al parecer Usted ha integrado por error!`
 
-Notice here that STACK also adds an "intelligent note to self" in the [nota de respuesta](Potential_response_trees.md#Answer_note) field.
-This is useful for statistical grouping of similar outcomes when the feedback depends on randomly generated questions,
-and different responses. You have something definite to group over.  This is discussed in [reportes](Reporting.md).
+Aquí tome en cuenta que STACK también añade una "nota inteligente para sí mismo" en el campo de la [nota de respuesta](Potential_response_trees.md#Answer_note).
+Esto es útil para agruparmiento estadístico de resultados similares cuando la retroalimentación depende de preguntas generadas aleatoriamente,
+y respuestas diferentes. Usted tiene algo definido para agruparlo. Esto se discute en [reportes](Reporting.md).
 
-Press the `[Save changes]` button and preview the question.
+Presione el botón para `[Guardar cambios]` y pre-visualice la pregunta.
 
-## Better feedback still: the form of the answer ##
+## Retroalimentación todavía mejor: la forma de la respuesta ##
 
-It is common for students to give the correct answer but use a quite inappropriate method.
-For example, they may have expanded out the polynomial and hence give the answer in unfactored form.
-In this situation, we might like to provide some encouraging feedback to explain to the student what they have done wrong.
+Es común que los estudiantes den la respuesta correcta pero usen un método bastante inapropiado.
+Por ejemplo, ellos podrían haber expandido el polinomio y así dar la respuesta en una forma no factorizada.
+En esta situación, nos gustaría proporcionar una retroalimentación alentadora para explicarle al estudiante lo que han hecho mal.
 
-Go back and `[Add another node]` in a similar way as before.  After all, we need to apply another answer test to spot this.
+Regrese y elija `[Añadir otro nodo]` de forma similar a la anterior.  Después de todo, nosotros necesitamos aplicar otra prueba de respuesta para identificar esto.
 
-To use this potential response, edit Node 1, and now change the true branch to make the Next node point to the new Node 3.
-If we enter Node 3, we know the student has the correct answer. We only need to establish if it is factored or not.
-To establish this we need to use a different [answer tests](Answer_tests.md).
+Para usar esta respuesta potencial, edite el Nodo 1, y ahora cambie la rama verdadera (true) para hacer que el Nodo siguiente apunte al nuevo Nodo 3.
+Si nosotros entramos al Nodo 3, sabemos que el estudiante tene la respuesta correcta. Solamente necesitamos establecer si está factorizada o no.
+Para establecer esto, necesitamos usar usar una [prueba de respuesta](Answer_tests.md) diferente.
 
-Update the form so that Node 3 has
+Actualice el formato deforma tal que el Nodo 3 tenga
 
     SAns = ans1
     TAns = 3*(x-1)^2
@@ -172,25 +172,24 @@ Update the form so that Node 3 has
     Test option\s = x
     Quiet = Yes.
 
-The FacForm answer test provides feedback automatically which would be inappropriate here.
-We just need to look at whether the answer is factored.  Hence we choose the quiet option.
-We needed to add \(x\) to the "Test opts" to indicate which variable we are using.
+La prueba de respuesta FacForm proporciona retroalimentación automáticamente, lo que sería inapropiado aquí.
+Nosotros solamente necesitamos ver en donde la respuesta está factorizada. Por eso usamos la opción quiet (que significa silenciosa).
+Necesitamos añadir  \(x\) a las "Test options" (Opciones de la prueba) para indicar cual variable estamos usando.
 
-We need to assign outcomes.
+Necesitamos asignar resultados.
 
-1. On the true branch set the `score=1`
-2. On the false branch set the `score=1` (well, you may disagree here, but that is up to you!)
-3. On the false branch set the feedback to something like
+1. En la rama verdadera (true) configure el `score=1`
+2. En la rama falsa configure el `score=1` (bueno, Usted podría estar en desacuerdo aquí, ¡pero eso dependerá de Usted!)
+3. En la rama falsa configure la retroalimentación a algo parecido a lo siguiente
 
 <textarea readonly="readonly" rows="3" cols="75">
-Your answer is unfactored. There is no need to expand out the expression in this question. You can differentiate using the chain rule directly and keep the answer in factored form.</textarea>
+Su respuesta está no factorizada. No hay necesidad de expandir la expresión en esta pregunta. Usted puede diferenciar usando la regla de cadena directamente y conservar la respuesta en forma factrizada.</textarea>
 
 
-This new feedback can be tested by typing in an expanded answer, i.e. `3*x^2-6*x+3`.
+Esta nueva retroalimentación puede ser probada al escribirl una respuesta expandida; por ejemplo `3*x^2-6*x+3`.
 
-You can continue to add more potential response nodes as the need arises. These can test for more subtle errors
-based upon the common mistakes students make. In each case an [pruebas de respuesta](Answer_tests.md) can be used to
-make a different kind of distinction between answers.
+Usted puede continuar y añadir más nodos de respuesta potencial conforme surja la necesidad. Estos pueden probar más errores sutiles
+basándose en los erores que comunmente hacen los estudiantes. En cada caso puede usarse una [prueba de respuesta](Answer_tests.md) para hacer un tipo diferente de distinción entre las respuestas.
 
 ## Random questions ##
 

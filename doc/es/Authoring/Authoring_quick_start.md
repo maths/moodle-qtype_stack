@@ -99,7 +99,7 @@ A continuación deberíamos de probar nuestra pregunta, al presionar el botón p
 Asumiendo que no hay errores, Usted podría ahora elegir el enlace para "previsualizar la pregunta" desde el Banco de preguntas de Moodle.
 Esto nos lleva a un nuevo formato, donde el profesor puede experimentar con la pregunta.
 
-El examen (cuestionario) de Moodle es muy flexible. Debajo de las opciones para los intentos, asegúrese de que tiene configurado "Como se comportan las preguntas" a "Modo adaptivo". Si fuera necesario "Comience nuevamente con estas opciones".
+El examen (cuestionario) de Moodle es muy flexible. Debajo de las opciones para los intentos, asegúrese de que tiene configurado "Como se comportan las preguntas" a "Modo adaptativo". Si fuera necesario "Comience nuevamente con estas opciones".
 
 Intente ingresar
 

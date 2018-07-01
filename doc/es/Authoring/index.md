@@ -24,7 +24,7 @@ Esta página es una referencia para todos los campos en una pregunta.
 
 ## Estructura de datos de pregunta STACK  ##
 
-Una `stackQuestion` es el objeto básico en el sistema. de hecho, STACK está diseñado como un vehículo para manejar estas preguntas.
+Una `stackQuestion` es el objeto básico en el sistema. De hecho, STACK está diseñado como un vehículo para manejar estas preguntas.
 La tabla inferior muestra los campos que componen una pregunta.
 El únco campo que es obligatorio está puesto en **negritas**.
 

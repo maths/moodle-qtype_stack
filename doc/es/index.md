@@ -5,7 +5,7 @@
 STACK es un sistema de evaluación para matemáticas, ciencia y disciplinas relacionadas.
 
 * Evaluación sofisticada de expresiones matemáticas.
-* Un énfasis en evaluaciones formativas.
+* Un énfasis en evaluación formativa.
 * Generación aleatoria de preguntas.
 * Los estudiantes escriben una respuesta, y no están restringidos a opción múltiple.
 * Una gran variedad de tipos de entradas, incluyendo trabajar línea por línea.

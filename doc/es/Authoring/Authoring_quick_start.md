@@ -69,7 +69,7 @@ Un árbol de respuesta potencial es una gráfica dirigida acíclica no-vacía de
 2. Si `true` (verdadera) entonces ejecutamos la rama `true` (verdadera).
 3. Si `false` (falsa) entonces ejecutamos la rama `false` (falsa).
 
-La prueba de respuesta por sí misma en ocasiones produce [retroalimentación](Feedback.md) para el estudiante (que el profesor podría elegir suprimir con la opción quiet).  La prueba de respuesta también produce una [nota de respuesta](Potential_response_trees.md#Answer_note) interna para el profesor, la cual es escecial para Reportar intentos del estudiante más tarde.
+La prueba de respuesta por sí misma en ocasiones produce [retroalimentación](Feedback.md) para el estudiante (que el profesor podría elegir suprimir con la opción quiet).  La prueba de respuesta también produce una [nota de respuesta](Potential_response_trees.md#Answer_note) interna para el profesor, la cual es esencial para Reportar intentos del estudiante más tarde.
 
 Cada rama podría entonces:
 

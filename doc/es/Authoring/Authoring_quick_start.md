@@ -237,7 +237,7 @@ Para llevar un registro de cuales números aleatorios son generados par cada usu
 el cual Usted debería de usar en sustitución del comando aleatorio de [Maxima](../CAS/Maxima.md).
 
 Este es el comando `rand` el cual es un generador de  "cosas aleatorias" general, vea la página en [generación aleatoria](../CAS/Random.md) para los detalles completos.
-Puede ser usado para generar números aleatorios y también para hacer slecciones de una lista.
+Puede ser usado para generar números aleatorios y también para hacer selecciones de una lista.
 
 ### La nota de la pregunta ###
 

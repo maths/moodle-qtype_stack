@@ -283,13 +283,13 @@ Usted también necesitará actualizar la nota de pregunta para que sea
 
 ## Pruebas de pregunta ##
 
-El probar preguntas es muy tardado y tedioso, pero es importante el asegurarse de que la pregunta funciona. Para ayudarle con este proceso STACK le permite al profesor el definir "pruebas d epregunta".  Estas son el mismo principio que las  "pruebas de unidad" en la ingeniería de software.
+El probar preguntas es muy tardado y tedioso, pero es importante el asegurarse de que la pregunta funciona. Para ayudarle con este proceso STACK le permite al profesor el definir "pruebas de pregunta".  Estas son el mismo principio que las  "pruebas de unidad" en la ingeniería de software.
 
 Desde la ventana de previsualización de pregunta, haga click en `Pruebas de pregunta y versiones desplegadas` en la parte superior derecha de la página.
 
 Por favor vea la página sobre [pruebas](Testing.md).
 
-¡Por favor asegúrese de que haya eliminado el tercer nodo del árbol de respuesta potencial!  Haga click en `Añadir un nuevo caso de prueba` para añadir unaprueba a su pregunta.  LLene la siguiente información
+¡Por favor asegúrese de que haya eliminado el tercer nodo del árbol de respuesta potencial!  Haga click en `Añadir un nuevo caso de prueba` para añadir una prueba a su pregunta.  LLene la siguiente información
 
     ans1 = diff(p,v)
     score = 1
@@ -298,21 +298,21 @@ Por favor vea la página sobre [pruebas](Testing.md).
 
 El sistema evaluará automáticamente `diff(p,v)` para crear `ans1` y entonces calificar la pregunta usando esta información.  Concordará los resultados actuales con los que Usted especificó. Esto automatiza el proceso de probar.
 
-Uste dpuede añadir tantas pruebas comopiense que sean necesarias; y usualmente es una idea muy razonable el añadir una para cada caso que Usted anticipe. Aquí sería sensato probar si es que el estudiante ha integrado por error.
+Usted puede añadir tantas pruebas como piense que sean necesarias; y usualmente es una idea muy razonable el añadir una para cada caso que Usted anticipe. Aquí sería sensato probar si es que el estudiante ha integrado por error.
 
-Si su pregunta usa aleatorización, entonces Usted necesita [instancias desplegadas](Deploying.md) de esta antes de que Usted pueda presentar la pregunta a los estudiantes. esto es hecho vía la interfaz para desplegar en la parte superior de la página de prueba.
+Si su pregunta usa aleatorización, entonces Usted necesita [instancias desplegadas](Deploying.md) de esta antes de que Usted pueda presentar la pregunta a los estudiantes. Esto es hecho vía la interfaz para desplegar en la parte superior de la página de prueba.
 
 # Siguientes pasos #
 
-A Usted le gustaría ojear las configuracioens del examen de Moodle, creando un examen simnple. Esto es, estrictamente hablando, un asunto de Moodle completamente y existen todas las razones para combinar preguntas STACK con otros tipos de pregunta de Moodle. Se incluyen algunas notas muy breves en la [Guía de inicio rápido del examen](Authoring_quick_start_quiz.md).
+A Usted le gustaría ojear las configuracioens del examen de Moodle, creando un examen simple. Esto es, estrictamente hablando, un asunto de Moodle completamente y existen todas las razones para combinar preguntas STACK con otros tipos de pregunta de Moodle. Se incluyen algunas notas muy breves en la [Guía de inicio rápido del examen](Authoring_quick_start_quiz.md).
 
-El tipo de pregunta STACKes muy flexible.
+El tipo de pregunta STACK es muy flexible.
 
-* Usted peude añadir una solución trabajada en la [Retroalimentación general](CASText.md#General_feedback).
+* Usted puede añadir una solución trabajada en la [Retroalimentación general](CASText.md#General_feedback).
 * Usted puede cambiar el comportamiento de la pregunta con las [opciones](Options.md)
 * Usted puede añadir gráficos a todos los campos [CASText](CASText.md) con el comando [`plot`](../CAS/Maxima.md#plot).
 * Usted puede añadir soporte para [múltiples idiomas](Languages.md).
 
-La siguiente parte de la gúia de inicio rápido de autoría tratará sobre [preguntas matemáticas multi-parte](Authoring_quick_start_2.md).
+La siguiente parte de la guía de inicio rápido de autoría tratará sobre [preguntas matemáticas multi-parte](Authoring_quick_start_2.md).
 
 

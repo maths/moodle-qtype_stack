@@ -300,7 +300,7 @@ El sistema evaluará automáticamente `diff(p,v)` para crear `ans1` y entonces c
 
 Usted puede añadir tantas pruebas como piense que sean necesarias; y usualmente es una idea muy razonable el añadir una para cada caso que Usted anticipe. Aquí sería sensato probar si es que el estudiante ha integrado por error.
 
-Si su pregunta usa aleatorización, entonces Usted necesita [instancias desplegadas](Deploying.md) de esta antes de que Usted pueda presentar la pregunta a los estudiantes. Esto es hecho vía la interfaz para desplegar en la parte superior de la página de prueba.
+Si su pregunta usa aleatorización, entonces Usted necesita [desplegar instancias](Deploying.md) de esta antes de que Usted pueda presentar la pregunta a los estudiantes. Esto es hecho vía la interfaz para desplegar en la parte superior de la página de prueba.
 
 # Siguientes pasos #
 

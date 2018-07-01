@@ -26,7 +26,7 @@ Esta página es una referencia para todos los campos en una pregunta.
 
 Una `stackQuestion` es el objeto básico en el sistema. De hecho, STACK está diseñado como un vehículo para manejar estas preguntas.
 La tabla inferior muestra los campos que componen una pregunta.
-El únco campo que es obligatorio está puesto en **negritas**.
+El único campo que es obligatorio está puesto en **negritas**.
 
 | Nombre                                                     | Tipo                                                       | Detalles
 | ---------------------------------------------------------- | ---------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------

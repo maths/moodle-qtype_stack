@@ -31,23 +31,23 @@ El únco campo que es obligatorio está puesto en **negritas**.
 | Nombre                                                     | Tipo                                                       | Detalles
 | ---------------------------------------------------------- | ---------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 | Nombre                                                     | Meta                                                       | Nombra una pregunta
-| [Variables de pregunta](KeyVals.md#Question_variables)     | [Variables de Pregunta](KeyVals.md#Question_variables)    | Estas son variables potencialmente aleatorias que pueden ser usadas para generar una pregunta.
-| [Question text](CASText.md#question_text)                  | [CASText](CASText.md)                                      | This is the question the student actually sees
-| [General feedback](CASText.md#General_feedback)            | [CASText](CASText.md)                                      | The worked solution is only available after an item is closed.
-| [Question note](Question_note.md)                          | [CASText](CASText.md)                                      | Two randomly generated question versions are different, if and only if the question note is different.  Use this field to store useful information which distinguishes versions.
-| [Inputs](Inputs.md)                                        |                                                            | The inputs are the things, such as form boxes, with which the student actually interacts.
-| [Potential response trees](Potential_response_trees.md)    |                                                            | These are the algorithms which establish the mathematical properties of the students' answers and generate feedback.
-| [Options](Options.md)                                      | Options                                                    | Many behaviours can be changed with the options.
-| [Testing](Testing.md)                                      |                                                            | These are used for automatic testing of an item and for quality control.
+| [Variables de pregunta](KeyVals.md#Question_variables)     | [Variables de Pregunta](KeyVals.md#Question_variables)     | Estas son variables potencialmente aleatorias que pueden ser usadas para generar una pregunta.
+| [Texto de pregunta](CASText.md#question_text)              | [CASText](CASText.md)                                      | Esta es la pregunta que el estudiante realmente ve
+| [Retroalimentación general](CASText.md#General_feedback)   | [CASText](CASText.md)                                      | La solución trabajada solamente está disponible después de que un ítem sea cerrado.
+| [Nota d epregunta](Question_note.md)                       | [CASText](CASText.md)                                      | Dos versiones de pregunta generadas aleatoriamente son diferentes si, y solamente si, la notra de la pregunta es diferente.  Use este campo para almacenar información útil que distingue las versiones.
+| [Entradas](Inputs.md)                                      |                                                            | Las entradas son las cosas, como las cajas de formato, con las cuales el estudiante de hecho interactua.
+| [Árboles de respuesta potencial](Potential_response_trees.md)|                                                          | Estos son los algoritmos que establecen las propiedades matemáticas de las respuestas del estudiante y generan retroalimentación.
+| [Opciones](Options.md)                                     | Opciones                                                   | Muchos comportamientos pueden ser cambiados con las opciones.
+| [Pruebas](Testing.md)                                      |                                                            | Estas son usadas para pruebas automáticas de un ítem y para control de calidad.
 
-# See also
+# Vea también
 
-* [Answer tests](Answer_tests.md),
-* [Frequently Asked Questions](Author_FAQ.md),
+* [Pruebas de respuesta](Answer_tests.md),
+* [Preguntas Frecuentes](Author_FAQ.md),
 * [KeyVals](KeyVals.md)
-* [Deploying question versions](Deploying.md)
-* Specific adaptations of [Maxima](../CAS/Maxima.md).
-* [Import and Export](ImportExport.md) of STACK questions.
-* [Question blocks](Question_blocks.md)
+* [Desplegar versiones de pregunta](Deploying.md)
+* Adaptaciones específicas de [Maxima](../CAS/Maxima.md).
+* [Importación y exportación](ImportExport.md) de preguntas STACK.
+* [Bloques de pregunta](Question_blocks.md)
 
 

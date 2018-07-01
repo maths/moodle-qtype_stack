@@ -7,7 +7,7 @@ Evaluación asistida por computadora de trabajos matemáticos en las siguientes 
 3. [Desplegado](Deploying.md)
 4. [Reportes](Reporting.md)
 
-Cada uno de estos enlaces contiene instrucciones detalladas. El propósito de esta página es guiarlo a lo lago de un ejemplo simple.
+Cada uno de estos enlaces contiene instrucciones detalladas. El propósito de esta página es guiarlo a lo largo de un ejemplo simple.
 
 ## Introducción ##
 

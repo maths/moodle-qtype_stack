@@ -215,7 +215,7 @@ y en las entradas cambie la respuesta modelo a
 
     diff(p,x)
 
-Observe que ahora hemos definido una variable local `p`, y hemos usado el valor de esta en el texto de la Pregunta.  La diferencia está entre matemáticas rodeadas por símbolos `\(..\)` y por símbolos `{@..@}`. Todos los campos basados en texto en la pregunta, incluyendo la retroalimentación, son [texto CAS (CASText)](CASText.md).  Esto es HTML adentro del cual se pueden insertar matemáticas.  LaTeX es colocado entre `\(..\)`s, y expresiones CAS (incluyendo las variables de Usted) entre símbolos `{@..@}` apareados.  Hay más información en la documentación específica.   Las expresiones CAS sonevaluadas dentro del contexto de las variables aleatorias y mostradas.
+Observe que ahora hemos definido una variable local `p`, y hemos usado el valor de esta en el texto de la Pregunta.  La diferencia está entre matemáticas rodeadas por símbolos `\(..\)` y por símbolos `{@..@}`. Todos los campos basados en texto en la pregunta, incluyendo la retroalimentación, son [texto CAS (CASText)](CASText.md).  Esto es HTML adentro del cual se pueden insertar matemáticas.  LaTeX es colocado entre `\(..\)`s, y expresiones CAS (incluyendo las variables de Usted) entre símbolos `{@..@}` apareados.  Hay más información en la documentación específica.   Las expresiones CAS son evaluadas dentro del contexto de las variables aleatorias y mostradas.
 
 Dado que nosotros hemos usado `{@p@}` aquí, el usuario no verá un \(p\) en la pantalla en donde la pregunta está instanciada, sino que verá el _valor mostrado_ de `p`.
 

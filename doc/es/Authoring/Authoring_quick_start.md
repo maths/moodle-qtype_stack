@@ -198,7 +198,7 @@ En este punto Usted podría considerar guardarla como una nueva pregunta.
 Es común el querer usar números aleatorios en preguntas. Esto es sencillo de hacer, y nosotros
 hacemos uso del campo opcional [variables de pregunta](KeyVals.md#Question_variables).
 
-STACK 3 usa la sintaxis de Maximapara tarea, lo cual es inusual.  En particular el caracter de sos puntos `:` es usado para asignarle un valor a una variable. Así es que, para asignarle el valor de `5` a `n` usamos la sintaxis `n:5`.
+STACK 3 usa la sintaxis de Maxima para tarea, lo cual es inusual.  En particular el caracter de los dos puntos `:` es usado para asignarle un valor a una variable. Así es que, para asignarle el valor de `5` a `n` usamos la sintaxis `n:5`.
 
 Modifique las [Variables de pregunta](KeyVals.md#Question_variables) del ejemplo anterior de forma tal que
 

@@ -11,7 +11,7 @@ Cada uno de estos enlaces contiene instrucciones detalladas. El propósito de es
 
 ## Introducción ##
 
-El tipo de pregunta STACK para Moodle está diseñado como un vehículo para gestionar preguntas matemáticas. Implícito dentro de esto está una estructura que las representa.
+El tipo de pregunta STACK para Moodle está diseñado como un vehículo para gestionar preguntas matemáticas. Implícito dentro de esto está una estructura de datos que las representa.
 Esta página explica el proceso de fabricación de una pregunta, al trabajar mediante un ejemplo.
 
 Las preguntas son editadas por medio del exámen (cuestionario) de Moodle.  En Moodle, vaya al Banco de preguntas y pídale crear una nueva pregunta STACK.  No se asuste por el hecho de que el formato para editar se vea complicado.

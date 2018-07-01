@@ -191,93 +191,93 @@ Esta nueva retroalimentación puede ser probada al escribir una respuesta expand
 Usted puede continuar y añadir más nodos de respuesta potencial conforme surja la necesidad. Estos pueden probar más errores sutiles
 basándose en los errores que comunmente hacen los estudiantes. En cada caso puede usarse una [prueba de respuesta](Answer_tests.md) para hacer un tipo diferente de distinción entre las respuestas.
 
-## Random questions ##
+## Preguntas aleatorias ##
 
-At this point you might consider saving as a new question.
+En este punto Usted podría considerar guardarla como una nueva pregunta.
 
-It is common to want to use random numbers in questions. This is straightforward to do, and we
-make use of the optional [variables de pregunta](KeyVals.md#Question_variables) field.
+Es común el querer usar números aleatorios en preguntas. Esto es sencillo de hacer, y nosotros
+hacemos uso del campo opcional [variables de pregunta](KeyVals.md#Question_variables).
 
-STACK 3 uses Maxima's syntax for assignment, which is unusual.  In particular the colon `:` is used to assign a value to a variable.  So to assign the value of `5` to `n` we use the syntax `n:5`.
+STACK 3 usa la sintaxis de Maximapara tarea, lo cual es inusual.  En particular el caracter de sos puntos `:` es usado para asignarle un valor a una variable. Así es que, para asignarle el valor de `5` a `n` usamos la sintaxis `n:5`.
 
-Modify the [Variables de pregunta](KeyVals.md#Question_variables) from the previous example so that
+Modifique las [Variables de pregunta](KeyVals.md#Question_variables) del ejemplo anterior de forma tal que
 
     p:(x-1)^3;
 
-Then change the [texto de pregunta](CASText.md#question_text) to
+Después cambie el [texto de pregunta](CASText.md#question_text) a
 
 <textarea readonly="readonly" rows="3" cols="50">
-Differentiate {@p@} with respect to \(x\).
+Diferenciar {@p@} con respecto a \(x\).
 [[input:ans1]]
 [[validation:ans1]]</textarea>
 
-and in the inputs change the model answer to
+y en las entradas cambie la respuesta modelo a
 
     diff(p,x)
 
-Notice that now we have defined a local variable `p`, and used the value of this in the Question text.  The difference is between mathematics enclosed between `\(..\)` symbols and `{@..@}` symbols. All the text-based fields in the question, including feedback, are [texto CAS](CASText.md).  This is HTML into which mathematics can be inserted.  LaTeX is placed between `\(..\)`s, and CAS expressions (including your variables) between matching `{@..@}` symbols.  There is more information in the specific documentation.   The CAS expressions are evaluated in the context of the random variables and displayed.
+Observe que ahora hemos definido una variable local `p`, ay hemos usado el valor de esta en el texto de la Pregunta.  La diferencia está entre matemáticas rodeadas por símbolos `\(..\)` y por símbolos `{@..@}`. Todos los campos basados en texto en la pregunta, incluyendo la retroalimentación, son [texto CAS (CASText)](CASText.md).  Esto es HTML adentro del cual se pueden insertar matemáticas.  LaTeX es colocado entre `\(..\)`s, y expresiones CAS (incluyendo las variables de Usted) entre símbolos `{@..@}` apareados.  Hay más información en la documentación específica.   Las expresiones CAS sonevaluadas dentro del contexto de las variables aleatorias y mostradas.
 
-Since we have used `{@p@}` here, the user will not see a \(p\) on the screen when the question is instantiated, but the _displayed value_ of `p`.
+Dado que nosotros hemos usado `{@p@}` aquí, el usuario no verá un \(p\) en la pantalla en donde la pregunta está instanciada, sino que verá el _valor mostrado_ de `p`.
 
-Notice also that in the model answer there is a CAS command to differentiate the value of `p` with respect to `x`.
-It is necessary for the CAS to work out the answer in a random question.
-You now need to go through the potential response tree to use the variable `p` or `diff(p,x)` (or perhaps some other CAS expression) as appropriate.
+Observe también que en la respuesta modelo hay un comando CAS para diferenciar el valor de  `p` con respecto a `x`.
+Esto es necesario para que CAS pueda obtener la respuesta en una pregunta aleatoria.
+Ahora Usted necesita ir al árbol de respuesta potencial para usar la variable `p` o `diff(p,x)` (o tal vez alguna otra expresión CAS) como sea apropiada.
 
-We are now in a position to generate a random question. To do this modify the [question variables](KeyVals.md#Question_variables) to be
+Ahora estamos en una posición para generar una pregunta aleatoria. Para hacer esto, modifique las [variables de pregunta](KeyVals.md#Question_variables) para que sean
 
     n : 2+rand(3);
     p : (x-1)^n;
 
-In this new example, we have an extra variable `n` which is defined to be a random number.
+En este nuevo ejemplo, tenemos una variable extra `n` la cual está definida para que sea un número aleatorio.
 
-This is then used to define the variable `p` which is in turn used in the question itself.
+Esto es entonces usado para definir la variable `p` la cual a su vez es usada dentro de la pregunta misma.
 
-When generating random questions in CAA we talk about _random numbers_ when we really mean _pseudo-random numbers_.
-To keep track of which random numbers are generated for each user, there is a special command in STACK,
-which you should use instead of [Maxima](../CAS/Maxima.md)'s random command.
+Al generar preguntas aleatorias en  CAA nosotros hablamos de _números aleatorios_ cuando realmente quisiéramos decir _números pseudo aleatorios_.
+Para llevar un registro de c uales números aleatorios son generados par cada usuario, existe un comando especial en STACK,
+el cual Usted debería de usar en sustitución del comando aleatorio de [Maxima](../CAS/Maxima.md).
 
-This is the `rand` command which is a general "random thing" generator, see the page on [random generation](../CAS/Random.md) for full details.
-It can be used to generate random numbers and also to make selections from a list.
+Este es el comando `rand` el cual es un genrador de  "cosas aleatorias" general, vea la página en [generación aleatoria](../CAS/Random.md) para los detalles completos.
+Puede ser usado para generar números aleatorios y también para hacer slecciones de una lista.
 
-### The question note ###
+### La nota de la pregunta ###
 
-The question note enables the teacher to track which version of the question is given to each student.
-Two versions are the same if and only if the [question note](Question_note.md) is the same.
-Hence a random question may not have an empty question note.
+La nota de la pregunta lepermite al profesor llevar registro de cual versión de la pregunta es proporcionada a cada estudiante.
+Dos versiones son la misma si, y solamente si, la [nta de pregunta](Question_note.md) es la misma.
+Es por esto que una pregunta aleatoria no puede tener una nota de pregunta vacía.
 
-Fill this in as
+LLene esto como
 
     \[ \frac{d}{d{@x@}}{@p@} = {@diff(p,x)@} \]
 
-It is crucial to do this now since questions with `rand()` in the question variables may not have an empty question note.  By enforcing this now we prevent frustration later when it would be otherwise impossible to distinguish between random versions of a question.
+Es crucial hacer esto ahora dado que las preguntas con `rand()` en las variables de pregunta no pueden tener una nota de pregunta vacía.  Al hacer obligatoriamente esto ahora nosotros evitamos frustración más adelante cuando sería imposible de otra forma el distinguir entre versiones aleatorias de una pregunta.
 
-Edit your trial question, save and preview it to get new random versions of the question.
+Edite su pregunta de ensayo, guárdela y pre-visualícela para obtener versiones aleatorias nuevas de la pregunta
 
-### Further randomisation ###
+### Más aleatorización ###
 
-At this point you might consider saving as a new question.
+en este punto Usted podría considerar guardarla como una pregunta nueva.
 
-As a specific example of some of these features, try the question illustrated below.
-This contains random numbers, and also examples of variables and expressions selected from a list.
+Como un ejemplo específico de algunas de estas características, intente la pregunta ilustrada debajo.
+Esta contiene números aleatorios, y también ejemplos de variable sy expresiones leleccionadas de entre una lista.
 
     n : rand(5)+3;
     v : rand([x,s,t]);
     p : rand([sin(n*v),cos(n*v)]);
 
-Then change the Question text to
+Entonces cambie el texto de la pregunta a
 
 <textarea readonly="readonly" rows="3" cols="50">
-Differentiate {@p@} with respect to {@v@}.
+Diferenciar {@p@} con respecto a {@v@}.
 [[input:ans1]]
 [[validation:ans1]]</textarea>
 
-Again, we need to use expressions such as `diff(p,v)` throughout the potential response tree, and even in one place `diff(ans1,v)`.
+Otra vez, necesitamos usar expresiones tales como `diff(p,v)` dentro del árbol de respuesta potencial, e inclusive en un lugar `diff(ans1,v)`.
 
-Delete Node 3.  Factored form tests no longer make sense in the context of this question.
+Elimine el Nodo 3.  Pruebas para forma factorizada ya no tienen sentido más dentro del contexto de esta pregunta.
 
-It is often a good idea to use variables in the question at the outset, even if there is no intention to randomly generate a question initially. Also, as questions become increasingly complex, it is a good habit to comment complicated lines in the Maxima code in the Question variables and Feedback variables, in order to make the code easier to read for anyone wishing to edit the question. Comments are entered as follows: `v : rand([x,s,t]) /* Set v randomly to x, s, or t */`.
+A menudo es una buena idea el usar variables dentro de la pregunta al principio, aun y cuando no hubiera intención de generar aleatoriamente una pregunta inicialmente. También, conforme la pregunta se va volviendo cada vez más compleja, es un buen hábito el comentar las líneas complicadas dentro del código Maxima en las Variables de pregunta y Variables de retroalimentación, para asegurarnos de que el código sea más fácil de leer para cualquiera que edite lapregunta. Los comentarios se ingresan como sigue: `v : rand([x,s,t]) /* Configurar v aleatoriamente a x, s, o t */`.
 
-You will also need to update the question note to be
+Usted también necesitará actualizar la nota de pregunta para que sea
 
     \[ \frac{d}{d{@v@}}{@p@} = {@diff(p,v)@} \]
 

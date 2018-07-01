@@ -30,6 +30,7 @@ Note: the behaviour of the maxima `addrow` function has changed.  Use the bulk t
 * _done_ Sort out the "addrow" problem. (See issue #333).  This is changed to "rowadd".
 * _done_ Add in check for "mul" (see issue #339) and better checking of input options.
 * _done_ Refactor equiv_input and MCQ to make use of the new extra options mechanism.
+* _done_ Add in support for the maxima `simplex` package.
 
 * Re-sizable matrix input.  See Aalto/NUMBAS examples here, with Javascript.
 * Add support for matrices with floating point entries, and testing numerical accuracy.

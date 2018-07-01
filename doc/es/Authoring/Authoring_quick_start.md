@@ -241,8 +241,8 @@ Puede ser usado para generar números aleatorios y también para hacer sleccione
 
 ### La nota de la pregunta ###
 
-La nota de la pregunta lepermite al profesor llevar registro de cual versión de la pregunta es proporcionada a cada estudiante.
-Dos versiones son la misma si, y solamente si, la [nta de pregunta](Question_note.md) es la misma.
+La nota de la pregunta le permite al profesor llevar registro de cual versión de la pregunta es proporcionada a cada estudiante.
+Dos versiones son la misma si, y solamente si, la [nota de pregunta](Question_note.md) es la misma.
 Es por esto que una pregunta aleatoria no puede tener una nota de pregunta vacía.
 
 LLene esto como
@@ -255,10 +255,10 @@ Edite su pregunta de ensayo, guárdela y pre-visualícela para obtener versiones
 
 ### Más aleatorización ###
 
-en este punto Usted podría considerar guardarla como una pregunta nueva.
+En este punto Usted podría considerar guardarla como una pregunta nueva.
 
 Como un ejemplo específico de algunas de estas características, intente la pregunta ilustrada debajo.
-Esta contiene números aleatorios, y también ejemplos de variable sy expresiones leleccionadas de entre una lista.
+Esta contiene números aleatorios, y también ejemplos de variables y expresiones seleccionadas de entre una lista.
 
     n : rand(5)+3;
     v : rand([x,s,t]);
@@ -273,9 +273,9 @@ Diferenciar {@p@} con respecto a {@v@}.
 
 Otra vez, necesitamos usar expresiones tales como `diff(p,v)` dentro del árbol de respuesta potencial, e inclusive en un lugar `diff(ans1,v)`.
 
-Elimine el Nodo 3.  Pruebas para forma factorizada ya no tienen sentido más dentro del contexto de esta pregunta.
+Elimine el Nodo 3.  Las pruebas para forma factorizada ya no tienen sentido dentro del contexto de esta pregunta.
 
-A menudo es una buena idea el usar variables dentro de la pregunta al principio, aun y cuando no hubiera intención de generar aleatoriamente una pregunta inicialmente. También, conforme la pregunta se va volviendo cada vez más compleja, es un buen hábito el comentar las líneas complicadas dentro del código Maxima en las Variables de pregunta y Variables de retroalimentación, para asegurarnos de que el código sea más fácil de leer para cualquiera que edite lapregunta. Los comentarios se ingresan como sigue: `v : rand([x,s,t]) /* Configurar v aleatoriamente a x, s, o t */`.
+A menudo es una buena idea el usar variables dentro de la pregunta al principio, aun y cuando no hubiera intención de generar aleatoriamente una pregunta inicialmente. También, conforme la pregunta se va volviendo cada vez más compleja, es un buen hábito el comentar las líneas complicadas dentro del código Maxima en las Variables de pregunta y Variables de retroalimentación, para asegurarnos de que el código sea más fácil de leer para cualquiera que edite la pregunta. Los comentarios se ingresan como sigue: `v : rand([x,s,t]) /* Configurar v aleatoriamente a x, s, o t */`.
 
 Usted también necesitará actualizar la nota de pregunta para que sea
 

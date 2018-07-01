@@ -296,7 +296,7 @@ Por favor vea la página sobre [pruebas](Testing.md).
     penalty = 0
     answernote = prt1-1-T
 
-El sistema evaluará automáticamente `diff(p,v)` para crear `ans1` y entonces calificar la pregunta usando esta información.  Concordará los resultados actuales con los que Usted especificó. Esto automatiza el proceso de probar.
+El sistema evaluará automáticamente `diff(p,v)` para crear `ans1` y entonces calificar la pregunta usando esta información.  Comparará los resultados actuales con los que Usted especificó. Esto automatiza el proceso de probar.
 
 Usted puede añadir tantas pruebas como piense que sean necesarias; y usualmente es una idea muy razonable el añadir una para cada caso que Usted anticipe. Aquí sería sensato probar si es que el estudiante ha integrado por error.
 

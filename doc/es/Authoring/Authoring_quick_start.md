@@ -236,7 +236,7 @@ Al generar preguntas aleatorias en Evaluación Asistida por Computadora nosotros
 Para llevar un registro de cuales números aleatorios son generados par cada usuario, existe un comando especial en STACK,
 el cual Usted debería de usar en sustitución del comando aleatorio de [Maxima](../CAS/Maxima.md).
 
-Este es el comando `rand` el cual es un genrador de  "cosas aleatorias" general, vea la página en [generación aleatoria](../CAS/Random.md) para los detalles completos.
+Este es el comando `rand` el cual es un generador de  "cosas aleatorias" general, vea la página en [generación aleatoria](../CAS/Random.md) para los detalles completos.
 Puede ser usado para generar números aleatorios y también para hacer slecciones de una lista.
 
 ### La nota de la pregunta ###

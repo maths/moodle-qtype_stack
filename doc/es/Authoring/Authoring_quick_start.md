@@ -304,7 +304,7 @@ Si su pregunta usa aleatorización, entonces Usted necesita [desplegar instancia
 
 # Siguientes pasos #
 
-A Usted le gustaría ojear las configuracioens del examen de Moodle, creando un examen simple. Esto es, estrictamente hablando, un asunto de Moodle completamente y existen todas las razones para combinar preguntas STACK con otros tipos de pregunta de Moodle. Se incluyen algunas notas muy breves en la [Guía de inicio rápido del examen](Authoring_quick_start_quiz.md).
+A Usted le gustaría ojear las configuraciones del examen de Moodle, creando un examen simple. Esto es, estrictamente hablando, un asunto de Moodle completamente y hay muchas razones para combinar preguntas STACK con otros tipos de pregunta de Moodle. Se incluyen algunas notas muy breves en la [Guía de inicio rápido del examen](Authoring_quick_start_quiz.md).
 
 El tipo de pregunta STACK es muy flexible.
 

@@ -281,38 +281,38 @@ Usted también necesitará actualizar la nota de pregunta para que sea
 
     \[ \frac{d}{d{@v@}}{@p@} = {@diff(p,v)@} \]
 
-## Question tests ##
+## Pruebas de pregunta ##
 
-Testing questions is time consuming and tedious, but important to ensure questions work.  To help with this process STACK enables teachers to define "question tests".  These are the same principle as "unit tests" in software engineering.
+El probar preguntas es muy tardado y tedioso, pero es importante el asegurarse de que la pregunta funciona. Para ayudarle con este proceso STACK le permite al profesor el definir "pruebas d epregunta".  Estas son el mismo principio que las  "pruebas de unidad" en la ingeniería de software.
 
-From the question preview window, click on `Question tests & deployed versions` link in the top right of the page.
+Desde la ventana de previsualización de pregunta, haga click en `Pruebas de pregunta y versiones desplegadas` en la parte superior derecha de la página.
 
-Please read the page on [testing](Testing.md).
+Por favor vea la página sobre [pruebas](Testing.md).
 
-Please ensure you have deleted the third node from the potential response tree!  Click `Add a test case` to add a test to your question.  Fill in the following information
+¡Por favor asegúrese de que haya eliminado el tercer nodo del árbol de respuesta potencial!  Haga click en `Añadir un nuevo caso de prueba` para añadir unaprueba a su pregunta.  LLene la siguiente información
 
     ans1 = diff(p,v)
     score = 1
     penalty = 0
     answernote = prt1-1-T
 
-The system will automatically evaluate `diff(p,v)` to create `ans1` and then mark the question using this information.  It will match up the actual outcomes with those you specified.  This automates the testing process.
+El sistema evaluará automáticamente `diff(p,v)` para crear `ans1` y entonces calificar la pregunta usando esta información.  Concordará los resultados actuales con los que Usted especificó. Esto automatiza el proceso de probar.
 
-You can add as many tests as you think is needed, and it is usually a sensible idea to add one for each case you anticipate.  Here it would be sensible to test if the student has integrated by mistake.
+Uste dpuede añadir tantas pruebas comopiense que sean necesarias; y usualmente es una idea muy razonable el añadir una para cada caso que Usted anticipe. Aquí sería sensato probar si es que el estudiante ha integrado por error.
 
-If your question uses randomisation, then you need to [deploy instances](Deploying.md) of it before you can present it to students. This is done via the deployment interface on the top of the testing page.
+Si su pregunta usa aleatorización, entonces Usted necesita [instancias desplegadas](Deploying.md) de esta antes de que Usted pueda presentar la pregunta a los estudiantes. esto es hecho vía la interfaz para desplegar en la parte superior de la página de prueba.
 
-# Next steps #
+# Siguientes pasos #
 
-You might like to look at Moodle's quiz settings, creating a simple quiz.  This is, strictly speaking, a completely Moodle issue and there is every reason to combine STACK questions with other Moodle question types.  Some very brief notes are included in the [quiz quickstart guide](Authoring_quick_start_quiz.md).
+A Usted le gustaría ojear las configuracioens del examen de Moodle, creando un examen simnple. Esto es, estrictamente hablando, un asunto de Moodle completamente y existen todas las razones para combinar preguntas STACK con otros tipos de pregunta de Moodle. Se incluyen algunas notas muy breves en la [Guía de inicio rápido del examen](Authoring_quick_start_quiz.md).
 
-STACK's question type is very flexible.
+El tipo de pregunta STACKes muy flexible.
 
-* You can add a worked solution in the [Retroalimentación general](CASText.md#General_feedback).
-* You can change the behaviour of the question with the [opciones](Options.md)
-* You can add plots to all the [CASText](CASText.md) fields with the [`plot`](../CAS/Maxima.md#plot) command.
-* Usted puede  añadir soporte para [múltiples idiomas](Languages.md).
+* Usted peude añadir una solución trabajada en la [Retroalimentación general](CASText.md#General_feedback).
+* Usted puede cambiar el comportamiento de la pregunta con las [opciones](Options.md)
+* Usted puede añadir gráficos a todos los campos [CASText](CASText.md) con el comando [`plot`](../CAS/Maxima.md#plot).
+* Usted puede añadir soporte para [múltiples idiomas](Languages.md).
 
-The next part of the authoring quick start guide looks at [multi-part mathematical questions](Authoring_quick_start_2.md).
+La siguiente parte de la gúia de inicio rápido de autoría tratará sobre [preguntas matemáticas multi-parte](Authoring_quick_start_2.md).
 
 

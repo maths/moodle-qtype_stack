@@ -233,7 +233,7 @@ En este nuevo ejemplo, tenemos una variable extra `n` la cual está definida par
 Esto es entonces usado para definir la variable `p` la cual a su vez es usada dentro de la pregunta misma.
 
 Al generar preguntas aleatorias en Evaluación Asistida por Computadora nosotros hablamos de _números aleatorios_ cuando realmente quisiéramos decir _números pseudo-aleatorios_.
-Para llevar un registro de c uales números aleatorios son generados par cada usuario, existe un comando especial en STACK,
+Para llevar un registro de cuales números aleatorios son generados par cada usuario, existe un comando especial en STACK,
 el cual Usted debería de usar en sustitución del comando aleatorio de [Maxima](../CAS/Maxima.md).
 
 Este es el comando `rand` el cual es un genrador de  "cosas aleatorias" general, vea la página en [generación aleatoria](../CAS/Random.md) para los detalles completos.

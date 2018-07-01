@@ -289,7 +289,7 @@ Desde la ventana de previsualización de pregunta, haga click en `Pruebas de pre
 
 Por favor vea la página sobre [pruebas](Testing.md).
 
-¡Por favor asegúrese de que haya eliminado el tercer nodo del árbol de respuesta potencial!  Haga click en `Añadir un nuevo caso de prueba` para añadir una prueba a su pregunta.  LLene la siguiente información
+¡Por favor asegúrese de que haya eliminado el tercer nodo del árbol de respuesta potencial!  Haga click en `Añadir un caso de prueba` para añadir una prueba a su pregunta.  LLene la siguiente información
 
     ans1 = diff(p,v)
     score = 1

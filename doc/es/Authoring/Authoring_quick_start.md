@@ -39,7 +39,7 @@ Hay varias cosas que tener en cuenta acerca de este texto.
 Por defecto, una nueva pregunta automáticamente tiene una [entrada](Inputs.md), y un algoritmo para valorar la respuesta.
 
 Deslice el cursor hacia abajo:  habrá una sección de [entradas](Inputs.md) del formato para editar.
-Dentro de la respuesta modelo en la respuesta está una expresión CAS sintácticamente válida, como por ejemplo.
+Dentro de la respuesta modelo en la respuesta escriba una expresión CAS sintácticamente válida, como por ejemplo.
 
     3*(x-1)^2
 

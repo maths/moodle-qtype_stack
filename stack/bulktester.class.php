@@ -67,6 +67,7 @@ class stack_bulk_tester  {
         $allpassed = true;
         $failingtests = array();
         $notests = array();
+        $nogeneralfeedback = array();
         $failingupgrade = array();
 
         foreach ($categories as $key => $category) {
@@ -101,13 +102,28 @@ class stack_bulk_tester  {
                     $this->qtype_stack_seed_cache($question, $seed);
                 }
 
+                $questionnamelink = html_writer::link(new moodle_url($questiontestsurl,
+                        array('questionid' => $questionid)), format_string($name));
+
+                $questionproblems = array();
+                if (trim($question->generalfeedback) === '') {
+                    $nogeneralfeedback[] = $questionnamelink;
+                    $questionproblems[] = html_writer::tag('li', stack_string('bulktestnogeneralfeedback'));
+                }
+
                 $tests = question_bank::get_qtype('stack')->load_question_tests($questionid);
                 if (!$tests) {
-                    $questionnamelink = html_writer::link(new moodle_url($questiontestsurl,
-                            array('questionid' => $questionid)), format_string($name));
                     $notests[] = $questionnamelink;
+                    $questionproblems[] = html_writer::tag('li', stack_string('bulktestnotests'));
+                }
+
+                if ($questionproblems !== array()) {
                     echo $OUTPUT->heading($questionnamelink, 4);
-                    echo html_writer::tag('p', stack_string('bulktestnotests'));
+                    echo html_writer::tag('ul', implode($questionproblems, "\n"));
+
+                }
+
+                if (!$tests) {
                     continue;
                 }
 
@@ -137,7 +153,7 @@ class stack_bulk_tester  {
                 }
             }
         }
-        return array($allpassed, $failingtests, $notests, $failingupgrade);
+        return array($allpassed, $failingtests, $notests, $nogeneralfeedback, $failingupgrade);
     }
 
     /**
@@ -242,7 +258,7 @@ class stack_bulk_tester  {
      * @param bool $allpassed whether all the tests passed.
      * @param array $failingtests list of the ones that failed.
      */
-    public function print_overall_result($allpassed, $failingtests, $notests, $failingupgrade) {
+    public function print_overall_result($allpassed, $failingtests, $notests, $nogeneralfeedback, $failingupgrade) {
         global $OUTPUT;
         echo $OUTPUT->heading(stack_string('overallresult'), 2);
         if ($allpassed) {
@@ -275,6 +291,15 @@ class stack_bulk_tester  {
             echo $OUTPUT->heading(stack_string('stackInstall_testsuite_notests'), 3);
             echo html_writer::start_tag('ul');
             foreach ($notests as $message) {
+                echo html_writer::tag('li', $message);
+            }
+            echo html_writer::end_tag('ul');
+        }
+
+        if (!empty($nogeneralfeedback)) {
+            echo $OUTPUT->heading(stack_string('stackInstall_testsuite_nogeneralfeedback'), 3);
+            echo html_writer::start_tag('ul');
+            foreach ($nogeneralfeedback as $message) {
                 echo html_writer::tag('li', $message);
             }
             echo html_writer::end_tag('ul');

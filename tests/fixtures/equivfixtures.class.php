@@ -258,7 +258,7 @@ class stack_equiv_test_data {
         $newarg['title']      = "Odd powers, over the reals";
         $newarg['narrative']  = '';
         $newarg['casstring']  = "[x^3=8,x=2]";
-        $newarg['debuglist']  = "[EMPTYCHAR,EQUIVCHARREAL]";
+        $newarg['debuglist']  = "[ASSUMEREALVARS,EQUIVCHARREAL]";
         $newarg['outcome']    = true;
         $newarg['assumereal'] = true;
         $samplearguments[] = $newarg;
@@ -590,7 +590,7 @@ class stack_equiv_test_data {
                 "(a*x)^2+b*(a*x)+b^2/4-b^2/4+a*c=0,(a*x+b/2)^2-b^2/4+a*c=0,(a*x+b/2)^2=b^2/4-a*c, ".
                 "a*x+b/2= +-sqrt(b^2/4-a*c),a*x=-b/2+sqrt(b^2/4-a*c) or a*x=-b/2-sqrt(b^2/4-a*c), ".
                 "(a=0 or x=(-b+sqrt(b^2-4*a*c))/(2*a)) or (a=0 or x=(-b-sqrt(b^2-4*a*c))/(2*a)), ".
-                "a=0 or x=(-b+sqrt(b^2-4*a*c))/(2*a) or x=(-b-sqrt(b^2-4*a*c))/(2*a)]";
+                "a^2=0 or x=(-b+sqrt(b^2-4*a*c))/(2*a) or x=(-b-sqrt(b^2-4*a*c))/(2*a)]";
         $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR]";
         $newarg['outcome']   = true;
         $samplearguments[] = $newarg;
@@ -818,6 +818,27 @@ class stack_equiv_test_data {
         $newarg['casstring'] = "[(x+5)/(x-7)-5= (4*x-40)/(13-x),(x+5-5*(x-7))/(x-7)= (4*x-40)/(13-x), ".
                 "(4*x-40)/(7-x)= (4*x-40)/(13-x),7-x= 13-x or 4*x-40=0,7= 13 or 4*x=40,x=10]";
         $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR]";
+        $newarg['outcome']   = true;
+        $samplearguments[] = $newarg;
+
+        //******************************************************************************
+        $newarg = array();
+        $newarg['section'] = 'Equate coefficients';
+        $samplearguments[] = $newarg;
+
+        $newarg = array();
+        $newarg['title']     = "Simple equate coeffs";
+        $newarg['narrative'] = '';
+        $newarg['casstring'] = "[a*x^2+b*x+c=0,a=0 nounand b=0 nounand c=0,a*x^2+b*x+c=0]";
+        $newarg['debuglist'] = "[EMPTYCHAR,EQUATECOEFFLOSS(x),EQUATECOEFFGAIN(x)]";
+        $newarg['outcome']   = true;
+        $samplearguments[] = $newarg;
+
+        $newarg = array();
+        $newarg['title']     = "Equate coeffs";
+        $newarg['narrative'] = '';
+        $newarg['casstring'] = "[a*x^2+b*x+c=A*x^2+B*x+C,a=A nounand b=B nounand c=C,a*x^2+b*x+c=A*x^2+B*x+C]";
+        $newarg['debuglist'] = "[EMPTYCHAR,EQUATECOEFFLOSS(x),EQUATECOEFFGAIN(x)]";
         $newarg['outcome']   = true;
         $samplearguments[] = $newarg;
 
@@ -1053,7 +1074,7 @@ class stack_equiv_test_data {
         $newarg['narrative']  = '';
         $newarg['casstring']  = "[a^2=b and b^2=a, b=a^2 and a^4=a, b=a^2 and a^4-a=0, b=a^2 and a*(a-1)*(a^2+a+1)=0, ".
                 "b=a^2 and (a=0 or a=1 or a^2+a+1=0), (b=0 and a=0) or (b=1 and a=1)]";
-        $newarg['debuglist']  = "[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR]";
+        $newarg['debuglist']  = "[ASSUMEREALVARS,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR]";
         $newarg['outcome']    = true;
         $newarg['assumereal'] = true;
         $samplearguments[]    = $newarg;
@@ -1070,7 +1091,7 @@ class stack_equiv_test_data {
                 "((2*x-3)>=0 and (x+2)>=0) or ((2*x-3)<=0 and (x+2)<=0), ".
                 "(x>=3/2 and x>=-2) or (x<=3/2 and x<=-2), x>=3/2 or x <=-2]";
         $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR]";
-        $newarg['outcome']   = 'unsupported';
+        $newarg['outcome']   = true;
         $samplearguments[] = $newarg;
 
         $newarg = array();
@@ -1078,9 +1099,19 @@ class stack_equiv_test_data {
         $newarg['narrative'] = 'Solving quadratic inequalities using reasoning by equivalence.';
         $newarg['casstring'] = "[2*x^2+x>=6, 2*x^2+x-6>=0, (2*x-3)*(x+2)>= 0,".
                 "((2*x-3)>=0 and (x+2)>=0) or ((2*x-3)<=0 and (x+2)<=0), ".
+                "(x>=3/2 and x>=-2) or (x<=3/2 and x<=-2), x>=3/2 or x <=-2]";
+        $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR]";
+        $newarg['outcome']   = true;
+        $samplearguments[] = $newarg;
+
+        $newarg = array();
+        $newarg['title']     = "Solving a quadratic inequality";
+        $newarg['narrative'] = 'Failing to solving quadratic inequalities';
+        $newarg['casstring'] = "[2*x^2+x>=6, 2*x^2+x-6>=0, (2*x-3)*(x+2)>= 0,".
+                "((2*x-3)>=0 and (x+2)>=0) or ((2*x-3)<=0 and (x+2)<=0), ".
                 "(x>=3/2 and x>=-2) or (x<=3/2 and x<=-2), x>=3/2 or x <=2]";
         $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,QMCHAR]";
-        $newarg['outcome']   = 'unsupported';
+        $newarg['outcome']   = false;
         $samplearguments[] = $newarg;
 
         $newarg = array();
@@ -1088,16 +1119,7 @@ class stack_equiv_test_data {
         $newarg['narrative'] = '';
         $newarg['casstring'] = "[x^2>=9 and x>3, x^2-9>=0 and x>3, (x>=3 or x<=-3) and x>3, x>3]";
         $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR]";
-        $newarg['outcome']   = 'unsupported';
-        $samplearguments[] = $newarg;
-
-        $newarg = array();
-        $newarg['title']     = "Solving inequalities with the absolute value function";
-        $newarg['narrative'] = '';
-        $newarg['casstring'] = "[2*x/abs(x-1)<1, 2*x<abs(x-1),".
-                "(x>=1 and 2*x<x-1) or (x<1 and 2*x<-x+1),(x>=1 and x<-1) or (x<1 and 3*x<1),x<1/3]";
-        $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR]";
-        $newarg['outcome']   = 'unsupported';
+        $newarg['outcome']   = true;
         $samplearguments[] = $newarg;
 
         $newarg = array();
@@ -1111,7 +1133,7 @@ class stack_equiv_test_data {
                 "(-6<a and a<2) or false, (-6<a and a<2)]";
         $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EMPTYCHAR,EMPTYCHAR,EMPTYCHAR,".
                 "EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR]";
-        $newarg['outcome']   = 'unsupported'; //'unknown';
+        $newarg['outcome']   = 'unknown';
         $samplearguments[] = $newarg;
 
         $newarg = array();
@@ -1120,7 +1142,7 @@ class stack_equiv_test_data {
         $newarg['casstring'] = "[x-2>0 and x*(x-2)<15,x>2 and x^2-2*x-15<0,x>2 and (x-5)*(x+3)<0,".
                 "x>2 and ((x<5 and x>-3) or (x>5 and x<-3)),x>2 and (x<5 and x>-3),x>2 and x<5]";
         $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR]";
-        $newarg['outcome']   = 'unsupported';
+        $newarg['outcome']   = true;
         $samplearguments[] = $newarg;
 
         $newarg = array();
@@ -1129,7 +1151,59 @@ class stack_equiv_test_data {
         $newarg['casstring'] = "[x-2>0 and x*(x-2)<15,x>2 and x^2-2*x-15<0,x>2 and (x-5)*(x+3)<0,".
                 "x>2 and ((x<5 and x>-3) or (x>5 and x<-3)),x>7 and (x<5 and x>-3),x>2 and x<5]";
         $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,QMCHAR,QMCHAR]";
+        $newarg['outcome']   = false;
+        $samplearguments[] = $newarg;
+
+        $newarg = array();
+        $newarg['title']     = "Semi-automatic marking of a multi-stage problem.";
+        $newarg['narrative'] = "Taken from Finnish national exam, Q9 of 22 March 1971." .
+            "(http://matemaattinenyhdistys.fi/yo/?download=1970-1998.pdf)" .
+            "This question illustrates the practical steps needed in problem solving at this level.\n\n".
+            "Find the minimum number of the positive integer \(a\), ".
+            "for which the equation \(x^2 + (a-2)x + a = 0\) has real roots.";
+        $newarg['casstring'] = '[x^2 + (a-2)*x + a = 0,(x + (a-2)/2)^2 -((a-2)/2)^2 + a = 0,(x + (a-2)/2)^2 =(a-2)^2/4 - a,'.
+                '"This has real roots iff",(a-2)^2/4-a >=0,a^2-4*a+4-4*a >=0,a^2-8*a+4>=0,(a-4)^2-16+4>=0,'.
+                '(a-4)^2>=12,a-4>=sqrt(12) or a-4<= -sqrt(12),"Ignoring the negative solution.",'.
+                'a>=sqrt(12)+4,"Using external domain information that a is an integer.",a>=8]';
+        $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EMPTYCHAR,EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,".
+                "EQUIVCHAR,EMPTYCHAR,EMPTYCHAR,EMPTYCHAR,EMPTYCHAR]";
+        $newarg['outcome']   = false;
+        $samplearguments[] = $newarg;
+
+        $newarg = array();
+        $newarg['title']     = "Solving inequalities with the absolute value function";
+        $newarg['narrative'] = '';
+        $newarg['casstring'] = "[2*x/abs(x-1)<1, 2*x<abs(x-1),".
+                "(x>=1 and 2*x<x-1) or (x<1 and 2*x<-x+1),(x>=1 and x<-1) or (x<1 and 3*x<1),x<1/3]";
+        $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR]";
         $newarg['outcome']   = 'unsupported';
+        $samplearguments[] = $newarg;
+
+        //******************************************************************************
+        $newarg = array();
+        $newarg['section'] = 'Induction steps';
+        $samplearguments[] = $newarg;
+
+        $newarg = array();
+        $newarg['title']     = "Proof by induction";
+        $newarg['narrative'] = "";
+        $newarg['casstring'] = '["Set P(n) be the statement that",sum(k^2,k,1,n) = n*(n+1)*(2*n+1)/6, '.
+                '"Then P(1) is the statement", 1^2 = 1*(1+1)*(2*1+1)/6, 1 = 1, '.
+                '"So P(1) holds.  Now assume P(n) is true.",sum(k^2,k,1,n) = n*(n+1)*(2*n+1)/6,'.
+                'sum(k^2,k,1,n) +(n+1)^2= n*(n+1)*(2*n+1)/6 +(n+1)^2,sum(k^2,k,1,n+1)= (n+1)*(n*(2*n+1) +6*(n+1))/6,'.
+                'sum(k^2,k,1,n+1)= (n+1)*(2*n^2+7*n+6)/6,sum(k^2,k,1,n+1)= (n+1)*(n+1+1)*(2*(n+1)+1)/6]';
+        $newarg['debuglist'] = "[EMPTYCHAR,EMPTYCHAR,EMPTYCHAR,EMPTYCHAR,EQUIVCHAR,EMPTYCHAR,EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR]";
+        $newarg['outcome']   = 'unknown';
+        $samplearguments[] = $newarg;
+
+        $newarg = array();
+        $newarg['title']     = "Proof by induction (2)";
+        $newarg['narrative'] = "";
+        $newarg['casstring'] = '[(n+1)^2+sum(k^2,k,1,n) = (n+1)^2+(n*(n+1)*(2*n+1))/6, '.
+                'sum(k^2,k,1,n+1) = ((n+1)*(n*(2*n+1)+6*(n+1)))/6, sum(k^2,k,1,n+1) = ((n+1)*(2*n^2+7*n+6))/6, '.
+                'sum(k^2,k,1,n+1) = ((n+1)*(n+2)*(2*(n+1)+1))/6]';
+        $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR]";
+        $newarg['outcome']   = true;
         $samplearguments[] = $newarg;
 
         //******************************************************************************
@@ -1166,11 +1240,11 @@ class stack_equiv_test_data {
 
         $newarg = array();
         $newarg['title']     = "Differential quotient as the unknown";
-        $newarg['narrative'] = '';
+        $newarg['narrative'] = 'Need to fix the display of derivatives with simp:false';
         $newarg['casstring'] = "[-12+3*diff(y(x),x)+8-8*diff(y(x),x)=0,-5*diff(y(x),x)=4,diff(y(x),x)=-4/5]";
         $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR]";
         $newarg['calculus']  = true;
-        $newarg['outcome']   = true;
+        $newarg['outcome']   = 'unsupported';
         $samplearguments[]   = $newarg;
 
         $newarg = array();
@@ -1209,66 +1283,7 @@ class stack_equiv_test_data {
 
         //******************************************************************************
         $newarg = array();
-        $newarg['section'] = 'Equate coefficients';
-        $samplearguments[] = $newarg;
-
-        $newarg = array();
-        $newarg['title']     = "Simple equate coeffs";
-        $newarg['narrative'] = '';
-        $newarg['casstring'] = "[a*x^2+b*x+c=0,a=0 nounand b=0 nounand c=0,a*x^2+b*x+c=0]";
-        $newarg['debuglist'] = "[EMPTYCHAR,EQUATECOEFFLOSS(x),EQUATECOEFFGAIN(x)]";
-        $newarg['outcome']   = true;
-        $samplearguments[] = $newarg;
-
-        $newarg = array();
-        $newarg['title']     = "Equate coeffs";
-        $newarg['narrative'] = '';
-        $newarg['casstring'] = "[a*x^2+b*x+c=A*x^2+B*x+C,a=A nounand b=B nounand c=C,a*x^2+b*x+c=A*x^2+B*x+C]";
-        $newarg['debuglist'] = "[EMPTYCHAR,EQUATECOEFFLOSS(x),EQUATECOEFFGAIN(x)]";
-        $newarg['outcome']   = true;
-        $samplearguments[] = $newarg;
-
-        //******************************************************************************
-        $newarg = array();
         $newarg['section'] = 'Other cases';
-        $samplearguments[] = $newarg;
-
-        $newarg = array();
-        $newarg['title']     = "Semi-automatic marking of a multi-stage problem.";
-        $newarg['narrative'] = "Taken from Finnish national exam, Q9 of 22 March 1971." .
-            "(http://matemaattinenyhdistys.fi/yo/?download=1970-1998.pdf)" .
-            "This question illustrates the practical steps needed in problem solving at this level.\n\n".
-            "Find the minimum number of the positive integer \(a\), ".
-            "for which the equation \(x^2 + (a-2)x + a = 0\) has real roots.";
-        $newarg['casstring'] = '[x^2 + (a-2)*x + a = 0,(x + (a-2)/2)^2 -((a-2)/2)^2 + a = 0,(x + (a-2)/2)^2 =(a-2)^2/4 - a,'.
-                '"This has real roots iff",(a-2)^2/4-a >=0,a^2-4*a+4-4*a >=0,a^2-8*a+4>=0,(a-4)^2-16+4>=0,'.
-                '(a-4)^2>=12,a-4>=sqrt(12) or a-4<= -sqrt(12),"Ignoring the negative solution.",'.
-                'a>=sqrt(12)+4,"Using external domain information that a is an integer.",a>=8]';
-        $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EMPTYCHAR,EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,".
-                "EQUIVCHAR,EMPTYCHAR,EMPTYCHAR,EMPTYCHAR,EMPTYCHAR]";
-        $newarg['outcome']   = 'unsupported';
-        $samplearguments[] = $newarg;
-
-        $newarg = array();
-        $newarg['title']     = "Proof by induction";
-        $newarg['narrative'] = "";
-        $newarg['casstring'] = '["Set P(n) be the statement that",sum(k^2,k,1,n) = n*(n+1)*(2*n+1)/6, '.
-                '"Then P(1) is the statement", 1^2 = 1*(1+1)*(2*1+1)/6, 1 = 1, '.
-                '"So P(1) holds.  Now assume P(n) is true.",sum(k^2,k,1,n) = n*(n+1)*(2*n+1)/6,'.
-                'sum(k^2,k,1,n) +(n+1)^2= n*(n+1)*(2*n+1)/6 +(n+1)^2,sum(k^2,k,1,n+1)= (n+1)*(n*(2*n+1) +6*(n+1))/6,'.
-                'sum(k^2,k,1,n+1)= (n+1)*(2*n^2+7*n+6)/6,sum(k^2,k,1,n+1)= (n+1)*(n+1+1)*(2*(n+1)+1)/6]';
-        $newarg['debuglist'] = "[EMPTYCHAR,EMPTYCHAR,EMPTYCHAR,EMPTYCHAR,EQUIVCHAR,EMPTYCHAR,EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR]";
-        $newarg['outcome']   = 'unknown';
-        $samplearguments[] = $newarg;
-
-        $newarg = array();
-        $newarg['title']     = "Proof by induction (2)";
-        $newarg['narrative'] = "";
-        $newarg['casstring'] = '[(n+1)^2+sum(k^2,k,1,n) = (n+1)^2+(n*(n+1)*(2*n+1))/6, '.
-                'sum(k^2,k,1,n+1) = ((n+1)*(n*(2*n+1)+6*(n+1)))/6, sum(k^2,k,1,n+1) = ((n+1)*(2*n^2+7*n+6))/6, '.
-                'sum(k^2,k,1,n+1) = ((n+1)*(n+2)*(2*(n+1)+1))/6]';
-        $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR]";
-        $newarg['outcome']   = true;
         $samplearguments[] = $newarg;
 
         $this->rawdata = $samplearguments;

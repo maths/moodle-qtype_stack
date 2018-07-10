@@ -702,6 +702,7 @@ $string['stackOptions_AnsTest_values_NumRelative']         = "NumRelative";
 $string['stackOptions_AnsTest_values_NumAbsolute']         = "NumAbsolute";
 $string['stackOptions_AnsTest_values_NumSigFigs']          = "NumSigFigs";
 $string['stackOptions_AnsTest_values_NumDecPlaces']        = "NumDecPlaces";
+$string['stackOptions_AnsTest_values_NumDecPlacesWrong']   = "NumDecPlacesWrong";
 $string['stackOptions_AnsTest_values_UnitsSigFigs']        = "UnitsSigFigs";
 $string['stackOptions_AnsTest_values_UnitsStrictSigFigs']  = "UnitsStrictSigFigs";
 $string['stackOptions_AnsTest_values_UnitsRelative']       = "UnitsRelative";

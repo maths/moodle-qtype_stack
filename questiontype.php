@@ -110,15 +110,18 @@ class qtype_stack extends question_type {
         if (!$options) {
             $options = new stdClass();
             $options->questionid = $fromform->id;
+            $options->stackversion = '';
             $options->questionvariables = '';
             $options->questionnote = '';
             $options->specificfeedback = '';
             $options->prtcorrect = '';
             $options->prtpartiallycorrect = '';
             $options->prtincorrect = '';
+            $options->stackversion = get_config('qtype_stack', 'version');
             $options->id = $DB->insert_record('qtype_stack_options', $options);
         }
 
+        $options->stackversion              = $fromform->stackversion;
         $options->questionvariables         = $fromform->questionvariables;
         $options->specificfeedback          = $this->import_or_save_files($fromform->specificfeedback,
                     $context, 'qtype_stack', 'specificfeedback', $fromform->id);
@@ -397,6 +400,7 @@ class qtype_stack extends question_type {
     protected function initialise_question_instance(question_definition $question, $questiondata) {
         parent::initialise_question_instance($question, $questiondata);
 
+        $question->stackversion              = $questiondata->options->stackversion;
         $question->questionvariables         = $questiondata->options->questionvariables;
         $question->questionnote              = $questiondata->options->questionnote;
         $question->specificfeedback          = $questiondata->options->specificfeedback;
@@ -986,6 +990,9 @@ class qtype_stack extends question_type {
         $output = '';
 
         $options = $questiondata->options;
+        $output .= "    <stackversion>\n";
+        $output .= "      " . $format->writetext($options->stackversion, 0);
+        $output .= "    </stackversion>\n";
         $output .= "    <questionvariables>\n";
         $output .= "      " . $format->writetext($options->questionvariables, 0);
         $output .= "    </questionvariables>\n";
@@ -1106,6 +1113,7 @@ class qtype_stack extends question_type {
         $fromform = $format->import_headers($xml);
         $fromform->qtype = $this->name();
 
+        $fromform->stackversion          = $format->getpath($xml, array('#', 'stackversion', 0, '#', 'text', 0, '#'), '', true);
         $fromform->questionvariables     = $format->getpath($xml, array('#', 'questionvariables',
                                                             0, '#', 'text', 0, '#'), '', true);
         $fromform->specificfeedback      = $this->import_xml_text($xml, 'specificfeedback', $format, $fromform->questiontextformat);
@@ -1470,6 +1478,7 @@ class qtype_stack extends question_type {
                 stack_string('questionnote'), $fromform['questionnote']);
 
         // 2) Validate all inputs.
+        $stackinputfactory = new stack_input_factory();
         foreach ($inputs as $inputname => $counts) {
             list($numinputs, $numvalidations) = $counts;
 
@@ -1494,6 +1503,26 @@ class qtype_stack extends question_type {
                 $errors = $this->validate_cas_string($errors,
                         $fromform[$inputname . 'modelans'], $inputname . 'modelans', $inputname . 'modelans');
             }
+
+            $inputtype = $fromform[$inputname . 'type'];
+            $stackinput = $stackinputfactory->make($inputtype, $inputname,
+                    $fromform[$inputname . 'modelans'], null, null, false);
+            $parameters = array();
+            foreach ($stackinputfactory->get_parameters_fromform_mapping($inputtype) as $key => $param) {
+                $paramvalue = $stackinputfactory->convert_parameter_fromform($key, $fromform[$inputname .$param]);
+                $parameters[$key] = $paramvalue;
+                if ('options' !== $key) {
+                    $validityresult = $stackinput->validate_parameter($key, $paramvalue);
+                    if (!($validityresult === true)) {
+                        $errors[$inputname . $param][] = stack_string('inputinvalidparamater');
+                    }
+                }
+            }
+            // Create an input with these parameters, in particular the 'options', and validate that.
+            $stackinput = $stackinputfactory->make($inputtype, $inputname,
+                    $fromform[$inputname . 'modelans'], null, $parameters, false);
+            $stackinput->validate_extra_options();
+            $errors[$inputname . 'options'] = $stackinput->get_errors();
         }
 
         // 3) Validate all prts.
@@ -1784,7 +1813,11 @@ class qtype_stack extends question_type {
         }
 
         // Check the nodes.
-        $graph = $this->get_prt_graph($prtname);
+        $question = null;
+        if (property_exists($this, 'question')) {
+            $question = $this->question;
+        }
+        $graph = $this->get_prt_graph($prtname, $question);
         $textformat = null;
         foreach ($graph->get_nodes() as $node) {
             $nodekey = $node->name - 1;
@@ -1984,9 +2017,10 @@ class qtype_stack extends question_type {
     /**
      * Get a list of the PRT notes that should be present for a given PRT.
      * @param string $prtname the name of a PRT.
+     * @param $question the question itself.
      * @return array list of nodes that should be present in the form definitino for this PRT.
      */
-    public function get_prt_graph($prtname) {
+    public function get_prt_graph($prtname, $question) {
         if (array_key_exists($prtname, $this->prtgraph)) {
             return $this->prtgraph[$prtname];
         }
@@ -2047,9 +2081,9 @@ class qtype_stack extends question_type {
 
         // Otherwise, if an existing question is being edited, and this is an
         // existing PRT, base things on the existing question definition.
-        if (!empty($this->question->prts[$prtname]->nodes)) {
+        if (!empty($question->prts[$prtname]->nodes)) {
             $graph = new stack_abstract_graph();
-            foreach ($this->question->prts[$prtname]->nodes as $node) {
+            foreach ($question->prts[$prtname]->nodes as $node) {
                 if ($node->truenextnode == -1) {
                     $left = null;
                 } else {
@@ -2077,7 +2111,6 @@ class qtype_stack extends question_type {
         $this->prtgraph[$prtname] = $graph;
         return $graph;
     }
-
 
     /**
      * Helper method to get the list of inputs required by a PRT, given the current

@@ -113,7 +113,7 @@ class stack_numerical_input extends stack_input {
      * @param string $parameter the parameter name
      * @param mixed $default the default to return if this parameter is not set.
      */
-    protected function get_parameter($parameter, $default = null) {
+    public function get_parameter($parameter, $default = null) {
         // We always want strict syntax for this input type.
         if ($parameter == 'strictSyntax') {
             return true;

@@ -10,8 +10,7 @@ Sensible students do not solve multiple choice problems directly but merely chec
 
 Really, the student should provide their answer in the form of a mathematical expression and the system should evaluate its properties.  Note the student's answer and the feedback which has been automatically generated below.
 
-![STACK Logo](%CONTENT/STACK-screenshot.png)
-
+![STACK screenshot](%CONTENT/STACK-screenshot.png)
 
 More about what we are trying to achieve can be found under [the philosophy of STACK](The_philosophy_of_STACK.md).
 
@@ -58,5 +57,3 @@ STACK is a direct development of the AIM system, using the open source computer 
 * [The philosophy of STACK](The_philosophy_of_STACK.md).
 * A demonstration server :[https://stack.maths.ed.ac.uk/demo](https://stack.maths.ed.ac.uk/demo)
 * [Associated publications](Publications.md)
-
-

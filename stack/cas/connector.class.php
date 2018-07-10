@@ -298,7 +298,7 @@ abstract class stack_cas_connection_base implements stack_cas_connection {
         $error = explode("!NEWLINE!", $errstr);
         $errorclean = array();
         foreach ($error as $err) {
-            // This case arises when we use a numerical text for algebraic equivalence.
+            // This case arises when we use a numerical test for algebraic equivalence.
             if (strpos($err, 'STACK: ignore previous error.') !== false) {
                 $err = '';
             }

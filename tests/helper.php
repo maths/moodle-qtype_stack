@@ -50,11 +50,13 @@ class qtype_stack_test_helper extends question_test_helper {
             '1input2prts',  // Contrived example with one input, 2 prts, all feedback in the specific feedback area.
             'information',  // Neither inputs nor PRTs.
             'survey',       // Inputs, but no PRTs.
-            'single_char_vars', // Tests the insertion of * symbols between letter names.
-            'runtime_prt_err', // This generates an error in the PRT at runtime.  With and without guard clause.
-            'units', // This question has units inputs, and a numerical test.
-            'equiv_quad', // This question uses equivalence reasoning to solve a quadratic equation.
-            'checkbox_all_empty' // Creates a checkbox input with none checked as the correct answer: edge case.
+            'single_char_vars',   // Tests the insertion of * symbols between letter names.
+            'runtime_prt_err',    // This generates an error in the PRT at runtime.  With and without guard clause.
+            'units',              // This question has units inputs, and a numerical test.
+            'equiv_quad',         // This question uses equivalence reasoning to solve a quadratic equation.
+            'checkbox_all_empty', // Creates a checkbox input with none checked as the correct answer: edge case.
+            'addrow',             // This question has addrows, in an older version.
+            'mul'                 // This question has mul in the options which is no longer permitted.
         );
     }
 
@@ -71,6 +73,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->qtype = question_bank::get_qtype('stack');
         $q->contextid = context_system::instance()->id;
 
+        $q->stackversion = get_config('qtype_stack', 'version');
         $q->questionvariables = '';
         $q->specificfeedback = '';
         $q->specificfeedbackformat = FORMAT_HTML;
@@ -100,6 +103,7 @@ class qtype_stack_test_helper extends question_test_helper {
     public static function make_stack_question_test0() {
         $q = self::make_a_stack_question();
 
+        $q->stackversion = 2018051000;
         $q->name = 'test-0';
         $q->questionvariables = 'a:1+1;';
         $q->questiontext = 'What is {@a@}? [[input:ans1]]
@@ -131,6 +135,7 @@ class qtype_stack_test_helper extends question_test_helper {
     public static function make_stack_question_test1() {
         $q = self::make_a_stack_question();
 
+        // We don't explicitly set stackversion here because we test the default.
         $q->name = 'test-1';
         $q->questionvariables = 'n : rand(5)+3; a : rand(5)+3; v : x; p : (v-a)^n; ta : (v-a)^(n+1)/(n+1); ta1 : ta';
         $q->questiontext = 'Find
@@ -174,6 +179,7 @@ class qtype_stack_test_helper extends question_test_helper {
     public static function make_stack_question_test2() {
         $q = self::make_a_stack_question();
 
+        $q->stackversion = 2018051000;
         $q->name = 'test-2';
         $q->questionvariables = 'orderless(y,x); a:3; f(x):=x^2; b:f(a); ta:y+x';
         $q->questiontext = 'Expand
@@ -309,6 +315,7 @@ class qtype_stack_test_helper extends question_test_helper {
     public static function make_stack_question_test3_penalty0_1() {
         $q = self::make_a_stack_question();
 
+        $q->stackversion = 2018051000;
         $q->name = 'test-3,penalty-0.1';
         $q->questiontext = '<p>1. Give an example of an odd function by typing
                                   an expression which represents it.
@@ -403,6 +410,7 @@ class qtype_stack_test_helper extends question_test_helper {
     public static function make_stack_question_test4() {
         $q = self::make_a_stack_question();
 
+        $q->stackversion = 2018051000;
         $q->name = 'test-4';
         $q->questionvariables = 'p : x^2';
         $q->questiontext = 'Below is a sketch of a graph. Find an algebraic expression which represents it.
@@ -542,6 +550,7 @@ class qtype_stack_test_helper extends question_test_helper {
     public static function make_stack_question_test_boolean() {
         $q = self::make_a_stack_question();
 
+        $q->stackversion = 2018051000;
         $q->name = 'test-boolean';
         $q->questionvariables = 'ta:true;';
         $q->questiontext = 'What is {@ta@}? [[input:ans1]]
@@ -572,6 +581,7 @@ class qtype_stack_test_helper extends question_test_helper {
     public static function make_stack_question_test7() {
         $q = self::make_a_stack_question();
 
+        $q->stackversion = 2018051000;
         $q->name = 'test-7';
         $q->questionvariables = "l1 : 1+(-1)^rand(1)*rand(6); " .
                                 "l2 : l1+(-1)^rand(1)*(1+rand(4)); " .
@@ -646,6 +656,7 @@ class qtype_stack_test_helper extends question_test_helper {
     public static function make_stack_question_test8() {
         $q = self::make_a_stack_question();
 
+        $q->stackversion = 2018051000;
         $q->name = 'test-8';
         $q->questionvariables = "n : rand(2)+3; " .
                                 "p : rand(3)+2; " .
@@ -706,6 +717,7 @@ class qtype_stack_test_helper extends question_test_helper {
     public static function make_stack_question_test9() {
         $q = self::make_a_stack_question();
 
+        $q->stackversion = 2018051000;
         $q->name = 'test-9';
         $q->questionvariables = 'b : rand([-2,-3,-4,2,3,4]); ta1 : b; ta2 : rand([-2,-3,-4,2,3,4]); ' .
                 'a : b*ta2; p : a*x+b; f : lambda([x],if (x<0) then p else ta1*exp(ta2*x))';
@@ -771,6 +783,7 @@ class qtype_stack_test_helper extends question_test_helper {
     public static function make_stack_question_divide() {
         $q = self::make_a_stack_question();
 
+        $q->stackversion = 2018051000;
         $q->name = 'divide';
         $q->questiontext = '<p>Give me \(x\) such that \[1/x = 2\]</p>
                             <p>\(x = \) [[input:ans1]]</p>
@@ -800,6 +813,7 @@ class qtype_stack_test_helper extends question_test_helper {
     public static function make_stack_question_numsigfigs() {
         $q = self::make_a_stack_question();
 
+        $q->stackversion = 2018051000;
         $q->name = 'test-numsigfigs';
         $q->questionvariables = '';
         $q->questiontext = 'Please round $\pi$ to three significant figures. [[input:ans1]]
@@ -831,6 +845,7 @@ class qtype_stack_test_helper extends question_test_helper {
     public static function make_stack_question_numsigfigszeros() {
         $q = self::make_a_stack_question();
 
+        $q->stackversion = 2018051000;
         $q->name = 'test-numsigfigszeros';
         $q->questionvariables = '';
         $q->questiontext = 'Please type in four hundredths to three significant figures. [[input:ans1]]
@@ -862,6 +877,7 @@ class qtype_stack_test_helper extends question_test_helper {
     public static function make_stack_question_units() {
         $q = self::make_a_stack_question();
 
+        $q->stackversion = 2018051000;
         $q->name = 'test-units';
         $q->questionvariables = '';
         $q->questiontext = 'Please round type in gravity to three significant figures. [[input:ans1]]
@@ -893,6 +909,7 @@ class qtype_stack_test_helper extends question_test_helper {
     public static function make_stack_question_equiv_quad() {
         $q = self::make_a_stack_question();
 
+        $q->stackversion = 2018051000;
         $q->name = 'test-equiv-quad';
         $q->questionvariables = 'ta:[x^2-3*x+2=0,(x-2)*(x-1)=0,x=2 or x=1]; p:first(ta)';
         $q->questiontext = 'Solve the following equation: {@p@}. [[input:ans1]]
@@ -924,6 +941,7 @@ class qtype_stack_test_helper extends question_test_helper {
     public static function make_stack_question_1input2prts() {
         $q = self::make_a_stack_question();
 
+        $q->stackversion = 2018051000;
         $q->name = '1input2prts';
         $q->questionvariables = '';
         $q->questiontext = 'Enter a multiple of 6: [[input:ans1]]
@@ -963,6 +981,7 @@ class qtype_stack_test_helper extends question_test_helper {
     public static function make_stack_question_information() {
         $q = self::make_a_stack_question();
 
+        $q->stackversion = 2018051000;
         $q->name = 'Information item';
         $q->questionvariables = 'a:7;';
         $q->questiontext = '\[a = {@a@}\].';
@@ -981,6 +1000,7 @@ class qtype_stack_test_helper extends question_test_helper {
     public static function make_stack_question_survey() {
         $q = self::make_a_stack_question();
 
+        $q->stackversion = 2018051000;
         $q->name = 'Survey';
         $q->questionvariables = '';
         $q->questiontext = 'What is your favourite equation? [[input:ans1]]
@@ -1001,6 +1021,7 @@ class qtype_stack_test_helper extends question_test_helper {
     public static function make_stack_question_single_char_vars() {
         $q = self::make_a_stack_question();
 
+        $q->stackversion = 2018051000;
         $q->name = 'single_char_vars';
         $q->questionvariables = 'a:sin(x*y);';
         $q->questiontext = 'What is {@a@}? [[input:ans1]]
@@ -1029,6 +1050,7 @@ class qtype_stack_test_helper extends question_test_helper {
     public static function make_stack_question_runtime_prt_err() {
         $q = self::make_a_stack_question();
 
+        $q->stackversion = 2018051000;
         $q->name = 'runtime_prt_err';
         $q->questionvariables = "";
         $q->questiontext = '<p>Give an example of a system of equations with a unique solution.</p>' .
@@ -1089,6 +1111,7 @@ class qtype_stack_test_helper extends question_test_helper {
 
         $qdata->options = new stdClass();
         $qdata->options->id                        = 0;
+        $qdata->options->stackversion              = get_config('qtype_stack', 'version');
         $qdata->options->questionvariables         = '';
         $qdata->options->specificfeedback          = '[[feedback:firsttree]]';
         $qdata->options->specificfeedbackformat    = FORMAT_HTML;
@@ -1209,6 +1232,7 @@ class qtype_stack_test_helper extends question_test_helper {
 
         $qdata->options = new stdClass();
         $qdata->options->id                        = 0;
+        $qdata->options->stackversion              = get_config('qtype_stack', 'version');
         $qdata->options->questionvariables         = '';
         $qdata->options->specificfeedback          = '';
         $qdata->options->specificfeedbackformat    = FORMAT_HTML;
@@ -1502,6 +1526,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $formform->usecurrentcat = '1';
         $formform->categorymoveto = '2,14';
         $formform->name = 'test-3';
+        $formform->stackversion = get_config('qtype_stack', 'version');
         $formform->questionvariables = '';
         $formform->variantsselectionseed = '';
         $formform->questiontext = array(
@@ -1863,6 +1888,72 @@ class qtype_stack_test_helper extends question_test_helper {
         $tans = new stack_cas_casstring('[]');
         $tans->get_valid('t');
         $node = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv');
+        $node->add_branch(0, '=', 0, $q->penalty, -1, '', FORMAT_HTML, 'firsttree-1-F');
+        $node->add_branch(1, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'firsttree-1-T');
+        $q->prts['firsttree'] = new stack_potentialresponse_tree('firsttree', '', false, 1, null, array($node), 0);
+
+        return $q;
+    }
+
+    /**
+     * @return qtype_stack_question a question which tests checking for addrow in an older question..
+     */
+    public static function make_stack_question_addrow() {
+        $q = self::make_a_stack_question();
+
+        $q->stackversion = 2018051000;
+        $q->name = 'addrow';
+        $q->questionvariables = 'm:matrix([1,2],[3,4]);m:addrow(m,1,1,1);';
+        $q->questiontext = 'What is \({@m@}^2\)? [[input:ans1]]
+                           [[validation:ans1]]';
+
+        $q->specificfeedback = '[[feedback:firsttree]]';
+        $q->penalty = 0.3; // Non-zero and not the default.
+
+        $q->inputs['ans1'] = stack_input_factory::make(
+                'algebraic', 'ans1', '2', null, array('boxWidth' => 5));
+
+        $q->options->questionsimplify = 0;
+
+        $sans = new stack_cas_casstring('ans1');
+        $sans->get_valid('t');
+        $tans = new stack_cas_casstring('2');
+        $tans->get_valid('t');
+        $node = new stack_potentialresponse_node($sans, $tans, 'EqualComAss');
+        $node->add_branch(0, '=', 0, $q->penalty, -1, '', FORMAT_HTML, 'firsttree-1-F');
+        $node->add_branch(1, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'firsttree-1-T');
+        // This is to check the upgrade process spots addrow in the PRT feedback variables.
+        $fv = new stack_cas_keyval('sa:addrow(ans1,2,1,1)');
+        $q->prts['firsttree'] = new stack_potentialresponse_tree('firsttree', '', false, 1,
+                $fv->get_session(), array($node), 0);
+
+        return $q;
+    }
+
+    /**
+     * @return qtype_stack_question a question which tests checking for addrow in an older question..
+     */
+    public static function make_stack_question_mul() {
+        $q = self::make_a_stack_question();
+
+        $q->stackversion = 2018051000;
+        $q->name = 'mul';
+        $q->questiontext = 'What is the force of gravity? [[input:ans1]]
+                           [[validation:ans1]]';
+
+        $q->specificfeedback = '[[feedback:firsttree]]';
+        $q->penalty = 0.5; // Non-zero and not the default.
+
+        $q->inputs['ans1'] = stack_input_factory::make(
+                'units', 'ans1', 'stackunits(9.81,m*s^-2)', null, array('boxWidth' => 5, 'options' => 'mul'));
+
+        $q->options->questionsimplify = 0;
+
+        $sans = new stack_cas_casstring('ans1');
+        $sans->get_valid('t');
+        $tans = new stack_cas_casstring('2');
+        $tans->get_valid('t');
+        $node = new stack_potentialresponse_node($sans, $tans, 'UnitsStrict');
         $node->add_branch(0, '=', 0, $q->penalty, -1, '', FORMAT_HTML, 'firsttree-1-F');
         $node->add_branch(1, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'firsttree-1-T');
         $q->prts['firsttree'] = new stack_potentialresponse_tree('firsttree', '', false, 1, null, array($node), 0);

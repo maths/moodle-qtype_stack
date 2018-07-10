@@ -346,4 +346,6 @@
 ;; Define an "arrayp" function to check if we have a Maxima array.
 (defmfun $arrayp (x) (and (not (atom x)) (cond ((member 'array (car x) :test #'eq) $true) (T $false))))
 
-
+;; Sort out binding power of %union to display correctly.
+;; tex-support is defined in to_poly_solve_extra.lisp.
+(defprop $%union 115. tex-rbp)

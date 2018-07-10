@@ -37,6 +37,13 @@ $string['exceptionmessage'] = '{$a}';
 // Capability names.
 $string['stack:usediagnostictools'] = 'Use the STACK tools';
 
+// Versions of STACK.
+$string['stackversionedited'] = 'This question was authored with STACK version {$a}.';
+$string['stackversionnow']    = 'The current version of STACK is {$a}.';
+$string['stackversionnone']   = 'This question has not been edited since question version numbering was introduced in STACK 4.2.  Please review your question carefully.';
+$string['stackversionaddrowerror'] = 'This question uses the "addrow" function in the {$a}, which changed in STACK version 4.2.  Please edit this question to use "rowadd" instead.';
+$string['stackversionmulerror'] = 'This question has an input which uses the "mul" option, which is not suppored after STACK version 4.2.  Please edit this question.';
+
 // Strings used on the editing form.
 $string['addanothernode'] = 'Add another node';
 $string['allnodefeedbackmustusethesameformat'] = 'All the feedback for all the nodes in a PRT must use the same text format.';
@@ -408,6 +415,7 @@ $string['bulktestcontinuefromhere'] = 'Run again or resume, starting from here';
 $string['bulktestindexintro'] = 'Clicking on any of the links will run all the question tests in all the STACK questions in that context';
 $string['bulktestindextitle'] = 'Run the question tests in bulk';
 $string['bulktestnotests'] = 'This question does not have any tests.';
+$string['bulktestnogeneralfeedback'] = 'This question does not have any general feedback.';
 $string['bulktestrun'] = 'Run all the question tests for all the questions in the system (slow, admin only)';
 $string['bulktesttitle'] = 'Running all the question tests in {$a}';
 $string['overallresult'] = 'Overall result';
@@ -548,7 +556,9 @@ $string['stackInstall_testsuite_choose'] = 'Please choose an answer test.';
 $string['stackInstall_testsuite_pass'] = 'All tests passed!';
 $string['stackInstall_testsuite_fail'] = 'Not all tests passed!';
 $string['stackInstall_testsuite_failures'] = 'Tests that failed';
+$string['stackInstall_testsuite_upgrade'] = 'Questions which failed on upgrade.';
 $string['stackInstall_testsuite_notests'] = 'Questions with no tests: please add some!';
+$string['stackInstall_testsuite_nogeneralfeedback'] = 'Questions with no general feedback: students really appreciate worked solutions!';
 $string['answertest'] = 'Answer test';
 $string['answertest_help'] = 'An answer test is used to compare two expressions to establish whether they satisfy some mathematical criteria.';
 $string['answertest_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/Authoring/Answer_tests.md';
@@ -666,6 +676,12 @@ $string['Equiv_Illegal_matrix']  = 'Matrices are not allowed when reasoning by e
 $string['CommaError']     = 'Your answer contains commas which are not part of a list, set or matrix.  <ul><li>If you meant to type in a list, please use <tt>{...}</tt>,</li><li>If you meant to type in a set, please use <tt>{...}</tt>.</li></ul>';
 $string['Bad_assignment']   = 'When listing the values of a variable you should do so in the following way: {$a->m0}.  Please modify your input.';
 
+$string['stackBlock_jsxgraph_width']       = 'The width of a JSXGraph must use a known CSS-length unit.';
+$string['stackBlock_jsxgraph_height']      = 'The height of a JSXGraph must use a known CSS-length unit.';
+$string['stackBlock_jsxgraph_width_num']   = 'The numeric portion of the width of a JSXGraph must be a raw number and must not contain any extra chars.';
+$string['stackBlock_jsxgraph_height_num']  = 'The numeric portion of the height of a JSXGraph must be a raw number and must not contain any extra chars.';
+$string['stackBlock_jsxgraph_ref']         = 'The jsxgraph-block only supports referencing inputs present in the same CASText section \'{$a->var}\' does not exist here.';
+$string['stackBlock_jsxgraph_param']       = 'The jsxgraph-block supports only these parameters in this context: {$a->param}.';
 
 // Answer tests.
 $string['stackOptions_AnsTest_values_AlgEquiv']            = "AlgEquiv";
@@ -680,7 +696,7 @@ $string['stackOptions_AnsTest_values_SingleFrac']          = "SingleFrac";
 $string['stackOptions_AnsTest_values_PartFrac']            = "PartFrac";
 $string['stackOptions_AnsTest_values_CompSquare']          = "CompletedSquare";
 $string['stackOptions_AnsTest_values_Equiv']               = "EquivReasoning";
-$string['stackOptions_AnsTest_values_EquivFirst']      = "EquivFirst";
+$string['stackOptions_AnsTest_values_EquivFirst']          = "EquivFirst";
 $string['stackOptions_AnsTest_values_SigFigsStrict']       = "SigFigsStrict";
 $string['stackOptions_AnsTest_values_NumRelative']         = "NumRelative";
 $string['stackOptions_AnsTest_values_NumAbsolute']         = "NumAbsolute";
@@ -815,6 +831,8 @@ $string['ATNumDecPlaces_OptNotInt']    = 'For ATNumDecPlaces the test option mus
 $string['ATNumDecPlaces_NoDP']         = 'Your answer must be a decimal number, including a decimal point. ';
 $string['ATNumDecPlaces_Wrong_DPs']    = 'Your answer has been given to the wrong number of decimal places.';
 
+$string['ATNumDecPlacesWrong_OptNotInt']    = 'For ATNumDecPlacesWrong the test option must be a positive integer, in fact "{$a->opt}" was received. ';
+
 $string['ATSysEquiv_SA_not_list']               = 'Your answer should be a list, but it is not!';
 $string['ATSysEquiv_SB_not_list']               = 'The teacher\'s answer is not a list.  Please contact your teacher.';
 $string['ATSysEquiv_SA_not_eq_list']            = 'Your answer should be a list of equations, but it is not!';
@@ -840,6 +858,7 @@ $string['equiv_ANDOR']                   = 'and/or confusion!';
 $string['equiv_MISSINGVAR']              = 'Missing assignments';
 $string['equiv_ASSUMEPOSVARS']           = 'Assume +ve vars';
 $string['equiv_ASSUMEPOSREALVARS']       = 'Assume +ve real vars';
+$string['equiv_LET']                     = 'Let';
 
 $string['studentValidation_yourLastAnswer']     = 'Your last answer was interpreted as follows: {$a}';
 $string['studentValidation_listofvariables']    = 'The variables found in your answer were: {$a}';
@@ -862,7 +881,6 @@ $string['stackDoc_version']             = 'Your site is running STACK version {$
 
 // API specific and YAML format.
 $string['noyaml']                 = '(YAML not supported on this server)';
-
 
 // Fact sheets.
 $string['greek_alphabet_name'] = 'The Greek Alphabet';

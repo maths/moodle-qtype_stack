@@ -42,7 +42,10 @@ require_once(__DIR__ . '/stack/bulktester.class.php');
 $questionid = required_param('questionid', PARAM_INT);
 
 // Load the necessary data.
-$questiondata = $DB->get_record('question', array('id' => $questionid), '*', MUST_EXIST);
+$questiondata = question_bank::load_question_data($questionid);
+if (!$questiondata) {
+    print_error('questiondoesnotexist', 'question');
+}
 $question = question_bank::load_question($questionid);
 
 // Process any other URL parameters, and do require_login.
@@ -119,6 +122,11 @@ if (!is_null($deployfeedback)) {
 $deployfeedbackerr = optional_param('deployfeedbackerr', null, PARAM_TEXT);
 if (!is_null($deployfeedbackerr)) {
     echo html_writer::tag('p', $deployfeedbackerr, array('class' => 'overallresult fail'));
+}
+
+$upgradeerrors = $question->validate_against_stackversion();
+if ($upgradeerrors != '') {
+    echo html_writer::tag('p', $upgradeerrors, array('class' => 'fail'));
 }
 
 // Display the list of deployed variants, with UI to edit the list.
@@ -486,6 +494,13 @@ $chatparams['cas'] = $question->generalfeedback;
 // We've chosen not to send a specific seed since it is helpful
 // to test the general feedback in a random context.
 echo $OUTPUT->single_button(new moodle_url('/question/type/stack/caschat.php', $chatparams), stack_string('chat'));
+
+if ($question->stackversion == null) {
+    echo html_writer::tag('p', stack_string('stackversionnone'));
+} else {
+    echo html_writer::tag('p', stack_string('stackversionedited', $question->stackversion)
+            . stack_string('stackversionnow', get_config('qtype_stack', 'version')));
+}
 
 // Finish output.
 echo $OUTPUT->footer();

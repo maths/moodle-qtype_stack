@@ -84,6 +84,13 @@ This test only supports numbers where \(|sa|<10^{22}\).  Please see the [notes a
 
 Tests (i) whether the student's answer is equivalent to the teacher's and is written to `opt` decimal places.  The option, which must be a positive integer, dictates the number of digits following the decimal separator `.`.  Note that trailing zeros are ''required'', i.e. to two decimal placed you must write `12.30` not just `12.3`.  The test rounds the numbers to the specified number of decimal places before trying to establish equivalence.
 
+
+### NumDecPlacesWrong ###
+
+Tests if the student appears to have the decimal point in the wrong place.  For example, `3.141` and `31.41` will be considered the same under this test.  `opt` is the number of places to consider, from the most significant.
+
+This test condones any lack of trailing zeros.  Use other tests to establish if a student has sufficient places.
+
 ## Other issues ##
 
 A teacher may wish to see if a student's answer is incorrect only by orders of magnitude.  E.g. a student answers \(110\) instead of \(1100\).  To do this, a teacher can check whether \(\log_{10}\) of the ratio of two expressions is an integer, e.g.

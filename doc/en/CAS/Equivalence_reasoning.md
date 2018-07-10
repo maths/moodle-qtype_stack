@@ -1,8 +1,16 @@
 # Reasoning by equivalence
 
-__NOTE: This code is new in STACK 3.6.  Features and behaviour may change significantly in future versions, subject to trials with students and feedback from colleagues.__
+__NOTE: Reasoning by equivalence was introduced in STACK 3.6.  This area of STACK is still under active development, and features and behaviour may change significantly in future versions, subject to trials with students and feedback from colleagues.__
 
-__NOTE: In this release we are providing support for basic single variable polynomials, and very simple inequalities.  There is no support for simultaneous equations, logarithms and trig functions although individual examples may work.  Wider support is intended for future versions.__
+We currently provide support for 
+
+- basic single variable polynomials,
+- very simple inequalities,
+- simple simultaneous equations.
+
+There is no support for algebraic manipulations involving logarithms and trig functions although individual examples may work.
+
+Wider support is intended for future versions.
 
 ##  What is reasoning by equivalence and this input type?
 
@@ -82,9 +90,11 @@ To enter options for this input use the "extra options field".   Options should 
 
 `firstline` takes the first line of the teacher's answer and forces the student to have this as the first line of the student's answer.  The test used is equality up to commutativity and associativity (EqualComAss answer test).
 
-`assume_pos` sets the value of Maxima's `assume_pos` variable to be true.  In particular, this also has the effect of condoning squaring or rooting both sides of an equation.  For example \(x^4=2\) will now be equivalent to \(x=2\) (rather than \(x=2 \vee x=-2\).  This is not the default, but is useful in situations where a student is rearranging an equation to a given subject, and all the variables are assume to be positive.  Note, this option is only for the input type. You will also need to set this in the question options to also affect the answer test.
+`assume_pos` sets the value of Maxima's `assume_pos` variable to be true.  If we `assume_pos` they any negative solutions will be ignored, whether or not they exist.  So \(x=\pm 2\) will now be equivalent to \(x=2\).  You might not want this equivalence.  In particular, this also has the effect of condoning squaring or rooting both sides of an equation.  For example \(x^4=2\) will now be equivalent to \(x=2\) (rather than \(x=2 \vee x=-2\)).  This is not the default, but is useful in situations where a student is rearranging an equation to a given subject, and all the variables are assume to be positive.  Note, this option is only for the input type. You will also need to set this in the question options to also affect the answer test.
 
 `assume_real` sets an internal flag to work over the real numbers.  If `true` then \(x=1\) will be considered equivalent to \(x^3=1\).  Note, this option is only for the input type. You will also need to set this in the question options to also affect the answer test.
+
+`calculus` allows calculus operations in an argument.  Note, this option is only for the input type. You will also need to set this in the answer test options to also affect the answer test.  This is at a very early stage of development.  For example, constants of integration are not currently checked by this currently.
 
 If the syntax hint is just the keyword `firstline` then the first line of the *value* of the teacher's answer will appear as a syntax hint.  This enables a randomly generated syntax hint to appear in the box.
 
@@ -121,11 +131,11 @@ The maxima function `stack_disp_arg(ex, showlogic)` can be used to display a lis
 
 ## Longer term plans
 
-1. Provide better feedback to students about what what steps they have taken and what goes wrong.
-2. Define \(x\neq a\) operator.  Needed to exclude single numbers from the domain.
-3. Equivalence using a substitution of one variable for another.  See simultaneous equation example.
-4. Implement "equate coefficients" as a step.
-5. Fully implement the ideas in the paper Sangwin, C.J. __An Audited Elementary Algebra__ The Mathematical Gazette, July 2015.
+1. Define \(x\neq a\) operator.  Needed to exclude single numbers from the domain.
+2. Add in constants of integration into the calculus tests.
+3. Provide better feedback to students about which steps they have taken and what goes wrong.
+
+In the long term, we may fully implement the ideas in the paper Sangwin, C.J. __An Audited Elementary Algebra__ The Mathematical Gazette, July 2015.
 
 In the future students might also be expected to say what they are doing, e.g. ``add \(a\) to both sides", as well as just do it.  Quite how it does this, and the options available to the teacher is what is most likely to change!  
 

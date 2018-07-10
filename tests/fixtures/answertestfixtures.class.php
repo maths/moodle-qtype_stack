@@ -350,6 +350,8 @@ class stack_answertest_test_data {
         array('AlgEquiv', '', '(19601-13861*sqrt(2))^(7/4)', '(5*sqrt(2)-7)^7', 0, '', ''),
         array('AlgEquiv', '', '(19601-13861*sqrt(2))^(7/4)', '(5*sqrt(2)-7)^7', 0, '', ''),
         array('AlgEquiv', '', 'sqrt(2*log(26)+4-2*log(2))', 'sqrt(2*log(13)+4)', 1, '', ''),
+        array('AlgEquiv', '', 'sqrt(2)*sqrt(3)+2*(sqrt(2/3))*x-(2/3)*(sqrt(2/3))*x^2+(4/9)*(sqrt(2/3))*x^3',
+            '4*sqrt(6)*x^3/27-(2*sqrt(6)*x^2)/9+(2*sqrt(6)*x)/3+sqrt(6)', 1, '', ''),
         array('AlgEquiv', '', '(n+1)*n!', '(n+1)!', 1, '', 'Factorials'),
         array('AlgEquiv', '', 'n/n!', '1/(n-1)!', 1, '', ''),
         array('AlgEquiv', '', '3*s*diff(q(s),s)', '3*s*diff(q(s),s)', 1, '', 'Unevaluated derviatives'),
@@ -562,6 +564,8 @@ class stack_answertest_test_data {
         array('SameType', '', 'x>1', 'x>=1', 1, '', ''),
         array('SameType', '', 'x>1 and x<3', 'x>=1', 1, '', ''),
         array('SameType', '', '{x>1,x<3}', 'x>=1', 0, '', ''),
+        array('SameType', '', 'sqrt(2)*sqrt(3)+2*(sqrt(2/3))*x-(2/3)*(sqrt(2/3))*x^2+(4/9)*(sqrt(2/3))*x^3',
+            '4*sqrt(6)*x^3/27-(2*sqrt(6)*x^2)/9+(2*sqrt(6)*x)/3+sqrt(6)', 1, '', ''),
 
         array('SysEquiv', '', '1/0', '[(x-1)*(x+1)=0]', -1, 'CASError: Division by zero. | ATSysEquiv_STACKERROR_SAns.',
             'Basic tests'),
@@ -703,6 +707,7 @@ class stack_answertest_test_data {
         array('Equiv', '', '[x^2=4,x=2 or x=-2]', '[x^2=4,x=2 or x=-2]', 1, '[EMPTYCHAR,EQUIVCHAR]', ''),
         array('Equiv', '', '[x^2=4,x=+-2,x=2 and x=-2]', '[x^2=4,x=2 or x=-2]', 0, '[EMPTYCHAR,EQUIVCHAR,ANDOR]', ''),
         array('Equiv', '', '[x^2=4,x=2]', '[x^2=4,x=2 or x=-2]', 0, '[EMPTYCHAR,IMPLIEDCHAR]', ''),
+        array('Equiv', '[assumepos]', '[x^2=4,x=2]', '[x^2=4,x=2]', 1, '[ASSUMEPOSVARS,EQUIVCHAR]', ''),
         array('Equiv', '', '[x^2=4,x^2-4=0,(x-2)*(x+2)=0,x=2 or x=-2]', '[x^2=4,x=2 or x=-2]', 1,
             '[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR]', ''),
         array('Equiv', '', '[x^2=4,x= +-2, x=2 or x=-2]', '[x^2=4,x=2 or x=-2]', 1,
@@ -1250,6 +1255,32 @@ class stack_answertest_test_data {
         array('NumDecPlaces', '3', '4.000', '3.99999', 1, 'ATNumDecPlaces_Correct. ATNumDecPlaces_Equiv.',
             'Teacher needs to round their answer.'),
 
+        array('NumDecPlacesWrong', '', '3.141', '3.1415927', -1,
+            'ATNumDecPlacesWrong_STACKERROR_Option.', 'Basic tests'),
+        array('NumDecPlacesWrong', '2', '1/0', '3', -1, 'ATNumDecPlacesWrong_STACKERROR_SAns.', ''),
+        array('NumDecPlacesWrong', '2', '0', '1/0', -1, 'ATNumDecPlacesWrong_STACKERROR_TAns.', ''),
+        array('NumDecPlacesWrong', '1/0', '0', '0', -1, 'ATNumDecPlacesWrong_STACKERROR_Options.', ''),
+        array('NumDecPlacesWrong', '4', 'x^2', '1234', 0, 'ATNumDecPlacesWrong_Sans_Not_Num.', ''),
+        array('NumDecPlacesWrong', '4', '1234', 'x^2', 0, 'ATNumDecPlacesWrong_Tans_Not_Num.', ''),
+        array('NumDecPlacesWrong', '4', '3.141', '31.41', 1, 'ATNumDecPlacesWrong_Correct.', ''),
+        array('NumDecPlacesWrong', '4', '3.141', '31.14', 0, 'ATNumDecPlacesWrong_Wrong.', ''),
+        array('NumDecPlacesWrong', '4', 'pi', '31.14', 0, 'ATNumDecPlacesWrong_Sans_Not_Num.', ''),
+        array('NumDecPlacesWrong', '4', '0.1234', '1234', 1, 'ATNumDecPlacesWrong_Correct.', ''),
+        array('NumDecPlacesWrong', '4', '0.1235', '1234', 0, 'ATNumDecPlacesWrong_Wrong.', ''),
+        array('NumDecPlacesWrong', '4', '0.0001234', '1234', 1, 'ATNumDecPlacesWrong_Correct.', ''),
+        array('NumDecPlacesWrong', '4', '0.0001235', '1234', 0, 'ATNumDecPlacesWrong_Wrong.', ''),
+        array('NumDecPlacesWrong', '3', '0.1233', '1234', 1, 'ATNumDecPlacesWrong_Correct.', ''),
+        array('NumDecPlacesWrong', '3', '0.1243', '1234', 0, 'ATNumDecPlacesWrong_Wrong.', ''),
+        array('NumDecPlacesWrong', '3', '0.1230', '1239', 1, 'ATNumDecPlacesWrong_Correct.', ''),
+        array('NumDecPlacesWrong', '3', '0.1240', '1239', 0, 'ATNumDecPlacesWrong_Wrong.', ''),
+        array('NumDecPlacesWrong', '3', '1230', '1239', 1, 'ATNumDecPlacesWrong_Correct.', ''),
+        array('NumDecPlacesWrong', '3', '2230', '1239', 0, 'ATNumDecPlacesWrong_Wrong.', ''),
+        array('NumDecPlacesWrong', '3', '0.100', '1.00', 1, 'ATNumDecPlacesWrong_Correct.', ''),
+        array('NumDecPlacesWrong', '3', '0.1000', '1.00', 1, 'ATNumDecPlacesWrong_Correct.', ''),
+        array('NumDecPlacesWrong', '3', '0.1001', '1.00', 1, 'ATNumDecPlacesWrong_Correct.', ''),
+        array('NumDecPlacesWrong', '4', '0.100', '1.0', 1, 'ATNumDecPlacesWrong_Correct.', 'Condone lack of trailing zeros'),
+        array('NumDecPlacesWrong', '4', '1', '1.00', 1, 'ATNumDecPlacesWrong_Correct.', ''),
+
         array('SigFigsStrict', '', '3.141', 'null', -1, 'STACKERROR_OPTION.', 'Basic tests'),
         array('SigFigsStrict', 'x^2', '3.141', 'null', -1, 'STACKERROR_OPTION.', ''),
         array('SigFigsStrict', '-2', '3.141', 'null', -1, 'STACKERROR_OPTION.', ''),
@@ -1373,8 +1404,8 @@ class stack_answertest_test_data {
         array('Units', '2', '400*cc', '0.4*l', 1, 'ATUnitsSigFigs_WithinRange. ATUnits_compatible_units: m^3.', ''),
         array('Units', '2', '400*cm^3', '0.4*l', 1, 'ATUnitsSigFigs_WithinRange. ATUnits_compatible_units: m^3.', ''),
         array('Units', '2', '400*ml', '0.4*l', 1, 'ATUnitsSigFigs_WithinRange. ATUnits_compatible_units: m^3.', ''),
-        array('Units', '2', '18*kJ', '18000.0*J', 1, 'ATUnits_compatible_units: (kg*m^2)/s^2.', ''),
-        array('Units', '2', '18.1*kJ', '18000.0*J', 0, 'ATUnitsSigFigs_WrongDigits. ATUnits_compatible_units: (kg*m^2)/s^2.', ''),
+        array('Units', '2', '18*kJ', '18000.0*J', 1, 'ATUnits_compatible_units: kg*m^2/s^2.', ''),
+        array('Units', '2', '18.1*kJ', '18000.0*J', 0, 'ATUnitsSigFigs_WrongDigits. ATUnits_compatible_units: kg*m^2/s^2.', ''),
         array('Units', '2', '2.0*hh', '720000*s', 1, 'ATUnits_compatible_units: s.', ''),
         array('Units', '1', '0*m/s', '0*m/s', 1, 'ATUnits_units_match.', 'Edge case'),
         array('Units', '1', '0.0*m/s', '0*m/s', 1, 'ATUnits_units_match.', ''),
@@ -1588,7 +1619,7 @@ class stack_answertest_test_data {
         } else {
             // We expect the test to fail.
             switch ($test->expectedscore) {
-                case -1: 
+                case -1:
                     if ($errors === 'TEST_FAILED') {
                         $passed = true;
                     } else {
@@ -1615,7 +1646,7 @@ class stack_answertest_test_data {
                     }
                     break;
 
-                default: 
+                default:
                     $passed = false;
                     $anomalynote[] = '[General failure.]';
                 }

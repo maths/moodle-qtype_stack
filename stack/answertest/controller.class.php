@@ -48,6 +48,7 @@ class stack_ans_test_controller {
               'NumRelative'          => 'stackOptions_AnsTest_values_NumRelative',
               'NumSigFigs'           => 'stackOptions_AnsTest_values_NumSigFigs',
               'NumDecPlaces'         => 'stackOptions_AnsTest_values_NumDecPlaces',
+              'NumDecPlacesWrong'    => 'stackOptions_AnsTest_values_NumDecPlacesWrong',
               'Units'                => 'stackOptions_AnsTest_values_UnitsSigFigs',
               'UnitsStrict'          => 'stackOptions_AnsTest_values_UnitsStrictSigFigs',
               'UnitsAbsolute'        => 'stackOptions_AnsTest_values_UnitsAbsolute',
@@ -199,6 +200,11 @@ class stack_ans_test_controller {
             case 'NumDecPlaces':
                 require_once(__DIR__ . '/atdecplaces.class.php');
                 $this->at = new stack_anstest_atdecplaces($sans, $tans, $options, $casoption);
+                break;
+
+            case 'NumDecPlacesWrong':
+                require_once(__DIR__ . '/atdecplaceswrong.class.php');
+                $this->at = new stack_anstest_atdecplaceswrong($sans, $tans, $options, $casoption);
                 break;
 
             case 'Units':

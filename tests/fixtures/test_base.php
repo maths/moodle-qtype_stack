@@ -26,6 +26,7 @@ defined('MOODLE_INTERNAL') || die();
 
 global $CFG;
 require_once(__DIR__ . '/test_maxima_configuration.php');
+require_once(__DIR__ . '/../../locallib.php');
 require_once($CFG->dirroot . '/question/engine/tests/helpers.php');
 
 

@@ -1115,7 +1115,7 @@ class stack_utils {
         if ($output == array()) {
             return $rawcasstring;
         }
-        $rawcasstring = stack_utils::logic_nouns_sort($rawcasstring, 'add');
+        $rawcasstring = self::logic_nouns_sort($rawcasstring, 'add');
         $cs = new stack_cas_casstring($rawcasstring);
         // We need to use the student here to allow a wider range of star patterns.
         $cs->get_valid('s', true, $stars, $allowwords);
@@ -1202,18 +1202,18 @@ class stack_utils {
             throw new stack_exception('logic_nouns_sort: direction must be "add" or "remove", but received: '. $direction);
         }
 
+        // Note, the spaces before these connectives are essential.
         $connectives = array(' and' => ' nounand', ' or' => ' nounor', ')and' => ') nounand', ')or' => ') nounor');
         // The last two patterns are fine in the reverse direction as these patterns will have gone.
-
-        foreach ($connectives as $key => $val) {
-            if ($direction === 'add') {
-                $str = str_replace($key, $val, $str);
-            } else {
-                $str = str_replace($val, $key, $str);
-            }
-        }
+        $regexnouns = array('int' => 'nounint', 'diff' => 'noundiff');
 
         if ($direction === 'add') {
+            foreach ($connectives as $key => $val) {
+                $str = str_replace($key, $val, $str);
+            }
+            foreach ($regexnouns as $key => $val) {
+                $str = preg_replace('!(\b)(' . $key . '\\()!', $val . '(', $str);
+            }
             // Check if we are using equational reasoning.
             if (substr(trim($str), 0, 1) === "=") {
                 $trimmed = trim(substr(trim($str), 1));
@@ -1221,9 +1221,23 @@ class stack_utils {
                     $str = 'stackeq(' . $trimmed . ')';
                 }
             }
+            // Safely wrap "let" statements.
+            $langlet = strtolower(stack_string('equiv_LET'));
+            if (strtolower(substr($str, 0, strlen($langlet))) === $langlet) {
+                $nv = explode('=', substr($str, strlen($langlet) + 1));
+                if (count($nv) === 2) {
+                    $str = 'stacklet('.trim($nv[0]).','.trim($nv[1]).')';
+                }
+            }
         } else {
+            foreach (array_merge($connectives, $regexnouns) as $key => $val) {
+                $str = str_replace($val, $key, $str);
+            }
             if (substr(trim($str), 0, 8) == 'stackeq(' && substr(trim($str), -1, 1) == ')') {
                 $str = '=' . substr(trim($str), 8, -1);
+            }
+            if (substr(trim($str), 0, 9) == 'stacklet(' && substr(trim($str), -1, 1) == ')') {
+                $str = stack_string('equiv_LET') . ' ' . implode('=', explode(',', substr(trim($str), 9, -1)));
             }
         }
 

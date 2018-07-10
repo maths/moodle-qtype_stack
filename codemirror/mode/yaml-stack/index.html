@@ -1,0 +1,78 @@
+<!doctype html>
+
+<title>CodeMirror: YAML-STACK mode</title>
+<meta charset="utf-8"/>
+<link rel=stylesheet href="../../doc/docs.css">
+
+<link rel="stylesheet" href="../../lib/codemirror.css">
+<script src="../../lib/codemirror.js"></script>
+<script src="../../addon/mode/overlay.js"></script>
+<script src="../markdown/markdown.js"></script>
+<script src="../xml/xml.js"></script>
+<script src="../../addon/mode/multiplex.js"></script>
+<script src="../xml/xml.js"></script>
+<script src="yaml-stack.js"></script>
+<script src="html-code-blocks.js"></script>
+<style>.CodeMirror { border-top: 1px solid #ddd; border-bottom: 1px solid #ddd; }</style>
+<div id=nav>
+  <a href="http://codemirror.net"><h1>CodeMirror</h1><img id=logo src="../../doc/logo.png"></a>
+
+  <ul>
+    <li><a href="../../index.html">Home</a>
+    <li><a href="../../doc/manual.html">Manual</a>
+    <li><a href="https://github.com/codemirror/codemirror">Code</a>
+  </ul>
+  <ul>
+    <li><a href="../index.html">Language modes</a>
+    <li><a class=active href="#">YAML-STACK</a>
+  </ul>
+</div>
+
+<article>
+<h2>YAML-STACK mode</h2>
+<form><textarea id="code" name="code">
+---
+name: Presenting "strings"
+default_mark: 0.000000
+question: |
+ # Everything from markdown plus GFM features:
+ sdflkgjsdflkgjs:
+ ## URL autolinking
+
+ Underscores_are_allowed_between_words.
+
+ ## Strikethrough text
+
+ GFM adds syntax to strikethrough text, which is missing from standard Markdown.
+
+ ~~Mistaken text.~~
+ ~~**works with other formatting**~~
+
+ ~~spans across
+ lines~~
+
+ ## Fenced code blocks (and syntax highlighting)
+
+ ```javascript
+  for (var i = 0; i < items.length; i++) {
+    console.log(items[i], i); // log them
+  }
+ ```
+variables: |-
+ teststring1: "abcd...XYZГ…Г„Г–";
+ teststring2: "Quotes in "strings": 'test'";
+ teststring3: "\LaTeX like this \frac{a}{b}";
+ teststring4: "& < >";
+  f(x):=x^2+sin(x)
+inputs: []
+response_trees: []
+...
+</textarea></form>
+    <script>
+      var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
+        mode: "yaml-stack",
+        theme: "default"
+      });
+    </script>
+
+  </article>

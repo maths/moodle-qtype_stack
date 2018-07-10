@@ -31,11 +31,15 @@ require_once(__DIR__ . '/../edit_stack_form.php');
 class qtype_stack_edit_form_testable extends qtype_stack_edit_form {
 
     public function __construct($questiontext, $specificfeedback) {
+        global $USER;
         $syscontext = context_system::instance();
         $category = question_make_default_categories(array($syscontext));
         $fakequestion = new stdClass();
         $fakequestion->qtype = 'stack';
         $fakequestion->category = $category->id;
+        $fakequestion->contextid = $syscontext->id;
+        $fakequestion->createdby = $USER->id;
+        $fakequestion->modifiedby = $USER->id;
         $fakequestion->questiontext = $questiontext;
         $fakequestion->options = new stdClass();
         $fakequestion->options->specificfeedback = $specificfeedback;

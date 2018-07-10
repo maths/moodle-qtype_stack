@@ -857,7 +857,7 @@ class stack_cas_session_test extends qtype_stack_testcase {
                     array('99', '1', '100', '100'),
                     array('0.99', '1', '1', '1'),
                     array('-0.99', '1', '-1', '-1'),
-                    array('0.0000049', '1', '0.000005', 'displaydp(5.0E-6,6)'),
+                    array('0.0000049', '1', '0.000005', 'displaydp(5.0e-6,6)'),
                     array('0', '1', '0', '0'),
                     array('0.0', '1', '0', '0'),
                     array('0', '2', '0.0', 'displaydp(0,1)'),
@@ -879,7 +879,35 @@ class stack_cas_session_test extends qtype_stack_testcase {
         foreach ($tests as $key => $c) {
             $sk = "p{$key}";
             $this->assertEquals($c[2], $at1->get_display_key($sk));
-            $this->assertEquals($c[3], $at1->get_value_key($sk));
+            $this->assertEquals($c[3], strtolower($at1->get_value_key($sk)));
+        }
+    }
+
+    public function test_significantfigures_errors() {
+
+        $tests = array(
+                    array('significantfigures(%pi/3,3)', '1.05', ''),
+                    array('significantfigures(%pi/blah,3)', '',
+                        'sigfigsfun(x,n,d) requires a real number as a first argument.  Received:  %pi/blah'),
+                    array('significantfigures(%pi/3,n)', '',
+                        'sigfigsfun(x,n,d) requires an integer as a second argument. Received:  n'),
+        );
+
+        foreach ($tests as $key => $c) {
+            $s = "p{$key}:$c[0]";
+            $cs = new stack_cas_casstring($s);
+            $cs->get_valid('t');
+            $s1[] = $cs;
+        }
+
+        $options = new stack_options();
+        $at1 = new stack_cas_session($s1, $options, 0);
+        $at1->instantiate();
+
+        foreach ($tests as $key => $c) {
+            $sk = "p{$key}";
+            $this->assertEquals($c[1], $at1->get_value_key($sk));
+            $this->assertEquals($c[2], $at1->get_errors_key($sk));
         }
     }
 
@@ -1169,6 +1197,8 @@ class stack_cas_session_test extends qtype_stack_testcase {
         $cases[] = array('1/x', 'realset(x,%union(oo(0,inf),oo(-inf,0)))', '{x \not\in {\left \{0 \right \}}}');
         $cases[] = array('1+1/x^2+1/(x-1)', 'realset(x,%union(oo(0,1),oo(1,inf),oo(-inf,0)))',
                 '{x \not\in {\left \{0 , 1 \right \}}}');
+        $cases[] = array('1+1/x^2+1/(x-1)+3/(x-2)', 'realset(x,%union(oo(0,1),oo(1,2),oo(2,inf),oo(-inf,0)))',
+                '{x \not\in {\left \{0 , 1 , 2 \right \}}}');
         $cases[] = array('log(x)', 'realset(x,oo(0,inf))', '{x \in {\left( 0,\, \infty \right)}}');
         $i = 0;
         foreach ($cases as $case) {
@@ -1186,6 +1216,37 @@ class stack_cas_session_test extends qtype_stack_testcase {
         foreach ($cases as $case) {
             $this->assertEquals($case[1], $s->get_value_key('d'.$i));
             $this->assertEquals($case[2], $s->get_display_key('d'.$i));
+            $i++;
+        }
+    }
+
+    public function test_union_tex() {
+
+        // Cases should be in the form array('input', 'value', 'display').
+        $cases = array();
+        $cmds = array();
+
+        $cases[] = array('%union(a,b,c)', 'a \cup b \cup c');
+        $cases[] = array('%union(oo(1,2),oo(3,4),oo(4,5))',
+            '\left( 1,\, 2\right) \cup \left( 3,\, 4\right) \cup \left( 4,\, 5\right)');
+        $cases[] = array('%union(a,b+1,d)', 'a \cup \left(b+1\right) \cup d');
+
+        $i = 0;
+        foreach ($cases as $case) {
+            $cmds[$i] = 'd'.$i.':'.$case[0];
+            $i++;
+        }
+
+        $options = new stack_options();
+        $kv = new stack_cas_keyval(implode(';', $cmds), $options, 0, 't');
+        $s = $kv->get_session(); // This does a validation on the side.
+
+        $s->instantiate();
+
+        $i = 0;
+        foreach ($cases as $case) {
+            $this->assertEquals($case[0], $s->get_value_key('d'.$i));
+            $this->assertEquals($case[1], $s->get_display_key('d'.$i));
             $i++;
         }
     }

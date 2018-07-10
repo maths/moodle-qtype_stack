@@ -10,8 +10,7 @@ Sensible students do not solve multiple choice problems directly but merely chec
 
 Really, the student should provide their answer in the form of a mathematical expression and the system should evaluate its properties.  Note the student's answer and the feedback which has been automatically generated below.
 
-![STACK Logo](%CONTENT/STACK-screenshot.png)
-
+![STACK screenshot](%CONTENT/STACK-screenshot.png)
 
 More about what we are trying to achieve can be found under [the philosophy of STACK](The_philosophy_of_STACK.md).
 
@@ -21,7 +20,7 @@ Note, we cannot use a string match because mathematical questions usually have a
 The solution lies in using a [Computer Algebra System](../CAS/index.md) to power the assessment system.
 The built-in knowledge of mathematics that the computer algebra system provides opens up entirely new possibilities to computer-aided assessment, of which we will now present a few examples:
 
-Primarily, STACK provides a question type for the Moodle quiz.  STACK has also been ported to the ILIAS learning environment.  For details of that integration see [here](https://github.com/ilifau/assStackQuestion/). STACK can be integrated into other systems using [LTI](../Installation/LTI.md).
+Primarily, STACK provides a question type for the Moodle quiz.  STACK has also been ported to the ILIAS learning environment.  For details of that integration see [here](https://github.com/ilifau/assStackQuestion/). STACK can be integrated into other systems using [LTI](../Installation/LTI.md), and the [API](../Installation/API.md).
 
 ## Equivalent answers of the right form ##
 
@@ -58,5 +57,3 @@ STACK is a direct development of the AIM system, using the open source computer 
 * [The philosophy of STACK](The_philosophy_of_STACK.md).
 * A demonstration server :[https://stack.maths.ed.ac.uk/demo](https://stack.maths.ed.ac.uk/demo)
 * [Associated publications](Publications.md)
-
-

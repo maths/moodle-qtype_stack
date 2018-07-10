@@ -482,8 +482,9 @@ class stack_cas_casstring {
                 'var_student_t' => true, 'var_weibull' => true, 'null' => true, 'net' => true, 'texsub' => true,
                 'logbase' => true, 'day' => true, 'year' => true, 'rpm' => true, 'rev' => true, 'product' => true,
                 'gal' => true, 'deg' => true, 'cal' => true, 'btu' => true, 'rem' => true,
-                'nounor' => true, 'nounand' => true, 'xor' => true, 'all' => true, 'none' => true, 'stackeq' => true,
-                'nounint' => true, 'noundiff' => true, 'root' => true);
+                'nounor' => true, 'nounand' => true, 'xor' => true, 'nounint' => true, 'noundiff' => true, 'root' => true,
+                'all' => true, 'none' => true, 'stackeq' => true, 'stacklet' => true
+                );
 
     /**
      * Upper case Greek letters are allowed.
@@ -665,21 +666,16 @@ class stack_cas_casstring {
     }
 
     private function check_constants($stringles) {
-        // Check for % signs, allow %pi %e, %i, %gamma, %phi but nothing else.
+        // Check for % signs, allow a restricted subset of things.
         if (strstr($stringles, '%') !== false) {
             $cmdl = strtolower($stringles);
-            preg_match_all("(\%.*)", $cmdl, $found);
+            preg_match_all("(\%(?!e|pi|i|j|gamma|phi|and|or|union).*)", $cmdl, $found);
 
             foreach ($found[0] as $match) {
-                if (!((strpos($match, '%e') !== false) || (strpos($match, '%pi') !== false)
-                    || (strpos($match, '%i') !== false) || (strpos($match, '%j') !== false)
-                    || (strpos($match, '%gamma') !== false) || (strpos($match, '%phi') !== false))) {
-                    // Constants %e and %pi are allowed. Any other percentages dissallowed.
-                    $this->add_error(stack_string('stackCas_percent',
-                            array('expr' => stack_maxima_format_casstring($this->casstring))));
-                    $this->answernote[] = 'percent';
-                    $this->valid   = false;
-                }
+                $this->add_error(stack_string('stackCas_percent',
+                        array('expr' => stack_maxima_format_casstring($this->casstring))));
+                $this->answernote[] = 'percent';
+                $this->valid   = false;
             }
         }
     }

@@ -126,6 +126,12 @@ foreach ($samplearguments as $argument) {
             }
             $ar->get_valid('t');
 
+            $ac = new stack_cas_casstring('stack_calculus:false');
+            if (array_key_exists('calculus', $argument)) {
+                $ac = new stack_cas_casstring('stack_calculus:true');
+            }
+            $ac->get_valid('t');
+
             $arg = stack_utils::logic_nouns_sort($argument['casstring'], 'add');
             $cs1 = new stack_cas_casstring($arg);
             $cs1->get_valid('s');
@@ -152,7 +158,7 @@ foreach ($samplearguments as $argument) {
             $cs4 = new stack_cas_casstring("R1:first(S1)");
             $cs4->get_valid('t');
 
-            $session = new stack_cas_session(array($ap, $ar, $cs1, $cs2, $cs3, $cs4), $options);
+            $session = new stack_cas_session(array($ap, $ar, $ac, $cs1, $cs2, $cs3, $cs4), $options);
             $expected = $argument['outcome'];
             if (true === $argument['outcome']) {
                 $expected = 'true';

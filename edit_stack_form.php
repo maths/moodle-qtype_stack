@@ -196,6 +196,10 @@ class qtype_stack_edit_form extends question_edit_form {
         $mform->addHelpButton('questiontext', 'questiontext', 'qtype_stack');
         $mform->addRule('questiontext', stack_string('questiontextnonempty'), 'required', '', 'client');
 
+        $sv = $mform->createElement('hidden', 'stackversion', get_config('qtype_stack', 'version'));
+        $mform->insertElementBefore($sv, 'questiontext');
+        $mform->setType('stackversion', PARAM_RAW);
+
         $qvars = $mform->createElement('textarea', 'questionvariables',
                 stack_string('questionvariables'), array('rows' => 5, 'cols' => 80));
         $mform->insertElementBefore($qvars, 'questiontext');
@@ -236,12 +240,11 @@ class qtype_stack_edit_form extends question_edit_form {
         foreach ($inputnames as $inputname => $counts) {
             $this->definition_input($inputname, $mform, $counts);
         }
-
         // PRTs.
         foreach ($prtnames as $prtname => $count) {
             // Create the section of the form for each node - general bits.
             $inputnames = $qtype->get_inputs_used_by_prt($prtname, $this->question);
-            $graph = $qtype->get_prt_graph($prtname);
+            $graph = $qtype->get_prt_graph($prtname, $this->question);
             $this->definition_prt($prtname, $mform, $count, $graph, $inputnames);
         }
 
@@ -649,6 +652,19 @@ class qtype_stack_edit_form extends question_edit_form {
             foreach ($prt->nodes as $node) {
                 $question = $this->data_preprocessing_node($question, $prtname, $node);
             }
+
+            // Sort out deleting nodes via the Moodle form.
+
+            // If the form has been submitted and is being redisplayed, and this is
+            // an existing PRT, base things on the submitted data.
+            $submitted = optional_param_array($prtname . 'truenextnode', null, PARAM_RAW);
+            if ($submitted) {
+                foreach ($submitted as $key => $truenextnode) {
+                    if (optional_param($prtname . 'nodedelete' . $key, false, PARAM_BOOL)) {
+                        $this->_form->registerNoSubmitButton($prtname . 'nodedelete' . $key);
+                    }
+                }
+            }
         }
 
         return $question;
@@ -735,7 +751,6 @@ class qtype_stack_edit_form extends question_edit_form {
 
         $qtype = new qtype_stack();
         list($errors, $warnings) = $qtype->validate_fromform($fromform, $errors);
-
         return $errors;
     }
 

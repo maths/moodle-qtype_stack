@@ -272,7 +272,7 @@ class stack_cas_session {
         foreach ($dispfix as $key => $fix) {
             $str = str_replace($key, $fix, $str);
         }
-        $loctags = array('ANDOR', 'SAMEROOTS', 'MISSINGVAR', 'ASSUMEPOSVARS', 'ASSUMEPOSREALVARS');
+        $loctags = array('ANDOR', 'SAMEROOTS', 'MISSINGVAR', 'ASSUMEPOSVARS', 'ASSUMEPOSREALVARS', 'LET');
         foreach ($loctags as $tag) {
             $str = str_replace('!'.$tag.'!', stack_string('equiv_'.$tag), $str);
         }
@@ -406,6 +406,9 @@ class stack_cas_session {
         if ($this->valid && null === $this->instantiated) {
             $this->instantiate();
         }
+        if ($this->session === null) {
+            return false;
+        }
         foreach (array_reverse($this->session) as $casstr) {
             if ($casstr->get_key() === $key) {
                 return $casstr->get_errors();
@@ -421,6 +424,10 @@ class stack_cas_session {
     public function prune_session($len) {
         if (!is_int($len)) {
             throw new stack_exception('stack_cas_session: prune_session $len must be an integer.');
+        }
+        if ($this->session === null) {
+            // Empty session. Nothing to do.
+            return;
         }
         $newsession = array_slice($this->session, 0, $len);
         $this->session = $newsession;

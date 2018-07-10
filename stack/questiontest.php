@@ -38,7 +38,7 @@ class stack_question_test {
     /**
      * @var array prt name => stack_potentialresponse_tree_state object
      */
-    public $expectedresults;
+    public $expectedresults = array();
 
     /**
      * Constructor

@@ -158,6 +158,9 @@ class qtype_stack_test extends qtype_stack_walkthrough_test_base {
     <defaultgrade>1</defaultgrade>
     <penalty>0.3333333</penalty>
     <hidden>0</hidden>
+    <stackversion>
+      <text>' . get_config('qtype_stack', 'version') . '</text>
+    </stackversion>
     <questionvariables>
       <text></text>
     </questionvariables>
@@ -438,14 +441,14 @@ class qtype_stack_test extends qtype_stack_walkthrough_test_base {
 
         $expectedq->deployedseeds = array('12345');
 
-        $qtest = new stack_question_test(array('ans1' => '2'));
+        $qtest = new stack_question_test(array('ans1' => '2'), 1);
         $qtest->add_expected_result('firsttree', new stack_potentialresponse_tree_state(
                         1, true, 1, 0, '', array('firsttree-1-T')));
         $expectedq->testcases[1] = $qtest;
 
-        $this->assert(new question_check_specified_fields_expectation($expectedq), $q);
         $this->assertEquals($expectedq->deployedseeds, $q->deployedseeds); // Redundant, but gives better fail messages.
         $this->assertEquals($expectedq->testcases, $q->testcases); // Redundant, but gives better fail messages.
+        $this->assert(new question_check_specified_fields_expectation($expectedq), $q);
     }
 
     public function test_get_input_names_from_question_text_input_only() {

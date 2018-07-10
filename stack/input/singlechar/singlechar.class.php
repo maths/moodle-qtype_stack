@@ -37,6 +37,8 @@ class stack_singlechar_input extends stack_input {
             'size'      => 1,
             'maxlength' => 1,
             'value'     => $this->contents_to_maxima($state->contents),
+            'autocapitalize' => 'none',
+            'spellcheck'     => 'false',
         );
 
         if ($readonly) {

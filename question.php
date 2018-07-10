@@ -48,6 +48,11 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         implements question_automatically_gradable_with_multiple_parts {
 
     /**
+     * @var string STACK specific: Holds the version of the question when it was last saved.
+     */
+    public $stackversion;
+
+    /**
      * @var string STACK specific: variables, as authored by the teacher.
      */
     public $questionvariables;
@@ -427,6 +432,15 @@ class qtype_stack_question extends question_graded_automatically_with_countback
                 $bits[] = $name . ': ' . $input->contents_to_maxima($state->contents) . ' [' . $state->status . ']';
             }
         }
+        // Add in the answer note for this response.
+        foreach ($this->prts as $name => $prt) {
+            $state = $this->get_prt_result($name, $response, false);
+            $note = implode(' | ', $state->answernotes);
+            if (trim($note) == '') {
+                $note = '#';
+            }
+            $bits[] = $name . ": " . $note;
+        }
         return implode('; ', $bits);
     }
 
@@ -456,7 +470,6 @@ class qtype_stack_question extends question_graded_automatically_with_countback
             $teacheranswer = array_merge($teacheranswer,
                     $input->get_correct_response($this->session->get_value_key($name, true)));
         }
-
         return $teacheranswer;
     }
 
@@ -560,11 +573,23 @@ class qtype_stack_question extends question_graded_automatically_with_countback
 
     public function is_gradable_response(array $response) {
         // If any PRT is gradable, then we can grade the question.
+        $noprts = true;
         foreach ($this->prts as $index => $prt) {
+            $noprts = false;
             if ($this->can_execute_prt($prt, $response, true)) {
                 return true;
             }
         }
+        // In the case of no PRTs,  questions are in state "is_gradable" if we have
+        // at least one input in the "score" or "valid" state.
+        if ($noprts) {
+            foreach ($this->inputstates as $key => $inputstate) {
+                if ($inputstate->status == 'score' || $inputstate->status == 'valid') {
+                    return true;
+                }
+            }
+        }
+        // Otherwise we are not "is_gradable".
         return false;
     }
 
@@ -971,5 +996,51 @@ class qtype_stack_question extends question_graded_automatically_with_countback
      */
     public function undeploy_variant($seed) {
         $this->qtype->undeploy_variant($this->id, $seed);
+    }
+
+    /**
+     * This function is called by the bulk testing script on upgrade.
+     * This checks if questions use features which have changed.
+     */
+    public function validate_against_stackversion() {
+        $errors = array();
+
+        $stackversion = (int) $this->stackversion;
+
+        // Identify any use of addrow using only a basic string match.
+        if ($stackversion < 2018060601) {
+            $fields = array('questiontext', 'questionvariables', 'questionnote', 'specificfeedback', 'generalfeedback');
+            foreach ($fields as $field) {
+                if (strstr($this->$field, 'addrow')) {
+                    $fs = stack_string($field);
+                    $errors[] = stack_string('stackversionaddrowerror', $fs);
+                }
+            }
+            // Look inside the PRT feedback variables.  Should probably check the feedback as well.
+            foreach ($this->prts as $name => $prt) {
+                $kv = $prt->get_feedbackvariables_keyvals();
+                if (strstr($kv, 'addrow')) {
+                    $fs = stack_string('feedbackvariables') . ' (' . $name . ')';
+                    $errors[] = stack_string('stackversionaddrowerror', $fs);
+                }
+            }
+        }
+
+        // Mul is no longer supported.
+        // We don't need to include a date check here because it is not a change in behaviour.
+        foreach ($this->inputs as $inputname => $input) {
+            $options = $input->get_parameter('options');
+            if (trim($options) !== '') {
+                $options = explode(',', $options);
+                foreach ($options as $opt) {
+                    $opt = strtolower(trim($opt));
+                    if ($opt === 'mul') {
+                        $errors[] = stack_string('stackversionmulerror');
+                    }
+                }
+            }
+        }
+
+        return implode(' ', $errors);
     }
 }

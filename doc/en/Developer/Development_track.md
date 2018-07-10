@@ -22,7 +22,7 @@ Note: the behaviour of the maxima `addrow` function has changed.  Use the bulk t
   1. Equating coefficients as a step in reasoning by equivalence. E.g. \( a x^2+b x+c=r x^2+s x+t \leftrightarrow a=r \mbox{ and } b=s \mbox{ and } c=t\). See `poly_equate_coeffs` in assessment.mac
   2. Solving simple simultaneous equations.  (Interface)
 		3. Include simple calculus operations (but constant of integration needs some further thought.)
-* 1st version of API.
+* 1st version of [API](../Installation/API.md).
 
 ### Other minor issues:
 

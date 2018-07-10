@@ -141,7 +141,7 @@ class stack_anstest_atdecplaceswrong extends stack_anstest {
         }
 
         $ndps = $session->get_value_key('caschat2');
-        // We use the raw values here to preserve DPs
+        // We use the raw values here to preserve DPs.
         $sa = $this->sanskey;
         $ta = $this->tanskey;
 
@@ -152,7 +152,6 @@ class stack_anstest_atdecplaceswrong extends stack_anstest {
         // Remove any leading zeros.
         $sa = substr($sa, strcspn($sa, '123456789'));
         $ta = substr($ta, strcspn($ta, '123456789'));
-        print_r(array($sa, $ta));
 
         // Add sufficient trailing zeros.
         // This condones any lack of trailing zeros (for this test).

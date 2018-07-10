@@ -228,7 +228,7 @@ class stack_bulk_tester  {
      * @param bool $allpassed whether all the tests passed.
      * @param array $failingtests list of the ones that failed.
      */
-    public function print_overall_result($allpassed, $failingtests, $notests) {
+    public function print_overall_result($allpassed, $failingtests, $notests, $nogeneralfeedback) {
         global $OUTPUT;
         echo $OUTPUT->heading(stack_string('overallresult'), 2);
         if ($allpassed) {

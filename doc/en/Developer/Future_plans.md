@@ -63,7 +63,7 @@ Note, where the feature is listed as "(done)" means we have prototype code in th
 ## Features that might be attempted in the future - possible self contained projects ##
 
 * Investigate how a whole PRT might make only one CAS call.
-* Provide an alternative way to edit PRTs in a form of computer code, rather than lots of form fields. For example using http://zaach.github.com/jison/ or https://github.com/hafriedlander/php-peg. 
+* Provide an alternative way to edit PRTs in a form of computer code, rather than lots of form fields. For example using http://zaach.github.com/jison/ or https://github.com/hafriedlander/php-peg.
 * Read other file formats into STACK.  In particular
   * AIM
   * WebWork, including the Open Problem Library:  http://webwork.maa.org/wiki/Open_Problem_Library
@@ -79,7 +79,7 @@ Note, where the feature is listed as "(done)" means we have prototype code in th
 * When validating the editing form, also evaluate the Maxima code in the PRTs, using the teacher's model answers.
 * You cannot use one PRT node to guard the evaluation of another, for example Node 1 check x = 0, and only if that is false, Node 2 do 1 / x. We need to change how PRTs do CAS evaluation.
 
-## Improvements to the "equiv" input type 
+## Improvements to the "equiv" input type
 
 * Add an option to display and/or using language strings not '\wedge', '\vee'.
 * Improve spacing of comments, e.g. \intertext{...}?
@@ -113,4 +113,3 @@ Basic reports now work.
 * Really ensure "attempts" list those with meaningful histories.  I.e. if possible filter out navigation to and from the page etc.
 * Add better maxima support functions for off-line analysis.
 * A fully maxima-based representation of the PRT?
-

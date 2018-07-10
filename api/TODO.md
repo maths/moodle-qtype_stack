@@ -14,7 +14,7 @@
 
 ## Editing
 
-1. Code mirror support. (Max)
+1. Code mirror support. (Matti -> Max)
 
 ## Question tests.
 
@@ -31,15 +31,15 @@
 
 ## STACK import/export
 
-1. in export.php trim off trailing zeros from floats.
+1. in export.php trim off trailing zeros from floats.  sprintf in PHP?
 2. $question -> $fromform conversion (I know....) and then expose the validation method via the API.
-3. full qformat_yaml importer for Moodle. (CJS to implement)
-4. Images in YAML format. (See XML export....)
+3. Images in YAML format. (See XML export....)
    CJS send image example to Max.
    Add images at the end and reference them.
    Export and import to Moodle.
-5. Markdown support for the import/export in Moodle.
+4. Markdown support for the import/export in Moodle.   
 
 # TODO for V1.2
 
 1. Add in support for authoring answer tests as functions:  'AlgEquiv(ans1,x^2)'
+2. Full qformat_yaml importer for Moodle. (CJS to implement)

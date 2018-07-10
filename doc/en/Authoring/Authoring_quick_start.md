@@ -155,68 +155,87 @@ This has created and saved a minimal question.  To recap we have
 	2. the model answer, which is determined by Maxima.
 2. Indicated we wish to establish the student's answer is mathematically equivalent to the model answer using STACK's built-in _Int_ test.
 
-We refer to the student's answer in computer algebra calculations by using the name `ans1` since we gave this name to the input in the question text.  The model answer was `3*(x-1)^2`.  Update the form fields so that
+Next we should try out our question, by pressing the preview button at the bottom of the page:
 
-     SAns = ans1
-     TAns = 3*(x-1)^2
-     Answer test = AlgEquiv
+## Previewing the question
 
-Then press the `[Save changes]` button.  If the question fails to save check carefully for any errors, correct them and save again.
+To speed up the testing process, scroll down the preview window and under Attempt options, make sure you have "How questions behave" set to "Adaptive Mode". If necessary "Start again with these options". This will allow you to check your answers without having to _Submit_ and _Start again_ repeatedly.
 
-This has created and saved a minimal question.  To recap we have
+With the preview open, try typing in
 
-1. Typed in the question
-2. Typed in the model answer
-3. Indicated we wish to establish the student's answer is algebraically equivalent to the model answer `3*(x-1)^2`.
+    -5/6(3*x-2)^-2 + C
 
-Next we should try out our question, by pressing the preview button from the question bank.
- 
+into the answer box.
 
-Scroll down to the Potential response tree: prt1 section. Here we need to configure a number of tests:
+The default is for STACK to use "instant validation".  That is, when the student finishes typing the system automatically validates their answer and provides feedback.
 
-/pic 
+The system first establishes the syntactical validity of this answer.
 
-Firstly, is the answer completely correct? The student answer is stored in the variable ans1 so type this into SAns. We can provide our model answer again in TAns:
+Press the `[Check]` button.
 
-/pic
+The system executes the potential response tree and establishes whether your answer is equivalent
+to the model answer `-5/6(3*x-2)^-2`.  Next, try getting the question wrong.  If your server does not have "instant validation" switched on (an administrator/installation option) you will need to submit each answer twice.
+Notice all your responses are stored in an attempts table.
 
-Of the two slips outlined, the most common is to forget the constant of integration. Let's add another node to handle this:
+To demonstrate that it's the mathematical properties of the student's response that is being compared type
 
-1. Press the Add another node button:
+    -5/6(3*x-2)^-2 + K
 
-/pic
+into the answer box.
 
-2. When Node 1 is false we need to move to Node 2. On the 'Node 1 when false' / Next setting select 'Node 2' from the drop down menu:
+I am including a constant of integration (as I specified) so this is, again, correct.
 
-/pic
+Built into the _Int_ answer test is a check to ensure the response includes a constant of integration. Now type
 
-3. In Node 2, set SAns to ans1 and TAns to our model answer but without the C:
+    -5/6(3*x-2)^-2
 
-/pic
+into the answer box.
 
-4. Provide some meaningful feedback in Node 2:
+We also wanted to check that the student hadn't differentiated by mistake. Fortunately this is also handled by the _Int_ answer test. Finally, type
 
-/pic
+	-45*(3*x-2)^-4
 
-5. Scroll down to the bottom of the page and press the 'Save changes and continue editing' button. See that the nodes in our Potential Response Tree have been linked:
+See that built-in feedback is provided to the student - a warning that they have forgotten the constant of integration. Again, this can be disabled with the _Quiet_ option. 
 
-/pic
+## Enhancing feedback
 
-We now need to complete the rest of the tree, as outlined in the original sketch, above. Here is the completed tree:
+We now need to check that the student has not differentiated the outer function by mistake, and we achieve this by adding another potential response node.
 
+Close the preview, scroll down to the Potential Response Tree and click `[Add another node]` button at the bottom of the list of nodes:
 
+From the false branch of Node 1, change the "Next" field so it is set to `[Node 2]`.
+If the first test is false, we will then perform the test in Node 2.
 
+Update the form so that Node 2 has
 
+    SAns = diff(ans1, x)
+    TAns = 5*(3*x-2)^-5
+    Answer test = AlgEquiv
 
+We use Maxima to differentiate the student's answer. We then compare that result, algebraically, to what the question would have had to have been to yield that result.
 
+This gives us the test, but what about the outcomes?
+
+1. On the true branch set the `score=0`
+2. On the true branch set the feedback to `It looks like you have subtracted one off the power of the outer function instead of adding one to the power!`
+
+Notice here that STACK also adds an "intelligent note to self" in the [answer note](Potential_response_trees.md#Answer_note) field.
+
+This is useful for statistical grouping of similar outcomes when the feedback depends on randomly generated questions,
+and different responses. You have something definite to group over.  This is discussed in [reporting](Reporting.md).
+
+Press the `[Save changes and continue editing]` button and preview the question.
+
+Type the following response into the answer box:
+
+	-5/12*(3*x-2)^-4+C
+
+Because we are using Maxima to differentiate the student's response, our new test still works with or without the constant of integration.
 
 ---
 
----
 
-
-
-Computer aided assessment of mathematics works in the following phases.
+ Computer aided assessment of mathematics works in the following phases.
 
 1. [Authoring](../Authoring/index.md)
 2. [Testing](Testing.md)
@@ -271,8 +290,8 @@ This tree will allow us to establish the mathematical properties of the student'
 In due course, we shall provide [feedback](Feedback.md) which checks
 
 1. For the correct answer.
-2. To see if the student integrated by mistake.
-3. To see if it is likely that the student expanded out and differentiated.
+2. To see if the student differentiated by mistake.
+3. To see if it is likely the student differentiated the outer function.
 
 By default, a new question contains one [potential response tree](Potential_response_trees.md) called `prt1`.
 This is the _name_ of the potential response, and it can be anything sensible (letters, optionally followed by numbers, no more than 18 characters).

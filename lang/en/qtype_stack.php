@@ -831,6 +831,8 @@ $string['ATNumDecPlaces_OptNotInt']    = 'For ATNumDecPlaces the test option mus
 $string['ATNumDecPlaces_NoDP']         = 'Your answer must be a decimal number, including a decimal point. ';
 $string['ATNumDecPlaces_Wrong_DPs']    = 'Your answer has been given to the wrong number of decimal places.';
 
+$string['ATNumDecPlacesWrong_OptNotInt']    = 'For ATNumDecPlacesWrong the test option must be a positive integer, in fact "{$a->opt}" was received. ';
+
 $string['ATSysEquiv_SA_not_list']               = 'Your answer should be a list, but it is not!';
 $string['ATSysEquiv_SB_not_list']               = 'The teacher\'s answer is not a list.  Please contact your teacher.';
 $string['ATSysEquiv_SA_not_eq_list']            = 'Your answer should be a list of equations, but it is not!';

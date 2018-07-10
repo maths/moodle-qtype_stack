@@ -93,7 +93,8 @@ class qtype_stack_api_export {
         self::property($yaml, 'question_html', $q->questiontext->text, 'string', $section);
         self::property($yaml, 'penalty', $q->penalty, 'float', $section);
         if (trim($q->questionvariables->text) != '') {
-            self::property($yaml, 'variables', $q->questionvariables->text, 'string', $section);
+            self::property($yaml, 'variables', $this->trimcasstrings($q->questionvariables->text),
+                'string', $section);
         }
         if (trim($q->specificfeedback->text) != '') {
             self::property($yaml, 'specific_feedback_html', $q->specificfeedback->text, 'string', $section);
@@ -212,7 +213,9 @@ class qtype_stack_api_export {
         $nextnode = ($node->truenextnode == -1) ? -1 : 'node_' . (string)$node->truenextnode;
         $this->property($res['T'], 'next_node', $nextnode, 'string', $section);
         $this->property($res['T'], 'answer_note', $node->trueanswernote, 'string', $section);
-        $this->property($res['T'], 'feedback_html', $node->truefeedback->text, 'string', $section);
+        if (trim($node->truefeedback->text) != '') {
+            $this->property($res['T'], 'feedback_html', $node->truefeedback->text, 'string', $section);
+        }
 
         // False branch.
         $section = 'branch-F';
@@ -223,7 +226,9 @@ class qtype_stack_api_export {
         $nextnode = ($node->falsenextnode == -1) ? -1 : 'node_' . (string)$node->falsenextnode;
         $this->property($res['F'], 'next_node', $nextnode, 'string', $section);
         $this->property($res['F'], 'answer_note', $node->falseanswernote, 'string', $section);
-        $this->property($res['F'], 'feedback_html', $node->falsefeedback->text, 'string', $section);
+        if (trim($node->falsefeedback->text) != '') {
+            $this->property($res['F'], 'feedback_html', $node->falsefeedback->text, 'string', $section);
+        }
 
         return $res;
     }
@@ -239,7 +244,10 @@ class qtype_stack_api_export {
         $this->property($res, 'auto_simplify', $tree->autosimplify, 'bool', $section);
         $this->property($res, 'value', $tree->value, 'float', $section);
         $this->property($res, 'first_node', 'node_' . (int) $tree->firstnodename, 'string', $section);
-        $this->property($res, 'feedback_variables',  (string) $tree->feedbackvariables->text, 'string', $section);
+        if (trim($tree->feedbackvariables->text) != '') {
+            $this->property($res, 'feedback_variables',
+              $this->trimcasstrings((string) $tree->feedbackvariables->text), 'string', $section);
+        }
 
         $res['nodes'] = array();
         foreach ($tree->node as $node) {
@@ -278,5 +286,17 @@ class qtype_stack_api_export {
             $yaml['tests'][(string) $test->testcase] = $res;
         }
 
+    }
+
+    /**
+     * Remove extraneous whitespace round CAS variables.
+     * @param array $vars
+     */
+    private function trimcasstrings($vars) {
+        $vars = explode("\n", $vars);
+        foreach ($vars as $key => $value) {
+            $vars[$key] = trim($value);
+        }
+        return implode($vars, "\n");
     }
 }

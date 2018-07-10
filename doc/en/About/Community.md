@@ -4,6 +4,11 @@ There is a large and growing community of STACK users.  This includes large univ
 
 A demonstration server is available in Edinburgh:  [https://stack.maths.ed.ac.uk/demo](https://stack.maths.ed.ac.uk/demo)
 
+In 2017 the STACK project was awarded a Collaborative Award for Teaching Excellence.
+
+![CATE Logo](%CONTENT/CATE.jpg)
+
+
 ### How can I contribute?
 
 STACK is a community project and contributions are welcome in many ways.

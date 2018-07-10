@@ -415,6 +415,7 @@ $string['bulktestcontinuefromhere'] = 'Run again or resume, starting from here';
 $string['bulktestindexintro'] = 'Clicking on any of the links will run all the question tests in all the STACK questions in that context';
 $string['bulktestindextitle'] = 'Run the question tests in bulk';
 $string['bulktestnotests'] = 'This question does not have any tests.';
+$string['bulktestnogeneralfeedback'] = 'This question does not have any general feedback.';
 $string['bulktestrun'] = 'Run all the question tests for all the questions in the system (slow, admin only)';
 $string['bulktesttitle'] = 'Running all the question tests in {$a}';
 $string['overallresult'] = 'Overall result';
@@ -557,6 +558,7 @@ $string['stackInstall_testsuite_fail'] = 'Not all tests passed!';
 $string['stackInstall_testsuite_failures'] = 'Tests that failed';
 $string['stackInstall_testsuite_upgrade'] = 'Questions which failed on upgrade.';
 $string['stackInstall_testsuite_notests'] = 'Questions with no tests: please add some!';
+$string['stackInstall_testsuite_nogeneralfeedback'] = 'Questions with no general feedback: students really appreciate worked solutions!';
 $string['answertest'] = 'Answer test';
 $string['answertest_help'] = 'An answer test is used to compare two expressions to establish whether they satisfy some mathematical criteria.';
 $string['answertest_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/Authoring/Answer_tests.md';
@@ -828,6 +830,8 @@ $string['ATUnits_correct_numerical']      = 'Please check your units carefully. 
 $string['ATNumDecPlaces_OptNotInt']    = 'For ATNumDecPlaces the test option must be a positive integer, in fact "{$a->opt}" was received. ';
 $string['ATNumDecPlaces_NoDP']         = 'Your answer must be a decimal number, including a decimal point. ';
 $string['ATNumDecPlaces_Wrong_DPs']    = 'Your answer has been given to the wrong number of decimal places.';
+
+$string['ATNumDecPlacesWrong_OptNotInt']    = 'For ATNumDecPlacesWrong the test option must be a positive integer, in fact "{$a->opt}" was received. ';
 
 $string['ATSysEquiv_SA_not_list']               = 'Your answer should be a list, but it is not!';
 $string['ATSysEquiv_SB_not_list']               = 'The teacher\'s answer is not a list.  Please contact your teacher.';

@@ -64,11 +64,12 @@ numerical_coeff(ex):= block([v, vc],
 make_monic_eq(ex) := block([v],
     if mapatom(ex) then return(ex),
     if not(polynomialpsimp(ex)) then return(ex),
-    ex:expand(ex),
+    ex:ev(factor(ex), simp),
+    ex:ev(expand(ex), simp),
     /* Divide by the coefficient of the highest power. */
     v:listofvars(ex),
     if v=[] then return(ex),
-    poly_normalize(ex,v)
+    poly_normalize(ex, v)
 )$
 
 /* Determines if we have a linear inequality in one variable.

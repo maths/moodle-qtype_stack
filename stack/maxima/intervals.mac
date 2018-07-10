@@ -491,7 +491,6 @@ ConnectIntervals(X):=
                     Ans:delete( Ans[i+1], Ans, 1 ),
                     Ans:delete( Ans[i], Ans, 1 ),
                     Ans:append( Ans, [x] ),
-                    Ans:SortUnion(Ans),
                     n:n-1,
                     i:i-1
                     )
@@ -533,11 +532,12 @@ TidyUnion(X):=
                 i:i+1
                 ),
             A:SortUnion(A),
+            if is(length(A)>1) then
+              A:ConnectIntervals(apply(%union, A)),
+            if length(setpart)>0 then A:append( args(A), [setpart] ),
             if is(length(A)=1) then
-                Ans:first(A)
-            else
-                Ans:ConnectIntervals(apply(%union, A)),
-            if length(setpart)>0 then Ans:append( args(Ans), [setpart] )
+              A:first(A),
+            Ans:A
         ),
         Ans
         )$
@@ -907,15 +907,15 @@ single_variable_solver_real(ex) := block([v, rs1, rs2],
     ex:subst("%or", "or", ex),
 
     /* Notes,
-       (1) assume_pos automatically removes terms like v>=0 in the simplifier. 
+       (1) assume_pos automatically removes terms like v>=0 in the simplifier.
        (2) we do need simplification here to reduce execution time.
     */
-    
-    if assume_pos then 
+
+    if assume_pos then
         ex:block([assume_pos:false], ev(single_variable_solver_real_rec(ex %and (v>=0), v), simp))
-    else 
+    else
         ex:ev(single_variable_solver_real_rec(ex, v), simp),
-    
+
     if ((safe_op(ex)="[" or safe_op(ex)="%union") and is(length(args(ex))=1)) then ex:first(ex),
 
     if is(ex={}) then return(none),

@@ -448,7 +448,7 @@ class stack_units_input_test extends qtype_stack_testcase {
         $this->assertEquals('-330*N', $state->contentsmodified);
         $this->assertEquals('\[ -330\, \mathrm{N} \]', $state->contentsdisplayed);
         $this->assertEquals('stackunits(-330,N)', $el->get_teacher_answer());
-}
+    }
 
     public function test_validate_student_response_rational_number_negpow_1() {
         $options = new stack_options();

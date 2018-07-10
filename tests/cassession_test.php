@@ -1197,6 +1197,8 @@ class stack_cas_session_test extends qtype_stack_testcase {
         $cases[] = array('1/x', 'realset(x,%union(oo(0,inf),oo(-inf,0)))', '{x \not\in {\left \{0 \right \}}}');
         $cases[] = array('1+1/x^2+1/(x-1)', 'realset(x,%union(oo(0,1),oo(1,inf),oo(-inf,0)))',
                 '{x \not\in {\left \{0 , 1 \right \}}}');
+        $cases[] = array('1+1/x^2+1/(x-1)+3/(x-2)', 'realset(x,%union(oo(0,1),oo(1,2),oo(2,inf),oo(-inf,0)))',
+                '{x \not\in {\left \{0 , 1 , 2 \right \}}}');
         $cases[] = array('log(x)', 'realset(x,oo(0,inf))', '{x \in {\left( 0,\, \infty \right)}}');
         $i = 0;
         foreach ($cases as $case) {
@@ -1214,6 +1216,37 @@ class stack_cas_session_test extends qtype_stack_testcase {
         foreach ($cases as $case) {
             $this->assertEquals($case[1], $s->get_value_key('d'.$i));
             $this->assertEquals($case[2], $s->get_display_key('d'.$i));
+            $i++;
+        }
+    }
+
+    public function test_union_tex() {
+
+        // Cases should be in the form array('input', 'value', 'display').
+        $cases = array();
+        $cmds = array();
+
+        $cases[] = array('%union(a,b,c)', 'a \cup b \cup c');
+        $cases[] = array('%union(oo(1,2),oo(3,4),oo(4,5))',
+            '\left( 1,\, 2\right) \cup \left( 3,\, 4\right) \cup \left( 4,\, 5\right)');
+        $cases[] = array('%union(a,b+1,d)', 'a \cup \left(b+1\right) \cup d');
+
+        $i = 0;
+        foreach ($cases as $case) {
+            $cmds[$i] = 'd'.$i.':'.$case[0];
+            $i++;
+        }
+
+        $options = new stack_options();
+        $kv = new stack_cas_keyval(implode(';', $cmds), $options, 0, 't');
+        $s = $kv->get_session(); // This does a validation on the side.
+
+        $s->instantiate();
+
+        $i = 0;
+        foreach ($cases as $case) {
+            $this->assertEquals($case[0], $s->get_value_key('d'.$i));
+            $this->assertEquals($case[1], $s->get_display_key('d'.$i));
             $i++;
         }
     }

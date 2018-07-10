@@ -558,11 +558,23 @@ class qtype_stack_question extends question_graded_automatically_with_countback
 
     public function is_gradable_response(array $response) {
         // If any PRT is gradable, then we can grade the question.
+        $noprts = true;
         foreach ($this->prts as $index => $prt) {
+            $noprts = false;
             if ($this->can_execute_prt($prt, $response, true)) {
                 return true;
             }
         }
+        // In the case of no PRTs,  questions are in state "is_gradable" if we have
+        // at least one input in the "score" or "valid" state.
+        if ($noprts) {
+            foreach ($this->inputstates as $key => $inputstate) {
+                if ($inputstate->status == 'score' || $inputstate->status == 'valid') {
+                    return true;
+                }
+            }
+        }
+        // Otherwise we are not "is_gradable".
         return false;
     }
 

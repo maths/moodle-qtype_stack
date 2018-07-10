@@ -15,6 +15,7 @@ We assume you are familiar with the following:
 
 1. Adding questions to a Moodle quiz.
 2. \(\LaTeX\) formatting.  Some basic examples are provided at the end of the [CASText](CASText.md) documentation.
+3. Maxima strings.
 
 ## Background 
 
@@ -30,8 +31,7 @@ This Introduction to STACK Authoring covers the following:
 
 - Preparing to write a STACK question
 - Creating a new STACK question
-- Planning a Potential Response Tree (PRT)
-- Building the Potential Response Tree
+- Understanding and building a *Potential Response Tree* (PRT)
 
 At the end of this guide you will be able to:
 
@@ -39,8 +39,7 @@ At the end of this guide you will be able to:
 - Catch, and provide feedback on, common errors by building a *Potential Response Tree*. 
 - Preview and test STACK questions.
 
-
-### Preparing to write a STACK question
+## Preparing to write a STACK question
 
 Let us begin by considering question (i) from the text book, shown in the image above:
 \(
@@ -70,7 +69,7 @@ When checking a student's answer with STACK a teacher needs to ask themselves _"
 
 Next, a teacher needs to ask _"What might a student do incorrectly, and what will this give them as an answer?"_  This second question is more difficult. The answer might come through experience or from asking upfront diagnostic questions (again using STACK). It is often sensible to review questions after a year and build in better feedback in the light of experience with students. 
 
-### Creating a new STACK question
+## Creating a new STACK question
 
 To begin, go to Moodle and navigate to your course's *Course administration* page and, from the *Question bank* section, click on *Questions*:
 
@@ -92,28 +91,86 @@ The 'Editing a STACK question' page is displayed. Don't be put off by the amount
 
 ![Adding question text, including LaTeX formatting and relevant tags](%CONTENT/adding_question_text.png)
 
-Note that two tags are already included: The [[input:ans1]] tag is replaced by a text box where the student types in their response. The student response is automatically validated as they type and this is displayed where the [[validation:ans1]] is positioned. So we could remodel the question as:
+Note that two tags are already included: The [[input:ans1]] tag is replaced by a text box where the student types in their response. The student response should be in \(\LaTeX\) format, which is automatically validated as they type. This is displayed where the [[validation:ans1]] tag is positioned. So, for example, we could remodel the question as:
 
 ![Remodelled question text](%CONTENT/remodelled_question_text.png) 
 
-Next we need to specify our model answer. Scroll to Input:ans1. Select Algebraic input from the Input type drop-down menu and give the model answer as:
+Next we need to specify our model answer. As STACK analyses a student's response, the model answer will be referred to more than once so it is best to assign the model answer to a variable. Question variables, which are passed over to Maxima during processing, can be specified in the _Question variables_ setting:
 
-    C - (5/6)*(3*x-2)^2
-    
 ![Specifying the teacher's model answer](%CONTENT/model_answer.png)
 
-Before moving on, scroll down to the bottom of the page and press the _Save changes and continue editing_ button.
-In the next section we learn how to handle the common misconceptions outlined about by building a Potential Response Tree.
+See that the model answer is, in fact, a call on Maxima to find the anti-derivative for us. Notice also that when Maxima determines an anti-derivative it does not include a constant of integration so we have to add it ourselves.
 
----
+4. Next, scroll down the page to the heading Input: ans1. If necessary, click on this to expand the settings:
 
-### Planning a Potential Response Tree (PRT)
+![Student answer settings](%CONTENT/student_answer.png)
 
-This is where we
+From the _Input type_ drop-down menu select _Algebraic input_, as this is the form of student response we are expecting. The _Model answer_ is stored in the variable _model_ (see above) so this is specified here.
+
+We have now configured a question. In subsequent sections we learn how to both grade and provide appropriate feedback through building a Potential Response Tree (PRT)
+
+## Grading a response - the Potential Response Tree (PRT)
+
+To grade the student's response we need to determine its mathematical properties. Potentially, there are multiple properties we need to check in order to award an appropriate score, or provide appropriate feedback. To establish properties of student's answer we use an algorithm known as a [potential response tree](Potential_response_trees.md).
+
+By default, a new question contains one [potential response tree](Potential_response_trees.md) called `prt1`.
+This is the _name_ of the potential response, and it can be anything sensible (letters, optionally followed by numbers, no more than 18 characters).
+
+There can be any number of [potential response trees](Potential_response_trees.md).
+
+Feedback generated by these trees replaces the tag `[[feedback:prt1]]`.
+By default this tag is placed in the Specific feedback field, but it could also be placed in the question text.
+
+In due course, we shall provide [feedback](Feedback.md) which checks
+
+1. For the correct answer.
+2. To see if the student differentiated by mistake.
+3. To see if the student forgot to use substitution.
+
+We start with the first check. In the next section we will build a simple PRT that checks if the student has integrated correctly.
+
+### Configuring a potential response node
+
+By default each question has one potential response node. At each node we can compare the student's response `SAns` with a teacher answer `TAns`. The comparison is carried out using an [answer test](Answer_tests.md), and STACK contains a variety of build-in tests - including one for general indefinite integral questions such as ours. 
+
+Let us configure the first node to determine if the student has integrated correctly.
+
+1. Click on the _Answer test_ drop-down menu and select _Int_:
+
+2. The teacher answer we should compare to is stored in the _model_ variable we declared ealier (an answer determined by STACK itself plus the constant of integration we added on the end). Specify this in the `TAns` setting:
 
 
+### Feedback
 
-### Building the Potential Response Tree
+The answer test itself sometimes produces [feedback](Feedback.md) for the student (which the teacher might choose to suppress with the _Quiet_ option). The answer test also produces an internal [answer note](Potential_response_trees.md#Answer_note) for the teacher which is essential for Reporting students' attempts later.
+
+## Saving the question
+
+Now scroll to the bottom of the page and press the `[Save changes and continue editing]` button.  If the question fails to save check carefully for any errors, correct them and save again.
+
+This has created and saved a minimal question.  To recap we have
+
+1. Specified the variables used in the question, using Maxima formatted text. These variables included:
+	1. the expression for which students should find attempt to find the antiderivative
+	2. the model answer, which is determined by Maxima.
+2. Indicated we wish to establish the student's answer is mathematically equivalent to the model answer using STACK's built-in _Int_ test.
+
+We refer to the student's answer in computer algebra calculations by using the name `ans1` since we gave this name to the input in the question text.  The model answer was `3*(x-1)^2`.  Update the form fields so that
+
+     SAns = ans1
+     TAns = 3*(x-1)^2
+     Answer test = AlgEquiv
+
+Then press the `[Save changes]` button.  If the question fails to save check carefully for any errors, correct them and save again.
+
+This has created and saved a minimal question.  To recap we have
+
+1. Typed in the question
+2. Typed in the model answer
+3. Indicated we wish to establish the student's answer is algebraically equivalent to the model answer `3*(x-1)^2`.
+
+Next we should try out our question, by pressing the preview button from the question bank.
+ 
 
 Scroll down to the Potential response tree: prt1 section. Here we need to configure a number of tests:
 

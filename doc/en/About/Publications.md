@@ -2,6 +2,10 @@
 
 STACK is a very popular online assessment system, used by many groups in a variety of languages.  STACK has been the subject of research, and has itself enabled research projects to take place. This page contains a selection of publications.  
 
+### Publicity materials.
+
+We have a PDF flyer about the [STACK project](%CONTENT/2018-STACK.pdf).
+
 ### Computer aided assessment of mathematics
 
 ![Cover of Computer Aided Assessment of Mathematics](%CONTENT/CAACover.jpg)  
@@ -12,7 +16,7 @@ This book provides an Introduction to Computer Aided Assessment using STACK as t
 
 ### Nakamura (2010)
 
-![Cover](%CONTENT/NakamuraCover.jpg) 
+![Cover](%CONTENT/NakamuraCover.jpg)
 
 Y. Nakamura, [The STACK e-Learning and Assessment System for mathematics, science and engineering education through Moodle](http://books.rakuten.co.jp/rb/%E6%95%B0%E5%AD%A6e%E3%83%A9%E3%83%BC%E3%83%8B%E3%83%B3%E3%82%B0-%E6%95%B0%E5%BC%8F%E8%A7%A3%E7%AD%94%E8%A9%95%E4%BE%A1%E3%82%B7%E3%82%B9%E3%83%86%E3%83%A0%EF%BC%B3%EF%BC%B4%EF%BC%A1%EF%BC%A3%EF%BC%AB%E3%81%A8%EF%BC%AD%EF%BD%8F%EF%BD%8F%EF%BD%84%EF%BD%8C%EF%BD%85%E3%81%AB%E3%82%88%E3%82%8B-%E4%B8%AD%E6%9D%91%E6%B3%B0%E4%B9%8B-9784501548209/item/6640557/), Tokyo Denki University Press, 2010, (In Japanese) ISBN 978-4-501-54820-9.
 
@@ -27,5 +31,3 @@ Below are a small selection of papers about STACK, and are a good place to start
 
 * C. J. Sangwin and M. Grove [STACK: addressing the needs of the neglected learners](http://web.mat.bham.ac.uk/C.J.Sangwin/Publications/2006WebAlt.pdf). Proceedings of the WebAlt Conference (2006).
 * C. J. Sangwin. [Assessing mathematics automatically using computer algebra and the internet](http://web.mat.bham.ac.uk/C.J.Sangwin/Publications/tma03.pdf). Teaching Mathematics and its Applications, 23(1), pages 1--14 (2004).
-
-

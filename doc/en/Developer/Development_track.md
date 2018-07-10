@@ -18,8 +18,10 @@ Note: the behaviour of the maxima `addrow` function has changed.  Use the bulk t
 * _done_ Add in a version number to STACK questions.
 * _done_ Add support for using JSXGraph  `http://jsxgraph.org` for better support of interactive graphics, and as part of an input type.  See [JSXGraph](../Authoring/JSXGraph.md)
 * _done_ Add in a version number to STACK questions.
-* _done_ Update reasoning by eqivalence.
-* Better install code (see #332).
+* _done_ Update reasoning by eqivalence.  This includes the following.
+  1. Equating coefficients as a step in reasoning by equivalence. E.g. \( a x^2+b x+c=r x^2+s x+t \leftrightarrow a=r \mbox{ and } b=s \mbox{ and } c=t\). See `poly_equate_coeffs` in assessment.mac
+  2. Solving simple simultaneous equations.  (Interface)
+		3. Include simple calculus operations (but constant of integration needs some further thought.)
 * 1st version of API.
 
 ### Other minor issues:
@@ -33,13 +35,16 @@ Note: the behaviour of the maxima `addrow` function has changed.  Use the bulk t
 * _done_ Add in support for the maxima `simplex` package.
 * _done_ Add an answer test to check if decimal separator is in the wrong place (See issue #314)
 
+* Better CSS.  (See issue #380)
+
+## Version 4.3
+
+* Better install code (see #332).
+
+* A STACK maxima function which returns the number of decimal places/significant figures in a variable (useful when providing feedback).  Needed for the refactoring.
+* Enable individual questions to load Maxima libraries.  (See issue #305)
 * Re-sizable matrix input.  See Aalto/NUMBAS examples here, with Javascript.
 * Add support for matrices with floating point entries, and testing numerical accuracy.
 * Update MCQ to accept units.
 * Add a base N check to the numeric input.* Expand support for input validation options to matrices (e.g. floatnum, rationalize etc.)
 * Add in full parser, to address issue #324.
-
-
-## Version 4.3
-
-* Enable individual questions to load Maxima libraries.  (See issue #305)

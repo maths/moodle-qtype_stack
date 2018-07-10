@@ -447,7 +447,8 @@ class stack_cas_castext_parsetreenode {
     public $nextsibling = null;
     public $previoussibling = null;
     public $firstchild = null;
-    // There are six types, castext is the root, blocks are containers and text, rawcasblock, texcasblock and ioblock are root nodes.
+    // There are six types, castext is the root, blocks are containers and text,
+    // rawcasblock, texcasblock and ioblock are root nodes.
     public $type = "castext";
     private $params = null;
     private $content = "";
@@ -467,7 +468,7 @@ class stack_cas_castext_parsetreenode {
         // We need the root node to attach certain special statistics in it.
         $root = $node;
         while ($root->parent !== null) {
-          $root = $root->parent;
+            $root = $root->parent;
         }
 
         switch ($parsetree['_matchrule']) {

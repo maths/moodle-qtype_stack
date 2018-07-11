@@ -76,8 +76,8 @@ if (!$content = $qformat->exportprocess(true)) {
 }
 
 if ($exportformat == 'xml') {
-  // Send the xml.
-  send_file($content, $filename, 0, 0, true, true, $qformat->mime_type());
+    // Send the xml.
+    send_file($content, $filename, 0, 0, true, true, $qformat->mime_type());
 }
 
 if (!function_exists('yaml_parse_file')) {
@@ -90,12 +90,12 @@ $settings = get_config('qtype_stack');
 $defaults->moodle_settings_to_yaml_defaults($settings);
 
 $export = new qtype_stack_api_export($content, $defaults);
-$yaml_string = $export->yaml();
+$yamlstring = $export->yaml();
 
-$rows = substr_count($yaml_string, "\n")+3;
+$rows = substr_count($yamlstring, "\n") + 3;
 
 echo "<form method = 'post' action = 'exportone.php'>";
 echo "<textarea name = 'yaml' cols = '200' rows = '$rows'>";
-echo $yaml_string;
+echo $yamlstring;
 echo "</textarea>\n";
 echo "</form>\n\n";

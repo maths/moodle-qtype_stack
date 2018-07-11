@@ -50,4 +50,3 @@ response_trees:
         score: 0
         penalty: 0
         next_node: -1
-

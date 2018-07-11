@@ -47,12 +47,22 @@ class qtype_stack_api_export {
                 $multilang = new stack_multilang();
                 $languages = $multilang->languages_used($value);
                 if ($languages == array()) {
-                    $yaml[$propertyname] = $value;
+                    $yaml[$propertyname] = (string) $value;
                 } else {
                     foreach($languages as $lang) {
-                        $yaml[$propertyname.'_'.$lang] = $multilang->filter($value, $lang);
+                        $yaml[$propertyname.'_'.$lang] = (string) $multilang->filter($value, $lang);
                     }
                 }
+            } else if ($type == 'float') {
+                // Prune out some trailing zeros, but this is in the yaml encode function.
+                $disp = $value;
+                if ($value === 0.0) {
+                    $disp = 0;
+                }
+                if ($value === 1.0) {
+                    $disp = 1;
+                }
+                $yaml[$propertyname] = $disp;
             } else {
                 $yaml[$propertyname] = $value;
             }
@@ -148,7 +158,7 @@ class qtype_stack_api_export {
 
         // Add in the deployed seeds.
         foreach ($q->deployedseed as $seed) {
-            $yaml['deployedseed'][] = self::processvalue((string) $seed, 'int');
+            $yaml['deployedseed'][] = self::processvalue($seed, 'int');
         }
         return yaml_emit($yaml, YAML_UTF8_ENCODING);
     }
@@ -186,7 +196,7 @@ class qtype_stack_api_export {
     private function processinputs(array &$yaml) {
         $yaml['inputs'] = array();
         foreach ($this->question->input as $value) {
-            $yaml['inputs'][(string)$value->name] = self::getinput($value);
+            $yaml['inputs'][(string) $value->name] = self::getinput($value);
         }
     }
 
@@ -202,7 +212,9 @@ class qtype_stack_api_export {
         $this->property($res, 'quiet', $node->quiet, 'bool', $section);
         $this->property($res, 'answer', $node->sans, 'string', $section);
         $this->property($res, 'model_answer', $node->tans, 'string', $section);
-        $this->property($res, 'test_options', $node->testoptions, 'string', $section);
+        if (trim($node->testoptions) != '') {
+            $this->property($res, 'test_options', $node->testoptions, 'string', $section);
+        }
 
         // True branch.
         $section = 'branch-T';
@@ -210,7 +222,7 @@ class qtype_stack_api_export {
         $this->property($res['T'], 'score_mode', $node->truescoremode, 'string', $section);
         $this->property($res['T'], 'score', $node->truescore, 'float', $section);
         $this->property($res['T'], 'penalty', $node->truepenalty, 'float', $section);
-        $nextnode = ($node->truenextnode == -1) ? -1 : 'node_' . (string)$node->truenextnode;
+        $nextnode = ($node->truenextnode == -1) ? -1 : 'node_' . (string) $node->truenextnode;
         $this->property($res['T'], 'next_node', $nextnode, 'string', $section);
         $this->property($res['T'], 'answer_note', $node->trueanswernote, 'string', $section);
         if (trim($node->truefeedback->text) != '') {
@@ -223,7 +235,7 @@ class qtype_stack_api_export {
         $this->property($res['F'], 'score_mode', $node->falsescoremode, 'string', $section);
         $this->property($res['F'], 'score', $node->falsescore, 'float', $section);
         $this->property($res['F'], 'penalty', $node->falsepenalty, 'float', $section);
-        $nextnode = ($node->falsenextnode == -1) ? -1 : 'node_' . (string)$node->falsenextnode;
+        $nextnode = ($node->falsenextnode == -1) ? -1 : 'node_' . (string) $node->falsenextnode;
         $this->property($res['F'], 'next_node', $nextnode, 'string', $section);
         $this->property($res['F'], 'answer_note', $node->falseanswernote, 'string', $section);
         if (trim($node->falsefeedback->text) != '') {
@@ -277,10 +289,12 @@ class qtype_stack_api_export {
             foreach ($test->testinput as $input) {
                 $this->property($res, (string) $input->name, (string) $input->value, 'string', 'input');
             }
+            $yaml['tests'][(string) $test->testcase] = array();
             foreach ($test->expected as $prt) {
-                $expect['score'] = self::processvalue((string) $prt->expectedscore, 'float');
-                $expect['penalty'] = self::processvalue((string) $prt->expectedpenalty, 'float');
-                $expect['answer_note'] = self::processvalue((string) $prt->expectedanswernote, 'string');
+                $expect = array();
+                $this->property($expect, 'score', $prt->expectedscore, 'float', 'tests');
+                $this->property($expect, 'penalty', $prt->expectedpenalty, 'float', 'tests');
+                $this->property($expect, 'answer_note', $prt->expectedanswernote, 'string', 'tests');
                 $res[(string) $prt->name] = $expect;
             }
             $yaml['tests'][(string) $test->testcase] = $res;

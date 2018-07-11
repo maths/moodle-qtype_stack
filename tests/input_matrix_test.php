@@ -47,7 +47,7 @@ class stack_matrix_input_test extends qtype_stack_testcase {
                 'autocapitalize="none" spellcheck="false"></td>' .
                 '<td><input type="text" name="ans1_sub_1_1" id="ans1_sub_1_1" value="" size="5" ' .
                 'autocapitalize="none" spellcheck="false"></td>' .
-                '<td><input type="text" name="ans1_sub_1_2" id="ans1_sub_1_2" value="" size="5" ' . 
+                '<td><input type="text" name="ans1_sub_1_2" id="ans1_sub_1_2" value="" size="5" ' .
                 'autocapitalize="none" spellcheck="false"></td>' .
                 '<td style="border-width: 0px 2px 2px 0px; padding-bottom: 0.5em">&nbsp;</td></tr></tbody></table>',
                 $el->render(new stack_input_state(stack_input::BLANK, array(), '', '', '', '', ''),

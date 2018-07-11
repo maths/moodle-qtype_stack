@@ -73,6 +73,8 @@ class qtype_stack_api_yaml_defaults {
         $this->defaults['prt_correct_html'] = $settings->prtcorrect;
         $this->defaults['prt_partially_correct_html'] = $settings->prtincorrect;
         $this->defaults['prt_incorrect_html'] = $settings->prtpartiallycorrect;
+
+        $this->defaults['tests'] = '';
     }
 
     private function get_root($section) {

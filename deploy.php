@@ -46,6 +46,8 @@ $PAGE->set_url($nexturl); // Since this script always ends in a redirect.
 $PAGE->set_heading($COURSE->fullname);
 $PAGE->set_pagelayout('admin');
 
+require_login();
+
 // Process deploy if applicable.
 $deploy = optional_param('deploy', null, PARAM_INT);
 if (!is_null($deploy)) {

@@ -52,6 +52,8 @@ $PAGE->set_url('/question/type/stack/questiontestdelete.php', $urlparams);
 $title = stack_string('deletetestcase',
         array('no' => $testcase, 'question' => format_string($question->name)));
 
+require_login();
+
 if (data_submitted() && confirm_sesskey()) {
     // User has confirmed. Actually delete the test case.
     question_bank::get_qtype('stack')->delete_question_test($questionid, $testcase);

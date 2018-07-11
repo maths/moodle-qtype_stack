@@ -16,12 +16,6 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-// The file provides helper code for creating the files needed to connect to the CAS.
-
-if (!defined('MINIMAL_API')) {
-    require_once(__DIR__.'/../../../../../config.php');
-}
-
 require_once(__DIR__ . '/../utils.class.php');
 require_once(__DIR__ . '/casstring.units.class.php');
 require_once(__DIR__ . '/connectorhelper.class.php');

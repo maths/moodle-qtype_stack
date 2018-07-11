@@ -62,6 +62,8 @@ $PAGE->set_title($title);
 $PAGE->set_heading($title);
 $PAGE->set_pagelayout('popup');
 
+require_login();
+
 // Create some other useful links.
 $qbankparams = $urlparams;
 unset($qbankparams['questionid']);

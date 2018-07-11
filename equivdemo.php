@@ -61,6 +61,8 @@ $PAGE->set_url('/question/type/stack/equivdemo.php', $urlparams);
 $title = "Equivalence reasoning test cases";
 $PAGE->set_title($title);
 
+require_login();
+
 echo $OUTPUT->header();
 echo $OUTPUT->heading($title);
 

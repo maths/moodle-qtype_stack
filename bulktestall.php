@@ -48,6 +48,8 @@ $PAGE->set_context($context);
 $title = stack_string('bulktesttitle', $context->get_context_name());
 $PAGE->set_title($title);
 
+require_login();
+
 // Create the helper class.
 $bulktester = new stack_bulk_tester();
 $allpassed = true;

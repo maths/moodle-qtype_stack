@@ -138,7 +138,6 @@ class stack_bulk_tester  {
                         $allpassed = false;
                         $failingtests[] = $questionnamelink . ': ' . $message;
                     }
-
                 } else {
                     echo $OUTPUT->heading(format_string($name), 4);
                     foreach ($question->deployedseeds as $seed) {
@@ -155,7 +154,12 @@ class stack_bulk_tester  {
                 }
             }
         }
-        return array($allpassed, $failingtests, $notests, $nogeneralfeedback, $failingupgrade);
+        $failing = array(
+            'failingtests'      => $failingtests,
+            'notests'           => $notests,
+            'nogeneralfeedback' => $nogeneralfeedback,
+            'failingupgrades'   => $failingupgrade);
+        return array($allpassed, $failing);
     }
 
     /**
@@ -193,16 +197,22 @@ class stack_bulk_tester  {
             }
         }
 
-        $flag = '';
+        $message = stack_string('testpassesandfails', array('passes' => $passes, 'fails' => $fails));
         $ok = ($fails === 0);
+
+        if (!empty($question->runtimeerrors)) {
+            $ok = false;
+            $message .= html_writer::tag('br',
+                    stack_string('stackInstall_testsuite_errors')) . implode(' ', array_keys($question->runtimeerrors));
+        }
+
+        $flag = '';
         if ($ok === false) {
             $class = 'fail';
         } else {
             $class = 'pass';
             $flag = '* ';
         }
-
-        $message = stack_string('testpassesandfails', array('passes' => $passes, 'fails' => $fails));
         if (!$quiet) {
             echo html_writer::tag('p', $flag.$message, array('class' => $class));
         }
@@ -260,7 +270,7 @@ class stack_bulk_tester  {
      * @param bool $allpassed whether all the tests passed.
      * @param array $failingtests list of the ones that failed.
      */
-    public function print_overall_result($allpassed, $failingtests, $notests, $nogeneralfeedback, $failingupgrade) {
+    public function print_overall_result($allpassed, $failing) {
         global $OUTPUT;
         echo $OUTPUT->heading(stack_string('overallresult'), 2);
         if ($allpassed) {
@@ -271,40 +281,15 @@ class stack_bulk_tester  {
                     array('class' => 'overallresult fail'));
         }
 
-        if (!empty($failingupgrade)) {
-            echo $OUTPUT->heading(stack_string('stackInstall_testsuite_upgrade'), 3);
-            echo html_writer::start_tag('ul');
-            foreach ($failingupgrade as $message) {
-                echo html_writer::tag('li', $message);
+        foreach ($failing as $key => $failarray) {
+            if (!empty($failarray)) {
+                echo $OUTPUT->heading(stack_string('stackInstall_testsuite_' . $key), 3);
+                echo html_writer::start_tag('ul');
+                foreach ($failarray as $message) {
+                    echo html_writer::tag('li', $message);
+                }
+                echo html_writer::end_tag('ul');
             }
-            echo html_writer::end_tag('ul');
-        }
-
-        if (!empty($failingtests)) {
-            echo $OUTPUT->heading(stack_string('stackInstall_testsuite_failures'), 3);
-            echo html_writer::start_tag('ul');
-            foreach ($failingtests as $message) {
-                echo html_writer::tag('li', $message);
-            }
-            echo html_writer::end_tag('ul');
-        }
-
-        if (!empty($notests)) {
-            echo $OUTPUT->heading(stack_string('stackInstall_testsuite_notests'), 3);
-            echo html_writer::start_tag('ul');
-            foreach ($notests as $message) {
-                echo html_writer::tag('li', $message);
-            }
-            echo html_writer::end_tag('ul');
-        }
-
-        if (!empty($nogeneralfeedback)) {
-            echo $OUTPUT->heading(stack_string('stackInstall_testsuite_nogeneralfeedback'), 3);
-            echo html_writer::start_tag('ul');
-            foreach ($nogeneralfeedback as $message) {
-                echo html_writer::tag('li', $message);
-            }
-            echo html_writer::end_tag('ul');
         }
 
         echo html_writer::tag('p', html_writer::link(new moodle_url('/question/type/stack/bulktestindex.php'),

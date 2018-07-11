@@ -49,7 +49,7 @@ class qtype_stack_api_export {
                 if ($languages == array()) {
                     $yaml[$propertyname] = (string) $value;
                 } else {
-                    foreach($languages as $lang) {
+                    foreach ($languages as $lang) {
                         $yaml[$propertyname.'_'.$lang] = (string) $multilang->filter($value, $lang);
                     }
                 }

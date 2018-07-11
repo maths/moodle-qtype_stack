@@ -93,7 +93,7 @@ class qtype_stack_api {
                 if (!$skipvalidation && $input->requires_validation() && '' !== $state->contents) {
                     $attempt[$name.'_val'] = $input->contents_to_maxima($state->contents);
                 }
-            } 
+            }
 
             $fieldname = $fieldprefix.$name;
             $tavalue = $question->get_session_variable($name);
@@ -118,7 +118,6 @@ class qtype_stack_api {
         foreach ($question->prts as $index => $prt) {
             $feedback = '';
             $result = $question->get_prt_result($index, $attempt, false);
-//            echo "<pre>"; var_dump($result->get_feedback()); echo "</pre>";
             $resultfeedback = $result->get_feedback();
             $scores[$index] = $result->score;
             $notes[$index] = implode(' | ', $result->answernotes);

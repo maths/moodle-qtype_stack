@@ -81,7 +81,7 @@ class qtype_stack_api_yaml {
             $fieldhtml = $field . '_html_';
             foreach ($question as $key => $value) {
                 // Note the 0 is not false here.
-                if(stripos($key, $fieldhtml) === 0) {
+                if (stripos($key, $fieldhtml) === 0) {
                     $langfound = str_replace($fieldhtml, '', $key);
                     if ($lang == '') {
                         // We are not looking for a specific language, so consolidate them all.
@@ -153,7 +153,8 @@ class qtype_stack_api_yaml {
 
     /**
      * Returns question
-     * @param string $lang The language code for the specified version.  If no string is given, we wrap any langauges in multilang span tags.
+     * @param string $lang The language code for the specified version.
+     * If no string is given, we wrap any langauges in multilang span tags.
      * @return mixed
      */
     public function get_question($lang = '') {

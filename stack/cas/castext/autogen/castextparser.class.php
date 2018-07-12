@@ -27,10 +27,10 @@
  **/
 /**
  * Howto generate the .php file: run the following command, in the directory of this file:
- * php ../../../thirdparty/php-peg/cli.php castext.peg.inc > castextparser.class.php
+ * php ../../../thirdparty/php-peg/cli.php castext.peg.inc > autogen/castextparser.class.php
  * And do remove that PHP ending the question mark greater than thing after generation. If generated.
  **/
-require_once(__DIR__ . '/../../../thirdparty/php-peg/autoloader.php');
+require_once(__DIR__ . '/../../../../thirdparty/php-peg/autoloader.php');
 use hafriedlander\Peg\Parser;
 /**
  * Defines the text parser for identifying STACK specific parts from CAStext, does not work with XML,

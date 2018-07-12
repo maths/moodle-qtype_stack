@@ -14,14 +14,15 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
-/**
- * Define blocks allow one to (re)define variables in the middle of castext.
- * They are meant for writing out for-blocks but no one says that you could not use them.
- *
- * @copyright  2013 Aalto University
- * @copyright  2012 University of Birmingham
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
+defined('MOODLE_INTERNAL') || die();
+
+// Define blocks allow one to (re)define variables in the middle of castext.
+// They are meant for writing out for-blocks but no one says that you could not use them.
+//
+// @copyright  2013 Aalto University
+// @copyright  2012 University of Birmingham
+// @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+
 require_once(__DIR__ . '/../casstring.class.php');
 require_once("block.interface.php");
 
@@ -60,6 +61,4 @@ class stack_cas_castext_define extends stack_cas_castext_block {
         }
         return $r;
     }
-
-
 }

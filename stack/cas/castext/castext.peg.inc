@@ -14,23 +14,21 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
-/**
- * CAS text parser
- *
- * @copyright  2013 Aalto University
- * @copyright  2012 University of Birmingham
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
+defined('MOODLE_INTERNAL') || die();
 
-/**
- * WARNING! if the file you are reading has .php-extension do not edit it! It has been generated from castext.peg.inc.
- **/
-/**
- * Howto generate the .php file: run the following command, in the directory of this file:
- * php ../../../thirdparty/php-peg/cli.php castext.peg.inc > castextparser.class.php
- * And do remove that PHP ending the question mark greater than thing after generation. If generated.
- **/
-require_once(__DIR__ . '/../../../thirdparty/php-peg/autoloader.php');
+// CAS text parser
+//
+// @copyright  2013 Aalto University
+// @copyright  2012 University of Birmingham
+// @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+
+// WARNING! if the file you are reading has .php-extension do not edit it! It has been generated from castext.peg.inc.
+
+// Howto generate the .php file: run the following command, in the directory of this file:
+// php ../../../thirdparty/php-peg/cli.php castext.peg.inc > autogen/castextparser.class.php
+// And do remove that PHP ending the question mark greater than thing after generation. If generated.
+
+require_once(__DIR__ . '/../../../../thirdparty/php-peg/autoloader.php');
 use hafriedlander\Peg\Parser;
 /**
  * Defines the text parser for identifying STACK specific parts from CAStext, does not work with XML,

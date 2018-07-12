@@ -197,9 +197,9 @@ We also wanted to check that the student hadn't differentiated by mistake. Fortu
 
 See that built-in feedback is provided to the student - a warning that they have forgotten the constant of integration. Again, this can be disabled with the _Quiet_ option. 
 
-## Enhancing feedback
+## Enhancing student feedback
 
-We now need to check that the student has not differentiated the outer function by mistake, and we achieve this by adding another potential response node.
+Let us continue to enhance feedback by checking that the student has not differentiated the outer function by mistake. We do this by adding another potential response node.
 
 Close the preview, scroll down to the Potential Response Tree and click `[Add another node]` button at the bottom of the list of nodes:
 
@@ -212,14 +212,16 @@ Update the form so that Node 2 has
     TAns = 5*(3*x-2)^-5
     Answer test = AlgEquiv
 
-We use Maxima to differentiate the student's answer. We then compare that result, algebraically, to what the question would have had to have been to yield that result.
+See that we are using Maxima to differentiate the student's answer. We then compare that result, algebraically, to what the question would have been for the student to respond in the way they have.
 
 This gives us the test, but what about the outcomes?
 
 1. On the true branch set the `score=0`
 2. On the true branch set the feedback to `It looks like you have subtracted one off the power of the outer function instead of adding one to the power!`
 
-Notice here that STACK also adds an "intelligent note to self" in the [answer note](Potential_response_trees.md#Answer_note) field.
+Notice here that STACK also adds an "intelligent note to self" in the [answer note](Potential_response_trees.md#Answer_note) field:
+
+
 
 This is useful for statistical grouping of similar outcomes when the feedback depends on randomly generated questions,
 and different responses. You have something definite to group over.  This is discussed in [reporting](Reporting.md).
@@ -230,7 +232,107 @@ Type the following response into the answer box:
 
 	-5/12*(3*x-2)^-4+C
 
-Because we are using Maxima to differentiate the student's response, our new test still works with or without the constant of integration.
+Because we are using Maxima to differentiate the student's response, whether or not the student includes a constant of integration in their answer. You can verify this by typing the above response but missing off the constant.
+
+## The Form of a Response
+
+Because, with STACK, we are checking the mathematical properties of a student's response we can check to ensure that the student has responded using the correct form of response. For example, in answer to our question a response of \(-\frac{5}{6}(3x-2)^{-2} + C \) might equally well be provided as \( -\frac{5}{54x^{2}-72x+24} + C\). This is mathematically correct but not in the factored form we would want. The student is correct but we need to guide them into not expanding when they don't need to. 
+
+We need to go back and `[Add another node]` to the Potential Response Tree.
+
+To use this potential response, edit Node 1, and now change the true branch to make the Next node point to the new Node 3.
+If we enter Node 3, we know the student has the correct answer and just need to establish if it is factored or not and provide the appropriate feedback. To establish this we need to use the [FacForm answer test](Answer_tests.md).
+
+Update the form so that Node 3 has
+
+    SAns = diif(ans1)
+    TAns = -5/6(3*x-2)^-2 + C
+    Answer test = FacForm
+    Test options = x
+    Quiet = Yes.
+
+The FacForm answer test provides automatic feedback which would be inappropriate here, hence we choose the quiet option.
+
+We also need to assign outcomes.
+
+1. On the true branch set the `score=1`
+2. On the false branch set the `score=1`
+3. On the false branch set the feedback to `Your answer is not factored. Well done for getting the correct answer but remember that there is no need to expand out the brackets.`
+
+Having developed our integration question to the point where we can provide some quite detailed guidance to students (based on the mathematical properties of their answer) we can now consider using this particular question as the basis for a whole set of random questions.
+
+Before moving on you might consider saving as a new question so you don't lose your work.
+
+
+## Random questions ##
+
+To generate random questions we again make use of the [question variables](KeyVals.md#Question_variables) field.
+
+Right at the very start of this guide we introduced the idea of question variables. Let's take a look again the the question variables we declared:
+
+<textarea readonly="readonly" rows="3" cols="50">
+definition:5*(3*x-2)^-3
+model: integrate(definition, x)+C
+</textarea>
+
+We defined two local variables `definition` and `model`, and used these values in both the Question text and in the potential response tree. 
+
+In the question text we entered the following:
+
+<textarea readonly="readonly" rows="3" cols="50">
+Find \(\int{@definition@}\mathrm{dx}\)
+[[input:ans1]] [[validation:ans1]]
+</textarea>
+
+The difference is between mathematics enclosed between `\(..\)` symbols and `{@..@}` symbols. All the text-based fields in the question, including feedback, are [CAS text](CASText.md).  This is HTML into which mathematics can be inserted.  \(\LaTeX\) is placed between `\(..\)`s, and CAS expressions (including your variables) between matching `{@..@}` symbols.  There is more information in the specific documentation.   
+
+Notice also that in the model answer there is a CAS command to integrate the value of `definition` with respect to `x`. It wasn't necessary for the CAS to work out the answer to our original question (we could have specified it ourselves) but it is certainly necessary in a random question.
+
+We are now in a position to generate a random question. To do this modify the [question variables](KeyVals.md#Question_variables) to be
+
+	a : 1+rand(6)
+	b : 1+rand(6)
+    c : 1+rand(6)
+    n : -1-rand(6)
+    definition : a(b*x-c)^n;
+    model: integrate(definition, x)+C
+
+In this new question we are asking the student to find the anti-derivative of a question with a definite form \(\frac{a}{(b*x-c)^n}\). `a`, `b`, `c` and `n` are all variables, which are assigned random numbers. These are then used to define the variable `definition`, used in the question itself. We also have the CAS integrate the definition and store the result in the variable `model`.
+
+Remember that when generating random questions in STACK then we talk about _random numbers_ when we really mean _pseudo-random numbers_. To keep track of which random numbers are generated for each user, there is a special `rand` command in STACK,
+which you should use instead of [Maxima](../CAS/Maxima.md)'s random command. The `rand` command is a general "random thing" generator, see the page on [random generation](../CAS/Random.md) for full details. Not only can it can be used to generate random numbers and also to make selections from a list (discussed later in this guide).
+
+### Question note ###
+
+Now that our question contains random numbers we need to record the actual question (i.e. so that we know what was actually asked). As soon as we use the `rand` function STACK forces us to add a _Question note_. For our new, randomised integration question fill this in as
+
+	Find \[\int{@definition@}\mathrm{dx}\]
+
+
+### Handing random questions in the Potential Response Tree ###
+
+We also need to ensure the test answers, `TAns`, in each node of the potential response tree are updated accordingly. If the student has differentiated the outer function by mistake then the derivative of their response will be of the form:
+
+	\[n*(n-1)*a*(b*x-c)^{n-2}\]
+	
+We are already using the `definition` and `model` variables in both the integration and factor form tests we configured earlier so these can stay unchanged.
+
+Edit your trial question, save and preview it to get new random versions of the question.
+
+### Futher randomisation ###
+
+The `rand` function can also be used to select items from a list. For example, we can use random selection from a list to vary our integration question even further:
+
+	a : 1+rand(6);
+	b : 1+rand(6);
+	c : 1+rand(6);
+	sign: rand[-1,1];
+	n : rand(6)*sign;
+	definition : a(b*x-c)^n;
+	model: integrate(definition, x)+C;
+
+As questions become increasingly complex, it is a good habit to comment complicated lines in the Maxima code in the Question variables and Feedback variables, in order to make the code easier to read for anyone wishing to edit the question. Comments are entered as follows: `sign: rand[-1,1]; /* The power is randomly set to either positive or negative */`.
+
 
 ---
 

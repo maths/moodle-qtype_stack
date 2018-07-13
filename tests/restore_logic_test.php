@@ -65,6 +65,7 @@ class testable_restore_qtype_stack_plugin extends restore_qtype_stack_plugin {
         return $this->log;
     }
 
+    // @codingStandardsIgnoreLine
     public function after_execute_question() {
         // Make method public.
         parent::after_execute_question();

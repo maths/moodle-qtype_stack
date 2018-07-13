@@ -14,23 +14,22 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
-/**
- * Latex blocks correspond to {@content@} -syntax and ouput the content evaluated in CAS in LaTeX-form.
- * The node referenced by this block is expected to be an instance of DOMText
- *
- * @copyright  2013 Aalto University
- * @copyright  2012 University of Birmingham
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
+defined('MOODLE_INTERNAL') || die();
+
+// Latex blocks correspond to {@content@} -syntax and ouput the content evaluated in CAS in LaTeX-form.
+// The node referenced by this block is expected to be an instance of DOMText.
+//
+// @copyright  2013 Aalto University
+// @copyright  2012 University of Birmingham
+// @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+
 require_once(__DIR__ . '/../casstring.class.php');
 require_once("block.interface.php");
 require_once(__DIR__ . '/../../utils.class.php');
 
 class stack_cas_castext_latex extends stack_cas_castext_block {
 
-    /**
-     * Remembers the number for this instance.
-     */
+     // Remembers the number for this instance.
     private $number;
 
     public function extract_attributes(&$tobeevaluatedcassession, $conditionstack = null) {
@@ -39,7 +38,7 @@ class stack_cas_castext_latex extends stack_cas_castext_block {
 
         $sessionkeys = $tobeevaluatedcassession->get_all_keys();
         $i = 0;
-        do { // ... make sure names are not already in use.
+        do { // Make sure names are not already in use.
             $key = 'caschat'.$i;
             $i++;
         } while (in_array($key, $sessionkeys));

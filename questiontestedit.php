@@ -65,6 +65,9 @@ $PAGE->set_url('/question/type/stack/questiontestedit.php', $urlparams);
 $PAGE->set_title($title);
 $PAGE->set_heading($title);
 $PAGE->set_pagelayout('popup');
+
+require_login();
+
 // Create the question usage we will use.
 $quba = question_engine::make_questions_usage_by_activity('qtype_stack', $context);
 $quba->set_preferred_behaviour('adaptive');

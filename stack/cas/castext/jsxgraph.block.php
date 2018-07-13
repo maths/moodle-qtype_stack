@@ -14,17 +14,17 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
-/**
- * JSXGraph block essentially repeats the functionality of the JSXGraph filter
- * in Moodle but limits the use to authors thus negating the primary security
- * issue. More importantly it also provides STACK specific extensions in
- * the form of references to question inputs.
- *
- * While this filter is simple and repeat existing logic it does have a purpose.
- *
- * @copyright  2018 Aalto University
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
+defined('MOODLE_INTERNAL') || die();
+
+// JSXGraph block essentially repeats the functionality of the JSXGraph filter
+// in Moodle but limits the use to authors thus negating the primary security
+// issue. More importantly it also provides STACK specific extensions in
+// the form of references to question inputs.
+//
+// While this filter is simple and repeat existing logic it does have a purpose.
+//
+// @copyright  2018 Aalto University
+// @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
 
 require_once(__DIR__ . '/../casstring.class.php');
 require_once("block.interface.php");
@@ -67,8 +67,8 @@ class stack_cas_castext_jsxgraph extends stack_cas_castext_block {
         // the same prefix for all inputs in the question, by keepping the id
         // mapping here the materials need not care about that and only this
         // needs to be fixed to match the environment.
-        // And in any case in Moodle at the time we render this we do not know
-        // The prefix.....
+        // And in any case in Moodle at the time we render this we do not know.
+        // The prefix.
         foreach ($this->get_node()->get_parameters() as $key => $value) {
             if (substr($key, 0, 10) === "input-ref-") {
                 $varname = substr($key, 10);

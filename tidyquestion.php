@@ -49,6 +49,8 @@ $PAGE->set_title($title);
 $PAGE->set_heading($COURSE->fullname);
 $PAGE->set_pagelayout('admin');
 
+require_login();
+
 // The URL back to the preview page.
 $returnurl = question_preview_url($questionid, null, null, null, null, $context);
 

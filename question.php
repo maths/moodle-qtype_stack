@@ -154,6 +154,12 @@ class qtype_stack_question extends question_graded_automatically_with_countback
     public $prtincorrectinstantiated;
 
     /**
+     * @var array Errors generated at runtime.
+     * Any errors are stored as the keys to prevent duplicates.  Values are ignored.
+     */
+    public $runtimeerrors = array();
+
+    /**
      * The next three fields cache the results of some expensive computations.
      * The chache is only valid for a particular response, so we store the current
      * response, so that we can learn the cached information in the result changes.
@@ -307,11 +313,10 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         // Now instantiate the session.
         $session->instantiate();
         if ($session->get_errors()) {
-            // We throw an exception here because any problems with the CAS code
-            // up to this point should have been caught during validation when
-            // the question was edited or deployed.
-            throw new stack_exception('qtype_stack_question : CAS error when instantiating the session: ' .
-                    $session->get_errors($this->user_can_edit()));
+            // In previous versions we threw an exception here.
+            // Upgrade and import stops  errors being caught during validation when the question was edited or deployed.
+            // This breaks bulk testing in a nasty way.
+            $this->runtimeerrors[$session->get_errors($this->user_can_edit())] = true;
         }
 
         // Finally, store only those values really needed for later.
@@ -337,8 +342,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
     protected function prepare_cas_text($text, $session) {
         $castext = new stack_cas_text($text, $session, $this->seed, 't', false, 1);
         if ($castext->get_errors()) {
-            throw new stack_exception('qtype_stack_question : Error part of the question: ' .
-                    $castext->get_errors());
+            $this->runtimeerrors[$castext->get_errors()] = true;
         }
         return $castext;
     }
@@ -368,7 +372,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         $hinttext = new stack_cas_text($hint->hint, $this->session, $this->seed, 't', false, 1);
 
         if ($hinttext->get_errors()) {
-            throw new stack_exception('Error rendering the hint text: ' . $gftext->get_errors());
+            $this->runtimeerrors[$gftext->get_errors()] = true;
         }
 
         return $hinttext;
@@ -382,7 +386,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         $gftext = new stack_cas_text($this->generalfeedback, $this->session, $this->seed, 't', false, 1);
 
         if ($gftext->get_errors()) {
-            throw new stack_exception('Error rendering the general feedback text: ' . $gftext->get_errors());
+            $this->runtimeerrors[$gftext->get_errors()] = true;
         }
 
         return $gftext;

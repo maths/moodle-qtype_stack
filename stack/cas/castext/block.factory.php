@@ -13,7 +13,9 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
+
 defined('MOODLE_INTERNAL') || die();
+
 // Functions related to dealing with scientific units in STACK.
 //
 // @copyright  2017 Aalto University.
@@ -37,7 +39,7 @@ class castext_block_factory {
      * @return string corresponding class name. Or NULL.
      */
     protected static function class_for_type($type) {
-        $types = castext_block_factory::get_available_types();
+        $types = self::get_available_types();
 
         if (array_key_exists($type, $types)) {
             return $types[$type];

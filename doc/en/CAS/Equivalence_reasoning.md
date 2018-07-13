@@ -86,6 +86,8 @@ To enter options for this input use the "extra options field".   Options should 
 
 `hideequiv` does not display whether each line is equivalent to the next at validation time.
 
+`hidedomain` does not display natural domain information.
+
 `comments` allows students to include comments in their answer.  By default comments are not permitted as it breaks up the argument and stops automatic marking.
 
 `firstline` takes the first line of the teacher's answer and forces the student to have this as the first line of the student's answer.  The test used is equality up to commutativity and associativity (EqualComAss answer test).
@@ -125,9 +127,23 @@ At the moment STACK quietly condones silent domain enlargements such as in the a
 
 # Other functions #
 
-The maxima function `stack_disp_arg(ex, showlogic)` can be used to display a list of expressions `ex` in the same form as used in the input and answer tests.  This is useful for displaying the teacher's worked solution in the general feedback.  The boolean variable `showlogic` dertemines whether the equivalence symbols are shown.  For a worked solution you probably need to use the following:
+The maxima function `stack_disp_arg(ex, [showlogic, showdomain])` can be used to display a list of expressions `ex` in the same form as used in the input and answer tests.  This is useful for displaying the teacher's worked solution in the general feedback.  
 
-    \[ {@stack_disp_arg(ta, true)@} \]
+The second two arguments are optional.
+1. The boolean variable `showlogic` dertemines whether the equivalence symbols are shown.  For a worked solution you probably need to use the following:
+2. The boolean variable `showdomain` dertemines whether the natural domains are shown.
+
+For a worked solution you probably need to use the function
+
+    \[ {@stack_disp_arg(ta)@} \]
+
+Without the equivalence symbols you use 
+
+    \[ {@stack_disp_arg(ta, false)@} \]
+
+With the equivalence symbols but without natural domains you use 
+
+    \[ {@stack_disp_arg(ta, true, false)@} \]
 
 ## Longer term plans
 

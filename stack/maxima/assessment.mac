@@ -1422,7 +1422,6 @@ stack_eval_arg(ex) := block([eqoutcome, eqoutsymb, eqoutnote, res, id, truthargu
   /* Set up empty rows to hold the answer. */
   eqoutcome:makelist(false, length(ex)),
   eqoutsymb:makelist(QMCHAR, length(ex)),
-  exnatdomain:makelist(EMPTYCHAR, length(ex)),
   eqoutnote:makelist("", length(ex)),
   eqoutcome[1]:null,
   eqoutsymb[1]:EMPTYCHAR,
@@ -1434,6 +1433,7 @@ stack_eval_arg(ex) := block([eqoutcome, eqoutsymb, eqoutnote, res, id, truthargu
   exmod:copy(ex),
   exmodpoly:copy(ex),
   exmodsolve:copy(ex),
+  /* Copy the expressions here, so we have the natural domain of the original expression. */
   exnatdomain:copy(ex),
   for id:1 thru length(ex) step 1 do block([SA, tempnote:""],
       SA:exmod[ev(id, simp)],
@@ -1855,11 +1855,18 @@ stack_eval_arg(ex) := block([eqoutcome, eqoutsymb, eqoutnote, res, id, truthargu
           eqoutsymb[ev(k,simp)]:CHECKMARK
   ),
   /* Display natural domains. */
-  for k:1 thru length(ex) step 1 do block([natdom],
-    natdom:ev(natural_domain(exnatdomain[k]), simp),
-    exnatdomain[ev(k,simp)]:EMPTYCHAR,
-    if not(is(natdom=all) or is(natdom=unknown)) then
-        exnatdomain[ev(k,simp)]:texcolorplain("blue", natdom)
+  if showdomain then block(
+    for k:1 thru length(ex) step 1 do block([natdom],
+      natdom:ev(natural_domain(exnatdomain[k]), simp),
+      exnatdomain[ev(k,simp)]:EMPTYCHAR,
+      if not(is(natdom=all) or is(natdom=unknown)) then
+          exnatdomain[ev(k,simp)]:texcolorplain("blue", natdom)
+    )
+  ) else block(
+    /* The expressions are stored in exnatdomain up to this point. */
+    for k:1 thru length(ex) step 1 do block(
+      exnatdomain[ev(k,simp)]:EMPTYCHAR
+    )
   ),
   res:matrix(eqoutcome, eqoutsymb, ex, exnatdomain, eqoutnote),
   return(transpose(res))
@@ -1892,7 +1899,7 @@ stack_eval_arg_solver(ex) := block([ex2],
 
 
 /* This modifies stack_eval_arg to create something which can be displayed. */
-stack_eval_equiv_arg(ex, showlogic, equivdebug, debuglist) := block([A, k, ret, res, exnew, eqoutsymb, note],
+stack_eval_equiv_arg(ex, showlogic, showdomain, equivdebug, debuglist) := block([A, k, ret, res, exnew, eqoutsymb, note],
     /* Evaluate the argument.      */
     A:transpose(stack_eval_arg(ex)),
     /* Decide if the overall argument is true. */
@@ -1962,21 +1969,26 @@ stack_eval_arg_equivalence_reasoningp(L) := block(
 )$
 
 /* This modifies stack_eval_arg to create something which can be displayed. */
-disp_stack_eval_arg(ex, showlogic, equivdebug, debuglist) := block([A],
-    A:stack_eval_equiv_arg(ex, showlogic, equivdebug, debuglist),
+disp_stack_eval_arg(ex, showlogic, showdomain, equivdebug, debuglist) := block([A],
+    A:stack_eval_equiv_arg(ex, showlogic, showdomain, equivdebug, debuglist),
     return(second(A))
 )$
 
 /* This modifies stack_eval_arg to create something which can be displayed. */
-stack_disp_arg(ex, showlogic) := block([A],
-    A:stack_eval_equiv_arg(ex, showlogic, false, false),
+stack_disp_arg([exs]) := block([A],
+    ex:first(exs),
+    showlogic:true,
+    if length(exs)>1 then showlogic:second(exs),
+    showdomain:true,
+    if length(exs)>2 then showdomain:third(exs),
+    A:stack_eval_equiv_arg(ex, showlogic, showdomain, false, false),
     return(second(A))
 )$
 
 check_stack_eval_arg(ex) := block([ret],
     /* Evaluate the argument.      */
     if length(ex)<2 then return(true),
-    ret:stack_eval_equiv_arg(ex, false, false, false),
+    ret:stack_eval_equiv_arg(ex, false, false, false, false),
     return(first(ret))
 )$
 
@@ -2006,7 +2018,7 @@ ATEquiv(SA, SB, SO) := block([SAA, SAB, SOO, opts, ret, A, AnswerNote, FeedBack]
         (print("TEST_FAILED"), return(StackBasicReturn(false, false, "ATEquiv_SB_not_list"))),
 
     /* Actually perform the test.  */
-    A:stack_eval_equiv_arg(SA, true, false, false),
+    A:stack_eval_equiv_arg(SA, true, true, false, false),
     AnswerNote:third(A),
     FeedBack:stack_disp(second(A), "d"),
 

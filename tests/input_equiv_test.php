@@ -158,6 +158,18 @@ class stack_equiv_input_test extends qtype_stack_testcase {
                 ' x=2\,{\mbox{ or }}\, x=3& \cr \end{array} \]', $state->contentsdisplayed);
     }
 
+    public function test_validate_student_response_without_domain() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('equiv', 'sans1', '[1/(x-1)+1/(x-2)=0]');
+        $el->set_parameter('options', 'hidedomain');
+        $state = $el->validate_student_response(array('sans1' => "1/(x-1)+1/(x+1)=0\n2*x/(x^2-1)=0"),
+                $options, '[1/(x-1)+1/(x-2)=0]', null);
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('[1/(x-1)+1/(x+1)=0,2*x/(x^2-1)=0]', $state->contentsmodified);
+        $this->assertEquals('\[ \begin{array}{lll} &\frac{1}{x-1}+\frac{1}{x+1}=0& \cr ' .
+                '\color{green}{\Leftrightarrow}&\frac{2\cdot x}{x^2-1}=0& \cr \end{array} \]', $state->contentsdisplayed);
+    }
+
     public function test_validate_student_response_without_assume_pos() {
         $options = new stack_options();
         $el = stack_input_factory::make('equiv', 'sans1', '[x^2=4,x=2 nounor x=-2]');

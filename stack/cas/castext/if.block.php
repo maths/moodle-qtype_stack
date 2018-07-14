@@ -14,21 +14,20 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
-/**
- * If blocks hide their content if the value of their test-attribute is not "true".
- *
- * @copyright  2013 Aalto University
- * @copyright  2012 University of Birmingham
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
+defined('MOODLE_INTERNAL') || die();
+
+// If blocks hide their content if the value of their test-attribute is not "true".
+//
+// @copyright  2013 Aalto University
+// @copyright  2012 University of Birmingham
+// @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+
 require_once(__DIR__ . '/../casstring.class.php');
 require_once("block.interface.php");
 
 class stack_cas_castext_if extends stack_cas_castext_block {
 
-    /**
-     * Remembers the number for this instance.
-     */
+    // Remembers the number for this instance.
     private $number;
 
     private $condition;
@@ -39,7 +38,7 @@ class stack_cas_castext_if extends stack_cas_castext_block {
         $key = false;
         $sessionkeys = $tobeevaluatedcassession->get_all_keys();
         $i = 0;
-        do { // ... make sure names are not already in use.
+        do { // Make sure names are not already in use.
             $key = 'caschat'.$i;
             $i++;
         } while (in_array($key, $sessionkeys));

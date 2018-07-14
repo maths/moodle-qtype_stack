@@ -37,6 +37,8 @@ class stack_equiv_input extends stack_input {
     protected $extraoptions = array(
         // Does a student see the equivalence signs at validation time?
         'hideequiv' => false,
+        // Does a student see the natural domain at validation time?
+        'hidedomain' => false,
         // Must a student have the same first line as the teacher's answer?
         'firstline' => false,
         // Is a student permitted to include comments in their answer?
@@ -303,8 +305,13 @@ class stack_equiv_input extends stack_input {
         if ($this->extraoptions['hideequiv']) {
             $showlogic = 'false';
         }
+        $showdomain = 'true';
+        if ($this->extraoptions['hidedomain']) {
+            $showdomain = 'false';
+        }
         $debuglist = 'false';
-        $an = new stack_cas_casstring('disp_stack_eval_arg('.$this->name.', '.$showlogic.', '.$equivdebug.', '.$debuglist.')');
+        $an = new stack_cas_casstring('disp_stack_eval_arg('.$this->name.', '.$showlogic.', '.
+                $showdomain.', '.$equivdebug.', '.$debuglist.')');
         $an->get_valid('t', $this->get_parameter('strictSyntax', true),
                  $this->get_parameter('insertStars', 0));
         $an->set_key('equiv'.$this->name);

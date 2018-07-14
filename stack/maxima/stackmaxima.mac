@@ -282,6 +282,24 @@ multiselqn(corbase, numcor, wrongbase, numwrong):=block([ta1, ta2, ta, version],
   return([ta, version])
 )$
 
+/* Helper function for constructing MCQ arrays with auto-generated alphabetic labels. Students choose the labels. */
+multiselqnalpha(corbase, numcor, wrongbase, numwrong):=block([ta1, ta2, ta3, talab, ta, version],
+  if not(listp(corbase)) then error("multiselqn: first argument must be a list."),
+  if not(listp(wrongbase)) then error("multiselqn: third argument must be a list."),
+  if not(integerp(numcor)) then error("multiselqn: second argument must be an integer."),
+  if not(integerp(numwrong)) then error("multiselqn: forth argument must be an integer."),
+  if length(corbase)<numcor then error("multiselqn: you have asked for more correct responses than are supplied in the list!"),
+  if length(wrongbase)<numwrong then error("multiselqn: you have asked for more correct responses than are supplied in the list!"),
+  ta1: maplist(lambda([ex], [ex, true]), rand_selection(corbase, numcor)),
+  ta2: maplist(lambda([ex], [ex, false]), rand_selection(wrongbase, numwrong)),
+  ta3: random_permutation(append(ta1, ta2)),
+  /* Add in a slightly different display here. */
+  talab: ev(makelist(sconcat("(",ascii(96+i),")"), i, 1, length(ta3)), simp),
+  ta:zip_with(lambda([ex1, ex2], [ex1, ex2[2], sconcat("<b>", ex1, "</b> ", stack_disp(ex2[1], "i"))]), talab, ta3),
+  version: map(first, ta3),
+  return([ta, version])
+)$
+
 /* Helper function for constructing MCQ arrays where the values should not be shown to students. */
 multiselqndisplay(corbase, numcor, wrongbase, numwrong):=block([ta1, ta2, ta, version],
   if not(listp(corbase)) then error("multiselqndisplay: first argument must be a list."),

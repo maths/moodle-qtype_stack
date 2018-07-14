@@ -179,6 +179,7 @@ class stack_textarea_input_test extends qtype_stack_testcase {
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class testable_stack_textarea_input extends stack_textarea_input {
+    // @codingStandardsIgnoreLine
     public function tokenize_list($in) {
         return parent::tokenize_list($in);
     }

@@ -23,7 +23,10 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+// The docs should be public and not require a login, so we ignore the fact we load config here without a login check.
+// @codingStandardsIgnoreStart
 require_once(__DIR__ . '/../../../../config.php');
+// @codingStandardsIgnoreEnd
 require_once(__DIR__ . '/docslib.php');
 
 /*

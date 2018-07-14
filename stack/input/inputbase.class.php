@@ -256,6 +256,12 @@ abstract class stack_input {
                     }
                     break;
 
+                case 'hidedomain':
+                    if (!(is_bool($arg))) {
+                        $this->errors[] = stack_string('numericalinputoptbooplerr', array('opt' => $option, 'val' => $arg));
+                    }
+                    break;
+
                 case 'comments':
                     if (!(is_bool($arg))) {
                         $this->errors[] = stack_string('numericalinputoptbooplerr', array('opt' => $option, 'val' => $arg));

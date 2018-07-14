@@ -21,8 +21,8 @@ require_once(__DIR__ . '/../lang/multilang.php');
 
 // Unit tests for stack_multilang.
 //
-// @copyright  2018 The University of Edinburgh
-// @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+// @copyright  2018 The University of Edinburgh.
+// @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
 
 /**
  * @group qtype_stack

@@ -1079,6 +1079,15 @@ class stack_equiv_test_data {
         $newarg['assumereal'] = true;
         $samplearguments[]    = $newarg;
 
+        $newarg = array();
+        $newarg['title']      = "Substitute in a value for a variable and keep working.";
+        $newarg['narrative']  = '';
+        $newarg['casstring']  = "[2*x^3-9*x^2+10*x-3,stacklet(x,1),2*1^3-9*1^2+10*1-3,stackeq(0),\"So\"," .
+                "2*x^3-9*x^2+10*x-3,stackeq((x-1)*(2*x^2-7*x+3)),stackeq((x-1)*(2*x-1)*(x-3))]";
+        $newarg['debuglist']  = "[EMPTYCHAR,EMPTYCHAR,EQUIVCHAR,CHECKMARK,EMPTYCHAR,EMPTYCHAR,CHECKMARK,CHECKMARK]";
+        $newarg['outcome']    = 'unknown';
+        $samplearguments[]    = $newarg;
+
         //******************************************************************************
         $newarg = array();
         $newarg['section'] = 'Inequalities';

@@ -61,6 +61,8 @@ $PAGE->set_url('/question/type/stack/equivdemo.php', $urlparams);
 $title = "Equivalence reasoning test cases";
 $PAGE->set_title($title);
 
+require_login();
+
 echo $OUTPUT->header();
 echo $OUTPUT->heading($title);
 
@@ -147,10 +149,10 @@ foreach ($samplearguments as $argument) {
             }
             if ($debug) {
                 // Print debug information and show logical connectives on this page.
-                $cs3 = new stack_cas_casstring("S1:stack_eval_equiv_arg(" . $cskey. ", true, true, DL)");
+                $cs3 = new stack_cas_casstring("S1:stack_eval_equiv_arg(" . $cskey. ", true, true, true, DL)");
             } else {
                 // Print only logical connectives on this page.
-                $cs3 = new stack_cas_casstring("S1:stack_eval_equiv_arg(" . $cskey. ", true, false, DL)");
+                $cs3 = new stack_cas_casstring("S1:stack_eval_equiv_arg(" . $cskey. ", true, true, false, DL)");
             }
             $cs3->get_valid('t');
 
@@ -262,7 +264,7 @@ if ($debug) {
     foreach ($casstrings as $key => $val) {
         $script .= $key . ':' . $val . "\$\n";
     }
-    $script .= "\n\n".'disp_stack_eval_arg(A22, true, true, D22);';
+    $script .= "\n\n".'disp_stack_eval_arg(A22, true, true, true, D22);';
     echo html_writer::tag('textarea', $script,
             array('readonly' => 'readonly', 'wrap' => 'virtual', 'rows' => '32', 'cols' => '100'));
     echo '<hr />';

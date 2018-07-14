@@ -50,6 +50,8 @@ $PAGE->set_url($nexturl); // Since this script always ends in a redirect.
 $PAGE->set_heading($COURSE->fullname);
 $PAGE->set_pagelayout('admin');
 
+require_login();
+
 // Set up the export format.
 $qformat = new qformat_xml();
 $filename = question_default_export_filename($COURSE, $questiondata) .

@@ -596,6 +596,21 @@ class stack_answertest_test_data {
         array('SysEquiv', '', '[90=v*t,90=(v+5)*(t-1/4),90=(v+6)*(t-1/5),90=(v+7)*(t-1/4),90=(v+8)*(t-1/3)]',
             '[90=v*t,90=(v+5)*(t-1/4)]', 0, 'ATSysEquiv_SA_system_overdetermined.', ''),
 
+        array('Sets', '', '{1/0}', '{0}', -1, 'CASError: Division by zero.', ''),
+        array('Sets', '', '{0}', '{1/0}', -1, 'CASError: Division by zero.', ''),
+        array('Sets', '', 'x', '{1,2,3}', 0, 'ATSets_SA_not_set.', ''),
+        array('Sets', '', '{1,2}', 'x', 0, 'ATSets_SB_not_set.', ''),
+        array('Sets', '', '{1,2}', '{1,2,3}', 0, 'ATSets_missingentries.', ''),
+        array('Sets', '', '{1,2,4}', '{1,2}', 0, 'ATSets_wrongentries.', ''),
+        // Note, in the example below the wrong entry "4" displayed in the feedback does not occur in the set.
+        // The set contains only the equivalent entry 2+2.  This might be confusing.
+        array('Sets', '', '{1,2,2+2}', '{1,2}', 0, 'ATSets_wrongentries.', ''),
+        array('Sets', '', '{5,1,2,4}', '{1,2,3}', 0, 'ATSets_wrongentries. ATSets_missingentries.', ''),
+        array('Sets', '', '{2/4, 1/3}', '{1/2, 1/3}', 1, '', ''),
+        array('Sets', '', '{1,2,1}', '{1,2}', 1, 'ATSets_duplicates.', 'Duplicate entries'),
+        array('Sets', '', '{1,2,1+1}', '{1,2}', 1, 'ATSets_duplicates.', ''),
+        array('Sets', '', '{1,2,1+1}', '{1,2,3}', 0, 'ATSets_duplicates. ATSets_missingentries.', ''),
+
         array('Expanded', '', '1/0', '0', -1, 'CASError: Division by zero.', ''),
         array('Expanded', '', 'x>2', 'x^2-2*x+1', 0, 'ATExpanded_SA_not_expression.', ''),
         array('Expanded', '', 'x^2-1', '0', 1, 'ATExpanded_TRUE.', ''),

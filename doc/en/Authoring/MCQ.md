@@ -171,16 +171,20 @@ The function `multiselqndisplay` automatically assigns numbers \(1,\cdots, k\) t
 
 The function `multiselqnalpha` automatically selects the appropriate number of correct and incorrect entries, permutes the list and then assigns strings `"(a)"`, `"(b)"`, `"(c)"` etc. in the correct order. The student's answer will thus be a list of strings (somewhat subverting the whole purpose of STACK in returning a genuine mathematical expression, but this has its place...).  
 
-    [ta, version] = multiselqnalpha(corbase, numcor, wrongbase, numwrong)
+    [ta, version] = multiselqnalpha(corbase, numcor, wrongbase, numwrong, [dispstyle])
 
-For example, here the return values could be
+For example, here the return values (with inline maths) could be
 
     ta = [["(a)",false,"<b>(a)</b> \\(-2\\,a\\,x\\,\\sin \\left( a\\,x^2+b \\right)\\)"],["(b)",true,"<b>(b)</b> \\(2\\,a\\,x\\,\\cos \\left( a\\,x^2+b \\right)\\)"],["(c)",false,"<b>(c)</b> \\(\\cos \\left( 2\\,a\\,x \\right)\\)"],["(d)",false,"<b>(d)</b> \\(2\\,a\\,x\\,\\cos \\left( 2\\,a\\,x \\right)\\)"]]
     version = [-2*a*x*sin(a*x^2+b),2*a*x*cos(a*x^2+b),cos(2*a*x),2*a*x*cos(2*a*x)]
 
-Note, the `version` retains the CAS statements, in order.
+Notes
 
-Do not use `multiselqnalpha` in conjunction with the `shuffle` option.  There is no need as the selection are permuted, and it messes up the order of the choices for the student. 
+1. The fifth optional argument to ` multiselqnalpha` controls the display style of the LaTeX.  Use `"i"` (a string containing `i`) for inline, `"d"` for displayed and `"id"` for inline "displaystyle" (which is the default).
+2. Note that the "student's" answer will now be a _string_ such as `"(a)"`.  When you construct the PRT you will not need to check against these strings, not the original CAS expressions.
+3. The `version` retains the CAS statements, in order.
+4. Do not use `multiselqnalpha` in conjunction with the `shuffle` option.  There is no need as the selection are permuted, and it messes up the order of the choices for the student. 
+
 
 ## Dealing with strings in MCQ ##
 

@@ -34,6 +34,7 @@ Note: the behaviour of the maxima `addrow` function has changed.  Use the bulk t
 * _done_ Refactor equiv_input and MCQ to make use of the new extra options mechanism.
 * _done_ Add in support for the maxima `simplex` package.
 * _done_ Add an answer test to check if decimal separator is in the wrong place (See issue #314).
+* _done_ Add an answer test to check sets and provide better feedback.
 * _done_ Significant improvements to the bulk testing, returning runtime errors and identifying all questions without tests or worked solutions.
 
 * Better CSS.  (See issue #380)

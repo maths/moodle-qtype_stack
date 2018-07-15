@@ -1532,9 +1532,49 @@ ATSet(SA, SB) := block([RawMark, FeedBack, AnswerNote, str, SAl, SBl, ZM],
     SB:map(ineqprepare, map(trigreduce, SB)),
     if (subsetp(SA, SB) and subsetp(SB, SA)) then
         return([true, true, AnswerNote, FeedBack]),
-    /* Can we give feedback on which are wrong */
+    /* Can we give feedback on which are wrong ? */
     FeedBack:StackAddFeedback("", "ATSet_wrongentries", stack_disp(setdifference(SA, SB), "d")),
     return([true, false, StackAddNote("","ATSet_wrongentries"), FeedBack])
+)$
+
+/* Note, this test (ATSets not ATSet as above) gives much more detailed feedback
+   than the Algebraic equivalence test.
+*/
+ATSets(SA, SB) := block([RawMark, FeedBack, AnswerNote],
+    RawMark:true, FeedBack:"", AnswerNote:"",
+    /* Turn on simplification and error catch */
+    SAsimp:errcatch(ev(SA, simp, nouns)),
+    if is(SAsimp = [STACKERROR]) then return([false, false, StackAddNote("", "ATSets_STACKERROR_SAns"), ""]),
+    SAsimp:SAsimp[1],
+    SBsimp:errcatch(ev(SB, simp, nouns)),
+    if is(SBsimp = [STACKERROR]) then return([false, false, StackAddNote("", "ATSets_STACKERROR_TAns"), ""]),
+    SBsimp:SBsimp[1],
+    if not(safe_setp(SB)) then
+        return(StackBasicReturn(false, false, "ATSets_SB_not_set")),
+    if not(safe_setp(SA)) then
+        return(StackBasicReturn(false, false, "ATSets_SA_not_set")),
+
+    /* Look for duplicate entries. */
+    if is(length(SAsimp)<length(SA)) then block(
+      FeedBack:StackAddFeedback(FeedBack, "ATSets_duplicates"),
+      AnswerNote:StackAddNote(AnswerNote, "ATSets_duplicates")
+    ),
+
+    /* We check the simplified sets. */
+    if (subsetp(SAsimp, SBsimp) and subsetp(SBsimp, SAsimp)) then
+        return([true, true, AnswerNote, FeedBack]),
+
+    /* Can we give feedback on which are wrong ? */
+    if not(emptyp(setdifference(SAsimp, SBsimp))) then block(
+      FeedBack:StackAddFeedback(FeedBack, "ATSets_wrongentries", stack_disp(setdifference(SAsimp, SBsimp), "d")),
+      AnswerNote:StackAddNote(AnswerNote, "ATSets_wrongentries")
+    ),
+    if not(emptyp(setdifference(SBsimp, SAsimp))) then block(
+      FeedBack:StackAddFeedback(FeedBack, "ATSets_missingentries", stack_disp(setdifference(SBsimp, SAsimp), "d")),
+      AnswerNote:StackAddNote(AnswerNote, "ATSets_missingentries")
+    ),
+
+    return([true, false, AnswerNote, FeedBack])
 )$
 
 /* A wrapper for an all purpose answer test which checks things are of the

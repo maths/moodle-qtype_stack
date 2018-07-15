@@ -964,6 +964,19 @@ class stack_equiv_test_data {
         $newarg['outcome']   = true;
         $samplearguments[] = $newarg;
 
+        $newarg = array();
+        $newarg['title']     = "Recurrance relation in binomial coefficients.";
+        $newarg['narrative'] = '';
+        $newarg['casstring'] = '[binomial(n,k)+binomial(n,k+1),stackeq(n!/(k!*(n-k)!)+n!/((k+1)!*(n-k-1)!)),' .
+                'stackeq(n!/(k!*(n-k)*(n-k-1)!)+n!/((k+1)!*(n-k-1)!)),stackeq(n!/(k!*(n-k-1)!)*(1/(n-k)+1/(k+1))),' .
+                'stackeq(n!/(k!*(n-k-1)!)*((n+1)/((n-k)*(k+1)))),stackeq((n+1)*n!/(k!*(n-k-1)!)*(1/((k+1)*(n-k)))),' .
+                'stackeq((n+1)*n!/((k+1)*k!*(n-k)*(n-k-1)!)),stackeq(((n+1)!/((k+1)!)*(1/((n-k)*(n-k-1)!)))),' .
+                'stackeq((n+1)!/((k+1)!*(n-k)!)),stackeq(binomial(n+1,k+1))]';
+        $newarg['debuglist'] = '[EMPTYCHAR,CHECKMARK,CHECKMARK,CHECKMARK,CHECKMARK,CHECKMARK,CHECKMARK,CHECKMARK,' .
+                'CHECKMARK,CHECKMARK]';
+        $newarg['outcome']   = true;
+        $samplearguments[]   = $newarg;
+
         //******************************************************************************
         $newarg = array();
         $newarg['section'] = 'Mix of equations and expressions';

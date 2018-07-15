@@ -590,6 +590,9 @@ algebraic_equivalence(SA, SB) :=
     /* Remove scientific units and displaydp from expressions. */
     SA:ev(SA, stackunits="*"),
     SB:ev(SB, stackunits="*"),
+    /* Remove binomial function from expressions. */
+    SA:subst(binomial=lambda([a,b],a!/(b!*(a-b)!)), SA),
+    SB:subst(binomial=lambda([a,b],a!/(b!*(a-b)!)), SB),
     if not(freeof(displaydp, SA)) then
       SA:remove_displaydp(SA),
     if not(freeof(displaydp, SB)) then

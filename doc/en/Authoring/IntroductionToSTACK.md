@@ -455,7 +455,7 @@ n:(-1)-rand(9);
 inner:b&#42;x-c;
 f:a&#42;(inner)^n;
 sa:diff(inner, x);
-sb:(a&#42;(u)^n/b);
+sb:ev((a&#42;(u)^n/b, simp));
 sc:diff(sb, u);
 model:integrate(f, x)+C;
 </textarea>
@@ -480,7 +480,7 @@ As before, because this question uses the `rand()` function we need to include a
 Find \(\int{@f@}\mathrm{dx}\) using substitution
 </textarea>
 
-Let us add one node to the Potential Response Tree that verifies that the answer to the last part - the student's final answer - is correct. Under the heading `Potential response tree:prt1` specify `Int` from the Answer text drop-down, `model` as the model answer and `x` for Test options as, ultimately, we are tasking the student with finding the anti-derivate with respect to (\x\).
+Let us add one node to the Potential Response Tree that verifies that the answer to the last part - the student's final answer - is correct. Under the heading `Potential response tree:prt1` specify `Int` from the Answer text drop-down, `ans4` as SAns, `model` as TAns and, finally, `x` for Test options as, ultimately, we are tasking the student with finding the anti-derivate with respect to (\x\).
 
 Now we are in a position to preview the question. Press the `[[Save changes and continue editing]]` button. Once the page has reloaded, scroll down the page and click the `Preview` link.
 
@@ -488,5 +488,72 @@ Here is a preview of the page:
 
 ![Multi-part preview](%CONTENT/multipart_preview.png)
 
+#### Follow through marking
 
- 
+** NOT FINISHED ** 
+
+
+## Assessing algebraic transformations - Reasoning by Equivalence
+
+In this next question we will be exploring STACK's built-in equivalence reasoning tools. Using these tools we develop a question to assess a student's ability with, and understanding of, algebraic equivalence and equivalence transformations. This takes us on a departure from the integration question we have based most of our work on so far.
+
+We wish our students to expand the cubic \((x+2)^3\) showing their working in a stepwise fashion, line by line. The student's response to this question will allow us to test their knowledge and competency in the following:
+
+1. Expanding brackets
+2. Simplifiying by collecting like terms
+
+Therefore we need them to show their working. We also need to build a potential response tree, with each node using a suitable answer test, in order to assess these aspects.
+
+### Authoring the question
+
+Create a new STACK question, give it a suitable name and then copy the following into the Question variables box:
+
+
+	p:(x+2)^3;
+	taf:ev(expand(p),simp);
+	ta:[(x+2)^3,stackeq((x+2)*(x+2)^2),stackeq((x+2)*(x^2+4*x+4)),stackeq(x^3+4*x^2+4*x+2*x^2+8*x+8),stackeq(taf)];
+
+The first variable, `p`, is the question. The variable `taf` is the final model answer. The variable `ta` is an array containing each step we are expecting our students to express as they work towards the final answer:
+
+\((x+2)^{3}\)
+
+\(=(x+2)(x+2)^{2}\)
+
+\(=(x+2)(x^{2}+4x+4)\)
+
+\(=x^{3}+4x^{2}+4x+2x^{2}+8x+8\)
+
+\(=x^{3}+6x^{2}+8x+8\)
+
+
+Notice again that we are using the CAS, and specifically the CAS functions `expand()` to expand `p` and `ev()` to simply the output of `expand()`, to determine the model answer. See also the use of the `stackeq()` function. This allows us to start a line with the \(=\) sign and have nothing on one side of the \(=\) symbol (not having anything written on one side of an equals symbol would suggest we are comparing something to nothing - which wouldn't make any sense).
+
+Copy the following text into the Question text box:
+
+<textarea readonly="readonly" rows="2" cols="50">
+Expand {@p@}, remembering to show your working.
+
+[[input:ans1]] [[validation:ans1]]
+</textarea>
+
+### Defining the answer ###
+
+Under the `Input:ans1` header specify _Equivalence reasoning_ from the Input type drop-down and `ta` as the model answer.
+
+Because we are wanting students to work through the expansion one line at a time let's include a hint. Copy the following into the Syntax hint box:
+
+	[(x+2)^3,stackeq(?)]
+	
+Finally, we need to tell STACK to compare each line of the student's working to the first (i.e. if each line is equivalent to the first line then each line will be equivalent to the one before). Type `firstline` into the Extra options box.
+
+### Building the Potential Response Tree ###
+
+Now we need to assess the studen't response. Recall that there are a [large number of answer tests](Answer_tests.md) included in STACK we can use to assess a student's answer. For the first node, change the answer test to 
+
+
+There is a more detailed expanation of how STACK manages equivalence reasoning questions in the [CAS documentation](../CAS/Equivalence_reasoning.md).
+
+## Answer Tests
+
+Potential response trees can, even with relatively straightforward questions, become quite complicated and it can often be difficult to appreciate whether or not the tree properly handles correct responses, incorrect responses and any edge conditions. 
+

@@ -296,7 +296,7 @@ To generate random questions we again make use of the [question variables](KeyVa
 
 Right at the very start of this guide we introduced the idea of question variables. Let's take a look again the the question variables we declared:
 
-<textarea readonly="readonly" rows="3" cols="50">
+<textarea readonly="readonly" rows="2" cols="50">
 definition:5*(3*x-2)^-3
 model: integrate(definition, x)+C
 </textarea>
@@ -411,5 +411,82 @@ The two previous examples illustrate two extreme positions.
 Devising multi-part questions which satisfy these two extreme positions would be relatively straightforward.
 However, it is more common to have multi-part questions which are between these extremes, as in the case the example we will create together next.
 
+#### Developing the question text
+For students who are struggling to find the anti-derivates of functions-of-functions we will create a multi-part STACK question which guides the student through an effective process using substitution. Within the question itself, we will provide step-by-step instructions showing how to perform the necessary operations, whilst at the same time explaining, as much as possible, how the underlying mathematical properties affect the process.
+
+Multi-part questions, almost by necessity, have a more complicated question text. In this example we provide the question text for you to copy into your own new STACK question.
+
+1. Create a new STACK question
+2. Scroll down to the Question text box and press the _Show/hide advanced buttons_ button
+3. Press the _HTML_button
+4. Copy then paste the following HTML into the Question text edit box:
+
+```<p>In order to find \(\int{@f@}\mathrm{dx}\) we can use substitution.</p>
+<p>1) Firstly, let's let \(u={@inner@}\) and find \(\frac{\mathrm{du}}{\mathrm{dx}}\). Use the box below to type in your answer:</p><p>\(\frac{ \mathrm{du} }{ \mathrm{dx} } =\)&nbsp;[[input:ans1]] [[validation:ans1]]</p><p>2) Next, we rearrange to make \(\mathrm{dx}\) the subject. Complete the rearranged equation below:</p>
+<table>
+<tbody>
+<tr>
+<td rowspan="2">\(\mathrm{dx}=\)</td>
+<td style="border-bottom: 1px solid #000; text-align: center">\(\mathrm{du}\)</td>
+</tr>
+<tr>
+<td>[[input:ans2]]</td>
+</tr>
+</tbody>
+</table>&nbsp;[[validation:ans2]]
+Now we can rewrite the integral in terms of the variable \(u\):<br><p>\( \int\frac{{@a@}(u)^{{@n@}}}{{@b@}}\mathrm{du} \)<br></p><p>\(=\int({@sb@})\mathrm{du}\)</p><p>Next we need to find the anti-derivative of this function. Attempt this now and type this in the box below:</p><p>[[input:ans3]] [[validation:ans3]]</p><p>5) Finally, substitute your value for \(u\) back into your expression. Type your final answer in the box below:</p><p>[[input:ans4]] [[validation:ans4]]<br></p><p>Check over each stage again and, when you are happy with each stage and your final answer, press the Submit button.<br></p>
+```
+
+5. Press the _HTML_ button again to toggle the Question text editor back to the WYSIWYG view.
+
+Before moving on we briefly note that the question text contains multiple STACK answer and validation tags ([[input:ans1]], [[validation:ans1]], [[input:ans2]], [[validation:ans2]], etc.). Scroll down the page until you reach the `[[Verify the question text and update the form]]` button and press it. The page will be updated to include three new headings: rather than just `input:ans1` we now have, in addition, the new headings `input:ans2`, `input:ans3` and `input:ans4`.
+
+You might also see that we are guiding the student through the process of rearranging a derivative. Students often fail to realise that, for example, the \(\mathrm{dy}\) in \(\frac{\mathrm{dy}}{\mathrm{dx}}\) does not mean (\d\) multipled by \(x\), so part 2) of this question is a 'fill the gap' exercise. To achieve this part 2) uses an HTML table to render a fraction.
+
+#### Question variables
+
+Copy the following into the Question variables box:
+
+<textarea readonly="readonly" rows="11" cols="50">
+a:1+rand(9);
+b:1+rand(9);
+c:1+rand(9);
+n:(-1)-rand(9);
+inner:b&#42;x-c;
+f:a&#42;(inner)^n;
+sa:diff(inner, x);
+sb:(a&#42;(u)^n/b);
+sc:diff(sb, u);
+model:integrate(f, x)+C;
+</textarea>
+
+Again, you will see that we are using the STACK `rand()` function to generate random coefficients, constants and powers. The function of a function is assigned to the variable `f`, the inner function of which has been assigned to the variable `inner`. The variables `sa`, `sb` and `sc` are the answers to intermediate parts of this question (we will be employing these variables shortly). See also that we are using CAS functions to find derivatives and anti-derivatives where necessary.
+
+Now we specify the correct responses.
+
+#### Specifying model responses
+
+Click on the `Input:ans1` heading, select `Algebraic input` from the Input type drop-down and `sa` as the model answer.
+
+Click on the `Input:ans2` heading, select `Numerical` from the Input type drop-down and `b` as the model answer. This number will be rendered as the numerator of a fraction so set the Input box size to 2.
+
+Click on the `Input:ans3` heading, select `Algebraic input` as the Input type and `sc` as the model answer.
+
+Finally, click on `Input:ans4`, select `Algebraic input` as the Input type. Specify the variable `model` as the model answer.
+
+As before, because this question uses the `rand()` function we need to include a Question note. In the Question note box enter the following:
+
+<textarea readonly="readonly" rows="1" cols="50">
+Find \(\int{@f@}\mathrm{dx}\) using substitution
+</textarea>
+
+Let us add one node to the Potential Response Tree that verifies that the answer to the last part - the student's final answer - is correct. Under the heading `Potential response tree:prt1` specify `Int` from the Answer text drop-down, `model` as the model answer and `x` for Test options as, ultimately, we are tasking the student with finding the anti-derivate with respect to (\x\).
+
+Now we are in a position to preview the question. Press the `[[Save changes and continue editing]]` button. Once the page has reloaded, scroll down the page and click the `Preview` link.
+
+Here is a preview of the page:
+
+![Multi-part preview](%CONTENT/multipart_preview.png)
 
 
+ 

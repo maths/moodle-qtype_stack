@@ -1872,8 +1872,8 @@ stack_eval_arg(ex) := block([eqoutcome, eqoutsymb, eqoutnote, res, id, truthargu
   return(transpose(res))
 )$
 
-/* Try to find a representative of the solution set of the underlying system in a sensible form. 
-   Only support specific situations currently.  
+/* Try to find a representative of the solution set of the underlying system in a sensible form.
+   Only support specific situations currently.
 */
 stack_eval_arg_solver(ex) := block([ex2],
 
@@ -1882,7 +1882,7 @@ stack_eval_arg_solver(ex) := block([ex2],
       if ev(is(equal(length(listofvars(ex)), 1)), simp) then
           return(ev(single_variable_solver_real(ex), simp)),
 
-      if safe_op(ex) = "%or" or safe_op(ex) = "nounor" or safe_op(ex) = "or" then 
+      if safe_op(ex) = "%or" or safe_op(ex) = "nounor" or safe_op(ex) = "or" then
           return(ev(logical_normal(apply("%or", maplist(stack_eval_arg_solver, ex))), simp)),
 
       if safe_op(ex) = "%and" or safe_op(ex) = "nounand" or safe_op(ex) = "and" then block([ex2],
@@ -2059,7 +2059,7 @@ ATEquivFirst(SA, SB, SO) := block([SAA, SAB, SOO, opts, ret, A, AnswerNote, Feed
          return([false, false, "ATEquivFirst_SA_wrong_start", StackAddFeedback("", "ATEquivFirst_SA_wrong_start", stack_disp(first(SB), "i"))]),
 
     /* Actually perform the test.  */
-    A:stack_eval_equiv_arg(SA, true, false, false),
+    A:stack_eval_equiv_arg(SA, true, true, false, false),
     AnswerNote:third(A),
     FeedBack:stack_disp(second(A), "d"),
 

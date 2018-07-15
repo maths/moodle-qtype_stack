@@ -63,7 +63,8 @@ class stack_radio_input extends stack_dropdown_input {
             if ($readonly) {
                 $inputattributes['disabled'] = 'disabled';
             }
-            $radiobuttons[] = html_writer::empty_tag('input', $inputattributes) . html_writer::tag('label', $ansid, $labelattributes);
+            $radiobuttons[] = html_writer::empty_tag('input', $inputattributes) .
+                html_writer::tag('label', $ansid, $labelattributes);
             if ('' === $key) {
                 // This separates the "not answered" input from the others.
                 $radiobuttons[] = '<br />';
@@ -74,7 +75,7 @@ class stack_radio_input extends stack_dropdown_input {
 
         $result .= html_writer::start_tag('div', array('class' => 'answer'));
         foreach ($radiobuttons as $key => $radio) {
-            $result .= html_writer::tag('div', $radio, array('class'=>'option'));
+            $result .= html_writer::tag('div', $radio, array('class' => 'option'));
         }
         $result .= html_writer::end_tag('div');
 

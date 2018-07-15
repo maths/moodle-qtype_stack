@@ -104,7 +104,7 @@ class stack_equiv_input extends stack_input {
 
         $output = html_writer::tag('textarea', htmlspecialchars($current), $attributes);
         $output .= $rendervalidation;
-        $output = html_writer::tag('div', $output, array('class'=>'equivreasoning'));
+        $output = html_writer::tag('div', $output, array('class' => 'equivreasoning'));
 
         return $output;
     }

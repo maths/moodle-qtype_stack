@@ -272,7 +272,7 @@ multiselqn(corbase, numcor, wrongbase, numwrong):=block([ta1, ta2, ta, version],
   if not(listp(corbase)) then error("multiselqn: first argument must be a list."),
   if not(listp(wrongbase)) then error("multiselqn: third argument must be a list."),
   if not(integerp(numcor)) then error("multiselqn: second argument must be an integer."),
-  if not(integerp(numwrong)) then error("multiselqn: forth argument must be an integer."),
+  if not(integerp(numwrong)) then error("multiselqn: fourth argument must be an integer."),
   if length(corbase)<numcor then error("multiselqn: you have asked for more correct responses than are supplied in the list!"),
   if length(wrongbase)<numwrong then error("multiselqn: you have asked for more correct responses than are supplied in the list!"),
   ta1: maplist(lambda([ex], [ex, true]), rand_selection(corbase, numcor)),
@@ -283,19 +283,27 @@ multiselqn(corbase, numcor, wrongbase, numwrong):=block([ta1, ta2, ta, version],
 )$
 
 /* Helper function for constructing MCQ arrays with auto-generated alphabetic labels. Students choose the labels. */
-multiselqnalpha(corbase, numcor, wrongbase, numwrong):=block([ta1, ta2, ta3, talab, ta, version],
-  if not(listp(corbase)) then error("multiselqn: first argument must be a list."),
-  if not(listp(wrongbase)) then error("multiselqn: third argument must be a list."),
-  if not(integerp(numcor)) then error("multiselqn: second argument must be an integer."),
-  if not(integerp(numwrong)) then error("multiselqn: forth argument must be an integer."),
-  if length(corbase)<numcor then error("multiselqn: you have asked for more correct responses than are supplied in the list!"),
-  if length(wrongbase)<numwrong then error("multiselqn: you have asked for more correct responses than are supplied in the list!"),
+multiselqnalpha([exs]):=block([corbase, numcor, wrongbase, numwrong, dispflag, ta1, ta2, ta3, talab, ta, version],
+  if length(exs)<4 then error("multiselqnalpha must have at least four arguments."),
+  corbase:first(exs),
+  numcor:second(exs),
+  wrongbase:third(exs),
+  numwrong:fourth(exs),
+  dispflag:"id",
+  if length(exs)>4 then dispflag:fifth(exs),
+  if not(listp(corbase)) then error("multiselqnalpha: first argument must be a list."),
+  if not(listp(wrongbase)) then error("multiselqnalpha: third argument must be a list."),
+  if not(integerp(numcor)) then error("multiselqnalpha: second argument must be an integer."),
+  if not(integerp(numwrong)) then error("multiselqnalpha: fourth argument must be an integer."),
+  if length(corbase)<numcor then error("multiselqnalpha: you have asked for more correct responses than are supplied in the list!"),
+  if length(wrongbase)<numwrong then error("multiselqnalpha: you have asked for more correct responses than are supplied in the list!"),
+
   ta1: maplist(lambda([ex], [ex, true]), rand_selection(corbase, numcor)),
   ta2: maplist(lambda([ex], [ex, false]), rand_selection(wrongbase, numwrong)),
   ta3: random_permutation(append(ta1, ta2)),
   /* Add in a slightly different display here. */
   talab: ev(makelist(sconcat("(",ascii(96+i),")"), i, 1, length(ta3)), simp),
-  ta:zip_with(lambda([ex1, ex2], [ex1, ex2[2], sconcat("<b>", ex1, "</b> ", stack_disp(ex2[1], "i"))]), talab, ta3),
+  ta:zip_with(lambda([ex1, ex2], [ex1, ex2[2], sconcat("<b>", ex1, "</b> ", stack_disp(ex2[1], dispflag))]), talab, ta3),
   version: map(first, ta3),
   return([ta, version])
 )$
@@ -305,7 +313,7 @@ multiselqndisplay(corbase, numcor, wrongbase, numwrong):=block([ta1, ta2, ta, ve
   if not(listp(corbase)) then error("multiselqndisplay: first argument must be a list."),
   if not(listp(wrongbase)) then error("multiselqndisplay: third argument must be a list."),
   if not(integerp(numcor)) then error("multiselqndisplay: second argument must be an integer."),
-  if not(integerp(numwrong)) then error("multiselqndisplay: forth argument must be an integer."),
+  if not(integerp(numwrong)) then error("multiselqndisplay: fourth argument must be an integer."),
   if length(corbase)<numcor then error("multiselqndisplay: you have asked for more correct responses than are supplied in the list!"),
   if length(wrongbase)<numwrong then error("multiselqndisplay: you have asked for more correct responses than are supplied in the list!"),
   /*      */
@@ -347,7 +355,7 @@ mcq_incorrect(ta):=block(
 stack_disp(expr, exprm) := block([str:"", expru],
     /* LaTeX display */
     if OPT_OUTPUT = "LaTeX" then
-        if not(ev(elementp(exprm, {"", "i", "d"}), simp)) then print(concat("ERROR: illegal delimiter option found: ", exprm)),
+        if not(ev(elementp(exprm, {"", "i", "d", "id"}), simp)) then print(concat("ERROR: illegal delimiter option found: ", exprm)),
     /* Fine tune display, e.g. sort out display of atoms like theta0. */
     expru: expr,
     if not(stack_disp_control_structurep(expr)) then block(
@@ -358,6 +366,7 @@ stack_disp(expr, exprm) := block([str:"", expru],
         ld: "",
         rd: "",
         if exprm = "i" then block(ld: "\\(", rd:"\\)"),
+        if exprm = "id" then block(ld: "\\(\\displaystyle ", rd:"\\)"),
         if exprm = "d" then block(ld: "\\[", rd:"\\]"),
         expstr: tex(expru, false),
         expstr: concat(ld, stack_disp_strip_dollars(expstr), rd)

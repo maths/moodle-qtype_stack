@@ -1015,7 +1015,14 @@ class stack_utils {
         $infrontofdecimaldeparator = true;
         $scientificnotation = false;
 
-        $string = str_split(trim($string));
+        $string = trim($string);
+        // Sometimes strings from Maxima have parentheses around them.
+        // This is hard to predict and is breaking things.  Strip them off here.
+        if (substr($string, 0, 1) == '(') {
+            $dels = self::substring_between($string, '(', ')');
+            $string = substr($dels[0], 1, -1);
+        }
+        $string = str_split($string);
 
         foreach ($string as $i => $c) {
             if (!$infrontofdecimaldeparator && ctype_digit($c)) {

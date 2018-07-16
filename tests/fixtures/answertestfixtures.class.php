@@ -1401,6 +1401,9 @@ class stack_answertest_test_data {
         array('Units', '3', '-9.81*m/s/s', '-9.81*m/s^2', 1, 'ATUnits_units_match.', ''),
         array('Units', '3', '-9.81*m/s', '-9.81*m/s^2', 0, 'ATUnits_incompatible_units. ATUnits_correct_numerical.', ''),
         array('Units', '3', '-9.81*m/s', '-9.81*m/s^2', 0, 'ATUnits_incompatible_units. ATUnits_correct_numerical.', ''),
+        // In the following test case the student uses brackets which are not needed, but broke the test.
+        array('Units', '3', '(-9.81)*m/s^2', '-9.81*m/s^2', 1, 'ATUnits_units_match.', ''),
+        array('Units', '3', '(-9.81)', '-9.81*m/s^2', 0, 'ATUnits_SA_no_units.', 'Missing units'),
         array('Units', '3', '9.81*m/s', '-9.81*m/s^2', 0, 'ATNumSigFigs_WrongSign. ATUnits_incompatible_units.', ''),
         array('Units', '3', '8.81*m/s', '-9.81*m/s^2', 0,
             'ATNumSigFigs_WrongSign. ATNumSigFigs_VeryInaccurate. ATUnits_incompatible_units.', ''),

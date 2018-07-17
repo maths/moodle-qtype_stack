@@ -36,14 +36,14 @@ class stack_textarea_input_test extends qtype_stack_testcase {
 
     public function test_render_blank() {
         $el = stack_input_factory::make('textArea', 'ans1', null);
-        $this->assertEquals('<textarea name="st_ans1" id="st_ans1" rows="5" cols="20"></textarea>',
+        $this->assertEquals('<textarea name="st_ans1" id="st_ans1" autocapitalize="none" spellcheck="false" rows="5" cols="20"></textarea>',
                 $el->render(new stack_input_state(stack_input::BLANK, array(), '', '', '', '', ''),
                         'st_ans1', false, null));
     }
 
     public function test_render_pre_filled() {
         $el = stack_input_factory::make('textArea', 'test', null);
-        $this->assertEquals('<textarea name="st_ans1" id="st_ans1" rows="5" cols="20">' .
+        $this->assertEquals('<textarea name="st_ans1" id="st_ans1" autocapitalize="none" spellcheck="false" rows="5" cols="20">' .
                 "1\n1/sum([1,3])\nmatrix([1],[2])</textarea>",
                 $el->render(new stack_input_state(
                         stack_input::VALID, array("1", "1/sum([1,3])", "matrix([1],[2])"), '', '', '', '', ''),
@@ -52,7 +52,7 @@ class stack_textarea_input_test extends qtype_stack_testcase {
 
     public function test_render_pre_syntaxhint() {
         $el = stack_input_factory::make('textArea', 'test', null, null, array('syntaxHint' => '[y=?, z=?]'));
-        $this->assertEquals('<textarea name="st_ans1" id="st_ans1" rows="5" cols="20">' .
+        $this->assertEquals('<textarea name="st_ans1" id="st_ans1" autocapitalize="none" spellcheck="false" rows="5" cols="20">' .
                     "y=?\n z=?</textarea>",
         $el->render(new stack_input_state(stack_input::BLANK, array(), '', '', '', '', ''),
                             'st_ans1', false, null));
@@ -60,7 +60,7 @@ class stack_textarea_input_test extends qtype_stack_testcase {
 
     public function test_render_disabled() {
         $el = stack_input_factory::make('textArea', 'input', null);
-        $this->assertEquals('<textarea name="st_ans1" id="st_ans1" rows="5" cols="20" readonly="readonly"></textarea>',
+        $this->assertEquals('<textarea name="st_ans1" id="st_ans1" autocapitalize="none" spellcheck="false" rows="5" cols="20" readonly="readonly"></textarea>',
                 $el->render(new stack_input_state(stack_input::BLANK, array(), '', '', '', '', ''),
                         'st_ans1', true, null));
     }

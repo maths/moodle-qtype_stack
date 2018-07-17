@@ -57,7 +57,9 @@ class stack_units_input extends stack_input {
             'name'  => $fieldname,
             'id'    => $fieldname,
             'size'  => $this->parameters['boxWidth'] * 1.1,
-            'style' => 'width: '.$size.'em'
+            'style' => 'width: '.$size.'em',
+            'autocapitalize' => 'none',
+            'spellcheck'     => 'false',
         );
 
         if ($this->is_blank_response($state->contents)) {

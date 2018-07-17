@@ -67,12 +67,10 @@ Note, where the feature is listed as "(done)" means we have prototype code in th
   * MapleTA (underway: see https://github.com/maths/moodle-qformat_mapleta)
   * Wiris
 * Possible Maxima packages:
- * Better support for rational expressions, in particular really firm up the PartFrac and SingleFrac functions with better support.
- * Support for the "draw" package.
+  * Better support for rational expressions, in particular really firm up the PartFrac and SingleFrac functions with better support.
+  * Add in another test for rational algebraic expressions at validation time. See issue #370.
 * Add support for qtype_stack in Moodle's lesson module.
-* Improve the way questions are deployed.
- 1. Auto deploy.  E.g. if the first variable in the question variables is a single a:rand(n), then loop a=0..(n-1).
- 2. Remove many versions at once.
+* Auto deploy.  E.g. if the first variable in the question variables is a single a:rand(n), then loop a=0..(n-1).
 * When validating the editing form, also evaluate the Maxima code in the PRTs, using the teacher's model answers.
 * You cannot use one PRT node to guard the evaluation of another, for example Node 1 check x = 0, and only if that is false, Node 2 do 1 / x. We need to change how PRTs do CAS evaluation.
 

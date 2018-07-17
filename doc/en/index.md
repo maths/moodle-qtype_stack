@@ -1,8 +1,6 @@
 # STACK
 
-[![STACK Logo](%CONTENT/logo-trans.png)](About/Logo.md)
-
-STACK is an assessment system for mathematics, science and related disciplines.
+STACK is a world-leading automatic assessment system for mathematics, science and related disciplines.
 
 * Sophisticate assessment of mathematical expressions.
 * An emphasis on formative assessment.
@@ -11,10 +9,11 @@ STACK is an assessment system for mathematics, science and related disciplines.
 * A wide variety of input types, including line by line working.
 * An open-source system (GPL).
 
-Welcome to the official user documentation for the [STACK project](About/index.md).
-
+A PDF flyer about the [STACK project](%CONTENT/2018-STACK.pdf) is available through this website.
 
 ## Where to start ##
+
+Welcome to the official user documentation for the [STACK project](About/index.md).
 
 * **Teachers**
   1. [Authoring questions](Authoring/index.md), including an [authoring quick start guide](Authoring/Authoring_quick_start.md).
@@ -32,4 +31,3 @@ Welcome to the official user documentation for the [STACK project](About/index.m
   * [Developer docs](Developer/index.md)
 
 More about what we are trying to achieve can be found under [the philosophy of STACK](About/The_philosophy_of_STACK.md).
-

@@ -14,23 +14,21 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
-/**
- * CAS text parser
- *
- * @copyright  2013 Aalto University
- * @copyright  2012 University of Birmingham
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
+defined('MOODLE_INTERNAL') || die();
 
-/**
- * WARNING! if the file you are reading has .php-extension do not edit it! It has been generated from castext.peg.inc.
- **/
-/**
- * Howto generate the .php file: run the following command, in the directory of this file:
- * php ../../../thirdparty/php-peg/cli.php castext.peg.inc > castextparser.class.php
- * And do remove that PHP ending the question mark greater than thing after generation. If generated.
- **/
-require_once(__DIR__ . '/../../../thirdparty/php-peg/autoloader.php');
+// CAS text parser
+//
+// @copyright  2013 Aalto University
+// @copyright  2012 University of Birmingham
+// @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+
+// WARNING! if the file you are reading has .php-extension do not edit it! It has been generated from castext.peg.inc.
+
+// Howto generate the .php file: run the following command, in the directory of this file:
+// php ../../../thirdparty/php-peg/cli.php castext.peg.inc > autogen/castextparser.class.php
+// And do remove that PHP ending the question mark greater than thing after generation. If generated.
+
+require_once(__DIR__ . '/../../../../thirdparty/php-peg/autoloader.php');
 use hafriedlander\Peg\Parser;
 /**
  * Defines the text parser for identifying STACK specific parts from CAStext, does not work with XML,
@@ -154,8 +152,7 @@ class stack_cas_castext_castextparser extends Parser\Basic {
             for ($i = 0; $i < count($keys) - 1; $i++) {
                 $now = $keys[$i];
                 $next = $keys[$i + 1];
-                if ($parsetree['item'][$now]['_matchrule'] == 'ioblock' ||
-                    $parsetree['item'][$now]['_matchrule'] == 'ws' ||
+                if ($parsetree['item'][$now]['_matchrule'] == 'ws' ||
                     $parsetree['item'][$now]['_matchrule'] == 'misc' ||
                     $parsetree['item'][$now]['_matchrule'] == 'breaks' ||
                     $parsetree['item'][$now]['_matchrule'] == 'text' ||
@@ -163,8 +160,7 @@ class stack_cas_castext_castextparser extends Parser\Basic {
                     $parsetree['item'][$now]['_matchrule'] == 'mathmodeclose' ||
                     $parsetree['item'][$now]['_matchrule'] == 'begintexenv' ||
                     $parsetree['item'][$now]['_matchrule'] == 'endtexenv' ) {
-                    if ($parsetree['item'][$next]['_matchrule'] == 'ioblock' ||
-                        $parsetree['item'][$next]['_matchrule'] == 'ws' ||
+                    if ($parsetree['item'][$next]['_matchrule'] == 'ws' ||
                         $parsetree['item'][$next]['_matchrule'] == 'misc' ||
                         $parsetree['item'][$next]['_matchrule'] == 'breaks' ||
                         $parsetree['item'][$next]['_matchrule'] == 'mathmodeopen' ||
@@ -179,8 +175,7 @@ class stack_cas_castext_castextparser extends Parser\Basic {
                     }
                 } else {
                     $parsetree['item'][$now] = self::normalize($parsetree['item'][$now]);
-                    if ($parsetree['item'][$next]['_matchrule'] == 'ioblock' ||
-                        $parsetree['item'][$next]['_matchrule'] == 'ws' ||
+                    if ($parsetree['item'][$next]['_matchrule'] == 'ws' ||
                         $parsetree['item'][$next]['_matchrule'] == 'misc' ||
                         $parsetree['item'][$next]['_matchrule'] == 'breaks' ||
                         $parsetree['item'][$next]['_matchrule'] == 'mathmodeopen' ||
@@ -450,7 +445,8 @@ class stack_cas_castext_parsetreenode {
     public $nextsibling = null;
     public $previoussibling = null;
     public $firstchild = null;
-    // There are five types, castext is the root, blocks are containers and text, rawcasblock and texcasblock are root nodes.
+    // There are six types, castext is the root, blocks are containers and text,
+    // rawcasblock, texcasblock and ioblock are root nodes.
     public $type = "castext";
     private $params = null;
     private $content = "";
@@ -467,6 +463,12 @@ class stack_cas_castext_parsetreenode {
         if (array_key_exists('mathmode', $parsetree)) {
             $node->mathmode = $parsetree['mathmode'];
         }
+        // We need the root node to attach certain special statistics in it.
+        $root = $node;
+        while ($root->parent !== null) {
+            $root = $root->parent;
+        }
+
         switch ($parsetree['_matchrule']) {
             case "block":
                 $node->params = $parsetree['params'];
@@ -498,6 +500,26 @@ class stack_cas_castext_parsetreenode {
             case "texcasblock":
                 $node->type = $parsetree['_matchrule'];
                 $node->content = $parsetree['cascontent']['text'];
+                break;
+            case "ioblock":
+                $node->type = 'ioblock';
+                $node->content = $parsetree['text'];
+                $node->params = array('channel' => $parsetree['channel']['text'], 'id' => $parsetree['var']['text']);
+                if ($root->params === null) {
+                    $root->params = array('ioblocks');
+                }
+                if (!array_key_exists('ioblocks', $root->params)) {
+                    $root->params['ioblocks'] = array($node->params['channel'] => array());
+                }
+                // With ioblocks we track how many of them are present.
+                // Used in jsxgraph block to identify valid references to inputs.
+                if (!array_key_exists($node->params['channel'], $root->params['ioblocks'])) {
+                    $root->params['ioblocks'][$node->params['channel']] = array($node->params['id'] => 1);
+                } else if (!array_key_exists($node->params['id'], $root->params['ioblocks'][$node->params['channel']])) {
+                    $root->params['ioblocks'][$node->params['channel']][$node->params['id']] = 1;
+                } else {
+                    $root->params['ioblocks'][$node->params['channel']][$node->params['id']]++;
+                }
                 break;
             default:
                 $node->type = 'text';
@@ -855,6 +877,8 @@ class stack_cas_castext_parsetreenode {
                     }
                     $r .= " ]]";
                     break;
+                case "ioblock":
+                    return $this->content;
                 case "text":
                     return $this->content;
                 case "texcasblock":
@@ -890,6 +914,8 @@ class stack_cas_castext_parsetreenode {
                 case "pseudoblock": // This branch should newer be called, unless you skip certain steps.
                     $r .= "[[" . $this->content . "]]";
                     break;
+                case "ioblock":
+                    return $this->content;
                 case "text":
                     return $this->content;
                 case "texcasblock":
@@ -946,6 +972,8 @@ class stack_cas_castext_parsetreenode {
                     }
                     $r .= " ]]\n";
                     break;
+                case "ioblock":
+                    return $this->content;
                 case "text":
                     return $this->content;
                 case "texcasblock":

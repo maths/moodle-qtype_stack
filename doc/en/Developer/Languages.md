@@ -43,6 +43,14 @@ It is convenient to translate the strings online.  To translate STACK into anoth
 
 Apologies to those people who have translated STACK through AMOS, but who do not appear here. Please contact Chris Sangwin to add your name to the credits.
 
+## Finding language packs for an API setup.
+
+1. Create a new full Moodle server and install the language pack you want.
+2. Look on your server in `$CFG->langlocalroot.'/'.$lang;`
+3. Find the file "qtype_stack.php".
+
+This contains all the language strings.
+
 ## Multilingual materials
 
 See this page in the [multi-language question](../Authoring/Languages.md) authoring section.

@@ -331,4 +331,14 @@ class stack_potentialresponse_tree {
         }
         return implode("\n", $prttrace);
     }
+
+    /**
+     * @return string Representation of the PRT for Maxima offline use.
+     */
+    public function get_feedbackvariables_keyvals() {
+        if (null === $this->feedbackvariables) {
+            return '';
+        }
+        return $this->feedbackvariables->get_keyval_representation();
+    }
 }

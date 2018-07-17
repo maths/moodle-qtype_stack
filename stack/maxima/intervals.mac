@@ -491,7 +491,6 @@ ConnectIntervals(X):=
                     Ans:delete( Ans[i+1], Ans, 1 ),
                     Ans:delete( Ans[i], Ans, 1 ),
                     Ans:append( Ans, [x] ),
-                    Ans:SortUnion(Ans),
                     n:n-1,
                     i:i-1
                     )
@@ -533,11 +532,12 @@ TidyUnion(X):=
                 i:i+1
                 ),
             A:SortUnion(A),
-            if length(A)=1 then
-                Ans:apply(%union, A)
-            else
-                Ans:ConnectIntervals(apply(%union, A)),
-            if length(setpart)>0 then Ans:append( args(Ans), [setpart] )
+            if is(length(A)>1) then
+              A:ConnectIntervals(apply(%union, A)),
+            if length(setpart)>0 then A:append( args(A), [setpart] ),
+            if is(length(A)=1) then
+              A:first(A),
+            Ans:A
         ),
         Ans
         )$
@@ -884,7 +884,7 @@ SetComplement(X):=
         );
 
 /* Turns a single variable system over the reals in to a set of real numbers, together with insoluable bits (if any). */
-single_variable_solver_real(ex) := block([v, rs1, rs2, simp],
+single_variable_solver_real(ex) := block([v, rs1, rs2],
     if is(ex=false) then return(none),
     if is(ex=true) then return(all),
     if atom(ex) then return(ex),
@@ -898,9 +898,6 @@ single_variable_solver_real(ex) := block([v, rs1, rs2, simp],
         ),
     if not(length(v)=1) then return(ex),
     v:first(v),
-
-    simp:false,
-
     ex:abs_replace_eq(ex),
     ex:subst("%and", "nounand", ex),
     ex:subst("%or", "nounor", ex),
@@ -909,15 +906,17 @@ single_variable_solver_real(ex) := block([v, rs1, rs2, simp],
     ex:subst("%and", "and", ex),
     ex:subst("%or", "or", ex),
 
-    if assume_pos then block
-       (
-       ex:ex %and (v>=0)
-       ),
-    ex:de_morgan(ex),
+    /* Notes,
+       (1) assume_pos automatically removes terms like v>=0 in the simplifier.
+       (2) we do need simplification here to reduce execution time.
+    */
 
-    ex:block([assume_pos:false], single_variable_solver_real_rec(ex, v)),
+    if assume_pos then
+        ex:block([assume_pos:false], ev(single_variable_solver_real_rec(ex %and (v>=0), v), simp))
+    else
+        ex:ev(single_variable_solver_real_rec(ex, v), simp),
 
-    if ((safe_op(ex)="[" or safe_op(ex)="%union") and length(args(ex))=1) then ex:first(ex),
+    if ((safe_op(ex)="[" or safe_op(ex)="%union") and is(length(args(ex))=1)) then ex:first(ex),
 
     if is(ex={}) then return(none),
     if is(ex={v}) then return(all),
@@ -966,8 +965,8 @@ single_variable_solver_real_rec(ex, v) := block([r0, r1, r2],
     return(ex)
 )$
 
-equation_to_intervals(ex,v):=block([sol0,sol1,sol2],
-  sol0:solve(ex,v),
+equation_to_intervals(ex, v):=block([sol0, sol1, sol2],
+  sol0:solve(ex, v),
   if sol0=[] then return({}),
   if logic_edgep(sol0) then return(sol0),
   /* We need the "freeof" clause to catch rearrangements of equations. */
@@ -989,9 +988,12 @@ natural_domain(ex):=block([v, ex2],
   if atom(ex) then return(all),
   v:listofvars(ex),
   if is(v=[]) then return(all),
-  if not(is(length(v)=1)) then return(unknown),
+  if ev(not(is(length(v)=1)), simp) then return(unknown),
   /* We only work over real expressions. */
   if not(is(freeof(%i, ex))) then return(unknown),
+  /* We only calculate domains of some things. */
+  if not(is(freeof(sum, ex))) then return(unknown),
+  if not(is(freeof(int, ex))) then return(unknown),
   v:first(v),
   /* Recurse using true/false instead of all/none, then convert. */
   ex2:natural_domain_rec(ex),
@@ -1006,11 +1008,6 @@ natural_domain_rec(ex):=block([v, ex2],
   if not(is(length(v)=1)) then return(unknown),
   v:first(v),
 
-  if safe_op(ex)="sum" then
-    return(unknown),
-  /* The variables inside this are local.  */
-  if safe_op(ex)="int" then
-    return(unknown),
   if safe_op(ex)="sqrt" then
     return(single_variable_solver_real(first(args(ex))>=0)),
   if safe_op(ex)="ln" or safe_op(ex)="log" or safe_op(ex)="logbase" then

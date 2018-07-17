@@ -49,7 +49,7 @@ class backup_qtype_stack_plugin extends backup_qtype_plugin {
 
         // Now create the necessary elements.
         $stackoptions = new backup_nested_element('stackoptions', array('id'),
-                array('questionvariables', 'specificfeedback', 'specificfeedbackformat',
+                array('stackversion', 'questionvariables', 'specificfeedback', 'specificfeedbackformat',
                       'questionnote', 'questionsimplify', 'assumepositive', 'assumereal',
                       'prtcorrect', 'prtcorrectformat', 'prtpartiallycorrect', 'prtpartiallycorrectformat',
                       'prtincorrect', 'prtincorrectformat', 'multiplicationsign', 'sqrtsign',

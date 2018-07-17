@@ -100,7 +100,9 @@ class stack_dropdown_input extends stack_input {
         }
 
         // Sort out the default ddlvalues etc.
-        $this->adapt_to_model_answer($this->teacheranswer);
+        if ($this->runtime) {
+            $this->adapt_to_model_answer($this->teacheranswer);
+        }
         return true;
     }
 

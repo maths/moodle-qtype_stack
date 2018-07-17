@@ -14,9 +14,11 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
+defined('MOODLE_INTERNAL') || die();
+
 require_once(__DIR__ . '/../locallib.php');
 require_once(__DIR__ . '/fixtures/test_base.php');
-require_once(__DIR__ . '/../stack/cas/castext/castextparser.class.php');
+require_once(__DIR__ . '/../stack/cas/castext/autogen/castextparser.class.php');
 
 
 /**
@@ -313,10 +315,14 @@ class stack_cas_castext_parser_test extends qtype_stack_testcase {
         // String check against parser->to_string. The missing spaces should appear in the closing 'if'.
         $this->assertEquals('[[ if test="a" ]]1[[ else ]][[ if test="c" ]]2[[else]]3[[/ if ]][[/ if ]]',
                 $parsed['to_string']);
+        // @codingStandardsIgnoreStart
+
         // String check against node->to_string. The conversion to the tree-form shoudl have rewriten the elses as new ifs.
         // Should generate about this: '[[ define stackparsecond1="a" stackparsecond2="not (stackparsecond1)" /]][[ if test="stackparsecond1" ]]1[[/ if ]][[ if test="stackparsecond2" ]][[ define stackparsecond3="c" stackparsecond4="not (stackparsecond3)" /]][[ if test="stackparsecond3" ]]2[[/ if ]][[ if test="stackparsecond4" ]]3[[/ if ]][[/ if ]]'
         // Problem is that the numbers in those stackparsecond?? variables can change depending on excecution order. So we do some
         // Logic checking. Could do a regexp but the amount of escapes...
+
+        // @codingStandardsIgnoreEND
 
         $matches = array();
         preg_match_all('/stackparsecond([0-9]*)/' , $parsed['tree_form']->to_string() , $matches);
@@ -347,6 +353,8 @@ class stack_cas_castext_parser_test extends qtype_stack_testcase {
         // String check against parser->to_string. The missing spaces should appear in the closing 'if'.
         $this->assertEquals('[[ if test="a" ]]1[[ elif test="b" ]]2[[ else ]][[ if test="c" ]]3[[else]]4[[/ if ]][[/ if ]]',
                 $parsed['to_string']);
+        // @codingStandardsIgnoreStart
+
         // String check against node->to_string. The conversion to the tree-form shoudl have rewriten the elses as new ifs.
         // Should generate about this: '[[ define stackparsecond18="a" stackparsecond19="not (stackparsecond18) and (b)"
         // stackparsecond20="not (stackparsecond18 or stackparsecond19)" /]][[ if test="stackparsecond18" ]]1[[/ if ]][[ if test="stackparsecond19"
@@ -354,6 +362,8 @@ class stack_cas_castext_parser_test extends qtype_stack_testcase {
         // /]][[ if test="stackparsecond21" ]]3[[/ if ]][[ if test="stackparsecond22" ]]4[[/ if ]][[/ if ]]'
         // Problem is that the numbers in those stackparsecond?? Variables can change depending on excecution order.
         // We do some logic checking. Could do a regexp but the amount of escapes...
+
+        // @codingStandardsIgnoreEND
 
         $matches = array();
         preg_match_all('/stackparsecond([0-9]*)/' , $parsed['tree_form']->to_string() , $matches);

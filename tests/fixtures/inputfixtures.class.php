@@ -337,8 +337,9 @@ class stack_inputvalidation_test_data {
         array('fact(13)', 'php_false', '', '', '', 'unknownFunction', ""),
         array('ceiling(x)', 'php_true', 'ceiling(x)', 'cas_true', '\left \lceil x \right \rceil', '', ""),
         array('floor(x)', 'php_true', 'floor(x)', 'cas_true', '\left \lfloor x \right \rfloor', '', ""),
-        array('int(x,y)', 'php_true', 'int(x,y)', 'cas_true', 'x\cdot y', '', ""),
-        array('diff(x,y)', 'php_true', 'diff(x,y)', 'cas_true', '0', '', ""),
+        array('int(x,y)', 'php_true', 'nounint(x,y)', 'cas_true', '\int {x}{\;\mathrm{d}y}', '', ""),
+        // TODO: fix the display of derivative operators.
+        array('diff(x,y)', 'php_true', 'noundiff(x,y)', 'cas_true', '\frac{\mathrm{d}+^{1} x}{\mathrm{d} y^1}', '', ""),
         array("'int(x,y)", 'php_false', '', 'cas_true', '', 'apostrophe',
             "Note the use of the apostrophe here to make an inert function."),
         array("'diff(x,y)", 'php_false', '', 'cas_true', '', 'apostrophe', "Not ideal...arises because we don't 'simplify'."),
@@ -408,7 +409,7 @@ class stack_inputvalidation_test_data {
         array('sum(k^n,n,0,3)', 'php_true', 'sum(k^n,n,0,3)', 'cas_true', '\sum_{n=0}^{3}{k^{n}}', '', "Sums and products"),
         array('product(cos(k*x),k,1,3)', 'php_true', 'product(cos(k*x),k,1,3)', 'cas_true',
             '\prod_{k=1}^{3}{\cos \left( k\cdot x \right)}', '', '')
-        );
+    );
 
     public static function get_raw_test_data() {
         return self::$rawdata;

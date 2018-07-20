@@ -1,5 +1,5 @@
 /* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
-/* [ Created with wxMaxima version 16.04.2 ] */
+/* [ Created with wxMaxima version 13.04.2 ] */
 
 /* [wxMaxima: title   start ]
 STACK Sandbox
@@ -67,7 +67,21 @@ print(sconcat("[ STACK-Maxima started, library version ", stackmaximaversion, " 
 To time code, and spot inefficiencies.
 
 timer(all)$
-sublist(args(timer_info()), lambda([ex], is(third(ex)>0)));
+
+We need some lisp to turn the atom $SEC into 1, (%SEC is a function....)
+:lisp (msetq $SEC 1)
+
+[Execute some code...]
+
+This returns the list of functions actually called.
+l:sublist(args(timer_info()), lambda([ex], is(third(ex)>0)));
+
+Sort according to function called most often
+sort(l,lambda([a,b], is(third(a)>third(b))));
+
+Sort according to time per call
+sort(l,lambda([a,b], is(second(a)>second(b))));
+
    [wxMaxima: comment end   ] */
 
 /* Maxima can't load/batch files which end with a comment! */

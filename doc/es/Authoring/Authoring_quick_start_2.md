@@ -1,102 +1,100 @@
-# Authoring quick start 2: multi-part mathematical questions
+# Guía rápida de autoría 2: preguntas matemáticas multi-parte
 
-This is the second part of the [authoring quick start](Authoring_quick_start.md).  The purpose is to write multi-part questions.
+Esta es la segunda parte del [inicio rápido de autoría](Authoring_quick_start.md).  El propósito es escribir preguntas multi-parte.
 
-### Example 1 ###
+### Ejemplo 1 ###
 
-Find the equation of the line tangent to \(x^3-2x^2+x\) at the point \(x=2\).
+Encuentre la ecuación de la línea tangente a \(x^3-2x^2+x\) en el punto \(x=2\).
 
-1. Differentiate \(x^3-2x^2+x\) with respect to \(x\).
-2. Evaluate your derivative at \(x=2\).
-3. Hence, find the equation of the tangent line. \(y=...\)
+1. Diferenciar \(x^3-2x^2+x\) con respecto a \(x\).
+2. Evaluar su derivada en \(x=2\).
+3. Desde aquí, encontrar la ecuación de la línea tangente. \(y=...\)
 
-Since all three parts refer to one polynomial, if randomly generated questions are being used then each
-of these parts needs to reference a single randomly generated equation. Hence parts 1.-3. really form
-one item.  Notice here that part 1. is independent of the others. Part 2. requires both the first and second inputs.
-Part 3. could easily be marked independently, or take into account parts 1 & 2. Notice also that the teacher may
-choose to award "follow on" marking.
+Dado que las tres partes se refieren a un polinomio, si se usan preguntas generadas aleatoriamente entonces cada una
+de estas partes necesita referenciar a una sola ecuación genrada aleatoriamente. . Por consiguiente las partes 1.-3. realmente forman
+un ítem. Tenga en cuenta aquí que la parte 1. es independiente de las otras. La parte 2. requiere tanto el primero como el segundo ingreso.
+Parte 3. podría fácilmente ser calificada independientemente, o tomar en cuenta las partes 1 y 2. Tenga en cuenta también que el profesor puede 
+elegir otorgar puntuación  "en adelante" .
 
-### Example 2 ###
+### Ejemplo 2 ###
 
-Consider the following question, asked to relatively young school students.
+Considere la siguiente pregunta, que se hace a estudiantes de esuela relativamente jóvenes.
 
-Expand \((x+1)(x+2)\).
+Expandir \((x+1)(x+2)\).
 
-In the context it is to be used it is appropriate to provide students with the
-opportunity to "fill in the blanks", in the following equation.
+En el contexto en el que se usa, es apropiado proporcionarle a los estudiantes la
+oportunidad de "llenar los huecos", en la ecuación siguiente.
 
     (x+1)(x+2) = [?] x2 + [?] x + [?].
 
-We argue this is really "one question" with "three inputs".
-Furthermore, it is likely that the teacher will want the student to complete all boxes
-before any feedback is assigned, even if separate feedback is generated for each input
-(i.e. coefficient). This feedback should all be grouped in one place on the screen. Furthermore,
-in order to identify the possible causes of algebraic mistakes, an automatic marking procedure
-will require all coefficient simultaneously. It is not satisfactory to have three totally
-independent marking procedures.
+Nosostros discutimos que esto es realmente "una pregunta" con "tres entradas".
+Aun más, es probable que el profesor querrá que los estudiantes completen todas las cajas
+antes de asignar cualquier retroalimentación, aun y cuando sea generada retroalimentación separada para cada entrada
+(por ejemplo, coeficiente). Esta retroalimentación debería de estar toda agrupada en un sitio en lapantalla. Más aun,
+para identificar las causas posibles de errores algebraicos, un procedimiento de calificación automático
+necesitará todos los coeficientes simultáneamente. No es satisfactorio el tener tres procedimientos de calificación
+totalmente independientes.
 
-These two examples illustrate two extreme positions.
+Estos dos ejempos ilustarn dos posiciones extremas.
 
-1. All inputs within a single multi-part item can be assessed independently.
-2. All inputs within a single multi-part item must be completed before the item can be scored.
+1. Todas las entradas dentro de un único ítem multi-parte pueden ser valoradas independientemente.
+2. Todas las entradas dentro de un ítem multi-parte deben ser completadas antes de que el ítem pueda ser valorado.
 
-Devising multi-part questions which satisfy these two extreme positions would be relatively straightforward.
-However, it is more common to have multi-part questions which are between these extremes, as in the case of our first example.
+El desarrollar preguntas multi-parte que satisfagan estas dos posiciones extremas debería de ser relativamente sencillo.
+Sin embargo, es más común el tener preguntas multi-parte que están entre estos extremos, como en el caso de nuestro primer ejemplo.
 
-### Response processing ###
+### Procesamiento de la respuesta ###
 
-Response processing is the means by which a student's answer is evaluated and feedback, of various forms,
-assigned. The crucial observation in STACK is a complete separation between two important components.
+El procesamiento de la respuesta es el medio mpor el cual la respuesta de un estudiante es evaluada y la retroalimentación, de varias formas,
+es asignada. La observación crucial en STACK es una separación completa entre dos componentes importantes.
 
-1. a list of [inputs](Inputs.md);
-2. a list of [potential response trees](Potential_response_trees.md).
+1. una lista de [entradas](Inputs.md);
+2. una lista de [árboles de respuesta potencial](Potential_response_trees.md).
 
-## [Inputs](Inputs.md) ##
+## [Entradas](Inputs.md) ##
 
-The [question text](CASText.md#question_text), i.e. the text actually displayed to the student, may have an arbitrary number of [inputs](Inputs.md). An element may be positioned
-anywhere within the question text, including within mathematical expressions, e.g. equations (_note_: MathJax currently does not support form elements within equations).
-Each input will be associated with a number of fields. For example
+El [texto de la pregunta](CASText.md#question_text), por ejemplo, el texto que de hecho es mostrado al estudiante, pued etener un número arbitrario de [entradas](Inputs.md). Un elemento puede estar posicionado
+en cualquier lugar dentro del texto de la pregunta, incluyendo adentro de expresiones matemáticas, por ejemplo,  ecuaciones (_note_: MathJax actualmente no soporta elementos de forma adentro de ecuaciones).
+Cada entrada estará asociada con un número de campos. Por ejemplo
 
-1. The name of a CAS variable to which the student's answer (if any) is assigned during response processing.
-   This could be automatically assigned, e.g. in order `ans1`, `ans2`, etc. Each variable is known as an answer variable.
-2. The type of the input. Examples include
-  1. direct linear algebraic input, e.g. `2*e^x`.
-  2. graphical input tool, e.g. a slider.
-  3. True/False selection.
-3. The teacher's correct answer.
+1. El nombre de una variable CAS a la cual es asignada la respuesta del estudiante (si hubiera) durante el procesamiento de la respuesta.
+   Esto podríoa ser asignado automáticamente, por ejemplo, en orden `ans1`, `ans2`, etc. Cada variable es conocida como una variable respuesta.
+2. El tipo de la entrada. Ejemplos incluyen
+  1. entrada algebraica lineal directa, por ejemplo `2*e^x`.
+  2. herramienta de entrada gráfica, por ejemplo, un deslizador.
+  3. Selección Falso/Verdadero.
+3. La respuesta correcta del profesor.
 
-## [Potential response trees](Potential_response_trees.md) ##
+## [Árboles de respuesta potencial](Potential_response_trees.md) ##
 
-A potential response tree (technically an acyclic directed graph) consists of an arbitrary number of linked nodes
-we call potential responses. In each node two expressions are compared using a specified Answer Test,
-and the result is either TRUE or FALSE. A corresponding branch of the tree has the opportunity to
+Un árbol de respuesta potencial (técnicamente una gráfica dirigida acíclica) consistes de un número arbitrario de nodos enlazados
+que llamamos respuestas potenciales. En cada nodo dos expresiones son comparadas usando una Prueba de Respuesta especificada,
+y el resultado es o VERDADERO o FALSO. Una rama correspondiente del arbol tiene la oportunidad para
 
-1. Adjust the score, (e.g. assign a value, add or subtract a value);
-2. Add written feedback specifically for the student;
-3. Generate an "Answer Note", used by the teacher for evaluative assessment;
-4. Nominate the next node, or end the process.
+1. Ajustar el puntaje, (por ejemplo, asignar un avalor, añadir o restar un valor);
+2. Añadir retroalimentación escrita específicamente para el estudiante;
+3. Generar una "Nota de respuesta", usada por el profesor para valoración evaluativa;
+4. Nominar al siguiente nodo, o terminar el proceso.
 
-Each question will have zero or more potential response trees. For each potential response tree there will be the following.
+Cada pregunta tendrá cero o más árboles de rtespuesta potencial. Para cada árbol de respuesta potencial habrá lo siguiente.
 
-1. A maximum number of marks available, i.e. score.
-2. A list of which answer variables are required for this response tree. Only when a student has
-   provided a **valid** response to all the elements in this list will the tree be traversed and outcomes assigned.
-3. A collection of potential response variables, which may depend on the relevant answer variables, question
-   variables and so on. These are evaluated before the potential response tree is traversed.
-4. A nominated point in the question itself into which feedback is inserted.
-   This feedback will be the mark, and textual feedback generated by this tree.
+1. Un número máximo de puntos disponibles, por ejemplo, puntaje.
+2. Una lista de cuales variables de respuesta son necesarias para este árbol de respuesta. Solamente cuando un estudiante ha
+   proporcionado uan respuesta **válida** a todos los elementos en esta lista será recorrido el árbol y se asignarán los resultados.
+3. Una colección de variables de respuesta potencial, que pueden depender de las variables de respuesta relevantes, variables de pregunta y etcétera. Estos son evaluados antes de que sea recorrido el árbol de respuesta potencial.
+4. Un punto nominado en la pregunta misma dentro del cual es insertada la retroalimentación.
+   Esta retroalimentación será el puntaje, y la retroalimentación generada por este árbol.
 
-Permitting zero potential response trees is necessary to include a survey question which is not
-automatically scored. An input which is not used in any potential response tree is
-therefore treated as a survey and is simply recorded.
+El permitir cero árboles de respuesta potencial es necesario para incluir una pregunta de encuesta la cual no es evaluada automáticamente. Una entrada que no es usada en cualquier árbol de respuesta potencial es
+por lo tanto tratada como una encuesta y simplemente es grabada.
 
-To illustrate multi-part mathematical questions we start by authoring an example.  We assume you have just worked through the [author quick start guide](Authoring_quick_start.md) so that this is somewhat abbreviated.
+Para ilustrar preguntas matemática smulti-parte nosotros empezamos por escribir un ejemplo. Nosotros asumimos que Usted apenas ha estudiado la [guía de inicio rápido de autoría](Authoring_quick_start.md) por lo que esta es de alguna manera abreviada.
 
-## Authoring a multi-part question ##
+## Escribiendo una pregunta multi-parte ##
 
-Start with a new STACK question, and give the question a name, e.g. "Tangent lines".  This question will have three parts.  Start by copying the question variables and question text as follows.  Notice that we have not included any randomization, but we have used variable names at the outset to facilitate this.
+Comience con uan nueva pregunta STACK, y dele un nombre a la pregunta, por ejemplo "Línea stangentes".  Esta pregunta tendrá tres partes.  Comience por copiar las variables de la pregunta y el texto de la pregunta como sigue. Tenga en cuenta que nosotros no hemos incluido ninguna aleatorización, pero hemos usado nombres de variables en el comienzo para facilitar esto.
 
-__Question variables:__
+__Variables de pregunta:__
 
      p:x^3-2*x^2+x;
      pt:2;
@@ -104,19 +102,19 @@ __Question variables:__
      ta2:subst(x=pt,diff(p,x));
      ta3:remainder(p,(x-pt)^2);
 
-__Question text__
+__Texto de pregunta__
 
-This text should be copied into the editor in HTML mode.
+Este texto debería de ser copiado dentro del editor en modo HTML.
 
 <textarea readonly="readonly" rows="5" cols="120">
-<p>Find the equation of the line tangent to {@p@} at the point \(x={@pt@}\).</p>
-<p>1. Differentiate {@p@} with respect to \(x\). [[input:ans1]] [[validation:ans1]] [[feedback:prt1]]</p>
-<p>2. Evaluate your derivative at \(x={@pt@}\). [[input:ans2]] [[validation:ans2]] [[feedback:prt2]]</p>
-<p>3. Hence, find the equation of the tangent line. \(y=\)[[input:ans3]] [[validation:ans3]] [[feedback:prt3]]</p>
+<p>encontrar la ecuación de la línea tangente a {@p@} en elpunto \(x={@pt@}\).</p>
+<p>1. Diferenciar {@p@} con respecto a \(x\). [[input:ans1]] [[validation:ans1]] [[feedback:prt1]]</p>
+<p>2. Evaluar su dericada en \(x={@pt@}\). [[input:ans2]] [[validation:ans2]] [[feedback:prt2]]</p>
+<p>3. Por lo tanto, encontrar la ecuación de la línea tangente. \(y=\)[[input:ans3]] [[validation:ans3]] [[feedback:prt3]]</p>
 </textarea>
 
-Fill in the answer for `ans1` (which exists by default) and remove the `feedback` tag from the "specific feedback" section.  We choose to embed feedback within parts of this question.
-Notice there is one potential response tree for each "part".
+LLene la respuesta para `ans1` (la cual existe or defecto) y quite la marca(tag) de `feedback` (retroalimentación) de la sección de  "retroalimentación específica". Nosotros elegimos incluir la retroalimentación dentro de las partes de esta pregunta.
+Tenga en cuenta que hay un árbol de respuesta potencial para cada "parte".
 
 Update the form and then ensure the Model Answers are filled in as `ta1`, `ta2` and `ta3`.
 

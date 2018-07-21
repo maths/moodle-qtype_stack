@@ -152,54 +152,54 @@ Su respuest para esta parte es correcta; ¡aunque sin embargo Usted ha tenido la
 
 ###Etapa 3: añadiendo pruebas de pregunta###
 
-It is probably sensible to add question tests.  From the question preview window, click on `Question tests & deployed versions` link in the top right of the page.
+Probalemente sea muy apropiado el añadir pruebas de pregunta. Desde la ventana para previsualizar pregunta, haga click en el enlace para  `Pruebas de pregunta y versiones desplegadas` en la parte superior derecha de la página.
 
-Add a test to your question which contains the correct answers, as follows.
+Añada unaprueba para su pregunta que contenga las respuestas correctas, como sigue.
 
      ans1 = 3*x^2-4*x+1
      ans2 = 5
      ans3 = 5*x-8
 
-The marks should all be "1" and the answer notes as follows.
+Los puntajes deberían de ser todos "1" y las notas de respuesta como siguen.
 
      prt1 = prt1-1-T
      prt2 = prt2-2-T
      prt3 = prt3-1-T
 
 
-Now add a new answer test to check the follow-through marking.  For example, make the following mistake in part 1, but use it in part 2 correctly.
+Ahora añda una nueva prueba de respuesta para revisar la siguiente calificación de seguimiento.  Por ejemplo, haga el eror siguiente en la parte 1, pero úsela correctamente en la parte 2.
 
      ans1 = 3*x^2-4
      ans2 = 8
      ans3 = y=8*x-8
 
-The marks should all be "0" and the answer notes as follows.
+Los puntajes deberían de ser todos "0" y las notas de respuesta comosigue.
 
      prt1 = prt1-1-F
      prt2 = prt2-2-F
      prt3 = prt3-1-F
 
-When you run the tests you can also look at the feedback to confirm the system is giving the kind of feedback you want for these types of mistake.
+Cuando Usted corra las pruebas, Usted puede también ver la retroalimentaciónpara confirmar que el sistema está dando el tipode retroalimentación que Usted quiere para estos tipos de errores.
 
-###Stage 4: Random question###
+###Etapa 4: Pregunta aleatoria###
 
-Next we can add a randomly generated polynomial to the question.  Because we used variable names throughout the question from the start, this should be a simple matter of redefining the value of `p` in the question variables as follows.
+A continuación podemos añadir un polinomio generado aleatoriamente a la pregunta.  Debido a que nosotros usamos nombres de variables en toda lapregunta desde el inicio, esto debería de ser un asunto simplemente de redefinir el valor de `p` en las variables de la pregunta como sigue.
 
     p : (2+rand(3))*x^3+(2+rand(3))*x^2+(2+rand(3))*x;
 
-You will need to add a non-empty question note to enable grouping of random versions.  E.g. the following string will suffice.
+Usted necesitará añadir una nota de pregunta no-vacía para habilitar el agrupamiento de versiones aleatorias. Por ejemplo, la siguiente cadena de caracteres será suficiente.
 
     {@p@}
 
-We now need to update the question tests to reflect this.  In the first test, you are free to use `ta1` etc to specify the correct answers.
+Ahora nosotros necesitamos actualizar las pruebas de pregunta para reflejar esto. En la primera prueba, Usted es libre para usar `ta1` etc para especificar las respuestas correctas.
 
-In the second test you might as well leave the test as is.
+En la segunda prueba, USted podría tal vez dejar el texto como está.
 
-# Next steps #
+# Pasos siguientes #
 
-* You might like to look at the entry for [feedback](Feedback.md).
-* Quality control and  testing your question can be made easier by looking at [testing](Testing.md).
-* You might like to look at more information on [Maxima](../CAS/index.md), particularly the Maxima documentation if you are not very familiar with Maxima's syntax and function names. A graphical Maxima interface like [wxMaxima](http://andrejv.github.com/wxmaxima/) can also be very helpful for finding the appropriate Maxima commands easily.
+* Tal vez le agradaría ver la entrada para [retroalimentación](Feedback.md).
+* El control de calidad y las pruebas de su pregunta pueden hacerse más fáciles al ver [pruebas](Testing.md).
+* Tal vez le agradaría ver más información sobre [Maxima](../CAS/index.md), particularmente la documentación de Maxima si Usted no está familiarizado con la sintaxis de Maxima y los nombres de funciones. Una interfaz gráfica de Maxima como [wxMaxima](http://andrejv.github.com/wxmaxima/) también podría se rmuy útil para encontrar fácilmente los comadnos apropiados de Maxima.
 
-The next part of the authoring quick start guide looks at [turning simplification off](Authoring_quick_start_3.md).
+La siguiente parte de la guía de incio rápido tratará sobre [desactivar la simplificación](Authoring_quick_start_3.md).
 

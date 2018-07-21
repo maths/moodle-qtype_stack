@@ -113,44 +113,44 @@ Este texto debería de ser copiado dentro del editor en modo HTML.
 <p>3. Por lo tanto, encontrar la ecuación de la línea tangente. \(y=\)[[input:ans3]] [[validation:ans3]] [[feedback:prt3]]</p>
 </textarea>
 
-LLene la respuesta para `ans1` (la cual existe or defecto) y quite la marca(tag) de `feedback` (retroalimentación) de la sección de  "retroalimentación específica". Nosotros elegimos incluir la retroalimentación dentro de las partes de esta pregunta.
+LLene la respuesta para `ans1` (la cual existe por defecto) y quite la marca (tag) de `feedback` (retroalimentación) de la sección de  "retroalimentación específica". Nosotros elegimos incluir la retroalimentación dentro de las partes de esta pregunta.
 Tenga en cuenta que hay un árbol de respuesta potencial para cada "parte".
 
-Update the form and then ensure the Model Answers are filled in as `ta1`, `ta2` and `ta3`.
+Actualice le formato y entonces asegúrese de que las Respuestas Modelo  (Model Answers) estén llenadas como`ta1`, `ta2` y `ta3`.
 
-STACK has created the three potential response trees by detecting the feedback tags automatically.  Next we need to edit potential response trees.  These will establish the properties of the student's answers.
+STACK ha creado los tres árboles de respuesta potencial al detyectar las marcas (tags) de retroalimentación automáticamente. A continuación necesitamos editar los árboles de respuesta potencial. estos establecerán las propiedades de las respuestas del estudiante.
 
-###Stage 1: getting a working question###
+###Etapa 1: obtenr una pregunta funcional###
 
-The first stage is to include the simplest potential response trees.  These will simply ensure that answers are "correct".  In each potential response tree, make sure that \(\mbox{ans}_i\) is algebraically equivalent to \(\mbox{ta}_i\), for \(i=1,2,3\).  At this stage we have a working question.  Save it and preview the question.  For reference the correct answers are
+La primera etapa es incluir los árboles de respuest apotencial más simples. Estos simplemente asegurarán que las respuestas sean "correctas".  En cada árvol de respuest potencial, asegúrese de que  \(\mbox{ans}_i\) es algebraicamente equivalente a \(\mbox{ta}_i\), para \(i=1,2,3\).  En esta etapa nosotros tenemos una pregunta funcional. Guárdela y previsualice la pregunta. Para referencia, las respuestas correctas son
 
      ans1 = 3*x^2-4*x+1
      ans2 = 5
      ans3 = 5*x-8
 
-###Stage 2: follow-through marking###
+###Etapa 2: continuar con la calificación###
 
-Next we will implement simple follow through marking.
+A continuación implementaremos una calificación siguiente simple.
 
-Look carefully at part 2.  This does not ask for the "correct answer" only that the student has evaluated the expression in part 1 correctly at the right point.  So the first task is to establish this property by evaluating the answer given in the first part, and comparing with the second part.  Update node 1 of `prt2` to establish the following.
+Observe cuidadosamente la parte 2.  Esta no pide la "respuesta correcta" sino solamente pide que el estudiante haya evaluado la expresión en a parte 1 correctamente en el punto correcto.  Así, la primera tarea es establecer esto apropiadamente al evaluar la respuesta dada en la primera parte, y compararla con la segunda parte.  Actualice le nodo 1 de `prt2` para establecer lo siguiente.
 
     AlgEquiv(ans2,subst(x=pt,ans1))
 
-Next, add a single node (to `prt2`), and ensure this node establishes that
+A continuación, añada un solo nodo (a `prt2`), y asegúrese de que este nodo establezca que
 
     AlgEquiv(ans1,ta1)
 
-We now link the true branch of node 1 to node 2 (of `prt2`).  We now have three outcomes.
+Ahora nosotros enlazamos la rama verdadera del nodo 1 al nodo 2 (de `prt2`).  Ahora nosotros tenemos tres resultados .
 
-Node 1: did they evaluate the expression in part 1 correctly? If "yes" then go to node 2, else if "no" then exit with no marks.
+Nodo 1: ¿evaluaron la expresión en la parte 1 correctamente? Si fuera "si" entonces vaya al nodo 2, de lo contrario  si fuera "no" entonces termine sin puntaje.
 
-Node 2: did they get part 1 correct?  if "yes" then this is the ideal situation, full marks.  If "no" then choose marks, as suit your taste in this situation, and add some feedback such as the following in Node 2, false feedback.
+Nodo 2: ¿tuvieron correcta la parte 1?  si fuera "si" entonces esta es la situación ideal, puntaje completo.  Si fuera"no" entonces elegir puntaje, conforme convenga a su gusto en esta situación, y añada alguna retroalimentación como la siguiente en el Nodo 2, retroalimentación para falso.
 
 <textarea readonly="readonly" rows="5" cols="120">
-Your answer to this part is correct, however you have got part 1 wrong!  Please try both parts again!
+Su respuest para esta parte es correcta; ¡aunque sin embargo Usted ha tenido la parte 1 equivocada! ¡ Por favor, intente nuevamente ambas partes!
 </textarea>
 
-###Stage 3: adding question tests###
+###Etapa 3: añadiendo pruebas de pregunta###
 
 It is probably sensible to add question tests.  From the question preview window, click on `Question tests & deployed versions` link in the top right of the page.
 

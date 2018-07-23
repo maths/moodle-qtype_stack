@@ -642,6 +642,44 @@ class stack_equiv_test_data {
 
         //******************************************************************************
         $newarg = array();
+        $newarg['section'] = 'Multiplicities of roots';
+        $samplearguments[] = $newarg;
+
+        $newarg = array();
+        $newarg['title']     = "Solving quadratic equations 4 (repeated root)";
+        $newarg['narrative'] = 'This has a repeated root. There is no easy way to deal with multiplicity of roots.';
+        $newarg['casstring'] = "[x^2-6*x=-9,x=3]";
+        $newarg['debuglist'] = "[EMPTYCHAR,SAMEROOTS]";
+        $newarg['outcome']   = true;
+        $samplearguments[] = $newarg;
+
+        $newarg = array();
+        $newarg['title']     = "Cubic equation";
+        $newarg['narrative'] = '';
+        $newarg['casstring'] = "[x=1 nounor x=-2 nounor x=1,x^3-3*x=-2,x=1 nounor x=-2]";
+        $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,SAMEROOTS]";
+        $newarg['outcome']   = true;
+        $samplearguments[] = $newarg;
+
+        $newarg = array();
+        $newarg['title']     = "Rational roots";
+        $newarg['narrative'] = '';
+        $newarg['casstring'] = "[9*x^3-24*x^2+13*x=2,x=1/3 nounor x=2]";
+        $newarg['debuglist'] = "[EMPTYCHAR,SAMEROOTS]";
+        $newarg['outcome']   = true;
+        $samplearguments[] = $newarg;
+
+        $newarg = array();
+        $newarg['title']     = "Larger powers";
+        $newarg['narrative'] = '';
+        $newarg['casstring'] = "[(x-2)^43*(x+1/3)^60=0,(3*x+1)^4*(x-2)^2=0,x=-1/3 nounor x=2]";
+        $newarg['debuglist'] = "[EMPTYCHAR,SAMEROOTS,SAMEROOTS]";
+        $newarg['outcome']   = true;
+        $samplearguments[] = $newarg;
+
+        //******************************************************************************
+
+        $newarg = array();
         $newarg['section'] = 'Exponential and logarithmic equations';
         $samplearguments[] = $newarg;
 

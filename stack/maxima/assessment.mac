@@ -1193,6 +1193,9 @@ factor_bag(ex) := block(
   if equationp(ex) then ex:ev(lhs(ex)-rhs(ex), simp),
   if not(polynomialp(ex, listofvars(ex))) then return([ex]),
   ex:ev(factor(ex), simp),
+  /* If we have division here, by a numerical constant being pulled out, we ignore the constant. */
+  if safe_op(ex) = "/" then 
+      if ev(is(listofvars(second(args(ex)))=[]), simp) then ex:first(args(ex)),
   if safe_op(ex) = "^" then return([first(args(ex))]),
   if safe_op(ex) = "*" then ex:args(ex) else ex:[ex],
   /* Strip off any powers. */
@@ -1200,7 +1203,7 @@ factor_bag(ex) := block(
   /* Remove any numbers. */
   ex:sublist(ex, lambda([ex2], ev(not(is(listofvars(ex2)=[])), simp))),
   return(ex)
-);
+)$
 
 /****************************/
 /* Matrix/vector operations */
@@ -1527,7 +1530,7 @@ stack_eval_arg(ex) := block([eqoutcome, eqoutsymb, eqoutnote, res, id, truthargu
               if (debug) then print("Check for SAMEROOTS with: ", string(FAA), ", ", string(FAB)),
               if ev(is(polynomialpsimp(FAA) and polynomialpsimp(FAB)), simp) then block([facbA, facbB],
                   ATres:ev(ATAlgEquiv(SAP, SBP), simp),
-                  if (debug) then print("SAMEROOTS first ATAlgEquiv check: ", SAP, SBP, ATres),
+                  if (debug) then print("SAMEROOTS first ATAlgEquiv check: ", SAP, ", ", SBP, " gave ", ATres),
                   /* In this case we establish they are *not* algebraically equivalent. */
                   if not(second(ATres)) then block(
                       facbA:factor_bag(SAP),
@@ -1536,7 +1539,7 @@ stack_eval_arg(ex) := block([eqoutcome, eqoutsymb, eqoutnote, res, id, truthargu
                       facbA:apply("*", facbA),
                       facbB:apply("*", facbB),
                       ATres:ev(ATAlgEquiv(facbA, facbB), simp),
-                      if (debug) then print(ATres),
+                      if (debug) then print("Are the factor bags algebraically eqivalent? ", ATres),
                       if second(ATres) then block(
                           eqoutsymb[ev(id, simp)]:SAMEROOTS,
                           tempnote:sconcat(tempnote, " | SAMEROOTS | ", third(ATres))

@@ -264,7 +264,7 @@ if ($debug) {
     foreach ($casstrings as $key => $val) {
         $script .= $key . ':' . $val . "\$\n";
     }
-    $script .= "\n\n".'disp_stack_eval_arg(A22, true, true, true, D22);';
+    $script .= "\n".'disp_stack_eval_arg(A22, true, true, true, DL);';
     echo html_writer::tag('textarea', $script,
             array('readonly' => 'readonly', 'wrap' => 'virtual', 'rows' => '32', 'cols' => '100'));
     echo '<hr />';

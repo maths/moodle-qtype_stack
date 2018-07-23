@@ -10,7 +10,7 @@ Computer aided assessment of mathematics works in the following phases.
 
 ## Adding questions to a quiz  ##
 
-STACK questions form part of the Moodle quiz.  You may form quizzes with a mix of STACK questions and other Moodle question types. Please consult the [moodle documentation](http://docs.moodle.org/23/en/Quiz_module) for details of how to create and use Moodle quizzes.
+STACK questions form part of the Moodle quiz.  You may form quizzes with a mix of STACK questions and other Moodle question types. Please consult the [moodle documentation](http://docs.moodle.org/35/en/Quiz_module) for details of how to create and use Moodle quizzes.
 
 ## Setting quiz options ##
 
@@ -27,7 +27,7 @@ The potential response tree feedback can be placed anywhere in the Question text
 
 ## Behaviours ##
 
-Levels of [feedback](Feedback.md) are controlled by the [quiz settings](http://docs.moodle.org/22/en/Quiz_settings), and in particular the [question behaviours](http://docs.moodle.org/22/en/Question_behaviours).
+Levels of [feedback](Feedback.md) are controlled by the [quiz settings](http://docs.moodle.org/35/en/Quiz_settings), and in particular the [question behaviours](http://docs.moodle.org/35/en/Question_behaviours).
 
 
 

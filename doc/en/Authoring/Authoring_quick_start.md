@@ -140,9 +140,9 @@ Press the `[Check]` button.
 The system executes the potential response tree and establishes whether your answer is equivalent
 to the model answer `-5/6(3*x-2)^-2+c`.
 
-Next type in `-5/6(3*x-2)^-2 + C`.  Now, if we compare the teacher's `-5/6(3*x-2)^-2+c` with `-5/6(3*x-2)^-2 + C` using algebraic equivalence (recal we specified `AlgEquiv` in the potential response tree).  This will not work.
+Next type in `-5/6(3*x-2)^-2 + C`.  Now, if we compare the teacher's `-5/6(3*x-2)^-2+c` with `-5/6(3*x-2)^-2 + C` using algebraic equivalence (recall we specified `AlgEquiv` in the potential response tree).  This will not work.
 
-We need to edit the question now to use a different answer test...  [TODO]
+We will need to edit the question now to use a different [answer test](Answer_tests.md#Int). Close the preview window and return to the question configuration page. Find your potential response tree settings and click on the drop-down menu where we selected `AlgEquiv` and select `Int` from the list. Type `x` into the Test options setting. Now press the `[Save changes and continue editing]` button and once more click the preview button.
 
 Next, try getting the question wrong.  If your server does not have "instant validation" switched on (an administrator/installation option) you will need to submit each answer twice.
 Notice all your responses are stored in an attempts table.

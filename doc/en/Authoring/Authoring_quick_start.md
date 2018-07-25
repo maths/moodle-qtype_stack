@@ -51,7 +51,7 @@ Next we need to write the question text itself. Copy the following into the Ques
 
 Notes:
 
-* Editors in MOODLE: [TODO].
+* Moodle has a wide choice for text editors, so the screenshots in this quickstart guide migth look slightly different to your version of Moodle.
 * The text contains LaTeX mathematics environments.  Do not use mathematics environments `$..$` and `$$..$$`.  Instead you must use `\(..\)` and `\[..]\` for inline and displayed mathematics respectively.  (There is an automatic bulk converter if you have a lot of legacy materials.)
 * The tag `[[input:ans1]]` denotes the position of the box into which the student puts their answer.
 * The tag `[[validation:ans1]]` will be replaced by any feedback related to the validity of the input `ans1`.  E.g. syntax errors caused by missing brackets.

@@ -14,9 +14,6 @@ matrix:
   # in https://github.com/moodlerooms/moodle-plugin-ci, but I can't work out
   # how to do that.
   include:
-    - php: 5.4
-      env: TASK=PHPUNIT        MOODLE_BRANCH=MOODLE_27_STABLE   DB=pgsql
-
     - php: 5.5
       env: TASK=PHPUNIT        MOODLE_BRANCH=MOODLE_30_STABLE   DB=pgsql
 
@@ -25,6 +22,15 @@ matrix:
 
     - php: 7.0
       env: TASK=PHPUNIT        MOODLE_BRANCH=MOODLE_32_STABLE   DB=pgsql
+
+    - php: 7.0
+      env: TASK=PHPUNIT        MOODLE_BRANCH=MOODLE_33_STABLE   DB=pgsql
+
+    - php: 7.0
+      env: TASK=PHPUNIT        MOODLE_BRANCH=MOODLE_34_STABLE   DB=pgsql
+
+    - php: 7.0
+      env: TASK=PHPUNIT        MOODLE_BRANCH=MOODLE_35_STABLE   DB=pgsql
 
     - php: 5.4
       env: TASK=BEHAT          MOODLE_BRANCH=MOODLE_27_STABLE   DB=pgsql
@@ -39,10 +45,13 @@ matrix:
       env: TASK=BEHAT          MOODLE_BRANCH=MOODLE_32_STABLE   DB=pgsql
 
     - php: 7.0
-      env: TASK=CODESTYLE      MOODLE_BRANCH=MOODLE_31_STABLE   DB=pgsql
+      env: TASK=BEHAT          MOODLE_BRANCH=MOODLE_35_STABLE   DB=pgsql
 
     - php: 7.0
-      env: TASK=CODEKNOWNFAILS MOODLE_BRANCH=MOODLE_31_STABLE   DB=pgsql
+      env: TASK=CODESTYLE      MOODLE_BRANCH=MOODLE_35_STABLE   DB=pgsql
+
+    - php: 7.0
+      env: TASK=CODEKNOWNFAILS MOODLE_BRANCH=MOODLE_35_STABLE   DB=pgsql
 
   allow_failures:
     - php: 7.0

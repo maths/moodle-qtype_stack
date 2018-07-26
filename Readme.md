@@ -21,10 +21,6 @@ The [current state of development](https://github.com/maths/moodle-qtype_stack/b
 
 The [documentation is here](https://github.com/maths/moodle-qtype_stack/blob/master/doc/en/index.md), including the [installation instructions](https://github.com/maths/moodle-qtype_stack/blob/master/doc/en/Installation/index.md).
 
-## Spanish language Documentation
-
-La [documentación está aquí](https://github.com/maths/moodle-qtype_stack/blob/master/doc/es/index.md), incluyendo las [instrucciones de instalación](https://github.com/maths/moodle-qtype_stack/blob/master/doc/es/Installation/index.md).
-
 ## License
 
 Stack is Licensed under the [GNU General Public, License Version 3](https://github.com/maths/moodle-qtype_stack/blob/master/COPYING.txt).

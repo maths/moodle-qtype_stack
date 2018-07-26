@@ -28,6 +28,8 @@ Currently STACK is released with the following languages.
   * ES: Spanish, by Victor Hugo Huerta 
   * JA: Japanese, by Yasuyuki Nakamura and Takahiro Nakahara  
 
+Many thanks to Germán Valero for translating the user documentation into Spanish.
+
 # Other implementations and projects
 
 STACK questions have also been included in the ILIAS project.

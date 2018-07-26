@@ -1,47 +1,47 @@
-# Authoring quick start: setting up a quiz
+# Guía rápida de autoría: configurando un examen
 
-Once you have authored questions you are likely to want to include these in a quiz.  Alternatively you might like to set up a quiz using the sample questions.  
+Una vez que Usted haya escrito preguntas, es probable que las quiera incluir en un examen (cuestionario). Alternativamente, Usted podría querer configurar un examen usando las preguntas de muestra.  
 
-The purpose of this document is to provide a guide, from a beginner's point of view, of some of the steps that need to be taken when setting up mathematics questions in a Moodle quiz, using the computer aided assessment package STACK.  Note, this document risks duplicating the Moodle quiz documentation which should also be consulted.
+El propósito de este documento es proporcionar una guía, desde el punto de vista de un principiante, de  algunos de los pasos que deben ser tomados al configurar preguntas matemáticas dentro de un examen Moodle, usando el paquete de evaluación asistida por computadora  STACK.  Tome en cuenta que este documento corre el riesgo de duplicar la documentación del examen de Moodle, la cual debería de ser consultada.
 
-*These have been edited from noted created by Dr Maureen McIver, Department of Mathematical Sciences, Loughborough University, UK, July 2016.*
+*Estos párrafos han sido editados a partir de notas creadas por Dr Maureen McIver, Department of Mathematical Sciences, Loughborough University, UK, July 2016.*
 
-## Find or author some questions
+## Encontrar o escribir algunas  preguntas
 
-You need to start by identifying questions for the quiz and the easiest way to do this is to start with a question that is already written and modify it to meet your needs.  
+Usted necesita comenzar identificando preguntas para el examen y la forma más fácil de hacer esto es comenzar con una pregunta que ya está escrita y modificarlña para que se ajuste a sus necesidades.  
 
-Once you get used to the idea of exporting, importing, copying and modifying questions then you may find it more helpful to start from other questions, or to author your own. See the [Author quickstart guide](Authoring_quick_start.md).  
+Una vez que Usted se haya acostumbrado a la idea de exportar, importar, copiar y modificar preguntas entonces Usted podría encontrar más útil el comenzar desde otras preguntas, o escribir las suyas propias. Vea la [Guía de inicio rápido de autoría](Authoring_quick_start.md).  
 
-## Import questions from an existing server
+## Importar preguntas desde un servidor existente
 
-To export existing questions:
+Para exportar preguntas existentes:
 
-1. log into the module on the Moodle server from which you wish to export questions and click on `Question bank` in the Administration block then click on `Export`.  
-2. Click on `Moodle XML format` then choose the category you want to export.  Moodle only lets you export individual categories.
-3. This will download a file with the all the questions that category.
+1. Ingrese al módulo en el servidor Moodle desde el cual Usted desea exportar preguntas y haga click en el bloque de Administración del `Banco de preguntas` y después haga click en `Exportar`.  
+2. Haga click en `Formato Moodle XML` y después elija la categoría que desea exportar.  Moodle solamente le permite exportar categorías individuales.
+3. Esto descargará un archivo con todas las preguntas de esa categoría.
 
-To import these questions into your course
+Para importar esas preguntas adentro de su curso
 
-1. Log into your module on the Moodle server and click on `Question bank` in the Administration block.
-2. Click on `Import`.  
-3. Click on `Moodle XML format` then drag and drop the question `?.xml`  from your Downloads folder on your desktop then click `Import` then click `Continue`.  
-4. A copy of the questions should then appear in the question bank for your module and you can modify them as you want.
+1. Ingrese a su módulo en el servidor Moodle y haga click en `Banco de preguntas` en el bloque de Administración.
+2. Haga click en `Importar`.  
+3. Haga click en `Formato Moodle XML` y después arrastre y suelte el archivo de preguntas `?.xml`  desde su carpeta de Descargas en su escritorio y después haga click en `Importar` y después haga click en `Continuar`.  
+4. Debería de aparecer una copia de las preguntas dentro del Banco de preguntas para su módulo y Usted puede modificarlas como desee.
 
-## Viewing an existing STACK question
+## Viendo una pregunta STACK existente
 
-* Choose the Moodle course.
-* In the `Question bank` click on the `Preview` icon (spy glass) next to an existing question.  
-* Check carefully which behaviour you are using.  If you are using the `Adaptive` you will get a `Check` button, but if you are using `deferred feedback` you will not.
-* To change the behaviour, click `Start again`. 
-* Enter answers that you think are incorrect or partially correct to see what feedback you get.  Do this as many times as you want to familiarise yourself with entering responses in STACK.  When you have finished click `Close preview`.
+* Elija el curso Moodle.
+* Dentro del `Banco de preguntas` haga click en el ícono para `Previsualizar` (una lupa de aumento) junto a una pregunta existente.  
+* Revise cuidadosamente cual comportamiento está usando. Si Usted está usando el `Adaptivo` Usted tendrá un botón para `Revisar`, pero si Usted eestá usando `retroalimentación diferida` no lo tendrá.
+* Para cambiar el comportamiento, haga click en `Comenzar otra vez`. 
+* Ingrese las respuestas que Usted piensa que son incorrectas o parcialmente correctas para ver qué retroalimentación obtiene. Haga esto tantas veces como quiera para familiarizarse con ingresar respuestas en STACK. Cuando haya terminado, haga click en `Cerrar previsualización`.
 
-## Question tests and Deployed variants
+## Pruebas de preguntas y Variantes desplegadas
 
-`Question Tests` serve two purposes: (1) to ensure it works and (2) to communicate to others what it does.  These mirror "unit tests" in standard software engineering and will check that STACK's processing of a specific response to a particular version of a question that arises, works as you expect it should.   At the very least you want to ensure that if the student enters what you think is the correct answer to a particular version of the question then they will get full marks.   The tests are set up for a general set of random parameters and then when you `Deploy variants` (see later) each test is checked for each particular version of the question generated.  For full documentation see [question tests](Testing.md).
+Las `Pruebas de Pregunta` sirven dos propósitos: (1) para asegurar que funciona y (2) para comunicarle a otros lo que hace.  Estas corresponden a las "pruebas de unidad (unit tests)" de la ingeniería de software estándar y revisarán que el procesamiento de STACK de una respuesta específica a una versión particular de una pregunta que surge, funciona tal como Usted esperaría que debería de hacerlo.   Cuando menos, USted quiere asegurarse de que si el estudiante ingresa lo que Usted piensa que es la respuesta correcta a una versión particular de la pregunta entonces ellos obtendrán el puntaje completo.   Las pruebas están configuradas para un conjunto general de parámetros aleatorios y entonces cuando Usted `Despliegue variantes` (vea más adelante) cada prueba es verificada para cada versión particular de la pregunta generada. Para la documentación completa vea [pruebas de pregunta](Testing.md).
 
-Click on the `Preview` icon for the question then click on `Question tests & deployed versions`.  This takes you to a page which is unique to the STACK question type, (i.e. no other Moodle question type has these facilities).
+Haga click en el ícono para `Previsualizar` para la pregunta y después haga click en `Pruebas de pregunta y versiones desplegadas`.  Esto lo lleva a Usted a una página que es única para el tipo de pregunta STACK, (que ningún otro tipo de pregunta de Moodle tiene estas facilidades).
 
-The primary purpose of this page is to add "[question tests](Testing.md)".    This page also allows you to do the following.
+El propósito primario de esta página es añadir "[pruebas de pregunta](Testing.md)".    Esta página también le permite hacer lo siguiente.
 
 1. Send the question variables to an interactive CAS session.  Very useful for writing the worked solution in an interactive environment, but you will have to cut and paste the worked solution back into the "general feedback" section when editing the question.
 2. You can export a single question (note that Moodle normally expects you to export a whole category)

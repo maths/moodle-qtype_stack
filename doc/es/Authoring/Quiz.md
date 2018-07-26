@@ -1,33 +1,33 @@
-# Adding questions to a quiz
+# Añadiendo preguntas a un examen
 
-Computer aided assessment of mathematics works in the following phases.
+Evaluación asistida por computadora de trabajos matemáticos en las siguientes fases.
 
-1. [Authoring](../Authoring/index.md),
-2. [Testing](Testing.md) and
-3. [Deploying](Deploying.md) questions.
-4. [Adding questions to a quiz](Quiz.md) and use by students.
-5. [Reporting](Reporting.md) and statistical analysis.
+1. [Autoría](../Authoring/index.md),
+2. [Pruebas](Testing.md) and
+3. [Despliegue](Deploying.md) de preguntas.
+4. [Añadir preguntas a un examen (cuestionario)](Quiz.md) y uso por estudiantes.
+5. [Reportes](Reporting.md) y análisis estadístico.
 
-## Adding questions to a quiz  ##
+## Añadir preguntas a un examen (cuestionario) ##
 
-STACK questions form part of the Moodle quiz.  You may form quizzes with a mix of STACK questions and other Moodle question types. Please consult the [moodle documentation](http://docs.moodle.org/23/en/Quiz_module) for details of how to create and use Moodle quizzes.
+Las preguntas STACK forman parte del examen (cuestionario) Moodle.  Usted puede formar exámenes con una mezcla de preguntas STACK y otros tipos de pregunta Moodle. Por favor consulte la [documentación de moodle](https://docs.moodle.org/all/es/Actividad_de_examen) para detalles acerca de como crear y utilizar exámenes Moodle.
 
-## Setting quiz options ##
+## Configuración de opciones del examen ##
 
-Beware, once a student has attempted the quiz you may not alter the options!
+¡Recuerde que, una vez que un estudiante haya intentado el examen, Usted ya no podrá alterar las opciones!
 
-Also note that when authoring a STACK question there are two forms of "feedback".
+También tenga presente que al escribir una pregunta STACK hay dos formas de "retroalimentación".
 
-* for each input there is validation feedback.
-* for each potential response tree there is "feedback" based on the mathematical properties established.
+* para cada entrada hay retroalimentación de validación.
+* par cada árbol de respuesta potencial hay "retroalimentación" basada en las propiedades matemáticas establecidas.
 
-We *always* want to give validation feedback, and this must be placed in the Question text.  
+Nosotros *siempre* queremos dar retroalimentación a la validación, y esto debe colocarse en el Texto de la pregunta.  
 
-The potential response tree feedback can be placed anywhere in the Question text, or in the "Specific feedback" field of the question.  It usually makes sense for multi-part questions to put the feedback in the question text.  However, if you do so it will always be displayed and will not respect the "specific feedback" settings in the "Review options" section of the quiz settings.
+La retroalimentación del árbol de respuesta potencial puede colocarse en cualquier lugar en el Texto de la pregunta, o en el campo de "Retroalimentación específica" de la pregunta.  Usualmente es razonable para las preguntas multi-parte el poner la retroalimentación dentro del texto de la pregunta.  Sin embargo, si Usted lo hace así, siempre será mostrada y no respetará la configuración para  "retroalimentación específica" en la sección de "Opciones para revisión" de las configuraciones del examen.
 
-## Behaviours ##
+## Comportamientos ##
 
-Levels of [feedback](Feedback.md) are controlled by the [quiz settings](http://docs.moodle.org/22/en/Quiz_settings), and in particular the [question behaviours](http://docs.moodle.org/22/en/Question_behaviours).
+Los niveles de [retroalimentación](Feedback.md) son controlados por las [configuraciones del examen](https://docs.moodle.org/all/es/Configuraciones_del_examen), y en particular los [comportamientos de pregunta](https://docs.moodle.org/all/es/Comportamientos_de_preguntas).
 
 
 

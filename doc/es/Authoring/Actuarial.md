@@ -1,16 +1,16 @@
-# Notation used in actuarial work
+# Notación usada en trabajo actuarial
 
-There are a number of special notations particular to actuarial work.  For example, 
+Hay varias notaciones particulares al trabajo actuarial. Por ejemplo, 
 
 \[\require{enclose} EPV = a _{[25]+5:\enclose{actuarial}{30}} ^ {\space 1},\]
 
-which is typeset using `\[\require{enclose} EPV = a _{[25]+5:\enclose{actuarial}{30}} ^ {\space 1}\]`. Further examples are given below.
+lo cual se compila usando `\[\require{enclose} EPV = a _{[25]+5:\enclose{actuarial}{30}} ^ {\space 1}\]`. Abajo se dan más ejemplos.
 
-## Life Contingencies' Symbols ##
+## Contingencias Vitales' Símbolos ##
 
-The following examples are adapted from [http://maths.dur.ac.uk/stats/courses/AMII/LifeConSymbolsGuide.pdf](http://maths.dur.ac.uk/stats/courses/AMII/LifeConSymbolsGuide.pdf)
+Los ejemplos siguientes están adaptados de [http://maths.dur.ac.uk/stats/courses/AMII/LifeConSymbolsGuide.pdf](http://maths.dur.ac.uk/stats/courses/AMII/LifeConSymbolsGuide.pdf)
 
-| Inline                                                                  | Code (without LaTeX delimiters)                                         | 
+| Inline                                                                  | Código (sin delimitadores LaTeX)                                      | 
 | ----------------------------------------------------------------------- | ----------------------------------------------------------------------- | 
 | \( a \)                                                                 |  `a`                                                                    | 
 | \( \require{enclose} a_{\enclose{actuarial}{K}} \)                      |  `\require{enclose} a_{\enclose{actuarial}{K}}`                         | 
@@ -28,4 +28,4 @@ The following examples are adapted from [http://maths.dur.ac.uk/stats/courses/AM
 | \( \require{enclose} {}^{2}\bar{a}_{x:\enclose{actuarial}{n}} \)        |  `\require{enclose} {}^{2}\bar{a}_{x:\enclose{actuarial}{n}}`           | 
 | \( \require{enclose} {}^{2}\ddot{a}_{xy:\enclose{actuarial}{n}} \)      |  `\require{enclose} {}^{2}\ddot{a}_{xy:\enclose{actuarial}{n}}`         | 
 
-STACK provides some support for statistical functions via optional maxima packages.  See specific pages on [statistics](../CAS/Statistics.md).
+STACK proporciona un poco de soporte para funciones estadísticas vía paquetes opcionales de maxima.  Vea las páginas específicas en [estadísticas](../CAS/Statistics.md).

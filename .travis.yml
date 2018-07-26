@@ -32,9 +32,6 @@ matrix:
     - php: 7.0
       env: TASK=PHPUNIT        MOODLE_BRANCH=MOODLE_35_STABLE   DB=pgsql
 
-    - php: 5.4
-      env: TASK=BEHAT          MOODLE_BRANCH=MOODLE_27_STABLE   DB=pgsql
-
     - php: 5.5
       env: TASK=BEHAT          MOODLE_BRANCH=MOODLE_30_STABLE   DB=pgsql
 
@@ -55,7 +52,7 @@ matrix:
 
   allow_failures:
     - php: 7.0
-      env: TASK=CODEKNOWNFAILS MOODLE_BRANCH=MOODLE_31_STABLE   DB=pgsql
+      env: TASK=CODEKNOWNFAILS MOODLE_BRANCH=MOODLE_35_STABLE   DB=pgsql
 
 before_install:
   - sudo apt-get update

@@ -1,26 +1,26 @@
-# Authoring quick start 3: turning simplification off
+# Guía rápida de autoría 3: desactivando la simplificación
 
-This is the third part of the [authoring quick start](Authoring_quick_start.md).  It assumes you have already worked through [authoring quick start 1](Authoring_quick_start.md) and [authoring quick start 2](Authoring_quick_start_2.md). The purpose is to discuss some common issues which arise when authoring particularly elementary questions where the CAS might do too much.
+Esta es la tercera parte de la [guía rápida de autoría](Authoring_quick_start.md).  Se asume que Usted ya ha trabajado la [guía rápida de autoría 1](Authoring_quick_start.md) y la [guía rápida de autoría 2](Authoring_quick_start_2.md). Su propósito es discutir algunos problemas comunes que surgen al escribir preguntas particularmente elementales donde el CAS podría hacer demasiado.
 
-### Example question ###
+### Pregunta de ejemplo ###
 
-Given a complex number \(z=ae^{ib}\) determine \(|z^{n}|\) and \(\arg(z^{n})\).
+Dado un número complejo \(z=ae^{ib}\) determine \(|z^{n}|\) y \(\arg(z^{n})\).
 
-Where \(a\), \(b\) and \(n\) are randomly generated numbers.
+Donde \(a\), \(b\) y \(n\) son números generados aleatoriamente.
 
-## Simplification off ##
+## Simplificación desactivada ##
 
-It is tempting when writing questions such as this to operate at the _level of display._  We could randomly generate \(a\), \(b\) and \(n\) and insert them into the question text.  For example:
+Es tentador cuando se escriben preguntas como esta el operar al  _nivel de visualización._  Nosotros podríamos generar aleatoriamente \(a\), \(b\) y \(n\) y podríamos insertarlos dentro del texto de la pregunta. Por ejemplo:
 
      \(\right({@a@}e^{{@b@} i}\left)^{@n@}\)
 
-What we are doing here is to treat every variable separately, not to create a single CAS object for the complex number.  This is ok, but causes problems and is difficult to read because it mixes CAS and LaTeX.
+Lo que estamos haciendo aquí es tratar a todas las variables separadamente, no estamos creando un único objeto CAS para el número complejo. Esto está bien, pero causa problemas y es dificil de leer porque mezcla CAS y LaTeX.
 
-The alternative is to switch simplification off and use the CAS to represent expressions more directly.  The following is a single Maxima expression.
+La alternativa es desactivar la simplificación y usar el CAS para representar expresiones más directamente. La siguiente es una única expresión Maxima.
 
      {@(a*%e^(b*%i))^n@}
 
-Of course, we don't want Maxima to _actually calculate the power_ just to _represent it!_  To see the difference, you can copy the following into a Maxima desktop session.
+Desde luego, nosotros no queremos que Maxima _realmente calcule la potencia_ simplemente ¡que  _la represente!_  Para ver la diferencia, Usted puede copiar lo siguiente dentro de una sesión de escritorio de Maxima.
 
     kill(all);
     simp:true;
@@ -28,13 +28,13 @@ Of course, we don't want Maxima to _actually calculate the power_ just to _repre
     simp:false;
     (3*%e^(%i*%pi/2))^4;
 
-Solving problems at the level of the CAS, not at the level of the display, is often better.    To tell STACK to set `simp:false` throughout the question scroll towards the bottom of the form and under `Options` set `Question-level simplify` to be `No`.
+El resolver problemas al nivel del CAS, y no al nivel de la visualización, es a menudo mejor.    Dígale a STACK que configure `simp:false` en la pregunta, deslícese hacia el fondo del formato y debajo de `Opciones` configure `Simplificar a nivel-de-pregunta` para que sea `No`.
 
-This does have some drawbacks.  Having switched off all simplification, we now need to turn it back on selectively! To do this, we use Maxima commands such as the following.
+Esto tiene algunos inconvenientes.  Al haber desactivado la simplificación, ¡ahora nosotros necesitamos volver a activarla selectivamente! Para hacer esto, nosotros usamos comandos de Maxima como el siguiente.
 
     a : ev(2+rand(15),simp);
 
-In particular, we are going to define the question variables as follows.
+En particular, nosotros vamos a definir las variables de la pregunta como sigue.
 
     a : ev(2+rand(15),simp);
     b : ev((-1)^rand(2)*((1+rand(10)))/(2+rand(15)),simp);
@@ -42,7 +42,7 @@ In particular, we are going to define the question variables as follows.
     q : a*%e^(b*%i*%pi);
     p : ev(mod(b*n,2),simp);
 
-A useful alternative when many consecutive expressions need to be simplified is to use the following.
+Una alternativa útil cuando necesitan ser simplificadas muchas expresiones consecutivas es usar lo siguiente.
 
     simp : true;
     a : 2+rand(15);
@@ -52,89 +52,89 @@ A useful alternative when many consecutive expressions need to be simplified is 
     q : a*%e^(b*%i*%pi);
     p : ev(mod(b*n,2),simp);
 
-The particular circumstances will dictate if it is better to have lots of variables and use the display, or whether to turn `simp:false` and work with this.  The difficulty is often with the unary minus.  Inserting numbers into expressions such as `y={@m@}x+{@c@}` if \(c<0\) is that it will be displayed as \(y=3x+-5\), for example.  While simplification is "off", the display routines in Maxima will (often) cope with the unary minus in a sensible way.
+Las circunstancias particulares dictarán si es que es mejor tener muchas variables y usar la visualización, o si es mejor poner `simp:false` y trabajar con esto.  La dificultad a menudo está con el menos unario.  El insertar números adentro de expresiones tales como `y={@m@}x+{@c@}` si \(c<0\) está en que será visualizada como \(y=3x+-5\), por ejemplo.  Mientras que la simplificación esté desactivada "off", las rutinas de visualización en Maxima (a menudo) trabajarán con el menos unario de una forma sensata.
 
-## The importance of the question note ##
+## La importancia de la nota de pregunta ##
 
-Notice in defining `b` we have a quotient which might well "simplify" when fractions cancel.  Hence, there is not a one-one correspondence between the values of the random variables and actual question versions.  In some situations there may similarly not be a one-one correspondence between the values of specific variables and actual questions.  We cannot use the values of the question variables as a unique key to the question versions (although in this case it would be fine because all algebraic cancelling occurs within the definition of `b` and so we end up with a unique key).
+Observe que al definir `b` nosotros tenemos un cociente que bien podría "simplificarse" cuando se cancelen las fracciones.  Por lo tanto, no hay una correspondencia de uno-a-uno entre las variables aleatorias y las versiones reales de la pregunta.  En algunas situaciones podría similarmente no haber una correspondencia uno-a-uno entre los valores de variables específicas y las preguntas reales.  Nosotros no podemos usar los valores de las variables de preguntas como una clave única a las versiones de pregunta (aunque en este caso esto estaría bien porque todas las cancelaciones algebraicas ocurren dentro de la definición de `b` por lo que terminamos con una clave única).
 
-Hence the teacher must leave a meaningful question note.  Two versions of a question are _defined_ to be the same if and only if the question note is the same.
+Es por esto que el profesor debe dejar una nota de pregunta que tenga sentido.  Dos versiones de una pregunta son _definidas_ que son la misma si, y solamente si, la nota de pregunta es la misma.
 
-The question note field is ["CAS text"](CASText.md), just like the question text.  We could write something like
+El campo de nota de pregunta es ["texto CAS"](CASText.md), similar al texto de la pregunta.  Nosotros podríamos escribir algo como
 
     {@[a,b,n]@}
 
-Or we could leave something more meaningful:
+O nosotros podríamos dejar algo que tenga más sentido:
 
     {@q^n = a^n*(cos(p*%i*%pi)+%i*sin(p*%i*%pi))@}
 
-Notice, we probably don't want to evaluate `a^n` here as it isn't likely to be "simpler".  It is up to the teacher, but putting the answer in the answer note helps if students come and ask you for the answer to their version of the question...
+Tenga en cuenta que, nosotros probablemente no queremos evaluar `a^n` aquí ya que no es probable que sea "más simple".  Depende del profesor, pero el poner la respuesta adentro de la nota de respuesta ayuda si los estudiantes vienen y le piden la respuesta a sus versiones de la pregunta...
 
-## Multi-part question ##
+## Pregunta multi-parte ##
 
-This question has two independent parts.  Hence, it probably needs two separate potential response trees to assess each part.
+Esta pregunta tiene dos partes independientes.  Por lo tanto, probablemente necesite dos árboles de respuesta potencial para valorar cada parte.
 
-The question text might look something like the following:
+El texto de la pregunta podría parecerse al siguiente:
 
-    Given a complex number \(\displaystyle z={@q@}\) determine
+    Dado un número complejo \(\displaystyle z={@q@}\) determine
     \( |z^{@n@}|= \) [[input:ans1]] [[validation:ans1]] [[feedback:prt1]]
-    and \( \arg(z^{@n@})= \) [[input:ans2]] [[validation:ans2]] [[feedback:prt2]]
+    y \( \arg(z^{@n@})= \) [[input:ans2]] [[validation:ans2]] [[feedback:prt2]]
 
-Remove the tag `[[feedback:prt1]]` from the Specific feedback field.  It is placed there by default, but can only occur once.
+quite la marca (tag) `[[feedback:prt1]]` del campo de Retroalimentación específica.  Está colocado aquí por defecto, pero solamente puede ocurrir una vez.
 
-Update the form.  Because there are two inputs and two potential response trees these will be automatically created.
+Actualice el formato.  Porque hay dos entradas y dos árboles de respuesta potencial estas serán creadas automáticamente.
 
-We need to supply model answers for each part.  In terms of our question variables,
+Nosotros necesitamos proporcionar respuestas modelo para cada parte.  En términos de nuestras variables de la pregunta,
 
     ans1 : a^n
     ans2 : p*%pi
 
-## Assessment of the answers ##
+## Evaluación de las respuestas ##
 
-It is unlikely that the purpose of this question is to decide if the student can work out powers of integers.  So we will assume it is acceptable to enter an answer such as \(a^b\) for the first part, rather than calculating this as an integer.  If the randomization was more conservative, this calculation might be an additional goal of the question.
+Es improbable que el propósito de esta pregunta sea el decidir si el estudiante puede resolver potencias de números enteros. Así que asumiremos que es aceptable el ingresar una respuesta como \(a^b\) para la primera parte, en lugar de calcularla como un número entero. Si la aleatorización fuera más conservadora, este cálculo podría ser un objetivo adicional de la pregunta.
 
-Hence, for `prt1` fill in the following information
+Por lo tanto, para `prt1` llene la siguiente información
 
     SAns:ans1
     TAns:a^n
     answertest:AlgEquiv
 
-If you really want to test for the integer, you need to calculate `ev(a^n,simp)` and then use the `EqualComAss` test to establish the student has the right integer.
+Si Usted realmente quiere probar el número entero, Usted necesita calcular `ev(a^n,simp)` y entonces usar la prueba `EqualComAss` para establecer que el estudiante tiene el número entero correcto.
 
-For `prt2` we need to establish the student has the right argument.  Since this is modulo \(2\pi\) we can use the trigonometrical functions.  Fill in the following information
+Para `prt2` nosotros necesitamos establecer que el estudiante tiene el argumento correcto.  Dado que esto es módulo \(2\pi\) nosotros podemos usar las funciones trigonométricas. LLene la siguiente información
 
     SAns:[cos(ans2),sin(ans2)]
     TAns:[cos(n*b*%pi),sin(n*b*%pi)]
     answertest:AlgEquiv
     quiet:yes
 
-The `AlgEquiv` test is happy to compare lists, but it makes no sense to tell the student which list element is "incorrect". Indeed, to do so would be confusing so we have selected the `quiet` option to suppress the automatically generated answer test feedback.
+La prueba `AlgEquiv` es feliz de comparar listas, pero no tiene sentido el preguntarle al estudiante cual elemento de la lista es  "incorrecto". De hecho, el hacer eso sería confuso, por lo que hemos seleccionado la opción silenciosa `quiet` para suprimir la retroalimentación de la prueba de respuesta generada automáticamente.
 
-Again, if you want to enforce a test for the principle argument you will need to check the student's value also falls within the correct range using the `NUM-GTE` tests to establish "greater or equal to".  This can be done by adding an additional node.  It is probably a sensible idea to give feedback on both properties here.  The variable `p` in the question variables will help with this.
+Una vez más, si Usted quiere hacer una prueba para el argumento del principio, Usted necesitará revisar que el valor del estudiante también cae dentro del rango correspondiente usando las pruebas `NUM-GTE` para establecer "mayor o igual a".  Esto puede hacerse al añadir un nodo adicional.  Probablemente sea una idea sensata el proporcionar retroalimentación en ambas propiedades aquí. La variable `p` en las variables de pregunta ayudará con esto.
 
-## Question tests ##
+## Pruebas de pregunta ##
 
-Please create some question tests!  This will save time in the long term, by enabling you to automatically test your question for each random version you wish to deploy.  You should create one test case for each outcome you expect. Here, we need
+¡Por favor, cree algunas preubas de pregunta!  Esto ahorrará tiempo a la larga, al permitirle a Usted el probar automáticamente su pregunta para cada versión aleatoria que desea desplegar.  Usted debería crear un caso de prueba para cada resultado que espere. Por lo tanto, necesitamos
 
     ans1:a^n
     ans2:n*b*%pi
 
-as the two correct answers, and then incorrect answers to ensure these are being trapped.  If you have enforced the _form_ of the answer, i.e. _integer representation_ for `ans1` and _principal argument_ for `ans2`, you need to add tests to distinguish between these.  For the first part \(a^n\) and the integer it represents, i.e. `ev(a^n,simp)`.  For the second part between \(b\times n\) and the variable `q`.
+como las dos respuestas correctas, y luego respuestas incorrectas para asegurarnos que estas sean atrapadas.  Si Usted ha impuesto la _forma_ de la respuesta, por ejemplo _representación de entero_ para `ans1` y _argumento principal_ para `ans2`, Usted necesita añadir pruebas para distinguir entre estas.  Para la primera parte \(a^n\) y el número entero que representa, por ejemplo `ev(a^n,simp)`.  Para la segunda parte entre \(b\times n\) y la variable `q`.
 
-## General feedback ##
+## Retroalimentación general ##
 
-The general feedback (previously known as the worked solution) can show some of the steps in working.  For example,
+La retroalimentación general (previamente conocida como la solución trabajada) puede mostrar algunos de los pasos en el desarrollo. Por ejemplo,
 
-    It makes sense that the index laws should still apply.  This is called De Moivre's theorem.
+    Es razonable que las leyes de los índices debrían de aplicar también.  Esto es llamado el Teorema De Moivre.
     \[ {@q^n@} ={@a^n@} e^{@b*n*%i*%pi@}.\]
-    Recall that
+    Recuerde que
     \[ e^{i\theta} = \cos(\theta)+i\sin(\theta).\]
-    Working with the principle argument \( 0\leq \theta \leq 2\pi \) gives us
+    Trabajando con el argumento del principio \( 0\leq \theta \leq 2\pi \) nos da
     \[ {@q^n@} = {@a^n@} e^{@b*n*%i*%pi@} = {@a^n@} e^{@ev(b*n,simp)*%i*%pi@} = {@a^n@} e^{@p*%i*%pi@}.\]
 
-# Next steps #
+# Pasos siguientes #
 
-Further examples are give in the page on [matrices](../CAS/Matrix.md).
+Se dan más ejemplos en la página sobre [matrices](../CAS/Matrix.md).
 
-The XML of this question is included with the [sample questions](Sample_questions.md).  Please look at the other [sample questions](Sample_questions.md) which are distributed with STACK for more examples.
+El XML de esta pregunta está incluido junto con las [preguntas de muestra](Sample_questions.md).  Por favor vea las otras [preguntas de muestra](Sample_questions.md) que son distribuidas con STACK para más ejemplos.
 

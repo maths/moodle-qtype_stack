@@ -121,7 +121,7 @@ To recap we have
 3. The teacher's answer.
 4. A test of "correctness".
 
-Next we should try out our question, by pressing the preview button at the bottom of the page:
+Next we should try out our question, by pressing the `Preview` link at the bottom of the page:
 
 ![Preview button](%CONTENT/preview_button.png)
 
@@ -183,7 +183,7 @@ Notice we are using the CAS to determine the model answer by calling the `int()`
 
 Now we need to update the rest of the question to use the variables. Replace the question text with
 
-    Find \(\int{@p@}\mathrm{dx}\)
+    Find \(\int{@p@}\mathrm{d}x\)
     [[input:ans1]] [[validation:ans1]]
 
 Notice that now we have defined a local variable `p`, and used the value of this in the Question text.  The difference is between mathematics enclosed between `\(..\)` symbols and `{@..@}` symbols. All the text-based fields in the question, including feedback, are [CAS text](CASText.md).  This is HTML into which mathematics can be inserted.  LaTeX is placed between `\(..\)`s, and CAS expressions (including your variables) between matching `{@..@}` symbols.  The CAS expressions are evaluated in the context of the question variables and displayed.
@@ -192,19 +192,21 @@ Since we have used `{@p@}` here, the user will not see a \(p\) on the screen whe
 
 In the input `ans1` replace the _model answer_ with `ta`.
 
-In the potential response tree, node 1, replace the expression `SAns` with `ta`.
+In the potential response tree, node 1, replace the expression `TAns` with `ta`.
 
 These change just propogate the new variables throught out the question.  We should test the question again, but this can be done in an automatic way.
 
 ## Question tests ##
 
-Testing questions is time consuming and tedious, but important to ensure questions work.  To help with this process STACK enables teachers to define "question tests".  These are the same principle as "unit tests" in software engineering.
+Testing questions is time consuming and tedious, but important to ensure questions work.  To help with this process STACK enables teachers to define "question tests".  The principle is the same as "unit testing" in software engineering.
+
+Scroll to the bottom of the page and press the `[Save changes and continue editing]` button. Press the `Preview` link.
 
 From the question preview window, click on `Question tests & deployed versions` link in the top right of the page.
 
 Please read the page on [testing](Testing.md).
 
-Please ensure you have deleted the third node from the potential response tree!  Click `Add a test case` to add a test to your question.  Fill in the following information
+Click `Add a test case` to add a test to your question.  Fill in the following information
 
     ans1 = ta
     score = 1
@@ -220,7 +222,7 @@ You can add as many tests as you think is needed, and it is usually a sensible i
     penalty = 0.1
     answernote = prt1-1-F
 
-Here we create a test case without a constant of integration.  This should fail!
+Here we create a test case without a constant of integration.  This should fail! This can be verified by running the test case.
 
 ## Back to the mathematics!
 
@@ -285,7 +287,7 @@ This gives us the test, but what about the outcomes?
 
 Notice here that STACK also adds an "intelligent note to self" in the [answer note](Potential_response_trees.md#Answer_note) field:
 
-![Answer note](%CONTENT/answer_node.png)
+![Answer note](%CONTENT/answer_note.png)
 
 This is useful for statistical grouping of similar outcomes when the feedback depends on randomly generated questions,
 and different responses. You have something definite to group over.  This is discussed in [reporting](Reporting.md).
@@ -294,13 +296,13 @@ Press the `[Save changes and continue editing]` button and preview the question.
 
 Type the following response into the answer box:
 
-    -5/12*(3*x-2)^-4+C
+    -5/12*(3*x-2)^-4+c
 
 Because we are using Maxima to differentiate the student's response, whether or not the student includes a constant of integration in their answer. You can verify this by typing the above response but missing off the constant.
 
 ### The Form of a Response: not leaving an answer in factored form
 
-Because we are using the mathematical properties of a student's response to judge its accuracy, we can even check to ensure that the student has responded in the correct form. For example, to answer our question a student answering this correctly is likely to respond with \(-\frac{5}{6}(3x-2)^{-2} + C \) but they might equally well respond with \( -\frac{5}{54x^{2}-72x+24} + C\). This is, of course, mathematically correct but not in the factored form convention demands. The student is correct but we still should guide them towards not expanding brackets when they don't need to. 
+Because we are using the mathematical properties of a student's response to judge its accuracy, we can even check to ensure that the student has responded in the correct form. For example, we expect a student answering this correctly to respond with \(-\frac{5}{6}(3x-2)^{-2} + c \) but they might equally well respond with \( -\frac{5}{54x^{2}-72x+24} + c\). This is, of course, mathematically correct but not in the factored form convention demands. The student is correct but we still should guide them towards not expanding brackets when they don't need to.
 
 We need to go back and `[Add another node]` to the Potential Response Tree. A third node is added.
 
@@ -310,7 +312,7 @@ If we enter Node 3, we know the student has the correct answer and just need to 
 Update the form so that Node 3 has
 
     SAns = diif(ans1)
-    TAns = -5/6(3*x-2)^-2 + C
+    TAns = -5/6(3*x-2)^-2 + c
     Answer test = FacForm
     Test options = x
     Quiet = Yes.
@@ -335,7 +337,7 @@ Right at the very start of this guide we introduced the idea of question variabl
 
 <textarea readonly="readonly" rows="2" cols="50">
 definition:5*(3*x-2)^-3
-model: integrate(definition, x)+C
+model: integrate(definition, x)+c
 </textarea>
 
 We defined two local variables `definition` and `model`, and used these values in both the Question text and in the potential response tree. 
@@ -355,10 +357,10 @@ We are now in a position to generate a random question. To do this modify the [q
 
     a : 1+rand(6)
     b : 1+rand(6)
-    c : 1+rand(6)
+    c : b+rand(6)
     n : -1-rand(6)
     definition : a(b*x-c)^n;
-    model: integrate(definition, x)+C
+    model: integrate(definition, x)+c
 
 In this new question we are asking the student to find the anti-derivative of a question with a definite form \(\frac{a}{(b*x-c)^n}\). `a`, `b`, `c` and `n` are all variables, which are assigned random numbers. These are then used to define the variable `definition`, used in the question itself. We also have the CAS integrate the definition and store the result in the variable `model`.
 
@@ -388,11 +390,11 @@ The `rand` function can also be used to select items from a list. For example, w
 
     a : 1+rand(6);
     b : 1+rand(6);
-    c : 1+rand(6);
-    sign: rand[-1,1];
+    c : b+rand(6);
+    sign: rand([-1,1]);
     n : rand(6)*sign;
     definition : a(b*x-c)^n;
-    model: integrate(definition, x)+C;
+    model: integrate(definition, x)+c;
 
 As questions become increasingly complex, it is a good habit to comment complicated lines in the Maxima code in the Question variables and Feedback variables, in order to make the code easier to read for anyone wishing to edit the question. Comments are entered as follows: `sign: rand[-1,1]; /* The power is randomly set to either positive or negative */`.
 
@@ -408,5 +410,3 @@ STACK's question type is very flexible.
 * You can add support for [multiple languages](Languages.md).
 
 The next part of the authoring quick start guide looks at [multi-part mathematical questions](Authoring_quick_start_2.md).
-
-

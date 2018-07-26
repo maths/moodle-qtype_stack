@@ -19,7 +19,7 @@
 /* Global variable options            */
 /* ********************************** */
 
-stack_reset(rand_seed) := block(
+stack_reset(not_used) := block(
   if featurep(all,constant) then remove(all, constant),
   kill(allbut [functions]),
   kill(trigsimp),
@@ -46,7 +46,7 @@ stack_reset(rand_seed) := block(
   pi() := %pi,         /* Why does Excel do this?! */
   /* Display of matrixes */
   lmxchar: "[",
-  /* Sets up randomization, using Maxima's internal random command */
+  /* Sets up randomization, using Maxima's internal random command. */
   stack_randseed(10000),
 
   /*Reload local settings*/
@@ -67,7 +67,7 @@ stack_reset(rand_seed) := block(
 stack_reset_vars(ex) := block(kill(i, j, e, pi, Pi, PI));
 
 /* Execute this command to ensure values have been set. */
-stack_reset(1000);
+stack_reset(true);
 
 alias(int,integrate);        /* Allows integrate to be called with int()    */
 alias(cosec,csc);            /* Corresponds to current student expectations */

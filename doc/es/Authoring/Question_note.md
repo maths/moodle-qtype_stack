@@ -1,18 +1,17 @@
-# Question note
+# Nota de pregunta
 
-The question note is [CASText](CASText.md).  The question note is used to decide if randomly generated variants are the same or different.
+La nota de pregunta es [CASText (TextoCAS)](CASText.md).  La nota de pregunta es usada para decidir si variantes generadas aleatoriamente son la misma o diferentes.
 
-_Two question variants are equal if and only if the question notes are equal._
+_Dos variantes de pregunta son iguales si y solamente si las notas de pregunta son iguales._
 
-In particular, when we generate statisticts about students' attempts we group attempts according to the equality of their question notes.
-Two versions are not necessarily different if their [question variables](KeyVals.md#Question_variables)
-are different, and hence a note is useful.  The teacher needs to choose what identifies each unique version - this cannot be automated.
+En particular, cuando nosotros generamos estadísticas acerca de los intentos  de estudiantes, nosotros agrupamos los intentos de acuerdo a la igualdad de sus notas de pregunta.
+Dos versiones no son necesariamente diferentes si sus [variables de pregunta](KeyVals.md#Question_variables)
+son diferentes, y por esta razón una nota es útil.  El profesor necesita elegir qué identifica cada versión única - esto no puede ser automatizado.
 
-The teacher can also leave useful information about the answer in the question note.
-For example they might use a note such as
+El profesor también puede dejar información útil acerca de la respuesta en la nota de la pregunta. Por ejemplo, podría usar una nota como
 
     \[ \frac{d}{d{@v@}}{@p@} = {@diff(p,v)@} \]
 
-This is very helpful, particularly when students ask about the version they were given.  The teacher only need look at the question note to get both the question, and answer.
+Esto es muy útil, particularmente cuando los estudiantes preguntan acerca de la versión que les fue dada. El profesor solamente necesita ver la nota de la pregunta para obtener tanto la pregunta, como la respuesta.
 
-The question note is used when [deploying](Deploying.md) question variants.
+La nota de la pregunta es usada al [desplegar](Deploying.md) variantes de pregunta.

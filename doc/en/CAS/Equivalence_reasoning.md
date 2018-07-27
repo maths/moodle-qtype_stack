@@ -66,7 +66,7 @@ The ability to give feedback on the equivalence of adjacent lines as the student
 
 ## Notes for question authors
 
-* The validation tags, e.g. `[[validation:ans1]]` are ignored for this input type.  Validation feeback is always displayed next to the textarea into which students type their answer.
+* The position of the validation tags, e.g. `[[validation:ans1]]` are ignored for this input type.  Validation feeback is always displayed next to the textarea into which students type their answer.
 * The teacher's answer and any syntax hint must be a list.  If you just pass in an expression strange behaviour may result.
 * The input type works very much like the textarea input type.  Internally, the student's lines are turned into a list.  If you want to use the "final answer" then use code such as `last(ans1)` in your potential response tree.
 * If students type in an expression rather than an equation, the system will assume they forgot to add \(=0\) at the end and act accordingly.  This is displayed to the student.
@@ -110,18 +110,18 @@ To work over the real numbers make the answer test options `assume_real`.
 
 ### EquivReasoning ###
 
-This test establishes that all the items in the list are equivalent.
+This test establishes that all the items in the list are equivalent, using algebraic equivalence.
 
 ### EquivFirst ###
 
-1. This test establishes that all the items in the list are equivalent.  
+1. This test establishes that all the items in the list are equivalent, using algebraic equivalence.
 2. Test that the first line of the student's answer is equivalent to the first line of the teacher's answer up to commutativity and associativity (using the answer test EqualComAss.)
 
 To test the last line of an argument is in the correct form will require a separate node in the potential response tree.  To add this to the answer test gives too many possibilities.
 
 # Natural domains #
 
-The equivalence reasoning input tracks natural domains of expressions.  This is via the Maxima `natural_domain(ex)` function.  Natural domains are shown to students in the validation feedback.
+The equivalence reasoning input tracks natural domains of expressions.  This is via the STACK's `natural_domain(ex)` function.  Natural domains are shown to students in the validation feedback.
 \[ \begin{array}{lll} &\frac{5\,x}{2\,x+1}-\frac{3}{x+1}=1&{\color{blue}{{x \not\in {\left \{-1 , -\frac{1}{2} \right \}}}}}\cr \color{green}{\Leftrightarrow}&5\,x\,\left(x+1\right)-3\,\left(2\,x+1\right)=\left(x+1\right)\,\left(2\,x+1\right)& \end{array} \]
 At the moment STACK quietly condones silent domain enlargements such as in the above example.
 

@@ -77,14 +77,17 @@ install:
   - moodle-plugin-ci add-plugin maths/moodle-qbehaviour_dfcbmexplicitvaildate
   - moodle-plugin-ci add-plugin maths/moodle-qbehaviour_adaptivemultipart
   - moodle-plugin-ci install
-  - moodle-plugin-ci add-config 'define("QTYPE_STACK_TEST_CONFIG_PLATFORM",        "unix");'
-  - moodle-plugin-ci add-config 'define("QTYPE_STACK_TEST_CONFIG_MAXIMAVERSION",   "'`maxima --version | sed 's/Maxima //'`'");'
+#  - moodle-plugin-ci add-config 'define("QTYPE_STACK_TEST_CONFIG_PLATFORM",        "unix");'
+#  - moodle-plugin-ci add-config 'define("QTYPE_STACK_TEST_CONFIG_MAXIMAVERSION",   "'`maxima --version | sed 's/Maxima //'`'");'
+# Travis seems to be using Maxime version 5.32.1, lisp gcl, which is very old!
+  - moodle-plugin-ci add-config 'define("QTYPE_STACK_TEST_CONFIG_PLATFORM",        "unix-optimised");'
+  - moodle-plugin-ci add-config 'define("QTYPE_STACK_TEST_CONFIG_MAXIMAVERSION",   "timeout --kill-after=10s 10s /var/data/moodle_demo/demo/stack/maxima_opt_auto -eval '(cl-user::run)'");'
   - moodle-plugin-ci add-config 'define("QTYPE_STACK_TEST_CONFIG_CASTIMEOUT",      "20");'
   - moodle-plugin-ci add-config 'define("QTYPE_STACK_TEST_CONFIG_CASRESULTSCACHE", "none");'
   - moodle-plugin-ci add-config 'define("QTYPE_STACK_TEST_CONFIG_MAXIMACOMMAND",   "maxima");'
   - moodle-plugin-ci add-config 'define("QTYPE_STACK_TEST_CONFIG_PLOTCOMMAND",     "gnuplot");'
   - moodle-plugin-ci add-config 'define("QTYPE_STACK_TEST_CONFIG_CASDEBUGGING",    "0");'
-  - ls /var/www
+  - more config.php
 
   # Prepare to capture Behat failures.
   - moodle-plugin-ci add-config '$CFG->behat_faildump_path = "'`pwd`'/behat_output";'

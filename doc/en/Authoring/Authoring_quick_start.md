@@ -413,7 +413,7 @@ You might like to look at Moodle's quiz settings, creating a simple quiz.  This 
 STACK's question type is very flexible.
 
 * You can add a worked solution in the [General feedback](CASText.md#General_feedback).
-* You can change the behaviour of the question with the [options](Options.md)
+* You can change the behaviour of the question with the [options](Options.md).
 * You can add plots to all the [CASText](CASText.md) fields with the [`plot`](../CAS/Maxima.md#plot) command.
 * You can add support for [multiple languages](Languages.md).
 

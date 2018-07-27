@@ -807,10 +807,9 @@ function xmldb_qtype_stack_upgrade($oldversion) {
     // Update the record of the currently used version.
     set_config('stackmaximaversion', $latestversion, 'qtype_stack');
 
-    // If appropriate, clear the CAS cache and create a new maxima image.
+    // If appropriate, clear the CAS cache.
     if ($latestversion != $currentlyusedversion) {
         stack_cas_connection_db_cache::clear_cache($DB);
-        stack_cas_configuration::create_auto_maxima_image();
     }
 
     return true;

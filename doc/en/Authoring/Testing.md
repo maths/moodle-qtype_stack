@@ -14,13 +14,15 @@ High quality question production needs care at each stage.
 
 __Minimal requirements__
 
-1. The question name should be meaningful and consistent, i.e. match up to course, section and topic.  E.g. ILA-3-equation of plane.
+1. The question name should be meaningful and consistent, i.e. match up to course, section and topic.  E.g. `2018ILA-Wk3-Q2: equation of plane`.
 2. Is the phrasing of the question clear to students?
-3. Will students know how to input an answer?  Could a "syntax hint" or message in the question help?
-4. Use question variable stubs throughout, to enable efficient random generation.  (E.g. define correct answer in question variables, rather than hard-wiring a sepcific expression).
-5. Mark correct answer as correct.
-6. Question tests for one correct and one incorrect version. (See below)
-7. Check all options in question, inputs and PRTs.
+3. Will students know how to input an answer?
+  * Could a "syntax hint" or message in the question help?
+  * Can "validation" help, e.g. by telling students how many significant figures are expected? (See the "numbers" input type.)
+4. Use question variable stubs throughout, to enable efficient random generation.  (E.g. define the correct answer in question variables, rather than hard-wiring a sepcific expression).
+5. Always make sure the question marks the correct answer as correct!
+6. Add question tests for one correct and at least one incorrect version. (See below)
+7. Check all options in the question, inputs and PRTs.
 
 __Phase 1__
 

@@ -135,37 +135,39 @@ Please note that the options are passed into STACK functions as a *list* contain
 
 The chart below shows the answer test, whether it is defined in Maxima or PHP and the options it expects.  Some of the tests are called "hybrid".  These require both significant Maxima and PHP code and cannot be easily reproduced in the sandbox.
 
-| Answer test   | Maxima command name	| Maxima/PHP | Option ?
-| ------------- | --------------------- | ---------- | -------------
-| AlgEquiv      | ATAlgEquiv            | Maxima     |	
-| EqualComAss  	| ATEqualComAss         | Maxima     |	
-| CasEqual     	| ATCasEqual            | Maxima     |	
-| SameType     	| ATSameType            | Maxima     |	
-| SubstEquiv   	| ATSubstEquiv          | Maxima     |	
-| SysEquiv     	| ATSysEquiv            | Maxima     |	
-| Expanded     	| ATExpanded            | Maxima     |	
-| FacForm      	| ATFacForm             | Maxima     |	Variable
-| SingleFrac   	| ATSingleFrac          | Maxima     |	
-| PartFrac     	| ATPartFrac            | Maxima     |	Variable
-| CompSquare   	| ATCompSquare          | Maxima     |	Variable
-| GT           	| ATGT                  | Maxima     |	
-| GTE          	| ATGTE                 | Maxima     |	
-| NumSigFigs   	| ATNumSigFigs          | Maxima     |	Number sig figs
-| NumAbsolute  	|                       | Hybrid     |	
-| NumRelative  	|                       | Hybrid     |	
-| NumDecPlaces 	|                       | Hybrid     |	
-| LowestTerms  	| ATLowestTerms         | Maxima     |	
-| UnitsSigFigs  | ATUnitsSigFigs        | Maxima     |  Shares code with NumSigFigs
-| UnitsSigFigs  | ATUnitsStrictSigFigs  | Maxima     |  Shares code with NumSigFigs
-| UnitsAbsolute | ATUnitsAbsolute       | Maxima     |  Shares code with NumAbsolute
-| UnitsAbsolute | ATUnitsStrictAbsolute | Maxima     |  Shares code with NumAbsolute
-| UnitsRelative | ATUnitsRelative       | Maxima     |  Shares code with NumRelative
-| UnitsRelative | ATUnitsStrictRelative | Maxima     |  Shares code with NumRelative
-| Diff         	| ATDiff                | Maxima     |	Variable
-| Int          	| ATInt                 | Maxima     |	Variable
-| String       	|                       | PHP        |	
-| StringSloppy 	|                       | PHP        |	
-| RegExp       	|                       | PHP        |	
+| Answer test         | Maxima command name   | Maxima/PHP | Option ?
+| ------------------- | --------------------- | ---------- | -------------
+| AlgEquiv            | ATAlgEquiv            | Maxima     |
+| EqualComAss         | ATEqualComAss         | Maxima     |
+| CasEqual            | ATCasEqual            | Maxima     |
+| SameType            | ATSameType            | Maxima     |
+| SubstEquiv          | ATSubstEquiv          | Maxima     |
+| SysEquiv            | ATSysEquiv            | Maxima     |
+| Expanded            | ATExpanded            | Maxima     |
+| FacForm             | ATFacForm             | Maxima     | Variable
+| SingleFrac          | ATSingleFrac          | Maxima     |
+| Sets                | ATSets                | Maxima     |
+| PartFrac            | ATPartFrac            | Maxima     | Variable
+| CompSquare          | ATCompSquare          | Maxima     | Variable
+| Num-GT              | ATGT                  | Maxima     |
+| Num-GTE             | ATGTE                 | Maxima     |
+| NumSigFigs          | ATNumSigFigs          | Maxima     | Number sig figs
+| NumAbsolute         |                       | Hybrid     |
+| NumRelative         |                       | Hybrid     |
+| NumDecPlaces        |                       | Hybrid     |
+| NumDecPlacesWrong   |                       | Hybrid     |
+| LowestTerms         | ATLowestTerms         | Maxima     |
+| UnitsSigFigs        | ATUnitsSigFigs        | Maxima     |  Shares code with NumSigFigs
+| UnitsSigFigs        | ATUnitsStrictSigFigs  | Maxima     |  Shares code with NumSigFigs
+| UnitsAbsolute       | ATUnitsAbsolute       | Maxima     |  Shares code with NumAbsolute
+| UnitsAbsolute       | ATUnitsStrictAbsolute | Maxima     |  Shares code with NumAbsolute
+| UnitsRelative       | ATUnitsRelative       | Maxima     |  Shares code with NumRelative
+| UnitsRelative       | ATUnitsStrictRelative | Maxima     |  Shares code with NumRelative
+| Diff                | ATDiff                | Maxima     | Variable
+| Int                 | ATInt                 | Maxima     | Variable
+| String              |                       | PHP        |
+| StringSloppy        |                       | PHP        |
+| RegExp              |                       | PHP        |
 
 If you just want to decide if two expressions are considered to be algebraically equivalent, then use
 

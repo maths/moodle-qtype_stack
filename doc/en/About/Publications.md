@@ -29,5 +29,4 @@ Below are a small selection of papers about STACK, and are a good place to start
 * T. Lowe. [e-Assessment using Symbolic Manipulation Tools](http://www.open.ac.uk/opencetl/resources/details/detail.php?itemId=4b6abb677f175) Centre for Open Learning of Mathematics, Science, Computing and Technology, The Open University, 2010.
 * A. Rasila, L. Havola, H. Majander and J. Malinen. Automatic assessment of mathematics exercises: Experiences and future prospects. In [ReflekTori 2010: Symposium of Engineering Education](http://opetuki2.tkk.fi/p/reflektori2010/index.en.php), pages Alto University, Helsinki Finland, 2010.
 
-* C. J. Sangwin and M. Grove [STACK: addressing the needs of the neglected learners](http://web.mat.bham.ac.uk/C.J.Sangwin/Publications/2006WebAlt.pdf). Proceedings of the WebAlt Conference (2006).
-* C. J. Sangwin. [Assessing mathematics automatically using computer algebra and the internet](http://web.mat.bham.ac.uk/C.J.Sangwin/Publications/tma03.pdf). Teaching Mathematics and its Applications, 23(1), pages 1--14 (2004).
+

@@ -75,7 +75,7 @@ With v4.0 of STACK the CASText parts of the question gain blocks which allow the
 
 * The FETLAR project released a large collection of STACK questions in English covering calculus and algebra in April 2010.  These are now part of the demonstration course.
 * Questions to cover all parts of the [The Map of Algebraic Manipulation](http://www.mth.kcl.ac.uk/staff/ad_barnard/Pocket.pdf).
-* Questions to cover all of the [Calculus Refresher](http://www.mathcentre.ac.uk/resources/exercisebooks/mathcentre/final0502-calc-ref-ukmlsc.pdf) by Dr Tony Croft and Dr Anthony Kay.
+* Questions to cover all of the [Calculus Refresher](%CONTENT/final0502-calc-ref-ukmlsc.pdf) by Dr Tony Croft and Dr Anthony Kay.
 
 Abacus is a material bank for STEM education which seeks to produce, share and host high-quality educational material between collaborators.  For more information see [https://abacus.aalto.fi/](https://abacus.aalto.fi/)
 

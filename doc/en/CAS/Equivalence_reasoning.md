@@ -125,6 +125,16 @@ The equivalence reasoning input tracks natural domains of expressions.  This is 
 \[ \begin{array}{lll} &\frac{5\,x}{2\,x+1}-\frac{3}{x+1}=1&{\color{blue}{{x \not\in {\left \{-1 , -\frac{1}{2} \right \}}}}}\cr \color{green}{\Leftrightarrow}&5\,x\,\left(x+1\right)-3\,\left(2\,x+1\right)=\left(x+1\right)\,\left(2\,x+1\right)& \end{array} \]
 At the moment STACK quietly condones silent domain enlargements such as in the above example.
 
+# Repeated roots #
+
+There is general ambiguity about how to express multiplicity of roots.  If \((x-1)^2=0\) is not equivalent to \(x=1\) then students need to indicate multiplicity of roots, but there appears to be no consensus on how this should be notated.
+
+The equation \( (x-3)^2 = 0 \) and the expression \( x=3 \mbox{ or } x=3\) are considered to be equivalent, because they have the same roots with the same multiplicity.
+The expressions \( x=3 \mbox{ or } x=3\) and \( x=3\) have the same variety, but are not identical.
+This is, of course, slightly awkward since logical ``or'' is idempotent, and so \( x=3 \mbox{ or } x=3\) and \( x=3\) would be equivalent at a symbolic level.
+For this reason, STACK accepts \(x=3\) as equivalent to \((x-3)^2=0\), but with an acknowledgement.
+\[ \begin{array}{lll} &\left(x-3\right)^3=0& \cr \color{green}{\mbox{(Same roots)}}&x=3& \cr \end{array} \]
+
 # Other functions #
 
 The maxima function `stack_disp_arg(ex, [showlogic, showdomain])` can be used to display a list of expressions `ex` in the same form as used in the input and answer tests.  This is useful for displaying the teacher's worked solution in the general feedback.  

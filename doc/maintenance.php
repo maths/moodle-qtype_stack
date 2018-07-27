@@ -33,7 +33,6 @@ require_once(__DIR__ . '/../locallib.php');
 require_once(__DIR__ . '/../stack/utils.class.php');
 require_once(__DIR__ . '/docslib.php');
 
-
 require_login();
 
 function report($d) {
@@ -73,7 +72,7 @@ function report($d) {
                             // The array $found[0] will have the full a tags, found[1] contains their href properties.
                             // Step two, visit these links and check for 404s.
                             foreach ($found[1] as $i => $link) {
-                                if (!(strpos($link, 'mailto:') === false)
+                                if (strpos($link, 'mailto:') === false
                                     and strpos($link, 'maintenance.php') === false
                                     and (strpos($link, 'http') !== 0)) {
                                     // Don't check mailto:, this file (ARGH!)

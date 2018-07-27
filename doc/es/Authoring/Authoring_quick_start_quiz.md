@@ -43,58 +43,58 @@ Haga click en el ícono para `Previsualizar` para la pregunta y después haga cl
 
 El propósito primario de esta página es añadir "[pruebas de pregunta](Testing.md)".    Esta página también le permite hacer lo siguiente.
 
-1. Send the question variables to an interactive CAS session.  Very useful for writing the worked solution in an interactive environment, but you will have to cut and paste the worked solution back into the "general feedback" section when editing the question.
-2. You can export a single question (note that Moodle normally expects you to export a whole category)
-3. Deploy questions.
+1. Enviar las variables de pregunta a una sesióninteractiva CAS.  Muy útil para escribir la solución trabajada en un entorno interactivo, pero Usted tendrá que cortar y pegar la solución trabajada de vuelta a la sección de "retroalimentación general" cuando edite la pregunta.
+2. Usted puede exportar una sola pregunta (tenga en cuenta que Moodle normalmente espera que Usted exporte una categoría completa)
+3. Desplegar preguntas.
 
-You can add more test cases by clicking on `Add another test case`.  All you then need to do is  enter a response that you want to check in the input box then click on `Fill in the rest of the form` to make a passing test-case (risky!) then click `Create test case`.  You can also edit or delete the existing test cases by clicking on the relevant button.  
+Uste dpuede añadir más casos de prueba al hacer click en `Añadir otro caso de prueba`.  Todolo que USted necesita hacer es ingresar una respuesta que Usted desea revisar en la caja de entrada y después hacer click en `LLenar el resto del formato` para hacer un caso-de-prueba aprobatorio (¡riesgoso!) y después hacer click en `Crear caso de prueba`.  Usted también puede editar o eliminar los casos de prueba existentes al hacer click en el botón relevante.  
 
-Note, the testing never "simplifies" the input, so you may need to `ev(...,simp)` if you want to simplify the input, or part of an input, before the system assesses it.
+Tenga en cuenta que, el probar nunca "simplifica" la entrada, por lo que Usted podría necesitar `ev(...,simp)` si Usted desea simplificar la entrada, o parte de una entrada, antes de que el sistema la evalue.
 
-Once you have devised the question tests you need to go to the `Deployed variants` section at the top of the screen and put a number (e.g. 10) in the box `Attempt to deploy the following number of variants` and click `Go`.  This enables STACK to produce a set of versions of the question from which an individual question for a student will be chosen at random (questions are not generated on the fly).  STACK will check that each version that it generates behaves as it should by running each version through the question tests that you have set up.  Success will be indicated by a box saying that `All tests passed!` and failure of a particular version of a question to behave as it should, will be highlighted.  STACK doesn't usually manage to be able to produce as many variants as you request before it starts duplicating versions.  If STACK produces more than three existing duplicates it gives up.
+Una vez que Usted haya desarrollado las pruebas de pregunta Usted necesita ir a la sección de `Desplegar variantes` en laparte superior de la pantalla y  poner un número (por ejemplo 10) en la caja para `Intentar desplegar el siguiente número de variantes` y hacer click en `Ir`.  Esto le permite a STACK producir un conjunto de versiones de la pregunta a partir de los cuales será elegida al azar una pregunta individual para un estudiante (las preguntas no son generadas al vuelo).  STACK verificará que cada versión que genere se compote como debe de ser  al correr cada versión a través de  las pruebas de pregunta que Usted haya configurado.  El éxito será indicado por una caja que dice  `¡Todas las pruebas pasadas!` y la falla de una versión particular de una pregunta que no se comporte como debería será resaltada.  STACK normalmente no maneja el poder producir tantas variantes como Usted solicite antes de comenzar a ducplicar versiones. Si STACK produce más de tres duplicados existentes  se rinde y abandona la misión.
 
-## Constructing a Moodle quiz
+## Construyendo un examen Moodle
 
-Once you have constructed a bank of questions you can put them into a Moodle quiz.   I will only give brief details about this and you may want to consult with other local CAA people for help with this.  
+Una vez que Usted haya construido un banco de preguntas Usted puede ponerlas dentro de un examen Moodle. Yo solamente daré breves detalles acerca de esto y Usted podría querer consultar con otras personas locales de evaluación Asistida por Computadora para que le ayuden con esto.  
 
-Included within the sample materials is a "Syntax quiz" and it is recommended that you put a copy of this on your own page so that students can practice the syntax of how to enter answers into a STACK quiz before they try a specific quiz for your module, and also check that they can read the mathematics on their machine.
+Includo con los materiales de muestra está un "Examen de sintaxis (Syntax quiz)" y se le recomienda que ponga una copia de este en la página de Usted para que los estudiantes puedan practicar la sintaxis de como ingresar respuestas dentro de un examen STACK antes de que ellos intenten resolver un examen específico para su módulo, y también que revisen que ellos pueden leer las matemáticas en sus maquinas.
 
-### Setting up the quiz
+### Configurando el examen
 
-1. Go to the Moodle page and click `Turn editing on`.  
-2. Go to the block where you want to put the quiz or add an additional block and click `Add an activity or resource' then click `Quiz' then click `Add'.  
-3. Give the quiz a name and put any description you want in the Description box.  LaTeX can be used here if you want.  
-4. Click on `Timing` and fix the opening and closing times.  
-5. Click on `Grade` and fix the `Attempts allowed`.  E.g. you could use `Unlimited` for a practice quiz and `1` for a coursework quiz.  
-6. Click on `Review options` and I turn off `Right answer` for both practice and coursework quizzes.  I allowed `General feedback` (worked solution) to be on for a practice quiz but turned it off the coursework quiz. (I didn't want worked solutions to be available when the students were doing the coursework.)  
-7. Finish by clicking `Save and return to module`.  
+1. Ir a la página de Moodle y hacer click en `Activar la edición`.  
+2. Ir al bloque en donde Usted quiere poner el examen o añadir un bloque adicional y hacer click en `Añadir una actividad o recurso' y después hacern click en `Examen' (Cuestionario en el español internacionale) y después hacer click en `Añadir'.  
+3. Dele un nombre al examen y ponga cualquier descripción que desee en la caja para Descripción.  Aquí puede usarse LaTeX si lo desea.  
+4. Haga click en `Tiempos` y arregle las horas de apertura y cierre.  
+5. Haga click en `Calificación` y arregle los `Intentros permitidos`.  Por ejemplo, Usted podría usar `Ilimitado` para un examen de práctica y `1` para un examen del curso.  
+6. Haga click en `Opciones para revisión` y yo desactivo `Respuesta correcta` para mbos, tanto práctica como exámenes del curso.  Yo permito que la `Retroalimentación general` (solución trabajada) esté activada para un examen de práctica pero desactivada para el examen del curso. (Yo no quería que las soluciones trabajadas estén disponibles cuando el estudiante esté haciendo los exámenes del curso.)  
+7. Termine haciendo click en `Guardar y regresar al módulo`.  
 
-Don't forget to ensure that the `Show` button next to the quiz is on as well as the `Show` button next to the topic when you want the students to see the quiz.
+No se olvide de asegurarse de que el botón para `Mostrar` junto al examen esté activado y que también el botón `Mostrar` junto al tópico cuando Usted quiera que el estudiante vea el examen.
 
-Note, the Moodle question bank will create a category for the quiz.  It is sometimes sensible to put all the questions used in the quiz into this category, but not that you will only see the category if you have previously navigated to the quiz.
+Tenga en cuenta que el Banco de preguntas de Moodle creará una categoría para el examen.  En ocasiones es razonable  el poner todas las preguntas usadas en el examen dentro de esta categoría, pero tenga en cuenta que USted solamente verá la categoría si USted previamente ha navegado al examen.
 
-### Adding questions to the quiz
+### Añadiendo preguntas al examen
 
-1. Turn editing on and click on the quiz then click `Edit quiz`.  
-2. Click `Add`  then click `from a question bank`, select a category then one or more of the STACK questions you have created.
-3. Click `Add selected questions to the quiz` then click `Save` and return to the main module page.  
-4. Click on `Edit settings` and check that all the settings are as you wish (see previous section) and if not, change these and save.  
+1. Active la edición y haga click en el examen y después haga click en `Editar examen`.  
+2. Haga click en `Añadir  y después haga click en `desde un banco de preguntas`, seleccione una categoría y después seleccione una o más de las preguntas STACK que Usted ha creado.
+3. Haga click en `Añadir preguntas seleccionadas al examen` y después haga click en `Guardar` y regrese a la página principal del módulo.  
+4. Haga click en `Editar ajustes` y revise que todas las configuraciones estén como Usted las quiere (vea la sección anterior) y en caso contrario, cámbielas y guárdelas.  
 
-To preview the quiz click on it, then click `Preview quiz now`, answer questions and click on `Submit all and finish`.
+Para previsualizar el examen haga click en él y después en `Previsualizar examen ahora`, conteste las preguntas y haga click en `Enviar todo y terminar`.
 
-### Extra time students
+### Tiempo extra para estudiantes
 
-If you have students who need extra time you need to set up `Groups` with these students in.  E.g. who needs 25% extra time.  
+Si Usted tiene estudiantes que necesitan tiempo extra, Usted debe configurar `Grupos` que tengan dentro a estos estudiantes.  Por ejempl, quienes necesiten 25% de tiempo extra.  
 
-1. In the Administration block, click on `Users` then `Groups` then `Create group`.  
-2. Give the group a name, e.g. "25% extra time".  You can put more details of who the group is for in the `Group description` box.  Click `Save changes`. 
-3. `Add/remove users` then click on the ID for a particular students for this group and click `Add` to put them in the group.  Repeat for each student who needs to be in this group.  
-4. Set up other groups for students who need different amounts of extra time, if necessary.
+1. En el bloque de Administración, haga click en `Usuarios` y después en `Grupos` y después en `Crear grupo`.  
+2. Dele un nombre al grupo, por ejemplo "25% tiempo extra".  Uste dpuede poner más detalles acerca de para quienes es este grupo en la caja para `Descripción del grupo`.  Haga click en `Guardar cambios`. 
+3. `Añadir/quitar  usuarios` y después haga click en la ID para los estudiantes particulares para este grupo y haga click en `Añadir` para ponerlos dentro del grupo.  Repita para cada estudiante que necesita estar en este grupo.  
+4. Configure otros grupos para estudiantes que necesiten cantidades difernetes de tiempo extra, si fuera necesario.
 
-Once you have set up the groups, go back and click on the Moodle quiz on the Learn server page.  In the Administration block click on `Group overrides` then click `Add group override`, choose the relevant group and set the appropriate `Time limit` for the quiz for that group and click `Save`.  Repeat for each group requiring a different amount of extra time.
+Una vez que Usted haya configurado los grupos, regrese y haga click en e examen del módulo en la página del servidor de enseñanza.  En el bloque de Administración haga click en `Anulaciones de grupo` y después haga click en `Añadir anulación de grupo`, elija el grupo relevante y configure el `Límite de tiempo` apropiado para el examen para ese grupo y haga click en `Guardar`.  Repita para cada grupo que requiera una cantidad diferente de tiempo extra.
 
-## Viewing students' results
+## Ver los resultados de los estudiantes
 
-To see the students' results in Excel for a particular quiz go to the Moodle server page and in the `Administration` box click on `Activity results` then click `Export` then click `Excel spreadsheet` then click on the test name then click `Download'.  
+Para ver los resultados de los estudiantes en Excel para un examen particular vaya a la página del servidor Moodle y en la caja para  `Administración` haga click en `Resultados de actividad` y después haga click en `Exportar` y después haga click en `Hoja de cálculo Excel` y después haga click en el nombre del examen y en `Descargar'.  
 
 

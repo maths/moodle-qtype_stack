@@ -93,6 +93,7 @@ function stack_maxima_translate($rawfeedback) {
 }
 
 function stack_maxima_format_casstring($str) {
+    $str = stack_utils::logic_nouns_sort($str, 'remove');
     return html_writer::tag('span', $str, array('class' => 'stacksyntaxexample'));
 }
 

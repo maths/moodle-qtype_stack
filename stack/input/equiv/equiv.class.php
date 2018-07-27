@@ -61,6 +61,7 @@ class stack_equiv_input extends stack_input {
 
         if ($this->is_blank_response($state->contents)) {
             $current = $this->maxima_to_raw_input($this->parameters['syntaxHint']);
+            $current = stack_utils::logic_nouns_sort($current, 'remove');
             $rows = array();
             // Put the first line of the value of the teacher's answer in the input.
             if (trim($this->parameters['syntaxHint']) == 'firstline') {

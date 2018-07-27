@@ -200,7 +200,6 @@ In the second test you might as well leave the test as is.
 # Next steps #
 
 * You might like to look at the entry for [feedback](Feedback.md).
-* Quality control and  testing your question can be made easier by looking at [testing](Testing.md).
 * You might like to look at more information on [Maxima](../CAS/index.md), particularly the Maxima documentation if you are not very familiar with Maxima's syntax and function names. A graphical Maxima interface like [wxMaxima](http://andrejv.github.com/wxmaxima/) can also be very helpful for finding the appropriate Maxima commands easily.
 
 The next part of the authoring quick start guide looks at [turning simplification off](Authoring_quick_start_3.md).

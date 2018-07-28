@@ -984,6 +984,8 @@ logical_normal(ex):=block(
     ex:subst("%and", "and", ex),
     ex:subst("%or", "or", ex),
     ex:de_morgan(ex),
+    ex:trigsimp(ex),
+    ex:exponentialize(ex),
     ex:ineqprepare(expand(ex)),
     ex:noun_solve_logic(ex),
     ex:distrib_and(ex),

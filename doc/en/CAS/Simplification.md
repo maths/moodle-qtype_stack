@@ -2,7 +2,10 @@
 
 ## Ordering terms
 
-Maxima chooses an order in which to write terms in an expression.  By default, this will use reverse lexicographical order for simple sums, so that we have \(b+a\) instead of \(a+b\).  In elementary mathematics this looks a little odd!  One way to overcome this is to use simplification below but another way is to alter the order in which expressions are transformed.
+Maxima chooses an order in which to write terms in an expression.  
+By default, this will use reverse lexicographical order for simple sums, so that we have \(b+a\) instead of \(a+b\).
+In elementary mathematics this looks a little odd!
+One way to overcome this is to use simplification below but another way is to alter the order in which expressions are transformed.
 
 To alter the order in STACK you can use the Maxima commands `orderless` and `ordergreat`.  To have \(a+b\) you can use
 
@@ -10,7 +13,8 @@ To alter the order in STACK you can use the Maxima commands `orderless` and `ord
 
 See Maxima's documentation for more details.  
 
-Only one `orderless` or `ordergreat` command can be issued in any session.  The last one encountered will be used and the others ignored.  No warnings or errors are issued if more than one is encountered.
+Only one `orderless` or `ordergreat` command can be issued in any session.  The last one encountered will be used and the others ignored.  
+No warnings or errors are issued if more than one is encountered.
 
 ## Logarithms to an arbitrary base.
 
@@ -19,7 +23,8 @@ By default, Maxima does not provide logarithms to an arbitrary base.  To overcom
 * `lg(x)` is log of \(x\) to the base 10.
 * `lg(x, a)` is log of \(x\) to the base \(a\).
 
-The function `lg` is an alias and is always transformed to the inert function `logbase(x,a)`.  That is, it undertakes no simplification at all.  STACK provides no simplification rules for these logarithms.  To simplify you must transform back to natural logarithms.
+The function `lg` is an alias and is always transformed to the inert function `logbase(x,a)`.  That is, it undertakes no simplification at all.  
+STACK provides no simplification rules for these logarithms.  To simplify you must transform back to natural logarithms.
 
 For example (with `simp:true` or `simp:false`)
 
@@ -28,7 +33,8 @@ For example (with `simp:true` or `simp:false`)
 
 results in `p=logbase(27, 3)`, and `q=3`.
 
-The algebraic equivalence function `algebraic_equivalence`, and so anything upon which it depends, will automatically remove logarithms to other bases.  This includes the answer tests as needed.
+The algebraic equivalence function `algebraic_equivalence`, and so anything upon which it depends, will automatically remove logarithms to other bases.  
+This includes the answer tests as needed.
 
 ## Selective simplification
 
@@ -49,7 +55,8 @@ If you are using `simp:false` to evaluate an expression with simplification on y
 
 ## Unary minus and simplification
 
-There are still some problems with the unary minus, e.g. sometimes we get the display \(4+(-3x)\) when we would actually like to always display as \(4-3x\).  This is a problem with the unary minus function `-(x)` as compared to binary infix subtraction `a-b`.
+There are still some problems with the unary minus, e.g. sometimes we get the display \(4+(-3x)\) when we would actually like to always display as \(4-3x\).  
+This is a problem with the unary minus function `-(x)` as compared to binary infix subtraction `a-b`.
 
 To reproduce this problem type in the following into a Maxima session:
 
@@ -65,17 +72,21 @@ Notice the first subtraction is fine, but the second one is not.  To understand 
     ?print(p);
     ((MPLUS) ((MEXPT) $Y 3) ((MMINUS) ((MTIMES) 2 ((MEXPT) $Y 2))) ((MTIMES) ((MMINUS) 8) $Y))
 
-In the structure of this expression the first negative coefficient is `-(2*y^2)` BUT the second is `-(8)*y`.   This again is a crucial but subtle difference!  To address this issue we have a function
+In the structure of this expression the first negative coefficient is `-(2*y^2)` BUT the second is `-(8)*y`.   
+This again is a crucial but subtle difference!  
+To address this issue we have a function
 
     unary_minus_sort(p);
 
-which pulls "-" out the front in a specific situation: that of a product with a negative number at the front.  The result here is the anticipated `y^3-2*y^2-8*y`.
+which pulls "-" out the front in a specific situation: that of a product with a negative number at the front.  
+The result here is the anticipated `y^3-2*y^2-8*y`.
 
 Note that STACK's display functions automatically apply `unary_minus_sort(...)` to any expression being displayed.
 
-## If you really insist on a cludge....
+## If you really insist on a kludge....
 
-In some situations you may find you really do need to work at the display level, construct a string and display this to the student in Maxima.  Please avoid doing this!
+In some situations you may find you really do need to work at the display level, construct a string and display this to the student in Maxima.  
+Please avoid doing this!
 
     a:sin(x^2);
     b:1+x^2;
@@ -114,7 +125,8 @@ Of course, to print out one line in the worked solution you can also `apply("+",
 
 ## Boolean functions
 
-Maxima has Boolean operators `and`, `or`, and `not`.  These rely on the underlying LISP implementation and as a result the `simp:false` is ignored.  To illustrate the problem, try the following.
+Maxima has Boolean operators `and`, `or`, and `not`.  These rely on the underlying LISP implementation and as a result the `simp:false` is ignored.  
+To illustrate the problem, try the following.
 
     simp:false$
     true and true;
@@ -125,19 +137,26 @@ The results respectively (of the second two) are
     true;
     false;
 
-Note, there is no mechanism in Maxima to represent a list of assignments such as `x=1 or x=2`, which would be a natural way to express the solution to a quadratic equation.
+Note, there is no mechanism in Maxima to represent a list of assignments such as `x=1 or x=2`, 
+which would be a natural way to express the solution to a quadratic equation.
 
 To solve this problem STACK has introduced `nounand` and `nounor` which are commutative and associative operators.
 
-Students do *not* need to use `nounand` and `nounor` in answers.  Any `and` and `or` operators occuring in their answers are always automatically converted into these noun forms.
+Students do *not* need to use `nounand` and `nounor` in answers.  
+Any `and` and `or` operators occurring in their answers are always automatically converted into these noun forms.
 
-Teachers *always* need to use `nounand` and `nounor` in CAS expressions when they want to write non-simplifying expressions.  For example, when defining the "teacher's answer" they should use the noun forms as appropriate.  Teachers often need to use Boolean logic, and so need to conciously separate the difference between these operators and concepts.
+Teachers *always* need to use `nounand` and `nounor` in CAS expressions when they want to write non-simplifying expressions.  
+For example, when defining the "teacher's answer" they should use the noun forms as appropriate.  
+Teachers often need to use Boolean logic, and so need to consciously separate the difference between these operators and concepts.
 
-Note, the answer tests do *not* convert noun forms to the Maxima forms.  Otherwise both `x=1 or x=2` and `x=1 or x=3` would be evaluated to `false` and a teacher could not tell that they are different!  To replace all `nounand` (etc) operators and replace them with the Maxima equivalent, use `noun_logic_remove(ex)`.
+Note, the answer tests do *not* convert noun forms to the Maxima forms.  
+Otherwise both `x=1 or x=2` and `x=1 or x=3` would be evaluated to `false` and a teacher could not tell that they are different!  
+To replace all `nounand` (etc) operators and replace them with the Maxima equivalent, use `noun_logic_remove(ex)`.
 
 ## Surds
 
-Imagine you would like the student to expand out \( (\sqrt{5}-2)(\sqrt{5}+4)=2\sqrt{5}-3 \). There are two tests you probably want to apply to the student's answer.
+Imagine you would like the student to expand out \( (\sqrt{5}-2)(\sqrt{5}+4)=2\sqrt{5}-3 \). 
+There are two tests you probably want to apply to the student's answer.
 
 1. Algebraic equivalence with the correct answer: use `ATAlgEquiv`.
 2. That the expression is "expanded": use `ATExpanded`.

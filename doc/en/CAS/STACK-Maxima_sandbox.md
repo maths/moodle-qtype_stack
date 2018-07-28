@@ -29,7 +29,7 @@ Hence, on a typical Moodle installation you will find the file at
         /moodle/question/type/stack/stack/maxima/stackmaxima.mac
 ~~~~~~~~~
 
-The first part of the instructions work on a Microsoft platform, but instructions for Linux can also be found below. Please note that having a properly set up STACK - Maxima sandbox is <i>not</i> equivalent to running an optimised Maxima.
+The first part of the instructions work on a Microsoft platform, but instructions for Linux can also be found below. Please note that having a properly set up STACK - Maxima sandbox is <i>not</i> equivalent to running an optimized Maxima.
 
 ### Setting Maxima's Path ###
 
@@ -131,7 +131,7 @@ Feeback is returned in the form of a language tag which is translated later. For
     (%o1) [true,false,"ATInt_generic. ",
            "stack_trans('ATInt_generic' , !quot!\\[2\\,x+1\\]!quot!  , !quot!\\(x\\)!quot!  , !quot!\\[2\\,x\\]!quot! ); "]
 
-Please note that the options are passed into STACK functions as a *list* containing the answer and the option.  In the above example this is `[x*(x+1),x]`.  (This is legacy behaviour from a point where we needed all answer tests to accept precisely 2 arguments.  It should probably be refactored.)
+Please note that the options are passed into STACK functions as a *list* containing the answer and the option.  In the above example this is `[x*(x+1),x]`.  (This is legacy behaviour from a point where we needed all answer tests to accept precisely 2 arguments.  It should probably be re-factored.)
 
 The chart below shows the answer test, whether it is defined in Maxima or PHP and the options it expects.  Some of the tests are called "hybrid".  These require both significant Maxima and PHP code and cannot be easily reproduced in the sandbox.
 

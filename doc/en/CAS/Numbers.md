@@ -115,7 +115,7 @@ The following commands which are relevant to manipulation of numbers are defined
 | ------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 | `significantfigures(x,n)`       | Truncate \(x\) to \(n\) significant figures (does perform rounding).
 | `decimalplaces(x,n)`            | Truncate \(x\) to \(n\) decimal places  (does perform rounding).
-| `commonfaclist(l)`              | Returns the hcf of a list of numbers.
+| `commonfaclist(l)`              | Returns the highest common factors of a list of numbers.
 | `list_expression_numbers(ex)`   | Create a list with all parts for which `numberp(ex)=true`.
 | `coeff_list(ex,v)`              | This function takes an expression \(ex\) and returns a list of coefficients of \(v\).
 | `coeff_list_nz(ex,v)`           | This function takes an expression \(ex\) and returns a list of nonzero coefficients of \(v\).

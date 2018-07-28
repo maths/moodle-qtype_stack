@@ -49,7 +49,10 @@ The question variables are evaluated when a version of a question is created.   
 * All fields in each of the [potential response tree](Potential_response_trees.md).
 * Each input when testing the item.
 
-If the teacher uses a variable name which is two characters or longer, then students will not be able to use this variable name in their input.  Input from students with two charater variable names which appear in the question variables will be rejected as invalid.  Students can always use single letter variable names.  Teachers are therefore advised to avoid single letter variable names.
+If the teacher uses a variable name which is two characters or longer, then students will not be able to use this variable name in their input.  
+Input from students with two character variable names which appear in the question variables will be rejected as invalid.  
+Students can always use single letter variable names.  
+Teachers are therefore advised to avoid single letter variable names.
 
 ## Feedback variables {#Feedback_variables}
 
@@ -70,5 +73,6 @@ The values of the evaluated feedback variables can be used as expressions in the
 Note, you cannot redefine the value of an input as a key in the feedback variables.  E.g. you cannot have something like `ans1:ans1+1`.
 You must use a new variable name.  
 When an answer test is evaluated, if the SA or TA field is exactly the name of an input then the raw student's value is used, and not the value from the feedback variables. 
-This is because some of the answer tests require exactly what is typed (e.g. trailing zeros) and not the value through the CAS.  To avoid this problem authors must use new variable names to distinguish between the actual input typed by the student and any calculated value.
+This is because some of the answer tests require exactly what is typed (e.g. trailing zeros) and not the value through the CAS.  
+To avoid this problem authors must use new variable names to distinguish between the actual input typed by the student and any calculated value.
 

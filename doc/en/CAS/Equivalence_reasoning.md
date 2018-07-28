@@ -14,7 +14,9 @@ Wider support is intended for future versions.
 
 ##  What is reasoning by equivalence and this input type?
 
-Reasoning by Equivalence is a particularly important activity in elementary algebra.  It is an iterative formal symbolic procedure where algebraic expressions, or terms within an expression, are replaced by an equivalent until a "solved" form is reached.
+Reasoning by Equivalence is a particularly important activity in elementary algebra.  
+It is an iterative formal symbolic procedure where algebraic expressions, or terms within an expression, 
+are replaced by an equivalent until a "solved" form is reached.
 An example of solving a quadratic equation is shown below.
 \[\begin{array}{cc} \  & x^2-x=30 & \\
 \color{green}{\Leftrightarrow} & x^2-x-30=0 & \\
@@ -26,33 +28,50 @@ An example of solving a quadratic equation is shown below.
 The point is that replacing an expression or a sub-expression in a problem by an equivalent expression provides a new problem having the same solutions.
 This input type enables us to capture and evaluate student's line by line reasoning, i.e. their steps in working, during this kind of activity.
 
-Reasoning by equivalence is very common in elementary mathematics.  It is either the entire task (such as when solving a quadratic) or it is an important part of a bigger problem.  E.g. proving the inducion step is often achieved by reasoning by equivalence.  
+Reasoning by equivalence is very common in elementary mathematics.  It is either the entire task (such as when solving a quadratic)
+or it is an important part of a bigger problem.  E.g. proving the inducion step is often achieved by reasoning by equivalence.  
 
 ## How do students use this input?
 
 [Instructions for students](../Students/Equivalence_reasoning.md).
 
-In traditional practice students work line by line rewriting an equation until it is solved.  This input type is designed to capture this kind of working and evaluate it based on the assumption that each line should be equivalent to the previous one.  Instructions for students are [here](../Students/Equivalence_reasoning.md).  Some common observations about this form of reasoning are
+In traditional practice students work line by line rewriting an equation until it is solved.  
+This input type is designed to capture this kind of working and evaluate it based on the assumption that each line should be equivalent to the previous one.  
+Instructions for students are [here](../Students/Equivalence_reasoning.md).  Some common observations about this form of reasoning are
 
 1. Students often use no logical connectives between lines.
 2. Students ignore the natural domain of an expression, e.g. in \(\frac{1}{x}\) the value \(x=0\) is excluded from the domain of definition.
 3. Operations which do not result in equivalence are often used, e.g. squaring both sides of an equation.
 
-This input type mirrors current common practice and does not expect students to indicate either logic or domains.  The input type itself will give students feedback on these issues.
+This input type mirrors current common practice and does not expect students to indicate either logic or domains.  
+The input type itself will give students feedback on these issues.
 
-Note that students must use correct propositional logic connectives `or` and `and`.  E.g. their answer must be something correct such as `x=1 or x=2`, *not* something sloppy like `x=1 or 2` or `x=1,2`.  It certainly can't be something wrong such as `x=1 and x=2` which is often seen in written answers!
+Note that students must use correct propositional logic connectives `or` and `and`.  
+E.g. their answer must be something correct such as `x=1 or x=2`, *not* something sloppy like `x=1 or 2` or `x=1,2`.  
+It certainly can't be something wrong such as `x=1 and x=2` which is often seen in written answers!
 
-Note that students may not take square roots of both sides of an equation.  This will be rejected because it it not equivalen!  Similarly, students may not cancel terms from both sides which may be zero.  As we require equivalence, students may not *multiply* either.  This will take a bit of geting used to!
+Note that students may not take square roots of both sides of an equation.  This will be rejected because it it not equivalen!  
+Similarly, students may not cancel terms from both sides which may be zero.  As we require equivalence, students may not *multiply* either.  
+This will take a bit of geting used to!
 
-But, shouldn't student really use logical connectives?  Yes, I (CJS) believe they should but that to require this from the input type now would be too big a step for students and their teachers.  Students are already being expected to use connectives such as `and` and `or` correctly.  The input type uses these connectives and in the futre options may be added to this input type which require students to be explicit about logical connectives, especially when we add support for implication in addition to equivalence.  As we gain confidence in teaching with equivalence reasoning, so we will add more options to this input type.
+But, shouldn't student really use logical connectives?  
+Yes, I (CJS) believe they should but that to require this from the input type now would be too big a step for students and their teachers.
+Students are already being expected to use connectives such as `and` and `or` correctly.  
+The input type uses these connectives and in the futre options may be added to this input type which require students to be explicit 
+about logical connectives, especially when we add support for implication in addition to equivalence.  
+As we gain confidence in teaching with equivalence reasoning, so we will add more options to this input type.
 
 __If you have strong views on how this input type should behave, please contact the developers.__
 
 ## Validation and correctness
 
-STACK carefully separates out *validation* of a student's answer from the *correctness*.  This idea is encapsulated in the separation of validation feedback via the tags `[[validation]]` which is tied to inputs, from the potential response trees which establish the mathematical properties.
+STACK carefully separates out *validation* of a student's answer from the *correctness*.
+This idea is encapsulated in the separation of validation feedback via the tags `[[validation]]` 
+which is tied to inputs, from the potential response trees which establish the mathematical properties.
 
-Each line of a student's answer must be a valid expression, just as with the algebraic input type.  However, sets, lists and matrices are not permitted in this input type.  The internal result is a *list* of expressions (equations or inequalities).
+Each line of a student's answer must be a valid expression, just as with the algebraic input type.  
+However, sets, lists and matrices are not permitted in this input type.  
+The internal result is a *list* of expressions (equations or inequalities).
 
 ## Example use cases for this input type.
 
@@ -62,7 +81,8 @@ Each line of a student's answer must be a valid expression, just as with the alg
   1. as the student types line by line, or
   2. at the end when they press "check".
 
-The ability to give feedback on the equivalence of adjacent lines as the student types their answer somewhat blurs the distinction between validation and correctness, but in a way which is probably very useful to students.
+The ability to give feedback on the equivalence of adjacent lines as the student types their answer somewhat 
+blurs the distinction between validation and correctness, but in a way which is probably very useful to students.
 
 ## Notes for question authors
 
@@ -92,19 +112,26 @@ To enter options for this input use the "extra options field".   Options should 
 
 `firstline` takes the first line of the teacher's answer and forces the student to have this as the first line of the student's answer.  The test used is equality up to commutativity and associativity (EqualComAss answer test).
 
-`assume_pos` sets the value of Maxima's `assume_pos` variable to be true.  If we `assume_pos` they any negative solutions will be ignored, whether or not they exist.  So \(x=\pm 2\) will now be equivalent to \(x=2\).  You might not want this equivalence.  In particular, this also has the effect of condoning squaring or rooting both sides of an equation.  For example \(x^4=2\) will now be equivalent to \(x=2\) (rather than \(x=2 \vee x=-2\)).  This is not the default, but is useful in situations where a student is rearranging an equation to a given subject, and all the variables are assume to be positive.  Note, this option is only for the input type. You will also need to set this in the question options to also affect the answer test.
+`assume_pos` sets the value of Maxima's `assume_pos` variable to be true.  
+If we `assume_pos` they any negative solutions will be ignored, whether or not they exist.  So \(x=\pm 2\) will now be equivalent to \(x=2\).  
+You might not want this equivalence.  In particular, this also has the effect of condoning squaring or rooting both sides of an equation.  
+For example \(x^4=2\) will now be equivalent to \(x=2\) (rather than \(x=2 \vee x=-2\)).  
+This is not the default, but is useful in situations where a student is rearranging an equation to a given subject, and all the variables are assume to be positive.  Note, this option is only for the input type. You will also need to set this in the question options to also affect the answer test.
 
 `assume_real` sets an internal flag to work over the real numbers.  If `true` then \(x=1\) will be considered equivalent to \(x^3=1\).  Note, this option is only for the input type. You will also need to set this in the question options to also affect the answer test.
 
-`calculus` allows calculus operations in an argument.  Note, this option is only for the input type. You will also need to set this in the answer test options to also affect the answer test.  This is at a very early stage of development.  For example, constants of integration are not currently checked by this currently.
+`calculus` allows calculus operations in an argument.  Note, this option is only for the input type. You will also need to set this in the answer test options to also affect the answer test.  This is at a very early stage of development.  
+For example, constants of integration are not currently checked by this currently.
 
-If the syntax hint is just the keyword `firstline` then the first line of the *value* of the teacher's answer will appear as a syntax hint.  This enables a randomly generated syntax hint to appear in the box.
+If the syntax hint is just the keyword `firstline` then the first line of the *value* of the teacher's answer will appear as a syntax hint.  
+This enables a randomly generated syntax hint to appear in the box.
 
 # Answer tests
 
 There are a number of answer tests which seek to establish whether a student's list of expressions are all equivalent.
 
-In these tests there is no concept of "step size" or any test that a student has worked in a sensible order.  The tests share code with the input type, and feedback from the test will be identical to that from the input when this is shown.
+In these tests there is no concept of "step size" or any test that a student has worked in a sensible order.  
+The tests share code with the input type, and feedback from the test will be identical to that from the input when this is shown.
 
 To work over the real numbers make the answer test options `assume_real`.
 

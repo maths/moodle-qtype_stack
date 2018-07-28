@@ -13,7 +13,7 @@ Notice the use of the `'` character in front of the `diff` function to [prevent 
 
 ## Displaying ODEs
 
-Maxima has two notaions to display ODEs.  
+Maxima has two notations to display ODEs.  
 
 
 If `derivabbrev:false` then`'diff(y,x)` is displayed in STACK as \( \frac{\mathrm{d}y}{\mathrm{d}x}\).   Note this differs from Maxima's normal notation of \( \frac{\mathrm{d}}{\mathrm{d}x}y\).

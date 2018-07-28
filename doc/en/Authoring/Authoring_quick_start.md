@@ -3,7 +3,8 @@
 
 The author quick start guide shows you how to write STACK questions.  Part 1 gets a minimal question working.
 
-Consider students who are learning to symbolically integrate expressions of the form \( r(px+q)^n \). Below is a typical set of practice exercises.
+Consider students who are learning to symbolically integrate expressions of the form \( r(px+q)^n \). 
+Below is a typical set of practice exercises.
 
 ![Integration exercises](%CONTENT/IntegrationExercises.jpg)
 
@@ -199,13 +200,13 @@ In the input `ans1` replace the _model answer_ with `ta`.
 
 In the potential response tree, node 1, replace the expression `TAns` with `ta`.
 
-These change just propogate the new variables throught out the question.  We should test the question again, but this can be done in an automatic way.
+These change just propogate the new variables through out the question.  We should test the question again, but this can be done in an automatic way.
 
 ## Student validation ##
 
 Notice in the above there is a two step process for the student to enter their answer.
 
-First is "validaiton", and normally servers have "instant validation" enabled.  If the expression is valid STACK shows the student "Your last answer was interpreted as follows:" and displays their expression.  An invalid response creates an error message. 
+First is "validation", and normally servers have "instant validation" enabled.  If the expression is valid STACK shows the student "Your last answer was interpreted as follows:" and displays their expression.  An invalid response creates an error message. 
 
 The second stage executes when a valid expression is entered, and this evaluates the potential response tree to assess the student's answer.
 
@@ -357,7 +358,7 @@ We also need to assign outcomes in Node 3.
 
 Having developed our integration question to the point where we can provide some quite detailed guidance to students (based on the mathematical properties of their answer) we can now consider using this particular question as the basis for a whole set of random questions.
 
-You will need to review the test cases you created above.  These will now "fail" because the new node means that the last answer note no longer matches up with the actual outcomes.  If you have lots of tests, you will need to update them all.  However, updateing the test outcomes and confirming they are working, is easier than testing and re-testing by hand...
+You will need to review the test cases you created above.  These will now "fail" because the new node means that the last answer note no longer matches up with the actual outcomes.  If you have lots of tests, you will need to update them all.  However, updating the test outcomes and confirming they are working, is easier than testing and re-testing by hand...
 
 Before moving on you might consider saving the current question as a new question so you don't lose your work.
 

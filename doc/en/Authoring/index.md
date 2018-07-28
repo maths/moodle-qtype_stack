@@ -13,6 +13,7 @@ Those new to STACK would probably prefer the [Authoring quick start](Authoring_q
 * [Authoring quick start 1](Authoring_quick_start.md) A basic question.
 * [Authoring quick start 2](Authoring_quick_start_2.md) Multi-part mathematical questions.
 * [Authoring quick start 3](Authoring_quick_start_3.md) Turning simplification off.
+* [Authoring quick start 4](Authoring_quick_start_4.md) Equivalence reasoning inputs.
 
 There are also [Sample questions](Sample_questions.md).
 This page is a reference for all the fields in a question.

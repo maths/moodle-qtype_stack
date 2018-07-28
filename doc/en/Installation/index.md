@@ -2,7 +2,7 @@
 
 STACK is being used live at a number of institutions, including the University of Edinburgh, the UK Open University, Aalto, Loughborough University, and the University of Birmingham in the UK.  
 
-STACK is designed to be used on a linux-based server.  The Windows/MS option exists to help teachers author questions offline, and for demonstration and development.  However, for demonstration, development and offline use we strongly recomment using VirtualBox instead of the windows port.  Note also that support for the optimized maxima image is not available on windows platforms, which is a substantial performance improvement.
+STACK is designed to be used on a linux-based server.  The Windows/MS option exists to help teachers author questions offline, and for demonstration and development.  However, for demonstration, development and offline use we strongly recommend using VirtualBox instead of the windows port.  Note also that support for the optimized maxima image is not available on windows platforms, which is a substantial performance improvement.
 
 ## 1. Set up Moodle.
 
@@ -90,7 +90,7 @@ This optional step is for people who wish to use STACK through another interface
 
 STACK 4.0 has one important change in the question authoring.  [CAS text](../Authoring/CASText.md) now uses `{@...@}` in include mathematics in the text.  The change from `@...@` to `{@...@}` gives us matching parentheses to parse, which is much better.  The `{..}` will not break LaTeX.
 
-You will need to update all your existing questions which inlcude CAS calculations. This includes all fields, e.g. in the feedback as well.  To help with this process we have an automatic conversion script.  As an admin user navigate to 
+You will need to update all your existing questions which include CAS calculations. This includes all fields, e.g. in the feedback as well.  To help with this process we have an automatic conversion script.  As an admin user navigate to 
 
     Site administration -> 
     Plugins ->

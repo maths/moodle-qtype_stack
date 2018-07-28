@@ -10,7 +10,7 @@ The purpose of this document is to provide a guide, from a beginner's point of v
 
 You need to start by identifying questions for the quiz and the easiest way to do this is to start with a question that is already written and modify it to meet your needs.  
 
-Once you get used to the idea of exporting, importing, copying and modifying questions then you may find it more helpful to start from other questions, or to author your own. See the [Author quickstart guide](Authoring_quick_start.md).  
+Once you get used to the idea of exporting, importing, copying and modifying questions then you may find it more helpful to start from other questions, or to author your own. See the [Author quick-start guide](Authoring_quick_start.md).  
 
 ## Import questions from an existing server
 
@@ -33,7 +33,7 @@ To import these questions into your course
 * In the `Question bank` click on the `Preview` icon (spy glass) next to an existing question.  
 * Check carefully which behaviour you are using.  If you are using the `Adaptive` you will get a `Check` button, but if you are using `deferred feedback` you will not.
 * To change the behaviour, click `Start again`. 
-* Enter answers that you think are incorrect or partially correct to see what feedback you get.  Do this as many times as you want to familiarise yourself with entering responses in STACK.  When you have finished click `Close preview`.
+* Enter answers that you think are incorrect or partially correct to see what feedback you get.  Do this as many times as you want to familiarize yourself with entering responses in STACK.  When you have finished click `Close preview`.
 
 ## Question tests and Deployed variants
 

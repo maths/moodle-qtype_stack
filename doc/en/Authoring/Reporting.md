@@ -50,7 +50,7 @@ This page lists all the STACK questions in a particular quiz.  Click on a link t
 
 The page contains a number of parts.
 
-* A summary of the question.  This includes the question variables, uninstantiated (i.e. raw) question text, general feedback, uninstantiated question note as a reminder to the teacher what the question is about.
+* A summary of the question.  This includes the question variables, un-instantiated (i.e. raw) question text, general feedback, un-instantiated question note as a reminder to the teacher what the question is about.
 * Summary tables of the frequencies of answer notes for each potential response tree, and each variant.
 * A detailed summary of all attempts at a particular variant.
 * Maxima code to facilitate off-line analysis.

@@ -37,6 +37,8 @@ class stack_equiv_input extends stack_input {
     protected $extraoptions = array(
         // Does a student see the equivalence signs at validation time?
         'hideequiv' => false,
+        // Does a student see the natural domain at validation time?
+        'hidedomain' => false,
         // Must a student have the same first line as the teacher's answer?
         'firstline' => false,
         // Is a student permitted to include comments in their answer?
@@ -59,6 +61,7 @@ class stack_equiv_input extends stack_input {
 
         if ($this->is_blank_response($state->contents)) {
             $current = $this->maxima_to_raw_input($this->parameters['syntaxHint']);
+            $current = stack_utils::logic_nouns_sort($current, 'remove');
             $rows = array();
             // Put the first line of the value of the teacher's answer in the input.
             if (trim($this->parameters['syntaxHint']) == 'firstline') {
@@ -100,10 +103,9 @@ class stack_equiv_input extends stack_input {
         }
         $rendervalidation = html_writer::tag('div', $rendervalidation, array('class' => $class, 'id' => $fieldname.'_val'));
 
-        $output = html_writer::tag('td', html_writer::tag('textarea', htmlspecialchars($current), $attributes));
-        $output .= html_writer::tag('td', $rendervalidation);
-        $output = html_writer::tag('tr', $output);
-        $output = html_writer::tag('table', $output);
+        $output = html_writer::tag('textarea', htmlspecialchars($current), $attributes);
+        $output .= $rendervalidation;
+        $output = html_writer::tag('div', $output, array('class' => 'equivreasoning'));
 
         return $output;
     }
@@ -304,8 +306,13 @@ class stack_equiv_input extends stack_input {
         if ($this->extraoptions['hideequiv']) {
             $showlogic = 'false';
         }
+        $showdomain = 'true';
+        if ($this->extraoptions['hidedomain']) {
+            $showdomain = 'false';
+        }
         $debuglist = 'false';
-        $an = new stack_cas_casstring('disp_stack_eval_arg('.$this->name.', '.$showlogic.', '.$equivdebug.', '.$debuglist.')');
+        $an = new stack_cas_casstring('disp_stack_eval_arg('.$this->name.', '.$showlogic.', '.
+                $showdomain.', '.$equivdebug.', '.$debuglist.')');
         $an->get_valid('t', $this->get_parameter('strictSyntax', true),
                  $this->get_parameter('insertStars', 0));
         $an->set_key('equiv'.$this->name);

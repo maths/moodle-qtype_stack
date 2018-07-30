@@ -78,9 +78,9 @@ $string['complexno'] = 'Meaning and display of sqrt(-1)';
 $string['complexno_help'] = 'Controls the meaning and display of the symbol i and sqrt(-1)';
 $string['complexno_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/Authoring/Options.md#sqrt_minus_one.';
 $string['defaultmarkzeroifnoprts'] = 'The default mark must be 0 if this question has no PRTs.';
-$string['defaultprtcorrectfeedback'] = 'Correct answer, well done.';
-$string['defaultprtincorrectfeedback'] = 'Incorrect answer.';
-$string['defaultprtpartiallycorrectfeedback'] = 'Your answer is partially correct.';
+$string['defaultprtcorrectfeedback'] = '<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.';
+$string['defaultprtincorrectfeedback'] = '<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.';
+$string['defaultprtpartiallycorrectfeedback'] = '<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.';
 $string['branchfeedback'] = 'Node branch feedback';
 $string['branchfeedback_help'] = 'This is CASText which may depend on any of the question variables, input elements or the feedback variables. This is evaluated and displayed to the student if they pass down this branch.';
 $string['inputtest'] = 'Input test';
@@ -691,6 +691,7 @@ $string['stackOptions_AnsTest_values_CasEqual']            = "CasEqual";
 $string['stackOptions_AnsTest_values_SameType']            = "SameType";
 $string['stackOptions_AnsTest_values_SubstEquiv']          = "SubstEquiv";
 $string['stackOptions_AnsTest_values_SysEquiv']            = "SysEquiv";
+$string['stackOptions_AnsTest_values_Sets']                = "Sets";
 $string['stackOptions_AnsTest_values_Expanded']            = "Expanded";
 $string['stackOptions_AnsTest_values_FacForm']             = "FacForm";
 $string['stackOptions_AnsTest_values_SingleFrac']          = "SingleFrac";
@@ -740,6 +741,11 @@ $string['ATAlgEquiv_SA_not_function']   = 'Your answer should be a function, def
 $string['ATAlgEquiv_SA_not_string']     = 'Your answer should be a string, but is not. ';
 $string['Subst']                        = 'Your answer would be correct if you used the following substitution of variables. {$a->m0} ';
 
+$string['ATSets_SA_not_set']            = 'Your answer should be a set, but is not.  Note that the syntax to enter a set is to enclose the comma separated values with curly brackets. ';
+$string['ATSets_SB_not_set']            = 'The "Sets" answer test expects its second argument to be a set.  This is an error.  Please contact your teacher.';
+$string['ATSets_wrongentries']          = 'These entries should not be elements of your set. {$a->m0} ';
+$string['ATSets_missingentries']        = 'The following are missing from your set. {$a->m0} ';
+$string['ATSets_duplicates']            = 'Your set appears to contain duplicate entries!';
 
 $string['ATInequality_nonstrict']       = 'Your inequality should be strict, but is not! ';
 $string['ATInequality_strict']          = 'Your inequality should not be strict! ';

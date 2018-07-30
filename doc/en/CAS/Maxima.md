@@ -81,7 +81,7 @@ To do this see [STACK-Maxima sandbox](STACK-Maxima_sandbox.md).
 
 STACK creates a range of additional functions and restricts
 those available, many of which are described within this
-documentaion.  See also [Predicate functions](Predicate_functions.md).
+documentation.  See also [Predicate functions](Predicate_functions.md).
 
 | Command                         | Description
 | ------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -144,7 +144,9 @@ returned. For example
     n : 1;
     dum1 : for a:-3 thru 26 step 7 do n:n+a;
 
-Note, you must use Maxima's syntax `a:-3` here for assignment of \(-3\) to the variable `a`. The assignment to the dummy variable `dum1` is to ensure every command is of the form `key : value`. Please look at Maxima's documentation for the command `do`.
+Note, you must use Maxima's syntax `a:-3` here for assignment of \(-3\) to the variable `a`. 
+The assignment to the dummy variable `dum1` is to ensure every command is of the form `key : value`. 
+Please look at Maxima's documentation for the command `do`.
 
 It is also possible to define functions within the Question
 Variables for use within a question. This is not recommended,

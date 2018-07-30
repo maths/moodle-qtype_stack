@@ -34,6 +34,7 @@ class stack_ans_test_controller {
               'SameType'             => 'stackOptions_AnsTest_values_SameType',
               'SubstEquiv'           => 'stackOptions_AnsTest_values_SubstEquiv',
               'SysEquiv'             => 'stackOptions_AnsTest_values_SysEquiv',
+              'Sets'                 => 'stackOptions_AnsTest_values_Sets',
               'Expanded'             => 'stackOptions_AnsTest_values_Expanded',
               'FacForm'              => 'stackOptions_AnsTest_values_FacForm',
               'SingleFrac'           => 'stackOptions_AnsTest_values_SingleFrac',
@@ -101,6 +102,10 @@ class stack_ans_test_controller {
 
             case 'SubstEquiv':
                 $this->at = new stack_answertest_general_cas($sans, $tans, 'ATSubstEquiv', false, $casoption, $options);
+                break;
+
+            case 'Sets':
+                $this->at = new stack_answertest_general_cas($sans, $tans, 'ATSets', false, $casoption, $options, false);
                 break;
 
             case 'Expanded':

@@ -23,7 +23,7 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/cassession.class.php');
 require_once(__DIR__ . '/casstring.class.php');
-require_once(__DIR__ . '/castext/castextparser.class.php');
+require_once(__DIR__ . '/castext/autogen/castextparser.class.php');
 require_once(__DIR__ . '/castext/block.factory.php');
 
 class stack_cas_text {

@@ -50,7 +50,9 @@ To use this, we could put the following in the `false` branch feedback.
     The following answers you entered do not satisfy the equation
     \[ {@we@}. \]
 
-To check (2) you need to make sure that the length of the student's answer is the same as the length of the teacher's.  This can be done with the following two tests, one with numerical GE.  If the student has too many they have repeated solutions.  If they have too few they have missed some.   
+To check (2) you need to make sure that the length of the student's answer is the same as the length of the teacher's.  
+This can be done with the following two tests, one with numerical GE.  
+If the student has too many they have repeated solutions.  If they have too few they have missed some.   
 
     length(fullratsimp(sans))
     length(ta)
@@ -68,11 +70,13 @@ In this case, to make the substitution you need to put in an extra evaluation.
 
 ## Repeated roots!
 
-If the teacher asks a student to enter the answer as a set, then by default STACK does not remove duplicates because validation etc. is done with `simp:false`.  If you want the student to enter repeated roots you must set `Auto-simplify` to `no` in the PRT to avoid loosing solutions from the student.  You can then check that each answer satisfies the equation and the student has the correct number of answers using
+If the teacher asks a student to enter the answer as a set, then by default STACK does not remove duplicates because validation etc. 
+is done with `simp:false`.  If you want the student to enter repeated roots you must set `Auto-simplify` to `no` in the PRT to avoid loosing solutions from the student.  You can then check that each answer satisfies the equation and the student has the correct number of answers using
 
     length(ans1)
 
-being equivalent to the correct number using `EqualComAss` to avoid simplification.  Note, that if you "simplify" `ans1` you are likely to loose answers as sets automatically loose duplicates.
+being equivalent to the correct number using `EqualComAss` to avoid simplification.  
+Note, that if you "simplify" `ans1` you are likely to loose answers as sets automatically loose duplicates.
 
 Alternatively, you may want to simplify the student's answer to make sure they have the right number of *different* solutions.  This is a separate test.
 

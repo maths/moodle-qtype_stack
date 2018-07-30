@@ -125,7 +125,7 @@ The wedge product operator is denoted by the tilde `~`.  This is the `itensor` p
 
     crossproduct(a,b);
 
-Another advantage of this function is the ability to return an unsimplified version with `simp:false`.
+Another advantage of this function is the ability to return an un-simplified version with `simp:false`.
 
 ## Student input ##
 

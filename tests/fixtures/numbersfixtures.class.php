@@ -53,7 +53,10 @@ class stack_numbers_test_data {
             array("-12.00", 4, 4, 2, '"~,2f"', '-12.00'),
             array("-121000", 3, 6, 0, '"~a"', '-121000'),
             array("-303.30003", 8, 8, 5, '"~,5f"', '-303.30003'),
-        );
+            // Brackets should be stripped off.
+            array("(-12.00)", 4, 4, 2, '"~,2f"', '-12.00'),
+            array("(00.00)", 2, 2, 2, '"~,2f"', '0.00'),
+    );
 
     // array("string", lower, upper, decimal places).
     protected static $rawdatautils = array(

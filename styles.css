@@ -12,6 +12,15 @@
     padding: 0.5em 0.5em 0em;
 }
 
+.que.stack .equivreasoning .stackinputfeedback {
+    display: inline-block;
+    margin-left: 0.5em;
+    margin-right: 0;
+}
+.que.stack textarea {
+    float: left;
+}
+
 .que.stack .stackinputfeedback.empty {
     display: none;
 }
@@ -42,6 +51,10 @@
 .que.stack .formulation .questiontestslink {
     float: right;
     font-size: 0.7em;
+    margin: -1.3em -3em;
+}
+.que.stack .formulation .answer .option {
+    margin: 0.7em;
 }
 
 .que.stack .matrixtable {

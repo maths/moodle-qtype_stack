@@ -2,6 +2,33 @@
 
 For current and future plans, see [Development track](Development_track.md) and [Future plans](Future_plans.md).
 
+## Version 4.2
+
+Released July 2018. 
+
+Note: newer versions of Maxima require that a variable has been initialised as a list/array before you can assign values to its indices.  For this reason some older questions may stop working when you upgrade to a new version of Maxima.  Please use the bulk test script after each upgrade!  See issue #343.
+
+Note: the behaviour of the maxima `addrow` function has changed.  Use the bulk test script to identify questions which are affected. Note, once you save a question you will update the version number, and this will prevent questions using `addrow` from being identified.
+
+* Add support for using JSXGraph  `http://jsxgraph.org` for better support of interactive graphics, and as part of an input type.  See [JSXGraph](../Authoring/JSXGraph.md)
+* Add in a version number to STACK questions.
+* Update reasoning by eqivalence.  This includes the following.
+  1. Equating coefficients as a step in reasoning by equivalence. E.g. \( a x^2+b x+c=r x^2+s x+t \leftrightarrow a=r \mbox{ and } b=s \mbox{ and } c=t\). See `poly_equate_coeffs` in assessment.mac
+  2. Solving simple simultaneous equations.  (Interface)
+  3. Include simple calculus operations (but constant of integration needs some further thought.)
+* Refactor internal question validation away from Moodle editing, and into the question type.  Add in a "warning" system.
+* Add in native multi-language support, to separate out languages in the question text.  This is needed so as not to create spurious validation errors, such as "input cannout occur twice".
+* Output results of PRTs in the `summarise_response` method of `question.php`.  Gives more information for reporting.
+* Sort out the "addrow" problem. (See issue #333).  This is changed to "rowadd".
+* Add in check for "mul" (see issue #339) and better checking of input options.
+* Refactor equiv_input and MCQ to make use of the new extra options mechanism.
+* Add in support for the maxima `simplex` package.
+* Add an answer test to check if decimal separator is in the wrong place (See issue #314).
+* Add an answer test to check sets and provide better feedback.
+* Significant improvements to the bulk testing, returning runtime errors and identifying all questions without tests or worked solutions.
+* Better CSS.  (See issue #380)
+
+
 ## STACK 4.1
 
 Released December 2017.

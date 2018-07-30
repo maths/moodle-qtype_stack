@@ -665,6 +665,35 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $this->assertEquals('\({x\times y}\)', $at1->get_display_castext());
     }
 
+    public function test_disp_equiv_natural_domain() {
+        $a2 = array('ta:[1/(x-1)+1/(x+1),2*x/(x^2-1)]');
+        $s2 = array();
+        foreach ($a2 as $s) {
+            $cs = new stack_cas_casstring($s);
+            $cs->get_valid('t');
+            $s2[] = $cs;
+        }
+        $cs2 = new stack_cas_session($s2, null, 0);
+        $this->assertTrue($cs2->get_valid());
+
+        $cs1 = '\[ {@stack_disp_arg(ta)@} \] \[ {@stack_disp_arg(ta,false)@} \] ' .
+            '\[ {@stack_disp_arg(ta,true,false)@} \] \[ {@stack_disp_arg(ta,false,false)@} \]';
+        $at1 = new stack_cas_text($cs1, $cs2, 0, 't');
+        $this->assertTrue($at1->get_valid());
+        $at1->get_display_castext();
+
+        $this->assertEquals('\[ {\begin{array}{lll} &\frac{1}{x+1}+\frac{1}{x-1}&' .
+            '{\color{blue}{{x \not\in {\left \{-1 , 1 \right \}}}}}\cr \color{green}' .
+            '{\Leftrightarrow}&\frac{2\cdot x}{x^2-1}&{\color{blue}{{x \not\in {\left \{-1 , 1 \right \}}}}}' .
+            '\cr \end{array}} \] \[ {\begin{array}{lll}\frac{1}{x+1}+\frac{1}{x-1}&' .
+            '{\color{blue}{{x \not\in {\left \{-1 , 1 \right \}}}}}\cr \frac{2\cdot x}{x^2-1}&{\color{blue}' .
+            '{{x \not\in {\left \{-1 , 1 \right \}}}}}\cr \end{array}} \] ' .
+            '\[ {\begin{array}{lll} &\frac{1}{x+1}+\frac{1}{x-1}& \cr \color{green}{\Leftrightarrow}&' .
+            '\frac{2\cdot x}{x^2-1}& \cr \end{array}} \] ' .
+            '\[ {\begin{array}{lll}\frac{1}{x+1}+\frac{1}{x-1}& \cr \frac{2\cdot x}{x^2-1}& \cr \end{array}} \]',
+            $at1->get_display_castext());
+    }
+
     public function test_disp_ode1() {
         $at1 = new stack_cas_keyval("p1:'diff(y,x,2)+2*y = 0;p2:ev('diff(y,x,2),simp)+2*ev('diff(y,x,2,z,3),simp) = 0;",
                 null, 123, 't', true, 0);

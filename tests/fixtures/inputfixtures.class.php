@@ -278,6 +278,7 @@ class stack_inputvalidation_test_data {
         array('(-b+-sqrt(b^2))/(2*a)', 'php_true', '(-b+-sqrt(b^2))/(2*a)', 'cas_true',
                 '\frac{{-b \pm \sqrt{b^2}}}{2\cdot a}', '', ""),
         array('a+-b', 'php_true', 'a+-b', 'cas_true', '{a \pm b}', '', ""),
+        array('a-+b', 'php_false', 'a-+b', '', '', 'spuriousop', ""),
         array('x & y', 'php_false', 'x & y', '', '', 'spuriousop', "Synonyms"),
         array('x && y', 'php_false', 'x && y', '', '', 'spuriousop', ""),
         array('x and y', 'php_true', 'x nounand y', 'cas_true', 'x\,{\mbox{ and }}\, y', '', ""),

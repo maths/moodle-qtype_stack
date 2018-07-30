@@ -110,7 +110,7 @@ Then, you should get error reporting.  As an example navigate to
 
 There you can see an example of an expression sent to Maxima.  Namely:
 
-    cab:block([ RANDOM_SEED, OPT_NoFloats, sqrtdispflag, simp, assume_pos, caschat0, caschat1], stack_randseed(0), make_multsgn(dot), make_complexJ(i), OPT_NoFloats:true, sqrtdispflag:true, simp:true, assume_pos:false, print("[TimeStamp= [ 0 ], Locals= [ ") , print("0=[ error= ["), cte("caschat0",errcatch(caschat0:plot([x^4/(1+x^4),diff(x^4/(1+x^4),x)],[x,-3,3]))) , print("1=[ error= ["), cte("caschat1",errcatch(caschat1:plot([sin(x),x,x^2,x^3],[x,-3,3],[y,-3,3]))) , print("] ]") , return(true) );
+    cab:block([ RANDOM_SEED, OPT_NoFloats, sqrtdispflag, simp, assume_pos, caschat0, caschat1], stack_randseed(0), make_multsgn(dot), make_complexJ(i), OPT_NoFloats:true, sqrtdispflag:true, simp:true, assume_pos:false, print("[STACKSTART Locals= [ ") , print("0=[ error= ["), cte("caschat0",errcatch(caschat0:plot([x^4/(1+x^4),diff(x^4/(1+x^4),x)],[x,-3,3]))) , print("1=[ error= ["), cte("caschat1",errcatch(caschat1:plot([sin(x),x,x^2,x^3],[x,-3,3],[y,-3,3]))) , print("] ]") , return(true) );
 
 Expressions such as this can be copied into the [STACK-Maxima sandbox](../CAS/STACK-Maxima_sandbox.md) and evaluated.  The errors returned here might help track down the problem.
 

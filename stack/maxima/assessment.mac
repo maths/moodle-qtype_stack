@@ -590,6 +590,9 @@ algebraic_equivalence(SA, SB) :=
     /* Remove scientific units and displaydp from expressions. */
     SA:ev(SA, stackunits="*"),
     SB:ev(SB, stackunits="*"),
+    /* Remove binomial function from expressions. */
+    SA:subst(binomial=lambda([a,b],a!/(b!*(a-b)!)), SA),
+    SB:subst(binomial=lambda([a,b],a!/(b!*(a-b)!)), SB),
     if not(freeof(displaydp, SA)) then
       SA:remove_displaydp(SA),
     if not(freeof(displaydp, SB)) then
@@ -981,6 +984,8 @@ logical_normal(ex):=block(
     ex:subst("%and", "and", ex),
     ex:subst("%or", "or", ex),
     ex:de_morgan(ex),
+    ex:trigsimp(ex),
+    ex:exponentialize(ex),
     ex:ineqprepare(expand(ex)),
     ex:noun_solve_logic(ex),
     ex:distrib_and(ex),
@@ -1190,6 +1195,9 @@ factor_bag(ex) := block(
   if equationp(ex) then ex:ev(lhs(ex)-rhs(ex), simp),
   if not(polynomialp(ex, listofvars(ex))) then return([ex]),
   ex:ev(factor(ex), simp),
+  /* If we have division here, by a numerical constant being pulled out, we ignore the constant. */
+  if safe_op(ex) = "/" then 
+      if ev(is(listofvars(second(args(ex)))=[]), simp) then ex:first(args(ex)),
   if safe_op(ex) = "^" then return([first(args(ex))]),
   if safe_op(ex) = "*" then ex:args(ex) else ex:[ex],
   /* Strip off any powers. */
@@ -1197,7 +1205,7 @@ factor_bag(ex) := block(
   /* Remove any numbers. */
   ex:sublist(ex, lambda([ex2], ev(not(is(listofvars(ex2)=[])), simp))),
   return(ex)
-);
+)$
 
 /****************************/
 /* Matrix/vector operations */
@@ -1422,7 +1430,6 @@ stack_eval_arg(ex) := block([eqoutcome, eqoutsymb, eqoutnote, res, id, truthargu
   /* Set up empty rows to hold the answer. */
   eqoutcome:makelist(false, length(ex)),
   eqoutsymb:makelist(QMCHAR, length(ex)),
-  exnatdomain:makelist(EMPTYCHAR, length(ex)),
   eqoutnote:makelist("", length(ex)),
   eqoutcome[1]:null,
   eqoutsymb[1]:EMPTYCHAR,
@@ -1434,6 +1441,7 @@ stack_eval_arg(ex) := block([eqoutcome, eqoutsymb, eqoutnote, res, id, truthargu
   exmod:copy(ex),
   exmodpoly:copy(ex),
   exmodsolve:copy(ex),
+  /* Copy the expressions here, so we have the natural domain of the original expression. */
   exnatdomain:copy(ex),
   for id:1 thru length(ex) step 1 do block([SA, tempnote:""],
       SA:exmod[ev(id, simp)],
@@ -1524,7 +1532,7 @@ stack_eval_arg(ex) := block([eqoutcome, eqoutsymb, eqoutnote, res, id, truthargu
               if (debug) then print("Check for SAMEROOTS with: ", string(FAA), ", ", string(FAB)),
               if ev(is(polynomialpsimp(FAA) and polynomialpsimp(FAB)), simp) then block([facbA, facbB],
                   ATres:ev(ATAlgEquiv(SAP, SBP), simp),
-                  if (debug) then print("SAMEROOTS first ATAlgEquiv check: ", SAP, SBP, ATres),
+                  if (debug) then print("SAMEROOTS first ATAlgEquiv check: ", SAP, ", ", SBP, " gave ", ATres),
                   /* In this case we establish they are *not* algebraically equivalent. */
                   if not(second(ATres)) then block(
                       facbA:factor_bag(SAP),
@@ -1533,7 +1541,7 @@ stack_eval_arg(ex) := block([eqoutcome, eqoutsymb, eqoutnote, res, id, truthargu
                       facbA:apply("*", facbA),
                       facbB:apply("*", facbB),
                       ATres:ev(ATAlgEquiv(facbA, facbB), simp),
-                      if (debug) then print(ATres),
+                      if (debug) then print("Are the factor bags algebraically eqivalent? ", ATres),
                       if second(ATres) then block(
                           eqoutsymb[ev(id, simp)]:SAMEROOTS,
                           tempnote:sconcat(tempnote, " | SAMEROOTS | ", third(ATres))
@@ -1855,18 +1863,25 @@ stack_eval_arg(ex) := block([eqoutcome, eqoutsymb, eqoutnote, res, id, truthargu
           eqoutsymb[ev(k,simp)]:CHECKMARK
   ),
   /* Display natural domains. */
-  for k:1 thru length(ex) step 1 do block([natdom],
-    natdom:ev(natural_domain(exnatdomain[k]), simp),
-    exnatdomain[ev(k,simp)]:EMPTYCHAR,
-    if not(is(natdom=all) or is(natdom=unknown)) then
-        exnatdomain[ev(k,simp)]:texcolorplain("blue", natdom)
+  if showdomain then block(
+    for k:1 thru length(ex) step 1 do block([natdom],
+      natdom:ev(natural_domain(exnatdomain[k]), simp),
+      exnatdomain[ev(k,simp)]:EMPTYCHAR,
+      if not(is(natdom=all) or is(natdom=unknown)) then
+          exnatdomain[ev(k,simp)]:texcolorplain("blue", natdom)
+    )
+  ) else block(
+    /* The expressions are stored in exnatdomain up to this point. */
+    for k:1 thru length(ex) step 1 do block(
+      exnatdomain[ev(k,simp)]:EMPTYCHAR
+    )
   ),
   res:matrix(eqoutcome, eqoutsymb, ex, exnatdomain, eqoutnote),
   return(transpose(res))
 )$
 
-/* Try to find a representative of the solution set of the underlying system in a sensible form. 
-   Only support specific situations currently.  
+/* Try to find a representative of the solution set of the underlying system in a sensible form.
+   Only support specific situations currently.
 */
 stack_eval_arg_solver(ex) := block([ex2],
 
@@ -1875,7 +1890,7 @@ stack_eval_arg_solver(ex) := block([ex2],
       if ev(is(equal(length(listofvars(ex)), 1)), simp) then
           return(ev(single_variable_solver_real(ex), simp)),
 
-      if safe_op(ex) = "%or" or safe_op(ex) = "nounor" or safe_op(ex) = "or" then 
+      if safe_op(ex) = "%or" or safe_op(ex) = "nounor" or safe_op(ex) = "or" then
           return(ev(logical_normal(apply("%or", maplist(stack_eval_arg_solver, ex))), simp)),
 
       if safe_op(ex) = "%and" or safe_op(ex) = "nounand" or safe_op(ex) = "and" then block([ex2],
@@ -1892,7 +1907,7 @@ stack_eval_arg_solver(ex) := block([ex2],
 
 
 /* This modifies stack_eval_arg to create something which can be displayed. */
-stack_eval_equiv_arg(ex, showlogic, equivdebug, debuglist) := block([A, k, ret, res, exnew, eqoutsymb, note],
+stack_eval_equiv_arg(ex, showlogic, showdomain, equivdebug, debuglist) := block([A, k, ret, res, exnew, eqoutsymb, note],
     /* Evaluate the argument.      */
     A:transpose(stack_eval_arg(ex)),
     /* Decide if the overall argument is true. */
@@ -1962,21 +1977,26 @@ stack_eval_arg_equivalence_reasoningp(L) := block(
 )$
 
 /* This modifies stack_eval_arg to create something which can be displayed. */
-disp_stack_eval_arg(ex, showlogic, equivdebug, debuglist) := block([A],
-    A:stack_eval_equiv_arg(ex, showlogic, equivdebug, debuglist),
+disp_stack_eval_arg(ex, showlogic, showdomain, equivdebug, debuglist) := block([A],
+    A:stack_eval_equiv_arg(ex, showlogic, showdomain, equivdebug, debuglist),
     return(second(A))
 )$
 
 /* This modifies stack_eval_arg to create something which can be displayed. */
-stack_disp_arg(ex, showlogic) := block([A],
-    A:stack_eval_equiv_arg(ex, showlogic, false, false),
+stack_disp_arg([exs]) := block([A],
+    ex:first(exs),
+    showlogic:true,
+    if length(exs)>1 then showlogic:second(exs),
+    showdomain:true,
+    if length(exs)>2 then showdomain:third(exs),
+    A:stack_eval_equiv_arg(ex, showlogic, showdomain, false, false),
     return(second(A))
 )$
 
 check_stack_eval_arg(ex) := block([ret],
     /* Evaluate the argument.      */
     if length(ex)<2 then return(true),
-    ret:stack_eval_equiv_arg(ex, false, false, false),
+    ret:stack_eval_equiv_arg(ex, false, false, false, false),
     return(first(ret))
 )$
 
@@ -2006,7 +2026,7 @@ ATEquiv(SA, SB, SO) := block([SAA, SAB, SOO, opts, ret, A, AnswerNote, FeedBack]
         (print("TEST_FAILED"), return(StackBasicReturn(false, false, "ATEquiv_SB_not_list"))),
 
     /* Actually perform the test.  */
-    A:stack_eval_equiv_arg(SA, true, false, false),
+    A:stack_eval_equiv_arg(SA, true, true, false, false),
     AnswerNote:third(A),
     FeedBack:stack_disp(second(A), "d"),
 
@@ -2047,7 +2067,7 @@ ATEquivFirst(SA, SB, SO) := block([SAA, SAB, SOO, opts, ret, A, AnswerNote, Feed
          return([false, false, "ATEquivFirst_SA_wrong_start", StackAddFeedback("", "ATEquivFirst_SA_wrong_start", stack_disp(first(SB), "i"))]),
 
     /* Actually perform the test.  */
-    A:stack_eval_equiv_arg(SA, true, false, false),
+    A:stack_eval_equiv_arg(SA, true, true, false, false),
     AnswerNote:third(A),
     FeedBack:stack_disp(second(A), "d"),
 

@@ -58,4 +58,4 @@ terms. That is to say it does not converge.
 In terms of the domino problem: we can chose displacements
 \(\delta_n\) so that (i) the stack does not topple over, and (ii) we can produce an
 arbitrarily large horizontal displacement. Bizarre indeed!
-For a full description of this see the article [here](http://web.mat.bham.ac.uk/C.J.Sangwin/Teaching/pus/dominoes.pdf).
+

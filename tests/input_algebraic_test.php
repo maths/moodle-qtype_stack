@@ -417,6 +417,30 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         $this->assertEquals(stack_input::VALID, $state->status);
     }
 
+    public function test_validate_student_response_forbidwords_none() {
+        // Some functions are converted to "noun" forms.
+        // When we give feedback "your last answer was..." we want the correct forms, not the "nounint" alternatives.
+        $options = new stack_options();
+        $el = stack_input_factory::make('algebraic', 'sans1', '2*x');
+        $state = $el->validate_student_response(array('sans1' => 'int(x^2+1,x)+c'), $options, 'int(x^2+1,x)+c', array('ta'));
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('nounint(x^2+1,x)+c', $state->contentsmodified);
+        $this->assertEquals('\[ \int {x^2+1}{\;\mathrm{d}x}+c \]', $state->contentsdisplayed);
+        $this->assertEquals('\( \left[ c , x \right]\) ', $state->lvars);
+    }
+
+    public function test_validate_student_response_forbidwords_true() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('algebraic', 'sans1', '2*x');
+        $el->set_parameter('forbidWords', 'int, diff');
+        $state = $el->validate_student_response(array('sans1' => 'int(x^2+1,x)+c'), $options, 'int(x^2+1,x)+c', array('ta'));
+        // Note the "nounint" in the contentsmodified.
+        $this->assertEquals('nounint(x^2+1,x)+c', $state->contentsmodified);
+        $this->assertEquals(stack_input::INVALID, $state->status);
+        // The noun form has been converted back to "int" in the contentsdisplayed.
+        $this->assertEquals('<span class="stacksyntaxexample">int(x^2+1,x)+c</span>', $state->contentsdisplayed);
+    }
+
     public function test_validate_student_response_single_variable() {
         $options = new stack_options();
         $el = stack_input_factory::make('algebraic', 'sans1', 'cos(a*x)/(x*(ln(x)))');

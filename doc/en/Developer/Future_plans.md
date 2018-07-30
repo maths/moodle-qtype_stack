@@ -29,6 +29,7 @@ Note, where the feature is listed as "(done)" means we have prototype code in th
 * Add an option for "no functions" which will always insert stars and transform "x(" -> "x*(" even when x occurs as both a function and a variable.
 * Make the syntax hint CAS text, to depend on the question variables.
 * Make the extra options CAS text as well.
+* Refactor the validation to use tooltypes to make the validation fit much closer to the input box itself.
 
 ### Improve the editing form ###
 

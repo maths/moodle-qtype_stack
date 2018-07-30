@@ -642,6 +642,44 @@ class stack_equiv_test_data {
 
         //******************************************************************************
         $newarg = array();
+        $newarg['section'] = 'Multiplicities of roots';
+        $samplearguments[] = $newarg;
+
+        $newarg = array();
+        $newarg['title']     = "Solving quadratic equations 4 (repeated root)";
+        $newarg['narrative'] = 'This has a repeated root. There is no easy way to deal with multiplicity of roots.';
+        $newarg['casstring'] = "[x^2-6*x=-9,x=3]";
+        $newarg['debuglist'] = "[EMPTYCHAR,SAMEROOTS]";
+        $newarg['outcome']   = true;
+        $samplearguments[] = $newarg;
+
+        $newarg = array();
+        $newarg['title']     = "Cubic equation";
+        $newarg['narrative'] = '';
+        $newarg['casstring'] = "[x=1 nounor x=-2 nounor x=1,x^3-3*x=-2,x=1 nounor x=-2]";
+        $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,SAMEROOTS]";
+        $newarg['outcome']   = true;
+        $samplearguments[] = $newarg;
+
+        $newarg = array();
+        $newarg['title']     = "Rational roots";
+        $newarg['narrative'] = '';
+        $newarg['casstring'] = "[9*x^3-24*x^2+13*x=2,x=1/3 nounor x=2]";
+        $newarg['debuglist'] = "[EMPTYCHAR,SAMEROOTS]";
+        $newarg['outcome']   = true;
+        $samplearguments[] = $newarg;
+
+        $newarg = array();
+        $newarg['title']     = "Larger powers";
+        $newarg['narrative'] = '';
+        $newarg['casstring'] = "[(x-2)^43*(x+1/3)^60=0,(3*x+1)^4*(x-2)^2=0,x=-1/3 nounor x=2]";
+        $newarg['debuglist'] = "[EMPTYCHAR,SAMEROOTS,SAMEROOTS]";
+        $newarg['outcome']   = true;
+        $samplearguments[] = $newarg;
+
+        //******************************************************************************
+
+        $newarg = array();
         $newarg['section'] = 'Exponential and logarithmic equations';
         $samplearguments[] = $newarg;
 
@@ -964,6 +1002,19 @@ class stack_equiv_test_data {
         $newarg['outcome']   = true;
         $samplearguments[] = $newarg;
 
+        $newarg = array();
+        $newarg['title']     = "Recurrance relation in binomial coefficients.";
+        $newarg['narrative'] = '';
+        $newarg['casstring'] = '[binomial(n,k)+binomial(n,k+1),stackeq(n!/(k!*(n-k)!)+n!/((k+1)!*(n-k-1)!)),' .
+                'stackeq(n!/(k!*(n-k)*(n-k-1)!)+n!/((k+1)!*(n-k-1)!)),stackeq(n!/(k!*(n-k-1)!)*(1/(n-k)+1/(k+1))),' .
+                'stackeq(n!/(k!*(n-k-1)!)*((n+1)/((n-k)*(k+1)))),stackeq((n+1)*n!/(k!*(n-k-1)!)*(1/((k+1)*(n-k)))),' .
+                'stackeq((n+1)*n!/((k+1)*k!*(n-k)*(n-k-1)!)),stackeq(((n+1)!/((k+1)!)*(1/((n-k)*(n-k-1)!)))),' .
+                'stackeq((n+1)!/((k+1)!*(n-k)!)),stackeq(binomial(n+1,k+1))]';
+        $newarg['debuglist'] = '[EMPTYCHAR,CHECKMARK,CHECKMARK,CHECKMARK,CHECKMARK,CHECKMARK,CHECKMARK,CHECKMARK,' .
+                'CHECKMARK,CHECKMARK]';
+        $newarg['outcome']   = true;
+        $samplearguments[]   = $newarg;
+
         //******************************************************************************
         $newarg = array();
         $newarg['section'] = 'Mix of equations and expressions';
@@ -1075,6 +1126,15 @@ class stack_equiv_test_data {
         $newarg['debuglist']  = "[ASSUMEREALVARS,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR]";
         $newarg['outcome']    = true;
         $newarg['assumereal'] = true;
+        $samplearguments[]    = $newarg;
+
+        $newarg = array();
+        $newarg['title']      = "Substitute in a value for a variable and keep working.";
+        $newarg['narrative']  = '';
+        $newarg['casstring']  = "[2*x^3-9*x^2+10*x-3,stacklet(x,1),2*1^3-9*1^2+10*1-3,stackeq(0),\"So\"," .
+                "2*x^3-9*x^2+10*x-3,stackeq((x-1)*(2*x^2-7*x+3)),stackeq((x-1)*(2*x-1)*(x-3))]";
+        $newarg['debuglist']  = "[EMPTYCHAR,EMPTYCHAR,EQUIVCHAR,CHECKMARK,EMPTYCHAR,EMPTYCHAR,CHECKMARK,CHECKMARK]";
+        $newarg['outcome']    = 'unknown';
         $samplearguments[]    = $newarg;
 
         //******************************************************************************

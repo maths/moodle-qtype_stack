@@ -122,8 +122,8 @@ In particular, if we just represented scientific units as a product there would 
 The function `stack_unit_si_declare(true)` declares variables as units.  (Note the argument to this function is not used.)  For example, this changes the TeX output of `m` to Roman \(\mathrm{m}\) and not the normal \(m\).  (That units are displayed in Roman is lost to most students!).  Note that the symbols are *only* declared to be units by using `stack_unit_si_declare(true)` first somewhere else in the question, or feedback variables.
 
 * `unitsp(ex)` is a predicate which decides if STACK considers the expression to represent a dimensional numerical quantity `stackunits`.  
-* `listofnonunits(ex)` lists all variables in the expression `ex` considered not to be units however they appear.  Use of this function autoloads `stack_unit_si_declare(true)`.
-* `listofunits(ex)` lists all variables in the expression `ex` considered to be units however they appear. Use of this function autoloads `stack_unit_si_declare(true)`.
+* `listofnonunits(ex)` lists all variables in the expression `ex` considered not to be units however they appear.  Use of this function auto-loads `stack_unit_si_declare(true)`.
+* `listofunits(ex)` lists all variables in the expression `ex` considered to be units however they appear. Use of this function auto-loads `stack_unit_si_declare(true)`.
 *  If you do not declare `stack_unit_si_declare(true)` in the question variables you may need to do so in the feedback text itself.
 
 The function `stackunits_make(ex)` takes the expression `ex` and, if this is a product of numbers and units, it returns an inert function `stackunits` with arguments `stackunits(numbers, symbols)`.  Note, symbols will include a mix of variables, and symbols which are considered to be units. Use of this function autoloads `stack_unit_si_declare(true)`.

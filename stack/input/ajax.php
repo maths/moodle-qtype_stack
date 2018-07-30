@@ -29,9 +29,7 @@ $qaid  = required_param('qaid', PARAM_INT);
 $inputname = required_param('name', PARAM_ALPHANUMEXT);
 $inputvalue = required_param('input', PARAM_RAW);
 
-if (!isloggedin()) {
-    die;
-}
+require_login();
 
 // This should not be necessary, but the TeX filter requires it, because it uses $OUTPUT.
 $PAGE->set_context(context_system::instance());

@@ -40,6 +40,8 @@ $PAGE->set_url('/question/type/stack/bulktestindex.php');
 $PAGE->set_context($context);
 $PAGE->set_title(stack_string('bulktestindextitle'));
 
+require_login();
+
 // Create the helper class.
 $bulktester = new stack_bulk_tester();
 

@@ -247,6 +247,23 @@ class stack_equiv_test_data {
         $samplearguments[] = $newarg;
 
         $newarg = array();
+        $newarg['title']     = "Odd powers";
+        $newarg['narrative'] = '';
+        $newarg['casstring'] = "[x^3=8,x=2]";
+        $newarg['debuglist'] = "[EMPTYCHAR,IMPLIEDCHAR]";
+        $newarg['outcome']   = false;
+        $samplearguments[] = $newarg;
+
+        $newarg = array();
+        $newarg['title']      = "Odd powers, over the reals";
+        $newarg['narrative']  = '';
+        $newarg['casstring']  = "[x^3=8,x=2]";
+        $newarg['debuglist']  = "[ASSUMEREALVARS,EQUIVCHARREAL]";
+        $newarg['outcome']    = true;
+        $newarg['assumereal'] = true;
+        $samplearguments[] = $newarg;
+
+        $newarg = array();
         $newarg['title']     = "Absolute value (Tricky)";
         $newarg['narrative'] = 'These *equations* are equivalent, but the expressions are not.  ';
         $newarg['casstring'] = "[abs(x-1/2)+abs(x+1/2)=2,abs(x)=1]";
@@ -259,7 +276,7 @@ class stack_equiv_test_data {
         $newarg['narrative'] = '';
         $newarg['casstring'] = "[a^2=9 and a>0,a=3]";
         $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR]";
-        $newarg['outcome']   = 'unsupported';
+        $newarg['outcome']   = true;
         $samplearguments[] = $newarg;
 
         //******************************************************************************
@@ -369,7 +386,25 @@ class stack_equiv_test_data {
 
         $newarg = array();
         $newarg['title']     = "Solving quadratic equations (pm) and assume pos";
+        $newarg['narrative']  = 'The assume_pos flay *ignores* negative solutions (if they exist), so this is still considered to be equivalent.';
+        $newarg['casstring'] = "[x^2=9,x=+-3,x=3 or x=-3,x=3]";
+        $newarg['debuglist'] = "[ASSUMEPOSVARS,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR]";
+        $newarg['outcome']   = true;
+        $newarg['assumepos'] = true;
+        $samplearguments[] = $newarg;
+
+        $newarg = array();
+        $newarg['title']     = "Solving quadratic equations with assume pos";
         $newarg['narrative']  = '';
+        $newarg['casstring'] = "[x^2=9,x=3]";
+        $newarg['debuglist'] = "[ASSUMEPOSVARS,EQUIVCHAR]";
+        $newarg['outcome']   = true;
+        $newarg['assumepos'] = true;
+        $samplearguments[] = $newarg;
+
+        $newarg = array();
+        $newarg['title']     = "Solving quadratic equations (pm) and assume pos";
+        $newarg['narrative']  = 'If we assume positive variables, then we just ignore the negtaive solution, so this is true.  If you don not want this as a final answer, then you have to check a separate property at the end of the argument.';
         $newarg['casstring'] = "[x^2=2,x=+-sqrt(2),x=sqrt(2) or x=-sqrt(2)]";
         $newarg['debuglist'] = "[ASSUMEPOSVARS,EQUIVCHAR,EQUIVCHAR]";
         $newarg['outcome']   = true;
@@ -380,6 +415,15 @@ class stack_equiv_test_data {
         $newarg['title']     = "Solving quadratic equations with assume pos";
         $newarg['narrative']  = '';
         $newarg['casstring'] = "[x^2=2,x=sqrt(2)]";
+        $newarg['debuglist'] = "[ASSUMEPOSVARS,EQUIVCHAR]";
+        $newarg['outcome']   = true;
+        $newarg['assumepos'] = true;
+        $samplearguments[] = $newarg;
+
+        $newarg = array();
+        $newarg['title']     = "Root both sides";
+        $newarg['narrative']  = 'In this context, we should be able to "take the square root" of both sides.';
+        $newarg['casstring'] = "[x^2 = a^2-b,x = sqrt(a^2-b)]";
         $newarg['debuglist'] = "[ASSUMEPOSVARS,EQUIVCHAR]";
         $newarg['outcome']   = true;
         $newarg['assumepos'] = true;
@@ -546,17 +590,17 @@ class stack_equiv_test_data {
                 "(a*x)^2+b*(a*x)+b^2/4-b^2/4+a*c=0,(a*x+b/2)^2-b^2/4+a*c=0,(a*x+b/2)^2=b^2/4-a*c, ".
                 "a*x+b/2= +-sqrt(b^2/4-a*c),a*x=-b/2+sqrt(b^2/4-a*c) or a*x=-b/2-sqrt(b^2/4-a*c), ".
                 "(a=0 or x=(-b+sqrt(b^2-4*a*c))/(2*a)) or (a=0 or x=(-b-sqrt(b^2-4*a*c))/(2*a)), ".
-                "a=0 or x=(-b+sqrt(b^2-4*a*c))/(2*a) or x=(-b-sqrt(b^2-4*a*c))/(2*a)]";
+                "a^2=0 or x=(-b+sqrt(b^2-4*a*c))/(2*a) or x=(-b-sqrt(b^2-4*a*c))/(2*a)]";
         $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR]";
         $newarg['outcome']   = true;
         $samplearguments[] = $newarg;
 
         $newarg = array();
         $newarg['title']     = "Solving cubic equations 9 (11th centuary Hindu method)";
-        $newarg['narrative'] = 'We accept this as correct for now, even though it lacks auditing.';
+        $newarg['narrative'] = 'This lacks auditing in the last step.';
         $newarg['casstring'] = "[a*x^2+b*x=-c,4*a^2*x^2+4*a*b*x+b^2=b^2-4*a*c,(2*a*x+b)^2=b^2-4*a*c,2*a*x+b=+-sqrt(b^2-4*a*c),".
                 "2*a*x=-b+-sqrt(b^2-4*a*c),x=(-b+-sqrt(b^2-4*a*c))/(2*a)]";
-        $newarg['debuglist'] = "[EMPTYCHAR,IMPLIESCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR]";
+        $newarg['debuglist'] = "[EMPTYCHAR,IMPLIESCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,QMCHAR]";
         $newarg['outcome']   = false;
         $samplearguments[] = $newarg;
 
@@ -582,8 +626,8 @@ class stack_equiv_test_data {
         $newarg['title']     = "Solving equations with surds (erroneous argument 1), assumepos condones this...";
         $newarg['narrative'] = 'In this situation, assumepos option means this argument is now considered correct...';
         $newarg['casstring'] = "[sqrt(3*x+4) = 2+sqrt(x+2), 3*x+4=4+4*sqrt(x+2)+(x+2),x-1=2*sqrt(x+2),".
-                "x^2-2*x+1 = 4*x+8,x^2-6*x-7 = 0,(x-7)*(x+1) = 0,x=7 or x=-1]";
-        $newarg['debuglist'] = "[ASSUMEPOSVARS,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR]";
+                "x^2-2*x+1 = 4*x+8,x^2-6*x-7 = 0,(x-7)*(x+1) = 0,x=7 or x=-1,x=7]";
+        $newarg['debuglist'] = "[ASSUMEPOSVARS,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR]";
         $newarg['outcome']   = true;
         $newarg['assumepos'] = true;
         $samplearguments[] = $newarg;
@@ -597,6 +641,44 @@ class stack_equiv_test_data {
         $samplearguments[] = $newarg;
 
         //******************************************************************************
+        $newarg = array();
+        $newarg['section'] = 'Multiplicities of roots';
+        $samplearguments[] = $newarg;
+
+        $newarg = array();
+        $newarg['title']     = "Solving quadratic equations 4 (repeated root)";
+        $newarg['narrative'] = 'This has a repeated root. There is no easy way to deal with multiplicity of roots.';
+        $newarg['casstring'] = "[x^2-6*x=-9,x=3]";
+        $newarg['debuglist'] = "[EMPTYCHAR,SAMEROOTS]";
+        $newarg['outcome']   = true;
+        $samplearguments[] = $newarg;
+
+        $newarg = array();
+        $newarg['title']     = "Cubic equation";
+        $newarg['narrative'] = '';
+        $newarg['casstring'] = "[x=1 nounor x=-2 nounor x=1,x^3-3*x=-2,x=1 nounor x=-2]";
+        $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,SAMEROOTS]";
+        $newarg['outcome']   = true;
+        $samplearguments[] = $newarg;
+
+        $newarg = array();
+        $newarg['title']     = "Rational roots";
+        $newarg['narrative'] = '';
+        $newarg['casstring'] = "[9*x^3-24*x^2+13*x=2,x=1/3 nounor x=2]";
+        $newarg['debuglist'] = "[EMPTYCHAR,SAMEROOTS]";
+        $newarg['outcome']   = true;
+        $samplearguments[] = $newarg;
+
+        $newarg = array();
+        $newarg['title']     = "Larger powers";
+        $newarg['narrative'] = '';
+        $newarg['casstring'] = "[(x-2)^43*(x+1/3)^60=0,(3*x+1)^4*(x-2)^2=0,x=-1/3 nounor x=2]";
+        $newarg['debuglist'] = "[EMPTYCHAR,SAMEROOTS,SAMEROOTS]";
+        $newarg['outcome']   = true;
+        $samplearguments[] = $newarg;
+
+        //******************************************************************************
+
         $newarg = array();
         $newarg['section'] = 'Exponential and logarithmic equations';
         $samplearguments[] = $newarg;
@@ -779,6 +861,27 @@ class stack_equiv_test_data {
 
         //******************************************************************************
         $newarg = array();
+        $newarg['section'] = 'Equate coefficients';
+        $samplearguments[] = $newarg;
+
+        $newarg = array();
+        $newarg['title']     = "Simple equate coeffs";
+        $newarg['narrative'] = '';
+        $newarg['casstring'] = "[a*x^2+b*x+c=0,a=0 nounand b=0 nounand c=0,a*x^2+b*x+c=0]";
+        $newarg['debuglist'] = "[EMPTYCHAR,EQUATECOEFFLOSS(x),EQUATECOEFFGAIN(x)]";
+        $newarg['outcome']   = true;
+        $samplearguments[] = $newarg;
+
+        $newarg = array();
+        $newarg['title']     = "Equate coeffs";
+        $newarg['narrative'] = '';
+        $newarg['casstring'] = "[a*x^2+b*x+c=A*x^2+B*x+C,a=A nounand b=B nounand c=C,a*x^2+b*x+c=A*x^2+B*x+C]";
+        $newarg['debuglist'] = "[EMPTYCHAR,EQUATECOEFFLOSS(x),EQUATECOEFFGAIN(x)]";
+        $newarg['outcome']   = true;
+        $samplearguments[] = $newarg;
+
+        //******************************************************************************
+        $newarg = array();
         $newarg['section'] = 'Equational reasoning';
         $samplearguments[] = $newarg;
 
@@ -899,6 +1002,19 @@ class stack_equiv_test_data {
         $newarg['outcome']   = true;
         $samplearguments[] = $newarg;
 
+        $newarg = array();
+        $newarg['title']     = "Recurrance relation in binomial coefficients.";
+        $newarg['narrative'] = '';
+        $newarg['casstring'] = '[binomial(n,k)+binomial(n,k+1),stackeq(n!/(k!*(n-k)!)+n!/((k+1)!*(n-k-1)!)),' .
+                'stackeq(n!/(k!*(n-k)*(n-k-1)!)+n!/((k+1)!*(n-k-1)!)),stackeq(n!/(k!*(n-k-1)!)*(1/(n-k)+1/(k+1))),' .
+                'stackeq(n!/(k!*(n-k-1)!)*((n+1)/((n-k)*(k+1)))),stackeq((n+1)*n!/(k!*(n-k-1)!)*(1/((k+1)*(n-k)))),' .
+                'stackeq((n+1)*n!/((k+1)*k!*(n-k)*(n-k-1)!)),stackeq(((n+1)!/((k+1)!)*(1/((n-k)*(n-k-1)!)))),' .
+                'stackeq((n+1)!/((k+1)!*(n-k)!)),stackeq(binomial(n+1,k+1))]';
+        $newarg['debuglist'] = '[EMPTYCHAR,CHECKMARK,CHECKMARK,CHECKMARK,CHECKMARK,CHECKMARK,CHECKMARK,CHECKMARK,' .
+                'CHECKMARK,CHECKMARK]';
+        $newarg['outcome']   = true;
+        $samplearguments[]   = $newarg;
+
         //******************************************************************************
         $newarg = array();
         $newarg['section'] = 'Mix of equations and expressions';
@@ -938,6 +1054,93 @@ class stack_equiv_test_data {
 
         //******************************************************************************
         $newarg = array();
+        $newarg['section'] = 'Simultaneous equations and substitution';
+        $samplearguments[] = $newarg;
+
+        $newarg = array();
+        $newarg['title']     = "Linear simultaneous equations";
+        $newarg['narrative'] = 'With sumultaneous equations students must use "and" to join them.';
+        $newarg['casstring'] = "[2*x+3*y=6 and 4*x+9*y=15,2*x+3*y=6 and -2*x=-3,".
+            "3+3*y=6 and 2*x=3,y=1 and x=3/2]";
+        $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR]";
+        $newarg['outcome']   = true;
+        $samplearguments[] = $newarg;
+
+        $newarg = array();
+        $newarg['title']     = "Linear simultaneous equations";
+        $newarg['narrative'] = 'With sumultaneous equations students must use "and" to join them.';
+        $newarg['casstring'] = "[2*x+3*y=6 and 4*x+9*y=15,2*x+3*y=6 and -2*x=-3,".
+                "3+3*y=6 and 2*x=3,y=1 and x=3]";
+        $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,QMCHAR]";
+        $newarg['outcome']   = false;
+        $samplearguments[] = $newarg;
+
+        $newarg = array();
+        $newarg['title']     = "Simultaneous equations";
+        $newarg['narrative'] = '';
+        $newarg['casstring'] = "[x^2+y^2=8 and x=y, 2*x^2=8 and y=x, x^2=4 and y=x, x= +-2 and y=x, ".
+                "(x= 2 and y=x) or (x=-2 and y=x), (x=2 and y=2) or (x=-2 and y=-2)]";
+        $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR]";
+        $newarg['outcome']   = true;
+        $samplearguments[] = $newarg;
+
+        $newarg = array();
+        $newarg['title']     = "Simultaneous equations (without using square roots or substitution)";
+        $newarg['narrative'] = '';
+        $newarg['casstring'] = "[x^2+y^2=5 and x*y=2, x^2+y^2-5=0 and x*y-2=0, x^2-2*x*y+y^2-1=0 and x^2+2*x*y+y^2-9=0, ".
+                "(x-y)^2-1=0 and (x+y)^2-3^2=0, ".
+                "(x-y=1 and x+y=3) or (x-y=-1 and x+y=3) or (x-y=1 and x+y=-3) or (x-y=-1 and x+y=-3), ".
+                "(x=1 and y=2) or (x=2 and y=1) or (x=-2 and y=-1) or (x=-1 and y=-2)]";
+        $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR]";
+        $newarg['outcome']   = true;
+        $samplearguments[] = $newarg;
+
+        $newarg = array();
+        $newarg['title']     = "Simultaneous equations (without using square roots or substitution) 2";
+        $newarg['narrative'] = '';
+        $newarg['casstring'] = "[4*x^2+7*x*y+4*y^2=4 and y=x-4, 4*x^2+7*x*(x-4)+4*(x-4)^2-4=0 and y=x-4, ".
+                "15*x^2-60*x+60=0 and y=x-4, (x-2)^2=0 and y=x-4, x=2 and y=x-4, x=2 and y=-2]";
+        $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR]";
+        $newarg['outcome']   = true;
+        $samplearguments[]   = $newarg;
+
+        $newarg = array();
+        $newarg['title']     = "Substitution";
+        $newarg['narrative'] = '';
+        $newarg['casstring'] = "[a^2=b and a^2=1, b=a^2 and (a=1 or a=-1), (b=1 and a=1) or (b=1 and a=-1)]";
+        $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR]";
+        $newarg['outcome']   = true;
+        $samplearguments[]   = $newarg;
+
+        $newarg = array();
+        $newarg['title']     = "Substitution";
+        $newarg['narrative'] = '';
+        $newarg['casstring'] = "[a^2=b and x=1, b=a^2 and x=1]";
+        $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR]";
+        $newarg['outcome']   = true;
+        $samplearguments[]   = $newarg;
+
+        $newarg = array();
+        $newarg['title']      = "Find two distinct numbers which are the square of each other (needs substitution, not equals)";
+        $newarg['narrative']  = '';
+        $newarg['casstring']  = "[a^2=b and b^2=a, b=a^2 and a^4=a, b=a^2 and a^4-a=0, b=a^2 and a*(a-1)*(a^2+a+1)=0, ".
+                "b=a^2 and (a=0 or a=1 or a^2+a+1=0), (b=0 and a=0) or (b=1 and a=1)]";
+        $newarg['debuglist']  = "[ASSUMEREALVARS,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR]";
+        $newarg['outcome']    = true;
+        $newarg['assumereal'] = true;
+        $samplearguments[]    = $newarg;
+
+        $newarg = array();
+        $newarg['title']      = "Substitute in a value for a variable and keep working.";
+        $newarg['narrative']  = '';
+        $newarg['casstring']  = "[2*x^3-9*x^2+10*x-3,stacklet(x,1),2*1^3-9*1^2+10*1-3,stackeq(0),\"So\"," .
+                "2*x^3-9*x^2+10*x-3,stackeq((x-1)*(2*x^2-7*x+3)),stackeq((x-1)*(2*x-1)*(x-3))]";
+        $newarg['debuglist']  = "[EMPTYCHAR,EMPTYCHAR,EQUIVCHAR,CHECKMARK,EMPTYCHAR,EMPTYCHAR,CHECKMARK,CHECKMARK]";
+        $newarg['outcome']    = 'unknown';
+        $samplearguments[]    = $newarg;
+
+        //******************************************************************************
+        $newarg = array();
         $newarg['section'] = 'Inequalities';
         $samplearguments[] = $newarg;
 
@@ -948,7 +1151,27 @@ class stack_equiv_test_data {
                 "((2*x-3)>=0 and (x+2)>=0) or ((2*x-3)<=0 and (x+2)<=0), ".
                 "(x>=3/2 and x>=-2) or (x<=3/2 and x<=-2), x>=3/2 or x <=-2]";
         $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR]";
-        $newarg['outcome']   = 'unsupported';
+        $newarg['outcome']   = true;
+        $samplearguments[] = $newarg;
+
+        $newarg = array();
+        $newarg['title']     = "Solving a quadratic inequality";
+        $newarg['narrative'] = 'Solving quadratic inequalities using reasoning by equivalence.';
+        $newarg['casstring'] = "[2*x^2+x>=6, 2*x^2+x-6>=0, (2*x-3)*(x+2)>= 0,".
+                "((2*x-3)>=0 and (x+2)>=0) or ((2*x-3)<=0 and (x+2)<=0), ".
+                "(x>=3/2 and x>=-2) or (x<=3/2 and x<=-2), x>=3/2 or x <=-2]";
+        $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR]";
+        $newarg['outcome']   = true;
+        $samplearguments[] = $newarg;
+
+        $newarg = array();
+        $newarg['title']     = "Solving a quadratic inequality";
+        $newarg['narrative'] = 'Failing to solving quadratic inequalities';
+        $newarg['casstring'] = "[2*x^2+x>=6, 2*x^2+x-6>=0, (2*x-3)*(x+2)>= 0,".
+                "((2*x-3)>=0 and (x+2)>=0) or ((2*x-3)<=0 and (x+2)<=0), ".
+                "(x>=3/2 and x>=-2) or (x<=3/2 and x<=-2), x>=3/2 or x <=2]";
+        $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,QMCHAR]";
+        $newarg['outcome']   = false;
         $samplearguments[] = $newarg;
 
         $newarg = array();
@@ -956,16 +1179,7 @@ class stack_equiv_test_data {
         $newarg['narrative'] = '';
         $newarg['casstring'] = "[x^2>=9 and x>3, x^2-9>=0 and x>3, (x>=3 or x<=-3) and x>3, x>3]";
         $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR]";
-        $newarg['outcome']   = 'unsupported';
-        $samplearguments[] = $newarg;
-
-        $newarg = array();
-        $newarg['title']     = "Solving inequalities with the absolute value function";
-        $newarg['narrative'] = '';
-        $newarg['casstring'] = "[2*x/abs(x-1)<1, 2*x<abs(x-1),".
-                "(x>=1 and 2*x<x-1) or (x<1 and 2*x<-x+1),(x>=1 and x<-1) or (x<1 and 3*x<1),x<1/3]";
-        $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR]";
-        $newarg['outcome']   = 'unsupported';
+        $newarg['outcome']   = true;
         $samplearguments[] = $newarg;
 
         $newarg = array();
@@ -979,7 +1193,7 @@ class stack_equiv_test_data {
                 "(-6<a and a<2) or false, (-6<a and a<2)]";
         $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EMPTYCHAR,EMPTYCHAR,EMPTYCHAR,".
                 "EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR]";
-        $newarg['outcome']   = 'unsupported'; //'unknown';
+        $newarg['outcome']   = 'unknown';
         $samplearguments[] = $newarg;
 
         $newarg = array();
@@ -988,7 +1202,7 @@ class stack_equiv_test_data {
         $newarg['casstring'] = "[x-2>0 and x*(x-2)<15,x>2 and x^2-2*x-15<0,x>2 and (x-5)*(x+3)<0,".
                 "x>2 and ((x<5 and x>-3) or (x>5 and x<-3)),x>2 and (x<5 and x>-3),x>2 and x<5]";
         $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR]";
-        $newarg['outcome']   = 'unsupported';
+        $newarg['outcome']   = true;
         $samplearguments[] = $newarg;
 
         $newarg = array();
@@ -997,112 +1211,7 @@ class stack_equiv_test_data {
         $newarg['casstring'] = "[x-2>0 and x*(x-2)<15,x>2 and x^2-2*x-15<0,x>2 and (x-5)*(x+3)<0,".
                 "x>2 and ((x<5 and x>-3) or (x>5 and x<-3)),x>7 and (x<5 and x>-3),x>2 and x<5]";
         $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,QMCHAR,QMCHAR]";
-        $newarg['outcome']   = 'unsupported';
-        $samplearguments[] = $newarg;
-
-        //******************************************************************************
-        $newarg = array();
-        $newarg['section'] = 'Simultaneous equations and substitution';
-        $samplearguments[] = $newarg;
-
-        $newarg = array();
-        $newarg['title']     = "Linear simultaneous equations";
-        $newarg['narrative'] = 'With sumultaneous equations students must use "and" to join them.';
-        $newarg['casstring'] = "[2*x+3*y=6 and 4*x+9*y=15,2*x+3*y=6 and -2*x=-3,".
-            "3+3*y=6 and 2*x=3,y=1 and x=3/2]";
-        $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR]";
-        $newarg['outcome']   = 'unsupported';
-        $samplearguments[] = $newarg;
-
-        $newarg = array();
-        $newarg['title']     = "Simultaneous equations";
-        $newarg['narrative'] = '';
-        $newarg['casstring'] = "[x^2+y^2=8 and x=y, 2*x^2=8 and y=x, x^2=4 and y=x, x= +-2 and y=x, ".
-                "(x= 2 and y=x) or (x=-2 and y=x), (x=2 and y=2) or (x=-2 and y=-2)]";
-        $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR]";
-        $newarg['outcome']   = 'unsupported';
-        $samplearguments[] = $newarg;
-
-        $newarg = array();
-        $newarg['title']     = "Simultaneous equations (without using square roots or substitution)";
-        $newarg['narrative'] = '';
-        $newarg['casstring'] = "[x^2+y^2=5 and x*y=2, x^2+y^2-5=0 and x*y-2=0, x^2-2*x*y+y^2-1=0 and x^2+2*x*y+y^2-9=0, ".
-                "(x+y)^2-1=0 and (x-y)^2-3^2=0, ".
-                "(x+y=1 and x-y=3) or (x+y=-1 and x-y=3) or (x+y=1 and x-y=-3) or (x+y=-1 and x-y=-3), ".
-                "(x=1 and y=2) or (x=2 and y=1) or (x=-2 and y=-1) or (x=-1 and y=-2)]";
-        $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR]";
-        $newarg['outcome']   = 'unsupported';
-        $samplearguments[] = $newarg;
-
-        $newarg = array();
-        $newarg['title']     = "Simultaneous equations (without using square roots or substitution) 2";
-        $newarg['narrative'] = '';
-        $newarg['casstring'] = "[4*x^2+7*x*y+4*y^2=0 and y=x-4, 4*x^2+7*x*(x-4)+4*(x-4)^2=0 and y=x-4, ".
-                "15*x^2-60*x+60=0 and y=x-4, (x-2)^2=0 and y=x-4, x=2 and y=x-4, x=2 and y=-2]";
-        $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR]";
-        $newarg['outcome']   = 'unsupported';
-        $samplearguments[] = $newarg;
-
-        $newarg = array();
-        $newarg['title']     = "Substitution";
-        $newarg['narrative'] = '';
-        $newarg['casstring'] = "[a^2=b and a^2=1, b=a^2 and (a=1 or a=-1), (b=1 and a=1) or (b=1 and a=-1)]";
-        $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR]";
-        $newarg['outcome']   = 'unsupported';
-        $samplearguments[] = $newarg;
-
-        $newarg = array();
-        $newarg['title']     = "Substitution";
-        $newarg['narrative'] = '';
-        $newarg['casstring'] = "[a^2=b and x=1, b=a^2 and x=1]";
-        $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR]";
-        $newarg['outcome']   = 'unsupported';
-        $samplearguments[] = $newarg;
-
-        $newarg = array();
-        $newarg['title']     = "Find two distinct numbers which are the square of each other (needs substitution, not equals)";
-        $newarg['narrative'] = '';
-        $newarg['casstring'] = "[a^2=b and b^2=a, b=a^2 and a^4=a, b=a^2 and a^4-a=0, b=a^2 and a*(a-1)*(a^2+a+1)=0, ".
-                "b=a^2 and (a=0 or a=1 or a^2+a+1=0), (b=0 and a=0) or (b=1 and a=1)]";
-        $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR]";
-        $newarg['outcome']   = 'unsupported';
-        $samplearguments[] = $newarg;
-
-        //******************************************************************************
-        $newarg = array();
-        $newarg['section'] = 'Other cases';
-        $samplearguments[] = $newarg;
-
-        $newarg = array();
-        $newarg['title']     = "Differential quotient as the unknown";
-        $newarg['narrative'] = '';
-        $newarg['casstring'] = "[-12+3*diff(y(x),x)+8-8*diff(y(x),x)=0,-5*diff(y(x),x)=4,diff(y(x),x)=-4/5]";
-        $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR]";
-        $newarg['outcome']   = 'unsupported';
-        $samplearguments[] = $newarg;
-
-        $newarg = array();
-        $newarg['title']     = "Integration by parts";
-        $newarg['narrative'] = 'The last QMCHAR occurs because of the missing constant of integration.';
-        $newarg['casstring'] = "[nounint(x^3*log(x),x),stackeq(x^4/4*log(x)-1/4*nounint(x^3,x)),stackeq(x^4/4*log(x)-x^4/4)]";
-        $newarg['debuglist'] = "[EMPTYCHAR,CHECKMARK,QMCHAR]";
-        $newarg['outcome']   = 'unsupported';
-        $samplearguments[] = $newarg;
-
-
-        $newarg = array();
-        $newarg['title']     = "";
-        $newarg['narrative'] = 'This argument is aspirational.';
-        $newarg['casstring'] = '[y=nounint(1/(x^2+1),x),y=nounint(1/((1+%i*x)*(1-%i*x)),x),'.
-             'y=1/2*nounint(1/(1+%i*x)+1/(1-%i*x),x),"Perform the integral",'.
-             'y=1/(2*%i)*(log(1+%i*x)-log(1-%i*x)),y=1/(2*%i)*log((1+%i*x)/(1-%i*x)),'.
-             '2*%i*y=log((1+%i*x)/(1-%i*x)),(1+%i*x)/(1-%i*x)=e^(2*%i*y),'.
-             '1+%i*x=e^(2*%i*y)*(1-%i*x),%i*x*(1+e^(2*%i*y))=e^(2*%i*y)-1,'.
-             'x=1/%i*(e^(2*%i*y)-1)/(e^(2*%i*y)+1),x=1/%i*(e^(%i*y)-e^(-%i*y))/(e^(%i*y)+e^(-%i*y)),'.
-             'x=(e^(%i*y)-e^(-%i*y))/(2*%i)*(2/(e^(%i*y)+e^(-%i*y))),x=sin(y)/cos(y),x=tan(y)]';
-        $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EMPTYCHAR,EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,".
-             "EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR]";
-        $newarg['outcome']   = 'unsupported';
+        $newarg['outcome']   = false;
         $samplearguments[] = $newarg;
 
         $newarg = array();
@@ -1118,7 +1227,21 @@ class stack_equiv_test_data {
                 'a>=sqrt(12)+4,"Using external domain information that a is an integer.",a>=8]';
         $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EMPTYCHAR,EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,".
                 "EQUIVCHAR,EMPTYCHAR,EMPTYCHAR,EMPTYCHAR,EMPTYCHAR]";
+        $newarg['outcome']   = false;
+        $samplearguments[] = $newarg;
+
+        $newarg = array();
+        $newarg['title']     = "Solving inequalities with the absolute value function";
+        $newarg['narrative'] = '';
+        $newarg['casstring'] = "[2*x/abs(x-1)<1, 2*x<abs(x-1),".
+                "(x>=1 and 2*x<x-1) or (x<1 and 2*x<-x+1),(x>=1 and x<-1) or (x<1 and 3*x<1),x<1/3]";
+        $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR]";
         $newarg['outcome']   = 'unsupported';
+        $samplearguments[] = $newarg;
+
+        //******************************************************************************
+        $newarg = array();
+        $newarg['section'] = 'Induction steps';
         $samplearguments[] = $newarg;
 
         $newarg = array();
@@ -1143,12 +1266,94 @@ class stack_equiv_test_data {
         $newarg['outcome']   = true;
         $samplearguments[] = $newarg;
 
+        //******************************************************************************
+        $newarg = array();
+        $newarg['section'] = 'Calculus';
+        $samplearguments[] = $newarg;
+
+        $newarg = array();
+        $newarg['title']     = "Various calculus cases";
+        $newarg['narrative'] = 'Calculus, with and without the constant.';
+        $newarg['casstring'] = "[x^2+1,x^3/3+x,x^2+1,x^3/3+x+c]";
+        $newarg['debuglist'] = "[EMPTYCHAR,INTCHAR(x),DIFFCHAR(x),INTCHAR(x)]";
+        $newarg['calculus']  = true;
+        $newarg['outcome']   = true;
+        $samplearguments[]   = $newarg;
+
+        $newarg = array();
+        $newarg['title']     = "Further calculus cases";
+        $newarg['narrative'] = '';
+        $newarg['casstring'] = "[3*x^(3/2)-2/x,(9*sqrt(x))/2+2/x^2,3*x^(3/2)-2/x+c]";
+        $newarg['debuglist'] = "[EMPTYCHAR,DIFFCHAR(x),INTCHAR(x)]";
+        $newarg['calculus']  = true;
+        $newarg['outcome']   = true;
+        $samplearguments[]   = $newarg;
+
+        $newarg = array();
+        $newarg['title']     = "Calculus cases";
+        $newarg['narrative'] = 'Calculus cases, with an equals sign, not equivalent.';
+        $newarg['casstring'] = "[x^2+1,stackeq(x^3/3+x),stackeq(x^2+1),stackeq(x^3/3+x+c)]";
+        $newarg['debuglist'] = "[EMPTYCHAR,QMCHAR,QMCHAR,QMCHAR]";
+        $newarg['calculus']  = true;
+        $newarg['outcome']   = false;
+        $samplearguments[]   = $newarg;
+
+        $newarg = array();
+        $newarg['title']     = "Differential quotient as the unknown";
+        $newarg['narrative'] = 'Need to fix the display of derivatives with simp:false';
+        $newarg['casstring'] = "[-12+3*diff(y(x),x)+8-8*diff(y(x),x)=0,-5*diff(y(x),x)=4,diff(y(x),x)=-4/5]";
+        $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR]";
+        $newarg['calculus']  = true;
+        $newarg['outcome']   = 'unsupported';
+        $samplearguments[]   = $newarg;
+
+        $newarg = array();
+        $newarg['title']     = "Integration by parts";
+        $newarg['narrative'] = 'The last QMCHAR occurs because of the missing constant of integration.';
+        $newarg['casstring'] = "[nounint(x^3*log(x),x),x^4/4*log(x)-1/4*nounint(x^3,x),x^4/4*log(x)-x^4/4]";
+        $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,QMCHAR]";
+        $newarg['calculus']  = true;
+        $newarg['outcome']   = false;
+        $samplearguments[]   = $newarg;
+
+        $newarg = array();
+        $newarg['title']     = "Integration by parts +c";
+        $newarg['narrative'] = '';
+        $newarg['casstring'] = "[nounint(x^3*log(x),x),x^4/4*log(x)-1/4*nounint(x^3,x),x^4/4*log(x)-x^4/4+c]";
+        $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR]";
+        $newarg['calculus']  = true;
+        $newarg['outcome']   = 'unsupported';
+        $samplearguments[]   = $newarg;
+
+        $newarg = array();
+        $newarg['title']     = "";
+        $newarg['narrative'] = 'This argument is aspirational.';
+        $newarg['casstring'] = '[y=nounint(1/(x^2+1),x),y=nounint(1/((1+%i*x)*(1-%i*x)),x),'.
+             'y=1/2*nounint(1/(1+%i*x)+1/(1-%i*x),x),"Perform the integral",'.
+             'y=1/(2*%i)*(log(1+%i*x)-log(1-%i*x)),y=1/(2*%i)*log((1+%i*x)/(1-%i*x)),'.
+             '2*%i*y=log((1+%i*x)/(1-%i*x)),(1+%i*x)/(1-%i*x)=e^(2*%i*y),'.
+             '1+%i*x=e^(2*%i*y)*(1-%i*x),%i*x*(1+e^(2*%i*y))=e^(2*%i*y)-1,'.
+             'x=1/%i*(e^(2*%i*y)-1)/(e^(2*%i*y)+1),x=1/%i*(e^(%i*y)-e^(-%i*y))/(e^(%i*y)+e^(-%i*y)),'.
+             'x=(e^(%i*y)-e^(-%i*y))/(2*%i)*(2/(e^(%i*y)+e^(-%i*y))),x=sin(y)/cos(y),x=tan(y)]';
+        $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EMPTYCHAR,EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,".
+             "EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR]";
+        $newarg['calculus']  = true;
+        $newarg['outcome']   = 'unsupported';
+        $samplearguments[]   = $newarg;
+
+        //******************************************************************************
+        $newarg = array();
+        $newarg['section'] = 'Other cases';
+        $samplearguments[] = $newarg;
+
         $this->rawdata = $samplearguments;
     }
 
     public function get_answertestfixtures() {
         // Reformulate the data into answer test fixtures.
         $answertestfixtures = array();
+        $validoptions = array('assumepos', 'assumereal', 'calculus');
+
         foreach ($this->rawdata as $equivarg) {
             if (!array_key_exists('section', $equivarg)) {
                 $options = array();
@@ -1158,14 +1363,11 @@ class stack_equiv_test_data {
                 }
                 $arg = stack_utils::logic_nouns_sort($equivarg['casstring'], 'add');
 
-                if (array_key_exists('assumepos', $equivarg)) {
-                    if ($equivarg['assumepos']) {
-                      $options[] = 'assumepos';
-                    }
-                }
-                if (array_key_exists('assumereal', $equivarg)) {
-                    if ($equivarg['assumereal']) {
-                        $options[] = 'assumereal';
+                foreach ($validoptions as $opt) {
+                    if (array_key_exists($opt, $equivarg)) {
+                        if ($equivarg[$opt]) {
+                            $options[] = $opt;
+                        }
                     }
                 }
                 $options = implode(',', $options);

@@ -245,6 +245,8 @@ class stack_cas_casstring_test extends basic_testcase {
         $this->assertTrue($at1->get_valid('t'));
     }
 
+    // @codingStandardsIgnoreStart
+
     /* TODO: we need a full parser to check for mismatched string delimiters.
      * Below are some test cases which need a parser.
      *
@@ -285,6 +287,8 @@ class stack_cas_casstring_test extends basic_testcase {
      *  $at1 = new stack_cas_casstring($s);
      *  $this->assertFalse($at1->get_valid('t'));
      */
+
+    // @codingStandardsIgnoreEND
 
     public function test_system_execution() {
         // First the obvious one, just eval that string.

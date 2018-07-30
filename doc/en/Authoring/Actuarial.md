@@ -8,7 +8,6 @@ which is typeset using `\[\require{enclose} EPV = a _{[25]+5:\enclose{actuarial}
 
 ## Life Contingencies' Symbols ##
 
-The following examples are adapted from [http://maths.dur.ac.uk/stats/courses/AMII/LifeConSymbolsGuide.pdf](http://maths.dur.ac.uk/stats/courses/AMII/LifeConSymbolsGuide.pdf)
 
 | Inline                                                                  | Code (without LaTeX delimiters)                                         | 
 | ----------------------------------------------------------------------- | ----------------------------------------------------------------------- | 

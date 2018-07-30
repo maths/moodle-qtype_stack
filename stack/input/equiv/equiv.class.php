@@ -14,6 +14,8 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
+defined('MOODLE_INTERNAL') || die();
+
 require_once(__DIR__ . '/../../utils.class.php');
 
 /**
@@ -26,73 +28,28 @@ require_once(__DIR__ . '/../../utils.class.php');
 class stack_equiv_input extends stack_input {
 
     /**
-     * @var bool
-     * Does a student see the equivalence signs at validation time?
+     * From STACK 4.1 we are not going to continue to add input options as columns in the database.
+     * This has numerous problems, and is difficult to maintain. Extra options will be in a JSON-like format.
+     *
+     * For examples see the numerical input.
+     * @var array
      */
-    private $optdisplayequivalence = true;
-
-    /**
-     * @var bool
-     * Must a student have the same first line as the teacher's answer?
-     */
-    private $optfirstline = false;
-
-    /**
-     * @var bool
-     * Is a student permitted to include comments in their answer?
-     */
-    private $optcomments = false;
-
-    /**
-     * @var bool
-     * Sets the value of the assume_pos variable, which affects squareing both sides.
-     */
-    private $optassumepos = false;
-
-    /**
-     * @var bool
-     * Sets the value of the assume_real variable, which affects how we deal with complex numbers.
-     */
-    private $optassumereal = false;
-
-    protected function internal_contruct() {
-        $options = $this->get_parameter('options');
-
-        if (trim($options) != '') {
-            $options = explode(',', $options);
-            foreach ($options as $option) {
-                $option = strtolower(trim($option));
-
-                switch($option) {
-
-                    case 'hideequiv':
-                        $this->optdisplayequivalence = false;
-                        break;
-
-                    case 'comments':
-                        $this->optcomments = true;
-                        break;
-
-                    case 'firstline':
-                        $this->optfirstline = true;
-                        break;
-
-                    case 'assume_pos':
-                        $this->optassumepos = true;
-                        break;
-
-                    case 'assume_real':
-                        $this->optassumereal = true;
-                        break;
-
-                    default:
-                        $this->errors[] = stack_string('inputoptionunknown', $option);
-                }
-            }
-        }
-
-        return true;
-    }
+    protected $extraoptions = array(
+        // Does a student see the equivalence signs at validation time?
+        'hideequiv' => false,
+        // Does a student see the natural domain at validation time?
+        'hidedomain' => false,
+        // Must a student have the same first line as the teacher's answer?
+        'firstline' => false,
+        // Is a student permitted to include comments in their answer?
+        'comments' => false,
+        // Sets the value of the assume_pos variable, which affects squareing both sides.
+        'assume_pos' => false,
+        // Sets the value of the assume_real variable, which affects how we deal with complex numbers.
+        'assume_real' => false,
+        // Sets the value of the stack_calculus variable, which affects how we deal with calulus in arguments.
+        'calculus' => false
+    );
 
     public function render(stack_input_state $state, $fieldname, $readonly, $tavalue) {
         // Note that at the moment, $this->boxHeight and $this->boxWidth are only
@@ -104,6 +61,7 @@ class stack_equiv_input extends stack_input {
 
         if ($this->is_blank_response($state->contents)) {
             $current = $this->maxima_to_raw_input($this->parameters['syntaxHint']);
+            $current = stack_utils::logic_nouns_sort($current, 'remove');
             $rows = array();
             // Put the first line of the value of the teacher's answer in the input.
             if (trim($this->parameters['syntaxHint']) == 'firstline') {
@@ -145,10 +103,9 @@ class stack_equiv_input extends stack_input {
         }
         $rendervalidation = html_writer::tag('div', $rendervalidation, array('class' => $class, 'id' => $fieldname.'_val'));
 
-        $output = html_writer::tag('td', html_writer::tag('textarea', htmlspecialchars($current), $attributes));
-        $output .= html_writer::tag('td', $rendervalidation);
-        $output = html_writer::tag('tr', $output);
-        $output = html_writer::tag('table', $output);
+        $output = html_writer::tag('textarea', htmlspecialchars($current), $attributes);
+        $output .= $rendervalidation;
+        $output = html_writer::tag('div', $output, array('class' => 'equivreasoning'));
 
         return $output;
     }
@@ -247,7 +204,7 @@ class stack_equiv_input extends stack_input {
             if ($this->identify_comments($val)) {
                 $answer = new stack_cas_casstring($val);
                 // Is the student permitted to include comments in their answer?
-                if (!$this->optcomments) {
+                if (!$this->extraoptions['comments']) {
                     $valid = false;
                     $answer->add_errors(stack_string('equivnocomments'));
                 }
@@ -299,7 +256,7 @@ class stack_equiv_input extends stack_input {
      *      string if the input is valid - at least according to this test.
      */
     protected function validation_display($answer, $lvars, $caslines, $additionalvars, $valid, $errors) {
-        if ($this->optfirstline) {
+        if ($this->extraoptions['firstline']) {
             $foundfirstline = false;
             foreach ($additionalvars as $index => $cs) {
                 if ($cs->get_key() === 'firstline') {
@@ -333,7 +290,7 @@ class stack_equiv_input extends stack_input {
         }
         $display .= '</tbody></table></center>';
         if ($valid) {
-            $equiv = $additionalvars[2];
+            $equiv = $additionalvars['equivdisplay'];
             $display = '\[ ' . $equiv->get_display() . ' \]';
         }
 
@@ -345,12 +302,17 @@ class stack_equiv_input extends stack_input {
      */
     protected function additional_session_variables($caslines, $teacheranswer) {
         $equivdebug = 'false';
-        $showlogic = 'false';
-        if ($this->optdisplayequivalence) {
-            $showlogic = 'true';
+        $showlogic = 'true';
+        if ($this->extraoptions['hideequiv']) {
+            $showlogic = 'false';
+        }
+        $showdomain = 'true';
+        if ($this->extraoptions['hidedomain']) {
+            $showdomain = 'false';
         }
         $debuglist = 'false';
-        $an = new stack_cas_casstring('disp_stack_eval_arg('.$this->name.', '.$showlogic.', '.$equivdebug.', '.$debuglist.')');
+        $an = new stack_cas_casstring('disp_stack_eval_arg('.$this->name.', '.$showlogic.', '.
+                $showdomain.', '.$equivdebug.', '.$debuglist.')');
         $an->get_valid('t', $this->get_parameter('strictSyntax', true),
                  $this->get_parameter('insertStars', 0));
         $an->set_key('equiv'.$this->name);
@@ -359,7 +321,7 @@ class stack_equiv_input extends stack_input {
         $tcontents = $this->response_to_contents($tresponse);
         // Has the student used the correct first line?
         $fl = new stack_cas_casstring('firstline:true');
-        if ($this->optfirstline) {
+        if ($this->extraoptions['firstline']) {
             if (array_key_exists(0, $tcontents)) {
                 $ta = $tcontents[0];
                 if (array_key_exists(0, $caslines)) {
@@ -375,21 +337,7 @@ class stack_equiv_input extends stack_input {
             $fl = new stack_cas_casstring('firstline:true');
         }
 
-        $assumepos = 'false';
-        if ($this->optassumepos) {
-            $assumepos = 'true';
-        }
-        $ap = new stack_cas_casstring('assume_pos:'.$assumepos);
-        $ap->get_valid('t');
-
-        $assumereal = 'false';
-        if ($this->optassumereal) {
-            $assumereal = 'true';
-        }
-        $ar = new stack_cas_casstring('assume_real:'.$assumereal);
-        $ar->get_valid('t');
-
-        return array($ap, $ar, $an, $fl);
+        return array('equivdisplay' => $an, 'equivfirstline' => $fl);
     }
 
     protected function get_validation_method() {
@@ -412,10 +360,19 @@ class stack_equiv_input extends stack_input {
 
     /* Convert an expression starting with an = sign to one with stackeq. */
     private function equals_to_stackeq($val) {
-        if (substr(trim($val), 0, 1) === "=") {
-            $trimmed = trim(substr(trim($val), 1));
+        $val = trim($val);
+        if (substr($val, 0, 1) === "=") {
+            $trimmed = trim(substr($val, 1));
             if ( $trimmed !== '') {
                 $val = 'stackeq(' . $trimmed . ')';
+            }
+        }
+        // Safely wrap "let" statements.
+        $langlet = strtolower(stack_string('equiv_LET'));
+        if (strtolower(substr($val, 0, strlen($langlet))) === $langlet) {
+            $nv = explode('=', substr($val, strlen($langlet) + 1));
+            if (count($nv) === 2) {
+                $val = 'stacklet('.trim($nv[0]).','.trim($nv[1]).')';
             }
         }
         return $val;

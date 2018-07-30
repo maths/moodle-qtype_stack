@@ -10,7 +10,10 @@ Computer aided assessment of mathematics works in the following phases.
 
 ## Adding questions to a quiz  ##
 
-STACK questions form part of the Moodle quiz.  You may form quizzes with a mix of STACK questions and other Moodle question types. Please consult the [moodle documentation](http://docs.moodle.org/23/en/Quiz_module) for details of how to create and use Moodle quizzes.
+STACK questions form part of the Moodle quiz.
+You may form quizzes with a mix of STACK questions and other Moodle question types.
+Please consult the [moodle documentation](http://docs.moodle.org/en/Quiz_module) for details of how to create
+and use Moodle quizzes.
 
 ## Setting quiz options ##
 
@@ -23,11 +26,15 @@ Also note that when authoring a STACK question there are two forms of "feedback"
 
 We *always* want to give validation feedback, and this must be placed in the Question text.  
 
-The potential response tree feedback can be placed anywhere in the Question text, or in the "Specific feedback" field of the question.  It usually makes sense for multi-part questions to put the feedback in the question text.  However, if you do so it will always be displayed and will not respect the "specific feedback" settings in the "Review options" section of the quiz settings.
+The potential response tree feedback can be placed anywhere in the Question text, or in the "Specific feedback"
+field of the question.  It usually makes sense for multi-part questions to put the feedback in the question text.
+However, if you do so it will always be displayed and will not respect the "specific feedback" settings in the
+"Review options" section of the quiz settings.
 
 ## Behaviours ##
 
-Levels of [feedback](Feedback.md) are controlled by the [quiz settings](http://docs.moodle.org/22/en/Quiz_settings), and in particular the [question behaviours](http://docs.moodle.org/22/en/Question_behaviours).
+Levels of [feedback](Feedback.md) are controlled by the [quiz settings](http://docs.moodle.org/en/Quiz_settings),
+and in particular the [question behaviours](http://docs.moodle.org/en/Question_behaviours).
 
 
 

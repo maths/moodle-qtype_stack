@@ -1,0 +1,773 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+<!-- question: 13  -->
+  <question type="stack">
+    <name>
+      <text>1. Basic, non bound example of a graph</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<p>Graphs that do not need to remember their state between page reloads are simple to build, just act like you would with the official JSXGraph filter. Note however that you do not need that filter as STACK provides its own implementation which has some handy features:</p>
+<ul>
+<li>STACK version does not allow you to name the div-element storing the graph, instead it gives you the name it has chosen in a variable named <code>divid</code>, the reason for this is that we ensure that each graph has an unique identifier and that there cannot exist name collisions, not even if you were to place the same question twice on the same page.</li>
+<li>We provide a way to reference the input fields of the question and provide the identifiers of those input field elements if requested. The key benefit here is that we can provide those references in the same way regardless on the VLE you are running the question in, so you do not need to adapt the graph code if you decide to ditch Moodle and move ILIAS or some other system. (see more of this in the other examples of this category)</li>
+<li>We also provide convenience functions to bind primitives (points and sliders) in the graph to STACK input fields so that you do not need to repeat that binding code yourself. Basically, single call to binding function will replace about twenty lines of code, more importantly we can change the implementation of the binding functions if the world changes so that you do not need to fix all your graphs with all their bindings.</li>
+</ul>
+
+<p><b>Note that as these graphs are coded in JavaScript you should not use WYSIWYG editors to edit these questions, as they tend to "helpfully" add random styling to random places and might break things. In Moodle do switch your text editor to 'plain text area', before editing these.</b></p>
+
+<p>Now as a minimal example lets copy some example from JSXGraphs showcase library <a href="http://jsxgraph.uni-bayreuth.de/wiki/index.php/Showcases">http://jsxgraph.uni-bayreuth.de/wiki/index.php/Showcases</a>. Note, that we do not provide memory for this example, so it will revert to its initial state when the page reloads or you return to this page.</p>
+
+<pre style="line-height:0.9;">[[escape value="[[jsxgraph width='500px' height='500px']]"/]]
+// http://jsxgraph.uni-bayreuth.de/wiki/index.php/Five_Circle_Theorem
+// Only difference here to the example is the 'jxgbox' => divid replacement 
+// so that the element name becomes dynamic.
+var brd = JXG.JSXGraph.initBoard(divid, {boundingbox:[-5,5,5,-5]});
+var p = [], l = [], i = [], c = [], j = [], k;
+
+p[0] = brd.create('point',[-2.5,-3],{name:'',strokeColor:'#7355ff',fillColor:'#7355ff'});
+p[1] = brd.create('point',[-0,4],{name:'',strokeColor:'#7355ff',fillColor:'#7355ff'});
+p[2] = brd.create('point',[2.5,-3],{name:'',strokeColor:'#7355ff',fillColor:'#7355ff'});
+p[3] = brd.create('point',[-4,0],{name:'',strokeColor:'#7355ff',fillColor:'#7355ff'});
+p[4] = brd.create('point',[4,0],{name:'',strokeColor:'#7355ff',fillColor:'#7355ff'});
+
+for (k=0;k<5;k++) {
+   l[k] = brd.create('segment',[p[k],p[(k+1)%5]],{strokeColor:'black',strokeWidth:1});
+}
+
+for (k=0;k<5;k++) {
+   i[k] = brd.create('intersection',[l[k],l[(k+2)%5],0],{name:'',strokeColor:'#EAEA00',fillColor:'#EAEA00'});
+}
+
+for (k=0;k<5;k++) {
+   c[k] = brd.create('circumcircle',[p[k],i[k],i[(k+2)%5]],{strokeColor:'gray', strokeWidth:1, point: {visible: false}});
+}
+for (k=0;k<5;k++) {
+   j[k] = brd.create('intersection',[c[k],c[(k+2)%5],0],{name:'',strokeColor:'#EA0000',fillColor:'#EA0000'});
+}
+
+var cc = brd.create('circumcircle',[j[0],j[2],j[3]],{strokeColor:'red',strokeWidth:2,point:{strokeColor:'#000000',fillColor:'#000000',size:1}});
+brd.update();
+[[escape value="[[/jsxgraph]]"/]]</pre>
+
+<p>Renders as:</p>
+
+[[jsxgraph width='500px' height='500px']]
+// http://jsxgraph.uni-bayreuth.de/wiki/index.php/Five_Circle_Theorem
+// Only difference here to the example is the 'jxgbox' => divid replacement 
+// so that the element name becomes dynamic.
+var brd = JXG.JSXGraph.initBoard(divid, {boundingbox:[-5,5,5,-5]});
+var p = [], l = [], i = [], c = [], j = [], k;
+
+p[0] = brd.create('point',[-2.5,-3],{name:'',strokeColor:'#7355ff',fillColor:'#7355ff'});
+p[1] = brd.create('point',[-0,4],{name:'',strokeColor:'#7355ff',fillColor:'#7355ff'});
+p[2] = brd.create('point',[2.5,-3],{name:'',strokeColor:'#7355ff',fillColor:'#7355ff'});
+p[3] = brd.create('point',[-4,0],{name:'',strokeColor:'#7355ff',fillColor:'#7355ff'});
+p[4] = brd.create('point',[4,0],{name:'',strokeColor:'#7355ff',fillColor:'#7355ff'});
+
+for (k=0;k<5;k++) {
+   l[k] = brd.create('segment',[p[k],p[(k+1)%5]],{strokeColor:'black',strokeWidth:1});
+}
+
+for (k=0;k<5;k++) {
+   i[k] = brd.create('intersection',[l[k],l[(k+2)%5],0],{name:'',strokeColor:'#EAEA00',fillColor:'#EAEA00'});
+}
+
+for (k=0;k<5;k++) {
+   c[k] = brd.create('circumcircle',[p[k],i[k],i[(k+2)%5]],{strokeColor:'gray', strokeWidth:1, point: {visible: false}});
+}
+for (k=0;k<5;k++) {
+   j[k] = brd.create('intersection',[c[k],c[(k+2)%5],0],{name:'',strokeColor:'#EA0000',fillColor:'#EA0000'});
+}
+
+var cc = brd.create('circumcircle',[j[0],j[2],j[3]],{strokeColor:'red',strokeWidth:2,point:{strokeColor:'#000000',fillColor:'#000000',size:1}});
+brd.update();
+[[/jsxgraph]]]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text></text>
+    </generalfeedback>
+    <defaultgrade>0.0000000</defaultgrade>
+    <penalty>0.1000000</penalty>
+    <hidden>0</hidden>
+    <questionvariables>
+      <text></text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text></text>
+    </specificfeedback>
+    <questionnote>
+      <text></text>
+    </questionnote>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <matrixparens>[</matrixparens>
+    <variantsselectionseed></variantsselectionseed>
+  </question>
+
+<!-- question: 14  -->
+  <question type="stack">
+    <name>
+      <text><![CDATA[2. "Binding", what does it mean?]]></text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<p>"Binding", in the context of STACK + JSXGraph integration, means connecting the value of a STACK input field to some element in the graph. If the element gets moved the input field's value is also changed. In the simplest example if you drag a slider from value 1 to value 2 the bound input will be set to 2. This is obviously important when you wish to use that part of the graph as an input.  Also, as the VLE in the background stores the values of the input fields we can start remembering state. E.g. f you dragged the slider to value 2 and left the page then the binding logic should be able to ensure that the slider gets placed back to that same value if you return to the page.</p>
+
+<p>As an simplified example of this we now build a graph with a line segment which has two draggable end points one of which is bound and one which is not. Drag the two points around and then press 'Check'.  When the checking process reloads the page you should see the bound one staying where you dragged it to and the other to return into its initial position. You should also see that the STACK logic side received the position of the bound point.</p>
+
+
+<pre style="line-height:0.9;">[[escape value="[[jsxgraph input-ref-ans1='ans1Ref']]"/]]
+var board = JXG.JSXGraph.initBoard(divid, {boundingbox: [-5, 5, 5, -5],showNavigation:false});
+var p1 = board.create('point', [-3,3], {name:'Bound',size:4});
+var p2 = board.create('point', [3,-3], {name:'Free',size:4});
+var line = board.create('line', [p1,p2], {straightFirst:false, straightLast:false});
+
+// There exists a simple convenience method for binding inputs to points
+// It just needs an input reference, defined as a parameter of the jsxgraph-block
+// and a primitive object of the type of the binding, in this case a point.
+stack_jxg.bind_point(ans1Ref, p1);
+
+// Always call board.update() at the end if you have bindings.
+board.update();
+
+// In this example we hide the input as we are not yet ready to talk about two-way binding.
+document.getElementById(ans1Ref).style.display = 'none';
+[[escape value="[[/jsxgraph]]"/]]</pre>
+
+[[jsxgraph input-ref-ans1='ans1Ref']]
+var board = JXG.JSXGraph.initBoard(divid, {boundingbox: [-5, 5, 5, -5], showNavigation:false});
+var p1 = board.create('point', [-3,3], {name:'Bound',size:4});
+var p2 = board.create('point', [3,-3], {name:'Free',size:4});
+var line = board.create('line', [p1,p2], {straightFirst:false, straightLast:false});
+
+// There exists a simple convenience method for binding inputs to points
+// It just needs an input reference, defined as a parameter of the jsxgraph-block
+// and a primitive object of the type of the binding, in this case a point.
+stack_jxg.bind_point(ans1Ref, p1);
+
+// Always call board.update() at the end if you have bindings, as they may move things around.
+board.update();
+
+// In this example we hide the input as we are not yet ready to talk about two-way binding.
+document.getElementById(ans1Ref).style.display = 'none';
+[[/jsxgraph]]
+
+<p><i>As a special test case here, try moving the bound one out of the box. For that to work the binding needs to track not only direct actions affecting the point but also changes caused by other actions. Those needing to build their own binding logic for more complex things should note this. Simply tracking the point may not be enough.</i></p>
+
+<p>[[input:ans1]] [[validation:ans1]]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text></text>
+    </generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.1000000</penalty>
+    <hidden>0</hidden>
+    <questionvariables>
+      <text></text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text>[[feedback:prt1]]</text>
+    </specificfeedback>
+    <questionnote>
+      <text></text>
+    </questionnote>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <matrixparens>[</matrixparens>
+    <variantsselectionseed></variantsselectionseed>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>[1,1]</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint></syntaxhint>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords></forbidwords>
+      <allowwords></allowwords>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>0</mustverify>
+      <showvalidation>0</showvalidation>
+      <options></options>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackvariables>
+        <text></text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>ans1</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text>The value of the input is {#ans1#}</text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text></text>
+        </falsefeedback>
+      </node>
+    </prt>
+  </question>
+
+<!-- question: 15  -->
+  <question type="stack">
+    <name>
+      <text><![CDATA[3. "Two-way binding", what does that mean?]]></text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<p>In the previous example the binding transfers the position of both something in the graph to the input and retrieves the stored value of the input on page reload. Basically, one way binging is when the action in a graph changes setting the input value. For two way binding we also track the input value after the page has loaded so that if it changes due to any action we change the graph.</p>
+
+<p><b>Now why would we want to do that when the graph itself set the value!?</b></p>
+<ul>
+<li>We might want to provide the input field as a visible editable field so that if the student cannot drag e.g. the slider in the graph they can write the value into the input and the graph reacts as if the thing was moved there, this may be necessary in some cases, but it is not that useful generally.</li>
+<li>More likely is the case where we have multiple graphs connected to the same input and we want them to move in sync when something is done in any one of them.</li>
+<li>We could also have scripting outside the graph that could act on the value on the input(s) in some way and connecting to that might be difficult, but it is much simpler to connect to the input directly and our binding does just that.</li>
+<li></li>
+</ul>
+
+
+<p>This time you will need to open the questions source to see the code for these graphs, the key here being that each of them reference that same input and bind their slider to it.</p>
+
+<table>
+<tr>
+<td>Area slider: [[input:ans1]] [[validation:ans1]]<br/>
+Test point: [[input:ans2]] [[validation:ans2]]</td>
+<td>
+[[jsxgraph width='400px' height='400px' input-ref-ans1='ans1Ref' input-ref-ans2='ans2Ref']]
+var board = JXG.JSXGraph.initBoard(divid, {boundingbox: [-4.5, 4.5, 4.5, -4.5], showNavigation:false, grid:true});
+
+var s1 =  board.create('slider',[[-4,4],[-1,4],[1,1,7]],{name: 'Area', snapWidth: 1, ticks: { drawLabels: true }});
+stack_jxg.bind_slider(ans1Ref, s1);
+
+var p = board.create('point', [4, 3]);
+stack_jxg.bind_point(ans2Ref, p);
+
+var c = board.create('point',[0,0],{visible: false});
+
+var circle = board.create('circle',[c,Math.sqrt(s1.Value()/Math.PI)], {frozen:true, fixed:true, method:'pointRadius'});
+circle.setRadius(function() {return Math.sqrt(s1.Value()/Math.PI);});
+
+board.update();
+[[/jsxgraph]]
+</td>
+</tr>
+<tr>
+<td>
+[[jsxgraph width='400px' height='400px' input-ref-ans1='ans1Ref' input-ref-ans2='ans2Ref']]
+var board = JXG.JSXGraph.initBoard(divid, {boundingbox: [-4.5, 4.5, 4.5, -4.5], showNavigation:false, grid:true});
+
+var s1 =  board.create('slider',[[-4,4],[-1,4],[1,1,7]],{name: 'Area', snapWidth: 1, ticks: { drawLabels: true }});
+stack_jxg.bind_slider(ans1Ref, s1);
+
+var p = board.create('point', [4, 3]);
+stack_jxg.bind_point(ans2Ref, p);
+
+var hw = function(){
+ return Math.sqrt(s1.Value())/2.0;
+}
+
+var p1 = board.create('point',[function(){return hw();},function(){return hw();}],{visible: false});
+var p2 = board.create('point',[function(){return hw();},function(){return -hw();}],{visible: false});
+var p3 = board.create('point',[function(){return -hw();},function(){return -hw();}],{visible: false});
+var p4 = board.create('point',[function(){return -hw();},function(){return hw();}],{visible: false});
+
+var ploygon = board.create('polygon',[p1,p2,p3,p4],{frozen:true, fixed:true});
+
+board.update();
+[[/jsxgraph]]
+</td>
+<td>
+[[jsxgraph width='400px' height='400px' input-ref-ans1='ans1Ref' input-ref-ans2='ans2Ref']]
+var board = JXG.JSXGraph.initBoard(divid, {boundingbox: [-4.5, 4.5, 4.5, -4.5], showNavigation:false, grid:true});
+
+var s1 =  board.create('slider',[[-4,4],[-1,4],[1,1,7]],{name: 'Area', snapWidth: 1, ticks: { drawLabels: true }});
+stack_jxg.bind_slider(ans1Ref, s1);
+
+var p = board.create('point', [4, 3]);
+stack_jxg.bind_point(ans2Ref, p);
+
+var c = board.create('point',[0,0],{visible: false});
+
+var circle = board.create('circle',[c,Math.sqrt(s1.Value()/Math.PI)], {frozen:true, fixed:true, method:'pointRadius'});
+circle.setRadius(function() {return Math.sqrt(s1.Value()/Math.PI);});
+
+board.update();
+[[/jsxgraph]]
+</td>
+</tr>
+</table>
+
+<p><i>Note that in this example if you write a valid value that the slider does not allow the slider will map that value to a value it allows and the binding to the other way will fix the input value. Basically, this slider has specific fixed ticks and those are enforced even in the input.</i></p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text></text>
+    </generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.1000000</penalty>
+    <hidden>0</hidden>
+    <questionvariables>
+      <text></text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text>[[feedback:prt1]]</text>
+    </specificfeedback>
+    <questionnote>
+      <text></text>
+    </questionnote>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <matrixparens>[</matrixparens>
+    <variantsselectionseed></variantsselectionseed>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>1</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint></syntaxhint>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords></forbidwords>
+      <allowwords></allowwords>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>0</mustverify>
+      <showvalidation>0</showvalidation>
+      <options></options>
+    </input>
+    <input>
+      <name>ans2</name>
+      <type>algebraic</type>
+      <tans>[1,1]</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint></syntaxhint>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords></forbidwords>
+      <allowwords></allowwords>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>0</mustverify>
+      <showvalidation>0</showvalidation>
+      <options></options>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackvariables>
+        <text></text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>ans1</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text></text>
+        </falsefeedback>
+      </node>
+    </prt>
+  </question>
+
+<!-- question: 16  -->
+  <question type="stack">
+    <name>
+      <text>4. JSON and complex binding.</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<p>The previous examples have shown the use of simplified binding of single primitives to single inputs, that should cover most use cases but once you start to do more complex things you will need to start building your own binding logic. Some examples of such situations are:</p>
+
+<ul>
+<li>Creation and deletion of arbitrary numbers of points/objects in graph cannot be tracked with one input per object logic as you cannot create inputs. In these cases you need to store more structure into inputs.</li>
+<li>Not dealing with the positions of things might also be an obvious case, if you want to for example track the order the student clicks some edges in some graph use of the simple binding tools will not help.</li>
+</ul>
+
+<p>Basically, you cannot use one-to-one input-object-binding if you have dynamic number of objects. To deal with this you need to have some form of data-structures (simple lists of coordinates are often enough but once you have multiple types of things with connections between them you will probably want more) that you can store that represent the state of your graph. As you are authoring JSXGraph graphs in JavaScript the obvious structures are JavaScript objects/dictionaries and lists, luckily those can easily be turned to JSON strings that can be stored into String input fields. And what is important STACK now provides a way for parsing those JSON strings on Maxima side so that you can process the values there.</p>
+
+<pre style="line-height:0.9;">[[escape value="[[jsxgraph height='700px' width='700px' input-ref-ans1='ans1Ref']]"/]]
+// In this example ans1 is a String type input, which is important as the value we store 
+// there is most definitely not a valid Maxima expression.
+var board = JXG.JSXGraph.initBoard(divid, {boundingbox: [-5, 5, 5, -5],showNavigation:false});
+
+// We will store our points here.
+var points = new Array();
+var i = 0;
+
+// If we have stored state of points we will resurrect them now.
+var theInput = document.getElementById(ans1Ref);
+if (theInput.value && theInput.value != '') {
+ var pointList = JSON.parse(theInput.value);
+ for (i=0; i<pointList.length; i++) {
+  var p = board.create('point', [pointList[i]['x'],pointList[i]['y']], {name:'',color:pointList[i]['color']});
+  points[i] = p;
+ } 
+}
+
+// Lets create some magic, in this example dragging points through specific areas changes 
+// the color of the points. And there is an area that both creates and deletes points.
+
+var source = board.create('circle',[board.create('point',[-4,-4],{visible: false}),0.7], {	strokeColor:'black',frozen:true, fixed:true, method:'pointRadius',hasInnerPoints:true});
+var red = board.create('circle',[board.create('point',[0,-4],{visible: false}),0.7], {	strokeColor:'red',frozen:true, fixed:true, method:'pointRadius',hasInnerPoints:true});
+var green = board.create('circle',[board.create('point',[2,-4],{visible: false}),0.7], {	strokeColor:'green',frozen:true, fixed:true, method:'pointRadius',hasInnerPoints:true});
+var blue = board.create('circle',[board.create('point',[4,-4],{visible: false}),0.7], {	strokeColor:'blue',frozen:true, fixed:true, method:'pointRadius',hasInnerPoints:true});
+
+// A function the we can tie to points so that their color changes.
+var colorDragListener = function() {
+ // this in this context should be the point.
+ if (JXG.Math.Geometry.distance([this.X(),this.Y()],[source.center.X(),source.center.Y()]) < source.Radius()) {
+  this.setAttribute({color:'black'});
+ } else if (JXG.Math.Geometry.distance([this.X(),this.Y()],[red.center.X(),red.center.Y()]) < red.Radius()) {
+  this.setAttribute({color:'red'});
+ } else if (JXG.Math.Geometry.distance([this.X(),this.Y()],[green.center.X(),green.center.Y()]) < green.Radius()) {
+  this.setAttribute({color:'green'});
+ } else if (JXG.Math.Geometry.distance([this.X(),this.Y()],[blue.center.X(),blue.center.Y()]) < blue.Radius()) {
+  this.setAttribute({color:'blue'});
+ }
+}
+
+// Another function to handle the release of dragged points and the storage of the state.
+var dropHandler = function() {
+ // this in this context should be the point.
+ var newOne = points.indexOf(this);
+ if (newOne == -1) {
+  // This is a new one depending on where it was dropped we do things.
+  if (JXG.Math.Geometry.distance([this.X(),this.Y()],[source.center.X(),source.center.Y()]) < source.Radius()) {
+   // When dropped into the source, reset the point.
+   this.moveTo([source.center.X(),source.center.Y()],100);
+   this.setAttribute({color:'black'});
+  } else {
+   // it is now in play add it to the list.
+   points[points.length] = this;
+   // also initialise a new point in the source.
+   var p = board.create('point', [source.center.X(),source.center.Y()], {name:'',color:'black'});
+   p.on('drag',colorDragListener);
+   p.on('up',dropHandler);
+  }
+ } else {
+  if (JXG.Math.Geometry.distance([this.X(),this.Y()],[source.center.X(),source.center.Y()]) < source.Radius()) {
+   // When dropped into the source delete this point as this is an existing point.
+   points.splice(newOne, 1);
+   this.board.removeObject(this);
+  }
+  // Otherwise all fine.
+ }
+
+ // Then construct the state. Basically, map the points to a specific form, in this example the form is 
+ // a bit too complex as it includes an object/dictionary when a list would have worked but maybe this
+ // will come in handy elsewhere.
+ var newState = new Array();
+ for (i=0; i<points.length; i++) {
+  var P = {'x':points[i].X(),'y':points[i].Y(),'color':points[i].getAttribute('color')};
+  newState[i] = P;
+ }
+ theInput.value = JSON.stringify(newState);
+
+ // NOTE! You will need to do certain things to make the VLE around you know that things happen, 
+ // for this reason we need to generate a "change" event. In the case of Moodle and this question the event
+ // marks the form modified and causes a warning if the page is left through non saving routes.
+ var e = new Event('change');
+ theInput.dispatchEvent(e);
+}
+
+
+// This is the intial point.
+var p = board.create('point', [source.center.X(),source.center.Y()], {name:'',color:'black'});
+p.on('drag',colorDragListener);
+p.on('up',dropHandler);
+
+// Remember that the points from stored state must also be tied to the listeners if present.
+for (i=0; i<points.length; i++) {
+ points[i].on('drag',colorDragListener);
+ points[i].on('up',dropHandler);
+}
+
+// Always call board.update() at the end if you have bindings.
+board.update();
+
+// In this example we hide the input as it will get absurd very soon.
+document.getElementById(ans1Ref).style.display = 'none';
+[[escape value="[[/jsxgraph]]"/]]</pre>
+
+[[jsxgraph height='700px' width='700px' input-ref-ans1='ans1Ref']]
+// In this example ans1 is a String type input, which is important as the value we store 
+// there is most definitely not a valid Maxima expression.
+var board = JXG.JSXGraph.initBoard(divid, {boundingbox: [-5, 5, 5, -5],showNavigation:false});
+
+// We will store our points here.
+var points = new Array();
+var i = 0;
+
+// If we have stored state of points we will resurrect them now.
+var theInput = document.getElementById(ans1Ref);
+if (theInput.value && theInput.value != '') {
+ var pointList = JSON.parse(theInput.value);
+ for (i=0; i<pointList.length; i++) {
+  var p = board.create('point', [pointList[i]['x'],pointList[i]['y']], {name:'',color:pointList[i]['color']});
+  points[i] = p;
+ } 
+}
+
+// Lets create some magic, in this example dragging points through specific areas changes 
+// the color of the points. And there is an area that both creates and deletes points.
+
+var source = board.create('circle',[board.create('point',[-4,-4],{visible: false}),0.7], {	strokeColor:'black',frozen:true, fixed:true, method:'pointRadius',hasInnerPoints:true});
+var red = board.create('circle',[board.create('point',[0,-4],{visible: false}),0.7], {	strokeColor:'red',frozen:true, fixed:true, method:'pointRadius',hasInnerPoints:true});
+var green = board.create('circle',[board.create('point',[2,-4],{visible: false}),0.7], {	strokeColor:'green',frozen:true, fixed:true, method:'pointRadius',hasInnerPoints:true});
+var blue = board.create('circle',[board.create('point',[4,-4],{visible: false}),0.7], {	strokeColor:'blue',frozen:true, fixed:true, method:'pointRadius',hasInnerPoints:true});
+
+// A function the we can tie to points so that their color changes.
+var colorDragListener = function() {
+ // this in this context should be the point.
+ if (JXG.Math.Geometry.distance([this.X(),this.Y()],[source.center.X(),source.center.Y()]) < source.Radius()) {
+  this.setAttribute({color:'black'});
+ } else if (JXG.Math.Geometry.distance([this.X(),this.Y()],[red.center.X(),red.center.Y()]) < red.Radius()) {
+  this.setAttribute({color:'red'});
+ } else if (JXG.Math.Geometry.distance([this.X(),this.Y()],[green.center.X(),green.center.Y()]) < green.Radius()) {
+  this.setAttribute({color:'green'});
+ } else if (JXG.Math.Geometry.distance([this.X(),this.Y()],[blue.center.X(),blue.center.Y()]) < blue.Radius()) {
+  this.setAttribute({color:'blue'});
+ }
+}
+
+// Another function to handle the release of dragged points and the storage of the state.
+var dropHandler = function() {
+ // this in this context should be the point.
+ var newOne = points.indexOf(this);
+ if (newOne == -1) {
+  // This is a new one depending on where it was dropped we do things.
+  if (JXG.Math.Geometry.distance([this.X(),this.Y()],[source.center.X(),source.center.Y()]) < source.Radius()) {
+   // When dropped into the source, reset the point.
+   this.moveTo([source.center.X(),source.center.Y()], 100);
+   this.setAttribute({color:'black'});
+  } else {
+   // it is now in play add it to the list.
+   points[points.length] = this;
+   // also initialise a new point in the source.
+   var p = board.create('point', [source.center.X(),source.center.Y()], {name:'',color:'black'});
+   p.on('drag',colorDragListener);
+   p.on('up',dropHandler);
+  }
+ } else {
+  if (JXG.Math.Geometry.distance([this.X(),this.Y()],[source.center.X(),source.center.Y()]) < source.Radius()) {
+   // When dropped into the source delete this point as this is an existing point.
+   points.splice(newOne, 1);
+   this.board.removeObject(this);
+  }
+  // Otherwise all fine.
+ }
+
+ // Then construct the state. Basically, map the points to a specific form, in this example the form is 
+ // a bit too complex as it includes an object/dictionary when a list would have worked but maybe this
+ // will come in handy elsewhere.
+ var newState = new Array();
+ for (i=0; i<points.length; i++) {
+  var P = {'x':points[i].X(),'y':points[i].Y(),'color':points[i].getAttribute('color')};
+  newState[i] = P;
+ }
+ theInput.value = JSON.stringify(newState);
+
+ // NOTE! You will need to do certain things to make the VLE around you know that things happen, 
+ // for this reason we need to generate a "change" event. In the case of Moodle and this question the event
+ // marks the form modified and causes a warning if the page is left through non saving routes.
+ var e = new Event('change');
+ theInput.dispatchEvent(e);
+}
+
+
+// This is the intial point.
+var p = board.create('point', [source.center.X(),source.center.Y()], {name:'',color:'black'});
+p.on('drag',colorDragListener);
+p.on('up',dropHandler);
+
+// Remember that the points from stored state must also be tied to the listeners if present.
+for (i=0; i<points.length; i++) {
+ points[i].on('drag',colorDragListener);
+ points[i].on('up',dropHandler);
+}
+
+// Always call board.update() at the end if you have bindings.
+board.update();
+
+// In this example we hide the input as it will get absurd very soon.
+document.getElementById(ans1Ref).style.display = 'none';
+[[/jsxgraph]]
+
+<p>Drag some points around and pres check, as expected the points stay in place. The feedback should also show you the raw stored state and some very simple numbers collected from it. You may wish to check the feedback logic but it has very little to show.</p>
+
+<p>[[input:ans1]] [[validation:ans1]]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text></text>
+    </generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.1000000</penalty>
+    <hidden>0</hidden>
+    <questionvariables>
+      <text></text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text>[[feedback:prt1]]</text>
+    </specificfeedback>
+    <questionnote>
+      <text></text>
+    </questionnote>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <matrixparens>[</matrixparens>
+    <variantsselectionseed></variantsselectionseed>
+    <input>
+      <name>ans1</name>
+      <type>string</type>
+      <tans><![CDATA[""]]></tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint></syntaxhint>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords></forbidwords>
+      <allowwords></allowwords>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>0</mustverify>
+      <showvalidation>0</showvalidation>
+      <options></options>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackvariables>
+        <text><![CDATA[/* First parse the input string, depending on what it is we can get a list, a stackmap, an integer, a float, a string or und if nothing is found. */
+parsed: stackjson_parse(ans1);
+/* As we will most likely get an list of stackmaps we can just split that list based on which of the elements have which colors like this. We may get und, do try to figure out why and when. */
+red:if is(parsed=und) then 0 else length(sublist(parsed, lambda([x], stackmap_get(x,"color")="red")));
+green:if is(parsed=und) then 0 else length(sublist(parsed, lambda([x], stackmap_get(x,"color")="green")));
+blue:if is(parsed=und) then 0 else length(sublist(parsed, lambda([x], stackmap_get(x,"color")="blue")));
+black:if is(parsed=und) then 0 else length(sublist(parsed, lambda([x], stackmap_get(x,"color")="black")));
+/* As an exercise you might want to evaluate the means of coordinates of each color group and draw a suitable picture in the feedback... note however that feedback plots cannot reference inputs. */
+
+/* STACK can also output JSON if need be and stackmap objects can be used in other places too, but are very inconvenient when dealing with modifications to deep structures. To find out more about what is available just check the "stackstrings.mac" file it defines the functions. */]]></text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>ans1</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p>In the input we have {@if is(parsed=und) then 0 else length(parsed)@} points. By color (red/green/blue/black) {@red@}/{@green@}/{@blue@}/{@black@}.</p>
+
+<p>The raw value of the input is <pre>{@ans1@}</pre></p>]]></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text></text>
+        </falsefeedback>
+      </node>
+    </prt>
+  </question>
+
+</quiz>

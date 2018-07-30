@@ -26,9 +26,13 @@
 defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->libdir . '/questionlib.php');
+require_once(__DIR__ . '/stack/input/factory.class.php');
+require_once(__DIR__ . '/stack/answertest/controller.class.php');
+require_once(__DIR__ . '/stack/cas/keyval.class.php');
+require_once(__DIR__ . '/stack/cas/castext.class.php');
 require_once(__DIR__ . '/stack/questiontest.php');
 require_once(__DIR__ . '/stack/graphlayout/graph.php');
-
+require_once(__DIR__ . '/lang/multilang.php');
 
 /**
  * Stack question type class.
@@ -37,6 +41,23 @@ require_once(__DIR__ . '/stack/graphlayout/graph.php');
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class qtype_stack extends question_type {
+
+    /** @var int array key into the results of get_input_names_from_question_text for the count of input placeholders. */
+    const INPUTS = 0;
+    /** @var int array key into the results of get_input_names_from_question_text for the count of validation placeholders. */
+    const VALIDATIONS = 1;
+
+    /** @var int the CAS seed using during validation. */
+    protected $seed = 1;
+
+    /** @var stack_options the CAS options using during validation. */
+    protected $options;
+
+    /**
+     * @var array prt name => stack_abstract_graph caches the result of
+     * {@link get_prt_graph()}.
+     */
+    protected $prtgraph = array();
 
     public function save_question($question, $fromform) {
 
@@ -62,8 +83,8 @@ class qtype_stack extends question_type {
         }
         $fromform->questionnote = stack_maths::replace_dollars($fromform->questionnote);
 
-        $prtnames = stack_utils::extract_placeholders(
-                $fromform->questiontext['text'] . $fromform->specificfeedback['text'], 'feedback');
+        $prtnames = array_keys($this->get_prt_names_from_question($fromform->questiontext['text'],
+                $fromform->specificfeedback['text']));
         foreach ($prtnames as $prt) {
             foreach ($fromform->{$prt . 'truefeedback'} as &$feedback) {
                 $feedback['text'] = stack_maths::replace_dollars($feedback['text']);
@@ -89,15 +110,18 @@ class qtype_stack extends question_type {
         if (!$options) {
             $options = new stdClass();
             $options->questionid = $fromform->id;
+            $options->stackversion = '';
             $options->questionvariables = '';
             $options->questionnote = '';
             $options->specificfeedback = '';
             $options->prtcorrect = '';
             $options->prtpartiallycorrect = '';
             $options->prtincorrect = '';
+            $options->stackversion = get_config('qtype_stack', 'version');
             $options->id = $DB->insert_record('qtype_stack_options', $options);
         }
 
+        $options->stackversion              = $fromform->stackversion;
         $options->questionvariables         = $fromform->questionvariables;
         $options->specificfeedback          = $this->import_or_save_files($fromform->specificfeedback,
                     $context, 'qtype_stack', 'specificfeedback', $fromform->id);
@@ -123,7 +147,7 @@ class qtype_stack extends question_type {
         $options->variantsselectionseed     = $fromform->variantsselectionseed;
         $DB->update_record('qtype_stack_options', $options);
 
-        $inputnames = stack_utils::extract_placeholders($fromform->questiontext, 'input');
+        $inputnames = array_keys($this->get_input_names_from_question_text_lang($fromform->questiontext));
         $inputs = $DB->get_records('qtype_stack_inputs',
                 array('questionid' => $fromform->id), '', 'name, id, questionid');
         $questionhasinputs = false;
@@ -171,8 +195,7 @@ class qtype_stack extends question_type {
             $DB->set_field('question', 'length', 0, array('id' => $fromform->id));
         }
 
-        $prtnames = stack_utils::extract_placeholders(
-                $fromform->questiontext . $options->specificfeedback, 'feedback');
+        $prtnames = array_keys($this->get_prt_names_from_question($fromform->questiontext, $options->specificfeedback));
 
         $prts = $DB->get_records('qtype_stack_prts',
                 array('questionid' => $fromform->id), '', 'name, id, questionid');
@@ -377,6 +400,7 @@ class qtype_stack extends question_type {
     protected function initialise_question_instance(question_definition $question, $questiondata) {
         parent::initialise_question_instance($question, $questiondata);
 
+        $question->stackversion              = $questiondata->options->stackversion;
         $question->questionvariables         = $questiondata->options->questionvariables;
         $question->questionnote              = $questiondata->options->questionnote;
         $question->specificfeedback          = $questiondata->options->specificfeedback;
@@ -400,7 +424,7 @@ class qtype_stack extends question_type {
         $question->options->set_option('assumereal',  (bool) $questiondata->options->assumereal);
 
         $requiredparams = stack_input_factory::get_parameters_used();
-        foreach (stack_utils::extract_placeholders($question->questiontext, 'input') as $name) {
+        foreach (array_keys($this->get_input_names_from_question_text($question->questiontext)) as $name) {
             $inputdata = $questiondata->inputs[$name];
             $allparameters = array(
                 'boxWidth'        => $inputdata->boxsize,
@@ -438,8 +462,8 @@ class qtype_stack extends question_type {
                     $question->name);
         }
 
-        $combinedtext = $question->questiontext . $question->specificfeedback;
-        foreach (stack_utils::extract_placeholders($combinedtext, 'feedback') as $name) {
+        $prtnames = array_keys($this->get_prt_names_from_question($question->questiontext, $question->specificfeedback));
+        foreach ($prtnames as $name) {
             $prtdata = $questiondata->prts[$name];
             $nodes = array();
             foreach ($prtdata->nodes as $nodedata) {
@@ -966,6 +990,9 @@ class qtype_stack extends question_type {
         $output = '';
 
         $options = $questiondata->options;
+        $output .= "    <stackversion>\n";
+        $output .= "      " . $format->writetext($options->stackversion, 0);
+        $output .= "    </stackversion>\n";
         $output .= "    <questionvariables>\n";
         $output .= "      " . $format->writetext($options->questionvariables, 0);
         $output .= "    </questionvariables>\n";
@@ -1086,6 +1113,7 @@ class qtype_stack extends question_type {
         $fromform = $format->import_headers($xml);
         $fromform->qtype = $this->name();
 
+        $fromform->stackversion          = $format->getpath($xml, array('#', 'stackversion', 0, '#', 'text', 0, '#'), '', true);
         $fromform->questionvariables     = $format->getpath($xml, array('#', 'questionvariables',
                                                             0, '#', 'text', 0, '#'), '', true);
         $fromform->specificfeedback      = $this->import_xml_text($xml, 'specificfeedback', $format, $fromform->questiontextformat);
@@ -1274,5 +1302,865 @@ class qtype_stack extends question_type {
         }
 
         return array($number, $testcase);
+    }
+
+    /*
+     * This method takes Moodle's "fromform" data type and validates the question.  All question level validation and warnings
+     * should be in this method.
+     * Much of this code was in edit_stack_form.php (until Jan 2018).
+     * See https://docs.moodle.org/dev/Question_data_structures for why we chose the "fromform" data structure,
+     * not "question" objects.
+     *
+     * @param array $fromform Moodle's "fromform" data type.
+     * @param array $errors Existing partial error array.
+     * @return array($errors, $warnings).
+     */
+    public function validate_fromform($fromform, $errors) {
+        $warnings = array();
+
+        $fixingdollars = array_key_exists('fixdollars', $fromform);
+
+        $this->options = new stack_options();
+        $this->options->set_option('multiplicationsign', $fromform['multiplicationsign']);
+        $this->options->set_option('complexno',          $fromform['complexno']);
+        $this->options->set_option('inversetrig',        $fromform['inversetrig']);
+        $this->options->set_option('matrixparens',       $fromform['matrixparens']);
+        $this->options->set_option('sqrtsign',    (bool) $fromform['sqrtsign']);
+        $this->options->set_option('simplify',    (bool) $fromform['questionsimplify']);
+        $this->options->set_option('assumepos',   (bool) $fromform['assumepositive']);
+        $this->options->set_option('assumereal',  (bool) $fromform['assumereal']);
+
+        // We slightly break the usual conventions of validation, in that rather
+        // than building up $errors as an array of strings, we initially build it
+        // up as an array of arrays, then at the end remove any empty arrays,
+        // and implode (' ', ...) any arrays that are non-empty. This makes our
+        // rather complex validation easier to implement.
+
+        // Question text.
+        $errors['questiontext'] = array();
+        $errors = $this->validate_cas_text($errors, $fromform['questiontext']['text'], 'questiontext', $fixingdollars);
+
+        // Check multi-language versions all have the same feedback tags.
+        $ml = new stack_multilang();
+        $combinedtext = $fromform['questiontext']['text'] . $fromform['specificfeedback']['text'];
+        $langs = $ml->languages_used($combinedtext);
+        if ($langs == array()) {
+            $prts = $this->get_prt_names_from_question($fromform['questiontext']['text'], $fromform['specificfeedback']['text']);
+        } else {
+            $prtsbylang = array();
+            foreach ($langs as $lang) {
+                $prtsbylang[$lang] = $this->get_prt_names_from_question_lang($ml->filter($combinedtext, $lang));
+            }
+            // Check they are all equal, but don't fuss about exact differences as feedback.
+            $prts = reset($prtsbylang);
+            $failed = false;
+            foreach ($langs as $lang) {
+                if ($prtsbylang[$lang] != $prts) {
+                    $failed = true;
+                }
+            }
+            if ($failed) {
+                $errors['questiontext'][] = stack_string('questiontextfeedbacklanguageproblems');
+            }
+        }
+
+        // Check for whitespace following placeholders.
+        $sloppytags = $this->validation_get_sloppy_tags($fromform['questiontext']['text']);
+        foreach ($sloppytags as $sloppytag) {
+            $errors['questiontext'][] = stack_string(
+                    'questiontextplaceholderswhitespace', $sloppytag);
+        }
+
+        // Check multi-language versions all have the same inputs and validation tags.
+        $ml = new stack_multilang();
+        $langs = $ml->languages_used($fromform['questiontext']['text']);
+        if ($langs == array()) {
+            $inputs = $this->get_input_names_from_question_text_lang($fromform['questiontext']['text']);
+        } else {
+            $inputsbylang = array();
+            foreach ($langs as $lang) {
+                $inputsbylang[$lang] = $this->get_input_names_from_question_text_lang(
+                        $ml->filter($fromform['questiontext']['text'], $lang));
+            }
+            // Check they are all equal, but don't fuss about exact differences as feedback.
+            $inputs = reset($inputsbylang);
+            $failed = false;
+            foreach ($langs as $lang) {
+                if ($inputsbylang[$lang] != $inputs) {
+                    $failed = true;
+                }
+            }
+            if ($failed) {
+                $errors['questiontext'][] = stack_string('inputlanguageproblems');
+            }
+        }
+
+        // Check input placholders appear with the correct number of times in the question text.
+        foreach ($inputs as $inputname => $counts) {
+            list($numinputs, $numvalidations) = $counts;
+
+            if ($numinputs == 0 && $numvalidations == 0) {
+                if (!$fromform[$inputname . 'deleteconfirm']) {
+                    $errors['questiontext'][] = stack_string('inputremovedconfirmbelow', $inputname);
+                }
+                continue;
+            }
+
+            if ($numinputs == 0) {
+                $errors['questiontext'][] = stack_string(
+                        'questiontextmustcontain', '[[input:' . $inputname . ']]');
+            } else if ($numinputs > 1) {
+                $errors['questiontext'][] = stack_string(
+                        'questiontextonlycontain', '[[input:' . $inputname . ']]');
+            }
+
+            if ($numvalidations == 0) {
+                $errors['questiontext'][] = stack_string(
+                        'questiontextmustcontain', '[[validation:' . $inputname . ']]');
+            } else if ($numvalidations > 1) {
+                $errors['questiontext'][] = stack_string(
+                        'questiontextonlycontain', '[[validation:' . $inputname . ']]');
+            }
+        }
+
+        if (empty($inputs) && !empty($prts)) {
+            $errors['questiontext'][] = stack_string('noprtsifnoinputs');
+        }
+
+        // Question variables.
+        $errors = $this->validate_cas_keyval($errors, $fromform['questionvariables'], 'questionvariables',
+                array_keys($inputs));
+
+        // Default mark.
+        if (empty($inputs) && $fromform['defaultmark'] != 0) {
+            $errors['defaultmark'][] = stack_string('defaultmarkzeroifnoprts');
+        }
+
+        // Penalty.
+        $penalty = $fromform['penalty'];
+        if (!is_numeric($penalty) || $penalty < 0 || $penalty > 1) {
+            $errors['penalty'][] = stack_string('penaltyerror');
+        }
+
+        // Specific feedback.
+        $errors['specificfeedback'] = array();
+        $errors = $this->validate_cas_text($errors, $fromform['specificfeedback']['text'], 'specificfeedback', $fixingdollars);
+
+        $errors['specificfeedback'] += $this->validation_check_no_placeholders(
+                stack_string('specificfeedback'), $fromform['specificfeedback']['text'],
+                array('input', 'validation'));
+
+        // General feedback.
+        $errors['generalfeedback'] = array();
+        $errors = $this->validate_cas_text($errors, $fromform['generalfeedback']['text'], 'generalfeedback', $fixingdollars);
+        $errors['generalfeedback'] += $this->validation_check_no_placeholders(
+                get_string('generalfeedback', 'question'), $fromform['generalfeedback']['text']);
+
+        // Question note.
+        $errors['questionnote'] = array();
+        if ('' == $fromform['questionnote']) {
+            $foundrandom = false;
+            if (!(false === strpos($fromform['questionvariables'], 'rand'))) {
+                $foundrandom = true;
+            }
+            if (!(false === strpos($fromform['questionvariables'], 'multiselqn'))) {
+                $foundrandom = true;
+            }
+            if ($foundrandom) {
+                $errors['questionnote'][] = stack_string('questionnotempty');
+            }
+        } else {
+            // Note, the 'questionnote' does not have an editor field and hence no 'text' sub-clause.
+            $errors = $this->validate_cas_text($errors, $fromform['questionnote'], 'questionnote', $fixingdollars);
+        }
+
+        $errors['questionnote'] += $this->validation_check_no_placeholders(
+                stack_string('questionnote'), $fromform['questionnote']);
+
+        // 2) Validate all inputs.
+        $stackinputfactory = new stack_input_factory();
+        foreach ($inputs as $inputname => $counts) {
+            list($numinputs, $numvalidations) = $counts;
+
+            if ($numinputs == 0 && $numvalidations == 0 && !$fromform[$inputname . 'deleteconfirm']) {
+                $errors[$inputname . 'deleteconfirm'][] = stack_string('youmustconfirm');
+            }
+
+            if ($numinputs == 0 && $numvalidations == 0) {
+                // Input is being deleted. Don't show validation errors.
+                continue;
+            }
+
+            if (strlen($inputname) > 18 && !isset($fromform[$inputname . 'deleteconfirm'])) {
+                $errors['questiontext'][] = stack_string('inputnamelength', $inputname);
+            }
+
+            if ($fromform[$inputname . 'mustverify'] and $fromform[$inputname . 'showvalidation'] == 0) {
+                $errors[$inputname . 'mustverify'][] = stack_string('mustverifyshowvalidation');
+            }
+
+            if (array_key_exists($inputname . 'modelans', $fromform)) {
+                $errors = $this->validate_cas_string($errors,
+                        $fromform[$inputname . 'modelans'], $inputname . 'modelans', $inputname . 'modelans');
+            }
+
+            $inputtype = $fromform[$inputname . 'type'];
+            $stackinput = $stackinputfactory->make($inputtype, $inputname,
+                    $fromform[$inputname . 'modelans'], null, null, false);
+            $parameters = array();
+            foreach ($stackinputfactory->get_parameters_fromform_mapping($inputtype) as $key => $param) {
+                $paramvalue = $stackinputfactory->convert_parameter_fromform($key, $fromform[$inputname .$param]);
+                $parameters[$key] = $paramvalue;
+                if ('options' !== $key) {
+                    $validityresult = $stackinput->validate_parameter($key, $paramvalue);
+                    if (!($validityresult === true)) {
+                        $errors[$inputname . $param][] = stack_string('inputinvalidparamater');
+                    }
+                }
+            }
+            // Create an input with these parameters, in particular the 'options', and validate that.
+            $stackinput = $stackinputfactory->make($inputtype, $inputname,
+                    $fromform[$inputname . 'modelans'], null, $parameters, false);
+            $stackinput->validate_extra_options();
+            $errors[$inputname . 'options'] = $stackinput->get_errors();
+        }
+
+        // 3) Validate all prts.
+        foreach ($prts as $prtname => $count) {
+            if ($count == 0) {
+                if (!$fromform[$prtname . 'prtdeleteconfirm']) {
+                    $errors['specificfeedback'][] = stack_string('prtremovedconfirmbelow', $prtname);
+                    $errors[$prtname . 'prtdeleteconfirm'][] = stack_string('youmustconfirm');
+                }
+                // Don't show validation errors relating to a PRT that is to be deleted.
+                continue;
+
+            } else if ($count > 1) {
+                $errors['specificfeedback'][] = stack_string(
+                        'questiontextfeedbackonlycontain', '[[feedback:' . $prtname . ']]');
+            }
+
+            $errors = $this->validate_prt($errors, $fromform, $prtname, $fixingdollars);
+
+        }
+
+        // 4) Validate all hints.
+        foreach ($fromform['hint'] as $index => $hint) {
+            $errors = $this->validate_cas_text($errors, $hint['text'], 'hint[' . $index . ']', $fixingdollars);
+        }
+
+        // Clear out any empty $errors elements, ready for the next check.
+        foreach ($errors as $field => $messages) {
+            if (empty($messages)) {
+                unset($errors[$field]);
+            }
+        }
+
+        // If everything else is OK, try executing the CAS code to check for errors.
+        if (empty($errors)) {
+            $errors = $this->validate_question_cas_code($errors, $fromform, $fixingdollars);
+        }
+
+        // Convert the $errors array from our array of arrays format to the
+        // standard array of strings format.
+        foreach ($errors as $field => $messages) {
+            if ($messages) {
+                $errors[$field] = implode(' ', $messages);
+            } else {
+                unset($errors[$field]);
+            }
+        }
+
+        return array($errors, $warnings);
+    }
+
+    /**
+     * Validate a CAS string field to make sure that: 1. it fits in the DB, and
+     * 2. that it is syntactically valid.
+     * @param array $errors the errors array that validation is assembling.
+     * @param string $value the submitted value validate.
+     * @param string $fieldname the name of the field add any errors to.
+     * @param string $savesession the array key to save the string to in $this->validationcasstrings.
+     * @param bool|string $notblank false means do nothing (default). A string
+     *      will validate that the field is not blank, and if it is, display that error.
+     * @param int $maxlength the maximum allowable length. Defaults to 255.
+     * @return array updated $errors array.
+     */
+    protected function validate_cas_string($errors, $value, $fieldname, $savesession, $notblank = true, $maxlength = 255) {
+
+        if ($notblank && '' === trim($value)) {
+            $errors[$fieldname][] = stack_string('nonempty');
+
+        } else if (strlen($value) > $maxlength) {
+            $errors[$fieldname][] = stack_string('strlengtherror');
+
+        } else {
+            $casstring = new stack_cas_casstring($value);
+            if (!$casstring->get_valid('t')) {
+                $errors[$fieldname][] = $casstring->get_errors();
+            }
+        }
+
+        return $errors;
+    }
+
+    /**
+     * Validate a CAS text field.
+     * @param array $errors the errors array that validation is assembling.
+     * @param string $value the submitted value validate.
+     * @param string $fieldname the name of the field add any errors to.
+     * @param string $savesession the array key to save the session to in $this->validationcasstrings.
+     * @return array updated $errors array.
+     */
+    protected function validate_cas_text($errors, $value, $fieldname, $fixingdollars, $session = null) {
+        if (!$fixingdollars && strpos($value, '$$') !== false) {
+            $errors[$fieldname][] = stack_string('forbiddendoubledollars');
+        }
+
+        $castext = new stack_cas_text($value, $session, $this->seed, 't');
+        if (!$castext->get_valid()) {
+            $errors[$fieldname][] = $castext->get_errors();
+            return $errors;
+        }
+
+        // Validate any [[facts:...]] tags.
+        $unrecognisedtags = stack_fact_sheets::get_unrecognised_tags($value);
+        if ($unrecognisedtags) {
+            $errors[$fieldname][] = stack_string('unrecognisedfactstags',
+                    array('tags' => implode(', ', $unrecognisedtags)));
+            return $errors;
+        }
+
+        if ($session) {
+            $display = $castext->get_display_castext();
+            if ($castext->get_errors()) {
+                $errors[$fieldname][] = $castext->get_errors();
+                return $errors;
+            }
+        }
+
+        return $errors;
+    }
+
+    /**
+     * Validate a CAS string field to make sure that: 1. it fits in the DB, and
+     * 2. that it is syntactically valid.
+     * @param array $errors the errors array that validation is assembling.
+     * @param string $value the submitted value validate.
+     * @param string $fieldname the name of the field add any errors to.
+     * @return array updated $errors array.
+     */
+    protected function validate_cas_keyval($errors, $value, $fieldname, $inputs = null) {
+        if ('' == trim($value)) {
+            return $errors;
+        }
+
+        $keyval = new stack_cas_keyval($value, $this->options, $this->seed, 't');
+        if (!$keyval->get_valid($inputs)) {
+            $errors[$fieldname][] = $keyval->get_errors();
+        }
+
+        return $errors;
+    }
+
+    /**
+     * Validate all the maxima code in the question.
+     *
+     * This is done last, and separate from the other validation for two reasons:
+     * 1. The rest of the validation is organised to validate the form in order,
+     *    to match the way the form is defined. Here we need to validate in the
+     *    order that the CAS is evaluated at run-time.
+     * 2. This is the slowest part of validation, so we only do it at the end if
+     *    everything else is OK.
+     *
+     * @param array $errors the errors array that validation is assembling.
+     * @param array $fromform the submitted data to validate.
+     * @return array updated $errors array.
+     */
+    protected function validate_question_cas_code($errors, $fromform, $fixingdollars) {
+
+        $keyval = new stack_cas_keyval($fromform['questionvariables'], $this->options, $this->seed, 't');
+        $keyval->instantiate();
+        $session = $keyval->get_session();
+        if ($session->get_errors()) {
+            $errors['questionvariables'][] = $session->get_errors();
+            return $errors;
+        }
+
+        // Instantiate all text fields and look for errors.
+        $castextfields = array('questiontext', 'specificfeedback', 'generalfeedback');
+        foreach ($castextfields as $field) {
+            $errors = $this->validate_cas_text($errors, $fromform[$field]['text'], $field, $fixingdollars, clone $session);
+        }
+        $errors = $this->validate_cas_text($errors, $fromform['questionnote'], 'questionnote', $fixingdollars, clone $session);
+
+        // Make a list of all inputs, instantiate it and then look for errors.
+        $inputs = array_keys($this->get_input_names_from_question_text($fromform['questiontext']['text']));
+        $inputvalues = array();
+        foreach ($inputs as $inputname) {
+            if (array_key_exists($inputname . 'modelans', $fromform)) {
+                $cs = new stack_cas_casstring($inputname.':'.$fromform[$inputname . 'modelans']);
+                $cs->get_valid('t');
+                $inputvalues[] = $cs;
+            }
+        }
+        $inputsession = clone $session;
+        $inputsession->add_vars($inputvalues);
+        $inputsession->instantiate();
+
+        $getdebuginfo = false;
+        foreach ($inputs as $inputname) {
+            if ($inputsession->get_errors_key($inputname)) {
+                $errors[$inputname . 'modelans'][] = $inputsession->get_errors_key($inputname);
+                if ('' == $inputsession->get_value_key($inputname)) {
+                    $getdebuginfo = true;
+                }
+                // TODO: Send the acutal value to the input, and ask it to validate it.
+                // For example, the matrix input type could check that the model answer is a matrix.
+            }
+
+            if ($fromform[$inputname . 'options'] && $inputsession->get_errors_key('optionsfor' . $inputname)) {
+                $errors[$inputname . 'options'][] = $inputsession->get_errors_key('optionsfor' . $inputname);
+            }
+            // ... else TODO: Send the acutal value to the input, and ask it to validate it.
+        }
+
+        if ($getdebuginfo) {
+            $errors['questionvariables'][] = $inputsession->get_debuginfo();
+        }
+
+        // At this point if we have errors, especially with inputs, there is no point in executing any of the PRTs.
+        if (!empty($errors)) {
+            return $errors;
+        }
+
+        // TODO: loop over all the PRTs in a similar manner....
+        // Remember, to clone the inputsession as the base session for each PRT.
+        // This will have all the teacher's answers instantiated.
+        // Otherwise we are likley to do illigitimate things to the various inputs.
+
+        return $errors;
+    }
+
+    /**
+     * Tags which have extra whitespace within them. E.g. [[input: ans1]] are forbidden.
+     * @return array of tags.
+     */
+    public function validation_get_sloppy_tags($text) {
+
+        $sloppytags = stack_utils::extract_placeholders_sloppy($text, 'input');
+        $sloppytags = array_merge(stack_utils::extract_placeholders_sloppy($text, 'validation'), $sloppytags);
+        $sloppytags = array_merge(stack_utils::extract_placeholders_sloppy($text, 'prt'), $sloppytags);
+
+        return $sloppytags;
+    }
+
+    /**
+     * Check a form field to ensure it does not contain any placeholders of given types.
+     * @param string $fieldname the name of this field. Used in the error messages.
+     * @param value $value the value to check.
+     * @param array $placeholders types to check for. By default 'input', 'validation' and 'feedback'.
+     * @return array of problems (so an empty array means all is well).
+     */
+    protected function validation_check_no_placeholders($fieldname, $value,
+            $placeholders = array('input', 'validation', 'feedback')) {
+        $problems = array();
+        foreach ($placeholders as $placeholder) {
+            if (stack_utils::extract_placeholders($value, 'input')) {
+                $problems[] = stack_string('fieldshouldnotcontainplaceholder',
+                        array('field' => $fieldname, 'type' => $placeholder));
+            }
+        }
+        return $problems;
+    }
+
+    /**
+     * Validate the fields for a given PRT
+     * @param array $errors the error so far. This array is added to and returned.
+     * @param array $fromform the submitted data to validate.
+     * @param string $prtname the name of the PRT to validate.
+     * @return array the update $errors array.
+     */
+    protected function validate_prt($errors, $fromform, $prtname, $fixingdollars) {
+
+        if (strlen($prtname) > 18 && !isset($fromform[$prtname . 'prtdeleteconfirm'])) {
+            $errors['specificfeedback'][] = stack_string('prtnamelength', $prtname);
+        }
+
+        if (!array_key_exists($prtname . 'feedbackvariables', $fromform)) {
+            // This happens when you edit the question text to add more PRTs.
+            // The user added a new PRT and did not click "Verify the question
+            // text and update the form". We need to fail validation, so the
+            // form is re-displayed so that this PRT can be configured.
+            $errors[$prtname . 'value'][] = stack_string('prtmustbesetup');
+            return $errors;
+        }
+
+        // Check the fields that belong to the PRT as a whole.
+        $inputs = array_keys($this->get_input_names_from_question_text($fromform['questiontext']['text']));
+        $errors = $this->validate_cas_keyval($errors, $fromform[$prtname . 'feedbackvariables'],
+                $prtname . 'feedbackvariables', $inputs);
+
+        if ($fromform[$prtname . 'value'] < 0) {
+            $errors[$prtname . 'value'][] = stack_string('questionvaluepostive');
+        }
+
+        // Check that answernotes are not duplicated.
+        $answernotes = array_merge($fromform[$prtname . 'trueanswernote'], $fromform[$prtname . 'falseanswernote']);
+        if (count(array_unique($answernotes)) < count($answernotes)) {
+            // Strictly speaking this should not be in the feedback variables.  But there is no general place to put this error.
+            $errors[$prtname . 'feedbackvariables'][] = stack_string('answernoteunique');
+        }
+
+        // Check the nodes.
+        $question = null;
+        if (property_exists($this, 'question')) {
+            $question = $this->question;
+        }
+        $graph = $this->get_prt_graph($prtname, $question);
+        $textformat = null;
+        foreach ($graph->get_nodes() as $node) {
+            $nodekey = $node->name - 1;
+
+            // Check the fields the belong to this node individually.
+            $errors = $this->validate_prt_node($errors, $fromform, $prtname, $nodekey, $fixingdollars);
+
+            if (is_null($textformat)) {
+                $textformat = $fromform[$prtname . 'truefeedback'][$nodekey]['format'];
+            }
+            if ($textformat != $fromform[$prtname . 'truefeedback'][$nodekey]['format']) {
+                $errors[$prtname . 'truefeedback[' . $nodekey . ']'][]
+                    = stack_string('allnodefeedbackmustusethesameformat');
+            }
+        }
+
+        // Check that the nodes form a directed acyclic graph.
+        $roots = $graph->get_roots();
+
+        // There should only be a single root. If there is more than one, then we
+        // assume that the first one is the intended root, and flat the others as unused.
+        array_shift($roots);
+        foreach ($roots as $node) {
+            $errors[$prtname . 'node[' . ($node->name - 1) . ']'][] = stack_string('nodenotused');
+        }
+        foreach ($graph->get_broken_cycles() as $backlink => $notused) {
+            list($nodename, $direction) = explode('|', $backlink);
+            if ($direction == stack_abstract_graph::LEFT) {
+                $field = 'nodewhentrue';
+            } else {
+                $field = 'nodewhenfalse';
+            }
+            $errors[$prtname.$field.'['.($nodename - 1).']'][] = stack_string('nodeloopdetected');
+        }
+
+        return $errors;
+    }
+
+    /**
+     * Validate the fields for a given PRT node.
+     * @param array $errors the error so far. This array is added to and returned.
+     * @param array $fromform the submitted data to validate.
+     * @param string $prtname the name of the PRT to validate.
+     * @param string $nodekey the name of the node to validate.
+     * @return array the update $errors array.
+     */
+    protected function validate_prt_node($errors, $fromform, $prtname, $nodekey, $fixingdollars) {
+        $nodegroup = $prtname . 'node[' . $nodekey . ']';
+
+        $errors = $this->validate_cas_string($errors, $fromform[$prtname . 'sans'][$nodekey],
+                $nodegroup, $prtname . 'sans' . $nodekey, 'sansrequired');
+
+        $errors = $this->validate_cas_string($errors, $fromform[$prtname . 'tans'][$nodekey],
+                $nodegroup, $prtname . 'tans' . $nodekey, 'tansrequired');
+
+        $answertest = new stack_ans_test_controller($fromform[$prtname . 'answertest'][$nodekey]);
+        if ($answertest->required_atoptions()) {
+            $opt = trim($fromform[$prtname . 'testoptions'][$nodekey]);
+
+            if ('' === trim($opt)) {
+                $errors[$nodegroup][] = stack_string('testoptionsrequired');
+
+            } else if (strlen($opt > 255)) {
+                $errors[$nodegroup][] = stack_string('testoptionsinvalid',
+                        stack_string('strlengtherror'));
+
+            } else {
+                // TODO capture this for later execution.
+                list($valid, $message) = $answertest->validate_atoptions($opt);
+                if (!$valid) {
+                    $errors[$nodegroup][] = stack_string('testoptionsinvalid', $message);
+                }
+            }
+        }
+
+        foreach (array('true', 'false') as $branch) {
+            $branchgroup = $prtname . 'nodewhen' . $branch . '[' . $nodekey . ']';
+
+            $score = $fromform[$prtname . $branch . 'score'][$nodekey];
+            if (!is_numeric($score) || $score < 0 || $score > 1) {
+                 $errors[$branchgroup][] = stack_string('scoreerror');
+            }
+
+            $penalty = $fromform[$prtname . $branch . 'penalty'][$nodekey];
+            if ('' != $penalty && (!is_numeric($penalty) || $penalty < 0 || $penalty > 1)) {
+                $errors[$branchgroup][] = stack_string('penaltyerror2');
+            }
+
+            $answernote = $fromform[$prtname . $branch . 'answernote'][$nodekey];
+            if ('' == $answernote) {
+                $errors[$branchgroup][] = stack_string('answernoterequired');
+            } else if (strstr($answernote, '|') !== false) {
+                $errors[$branchgroup][] = stack_string('answernote_err');
+                foreach ($fromform[$prtname.$branch.'answernote'] as $key => $strin) {
+                    if ('' == trim($strin)) {
+                        $interror[$prtname.'nodewhen'.$branch.'['.$key.']'][] = stack_string('answernoterequired');
+                    } else if (strstr($strin, '|') !== false) {
+                        $nodename = $key + 1;
+                        $interror[$prtname.'nodewhen'.$branch.'['.$key.']'][] = stack_string('answernote_err');
+                    }
+                }
+            }
+
+            $errors = $this->validate_cas_text($errors, $fromform[$prtname . $branch . 'feedback'][$nodekey]['text'],
+                    $prtname . $branch . 'feedback[' . $nodekey . ']', $fixingdollars);
+        }
+
+        return $errors;
+    }
+
+    /**
+     * This method is needed for validation, and to construct the editing form.
+     * @return array of the input names that currently appear in the question text.
+     */
+    public function get_input_names_from_question_text($questiontext) {
+        $ml = new stack_multilang();
+        $langs = $ml->languages_used($questiontext);
+        if ($langs == array()) {
+            return $this->get_input_names_from_question_text_lang($questiontext);
+        }
+
+        // At this point, all languages are assumed to have the same inputs.
+        $lang = reset($langs);
+        return($this->get_input_names_from_question_text_lang($ml->filter($questiontext, $lang)));
+    }
+
+    private function get_input_names_from_question_text_lang($questiontext) {
+        $inputs = stack_utils::extract_placeholders($questiontext, 'input');
+        $validations = stack_utils::extract_placeholders($questiontext, 'validation');
+        $inputnames = array();
+
+        $data = data_submitted();
+        if ($data) {
+            foreach (get_object_vars($data) as $name => $value) {
+                if (preg_match('~(' . stack_utils::VALID_NAME_REGEX . ')modelans~', $name, $matches)) {
+                    $inputnames[$matches[1]] = array(0, 0);
+                }
+            }
+        }
+
+        foreach ($inputs as $inputname) {
+            if (!array_key_exists($inputname, $inputnames)) {
+                $inputnames[$inputname] = array(0, 0);
+            }
+            $inputnames[$inputname][self::INPUTS] += 1;
+        }
+
+        foreach ($validations as $inputname) {
+            if (!array_key_exists($inputname, $inputnames)) {
+                $inputnames[$inputname] = array(0, 0);
+            }
+            $inputnames[$inputname][self::VALIDATIONS] += 1;
+        }
+
+        return $inputnames;
+    }
+
+    /**
+     * This method is needed for validation, and to construct the editing form.
+     * @return array of the PRT names that currently appear in the question
+     *      text and specific feedback.
+     */
+    public function get_prt_names_from_question($questiontext, $specificfeedback) {
+        $ml = new stack_multilang();
+        $langs = $ml->languages_used($questiontext.$specificfeedback);
+        if ($langs == array()) {
+            return $this->get_prt_names_from_question_lang($questiontext.$specificfeedback);
+        }
+
+        // At this point, all languages are assumed to have the same prts.
+        $lang = reset($langs);
+        return($this->get_prt_names_from_question_lang($ml->filter($questiontext.$specificfeedback, $lang)));
+    }
+
+    private function get_prt_names_from_question_lang($text) {
+        $prts = stack_utils::extract_placeholders($text, 'feedback');
+        $prtnames = array();
+
+        $data = data_submitted();
+        if ($data) {
+            foreach (get_object_vars($data) as $name => $value) {
+                if (preg_match('~(' . stack_utils::VALID_NAME_REGEX . ')feedbackvariables~', $name, $matches)) {
+                    $prtnames[$matches[1]] = 0;
+                }
+            }
+        }
+
+        foreach ($prts as $name) {
+            if (!array_key_exists($name, $prtnames)) {
+                $prtnames[$name] = 0;
+            }
+            $prtnames[$name] += 1;
+        }
+        return $prtnames;
+    }
+
+    /**
+     * Get a list of the PRT notes that should be present for a given PRT.
+     * @param string $prtname the name of a PRT.
+     * @param $question the question itself.
+     * @return array list of nodes that should be present in the form definitino for this PRT.
+     */
+    public function get_prt_graph($prtname, $question) {
+        if (array_key_exists($prtname, $this->prtgraph)) {
+            return $this->prtgraph[$prtname];
+        }
+
+        // If the form has been submitted and is being redisplayed, and this is
+        // an existing PRT, base things on the submitted data.
+        $submitted = optional_param_array($prtname . 'truenextnode', null, PARAM_RAW);
+        if ($submitted) {
+            $truescoremode  = optional_param_array($prtname . 'truescoremode',  null, PARAM_RAW);
+            $truescore      = optional_param_array($prtname . 'truescore',      null, PARAM_RAW);
+            $falsenextnode  = optional_param_array($prtname . 'falsenextnode',  null, PARAM_RAW);
+            $falsescoremode = optional_param_array($prtname . 'falsescoremode', null, PARAM_RAW);
+            $falsescore     = optional_param_array($prtname . 'falsescore',     null, PARAM_RAW);
+            $graph = new stack_abstract_graph();
+
+            $deletednode = null;
+            $lastkey = -1;
+            foreach ($submitted as $key => $truenextnode) {
+                if (optional_param($prtname . 'nodedelete' . $key, false, PARAM_BOOL)) {
+                    // For deleted nodes, we add them to the tree anyway, and
+                    // then remove them again below. We have to do it that way
+                    // because we also need to delete links that point to the
+                    // deleted node.
+                    $deletednode = $key;
+                }
+
+                if ($truenextnode == -1 || !array_key_exists($truenextnode, $submitted)) {
+                    $left = null;
+                } else {
+                    $left = $truenextnode + 1;
+                }
+                if ($falsenextnode[$key] == -1 || !array_key_exists($falsenextnode[$key], $submitted)) {
+                    $right = null;
+                } else {
+                    $right = $falsenextnode[$key] + 1;
+                }
+                $graph->add_node($key + 1, $left, $right,
+                        $truescoremode[$key] . round($truescore[$key], 2),
+                        $falsescoremode[$key] . round($falsescore[$key], 2),
+                        '#fgroup_id_' . $prtname . 'node_' . $key);
+
+                $lastkey = max($lastkey, $key);
+            }
+
+            if (optional_param($prtname . 'nodeadd', false, PARAM_BOOL)) {
+                $graph->add_node($lastkey + 2, null, null, '+0', '-0',
+                        '#fgroup_id_' . $prtname . 'node_' . $lastkey + 1);
+            }
+
+            if (!is_null($deletednode)) {
+                $graph->remove_node($deletednode + 1);
+            }
+
+            $graph->layout();
+            $this->prtgraph[$prtname] = $graph;
+            return $graph;
+        }
+
+        // Otherwise, if an existing question is being edited, and this is an
+        // existing PRT, base things on the existing question definition.
+        if (!empty($question->prts[$prtname]->nodes)) {
+            $graph = new stack_abstract_graph();
+            foreach ($question->prts[$prtname]->nodes as $node) {
+                if ($node->truenextnode == -1) {
+                    $left = null;
+                } else {
+                    $left = $node->truenextnode + 1;
+                }
+                if ($node->falsenextnode == -1) {
+                    $right = null;
+                } else {
+                    $right = $node->falsenextnode + 1;
+                }
+                $graph->add_node($node->nodename + 1, $left, $right,
+                        $node->truescoremode . round($node->truescore, 2),
+                        $node->falsescoremode . round($node->falsescore, 2),
+                        '#fgroup_id_' . $prtname . 'node_' . $node->nodename);
+            }
+            $graph->layout();
+            $this->prtgraph[$prtname] = $graph;
+            return $graph;
+        }
+
+        // Otherwise, it is a new PRT. Just one node.
+        $graph = new stack_abstract_graph();
+        $graph->add_node('1', null, null, '=1', '=0', '#fgroup_id_' . $prtname . 'node_0');
+        $graph->layout();
+        $this->prtgraph[$prtname] = $graph;
+        return $graph;
+    }
+
+    /**
+     * Helper method to get the list of inputs required by a PRT, given the current
+     * state of the form.
+     * @param string $prtname the name of a PRT.
+     * @param qtype_stack $question
+     * @return array list of inputs used by this PRT.
+     */
+    public function get_inputs_used_by_prt($prtname, $question) {
+        // Needed for questions with no inputs, (in particular blank starting questions).
+        if (!property_exists($question, 'inputs')) {
+            return array();
+        }
+        if (is_null($question->inputs)) {
+            return array();
+        }
+        $inputs = $question->inputs;
+        $inputkeys = array();
+        if (is_array($inputs)) {
+            foreach ($inputs as $input) {
+                $inputkeys[] = $input->name;
+            }
+        } else {
+            return array();
+        }
+
+        // TODO fix this. At the moment it only considers the data from the unedited
+        // question. We should take into account any changes made since the
+        // form was first shown, for example adding or removing nodes, or changing
+        // the things they compare. However, it is not critical.
+
+        // If we are creating a new question, or if we add a new prt in the
+        // question stem, then the PRT will not yet exist, so return an empty array.
+        if (is_null($question->prts) || !array_key_exists($prtname, $question->prts)) {
+            return array();
+        }
+        $prt = $question->prts[$prtname];
+
+        $prtnodes = array();
+        foreach ($prt->nodes as $name => $node) {
+            $sans = new stack_cas_casstring($node->sans);
+            $tans = new stack_cas_casstring($node->tans);
+            $prtnode = new stack_potentialresponse_node($sans, $tans, $node->answertest, $node->testoptions);
+            $prtnode->add_branch(1, '+', 0, '', -1, $node->truefeedback, $node->truefeedbackformat, '');
+            $prtnode->add_branch(0, '+', 0, '', -1, $node->falsefeedback, $node->falsefeedbackformat, '');
+            $prtnodes[$name] = $prtnode;
+        }
+        $feedbackvariables = new stack_cas_keyval($prt->feedbackvariables, null, 0, 't');
+        $potentialresponsetree = new stack_potentialresponse_tree(
+                '', '', false, 0, $feedbackvariables->get_session(), $prtnodes, $prt->firstnodename);
+        return $potentialresponsetree->get_required_variables($inputkeys);
     }
 }

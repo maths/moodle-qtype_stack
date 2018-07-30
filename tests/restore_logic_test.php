@@ -21,6 +21,8 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+defined('MOODLE_INTERNAL') || die();
+
 global $CFG;
 require_once($CFG->dirroot . '/backup/util/includes/restore_includes.php');
 require_once($CFG->dirroot . '/question/type/stack/backup/moodle2/restore_qtype_stack_plugin.class.php');
@@ -63,6 +65,7 @@ class testable_restore_qtype_stack_plugin extends restore_qtype_stack_plugin {
         return $this->log;
     }
 
+    // @codingStandardsIgnoreLine
     public function after_execute_question() {
         // Make method public.
         parent::after_execute_question();

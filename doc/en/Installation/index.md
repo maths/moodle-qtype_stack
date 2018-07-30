@@ -2,12 +2,12 @@
 
 STACK is being used live at a number of institutions, including the University of Edinburgh, the UK Open University, Aalto, Loughborough University, and the University of Birmingham in the UK.  
 
-STACK is designed to be used on a linux-based server.  The Windows/MS option exists to help teachers author questions offline, and for demonstration and development.  However, for demonstration, development and offline use we strongly recomment using VirtualBox instead of the windows port.  Note also that support for the optimized maxima image is not available on windows platforms, which is a substantial performance improvement.
+STACK is designed to be used on a linux-based server.  The Windows/MS option exists to help teachers author questions offline, and for demonstration and development.  However, for demonstration, development and offline use we strongly recommend using VirtualBox instead of the windows port.  Note also that support for the optimized maxima image is not available on windows platforms, which is a substantial performance improvement.
 
 ## 1. Set up Moodle.
 
-* Please ensure you have [installed Moodle](http://docs.moodle.org/25/en/Main_page).  You must use Moodle 2.7.0 or later, [e.g. here.](https://github.com/moodle/moodle)  We strongly recommend using the latest version from your stable branch.
-* Please ensure LaTeX can be displayed.  We currently support [MathJax](Mathjax.md).
+* Please ensure you have [installed Moodle](http://docs.moodle.org/en/Main_page).  You must use Moodle 2.7.0 or later, [e.g. here.](https://github.com/moodle/moodle)  We recommend using Moodle 3.5, and STACK 4.2 is untested on versions before Moodle 3.0.
+* Please ensure LaTeX can be displayed.  We currently support [MathJax](Mathjax.md) through the Moodle MathJax filter.
 
 ## 2. Install GNUPlot and Maxima
 
@@ -17,7 +17,7 @@ We currently recommend that you use Maxima 5.38.1.
 
 Please note 
 
-* Please avoid versions 5.37.x which are known to have a minor bug which affects STACK. In particular with `simp:false`, \(s^(-1)\) is transformed into \(1/s\).  This apparently minor change makes it impossible to distinguish between the two forms.  This causes all sorts of problems.  Do not use Maxim 5.37.1 to 5.37.3.
+* Please avoid versions 5.37.x which are known to have a minor bug which affects STACK. In particular with `simp:false`, \(s^{-1}\) is transformed into \(1/s\).  This apparently minor change makes it impossible to distinguish between the two forms.  This causes all sorts of problems.  Do not use Maxim 5.37.1 to 5.37.3.
 * From version 5.35.1 on Windows, Maxima is very slow in starting, and there is no optimization mechanism.
 * Older versions of Maxima:  in particular, Maxima 5.23.2 has some differences which result in \(1/\sqrt{x} \neq \sqrt{1/x}\), and similar problems.  This means that we have an inconsistency between questions between versions of maxima.   Of course, we can argue about which values of \(x\) make \(1/\sqrt{x} = \sqrt{1/x}\), but currently the unit tests and assumption is that these expressions should be considered to be algebraically equivalent!   So, older versions of Maxima are not supported for a reason.  Please test thoroughly if you try to use an older version, and expect some errors in the mathematical parts of the code.
 * If you install more than one version of Maxima then you will need to tell STACK which version to use.  Otherwise just use the "default" option.
@@ -90,7 +90,7 @@ This optional step is for people who wish to use STACK through another interface
 
 STACK 4.0 has one important change in the question authoring.  [CAS text](../Authoring/CASText.md) now uses `{@...@}` in include mathematics in the text.  The change from `@...@` to `{@...@}` gives us matching parentheses to parse, which is much better.  The `{..}` will not break LaTeX.
 
-You will need to update all your existing questions which inlcude CAS calculations. This includes all fields, e.g. in the feedback as well.  To help with this process we have an automatic conversion script.  As an admin user navigate to 
+You will need to update all your existing questions which include CAS calculations. This includes all fields, e.g. in the feedback as well.  To help with this process we have an automatic conversion script.  As an admin user navigate to 
 
     Site administration -> 
     Plugins ->

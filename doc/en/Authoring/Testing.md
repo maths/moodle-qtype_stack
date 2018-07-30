@@ -14,13 +14,15 @@ High quality question production needs care at each stage.
 
 __Minimal requirements__
 
-1. The question name should be meaningful and consistent, i.e. match up to course, section and topic.  E.g. ILA-3-equation of plane.
+1. The question name should be meaningful and consistent, i.e. match up to course, section and topic.  E.g. `2018ILA-Wk3-Q2: equation of plane`.
 2. Is the phrasing of the question clear to students?
-3. Will students know how to input an answer?  Could a "syntax hint" or message in the question help?
-4. Use question variable stubs throughout, to enable efficient random generation.  (E.g. define correct answer in question variables, rather than hard-wiring a sepcific expression).
-5. Mark correct answer as correct.
-6. Question tests for one correct and one incorrect version. (See below)
-7. Check all options in question, inputs and PRTs.
+3. Will students know how to input an answer?
+  * Could a "syntax hint" or message in the question help?
+  * Can "validation" help, e.g. by telling students how many significant figures are expected? (See the "numbers" input type.)
+4. Use question variable stubs throughout, to enable efficient random generation.  (E.g. define the correct answer in question variables, rather than hard-wiring a specific expression).
+5. Always make sure the question marks the correct answer as correct!
+6. Add question tests for one correct and at least one incorrect version. (See below)
+7. Check all options in the question, inputs and PRTs.
 
 __Phase 1__
 
@@ -96,7 +98,7 @@ You can set global [simplification](../CAS/Simplification.md) flags in two place
 
 Regardless of what settings you use here the expressions you enter for inputs in question tests are _not_ simplified.  This is necessary.  For example, if your question is "what is \({@a@}+{@b@}\)?" where {@a@} and {@b@} are randomly generated.  You will need to set the question level option `simplify:false` to prevent the student typing in the sum itself as an answer.  Then you will probably need separate tests for the expressions `a+b` and `ev(a+b,simp)` to make sure the student hasn't typed in the sum instead of the value of the sum.  For this reason, to enable "unsimplified" expressions to be included as question tests we do not simplify test inputs regardless of the options used in the question.
 
-If you have set `simplify:true` everywhere in your question, and you are only establishing algebraic equivalence of your answers anyway, "unsimplified" expressions as inputs to the tests will not matter.
+If you have set `simplify:true` everywhere in your question, and you are only establishing algebraic equivalence of your answers anyway, "un-simplified" expressions as inputs to the tests will not matter.
 
 
 ## Next steps

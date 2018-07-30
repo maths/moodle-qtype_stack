@@ -19,7 +19,7 @@
 /* Global variable options            */
 /* ********************************** */
 
-stack_reset(rand_seed) := block(
+stack_reset(not_used) := block(
   if featurep(all,constant) then remove(all, constant),
   kill(allbut [functions]),
   kill(trigsimp),
@@ -46,7 +46,7 @@ stack_reset(rand_seed) := block(
   pi() := %pi,         /* Why does Excel do this?! */
   /* Display of matrixes */
   lmxchar: "[",
-  /* Sets up randomization, using Maxima's internal random command */
+  /* Sets up randomization, using Maxima's internal random command. */
   stack_randseed(10000),
 
   /*Reload local settings*/
@@ -67,7 +67,7 @@ stack_reset(rand_seed) := block(
 stack_reset_vars(ex) := block(kill(i, j, e, pi, Pi, PI));
 
 /* Execute this command to ensure values have been set. */
-stack_reset(1000);
+stack_reset(true);
 
 alias(int,integrate);        /* Allows integrate to be called with int()    */
 alias(cosec,csc);            /* Corresponds to current student expectations */
@@ -115,6 +115,7 @@ load("inequalities.mac");
 load("intervals.mac");
 load("stackunits.mac");
 load("stacktex.lisp");
+load("stackstrings.mac");
 /* Ensure back compatability with versions before 5.41.0. */
 if is(MAXIMA_VERSION_NUM<40.1) then load("stacktex40.lisp");
 load("utils.mac");
@@ -271,7 +272,7 @@ multiselqn(corbase, numcor, wrongbase, numwrong):=block([ta1, ta2, ta, version],
   if not(listp(corbase)) then error("multiselqn: first argument must be a list."),
   if not(listp(wrongbase)) then error("multiselqn: third argument must be a list."),
   if not(integerp(numcor)) then error("multiselqn: second argument must be an integer."),
-  if not(integerp(numwrong)) then error("multiselqn: forth argument must be an integer."),
+  if not(integerp(numwrong)) then error("multiselqn: fourth argument must be an integer."),
   if length(corbase)<numcor then error("multiselqn: you have asked for more correct responses than are supplied in the list!"),
   if length(wrongbase)<numwrong then error("multiselqn: you have asked for more correct responses than are supplied in the list!"),
   ta1: maplist(lambda([ex], [ex, true]), rand_selection(corbase, numcor)),
@@ -281,12 +282,38 @@ multiselqn(corbase, numcor, wrongbase, numwrong):=block([ta1, ta2, ta, version],
   return([ta, version])
 )$
 
+/* Helper function for constructing MCQ arrays with auto-generated alphabetic labels. Students choose the labels. */
+multiselqnalpha([exs]):=block([corbase, numcor, wrongbase, numwrong, dispflag, ta1, ta2, ta3, talab, ta, version],
+  if length(exs)<4 then error("multiselqnalpha must have at least four arguments."),
+  corbase:first(exs),
+  numcor:second(exs),
+  wrongbase:third(exs),
+  numwrong:fourth(exs),
+  dispflag:"id",
+  if length(exs)>4 then dispflag:fifth(exs),
+  if not(listp(corbase)) then error("multiselqnalpha: first argument must be a list."),
+  if not(listp(wrongbase)) then error("multiselqnalpha: third argument must be a list."),
+  if not(integerp(numcor)) then error("multiselqnalpha: second argument must be an integer."),
+  if not(integerp(numwrong)) then error("multiselqnalpha: fourth argument must be an integer."),
+  if length(corbase)<numcor then error("multiselqnalpha: you have asked for more correct responses than are supplied in the list!"),
+  if length(wrongbase)<numwrong then error("multiselqnalpha: you have asked for more correct responses than are supplied in the list!"),
+
+  ta1: maplist(lambda([ex], [ex, true]), rand_selection(corbase, numcor)),
+  ta2: maplist(lambda([ex], [ex, false]), rand_selection(wrongbase, numwrong)),
+  ta3: random_permutation(append(ta1, ta2)),
+  /* Add in a slightly different display here. */
+  talab: ev(makelist(sconcat("(",ascii(96+i),")"), i, 1, length(ta3)), simp),
+  ta:zip_with(lambda([ex1, ex2], [ex1, ex2[2], sconcat("<b>", ex1, "</b> ", stack_disp(ex2[1], dispflag))]), talab, ta3),
+  version: map(first, ta3),
+  return([ta, version])
+)$
+
 /* Helper function for constructing MCQ arrays where the values should not be shown to students. */
 multiselqndisplay(corbase, numcor, wrongbase, numwrong):=block([ta1, ta2, ta, version],
   if not(listp(corbase)) then error("multiselqndisplay: first argument must be a list."),
   if not(listp(wrongbase)) then error("multiselqndisplay: third argument must be a list."),
   if not(integerp(numcor)) then error("multiselqndisplay: second argument must be an integer."),
-  if not(integerp(numwrong)) then error("multiselqndisplay: forth argument must be an integer."),
+  if not(integerp(numwrong)) then error("multiselqndisplay: fourth argument must be an integer."),
   if length(corbase)<numcor then error("multiselqndisplay: you have asked for more correct responses than are supplied in the list!"),
   if length(wrongbase)<numwrong then error("multiselqndisplay: you have asked for more correct responses than are supplied in the list!"),
   /*      */
@@ -328,7 +355,7 @@ mcq_incorrect(ta):=block(
 stack_disp(expr, exprm) := block([str:"", expru],
     /* LaTeX display */
     if OPT_OUTPUT = "LaTeX" then
-        if not(ev(elementp(exprm, {"", "i", "d"}), simp)) then print(concat("ERROR: illegal delimiter option found: ", exprm)),
+        if not(ev(elementp(exprm, {"", "i", "d", "id"}), simp)) then print(concat("ERROR: illegal delimiter option found: ", exprm)),
     /* Fine tune display, e.g. sort out display of atoms like theta0. */
     expru: expr,
     if not(stack_disp_control_structurep(expr)) then block(
@@ -339,6 +366,7 @@ stack_disp(expr, exprm) := block([str:"", expru],
         ld: "",
         rd: "",
         if exprm = "i" then block(ld: "\\(", rd:"\\)"),
+        if exprm = "id" then block(ld: "\\(\\displaystyle ", rd:"\\)"),
         if exprm = "d" then block(ld: "\\[", rd:"\\]"),
         expstr: tex(expru, false),
         expstr: concat(ld, stack_disp_strip_dollars(expstr), rd)
@@ -384,18 +412,19 @@ errcatch(compile(?texnumformat));
 /* **************************************************** */
 
 stack_disp_sub_script(ex) := block([s],
-  if taylorp(ex) then return(ex),
-  if safe_setp(ex) then return(apply(set, maplist(stack_disp_sub_script, args(ex)))),
-  if arrayp(ex) then return(arraymake(op(ex), maplist(stack_disp_sub_script, args(ex)))),
-  /* Strip out empty plus operators, which cause problems in display with simp:false.             */
-  /* This is not, strictly speaking, a subscript issue, but we don't want another recursive call. */
-  if is(safe_op(ex)="+") and is(length(args(ex))=1) then return(stack_disp_sub_script(first(args(ex)))),
-  if not(atom(ex)) then return(apply(op(ex), maplist(stack_disp_sub_script, args(ex)))),
-  if simp_numberp(ex) or stringp(ex) or ex or not(ex) then return(ex),
-  s: string(ex),
-  s: split(s, "_"),
-  s: maplist(parse_string, s),
-  stack_disp_sub_script_helper(s)
+ if taylorp(ex) then return(ex),
+ if safe_setp(ex) then return(apply(set, maplist(stack_disp_sub_script, args(ex)))),
+ if arrayp(ex) then return(arraymake(op(ex), maplist(stack_disp_sub_script, args(ex)))),
+ /* The following are not, strictly speaking, a subscript issue, but we don't want another recursive call. */
+ /* Strip out empty plus operators, which cause problems in display with simp:false.             */
+ if is(safe_op(ex)="+") and is(length(args(ex))=1) then return(stack_disp_sub_script(first(args(ex)))),
+ /* Now deal with supscripts. */
+ if not(atom(ex)) then return(apply(op(ex), maplist(stack_disp_sub_script, args(ex)))),
+ if simp_numberp(ex) or stringp(ex) or ex or not(ex) then return(ex),
+ s: string(ex),
+ s: split(s, "_"),
+ s: maplist(parse_string, s),
+ stack_disp_sub_script_helper(s)
 )$
 
 stack_disp_sub_script_helper(l) := block(
@@ -1503,9 +1532,49 @@ ATSet(SA, SB) := block([RawMark, FeedBack, AnswerNote, str, SAl, SBl, ZM],
     SB:map(ineqprepare, map(trigreduce, SB)),
     if (subsetp(SA, SB) and subsetp(SB, SA)) then
         return([true, true, AnswerNote, FeedBack]),
-    /* Can we give feedback on which are wrong */
+    /* Can we give feedback on which are wrong ? */
     FeedBack:StackAddFeedback("", "ATSet_wrongentries", stack_disp(setdifference(SA, SB), "d")),
     return([true, false, StackAddNote("","ATSet_wrongentries"), FeedBack])
+)$
+
+/* Note, this test (ATSets not ATSet as above) gives much more detailed feedback
+   than the Algebraic equivalence test.
+*/
+ATSets(SA, SB) := block([RawMark, FeedBack, AnswerNote],
+    RawMark:true, FeedBack:"", AnswerNote:"",
+    /* Turn on simplification and error catch */
+    SAsimp:errcatch(ev(SA, simp, nouns)),
+    if is(SAsimp = [STACKERROR]) then return([false, false, StackAddNote("", "ATSets_STACKERROR_SAns"), ""]),
+    SAsimp:SAsimp[1],
+    SBsimp:errcatch(ev(SB, simp, nouns)),
+    if is(SBsimp = [STACKERROR]) then return([false, false, StackAddNote("", "ATSets_STACKERROR_TAns"), ""]),
+    SBsimp:SBsimp[1],
+    if not(safe_setp(SB)) then
+        return(StackBasicReturn(false, false, "ATSets_SB_not_set")),
+    if not(safe_setp(SA)) then
+        return(StackBasicReturn(false, false, "ATSets_SA_not_set")),
+
+    /* Look for duplicate entries. */
+    if is(length(SAsimp)<length(SA)) then block(
+      FeedBack:StackAddFeedback(FeedBack, "ATSets_duplicates"),
+      AnswerNote:StackAddNote(AnswerNote, "ATSets_duplicates")
+    ),
+
+    /* We check the simplified sets. */
+    if (subsetp(SAsimp, SBsimp) and subsetp(SBsimp, SAsimp)) then
+        return([true, true, AnswerNote, FeedBack]),
+
+    /* Can we give feedback on which are wrong ? */
+    if not(emptyp(setdifference(SAsimp, SBsimp))) then block(
+      FeedBack:StackAddFeedback(FeedBack, "ATSets_wrongentries", stack_disp(setdifference(SAsimp, SBsimp), "d")),
+      AnswerNote:StackAddNote(AnswerNote, "ATSets_wrongentries")
+    ),
+    if not(emptyp(setdifference(SBsimp, SAsimp))) then block(
+      FeedBack:StackAddFeedback(FeedBack, "ATSets_missingentries", stack_disp(setdifference(SBsimp, SAsimp), "d")),
+      AnswerNote:StackAddNote(AnswerNote, "ATSets_missingentries")
+    ),
+
+    return([true, false, AnswerNote, FeedBack])
 )$
 
 /* A wrapper for an all purpose answer test which checks things are of the
@@ -2782,4 +2851,4 @@ load(linearalgebra);
 
 /* Stack expects some output with the version number the output happens at */
 /* maximalocal.mac after additional library loading */
-stackmaximaversion:2018030500$
+stackmaximaversion:2018072700$

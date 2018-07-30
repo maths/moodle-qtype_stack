@@ -135,10 +135,17 @@ class stack_answertest_test_data {
 
         array('AlgEquiv', '', 'cos(x)', 'cos(-x)', 1, '', 'Trig functions'),
         array('AlgEquiv', '', 'cos(x)^2+sin(x)^2', '1', 1, '', ''),
+        array('AlgEquiv', '', 'cos(x+y)', 'cos(x)*cos(y)-sin(x)*sin(y)', 1, '', ''),
+        array('AlgEquiv', '', 'cos(x+y)', 'cos(x)*cos(y)+sin(x)*sin(y)', 0, '', ''),
+        array('AlgEquiv', '', 'cos(x+-y)', 'cos(x)*cos(y)-(+-sin(x)*sin(y))', 1, 'ATLogic_True', ''),
+        array('AlgEquiv', '', 'sin(x+-y)', 'sin(x)*cos(y)+-cos(x)*sin(y)', 1, 'ATLogic_True', ''),
+        array('AlgEquiv', '', 'sin(x+-y)', 'cos(x)*sin(y)+-sin(x)*cos(y)', 0, '', ''),
         array('AlgEquiv', '', '2*cos(x)^2-1', 'cos(2*x)', 1, '', ''),
         array('AlgEquiv', '', 'diff(tan(10*x)^2,x)', 'cos(6*x)', 0, '', ''),
         array('AlgEquiv', '', 'exp(%i*%pi)', '-1', 1, '', ''),
         array('AlgEquiv', '', '2*cos(2*x)+x+1', '-sin(x)^2+3*cos(x)^2+x', 1, '', ''),
+
+        
         array('AlgEquiv', '', '(2*sec(2*t)^2-2)/2',
             '-(sin(4*t)^2-2*sin(4*t)+cos(4*t)^2-1)*(sin(4*t)^2+2*sin(4*t)+cos(4*t)^2-1)/(sin(4*t)^2+cos(4*t)^2+2*cos(4*t)+1)^2',
             1, '', ''),
@@ -350,8 +357,15 @@ class stack_answertest_test_data {
         array('AlgEquiv', '', '(19601-13861*sqrt(2))^(7/4)', '(5*sqrt(2)-7)^7', 0, '', ''),
         array('AlgEquiv', '', '(19601-13861*sqrt(2))^(7/4)', '(5*sqrt(2)-7)^7', 0, '', ''),
         array('AlgEquiv', '', 'sqrt(2*log(26)+4-2*log(2))', 'sqrt(2*log(13)+4)', 1, '', ''),
-        array('AlgEquiv', '', '(n+1)*n!', '(n+1)!', 1, '', 'Factorials'),
+        array('AlgEquiv', '', 'sqrt(2)*sqrt(3)+2*(sqrt(2/3))*x-(2/3)*(sqrt(2/3))*x^2+(4/9)*(sqrt(2/3))*x^3',
+            '4*sqrt(6)*x^3/27-(2*sqrt(6)*x^2)/9+(2*sqrt(6)*x)/3+sqrt(6)', 1, '', ''),
+        array('AlgEquiv', '', '(n+1)*n!', '(n+1)!', 1, '', 'Factorials and binomials'),
         array('AlgEquiv', '', 'n/n!', '1/(n-1)!', 1, '', ''),
+        array('AlgEquiv', '', 'n/n!', '1/(n+1)!', 0, '', ''),
+        array('AlgEquiv', '', 'n!/(k!*(n-k)!)', 'binomial(n,k)', 1, '', ''),
+        array('AlgEquiv', '', 'binomial(n,k)+binomial(n,k+1)', 'binomial(n+1,k+1)', -3, '', ''),
+        array('AlgEquiv', '', 'binomial(n,k)+binomial(n,k+1)', 'binomial(n+1,k)', 0, '', ''),
+        array('AlgEquiv', '', 'binomial(n,k)', 'binomial(n,n-k)', 1, '', ''),
         array('AlgEquiv', '', '3*s*diff(q(s),s)', '3*s*diff(q(s),s)', 1, '', 'Unevaluated derviatives'),
         array('AlgEquiv', '', 'sum(k^n,n,0,3)', 'sum(k^n,n,0,3)', 1, '', 'Sums and products'),
         array('AlgEquiv', '', '1+k+k^2+k^3', 'sum(k^n,n,0,3)', 1, '', ''),
@@ -562,6 +576,8 @@ class stack_answertest_test_data {
         array('SameType', '', 'x>1', 'x>=1', 1, '', ''),
         array('SameType', '', 'x>1 and x<3', 'x>=1', 1, '', ''),
         array('SameType', '', '{x>1,x<3}', 'x>=1', 0, '', ''),
+        array('SameType', '', 'sqrt(2)*sqrt(3)+2*(sqrt(2/3))*x-(2/3)*(sqrt(2/3))*x^2+(4/9)*(sqrt(2/3))*x^3',
+            '4*sqrt(6)*x^3/27-(2*sqrt(6)*x^2)/9+(2*sqrt(6)*x)/3+sqrt(6)', 1, '', ''),
 
         array('SysEquiv', '', '1/0', '[(x-1)*(x+1)=0]', -1, 'CASError: Division by zero. | ATSysEquiv_STACKERROR_SAns.',
             'Basic tests'),
@@ -591,6 +607,21 @@ class stack_answertest_test_data {
             'ATSysEquiv_SA_system_overdetermined.', ''),
         array('SysEquiv', '', '[90=v*t,90=(v+5)*(t-1/4),90=(v+6)*(t-1/5),90=(v+7)*(t-1/4),90=(v+8)*(t-1/3)]',
             '[90=v*t,90=(v+5)*(t-1/4)]', 0, 'ATSysEquiv_SA_system_overdetermined.', ''),
+
+        array('Sets', '', '{1/0}', '{0}', -1, 'CASError: Division by zero.', ''),
+        array('Sets', '', '{0}', '{1/0}', -1, 'CASError: Division by zero.', ''),
+        array('Sets', '', 'x', '{1,2,3}', 0, 'ATSets_SA_not_set.', ''),
+        array('Sets', '', '{1,2}', 'x', 0, 'ATSets_SB_not_set.', ''),
+        array('Sets', '', '{1,2}', '{1,2,3}', 0, 'ATSets_missingentries.', ''),
+        array('Sets', '', '{1,2,4}', '{1,2}', 0, 'ATSets_wrongentries.', ''),
+        // Note, in the example below the wrong entry "4" displayed in the feedback does not occur in the set.
+        // The set contains only the equivalent entry 2+2.  This might be confusing.
+        array('Sets', '', '{1,2,2+2}', '{1,2}', 0, 'ATSets_wrongentries.', ''),
+        array('Sets', '', '{5,1,2,4}', '{1,2,3}', 0, 'ATSets_wrongentries. ATSets_missingentries.', ''),
+        array('Sets', '', '{2/4, 1/3}', '{1/2, 1/3}', 1, '', ''),
+        array('Sets', '', '{1,2,1}', '{1,2}', 1, 'ATSets_duplicates.', 'Duplicate entries'),
+        array('Sets', '', '{1,2,1+1}', '{1,2}', 1, 'ATSets_duplicates.', ''),
+        array('Sets', '', '{1,2,1+1}', '{1,2,3}', 0, 'ATSets_duplicates. ATSets_missingentries.', ''),
 
         array('Expanded', '', '1/0', '0', -1, 'CASError: Division by zero.', ''),
         array('Expanded', '', 'x>2', 'x^2-2*x+1', 0, 'ATExpanded_SA_not_expression.', ''),
@@ -703,6 +734,7 @@ class stack_answertest_test_data {
         array('Equiv', '', '[x^2=4,x=2 or x=-2]', '[x^2=4,x=2 or x=-2]', 1, '[EMPTYCHAR,EQUIVCHAR]', ''),
         array('Equiv', '', '[x^2=4,x=+-2,x=2 and x=-2]', '[x^2=4,x=2 or x=-2]', 0, '[EMPTYCHAR,EQUIVCHAR,ANDOR]', ''),
         array('Equiv', '', '[x^2=4,x=2]', '[x^2=4,x=2 or x=-2]', 0, '[EMPTYCHAR,IMPLIEDCHAR]', ''),
+        array('Equiv', '[assumepos]', '[x^2=4,x=2]', '[x^2=4,x=2]', 1, '[ASSUMEPOSVARS,EQUIVCHAR]', ''),
         array('Equiv', '', '[x^2=4,x^2-4=0,(x-2)*(x+2)=0,x=2 or x=-2]', '[x^2=4,x=2 or x=-2]', 1,
             '[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR]', ''),
         array('Equiv', '', '[x^2=4,x= +-2, x=2 or x=-2]', '[x^2=4,x=2 or x=-2]', 1,
@@ -1250,6 +1282,32 @@ class stack_answertest_test_data {
         array('NumDecPlaces', '3', '4.000', '3.99999', 1, 'ATNumDecPlaces_Correct. ATNumDecPlaces_Equiv.',
             'Teacher needs to round their answer.'),
 
+        array('NumDecPlacesWrong', '', '3.141', '3.1415927', -1,
+            'ATNumDecPlacesWrong_STACKERROR_Option.', 'Basic tests'),
+        array('NumDecPlacesWrong', '2', '1/0', '3', -1, 'ATNumDecPlacesWrong_STACKERROR_SAns.', ''),
+        array('NumDecPlacesWrong', '2', '0', '1/0', -1, 'ATNumDecPlacesWrong_STACKERROR_TAns.', ''),
+        array('NumDecPlacesWrong', '1/0', '0', '0', -1, 'ATNumDecPlacesWrong_STACKERROR_Options.', ''),
+        array('NumDecPlacesWrong', '4', 'x^2', '1234', 0, 'ATNumDecPlacesWrong_Sans_Not_Num.', ''),
+        array('NumDecPlacesWrong', '4', '1234', 'x^2', 0, 'ATNumDecPlacesWrong_Tans_Not_Num.', ''),
+        array('NumDecPlacesWrong', '4', '3.141', '31.41', 1, 'ATNumDecPlacesWrong_Correct.', ''),
+        array('NumDecPlacesWrong', '4', '3.141', '31.14', 0, 'ATNumDecPlacesWrong_Wrong.', ''),
+        array('NumDecPlacesWrong', '4', 'pi', '31.14', 0, 'ATNumDecPlacesWrong_Sans_Not_Num.', ''),
+        array('NumDecPlacesWrong', '4', '0.1234', '1234', 1, 'ATNumDecPlacesWrong_Correct.', ''),
+        array('NumDecPlacesWrong', '4', '0.1235', '1234', 0, 'ATNumDecPlacesWrong_Wrong.', ''),
+        array('NumDecPlacesWrong', '4', '0.0001234', '1234', 1, 'ATNumDecPlacesWrong_Correct.', ''),
+        array('NumDecPlacesWrong', '4', '0.0001235', '1234', 0, 'ATNumDecPlacesWrong_Wrong.', ''),
+        array('NumDecPlacesWrong', '3', '0.1233', '1234', 1, 'ATNumDecPlacesWrong_Correct.', ''),
+        array('NumDecPlacesWrong', '3', '0.1243', '1234', 0, 'ATNumDecPlacesWrong_Wrong.', ''),
+        array('NumDecPlacesWrong', '3', '0.1230', '1239', 1, 'ATNumDecPlacesWrong_Correct.', ''),
+        array('NumDecPlacesWrong', '3', '0.1240', '1239', 0, 'ATNumDecPlacesWrong_Wrong.', ''),
+        array('NumDecPlacesWrong', '3', '1230', '1239', 1, 'ATNumDecPlacesWrong_Correct.', ''),
+        array('NumDecPlacesWrong', '3', '2230', '1239', 0, 'ATNumDecPlacesWrong_Wrong.', ''),
+        array('NumDecPlacesWrong', '3', '0.100', '1.00', 1, 'ATNumDecPlacesWrong_Correct.', ''),
+        array('NumDecPlacesWrong', '3', '0.1000', '1.00', 1, 'ATNumDecPlacesWrong_Correct.', ''),
+        array('NumDecPlacesWrong', '3', '0.1001', '1.00', 1, 'ATNumDecPlacesWrong_Correct.', ''),
+        array('NumDecPlacesWrong', '4', '0.100', '1.0', 1, 'ATNumDecPlacesWrong_Correct.', 'Condone lack of trailing zeros'),
+        array('NumDecPlacesWrong', '4', '1', '1.00', 1, 'ATNumDecPlacesWrong_Correct.', ''),
+
         array('SigFigsStrict', '', '3.141', 'null', -1, 'STACKERROR_OPTION.', 'Basic tests'),
         array('SigFigsStrict', 'x^2', '3.141', 'null', -1, 'STACKERROR_OPTION.', ''),
         array('SigFigsStrict', '-2', '3.141', 'null', -1, 'STACKERROR_OPTION.', ''),
@@ -1350,6 +1408,9 @@ class stack_answertest_test_data {
         array('Units', '3', '-9.81*m/s/s', '-9.81*m/s^2', 1, 'ATUnits_units_match.', ''),
         array('Units', '3', '-9.81*m/s', '-9.81*m/s^2', 0, 'ATUnits_incompatible_units. ATUnits_correct_numerical.', ''),
         array('Units', '3', '-9.81*m/s', '-9.81*m/s^2', 0, 'ATUnits_incompatible_units. ATUnits_correct_numerical.', ''),
+        // In the following test case the student uses brackets which are not needed, but broke the test.
+        array('Units', '3', '(-9.81)*m/s^2', '-9.81*m/s^2', 1, 'ATUnits_units_match.', ''),
+        array('Units', '3', '(-9.81)', '-9.81*m/s^2', 0, 'ATUnits_SA_no_units.', 'Missing units'),
         array('Units', '3', '9.81*m/s', '-9.81*m/s^2', 0, 'ATNumSigFigs_WrongSign. ATUnits_incompatible_units.', ''),
         array('Units', '3', '8.81*m/s', '-9.81*m/s^2', 0,
             'ATNumSigFigs_WrongSign. ATNumSigFigs_VeryInaccurate. ATUnits_incompatible_units.', ''),
@@ -1588,7 +1649,7 @@ class stack_answertest_test_data {
         } else {
             // We expect the test to fail.
             switch ($test->expectedscore) {
-                case -1: 
+                case -1:
                     if ($errors === 'TEST_FAILED') {
                         $passed = true;
                     } else {
@@ -1615,7 +1676,7 @@ class stack_answertest_test_data {
                     }
                     break;
 
-                default: 
+                default:
                     $passed = false;
                     $anomalynote[] = '[General failure.]';
                 }

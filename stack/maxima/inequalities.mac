@@ -64,11 +64,12 @@ numerical_coeff(ex):= block([v, vc],
 make_monic_eq(ex) := block([v],
     if mapatom(ex) then return(ex),
     if not(polynomialpsimp(ex)) then return(ex),
-    ex:expand(ex),
+    ex:ev(factor(ex), simp),
+    ex:ev(expand(ex), simp),
     /* Divide by the coefficient of the highest power. */
     v:listofvars(ex),
     if v=[] then return(ex),
-    poly_normalize(ex,v)
+    poly_normalize(ex, v)
 )$
 
 /* Determines if we have a linear inequality in one variable.
@@ -212,13 +213,13 @@ linear_inequality_to_interval(ex) := block([ex2, v, p, Ans],
     Ans:ex,
     if equal(coeff(lhs(ex2), v), 1) then
         (
-        if op(ex2)=">" then Ans:oo(p,inf),
-        if op(ex2)=">=" then Ans:co(p,inf)
+        if op(ex2)=">" then Ans:oo(p, inf),
+        if op(ex2)=">=" then Ans:co(p, inf)
         ),
     if equal(coeff(lhs(ex2), v), -1) then
         (
-        if op(ex2)=">" then Ans:oo(-inf,p),
-        if op(ex2)=">=" then Ans:oc(-inf,p)
+        if op(ex2)=">" then Ans:oo(-inf, p),
+        if op(ex2)=">=" then Ans:oc(-inf, p)
         ),
     return(Ans)
 )$
@@ -226,7 +227,7 @@ linear_inequality_to_interval(ex) := block([ex2, v, p, Ans],
 /*******************************************************************************/
 /* Solve a single inequality in a single variable by factoring,                */
 /* where possible expressing the result as irreducible inequalities.           */
-inequality_factor_solve(ex):=block([ex2],
+inequality_factor_solve(ex):=block([ex2, p],
     if not(inequalityp(ex)) then return(ex),
     if length(listofvars(ex))#1 then return(ex),
     ex:ineqprepare(ex),

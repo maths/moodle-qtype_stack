@@ -48,10 +48,12 @@ $PAGE->set_context($context);
 $title = stack_string('bulktesttitle', $context->get_context_name());
 $PAGE->set_title($title);
 
+require_login();
+
 // Create the helper class.
 $bulktester = new stack_bulk_tester();
 $allpassed = true;
-$allfailingtests = array();
+$allfailing = array();
 $skipping = $startfromcontextid != 0;
 
 // Release the session, so the user can do other things while this runs.
@@ -67,19 +69,25 @@ foreach ($bulktester->get_stack_questions_by_context() as $contextid => $numstac
         continue;
     }
     $skipping = false;
-
     $testcontext = context::instance_by_id($contextid);
+
     echo $OUTPUT->heading(stack_string('bulktesttitle', $testcontext->get_context_name()));
     echo html_writer::tag('p', html_writer::link(
             new moodle_url('/question/type/stack/bulktestall.php',
                 array('startfromcontextid' => $testcontext->id)),
             stack_string('bulktestcontinuefromhere')));
 
-    list($passed, $failingtests, $notests) = $bulktester->run_all_tests_for_context($testcontext);
+    list($passed, $failing) = $bulktester->run_all_tests_for_context($testcontext);
     $allpassed = $allpassed && $passed;
-    $allfailingtests = array_merge($allfailingtests, $failingtests);
+    foreach ($failing as $key => $arrvals) {
+        // Guard clause here to future proof any new fields from the bulk tester.
+        if (!array_key_exists($key, $allfailing)) {
+            $allfailing[$key] = array();
+        }
+        $allfailing[$key] = array_merge($allfailing[$key], $arrvals);
+    }
 }
 
 // Display the final summary.
-$bulktester->print_overall_result($allpassed, $allfailingtests, $notests);
+$bulktester->print_overall_result($allpassed, $allfailing);
 echo $OUTPUT->footer();

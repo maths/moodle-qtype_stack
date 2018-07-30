@@ -22,11 +22,11 @@ index 7974af2..a6614f2 100644
  require_once(__DIR__ . '/stack/utils.class.php');
  require_once(__DIR__ . '/stack/bulktester.class.php');
 +require_once(__DIR__ . '/stack/cas/connectorhelper.class.php');
- 
- 
+
+
  // Get the parameters from the URL.
  $contextid = required_param('contextid', PARAM_INT);
- 
+
  // Login and check permissions.
 -$context = context::instance_by_id($contextid);
 +$context = context_system::instance();
@@ -36,18 +36,18 @@ index 7974af2..a6614f2 100644
 @@ -50,8 +51,8 @@ if ($context->contextlevel == CONTEXT_MODULE) {
      $PAGE->set_cm($cm, $DB->get_record('course', array('id' => $cm->course), '*', MUST_EXIST));
  }
- 
+
 -// Create the helper class.
 -$bulktester = new stack_bulk_tester();
 +// Cache the connection settings.
 +stack_connection_helper::make();
- 
+
  // Release the session, so the user can do other things while this runs.
  \core\session\manager::write_close();
 @@ -60,9 +61,25 @@ $bulktester = new stack_bulk_tester();
  echo $OUTPUT->header();
  echo $OUTPUT->heading($title);
- 
+
 +// Connect to other database.
 +$bulktestrealdb = $DB;
 +if (!$DB = moodle_database::get_driver_instance($CFG->dbtype, $CFG->dblibrary)) {
@@ -61,10 +61,10 @@ index 7974af2..a6614f2 100644
 +$bulktester = new stack_bulk_tester();
 +
  // Run the tests.
- list($allpassed, $failingtests, $notests) = $bulktester->run_all_tests_for_context($context);
+ list($allpassed, $failing) = $bulktester->run_all_tests_for_context($context);
  
  // Display the final summary.
- $bulktester->print_overall_result($allpassed, $failingtests, $notests);
+ $bulktester->print_overall_result($allpassed, $failing);
 +
 +// Switch back to the read DB.
 +$DB = $bulktestrealdb;
@@ -77,14 +77,14 @@ index 3d5eafa..f84b4bd 100644
 @@ -38,13 +38,20 @@ $PAGE->set_url('/question/type/stack/bulktestindex.php');
  $PAGE->set_context($context);
  $PAGE->set_title(stack_string('bulktestindextitle'));
- 
+
 -// Create the helper class.
 -$bulktester = new stack_bulk_tester();
 -
  // Display.
  echo $OUTPUT->header();
  echo $OUTPUT->heading(stack_string('replacedollarsindex'));
- 
+
 +// Connect to other database.
 +$realdb = $DB;
 +if (!$DB = moodle_database::get_driver_instance($CFG->dbtype, $CFG->dblibrary)) {
@@ -101,7 +101,7 @@ index 3d5eafa..f84b4bd 100644
 @@ -53,6 +60,9 @@ foreach ($bulktester->get_stack_questions_by_context() as $contextid => $numstac
  }
  echo html_writer::end_tag('ul');
- 
+
 +// Switch back to the read DB.
 +$DB = $realdb;
 +
@@ -115,7 +115,7 @@ index 40ef26e..d8ba3e1 100644
 @@ -78,6 +78,11 @@ abstract class stack_connection_helper {
                  throw new stack_exception('stack_cas_connection: Unknown platform ' . self::$config->platform);
          }
- 
+
 +        global $bulktestrealdb;
 +        if (!empty(($bulktestrealdb))) {
 +            // Use the real db as the cache for performance.
@@ -142,7 +142,7 @@ index 6dcc96d..02c4354 100644
 -                'syntaxhint, syntaxattribute, forbidwords, allowwords, forbidfloat, requirelowestterms, ' .
 +                'syntaxhint, 0 AS syntaxattribute, forbidwords, allowwords, forbidfloat, requirelowestterms, ' .
                  'checkanswertype, mustverify, showvalidation, options');
- 
+
          $question->prts = $DB->get_records('qtype_stack_prts',
 @@ -403,7 +403,7 @@ class qtype_stack extends question_type {
                  'strictSyntax'    => (bool) $inputdata->strictsyntax,

@@ -29,12 +29,17 @@ require_once(__DIR__ . '/../edit_stack_form.php');
  * @group qtype_stack
  */
 class qtype_stack_edit_form_testable extends qtype_stack_edit_form {
+
     public function __construct($questiontext, $specificfeedback) {
+        global $USER;
         $syscontext = context_system::instance();
         $category = question_make_default_categories(array($syscontext));
         $fakequestion = new stdClass();
         $fakequestion->qtype = 'stack';
         $fakequestion->category = $category->id;
+        $fakequestion->contextid = $syscontext->id;
+        $fakequestion->createdby = $USER->id;
+        $fakequestion->modifiedby = $USER->id;
         $fakequestion->questiontext = $questiontext;
         $fakequestion->options = new stdClass();
         $fakequestion->options->specificfeedback = $specificfeedback;
@@ -46,20 +51,6 @@ class qtype_stack_edit_form_testable extends qtype_stack_edit_form {
                 new question_edit_contexts($syscontext));
     }
 
-    // Make this public so we can test it.
-    public function get_input_names_from_question_text() {
-        return parent::get_input_names_from_question_text();
-    }
-
-    // Make this public so we can test it.
-    public function get_prt_names_from_question() {
-        return parent::get_prt_names_from_question();
-    }
-
-    // Make this public so we can test it.
-    public function get_sloppy_tags($text) {
-        return parent::get_sloppy_tags($text);
-    }
 }
 
 
@@ -82,72 +73,19 @@ class qtype_stack_edit_form_test extends advanced_testcase {
     public function test_get_input_names_from_question_text_default() {
         $form = $this->get_form(qtype_stack_edit_form::DEFAULT_QUESTION_TEXT,
                 qtype_stack_edit_form::DEFAULT_SPECIFIC_FEEDBACK);
+        $qtype = new qtype_stack();
 
         $this->assertEquals(array('ans1' => array(1, 1)),
-                $form->get_input_names_from_question_text());
-    }
-
-    public function test_get_input_names_from_question_text_input_only() {
-        $form = $this->get_form('[[input:ans123]]', '');
-
-        $this->assertEquals(array('ans123' => array(1, 0)),
-                $form->get_input_names_from_question_text());
-    }
-
-    public function test_get_input_names_from_question_text_validation_only() {
-        $form = $this->get_form('[Blah] [[validation:ans123]] [Blah]', '');
-
-        $this->assertEquals(array('ans123' => array(0, 1)),
-                $form->get_input_names_from_question_text());
-    }
-
-    public function test_get_input_names_from_question_text_invalid() {
-        $form = $this->get_form('[[input:123]]', '');
-
-        $this->assertEquals(array(), $form->get_input_names_from_question_text());
-    }
-
-    public function test_get_input_names_from_question_text_sloppy() {
-        $text = 'What is \(1+1\)?  [[input: ans1]]';
-        $form = $this->get_form($text, '');
-
-        $this->assertEquals(array('[[input: ans1]]'), $form->get_sloppy_tags($text));
+                $qtype->get_input_names_from_question_text(qtype_stack_edit_form::DEFAULT_QUESTION_TEXT));
     }
 
     public function test_get_prt_names_from_question_default() {
         $form = $this->get_form(qtype_stack_edit_form::DEFAULT_QUESTION_TEXT,
                 qtype_stack_edit_form::DEFAULT_SPECIFIC_FEEDBACK);
+        $qtype = new qtype_stack();
 
-        $this->assertEquals(array('prt1' => 1), $form->get_prt_names_from_question());
-    }
-
-    public function test_get_prt_names_from_question_text() {
-        $form = $this->get_form('[[feedback:prt123]]', '');
-
-        $this->assertEquals(array('prt123' => 1), $form->get_prt_names_from_question());
-    }
-
-    public function test_get_prt_names_from_question_feedback() {
-        $form = $this->get_form('What is $1 + 1$? [[input:ans1]]', '[[feedback:prt123]]');
-
-        $this->assertEquals(array('prt123' => 1), $form->get_prt_names_from_question());
-    }
-
-    public function test_get_prt_names_from_question_both() {
-        $form = $this->get_form('[Blah] [[feedback:prt1]] [Blah]', '[Blah] [[feedback:prt2]] [Blah]');
-
-        $this->assertEquals(array('prt1' => 1, 'prt2' => 1), $form->get_prt_names_from_question());
-    }
-
-    public function test_get_prt_names_from_question_invalid() {
-        $form = $this->get_form('[[feedback:123]]', '');
-
-        $this->assertEquals(array(), $form->get_prt_names_from_question());
-    }
-
-    public function test_get_prt_names_from_question_duplicate() {
-        $form = $this->get_form('[[feedback:prt1]] [[feedback:prt1]]', '');
-
-        $this->assertEquals(array('prt1' => 2), $form->get_prt_names_from_question());
+        $this->assertEquals(array('prt1' => 1),
+                $qtype->get_prt_names_from_question(qtype_stack_edit_form::DEFAULT_QUESTION_TEXT,
+                qtype_stack_edit_form::DEFAULT_SPECIFIC_FEEDBACK));
     }
 }

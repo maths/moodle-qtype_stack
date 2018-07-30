@@ -1,5 +1,5 @@
 /* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
-/* [ Created with wxMaxima version 15.08.2 ] */
+/* [ Created with wxMaxima version 13.04.2 ] */
 
 /* [wxMaxima: title   start ]
 STACK Sandbox
@@ -33,7 +33,7 @@ file_search_maxima:append( [sconcat(stacktmplocation, "/###.{mac,mc}")] , file_s
 file_search_lisp:append( [sconcat(stacktmplocation, "/###.{lisp}")] , file_search_lisp)$
 
 STACK_SETUP(ex):=block(
-    MAXIMA_VERSION_NUM_EXPECTED:38.3,
+    MAXIMA_VERSION_NUM_EXPECTED:41.0,
     MAXIMA_PLATFORM:"win",
     maxima_tempdir:"",
     IMAGE_DIR:"",
@@ -62,6 +62,27 @@ load("distrib")$
 load("descriptive")$
 print(sconcat("[ STACK-Maxima started, library version ", stackmaximaversion, " ]"))$
 /* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+To time code, and spot inefficiencies.
+
+timer(all)$
+
+We need some lisp to turn the atom $SEC into 1, (%SEC is a function....)
+:lisp (msetq $SEC 1)
+
+[Execute some code...]
+
+This returns the list of functions actually called.
+l:sublist(args(timer_info()), lambda([ex], is(third(ex)>0)));
+
+Sort according to function called most often
+sort(l,lambda([a,b], is(third(a)>third(b))));
+
+Sort according to time per call
+sort(l,lambda([a,b], is(second(a)>second(b))));
+
+   [wxMaxima: comment end   ] */
 
 /* Maxima can't load/batch files which end with a comment! */
 "Created with wxMaxima"$

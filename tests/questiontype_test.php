@@ -158,6 +158,9 @@ class qtype_stack_test extends qtype_stack_walkthrough_test_base {
     <defaultgrade>1</defaultgrade>
     <penalty>0.3333333</penalty>
     <hidden>0</hidden>
+    <stackversion>
+      <text>' . get_config('qtype_stack', 'version') . '</text>
+    </stackversion>
     <questionvariables>
       <text></text>
     </questionvariables>
@@ -447,4 +450,73 @@ class qtype_stack_test extends qtype_stack_walkthrough_test_base {
         $this->assertEquals($expectedq->testcases, $q->testcases); // Redundant, but gives better fail messages.
         $this->assert(new question_check_specified_fields_expectation($expectedq), $q);
     }
+
+    public function test_get_input_names_from_question_text_input_only() {
+        $qtype = new qtype_stack();
+
+        $this->assertEquals(array('ans123' => array(1, 0)),
+                $qtype->get_input_names_from_question_text('[[input:ans123]]'));
+    }
+
+    public function test_get_input_names_from_question_text_validation_only() {
+        $qtype = new qtype_stack();
+
+        $this->assertEquals(array('ans123' => array(0, 1)),
+                $qtype->get_input_names_from_question_text('[Blah] [[validation:ans123]] [Blah]'));
+    }
+
+    public function test_get_input_names_from_question_text_invalid() {
+        $qtype = new qtype_stack();
+
+        $this->assertEquals(array(), $qtype->get_input_names_from_question_text('[[input:123]]'));
+    }
+
+    public function test_get_input_names_from_question_text_sloppy() {
+        $qtype = new qtype_stack();
+        $text = 'What is \(1+1\)?  [[input: ans1]]';
+
+        $this->assertEquals(array('[[input: ans1]]'), $qtype->validation_get_sloppy_tags($text));
+    }
+
+    public function test_get_prt_names_from_question_text() {
+        $qtype = new qtype_stack();
+
+        $this->assertEquals(array('prt123' => 1),
+                $qtype->get_prt_names_from_question('[[feedback:prt123]]', ''));
+    }
+
+    public function test_get_prt_names_from_question_feedback() {
+        $qtype = new qtype_stack();
+
+        $this->assertEquals(array('prt123' => 1), $qtype->get_prt_names_from_question(
+                'What is $1 + 1$? [[input:ans1]]', '[[feedback:prt123]]'));
+    }
+
+    public function test_get_prt_names_from_question_both() {
+        $qtype = new qtype_stack();
+
+        $this->assertEquals(array('prt1' => 1, 'prt2' => 1), $qtype->get_prt_names_from_question(
+                '[Blah] [[feedback:prt1]] [Blah]', '[Blah] [[feedback:prt2]] [Blah]'));
+    }
+
+    public function test_get_prt_names_from_question_invalid() {
+        $qtype = new qtype_stack();
+
+        $this->assertEquals(array(), $qtype->get_prt_names_from_question('[[feedback:123]]', ''));
+    }
+
+    public function test_get_prt_names_from_question_duplicate() {
+        $qtype = new qtype_stack();
+
+        $this->assertEquals(array('prt1' => 2),
+                $qtype->get_prt_names_from_question('[[feedback:prt1]] [[feedback:prt1]]', ''));
+    }
+
+    public function test_get_prt_names_from_question_duplicate_split() {
+        $qtype = new qtype_stack();
+
+        $this->assertEquals(array('prt1' => 2), $qtype->get_prt_names_from_question('[[feedback:prt1]]',
+                '[[feedback:prt1]]'));
+    }
+
 }

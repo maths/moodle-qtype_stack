@@ -34,7 +34,7 @@ STACK questions have also been included in the ILIAS project.
 
 # User list
 
-The following institutions made use of previous versionf of STACK.  If you are actively using or trialling STACK and would like to be listed below then please contact the developers.
+The following institutions made use of previous versions of STACK.  If you are actively using STACK and would like to be listed below then please contact the developers.
 
 School of Mathematics, The University of Edinburgh
 : The home of STACK. Contact [Chris Sangwin](mailto:c.j.sangwin@ed.ac.uk).

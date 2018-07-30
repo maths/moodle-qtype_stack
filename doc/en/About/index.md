@@ -2,7 +2,8 @@
 
 STACK is an assessment system for mathematics, science and related disciplines.
 
-STACK is a designed to enable students to answer questions with a mathematical expression, such as a polynomial.  Students are not limted to multiple choice.
+STACK is a designed to enable students to answer questions with a mathematical expression, such as a polynomial.  
+Students are not limited to multiple choice.
 
 STACK enables teachers to design sophisticated computer-aided assessments in Mathematics and related disciplines which give specific formative feedback based on objective properties of students' answers.  This moves assessments well beyond multiple choice and other types.
 
@@ -10,8 +11,7 @@ Sensible students do not solve multiple choice problems directly but merely chec
 
 Really, the student should provide their answer in the form of a mathematical expression and the system should evaluate its properties.  Note the student's answer and the feedback which has been automatically generated below.
 
-![STACK Logo](%CONTENT/STACK-screenshot.png)
-
+![STACK screenshot](%CONTENT/STACK-screenshot.png)
 
 More about what we are trying to achieve can be found under [the philosophy of STACK](The_philosophy_of_STACK.md).
 
@@ -35,9 +35,9 @@ The system can mark questions that ask the student to provide an example. Here i
 
 There are many such functions. Rather than comparing the student's answer to the teacher's answer STACK checks that the answer has the required properties.  Giving examples is a higher-order skill that was impossible to assess with conventional CAA systems.
 
-## Intelligent randomisation ##
+## Intelligent randomization ##
 
-STACK can randomise problems in such a way that the level of difficulty is kept constant. For example, if a question asks the student to 'diagonalise' a 2 by 2 matrix, then the system can randomise this problem in a way that guarantees that the answer always contains only integers. The trick is to reverse-engineer the randomised question from a randomised answer.  Computer algebra is invaluable to support this process.
+STACK can randomize problems in such a way that the level of difficulty is kept constant. For example, if a question asks the student to 'diagonalize' a 2 by 2 matrix, then the system can randomize this problem in a way that guarantees that the answer always contains only integers. The trick is to reverse-engineer the randomized question from a randomized answer.  Computer algebra is invaluable to support this process.
 
 ## Give feedback and partial credit ##
 
@@ -58,5 +58,3 @@ STACK is a direct development of the AIM system, using the open source computer 
 * [The philosophy of STACK](The_philosophy_of_STACK.md).
 * A demonstration server :[https://stack.maths.ed.ac.uk/demo](https://stack.maths.ed.ac.uk/demo)
 * [Associated publications](Publications.md)
-
-

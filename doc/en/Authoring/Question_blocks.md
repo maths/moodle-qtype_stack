@@ -116,7 +116,7 @@ Comment blocks allow you to put content into castext which will not be seen by s
 
     [[ comment ]] Place comments here which will not appear to students. [[/ comment ]]
 
-Note that, in it’s current form the comment block requires that the contents are syntactically correct so no mismatched blocks are possible inside comments.  (We intend to change this in the future.)
+Note that, in the current form the comment block requires that the contents are syntactically correct so no mismatched blocks are possible inside comments.  (We intend to change this in the future.)
 
 ## Empty blocks ##
 
@@ -132,3 +132,16 @@ But we think the following is much more direct, and clean.
 There are other kinds of `[[ emptyblocks /]]`, which are useful in certain cases and developers of new blocks might like to consider this as a possibility.
 
 While the define block does not generate any visible content like all block also empty blocks may be used to generate output. `[[ debug /]]` is an example of this.
+
+## JSXGraph blocks ##
+
+STACK supports inclusion of dynamic graphs using JSXgraph: [http://jsxgraph.uni-bayreuth.de/wiki/](http://jsxgraph.uni-bayreuth.de/wiki/).   See the specific documentation on including [JSXGraph](JSXGraph.md) elements.
+
+    [[jsxgraph]]
+      // boundingbox:[left, top, right, bottom]
+      var board = JXG.JSXGraph.initBoard(divid, {boundingbox: [-3, 2, 3, -2], axis: true, showCopyright: false});
+      var f = board.jc.snippet('sin(1/x)', true, 'x', true);
+      board.create('functiongraph', [f,-3,3]);
+    [[/jsxgraph]]
+
+

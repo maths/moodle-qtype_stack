@@ -61,6 +61,8 @@ $PAGE->set_url('/question/type/stack/equivdemo.php', $urlparams);
 $title = "Equivalence reasoning test cases";
 $PAGE->set_title($title);
 
+require_login();
+
 echo $OUTPUT->header();
 echo $OUTPUT->heading($title);
 
@@ -125,6 +127,12 @@ foreach ($samplearguments as $argument) {
             }
             $ar->get_valid('t');
 
+            $ac = new stack_cas_casstring('stack_calculus:false');
+            if (array_key_exists('calculus', $argument)) {
+                $ac = new stack_cas_casstring('stack_calculus:true');
+            }
+            $ac->get_valid('t');
+
             $arg = stack_utils::logic_nouns_sort($argument['casstring'], 'add');
             $cs1 = new stack_cas_casstring($arg);
             $cs1->get_valid('s');
@@ -141,17 +149,17 @@ foreach ($samplearguments as $argument) {
             }
             if ($debug) {
                 // Print debug information and show logical connectives on this page.
-                $cs3 = new stack_cas_casstring("S1:stack_eval_equiv_arg(" . $cskey. ", true, true, DL)");
+                $cs3 = new stack_cas_casstring("S1:stack_eval_equiv_arg(" . $cskey. ", true, true, true, DL)");
             } else {
                 // Print only logical connectives on this page.
-                $cs3 = new stack_cas_casstring("S1:stack_eval_equiv_arg(" . $cskey. ", true, false, DL)");
+                $cs3 = new stack_cas_casstring("S1:stack_eval_equiv_arg(" . $cskey. ", true, true, false, DL)");
             }
             $cs3->get_valid('t');
 
             $cs4 = new stack_cas_casstring("R1:first(S1)");
             $cs4->get_valid('t');
 
-            $session = new stack_cas_session(array($ap, $ar, $cs1, $cs2, $cs3, $cs4), $options);
+            $session = new stack_cas_session(array($ap, $ar, $ac, $cs1, $cs2, $cs3, $cs4), $options);
             $expected = $argument['outcome'];
             if (true === $argument['outcome']) {
                 $expected = 'true';
@@ -256,7 +264,7 @@ if ($debug) {
     foreach ($casstrings as $key => $val) {
         $script .= $key . ':' . $val . "\$\n";
     }
-    $script .= "\n\n".'disp_stack_eval_arg(A22, true, true, D22);';
+    $script .= "\n".'disp_stack_eval_arg(A22, true, true, true, DL);';
     echo html_writer::tag('textarea', $script,
             array('readonly' => 'readonly', 'wrap' => 'virtual', 'rows' => '32', 'cols' => '100'));
     echo '<hr />';

@@ -238,7 +238,7 @@ class stack_bulk_tester  {
      */
     public function qtype_stack_seed_cache($question, $seed = null, $quiet = false) {
         flush(); // Force output to prevent timeouts and to make progress clear.
-        core_php_time_limit::raise(10); // Prevent PHP timeouts.
+        core_php_time_limit::raise(60); // Prevent PHP timeouts.
         gc_collect_cycles(); // Because PHP's default memory management is rubbish.
 
         // Prepare the question and a usage.
@@ -266,6 +266,7 @@ class stack_bulk_tester  {
         // This involves instantiation, which seeds the CAS cache in the cases when we have no tests.
         $renderquestion = $quba->render_question($slot, $options);
         $workedsolution = $qu->get_generalfeedback_castext();
+        $workedsolution->get_display_castext();
         $questionote = $qu->get_question_summary();
     }
 

@@ -300,14 +300,14 @@ class stack_cas_session {
 
             $this->instantiated = null;
             $this->errors       = null;
-            $this->session[]    = clone $var; // Yes, we reall need new versions of the variables.
+            $this->session[]    = clone $var; // Yes, we really need new versions of the variables.
         }
     }
 
     /**
-     * Concatenates the variables from $incoming onto the end of $this->session
-     * Treats this as essentially a new session
-     * The settings for this session are respected (currently)
+     * Concatenates the variables from $incoming onto the end of $this->session.
+     * Treats this as essentially a new session.
+     * The settings for this session are respected (currently).
      * @param stack_cas_session $incoming
      */
     public function merge_session($incoming) {
@@ -316,7 +316,7 @@ class stack_cas_session {
         }
         if (is_a($incoming, 'stack_cas_session')) {
             $this->add_vars($incoming->get_session()); // This method resets errors and instantiated fields.
-            $this->valid        = null;
+            $this->valid = null;
         } else {
             throw new stack_exception('stack_cas_session: merge_session expects its argument to be a stack_cas_session');
         }
@@ -560,7 +560,7 @@ class stack_cas_session {
 
             // From Maxima 5.40.0, variable names may only occur once in the local variable list in a block.
             // This makes sure they only occur once.
-            $csnames = array();
+            $csnames = array('RANDOM_SEED' => true);
             // The session might, legitimately, attempt to redefine a Maxima global variable,
             // which would throw a spurious error when the block attempts to define them as local.
             if (!(array_key_exists($cleanlabel, self::$maximaglobals))) {
@@ -571,13 +571,13 @@ class stack_cas_session {
         }
 
         $cass  = $caspreamble;
-        $cass .= 'cab:block([ RANDOM_SEED';
-        $cass .= implode(array_keys($csnames), ', ');
+        $cass .= 'cab:block([';
+        $cass .= implode(', ', array_keys($csnames));
         $cass .= '], stack_randseed(';
-        $cass .= $this->seed.')'.$csvars;
+        $cass .= $this->seed . ')' . $csvars;
         $cass .= ", print(\"[STACKSTART Locals= [ \") ";
         $cass .= $cascommands;
-        $cass .= ", print(\"] ]\") , return(true) ); \n ";
+        $cass .= ", print(\"] ]\"), return(true) ); \n ";
 
         return $cass;
     }

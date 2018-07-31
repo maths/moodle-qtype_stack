@@ -200,6 +200,11 @@ class stack_bulk_tester  {
         $message = stack_string('testpassesandfails', array('passes' => $passes, 'fails' => $fails));
         $ok = ($fails === 0);
 
+        // These lines are to seed the cache and to generate any runtime errors.
+        $notused = $question->get_question_summary();
+        $generalfeedback = $question->get_generalfeedback_castext();
+        $notused = $generalfeedback->get_display_castext();
+
         if (!empty($question->runtimeerrors)) {
             $ok = false;
             $message .= html_writer::tag('br',

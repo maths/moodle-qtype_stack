@@ -1501,7 +1501,7 @@ class stack_cas_casstring {
         return $this->conditions;
     }
 
-    public function set_key($key, $appendkey=true) {
+    public function set_key($key, $appendkey=false) {
         if (null === $this->valid) {
             $this->validate();
         }

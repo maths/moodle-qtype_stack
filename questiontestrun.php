@@ -31,6 +31,8 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+define('NO_OUTPUT_BUFFERING', true);
+
 require_once(__DIR__.'/../../../config.php');
 
 require_once($CFG->libdir . '/questionlib.php');
@@ -153,6 +155,10 @@ if (empty($question->deployedseeds)) {
     );
     $prtstable->attributes['class'] = 'generaltable stacktestsuite';
 
+    $a = ['total' => count($question->deployedseeds), 'done' => 0];
+    $progressevery = (int) min(max(1, count($question->deployedseeds) / 500), 100);
+    $pbar = new progress_bar('testingquestionvariants', 500, true);
+
     foreach ($question->deployedseeds as $key => $deployedseed) {
         if (!is_null($question->seed) && $question->seed == $deployedseed) {
             $choice = html_writer::tag('b', $deployedseed,
@@ -204,6 +210,12 @@ if (empty($question->deployedseeds)) {
             $icon,
             $bulktestresults[1]
             );
+
+        $a['done'] += 1;
+        if ($a['done'] % $progressevery == 0 || $a['done'] == $a['total']) {
+            core_php_time_limit::raise(60);
+            $pbar->update($a['done'], $a['total'], get_string('testingquestionvariants', 'qtype_stack', $a));
+        }
     }
 
     echo html_writer::table($notestable);

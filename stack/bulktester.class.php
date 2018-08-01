@@ -100,10 +100,6 @@ class stack_bulk_tester  {
                     continue;
                 }
 
-                foreach ($question->deployedseeds as $seed) {
-                    $this->qtype_stack_seed_cache($question, $seed);
-                }
-
                 $questionnamelink = html_writer::link(new moodle_url($questiontestsurl,
                         array('questionid' => $questionid)), format_string($name));
 
@@ -131,6 +127,7 @@ class stack_bulk_tester  {
 
                 $previewurl = new moodle_url($questiontestsurl, array('questionid' => $questionid));
                 if (empty($question->deployedseeds)) {
+                    $this->qtype_stack_seed_cache($question, 0);
                     $questionnamelink = html_writer::link($previewurl, $questionname);
                     echo $OUTPUT->heading($questionnamelink, 4);
                     list($ok, $message) = $this->qtype_stack_test_question($question, $tests);
@@ -141,6 +138,7 @@ class stack_bulk_tester  {
                 } else {
                     echo $OUTPUT->heading(format_string($name), 4);
                     foreach ($question->deployedseeds as $seed) {
+                        $this->qtype_stack_seed_cache($question, $seed);
                         $previewurl->param('seed', $seed);
                         $questionnamelink = html_writer::link($previewurl, stack_string('seedx', $seed));
                         echo $OUTPUT->heading($questionnamelink, 4);

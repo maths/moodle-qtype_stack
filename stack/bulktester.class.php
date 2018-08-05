@@ -121,10 +121,6 @@ class stack_bulk_tester  {
 
                 }
 
-                if (!$tests) {
-                    continue;
-                }
-
                 $previewurl = new moodle_url($questiontestsurl, array('questionid' => $questionid));
                 if (empty($question->deployedseeds)) {
                     $this->qtype_stack_seed_cache($question, 0);

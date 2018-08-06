@@ -2,6 +2,12 @@
 
 For current and future plans, see [Development track](Development_track.md) and [Future plans](Future_plans.md).
 
+## Version 4.2.1
+
+Released August 2018. 
+
+* Add in privacy subsystem classes for GDPR compliance.
+
 ## Version 4.2
 
 Released July 2018. 

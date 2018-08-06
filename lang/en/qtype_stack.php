@@ -29,6 +29,8 @@ $string['pluginnameadding'] = 'Adding a STACK question';
 $string['pluginnameediting'] = 'Editing a STACK question';
 $string['pluginnamesummary'] = 'STACK provides mathematical questions for the Moodle quiz.  These use a computer algebra system to establish the mathematical properties of the student\'s responses.';
 
+$string['privacy:metadata'] = 'The STACK question type plugin does not store any personal data.';
+
 // General strings.
 $string['errors'] = 'Errors';
 $string['debuginfo'] = 'Debug info';

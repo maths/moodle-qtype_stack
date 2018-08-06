@@ -30,24 +30,27 @@ class stack_singlechar_input_test extends basic_testcase {
 
     public function test_render_blank() {
         $el = stack_input_factory::make('singleChar', 'ans1', null);
-        $this->assertEquals('<input type="text" name="question__ans1" id="question__ans1" size="1" maxlength="1" ' .
-                'value="" autocapitalize="none" spellcheck="false" />',
+        $this->assertEquals('<label for="question__ans1">Answer: <span class="answer">' .
+                '<input type="text" name="question__ans1" id="question__ans1" size="1" maxlength="1" ' .
+                'value="" autocapitalize="none" spellcheck="false" /></span></label>',
                 $el->render(new stack_input_state(stack_input::BLANK, array(), '', '', '', '', '', ''),
                         'question__ans1', false, null));
     }
 
     public function test_render_pre_filled() {
         $el = stack_input_factory::make('singleChar', 'test', null);
-        $this->assertEquals('<input type="text" name="question__ans1" id="question__ans1" size="1" maxlength="1" ' .
-                'value="Y" autocapitalize="none" spellcheck="false" />',
+        $this->assertEquals('<label for="question__ans1">Answer: <span class="answer">' .
+                '<input type="text" name="question__ans1" id="question__ans1" size="1" maxlength="1" ' .
+                'value="Y" autocapitalize="none" spellcheck="false" /></span></label>',
                 $el->render(new stack_input_state(stack_input::VALID, array('Y'), '', '', '', '', ''),
                         'question__ans1', false, null));
     }
 
     public function test_render_disabled() {
         $el = stack_input_factory::make('singleChar', 'input', null);
-        $expected = '<input type="text" name="question__stack1" id="question__stack1" size="1" maxlength="1" ' .
-            'value="a" autocapitalize="none" spellcheck="false" readonly="readonly" />';
+        $expected = '<label for="question__stack1">Answer: <span class="answer">' .
+                '<input type="text" name="question__stack1" id="question__stack1" size="1" maxlength="1" ' .
+                'value="a" autocapitalize="none" spellcheck="false" readonly="readonly" /></span></label>';
         $this->assertEquals($expected,
                 $el->render(new stack_input_state(stack_input::VALID, array('a'), '', '', '', '', ''),
                         'question__stack1', true, null));

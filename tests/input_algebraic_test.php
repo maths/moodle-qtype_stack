@@ -45,49 +45,55 @@ class stack_algebra_input_test extends qtype_stack_testcase {
 
     public function test_render_blank() {
         $el = stack_input_factory::make('algebraic', 'ans1', 'x^2');
-        $this->assertEquals('<input type="text" name="stack1__ans1" id="stack1__ans1" '
-                .'size="16.5" style="width: 13.6em" autocapitalize="none" spellcheck="false" value="" />',
+        $this->assertEquals('<label for="stack1__ans1">Answer: <span class="answer">'
+                .'<input type="text" name="stack1__ans1" id="stack1__ans1" '
+                .'size="16.5" style="width: 13.6em" autocapitalize="none" spellcheck="false" value="" /></span></label>',
                 $el->render(new stack_input_state(stack_input::VALID, array(), '', '', '', '', ''),
                         'stack1__ans1', false, null));
     }
 
     public function test_render_zero() {
         $el = stack_input_factory::make('algebraic', 'ans1', '0');
-        $this->assertEquals('<input type="text" name="stack1__ans1" id="stack1__ans1" '
-                .'size="16.5" style="width: 13.6em" autocapitalize="none" spellcheck="false" value="0" />',
+        $this->assertEquals('<label for="stack1__ans1">Answer: <span class="answer">'
+                .'<input type="text" name="stack1__ans1" id="stack1__ans1" '
+                .'size="16.5" style="width: 13.6em" autocapitalize="none" spellcheck="false" value="0" /></span></label>',
                 $el->render(new stack_input_state(stack_input::VALID, array('0'), '', '', '', '', ''),
                         'stack1__ans1', false, null));
     }
 
     public function test_render_pre_filled() {
         $el = stack_input_factory::make('algebraic', 'test', 'x^2');
-        $this->assertEquals('<input type="text" name="stack1__test" id="stack1__test" '
-                .'size="16.5" style="width: 13.6em" autocapitalize="none" spellcheck="false" value="x+y" />',
+        $this->assertEquals('<label for="stack1__test">Answer: <span class="answer">'
+                .'<input type="text" name="stack1__test" id="stack1__test" '
+                .'size="16.5" style="width: 13.6em" autocapitalize="none" spellcheck="false" value="x+y" /></span></label>',
                 $el->render(new stack_input_state(stack_input::VALID, array('x+y'), '', '', '', '', ''),
                         'stack1__test', false, null));
     }
 
     public function test_render_pre_filled_nasty_input() {
         $el = stack_input_factory::make('algebraic', 'test', 'x^2');
-        $this->assertEquals('<input type="text" name="stack1__test" id="stack1__test" '
-                .'size="16.5" style="width: 13.6em" autocapitalize="none" spellcheck="false" value="x&lt;y" />',
+        $this->assertEquals('<label for="stack1__test">Answer: <span class="answer">'
+                .'<input type="text" name="stack1__test" id="stack1__test" '
+                .'size="16.5" style="width: 13.6em" autocapitalize="none" spellcheck="false" value="x&lt;y" /></span></label>',
                 $el->render(new stack_input_state(stack_input::VALID, array('x<y'), '', '', '', '', ''),
                         'stack1__test', false, null));
     }
 
     public function test_render_max_length() {
         $el = stack_input_factory::make('algebraic', 'test', 'x^2');
-        $this->assertEquals('<input type="text" name="stack1__test" id="stack1__test" '
-                .'size="16.5" style="width: 13.6em" autocapitalize="none" spellcheck="false" value="x+y" />',
+        $this->assertEquals('<label for="stack1__test">Answer: <span class="answer">'
+                .'<input type="text" name="stack1__test" id="stack1__test" '
+                .'size="16.5" style="width: 13.6em" autocapitalize="none" spellcheck="false" value="x+y" /></span></label>',
                 $el->render(new stack_input_state(stack_input::VALID, array('x+y'), '', '', '', '', ''),
                         'stack1__test', false, null));
     }
 
     public function test_render_disabled() {
         $el = stack_input_factory::make('algebraic', 'input', 'x^2');
-        $this->assertEquals(
-                '<input type="text" name="stack1__input" id="stack1__input" '
-                .'size="16.5" style="width: 13.6em" autocapitalize="none" spellcheck="false" value="x+1" readonly="readonly" />',
+        $this->assertEquals('<label for="stack1__input">Answer: <span class="answer">'
+                .'<input type="text" name="stack1__input" id="stack1__input" '
+                .'size="16.5" style="width: 13.6em" autocapitalize="none" spellcheck="false" value="x+1" readonly="readonly" />'
+                .'</span></label>',
                 $el->render(new stack_input_state(stack_input::VALID, array('x+1'), '', '', '', '', ''),
                         'stack1__input', true, null));
     }
@@ -95,8 +101,9 @@ class stack_algebra_input_test extends qtype_stack_testcase {
     public function test_render_different_size() {
         $el = stack_input_factory::make('algebraic', 'input', 'x^2');
         $el->set_parameter('boxWidth', 30);
-        $this->assertEquals('<input type="text" name="stack1__input" id="stack1__input" '
-                .'size="33" style="width: 27.1em" autocapitalize="none" spellcheck="false" value="x+1" />',
+        $this->assertEquals('<label for="stack1__input">Answer: <span class="answer">'
+                .'<input type="text" name="stack1__input" id="stack1__input" '
+                .'size="33" style="width: 27.1em" autocapitalize="none" spellcheck="false" value="x+1" /></span></label>',
                 $el->render(new stack_input_state(stack_input::VALID, array('x+1'), '', '', '', '', ''),
                         'stack1__input', false, null));
     }
@@ -104,8 +111,9 @@ class stack_algebra_input_test extends qtype_stack_testcase {
     public function test_render_syntaxhint() {
         $el = stack_input_factory::make('algebraic', 'sans1', '[a, b, c]');
         $el->set_parameter('syntaxHint', '[?, ?, ?]');
-        $this->assertEquals('<input type="text" name="stack1__sans1" id="stack1__sans1" '
-                .'size="16.5" style="width: 13.6em" autocapitalize="none" spellcheck="false" value="[?, ?, ?]" />',
+        $this->assertEquals('<label for="stack1__sans1">Answer: <span class="answer">'
+                .'<input type="text" name="stack1__sans1" id="stack1__sans1" '
+                .'size="16.5" style="width: 13.6em" autocapitalize="none" spellcheck="false" value="[?, ?, ?]" /></span></label>',
                 $el->render(new stack_input_state(stack_input::BLANK, array(), '', '', '', '', ''),
                         'stack1__sans1', false, null));
     }
@@ -114,8 +122,9 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         $el = stack_input_factory::make('algebraic', 'sans1', '[a, b, c]');
         $el->set_parameter('syntaxHint', 'Remove me');
         $el->set_parameter('syntaxAttribute', 1);
-        $this->assertEquals('<input type="text" name="stack1__sans1" id="stack1__sans1" '
-                .'size="16.5" style="width: 13.6em" autocapitalize="none" spellcheck="false" placeholder="Remove me" />',
+        $this->assertEquals('<label for="stack1__sans1">Answer: <span class="answer">'
+                .'<input type="text" name="stack1__sans1" id="stack1__sans1" '
+                .'size="16.5" style="width: 13.6em" autocapitalize="none" spellcheck="false" placeholder="Remove me" /></span></label>',
                 $el->render(new stack_input_state(stack_input::BLANK, array(), '', '', '', '', ''),
                         'stack1__sans1', false, null));
     }
@@ -126,8 +135,8 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         $state = $el->validate_student_response(array('sans1' => 'x^2'), $options, 'x^2/(1+x^2)', null);
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('A correct answer is <span class="filter_mathjaxloader_equation">'
-          . '<span class="nolink">\( \frac{x^2}{1+x^2} \)</span></span>, which can be typed in as follows: '
-          . '<code>x^2/(1+x^2)</code>', $el->get_teacher_answer_display('x^2/(1+x^2)', '\frac{x^2}{1+x^2}'));
+                . '<span class="nolink">\( \frac{x^2}{1+x^2} \)</span></span>, which can be typed in as follows: '
+                . '<code>x^2/(1+x^2)</code>', $el->get_teacher_answer_display('x^2/(1+x^2)', '\frac{x^2}{1+x^2}'));
     }
 
     public function test_validate_student_response_2() {

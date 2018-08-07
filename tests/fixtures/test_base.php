@@ -58,13 +58,13 @@ abstract class qtype_stack_testcase extends advanced_testcase {
     /**
      * Helper that sets up the maxima configuration. This allows maxima to be used
      * from test classes that cannot subclass this one, for whatever reason.
+     *
+     * @param base_testcase $testcase the test-case we are doing the setup for.
      */
     public static function setup_test_maxima_connection($testcase) {
-        global $CFG;
-
         if (!qtype_stack_test_config::is_test_config_available()) {
             $testcase->markTestSkipped(
-                    'To run the STACK unit tests, you must set up the Maxima configuration in phpunit.xml.');
+                    'To run the STACK unit tests, you must set up the Maxima configuration in config.php.');
         }
 
         qtype_stack_test_config::setup_test_maxima_connection();
@@ -79,7 +79,7 @@ abstract class qtype_stack_testcase extends advanced_testcase {
         $versionused = get_config('qtype_stack', 'maximaversion');
         // The default version of Maxima is never "old".
         if ($versionused == 'default') {
-            return true;
+            return;
         }
         if (version_compare($versionused, $version) <= 0) {
             $this->markTestSkipped(
@@ -88,6 +88,11 @@ abstract class qtype_stack_testcase extends advanced_testcase {
         }
     }
 
+    /**
+     * Helper that skips a test if the version of Maxima used is newer than a given one.
+     *
+     * @param string $version e.g. '5.23.2'. Skip if the maxima version is > this.
+     */
     public function skip_if_new_maxima($version) {
         $versionused = get_config('qtype_stack', 'maximaversion');
         if ($versionused == 'default' || !(version_compare($versionused, $version) <= 0)) {
@@ -103,7 +108,7 @@ abstract class qtype_stack_testcase extends advanced_testcase {
      * The purpose of this method is to hide the details of what the maths display system does.
      *
      * @param string $expected with plain maths delimiters. E.g. '<p>\(x + 1\)</p>'.
-     * @param unknown $actual the actual output, as processed by the default Maths filter that STACK uses.
+     * @param string $actual the actual output, as processed by the default Maths filter that STACK uses.
      */
     protected function assertContentWithMathsEquals($expected, $actual) {
         $this->assertEquals($expected, self::prepare_actual_maths($actual));
@@ -115,7 +120,7 @@ abstract class qtype_stack_testcase extends advanced_testcase {
      * The purpose of this method is to hide the details of what the maths display system does.
      *
      * @param string $expected with plain maths delimiters. E.g. '<p>\(x + 1\)</p>'.
-     * @param unknown $actual the actual output, as processed by the default Maths filter that STACK uses.
+     * @param string $actual the actual output, as processed by the default Maths filter that STACK uses.
      */
     protected function assertContentWithMathsContains($expected, $actual) {
         $this->assertContains($expected, self::prepare_actual_maths($actual));
@@ -325,7 +330,7 @@ abstract class qtype_stack_walkthrough_test_base extends qbehaviour_walkthrough_
      * The purpose of this method is to hide the details of what the maths display system does.
      *
      * @param string $expected with plain maths delimiters. E.g. '<p>\(x + 1\)</p>'.
-     * @param unknown $actual the actual output, as processed by the default Maths filter that STACK uses.
+     * @param string $actual the actual output, as processed by the default Maths filter that STACK uses.
      */
     protected function assertContentWithMathsEquals($expected, $actual) {
         $this->assertEquals($expected, qtype_stack_testcase::prepare_actual_maths($actual));
@@ -337,7 +342,7 @@ abstract class qtype_stack_walkthrough_test_base extends qbehaviour_walkthrough_
      * The purpose of this method is to hide the details of what the maths display system does.
      *
      * @param string $expected with plain maths delimiters. E.g. '<p>\(x + 1\)</p>'.
-     * @param unknown $actual the actual output, as processed by the default Maths filter that STACK uses.
+     * @param string $actual the actual output, as processed by the default Maths filter that STACK uses.
      */
     protected function assertContentWithMathsContains($expected, $actual) {
         $this->assertContains($expected, qtype_stack_testcase::prepare_actual_maths($actual));

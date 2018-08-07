@@ -28,7 +28,7 @@ require_once(__DIR__ . '/cassession.class.php');
 class stack_cas_configuration {
     protected static $instance = null;
 
-    /** @var This variable controls which optional packages are supported by STACK. */
+    /** @var array This variable controls which optional packages are supported by STACK. */
     public static $maximalibraries = array('stats', 'distrib', 'descriptive', 'simplex');
 
     protected $settings;
@@ -139,8 +139,6 @@ class stack_cas_configuration {
     }
 
     public function maxima_win_location() {
-        global $CFG;
-
         if ($this->settings->platform != 'win') {
             return '';
         }
@@ -188,10 +186,11 @@ class stack_cas_configuration {
         if ($this->settings->platform != 'win') {
             return true;
         }
+
         $batchfilename = $this->maxima_win_location() . 'bin/maxima.bat';
         if (substr_count($batchfilename, ' ') === 0) {
             $batchfilecontents = "rem Auto-generated Maxima batch file.  \n\n";
-            $batchfilecontents .= $this->maxima_win_location() . 'bin/maxima.bat'."\n\n";
+            $batchfilecontents .= $batchfilename."\n\n";
             if (!file_put_contents($CFG->dataroot . '/stack/maxima.bat', $batchfilecontents)) {
                 throw new stack_exception('Failed to write Maxima batch file.');
             }
@@ -203,6 +202,7 @@ class stack_cas_configuration {
             throw new stack_exception('Could not copy the Maxima batch file ' . $batchfilename .
                     ' to location ' . $CFG->dataroot . '/stack/maxima.bat');
         }
+        return true;
     }
 
     public function maxima_bat_is_ok() {

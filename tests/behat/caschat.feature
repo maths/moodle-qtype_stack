@@ -1,5 +1,5 @@
 @qtype @qtype_stack
-Feature: STACK has build in documentation.
+Feature: STACK script for interacting with the CAS.
   In order to learn Maxima code
   As an admin
   I need to use the CAS chat script.

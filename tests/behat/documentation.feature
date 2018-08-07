@@ -1,5 +1,5 @@
 @qtype @qtype_stack
-Feature: STACK has build in documentation.
+Feature: STACK has built-in documentation.
   In order to use STACK
   As an admin
   I need to read the documentation.

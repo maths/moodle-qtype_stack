@@ -51,17 +51,13 @@ class stack_cas_connection_unix extends stack_cas_connection_base {
     }
 
     protected function call_maxima($command) {
-        $ret = false;
-        $err = '';
-        $cwd = null;
-        $newpath = getenv('PATH');
-        $env = array('PATH' => $newpath);
+        $env = array('PATH' => getenv('PATH'));
 
         $descriptors = array(
             0 => array('pipe', 'r'),
             1 => array('pipe', 'w'),
-            2 => array('pipe', 'w'));
-        $casprocess = proc_open($this->command, $descriptors, $pipes, $cwd, $env);
+        );
+        $casprocess = proc_open($this->command . ' 2>&1', $descriptors, $pipes, null, $env);
 
         if (!is_resource($casprocess)) {
             throw new stack_exception('stack_cas_connection: could not open a CAS process');
@@ -106,6 +102,10 @@ class stack_cas_connection_unix extends stack_cas_connection_base {
         if ($continue) {
             fclose($pipes[0]);
             fclose($pipes[1]);
+            $returnvalue = proc_close($casprocess);
+
+            $this->debug->log('CAS process return value: ' . $returnvalue);
+
             $this->debug->log('Timings', "Start: {$starttime}, End: {$now}, Taken = " .
                     ($now - $starttime));
 

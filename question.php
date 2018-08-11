@@ -284,6 +284,9 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         // 1. question variables.
         $questionvars = new stack_cas_keyval($this->questionvariables, $this->options, $this->seed, 't');
         $session = $questionvars->get_session();
+        if ($session->get_errors()) {
+            $this->runtimeerrors[$session->get_errors()] = true;
+        }
 
         // 2. correct answer for all inputs.
         $response = array();

@@ -32,6 +32,8 @@ require_once(__DIR__ . '/locallib.php');
 require_once(__DIR__ . '/stack/utils.class.php');
 require_once(__DIR__ . '/stack/bulktester.class.php');
 
+// Increase memory limit: some users with very large numbers of questions/variants have needed this.
+raise_memory_limit(MEMORY_HUGE);
 
 // Get the parameters from the URL.
 $contextid = required_param('contextid', PARAM_INT);

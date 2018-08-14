@@ -31,17 +31,17 @@
 
 (defprop $nounand tex-nary tex)
 ;;(defprop $nounand ("\\land ") texsym)
-(defprop $nounand ("\\,{\\mbox{ and }}\\, ") texsym)
+(defprop $nounand ("\\,{\\mbox{ !AND! }}\\, ") texsym)
 (defprop $nounand 69. tex-lbp)
 (defprop $nounand 69. tex-rbp)
 
 (defprop $nounor tex-nary tex)
 ;;(defprop $nounor ("\\lor ") texsym)
-(defprop $nounor ("\\,{\\mbox{ or }}\\, ") texsym)
+(defprop $nounor ("\\,{\\mbox{ !OR! }}\\, ") texsym)
 (defprop $nounor 70. tex-lbp)
 (defprop $nounor 70. tex-rbp)
 
 ;; Chris Sangwin 29 Sept 2017.
 
 (defprop mnot tex-prefix tex)
-(defprop mnot ("{\\rm not}") texsym)
+(defprop mnot ("{\\rm !NOT!}") texsym)

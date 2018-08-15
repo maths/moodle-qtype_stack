@@ -123,6 +123,12 @@ One problem is that `makelist` needs simplification.  To create sequences/series
 
 Of course, to print out one line in the worked solution you can also `apply("+",S2)` as well.
 
+To create the binomial coefficients
+
+   simp:false;
+   n:5;
+   apply("+",map(lambda([ex],binomial(n,ex)*x^ex), ev(makelist(k,k,0,5),simp)));
+
 ## Boolean functions
 
 Maxima has Boolean operators `and`, `or`, and `not`.  These rely on the underlying LISP implementation and as a result the `simp:false` is ignored.  

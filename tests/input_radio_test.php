@@ -66,11 +66,11 @@ class stack_radio_input_test extends qtype_stack_walkthrough_test_base {
             . '<label for="stack1__ans1_">(No answer given)</label></div>'
             . '<div class="option"><br /></div><div class="option">'
             . '<input type="radio" name="stack1__ans1" value="1" id="stack1__ans1_1" />'
-            . '<label for="stack1__ans1_1">\(x+1\)'
+            . '<label for="stack1__ans1_1">\(1+x\)'
             . '</label></div><div class="option">'
             . '<input type="radio" name="stack1__ans1" value="2" id="stack1__ans1_2" checked="checked" />'
             . '<label for="stack1__ans1_2">'
-            . '\(y+2\)</label></div>'
+            . '\(2+y\)</label></div>'
             . '</div>';
         $this->assertEquals($expected, $el->render(new stack_input_state(
                 stack_input::SCORE, array('2'), '', '', '', '', ''), 'stack1__ans1', false, null));

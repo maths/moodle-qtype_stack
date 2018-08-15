@@ -64,9 +64,9 @@ class stack_checkbox_input_test extends qtype_stack_walkthrough_test_base {
         // @codingStandardsIgnoreEnd
         $expected = '<div class="answer">'
                 . '<div class="option"><input type="checkbox" name="stack1__ans1_1" value="1" id="stack1__ans1_1" />'
-                . '<label for="stack1__ans1_1">\(x+1\)</label></div><div class="option">'
+                . '<label for="stack1__ans1_1">\(1+x\)</label></div><div class="option">'
                 . '<input type="checkbox" name="stack1__ans1_2" value="2" id="stack1__ans1_2" /><label for="stack1__ans1_2">'
-                . '\(y+2\)</label></div></div>';
+                . '\(2+y\)</label></div></div>';
         $this->assertEquals($expected, $el->render(new stack_input_state(
                 stack_input::SCORE, array(''), '', '', '', '', ''), 'stack1__ans1', false, null));
     }
@@ -257,5 +257,42 @@ class stack_checkbox_input_test extends qtype_stack_walkthrough_test_base {
         $this->assertEquals(stack_input::SCORE, $state->status);
         $this->assertEquals(array('3'), $state->contents);
         $this->assertEquals('[x=1 nounor x=3]', $state->contentsmodified);
+    }
+
+    public function test_simp_false() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('checkbox', 'ans1', '[[abs(x-5)=abs(5-x),true],[1+1,false],[x=3 nounor x=1,false]]',
+                null, array('options' => 'latex'));
+        $el->adapt_to_model_answer('[[abs(x-5)=abs(5-x),true],[1+1,false],[x=3 nounor x=1,false]]');
+        $expected = '<div class="answer"><div class="option"><input type="checkbox" name="stack1__ans1_1" value="1" id="stack1__ans1_1" />'.
+            '<label for="stack1__ans1_1">\(\left| x-5\right| =\left| 5-x\right|\)</label></div><div class="option">'.
+            '<input type="checkbox" name="stack1__ans1_2" value="2" id="stack1__ans1_2" checked="checked" /><label for="stack1__ans1_2">\(1+1\)'.
+            '</label></div><div class="option"><input type="checkbox" name="stack1__ans1_3" value="3" id="stack1__ans1_3" />'
+            .'<label for="stack1__ans1_3">\(x=3\,{\mbox{ or }}\, x=1\)</label></div></div>';
+        $this->assertEquals($expected, $el->render(new stack_input_state(
+                stack_input::SCORE, array('2'), '', '', '', '', ''), 'stack1__ans1', false, null));
+        $state = $el->validate_student_response(array('ans1_1' => '2'), $options, '2', null);
+        $this->assertEquals(stack_input::SCORE, $state->status);
+        $this->assertEquals(array('2'), $state->contents);
+        $this->assertEquals('[1+1]', $state->contentsmodified);
+    }
+
+    public function test_stack_units() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('checkbox', 'ans1', '[[stackunits(9.81,m/s^2),true],[stackunits(9.81,m/s),false],[stackunits(9.8,m/s^2),false]]',
+                null, array('options' => 'latex'));
+        $el->adapt_to_model_answer('[[stackunits(9.81,m/s^2),true],[stackunits(9.81,m/s),false],[stackunits(9.8,m/s^2),false]]');
+        $expected = '<div class="answer"><div class="option"><input type="checkbox" name="stack1__ans1_1" value="1" id="stack1__ans1_1" />'.
+            '<label for="stack1__ans1_1">\(9.81\, \frac{m}{s^2}\)</label></div><div class="option">'.
+            '<input type="checkbox" name="stack1__ans1_2" value="2" id="stack1__ans1_2" checked="checked" />'.
+            '<label for="stack1__ans1_2">\(9.81\, \frac{m}{s}\)</label></div><div class="option">'.
+            '<input type="checkbox" name="stack1__ans1_3" value="3" id="stack1__ans1_3" />'.
+            '<label for="stack1__ans1_3">\(9.8\, \frac{m}{s^2}\)</label></div></div>';
+        $this->assertEquals($expected, $el->render(new stack_input_state(
+                stack_input::SCORE, array('2'), '', '', '', '', ''), 'stack1__ans1', false, null));
+        $state = $el->validate_student_response(array('ans1_1' => '2'), $options, '2', null);
+        $this->assertEquals(stack_input::SCORE, $state->status);
+        $this->assertEquals(array('2'), $state->contents);
+        $this->assertEquals('[stackunits(9.81,m/s)]', $state->contentsmodified);
     }
 }

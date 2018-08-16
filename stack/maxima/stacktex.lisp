@@ -78,18 +78,6 @@
 
 (defprop $texcolorplain tex-texcolorplain tex)
 
-(defun tex-texdecorate (x l r)
-  (let
-      ((front (append '("{")
-                      (list (stripdollar (cadr x)))
-                      '("")))
-       (back (append '("{")
-                     (tex (caddr x) nil nil 'mparen 'mparen)
-                     '("}}"))))
-    (append l front back r)))
-
-(defprop $texdecorate tex-texdecorate tex)
-
 ;; Changed log to ln, and other things.
 ;; If changes are made here, then we also need to update arccos.lisp
 

@@ -43,7 +43,8 @@ $string['stack:usediagnostictools'] = 'Use the STACK tools';
 $string['stackversionedited'] = 'This question was authored with STACK version {$a}.';
 $string['stackversionnow']    = 'The current version of STACK is {$a}.';
 $string['stackversionnone']   = 'This question has not been edited since question version numbering was introduced in STACK 4.2.  Please review your question carefully.';
-$string['stackversionaddrowerror'] = 'This question uses the "addrow" function in the {$a}, which changed in STACK version 4.2.  Please edit this question to use "rowadd" instead.';
+$string['stackversionerror'] = 'This question uses {$a->pat} in the {$a->qfield}, which changed in STACK version {$a->ver} and is no longer supported.';
+$string['stackversionerroralt'] = 'An alternative is {$a}.';
 $string['stackversionmulerror'] = 'This question has an input which uses the "mul" option, which is not suppored after STACK version 4.2.  Please edit this question.';
 
 // Strings used on the editing form.

@@ -111,13 +111,23 @@ Another way to do this is to create matrices as follows:
     p:matrix([-7],[2],[-3]);
     q:matrix([i],[j],[k]);
 
-Now we can use the dot product to create the vector.  The STACK function `texboldatoms` prints all atomic variable names in bold.  
+Now we can use the dot product to create the vector.  The STACK function `texboldatoms` wraps all atomic variable names in the ephemeral function `stackvector`, which is typeset in bold.
 
     v:texboldatoms(dotproduct(p,q));
 
 If you turn the option "Multiplication sign" to none, this should display as
 \[-7\,{\bf{i}}+2\,{\bf{j}}-3\,{\bf{k}}\]
-Notice the use of the function `ordergreat`.  This can only be used once at the beginning of the question.
+Notice the use of the function `ordergreat`.  `ordergreat` can only be used once at the beginning of the question.
+
+The vector `stackvector(a)` and the atom `a` are different, and are not considered algebraically equivalent.  While students may type in `stackvector(a)` as an answer, they are likely to type in `a`.  The teacher can either (1) add in `stackvector` ephemeral forms to the student's answer in the feedbackvariables using `texboldatoms` or 92) remove all `stackvector` forms from the teacher's answer by using the `destackvector(ex)` function on their answer.  In the future we may have an option in the input to apply texboldatoms to student's expressions.
+
+The display of the ephemeral form of `stackvector` is controlled by the function `stackvectortex`, e.g. you can display vectors differently using the following examples.
+
+    stackvectortex(ex):= block(sconcat("{\\bf \\vec{", tex1(first(args(ex))), "}}"));
+    stackvectortex(ex):= block(sconcat("{\\bf \\underline{", tex1(first(args(ex))), "}}"));
+
+which should go in the question variables.  Note, in future this may become a question level option.
+
 
 ### Vector cross product ###
 

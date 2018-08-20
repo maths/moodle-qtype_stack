@@ -996,24 +996,39 @@ class qtype_stack_question extends question_graded_automatically_with_countback
      */
     public function validate_against_stackversion() {
         $errors = array();
+        $qfields = array('questiontext', 'questionvariables', 'questionnote', 'specificfeedback', 'generalfeedback');
 
         $stackversion = (int) $this->stackversion;
 
-        // Identify any use of addrow using only a basic string match.
-        if ($stackversion < 2018060601) {
-            $fields = array('questiontext', 'questionvariables', 'questionnote', 'specificfeedback', 'generalfeedback');
-            foreach ($fields as $field) {
-                if (strstr($this->$field, 'addrow')) {
-                    $fs = stack_string($field);
-                    $errors[] = stack_string('stackversionaddrowerror', $fs);
+        // Things no longer allowed in questions.
+        $patterns = array(
+             array('pat' => 'addrow', 'ver' => 2018060601, 'alt' => 'rowadd'),
+             array('pat' => 'texdecorate', 'ver' => 2018080600)
+        );
+        foreach ($patterns as $checkpat) {
+            if ($stackversion < $checkpat['ver']) {
+                foreach ($qfields as $field) {
+                    if (strstr($this->$field, $checkpat['pat'])) {
+                        $a = array('pat' => $checkpat['pat'], 'ver' => $checkpat['ver'], 'qfield' => stack_string($field));
+                        $err = stack_string('stackversionerror', $a);
+                        if (array_key_exists('alt', $checkpat)) {
+                            $err .= ' ' . stack_string('stackversionerroralt', $checkpat['alt']);
+                        }
+                        $errors[] = $err;
+                    }
                 }
-            }
-            // Look inside the PRT feedback variables.  Should probably check the feedback as well.
-            foreach ($this->prts as $name => $prt) {
-                $kv = $prt->get_feedbackvariables_keyvals();
-                if (strstr($kv, 'addrow')) {
-                    $fs = stack_string('feedbackvariables') . ' (' . $name . ')';
-                    $errors[] = stack_string('stackversionaddrowerror', $fs);
+                // Look inside the PRT feedback variables.  Should probably check the feedback as well.
+                foreach ($this->prts as $name => $prt) {
+                    $kv = $prt->get_feedbackvariables_keyvals();
+                    if (strstr($kv, $checkpat['pat'])) {
+                        $a = array('pat' => $checkpat['pat'], 'ver' => $checkpat['ver'],
+                             'qfield' => stack_string('feedbackvariables') . ' (' . $name . ')');
+                        $err = stack_string('stackversionerror', $a);
+                        if (array_key_exists('alt', $checkpat)) {
+                            $err .= ' ' . stack_string('stackversionerroralt', $checkpat['alt']);
+                        }
+                        $errors[] = $err;
+                    }
                 }
             }
         }

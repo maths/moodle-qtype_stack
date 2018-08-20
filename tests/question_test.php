@@ -236,10 +236,12 @@ class qtype_stack_question_test extends qtype_stack_testcase {
 
     public function test_question_addrow() {
         $q = test_question_maker::make_question('stack', 'addrow');
-        $expected = 'This question uses the "addrow" function in the Question variables, which changed in ' .
-                'STACK version 4.2.  Please edit this question to use "rowadd" instead. ';
-        $expected .= 'This question uses the "addrow" function in the Feedback variables (firsttree), ' .
-                'which changed in STACK version 4.2.  Please edit this question to use "rowadd" instead.';
+        $expected = 'This question uses addrow in the Question variables, which changed in STACK version ' .
+             '2018060601 and is no longer supported. An alternative is rowadd. ';
+        $expected .= 'This question uses addrow in the Feedback variables (firsttree), which changed in STACK version ' .
+             '2018060601 and is no longer supported. An alternative is rowadd. ';
+        $expected .= 'This question uses texdecorate in the Question variables, which changed in STACK version ' .
+             '2018080600 and is no longer supported.';
 
         $this->assertEquals($expected, $q->validate_against_stackversion());
     }

@@ -1212,6 +1212,29 @@ factor_bag(ex) := block(
 /* Matrix/vector operations */
 /****************************/
 
+
+/* Create an "ephemeral form" for vectors, much like stackunits. */
+texboldatoms(ex) := block(
+  if numberp(ex) then return(ex),
+  if atom(ex) then return(stackvector(ex)),
+  if arrayp(ex) then return(arraymake(op(ex), maplist(texboldatoms, args(ex)))),
+  apply(op(ex), maplist(texboldatoms, args(ex)))
+)$
+
+stackvectortex(ex):= block(
+  sconcat("{\\bf ", tex1(first(args(ex))), "}")
+);
+texput(stackvector, stackvectortex);
+
+/* Remove stackvectors.  Needed for dispvalue. */
+destackvector(ex):= block([argsex],
+  if mapatom(ex) then return(ex),
+  argsex:args(ex),
+  if op(ex) = stackvector then return(destackvector(argsex[1])),
+  if op(ex) = "/" then return(destackvector(argsex[1])/destackvector(argsex[2])),
+  map(destackvector, ex)
+)$
+
 /*
   Description : forme echelonne par lignes d'une matrice rectangulaire
     (a  coefficients dans un corps commutatif).

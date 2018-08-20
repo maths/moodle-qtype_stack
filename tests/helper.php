@@ -1903,7 +1903,7 @@ class qtype_stack_test_helper extends question_test_helper {
 
         $q->stackversion = 2018051000;
         $q->name = 'addrow';
-        $q->questionvariables = 'm:matrix([1,2],[3,4]);m:addrow(m,1,1,1);';
+        $q->questionvariables = 'm:matrix([1,2],[3,4]);m:addrow(m,1,1,1);v1:texdecorate("\\bf", v);';
         $q->questiontext = 'What is \({@m@}^2\)? [[input:ans1]]
                            [[validation:ans1]]';
 

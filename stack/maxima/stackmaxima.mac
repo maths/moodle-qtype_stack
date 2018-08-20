@@ -458,22 +458,6 @@ detexcolor(ex) := block([argsex],
   map(detexcolor, ex)
 )$
 
-detexdecorate(ex) := block([argsex],
-  if mapatom(ex) then return(ex),
-  argsex:args(ex),
-  if op(ex) = texdecorate then return(detexdecorate(argsex[2])),
-  if op(ex) = "/" then return(detexdecorate(argsex[1])/detexdecorate(argsex[2])),
-  map(detexdecorate, ex)
-)$
-
-/* Assume all non-numeric atoms are to be displayed in bold. */
-texboldatoms(ex) := block(
-  if numberp(ex) then return(ex),
-  if atom(ex) then return(texdecorate("\\bf", ex)),
-  if arrayp(ex) then return(arraymake(op(ex), maplist(texboldatoms, args(ex)))),
-  apply(op(ex), maplist(texboldatoms, args(ex)))
-)$
-
 /* We only display matrices with the following matching pairs of delimiters.
    Mismatching pairs ruins the API, so we can't have lmxchar and rmxchar as arbitrary.
    The list has three arguments, the first is the search string, the second is the left
@@ -606,11 +590,11 @@ cte(var, ex) := block([str],
 /* This function strips out functions to leave only things in the value which might be typed in. */
 stack_dispvalue(ex) := block(
   ex: detexcolor(ex),
-  ex: detexdecorate(ex),
   ex: make_displaydpvalue(ex),
   ex: make_displayscivalue(ex),
   if not(stack_disp_control_structurep(ex)) then
       ex: unary_minus_sort(opsubst("*", stackunits, ex)),
+      ex: destackvector(ex),
   return(string(ex))
 )$
 
@@ -701,7 +685,6 @@ stack_validate(expr, ForbidFloats, LowestTerms, TAns) := block([simp:false, exs,
   /* Now display the result. */
   simp: false,
   expr: detexcolor(expr),
-  expr: detexdecorate(expr),
   return(expr)
 )$
 

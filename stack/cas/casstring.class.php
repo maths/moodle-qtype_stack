@@ -484,7 +484,8 @@ class stack_cas_casstring {
                 'logbase' => true, 'day' => true, 'year' => true, 'rpm' => true, 'rev' => true, 'product' => true,
                 'gal' => true, 'deg' => true, 'cal' => true, 'btu' => true, 'rem' => true,
                 'nounor' => true, 'nounand' => true, 'xor' => true, 'nounint' => true, 'noundiff' => true, 'root' => true,
-                'all' => true, 'none' => true, 'stackeq' => true, 'stacklet' => true
+                'all' => true, 'none' => true, 'stackeq' => true, 'stacklet' => true,
+                'stackunits' => true, 'stackvector' => true
                 );
 
     /**

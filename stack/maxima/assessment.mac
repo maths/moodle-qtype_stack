@@ -22,7 +22,8 @@
 /****************************************************************/
 
 MAXIMA_VERSION:map(parse_string, tokens(?\*autoconf\-version\*, 'digitcharp))$
-MAXIMA_VERSION_NUM:float(MAXIMA_VERSION[2]+(if is(MAXIMA_VERSION[3]<10) then MAXIMA_VERSION[3]/10 else 0))$
+MAXIMA_VERSION_NUM:float(MAXIMA_VERSION[2]+(if is(length(MAXIMA_VERSION)>2) 
+  then (if is(MAXIMA_VERSION[3]<10) then MAXIMA_VERSION[3]/10 else 0) else 0))$
 
 /* ********************************** */
 /* Load contributed packages          */

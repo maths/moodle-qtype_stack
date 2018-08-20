@@ -55,7 +55,8 @@ stack_reset(not_used) := block(
   MAXIMA_VERSION_STR: ?\*autoconf\-version\*,
   MAXIMA_VERSION: map(parse_string, tokens(?\*autoconf\-version\*, 'digitcharp)),
   /* We need the "if" statement below, because versions compiled from source give erroneous results. */
-  MAXIMA_VERSION_NUM: float(MAXIMA_VERSION[2]+(if is(MAXIMA_VERSION[3]<10) then MAXIMA_VERSION[3]/10 else 0)),
+  MAXIMA_VERSION_NUM: float(MAXIMA_VERSION[2]+(if is(length(MAXIMA_VERSION)>2)
+    then (if is(MAXIMA_VERSION[3]<10) then MAXIMA_VERSION[3]/10 else 0) else 0)), 
 
   OPT_OUTPUT: "LaTeX",
   PLOT_TAGS: true,

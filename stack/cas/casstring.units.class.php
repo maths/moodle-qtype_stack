@@ -99,6 +99,12 @@ class stack_cas_casstring_units {
         array('M', 'mol/(m^3/1000)', 'M', 'Molar'),
         array('kat', 'mol/s', 'kat', 'katal'),
         array('rad', 'rad', 'rad', 'radian'),
+        array('K', 'K', 'K', 'Kelvin'),
+        // @codingStandardsIgnoreStart
+        // Celsius conflicts with Coulomb.
+        // Add in 'C', 'C', '{}^{o}C', 'Celsius'.
+        // @codingStandardsIgnoreEnd
+        //
     );
 
     /*
@@ -119,12 +125,6 @@ class stack_cas_casstring_units {
         array('rev', '2*pi*rad', 'rev', 'revolutions'),
         array('deg', 'pi*rad/180', '{}^{o}', 'degrees'),
         array('rpm', 'pi*rad/(30*s)', 'rpm', 'revolutions per minute'),
-        array('K', 'K', 'K', 'Kelvin'),
-        // @codingStandardsIgnoreStart
-        // Celsius conflicts with Coulomb.
-        // Add in 'C', 'C', '{}^{o}C', 'Celsius'.
-        // @codingStandardsIgnoreEnd
-        //
         // We know these two are not really correct, but there we are.
         array('day', '86400*s', 'day', 'day'),
         array('year', '3.156e7*s', 'year', 'year'),

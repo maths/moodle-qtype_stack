@@ -19,6 +19,7 @@
 }
 .que.stack textarea {
     float: left;
+    max-width: 100%;
 }
 
 .que.stack .stackinputfeedback.empty {

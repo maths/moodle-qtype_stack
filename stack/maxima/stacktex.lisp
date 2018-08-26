@@ -161,7 +161,7 @@
 (defun tex-derivative (x l r)
   (tex (if $derivabbrev
        (tex-dabbrev x)
-       (tex-d x '"\\mathrm{d}")) l r lop rop ))
+       (tex-d x '"\\mathrm{d}")) l r lop rop))
 
 (defun tex-d(x dsym)            ;dsym should be $d or "$\\partial"
   ;; format the macsyma derivative form so it looks
@@ -169,12 +169,15 @@
   (let*
       ((arg (cadr x)) ;; the function being differentiated
        (difflist (cddr x)) ;; list of derivs e.g. (x 1 y 2)
-       (ords (odds difflist 0)) ;; e.g. (1 2)
+       (ords (if (null (odds difflist 0))
+                 `(1)
+                 (odds difflist 0)
+              )) ;; e.g. (1 2), but not empty.
        (vars (odds difflist 1)) ;; e.g. (x y)
-       (numer `((mexpt) ,dsym ((mplus) ,@ords))) ; d^n numerator
+       (numer (mfuncall `$simplify `((mexpt) ,dsym ((mplus) ,@ords)))) ; d^n numerator
        (denom (cons '($blankmult)
             (mapcan #'(lambda(b e)
-                `(,dsym ,(simplifya `((mexpt) ,b ,e) nil)))
+                `(,dsym ,(simplifya (mfuncall `$simplify `((mexpt) ,b ,(mfuncall `$simplify e))) nil)))
                 vars ords))))
     `((mquotient) (($blankmult) ,(simplifya numer nil) ,arg) ,denom)
      ))

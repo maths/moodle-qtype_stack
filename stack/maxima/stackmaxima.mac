@@ -2591,7 +2591,6 @@ ATIntOptionsHelper(in, out) := block(
 
 Intfun(SA, SB, SBdisp, constint, var) := block([val,rawmk,ansnote,fb,ret,ex,SAd,SBd,SBraw,saa,dd,dc,lSAv,lSBv,mSAv,mSBv,SAConsistentLogs,SAUsedLogAbs,SBUsedLogAbs],
     val:true, rawmk:false, fb:"", ansnote:"",
-    debug:false,
     ret:[val, rawmk, ansnote, fb],
     /* Check if the teacher and student used only log abs.
        Teacher must be consistent, otherwise the student doesn't have to be!*/
@@ -2741,6 +2740,13 @@ ATInt_consistent_logabs_p(ex, var):=block([helper],
   helper:ev(ATInt_consistent_logabs_p_helper(ex, var), simp),
   helper:listofvars(helper),
   if member(STACKLOG, helper) and member(STACKLOGABS, helper) then false else true
+);
+
+/* Look over an expression and find all the variables wrt which we are integrating. */
+ATIntGetVar(ex):= block(
+    if atom(ex) then return([]),
+    if safe_op(ex)="int" then return([second(args(ex))]),
+    flatten(map(ATIntGetVar, args(ex)))
 );
 
 /********************************************************************/

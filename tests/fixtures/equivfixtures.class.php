@@ -1272,8 +1272,17 @@ class stack_equiv_test_data {
         $samplearguments[] = $newarg;
 
         $newarg = array();
+        $newarg['title']     = "Differential quotient as the unknown";
+        $newarg['narrative'] = 'Just solving for dy/dx here.';
+        $newarg['casstring'] = "[-12+3*diff(y(x),x)+8-8*diff(y(x),x)=0,-5*diff(y(x),x)=4,diff(y(x),x)=-4/5]";
+        $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR]";
+        $newarg['calculus']  = true;
+        $newarg['outcome']   = true;
+        $samplearguments[]   = $newarg;
+
+        $newarg = array();
         $newarg['title']     = "Various calculus cases";
-        $newarg['narrative'] = 'Calculus, with and without the constant.';
+        $newarg['narrative'] = 'Calculus, without explicit operations.  With and without the constant.';
         $newarg['casstring'] = "[x^2+1,x^3/3+x,x^2+1,x^3/3+x+c]";
         $newarg['debuglist'] = "[EMPTYCHAR,INTCHAR(x),DIFFCHAR(x),INTCHAR(x)]";
         $newarg['calculus']  = true;
@@ -1281,7 +1290,7 @@ class stack_equiv_test_data {
         $samplearguments[]   = $newarg;
 
         $newarg = array();
-        $newarg['title']     = "Further calculus cases";
+        $newarg['title']     = "Further implicit calculus cases";
         $newarg['narrative'] = '';
         $newarg['casstring'] = "[3*x^(3/2)-2/x,(9*sqrt(x))/2+2/x^2,3*x^(3/2)-2/x+c]";
         $newarg['debuglist'] = "[EMPTYCHAR,DIFFCHAR(x),INTCHAR(x)]";
@@ -1290,7 +1299,7 @@ class stack_equiv_test_data {
         $samplearguments[]   = $newarg;
 
         $newarg = array();
-        $newarg['title']     = "Calculus cases";
+        $newarg['title']     = "Implicit calculus";
         $newarg['narrative'] = 'Calculus cases, with an equals sign, not equivalent.';
         $newarg['casstring'] = "[x^2+1,stackeq(x^3/3+x),stackeq(x^2+1),stackeq(x^3/3+x+c)]";
         $newarg['debuglist'] = "[EMPTYCHAR,QMCHAR,QMCHAR,QMCHAR]";
@@ -1299,19 +1308,29 @@ class stack_equiv_test_data {
         $samplearguments[]   = $newarg;
 
         $newarg = array();
-        $newarg['title']     = "Differential quotient as the unknown";
-        $newarg['narrative'] = 'Need to fix the display of derivatives with simp:false';
-        $newarg['casstring'] = "[-12+3*diff(y(x),x)+8-8*diff(y(x),x)=0,-5*diff(y(x),x)=4,diff(y(x),x)=-4/5]";
-        $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR]";
+        $newarg['title']     = "Explicit differentiation";
+        $newarg['narrative'] = 'Calculus with an equals sign, are equivalent with noun operators.';
+        $newarg['casstring'] = "[noundiff(x^2*sin(x),x),stackeq(x^2*noundiff(sin(x),x)+noundiff(x^2,x)*sin(x))," .
+            "stackeq(x^2*cos(x)+2*x*sin(x))]";
+        $newarg['debuglist'] = "[EMPTYCHAR,CHECKMARK,CHECKMARK]";
         $newarg['calculus']  = true;
-        $newarg['outcome']   = 'unsupported';
+        $newarg['outcome']   = true;
+        $samplearguments[]   = $newarg;
+
+        $newarg = array();
+        $newarg['title']     = "Explicit integation";
+        $newarg['narrative'] = 'Calculus with an equals sign, are equivalent with noun operators.';
+        $newarg['casstring'] = "[nounint(s^2+1,s),stackeq(s^3/3+s+c)]";
+        $newarg['debuglist'] = "[EMPTYCHAR,INTCHAR(s)]";
+        $newarg['calculus']  = true;
+        $newarg['outcome']   = true;
         $samplearguments[]   = $newarg;
 
         $newarg = array();
         $newarg['title']     = "Integration by parts";
-        $newarg['narrative'] = 'The last QMCHAR occurs because of the missing constant of integration.';
-        $newarg['casstring'] = "[nounint(x^3*log(x),x),x^4/4*log(x)-1/4*nounint(x^3,x),x^4/4*log(x)-x^4/4]";
-        $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,QMCHAR]";
+        $newarg['narrative'] = 'This has a missing constant of integration.';
+        $newarg['casstring'] = "[nounint(x^3*log(x),x),x^4/4*log(x)-1/4*nounint(x^3,x),x^4/4*log(x)-x^4/16]";
+        $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,PLUSC]";
         $newarg['calculus']  = true;
         $newarg['outcome']   = false;
         $samplearguments[]   = $newarg;
@@ -1319,10 +1338,20 @@ class stack_equiv_test_data {
         $newarg = array();
         $newarg['title']     = "Integration by parts +c";
         $newarg['narrative'] = '';
-        $newarg['casstring'] = "[nounint(x^3*log(x),x),x^4/4*log(x)-1/4*nounint(x^3,x),x^4/4*log(x)-x^4/4+c]";
-        $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR]";
+        $newarg['casstring'] = "[nounint(x^3*log(x),x),x^4/4*log(x)-1/4*nounint(x^3,x),x^4/4*log(x)-x^4/16+c]";
+        $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,INTCHAR(x)]";
         $newarg['calculus']  = true;
-        $newarg['outcome']   = 'unsupported';
+        $newarg['outcome']   = true;
+        $samplearguments[]   = $newarg;
+
+        $newarg = array();
+        $newarg['title']     = "Integration by parts +c";
+        $newarg['narrative'] = '';
+        $newarg['casstring'] = "[noundiff(y,x)-2/x*y=x^3*sin(3*x),1/x^2*noundiff(y,x)-2/x^3*y=x*sin(3*x),".
+            "noundiff(y/x^2,x)=x*sin(3*x),y/x^2 = nounint(x*sin(3*x),x),y/x^2=(sin(3*x)-3*x*cos(3*x))/9+c]";
+        $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,INTCHAR(x),INTCHAR(x)]";
+        $newarg['calculus']  = true;
+        $newarg['outcome']   = true;
         $samplearguments[]   = $newarg;
 
         $newarg = array();

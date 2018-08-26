@@ -1247,6 +1247,7 @@ class stack_utils {
                 $str = stack_string('equiv_LET') . ' ' . implode('=', explode(',', substr(trim($str), 9, -1)));
             }
             // Apostophies are not permitted in student's expressions.
+            $str = str_replace("'sum", "sum", $str);
             $str = str_replace("'int", "int", $str);
             $str = str_replace("'diff", "diff", $str);
         }

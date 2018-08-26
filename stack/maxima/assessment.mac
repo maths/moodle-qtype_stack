@@ -1389,6 +1389,7 @@ texput(EQUIVCHARREAL, "\\color{green}{\\Leftrightarrow}\\, \\color{blue}{(\\math
 texput(CHECKMARK, "\\color{green}{\\checkmark}");
 texput(IMPLIESCHAR, "\\color{red}{\\Rightarrow}");
 texput(IMPLIEDCHAR, "\\color{red}{\\Leftarrow}");
+texput(PLUSC, "\\color{red}{\\cdots +c\\quad ?}");
 texput(EQUIVZERO, "\\color{red}{0\\quad\\mbox{(?)}}");
 /* Here we add tags.  These are for localisation.  Dealt with on the PHP side in cassession -> instantiate. */
 texput(SAMEROOTS, "\\color{green}{\\mbox{!SAMEROOTS!}}");
@@ -1686,25 +1687,78 @@ stack_eval_arg(ex) := block([eqoutcome, eqoutsymb, eqoutnote, res, id, truthargu
                 )
           ),
 
-          /* Can we work out what has gone wrong?  */
-          if (debug) then print("** Checking for common mistakes **"),
-          if (debug) then print(SA),
-          if (debug) then print(SB),
           malrulecont:not(eqoutcome[ev(id, simp)]),
           /* In the edge cases we don't look for malrules.  Edge cases are turned into equations.  */
           if is(lhs(SA)=all) or is(lhs(SB)=all) or is(lhs(SA)=none) or is(lhs(SB)=none) then
               malrulecont:false,
+          /* Has the student done explicit calculus? */
+          if is(stack_calculus=true) then block([SAN, SBN, SAD, SBD, var, ATres],
+              if (debug) then print("** Has the student done explicit calculus? **"),
+              if (debug) then print(SA),
+              if (debug) then print(SB),
+              SAN:ev(SA, nouns, simp),
+              SBN:ev(SB, nouns, simp),
+              if equationp(SAN) then SAN:lhs(SAN)-rhs(SAN),
+              if equationp(SBN) then SBN:lhs(SBN)-rhs(SBN),
+              if (debug) then print("Calculated values as SA->", string(SAN), ", SB->", string(SBN)),
+              if ev(not(freeof('int, SA)), simp) then (
+                  if (debug) then print("(1) Did the studnet integrate?"),
+                  var:first(ATIntGetVar(SA)),
+                  if (debug) then print("START ATInt -----------------"),
+                  ATres:ev(ATInt(SBN, SAN, var), simp),
+                  if (debug) then print("END ATInt -----------------"),
+                  if (debug) then print("Calculated ATInt ", string(ATres)),
+                  if second(ATres) then block(
+                      malrulecont:false,
+                      eqoutcome[ev(id, simp)]:true,
+                      eqoutsymb[ev(id, simp)]:INTCHAR(var),
+                      tempnote:sconcat(tempnote, " | Integrated explicitly (1)")
+                  ),
+                  if (ev(freeof('int, SB), simp) and is(third(ATres)="ATInt_const. ")) then block (
+                      malrulecont:false,
+                      eqoutcome[ev(id, simp)]:false,
+                      eqoutsymb[ev(id, simp)]:PLUSC,
+                      tempnote:sconcat(tempnote, " | ATInt_const. ")
+                  )
+              ),
+             if ev(not(freeof('int, SB)), simp) then (
+                  if (debug) then print("(2) Did the studnet integrate?"),
+                  var:first(ATIntGetVar(SB)),
+                  ATres:ev(ATAlgEquiv(SA, diff(SB, var)), simp),
+                  if (debug) then print("Calculated ATInt ", string(ATres)),
+                  if second(ATres) then block(
+                      malrulecont:false,
+                      eqoutcome[ev(id, simp)]:true,
+                      eqoutsymb[ev(id, simp)]:INTCHAR(var),
+                      tempnote:sconcat(tempnote, " | Integrated explicitly (2)")
+                  )
+             )
+          ),
 
-          if (debug) and not(malrulecont) then print("** Not actually checking for common mistakes ... **"),
+          /* Can we work out what has gone wrong?  */
+          if (debug) then block(
+              if (malrulecont) then block(
+                  print("** Checking for common mistakes **"),
+                  print(SA),
+                  print(SB)
+              ) else 
+                  print("** Not actually checking for common mistakes ... **")
+          ),
+
+          /* The following rules are only checked when we have no calculus operations. */
+          malrulecont:malrulecont and freeof(int,SA) and freeof(int,SB)
+                      and freeof(diff,SA) and freeof(diff,SB),
 
           /* We don't allow the stackeq operator for the second argument with calculus. */
-          if malrulecont and is(stack_calculus=true) and not(safe_op(ex[ev(id, simp)])="stackeq") then block([SAD, SBD, var, ATres],
-              /* (C0) Calculus operations. */
+          if malrulecont and is(stack_calculus=true) and not(safe_op(ex[ev(id, simp)])="stackeq") then block([SAN, SBN, SAD, SBD, var, ATres],
+              /* (C0) Implicit calculus operations. */
+              if (debug) then print("** Inferring Calculus **"),
               var:last(sort(listofvars(SA))),
-              SAD:ev(SA, nouns, simp),
-              SAD:ev(diff(SAD,var), simp),
-              SBD:ev(SB, nouns, simp),
-              SBD:ev(diff(SBD,var), simp),
+              SAN:ev(SA, nouns, simp),
+              SAD:ev(diff(SAN,var), simp),
+              SBN:ev(SB, nouns, simp),
+              SBD:ev(diff(SBN,var), simp),
+              if (debug) then print("Calculated values as SA->", string(SAN), ", SB->", string(SBN)),
               if (debug) then print("Calculated derivatives as SA->", string(SAD), ", SB->", string(SBD), " wrt ", var),
               ATres:ev(ATAlgEquiv(SAD, SB), simp),
               if second(ATres) then block(
@@ -1731,10 +1785,6 @@ stack_eval_arg(ex) := block([eqoutcome, eqoutsymb, eqoutnote, res, id, truthargu
                   )
               )
           ),
-
-          /* The following rules are only checked when we have no calculus operations. */
-          malrulecont:malrulecont and freeof(int,SA) and freeof(int,SB)
-                      and freeof(diff,SA) and freeof(diff,SB),
 
           if malrulecont then block([FAA, FBB, FGCD, ATres],
               /* (0) Multiplicity of roots. */

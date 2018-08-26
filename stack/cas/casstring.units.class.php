@@ -104,7 +104,6 @@ class stack_cas_casstring_units {
         // Celsius conflicts with Coulomb.
         // Add in 'C', 'C', '{}^{o}C', 'Celsius'.
         // @codingStandardsIgnoreEnd
-        //
     );
 
     /*

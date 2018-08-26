@@ -1246,6 +1246,9 @@ class stack_utils {
             if (substr(trim($str), 0, 9) == 'stacklet(' && substr(trim($str), -1, 1) == ')') {
                 $str = stack_string('equiv_LET') . ' ' . implode('=', explode(',', substr(trim($str), 9, -1)));
             }
+            // Apostophies are not permitted in student's expressions.
+            $str = str_replace("'int", "int", $str);
+            $str = str_replace("'diff", "diff", $str);
         }
 
         return $str;

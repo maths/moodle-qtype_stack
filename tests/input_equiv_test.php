@@ -549,4 +549,19 @@ class stack_equiv_input_test extends qtype_stack_testcase {
                 '&=\left(x-1\right)\,\left(x+1\right)& \cr \end{array} \]',
                 $state->contentsdisplayed);
     }
+
+    public function test_validate_student_response_surds() {
+        $options = new stack_options();
+        $options->set_option('multiplicationsign', 'none');
+        $ta = '[sqrt((x-3)*(x-5)),stackeq(x^2-8*x+15)]';
+        $sa = "sqrt((x-3)*(x-5))\n=sqrt(x-3)*sqrt(x-5)";
+        $el = stack_input_factory::make('equiv', 'sans1', $ta);
+        $state = $el->validate_student_response(array('sans1' => $sa), $options, $ta, null);
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('[sqrt((x-3)*(x-5)),stackeq(sqrt(x-3)*sqrt(x-5))]', $state->contentsmodified);
+        $this->assertEquals('\[ \begin{array}{lll} &\sqrt{\left(x-3\right)\,\left(x-5\right)}&' .
+            '{\color{blue}{{x \in {\left[ 5,\, \infty \right) \cup \left( -\infty ,\, 3\right]}}}}\cr \color{red}{?}&' .
+            '=\sqrt{x-3}\,\sqrt{x-5}&{\color{blue}{{x \in {\left[ 5,\, \infty \right)}}}}\cr \end{array} \]',
+            $state->contentsdisplayed);
+    }
 }

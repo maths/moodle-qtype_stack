@@ -86,15 +86,15 @@ You can set the type of parentheses used to surround matrices in a number of way
 
 For an individual question, the teacher can set the variable
 
-    lxmchar:"(";
+    lmxchar:"(";
 
 in any of the usual places, e.g. in the question variables.
 
 To set the display of an individual matrix, `m` say, in CASText you can use
 
-    {@(lxmchar:"|", m)@} 
+    {@(lmxchar:"|", m)@} 
 
-Since `lxmchar` is a global setting in Maxima, you will have to set it back when you next display a matrix.  Not ideal, but there we are.
+Since `lmxchar` is a global setting in Maxima, you will have to set it back when you next display a matrix.  Not ideal, but there we are.
 
 Note, STACK only displays matrices with matching parentheses.  If you want something like
 \[ f(x) = \left\{ \begin{array}{cc} 1, & x<0 \\ 0, & x\geq 0 \end{array}\right.\]

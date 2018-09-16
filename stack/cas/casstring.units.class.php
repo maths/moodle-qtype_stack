@@ -148,12 +148,7 @@ class stack_cas_casstring_units {
         'day' => array('days')
     );
 
-    /* This array keeps a list of substitutions which are made when we deal with units.
-     */
-    private static $unitsubstitutions = array(
-        'Torr' => 'torr',
-        'kgm/s' => 'kg*m/s'
-    );
+
 
     /**
      * Static class. You cannot create instances.
@@ -248,15 +243,35 @@ class stack_cas_casstring_units {
         return($units);
     }
 
-    /* Make substitutions in an expression.
-     * @param string $val is student's raw casstring.
-     */
-    public static function make_units_substitutions($val) {
-        foreach (self::$unitsubstitutions as $in => $out) {
-            $val = str_replace($in, $out, $val);
-        }
 
-        return $val;
+    /* This array keeps a list of substitutions which are made when we deal with units.
+     */
+    private static $unitsubstitutions = array(
+        'Torr' => 'torr',
+        'kgm/s' => 'kg*m/s'
+    );
+
+    /* Make substitutions in an expression.
+     * @param MP_Identifier any identifier in the parse tree.
+     */
+    public static function make_units_substitutions($identifiernode) {
+        if ($identifiernode->value == 'Torr') {
+            $identifiernode->value = 'torr';
+        } else if ($identifiernode->value == 'kgm') {
+            // TODO: Do we actually care if there is that '/s' or is that some regexp thing?
+            if ($identifiernode->parent instanceof MP_Operation &&
+                (($identifiernode->parent->op === '/' &&
+                  $identifiernode->parent->lhs === $identifiernode &&
+                  $identifiernode->parent->rhs instanceof MP_Identifier &&
+                  $identifiernode->parent->rhs->value === 's')) ||
+                 ($identifiernode->parent->rhs === $identifiernode &&
+                  $identifiernode->parent->operationOnRight() === '/' &&
+                  $identifiernode->parent->operandOnRight() instanceof MP_Identifier &&
+                  $identifiernode->parent->operandOnRight()->value === 's')) {
+                $identifiernode->value = 'kg';
+                $identifiernode->parent->replace($identifiernode, new MP_Operation('*', $identifiernode, new MP_Identifier('s')));
+            }
+        }
     }
 
     /* Check to see if the student looks like they have used a synonym instead of a correct unit.

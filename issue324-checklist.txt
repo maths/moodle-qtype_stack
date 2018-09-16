@@ -1,0 +1,86 @@
+Chris & Tim,
+
+This is the branch where I try to replace the old regexp pattern based casstring
+validation with a parser based one to solve the old issue #324 and to bring
+the parser into play to prepare for future compiled PRT evaluation solutions.
+Essentially, this branch tries to show that most if not all of the tricks
+the old validation had can be replicated with an AST based rule checking and
+tree modifications.
+
+The old validation logic is present in this branch as "_old" classes and you can
+use 'cli/casstringtester.php' to test inputs, it will test through both systems.
+And show you comparisons of the output of each of the combinations of the four
+parameters excluding allowed words...
+
+There are some things in the old that will never find a direct match in the new
+and some new things that need to be taken into account. Here is a list that
+needs to be gone through:
+
+ 1. spaces, the old validation assumed that students do not use extra spaces
+    and gave plenty of warnings about their use. This was mainly to help
+    regexp logic to work with the expressions. The parser throws white space out
+    and therefore finding it is a bit more difficult task so we cannot easily
+    give similar warnings. But on the other hand do we even need to?
+
+ 2. some old logic "features" are causing trouble and are visible in test cases
+    e.g. why did we allow single character function names for students as long
+    as they are not at the start or after specific operators... check these ones
+    out, especially the '+' vs. '-':
+
+      php ./cli/casstringtester.php --string="f(x)"
+      php ./cli/casstringtester.php --string="1-f(x)"
+      php ./cli/casstringtester.php --string="1+f(x)"
+      php ./cli/casstringtester.php --string="(f(x))"
+
+    there are input test cases like "a/(a(x+1)+2)" and "x^f(x)" that have
+    this problem.
+
+    The root cause of that mess is here:
+      https://github.com/maths/moodle-qtype_stack/blob/master/stack/cas/casstring.class.php#L1018-L1021
+
+    Naturally, the AST based insert stars can replicate the old behaviour but is
+    that desirable? Does the old behaviour even make sense?
+
+ 3. as a change to general logic insert stars will now always fix stars
+    ('s' vs. 't' still applies) but will mark the validity so that a combined
+    error statement can be drawn for the whole expression. This due to it being
+    simpler to render the whole thing in error messages than to try to find what
+    needed to be fixed. This has the inconvenient consequence that most tests
+    fail... Related to this, check the toString()-method of the parse nodes.
+    Especially, how it can mark '*' ops that have been inserted into the tree...
+    Might make some other errors easier to generate and focus...
+
+ 4. We could do many things like catch direct divisions by zero at
+    the validation phase but how far should we go as each test will need to be
+    executed for all or has to have its own parameter to block it.
+
+ 5. Magic identifiers group has grown from 'QMCHAR' etc. to include '%%Is' and
+    '%%IS' that are used to transfer information about inserted stars from pre
+    parse scope to parse scope. Lets just say that you do not need to understand
+    it but it might be of use to know what happens. This ties to point 3.
+
+ 6. Float identification is quite a bit more robust and we may need to think
+    about what is correct as the star insertion in the old system is quite odd
+    every now and then:
+
+      php ./cli/casstringtester.php --string="3.2e2"
+
+ 7. check_external_forbidden_words and the other will probably work just fine
+    but it might be sensible to cache the words present in the expression during
+    the validation...
+
+In addition there are technical details:
+
+ 1. The parser comes from qtype_stateful and not even from its PHP side instead
+    it is a side product of that question types authoring tools, we must make
+    sure that we do not edit it on STACKs end if it needs to be edited
+    the modifications must be passed to qtype_stateful. Same applies to
+    the PHP-classes matching the nodes in the AST the parser generates.
+
+ 2. mbstring, the parser generator uses mbstring functions to deal with UTF-8,
+    Moodle recommends but does not require mbstring, for this reason we may
+    need to modify the parser by changing its direct use of mbstring in about
+    five places to go through Moodles core_text. Although I do think that that
+    will be expensive as that will add one more layer to quite a lot of function
+    calls and it would probably make more sense for us to instead require
+    mbstring to be installed.

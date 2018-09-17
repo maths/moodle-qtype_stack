@@ -722,8 +722,8 @@ class stack_cas_casstring {
                           foreach (self::$spacepatterns as $key => $pat) {
                               $cmds = str_replace($pat, $key, $cmds);
                           }
-                          $this->casstring = str_replace('*%%IS', '*', $cmds);
-                          $this->casstring = str_replace('*%%Is', '*', $cmds);
+                          $cmds = str_replace('*%%IS', '*', $cmds);
+                          $cmds = str_replace('*%%Is', '<font color="red">_</font>', $cmds);
                           $cmds = stack_utils::logic_nouns_sort($cmds, 'remove');
                           $fallbackerr2 = stack_string('stackCas_spaces', array('expr' => stack_maxima_format_casstring($cmds)));
                       }
@@ -754,7 +754,7 @@ class stack_cas_casstring {
 
                     // No luck
                     // TODO: work on the parser grammar rule naming to make the errors more readable.
-                    $this->handle_parse_error($e2);
+                    $this->handle_parse_error($e2, $security, $syntax, $insertstars);
                     $this->valid = false;
                     return false;
                 }
@@ -912,7 +912,9 @@ class stack_cas_casstring {
     }
 
 
-    private function handle_parse_error($exception) {
+    private function handle_parse_error($exception, $security, $syntax, $insertstars) {
+        static $disallowedfinalchars = '/+*^#~=,_&`;:$-.<>';
+
         $found_char = $exception->found;
         $previous_char = null;
         $next_char = null;
@@ -924,8 +926,11 @@ class stack_cas_casstring {
             $next_char = $this->casstring{$exception->grammarOffset + 1};
         }
 
-        //print "\n ex: $previous_char : $found_char : $next_char \n";
-
+        // TODO: clean
+        // print "\n ex: $previous_char : $found_char : $next_char \n";
+        // echo "\n";
+        // var_dump($exception->expected);
+        // echo "\n";
 
         if ($found_char === '(' || $found_char === ')') {
           $stringles = stack_utils::eliminate_strings($this->rawcasstring);
@@ -1013,9 +1018,11 @@ class stack_cas_casstring {
             $this->add_error(stack_string('illegalcaschars'));
             $this->answernote[] = 'illegalcaschars';
         } else if ($previous_char === ' ') {
-            $cmds = trim(core_text::substr($this->rawcasstring, 0, $exception->grammarOffset - 1));
+            $cmds = trim(core_text::substr($this->casstring, 0, $exception->grammarOffset - 1));
             $cmds .= '<font color="red">_</font>';
-            $cmds .= core_text::substr($this->rawcasstring, $exception->grammarOffset);
+            $cmds .= core_text::substr($this->casstring, $exception->grammarOffset);
+            $cmds = str_replace('*%%IS', '*', $cmds);
+            $cmds = str_replace('*%%Is', '<font color="red">_</font>', $cmds);
             $this->answernote[] = 'spaces';
             $cmds = stack_utils::logic_nouns_sort($cmds, 'remove');
             $this->add_error(stack_string('stackCas_spaces', array('expr' => stack_maxima_format_casstring($cmds))));
@@ -1024,6 +1031,16 @@ class stack_cas_casstring {
                     array('forbid' => stack_maxima_format_casstring('lisp'))));
             $this->answernote[] = 'forbiddenWord';
             $this->valid = false;
+        } else if ($next_char === null && core_text::strpos($disallowedfinalchars, $found_char) !== false) {
+            $a = array();
+            $a['char'] = $found_char;
+            $cdisp = $this->rawcasstring;
+            if ($security == 's') {
+                $cdisp = stack_utils::logic_nouns_sort($cdisp, 'remove');
+            }
+            $a['cmd']  = stack_maxima_format_casstring($cdisp);
+            $this->add_error(stack_string('stackCas_finalChar', $a));
+            $this->answernote[] = 'finalChar';
         } else if ($this->valid) {
             $this->add_error($exception->getMessage());
             $this->answernote[] = 'ParseError';
@@ -1403,7 +1420,18 @@ class stack_cas_casstring {
         }
         // 1..1, essenttially a matrix multiplication of float of particular presentation.
         if ($opnode instanceof MP_Operation && $opnode->op === '.') {
-          if ($opnode->rhs instanceof MP_Float && $opnode->rhs->raw !== null && core_text::substr($opnode->rhs->raw, 0, 1) === '.') {
+          // TODO: this should just fail in parser...
+          // There is an parser error here:
+          // 0.1..1.2
+          // -------- MP_Statement
+          // -------- MP_Operation .
+          // ---      MP_Float 0.1
+          //     ---- MP_Operation .
+          //     --   MP_Float 0.1
+          //        - MP_Integer 2
+          $operand = $opnode->leftmostofright();
+          if ($operand instanceof MP_Float && $operand->raw !== null &&
+              core_text::substr($operand->raw, 0, 1) === '.') {
             $this->valid = false;
             $a = array();
             $a['cmd']  = stack_maxima_format_casstring('..');

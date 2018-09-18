@@ -915,6 +915,10 @@ class stack_cas_casstring {
     private function handle_parse_error($exception, $security, $syntax, $insertstars) {
         static $disallowedfinalchars = '/+*^#~=,_&`;:$-.<>';
 
+        // There is no coming back from here everything is invalid.
+        $this->valid = false;
+
+
         $found_char = $exception->found;
         $previous_char = null;
         $next_char = null;
@@ -927,15 +931,20 @@ class stack_cas_casstring {
         }
 
         // TODO: clean
-        // print "\n ex: $previous_char : $found_char : $next_char \n";
-        // echo "\n";
-        // var_dump($exception->expected);
-        // echo "\n";
+        /*
+        static $once = true;
+        if ($once) {
+        print "\n ex: $previous_char : $found_char : $next_char \n";
+        echo "\n";
+        var_dump($exception->expected);
+        echo "\n";
+        $once = false;
+        }
+        */
 
-        if ($found_char === '(' || $found_char === ')') {
+        if ($found_char === '(' || $found_char === ')' || $previous_char === '(' || $previous_char === ')') {
           $stringles = stack_utils::eliminate_strings($this->rawcasstring);
           $inline = stack_utils::check_bookends($stringles, '(', ')');
-          $this->valid = false;
           if ($inline === 'left') {
             $this->answernote[] = 'missingLeftBracket';
             $this->add_error(stack_string('stackCas_missingLeftBracket',
@@ -947,10 +956,9 @@ class stack_cas_casstring {
               array('bracket' => ')', 'cmd' => stack_maxima_format_casstring($this->rawcasstring))));
             return;
           }
-        } else if ($found_char === '[' || $found_char === ']') {
+        } else if ($found_char === '[' || $found_char === ']' || $previous_char === '[' || $previous_char === ']') {
           $stringles = stack_utils::eliminate_strings($this->rawcasstring);
           $inline = stack_utils::check_bookends($stringles, '[', ']');
-          $this->valid = false;
           if ($inline === 'left') {
             $this->answernote[] = 'missingLeftBracket';
             $this->add_error(stack_string('stackCas_missingLeftBracket',
@@ -962,10 +970,9 @@ class stack_cas_casstring {
               array('bracket' => ']', 'cmd' => stack_maxima_format_casstring($this->rawcasstring))));
             return;
           }
-        } else if ($found_char === '{' || $found_char === '}') {
+        } else if ($found_char === '{' || $found_char === '}' || $previous_char === '{' || $previous_char === '}') {
           $stringles = stack_utils::eliminate_strings($this->rawcasstring);
           $inline = stack_utils::check_bookends($stringles, '{', '}');
-          $this->valid = false;
           if ($inline === 'left') {
             $this->answernote[] = 'missingLeftBracket';
             $this->add_error(stack_string('stackCas_missingLeftBracket',
@@ -1008,6 +1015,10 @@ class stack_cas_casstring {
             $a = array('cmd' => stack_maxima_format_casstring('=='));
             $this->add_error(stack_string('stackCas_spuriousop', $a));
             $this->answernote[] = 'spuriousop';
+        } else if ($found_char === '&') {
+            $a = array('cmd' => stack_maxima_format_casstring('&'));
+            $this->add_error(stack_string('stackCas_spuriousop', $a));
+            $this->answernote[] = 'spuriousop';
         } else if (ctype_alpha($found_char) && ctype_digit($previous_char)) {
             $a = array('cmd' => stack_maxima_format_casstring(core_text::substr($this->casstring, 0, $exception->grammarOffset) . '<font color="red">*</font>' . core_text::substr($this->casstring, $exception->grammarOffset)));
             $this->answernote[] = 'missing_stars';
@@ -1026,14 +1037,35 @@ class stack_cas_casstring {
             $this->answernote[] = 'spaces';
             $cmds = stack_utils::logic_nouns_sort($cmds, 'remove');
             $this->add_error(stack_string('stackCas_spaces', array('expr' => stack_maxima_format_casstring($cmds))));
-        } else if ($found_char === ':' && (strpos($this->rawcasstring,':lisp') !== false)) {
+        } else if ($found_char === ':' && (strpos($this->rawcasstring, ':lisp') !== false)) {
             $this->add_error(stack_string('stackCas_forbiddenWord',
                     array('forbid' => stack_maxima_format_casstring('lisp'))));
             $this->answernote[] = 'forbiddenWord';
-            $this->valid = false;
-        } else if ($next_char === null && core_text::strpos($disallowedfinalchars, $found_char) !== false) {
+        } else if (count($exception->expected) === 6 &&
+                   $exception->expected[0]['type'] === 'literal' && $exception->expected[0]['value'] === ',' &&
+                   $exception->expected[1]['type'] === 'literal' && $exception->expected[1]['value'] === ':' &&
+                   $exception->expected[2]['type'] === 'literal' && $exception->expected[2]['value'] === ';' &&
+                   $exception->expected[3]['type'] === 'literal' && $exception->expected[3]['value'] === '=' &&
+                   $exception->expected[4]['type'] === 'end' &&
+                   $exception->expected[5]['type'] === 'other' && $exception->expected[5]['description'] === 'whitespace') {
+            // This is a sensitive check matching the expectations of the parser....
+            // This is extra special, if we have an unencpsulated comma we might be parsing for an evaluation
+            // flag but not find the assingment of flag value...
+            $this->add_error(stack_string('stackCas_unencpsulated_comma'));
+            $this->answernote[] = 'unencpsulated_comma';
+        } else if ($next_char === null && ($found_char !== null && core_text::strpos($disallowedfinalchars, $found_char) !== false)) {
             $a = array();
             $a['char'] = $found_char;
+            $cdisp = $this->rawcasstring;
+            if ($security == 's') {
+                $cdisp = stack_utils::logic_nouns_sort($cdisp, 'remove');
+            }
+            $a['cmd']  = stack_maxima_format_casstring($cdisp);
+            $this->add_error(stack_string('stackCas_finalChar', $a));
+            $this->answernote[] = 'finalChar';
+        } else if ($found_char === null && ($previous_char !== null && core_text::strpos($disallowedfinalchars, $previous_char) !== false)) {
+            $a = array();
+            $a['char'] = $previous_char;
             $cdisp = $this->rawcasstring;
             if ($security == 's') {
                 $cdisp = stack_utils::logic_nouns_sort($cdisp, 'remove');
@@ -1045,7 +1077,6 @@ class stack_cas_casstring {
             $this->add_error($exception->getMessage());
             $this->answernote[] = 'ParseError';
         }
-        $this->valid = false;
     }
 
 
@@ -1574,6 +1605,30 @@ class stack_cas_casstring {
                   }
                   $this->answernote[] = 'missing_stars';
                   return false;
+                }
+
+                // xyz12 => xyz*12
+                if ($security == 's' && !$syntax &&
+                    ctype_digit(core_text::substr($node->value, -1, 1))) {
+                    $i = 0;
+                    for ($i = 0; $i < core_text::strlen($node->value); $i++) {
+                        if (ctype_digit(core_text::substr($node->value, $i, 1))) {
+                            break;
+                        }
+                    }
+                    // Note at this point the split should be clean and the remainder is just an integer.
+                    $replacement = new MP_Operation('*', new MP_Identifier(core_text::substr($node->value, 0, $i)), new MP_Integer((int)core_text::substr($node->value, $i)));
+                    if ($node->parentnode instanceof MP_FunctionCall && $node->parentnode->name === $node) {
+                        $replacement->rhs = new MP_Operation('*', $replacement->rhs, new MP_Group($this->parentnode->arguments));
+                        $node->parentnode->parentnode->replace($node->parentnode, $replacement);
+                    } else {
+                        $node->parentnode->replace($node, $replacement);
+                    }
+                    if ($insertstars == 0 || $insertstars == 3) {
+                        $this->valid = false;
+                    }
+                    $this->answernote[] = 'missing_stars';
+                    return false;
                 }
             }
             if ($security === 's' && !$syntax && $node instanceof MP_Float && $node->raw !== null) {

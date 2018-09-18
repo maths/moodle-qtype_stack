@@ -317,6 +317,13 @@ class stack_equiv_input extends stack_input {
                  $this->get_parameter('insertStars', 0));
         $an->set_key('equiv'.$this->name);
 
+        $calculus = 'false';
+        if ($this->extraoptions['calculus']) {
+            $calculus = 'true';
+        }
+        $ca = new stack_cas_casstring('stack_calculus:'.$calculus);
+        $ca->get_valid('t');
+
         $tresponse = $this->maxima_to_response_array($teacheranswer);
         $tcontents = $this->response_to_contents($tresponse);
         // Has the student used the correct first line?
@@ -337,7 +344,7 @@ class stack_equiv_input extends stack_input {
             $fl = new stack_cas_casstring('firstline:true');
         }
 
-        return array('equivdisplay' => $an, 'equivfirstline' => $fl);
+        return array('calculus' => $ca, 'equivdisplay' => $an, 'equivfirstline' => $fl);
     }
 
     protected function get_validation_method() {

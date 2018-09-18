@@ -388,7 +388,6 @@ stack_validate_units(expr, LowestTerms, TAns, fracdisp, fltfmt) := block( [simp:
     ),
   if (debug) then (print(expr)),
   expr:detexcolor(expr),
-  expr:detexdecorate(expr),
   return(expr)
 )$
 

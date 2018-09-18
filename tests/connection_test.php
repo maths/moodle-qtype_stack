@@ -58,6 +58,9 @@ class stack_cas_connection_base_test extends qtype_stack_testcase {
         $this->assertEquals($return, $expected);
     }
 
+    /*
+     * Note, with this test on SBCL the timeout can create a runaway process.
+     */
     public function test_compute_miss_formed_command() {
         $connection = stack_connection_helper::make();
         // This will induce a timeout on the CAS because we don't have a well formed CAS statement.

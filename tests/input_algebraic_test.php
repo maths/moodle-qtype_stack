@@ -376,6 +376,22 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         $this->assertEquals('\[ s^{r^{24}} \]', $state->contentsdisplayed);
     }
 
+    public function test_validate_student_response_display_noundiff() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('algebraic', 'sans1', 'noundiff(y/x^2,x,1)-(2*y)/x = x^3*sin(3*x)');
+        $el->set_parameter('insertStars', 1);
+        $el->set_parameter('strictSyntax', false);
+        // For this test, if sameType is true, old versions of Maxima blow up with
+        // Heap exhausted during allocation: 8481509376 bytes available, 35303692080 requested.
+        $el->set_parameter('sameType', false);
+        $state = $el->validate_student_response(array('sans1' => 'noundiff(y/x^2,x,1)-(2*y)/x = x^3*sin(3*x)'),
+                $options, 'diff(y/x^2,x,1)-(2*y)/x = x^3*sin(3*x)', null);
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('noundiff(y/x^2,x,1)-(2*y)/x = x^3*sin(3*x)', $state->contentsmodified);
+        $this->assertEquals('\[ \frac{\mathrm{d} \frac{y}{x^2}}{\mathrm{d} x}-\frac{2\cdot y}{x}' .
+                '=x^3\cdot \sin \left( 3\cdot x \right) \]', $state->contentsdisplayed);
+    }
+
     public function test_validate_student_response_single_var_chars_on() {
         // Check the single variable character option is tested.
         $options = new stack_options();

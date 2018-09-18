@@ -32,6 +32,8 @@ require_once(__DIR__ . '/locallib.php');
 require_once(__DIR__ . '/stack/utils.class.php');
 require_once(__DIR__ . '/stack/bulktester.class.php');
 
+// Increase memory limit: some users with very large numbers of questions/variants have needed this.
+raise_memory_limit(MEMORY_HUGE);
 
 // Get the parameters from the URL.
 $contextid = required_param('contextid', PARAM_INT);
@@ -67,4 +69,11 @@ list($allpassed, $failing) = $bulktester->run_all_tests_for_context($context);
 
 // Display the final summary.
 $bulktester->print_overall_result($allpassed, $failing);
+
+$config = stack_utils::get_config();
+if ('db' == $config->casresultscache) {
+    echo html_writer::tag('p', stack_string('healthcheckcachestatus',
+            stack_cas_connection_db_cache::entries_count($DB)));
+}
+
 echo $OUTPUT->footer();

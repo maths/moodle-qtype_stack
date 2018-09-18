@@ -29,6 +29,8 @@ $string['pluginnameadding'] = 'Adding a STACK question';
 $string['pluginnameediting'] = 'Editing a STACK question';
 $string['pluginnamesummary'] = 'STACK provides mathematical questions for the Moodle quiz.  These use a computer algebra system to establish the mathematical properties of the student\'s responses.';
 
+$string['privacy:metadata'] = 'The STACK question type plugin does not store any personal data.';
+
 // General strings.
 $string['errors'] = 'Errors';
 $string['debuginfo'] = 'Debug info';
@@ -41,7 +43,8 @@ $string['stack:usediagnostictools'] = 'Use the STACK tools';
 $string['stackversionedited'] = 'This question was authored with STACK version {$a}.';
 $string['stackversionnow']    = 'The current version of STACK is {$a}.';
 $string['stackversionnone']   = 'This question has not been edited since question version numbering was introduced in STACK 4.2.  Please review your question carefully.';
-$string['stackversionaddrowerror'] = 'This question uses the "addrow" function in the {$a}, which changed in STACK version 4.2.  Please edit this question to use "rowadd" instead.';
+$string['stackversionerror'] = 'This question uses {$a->pat} in the {$a->qfield}, which changed in STACK version {$a->ver} and is no longer supported.';
+$string['stackversionerroralt'] = 'An alternative is {$a}.';
 $string['stackversionmulerror'] = 'This question has an input which uses the "mul" option, which is not suppored after STACK version 4.2.  Please edit this question.';
 
 // Strings used on the editing form.
@@ -143,7 +146,7 @@ $string['inputheading'] = 'Input: {$a}';
 $string['inputnamelength'] = 'Input names cannot be longer than 18 characters. \'{$a}\' is too long.';
 $string['inputremovedconfirmbelow'] = 'Input \'{$a}\' has been removed. Please confirm this below.';
 $string['inputremovedconfirm'] = 'I confirm that I want to remove this input from this question.';
-$string['inputlanguageproblems'] = 'There are inconsistencies in the input and validation tags between langauges.';
+$string['inputlanguageproblems'] = 'There are inconsistencies in the input and validation tags between languages.';
 $string['inputs'] = 'Inputs';
 $string['inputtype'] = 'Input type';
 $string['inputtype_help'] = 'This determines the type of the input element, e.g. form field, true/false, text area.';
@@ -260,7 +263,7 @@ $string['questiontextmustcontain'] = 'The question text must contain the token \
 $string['questiontextonlycontain'] = 'The question text should only contain the token \'{$a}\' once.';
 $string['questiontextplaceholderswhitespace'] = 'Placeholders may not contain whitespace.  This one appears to do so: \'{$a}\'.';
 $string['questiontextfeedbackonlycontain'] = 'The question text combined with the specific feedback should only contain the token \'{$a}\' once.';
-$string['questiontextfeedbacklanguageproblems'] = 'There are inconsistencies in the feedback tags between langauges.';
+$string['questiontextfeedbacklanguageproblems'] = 'There are inconsistencies in the feedback tags between languages.';
 $string['questionvalue'] = 'Question value';
 $string['questionvaluepostive'] = 'Question value must be non-negative.';
 $string['questionvariables'] = 'Question variables';
@@ -434,6 +437,7 @@ $string['deletetestcase'] = 'Delete test case {$a->no} for question {$a->questio
 $string['deletetestcaseareyousure'] = 'Are you sure you want to delete test case {$a->no} for question {$a->question}?';
 $string['deletethistestcase'] = 'Delete this test case...';
 $string['deploy'] = 'Deploy';
+$string['deployedprogress'] = 'Deploying variants';
 $string['deployedvariants'] = 'Deployed variants';
 $string['deployedvariantsn'] = 'Deployed variants ({$a})';
 $string['deploymany'] = 'Attempt to automatically deploy the following number of variants:';
@@ -476,6 +480,7 @@ $string['showingundeployedvariant'] = 'Showing undeployed variant: {$a}';
 $string['switchtovariant'] = 'Switch to arbitrary variant';
 $string['testcasexresult'] = 'Test case {$a->no} {$a->result}';
 $string['testingquestion'] = 'Testing question {$a}';
+$string['testingquestionvariants'] = 'Testing question variants';
 $string['testinputs'] = 'Test inputs';
 $string['testinputsimpwarning'] = 'Please note that test inputs are always <em>unsimplified</em> regardless of the question or PRT option setting.  Please use <tt>ev(...,simp)</tt> to simplify part or all of the test input expressions.';
 $string['testthisvariant'] = 'Switch to test this variant';
@@ -867,6 +872,10 @@ $string['equiv_MISSINGVAR']              = 'Missing assignments';
 $string['equiv_ASSUMEPOSVARS']           = 'Assume +ve vars';
 $string['equiv_ASSUMEPOSREALVARS']       = 'Assume +ve real vars';
 $string['equiv_LET']                     = 'Let';
+// We could localise the strings below using \vee, \wedge etc.
+$string['equiv_AND']                     = 'and';
+$string['equiv_OR']                      = 'or';
+$string['equiv_NOT']                     = 'not';
 
 $string['studentValidation_yourLastAnswer']     = 'Your last answer was interpreted as follows: {$a}';
 $string['studentValidation_listofvariables']    = 'The variables found in your answer were: {$a}';

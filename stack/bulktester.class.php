@@ -100,10 +100,6 @@ class stack_bulk_tester  {
                     continue;
                 }
 
-                foreach ($question->deployedseeds as $seed) {
-                    $this->qtype_stack_seed_cache($question, $seed);
-                }
-
                 $questionnamelink = html_writer::link(new moodle_url($questiontestsurl,
                         array('questionid' => $questionid)), format_string($name));
 
@@ -125,12 +121,9 @@ class stack_bulk_tester  {
 
                 }
 
-                if (!$tests) {
-                    continue;
-                }
-
                 $previewurl = new moodle_url($questiontestsurl, array('questionid' => $questionid));
                 if (empty($question->deployedseeds)) {
+                    $this->qtype_stack_seed_cache($question, 0);
                     $questionnamelink = html_writer::link($previewurl, $questionname);
                     echo $OUTPUT->heading($questionnamelink, 4);
                     list($ok, $message) = $this->qtype_stack_test_question($question, $tests);
@@ -141,6 +134,7 @@ class stack_bulk_tester  {
                 } else {
                     echo $OUTPUT->heading(format_string($name), 4);
                     foreach ($question->deployedseeds as $seed) {
+                        $this->qtype_stack_seed_cache($question, $seed);
                         $previewurl->param('seed', $seed);
                         $questionnamelink = html_writer::link($previewurl, stack_string('seedx', $seed));
                         echo $OUTPUT->heading($questionnamelink, 4);
@@ -200,6 +194,11 @@ class stack_bulk_tester  {
         $message = stack_string('testpassesandfails', array('passes' => $passes, 'fails' => $fails));
         $ok = ($fails === 0);
 
+        // These lines are to seed the cache and to generate any runtime errors.
+        $notused = $question->get_question_summary();
+        $generalfeedback = $question->get_generalfeedback_castext();
+        $notused = $generalfeedback->get_display_castext();
+
         if (!empty($question->runtimeerrors)) {
             $ok = false;
             $message .= html_writer::tag('br',
@@ -233,7 +232,7 @@ class stack_bulk_tester  {
      */
     public function qtype_stack_seed_cache($question, $seed = null, $quiet = false) {
         flush(); // Force output to prevent timeouts and to make progress clear.
-        core_php_time_limit::raise(10); // Prevent PHP timeouts.
+        core_php_time_limit::raise(60); // Prevent PHP timeouts.
         gc_collect_cycles(); // Because PHP's default memory management is rubbish.
 
         // Prepare the question and a usage.
@@ -261,6 +260,7 @@ class stack_bulk_tester  {
         // This involves instantiation, which seeds the CAS cache in the cases when we have no tests.
         $renderquestion = $quba->render_question($slot, $options);
         $workedsolution = $qu->get_generalfeedback_castext();
+        $workedsolution->get_display_castext();
         $questionote = $qu->get_question_summary();
     }
 

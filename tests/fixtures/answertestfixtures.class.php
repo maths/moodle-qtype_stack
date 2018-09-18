@@ -216,6 +216,9 @@ class stack_answertest_test_data {
         array('AlgEquiv', '', 'matrix([x>4,{1,x^2}],[[1,2],[1,3]])', 'matrix([4-x<0,{x^2, 1}],[[1,2],[1,4]])', 0,
             'ATMatrix_wrongentries.', ''),
 
+        // A vector and a scalar are not the same.
+        array('AlgEquiv', '', 'a', 'stackvector(a)', 0, '', 'Vectors'),
+
         array('AlgEquiv', '', '1', 'x=1', 0, 'ATAlgEquiv_SA_not_equation.', 'Equations'),
         array('AlgEquiv', '', 'x=1', 'x=1', 1, 'ATEquation_sides', ''),
         array('AlgEquiv', '', '1=x', '1=x', 1, 'ATEquation_sides', ''),

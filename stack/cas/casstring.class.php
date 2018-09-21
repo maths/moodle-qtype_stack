@@ -1553,6 +1553,11 @@ class stack_cas_casstring {
                     }
                 }
             } else if ($node instanceof MP_Identifier) {
+                // These are special
+                if (core_text::substr($node->value, 0, 4) === 'log_' || $node->value === 'log10') {
+                    return true;
+                }
+
                 // x3 => x*3
                 if (!$node->is_function_name() &&
                     $security == 's' &&

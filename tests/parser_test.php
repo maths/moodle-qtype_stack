@@ -419,4 +419,62 @@ class stack_cas_castext_parser_test extends qtype_stack_testcase {
 
 
 
+    /**
+     * Do we break line endings? We do when exotic ones appear between parameters in block openings...
+     */
+    public function test_line_endings() {
+        $test_lines_pre = array('A', 'b ', ' c ');
+        $block_open = '[[ jsxgraph ]]';
+        $test_lines_content = array('d ', ' e', 'f ');
+        $block_close = '[[/ jsxgraph ]]';
+        $test_lines_post = array(' g', 'h ', ' i');
+
+        // The simple endings where we assume PHP might do magic.
+        $line_ends = array("\n", "\r\n", "\r" , "\n\r");
+
+        // Add some raw ones and repeat previous ones just in case.
+        $line_ends[] = chr(10);
+        $line_ends[] = chr(13) . chr(10);
+        $line_ends[] = chr(13);
+        $line_ends[] = chr(10) . chr(13);
+        $line_ends[] = chr(30);
+        $line_ends[] = chr(21);
+        $line_ends[] = chr(11);
+        $line_ends[] = chr(12);
+
+        // Some extras. But as we still support 5.something lets not break that.
+        if (version_compare(phpversion(), '7.0.0', '>')) {
+            $line_ends[] = "\u{0085}";
+            $line_ends[] = "\u{2028}";
+            $line_ends[] = "\u{2029}";
+        }
+
+        foreach ($line_ends as $ending) {
+            $teststring = implode($ending, $test_lines_pre);
+            $teststring .= $block_open;
+            $teststring .= implode($ending, $test_lines_content);
+            $teststring .= $block_close;
+            $teststring .= implode($ending, $test_lines_post);
+            $parsed = $this->basic_parse_and_actions($teststring);
+
+            // Test reproduction fidelity.
+            $this->assertEquals($teststring, $parsed['to_string']);
+
+            // Test structure.
+            $this->assertEquals(3, $parsed['counts']['text']);
+            $this->assertEquals(1, $parsed['counts']['block']);
+
+            $this->assertEquals('text', $parsed['tree_form']->firstchild->type);
+            $this->assertEquals('block', $parsed['tree_form']->firstchild->nextsibling->type);
+            $this->assertEquals('text', $parsed['tree_form']->firstchild->nextsibling->firstchild->type);
+            $this->assertEquals('text', $parsed['tree_form']->firstchild->nextsibling->nextsibling->type);
+
+            // Check text values.
+            $this->assertEquals(implode($ending, $test_lines_pre), $parsed['tree_form']->firstchild->get_content());
+            $this->assertEquals(implode($ending, $test_lines_content), $parsed['tree_form']->firstchild->nextsibling->firstchild->get_content());
+            $this->assertEquals(implode($ending, $test_lines_post), $parsed['tree_form']->firstchild->nextsibling->nextsibling->get_content());
+        }
+    }
+
+
 }

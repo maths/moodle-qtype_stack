@@ -411,7 +411,7 @@ class stack_cas_casstring {
                 'trunc' => true, 'und' => true, 'union' => true, 'unique' => true, 'unsum' => true, 'untellrat' => true,
                 'uppercasep' => true, 'vandermonde_matrix' => true, 'vect_cross' => true, 'vectorpotential' => true,
                 'vectorsimp' => true, 'xreduce' => true, 'xthru' => true, 'zerobern' => true, 'zeroequiv' => true,
-                'zerofor' => true, 'zeromatrix' => true, 'zeromatrixp' => true, 'zeta' => true, 'zeta%pi' => true, 'pi' => true,
+                'zerofor' => true, 'zeromatrix' => true, 'zeromatrixp' => true, 'zeta' => true, 'pi' => true,
                 'e' => true, 'i' => true, 'float' => true, 'round' => true, 'truncate' => true, 'decimalplaces' => true,
                 'anyfloat' => true, 'anyfloatex' => true, 'expand' => true, 'expandp' => true, 'simplify' => true,
                 'divthru' => true, 'factor' => true, 'factorp' => true, 'diff' => true, 'int' => true, 'rand' => true,

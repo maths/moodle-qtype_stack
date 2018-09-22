@@ -84,3 +84,28 @@ In addition there are technical details:
     will be expensive as that will add one more layer to quite a lot of function
     calls and it would probably make more sense for us to instead require
     mbstring to be installed.
+
+
+
+Tools to mark the allowed/forbidden words lists:
+ 1. Turn the current array to JSON.
+ 2. Load it to stack-maxima with data:stackjson_parse(blaah), you may need to
+    filter some things out like the operators that make no sense...
+ 3. Get the identifiers for functions defined in the libraries we have:
+
+  loadedfunnames:setify(map(op,functions));
+
+ 4. Populate the map, by trying the identifiers and interpreting the errors.
+
+ for key in stackmap_keys(data) do (
+  _val: errcatch(parse_string(sconcat("(",key,");"))),
+  if is(_val=[]) then data:stackmap_set(data, key, "bad")
+  elseif constantp(_val[1]) then data:stackmap_set(data, key, "constant")
+  elseif elementp(_val[1], loadedfunnames) then data:stackmap_set(data, key, "libraryfunction")
+  elseif symbolp(_val[1]) and featurep(_val[1], noun) then data:stackmap_set(data, key, "nounfunction")
+  elseif symbolp(_val[1]) then (
+    _valb: errcatch(apply(_val[1], [])),
+    if is(_valb=[]) and not is(ssearch("arguments", error[1])=false) then data:stackmap_set(data, key, "function")
+    else data:stackmap_set(data, key, "symbol")
+  )
+ );

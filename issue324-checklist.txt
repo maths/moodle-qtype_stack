@@ -113,3 +113,20 @@ Tools to mark the allowed/forbidden words lists:
     else data:stackmap_set(data, key, "symbol")
   )
  );
+
+ 5. Means of identifying variables and functions from the maxima source:
+
+ > tar xvf maxima-5.41.0.tar.gz
+ > cd maxima-5.41.0
+ // These are the functions defined, but not all the functions some lisp functions do still exist. like trigs... Look into src/mlisp.lisp for some hints.
+ // Note that these are the core stuff, you need to also include stuff from contrib.
+ > grep "(defmfun \\$" src/* src/*/* src/*/*/* src/*/*/*/* -hs | sort | cut -f2 -d $ | cut -f1 -d ' '
+ // And these are the variables, some are constants but that can be checked in Maxima.
+ > grep "(defmvar \\$" src/* src/*/* src/*/*/* src/*/*/*/* -hs | sort | cut -f2 -d $ | cut -f1 -d ' '
+
+ 6. On the maxima side you obviously do as follows:
+
+ // Use the functions list that contains all the functions defined using Maxima side function definitions.
+ > funnames:setify(map(op,functions));
+ // values tells things that have been given value, so those are obviously variables that need to be kept safe
+ > values;

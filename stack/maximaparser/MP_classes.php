@@ -53,13 +53,13 @@ class MP_Node {
     // if it does structural changes it must return false so that the recursion may be repeated on
     // the changed structure
     public function callbackRecurse($function) {
-        for($i = 0;
-        $i < count ($this->children );
-        $i ++ ) {
+        for ($i = 0; $i < count($this->children); $i++) {
             // Not a foreach as the list may change.
             $this->children[$i]->parentnode = $this;
-            $function($this->children[$i]);
-            if($this->children[$i]->callbackRecurse($function)!== true) {
+            if ($function($this->children[$i]) !== true) {
+                return false;
+            }
+            if ($this->children[$i]->callbackRecurse($function) !== true) {
                 return false;
             }
         }
@@ -74,7 +74,7 @@ class MP_Node {
         // times. Especially, when the tree is deep.
         $r = array($this);
 
-        foreach($this->getChildren()as $child) {
+        foreach ($this->getChildren() as $child) {
             $child->parentnode = $this;
             $r = array_merge($r, $child->asAList());
         }
@@ -532,7 +532,7 @@ class MP_Group extends MP_Node {
     public function toString($params = null) {
         $ar = array();
 
-        foreach($this->items as $value)
+        foreach ($this->items as $value)
             $ar[] = $value->toString($params);
         return '(' . implode(',', $ar). ')';
     }

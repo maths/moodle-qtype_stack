@@ -423,8 +423,7 @@ class stack_cas_casstring_test extends basic_testcase {
         $s = 'a:3e2';
         $at1 = new stack_cas_casstring($s);
         $this->assertFalse($at1->get_valid('s', false, 0));
-        $this->assertEquals('3*e*2', $at1->get_casstring());
-        $this->assertEquals('missing_stars', $at1->get_answernote());
+        $this->assertEquals('3e2', $at1->get_casstring());
     }
 
     public function test_scientific_3() {

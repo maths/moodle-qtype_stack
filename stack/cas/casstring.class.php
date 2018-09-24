@@ -26,6 +26,13 @@ require_once(__DIR__ . '/../utils.class.php');
 require_once(__DIR__ . '/../maximaparser/utils.php');
 require_once(__DIR__ . '/../maximaparser/MP_classes.php');
 require_once(__DIR__ . '/casstring.units.class.php');
+require_once(__DIR__ . '/parsingrules/insertstars0.class.php');
+require_once(__DIR__ . '/parsingrules/insertstars1.class.php');
+require_once(__DIR__ . '/parsingrules/insertstars2.class.php');
+require_once(__DIR__ . '/parsingrules/insertstars3.class.php');
+require_once(__DIR__ . '/parsingrules/insertstars4.class.php');
+require_once(__DIR__ . '/parsingrules/insertstars5.class.php');
+
 
 class stack_cas_casstring {
 
@@ -612,153 +619,46 @@ class stack_cas_casstring {
         }
 
         // Now then do we already have validly parsed AST? if not what do we need to do to get one?
+        // If we have then this is most certainly coming from keyval and $security better be 't'
         if ($this->ast === null) {
-            // These errors come to play if fixing is not possible
-            $fallbackerr1 = false;
-            $fallbackerr2 = false;
-            try {
-                // Does it go through without magic?
-
-                // ? is still a problem. note though that we do not want to replace
-                // it within strings... imagine what that would do to string length.
-                $stringles = stack_utils::eliminate_strings($this->rawcasstring);
-                $stringles = str_replace('?', 'QMCHAR', $stringles);
-                $cmd = $this->strings_replace($stringles);
-
-                $this->ast = maxima_parser_utils::parse($cmd);
-            } catch (SyntaxError $e) {
-                // Did not go well.
-
-                // Revert to old logic of trying to fix missing multiplications.
-                // Essentially the only ones that matter are the "2x+3x(x)4x+ 3(x)" cases as those
-                // are not valid identifiers for the parser nor is the connection to the end of group
-                // or number to the start.
-                $patterns = array("|(\))([0-9A-Za-z])|");          // E.g. )a, or )3.
-
-                if ($syntax) {
-                    // Difference here is the floats... 1e2 and so on...
-                    $patterns[] = "|^([0-9]+)([A-DF-Za-df-z])|";  // E.g. 3x.
-                    $patterns[] = "|([^0-9A-Za-z_][0-9]+)([A-DF-Za-df-z])|"; // E.g. -3x vs. a2x
-                } else {
-                    $patterns[] = "|^([0-9]+)([A-Za-z])|";     // E.g. 3x.
-                    $patterns[] = "|([^0-9A-Za-z_][0-9]+)([A-Za-z])|";    // E.g. -3x vs. log_2x
-                }
-
-                if ($security == 's') {
-                    $patterns[] = "|^([0-9]+)(\()|";           // E.g. 3212(.
-                    $patterns[] = "|([^A-Za-z_][0-9]+)(\()|";           // E.g. -3212( vs. f2(
-                }
-
-                // Loop over every CAS command checking for missing stars.
-                $missingstar     = false;
-                $missingstring   = '';
-
-                // This is the only place where we care about strings.
-                $stringles = stack_utils::eliminate_strings($this->rawcasstring);
-
-                // Prevent ? characters calling LISP or the Maxima help file.
-                // Instead, these pass through and are displayed as normal.
-                $cmd = str_replace('?', 'QMCHAR', $stringles);
-
-                // Provide support for the grid2d command, which otherwise breaks insert stars.
-                $cmd = str_replace('grid2d', 'STACKGRID', $cmd);
-
-                // We are going to use '&&IS' as a marker to transfer
-                // the pre parse fixes to the post parse world so that they may
-                // be markked there to common errors.
-                foreach ($patterns as $pat) {
-                    if (preg_match($pat, $cmd)) {
-                        // TODO: clean
-                        // echo "$cmd match $pat => ". preg_replace($pat, "\${1}*\${2}", $cmd) ."\n";
-                        // Found a missing star.
-                        $missingstar = true;
-                        if ($insertstars == 1 || $insertstars == 2 || $insertstars == 4 || $insertstars == 5) {
-                            // Then we automatically add stars.
-                            $cmd = preg_replace($pat, "\${1}*%%IS\${2}", $cmd);
-                        } else {
-                            // Flag up the error.
-                            $this->valid = false;
-                            $missingstring = stack_utils::logic_nouns_sort($cmd, 'remove');
-                            $missingstring = str_replace('*%%IS', '*', $missingstring);
-                            $missingstring = stack_maxima_format_casstring(preg_replace($pat,
-                              "\${1}<font color=\"red\">*</font>\${2}", $missingstring));
-                            $cmd = preg_replace($pat, "\${1}*%%IS\${2}", $cmd);
-                        }
-                    }
-                }
-
-                $stringles = $cmd;
-
-                if (false !== $missingstar) {
-                    // just so that we do not add this for each star.
-                    $this->answernote[] = 'missing_stars';
-                    if (!($insertstars == 1 || $insertstars == 2 || $insertstars == 4 || $insertstars == 5)) {
-                        // If missing stars & strict syntax is on return errors.
-                        $missingstring = stack_utils::logic_nouns_sort($missingstring, 'remove');
-                        $a['cmd']  = str_replace('QMCHAR', '?', $missingstring);
-                        $fallbackerr1 = stack_string('stackCas_MissingStars', $a);
-                    }
-                }
-
-                // Then deal with the spaces.
-                $stringles = trim($stringles);
-                $stringles = preg_replace('!\s+!', ' ', $stringles);
-                if (strpos($stringles, ' ') !== false && $security !== 't') {
-
-                  // Special cases: allow students to type in expressions such as "x>1 and x<4".
-                  foreach (self::$spacepatterns as $key => $pat) {
-                      $stringles = str_replace($key, $pat, $stringles);
-                  }
-                  $pat = "|([A-Za-z0-9\(\)]+) ([A-Za-z0-9\(\)]+)|";
-                  $missingstar = false;
-                  if (preg_match($pat, $stringles)) {
-                      $missingstar = true;
-                      if ($insertstars === 3 || $insertstars === 4 || $insertstars === 5) {
-                          $stringles = str_replace(' ', '*%%Is', $stringles);
-                      } else {
-                          $stringles = str_replace(' ', '*%%Is', $stringles);
-                          $this->valid = false;
-                          $cmds = str_replace(' ', '<font color="red">_</font>', $this->strings_replace($stringles));
-                          foreach (self::$spacepatterns as $key => $pat) {
-                              $cmds = str_replace($pat, $key, $cmds);
-                          }
-                          $cmds = str_replace('*%%IS', '*', $cmds);
-                          $cmds = str_replace('*%%Is', '<font color="red">_</font>', $cmds);
-                          $cmds = stack_utils::logic_nouns_sort($cmds, 'remove');
-                          $fallbackerr2 = stack_string('stackCas_spaces', array('expr' => stack_maxima_format_casstring($cmds)));
-                      }
-                  }
-                  if ($missingstar) {
-                      $this->answernote[] = 'spaces';
-                  }
-                  foreach (self::$spacepatterns as $key => $pat) {
-                      $stringles = str_replace($pat, $key, $stringles);
-                  }
-                }
-
-                $this->casstring = $this->strings_replace($stringles);
-
-                // Now then lets try again.
+            if ($security === 't') {
                 try {
                     $this->ast = maxima_parser_utils::parse($this->casstring);
-                } catch (SyntaxError $e2) {
-                    $this->casstring = str_replace('*%%IS', '*', $this->casstring);
-                    $this->casstring = str_replace('*%%Is', '*', $this->casstring);
-
-                    if ($fallbackerr1 !== false) {
-                      $this->add_error($fallbackerr1);
-                    }
-                    if ($fallbackerr2 !== false) {
-                      $this->add_error($fallbackerr2);
-                    }
-
-                    // No luck
-                    // TODO: work on the parser grammar rule naming to make the errors more readable.
-                    $this->handle_parse_error($e2, $security, $syntax, $insertstars);
+                } catch (SyntaxError $e) {
+                    $this->valid = false;
+                    $this->teacher_parse_errors($e);
+                    return false;
+                }
+            } else {
+                $logic = null;
+                switch ($insertstars) {
+                    case 5:
+                        $logic = new stack_parser_logic_insertstars5();
+                        break;
+                    case 4:
+                        $logic = new stack_parser_logic_insertstars4();
+                        break;
+                    case 3:
+                        $logic = new stack_parser_logic_insertstars3();
+                        break;
+                    case 2:
+                        $logic = new stack_parser_logic_insertstars2();
+                        break;
+                    case 1:
+                        $logic = new stack_parser_logic_insertstars1();
+                        break;
+                    case 0:
+                    default:
+                        $logic = new stack_parser_logic_insertstars0();
+                        break;
+                }
+                $this->ast = $logic->parse($this->casstring, $this->valid, $this->errors, $this->answernote, $syntax, array(), array());
+                if ($this->ast === null) {
                     $this->valid = false;
                     return false;
                 }
             }
+
         }
 
         // Check that we have only one statement. Should not have comments either.
@@ -790,9 +690,6 @@ class stack_cas_casstring {
           $root->replace($root->statement, $root->statement->rhs);
         }
 
-        // Now that we have the AST we can simply go through it and pass things to specific tests.
-        // But first insert stars.
-        $this->check_stars($security, $syntax, $insertstars);
 
         // Minimal accuracy matching of mixed use.
         $usages = array('functions' => array(), 'variables' => array());
@@ -860,43 +757,7 @@ class stack_cas_casstring {
             }
         }
 
-        // Common stars insertion error.
-        if (!$this->valid && array_search('missing_stars', $this->answernote) !== false) {
-          $hasany = false;
-          $check = function($node)  use(&$hasany) {
-            if ($node instanceof MP_Operation && $node->op == '*' && $node->position == null) {
-              $hasany = true;
-            }
-            return true;
-          };
-          $this->ast->callbackRecurse($check);
-          if ($hasany) {
-            $missingstring = stack_utils::logic_nouns_sort($this->ast->toString(array('red_null_position_stars' => true)), 'remove');
-            // There is ';' at the end as we apply this on a statement...
-            $missingstring = core_text::substr(trim($missingstring), 0, -1);
-            $a['cmd']  = stack_maxima_format_casstring(str_replace('QMCHAR', '?', $missingstring));
-            $this->add_error(stack_string('stackCas_MissingStars', $a));
-          }
-        }
 
-        // Common spaces insertion errors.
-        if (!$this->valid && array_search('spaces', $this->answernote) !== false) {
-          $hasany = false;
-          $checks = function($node)  use(&$hasany) {
-            if ($node instanceof MP_Operation && $node->op == '*' && $node->position == null) {
-              $hasany = true;
-            }
-            return true;
-          };
-          $this->ast->callbackRecurse($checks);
-          if ($hasany) {
-            $missingstring = stack_utils::logic_nouns_sort($this->ast->toString(array('red_false_position_stars_as_spaces' => true)), 'remove');
-            // There is ';' at the end as we apply this on a statement...
-            $missingstring = core_text::substr(trim($missingstring), 0, -1);
-            $a['expr']  = stack_maxima_format_casstring(str_replace('QMCHAR', '?', $missingstring));
-            $this->add_error(stack_string('stackCas_spaces', $a));
-          }
-        }
 
         $root = $this->ast;
         if ($this->ast instanceof MP_Root) {
@@ -909,174 +770,6 @@ class stack_cas_casstring {
 
 
         return $this->valid;
-    }
-
-
-    private function handle_parse_error($exception, $security, $syntax, $insertstars) {
-        static $disallowedfinalchars = '/+*^#~=,_&`;:$-.<>';
-
-        // There is no coming back from here everything is invalid.
-        $this->valid = false;
-
-
-        $found_char = $exception->found;
-        $previous_char = null;
-        $next_char = null;
-
-        if ($exception->grammarOffset >= 1) {
-            $previous_char = $this->casstring{$exception->grammarOffset - 1};
-        }
-        if ($exception->grammarOffset < (strlen($this->casstring) - 1)) {
-            $next_char = $this->casstring{$exception->grammarOffset + 1};
-        }
-
-        // TODO: clean
-        /*
-        static $once = true;
-        if ($once) {
-        print "\n ex: $previous_char : $found_char : $next_char \n";
-        echo "\n";
-        var_dump($exception->expected);
-        echo "\n";
-        $once = false;
-        }
-        */
-
-        if ($found_char === '(' || $found_char === ')' || $previous_char === '(' || $previous_char === ')') {
-          $stringles = stack_utils::eliminate_strings($this->rawcasstring);
-          $inline = stack_utils::check_bookends($stringles, '(', ')');
-          if ($inline === 'left') {
-            $this->answernote[] = 'missingLeftBracket';
-            $this->add_error(stack_string('stackCas_missingLeftBracket',
-              array('bracket' => '(', 'cmd' => stack_maxima_format_casstring($this->rawcasstring))));
-            return;
-          } else if ($inline === 'right') {
-            $this->answernote[] = 'missingRightBracket';
-            $this->add_error(stack_string('stackCas_missingRightBracket',
-              array('bracket' => ')', 'cmd' => stack_maxima_format_casstring($this->rawcasstring))));
-            return;
-          }
-        } else if ($found_char === '[' || $found_char === ']' || $previous_char === '[' || $previous_char === ']') {
-          $stringles = stack_utils::eliminate_strings($this->rawcasstring);
-          $inline = stack_utils::check_bookends($stringles, '[', ']');
-          if ($inline === 'left') {
-            $this->answernote[] = 'missingLeftBracket';
-            $this->add_error(stack_string('stackCas_missingLeftBracket',
-              array('bracket' => '[', 'cmd' => stack_maxima_format_casstring($this->rawcasstring))));
-            return;
-          } else if ($inline === 'right') {
-            $this->answernote[] = 'missingRightBracket';
-            $this->add_error(stack_string('stackCas_missingRightBracket',
-              array('bracket' => ']', 'cmd' => stack_maxima_format_casstring($this->rawcasstring))));
-            return;
-          }
-        } else if ($found_char === '{' || $found_char === '}' || $previous_char === '{' || $previous_char === '}') {
-          $stringles = stack_utils::eliminate_strings($this->rawcasstring);
-          $inline = stack_utils::check_bookends($stringles, '{', '}');
-          if ($inline === 'left') {
-            $this->answernote[] = 'missingLeftBracket';
-            $this->add_error(stack_string('stackCas_missingLeftBracket',
-              array('bracket' => '{', 'cmd' => stack_maxima_format_casstring($this->rawcasstring))));
-            return;
-          } else if ($inline === 'right') {
-            $this->answernote[] = 'missingRightBracket';
-            $this->add_error(stack_string('stackCas_missingRightBracket',
-              array('bracket' => '}', 'cmd' => stack_maxima_format_casstring($this->rawcasstring))));
-            return;
-          }
-        }
-
-        if ($previous_char === '=' && ($found_char === '<' || $found_char === '>')) {
-            $a = array();
-            if ($found_char === '<') {
-                $a['cmd'] = stack_maxima_format_casstring('=<');
-            } else {
-                $a['cmd'] = stack_maxima_format_casstring('=>');
-            }
-            $this->add_error(stack_string('stackCas_backward_inequalities', $a));
-            $this->answernote[] = 'backward_inequalities';
-        } else if ($found_char === '=' && ($next_char === '<' || $next_char === '>')) {
-            $a = array();
-            if ($next_char === '<') {
-                $a['cmd'] = stack_maxima_format_casstring('=<');
-            } else {
-                $a['cmd'] = stack_maxima_format_casstring('=>');
-            }
-            $this->add_error(stack_string('stackCas_backward_inequalities', $a));
-            $this->answernote[] = 'backward_inequalities';
-        } else if ($found_char === "'") {
-            $this->add_error(stack_string('stackCas_apostrophe'));
-            $this->answernote[] = 'apostrophe';
-        } else if ($found_char === '/' && $next_char === '*') {
-            $a = array('cmd' => stack_maxima_format_casstring('/*'));
-            $this->add_error(stack_string('stackCas_spuriousop', $a));
-            $this->answernote[] = 'spuriousop';
-        } else if ($found_char === '=' && $next_char === '=') {
-            $a = array('cmd' => stack_maxima_format_casstring('=='));
-            $this->add_error(stack_string('stackCas_spuriousop', $a));
-            $this->answernote[] = 'spuriousop';
-        } else if ($found_char === '&') {
-            $a = array('cmd' => stack_maxima_format_casstring('&'));
-            $this->add_error(stack_string('stackCas_spuriousop', $a));
-            $this->answernote[] = 'spuriousop';
-        } else if (ctype_alpha($found_char) && ctype_digit($previous_char)) {
-            $a = array('cmd' => stack_maxima_format_casstring(core_text::substr($this->casstring, 0, $exception->grammarOffset) . '<font color="red">*</font>' . core_text::substr($this->casstring, $exception->grammarOffset)));
-            $this->answernote[] = 'missing_stars';
-        } else if ($found_char === ',' || (ctype_digit($found_char) && $previous_char === ',')) {
-            $this->add_error(stack_string('stackCas_unencpsulated_comma'));
-            $this->answernote[] = 'unencpsulated_comma';
-        } else if ($found_char === '\\') {
-            $this->add_error(stack_string('illegalcaschars'));
-            $this->answernote[] = 'illegalcaschars';
-        } else if ($previous_char === ' ') {
-            $cmds = trim(core_text::substr($this->casstring, 0, $exception->grammarOffset - 1));
-            $cmds .= '<font color="red">_</font>';
-            $cmds .= core_text::substr($this->casstring, $exception->grammarOffset);
-            $cmds = str_replace('*%%IS', '*', $cmds);
-            $cmds = str_replace('*%%Is', '<font color="red">_</font>', $cmds);
-            $this->answernote[] = 'spaces';
-            $cmds = stack_utils::logic_nouns_sort($cmds, 'remove');
-            $this->add_error(stack_string('stackCas_spaces', array('expr' => stack_maxima_format_casstring($cmds))));
-        } else if ($found_char === ':' && (strpos($this->rawcasstring, ':lisp') !== false)) {
-            $this->add_error(stack_string('stackCas_forbiddenWord',
-                    array('forbid' => stack_maxima_format_casstring('lisp'))));
-            $this->answernote[] = 'forbiddenWord';
-        } else if (count($exception->expected) === 6 &&
-                   $exception->expected[0]['type'] === 'literal' && $exception->expected[0]['value'] === ',' &&
-                   $exception->expected[1]['type'] === 'literal' && $exception->expected[1]['value'] === ':' &&
-                   $exception->expected[2]['type'] === 'literal' && $exception->expected[2]['value'] === ';' &&
-                   $exception->expected[3]['type'] === 'literal' && $exception->expected[3]['value'] === '=' &&
-                   $exception->expected[4]['type'] === 'end' &&
-                   $exception->expected[5]['type'] === 'other' && $exception->expected[5]['description'] === 'whitespace') {
-            // This is a sensitive check matching the expectations of the parser....
-            // This is extra special, if we have an unencpsulated comma we might be parsing for an evaluation
-            // flag but not find the assingment of flag value...
-            $this->add_error(stack_string('stackCas_unencpsulated_comma'));
-            $this->answernote[] = 'unencpsulated_comma';
-        } else if ($next_char === null && ($found_char !== null && core_text::strpos($disallowedfinalchars, $found_char) !== false)) {
-            $a = array();
-            $a['char'] = $found_char;
-            $cdisp = $this->rawcasstring;
-            if ($security == 's') {
-                $cdisp = stack_utils::logic_nouns_sort($cdisp, 'remove');
-            }
-            $a['cmd']  = stack_maxima_format_casstring($cdisp);
-            $this->add_error(stack_string('stackCas_finalChar', $a));
-            $this->answernote[] = 'finalChar';
-        } else if ($found_char === null && ($previous_char !== null && core_text::strpos($disallowedfinalchars, $previous_char) !== false)) {
-            $a = array();
-            $a['char'] = $previous_char;
-            $cdisp = $this->rawcasstring;
-            if ($security == 's') {
-                $cdisp = stack_utils::logic_nouns_sort($cdisp, 'remove');
-            }
-            $a['cmd']  = stack_maxima_format_casstring($cdisp);
-            $this->add_error(stack_string('stackCas_finalChar', $a));
-            $this->answernote[] = 'finalChar';
-        } else if ($this->valid) {
-            $this->add_error($exception->getMessage());
-            $this->answernote[] = 'ParseError';
-        }
     }
 
 
@@ -1199,6 +892,39 @@ class stack_cas_casstring {
                 }
             }
 
+            if (!$id->is_function_name() && core_text::substr($raw, 0, 4) === 'log_') {
+                if ($id->parentnode instanceof MP_Operation && $id->parentnode->lhs === $id) {
+                    // log_...*(...)
+                    if ($id->parentnode->op === '*' && $id->parentnode->rhs instanceof MP_Group) {
+                        $nf = new MP_FunctionCall($id, $id->parentnode->rhs->items);
+                        $id->parentnode->parentnode->replace($id->parentnode, $nf);
+                        return false;
+                    }
+                    // log_...+zz(...)
+                    if ($id->parentnode->rhs instanceof MP_FunctionCall) {
+                        $nf = new MP_FunctionCall(new MP_Identifier($id->value . $id->parentnode->op . $id->parentnode->rhs->name->toString()), $id->parentnode->rhs->arguments);
+                        $id->parentnode->parentnode->replace($id->parentnode, $nf);
+                        return false;
+                    }
+                    // log_...-a
+                    if ($id->parentnode->rhs instanceof MP_Atom) {
+                        $ni = new MP_Identifier($id->value . $id->parentnode->op . $id->parentnode->rhs->toString());
+                        $id->parentnode->parentnode->replace($id->parentnode, $ni);
+                        return false;
+                    }
+                    // log_...-a^b
+                    if ($id->parentnode->rhs instanceof MP_Operation && $id->parentnode->rhs->lhs instanceof MP_Atom) {
+                        $ni = new MP_Identifier($id->value . $id->parentnode->op . $id->parentnode->rhs->lhs->toString());
+                        $id->parentnode->rhs->replace($id->parentnode->rhs->lhs, $ni);
+                        $id->parentnode->parentnode->replace($id->parentnode, $id->parentnode->rhs);
+                        return false;
+                    }
+
+                }
+            }
+
+            /*
+
             // The tricky bit is this... we want to eat ops to the right untill a (group) is found.
             // Though only if we are on the rhs of an assignment.
             if (!$id->is_function_name() && core_text::substr($raw, 0, 4) === 'log_' &&
@@ -1319,7 +1045,7 @@ class stack_cas_casstring {
                     }
                 }
             }
-
+            */
 
         } else {
             // Other params have been vetted already.
@@ -1352,11 +1078,12 @@ class stack_cas_casstring {
                         // of the identifier we can just parse it as a casstring.
                         $operand = new MP_Identifier($num);
                         $cs = new stack_cas_casstring($num);
-
+                        $cs->set_units($this->units);
                         if ($cs->get_valid($security, $syntax, $insertstars, $allowwords)) {
                             // There are no evaluationflags here.
                             $operand = $cs->ast->statement;
                         } else {
+                            $operand = $cs->ast->statement;
                             $this->valid = false;
                         }
                         foreach ($cs->answernote as $note) {
@@ -1472,218 +1199,6 @@ class stack_cas_casstring {
         }
     }
 
-
-    private function check_stars($security, $syntax, $insertstars) {
-        // This is the variant acting on trees. Essenttialy, we already have valid code
-        // but we want to interperet it differently e.g. function calls are now multiplications.
-        // Pretty much all the interesting bits are parsed as function calls.
-        $process = function($node) use($security, $syntax, $insertstars) {
-            // First fix %%IS that is used to mark pre parser insertted stars
-            if ($node instanceof MP_FunctionCall && $node->name instanceof MP_Identifier && core_text::substr($node->name->value, 0, 4) === '%%IS') {
-                $node->name->value = core_text::substr($node->name->value, 4);
-                if ($node->parentnode instanceof MP_Operation && $node->parentnode->rhs === $node) {
-                  $node->parentnode->position = null;
-                }
-                return false;
-            }
-            if ($node instanceof MP_Identifier && core_text::substr($node->value, 0, 4) === '%%IS') {
-                $node->value = core_text::substr($node->value, 4);
-                if ($node->parentnode instanceof MP_Operation && $node->parentnode->rhs === $node) {
-                  $node->parentnode->position = null;
-                }
-                return false;
-            }
-            // and %%Is that is used for pre parser fixed spaces.
-            if ($node instanceof MP_FunctionCall && $node->name instanceof MP_Identifier && core_text::substr($node->name->value, 0, 4) === '%%Is') {
-                $node->name->value = core_text::substr($node->name->value, 4);
-                if ($node->parentnode instanceof MP_Operation && $node->parentnode->rhs === $node) {
-                  $node->parentnode->position = false;
-                }
-                return false;
-            }
-            if ($node instanceof MP_Identifier && core_text::substr($node->value, 0, 4) === '%%Is') {
-                $node->value = core_text::substr($node->value, 4);
-                if ($node->parentnode instanceof MP_Operation && $node->parentnode->rhs === $node) {
-                  $node->parentnode->position = false;
-                }
-                return false;
-            }
-
-            if ($node instanceof MP_FunctionCall) {
-                if ($security === 's' && ($node->name instanceof MP_Group || $node->name instanceof MP_FunctionCall)) {
-                    // Fix (whatever)(x) => (whatever)*(x)
-                    //           f(x)(y) => f(x)*(y)
-                    $replacement = new MP_Operation('*', $node->name, new MP_Group($node->arguments));
-                    $node->parentnode->replace($node, $replacement);
-                    $this->answernote[] = 'missing_stars';
-                    if ($insertstars == 0 || $insertstars == 3 || $security === 't') {
-                        $this->valid = false;
-                    }
-                    return false;
-                } if ($node->name instanceof MP_Identifier) {
-                    if ($security == 's') {
-                        // students may not have functionnames ending with numbers... except log_XXX and log10
-                        if (ctype_digit(core_text::substr($node->name->value, -1)) && $node->name->value !== 'log10'
-                            && !(core_text::substr($node->name->value, 0, 4) === 'log_' && ctype_digit(core_text::substr($node->name->value, 4)))) {
-                            $replacement = new MP_Operation('*', $node->name, new MP_Group($node->arguments));
-                            $this->answernote[] = 'missing_stars';
-                            if ($insertstars == 0 || $insertstars == 3) {
-                                $this->valid = false;
-                            }
-                            $node->parentnode->replace($node, $replacement);
-                            return false;
-                        } else if ($node->name->value === 'i') {
-                            $replacement = new MP_Operation('*', $node->name, new MP_Group($node->arguments));
-                            $this->answernote[] = 'missing_stars';
-                            if ($insertstars == 0 || $insertstars == 3) {
-                                $this->valid = false;
-                            }
-                            $node->parentnode->replace($node, $replacement);
-                            return false;
-                        } else if (!$syntax && (core_text::strlen($node->name->value) == 1)) {
-                            // single character function names... TODO: what is this!?
-                            $replacement = new MP_Operation('*', $node->name, new MP_Group($node->arguments));
-                            $this->answernote[] = 'missing_stars';
-                            if ($insertstars == 0 || $insertstars == 3) {
-                                $this->valid = false;
-                            }
-                            $node->parentnode->replace($node, $replacement);
-                            return false;
-                        }
-                    }
-                }
-            } else if ($node instanceof MP_Identifier) {
-                // These are special
-                if (core_text::substr($node->value, 0, 4) === 'log_' || $node->value === 'log10') {
-                    return true;
-                }
-
-                // x3 => x*3
-                if (!$node->is_function_name() &&
-                    $security == 's' &&
-                    !$syntax && core_text::strlen($node->value) === 2 &&
-                    ctype_alpha(core_text::substr($node->value, 0, 1)) &&
-                    ctype_digit(core_text::substr($node->value, 1, 1))) {
-                    // Binding powers will be wrong but we are not evaluating stuff here.
-                    $replacement = new MP_Operation('*', new MP_Identifier(core_text::substr($node->value, 0, 1)), new MP_Integer((int)core_text::substr($node->value, 1, 1)));
-                    if ($insertstars == 0 || $insertstars == 3) {
-                      $this->valid = false;
-                    }
-                    $node->parentnode->replace($node, $replacement);
-                    $this->answernote[] = 'missing_stars';
-                    return false;
-                }
-
-                // Check for a1b2c => a1*b2*c, i.e. shifts from number to letter in the name.
-                $splits = array();
-                $alpha = true;
-                $last = 0;
-                for ($i = 1; $i < core_text::strlen($node->value); $i++) {
-                  if ($alpha && ctype_digit(core_text::substr($node->value, $i, 1))) {
-                    $alpha = false;
-                  } else if (!$alpha && !ctype_digit(core_text::substr($node->value, $i, 1))) {
-                    $alpha = false;
-                    $splits[] = core_text::substr($node->value, $last, $i - $last);
-                    $last = $i;
-                  }
-                }
-                $splits[] = core_text::substr($node->value, $last);
-                if (count($splits) > 1) {
-                  if ($insertstars == 0 || $insertstars == 3) {
-                    $this->valid = false;
-                  }
-                  // Initial bit is turned to multiplication chain. The last one need to check for function call.
-                  $temp = new MP_Identifier('rhs');
-                  $replacement = new MP_Operation('*', new MP_Identifier($splits[0]), $temp);
-                  $iter = $replacement;
-                  $i = 1;
-                  for ($i = 1; $i < count($splits) - 1; $i++) {
-                    $iter->replace($temp, new MP_Operation('*', new MP_Identifier($splits[$i]), $temp));
-                    $iter = $iter->rhs;
-                  }
-                  if ($node->is_function_name()) {
-                    $iter->replace($temp, new MP_FunctionCall(new MP_Identifier($splits[$i]), $node->parentnode->arguments));
-                    $node->parentnode->parentnode->replace($node->parentnode, $replacement);
-                  } else {
-                    $iter->replace($temp, new MP_Identifier($splits[$i]));
-                    $node->parentnode->replace($node, $replacement);
-                  }
-                  $this->answernote[] = 'missing_stars';
-                  return false;
-                }
-
-                // xyz12 => xyz*12
-                if ($security == 's' && !$syntax &&
-                    ctype_digit(core_text::substr($node->value, -1, 1))) {
-                    $i = 0;
-                    for ($i = 0; $i < core_text::strlen($node->value); $i++) {
-                        if (ctype_digit(core_text::substr($node->value, $i, 1))) {
-                            break;
-                        }
-                    }
-                    // Note at this point the split should be clean and the remainder is just an integer.
-                    $replacement = new MP_Operation('*', new MP_Identifier(core_text::substr($node->value, 0, $i)), new MP_Integer((int)core_text::substr($node->value, $i)));
-                    if ($node->parentnode instanceof MP_FunctionCall && $node->parentnode->name === $node) {
-                        $replacement->rhs = new MP_Operation('*', $replacement->rhs, new MP_Group($this->parentnode->arguments));
-                        $node->parentnode->parentnode->replace($node->parentnode, $replacement);
-                    } else {
-                        $node->parentnode->replace($node, $replacement);
-                    }
-                    if ($insertstars == 0 || $insertstars == 3) {
-                        $this->valid = false;
-                    }
-                    $this->answernote[] = 'missing_stars';
-                    return false;
-                }
-            }
-            if ($security === 's' && !$syntax && $node instanceof MP_Float && $node->raw !== null) {
-                // This is one odd case to handle but maybe some people want to kill floats like this.
-                $replacement = false;
-                if (strpos($node->raw, 'e') !== false) {
-                    $parts = explode('e', $node->raw);
-                    if (strpos($parts[0], '.') !== false) {
-                        $replacement = new MP_Operation('*', new MP_Float(floatval($parts[0]), null), new MP_Operation('*', new MP_Identifier('e'), new MP_Integer(intval($parts[1]))));
-                    } else {
-                        $replacement = new MP_Operation('*', new MP_Integer(intval($parts[0])), new MP_Operation('*', new MP_Identifier('e'), new MP_Integer(intval($parts[1]))));
-                    }
-                    if ($parts[1]{0} === '-' || $parts[1]{0} === '+') {
-                        // 1e+1...
-                        $op = $parts[1]{0};
-                        $val = abs(intval($parts[1]));
-                        $replacement = new MP_Operation($op, new MP_Operation('*', $replacement->lhs, new MP_Identifier('e')), new MP_Integer($val));
-                    }
-                } else if (strpos($node->raw, 'E') !== false) {
-                    $parts = explode('E', $node->raw);
-                    if (strpos($parts[0], '.') !== false) {
-                        $replacement = new MP_Operation('*', new MP_Float(floatval($parts[0]), null), new MP_Operation('*', new MP_Identifier('E'), new MP_Integer(intval($parts[1]))));
-                    } else {
-                        $replacement = new MP_Operation('*', new MP_Integer(intval($parts[0])), new MP_Operation('*', new MP_Identifier('E'), new MP_Integer(intval($parts[1]))));
-                    }
-                    if ($parts[1]{0} === '-' || $parts[1]{0} === '+') {
-                        // 1.2E-1...
-                        $op = $parts[1]{0};
-                        $val = abs(intval($parts[1]));
-                        $replacement = new MP_Operation($op, new MP_Operation('*', $replacement->lhs, new MP_Identifier('E')), new MP_Integer($val));
-                    }
-                }
-                if ($replacement !== false) {
-                    $this->answernote[] = 'missing_stars';
-                    if ($insertstars === 0) {
-                        $this->valid = false;
-                    }
-                    $node->parentnode->replace($node, $replacement);
-
-                    return false;
-                }
-            }
-            return true;
-        };
-
-
-        while($this->ast->callbackRecurse($process) !== true){}
-
-
-    }
 
     /**
      * Check for forbidden CAS commands, based on security level
@@ -2248,4 +1763,30 @@ class stack_cas_casstring {
             $this->set_answernote('CASError: '.$error);
         }
     }
+
+    private function teacher_parse_errors($e) {
+
+        $found_char = $e->found;
+        $previous_char = null;
+        $next_char = null;
+
+        if ($e->grammarOffset >= 1) {
+            $previous_char = core_text::substr($this->rawcasstring, $e->grammarOffset - 1, 1);
+        }
+        if ($e->grammarOffset < (core_text::strlen($this->rawcasstring) - 1)) {
+            $next_char = core_text::substr($this->rawcasstring, $e->grammarOffset + 1, 1);
+        }
+
+        if ($found_char === ':' && (core_text::strpos($this->rawcasstring, ':lisp') !== false)) {
+            $this->add_error(stack_string('stackCas_forbiddenWord',
+                    array('forbid' => stack_maxima_format_casstring('lisp'))));
+            $this->answernote[] = 'forbiddenWord';
+        } else {
+            $this->add_error($e->getMessage());
+            $this->answernote[] = 'ParseError';
+
+        }
+    }
+
+
 }

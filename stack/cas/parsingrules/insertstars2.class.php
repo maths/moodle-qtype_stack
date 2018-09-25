@@ -18,9 +18,9 @@ require_once(__DIR__ . '/insertstars0.class.php');
 
 class stack_parser_logic_insertstars2 extends stack_parser_logic_insertstars0 {
 
-    public function __construct() {
+    public function __construct($insertstars = true, $fixspaces = false) {
         // Stars but not spaces. Single char vars.
-        parent::__construct(true, false);
+        parent::__construct($insertstars, $fixspaces);
     }
 
     public function post($ast, &$valid, &$errors, &$answernote, $syntax, $safevars, $safefunctions) {

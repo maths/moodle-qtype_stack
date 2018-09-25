@@ -858,8 +858,8 @@ class stack_cas_casstring_test extends basic_testcase {
         $this->assertEquals('sin*x', $at1->get_casstring());
         $err = 'To apply a trig function to its arguments you must use brackets, not spaces.  '.
             'For example use <span class="stacksyntaxexample">sin(...)</span> instead.';
-                        $this->assertEquals($err, $at1->get_errors());
-                        $this->assertEquals('trigspace | spaces', $at1->get_answernote());
+        $this->assertEquals($err, $at1->get_errors());
+        $this->assertEquals('spaces | trigspace', $at1->get_answernote());
     }
 
     public function test_spaces_4_insertneeded_true() {

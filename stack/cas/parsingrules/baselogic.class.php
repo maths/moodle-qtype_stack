@@ -60,14 +60,13 @@ abstract class stack_parser_logic {
         // Missing stars patterns to fix.
         // NOTE: These patterns take into account floats, if the logic wants to
         // kill floats it can do it later after the parsing.
-        $starpatterns   = array("/(\))([0-9A-Za-z])/");    // E.g. )a, or )3.
-        $starpatterns[] = "/([^0-9A-Za-z_][0-9]+)([A-DF-Za-df-z]+|[eE][^\+\-0-9]+)/"; // +3z(, -2ee+ not *4e-2 or /1e3
-        $starpatterns[] = "/^([\+\-]?[0-9]+)([A-DF-Za-df-z]+|[eE][^\+\-0-9]+)/"; // Same but start of line.
+        $starpatterns   = array("/(\))([0-9A-Za-z_])/");    // E.g. )a, or )3.
+        $starpatterns[] = "/([^0-9A-Za-z_][0-9]+)([A-DF-Za-df-z_]+|[eE][^\+\-0-9]+)/"; // +3z(, -2ee+ not *4e-2 or /1e3
+        $starpatterns[] = "/^([\+\-]?[0-9]+)([A-DF-Za-df-z_]+|[eE][^\+\-0-9]+)/"; // Same but start of line.
         $starpatterns[] = "/([^0-9A-Za-z_][0-9]+)(\()/"; // -124()
         $starpatterns[] = "/^([\+\-]?[0-9]+)(\()/"; // Same but start of line
         $starpatterns[] = "/([^0-9A-Za-z_][0-9]+[.]?[0-9]*[eE][\+\-]?[0-9]+)(\()/"; // -124.4e-3()
-        $starpatterns[] = "/^([\+\-]?[0-9]+[.]?[eE][\+\-]?[0-9]+)(\()/"; // Same but start of line.
-        $starpatterns[] = "/^([\+\-]?[0-9]+[.][0-9]+[eE][\+\-]?[0-9]+)(\()/"; // Same but start of line.
+        $starpatterns[] = "/^([\+\-]?[0-9]+[.]?[0-9]*[eE][\+\-]?[0-9]+)(\()/"; // Same but start of line.
 
         $missingstar    = false;
         $missingstring  = '';
@@ -113,7 +112,7 @@ abstract class stack_parser_logic {
             // the result of a group, but as this is only applied to student
             // input and especially that example is something we do not want
             // it should not be an issue.
-            $pat = "|([A-Za-z0-9\(\)]+) ([A-Za-z0-9\(\)]+)|";
+            $pat = "|([A-Za-z0-9_\)]+) ([A-Za-z0-9\(_]+)|";
             $fixedspace = false;
             if (preg_match($pat, $stringles)) {
                 $fixedspace = true;
@@ -175,10 +174,15 @@ abstract class stack_parser_logic {
                 $node->name->value = core_text::substr($node->name->value, 4);
                 if ($node->name->value === '') {
                     $node->parentnode->replace($node, new MP_Group($node->arguments));
+                } else if (ctype_digit($node->name->value)) {
+                    $node->parentnode->replace($node, new MP_Operation('*', new MP_Integer(intval($node->name->value), new MP_Group($node->arguments))));
                 }
                 $setop = null;
             } else if ($node instanceof MP_Identifier && core_text::substr($node->value, 0, 4) === '%%IS') {
                 $node->value = core_text::substr($node->value, 4);
+                if (ctype_digit($node->value)) {
+                    $node->parentnode->replace($node, new MP_Integer(intval($node->value)));
+                }
                 $setop = null;
             }
             if ($setop === null) {
@@ -192,10 +196,15 @@ abstract class stack_parser_logic {
                 $node->name->value = core_text::substr($node->name->value, 4);
                 if ($node->name->value === '') {
                     $node->parentnode->replace($node, new MP_Group($node->arguments));
+                } else if (ctype_digit($node->name->value)) {
+                    $node->parentnode->replace($node, new MP_Operation('*', new MP_Integer(intval($node->name->value), new MP_Group($node->arguments))));
                 }
                 $setop = false;
             } else if ($node instanceof MP_Identifier && core_text::substr($node->value, 0, 4) === '%%Is') {
                 $node->value = core_text::substr($node->value, 4);
+                if (ctype_digit($node->value)) {
+                    $node->parentnode->replace($node, new MP_Integer(intval($node->value)));
+                }
                 $setop = false;
             }
             if ($setop === false) {
@@ -252,7 +261,7 @@ abstract class stack_parser_logic {
         $string = str_replace('*%%IS', '*', $string);
         $string = str_replace('*%%Is', '*', $string);
 
-        if ($found_char === '(' || $found_char === ')' || $previous_char === '(' || $previous_char === ')') {
+        if ($found_char === '(' || $found_char === ')' || $previous_char === '(' || $previous_char === ')' || $found_char === null) {
           $stringles = stack_utils::eliminate_strings($string);
           $inline = stack_utils::check_bookends($stringles, '(', ')');
           if ($inline === 'left') {
@@ -266,7 +275,8 @@ abstract class stack_parser_logic {
               array('bracket' => ')', 'cmd' => stack_maxima_format_casstring($string)));
             return;
           }
-        } else if ($found_char === '[' || $found_char === ']' || $previous_char === '[' || $previous_char === ']') {
+        }
+        if ($found_char === '[' || $found_char === ']' || $previous_char === '[' || $previous_char === ']' || $found_char === null) {
           $stringles = stack_utils::eliminate_strings($string);
           $inline = stack_utils::check_bookends($stringles, '[', ']');
           if ($inline === 'left') {
@@ -280,7 +290,8 @@ abstract class stack_parser_logic {
               array('bracket' => ']', 'cmd' => stack_maxima_format_casstring($string)));
             return;
           }
-        } else if ($found_char === '{' || $found_char === '}' || $previous_char === '{' || $previous_char === '}') {
+        }
+        if ($found_char === '{' || $found_char === '}' || $previous_char === '{' || $previous_char === '}' || $found_char === null) {
           $stringles = stack_utils::eliminate_strings($string);
           $inline = stack_utils::check_bookends($stringles, '{', '}');
           if ($inline === 'left') {
@@ -381,6 +392,11 @@ abstract class stack_parser_logic {
             $a['cmd']  = stack_maxima_format_casstring($cdisp);
             $errors[] = stack_string('stackCas_finalChar', $a);
             $answernote[] = 'finalChar';
+        } else if ($found_char === '!' && ($previous_char === null || !(ctype_alpha($previous_char) || ctype_digit($previous_char) || $previous_char === ')' || $previous_char === ']'))) {
+            // TODO: Localise... "Operator X without a valid target. Needs something in front of it."
+            $a = array('op' => stack_maxima_format_casstring('!'));
+            $errors[] = stack_string('stackCas_badpostfixop', $a);
+            $answernote[] = 'badpostfixop';
         } else {
             $errors[] = $exception->getMessage();
             $answernote[] = 'ParseError';

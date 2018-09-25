@@ -18,8 +18,8 @@ require_once(__DIR__ . '/insertstars0.class.php');
 
 class stack_parser_logic_insertstars3 extends stack_parser_logic_insertstars0 {
 
-    public function __construct() {
+    public function __construct($insertstars = false, $fixspaces = true) {
         // Spaces but not sstars.
-        parent::__construct(false, true);
+        parent::__construct($insertstars, $fixspaces);
     }
 }

@@ -923,7 +923,7 @@ class stack_cas_casstring {
                 }
             }
 
-            /*
+            /* TODO: Do we need these or is the upper one complete now that the inser stars mess is separated.
 
             // The tricky bit is this... we want to eat ops to the right untill a (group) is found.
             // Though only if we are on the rhs of an assignment.
@@ -1083,7 +1083,9 @@ class stack_cas_casstring {
                             // There are no evaluationflags here.
                             $operand = $cs->ast->statement;
                         } else {
-                            $operand = $cs->ast->statement;
+                            if ($cs->ast !== null) {
+                                $operand = $cs->ast->statement;
+                            }
                             $this->valid = false;
                         }
                         foreach ($cs->answernote as $note) {

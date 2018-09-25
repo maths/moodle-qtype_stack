@@ -21,8 +21,8 @@ require_once(__DIR__ . '/../../maximaparser/MP_classes.php');
 class stack_parser_logic_insertstars0 extends stack_parser_logic {
     // These control the logic, if these are false the logic will tag
     // things as invalid if it meets core syntax rules matching these.
-    private $insertstars = false;
-    private $fixspaces = false;
+    protected $insertstars = false;
+    protected $fixspaces = false;
 
     public function __construct($insertstars = false, $fixspaces = false) {
         $this->insertstars = $insertstars;
@@ -168,6 +168,12 @@ class stack_parser_logic_insertstars0 extends stack_parser_logic {
                 }
             }
             if ($node instanceof MP_Identifier) {
+                // Skip the very special identifiers for log-candy. These will be reconstructed
+                // as fucntion calls elsewhere.
+                if($node->value === 'log10' || core_text::substr($node->value, 0, 4)=== 'log_') {
+                    return true;
+                }
+
                 // Check for a1b2c => a1*b2*c, i.e. shifts from number to letter in the name.
                 $splits = array();
                 $alpha = true;
@@ -175,7 +181,7 @@ class stack_parser_logic_insertstars0 extends stack_parser_logic {
                 for($i = 1; $i < core_text::strlen($node->value); $i++) {
                     if($alpha && ctype_digit(core_text::substr($node->value, $i, 1))) {
                         $alpha = false;
-                    } else if(!$alpha && !ctype_digit(core_text::substr($node->value, $i, 1))) {
+                    } else if(!$alpha && ctype_alpha(core_text::substr($node->value, $i, 1))) {
                         $alpha = false;
                         $splits[] = core_text::substr($node->value, $last, $i - $last);
                         $last = $i;
@@ -205,27 +211,29 @@ class stack_parser_logic_insertstars0 extends stack_parser_logic {
                     }
                     return false;
                 }
-                // xyz12 => xyz*12
+                // xyz12 => xyz*12 but not x_1 => x_*1
                 if(!$syntax && ctype_digit(core_text::substr($node->value, -1))) {
                     $i = 0;
                     for($i = 0; $i < core_text::strlen($node->value); $i++) {
-                        if(ctype_digit(core_text::substr($node->value, $i, 1))) {
+                        if(ctype_digit(core_text::substr($node->value, $i, 1)) && ctype_alpha(core_text::substr($node->value, $i - 1, 1))) {
                             break;
                         }
                     }
-                    // Note at this point i.e. after the "a1b2c" the split should be clean and the remainder is just an integer.
-                    $replacement = new MP_Operation('*', new MP_Identifier(core_text::substr($node->value, 0, $i)), new MP_Integer((int) core_text::substr($node->value, $i)));
-                    if($node->parentnode instanceof MP_FunctionCall && $node->parentnode->name === $node) {
-                        $replacement->rhs = new MP_Operation('*', $replacement->rhs, new MP_Group($node->parentnode->arguments));
-                        $node->parentnode->parentnode->replace($node->parentnode, $replacement);
-                    } else {
-                        $node->parentnode->replace($node, $replacement);
+                    if ($i < core_text::strlen($node->value)) {
+                        // Note at this point i.e. after the "a1b2c" the split should be clean and the remainder is just an integer.
+                        $replacement = new MP_Operation('*', new MP_Identifier(core_text::substr($node->value, 0, $i)), new MP_Integer((int) core_text::substr($node->value, $i)));
+                        if($node->parentnode instanceof MP_FunctionCall && $node->parentnode->name === $node) {
+                            $replacement->rhs = new MP_Operation('*', $replacement->rhs, new MP_Group($node->parentnode->arguments));
+                            $node->parentnode->parentnode->replace($node->parentnode, $replacement);
+                        } else {
+                            $node->parentnode->replace($node, $replacement);
+                        }
+                        $answernote[] = 'missing_stars';
+                        if(!$this->insertstars) {
+                            $valid = false;
+                        }
+                        return false;
                     }
-                    $answernote[] = 'missing_stars';
-                    if(!$this->insertstars) {
-                        $valid = false;
-                    }
-                    return false;
                 }
             }
             if (!$syntax && $node instanceof MP_Float && $node->raw !== null) {

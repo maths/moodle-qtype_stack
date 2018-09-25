@@ -200,7 +200,7 @@ abstract class stack_parser_logic {
             }
             if ($setop === false) {
                 if ($node->parentnode instanceof MP_Operation && $node->parentnode->rhs === $node) {
-                  $node->parentnode->position = null;
+                  $node->parentnode->position = false;
                 }
                 return false;
             }

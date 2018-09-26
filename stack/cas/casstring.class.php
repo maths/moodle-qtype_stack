@@ -103,47 +103,76 @@ class stack_cas_casstring {
     private static $cache = false;
 
     /** @var array blacklist of globally forbidden CAS keywords. */
-    private static $globalforbid    = array('%th' => true, 'adapth_depth' => true, 'alias' => true,
-                'aliases' => true, 'alphabetic' => true, 'appendfile' => true, 'apropos' => true,
-                'assume_external_byte_order' => true, 'backtrace' => true, 'batch' => true, 'barsplot' => true, 'batchload' => true,
-                'boxchar' => true, 'boxplot' => true, 'bug_report' => true, 'build_info' => true, 'catch' => true,
-                'close' => true, 'closefile' => true, 'compfile' => true, 'compile' => true, 'compile_file' => true,
-                'concat' => true, 'current_let_rule_package' => true, 'data_file_name' => true, 'deactivate' => true,
-                'debugmode' => true, 'define' => true, 'define_variable' => true, 'del_cmd' => true, 'demo' => true,
-                'dependencies' => true, 'describe' => true, 'dimacs_export' => true, 'dimacs_import' => true, 'entermatrix' => true,
-                'errcatch' => true, 'error' => true, 'error_size' => true, 'error_syms' => true, 'errormsg' => true,
-                'eval_string' => true, 'example' => true, 'feature' => true, 'featurep' => true, 'features' => true,
-                'file_name' => true, 'file_output_append' => true, 'file_search' => true, 'file_search_demo' => true,
-                'file_search_lisp' => true, 'file_search_maxima' => true, 'file_search_tests' => true,
-                'file_search_usage' => true, 'file_type' => true, 'filename_merge' => true, 'flength' => true,
-                'fortindent' => true, 'fortran' => true, 'fortspaces' => true, 'fposition' => true, 'freshline' => true,
-                'functions' => true, 'fundef' => true, 'funmake' => true, 'grind' => true, 'gnuplot_file_name' => true,
-                'gnuplot_out_file' => true, 'gnuplot_preamble' => true, 'gnuplot_ps_term_command' => true,
-                'gnuplot_cmd' => true, 'gnuplot_term' => true, 'inchar' => true, 'infeval' => true, 'infolists' => true,
-                'kill' => true, 'killcontext' => true, 'labels' => true, 'leftjust' => true, 'ldisp' => true,
-                'ldisplay' => true, 'lisp' => true, 'linechar' => true, 'linel' => true, 'linenum' => true,
-                'linsolvewarn' => true, 'load' => true, 'load_pathname' => true, 'loadfile' => true, 'loadprint' => true,
-                'macroexpand' => true, 'macroexpand1' => true, 'macroexpansion' => true, 'macros' => true, 'manual_demo' => true,
-                'maxima_tempdir' => true, 'maxima_userdir' => true, 'multiplot_mode' => true, 'myoptions' => true,
-                'newline' => true, 'nolabels' => true, 'opena' => true, 'opena_binary' => true, 'openr' => true,
-                'openr_binary' => true, 'openw' => true, 'openw_binary' => true, 'outchar' => true, 'packagefile' => true,
-                'parse_string' => true, 'pathname_directory' => true, 'pathname_name' => true, 'pathname_type' => true,
-                'pickapart' => true, 'piece' => true, 'playback' => true, 'plotdf' => true, 'plot_terminal' => true,
-                'plot_term' => true, 'print' => true, 'print_graph' => true, 'printf' => true, 'printfile' => true,
-                'prompt' => true, 'psfile' => true, 'quit' => true, 'read' => true, 'read_array' => true,
-                'read_binary_array' => true, 'read_binary_list' => true, 'read_binary_matrix' => true, 'read_hashed_array' => true,
-                'read_list' => true, 'read_matrix' => true, 'read_nested_list' => true, 'read_xpm' => true, 'readline' => true,
-                'readonly' => true, 'refcheck' => true, 'rembox' => true, 'remvalue' => true, 'remfunction' => true,
-                'reset' => true, 'rmxchar' => true, 'room' => true, 'run_testsuite' => true, 'run_viewer' => true,
-                'save' => true, 'savedef' => true, 'scatterplot' => true, 'starplot' => true, 'stemplot' => true,
-                'set_plot_option' => true, 'setup_autoload' => true, 'setcheck' => true, 'setcheckbreak' => true, 'setval' => true,
-                'showtime' => true, 'sparse6_export' => true, 'sparse6_import' => true, 'splice' => true, 'sprint' => true,
-                'status' => true, 'stringout' => true, 'supcontext' => true, 'system' => true, 'tcl_output' => true,
-                'terminal' => true, 'tex' => true, 'testsuite_files' => true, 'throw' => true, 'time' => true,
-                'timer' => true, 'timer_devalue' => true, 'timer_info' => true, 'to_lisp' => true, 'trace' => true,
-                'trace_options' => true, 'transcompile' => true, 'translate' => true, 'translate_file' => true, 'transrun' => true,
-                'ttyoff' => true, 'untimer' => true, 'untrace' => true, 'user_preamble' => true, 'values' => true,
-                'with_stdout' => true, 'write_binary_data' => true, 'write_data' => true, 'writefile' => true);
+    private static $globalforbid = array(
+        'functions' => array('alias' => true, 'appendfile' => 'io', 'apropos' => 'system state',
+                             'assume_external_byte_order' => 'io', 'backtrace' => 'system state', 'batch' => 'io',
+                             'barsplot' => true, 'batchload' => 'io', 'boxplot' => true, 'bug_report' => 'system state',
+                             'build_info' => 'system state', 'catch' => true, 'close' => 'io', 'closefile' => 'io',
+                             'compfile' => 'io', 'compile' => 'io', 'compile_file' => 'io', 'concat' => true,
+                             'deactivate' => 'system state', 'define' => true, 'define_variable' => true, 'demo' => 'io',
+                             'dependencies' => 'system state', 'describe' => 'system state', 'dimacs_export' => 'io',
+                             'dimacs_import' => 'io', 'entermatrix' => true, 'errcatch' => 'system state',
+                             'error' => 'system state', 'errormsg' => 'system state', 'eval_string' => 'system state',
+                             'example' => true, 'featurep' => 'system state', 'features' => 'system state', 'file_type' => 'io',
+                             'filename_merge' => 'io', 'flength' => 'io', 'fortran' => 'io',
+                             'fposition' => 'io', 'freshline' => 'io', 'fundef' => 'system state', 'funmake' => 'system state',
+                             'grind' => true, 'kill' => 'system state', 'killcontext' => 'system state',
+                             'labels' => 'system state', 'ldisp' => true, 'ldisplay' => true, 'lisp' => 'io',
+                             'load' => 'io', 'loadfile' => 'io', 'macroexpand' => true, 'macroexpand1' => true,
+                             'multiplot_mode' => 'graphics option', 'newline' => 'io', 'opena' => 'io', 'opena_binary' => 'io',
+                             'openr' => 'io', 'openr_binary' => 'io', 'openw' => 'io', 'openw_binary' => 'io',
+                             'parse_string' => 'io', 'pathname_directory' => 'io', 'pathname_name' => 'io',
+                             'pathname_type' => 'io', 'pickapart' => true, 'playback' => 'system state',
+                             'plotdf' => true, 'print' => 'io', 'print_graph' => 'system state', 'printf' => 'io',
+                             'printfile' => 'system state', 'quit' => 'system state', 'read' => 'io',
+                             'read_array' => 'io', 'read_binary_array' => 'io', 'read_binary_list' => 'io',
+                             'read_binary_matrix' => 'io', 'read_hashed_array' => 'io', 'read_list' => 'io',
+                             'read_matrix' => 'io', 'read_nested_list' => 'io', 'read_xpm' => 'io',
+                             'readline' => 'io', 'readbyte' => 'io', 'readchar' => 'io', 'readonly' => 'io',
+                             'rembox' => true, 'remvalue' => 'system state', 'remfunction' => 'system state',
+                             'reset' => 'system state', 'room' => 'system state', 'run_testsuite' => 'io',
+                             'save' => 'io', 'scatterplot' => true, 'starplot' => true, 'stemplot' => true,
+                             'set_plot_option' => true, 'setup_autoload' => 'io', 'sparse6_export' => 'io',
+                             'sparse6_import' => 'io', 'splice' => true, 'sprint' => 'io',
+                             'status' => 'system state', 'stringout' => 'io', 'supcontext' => 'system state',
+                             'system' => 'system state', 'tcl_output' => 'io', 'tex' => true, 'throw' => true,
+                             'time' => true, 'timer' => true, 'timer_info' => true, 'to_lisp' => 'system state',
+                             'trace' => true, 'trace_options' => true, 'transcompile' => true, 'translate' => 'io',
+                             'translate_file' => 'io', 'untimer' => true, 'untrace' => true, 'with_stdout' => 'io',
+                             'write_binary_data' => true, 'write_data' => 'io', 'writefile' => 'io'
+                             ),
+        // @ operator could be allowed at some point but then we need to allow structs as well.
+        // The parser does not support ? in either its forms but if it were to support we will
+        // not allow it NOTE: "?blaah" is very much different than "? blaah" the space is very significant.
+        'operators' => array('@' => true, '?' => true, '? ' => true),
+        'variables' => array('%th' => true, 'adapth_depth' => 'graphics option', 'aliases' => 'system state',
+                             'alphabetic' => 'property', 'boxchar' => 'display option',
+                             'current_let_rule_package' => 'system state', 'data_file_name' => 'io',
+                             'debugmode' => 'system state', 'del_cmd' => 'io', 'dependencies' => 'system state',
+                             'error' => 'system state', 'error_size' => 'system state', 'error_syms' => 'system state',
+                             'errormsg' => 'system state', 'file_name' => 'io', 'file_output_append' => 'io',
+                             'file_search' => 'io', 'file_search_demo' => 'io', 'file_search_lisp' => 'io',
+                             'file_search_maxima' => 'io', 'file_search_tests' => 'io', 'file_search_usage' => 'io',
+                             'fortindent' => 'io', 'fortspaces' => 'io', 'functions' => 'system state',
+                             'gnuplot_file_name' => 'io', 'gnuplot_out_file' => 'io', 'gnuplot_preamble' => 'io',
+                             'gnuplot_ps_term_command' => 'io', 'gnuplot_cmd' => 'io', 'gnuplot_term' => 'io',
+                             'inchar' => 'system state', 'infeval' => 'system state', 'infolists' => 'system state',
+                             'lisp' => 'io', 'leftjust' => 'system state', 'linechar' => 'system state',
+                             'linel' => 'system state', 'linenum' => 'system state', 'linsolvewarn' => 'system state',
+                             'load_pathname' => 'io', 'loadprint' => 'io', 'macroexpansion' => 'system state',
+                             'macros' => 'system state', 'manual_demo' => 'io', 'maxima_tempdir' => 'io',
+                             'maxima_userdir' => 'io', 'myoptions' => 'system state', 'nolabels' => 'system state',
+                             'outchar' => 'system state', 'packagefile' => true, 'piece' => true,
+                             'plot_terminal' => 'io', 'plot_term' => 'io','prompt' => 'system state',
+                             'psfile' => 'io', 'ps_file' => 'io', 'refcheck' => true, 'rmxchar' => 'system state',
+                             'run_viewer' => 'io', 'savedef' => true, 'setcheck' => 'system state',
+                             'setcheckbreak' => 'system state', 'setval' => 'system state', 'showtime' => true,
+                             'terminal' => 'graphics option', 'testsuite_files' => 'io', 'timer_devalue' => 'system state',
+                             'transrun' => 'io', 'ttyoff' => 'system state', 'user_preamble' => 'graphics option',
+                             'values' => 'system state'
+                             )
+    );
+
 
     /** @var array blacklist of CAS keywords forbidden to teachers. */
     // Note we allow RANDOM_PERMUTATION.
@@ -1221,7 +1250,6 @@ class stack_cas_casstring {
                     'allows' => array(),
                     'merged-sallow' => array_merge(self::$studentallow, self::$greekupper,
                             stack_cas_casstring_units::get_permitted_units(2)),
-                    'globalforbid' => self::$globalforbid,
                     'teachernotallow' => self::$teachernotallow,
                     'studentallow' => self::$studentallow,
             );
@@ -1234,7 +1262,8 @@ class stack_cas_casstring {
             if (trim($rawallowwords) != '') {
                 $allowwords = explode(',', $rawallowwords);
                 foreach ($allowwords as $kw) {
-                    if (!isset(self::$cache['globalforbid'][strtolower($kw)])) {
+                    if (!isset(self::$globalforbid]['functions'][strtolower($kw)]) &&
+                        !isset(self::$globalforbid]['variables'][strtolower($kw)])) {
                         $allow[trim($kw)] = true;
                     } else {
                         throw new stack_exception('stack_cas_casstring: check_security: ' .
@@ -1366,7 +1395,7 @@ class stack_cas_casstring {
 
         // Check for global forbidden words before we split over underscores.
         foreach ($strinkeywords as $key) {
-            if (isset(self::$cache['globalforbid'][strtolower($key)])) {
+            if (isset(self::$globalforbid['functions'][strtolower($key)]) || isset(self::$globalforbid['variables'][strtolower($key)])) {
                 // Very bad!
                 $this->add_error(stack_string('stackCas_forbiddenWord',
                         array('forbid' => stack_maxima_format_casstring(strtolower($key)))));
@@ -1400,7 +1429,7 @@ class stack_cas_casstring {
 
         foreach ($strinkeywords as $key) {
             // Check again for global forbidden words.
-            if (isset(self::$cache['globalforbid'][strtolower($key)])) {
+            if (isset(self::$globalforbid['functions'][strtolower($key)]) || isset(self::$globalforbid['variables'][strtolower($key)])) {
                 // Very bad!
                 $this->add_error(stack_string('stackCas_forbiddenWord',
                         array('forbid' => stack_maxima_format_casstring(strtolower($key)))));

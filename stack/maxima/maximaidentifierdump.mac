@@ -1,0 +1,107 @@
+/* Using apropos dumps all identifiers in the current Maxima context out */
+/* as strings into a set.                                                */
+/* Use this to find new features that might be evil                      */
+/* And to build listing of actual functionnames                          */
+/* THE CLASSIFICATION HAPPENS IN THE SECOND SCRIPT THIS IS THE FIRST*/
+
+/* This will generate a file in the running directory...                 */
+/* You'll need to run this multiple times                                */
+
+iddump():=block([__iddump, __x],
+    __iddump: {},
+    __iddump: union(__iddump, setify(makelist(string('__x), '__x, apropos("a")))),
+    __iddump: union(__iddump, setify(makelist(string('__x), '__x, apropos("b")))),
+    __iddump: union(__iddump, setify(makelist(string('__x), '__x, apropos("c")))),
+    __iddump: union(__iddump, setify(makelist(string('__x), '__x, apropos("d")))),
+    __iddump: union(__iddump, setify(makelist(string('__x), '__x, apropos("e")))),
+    __iddump: union(__iddump, setify(makelist(string('__x), '__x, apropos("f")))),
+    __iddump: union(__iddump, setify(makelist(string('__x), '__x, apropos("g")))),
+    __iddump: union(__iddump, setify(makelist(string('__x), '__x, apropos("h")))),
+    __iddump: union(__iddump, setify(makelist(string('__x), '__x, apropos("i")))),
+    __iddump: union(__iddump, setify(makelist(string('__x), '__x, apropos("j")))),
+    __iddump: union(__iddump, setify(makelist(string('__x), '__x, apropos("k")))),
+    __iddump: union(__iddump, setify(makelist(string('__x), '__x, apropos("l")))),
+    __iddump: union(__iddump, setify(makelist(string('__x), '__x, apropos("m")))),
+    __iddump: union(__iddump, setify(makelist(string('__x), '__x, apropos("n")))),
+    __iddump: union(__iddump, setify(makelist(string('__x), '__x, apropos("o")))),
+    __iddump: union(__iddump, setify(makelist(string('__x), '__x, apropos("p")))),
+    __iddump: union(__iddump, setify(makelist(string('__x), '__x, apropos("q")))),
+    __iddump: union(__iddump, setify(makelist(string('__x), '__x, apropos("r")))),
+    __iddump: union(__iddump, setify(makelist(string('__x), '__x, apropos("s")))),
+    __iddump: union(__iddump, setify(makelist(string('__x), '__x, apropos("t")))),
+    __iddump: union(__iddump, setify(makelist(string('__x), '__x, apropos("u")))),
+    __iddump: union(__iddump, setify(makelist(string('__x), '__x, apropos("v")))),
+    __iddump: union(__iddump, setify(makelist(string('__x), '__x, apropos("w")))),
+    __iddump: union(__iddump, setify(makelist(string('__x), '__x, apropos("x")))),
+    __iddump: union(__iddump, setify(makelist(string('__x), '__x, apropos("y")))),
+    __iddump: union(__iddump, setify(makelist(string('__x), '__x, apropos("z")))),
+    __iddump: setdifference(__iddump, {"stackidentifiermap", "__x", "__iddump", "iddump", "ignore1", "ignore2", "ignore3", "ignore4", "ignore5", "ignore6"}),
+    __iddump: listify(__iddump),
+    __iddump: sublist(__iddump, lambda([__x], not member("?", charlist(__x)))),
+    __iddump: sublist(__iddump, lambda([__x], not member("\\", charlist(__x)))),
+    __iddump: sublist(__iddump, lambda([__x], not member("/", charlist(__x)))),
+    __iddump: sublist(__iddump, lambda([__x], not member("-", charlist(__x)))),
+    return(setify(__iddump))
+)$
+
+/* This stores our data store. */
+stackidentifiermap: ["stack_map"]$
+if not is(errcatch(load("identifier-map.lisp"))=[]) then (
+    load("identifier-map.lisp")
+)$
+
+/* Then based on state of the stored identifiers do stuff. */
+if length(stackidentifiermap) < 2 then (
+    ignore1: listify(iddump()),
+    stackidentifiermap: append(stackidentifiermap, [["base-maxima",ignore1]]),
+    save("identifier-map.lisp", stackidentifiermap),
+    print("Repeat on clean Maxima, only base-maxima identifies collected."),
+    quit()
+) elseif length(stackidentifiermap) < 3 then (
+    load("stackmaxima.mac"),
+    /* This needs to be realoaded as stack_reset kills it. */
+    load("identifier-map.lisp"),
+    /* This is the base maxima identifier set stored during the previous branch. */
+    ignore3: setify(stackidentifiermap[2][2]),
+    ignore1: listify(setdifference(iddump(), ignore3)),
+    stackidentifiermap: append(stackidentifiermap, [["stackmaxima.mac", ignore1]]),
+    save("identifier-map.lisp", stackidentifiermap),
+    print("Repeat on clean Maxima, still stuff to collect."),
+    quit()
+) elseif length(stackidentifiermap) < 4 then (
+    load("stats"),
+    /* This is the base maxima identifier set stored during the previous branch. */
+    ignore3: setify(stackidentifiermap[2][2]),
+    ignore1: listify(setdifference(iddump(), ignore3)),
+    stackidentifiermap: append(stackidentifiermap, [["stats", ignore1]]),
+    save("identifier-map.lisp", stackidentifiermap),
+    print("Repeat on clean Maxima, still stuff to collect."),
+    quit()
+) elseif length(stackidentifiermap) < 5 then (
+    load("distrib"),
+    /* This is the base maxima identifier set stored during the previous branch. */
+    ignore3: setify(stackidentifiermap[2][2]),
+    ignore1: listify(setdifference(iddump(), ignore3)),
+    stackidentifiermap: append(stackidentifiermap, [["distrib", ignore1]]),
+    save("identifier-map.lisp", stackidentifiermap),
+    print("Repeat on clean Maxima, still stuff to collect."),
+    quit()
+) elseif length(stackidentifiermap) < 6 then (
+    load("descriptive"),
+    /* This is the base maxima identifier set stored during the previous branch. */
+    ignore3: setify(stackidentifiermap[2][2]),
+    ignore1: listify(setdifference(iddump(), ignore3)),
+    stackidentifiermap: append(stackidentifiermap, [["descriptive", ignore1]]),
+    save("identifier-map.lisp", stackidentifiermap),
+    print("Repeat on clean Maxima, still stuff to collect."),
+    quit()
+) elseif length(stackidentifiermap) < 7 then (
+    load("simplex"),
+    /* This is the base maxima identifier set stored during the previous branch. */
+    ignore3: setify(stackidentifiermap[2][2]),
+    ignore1: listify(setdifference(iddump(), ignore3)),
+    stackidentifiermap: append(stackidentifiermap, [["simplex", ignore1]]),
+    save("identifier-map.lisp", stackidentifiermap),
+    print("All identifiers collected. Next run the second script."),
+    quit()
+)$

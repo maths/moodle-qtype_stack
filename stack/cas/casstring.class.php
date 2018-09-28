@@ -141,7 +141,7 @@ class stack_cas_casstring {
                              'translate_file' => 'io', 'untimer' => true, 'untrace' => true, 'with_stdout' => 'io',
                              'write_binary_data' => true, 'write_data' => 'io', 'writefile' => 'io'
                              ),
-        // @ operator could be allowed at some point but then we need to allow structs as well.
+        // The @ aoperator could be allowed at some point but then we need to allow structs as well.
         // The parser does not support ? in either its forms but if it were to support we will
         // not allow it NOTE: "?blaah" is very much different than "? blaah" the space is very significant.
         'operators' => array('@' => true, '?' => true, '? ' => true),
@@ -163,7 +163,7 @@ class stack_cas_casstring {
                              'macros' => 'system state', 'manual_demo' => 'io', 'maxima_tempdir' => 'io',
                              'maxima_userdir' => 'io', 'myoptions' => 'system state', 'nolabels' => 'system state',
                              'outchar' => 'system state', 'packagefile' => true, 'piece' => true,
-                             'plot_terminal' => 'io', 'plot_term' => 'io','prompt' => 'system state',
+                             'plot_terminal' => 'io', 'plot_term' => 'io', 'prompt' => 'system state',
                              'psfile' => 'io', 'ps_file' => 'io', 'refcheck' => true, 'rmxchar' => 'system state',
                              'run_viewer' => 'io', 'savedef' => true, 'setcheck' => 'system state',
                              'setcheckbreak' => 'system state', 'setval' => 'system state', 'showtime' => true,
@@ -286,9 +286,9 @@ class stack_cas_casstring {
                 'rational' => true, 'ratprint' => true, 'ratriemann' => true, 'ratweyl' => true, 'ratwtlvl' => true,
                 'rearray' => true, 'rectangle' => true, 'rediff' => true, 'redraw' => true, 'reduce_consts' => true,
                 'reduce_order' => true, 'region_boundaries' => true, 'region_boundaries_plus' => true, 'remarray' => true,
-                'remcomps' => true, 'remcon' => true, 'remcoord' => true, 'remlet' => true, 'remove_dimensions' => true,
-                'remove_fundamental_dimensions' => true, 'remove_fundamental_units' => true, 'rempart' => true,
-                'remsym' => true, 'rename' => true, 'resolvante' => true, 'resolvante_alternee1' => true,
+                'uppercasep' => true, 'remcomps' => true, 'remcon' => true, 'remcoord' => true, 'remlet' => true,
+                'remove_dimensions' => true, 'remove_fundamental_dimensions' => true, 'remove_fundamental_units' => true,
+                'rempart' => true, 'remsym' => true, 'rename' => true, 'resolvante' => true, 'resolvante_alternee1' => true,
                 'resolvante_bipartite' => true, 'resolvante_diedrale' => true, 'resolvante_klein' => true,
                 'resolvante_klein3' => true, 'resolvante_produit_sym' => true, 'resolvante_unitaire' => true,
                 'resolvante_vierer' => true, 'revert' => true, 'revert2' => true, 'rgb2level' => true, 'ric' => true,
@@ -410,29 +410,27 @@ class stack_cas_casstring {
                 'polytocompanion' => true, 'posfun' => true, 'potential' => true, 'power_mod' => true, 'powerdisp' => true,
                 'powers' => true, 'powerseries' => true, 'powerset' => true, 'primep' => true, 'printpois' => true,
                 'quad_qag' => true, 'quad_qagi' => true, 'quad_qags' => true, 'quad_qawc' => true, 'quad_qawf' => true,
-                'quad_qawo' => true, 'quad_qaws' => true, 'qunit' => true, 'quotient' => true, 'radcan' => true,
-                'radexpand' => true, 'radsubstflag' => true, 'rank' => true, 'rassociative' => true, 'rat' => true,
-                'ratalgdenom' => true, 'ratcoef' => true, 'ratdenom' => true, 'ratdenomdivide' => true, 'ratdiff' => true,
-                'ratdisrep' => true, 'ratepsilon' => true, 'ratexpand' => true, 'ratfac' => true, 'rationalize' => true,
-                'ratmx' => true, 'ratnumer' => true, 'ratnump' => true, 'ratp' => true, 'ratsimp' => true,
+                'uppercasep' => true, 'quad_qawo' => true, 'quad_qaws' => true, 'qunit' => true, 'quotient' => true,
+                'radcan' => true, 'radexpand' => true, 'radsubstflag' => true, 'rank' => true, 'rassociative' => true,
+                'rat' => true, 'ratalgdenom' => true, 'ratcoef' => true, 'ratdenom' => true, 'ratdenomdivide' => true,
+                'ratdiff' => true, 'ratdisrep' => true, 'ratepsilon' => true, 'ratexpand' => true, 'ratfac' => true,
+                'rationalize' => true, 'ratmx' => true, 'ratnumer' => true, 'ratnump' => true, 'ratp' => true, 'ratsimp' => true,
                 'ratsimpexpons' => true, 'ratsubst' => true, 'ratvars' => true, 'ratweight' => true, 'ratweights' => true,
                 'realonly' => true, 'realpart' => true, 'realroots' => true, 'rectform' => true, 'recttopolar' => true,
                 'red' => true, 'remainder' => true, 'remfun' => true, 'residue' => true, 'rest' => true, 'resultant' => true,
                 'reverse' => true, 'rhs' => true, 'risch' => true, 'rncombine' => true, 'romberg' => true, 'rombergabs' => true,
                 'rombergit' => true, 'rombergmin' => true, 'rombergtol' => true, 'rootsconmode' => true, 'rootscontract' => true,
-                'rootsepsilon' => true, 'round' => true, 'row' => true, 'rowop' => true, 'rowswap' => true, 'rreduce' => true,
-                'scalarmatrixp' => true, 'scalarp' => true, 'scaled_bessel_i' => true, 'scaled_bessel_i0' => true,
-                'scaled_bessel_i1' => true, 'scalefactors' => true, 'scanmap' => true, 'schur2comp' => true, 'sconcat' => true,
-                'scopy' => true, 'scsimp' => true, 'sdowncase' => true, 'sec' => true, 'sech' => true, 'second' => true,
-                'sequal' => true, 'sequalignore' => true, 'set_partitions' => true, 'setdifference' => true, 'setequalp' => true,
-                'setify' => true, 'setp' => true, 'seventh' => true, 'sexplode' => true, 'sign' => true, 'signum' => true,
-                'simpsum' => true, 'sin' => true, 'sinh' => true, 'sinnpiflag' => true, 'sinsert' => true, 'sinvertcase' => true,
-                'sixth' => true, 'slength' => true, 'smake' => true, 'smismatch' => true, 'solve' => true,
+                'rootsepsilon' => true, 'round' => true, 'row' => true, 'rowop' => true, 'rowswap' => true,
+                'rreduce' => true, 'scalarmatrixp' => true, 'scalarp' => true, 'scaled_bessel_i' => true,
+                'scaled_bessel_i0' => true, 'scaled_bessel_i1' => true, 'scalefactors' => true, 'scanmap' => true,
+                'schur2comp' => true, 'scsimp' => true, 'sec' => true, 'sech' => true, 'second' => true,
+                'sequal' => true, 'sequalignore' => true, 'set_partitions' => true, 'setdifference' => true,
+                'setequalp' => true, 'setify' => true, 'setp' => true, 'seventh' => true, 'sign' => true, 'signum' => true,
+                'simpsum' => true, 'sin' => true, 'sinh' => true, 'sinnpiflag' => true, 'sinsert' => true,
+                'sinvertcase' => true, 'sixth' => true, 'slength' => true, 'smake' => true, 'solve' => true,
                 'solvedecomposes' => true, 'solveexplicit' => true, 'solvefactors' => true, 'solvenullwarn' => true,
-                'solveradcan' => true, 'solvetrigwarn' => true, 'some' => true, 'sort' => true, 'space' => true, 'sparse' => true,
-                'specint' => true, 'sposition' => true, 'sqfr' => true, 'sqrt' => true, 'sqrtdispflag' => true,
-                'sremove' => true, 'sremovefirst' => true, 'sreverse' => true, 'ssearch' => true, 'ssort' => true,
-                'ssubst' => true, 'ssubstfirst' => true, 'strim' => true, 'striml' => true, 'strimr' => true, 'stringp' => true,
+                'solveradcan' => true, 'solvetrigwarn' => true, 'some' => true, 'sort' => true, 'space' => true,
+                'sparse' => true, 'specint' => true, 'sposition' => true, 'sqfr' => true, 'sqrt' => true,
                 'struve_h' => true, 'struve_l' => true, 'style' => true, 'sublis' => true, 'sublis_apply_lambda' => true,
                 'sublist' => true, 'sublist_indices' => true, 'submatrix' => true, 'subset' => true, 'subsetp' => true,
                 'subst' => true, 'substinpart' => true, 'substpart' => true, 'substring' => true, 'subvarp' => true,
@@ -441,14 +439,15 @@ class stack_cas_casstring {
                 'taylor_order_coefficients' => true, 'taylor_simplifier' => true, 'taylor_truncate_polynomials' => true,
                 'taylordepth' => true, 'taylorinfo' => true, 'taylorp' => true, 'taytorat' => true, 'tellsimp' => true,
                 'tellsimpafter' => true, 'tenth' => true, 'third' => true, 'tlimit' => true, 'tlimswitch' => true,
-                'todd_coxeter' => true, 'toeplitz' => true, 'transpose' => true, 'tree_reduce' => true, 'triangularize' => true,
-                'trigexpand' => true, 'trigexpandplus' => true, 'trigexpandtimes' => true, 'triginverses' => true,
-                'trigrat' => true, 'trigreduce' => true, 'trigsign' => true, 'trigsimp' => true, 'true' => true,
-                'trunc' => true, 'und' => true, 'union' => true, 'unique' => true, 'unsum' => true, 'untellrat' => true,
-                'uppercasep' => true, 'vandermonde_matrix' => true, 'vect_cross' => true, 'vectorpotential' => true,
-                'vectorsimp' => true, 'xreduce' => true, 'xthru' => true, 'zerobern' => true, 'zeroequiv' => true,
-                'zerofor' => true, 'zeromatrix' => true, 'zeromatrixp' => true, 'zeta' => true, 'pi' => true,
-                'e' => true, 'i' => true, 'float' => true, 'round' => true, 'truncate' => true, 'decimalplaces' => true,
+                'todd_coxeter' => true, 'toeplitz' => true, 'transpose' => true, 'tree_reduce' => true,
+                'triangularize' => true, 'trigexpand' => true, 'trigexpandplus' => true, 'trigexpandtimes' => true,
+                'triginverses' => true, 'trigrat' => true, 'trigreduce' => true, 'trigsign' => true,
+                'trigsimp' => true, 'true' => true, 'trunc' => true, 'und' => true, 'union' => true, 'unique' => true,
+                'unsum' => true, 'untellrat' => true, 'vandermonde_matrix' => true, 'vect_cross' => true,
+                'vectorpotential' => true, 'vectorsimp' => true, 'xreduce' => true, 'xthru' => true,
+                'zerobern' => true, 'zeroequiv' => true, 'zerofor' => true, 'zeromatrix' => true, 'zeromatrixp' => true,
+                'zeta' => true, 'pi' => true, 'e' => true, 'i' => true, 'float' => true,
+                'round' => true, 'truncate' => true, 'decimalplaces' => true,
                 'anyfloat' => true, 'anyfloatex' => true, 'expand' => true, 'expandp' => true, 'simplify' => true,
                 'divthru' => true, 'factor' => true, 'factorp' => true, 'diff' => true, 'int' => true, 'rand' => true,
                 'plot' => true, 'plot_implicit' => true, 'stack_validate_typeless' => true, 'stack_validate' => true,
@@ -590,11 +589,14 @@ class stack_cas_casstring {
 
 
     public function __construct($rawstring, $conditions = null, $ast = null) {
-        $this->ast            = &$ast; // If null the validation will need to parse, in case of keyval just give the statement from bulk parsing. Also means that potenttial unparseable insert starts magick will need to be done.
+        // If null the validation will need to parse, in case of keyval just give the statement from bulk parsing.
+        // Also means that potenttial unparseable insert starts magick will need to be done.
+        $this->ast            = &$ast;
         $this->rawcasstring   = $rawstring;
         $this->answernote     = array();
         $this->errors         = array();
-        $this->valid          = null;  // If null then the validate command has not yet been run.
+        // If null then the validate command has not yet been run.
+        $this->valid          = null;
 
         if (!is_string($this->rawcasstring)) {
             throw new stack_exception('stack_cas_casstring: rawstring must be a string.');
@@ -606,8 +608,8 @@ class stack_cas_casstring {
         if ($conditions !== null && count($conditions) != 0) {
             $this->conditions   = $conditions;
         } else {
-	          $this->conditions   = array();
-	      }
+            $this->conditions   = array();
+        }
     }
 
     /*********************************************************/
@@ -648,7 +650,7 @@ class stack_cas_casstring {
         }
 
         // Now then do we already have validly parsed AST? if not what do we need to do to get one?
-        // If we have then this is most certainly coming from keyval and $security better be 't'
+        // If we have then this is most certainly coming from keyval and $security better be 't'.
         if ($this->ast === null) {
             if ($security === 't') {
                 try {
@@ -681,7 +683,8 @@ class stack_cas_casstring {
                         $logic = new stack_parser_logic_insertstars0();
                         break;
                 }
-                $this->ast = $logic->parse($this->casstring, $this->valid, $this->errors, $this->answernote, $syntax, array(), array());
+                $this->ast = $logic->parse($this->casstring, $this->valid, $this->errors, $this->answernote, $syntax,
+                        array(), array());
                 if ($this->ast === null) {
                     $this->valid = false;
                     return false;
@@ -715,35 +718,38 @@ class stack_cas_casstring {
             $root = $root->items[0];
         }
         if ($root->statement instanceof MP_Operation && $root->statement->op === ':') {
-          $this->key = $root->statement->lhs->toString();
-          $root->replace($root->statement, $root->statement->rhs);
+            $this->key = $root->statement->lhs->toString();
+            $root->replace($root->statement, $root->statement->rhs);
         }
-
 
         // Minimal accuracy matching of mixed use.
         $usages = array('functions' => array(), 'variables' => array());
 
         // Lets do this in phases, first go through all identifiers. Rewrite things related to them.
-        $process_identifiers = function($node) use($security, $allowwords, $insertstars) {
+        $processidentifiers = function($node) use($security, $allowwords, $insertstars) {
             if ($node instanceof MP_Identifier) {
                 return $this->process_identifier($node, $security, $allowwords, $insertstars);
             }
             return true;
         };
 
-        $process_functioncalls = function($node) use($security, $syntax, $allowwords, $insertstars) {
+        $processfunctioncalls = function($node) use($security, $syntax, $allowwords, $insertstars) {
             if ($node instanceof MP_FunctionCall) {
                 return $this->process_functioncall($node, $security, $syntax, $allowwords, $insertstars);
             }
             return true;
         };
         // We repeat this untill all is done. Identifiers first as they may turn into function calls.
-        while ($this->ast->callbackRecurse($process_identifiers) !== true) {}
-        while ($this->ast->callbackRecurse($process_functioncalls) !== true) {}
+        while ($this->ast->callbackRecurse($processidentifiers) !== true) {
+            // Do nothing.
+        }
+        while ($this->ast->callbackRecurse($processfunctioncalls) !== true) {
+            // Do nothing.
+        }
 
         // Then the rest. Note that the security check happens here, as we might have done some changes
         // earlier and we cannot be certain that the results of those changes do not undo security...
-        $main_loop = function($node)  use($security, $allowwords, $insertstars) {
+        $mainloop = function($node)  use($security, $allowwords, $insertstars) {
             if ($node instanceof MP_FunctionCall) {
                 $this->check_security($node, $security, $allowwords);
             } else if ($node instanceof MP_Identifier) {
@@ -759,7 +765,8 @@ class stack_cas_casstring {
             } else if ($node instanceof MP_Group) {
                 if (count($node->items) === 0) {
                     $this->valid = false;
-                    $this->add_error(stack_string('stackCas_forbiddenWord', array('forbid' => stack_maxima_format_casstring('()'))));
+                    $this->add_error(stack_string('stackCas_forbiddenWord',
+                            array('forbid' => stack_maxima_format_casstring('()'))));
                     $this->answernote[] = 'forbiddenWord';
                 }
             } else if ($node instanceof MP_PrefixOp || $node instanceof MP_PostfixOp || $node instanceof MP_Operation) {
@@ -778,15 +785,13 @@ class stack_cas_casstring {
             return true;
         };
 
-        $this->ast->callbackRecurse($main_loop);
+        $this->ast->callbackRecurse($mainloop);
 
         foreach ($usages['variables'] as $key => $duh) {
             if (isset($usages['functions'][$key])) {
                 $this->answernote[] = 'Variable_function';
             }
         }
-
-
 
         $root = $this->ast;
         if ($this->ast instanceof MP_Root) {
@@ -797,29 +802,33 @@ class stack_cas_casstring {
 
         $this->casstring = $this->ast->toString();
 
-
         return $this->valid;
     }
 
-
-
     private function process_identifier($id, $security, $allowwords, $insertstars) {
-        static $percent_constants = array('%e' => true, '%pi' => true, '%i' => true, '%j' => true,
+        static $percentconstants = array('%e' => true, '%pi' => true, '%i' => true, '%j' => true,
                                              '%gamma' => true, '%phi' => true, '%and' => true,
                                              '%or' => true, '%union' => true);
 
-        static $always_function_trigs = array('sin' => true, 'cos' => true, 'tan' => true, 'sinh' => true, 'cosh' => true, 'tanh' => true, 'sec' => true, 'cosec' => true, 'cot' => true, 'csc' => true, 'coth' => true, 'csch' => true, 'sech' => true);
-        static $always_function_trigs_a = array('asin' => true, 'acos' => true, 'atan' => true, 'asinh' => true, 'acosh' => true, 'atanh' => true, 'asec' => true, 'acosec' => true, 'acot' => true, 'acsc' => true, 'acoth' => true, 'acsch' => true, 'asech' => true);
-        static $always_function_trigs_arc = array('arcsin' => true, 'arccos' => true, 'arctan' => true, 'arcsinh' => true, 'arccosh' => true, 'arctanh' => true, 'arcsec' => true, 'arccosec' => true, 'arccot' => true, 'arccsc' => true, 'arccoth' => true, 'arccsch' => true, 'arcsech' => true);
+        static $alwaysfunctiontrigs = array('sin' => true, 'cos' => true, 'tan' => true, 'sinh' => true, 'cosh' => true,
+            'tanh' => true, 'sec' => true, 'cosec' => true, 'cot' => true, 'csc' => true, 'coth' => true, 'csch' => true,
+            'sech' => true);
+        static $alwaysfunctiontrigsa = array('asin' => true, 'acos' => true, 'atan' => true, 'asinh' => true,
+            'acosh' => true, 'atanh' => true, 'asec' => true, 'acosec' => true, 'acot' => true, 'acsc' => true,
+            'acoth' => true, 'acsch' => true, 'asech' => true);
+        static $alwaysfunctiontrigsarc = array('arcsin' => true, 'arccos' => true, 'arctan' => true, 'arcsinh' => true,
+            'arccosh' => true, 'arctanh' => true, 'arcsec' => true, 'arccosec' => true, 'arccot' => true, 'arccsc' => true,
+            'arccoth' => true, 'arccsch' => true, 'arcsech' => true);
 
-        static $always_function_other = array('log' => true, 'ln' => true, 'lg' => true, 'exp' => true, 'abs' => true, 'sqrt' => true);
+        static $alwaysfunctionother = array('log' => true, 'ln' => true, 'lg' => true, 'exp' => true, 'abs' => true,
+            'sqrt' => true);
 
         // The return values here are false for structural changes and true otherwise.
         if ($id instanceof MP_Identifier) {
             $raw = $id->value;
             if (core_text::substr($raw, 0, 1) === '%') {
                 // Is this a good constant?
-                if (!isset($percent_constants[$raw])) {
+                if (!isset($percentconstants[$raw])) {
                     $this->add_error(stack_string('stackCas_percent',
                         array('expr' => stack_maxima_format_casstring($this->casstring))));
                     $this->answernote[] = 'percent';
@@ -829,11 +838,11 @@ class stack_cas_casstring {
             }
             // QMCHAR needs to be turned back so that when we output this as a string we get something sensible.
             if ($raw === 'QMCHAR' || $raw === '?') {
-              $id->value = '?';
-              return true;
+                $id->value = '?';
+                return true;
             } else if (core_text::strpos($raw, 'QMCHAR') !== false) {
-              $id->value = str_replace('QMCHAR', '?', $raw);
-              return true;
+                $id->value = str_replace('QMCHAR', '?', $raw);
+                return true;
             }
             if ($this->units) {
                 // These could still be in stack_cas_casstring_units, but why do a separate call
@@ -858,8 +867,8 @@ class stack_cas_casstring {
             }
             // TODO: is the name is a common function e.g. sqrt or sin and it is not a function-name
             // we should warn about it... in cases where we have no op on right...
-            if ($id->is_function_name() && isset($always_function_trigs_arc[$raw])) {
-                // arcsin(x) is bad go for asin(x).
+            if ($id->is_function_name() && isset($alwaysfunctiontrigsarc[$raw])) {
+                // Using arcsin(x) is bad go for asin(x).
                 // TODO: we could write the whole function arguments and all here...
                 // We might even fix/rename this but atleast Matti opposes that.
                 // This test should logically be in the process_functioncall side but we already have
@@ -871,8 +880,9 @@ class stack_cas_casstring {
                 $this->valid = false;
                 return true;
             }
-            if ($id->parentnode instanceof MP_Indexing && $id->parentnode->target === $id && (isset($always_function_other[$raw]) || isset($always_function_trigs[$raw]) || isset($always_function_trigs_a[$raw]))) {
-                // sin[x]
+            if ($id->parentnode instanceof MP_Indexing && $id->parentnode->target === $id && (isset($alwaysfunctionother[$raw])
+                    || isset($alwaysfunctiontrigs[$raw]) || isset($alwaysfunctiontrigsa[$raw]))) {
+                // Examples such as sin[x].
                 // TODO: other-functions should probably be handled separately with a separate error...
                 // TODO: we could write the whole function arguments and all here...
                 // We might even fix but atleast Matti opposes that.
@@ -882,7 +892,8 @@ class stack_cas_casstring {
                 $this->valid = false;
                 return true;
             }
-            if ($id->parentnode instanceof MP_Operation && (isset($always_function_other[$raw]) || isset($always_function_trigs[$raw]) || isset($always_function_trigs_a[$raw]))) {
+            if ($id->parentnode instanceof MP_Operation && (isset($alwaysfunctionother[$raw])
+                    || isset($alwaysfunctiontrigs[$raw]) || isset($alwaysfunctiontrigsa[$raw]))) {
                 // TODO: other-functions should probably be handled separately with a separate error...
                 if ($id->parentnode->lhs === $id) {
                     $op = $id->parentnode->op;
@@ -894,18 +905,17 @@ class stack_cas_casstring {
                         return true;
                     } else if ($op === '*' || $op === '+' || $op === '-' || $op === '/') {
                         if ($op === '*' && $id->parentnode->position === false) {
-                          // Note the special case of inserted star on top of an space...
-                          $this->add_error(stack_string('stackCas_trigspace',
-                              array('trig' => stack_maxima_format_casstring($raw.'(...)'))));
-                          $this->answernote[] = 'trigspace';
-                          return true;
-
+                            // Note the special case of inserted star on top of an space...
+                            $this->add_error(stack_string('stackCas_trigspace',
+                                array('trig' => stack_maxima_format_casstring($raw.'(...)'))));
+                            $this->answernote[] = 'trigspace';
+                            return true;
                         } else {
-                          $this->add_error(stack_string('stackCas_trigop',
-                              array('trig' => stack_maxima_format_casstring($raw),
+                            $this->add_error(stack_string('stackCas_trigop',
+                                array('trig' => stack_maxima_format_casstring($raw),
                                     'forbid' => stack_maxima_format_casstring($raw.$op))));
-                          $this->answernote[] = 'trigop';
-                          return true;
+                            $this->answernote[] = 'trigop';
+                            return true;
                         }
                     }
                 } else {
@@ -923,25 +933,26 @@ class stack_cas_casstring {
 
             if (!$id->is_function_name() && core_text::substr($raw, 0, 4) === 'log_') {
                 if ($id->parentnode instanceof MP_Operation && $id->parentnode->lhs === $id) {
-                    // log_...*(...)
+                    // Examples such as log_...*(...).
                     if ($id->parentnode->op === '*' && $id->parentnode->rhs instanceof MP_Group) {
                         $nf = new MP_FunctionCall($id, $id->parentnode->rhs->items);
                         $id->parentnode->parentnode->replace($id->parentnode, $nf);
                         return false;
                     }
-                    // log_...+zz(...)
+                    // Examples such aslog_...+zz(...).
                     if ($id->parentnode->rhs instanceof MP_FunctionCall) {
-                        $nf = new MP_FunctionCall(new MP_Identifier($id->value . $id->parentnode->op . $id->parentnode->rhs->name->toString()), $id->parentnode->rhs->arguments);
+                        $nf = new MP_FunctionCall(new MP_Identifier($id->value . $id->parentnode->op
+                                . $id->parentnode->rhs->name->toString()), $id->parentnode->rhs->arguments);
                         $id->parentnode->parentnode->replace($id->parentnode, $nf);
                         return false;
                     }
-                    // log_...-a
+                    // Examples such aslog_...-a.
                     if ($id->parentnode->rhs instanceof MP_Atom) {
                         $ni = new MP_Identifier($id->value . $id->parentnode->op . $id->parentnode->rhs->toString());
                         $id->parentnode->parentnode->replace($id->parentnode, $ni);
                         return false;
                     }
-                    // log_...-a^b
+                    // Examples such aslog_...-a^b.
                     if ($id->parentnode->rhs instanceof MP_Operation && $id->parentnode->rhs->lhs instanceof MP_Atom) {
                         $ni = new MP_Identifier($id->value . $id->parentnode->op . $id->parentnode->rhs->lhs->toString());
                         $id->parentnode->rhs->replace($id->parentnode->rhs->lhs, $ni);
@@ -952,7 +963,7 @@ class stack_cas_casstring {
                 }
             }
 
-            /* TODO: Do we need these or is the upper one complete now that the inser stars mess is separated.
+            /* TODO: Do we need these or is the upper one complete now that the insert stars mess is separated.
 
             // The tricky bit is this... we want to eat ops to the right untill a (group) is found.
             // Though only if we are on the rhs of an assignment.
@@ -988,7 +999,8 @@ class stack_cas_casstring {
                         if ($id->parentnode->rhs instanceof MP_Group) {
                             // The easy case. log_x*(x) due to spaces or some other reason.
                             if ($id->parentnode->op === '*') {
-                                $id->parentnode->parentnode->replace($id->parentnode, new MP_FunctionCall($id, $id->parentnode->rhs->items));
+                                $id->parentnode->parentnode->replace($id->parentnode,
+                                    new MP_FunctionCall($id, $id->parentnode->rhs->items));
                                 return false;
                             } else {
                                 // TODO: So do we allow any other op? 'log_10+(x)' means nothing
@@ -1133,7 +1145,6 @@ class stack_cas_casstring {
 
             } else {
                 // Unknown name branch.
-
             }
         } else {
             // Other params have been vetted already.
@@ -1142,12 +1153,10 @@ class stack_cas_casstring {
         return true;
     }
 
-
     private function check_characters($string) {
         // We are only checking identifiers now so no need for ops or newlines...
         // TODO: do we need to check? All the chars that go through the parser should work
-        // with maxima... althouh πππππππ
-
+        // with maxima... although πππππππ?
 
         // Only permit the following characters to be sent to the CAS.
         $allowedcharsregex = '~[^' . preg_quote(self::$allowedchars, '~') . ']~u';
@@ -1195,7 +1204,8 @@ class stack_cas_casstring {
         static $ineqs = array('>' => true, '<' => true, '<=' => true, '>=' => true, '=' => true);
         if ($opnode instanceof MP_Operation && isset($ineqs[$opnode->op])) {
             // TODO: This was security 's' in the old system, but that probably was only due to the test failing.
-            if ($opnode->lhs instanceof MP_Operation && isset($ineqs[$opnode->lhs->op]) || $opnode->rhs instanceof MP_Operation && isset($ineqs[$opnode->rhs->op])){
+            if ($opnode->lhs instanceof MP_Operation && isset($ineqs[$opnode->lhs->op])
+                    || $opnode->rhs instanceof MP_Operation && isset($ineqs[$opnode->rhs->op])) {
                 $this->add_error(stack_string('stackCas_chained_inequalities'));
                 $this->answernote[] = 'chained_inequalities';
                 $this->valid = false;
@@ -1209,27 +1219,26 @@ class stack_cas_casstring {
         }
         // 1..1, essenttially a matrix multiplication of float of particular presentation.
         if ($opnode instanceof MP_Operation && $opnode->op === '.') {
-          // TODO: this should just fail in parser...
-          // There is an parser error here:
-          // 0.1..1.2
-          // -------- MP_Statement
-          // -------- MP_Operation .
-          // ---      MP_Float 0.1
-          //     ---- MP_Operation .
-          //     --   MP_Float 0.1
-          //        - MP_Integer 2
-          $operand = $opnode->leftmostofright();
-          if ($operand instanceof MP_Float && $operand->raw !== null &&
-              core_text::substr($operand->raw, 0, 1) === '.') {
-            $this->valid = false;
-            $a = array();
-            $a['cmd']  = stack_maxima_format_casstring('..');
-            $this->add_error(stack_string('stackCas_spuriousop', $a));
-            $this->answernote[] = 'spuriousop';
-          }
+            // TODO: this should just fail in parser...
+            // There is an parser error here:
+            // 0.1..1.2
+            // -------- MP_Statement
+            // -------- MP_Operation .
+            // ---      MP_Float 0.1
+            //     ---- MP_Operation .
+            //     --   MP_Float 0.1
+            //        - MP_Integer 2
+            $operand = $opnode->leftmostofright();
+            if ($operand instanceof MP_Float && $operand->raw !== null &&
+                    core_text::substr($operand->raw, 0, 1) === '.') {
+                $this->valid = false;
+                $a = array();
+                $a['cmd']  = stack_maxima_format_casstring('..');
+                $this->add_error(stack_string('stackCas_spuriousop', $a));
+                $this->answernote[] = 'spuriousop';
+            }
         }
     }
-
 
     /**
      * Check for forbidden CAS commands, based on security level
@@ -1237,7 +1246,7 @@ class stack_cas_casstring {
      * @return bool|string true if passes checks if fails, returns string of forbidden commands
      */
     private function check_security($node, $security, $rawallowwords) {
-        // names of functions that apply functions, so that we can check the first parameter
+        // Names of functions that apply functions, so that we can check the first parameter.
         static $mapfunctions = array('apply' => true, 'arrayapply' => true, 'map' => true,
                                          'matrixmap'  => true, 'scanmap' => true, 'maplist' => true,
                                          'outermap' => true, 'fullmapl' => true, 'fullmap' => true,
@@ -1262,8 +1271,8 @@ class stack_cas_casstring {
             if (trim($rawallowwords) != '') {
                 $allowwords = explode(',', $rawallowwords);
                 foreach ($allowwords as $kw) {
-                    if (!isset(self::$globalforbid]['functions'][strtolower($kw)]) &&
-                        !isset(self::$globalforbid]['variables'][strtolower($kw)])) {
+                    if (!isset(self::$globalforbid['functions'][strtolower($kw)]) &&
+                        !isset(self::$globalforbid['variables'][strtolower($kw)])) {
                         $allow[trim($kw)] = true;
                     } else {
                         throw new stack_exception('stack_cas_casstring: check_security: ' .
@@ -1305,7 +1314,7 @@ class stack_cas_casstring {
                 $outter = $node->name;
                 if (($outter->name instanceof MP_Identifier || $outter->name instanceof MP_String)
                     && $outter->name->value === 'lambda') {
-                    // This is safe, but we will not go out of our way to identify the function from furher
+                    // This is safe, but we will not go out of our way to identify the function from further.
                     $notsafe = false;
                 } else {
                     // Calling the result of a function that is not lambda.
@@ -1363,7 +1372,6 @@ class stack_cas_casstring {
                             'unexpected type of an node to check: ' . get_class($node));
         }
 
-
         $strinkeywords = array();
 
         // Filter out some of these matches.
@@ -1390,12 +1398,12 @@ class stack_cas_casstring {
                     $this->valid = false;
                 }
             }
-
         }
 
         // Check for global forbidden words before we split over underscores.
         foreach ($strinkeywords as $key) {
-            if (isset(self::$globalforbid['functions'][strtolower($key)]) || isset(self::$globalforbid['variables'][strtolower($key)])) {
+            if (isset(self::$globalforbid['functions'][strtolower($key)]) ||
+                    isset(self::$globalforbid['variables'][strtolower($key)])) {
                 // Very bad!
                 $this->add_error(stack_string('stackCas_forbiddenWord',
                         array('forbid' => stack_maxima_format_casstring(strtolower($key)))));
@@ -1408,7 +1416,8 @@ class stack_cas_casstring {
         }
 
         $keywords = array();
-        // Create an array of unique keywords.  For students we split over underscores.  We don't do this for teachers otherwise
+        // Create an array of unique keywords.  For students we split over underscores.
+        // We don't do this for teachers otherwise
         // too many existing question break because teachers have defined function names with underscores.
         foreach ($strinkeywords as $key) {
             // Delete function names which students are allowed from the list of keywords before we split over underscore.
@@ -1429,7 +1438,8 @@ class stack_cas_casstring {
 
         foreach ($strinkeywords as $key) {
             // Check again for global forbidden words.
-            if (isset(self::$globalforbid['functions'][strtolower($key)]) || isset(self::$globalforbid['variables'][strtolower($key)])) {
+            if (isset(self::$globalforbid['functions'][strtolower($key)]) ||
+                    isset(self::$globalforbid['variables'][strtolower($key)])) {
                 // Very bad!
                 $this->add_error(stack_string('stackCas_forbiddenWord',
                         array('forbid' => stack_maxima_format_casstring(strtolower($key)))));
@@ -1477,8 +1487,6 @@ class stack_cas_casstring {
             }
         }
     }
-
-
 
     /**
      * Check for CAS commands which appear in the $keywords array, which are not just single letter variables.
@@ -1797,18 +1805,18 @@ class stack_cas_casstring {
 
     private function teacher_parse_errors($e) {
 
-        $found_char = $e->found;
-        $previous_char = null;
-        $next_char = null;
+        $foundchar = $e->found;
+        $previouschar = null;
+        $nextchar = null;
 
         if ($e->grammarOffset >= 1) {
-            $previous_char = core_text::substr($this->rawcasstring, $e->grammarOffset - 1, 1);
+            $previouschar = core_text::substr($this->rawcasstring, $e->grammarOffset - 1, 1);
         }
         if ($e->grammarOffset < (core_text::strlen($this->rawcasstring) - 1)) {
-            $next_char = core_text::substr($this->rawcasstring, $e->grammarOffset + 1, 1);
+            $nextchar = core_text::substr($this->rawcasstring, $e->grammarOffset + 1, 1);
         }
 
-        if ($found_char === ':' && (core_text::strpos($this->rawcasstring, ':lisp') !== false)) {
+        if ($foundchar === ':' && (core_text::strpos($this->rawcasstring, ':lisp') !== false)) {
             $this->add_error(stack_string('stackCas_forbiddenWord',
                     array('forbid' => stack_maxima_format_casstring('lisp'))));
             $this->answernote[] = 'forbiddenWord';

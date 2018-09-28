@@ -22,6 +22,10 @@ needs to be gone through:
     and therefore finding it is a bit more difficult task so we cannot easily
     give similar warnings. But on the other hand do we even need to?
 
+CJS response:  I'd like to have options for students' input as follows:
+  - spaces are not permitted
+  - allow spaces for implied multiplication.
+
  2. some old logic "features" are causing trouble and are visible in test cases
     e.g. why did we allow single character function names for students as long
     as they are not at the start or after specific operators... check these ones
@@ -41,6 +45,13 @@ needs to be gone through:
     Naturally, the AST based insert stars can replicate the old behaviour but is
     that desirable? Does the old behaviour even make sense?
 
+CJS response: there is confusion in the old logic, for which I appologise. This is a good time to clean this up.
+I suggest options as follows:
+  - student defined functions permitted.
+  - student definef functions not permitted.
+If student defined functions are not permitted then "f(x)"->  f*(x).  
+This will help with the "Variable_function" error message we currently have.
+
  3. as a change to general logic insert stars will now always fix stars
     ('s' vs. 't' still applies) but will mark the validity so that a combined
     error statement can be drawn for the whole expression. This due to it being
@@ -50,20 +61,33 @@ needs to be gone through:
     Especially, how it can mark '*' ops that have been inserted into the tree...
     Might make some other errors easier to generate and focus...
 
+CJS response:  This sounds sensible.  
+  If we consider a student's typed expression "invalid", but we can insert *s that is fine.  Sometimes we want to enforce syntax!
+  If some tests now fail, then we should update in the light of this changed decision.  (I've done some of this in 7a4627517fcad84c85f2d73e283d68426f855489)
+
  4. We could do many things like catch direct divisions by zero at
     the validation phase but how far should we go as each test will need to be
     executed for all or has to have its own parameter to block it.
+
+CJS response: Indeed.  I suggest we re-consider this issue when we are back to the working system.
+As before, we will move some things from the CAS to PHP (e.g. division by zero) and some from PHP to the CAS perhaps as it evolves.
 
  5. Magic identifiers group has grown from 'QMCHAR' etc. to include '%%Is' and
     '%%IS' that are used to transfer information about inserted stars from pre
     parse scope to parse scope. Lets just say that you do not need to understand
     it but it might be of use to know what happens. This ties to point 3.
 
+CJS response:  Can we please refactor as much as possible to have one system for STACK-generated identifiers?
+I'm not in love with QMCHAR, etc. and these things should not be edited by users so should not appear in questions.
+If we need to change them let's do so.
+
  6. Float identification is quite a bit more robust and we may need to think
     about what is correct as the star insertion in the old system is quite odd
     every now and then:
 
       php ./cli/casstringtester.php --string="3.2e2"
+
+CJS response: yes.  This is a huge improvement.
 
  7. check_external_forbidden_words and the other will probably work just fine
     but it might be sensible to cache the words present in the expression during
@@ -72,10 +96,12 @@ needs to be gone through:
 In addition there are technical details:
 
  1. The parser comes from qtype_stateful and not even from its PHP side instead
-    it is a side product of that question types authoring tools, we must make
+    it is a side product of that question type's authoring tools, we must make
     sure that we do not edit it on STACKs end if it needs to be edited
     the modifications must be passed to qtype_stateful. Same applies to
     the PHP-classes matching the nodes in the AST the parser generates.
+
+CJS: noted.  I hope we can include stateful soon anyway.
 
  2. mbstring, the parser generator uses mbstring functions to deal with UTF-8,
     Moodle recommends but does not require mbstring, for this reason we may
@@ -85,7 +111,7 @@ In addition there are technical details:
     calls and it would probably make more sense for us to instead require
     mbstring to be installed.
 
-
+CJS: noted.  We have to think of the ILIAS people as well here.
 
 Tools to mark the allowed/forbidden words lists:
  1. Turn the current array to JSON.
@@ -130,3 +156,4 @@ Tools to mark the allowed/forbidden words lists:
  > funnames:setify(map(op,functions));
  // values tells things that have been given value, so those are obviously variables that need to be kept safe
  > values;
+ 

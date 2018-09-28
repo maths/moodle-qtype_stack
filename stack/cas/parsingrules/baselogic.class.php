@@ -25,7 +25,7 @@ require_once(__DIR__ . '/../../maximaparser/MP_classes.php');
 /**
  * Instances of this class handle the pre-parsing fixing of a student input
  * by adding stars between characters or in place of spaces it also includes
- * the logic aplied post-parse to split identifiers to insert additional
+ * the logic applied post-parse to split identifiers to insert additional
  * stars.
  */
 abstract class stack_parser_logic {
@@ -37,12 +37,9 @@ abstract class stack_parser_logic {
              ' or ' => 'STACKOR', ' and ' => 'STACKAND', 'not ' => 'STACKNOT',
              ' nounor ' => 'STACKNOUNOR', ' nounand ' => 'STACKNOUNAND');
 
-
     // $string => $ast, with direct assignments of details to fields in
     // the casstring, will update the string given as it is changed.
     public abstract function parse(&$string, &$valid, &$errors, &$answernote, $syntax, $safevars, $safefunctions);
-
-
 
     // This is the minimal implementation of pre-parse syntax fail fixes.
     // Should be enough for most logics will return an $ast or null.
@@ -164,7 +161,7 @@ abstract class stack_parser_logic {
         }
     }
 
-    // This will only strip the %%IS and %%Is markkers and modify the matching
+    // This will only strip the %%IS and %%Is markers and modify the matching
     // multiplication operations.
     protected function commonpostparse($ast) {
         $processmarkkers = function($node) {
@@ -402,6 +399,4 @@ abstract class stack_parser_logic {
             $answernote[] = 'ParseError';
         }
     }
-
-
 }

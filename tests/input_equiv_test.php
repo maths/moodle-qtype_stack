@@ -363,8 +363,8 @@ class stack_equiv_input_test extends qtype_stack_testcase {
         $state = $el->validate_student_response(array('sans1' => "sqrt(3*x+4) = 2+sqrt(x+2)\n3*x+4=4+4*sqrt(x+2)+(x+2)\n".
             "x-1=2*sqrt(x+2)\nx^2-2*x+1 = 4*x+8\nx^2-6*x-7 = 0\n(x-7)*(x+1) = 0\nx=7 or x=-1"), $options, $ta, null);
         $this->assertEquals(stack_input::VALID, $state->status);
-        $this->assertEquals('[sqrt(3*x+4) = 2+sqrt(x+2),3*x+4=4+4*sqrt(x+2)+(x+2),x-1=2*sqrt(x+2),'.
-                    'x^2-2*x+1 = 4*x+8,x^2-6*x-7 = 0,(x-7)*(x+1) = 0,x=7 nounor x=-1]', $state->contentsmodified);
+        $this->assertEquals('[sqrt(3*x+4)=2+sqrt(x+2),3*x+4=4+4*sqrt(x+2)+(x+2),x-1=2*sqrt(x+2),'.
+                    'x^2-2*x+1=4*x+8,x^2-6*x-7=0,(x-7)*(x+1)=0,x=7 nounor x=-1]', $state->contentsmodified);
         $this->assertEquals('\[ \begin{array}{lll} &\sqrt{3\,x+4}=2+\sqrt{x+2}&'.
             '{\color{blue}{{x \in {\left[ -\frac{4}{3},\, \infty \right)}}}}\cr \color{red}{\Rightarrow}&3\,x+4=4+4\,'.
             '\sqrt{x+2}+\left(x+2\right)&{\color{blue}{{x \in {\left[ -2,\, \infty \right)}}}}\cr \color{green}{\Leftrightarrow}'.

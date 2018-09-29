@@ -387,7 +387,7 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         $state = $el->validate_student_response(array('sans1' => 'noundiff(y/x^2,x,1)-(2*y)/x = x^3*sin(3*x)'),
                 $options, 'diff(y/x^2,x,1)-(2*y)/x = x^3*sin(3*x)', null);
         $this->assertEquals(stack_input::VALID, $state->status);
-        $this->assertEquals('noundiff(y/x^2,x,1)-(2*y)/x = x^3*sin(3*x)', $state->contentsmodified);
+        $this->assertEquals('noundiff(y/x^2,x,1)-(2*y)/x=x^3*sin(3*x)', $state->contentsmodified);
         $this->assertEquals('\[ \frac{\mathrm{d} \frac{y}{x^2}}{\mathrm{d} x}-\frac{2\cdot y}{x}' .
                 '=x^3\cdot \sin \left( 3\cdot x \right) \]', $state->contentsdisplayed);
     }
@@ -494,17 +494,17 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         $this->assertEquals('\[ \sin ^2\left(a\cdot b\right) \]', $state->contentsdisplayed);
     }
 
-    public function test_validate_student_response_single_variable_trigexp_fail() {
+    public function test_validate_student_response_single_variable_trigexp_2() {
         $options = new stack_options();
         $el = stack_input_factory::make('algebraic', 'sans1', 'sin(ab)^2');
         // Assuming single character variable names.
         $el->set_parameter('insertStars', 5);
         $state = $el->validate_student_response(array('sans1' => 'sin^2(ab)'), $options, 'sin(ab)^2',
                 array('ta'));
-        $this->assertEquals(stack_input::INVALID, $state->status);
-        $this->assertEquals('sin^2*(ab)', $state->contentsmodified);
-        $this->assertEquals('<span class="stacksyntaxexample">sin^2*(ab)</span>', $state->contentsdisplayed);
-        $this->assertEquals('trigexp', $state->note);
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('sin(a*b)^2', $state->contentsmodified);
+        $this->assertEquals('\[ \sin ^2\left(a\cdot b\right) \]', $state->contentsdisplayed);
+        $this->assertEquals('', $state->note);
     }
 
     public function test_validate_student_response_functions_variable() {

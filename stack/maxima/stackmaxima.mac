@@ -204,6 +204,14 @@ rand(ex) := block(
   if (listp(ex)) then return(randlist(ex))
 )$
 
+/* Allow zero as an argument to random. */
+rand_zero(ex):= block(
+  if not(integerp(ex)) then error("rand_zero expects its argument to be an integer."),
+  if is(ex<0) then error("rand_zero expects its argument to be non-negative."),
+  if is(ex=0) then return(0),
+  return(rand(ex))
+)$
+
 randlist(ex) := block(
   if (length(ex) > 0) then return(ex[ev(1+random(length(ex)),simp)]) else return([])
 )$
@@ -260,13 +268,13 @@ list_remove(ex, n) := block([k, l],
 
 /* Create a number in a random range. */
 rand_range([ex]) := block(
-  if (length(ex)<2 or length(ex)>3) then error("rand_range must have 2 or three arguments."),
+  if (length(ex)<2 or length(ex)>3) then error("rand_range must have 2 or 3 arguments."),
   if not(integerp(ex[1])) then error("rand_range expects its first argument to be an integer."),
   if not(integerp(ex[2])) then error("rand_range expects its second argument to be an integer."),
-  if is(length(ex)=2) then return(ev(ex[1]+rand(ex[2]-ex[1]), simp)),
-  if not(integerp(ex[3])) then error("rand_range expects its first argument to be an integer."),
-  if is(length(ex)=3) then return(ev(ex[1]+ex[3]*rand(floor((ex[2]-ex[1])/ex[3])), simp))
-);
+  if is(length(ex)=2) then return(ev(ex[1]+rand_zero(ex[2]-ex[1]), simp)),
+  if not(integerp(ex[3])) then error("rand_range expects its third argument to be an integer."),
+  return(ev(ex[1]+ex[3]*rand_zero(floor((ex[2]-ex[1])/ex[3])), simp))
+)$
 
 /* Helper function for constructing MCQ arrays. */
 multiselqn(corbase, numcor, wrongbase, numwrong):=block([ta1, ta2, ta, version],

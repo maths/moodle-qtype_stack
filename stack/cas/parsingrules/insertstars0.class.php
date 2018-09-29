@@ -48,7 +48,7 @@ class stack_parser_logic_insertstars0 extends stack_parser_logic {
         if (!$valid && array_search('missing_stars', $answernote) !== false) {
           $hasany = false;
           $check = function($node)  use(&$hasany) {
-            if ($node instanceof MP_Operation && $node->op === '*' && $node->position === null) {
+            if ($node instanceof MP_Operation && $node->op === '*' && isset($node->position['insertstars'])) {
               $hasany = true;
             }
             return true;
@@ -56,7 +56,7 @@ class stack_parser_logic_insertstars0 extends stack_parser_logic {
           $ast->callbackRecurse($check);
           if ($hasany) {
             // As we ouput the AST as a whole including the MP_Root there will be extra chars at the end.
-            $missingstring = core_text::substr(stack_utils::logic_nouns_sort($ast->toString(array('red_null_position_stars' => true)), 'remove'), 0, -2);
+            $missingstring = core_text::substr(stack_utils::logic_nouns_sort($ast->toString(array('insertstars_as_red' => true)), 'remove'), 0, -2);
             $a['cmd']  = stack_maxima_format_casstring(str_replace('QMCHAR', '?', $missingstring));
             $errors[] = stack_string('stackCas_MissingStars', $a);
           }
@@ -66,14 +66,14 @@ class stack_parser_logic_insertstars0 extends stack_parser_logic {
         if (!$valid && array_search('spaces', $answernote) !== false) {
           $hasany = false;
           $checks = function($node)  use(&$hasany) {
-            if ($node instanceof MP_Operation && $node->op === '*' && $node->position === false) {
+            if ($node instanceof MP_Operation && $node->op === '*' && isset($node->position['fixspaces'])) {
               $hasany = true;
             }
             return true;
           };
           $ast->callbackRecurse($checks);
           if ($hasany) {
-            $missingstring = core_text::substr(stack_utils::logic_nouns_sort($ast->toString(array('red_false_position_stars_as_spaces' => true)), 'remove'), 0, -2);
+            $missingstring = core_text::substr(stack_utils::logic_nouns_sort($ast->toString(array('fixspaces_as_red_spaces' => true)), 'remove'), 0, -2);
             $a['expr']  = stack_maxima_format_casstring(str_replace('QMCHAR', '?', $missingstring));
             $errors[] = stack_string('stackCas_spaces', $a);
           }
@@ -113,6 +113,7 @@ class stack_parser_logic_insertstars0 extends stack_parser_logic {
                         $valid = false;
                     }
                     $newop = new MP_Operation('*', $node->name, new MP_Group($node->arguments));
+                    $newop->position['insertstars'] = true;
                     $node->parentnode->replace($node, $newop);
                     return false;
                 }
@@ -124,6 +125,7 @@ class stack_parser_logic_insertstars0 extends stack_parser_logic {
                         if(!$this->insertstars) {
                             $valid = false;
                         }
+                        $replacement->position['insertstars'] = true;
                         $node->parentnode->replace($node, $replacement);
                         return false;
                     } else if($node->name->value === 'i') {
@@ -132,6 +134,7 @@ class stack_parser_logic_insertstars0 extends stack_parser_logic {
                         if(!$this->insertstars) {
                             $valid = false;
                         }
+                        $replacement->position['insertstars'] = true;
                         $node->parentnode->replace($node, $replacement);
                         return false;
                     } else if(!$syntax &&(core_text::strlen($node->name->value)== 1)) {
@@ -141,6 +144,7 @@ class stack_parser_logic_insertstars0 extends stack_parser_logic {
                         if(!$this->insertstars) {
                             $valid = false;
                         }
+                        $replacement->position['insertstars'] = true;
                         $node->parentnode->replace($node, $replacement);
                         return false;
                     }
@@ -163,6 +167,7 @@ class stack_parser_logic_insertstars0 extends stack_parser_logic {
                     if(!$this->insertstars) {
                         $valid = false;
                     }
+                    $replacement->position['insertstars'] = true;
                     $node->parentnode->replace($node, $replacement);
                     return false;
                 }
@@ -196,11 +201,13 @@ class stack_parser_logic_insertstars0 extends stack_parser_logic {
                     // Initial bit is turned to multiplication chain. The last one need to check for function call.
                     $temp = new MP_Identifier('rhs');
                     $replacement = new MP_Operation('*', new MP_Identifier($splits[0]), $temp);
+                    $replacement->position['insertstars'] = true;
                     $iter = $replacement;
                     $i = 1;
                     for($i = 1; $i < count($splits) - 1;$i++) {
                         $iter->replace($temp, new MP_Operation('*', new MP_Identifier($splits[$i]), $temp));
                         $iter = $iter->rhs;
+                        $iter->position['insertstars'] = true;
                     }
                     if($node->is_function_name()) {
                         $iter->replace($temp, new MP_FunctionCall(new MP_Identifier($splits[$i]), $node->parentnode->arguments));
@@ -221,9 +228,11 @@ class stack_parser_logic_insertstars0 extends stack_parser_logic {
                     }
                     if ($i < core_text::strlen($node->value)) {
                         // Note at this point i.e. after the "a1b2c" the split should be clean and the remainder is just an integer.
-                        $replacement = new MP_Operation('*', new MP_Identifier(core_text::substr($node->value, 0, $i)), new MP_Integer((int) core_text::substr($node->value, $i)));
+                        $replacement = new MP_Operation('*', new MP_Identifier(core_text::substr($node->value, 0, $i)), new MP_Ineger((int) core_text::substr($node->value, $i)));
+                        $replacement->position['insertstars'] = true;
                         if($node->parentnode instanceof MP_FunctionCall && $node->parentnode->name === $node) {
                             $replacement->rhs = new MP_Operation('*', $replacement->rhs, new MP_Group($node->parentnode->arguments));
+                            $replacement->rhs->position['insertstars'] = true;
                             $node->parentnode->parentnode->replace($node->parentnode, $replacement);
                         } else {
                             $node->parentnode->replace($node, $replacement);
@@ -247,11 +256,13 @@ class stack_parser_logic_insertstars0 extends stack_parser_logic {
                     } else {
                         $replacement = new MP_Operation('*', new MP_Integer(intval($parts[0])), new MP_Operation('*', new MP_Identifier('e'), new MP_Integer(intval($parts[1]))));
                     }
+                    $replacement->position['insertstars'] = true;
                     if ($parts[1]{0} === '-' || $parts[1]{0} === '+') {
                         // 1e+1...
                         $op = $parts[1]{0};
                         $val = abs(intval($parts[1]));
                         $replacement = new MP_Operation($op, new MP_Operation('*', $replacement->lhs, new MP_Identifier('e')), new MP_Integer($val));
+                        $replacement->lhs->position['insertstars'] = true;
                     }
                 } else if (strpos($node->raw, 'E') !== false) {
                     $parts = explode('E', $node->raw);
@@ -260,11 +271,13 @@ class stack_parser_logic_insertstars0 extends stack_parser_logic {
                     } else {
                         $replacement = new MP_Operation('*', new MP_Integer(intval($parts[0])), new MP_Operation('*', new MP_Identifier('E'), new MP_Integer(intval($parts[1]))));
                     }
+                    $replacement->position['insertstars'] = true;
                     if ($parts[1]{0} === '-' || $parts[1]{0} === '+') {
                         // 1.2E-1...
                         $op = $parts[1]{0};
                         $val = abs(intval($parts[1]));
                         $replacement = new MP_Operation($op, new MP_Operation('*', $replacement->lhs, new MP_Identifier('E')), new MP_Integer($val));
+                        $replacement->lhs->position['insertstars'] = true;
                     }
                 }
                 if ($replacement !== false) {

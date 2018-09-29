@@ -29,7 +29,7 @@ class MP_Node {
 
     public function __construct() {
         $this->parentnode = null;
-        $this->position = null;
+        $this->position = array();
         $this->children = array();
     }
 
@@ -214,12 +214,12 @@ class MP_Operation extends MP_Node {
     }
 
     public function toString($params = null) {
-        if($params !== null && isset($params['red_null_position_stars'])&& $this->op === '*' && $this->position === null) {
+        if($params !== null && isset($params['insertstars_as_red']) && $this->op === '*' && isset($this->position['insertstars'])) {
             // This is a special rendering rule that colors all multiplications as red if they have no position.
             // i.e. if they have been added after parsing...
             return $this->lhs->toString($params). '<font color="red">' . $this->op . '</font>' . $this->rhs->toString($params);
         }
-        if($params !== null && isset($params['red_false_position_stars_as_spaces'])&& $this->op === '*' && $this->position === false) {
+        if($params !== null && isset($params['fixspaces_as_red_spaces']) && $this->op === '*' && isset($this->position['fixspaces'])) {
             // This is a special rendering rule that colors all multiplications as red if they have no position.
             // i.e. if they have been added after parsing...
             return $this->lhs->toString($params). '<font color="red">_</font>' . $this->rhs->toString($params);

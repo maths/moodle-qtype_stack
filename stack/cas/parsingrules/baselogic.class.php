@@ -109,11 +109,11 @@ abstract class stack_parser_logic {
             // the result of a group, but as this is only applied to student
             // input and especially that example is something we do not want
             // it should not be an issue.
-            $pat = "|([A-Za-z0-9_\)]+) ([A-Za-z0-9\(_]+)|";
+            $pat = "|([_\)A-Za-z0-9]+)[ ]([_\(A-Za-z0-9]+)|";
             $fixedspace = false;
             if (preg_match($pat, $stringles)) {
                 $fixedspace = true;
-                $stringles = str_replace(' ', '*%%Is', $stringles);
+                $stringles = preg_replace($pat, "\${1}*%%Is\${2}", $stringles);
                 if (!$fixspaces) {
                     $valid = false;
                 }
@@ -184,7 +184,7 @@ abstract class stack_parser_logic {
             }
             if ($setop === null) {
                 if ($node->parentnode instanceof MP_Operation && $node->parentnode->rhs === $node) {
-                  $node->parentnode->position = null;
+                  $node->parentnode->position['insertstars'] = true;
                 }
                 return false;
             }
@@ -206,7 +206,7 @@ abstract class stack_parser_logic {
             }
             if ($setop === false) {
                 if ($node->parentnode instanceof MP_Operation && $node->parentnode->rhs === $node) {
-                  $node->parentnode->position = false;
+                  $node->parentnode->position['fixspaces'] = true;
                 }
                 return false;
             }

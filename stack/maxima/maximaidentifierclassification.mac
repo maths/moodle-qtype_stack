@@ -36,7 +36,9 @@ for __src in stackmap_keys(stackidentifiermap) do (
             if is(__val=[]) then (
                 subresultmap: stackmap_set(subresultmap, "err", stackmap_set(stackmap_get(subresultmap, "err"), __id, true))
             ) else (
-                __is_constant: constantp(__val[1]) or member("database info", apply(properties, __val)),
+                __props : apply(properties, __val),
+
+                __is_constant: constantp(__val[1]) or (member("database info", __props) and not (member(transfun, __props) or member(rule, __props) or member(feature, __props))),
                 __is_function: false,
                 __is_bound: false,
                 __is_flag: false,
@@ -44,20 +46,21 @@ for __src in stackmap_keys(stackidentifiermap) do (
                 __ignore: false,
 
                 /* What do the properties tell us? */
-                __props : apply(properties, __val),
+
 
                 /* Note an identifier can be many things so no else ifs... */
                 if member("evflag", __props) or member(evflag, __props) or member("assign property", __props) then __is_flag:true,
                 if member("system value", __props) then __is_option:true,
-                if member(value, __props) then __is_bound:true,
+                if not __is_constant and (member(value, __props) or ?boundp(__val[1])) then __is_bound:true,
                 if ?fboundp(__val[1]) or member("system function", __props)
                     or member(noun, __props) or member(transfun, __props)
                     or member(function, __props) or member("special evaluation form", __props)
-                    or member("limit function", __props)
+                    or member("limit function", __props) or member(rule, __props)
                     then __is_function:true,
 
-                if member(feature, __props) or is(__src=__id) or is(__props=[]) then __ignore:true,
-
+                /* Lets check if it is documented, if nit then probably safe to ignore */
+                /* Would work if we could strip the interaction form this */
+                /* if (apply(describe,[__id, exact])=false) then __ignore:true, */
 
                 if __is_function then (
                     subresultmap: stackmap_set(subresultmap, "functions", stackmap_set(stackmap_get(subresultmap, "functions"), __id, true))

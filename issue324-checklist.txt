@@ -130,3 +130,30 @@ Tools to mark the allowed/forbidden words lists:
  > funnames:setify(map(op,functions));
  // values tells things that have been given value, so those are obviously variables that need to be kept safe
  > values;
+
+ 7. Actually all of those tricks do not work as there are special cases everywhere,
+    just look at delta(x) it is impossible to catch or the various rule based functions.
+
+    The only somewhat sane way we have left is to play with the documentation files:
+
+    > tar xvf maxima-5.41.0.tar.gz
+    > cd maxima-5.41.0
+    > ./configure
+    > ./make -j8
+    > cd doc/info
+    > grep '^ \-\- .*: .*' -shI * | grep -v 'an error. To debug'
+
+    -- Function: integrate (<expr>, <x>)
+    -- Function: integrate (<expr>, <x>, <a>, <b>)
+    -- Option variable: integrate_use_rootsof
+    -- Function: integerp (<expr>)
+    -- Function: askinteger (<expr>, integer)
+    -- Function: askinteger (<expr>)
+    -- Function: askinteger (<expr>, even)
+    -- Function: askinteger (<expr>, odd)
+    -- Function: integerp (&lt;expr&gt;) .....
+
+    That is an output that can be parsed further quite easily. And the count of
+    output lines is quite near the expected 2.5k vs. 4k identified by Maxima
+    command line trickery that also catches unbound local variables inside logic
+    and lisp.

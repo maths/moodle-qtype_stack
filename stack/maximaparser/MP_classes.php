@@ -776,6 +776,15 @@ class MP_Loop extends MP_Node {
         }
         $this->children = array_merge($this->conf, array(&$this->body));
     }
+
+    public function toString($params = null) {
+        $bits = array();
+        foreach ($this->conf as $bit) {
+            $bits[] = $bit->toString($params);
+        }
+
+        return implode(' ', $bits) . ' do ' . $this->body->toString($params);
+    }
 }
 
 class MP_LoopBit extends MP_Node {
@@ -795,6 +804,10 @@ class MP_LoopBit extends MP_Node {
             $this->param = $with;
         }
         $this->children = array(& $this->param);
+    }
+
+    public function toString($params = null) {
+        return $this->mode . ' ' . $this->param->toString($params);
     }
 }
 

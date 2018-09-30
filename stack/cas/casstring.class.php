@@ -750,16 +750,11 @@ class stack_cas_casstring {
         // Then the rest. Note that the security check happens here, as we might have done some changes
         // earlier and we cannot be certain that the results of those changes do not undo security...
         $mainloop = function($node)  use($security, $allowwords, $insertstars) {
-            if ($node instanceof MP_FunctionCall) {
-                $this->check_security($node, $security, $allowwords);
-            } else if ($node instanceof MP_Identifier) {
+            if ($node instanceof MP_Identifier) {
                 $this->check_characters($node->value);
                 if ($node->is_function_name()) {
                     $usages['functions'][$node->value] = true;
                 } else {
-                    // No point in checking the security of an identifier that is obviously a function
-                    // name those got checked few lines earlier.
-                    $this->check_security($node, $security, $allowwords);
                     $usages['variables'][$node->value] = true;
                 }
             } else if ($node instanceof MP_Group) {
@@ -770,7 +765,7 @@ class stack_cas_casstring {
                     $this->answernote[] = 'forbiddenWord';
                 }
             } else if ($node instanceof MP_PrefixOp || $node instanceof MP_PostfixOp || $node instanceof MP_Operation) {
-                $this->check_operators($node, $security);
+                $this->check_operators($node);
             } else if ($node instanceof MP_Comment && $security === 's') {
                 $this->valid = false;
                 $a = array('cmd' => stack_maxima_format_casstring($op));
@@ -792,6 +787,9 @@ class stack_cas_casstring {
                 $this->answernote[] = 'Variable_function';
             }
         }
+
+        // Combined security check.
+        $this->check_security($security, $allowwords);
 
         $root = $this->ast;
         if ($this->ast instanceof MP_Root) {
@@ -1198,7 +1196,7 @@ class stack_cas_casstring {
 
 
 
-    private function check_operators($opnode, $security) {
+    private function check_operators($opnode) {
         // This gets tricky as the old one mainly focused to syntax errors...
         // But atleast we have the chained ones still.
         static $ineqs = array('>' => true, '<' => true, '<=' => true, '>=' => true, '=' => true);
@@ -1245,9 +1243,9 @@ class stack_cas_casstring {
      *
      * @return bool|string true if passes checks if fails, returns string of forbidden commands
      */
-    private function check_security($node, $security, $rawallowwords) {
+    private function check_security($security, $rawallowwords) {
         // Names of functions that apply functions, so that we can check the first parameter.
-        static $mapfunctions = array('apply' => true, 'arrayapply' => true, 'map' => true,
+        static $mapfunctions = array('apply' => true, 'map' => true,
                                          'matrixmap'  => true, 'scanmap' => true, 'maplist' => true,
                                          'outermap' => true, 'fullmapl' => true, 'fullmap' => true,
                                          'funmake' => true);
@@ -1286,91 +1284,148 @@ class stack_cas_casstring {
             $allow = self::$cache['allows'][$rawallowwords];
         }
 
-        // In the new parse tree version we extract the interesting identifiers from the node
-        // and check them. The extracttion may generate multiple and it might lead to unevaluable
-        // identifiers those are forbidden.
-        $identifiers = array();
-        if ($node instanceof MP_Identifier) {
-            $identifiers[] = $node->value;
-        } else if ($node instanceof MP_FunctionCall) {
-            $notsafe = true;
-            if ($node->name instanceof MP_Identifier || $node->name instanceof MP_String) {
-                $identifiers[] = $node->name->value;
-                $notsafe = false;
-                if (isset(self::$mapfunctions[$node->name->value])) {
-                    $inner = $node->arguments[0];
-                    if ($inner instanceof MP_Identifier || $inner instanceof MP_String) {
-                        $identifiers[] = $inner->value;
+
+        // First extract things of interest from the tree, i.e. functioncalls,
+        // variable references and operations.
+        $ofinterest = array();
+        $extraction = function($node) use (&$ofinterest){
+            if ($node instanceof MP_Identifier ||
+                $node instanceof MP_FunctionCall ||
+                $node instanceof MP_Operation ||
+                $node instanceof MP_PrefixOp ||
+                $node instanceof MP_PostfixOp) {
+              $ofinterest[] = $node;
+            }
+            return true;
+        };
+        $this->ast->callbackRecurse($extraction);
+
+        // Separate the identifiers we meet for latter use. Not the nodes
+        // the string identifiers. Key is the value so unique from the start.
+        $functionnames = array();
+        $writtenvariables = array();
+        $variables = array();
+        $operators = array();
+
+        // Now loop over the initially found things of interest. Note that
+        // the list may grow as we go forward and unwrap things.
+        $i = 0;
+        while ($i < count($ofinterest)) {
+            $node = $ofinterest[$i];
+            $i = $i + 1;
+
+            if ($node instanceof MP_Operation || $node instanceof MP_PrefixOp || $node instanceof MP_PostfixOp) {
+                // We could just strip these out in the recurse but maybe we want
+                // to check something in the future.
+                $operators[$node->op] = true;
+            } else if ($node instanceof MP_Identifier && !$node->is_function_name()) {
+                $variables[$node->value] = true;
+                if ($node->is_being_written_to()) {
+                    // This can be used to check if someone tries to redefine
+                    // %pi or some other important thing.
+                    $writtenvariables[$node->value] = true;
+                }
+            } else if ($node instanceof MP_FunctionCall) {
+                $notsafe = true;
+                if ($node->name instanceof MP_Identifier || $node->name instanceof MP_String) {
+                    $notsafe = false;
+                    $functionnames[$node->name->value] = true;
+                    $safemap = false;
+                    if (isset(self::$mapfunctions[$node->name->value])) {
+                        // If it is an apply or map function throw it in for
+                        // validation.
+                        switch ($node->name->value) {
+                            case 'apply':
+                            case 'funmake':
+                                $safemap = true;
+
+                            // TODO: add errors about applying to wrong types
+                            // of things and check them.
+                            case 'fullmapl':
+                            case 'fullmap':
+
+                            case 'map':
+                            case 'maplist':
+                            case 'scanmap':
+
+                            case 'matrixmap':
+                            case 'outermap':
+
+                            default:
+                                // NOTE: this is a correct virtual form for only
+                                // 'apply' and 'funmake' others will need to be
+                                // written out as multiplce calls. And are
+                                // therefore still unsafe atleast untill we do
+                                // the writing out...
+                                $virtualfunction = new MP_FunctionCall($node->arguments[0], array_slice($node->arguments, 1));
+                                $virtualfunction->position['virtual'] = true;
+                                $ofinterest[] = $virtualfunction;
+                                break;
+                        }
+                        if (isset($node->position['virtual']) && !$safemap) {
+                            // TODO: localise "Function application through mapping
+                            // functions has depth limits as it hides things."
+                            $this->add_error(stack_string('stackCas_deepmap'));
+                            $this->answernote[] = 'deepmap';
+                            $this->valid = false;
+                        }
+                    }
+
+                } else if ($node->name instanceof MP_FunctionCall) {
+                    $outter = $node->name;
+                    if (($outter->name instanceof MP_Identifier || $outter->name instanceof MP_String)
+                        && $outter->name->value === 'lambda') {
+                        // This is safe, but we will not go out of our way to identify the function from further.
+                        $notsafe = false;
                     } else {
-                        // Using non obvious or overly nested function identifier.
-                        $this->add_error(stack_string('stackCas_applyingnonobviousfunction',
+                        // Calling the result of a function that is not lambda.
+                        $this->add_error(stack_string('stackCas_callingasfunction',
                                                       array('problem' => stack_maxima_format_casstring($node->toString()))));
                         $this->answernote[] = 'forbiddenWord';
                         $this->valid = false;
-                        return;
                     }
-                }
-            } else if ($node->name instanceof MP_FunctionCall) {
-                $outter = $node->name;
-                if (($outter->name instanceof MP_Identifier || $outter->name instanceof MP_String)
-                    && $outter->name->value === 'lambda') {
-                    // This is safe, but we will not go out of our way to identify the function from further.
+                } else if ($node->name instanceof MP_Group) {
+                    $outter = $node->name->items[count($node->name->items) - 1];
+                    // We do this due to this (1,(cos,sin))(x) => sin(x)
                     $notsafe = false;
-                } else {
-                    // Calling the result of a function that is not lambda.
-                    $this->add_error(stack_string('stackCas_callingasfunction',
-                                                  array('problem' => stack_maxima_format_casstring($node->toString()))));
-                    $this->answernote[] = 'forbiddenWord';
-                    $this->valid = false;
-                    return;
-                }
-            } else if ($node->name instanceof MP_Group) {
-                $outter = $node->name->items[count($node->name->items) - 1];
-                if ($outter instanceof MP_Identifier || $outter instanceof MP_String) {
-                    $notsafe = false;
-                    $identifiers[] = $outter->value;
-                }
-            } else if ($node->name instanceof MP_Indexing) {
-                if (count($node->name->indices) === 1 && $node->name->target instanceof MP_List) {
-                    $i = -1;
-                    if (count($node->name->indices[0]) === 1 && $node->name->indices[0]->items[0] instanceof MP_Integer) {
-                        $i = $node->name->indices[0]->items[0]->value - 1;
-                    }
-                    if ($i >= 0 && $i < count($node->name->target->items)) {
-                        if ($node->name->target->items[$i] instanceof MP_String ||
-                            $node->name->target->items[$i] instanceof MP_Identifier) {
-                            $notsafe = false;
-                            $identifiers[] = $node->name->target->items[$i]->value;
+                    $virtualfunction = new MP_FunctionCall($outter, $node->arguments);
+                    $virtualfunction->position['virtual'] = true;
+                    $ofinterest[] = $virtualfunction;
+                } else if ($node->name instanceof MP_Indexing) {
+                    if (count($node->name->indices) === 1 && $node->name->target instanceof MP_List) {
+                        $ind = -1;
+                        if (count($node->name->indices[0]) === 1 && $node->name->indices[0]->items[0] instanceof MP_Integer) {
+                            $ind = $node->name->indices[0]->items[0]->value - 1;
                         }
-                    } else {
-                        foreach ($node->name->target->items as $id) {
-                            if ($id instanceof MP_String || $id instanceof MP_Identifier) {
-                                $notsafe = false;
-                                $identifiers[] = $id->value;
-                            } else {
-                                // Using non obvious or overly nested function identifier.
-                                $this->add_error(stack_string('stackCas_applyingnonobviousfunction',
-                                                              array('problem' => stack_maxima_format_casstring($id->toString()))));
-                                $this->answernote[] = 'forbiddenWord';
-                                $this->valid = false;
-                                return;
+                        if ($ind >= 0 && $ind < count($node->name->target->items)) {
+                            // We do this due to this [1,(cos,sin)][2](x) => sin(x)
+                            $notsafe = false;
+                            $virtualfunction = new MP_FunctionCall($node->name->target->items[$ind], $node->arguments);
+                            $virtualfunction->position['virtual'] = true;
+                            $ofinterest[] = $virtualfunction;
+                        } else {
+                            $notsafe = false;
+                            foreach ($node->name->target->items as $id) {
+                                $virtualfunction = new MP_FunctionCall($id, $node->arguments);
+                                $virtualfunction->position['virtual'] = true;
+                                $ofinterest[] = $virtualfunction;
                             }
                         }
                     }
                 }
+                if ($notsafe) {
+                    // As in not safe identification of the function to be
+                    // called.
+                    $this->add_error(stack_string('stackCas_applyingnonobviousfunction',
+                                                  array('problem' => $node->toString())));
+                    $this->answernote[] = 'forbiddenWord';
+                    $this->valid = false;
+                }
             }
-            if ($notsafe) {
-                // As in not safe indentification.
-                $this->add_error(stack_string('stackCas_applyingnonobviousfunction',
-                                              array('problem' => $node->toString())));
-                $this->answernote[] = 'forbiddenWord';
-                $this->valid = false;
-                return;
-            }
-        } else {
-            throw new stack_exception('stack_cas_casstring: check_security: ' .
-                            'unexpected type of an node to check: ' . get_class($node));
         }
+
+        // TODO: build the typed security checks, but for now just dump all in.
+        $identifiers = array_keys(array_merge($functionnames, $variables));
 
         $strinkeywords = array();
 

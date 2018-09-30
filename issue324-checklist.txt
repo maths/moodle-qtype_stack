@@ -26,6 +26,14 @@ CJS response:  I'd like to have options for students' input as follows:
   - spaces are not permitted
   - allow spaces for implied multiplication.
 
+MH response:
+  - allow spaces for implied multiplication is present in the implementation of
+    old insert stars logic as is the spaces not permitted logic.
+  - There might be a need for the third option, i.e. "don't care" which is
+    present in the security='t' case where we just throw things directly to
+    the parser.
+
+
  2. some old logic "features" are causing trouble and are visible in test cases
     e.g. why did we allow single character function names for students as long
     as they are not at the start or after specific operators... check these ones
@@ -49,8 +57,13 @@ CJS response: there is confusion in the old logic, for which I appologise. This 
 I suggest options as follows:
   - student defined functions permitted.
   - student definef functions not permitted.
-If student defined functions are not permitted then "f(x)"->  f*(x).  
+If student defined functions are not permitted then "f(x)"->  f*(x).
 This will help with the "Variable_function" error message we currently have.
+
+MH response:
+  - student defined functions sounds good but we need to think through its
+    implications with other insert stars logic like: xy(x) => x*y(x) or x*y*(x),
+    the rule of no function name ending with number probably stays as is.
 
  3. as a change to general logic insert stars will now always fix stars
     ('s' vs. 't' still applies) but will mark the validity so that a combined
@@ -61,9 +74,18 @@ This will help with the "Variable_function" error message we currently have.
     Especially, how it can mark '*' ops that have been inserted into the tree...
     Might make some other errors easier to generate and focus...
 
-CJS response:  This sounds sensible.  
+CJS response:  This sounds sensible.
   If we consider a student's typed expression "invalid", but we can insert *s that is fine.  Sometimes we want to enforce syntax!
   If some tests now fail, then we should update in the light of this changed decision.  (I've done some of this in 7a4627517fcad84c85f2d73e283d68426f855489)
+
+MH response:
+  - Indeed we may want to enforce syntax even if we could guess what was meant.
+    If we can guess what to fix to go forward we can parse stuff and check what
+    else might be wrong at the same time.
+  - Some tests tested the internal state of the old system instead of the result
+    so changing the, to test the results will be much better. In the case of
+    casstring validation testing we should especially avoid checking
+    the internal state if the input leads to ParseError.
 
  4. We could do many things like catch direct divisions by zero at
     the validation phase but how far should we go as each test will need to be
@@ -71,6 +93,11 @@ CJS response:  This sounds sensible.
 
 CJS response: Indeed.  I suggest we re-consider this issue when we are back to the working system.
 As before, we will move some things from the CAS to PHP (e.g. division by zero) and some from PHP to the CAS perhaps as it evolves.
+
+MH response:
+  - No hurry, I expect that it takes years for us to learn what all we can do
+    with this the low hanging fruits like sigfigs target identification will
+    easily get done soon. But for example "5*10^-1 as a float" will wait.
 
  5. Magic identifiers group has grown from 'QMCHAR' etc. to include '%%Is' and
     '%%IS' that are used to transfer information about inserted stars from pre
@@ -80,6 +107,18 @@ As before, we will move some things from the CAS to PHP (e.g. division by zero) 
 CJS response:  Can we please refactor as much as possible to have one system for STACK-generated identifiers?
 I'm not in love with QMCHAR, etc. and these things should not be edited by users so should not appear in questions.
 If we need to change them let's do so.
+
+MH response:
+  - Chris, %%IS and %%Is live for very short time inside the parse process and
+    get eliminated fast, they never get to Maxima and should not be shown to
+    the student. We could even make it so that users could never input them.
+  - QMCHAR is one of those things that we can entirely eliminate from the system
+    simply by adding the prefix op '?' to the parser (and forbid its use).
+  - STACKGRID is also one of those that has no reason to exist in our new world.
+  - I would guess we no longer need those identifiers, other than 'nounand' and
+    its brethren as we can easily ignore the things they try to mask from regex
+    later in the AST processing.
+
 
  6. Float identification is quite a bit more robust and we may need to think
     about what is correct as the star insertion in the old system is quite odd
@@ -103,6 +142,15 @@ In addition there are technical details:
 
 CJS: noted.  I hope we can include stateful soon anyway.
 
+MH response:
+  - I do believe that Stateful should never be included into STACK, it could be
+    packaged with it but STACK should be separate as the things that make STACK
+    great would break if we tried to accommodate Stateful in the same context.
+  - Essentially, Stateful and STACK share much and Stateful uses the engine of
+    STACK but they differ quite a lot in places where trying to fit both would
+    make neither work well.
+
+
  2. mbstring, the parser generator uses mbstring functions to deal with UTF-8,
     Moodle recommends but does not require mbstring, for this reason we may
     need to modify the parser by changing its direct use of mbstring in about
@@ -112,6 +160,14 @@ CJS: noted.  I hope we can include stateful soon anyway.
     mbstring to be installed.
 
 CJS: noted.  We have to think of the ILIAS people as well here.
+
+MH response:
+  - We should benchmark things if we modify the parser to use core_text instead
+    of mbstring directly, I have a feeling that there would be a major overhead
+    there. Just look at the code of core_text and what it does if you have to
+    call e.g. some regex through it a few tens of thousands times.
+
+
 
 Tools to mark the allowed/forbidden words lists:
  1. Turn the current array to JSON.

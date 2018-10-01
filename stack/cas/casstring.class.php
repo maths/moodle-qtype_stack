@@ -834,14 +834,6 @@ class stack_cas_casstring {
                     return true;
                 }
             }
-            // QMCHAR needs to be turned back so that when we output this as a string we get something sensible.
-            if ($raw === 'QMCHAR' || $raw === '?') {
-                $id->value = '?';
-                return true;
-            } else if (core_text::strpos($raw, 'QMCHAR') !== false) {
-                $id->value = str_replace('QMCHAR', '?', $raw);
-                return true;
-            }
             if ($this->units) {
                 // These could still be in stack_cas_casstring_units, but why do a separate call
                 // and we need that strutural change detection here.
@@ -1209,7 +1201,11 @@ class stack_cas_casstring {
                 $this->valid = false;
             }
         }
-
+        if ($opnode instanceof MP_PrefixOp && ($opnode->op === "?" || $opnode->op === "?? " || $opnode->op === "? ")) {
+            $this->add_error(stack_string('stackCas_qmarkoperators'));
+            $this->answernote[] = 'qmark';
+            $this->valid = false;
+        }
         if ($opnode instanceof MP_PrefixOp && $opnode->op === "'" && $security === 's') {
             $this->add_error(stack_string('stackCas_apostrophe'));
             $this->answernote[] = 'apostrophe';

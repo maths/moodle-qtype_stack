@@ -950,7 +950,7 @@ function opBind($op) {
      */
     $op->lhs = opBind($op->lhs);
     $op->rhs = opBind($op->rhs);
-    if($op->lhs instanceof MP_Operation &&(opLBind($op->op)> opRBind($op->lhs->op))) {
+    if ($op->lhs instanceof MP_Operation &&(opLBind($op->op)> opRBind($op->lhs->op))) {
         $posA = mergePosition($op->lhs->position, $op->position);
         $posB = mergePosition($op->lhs->rhs->position, $op->rhs->position);
         $nop = new MP_Operation($op->lhs->op, $op->lhs->lhs, new MP_Operation($op->op, $op->lhs->rhs, $op->rhs));
@@ -964,7 +964,7 @@ function opBind($op) {
         $op = $nop;
         $op = opBind($op);
     }
-    if($op->rhs instanceof MP_Operation &&(opRBind($op->op)> opLBind($op->rhs->op))) {
+    if (!($op instanceof MP_PostfixOp) && $op->rhs instanceof MP_Operation &&(opRBind($op->op)> opLBind($op->rhs->op))) {
         $posA = mergePosition($op->rhs->position, $op->position);
         $posB = mergePosition($op->lhs->position, $op->rhs->lhs->position);
         $nop = new MP_Operation($op->rhs->op, new MP_Operation($op->op, $op->lhs, $op->rhs->lhs), $op->rhs->rhs);
@@ -978,7 +978,7 @@ function opBind($op) {
         $op = $nop;
         $op = opBind($op);
     }
-    if($op->lhs instanceof MP_PrefixOp &&(opLBind($op->op)> opRBind($op->lhs->op))) {
+    if (!($op instanceof MP_PrefixOp) && $op->lhs instanceof MP_PrefixOp && (opLBind($op->op) > opRBind($op->lhs->op))) {
         $posA = mergePosition($op->lhs->position, $op->position);
         $posB = mergePosition($op->lhs->rhs->position, $op->rhs->position);
         $nop = new MP_PrefixOp($op->lhs->op, new MP_Operation($op->op, $op->lhs->rhs, $op->rhs));
@@ -991,7 +991,7 @@ function opBind($op) {
         $op = $nop;
         $op = opBind($op);
     }
-    if($op->rhs instanceof MP_PostfixOp &&(opRBind($op->op)> opLBind($op->rhs->op))) {
+    if (!($op instanceof MP_PostfixOp) && $op->rhs instanceof MP_PostfixOp && (opRBind($op->op) > opLBind($op->rhs->op))) {
         $posA = mergePosition($op->rhs->position, $op->position);
         $posB = mergePosition($op->lhs->position, $op->rhs->lhs->position);
         $nop = new MP_PostfixOp($op->rhs->op, new MP_Operation($op->op, $op->lhs, $op->rhs->lhs));

@@ -228,7 +228,7 @@ class stack_parser_logic_insertstars0 extends stack_parser_logic {
                     }
                     if ($i < core_text::strlen($node->value)) {
                         // Note at this point i.e. after the "a1b2c" the split should be clean and the remainder is just an integer.
-                        $replacement = new MP_Operation('*', new MP_Identifier(core_text::substr($node->value, 0, $i)), new MP_Ineger((int) core_text::substr($node->value, $i)));
+                        $replacement = new MP_Operation('*', new MP_Identifier(core_text::substr($node->value, 0, $i)), new MP_Integer((int) core_text::substr($node->value, $i)));
                         $replacement->position['insertstars'] = true;
                         if($node->parentnode instanceof MP_FunctionCall && $node->parentnode->name === $node) {
                             $replacement->rhs = new MP_Operation('*', $replacement->rhs, new MP_Group($node->parentnode->arguments));

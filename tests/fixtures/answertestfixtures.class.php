@@ -145,7 +145,7 @@ class stack_answertest_test_data {
         array('AlgEquiv', '', 'exp(%i*%pi)', '-1', 1, '', ''),
         array('AlgEquiv', '', '2*cos(2*x)+x+1', '-sin(x)^2+3*cos(x)^2+x', 1, '', ''),
 
-        
+
         array('AlgEquiv', '', '(2*sec(2*t)^2-2)/2',
             '-(sin(4*t)^2-2*sin(4*t)+cos(4*t)^2-1)*(sin(4*t)^2+2*sin(4*t)+cos(4*t)^2-1)/(sin(4*t)^2+cos(4*t)^2+2*cos(4*t)+1)^2',
             1, '', ''),
@@ -201,6 +201,7 @@ class stack_answertest_test_data {
         array('AlgEquiv', '', '{[-sqrt(2)/sqrt(3),0],[2/sqrt(6),0]}', '{[2/sqrt(6),0],[-2/sqrt(6),0]}', -3,
             'ATSet_wrongentries.', ''),
         array('AlgEquiv', '', 'ev(radcan({-sqrt(2)/sqrt(3)}),simp)', 'ev(radcan({-2/sqrt(6)}),simp)', 1, '', ''),
+        array('AlgEquiv', '', 'ev(radcan(ratsimp({(-sqrt(10)/2)-2,sqrt(10)/2-2},algebraic:true)),simp)', 'ev(radcan(ratsimp({(-sqrt(5)/sqrt(2))-2,sqrt(5)/sqrt(2)-2},algebraic:true)),simp)', 1, '', ''),
         array('AlgEquiv', '', '{(x-a)^6000}', '{(a-x)^6000}', -3, 'ATSet_wrongentries.', ''),
         array('AlgEquiv', '', '{(k+8)/(k^2+4*k-12),-(2*k+6)/(k^2+4*k-12)}', '{(k+8)/(k^2+4*k-12),-(2*k+6)/(k^2+4*k-12)}',
             1, '', ''),

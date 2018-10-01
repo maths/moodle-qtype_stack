@@ -219,10 +219,7 @@ Tools to mark the allowed/forbidden words lists:
     The only somewhat sane way we have left is to play with the documentation files:
 
     > tar xvf maxima-5.41.0.tar.gz
-    > cd maxima-5.41.0
-    > ./configure
-    > ./make -j8
-    > cd doc/info
+    > cd maxima-5.41.0/doc/info
     > grep '^ \-\- .*: .*' -shI * | grep -v 'an error. To debug'
 
     -- Function: integrate (<expr>, <x>)

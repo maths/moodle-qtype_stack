@@ -51,8 +51,6 @@ abstract class stack_parser_logic {
         $err2 = false;
 
         $stringles = stack_utils::eliminate_strings($string);
-        // Fix ?-chars as those can do many things.
-        $stringles = str_replace('?', 'QMCHAR', $stringles);
 
         // Missing stars patterns to fix.
         // NOTE: These patterns take into account floats, if the logic wants to
@@ -90,7 +88,7 @@ abstract class stack_parser_logic {
                 $stringles = preg_replace($pat, "\${1}*%%IS\${2}", $stringles);
 
                 $missingstring = stack_utils::logic_nouns_sort($missingstring, 'remove');
-                $a['cmd']  = str_replace('QMCHAR', '?', $missingstring);
+                $a  = array('cmd' => $missingstring);
                 $err1 = stack_string('stackCas_MissingStars', $a);
             }
         }

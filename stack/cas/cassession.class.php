@@ -200,7 +200,7 @@ class stack_cas_session {
                 }
 
                 if (array_key_exists('value', $result)) {
-                    $val = str_replace('QMCHAR', '?', $result['value']);
+                    $val = $result['value'];
                     $cs->set_value($val);
                     $gotvalue = true;
                 } else {
@@ -214,12 +214,7 @@ class stack_cas_session {
                 }
 
                 if (array_key_exists('dispvalue', $result)) {
-                    $valfix = array('QMCHAR' => '?');
-                      // Need to add this in here also because strings may contain question mark characters.
                     $val = $result['dispvalue'];
-                    foreach ($valfix as $key => $fix) {
-                        $val = str_replace($key, $fix, $val);
-                    }
                     $val = str_replace('"!! ', '', $val);
                     $val = str_replace(' !!"', '', $val);
                     $cs->set_dispvalue(trim($val));
@@ -266,7 +261,7 @@ class stack_cas_session {
      * @param string $str
      */
     private function translate_displayed_tex($str) {
-        $dispfix = array('QMCHAR' => '?', '!LEFTSQ!' => '\left[', '!LEFTR!' => '\left(',
+        $dispfix = array('!LEFTSQ!' => '\left[', '!LEFTR!' => '\left(',
             '!RIGHTSQ!' => '\right]', '!RIGHTR!' => '\right)');
         // Need to add this in here also because strings may contain question mark characters.
         foreach ($dispfix as $key => $fix) {
@@ -521,8 +516,7 @@ class stack_cas_session {
                 $label = $cs->get_key();
             }
 
-            // Replace any ?'s with a safe value.
-            $cmd = str_replace('?', 'QMCHAR', $cs->get_casstring());
+            $cmd = $cs->get_casstring();
             // Strip off any []s at the end of a variable name.
             // These are used to assign elements of lists and matrices, but this breaks Maxima's block command.
             if (false === strpos($label, '[')) {
@@ -545,9 +539,9 @@ class stack_cas_session {
                     // No need to evaluate again if it is already evaluated.
                     if (array_search($cond, $this->session) !== false
                             && array_search($cond, $this->session) < array_search($cs, $this->session)) {
-                        $conditions[] = str_replace('?', 'QMCHAR', $cond->get_key());
+                        $conditions[] = $cond->get_key();
                     } else {
-                        $conditions[] = str_replace('?', 'QMCHAR', $cond->get_casstring());
+                        $conditions[] = $cond->get_casstring();
                     }
                 }
 

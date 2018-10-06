@@ -374,6 +374,15 @@ class MP_Identifier extends MP_Atom {
         return !$this->is_function_name();
     }
 
+    public function toString($params = null) {
+        if ($params !== null && isset($params['qmchar'])) {
+            return str_replace('QMCHAR', '?', $this->value);
+        }
+
+        return $this->value;
+    }
+
+
     public function is_being_written_to(): bool {
         if($this->is_function_name()) {
             return $this->parentnode->is_definition();

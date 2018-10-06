@@ -51,6 +51,8 @@ abstract class stack_parser_logic {
         $err2 = false;
 
         $stringles = stack_utils::eliminate_strings($string);
+        // Hide ?-chars as those can do many things.
+        $stringles = str_replace('?', 'QMCHAR', $stringles);
 
         // Missing stars patterns to fix.
         // NOTE: These patterns take into account floats, if the logic wants to
@@ -82,13 +84,9 @@ abstract class stack_parser_logic {
             if (!$insertstars) {
                 $stringged = $this->strings_replace($stringles, $string);
                 $missingstring = stack_utils::logic_nouns_sort($stringged, 'remove');
-                $missingstring = str_replace('*%%IS', '*', $missingstring);
-                $missingstring = stack_maxima_format_casstring(preg_replace($pat,
-                  "\${1}<font color=\"red\">*</font>\${2}", $missingstring));
-                $stringles = preg_replace($pat, "\${1}*%%IS\${2}", $stringles);
-
-                $missingstring = stack_utils::logic_nouns_sort($missingstring, 'remove');
-                $a  = array('cmd' => $missingstring);
+                $missingstring = stack_maxima_format_casstring(str_replace('*%%IS',
+                  "<font color=\"red\">*</font>", $missingstring));
+                $a  = array('cmd' => str_replace('QMCHAR', '?', $missingstring));
                 $err1 = stack_string('stackCas_MissingStars', $a);
             }
         }
@@ -128,6 +126,7 @@ abstract class stack_parser_logic {
                     $cmds = str_replace('*%%IS', '*', $cmds);
                     $cmds = str_replace('*%%Is', '<font color="red">_</font>', $cmds);
                     $cmds = stack_utils::logic_nouns_sort($cmds, 'remove');
+                    $cmds = str_replace('QMCHAR', '?', $cmds);
                     $err2 = stack_string('stackCas_spaces', array('expr' => stack_maxima_format_casstring($cmds)));
                 }
             }

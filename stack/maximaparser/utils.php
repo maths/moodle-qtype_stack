@@ -86,4 +86,56 @@ class maxima_parser_utils {
         }
         return $ast;
     }
+
+    // Tries to parse a long string of statements and if not imediately valid
+    // tries to fix by adding semicolons.
+    public static function parse_and_insert_missing_semicolons($str, $lastfix = -1) {
+        try {
+            return maxima_parser_utils::parse($str);
+        } catch (SyntaxError $e) {
+            if ($lastfix !== $e->grammarOffset && $lastfix + 1 !== $e->grammarOffset) {
+                if (substr($str, $e->grammarOffset - 1, 2) === '/*') {
+                    $fix = maxima_parser_utils::previous_non_whitespace($str, $e->grammarOffset - 1);
+                } else {
+                    $fix = maxima_parser_utils::previous_non_whitespace($str, $e->grammarOffset);
+                }
+                // cut some memory leakage in the recursion here.
+                $off = $e->grammarOffset;
+                $e = null;
+
+                return maxima_parser_utils::parse_and_insert_missing_semicolons($fix, $off);
+            } else {
+                return $e;
+            }
+        }
+
+    }
+
+    // Function to find suitable place to inject a semicolon to i.e. place into start of whitespace.
+    private static function previous_non_whitespace($code, $pos) {
+        $i = $pos;
+        if (core_text::substr($code, $i-1, 2) === '/*') {
+            $i--;
+        }
+        while ($i > 1 && is_whitespace(core_text::substr($code, $i - 1, 1))) {
+            $i--;
+        }
+        return core_text::substr($code, 0, $i) . ';' . core_text::substr($code, $i);
+    }
+
+    // Custom rules on what is an is not whitespace.
+    private static function is_whitespace($mbc) {
+        // So ctype_space does not handle those fancy unicode spaces...
+        // There are more than these but we add things as we meet them.
+        if (ctype_space($mbc)) {
+            return true;
+        }
+        $num = ord($mbc);
+        if ($num === 160 || $num === 8287 || $num < 33
+            || ($num > 8191 && $num < 8208) || ($num > 8231 && $num < 8240)) {
+            return true;
+        }
+        return false;
+    }
+
 }

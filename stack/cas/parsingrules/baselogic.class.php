@@ -345,6 +345,15 @@ abstract class stack_parser_logic {
             $a = array('cmd' => stack_maxima_format_casstring('&'));
             $errors[] = stack_string('stackCas_spuriousop', $a);
             $answernote[] = 'spuriousop';
+        } else if ($found_char === '|') {
+            $a = array('cmd' => stack_maxima_format_casstring('|'));
+            $errors[] = stack_string('stackCas_spuriousop', $a);
+            $answernote[] = 'spuriousop';
+        } else if (($found_char === '>' && $previous_char === '<') || ($found_char === '<' && $next_char === '>')) {
+            $a = array('cmd' => stack_maxima_format_casstring('<>'));
+            $errors[] = stack_string('stackCas_spuriousop', $a);
+            $answernote[] = 'spuriousop';
+
         } else if (ctype_alpha($found_char) && ctype_digit($previous_char)) {
             $a = array('cmd' => stack_maxima_format_casstring(core_text::substr($string, 0, $exception->grammarOffset) . '<font color="red">*</font>' . core_text::substr($string, $exception->grammarOffset)));
             $answernote[] = 'missing_stars';

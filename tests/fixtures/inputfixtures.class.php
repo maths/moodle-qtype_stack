@@ -285,7 +285,7 @@ class stack_inputvalidation_test_data {
         array('x and y', 'php_true', 'x nounand y', 'cas_true', 'x\,{\mbox{ and }}\, y', '', ""),
         array('x divides y', 'php_false', '', '', '', 'spaces', ""),
         array('x*divides*y', 'php_false', '', '', '', 'unknownFunction', ""),
-        array('x | y', 'php_true', 'x | y', '', '', 'CASFailedReturn', ""),
+        array('x | y', 'php_true', 'x|y', '', '', 'CASFailedReturn', ""),
         array('x or y', 'php_true', 'x nounor y', 'cas_true', 'x\,{\mbox{ or }}\, y', '', ""),
         array('x || y', 'php_false', 'x || y', 'cas_true', '', 'spuriousop', ""),
         array('sqr(x)', 'php_false', '', '', '', 'unknownFunction', ""),

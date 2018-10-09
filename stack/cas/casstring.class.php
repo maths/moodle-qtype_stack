@@ -894,7 +894,7 @@ class stack_cas_casstring {
                         $this->answernote[] = 'trigexp';
                         return true;
                     } else if ($op === '*' || $op === '+' || $op === '-' || $op === '/') {
-                        if ($op === '*' && $id->parentnode->position === false) {
+                        if ($op === '*' && isset($id->parentnode->position['fixspaces'])) {
                             // Note the special case of inserted star on top of an space...
                             $this->add_error(stack_string('stackCas_trigspace',
                                 array('trig' => stack_maxima_format_casstring($raw.'(...)'))));
@@ -1201,16 +1201,6 @@ class stack_cas_casstring {
                 $this->valid = false;
             }
         }
-        if ($opnode instanceof MP_PrefixOp && ($opnode->op === "?" || $opnode->op === "?? " || $opnode->op === "? ")) {
-            $this->add_error(stack_string('stackCas_qmarkoperators'));
-            $this->answernote[] = 'qmark';
-            $this->valid = false;
-        }
-        if ($opnode instanceof MP_PrefixOp && $opnode->op === "'" && $security === 's') {
-            $this->add_error(stack_string('stackCas_apostrophe'));
-            $this->answernote[] = 'apostrophe';
-            $this->valid = false;
-        }
         // 1..1, essenttially a matrix multiplication of float of particular presentation.
         if ($opnode instanceof MP_Operation && $opnode->op === '.') {
             // TODO: this should just fail in parser...
@@ -1419,6 +1409,19 @@ class stack_cas_casstring {
                 }
             }
         }
+
+
+        if (isset($operators['?']) || isset($operators['?? ']) || isset($operators['? '])) {
+            $this->add_error(stack_string('stackCas_qmarkoperators'));
+            $this->answernote[] = 'qmark';
+            $this->valid = false;
+        }
+        if (isset($operators["'"]) || isset($operators["''"])  && $security === 's') {
+            $this->add_error(stack_string('stackCas_apostrophe'));
+            $this->answernote[] = 'apostrophe';
+            $this->valid = false;
+        }
+
 
         // TODO: build the typed security checks, but for now just dump all in.
         $identifiers = array_keys(array_merge($functionnames, $variables));

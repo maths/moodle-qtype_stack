@@ -42,7 +42,7 @@ class stack_cas_casstring_test extends basic_testcase {
         $cases = array(
             array('', false, false),
             array('1', true, true),
-            array('a b', false, true),
+            array('a b', false, false),
             array('%pi', true, true), // Only %pi %e, %i, %gamma, %phi.
             array('1+%e', true, true),
             array('e^%i*%pi', true, true),
@@ -66,8 +66,8 @@ class stack_cas_casstring_test extends basic_testcase {
             // Inequalities.
             array('x>=1', true, true),
             array('x=>1', false, false),
-            // Unencapsulated commas.
-            array('a,b', false, false),
+            // Unencapsulated commas. Also evaluation flags.
+            array('a,b', false, true),
         );
 
         foreach ($cases as $case) {
@@ -106,11 +106,12 @@ class stack_cas_casstring_test extends basic_testcase {
                 array('x<=2 or not (x>1)', true, true),
                 array('x<1 or (x>1 and t<sin(x))', true, true),
                 array('[x<1, x>3]', true, true),
-                array('pg:if x<x0 then f0 else if x<x1 then 1000 else f1', false, true),
+                array('pg:if x<x0 then f0 else if x<x1 then 1000 else f1', true, true),
                 // Change for issue #324 now stops checking chained inequalities for teachers.
-                array('1<x<7', false, true),
-                array('1<a<=x^2', false, true),
-                array('{1<x<y, c>0}', false, true),
+                // And change again, chained inequalities are now again checked always we just have less false positives.
+                array('1<x<7', false, false),
+                array('1<a<=x^2', false, false),
+                array('{1<x<y, c>0}', false, false),
         );
 
         foreach ($cases as $case) {
@@ -728,12 +729,12 @@ class stack_cas_casstring_test extends basic_testcase {
     }
 
     public function test_spaces_1_bracket_brackets() {
-        // This is now acceptable.
+        // This is now acceptable. Except not when insertstars < 3.
         $s = '(1+c) (x+1)';
         $at1 = new stack_cas_casstring($s);
         $this->assertFalse($at1->get_valid('s', true, 1));
         $this->assertEquals('(1+c)*(x+1)', $at1->get_casstring());
-        $err = '';
+        $err = 'Illegal spaces found in expression <span class="stacksyntaxexample">(1+c)<font color="red">_</font>(x+1)</span>.';
         $this->assertEquals($err, $at1->get_errors());
         $this->assertEquals('spaces', $at1->get_answernote());
     }

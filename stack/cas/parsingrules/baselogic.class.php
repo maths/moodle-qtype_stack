@@ -35,7 +35,14 @@ abstract class stack_parser_logic {
      */
     private static $safespacepatterns = array(
              ' or ' => 'STACKOR', ' and ' => 'STACKAND', 'not ' => 'STACKNOT',
-             ' nounor ' => 'STACKNOUNOR', ' nounand ' => 'STACKNOUNAND');
+             ' nounor ' => 'STACKNOUNOR', ' nounand ' => 'STACKNOUNAND',
+             // TODO: we really need to think about keywords and whether we allow
+             // them for students in the first case. Of course none of these requires
+             // spaces you can easily write 'if(foo)then(blaah)else(if(bar)then(zoo))'.
+             // Well 'else if' is the exception...
+             ' else if ' => '%%STACKELSEIF%%', ' if ' => '%%STACKIF%%',
+             ':if ' => ':%%STACKIF%%', ' then ' => '%%STACKTHEN%%',
+             ' else ' => '%%STACKELSE%%');
 
     // $string => $ast, with direct assignments of details to fields in
     // the casstring, will update the string given as it is changed.

@@ -1,3 +1,23 @@
+FRESH STUFF 2018-10-09:
+
+test_log_sugar_5 needs a ruling. In it we have insertstars == 0 and the statement
+'log_x^2(3)' the problem is that that stars logic will never accept that '2(3)'
+bit. Can we just assume that the insertstars is wrong there? If someone needs to
+have that candy they need to select somethign else than 0 or 3 as insertstars.
+Essentially, this could be the same as test_log_sugar_3 where the bit lacks stars
+in the given base.
+
+
+test_scientific_2 is the syntax supposed to be true instead of false here?
+
+
+test_spaces_1_insertneeded_andspace and test_spaces_3_insertneeded_andspace
+the errors should probably only mention the bit failing not the bit that we
+fix in that insert stars logic. Implementation is ready but do we want it to
+be so? We can easilly generate warning/error of the bit we fix too.
+
+
+
 Chris & Tim,
 
 This is the branch where I try to replace the old regexp pattern based casstring

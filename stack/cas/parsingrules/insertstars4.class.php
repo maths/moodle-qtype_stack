@@ -21,5 +21,7 @@ class stack_parser_logic_insertstars4 extends stack_parser_logic_insertstars0 {
     public function __construct($insertstars = true, $fixspaces = true) {
         // Stars and spaces.
         parent::__construct($insertstars, $fixspaces);
+        $this->insertstars = $insertstars;
+        $this->fixspaces = $fixspaces;
     }
 }

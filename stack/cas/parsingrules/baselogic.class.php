@@ -62,14 +62,14 @@ abstract class stack_parser_logic {
         $starpatterns[] = "/^([\+\-]?[0-9]+)([A-DF-Za-df-z_]+|[eE][^\+\-0-9]+)/"; // Same but start of line.
         $starpatterns[] = "/([^0-9A-Za-z_][0-9]+)(\()/"; // -124()
         $starpatterns[] = "/^([\+\-]?[0-9]+)(\()/"; // Same but start of line
-        $starpatterns[] = "/([^0-9A-Za-z_][0-9]+[.]?[0-9]*[eE][\+\-]?[0-9]+)(\()/"; // -124.4e-3()
-        $starpatterns[] = "/^([\+\-]?[0-9]+[.]?[0-9]*[eE][\+\-]?[0-9]+)(\()/"; // Same but start of line.
+        $starpatterns[] = "/([^0-9A-Za-z_][0-9]+[\.]?[0-9]*[eE][\+\-]?[0-9]+)(\()/"; // -124.4e-3()
+        $starpatterns[] = "/^([\+\-]?[0-9]+[\.]?[0-9]*[eE][\+\-]?[0-9]+)(\()/"; // Same but start of line.
 
         $missingstar    = false;
         $missingstring  = '';
 
         foreach ($starpatterns as $pat) {
-            if (preg_match($pat, $stringles)) {
+            while (preg_match($pat, $stringles)) {
                 $missingstar = true;
                 $stringles = preg_replace($pat, "\${1}*%%IS\${2}", $stringles);
                 if (!$insertstars) {
@@ -105,9 +105,9 @@ abstract class stack_parser_logic {
             // the result of a group, but as this is only applied to student
             // input and especially that example is something we do not want
             // it should not be an issue.
-            $pat = "|([_\)A-Za-z0-9]+)[ ]([_\(A-Za-z0-9]+)|";
+            $pat = "/([A-Za-z0-9_\)]+)[ ]([A-Za-z0-9_\(]+)/";
             $fixedspace = false;
-            if (preg_match($pat, $stringles)) {
+            while (preg_match($pat, $stringles)) {
                 $fixedspace = true;
                 $stringles = preg_replace($pat, "\${1}*%%Is\${2}", $stringles);
                 if (!$fixspaces) {
@@ -115,14 +115,16 @@ abstract class stack_parser_logic {
                 }
             }
 
+            // Reverse safe spaces.
+            foreach (self::$safespacepatterns as $key => $pat) {
+                $stringles = str_replace($pat, $key, $stringles);
+            }
+
             if ($fixedspace) {
                 $answernote[] = 'spaces';
                 if (!$fixspaces) {
                     $cmds = $this->strings_replace($stringles, $string);
 
-                    foreach (self::$safespacepatterns as $key => $pat) {
-                        $cmds = str_replace($pat, $key, $cmds);
-                    }
                     $cmds = str_replace('*%%IS', '*', $cmds);
                     $cmds = str_replace('*%%Is', '<font color="red">_</font>', $cmds);
                     $cmds = stack_utils::logic_nouns_sort($cmds, 'remove');
@@ -130,17 +132,16 @@ abstract class stack_parser_logic {
                     $err2 = stack_string('stackCas_spaces', array('expr' => stack_maxima_format_casstring($cmds)));
                 }
             }
-
-            // Reverse safe spaces.
-            foreach (self::$safespacepatterns as $key => $pat) {
-                $stringles = str_replace($pat, $key, $stringles);
-            }
         }
 
         $string = $this->strings_replace($stringles, $string);
 
         try {
-            return maxima_parser_utils::parse($string);
+            // Set the "raw" to onto include these for tests and [[debug/]] presentation...
+            $tmp = $string . '';
+            $string = str_replace('*%%IS', '*', $string);
+            $string = str_replace('*%%Is', '*', $string);
+            return maxima_parser_utils::parse($tmp);
         } catch (SyntaxError $e) {
             $valid = false;
 
@@ -162,48 +163,47 @@ abstract class stack_parser_logic {
     // multiplication operations.
     protected function commonpostparse($ast) {
         $processmarkkers = function($node) {
-            $setop = -1;
             // %%IS is used in the pre-parser to mark implied multiplications
             if ($node instanceof MP_FunctionCall && $node->name instanceof MP_Identifier && core_text::substr($node->name->value, 0, 4) === '%%IS') {
                 $node->name->value = core_text::substr($node->name->value, 4);
+                $node->parentnode->position['insertstars'] = true;
                 if ($node->name->value === '') {
                     $node->parentnode->replace($node, new MP_Group($node->arguments));
                 } else if (ctype_digit($node->name->value)) {
-                    $node->parentnode->replace($node, new MP_Operation('*', new MP_Integer(intval($node->name->value), new MP_Group($node->arguments))));
+                    $newop = new MP_Operation('*', new MP_Integer(intval($node->name->value), new MP_Group($node->arguments)));
+                    $newop->position['insertstars'] = true;
+                    $node->parentnode->replace($node, $newop);
                 }
-                $setop = null;
+                return false;
             } else if ($node instanceof MP_Identifier && core_text::substr($node->value, 0, 4) === '%%IS') {
                 $node->value = core_text::substr($node->value, 4);
+                $node->parentnode->position['insertstars'] = true;
                 if (ctype_digit($node->value)) {
                     $node->parentnode->replace($node, new MP_Integer(intval($node->value)));
                 }
-                $setop = null;
-            }
-            if ($setop === null) {
-                if ($node->parentnode instanceof MP_Operation && $node->parentnode->rhs === $node) {
-                  $node->parentnode->position['insertstars'] = true;
-                }
                 return false;
             }
+
             // and %%Is that is used for pre-parser fixed spaces.
             if ($node instanceof MP_FunctionCall && $node->name instanceof MP_Identifier && core_text::substr($node->name->value, 0, 4) === '%%Is') {
                 $node->name->value = core_text::substr($node->name->value, 4);
                 if ($node->name->value === '') {
+                    $node->parentnode->position['fixspaces'] = true;
                     $node->parentnode->replace($node, new MP_Group($node->arguments));
                 } else if (ctype_digit($node->name->value)) {
-                    $node->parentnode->replace($node, new MP_Operation('*', new MP_Integer(intval($node->name->value), new MP_Group($node->arguments))));
+                    $newop = new MP_Operation('*', new MP_Integer(intval($node->name->value), new MP_Group($node->arguments)));
+                    // This one is tricky, as it is basically an insertstars in non insertstars context.
+                    // Might require a special case upstream and maybe set to invalid...
+                    $newop->position['insertstars'] = true;
+                    $node->parentnode->position['fixspaces'] = true;
+                    $node->parentnode->replace($node, $newop);
                 }
-                $setop = false;
+                return false;
             } else if ($node instanceof MP_Identifier && core_text::substr($node->value, 0, 4) === '%%Is') {
                 $node->value = core_text::substr($node->value, 4);
+                $node->parentnode->position['fixspaces'] = true;
                 if (ctype_digit($node->value)) {
                     $node->parentnode->replace($node, new MP_Integer(intval($node->value)));
-                }
-                $setop = false;
-            }
-            if ($setop === false) {
-                if ($node->parentnode instanceof MP_Operation && $node->parentnode->rhs === $node) {
-                  $node->parentnode->position['fixspaces'] = true;
                 }
                 return false;
             }

@@ -21,6 +21,8 @@ class stack_parser_logic_insertstars2 extends stack_parser_logic_insertstars0 {
     public function __construct($insertstars = true, $fixspaces = false) {
         // Stars but not spaces. Single char vars.
         parent::__construct($insertstars, $fixspaces);
+        $this->insertstars = $insertstars;
+        $this->fixspaces = $fixspaces;
     }
 
     public function post($ast, &$valid, &$errors, &$answernote, $syntax, $safevars, $safefunctions) {

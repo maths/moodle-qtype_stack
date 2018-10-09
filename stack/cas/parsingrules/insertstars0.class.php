@@ -45,7 +45,7 @@ class stack_parser_logic_insertstars0 extends stack_parser_logic {
         $this->post($ast, $valid, $errors, $answernote, $syntax, $safevars, $safefunctions);
 
         // Common stars insertion error.
-        if (!$valid && array_search('missing_stars', $answernote) !== false) {
+        if (!$valid && array_search('missing_stars', $answernote) !== false && !$this->insertstars) {
           $hasany = false;
           $check = function($node)  use(&$hasany) {
             if ($node instanceof MP_Operation && $node->op === '*' && isset($node->position['insertstars'])) {
@@ -64,7 +64,7 @@ class stack_parser_logic_insertstars0 extends stack_parser_logic {
         }
 
         // Common spaces insertion errors.
-        if (!$valid && array_search('spaces', $answernote) !== false) {
+        if (!$valid && array_search('spaces', $answernote) !== false && !$this->fixspaces) {
           $hasany = false;
           $checks = function($node)  use(&$hasany) {
             if ($node instanceof MP_Operation && $node->op === '*' && isset($node->position['fixspaces'])) {

@@ -108,7 +108,15 @@ class MP_Node {
             if(is_a($node, 'MP_EvaluationFlag')) {
                 $line .= get_class($node);
             } else {
-                $line .= get_class($node). ' ' . @ $node->op . @ $node->value . @ $node->mode;
+                $line .= get_class($node). ' ' . @$node->op . @$node->value . @$node->mode;
+            }
+            if (is_a($node, 'MP_Operation') && $node->op === '*') {
+                if (isset($node->position['fixspaces'])) {
+                    $line .= ' [fixspaces]';
+                }
+                if (isset($node->position['insertstars'])) {
+                    $line .= ' [insertstars]';
+                }
             }
             $r[] = rtrim($line);
         }

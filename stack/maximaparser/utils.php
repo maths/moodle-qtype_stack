@@ -117,7 +117,7 @@ class maxima_parser_utils {
         if (core_text::substr($code, $i-1, 2) === '/*') {
             $i--;
         }
-        while ($i > 1 && is_whitespace(core_text::substr($code, $i - 1, 1))) {
+        while ($i > 1 && maxima_parser_utils::is_whitespace(core_text::substr($code, $i - 1, 1))) {
             $i--;
         }
         return core_text::substr($code, 0, $i) . ';' . core_text::substr($code, $i);

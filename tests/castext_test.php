@@ -68,6 +68,7 @@ class stack_cas_text_test extends qtype_stack_testcase {
                 array('{@1/0@}', null, true, '1/0'),
                 array('\(1+{@1/0@}\)', null, true, '\(1+1/0\)'),
                 array('{@x^2@}', $a2, false, null),
+                array('\(\frac{@"0.10"@}{@"0.10"@}\)', null, true, '\(\frac{0.10}{0.10}\)'),
                 // This last one looks very odd.  It records a change in v4.0 where we stop supporting dollars.
                 array('$${@x^2@}$$', null, true, '$$\({x^2}\)$$'),
         );
@@ -759,7 +760,7 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $this->assertTrue($at2->get_valid());
         $at2->get_display_castext();
 
-        $this->assertEquals('\[This is a string with escaped " strings....\]',
+        $this->assertEquals('\[{This is a string with escaped " strings....}\]',
                 $at2->get_display_castext());
     }
 

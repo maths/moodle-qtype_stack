@@ -1,3 +1,17 @@
+FRESH STUFF 2018-10-10:
+
+Going into caskeyval_test, why are we testing keyvals with security='s'? Is
+there a case where that happens? If so then the keyval logic with multiline
+statements and bulk parsing needs to have the old way as an alternative route
+for those that need security='s' and also if not for students we never
+insert stars, right?
+
+test_keyval_session_keyval_3 and test_keyval_session_keyval_4 cause trouble
+in that case as the logic now uses parse errors to identify where to place
+semicolons and it cannot deal with this. It inserts the semicolon where
+the star would go. Also not the function f there...
+
+
 FRESH STUFF 2018-10-09:
 
 test_log_sugar_5 needs a ruling. In it we have insertstars == 0 and the statement

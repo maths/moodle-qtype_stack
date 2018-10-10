@@ -34,7 +34,23 @@ class stack_cas_keyval_test extends qtype_stack_testcase {
         $this->assertEquals($val, $kv->get_valid());
 
         $kvsession = $kv->get_session();
-        $this->assertEquals($session->get_session(), $kvsession->get_session());
+
+        // This is a problematic thing now that casstrings have the AST structures in them.
+        // $this->assertEquals($session->get_session(), $kvsession->get_session());
+        // Depending how they have been built they may have very different positional data.
+        // To deal with this we need to ask the casstrings to drop the AST before comparison.
+        $ses1 = $session->get_session();
+        $ses2 = $kvsession->get_session();
+        foreach ($ses1 as $cs) {
+            $cs->ast = null; // This is still public. So no problem here.
+            $cs->ast->parentnode = null; // Depending if we bulk parse or not.
+        }
+        foreach ($ses2 as $cs) {
+            $cs->ast = null;
+            $cs->ast->parentnode = null; // Depending if we bulk parse or not.
+        }
+        // We still check if the result is the same though.
+        $this->assertEquals($ses1, $ses2);
     }
 
     public function test_get_valid() {

@@ -41,13 +41,19 @@ class stack_cas_keyval_test extends qtype_stack_testcase {
         // To deal with this we need to ask the casstrings to drop the AST before comparison.
         $ses1 = $session->get_session();
         $ses2 = $kvsession->get_session();
-        foreach ($ses1 as $cs) {
-            $cs->ast = null; // This is still public. So no problem here.
-            $cs->ast->parentnode = null; // Depending if we bulk parse or not.
+        if (is_array($ses1)) {
+            foreach ($ses1 as $cs) {
+                if (property_exists($cs, 'ast')) {
+                    $cs->ast = null; // This is still public. So no problem here.
+                }
+            }
         }
-        foreach ($ses2 as $cs) {
-            $cs->ast = null;
-            $cs->ast->parentnode = null; // Depending if we bulk parse or not.
+        if (is_array($ses2)) {
+            foreach ($ses2 as $cs) {
+                if (property_exists($cs, 'ast')) {
+                    $cs->ast = null; // This is still public. So no problem here.
+                }
+            }
         }
         // We still check if the result is the same though.
         $this->assertEquals($ses1, $ses2);
@@ -72,7 +78,6 @@ class stack_cas_keyval_test extends qtype_stack_testcase {
             $s2[] = new stack_cas_casstring($s);
         }
         $cs2 = new stack_cas_session($s2, null, 123);
-        $cs2->instantiate();
 
         $a3 = array('a:1/0');
         $s3 = array();
@@ -88,7 +93,12 @@ class stack_cas_keyval_test extends qtype_stack_testcase {
                 array('', true, $cs0),
                 array("a:x^2 \n b:(x+1)^2", true, $cs1),
                 array("a:x^2; b:(x+1)^2", true, $cs1),
+                // CJS: the next two cases are problematic, because the parsing of the keyvals
+                // does not match the sessions created above. Not sure this really matters when
+                // we have invalid expressions.
+                array('a:x^2) \n b:(x+1)^2', false, $cs2),
                 array('a:x^2); b:(x+1)^2', false, $cs2),
+                array('a:1/0', true, $cs3),
                 array('@', false, $cs4),
                 array('$', false, $cs4),
         );

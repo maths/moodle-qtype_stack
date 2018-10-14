@@ -19,8 +19,6 @@ defined('MOODLE_INTERNAL') || die();
 require_once(__DIR__ . '/../maximaparser/utils.php');
 require_once(__DIR__ . '/../maximaparser/MP_classes.php');
 
-
-
 /**
  * "key=value" class to parse user-entered data into CAS sessions.
  *
@@ -108,7 +106,7 @@ class stack_cas_keyval {
         // Allow writing of loops and other long statements onto multiple lines.
         $ast = maxima_parser_utils::parse_and_insert_missing_semicolons($str);
         if (!$ast instanceof MP_Root) {
-            // if not then it is a SyntaxError
+            // If not then it is a SyntaxError.
             $this->errors = $ast->getMessage();
             $this->valid = false;
             return false;
@@ -116,8 +114,7 @@ class stack_cas_keyval {
 
         $ast = maxima_parser_utils::strip_comments($ast);
 
-
-        // 23/4/12 - significant changes to the way keyvals are interpreted.  Use Maxima assignmentsm i.e. x:2.
+        // 23/4/12 Use Maxima assignments i.e. x:2.
         $errors  = '';
         $valid   = true;
         $vars = array();

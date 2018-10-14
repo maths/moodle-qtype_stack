@@ -6,10 +6,15 @@ statements and bulk parsing needs to have the old way as an alternative route
 for those that need security='s' and also if not for students we never
 insert stars, right?
 
+CJS: Matti, I don't think there is a good reason why caskeyval_test always uses "s" here in the tests.
+Looking back at the code, we always have "new stack_cas_keyval" with the teacher option as far as I can see.
+I did design this with the possibility that students might be given the "caschat.php" functionality, or we have a "CAS filter",
+so something like the keyval functionality should have the "s"/"t" distinction, and be able to pass the various validation options through.
+
 test_keyval_session_keyval_3 and test_keyval_session_keyval_4 cause trouble
 in that case as the logic now uses parse errors to identify where to place
 semicolons and it cannot deal with this. It inserts the semicolon where
-the star would go. Also not the function f there...
+the star would go. Also note the function f there...
 
 
 FRESH STUFF 2018-10-09:
@@ -20,6 +25,8 @@ bit. Can we just assume that the insertstars is wrong there? If someone needs to
 have that candy they need to select somethign else than 0 or 3 as insertstars.
 Essentially, this could be the same as test_log_sugar_3 where the bit lacks stars
 in the given base.
+
+CJS: No objection to this suggestion Matti.  These are "nice to have" but we don't need to do everything.
 
 
 test_scientific_2 is the syntax supposed to be true instead of false here?

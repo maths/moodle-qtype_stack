@@ -1270,7 +1270,6 @@ class stack_cas_casstring {
             $allow = self::$cache['allows'][$rawallowwords];
         }
 
-
         // First extract things of interest from the tree, i.e. functioncalls,
         // variable references and operations.
         $ofinterest = array();
@@ -1280,7 +1279,9 @@ class stack_cas_casstring {
                 $node instanceof MP_Operation ||
                 $node instanceof MP_PrefixOp ||
                 $node instanceof MP_PostfixOp) {
-              $ofinterest[] = $node;
+
+                $ofinterest[] = $node;
+
             }
             return true;
         };
@@ -1372,7 +1373,7 @@ class stack_cas_casstring {
                     }
                 } else if ($node->name instanceof MP_Group) {
                     $outter = $node->name->items[count($node->name->items) - 1];
-                    // We do this due to this (1,(cos,sin))(x) => sin(x)
+                    // We do this due to this (1,(cos,sin))(x) => sin(x).
                     $notsafe = false;
                     $virtualfunction = new MP_FunctionCall($outter, $node->arguments);
                     $virtualfunction->position['virtual'] = true;
@@ -1384,7 +1385,7 @@ class stack_cas_casstring {
                             $ind = $node->name->indices[0]->items[0]->value - 1;
                         }
                         if ($ind >= 0 && $ind < count($node->name->target->items)) {
-                            // We do this due to this [1,(cos,sin)][2](x) => sin(x)
+                            // We do this due to this [1,(cos,sin)][2](x) => sin(x).
                             $notsafe = false;
                             $virtualfunction = new MP_FunctionCall($node->name->target->items[$ind], $node->arguments);
                             $virtualfunction->position['virtual'] = true;
@@ -1421,7 +1422,6 @@ class stack_cas_casstring {
             $this->answernote[] = 'apostrophe';
             $this->valid = false;
         }
-
 
         // TODO: build the typed security checks, but for now just dump all in.
         $identifiers = array_keys(array_merge($functionnames, $variables));
@@ -1633,7 +1633,6 @@ class stack_cas_casstring {
     private function add_error($err) {
         $this->errors[] = trim($err);
     }
-
 
     /*********************************************************/
     /* Return and modify information                         */
@@ -1880,6 +1879,5 @@ class stack_cas_casstring {
 
         }
     }
-
 
 }

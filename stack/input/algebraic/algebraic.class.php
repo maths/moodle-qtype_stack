@@ -62,6 +62,21 @@ class stack_algebraic_input extends stack_input {
         return html_writer::empty_tag('input', $attributes);
     }
 
+    /**
+     * Get the input variable that this input expects to process.
+     * All the variable names should start with $this->name.
+     * @return array string input name => PARAM_... type constant.
+     */
+    public function get_expected_data() {
+        $expected = array();
+        $expected[$this->name] = PARAM_RAW;
+        if ($this->requires_validation()) {
+            $expected[$this->name . '_val'] = PARAM_RAW;
+            $expected[$this->name . '_latex'] = PARAM_RAW;
+        }
+        return $expected;
+    }
+
     public function add_to_moodleform_testinput(MoodleQuickForm $mform) {
         $mform->addElement('text', $this->name, $this->name, array('size' => $this->parameters['boxWidth']));
         $mform->setDefault($this->name, $this->parameters['syntaxHint']);

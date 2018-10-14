@@ -22,6 +22,8 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+use qtype_stack\output\debug_renderer;
+
 defined('MOODLE_INTERNAL') || die();
 
 /**
@@ -33,11 +35,22 @@ defined('MOODLE_INTERNAL') || die();
 class qtype_stack_renderer extends qtype_renderer {
 
     public function formulation_and_controls(question_attempt $qa, question_display_options $options) {
+        global $CFG;
+        $debug = $CFG->debugdeveloper;
+
         $question = $qa->get_question();
 
         $response = $qa->get_last_qt_data();
 
         $questiontext = $question->questiontextinstantiated;
+
+
+        $prefix = $qa->get_field_prefix();
+
+        $inputids = [];
+        $latexinputids = [];
+        $latexresponses = [];
+
 
         // Replace inputs.
         $inputstovaldiate = array();
@@ -91,6 +104,8 @@ class qtype_stack_renderer extends qtype_renderer {
         }
 
         $result = '';
+        $result .= html_writer::div('', '', ['id' => 'controls_wrapper']);
+
         $result .= $this->question_tests_link($question, $options) . $questiontext;
 
         if ($qa->get_state() == question_state::$invalid) {
@@ -99,8 +114,78 @@ class qtype_stack_renderer extends qtype_renderer {
                     array('class' => 'validationerror'));
         }
 
+
+        foreach ($question->inputs as $name => $input) {
+            // Collect all the STACK input field ids.
+            $inputids[] = $prefix . $name;
+
+            // Create new hidden input fields for string the raw LaTeX input.
+            $latexinputname = $prefix . $name . '_latex';
+            $latexinputids[] = $latexinputname;
+
+            // Set initial question value to "" if the question_attempt has no responses.
+            if (isset($response[$name . '_latex'])) {
+                $value = $response[$name . '_latex'];
+            } else {
+                $value = "";
+            }
+
+            $latexresponses[] = $value;
+
+            $attributes = array(
+                'type' => 'hidden',
+                'name' => $latexinputname,
+                'value' => $value,
+                'id' => $latexinputname,
+            );
+            $result .= html_writer::empty_tag('input', $attributes);
+        }
+
+        // Initialise visualmathinput functionality
+        if ($CFG->debugdeveloper) {
+            $result .= debug_renderer::render_debug_view($inputids, "", $latexinputids, $latexresponses);
+        }
+
+        $configParams = $this->getAMDConfigParams($question);
+        $amdParams = array($debug, $prefix, $inputids, $latexinputids, $latexresponses, $configParams);
+        $this->page->requires->js_call_amd('qtype_stack/input', 'initialize', $amdParams);
+
         return $result;
     }
+
+
+    public function head_code(question_attempt $qa) {
+        global $PAGE;
+
+        parent::head_code($qa);
+
+        $PAGE->requires->css('/question/type/stack/visualmathinput/mathquill.css');
+        $PAGE->requires->css('/question/type/stack/visualmathinput/visual-math-input.css');
+    }
+
+
+    /**
+     * @param $question
+     * @return mixed
+     * @throws stack_exception
+     */
+    private function getAMDConfigParams($question) {
+        $result = [];
+        //if (!isset($question->singlevars)) throw new stack_exception('renderer: singlevars is not set');
+        //if (!isset($question->addtimessign)) throw new stack_exception('renderer: addtimessign is not set');
+        //if (!isset($question->mathinputmode)) throw new stack_exception('renderer: mathinputmode is not set');
+
+        //$result['singlevars'] = $question->singlevars;
+        //$result['addtimessign'] = $question->addtimessign;
+        //esult['mathinputmode'] = $question->mathinputmode;
+
+        $result['singlevars'] = "1";
+        $result['addtimessign'] = "1";
+        $result['mathinputmode'] = "experimental";
+        return $result;
+    }
+
+
 
     /**
      * Displays a link to run the question tests, if applicable.

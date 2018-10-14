@@ -178,4 +178,13 @@ class stack_cas_keyval {
         return $this->session;
     }
 
+    /**
+     * Remove the ast, and other clutter from casstrings, so we can test equality cleanly and dump values.
+     */
+    public function test_clean() {
+        if ($this->session !== null) {
+            $this->session->test_clean();
+        }
+        return true;
+    }
 }

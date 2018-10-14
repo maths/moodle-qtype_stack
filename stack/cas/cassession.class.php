@@ -608,4 +608,16 @@ class stack_cas_session {
     public function is_instantiated() {
         return $this->instantiated !== null;
     }
+
+    /**
+     * Remove the ast, and other clutter from casstrings, so we can test equality cleanly and dump values.
+     */
+    public function test_clean() {
+        if (is_array($this->session)) {
+            foreach ($this->session as $cs) {
+                $cs->test_clean();
+            }
+        }
+        return true;
+    }
 }

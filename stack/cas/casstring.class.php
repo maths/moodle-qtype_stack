@@ -1880,4 +1880,11 @@ class stack_cas_casstring {
         }
     }
 
+    /**
+     * Remove the ast, and other clutter, so we can test equality cleanly and dump values.
+     */
+    public function test_clean() {
+        $this -> ast = null;
+        return true;
+    }
 }

@@ -9,7 +9,15 @@
     border: 1px solid #fff;
     background-color: #fff;
     margin: 0.2em 3em 0.5em;
-    padding: 0.5em 0.5em 0em;
+    padding: 0.5em 0.5em 0;
+}
+@media only screen and (min-width: 768px) {
+    .que.stack .stackinputfeedback {
+        border: 1px solid #fff;
+        background-color: #fff;
+        margin: 0.2em 3em 0.5em;
+        padding: 0.5em 0.5em 0.5em;
+    }
 }
 .que.stack .equivreasoning .stackinputfeedback {
     display: inline-block;
@@ -64,6 +72,62 @@
 }
 .que.stack .matrixtable td {
     border: 0px solid black;
+}
+.que.stack .tex2max-feedback-wrapper {
+    border: 1px solid #fff;
+    background-color: #fff;
+    padding: 0.5em 0.5em 0.5em;
+}
+@media only screen and (min-width: 768px) {
+    .que.stack .tex2max-feedback-wrapper {
+        border: 1px solid #fff;
+        background-color: #fff;
+        margin: 0.2em 3em 0.5em;
+        padding: 0.5em 0.5em 0.5em;
+    }
+}
+.que.stack .tex2max-feedback-wrapper.empty {
+    display: none;
+}
+.que.stack .tex2max-feedback-wrapper.waiting {
+    color: #888;
+    min-height: 1em;
+}
+
+
+/* Visual math input */
+.que.stack .visual-math-input-wrapper {
+    margin: -12px -20px 20px -20px;
+    background-color: #1177d1;
+}
+
+/* Debug */
+.que.stack .stack-debug-wrapper {
+    margin: 20px 0;
+    padding: 1em 0;
+}
+.que.stack .stack-debug-question-wrapper {
+    border: 1px solid #fff;
+    background-color: #ffffcc;
+    padding: 0.5em 0.5em;
+}
+@media only screen and (min-width: 768px) {
+    .que.stack .stack-debug-question-wrapper {
+        border: 1px solid #fff;
+        background-color: #ffffcc;
+        margin: .2em 3em .5em;
+        padding: 0.5em 0.5em;
+    }
+}
+.que.stack .stack-debug-value {
+    padding: 0.2em 0.5em;
+    text-align: center;
+    min-height: 30px;
+    margin: 0.2em 1em;
+}
+.que.stack .stack-debug-nb-star {
+    color: #ff3333;
+    padding-right: 0.3em;
 }
 
 

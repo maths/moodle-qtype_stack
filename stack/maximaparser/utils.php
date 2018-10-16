@@ -91,7 +91,15 @@ class maxima_parser_utils {
     // tries to fix by adding semicolons.
     public static function parse_and_insert_missing_semicolons($str, $lastfix = -1) {
         try {
-            return maxima_parser_utils::parse($str);
+            $ast = maxima_parser_utils::parse($str);
+            if ($lastfix !== -1) {
+                // If fixing has happened lets hide the fixed string to the result.
+                // Might be useful for the editor to have a way of placing those
+                // semicolons...
+                // Again lets abuse the position array.
+                $ast->position['fixedsemicolons'] = $str;
+            }
+            return $ast;
         } catch (SyntaxError $e) {
             if ($lastfix !== $e->grammarOffset && $lastfix + 1 !== $e->grammarOffset) {
                 if (substr($str, $e->grammarOffset - 1, 2) === '/*') {

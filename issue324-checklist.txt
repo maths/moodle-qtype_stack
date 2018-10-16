@@ -1,3 +1,30 @@
+FRESH STUFF 2018-10-16:
+
+Merged all identifier security lists as a single JSON stack/cas/security-map.json.
+Dropped/replaced some teacherallow identifiers: atrig1, azimut => azimuth,
+eps_height, eps_width, file_bgcolor, maxi, mini (something missing here?),
+ntrig, pdf_width, pic_height, pic_width, plot_real_part => plot_realpart,
+rot_horizontal, rot_vertical,
+
+For student allow the situation is abit more odd. e.g. why are so many plot
+related identifiers allowed for students surely students do not plot? Anyway
+in there changed/dropped: nticks => ntics (NOTE! probably needs to be changed
+in stack-maxima code too, however both exist in maximas own testcases),
+plot_implicit (probably should be implicit_plot?).
+
+Note that the point of the new security map is to provide information about
+the identifiers in addition of just classifying them to security classes.
+For example, some identifiers will have the 'evfun' feature tagged in
+the map and will therefore get considered as function calls if seen as flags,
+more importantly all the mapping functions have their own flags there. As do
+constants which now can be singled out and writing to them forbidden.
+
+
+
+Next step to wrap that file to logic and refactor the old from the code.
+
+
+
 FRESH STUFF 2018-10-10:
 
 Going into caskeyval_test, why are we testing keyvals with security='s'? Is
@@ -10,6 +37,17 @@ CJS: Matti, I don't think there is a good reason why caskeyval_test always uses 
 Looking back at the code, we always have "new stack_cas_keyval" with the teacher option as far as I can see.
 I did design this with the possibility that students might be given the "caschat.php" functionality, or we have a "CAS filter",
 so something like the keyval functionality should have the "s"/"t" distinction, and be able to pass the various validation options through.
+
+MH response:
+  - Depends a bit on what the "s"/"t" distinction means here. If its just
+    the security then no problem it already does that. If it includes insert
+    stars then it needs to fall back to the previous logic before applying
+    insert stars and students with insert stars will not have multi-line
+    statements.
+  - My understanding is that "t" means no insert stars only log_x style candy.
+    And therefore the parser can work iteratively with keyvals to inject
+    the missing semicolons, it could not do that if insert stars would compete
+    on the same field.
 
 test_keyval_session_keyval_3 and test_keyval_session_keyval_4 cause trouble
 in that case as the logic now uses parse errors to identify where to place

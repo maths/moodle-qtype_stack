@@ -45,7 +45,7 @@ class stack_cas_security {
      * They should be lower case, because Maxima is lower case, and these correspond to Maxima names.
      * Actually, not lower case, Maxima is not case insensitive just check "ModeMatrix" for an example.
      */
-    private static $keywordlists = array(
+    public static $keywordlists = array(
             '[[basic-algebra]]' => array('coeff' => true, 'conjugate' => true, 'cspline' => true, 'disjoin' => true, 'divisors' => true,
                     'ev' => true, 'eliminate' => true, 'equiv_classes' => true, 'expand' => true, 'expandwrt' => true, 'facsum' => true, 'factor' => true, 'find_root' => true,
                     'fullratsimp' => true, 'gcd' => true, 'gfactor' => true, 'imagpart' => true, 'intersection' => true, 'lcm' => true, 'logcontract' => true, 'logexpand' => true,
@@ -69,7 +69,7 @@ class stack_cas_security {
     public function __construct($units = false, $allowedwords = '', $forbiddenwords = '') {
         if (stack_cas_security::$securitymap === null) {
             // Initialise the map.
-            $data = file_get_contents('./security-map.json');
+            $data = file_get_contents(__DIR__ . '/security-map.json');
             stack_cas_security::$securitymap = json_decode($data, true);
         }
 
@@ -78,7 +78,7 @@ class stack_cas_security {
         $this->forbiddenwords = $forbiddenwords;
 
         if (!is_bool($this->units)) {
-            throw new stack_exception('stack_cas_security: units must be a boolean.');
+            throw new stack_exception('stack_cas_security: units must be a bool.');
         }
         if (!is_string($this->allowedwords)) {
             throw new stack_exception('stack_cas_security: allowedwords must be a string.');
@@ -104,15 +104,15 @@ class stack_cas_security {
      * Answers the question whether something can be called as a function.
      * Within the defined security scope.
      */
-    public function is_allowed_to_call(string $security, string $identifier): boolean {
+    public function is_allowed_to_call(string $security, string $identifier): bool {
         $foundsecurity = '?';
         if (isset(stack_cas_security::$securitymap[$identifier])) {
             if (isset(stack_cas_security::$securitymap[$identifier]['function'])) {
                 $foundsecurity = stack_cas_security::$securitymap[$identifier]['function'];
             }
         }
-        // Never, if it is globaly forbidden, or teacher not allow.
-        if ($foundsecurity === 'f' || $foundsecurity === 'tf') {
+        // Never, if it is forbidden.
+        if ($foundsecurity === 'f') {
             return false;
         }
 
@@ -147,7 +147,7 @@ class stack_cas_security {
      * Answers the question whether something can be referenced as a variable.
      * Within the defined security scope.
      */
-    public function is_allowed_to_read(string $security, string $identifier): boolean {
+    public function is_allowed_to_read(string $security, string $identifier): bool {
         $foundsecurity = '?';
         if (isset(stack_cas_security::$securitymap[$identifier])) {
             if (isset(stack_cas_security::$securitymap[$identifier]['variable'])) {
@@ -157,8 +157,13 @@ class stack_cas_security {
                 $foundsecurity = stack_cas_security::$securitymap[$identifier]['constant'];
             }
         }
-        // Never, if it is globaly forbidden, or teacher not allow.
-        if ($foundsecurity === 'f' || $foundsecurity === 'tf') {
+        // Never, if it is forbidden.
+        if ($foundsecurity === 'f') {
+            return false;
+        }
+
+        // Forbid keywords as variable names.
+        if ($this->has_feature($identifier, 'keyword')) {
             return false;
         }
 
@@ -186,6 +191,7 @@ class stack_cas_security {
         }
 
         // If the identifer is only one char then students have permissions.
+        // TODO: Is the rule as documented the same as coded? i.e. is it 2?
         if ($security === 's' && core_text::strlen($identifier) === 1) {
             return true;
         }
@@ -198,59 +204,21 @@ class stack_cas_security {
      * Answers the question whether something can be written as a variable.
      * Within the defined security scope.
      */
-    public function is_allowed_to_write(string $security, string $identifier): boolean {
-        if ($this->has_feature($identifier, 'constant')) {
+    public function is_allowed_to_write(string $security, string $identifier): bool {
+        // If not readable then not writable either and constants are a thing.
+        if ($this->has_feature($identifier, 'constant') ||
+            !$this->is_allowed_to_read($security, $identifier)) {
             return false;
         }
 
-        $foundsecurity = '?';
-        if (isset(stack_cas_security::$securitymap[$identifier])) {
-            if (isset(stack_cas_security::$securitymap[$identifier]['variable'])) {
-                $foundsecurity = stack_cas_security::$securitymap[$identifier]['variable'];
-            }
-        }
-        // Never, if it is globaly forbidden, or teacher not allow.
-        if ($foundsecurity === 'f' || $foundsecurity === 'tf') {
-            return false;
-        }
-
-        // Check for forbidden words.
-        $forbidden = stack_cas_security::list_to_map($this->forbiddenwords);
-        if (isset($forbidden[$identifier])) {
-            // Forbidden words are not considered as typed. For now.
-            return false;
-        }
-
-        // If its already security 's' then all fine.
-        if ($foundsecurity === 's') {
-            return true;
-        }
-
-        // Try promoting to security 's'.
-        $allowed = stack_cas_security::list_to_map($this->allowedwords);
-        if (isset($allowed[$identifier])) {
-            // Allow words might be typed.
-            if (is_array($allowed[$identifier])) {
-                return isset($allowed[$identifier]['variable']);
-            } else {
-                return true;
-            }
-        }
-
-        // If the identifer is only one char then students have permissions.
-        if ($security === 's' && core_text::strlen($identifier) === 1) {
-            return true;
-        }
-
-        // If no matches at all then allowed for security='t'.
-        return $security === 't';
+        return true;
     }
 
     /**
      * Answers the question whether something is an allowed operator.
      * Within the defined security scope.
      */
-    public function is_allowed_as_operator(string $security, string $identifier): boolean {
+    public function is_allowed_as_operator(string $security, string $identifier): bool {
         if ($this->has_feature($identifier, 'constant')) {
             return false;
         }
@@ -266,8 +234,8 @@ class stack_cas_security {
         } else {
             return false;
         }
-        // Never, if it is globaly forbidden, or teacher not allow.
-        if ($foundsecurity === 'f' || $foundsecurity === 'tf') {
+        // Never, if it is forbidden.
+        if ($foundsecurity === 'f') {
             return false;
         }
 
@@ -303,7 +271,7 @@ class stack_cas_security {
      * Checks the features of an identifer. Special dealing with 'constant'.
      * Typically used to identify constants and mapfunctions.
      */
-    public function has_feature(string $identifier, string $feature): boolean {
+    public function has_feature(string $identifier, string $feature): bool {
         if ($feature === 'constant' && $this->units) {
             $units = stack_cas_casstring_units::get_permitted_units(0);
             if (isset($units[$identifier])) {
@@ -318,6 +286,41 @@ class stack_cas_security {
         return false;
     }
 
+    /**
+     * Checks for case variant keys of the given identifier.
+     * Returns all keys that we know of that are not matching.
+     */
+    public function get_case_variants(string $identifier): array {
+        // TODO: should this be typed? i.e. return only function or variable
+        // identifiers on demand? And should it drop forbidden items?
+        $r = array();
+        $l = strtolower($identifier);
+        foreach (stack_cas_security::$securitymap as $key => $duh) {
+            if ($identifier !== $key && strtolower($key) === $l) {
+                $r[] = $key;
+            }
+        }
+        foreach (stack_cas_security::list_to_map($this->allowedwords) as $key => $duh) {
+            if ($identifier !== $key && strtolower($key) === $l) {
+                $r[] = $key;
+            }
+        }
+
+        if ($this->units) {
+            // This has a separate implementation in caastring_units but Lets
+            // do things just a bit differently.
+            $units = stack_cas_casstring_units::get_permitted_units(core_text::strlen($identifier));
+            foreach ($units as $key) {
+                if ($identifier !== $key && strtolower($key) === $l) {
+                    $r[] = $key;
+                }
+            }
+        }
+
+        sort($r);
+
+        return $r;
+    }
 
 
     // Takes a string form allowed/forbiddenwords list and turns it into an array.

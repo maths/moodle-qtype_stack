@@ -15,9 +15,11 @@
         "operator": "f"
     },
     "%": {
+        "globalyforbiddenvariable": true,
         "variable": "f"
     },
     "%%": {
+        "globalyforbiddenvariable": true,
         "variable": "f"
     },
     "%and": {
@@ -90,13 +92,15 @@
     },
     "%th": {
         "function": "f",
+        "globalyforbiddenfunction": true,
+        "globalyforbiddenvariable": true,
         "variable": "f"
     },
     "%union": {
         "operator": "s"
     },
     "%unitexpand": {
-        "variable": "tf"
+        "variable": "f"
     },
     "%w": {
         "function": "?"
@@ -168,7 +172,7 @@
         "variable": "s"
     },
     "AntiDifference": {
-        "function": "tf"
+        "function": "f"
     },
     "Beta": {
         "variable": "s"
@@ -186,28 +190,28 @@
         "variable": "s"
     },
     "GGFCFMAX": {
-        "variable": "tf"
+        "variable": "f"
     },
     "GGFINFINITY": {
-        "variable": "tf"
+        "variable": "f"
     },
     "Gamma": {
         "variable": "s"
     },
     "Gosper": {
-        "function": "tf"
+        "function": "f"
     },
     "GosperSum": {
-        "function": "tf"
+        "function": "f"
     },
     "Gosper_in_Zeilberger": {
-        "variable": "tf"
+        "variable": "f"
     },
     "Iota": {
         "variable": "s"
     },
     "JF": {
-        "function": "tf"
+        "function": "f"
     },
     "Kappa": {
         "variable": "s"
@@ -216,13 +220,13 @@
         "variable": "s"
     },
     "Lindstedt": {
-        "function": "tf"
+        "function": "f"
     },
     "MAX_ORD": {
-        "variable": "tf"
+        "variable": "f"
     },
     "ModeMatrix": {
-        "function": "tf"
+        "function": "f"
     },
     "Mu": {
         "variable": "s"
@@ -264,7 +268,7 @@
         "variable": "s"
     },
     "Zeilberger": {
-        "function": "tf"
+        "function": "f"
     },
     "Zeta": {
         "variable": "s"
@@ -282,9 +286,11 @@
         "operator": "s"
     },
     "_": {
+        "globalyforbiddenvariable": true,
         "variable": "f"
     },
     "__": {
+        "globalyforbiddenvariable": true,
         "variable": "f"
     },
     "`": {
@@ -294,19 +300,19 @@
         "operator": "f"
     },
     "abasep": {
-        "function": "tf"
+        "function": "f"
     },
     "abs": {
         "function": "s"
     },
     "absboxchar": {
-        "variable": "tf"
+        "variable": "f"
     },
     "absint": {
         "function": "s"
     },
     "absolute_real_time": {
-        "function": "tf"
+        "function": "f"
     },
     "acos": {
         "function": "s"
@@ -327,12 +333,13 @@
         "function": "s"
     },
     "activate": {
-        "function": "tf"
+        "function": "f"
     },
     "activecontexts": {
-        "variable": "tf"
+        "variable": "f"
     },
     "adapth_depth": {
+        "globalyforbiddenvariable": true,
         "variable": "f"
     },
     "add_edge": {
@@ -351,8 +358,8 @@
         "function": "?"
     },
     "additive": {
-        "keyword": "tf",
-        "property": "tf"
+        "keyword": "f",
+        "property": "f"
     },
     "addmatrices": {
         "function": "s"
@@ -361,7 +368,7 @@
         "function": "?"
     },
     "adim": {
-        "variable": "tf"
+        "variable": "f"
     },
     "adjacency_matrix": {
         "function": "?"
@@ -376,13 +383,13 @@
         "function": "?"
     },
     "af": {
-        "function": "tf"
+        "function": "f"
     },
     "aform": {
-        "variable": "tf"
+        "variable": "f"
     },
     "agd": {
-        "function": "tf"
+        "function": "f"
     },
     "airy_ai": {
         "function": "?"
@@ -397,7 +404,7 @@
         "function": "?"
     },
     "alg_type": {
-        "function": "tf"
+        "function": "f"
     },
     "algebraic": {
         "evflag": "?",
@@ -413,16 +420,18 @@
         "function": "?"
     },
     "alias": {
-        "function": "f"
+        "function": "f",
+        "globalyforbiddenfunction": true
     },
     "aliases": {
+        "globalyforbiddenvariable": true,
         "variable": "f"
     },
     "all": {
         "constant": "s"
     },
     "all_dotsimp_denoms": {
-        "variable": "tf"
+        "variable": "f"
     },
     "allbut": {
         "keyword": "?"
@@ -431,12 +440,13 @@
         "function": "?"
     },
     "allsym": {
-        "variable": "tf"
+        "variable": "f"
     },
     "alpha": {
         "variable": "s"
     },
     "alphabetic": {
+        "globalyforbiddenvariable": true,
         "property": "?",
         "variable": "f"
     },
@@ -459,13 +469,13 @@
         "function": "?"
     },
     "antid": {
-        "function": "tf"
+        "function": "f"
     },
     "antidiff": {
-        "function": "tf"
+        "function": "f"
     },
     "antisymmetric": {
-        "property": "tf"
+        "property": "f"
     },
     "anyfloat": {
         "function": "s"
@@ -477,7 +487,8 @@
         "function": "?"
     },
     "appendfile": {
-        "function": "f"
+        "function": "f",
+        "globalyforbiddenfunction": true
     },
     "apply": {
         "function": "?",
@@ -496,7 +507,8 @@
         "function": "?"
     },
     "apropos": {
-        "function": "f"
+        "function": "f",
+        "globalyforbiddenfunction": true
     },
     "args": {
         "function": "?"
@@ -505,25 +517,25 @@
         "function": "?"
     },
     "arithmetic": {
-        "function": "tf"
+        "function": "f"
     },
     "arithsum": {
-        "function": "tf"
+        "function": "f"
     },
     "array": {
-        "function": "tf"
+        "function": "f"
     },
     "arrayapply": {
-        "function": "tf"
+        "function": "f"
     },
     "arrayinfo": {
-        "function": "tf"
+        "function": "f"
     },
     "arraymake": {
-        "function": "tf"
+        "function": "f"
     },
     "arrays": {
-        "variable": "tf"
+        "variable": "f"
     },
     "arraysetapply": {
         "function": "?"
@@ -556,16 +568,17 @@
         "function": "?"
     },
     "assoc_legendre_p": {
-        "function": "tf"
+        "function": "f"
     },
     "assoc_legendre_q": {
-        "function": "tf"
+        "function": "f"
     },
     "assume": {
         "function": "?"
     },
     "assume_external_byte_order": {
-        "function": "f"
+        "function": "f",
+        "globalyforbiddenfunction": true
     },
     "assume_pos": {
         "variable": "?"
@@ -577,7 +590,7 @@
         "variable": "?"
     },
     "asymbol": {
-        "variable": "tf"
+        "variable": "f"
     },
     "asympa": {
         "function": "?"
@@ -595,25 +608,25 @@
         "function": "s"
     },
     "atensimp": {
-        "function": "tf"
+        "function": "f"
     },
     "atom": {
         "function": "?"
     },
     "atomgrad": {
-        "property": "tf"
+        "property": "f"
     },
     "atvalue": {
-        "function": "tf"
+        "function": "f"
     },
     "augcoefmatrix": {
         "function": "s"
     },
     "augmented_lagrangian_method": {
-        "function": "tf"
+        "function": "f"
     },
     "av": {
-        "function": "tf"
+        "function": "f"
     },
     "average_degree": {
         "function": "?"
@@ -622,34 +635,36 @@
         "variable": "s"
     },
     "axis_3d": {
-        "variable": "tf"
+        "variable": "f"
     },
     "axis_bottom": {
-        "variable": "tf"
+        "variable": "f"
     },
     "axis_left": {
-        "variable": "tf"
+        "variable": "f"
     },
     "axis_right": {
-        "variable": "tf"
+        "variable": "f"
     },
     "axis_top": {
-        "variable": "tf"
+        "variable": "f"
     },
     "azimuth": {
-        "variable": "tf"
+        "variable": "f"
     },
     "backsubst": {
-        "variable": "tf"
+        "variable": "f"
     },
     "backtrace": {
-        "function": "f"
+        "function": "f",
+        "globalyforbiddenfunction": true
     },
     "bars": {
-        "function": "tf"
+        "function": "f"
     },
     "barsplot": {
-        "function": "f"
+        "function": "f",
+        "globalyforbiddenfunction": true
     },
     "barsplot_description": {
         "function": "?"
@@ -661,19 +676,21 @@
         "function": "?"
     },
     "bashindices": {
-        "function": "tf"
+        "function": "f"
     },
     "batch": {
-        "function": "f"
+        "function": "f",
+        "globalyforbiddenfunction": true
     },
     "batchload": {
-        "function": "f"
+        "function": "f",
+        "globalyforbiddenfunction": true
     },
     "bc2": {
         "function": "?"
     },
     "bdvac": {
-        "function": "tf"
+        "function": "f"
     },
     "belln": {
         "function": "s"
@@ -682,7 +699,7 @@
         "function": "?"
     },
     "berlefact": {
-        "variable": "tf"
+        "variable": "f"
     },
     "bern": {
         "function": "?"
@@ -777,10 +794,10 @@
         "function": "s"
     },
     "bfpsi": {
-        "function": "tf"
+        "function": "f"
     },
     "bfpsi0": {
-        "function": "tf"
+        "function": "f"
     },
     "bftorat": {
         "variable": "?"
@@ -795,7 +812,7 @@
         "function": "?"
     },
     "bimetric": {
-        "function": "tf"
+        "function": "f"
     },
     "bindtest": {
         "property": "?"
@@ -843,28 +860,30 @@
         "variable": "s"
     },
     "bode_gain": {
-        "function": "tf"
+        "function": "f"
     },
     "bode_phase": {
-        "function": "tf"
+        "function": "f"
     },
     "border": {
-        "variable": "tf"
+        "variable": "f"
     },
     "bothcoef": {
         "function": "?"
     },
     "boundaries_array": {
-        "variable": "tf"
+        "variable": "f"
     },
     "box": {
         "function": "s"
     },
     "boxchar": {
+        "globalyforbiddenvariable": true,
         "variable": "f"
     },
     "boxplot": {
-        "function": "f"
+        "function": "f",
+        "globalyforbiddenfunction": true
     },
     "boxplot_description": {
         "function": "?"
@@ -879,10 +898,12 @@
         "variable": "s"
     },
     "bug_report": {
-        "function": "f"
+        "function": "f",
+        "globalyforbiddenfunction": true
     },
     "build_info": {
-        "function": "f"
+        "function": "f",
+        "globalyforbiddenfunction": true
     },
     "build_sample": {
         "function": "?"
@@ -900,10 +921,10 @@
         "variable": "s"
     },
     "canform": {
-        "function": "tf"
+        "function": "f"
     },
     "canten": {
-        "function": "tf"
+        "function": "f"
     },
     "cardinality": {
         "function": "s"
@@ -918,7 +939,8 @@
         "function": "s"
     },
     "catch": {
-        "function": "f"
+        "function": "f",
+        "globalyforbiddenfunction": true
     },
     "cauchy_matrix": {
         "function": "?"
@@ -928,13 +950,13 @@
         "variable": "?"
     },
     "cbffac": {
-        "function": "tf"
+        "function": "f"
     },
     "cbrange": {
-        "variable": "tf"
+        "variable": "f"
     },
     "cbtics": {
-        "variable": "tf"
+        "variable": "f"
     },
     "cdf_bernoulli": {
         "function": "s"
@@ -1024,7 +1046,7 @@
         "function": "s"
     },
     "cdisplay": {
-        "function": "tf"
+        "function": "f"
     },
     "ceiling": {
         "function": "s"
@@ -1051,10 +1073,10 @@
         "variable": "s"
     },
     "cframe_flag": {
-        "variable": "tf"
+        "variable": "f"
     },
     "cgeodesic": {
-        "function": "tf"
+        "function": "f"
     },
     "cgreaterp": {
         "function": "s"
@@ -1063,13 +1085,13 @@
         "function": "s"
     },
     "changename": {
-        "function": "tf"
+        "function": "f"
     },
     "changevar": {
         "function": "?"
     },
     "chaosgame": {
-        "function": "tf"
+        "function": "f"
     },
     "charat": {
         "function": "s"
@@ -1093,16 +1115,16 @@
         "function": "?"
     },
     "chebyshev_t": {
-        "function": "tf"
+        "function": "f"
     },
     "chebyshev_u": {
-        "function": "tf"
+        "function": "f"
     },
     "check_overlaps": {
-        "function": "tf"
+        "function": "f"
     },
     "checkdiv": {
-        "function": "tf"
+        "function": "f"
     },
     "chi": {
         "variable": "s"
@@ -1114,7 +1136,7 @@
         "function": "?"
     },
     "christof": {
-        "function": "tf"
+        "function": "f"
     },
     "chromatic_index": {
         "function": "?"
@@ -1132,7 +1154,7 @@
         "function": "?"
     },
     "clear_rules": {
-        "function": "tf"
+        "function": "f"
     },
     "clear_vertex_label": {
         "function": "?"
@@ -1150,16 +1172,18 @@
         "function": "s"
     },
     "close": {
-        "function": "f"
+        "function": "f",
+        "globalyforbiddenfunction": true
     },
     "closefile": {
-        "function": "f"
+        "function": "f",
+        "globalyforbiddenfunction": true
     },
     "cmetric": {
-        "function": "tf"
+        "function": "f"
     },
     "cnonmet_flag": {
-        "variable": "tf"
+        "variable": "f"
     },
     "coeff": {
         "function": "s"
@@ -1168,13 +1192,13 @@
         "function": "s"
     },
     "cograd": {
-        "function": "tf"
+        "function": "f"
     },
     "col": {
         "function": "s"
     },
     "collapse": {
-        "function": "tf"
+        "function": "f"
     },
     "collectterms": {
         "function": "?"
@@ -1183,13 +1207,13 @@
         "variable": "s"
     },
     "colorbox": {
-        "variable": "tf"
+        "variable": "f"
     },
     "columnop": {
         "function": "s"
     },
     "columns": {
-        "variable": "tf"
+        "variable": "f"
     },
     "columnspace": {
         "function": "s"
@@ -1201,7 +1225,7 @@
         "function": "?"
     },
     "combination": {
-        "function": "tf"
+        "function": "f"
     },
     "combine": {
         "function": "s"
@@ -1210,19 +1234,22 @@
         "property": "?"
     },
     "comp2pui": {
-        "function": "tf"
+        "function": "f"
     },
     "compare": {
         "function": "s"
     },
     "compfile": {
-        "function": "f"
+        "function": "f",
+        "globalyforbiddenfunction": true
     },
     "compile": {
-        "function": "f"
+        "function": "f",
+        "globalyforbiddenfunction": true
     },
     "compile_file": {
-        "function": "f"
+        "function": "f",
+        "globalyforbiddenfunction": true
     },
     "complement_graph": {
         "function": "?"
@@ -1240,22 +1267,23 @@
         "function": "?"
     },
     "components": {
-        "function": "tf"
+        "function": "f"
     },
     "compose_functions": {
         "function": "?"
     },
     "concan": {
-        "function": "tf"
+        "function": "f"
     },
     "concat": {
-        "function": "f"
+        "function": "f",
+        "globalyforbiddenfunction": true
     },
     "conjugate": {
         "function": "s"
     },
     "conmetderiv": {
-        "function": "tf"
+        "function": "f"
     },
     "connect_vertices": {
         "function": "?"
@@ -1277,52 +1305,52 @@
         "function": "s"
     },
     "constvalue": {
-        "function": "tf"
+        "function": "f"
     },
     "cont2part": {
-        "function": "tf"
+        "function": "f"
     },
     "content": {
         "function": "?"
     },
     "context": {
-        "variable": "tf"
+        "variable": "f"
     },
     "contexts": {
-        "variable": "tf"
+        "variable": "f"
     },
     "continuous_freq": {
         "function": "?"
     },
     "contortion": {
-        "function": "tf"
+        "function": "f"
     },
     "contour": {
-        "variable": "tf"
+        "variable": "f"
     },
     "contour_levels": {
-        "variable": "tf"
+        "variable": "f"
     },
     "contour_plot": {
-        "function": "tf"
+        "function": "f"
     },
     "contract": {
         "function": "?"
     },
     "contract_edge": {
-        "function": "tf"
+        "function": "f"
     },
     "contragrad": {
-        "function": "tf"
+        "function": "f"
     },
     "contrib_ode": {
-        "function": "tf"
+        "function": "f"
     },
     "convert": {
-        "function": "tf"
+        "function": "f"
     },
     "coord": {
-        "function": "tf"
+        "function": "f"
     },
     "copy": {
         "function": "s"
@@ -1331,7 +1359,7 @@
         "function": "?"
     },
     "copy_graph": {
-        "function": "tf"
+        "function": "f"
     },
     "copylist": {
         "function": "?"
@@ -1367,13 +1395,13 @@
         "function": "?"
     },
     "covdiff": {
-        "function": "tf"
+        "function": "f"
     },
     "covect": {
         "function": "s"
     },
     "covers": {
-        "function": "tf"
+        "function": "f"
     },
     "crc24sum": {
         "function": "?"
@@ -1382,7 +1410,7 @@
         "function": "?"
     },
     "create_list": {
-        "function": "tf"
+        "function": "f"
     },
     "csc": {
         "function": "s"
@@ -1391,43 +1419,43 @@
         "function": "s"
     },
     "csetup": {
-        "function": "tf"
+        "function": "f"
     },
     "cspline": {
         "function": "s"
     },
     "ct_coords": {
-        "variable": "tf"
+        "variable": "f"
     },
     "ct_coordsys": {
-        "function": "tf"
+        "function": "f"
     },
     "ctaylor": {
-        "function": "tf"
+        "function": "f"
     },
     "ctaypov": {
-        "variable": "tf"
+        "variable": "f"
     },
     "ctaypt": {
-        "variable": "tf"
+        "variable": "f"
     },
     "ctayswitch": {
-        "variable": "tf"
+        "variable": "f"
     },
     "ctayvar": {
-        "variable": "tf"
+        "variable": "f"
     },
     "ctorsion_flag": {
-        "variable": "tf"
+        "variable": "f"
     },
     "ctransform": {
-        "function": "tf"
+        "function": "f"
     },
     "ctranspose": {
         "function": "s"
     },
     "ctrgsimp": {
-        "variable": "tf"
+        "variable": "f"
     },
     "cube_graph": {
         "function": "?"
@@ -1436,9 +1464,10 @@
         "function": "?"
     },
     "cunlisp": {
-        "function": "tf"
+        "function": "f"
     },
     "current_let_rule_package": {
+        "globalyforbiddenvariable": true,
         "variable": "f"
     },
     "cv": {
@@ -1457,6 +1486,7 @@
         "function": "?"
     },
     "data_file_name": {
+        "globalyforbiddenvariable": true,
         "variable": "f"
     },
     "day": {
@@ -1469,9 +1499,11 @@
         "function": "s"
     },
     "deactivate": {
-        "function": "f"
+        "function": "f",
+        "globalyforbiddenfunction": true
     },
     "debugmode": {
+        "globalyforbiddenvariable": true,
         "variable": "f"
     },
     "decimalplaces": {
@@ -1481,31 +1513,31 @@
         "function": "?"
     },
     "declare_constvalue": {
-        "function": "tf"
+        "function": "f"
     },
     "declare_dimensions": {
-        "function": "tf"
+        "function": "f"
     },
     "declare_fundamental_dimensions": {
-        "function": "tf"
+        "function": "f"
     },
     "declare_fundamental_units": {
-        "function": "tf"
+        "function": "f"
     },
     "declare_qty": {
-        "function": "tf"
+        "function": "f"
     },
     "declare_translated": {
-        "function": "tf"
+        "function": "f"
     },
     "declare_unit_conversion": {
-        "function": "tf"
+        "function": "f"
     },
     "declare_units": {
-        "function": "tf"
+        "function": "f"
     },
     "declare_weights": {
-        "function": "tf"
+        "function": "f"
     },
     "decode_time": {
         "function": "?"
@@ -1514,16 +1546,17 @@
         "property": "?"
     },
     "decsym": {
-        "function": "tf"
+        "function": "f"
     },
     "default_let_rule_package": {
-        "variable": "tf"
+        "variable": "f"
     },
     "defcon": {
-        "function": "tf"
+        "function": "f"
     },
     "define": {
-        "function": "f"
+        "function": "f",
+        "globalyforbiddenfunction": true
     },
     "define_alt_display": {
         "function": "?"
@@ -1532,16 +1565,17 @@
         "function": "?"
     },
     "define_variable": {
-        "function": "f"
+        "function": "f",
+        "globalyforbiddenfunction": true
     },
     "defint": {
         "function": "s"
     },
     "defmatch": {
-        "function": "tf"
+        "function": "f"
     },
     "defrule": {
-        "function": "tf"
+        "function": "f"
     },
     "defstruct": {
         "function": "?"
@@ -1559,10 +1593,11 @@
         "function": "s"
     },
     "del_cmd": {
-        "variable": "f"
+        "variable": "f",
+        "globalyforbiddenvariable": true
     },
     "delay": {
-        "variable": "tf"
+        "variable": "f"
     },
     "delete": {
         "function": "s"
@@ -1571,14 +1606,15 @@
         "function": "?"
     },
     "deleten": {
-        "function": "tf"
+        "function": "f"
     },
     "delta": {
         "function": "s",
         "variable": "s"
     },
     "demo": {
-        "function": "f"
+        "function": "f",
+        "globalyforbiddenfunction": true
     },
     "demoivre": {
         "evflag": "?",
@@ -1590,6 +1626,8 @@
     },
     "dependencies": {
         "function": "f",
+        "globalyforbiddenfunction": true,
+        "globalyforbiddenvariable": true,
         "variable": "f"
     },
     "depends": {
@@ -1608,7 +1646,8 @@
         "variable": "?"
     },
     "describe": {
-        "function": "f"
+        "function": "f",
+        "globalyforbiddenfunction": true
     },
     "desolve": {
         "function": "s"
@@ -1644,7 +1683,7 @@
         "function": "?"
     },
     "diag": {
-        "function": "tf"
+        "function": "f"
     },
     "diag_matrix": {
         "function": "s"
@@ -1653,10 +1692,10 @@
         "function": "s"
     },
     "diagmatrixp": {
-        "function": "tf"
+        "function": "f"
     },
     "diagmetric": {
-        "variable": "tf"
+        "variable": "f"
     },
     "diameter": {
         "function": "?"
@@ -1668,28 +1707,30 @@
         "function": "s"
     },
     "dim": {
-        "variable": "tf"
+        "variable": "f"
     },
     "dimacs_export": {
-        "function": "f"
+        "function": "f",
+        "globalyforbiddenfunction": true
     },
     "dimacs_import": {
-        "function": "f"
+        "function": "f",
+        "globalyforbiddenfunction": true
     },
     "dimension": {
-        "function": "tf"
+        "function": "f"
     },
     "dimensionless": {
-        "function": "tf"
+        "function": "f"
     },
     "dimensions": {
-        "function": "tf"
+        "function": "f"
     },
     "dimensions_as_list": {
-        "function": "tf"
+        "function": "f"
     },
     "direct": {
-        "function": "tf"
+        "function": "f"
     },
     "directory": {
         "function": "?"
@@ -1713,37 +1754,37 @@
         "function": "?"
     },
     "dispJordan": {
-        "function": "tf"
+        "function": "f"
     },
     "dispcon": {
-        "function": "tf"
+        "function": "f"
     },
     "dispflag": {
-        "variable": "tf"
+        "variable": "f"
     },
     "dispform": {
-        "function": "tf"
+        "function": "f"
     },
     "dispfun": {
-        "function": "tf"
+        "function": "f"
     },
     "display": {
-        "function": "tf"
+        "function": "f"
     },
     "display2d": {
-        "variable": "tf"
+        "variable": "f"
     },
     "display_format_internal": {
-        "variable": "tf"
+        "variable": "f"
     },
     "disprule": {
-        "function": "tf"
+        "function": "f"
     },
     "dispterms": {
-        "function": "tf"
+        "function": "f"
     },
     "distrib": {
-        "function": "tf"
+        "function": "f"
     },
     "distribute_over": {
         "variable": "?"
@@ -1782,13 +1823,13 @@
         "variable": "?"
     },
     "domxexpt": {
-        "variable": "tf"
+        "variable": "f"
     },
     "domxmxops": {
-        "variable": "tf"
+        "variable": "f"
     },
     "domxnctimes": {
-        "variable": "tf"
+        "variable": "f"
     },
     "dontfactor": {
         "variable": "?"
@@ -1831,34 +1872,34 @@
         "variable": "?"
     },
     "dotsimp": {
-        "function": "tf"
+        "function": "f"
     },
     "dpart": {
         "function": "?"
     },
     "draw": {
-        "function": "tf"
+        "function": "f"
     },
     "draw2d": {
-        "function": "tf"
+        "function": "f"
     },
     "draw3d": {
-        "function": "tf"
+        "function": "f"
     },
     "draw_file": {
-        "function": "tf"
+        "function": "f"
     },
     "draw_graph": {
-        "function": "tf"
+        "function": "f"
     },
     "draw_graph_program": {
-        "variable": "tf"
+        "variable": "f"
     },
     "drawdf": {
         "function": "?"
     },
     "dscalar": {
-        "function": "tf"
+        "function": "f"
     },
     "e": {
         "variable": "s"
@@ -1888,7 +1929,7 @@
         "function": "s"
     },
     "einstein": {
-        "function": "tf"
+        "function": "f"
     },
     "eivals": {
         "function": "s"
@@ -1897,28 +1938,28 @@
         "function": "s"
     },
     "elapsed_real_time": {
-        "function": "tf"
+        "function": "f"
     },
     "elapsed_run_time": {
-        "function": "tf"
+        "function": "f"
     },
     "ele2comp": {
-        "function": "tf"
+        "function": "f"
     },
     "ele2polynome": {
-        "function": "tf"
+        "function": "f"
     },
     "ele2pui": {
-        "function": "tf"
+        "function": "f"
     },
     "elem": {
-        "function": "tf"
+        "function": "f"
     },
     "elementp": {
         "function": "s"
     },
     "elevation": {
-        "variable": "tf"
+        "variable": "f"
     },
     "elim": {
         "function": "?"
@@ -1933,7 +1974,7 @@
         "function": "?"
     },
     "ellipse": {
-        "function": "tf"
+        "function": "f"
     },
     "elliptic_e": {
         "function": "s"
@@ -1978,16 +2019,16 @@
         "variable": "?"
     },
     "enhanced3d": {
-        "variable": "tf"
+        "variable": "f"
     },
     "entermatrix": {
-        "function": "tf"
+        "function": "f"
     },
     "entertensor": {
-        "function": "tf"
+        "function": "f"
     },
     "entier": {
-        "function": "tf"
+        "function": "f"
     },
     "epsilon": {
         "variable": "s"
@@ -2023,20 +2064,27 @@
         "function": "?"
     },
     "errcatch": {
-        "function": "f"
+        "function": "f",
+        "globalyforbiddenfunction": true
     },
     "error": {
         "function": "f",
+        "globalyforbiddenfunction": true,
+        "globalyforbiddenvariable": true,
         "variable": "f"
     },
     "error_size": {
+        "globalyforbiddenvariable": true,
         "variable": "f"
     },
     "error_syms": {
+        "globalyforbiddenvariable": true,
         "variable": "f"
     },
     "errormsg": {
         "function": "f",
+        "globalyforbiddenfunction": true,
+        "globalyforbiddenvariable": true,
         "variable": "f"
     },
     "eta": {
@@ -2049,14 +2097,15 @@
         "function": "s"
     },
     "ev_point": {
-        "variable": "tf"
+        "variable": "f"
     },
     "eval": {
         "evflag": "s",
         "variable": "s"
     },
     "eval_string": {
-        "function": "f"
+        "function": "f",
+        "globalyforbiddenfunction": true
     },
     "even": {
         "property": "?"
@@ -2071,22 +2120,23 @@
         "function": "s"
     },
     "evflag": {
-        "property": "tf"
+        "property": "f"
     },
     "evfun": {
-        "property": "tf"
+        "property": "f"
     },
     "evolution": {
-        "function": "tf"
+        "function": "f"
     },
     "evolution2d": {
-        "function": "tf"
+        "function": "f"
     },
     "evundiff": {
-        "function": "tf"
+        "function": "f"
     },
     "example": {
-        "function": "f"
+        "function": "f",
+        "globalyforbiddenfunction": true
     },
     "exp": {
         "function": "s"
@@ -2140,13 +2190,13 @@
         "variable": "?"
     },
     "explicit": {
-        "function": "tf"
+        "function": "f"
     },
     "explose": {
-        "function": "tf"
+        "function": "f"
     },
     "expon": {
-        "variable": "tf"
+        "variable": "f"
     },
     "exponentialize": {
         "evflag": "?",
@@ -2154,13 +2204,13 @@
         "variable": "?"
     },
     "expop": {
-        "variable": "tf"
+        "variable": "f"
     },
     "express": {
         "function": "s"
     },
     "expt": {
-        "function": "tf"
+        "function": "f"
     },
     "exptdispflag": {
         "variable": "?"
@@ -2173,13 +2223,13 @@
         "variable": "?"
     },
     "exsec": {
-        "function": "tf"
+        "function": "f"
     },
     "extdiff": {
-        "function": "tf"
+        "function": "f"
     },
     "extract_linear_equations": {
-        "function": "tf"
+        "function": "f"
     },
     "extremal_subset": {
         "function": "s"
@@ -2188,7 +2238,7 @@
         "function": "s"
     },
     "f90": {
-        "function": "tf"
+        "function": "f"
     },
     "f90_output_line_length_max": {
         "variable": "?"
@@ -2244,31 +2294,33 @@
         "function": "s"
     },
     "facts": {
-        "function": "tf"
+        "function": "f"
     },
     "false": {
         "constant": "s"
     },
     "fast_central_elements": {
-        "function": "tf"
+        "function": "f"
     },
     "fast_linsolve": {
-        "function": "tf"
+        "function": "f"
     },
     "fasttimes": {
         "function": "s"
     },
     "fb": {
-        "variable": "tf"
+        "variable": "f"
     },
     "feature": {
         "property": "?"
     },
     "featurep": {
-        "function": "f"
+        "function": "f",
+        "globalyforbiddenfunction": true
     },
     "features": {
         "function": "f",
+        "globalyforbiddenfunction": true,
         "property": "?"
     },
     "fernfale": {
@@ -2287,53 +2339,66 @@
         "function": "s"
     },
     "file_name": {
+        "globalyforbiddenvariable": true,
         "variable": "f"
     },
     "file_output_append": {
+        "globalyforbiddenvariable": true,
         "variable": "f"
     },
     "file_search": {
         "function": "f",
+        "globalyforbiddenfunction": true,
+        "globalyforbiddenvariable": true,
         "variable": "f"
     },
     "file_search_demo": {
+        "globalyforbiddenvariable": true,
         "variable": "f"
     },
     "file_search_lisp": {
+        "globalyforbiddenvariable": true,
         "variable": "f"
     },
     "file_search_maxima": {
+        "globalyforbiddenvariable": true,
         "variable": "f"
     },
     "file_search_tests": {
+        "globalyforbiddenvariable": true,
         "variable": "f"
     },
     "file_search_usage": {
+        "globalyforbiddenvariable": true,
         "variable": "f"
     },
     "file_type": {
-        "function": "f"
+        "function": "f",
+        "globalyforbiddenfunction": true
     },
     "file_type_lisp": {
+        "globalyforbiddenvariable": true,
         "variable": "f"
     },
     "file_type_maxima": {
+        "globalyforbiddenvariable": true,
         "variable": "f"
     },
     "filename_merge": {
-        "function": "f"
+        "function": "f",
+        "globalyforbiddenfunction": true
     },
     "fill_color": {
-        "variable": "tf"
+        "variable": "f"
     },
     "fill_density": {
-        "variable": "tf"
+        "variable": "f"
     },
     "fillarray": {
-        "function": "tf"
+        "function": "f"
     },
     "filled_func": {
-        "variable": "tf"
+        "variable": "f"
     },
     "find_root": {
         "function": "s"
@@ -2348,7 +2413,7 @@
         "variable": "s"
     },
     "findde": {
-        "function": "tf"
+        "function": "f"
     },
     "first": {
         "function": "s"
@@ -2357,16 +2422,17 @@
         "function": "?"
     },
     "fix": {
-        "function": "tf"
+        "function": "f"
     },
     "flatten": {
         "function": "s"
     },
     "flength": {
-        "function": "f"
+        "function": "f",
+        "globalyforbiddenfunction": true
     },
     "flipflag": {
-        "variable": "tf"
+        "variable": "f"
     },
     "float": {
         "evflag": "?",
@@ -2386,42 +2452,45 @@
         "function": "?"
     },
     "flush": {
-        "function": "tf"
+        "function": "f"
     },
     "flush1deriv": {
-        "function": "tf"
+        "function": "f"
     },
     "flush_output": {
         "function": "?"
     },
     "flushd": {
-        "function": "tf"
+        "function": "f"
     },
     "flushnd": {
-        "function": "tf"
+        "function": "f"
     },
     "fmin_cobyla": {
         "function": "?"
     },
     "font": {
-        "variable": "tf"
+        "variable": "f"
     },
     "font_size": {
-        "variable": "tf"
+        "variable": "f"
     },
     "for": {
         "keyword": "?"
     },
     "forget": {
-        "function": "tf"
+        "function": "f"
     },
     "fortindent": {
+        "globalyforbiddenvariable": true,
         "variable": "f"
     },
     "fortran": {
-        "function": "f"
+        "function": "f",
+        "globalyforbiddenfunction": true
     },
     "fortspaces": {
+        "globalyforbiddenvariable": true,
         "variable": "f"
     },
     "fourcos": {
@@ -2455,7 +2524,8 @@
         "function": "s"
     },
     "fposition": {
-        "function": "f"
+        "function": "f",
+        "globalyforbiddenfunction": true
     },
     "fpprec": {
         "variable": "?"
@@ -2464,13 +2534,14 @@
         "variable": "?"
     },
     "frame_bracket": {
-        "function": "tf"
+        "function": "f"
     },
     "freeof": {
         "function": "s"
     },
     "freshline": {
-        "function": "f"
+        "function": "f",
+        "globalyforbiddenfunction": true
     },
     "fresnel_c": {
         "function": "?"
@@ -2512,19 +2583,22 @@
         "function": "s"
     },
     "functions": {
+        "globalyforbiddenvariable": true,
         "variable": "f"
     },
     "fundamental_dimensions": {
-        "variable": "tf"
+        "variable": "f"
     },
     "fundamental_units": {
-        "function": "tf"
+        "function": "f"
     },
     "fundef": {
-        "function": "f"
+        "function": "f",
+        "globalyforbiddenfunction": true
     },
     "funmake": {
         "function": "f",
+        "globalyforbiddenfunction": true,
         "mapfunction": true
     },
     "funp": {
@@ -2568,7 +2642,7 @@
         "function": "s"
     },
     "gaussprob": {
-        "function": "tf"
+        "function": "f"
     },
     "gcd": {
         "function": "s"
@@ -2577,22 +2651,22 @@
         "function": "s"
     },
     "gcdivide": {
-        "function": "tf"
+        "function": "f"
     },
     "gcfac": {
-        "function": "tf"
+        "function": "f"
     },
     "gcfactor": {
         "function": "s"
     },
     "gd": {
-        "function": "tf"
+        "function": "f"
     },
     "gdet": {
-        "variable": "tf"
+        "variable": "f"
     },
     "gen_laguerre": {
-        "function": "tf"
+        "function": "f"
     },
     "generalized_lambert_w": {
         "function": "?"
@@ -2607,7 +2681,7 @@
         "function": "s"
     },
     "gensumnum": {
-        "variable": "tf"
+        "variable": "f"
     },
     "gensym": {
         "function": "?"
@@ -2622,10 +2696,10 @@
         "function": "?"
     },
     "geomap": {
-        "function": "tf"
+        "function": "f"
     },
     "geometric": {
-        "function": "tf"
+        "function": "f"
     },
     "geometric_mean": {
         "function": "?"
@@ -2634,10 +2708,10 @@
         "variable": "?"
     },
     "geosum": {
-        "function": "tf"
+        "function": "f"
     },
     "get": {
-        "function": "tf"
+        "function": "f"
     },
     "get_edge_weight": {
         "function": "?"
@@ -2649,16 +2723,16 @@
         "function": "?"
     },
     "get_pixel": {
-        "function": "tf"
+        "function": "f"
     },
     "get_plot_option": {
-        "function": "tf"
+        "function": "f"
     },
     "get_tex_environment": {
-        "function": "tf"
+        "function": "f"
     },
     "get_tex_environment_default": {
-        "function": "tf"
+        "function": "f"
     },
     "get_vertex_label": {
         "function": "?"
@@ -2676,7 +2750,7 @@
         "function": "s"
     },
     "ggf": {
-        "function": "tf"
+        "function": "f"
     },
     "girth": {
         "function": "?"
@@ -2685,60 +2759,66 @@
         "function": "?"
     },
     "globalsolve": {
-        "variable": "tf"
+        "variable": "f"
     },
     "gnuplot_close": {
-        "function": "tf"
+        "function": "f"
     },
     "gnuplot_cmd": {
-        "variable": "f"
+        "variable": "f",
+        "globalyforbiddenvariable": true
     },
     "gnuplot_command": {
         "variable": "?"
     },
     "gnuplot_curve_styles": {
-        "variable": "tf"
+        "variable": "f"
     },
     "gnuplot_curve_titles": {
-        "variable": "tf"
+        "variable": "f"
     },
     "gnuplot_default_term_command": {
-        "variable": "tf"
+        "variable": "f"
     },
     "gnuplot_dumb_term_command": {
-        "variable": "tf"
+        "variable": "f"
     },
     "gnuplot_file_args": {
         "variable": "?"
     },
     "gnuplot_file_name": {
+        "globalyforbiddenvariable": true,
         "variable": "f"
     },
     "gnuplot_out_file": {
+        "globalyforbiddenvariable": true,
         "variable": "f"
     },
     "gnuplot_pm3d": {
-        "variable": "tf"
+        "variable": "f"
     },
     "gnuplot_preamble": {
+        "globalyforbiddenvariable": true,
         "variable": "f"
     },
     "gnuplot_ps_term_command": {
+        "globalyforbiddenvariable": true,
         "variable": "f"
     },
     "gnuplot_replot": {
-        "function": "tf"
+        "function": "f"
     },
     "gnuplot_reset": {
-        "function": "tf"
+        "function": "f"
     },
     "gnuplot_restart": {
-        "function": "tf"
+        "function": "f"
     },
     "gnuplot_start": {
-        "function": "tf"
+        "function": "f"
     },
     "gnuplot_term": {
+        "globalyforbiddenvariable": true,
         "variable": "f"
     },
     "gnuplot_view_args": {
@@ -2748,31 +2828,31 @@
         "function": "?"
     },
     "gr2d": {
-        "function": "tf"
+        "function": "f"
     },
     "gr3d": {
-        "function": "tf"
+        "function": "f"
     },
     "gradef": {
-        "function": "tf"
+        "function": "f"
     },
     "gradefs": {
-        "variable": "tf"
+        "variable": "f"
     },
     "gramschmidt": {
         "function": "s"
     },
     "graph6_decode": {
-        "function": "tf"
+        "function": "f"
     },
     "graph6_encode": {
-        "function": "tf"
+        "function": "f"
     },
     "graph6_export": {
-        "function": "tf"
+        "function": "f"
     },
     "graph6_import": {
-        "function": "tf"
+        "function": "f"
     },
     "graph_center": {
         "function": "?"
@@ -2811,7 +2891,7 @@
         "variable": "s"
     },
     "grid": {
-        "variable": "tf"
+        "variable": "f"
     },
     "grid2d": {
         "variable": "s"
@@ -2821,10 +2901,12 @@
     },
     "grind": {
         "function": "f",
+        "globalyforbiddenfunction": true,
+        "globalyforbiddenvariable": true,
         "variable": "f"
     },
     "grobner_basis": {
-        "function": "tf"
+        "function": "f"
     },
     "grotzch_graph": {
         "function": "?"
@@ -2849,31 +2931,31 @@
         "function": "?"
     },
     "harmonic": {
-        "function": "tf"
+        "function": "f"
     },
     "harmonic_mean": {
         "function": "?"
     },
     "hav": {
-        "function": "tf"
+        "function": "f"
     },
     "head_angle": {
-        "variable": "tf"
+        "variable": "f"
     },
     "head_both": {
-        "variable": "tf"
+        "variable": "f"
     },
     "head_length": {
-        "variable": "tf"
+        "variable": "f"
     },
     "head_type": {
-        "variable": "tf"
+        "variable": "f"
     },
     "heawood_graph": {
         "function": "?"
     },
     "hermite": {
-        "function": "tf"
+        "function": "f"
     },
     "hessian": {
         "function": "s"
@@ -2891,13 +2973,13 @@
         "function": "s"
     },
     "histogram": {
-        "function": "tf"
+        "function": "f"
     },
     "histogram_description": {
         "function": "?"
     },
     "hodge": {
-        "function": "tf"
+        "function": "f"
     },
     "horner": {
         "function": "s"
@@ -2924,19 +3006,19 @@
         "function": "?"
     },
     "ic_convert": {
-        "function": "tf"
+        "function": "f"
     },
     "icc1": {
-        "variable": "tf"
+        "variable": "f"
     },
     "icc2": {
-        "variable": "tf"
+        "variable": "f"
     },
     "ichr1": {
-        "function": "tf"
+        "function": "f"
     },
     "ichr2": {
-        "function": "tf"
+        "function": "f"
     },
     "icosahedron_graph": {
         "function": "?"
@@ -2945,10 +3027,10 @@
         "function": "?"
     },
     "icounter": {
-        "variable": "tf"
+        "variable": "f"
     },
     "icurvature": {
-        "function": "tf"
+        "function": "f"
     },
     "ident": {
         "function": "s"
@@ -2960,22 +3042,22 @@
         "function": "s"
     },
     "idiff": {
-        "function": "tf"
+        "function": "f"
     },
     "idim": {
-        "function": "tf"
+        "function": "f"
     },
     "idummy": {
-        "function": "tf"
+        "function": "f"
     },
     "idummyx": {
-        "variable": "tf"
+        "variable": "f"
     },
     "ieqn": {
-        "function": "tf"
+        "function": "f"
     },
     "ieqnprint": {
-        "variable": "tf"
+        "variable": "f"
     },
     "if": {
         "keyword": "?"
@@ -2984,55 +3066,55 @@
         "function": "s"
     },
     "ifb": {
-        "variable": "tf"
+        "variable": "f"
     },
     "ifc1": {
-        "variable": "tf"
+        "variable": "f"
     },
     "ifc2": {
-        "variable": "tf"
+        "variable": "f"
     },
     "ifg": {
-        "variable": "tf"
+        "variable": "f"
     },
     "ifgi": {
-        "variable": "tf"
+        "variable": "f"
     },
     "ifr": {
-        "variable": "tf"
+        "variable": "f"
     },
     "iframe_bracket_form": {
-        "variable": "tf"
+        "variable": "f"
     },
     "iframes": {
-        "function": "tf"
+        "function": "f"
     },
     "ifri": {
-        "variable": "tf"
+        "variable": "f"
     },
     "ifs": {
-        "function": "tf"
+        "function": "f"
     },
     "igcdex": {
         "function": "?"
     },
     "igeodesic_coords": {
-        "function": "tf"
+        "function": "f"
     },
     "igeowedge_flag": {
-        "variable": "tf"
+        "variable": "f"
     },
     "ikt1": {
-        "variable": "tf"
+        "variable": "f"
     },
     "ikt2": {
-        "variable": "tf"
+        "variable": "f"
     },
     "ilt": {
         "function": "?"
     },
     "image": {
-        "function": "tf"
+        "function": "f"
     },
     "imaginary": {
         "property": "?"
@@ -3041,17 +3123,17 @@
         "function": "s"
     },
     "imetric": {
-        "function": "tf",
-        "variable": "tf"
+        "function": "f",
+        "variable": "f"
     },
     "implicit": {
-        "function": "tf"
+        "function": "f"
     },
     "implicit_derivative": {
-        "function": "tf"
+        "function": "f"
     },
     "implicit_plot": {
-        "function": "tf"
+        "function": "f"
     },
     "in": {
         "keyword": "?"
@@ -3060,6 +3142,7 @@
         "function": "?"
     },
     "inchar": {
+        "globalyforbiddenvariable": true,
         "variable": "f"
     },
     "increasing": {
@@ -3069,10 +3152,10 @@
         "constant": "s"
     },
     "indexed_tensor": {
-        "function": "tf"
+        "function": "f"
     },
     "indices": {
-        "function": "tf"
+        "function": "f"
     },
     "induced_subgraph": {
         "function": "?"
@@ -3088,13 +3171,14 @@
     },
     "infeval": {
         "evflag": "f",
+        "globalyforbiddenvariable": true,
         "variable": "f"
     },
     "infinity": {
         "constant": "s"
     },
     "infix": {
-        "function": "tf"
+        "function": "f"
     },
     "inflag": {
         "variable": "?"
@@ -3103,22 +3187,23 @@
         "function": "?"
     },
     "infolists": {
+        "globalyforbiddenvariable": true,
         "variable": "f"
     },
     "init_atensor": {
-        "function": "tf"
+        "function": "f"
     },
     "init_ctensor": {
-        "function": "tf"
+        "function": "f"
     },
     "inm": {
-        "variable": "tf"
+        "variable": "f"
     },
     "inmc1": {
-        "variable": "tf"
+        "variable": "f"
     },
     "inmc2": {
-        "variable": "tf"
+        "variable": "f"
     },
     "innerproduct": {
         "function": "s"
@@ -3127,7 +3212,7 @@
         "function": "?"
     },
     "inprod": {
-        "function": "tf"
+        "function": "f"
     },
     "inrt": {
         "function": "s"
@@ -3169,13 +3254,13 @@
         "function": "s"
     },
     "intervalp": {
-        "function": "tf"
+        "function": "f"
     },
     "intfaclim": {
         "variable": "?"
     },
     "intopois": {
-        "function": "tf"
+        "function": "f"
     },
     "intosum": {
         "function": "s"
@@ -3184,10 +3269,10 @@
         "function": "s"
     },
     "invariant1": {
-        "function": "tf"
+        "function": "f"
     },
     "invariant2": {
-        "function": "tf"
+        "function": "f"
     },
     "inverse_fft": {
         "function": "?"
@@ -3238,16 +3323,16 @@
         "function": "?"
     },
     "invert_by_lu": {
-        "function": "tf"
+        "function": "f"
     },
     "iota": {
         "variable": "s"
     },
     "ip_grid": {
-        "variable": "tf"
+        "variable": "f"
     },
     "ip_grid_in": {
-        "variable": "tf"
+        "variable": "f"
     },
     "irr": {
         "function": "?"
@@ -3295,14 +3380,14 @@
         "function": "?"
     },
     "ishow": {
-        "function": "tf"
+        "function": "f"
     },
     "isolate": {
-        "function": "tf"
+        "function": "f"
     },
     "isolate_wrt_times": {
-        "evflag": "tf",
-        "variable": "tf"
+        "evflag": "f",
+        "variable": "f"
     },
     "isomorphism": {
         "function": "?"
@@ -3317,7 +3402,7 @@
         "function": "?"
     },
     "itr": {
-        "variable": "tf"
+        "variable": "f"
     },
     "jacobi": {
         "function": "s"
@@ -3350,7 +3435,7 @@
         "function": "s"
     },
     "jacobi_p": {
-        "function": "tf"
+        "function": "f"
     },
     "jacobi_sc": {
         "function": "s"
@@ -3368,10 +3453,10 @@
         "function": "s"
     },
     "jordan": {
-        "function": "tf"
+        "function": "f"
     },
     "julia": {
-        "function": "tf"
+        "function": "f"
     },
     "julia_parameter": {
         "variable": "?"
@@ -3386,32 +3471,34 @@
         "variable": "s"
     },
     "kdels": {
-        "function": "tf"
+        "function": "f"
     },
     "kdelta": {
-        "function": "tf"
+        "function": "f"
     },
     "keepfloat": {
         "evflag": "?",
         "variable": "?"
     },
     "key": {
-        "variable": "tf"
+        "variable": "f"
     },
     "kill": {
-        "function": "f"
+        "function": "f",
+        "globalyforbiddenfunction": true
     },
     "killcontext": {
-        "function": "f"
+        "function": "f",
+        "globalyforbiddenfunction": true
     },
     "kinvariant": {
-        "variable": "tf"
+        "variable": "f"
     },
     "km": {
         "function": "?"
     },
     "kostka": {
-        "function": "tf"
+        "function": "f"
     },
     "kron_delta": {
         "function": "s"
@@ -3420,7 +3507,7 @@
         "function": "s"
     },
     "kt": {
-        "variable": "tf"
+        "variable": "f"
     },
     "kummer_m": {
         "function": "s"
@@ -3510,20 +3597,21 @@
         "function": "s"
     },
     "label_alignment": {
-        "variable": "tf"
+        "variable": "f"
     },
     "label_orientation": {
-        "variable": "tf"
+        "variable": "f"
     },
     "labels": {
         "function": "f",
+        "globalyforbiddenfunction": true,
         "variable": "?"
     },
     "lagrange": {
         "function": "s"
     },
     "laguerre": {
-        "function": "tf"
+        "function": "f"
     },
     "lambda": {
         "function": "s",
@@ -3539,7 +3627,7 @@
         "function": "?"
     },
     "lassociative": {
-        "property": "tf"
+        "property": "f"
     },
     "last": {
         "function": "s"
@@ -3548,25 +3636,25 @@
         "function": "?"
     },
     "lbfgs": {
-        "function": "tf"
+        "function": "f"
     },
     "lbfgs_ncorrections": {
-        "variable": "tf"
+        "variable": "f"
     },
     "lbfgs_nfeval_max": {
-        "variable": "tf"
+        "variable": "f"
     },
     "lc2kdt": {
-        "function": "tf"
+        "function": "f"
     },
     "lc_l": {
-        "function": "tf"
+        "function": "f"
     },
     "lc_u": {
-        "function": "tf"
+        "function": "f"
     },
     "lcharp": {
-        "function": "tf"
+        "function": "f"
     },
     "lcm": {
         "function": "s"
@@ -3575,59 +3663,63 @@
         "function": "s"
     },
     "ldisp": {
-        "function": "f"
+        "function": "f",
+        "globalyforbiddenfunction": true
     },
     "ldisplay": {
-        "function": "f"
+        "function": "f",
+        "globalyforbiddenfunction": true
     },
     "leftjust": {
+        "globalyforbiddenvariable": true,
         "variable": "f"
     },
     "legend": {
         "variable": "s"
     },
     "legendre_p": {
-        "function": "tf"
+        "function": "f"
     },
     "legendre_q": {
-        "function": "tf"
+        "function": "f"
     },
     "leinstein": {
-        "function": "tf"
+        "function": "f"
     },
     "length": {
         "function": "s"
     },
     "let": {
-        "function": "tf"
+        "function": "f"
     },
     "let_rule_packages": {
-        "variable": "tf"
+        "variable": "f"
     },
     "letrat": {
-        "evflag": "tf",
-        "variable": "tf"
+        "evflag": "f",
+        "variable": "f"
     },
     "letrules": {
-        "function": "tf"
+        "function": "f"
     },
     "letsimp": {
-        "function": "tf"
+        "function": "f"
     },
     "levi_civita": {
-        "function": "tf"
+        "function": "f"
     },
     "lfg": {
-        "variable": "tf"
+        "variable": "f"
     },
     "lfreeof": {
         "function": "?"
     },
     "lg": {
-        "variable": "tf"
+        "function": "s",
+        "variable": "f"
     },
     "lgtreillis": {
-        "function": "tf"
+        "function": "f"
     },
     "lhospitallim": {
         "variable": "?"
@@ -3636,10 +3728,10 @@
         "function": "s"
     },
     "li": {
-        "function": "tf"
+        "function": "f"
     },
     "liediff": {
-        "function": "tf"
+        "function": "f"
     },
     "limit": {
         "function": "s"
@@ -3651,14 +3743,14 @@
         "function": "?"
     },
     "line_type": {
-        "variable": "tf"
+        "variable": "f"
     },
     "line_width": {
-        "variable": "tf"
+        "variable": "f"
     },
     "linear": {
-        "function": "tf",
-        "property": "tf"
+        "function": "f",
+        "property": "f"
     },
     "linear_program": {
         "function": "?"
@@ -3667,18 +3759,21 @@
         "function": "?"
     },
     "linear_solver": {
-        "variable": "tf"
+        "variable": "f"
     },
     "linearinterpol": {
         "function": "s"
     },
     "linechar": {
+        "globalyforbiddenvariable": true,
         "variable": "f"
     },
     "linel": {
+        "globalyforbiddenvariable": true,
         "variable": "f"
     },
     "linenum": {
+        "globalyforbiddenvariable": true,
         "variable": "f"
     },
     "linsolve": {
@@ -3688,14 +3783,17 @@
         "variable": "s"
     },
     "linsolvewarn": {
+        "globalyforbiddenvariable": true,
         "variable": "f"
     },
     "lisp": {
         "function": "f",
-        "variable": "f"
+        "globalyforbiddenfunction": true,
+        "variable": "f",
+        "globalyforbiddenvariable": true
     },
     "lispdisp": {
-        "variable": "tf"
+        "variable": "f"
     },
     "list_correlations": {
         "function": "?"
@@ -3704,14 +3802,14 @@
         "function": "?"
     },
     "list_nc_monomials": {
-        "function": "tf"
+        "function": "f"
     },
     "listarith": {
         "evflag": "?",
         "variable": "?"
     },
     "listarray": {
-        "function": "tf"
+        "function": "f"
     },
     "listconstvars": {
         "variable": "?"
@@ -3723,7 +3821,7 @@
         "function": "s"
     },
     "listoftens": {
-        "function": "tf"
+        "function": "f"
     },
     "listofvars": {
         "function": "?"
@@ -3741,15 +3839,19 @@
         "variable": "?"
     },
     "load": {
-        "function": "f"
+        "function": "f",
+        "globalyforbiddenfunction": true
     },
     "load_pathname": {
+        "globalyforbiddenvariable": true,
         "variable": "f"
     },
     "loadfile": {
-        "function": "f"
+        "function": "f",
+        "globalyforbiddenfunction": true
     },
     "loadprint": {
+        "globalyforbiddenvariable": true,
         "variable": "f"
     },
     "local": {
@@ -3772,7 +3874,7 @@
         "variable": "s"
     },
     "logand": {
-        "function": "tf"
+        "function": "f"
     },
     "logarc": {
         "evflag": "s",
@@ -3783,7 +3885,7 @@
         "function": "s"
     },
     "logcb": {
-        "variable": "tf"
+        "variable": "f"
     },
     "logconcoeffp": {
         "variable": "?"
@@ -3804,7 +3906,7 @@
         "variable": "s"
     },
     "logor": {
-        "function": "tf"
+        "function": "f"
     },
     "logsimp": {
         "variable": "s"
@@ -3813,25 +3915,25 @@
         "variable": "s"
     },
     "logxor": {
-        "function": "tf"
+        "function": "f"
     },
     "logy": {
         "variable": "s"
     },
     "logz": {
-        "variable": "tf"
+        "variable": "f"
     },
     "lopow": {
         "function": "s"
     },
     "lorentz_gauge": {
-        "function": "tf"
+        "function": "f"
     },
     "lowercasep": {
         "function": "s"
     },
     "lpart": {
-        "function": "tf"
+        "function": "f"
     },
     "lratsubst": {
         "function": "s"
@@ -3840,34 +3942,34 @@
         "function": "s"
     },
     "lriem": {
-        "variable": "tf"
+        "variable": "f"
     },
     "lriemann": {
-        "function": "tf"
+        "function": "f"
     },
     "lsquares_estimates": {
-        "function": "tf"
+        "function": "f"
     },
     "lsquares_estimates_approximate": {
-        "function": "tf"
+        "function": "f"
     },
     "lsquares_estimates_exact": {
-        "function": "tf"
+        "function": "f"
     },
     "lsquares_mse": {
-        "function": "tf"
+        "function": "f"
     },
     "lsquares_residual_mse": {
-        "function": "tf"
+        "function": "f"
     },
     "lsquares_residuals": {
-        "function": "tf"
+        "function": "f"
     },
     "lsum": {
         "function": "s"
     },
     "ltreillis": {
-        "function": "tf"
+        "function": "f"
     },
     "lu_backsub": {
         "function": "s"
@@ -3879,53 +3981,57 @@
         "function": "?"
     },
     "m1pbranch": {
-        "evflag": "tf",
-        "variable": "tf"
+        "evflag": "f",
+        "variable": "f"
     },
     "macroexpand": {
-        "function": "f"
+        "function": "f",
+        "globalyforbiddenfunction": true
     },
     "macroexpand1": {
-        "function": "f"
+        "function": "f",
+        "globalyforbiddenfunction": true
     },
     "macroexpansion": {
+        "globalyforbiddenvariable": true,
         "variable": "f"
     },
     "macros": {
+        "globalyforbiddenvariable": true,
         "variable": "f"
     },
     "magenta": {
         "variable": "s"
     },
     "mainvar": {
-        "property": "tf"
+        "property": "f"
     },
     "makeOrders": {
         "function": "?"
     },
     "make_array": {
-        "function": "tf"
+        "function": "f"
     },
     "make_graph": {
         "function": "?"
     },
     "make_level_picture": {
-        "function": "tf"
+        "function": "f"
     },
     "make_poly_continent": {
-        "function": "tf"
+        "function": "f"
     },
     "make_poly_country": {
-        "function": "tf"
+        "function": "f"
     },
     "make_polygon": {
-        "function": "tf"
+        "function": "f"
     },
     "make_random_state": {
-        "function": "tf"
+        "function": "f"
     },
     "make_rgb_picture": {
-        "function": "tf"
+        "function": "f"
     },
     "make_string_input_stream": {
         "function": "?"
@@ -3937,7 +4043,7 @@
         "function": "s"
     },
     "makebox": {
-        "function": "tf"
+        "function": "f"
     },
     "makefact": {
         "function": "s"
@@ -3952,12 +4058,13 @@
         "function": "s"
     },
     "mandelbrot": {
-        "function": "tf"
+        "function": "f"
     },
     "mandelbrot_set": {
         "function": "?"
     },
     "manual_demo": {
+        "globalyforbiddenvariable": true,
         "variable": "f"
     },
     "map": {
@@ -3968,7 +4075,7 @@
         "function": "s"
     },
     "maperror": {
-        "variable": "tf"
+        "variable": "f"
     },
     "maplist": {
         "function": "s",
@@ -3984,7 +4091,7 @@
         "function": "s"
     },
     "mat_function": {
-        "function": "tf"
+        "function": "f"
     },
     "mat_norm": {
         "function": "s"
@@ -4051,43 +4158,45 @@
         "function": "?"
     },
     "maxapplydepth": {
-        "variable": "tf"
+        "variable": "f"
     },
     "maxapplyheight": {
-        "variable": "tf"
+        "variable": "f"
     },
     "maxima_tempdir": {
+        "globalyforbiddenvariable": true,
         "variable": "f"
     },
     "maxima_userdir": {
+        "globalyforbiddenvariable": true,
         "variable": "f"
     },
     "maximize_lp": {
         "function": "?"
     },
     "maxnegex": {
-        "variable": "tf"
+        "variable": "f"
     },
     "maxposex": {
-        "variable": "tf"
+        "variable": "f"
     },
     "maxpsifracdenom": {
-        "variable": "tf"
+        "variable": "f"
     },
     "maxpsifracnum": {
-        "variable": "tf"
+        "variable": "f"
     },
     "maxpsinegint": {
-        "variable": "tf"
+        "variable": "f"
     },
     "maxpsiposint": {
-        "variable": "tf"
+        "variable": "f"
     },
     "maxtayorder": {
-        "variable": "tf"
+        "variable": "f"
     },
     "maybe": {
-        "function": "tf"
+        "function": "f"
     },
     "md5sum": {
         "function": "?"
@@ -4183,16 +4292,16 @@
         "function": "s"
     },
     "mesh": {
-        "function": "tf"
+        "function": "f"
     },
     "mesh_lines_color": {
-        "variable": "tf"
+        "variable": "f"
     },
     "method": {
         "variable": "?"
     },
     "metricexpandall": {
-        "function": "tf"
+        "function": "f"
     },
     "mgf1_sha1": {
         "function": "?"
@@ -4219,7 +4328,7 @@
         "function": "s"
     },
     "minimalPoly": {
-        "function": "tf"
+        "function": "f"
     },
     "minimize_lp": {
         "function": "?"
@@ -4228,7 +4337,7 @@
         "function": "?"
     },
     "minor": {
-        "function": "tf"
+        "function": "f"
     },
     "minpack_lsquares": {
         "function": "?"
@@ -4240,37 +4349,37 @@
         "function": "?"
     },
     "mnewton": {
-        "function": "tf"
+        "function": "f"
     },
     "mod": {
         "function": "s"
     },
     "mod_big_prime": {
-        "variable": "tf"
+        "variable": "f"
     },
     "mod_test": {
-        "variable": "tf"
+        "variable": "f"
     },
     "mod_threshold": {
-        "variable": "tf"
+        "variable": "f"
     },
     "mode_check_errorp": {
-        "variable": "tf"
+        "variable": "f"
     },
     "mode_check_warnp": {
-        "variable": "tf"
+        "variable": "f"
     },
     "mode_checkp": {
-        "variable": "tf"
+        "variable": "f"
     },
     "mode_declare": {
-        "function": "tf"
+        "function": "f"
     },
     "mode_identity": {
-        "function": "tf"
+        "function": "f"
     },
     "modular_linear_solver": {
-        "variable": "tf"
+        "variable": "f"
     },
     "modulus": {
         "variable": "?"
@@ -4279,13 +4388,13 @@
         "function": "s"
     },
     "mon2schur": {
-        "function": "tf"
+        "function": "f"
     },
     "mono": {
-        "function": "tf"
+        "function": "f"
     },
     "monomial_dimensions": {
-        "function": "tf"
+        "function": "f"
     },
     "mu": {
         "variable": "s"
@@ -4294,19 +4403,19 @@
         "function": "?"
     },
     "multi_elem": {
-        "function": "tf"
+        "function": "f"
     },
     "multi_orbit": {
-        "function": "tf"
+        "function": "f"
     },
     "multi_pui": {
-        "function": "tf"
+        "function": "f"
     },
     "multibernstein_poly": {
         "function": "?"
     },
     "multinomial": {
-        "function": "tf"
+        "function": "f"
     },
     "multinomial_coeff": {
         "function": "s"
@@ -4318,10 +4427,11 @@
         "variable": "?"
     },
     "multiplot_mode": {
-        "function": "f"
+        "function": "f",
+        "globalyforbiddenfunction": true
     },
     "multsym": {
-        "function": "tf"
+        "function": "f"
     },
     "multthru": {
         "function": "s"
@@ -4330,6 +4440,7 @@
         "function": "?"
     },
     "myoptions": {
+        "globalyforbiddenvariable": true,
         "variable": "f"
     },
     "nary": {
@@ -4337,10 +4448,10 @@
         "property": "?"
     },
     "natural_unit": {
-        "function": "tf"
+        "function": "f"
     },
     "nc_degree": {
-        "function": "tf"
+        "function": "f"
     },
     "ncexpt": {
         "function": "s"
@@ -4349,7 +4460,7 @@
         "function": "s"
     },
     "negative_picture": {
-        "function": "tf"
+        "function": "f"
     },
     "negdistrib": {
         "variable": "?"
@@ -4373,23 +4484,24 @@
         "function": "?"
     },
     "newcontext": {
-        "function": "tf"
+        "function": "f"
     },
     "newdet": {
         "function": "s"
     },
     "newline": {
         "function": "f",
+        "globalyforbiddenfunction": true,
         "variable": "?"
     },
     "newton": {
-        "function": "tf"
+        "function": "f"
     },
     "newtonepsilon": {
-        "variable": "tf"
+        "variable": "f"
     },
     "newtonmaxiter": {
-        "variable": "tf"
+        "variable": "f"
     },
     "next": {
         "keyword": "?"
@@ -4398,25 +4510,25 @@
         "function": "?"
     },
     "nextlayerfactor": {
-        "variable": "tf"
+        "variable": "f"
     },
     "nicedummies": {
         "function": "?"
     },
     "niceindices": {
-        "function": "tf"
+        "function": "f"
     },
     "niceindicespref": {
-        "variable": "tf"
+        "variable": "f"
     },
     "ninth": {
         "function": "s"
     },
     "nm": {
-        "variable": "tf"
+        "variable": "f"
     },
     "nmc": {
-        "variable": "tf"
+        "variable": "f"
     },
     "noeval": {
         "evflag": "s",
@@ -4426,6 +4538,7 @@
         "function": "?"
     },
     "nolabels": {
+        "globalyforbiddenvariable": true,
         "variable": "f"
     },
     "nonarray": {
@@ -4444,7 +4557,7 @@
         "property": "?"
     },
     "nonmetricity": {
-        "function": "tf"
+        "function": "f"
     },
     "nonnegintegerp": {
         "function": "s"
@@ -4456,7 +4569,7 @@
         "function": "?"
     },
     "nonzeroandfreeof": {
-        "function": "tf"
+        "function": "f"
     },
     "not": {
         "operator": "s"
@@ -4474,7 +4587,7 @@
         "function": "s"
     },
     "noundisp": {
-        "variable": "tf"
+        "variable": "f"
     },
     "nounify": {
         "function": "?"
@@ -4486,13 +4599,13 @@
         "operator": "s"
     },
     "np": {
-        "variable": "tf"
+        "variable": "f"
     },
     "npi": {
-        "variable": "tf"
+        "variable": "f"
     },
     "nptetrad": {
-        "function": "tf"
+        "function": "f"
     },
     "npv": {
         "function": "?"
@@ -4504,7 +4617,7 @@
         "function": "s"
     },
     "ntermst": {
-        "function": "tf"
+        "function": "f"
     },
     "nthroot": {
         "function": "s"
@@ -4540,7 +4653,7 @@
         "function": "?"
     },
     "numbered_boundaries": {
-        "function": "tf"
+        "function": "f"
     },
     "numberp": {
         "function": "s"
@@ -4595,13 +4708,13 @@
         "function": "s"
     },
     "ode2": {
-        "function": "tf"
+        "function": "f"
     },
     "ode_check": {
-        "function": "tf"
+        "function": "f"
     },
     "odelin": {
-        "function": "tf"
+        "function": "f"
     },
     "oid_to_octets": {
         "function": "?"
@@ -4616,22 +4729,28 @@
         "function": "s"
     },
     "opena": {
-        "function": "f"
+        "function": "f",
+        "globalyforbiddenfunction": true
     },
     "opena_binary": {
-        "function": "f"
+        "function": "f",
+        "globalyforbiddenfunction": true
     },
     "openr": {
-        "function": "f"
+        "function": "f",
+        "globalyforbiddenfunction": true
     },
     "openr_binary": {
-        "function": "f"
+        "function": "f",
+        "globalyforbiddenfunction": true
     },
     "openw": {
-        "function": "f"
+        "function": "f",
+        "globalyforbiddenfunction": true
     },
     "openw_binary": {
-        "function": "f"
+        "function": "f",
+        "globalyforbiddenfunction": true
     },
     "operatorp": {
         "function": "s"
@@ -4644,22 +4763,22 @@
         "variable": "?"
     },
     "optimize": {
-        "function": "tf"
+        "function": "f"
     },
     "optimprefix": {
-        "variable": "tf"
+        "variable": "f"
     },
     "optionset": {
-        "variable": "tf"
+        "variable": "f"
     },
     "or": {
         "operator": "s"
     },
     "orbit": {
-        "function": "tf"
+        "function": "f"
     },
     "orbits": {
-        "function": "tf"
+        "function": "f"
     },
     "ordergreat": {
         "function": "s"
@@ -4677,13 +4796,13 @@
         "function": "s"
     },
     "orthopoly_recur": {
-        "function": "tf"
+        "function": "f"
     },
     "orthopoly_returns_intervals": {
-        "variable": "tf"
+        "variable": "f"
     },
     "orthopoly_weight": {
-        "function": "tf"
+        "function": "f"
     },
     "out_neighbors": {
         "function": "?"
@@ -4692,6 +4811,7 @@
         "property": "?"
     },
     "outchar": {
+        "globalyforbiddenvariable": true,
         "variable": "f"
     },
     "outermap": {
@@ -4699,19 +4819,20 @@
         "mapfunction": true
     },
     "outofpois": {
-        "function": "tf"
+        "function": "f"
     },
     "packagefile": {
+        "globalyforbiddenvariable": true,
         "variable": "f"
     },
     "pade": {
         "function": "s"
     },
     "palette": {
-        "variable": "tf"
+        "variable": "f"
     },
     "parGosper": {
-        "function": "tf"
+        "function": "f"
     },
     "parabolic_cylinder_d": {
         "function": "s"
@@ -4720,13 +4841,14 @@
         "function": "s"
     },
     "parametric_surface": {
-        "function": "tf"
+        "function": "f"
     },
     "parg": {
         "function": "?"
     },
     "parse_string": {
-        "function": "f"
+        "function": "f",
+        "globalyforbiddenfunction": true
     },
     "parse_timedate": {
         "function": "?"
@@ -4747,7 +4869,7 @@
         "function": "s"
     },
     "partpol": {
-        "function": "tf"
+        "function": "f"
     },
     "partswitch": {
         "variable": "?"
@@ -4759,13 +4881,16 @@
         "function": "?"
     },
     "pathname_directory": {
-        "function": "f"
+        "function": "f",
+        "globalyforbiddenfunction": true
     },
     "pathname_name": {
-        "function": "f"
+        "function": "f",
+        "globalyforbiddenfunction": true
     },
     "pathname_type": {
-        "function": "f"
+        "function": "f",
+        "globalyforbiddenfunction": true
     },
     "pdf_bernoulli": {
         "function": "s"
@@ -4906,7 +5031,7 @@
         "function": "?"
     },
     "permut": {
-        "function": "tf"
+        "function": "f"
     },
     "permutation": {
         "function": "?"
@@ -4921,7 +5046,7 @@
         "function": "?"
     },
     "petrov": {
-        "function": "tf"
+        "function": "f"
     },
     "pfeformat": {
         "variable": "?"
@@ -4933,19 +5058,21 @@
         "constant": "s"
     },
     "pickapart": {
-        "function": "f"
+        "function": "f",
+        "globalyforbiddenfunction": true
     },
     "picture_equalp": {
-        "function": "tf"
+        "function": "f"
     },
     "picturep": {
-        "function": "tf"
+        "function": "f"
     },
     "piece": {
+        "globalyforbiddenvariable": true,
         "variable": "f"
     },
     "piechart": {
-        "function": "tf"
+        "function": "f"
     },
     "piechart_description": {
         "function": "?"
@@ -4960,7 +5087,8 @@
         "function": "?"
     },
     "playback": {
-        "function": "f"
+        "function": "f",
+        "globalyforbiddenfunction": true
     },
     "plog": {
         "function": "s"
@@ -4969,40 +5097,43 @@
         "function": "s"
     },
     "plot2d": {
-        "function": "tf"
-    },
-    "plot3d": {
-        "function": "tf"
-    },
-    "plot_format": {
-        "variable": "tf"
-    },
-    "plot_options": {
-        "variable": "tf"
-    },
-    "plot_realpart": {
-        "variable": "tf"
-    },
-    "plot_term": {
-        "variable": "f"
-    },
-    "plot_terminal": {
-        "variable": "f"
-    },
-    "plotdf": {
         "function": "f"
     },
+    "plot3d": {
+        "function": "f"
+    },
+    "plot_format": {
+        "variable": "f"
+    },
+    "plot_options": {
+        "variable": "f"
+    },
+    "plot_realpart": {
+        "variable": "f"
+    },
+    "plot_term": {
+        "variable": "f",
+        "globalyforbiddenvariable": true
+    },
+    "plot_terminal": {
+        "variable": "f",
+        "globalyforbiddenvariable": true
+    },
+    "plotdf": {
+        "function": "f",
+        "globalyforbiddenfunction": true
+    },
     "ploteq": {
-        "function": "tf"
+        "function": "f"
     },
     "plsquares": {
-        "function": "tf"
+        "function": "f"
     },
     "pochhammer": {
-        "function": "tf"
+        "function": "f"
     },
     "pochhammer_max_index": {
-        "variable": "tf"
+        "variable": "f"
     },
     "point_size": {
         "variable": "s"
@@ -5014,7 +5145,7 @@
         "function": "s"
     },
     "points_joined": {
-        "variable": "tf"
+        "variable": "f"
     },
     "poisdiff": {
         "function": "s"
@@ -5050,10 +5181,10 @@
         "function": "s"
     },
     "polar": {
-        "function": "tf"
+        "function": "f"
     },
     "polar_to_xy": {
-        "function": "tf"
+        "function": "f"
     },
     "polarform": {
         "evfun": "s",
@@ -5198,7 +5329,7 @@
         "variable": "?"
     },
     "polygon": {
-        "function": "tf"
+        "function": "f"
     },
     "polymod": {
         "function": "s"
@@ -5240,7 +5371,7 @@
         "function": "s"
     },
     "prederror": {
-        "variable": "tf"
+        "variable": "f"
     },
     "prefix": {
         "function": "?"
@@ -5252,7 +5383,7 @@
         "function": "s"
     },
     "primep_number_of_tests": {
-        "variable": "tf"
+        "variable": "f"
     },
     "primes": {
         "function": "?"
@@ -5261,61 +5392,68 @@
         "function": "?"
     },
     "print": {
-        "function": "f"
+        "function": "f",
+        "globalyforbiddenfunction": true
     },
     "print_graph": {
-        "function": "f"
+        "function": "f",
+        "globalyforbiddenfunction": true
     },
     "printf": {
-        "function": "f"
+        "function": "f",
+        "globalyforbiddenfunction": true
     },
     "printfile": {
-        "function": "f"
+        "function": "f",
+        "globalyforbiddenfunction": true
     },
     "printpois": {
         "function": "s"
     },
     "printprops": {
-        "function": "tf"
+        "function": "f"
     },
     "prodrac": {
-        "function": "tf"
+        "function": "f"
     },
     "product": {
-        "function": "tf"
+        "function": "f"
     },
     "product_use_gamma": {
-        "variable": "tf"
+        "variable": "f"
     },
     "programmode": {
-        "evflag": "tf",
-        "variable": "tf"
+        "evflag": "f",
+        "variable": "f"
     },
     "promote_float_to_bigfloat": {
         "variable": "?"
     },
     "prompt": {
+        "globalyforbiddenvariable": true,
         "variable": "f"
     },
     "properties": {
         "function": "?"
     },
     "proportional_axes": {
-        "variable": "tf"
+        "variable": "f"
     },
     "props": {
-        "variable": "tf"
+        "variable": "f"
     },
     "propvars": {
-        "function": "tf"
+        "function": "f"
     },
     "ps_file": {
+        "globalyforbiddenvariable": true,
         "variable": "f"
     },
     "psexpand": {
-        "variable": "tf"
+        "variable": "f"
     },
     "psfile": {
+        "globalyforbiddenvariable": true,
         "variable": "f"
     },
     "psi": {
@@ -5329,22 +5467,22 @@
         "function": "?"
     },
     "pui": {
-        "function": "tf"
+        "function": "f"
     },
     "pui2comp": {
-        "function": "tf"
+        "function": "f"
     },
     "pui2ele": {
-        "function": "tf"
+        "function": "f"
     },
     "pui2polynome": {
-        "function": "tf"
+        "function": "f"
     },
     "pui_direct": {
-        "function": "tf"
+        "function": "f"
     },
     "puireduc": {
-        "function": "tf"
+        "function": "f"
     },
     "push": {
         "function": "?"
@@ -5362,7 +5500,7 @@
         "function": "?"
     },
     "qty": {
-        "function": "tf"
+        "function": "f"
     },
     "quad_control": {
         "function": "?"
@@ -5476,7 +5614,8 @@
         "function": "?"
     },
     "quit": {
-        "function": "f"
+        "function": "f",
+        "globalyforbiddenfunction": true
     },
     "qunit": {
         "function": "s"
@@ -5508,7 +5647,7 @@
         "function": "s"
     },
     "random": {
-        "function": "tf"
+        "function": "f"
     },
     "random_bernoulli": {
         "function": "s"
@@ -5635,7 +5774,7 @@
         "variable": "s"
     },
     "ratchristof": {
-        "variable": "tf"
+        "variable": "f"
     },
     "ratcoef": {
         "function": "s"
@@ -5653,7 +5792,7 @@
         "function": "s"
     },
     "rateinstein": {
-        "variable": "tf"
+        "variable": "f"
     },
     "ratepsilon": {
         "variable": "s"
@@ -5671,8 +5810,8 @@
         "function": "?"
     },
     "rational": {
-        "function": "tf",
-        "property": "tf"
+        "function": "f",
+        "property": "f"
     },
     "rationalize": {
         "function": "s"
@@ -5703,10 +5842,10 @@
         "function": "?"
     },
     "ratprint": {
-        "variable": "tf"
+        "variable": "f"
     },
     "ratriemann": {
-        "variable": "tf"
+        "variable": "f"
     },
     "ratsimp": {
         "evfun": "s",
@@ -5733,55 +5872,69 @@
         "variable": "s"
     },
     "ratweyl": {
-        "variable": "tf"
+        "variable": "f"
     },
     "ratwtlvl": {
-        "variable": "tf"
+        "variable": "f"
     },
     "read": {
-        "function": "f"
+        "function": "f",
+        "globalyforbiddenfunction": true
     },
     "read_array": {
-        "function": "f"
+        "function": "f",
+        "globalyforbiddenfunction": true
     },
     "read_binary_array": {
-        "function": "f"
+        "function": "f",
+        "globalyforbiddenfunction": true
     },
     "read_binary_list": {
-        "function": "f"
+        "function": "f",
+        "globalyforbiddenfunction": true
     },
     "read_binary_matrix": {
-        "function": "f"
+        "function": "f",
+        "globalyforbiddenfunction": true
     },
     "read_hash_table": {
         "function": "?"
     },
     "read_hashed_array": {
-        "function": "f"
+        "function": "f",
+        "globalyforbiddenfunction": true
     },
     "read_list": {
-        "function": "f"
+        "function": "f",
+        "globalyforbiddenfunction": true
     },
     "read_matrix": {
-        "function": "f"
+        "function": "f",
+        "globalyforbiddenfunction": true
     },
     "read_nested_list": {
-        "function": "f"
+        "function": "f",
+        "globalyforbiddenfunction": true
     },
     "read_xpm": {
-        "function": "f"
+        "function": "f",
+        "globalyforbiddenfunction": true
     },
     "readbyte": {
-        "function": "f"
+        "function": "f",
+        "globalyforbiddenfunction": true
     },
     "readchar": {
-        "function": "f"
+        "function": "f",
+        "globalyforbiddenfunction": true
     },
     "readline": {
-        "function": "f"
+        "function": "f",
+        "globalyforbiddenfunction": true
     },
     "readonly": {
-        "function": "f"
+        "function": "f",
+        "globalyforbiddenfunction": true
     },
     "real": {
         "property": "?"
@@ -5802,10 +5955,10 @@
         "function": "s"
     },
     "rearray": {
-        "function": "tf"
+        "function": "f"
     },
     "rectangle": {
-        "function": "tf"
+        "function": "f"
     },
     "rectform": {
         "evfun": "s",
@@ -5821,25 +5974,26 @@
         "variable": "s"
     },
     "rediff": {
-        "function": "tf"
+        "function": "f"
     },
     "redraw": {
-        "variable": "tf"
+        "variable": "f"
     },
     "reduce_consts": {
-        "function": "tf"
+        "function": "f"
     },
     "reduce_order": {
-        "function": "tf"
+        "function": "f"
     },
     "refcheck": {
+        "globalyforbiddenvariable": true,
         "variable": "f"
     },
     "region_boundaries": {
-        "function": "tf"
+        "function": "f"
     },
     "region_boundaries_plus": {
-        "function": "tf"
+        "function": "f"
     },
     "rem": {
         "function": "s"
@@ -5848,28 +6002,30 @@
         "function": "s"
     },
     "remarray": {
-        "function": "tf"
-    },
-    "rembox": {
         "function": "f"
     },
+    "rembox": {
+        "function": "f",
+        "globalyforbiddenfunction": true
+    },
     "remcomps": {
-        "function": "tf"
+        "function": "f"
     },
     "remcon": {
-        "function": "tf"
+        "function": "f"
     },
     "remcoord": {
-        "function": "tf"
+        "function": "f"
     },
     "remfun": {
         "function": "s"
     },
     "remfunction": {
-        "function": "f"
+        "function": "f",
+        "globalyforbiddenfunction": true
     },
     "remlet": {
-        "function": "tf"
+        "function": "f"
     },
     "remove": {
         "function": "?"
@@ -5878,16 +6034,16 @@
         "function": "?"
     },
     "remove_dimensions": {
-        "function": "tf"
+        "function": "f"
     },
     "remove_edge": {
         "function": "?"
     },
     "remove_fundamental_dimensions": {
-        "function": "tf"
+        "function": "f"
     },
     "remove_fundamental_units": {
-        "function": "tf"
+        "function": "f"
     },
     "remove_plot_option": {
         "function": "?"
@@ -5896,25 +6052,27 @@
         "function": "?"
     },
     "rempart": {
-        "function": "tf"
+        "function": "f"
     },
     "remrule": {
         "function": "?"
     },
     "remsym": {
-        "function": "tf"
-    },
-    "remvalue": {
         "function": "f"
     },
+    "remvalue": {
+        "function": "f",
+        "globalyforbiddenfunction": true
+    },
     "rename": {
-        "function": "tf"
+        "function": "f"
     },
     "rename_file": {
         "function": "?"
     },
     "reset": {
-        "function": "f"
+        "function": "f",
+        "globalyforbiddenfunction": true
     },
     "reset_displays": {
         "function": "?"
@@ -5923,31 +6081,31 @@
         "function": "s"
     },
     "resolvante": {
-        "function": "tf"
+        "function": "f"
     },
     "resolvante_alternee1": {
-        "function": "tf"
+        "function": "f"
     },
     "resolvante_bipartite": {
-        "function": "tf"
+        "function": "f"
     },
     "resolvante_diedrale": {
-        "function": "tf"
+        "function": "f"
     },
     "resolvante_klein": {
-        "function": "tf"
+        "function": "f"
     },
     "resolvante_klein3": {
-        "function": "tf"
+        "function": "f"
     },
     "resolvante_produit_sym": {
-        "function": "tf"
+        "function": "f"
     },
     "resolvante_unitaire": {
-        "function": "tf"
+        "function": "f"
     },
     "resolvante_vierer": {
-        "function": "tf"
+        "function": "f"
     },
     "rest": {
         "function": "s"
@@ -5969,13 +6127,13 @@
         "function": "s"
     },
     "revert": {
-        "function": "tf"
+        "function": "f"
     },
     "revert2": {
-        "function": "tf"
+        "function": "f"
     },
     "rgb2level": {
-        "function": "tf"
+        "function": "f"
     },
     "rho": {
         "variable": "s"
@@ -5984,30 +6142,31 @@
         "function": "s"
     },
     "ric": {
-        "variable": "tf"
+        "variable": "f"
     },
     "ricci": {
-        "function": "tf"
+        "function": "f"
     },
     "riem": {
-        "variable": "tf"
+        "variable": "f"
     },
     "riemann": {
-        "function": "tf"
+        "function": "f"
     },
     "rinvariant": {
-        "function": "tf"
+        "function": "f"
     },
     "risch": {
         "function": "s"
     },
     "rk": {
-        "function": "tf"
+        "function": "f"
     },
     "rmdir": {
         "function": "?"
     },
     "rmxchar": {
+        "globalyforbiddenvariable": true,
         "variable": "f"
     },
     "rncombine": {
@@ -6029,7 +6188,8 @@
         "variable": "s"
     },
     "room": {
-        "function": "f"
+        "function": "f",
+        "globalyforbiddenfunction": true
     },
     "root": {
         "function": "s"
@@ -6063,19 +6223,23 @@
         "function": "s"
     },
     "run_testsuite": {
-        "function": "f"
+        "function": "f",
+        "globalyforbiddenfunction": true
     },
     "run_viewer": {
+        "globalyforbiddenvariable": true,
         "variable": "f"
     },
     "save": {
-        "function": "f"
+        "function": "f",
+        "globalyforbiddenfunction": true
     },
     "savedef": {
+        "globalyforbiddenvariable": true,
         "variable": "f"
     },
     "savefactors": {
-        "variable": "tf"
+        "variable": "f"
     },
     "saving": {
         "function": "?"
@@ -6109,7 +6273,8 @@
         "mapfunction": true
     },
     "scatterplot": {
-        "function": "f"
+        "function": "f",
+        "globalyforbiddenfunction": true
     },
     "scatterplot_description": {
         "function": "?"
@@ -6130,7 +6295,7 @@
         "function": "s"
     },
     "scurvature": {
-        "function": "tf"
+        "function": "f"
     },
     "sdowncase": {
         "function": "?"
@@ -6154,7 +6319,7 @@
         "function": "?"
     },
     "set_draw_defaults": {
-        "function": "tf"
+        "function": "f"
     },
     "set_edge_weight": {
         "function": "?"
@@ -6163,30 +6328,33 @@
         "function": "s"
     },
     "set_plot_option": {
-        "function": "f"
+        "function": "f",
+        "globalyforbiddenfunction": true
     },
     "set_prompt": {
         "function": "?"
     },
     "set_random_state": {
-        "function": "tf"
+        "function": "f"
     },
     "set_tex_environment": {
-        "function": "tf"
+        "function": "f"
     },
     "set_tex_environment_default": {
-        "function": "tf"
+        "function": "f"
     },
     "set_up_dot_simplifications": {
-        "function": "tf"
+        "function": "f"
     },
     "set_vertex_label": {
         "function": "?"
     },
     "setcheck": {
+        "globalyforbiddenvariable": true,
         "variable": "f"
     },
     "setcheckbreak": {
+        "globalyforbiddenvariable": true,
         "variable": "f"
     },
     "setdifference": {
@@ -6205,12 +6373,13 @@
         "function": "s"
     },
     "setunits": {
-        "function": "tf"
+        "function": "f"
     },
     "setup_autoload": {
-        "function": "tf"
+        "function": "f"
     },
     "setval": {
+        "globalyforbiddenvariable": true,
         "variable": "f"
     },
     "seventh": {
@@ -6220,7 +6389,7 @@
         "function": "?"
     },
     "sf": {
-        "function": "tf"
+        "function": "f"
     },
     "sha1sum": {
         "function": "?"
@@ -6241,12 +6410,13 @@
         "function": "?"
     },
     "showcomps": {
-        "function": "tf"
+        "function": "f"
     },
     "showratvars": {
         "function": "?"
     },
     "showtime": {
+        "globalyforbiddenvariable": true,
         "variable": "f"
     },
     "sierpinskiale": {
@@ -6265,7 +6435,7 @@
         "function": "s"
     },
     "similaritytransform": {
-        "function": "tf"
+        "function": "f"
     },
     "simp": {
         "evflag": "?",
@@ -6278,22 +6448,22 @@
         "function": "?"
     },
     "simplified_output": {
-        "variable": "tf"
+        "variable": "f"
     },
     "simplify": {
         "function": "s"
     },
     "simplify_products": {
-        "variable": "tf"
+        "variable": "f"
     },
     "simplify_sum": {
-        "function": "tf"
+        "function": "f"
     },
     "simplode": {
-        "function": "tf"
+        "function": "f"
     },
     "simpmetderiv": {
-        "function": "tf"
+        "function": "f"
     },
     "simpproduct": {
         "evflag": "?",
@@ -6304,7 +6474,7 @@
         "variable": "s"
     },
     "simtran": {
-        "function": "tf"
+        "function": "f"
     },
     "sin": {
         "function": "s"
@@ -6436,10 +6606,10 @@
         "function": "s"
     },
     "solve_rec": {
-        "function": "tf"
+        "function": "f"
     },
     "solve_rec_rat": {
-        "function": "tf"
+        "function": "f"
     },
     "solvedecomposes": {
         "variable": "s"
@@ -6463,7 +6633,7 @@
         "function": "s"
     },
     "somrac": {
-        "function": "tf"
+        "function": "f"
     },
     "sort": {
         "function": "s"
@@ -6475,40 +6645,43 @@
         "variable": "s"
     },
     "sparse6_decode": {
-        "function": "tf"
+        "function": "f"
     },
     "sparse6_encode": {
-        "function": "tf"
+        "function": "f"
     },
     "sparse6_export": {
-        "function": "f"
+        "function": "f",
+        "globalyforbiddenfunction": true
     },
     "sparse6_import": {
-        "function": "f"
+        "function": "f",
+        "globalyforbiddenfunction": true
     },
     "specint": {
         "function": "s"
     },
     "spherical_bessel_j": {
-        "function": "tf"
+        "function": "f"
     },
     "spherical_bessel_y": {
-        "function": "tf"
+        "function": "f"
     },
     "spherical_hankel1": {
-        "function": "tf"
+        "function": "f"
     },
     "spherical_hankel2": {
-        "function": "tf"
+        "function": "f"
     },
     "spherical_harmonic": {
-        "function": "tf"
+        "function": "f"
     },
     "spherical_to_xyz": {
         "function": "?"
     },
     "splice": {
-        "function": "f"
+        "function": "f",
+        "globalyforbiddenfunction": true
     },
     "split": {
         "function": "?"
@@ -6517,7 +6690,8 @@
         "function": "s"
     },
     "sprint": {
-        "function": "f"
+        "function": "f",
+        "globalyforbiddenfunction": true
     },
     "sqfr": {
         "function": "s"
@@ -6526,7 +6700,7 @@
         "function": "s"
     },
     "sqrtdenest": {
-        "function": "tf"
+        "function": "f"
     },
     "sqrtdispflag": {
         "variable": "?"
@@ -6547,7 +6721,7 @@
         "function": "?"
     },
     "sstatus": {
-        "function": "tf"
+        "function": "f"
     },
     "ssubst": {
         "function": "?"
@@ -6574,7 +6748,7 @@
         "function": "s"
     },
     "staircase": {
-        "function": "tf"
+        "function": "f"
     },
     "stanckeq": {
         "function": "s"
@@ -6586,10 +6760,11 @@
         "function": "?"
     },
     "stardisp": {
-        "variable": "tf"
+        "variable": "f"
     },
     "starplot": {
-        "function": "f"
+        "function": "f",
+        "globalyforbiddenfunction": true
     },
     "starplot_description": {
         "function": "?"
@@ -6598,7 +6773,8 @@
         "variable": "?"
     },
     "status": {
-        "function": "f"
+        "function": "f",
+        "globalyforbiddenfunction": true
     },
     "std": {
         "function": "?"
@@ -6682,19 +6858,20 @@
         "function": "s"
     },
     "stemplot": {
-        "function": "f"
+        "function": "f",
+        "globalyforbiddenfunction": true
     },
     "step": {
         "keyword": "?"
     },
     "stirling": {
-        "function": "tf"
+        "function": "f"
     },
     "stirling1": {
-        "function": "tf"
+        "function": "f"
     },
     "stirling2": {
-        "function": "tf"
+        "function": "f"
     },
     "strim": {
         "function": "?"
@@ -6712,10 +6889,11 @@
         "function": "?"
     },
     "stringdisp": {
-        "variable": "tf"
+        "variable": "f"
     },
     "stringout": {
-        "function": "f"
+        "function": "f",
+        "globalyforbiddenfunction": true
     },
     "stringp": {
         "function": "?"
@@ -6794,7 +6972,7 @@
         "variable": "s"
     },
     "summand_to_rec": {
-        "function": "tf"
+        "function": "f"
     },
     "sumsplitfact": {
         "variable": "?"
@@ -6803,10 +6981,11 @@
         "function": "s"
     },
     "supcontext": {
-        "function": "f"
+        "function": "f",
+        "globalyforbiddenfunction": true
     },
     "surface_hide": {
-        "variable": "tf"
+        "variable": "f"
     },
     "symbolp": {
         "function": "s"
@@ -6818,16 +6997,17 @@
         "property": "?"
     },
     "symmetricp": {
-        "function": "tf"
-    },
-    "system": {
         "function": "f"
     },
+    "system": {
+        "function": "f",
+        "globalyforbiddenfunction": true
+    },
     "tab": {
-        "variable": "tf"
+        "variable": "f"
     },
     "take_channel": {
-        "function": "tf"
+        "function": "f"
     },
     "take_inference": {
         "function": "?"
@@ -6869,10 +7049,11 @@
         "function": "s"
     },
     "tcl_output": {
-        "function": "f"
+        "function": "f",
+        "globalyforbiddenfunction": true
     },
     "tcontract": {
-        "function": "tf"
+        "function": "f"
     },
     "tellrat": {
         "function": "?"
@@ -6884,15 +7065,16 @@
         "function": "s"
     },
     "tensorkill": {
-        "variable": "tf"
+        "variable": "f"
     },
     "tentex": {
-        "function": "tf"
+        "function": "f"
     },
     "tenth": {
         "function": "s"
     },
     "terminal": {
+        "globalyforbiddenvariable": true,
         "variable": "f"
     },
     "test_mean": {
@@ -6926,10 +7108,12 @@
         "function": "?"
     },
     "testsuite_files": {
+        "globalyforbiddenvariable": true,
         "variable": "f"
     },
     "tex": {
-        "function": "f"
+        "function": "f",
+        "globalyforbiddenfunction": true
     },
     "tex1": {
         "function": "?"
@@ -6950,28 +7134,33 @@
         "function": "s"
     },
     "throw": {
-        "function": "f"
+        "function": "f",
+        "globalyforbiddenfunction": true
     },
     "thru": {
         "keyword": "?"
     },
     "time": {
-        "function": "f"
+        "function": "f",
+        "globalyforbiddenfunction": true
     },
     "timedate": {
-        "function": "tf"
-    },
-    "timer": {
         "function": "f"
     },
+    "timer": {
+        "function": "f",
+        "globalyforbiddenfunction": true
+    },
     "timer_devalue": {
+        "globalyforbiddenvariable": true,
         "variable": "f"
     },
     "timer_info": {
-        "function": "f"
+        "function": "f",
+        "globalyforbiddenfunction": true
     },
     "title": {
-        "variable": "tf"
+        "variable": "f"
     },
     "tldefint": {
         "function": "?"
@@ -6983,7 +7172,8 @@
         "variable": "s"
     },
     "to_lisp": {
-        "function": "f"
+        "function": "f",
+        "globalyforbiddenfunction": true
     },
     "to_poly": {
         "function": "?"
@@ -7004,109 +7194,115 @@
         "function": "?"
     },
     "totaldisrep": {
-        "function": "tf"
+        "function": "f"
     },
     "totalfourier": {
         "function": "?"
     },
     "totient": {
-        "function": "tf"
+        "function": "f"
     },
     "tpartpol": {
-        "function": "tf"
+        "function": "f"
     },
     "tr": {
-        "variable": "tf"
+        "variable": "f"
     },
     "tr_array_as_ref": {
-        "variable": "tf"
+        "variable": "f"
     },
     "tr_bound_function_applyp": {
-        "variable": "tf"
+        "variable": "f"
     },
     "tr_file_tty_messagesp": {
-        "variable": "tf"
+        "variable": "f"
     },
     "tr_float_can_branch_complex": {
-        "variable": "tf"
+        "variable": "f"
     },
     "tr_function_call_default": {
-        "variable": "tf"
+        "variable": "f"
     },
     "tr_numer": {
-        "variable": "tf"
+        "variable": "f"
     },
     "tr_optimize_max_loop": {
-        "variable": "tf"
+        "variable": "f"
     },
     "tr_semicompile": {
-        "variable": "tf"
+        "variable": "f"
     },
     "tr_state_vars": {
-        "variable": "tf"
+        "variable": "f"
     },
     "tr_warn_bad_function_calls": {
-        "variable": "tf"
+        "variable": "f"
     },
     "tr_warn_fexpr": {
-        "variable": "tf"
+        "variable": "f"
     },
     "tr_warn_meval": {
-        "variable": "tf"
+        "variable": "f"
     },
     "tr_warn_mode": {
-        "variable": "tf"
+        "variable": "f"
     },
     "tr_warn_undeclared": {
-        "variable": "tf"
+        "variable": "f"
     },
     "tr_warn_undefined_variable": {
-        "variable": "tf"
+        "variable": "f"
     },
     "tr_warnings_get": {
-        "function": "tf"
+        "function": "f"
     },
     "tr_windy": {
-        "variable": "tf"
+        "variable": "f"
     },
     "trace": {
-        "function": "f"
+        "function": "f",
+        "globalyforbiddenfunction": true
     },
     "trace_options": {
-        "function": "f"
+        "function": "f",
+        "globalyforbiddenfunction": true
     },
     "tracematrix": {
-        "function": "tf"
+        "function": "f"
     },
     "tranform_sample": {
         "function": "?"
     },
     "transcompile": {
         "function": "f",
+        "globalyforbiddenfunction": true,
         "variable": "?"
     },
     "transform_sample": {
         "function": "?"
     },
     "transform_xy": {
-        "variable": "tf"
+        "variable": "f"
     },
     "translate": {
-        "function": "f"
+        "function": "f",
+        "globalyforbiddenfunction": true
     },
     "translate_fast_arrays": {
         "variable": "?"
     },
     "translate_file": {
-        "function": "f"
+        "function": "f",
+        "globalyforbiddenfunction": true
     },
     "transparent": {
-        "variable": "tf"
+        "variable": "f"
     },
     "transpose": {
         "function": "s"
     },
     "transrun": {
+        "globalyforbiddenvariable": true,
         "variable": "f"
     },
     "tree_reduce": {
@@ -7116,10 +7312,10 @@
         "function": "?"
     },
     "treillis": {
-        "function": "tf"
+        "function": "f"
     },
     "treinat": {
-        "function": "tf"
+        "function": "f"
     },
     "triangularize": {
         "function": "s"
@@ -7153,7 +7349,7 @@
         "function": "s"
     },
     "trivial_solutions": {
-        "variable": "tf"
+        "variable": "f"
     },
     "true": {
         "constant": "s"
@@ -7177,31 +7373,32 @@
         "function": "?"
     },
     "ttyoff": {
+        "globalyforbiddenvariable": true,
         "variable": "f"
     },
     "tube": {
-        "function": "tf"
+        "function": "f"
     },
     "tube_extremes": {
-        "variable": "tf"
+        "variable": "f"
     },
     "tutte_graph": {
-        "function": "tf"
+        "function": "f"
     },
     "ueivects": {
-        "function": "tf"
+        "function": "f"
     },
     "ufg": {
-        "variable": "tf"
+        "variable": "f"
     },
     "uforget": {
-        "function": "tf"
+        "function": "f"
     },
     "ug": {
-        "variable": "tf"
+        "variable": "f"
     },
     "ultraspherical": {
-        "function": "tf"
+        "function": "f"
     },
     "und": {
         "constant": "s"
@@ -7210,7 +7407,7 @@
         "function": "?"
     },
     "undiff": {
-        "function": "tf"
+        "function": "f"
     },
     "unicode": {
         "function": "?"
@@ -7225,13 +7422,13 @@
         "function": "s"
     },
     "unit_step": {
-        "function": "tf"
+        "function": "f"
     },
     "unit_vectors": {
-        "variable": "tf"
+        "variable": "f"
     },
     "uniteigenvectors": {
-        "function": "tf"
+        "function": "f"
     },
     "unitp": {
         "function": "?"
@@ -7240,7 +7437,7 @@
         "function": "?"
     },
     "unitvector": {
-        "function": "tf"
+        "function": "f"
     },
     "unknown": {
         "function": "?"
@@ -7249,7 +7446,7 @@
         "keyword": "?"
     },
     "unorder": {
-        "function": "tf"
+        "function": "f"
     },
     "unsum": {
         "function": "s"
@@ -7258,28 +7455,30 @@
         "function": "s"
     },
     "untimer": {
-        "function": "f"
+        "function": "f",
+        "globalyforbiddenfunction": true
     },
     "untrace": {
-        "function": "f"
+        "function": "f",
+        "globalyforbiddenfunction": true
     },
     "uppercasep": {
-        "function": "tf"
+        "function": "f"
     },
     "upsilon": {
         "variable": "s"
     },
     "uric": {
-        "variable": "tf"
+        "variable": "f"
     },
     "uricci": {
-        "function": "tf"
+        "function": "f"
     },
     "uriem": {
-        "variable": "tf"
+        "variable": "f"
     },
     "uriemann": {
-        "function": "tf"
+        "function": "f"
     },
     "us_ascii_only": {
         "variable": "?"
@@ -7288,18 +7487,20 @@
         "variable": "?"
     },
     "user_preamble": {
+        "globalyforbiddenvariable": true,
         "variable": "f"
     },
     "usersetunits": {
-        "variable": "tf"
+        "variable": "f"
     },
     "utf8_to_unicode": {
         "function": "?"
     },
     "uvect": {
-        "function": "tf"
+        "function": "f"
     },
     "values": {
+        "globalyforbiddenvariable": true,
         "variable": "f"
     },
     "vandermonde_matrix": {
@@ -7390,7 +7591,7 @@
         "variable": "s"
     },
     "vector": {
-        "function": "tf"
+        "function": "f"
     },
     "vectorpotential": {
         "function": "s"
@@ -7402,10 +7603,10 @@
         "function": "?"
     },
     "verbose": {
-        "variable": "tf"
+        "variable": "f"
     },
     "vers": {
-        "function": "tf"
+        "function": "f"
     },
     "vertex_coloring": {
         "function": "?"
@@ -7441,7 +7642,7 @@
         "function": "?"
     },
     "warnings": {
-        "variable": "tf"
+        "variable": "f"
     },
     "wc_inputvalueranges": {
         "function": "?"
@@ -7465,8 +7666,8 @@
         "function": "?"
     },
     "weyl": {
-        "function": "tf",
-        "variable": "tf"
+        "function": "f",
+        "variable": "f"
     },
     "wheel_graph": {
         "function": "?"
@@ -7487,40 +7688,44 @@
         "function": "?"
     },
     "with_stdout": {
-        "function": "f"
+        "function": "f",
+        "globalyforbiddenfunction": true
     },
     "write_binary_data": {
-        "function": "f"
+        "function": "f",
+        "globalyforbiddenfunction": true
     },
     "write_data": {
-        "function": "f"
+        "function": "f",
+        "globalyforbiddenfunction": true
     },
     "writebyte": {
         "function": "?"
     },
     "writefile": {
-        "function": "f"
+        "function": "f",
+        "globalyforbiddenfunction": true
     },
     "wronskian": {
-        "function": "tf"
+        "function": "f"
     },
     "x_voxel": {
-        "variable": "tf"
+        "variable": "f"
     },
     "xaxis": {
-        "variable": "tf"
+        "variable": "f"
     },
     "xaxis_color": {
-        "variable": "tf"
+        "variable": "f"
     },
     "xaxis_secondary": {
-        "variable": "tf"
+        "variable": "f"
     },
     "xaxis_type": {
-        "variable": "tf"
+        "variable": "f"
     },
     "xaxis_width": {
-        "variable": "tf"
+        "variable": "f"
     },
     "xi": {
         "variable": "s"
@@ -7532,10 +7737,10 @@
         "operator": "s"
     },
     "xrange": {
-        "variable": "tf"
+        "variable": "f"
     },
     "xrange_secondary": {
-        "variable": "tf"
+        "variable": "f"
     },
     "xreduce": {
         "function": "s"
@@ -7544,46 +7749,46 @@
         "function": "s"
     },
     "xtics_axis": {
-        "variable": "tf"
+        "variable": "f"
     },
     "xtics_rotate": {
-        "variable": "tf"
+        "variable": "f"
     },
     "xtics_rotate_secondary": {
-        "variable": "tf"
+        "variable": "f"
     },
     "xtics_secondary": {
-        "variable": "tf"
+        "variable": "f"
     },
     "xtics_secondary_axis": {
-        "variable": "tf"
+        "variable": "f"
     },
     "xu_grid": {
-        "variable": "tf"
+        "variable": "f"
     },
     "xy_file": {
-        "variable": "tf"
+        "variable": "f"
     },
     "xyplane": {
-        "variable": "tf"
+        "variable": "f"
     },
     "y_voxel": {
-        "variable": "tf"
+        "variable": "f"
     },
     "yaxis": {
-        "variable": "tf"
+        "variable": "f"
     },
     "yaxis_color": {
-        "variable": "tf"
+        "variable": "f"
     },
     "yaxis_secondary": {
-        "variable": "tf"
+        "variable": "f"
     },
     "yaxis_type": {
-        "variable": "tf"
+        "variable": "f"
     },
     "yaxis_width": {
-        "variable": "tf"
+        "variable": "f"
     },
     "year": {
         "variable": "s"
@@ -7592,49 +7797,49 @@
         "variable": "s"
     },
     "yrange": {
-        "variable": "tf"
+        "variable": "f"
     },
     "yrange_secondary": {
-        "variable": "tf"
+        "variable": "f"
     },
     "ytics_axis": {
-        "variable": "tf"
+        "variable": "f"
     },
     "ytics_rotate": {
-        "variable": "tf"
+        "variable": "f"
     },
     "ytics_rotate_secondary": {
-        "variable": "tf"
+        "variable": "f"
     },
     "ytics_secondary": {
-        "variable": "tf"
+        "variable": "f"
     },
     "ytics_secondary_axis": {
-        "variable": "tf"
+        "variable": "f"
     },
     "yv_grid": {
-        "variable": "tf"
+        "variable": "f"
     },
     "z_voxel": {
-        "variable": "tf"
+        "variable": "f"
     },
     "zaxis": {
-        "variable": "tf"
+        "variable": "f"
     },
     "zaxis_color": {
-        "variable": "tf"
+        "variable": "f"
     },
     "zaxis_type": {
-        "variable": "tf"
+        "variable": "f"
     },
     "zaxis_width": {
-        "variable": "tf"
+        "variable": "f"
     },
     "zeroa": {
-        "constant": "tf"
+        "constant": "f"
     },
     "zerob": {
-        "constant": "tf"
+        "constant": "f"
     },
     "zerobern": {
         "variable": "s"
@@ -7665,10 +7870,10 @@
         "function": "?"
     },
     "zlabel": {
-        "variable": "tf"
+        "variable": "f"
     },
     "zlange": {
-        "function": "tf"
+        "function": "f"
     },
     "zn_add_table": {
         "function": "?"
@@ -7719,13 +7924,13 @@
         "variable": "?"
     },
     "zrange": {
-        "variable": "tf"
+        "variable": "f"
     },
     "ztics_axis": {
-        "variable": "tf"
+        "variable": "f"
     },
     "ztics_rotate": {
-        "variable": "tf"
+        "variable": "f"
     },
     "|": {
         "operator": "s"

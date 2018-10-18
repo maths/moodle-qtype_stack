@@ -120,6 +120,9 @@
     "+": {
         "operator": "s"
     },
+    ",": {
+        "operator": "s"
+    },
     "-": {
         "operator": "s"
     },

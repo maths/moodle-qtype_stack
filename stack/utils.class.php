@@ -1115,7 +1115,7 @@ class stack_utils {
      * variable name has been interpreted as a product of single letters.
      * @param unknown $rawcasstring
      */
-    public static function make_single_char_vars($rawcasstring, $options, $syntax, $stars, $allowwords) {
+    public static function make_single_char_vars($rawcasstring, $options, $syntax, $stars, $secrules) {
 
         // Guard clause:  if we have no letters then we just don't need to call the CAS.
         preg_match("/([A-Za-z].*)/", $rawcasstring, $output);
@@ -1125,7 +1125,7 @@ class stack_utils {
         $rawcasstring = self::logic_nouns_sort($rawcasstring, 'add');
         $cs = new stack_cas_casstring($rawcasstring);
         // We need to use the student here to allow a wider range of star patterns.
-        $cs->get_valid('s', true, $stars, $allowwords);
+        $cs->get_valid('s', true, $stars, $secrules);
 
         // If we have certain errors in this casstring we should bail at this point.
         if ($cs->get_answernote() !== '') {
@@ -1143,9 +1143,9 @@ class stack_utils {
         // Use the modified $casstring to get the most liberal interpretation.
         $casstring = $cs->get_casstring();
         $lvars = new stack_cas_casstring('listofvars('.$casstring.')');
-        $lvars->get_valid('t', $syntax, $stars, $allowwords);
+        $lvars->get_valid('t', $syntax, $stars, $secrules);
         $lops = new stack_cas_casstring('get_ops('.$casstring.')');
-        $lops->get_valid('t', $syntax, $stars, $allowwords);
+        $lops->get_valid('t', $syntax, $stars, $secrules);
         $session = new stack_cas_session(array($lvars, $lops), $options, 0);
         $session->instantiate();
         $session = $session->get_session();

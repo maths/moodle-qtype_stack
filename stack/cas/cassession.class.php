@@ -139,18 +139,6 @@ class stack_cas_session {
         return $valid;
     }
 
-    /* Check each of the CASStrings for any of the keywords. */
-    public function check_external_forbidden_words($keywords) {
-        if (null === $this->valid) {
-            $this->validate();
-        }
-        $found = false;
-        foreach ($this->session as $casstr) {
-            $found = $found || $casstr->check_external_forbidden_words($keywords);
-        }
-        return $found;
-    }
-
     /* This is the function which actually sends the commands off to Maxima. */
     public function instantiate() {
         if (null === $this->valid) {

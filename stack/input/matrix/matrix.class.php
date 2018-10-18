@@ -166,6 +166,11 @@ class stack_matrix_input extends stack_input {
         $errors = array();
         $valid = true;
 
+        $secrules = new stack_cas_security($this->units,
+                $this->get_parameter('allowWords', ''),
+                $this->get_parameter('forbidWords', ''),
+                $forbiddenkeys);
+
         // Now validate the input as CAS code.
         $modifiedcontents = array();
         foreach ($contents as $row) {
@@ -177,22 +182,12 @@ class stack_matrix_input extends stack_input {
                 if (2 == $this->get_parameter('insertStars', 0) || 5 == $this->get_parameter('insertStars', 0)) {
                     $val = stack_utils::make_single_char_vars($val, $localoptions,
                             $this->get_parameter('strictSyntax', true), $this->get_parameter('insertStars', 0),
-                            $this->get_parameter('allowWords', ''));
+                            $secrules);
                 }
 
                 $answer = new stack_cas_casstring($val);
                 $answer->get_valid('s', $this->get_parameter('strictSyntax', true),
-                        $this->get_parameter('insertStars', 0),  $this->get_parameter('allowwords', ''));
-
-                // Ensure student hasn't used a variable name used by the teacher.
-                if ($forbiddenkeys) {
-                    $answer->check_external_forbidden_words($forbiddenkeys);
-                }
-
-                $forbiddenwords = $this->get_parameter('forbidWords', '');
-                if ($forbiddenwords) {
-                    $answer->check_external_forbidden_words(explode(',', $forbiddenwords));
-                }
+                        $this->get_parameter('insertStars', 0), $secrules);
 
                 $modifiedrow[] = $answer->get_casstring();
                 $valid = $valid && $answer->get_valid();

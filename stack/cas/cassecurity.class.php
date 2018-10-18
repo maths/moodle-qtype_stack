@@ -39,6 +39,11 @@ class stack_cas_security {
              the student allowed identifiers set. */
     private $forbiddenwords = '';
 
+    /** @var array typically the teacher side variable identifiers. Used to cut
+             down the student allowed identifiers set. */
+    private $forbiddenkeys = array();
+
+
 
     /**
      * These lists are used by question authors for groups of words.
@@ -66,16 +71,17 @@ class stack_cas_security {
 
 
 
-    public function __construct($units = false, $allowedwords = '', $forbiddenwords = '') {
+    public function __construct($units = false, $allowedwords = '', $forbiddenwords = '', $forbiddenkeys = array()) {
         if (stack_cas_security::$securitymap === null) {
             // Initialise the map.
             $data = file_get_contents(__DIR__ . '/security-map.json');
             stack_cas_security::$securitymap = json_decode($data, true);
         }
 
-        $this->units = $units;
-        $this->allowedwords = $allowedwords;
+        $this->units          = $units;
+        $this->allowedwords   = $allowedwords;
         $this->forbiddenwords = $forbiddenwords;
+        $this->forbiddenkeys  = $forbiddenkeys;
 
         if (!is_bool($this->units)) {
             throw new stack_exception('stack_cas_security: units must be a bool.');
@@ -85,6 +91,19 @@ class stack_cas_security {
         }
         if (!is_string($this->forbiddenwords)) {
             throw new stack_exception('stack_cas_security: forbiddenwords must be a string.');
+        }
+        if ($forbiddenkeys === null) {
+            // TODO: Quite common issue in tests...
+            // There are functions in the chain that want arrays but do not check.
+            $this->forbiddenkeys  = array();
+        }
+        if (!is_array($this->forbiddenkeys)) {
+            throw new stack_exception('stack_cas_security: forbiddenkeys must be an array.');
+        }
+
+        // Check that the keys if present are the correct way around.
+        if (array_key_exists(0, $this->forbiddenkeys)) {
+            $this->forbiddenkeys = array_flip($this->forbiddenkeys);
         }
     }
 
@@ -96,7 +115,15 @@ class stack_cas_security {
         $this->forbiddenwords = $forbiddenwords;
     }
 
-    public function set_units(boolean $units) {
+    public function set_forbiddenkeys(array $forbiddenkeys) {
+        $this->forbiddenkeys  = $forbiddenkeys;
+        // Check that the keys if present are the correct way around.
+        if (array_key_exists(0, $this->forbiddenkeys)) {
+            $this->forbiddenkeys = array_flip($this->forbiddenkeys);
+        }
+    }
+
+    public function set_units(bool $units) {
         $this->units = $units;
     }
 
@@ -162,10 +189,19 @@ class stack_cas_security {
             return false;
         }
 
-        // Forbid keywords as variable names.
-        if ($this->has_feature($identifier, 'keyword')) {
+        // Forbid keywords and operators as variable names.
+        if ($this->has_feature($identifier, 'keyword') || $this->has_feature($identifier, 'operator')) {
             return false;
         }
+
+        // Check for forbiddenkeys. Note that this check only applies to
+        // variables and even then only in certain edge cases. e.g. not in
+        // multi-assignment, we might want to fix that but as it is what
+        // the old does lets not change everything.
+        if (isset($this->forbiddenkeys[$identifier])) {
+            return false;
+        }
+
 
         // Check for forbidden words.
         $forbidden = stack_cas_security::list_to_map($this->forbiddenwords);
@@ -270,6 +306,10 @@ class stack_cas_security {
     /**
      * Checks the features of an identifer. Special dealing with 'constant'.
      * Typically used to identify constants and mapfunctions.
+     *
+     * Note that by feature we mean anything that may have a value. For
+     * example 'function' is a feature but its value is the thing that matters
+     * when deciding whether it is ok to call.
      */
     public function has_feature(string $identifier, string $feature): bool {
         if ($feature === 'constant' && $this->units) {
@@ -332,6 +372,9 @@ class stack_cas_security {
         }
         $result = array();
 
+        $list = str_replace('\,', 'COMMA_TAG', $list);
+
+
         foreach (explode(',', $list) as $item) {
             $item = trim($item);
             if ($item !== '') {
@@ -339,7 +382,13 @@ class stack_cas_security {
                 if (isset(stack_cas_security::$keywordlists[$item])) {
                     $result = array_merge($result, stack_cas_security::$keywordlists[$item]);
                 } else {
-                    $result[$item] = true;
+                    if ($item === 'COMMA_TAG') {
+                        $result[','] = true;
+                        // We might want to handle something like '"\\,","foo"'
+                        // at some point the future...
+                    } else {
+                        $result[$item] = true;
+                    }
                 }
             }
         }

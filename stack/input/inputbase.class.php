@@ -531,6 +531,10 @@ abstract class stack_input {
             $singlevarchars = true;
         }
 
+        $secrules = new stack_cas_security($this->units,
+                        $this->get_parameter('allowWords', ''),
+                        $this->get_parameter('forbidWords', ''), $forbiddenkeys);
+
         // This method actually validates any CAS strings etc.
         // Modified contents is already an array of things which become individually validated CAS statements.
         // At this sage, $valid records the PHP validation or other non-CAS issues.
@@ -583,7 +587,7 @@ abstract class stack_input {
             if (array_key_exists($index, $errors) && '' == $errors[$index]) {
                 $cs->set_cas_validation_casstring($this->name.$index,
                     $this->get_parameter('forbidFloats', false), $this->get_parameter('lowestTerms', false),
-                    $ta, $ivalidationmethod, $this->get_parameter('allowWords', ''));
+                    $ta, $ivalidationmethod, $secrules);
                 $sessionvars[] = $cs;
             }
         }
@@ -594,9 +598,10 @@ abstract class stack_input {
         if ($this->units) {
             $answer->set_units(true);
         }
+
         $answer->set_cas_validation_casstring($this->name,
             $this->get_parameter('forbidFloats', false), $this->get_parameter('lowestTerms', false),
-            $teacheranswer, $validationmethod, $this->get_parameter('allowWords', ''));
+            $teacheranswer, $validationmethod, $secrules);
         if ($valid && $answer->get_valid()) {
             $sessionvars[] = $answer;
         }
@@ -605,7 +610,7 @@ abstract class stack_input {
         // We do this from the *answer* once interprted, so stars are inserted if insertStars=2.
         $lvars = new stack_cas_casstring('ev(sort(listofvars('.$this->name.')),simp)');
         $lvars->get_valid('t', $this->get_parameter('strictSyntax', true),
-                $this->get_parameter('insertStars', 0), $this->get_parameter('allowWords', ''));
+                $this->get_parameter('insertStars', 0), $secrules);
         if ($lvars->get_valid() && $valid && $answer->get_valid()) {
             $sessionvars[] = $lvars;
         }
@@ -700,14 +705,20 @@ abstract class stack_input {
         $modifiedcontents = array();
         $caslines = array();
         $errors = array();
-        $allowwords = $this->get_parameter('allowWords', '');
+
+        $secrules = new stack_cas_security($this->units,
+                $this->get_parameter('allowWords', ''),
+                $this->get_parameter('forbidWords', ''),
+                $forbiddenkeys);
+
         foreach ($contents as $index => $val) {
             // Process single character variable names in PHP.
             // This is done before we validate the casstring to split up abc->a*b*c which would otherwise be invalid.
+            // TODO: Wouldn't the parser-logics/parsingrules handle this better?
             if (2 == $this->get_parameter('insertStars', 0) || 5 == $this->get_parameter('insertStars', 0)) {
                 $val = stack_utils::make_single_char_vars($val, $localoptions,
                         $this->get_parameter('strictSyntax', true), $this->get_parameter('insertStars', 0),
-                        $this->get_parameter('allowWords', ''));
+                        $secrules);
             }
 
             $val = stack_utils::logic_nouns_sort($val, 'add');
@@ -716,18 +727,7 @@ abstract class stack_input {
                 $answer->set_units(true);
             }
             $answer->get_valid('s', $this->get_parameter('strictSyntax', true),
-                    $this->get_parameter('insertStars', 0), $allowwords);
-
-            // Ensure student hasn't used a variable name used by the teacher.
-            if ($forbiddenkeys) {
-                $answer->check_external_forbidden_words($forbiddenkeys);
-            }
-
-            $forbiddenwords = $this->get_parameter('forbidWords', '');
-
-            if ($forbiddenwords) {
-                $answer->check_external_forbidden_words_literal($forbiddenwords);
-            }
+                    $this->get_parameter('insertStars', 0), $secrules);
 
             $caslines[] = $answer;
             $modifiedcontents[] = $answer->get_casstring();

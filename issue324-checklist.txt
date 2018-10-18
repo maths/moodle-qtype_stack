@@ -1,3 +1,11 @@
+FRESH STUFF 2018-10-18:
+
+Killed check_external_forbidden_words and that other as we have no situation
+where we could not give all the things that we forbid to the casstring
+validation at the same time.
+
+
+
 FRESH STUFF 2018-10-16:
 
 Merged all identifier security lists as a single JSON stack/cas/security-map.json.

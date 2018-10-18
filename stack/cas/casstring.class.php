@@ -170,9 +170,9 @@ class stack_cas_casstring {
      *              0 - don't insert stars
      *              1 - insert stars
      *              2 - assume single letter variables only.
-     * $allowwords enables specific function names (but never those from $globalforbid)
+     * $secrules describes the allowed and forbidden identifiers and operators.
      */
-    private function validate($security='s', $syntax=true, $insertstars=0, $allowwords='') {
+    private function validate($security='s', $syntax=true, $insertstars=0, $secrules=null) {
 
         if (!('s' === $security || 't' === $security)) {
             throw new stack_exception('stack_cas_casstring: security level, must be "s" or "t" only.');
@@ -185,6 +185,16 @@ class stack_cas_casstring {
         if (!is_int($insertstars)) {
             throw new stack_exception('stack_cas_casstring: insertstars, must be an integer.');
         }
+
+        if ($secrules === null || $secrules === '') {
+            $secrules = new stack_cas_security();
+        }
+
+        // Ensure that the security rules use the same units setting as this string.
+        // NOTE: will probably cause debug nightmares untill the units setting
+        // gets a better defintion logic. Its not a setting that should be
+        // distributed it should be a question level setting.
+        $secrules->set_units($this->units);
 
         $this->valid     = true;
         $this->casstring = $this->rawcasstring;
@@ -273,16 +283,16 @@ class stack_cas_casstring {
         $usages = array('functions' => array(), 'variables' => array());
 
         // Lets do this in phases, first go through all identifiers. Rewrite things related to them.
-        $processidentifiers = function($node) use($security, $allowwords, $insertstars) {
+        $processidentifiers = function($node) use($security, $secrules, $insertstars) {
             if ($node instanceof MP_Identifier) {
-                return $this->process_identifier($node, $security, $allowwords, $insertstars);
+                return $this->process_identifier($node, $security, $secrules, $insertstars);
             }
             return true;
         };
 
-        $processfunctioncalls = function($node) use($security, $syntax, $allowwords, $insertstars) {
+        $processfunctioncalls = function($node) use($security, $syntax, $secrules, $insertstars) {
             if ($node instanceof MP_FunctionCall) {
-                return $this->process_functioncall($node, $security, $syntax, $allowwords, $insertstars);
+                return $this->process_functioncall($node, $security, $syntax, $secrules, $insertstars);
             }
             return true;
         };
@@ -296,7 +306,7 @@ class stack_cas_casstring {
 
         // Then the rest. Note that the security check happens here, as we might have done some changes
         // earlier and we cannot be certain that the results of those changes do not undo security...
-        $mainloop = function($node)  use($security, $allowwords, $insertstars) {
+        $mainloop = function($node)  use($security, $secrules, $insertstars) {
             if ($node instanceof MP_Identifier) {
                 $this->check_characters($node->value);
                 if ($node->is_function_name()) {
@@ -335,11 +345,6 @@ class stack_cas_casstring {
             }
         }
 
-        // Combined security check.
-        // Definition of these rules should happen outside the casstring and
-        // be reused for things with same rules.
-        $secrules = new stack_cas_security($this->units, $allowwords);
-
         $this->check_security($security, $secrules);
 
         $root = $this->ast;
@@ -354,7 +359,7 @@ class stack_cas_casstring {
         return $this->valid;
     }
 
-    private function process_identifier($id, $security, $allowwords, $insertstars) {
+    private function process_identifier($id, $security, $secrules, $insertstars) {
         static $percentconstants = array('%e' => true, '%pi' => true, '%i' => true, '%j' => true,
                                              '%gamma' => true, '%phi' => true, '%and' => true,
                                              '%or' => true, '%union' => true);
@@ -636,7 +641,7 @@ class stack_cas_casstring {
         return true;
     }
 
-    private function process_functioncall($fc, $security, $syntax, $allowwords, $insertstars) {
+    private function process_functioncall($fc, $security, $syntax, $secrules, $insertstars) {
         // The return values here are false for structural changes and true otherwise.
         if ($fc instanceof MP_FunctionCall) {
             $name = $fc->name;
@@ -661,7 +666,7 @@ class stack_cas_casstring {
                         $operand = new MP_Identifier($num);
                         $cs = new stack_cas_casstring($num);
                         $cs->set_units($this->units);
-                        if ($cs->get_valid($security, $syntax, $insertstars, $allowwords)) {
+                        if ($cs->get_valid($security, $syntax, $insertstars, $secrules)) {
                             // There are no evaluationflags here.
                             $operand = $cs->ast->statement;
                         } else {
@@ -784,7 +789,11 @@ class stack_cas_casstring {
         // First extract things of interest from the tree, i.e. functioncalls,
         // variable references and operations.
         $ofinterest = array();
-        $extraction = function($node) use (&$ofinterest){
+
+        // For certain cases we want to know of commas. For this reason
+        // certain structures need to be checked for them.
+        $commas = false;
+        $extraction = function($node) use (&$ofinterest, &$commas){
             if ($node instanceof MP_Identifier ||
                 $node instanceof MP_FunctionCall ||
                 $node instanceof MP_Operation ||
@@ -792,8 +801,18 @@ class stack_cas_casstring {
                 $node instanceof MP_PostfixOp) {
 
                 $ofinterest[] = $node;
-
             }
+            if (!$commas) {
+                if ($node instanceof MP_FunctionCall && count($node->arguments) > 1) {
+                    $commas = true;
+                } else if (($node instanceof MP_Set || $node instanceof MP_List ||
+                            $node instanceof MP_Group) && count($node->items) > 1) {
+                    $commas = true;
+                } else if ($node instanceof MP_EvaluationFlag) {
+                    $commas = true;
+                }
+            }
+
             return true;
         };
         $this->ast->callbackRecurse($extraction);
@@ -804,6 +823,12 @@ class stack_cas_casstring {
         $writtenvariables = array();
         $variables = array();
         $operators = array();
+
+        // If we had commas in play add them to the operators.
+        if ($commas) {
+            $operators[','] = true;
+        }
+
 
         // Now loop over the initially found things of interest. Note that
         // the list may grow as we go forward and unwrap things.
@@ -1037,90 +1062,6 @@ class stack_cas_casstring {
         }
     }
 
-    /**
-     * Check for CAS commands which appear in the $keywords array, which are not just single letter variables.
-     * Notes, (i)  this is case insensitive.
-     *        (ii) returns true if we find the element of the array.
-     * @return bool|string true if an element of array is found in the casstring.
-     */
-    public function check_external_forbidden_words($keywords) {
-        if (null === $this->valid) {
-            $this->validate();
-        }
-
-        // Ensure all $keywords are lower case.
-        // Replace lists of keywords with their actual values.
-        $kws = array();
-        foreach ($keywords as $val) {
-            $kw = trim(strtolower($val));
-            if (array_key_exists($kw, stack_cas_security::$keywordlists)) {
-                $kws = array_merge($kws, stack_cas_security::$keywordlists[$kw]);
-            } else {
-                $kws[] = $kw;
-            }
-        }
-
-        $found          = false;
-        $strinkeywords  = array();
-        $pat = "|[\?_A-Za-z0-9]+|";
-        preg_match_all($pat, $this->casstring, $out, PREG_PATTERN_ORDER);
-
-        // Filter out some of these matches.
-        foreach ($out[0] as $key) {
-            if (strlen($key) > 1) {
-                $upkey = strtolower($key);
-                array_push($strinkeywords, $upkey);
-            }
-        }
-        $strinkeywords = array_unique($strinkeywords);
-
-        foreach ($strinkeywords as $key) {
-            if (in_array($key, $kws)) {
-                $found = true;
-                $this->valid = false;
-                $this->add_error(stack_string('stackCas_forbiddenWord', array('forbid' => stack_maxima_format_casstring($key))));
-            }
-        }
-        return $found;
-    }
-
-    /**
-     * Check for strings within the casstring.  This is only used in the "fobidden words" option.
-     * @return bool|string true if an element of array is found in the casstring.
-     */
-    public function check_external_forbidden_words_literal($keywords) {
-        if (null === $this->valid) {
-            $this->validate();
-        }
-
-        // Deal with escaped commas.
-        $keywords = str_replace('\,', 'COMMA_TAG', $keywords);
-        $keywords = explode(',', $keywords);
-        // Replace lists of keywords with their actual values.
-        $kws = array();
-        foreach ($keywords as $val) {
-            $val = trim($val);
-            $kw = strtolower($val);
-            if (array_key_exists($kw, stack_cas_security::$keywordlists)) {
-                $kws = array_merge($kws, stack_cas_security::$keywordlists[$kw]);
-            } else if ('COMMA_TAG' === $val) {
-                $kws[] = ',';
-            } else if ($val !== '') {
-                $kws[] = $val;
-            }
-        }
-
-        $found = false;
-        foreach ($kws as $key) {
-            if (!(false === strpos($this->rawcasstring, $key))) {
-                $found = true;
-                $this->valid = false;
-                $this->add_error(stack_string('stackCas_forbiddenWord', array('forbid' => stack_maxima_format_casstring($key))));
-            }
-        }
-        return $found;
-    }
-
     /*********************************************************/
     /* Internal utility functions                            */
     /*********************************************************/
@@ -1133,9 +1074,9 @@ class stack_cas_casstring {
     /* Return and modify information                         */
     /*********************************************************/
 
-    public function get_valid($security = 's', $syntax = true, $insertstars = 0, $allowwords = '') {
+    public function get_valid($security = 's', $syntax = true, $insertstars = 0, $secrules = null) {
         if (null === $this->valid) {
-            $this->validate($security, $syntax, $insertstars, $allowwords);
+            $this->validate($security, $syntax, $insertstars, $secrules);
         }
         return $this->valid;
     }
@@ -1252,7 +1193,7 @@ class stack_cas_casstring {
     // If we "CAS validate" this string, then we need to set various options.
     // If the teacher's answer is null then we use typeless validation, otherwise we check type.
     public function set_cas_validation_casstring($key, $forbidfloats = true,
-                    $lowestterms = true, $tans = null, $validationmethod, $allowwords = '') {
+                    $lowestterms = true, $tans = null, $validationmethod, $secrules = null) {
 
         if (!($validationmethod == 'checktype' || $validationmethod == 'typeless' || $validationmethod == 'units'
             || $validationmethod == 'unitsnegpow' || $validationmethod == 'equiv' || $validationmethod == 'numerical')) {
@@ -1260,7 +1201,7 @@ class stack_cas_casstring {
                 '"units" or "unitsnegpow" or "equiv" or "numerical", but received "'.$validationmethod.'".');
         }
         if (null === $this->valid) {
-            $this->validate('s', true, 0, $allowwords);
+            $this->validate('s', true, 0, $secrules);
         }
         if (false === $this->valid) {
             return false;

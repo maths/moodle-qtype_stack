@@ -506,24 +506,6 @@ class stack_cas_text {
         return $this->session;
     }
 
-    /* Simply passes the keywords through to session.*/
-    public function check_external_forbidden_words($keywords) {
-        if (null === $this->valid) {
-            $this->validate();
-        }
-        // Uninstantiated but validated.
-        if ($this->session == null || !$this->session->is_instantiated()) {
-            $cs = new stack_cas_session($this->rawsession);
-            // For the special bit of stack_cas_text_test::testcheck_external_forbidden_words.
-            $cs->merge_session($this->session);
-            return $cs->check_external_forbidden_words($keywords);
-        }
-        if (!is_a($this->session, 'stack_cas_session')) {
-            return false;
-        }
-        return $this->session->check_external_forbidden_words($keywords);
-    }
-
     public function get_debuginfo() {
         if (null === $this->session) {
             return "Session is NULL. ";

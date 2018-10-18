@@ -198,7 +198,12 @@ class stack_equiv_input extends stack_input {
         $modifiedcontents = array();
         $caslines = array();
         $errors = array();
-        $allowwords = $this->get_parameter('allowWords', '');
+
+        $secrules = new stack_cas_security($this->units,
+                        $this->get_parameter('allowWords', ''),
+                        // Forbid function definition for now.
+                        $this->get_parameter('forbidWords', '') . ', :=',
+                        $forbiddenkeys);
 
         foreach ($contents as $index => $val) {
             if ($this->identify_comments($val)) {
@@ -214,27 +219,14 @@ class stack_equiv_input extends stack_input {
                 if (2 == $this->get_parameter('insertStars', 0) || 5 == $this->get_parameter('insertStars', 0)) {
                     $val = stack_utils::make_single_char_vars($val, $localoptions,
                         $this->get_parameter('strictSyntax', true), $this->get_parameter('insertStars', 0),
-                        $this->get_parameter('allowWords', ''));
+                        $secrules);
                 }
                 $val = stack_utils::logic_nouns_sort($val, 'add');
                 $answer = new stack_cas_casstring($val);
             }
 
             $answer->get_valid('s', $this->get_parameter('strictSyntax', true),
-                $this->get_parameter('insertStars', 0), $allowwords);
-
-            // Ensure student hasn't used a variable name used by the teacher.
-            if ($forbiddenkeys) {
-                $answer->check_external_forbidden_words($forbiddenkeys);
-            }
-
-            $forbiddenwords = $this->get_parameter('forbidWords', '');
-
-            // Forbid function definition for now.
-            $forbiddenwords .= ', :=';
-            if ($forbiddenwords) {
-                $answer->check_external_forbidden_words_literal($forbiddenwords);
-            }
+                $this->get_parameter('insertStars', 0), $secrules);
 
             $caslines[] = $answer;
 

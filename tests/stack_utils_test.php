@@ -256,7 +256,7 @@ class stack_utils_test extends qtype_stack_testcase {
         );
 
         foreach ($testcases as $test => $result) {
-            $this->assertEquals($result, stack_utils::make_single_char_vars($test, null, false, 2, ''));
+            $this->assertEquals($result, stack_utils::make_single_char_vars($test, null, false, 2, null));
         }
 
     }
@@ -278,7 +278,7 @@ class stack_utils_test extends qtype_stack_testcase {
 
         foreach ($testcases as $test => $result) {
             $this->resetAfterTest();
-            $this->assertEquals($result, stack_utils::make_single_char_vars($test, null, false, 5, ''));
+            $this->assertEquals($result, stack_utils::make_single_char_vars($test, null, false, 5, null));
         }
 
     }

@@ -4,6 +4,7 @@
  */
 
 $CFG = new stdClass;
+$PAGE = new stdClass;
 
 // This is the directory into which you put the scripts.
 $CFG->wwwroot = "/var/www/api";

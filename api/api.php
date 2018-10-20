@@ -292,26 +292,32 @@ class qtype_stack_api {
 
                 $nodeid = (int) $nodename;
                 $quiet = $nodedata['quiet'];
+                $atopts = '';
+                if (array_key_exists('test_options', $nodedata)) {
+                    $atopts = (string) $nodedata['test_options'];
+                }
                 $node = new stack_potentialresponse_node($sans, $tans,
-                        (string) $nodedata['answer_test'], (string) $nodedata['test_options'],
-                        $quiet, '', $nodeid);
+                        (string) $nodedata['answer_test'], $atopts, $quiet, '', $nodeid);
+                $fbhtml = '';
+                if (array_key_exists('feedback_html', $nodedata['F'])) {
+                    $fbhtml = (string) $nodedata['F']['feedback_html'];
+                }
                 $node->add_branch(0, (string) $nodedata['F']['score_mode'], (float) $nodedata['F']['score'],
                         $falsepenalty, (int) $nodedata['F']['next_node'],
-                        (string) $nodedata['F']['feedback_html'],
-                        'html',
-                        $nodedata['F']['answer_note']);
+                        $fbhtml, 'html', $nodedata['F']['answer_note']);
+                $fbhtml = '';
+                if (array_key_exists('feedback_html', $nodedata['T'])) {
+                    $fbhtml = (string) $nodedata['T']['feedback_html'];
+                }
                 $node->add_branch(1, (string) $nodedata['T']['score_mode'], (float) $nodedata['T']['score'],
                         $falsepenalty, (int) $nodedata['T']['next_node'],
-                        (string) $nodedata['T']['feedback_html'],
-                        'html',
-                        $nodedata['T']['answer_note']);
+                        $fbhtml, 'html', $nodedata['T']['answer_note']);
                 $nodes[$nodeid] = $node;
             }
-            if ($prtdata['feedback_variables']) {
+            $feedbackvariables = null;
+            if (array_key_exists('feedback_variables', $prtdata)) {
                 $feedbackvariables = new stack_cas_keyval((string) $prtdata['feedback_variables'], $question->options, null, 't');
                 $feedbackvariables = $feedbackvariables->get_session();
-            } else {
-                $feedbackvariables = null;
             }
 
             $question->prts[$name] = new stack_potentialresponse_tree($name, '',

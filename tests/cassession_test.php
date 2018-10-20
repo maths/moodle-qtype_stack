@@ -548,6 +548,35 @@ class stack_cas_session_test extends qtype_stack_testcase {
         $this->assertEquals('[a,b,c,d]', $at1->get_value_key('b'));
     }
 
+    public function test_trivial_rand_range() {
+        // Cases should be in the form array('input', 'value', 'display').
+        $cases = array();
+        $cmds = array();
+
+        $cases[] = array('rand_zero(0)', '0', '0');
+        $cases[] = array('rand_range(5,5)', '5', '5');
+        $cases[] = array('rand_range(6,6,5)', '6', '6');
+
+        $i = 0;
+        foreach ($cases as $case) {
+            $cmds[$i] = 'd'.$i.':' . $case[0];
+            $i++;
+        }
+
+        $options = new stack_options();
+        $kv = new stack_cas_keyval(implode(';', $cmds), $options, 0, 't');
+        $s = $kv->get_session(); // This does a validation on the side.
+
+        $s->instantiate();
+
+        $i = 0;
+        foreach ($cases as $case) {
+            $this->assertEquals($case[1], $s->get_value_key('d'.$i));
+            $this->assertEquals($case[2], $s->get_display_key('d'.$i));
+            $i++;
+        }
+    }
+
     public function test_greek_lower() {
         // The case gamma is separated out below, so we can skip it on old Maxima where it is a known fail.
         $cs = array('greek1:[alpha,beta,delta,epsilon]',

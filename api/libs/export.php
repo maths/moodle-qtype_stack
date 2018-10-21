@@ -156,6 +156,7 @@ class qtype_stack_api_export {
         // Process question tests.
         $this->processresponsetests($yaml);
 
+        $yaml['stackversion'] = self::processvalue($q->stackversion->text, 'int');
         // Add in the deployed seeds.
         foreach ($q->deployedseed as $seed) {
             $yaml['deployedseed'][] = self::processvalue($seed, 'int');

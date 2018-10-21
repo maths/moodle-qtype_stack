@@ -190,6 +190,12 @@ class qtype_stack_question extends question_graded_automatically_with_countback
     protected $prtresults = array();
 
     /**
+     * @var string The YAML representation, if known.
+     */
+    public $yaml = null;
+    public $edityaml = false;
+
+    /**
      * Make sure the cache is valid for the current response. If not, clear it.
      * @param bool $acceptvalid if this is true, then we will grade things even
      * if the corresponding inputs are only VALID, and not SCORE.

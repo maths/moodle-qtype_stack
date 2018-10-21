@@ -22,13 +22,20 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-
 defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->dirroot . '/question/type/edit_question_form.php');
 require_once($CFG->dirroot . '/question/type/stack/question.php');
 require_once($CFG->dirroot . '/question/type/stack/questiontype.php');
 
+if (function_exists('yaml_parse_file')) {
+    require_once(__DIR__ . '/api/libs/yaml.php');
+    require_once(__DIR__ . '/api/libs/yaml_defaults.php');
+    require_once(__DIR__ . '/api/libs/export.php');
+
+    require_once($CFG->libdir . '/questionlib.php');
+    require_once($CFG->dirroot . '/question/format/xml/format.php');
+}
 
 /**
  * Stack question editing form definition.
@@ -146,6 +153,14 @@ class qtype_stack_edit_form extends question_edit_form {
         $mform->addHelpButton('fixdollars', 'fixdollars', 'qtype_stack');
         $mform->closeHeaderBefore('fixdollars');
 
+        if (function_exists('yaml_parse_file')) {
+            $yamledit = $mform->createElement('advcheckbox', 'yamledit',
+                    stack_string('yamledit'), stack_string('yamleditlabel'),
+                    array(), array(0, 1));
+            $mform->insertElementBefore($yamledit, 'fixdollars');
+            $mform->addHelpButton('yamledit', 'yamledit', 'qtype_stack');
+        }
+
         // There is no un-closeHeaderBefore, so fake it.
         $closebeforebuttonarr = array_search('buttonar', $mform->defaultRenderer()->_stopFieldsetElements);
         if ($closebeforebuttonarr !== false) {
@@ -232,6 +247,11 @@ class qtype_stack_edit_form extends question_edit_form {
         $mform->addElement('textarea', 'questionnote',
                 stack_string('questionnote'), array('rows' => 2, 'cols' => 80));
         $mform->addHelpButton('questionnote', 'questionnote', 'qtype_stack');
+
+        if (function_exists('yaml_parse_file')) {
+            $mform->addElement('textarea', 'yaml',
+                    stack_string('yamledit'), array('rows' => 20, 'cols' => 80));
+        }
 
         $mform->addElement('submit', 'verify', stack_string('verifyquestionandupdate'));
         $mform->registerNoSubmitButton('verify');
@@ -322,6 +342,7 @@ class qtype_stack_edit_form extends question_edit_form {
         $mform->addHelpButton('penalty', 'penalty', 'qtype_stack');
         $mform->setDefault('penalty', 0.1000000);
         $mform->addRule('penalty', null, 'required', null, 'client');
+
     }
 
     /**
@@ -554,6 +575,7 @@ class qtype_stack_edit_form extends question_edit_form {
     }
 
     public function data_preprocessing($question) {
+
         $question = parent::data_preprocessing($question);
         $question = $this->data_preprocessing_options($question);
         $question = $this->data_preprocessing_inputs($question);
@@ -564,6 +586,25 @@ class qtype_stack_edit_form extends question_edit_form {
             // Nasty hack to override what the base class does. The way it
             // prepares the questiontext field overwrites the default.
             $question->questiontext['text'] = self::DEFAULT_QUESTION_TEXT;
+        }
+
+        if (function_exists('yaml_parse_file')) {
+            global $DB, $COURSE;
+            // Slightly mad, but we generate XML->YAML to avoid code duplication.
+            // This ensures all fields, including question tests, are here.
+            $questiondata = $DB->get_record('question', array('id' => $question->id), '*', MUST_EXIST);
+            get_question_options($questiondata);
+            $qformat = new qformat_xml();
+            $qformat->setCourse($COURSE);
+            $qformat->setQuestions(array($questiondata));
+            $content = $qformat->exportprocess(true);
+
+            $defaults = new qtype_stack_api_yaml_defaults(null);
+            $settings = get_config('qtype_stack');
+            $defaults->moodle_settings_to_yaml_defaults($settings);
+
+            $export = new qtype_stack_api_export($content, $defaults);
+            $question->yaml = $export->yaml();
         }
 
         return $question;

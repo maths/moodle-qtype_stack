@@ -37,7 +37,7 @@ and executes this list in a single Maxima session.  The results of this are then
 
 The value is the result of Maxima's "string" command, and this should be sufficient to renter the expression into Maxima later.  Notice the difference between the rawvalue and the value.
 
-The display field contains either LaTeX, MathML or a String value (retained for accessibility reasons).  Currently only the LaTeX option is available.
+The display field contains the LaTeX displayed form of the variable.
 
 An important point here is that expressions (values) can refer to previous keys. This is one reason why we can't tie teachers down to a list of allowed functions.  They will be defining variable and function names.
 

@@ -35,7 +35,7 @@ class stack_options {
                 'type'       => 'list',
                 'value'      => 'LaTeX',
                 'strict'     => true,
-                'values'     => array('LaTeX', 'MathML', 'String'),
+                'values'     => array('LaTeX', 'String'),
                 'caskey'     => 'OPT_OUTPUT',
                 'castype'    => 'string',
              ),

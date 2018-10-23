@@ -9,6 +9,8 @@ How to report bugs and make suggestions is described on the [community](../About
 
 Goal: November 2018 for release in time for STACK conference.
 
+* Remove the maxima mathml code (which wasn't connected or used).
+
 * 1st version of API.
 * Better install code (see #332).
 * Better CSS, including "tool tips".  May need to refactor javascript.  (See issue #380)
@@ -19,3 +21,4 @@ Goal: November 2018 for release in time for STACK conference.
 * Update MCQ to accept units.
 * Add a base N check to the numeric input.* Expand support for input validation options to matrices (e.g. floatnum, rationalize etc.)
 * Add in full parser, to address issue #324.
+

@@ -31,6 +31,7 @@ require_once(__DIR__ . '/../stack/cas/keyval.class.php');
  * @group qtype_stack
  */
 class stack_cas_session_test extends qtype_stack_testcase {
+
     public function get_valid($cs, $val) {
 
         if (is_array($cs)) {
@@ -78,6 +79,74 @@ class stack_cas_session_test extends qtype_stack_testcase {
         $this->assertEquals('\frac{1}{1+x^2}', $at1->get_display_key('b'));
         $this->assertEquals('e^{\mathrm{i}\cdot \pi}', $at1->get_display_key('c'));
 
+    }
+
+    public function test_multiplication_option_complexno_i() {
+
+        $cs = array('p:a+b*%i', 'q:a+b*i', 'r:a+b*j');
+        foreach ($cs as $s) {
+            $s1[] = new stack_cas_casstring($s);
+        }
+
+        $options = new stack_options();
+        $options->set_option('simplify', false);
+        $options->set_option('complexno', 'i');
+
+        $at1 = new stack_cas_session($s1, $options, 0);
+        $this->assertEquals('a+b\cdot \mathrm{i}', $at1->get_display_key('p'));
+        $this->assertEquals('a+b\cdot \mathrm{i}', $at1->get_display_key('q'));
+        $this->assertEquals('a+b\cdot j', $at1->get_display_key('r'));
+}
+
+    public function test_multiplication_option_complexno_j() {
+
+        $cs = array('p:a+b*%i', 'q:a+b*i', 'r:a+b*j');
+        foreach ($cs as $s) {
+            $s1[] = new stack_cas_casstring($s);
+        }
+
+        $options = new stack_options();
+        $options->set_option('simplify', false);
+        $options->set_option('complexno', 'j');
+
+        $at1 = new stack_cas_session($s1, $options, 0);
+        $this->assertEquals('a+b\cdot \mathrm{j}', $at1->get_display_key('p'));
+        $this->assertEquals('a+b\cdot i', $at1->get_display_key('q'));
+        $this->assertEquals('a+b\cdot \mathrm{j}', $at1->get_display_key('r'));
+    }
+
+    public function test_multiplication_option_complexno_symi() {
+
+        $cs = array('p:a+b*%i', 'q:a+b*i', 'r:a+b*j');
+        foreach ($cs as $s) {
+            $s1[] = new stack_cas_casstring($s);
+        }
+
+        $options = new stack_options();
+        $options->set_option('simplify', false);
+        $options->set_option('complexno', 'symi');
+
+        $at1 = new stack_cas_session($s1, $options, 0);
+        $this->assertEquals('a+b\cdot \mathrm{i}', $at1->get_display_key('p'));
+        $this->assertEquals('a+b\cdot i', $at1->get_display_key('q'));
+        $this->assertEquals('a+b\cdot j', $at1->get_display_key('r'));
+    }
+
+    public function test_multiplication_option_complexno_symj() {
+
+        $cs = array('p:a+b*%i', 'q:a+b*i', 'r:a+b*j');
+        foreach ($cs as $s) {
+            $s1[] = new stack_cas_casstring($s);
+        }
+
+        $options = new stack_options();
+        $options->set_option('simplify', false);
+        $options->set_option('complexno', 'symj');
+
+        $at1 = new stack_cas_session($s1, $options, 0);
+        $this->assertEquals('a+b\cdot \mathrm{j}', $at1->get_display_key('p'));
+        $this->assertEquals('a+b\cdot i', $at1->get_display_key('q'));
+        $this->assertEquals('a+b\cdot j', $at1->get_display_key('r'));
     }
 
     public function test_multiplication_option_dot() {

@@ -36,34 +36,38 @@ The process of updating the census file is as follows:
  1. Acquire the source code of the new Maxima version you want to include in
     the census. For example 'maxima-5.42.0.tar.gz' and unpack it somewhere.
 
+     ```
      cd /tmp/
      mkdir maximatemp
      cd maximatemp
      tar xvf ~/Downloads/maxima-5.42.0.tar.gz
-
+     ```
 
  2. Extract the identifiers from the documentation that comes with that source,
     and store them to a file.
 
+     ```
      cd /tmp/maximatemp/maxima-5.42.0/doc/info
      grep '^ \-\- .*: .*' -shI * | grep -v 'an error. To debug' > /tmp/maximatemp/identifiers-5.42.0.txt
-
+     ```
 
  3. Use STACKs update script to read in that file. Make sure that you give
     the correct version number.
 
+     ```
      cd $MOODLE
      php question/type/stack/cli/maximaidentifierupdate.php --version=5.42.0 --data=/tmp/maximatemp/identifiers-5.42.0.txt
-
+     ```
 
  4. Also call the update script for the security map. The script will read
     the data updated in the previous step and include any new identifiers to
     the security map. Calling, this script should also be done if you manually
     modify the security-map as the script ensure that the map is in alphabetical
     order and indented in the expected way.
-
+     
+     ```
      cd $MOODLE
      php question/type/stack/cli/maximasecuritymapupdater.php
-
+     ```
 
  5. Remember to commit the changes to those JSON files to the GIT.

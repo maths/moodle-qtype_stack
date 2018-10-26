@@ -434,4 +434,17 @@ abstract class stack_connection_helper {
         return array($message, $debug, $success, $commandline);
     }
 
+    /**
+     * @return the value of the CAS verify certificate checkbox.
+     */
+    public static function get_cas_verifypeer_value() {
+        $verifypeer = true;
+
+        if (self::$config->casverfiypeer == 0) {
+            $verifypeer = false;
+        }
+
+        return $verifypeer;
+    }
+
 }

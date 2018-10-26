@@ -49,6 +49,7 @@ class stack_cas_connection_server extends stack_cas_connection_base {
         curl_setopt($request, CURLOPT_POSTFIELDS, $postdata);
         curl_setopt($request, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($request, CURLOPT_HTTPAUTH, CURLAUTH_ANY);
+        curl_setopt($request, CURLOPT_SSL_VERIFYPEER, stack_connection_helper::get_cas_verifypeer_value());
         if (!empty($this->serveruserpass)) {
             curl_setopt($request, CURLOPT_USERPWD, $this->serveruserpass);
         }

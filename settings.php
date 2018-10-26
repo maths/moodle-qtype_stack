@@ -107,6 +107,9 @@ $settings->add(new admin_setting_configtext('qtype_stack/maximalibraries',
 $settings->add(new admin_setting_configcheckbox('qtype_stack/casdebugging',
         get_string('settingcasdebugging', 'qtype_stack'),
         get_string('settingcasdebugging_desc', 'qtype_stack'), 0));
+$settings->add(new admin_setting_configcheckbox('qtype_stack/casverfiypeer',
+        get_string('settingcasverfiypeer', 'qtype_stack'),
+        get_string('settingcasverfiypeer_desc', 'qtype_stack'), 1));
 
 
 // Options for maths display.

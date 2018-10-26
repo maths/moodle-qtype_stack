@@ -402,6 +402,8 @@ $string['settingmaximalibraries'] = 'Load optional Maxima libraries:';
 $string['settingmaximalibraries_desc'] = 'This is a comma separated list of Maxima library names which will be automatically loaded into Maxima.  Only supported library names can be used: see the documentation for supported library names. These libraries will not be loaded if you have saved a maxima image to optimise performance.';
 $string['settingmaximalibraries_error'] = 'The following package is not supported: {$a}';
 $string['settingmaximalibraries_failed'] = 'It appears as if some of the Maxima packages you have asked for have failed to load.  Please refer to the installation instructions for notes about this error.';
+$string['settingcasverfiypeer'] = 'CAS verify certificate';
+$string['settingcasverfiypeer_desc'] = 'This option determines whether curl verifies the authenticity of the peer\'s certificate. Checked (Yes) means curl verifies; Unchecked (No) means it doesn\'t.';
 
 // Strings used by replace dollars script.
 $string['replacedollarscount'] = 'This category contains {$a} STACK questions.';

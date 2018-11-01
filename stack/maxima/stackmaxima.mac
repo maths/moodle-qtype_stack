@@ -2421,7 +2421,7 @@ ATCompSquare(SA, SB, SO) := block([Validity,RawMark,FeedBack,AnswerNote,ret,wrt,
     if atom(wrt)#true then (SA:subst(facdum, wrt, SA), SB:subst(facdum, wrt, SB), wrt:facdum),
 
     if member(wrt,listofvars(SB)) and not(member(wrt,listofvars(SA))) then
-        return([true, false, StackAddNote("", "ATCompSquare_SA_not_depend_var"), StackAddFeedback("", "ATCompSquare_SA_not_depend_var", stack_disp(SBL[2], "i"))]),
+        return([true, false, StackAddNote("", "ATCompSquare_SA_not_depend_var"), StackAddFeedback("", "ATCompSquare_SA_not_depend_var", stack_disp(wrt, "i"))]),
 
     opa:safe_op(SA),
 
@@ -2431,6 +2431,14 @@ ATCompSquare(SA, SB, SO) := block([Validity,RawMark,FeedBack,AnswerNote,ret,wrt,
         return([true, true, StackAddNote("", "ATCompSquare_true_trivial"), ""]),
     if ae and is(degree(expand(SB),wrt)=1) then
         return([true, true, StackAddNote("", "ATCompSquare_true_trivial"), ""]),
+
+    /* case: -(x-1)^2/k */
+    if opa="-" then block(
+        SA:first(args(SA)),
+        /* For the algebraic equivalence test later */
+        SB:-1*SB,
+        opa:safe_op(SA)
+    ),
 
     /* case: (x-1)^2 */
     if opa="^" and part(args(SA),2)=2 then cform:true,
@@ -2455,12 +2463,15 @@ ATCompSquare(SA, SB, SO) := block([Validity,RawMark,FeedBack,AnswerNote,ret,wrt,
 
         if atom(argsa[1]) then return(true),
 
+        /* case: -(x-1)^2 + c*/
+        if op(argsa[1])="-" then argsa[1]:first(args(argsa[1])),
+
         /* case: (x-1)^2 + c*/
         if op(argsa[1])="^" and part(argsa[1],2)=2 then cform:true,
 
         /* case: k*(x-1)^2 + c*/
         if op(argsa[1])="*" then block([argsb],
-           argsb: sublist(args(argsa[1]),lambda([ex],elementp(wrt,setify(listofvars(ex))))),
+           argsb: sublist(args(argsa[1]), lambda([ex], elementp(wrt, setify(listofvars(ex))))),
            if length(argsb)=1 then
                if op(argsb[1])="^" and part(argsb[1],2)=2 then cform:true
         )
@@ -2479,7 +2490,6 @@ ATCompSquare(SA, SB, SO) := block([Validity,RawMark,FeedBack,AnswerNote,ret,wrt,
     AnswerNote:concat("ATCompSquare_false",AnswerNote),
     return([true,false,StackAddNote("",AnswerNote),StackAddFeedback("",AnswerNote)])
     )$
-
 
 /*********************/
 /* Calculus question */

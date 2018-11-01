@@ -1511,6 +1511,11 @@ class stack_answertest_test_data {
         array('UnitsStrict', '[3,2]', '9.80e-9*mg', '9.8e-9*mg', 1, 'ATUnits_units_match.', ''),
         array('UnitsStrict', '[3,2]', '9.83e-9*mg', '9.8e-9*mg', 1, 'ATUnits_units_match.', ''),
         array('UnitsStrict', '[3,2]', '9.78e-9*mg', '9.8e-9*mg', 1, 'ATUnits_units_match.', ''),
+        array('UnitsStrict', '2', '36*Kj/mol', '36*Kj/mol', 1, 'ATUnits_units_match.', ''),
+        array('UnitsStrict', '2', '-36*Kj/mol', '-36*Kj/mol', 1, 'ATUnits_units_match.', ''),
+        array('UnitsStrict', '2', '(-36)*Kj/mol', '-36*Kj/mol', 1, 'ATUnits_units_match.', ''),
+        array('UnitsStrict', '2', '(-36*Kj)/mol', '-36*Kj/mol', 1, 'ATUnits_units_match.', ''),
+        array('UnitsStrict', '2', '-(36*Kj)/mol', '-36*Kj/mol', 1, 'ATUnits_units_match.', ''),
 
         array('UnitsRelative', '0.01', '12.3*m/s', '12.3*m/s', 1, 'ATUnits_units_match.', ''),
         array('UnitsRelative', '0.01', '12*m/s', '12.3*m/s', 0, 'ATUnits_units_match.', ''),

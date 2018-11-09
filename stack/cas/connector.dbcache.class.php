@@ -143,9 +143,20 @@ class stack_cas_connection_db_cache implements stack_cas_connection {
         $db->delete_records('qtype_stack_cas_cache');
 
         // Also take this opportunity to empty the plots folder on disc.
-        $plots = glob(stack_cas_configuration::images_location() . '/*.png');
-        foreach ($plots as $plot) {
-            unlink($plot);
+        $plots = glob(stack_cas_configuration::images_location() . '/*.{png,svg}', GLOB_BRACE);
+        $a = ['total' => count($plots), 'done' => 0];
+        $progressevery = (int) min(max(1, $a['total'] / 500), 100);
+        if ($a['total'] > 0) {
+            $pbar = new progress_bar('clearstackcache', 500, true);
+            foreach ($plots as $plot) {
+                unlink($plot);
+
+                $a['done'] += 1;
+                if ($a['done'] % $progressevery == 0 || $a['done'] == $a['total']) {
+                    core_php_time_limit::raise(60);
+                    $pbar->update($a['done'], $a['total'], get_string('clearingcachefiles', 'qtype_stack', $a));
+                }
+            }
         }
     }
 

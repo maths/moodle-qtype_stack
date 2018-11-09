@@ -23,6 +23,8 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+define('NO_OUTPUT_BUFFERING', true);
+
 require_once(__DIR__ . '/../../../config.php');
 
 require_once($CFG->libdir . '/questionlib.php');
@@ -30,6 +32,8 @@ require_once(__DIR__ . '/locallib.php');
 require_once(__DIR__ . '/stack/utils.class.php');
 require_once(__DIR__ . '/stack/bulktester.class.php');
 
+// Increase memory limit: some users with very large numbers of questions/variants have needed this.
+raise_memory_limit(MEMORY_HUGE);
 
 // Get the parameters from the URL.
 $contextid = required_param('contextid', PARAM_INT);
@@ -61,8 +65,15 @@ echo $OUTPUT->header();
 echo $OUTPUT->heading($title);
 
 // Run the tests.
-list($allpassed, $failingtests, $notests) = $bulktester->run_all_tests_for_context($context);
+list($allpassed, $failing) = $bulktester->run_all_tests_for_context($context);
 
 // Display the final summary.
-$bulktester->print_overall_result($allpassed, $failingtests, $notests);
+$bulktester->print_overall_result($allpassed, $failing);
+
+$config = stack_utils::get_config();
+if ('db' == $config->casresultscache) {
+    echo html_writer::tag('p', stack_string('healthcheckcachestatus',
+            stack_cas_connection_db_cache::entries_count($DB)));
+}
+
 echo $OUTPUT->footer();

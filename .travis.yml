@@ -14,43 +14,56 @@ matrix:
   # in https://github.com/moodlerooms/moodle-plugin-ci, but I can't work out
   # how to do that.
   include:
-    - php: 5.4
-      env: TASK=PHPUNIT        MOODLE_BRANCH=MOODLE_27_STABLE   DB=pgsql
 
-    - php: 5.5
-      env: TASK=PHPUNIT        MOODLE_BRANCH=MOODLE_30_STABLE   DB=pgsql
+    # Just retain one test on PHP 5.6 for the version 4.2 release.
+    - php: 5.6
+      env: TASK=PHPUNIT        MOODLE_BRANCH=MOODLE_35_STABLE   DB=mysqli
+
+    - php: 7.0
+      env: TASK=PHPUNIT        MOODLE_BRANCH=MOODLE_31_STABLE   DB=mysqli
+
+    - php: 7.0
+      env: TASK=PHPUNIT        MOODLE_BRANCH=MOODLE_32_STABLE   DB=mysqli
+
+    - php: 7.0
+      env: TASK=PHPUNIT        MOODLE_BRANCH=MOODLE_33_STABLE   DB=mysqli
+
+    - php: 7.0
+      env: TASK=PHPUNIT        MOODLE_BRANCH=MOODLE_34_STABLE   DB=mysqli
+
+    - php: 7.0
+      env: TASK=PHPUNIT        MOODLE_BRANCH=MOODLE_35_STABLE   DB=mysqli
 
     - php: 5.6
-      env: TASK=PHPUNIT        MOODLE_BRANCH=MOODLE_31_STABLE   DB=pgsql
+      env: TASK=BEHAT          MOODLE_BRANCH=MOODLE_31_STABLE   DB=mysqli
 
     - php: 7.0
-      env: TASK=PHPUNIT        MOODLE_BRANCH=MOODLE_32_STABLE   DB=pgsql
-
-    - php: 5.4
-      env: TASK=BEHAT          MOODLE_BRANCH=MOODLE_27_STABLE   DB=pgsql
-
-    - php: 5.5
-      env: TASK=BEHAT          MOODLE_BRANCH=MOODLE_30_STABLE   DB=pgsql
-
-    - php: 5.6
-      env: TASK=BEHAT          MOODLE_BRANCH=MOODLE_31_STABLE   DB=pgsql
+      env: TASK=BEHAT          MOODLE_BRANCH=MOODLE_32_STABLE   DB=mysqli
 
     - php: 7.0
-      env: TASK=BEHAT          MOODLE_BRANCH=MOODLE_32_STABLE   DB=pgsql
+      env: TASK=BEHAT          MOODLE_BRANCH=MOODLE_33_STABLE   DB=mysqli
 
     - php: 7.0
-      env: TASK=CODESTYLE      MOODLE_BRANCH=MOODLE_31_STABLE   DB=pgsql
+      env: TASK=BEHAT          MOODLE_BRANCH=MOODLE_34_STABLE   DB=mysqli
 
     - php: 7.0
-      env: TASK=CODEKNOWNFAILS MOODLE_BRANCH=MOODLE_31_STABLE   DB=pgsql
+      env: TASK=BEHAT          MOODLE_BRANCH=MOODLE_35_STABLE   DB=mysqli
+
+    - php: 7.0
+      env: TASK=CODESTYLE      MOODLE_BRANCH=MOODLE_35_STABLE   DB=mysqli
+
+    - php: 7.0
+      env: TASK=CODEKNOWNFAILS MOODLE_BRANCH=MOODLE_35_STABLE   DB=mysqli
 
   allow_failures:
     - php: 7.0
-      env: TASK=CODEKNOWNFAILS MOODLE_BRANCH=MOODLE_31_STABLE   DB=pgsql
+      env: TASK=CODEKNOWNFAILS MOODLE_BRANCH=MOODLE_35_STABLE   DB=mysqli
 
 before_install:
   - sudo apt-get update
   - sudo apt-get install maxima maxima-share texinfo
+  - maxima --list-avail
+# Travis seems to be using Maxime version 5.32.1, lisp gcl, which is very old!
   - sudo locale-gen "en_AU.UTF-8"
   - sudo dpkg-reconfigure locales
   - phpenv config-rm xdebug.ini

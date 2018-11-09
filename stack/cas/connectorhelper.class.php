@@ -217,7 +217,7 @@ abstract class stack_connection_helper {
     public static function stackmaxima_version_healthcheck() {
         self::ensure_config_loaded();
 
-        $command = 'cab:block([],print("[TimeStamp= [ 0 ], Locals= [ 0=[ error= ["), ' .
+        $command = 'cab:block([],print("[STACKSTART Locals= [ 0=[ error= ["), ' .
                 'cte("__stackmaximaversion",errcatch(__stackmaximaversion:stackmaximaversion)), print("] ]"), return(true));' .
                 "\n";
         $connection = self::make();
@@ -298,7 +298,7 @@ abstract class stack_connection_helper {
         // Put something non-trivial in the call.
         $date = date("Y-m-d H:i:s");
 
-        $command = 'cab:block([],print("[TimeStamp= [ 0 ], Locals= [ 0=[ error= ["), ' .
+        $command = 'cab:block([],print("[STACKSTART Locals= [ 0=[ error= ["), ' .
                 'cte("CASresult",errcatch(diff(x^n,x))), print("1=[ error= ["), ' .
                 'cte("STACKversion",errcatch(stackmaximaversion)), print("2=[ error= ["), ' .
                 'cte("MAXIMAversion",errcatch(MAXIMA_VERSION_STR)), print("3=[ error= ["), ' .

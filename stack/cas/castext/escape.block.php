@@ -14,14 +14,14 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
-/**
- * Escape block allows one to output character sequences that would otherwise
- * cause CASText to do something.
- *
- * @copyright  2017 Aalto University
- * @copyright  2012 University of Birmingham
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
+defined('MOODLE_INTERNAL') || die();
+
+// Escape block allows one to output character sequences that would otherwise cause CASText to do something.
+//
+// @copyright  2017 Aalto University
+// @copyright  2012 University of Birmingham
+// @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+
 require_once(__DIR__ . '/../casstring.class.php');
 require_once("block.interface.php");
 

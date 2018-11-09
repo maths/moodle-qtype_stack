@@ -138,3 +138,4 @@ Further examples are give in the page on [matrices](../CAS/Matrix.md).
 
 The XML of this question is included with the [sample questions](Sample_questions.md).  Please look at the other [sample questions](Sample_questions.md) which are distributed with STACK for more examples.
 
+The next part of the authoring quick start guide looks at [equivalence reasoning](Authoring_quick_start_4.md).

@@ -14,24 +14,24 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
-/**
- * Interface/base class for the blocks. For each block found by the castext-processor an instance of
- * this kind of a class will be created, so feel free to store state.
- *
- * Implementations of this class should reside in files with the prefix '.block.php' in this directory.
- * And the class name should be the blockname with the prefix 'stack_cas_castext_'
- *
- * @copyright  2013 Aalto University
- * @copyright  2012 University of Birmingham
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
+defined('MOODLE_INTERNAL') || die();
+
+// Interface/base class for the blocks. For each block found by the castext-processor an instance of
+// this kind of a class will be created, so feel free to store state.
+//
+// Implementations of this class should reside in files with the prefix '.block.php' in this directory.
+// And the class name should be the blockname with the prefix 'stack_cas_castext_'.
+//
+// @copyright  2013 Aalto University
+// @copyright  2012 University of Birmingham
+// @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+
+defined('MOODLE_INTERNAL') || die();
 
 abstract class stack_cas_castext_block {
 
-    /**
-     * Nodes here are like DOM-nodes but not quite. The type is stack_cas_castext_parsetreenode, we use these nodes instead of
-     * arrays so that the references are simpler to handle.
-     */
+    // Nodes here are like DOM-nodes but not quite. The type is stack_cas_castext_parsetreenode, we use these nodes instead of
+    // arrays so that the references are simpler to handle.
     private $node;
     private $session;
     protected $seed;
@@ -39,9 +39,7 @@ abstract class stack_cas_castext_block {
     protected $syntax;
     protected $insertstars;
 
-    /**
-     * Returns the node this block is supposed to act on
-     */
+    // Returns the node this block is supposed to act on.
     public function &get_node() {
         return $this->node;
     }
@@ -135,5 +133,4 @@ abstract class stack_cas_castext_block {
 
         return $valid;
     }
-
 }

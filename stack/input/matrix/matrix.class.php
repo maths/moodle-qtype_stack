@@ -221,11 +221,6 @@ class stack_matrix_input extends stack_input {
             return $this->render_error($this->errors);
         }
 
-        $attributes = array(
-            'type' => 'text',
-            'name' => $fieldname,
-        );
-
         $tc = $state->contents;
         $blank = $this->is_blank_response($state->contents);
         if ($blank) {
@@ -236,10 +231,9 @@ class stack_matrix_input extends stack_input {
             }
         }
 
+        $attr = ' autocapitalize="none" spellcheck="false"';
         if ($readonly) {
-            $readonlyattr = ' readonly="readonly"';
-        } else {
-            $readonlyattr = '';
+            $attr .= ' readonly="readonly"';
         }
 
         // Build the html table to contain these values.
@@ -262,7 +256,7 @@ class stack_matrix_input extends stack_input {
                 }
                 $name = $fieldname.'_sub_'.$i.'_'.$j;
                 $xhtml .= '<td><input type="text" name="'.$name.'" value="'.$val.'" size="'.
-                        $this->parameters['boxWidth'].'"'.$readonlyattr.'></td>';
+                        $this->parameters['boxWidth'].'"'.$attr.'></td>';
             }
 
             if ($i == 0) {

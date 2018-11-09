@@ -135,12 +135,13 @@ class stack_abstract_graph_test extends basic_testcase {
 
     /**
      * This graph has a link to a non-existent node. We verify that throws an exception.
+     *
+     * @expectedException coding_exception
      */
     public function test_missing_node() {
         $graph = new stack_abstract_graph();
         $graph->add_node(1, null, 2, '=1', '=0');
 
-        $this->setExpectedException('coding_exception');
         $graph->layout();
     }
 

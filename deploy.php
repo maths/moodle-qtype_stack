@@ -19,6 +19,7 @@
 // @copyright  2012 the Open University
 // @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
 
+define('NO_OUTPUT_BUFFERING', true);
 
 require_once(__DIR__.'/../../../config.php');
 
@@ -44,7 +45,9 @@ require_sesskey();
 $nexturl = new moodle_url('/question/type/stack/questiontestrun.php', $urlparams);
 $PAGE->set_url($nexturl); // Since this script always ends in a redirect.
 $PAGE->set_heading($COURSE->fullname);
-$PAGE->set_pagelayout('admin');
+$PAGE->set_pagelayout('popup');
+
+require_login();
 
 // Process deploy if applicable.
 $deploy = optional_param('deploy', null, PARAM_INT);
@@ -80,7 +83,8 @@ $starttime = time();
 // The number of seconds we devote to deploying before moving on.  Prevents system hangging.
 // Note, in "safe mode" the set time limit function has no effect.
 $maxtime = 180;
-flush(); // Force output to prevent timeouts and to make progress clear.
+// Deploying lots of variants is time consuming, and we need a progress bar in some cases.
+$numforprogressbar = 10;
 core_php_time_limit::raise($maxtime); // Prevent PHP timeouts.
 gc_collect_cycles(); // Because PHP's default memory management is rubbish.
 
@@ -99,6 +103,15 @@ if (!is_null($deploy)) {
     $maxfailedattempts = 10;
     $failedattempts = 0;
     $numberdeployed = 0;
+
+    // Output something if we need a progress bar.
+    if ($deploy >= $numforprogressbar) {
+        echo $OUTPUT->header();
+        flush();
+        $a = ['total' => $deploy, 'done' => 0];
+        $progressevery = (int) min(max(1, $deploy / 500), 100);
+        $pbar = new progress_bar('deployedprogress', 500, true);
+    }
 
     while ($failedattempts < $maxfailedattempts && $numberdeployed < $deploy && time() - $starttime < $maxtime) {
         // Genrate a new seed.
@@ -127,7 +140,6 @@ if (!is_null($deploy)) {
                 $variantdeployed = true;
                 $failedattempts++;
             }
-
         }
 
         if (!$variantdeployed) {
@@ -151,16 +163,50 @@ if (!is_null($deploy)) {
             $numberdeployed++;
             flush();
         }
+        if ($deploy >= $numforprogressbar) {
+            $a['done'] += 1;
+            if ($a['done'] % $progressevery == 0 || $a['done'] == $a['total']) {
+                core_php_time_limit::raise(60);
+                $pbar->update($a['done'], $a['total'], get_string('deployedprogress', 'qtype_stack', $a));
+            }
+        }
     }
 
-    $nexturl->param('deployfeedback', stack_string('deploymanysuccess', array('no' => $numberdeployed)));
-    $nexturl->param('seed', $seed);
-    if (time() - $starttime >= $maxtime) {
-        $nexturl->param('deployfeedbackerr', stack_string('deployoutoftime', array('time' => time() - $starttime)));
-        redirect($nexturl);
+    // If we quit the while loop early we should set progress to 100%.
+    if ($deploy >= $numforprogressbar) {
+        $pbar->update($a['total'], $a['total'], get_string('deployedprogress', 'qtype_stack', $a));
     }
+
+    $message = stack_string('deploymanysuccess', array('no' => $numberdeployed));
+    $nexturl->param('deployfeedback', $message);
+    $nexturl->param('seed', $seed);
+
+    $allok = true;
     if ($failedattempts >= $maxfailedattempts) {
-        $nexturl->param('deployfeedbackerr', stack_string('deploymanynonew'));
+        $allok = false;
+        $errmessage = stack_string('deploymanynonew');
+        $nexturl->param('deployfeedbackerr', $errmessage);
+        if ($deploy < $numforprogressbar) {
+            redirect($nexturl);
+        }
+    }
+    if (time() - $starttime >= $maxtime) {
+        $allok = false;
+        $errmessage = stack_string('deployoutoftime', array('time' => time() - $starttime));
+        $nexturl->param('deployfeedbackerr', $errmessage);
+        if ($deploy < $numforprogressbar) {
+            redirect($nexturl);
+        }
+    }
+
+    if ($deploy >= $numforprogressbar) {
+        \core\notification::success(stack_string('deploymanysuccess', array('no' => $numberdeployed)));
+        if (!$allok) {
+            echo html_writer::tag('p', $errmessage, array('class' => 'overallresult fail'));
+        }
+        echo $OUTPUT->continue_button($nexturl);
+        echo $OUTPUT->footer();
+        exit;
     }
     redirect($nexturl);
 }

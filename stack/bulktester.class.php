@@ -19,6 +19,8 @@
 // @copyright  2015 The Open University.
 // @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
 
+defined('MOODLE_INTERNAL') || die();
+
 class stack_bulk_tester  {
 
     /**
@@ -67,6 +69,8 @@ class stack_bulk_tester  {
         $allpassed = true;
         $failingtests = array();
         $notests = array();
+        $nogeneralfeedback = array();
+        $failingupgrade = array();
 
         foreach ($categories as $key => $category) {
             list($categoryid) = explode(',', $key);
@@ -82,23 +86,44 @@ class stack_bulk_tester  {
 
             foreach ($questionids as $questionid => $name) {
                 $question = question_bank::load_question($questionid);
+
                 $questionname = format_string($name);
-                foreach ($question->deployedseeds as $seed) {
-                    $this->qtype_stack_seed_cache($question, $seed);
+
+                $upgradeerrors = $question->validate_against_stackversion();
+                if ($upgradeerrors != '') {
+                    $questionnamelink = html_writer::link(new moodle_url($questiontestsurl,
+                            array('questionid' => $questionid)), format_string($name));
+                    $failingupgrade[] = $upgradeerrors . ' ' . $questionnamelink;
+                    echo $OUTPUT->heading($questionnamelink, 4);
+                    echo html_writer::tag('p', $upgradeerrors, array('class' => 'fail'));
+                    $allpassed = false;
+                    continue;
+                }
+
+                $questionnamelink = html_writer::link(new moodle_url($questiontestsurl,
+                        array('questionid' => $questionid)), format_string($name));
+
+                $questionproblems = array();
+                if (trim($question->generalfeedback) === '') {
+                    $nogeneralfeedback[] = $questionnamelink;
+                    $questionproblems[] = html_writer::tag('li', stack_string('bulktestnogeneralfeedback'));
                 }
 
                 $tests = question_bank::get_qtype('stack')->load_question_tests($questionid);
                 if (!$tests) {
-                    $questionnamelink = html_writer::link(new moodle_url($questiontestsurl,
-                            array('questionid' => $questionid)), format_string($name));
                     $notests[] = $questionnamelink;
+                    $questionproblems[] = html_writer::tag('li', stack_string('bulktestnotests'));
+                }
+
+                if ($questionproblems !== array()) {
                     echo $OUTPUT->heading($questionnamelink, 4);
-                    echo html_writer::tag('p', stack_string('bulktestnotests'));
-                    continue;
+                    echo html_writer::tag('ul', implode($questionproblems, "\n"));
+
                 }
 
                 $previewurl = new moodle_url($questiontestsurl, array('questionid' => $questionid));
                 if (empty($question->deployedseeds)) {
+                    $this->qtype_stack_seed_cache($question, 0);
                     $questionnamelink = html_writer::link($previewurl, $questionname);
                     echo $OUTPUT->heading($questionnamelink, 4);
                     list($ok, $message) = $this->qtype_stack_test_question($question, $tests);
@@ -106,10 +131,10 @@ class stack_bulk_tester  {
                         $allpassed = false;
                         $failingtests[] = $questionnamelink . ': ' . $message;
                     }
-
                 } else {
                     echo $OUTPUT->heading(format_string($name), 4);
                     foreach ($question->deployedseeds as $seed) {
+                        $this->qtype_stack_seed_cache($question, $seed);
                         $previewurl->param('seed', $seed);
                         $questionnamelink = html_writer::link($previewurl, stack_string('seedx', $seed));
                         echo $OUTPUT->heading($questionnamelink, 4);
@@ -123,7 +148,12 @@ class stack_bulk_tester  {
                 }
             }
         }
-        return array($allpassed, $failingtests, $notests);
+        $failing = array(
+            'failingtests'      => $failingtests,
+            'notests'           => $notests,
+            'nogeneralfeedback' => $nogeneralfeedback,
+            'failingupgrades'   => $failingupgrade);
+        return array($allpassed, $failing);
     }
 
     /**
@@ -143,7 +173,9 @@ class stack_bulk_tester  {
 
         // Prepare the question and a usage.
         $question = clone($question);
-        $question->seed = (int) $seed;
+        if (!is_null($seed)) {
+            $question->seed = (int) $seed;
+        }
         $quba = question_engine::make_questions_usage_by_activity('qtype_stack', context_system::instance());
         $quba->set_preferred_behaviour('adaptive');
 
@@ -159,16 +191,27 @@ class stack_bulk_tester  {
             }
         }
 
-        $flag = '';
+        $message = stack_string('testpassesandfails', array('passes' => $passes, 'fails' => $fails));
         $ok = ($fails === 0);
+
+        // These lines are to seed the cache and to generate any runtime errors.
+        $notused = $question->get_question_summary();
+        $generalfeedback = $question->get_generalfeedback_castext();
+        $notused = $generalfeedback->get_display_castext();
+
+        if (!empty($question->runtimeerrors)) {
+            $ok = false;
+            $message .= html_writer::tag('br',
+                    stack_string('stackInstall_testsuite_errors')) . implode(' ', array_keys($question->runtimeerrors));
+        }
+
+        $flag = '';
         if ($ok === false) {
             $class = 'fail';
         } else {
             $class = 'pass';
             $flag = '* ';
         }
-
-        $message = stack_string('testpassesandfails', array('passes' => $passes, 'fails' => $fails));
         if (!$quiet) {
             echo html_writer::tag('p', $flag.$message, array('class' => $class));
         }
@@ -189,7 +232,7 @@ class stack_bulk_tester  {
      */
     public function qtype_stack_seed_cache($question, $seed = null, $quiet = false) {
         flush(); // Force output to prevent timeouts and to make progress clear.
-        core_php_time_limit::raise(10); // Prevent PHP timeouts.
+        core_php_time_limit::raise(60); // Prevent PHP timeouts.
         gc_collect_cycles(); // Because PHP's default memory management is rubbish.
 
         // Prepare the question and a usage.
@@ -217,6 +260,7 @@ class stack_bulk_tester  {
         // This involves instantiation, which seeds the CAS cache in the cases when we have no tests.
         $renderquestion = $quba->render_question($slot, $options);
         $workedsolution = $qu->get_generalfeedback_castext();
+        $workedsolution->get_display_castext();
         $questionote = $qu->get_question_summary();
     }
 
@@ -226,7 +270,7 @@ class stack_bulk_tester  {
      * @param bool $allpassed whether all the tests passed.
      * @param array $failingtests list of the ones that failed.
      */
-    public function print_overall_result($allpassed, $failingtests, $notests) {
+    public function print_overall_result($allpassed, $failing) {
         global $OUTPUT;
         echo $OUTPUT->heading(stack_string('overallresult'), 2);
         if ($allpassed) {
@@ -237,22 +281,15 @@ class stack_bulk_tester  {
                     array('class' => 'overallresult fail'));
         }
 
-        if (!empty($failingtests)) {
-            echo $OUTPUT->heading(stack_string('stackInstall_testsuite_failures'), 3);
-            echo html_writer::start_tag('ul');
-            foreach ($failingtests as $message) {
-                echo html_writer::tag('li', $message);
+        foreach ($failing as $key => $failarray) {
+            if (!empty($failarray)) {
+                echo $OUTPUT->heading(stack_string('stackInstall_testsuite_' . $key), 3);
+                echo html_writer::start_tag('ul');
+                foreach ($failarray as $message) {
+                    echo html_writer::tag('li', $message);
+                }
+                echo html_writer::end_tag('ul');
             }
-            echo html_writer::end_tag('ul');
-        }
-
-        if (!empty($notests)) {
-            echo $OUTPUT->heading(stack_string('stackInstall_testsuite_notests'), 3);
-            echo html_writer::start_tag('ul');
-            foreach ($notests as $message) {
-                echo html_writer::tag('li', $message);
-            }
-            echo html_writer::end_tag('ul');
         }
 
         echo html_writer::tag('p', html_writer::link(new moodle_url('/question/type/stack/bulktestindex.php'),

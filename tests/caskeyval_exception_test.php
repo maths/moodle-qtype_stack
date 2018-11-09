@@ -27,38 +27,52 @@ require_once(__DIR__ . '/../stack/cas/keyval.class.php');
  * @group qtype_stack
  */
 class stack_cas_keyval_exception_test extends basic_testcase {
+    /**
+     * @expectedException stack_exception
+     */
     public function test_exception_1() {
-        $this->setExpectedException('stack_exception');
         $at1 = new stack_cas_keyval(array(), false, false, 0);
     }
 
+    /**
+     * @expectedException stack_exception
+     */
     public function test_exception_2() {
-        $this->setExpectedException('stack_exception');
         $at1 = new stack_cas_keyval(1, false, false, 0);
     }
 
+    /**
+     * @expectedException stack_exception
+     */
     public function test_exception_3() {
-        $this->setExpectedException('stack_exception');
         $at1 = new stack_cas_keyval('x=1', false, false, 0);
     }
 
+    /**
+     * @expectedException stack_exception
+     */
     public function test_exception_4() {
-        $this->setExpectedException('stack_exception');
         $at1 = new stack_cas_keyval('x=1', null, false, 0);
     }
 
+    /**
+     * @expectedException stack_exception
+     */
     public function test_exception_5() {
-        $this->setExpectedException('stack_exception');
         $at1 = new stack_cas_keyval('x=1', 'z', false, 0);
     }
 
+    /**
+     * @expectedException stack_exception
+     */
     public function test_exception_6() {
-        $this->setExpectedException('stack_exception');
         $at1 = new stack_cas_keyval('x=1', 't', 1, 0);
     }
 
+    /**
+     * @expectedException stack_exception
+     */
     public function test_exception_7() {
-        $this->setExpectedException('stack_exception');
         $at1 = new stack_cas_keyval('x=1', 't', false, true);
     }
 }

@@ -100,7 +100,9 @@ class stack_dropdown_input extends stack_input {
         }
 
         // Sort out the default ddlvalues etc.
-        $this->adapt_to_model_answer($this->teacheranswer);
+        if ($this->runtime) {
+            $this->adapt_to_model_answer($this->teacheranswer);
+        }
         return true;
     }
 
@@ -239,7 +241,18 @@ class stack_dropdown_input extends stack_input {
             $csvs[] = $csv;
         }
 
-        $at1 = new stack_cas_session($csvs, $this->options, 0);
+        // At this point we do not want to do further simplification.
+        // If simp:true, it will have been set in the question and that is fine.
+        // The other options are fine (and should be respects),
+        // but the teacher's answer gets evaluated an extra time with default options,
+        // and this extra simplification breaks things.
+        if ($this->options === null) {
+            $localoptions = new stack_options();
+        } else {
+            $localoptions = clone $this->options;
+        }
+        $localoptions->set_option('simplify', false);
+        $at1 = new stack_cas_session($csvs, $localoptions, 0);
         $at1->instantiate();
 
         if ('' != $at1->get_errors()) {
@@ -430,7 +443,7 @@ class stack_dropdown_input extends stack_input {
      */
     public function maxima_to_response_array($in) {
         if ('' == $in) {
-            return array($this->name = '');
+            return array();
         }
 
         $ddlkey = $this->get_input_ddl_key($in);

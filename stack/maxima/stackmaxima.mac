@@ -19,7 +19,8 @@
 /* Global variable options            */
 /* ********************************** */
 
-stack_reset(rand_seed) := block(
+stack_reset(not_used) := block(
+  if featurep(all,constant) then remove(all, constant),
   kill(allbut [functions]),
   kill(trigsimp),
   /* Very unlikley the function psi will be needed for assessment and it breaks the session
@@ -45,7 +46,7 @@ stack_reset(rand_seed) := block(
   pi() := %pi,         /* Why does Excel do this?! */
   /* Display of matrixes */
   lmxchar: "[",
-  /* Sets up randomization, using Maxima's internal random command */
+  /* Sets up randomization, using Maxima's internal random command. */
   stack_randseed(10000),
 
   /*Reload local settings*/
@@ -54,7 +55,8 @@ stack_reset(rand_seed) := block(
   MAXIMA_VERSION_STR: ?\*autoconf\-version\*,
   MAXIMA_VERSION: map(parse_string, tokens(?\*autoconf\-version\*, 'digitcharp)),
   /* We need the "if" statement below, because versions compiled from source give erroneous results. */
-  MAXIMA_VERSION_NUM: float(MAXIMA_VERSION[2]+(if is(MAXIMA_VERSION[3]<10) then MAXIMA_VERSION[3]/10 else 0)),
+  MAXIMA_VERSION_NUM: float(MAXIMA_VERSION[2]+(if is(length(MAXIMA_VERSION)>2)
+    then (if is(MAXIMA_VERSION[3]<10) then MAXIMA_VERSION[3]/10 else 0) else 0)), 
 
   OPT_OUTPUT: "LaTeX",
   PLOT_TAGS: true,
@@ -66,7 +68,7 @@ stack_reset(rand_seed) := block(
 stack_reset_vars(ex) := block(kill(i, j, e, pi, Pi, PI));
 
 /* Execute this command to ensure values have been set. */
-stack_reset(1000);
+stack_reset(true);
 
 alias(int,integrate);        /* Allows integrate to be called with int()    */
 alias(cosec,csc);            /* Corresponds to current student expectations */
@@ -114,6 +116,7 @@ load("inequalities.mac");
 load("intervals.mac");
 load("stackunits.mac");
 load("stacktex.lisp");
+load("stackstrings.mac");
 /* Ensure back compatability with versions before 5.41.0. */
 if is(MAXIMA_VERSION_NUM<40.1) then load("stacktex40.lisp");
 load("utils.mac");
@@ -127,31 +130,69 @@ alias(arccos, acos);          /* At the request of the OU, 4 Feb 2013. */
 alias(arcsin, asin);
 alias(arctan, atan);
 
-load("mathml.lisp");
-
 make_complexJ(OPT_COMPLEXJ) := block(
   if OPT_COMPLEXJ = "i" then
-    (i:%i,load("complexi.lisp"))
+    (i:%i,texput(%i,"\\mathrm{i}"))
   else if OPT_COMPLEXJ = "j" then
-    (%j:%i,j:%i,load("complexj.lisp"))
+    (%j:%i,j:%i,texput(%i,"\\mathrm{j}"))
   else if OPT_COMPLEXJ = "symi" then
-    (load("complexi.lisp"))
+    (texput(%i,"\\mathrm{i}"))
   else if OPT_COMPLEXJ = "symj" then
-    (load("complexj.lisp"))
+    (texput(%i,"\\mathrm{j}"))
   else true
-);
+)$
 
 /* Choose the symbol for the multiplication sign. */
 make_multsgn(OPT_MULTSGN) := block(
-    if OPT_MULTSGN = "cross" then load("multiply_cross.lisp"),
-    if OPT_MULTSGN = "dot" then load("multiply_dot.lisp"),
-    if OPT_MULTSGN = "blank" then load("multiply_blank.lisp")
+    if OPT_MULTSGN = "cross" then texput("*", "\\times ", nary),
+    if OPT_MULTSGN = "dot" then texput("*", "\\cdot ", nary),
+    if OPT_MULTSGN = "blank" then texput("*", "\\, ", nary)
 );
 
 /* Options for cos^(-1), acos or arccos. */
 make_arccos(OPT_ACOS) := block(
-    if OPT_ACOS = "cos-1" then load("cos-1.lisp"),
-    if OPT_ACOS = "arccos" then load("arccos.lisp")
+    if OPT_ACOS = "cos-1" then block(
+       texput(asin, "\\sin^{-1}", prefix),
+       texput(acos, "\\cos^{-1}", prefix),
+       texput(atan, "\\tan^{-1}", prefix),
+       texput(asec, "{\\rm sec}^{-1}", prefix),
+       texput(acsc, "{\\rm csc}^{-1}", prefix),
+       texput(acot, "{\\rm cot}^{-1}", prefix),
+       texput(asinh, "{\\rm sinh}^{-1}", prefix),
+       texput(acosh, "{\\rm cosh}^{-1}", prefix),
+       texput(atanh, "{\\rm tanh}^{-1}", prefix),
+       texput(asech, "{\\rm sech}^{-1}", prefix),
+       texput(acsch, "{\\rm csch}^{-1}", prefix),
+       texput(acoth, "{\\rm coth}^{-1}", prefix)
+    ),
+    if OPT_ACOS = "arccos" then block(
+       texput(asin, "\\arcsin ", prefix),
+       texput(acos, "\\arccos ", prefix),
+       texput(atan, "\\arctan ", prefix),
+       texput(asec, "{\\rm arcsec}", prefix),
+       texput(acsc, "{\\rm arccsc}", prefix),
+       texput(acot, "{\\rm arccot}", prefix),
+       texput(asinh, "{\\rm arcsinh}", prefix),
+       texput(acosh, "{\\rm arccosh}", prefix),
+       texput(atanh, "{\\rm arctanh}", prefix),
+       texput(asech, "{\\rm arcsech}", prefix),
+       texput(acsch, "{\\rm arccsch}", prefix),
+       texput(acoth, "{\\rm arccoth}", prefix)
+    ),
+    if OPT_ACOS = "acos" then block(
+       texput(asin, "{\\rm asin}", prefix),
+       texput(acos, "{\\rm acos}", prefix),
+       texput(atan, "{\\rm atan}", prefix),
+       texput(asec, "{\\rm asec}", prefix),
+       texput(acsc, "{\\rm acsc}", prefix),
+       texput(acot, "{\\rm acot}", prefix),
+       texput(asinh, "{\\rm asinh}", prefix),
+       texput(acosh, "{\\rm acosh}", prefix),
+       texput(atanh, "{\\rm atanh}", prefix),
+       texput(asech, "{\\rm asech}", prefix),
+       texput(acsch, "{\\rm acsch}", prefix),
+       texput(acoth, "{\\rm acoth}", prefix)
+    )
 );
 
 
@@ -201,6 +242,14 @@ rand(ex) := block(
   if (floatnump(ex)) then return(random(ex)),
   if (matrixp(ex)) then return(matrixmap(random, ex)),
   if (listp(ex)) then return(randlist(ex))
+)$
+
+/* Allow zero as an argument to random. */
+rand_zero(ex):= block(
+  if not(integerp(ex)) then error("rand_zero expects its argument to be an integer."),
+  if is(ex<0) then error("rand_zero expects its argument to be non-negative."),
+  if is(ex=0) then return(0),
+  return(rand(ex))
 )$
 
 randlist(ex) := block(
@@ -259,20 +308,20 @@ list_remove(ex, n) := block([k, l],
 
 /* Create a number in a random range. */
 rand_range([ex]) := block(
-  if (length(ex)<2 or length(ex)>3) then error("rand_range must have 2 or three arguments."),
+  if (length(ex)<2 or length(ex)>3) then error("rand_range must have 2 or 3 arguments."),
   if not(integerp(ex[1])) then error("rand_range expects its first argument to be an integer."),
   if not(integerp(ex[2])) then error("rand_range expects its second argument to be an integer."),
-  if is(length(ex)=2) then return(ev(ex[1]+rand(ex[2]-ex[1]), simp)),
-  if not(integerp(ex[3])) then error("rand_range expects its first argument to be an integer."),
-  if is(length(ex)=3) then return(ev(ex[1]+ex[3]*rand(floor((ex[2]-ex[1])/ex[3])), simp))
-);
+  if is(length(ex)=2) then return(ev(ex[1]+rand_zero(ex[2]-ex[1]), simp)),
+  if not(integerp(ex[3])) then error("rand_range expects its third argument to be an integer."),
+  return(ev(ex[1]+ex[3]*rand_zero(floor((ex[2]-ex[1])/ex[3])), simp))
+)$
 
 /* Helper function for constructing MCQ arrays. */
 multiselqn(corbase, numcor, wrongbase, numwrong):=block([ta1, ta2, ta, version],
   if not(listp(corbase)) then error("multiselqn: first argument must be a list."),
   if not(listp(wrongbase)) then error("multiselqn: third argument must be a list."),
   if not(integerp(numcor)) then error("multiselqn: second argument must be an integer."),
-  if not(integerp(numwrong)) then error("multiselqn: forth argument must be an integer."),
+  if not(integerp(numwrong)) then error("multiselqn: fourth argument must be an integer."),
   if length(corbase)<numcor then error("multiselqn: you have asked for more correct responses than are supplied in the list!"),
   if length(wrongbase)<numwrong then error("multiselqn: you have asked for more correct responses than are supplied in the list!"),
   ta1: maplist(lambda([ex], [ex, true]), rand_selection(corbase, numcor)),
@@ -282,12 +331,38 @@ multiselqn(corbase, numcor, wrongbase, numwrong):=block([ta1, ta2, ta, version],
   return([ta, version])
 )$
 
+/* Helper function for constructing MCQ arrays with auto-generated alphabetic labels. Students choose the labels. */
+multiselqnalpha([exs]):=block([corbase, numcor, wrongbase, numwrong, dispflag, ta1, ta2, ta3, talab, ta, version],
+  if length(exs)<4 then error("multiselqnalpha must have at least four arguments."),
+  corbase:first(exs),
+  numcor:second(exs),
+  wrongbase:third(exs),
+  numwrong:fourth(exs),
+  dispflag:"id",
+  if length(exs)>4 then dispflag:fifth(exs),
+  if not(listp(corbase)) then error("multiselqnalpha: first argument must be a list."),
+  if not(listp(wrongbase)) then error("multiselqnalpha: third argument must be a list."),
+  if not(integerp(numcor)) then error("multiselqnalpha: second argument must be an integer."),
+  if not(integerp(numwrong)) then error("multiselqnalpha: fourth argument must be an integer."),
+  if length(corbase)<numcor then error("multiselqnalpha: you have asked for more correct responses than are supplied in the list!"),
+  if length(wrongbase)<numwrong then error("multiselqnalpha: you have asked for more correct responses than are supplied in the list!"),
+
+  ta1: maplist(lambda([ex], [ex, true]), rand_selection(corbase, numcor)),
+  ta2: maplist(lambda([ex], [ex, false]), rand_selection(wrongbase, numwrong)),
+  ta3: random_permutation(append(ta1, ta2)),
+  /* Add in a slightly different display here. */
+  talab: ev(makelist(sconcat("(",ascii(96+i),")"), i, 1, length(ta3)), simp),
+  ta:zip_with(lambda([ex1, ex2], [ex1, ex2[2], sconcat("<b>", ex1, "</b> ", stack_disp(ex2[1], dispflag))]), talab, ta3),
+  version: map(first, ta3),
+  return([ta, version])
+)$
+
 /* Helper function for constructing MCQ arrays where the values should not be shown to students. */
 multiselqndisplay(corbase, numcor, wrongbase, numwrong):=block([ta1, ta2, ta, version],
   if not(listp(corbase)) then error("multiselqndisplay: first argument must be a list."),
   if not(listp(wrongbase)) then error("multiselqndisplay: third argument must be a list."),
   if not(integerp(numcor)) then error("multiselqndisplay: second argument must be an integer."),
-  if not(integerp(numwrong)) then error("multiselqndisplay: forth argument must be an integer."),
+  if not(integerp(numwrong)) then error("multiselqndisplay: fourth argument must be an integer."),
   if length(corbase)<numcor then error("multiselqndisplay: you have asked for more correct responses than are supplied in the list!"),
   if length(wrongbase)<numwrong then error("multiselqndisplay: you have asked for more correct responses than are supplied in the list!"),
   /*      */
@@ -329,7 +404,7 @@ mcq_incorrect(ta):=block(
 stack_disp(expr, exprm) := block([str:"", expru],
     /* LaTeX display */
     if OPT_OUTPUT = "LaTeX" then
-        if not(ev(elementp(exprm, {"", "i", "d"}), simp)) then print(concat("ERROR: illegal delimiter option found: ", exprm)),
+        if not(ev(elementp(exprm, {"", "i", "d", "id"}), simp)) then print(concat("ERROR: illegal delimiter option found: ", exprm)),
     /* Fine tune display, e.g. sort out display of atoms like theta0. */
     expru: expr,
     if not(stack_disp_control_structurep(expr)) then block(
@@ -340,13 +415,11 @@ stack_disp(expr, exprm) := block([str:"", expru],
         ld: "",
         rd: "",
         if exprm = "i" then block(ld: "\\(", rd:"\\)"),
+        if exprm = "id" then block(ld: "\\(\\displaystyle ", rd:"\\)"),
         if exprm = "d" then block(ld: "\\[", rd:"\\]"),
         expstr: tex(expru, false),
         expstr: concat(ld, stack_disp_strip_dollars(expstr), rd)
     ),
-    /* MathML display */
-    if OPT_OUTPUT = "MathML" then
-        str: mathml(expr, false),
     /* String display */
     if OPT_OUTPUT = "String" then str: string(expr),
     /* If no correct options have been set. */
@@ -385,18 +458,19 @@ errcatch(compile(?texnumformat));
 /* **************************************************** */
 
 stack_disp_sub_script(ex) := block([s],
-  if taylorp(ex) then return(ex),
-  if safe_setp(ex) then return(apply(set, maplist(stack_disp_sub_script, args(ex)))),
-  if arrayp(ex) then return(arraymake(op(ex), maplist(stack_disp_sub_script, args(ex)))),
-  /* Strip out empty plus operators, which cause problems in display with simp:false.             */
-  /* This is not, strictly speaking, a subscript issue, but we don't want another recursive call. */
-  if is(safe_op(ex)="+") and is(length(args(ex))=1) then return(stack_disp_sub_script(first(args(ex)))),
-  if not(atom(ex)) then return(apply(op(ex), maplist(stack_disp_sub_script, args(ex)))),
-  if simp_numberp(ex) or stringp(ex) or ex or not(ex) then return(ex),
-  s: string(ex),
-  s: split(s, "_"),
-  s: maplist(parse_string, s),
-  stack_disp_sub_script_helper(s)
+ if taylorp(ex) then return(ex),
+ if safe_setp(ex) then return(apply(set, maplist(stack_disp_sub_script, args(ex)))),
+ if arrayp(ex) then return(arraymake(op(ex), maplist(stack_disp_sub_script, args(ex)))),
+ /* The following are not, strictly speaking, a subscript issue, but we don't want another recursive call. */
+ /* Strip out empty plus operators, which cause problems in display with simp:false.             */
+ if is(safe_op(ex)="+") and is(length(args(ex))=1) then return(stack_disp_sub_script(first(args(ex)))),
+ /* Now deal with supscripts. */
+ if not(atom(ex)) then return(apply(op(ex), maplist(stack_disp_sub_script, args(ex)))),
+ if simp_numberp(ex) or stringp(ex) or ex or not(ex) then return(ex),
+ s: string(ex),
+ s: split(s, "_"),
+ s: maplist(parse_string, s),
+ stack_disp_sub_script_helper(s)
 )$
 
 stack_disp_sub_script_helper(l) := block(
@@ -427,22 +501,6 @@ detexcolor(ex) := block([argsex],
   if op(ex) = texcolorplain then return(detexcolor(argsex[2])),
   if op(ex) = "/" then return(detexcolor(argsex[1])/detexcolor(argsex[2])),
   map(detexcolor, ex)
-)$
-
-detexdecorate(ex) := block([argsex],
-  if mapatom(ex) then return(ex),
-  argsex:args(ex),
-  if op(ex) = texdecorate then return(detexdecorate(argsex[2])),
-  if op(ex) = "/" then return(detexdecorate(argsex[1])/detexdecorate(argsex[2])),
-  map(detexdecorate, ex)
-)$
-
-/* Assume all non-numeric atoms are to be displayed in bold. */
-texboldatoms(ex) := block(
-  if numberp(ex) then return(ex),
-  if atom(ex) then return(texdecorate("\\bf", ex)),
-  if arrayp(ex) then return(arraymake(op(ex), maplist(texboldatoms, args(ex)))),
-  apply(op(ex), maplist(texboldatoms, args(ex)))
 )$
 
 /* We only display matrices with the following matching pairs of delimiters.
@@ -541,7 +599,7 @@ unary_minus_pull_helper(ex) := block([fe],
 
 /* Sorts out display of expressions in the case simp:false */
 unary_minus_sort(ex) := block([ex2],
-  if simp or atom(ex) or taylorp(ex) then return(ex),
+  if simp or atom(ex) or taylorp(ex) or functionp(ex) then return(ex),
   ex2: unary_minus_traverse(ex),
   return(unary_minus_pull(ex2))
 )$
@@ -577,11 +635,12 @@ cte(var, ex) := block([str],
 /* This function strips out functions to leave only things in the value which might be typed in. */
 stack_dispvalue(ex) := block(
   ex: detexcolor(ex),
-  ex: detexdecorate(ex),
   ex: make_basenvalue(ex),
   ex: make_displaydpvalue(ex),
   ex: make_displayscivalue(ex),
-  ex: opsubst("*", stackunits, ex),
+  if not(stack_disp_control_structurep(ex)) then
+      ex: unary_minus_sort(opsubst("*", stackunits, ex)),
+      ex: destackvector(ex),
   return(string(ex))
 )$
 
@@ -672,7 +731,6 @@ stack_validate(expr, ForbidFloats, LowestTerms, TAns) := block([simp:false, exs,
   /* Now display the result. */
   simp: false,
   expr: detexcolor(expr),
-  expr: detexdecorate(expr),
   return(expr)
 )$
 
@@ -809,7 +867,7 @@ plot(ex, [ra]) :=  /*stack_web_plot*/
     psize: sublist(ral, lambda([ex], if listp(ex) then is(first(ex) = size) else false)),
     if not(emptyp(psize)) then (ral:delete(first(psize), ral), plot_size:[second(first(psize)), third(first(psize))]),
     if not(listp(plot_size)) then error("Plot error: plot_size must be a list of two positive integers."),
-    if not(all_listp(lambda([ex], is((integerp(ex) and is(ex>0))=true)), plot_size)) then 
+    if not(all_listp(lambda([ex], is((integerp(ex) and is(ex>0))=true)), plot_size)) then
         error("Plot error: plot_size must be a list of two positive integers, but got:", string(plot_size)),
     psize:concat(" size ", string(plot_size[1]), ", ", string(plot_size[2])),
     /*******************/
@@ -839,10 +897,9 @@ plot(ex, [ra]) :=  /*stack_web_plot*/
     if PLOT_TERMINAL="svg" then
         afn: concat(IMAGE_DIR, filename, ".", PLOT_TERMINAL),
     ufn: concat("<img src='", URL_BASE, filename, ".", PLOT_TERMINAL, "' alt='", alttext, "' width='", string(plot_size[1]), "' />"),
-    if plot_tags then 
-        ufn: concat("<div class=\"stack_plot\">", ufn, "</div>"),
-    if OPT_OUTPUT#"MathML" then
-      ufn: concat(" <html>", ufn, "</html> "),
+    if plot_tags then
+        ufn: concat("<div class='stack_plot'>", ufn, "</div>"),
+    ufn: concat(" <html>", ufn, "</html> "),
     /* Sort out plot_options and preamble*/
     preamble: "",
     if not(member(xlabel, maplist(first, ral))) then ral: append(ral, [[xlabel, ""]]),
@@ -864,9 +921,9 @@ set output ", afn),
     if PLOT_TERMINAL="svg" then preamble:concat("set terminal ", PLOT_TERMINAL, psize, " ", PLOT_TERM_OPT),
     if plotdebug then print(preamble),
     if PLOT_TERMINAL="svg" then set_plot_option([svg_file, afn]),
-    if PLOT_TERMINAL="svg" then 
+    if PLOT_TERMINAL="svg" then
         set_plot_option([gnuplot_svg_term_command, preamble])
-    else 
+    else
         set_plot_option([gnuplot_preamble, preamble]),
     /* Sort out the name and location of temporary Gnuplot files. */
     tfn:concat(filename, ".plt"),
@@ -958,7 +1015,7 @@ ATNumerical(SA, SB, SO, numtype) := block([simp:true, RawMark, FeedBack, AnswerN
 /* We have to define our own working precision. */
 STACK_NUM_TOL:10E-10$
 numabsolutep(sa,ta,tol) :=  if ev(abs(float(sa-ta)), simp) < ev(abs(tol)+STACK_NUM_TOL, simp)  then true else false;
-/* The equality sign below is to accommodate the edge case numrelativep(0.0,0.0,0.0?).  Needed for units tests with things like 0m/s. */ 
+/* The equality sign below is to accommodate the edge case numrelativep(0.0,0.0,0.0?).  Needed for units tests with things like 0m/s. */
 numrelativep(sa,ta,tol) :=  if ev(abs(float(sa-ta)), simp) <= ev(abs(ta*tol*(1+STACK_NUM_TOL)), simp) then true else false;
 
 ATNumerical_list(SA, SB, numtype, tol) := block([SAl, SBl, cl, res, fb:"", an:""],
@@ -1504,9 +1561,49 @@ ATSet(SA, SB) := block([RawMark, FeedBack, AnswerNote, str, SAl, SBl, ZM],
     SB:map(ineqprepare, map(trigreduce, SB)),
     if (subsetp(SA, SB) and subsetp(SB, SA)) then
         return([true, true, AnswerNote, FeedBack]),
-    /* Can we give feedback on which are wrong */
+    /* Can we give feedback on which are wrong ? */
     FeedBack:StackAddFeedback("", "ATSet_wrongentries", stack_disp(setdifference(SA, SB), "d")),
     return([true, false, StackAddNote("","ATSet_wrongentries"), FeedBack])
+)$
+
+/* Note, this test (ATSets not ATSet as above) gives much more detailed feedback
+   than the Algebraic equivalence test.
+*/
+ATSets(SA, SB) := block([RawMark, FeedBack, AnswerNote],
+    RawMark:true, FeedBack:"", AnswerNote:"",
+    /* Turn on simplification and error catch */
+    SAsimp:errcatch(ev(SA, simp, nouns)),
+    if is(SAsimp = [STACKERROR]) then return([false, false, StackAddNote("", "ATSets_STACKERROR_SAns"), ""]),
+    SAsimp:SAsimp[1],
+    SBsimp:errcatch(ev(SB, simp, nouns)),
+    if is(SBsimp = [STACKERROR]) then return([false, false, StackAddNote("", "ATSets_STACKERROR_TAns"), ""]),
+    SBsimp:SBsimp[1],
+    if not(safe_setp(SB)) then
+        return(StackBasicReturn(false, false, "ATSets_SB_not_set")),
+    if not(safe_setp(SA)) then
+        return(StackBasicReturn(false, false, "ATSets_SA_not_set")),
+
+    /* Look for duplicate entries. */
+    if is(length(SAsimp)<length(SA)) then block(
+      FeedBack:StackAddFeedback(FeedBack, "ATSets_duplicates"),
+      AnswerNote:StackAddNote(AnswerNote, "ATSets_duplicates")
+    ),
+
+    /* We check the simplified sets. */
+    if (subsetp(SAsimp, SBsimp) and subsetp(SBsimp, SAsimp)) then
+        return([true, true, AnswerNote, FeedBack]),
+
+    /* Can we give feedback on which are wrong ? */
+    if not(emptyp(setdifference(SAsimp, SBsimp))) then block(
+      FeedBack:StackAddFeedback(FeedBack, "ATSets_wrongentries", stack_disp(setdifference(SAsimp, SBsimp), "d")),
+      AnswerNote:StackAddNote(AnswerNote, "ATSets_wrongentries")
+    ),
+    if not(emptyp(setdifference(SBsimp, SAsimp))) then block(
+      FeedBack:StackAddFeedback(FeedBack, "ATSets_missingentries", stack_disp(setdifference(SBsimp, SAsimp), "d")),
+      AnswerNote:StackAddNote(AnswerNote, "ATSets_missingentries")
+    ),
+
+    return([true, false, AnswerNote, FeedBack])
 )$
 
 /* A wrapper for an all purpose answer test which checks things are of the
@@ -2361,7 +2458,7 @@ ATCompSquare(SA, SB, SO) := block([Validity,RawMark,FeedBack,AnswerNote,ret,wrt,
     if atom(wrt)#true then (SA:subst(facdum, wrt, SA), SB:subst(facdum, wrt, SB), wrt:facdum),
 
     if member(wrt,listofvars(SB)) and not(member(wrt,listofvars(SA))) then
-        return([true, false, StackAddNote("", "ATCompSquare_SA_not_depend_var"), StackAddFeedback("", "ATCompSquare_SA_not_depend_var", stack_disp(SBL[2], "i"))]),
+        return([true, false, StackAddNote("", "ATCompSquare_SA_not_depend_var"), StackAddFeedback("", "ATCompSquare_SA_not_depend_var", stack_disp(wrt, "i"))]),
 
     opa:safe_op(SA),
 
@@ -2371,6 +2468,14 @@ ATCompSquare(SA, SB, SO) := block([Validity,RawMark,FeedBack,AnswerNote,ret,wrt,
         return([true, true, StackAddNote("", "ATCompSquare_true_trivial"), ""]),
     if ae and is(degree(expand(SB),wrt)=1) then
         return([true, true, StackAddNote("", "ATCompSquare_true_trivial"), ""]),
+
+    /* case: -(x-1)^2/k */
+    if opa="-" then block(
+        SA:first(args(SA)),
+        /* For the algebraic equivalence test later */
+        SB:-1*SB,
+        opa:safe_op(SA)
+    ),
 
     /* case: (x-1)^2 */
     if opa="^" and part(args(SA),2)=2 then cform:true,
@@ -2395,12 +2500,15 @@ ATCompSquare(SA, SB, SO) := block([Validity,RawMark,FeedBack,AnswerNote,ret,wrt,
 
         if atom(argsa[1]) then return(true),
 
+        /* case: -(x-1)^2 + c*/
+        if op(argsa[1])="-" then argsa[1]:first(args(argsa[1])),
+
         /* case: (x-1)^2 + c*/
         if op(argsa[1])="^" and part(argsa[1],2)=2 then cform:true,
 
         /* case: k*(x-1)^2 + c*/
         if op(argsa[1])="*" then block([argsb],
-           argsb: sublist(args(argsa[1]),lambda([ex],elementp(wrt,setify(listofvars(ex))))),
+           argsb: sublist(args(argsa[1]), lambda([ex], elementp(wrt, setify(listofvars(ex))))),
            if length(argsb)=1 then
                if op(argsb[1])="^" and part(argsb[1],2)=2 then cform:true
         )
@@ -2419,7 +2527,6 @@ ATCompSquare(SA, SB, SO) := block([Validity,RawMark,FeedBack,AnswerNote,ret,wrt,
     AnswerNote:concat("ATCompSquare_false",AnswerNote),
     return([true,false,StackAddNote("",AnswerNote),StackAddFeedback("",AnswerNote)])
     )$
-
 
 /*********************/
 /* Calculus question */
@@ -2539,7 +2646,6 @@ ATIntOptionsHelper(in, out) := block(
 
 Intfun(SA, SB, SBdisp, constint, var) := block([val,rawmk,ansnote,fb,ret,ex,SAd,SBd,SBraw,saa,dd,dc,lSAv,lSBv,mSAv,mSBv,SAConsistentLogs,SAUsedLogAbs,SBUsedLogAbs],
     val:true, rawmk:false, fb:"", ansnote:"",
-    debug:false,
     ret:[val, rawmk, ansnote, fb],
     /* Check if the teacher and student used only log abs.
        Teacher must be consistent, otherwise the student doesn't have to be!*/
@@ -2691,6 +2797,13 @@ ATInt_consistent_logabs_p(ex, var):=block([helper],
   if member(STACKLOG, helper) and member(STACKLOGABS, helper) then false else true
 );
 
+/* Look over an expression and find all the variables wrt which we are integrating. */
+ATIntGetVar(ex):= block(
+    if atom(ex) then return([]),
+    if safe_op(ex)="int" then return([second(args(ex))]),
+    flatten(map(ATIntGetVar, args(ex)))
+);
+
 /********************************************************************/
 /* An answer test for differentiation questions.                    */
 /* sa is the students' answer,                                      */
@@ -2783,4 +2896,4 @@ load(linearalgebra);
 
 /* Stack expects some output with the version number the output happens at */
 /* maximalocal.mac after additional library loading */
-stackmaximaversion:2017121800$
+stackmaximaversion:2018080600$

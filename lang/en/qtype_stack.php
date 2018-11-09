@@ -29,6 +29,8 @@ $string['pluginnameadding'] = 'Adding a STACK question';
 $string['pluginnameediting'] = 'Editing a STACK question';
 $string['pluginnamesummary'] = 'STACK provides mathematical questions for the Moodle quiz.  These use a computer algebra system to establish the mathematical properties of the student\'s responses.';
 
+$string['privacy:metadata'] = 'The STACK question type plugin does not store any personal data.';
+
 // General strings.
 $string['errors'] = 'Errors';
 $string['debuginfo'] = 'Debug info';
@@ -36,6 +38,14 @@ $string['exceptionmessage'] = '{$a}';
 
 // Capability names.
 $string['stack:usediagnostictools'] = 'Use the STACK tools';
+
+// Versions of STACK.
+$string['stackversionedited'] = 'This question was authored with STACK version {$a}.';
+$string['stackversionnow']    = 'The current version of STACK is {$a}.';
+$string['stackversionnone']   = 'This question has not been edited since question version numbering was introduced in STACK 4.2.  Please review your question carefully.';
+$string['stackversionerror'] = 'This question uses {$a->pat} in the {$a->qfield}, which changed in STACK version {$a->ver} and is no longer supported.';
+$string['stackversionerroralt'] = 'An alternative is {$a}.';
+$string['stackversionmulerror'] = 'This question has an input which uses the "mul" option, which is not suppored after STACK version 4.2.  Please edit this question.';
 
 // Strings used on the editing form.
 $string['addanothernode'] = 'Add another node';
@@ -71,9 +81,9 @@ $string['complexno'] = 'Meaning and display of sqrt(-1)';
 $string['complexno_help'] = 'Controls the meaning and display of the symbol i and sqrt(-1)';
 $string['complexno_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/Authoring/Options.md#sqrt_minus_one.';
 $string['defaultmarkzeroifnoprts'] = 'The default mark must be 0 if this question has no PRTs.';
-$string['defaultprtcorrectfeedback'] = 'Correct answer, well done.';
-$string['defaultprtincorrectfeedback'] = 'Incorrect answer.';
-$string['defaultprtpartiallycorrectfeedback'] = 'Your answer is partially correct.';
+$string['defaultprtcorrectfeedback'] = '<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.';
+$string['defaultprtincorrectfeedback'] = '<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.';
+$string['defaultprtpartiallycorrectfeedback'] = '<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.';
 $string['branchfeedback'] = 'Node branch feedback';
 $string['branchfeedback_help'] = 'This is CASText which may depend on any of the question variables, input elements or the feedback variables. This is evaluated and displayed to the student if they pass down this branch.';
 $string['inputtest'] = 'Input test';
@@ -136,6 +146,7 @@ $string['inputheading'] = 'Input: {$a}';
 $string['inputnamelength'] = 'Input names cannot be longer than 18 characters. \'{$a}\' is too long.';
 $string['inputremovedconfirmbelow'] = 'Input \'{$a}\' has been removed. Please confirm this below.';
 $string['inputremovedconfirm'] = 'I confirm that I want to remove this input from this question.';
+$string['inputlanguageproblems'] = 'There are inconsistencies in the input and validation tags between languages.';
 $string['inputs'] = 'Inputs';
 $string['inputtype'] = 'Input type';
 $string['inputtype_help'] = 'This determines the type of the input element, e.g. form field, true/false, text area.';
@@ -252,6 +263,7 @@ $string['questiontextmustcontain'] = 'The question text must contain the token \
 $string['questiontextonlycontain'] = 'The question text should only contain the token \'{$a}\' once.';
 $string['questiontextplaceholderswhitespace'] = 'Placeholders may not contain whitespace.  This one appears to do so: \'{$a}\'.';
 $string['questiontextfeedbackonlycontain'] = 'The question text combined with the specific feedback should only contain the token \'{$a}\' once.';
+$string['questiontextfeedbacklanguageproblems'] = 'There are inconsistencies in the feedback tags between languages.';
 $string['questionvalue'] = 'Question value';
 $string['questionvaluepostive'] = 'Question value must be non-negative.';
 $string['questionvariables'] = 'Question variables';
@@ -395,7 +407,7 @@ $string['settingmaximalibraries_failed'] = 'It appears as if some of the Maxima 
 $string['replacedollarscount'] = 'This category contains {$a} STACK questions.';
 $string['replacedollarsin'] = 'Fixed maths delimiters in field {$a}';
 $string['replacedollarsindex'] = 'Contexts with STACK questions';
-$string['replacedollarsindexintro'] = 'Clicking on any of the links will take you to a page where you can review the questions for old-style maths delimiters, and automatically fix them.';
+$string['replacedollarsindexintro'] = 'Clicking on any of the links will take you to a page where you can review the questions for old-style maths delimiters, and automatically fix them. If you have too many questions (thousands) in one context, the amount of output will probably overwhelm your web browser, in which case add a preview=0 parameter to the URL and try again.';
 $string['replacedollarsindextitle'] = 'Replace $s in question texts';
 $string['replacedollarsnoproblems'] = 'No problem delimiters found.';
 $string['replacedollarstitle'] = 'Replace $s in question texts in {$a}';
@@ -406,6 +418,7 @@ $string['bulktestcontinuefromhere'] = 'Run again or resume, starting from here';
 $string['bulktestindexintro'] = 'Clicking on any of the links will run all the question tests in all the STACK questions in that context';
 $string['bulktestindextitle'] = 'Run the question tests in bulk';
 $string['bulktestnotests'] = 'This question does not have any tests.';
+$string['bulktestnogeneralfeedback'] = 'This question does not have any general feedback.';
 $string['bulktestrun'] = 'Run all the question tests for all the questions in the system (slow, admin only)';
 $string['bulktesttitle'] = 'Running all the question tests in {$a}';
 $string['overallresult'] = 'Overall result';
@@ -424,6 +437,7 @@ $string['deletetestcase'] = 'Delete test case {$a->no} for question {$a->questio
 $string['deletetestcaseareyousure'] = 'Are you sure you want to delete test case {$a->no} for question {$a->question}?';
 $string['deletethistestcase'] = 'Delete this test case...';
 $string['deploy'] = 'Deploy';
+$string['deployedprogress'] = 'Deploying variants';
 $string['deployedvariants'] = 'Deployed variants';
 $string['deployedvariantsn'] = 'Deployed variants ({$a})';
 $string['deploymany'] = 'Attempt to automatically deploy the following number of variants:';
@@ -466,6 +480,7 @@ $string['showingundeployedvariant'] = 'Showing undeployed variant: {$a}';
 $string['switchtovariant'] = 'Switch to arbitrary variant';
 $string['testcasexresult'] = 'Test case {$a->no} {$a->result}';
 $string['testingquestion'] = 'Testing question {$a}';
+$string['testingquestionvariants'] = 'Testing question variants';
 $string['testinputs'] = 'Test inputs';
 $string['testinputsimpwarning'] = 'Please note that test inputs are always <em>unsimplified</em> regardless of the question or PRT option setting.  Please use <tt>ev(...,simp)</tt> to simplify part or all of the test input expressions.';
 $string['testthisvariant'] = 'Switch to test this variant';
@@ -485,6 +500,9 @@ $string['castext'] = 'CAS text';
 $string['chat_desc'] = 'The <a href="{$a->link}">CAS chat script</a> lets you test the connection to the CAS, and try out Maxima syntax.';
 $string['chatintro'] = 'This page enables CAS text to be evaluated directly. It is a simple script which is a useful minimal example, and a handy way to check if the CAS is working, and to test various inputs.  The first text box enables variables to be defined, the second is for the CAS text itself.';
 $string['chattitle'] = 'Test the connection to the CAS';
+$string['clearedthecache'] = 'CAS cached has been cleared.';
+$string['clearingcachefiles'] = 'Clearing cached STACK plot files {$a->done}/{$a->total}';
+$string['clearingthecache'] = 'Clearing the cache';
 $string['clearthecache'] = 'Clear the cache';
 $string['healthcheck'] = 'STACK healthcheck';
 $string['healthcheck_desc'] = 'The <a href="{$a->link}">healthcheck script</a> helps you verify that all aspects of STACK are working properly.';
@@ -542,8 +560,11 @@ $string['stackInstall_testsuite_intro'] = 'This page allows you to test that the
 $string['stackInstall_testsuite_choose'] = 'Please choose an answer test.';
 $string['stackInstall_testsuite_pass'] = 'All tests passed!';
 $string['stackInstall_testsuite_fail'] = 'Not all tests passed!';
-$string['stackInstall_testsuite_failures'] = 'Tests that failed';
+$string['stackInstall_testsuite_failingtests'] = 'Tests that failed';
+$string['stackInstall_testsuite_failingupgrades'] = 'Questions which failed on upgrade.';
 $string['stackInstall_testsuite_notests'] = 'Questions with no tests: please add some!';
+$string['stackInstall_testsuite_nogeneralfeedback'] = 'Questions with no general feedback: students really appreciate worked solutions!';
+$string['stackInstall_testsuite_errors'] = 'This question generated the following errors at runtime.';
 $string['answertest'] = 'Answer test';
 $string['answertest_help'] = 'An answer test is used to compare two expressions to establish whether they satisfy some mathematical criteria.';
 $string['answertest_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/Authoring/Answer_tests.md';
@@ -662,6 +683,12 @@ $string['Equiv_Illegal_matrix']  = 'Matrices are not allowed when reasoning by e
 $string['CommaError']     = 'Your answer contains commas which are not part of a list, set or matrix.  <ul><li>If you meant to type in a list, please use <tt>{...}</tt>,</li><li>If you meant to type in a set, please use <tt>{...}</tt>.</li></ul>';
 $string['Bad_assignment']   = 'When listing the values of a variable you should do so in the following way: {$a->m0}.  Please modify your input.';
 
+$string['stackBlock_jsxgraph_width']       = 'The width of a JSXGraph must use a known CSS-length unit.';
+$string['stackBlock_jsxgraph_height']      = 'The height of a JSXGraph must use a known CSS-length unit.';
+$string['stackBlock_jsxgraph_width_num']   = 'The numeric portion of the width of a JSXGraph must be a raw number and must not contain any extra chars.';
+$string['stackBlock_jsxgraph_height_num']  = 'The numeric portion of the height of a JSXGraph must be a raw number and must not contain any extra chars.';
+$string['stackBlock_jsxgraph_ref']         = 'The jsxgraph-block only supports referencing inputs present in the same CASText section \'{$a->var}\' does not exist here.';
+$string['stackBlock_jsxgraph_param']       = 'The jsxgraph-block supports only these parameters in this context: {$a->param}.';
 
 // Answer tests.
 $string['stackOptions_AnsTest_values_AlgEquiv']            = "AlgEquiv";
@@ -670,18 +697,20 @@ $string['stackOptions_AnsTest_values_CasEqual']            = "CasEqual";
 $string['stackOptions_AnsTest_values_SameType']            = "SameType";
 $string['stackOptions_AnsTest_values_SubstEquiv']          = "SubstEquiv";
 $string['stackOptions_AnsTest_values_SysEquiv']            = "SysEquiv";
+$string['stackOptions_AnsTest_values_Sets']                = "Sets";
 $string['stackOptions_AnsTest_values_Expanded']            = "Expanded";
 $string['stackOptions_AnsTest_values_FacForm']             = "FacForm";
 $string['stackOptions_AnsTest_values_SingleFrac']          = "SingleFrac";
 $string['stackOptions_AnsTest_values_PartFrac']            = "PartFrac";
 $string['stackOptions_AnsTest_values_CompSquare']          = "CompletedSquare";
 $string['stackOptions_AnsTest_values_Equiv']               = "EquivReasoning";
-$string['stackOptions_AnsTest_values_EquivFirst']      = "EquivFirst";
+$string['stackOptions_AnsTest_values_EquivFirst']          = "EquivFirst";
 $string['stackOptions_AnsTest_values_SigFigsStrict']       = "SigFigsStrict";
 $string['stackOptions_AnsTest_values_NumRelative']         = "NumRelative";
 $string['stackOptions_AnsTest_values_NumAbsolute']         = "NumAbsolute";
 $string['stackOptions_AnsTest_values_NumSigFigs']          = "NumSigFigs";
 $string['stackOptions_AnsTest_values_NumDecPlaces']        = "NumDecPlaces";
+$string['stackOptions_AnsTest_values_NumDecPlacesWrong']   = "NumDecPlacesWrong";
 $string['stackOptions_AnsTest_values_UnitsSigFigs']        = "UnitsSigFigs";
 $string['stackOptions_AnsTest_values_UnitsStrictSigFigs']  = "UnitsStrictSigFigs";
 $string['stackOptions_AnsTest_values_UnitsRelative']       = "UnitsRelative";
@@ -718,6 +747,11 @@ $string['ATAlgEquiv_SA_not_function']   = 'Your answer should be a function, def
 $string['ATAlgEquiv_SA_not_string']     = 'Your answer should be a string, but is not. ';
 $string['Subst']                        = 'Your answer would be correct if you used the following substitution of variables. {$a->m0} ';
 
+$string['ATSets_SA_not_set']            = 'Your answer should be a set, but is not.  Note that the syntax to enter a set is to enclose the comma separated values with curly brackets. ';
+$string['ATSets_SB_not_set']            = 'The "Sets" answer test expects its second argument to be a set.  This is an error.  Please contact your teacher.';
+$string['ATSets_wrongentries']          = 'These entries should not be elements of your set. {$a->m0} ';
+$string['ATSets_missingentries']        = 'The following are missing from your set. {$a->m0} ';
+$string['ATSets_duplicates']            = 'Your set appears to contain duplicate entries!';
 
 $string['ATInequality_nonstrict']       = 'Your inequality should be strict, but is not! ';
 $string['ATInequality_strict']          = 'Your inequality should not be strict! ';
@@ -811,6 +845,8 @@ $string['ATNumDecPlaces_OptNotInt']    = 'For ATNumDecPlaces the test option mus
 $string['ATNumDecPlaces_NoDP']         = 'Your answer must be a decimal number, including a decimal point. ';
 $string['ATNumDecPlaces_Wrong_DPs']    = 'Your answer has been given to the wrong number of decimal places.';
 
+$string['ATNumDecPlacesWrong_OptNotInt']    = 'For ATNumDecPlacesWrong the test option must be a positive integer, in fact "{$a->opt}" was received. ';
+
 $string['ATSysEquiv_SA_not_list']               = 'Your answer should be a list, but it is not!';
 $string['ATSysEquiv_SB_not_list']               = 'The teacher\'s answer is not a list.  Please contact your teacher.';
 $string['ATSysEquiv_SA_not_eq_list']            = 'Your answer should be a list of equations, but it is not!';
@@ -836,6 +872,11 @@ $string['equiv_ANDOR']                   = 'and/or confusion!';
 $string['equiv_MISSINGVAR']              = 'Missing assignments';
 $string['equiv_ASSUMEPOSVARS']           = 'Assume +ve vars';
 $string['equiv_ASSUMEPOSREALVARS']       = 'Assume +ve real vars';
+$string['equiv_LET']                     = 'Let';
+// We could localise the strings below using \vee, \wedge etc.
+$string['equiv_AND']                     = 'and';
+$string['equiv_OR']                      = 'or';
+$string['equiv_NOT']                     = 'not';
 
 $string['studentValidation_yourLastAnswer']     = 'Your last answer was interpreted as follows: {$a}';
 $string['studentValidation_listofvariables']    = 'The variables found in your answer were: {$a}';
@@ -855,7 +896,6 @@ $string['stackDoc_siteMap']             = 'Site map';
 $string['stackDoc_404message']          = 'File not found.';
 $string['stackDoc_directoryStructure']  = 'Directory structure';
 $string['stackDoc_version']             = 'Your site is running STACK version {$a}.';
-
 
 // Fact sheets.
 $string['greek_alphabet_name'] = 'The Greek Alphabet';

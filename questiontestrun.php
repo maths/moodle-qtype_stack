@@ -31,6 +31,8 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+define('NO_OUTPUT_BUFFERING', true);
+
 require_once(__DIR__.'/../../../config.php');
 
 require_once($CFG->libdir . '/questionlib.php');
@@ -42,7 +44,10 @@ require_once(__DIR__ . '/stack/bulktester.class.php');
 $questionid = required_param('questionid', PARAM_INT);
 
 // Load the necessary data.
-$questiondata = $DB->get_record('question', array('id' => $questionid), '*', MUST_EXIST);
+$questiondata = question_bank::load_question_data($questionid);
+if (!$questiondata) {
+    print_error('questiondoesnotexist', 'question');
+}
 $question = question_bank::load_question($questionid);
 
 // Process any other URL parameters, and do require_login.
@@ -58,6 +63,8 @@ $title = stack_string('testingquestion', format_string($question->name));
 $PAGE->set_title($title);
 $PAGE->set_heading($title);
 $PAGE->set_pagelayout('popup');
+
+require_login();
 
 // Create some other useful links.
 $qbankparams = $urlparams;
@@ -103,16 +110,6 @@ flush();
 // Load the list of test cases.
 $testscases = question_bank::get_qtype('stack')->load_question_tests($question->id);
 
-// Execute the tests.
-$testresults = array();
-$allpassed = true;
-foreach ($testscases as $key => $testcase) {
-    $testresults[$key] = $testcase->test_question($quba, $question, $seed);
-    if (!$testresults[$key]->passed()) {
-        $allpassed = false;
-    }
-}
-
 $deployfeedback = optional_param('deployfeedback', null, PARAM_TEXT);
 if (!is_null($deployfeedback)) {
     echo html_writer::tag('p', $deployfeedback, array('class' => 'overallresult pass'));
@@ -120,6 +117,11 @@ if (!is_null($deployfeedback)) {
 $deployfeedbackerr = optional_param('deployfeedbackerr', null, PARAM_TEXT);
 if (!is_null($deployfeedbackerr)) {
     echo html_writer::tag('p', $deployfeedbackerr, array('class' => 'overallresult fail'));
+}
+
+$upgradeerrors = $question->validate_against_stackversion();
+if ($upgradeerrors != '') {
+    echo html_writer::tag('p', $upgradeerrors, array('class' => 'fail'));
 }
 
 // Display the list of deployed variants, with UI to edit the list.
@@ -152,6 +154,10 @@ if (empty($question->deployedseeds)) {
         stack_string('questionnote'),
     );
     $prtstable->attributes['class'] = 'generaltable stacktestsuite';
+
+    $a = ['total' => count($question->deployedseeds), 'done' => 0];
+    $progressevery = (int) min(max(1, count($question->deployedseeds) / 500), 100);
+    $pbar = new progress_bar('testingquestionvariants', 500, true);
 
     foreach ($question->deployedseeds as $key => $deployedseed) {
         if (!is_null($question->seed) && $question->seed == $deployedseed) {
@@ -204,6 +210,12 @@ if (empty($question->deployedseeds)) {
             $icon,
             $bulktestresults[1]
             );
+
+        $a['done'] += 1;
+        if ($a['done'] % $progressevery == 0 || $a['done'] == $a['total']) {
+            core_php_time_limit::raise(60);
+            $pbar->update($a['done'], $a['total'], get_string('testingquestionvariants', 'qtype_stack', $a));
+        }
     }
 
     echo html_writer::table($notestable);
@@ -276,6 +288,18 @@ if (!(empty($question->deployedseeds)) && $canedit) {
 
 // Display the controls to add another question test.
 echo $OUTPUT->heading(stack_string('questiontests'), 2);
+
+\core\session\manager::write_close();
+
+// Execute the tests.
+$testresults = array();
+$allpassed = true;
+foreach ($testscases as $key => $testcase) {
+    $testresults[$key] = $testcase->test_question($quba, $question, $seed);
+    if (!$testresults[$key]->passed()) {
+        $allpassed = false;
+    }
+}
 
 // Display the test results.
 $addlabel = stack_string('addanothertestcase', 'qtype_stack');
@@ -433,10 +457,20 @@ foreach ($question->get_question_var_values() as $key => $value) {
 echo  html_writer::tag('pre', $displayqvs);
 echo html_writer::end_tag('div');
 
+// Display a representation of the PRT for offline use.
+$offlinemaxima = array();
+foreach ($question->prts as $name => $prt) {
+    $offlinemaxima[] = $prt->get_maxima_representation();
+}
+$offlinemaxima = s(implode("\n", $offlinemaxima));
+echo html_writer::start_tag('div', array('class' => 'questionvariables'));
+echo html_writer::tag('pre', $offlinemaxima);
+echo html_writer::end_tag('div');
+
 // Display the general feedback, aka "Worked solution".
-$qa = new question_attempt($question, 0);
 echo $OUTPUT->heading(stack_string('generalfeedback'), 3);
-echo html_writer::tag('div', html_writer::tag('div', $renderer->general_feedback($qa),
+echo html_writer::tag('div', html_writer::tag('div', $renderer->general_feedback(
+        $quba->get_question_attempt($slot)),
         array('class' => 'outcome generalfeedback')), array('class' => 'que'));
 
 // Add a link to the cas chat to facilitate editing the general feedback.
@@ -459,6 +493,13 @@ $chatparams['cas'] = $question->generalfeedback;
 // We've chosen not to send a specific seed since it is helpful
 // to test the general feedback in a random context.
 echo $OUTPUT->single_button(new moodle_url('/question/type/stack/caschat.php', $chatparams), stack_string('chat'));
+
+if ($question->stackversion == null) {
+    echo html_writer::tag('p', stack_string('stackversionnone'));
+} else {
+    echo html_writer::tag('p', stack_string('stackversionedited', $question->stackversion)
+            . stack_string('stackversionnow', get_config('qtype_stack', 'version')));
+}
 
 // Finish output.
 echo $OUTPUT->footer();

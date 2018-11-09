@@ -1,0 +1,236 @@
+/* Various string processing tools, primarily for parsing and generating JSON.  */
+
+
+/* First some functions for dealing with stack_maps. */
+
+/* A map is a list of key value pairs with the first element being the string "stack_map" */
+/* We intentionally skip the use of structs to allow people to directly process the "map" */
+/* from withing STACK question code as structs were still forbidden there at the time. */
+/* Also avoiding certain list convenience functions as they are quite recent additions */
+/* to Maxima, so do not wonder why things are done at quite a low level. */
+is_stackmap(x) := listp(x) and is(length(x)>0) and is(x[1]="stack_map")$
+/* might as we be called stackmapp() but that sounds odd. */
+stackmapp(x) := is_stackmap(x)$
+
+stackmap_get(m, k) := block([tmp, val],
+ val:und,
+ if not is_stackmap(m) then return(und),
+ for tmp in m do if (not is(tmp="stack_map")) and is(tmp[1]=k) then (val:tmp[2],return(tmp[2])),
+ return(val)
+)$
+
+stackmap_set(m, k, v) := block([tmp, found, r],
+ found: false,
+ r: ["stack_map"],
+ /* If we are given anything else than a map as the map we make a new map. */
+ if not is_stackmap(m) then return(append(r,[[k,v]])),
+ for tmp in m do if not is(tmp="stack_map") then (if is(tmp[1]=k) then (r:append(r,[[k,v]]),found:true) else r:append(r,[tmp])),
+ if not found then r:append(r,[[k,v]]),
+ return(r)
+)$
+
+stackmap_unset(m, k) := block([tmp, r],
+ r: ["stack_map"],
+ if not is_stackmap(m) then return(und),
+ for tmp in m do if not is(tmp="stack_map") then (if not is(tmp[1]=k) then r:append(r,[tmp])),
+ return(r)
+)$
+
+stackmap_keys(m) := block([tmp, r],
+ r: [], /* Might as well be a set but then we would lose the direct match to the values list... */
+ if not is_stackmap(m) then return(und),
+ for tmp in m do if not is(tmp="stack_map") then r:append(r,[tmp[1]]),
+ return(r)
+)$
+
+stackmap_values(m) := block([tmp, r],
+ r: [],
+ if not is_stackmap(m) then return(und),
+ for tmp in m do if not is(tmp="stack_map") then r:append(r,[tmp[2]]),
+ return(r)
+)$
+
+stackmap_has_key(m, k) := block([tmp, found],
+ found: false,
+ if not is_stackmap(m) then return(false),
+ for tmp in m do if not is(tmp="stack_map") then (if is(tmp[1]=k) then found:true),
+ return(found)
+)$
+
+
+/* This function takes a string containing JSON and returns a list, number, string, */
+/* boolean or a stackmap depending on what if finds. Should it find null or empty */
+/* input it returns und. */
+/* Note that we do use stringproc. */
+stackjson_parse(json) := block([r,tmp,tokens,mode,i,lastslash,c,starts,nt,k,v,dm],
+ r: und,
+ if not stringp(json) or is(json="") then return(und),
+ tmp:strim(sconcat(ascii(32),ascii(9),ascii(10),ascii(11),ascii(12),ascii(13)),json),
+ if is(tmp="") then return(und),
+
+ /* easy ones */
+ if is(tmp="true") then return(true),
+ if is(tmp="false") then return(false),
+ if is(tmp="null") then return(und),
+ if is(tmp="[]") then return([]),
+ if is(tmp="{}") then return(["stack_map"]),
+
+ /* Not easy, do some tokenising */
+ mode:"raw", /* In a string or not, maybe number */
+ i:0,
+ tokens:[],
+ lastslash:false,
+ while ev(is(i<slength(tmp)), simp) do (
+  c:charat(tmp, ev(i+1, simp)),
+  if is(mode="raw") then (
+   if is(c="[") then tokens:append(tokens,[_stackjson_tokens_list_open])
+   elseif is(c="]") then tokens:append(tokens,[_stackjson_tokens_list_close])
+   elseif is(c="{") then tokens:append(tokens,[_stackjson_tokens_dict_open])
+   elseif is(c="}") then tokens:append(tokens,[_stackjson_tokens_dict_close])
+   elseif is(c=":") then tokens:append(tokens,[_stackjson_tokens_key_sep])
+   elseif is(c=",") then tokens:append(tokens,[_stackjson_tokens_list_sep])
+   elseif is(c="\"") then (mode:"string",lastslash:false,r:"")
+   elseif is(c="n") and is(charat(tmp,i+2)="u") and is(charat(tmp,i+3)="l") and is(charat(tmp,i+4)="l") then (i:i+3, tokens:append(tokens,[und]))
+   elseif is(c="t") and is(charat(tmp,i+2)="r") and is(charat(tmp,i+3)="u") and is(charat(tmp,i+4)="e") then (i:i+3, tokens:append(tokens,[true]))
+   elseif is(c="f") and is(charat(tmp,i+2)="a") and is(charat(tmp,i+3)="l") and is(charat(tmp,i+4)="s") and is(charat(tmp,i+5)="e") then (i:i+4, tokens:append(tokens,[false]))
+   elseif not is(sposition(c,sconcat(ascii(32),ascii(9),ascii(10),ascii(11),ascii(12),ascii(13)))=false) then (i:i)
+   elseif is(c="-") then (mode:"number",r:["-"])
+   elseif digitcharp(c) then (mode:"number",r:[c])
+  ) elseif is(mode="string") then (
+   if(lastslash) then (
+    lastslash:false,
+    if is(c="\\") then r:sconcat(r,"\\")
+    elseif is(c="n") then r:sconcat(r,ascii(10))
+    elseif is(c="t") then r:sconcat(r,ascii(9))
+    elseif is(c="r") then r:sconcat(r,ascii(13))
+    elseif is(c="b") then r:sconcat(r,ascii(8))
+    elseif is(c="f") then r:sconcat(r,ascii(12))
+    elseif is(c="\"") then r:sconcat(r,"\"")
+    elseif is(c="u") then (r:sconcat(r,unicode(stack_string_hex_to_num(substring(tmp,i+2,i+6)))),i:i+4)
+    else r:sconcat(r,c)
+   ) else (
+    if is(c="\\") then lastslash:true
+    elseif is(c="\"") then (tokens:append(tokens,[r]),mode:"raw")
+    else r:sconcat(r,c)
+   )
+  ) elseif is(mode="number") then (
+   if digitcharp(c) then r:append(r,[c])
+   elseif is(c=".") then r:append(r,[c])
+   elseif is(c="e") then r:append(r,[c])
+   elseif is(c="E") then r:append(r,[c])
+   elseif is(c="+") then r:append(r,[c])
+   elseif is(c="-") then r:append(r,[c])
+   else (tokens:append(tokens,[stack_string_parse_number(simplode(r))]),i:i-1,mode:"raw")
+  ),
+  i:i+1
+ ),
+
+ /* In the unlikely case that we have an atomic value e.g. string or number exit early. */
+ if is(length(tokens)=1) then return(tokens[1]),
+ dm:0,
+ /* Otherwise reduce grouppings. */
+ starts:sublist_indices(tokens, lambda([x], is(x=_stackjson_tokens_list_open) or is(x=_stackjson_tokens_dict_open))),
+ while ev(is(length(starts)>0), simp) do (
+  r:[],
+  nt:[],
+  i:1,
+  /* Change this to actual sublist as this is not the way to do it... */
+  while ev(is(i<last(starts)), simp) do (nt:append(nt,[tokens[i]]), i:ev(i+1, simp)),
+  if is(tokens[last(starts)]=_stackjson_tokens_list_open) then (
+   i:last(starts)+1,
+   while not is(tokens[i]=_stackjson_tokens_list_close) do (
+    if not is(tokens[i]=_stackjson_tokens_list_sep) then r:append(r,[tokens[i]]),
+    i:ev(i+1, simp)
+   )
+  ) else (
+   r:["stack_map"],
+   i:ev(last(starts)+1, simp),
+   while not ev(is(tokens[i]=_stackjson_tokens_dict_close), simp) do (
+    if not ev(is(tokens[i]=_stackjson_tokens_list_sep), simp) then (
+     k:tokens[i],
+     v:tokens[ev(i+2, simp)],
+     r:append(r,[[k,v]]),
+     i:ev(i+3, simp)
+    ) else i:ev(i+1, simp)
+   )  
+  ),
+  nt:append(nt,[r]),
+  i:i+1,
+  /* Change this to actual sublist as this is not the way to do it... */
+  while ev(is(i<length(tokens)+1), simp) do (nt:append(nt,[tokens[i]]),i:ev(i+1, simp)),
+  if ev(is(length(nt)<length(tokens)), simp) then dm:0,
+  tokens:nt,
+  /* If the string is bad we may loop forever for this we have an automated exit. */
+  dm:ev(dm+1, simp),
+  if ev(is(dm>20), simp) then return(und),
+  starts:sublist_indices(tokens, lambda([x], is(x=_stackjson_tokens_list_open) or is(x=_stackjson_tokens_dict_open)))
+ ),
+ /* At this point the tokens list has been reduced to length of one or things are broken... */
+ return(tokens[1])
+)$
+
+/* Takes a string that is assumed to be hexadecimal and turns it to an integer the hard way. */
+/* Returns interesting things if the input is not hexadecimal... */
+stack_string_hex_to_num(hexstring) := block([c, tmp],
+ c:0,
+ for tmp in charlist(sdowncase(hexstring)) do c:c*16+(sposition(tmp,"0123456789abcdef")-1),
+ return(ev(c, simp))
+)$
+
+/* Takes a string representing an integer or a float and parses it the hard way to avoid having to eval it. */
+/* probably sensitive to large exponents */
+stack_string_parse_number(somestring) := block([c, b, phase, neg,nege, tmp, i],
+ neg:false,
+ nege:false,
+ c:0,
+ phase:"left of dot",
+ i:0,
+ b:0,
+ for tmp in charlist(sdowncase(somestring)) do (
+  if is(phase="left of dot") then (
+   if is(tmp=".") then (phase:"right of dot", i:-1)
+   elseif is(tmp="-") then neg:true
+   elseif is(tmp="+") then neg:false
+   elseif digitcharp(tmp) then c:c*10+(cint(tmp)-48)
+   elseif is(tmp="e") then phase:"exponent"
+  ) elseif is(phase="right of dot") then (
+   if digitcharp(tmp) then (c:c+((cint(tmp)-48)*10^i),i:i-1)
+   elseif is(tmp="e") then phase:"exponent"
+  ) elseif is(phase="exponent") then (
+   if is(tmp="-") then nege:true
+   elseif is(tmp="+") then nege:false
+   elseif digitcharp(tmp) then b:b*10+(cint(tmp)-48)
+  )
+ ),
+ if is(phase="exponent") then if nege then c:c*10^-b else c:c*10^b,
+ c:ev(c, numer, simp),
+ if neg then return(-c),
+ return(c)
+)$
+
+
+/* Takes pretty much anything and turns it to a JSON string */
+stackjson_stringify(obj) := block([tmp,r,l],
+ r:und,
+ if is(obj=und) then r:"null"
+ else if is(obj=false) then r:"false"
+ else if is(obj=true) then r:"true"
+ else if stringp(obj) then (
+  tmp:ssubst("\\\\","\\",obj),
+  tmp:ssubst("\\\"","\"",tmp),
+  tmp:ssubst("\\b",ascii(8),tmp),
+  tmp:ssubst("\\t",ascii(9),tmp),
+  tmp:ssubst("\\n",ascii(10),tmp),
+  tmp:ssubst("\\f",ascii(12),tmp),
+  tmp:ssubst("\\r",ascii(13),tmp),
+  r:sconcat("\\\"",tmp,"\\\"")
+ ) else if is_stackmap(obj) then (
+  l:[],
+  for tmp in stackmap_keys(obj) do l:append(l,[sconcat(stackjson_stringify(tmp),":",stackjson_stringify(stackmap_get(obj,tmp)))]), 
+  r:sconcat("{",simplode(l,","),"}")
+ ) else if listp(obj) then r:sconcat("[",simplode(makelist(stackjson_stringify(x),x,obj),","),"]")
+ else if integerp(obj) then r:string(obj)
+ else if numberp(obj) then r:string(float(obj))
+ else r:stackjson_stringify(string(obj)),
+ return(r)
+)$

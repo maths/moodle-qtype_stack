@@ -2,7 +2,7 @@
 
 
 
-The STACK assignments can be easily localized for different languages using the multi-language content filter. [http://docs.moodle.org/22/en/Multi-language_content_filter](http://docs.moodle.org/22/en/Multi-language_content_filter).  The filter works by searching the document for all multilang blocks and displaying the block that matches the selected language.
+The STACK assignments can be easily localized for different languages using the multi-language content filter. [http://docs.moodle.org/en/Multi-language_content_filter](http://docs.moodle.org/en/Multi-language_content_filter).  The filter works by searching the document for all multilang blocks and displaying the block that matches the selected language.
 
     <span lang="en" class="multilang">...Text in English...</span>
     <span lang="fi" class="multilang">...Text in Finnish...</span>

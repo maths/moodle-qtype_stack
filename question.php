@@ -43,6 +43,11 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         implements question_automatically_gradable_with_multiple_parts {
 
     /**
+     * @var string STACK specific: Holds the version of the question when it was last saved.
+     */
+    public $stackversion;
+
+    /**
      * @var string STACK specific: variables, as authored by the teacher.
      */
     public $questionvariables;
@@ -147,6 +152,12 @@ class qtype_stack_question extends question_graded_automatically_with_countback
      * Initialised in start_attempt / apply_attempt_state.
      */
     public $prtincorrectinstantiated;
+
+    /**
+     * @var array Errors generated at runtime.
+     * Any errors are stored as the keys to prevent duplicates.  Values are ignored.
+     */
+    public $runtimeerrors = array();
 
     /**
      * The next three fields cache the results of some expensive computations.
@@ -273,6 +284,9 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         // 1. question variables.
         $questionvars = new stack_cas_keyval($this->questionvariables, $this->options, $this->seed, 't');
         $session = $questionvars->get_session();
+        if ($session->get_errors()) {
+            $this->runtimeerrors[$session->get_errors()] = true;
+        }
 
         // 2. correct answer for all inputs.
         $response = array();
@@ -302,11 +316,10 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         // Now instantiate the session.
         $session->instantiate();
         if ($session->get_errors()) {
-            // We throw an exception here because any problems with the CAS code
-            // up to this point should have been caught during validation when
-            // the question was edited or deployed.
-            throw new stack_exception('qtype_stack_question : CAS error when instantiating the session: ' .
-                    $session->get_errors($this->user_can_edit()));
+            // In previous versions we threw an exception here.
+            // Upgrade and import stops  errors being caught during validation when the question was edited or deployed.
+            // This breaks bulk testing in a nasty way.
+            $this->runtimeerrors[$session->get_errors($this->user_can_edit())] = true;
         }
 
         // Finally, store only those values really needed for later.
@@ -332,8 +345,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
     protected function prepare_cas_text($text, $session) {
         $castext = new stack_cas_text($text, $session, $this->seed, 't', false, 1);
         if ($castext->get_errors()) {
-            throw new stack_exception('qtype_stack_question : Error part of the question: ' .
-                    $castext->get_errors());
+            $this->runtimeerrors[$castext->get_errors()] = true;
         }
         return $castext;
     }
@@ -363,7 +375,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         $hinttext = new stack_cas_text($hint->hint, $this->session, $this->seed, 't', false, 1);
 
         if ($hinttext->get_errors()) {
-            throw new stack_exception('Error rendering the hint text: ' . $gftext->get_errors());
+            $this->runtimeerrors[$gftext->get_errors()] = true;
         }
 
         return $hinttext;
@@ -377,7 +389,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         $gftext = new stack_cas_text($this->generalfeedback, $this->session, $this->seed, 't', false, 1);
 
         if ($gftext->get_errors()) {
-            throw new stack_exception('Error rendering the general feedback text: ' . $gftext->get_errors());
+            $this->runtimeerrors[$gftext->get_errors()] = true;
         }
 
         return $gftext;
@@ -422,6 +434,15 @@ class qtype_stack_question extends question_graded_automatically_with_countback
                 $bits[] = $name . ': ' . $input->contents_to_maxima($state->contents) . ' [' . $state->status . ']';
             }
         }
+        // Add in the answer note for this response.
+        foreach ($this->prts as $name => $prt) {
+            $state = $this->get_prt_result($name, $response, false);
+            $note = implode(' | ', $state->answernotes);
+            if (trim($note) == '') {
+                $note = '#';
+            }
+            $bits[] = $name . ": " . $note;
+        }
         return implode('; ', $bits);
     }
 
@@ -441,7 +462,6 @@ class qtype_stack_question extends question_graded_automatically_with_countback
             $teacheranswer = array_merge($teacheranswer,
                     $input->get_correct_response($this->session->get_value_key($name, true)));
         }
-
         return $teacheranswer;
     }
 
@@ -545,11 +565,23 @@ class qtype_stack_question extends question_graded_automatically_with_countback
 
     public function is_gradable_response(array $response) {
         // If any PRT is gradable, then we can grade the question.
+        $noprts = true;
         foreach ($this->prts as $index => $prt) {
+            $noprts = false;
             if ($this->can_execute_prt($prt, $response, true)) {
                 return true;
             }
         }
+        // In the case of no PRTs,  questions are in state "is_gradable" if we have
+        // at least one input in the "score" or "valid" state.
+        if ($noprts) {
+            foreach ($this->inputstates as $key => $inputstate) {
+                if ($inputstate->status == 'score' || $inputstate->status == 'valid') {
+                    return true;
+                }
+            }
+        }
+        // Otherwise we are not "is_gradable".
         return false;
     }
 
@@ -956,5 +988,66 @@ class qtype_stack_question extends question_graded_automatically_with_countback
      */
     public function undeploy_variant($seed) {
         $this->qtype->undeploy_variant($this->id, $seed);
+    }
+
+    /**
+     * This function is called by the bulk testing script on upgrade.
+     * This checks if questions use features which have changed.
+     */
+    public function validate_against_stackversion() {
+        $errors = array();
+        $qfields = array('questiontext', 'questionvariables', 'questionnote', 'specificfeedback', 'generalfeedback');
+
+        $stackversion = (int) $this->stackversion;
+
+        // Things no longer allowed in questions.
+        $patterns = array(
+             array('pat' => 'addrow', 'ver' => 2018060601, 'alt' => 'rowadd'),
+             array('pat' => 'texdecorate', 'ver' => 2018080600)
+        );
+        foreach ($patterns as $checkpat) {
+            if ($stackversion < $checkpat['ver']) {
+                foreach ($qfields as $field) {
+                    if (strstr($this->$field, $checkpat['pat'])) {
+                        $a = array('pat' => $checkpat['pat'], 'ver' => $checkpat['ver'], 'qfield' => stack_string($field));
+                        $err = stack_string('stackversionerror', $a);
+                        if (array_key_exists('alt', $checkpat)) {
+                            $err .= ' ' . stack_string('stackversionerroralt', $checkpat['alt']);
+                        }
+                        $errors[] = $err;
+                    }
+                }
+                // Look inside the PRT feedback variables.  Should probably check the feedback as well.
+                foreach ($this->prts as $name => $prt) {
+                    $kv = $prt->get_feedbackvariables_keyvals();
+                    if (strstr($kv, $checkpat['pat'])) {
+                        $a = array('pat' => $checkpat['pat'], 'ver' => $checkpat['ver'],
+                             'qfield' => stack_string('feedbackvariables') . ' (' . $name . ')');
+                        $err = stack_string('stackversionerror', $a);
+                        if (array_key_exists('alt', $checkpat)) {
+                            $err .= ' ' . stack_string('stackversionerroralt', $checkpat['alt']);
+                        }
+                        $errors[] = $err;
+                    }
+                }
+            }
+        }
+
+        // Mul is no longer supported.
+        // We don't need to include a date check here because it is not a change in behaviour.
+        foreach ($this->inputs as $inputname => $input) {
+            $options = $input->get_parameter('options');
+            if (trim($options) !== '') {
+                $options = explode(',', $options);
+                foreach ($options as $opt) {
+                    $opt = strtolower(trim($opt));
+                    if ($opt === 'mul') {
+                        $errors[] = stack_string('stackversionmulerror');
+                    }
+                }
+            }
+        }
+
+        return implode(' ', $errors);
     }
 }

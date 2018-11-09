@@ -28,33 +28,43 @@ require_once(__DIR__ . '/../stack/options.class.php');
  */
 class stack_options_set_exception_test extends basic_testcase {
 
+    /**
+     * @expectedException stack_exception
+     */
     public function test_set_exception_1() {
         $opts = new stack_options();
-        $this->setExpectedException('stack_exception');
         $opts->set_option('nonoption', false);
     }
 
+    /**
+     * @expectedException stack_exception
+     */
     public function test_set_exception_2() {
         $opts = new stack_options();
-        $this->setExpectedException('stack_exception');
         $opts->set_option('floats', 0);
     }
 
+    /**
+     * @expectedException stack_exception
+     */
     public function test_set_exception_3() {
         $opts = new stack_options();
-        $this->setExpectedException('stack_exception');
         $opts->set_option('floats', null);
     }
 
+    /**
+     * @expectedException stack_exception
+     */
     public function test_set_exception_4() {
         $opts = new stack_options();
-        $this->setExpectedException('stack_exception');
         $opts->set_option('display', false);
     }
 
+    /**
+     * @expectedException stack_exception
+     */
     public function test_set_exception_5() {
         $opts = new stack_options();
-        $this->setExpectedException('stack_exception');
         $opts->set_option('display', 'latex');
     }
 }

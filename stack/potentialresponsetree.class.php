@@ -315,4 +315,30 @@ class stack_potentialresponse_tree {
     public function get_value() {
         return $this->value;
     }
+
+    /**
+     * @return string Representation of the PRT for Maxima offline use.
+     */
+    public function get_maxima_representation() {
+        $prttrace = array();
+        $prttrace[] = "\n/* ". $this->name . " */";
+        $fv = $this->feedbackvariables;
+        if ($fv !== null) {
+            $prttrace[] = $fv->get_keyval_representation();
+        }
+        foreach ($this->nodes as $key => $node) {
+            $prttrace[] = $node->get_maxima_representation();
+        }
+        return implode("\n", $prttrace);
+    }
+
+    /**
+     * @return string Representation of the PRT for Maxima offline use.
+     */
+    public function get_feedbackvariables_keyvals() {
+        if (null === $this->feedbackvariables) {
+            return '';
+        }
+        return $this->feedbackvariables->get_keyval_representation();
+    }
 }

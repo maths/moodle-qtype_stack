@@ -16,7 +16,7 @@ Check
 * version.php
  * check both the Moodle versions, and the required number. (https://docs.moodle.org/dev/Releases)
 * Check version numbers on stackmaxima.mac.
-* Check docs.
+* Check docs (including development history/track).
 * Commit all changes to git, e.g. "Update version number for the 4.0 release."
 
 ## 2. Run all unit tests.

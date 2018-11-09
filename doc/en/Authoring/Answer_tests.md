@@ -61,7 +61,7 @@ Hence, we need quite a number of different answer tests to establish equality in
 | CasEqual                                          | Are the parse trees of the two expressions equal?  
 | [EqualComAss](Answer_tests.md#EqualComAss)        | Are they equal up to commutativity and associativity of addition and multiplication, together with their inverses minus and division? For example \[a+b=b+a\mbox{,}\] but \[x+x\neq 2x\mbox{.}\] This is very useful in elementary algebra, where we want the form of the answer exactly. Simplification is automatically switched off when this test is applied, otherwise it makes no sense.
 | [AlgEquiv](Answer_tests.md#AlgEquiv)              | Are they _algebraically equivalent_, i.e. does the difference simplify to zero?
-| SubstEquiv                                        | Can we find a substitution of the variables of \(ex_2\) into \(ex_1\) which renders \(ex_1\) algebraically equivalent to \(ex_2\)?  If you are only interested in ignoring case sensitivity, you can apply the [Maxima commands defined by STACK](../CAS/Maxima.md#Maxima_commands_defined_by_STACK) `exdowncase(ex)` to the arguments, before you apply one of the other answer tests.
+| SubstEquiv                                        | Can we find a substitution of the variables of \(ex_2\) into \(ex_1\) which renders \(ex_1\) algebraically equivalent to \(ex_2\)?  If you are only interested in ignoring case sensitivity, you can apply the [Maxima commands defined by STACK](../CAS/Maxima.md#Maxima_commands_defined_by_STACK) `exdowncase(ex)` to the arguments, before you apply one of the other answer tests.  Note, because we have to test every possibilities, the algorithm is factorial in ther number of variables.  For this reason, the test only works for 4 or fewer variables.
 | SameType                                          | Are the two expressions of the same [types_of_object](../CAS/Maxima.md#Types_of_object)?  Note that this test works recursively over the entire expression.
 | SysEquiv                                          | Do two systems of polynomial equations have the same solutions? This test determines whether two systems of multivariate polynomials, i.e. polynomials with a number of variables, generate the same ideal, equivalent to checking they have the same solutions.
 
@@ -128,6 +128,12 @@ As the test allows for polynomials in several variables, it can cope with the in
 * This test disregards whether [simplification](../CAS/Simplification.md) is switched on, it only simplifies its arguments where required.
 This allows the test to list equations in feedback that the student has erroneously included in their system.
 
+### Sets ###
+
+This test deals with equality of sets.  The algebraic equivalence functions give very minimal feedback.  This test is designed to give much more detailed feedback on what is and _is not_ included in the student's answer.  Hence, this essentially tells the student what is missing.  This is kind of feedback is tedious to generate without this test.
+
+The test simplifies both sets, and does a comparison based on the simplified versions.  The comparison relies on `ev(..., simp, nouns)` to undertake the simplification.  If you need stronger simplification (e.g. trig) then you will need to add this to the arguments of the function first.
+
 ### Equiv and EquivFirstLast ###
 
 These answer tests are used with [equivalence reasoning](../CAS/Equivalence_reasoning.md).  See the separate documentation.
@@ -190,7 +196,7 @@ These tests deal with the precision of numbers.  See dedicated page on [numerica
 
 This test is a general differentiation test: it is passed if the arguments are algebraically equivalent, but gives feedback if it looks like the student has integrated instead of differentiated. The first argument is the student's answer. The second argument is the model answer. The answer test option must be the variable with respect to which differentiation is assumed to take place.
 
-### Int ###
+### Int ### {#Int}
 
 This test is designed for a general indefinite integration question: it is passed if both the arguments are indefinite integrals of the same expression. The first argument is the student's answer.
 The second argument is the model answer. The answer test option needs to be the variable with respect to which integration is assumed to take place, or a list (see below).
@@ -232,7 +238,7 @@ The following tests do not use Maxima, but instead rely on PHP.
 | String         | This is a string match, ignoring leading and trailing white space which are stripped from all answers, using PHP's trim() function.
 | StringSloppy   | This function first converts both inputs to lower case, then removes all white space from the string and finally performs a strict string comparison.
 | RegExp         | A regular expression match, with the expression passed via the option. This regular expression match is performed with PHP's `preg_match()` function. For example, if you want to test if a string looks like a floating point number then use the regular expression `{[0-9]*\.[0-9]*}`
-|                | **NOTE:** this test used to use PHP's `ereg()` function which has now been deprecated.
+|                | **NOTE:** we plan to remove this test in STACK version 4.3.  Do not use this test.
 
 # Scientific units #
 

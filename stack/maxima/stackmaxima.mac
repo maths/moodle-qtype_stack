@@ -81,7 +81,8 @@ degree(ex,v) := ev(hipow(expand(ex), v), simp); /* See notes on hipow.          
 /* Load contributed packages          */
 /* ********************************** */
 
-load ("functs");
+load("functs");
+/* Not yet testsed: load("vect"); */
 
 /* We don't want to allow people to put boxes round things. */
 box(ex) := ex;
@@ -2337,13 +2338,13 @@ ATSingleFrac(SA, SB) := block(
 divthru(q) :=
        if (not atom(q) and part(q,0)="/")
        then
-         block([num, den, div, quo, rem],
+         block([num,den,divt,quo,rem],
            num:part(q, 1),
            den:part(q, 2),
-           div:divide(num, den) ,
-           quo:div[1],
-           rem:div[2],
-           quo+rem/ den )
+           divt:divide(num, den) ,
+           quo:divt[1],
+           rem:divt[2],
+           quo+rem/den )
        else q;
 
 /*****************************************************************/

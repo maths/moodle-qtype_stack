@@ -128,31 +128,69 @@ alias(arccos, acos);          /* At the request of the OU, 4 Feb 2013. */
 alias(arcsin, asin);
 alias(arctan, atan);
 
-load("mathml.lisp");
-
 make_complexJ(OPT_COMPLEXJ) := block(
   if OPT_COMPLEXJ = "i" then
-    (i:%i,load("complexi.lisp"))
+    (i:%i,texput(%i,"\\mathrm{i}"))
   else if OPT_COMPLEXJ = "j" then
-    (%j:%i,j:%i,load("complexj.lisp"))
+    (%j:%i,j:%i,texput(%i,"\\mathrm{j}"))
   else if OPT_COMPLEXJ = "symi" then
-    (load("complexi.lisp"))
+    (texput(%i,"\\mathrm{i}"))
   else if OPT_COMPLEXJ = "symj" then
-    (load("complexj.lisp"))
+    (texput(%i,"\\mathrm{j}"))
   else true
-);
+)$
 
 /* Choose the symbol for the multiplication sign. */
 make_multsgn(OPT_MULTSGN) := block(
-    if OPT_MULTSGN = "cross" then load("multiply_cross.lisp"),
-    if OPT_MULTSGN = "dot" then load("multiply_dot.lisp"),
-    if OPT_MULTSGN = "blank" then load("multiply_blank.lisp")
+    if OPT_MULTSGN = "cross" then texput("*", "\\times ", nary),
+    if OPT_MULTSGN = "dot" then texput("*", "\\cdot ", nary),
+    if OPT_MULTSGN = "blank" then texput("*", "\\, ", nary)
 );
 
 /* Options for cos^(-1), acos or arccos. */
 make_arccos(OPT_ACOS) := block(
-    if OPT_ACOS = "cos-1" then load("cos-1.lisp"),
-    if OPT_ACOS = "arccos" then load("arccos.lisp")
+    if OPT_ACOS = "cos-1" then block(
+       texput(asin, "\\sin^{-1}", prefix),
+       texput(acos, "\\cos^{-1}", prefix),
+       texput(atan, "\\tan^{-1}", prefix),
+       texput(asec, "{\\rm sec}^{-1}", prefix),
+       texput(acsc, "{\\rm csc}^{-1}", prefix),
+       texput(acot, "{\\rm cot}^{-1}", prefix),
+       texput(asinh, "{\\rm sinh}^{-1}", prefix),
+       texput(acosh, "{\\rm cosh}^{-1}", prefix),
+       texput(atanh, "{\\rm tanh}^{-1}", prefix),
+       texput(asech, "{\\rm sech}^{-1}", prefix),
+       texput(acsch, "{\\rm csch}^{-1}", prefix),
+       texput(acoth, "{\\rm coth}^{-1}", prefix)
+    ),
+    if OPT_ACOS = "arccos" then block(
+       texput(asin, "\\arcsin ", prefix),
+       texput(acos, "\\arccos ", prefix),
+       texput(atan, "\\arctan ", prefix),
+       texput(asec, "{\\rm arcsec}", prefix),
+       texput(acsc, "{\\rm arccsc}", prefix),
+       texput(acot, "{\\rm arccot}", prefix),
+       texput(asinh, "{\\rm arcsinh}", prefix),
+       texput(acosh, "{\\rm arccosh}", prefix),
+       texput(atanh, "{\\rm arctanh}", prefix),
+       texput(asech, "{\\rm arcsech}", prefix),
+       texput(acsch, "{\\rm arccsch}", prefix),
+       texput(acoth, "{\\rm arccoth}", prefix)
+    ),
+    if OPT_ACOS = "acos" then block(
+       texput(asin, "{\\rm asin}", prefix),
+       texput(acos, "{\\rm acos}", prefix),
+       texput(atan, "{\\rm atan}", prefix),
+       texput(asec, "{\\rm asec}", prefix),
+       texput(acsc, "{\\rm acsc}", prefix),
+       texput(acot, "{\\rm acot}", prefix),
+       texput(asinh, "{\\rm asinh}", prefix),
+       texput(acosh, "{\\rm acosh}", prefix),
+       texput(atanh, "{\\rm atanh}", prefix),
+       texput(asech, "{\\rm asech}", prefix),
+       texput(acsch, "{\\rm acsch}", prefix),
+       texput(acoth, "{\\rm acoth}", prefix)
+    )
 );
 
 
@@ -380,9 +418,6 @@ stack_disp(expr, exprm) := block([str:"", expru],
         expstr: tex(expru, false),
         expstr: concat(ld, stack_disp_strip_dollars(expstr), rd)
     ),
-    /* MathML display */
-    if OPT_OUTPUT = "MathML" then
-        str: mathml(expr, false),
     /* String display */
     if OPT_OUTPUT = "String" then str: string(expr),
     /* If no correct options have been set. */
@@ -861,8 +896,7 @@ plot(ex, [ra]) :=  /*stack_web_plot*/
     ufn: concat("<img src='", URL_BASE, filename, ".", PLOT_TERMINAL, "' alt='", alttext, "' width='", string(plot_size[1]), "' />"),
     if plot_tags then
         ufn: concat("<div class='stack_plot'>", ufn, "</div>"),
-    if OPT_OUTPUT#"MathML" then
-      ufn: concat(" <html>", ufn, "</html> "),
+    ufn: concat(" <html>", ufn, "</html> "),
     /* Sort out plot_options and preamble*/
     preamble: "",
     if not(member(xlabel, maplist(first, ral))) then ral: append(ral, [[xlabel, ""]]),
@@ -2421,7 +2455,7 @@ ATCompSquare(SA, SB, SO) := block([Validity,RawMark,FeedBack,AnswerNote,ret,wrt,
     if atom(wrt)#true then (SA:subst(facdum, wrt, SA), SB:subst(facdum, wrt, SB), wrt:facdum),
 
     if member(wrt,listofvars(SB)) and not(member(wrt,listofvars(SA))) then
-        return([true, false, StackAddNote("", "ATCompSquare_SA_not_depend_var"), StackAddFeedback("", "ATCompSquare_SA_not_depend_var", stack_disp(SBL[2], "i"))]),
+        return([true, false, StackAddNote("", "ATCompSquare_SA_not_depend_var"), StackAddFeedback("", "ATCompSquare_SA_not_depend_var", stack_disp(wrt, "i"))]),
 
     opa:safe_op(SA),
 
@@ -2431,6 +2465,14 @@ ATCompSquare(SA, SB, SO) := block([Validity,RawMark,FeedBack,AnswerNote,ret,wrt,
         return([true, true, StackAddNote("", "ATCompSquare_true_trivial"), ""]),
     if ae and is(degree(expand(SB),wrt)=1) then
         return([true, true, StackAddNote("", "ATCompSquare_true_trivial"), ""]),
+
+    /* case: -(x-1)^2/k */
+    if opa="-" then block(
+        SA:first(args(SA)),
+        /* For the algebraic equivalence test later */
+        SB:-1*SB,
+        opa:safe_op(SA)
+    ),
 
     /* case: (x-1)^2 */
     if opa="^" and part(args(SA),2)=2 then cform:true,
@@ -2455,12 +2497,15 @@ ATCompSquare(SA, SB, SO) := block([Validity,RawMark,FeedBack,AnswerNote,ret,wrt,
 
         if atom(argsa[1]) then return(true),
 
+        /* case: -(x-1)^2 + c*/
+        if op(argsa[1])="-" then argsa[1]:first(args(argsa[1])),
+
         /* case: (x-1)^2 + c*/
         if op(argsa[1])="^" and part(argsa[1],2)=2 then cform:true,
 
         /* case: k*(x-1)^2 + c*/
         if op(argsa[1])="*" then block([argsb],
-           argsb: sublist(args(argsa[1]),lambda([ex],elementp(wrt,setify(listofvars(ex))))),
+           argsb: sublist(args(argsa[1]), lambda([ex], elementp(wrt, setify(listofvars(ex))))),
            if length(argsb)=1 then
                if op(argsb[1])="^" and part(argsb[1],2)=2 then cform:true
         )
@@ -2479,7 +2524,6 @@ ATCompSquare(SA, SB, SO) := block([Validity,RawMark,FeedBack,AnswerNote,ret,wrt,
     AnswerNote:concat("ATCompSquare_false",AnswerNote),
     return([true,false,StackAddNote("",AnswerNote),StackAddFeedback("",AnswerNote)])
     )$
-
 
 /*********************/
 /* Calculus question */

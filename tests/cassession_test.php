@@ -31,6 +31,7 @@ require_once(__DIR__ . '/../stack/cas/keyval.class.php');
  * @group qtype_stack
  */
 class stack_cas_session_test extends qtype_stack_testcase {
+
     public function get_valid($cs, $val) {
 
         if (is_array($cs)) {
@@ -80,49 +81,129 @@ class stack_cas_session_test extends qtype_stack_testcase {
 
     }
 
+    public function test_multiplication_option_complexno_i() {
+
+        $cs = array('p:a+b*%i', 'q:a+b*i', 'r:a+b*j');
+        foreach ($cs as $s) {
+            $s1[] = new stack_cas_casstring($s);
+        }
+
+        $options = new stack_options();
+        $options->set_option('simplify', false);
+        $options->set_option('complexno', 'i');
+
+        $at1 = new stack_cas_session($s1, $options, 0);
+        $this->assertEquals('a+b\cdot \mathrm{i}', $at1->get_display_key('p'));
+        $this->assertEquals('a+b\cdot \mathrm{i}', $at1->get_display_key('q'));
+        $this->assertEquals('a+b\cdot j', $at1->get_display_key('r'));
+}
+
+    public function test_multiplication_option_complexno_j() {
+
+        $cs = array('p:a+b*%i', 'q:a+b*i', 'r:a+b*j');
+        foreach ($cs as $s) {
+            $s1[] = new stack_cas_casstring($s);
+        }
+
+        $options = new stack_options();
+        $options->set_option('simplify', false);
+        $options->set_option('complexno', 'j');
+
+        $at1 = new stack_cas_session($s1, $options, 0);
+        $this->assertEquals('a+b\cdot \mathrm{j}', $at1->get_display_key('p'));
+        $this->assertEquals('a+b\cdot i', $at1->get_display_key('q'));
+        $this->assertEquals('a+b\cdot \mathrm{j}', $at1->get_display_key('r'));
+    }
+
+    public function test_multiplication_option_complexno_symi() {
+
+        $cs = array('p:a+b*%i', 'q:a+b*i', 'r:a+b*j');
+        foreach ($cs as $s) {
+            $s1[] = new stack_cas_casstring($s);
+        }
+
+        $options = new stack_options();
+        $options->set_option('simplify', false);
+        $options->set_option('complexno', 'symi');
+
+        $at1 = new stack_cas_session($s1, $options, 0);
+        $this->assertEquals('a+b\cdot \mathrm{i}', $at1->get_display_key('p'));
+        $this->assertEquals('a+b\cdot i', $at1->get_display_key('q'));
+        $this->assertEquals('a+b\cdot j', $at1->get_display_key('r'));
+    }
+
+    public function test_multiplication_option_complexno_symj() {
+
+        $cs = array('p:a+b*%i', 'q:a+b*i', 'r:a+b*j');
+        foreach ($cs as $s) {
+            $s1[] = new stack_cas_casstring($s);
+        }
+
+        $options = new stack_options();
+        $options->set_option('simplify', false);
+        $options->set_option('complexno', 'symj');
+
+        $at1 = new stack_cas_session($s1, $options, 0);
+        $this->assertEquals('a+b\cdot \mathrm{j}', $at1->get_display_key('p'));
+        $this->assertEquals('a+b\cdot i', $at1->get_display_key('q'));
+        $this->assertEquals('a+b\cdot j', $at1->get_display_key('r'));
+    }
+
     public function test_multiplication_option_dot() {
 
-        $cs = array('a:x*y', 'b:1/(1+x^2)', 'c:e^(i*pi)');
+        $cs = array('a:x*y', 'b:x*y*z', 'c:x*(y*z)', 'd:(x*y)*z');
         foreach ($cs as $s) {
             $s1[] = new stack_cas_casstring($s);
         }
 
         $options = new stack_options();
         $options->set_option('multiplicationsign', 'dot');
+        $options->set_option('simplify', false);
 
         $at1 = new stack_cas_session($s1, $options, 0);
         $this->assertEquals('x\cdot y', $at1->get_display_key('a'));
-
+        $this->assertEquals('x\cdot y\cdot z', $at1->get_display_key('b'));
+        $this->assertEquals('x\cdot \left(y\cdot z\right)', $at1->get_display_key('c'));
+        // Notice the associativity of Maxima suppresses the extra explicit brackets here.
+        $this->assertEquals('x\cdot y\cdot z', $at1->get_display_key('d'));
     }
 
     public function test_multiplication_option_none() {
 
-        $cs = array('a:x*y', 'b:1/(1+x^2)', 'c:e^(i*pi)');
+        $cs = array('a:x*y', 'b:x*y*z', 'c:x*(y*z)', 'd:(x*y)*z');
         foreach ($cs as $s) {
             $s1[] = new stack_cas_casstring($s);
         }
 
         $options = new stack_options();
         $options->set_option('multiplicationsign', 'none');
+        $options->set_option('simplify', false);
 
         $at1 = new stack_cas_session($s1, $options, 0);
         $this->assertEquals('x\,y', $at1->get_display_key('a'));
-
+        $this->assertEquals('x\,y\,z', $at1->get_display_key('b'));
+        $this->assertEquals('x\,\left(y\,z\right)', $at1->get_display_key('c'));
+        // Notice the associativity of Maxima suppresses the extra explicit brackets here.
+        $this->assertEquals('x\,y\,z', $at1->get_display_key('d'));
     }
 
     public function test_multiplication_option_cross() {
 
-        $cs = array('a:x*y', 'b:1/(1+x^2)', 'c:e^(i*pi)');
+        $cs = array('a:x*y', 'b:x*y*z', 'c:x*(y*z)', 'd:(x*y)*z');
         foreach ($cs as $s) {
             $s1[] = new stack_cas_casstring($s);
         }
 
         $options = new stack_options();
         $options->set_option('multiplicationsign', 'cross');
+        $options->set_option('simplify', false);
 
         $at1 = new stack_cas_session($s1, $options, 0);
         $this->assertEquals('x\times y', $at1->get_display_key('a'));
-
+        $this->assertEquals('x\times y\times z', $at1->get_display_key('b'));
+        $this->assertEquals('x\times \left(y\times z\right)', $at1->get_display_key('c'));
+        // Notice the associativity of Maxima suppresses the extra explicit brackets here.
+        $this->assertEquals('x\times y\times z', $at1->get_display_key('d'));
     }
 
     public function test_acos_option_cosmone() {

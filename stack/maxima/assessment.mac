@@ -328,6 +328,35 @@ real_numberp(ex):=
     if floatnump(ex) then return(true) else return(false)
 )$
 
+/* Decide if we have a purely imaginary number.  */
+imag_numberp(ex) := block(
+    ev(is(equal(ex, %i*imagpart(ex))), simp)
+)$
+
+/* Decide if a number is written in complex exponential form, r*%e^(%i*theta).
+   Needs simp:false.                                                           */
+complex_exponentialp(ex):=block([ex2],
+    /* Edge case of a real number! */
+    if ev(real_numberp(ex), simp) then return(true),
+    ex2:ex,
+    if safe_op(ex)="*" then
+        if not(is(real_numberp(first(args(ex))))) then
+            return(false)
+        else 
+            ex2:second(args(ex)),
+    if safe_op(ex)="/" then
+        if not(is(real_numberp(second(args(ex))))) then
+            return(false)
+        else 
+            ex2:first(args(ex)),
+    /* Case of r=1, which is not written, or stripped off by the above code. */
+    if safe_op(ex2)="^" then
+        if is(equal(first(args(ex2)),%e)) and is(imag_numberp(second(args(ex2)))) then
+            return(true),
+    if safe_op(ex2)="exp" and is(imag_numberp(first(args(ex2)))) then return(true),
+    return(false)
+)$
+
 /* commonfaclist(l) returns the gcd of a list of numbers. */
 commonfaclist(l) := block([i, a, ret],
  if listp(l) then

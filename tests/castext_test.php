@@ -1031,8 +1031,8 @@ class stack_cas_text_test extends qtype_stack_testcase {
     }
 
     public function test_lambda() {
-        $a2 = array('sf: lambda([x,n],significantfigures(x,n))',
-            'n:[3.1234,1]', 'm:apply(sf,n)');
+        $a2 = array('sfc: lambda([x,n],significantfigures(x,n))',
+            'n:[3.1234,1]', 'm:apply(sfc,n)');
         $s2 = array();
         foreach ($a2 as $s) {
             $cs = new stack_cas_casstring($s);
@@ -1042,7 +1042,7 @@ class stack_cas_text_test extends qtype_stack_testcase {
         }
         $cs2 = new stack_cas_session($s2, null, 0);
 
-        $at1 = new stack_cas_text('{@sf@}, {@m@}', $cs2, 0, 't');
+        $at1 = new stack_cas_text('{@sfc@}, {@m@}', $cs2, 0, 't');
         $this->assertTrue($at1->get_valid());
         $at1->get_display_castext();
 

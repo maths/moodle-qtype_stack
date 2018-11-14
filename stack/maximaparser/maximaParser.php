@@ -405,7 +405,7 @@ class MP_Parser {
       }
     private function peg_f1($s) { return $s; }
     private function peg_f2($d) {
-      $r = new MP_Integer(intval(join("",$d),10));
+      $r = new MP_Integer(intval(join("",$d),10), join("",$d));
       $r->position = array('start'=>$this->peg_reportedPos,'end'=>$this->peg_currPos);
       return $r;
       }

@@ -335,11 +335,27 @@ class MP_Atom extends MP_Node {
     }
 
     public function toString($params = null) {
-        return "" . $this->value;
+        return '' . $this->value;
     }
 }
 
 class MP_Integer extends MP_Atom {
+    // In certain cases we want to see the original form of the integer.
+    // Typically when that value is much longer than what we can deal with.
+    // In the future the integer class might also describe other than base-10
+    // values in which case the representation has more use.
+    public $raw = null;
+
+    public function __construct($value, $raw=null) {
+        parent::__construct($value);
+        $this->raw = $raw;
+    }
+
+    public function toString($params = null) {
+        if($this->raw !== null)
+            return $this->raw;
+        return '' . $this->value;
+    }
 }
 
 class MP_Float extends MP_Atom {
@@ -354,7 +370,7 @@ class MP_Float extends MP_Atom {
     public function toString($params = null) {
         if($this->raw !== null)
             return $this->raw;
-        return "" . $this->value;
+        return '' . $this->value;
     }
 }
 

@@ -6,6 +6,10 @@ Note, we strongly recommend you do not use an HTML aware editor when using JSXGr
 
     Site administration > Plugins > Text editors > Manage editors
 
+Individual users can also set their editor preferences:
+
+    User Dashboard > Preferences > Editor preferences > Manage editors
+
 ## Include basic plots
 
 This example is based on the documentation for [curve](http://jsxgraph.uni-bayreuth.de/wiki/index.php/Curve) and the [even simpler function plotter](http://jsxgraph.uni-bayreuth.de/wiki/index.php/Even_simpler_function_plotter) example.

@@ -38,7 +38,6 @@ class qtype_stack_renderer extends qtype_renderer {
         $response = $qa->get_last_qt_data();
 
         $questiontext = $question->questiontextinstantiated;
-
         // Replace inputs.
         $inputstovaldiate = array();
         $qaid = null;

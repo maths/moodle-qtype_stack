@@ -210,6 +210,12 @@ abstract class stack_input {
                     }
                     break;
 
+                case 'hideanswer':
+                    if (!(is_bool($arg))) {
+                        $this->errors[] = stack_string('numericalinputoptbooplerr', array('opt' => $option, 'val' => $arg));
+                    }
+                    break;
+
                 case 'allowempty':
                     if (!(is_bool($arg))) {
                         $this->errors[] = stack_string('numericalinputoptbooplerr', array('opt' => $option, 'val' => $arg));
@@ -700,7 +706,7 @@ abstract class stack_input {
      * Decide if the contents of this attempt is blank.
      *
      * @param array $contents a non-empty array of the student's input as a split array of raw strings.
-     * @return boolean 
+     * @return boolean
      *
      */
     protected function is_blank_response($contents) {

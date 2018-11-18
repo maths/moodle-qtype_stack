@@ -10,7 +10,7 @@ How to report bugs and make suggestions is described on the [community](../About
 Goal: November 2018 for release in time for STACK conference.
 
 * Removed the maxima mathml code (which wasn't connected or used).
-* Add in extra option in the input `allowempty`.
+* Add in extra options in the input `allowempty` and `hideanswer`.
 
 * 1st version of API.
 * Better install code (see #332).

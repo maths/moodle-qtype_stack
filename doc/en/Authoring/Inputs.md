@@ -253,13 +253,21 @@ Generally, feedback and verification are used in conjunction.  Errors will alway
 In addition to simply displaying the student's expression, the teacher can display the list of variables which occurs in the expression.  
 From experience, this is helpful in letting students understand the idea of variable and to spot case insensitivity or wrong variable problems.
 
+### Extra option: hideanswer ###
+
+Users are increasingly using inputs to store _state_, which makes no sense for a user to see.  For example, when using [JSXGraph](JSXGraph.md) users transfer the configuration of the diagram into an input via javascript.  In many situations, it makes no sense for the student to see anything about this input.  The validation can be switched off with the regular "show validation" option, the input box itself can be hidden with javascript/CSS.  Putting `hideanswer` in the extra options stops displaying the "teacher's answer", e.g. at the end of the process.
+
+Do not use this option in questions in place of the normal quiz settings.  For this reason it is only supported in the string input type.
+
 ### Extra option: allowempty ###
 
-Normally a _blank_, i.e. empty, answer has a special status.  Answers consisting only of whitespace are also considered as empty.  The extra option `allowempty` allows the the input to be empty.  Internally an empty answer will be replaced by the maxima atom `EMPTYANSWER`.  Internally it is essential that the variable name of the input, (e.g. `ans1`) is really assigned a specific value. Internally, the teacher will need to remove the `EMPTYANSWER` tags, or test for this in the PRT.
+Normally a _blank_, i.e. empty, answer has a special status and are not considered "valid".  Hence, a PRT relying on an input left blank will not be traversed.  Answers consisting only of whitespace are also considered as empty.  The extra option `allowempty` allows the the input to be empty.  Internally an empty answer will be replaced by the maxima atom `EMPTYANSWER`.  Internally it is essential that the variable name of the input, (e.g. `ans1`) is really assigned a specific value. The teacher will need to deal with `EMPTYANSWER` tags in the PRT.
 
 We stronly recommend (with many years of experience) that teachers do not use this option without very careful thought!
 
-For example, if you don't want to give away how many answers you expect, then ask the student to provide a _set_ of answers, rather than trying to combine separate inputs in the PRT later!  Our experience stronly suggests this option should only be used for edge cases, and not for routine use.
+For example, if you don't want to give away how many answers you expect, then ask the student to provide a _set_ of answers.  Another option is to use the "textarea" input type.  Each line of the textarea is validated separately, and the resulting mathematical expression is a list.  The student is therefore free to choose how many expressions to type in, as the circumstances require, without a pre-defined number of input boxes.  By design, it is better to use these methods than trying to combine separate inputs, some of which are empty, in the PRT later.
+
+Our experience stronly suggests this option should only be used for edge cases, and not for routine use.
 
 If you use this option when students navigate away from a page the system will "validate" the inputs, and hence any empty boxes will be considered an active empty choice by the student and will be assessed.  If you use this option there is no way to distinguish between an active empty answer choice, and a student who deletes their answer.  (The same problem occurs with radio buttons....)
 
@@ -320,7 +328,7 @@ min/max sf/dp     |  .  |  Y  |  Y    |   .    |   .   |   .   |   .  |  .  |   
 `rationalnum`   |  .  |  Y  |  .    |   .    |   .   |   .   |   .  |  .  |    .     |   .   |   .    |   .  
 `negpow`        |  .  |  .  |  Y    |   .    |   .   |   .   |   .  |  .  |    .     |   .   |   .    |   .  
 `allowempty`   |  Y  |  Y  |  .    |   .    |   .   |   .   |   .  |  .  |    .     |   .   |   .    |   .  
-`hideanswer`   |  Y  |  .  |  .    |   .    |   .   |   .   |   .  |  .  |    .     |   .   |   .    |   .  
+`hideanswer`   |  .  |  .  |  .    |   .    |   .   |   .   |   .  |  .  |    .     |   .   |   Y    |   .  
 
 For documentation about the various options not documented on this page look at the pages for the specific inputs in which each option is used.
 

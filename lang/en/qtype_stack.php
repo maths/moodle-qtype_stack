@@ -356,6 +356,7 @@ $string['ddl_unknown'] = 'STACK received <code>{$a}</code> but this is not liste
 $string['teacheranswershow']      = 'A correct answer is \( {$a->display} \), which can be typed in as follows: {$a->value}';
 $string['teacheranswershow_disp'] = 'A correct answer is {$a->display} .';
 $string['teacheranswershownotes'] = 'A correct answer is not provided for this input.';
+$string['teacheranswerempty']     = 'This input can be left blank.';
 
 
 // Admin settings.

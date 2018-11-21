@@ -17,7 +17,7 @@ Feature: STACK input vaidation works even if there is no maths in the question
       | teacher | C1     | editingteacher |
     And I log in as "teacher"
     And I am on "Course 1" course homepage
-    And I navigate to "Question bank" node in "Course administration"
+    And I navigate to "Question bank" in current page administration
 
   @javascript
   Scenario: Create, preview, test, tidy and edit STACK questions

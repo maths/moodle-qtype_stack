@@ -557,7 +557,7 @@ class stack_cas_casstring {
         if (!($conditions === null || is_array($conditions))) {
             throw new stack_exception('stack_cas_casstring: conditions must be null or an array.');
         }
-        if (count($conditions) != 0) {
+        if (!empty($conditions)) {
             $this->conditions   = $conditions;
         }
     }

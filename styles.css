@@ -1,6 +1,6 @@
 /* Styles used when questions are being attempted. */
 .que.stack .stacksyntaxexample {
-    color: #1F536B;
+    color: #1f536b;
     font-family: monospace;
     font-size: 100%;
     font-weight: bold;
@@ -9,7 +9,7 @@
     border: 1px solid #fff;
     background-color: #fff;
     margin: 0.2em 3em 0.5em;
-    padding: 0.5em 0.5em 0em;
+    padding: 0.5em 0.5em 0;
 }
 .que.stack .equivreasoning .stackinputfeedback {
     display: inline-block;
@@ -60,10 +60,10 @@
 }
 
 .que.stack .matrixtable {
-    border: 0px solid black;
+    border: 0 solid black;
 }
 .que.stack .matrixtable td {
-    border: 0px solid black;
+    border: 0 solid black;
 }
 
 
@@ -265,12 +265,35 @@ body.ie:not(.ie11) .stack_abstract_graph {
 }
 
 /* This should all be inherited in some way from the theme settings. */
-#basic-modal-content {display:none;}
+#basic-modal-content {
+    display: none;
+}
 
 /* Overlay */
-#simplemodal-overlay {background-color:#000; cursor:wait;}
+#simplemodal-overlay {
+    background-color: #000;
+    cursor: wait;
+}
 
 /* Container */
-#simplemodal-container {height:360px; width:600px; border:4px solid #444; padding:12px;background-color:inherit;}
-#simplemodal-container .simplemodal-data {padding:8px;}
-#simplemodal-container a.modalCloseImg {background:url(./x.png) no-repeat; width:25px; height:29px; display:inline; z-index:3200; position:absolute; top:-15px; right:-16px; cursor:pointer;}
+#simplemodal-container {
+    height: 360px;
+    width: 600px;
+    border: 4px solid #444;
+    padding: 12px;
+    background-color: inherit;
+}
+#simplemodal-container .simplemodal-data {
+    padding: 8px;
+}
+#simplemodal-container a.modalCloseImg {
+    background: url(./x.png) no-repeat;
+    width: 25px;
+    height: 29px;
+    display: inline;
+    z-index: 3200;
+    position: absolute;
+    top: -15px;
+    right: -16px;
+    cursor: pointer;
+}

@@ -34,7 +34,11 @@ require_once(__DIR__ . '/../../stack/cas/installhelper.class.php');
  */
 abstract class qtype_stack_test_config {
     public static function is_test_config_available() {
-        return defined('QTYPE_STACK_TEST_CONFIG_PLATFORM');
+        // Either the platform is already non-default (e.g.
+        // because auto-optimse worked during install, or
+        // settings given in config.php.
+        return get_config('qtype_stack', 'platform') !== 'unix' ||
+                defined('QTYPE_STACK_TEST_CONFIG_PLATFORM');
     }
 
     /**
@@ -55,6 +59,11 @@ abstract class qtype_stack_test_config {
                 throw new coding_exception('Maxima libraries version number not found in stackmaxima.mac.');
             }
             define('QTYPE_STACK_EXPECTED_VERSION', $matches[1]);
+        }
+
+        if (!defined('QTYPE_STACK_TEST_CONFIG_PLATFORM')) {
+            // Things were set up by install.php. Nothing to do here.
+            return;
         }
 
         set_config('platform',        QTYPE_STACK_TEST_CONFIG_PLATFORM,        'qtype_stack');

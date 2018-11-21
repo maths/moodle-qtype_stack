@@ -51,13 +51,16 @@ $settings->add(new admin_setting_heading('docs',
 
 
 // Options for connection to Maxima.
+// Note that any settings here where we try to set the default
+// intelligently in install.php, the default here must be null.
+// Otherwise, the default here will overwrite anything set in install.php.
 $settings->add(new admin_setting_heading('maixmasettingsheading',
         get_string('settingsmaximasettings', 'qtype_stack'), ''));
 
 $settings->add(new admin_setting_configselect('qtype_stack/platform',
         get_string('settingplatformtype', 'qtype_stack'),
         // Note, install.php tries to auto-detect Windows installs, and set the default appropriately.
-        get_string('settingplatformtype_desc', 'qtype_stack'), 'unix', array(
+        get_string('settingplatformtype_desc', 'qtype_stack'), null, array(
                 'unix'             => get_string('settingplatformtypeunix',                'qtype_stack'),
                 'unix-optimised'   => get_string('settingplatformtypeunixoptimised',       'qtype_stack'),
                 'win'              => get_string('settingplatformtypewin',                 'qtype_stack'),
@@ -65,7 +68,7 @@ $settings->add(new admin_setting_configselect('qtype_stack/platform',
 
 $settings->add(new admin_setting_configselect('qtype_stack/maximaversion',
         get_string('settingcasmaximaversion', 'qtype_stack'),
-        get_string('settingcasmaximaversion_desc', 'qtype_stack'), 'default',
+        get_string('settingcasmaximaversion_desc', 'qtype_stack'), null,
                 array('5.23.2' => '5.23.2', '5.25.1' => '5.25.1', '5.26.0' => '5.26.0',
                       '5.27.0' => '5.27.0', '5.28.0' => '5.28.0', '5.30.0' => '5.30.0',
                       '5.31.1' => '5.31.1', '5.31.2' => '5.31.2', '5.31.3' => '5.31.3',
@@ -90,7 +93,7 @@ $settings->add(new admin_setting_configselect('qtype_stack/casresultscache',
 
 $settings->add(new admin_setting_configtext('qtype_stack/maximacommand',
         get_string('settingplatformmaximacommand', 'qtype_stack'),
-        get_string('settingplatformmaximacommand_desc', 'qtype_stack'), ''));
+        get_string('settingplatformmaximacommand_desc', 'qtype_stack'), null));
 
 $settings->add(new admin_setting_configtext('qtype_stack/serveruserpass',
         get_string('settingserveruserpass', 'qtype_stack'),
@@ -100,9 +103,10 @@ $settings->add(new admin_setting_configtext('qtype_stack/plotcommand',
         get_string('settingplatformplotcommand', 'qtype_stack'),
         get_string('settingplatformplotcommand_desc', 'qtype_stack'), ''));
 
+// The supported libraries are defined by public static $maximalibraries in installhelper.php.
 $settings->add(new admin_setting_configtext('qtype_stack/maximalibraries',
         get_string('settingmaximalibraries', 'qtype_stack'),
-        get_string('settingmaximalibraries_desc', 'qtype_stack'), 'stats, distrib, descriptive, simplex'));
+        get_string('settingmaximalibraries_desc', 'qtype_stack'), null));
 
 $settings->add(new admin_setting_configcheckbox('qtype_stack/casdebugging',
         get_string('settingcasdebugging', 'qtype_stack'),

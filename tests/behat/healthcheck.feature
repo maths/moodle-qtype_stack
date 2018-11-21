@@ -1,4 +1,4 @@
-@qtype @qtype_stack_extra @javascript
+@qtype @qtype_stack @javascript
 Feature: STACK has a build in self-check.
   In order to verify STACK is installed properly
   As an admin

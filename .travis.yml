@@ -4,7 +4,7 @@ sudo: required
 
 addons:
   firefox: "47.0.1"
-  postgresql: "9.3"
+  postgresql: "9.6"
   apt:
     packages:
       - oracle-java8-installer

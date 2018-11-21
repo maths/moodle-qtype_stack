@@ -103,6 +103,7 @@ $settings->add(new admin_setting_configtext('qtype_stack/plotcommand',
         get_string('settingplatformplotcommand', 'qtype_stack'),
         get_string('settingplatformplotcommand_desc', 'qtype_stack'), ''));
 
+// The supported libraries are defined by public static $maximalibraries in installhelper.php.
 $settings->add(new admin_setting_configtext('qtype_stack/maximalibraries',
         get_string('settingmaximalibraries', 'qtype_stack'),
         get_string('settingmaximalibraries_desc', 'qtype_stack'), null));

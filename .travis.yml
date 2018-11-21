@@ -27,15 +27,15 @@ matrix:
   # how to do that.
   include:
 
-#    - php: 7.0
-#      env: TASK=PHPUNIT          MOODLE_BRANCH=MOODLE_32_STABLE   DB=pgsql
+    - php: 7.0
+      env: TASK=PHPUNIT        MOODLE_BRANCH=MOODLE_32_STABLE   DB=pgsql
 
-#    - php: 5.6
-#      env: TASK=PHPUNIT          MOODLE_BRANCH=MOODLE_33_STABLE   DB=mysqli
+    - php: 5.6
+      env: TASK=PHPUNIT        MOODLE_BRANCH=MOODLE_33_STABLE   DB=mysqli
 
     # Would be good to run this next test in PHP 7.2, but STACK does not support that yet.
-#    - php: 7.1
-#      env: TASK=PHPUNIT          MOODLE_BRANCH=MOODLE_34_STABLE   DB=pgsql
+    - php: 7.1
+      env: TASK=PHPUNIT        MOODLE_BRANCH=MOODLE_34_STABLE   DB=pgsql
 
     - php: 7.1
       env: TASK=PHPUNIT        MOODLE_BRANCH=MOODLE_35_STABLE   DB=mysqli
@@ -76,11 +76,20 @@ install:
   - moodle-plugin-ci add-plugin maths/moodle-qbehaviour_dfcbmexplicitvaildate
   - moodle-plugin-ci add-plugin maths/moodle-qbehaviour_adaptivemultipart
   - moodle-plugin-ci install
+  - moodle-plugin-ci add-config 'define("QTYPE_STACK_TEST_CONFIG_PLATFORM",        "unix-optimised");'
+  - moodle-plugin-ci add-config 'define("QTYPE_STACK_TEST_CONFIG_MAXIMAVERSION",   "'`maxima --version | sed 's/Maxima //'`'");'
+  - moodle-plugin-ci add-config 'define("QTYPE_STACK_TEST_CONFIG_CASTIMEOUT",      "10");'
+  - moodle-plugin-ci add-config 'define("QTYPE_STACK_TEST_CONFIG_CASRESULTSCACHE", "db");'
+  - moodle-plugin-ci add-config 'define("QTYPE_STACK_TEST_CONFIG_MAXIMACOMMAND",   "timeout --kill-after=10s 10s /home/travis/build/maxima_opt_auto -eval '\''(cl-user::run)'\''");'
+  - moodle-plugin-ci add-config 'define("QTYPE_STACK_TEST_CONFIG_PLOTCOMMAND",     "gnuplot");'
+  - moodle-plugin-ci add-config 'define("QTYPE_STACK_TEST_CONFIG_CASDEBUGGING",    "0");'
+  - cp /home/travis/build/moodledata/phpu_moodledata/stack/maxima_opt_auto /home/travis/build/maxima_opt_auto
 
   # Output some diagnostic about how the install went.
   # Travis seems to be using Maxima version 5.32.1, lisp gcl, which is very old!
   - maxima --list-avail
-  - echo 'ATAlgEquiv(x^2-1,(x-1)*(x+1));quit();' | /home/travis/build/moodledata/phpu_moodledata/stack/maxima_opt_auto -eval '(cl-user::run)'
+  - cat ./moodle/config.php
+  - echo 'ATAlgEquiv(x^2-1,(x-1)*(x+1));quit();' | timeout --kill-after=10s 10s /home/travis/build/maxima_opt_auto -eval '(cl-user::run)'
 
 script:
   # Run all the PHP unit tests.

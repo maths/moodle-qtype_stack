@@ -145,7 +145,6 @@ class stack_answertest_test_data {
         array('AlgEquiv', '', 'exp(%i*%pi)', '-1', 1, '', ''),
         array('AlgEquiv', '', '2*cos(2*x)+x+1', '-sin(x)^2+3*cos(x)^2+x', 1, '', ''),
 
-
         array('AlgEquiv', '', '(2*sec(2*t)^2-2)/2',
             '-(sin(4*t)^2-2*sin(4*t)+cos(4*t)^2-1)*(sin(4*t)^2+2*sin(4*t)+cos(4*t)^2-1)/(sin(4*t)^2+cos(4*t)^2+2*cos(4*t)+1)^2',
             1, '', ''),
@@ -260,7 +259,8 @@ class stack_answertest_test_data {
         array('AlgEquiv', '', '(y-sqrt((1-x)*(1+x)))*(y+sqrt((1-x)*(1+x)))=0', 'x^2+y^2=1', 1, 'ATEquation_ratio', ''),
         array('AlgEquiv', '', '(x-1)*(x+1)*(y-1)*(y+1)=0', 'y^2+x^2=1+x^2*y^2', 1, 'ATEquation_ratio', ''),
 
-        array('AlgEquiv', '', 'all', 'x=x', 1, 'ATEquation_zero', 'Equations: edge cases. Teacher must enter an equation, all or none here.'),
+        array('AlgEquiv', '', 'all', 'x=x', 1, 'ATEquation_zero',
+            'Equations: edge cases. Teacher must enter an equation, all or none here.'),
         array('AlgEquiv', '', 'true', 'x=x', 1, 'ATEquation_zero', ''),
         array('AlgEquiv', '', 'x=x', 'all', 1, 'ATEquation_zero', ''),
         array('AlgEquiv', '', 'all', 'all', 1, 'ATEquation_zero', ''),

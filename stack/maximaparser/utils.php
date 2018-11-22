@@ -146,4 +146,33 @@ class maxima_parser_utils {
         return false;
     }
 
+    // Tool to extract information about which variables are being used and how.
+    // In a given parsed section of code. Updates a given usage list so that use
+    // for example in going through a PRT tree is convenient.
+    public static function variable_usage_finder($ast, $output=array()) {
+        if (!array_key_exists('read', $output)) {
+            $output['read'] = array();
+        }
+        if (!array_key_exists('write', $output)) {
+            $output['write'] = array();
+        }
+        $recursion = function($node) use(&$output) {
+            // Feel free to expand this to track any other types of usages,
+            // like functions and their definitions.
+            if ($node instanceof MP_Identifier) {
+                if ($node->is_variable_name()) {
+                    if ($node->is_being_written_to()) {
+                        $output['write'][$node->value] = true;
+                    } else {
+                        $output['read'][$node->value] = true;
+                    }
+                }
+            }
+            return true;
+        };
+        $ast->callbackRecurse($recursion);
+
+        return $output;
+    }
+
 }

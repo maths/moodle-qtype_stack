@@ -21,6 +21,14 @@ The [current state of development](https://github.com/maths/moodle-qtype_stack/b
 
 The [documentation is here](https://github.com/maths/moodle-qtype_stack/blob/master/doc/en/index.md), including the [installation instructions](https://github.com/maths/moodle-qtype_stack/blob/master/doc/en/Installation/index.md).
 
+
+## Community
+### Exchange of questions
+There is a database of STACK-question at https://db.ak-mathe-digital.de/domain. Right now there are over 400 STACK-questions, in many different languages. A filter simplifies the search for specific questions. Questions can easily be exported as xml-files and as such can be used in moodle as well as in ILIAS. Everybody can contribute their own questions. 
+
+### Meetings
+The 1st international STACK Conference took place on the 15th and 16th of November 2018 in Fürth at the FAU. Further information and slides and at https://www.stack-konferenz.de/.
+
 ## License
 
 Stack is Licensed under the [GNU General Public, License Version 3](https://github.com/maths/moodle-qtype_stack/blob/master/COPYING.txt).

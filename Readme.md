@@ -6,6 +6,7 @@ STACK was created by [Chris Sangwin](http://www.maths.ed.ac.uk/~csangwin/) of th
 
 STACK is based on continuing research and use at the University of Edinburgh, the Open University, Aalto, Loughborough University, the University of Birmingham and others.
 
+
 ## Current state of development
 
 STACK 4.2 contains some important new features, and a number of interface improvements and bug fixes.
@@ -23,11 +24,18 @@ The [documentation is here](https://github.com/maths/moodle-qtype_stack/blob/mas
 
 
 ## Community
+
 ### Exchange of questions
 There is a database of STACK-question at https://db.ak-mathe-digital.de/domain. Right now there are over 400 STACK-questions, in many different languages. A filter simplifies the search for specific questions. Questions can easily be exported as xml-files and as such can be used in moodle as well as in ILIAS. Everybody can contribute their own questions. 
 
 ### Meetings
-The 1st international STACK Conference took place on the 15th and 16th of November 2018 in Fürth at the FAU. Further information and slides and at https://www.stack-konferenz.de/.
+The 1st international STACK Conference took place on the 15th and 16th of November 2018 in Fürth at the Friedrich-Alexander-Universität Erlangen-Nürnberg. Further information and slides at https://www.stack-konferenz.de/.
+
+### Groups
+Groups of people who use STACK. You are welcome to join, ask questions and participate.
+* [SIG Mathe+ILIAS](https://docu.ilias.de/goto.php?target=grp_5183)
+* [Arbeitskreis Digitale Mathematik-Aufgaben in der Hochschullehre](http://www.ak-mathe-digital.de)
+
 
 ## License
 

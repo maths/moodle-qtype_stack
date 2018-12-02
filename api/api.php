@@ -494,6 +494,5 @@ class qtype_stack_api {
 
         echo "You must now update the setting <tt>maximacommand</tt> in <tt>config.php</tt> to be <pre>".
                 $CFG->maximacommand . "</pre>";
-        die();
     }
 }

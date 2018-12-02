@@ -27,3 +27,10 @@ $api = new qtype_stack_api();
 
 // Run this command once at install time to compile Maxima on your machine.
 $api->install();
+
+// Test an *uncached* call to the CAS.  I.e. a genuine call to the process.
+list($message, $genuinedebug, $result) = stack_connection_helper::stackmaxima_genuine_connect();
+$summary[] = array($result, $message);
+echo html_writer::tag('p', $message);
+echo html_writer::tag('p', $genuinedebug);
+echo html_writer::tag('p', $result);

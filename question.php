@@ -912,10 +912,14 @@ class qtype_stack_question extends question_graded_automatically_with_countback
     }
 
     protected function has_question_capability($type) {
-        global $USER;
-        $context = $this->get_context();
-        return has_capability("moodle/question:{$type}all", $context) ||
+        if (!defined('MINIMAL_API')) {
+            // Then we are in Moodle.
+            global $USER;
+            $context = $this->get_context();
+            return has_capability("moodle/question:{$type}all", $context) ||
                 ($USER->id == $this->createdby && has_capability("moodle/question:{$type}mine", $context));
+        }
+        return true;
     }
 
     public function user_can_view() {

@@ -2,6 +2,11 @@ FROM php:7.0-apache
 RUN mkdir -p /var/data/api
 RUN chmod a+rw /var/data/api
 RUN mkdir -p /var/data/api/stack/logs && mkdir mkdir -p /var/data/api/stack/tmp
+#
+# The next line does not actually install a working maxima!
+# We probably need to look at
+# https://github.com/uni-halle/maximapool-docker/blob/develop/Dockerfile
+# 
 RUN apt-get update && apt-get install maxima gnuplot libyaml-dev unzip git -y
 RUN pecl install yaml
 RUN echo "extension=yaml.so" > /usr/local/etc/php/conf.d/yaml.ini
@@ -13,6 +18,6 @@ COPY ./ /var/www/html
 COPY ./api/config.php.docker /var/www/html/config.php
 RUN chmod a+rwx /var/data/api/stack /var/data/api/stack/logs /var/data/api/stack/tmp /var/data/api/stack/plots
 RUN php /var/www/html/api/install.php
-# RUN sed -i "s/maximacommand.*$/maximacommand = 'timeout --kill-after=10s 10s \/var\/data\/api\/stack\/maxima_opt_auto -eval \\\'(cl-user::run)\\\'';/" /var/www/html/config.php
-# RUN sed -i "s/platform.*$/platform = 'unix-optimised';/" /var/www/html/config.php
+#RUN sed -i "s/maximacommand.*$/maximacommand = 'timeout --kill-after=10s 10s \/var\/data\/api\/stack\/maxima_opt_auto -eval \\\'(cl-user::run)\\\'';/" /var/www/html/config.php
+#RUN sed -i "s/platform.*$/platform = 'unix-optimised';/" /var/www/html/config.php
 RUN sed -i '3ichmod a+rwx /var/data/api/stack /var/data/api/stack/logs /var/data/api/stack/tmp /var/data/api/stack/plots' /usr/local/bin/docker-php-entrypoint

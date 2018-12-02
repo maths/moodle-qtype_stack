@@ -14,8 +14,6 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
-die("You need to edit this file before it will execute.");
-
 require_once(__DIR__ . '/../config.php');
 
 error_reporting(E_ALL | E_STRICT);

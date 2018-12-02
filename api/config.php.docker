@@ -7,7 +7,7 @@ date_default_timezone_set('UTC');
 $CFG = new stdClass;
 
 // This is the directory into which you put the scripts.
-$CFG->wwwroot = "/var/www/html";
+$CFG->wwwroot = "/var/www/api";
 // The base url of the installation
 // The server path of the installation.
 $CFG->dirroot = realpath(dirname(__FILE__));

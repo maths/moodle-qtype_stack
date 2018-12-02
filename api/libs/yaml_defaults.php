@@ -78,6 +78,10 @@ class qtype_stack_api_yaml_defaults {
     }
 
     private function get_root($section) {
+        if (!array_key_exists($section, $this->defaults)) {
+            return array();
+        }
+
         $root = $this->defaults[$section];
 
         if (!is_array($root)) {

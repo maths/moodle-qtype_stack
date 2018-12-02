@@ -1,0 +1,80 @@
+---
+name: test_1_integration
+question_html: <p>Find \[ \int {@p@} d{@v@}\] [[input:ans1]] [[validation:ans1]]</p>
+variables: |-
+  n:rand(5)+3;
+  a:rand(5)+3;
+  v:x
+  p:(v-a)^n;
+  ta:(v-a)^(n+1)/(n+1);
+specific_feedback_html: <p>[[feedback:prt1]]</p>
+note: \(\int {@p@} d{@v@} = {@ta@}\)
+worked_solution_html: <p>We can either do this question by inspection (i.e. spot the
+  answer) or in a more formal manner by using the substitution \[ u = ({@v@}-{@a@}).\]
+  Then, since \(\frac{d}{d{@v@}}u=1\) we have \[ \int {@p@} d{@v@} = \int u^{@n@}
+  du = \frac{u^{@n+1@}}{@n+1@}+c = {@ta@}+c.\]</p>
+inputs:
+  ans1:
+    type: algebraic
+    model_answer: ta+c
+    box_size: 20
+    syntax_attribute: value
+    forbid_words: int
+    require_lowest_terms: true
+    check_answer_type: true
+    show_validations: with_varlist
+response_trees:
+  prt1:
+    first_node: node_0
+    nodes:
+      node_0:
+        answer_test: Int
+        answer: ans1
+        model_answer: ta
+        test_options: v
+        T:
+          score_mode: equals
+          answer_note: '1-0-T '
+        F:
+          answer_note: '1-0-F '
+tests:
+  1:
+    ans1: ta+c
+    prt1:
+      score: 1
+      penalty: 0
+      answer_note: 1-0-T
+  2:
+    ans1: ta
+    prt1:
+      score: 0
+      penalty: 0.100000
+      answer_note: 1-0-F
+  3:
+    ans1: n*(v-a)^(n-1)
+    prt1:
+      score: 0
+      penalty: 0.100000
+      answer_note: 1-0-F
+  4:
+    ans1: (v-a)^(n+1)
+    prt1:
+      score: 0
+      penalty: 0.100000
+      answer_note: 1-0-F
+stackversion: 0
+deployedseed:
+- 1001758021
+- 165520961
+- 1575780430
+- 1893097548
+- 196914510
+- 119069312
+- 2028726687
+- 788370893
+- 400217408
+- 1304537090
+- 1439331987
+- 193373653
+...
+

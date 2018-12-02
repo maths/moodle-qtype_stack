@@ -484,7 +484,7 @@ class stack_cas_casstring {
                 'gal' => true, 'deg' => true, 'cal' => true, 'btu' => true, 'rem' => true,
                 'nounor' => true, 'nounand' => true, 'xor' => true, 'nounint' => true, 'noundiff' => true, 'root' => true,
                 'all' => true, 'none' => true, 'stackeq' => true, 'stacklet' => true,
-                'stackunits' => true, 'stackvector' => true
+                'stackunits' => true, 'stackvector' => true, 'EMPTYANSWER' => true
                 );
 
     /**
@@ -556,7 +556,7 @@ class stack_cas_casstring {
         if (!($conditions === null || is_array($conditions))) {
             throw new stack_exception('stack_cas_casstring: conditions must be null or an array.');
         }
-        if (count($conditions) != 0) {
+        if (!empty($conditions)) {
             $this->conditions   = $conditions;
         }
     }

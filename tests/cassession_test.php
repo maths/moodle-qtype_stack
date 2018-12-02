@@ -96,7 +96,7 @@ class stack_cas_session_test extends qtype_stack_testcase {
         $this->assertEquals('a+b\cdot \mathrm{i}', $at1->get_display_key('p'));
         $this->assertEquals('a+b\cdot \mathrm{i}', $at1->get_display_key('q'));
         $this->assertEquals('a+b\cdot j', $at1->get_display_key('r'));
-}
+    }
 
     public function test_multiplication_option_complexno_j() {
 

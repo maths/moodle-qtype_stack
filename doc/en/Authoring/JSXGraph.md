@@ -6,6 +6,10 @@ Note, we strongly recommend you do not use an HTML aware editor when using JSXGr
 
     Site administration > Plugins > Text editors > Manage editors
 
+Individual users can also set their editor preferences:
+
+    User Dashboard > Preferences > Editor preferences > Manage editors
+
 ## Include basic plots
 
 This example is based on the documentation for [curve](http://jsxgraph.uni-bayreuth.de/wiki/index.php/Curve) and the [even simpler function plotter](http://jsxgraph.uni-bayreuth.de/wiki/index.php/Even_simpler_function_plotter) example.
@@ -80,9 +84,15 @@ The basic structure of such graph logic is as follows:
  2. Draw the graph based on that state.
  3. Attach listeners to everything that can be changed in the graph and store those changes into the state in those listeners.
 
-The simplest solution for storing state is to add a `string` type input field to the question. That input field should not be connected 
-to any PRTs and you should turn off the validation and verification of the field. You can even use the syntax hint feature to pass in a 
-default value but only if that is not parametric. You can use that input field to store the state of the graph as a string, for example 
+The simplest solution for storing state is to add a `string` type input field to the question. 
+
+ 1. That input field should not be connected to any PRTs.
+ 2. You should turn off the validation and verification of the field. 
+ 3. You should use the extra option `hideanswer` to make sture the teacher's answer is not shown to students.
+ 4. You can hide this input with CSS, e.g. `<p style="display:none">[[input:state]] [[validation:state]]</p>` (but probably not while you develop the question!)
+ 4. You can even use the syntax hint feature to pass in a default value but only if that is not parametric (currently the syntax hint is not castext: see the todo list).
+
+You can use that input field to store the state of the graph as a string, for example 
 as a JSON encoded structure. For example like this, assuming the name of the String input is named "stateStore":
 
 

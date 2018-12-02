@@ -25,7 +25,7 @@ require_once(__DIR__ . '/cassession.class.php');
 class stack_cas_configuration {
     protected static $instance = null;
 
-    /** @var This variable controls which optional packages are supported by STACK. */
+    /** @var array This variable controls which optional packages are supported by STACK. */
     public static $maximalibraries = array('stats', 'distrib', 'descriptive', 'simplex');
 
     protected $settings;
@@ -140,8 +140,6 @@ class stack_cas_configuration {
     }
 
     public function maxima_win_location() {
-        global $CFG;
-
         if ($this->settings->platform != 'win') {
             return '';
         }
@@ -189,10 +187,11 @@ class stack_cas_configuration {
         if ($this->settings->platform != 'win') {
             return true;
         }
+
         $batchfilename = $this->maxima_win_location() . 'bin/maxima.bat';
         if (substr_count($batchfilename, ' ') === 0) {
             $batchfilecontents = "rem Auto-generated Maxima batch file.  \n\n";
-            $batchfilecontents .= $this->maxima_win_location() . 'bin/maxima.bat'."\n\n";
+            $batchfilecontents .= $batchfilename."\n\n";
             if (!file_put_contents($CFG->dataroot . '/stack/maxima.bat', $batchfilecontents)) {
                 throw new stack_exception('Failed to write Maxima batch file.');
             }
@@ -204,6 +203,7 @@ class stack_cas_configuration {
             throw new stack_exception('Could not copy the Maxima batch file ' . $batchfilename .
                     ' to location ' . $CFG->dataroot . '/stack/maxima.bat');
         }
+        return true;
     }
 
     public function maxima_bat_is_ok() {
@@ -392,14 +392,15 @@ END;
         $config = get_config('qtype_stack');
             // Do not try to generate the optimised image on MS platforms.
         if ($config->platform == 'win') {
-            $errmsg = "Microsoft Windows version cannot be optimised";
+            $errmsg = "Microsoft Windows version cannot be automatically optimised";
+            return array(false, $errmsg);
+        } else if ($config->platform != 'unix' && $config->platform != 'unix-optimised') {
+            $errmsg = "$config->platform version cannot be automatically optimised";
             return array(false, $errmsg);
         }
 
-        /*
-         * Revert to the plain unix platform.  This will genuinely call the CAS, and
-         * as a result create a new image.
-         */
+        // Revert to the plain unix platform.  This will genuinely call the CAS, and
+        // as a result create a new image.
         $oldplatform = $config->platform;
         $oldmaximacommand = $config->maximacommand;
         set_config('platform', 'unix', 'qtype_stack');
@@ -422,13 +423,19 @@ END;
             list($message, $genuinedebug, $result) = stack_connection_helper::stackmaxima_genuine_connect();
         }
 
-        $revert = false;
-        if ($result && ($oldplatform == 'unix' || $oldplatform == 'unix-optimised')) {
+        $revert = true;
+        if (!$result) {
+            $errmsg = "Uncached connection failed: $message\n\n$genuinedebug";
+
+        } else {
             // Try to auto make the optimised image.
             list($message, $genuinedebug, $result, $commandline)
-                 = stack_connection_helper::stackmaxima_auto_maxima_optimise($genuinedebug, true);
+                    = stack_connection_helper::stackmaxima_auto_maxima_optimise($genuinedebug);
 
-            if ($result) {
+            if (!$result) {
+                $errmsg = "Automake failed: $message\n\n$genuinedebug";
+
+            } else {
                 set_config('platform', 'unix-optimised', 'qtype_stack');
                 set_config('maximacommand', $commandline, 'qtype_stack');
                 stack_utils::get_config()->platform = 'unix-optimised';
@@ -444,16 +451,13 @@ END;
                 $ts->instantiate();
                 if ($ts->get_value_key('a') != '2') {
                     $errors = $ts->get_errors();
-                    $errmsg = "Evaluation test failed, errors:$errors";
-                    $revert = true;
+                    $errmsg = "Evaluation test failed, errors: $errors";
+                } else {
+                    // It worked!
+                    $errmsg = '';
+                    $revert = false;
                 }
-            } else {
-                $errmsg = "Automake failed";
-                $revert = true;
             }
-        } else {
-            $errmsg = "Uncached connection failed.";
-            $revert = true;
         }
 
         if ($revert) {

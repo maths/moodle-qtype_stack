@@ -195,7 +195,7 @@ stack_input.prototype.show_validation_results = function() {
 
     // Run script commands.
     for (var i = 0; i < scriptcommands.length; i++) {
-        eval(scriptcommands[i]);
+        eval(scriptcommands[i]); // eslint-disable-line no-eval
     }
 
     this.remove_all_classes();

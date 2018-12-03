@@ -17,7 +17,12 @@ RUN ln -s /var/data/api/stack/plots /var/www/html/plots
 COPY ./ /var/www/html
 COPY ./api/config.php.docker /var/www/html/config.php
 RUN chmod a+rwx /var/data/api/stack /var/data/api/stack/logs /var/data/api/stack/tmp /var/data/api/stack/plots
-RUN php /var/www/html/api/install.php
+# RUN maxima --version
+# RUN php /var/www/html/api/install.php
 #RUN sed -i "s/maximacommand.*$/maximacommand = 'timeout --kill-after=10s 10s \/var\/data\/api\/stack\/maxima_opt_auto -eval \\\'(cl-user::run)\\\'';/" /var/www/html/config.php
 #RUN sed -i "s/platform.*$/platform = 'unix-optimised';/" /var/www/html/config.php
-RUN sed -i '3ichmod a+rwx /var/data/api/stack /var/data/api/stack/logs /var/data/api/stack/tmp /var/data/api/stack/plots' /usr/local/bin/docker-php-entrypoint
+# RUN sed -i '3ichmod a+rwx /var/data/api/stack /var/data/api/stack/logs /var/data/api/stack/tmp /var/data/api/stack/plots' /usr/local/bin/docker-php-entrypoint
+
+ENTRYPOINT  /var/www/html/entrypoint_install_and_run.sh 
+
+

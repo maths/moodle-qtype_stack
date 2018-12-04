@@ -173,7 +173,7 @@ You should check the sample questions about JSXGraph binding for examples of the
 
 ## Convenience tools for generating lists of values.
 
-If you want to putput a list of values without Maxima's normal bracket symbols you can use
+If you want to output a list of values without Maxima's normal bracket symbols you can use
 
     stack_disp_comma_separate([a,b,sin(pi)]);
 

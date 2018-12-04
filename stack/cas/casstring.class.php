@@ -1609,11 +1609,11 @@ class stack_cas_casstring {
         }
         if ($validationmethod == 'units') {
             // Note, we don't pass in forbidfloats as this option is ignored by the units validation.
-            $this->casstring = 'stack_validate_units(['.$starredanswer.'], '.$lowestterms.', '.$tans.', "inline", '.$fltfmt.')';
+            $this->casstring = '(make_multsgn("blank"),stack_validate_units(['.$starredanswer.'], '.$lowestterms.', '.$tans.', "inline", '.$fltfmt.'))';
         }
         if ($validationmethod == 'unitsnegpow') {
             // Note, we don't pass in forbidfloats as this option is ignored by the units validation.
-            $this->casstring = 'stack_validate_units(['.$starredanswer.'], '.$lowestterms.', '.$tans.', "negpow", '.$fltfmt.')';
+            $this->casstring = '(make_multsgn("blank"),stack_validate_units(['.$starredanswer.'], '.$lowestterms.', '.$tans.', "negpow", '.$fltfmt.'))';
         }
 
         return true;

@@ -46,3 +46,10 @@ This in the manual install process.
 
 7. Point your webserver to 'api/endpoint.html' for a basic interaction.  You will need to supply questions in YAML format for this to be operational.
 
+## Basic usage
+
+To use the API you need to send data to
+
+    /api/endpoint.php
+
+

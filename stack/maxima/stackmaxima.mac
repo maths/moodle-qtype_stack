@@ -477,6 +477,8 @@ stack_disp_sub_script_helper(l) := block(
   texsub(stack_disp_sub_script_helper(reverse(rest(reverse(l)))), first(reverse(l)))
 )$
 
+
+
 /* ********************************** */
 /* Display: colour                    */
 /* ********************************** */

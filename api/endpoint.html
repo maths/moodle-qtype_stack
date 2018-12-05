@@ -44,7 +44,7 @@
           feedback: document.getElementById('feedback').checked,
           score: document.getElementById('hasScore').checked,
           lang:document.getElementById('lang').value,
-          prefix: 'codio_',
+          prefix: 'stackapi_',
           answer: collectAnswer(),
           seed: 12313123
         }
@@ -57,7 +57,7 @@
       function processNodes(res, nodes) {
         for (var i = 0; i < nodes.length; i++) {
           var element = nodes[i];
-          if (element.name.indexOf('codio_') === 0 && element.name.indexOf('_val') === -1) {
+          if (element.name.indexOf('stackapi_') === 0 && element.name.indexOf('_val') === -1) {
             if (element.type === 'checkbox' || element.type === 'radio') {
               if (element.checked) {
                 res[element.name] = element.value

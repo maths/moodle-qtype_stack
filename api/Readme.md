@@ -52,4 +52,12 @@ To use the API you need to send data to
 
     /api/endpoint.php
 
+An example of how to do this is in the file
+
+    /api/minimal.php
+
+A more useful interactive testing script is in
+
+    /api/endpoint.html
+
 

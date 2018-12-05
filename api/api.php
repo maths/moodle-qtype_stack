@@ -75,8 +75,10 @@ class qtype_stack_api {
         /*****************************************************************************/
 
         $questiontext = $question->questiontextinstantiated;
-        // For the minimal API we concatinate the two.
-        $questiontext .= $question->specificfeedback;
+        if ($options->feedback) {
+            // For the minimal API we concatinate the two.
+            $questiontext .= $question->specificfeedback;
+        }
 
         // Replace inputs.
         $inputstovaldiate = array();
@@ -91,6 +93,7 @@ class qtype_stack_api {
                 stack_input::INVALID == $state->status;
 
                 if (!$skipvalidation && $input->requires_validation() && '' !== $state->contents) {
+                    // This line ensures we move straight to the score status.
                     $attempt[$name.'_val'] = $input->contents_to_maxima($state->contents);
                 }
             }
@@ -100,8 +103,8 @@ class qtype_stack_api {
             $state = $question->get_input_state($name, $attempt);
 
             $questiontext = str_replace("[[input:{$name}]]",
-            $input->render($state, $fieldname, $options->readonly, $tavalue),
-            $questiontext);
+                $input->render($state, $fieldname, $options->readonly, $tavalue),
+                $questiontext);
 
             $questiontext = $input->replace_validation_tags($state, $fieldname, $questiontext);
 

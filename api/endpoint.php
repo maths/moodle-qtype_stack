@@ -35,7 +35,6 @@ function processrequest() {
     $api = new qtype_stack_api();
     // Parse input JSON and validate it.
     $parsed = validatedata(parseinput());
-
     // Control the display of feedback, and whether students can change their answer.
     $options = new stdClass();
     $options->readonly = $parsed['readOnly'];
@@ -70,7 +69,8 @@ function processrequest() {
 
     // Run question tests.
     // TODO: this is unfinished.  We need to refactor some of this, and from questiontestrun.php to eliminate any duplication in testing.
-    if (array_key_exists('tests', $data)) {
+    // TODO: for now disable testing of the question.
+    if (false && array_key_exists('tests', $data)) {
         $testresults = array();
         $seed = 0;
 
@@ -84,10 +84,10 @@ function processrequest() {
             }
         }
         $qtest = new stack_question_test($inputs);
-        $attempt = $qtest->compute_response($question, $inputs);
+        $testattempt = $qtest->compute_response($question, $inputs);
         $question->initialise_question_from_seed();
         // TODO: we need to dig inside here, and compare at the potential response tree level.
-        $res = $api->formulation_and_controls($question, $attempt, $options, $parsed['prefix']);
+        $res = $api->formulation_and_controls($question, $testattempt, $options, $parsed['prefix']);
         // Questions don't have to have a response tree.  It could be a survey.
         if (array_key_exists('response_trees', $data)) {
             foreach ($data['response_trees'] as $prtname => $testvals) {

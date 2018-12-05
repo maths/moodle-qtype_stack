@@ -341,7 +341,7 @@ If we enter Node 3, we know the student has the correct answer and just need to 
 Update the form so that Node 3 has
 
     SAns = strip_int_const(ans1,x)
-    TAns = strip_int_const(ans1,x)
+    TAns = strip_int_const(ta,x)
     Answer test = FacForm
     Test options = x
     Quiet = Yes.

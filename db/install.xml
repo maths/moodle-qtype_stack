@@ -8,7 +8,7 @@
       <FIELDS>
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
         <FIELD NAME="questionid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Foreign key link to question.id"/>
-        <FIELD NAME="stackversion" TYPE="text" NOTNULL="true" SEQUENCE="false" COMMENT="The version of the STACK plugin on which this question was authored."/>
+        <FIELD NAME="stackversion" TYPE="text" NOTNULL="false" SEQUENCE="false" COMMENT="The version of the STACK plugin on which this question was authored."/>
         <FIELD NAME="questionvariables" TYPE="text" NOTNULL="true" SEQUENCE="false" COMMENT="Maxima code that is run when the question is started to initialise variables."/>
         <FIELD NAME="specificfeedback" TYPE="text" NOTNULL="true" SEQUENCE="false" COMMENT="CAS text for the specific feedback for the question."/>
         <FIELD NAME="specificfeedbackformat" TYPE="int" LENGTH="2" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="The FORMAT_... for the specific feedback"/>

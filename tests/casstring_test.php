@@ -226,7 +226,7 @@ class stack_cas_casstring_test extends basic_testcase {
     public function test_check_external_forbidden_words_literal() {
         $cases = array(
             array('3+5', '+', false),
-            array('sin(a)', 'a', true), // It includes single letters.
+            array('sin(a)', 'a', false), // It includes single letters.
             array('sin(a)', 'i', false), // Since it is a string match, this can be inside a name.
             array('sin(a)', 'b', true),
             array('sin(a)', 'b,\,,c', true), // Test escaped commas.

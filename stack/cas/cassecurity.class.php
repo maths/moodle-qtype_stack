@@ -173,12 +173,10 @@ class stack_cas_security {
         }
 
         // For backwards compatibility check for substrings.
-        if (strlen($identifier) > 1) { // The no forbidding single letter names case.
-            foreach ($this->forbiddenwordsasmap as $key => $duh) {
-                if (strpos($identifier, $key) !== false) {
-                    // The 'i' in 'sin' case.
-                    return false;
-                }
+        foreach ($this->forbiddenwordsasmap as $key => $duh) {
+            if (strpos($identifier, $key) !== false) {
+                // The 'i' in 'sin' case.
+                return false;
             }
         }
 
@@ -246,12 +244,10 @@ class stack_cas_security {
         }
 
         // For backwards compatibility check for substrings.
-        if (strlen($identifier) > 1) { // The no forbidding single letter names case.
-            foreach ($this->forbiddenwordsasmap as $key => $duh) {
-                if (strpos($identifier, $key) !== false) {
-                    // The 'i' in 'sin' case.
-                    return false;
-                }
+        foreach ($this->forbiddenwordsasmap as $key => $duh) {
+            if (strpos($identifier, $key) !== false) {
+                // The 'i' in 'sin' case.
+                return false;
             }
         }
 

@@ -146,12 +146,12 @@ class stack_cas_casstring_test extends basic_testcase {
         $s = 'system("rm *")';
         $at1 = new stack_cas_casstring($s);
         $this->assertFalse($at1->get_valid('s'));
-        $this->assertEquals('The expression <span class="stacksyntaxexample">system</span> is forbidden.',
+        $this->assertEquals('Forbidden function: <span class="stacksyntaxexample">system</span>.',
                 $at1->get_errors());
 
         $at2 = new stack_cas_casstring($s);
         $this->assertFalse($at2->get_valid('t'));
-        $this->assertEquals('The expression <span class="stacksyntaxexample">system</span> is forbidden.',
+        $this->assertEquals('Forbidden function: <span class="stacksyntaxexample">system</span>.',
                 $at2->get_errors());
     }
 
@@ -160,12 +160,12 @@ class stack_cas_casstring_test extends basic_testcase {
         $s = 'System("rm *")';
         $at1 = new stack_cas_casstring($s);
         $this->assertFalse($at1->get_valid('s'));
-        $this->assertEquals('The expression <span class="stacksyntaxexample">system</span> is forbidden.',
+        $this->assertEquals('Forbidden function: <span class="stacksyntaxexample">system</span>.',
                 $at1->get_errors());
 
         $at2 = new stack_cas_casstring($s);
         $this->assertFalse($at2->get_valid('t'));
-        $this->assertEquals('The expression <span class="stacksyntaxexample">system</span> is forbidden.',
+        $this->assertEquals('Forbidden function: <span class="stacksyntaxexample">system</span>.',
                 $at2->get_errors());
     }
 
@@ -174,7 +174,7 @@ class stack_cas_casstring_test extends basic_testcase {
         $s = 'setelmx(2,1,1,C)';
         $at1 = new stack_cas_casstring($s);
         $this->assertFalse($at1->get_valid('s'));
-        $this->assertEquals('Unknown function: <span class="stacksyntaxexample">setelmx</span>.',
+        $this->assertEquals('Forbidden function: <span class="stacksyntaxexample">setelmx</span>.',
                 $at1->get_errors());
 
         $at2 = new stack_cas_casstring($s);
@@ -207,36 +207,39 @@ class stack_cas_casstring_test extends basic_testcase {
     }
 
     public function test_check_external_forbidden_words() {
-        // Remember, this function returns true if the literal is found.
         $cases = array(
-            array('sin(ta)', array('ta'), true),
-            array('sin(ta)', array('ta', 'a', 'b'), true),
-            array('sin(ta)', array('sa'), false),
-            array('sin(a)', array('a'), false), // This ignores single letters.
-            array('diff(x^2,x)', array('[[BASIC-CALCULUS]]'), true),
+            array('sin(ta)', array('ta'), false),
+            array('sin(ta)', array('ta', 'a', 'b'), false),
+            array('sin(ta)', array('sa'), true),
+            array('sin(a)', array('a'), true), // This ignores single letters.
+            array('diff(x^2,x)', array('[[BASIC-CALCULUS]]'), false),
         );
 
         foreach ($cases as $case) {
             $cs = new stack_cas_casstring($case[0]);
-            $this->assertEquals($case[2], $cs->check_external_forbidden_words($case[1]));
+            $secrules = new stack_cas_security();
+            $secrules->set_forbiddenkeys($case[1]);
+            $this->assertEquals($case[2], $cs->get_valid('s', true, 0, $secrules));
         }
     }
 
     public function test_check_external_forbidden_words_literal() {
         $cases = array(
-            array('3+5', '+', true),
+            array('3+5', '+', false),
             array('sin(a)', 'a', true), // It includes single letters.
-            array('sin(a)', 'i', true), // Since it is a string match, this can be inside a name.
-            array('sin(a)', 'b', false),
-            array('sin(a)', 'b,\,,c', false), // Test escaped commas.
-            array('[x,y,z]', 'b,\,,c', true),
-            array('diff(x^2,x)', '[[BASIC-CALCULUS]]', true), // From lists.
-            array('solve((x-6)^4,x)', '[[BASIC-ALGEBRA]]', true), // From lists.
+            array('sin(a)', 'i', false), // Since it is a string match, this can be inside a name.
+            array('sin(a)', 'b', true),
+            array('sin(a)', 'b,\,,c', true), // Test escaped commas.
+            array('[x,y,z]', 'b,\,,c', false),
+            array('diff(x^2,x)', '[[BASIC-CALCULUS]]', false), // From lists.
+            array('solve((x-6)^4,x)', '[[BASIC-ALGEBRA]]', false), // From lists.
         );
 
         foreach ($cases as $case) {
             $cs = new stack_cas_casstring($case[0]);
-            $this->assertEquals($case[2], $cs->check_external_forbidden_words_literal($case[1]));
+            $secrules = new stack_cas_security();
+            $secrules->set_forbiddenwords($case[1]);
+            $this->assertEquals($case[2], $cs->get_valid('s', true, 0, $secrules));
         }
     }
 

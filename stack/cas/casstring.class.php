@@ -44,7 +44,7 @@ class stack_cas_casstring {
     private $casstring;
 
     /** @var bool if the string has passed validation. */
-    private $valid;
+    private $valid = null;
 
     /** @var string */
     private $key;
@@ -264,7 +264,7 @@ class stack_cas_casstring {
                 $this->add_error(stack_string('stackCas_forbiddenChar', array( 'char' => ';')));
                 $this->answernote[] = 'forbiddenChar';
                 $this->valid = false;
-                return;
+                return false;
             }
         }
 
@@ -304,9 +304,8 @@ class stack_cas_casstring {
             // Do nothing.
         }
 
-        // Then the rest. Note that the security check happens here, as we might have done some changes
-        // earlier and we cannot be certain that the results of those changes do not undo security...
-        $mainloop = function($node)  use($security, $secrules, $insertstars) {
+        // Then the rest.
+        $mainloop = function($node) use($security, $secrules, $insertstars) {
             if ($node instanceof MP_Identifier) {
                 $this->check_characters($node->value);
                 if ($node->is_function_name()) {
@@ -508,131 +507,6 @@ class stack_cas_casstring {
 
                 }
             }
-
-            /* TODO: Do we need these or is the upper one complete now that the insert stars mess is separated.
-
-            // The tricky bit is this... we want to eat ops to the right untill a (group) is found.
-            // Though only if we are on the rhs of an assignment.
-            if (!$id->is_function_name() && core_text::substr($raw, 0, 4) === 'log_' &&
-                !($id->parentnode instanceof MP_Operation && $id->parentnode->lhs === $id && $id->parentnode->op === ':')) {
-                $group = false; // The target.
-                $container = false; // if we are within a list we must not look the group from
-                // outside or from other elements in the list.
-                // Check if there is a group to aim for.
-                $container = $id->parentnode;
-                while ($container instanceof MP_Operation) {
-                    if ($container->parentnode === null) {
-                        break;
-                    }
-                    $container = $container->parentnode;
-                }
-                $before = true;
-                foreach ($container->asAList() as $node) {
-                    if ($before) {
-                        if ($node === $id) {
-                            $before = false;
-                        }
-                    } else if ($node instanceof MP_Group || $node instanceof MP_FunctionCall){
-                        $group = $node;
-                        break;
-                    }
-                }
-                if ($group === false) {
-                    // TODO: We have a bad 'log_*' do we ned to whine?
-                } else {
-                    // We have something to aim for.
-                    if ($id->parentnode instanceof MP_Operation && $id->parentnode->lhs === $id) {
-                        if ($id->parentnode->rhs instanceof MP_Group) {
-                            // The easy case. log_x*(x) due to spaces or some other reason.
-                            if ($id->parentnode->op === '*') {
-                                $id->parentnode->parentnode->replace($id->parentnode,
-                                    new MP_FunctionCall($id, $id->parentnode->rhs->items));
-                                return false;
-                            } else {
-                                // TODO: So do we allow any other op? 'log_10+(x)' means nothing
-                            }
-                        } else if ($id->parentnode->rhs instanceof MP_FunctionCall) {
-                            // log_x*xx(x)
-                            $newname = new MP_Identifier($raw . $id->parentnode->op . $id->parentnode->rhs->name->value);
-                            $id->parentnode->rhs->replace($id->parentnode->rhs->name, $newname);
-                            $id->parentnode->parentnode->replace($id->parentnode, $id->parentnode->rhs);
-                            return false;
-                        } else if ($id->parentnode->rhs instanceof MP_Atom) {
-                            // log_x+x+xx(x)
-                            $id->parentnode->parentnode->replace($id->parentnode, new MP_Identifier($id->parentnode->toString()));
-                            return false;
-                        } else if ($id->parentnode->rhs instanceof MP_Operation && $id->parentnode->rhs->lhs instanceof MP_Atom) {
-                            // We only deal with atoms if it is not one then it does not work.
-                            $newname = new MP_Identifier($raw . $id->parentnode->op . $id->parentnode->rhs->lhs->toString());
-                            $id->parentnode->rhs->replace($id->parentnode->rhs->lhs, $newname);
-                            $id->parentnode->parentnode->replace($id->parentnode, $id->parentnode->rhs);
-                            return false;
-                        } else if ($id->parentnode->rhs instanceof MP_Operation && $id->parentnode->rhs->lhs instanceof MP_Operation) {
-                            // We have this.  That needs to be turned around.
-                            //     op1                op1
-                            //    /   \              /   \
-                            //  log_   op2     =>  log_   op3
-                            //        /   \              /   \
-                            //      op3    z            x     op2
-                            //     /   \                     /   \
-                            //    x     y                   y     z
-                            $op1 = $id->parentnode;
-                            $op2 = $op1->rhs;
-                            $op3 = $op2->lhs;
-                            $y = $op3->rhs;
-                            $op1->replace($op2, $op3);
-                            $op2->replace($op3, $y);
-                            $op3->replace($y, $op2);
-                            return false;
-                        }
-                    } else if ($id->parentnode instanceof MP_Operation && $id->parentnode->rhs === $id) {
-                        if ($id->parentnode->parentnode instanceof MP_Operation && $id->parentnode->parentnode->lhs === $id->parentnode) {
-                            // We have this. That needs to be turned around.
-                            //      op1          op2
-                            //     /   \        /   \
-                            //   op2    Y  =>  X    op1
-                            //  /   \              /   \
-                            // X   log_          log_   Y
-                            $op1 = $id->parentnode->parentnode;
-                            $op2 = $id->parentnode;
-                            $op1->parentnode->replace($op1, $op2);
-                            $op1->replace($op2, $id);
-                            $op2->replace($id, $op1);
-                            return false;
-                        } else if ($id->parentnode->parentnode instanceof MP_Operation && $id->parentnode->parentnode->rhs === $id->parentnode) {
-                            // We have this... or we might not have depends if there is an op1...
-                            //
-                            //     op1                op2
-                            //    /   \              /   \
-                            //   op2   Y            X2   op3
-                            //  /   \                   /  ...
-                            // X2    op3        =>     X3    opN
-                            //      /  ...                  /   \
-                            //     X3    opN               XN    op1
-                            //          /   \                   /   \
-                            //         XN   log_              log_   Y
-                            $opN = $id->parentnode;
-                            $i = $id;
-                            $op1 = false;
-                            while ($i->parentnode instanceof MP_Operation) {
-                                if ($i->parentnode->lhs === $i) {
-                                    $op1 = $i->parentnode;
-                                    break;
-                                }
-                                $i = $i->parentnode;
-                            }
-                            if ($op1 !== false) {
-                                $op2 = $op1->lhs;
-                                $op1->replace($op1->lhs, $id);
-                                $opN->replace($id, $op1);
-                                $op1->parentnode->replace($op1, $op2);
-                                return false;
-                            }
-                        }
-                    }
-                }
-            }
-            */
 
         } else {
             // Other params have been vetted already.
@@ -1024,9 +898,9 @@ class stack_cas_casstring {
             if ($security === 's' && !$secrules->is_allowed_to_read($security, $name)) {
                 $keys = array();
                 foreach (explode("_", $name) as $kw) {
-                    if (strlen($kw) > 2) {
+                    // if (strlen($kw) > 2) { // Let this happen in the security class.
                         $keys[$kw] = true;
-                    }
+                    // }
                 }
             }
             foreach (array_keys($keys) as $n) {

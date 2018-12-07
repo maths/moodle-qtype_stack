@@ -34,10 +34,12 @@ class stack_cas_security {
     /** @var string specific allowed words or groups of them. Used to expand
              the student allowed identifiers set. */
     private $allowedwords = '';
+    private $allowedwordsasmap = null;
 
     /** @var string specific forbidden words or groups of them. Used to cut down
              the student allowed identifiers set. */
     private $forbiddenwords = '';
+    private $forbiddenwordsasmap = null;
 
     /** @var array typically the teacher side variable identifiers. Used to cut
              down the student allowed identifiers set. */
@@ -109,10 +111,12 @@ class stack_cas_security {
 
     public function set_allowedwords(string $allowedwords) {
         $this->allowedwords = $allowedwords;
+        $this->allowedwordsasmap = null;
     }
 
     public function set_forbiddenwords(string $forbiddenwords) {
         $this->forbiddenwords = $forbiddenwords;
+        $this->forbiddenwordsasmap = null;
     }
 
     public function set_forbiddenkeys(array $forbiddenkeys) {
@@ -121,6 +125,22 @@ class stack_cas_security {
         if (array_key_exists(0, $this->forbiddenkeys)) {
             $this->forbiddenkeys = array_flip($this->forbiddenkeys);
         }
+
+        // Check for keyword-lists. Although they should not exists here as this
+        // is used to check for teacher reserved words. But they do exist in
+        // tests.
+        $real = array();
+        foreach ($this->forbiddenkeys as $key => $duh) {
+            if (isset(stack_cas_security::$keywordlists[strtolower($key)])) {
+                foreach (stack_cas_security::$keywordlists[strtolower($key)] as $k => $v) {
+                    $real[$k] = $v;
+                }
+            } else if (core_text::strlen($key) > 1){
+                // As lenght 1 identifiers are always ok we skip them here.
+                $real[$key] = true;
+            }
+        }
+        $this->forbiddenkeys = $real;
     }
 
     public function set_units(bool $units) {
@@ -144,9 +164,25 @@ class stack_cas_security {
         }
 
         // Check for forbidden words.
-        $forbidden = stack_cas_security::list_to_map($this->forbiddenwords);
-        if (isset($forbidden[$identifier])) {
+        if ($this->forbiddenwordsasmap == null) {
+            $this->forbiddenwordsasmap = stack_cas_security::list_to_map($this->forbiddenwords);
+        }
+        if (isset($this->forbiddenwordsasmap[$identifier])) {
             // Forbidden words are not considered as typed. For now.
+            return false;
+        }
+
+        // For backwards compatibility check for substrings.
+        if (strlen($identifier) > 1) { // The no forbidding single letter names case.
+            foreach ($this->forbiddenwordsasmap as $key => $duh) {
+                if (strpos($identifier, $key) !== false) {
+                    // The 'i' in 'sin' case.
+                    return false;
+                }
+            }
+        }
+
+        if (isset($this->forbiddenkeys[$identifier])) {
             return false;
         }
 
@@ -156,11 +192,13 @@ class stack_cas_security {
         }
 
         // Try promoting to security 's'.
-        $allowed = stack_cas_security::list_to_map($this->allowedwords);
-        if (isset($allowed[$identifier])) {
+        if ($this->allowedwordsasmap == null) {
+            $this->allowedwordsasmap = stack_cas_security::list_to_map($this->allowedwords);
+        }
+        if (isset($this->allowedwordsasmap[$identifier])) {
             // Allow words might be typed.
-            if (is_array($allowed[$identifier])) {
-                return isset($allowed[$identifier]['function']);
+            if (is_array($this->allowedwordsasmap[$identifier])) {
+                return isset($this->allowedwordsasmap[$identifier]['function']);
             } else {
                 return true;
             }
@@ -194,20 +232,27 @@ class stack_cas_security {
             return false;
         }
 
-        // Check for forbiddenkeys. Note that this check only applies to
-        // variables and even then only in certain edge cases. e.g. not in
-        // multi-assignment, we might want to fix that but as it is what
-        // the old does lets not change everything.
         if (isset($this->forbiddenkeys[$identifier])) {
             return false;
         }
 
-
         // Check for forbidden words.
-        $forbidden = stack_cas_security::list_to_map($this->forbiddenwords);
-        if (isset($forbidden[$identifier])) {
+        if ($this->forbiddenwordsasmap == null) {
+            $this->forbiddenwordsasmap = stack_cas_security::list_to_map($this->forbiddenwords);
+        }
+        if (isset($this->forbiddenwordsasmap[$identifier])) {
             // Forbidden words are not considered as typed. For now.
             return false;
+        }
+
+        // For backwards compatibility check for substrings.
+        if (strlen($identifier) > 1) { // The no forbidding single letter names case.
+            foreach ($this->forbiddenwordsasmap as $key => $duh) {
+                if (strpos($identifier, $key) !== false) {
+                    // The 'i' in 'sin' case.
+                    return false;
+                }
+            }
         }
 
         // If its already security 's' then all fine.
@@ -216,11 +261,13 @@ class stack_cas_security {
         }
 
         // Try promoting to security 's'.
-        $allowed = stack_cas_security::list_to_map($this->allowedwords);
-        if (isset($allowed[$identifier])) {
+        if ($this->allowedwordsasmap == null) {
+            $this->allowedwordsasmap = stack_cas_security::list_to_map($this->allowedwords);
+        }
+        if (isset($this->allowedwordsasmap[$identifier])) {
             // Allow words might be typed.
-            if (is_array($allowed[$identifier])) {
-                return isset($allowed[$identifier]['variable']) || isset($allowed[$identifier]['constant']);
+            if (is_array($this->allowedwordsasmap[$identifier])) {
+                return isset($this->allowedwordsasmap[$identifier]['variable']) || isset($this->allowedwordsasmap[$identifier]['constant']);
             } else {
                 return true;
             }
@@ -228,7 +275,7 @@ class stack_cas_security {
 
         // If the identifer is only one char then students have permissions.
         // TODO: Is the rule as documented the same as coded? i.e. is it 2?
-        if ($security === 's' && core_text::strlen($identifier) === 1) {
+        if ($security === 's' && core_text::strlen($identifier) <= 2) {
             return true;
         }
 
@@ -276,8 +323,10 @@ class stack_cas_security {
         }
 
         // Check for forbidden words.
-        $forbidden = stack_cas_security::list_to_map($this->forbiddenwords);
-        if (isset($forbidden[$identifier])) {
+        if ($this->forbiddenwordsasmap == null) {
+            $this->forbiddenwordsasmap = stack_cas_security::list_to_map($this->forbiddenwords);
+        }
+        if (isset($this->forbiddenwordsasmap[$identifier])) {
             // Forbidden words are not considered as typed. For now.
             return false;
         }
@@ -288,11 +337,13 @@ class stack_cas_security {
         }
 
         // Try promoting to security 's'.
-        $allowed = stack_cas_security::list_to_map($this->allowedwords);
-        if (isset($allowed[$identifier])) {
+        if ($this->allowedwordsasmap == null) {
+            $this->allowedwordsasmap = stack_cas_security::list_to_map($this->allowedwords);
+        }
+        if (isset($this->allowedwordsasmap[$identifier])) {
             // Allow words might be typed.
-            if (is_array($allowed[$identifier])) {
-                return isset($allowed[$identifier]['operator']);
+            if (is_array($this->allowedwordsasmap[$identifier])) {
+                return isset($this->allowedwordsasmap[$identifier]['operator']);
             } else {
                 return true;
             }
@@ -381,6 +432,9 @@ class stack_cas_security {
                 // If its a name of a list.
                 if (isset(stack_cas_security::$keywordlists[$item])) {
                     $result = array_merge($result, stack_cas_security::$keywordlists[$item]);
+                } else if (isset(stack_cas_security::$keywordlists[strtolower($item)])) {
+                    // These are present in upper case in old test cases.
+                    $result = array_merge($result, stack_cas_security::$keywordlists[strtolower($item)]);
                 } else {
                     if ($item === 'COMMA_TAG') {
                         $result[','] = true;

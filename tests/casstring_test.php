@@ -185,19 +185,25 @@ class stack_cas_casstring_test extends basic_testcase {
     public function test_allow_words() {
         $s = '2*dumvariable+3';
         $at1 = new stack_cas_casstring($s);
-        $this->assertTrue($at1->get_valid('s', true, 0, 'dumvariable'));
+        $secrules = new stack_cas_security();
+        $secrules->set_allowedwords('dumvariable');
+        $this->assertTrue($at1->get_valid('s', true, 0, $secrules));
     }
 
     public function test_allow_words_fail() {
         $s = 'sin(2*dumvariable+3)';
         $at1 = new stack_cas_casstring($s);
-        $this->assertFalse($at1->get_valid('s', true, 0, 'dvariable'));
+        $secrules = new stack_cas_security();
+        $secrules->set_allowedwords('dvariable');
+        $this->assertFalse($at1->get_valid('s', true, 0, $secrules));
     }
 
     public function test_allow_words_teacher() {
         $s = 'sin(2*dumvariable+3)';
         $at1 = new stack_cas_casstring($s);
-        $this->assertTrue($at1->get_valid('t', true, 0, 'dvariable'));
+        $secrules = new stack_cas_security();
+        $secrules->set_allowedwords('dvariable');
+        $this->assertTrue($at1->get_valid('t', true, 0, $secrules));
     }
 
     public function test_check_external_forbidden_words() {
@@ -605,7 +611,9 @@ class stack_cas_casstring_test extends basic_testcase {
     public function test_units_allow_moles() {
         $s = 'sa:3.14*moles';
         $at1 = new stack_cas_casstring($s);
-        $this->assertTrue($at1->get_valid('s', true, 0, 'moles'));
+        $secrules = new stack_cas_security();
+        $secrules->set_allowedwords('moles');
+        $this->assertTrue($at1->get_valid('s', true, 0, $secrules));
     }
 
     public function test_units_4() {

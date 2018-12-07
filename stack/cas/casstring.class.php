@@ -1073,7 +1073,7 @@ class stack_cas_casstring {
     /*********************************************************/
     /* Return and modify information                         */
     /*********************************************************/
-
+    /* Note since iss324 this does not take raw allowords it takes stack_cas_security objects */
     public function get_valid($security = 's', $syntax = true, $insertstars = 0, $secrules = null) {
         if (null === $this->valid) {
             $this->validate($security, $syntax, $insertstars, $secrules);

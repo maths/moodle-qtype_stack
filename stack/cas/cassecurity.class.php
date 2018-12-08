@@ -71,7 +71,22 @@ class stack_cas_security {
                     'rowop' => true, 'rowswap' => true, 'transpose' => true)
     );
 
+    public static function is_good_function(string $identifier): bool {
+        // Generic tool for telling if a given identifier matches a function.
+        if (stack_cas_security::$securitymap === null) {
+            // Initialise the map.
+            $data = file_get_contents(__DIR__ . '/security-map.json');
+            stack_cas_security::$securitymap = json_decode($data, true);
+        }
 
+        if (isset(stack_cas_security::$securitymap[$identifier])) {
+            if (isset(stack_cas_security::$securitymap[$identifier]['function'])) {
+                return stack_cas_security::$securitymap[$identifier]['function'] == 's';
+            }
+        }
+
+        return false;
+    }
 
     public function __construct($units = false, $allowedwords = '', $forbiddenwords = '', $forbiddenkeys = array()) {
         if (stack_cas_security::$securitymap === null) {

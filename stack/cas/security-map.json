@@ -3841,6 +3841,9 @@
     "lmxchar": {
         "variable": "?"
     },
+    "ln": {
+        "function": "s"
+    },
     "load": {
         "function": "f",
         "globalyforbiddenfunction": true

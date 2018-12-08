@@ -17,6 +17,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/../casstring.class.php');
+require_once(__DIR__ . '/../cassecurity.class.php');
 require_once(__DIR__ . '/../../utils.class.php');
 require_once(__DIR__ . '/../../maximaparser/utils.php');
 require_once(__DIR__ . '/../../maximaparser/MP_classes.php');
@@ -214,6 +215,23 @@ abstract class stack_parser_logic {
                 }
                 return false;
             }
+
+            // Identify cases like xsin(x) where a well known functionname has
+            // a single-letter variable prefixed to it. Fix them.
+            if ($node instanceof MP_FunctionCall && $node->name instanceof MP_Identifier
+                && !stack_cas_security::is_good_function($node->name->value)) {
+                // If not a know function name maybe it has an unintended prefix.
+                $prefix = core_text::substr($node->name->value, 0, 1);
+                $name = core_text::substr($node->name->value, 1);
+                if (stack_cas_security::is_good_function($name) == true) {
+                    $newop = new MP_Operation('*', new MP_Identifier($prefix), new MP_FunctionCall(new MP_Identifier($name), $node->arguments));
+                    $newop->position['insertstars'] = true;
+                    $node->parentnode->position['insertstars'] = true;
+                    $node->parentnode->replace($node, $newop);
+                    return false;
+                }
+            }
+
             return true;
         };
 

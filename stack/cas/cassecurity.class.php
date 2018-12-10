@@ -382,7 +382,7 @@ class stack_cas_security {
             }
         }
         if (isset(stack_cas_security::$securitymap[$identifier])) {
-            return isset($securitymap[$identifier][$feature]);
+            return isset(stack_cas_security::$securitymap[$identifier][$feature]);
         }
         // If not part of the map then it has no features.
         return false;

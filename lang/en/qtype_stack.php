@@ -616,6 +616,7 @@ $string['stackCas_unknownFunction']         = 'Unknown function: {$a->forbid}.';
 $string['stackCas_forbiddenFunction']       = 'Forbidden function: {$a->forbid}.';
 $string['stackCas_forbiddenOperator']       = 'Forbidden operator: {$a->forbid}.';
 $string['stackCas_forbiddenVariable']       = 'Forbidden variable or constant: {$a->forbid}.';
+$string['stackCas_operatorAsVariable']      = 'Operator {$a->op} interpreted as variable, check syntax.';
 $string['stackCas_redefinitionOfConstant']  = 'Redefinition of key constants is forbidden: {$a->constant}.';
 $string['stackCas_unknownFunctionCase']     = 'Input is case sensitive:  {$a->forbid} is an unknown function.  Did you mean {$a->lower}?';
 $string['stackCas_unsupportedKeyword']      = 'Unsupported keyword: {$a->forbid}.';

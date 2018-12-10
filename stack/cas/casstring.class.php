@@ -870,6 +870,16 @@ class stack_cas_casstring {
 
         // Check for variables.
         foreach (array_keys($variables) as $name) {
+            // Check for operators like 'and' if they appear as variables
+            // things have gone wrong.
+            if ($secrules->has_feature($name, 'operator')) {
+                $this->add_error(stack_string('stackCas_operatorAsVariable',
+                    array('op' => stack_maxima_format_casstring(strtolower($name)))));
+                $this->answernote[] = 'operatorPlacement';
+                $this->valid = false;
+                continue;
+            }
+
             if ($this->units) {
                 // Check for unit synonyms. Ignore if specifically allowed.
                 list ($fndsynonym, $answernote, $synonymerr) = stack_cas_casstring_units::find_units_synonyms($name);

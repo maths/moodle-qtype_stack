@@ -6321,6 +6321,9 @@
     "sequalignore": {
         "function": "s"
     },
+    "set": {
+        "function": "?"
+    },
     "set_alt_display": {
         "function": "?"
     },

@@ -112,16 +112,19 @@
         "operator": "t"
     },
     "*": {
+        "function": "s",
         "operator": "s"
     },
     "**": {
         "operator": "s"
     },
     "+": {
+        "function": "s",
         "operator": "s"
     },
     ",": {
-        "operator": "s"
+        "operator": "s",
+        "function": "s"
     },
     "-": {
         "operator": "s"
@@ -130,6 +133,7 @@
         "operator": "s"
     },
     "\/": {
+        "function": "s",
         "operator": "s"
     },
     ":": {

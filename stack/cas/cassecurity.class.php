@@ -195,10 +195,6 @@ class stack_cas_security {
             }
         }
 
-        if (isset($this->forbiddenkeys[$identifier])) {
-            return false;
-        }
-
         // If its already security 's' then all fine.
         if ($foundsecurity === 's') {
             return true;
@@ -215,6 +211,16 @@ class stack_cas_security {
             } else {
                 return true;
             }
+        }
+
+        // Keys are the names used by author and we need to allow them to be bypassed.
+        if (isset($this->forbiddenkeys[$identifier])) {
+            return false;
+        }
+
+        // If the identifer is less than three char then students have permissions.
+        if ($security === 's' && core_text::strlen($identifier) <= 2) {
+            return true;
         }
 
         // If no matches at all then allowed for security='t'.
@@ -245,10 +251,6 @@ class stack_cas_security {
             return false;
         }
 
-        if (isset($this->forbiddenkeys[$identifier])) {
-            return false;
-        }
-
         // Check for forbidden words.
         if ($this->forbiddenwordsasmap == null) {
             $this->forbiddenwordsasmap = stack_cas_security::list_to_map($this->forbiddenwords);
@@ -265,6 +267,15 @@ class stack_cas_security {
                 return false;
             }
         }
+
+        // Units.
+        if ($this->units) {
+            $units = stack_cas_casstring_units::get_permitted_units(0);
+            if (isset($units[$identifier])) {
+                return true;
+            }
+        }
+
 
         // If its already security 's' then all fine.
         if ($foundsecurity === 's') {
@@ -284,8 +295,12 @@ class stack_cas_security {
             }
         }
 
-        // If the identifer is only one char then students have permissions.
-        // TODO: Is the rule as documented the same as coded? i.e. is it 2?
+        // Forbidden author used ones unless allowed above.
+        if (isset($this->forbiddenkeys[$identifier])) {
+            return false;
+        }
+
+        // If the identifer is less than three char then students have permissions.
         if ($security === 's' && core_text::strlen($identifier) <= 2) {
             return true;
         }

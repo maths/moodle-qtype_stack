@@ -344,7 +344,12 @@ class stack_cas_casstring {
             }
         }
 
-        $this->check_security($security, $secrules);
+        // Security check contains various errors related to using functions as
+        // variables that have already been covered in earlier checks so it
+        // make sense to skip it if we are already invalid.
+        if ($this->valid) {
+            $this->check_security($security, $secrules);
+        }
 
         $root = $this->ast;
         if ($this->ast instanceof MP_Root) {
@@ -889,6 +894,15 @@ class stack_cas_casstring {
                     $this->valid = false;
                     continue;
                 }
+                $err = stack_cas_casstring_units::check_units_case($name);
+                // Ignore if specially allowed for long unit name.
+                if ($err && !(core_text::strlen($name) > 2 && $secrules->is_allowed_to_read($security, $name))) {
+                    // We have spotted a case sensitivity problem in the units.
+                    $this->add_error($err);
+                    $this->answernote[] = 'unknownUnitsCase';
+                    $this->valid = false;
+                    continue;
+                }
             }
 
             if ($secrules->has_feature($name, 'globalyforbiddenvariable')) {
@@ -923,17 +937,12 @@ class stack_cas_casstring {
                     } else {
                         // Could it be case-issue?
                         if (count($secrules->get_case_variants($n)) > 0) {
-                            if ($err = stack_cas_casstring_units::check_units_case($n)) {
-                                // We have spotted a case sensitivity problem in the units.
-                                $this->add_error($err);
-                                    $this->answernote[] = 'unknownUnitsCase';
-                            } else {
-                                $this->add_error(stack_string('stackCas_unknownFunctionCase',
-                                    array('forbid' => stack_maxima_format_casstring($n),
-                                    'lower' => stack_maxima_format_casstring(
-                                        implode(', ', $secrules->get_case_variants($n))))));
-                            }
+                            $this->add_error(stack_string('stackCas_unknownFunctionCase',
+                                array('forbid' => stack_maxima_format_casstring($n),
+                                'lower' => stack_maxima_format_casstring(
+                                    implode(', ', $secrules->get_case_variants($n))))));
                             $this->answernote[] = 'unknownFunctionCase';
+                            $this->valid = false;
                         } else {
                             $this->add_error(stack_string('stackCas_forbiddenVariable',
                                 array('forbid' => stack_maxima_format_casstring(strtolower($n)))));

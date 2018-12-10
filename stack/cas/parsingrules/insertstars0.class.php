@@ -295,5 +295,43 @@ class stack_parser_logic_insertstars0 extends stack_parser_logic {
         };
 
         while ($ast->callbackRecurse($process) !== true) {}
+
+        // There is a chance that the pre-parser added stars that we don't
+        // aknowledge yet. Search for them. These cover a relatively rare edge
+        // case that probably is not worth it. Essenttially, if the answernote
+        // does not containt those specific flags we will never go looking for
+        // these.
+        if (array_search('missing_stars', $answernote) === false) {
+            $hasany = false;
+            $check = function($node) use(&$hasany) {
+                if ($node instanceof MP_Operation && $node->op === '*' && isset($node->position['insertstars'])) {
+                    $hasany = true;
+                }
+                return true;
+            };
+            $ast->callbackRecurse($check);
+            if ($hasany) {
+                $answernote[] = 'missing_stars';
+                if(!$this->insertstars) {
+                    $valid = false;
+                }
+            }
+        }
+        if (array_search('spaces', $answernote) === false) {
+            $hasany = false;
+            $check = function($node) use(&$hasany) {
+                if ($node instanceof MP_Operation && $node->op === '*' && isset($node->position['fixspaces'])) {
+                    $hasany = true;
+                }
+                return true;
+            };
+            $ast->callbackRecurse($check);
+            if ($hasany) {
+                $answernote[] = 'spaces';
+                if(!$this->fixspaces) {
+                    $valid = false;
+                }
+            }
+        }
     }
 }

@@ -218,6 +218,11 @@ class stack_cas_security {
             return false;
         }
 
+        // Special case. Very special indeed.
+        if ($security === 's' && $identifier === 'In') {
+            return false;
+        }
+
         // If the identifer is less than three char then students have permissions.
         if ($security === 's' && core_text::strlen($identifier) <= 2) {
             return true;

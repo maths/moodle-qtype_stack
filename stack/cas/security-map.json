@@ -123,10 +123,10 @@
         "operator": "s"
     },
     ",": {
-        "operator": "s",
+        "operator": "s"
     },
     "-": {
-        "function": "s"
+        "function": "s",
         "operator": "s"
     },
     ".": {

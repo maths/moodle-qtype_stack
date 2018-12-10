@@ -415,6 +415,7 @@ class stack_cas_casstring {
                     }
                 }
             }
+
             // TODO: is the name is a common function e.g. sqrt or sin and it is not a function-name
             // we should warn about it... in cases where we have no op on right...
             if ($id->is_function_name() && isset($alwaysfunctiontrigsarc[$raw])) {
@@ -567,7 +568,6 @@ class stack_cas_casstring {
                     $this->answernote[] = 'logsubs';
                     return false;
                 }
-
             } else {
                 // Unknown name branch.
             }
@@ -841,7 +841,7 @@ class stack_cas_casstring {
         foreach (array_keys($functionnames) as $name) {
             // Special feedback for 'In' != 'ln' depends on the allow status of
             // 'In' that is why it is here.
-            if ($security == 's' && $name == 'In' && !$secrules->is_allowed_to_call($security, $name)) {
+            if ($security === 's' && $name === 'In' && !$secrules->is_allowed_to_call($security, $name)) {
                 $this->add_error(stack_string('stackCas_badLogIn'));
                 $this->answernote[] = 'stackCas_badLogIn';
                 $this->valid = false;

@@ -375,7 +375,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         $hinttext = new stack_cas_text($hint->hint, $this->session, $this->seed, 't', false, 1);
 
         if ($hinttext->get_errors()) {
-            $this->runtimeerrors[$gftext->get_errors()] = true;
+            $this->runtimeerrors[$hinttext->get_errors()] = true;
         }
 
         return $hinttext;

@@ -124,9 +124,9 @@
     },
     ",": {
         "operator": "s",
-        "function": "s"
     },
     "-": {
+        "function": "s"
         "operator": "s"
     },
     ".": {

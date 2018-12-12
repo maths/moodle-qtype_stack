@@ -831,7 +831,7 @@ class stack_cas_casstring {
                 $this->valid = false;
             } else if (!$secrules->is_allowed_as_operator($security, $op)) {
                 $this->add_error(stack_string('stackCas_forbiddenOperator',
-                        array('forbid' => stack_maxima_format_casstring(strtolower($op)))));
+                        array('forbid' => stack_maxima_format_casstring($op))));
                 $this->answernote[] = 'forbiddenOp';
                 $this->valid = false;
             }
@@ -841,20 +841,22 @@ class stack_cas_casstring {
         foreach (array_keys($functionnames) as $name) {
             // Special feedback for 'In' != 'ln' depends on the allow status of
             // 'In' that is why it is here.
-            if ($security === 's' && $name === 'In' && !$secrules->is_allowed_to_call($security, $name)) {
+            $vars = $secrules->get_case_variants($name, 'function');
+
+            if ($security === 's' && $name === 'In' && !$secrules->is_allowed_word($name, 'function')) {
                 $this->add_error(stack_string('stackCas_badLogIn'));
                 $this->answernote[] = 'stackCas_badLogIn';
                 $this->valid = false;
-            } else if (!$secrules->is_allowed_to_call($security, $name) && $secrules->is_allowed_to_call($security, strtolower($name))) {
+            } else if ($security === 's' && count($vars) > 0 && array_search($name, $vars) === false) {
                 // Case sensitivity issues.
                 $this->add_error(stack_string('stackCas_unknownFunctionCase',
                     array('forbid' => stack_maxima_format_casstring($name),
-                          'lower' => stack_maxima_format_casstring(strtolower($name)))));
+                          'lower' => stack_maxima_format_casstring(implode(', ', $vars)))));
                 $this->answernote[] = 'unknownFunctionCase';
                 $this->valid = false;
             } else if (!$secrules->is_allowed_to_call($security, $name)) {
                 $this->add_error(stack_string('stackCas_forbiddenFunction',
-                        array('forbid' => stack_maxima_format_casstring(strtolower($name)))));
+                        array('forbid' => stack_maxima_format_casstring($name))));
                 $this->answernote[] = 'forbiddenFunction';
                 $this->valid = false;
             }
@@ -866,12 +868,28 @@ class stack_cas_casstring {
                 // TODO: decide if we set this as validity issue, might break
                 // materials where the constants redefined do not affect things.
                 $this->add_error(stack_string('stackCas_redefinitionOfConstant',
-                        array('constant' => stack_maxima_format_casstring(strtolower($name)))));
+                        array('constant' => stack_maxima_format_casstring($name))));
                 $this->answernote[] = 'writingToConstant';
                 $this->valid = false;
             }
             // Other checks happen at the $variables loop. These are all members of that.
         }
+
+        // The rules of student identifiers are as follows, applies to whole
+        // identifier or its subparts:
+        /// Phase 1:
+        ///  if forbidden identifier in security-map then false else
+        ///  if present in forbidden words or contains such then false else
+        ///  if strlen() == 1 then true else
+        ///  if author used key then false else
+        ///  if strlen() > 2 and in allowed words then true else
+        ///  if strlen() > 2 and in security-map then true else
+        ///  true
+        /// Phase 2:
+        ///  if phase 1 = false then false else
+        ///  if units and not unit name and is unit case variant then false else
+        ///  if not (know or in security-map) and case variant in security-map then false else
+        ///  true
 
         // Check for variables.
         foreach (array_keys($variables) as $name) {
@@ -879,7 +897,7 @@ class stack_cas_casstring {
             // things have gone wrong.
             if ($secrules->has_feature($name, 'operator')) {
                 $this->add_error(stack_string('stackCas_operatorAsVariable',
-                    array('op' => stack_maxima_format_casstring(strtolower($name)))));
+                    array('op' => stack_maxima_format_casstring($name))));
                 $this->answernote[] = 'operatorPlacement';
                 $this->valid = false;
                 continue;
@@ -888,15 +906,14 @@ class stack_cas_casstring {
             if ($this->units) {
                 // Check for unit synonyms. Ignore if specifically allowed.
                 list ($fndsynonym, $answernote, $synonymerr) = stack_cas_casstring_units::find_units_synonyms($name);
-                if ($security == 's' && $fndsynonym && !$secrules->is_allowed_to_read($security, $name)) {
+                if ($security == 's' && $fndsynonym && !$secrules->is_allowed_word($name)) {
                     $this->add_error($synonymerr);
                     $this->answernote[] = $answernote;
                     $this->valid = false;
                     continue;
                 }
                 $err = stack_cas_casstring_units::check_units_case($name);
-                // Ignore if specially allowed for long unit name.
-                if ($err && !(core_text::strlen($name) > 2 && $secrules->is_allowed_to_read($security, $name))) {
+                if ($err) {
                     // We have spotted a case sensitivity problem in the units.
                     $this->add_error($err);
                     $this->answernote[] = 'unknownUnitsCase';
@@ -908,7 +925,7 @@ class stack_cas_casstring {
             if ($secrules->has_feature($name, 'globalyforbiddenvariable')) {
                 // Very bad!
                 $this->add_error(stack_string('stackCas_forbiddenWord',
-                    array('forbid' => stack_maxima_format_casstring(strtolower($name)))));
+                    array('forbid' => stack_maxima_format_casstring($name))));
                 $this->answernote[] = 'forbiddenWord';
                 $this->valid = false;
                 continue;
@@ -922,34 +939,46 @@ class stack_cas_casstring {
             if ($security === 's' && !$secrules->is_allowed_to_read($security, $name)) {
                 $keys = array();
                 foreach (explode("_", $name) as $kw) {
-                    // if (strlen($kw) > 2) { // Let this happen in the security class.
-                        $keys[$kw] = true;
-                    // }
+                    $keys[$kw] = true;
                 }
             }
             foreach (array_keys($keys) as $n) {
                 if (!$secrules->is_allowed_to_read($security, $n)) {
                     if ($security === 't') {
                         $this->add_error(stack_string('stackCas_forbiddenWord',
-                            array('forbid' => stack_maxima_format_casstring(strtolower($n)))));
+                            array('forbid' => stack_maxima_format_casstring($n))));
                         $this->answernote[] = 'forbiddenWord';
                         $this->valid = false;
                     } else {
-                        // Could it be case-issue?
-                        if (count($secrules->get_case_variants($n)) > 0) {
-                            $this->add_error(stack_string('stackCas_unknownFunctionCase',
+                        $vars = $secrules->get_case_variants($n, 'variable');
+                        if (count($vars) > 0 && array_search($n, $vars) === false) {
+                            $this->add_error(stack_string('stackCas_unknownVariableCase',
                                 array('forbid' => stack_maxima_format_casstring($n),
                                 'lower' => stack_maxima_format_casstring(
-                                    implode(', ', $secrules->get_case_variants($n))))));
-                            $this->answernote[] = 'unknownFunctionCase';
+                                    implode(', ', $vars)))));
+                            $this->answernote[] = 'unknownVariableCase';
                             $this->valid = false;
                         } else {
                             $this->add_error(stack_string('stackCas_forbiddenVariable',
-                                array('forbid' => stack_maxima_format_casstring(strtolower($n)))));
+                                array('forbid' => stack_maxima_format_casstring($n))));
                             $this->answernote[] = 'forbiddenVariable';
                             $this->valid = false;
                         }
                     }
+                } else if (strlen($n) > 1){
+                    // We still need to try for case variants.
+                    if ($security === 's') {
+                        $vars = $secrules->get_case_variants($n, 'variable');
+                        if (count($vars) > 0 && array_search($n, $vars) === false) {
+                            $this->add_error(stack_string('stackCas_unknownVariableCase',
+                                array('forbid' => stack_maxima_format_casstring($n),
+                                'lower' => stack_maxima_format_casstring(
+                                    implode(', ', $vars)))));
+                            $this->answernote[] = 'unknownVariableCase';
+                            $this->valid = false;
+                        }
+                    }
+
                 }
             }
         }

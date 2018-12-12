@@ -518,10 +518,10 @@ class stack_cas_casstring_test extends basic_testcase {
         $s = 'a:DELTA-1';
         $at1 = new stack_cas_casstring($s);
         $this->assertFalse($at1->get_valid('s'));
-        $this->assertEquals('unknownFunctionCase', $at1->get_answernote());
+        $this->assertEquals('unknownVariableCase', $at1->get_answernote());
         // Note the capital D in the feedback here.  We suggest a capital Delta.
-        $this->assertEquals('Input is case sensitive:  <span class="stacksyntaxexample">DELTA</span> '.
-                'is an unknown function.  Did you mean <span class="stacksyntaxexample">Delta, delta</span>?',
+        $this->assertEquals('Input is case sensitive: <span class="stacksyntaxexample">DELTA</span> '.
+                'is an unknown variable. Did you mean <span class="stacksyntaxexample">Delta, delta</span>?',
                 $at1->get_errors());
     }
 
@@ -592,7 +592,7 @@ class stack_cas_casstring_test extends basic_testcase {
     public function test_units_1() {
         $s = 'sa:3.14*mol';
         $at1 = new stack_cas_casstring($s);
-        $at1->set_units(true); // If we do not toggle units then mol if forbiddenly long.
+        $at1->set_units(true);
         $this->assertTrue($at1->get_valid('s', true, 0));
     }
 
@@ -643,7 +643,7 @@ class stack_cas_casstring_test extends basic_testcase {
     public function test_units_5() {
         $s = 'sa:52.3*MHz';
         $at1 = new stack_cas_casstring($s);
-        $at1->set_units(true); // If we do not toggle units then MHz if forbiddenly long.
+        $at1->set_units(true);
         $this->assertTrue($at1->get_valid('s', true, 0));
     }
 

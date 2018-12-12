@@ -167,7 +167,7 @@ class stack_cas_security {
      * Within the defined security scope.
      */
     public function is_allowed_to_call(string $security, string $identifier): bool {
-        $foundsecurity = '?';
+        $foundsecurity = '-';
         if (isset(stack_cas_security::$securitymap[$identifier])) {
             if (isset(stack_cas_security::$securitymap[$identifier]['function'])) {
                 $foundsecurity = stack_cas_security::$securitymap[$identifier]['function'];
@@ -200,6 +200,11 @@ class stack_cas_security {
             return true;
         }
 
+        // Keys are the names used by author.
+        if (isset($this->forbiddenkeys[$identifier])) {
+            return false;
+        }
+
         // Try promoting to security 's'.
         if ($this->allowedwordsasmap == null) {
             $this->allowedwordsasmap = stack_cas_security::list_to_map($this->allowedwords);
@@ -211,11 +216,6 @@ class stack_cas_security {
             } else {
                 return true;
             }
-        }
-
-        // Keys are the names used by author and we need to allow them to be bypassed.
-        if (isset($this->forbiddenkeys[$identifier])) {
-            return false;
         }
 
         // Special case. Very special indeed.
@@ -237,7 +237,7 @@ class stack_cas_security {
      * Within the defined security scope.
      */
     public function is_allowed_to_read(string $security, string $identifier): bool {
-        $foundsecurity = '?';
+        $foundsecurity = '-';
         if (isset(stack_cas_security::$securitymap[$identifier])) {
             if (isset(stack_cas_security::$securitymap[$identifier]['variable'])) {
                 $foundsecurity = stack_cas_security::$securitymap[$identifier]['variable'];
@@ -287,6 +287,11 @@ class stack_cas_security {
             return true;
         }
 
+        // Forbidden author used ones.
+        if (isset($this->forbiddenkeys[$identifier])) {
+            return false;
+        }
+
         // Try promoting to security 's'.
         if ($this->allowedwordsasmap == null) {
             $this->allowedwordsasmap = stack_cas_security::list_to_map($this->allowedwords);
@@ -298,11 +303,6 @@ class stack_cas_security {
             } else {
                 return true;
             }
-        }
-
-        // Forbidden author used ones unless allowed above.
-        if (isset($this->forbiddenkeys[$identifier])) {
-            return false;
         }
 
         // If the identifer is less than three char then students have permissions.
@@ -384,6 +384,22 @@ class stack_cas_security {
         return $security === 't';
     }
 
+    public function is_allowed_word(string $identifier, string $type='variable'): bool {
+        if ($this->allowedwordsasmap == null) {
+            $this->allowedwordsasmap = stack_cas_security::list_to_map($this->allowedwords);
+        }
+        if (isset($this->allowedwordsasmap[$identifier])) {
+            // Allow words might be typed.
+            if (is_array($this->allowedwordsasmap[$identifier])) {
+                return isset($this->allowedwordsasmap[$identifier][$type]);
+            } else {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
 
     /**
      * Checks the features of an identifer. Special dealing with 'constant'.
@@ -410,30 +426,48 @@ class stack_cas_security {
 
     /**
      * Checks for case variant keys of the given identifier.
-     * Returns all keys that we know of that are not matching.
+     * Returns all keys that we know of that are equal in case insensitive sense.
      */
-    public function get_case_variants(string $identifier): array {
+    public function get_case_variants(string $identifier, string $type='variable'): array {
         // TODO: should this be typed? i.e. return only function or variable
         // identifiers on demand? And should it drop forbidden items?
         $r = array();
         $l = strtolower($identifier);
         foreach (stack_cas_security::$securitymap as $key => $duh) {
-            if ($identifier !== $key && strtolower($key) === $l) {
-                $r[] = $key;
+            if (strtolower($key) === $l) {
+                if (isset($duh[$type])) {
+                    $r[] = $key;
+                } else if ($type === 'variable' && isset($duh['constant'])) {
+                    $r[] = $key;
+                } else if ($type === 'constant' && isset($duh['variable'])) {
+                    $r[] = $key;
+                }
             }
         }
         foreach (stack_cas_security::list_to_map($this->allowedwords) as $key => $duh) {
-            if ($identifier !== $key && strtolower($key) === $l) {
-                $r[] = $key;
+            if (is_array($duh)) {
+                if (strtolower($key) === $l) {
+                    if (isset($duh[$type])) {
+                        $r[] = $key;
+                    } else if ($type === 'variable' && isset($duh['constant'])) {
+                        $r[] = $key;
+                    } else if ($type === 'constant' && isset($duh['variable'])) {
+                        $r[] = $key;
+                    }
+                }
+            } else {
+                if (strtolower($key) === $l) {
+                    $r[] = $key;
+                }
             }
         }
 
-        if ($this->units) {
+        if ($this->units && ($type === 'variable' || $type === 'constant')) {
             // This has a separate implementation in caastring_units but Lets
             // do things just a bit differently.
             $units = stack_cas_casstring_units::get_permitted_units(core_text::strlen($identifier));
             foreach ($units as $key) {
-                if ($identifier !== $key && strtolower($key) === $l) {
+                if (strtolower($key) === $l) {
                     $r[] = $key;
                 }
             }

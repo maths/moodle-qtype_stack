@@ -170,3 +170,14 @@ The example in the previous section about moving the point around and storing th
 For sliders you use the function `stack_jxg.bind_slider(inputRef, slider)` and it stores the sliders value as a raw float. Sliders will however require that you call `board.update()` after binding to them, otherwise the graph may not display the stored state after reload.
 
 You should check the sample questions about JSXGraph binding for examples of these functions in action.
+
+## Convenience tools for generating lists of values.
+
+If you want to output a list of values without Maxima's normal bracket symbols you can use
+
+    stack_disp_comma_separate([a,b,sin(pi)]);
+
+This function turns a list into a string representation of its arguments, without braces.
+Internally, it applies `string` to the list of values (not TeX!).  However, you might still get things like `%pi` in the output.
+
+You can use this with mathematical input: `{@stack_disp_comma_separate([a,b,sin(pi)])@}` and you will get the result `a, b, sin(%pi/7)` (without the string quotes) because when a Maxima variable is a string we strip off the outside quotes and don't typeset this in maths mode.

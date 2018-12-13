@@ -477,7 +477,17 @@ stack_disp_sub_script_helper(l) := block(
   texsub(stack_disp_sub_script_helper(reverse(rest(reverse(l)))), first(reverse(l)))
 )$
 
+/* This function turns a list into a string representation of its arguments, without braces.
+   stackcommaseparate([a,b,pi]);
+   "a, b, pi"
+   Not the TeX version, "a, b, \pi".
 
+   Useful for passing values to Javascript, R and so on, or generating data for students. 
+*/
+stack_disp_comma_separate(ex):= block(
+  if not(listp(ex)) then error("stack_disp_comma_separate: expects its argument to be a list"),
+  return(simplode(maplist(string, ex), ", "))
+)$
 
 /* ********************************** */
 /* Display: colour                    */

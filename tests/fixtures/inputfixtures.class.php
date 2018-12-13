@@ -300,7 +300,7 @@ class stack_inputvalidation_test_data {
         array('sign(x)', 'php_true', 'sign(x)', 'cas_true', '{\it pnz}', '', ""),
         array('len(x)', 'php_false', '', '', '', 'forbiddenFunction', ""),
         array('abs(x)', 'php_true', 'abs(x)', 'cas_true', '\left| x\right|', '', ""),
-        array('|x|', 'php_true', '|x|', 'cas_true', '\left| x\right|', '', ""),
+        array('|x|', 'php_true', 'abs(x)', 'cas_true', '\left| x\right|', '', ""),
         array('length(x)', 'php_true', 'length(x)', 'cas_false', '',
                 'CASError: length: argument cannot be a symbol; found x', ""),
         array('x^y^z', 'php_true', 'x^y^z', 'cas_true', 'x^{y^{z}}', '', "Associativity"),

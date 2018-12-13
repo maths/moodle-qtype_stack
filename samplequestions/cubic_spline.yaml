@@ -1,0 +1,145 @@
+---
+name: Cubic spline
+question_html: |-
+  <p>Consider the real function</p>
+  <p>\[ f(x) :=\left\{ \begin{array}{ll} {@f0@} & \mbox{for } x\leq {@x0@}, \\ p(x) & \mbox{for } {@x0@} < x < {@x1@}, \\ {@f1@} & \mbox{for } {@x1@}\leq x.\end{array} \right. \]</p>
+  <p>{@plot(pg,[x,(x0-2),(x1+5)],[y,-3,3])@}</p>
+  <p>Find the cubic polynomial \(p(x)\) which makes \(f(x)\) continuously differentiable. </p>
+  <p>\(p(x)=\)[[input:ans1]]</p>
+  <div>[[validation:ans1]]</div>
+penalty: 0
+variables: |-
+  x0 : -2;
+  f0 : 1;
+  x1 : 0;
+  f1 : sin(x)
+  /* Note, we should really use inf instead of 1000 here, but Maxima gives up plotting with the options used by STACK */
+  pg:if x<x0 then f0 else if x<x1 then 1000 else f1;
+  CS:matrix([1,x0,x0^2,x0^3],[0,1,2*x0,3*x0^2],[1,x1,x1^2,x1^3],[0,1,2*x1,3*x1^2]);
+  CT:transpose(matrix([ev(f0,x=x0),subst(x=x0,diff(f0,x)),ev(f1,x=x1),subst(x=x1,diff(f1,x))]));
+  CV:transpose(matrix([a0,a1,a2,a3]));
+  CS2:invert(CS).CT;
+  ta : matrix([1,x,x^2,x^3]).CS2;
+  tapt : if (x>x0 and x<x1) then ta else 1000;
+specific_feedback_html: <p>[[feedback:prt1]]</p>
+note: '{@ta@}'
+worked_solution_html: |-
+  <p>First we need to find the information which \(p(x)\) needs to satisfy.  This is</p>
+  <p>\[ p({@x0@})={@subst(x=x0,f0)@}.\]</p>
+  <p>\[ p({@x1@})={@subst(x=x1,f1)@}.\]</p>
+  <p>\[ p'({@x0@})={@subst(x=x0,diff(f0,x))@}.\]</p>
+  <p>\[ p'({@x1@})={@subst(x=x1,diff(f1,x))@}.\]</p>
+  <p>If we define \(p(x)\) to be the cubic </p>
+  <p>\[ p(x) = a_3 x^3 + a_2 x^2 + a_1 x + a_0,\]</p>
+  <p>We then set up the matrix equation</p>
+  <p>\[ {@CS@} {@CV@} = {@CT@} \]</p>
+  <p>Solving this gives the coefficients, from which we get the polynomial.</p>
+  <p>{@ta@}.</p>
+  <p>We can view this as {@plot([pg,tapt],[x,(x0-3),(x1+3)],[y,-3,3])@}</p>
+inputs:
+  ans1:
+    type: algebraic
+    model_answer: ta
+    box_size: 30
+    syntax_attribute: value
+    show_validations: with_varlist
+response_trees:
+  prt1:
+    first_node: node_0
+    feedback_variables: 'anspt : if (x>x0 and x<x1) then ans1 else 1000;'
+    nodes:
+      node_0:
+        answer: subst(x=x0,ans1)
+        model_answer: subst(x=x0,f0)
+        T:
+          score: 0.250000
+          next_node: node_1
+          answer_note: prt1-1-T
+        F:
+          next_node: node_1
+          answer_note: prt1-1-F
+          feedback_html: <p>Your answer does not satisfy \({@p(x0)=subst(x=x0,f0)@}\).</p>
+      node_1:
+        answer: subst(x=x1,ans1)
+        model_answer: subst(x=x1,f1)
+        T:
+          score: 0.250000
+          next_node: node_2
+          answer_note: prt1-2-T
+        F:
+          score_mode: subtract
+          next_node: node_2
+          answer_note: prt1-2-F
+          feedback_html: <p>Your answer does not satisfy \({@p(x1)=subst(x=x1,f1)@}\).</p>
+      node_2:
+        answer: subst(x=x0,diff(ans1,x))
+        model_answer: subst(x=x0,diff(f0,x))
+        T:
+          score: 0.250000
+          next_node: node_3
+          answer_note: prt1-3-T
+        F:
+          score_mode: subtract
+          next_node: node_3
+          answer_note: prt1-3-F
+          feedback_html: <p>Your answer does not satisfy \(p'({@x0@})={@subst(x=x0,diff(f0,x))@}\).</p>
+      node_3:
+        answer: subst(x=x1,diff(ans1,x))
+        model_answer: subst(x=x1,diff(f1,x))
+        T:
+          score: 0.250000
+          next_node: node_4
+          answer_note: prt1-4-T
+        F:
+          score_mode: subtract
+          next_node: node_4
+          answer_note: prt1-4-F
+          feedback_html: <p>Your answer does not satisfy \(p'({@x1@})={@subst(x=x1,diff(f1,x))@}\).</p>
+      node_4:
+        answer: degree(ans1,x)
+        model_answer: "3"
+        T:
+          score: 0
+          next_node: node_5
+          answer_note: prt1-5-T
+        F:
+          score_mode: subtract
+          next_node: node_5
+          answer_note: prt1-5-F
+          feedback_html: <p>Your answer is not a cubic!</p>
+      node_5:
+        answer: ans1
+        model_answer: ta
+        T:
+          answer_note: prt1-6-T
+          feedback_html: |-
+            <p>Your answer is plotted below.</p>
+            <p>{@plot([pg,anspt],[x,(x0-3),(x1+3)],[y,-3,3])@}</p>
+        F:
+          score_mode: subtract
+          answer_note: prt1-6-F
+          feedback_html: |-
+            <p>Your answer is plotted below, although part of your graph might appear out of range of the plot!</p>
+            <p>{@plot([pg,anspt],[x,(x0-2),(x1+5)],[y,-3,3])@}</p>
+tests:
+  1:
+    ans1: ta
+    prt1:
+      score: 1
+      penalty: 0
+      answer_note: prt1-6-T
+  2:
+    ans1: x^2
+    prt1:
+      score: 0.250000
+      penalty: 0
+      answer_note: prt1-6-F
+  3:
+    ans1: x^2*(x+3)/4
+    prt1:
+      score: 0.750000
+      penalty: 0
+      answer_note: prt1-6-F
+stackversion: 0
+...
+

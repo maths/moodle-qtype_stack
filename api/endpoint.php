@@ -56,10 +56,30 @@ function processrequest() {
     // Import STACK question from yaml string.
     $importer = new qtype_stack_api_yaml($questionyaml, $defaults);
     $data = $importer->get_question($options->lang);
+	
+    $verifyvar = $parsed['verifyvar'];
+	if ( $verifyvar ) { // make questions a simply as possible, we just want verify user answer
+		$data["question_html"] = '<p>[[validation:' . $verifyvar . ']]</p>';
+		$data["response_trees"] = new stdClass;
+		$data["variables"] = "";
+		$data["specific_feedback_html"] = "";
+		$data["note"] = "";
+		$data["worked_solution_html"] = "";
+	}
     $question = $api->initialise_question($data);
     // Make this a definite number, to fix the random numbers.
     $question->seed = $parsed['seed'];
 
+	if ( 0 ) {  // for debug purposes
+	   print("\n=====================================================\n");
+	   printdata($options);
+	   print("\n=====================================================\n");
+	   printdata($data);
+	   print("\n=====================================================\n");
+	   printdata($question);
+       return;
+	}  // end debug
+	
     $question->initialise_question_from_seed();
 
     $attempt = $parsed['answer'];
@@ -99,15 +119,24 @@ function processrequest() {
         }
     }
 
-    // Assemble output.
-    $json = [
-        "questiontext" => replace_plots($res->questiontext),
-        "score" => $res->score,
-        "generalfeedback" => replace_plots($res->generalfeedback),
-        "formatcorrectresponse" => replace_plots($res->formatcorrectresponse),
-        "summariseresponse" => json_decode($res->summariseresponse),
-        "answernotes" => json_decode($res->answernotes)
-    ];
+	$json = [];
+	if ( $verifyvar ) {
+		$json = [
+			"questiontext" => $res->questiontext
+		];
+	}
+	else {
+		// Assemble output.
+		$ploturl = $parsed['ploturl'];
+		$json = [
+			"questiontext" => replace_plots($res->questiontext, $ploturl),
+			"score" => $res->score,
+			"generalfeedback" => replace_plots($res->generalfeedback, $ploturl),
+			"formatcorrectresponse" => replace_plots($res->formatcorrectresponse, $ploturl),
+			"summariseresponse" => json_decode($res->summariseresponse),
+			"answernotes" => json_decode($res->answernotes)
+		];
+	}
     $now = microtime(true);
     $json['request_time'] = $now - $then;
     $json['api_time'] = $now - $apithen;

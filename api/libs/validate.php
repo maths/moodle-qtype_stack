@@ -36,8 +36,9 @@ function validatedata(array $data) {
     $data['answer'] = (array_key_exists('answer', $data)) ? $data['answer'] : [];
     $data['lang'] = (array_key_exists('lang', $data)) ? trim($data['lang']) : '';
     $data['plots_protocol'] = (array_key_exists('plots_protocol', $data)) ? $data['plots_protocol'] : 'https';
-
+	$data['verifyvar'] = (array_key_exists('verifyvar', $data)) ? trim($data['verifyvar']) : ''; 
     $GLOBALS['DOMAIN'] = $data['plots_protocol'] . '://' . $_SERVER['HTTP_HOST'];
+	$data['ploturl'] = (array_key_exists('ploturl', $data)) ? trim($data['ploturl']) : $GLOBALS['DOMAIN'] . '/plots/'; 
 
     $answers = [];
     $prefixlength = strlen($data['prefix']);

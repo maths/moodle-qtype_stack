@@ -44,6 +44,6 @@ function printerror($message) {
     die();
 }
 
-function replace_plots($text) {
-    return str_replace('!ploturl!', $GLOBALS['DOMAIN'] . '/plots/', $text);
+function replace_plots($text, $ploturl) {
+    return str_replace('!ploturl!', $ploturl , $text);
 }

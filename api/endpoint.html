@@ -44,6 +44,7 @@
           feedback: document.getElementById('feedback').checked,
           score: document.getElementById('hasScore').checked,
           lang:document.getElementById('lang').value,
+          verifyvar:document.getElementById('verifyvar').value,
           prefix: 'stackapi_',
           answer: collectAnswer(),
           seed: 12313123
@@ -127,13 +128,18 @@
         return ''
       }
     </script>
+	<div>
     Yaml/XML<span style="width: 700px;display: inline-block;">&nbsp;</span>Defaults<br>
     <textarea id='xml' cols="100" rows="50"></textarea><textarea id='defaults' cols="60" rows="50"></textarea><br/>
+	</div>
+	<div style="display: inline-block;>
     <input type="checkbox" id="readOnly"/>Read Only |
     <input type="checkbox" id="feedback"/>Feedback |
     <input type="checkbox" id="hasScore"/>Score |
     Lang: <input type="text" size="3" id="lang"/> |
+    Verify var: <input type="text" size="3" id="verifyvar"/> |
     <input type="button" onclick="send()" value="Send"/><br/>
+	</div>
     <h1>QuestionText:</h1>
     <div id="output"></div>
     <h1>General feedback:</h1>

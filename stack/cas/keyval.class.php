@@ -57,7 +57,7 @@ class stack_cas_keyval {
         $this->syntax       = $syntax;
         $this->insertstars  = $insertstars;
 
-        $this->session      = new stack_cas_session(null, $options, $seed);
+        $this->session      = new stack_cas_session(array(), $options, $seed);
 
         if (!is_string($raw)) {
             throw new stack_exception('stack_cas_keyval: raw must be a string.');

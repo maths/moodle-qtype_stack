@@ -884,12 +884,15 @@ class stack_cas_casstring {
         ///  if author used key then false else
         ///  if strlen() > 2 and in allowed words then true else
         ///  if strlen() > 2 and in security-map then true else
-        ///  true
+        ///  if ends with a number then true else false
         /// Phase 2:
         ///  if phase 1 = false then false else
         ///  if units and not unit name and is unit case variant then false else
         ///  if not (know or in security-map) and case variant in security-map then false else
         ///  true
+
+
+
 
         // Check for variables.
         foreach (array_keys($variables) as $name) {

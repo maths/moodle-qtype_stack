@@ -535,7 +535,7 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $at1 = new stack_cas_text('This is system cost {@system("rm /tmp/test")@} to create.', null, 0, 't');
         $this->assertFalse($at1->get_valid());
         $this->assertEquals('<span class="error">CASText failed validation. </span>CAS commands not valid.  ' .
-                'The expression <span class="stacksyntaxexample">system</span> is forbidden.', $at1->get_errors());
+                'Forbidden function: <span class="stacksyntaxexample">system</span>.', $at1->get_errors());
     }
 
     public function test_mathdelimiters1() {

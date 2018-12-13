@@ -310,6 +310,12 @@ class stack_cas_security {
             return true;
         }
 
+        // The special case is identifiers that end with numbers...
+        // The block system uses this hole extensively.
+        if ($security === 's' && ctype_digit(core_text::substr($identifier, -1))) {
+            return true;
+        }
+
         // If no matches at all then allowed for security='t'.
         return $security === 't';
     }

@@ -64,7 +64,10 @@ class stack_cas_keyval_test extends qtype_stack_testcase {
         $a2 = array('a:x^2)', 'b:(x+1)^2');
         $s2 = array();
         foreach ($a2 as $s) {
-            $s2[] = new stack_cas_casstring($s);
+            $s2[] = $cs = new stack_cas_casstring($s);
+            // As this session will not be instantiated, we need to validate
+            // manually if we are to compare to the validation of keyval.
+            $cs->get_valid('s', true, 0);
         }
         $cs2 = new stack_cas_session($s2, null, 123);
 
@@ -85,7 +88,7 @@ class stack_cas_keyval_test extends qtype_stack_testcase {
                 // In the new setup the parsing of the keyvals does not match the sessions created above.
                 // This is because of a failure to split the text into statements.
                 // This is a serious drawback when we try to identify which statement is throwing an error!
-                array('a:x^2) \n b:(x+1)^2', false, $cs2),
+                array("a:x^2) \n b:(x+1)^2", false, $cs2), // TODO: This was with the other quotes, was that intentional or not?
                 array('a:x^2); b:(x+1)^2', false, $cs2),
                 array('a:1/0', true, $cs3),
                 array('@', false, $cs4),

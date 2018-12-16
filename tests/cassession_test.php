@@ -1332,7 +1332,7 @@ class stack_cas_session_test extends qtype_stack_testcase {
 
     public function test_union_tex() {
 
-        // Cases should be in the form array('input', 'value', 'display').
+        // Cases should be in the form array('input=value', 'display').
         $cases = array();
         $cmds = array();
 
@@ -1357,6 +1357,35 @@ class stack_cas_session_test extends qtype_stack_testcase {
         foreach ($cases as $case) {
             $this->assertEquals($case[0], $s->get_value_key('d'.$i));
             $this->assertEquals($case[1], $s->get_display_key('d'.$i));
+            $i++;
+        }
+    }
+
+    public function test_stack_disp_comma_separate() {
+
+        // Cases should be in the form array('input', 'value', 'display').
+        $cases = array();
+        $cmds = array();
+
+        // Note in this case we do output Maxima's "%pi", not just pi.
+        $cases[] = array('[a,b,sin(pi/7)]', '"a, b, sin(%pi/7)"', '\\mbox{a, b, sin(\\%pi/7)}');
+
+        $i = 0;
+        foreach ($cases as $case) {
+            $cmds[$i] = 'd'.$i.':stack_disp_comma_separate('.$case[0].')';
+            $i++;
+        }
+
+        $options = new stack_options();
+        $kv = new stack_cas_keyval(implode(';', $cmds), $options, 0, 't');
+        $s = $kv->get_session(); // This does a validation on the side.
+
+        $s->instantiate();
+
+        $i = 0;
+        foreach ($cases as $case) {
+            $this->assertEquals($case[1], $s->get_value_key('d'.$i));
+            $this->assertEquals($case[2], $s->get_display_key('d'.$i));
             $i++;
         }
     }

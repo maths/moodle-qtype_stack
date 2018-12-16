@@ -14,25 +14,18 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
-/**
- * Version information for the STACK question type.
- *
- * @package   qtype_stack
- * @copyright 2012 The Open University
- * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
+// die("You need to edit this file before it will execute.");
 
-defined('MOODLE_INTERNAL') || die();
+require_once(__DIR__ . '/../config.php');
 
-$plugin->version   = 2018120500;
-$plugin->requires  = 2015111600;
-$plugin->cron      = 0;
-$plugin->component = 'qtype_stack';
-$plugin->maturity  = MATURITY_STABLE;
-$plugin->release   = '4.2.1 for Moodle 3.0+';
+error_reporting(E_ALL | E_STRICT);
+ini_set('display_errors', 1);
+ini_set('html_errors', 1);
 
-$plugin->dependencies = array(
-    'qbehaviour_adaptivemultipart'     => 2018080600,
-    'qbehaviour_dfexplicitvaildate'    => 2018080600,
-    'qbehaviour_dfcbmexplicitvaildate' => 2018080600,
-);
+require_once(__DIR__ . '/../api/api.php');
+require_once(__DIR__ . '/../question.php');
+
+$api = new qtype_stack_api();
+
+// Run this command once at install time to compile Maxima on your machine.
+$api->install();

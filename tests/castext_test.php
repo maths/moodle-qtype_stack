@@ -895,7 +895,7 @@ class stack_cas_text_test extends qtype_stack_testcase {
 
         $this->assertContentWithMathsEquals(
                 'The decimal number \({73}\) is written in base \(2\) as \({1001001}\), in base \(7\) as \({133}\), ' .
-                'in scientific notation as \({7.3e+1}\) and in rhetoric as \({seventy-three}\).',
+                'in scientific notation as \({7.3e+1}\) and in rhetoric as \({\mbox{seventy-three}}\).',
                 $at2->get_display_castext());
     }
 

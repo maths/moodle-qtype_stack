@@ -795,6 +795,11 @@ function xmldb_qtype_stack_upgrade($oldversion) {
         $table = new xmldb_table('qtype_stack_options');
         $field = new xmldb_field('stackversion', XMLDB_TYPE_TEXT, null, null, null, null, null, 'questionid');
 
+        // Conditionally launch add field stackversion.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
         // Launch change of nullability for field stackversion.
         $dbman->change_field_notnull($table, $field);
 

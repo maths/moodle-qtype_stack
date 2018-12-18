@@ -6,6 +6,7 @@ STACK was created by [Chris Sangwin](http://www.maths.ed.ac.uk/~csangwin/) of th
 
 STACK is based on continuing research and use at the University of Edinburgh, the Open University, Aalto, Loughborough University, the University of Birmingham and others.
 
+
 ## Current state of development
 
 STACK 4.2 contains some important new features, and a number of interface improvements and bug fixes.
@@ -20,6 +21,7 @@ The [current state of development](https://github.com/maths/moodle-qtype_stack/b
 ## Documentation
 
 The [documentation is here](https://github.com/maths/moodle-qtype_stack/blob/master/doc/en/index.md), including the [installation instructions](https://github.com/maths/moodle-qtype_stack/blob/master/doc/en/Installation/index.md).
+
 
 ## License
 

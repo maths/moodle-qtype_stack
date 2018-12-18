@@ -1425,6 +1425,8 @@ class stack_answertest_test_data {
         array('Units', '[3,2]', '12.45*m/s', '12.3*m/s', 0, 'ATUnitsSigFigs_WrongDigits. ATUnits_units_match.', ''),
         array('Units', '[3,2]', '13.45*m/s', '12.3*m/s', 0,
             'ATUnitsSigFigs_WrongDigits. ATNumSigFigs_Inaccurate. ATUnits_units_match.', ''),
+        array('Units', '[3,2]', '7.54E-5*(s*M)^-1', '5.625E-5*s^-1', 0, 'ATNumSigFigs_VeryInaccurate. ATUnits_incompatible_units.', ''),
+        array('Units', '[3,2]', '7.54E-5*(s*M)^-1', 'stackunits(5.625E-5,1/s)', 0, 'ATNumSigFigs_VeryInaccurate. ATUnits_incompatible_units.', ''),
         array('Units', '3', '12*m/s', '12.3*m/s', 0, 'ATUnitsSigFigs_WrongDigits. ATNumSigFigs_Inaccurate. ATUnits_units_match.', ''),
         array('Units', '3', '-9.81*m/s^2', '-9.81*m/s^2', 1, 'ATUnits_units_match.', ''),
         array('Units', '3', '-9.82*m/s^2', '-9.815*m/s^2', 1, 'ATUnits_units_match.', ''),

@@ -118,7 +118,7 @@ stack_unit_si_to_si_base(expression) := block([ui, pfi, ex, workex, oldsimp],
     workex:stackunits_make(workex),
     if not(stack_units_nums(ex)=NULLNUMS and stack_units_nums(workex)=NULLNUM) then
         workex:stackunits(ev(stack_units_nums(ex)*stack_units_nums(workex), NULLNUM=1), stack_units_units(workex)),
-    /* Return the expression with the operator is started with. */
+    /* Return the expression with the operator it started with. */
     simp:oldsimp,
     if not(safe_op(expression) = "stackunits") then
       workex:stackunits_to_product(workex),
@@ -200,8 +200,12 @@ stackunits_make(ex) := block([oldsimp, exn, exu, exl],
   exn:flatten_recurse_nouns(noun_arith(ex)),
   if (debug) then (print("stackunits_make: nounarith expression is"), print(exn)),
   /* If the student has indicated +- we deal with this. */
-  /* If we don't have a product we are return what we are given. */
-  if not(is_simp(op(exn)="noun*")) then
+  /* If we don't have units we are return what we are given. */
+  if is_simp(listofunits(ex)=[]) then
+    return(stackunits(ex, NULLUNITS)),
+  /* Edge case like s^(-1). */
+  if is_simp(op(exn)="noun^") then
+    exn:[exn] elseif not(is_simp(op(exn)="noun*")) then
     return(stackunits(ex, NULLUNITS)),
   exu:sublist(args(exn), lambda([ex2], not(stackunits_make_p(ex2)))),
   exn:sublist(args(exn), lambda([ex2], stackunits_make_p(ex2))),

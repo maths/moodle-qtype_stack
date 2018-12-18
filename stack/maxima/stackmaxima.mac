@@ -446,8 +446,12 @@ stack_disp_strip_dollars(ex) := block(
 stackintfmt: "~d";
 stackfltfmt: "~a";
 ?texnumformat(x) := if ev(floatnump(x),simp) then
-    ev(printf(false, stackfltfmt, x), simp) else if ev(integerp(x),simp) then
-    ev(printf(false, stackintfmt, x), simp) else
+    ev(printf(false, stackfltfmt, x), simp) else if ev(integerp(x),simp) then (
+        if (is(stackintfmt="~r") or is(stackintfmt="~:r")) then
+            sconcat("\\mbox{",ev(printf(false, stackintfmt, x), simp),"}")
+        else
+            ev(printf(false, stackintfmt, x), simp)
+    ) else
     string(x);
 /* Some systems are throwing an error here, which is spurious. */
 errcatch(compile(?texnumformat));

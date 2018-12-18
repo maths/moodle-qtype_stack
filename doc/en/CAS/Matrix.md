@@ -1,5 +1,7 @@
 # Matrices and vectors in STACK.
 
+Please see also the file on [linear algebra](Linear_algebra.md) and STACK questions.
+
 ## Matrices ##
 
 Note that in Maxima, the operator `.` represents noncommutative multiplication and scalar product.

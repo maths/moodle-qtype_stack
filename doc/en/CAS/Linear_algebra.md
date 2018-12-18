@@ -61,4 +61,11 @@ Does `ta` pass through the origin?  This amounts to solving
 
 But, solve can throw errors when we have dependent equations (as we might well do...).
 
+## Solving systems of linear equations.
 
+Using solve can throw errors, so use `linsolve` instead.  For example.
+
+    /* Decide if a vector is in W */
+    point_in_space(W, wx):= linsolve(flatten(args(W))-first(args(transpose(wx))), listofvars(W));
+
+If the above is the empty list, there is no solution.  Otherwise a solution is returned.

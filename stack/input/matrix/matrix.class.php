@@ -75,7 +75,7 @@ class stack_matrix_input extends stack_input {
         $allblank = true;
         foreach ($contents as $row) {
             foreach ($row as $val) {
-                if (!('' == trim($val) or '?' == $val)) {
+                if (!('' == trim($val) or '?' == $val or 'null' == $val)) {
                     $allblank = false;
                 }
             }
@@ -243,6 +243,9 @@ class stack_matrix_input extends stack_input {
                 $val = '';
                 if (!$blank) {
                     $val = trim($tc[$i][$j]);
+                }
+                if ($val === 'null') {
+                    $val = '';
                 }
                 $name = $fieldname.'_sub_'.$i.'_'.$j;
                 $xhtml .= '<td><input type="text" name="'.$name.'" value="'.$val.'" size="'.

@@ -714,6 +714,13 @@ StackReturn(ex) := block([str],
 /* Validate an expression                      */
 /* ******************************************* */
 
+/* List of variables, without some specific tokens in. */
+stack_validate_listofvars(ex) := block([lvars],
+   lvars:ev(setify(listofvars(ex)), simp),
+   lvars:ev(setdifference(lvars,{null, QMCHAR, EMPTYANSWER}), simp),
+   lvars:ev(sort(listify(lvars)), simp)
+)$
+
 stack_validate(expr, ForbidFloats, LowestTerms, TAns) := block([simp:false, exs, SameType, fvs, fvs1, fvs2],
   /* Try to simply the expression to catch CAS errors */
   exs: errcatch(ev(expr, simp)),

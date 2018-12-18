@@ -638,7 +638,7 @@ abstract class stack_input {
 
         // Generate an expression from which we extract the list of variables in the student's answer.
         // We do this from the *answer* once interprted, so stars are inserted if insertStars=2.
-        $lvars = new stack_cas_casstring('ev(sort(listofvars('.$this->name.')),simp)');
+        $lvars = new stack_cas_casstring('stack_validate_listofvars('.$this->name.')');
         $lvars->get_valid('t', $this->get_parameter('strictSyntax', true),
                 $this->get_parameter('insertStars', 0), $this->get_parameter('allowWords', ''));
         if ($lvars->get_valid() && $valid && $answer->get_valid()) {

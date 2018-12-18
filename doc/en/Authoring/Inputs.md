@@ -72,6 +72,10 @@ This is easier than typing in [Maxima](../CAS/Maxima.md)'s matrix command, but d
 
 _The student may not fill in part of a matrix._  If they do so, the remaining entries will be completed with `?` characters which render the attempt invalid. STACK cannot cope with empty boxes here.
 
+We cannot use the `EMPTYANSWER` tag for the teacher's answer with the matrix input, because the size of the matrix is inferred from the model answer.  If a teacher really wants a correct answer to be empty inputs then they must use a correctly formatted matrix with `null` values
+
+    ta:transpose(matrix([null,null,null]));
+
 #### Text area ####
 
 Enter algebraic expressions on multiple lines.  STACK passes the result to [Maxima](../CAS/Maxima.md) as a list.
@@ -95,11 +99,11 @@ The dropdown, checkbox and radio input types enable teachers to create [multiple
 #### String input ####
 
 This is a normal input into which students may type whatever they choose.  It is always converted into a Maxima string internally.
-Note that there is no way whatsoever to parse the student's string into a Maxima expression.  If you accept a string, then it will always remain a string! You can't later check for algebraic equivalence, the only tests available will be simple string matches, regular expressions etc.
+Note that there is no way whatsoever to parse the student's string into a Maxima expression.  If you accept a string, then it will always remain a string! You can't later check for algebraic equivalence. The only tests available will be simple string matches, regular expressions etc.
 
 #### Notes input ####
 
-This input is a text area into which students may type whatever they choose.  It can be used to gather their notes or "working".  However, this input always returns an empty value to the CAS, so that the contents are never assessed. 
+This input is a text area into which students may type whatever they choose.  It can be used to gather their notes or "working".  However, this input always returns a boolean `true` value to the CAS, so that the contents are never assessed. 
 Note that any potential response tree which relies on this input will never get evaluated!
 
 #### Single Character ####

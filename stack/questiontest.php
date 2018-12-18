@@ -81,9 +81,11 @@ class stack_question_test {
             // The _val below is a hack.  Not all inputnames exist explicitly in
             // the response, but the _val does. Some inputs, e.g. matrices have
             // many entries in the response so none match $response[$inputname].
+            // Of course, a teacher may have left a test case blank in which case the input isn't there either.
+            $inputresponse = '';
             if (array_key_exists($inputname, $response)) {
                 $inputresponse = $response[$inputname];
-            } else {
+            } else if (array_key_exists($inputname.'_val', $response)) {
                 $inputresponse = $response[$inputname.'_val'];
             }
             $results->set_input_state($inputname, $inputresponse,

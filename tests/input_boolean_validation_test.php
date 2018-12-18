@@ -34,6 +34,8 @@ class stack_boolean_input_validation_test extends qtype_stack_testcase {
         $el = stack_input_factory::make('boolean', 'sans1', 'true');
         $state = $el->validate_student_response(array('sans1' => 'true'), $options, 'true', null);
         $this->assertEquals(stack_input::SCORE, $state->status);
+        $this->assertEquals('true', $state->contentsmodified);
+        $this->assertEquals('\[ \mathbf{true} \]', $state->contentsdisplayed);
     }
 
     public function test_validate_student_response_false() {
@@ -41,6 +43,8 @@ class stack_boolean_input_validation_test extends qtype_stack_testcase {
         $el = stack_input_factory::make('boolean', 'sans1', 'true');
         $state = $el->validate_student_response(array('sans1' => 'false'), $options, 'true', null);
         $this->assertEquals(stack_input::SCORE, $state->status);
+        $this->assertEquals('false', $state->contentsmodified);
+        $this->assertEquals('\[ \mathbf{false} \]', $state->contentsdisplayed);
     }
 
     public function test_validate_student_response_na() {
@@ -48,6 +52,8 @@ class stack_boolean_input_validation_test extends qtype_stack_testcase {
         $el = stack_input_factory::make('boolean', 'sans1', 'true');
         $state = $el->validate_student_response(array(), $options, 'true', null);
         $this->assertEquals(stack_input::BLANK, $state->status);
+        $this->assertEquals('', $state->contentsmodified);
+        $this->assertEquals('', $state->contentsdisplayed);
     }
 
     public function test_validate_student_response_error() {
@@ -55,5 +61,34 @@ class stack_boolean_input_validation_test extends qtype_stack_testcase {
         $el = stack_input_factory::make('boolean', 'sans1', 'true');
         $state = $el->validate_student_response(array('sans1' => 'frog'), $options, 'true', null);
         $this->assertEquals(stack_input::INVALID, $state->status);
+        $this->assertEquals('frog', $state->contentsmodified);
+        $this->assertEquals('<span class="stacksyntaxexample">frog</span>', $state->contentsdisplayed);
+    }
+
+    public function test_validate_student_response_emptyanswer() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('boolean', 'sans1', 'EMPTYANSWER');
+        $state = $el->validate_student_response(array('sans1' => 'true'), $options, 'true', null);
+        $this->assertEquals(stack_input::SCORE, $state->status);
+        $this->assertEquals('true', $state->contentsmodified);
+        $this->assertEquals('\[ \mathbf{true} \]', $state->contentsdisplayed);
+    }
+
+    public function test_validate_student_response_emptyanswer_option_sa() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('boolean', 'sans1', 'true');
+        $el->set_parameter('options', 'allowempty');
+        $state = $el->validate_student_response(array('sans1' => ''), $options, 'true', null);
+        $this->assertEquals(stack_input::SCORE, $state->status);
+        $this->assertEquals('EMPTYANSWER', $state->contentsmodified);
+    }
+
+    public function test_validate_student_response_emptyanswer_option_ta() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('boolean', 'sans1', 'EMPTYANSWER');
+        $el->set_parameter('options', 'allowempty');
+        $state = $el->validate_student_response(array('sans1' => ''), $options, 'true', null);
+        $this->assertEquals(stack_input::SCORE, $state->status);
+        $this->assertEquals('EMPTYANSWER', $state->contentsmodified);
     }
 }

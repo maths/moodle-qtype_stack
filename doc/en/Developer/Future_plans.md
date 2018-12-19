@@ -91,6 +91,35 @@ The current plan is to produce a solid YAML mark up language for PRTs.
 
 Other (past ideas) were http://zaach.github.com/jison/ or https://github.com/hafriedlander/php-peg.
 
+## "Reveal block"
+
+The functionality we want to develop is a block in which the contents is revealed or hidden by javascript, depending on the value of a separate input.
+
+    [[ reveal input="ans1" value="true" ]]
+
+    This will be shown if the value of "ans1" is true.
+
+    [[ else if value="false" ]]
+
+    [[ else ]]
+
+    This will be shown otherwise. (optional)  Perhaps?
+
+    [[/ reveal ]]
+
+This implements a Javascript listener on input "ans1", which reveals or hides the appropriate content.
+
+1. These blocks can be nested.
+2. Inputs can be inside reveal blocks (that is sort of the whole point!).  This works well with the new `EMPTYANSWER` functionality, allowing an input to expect not to be used in a correct response.
+3. What do we do about values of inputs inside the block, when the reveal condition fails and the block is hidden. Is this deleted with warning, or retained? (Option to block?)
+4. Only implement for true/false, or MCQ inputs to start with.
+5. What do we do about two reveal blocks listening to the same input?
+6. On page load, we need the JS to "do the right thing", i.e. interrogate each input and hide/reveal the content.
+
+An example question is included as samplequestions/reveal_block_example.xml
+
+In this example, we have only revealed the first level, which should be linked to ans1.  If this functionality were available and nested then we would add a MCQ checkbox input within the second reveal block, which is linked to reveal further inputs.
+
 
 ## Improvements to the "equiv" input type
 

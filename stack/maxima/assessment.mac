@@ -683,13 +683,16 @@ algebraic_equivalence(SA, SB) :=
 
 /* This test establishes if two expressions appear NOT to be equivalent.
    It does so by evaluating the expressions numerically.        */
-numerical_not_alg_equiv(p1, p2):= block([pvars, pval, lv, sz],
+numerical_not_alg_equiv(p1, p2):= block([pvars, pval, lv, sz, stack_mtell_quiet],
+  stack_mtell_quiet:true,
   /* We take the *union* of the two lists of variables, this way we
      hedge against comparing (x+a)+(x-a) with 2*x, which are the same. */
   pvars:listofvars([p1,p2]),
   /* Evaluate as integers to start with and avoid floats.  This is safer, and works in many cases.*/
   lv:zip_with("=", pvars, makelist(ev(k+1,simp), k, length(pvars))),
   pval:errcatch(ev(p1-p2, lv, simp)),
+  /* We can't remove all these with stack_mtell_quiet, because some are division by zero
+     which are errors, not warnings.                                                      */
   if is(pval = []) then (print("STACK: ignore previous error. (p1)"), return(false)),
   if abs(first(pval)) > 1/10000 then return(true),
   /* Evaluate the difference of the expressions at each variable as floats. */

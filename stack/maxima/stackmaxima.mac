@@ -20,7 +20,7 @@
 /* ********************************** */
 
 stack_reset(not_used) := block(
-  if featurep(all,constant) then remove(all, constant),
+  if featurep(all, constant) then remove(all, constant),
   kill(allbut [functions]),
   kill(trigsimp),
   /* Very unlikley the function psi will be needed for assessment and it breaks the session
@@ -35,6 +35,8 @@ stack_reset(not_used) := block(
   exptdispflag: true,
   linsolvewarn: false,
   ratprint: false,
+  /* Suppress warnings printed by mtell, e.g. by solve, rat and other functions. */
+  stack_mtell_quiet:false,
   fpprintprec: 12,     /* Print only 12 digits. */
   fpprec: 20,          /* Work with 20 digits. */
   %E_TO_NUMLOG: true,  /* "r" some rational number, and "x" some expression, %E^(r*LOG(x)) => x^r .*/
@@ -75,7 +77,6 @@ alias(cosec,csc);            /* Corresponds to current student expectations */
 
 simplify(ex) := ev(fullratsimp(ex), simp);      /* Allows simplify to be something. */
 degree(ex,v) := ev(hipow(expand(ex), v), simp); /* See notes on hipow.              */
-
 
 /* ********************************** */
 /* Load contributed packages          */
@@ -856,7 +857,8 @@ set_plot_option([adapt_depth, 10]);
 set_plot_option([gnuplot_default_term_command, ""]);
 
 plot(ex, [ra]) :=  /*stack_web_plot*/
-    block([simp:true, tfn, tfnp1, tfnp2, tfnp3, afn, ufn, lvs, preamble, sysp, sysr, filename, tn, alt, altc, alttext, ral, ralforbid, pltargs, plotfunmake, plotdebug, plotgrid2d, size, psize, plot_size, plot_tags],
+    block([simp:true, tfn, tfnp1, tfnp2, tfnp3, afn, ufn, lvs, preamble, sysp, sysr, filename, tn, alt, altc, alttext, ral, ralforbid, pltargs, plotfunmake, plotdebug, plotgrid2d, size, psize, plot_size, plot_tags, stack_mtell_quiet],
+    stack_mtell_quiet:true,
     plotdebug: false,
     /* Check for grid2d  in the plotoptions. */
     plotgrid2d: false,

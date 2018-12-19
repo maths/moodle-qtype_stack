@@ -69,3 +69,9 @@ Using solve can throw errors, so use `linsolve` instead.  For example.
     point_in_space(W, wx):= linsolve(flatten(args(W))-first(args(transpose(wx))), listofvars(W));
 
 If the above is the empty list, there is no solution.  Otherwise a solution is returned.
+
+    /* Calculate the canonical form of a column space of a system. */
+    cspace(ex):= block([M],
+      M: coefmatrix(flatten(args(ex)), listofvars(ex)),
+      ev(transpose(rref(transpose(M))), simp)
+    );

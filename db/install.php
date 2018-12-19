@@ -39,14 +39,44 @@ function xmldb_qtype_stack_install() {
     }
     set_config('stackmaximaversion', $matches[1], 'qtype_stack');
 
+    // The values we want to set here cannot have a default specified in settings.php, because
+    // any defaults there overwrite anything set here. Since there cannot be a default in settings.php,
+    // we have to set all those values here.
+
     // Make an reasonable guess at the OS. (It defaults to 'unix' in settings.php.
     $platform = 'unix';
     if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
         // See http://stackoverflow.com/questions/1482260/how-to-get-the-os-on-which-php-is-running
         // and http://stackoverflow.com/questions/738823/possible-values-for-php-os.
-        set_config('platform', 'win', 'qtype_stack');
         $platform = 'win';
     }
+    set_config('platform', $platform, 'qtype_stack');
 
-    // TODO: Attempt to create an optimised image at install time.
+    // If this is a PHP unit test site, automatically create maxima_opt_auto.
+    // Should probably consider doing this for real in the future.
+    if ($platform != 'win' && (PHPUNIT_TEST || defined('BEHAT_UTIL'))) {
+        // Set to the same defaults as in settings.php - however, that has not been done
+        // yet in the Moodle install code flow, so we have to duplicate here.
+        set_config('maximaversion', 'default', 'qtype_stack');
+        set_config('castimeout', 10, 'qtype_stack');
+        set_config('casresultscache', 'db', 'qtype_stack');
+        set_config('maximacommand', '', 'qtype_stack');
+        set_config('serveruserpass', '', 'qtype_stack');
+        set_config('plotcommand', '', 'qtype_stack');
+        // Trying to load the libraries leads to a fail to load /usr/share/maxima/5.32.1/share/draw/draw.lisp error.
+        // Need to sort this out.
+        // set_config('maximalibraries', 'stats, distrib, descriptive, simplex', 'qtype_stack');
+        set_config('maximalibraries', '', 'qtype_stack');
+        set_config('casdebugging', 1, 'qtype_stack');
+        set_config('mathsdisplay', 'mathjax', 'qtype_stack');
+
+        list($ok, $message) = stack_cas_configuration::create_auto_maxima_image();
+        if (!$ok) {
+            throw new coding_exception('maxima_opt_auto creation failed.', $message);
+        }
+    } else {
+        set_config('maximaversion', 'default', 'qtype_stack');
+        set_config('maximacommand', 'http://vle-stack-acct:8080/MaximaPool/MaximaPool', 'qtype_stack');
+        set_config('maximalibraries', 'stats, distrib, descriptive, simplex', 'qtype_stack');
+    }
 }

@@ -356,6 +356,7 @@ $string['ddl_unknown'] = 'STACK received <code>{$a}</code> but this is not liste
 $string['teacheranswershow']      = 'A correct answer is \( {$a->display} \), which can be typed in as follows: {$a->value}';
 $string['teacheranswershow_disp'] = 'A correct answer is {$a->display} .';
 $string['teacheranswershownotes'] = 'A correct answer is not provided for this input.';
+$string['teacheranswerempty']     = 'This input can be left blank.';
 
 
 // Admin settings.
@@ -399,7 +400,7 @@ $string['settingserveruserpass'] = 'Server username:password';
 $string['settingserveruserpass_desc'] = 'If you are using Platform type: Server, and if you have set up your Maxima pool server with HTTP authentication, then you can put the username and password here. That is slighly safer than putting them in the URL. The format is username:password.';
 $string['settingusefullinks'] = 'Useful links';
 $string['settingmaximalibraries'] = 'Load optional Maxima libraries:';
-$string['settingmaximalibraries_desc'] = 'This is a comma separated list of Maxima library names which will be automatically loaded into Maxima.  Only supported library names can be used: see the documentation for supported library names. These libraries will not be loaded if you have saved a maxima image to optimise performance.';
+$string['settingmaximalibraries_desc'] = 'This is a comma separated list of Maxima library names which will be automatically loaded into Maxima.  Only supported library names can be used: "stats, distrib, descriptive, simplex". These libraries will not be loaded if you have saved a maxima image to optimise performance.';
 $string['settingmaximalibraries_error'] = 'The following package is not supported: {$a}';
 $string['settingmaximalibraries_failed'] = 'It appears as if some of the Maxima packages you have asked for have failed to load.  Please refer to the installation instructions for notes about this error.';
 

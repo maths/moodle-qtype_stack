@@ -1,10 +1,22 @@
-sudo: required
-dist: trusty # Required so we get a not-totally-ancient build of Maxima.
 language: php
+
+sudo: required
+
+addons:
+  firefox: "47.0.1"
+  postgresql: "9.6"
+  apt:
+    packages:
+      - oracle-java8-installer
+      - oracle-java8-set-default
+      - maxima
+      - maxima-share
+      - texinfo
 
 cache:
   directories:
     - $HOME/.composer/cache
+    - $HOME/.npm
 
 matrix:
   # I would like to run at least some of these with DB=mysqli, but that
@@ -15,79 +27,79 @@ matrix:
   # how to do that.
   include:
 
-    # Just retain one test on PHP 5.6 for the version 4.2 release.
+    - php: 7.0
+      env: TASK=PHPUNIT        MOODLE_BRANCH=MOODLE_32_STABLE   DB=pgsql
+
     - php: 5.6
-      env: TASK=PHPUNIT        MOODLE_BRANCH=MOODLE_35_STABLE   DB=mysqli
-
-    - php: 7.0
-      env: TASK=PHPUNIT        MOODLE_BRANCH=MOODLE_31_STABLE   DB=mysqli
-
-    - php: 7.0
-      env: TASK=PHPUNIT        MOODLE_BRANCH=MOODLE_32_STABLE   DB=mysqli
-
-    - php: 7.0
       env: TASK=PHPUNIT        MOODLE_BRANCH=MOODLE_33_STABLE   DB=mysqli
 
-    - php: 7.0
-      env: TASK=PHPUNIT        MOODLE_BRANCH=MOODLE_34_STABLE   DB=mysqli
+    # Would be good to run this next test in PHP 7.2, but STACK does not support that yet.
+    - php: 7.1
+      env: TASK=PHPUNIT        MOODLE_BRANCH=MOODLE_34_STABLE   DB=pgsql
 
-    - php: 7.0
+    - php: 7.1
       env: TASK=PHPUNIT        MOODLE_BRANCH=MOODLE_35_STABLE   DB=mysqli
 
-    - php: 5.6
-      env: TASK=BEHAT          MOODLE_BRANCH=MOODLE_31_STABLE   DB=mysqli
+    # Master here will need to be changed to MOODLE_36_STABLE once Moodle 3.6 has been released.
+    - php: 7.1
+      env: TASK=PHPUNIT        MOODLE_BRANCH=master             DB=pgsql
 
-    - php: 7.0
+    - php: 5.6
       env: TASK=BEHAT          MOODLE_BRANCH=MOODLE_32_STABLE   DB=mysqli
 
     - php: 7.0
-      env: TASK=BEHAT          MOODLE_BRANCH=MOODLE_33_STABLE   DB=mysqli
+      env: TASK=BEHAT          MOODLE_BRANCH=MOODLE_33_STABLE   DB=pgsql
 
-    - php: 7.0
+    - php: 7.1
       env: TASK=BEHAT          MOODLE_BRANCH=MOODLE_34_STABLE   DB=mysqli
 
-    - php: 7.0
-      env: TASK=BEHAT          MOODLE_BRANCH=MOODLE_35_STABLE   DB=mysqli
+    # Would be good to run this next test in PHP 7.2, but STACK does not support that yet.
+    - php: 7.1
+      env: TASK=BEHAT          MOODLE_BRANCH=MOODLE_35_STABLE   DB=pgsql
 
-    - php: 7.0
+    # Master here will need to be changed to MOODLE_36_STABLE once Moodle 3.6 has been released.
+    - php: 7.1
+      env: TASK=BEHAT          MOODLE_BRANCH=master             DB=mysqli
+
+    - php: 7.1
       env: TASK=CODESTYLE      MOODLE_BRANCH=MOODLE_35_STABLE   DB=mysqli
 
-    - php: 7.0
+    - php: 7.1
       env: TASK=CODEKNOWNFAILS MOODLE_BRANCH=MOODLE_35_STABLE   DB=mysqli
 
   allow_failures:
-    - php: 7.0
+    # This relates to the bit right at the end, where we run some of the coding style checks in this group.
+    # We don't care if these checks fail, but we want to be able to see the results.
+    - php: 7.1
       env: TASK=CODEKNOWNFAILS MOODLE_BRANCH=MOODLE_35_STABLE   DB=mysqli
 
 before_install:
-  - sudo apt-get update
-  - sudo apt-get install maxima maxima-share texinfo
-  - maxima --list-avail
-# Travis seems to be using Maxime version 5.32.1, lisp gcl, which is very old!
-  - sudo locale-gen "en_AU.UTF-8"
-  - sudo dpkg-reconfigure locales
   - phpenv config-rm xdebug.ini
+  - nvm install 8.9
+  - nvm use 8.9
   - cd ../..
-  - composer selfupdate
-  - composer create-project -n --no-dev --prefer-dist moodlerooms/moodle-plugin-ci ci ^1
+  - composer create-project -n --no-dev --prefer-dist moodlerooms/moodle-plugin-ci ci ^2
   - export PATH="$(cd ci/bin; pwd):$(cd ci/vendor/bin; pwd):$PATH"
-  - mkdir behat_output
 
 install:
   - moodle-plugin-ci add-plugin maths/moodle-qbehaviour_dfexplicitvaildate
   - moodle-plugin-ci add-plugin maths/moodle-qbehaviour_dfcbmexplicitvaildate
   - moodle-plugin-ci add-plugin maths/moodle-qbehaviour_adaptivemultipart
   - moodle-plugin-ci install
-  - moodle-plugin-ci add-config 'define("QTYPE_STACK_TEST_CONFIG_PLATFORM",        "unix");'
+  - moodle-plugin-ci add-config 'define("QTYPE_STACK_TEST_CONFIG_PLATFORM",        "unix-optimised");'
   - moodle-plugin-ci add-config 'define("QTYPE_STACK_TEST_CONFIG_MAXIMAVERSION",   "'`maxima --version | sed 's/Maxima //'`'");'
-  - moodle-plugin-ci add-config 'define("QTYPE_STACK_TEST_CONFIG_CASTIMEOUT",      "20");'
-  - moodle-plugin-ci add-config 'define("QTYPE_STACK_TEST_CONFIG_CASRESULTSCACHE", "none");'
-  - moodle-plugin-ci add-config 'define("QTYPE_STACK_TEST_CONFIG_MAXIMACOMMAND",   "maxima");'
+  - moodle-plugin-ci add-config 'define("QTYPE_STACK_TEST_CONFIG_CASTIMEOUT",      "10");'
+  - moodle-plugin-ci add-config 'define("QTYPE_STACK_TEST_CONFIG_CASRESULTSCACHE", "db");'
+  - moodle-plugin-ci add-config 'define("QTYPE_STACK_TEST_CONFIG_MAXIMACOMMAND",   "timeout --kill-after=10s 10s /home/travis/build/maxima_opt_auto -eval '\''(cl-user::run)'\''");'
   - moodle-plugin-ci add-config 'define("QTYPE_STACK_TEST_CONFIG_PLOTCOMMAND",     "gnuplot");'
   - moodle-plugin-ci add-config 'define("QTYPE_STACK_TEST_CONFIG_CASDEBUGGING",    "0");'
+  - cp /home/travis/build/moodledata/phpu_moodledata/stack/maxima_opt_auto /home/travis/build/maxima_opt_auto
 
-  # Prepare to capture Behat failures.
-  - moodle-plugin-ci add-config '$CFG->behat_faildump_path = "'`pwd`'/behat_output";'
+  # Output some diagnostic about how the install went.
+  # Travis seems to be using Maxima version 5.32.1, lisp gcl, which is very old!
+  - maxima --list-avail
+  - cat ./moodle/config.php
+  - echo 'ATAlgEquiv(x^2-1,(x-1)*(x+1));quit();' | timeout --kill-after=10s 10s /home/travis/build/maxima_opt_auto -eval '(cl-user::run)'
 
 script:
   # Run all the PHP unit tests.
@@ -95,18 +107,16 @@ script:
 
   # Run all the Behat tests.
   - if [ "$TASK" = 'BEHAT' ];          then moodle-plugin-ci behat;       fi
-  # The next line dumps the HTML of any failures to stdout. Not nice, but sufficient for now.
-  - if [ "$TASK" = 'BEHAT' ];          then find behat_output -name '*.html' -type f -print -exec cat {} \; ; fi
 
   # Run all the various code style tests - this subset should all pass.
   - if [ "$TASK" = 'CODESTYLE' ];      then moodle-plugin-ci phplint;     fi
-  - if [ "$TASK" = 'CODESTYLE' ];      then moodle-plugin-ci phpmd;       fi
-  - if [ "$TASK" = 'CODESTYLE' ];      then moodle-plugin-ci csslint;     fi
-  - if [ "$TASK" = 'CODESTYLE' ];      then moodle-plugin-ci shifter;     fi
   - if [ "$TASK" = 'CODESTYLE' ];      then moodle-plugin-ci validate;    fi
+  - if [ "$TASK" = 'CODESTYLE' ];      then moodle-plugin-ci savepoints;  fi
+  - if [ "$TASK" = 'CODESTYLE' ];      then moodle-plugin-ci mustache;    fi
+  - if [ "$TASK" = 'CODESTYLE' ];      then moodle-plugin-ci grunt;       fi
 
   # Run all the various code style tests - these ones are konwn to fail.
   # Once we get them passing, move them to the CODESTYLE section above.
+  - if [ "$TASK" = 'CODEKNOWNFAILS' ]; then moodle-plugin-ci phpmd;       fi
   - if [ "$TASK" = 'CODEKNOWNFAILS' ]; then moodle-plugin-ci phpcpd;      fi
   - if [ "$TASK" = 'CODEKNOWNFAILS' ]; then moodle-plugin-ci codechecker; fi
-  - if [ "$TASK" = 'CODEKNOWNFAILS' ]; then moodle-plugin-ci jshint;      fi

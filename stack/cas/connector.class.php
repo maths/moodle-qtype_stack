@@ -222,13 +222,6 @@ abstract class stack_cas_connection_base implements stack_cas_connection {
             // If there are plots in the output.
             $plot = isset($local['display']) ? substr_count($local['display'], '!ploturl!') : 0;
             if ($plot > 0) {
-                // Plots always contain errors, so remove.
-                $local['error'] = '';
-                // For mathml display, remove the mathml that is inserted wrongly round the plot.
-                $local['display'] = str_replace('<math xmlns=\'http://www.w3.org/1998/Math/MathML\'>',
-                    '', $local['display']);
-                $local['display'] = str_replace('</math>', '', $local['display']);
-
                 // @codingStandardsIgnoreStart
                 // For latex mode, remove the mbox.
                 // This handles forms: \mbox{image} and (earlier?) \mbox{{} {image} {}}.

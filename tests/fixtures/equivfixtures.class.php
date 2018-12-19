@@ -748,7 +748,7 @@ class stack_equiv_test_data {
         $newarg['title']     = "Solving linear equations (nonsense)";
         $newarg['narrative'] = 'In this argument we "move over" one term, but end up at the right answer.'.
                 'Actually, the term we "moved over" is zero, which is why we don\'t pick up the problem';
-        $newarg['casstring'] = "[6*x-12=3*(x-2),6*x-12+3*(x-2)=0,12*x-24=0,x=2]";
+        $newarg['casstring'] = "[6*x-12=3*(x-2),6*x-12+3*(x-2)=0,9*x-18=0,x=2]";
         $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR]";
         $newarg['outcome']   = true;
         $samplearguments[] = $newarg;

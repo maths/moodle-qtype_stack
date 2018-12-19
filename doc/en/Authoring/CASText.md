@@ -22,6 +22,7 @@ The following things to remember about CASText:
  * The outer `{}` characters of `{@ stuff @}` will be left into the output to ensure that the potentially multiple characters long output value is considered as a single group by LaTeX.
 * Anything enclosed between `{#` and `#}` delimiters is evaluated by the CAS and replaced by the Maxima representing the result. Basically, raw values usable in other tools or examples on how to input the value.
 * If the Maxima variable `x` is a string then `{@x@}` produces the string contents without quote marks or LaTeX environment, while `{#x#}` produces the string contents enclosed by quote marks.
+* If you want comma separated values without the list brackets then use `{@stack_disp_comma_separate( list )@}`.  This function turns a list into a string representation of its arguments, without braces.
 * Multiple CAS expressions may appear in a single LaTeX equation, as needed.  For example `\[  \frac{@p@}{@q@} \]`.  Note that many problems are _best solved_ at the level of the CAS, e.g. by defining a variable `p/q` in the CAS, not at the level of display.  This is a design decision which needs experience to resolve efficiently in each case.  For an example of this, see the example [showing working](../CAS/Matrix.md#Showing_working).
 
 Here is an example

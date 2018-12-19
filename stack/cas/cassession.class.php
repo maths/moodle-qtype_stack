@@ -29,7 +29,7 @@ require_once(__DIR__ . '/../options.class.php');
 
 class stack_cas_session {
     /**
-     * @var array stack_cas_casstring
+     * @var stack_cas_casstring[] the CAS strings that make up this session.
      */
     private $session;
 
@@ -461,6 +461,7 @@ class stack_cas_session {
             $dummy = '{@'.$key.'@}';
 
             // When we have only a single string in the output remove the maths environment.
+            // Edge case to do: numbers (stackintfmt:"~r", 55).
             if ($errors == '' and substr(trim($value), 0, 1) == '"' and strpos($strin, '\(@'.$key.'@\)') !== false) {
                 $disp = preg_replace('|^\\\\mbox\{(.*)\}$|', '$1', trim($disp));
                 if ($value == '""') {
@@ -521,7 +522,7 @@ class stack_cas_session {
             }
 
             // Special handling for the conditionally evaluated strings.
-            if (count($cs->get_conditions()) > 0) {
+            if (!empty($cs->get_conditions())) {
                 $conditions = array();
                 foreach ($cs->get_conditions() as $cond) {
                     // No need to evaluate again if it is already evaluated.

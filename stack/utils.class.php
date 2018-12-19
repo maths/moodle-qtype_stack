@@ -1212,7 +1212,7 @@ class stack_utils {
         // Note, the spaces before these connectives are essential.
         $connectives = array(' and' => ' nounand', ' or' => ' nounor', ')and' => ') nounand', ')or' => ') nounor');
         // The last two patterns are fine in the reverse direction as these patterns will have gone.
-        $regexnouns = array('int' => 'nounint', 'diff' => 'noundiff');
+        $regexnouns = array('int' => 'nounint', 'integrate' => 'nounint', 'diff' => 'noundiff');
 
         if ($direction === 'add') {
             foreach ($connectives as $key => $val) {

@@ -56,6 +56,10 @@ class stack_string_input_test extends qtype_stack_testcase {
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('"Hello world"', $state->contentsmodified);
         $this->assertEquals('\[ \mbox{Hello world} \]', $state->contentsdisplayed);
+        $this->assertEquals('A correct answer is <span class="filter_mathjaxloader_equation">' .
+                '<span class="nolink">\[ \[ \mbox{Hello world} \]</span></span> \), ' .
+                'which can be typed in as follows: <code>Hello world</code>',
+                $el->get_teacher_answer_display($state->contentsmodified, $state->contentsdisplayed));
     }
 
     public function test_validate_string_string_input() {
@@ -110,5 +114,16 @@ class stack_string_input_test extends qtype_stack_testcase {
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('" Some whitespace  "', $state->contentsmodified);
         $this->assertEquals('\[ \mbox{ Some whitespace  } \]', $state->contentsdisplayed);
+    }
+
+    public function test_validate_string_hideanswer() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('string', 'state', '"[SOME JSON]"');
+        $el->set_parameter('options', 'hideanswer');
+        $state = $el->validate_student_response(array('state' => '[SOME MORE JSON]'), $options, '"[SOME JSON]"', null);
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('"[SOME MORE JSON]"', $state->contentsmodified);
+        $this->assertEquals('\[ \mbox{[SOME MORE JSON]} \]', $state->contentsdisplayed);
+        $this->assertEquals('', $el->get_teacher_answer_display("[SOME JSON]", "\[ \mbox{[SOME MORE JSON]} \]"));
     }
 }

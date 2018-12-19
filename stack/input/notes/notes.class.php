@@ -81,7 +81,7 @@ class stack_notes_input extends stack_input {
      * @return array of the validity, errors strings and modified contents.
      */
     protected function validate_contents($contents, $forbiddenkeys, $localoptions) {
-        $errors   = array();
+        $errors   = null;
         $caslines = array();
         $valid    = true;
         $modifiedcontents[] = '';

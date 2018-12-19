@@ -31,6 +31,7 @@ require_once(__DIR__ . '/../stack/cas/keyval.class.php');
  * @group qtype_stack
  */
 class stack_cas_session_test extends qtype_stack_testcase {
+
     public function get_valid($cs, $val) {
 
         if (is_array($cs)) {
@@ -80,49 +81,129 @@ class stack_cas_session_test extends qtype_stack_testcase {
 
     }
 
+    public function test_multiplication_option_complexno_i() {
+
+        $cs = array('p:a+b*%i', 'q:a+b*i', 'r:a+b*j');
+        foreach ($cs as $s) {
+            $s1[] = new stack_cas_casstring($s);
+        }
+
+        $options = new stack_options();
+        $options->set_option('simplify', false);
+        $options->set_option('complexno', 'i');
+
+        $at1 = new stack_cas_session($s1, $options, 0);
+        $this->assertEquals('a+b\cdot \mathrm{i}', $at1->get_display_key('p'));
+        $this->assertEquals('a+b\cdot \mathrm{i}', $at1->get_display_key('q'));
+        $this->assertEquals('a+b\cdot j', $at1->get_display_key('r'));
+    }
+
+    public function test_multiplication_option_complexno_j() {
+
+        $cs = array('p:a+b*%i', 'q:a+b*i', 'r:a+b*j');
+        foreach ($cs as $s) {
+            $s1[] = new stack_cas_casstring($s);
+        }
+
+        $options = new stack_options();
+        $options->set_option('simplify', false);
+        $options->set_option('complexno', 'j');
+
+        $at1 = new stack_cas_session($s1, $options, 0);
+        $this->assertEquals('a+b\cdot \mathrm{j}', $at1->get_display_key('p'));
+        $this->assertEquals('a+b\cdot i', $at1->get_display_key('q'));
+        $this->assertEquals('a+b\cdot \mathrm{j}', $at1->get_display_key('r'));
+    }
+
+    public function test_multiplication_option_complexno_symi() {
+
+        $cs = array('p:a+b*%i', 'q:a+b*i', 'r:a+b*j');
+        foreach ($cs as $s) {
+            $s1[] = new stack_cas_casstring($s);
+        }
+
+        $options = new stack_options();
+        $options->set_option('simplify', false);
+        $options->set_option('complexno', 'symi');
+
+        $at1 = new stack_cas_session($s1, $options, 0);
+        $this->assertEquals('a+b\cdot \mathrm{i}', $at1->get_display_key('p'));
+        $this->assertEquals('a+b\cdot i', $at1->get_display_key('q'));
+        $this->assertEquals('a+b\cdot j', $at1->get_display_key('r'));
+    }
+
+    public function test_multiplication_option_complexno_symj() {
+
+        $cs = array('p:a+b*%i', 'q:a+b*i', 'r:a+b*j');
+        foreach ($cs as $s) {
+            $s1[] = new stack_cas_casstring($s);
+        }
+
+        $options = new stack_options();
+        $options->set_option('simplify', false);
+        $options->set_option('complexno', 'symj');
+
+        $at1 = new stack_cas_session($s1, $options, 0);
+        $this->assertEquals('a+b\cdot \mathrm{j}', $at1->get_display_key('p'));
+        $this->assertEquals('a+b\cdot i', $at1->get_display_key('q'));
+        $this->assertEquals('a+b\cdot j', $at1->get_display_key('r'));
+    }
+
     public function test_multiplication_option_dot() {
 
-        $cs = array('a:x*y', 'b:1/(1+x^2)', 'c:e^(i*pi)');
+        $cs = array('a:x*y', 'b:x*y*z', 'c:x*(y*z)', 'd:(x*y)*z');
         foreach ($cs as $s) {
             $s1[] = new stack_cas_casstring($s);
         }
 
         $options = new stack_options();
         $options->set_option('multiplicationsign', 'dot');
+        $options->set_option('simplify', false);
 
         $at1 = new stack_cas_session($s1, $options, 0);
         $this->assertEquals('x\cdot y', $at1->get_display_key('a'));
-
+        $this->assertEquals('x\cdot y\cdot z', $at1->get_display_key('b'));
+        $this->assertEquals('x\cdot \left(y\cdot z\right)', $at1->get_display_key('c'));
+        // Notice the associativity of Maxima suppresses the extra explicit brackets here.
+        $this->assertEquals('x\cdot y\cdot z', $at1->get_display_key('d'));
     }
 
     public function test_multiplication_option_none() {
 
-        $cs = array('a:x*y', 'b:1/(1+x^2)', 'c:e^(i*pi)');
+        $cs = array('a:x*y', 'b:x*y*z', 'c:x*(y*z)', 'd:(x*y)*z');
         foreach ($cs as $s) {
             $s1[] = new stack_cas_casstring($s);
         }
 
         $options = new stack_options();
         $options->set_option('multiplicationsign', 'none');
+        $options->set_option('simplify', false);
 
         $at1 = new stack_cas_session($s1, $options, 0);
         $this->assertEquals('x\,y', $at1->get_display_key('a'));
-
+        $this->assertEquals('x\,y\,z', $at1->get_display_key('b'));
+        $this->assertEquals('x\,\left(y\,z\right)', $at1->get_display_key('c'));
+        // Notice the associativity of Maxima suppresses the extra explicit brackets here.
+        $this->assertEquals('x\,y\,z', $at1->get_display_key('d'));
     }
 
     public function test_multiplication_option_cross() {
 
-        $cs = array('a:x*y', 'b:1/(1+x^2)', 'c:e^(i*pi)');
+        $cs = array('a:x*y', 'b:x*y*z', 'c:x*(y*z)', 'd:(x*y)*z');
         foreach ($cs as $s) {
             $s1[] = new stack_cas_casstring($s);
         }
 
         $options = new stack_options();
         $options->set_option('multiplicationsign', 'cross');
+        $options->set_option('simplify', false);
 
         $at1 = new stack_cas_session($s1, $options, 0);
         $this->assertEquals('x\times y', $at1->get_display_key('a'));
-
+        $this->assertEquals('x\times y\times z', $at1->get_display_key('b'));
+        $this->assertEquals('x\times \left(y\times z\right)', $at1->get_display_key('c'));
+        // Notice the associativity of Maxima suppresses the extra explicit brackets here.
+        $this->assertEquals('x\times y\times z', $at1->get_display_key('d'));
     }
 
     public function test_acos_option_cosmone() {
@@ -1251,7 +1332,7 @@ class stack_cas_session_test extends qtype_stack_testcase {
 
     public function test_union_tex() {
 
-        // Cases should be in the form array('input', 'value', 'display').
+        // Cases should be in the form array('input=value', 'display').
         $cases = array();
         $cmds = array();
 
@@ -1276,6 +1357,67 @@ class stack_cas_session_test extends qtype_stack_testcase {
         foreach ($cases as $case) {
             $this->assertEquals($case[0], $s->get_value_key('d'.$i));
             $this->assertEquals($case[1], $s->get_display_key('d'.$i));
+            $i++;
+        }
+    }
+
+    public function test_stack_disp_comma_separate() {
+
+        // Cases should be in the form array('input', 'value', 'display').
+        $cases = array();
+        $cmds = array();
+
+        // Note in this case we do output Maxima's "%pi", not just pi.
+        $cases[] = array('[a,b,sin(pi/7)]', '"a, b, sin(%pi/7)"', '\\mbox{a, b, sin(\\%pi/7)}');
+
+        $i = 0;
+        foreach ($cases as $case) {
+            $cmds[$i] = 'd'.$i.':stack_disp_comma_separate('.$case[0].')';
+            $i++;
+        }
+
+        $options = new stack_options();
+        $kv = new stack_cas_keyval(implode(';', $cmds), $options, 0, 't');
+        $s = $kv->get_session(); // This does a validation on the side.
+
+        $s->instantiate();
+
+        $i = 0;
+        foreach ($cases as $case) {
+            $this->assertEquals($case[1], $s->get_value_key('d'.$i));
+            $this->assertEquals($case[2], $s->get_display_key('d'.$i));
+            $i++;
+        }
+    }
+
+    public function test_stack_stackintfmt() {
+
+        // Cases should be in the form array('input', 'value', 'display').
+        $cases = array();
+        $cmds = array();
+
+        $cases[] = array('73', '73', '73');
+        $cases[] = array('(stackintfmt:"~2r",n0)', '73', '1001001');
+        $cases[] = array('(stackintfmt:"~7r",n0)', '73', '133');
+        $cases[] = array('(stackintfmt:"~r",n0)', '73', '\mbox{seventy-three}');
+        $cases[] = array('(stackintfmt:"~:r",n0)', '73', '\mbox{seventy-third}');
+
+        $i = 0;
+        foreach ($cases as $case) {
+            $cmds[$i] = 'n' . $i . ':' . $case[0];
+            $i++;
+        }
+
+        $options = new stack_options();
+        $kv = new stack_cas_keyval(implode(';', $cmds), $options, 0, 't');
+        $s = $kv->get_session(); // This does a validation on the side.
+
+        $s->instantiate();
+
+        $i = 0;
+        foreach ($cases as $case) {
+            $this->assertEquals($case[1], $s->get_value_key('n'.$i));
+            $this->assertEquals($case[2], $s->get_display_key('n'.$i));
             $i++;
         }
     }

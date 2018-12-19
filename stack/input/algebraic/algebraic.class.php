@@ -25,7 +25,8 @@ defined('MOODLE_INTERNAL') || die();
 class stack_algebraic_input extends stack_input {
 
     protected $extraoptions = array(
-        'rationalized' => false
+        'rationalized' => false,
+        'allowempty' => false
     );
 
     public function render(stack_input_state $state, $fieldname, $readonly, $tavalue) {
@@ -45,14 +46,18 @@ class stack_algebraic_input extends stack_input {
             'spellcheck'     => 'false',
         );
 
+        $value = $this->contents_to_maxima($state->contents);
         if ($this->is_blank_response($state->contents)) {
             $field = 'value';
             if ($this->parameters['syntaxAttribute'] == '1') {
                 $field = 'placeholder';
             }
             $attributes[$field] = stack_utils::logic_nouns_sort($this->parameters['syntaxHint'], 'remove');
+        } else if ($value == 'EMPTYANSWER') {
+            // Active empty choices don't result in a syntax hint again (with that option set).
+            $attributes['value'] = '';
         } else {
-            $attributes['value'] = $this->contents_to_maxima($state->contents);
+            $attributes['value'] = $value;
         }
 
         if ($readonly) {
@@ -109,6 +114,9 @@ class stack_algebraic_input extends stack_input {
      */
     public function get_teacher_answer_display($value, $display) {
         $value = stack_utils::logic_nouns_sort($value, 'remove');
+        if (trim($value) == 'EMPTYANSWER') {
+            return stack_string('teacheranswerempty');
+        }
         return stack_string('teacheranswershow', array('value' => '<code>'.$value.'</code>', 'display' => $display));
     }
 }

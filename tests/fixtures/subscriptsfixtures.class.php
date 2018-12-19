@@ -63,7 +63,7 @@ class stack_subscripts_test_data {
         array('P_max', 'P_max', '!', '{P}_{{\it max}}', '!'),
         array('F_max', 'F_max', '!', '{F}_{{\it max}}', '!'),
         array('F_net', 'F_net', '!', '{F}_{{\it net}}', '!',
-                'The function net is not known to Maxima.  In this case it has been added, '.
+                'The function net is not known to Maxima.  In this case it has been added, ' .
                 'but in general studnets are only permitted to add known tokens with two letters.'),
         array('omega_a', 'omega_a', '!', '{\omega}_{a}', '!'),
         array('omega_0', 'omega_0', '!', '{\omega}_{0}', '!'),
@@ -97,7 +97,7 @@ class stack_subscripts_test_data {
         array('theta[n,m]', 'theta[n,m]', '!', '\theta_{n,m}', '!'),
     );
 
-    protected static $rawdata_legacy = array(
+    protected static $rawdatalegacy = array(
         array('Delta*v_x', 'Delta*v_x', '!', '\Delta\,{v}_{x}', '!'),
         array('Delta*v_x0', 'Delta*v_x0', '!', '\Delta\,{v}_{{\it x_0}}', '!'),
         array('Delta*v_xi', 'Delta*v_xi', '!', '\Delta\,{v}_{\xi}', '!', 'xi is a Greek letter...'),
@@ -121,7 +121,7 @@ class stack_subscripts_test_data {
         array('P_max', 'P_max', '!', '{P}_{{\it max}}', '!'),
         array('F_max', 'F_max', '!', '{F}_{{\it max}}', '!'),
         array('F_net', 'F_net', '!', '{F}_{{\it net}}', '!',
-            'The function net is not known to Maxima.  In this case it has been added, '.
+            'The function net is not known to Maxima.  In this case it has been added, ' .
             'but in general studnets are only permitted to add known tokens with two letters.'),
         array('omega_a', 'omega_a', '!', '{\omega}_{a}', '!'),
         array('omega_0', 'omega_0', '!', '{\omega}_{0}', '!'),
@@ -160,7 +160,7 @@ class stack_subscripts_test_data {
     }
 
     public static function get_raw_test_data_legacy() {
-       return self::$rawdata_legacy;
+        return self::$rawdatalegacy;
     }
 
     public static function test_from_raw($data) {

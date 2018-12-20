@@ -16,7 +16,6 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-
 require_once(__DIR__ . '/casstring.units.class.php');
 
 // CAS identifier related security data-lookups.
@@ -148,17 +147,16 @@ class stack_cas_security {
             $this->forbiddenkeys = array_flip($this->forbiddenkeys);
         }
 
-        // Check for keyword-lists. Although they should not exists here as this
-        // is used to check for teacher reserved words. But they do exist in
-        // tests.
+        // Check for keyword-lists. 
+        // They should not exists here as this is used to check for teacher reserved words.
+        // But they do exist in tests.
         $real = array();
         foreach ($this->forbiddenkeys as $key => $duh) {
             if (isset(stack_cas_security::$keywordlists[strtolower($key)])) {
                 foreach (stack_cas_security::$keywordlists[strtolower($key)] as $k => $v) {
                     $real[$k] = $v;
                 }
-            } else if (core_text::strlen($key) > 1) {
-                // As lenght 1 identifiers are always ok we skip them here.
+            } else {
                 $real[$key] = true;
             }
         }

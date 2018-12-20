@@ -50,7 +50,7 @@ class stack_cas_casstring_test extends basic_testcase {
             array('%phi', true, true),
             array('%o1', false, false),
             // Literal unicode character, instead of name.
-            array('π', false, false),
+            array('��', false, false),
             // Non-matching brackets.
             array('(x+1', false, false),
             array('(y^2+1))', false, false),
@@ -76,9 +76,9 @@ class stack_cas_casstring_test extends basic_testcase {
     }
 
     public function test_validation_error() {
-        $casstring = new stack_cas_casstring('π');
+        $casstring = new stack_cas_casstring('��');
         $casstring->get_valid('s');
-        $this->assertEquals(stack_string('stackCas_forbiddenChar', array('char' => 'π')),
+        $this->assertEquals(stack_string('stackCas_forbiddenChar', array('char' => '��')),
                 $casstring->get_errors());
         $this->assertEquals('forbiddenChar', $casstring->get_answernote());
     }
@@ -148,27 +148,27 @@ class stack_cas_casstring_test extends basic_testcase {
         $this->assertFalse($at1->get_valid('s'));
         $this->assertEquals('Forbidden function: <span class="stacksyntaxexample">system</span>.',
                 $at1->get_errors());
+        $this->assertEquals('forbiddenFunction', $at1->get_answernote());
 
         $at2 = new stack_cas_casstring($s);
         $this->assertFalse($at2->get_valid('t'));
         $this->assertEquals('Forbidden function: <span class="stacksyntaxexample">system</span>.',
                 $at2->get_errors());
+        $this->assertEquals('forbiddenFunction', $at1->get_answernote());
     }
 
     public function test_global_forbidden_words_case() {
+        // This is a change of behaviour in Dec 2018.
         $s = 'System("rm *")';
         $at1 = new stack_cas_casstring($s);
         $this->assertFalse($at1->get_valid('s'));
-        $this->assertEquals('Forbidden function: <span class="stacksyntaxexample">system</span>.',
-                $at1->get_errors());
+        $this->assertEquals('Input is case sensitive: <span class="stacksyntaxexample">System</span> is an unknown function. ' .
+                'Did you mean <span class="stacksyntaxexample">system</span>?', $at1->get_errors());
+        $this->assertEquals('unknownFunctionCase', $at1->get_answernote());
 
         $at2 = new stack_cas_casstring($s);
         $this->assertTrue($at2->get_valid('t'));
-        /* TODO: Are we case-insensitive?
-        $this->assertFalse($at2->get_valid('t'));
-        $this->assertEquals('Forbidden function: <span class="stacksyntaxexample">system</span>.',
-                $at2->get_errors());
-        */
+        $this->assertEquals('', $at2->get_answernote());
     }
 
     public function test_teacher_only_words() {
@@ -210,11 +210,14 @@ class stack_cas_casstring_test extends basic_testcase {
 
     public function test_check_external_forbidden_words() {
         $cases = array(
-            array('sin(ta)', array('ta'), false),
-            array('sin(ta)', array('ta', 'a', 'b'), false),
-            array('sin(ta)', array('sa'), true),
-            array('sin(a)', array('a'), true), // This ignores single letters.
-            array('diff(x^2,x)', array('[[BASIC-CALCULUS]]'), false),
+            array('sin(ta)', array('ta'), false, 'forbiddenVariable'),
+            array('sin(ta)', array('ta', 'a', 'b'), false, 'forbiddenVariable'),
+            array('1+sin(ta)', array('a', 'b'), true, ''),
+            array('sin(ta)', array('sa'), true, ''),
+            array('sin(ta)', array('sin'), false, 'forbiddenFunction'),
+            array('sin(a)', array('a'), false, 'forbiddenVariable'),
+            array('diff(x^2,x)', array('[[basic-calculus]]'), false, 'forbiddenVariable'),
+            array('diff(x^2,x)', array('[[BASIC-CALCULUS]]'), false, 'forbiddenVariable'),
         );
 
         foreach ($cases as $case) {
@@ -222,6 +225,7 @@ class stack_cas_casstring_test extends basic_testcase {
             $secrules = new stack_cas_security();
             $secrules->set_forbiddenkeys($case[1]);
             $this->assertEquals($case[2], $cs->get_valid('s', true, 0, $secrules));
+            $this->assertEquals($case[3], $cs->get_answernote());
         }
     }
 
@@ -992,4 +996,5 @@ class stack_cas_casstring_test extends basic_testcase {
         $this->assertEquals('p', $at1->get_key());
         $this->assertEquals('', $at1->get_answernote());
     }
+
 }

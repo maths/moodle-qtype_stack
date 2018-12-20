@@ -297,7 +297,7 @@ class stack_cas_casstring {
             }
             return true;
         };
-        // We repeat this untill all is done. Identifiers first as they may turn into function calls.
+        // We repeat this until all is done. Identifiers first as they may turn into function calls.
         while ($this->ast->callbackRecurse($processidentifiers) !== true) {
             // Do nothing.
         }

@@ -53,22 +53,29 @@ class stack_cas_security {
      * Actually, not lower case, Maxima is not case insensitive just check "ModeMatrix" for an example.
      */
     public static $keywordlists = array(
-            '[[basic-algebra]]' => array('coeff' => true, 'conjugate' => true, 'cspline' => true, 'disjoin' => true, 'divisors' => true,
-                    'ev' => true, 'eliminate' => true, 'equiv_classes' => true, 'expand' => true, 'expandwrt' => true, 'facsum' => true, 'factor' => true, 'find_root' => true,
-                    'fullratsimp' => true, 'gcd' => true, 'gfactor' => true, 'imagpart' => true, 'intersection' => true, 'lcm' => true, 'logcontract' => true, 'logexpand' => true,
-                    'member' => true, 'nroots' => true, 'nthroot' => true, 'numer' => true, 'partfrac' => true, 'polarform' => true, 'polartorect' => true, 'ratexpand' => true,
-                    'ratsimp' => true, 'realpart' => true, 'round' => true, 'radcan' => true, 'num' => true, 'denom' => true, 'trigsimp' => true, 'trigreduce' => true, 'solve' => true,
-                    'allroots' => true, 'simp' => true, 'setdifference' => true, 'sort' => true, 'subst' => true, 'trigexpand' => true, 'trigexpandplus' => true,
-                    'trigexpandtimes' => true, 'triginverses' => true, 'trigrat' => true, 'trigreduce' => true, 'trigsign' => true, 'trigsimp' => true,
-                    'truncate' => true, 'decimalplaces' => true, 'simplify' => true),
-            '[[basic-calculus]]' => array('defint' => true, 'diff' => true, 'int' => true, 'integrate' => true, 'limit' => true, 'partial' => true, 'desolve' => true,
-                    'express' => true, 'taylor' => true),
-            '[[basic-matrix]]' => array('addmatrices' => true, 'adjoin' => true, 'augcoefmatrix' => true, 'blockmatrixp' => true, 'charpoly' => true,
-                    'coefmatrix' => true, 'col' => true, 'columnop' => true, 'columnspace' => true, 'columnswap' => true, 'covect' => true, 'ctranspose' => true,
-                    'determinant' => true, ' diag_matrix' => true, 'diagmatrix' => true, 'dotproduct' => true, 'echelon' => true, 'eigenvalues' => true,
-                    'eigenvectors' => true, 'eivals' => true, 'eivects' => true, 'ematrix' => true, 'invert' => true, 'matrix_element_add' => true,
-                    'matrix_element_mult' => true, 'matrix_element_transpose' => true, 'nullspace' => true, 'resultant' => true,
-                    'rowop' => true, 'rowswap' => true, 'transpose' => true)
+            '[[basic-algebra]]' => array('coeff' => true, 'conjugate' => true, 'cspline' => true, 'disjoin' => true,
+                    'divisors' => true, 'ev' => true, 'eliminate' => true, 'equiv_classes' => true, 'expand' => true,
+                    'expandwrt' => true, 'facsum' => true, 'factor' => true, 'find_root' => true, 'fullratsimp' => true,
+                    'gcd' => true, 'gfactor' => true, 'imagpart' => true, 'intersection' => true, 'lcm' => true,
+                    'logcontract' => true, 'logexpand' => true, 'member' => true, 'nroots' => true, 'nthroot' => true,
+                    'numer' => true, 'partfrac' => true, 'polarform' => true, 'polartorect' => true, 'ratexpand' => true,
+                    'ratsimp' => true, 'realpart' => true, 'round' => true, 'radcan' => true, 'num' => true, 'denom' => true,
+                    'trigsimp' => true, 'trigreduce' => true, 'solve' => true, 'allroots' => true,
+                    'simp' => true, 'setdifference' => true, 'sort' => true, 'subst' => true,
+                    'trigexpand' => true, 'trigexpandplus' => true, 'trigexpandtimes' => true, 'triginverses' => true,
+                    'trigrat' => true, 'trigreduce' => true, 'trigsign' => true,
+                    'trigsimp' => true, 'truncate' => true, 'decimalplaces' => true, 'simplify' => true),
+            '[[basic-calculus]]' => array('defint' => true, 'diff' => true, 'int' => true, 'integrate' => true,
+                    'limit' => true, 'partial' => true, 'desolve' => true, 'express' => true, 'taylor' => true),
+            '[[basic-matrix]]' => array('addmatrices' => true, 'adjoin' => true, 'augcoefmatrix' => true,
+                    'blockmatrixp' => true, 'charpoly' => true,
+                    'coefmatrix' => true, 'col' => true, 'columnop' => true, 'columnspace' => true, 'columnswap' => true,
+                    'covect' => true, 'ctranspose' => true,
+                    'determinant' => true, ' diag_matrix' => true, 'diagmatrix' => true, 'dotproduct' => true,
+                    'echelon' => true, 'eigenvalues' => true,
+                    'eigenvectors' => true, 'eivals' => true, 'eivects' => true, 'ematrix' => true, 'invert' => true,
+                    'matrix_element_add' => true, 'matrix_element_mult' => true, 'matrix_element_transpose' => true,
+                    'nullspace' => true, 'resultant' => true, 'rowop' => true, 'rowswap' => true, 'transpose' => true)
     );
 
     public static function is_good_function(string $identifier): bool {
@@ -150,7 +157,7 @@ class stack_cas_security {
                 foreach (stack_cas_security::$keywordlists[strtolower($key)] as $k => $v) {
                     $real[$k] = $v;
                 }
-            } else if (core_text::strlen($key) > 1){
+            } else if (core_text::strlen($key) > 1) {
                 // As lenght 1 identifiers are always ok we skip them here.
                 $real[$key] = true;
             }
@@ -281,7 +288,6 @@ class stack_cas_security {
             }
         }
 
-
         // If its already security 's' then all fine.
         if ($foundsecurity === 's') {
             return true;
@@ -299,7 +305,8 @@ class stack_cas_security {
         if (isset($this->allowedwordsasmap[$identifier])) {
             // Allow words might be typed.
             if (is_array($this->allowedwordsasmap[$identifier])) {
-                return isset($this->allowedwordsasmap[$identifier]['variable']) || isset($this->allowedwordsasmap[$identifier]['constant']);
+                return isset($this->allowedwordsasmap[$identifier]['variable']) ||
+                    isset($this->allowedwordsasmap[$identifier]['constant']);
             } else {
                 return true;
             }
@@ -406,7 +413,6 @@ class stack_cas_security {
         return false;
     }
 
-
     /**
      * Checks the features of an identifer. Special dealing with 'constant'.
      * Typically used to identify constants and mapfunctions.
@@ -484,7 +490,6 @@ class stack_cas_security {
         return $r;
     }
 
-
     // Takes a string form allowed/forbiddenwords list and turns it into an array.
     public static function list_to_map(string $list): array {
         // Probably called often, why waste time repeating the loops.
@@ -495,7 +500,6 @@ class stack_cas_security {
         $result = array();
 
         $list = str_replace('\,', 'COMMA_TAG', $list);
-
 
         foreach (explode(',', $list) as $item) {
             $item = trim($item);
@@ -521,5 +525,4 @@ class stack_cas_security {
         $cache[$list] = $result;
         return $result;
     }
-
 }

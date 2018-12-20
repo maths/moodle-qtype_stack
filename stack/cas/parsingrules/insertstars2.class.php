@@ -34,13 +34,13 @@ class stack_parser_logic_insertstars2 extends stack_parser_logic_insertstars0 {
                 }
 
                 // Do not touch variables that are safe. e.g. unit names.
-                if(isset($safevars[$node->value])) {
+                if (isset($safevars[$node->value])) {
                     return true;
                 }
 
                 // Skip the very special identifiers for log-candy. These will be reconstructed
                 // as function calls elsewhere.
-                if($node->value === 'log10' || core_text::substr($node->value, 0, 4)=== 'log_') {
+                if ($node->value === 'log10' || core_text::substr($node->value, 0, 4) === 'log_') {
                     return true;
                 }
 
@@ -49,7 +49,7 @@ class stack_parser_logic_insertstars2 extends stack_parser_logic_insertstars0 {
                 $replacement = new MP_Operation('*', new MP_Identifier(core_text::substr($node->value, 0, 1)), $temp);
                 $iter = $replacement;
                 $i = 1;
-                for($i = 1; $i < core_text::strlen($node->value) - 1;$i++) {
+                for ($i = 1; $i < core_text::strlen($node->value) - 1; $i++) {
                     $t = new MP_Identifier(core_text::substr($node->value, $i, 1));
                     if (ctype_digit($t->value)) {
                         $t = new MP_Integer((int)$t->value);
@@ -71,6 +71,7 @@ class stack_parser_logic_insertstars2 extends stack_parser_logic_insertstars0 {
             return true;
         };
 
-        while($ast->callbackRecurse($process)!== true) {}
+        while ($ast->callbackRecurse($process) !== true) {
+        }
     }
 }

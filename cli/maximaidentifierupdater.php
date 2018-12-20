@@ -74,13 +74,13 @@ foreach ($newdata as $line) {
     $line = substr($line, 4); // Drop " -- ".
     $line = explode(':', $line, 2); // Split at first ":".
     $type = trim($line[0]); // Trim the type just in case.
-    $identifier = explode(" ",trim($line[1]))[0]; // Pick first token from second part.
+    $identifier = explode(" ", trim($line[1]))[0]; // Pick first token from second part.
 
     if (isset($olddata[$identifier])) {
         if (isset($olddata[$identifier][$type])) {
-              if (array_search($newversion, $olddata[$identifier][$type]) === false) {
-                  $olddata[$identifier][$type][] = $newversion;
-              }
+            if (array_search($newversion, $olddata[$identifier][$type]) === false) {
+                $olddata[$identifier][$type][] = $newversion;
+            }
         } else {
             $olddata[$identifier][$type] = array($newversion);
             cli_writeln("Identifier '$identifier' used in new way as '$type'.");

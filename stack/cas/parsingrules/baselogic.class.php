@@ -235,11 +235,9 @@ abstract class stack_parser_logic {
             return true;
         };
 
-        while ($ast->callbackRecurse($processmarkkers) !== true) {}
+        while ($ast->callbackRecurse($processmarkkers) !== true) {
+        }
     }
-
-
-
 
     private function strings_replace($stringles, $original) {
         $strings = stack_utils::all_substring_strings($original);
@@ -264,15 +262,15 @@ abstract class stack_parser_logic {
     private function handle_parse_error($exception, $string, &$errors, &$answernote) {
         static $disallowedfinalchars = '/+*^#~=,_&`;:$-.<>';
 
-        $found_char = $exception->found;
-        $previous_char = null;
-        $next_char = null;
+        $foundchar = $exception->found;
+        $previouschar = null;
+        $nextchar = null;
 
         if ($exception->grammarOffset >= 1) {
-            $previous_char = core_text::substr($string, $exception->grammarOffset - 1, 1);
+            $previouschar = core_text::substr($string, $exception->grammarOffset - 1, 1);
         }
         if ($exception->grammarOffset < (core_text::strlen($string) - 1)) {
-            $next_char = core_text::substr($string, $exception->grammarOffset + 1, 1);
+            $nextchar = core_text::substr($string, $exception->grammarOffset + 1, 1);
         }
 
         // Some common output processing.
@@ -280,108 +278,109 @@ abstract class stack_parser_logic {
         $string = str_replace('*%%IS', '*', $string);
         $string = str_replace('*%%Is', '*', $string);
 
-        if ($found_char === '(' || $found_char === ')' || $previous_char === '(' || $previous_char === ')' || $found_char === null) {
-          $stringles = stack_utils::eliminate_strings($string);
-          $inline = stack_utils::check_bookends($stringles, '(', ')');
-          if ($inline === 'left') {
-            $answernote[] = 'missingLeftBracket';
-            $errors[] = stack_string('stackCas_missingLeftBracket',
-              array('bracket' => '(', 'cmd' => stack_maxima_format_casstring($string)));
-            return;
-          } else if ($inline === 'right') {
-            $answernote[] = 'missingRightBracket';
-            $errors[] = stack_string('stackCas_missingRightBracket',
-              array('bracket' => ')', 'cmd' => stack_maxima_format_casstring($string)));
-            return;
-          }
+        if ($foundchar === '(' || $foundchar === ')' || $previouschar === '(' || $previouschar === ')' || $foundchar === null) {
+            $stringles = stack_utils::eliminate_strings($string);
+            $inline = stack_utils::check_bookends($stringles, '(', ')');
+            if ($inline === 'left') {
+                $answernote[] = 'missingLeftBracket';
+                $errors[] = stack_string('stackCas_missingLeftBracket',
+                    array('bracket' => '(', 'cmd' => stack_maxima_format_casstring($string)));
+                return;
+            } else if ($inline === 'right') {
+                $answernote[] = 'missingRightBracket';
+                $errors[] = stack_string('stackCas_missingRightBracket',
+                  array('bracket' => ')', 'cmd' => stack_maxima_format_casstring($string)));
+                return;
+            }
         }
-        if ($found_char === '[' || $found_char === ']' || $previous_char === '[' || $previous_char === ']' || $found_char === null) {
-          $stringles = stack_utils::eliminate_strings($string);
-          $inline = stack_utils::check_bookends($stringles, '[', ']');
-          if ($inline === 'left') {
-            $answernote[] = 'missingLeftBracket';
-            $errors[] = stack_string('stackCas_missingLeftBracket',
-              array('bracket' => '[', 'cmd' => stack_maxima_format_casstring($string)));
-            return;
-          } else if ($inline === 'right') {
-            $answernote[] = 'missingRightBracket';
-            $errors[] = stack_string('stackCas_missingRightBracket',
-              array('bracket' => ']', 'cmd' => stack_maxima_format_casstring($string)));
-            return;
-          }
+        if ($foundchar === '[' || $foundchar === ']' || $previouschar === '[' || $previouschar === ']' || $foundchar === null) {
+            $stringles = stack_utils::eliminate_strings($string);
+            $inline = stack_utils::check_bookends($stringles, '[', ']');
+            if ($inline === 'left') {
+                $answernote[] = 'missingLeftBracket';
+                $errors[] = stack_string('stackCas_missingLeftBracket',
+                    array('bracket' => '[', 'cmd' => stack_maxima_format_casstring($string)));
+                return;
+            } else if ($inline === 'right') {
+                $answernote[] = 'missingRightBracket';
+                $errors[] = stack_string('stackCas_missingRightBracket',
+                    array('bracket' => ']', 'cmd' => stack_maxima_format_casstring($string)));
+                return;
+            }
         }
-        if ($found_char === '{' || $found_char === '}' || $previous_char === '{' || $previous_char === '}' || $found_char === null) {
-          $stringles = stack_utils::eliminate_strings($string);
-          $inline = stack_utils::check_bookends($stringles, '{', '}');
-          if ($inline === 'left') {
-            $answernote[] = 'missingLeftBracket';
-            $errors[] = stack_string('stackCas_missingLeftBracket',
-              array('bracket' => '{', 'cmd' => stack_maxima_format_casstring($string)));
-            return;
-          } else if ($inline === 'right') {
-            $answernote[] = 'missingRightBracket';
-            $errors[] = stack_string('stackCas_missingRightBracket',
-              array('bracket' => '}', 'cmd' => stack_maxima_format_casstring($string)));
-            return;
-          }
+        if ($foundchar === '{' || $foundchar === '}' || $previouschar === '{' || $previouschar === '}' || $foundchar === null) {
+            $stringles = stack_utils::eliminate_strings($string);
+            $inline = stack_utils::check_bookends($stringles, '{', '}');
+            if ($inline === 'left') {
+                $answernote[] = 'missingLeftBracket';
+                $errors[] = stack_string('stackCas_missingLeftBracket',
+                    array('bracket' => '{', 'cmd' => stack_maxima_format_casstring($string)));
+                return;
+            } else if ($inline === 'right') {
+                $answernote[] = 'missingRightBracket';
+                $errors[] = stack_string('stackCas_missingRightBracket',
+                    array('bracket' => '}', 'cmd' => stack_maxima_format_casstring($string)));
+                return;
+            }
         }
 
-        if ($previous_char === '=' && ($found_char === '<' || $found_char === '>')) {
+        if ($previouschar === '=' && ($foundchar === '<' || $foundchar === '>')) {
             $a = array();
-            if ($found_char === '<') {
+            if ($foundchar === '<') {
                 $a['cmd'] = stack_maxima_format_casstring('=<');
             } else {
                 $a['cmd'] = stack_maxima_format_casstring('=>');
             }
             $errors[] = stack_string('stackCas_backward_inequalities', $a);
             $answernote[] = 'backward_inequalities';
-        } else if ($found_char === '=' && ($next_char === '<' || $next_char === '>')) {
+        } else if ($foundchar === '=' && ($nextchar === '<' || $nextchar === '>')) {
             $a = array();
-            if ($next_char === '<') {
+            if ($nextchar === '<') {
                 $a['cmd'] = stack_maxima_format_casstring('=<');
             } else {
                 $a['cmd'] = stack_maxima_format_casstring('=>');
             }
             $errors[] = stack_string('stackCas_backward_inequalities', $a);
             $answernote[] = 'backward_inequalities';
-        } else if ($found_char === "'") {
+        } else if ($foundchar === "'") {
             $errors[] = stack_string('stackCas_apostrophe');
             $answernote[] = 'apostrophe';
-        } else if (($found_char === '/' && $next_char === '*') || ($found_char === '*' && $previous_char === '/')) {
+        } else if (($foundchar === '/' && $nextchar === '*') || ($foundchar === '*' && $previouschar === '/')) {
             $a = array('cmd' => stack_maxima_format_casstring('/*'));
             $errors[] = stack_string('stackCas_spuriousop', $a);
             $answernote[] = 'spuriousop';
-        } else if ($found_char === '=' && $next_char === '=' && $previous_char === '=') {
+        } else if ($foundchar === '=' && $nextchar === '=' && $previouschar === '=') {
             $a = array('cmd' => stack_maxima_format_casstring('==='));
             $errors[] = stack_string('stackCas_spuriousop', $a);
             $answernote[] = 'spuriousop';
-        } else if ($found_char === '=' && ($next_char === '=' || $previous_char === '=')) {
+        } else if ($foundchar === '=' && ($nextchar === '=' || $previouschar === '=')) {
             $a = array('cmd' => stack_maxima_format_casstring('=='));
             $errors[] = stack_string('stackCas_spuriousop', $a);
             $answernote[] = 'spuriousop';
-        } else if ($found_char === '&') {
+        } else if ($foundchar === '&') {
             $a = array('cmd' => stack_maxima_format_casstring('&'));
             $errors[] = stack_string('stackCas_spuriousop', $a);
             $answernote[] = 'spuriousop';
-        } else if ($found_char === '|') {
+        } else if ($foundchar === '|') {
             $a = array('cmd' => stack_maxima_format_casstring('|'));
             $errors[] = stack_string('stackCas_spuriousop', $a);
             $answernote[] = 'spuriousop';
-        } else if (($found_char === '>' && $previous_char === '<') || ($found_char === '<' && $next_char === '>')) {
+        } else if (($foundchar === '>' && $previouschar === '<') || ($foundchar === '<' && $nextchar === '>')) {
             $a = array('cmd' => stack_maxima_format_casstring('<>'));
             $errors[] = stack_string('stackCas_spuriousop', $a);
             $answernote[] = 'spuriousop';
 
-        } else if (ctype_alpha($found_char) && ctype_digit($previous_char)) {
-            $a = array('cmd' => stack_maxima_format_casstring(core_text::substr($string, 0, $exception->grammarOffset) . '<font color="red">*</font>' . core_text::substr($string, $exception->grammarOffset)));
+        } else if (ctype_alpha($foundchar) && ctype_digit($previouschar)) {
+            $a = array('cmd' => stack_maxima_format_casstring(core_text::substr($string, 0, $exception->grammarOffset) .
+                    '<font color="red">*</font>' . core_text::substr($string, $exception->grammarOffset)));
             $answernote[] = 'missing_stars';
-        } else if ($found_char === ',' || (ctype_digit($found_char) && $previous_char === ',')) {
+        } else if ($foundchar === ',' || (ctype_digit($foundchar) && $previouschar === ',')) {
             $errors[] = stack_string('stackCas_unencpsulated_comma');
             $answernote[] = 'unencpsulated_comma';
-        } else if ($found_char === '\\') {
+        } else if ($foundchar === '\\') {
             $errors[] = stack_string('illegalcaschars');
             $answernote[] = 'illegalcaschars';
-        } else if ($previous_char === ' ') {
+        } else if ($previouschar === ' ') {
             $cmds = trim(core_text::substr($original, 0, $exception->grammarOffset - 1));
             $cmds .= '<font color="red">_</font>';
             $cmds .= core_text::substr($original, $exception->grammarOffset);
@@ -390,7 +389,7 @@ abstract class stack_parser_logic {
             $answernote[] = 'spaces';
             $cmds = stack_utils::logic_nouns_sort($cmds, 'remove');
             $errors[] = stack_string('stackCas_spaces', array('expr' => stack_maxima_format_casstring($cmds)));
-        } else if ($found_char === ':' && (strpos($string, ':lisp') !== false)) {
+        } else if ($foundchar === ':' && (strpos($string, ':lisp') !== false)) {
             $errors[] = stack_string('stackCas_forbiddenWord',
                     array('forbid' => stack_maxima_format_casstring('lisp')));
             $answernote[] = 'forbiddenWord';
@@ -406,21 +405,23 @@ abstract class stack_parser_logic {
             // flag but not find the assingment of flag value...
             $errors[] = stack_string('stackCas_unencpsulated_comma');
             $answernote[] = 'unencpsulated_comma';
-        } else if ($next_char === null && ($found_char !== null && core_text::strpos($disallowedfinalchars, $found_char) !== false)) {
+        } else if ($nextchar === null && ($foundchar !== null && core_text::strpos($disallowedfinalchars, $foundchar) !== false)) {
             $a = array();
-            $a['char'] = $found_char;
+            $a['char'] = $foundchar;
             $cdisp = stack_utils::logic_nouns_sort($string, 'remove');
             $a['cmd']  = stack_maxima_format_casstring($cdisp);
             $errors[] = stack_string('stackCas_finalChar', $a);
             $answernote[] = 'finalChar';
-        } else if ($found_char === null && ($previous_char !== null && core_text::strpos($disallowedfinalchars, $previous_char) !== false)) {
+        } else if ($foundchar === null && ($previouschar !== null &&
+                core_text::strpos($disallowedfinalchars, $previouschar) !== false)) {
             $a = array();
-            $a['char'] = $previous_char;
+            $a['char'] = $previouschar;
             $cdisp = stack_utils::logic_nouns_sort($string, 'remove');
             $a['cmd']  = stack_maxima_format_casstring($cdisp);
             $errors[] = stack_string('stackCas_finalChar', $a);
             $answernote[] = 'finalChar';
-        } else if ($found_char === '!' && ($previous_char === null || !(ctype_alpha($previous_char) || ctype_digit($previous_char) || $previous_char === ')' || $previous_char === ']'))) {
+        } else if ($foundchar === '!' && ($previouschar === null ||
+                !(ctype_alpha($previouschar) || ctype_digit($previouschar) || $previouschar === ')' || $previouschar === ']'))) {
             // TODO: Localise... "Operator X without a valid target. Needs something in front of it."
             $a = array('op' => stack_maxima_format_casstring('!'));
             $errors[] = stack_string('stackCas_badpostfixop', $a);

@@ -1,11 +1,11 @@
 /* Using apropos dumps all identifiers in the current Maxima context out */
 /* as strings into a set.                                                */
-/* Use this to find new features that might be evil                      */
-/* And to build listing of actual functionnames                          */
-/* THE CLASSIFICATION HAPPENS IN THE SECOND SCRIPT THIS IS THE FIRST*/
+/* Use this to find new features that might be evil.                     */
+/* And to build listing of actual functionnames.                         */
+/* THE CLASSIFICATION HAPPENS IN THE SECOND SCRIPT THIS IS THE FIRST     */
 
 /* This will generate a file in the running directory...                 */
-/* You'll need to run this multiple times                                */
+/* You'll need to run this multiple times.                               */
 
 iddump():=block([__iddump, __x],
     __iddump: {},

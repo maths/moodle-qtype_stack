@@ -485,7 +485,7 @@ class stack_cas_casstring_old {
                 'gal' => true, 'deg' => true, 'cal' => true, 'btu' => true, 'rem' => true,
                 'nounor' => true, 'nounand' => true, 'xor' => true, 'nounint' => true, 'noundiff' => true, 'root' => true,
                 'all' => true, 'none' => true, 'stackeq' => true, 'stacklet' => true,
-                'stackunits' => true, 'stackvector' => true
+                'stackunits' => true, 'stackvector' => true, 'EMPTYANSWER' => true
                 );
 
     /**

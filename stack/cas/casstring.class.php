@@ -582,7 +582,7 @@ class stack_cas_casstring {
     private function check_characters($string) {
         // We are only checking identifiers now so no need for ops or newlines...
         // TODO: do we need to check? All the chars that go through the parser should work
-        // with maxima... although πππππππ?
+        // with maxima... although ��������������?
 
         // Only permit the following characters to be sent to the CAS.
         $allowedcharsregex = '~[^' . preg_quote(self::$allowedchars, '~') . ']~u';
@@ -637,17 +637,18 @@ class stack_cas_casstring {
                 $this->valid = false;
             }
         }
-        // 1..1, essenttially a matrix multiplication of float of particular presentation.
+        // 1..1, essentially a matrix multiplication of float of particular presentation.
         if ($opnode instanceof MP_Operation && $opnode->op === '.') {
-            // TODO: this should just fail in parser...
-            // There is an parser error here:
-            // 0.1..1.2
-            // -------- MP_Statement
-            // -------- MP_Operation .
-            // ---      MP_Float 0.1
-            //     ---- MP_Operation .
-            //     --   MP_Float 0.1
-            //        - MP_Integer 2
+            /* TODO: this should just fail in parser...
+             * There is an parser error here:
+             * 0.1..1.2
+             * -------- MP_Statement
+             * -------- MP_Operation .
+             * ---      MP_Float 0.1
+             *     ---- MP_Operation .
+             *     --   MP_Float 0.1
+             *        - MP_Integer 2
+             */
             $operand = $opnode->leftmostofright();
             if ($operand instanceof MP_Float && $operand->raw !== null &&
                     core_text::substr($operand->raw, 0, 1) === '.') {
@@ -709,7 +710,6 @@ class stack_cas_casstring {
             $operators[','] = true;
         }
 
-
         // Now loop over the initially found things of interest. Note that
         // the list may grow as we go forward and unwrap things.
         $i = 0;
@@ -742,9 +742,9 @@ class stack_cas_casstring {
                             case 'funmake':
                                 $safemap = true;
 
-                            // TODO: add errors about applying to wrong types
-                            // of things and check them. For the other map
-                            // functions to allow more to be done.
+                                // TODO: add errors about applying to wrong types
+                                // of things and check them. For the other map
+                                // functions to allow more to be done.
 
                             default:
                                 // NOTE: this is a correct virtual form for only
@@ -876,24 +876,23 @@ class stack_cas_casstring {
             // Other checks happen at the $variables loop. These are all members of that.
         }
 
-        // The rules of student identifiers are as follows, applies to whole
-        // identifier or its subparts:
-        /// Phase 1:
-        ///  if forbidden identifier in security-map then false else
-        ///  if present in forbidden words or contains such then false else
-        ///  if strlen() == 1 then true else
-        ///  if author used key then false else
-        ///  if strlen() > 2 and in allowed words then true else
-        ///  if strlen() > 2 and in security-map then true else
-        ///  if ends with a number then true else false
-        /// Phase 2:
-        ///  if phase 1 = false then false else
-        ///  if units and not unit name and is unit case variant then false else
-        ///  if not (know or in security-map) and case variant in security-map then false else
-        ///  true
-
-
-
+        /*
+         * The rules of student identifiers are as follows, applies to whole
+         * identifier or its subparts:
+         *   Phase 1:
+         *   if forbidden identifier in security-map then false else
+         *   if present in forbidden words or contains such then false else
+         *   if strlen() == 1 then true else
+         *   if author used key then false else
+         *   if strlen() > 2 and in allowed words then true else
+         *   if strlen() > 2 and in security-map then true else
+         *   if ends with a number then true else false
+         *  Phase 2:
+         *   if phase 1 = false then false else
+         *   if units and not unit name and is unit case variant then false else
+         *   if not (know or in security-map) and case variant in security-map then false else
+         *   true
+         */
 
         // Check for variables.
         foreach (array_keys($variables) as $name) {
@@ -969,7 +968,7 @@ class stack_cas_casstring {
                             $this->valid = false;
                         }
                     }
-                } else if (strlen($n) > 1){
+                } else if (strlen($n) > 1) {
                     // We still need to try for case variants.
                     if ($security === 's') {
                         $vars = $secrules->get_case_variants($n, 'variable');
@@ -1165,11 +1164,13 @@ class stack_cas_casstring {
         }
         if ($validationmethod == 'units') {
             // Note, we don't pass in forbidfloats as this option is ignored by the units validation.
-            $this->casstring = '(make_multsgn("blank"),stack_validate_units(['.$starredanswer.'], '.$lowestterms.', '.$tans.', "inline", '.$fltfmt.'))';
+            $this->casstring = '(make_multsgn("blank"),stack_validate_units(['.$starredanswer.'], '.$lowestterms.',
+                '.$tans.', "inline", '.$fltfmt.'))';
         }
         if ($validationmethod == 'unitsnegpow') {
             // Note, we don't pass in forbidfloats as this option is ignored by the units validation.
-            $this->casstring = '(make_multsgn("blank"),stack_validate_units(['.$starredanswer.'], '.$lowestterms.', '.$tans.', "negpow", '.$fltfmt.'))';
+            $this->casstring = '(make_multsgn("blank"),stack_validate_units(['.$starredanswer.'], '.$lowestterms.',
+                '.$tans.', "negpow", '.$fltfmt.'))';
         }
 
         return true;
@@ -1246,7 +1247,7 @@ class stack_cas_casstring {
      * Remove the ast, and other clutter, so we can test equality cleanly and dump values.
      */
     public function test_clean() {
-        $this -> ast = null;
+        $this->ast = null;
         return true;
     }
 }

@@ -122,7 +122,7 @@ class maxima_parser_utils {
     // Function to find suitable place to inject a semicolon to i.e. place into start of whitespace.
     private static function previous_non_whitespace($code, $pos) {
         $i = $pos;
-        if (core_text::substr($code, $i-1, 2) === '/*') {
+        if (core_text::substr($code, $i - 1, 2) === '/*') {
             $i--;
         }
         while ($i > 1 && maxima_parser_utils::is_whitespace(core_text::substr($code, $i - 1, 1))) {

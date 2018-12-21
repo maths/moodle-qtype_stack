@@ -156,7 +156,7 @@ class stack_cas_security {
                 foreach (stack_cas_security::$keywordlists[strtolower($key)] as $k => $v) {
                     $real[$k] = $v;
                 }
-            } else {
+            } else if (core_text::strlen($key) > 1) {
                 $real[$key] = true;
             }
         }

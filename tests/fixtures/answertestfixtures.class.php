@@ -56,6 +56,8 @@ class stack_answertest_test_data {
 
         array('AlgEquiv', '', '1/0', '1', -1, 'CASError: Division by zero.', ''),
         array('AlgEquiv', '', '1', '1/0', -1, 'CASError: Division by zero.', ''),
+        array('AlgEquiv', '', '', '(x-1)^2', -1, 'ATAlgEquivTEST_FAILED:Empty SA.', ''),
+        array('AlgEquiv', '', 'x^2', '', -1, 'ATAlgEquivTEST_FAILED:Empty TA.', ''),
         array('AlgEquiv', '', 'x-1)^2', '(x-1)^2', -1, 'ATAlgEquiv_STACKERROR_SAns.', ''),
         array('AlgEquiv', '', 'integerp(3)', 'true', 1, 'ATLogic_True', 'Predicates'),
         array('AlgEquiv', '', 'integerp(3.1)', 'true', 0, '', ''),
@@ -1684,7 +1686,7 @@ class stack_answertest_test_data {
             // We expect the test to fail.
             switch ($test->expectedscore) {
                 case -1:
-                    if ($errors === 'TEST_FAILED') {
+                    if ($errors !== '') {
                         $passed = true;
                     } else {
                         $passed = false;

@@ -131,23 +131,24 @@ class stack_answertest_general_cas extends stack_anstest {
         // Normally the prefix equality should be the identity function in the context of answer tests.
         if ($this->casfunction == 'ATEquiv' || $this->casfunction == 'ATEquivFirst') {
             // This is a placeholder to ensure the result is always in slot 3.
-            $cascommands[] = "null";
+            $cascommands['n1'] = "null";
         } else {
-            $cascommands[] = "stackeq(x):=x";
+            $cascommands['n1'] = "stackeq(x):=x";
         }
-        $cascommands[] = "STACKSA:$sa";
-        $cascommands[] = "STACKTA:$ta";
+        $cascommands['STACKSA'] = $sa;
+        $cascommands['STACKTA'] = $ta;
         if (!$this->processcasoptions || trim($op) === '' ) {
-            $cascommands[] = "result:StackReturn({$this->casfunction}(STACKSA,STACKTA))";
+            $cascommands['result'] = "StackReturn({$this->casfunction}(STACKSA,STACKTA))";
         } else {
-            $cascommands[] = "STACKOP:$op";
-            $cascommands[] = "result:StackReturn({$this->casfunction}(STACKSA,STACKTA,STACKOP))";
+            $cascommands['STACKOP'] = $op;
+            $cascommands['result'] = "StackReturn({$this->casfunction}(STACKSA,STACKTA,STACKOP))";
         }
 
         $cts = array();
-        foreach ($cascommands as $com) {
-            $cs    = new stack_cas_casstring($com);
+        foreach ($cascommands as $key => $com) {
+            $cs = new stack_cas_casstring($com);
             $cs->get_valid('t', true, 0);
+            $cs->set_key($key);
             $cts[] = $cs;
         }
 

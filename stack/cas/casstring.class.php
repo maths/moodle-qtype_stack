@@ -37,11 +37,51 @@ require_once(__DIR__ . '/parsingrules/insertstars5.class.php');
 
 class stack_cas_casstring {
 
-    /** @var string as typed in by the user. */
+    /** @var string as typed in by the user.
+     *  This should not be changed by the system, so will contains things like ?, which are otherwise not permitted.
+     */
     private $rawcasstring;
 
-    /** @var string as modified by the validation. */
+    /** @var string as modified by the validation.
+     *       This string is suitable to be sent directly to Maxima.
+     *       It will not contain ?, but these things will be replaced by tokens such as QMCHAR.
+     */
     private $casstring;
+
+    /**
+     * @var string the value of the CAS string, in Maxima syntax. Only gets set
+     *             after the casstring has been processed by the CAS.
+     *             Exactly what Maxima returns, and so suitable to be sent back.
+     */
+    private $value;
+
+    /**
+     * @var string A sanitised version of the value, e.g. with decimal places printed
+     *             and stackunits replaced by multiplication.
+     *             Used sparingly, e.g. for the teacher's answer, and testing inputs.
+     *             Will contain ?, not QMCHAR.
+     */
+    private $dispvalue;
+
+    /**
+     * @var string Displayed for of the value. LaTeX. Only gets set
+     *             after the casstring has been processed by the CAS.
+     */
+    private $display;
+
+    /**
+     * @array of additional CAS strings which are conditions when the main expression can
+     * be evaluated.  I.e. this encapsulates restrictions on the domain of the main value.
+     * Same format as the $value string, and not designed to be read by end users.
+     */
+    private $conditions;
+
+    /**
+     * @var string how to display the CAS string, e.g. LaTeX. Only gets set
+     *              after the casstring has been processed by the CAS, and the
+     *              CAS function is an answertest.
+     */
+    private $feedback;
 
     /** @var bool if the string has passed validation. */
     private $valid = null;
@@ -56,42 +96,10 @@ class stack_cas_casstring {
     private $errors;
 
     /**
-     * @var string the value of the CAS string, in Maxima syntax. Only gets set
-     *             after the casstring has been processed by the CAS.
-     */
-    private $value;
-
-    /**
-     * @array of additional CAS strings which are conditions when the main expression can
-     * be evaluated.  I.e. this encapsulates restrictions on the domain of the main value.
-     */
-    private $conditions;
-
-    /**
-     * @var string A sanitised version of the value, e.g. with decimal places printed
-     *             and stackunits replaced by multiplication.  Used sparingly, e.g. for
-     *             the teacher's answer, and testing inputs.
-     */
-    private $dispvalue;
-
-    /**
-     * @var string how to display the CAS string, e.g. LaTeX. Only gets set
-     *             after the casstring has been processed by the CAS.
-     */
-    private $display;
-
-    /**
-     * @var array Records logical informataion about the string, used for statistical
-     *             anaysis of students' answers.
+     * @var array Records logical information about the string, used for statistical
+     *             anaysis of students' answers and recording types of error.
      */
     private $answernote;
-
-    /**
-     * @var string how to display the CAS string, e.g. LaTeX. Only gets set
-     *              after the casstring has been processed by the CAS, and the
-     *              CAS function is an answertest.
-     */
-    private $feedback;
 
     /**
      * @var MPNode the parse tree presentation of this CAS string. Public for debug access...
@@ -198,7 +206,7 @@ class stack_cas_casstring {
         $secrules->set_units($this->units);
 
         $this->valid     = true;
-        $this->casstring = $this->rawcasstring;
+        $this->casstring = str_replace('?', 'QMCHAR', $this->rawcasstring);;
 
         // CAS strings must be non-empty.
         if (trim($this->casstring) == '') {
@@ -582,7 +590,7 @@ class stack_cas_casstring {
     private function check_characters($string) {
         // We are only checking identifiers now so no need for ops or newlines...
         // TODO: do we need to check? All the chars that go through the parser should work
-        // with maxima... although ��������������?
+        // with maxima... although π?
 
         // Only permit the following characters to be sent to the CAS.
         $allowedcharsregex = '~[^' . preg_quote(self::$allowedchars, '~') . ']~u';
@@ -621,8 +629,6 @@ class stack_cas_casstring {
             $this->valid = false;
         }
     }
-
-
 
     private function check_operators($opnode) {
         // This gets tricky as the old one mainly focused to syntax errors...
@@ -1075,11 +1081,13 @@ class stack_cas_casstring {
     }
 
     public function set_display($val) {
-        $this->display = $val;
+        $this->display = $this->translate_displayed_tex($val);
     }
 
     public function set_dispvalue($val) {
-        $this->dispvalue = $val;
+        $val = str_replace('"!! ', '', $val);
+        $val = str_replace(' !!"', '', $val);
+        $this->dispvalue = trim(stack_utils::logic_nouns_sort($val, 'remove'));
     }
 
     public function get_answernote($raw = 'implode') {
@@ -1101,7 +1109,7 @@ class stack_cas_casstring {
     }
 
     public function set_feedback($val) {
-        $this->feedback = $val;
+        $this->feedback = $this->translate_displayed_tex($val);;
     }
 
     public function add_errors($err) {
@@ -1241,6 +1249,25 @@ class stack_cas_casstring {
             $this->answernote[] = 'ParseError';
 
         }
+    }
+
+    /**
+     * Some of the TeX contains language tags which we need to translate.
+     * @param string $str
+     */
+    private function translate_displayed_tex($str) {
+        $dispfix = array('!LEFTSQ!' => '\left[', '!LEFTR!' => '\left(',
+                '!RIGHTSQ!' => '\right]', '!RIGHTR!' => '\right)');
+        // Need to add this in here also because strings may contain question mark characters.
+        foreach ($dispfix as $key => $fix) {
+            $str = str_replace($key, $fix, $str);
+        }
+        $loctags = array('ANDOR', 'SAMEROOTS', 'MISSINGVAR', 'ASSUMEPOSVARS', 'ASSUMEPOSREALVARS', 'LET',
+                'AND', 'OR', 'NOT');
+        foreach ($loctags as $tag) {
+            $str = str_replace('!'.$tag.'!', stack_string('equiv_'.$tag), $str);
+        }
+        return $str;
     }
 
     /**

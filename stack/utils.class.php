@@ -1250,6 +1250,8 @@ class stack_utils {
             $str = str_replace("'sum", "sum", $str);
             $str = str_replace("'int", "int", $str);
             $str = str_replace("'diff", "diff", $str);
+
+            $str = str_replace('QMCHAR', '?', $str);
         }
 
         return $str;

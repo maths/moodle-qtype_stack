@@ -55,7 +55,7 @@ class stack_parser_logic_insertstars0 extends stack_parser_logic {
             };
             $ast->callbackRecurse($check);
             if ($hasany) {
-                // As we ouput the AST as a whole including the MP_Root there will be extra chars at the end.
+                // As we output the AST as a whole including the MP_Root there will be extra chars at the end.
                 $missingstring = core_text::substr(stack_utils::logic_nouns_sort($ast->toString(array('insertstars_as_red' => true, 'qmchar' => true)), 'remove'), 0, -2);
                 $a = array();
                 $a['cmd']  = stack_maxima_format_casstring($missingstring);

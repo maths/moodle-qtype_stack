@@ -68,16 +68,17 @@ class stack_anstest_atdecplaces extends stack_anstest {
 
         // Check that the two numbers evaluate to the same value.
         $cascommands = array();
-        $cascommands[] = "caschat2:ev({$this->atoption},simp)";
-        $cascommands[] = "caschat0:ev(float(round(10^caschat2*{$this->sanskey})/10^caschat2),simp)";
-        $cascommands[] = "caschat1:ev(float(round(10^caschat2*{$this->tanskey})/10^caschat2),simp)";
-        $cascommands[] = "caschat3:ev(second(ATAlgEquiv(caschat0,caschat1)),simp)";
-        $cascommands[] = "caschat4:floatnump({$this->sanskey})";
+        $cascommands['caschat2'] = "ev({$this->atoption},simp)";
+        $cascommands['caschat0'] = "ev(float(round(10^caschat2*{$this->sanskey})/10^caschat2),simp)";
+        $cascommands['caschat1'] = "ev(float(round(10^caschat2*{$this->tanskey})/10^caschat2),simp)";
+        $cascommands['caschat3'] = "ev(second(ATAlgEquiv(caschat0,caschat1)),simp)";
+        $cascommands['caschat4'] = "floatnump({$this->sanskey})";
 
         $cts = array();
-        foreach ($cascommands as $com) {
-            $cs    = new stack_cas_casstring($com);
+        foreach ($cascommands as $key => $com) {
+            $cs = new stack_cas_casstring($com);
             $cs->get_valid('t', true, 0);
+            $cs->set_key($key);
             $cts[] = $cs;
         }
         $session = new stack_cas_session($cts, null, 0);

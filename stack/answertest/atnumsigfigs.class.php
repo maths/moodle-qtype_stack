@@ -159,15 +159,16 @@ class stack_anstest_atnumsigfigs extends stack_anstest {
         $this->options->set_option('simplify', $this->simp);
 
         $cascommands = array();
-        $cascommands[] = "STACKSA:$this->sanskey";
-        $cascommands[] = "STACKTA:$this->tanskey";
-        $cascommands[] = "STACKOP:$atopt";
-        $cascommands[] = "result:StackReturn({$this->casfunction}(STACKSA,STACKTA,STACKOP))";
+        $cascommands['STACKSA'] = $this->sanskey;
+        $cascommands['STACKTA'] = $this->tanskey;
+        $cascommands['STACKOP'] = $atopt;
+        $cascommands['result']  = "StackReturn({$this->casfunction}(STACKSA,STACKTA,STACKOP))";
 
         $cts = array();
-        foreach ($cascommands as $com) {
-            $cs    = new stack_cas_casstring($com);
+        foreach ($cascommands as $key => $com) {
+            $cs = new stack_cas_casstring($com);
             $cs->get_valid('t', true, 0);
+            $cs->set_key($key);
             $cts[] = $cs;
         }
 

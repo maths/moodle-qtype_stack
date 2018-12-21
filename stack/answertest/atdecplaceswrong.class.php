@@ -57,16 +57,17 @@ class stack_anstest_atdecplaceswrong extends stack_anstest {
 
         // Check that the two numbers evaluate to the same value.
         $cascommands = array();
-        $cascommands[] = "caschat0:{$this->sanskey}";
-        $cascommands[] = "caschat1:{$this->tanskey}";
-        $cascommands[] = "caschat2:ev({$this->atoption},simp)";
-        $cascommands[] = "caschat3:numberp({$this->sanskey})";
-        $cascommands[] = "caschat4:numberp({$this->tanskey})";
+        $cascommands['caschat0'] = $this->sanskey;
+        $cascommands['caschat1'] = $this->tanskey;
+        $cascommands['caschat2'] = "ev({$this->atoption},simp)";
+        $cascommands['caschat3'] = "numberp({$this->sanskey})";
+        $cascommands['caschat4'] = "numberp({$this->tanskey})";
 
         $cts = array();
-        foreach ($cascommands as $com) {
-            $cs    = new stack_cas_casstring($com);
+        foreach ($cascommands as $key => $com) {
+            $cs = new stack_cas_casstring($com);
             $cs->get_valid('t', true, 0);
+            $cs->set_key($key);
             $cts[] = $cs;
         }
         $session = new stack_cas_session($cts, null, 0);

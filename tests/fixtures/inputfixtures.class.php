@@ -160,7 +160,7 @@ class stack_inputvalidation_test_data {
         array('x.', 'php_flase', 'x.', '', '', 'finalChar', ""),
         array('x and', 'php_false', '', '', '', 'spaces', ""),
         array('!', 'php_false', '!', 'badpostfixop', '', 'badpostfixop', ""),
-        array('sin', 'php_true', 'sin', 'cas_true', '\sin', '',
+        array('sin', 'php_false', 'sin', 'cas_true', '\sin', 'forbiddenVariable',
         "This names the operator sine, which is a valid expression on its own.
         The classic difference between the function \(f\) and the value of the
         function at a point \(f(x)\).  Maybe a 'gocha' for the question author...."),

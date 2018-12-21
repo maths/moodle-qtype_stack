@@ -98,7 +98,9 @@ class stack_parser_logic_insertstars0 extends stack_parser_logic {
     // numbers mixed in them. Also certain other old tricks.
     private function handletree($ast, &$valid, &$errors, &$answernote, $syntax, $safevars, $safefunctions) {
 
-        $process = function($node) use (&$valid, $errors, &$answernote, $syntax, $safevars, $safefunctions) {
+        $identifiedsinglelettervariables = array();
+
+        $process = function($node) use (&$valid, $errors, &$answernote, $syntax, $safevars, $safefunctions, &$identifiedsinglelettervariables) {
             if ($node instanceof MP_FunctionCall) {
                 // Do not touch functions with names that are safe.
                 if (($node->name instanceof MP_Identifier ||
@@ -142,7 +144,7 @@ class stack_parser_logic_insertstars0 extends stack_parser_logic {
                         $replacement->position['insertstars'] = true;
                         $node->parentnode->replace($node, $replacement);
                         return false;
-                    } else if (!$syntax &&(core_text::strlen($node->name->value) == 1)) {
+                    } else if (!$syntax && core_text::strlen($node->name->value) === 1 && isset($identifiedsinglelettervariables[$node->name->value])) {
                         // Single character function names... TODO: what is this!?
                         $replacement = new MP_Operation('*', $node->name, new MP_Group($node->arguments));
                         $answernote[] = 'missing_stars';
@@ -180,6 +182,13 @@ class stack_parser_logic_insertstars0 extends stack_parser_logic {
                 }
             }
             if ($node instanceof MP_Identifier) {
+                // Identify single letter varaible names.
+                if (core_text::strlen($node->value) === 1 && !isset($identifiedsinglelettervariables[$node->value]) && !$node->is_function_name()) {
+                    $identifiedsinglelettervariables[$node->value] = true;
+                    return false;
+                }
+
+
                 // Skip the very special identifiers for log-candy.
                 // These will be reconstructed as fucntion calls elsewhere.
                 if ($node->value === 'log10' || core_text::substr($node->value, 0, 4) === 'log_') {

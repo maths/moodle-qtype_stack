@@ -188,24 +188,18 @@ class stack_cas_session {
                 }
 
                 if (array_key_exists('value', $result)) {
-                    $val = $result['value'];
-                    $cs->set_value($val);
+                    $cs->set_value($result['value']);
                     $gotvalue = true;
                 } else {
                     $cs->add_errors(stack_string("stackCas_failedReturnOne"));
                 }
 
                 if (array_key_exists('display', $result)) {
-                    $disp = $result['display'];
-                    $disp = $this->translate_displayed_tex($disp);
-                    $cs->set_display($disp);
+                    $cs->set_display($result['display']);
                 }
 
                 if (array_key_exists('dispvalue', $result)) {
-                    $val = $result['dispvalue'];
-                    $val = str_replace('"!! ', '', $val);
-                    $val = str_replace(' !!"', '', $val);
-                    $cs->set_dispvalue(trim($val));
+                    $cs->set_dispvalue($result['dispvalue']);
                 }
 
                 if (array_key_exists('valid', $result)) {
@@ -217,9 +211,7 @@ class stack_cas_session {
                 }
 
                 if (array_key_exists('feedback', $result)) {
-                    $feedback = $result['feedback'];
-                    $feedback = $this->translate_displayed_tex($feedback);
-                    $cs->set_feedback($feedback);
+                    $cs->set_feedback($result['feedback']);
                 }
 
             } else if (!$gotvalue) {
@@ -242,25 +234,6 @@ class stack_cas_session {
             $this->errors .= $this->get_debuginfo();
         }
         $this->instantiated = true;
-    }
-
-    /**
-     * Some of the TeX contains language tags which we need to translate.
-     * @param string $str
-     */
-    private function translate_displayed_tex($str) {
-        $dispfix = array('!LEFTSQ!' => '\left[', '!LEFTR!' => '\left(',
-            '!RIGHTSQ!' => '\right]', '!RIGHTR!' => '\right)');
-        // Need to add this in here also because strings may contain question mark characters.
-        foreach ($dispfix as $key => $fix) {
-            $str = str_replace($key, $fix, $str);
-        }
-        $loctags = array('ANDOR', 'SAMEROOTS', 'MISSINGVAR', 'ASSUMEPOSVARS', 'ASSUMEPOSREALVARS', 'LET',
-                'AND', 'OR', 'NOT');
-        foreach ($loctags as $tag) {
-            $str = str_replace('!'.$tag.'!', stack_string('equiv_'.$tag), $str);
-        }
-        return $str;
     }
 
     public function get_debuginfo() {

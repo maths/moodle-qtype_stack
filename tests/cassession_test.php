@@ -327,10 +327,10 @@ class stack_cas_session_test extends qtype_stack_testcase {
         $at1 = new stack_cas_session($s1, null, 0);
         $at1->instantiate();
 
-        $this->assertEquals('11*?', $at1->get_value_key('s'));
+        $this->assertEquals('11*QMCHAR', $at1->get_value_key('s'));
         $this->assertEquals('11\cdot \color{red}{?}', $at1->get_display_key('s'));
 
-        $this->assertEquals('matrix([?,1],[1,?])', $at1->get_value_key('A'));
+        $this->assertEquals('matrix([QMCHAR,1],[1,QMCHAR])', $at1->get_value_key('A'));
     }
 
     public function test_subscript_disp() {
@@ -557,6 +557,7 @@ class stack_cas_session_test extends qtype_stack_testcase {
         }
         $at1 = new stack_cas_session($s1, null, 0);
         $at1->instantiate();
+        print_r($at1);
         // There has been a subtle change to associativity in Maxima 5.37.0.
         $this->assertEquals('-7\cdot i+2\cdot j-3\cdot k', $at1->get_display_key('v'));
     }

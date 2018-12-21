@@ -5427,7 +5427,7 @@
         "function": "f"
     },
     "product": {
-        "function": "f"
+        "function": "s"
     },
     "product_use_gamma": {
         "variable": "f"

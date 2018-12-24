@@ -30,6 +30,7 @@ require_once(__DIR__ . '/libs/yaml.php');
 require_once(__DIR__ . '/../stack/questiontest.php');
 
 function processrequest() {
+    global $PAGE, $CFG;
     $then = microtime(true);
 
     $api = new qtype_stack_api();
@@ -37,12 +38,15 @@ function processrequest() {
     $parsed = validatedata(parseinput());
     // Control the display of feedback, and whether students can change their answer.
     $options = new stdClass();
+    $GLOBALS['OPTIONS'] =& $options;
+
     $options->readonly = $parsed['readOnly'];
     // Do we display feedback and a score for each part (in a multi-part question)?
     $options->feedback = $parsed['feedback'];
     $options->score = $parsed['score'];
     $options->validate = !$parsed['score'];
     $options->lang = $parsed['lang'];
+    $options->debug = $parsed['debug'];
 
     $questionyaml = trim($parsed['question']);
 
@@ -86,6 +90,7 @@ function processrequest() {
     $apithen = microtime(true);
 
     $res = $api->formulation_and_controls($question, $attempt, $options, $parsed['prefix']);
+    // printdata($res);
 
     // Run question tests.
     // TODO: this is unfinished.  We need to refactor some of this, and from questiontestrun.php to eliminate any duplication in testing.

@@ -24,5 +24,3 @@ RUN chmod a+rwx /var/data/api/stack /var/data/api/stack/logs /var/data/api/stack
 # RUN sed -i '3ichmod a+rwx /var/data/api/stack /var/data/api/stack/logs /var/data/api/stack/tmp /var/data/api/stack/plots' /usr/local/bin/docker-php-entrypoint
 
 ENTRYPOINT  /var/www/html/entrypoint_install_and_run.sh 
-
-

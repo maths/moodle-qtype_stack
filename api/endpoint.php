@@ -65,7 +65,7 @@ function processrequest() {
 	if ( $verifyvar ) { // make questions a simply as possible, we just want verify user answer
 		$data["question_html"] = '<p>[[validation:' . $verifyvar . ']]</p>';
 		$data["response_trees"] = new stdClass;
-		$data["variables"] = "";
+		// $data["variables"] = "";
 		$data["specific_feedback_html"] = "";
 		$data["note"] = "";
 		$data["worked_solution_html"] = "";

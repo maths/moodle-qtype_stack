@@ -18,7 +18,7 @@ $CFG->platform = 'unix-optimised';
 // URL of your web server, e.g.
 $CFG->dataurl = "http://localhost/api/";
 $CFG->jsxgraphjs = "http://192.168.59.9/cs/stack";
-$CFG->jsxglobal = "kissa";
+$CFG->jsxparentselector = ".csRunDiv";
 
 // You will need to replace this with the compiled version.
 $CFG->maximacommand = "timeout --kill-after=10s 10s /var/data/api/stack/maxima_opt_auto -eval '(cl-user::run)'";

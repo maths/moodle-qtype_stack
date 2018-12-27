@@ -5,11 +5,12 @@ sudo docker run --rm=true\
   -v /var/www/api/plots:/var/www/html/plots:rw   \
   -v /var/www/api/api:/var/www/html/api  \
   -v /var/www/blob:/var/www/html/api/blob \
-  --name stack-api-server \
+  -v /var/www/api/api/config.php.docker:/var/www/html/config.php \
+  --name tim_stack-api-server_1 \
   -p 90:80 \
   -p 49992:22\
   -p 9000:9000 \
-  timimages/stack
+  timimages/stack-debug
 
 
   

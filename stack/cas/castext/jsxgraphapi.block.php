@@ -134,77 +134,81 @@ where the base64 coded data url is like (in debug caes):
         $width  = $this->get_node()->get_parameter('width', '500px');
         $height = $this->get_node()->get_parameter('height', '500px');
         $debug = (int)$this->get_node()->get_parameter('debug', '0');
-        $divname = $this->get_node()->get_parameter('div', 'div1');
-        $inputs = $this->get_node()->get_parameter('inputs', ''); // TODO: sanitize ALL values
+        $divSelector = $this->get_node()->get_parameter('div', '#div1');
+        $parentSelector = $this->get_node()->get_parameter('parent', "$CFG->jsxparentselector");
+        $sendInputs = $this->get_node()->get_parameter('inputs', ''); // TODO: sanitize ALL values
+        $initObject = $this->get_node()->get_parameter('init', '{}'); // TODO: sanitize ALL values
         $taskDebug = $OPTIONS->debug;
         if ( $taskDebug >= 0 ) $debug = $taskDebug;
 
         $communicate = ( strpos($code, "stack_jxg") !== false);
 
-        $code = str_replace(";", ";\n", $code); // TODO: Hack until code is not on one line
+        // $code = str_replace(";", ";\n", $code); // TODO: Hack until code is not on one line
 
         $inputPrefix = 'stackapi_';
 
         $communicate += $debug;
+        if ( $sendInputs ) $communicate = true;
+        if ( $initObject != '{}' && $initObject != '' ) $communicate = true;
 
-        $iframename = "jsxFrame-$divid-$divname";
+        $iframename = "jsxFrame-$divid-" . str_replace('#','',$divSelector);
 
         $jxStyle  = "width:$width;height:$height;";
 
         $iframeStyle  = "width:calc($width + 2px);height:calc($height + 2px);border: none;";
         $debugHtmlClient = "";
-        $debugName = "";
         $debugHtmlServer = "";
         $debugFindClient = "";
         $debugSelector = "";
         if ( $debug ) {
             $debugName = 'debug-' . $divid;
             $debugSelector = "#$debugName";
-            $debugHtmlClient = "c$clientNr: <input type='text' id='$debugName' size='$debug' value=''></input><br>\n";
-            $debugHtmlServer = "s$clientNr: <input type='text' id='$debugName' size='$debug' value=''></input><br>\n";
+            $debugHtmlClient = "\n<p class='debug'>c$clientNr: <input type='text' id='$debugName' size='$debug' value=''></input></p>";
+            $debugHtmlServer = "\n<p class='debug'>s$clientNr: <input type='text' id='$debugName' size='$debug' value=''></input></p>";
             $debugFindClient = "debug = document.querySelector('$debugSelector');";
-            $iframeStyle  = "width:calc($width + 30px);height:calc($height + 50px);border: none;";
+            $iframeStyle  = "width:calc($width + 30px);height:calc($height + 60px);border: none;";
         }
 
         $htmlCodeClient = "<!DOCTYPE html>
-        <head>
-        <title>JSXGraph</title>
-        <script type='text/javascript' charset='UTF-8' src='https://cdnjs.cloudflare.com/ajax/libs/jsxgraph/0.99.7/jsxgraphcore.js'></script>
-        <link rel='stylesheet' type='text/css' href='https://cdnjs.cloudflare.com/ajax/libs/jsxgraph/0.99.7/jsxgraph.css'>";
-        if ( $communicate )
-            $htmlCodeClient .= "<script type='text/javascript' charset='UTF-8' src='$CFG->jsxgraphjs/JSXClientSync.js'></script>";
-        $htmlCodeClient .= "
-        </head>
-        <body style='margin: 0px;'>$debugHtmlClient
-        <div id='jxgbox' class='jxgbox' style='$jxStyle'></div>
-        </body>             
-        <script type='text/javascript'>
-            $debugFindClient
-            var divid = 'jxgbox';";
-            if ( $communicate )
-                $htmlCodeClient .= "
-                var stack_jxg = null;
-                window.onmessage = function(e){
-                    stack_jxg = new JSXClientSync(e.ports[0],'c$clientNr', e.data);
-                    graph = new Graph(e.data);
-                };
+<head>
+<title>JSXGraph</title>
+<script type='text/javascript' charset='UTF-8' src='https://cdnjs.cloudflare.com/ajax/libs/jsxgraph/0.99.7/jsxgraphcore.js'></script>
+<link rel='stylesheet' type='text/css' href='https://cdnjs.cloudflare.com/ajax/libs/jsxgraph/0.99.7/jsxgraph.css'>";
+if ( $communicate )
+    $htmlCodeClient .= "<script type='text/javascript' charset='UTF-8' src='$CFG->jsxgraphjs/JSXClientSync.js'></script>";
+$htmlCodeClient .= "
+</head>
+<body style='margin: 0px;'>$debugHtmlClient
+<div id='jxgbox' class='jxgbox' style='$jxStyle'></div>
+</body>             
+<script type='text/javascript'>
+$debugFindClient
+var divid = 'jxgbox';";
+if ( $communicate )
+$htmlCodeClient .= "
+var stack_jxg = null;
+window.onmessage = function(e){
+ stack_jxg = new JSXClientSync(e.ports[0],'c$clientNr', e.data.values);
+ graph = new Graph(e.data);
+};
 
-                function Graph(vars)";
+function Graph(initVars)";
 
         // Also catch errors inside the code and try to provide console logging
         // of them for the author.
 
-            $htmlCodeClient .= "
-            {
-              try {
-                $code 
-                board.update();
-              } catch (err) {
-                console.error('STACK JSXGraph error in $divid\\n'); 
-                console.log(err); 
-              }        
-            }
-        </script>";
+$htmlCodeClient .= "
+{
+ try {
+$code 
+  // board.update();
+ } catch (err) {
+   console.error('STACK JSXGraph error in $divid\\n'); 
+   console.log(err); 
+ }        
+}
+</script>
+</html>";
 
         $datasrc = base64_encode($htmlCodeClient);
         $data64 = "data:text/html;base64," . $datasrc;
@@ -213,18 +217,27 @@ where the base64 coded data url is like (in debug caes):
                                   'class' => 'jsxFrame', 'src' => $data64 );
 
         $html = html_writer::tag('iframe', '', $iframeAttributes);
+
+        // **************************** Serverside code ************************************************
+
         $script = "";
-        if ( $communicate )
-            $script =  "     
-          <script>
-          var quizdiv = document.getElementById('$divname');
-          if ( !quizdiv ) quizdiv = document;
-          var sv = new ServerSyncValues(quizdiv, '#$iframename', '$inputPrefix', '$debugSelector', 'S$clientNr', '$inputs');
-          </script>";
+        if ( $communicate ) {
+            $scriptId = uniqid();
+            $script = "     
+<script id='$scriptId'>
+
+// var quizdiv = document.getElementById('$divSelector');
+// if ( !quizdiv ) quizdiv = document;
+new ServerSyncValues(findParentElementFromScript('$scriptId', '$parentSelector', '$divSelector'),
+ '#$iframename', '$inputPrefix', '$debugSelector', 'S$clientNr', 
+ {sendInputs:'$sendInputs',initObject:$initObject}
+);
+</script>";
+        }
 
         $this->get_node()->convert_to_text("$debugHtmlServer$html \n$script" );
 
-         if (!defined('MINIMAL_API')) {
+        if (!defined('MINIMAL_API')) {
             $PAGE->requires->js_amd_inline('require(["qtype_stack/jsxgraph",'
                     . '"qtype_stack/jsxgraphcore-lazy","core/yui"], '
                     . 'function(stack_jxg, JXG, Y){Y.use("mathjax",function(){'.$code.'});});');

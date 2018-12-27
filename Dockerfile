@@ -16,6 +16,7 @@ VOLUME ["/var/data/api/stack/plots"]
 RUN ln -s /var/data/api/stack/plots /var/www/html/plots
 COPY ./ /var/www/html
 COPY ./api/config.php.docker /var/www/html/config.php
+RUN sed s/stack_cas_castext_jsxgraphapi/stack_cas_castext_jsxgraph/  /var/www/html/stack/cas/castext/jsxgraphapi.block.php > /var/www/html/stack/cas/castext/jsxgraph.block.php
 RUN chmod a+rwx /var/data/api/stack /var/data/api/stack/logs /var/data/api/stack/tmp /var/data/api/stack/plots
 # RUN maxima --version
 # RUN php /var/www/html/api/install.php

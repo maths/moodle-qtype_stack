@@ -346,6 +346,30 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         $this->assertEquals('SA_not_expression', $state->note);
     }
 
+    public function test_validate_student_response_sametype_subscripts_true_valid() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('algebraic', 'sans1', 'mu_0*(I_0-I_1)');
+        $el->set_parameter('sameType', true);
+        $state = $el->validate_student_response(array('sans1' => 'mu_0*(I_1-I_2)'), $options, 'x', array('tans'));
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('mu_0*(I_1-I_2)', $state->contentsmodified);
+        $this->assertEquals('\[ {\mu}_{0}\cdot \left({I}_{1}-{I}_{2}\right) \]', $state->contentsdisplayed);
+        $this->assertEquals('\( \left[ {I}_{1} , {I}_{2} , {\mu}_{0} \right]\) ', $state->lvars);
+    }
+
+    public function test_validate_student_response_sametype_subscripts_true_invalid() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('algebraic', 'sans1', 'mu_0*(I_0-I_1)');
+        $el->set_parameter('sameType', true);
+        $state = $el->validate_student_response(array('sans1' => '{mu_0*(I_1-I_2)}'), $options, 'x', array('tans'));
+        $this->assertEquals(stack_input::INVALID, $state->status);
+        $this->assertEquals('SA_not_expression', $state->note);
+        $this->assertEquals('{mu_0*(I_1-I_2)}', $state->contentsmodified);
+        $this->assertEquals('\[ \left \{{\mu}_{0}\cdot \left({I}_{1}-{I}_{2}\right) \right \} \]',
+            $state->contentsdisplayed);
+        $this->assertEquals('\( \left[ {I}_{1} , {I}_{2} , {\mu}_{0} \right]\) ', $state->lvars);
+    }
+
     public function test_validate_student_response_display_1() {
         $options = new stack_options();
         $el = stack_input_factory::make('algebraic', 'sans1', '-3*x^2-4');

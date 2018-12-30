@@ -18,7 +18,13 @@ defined('MOODLE_INTERNAL') || die();
 
 // @copyright  2018 Aalto University.
 // @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
-require_once("maximaParser.php");
+
+// We select the implementation of the parser, depending on mbstring.
+if (function_exists('mb_ereg')) {
+    require_once(__DIR__ . '/autogen/parser.mbstring.php');
+} else {
+    require_once(__DIR__ . '/autogen/parser.native.php');
+}
 
 class maxima_parser_utils {
 

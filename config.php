@@ -1,29 +1,28 @@
 <?php
-date_default_timezone_set('UTC');
 /**
  * Simulating Moodle global configuration variables.
  */
 
 $CFG = new stdClass;
+$PAGE = new stdClass;
 
 // This is the directory into which you put the scripts.
-$CFG->wwwroot = "/var/www/html";
+$CFG->wwwroot = "/var/www/api";
 // The base url of the installation
 // The server path of the installation.
 $CFG->dirroot = realpath(dirname(__FILE__));
 // You must have a data directory into which the webserver can write.  Don't put this in your web directory.
 $CFG->dataroot = "/var/data/api";
-$CFG->platform = 'unix-optimised';
 
 // URL of your web server, e.g.
 $CFG->dataurl = "http://localhost/api/";
-$host = getenv('BROWSER_URL', true);
-$CFG->jsxgraphjs = "$host/cs/stack";
-$CFG->jsxparentselector = ".csRunDiv";
 
 // You will need to replace this with the compiled version.
-$CFG->maximacommand = "timeout --kill-after=10s 10s /var/data/api/stack/maxima_opt_auto -eval '(cl-user::run)'";
+$CFG->maximacommand = 'maxima';
 $CFG->maximaversion = 'default';
+// Once you have compiled maxima you will need to change this.
+$CFG->platform     = 'unix';
+// $CFG->platform     = 'unix-optimised';
 
 /*
  * These settings are hard-wired here.  See settings.php for more details.

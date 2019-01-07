@@ -30,6 +30,7 @@ require_once(__DIR__ . '/libs/yaml.php');
 require_once(__DIR__ . '/../stack/questiontest.php');
 
 function processrequest() {
+    global $PAGE, $CFG;
     $then = microtime(true);
 
     $api = new qtype_stack_api();
@@ -37,12 +38,15 @@ function processrequest() {
     $parsed = validatedata(parseinput());
     // Control the display of feedback, and whether students can change their answer.
     $options = new stdClass();
+    $GLOBALS['OPTIONS'] =& $options;
+
     $options->readonly = $parsed['readOnly'];
     // Do we display feedback and a score for each part (in a multi-part question)?
     $options->feedback = $parsed['feedback'];
     $options->score = $parsed['score'];
     $options->validate = !$parsed['score'];
     $options->lang = $parsed['lang'];
+    $options->debug = $parsed['debug'];
 
     $questionyaml = trim($parsed['question']);
 
@@ -56,16 +60,37 @@ function processrequest() {
     // Import STACK question from yaml string.
     $importer = new qtype_stack_api_yaml($questionyaml, $defaults);
     $data = $importer->get_question($options->lang);
+	
+    $verifyvar = $parsed['verifyvar'];
+	if ( $verifyvar ) { // make questions a simply as possible, we just want verify user answer
+		$data["question_html"] = '<p>[[validation:' . $verifyvar . ']]</p>';
+		$data["response_trees"] = new stdClass;
+		// $data["variables"] = "";
+		$data["specific_feedback_html"] = "";
+		$data["note"] = "";
+		$data["worked_solution_html"] = "";
+	}
     $question = $api->initialise_question($data);
     // Make this a definite number, to fix the random numbers.
     $question->seed = $parsed['seed'];
 
+	if ( 0 ) {  // for debug purposes
+	   print("\n=====================================================\n");
+	   printdata($options);
+	   print("\n=====================================================\n");
+	   printdata($data);
+	   print("\n=====================================================\n");
+	   printdata($question);
+       return;
+	}  // end debug
+	
     $question->initialise_question_from_seed();
 
     $attempt = $parsed['answer'];
     $apithen = microtime(true);
 
     $res = $api->formulation_and_controls($question, $attempt, $options, $parsed['prefix']);
+    // printdata($res);
 
     // Run question tests.
     // TODO: this is unfinished.  We need to refactor some of this, and from questiontestrun.php to eliminate any duplication in testing.
@@ -99,15 +124,24 @@ function processrequest() {
         }
     }
 
-    // Assemble output.
-    $json = [
-        "questiontext" => replace_plots($res->questiontext),
-        "score" => $res->score,
-        "generalfeedback" => replace_plots($res->generalfeedback),
-        "formatcorrectresponse" => replace_plots($res->formatcorrectresponse),
-        "summariseresponse" => json_decode($res->summariseresponse),
-        "answernotes" => json_decode($res->answernotes)
-    ];
+	$json = [];
+	if ( $verifyvar ) {
+		$json = [
+			"questiontext" => $res->questiontext
+		];
+	}
+	else {
+		// Assemble output.
+		$ploturl = $parsed['ploturl'];
+		$json = [
+			"questiontext" => replace_plots($res->questiontext, $ploturl),
+			"score" => $res->score,
+			"generalfeedback" => replace_plots($res->generalfeedback, $ploturl),
+			"formatcorrectresponse" => replace_plots($res->formatcorrectresponse, $ploturl),
+			"summariseresponse" => json_decode($res->summariseresponse),
+			"answernotes" => json_decode($res->answernotes)
+		];
+	}
     $now = microtime(true);
     $json['request_time'] = $now - $then;
     $json['api_time'] = $now - $apithen;

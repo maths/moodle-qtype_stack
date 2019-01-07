@@ -14,16 +14,9 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
-defined('MOODLE_INTERNAL') || die();
+// defined('MOODLE_INTERNAL') || die();
 
-// JSXGraph block essentially repeats the functionality of the JSXGraph filter
-// in Moodle but limits the use to authors thus negating the primary security
-// issue. More importantly it also provides STACK specific extensions in
-// the form of references to question inputs.
-//
-// While this filter is simple and repeat existing logic it does have a purpose.
-//
-// @copyright  2018 Aalto University
+// @copyright  2018 vesal
 // @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
 
 require_once(__DIR__ . '/../casstring.class.php');
@@ -33,7 +26,7 @@ if (!defined('MINIMAL_API')) {
     require_once(__DIR__ . '/../../../../../../lib/pagelib.php');
 }
 
-class stack_cas_castext_jsxgraph extends stack_cas_castext_block {
+class stack_cas_castext_jsxgraphapi extends stack_cas_castext_block {
 
     private static $countgraphs = 1;
 
@@ -53,8 +46,63 @@ class stack_cas_castext_jsxgraph extends stack_cas_castext_block {
     }
 
     public function clear() {
-        global $PAGE, $CFG;
+        global $PAGE, $CFG, $OPTIONS;
         // Now is the time to replace the block with the div and the code.
+
+/*
+We try to do to the "server" side an html like:
+
+-------------------------------------------------------------------------------------------------
+<iframe id="jsxFrame-stack-jsxgraph-1-div1"
+        style="width:calc(700px + 2px);height:calc(700px + 2px);border: none;"
+        sandbox="allow-scripts"
+        class="jsxFrame"
+        src="data:text/html;base64,...">
+</iframe>
+<script>
+  var quizdiv = document.getElementById('div1');
+  if ( !quizdiv ) quizdiv = document;
+  var sv = new ServerSyncValues(quizdiv, '#jsxFrame-stack-jsxgraph-1-div1', 'stackapi_', '', 'S1');
+</script>
+-------------------------------------------------------------------------------------------------
+
+and inside the iframe the "client" code
+where the base64 coded data url is like (in debug caes):
+
+<!DOCTYPE html>
+<head>
+<title>JSXGraph</title>
+<script type='text/javascript' charset='UTF-8' src='https://cdnjs.cloudflare.com/ajax/libs/jsxgraph/0.99.7/jsxgraphcore.js'></script>
+<link rel='stylesheet' type='text/css' href='https://cdnjs.cloudflare.com/ajax/libs/jsxgraph/0.99.7/jsxgraph.css'>
+<script type='text/javascript' charset='UTF-8' src='http://192.168.59.9/cs/stack/JSXClientSync.js'></script>
+</head>
+<body style='margin: 0px;'>
+<div id='jxgbox' class='jxgbox' style='width:700px;height:700px;'></div>
+</body>
+<script type='text/javascript'>
+    var divid = 'jxgbox';
+    var stack_jxg = null;
+    window.onmessage = function(e){
+        stack_jxg = new JSXClientSync(e.ports[0],'c1');
+        graph = new Graph(e.data);
+    };
+
+    function Graph(vars)
+    {
+      try {
+        var ans1Ref=stack_jxg.find_input_id(divid,'ans1');
+        // user code
+        board.update();
+      } catch (err) {
+        console.error('STACK JSXGraph error in stack-jsxgraph-1\n');
+        console.log(err);
+      }
+    }
+</script>
+</html>
+
+*/
+
         $code = "";
         $iter = $this->get_node()->firstchild;
         while ($iter !== null) {
@@ -62,6 +110,7 @@ class stack_cas_castext_jsxgraph extends stack_cas_castext_block {
             $iter = $iter->nextsibling;
         }
 
+        $clientNr = self::$countgraphs;
         $divid  = "stack-jsxgraph-" . self::$countgraphs;
 
         // Input ref prefixes.
@@ -81,31 +130,114 @@ class stack_cas_castext_jsxgraph extends stack_cas_castext_block {
         }
 
         // Prefix the code with the id of the div.
-        $code = "var divid = '$divid';\n$code";
-
-        // We restrict the actions of the block code a bit by stopping it from
-        // rewriting some things in the surrounding scopes.
-        // Also catch errors inside the code and try to provide console logging
-        // of them for the author.
-        // We could calculate the actual offset but I'll leave that for
-        // someone else. 1+2*n probably, or we could just write all the preamble
-        // on the same line and make the offset always be the same?
-        $code = '"use strict";try{if(document.getElementById("' . $divid . '")){' . $code . '}} '
-            . 'catch(err) {console.log("STACK JSXGraph error in \"' . $divid
-            . '\", (note a slight varying offset in the error position due to possible input references):");'
-            . 'console.log(err);}';
 
         $width  = $this->get_node()->get_parameter('width', '500px');
-        $height = $this->get_node()->get_parameter('height', '400px');
+        $height = $this->get_node()->get_parameter('height', '500px');
+        $debug = (int)$this->get_node()->get_parameter('debug', '0');
+        $divSelector = $this->get_node()->get_parameter('div', '#div1');
+        $parentSelector = $this->get_node()->get_parameter('parent', "$CFG->jsxparentselector");
+        $sendInputs = $this->get_node()->get_parameter('inputs', ''); // TODO: sanitize ALL values
+        $initObject = $this->get_node()->get_parameter('init', '{}'); // TODO: sanitize ALL values
+        $taskDebug = $OPTIONS->debug;
+        if ( $taskDebug >= 0 ) $debug = $taskDebug;
 
-        $style  = "width:$width;height:$height;";
+        $communicate = ( strpos($code, "stack_jxg") !== false);
 
-        $attributes = array('class' => 'jxgbox', 'style' => $style, 'id' => $divid);
+        // $code = str_replace(";", ";\n", $code); // TODO: Hack until code is not on one line
 
-        // Empty tags seem to be an issue.
-        $this->get_node()->convert_to_text(html_writer::tag('div', '', $attributes));
+        $inputPrefix = 'stackapi_';
 
-         if (!defined('MINIMAL_API')) {
+        $communicate += $debug;
+        if ( $sendInputs ) $communicate = true;
+        if ( $initObject != '{}' && $initObject != '' ) $communicate = true;
+
+        $iframename = "jsxFrame-$divid-" . str_replace('#','',$divSelector);
+
+        $jxStyle  = "width:$width;height:$height;";
+
+        $iframeStyle  = "width:calc($width + 2px);height:calc($height + 2px);border: none;";
+        $debugHtmlClient = "";
+        $debugHtmlServer = "";
+        $debugFindClient = "";
+        $debugSelector = "";
+        if ( $debug ) {
+            $debugName = 'debug-' . $divid;
+            $debugSelector = "#$debugName";
+            $debugHtmlClient = "\n<p class='debug'>c$clientNr: <input type='text' id='$debugName' size='$debug' value=''></input></p>";
+            $debugHtmlServer = "\n<p class='debug'>s$clientNr: <input type='text' id='$debugName' size='$debug' value=''></input></p>";
+            $debugFindClient = "debug = document.querySelector('$debugSelector');";
+            $iframeStyle  = "width:calc($width + 30px);height:calc($height + 60px);border: none;";
+        }
+
+        $htmlCodeClient = "<!DOCTYPE html>
+<head>
+<title>JSXGraph</title>
+<script type='text/javascript' charset='UTF-8' src='https://cdnjs.cloudflare.com/ajax/libs/jsxgraph/0.99.7/jsxgraphcore.js'></script>
+<link rel='stylesheet' type='text/css' href='https://cdnjs.cloudflare.com/ajax/libs/jsxgraph/0.99.7/jsxgraph.css'>";
+if ( $communicate )
+    $htmlCodeClient .= "<script type='text/javascript' charset='UTF-8' src='$CFG->jsxgraphjs/JSXClientSync.js'></script>";
+$htmlCodeClient .= "
+</head>
+<body style='margin: 0px;'>$debugHtmlClient
+<div id='jxgbox' class='jxgbox' style='$jxStyle'></div>
+</body>             
+<script type='text/javascript'>
+$debugFindClient
+var divid = 'jxgbox';";
+if ( $communicate )
+$htmlCodeClient .= "
+var stack_jxg = null;
+window.onmessage = function(e){
+ stack_jxg = new JSXClientSync(e.ports[0],'c$clientNr', e.data.values);
+ graph = new Graph(e.data);
+};
+
+function Graph(initVars)";
+
+        // Also catch errors inside the code and try to provide console logging
+        // of them for the author.
+
+$htmlCodeClient .= "
+{
+ try {
+$code 
+  // board.update();
+ } catch (err) {
+   console.error('STACK JSXGraph error in $divid\\n'); 
+   console.log(err); 
+ }        
+}
+</script>
+</html>";
+
+        $datasrc = base64_encode($htmlCodeClient);
+        $data64 = "data:text/html;base64," . $datasrc;
+
+        $iframeAttributes = array('id' => "$iframename", 'style' => $iframeStyle, 'sandbox' => "allow-scripts",
+                                  'class' => 'jsxFrame', 'src' => $data64 );
+
+        $html = html_writer::tag('iframe', '', $iframeAttributes);
+
+        // **************************** Serverside code ************************************************
+
+        $script = "";
+        if ( $communicate ) {
+            $scriptId = uniqid();
+            $script = "     
+<script id='$scriptId'>
+
+// var quizdiv = document.getElementById('$divSelector');
+// if ( !quizdiv ) quizdiv = document;
+new ServerSyncValues(findParentElementFromScript('$scriptId', '$parentSelector', '$divSelector'),
+ '#$iframename', '$inputPrefix', '$debugSelector', 'S$clientNr', 
+ {sendInputs:'$sendInputs',initObject:$initObject}
+);
+</script>";
+        }
+
+        $this->get_node()->convert_to_text("$debugHtmlServer$html \n$script" );
+
+        if (!defined('MINIMAL_API')) {
             $PAGE->requires->js_amd_inline('require(["qtype_stack/jsxgraph",'
                     . '"qtype_stack/jsxgraphcore-lazy","core/yui"], '
                     . 'function(stack_jxg, JXG, Y){Y.use("mathjax",function(){'.$code.'});});');
@@ -179,7 +311,7 @@ class stack_cas_castext_jsxgraph extends stack_cas_castext_block {
         foreach ($this->get_node()->get_parameters() as $key => $value) {
             if (substr($key, 0, 10) === "input-ref-") {
                 $varname = substr($key, 10);
-                if (!array_key_exists('input', $root->get_parameter('ioblocks', array()))
+                if (!array_key_exists('input', $root->get_parameter('ioblocks', array())) 
                     || !array_key_exists($varname, $root->get_parameter('ioblocks')['input'])) {
                     $errors[] = stack_string('stackBlock_jsxgraph_height_num', array('var' => $varname));
                 }

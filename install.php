@@ -14,36 +14,18 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
-function parseinput() {
-    $data = file_get_contents("php://input");
-    $parsed = json_decode($data, true);
-    if ($parsed === null) {
-        printerror('no valid json');
-    }
-    return $parsed;
-}
+// die("You need to edit this file before it will execute.");
 
-function printdata($data) {
-    header('Content-Type: application/json');
-    echo json_encode($data);
-}
+require_once(__DIR__ . '/../config.php');
 
-function printsuccess($data) {
-    printdata([
-        "error" => false,
-        "message" => $data
-    ]);
-}
+error_reporting(E_ALL | E_STRICT);
+ini_set('display_errors', 1);
+ini_set('html_errors', 1);
 
-function printerror($message) {
-    header("HTTP/1.0 500 Error");
-    printdata([
-        "error" => true,
-        "message" => $message
-    ]);
-    die();
-}
+require_once(__DIR__ . '/../api/api.php');
+require_once(__DIR__ . '/../question.php');
 
-function replace_plots($text, $ploturl) {
-    return str_replace('!ploturl!', $ploturl , $text);
-}
+$api = new qtype_stack_api();
+
+// Run this command once at install time to compile Maxima on your machine.
+$api->install();

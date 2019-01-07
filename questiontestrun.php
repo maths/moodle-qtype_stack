@@ -76,18 +76,9 @@ $qbankparams['lastchanged'] = $question->id;
 if ($questiondata->hidden) {
     $qbankparams['showhidden'] = 1;
 }
-
-// Create some other useful links.
-$yamlparams = $urlparams;
-$yamlparams['exportformat'] = 'yaml';
-$urlparams['exportformat'] = 'xml';
-
 $questionbanklink = new moodle_url('/question/edit.php', $qbankparams);
 $exportquestionlink = new moodle_url('/question/type/stack/exportone.php', $urlparams);
 $exportquestionlink->param('sesskey', sesskey());
-$yamlquestionlink = new moodle_url('/question/type/stack/exportone.php', $yamlparams);
-$yamlquestionlink->param('sesskey', sesskey());
-
 
 // Create the question usage we will use.
 $quba = question_engine::make_questions_usage_by_activity('qtype_stack', $context);
@@ -444,15 +435,9 @@ echo html_writer::tag('p', html_writer::link($questionbanklink,
         stack_string('seethisquestioninthequestionbank')));
 
 if ($canedit) {
-    $links = array(html_writer::link($exportquestionlink, 'XML'));
-    if (function_exists('yaml_parse_file')) {
-        $links[] = html_writer::link($yamlquestionlink, 'YAML');
-    } else {
-        $links[] = stack_string('noyaml', null);
-    }
     echo html_writer::tag('p',
-            stack_string('exportthisquestion') . ' ' .
-            implode($links, ' ') . ' ' . $OUTPUT->help_icon('exportthisquestion', 'qtype_stack'));
+            html_writer::link($exportquestionlink, stack_string('exportthisquestion')) .
+            $OUTPUT->help_icon('exportthisquestion', 'qtype_stack'));
 }
 
 echo $renderquestion;

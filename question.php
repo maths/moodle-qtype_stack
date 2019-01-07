@@ -29,13 +29,8 @@ require_once(__DIR__ . '/stack/input/factory.class.php');
 require_once(__DIR__ . '/stack/cas/keyval.class.php');
 require_once(__DIR__ . '/stack/cas/castext.class.php');
 require_once(__DIR__ . '/stack/potentialresponsetree.class.php');
-
-if (defined('MINIMAL_API')) {
-    require_once(__DIR__ . '/api/apilib.php');
-} else {
-    require_once($CFG->dirroot . '/question/behaviour/adaptivemultipart/behaviour.php');
-    require_once(__DIR__ . '/locallib.php');
-}
+require_once($CFG->dirroot . '/question/behaviour/adaptivemultipart/behaviour.php');
+require_once(__DIR__ . '/locallib.php');
 
 
 /**
@@ -188,12 +183,6 @@ class qtype_stack_question extends question_graded_automatically_with_countback
      * @var array prt name => result of evaluate_response, if known.
      */
     protected $prtresults = array();
-
-    /**
-     * @var string The YAML representation, if known.
-     */
-    public $yaml = null;
-    public $edityaml = false;
 
     /**
      * Make sure the cache is valid for the current response. If not, clear it.
@@ -455,16 +444,6 @@ class qtype_stack_question extends question_graded_automatically_with_countback
             $bits[] = $name . ": " . $note;
         }
         return implode('; ', $bits);
-    }
-
-    public function summarise_response_json(array $response) {
-        $bits = array();
-        foreach ($this->inputs as $name => $input) {
-            $state = $this->get_input_state($name, $response);
-            $bits[$name]['status'] = $state->status;
-            $bits[$name]['value'] = $input->contents_to_maxima($state->contents);
-        }
-        return json_encode($bits);
     }
 
     // Used in reporting - needs to return an array.
@@ -912,14 +891,10 @@ class qtype_stack_question extends question_graded_automatically_with_countback
     }
 
     protected function has_question_capability($type) {
-        if (!defined('MINIMAL_API')) {
-            // Then we are in Moodle.
-            global $USER;
-            $context = $this->get_context();
-            return has_capability("moodle/question:{$type}all", $context) ||
+        global $USER;
+        $context = $this->get_context();
+        return has_capability("moodle/question:{$type}all", $context) ||
                 ($USER->id == $this->createdby && has_capability("moodle/question:{$type}mine", $context));
-        }
-        return true;
     }
 
     public function user_can_view() {

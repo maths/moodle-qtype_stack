@@ -16,6 +16,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+require_once(__DIR__ . '/../../locallib.php');
 require_once(__DIR__ . '/../options.class.php');
 require_once(__DIR__ . '/../cas/casstring.class.php');
 require_once(__DIR__ . '/../cas/cassession.class.php');
@@ -230,12 +231,6 @@ abstract class stack_input {
                 case 'negpow':
                     if (!(is_bool($arg))) {
                         $this->errors[] = stack_string('numericalinputoptboolerr', array('opt' => $option, 'val' => $arg));
-                    }
-                    break;
-
-                case 'mul':
-                    if (!(is_bool($arg))) {
-                        $this->errors[] = stack_string('numericalinputoptbooplerr', array('opt' => $option, 'val' => $arg));
                     }
                     break;
 

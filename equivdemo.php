@@ -100,7 +100,6 @@ if (array_key_exists('fail', $_GET)) {
     $onlyarg = false;
 };
 $verbose = $debug;
-
 /* Just consider the last in the array. */
 $sa = array_reverse($samplearguments);
 $samplearguments2 = array($sa[0]);

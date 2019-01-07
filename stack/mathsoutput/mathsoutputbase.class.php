@@ -85,10 +85,8 @@ abstract class stack_maths_output {
             $text = $this->replace_dollars($text);
         }
 
-        if (!defined('MINIMAL_API')) {
-            $text = str_replace('!ploturl!',
+        $text = str_replace('!ploturl!',
                 moodle_url::make_file_url('/question/type/stack/plot.php', '/'), $text);
-        }
 
         $text = stack_fact_sheets::display($text, $renderer);
 

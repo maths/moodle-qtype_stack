@@ -1,0 +1,38 @@
+<html>
+  <body>
+    <script>
+      function send() {
+        var http = new XMLHttpRequest();
+        var url = "xmltoyaml.php";
+        var xml = document.getElementById('xml').value
+        http.open("POST", url, true);
+
+        http.setRequestHeader('Content-Type', 'application/json')
+        http.onreadystatechange = function() {
+            if(http.readyState == 4) {
+              try {
+                var json = JSON.parse(http.responseText);
+                yaml = json.yaml || JSON.stringify(json);
+              }
+              catch(e) {
+                yaml = http.responseText;
+              }
+              document.getElementById('output').innerText = yaml;
+            }
+        }
+        var defaults = document.getElementById('defaults').value;
+        var data = {
+          xml: xml
+        }
+        if (defaults.length > 0) {
+          data.defaults = defaults
+        }
+        http.send(JSON.stringify(data))
+      }
+    </script>
+    XML<span style="width: 700px;display: inline-block;">&nbsp;</span>Defaults<br>
+    <textarea id='xml' cols="100" rows="50"></textarea>|<textarea id='defaults' cols="60" rows="50"></textarea><br/>
+    <input type="button" onclick="send()" value="Send"/><br/>
+    <pre id="output"></pre>
+  </body>
+</html>

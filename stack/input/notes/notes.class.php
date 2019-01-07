@@ -38,6 +38,8 @@ class stack_notes_input extends stack_input {
         $attributes = array(
             'name' => $fieldname,
             'id'   => $fieldname,
+            // Added 'id' for ILIAS.
+            'id'    => $fieldname,
         );
 
         if ($this->is_blank_response($state->contents)) {

@@ -1,0 +1,182 @@
+<html>
+  <head>
+      <meta charset="utf-8"/>
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.31.0/codemirror.min.css" />
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.31.0/addon/lint/lint.min.css" />
+      <style>
+        .CodeMirror { border: 1px solid #ddd;}
+        .CodeMirror {
+          width: 49%;
+          float: left;
+          height: 500px;
+        }
+      </style>
+      <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+          tex2jax: {
+            inlineMath: [['$', '$'], ['\\[','\\]'], ['\\(','\\)']],
+            displayMath: [['$$', '$$']],
+            processEscapes: true,
+            skipTags: ["script","noscript","style","textarea","pre","code","button"]
+          },
+          showMathMenu: false
+        })
+      </script>
+      <script
+        type="text/javascript"
+        src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS_HTML"
+      >
+      </script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/3.10.0/js-yaml.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.31.0/codemirror.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.31.0/addon/lint/lint.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.31.0/addon/lint/yaml-lint.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.31.0/mode/yaml/yaml.js"></script>
+    </head>
+  <body>
+    <script>
+      function collectData() {
+        var defaults = defaultsEditor.getDoc().getValue();
+
+        var res = {
+          question: yamlEditor.getDoc().getValue(),
+          readOnly: document.getElementById('readOnly').checked,
+          feedback: document.getElementById('feedback').checked,
+          score: document.getElementById('hasScore').checked,
+          lang:document.getElementById('lang').value,
+          verifyvar:document.getElementById('verifyvar').value,
+          prefix: 'stackapi_',
+          answer: collectAnswer(),
+          seed: 12313123
+        }
+        if (defaults.length > 0) {
+          res['defaults'] = defaults
+        }
+        return res;
+      }
+
+      function processNodes(res, nodes) {
+        for (var i = 0; i < nodes.length; i++) {
+          var element = nodes[i];
+          if (element.name.indexOf('stackapi_') === 0 && element.name.indexOf('_val') === -1) {
+            if (element.type === 'checkbox' || element.type === 'radio') {
+              if (element.checked) {
+                res[element.name] = element.value
+              }
+            } else {
+              res[element.name] = element.value
+            }
+          }
+        }
+        return res;
+      }
+
+      function collectAnswer() {
+        var inputs = document.getElementsByTagName('input')
+        var textareas = document.getElementsByTagName('textarea')
+        var selects = document.getElementsByTagName('select')
+        var res = {};
+        res = processNodes(res, inputs);
+        res = processNodes(res, textareas);
+        res = processNodes(res, selects);
+        return res;
+      }
+
+      function send() {
+        var http = new XMLHttpRequest();
+        var url = "endpoint.php";
+        http.open("POST", url, true);
+
+        http.setRequestHeader('Content-Type', 'application/json')
+        http.onreadystatechange = function() {
+            if(http.readyState == 4) {
+              try {
+                var json = JSON.parse(http.responseText);
+                if (json.error) {
+                  document.getElementById('output').innerText = http.responseText;
+                  return
+                }
+                document.getElementById('output').innerHTML = json.questiontext;
+                document.getElementById('generalfeedback').innerHTML = json.generalfeedback;
+                document.getElementById('formatcorrectresponse').innerHTML = json.formatcorrectresponse;
+                document.getElementById('summariseresponse').innerText = JSON.stringify(json.summariseresponse);
+                document.getElementById('answernotes').innerHTML = JSON.stringify(json.answernotes);
+                document.getElementById('score').innerText = json.score.toString();
+                document.getElementById('time').innerHTML = '<b>Request Time:</b> ' + json.request_time +
+                  ' <b>Api Time:</b> ' + json.api_time;
+                MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
+              }
+              catch(e) {
+                document.getElementById('output').innerText = http.responseText;
+              }
+
+            }
+        }
+        http.send(JSON.stringify(collectData()))
+      }
+
+      function saveState(key, value) {
+        if (typeof(Storage) !== "undefined") {
+          localStorage.setItem(key, value)
+        }
+      }
+
+      function loadState(key) {
+        if (typeof(Storage) !== "undefined") {
+          return localStorage.getItem(key) || ''
+        }
+        return ''
+      }
+    </script>
+	<div>
+    Yaml/XML<span style="width: 700px;display: inline-block;">&nbsp;</span>Defaults<br>
+    <textarea id='xml' cols="100" rows="50"></textarea><textarea id='defaults' cols="60" rows="50"></textarea><br/>
+	</div>
+	<div style="display: inline-block;>
+    <input type="checkbox" id="readOnly"/>Read Only |
+    <input type="checkbox" id="feedback"/>Feedback |
+    <input type="checkbox" id="hasScore"/>Score |
+    Lang: <input type="text" size="3" id="lang"/> |
+    Verify var: <input type="text" size="3" id="verifyvar"/> |
+    <input type="button" onclick="send()" value="Send"/><br/>
+	</div>
+    <h1>QuestionText:</h1>
+    <div id="output"></div>
+    <h1>General feedback:</h1>
+    <div id="generalfeedback"></div>
+    <h1>Format correct response:</h1>
+    <div id="formatcorrectresponse"></div>
+    <h1>Score:</h1><span id="score"></span>
+    <h1>Summarise response:</h1>
+    <div id="summariseresponse"></div>
+    <h1>Answer notes:</h1>
+    <div id="answernotes"></div>
+    <h1>Time:</h1>
+    <div id="time"></div>
+
+  </body>
+  <script>
+        var yamlEditor = CodeMirror.fromTextArea(document.getElementById("xml"),
+          {
+            lineNumbers: true,
+            mode: "yaml",
+            gutters: ["CodeMirror-lint-markers"],
+            lint: true
+          });
+          yamlEditor.getDoc().on('change', function (cm) {
+            saveState('yaml', cm.getValue())
+          })
+          yamlEditor.getDoc().setValue(loadState('yaml'));
+        var defaultsEditor = CodeMirror.fromTextArea(document.getElementById("defaults"),
+          {
+            lineNumbers: true,
+            mode: "yaml",
+            gutters: ["CodeMirror-lint-markers"],
+            lint: true
+          });
+          defaultsEditor.getDoc().on('change', function (cm) {
+            saveState('defaults', cm.getValue())
+          })
+          defaultsEditor.getDoc().setValue(loadState('defaults'));
+        </script>
+</html>

@@ -1053,9 +1053,7 @@ class stack_equiv_test_data {
         $samplearguments[] = $newarg;
 
         //******************************************************************************
-        $newarg = array();
         $newarg['section'] = 'Simultaneous equations and substitution';
-        $samplearguments[] = $newarg;
 
         $newarg = array();
         $newarg['title']     = "Linear simultaneous equations";
@@ -1413,5 +1411,4 @@ class stack_equiv_test_data {
 
         return $answertestfixtures;
     }
-
 }

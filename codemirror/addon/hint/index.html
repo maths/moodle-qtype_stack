@@ -1,0 +1,135 @@
+<!doctype html>
+
+<title>CodeMirror: YAML mode - hint</title>
+<meta charset="utf-8"/>
+<link rel=stylesheet href="../../doc/docs.css">
+
+<link rel="stylesheet" href="../../lib/codemirror.css">
+<link rel="stylesheet" href="./show-hint.css">
+<script src="../../lib/codemirror.js"></script>
+<script src="./show-hint.js"></script>
+<script src="./yaml-stack-hint.js"></script>
+<script src="../../addon/mode/overlay.js"></script>
+<script src="../../mode/markdown/markdown.js"></script>
+<script src="../../mode/xml/xml.js"></script>
+<script src="../mode/multiplex.js"></script>
+<script src="../../mode/gfm/gfm.js"></script>
+<script src="../../mode/xml/xml.js"></script>
+<script src="../../mode/yaml-stack/yaml-stack.js"></script>
+<style>.CodeMirror { border-top: 1px solid #ddd; border-bottom: 1px solid #ddd; }</style>
+<div id=nav>
+  <a href="http://codemirror.net"><h1>CodeMirror</h1><img id=logo src="../../doc/logo.png"></a>
+
+  <ul>
+    <li><a href="../../index.html">Home</a>
+    <li><a href="../../doc/manual.html">Manual</a>
+    <li><a href="https://github.com/codemirror/codemirror">Code</a>
+  </ul>
+  <ul>
+    <li><a href="../index.html">Language modes</a>
+    <li><a class=active href="#">YAML</a>
+  </ul>
+</div>
+
+<article>
+<h2>YAML mode</h2>
+<form><textarea id="code" name="code">
+---
+
+name: PA_P16 Definite integral [RW]
+q:
+  question: |
+   <p></p>
+
+question: <p></p>
+
+variables:
+note:
+inputs:
+  111:
+    options:
+
+options:
+response_trees:
+ 1:
+  nodes:
+   node_1:
+    inputs:
+     21:
+
+    F:
+
+inputs:
+  a:
+
+
+nodes:
+ node_1:
+
+  F:
+
+
+
+...
+</textarea></form>
+    <script>
+      var tags = {
+        root: {
+          children: ['inputs', 'name', 'question_html', 'question', 'variables', 'specific_feedback',
+            'specific_feedback_html', 'default_mark', 'penalty', 'prt_correct_html', 'prt_correct',
+            'prt_partially_correct_html', 'prt_partially_correct', 'prt_incorrect_html', 'prt_incorrect',
+            'worked_solution', 'worked_solution_html', 'options', 'note', 'response_trees',
+          ]
+        },
+        options: {
+          children: ['multiplication_sign', 'complex_no', 'inverse_trig', 'matrix_parens', 'sqrt_sign',
+            'assume_positive', 'assume_real', 'simplify'
+          ],
+          sequence: 'options'
+        },
+        inputs: {
+          children: ['*']
+        },
+        'inputs->': {
+          children: ['type', 'model_answer', 'box_size', 'insert_stars', 'strict_syntax', 'syntax_hint',
+            'syntax_attribute', 'forbid_words', 'allow_words', 'forbid_float', 'require_lowest_terms',
+            'check_answer_type', 'must_verify', 'show_validations', 'options'
+          ],
+          sequence: 'inputs->'
+        },
+        response_trees: {
+          children: ['*']
+        },
+        'response_trees->': {
+          children: ['value', 'nodes', 'feedback_variables', 'auto_simplify', 'first_node']
+        },
+        nodes: {
+          children: ['node_'],
+          sequence: 'response_trees->;nodes'
+        },
+        'nodes->node_': {
+          children: ['answer', 'model_answer', 'F', 'T', 'quiet', 'answer_test', 'test_options'],
+          sequence: 'response_trees->;nodes->node_'
+        },
+        F: {
+          children: ['score_mode', 'score', 'next_node', 'feedback_html', 'feedback', 'answer_note'],
+          sequence: 'response_trees->;nodes->node_;F'
+        },
+        T: {
+          children: ['score_mode', 'score', 'next_node', 'feedback_html', 'feedback', 'answer_note'],
+          sequence: 'response_trees->;nodes->node_;T'
+        }
+      };
+      var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
+        mode: "yaml-stack",
+        extraKeys: {
+          "Ctrl-Space": "autocomplete",
+          "Shift-Space": "autocomplete"
+        },
+        hintOptions: {schemaInfo: tags}
+      });
+    </script>
+
+    <p><strong>MIME types defined:</strong> <code>text/x-yaml</code>.</p>
+
+  </article>

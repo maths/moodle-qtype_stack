@@ -62,6 +62,7 @@ Refactor answer tests so they are all in Maxima.
 * at->get_at_mark() really ought to be at->matches(), since that is how it is used.
 * Use `defstruct` in Maxima for the return objects. (Note to self: `@` is the element access operator).
 * Investigate how a whole PRT might make only one CAS call.
+* Provide an alternative way to edit PRTs in a form of computer code, rather than lots of form fields. For example using http://zaach.github.com/jison/ or https://github.com/hafriedlander/php-peg.
 
 ## Features that might be attempted in the future - possible self contained projects
 
@@ -142,7 +143,6 @@ Add mathematical support in the following order.
     p:x<>y;
     texput("<>","{\neq}", infix);
     tex(p);
-
 
 ## STACK custom reports
 

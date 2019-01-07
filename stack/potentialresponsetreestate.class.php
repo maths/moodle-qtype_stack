@@ -67,7 +67,7 @@ class stack_potentialresponse_tree_state {
     /**
      * @var stack_cas_session
      */
-    protected $casecontext;
+    public $_cascontext;
 
     /**
      * @var int
@@ -121,6 +121,8 @@ class stack_potentialresponse_tree_state {
                 return $this->_trace;
             case 'debuginfo':
                 return $this->_debuginfo;
+            case 'cascontext':
+                return $this->_cascontext;
             default:
                 throw new stack_exception('stack_potentialresponse_tree_state: __get().  Unrecognised property name ' . $field);
         }
@@ -134,7 +136,7 @@ class stack_potentialresponse_tree_state {
      * @param int $seed the random seed used.
      */
     public function set_cas_context(stack_cas_session $cascontext, $seed) {
-        $this->cascontext = $cascontext;
+        $this->_cascontext = $cascontext;
         $this->seed = $seed;
     }
 

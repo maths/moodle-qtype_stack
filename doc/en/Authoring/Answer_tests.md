@@ -186,6 +186,18 @@ In elementary teaching, meaning 4. is unlikely to occur. Indeed, we might take t
 
 The FacForm test establishes that the expression is factored over the rational numbers.  If the coefficients of the polynomial are all real, at worst you will have quadratic irreducible terms.  There are some delicate cases such as: \((2-x)(3-x)\) vs  \((x-2)(x-3)\)  and \((1-x)^2\) vs \((x-1)^2\), which this test will cope with.
 
+# Factorisation of integers
+
+If you would like to ask a student to factor a polynomial, then do not use the FacForm answer test.  The FacForm answer test is designed to use with polynomials.
+
+Instead, switch off simplification and define
+
+    ta:factor(12);
+
+and use EqualComAss as the answer test.
+
+Note however that EqualComAss does not think that `2^2*3` and `2*2*3` are the same!
+
 # Numerical Precision {#Precision}
 
 These tests deal with the precision of numbers.  See dedicated page on [numerical answer tests](Answer_tests_numerical.md).

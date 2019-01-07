@@ -16,6 +16,9 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+// This provides helper code for creating the files needed to connect to the CAS.
+
+require_once(__DIR__ . '/../../locallib.php');
 require_once(__DIR__ . '/../utils.class.php');
 require_once(__DIR__ . '/casstring.units.class.php');
 require_once(__DIR__ . '/connectorhelper.class.php');
@@ -51,10 +54,6 @@ class stack_cas_configuration {
 
         $this->maximacodepath = stack_utils::convert_slash_paths(
                 $CFG->dirroot . '/question/type/stack/stack/maxima');
-
-        if (defined('MINIMAL_API')) {
-            $this->maximacodepath = stack_utils::convert_slash_paths($CFG->dirroot . '/stack/maxima');
-        }
 
         $this->logpath = stack_utils::convert_slash_paths($CFG->dataroot . '/stack/logs');
 

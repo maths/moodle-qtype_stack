@@ -19,7 +19,6 @@ defined('MOODLE_INTERNAL') || die();
 // Public API for other parts of STACK to call in order to process equations.
 
 require_once(__DIR__ . '/mathsoutputbase.class.php');
-require_once(dirname(__FILE__) . '/../utils.class.php');
 
 /**
  * Public API to the maths rendering system.

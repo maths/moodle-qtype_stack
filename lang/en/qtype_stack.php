@@ -116,9 +116,6 @@ $string['firstnodemusthavelowestnumber'] = 'The first node must have the lowest 
 $string['fixdollars'] = 'Fix dollars';
 $string['fixdollarslabel'] = 'Replace <code>$...$</code> with <code>\(...\)</code>, <code>$$...$$</code> with <code>\[...\]</code> and <code>@...@</code> with <code>{@...@}</code> on save.';
 $string['fixdollars_help'] = 'This option is useful if are copying and pasting (or typing) TeX with <code>$...$</code> and <code>$$...$$</code> delimiters. Those delimiters will be replaced by the recommended delimiters during the save process.';
-$string['yamledit'] = 'Edit YAML';
-$string['yamleditlabel'] = 'STACK supports a YAML (text-based) representation of the question.';
-$string['yamledit_help'] = 'This option is for advanced users who want to cut and paste parts of a question, including parts of the PRT.';
 $string['forbiddendoubledollars'] = 'Please use the delimiters <code>\(...\)</code> for inline maths and <code>\[...\]</code> for display maths. <code>$...$</code> and <code>$$...$$</code> are not permitted. There is an option at the end of the form to fix this automatically.';
 $string['forbidfloat'] = 'Forbid float';
 $string['forbidfloat_help'] = 'If set to yes, then any answer of the student which has a floating point number will be rejected as invalid.';
@@ -899,9 +896,6 @@ $string['stackDoc_siteMap']             = 'Site map';
 $string['stackDoc_404message']          = 'File not found.';
 $string['stackDoc_directoryStructure']  = 'Directory structure';
 $string['stackDoc_version']             = 'Your site is running STACK version {$a}.';
-
-// API specific and YAML format.
-$string['noyaml']                 = '(YAML not supported on this server)';
 
 // Fact sheets.
 $string['greek_alphabet_name'] = 'The Greek Alphabet';

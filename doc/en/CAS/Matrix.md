@@ -145,7 +145,7 @@ Students do find typing in matrices very tedious.  Some teachers have asked for 
 
     c(1,2,3)
 
-for column vectors and 
+for column vectors and
 
     v(1,2,3,4)
 

@@ -16,10 +16,8 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-if (!defined('MINIMAL_API')) {
-    require_once($CFG->libdir . '/filterlib.php');
-    require_once($CFG->dirroot . '/filter/tex/filter.php');
-}
+require_once($CFG->libdir . '/filterlib.php');
+require_once($CFG->dirroot . '/filter/tex/filter.php');
 
 /**
  * Base class for STACK maths output methods that use a Moodle text filter to do the work.

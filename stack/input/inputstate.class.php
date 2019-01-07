@@ -16,6 +16,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+require_once(__DIR__ . '/../../locallib.php');
 require_once(__DIR__ . '/../options.class.php');
 require_once(__DIR__ . '/../cas/casstring.class.php');
 require_once(__DIR__ . '/../cas/cassession.class.php');

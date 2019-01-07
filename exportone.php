@@ -23,12 +23,6 @@
 
 require_once(__DIR__.'/../../../config.php');
 
-if (function_exists('yaml_parse_file')) {
-    require_once(__DIR__ . '/api/libs/yaml.php');
-    require_once(__DIR__ . '/api/libs/yaml_defaults.php');
-    require_once(__DIR__ . '/api/libs/export.php');
-}
-
 require_once($CFG->libdir . '/questionlib.php');
 require_once($CFG->dirroot . '/question/format/xml/format.php');
 require_once(__DIR__ . '/locallib.php');
@@ -36,7 +30,6 @@ require_once(__DIR__ . '/locallib.php');
 
 // Get the parameters from the URL.
 $questionid = required_param('questionid', PARAM_INT);
-$exportformat = required_param('exportformat', PARAM_TEXT);
 
 // Load the necessary data.
 $questiondata = $DB->get_record('question', array('id' => $questionid), '*', MUST_EXIST);
@@ -50,6 +43,7 @@ $contexts = new question_edit_contexts($context);
 // Check permissions.
 question_require_capability_on($questiondata, 'edit');
 require_sesskey();
+
 // Initialise $PAGE.
 $nexturl = new moodle_url('/question/type/stack/questiontestrun.php', $urlparams);
 $PAGE->set_url($nexturl); // Since this script always ends in a redirect.
@@ -75,28 +69,4 @@ if (!$qformat->exportpreprocess()) {
 if (!$content = $qformat->exportprocess(true)) {
     send_file_not_found();
 }
-
-if ($exportformat == 'xml') {
-    // Send the xml.
-    send_file($content, $filename, 0, 0, true, true, $qformat->mime_type());
-}
-
-if (!function_exists('yaml_parse_file')) {
-    throw new stack_exception("You must enable YAML support to export in YAML format.");
-}
-// Add in the conversion to YAML.
-$defaults = new qtype_stack_api_yaml_defaults(null);
-// We take the _site_ defaults here, not the YAML defaults.
-$settings = get_config('qtype_stack');
-$defaults->moodle_settings_to_yaml_defaults($settings);
-
-$export = new qtype_stack_api_export($content, $defaults);
-$yamlstring = $export->yaml();
-
-$rows = substr_count($yamlstring, "\n") + 3;
-
-echo "<form method = 'post' action = 'exportone.php'>";
-echo "<textarea name = 'yaml' cols = '200' rows = '$rows'>";
-echo $yamlstring;
-echo "</textarea>\n";
-echo "</form>\n\n";
+send_file($content, $filename, 0, 0, true, true, $qformat->mime_type());

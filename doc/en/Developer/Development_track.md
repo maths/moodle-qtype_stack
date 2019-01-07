@@ -13,7 +13,6 @@ Goal: November 2018 for release in time for STACK conference.
 * Add in extra options in the input `allowempty` and `hideanswer`.
 
 * 1st version of API.
-
 * Better install code (see #332).
 * Better CSS, including "tool tips".  May need to refactor javascript.  (See issue #380)
 * A STACK maxima function which returns the number of decimal places/significant figures in a variable (useful when providing feedback).  Needed for the refactoring.

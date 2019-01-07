@@ -123,9 +123,7 @@ class stack_cas_text {
         $this->errors = array();
 
         // Remove any comments from the castext.
-        // $this->trimmedcastext = stack_utils::remove_comments(str_replace("\n", ' ', $this->rawcastext));
-        // vesal: do not remove linefeeds, because it makes problem if there is // comments
-        $this->trimmedcastext = stack_utils::remove_comments($this->rawcastext);
+        $this->trimmedcastext = stack_utils::remove_comments(str_replace("\n", ' ', $this->rawcastext));
 
         if (trim($this->trimmedcastext) === '') {
             $this->valid = true;

@@ -39,7 +39,6 @@ class stack_algebraic_input extends stack_input {
         $attributes = array(
             'type'  => 'text',
             'name'  => $fieldname,
-            // Added 'id' for ILIAS.
             'id'    => $fieldname,
             'size'  => $this->parameters['boxWidth'] * 1.1,
             'style' => 'width: '.$size.'em',

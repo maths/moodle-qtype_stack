@@ -20,13 +20,15 @@ Previous developers have included.
 
 STACK is designed to support the straightforward addition of other language packs. If you have translated STACK into other languages - or would be interested in doing so - please let us know! Likewise if you would really like to see STACK in another language please contact us.  Details of how to translate STACK, and forthcoming translations, are given on the [languages](../Developer/Languages.md) developer's page.
 
-Currently STACK is released with the following languages.
+STACK is released in many languages, using Moodle's ATOS language system.
 
   * EN: English (British), by Chris Sangwin (and others)
   * FI: Finnish, by Matti Pauna
   * SV: Swedish, by Mikael Kurula
   * ES: Spanish, by Victor Hugo Huerta 
   * JA: Japanese, by Yasuyuki Nakamura and Takahiro Nakahara  
+
+German documentation added in Jan 2019 by Eva Mix of University of Cologne, Germany and Mario Josupeit of University of Cologne, Germany.
 
 # Other implementations and projects
 

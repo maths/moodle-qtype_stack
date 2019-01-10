@@ -230,7 +230,7 @@ define(['jquery', 'core/ajax', 'core/event'], function($, ajax, coreevent) {
      *
      * @class StackSimpleInput
      * @constructor
-     * @param {String} name The input name, for example ans1.
+     * @param {Object} input The input element wrapped in jquery.
      */
     var StackSimpleInput = function(input) {
         this.input = input;
@@ -242,7 +242,7 @@ define(['jquery', 'core/ajax', 'core/event'], function($, ajax, coreevent) {
      * @param {Object} validator A StackInput object
      */
     StackSimpleInput.prototype.addEventHanders = function(validator) {
-        // The input event fires on any change in value, even if pasted in or added by speach
+        // The input event fires on any change in value, even if pasted in or added by speech
         // recognition to dictate text. Change only fires after loosing focus.
         // Should also work on mobile.
         this.input.on('input', null, null, validator.valueChanging.bind(validator));
@@ -262,7 +262,7 @@ define(['jquery', 'core/ajax', 'core/event'], function($, ajax, coreevent) {
      *
      * @class StackTextareaInput
      * @constructor
-     * @param {String} name The input name, for example ans1.
+     * @param {Object} textarea The input element wrapped in jquery.
      */
     var StackTextareaInput = function(textarea) {
         this.textarea = textarea;
@@ -293,7 +293,7 @@ define(['jquery', 'core/ajax', 'core/event'], function($, ajax, coreevent) {
      * @class StackMatrixInput
      * @constructor
      * @param {String} idPrefix.
-     * @param {Object} container jQuery container object.
+     * @param {Object} container jQuery object wrapping a matrix of inputs.
      */
     var StackMatrixInput = function(idPrefix, container) {
         this.container = container;
@@ -353,18 +353,8 @@ define(['jquery', 'core/ajax', 'core/event'], function($, ajax, coreevent) {
      */
     var t = {
         initInputs: function(inputs, qaid, prefix) {
-            var allok = true;
             for (var i = 0; i < inputs.length; i++) {
-                var name = inputs[i];
-                allok = t.initInput(name, qaid, prefix) && allok;
-            }
-            var outerdiv = $('input[name="' + prefix + ':sequencecheck"]').parents('div.que.stack');
-            if (allok && outerdiv && (outerdiv.hasClass('dfexplicitvaildate') || outerdiv.hasClass('dfcbmexplicitvaildate'))) {
-                // With instant validation, we don't need the Check button, so hide it.
-                var button = outerdiv.find('.im-controls input.submit');
-                if (button.attr('id') === prefix + '-submit') {
-                    button.hide();
-                }
+                t.initInput(inputs[i], qaid, prefix);
             }
         },
 

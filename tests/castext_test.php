@@ -1077,4 +1077,33 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $this->assertEquals('true', $s->get_value_key('caschat2'));
     }
 
+    public function test_stackintfmt() {
+        $a2 = array('n:1234');
+        $s2 = array();
+        foreach ($a2 as $s) {
+            $cs = new stack_cas_casstring($s);
+            $cs->get_valid('t');
+            $this->assertTrue($cs->get_valid());
+            $s2[] = $cs;
+        }
+        $cs2 = new stack_cas_session($s2, null, 0);
+
+        /*TODO: add in all the other examples.
+         * 
+         * <p>Now we are able to use nice and fancy formats. Here are a few examples:</p>
+<p>Standard: {@n@}</p>
+<p>with commas: {@(stackintfmt:"~:d",n)@}</p>
+<p>tabs instead of commas doesn't work: {@(stackintfmt:"~,,' ,3:d",n)@}</p>
+<p>tabs instead of commas doesn't work: {@(stackintfmt:"~,,' ,3d",n)@}</p>
+<p>Roman numerals: {@(stackintfmt:"~@}r",n){@}</p>
+<p>ordinal rethoric: {@}(stackintfmt:"~:r",n){@}</p>
+<p>scientific notation: {@}(stackintfmt:"~e",n)@}</p>
+         */
+        $at1 = new stack_cas_text('{@(stackintfmt:"~@R",n)@}', $cs2, 0, 't');
+        $this->assertTrue($at1->get_valid());
+        $at1->get_display_castext();
+
+        $this->assertEquals('MCCXXXIV',
+                $at1->get_display_castext());
+    }
 }

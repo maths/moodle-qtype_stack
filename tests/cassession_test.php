@@ -1402,19 +1402,20 @@ class stack_cas_session_test extends qtype_stack_testcase {
         $cases[] = array('(stackintfmt:"~7r",n0)', '73', '133');
         $cases[] = array('(stackintfmt:"~r",n0)', '73', '\mbox{seventy-three}');
         $cases[] = array('(stackintfmt:"~:r",n0)', '73', '\mbox{seventy-third}');
+        $cases[] = array('(stackintfmt:"~@R",n0)', '73', 'LXXIII');
 
         $i = 0;
         foreach ($cases as $case) {
-            $cmds[$i] = 'n' . $i . ':' . $case[0];
-            $i++;
+            $s = 'n' . $i . ':' . $case[0];
+            $cs = new stack_cas_casstring($s);
+            $cs->get_valid('t');
+            $cmds[] = $cs;
+            $i += 1;
         }
 
         $options = new stack_options();
-        $kv = new stack_cas_keyval(implode(';', $cmds), $options, 0, 't');
-        $s = $kv->get_session(); // This does a validation on the side.
-
+        $s = new stack_cas_session($cmds, $options, 0);
         $s->instantiate();
-
         $i = 0;
         foreach ($cases as $case) {
             $this->assertEquals($case[1], $s->get_value_key('n'.$i));

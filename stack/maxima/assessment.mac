@@ -518,7 +518,17 @@ sigfigsfun(x, n, dispsigfigs) := block([fpprec:128, fpprintprec:16, simp:true, e
 significantfigures(x, n) := sigfigsfun(x, n, false);
 dispsf(x, n) := sigfigsfun(x, n, true);
 
-scientific_notation([a]) := block([simp:false, x, ex, ex2, ex3, exn],
+/*
+  scientific_notation(x,n)
+  Evaluate x as a float (with full simplification), and display this in scientific notation
+  e*10^k
+  displaying the results to n significant figures.
+  
+  If x is not a real number, then return x without a warning.
+*/
+scientific_notation([a]) := block([oldsimp, x, ex, ex2, ex3, exn],
+  oldsimp:simp,
+  simp:false,
   if ev(is(length(a)=1), simp) then (x:first(a), exn:false)
   else if ev(is(length(a)=2), simp) then (x:first(a), exn:second(a))
   else error("scientific_notation takes only one or two arguments"),
@@ -536,8 +546,10 @@ scientific_notation([a]) := block([simp:false, x, ex, ex2, ex3, exn],
       ex3:ex2*10^ex,
       /* The use of significantfigures here means we don't use banker's rounding but round up. */
       if not(is(exn=false)) then ex3:displaysci(significantfigures(ex2, exn+1), exn, ex),
+      simp:oldsimp,
       return(ex3)
   ),
+  simp:oldsimp,
   return(first(a))
 )$
 

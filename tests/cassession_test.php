@@ -1156,10 +1156,13 @@ class stack_cas_session_test extends qtype_stack_testcase {
         // 2. Displayed form.
         // E.g. scientific_notation(314.159,2) -> 3.1\times 10^2.
         // 3. Dispvalue form, that is how it should be typed in.
+        // 4. Optional: what happens to the displayed form with simp:true.
+        // 5. Optional: what happens to the dispvalue form with simp:true.
 
         // @codingStandardsIgnoreEnd
 
         $tests = array(
+
             array('2.998e8', '2', '3.00 \times 10^{8}', '3.00E8'),
             array('-2.998e8', '2', '-3.00 \times 10^{8}', '-3.00E8'),
             array('6.626e-34', '2', '6.63 \times 10^{-34}', '6.63E-34'),
@@ -1194,8 +1197,9 @@ class stack_cas_session_test extends qtype_stack_testcase {
             array('6720000000', '3', '6.720 \times 10^{9}', '6.720E9'),
             array('6.0221409e23', '4', '6.0221 \times 10^{23}', '6.0221E23'),
             array('1.6022e-19', '4', '1.6022 \times 10^{-19}', '1.6022E-19'),
-            array('9000', '1', '9.0 \times 10^{3}', '9.0E3'),
-            array('9000', '0', '9 \times 10^{3}', '9E3'),
+            // The next two break with simp:true.
+            array('9000', '1', '9.0 \times 10^{3}', '9.0E3', '9.0 \times 10^{3}', '9000.0'),
+            array('9000', '0', '9 \times 10^{3}', '9E3', '9 \times 10^{3}', '9000.0'),
             array('1.55E8', '2', '1.55 \times 10^{8}', '1.55E8'),
             array('-0.01', '1', '-1.0 \times 10^{-2}', '-1.0E-2'),
             array('-0.00000001', '3', '-1.000 \times 10^{-8}', '-1.000E-8'),
@@ -1217,17 +1221,17 @@ class stack_cas_session_test extends qtype_stack_testcase {
             // If we don't supply a number of decimal places, then we return a value form.
             // This is entered as scientific_notation(x).
             // This is displayed normally (without a \times) and always returns a *float*.
-            array('9000', '', '9.0\cdot 10^3', '9.0*10^3'),
-            array('1000', '', '1.0\cdot 10^3', '1.0*10^3'),
-            array('-1000', '', '-1.0\cdot 10^3', '-1.0*10^3'),
-            array('1e50', '', '1.0\cdot 10^{50}', '1.0*10^50'),
+            array('9000', '', '9.0\cdot 10^3', '9.0*10^3', '9000.0', '9000.0'),
+            array('1000', '', '1.0\cdot 10^3', '1.0*10^3', '1000.0', '1000.0'),
+            array('-1000', '', '-1.0\cdot 10^3', '-1.0*10^3', '-1000.0', '-1000.0'),
+            array('1e50', '', '1.0\cdot 10^{50}', '1.0*10^50', '1.0E+50', '1.0E+50'),
             // In some versions of Maxima this comes out as -\frac{1.0}{10^8} with simp:true.
             // Adding in compile(scientific_notation)$ after the function definition cures this,
             // but breaks some versions of Maxima.
             // Maxima 5.38.1 gives -1.0*10^-8, which is what we actually want.
-            array('-0.00000001', '', '-1.0\cdot 10^ {- 8 }', '-1.0*10^-8'),
-            array('-0.000000001', '', '-1.0\cdot 10^ {- 9 }', '-1.0*10^-9'),
-            array('-0.000000000001', '', '-1.0\cdot 10^ {- 12 }', '-1.0*10^-12'),
+            array('-0.00000001', '', '-1.0\cdot 10^ {- 8 }', '-1.0*10^-8', '-1.0E-8', '-1.0E-8'),
+            array('-0.000000001', '', '-1.0\cdot 10^ {- 9 }', '-1.0*10^-9', '-1.0E-9', '-1.0E-9'),
+            array('-0.000000000001', '', '-1.0\cdot 10^ {- 12 }', '-1.0*10^-12', '-1.0E-12', '-1.0E-12'),
         );
 
         foreach ($tests as $key => $c) {
@@ -1245,10 +1249,34 @@ class stack_cas_session_test extends qtype_stack_testcase {
         $at1 = new stack_cas_session($s1, $options, 0);
         $at1->instantiate();
 
+        // All these tests should work with simp:false.
         foreach ($tests as $key => $c) {
             $sk = "p{$key}";
             $this->assertEquals($c[2], $at1->get_display_key($sk));
             $this->assertEquals($c[3], $at1->get_value_key($sk, true));
+        }
+
+        // Does simp:true make any difference?
+        // For some tests it does.
+        $options = new stack_options();
+        $options->set_option('simplify', true);
+        $at2 = new stack_cas_session($s1, $options, 0);
+        $at2->instantiate();
+
+        foreach ($tests as $key => $c) {
+            $sk = "p{$key}";
+            $simpdisp = $c[2];
+            // Is the value simplified?
+            if (array_key_exists(4, $c)) {
+                $simpdisp = $c[4];
+            }
+            $simpval = $c[3];
+            // Is the value simplified?
+            if (array_key_exists(5, $c)) {
+                $simpval = $c[5];
+            }
+            $this->assertEquals($simpdisp, $at2->get_display_key($sk));
+            $this->assertEquals($simpval, $at2->get_value_key($sk, true));
         }
     }
 

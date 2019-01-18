@@ -55,6 +55,10 @@
     font-size: 0.7em;
     margin: -1.3em -3em;
 }
+body.pagelayout-embedded .que.stack .formulation .questiontestslink {
+    display: none;
+}
+
 .que.stack .formulation .answer .option {
     margin: 0.7em;
 }

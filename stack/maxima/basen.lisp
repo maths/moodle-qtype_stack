@@ -43,10 +43,10 @@
           (list pref body "" b2))))
 
 (defconstant basen-mode-list (list
-        '("D" . 0)
-        '("M" . 1)
-        '("G" . 2)
-        '("B" . 3) (cons '"B*" (+ 64 3)) '("C" . 4) (cons '"C*" (+ 64 4))
+        '("D" . 0) (cons '"D<" (+ 128 0)) 
+        '("M" . 1) (cons '"M<" (+ 128 1)) 
+        '("G" . 2) (cons '"G<" (+ 128 2)) 
+        '("B" . 3) (cons '"B*" (+ 128 3)) '("C" . 4) (cons '"C*" (+ 64 4))
         '("_" . 5) '("S" . 6) (cons '"_*" ( + 64 5)) (cons '"S*" (+ 64 6))))
 
 (defun lookup-basen-mode(mode)
@@ -57,7 +57,7 @@
         ((or (charp mode) (stringp mode)) (assoc mode basen-mode-list :test #'string-equal))
         (t nil)))
       (mn (cdr mode-entry)))
-    (and mode-entry (list (elt (car mode-entry) 0) (cond ((> mn 64) (- mn 64)) (t mn)) (> mn 64)))))
+    (and mode-entry (list (elt (car mode-entry) 0) (cond ((> mn 128) (- mn 128)) ((> mn 64) (- mn 64)) (t mn)) (> mn 64) (> mn 128)))))
 
 (defun summarize-basen-mode-list()
   (format nil "~{ ~A~^, ~}" (map 'list #'(lambda(e) (format nil "~A[~d]" (car e) (cdr e))) basen-mode-list)))
@@ -90,10 +90,19 @@
 ;; mindigits is the exact number of figures to expect. 0 or nil here means any number.
 ;; mode      is a string controlling the format:                                                 
 ;;    D    STACK compatible syntax; does not work for bases 11+.
+;;    D<   Variation of D syntax where the number reads as if padded from the right with
+;;         zeroes, i.e. the most significant digit is fixed as maximum value. Useful
+;;         for processing fixed point numbers.
 ;;    M    Maxima syntax: number should be 0 prefixed if base 11+; the default.
+;;    M<   Variation of M syntax where the number reads as if padded from the right with
+;;         zeroes, i.e. the most significant digit is fixed as maximum value. Useful
+;;         for processing fixed point numbers.
 ;;    G    Greedy syntax: means number can start with any alphanumeric; this is the most       
 ;;         convenient for entry of literal value answer but will seriously hamper use of       
 ;;         expressions containing variables or functions in student answers.
+;;    G<   Variation of G syntax where the number reads as if padded from the right with
+;;         zeroes, i.e. the most significant digit is fixed as maximum value. Useful
+;;         for processing fixed point numbers.
 ;;    B/B* Visual Basic number syntax: &HFF &o77 &b11. If B* any of the three
 ;;         prefixes can be used (or none for base 10) and base parameter is effectively ignored;
 ;;         otherwise only the prefix matching the base parameter can be used.
@@ -109,7 +118,7 @@
   (if (stringp s)
     (if (> (length (string-trim '(#\Space #\Tab #\Newline) s)) 0)
       (let ((mode-entry (validate-basen-params "frombasen" base mode mindigits)))
-        (destructuring-bind (ml mn choice) mode-entry
+        (destructuring-bind (ml mn choice leftj) mode-entry
           (declare (ignore mn))
             (destructuring-bind (pref body suff b2) (split-number-string s base ml)
   
@@ -121,12 +130,13 @@
                     (if (or (> (length (string-trim '(#\Space #\Tab #\Newline) body)) 0) (and (eq ml #\M) (> base 10)) )
                           
                       (let* (
+                          (body-padded (cond-left-pad body mindigits leftj))
                           (n 
                               (catch 'macsyma-quit 
-                                (parse-basen-string (if (and (integerp b2) (> b2 10)) (concatenate 'string "0" body) body) b2)) ))
+                                (parse-basen-string (if (and (integerp b2) (> b2 10)) (concatenate 'string "0" body-padded) body-padded) b2)) ))
                         (declare (special $report_synerr_info))
                         (if (integerp n)
-                          (if (or (eq mindigits 0) (eq mindigits (length body)))
+                          (if (or (eq mindigits 0) (eq mindigits (length body)) (and leftj (>= mindigits (length body))) )
                             n
                             (merror "~M: ~M contains wrong number of digits for ~M digit base ~M integer." "frombasen" s mindigits (cond ((> base 0) base) (t b2))) )
 
@@ -143,6 +153,11 @@
       (merror "~M: Empty string." "frombasen" ) )
 
     (merror "~M: ~M is not a string." "frombasen" s) ) ) 
+
+(defun cond-left-pad (s mindigits leftj)
+  (if (and leftj (< (length s) mindigits))
+    (concatenate 'string s (make-string (- mindigits (length s)) :initial-element #\0))
+    s ) )
 
 ;; 
 ;; (PARSE-STRING S)  --  parse the string as a Maxima expression.
@@ -176,11 +191,20 @@
 ;; mindigitsis the minimum number of figures outputted.
 ;; mode     is a string controlling the format:                                                 
 ;;    D    STACK compatible format; base must be < 11.
+;;    D<   Variation of D syntax where the number reads as if padded from the right with
+;;         zeroes, i.e. the most significant digit is fixed as maximum value. Useful
+;;         for processing fixed point numbers.
 ;;    M    Maxima syntax: number will be 0 prefixed if base is 11+; This is the default.
+;;    M<   Variation of M syntax where the number reads as if padded from the right with
+;;         zeroes, i.e. the most significant digit is fixed as maximum value. Useful
+;;         for processing fixed point numbers.
 ;;    G    Greedy format: number is output without any prefix regardless of base. The simplest
 ;;         format for literal value base conversion questions but does not play nicely with
 ;;         others; i.e. base 11+ numbers will be confused with variables and some floats.
 ;;         e.g. abcd or 1e0 in base 16.
+;;    G<   Variation of G syntax where the number reads as if padded from the right with
+;;         zeroes, i.e. the most significant digit is fixed as maximum value. Useful
+;;         for processing fixed point numbers.
 ;;    B/B* Visual Basic number syntax: &HFF &o77 &b11. Only bases 2,8,10 and 16 are valid.
 ;;    C/C* C/C++/Java number syntax: 0xff 077 0b11. Only bases 2,8,10 and 16 are valid.
 ;;    S    Suffix syntax; number will appear with the radix as a subscripted suffix (123_8).
@@ -191,7 +215,7 @@
 (defun tobasen(n base &optional (mode "M") (mindigits 0))
   (if (integerp n)
     (let ((mode-entry (validate-basen-params "tobasen" base mode mindigits)))
-      (destructuring-bind (ml mn choice) mode-entry
+      (destructuring-bind (ml mn choice leftj) mode-entry
         (declare (ignore mn))
           (format nil
             (concatenate

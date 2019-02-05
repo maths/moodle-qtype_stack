@@ -153,6 +153,11 @@ class stack_answertest_test_data {
             '-4*sec(4*z)^2*sin(6*z)-6*tan(4*z)*cos(6*z)', 1, '', ''),
         array('AlgEquiv', '', '-4*sec(4*z)^2*sin(6*z)-6*tan(4*z)*cos(6*z)',
             '4*sec(4*z)^2*sin(6*z)+6*tan(4*z)*cos(6*z)', 0, '', ''),
+        // The following test is here because we can't factor with trigsimp:true.
+        array('AlgEquiv', '', 'csc(6*x)^2*(7*sin(6*x)*cos(7*x)-6*cos(6*x)*sin(7*x))',
+            '-(6*cos(6*x)*sin(7*x)-7*sin(6*x)*cos(7*x))/sin(6*x)^2', 1, '', ''),
+        array('AlgEquiv', '', 'csc(6*x)^2*(7*sin(6*x)*cos(7*x)-6*cos(6*x)*sin(7*x))',
+            '(6*cos(6*x)*sin(7*x)-7*sin(6*x)*cos(7*x))/sin(6*x)^2', 0, '', ''),
         array('AlgEquiv', '', 'log(a^2*b)', '2*log(a)+log(b)', 1, '', 'Logarithms'),
         array('AlgEquiv', '', 'lg(10^x)', 'x', 1, '', ''),
         array('AlgEquiv', '', '(2*log(2*x)+x)/(2*x)', '(log(2*x)+2)/(2*sqrt(x))', 0, '', ''),

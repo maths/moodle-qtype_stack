@@ -616,13 +616,15 @@ make_displayscivalue(ex):= block([n, d, expo, ss],
    26/9/12.  Avoid fullratsimp after exponentialize.  This results in a non-terminating process.
 
    24/11/13.  Avoid fullratsimp.  This expands out exprsssions such as (x+a)^6000, which results in an overflow.
+
+   04/01/19.  Avoid trigexpand too soon, i.e. before trying to factor.
 */
 algebraic_equivalence(SA, SB) :=
     block([keepfloat, trigexpand, logexpand, ex, vi],
     /* Reject obviously different expressions.  These can be very time consuming in the tests below. */
     /* The code below is actually making the situation worse: needs reconsidering. */
     if numerical_not_alg_equiv(SA, SB) then return(false),
-    trigexpand:true,
+    trigexpand:false,
     logexpand:super,
     keepfloat:true,
     /* In some cases we just go inside the function one level. */
@@ -681,6 +683,7 @@ algebraic_equivalence(SA, SB) :=
     ex:ex[1],
     if floatnump(ex) then return(false),
     ex:num(ex),  /* after a fullratsimp, we have a ratio.  We should only need to consider the top */
+    trigexpand:true,
     ex:trigsimp(ex),
     if not(freeof(%i, ex)) then ex:rectform(ex),
     ex:exponentialize(ex),

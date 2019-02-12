@@ -377,7 +377,7 @@ class MP_Float extends MP_Atom {
 class MP_String extends MP_Atom {
 
     public function toString($params = null) {
-        return '"' . str_replace('"', '\\"', $this->value). '"';
+        return '"' . str_replace('"', '\\"', str_replace('\\', '\\\\', $this->value)). '"';
     }
 }
 

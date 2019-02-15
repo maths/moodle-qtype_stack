@@ -58,7 +58,7 @@ stack_reset(not_used) := block(
   MAXIMA_VERSION: map(parse_string, tokens(?\*autoconf\-version\*, 'digitcharp)),
   /* We need the "if" statement below, because versions compiled from source give erroneous results. */
   MAXIMA_VERSION_NUM: float(MAXIMA_VERSION[2]+(if is(length(MAXIMA_VERSION)>2)
-    then (if is(MAXIMA_VERSION[3]<10) then MAXIMA_VERSION[3]/10 else 0) else 0)), 
+    then (if is(MAXIMA_VERSION[3]<10) then MAXIMA_VERSION[3]/10 else 0) else 0)),
 
   OPT_OUTPUT: "LaTeX",
   PLOT_TAGS: true,
@@ -122,6 +122,7 @@ load("stackstrings.mac");
 /* Ensure back compatability with versions before 5.41.0. */
 if is(MAXIMA_VERSION_NUM<40.1) then load("stacktex40.lisp");
 load("utils.mac");
+load("casanswertest.mac");
 
 texput(QMCHAR, "\\color{red}{?}");
 texput(theta, "\\theta");
@@ -487,7 +488,7 @@ stack_disp_sub_script_helper(l) := block(
    "a, b, pi"
    Not the TeX version, "a, b, \pi".
 
-   Useful for passing values to Javascript, R and so on, or generating data for students. 
+   Useful for passing values to Javascript, R and so on, or generating data for students.
 */
 stack_disp_comma_separate(ex):= block(
   if not(listp(ex)) then error("stack_disp_comma_separate: expects its argument to be a list"),

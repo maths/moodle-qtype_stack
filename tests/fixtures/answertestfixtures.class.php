@@ -1678,6 +1678,7 @@ class stack_answertest_test_data {
             $ansnote  = '';
         }
 
+        $trace = $anst->get_trace(false);
         $anomalynote = array();
         $passed = true;
         if ($test->expectedscore >= 0) {
@@ -1727,6 +1728,6 @@ class stack_answertest_test_data {
         }
 
         $anomalynote = implode($anomalynote, ' | ');
-        return array($passed, $errors, $rawmark, $feedback, $ansnote, $anomalynote);
+        return array($passed, $errors, $rawmark, $feedback, $ansnote, $anomalynote, $trace);
     }
 }

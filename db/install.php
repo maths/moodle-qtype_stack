@@ -74,9 +74,5 @@ function xmldb_qtype_stack_install() {
         if (!$ok) {
             throw new coding_exception('maxima_opt_auto creation failed.', $message);
         }
-    } else {
-        set_config('maximaversion', 'default', 'qtype_stack');
-        set_config('maximacommand', 'http://vle-stack-acct:8080/MaximaPool/MaximaPool', 'qtype_stack');
-        set_config('maximalibraries', 'stats, distrib, descriptive, simplex', 'qtype_stack');
     }
 }

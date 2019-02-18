@@ -123,6 +123,9 @@ load("stackstrings.mac");
 if is(MAXIMA_VERSION_NUM<40.1) then load("stacktex40.lisp");
 load("utils.mac");
 
+/* Breaks on older versions of Maxima. */
+if is(MAXIMA_VERSION_NUM>30.0) then compile(scientific_notation)$
+
 texput(QMCHAR, "\\color{red}{?}");
 texput(theta, "\\theta");
 

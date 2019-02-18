@@ -32,6 +32,22 @@ require_once(__DIR__ . '/../stack/cas/keyval.class.php');
  */
 class stack_cas_session_test extends qtype_stack_testcase {
 
+    public function test_internal_config() {
+        // This test checks if the version number returned by Maxima matches our internal config.
+        $cs = array('m:MAXIMA_VERSION_NUM');
+        foreach ($cs as $s) {
+            $cs = new stack_cas_casstring($s);
+            $cs->get_valid('t');
+            $s1[] = $cs;
+        }
+        $at1 = new stack_cas_session($s1, null, 0);
+        $at1->instantiate();
+
+        $maximaversion = '5.' . $at1->get_value_key('m');
+        $maximaconfig = get_config('qtype_stack', 'maximaversion');
+        $this->assertEquals($maximaconfig, $maximaversion);
+    }
+
     public function get_valid($cs, $val) {
 
         if (is_array($cs)) {
@@ -907,9 +923,13 @@ class stack_cas_session_test extends qtype_stack_testcase {
                 '0.100000000000000000000 \right]', $at1->get_display_key('L'));
         // Even more worryingly, the "value" of the expression looses this at the 14th place.
         // This is because of the precision specified in the "string" routine of Maxima, which sends "values" from Maxima to PHP.
-        $this->assertEquals('[displaydp(0.100000000001,13),displaydp(0.1,14),displaydp(0.1,15),displaydp(0.1,16),'.
-                'displaydp(0.1,17),displaydp(0.1,18),displaydp(0.1,19),displaydp(0.1,20),displaydp(0.1,21)]',
-                $at1->get_value_key('L', false));
+        $expected = '[displaydp(.100000000001,13),displaydp(0.1,14),displaydp(0.1,15),displaydp(0.1,16),displaydp(0.1,17),'.
+                'displaydp(0.1,18),displaydp(0.1,19),displaydp(0.1,20),displaydp(0.1,21)]';
+        if ($this->adapt_to_new_maxima('5.32.2')) {
+            $expected = '[displaydp(0.100000000001,13),displaydp(0.1,14),displaydp(0.1,15),displaydp(0.1,16),'.
+                    'displaydp(0.1,17),displaydp(0.1,18),displaydp(0.1,19),displaydp(0.1,20),displaydp(0.1,21)]';
+        }
+        $this->assertEquals($expected, $at1->get_value_key('L', false));
         // The internal printf function is perfectly capable of printing more, if we use the "dispval" field.
         // This gives up at the same point as the displayed values above.
         $this->assertEquals('[0.1000000000010,0.10000000000010,0.100000000000010,0.1000000000000010,0.10000000000000010,'.
@@ -934,11 +954,16 @@ class stack_cas_session_test extends qtype_stack_testcase {
                 '0.10000000000000010 , 0.100000000000000000 , 0.1000000000000000000 , 0.10000000000000000000 , '.
                 '0.100000000000000000000 \right]', $at1->get_display_key('L'));
         // Note the difference, having increased fpprintprec:16 which is the maximum value permitted in Maxima.
-        $this->assertEquals('[displaydp(0.100000000001,13),displaydp(0.1000000000001,14),displaydp(0.10000000000001,15),'.
-                'displaydp(0.100000000000001,16),displaydp(0.1000000000000001,17),'.
-                // We get more decimal places preserved here that the above test cases.
-                'displaydp(0.1,18),displaydp(0.1,19),displaydp(0.1,20),displaydp(0.1,21)]',
-                $at1->get_value_key('L', false));
+        $expected = '[displaydp(0.100000000001,13),displaydp(0.1000000000001,14),displaydp(0.10000000000001,15),'.
+                'displaydp(0.100000000000001,16),displaydp(.1000000000000001,17),'.
+                'displaydp(0.1,18),displaydp(0.1,19),displaydp(0.1,20),displaydp(0.1,21)]';
+        if ($this->adapt_to_new_maxima('5.32.2')) {
+            $expected = '[displaydp(0.100000000001,13),displaydp(0.1000000000001,14),displaydp(0.10000000000001,15),'.
+                    'displaydp(0.100000000000001,16),displaydp(0.1000000000000001,17),'.
+                    // We get more decimal places preserved here that the above test cases.
+                    'displaydp(0.1,18),displaydp(0.1,19),displaydp(0.1,20),displaydp(0.1,21)]';
+        }
+        $this->assertEquals($expected, $at1->get_value_key('L', false));
         $this->assertEquals('[0.1000000000010,0.10000000000010,0.100000000000010,0.1000000000000010,0.10000000000000010,'.
                 '0.100000000000000000,0.1000000000000000000,0.10000000000000000000,0.100000000000000000000]',
                 $at1->get_value_key('L', true));
@@ -1046,7 +1071,12 @@ class stack_cas_session_test extends qtype_stack_testcase {
         $at1->instantiate();
         $this->assertEquals('a +- b', $at1->get_value_key('c1'));
         $this->assertEquals('{a \pm b}', $at1->get_display_key('c1'));
-        $this->assertEquals('x = ((-b) +- sqrt(b^2-4*a*c))/(2*a)', $at1->get_value_key('c2'));
+        if ($this->adapt_to_new_maxima('5.32.2')) {
+            // Why these extra brackets in the new version?
+            $this->assertEquals('x = ((-b) +- sqrt(b^2-4*a*c))/(2*a)', $at1->get_value_key('c2'));
+        } else {
+            $this->assertEquals('x = (-b +- sqrt(b^2-4*a*c))/(2*a)', $at1->get_value_key('c2'));
+        }
         $this->assertEquals('x=\frac{{-b \pm \sqrt{b^2-4\cdot a\cdot c}}}{2\cdot a}', $at1->get_display_key('c2'));
         $this->assertEquals('b +- a^2', $at1->get_value_key('c3'));
         $this->assertEquals('{b \pm a^2}', $at1->get_display_key('c3'));
@@ -1091,7 +1121,12 @@ class stack_cas_session_test extends qtype_stack_testcase {
         $at1->instantiate();
         $this->assertEquals('a +- b', $at1->get_value_key('c1'));
         $this->assertEquals('{a \pm b}', $at1->get_display_key('c1'));
-        $this->assertEquals('x = ((-b) +- sqrt(b^2-4*a*c))/(2*a)', $at1->get_value_key('c2'));
+        if ($this->adapt_to_new_maxima('5.32.2')) {
+            // Why these extra brackets in the new version?
+            $this->assertEquals('x = ((-b) +- sqrt(b^2-4*a*c))/(2*a)', $at1->get_value_key('c2'));
+        } else {
+            $this->assertEquals('x = (-b +- sqrt(b^2-4*a*c))/(2*a)', $at1->get_value_key('c2'));
+        }
         $this->assertEquals('x=\frac{{-b \pm \sqrt{b^2-4\cdot a\cdot c}}}{2\cdot a}', $at1->get_display_key('c2'));
         $this->assertEquals('b +- a^2', $at1->get_value_key('c3'));
         $this->assertEquals('{b \pm a^2}', $at1->get_display_key('c3'));
@@ -1225,10 +1260,16 @@ class stack_cas_session_test extends qtype_stack_testcase {
             array('1000', '', '1.0\cdot 10^3', '1.0*10^3', '1000.0', '1000.0'),
             array('-1000', '', '-1.0\cdot 10^3', '-1.0*10^3', '-1000.0', '-1000.0'),
             array('1e50', '', '1.0\cdot 10^{50}', '1.0*10^50', '1.0E+50', '1.0E+50'),
+            // @codingStandardsIgnoreStart
+
             // In some versions of Maxima this comes out as -\frac{1.0}{10^8} with simp:true.
             // Adding in compile(scientific_notation)$ after the function definition cures this,
             // but breaks some versions of Maxima.
             // Maxima 5.38.1 gives -1.0*10^-8, which is what we actually want.
+            // Pass: 36.1, 31.3, 38.1, 39.0, 41.0.
+            // Fail: 37.0, 37.1, 37.2, 37.3.
+
+            // @codingStandardsIgnoreEnd
             array('-0.00000001', '', '-1.0\cdot 10^ {- 8 }', '-1.0*10^-8', '-1.0E-8', '-1.0E-8'),
             array('-0.000000001', '', '-1.0\cdot 10^ {- 9 }', '-1.0*10^-9', '-1.0E-9', '-1.0E-9'),
             array('-0.000000000001', '', '-1.0\cdot 10^ {- 12 }', '-1.0*10^-12', '-1.0E-12', '-1.0E-12'),

@@ -41,15 +41,18 @@
   stack_unit_other_unit_tex:["\\mathrm{min}", "\\mathrm{day}", "\\mathrm{amu}", "\\mathrm{u}", "\\mathrm{mmHg}", "\\mathrm{bar}", "\\mathrm{cc}", "\\mathrm{mbar}", "\\mathrm{atm}", "\\mathrm{Torr}", "\\mathrm{rev}", "\\mathrm{{}^{o}}", "\\mathrm{rpm}", "\\mathrm{K}"],
 */
 
-/* Add rules to the simplifier to deal with stackunits.  */
+/* In Maxima 5.42.2 there are changes to the default simplifier.  We can no longer use the default, but need 
+   to add rules and explicitly simplify to deal with stackunits.  */
 matchdeclare(STACKNUM1, all, STACKNUM2, all, STACKUNITS1, all, STACKUNITS2, all, STACKNUM, numberp)$
 matchdeclare(STACKANY, all)$
-tellsimpafter(STACKNUM*stackunits(STACKNUM1,STACKUNITS1), stackunits(STACKNUM*STACKNUM1, STACKUNITS1));
-tellsimpafter(stackunits(STACKNUM1, STACKUNITS1)^STACKNUM, stackunits(STACKNUM1^STACKNUM, STACKUNITS1^STACKNUM));
-tellsimpafter(stackunits(STACKNUM1, STACKUNITS1)*stackunits(STACKNUM2, STACKUNITS2), stackunits(STACKNUM1*STACKNUM2, STACKUNITS1*STACKUNITS2));
-tellsimpafter(stackunits(STACKNUM1, STACKUNITS1)*stackunits(STACKNUM2, STACKUNITS2)*STACKANY, stackunits(STACKNUM1*STACKNUM2, STACKUNITS1*STACKUNITS2)*STACKANY);
-tellsimpafter(stackunits(STACKNUM1, STACKUNITS1)+stackunits(STACKNUM2, STACKUNITS1), stackunits(STACKNUM1+STACKNUM2, STACKUNITS1));
-tellsimpafter(stackunits(STACKNUM1, STACKUNITS1)+stackunits(STACKNUM2, STACKUNITS1)+STACKANY, stackunits(STACKNUM1+STACKNUM2, STACKUNITS1)+STACKANY);
+defrule(satckunitsmul1, STACKNUM*stackunits(STACKNUM1,STACKUNITS1), stackunits(STACKNUM*STACKNUM1, STACKUNITS1));
+defrule(satckunitsmul2, stackunits(STACKNUM1, STACKUNITS1)*stackunits(STACKNUM2, STACKUNITS2), stackunits(STACKNUM1*STACKNUM2, STACKUNITS1*STACKUNITS2));
+defrule(satckunitsmul3, stackunits(STACKNUM1, STACKUNITS1)*stackunits(STACKNUM2, STACKUNITS2)*STACKANY, stackunits(STACKNUM1*STACKNUM2, STACKUNITS1*STACKUNITS2)*STACKANY);
+defrule(satckunitspow1, stackunits(STACKNUM1, STACKUNITS1)^STACKNUM, stackunits(STACKNUM1^STACKNUM, STACKUNITS1^STACKNUM));
+defrule(satckunitsadd1, stackunits(STACKNUM1, STACKUNITS1)+stackunits(STACKNUM2, STACKUNITS1), stackunits(STACKNUM1+STACKNUM2, STACKUNITS1));
+defrule(satckunitsadd2, stackunits(STACKNUM1, STACKUNITS1)+stackunits(STACKNUM2, STACKUNITS1)+STACKANY, stackunits(STACKNUM1+STACKNUM2, STACKUNITS1)+STACKANY);
+
+simp_stackunits(ex) := apply1(ex, satckunitsmul1, satckunitsmul1, satckunitsmul2, satckunitspow1, satckunitsadd1, satckunitsadd2);
 
 unitsp(ex) := featurep(ex, units)$
 
@@ -426,13 +429,13 @@ ATUnitsStrictAbsolute(SA, SB, SO) := ATUnitsFun(SA, SB, SO, true, "Absolute")$
 */
 ATUnitsFun(SA, SB, SO, strictp, numtest) := block([validity, rawmk, sb, ansnote, SAU, SBU, SAU1, SBU1, ol, ret, ret1, ret2],
   validity:true, rawmk:true, fb:"", ansnote:"",
-  SAA:errcatch(ev(SA, simp, nouns)),
+  SAA:errcatch(ev(simp_stackunits(SA), simp, nouns)),
   if (is_simp(SAA = [STACKERROR]) or is_simp(SAA = [])) then
     return([false, false, StackAddNote("", "ATUnits_STACKERROR_SAns"), ""]),
-  SBB:errcatch(ev(SB, simp, nouns)),
+  SBB:errcatch(ev(simp_stackunits(SB), simp, nouns)),
   if (is_simp(SBB = [STACKERROR]) or is_simp(SBB = [])) then
     return([false, false, StackAddNote("", "ATUnits_STACKERROR_TAns"), ""]),
-  SOO:errcatch(ev(SO, simp, nouns)),
+  SOO:errcatch(ev(simp_stackunits(SO), simp, nouns)),
   if (is_simp(SOO = [STACKERROR]) or is_simp(SOO = [])) then
     return([false, false, StackAddNote("", "ATUnits_STACKERROR_Opt"), ""]),
 

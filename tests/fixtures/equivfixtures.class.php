@@ -693,6 +693,14 @@ class stack_equiv_test_data {
 
         $newarg = array();
         $newarg['title']     = "";
+        $newarg['narrative'] = '';
+        $newarg['casstring'] = "[x^log(y),stackeq(e^(log(x)*log(y))),stackeq(e^(log(y)*log(x))),stackeq(y^log(x))]";
+        $newarg['debuglist'] = "[EMPTYCHAR,CHECKMARK,CHECKMARK,CHECKMARK]";
+        $newarg['outcome']   = true;
+        $samplearguments[] = $newarg;
+
+        $newarg = array();
+        $newarg['title']     = "";
         $newarg['narrative'] = 'For the moment we do not support this case.  That is we accept the failure to estabilsh equivalence.  To fix this it needs the rule A=B <=> e^A=e^B.';
         $newarg['casstring'] = "[lg(x+17,3)-2=lg(2*x,3),lg(x+17,3)-lg(2*x,3)=2,lg((x+17)/(2*x),3)=2,(x+17)/(2*x)=3^2,(x+17)=18*x,17*x=17,x=1]";
         $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,QMCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR]";

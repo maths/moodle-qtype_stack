@@ -168,6 +168,7 @@ class stack_answertest_test_data {
         array('AlgEquiv', '', '1+lg(27,3)', '4', 1, '', ''),
         array('AlgEquiv', '', '1+lg(27,3)', '3', 0, '', ''),
         array('AlgEquiv', '', 'lg(1/8,2)', '-3', 1, '', ''),
+        array('AlgEquiv', '', 'x^log(y)', 'y^log(x)', 1, '', ''),
         array('AlgEquiv', '', 'e^1-e^(-1)', '2*sinh(1)', 1, '', 'Hyperbolic trig'),
         array('AlgEquiv', '', 'x', '[1,2,3]', 0, 'ATAlgEquiv_SA_not_list.', 'Lists'),
         array('AlgEquiv', '', '[1,2]', '[1,2,3]', 0, 'ATList_wronglen.', ''),

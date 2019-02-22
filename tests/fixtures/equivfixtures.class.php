@@ -1326,6 +1326,15 @@ class stack_equiv_test_data {
         $samplearguments[]   = $newarg;
 
         $newarg = array();
+        $newarg['title']     = "Implicit differentiation";
+        $newarg['narrative'] = '';
+        $newarg['casstring'] = "[y(x)*cos(x)+y(x)^2 = 6*x,cos(x)*noundiff(y(x),x)+2*y(x)*noundiff(y(x),x)-y(x)*sin(x) = 6,(cos(x)+2*y(x))*noundiff(y(x),x) = y(x)*sin(x)+6,noundiff(y(x),x) = (y(x)*sin(x)+6)/(cos(x)+2*y(x))]";
+        $newarg['debuglist'] = "[EMPTYCHAR,DIFFCHAR(x),EQUIVCHAR,EQUIVCHAR]";
+        $newarg['calculus']  = true;
+        $newarg['outcome']   = true;
+        $samplearguments[]   = $newarg;
+
+        $newarg = array();
         $newarg['title']     = "Explicit integation";
         $newarg['narrative'] = 'Calculus with an equals sign, are equivalent with noun operators.';
         $newarg['casstring'] = "[nounint(s^2+1,s),stackeq(s^3/3+s+c)]";

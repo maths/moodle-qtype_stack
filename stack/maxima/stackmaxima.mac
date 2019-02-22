@@ -2880,6 +2880,13 @@ Difffun(SA,SB,v) := block([val,rawmk,ansnote,fb,ret,lSAv,lSBv,mSAv,mSBv],
     return(ret)
     )$
 
+/* Look over an expression and find all the variables wrt which we are differentiating. */
+ATDiffGetVar(ex):= block(
+    if atom(ex) then return([]),
+    if safe_op(ex)="diff" then return([second(args(ex))]),
+    flatten(map(ATDiffGetVar, args(ex)))
+);
+
 /* ****************************************************** */
 /*                                                        */
 /* The assess function takes two expressions, ex1 and ex2 */

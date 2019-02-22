@@ -1160,6 +1160,7 @@ class stack_answertest_test_data {
         array('NumSigFigs', '4', '3141', '3.1415927', 0, 'ATNumSigFigs_VeryInaccurate.', ''),
         array('NumSigFigs', '3', '0.00123', '0.001234567', 1, '', ''),
         array('NumSigFigs', '3', '1.23e-3', '0.001234567', 1, '', ''),
+        array('NumSigFigs', '3', '138*10^-3', '138*10^-3', 1, '', ''),
         array('NumSigFigs', '3', '1.24e-3', '0.001234567', 0, 'ATNumSigFigs_Inaccurate.', ''),
         array('NumSigFigs', '4', '1.235e-3', '0.001234567', 1, '', ''),
         array('NumSigFigs', '2', '1000', '999', 1, 'ATNumSigFigs_WithinRange.', ''),

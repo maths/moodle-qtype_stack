@@ -43,16 +43,15 @@
 
 /* In Maxima 5.42.2 there are changes to the default simplifier.  We can no longer use the default, but need 
    to add rules and explicitly simplify to deal with stackunits.  */
-matchdeclare(STACKNUM1, all, STACKNUM2, all, STACKUNITS1, all, STACKUNITS2, all, STACKNUM, numberp)$
-matchdeclare(STACKANY, all)$
-defrule(satckunitsmul1, STACKNUM*stackunits(STACKNUM1,STACKUNITS1), stackunits(STACKNUM*STACKNUM1, STACKUNITS1));
-defrule(satckunitsmul2, stackunits(STACKNUM1, STACKUNITS1)*stackunits(STACKNUM2, STACKUNITS2), stackunits(STACKNUM1*STACKNUM2, STACKUNITS1*STACKUNITS2));
-defrule(satckunitsmul3, stackunits(STACKNUM1, STACKUNITS1)*stackunits(STACKNUM2, STACKUNITS2)*STACKANY, stackunits(STACKNUM1*STACKNUM2, STACKUNITS1*STACKUNITS2)*STACKANY);
-defrule(satckunitspow1, stackunits(STACKNUM1, STACKUNITS1)^STACKNUM, stackunits(STACKNUM1^STACKNUM, STACKUNITS1^STACKNUM));
-defrule(satckunitsadd1, stackunits(STACKNUM1, STACKUNITS1)+stackunits(STACKNUM2, STACKUNITS1), stackunits(STACKNUM1+STACKNUM2, STACKUNITS1));
-defrule(satckunitsadd2, stackunits(STACKNUM1, STACKUNITS1)+stackunits(STACKNUM2, STACKUNITS1)+STACKANY, stackunits(STACKNUM1+STACKNUM2, STACKUNITS1)+STACKANY);
+matchdeclare(STACKNUM1, all, STACKNUM2, all, STACKUNITS1, all, STACKUNITS2, all, STACKANY, all)$
+matchdeclare(STACKNUM, lambda([ex], numberp(ex) and is(ex>0)))$
+tellsimpafter(STACKNUM*stackunits(STACKNUM1,STACKUNITS1), stackunits(STACKNUM*STACKNUM1, STACKUNITS1));
+tellsimpafter(stackunits(STACKNUM1, STACKUNITS1)*stackunits(STACKNUM2, STACKUNITS2), stackunits(STACKNUM1*STACKNUM2, STACKUNITS1*STACKUNITS2));
+tellsimpafter(stackunits(STACKNUM1, STACKUNITS1)*stackunits(STACKNUM2, STACKUNITS2)*STACKANY, stackunits(STACKNUM1*STACKNUM2, STACKUNITS1*STACKUNITS2)*STACKANY);
+tellsimpafter(stackunits(STACKNUM1, STACKUNITS1)^STACKNUM, stackunits(STACKNUM1^STACKNUM, STACKUNITS1^STACKNUM));
+tellsimpafter(stackunits(STACKNUM1, STACKUNITS1)+stackunits(STACKNUM2, STACKUNITS1), stackunits(STACKNUM1+STACKNUM2, STACKUNITS1));
+tellsimpafter(stackunits(STACKNUM1, STACKUNITS1)+stackunits(STACKNUM2, STACKUNITS1)+STACKANY, stackunits(STACKNUM1+STACKNUM2, STACKUNITS1)+STACKANY);
 
-simp_stackunits(ex) := apply1(ex, satckunitsmul1, satckunitsmul1, satckunitsmul2, satckunitspow1, satckunitsadd1, satckunitsadd2);
 
 unitsp(ex) := featurep(ex, units)$
 

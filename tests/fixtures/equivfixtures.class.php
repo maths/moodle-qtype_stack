@@ -149,6 +149,60 @@ class stack_equiv_test_data {
         //******************************************************************************
 
         $newarg = array();
+        $newarg['section'] = 'Numerical arguments.';
+        $samplearguments[] = $newarg;
+
+        $newarg = array();
+        $newarg['title']     = "";
+        $newarg['narrative'] = '';
+        $newarg['casstring'] = "[2^2,stackeq(4)]";
+        $newarg['debuglist'] = "[EMPTYCHAR,CHECKMARK]";
+        $newarg['outcome']   = true;
+        $samplearguments[] = $newarg;
+
+        $newarg = array();
+        $newarg['title']     = "";
+        $newarg['narrative'] = '';
+        $newarg['casstring'] = "[2^2,stackeq(3)]";
+        $newarg['debuglist'] = "[EMPTYCHAR,IMPLIESCHAR]";
+        $newarg['outcome']   = false;
+        $samplearguments[] = $newarg;
+
+        $newarg = array();
+        $newarg['title']     = "";
+        $newarg['narrative'] = '';
+        $newarg['casstring'] = "[2^2,4]";
+        $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR]";
+        $newarg['outcome']   = true;
+        $samplearguments[] = $newarg;
+
+        $newarg = array();
+        $newarg['title']     = "";
+        $newarg['narrative'] = '';
+        $newarg['casstring'] = "[2^2,3]";
+        $newarg['debuglist'] = "[EMPTYCHAR,IMPLIESCHAR]";
+        $newarg['outcome']   = false;
+        $samplearguments[] = $newarg;
+
+        $newarg = array();
+        $newarg['title']     = "";
+        $newarg['narrative'] = '';
+        $newarg['casstring'] = "[lg(64,4),lg(4^3,4),3*lg(4,4),3]";
+        $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR]";
+        $newarg['outcome']   = true;
+        $samplearguments[] = $newarg;
+
+        $newarg = array();
+        $newarg['title']     = "";
+        $newarg['narrative'] = '';
+        $newarg['casstring'] = "[lg(64,4),stackeq(lg(4^3,4)),stackeq(3*lg(4,4)),stackeq(3)]";
+        $newarg['debuglist'] = "[EMPTYCHAR,CHECKMARK,CHECKMARK,CHECKMARK]";
+        $newarg['outcome']   = true;
+        $samplearguments[] = $newarg;
+
+        //******************************************************************************
+
+        $newarg = array();
         $newarg['section'] = 'Things students will get wrong.';
         $samplearguments[] = $newarg;
 

@@ -2115,6 +2115,20 @@ disp_stack_eval_arg(ex, showlogic, showdomain, equivdebug, debuglist) := block([
     return(second(A))
 )$
 
+/* Find the indices of where ex appears in exl.
+   Notes:
+   (1) Uses ATEqualComAss,
+   (2) Ignores completely if "stackeq" is the first operator.
+   Returns a list of indices.
+   Use emptyp to create a predicate.
+*/
+stack_equiv_find_step(ex, exl) := block(
+  if not(listp(exl)) then error("STACK function stack_equiv_find_step expects its second argument to be a list."),
+  if safe_op(ex)="stackeq" then ex:first(args(ex)),
+  exl:maplist(lambda([ex2], if safe_op(ex2)="stackeq" then first(args(ex2)) else ex2), exl),
+  sublist_indices(exl, lambda([ex2], second(ATEqualComAss(ex, ex2))))
+)$
+
 /* This modifies stack_eval_arg to create something which can be displayed. */
 stack_disp_arg([exs]) := block([A],
     ex:first(exs),

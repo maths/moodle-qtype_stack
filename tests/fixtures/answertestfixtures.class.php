@@ -159,7 +159,6 @@ class stack_answertest_test_data {
         array('AlgEquiv', '', 'csc(6*x)^2*(7*sin(6*x)*cos(7*x)-6*cos(6*x)*sin(7*x))',
             '(6*cos(6*x)*sin(7*x)-7*sin(6*x)*cos(7*x))/sin(6*x)^2', 0, '', ''),
         array('AlgEquiv', '', 'log(a^2*b)', '2*log(a)+log(b)', 1, '', 'Logarithms'),
-        array('AlgEquiv', '', 'lg(10^x)', 'x', 1, '', ''),
         array('AlgEquiv', '', '(2*log(2*x)+x)/(2*x)', '(log(2*x)+2)/(2*sqrt(x))', 0, '', ''),
         array('AlgEquiv', '', 'log(abs((x^2-9)))', 'log(abs(x-3))+log(abs(x+3))', 0, '', ''),
         array('AlgEquiv', '', 'lg(10^x)', 'x', 1, '', ''),

@@ -182,6 +182,29 @@ With the equivalence symbols but without natural domains you use
 
     \[ {@stack_disp_arg(ta, true, false)@} \]
 
+# Finding a step in working. #
+
+It is relatively common to want students to take a "particular step" in their argument.  That is to say, to expect a particular intermeditate expression to appear explicitly in their list of answers.
+
+For example, imagine you want students to "simplify" \( \log_5(25) \) to \(2\).  It is important to see evidence of the expression \( \log_5(5^2) \) in their answer.  The teacher's answer is, e.g.
+
+    ta:[logbase(25,5),stackeq(logbase(5^2,5)),stackeq(2*logbase(5,5)),stackeq(2*1),stackeq(2)]
+
+We want to accept 
+
+    sa1:[logbase(25,5),stackeq(logbase(5^2,5)),stackeq(2)]
+
+But reject
+
+    sa0:[logbase(25,5),stackeq(2)]
+
+Both of these are correct reasoning arguments, but the second is missing the desired step.
+
+To facilitate this search we provide the function `stack_equiv_find_step(ex, exl)`.  This looks for expression `ex` in the list `exl` using `ATEqualComAss`.  It returns the list of indices of the position.  If you just want to know if the expression is missing use the predicate `emptyp`.  Note, this function strips off `stackeq` before testing, so this function will find \( \log_5(5^2) \) in both `sa1` and `sa2` below.
+
+    sa2:[logbase(25,5),logbase(5^2,5),2]
+
+
 ## Longer term plans
 
 1. Define \(x\neq a\) operator.  Needed to exclude single numbers from the domain.

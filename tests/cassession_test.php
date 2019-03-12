@@ -1490,4 +1490,44 @@ class stack_cas_session_test extends qtype_stack_testcase {
             $i++;
         }
     }
+
+    public function test_stack_stack_equiv_find_step() {
+
+        $s1 = array();
+        $r1 = array('ta:[logbase(25,5),stackeq(logbase(5^2,5)),stackeq(2*logbase(5,5)),stackeq(2*1),stackeq(2)]',
+            'sa1:[logbase(25,5),stackeq(logbase(5^2,5)),stackeq(2)]',
+            'sa0:[logbase(25,5),stackeq(2)]'
+        );
+        foreach ($r1 as $r) {
+            $s1[] = new stack_cas_casstring($r);
+        }
+
+        $t1 = array();
+        $t1[] = array('stack_equiv_find_step(stackeq(2*lg(5,5)), ta)', '[3]');
+        $t1[] = array('stack_equiv_find_step(2*lg(5,5), ta)', '[3]');
+        $t1[] = array('stack_equiv_find_step(stackeq(lg(5,5)), ta)', '[]');
+        $t1[] = array('stack_equiv_find_step(stackeq(lg(5^2,5)), sa1)', '[2]');
+        $t1[] = array('stack_equiv_find_step(lg(5^2,5), sa1)', '[2]');
+        $t1[] = array('stack_equiv_find_step(stackeq(lg(5^2,5)), sa0)', '[]');
+        $t1[] = array('stack_equiv_find_step(lg(5^2,5), sa0)', '[]');
+
+        $i = 0;
+        foreach ($t1 as $t) {
+            $cs = new stack_cas_casstring('n' . $i . ':' . $t[0]);
+            $cs->get_valid('t');
+            $s1[] = $cs;
+            $i++;
+        }
+
+        $options = new stack_options();
+        $options->set_option('simplify', false);
+
+        $at1 = new stack_cas_session($s1, $options, 0);
+
+        $i = 0;
+        foreach ($t1 as $t) {
+            $this->assertEquals($t[1], $at1->get_value_key('n' . $i));
+            $i++;
+        }
+    }
 }

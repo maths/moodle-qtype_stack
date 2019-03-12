@@ -1753,8 +1753,8 @@ stack_eval_arg(ex) := block([eqoutcome, eqoutsymb, eqoutnote, res, id, truthargu
               if equationp(SAN) then SAN:lhs(SAN)-rhs(SAN),
               if equationp(SBN) then SBN:lhs(SBN)-rhs(SBN),
               if (debug) then print("Calculated values as SA->", string(SAN), ", SB->", string(SBN)),
-              if ev(not(freeof('int, SA)), simp) then (
-                  if (debug) then print("(1) Did the studnet integrate?"),
+              if ev(not(freeof('int, SA)), simp) then block([var],
+                  if (debug) then print("(1) Did the student integrate?"),
                   var:first(ATIntGetVar(SA)),
                   if (debug) then print("START ATInt -----------------"),
                   ATres:ev(ATInt(SBN, SAN, var), simp),
@@ -1773,8 +1773,8 @@ stack_eval_arg(ex) := block([eqoutcome, eqoutsymb, eqoutnote, res, id, truthargu
                       tempnote:sconcat(tempnote, " | ATInt_const. ")
                   )
               ),
-             if ev(not(freeof('int, SB)), simp) then (
-                  if (debug) then print("(2) Did the studnet integrate?"),
+             if ev(not(freeof('int, SB)), simp) then block([var],
+                  if (debug) then print("(2) Did the student integrate?"),
                   var:first(ATIntGetVar(SB)),
                   ATres:ev(ATAlgEquiv(SA, diff(SB, var)), simp),
                   if (debug) then print("Calculated ATInt ", string(ATres)),
@@ -1783,6 +1783,18 @@ stack_eval_arg(ex) := block([eqoutcome, eqoutsymb, eqoutnote, res, id, truthargu
                       eqoutcome[ev(id, simp)]:true,
                       eqoutsymb[ev(id, simp)]:INTCHAR(var),
                       tempnote:sconcat(tempnote, " | Integrated explicitly (2)")
+                  )
+             ),
+             if ev(not(freeof('diff, SB)), simp) then block([var],
+                  if (debug) then print("(3) Did the student differentiate?"),
+                  var:first(ATDiffGetVar(SB)),
+                  ATres:ev(ATAlgEquiv(diff(SA, var), SB), simp),
+                  if (debug) then print("Calculated ATDiff ", string(ATres)),
+                  if second(ATres) then block(
+                      malrulecont:false,
+                      eqoutcome[ev(id, simp)]:true,
+                      eqoutsymb[ev(id, simp)]:DIFFCHAR(var),
+                      tempnote:sconcat(tempnote, " | Differentiated explicitly (1)")
                   )
              )
           ),
@@ -2106,6 +2118,20 @@ stack_eval_arg_equivalence_reasoningp(L) := block(
 disp_stack_eval_arg(ex, showlogic, showdomain, equivdebug, debuglist) := block([A],
     A:stack_eval_equiv_arg(ex, showlogic, showdomain, equivdebug, debuglist),
     return(second(A))
+)$
+
+/* Find the indices of where ex appears in exl.
+   Notes:
+   (1) Uses ATEqualComAss,
+   (2) Ignores completely if "stackeq" is the first operator.
+   Returns a list of indices.
+   Use emptyp to create a predicate.
+*/
+stack_equiv_find_step(ex, exl) := block(
+  if not(listp(exl)) then error("STACK function stack_equiv_find_step expects its second argument to be a list."),
+  if safe_op(ex)="stackeq" then ex:first(args(ex)),
+  exl:maplist(lambda([ex2], if safe_op(ex2)="stackeq" then first(args(ex2)) else ex2), exl),
+  sublist_indices(exl, lambda([ex2], second(ATEqualComAss(ex, ex2))))
 )$
 
 /* This modifies stack_eval_arg to create something which can be displayed. */

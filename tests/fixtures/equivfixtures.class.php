@@ -149,6 +149,60 @@ class stack_equiv_test_data {
         //******************************************************************************
 
         $newarg = array();
+        $newarg['section'] = 'Numerical arguments.';
+        $samplearguments[] = $newarg;
+
+        $newarg = array();
+        $newarg['title']     = "";
+        $newarg['narrative'] = '';
+        $newarg['casstring'] = "[2^2,stackeq(4)]";
+        $newarg['debuglist'] = "[EMPTYCHAR,CHECKMARK]";
+        $newarg['outcome']   = true;
+        $samplearguments[] = $newarg;
+
+        $newarg = array();
+        $newarg['title']     = "";
+        $newarg['narrative'] = '';
+        $newarg['casstring'] = "[2^2,stackeq(3)]";
+        $newarg['debuglist'] = "[EMPTYCHAR,IMPLIESCHAR]";
+        $newarg['outcome']   = false;
+        $samplearguments[] = $newarg;
+
+        $newarg = array();
+        $newarg['title']     = "";
+        $newarg['narrative'] = '';
+        $newarg['casstring'] = "[2^2,4]";
+        $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR]";
+        $newarg['outcome']   = true;
+        $samplearguments[] = $newarg;
+
+        $newarg = array();
+        $newarg['title']     = "";
+        $newarg['narrative'] = '';
+        $newarg['casstring'] = "[2^2,3]";
+        $newarg['debuglist'] = "[EMPTYCHAR,IMPLIESCHAR]";
+        $newarg['outcome']   = false;
+        $samplearguments[] = $newarg;
+
+        $newarg = array();
+        $newarg['title']     = "";
+        $newarg['narrative'] = '';
+        $newarg['casstring'] = "[lg(64,4),lg(4^3,4),3*lg(4,4),3]";
+        $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR]";
+        $newarg['outcome']   = true;
+        $samplearguments[] = $newarg;
+
+        $newarg = array();
+        $newarg['title']     = "";
+        $newarg['narrative'] = '';
+        $newarg['casstring'] = "[lg(64,4),stackeq(lg(4^3,4)),stackeq(3*lg(4,4)),stackeq(3)]";
+        $newarg['debuglist'] = "[EMPTYCHAR,CHECKMARK,CHECKMARK,CHECKMARK]";
+        $newarg['outcome']   = true;
+        $samplearguments[] = $newarg;
+
+        //******************************************************************************
+
+        $newarg = array();
         $newarg['section'] = 'Things students will get wrong.';
         $samplearguments[] = $newarg;
 
@@ -1321,6 +1375,15 @@ class stack_equiv_test_data {
         $newarg['casstring'] = "[noundiff(x^2*sin(x),x),stackeq(x^2*noundiff(sin(x),x)+noundiff(x^2,x)*sin(x))," .
             "stackeq(x^2*cos(x)+2*x*sin(x))]";
         $newarg['debuglist'] = "[EMPTYCHAR,CHECKMARK,CHECKMARK]";
+        $newarg['calculus']  = true;
+        $newarg['outcome']   = true;
+        $samplearguments[]   = $newarg;
+
+        $newarg = array();
+        $newarg['title']     = "Implicit differentiation";
+        $newarg['narrative'] = '';
+        $newarg['casstring'] = "[y(x)*cos(x)+y(x)^2 = 6*x,cos(x)*noundiff(y(x),x)+2*y(x)*noundiff(y(x),x)-y(x)*sin(x) = 6,(cos(x)+2*y(x))*noundiff(y(x),x) = y(x)*sin(x)+6,noundiff(y(x),x) = (y(x)*sin(x)+6)/(cos(x)+2*y(x))]";
+        $newarg['debuglist'] = "[EMPTYCHAR,DIFFCHAR(x),EQUIVCHAR,EQUIVCHAR]";
         $newarg['calculus']  = true;
         $newarg['outcome']   = true;
         $samplearguments[]   = $newarg;

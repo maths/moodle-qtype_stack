@@ -709,7 +709,7 @@ numerical_not_alg_equiv(p1, p2):= block([pvars, pval, lv, sz, stack_mtell_quiet]
   pvars:listofvars([p1,p2]),
   /* Evaluate as integers to start with and avoid floats.  This is safer, and works in many cases.*/
   lv:zip_with("=", pvars, makelist(ev(k+1,simp), k, length(pvars))),
-  pval:errcatch(ev(simp_stackunits(p1-p2), lv, simp)),
+  pval:errcatch(ev(p1-p2, lv, simp)),
   if debug then print(lv, pval),
   /* We can't remove all these with stack_mtell_quiet, because some are division by zero
      which are errors, not warnings.                                                      */

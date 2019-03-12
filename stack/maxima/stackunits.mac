@@ -428,13 +428,13 @@ ATUnitsStrictAbsolute(SA, SB, SO) := ATUnitsFun(SA, SB, SO, true, "Absolute")$
 */
 ATUnitsFun(SA, SB, SO, strictp, numtest) := block([validity, rawmk, sb, ansnote, SAU, SBU, SAU1, SBU1, ol, ret, ret1, ret2],
   validity:true, rawmk:true, fb:"", ansnote:"",
-  SAA:errcatch(ev(simp_stackunits(SA), simp, nouns)),
+  SAA:errcatch(ev(SA, simp, nouns)),
   if (is_simp(SAA = [STACKERROR]) or is_simp(SAA = [])) then
     return([false, false, StackAddNote("", "ATUnits_STACKERROR_SAns"), ""]),
-  SBB:errcatch(ev(simp_stackunits(SB), simp, nouns)),
+  SBB:errcatch(ev(SB, simp, nouns)),
   if (is_simp(SBB = [STACKERROR]) or is_simp(SBB = [])) then
     return([false, false, StackAddNote("", "ATUnits_STACKERROR_TAns"), ""]),
-  SOO:errcatch(ev(simp_stackunits(SO), simp, nouns)),
+  SOO:errcatch(ev(SO, simp, nouns)),
   if (is_simp(SOO = [STACKERROR]) or is_simp(SOO = [])) then
     return([false, false, StackAddNote("", "ATUnits_STACKERROR_Opt"), ""]),
 

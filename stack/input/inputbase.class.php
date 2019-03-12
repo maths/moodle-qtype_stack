@@ -876,6 +876,13 @@ abstract class stack_input {
             $display = '\[ ' . $answer->get_display() . ' \]';
         }
 
+        // The "novars" option is only used by the numerical input type.
+        if (array_key_exists('novars', $this->extraoptions)) {
+            if (!$valid) {
+                $errors[] = stack_string('numericalinputmustnumber');
+            }
+        }
+
         // Guard clause at this point.
         if (!$valid) {
             return array($valid, $errors, $display);

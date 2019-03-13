@@ -474,7 +474,7 @@ abstract class stack_input {
     }
 
     /*
-     * Return the value of any errors.
+     * Return the value of any extra options.
      */
     public function get_extra_options() {
         return $this->extraoptions;

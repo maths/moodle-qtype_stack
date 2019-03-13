@@ -23,15 +23,14 @@ By default, Maxima does not provide logarithms to an arbitrary base.  To overcom
 * `lg(x)` is log of \(x\) to the base 10.
 * `lg(x, a)` is log of \(x\) to the base \(a\).
 
-The function `lg` is an alias and is always transformed to the inert function `logbase(x,a)`.  That is, it undertakes no simplification at all.  
 STACK provides no simplification rules for these logarithms.  To simplify you must transform back to natural logarithms.
 
 For example (with `simp:true` or `simp:false`)
 
     p:lg(27, 3)
-    q:ev(p, logbase=logbasesimp)
+    q:ev(p, lg=logbasesimp)
 
-results in `p=logbase(27, 3)`, and `q=3`.
+results in `p=lg(27, 3)`, and `q=3`.
 
 The algebraic equivalence function `algebraic_equivalence`, and so anything upon which it depends, will automatically remove logarithms to other bases.  
 This includes the answer tests as needed.

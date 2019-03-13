@@ -869,8 +869,8 @@ plot(ex, [ra]) :=  /*stack_web_plot*/
     /* Check expressions to be plotted has/have only one variable. */
     ex: ev(ex, nouns, simp),
     /* Remove logarithms to other bases from expressions. */
-    if not(freeof(logbase, ex)) then
-        ex:ev(ex, logbase=logbasesimp),
+    if not(freeof(lg, ex)) then
+        ex:ev(ex, lg=logbasesimp),
     lvs: listofvars(ex),
     lvs: sublist(lvs, lambda([ex], not(ex = discrete or ex = parametric))),
     if length(lvs)>1 then

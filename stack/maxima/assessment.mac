@@ -233,22 +233,24 @@ safe_setp(ex) := setp(ex) or safe_op(ex) = "{"$
 /* ********************************** */
 alias(ln, log);
 
-/* Add in support for logarithms to an arbirary base. */
-lg([ex]) := block(
-  if length(ex) = 1 then return(logbase(first(ex), 10)),
-  if length(ex) = 2 then return(logbase(first(ex), second(ex))),
-  error("STACK function 'lg' must have one or two arguments only.")
-)$
+/* Legacy reasons */
+alias(lg,logbase);
 
-logbasetex(ex) := block([n, b],
-  [n, b]:args(ex),
+lgtex(ex) := block([n, b],
+  b:10,
+  if length(args(ex)) = 1 then n:first(args(ex)),
+  if length(args(ex)) = 2 then (n:first(args(ex)), b:second(args(ex))),
   oldsimp:simp,
   return(concat("\\log_{", stack_disp_strip_dollars(tex(b, false)), "}\\left(", stack_disp_strip_dollars(tex(n, false)), "\\right)"))
 )$
-texput(logbase, logbasetex);
+texput(lg, lgtex);
 
 /* Use of radcan to give canonical form. */
-logbasesimp(n,b) := radcan(log(n)/log(b));
+logbasesimp([ex]) := block(
+  if length(ex) = 1 then return(radcan(log(first(ex))/log(10))),
+  if length(ex) = 2 then return(radcan(log(first(ex))/log(second(ex)))),
+  error("STACK function 'lg' must have one or two arguments only.")
+)$
 
 /* Add in a flexible "nth" roots function. */
 root([ex]) := block(
@@ -321,7 +323,7 @@ real_numberp(ex):=
     trigexpand:true,
     logexpand:super,
     keepfloat:true,
-    ex:errcatch(ev(fullratsimp(ex), logbase=logbasesimp, simp)),
+    ex:errcatch(ev(fullratsimp(ex), lg=logbasesimp, simp)),
     if ex=[] then return(false),
     ex:ev(float(ex[1]),simp),
     if listofvars(ex)#[] then return(false),
@@ -470,7 +472,7 @@ remove_displaydp(ex):= block(
 
 /* Write the number ex in n decimal places */
 decimalplacesfun(ex, n, dispdps) := block([ex2],
-    ex2:ev(float(round(10^n*float(ex))/(10^n)), logbase=logbasesimp, simp),
+    ex2:ev(float(round(10^n*float(ex))/(10^n)), lg=logbasesimp, simp),
     if dispdps then ex2:displaydp(ex2, n),
     return(ex2)
     )$
@@ -489,7 +491,7 @@ sigfigsfun(x, n, dispsigfigs) := block([fpprec:128, fpprintprec:16, simp:true, e
         else return(0),
   sign_of_x:signum(x),
   /* Evaluate logarithms to an arbitrary base. */
-  x:ev(bfloat(x), logbase=logbasesimp, simp),
+  x:ev(bfloat(x), lg=logbasesimp, simp),
   /* Check again for a zero.  E.g. cases like cos(0.5*pi). */
   if (is(x = 0) or is(x = 0.0)) then
     if (is(n <= 1)) then return(0)
@@ -532,7 +534,7 @@ scientific_notation([a]) := block([oldsimp, x, ex, ex2, ex3, exn],
   if ev(is(length(a)=1), simp) then (x:first(a), exn:false)
   else if ev(is(length(a)=2), simp) then (x:first(a), exn:second(a))
   else error("scientific_notation takes only one or two arguments"),
-  x:ev(float(x), logbase=logbasesimp, simp),
+  x:ev(float(x), lg=logbasesimp, simp),
   if real_numberp(x) then (
       ex:ev(floor(float(log(abs(x))/log(10))), simp),
       ex2:ev(float(x/10^ex), simp),
@@ -642,10 +644,10 @@ algebraic_equivalence(SA, SB) :=
     if not(freeof(displaydp, SB)) then
       SA:remove_displaydp(SB),
     /* Remove logarithms to other bases from expressions. */
-    if not(freeof(logbase, SA)) then
-        SA:ev(SA, logbase=logbasesimp),
-    if not(freeof(logbase, SB)) then
-        SB:ev(SB, logbase=logbasesimp),
+    if not(freeof(lg, SA)) then
+        SA:ev(SA, lg=logbasesimp),
+    if not(freeof(lg, SB)) then
+        SB:ev(SB, lg=logbasesimp),
     /* Try not to expand out: pure numbers. */
     ex:errcatch(ev(SA-SB, simp)),
     if ex=[] then (print("algebraic_equivalence: evaluating the difference of two expressions threw an error."), return(false)),
@@ -1527,7 +1529,7 @@ stack_eval_arg(ex) := block([eqoutcome, eqoutsymb, eqoutnote, res, id, truthargu
       if is(SA=true) then SA:all,
 
       SA:abs_replace_eq(SA),
-      SA:ev(SA, logbase=logbasesimp),
+      SA:ev(SA, lg=logbasesimp),
       exmod[ev(id, simp)]:SA,
       exmodsolve[ev(id, simp)]:stack_eval_arg_solver(SA),
 

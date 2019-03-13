@@ -161,7 +161,6 @@ abstract class stack_input {
      */
     protected function internal_contruct() {
         $options = $this->get_parameter('options');
-
         if (trim($options) != '') {
             $options = explode(',', $options);
             foreach ($options as $option) {
@@ -552,7 +551,7 @@ abstract class stack_input {
             $validator = '';
         }
 
-        if (array() == $contents or $this->is_blank_response($contents)) {
+        if (array() == $contents || (!$this->get_extra_option('allowempty') && $this->is_blank_response($contents))) {
             // Runtime errors may make it appear as if this response is blank, so we put any errors in here.
             $errors = $this->get_errors();
             if ($errors) {
@@ -683,9 +682,11 @@ abstract class stack_input {
         } else {
             $status = self::SCORE;
         }
-        // The EMPTYANSWER in the response is always at the score state, otherwise you need to "validate" a blank box.
-        if ('EMPTYANSWER' == $answer->get_value() && array_key_exists($this->name, $response)) {
-            $status = self::SCORE;
+
+        // The EMPTYANSWER is not sufficiently robust to determine if we have an empty answer, e.g. matrix inputs.
+        if ($this->get_extra_option('allowempty') && $this->is_blank_response($contents)
+                && (array_key_exists($this->name, $response) || array_key_exists($this->name.'_sub_0_0', $response))) {
+                    return new stack_input_state(self::SCORE, $contents, $interpretedanswer, '', array(), '', '');
         }
 
         return new stack_input_state($status, $contents, $interpretedanswer, $display, $errors, $note, $lvarsdisp);
@@ -712,7 +713,7 @@ abstract class stack_input {
     protected function is_blank_response($contents) {
         $allblank = true;
         foreach ($contents as $val) {
-            if (!('' === trim($val))) {
+            if (!('' === trim($val) || 'EMPTYANSWER' == $val)) {
                 $allblank = false;
             }
         }
@@ -1025,7 +1026,7 @@ abstract class stack_input {
         if (self::BLANK == $state->status) {
             return '';
         }
-        if ($this->get_extra_option('allowempty') && $this->contents_to_maxima($state->contents) == 'EMPTYANSWER') {
+        if ($this->get_extra_option('allowempty') && $this->is_blank_response($state->contents)) {
             return '';
         }
         if ($this->get_parameter('showValidation', 1) == 0 && self::INVALID != $state->status) {

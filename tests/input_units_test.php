@@ -30,6 +30,7 @@ require_once(__DIR__ . '/../stack/input/factory.class.php');
  * @group qtype_stack
  */
 class stack_units_input_test extends qtype_stack_testcase {
+
     public function test_render_blank() {
         $el = stack_input_factory::make('units', 'ans1', 'x^2');
         $this->assertEquals('<input type="text" name="stack1__ans1" id="stack1__ans1" '
@@ -795,5 +796,22 @@ class stack_units_input_test extends qtype_stack_testcase {
         $state = $el->validate_student_response(array('sans1' => '1000*m/s^2'), $options, '9.81*m/s^2', array('tans'));
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('', $state->errors);
+    }
+
+    public function test_render_blank_allowempty() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('units', 'sans1', '10000*m/s^2');
+        $el->set_parameter('options', 'allowempty');
+        $this->assertEquals('<input type="text" name="stack1__ans1" id="stack1__ans1" '
+                .'size="16.5" style="width: 13.6em" autocapitalize="none" spellcheck="false" value="" />',
+                $el->render(new stack_input_state(stack_input::VALID, array(), '', '', '', '', ''),
+                        'stack1__ans1', false, null));
+        $state = $el->validate_student_response(array('sans1' => ''), $options, '9.81*m/s^2', array('tans'));
+        $this->assertEquals(stack_input::SCORE, $state->status);
+        $this->assertEquals(array(), $state->errors);
+        $this->assertEquals('EMPTYANSWER', $state->contentsmodified);
+        $this->assertEquals('',
+                qtype_stack_testcase::prepare_actual_maths($state->contentsdisplayed));
+        $this->assertEquals('', $state->lvars);
     }
 }

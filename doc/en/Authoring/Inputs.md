@@ -333,7 +333,7 @@ min/max sf/dp     |  .  |  Y  |  Y    |   .    |   .   |   .   |   .  |  .  |   
 `floatnum`      |  .  |  Y  |  .    |   .    |   .   |   .   |   .  |  .  |    .     |   .   |   .    |   .  
 `rationalnum`   |  .  |  Y  |  .    |   .    |   .   |   .   |   .  |  .  |    .     |   .   |   .    |   .  
 `negpow`        |  .  |  .  |  Y    |   .    |   .   |   .   |   .  |  .  |    .     |   .   |   .    |   .  
-`allowempty`   |  Y  |  Y  |  .    |   .    |   .   |   .   |   .  |  Y  |    .     |   .   |   .    |   .  
+`allowempty`   |  Y  |  Y  |  Y    |   Y    |   .   |   .   |   .  |  Y  |    .     |   .   |   .    |   .  
 `hideanswer`   |  .  |  .  |  .    |   .    |   .   |   .   |   .  |  .  |    .     |   .   |   Y    |   .  
 
 For documentation about the various options not documented on this page look at the pages for the specific inputs in which each option is used.

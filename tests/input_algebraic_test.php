@@ -650,7 +650,7 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         // In this case empty responses jump straight to score.
         $this->assertEquals(stack_input::SCORE, $state->status);
         $this->assertEquals('EMPTYANSWER', $state->contentsmodified);
-        $this->assertEquals('\[ {\it EMPTYANSWER} \]', $state->contentsdisplayed);
+        $this->assertEquals('', $state->contentsdisplayed);
         $this->assertEquals('', $state->errors);
         $this->assertEquals('This input can be left blank.',
                 $el->get_teacher_answer_display($state->contentsmodified, $state->contentsdisplayed));

@@ -339,6 +339,9 @@ stack_validate_units(expr, LowestTerms, TAns, fracdisp, fltfmt) := block( [simp:
   /* Declare all symobols as "units", and change their TeX display. */
   stack_unit_si_declare(false),
 
+  /* An empty answer is validated as valid! */
+  if (expr = EMPTYANSWER) then return(expr),
+
   /* Do not check for floats.  They are always ok here. */
   /* Checks fractions are in lowest terms */
   if LowestTerms and not(all_lowest_termsex(expr)) then

@@ -474,7 +474,7 @@ abstract class stack_input {
     }
 
     /*
-     * Return the value of any errors.
+     * Return the value of any extra options.
      */
     public function get_extra_options() {
         return $this->extraoptions;
@@ -874,6 +874,13 @@ abstract class stack_input {
             $valid = false;
         } else {
             $display = '\[ ' . $answer->get_display() . ' \]';
+        }
+
+        // The "novars" option is only used by the numerical input type.
+        if (array_key_exists('novars', $this->extraoptions)) {
+            if (!$valid) {
+                $errors[] = stack_string('numericalinputmustnumber');
+            }
         }
 
         // Guard clause at this point.

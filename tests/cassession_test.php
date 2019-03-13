@@ -1494,9 +1494,9 @@ class stack_cas_session_test extends qtype_stack_testcase {
     public function test_stack_stack_equiv_find_step() {
 
         $s1 = array();
-        $r1 = array('ta:[logbase(25,5),stackeq(logbase(5^2,5)),stackeq(2*logbase(5,5)),stackeq(2*1),stackeq(2)]',
-            'sa1:[logbase(25,5),stackeq(logbase(5^2,5)),stackeq(2)]',
-            'sa0:[logbase(25,5),stackeq(2)]'
+        $r1 = array('ta:[lg(25,5),stackeq(lg(5^2,5)),stackeq(2*lg(5,5)),stackeq(2*1),stackeq(2)]',
+            'sa1:[lg(25,5),stackeq(lg(5^2,5)),stackeq(2)]',
+            'sa0:[lg(25,5),stackeq(2)]'
         );
         foreach ($r1 as $r) {
             $s1[] = new stack_cas_casstring($r);

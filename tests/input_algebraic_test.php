@@ -592,6 +592,36 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('lg(27,3)', $state->contentsmodified);
         $this->assertEquals('\[ \log_{3}\left(27\right) \]', $state->contentsdisplayed);
+        $this->assertEquals('A correct answer is <span class="filter_mathjaxloader_equation">' .
+                '<span class="nolink">\[ \[ \log_{3}\left(27\right) \]</span></span> \), ' .
+                'which can be typed in as follows: <code>lg(27,3)</code>',
+                $el->get_teacher_answer_display($state->contentsmodified, $state->contentsdisplayed));
+    }
+
+    public function test_validate_lg_10() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('algebraic', 'sans1', 'lg(23,10)');
+        $state = $el->validate_student_response(array('sans1' => 'lg(23,10)'), $options, 'lg(23,10)', null);
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('lg(23,10)', $state->contentsmodified);
+        $this->assertEquals('\[ \log_{10}\left(23\right) \]', $state->contentsdisplayed);
+        $this->assertEquals('A correct answer is <span class="filter_mathjaxloader_equation">' .
+                '<span class="nolink">\[ \[ \log_{10}\left(23\right) \]</span></span> \), ' .
+                'which can be typed in as follows: <code>lg(23,10)</code>',
+                $el->get_teacher_answer_display($state->contentsmodified, $state->contentsdisplayed));
+    }
+
+    public function test_validate_lg_10b() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('algebraic', 'sans1', 'lg(19)');
+        $state = $el->validate_student_response(array('sans1' => 'lg(19)'), $options, 'lg(19)', null);
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('lg(19)', $state->contentsmodified);
+        $this->assertEquals('\[ \log_{10}\left(19\right) \]', $state->contentsdisplayed);
+        $this->assertEquals('A correct answer is <span class="filter_mathjaxloader_equation">' .
+                '<span class="nolink">\[ \[ \log_{10}\left(19\right) \]</span></span> \), ' .
+                'which can be typed in as follows: <code>lg(19)</code>',
+                $el->get_teacher_answer_display($state->contentsmodified, $state->contentsdisplayed));
     }
 
     public function test_validate_set_1() {

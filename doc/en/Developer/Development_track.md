@@ -9,9 +9,11 @@ How to report bugs and make suggestions is described on the [community](../About
 
 Goal: November 2018 for release in time for STACK conference.
 
+DONE:
 * Removed the maxima mathml code (which wasn't connected or used).
 * Add in extra options in the input `allowempty` and `hideanswer`.
 
+TODO:
 * 1st version of API.
 * Better install code (see #332).
 * Better CSS, including "tool tips".  May need to refactor javascript.  (See issue #380)
@@ -20,6 +22,7 @@ Goal: November 2018 for release in time for STACK conference.
 * Re-sizable matrix input.  See Aalto/NUMBAS examples here, with Javascript.
 * Add support for matrices with floating point entries, and testing numerical accuracy.
 * Update MCQ to accept units.
-* Add a base N check to the numeric input.* Expand support for input validation options to matrices (e.g. floatnum, rationalize etc.)
+* Add a base N check to the numeric input.
+* Expand support for input validation options to matrices (e.g. floatnum, rationalize etc.)
 * Add in full parser, to address issue #324.
 

@@ -500,6 +500,7 @@ class stack_answertest_test_data {
         array('EqualComAss', '', 'x^1', 'x', 0, 'ATEqualComAss: (AlgEquiv:true).', ''),
         array('EqualComAss', '', '(1/2)*(a+b)', '(a+b)/2', 0, 'ATEqualComAss: (AlgEquiv:true).', ''),
         array('EqualComAss', '', '1/3*logbase(27,6)' ,'logbase(27,6)/3', 0, 'ATEqualComAss: (AlgEquiv:true).', ''),
+        array('EqualComAss', '', '1/3*lg(27,6)' ,'lg(27,6)/3', 0, 'ATEqualComAss: (AlgEquiv:true).', ''),
         array('EqualComAss', '', '1/3*i' ,'i/3', 0, 'ATEqualComAss: (AlgEquiv:true).', ''),
         array('EqualComAss', '', '%i', 'e^(i*pi/2)', 0, 'ATEqualComAss: (AlgEquiv:true).', 'Complex numbers'),
         array('EqualComAss', '', '(4*sqrt(3)*%i+4)^(1/5)', 'rectform((4*sqrt(3)*%i+4)^(1/5))', 0,
@@ -1280,7 +1281,7 @@ class stack_answertest_test_data {
         array('NumSigFigs', '[2,-1]', '0.145' ,'1/7', 1, '', ''),
         array('NumSigFigs', '[2,-1]', '0.146' ,'1/7', 0, 'ATNumSigFigs_Inaccurate.', ''),
         // Teacher does not give a float.
-        array('NumSigFigs', '4', '1.279', 'ev(lg(19),logbase=logbasesimp)', 1, '', 'Logarithms, numbers and surds'),
+        array('NumSigFigs', '4', '1.279', 'ev(lg(19),lg=logbasesimp)', 1, '', 'Logarithms, numbers and surds'),
         array('NumSigFigs', '3', '3.14', 'pi', 1, '', ''),
         array('NumSigFigs', '3', '3.15', 'pi', 0, 'ATNumSigFigs_Inaccurate.', ''),
         array('NumSigFigs', '6', '1.73205', 'sqrt(3)', 1, '', ''),

@@ -30,6 +30,7 @@ class stack_units_input extends stack_input {
      * @var array
      */
     protected $extraoptions = array(
+        'simp' => false,
         'negpow' => false,
         // Require min/max number of decimal places?
         'mindp' => false,

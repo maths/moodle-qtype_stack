@@ -466,7 +466,7 @@ class stack_inputvalidation_test_data {
 
         $cs = new stack_cas_casstring($val);
         $cs->get_valid('s', false, 1);
-        $cs->set_cas_validation_casstring('sans1', true, true, null, 'typeless');
+        $cs->set_cas_validation_casstring('sans1', true, true, null, 'typeless', '', false);
 
         $phpvalid = $cs->get_valid();
         if ($phpvalid) {

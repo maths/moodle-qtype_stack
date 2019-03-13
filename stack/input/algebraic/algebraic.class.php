@@ -25,6 +25,7 @@ defined('MOODLE_INTERNAL') || die();
 class stack_algebraic_input extends stack_input {
 
     protected $extraoptions = array(
+        'simp' => false,
         'rationalized' => false,
         'allowempty' => false
     );

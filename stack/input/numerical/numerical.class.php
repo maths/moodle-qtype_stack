@@ -30,6 +30,7 @@ class stack_numerical_input extends stack_input {
      * @var array
      */
     protected $extraoptions = array(
+        'simp' => false,
         // Forbid variables.  Always true for numerical inputs.
         'novars' => true,
         // Is a student required to type in a float?

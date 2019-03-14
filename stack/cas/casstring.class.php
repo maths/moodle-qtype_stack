@@ -1563,7 +1563,7 @@ class stack_cas_casstring {
     // If we "CAS validate" this string, then we need to set various options.
     // If the teacher's answer is null then we use typeless validation, otherwise we check type.
     public function set_cas_validation_casstring($key, $forbidfloats = true,
-                    $lowestterms = true, $tans = null, $validationmethod, $allowwords = '') {
+                    $lowestterms = true, $tans = null, $validationmethod, $allowwords = '', $simp) {
 
         if (!($validationmethod == 'checktype' || $validationmethod == 'typeless' || $validationmethod == 'units'
             || $validationmethod == 'unitsnegpow' || $validationmethod == 'equiv' || $validationmethod == 'numerical')) {
@@ -1590,6 +1590,10 @@ class stack_cas_casstring {
             $lowestterms = 'true';
         } else {
             $lowestterms = 'false';
+        }
+
+        if ($simp) {
+            $starredanswer = 'ev(' . $starredanswer . ',simp)';
         }
 
         $fltfmt = stack_utils::decimal_digits($starredanswer);

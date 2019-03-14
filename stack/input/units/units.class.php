@@ -30,13 +30,15 @@ class stack_units_input extends stack_input {
      * @var array
      */
     protected $extraoptions = array(
+        'simp' => false,
         'negpow' => false,
         // Require min/max number of decimal places?
         'mindp' => false,
         'maxdp' => false,
         // Require min/max number of significant figures?
         'minsf' => false,
-        'maxsf' => false
+        'maxsf' => false,
+        'allowempty' => false
     );
 
     /**
@@ -62,7 +64,10 @@ class stack_units_input extends stack_input {
             'spellcheck'     => 'false',
         );
 
-        if ($this->is_blank_response($state->contents)) {
+        if ($state->contents == 'EMPTYANSWER') {
+            // Active empty choices don't result in a syntax hint again (with that option set).
+            $attributes['value'] = '';
+        } else if ($this->is_blank_response($state->contents)) {
             $attributes['value'] = stack_utils::logic_nouns_sort($this->parameters['syntaxHint'], 'remove');
         } else {
             $attributes['value'] = $this->contents_to_maxima($state->contents);
@@ -142,6 +147,9 @@ class stack_units_input extends stack_input {
      * @return string the teacher's answer, displayed to the student in the general feedback.
      */
     public function get_teacher_answer_display($value, $display) {
+        if (trim($value) == 'EMPTYANSWER') {
+            return stack_string('teacheranswerempty');
+        }
         return stack_string('teacheranswershow', array('value' => '<code>'.$value.'</code>', 'display' => $display));
     }
 

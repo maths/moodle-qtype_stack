@@ -25,6 +25,7 @@ defined('MOODLE_INTERNAL') || die();
 class stack_algebraic_input extends stack_input {
 
     protected $extraoptions = array(
+        'simp' => false,
         'rationalized' => false,
         'allowempty' => false
     );
@@ -47,15 +48,15 @@ class stack_algebraic_input extends stack_input {
         );
 
         $value = $this->contents_to_maxima($state->contents);
-        if ($this->is_blank_response($state->contents)) {
+        if ($value == 'EMPTYANSWER') {
+            // Active empty choices don't result in a syntax hint again (with that option set).
+            $attributes['value'] = '';
+        } else if ($this->is_blank_response($state->contents)) {
             $field = 'value';
             if ($this->parameters['syntaxAttribute'] == '1') {
                 $field = 'placeholder';
             }
             $attributes[$field] = stack_utils::logic_nouns_sort($this->parameters['syntaxHint'], 'remove');
-        } else if ($value == 'EMPTYANSWER') {
-            // Active empty choices don't result in a syntax hint again (with that option set).
-            $attributes['value'] = '';
         } else {
             $attributes['value'] = $value;
         }

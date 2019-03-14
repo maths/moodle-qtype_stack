@@ -222,6 +222,14 @@ class MP_Operation extends MP_Node {
     }
 
     public function toString($params = null) {
+        if ($params !== null && isset($params['pretty'])) {
+            $indent = '';
+            if (is_integer($params['pretty'])) {
+                $indent = str_pad($indent, $params['pretty']);
+            }
+            $params['pretty'] = 0;
+            return $indent . $this->lhs->toString($params) . ' ' .  $this->op . ' ' . $this->rhs->toString($params);    
+        }
         if($params !== null && isset($params['insertstars_as_red']) && $this->op === '*' && isset($this->position['insertstars'])) {
             // This is a special rendering rule that colors all multiplications as red if they have no position.
             // i.e. if they have been added after parsing...
@@ -335,6 +343,13 @@ class MP_Atom extends MP_Node {
     }
 
     public function toString($params = null) {
+        if ($params !== null && isset($params['pretty'])) {
+            $indent = '';
+            if (is_integer($params['pretty'])) {
+                $indent = str_pad($indent, $params['pretty']);
+            }
+            return $indent . $this->value;
+        }
         return '' . $this->value;
     }
 }
@@ -352,6 +367,16 @@ class MP_Integer extends MP_Atom {
     }
 
     public function toString($params = null) {
+        if ($params !== null && isset($params['pretty'])) {
+            $indent = '';
+            if (is_integer($params['pretty'])) {
+                $indent = str_pad($indent, $params['pretty']);
+            }
+            if($this->raw !== null)
+                return $indent . $this->raw;
+            return $indent . $this->value;
+        }
+
         if($this->raw !== null)
             return $this->raw;
         return '' . $this->value;
@@ -368,6 +393,16 @@ class MP_Float extends MP_Atom {
     }
 
     public function toString($params = null) {
+        if ($params !== null && isset($params['pretty'])) {
+            $indent = '';
+            if (is_integer($params['pretty'])) {
+                $indent = str_pad($indent, $params['pretty']);
+            }
+            if($this->raw !== null)
+                return $indent . $this->raw;
+            return $indent . $this->value;
+        }
+
         if($this->raw !== null)
             return $this->raw;
         return '' . $this->value;
@@ -377,6 +412,14 @@ class MP_Float extends MP_Atom {
 class MP_String extends MP_Atom {
 
     public function toString($params = null) {
+        if ($params !== null && isset($params['pretty'])) {
+            $indent = '';
+            if (is_integer($params['pretty'])) {
+                $indent = str_pad($indent, $params['pretty']);
+            }
+            return $indent . '"' . str_replace('"', '\\"', str_replace('\\', '\\\\', $this->value)). '"';
+        }
+
         return '"' . str_replace('"', '\\"', str_replace('\\', '\\\\', $this->value)). '"';
     }
 }
@@ -384,6 +427,14 @@ class MP_String extends MP_Atom {
 class MP_Boolean extends MP_Atom {
 
     public function toString($params = null) {
+        if ($params !== null && isset($params['pretty'])) {
+            $indent = '';
+            if (is_integer($params['pretty'])) {
+                $indent = str_pad($indent, $params['pretty']);
+            }
+            return $indent . ($this->value ? 'true' : 'false');
+        }
+
         return $this->value ? 'true' : 'false';
     }
 }
@@ -399,11 +450,18 @@ class MP_Identifier extends MP_Atom {
     }
 
     public function toString($params = null) {
-        if ($params !== null && isset($params['qmchar'])) {
-            return str_replace('QMCHAR', '?', $this->value);
+        $indent = '';   
+        if ($params !== null && isset($params['pretty'])) {
+            if (is_integer($params['pretty'])) {
+                $indent = str_pad($indent, $params['pretty']);
+            }
         }
 
-        return $this->value;
+        if ($params !== null && isset($params['qmchar'])) {
+            return $indent . str_replace('QMCHAR', '?', $this->value);
+        }
+
+        return $indent . $this->value;
     }
 
 
@@ -502,6 +560,11 @@ class MP_Comment extends MP_Node {
         foreach($this->annotations as $value) {
             $annotations[] = $value->toString($params);
         }
+
+        if ($params !== null && isset($params['pretty'])) {
+            return "\n/*" . $this->value . implode("\n", $annotations). "*/\n";
+        }
+
         return '/*' . $this->value . implode("\n", $annotations). '*/';
     }
 }
@@ -518,6 +581,34 @@ class MP_FunctionCall extends MP_Node {
     }
 
     public function toString($params = null) {
+        if ($params !== null && isset($params['pretty'])) {
+            $indent = '';
+            $n = $this->name->toString($params);
+
+            if (is_integer($params['pretty'])) {
+                $indent = str_pad($indent, $params['pretty']);
+                $params['pretty'] = $params['pretty'] + 2;
+            } else {
+                $params['pretty'] = 2;
+            }
+            if ($n === 'block' || $n === 'matrix') {
+                $r = $indent . $n . '(';
+                $ar = array();
+                foreach($this->arguments as $value)
+                    $ar[] = $value->toString($params);
+                $r .= implode("\n,", $ar);
+                $r .= "\n" . $indent . ')';
+            } else {
+                $params['pretty'] = 0;
+                $r = $indent . $this->name->toString($params). "(";
+                $ar = array();
+
+                foreach($this->arguments as $value)
+                    $ar[] = $value->toString($params);
+                return $r . implode(', ', $ar). ')';                
+            }
+        }
+
         $r = $this->name->toString($params). "(";
         $ar = array();
 
@@ -563,10 +654,26 @@ class MP_Group extends MP_Node {
     }
 
     public function toString($params = null) {
+        $indent = '';   
+        if ($params !== null && isset($params['pretty'])) {
+            if (is_integer($params['pretty'])) {
+                $indent = str_pad($indent, $params['pretty']);
+                $params['pretty'] = $params['pretty'] + 2;
+            } else {
+                $params['pretty'] = 2;
+            }
+        }
+
+
         $ar = array();
 
         foreach ($this->items as $value)
             $ar[] = $value->toString($params);
+
+        if ($params !== null && isset($params['pretty'])) {
+            return $indent . "(\n" . implode(", \n", $ar). "\n$indent)";
+        }
+
         return '(' . implode(',', $ar). ')';
     }
 
@@ -597,10 +704,26 @@ class MP_Set extends MP_Node {
     }
 
     public function toString($params = null) {
+        $indent = '';   
+        if ($params !== null && isset($params['pretty'])) {
+            if (is_integer($params['pretty'])) {
+                $indent = str_pad($indent, $params['pretty']);
+                $params['pretty'] = $params['pretty'] + 2;
+            } else {
+                $params['pretty'] = 2;
+            }
+        }
+
+
         $ar = array();
 
-        foreach($this->items as $value)
+        foreach ($this->items as $value)
             $ar[] = $value->toString($params);
+
+        if ($params !== null && isset($params['pretty'])) {
+            return $indent . "{\n" . implode(", \n", $ar).  "\n$indent}";
+        }
+
         return '{' . implode(',', $ar). '}';
     }
 
@@ -631,10 +754,26 @@ class MP_List extends MP_Node {
     }
 
     public function toString($params = null) {
+        $indent = '';   
+        if ($params !== null && isset($params['pretty'])) {
+            if (is_integer($params['pretty'])) {
+                $indent = str_pad($indent, $params['pretty']);
+                $params['pretty'] = $params['pretty'] + 2;
+            } else {
+                $params['pretty'] = 2;
+            }
+        }
+
+
         $ar = array();
 
-        foreach($this->items as $value)
+        foreach ($this->items as $value)
             $ar[] = $value->toString($params);
+
+        if ($params !== null && isset($params['pretty'])) {
+            return $indent . "[\n" . implode(", \n", $ar).  "\n$indent]";
+        }
+
         return '[' . implode(',', $ar). ']';
     }
 
@@ -667,6 +806,19 @@ class MP_PrefixOp extends MP_Node {
     }
 
     public function toString($params = null) {
+        $indent = '';   
+        if ($params !== null && isset($params['pretty'])) {
+            if (is_integer($params['pretty'])) {
+                $indent = str_pad($indent, $params['pretty']);
+            }
+            $params['pretty'] = 0;
+            if($this->op === 'not') {
+                return $indent . $this->op . ' ' . $this->rhs->toString($params);
+            }
+            return $indent . $this->op . $this->rhs->toString($params);
+        }
+
+
         if($this->op === 'not') {
             return $this->op . ' ' . $this->rhs->toString($params);
         }
@@ -694,6 +846,16 @@ class MP_PostfixOp extends MP_Node {
     }
 
     public function toString($params = null) {
+        $indent = '';   
+        if ($params !== null && isset($params['pretty'])) {
+            if (is_integer($params['pretty'])) {
+                $indent = str_pad($indent, $params['pretty']);
+            } 
+            $params['pretty'] = 0;
+            return $indent . $this->lhs->toString($params). $this->op;
+        }
+
+
         return $this->lhs->toString($params). $this->op;
     }
 
@@ -754,6 +916,34 @@ class MP_If extends MP_Node {
     }
 
     public function toString($params = null) {
+        $indent = '';   
+        if ($params !== null && isset($params['pretty'])) {
+            $ind = 2;
+            if (is_integer($params['pretty'])) {
+                $indent = str_pad($indent, $params['pretty']);
+                $ind = $params['pretty'] + 2;
+            } 
+            $params['pretty'] = 0;
+
+            $r = $indent . 'if ' . $this->conditions[0]->toString($params). " then\n";
+            $params['pretty'] = $ind;
+            $r .= $this->branches[0]->toString($params);
+            if(count($this->conditions)> 1) {
+                for($i = 1;
+                $i < count ($this->conditions );
+                $i ++ ) {
+                    $params['pretty'] = 0;
+                    $r .= ' elseif ' . $this->conditions[$i]->toString($params). " then\n"; 
+                    $params['pretty'] = $ind;
+                    $r .= $this->branches[$i]->toString($params);
+                }
+            }
+            if(count($this->branches)> count($this->conditions))
+                $r .= " else\n" . $this->branches[count($this->conditions)]->toString($params);
+            return $r;
+        }
+
+
         $r = 'if ' . $this->conditions[0]->toString($params). ' then ' . $this->branches[0]->toString($params);
         if(count($this->conditions)> 1) {
             for($i = 1;
@@ -811,9 +1001,25 @@ class MP_Loop extends MP_Node {
     }
 
     public function toString($params = null) {
+        $indent = '';   
+        if ($params !== null && isset($params['pretty'])) {
+            $ind = 2;
+            if (is_integer($params['pretty'])) {
+                $indent = str_pad($indent, $params['pretty']);
+                $ind = $params['pretty'] + 2;
+            } 
+            $params['pretty'] = 0;
+        }
+
+
         $bits = array();
         foreach ($this->conf as $bit) {
             $bits[] = $bit->toString($params);
+        }
+
+        if ($params !== null && isset($params['pretty'])) {
+            $params['pretty'] = $ind;
+            return $indent . implode("\n" . $indent,$bits) . "\ndo " . $this->body->toString($params);
         }
 
         return implode(' ', $bits) . ' do ' . $this->body->toString($params);

@@ -575,6 +575,19 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         $this->assertEquals("Variable_function", $state->note);
     }
 
+    public function test_validate_student_response_simp_1() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('algebraic', 'sans1', '[1,4,9,16,25,36,49,64]');
+        $el->set_parameter('options', 'simp');
+        $state = $el->validate_student_response(array('sans1' => 'makelist(k^2,k,1,8)'), $options,
+                '[1,4,9,16,25,36,49,64]', null);
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $content = $state->contentsmodified;
+        $this->assertEquals('makelist(k^2,k,1,8)', $content);
+        $this->assertEquals('\[ \left[ 1 , 4 , 9 , 16 , 25 , 36 , 49 , 64 \right] \]',
+                $state->contentsdisplayed);
+    }
+
     public function test_validate_lg_1() {
         $options = new stack_options();
         $el = stack_input_factory::make('algebraic', 'sans1', 'lg(27,3)');
@@ -681,7 +694,7 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         $this->assertEquals(stack_input::SCORE, $state->status);
         $this->assertEquals('EMPTYANSWER', $state->contentsmodified);
         $this->assertEquals('', $state->contentsdisplayed);
-        $this->assertEquals('', $state->errors);
+        $this->assertEquals(array(), $state->errors);
         $this->assertEquals('This input can be left blank.',
                 $el->get_teacher_answer_display($state->contentsmodified, $state->contentsdisplayed));
     }

@@ -197,6 +197,12 @@ abstract class stack_input {
                     }
                     break;
 
+                case 'simp':
+                    if (!(is_bool($arg))) {
+                        $this->errors[] = stack_string('numericalinputoptboolerr', array('opt' => $option, 'val' => $arg));
+                    }
+                    break;
+
                 case 'floatnum':
                     if (!(is_bool($arg))) {
                         $this->errors[] = stack_string('numericalinputoptboolerr', array('opt' => $option, 'val' => $arg));
@@ -614,10 +620,12 @@ abstract class stack_input {
             if ($checktype && $trivialta) {
                 $ivalidationmethod = 'typeless';
             }
+
             if (array_key_exists($index, $errors) && '' == $errors[$index]) {
                 $cs->set_cas_validation_casstring($this->name.$index,
                     $this->get_parameter('forbidFloats', false), $this->get_parameter('lowestTerms', false),
-                    $ta, $ivalidationmethod, $this->get_parameter('allowWords', ''));
+                    $ta, $ivalidationmethod, $this->get_parameter('allowWords', ''),
+                    $this->get_extra_option('simp', false));
                 $sessionvars[] = $cs;
             }
         }
@@ -630,7 +638,8 @@ abstract class stack_input {
         }
         $answer->set_cas_validation_casstring($this->name,
             $this->get_parameter('forbidFloats', false), $this->get_parameter('lowestTerms', false),
-            $teacheranswer, $validationmethod, $this->get_parameter('allowWords', ''));
+            $teacheranswer, $validationmethod, $this->get_parameter('allowWords', ''),
+            $this->get_extra_option('simp', false));
         if ($valid && $answer->get_valid()) {
             $sessionvars[] = $answer;
         }

@@ -11,6 +11,7 @@ Goal: November 2018 for release in time for STACK conference.
 
 DONE:
 * Removed the maxima mathml code (which wasn't connected or used).
+* Add in extra option `simp` to inputs.
 * Add in extra options in the input `allowempty` and `hideanswer`.
 
 TODO:

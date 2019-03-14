@@ -27,9 +27,10 @@ class stack_matrix_input extends stack_input {
     protected $height;
 
     protected $extraoptions = array(
+        'simp' => false,
         'allowempty' => false
     );
-    
+
     public function adapt_to_model_answer($teacheranswer) {
 
         // Work out how big the matrix should be from the INSTANTIATED VALUE of the teacher's answer.
@@ -333,7 +334,8 @@ class stack_matrix_input extends stack_input {
             'forbidFloats'       => true,
             'lowestTerms'        => true,
             'sameType'           => true,
-            'options'            => '');
+            'options'            => ''
+        );
     }
 
     /**

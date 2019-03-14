@@ -1330,6 +1330,29 @@ class stack_equiv_test_data {
 
         //******************************************************************************
         $newarg = array();
+        $newarg['section'] = 'Limits';
+        $samplearguments[] = $newarg;
+
+        $newarg = array();
+        $newarg['title']     = "Indefinite integration";
+        $newarg['narrative'] = "";
+        $newarg['casstring'] = '[nounint(x*e^x,x,-inf,0),nounlimit(nounint(x*e^x,x,t,0),t,-inf),'.
+            'nounlimit(e^t-t*e^t-1,t,-inf),nounlimit(e^t,t,-inf)+nounlimit(-t*e^t,t,-inf)+nounlimit(-1,t,-inf),-1]';
+        $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR]";
+        $newarg['outcome']   = true;
+        $samplearguments[] = $newarg;
+
+        $newarg = array();
+        $newarg['title']     = "Calculus from first principles";
+        $newarg['narrative'] = "";
+        $newarg['casstring'] = '[noundiff(x^2,x),stackeq(nounlimit(((x+h)^2-x^2)/h,h,0)),'.
+            'stackeq(nounlimit(2*x+h,h,0)),stackeq(2*x)]';
+        $newarg['debuglist'] = "[EMPTYCHAR,CHECKMARK,CHECKMARK,CHECKMARK]";
+        $newarg['outcome']   = true;
+        $samplearguments[] = $newarg;
+
+        //******************************************************************************
+        $newarg = array();
         $newarg['section'] = 'Calculus';
         $samplearguments[] = $newarg;
 

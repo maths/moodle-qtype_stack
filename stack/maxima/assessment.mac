@@ -22,7 +22,7 @@
 /****************************************************************/
 
 MAXIMA_VERSION:map(parse_string, tokens(?\*autoconf\-version\*, 'digitcharp))$
-MAXIMA_VERSION_NUM:float(MAXIMA_VERSION[2]+(if is(length(MAXIMA_VERSION)>2) 
+MAXIMA_VERSION_NUM:float(MAXIMA_VERSION[2]+(if is(length(MAXIMA_VERSION)>2)
   then (if is(MAXIMA_VERSION[3]<10) then MAXIMA_VERSION[3]/10 else 0) else 0))$
 
 /* ********************************** */
@@ -344,12 +344,12 @@ complex_exponentialp(ex):=block([ex2],
     if safe_op(ex)="*" then
         if not(is(real_numberp(first(args(ex))))) then
             return(false)
-        else 
+        else
             ex2:second(args(ex)),
     if safe_op(ex)="/" then
         if not(is(real_numberp(second(args(ex))))) then
             return(false)
-        else 
+        else
             ex2:first(args(ex)),
     /* Case of r=1, which is not written, or stripped off by the above code. */
     if safe_op(ex2)="^" then
@@ -525,7 +525,7 @@ dispsf(x, n) := sigfigsfun(x, n, true);
   Evaluate x as a float (with full simplification), and display this in scientific notation
   e*10^k
   displaying the results to n significant figures.
-  
+
   If x is not a real number, then return x without a warning.
 */
 scientific_notation([a]) := block([oldsimp, x, ex, ex2, ex3, exn],
@@ -1111,6 +1111,7 @@ noun_logic_remove(ex) := block([rex],
 
 nounint([ex]):=apply(nounify(integrate), ex)$
 noundiff([ex]):=apply(nounify(diff), ex)$
+nounlimit([ex]):=apply(nounify(limit), ex)$
 
 /* ********************************** */
 /* Add in a +- operator               */
@@ -1246,7 +1247,7 @@ factor_bag(ex) := block(
   if not(polynomialp(ex, listofvars(ex))) then return([ex]),
   ex:ev(factor(ex), simp),
   /* If we have division here, by a numerical constant being pulled out, we ignore the constant. */
-  if safe_op(ex) = "/" then 
+  if safe_op(ex) = "/" then
       if ev(is(listofvars(second(args(ex)))=[]), simp) then ex:first(args(ex)),
   if safe_op(ex) = "^" then return([first(args(ex))]),
   if safe_op(ex) = "*" then ex:args(ex) else ex:[ex],
@@ -1802,7 +1803,7 @@ stack_eval_arg(ex) := block([eqoutcome, eqoutsymb, eqoutnote, res, id, truthargu
                   print("** Checking for common mistakes **"),
                   print(SA),
                   print(SB)
-              ) else 
+              ) else
                   print("** Not actually checking for common mistakes ... **")
           ),
 

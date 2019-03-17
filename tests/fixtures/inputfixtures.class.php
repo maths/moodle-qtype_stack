@@ -345,7 +345,7 @@ class stack_inputvalidation_test_data {
             "Note the use of the apostrophe here to make an inert function."),
         array("'diff(x,y)", 'php_false', '', 'cas_true', '', 'apostrophe', "Not ideal...arises because we don't 'simplify'."),
         array('partialdiff(x,y,1)', 'php_false', '', '', '', 'unknownFunction', ""),
-        array('limit(y,x,3)', 'php_true', 'limit(y,x,3)', 'cas_true', 'y', '', ""),
+        array('limit(y,x,3)', 'php_true', 'nounlimit(y,x,3)', 'cas_true', '\lim_{x\rightarrow 3}{y}', '', ""),
         array('mod(x,y)', 'php_true', 'mod(x,y)', 'cas_true', 'x \rm{mod} y', '', ""),
         array('perm(x,y)', 'php_false', '', '', '', 'unknownFunction', ""),
         array('comb(x,y)', 'php_false', '', '', '', 'unknownFunction', ""),

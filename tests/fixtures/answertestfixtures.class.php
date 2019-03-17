@@ -1555,6 +1555,7 @@ class stack_answertest_test_data {
         array('UnitsStrictRelative', '0.01', '0.0*m', '0.0*m/s', 0, 'ATUnits_incompatible_units. ATUnits_correct_numerical.', ''),
         array('UnitsStrictRelative', '0.01', '0.0', '0.0*m/s', 0, 'ATUnits_SA_no_units.', ''),
 
+        array('UnitsAbsolute', '5*J', '-123000*J', '-123*kJ', -1, 'CASError: TEST_FAILED | ATUnits_SO_wrong_units.', ''),
         array('UnitsAbsolute', '0.01', '12.3*m/s', '12.3*m/s', 1, 'ATUnits_units_match.', ''),
         array('UnitsAbsolute', '0.01', '12*m/s', '12.3*m/s', 0, 'ATUnits_units_match.', ''),
         array('UnitsAbsolute', '0.15', '1.1*Mg/10^6', '1.2*kN*ns/(mm*Hz)', 1, 'ATUnits_compatible_units: kg.', ''),
@@ -1568,6 +1569,10 @@ class stack_answertest_test_data {
         array('UnitsAbsolute', '0.01', '0.0*km/s', '0.0*m/s', 1, 'ATUnits_compatible_units: m/s.', ''),
         array('UnitsAbsolute', '0.01', '0.0*m', '0.0*m/s', 0, 'ATUnits_incompatible_units. ATUnits_correct_numerical.', ''),
         array('UnitsAbsolute', '0.01', '0.0', '0.0*m/s', 0, 'ATUnits_SA_no_units.', ''),
+        array('UnitsAbsolute', '5*kJ', '-123000*J', '-123*kJ', 1, 'ATUnits_compatible_units: (kg*m^2)/s^2.', 'Basic tests'),
+        array('UnitsAbsolute', '5', '-123006*J', '-123*kJ', 0, 'ATUnits_compatible_units: (kg*m^2)/s^2.', ''),
+        array('UnitsAbsolute', '5*kJ', '-123006*J', '-123*kJ', 1, 'ATUnits_compatible_units: (kg*m^2)/s^2.', ''),
+        array('UnitsAbsolute', '5*kJ', '-129006*J', '-123*kJ', 0, 'ATUnits_compatible_units: (kg*m^2)/s^2.', ''),
 
         array('String', '', 'Hello', 'hello', 0, '', ''),
         array('String', '', 'hello', 'hello', 1, '', ''),

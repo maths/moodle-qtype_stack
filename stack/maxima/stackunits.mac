@@ -464,7 +464,7 @@ ATUnitsFun(SA, SB, SO, strictp, numtest) := block([validity, rawmk, sb, ansnote,
   SOU:stackunits_make(SO),
 
   /* If the teacher uses units in the option then they must be identical to the units in the teacher's answer. */
-  if not(is_simp(stack_units_units(SOU) = NULLUNITS)) and not(stack_units_units(SBU) = stack_units_units(SOU)) then
+  if (numtest = "Absolute") and not(is_simp(stack_units_units(SOU) = NULLUNITS)) and not(stack_units_units(SBU) = stack_units_units(SOU)) then
     (print("TEST_FAILED"), return([false, false, StackAddNote("", "ATUnits_SO_wrong_units"), StackAddFeedback("", "TEST_FAILED_Q")])),
 
   if (debug) then (print("ATUnitsFun: Initial stackunits_make gives: "), print(SAU), print(SBU), print(SOU)),
@@ -492,11 +492,11 @@ ATUnitsFun(SA, SB, SO, strictp, numtest) := block([validity, rawmk, sb, ansnote,
   if (numtest = "SigFigs") then
     /* Sigfigs test should not use units in the option. */
     ret1: ATNumSigFigs(SAU1, SBU1, SO)
-  else if (numtest = "Absolute") then
-    /* For Absolute or Relative tests, accept an option with units. */
-    ret1: ATNumAbsolute(SAU1, SBU1, stack_units_nums(SOU))
   else if (numtest = "Relative") then
-    ret1: ATNumRelative(SAU1, SBU1, stack_units_nums(SOU))
+    ret1: ATNumRelative(SAU1, SBU1, SO)
+  else if (numtest = "Absolute") then
+    /* Only the absolute test should use units in the option. */
+    ret1: ATNumAbsolute(SAU1, SBU1, stack_units_nums(SOU))
   else
     (
       print(sconcat("Error: ATUnitsFun received the following numtest option which is unknown: ", numtest)),
@@ -512,6 +512,11 @@ ATUnitsFun(SA, SB, SO, strictp, numtest) := block([validity, rawmk, sb, ansnote,
   if algebraic_equivalence(second(SAU), second(SBU)) then
     return([ret1[1], ret1[2], StackAddNote(ret1[3], "ATUnits_units_match"), ret1[4]]),
 
+  /* If the teacher has not used units, then take the teacher's units. */
+  if is_simp(stack_units_units(SOU) = NULLUNITS) then (
+    SO:stackunits(SO, stack_units_units(SB)),
+    if (debug) then (print("ATUnits: No units supplied, using the teacher's")) 
+    ),
   /* Now convert to base units and compare again.  This is for feedback purposes. */
   if (debug) then (print("ATUnits: about to convert the following to base units."), print(SA), print(SB)),
   SA:stack_unit_si_to_si_base(SA),
@@ -526,12 +531,12 @@ ATUnitsFun(SA, SB, SO, strictp, numtest) := block([validity, rawmk, sb, ansnote,
   SBU1:ev(float(stack_units_nums(SBU)), simp),
   SOU1:ev(float(stack_units_nums(SOU)), simp),
   if (numtest = "SigFigs") then
-    /* Sigfigs test should not use units in the option. */
     ret2: ATNumSigFigs(SAU1, SBU1, ol)
-  else if (numtest = "Absolute") then
-    ret2: ATNumAbsolute(SAU1, SBU1, SOU1)
   else if (numtest = "Relative") then
-    ret2: ATNumRelative(SAU1, SBU1, SOU1)
+    ret2: ATNumRelative(SAU1, SBU1, ol)
+  else if (numtest = "Absolute") then
+    /* Only the absolute test should use units in the option. */
+    ret2: ATNumAbsolute(SAU1, SBU1, SOU1)
   else
     print(sconcat("Error: ATUnitsFun received the following numtest option which is unknown: ", numtest)),
   if (debug) then print(ret2),

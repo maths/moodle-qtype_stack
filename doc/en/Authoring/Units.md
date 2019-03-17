@@ -108,11 +108,8 @@ For example, in order to make a numerical comparison between `1.1*Mg/10^6` and `
 
 For the `NumRelative` test the option gives the required percentage tolerance within which a student's answer should be.  Literally we test the following `|sa-ta| < |ta*tol|`.  Here `sa` and `ta` are the numerical value of the student's and teacher's answer respectively.  The same `tol` is used both when the units match and *once they have been converted to base units*.
 
-Similarly, for `NumAbsolute` the option is an absolute difference.  Literally we test
-`|sa-ta| < |tol|`. Here `sa` and `ta` are the numerical value of the student's and teacher's answer respectively *once they have been converted to base units*.  Notes, 
-
-1. If `tol` has no units, then no conversion will be made.  In this case the test `UnitsAbsolute` is likely to give strange behaviour for answers where the units are compatible.
-2. If `tol` is supplies with units then this will also be converted to base units.
+Similarly, for `NumAbsolute` the option is an absolute difference, (expressed in units).  Literally we test
+`|sa-ta| < |tol|`. Here `sa` and `ta` are the numerical value of the student's and teacher's answer respectively *once they have been converted to base units*.  If `tol` has no units, then STACK will use the units supplied by the teacher.
 
 If the teacher uses units in the option then the option units must be identical to the units in the teacher's answer. 
 

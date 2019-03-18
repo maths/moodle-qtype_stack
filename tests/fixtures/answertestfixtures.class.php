@@ -206,6 +206,8 @@ class stack_answertest_test_data {
             'ATSet_wrongentries.', ''),
         array('AlgEquiv', '', 'ev(radcan({-sqrt(2)/sqrt(3)}),simp)', 'ev(radcan({-2/sqrt(6)}),simp)', 1, '', ''),
         array('AlgEquiv', '', 'ev(radcan(ratsimp({(-sqrt(10)/2)-2,sqrt(10)/2-2},algebraic:true)),simp)', 'ev(radcan(ratsimp({(-sqrt(5)/sqrt(2))-2,sqrt(5)/sqrt(2)-2},algebraic:true)),simp)', 1, '', ''),
+        array('AlgEquiv', '', '{(2-2^(5/2))/2,(2^(5/2)+2)/2}', '{1-2^(3/2),2^(3/2)+1}', 0, 'ATSet_wrongentries.', ''),
+        array('AlgEquiv', '', 'ev(radcan({(2-2^(5/2))/2,(2^(5/2)+2)/2}),simp)', '{1-2^(3/2),2^(3/2)+1}', 1, '', ''),
         array('AlgEquiv', '', '{(x-a)^6000}', '{(a-x)^6000}', -3, 'ATSet_wrongentries.', ''),
         array('AlgEquiv', '', '{(k+8)/(k^2+4*k-12),-(2*k+6)/(k^2+4*k-12)}', '{(k+8)/(k^2+4*k-12),-(2*k+6)/(k^2+4*k-12)}',
             1, '', ''),

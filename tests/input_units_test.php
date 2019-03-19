@@ -741,9 +741,15 @@ class stack_units_input_test extends qtype_stack_testcase {
         $state = $el->validate_student_response(array('sans1' => '3.88e-4*1/(M*s)'), $options, '3.88e-4*1/s', null);
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('3.88e-4*1/(M*s)', $state->contentsmodified);
-        $this->assertEquals('\[ 3.88e-4\times {1}/{\left(\mathrm{M}\, \mathrm{s}\right)} \]',
+        if ($this->adapt_to_new_maxima('5.32.2')) {
+            $this->assertEquals('\[ 3.88e-4\times {1}/{\left(\mathrm{M}\, \mathrm{s}\right)} \]',
                 qtype_stack_testcase::prepare_actual_maths($state->contentsdisplayed));
-        $this->assertEquals('\( \left[ \mathrm{M} , \mathrm{s} \right]\) ', $state->lvars);
+            $this->assertEquals('\( \left[ \mathrm{M} , \mathrm{s} \right]\) ', $state->lvars);
+        } else {
+            $this->assertEquals('\[ 3.88e-4\times {1}/{\left(\mathrm{s}\, \mathrm{M}\right)} \]',
+                qtype_stack_testcase::prepare_actual_maths($state->contentsdisplayed));
+            $this->assertEquals('\( \left[ \mathrm{s} , \mathrm{M} \right]\) ', $state->lvars);
+        }
     }
 
     public function test_validate_student_response_display_errors1() {

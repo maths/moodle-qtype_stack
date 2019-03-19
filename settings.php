@@ -77,7 +77,8 @@ $settings->add(new admin_setting_configselect('qtype_stack/maximaversion',
                       '5.35.1.2' => '3.35.1.2', '5.36.0' => '5.36.0', '5.36.1' => '5.36.1',
                       '5.37.3' => '5.37.3', // Recently compiled GCL version for Windows is much faster.
                       '5.38.0' => '5.38.0', '5.38.1' => '5.38.1', '5.39.0' => '5.39.0',
-                      '5.40.0' => '5.40.0', '5.41.0' => '5.41.0',
+                      '5.40.0' => '5.40.0', '5.41.0' => '5.41.0', '5.42.0' => '5.42.0',
+                      '5.42.1' => '5.42.1', '5.42.2' => '5.42.2',
                       'default' => 'default')));
 
 $settings->add(new admin_setting_configtext('qtype_stack/castimeout',

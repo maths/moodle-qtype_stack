@@ -63,9 +63,13 @@ function xmldb_qtype_stack_install() {
         set_config('maximacommand', '', 'qtype_stack');
         set_config('serveruserpass', '', 'qtype_stack');
         set_config('plotcommand', '', 'qtype_stack');
+        // @codingStandardsIgnoreStart
+
         // Trying to load the libraries leads to a fail to load /usr/share/maxima/5.32.1/share/draw/draw.lisp error.
         // Need to sort this out.
         // set_config('maximalibraries', 'stats, distrib, descriptive, simplex', 'qtype_stack');
+
+        // @codingStandardsIgnoreEnd
         set_config('maximalibraries', '', 'qtype_stack');
         set_config('casdebugging', 1, 'qtype_stack');
         set_config('mathsdisplay', 'mathjax', 'qtype_stack');

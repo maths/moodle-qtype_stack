@@ -42,7 +42,7 @@ STACK_SETUP(ex):=block(
     PLOT_TERM_OPT:"dynamic font \\\",11\\\" linewidth 1.2",
     DEL_CMD:"del",
     GNUPLOT_CMD:"C:\\bin\\moodle\\server\\moodledata\\stack\\wgnuplot.exe",
-    MAXIMA_VERSION_EXPECTED:"5.41.0",
+    MAXIMA_VERSION_EXPECTED:"5.42.0",
     URL_BASE:"!ploturl!",
     /* Define units available in STACK. */
     stack_unit_si_prefix_code:[y, z, a, f, p, n, u, m, c, d, da, h, k, M, G, T, P, E, Z, Y],

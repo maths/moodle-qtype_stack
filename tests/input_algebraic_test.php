@@ -354,7 +354,12 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('mu_0*(I_1-I_2)', $state->contentsmodified);
         $this->assertEquals('\[ {\mu}_{0}\cdot \left({I}_{1}-{I}_{2}\right) \]', $state->contentsdisplayed);
-        $this->assertEquals('\( \left[ {I}_{1} , {I}_{2} , {\mu}_{0} \right]\) ', $state->lvars);
+        if ($this->adapt_to_new_maxima('5.32.2')) {
+            // Why change the order here?
+            $this->assertEquals('\( \left[ {I}_{1} , {I}_{2} , {\mu}_{0} \right]\) ', $state->lvars);
+        } else {
+            $this->assertEquals('\( \left[ {\mu}_{0} , {I}_{1} , {I}_{2} \right]\) ', $state->lvars);
+        }
     }
 
     public function test_validate_student_response_sametype_subscripts_true_invalid() {
@@ -367,7 +372,12 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         $this->assertEquals('{mu_0*(I_1-I_2)}', $state->contentsmodified);
         $this->assertEquals('\[ \left \{{\mu}_{0}\cdot \left({I}_{1}-{I}_{2}\right) \right \} \]',
             $state->contentsdisplayed);
-        $this->assertEquals('\( \left[ {I}_{1} , {I}_{2} , {\mu}_{0} \right]\) ', $state->lvars);
+        if ($this->adapt_to_new_maxima('5.32.2')) {
+            // Why change the order here?
+            $this->assertEquals('\( \left[ {I}_{1} , {I}_{2} , {\mu}_{0} \right]\) ', $state->lvars);
+        } else {
+            $this->assertEquals('\( \left[ {\mu}_{0} , {I}_{1} , {I}_{2} \right]\) ', $state->lvars);
+        }
     }
 
     public function test_validate_student_response_display_1() {
@@ -672,7 +682,7 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         $state = $el->validate_student_response(array('sans1' => '"Hello world"'), $options, 'x^2', null);
         $this->assertEquals(stack_input::INVALID, $state->status);
         $this->assertEquals('"Hello world"', $state->contentsmodified);
-        $this->assertEquals('<span class="stacksyntaxexample">"Hello world"</span>', $state->contentsdisplayed);
+        $this->assertEquals('\[ \mbox{Hello world} \]', $state->contentsdisplayed);
     }
 
     public function test_validate_string_same_type_invalid2() {

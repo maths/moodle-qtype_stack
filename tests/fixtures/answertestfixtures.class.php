@@ -385,6 +385,9 @@ class stack_answertest_test_data {
         array('AlgEquiv', '', 'cos(x)*cos(2*x)*cos(3*x)', 'product(cos(k*x),k,1,3)', 1, '', ''),
         array('AlgEquiv', '', 'cos(x)*cos(2*x)', 'product(cos(k*x),k,1,3)', 0, '', ''),
         array('AlgEquiv', '', '9.81*m/s^2', 'stackunits(9.81,m/s^2)', 1, '', 'Scientific units are ignored'),
+        array('AlgEquiv', '', '6*stackunits(1,m)', 'stackunits(6,m)', 1, '', ''),
+        array('AlgEquiv', '', 'stackunits(2,m)^2', 'stackunits(4,m^2)', 1, '', ''),
+        array('AlgEquiv', '', 'stackunits(2,s)^2', 'stackunits(4,m^2)', 0, '', ''),
         array('AlgEquiv', '', '2/%i*ln(sqrt((1+z)/2)+%i*sqrt((1-z)/2))', '-%i*ln(z+i*sqrt(1-z^2))', -3,
             '', 'These currently fail'),
         array('AlgEquiv', '', '(-1)^n*cos(x)^n', '(-cos(x))^n', -3, '', ''),
@@ -409,7 +412,7 @@ class stack_answertest_test_data {
         array('AlgEquiv', '', '"Hello"', '"Hello"', 1, 'ATAlgEquiv_String', 'Basic support for strings'),
         array('AlgEquiv', '', '"hello"', '"Hello"', 0, 'ATAlgEquiv_String', ''),
         array('AlgEquiv', '', 'W', '"Hello"', 0, 'ATAlgEquiv_SA_not_string.', ''),
-        array('AlgEquiv', '', '"Hello"', 'x^2', 0, '', ''),
+        array('AlgEquiv', '', '"Hello"', 'x^2', 0, 'ATAlgEquiv_SA_not_expression.', ''),
 
         array('SubstEquiv', '', '1/0', 'x^2-2*x+1', -1, 'CASError: Division by zero.', ''),
         array('SubstEquiv', '', 'x^2+1', 'x^2+1', 1, '', ''),
@@ -1682,6 +1685,7 @@ class stack_answertest_test_data {
             $ansnote  = '';
         }
 
+        $trace = $anst->get_trace(false);
         $anomalynote = array();
         $passed = true;
         if ($test->expectedscore >= 0) {
@@ -1731,6 +1735,6 @@ class stack_answertest_test_data {
         }
 
         $anomalynote = implode($anomalynote, ' | ');
-        return array($passed, $errors, $rawmark, $feedback, $ansnote, $anomalynote);
+        return array($passed, $errors, $rawmark, $feedback, $ansnote, $anomalynote, $trace);
     }
 }

@@ -41,15 +41,17 @@
   stack_unit_other_unit_tex:["\\mathrm{min}", "\\mathrm{day}", "\\mathrm{amu}", "\\mathrm{u}", "\\mathrm{mmHg}", "\\mathrm{bar}", "\\mathrm{cc}", "\\mathrm{mbar}", "\\mathrm{atm}", "\\mathrm{Torr}", "\\mathrm{rev}", "\\mathrm{{}^{o}}", "\\mathrm{rpm}", "\\mathrm{K}"],
 */
 
-/* Add rules to the simplifier to deal with stackunits.  */
-matchdeclare(STACKNUM1, all, STACKNUM2, all, STACKUNITS1, all, STACKUNITS2, all, STACKNUM, numberp)$
-matchdeclare(STACKANY, all)$
+/* In Maxima 5.42.2 there are changes to the default simplifier.  We can no longer use the default, but need 
+   to add rules and explicitly simplify to deal with stackunits.  */
+matchdeclare(STACKNUM1, all, STACKNUM2, all, STACKUNITS1, all, STACKUNITS2, all, STACKANY, all)$
+matchdeclare(STACKNUM, lambda([ex], numberp(ex) and is(ex>0)))$
 tellsimpafter(STACKNUM*stackunits(STACKNUM1,STACKUNITS1), stackunits(STACKNUM*STACKNUM1, STACKUNITS1));
-tellsimpafter(stackunits(STACKNUM1, STACKUNITS1)^STACKNUM, stackunits(STACKNUM1^STACKNUM, STACKUNITS1^STACKNUM));
 tellsimpafter(stackunits(STACKNUM1, STACKUNITS1)*stackunits(STACKNUM2, STACKUNITS2), stackunits(STACKNUM1*STACKNUM2, STACKUNITS1*STACKUNITS2));
 tellsimpafter(stackunits(STACKNUM1, STACKUNITS1)*stackunits(STACKNUM2, STACKUNITS2)*STACKANY, stackunits(STACKNUM1*STACKNUM2, STACKUNITS1*STACKUNITS2)*STACKANY);
+tellsimpafter(stackunits(STACKNUM1, STACKUNITS1)^STACKNUM, stackunits(STACKNUM1^STACKNUM, STACKUNITS1^STACKNUM));
 tellsimpafter(stackunits(STACKNUM1, STACKUNITS1)+stackunits(STACKNUM2, STACKUNITS1), stackunits(STACKNUM1+STACKNUM2, STACKUNITS1));
 tellsimpafter(stackunits(STACKNUM1, STACKUNITS1)+stackunits(STACKNUM2, STACKUNITS1)+STACKANY, stackunits(STACKNUM1+STACKNUM2, STACKUNITS1)+STACKANY);
+
 
 unitsp(ex) := featurep(ex, units)$
 

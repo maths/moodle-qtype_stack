@@ -45,6 +45,9 @@ if not(?functionp('rempart)) then load(functs);
 /* op(ex) is unsafe on atoms: this is a fix. */
 /* This function always returns a string.    */
 safe_op(ex) := block([st],
+    /* Subtle changes in mapatom, in Maxima 5.42.2, with simp:false. */
+    if atom(ex) then return(""),
+    if op(ex) = "-" then return("-"),
     if mapatom(ex) then return(""),
     if stringp(op(ex)) then return(op(ex)),
     st:string(op(ex)),
@@ -212,8 +215,9 @@ inequalityp(ex) := block(
    return(false)
 )$
 
+/* Determines if ex looks like a basic mathematical expression. */
 expressionp(ex) := block(
- if matrixp(ex) or listp(ex) or equationp(ex) or inequalityp(ex) or safe_setp(ex) or functionp(ex) or logicp(ex) then
+ if matrixp(ex) or listp(ex) or equationp(ex) or inequalityp(ex) or safe_setp(ex) or functionp(ex) or logicp(ex) or stringp(ex) then
     return (false),
  return(true)
 );
@@ -708,6 +712,7 @@ numerical_not_alg_equiv(p1, p2):= block([pvars, pval, lv, sz, stack_mtell_quiet]
   /* Evaluate as integers to start with and avoid floats.  This is safer, and works in many cases.*/
   lv:zip_with("=", pvars, makelist(ev(k+1,simp), k, length(pvars))),
   pval:errcatch(ev(p1-p2, lv, simp)),
+  if debug then print(lv, pval),
   /* We can't remove all these with stack_mtell_quiet, because some are division by zero
      which are errors, not warnings.                                                      */
   if is(pval = []) then (print("STACK: ignore previous error. (p1)"), return(false)),

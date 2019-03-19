@@ -465,7 +465,7 @@ ATUnitsFun(SA, SB, SO, strictp, numtest) := block([validity, rawmk, sb, ansnote,
 
   /* If the teacher uses units in the option then they must be identical to the units in the teacher's answer. */
   if (numtest = "Absolute") and not(is_simp(stack_units_units(SOU) = NULLUNITS)) and not(stack_units_units(SBU) = stack_units_units(SOU)) then
-    (print("TEST_FAILED"), return([false, false, StackAddNote("", "ATUnits_SO_wrong_units"), StackAddFeedback("", "TEST_FAILED_Q")])),
+    (print("TEST_FAILED"), return(StackBasicReturn(false, false, "ATUnits_SO_wrong_units"))),
 
   if (debug) then (print("ATUnitsFun: Initial stackunits_make gives: "), print(SAU), print(SBU), print(SOU)),
   

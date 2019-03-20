@@ -146,6 +146,14 @@ class stack_equiv_test_data {
         $newarg['outcome']   = false;
         $samplearguments[] = $newarg;
 
+        $newarg = array();
+        $newarg['title']     = "";
+        $newarg['narrative'] = '';
+        $newarg['casstring'] = "[1/(x^2+1)=1/((x+%i)*(x-%i)),true]";
+        $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR]";
+        $newarg['outcome']   = true;
+        $samplearguments[] = $newarg;
+
         //******************************************************************************
 
         $newarg = array();

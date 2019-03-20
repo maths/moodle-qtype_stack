@@ -147,7 +147,9 @@ class stack_question_test {
                 $computedinput = $inputs[$name];
             }
             if (array_key_exists($name, $question->inputs)) {
-                $response = array_merge($response, $question->inputs[$name]->maxima_to_response_array($computedinput));
+                // Remove things like apostrophies in test case inputs so we don't create an invalid student input.
+                $value = stack_utils::logic_nouns_sort($computedinput, 'remove');
+                $response = array_merge($response, $question->inputs[$name]->maxima_to_response_array($value));
             }
         }
         return $response;

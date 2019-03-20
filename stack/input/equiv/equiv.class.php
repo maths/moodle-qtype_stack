@@ -62,7 +62,6 @@ class stack_equiv_input extends stack_input {
         if ($this->is_blank_response($state->contents)) {
             $current = $this->maxima_to_raw_input($this->parameters['syntaxHint']);
             $current = stack_utils::logic_nouns_sort($current, 'remove');
-            $rows = array();
             // Put the first line of the value of the teacher's answer in the input.
             if (trim($this->parameters['syntaxHint']) == 'firstline') {
                 $values = stack_utils::list_to_array($tavalue, false);
@@ -70,6 +69,7 @@ class stack_equiv_input extends stack_input {
             }
             // Remove % characters, e.g. %pi should be printed just as "pi".
             $current = str_replace('%', '', $current);
+            $rows = explode("\n", $current);
         } else {
             $current = implode("\n", $state->contents);
             $rows = $state->contents;
@@ -78,7 +78,7 @@ class stack_equiv_input extends stack_input {
         // Sort out size of text area.
         $boxwidth = $this->parameters['boxWidth'];
         foreach ($rows as $row) {
-            $boxwidth = max($boxwidth, strlen($row) - 15);
+            $boxwidth = max($boxwidth, strlen($row));
         }
 
         $attributes = array(

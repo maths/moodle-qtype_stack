@@ -778,6 +778,7 @@ class stack_answertest_test_data {
             '[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR]', ''),
         array('Equiv', '', '[x^2=4,x= +-2, x=2 or x=-2]', '[x^2=4,x=2 or x=-2]', 1,
             '[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR]', ''),
+        array('Equiv', '', '[x^2-6*x+9=0,x=3]', '[x^2-6*x+9=0,x=3]', 1, '[EMPTYCHAR,SAMEROOTS]', ''),
 
         array('EquivFirst', '', 'x', '[x^2=4,x=2 or x=-2]', -1, 'CASError: TEST_FAILED | ATEquivFirst_SA_not_list.', ''),
         array('EquivFirst', '', '[x^2=4,x=2 or x=-2]', 'x',  -1, 'CASError: TEST_FAILED | ATEquivFirst_SB_not_list.', ''),
@@ -792,6 +793,7 @@ class stack_answertest_test_data {
             '[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR]', ''),
         array('EquivFirst', '', '[x^2=4,x= +-2, x=2 or x=-2]', '[x^2=4,x=2 or x=-2]', 1,
             '[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR]', ''),
+        array('EquivFirst', '', '[x^2-6*x+9=0,x=3]', '[x^2-6*x+9=0,x=3]', 1, '[EMPTYCHAR,SAMEROOTS]', ''),
 
         array('SingleFrac', '', '1/0', '1/n', -1, 'CASError: Division by zero. | ATSingleFrac_STACKERROR_SAns.', ''),
         array('SingleFrac', '', '0', '1/0', -1, 'CASError: Division by zero. | ATSingleFrac_STACKERROR_TAns.', ''),

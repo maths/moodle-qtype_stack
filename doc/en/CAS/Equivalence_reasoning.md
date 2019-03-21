@@ -133,7 +133,8 @@ There are a number of answer tests which seek to establish whether a student's l
 In these tests there is no concept of "step size" or any test that a student has worked in a sensible order.  
 The tests share code with the input type, and feedback from the test will be identical to that from the input when this is shown.
 
-To work over the real numbers make the answer test options `assume_real`.
+You will also need to set options, as in the input type above, to get the answer tests to reflect the options set.
+The options supported are `assume_pos`, `assume_real`, and `calculus`.
 
 ### EquivReasoning ###
 

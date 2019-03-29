@@ -143,6 +143,7 @@ class stack_answertest_test_data {
         array('AlgEquiv', '', 'sin(x+-y)', 'sin(x)*cos(y)+-cos(x)*sin(y)', 1, 'ATLogic_True', ''),
         array('AlgEquiv', '', 'sin(x+-y)', 'cos(x)*sin(y)+-sin(x)*cos(y)', 0, '', ''),
         array('AlgEquiv', '', '2*cos(x)^2-1', 'cos(2*x)', 1, '', ''),
+        array('AlgEquiv', '', '1.0*cos(1200*%pi*x)', 'cos(1200*%pi*x)', 1, '', ''),
         array('AlgEquiv', '', 'diff(tan(10*x)^2,x)', 'cos(6*x)', 0, '', ''),
         array('AlgEquiv', '', 'exp(%i*%pi)', '-1', 1, '', ''),
         array('AlgEquiv', '', '2*cos(2*x)+x+1', '-sin(x)^2+3*cos(x)^2+x', 1, '', ''),

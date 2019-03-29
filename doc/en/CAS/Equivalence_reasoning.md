@@ -50,16 +50,9 @@ Note that students must use correct propositional logic connectives `or` and `an
 E.g. their answer must be something correct such as `x=1 or x=2`, *not* something sloppy like `x=1 or 2` or `x=1,2`.  
 It certainly can't be something wrong such as `x=1 and x=2` which is often seen in written answers!
 
-Note that students may not take square roots of both sides of an equation.  This will be rejected because it it not equivalen!  
-Similarly, students may not cancel terms from both sides which may be zero.  As we require equivalence, students may not *multiply* either.  
-This will take a bit of geting used to!
+Note that students may not take square roots of both sides of an equation.  This will be rejected because it it not equivalen!  Similarly, students may not cancel terms from both sides which may be zero.  As we require equivalence, students may not *multiply* either.  This will probably not correspond to students' expectations, and may take a bit of geting used to.
 
-But, shouldn't student really use logical connectives?  
-Yes, I (CJS) believe they should but that to require this from the input type now would be too big a step for students and their teachers.
-Students are already being expected to use connectives such as `and` and `or` correctly.  
-The input type uses these connectives and in the futre options may be added to this input type which require students to be explicit 
-about logical connectives, especially when we add support for implication in addition to equivalence.  
-As we gain confidence in teaching with equivalence reasoning, so we will add more options to this input type.
+But, shouldn't student really use logical connectives?  Yes, I (CJS) believe they should but that to require this from the input type now would be too big a step for students and their teachers. Students are already being expected to use connectives such as `and` and `or` correctly.  The input type uses these connectives and in the futre options may be added to this input type which require students to be explicit about logical connectives, especially when we add support for implication in addition to equivalence.  As we gain confidence in teaching with equivalence reasoning, so we will add more options to this input type.
 
 __If you have strong views on how this input type should behave, please contact the developers.__
 
@@ -209,12 +202,13 @@ To facilitate this search we provide the function `stack_equiv_find_step(ex, exl
 ## Longer term plans
 
 1. Define \(x\neq a\) operator.  Needed to exclude single numbers from the domain.
-2. Add in constants of integration into the calculus tests.
-3. Provide better feedback to students about which steps they have taken and what goes wrong.
+2. Define \(x\in X\) operator, for student use.
+3. Provide better tools for dealing with assessment, such as checking for particular steps.
+2. Provide better feedback to students about which steps they have taken and what goes wrong.
 
 In the long term, we may fully implement the ideas in the paper Sangwin, C.J. __An Audited Elementary Algebra__ The Mathematical Gazette, July 2015.
 
-In the future students might also be expected to say what they are doing, e.g. ``add \(a\) to both sides", as well as just do it.  Quite how it does this, and the options available to the teacher is what is most likely to change!  
+In the future students might also be expected to say what they are doing, e.g. ``add \(a\) to both sides", as well as just do it.  Quite how it does this, and the options available to the teacher is what is most likely to change.
 
 We would like to introduce the idea of a *model answer*.  STACK will then establish the extent to which the student's answer follows this model solution.
 

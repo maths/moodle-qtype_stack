@@ -31,7 +31,7 @@ The variable `ta` is a list containing each step we are expecting our students t
 
 \(=x^{3}+4x^{2}+4x+2x^{2}+8x+8\)
 
-\(=x^{3}+6x^{2}+8x+8\)
+\(=x^{3}+6x^{2}+12x+8\)
 
 
 Notes:
@@ -96,7 +96,7 @@ At this point please read the [equivalence reasoning](../CAS/Equivalence_reasoni
 
 ## Getting to the right place ##
 
-We probably want the student to end up at the expression \(x^{3}+6x^{2}+8x+8\).
+We probably want the student to end up at the expression \(x^{3}+6x^{2}+12x+8\).
 
 To check is the student has reached this point, add another node to the PRT.  If node 1 is true (i.e. the student started in the correct place and didn't make a mistake) then connect to node 2.
 Node 2 should be set up as

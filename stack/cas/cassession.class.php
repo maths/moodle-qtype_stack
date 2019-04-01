@@ -478,13 +478,12 @@ class stack_cas_session {
             $dummy = '{@'.$key.'@}';
 
             // When we have only a single string in the output remove the maths environment.
-            // Edge case to do: numbers (stackintfmt:"~r", 55).
+            // Edge case to do with numbers when we print the text value, e.g. (stackintfmt:"~r", 55).
             if ($errors == '' and substr(trim($value), 0, 1) == '"' and strpos($strin, '\(@'.$key.'@\)') !== false) {
                 $disp = preg_replace('|^\\\\mbox\{(.*)\}$|', '$1', trim($disp));
                 if ($value == '""') {
                     $disp = '';
                 }
-                // TODO: probably check for whitespace, e.g. \( @...@ \).
                 $dummy = '\({@'.$key.'@}\)';
             }
 

@@ -125,7 +125,7 @@ foreach ($tests as $test) {
         'casvalid'           => s($casvalid),
         'casvalue'           => $casvalue,
         'casdisplay'         => format_text(stack_maths::process_lang_string(s($display))) .
-                html_writer::tag('pre', s($casdisplay)),
+                html_writer::tag('pre', s($casdisplay)) . "\n",
         'caserrors'          => $caserrors,
     );
     $table->add_data_keyed($row, $class);

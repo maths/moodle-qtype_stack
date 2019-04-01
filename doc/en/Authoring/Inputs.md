@@ -285,6 +285,18 @@ The variable `sa` will be a set containing the non-empty answers (if any).
 
 The teacher can use the `EMPTYANSWER` tag as a "correct answer".
 
+### Extra option: simp ###
+
+Actually simplify the student's answer during the validation process.  This will allow students to type in something like
+
+    makelist(k^2,k,1,8)
+
+If teacher's want this kind of thing, then a syntax hint is probably in order as well.
+
+You may need to `ev(ans1,simp)` explicitly in any potential response tree.
+
+In makes no sense to simplify the equivalence reasoning input type, so this has been ommitted.
+
 ## Extra options ##
 
 In the future we are likely to add additional functionality via the _extra options_ fields.  This is because the form-based support becomes ever more complex, intimidating and difficult to navigate.
@@ -333,8 +345,9 @@ min/max sf/dp     |  .  |  Y  |  Y    |   .    |   .   |   .   |   .  |  .  |   
 `floatnum`      |  .  |  Y  |  .    |   .    |   .   |   .   |   .  |  .  |    .     |   .   |   .    |   .  
 `rationalnum`   |  .  |  Y  |  .    |   .    |   .   |   .   |   .  |  .  |    .     |   .   |   .    |   .  
 `negpow`        |  .  |  .  |  Y    |   .    |   .   |   .   |   .  |  .  |    .     |   .   |   .    |   .  
-`allowempty`   |  Y  |  Y  |  .    |   .    |   .   |   .   |   .  |  Y  |    .     |   .   |   .    |   .  
+`allowempty`   |  Y  |  Y  |  Y    |   Y    |   .   |   .   |   .  |  Y  |    .     |   .   |   .    |   .  
 `hideanswer`   |  .  |  .  |  .    |   .    |   .   |   .   |   .  |  .  |    .     |   .   |   Y    |   .  
+`simp`            |  Y  |  Y  |  Y    |   Y    |   .   |   .   |   .  |  .  |    Y     |   .   |   .    |   .  
 
 For documentation about the various options not documented on this page look at the pages for the specific inputs in which each option is used.
 

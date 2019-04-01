@@ -81,7 +81,7 @@ class stack_numerical_input_test extends qtype_stack_testcase {
         $el = stack_input_factory::make('numerical', 'sans1', '3.14');
         $state = $el->validate_student_response(array('sans1' => '1/0'), $options, '3.14*x^2', null);
         $this->assertEquals(stack_input::INVALID, $state->status);
-        $this->assertEquals('Division by zero.', $state->errors);
+        $this->assertEquals('Division by zero. This input expects a number.', $state->errors);
     }
 
     public function test_validate_student_response_invalid_variables() {
@@ -107,7 +107,8 @@ class stack_numerical_input_test extends qtype_stack_testcase {
         $el->set_parameter('forbidWords', 'sin,cos,tan');
         $state = $el->validate_student_response(array('sans1' => 'sin(pi/2)'), $options, '3.14*x^2', null);
         $this->assertEquals(stack_input::INVALID, $state->status);
-        $this->assertEquals('The expression <span class="stacksyntaxexample">sin</span> is forbidden.',
+        $this->assertEquals('The expression <span class="stacksyntaxexample">sin</span> is forbidden.' .
+            ' This input expects a number.',
                 $state->errors);
     }
 
@@ -164,7 +165,8 @@ class stack_numerical_input_test extends qtype_stack_testcase {
         $this->assertEquals('1 3/7', $state->contentsmodified);
         $this->assertEquals('<span class="stacksyntaxexample">1 3/7</span>', $state->contentsdisplayed);
         $this->assertEquals('Illegal spaces found in expression '.
-                '<span class="stacksyntaxexample">1<font color="red">_</font>3/7</span>.', $state->errors);
+                '<span class="stacksyntaxexample">1<font color="red">_</font>3/7</span>.' .
+                ' This input expects a number.', $state->errors);
     }
 
     public function test_validate_student_response_without_rationalized() {
@@ -473,5 +475,16 @@ class stack_numerical_input_test extends qtype_stack_testcase {
                 .'size="16.5" style="width: 13.6em" autocapitalize="none" spellcheck="false" value="?/?" />',
                 $el->render(new stack_input_state(stack_input::BLANK, array(), '', '', '', '', ''),
                         'stack1__sans1', false, null));
+    }
+
+    public function test_validate_student_letters_only() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('numerical', 'sans1', '3.14159');
+        $state = $el->validate_student_response(array('sans1' => 'letters'), $options, '10', array('tans'));
+        $this->assertEquals(stack_input::INVALID, $state->status);
+        $this->assertEquals('unknownFunction', $state->note);
+        $this->assertEquals('Unknown function: <span class="stacksyntaxexample">letters</span>.' .
+            ' This input expects a number.',
+            $state->errors);
     }
 }

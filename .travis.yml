@@ -34,15 +34,19 @@ matrix:
       env: TASK=PHPUNIT        MOODLE_BRANCH=MOODLE_33_STABLE   DB=mysqli
 
     # Would be good to run this next test in PHP 7.2, but STACK does not support that yet.
-    - php: 7.1
+    - php: 7.0
       env: TASK=PHPUNIT        MOODLE_BRANCH=MOODLE_34_STABLE   DB=pgsql
 
     - php: 7.1
       env: TASK=PHPUNIT        MOODLE_BRANCH=MOODLE_35_STABLE   DB=mysqli
 
-    # Master here will need to be changed to MOODLE_36_STABLE once Moodle 3.6 has been released.
     - php: 7.1
-      env: TASK=PHPUNIT        MOODLE_BRANCH=master             DB=pgsql
+      env: TASK=PHPUNIT        MOODLE_BRANCH=MOODLE_36_STABLE   DB=pgsql
+
+    # Master here will need to be changed to MOODLE_37_STABLE once Moodle 3.7 has been released.
+    - php: 7.1
+      env: TASK=PHPUNIT        MOODLE_BRANCH=master             DB=mysqli
+
 
     - php: 5.6
       env: TASK=BEHAT          MOODLE_BRANCH=MOODLE_32_STABLE   DB=mysqli
@@ -54,12 +58,16 @@ matrix:
       env: TASK=BEHAT          MOODLE_BRANCH=MOODLE_34_STABLE   DB=mysqli
 
     # Would be good to run this next test in PHP 7.2, but STACK does not support that yet.
-    - php: 7.1
+    - php: 7.0
       env: TASK=BEHAT          MOODLE_BRANCH=MOODLE_35_STABLE   DB=pgsql
 
-    # Master here will need to be changed to MOODLE_36_STABLE once Moodle 3.6 has been released.
     - php: 7.1
-      env: TASK=BEHAT          MOODLE_BRANCH=master             DB=mysqli
+      env: TASK=BEHAT          MOODLE_BRANCH=MOODLE_36_STABLE   DB=mysqli
+
+    # Master here will need to be changed to MOODLE_36_STABLE once Moodle 3.7 has been released.
+    - php: 7.1
+      env: TASK=BEHAT          MOODLE_BRANCH=master             DB=pgsql
+
 
     - php: 7.1
       env: TASK=CODESTYLE      MOODLE_BRANCH=MOODLE_35_STABLE   DB=mysqli

@@ -123,6 +123,9 @@ load("stackstrings.mac");
 if is(MAXIMA_VERSION_NUM<40.1) then load("stacktex40.lisp");
 load("utils.mac");
 
+/* Breaks on older versions of Maxima. */
+if is(MAXIMA_VERSION_NUM>30.0) then compile(scientific_notation)$
+
 texput(QMCHAR, "\\color{red}{?}");
 texput(theta, "\\theta");
 
@@ -869,8 +872,8 @@ plot(ex, [ra]) :=  /*stack_web_plot*/
     /* Check expressions to be plotted has/have only one variable. */
     ex: ev(ex, nouns, simp),
     /* Remove logarithms to other bases from expressions. */
-    if not(freeof(logbase, ex)) then
-        ex:ev(ex, logbase=logbasesimp),
+    if not(freeof(lg, ex)) then
+        ex:ev(ex, lg=logbasesimp),
     lvs: listofvars(ex),
     lvs: sublist(lvs, lambda([ex], not(ex = discrete or ex = parametric))),
     if length(lvs)>1 then
@@ -2879,6 +2882,13 @@ Difffun(SA,SB,v) := block([val,rawmk,ansnote,fb,ret,lSAv,lSBv,mSAv,mSBv],
     ret:[val,rawmk,ansnote,fb],
     return(ret)
     )$
+
+/* Look over an expression and find all the variables wrt which we are differentiating. */
+ATDiffGetVar(ex):= block(
+    if atom(ex) then return([]),
+    if safe_op(ex)="diff" then return([second(args(ex))]),
+    flatten(map(ATDiffGetVar, args(ex)))
+);
 
 /* ****************************************************** */
 /*                                                        */

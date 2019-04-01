@@ -95,7 +95,18 @@ class stack_potentialresponse_node {
             throw new stack_exception('stack_potentialresponse_node: ' .
                     'atoptions must NOT be a stack_cas_casstring.  This should be a string.');
         }
-        $this->atoptions = $atoptions;
+
+        /*
+         * For some tests there is an option assume_pos. This will be evaluated by maxima (since this is also the name
+         * of a maxima variable).  So, we need to protect the name from being evaluated.
+        */
+        $op = $atoptions;
+        $reps = array('assume_pos' => 'assumepos', 'assume_real' => 'assumereal');
+        foreach ($reps as $key => $val) {
+            $op = str_replace($key, $val, $op);
+        }
+        $this->atoptions = $op;
+
         $this->notes = $notes;
         $this->nodeid = $nodeid;
 
@@ -323,6 +334,7 @@ class stack_potentialresponse_node {
         $variables[] = $this->tans;
 
         if ($this->process_atoptions() && trim($this->atoptions) != '') {
+
             $atopts = new stack_cas_casstring($this->atoptions);
             $atopts->get_valid('t', false, 0);
             $atopts->set_key('PRATOPT' . $key);

@@ -103,6 +103,20 @@ abstract class qtype_stack_testcase extends advanced_testcase {
     }
 
     /**
+     * Helper that returns true if we have default, or newer versions of Maxima.
+     * Used to update the expected value of a test case.
+     *
+     * @param string $version e.g. '5.23.2'. True if the maxima version is default or > this.
+     */
+    public function adapt_to_new_maxima($version) {
+        $versionused = get_config('qtype_stack', 'maximaversion');
+        if ($versionused == 'default' || !(version_compare($versionused, $version) < 0)) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
      * Verify that some content, containing maths, that is due to be output, is as expected.
      *
      * The purpose of this method is to hide the details of what the maths display system does.

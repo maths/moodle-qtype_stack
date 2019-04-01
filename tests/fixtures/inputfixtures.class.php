@@ -345,7 +345,7 @@ class stack_inputvalidation_test_data {
             "Note the use of the apostrophe here to make an inert function."),
         array("'diff(x,y)", 'php_false', '', 'cas_true', '', 'apostrophe', "Not ideal...arises because we don't 'simplify'."),
         array('partialdiff(x,y,1)', 'php_false', '', '', '', 'unknownFunction', ""),
-        array('limit(y,x,3)', 'php_true', 'limit(y,x,3)', 'cas_true', 'y', '', ""),
+        array('limit(y,x,3)', 'php_true', 'nounlimit(y,x,3)', 'cas_true', '\lim_{x\rightarrow 3}{y}', '', ""),
         array('mod(x,y)', 'php_true', 'mod(x,y)', 'cas_true', 'x \rm{mod} y', '', ""),
         array('perm(x,y)', 'php_false', '', '', '', 'unknownFunction', ""),
         array('comb(x,y)', 'php_false', '', '', '', 'unknownFunction', ""),
@@ -355,8 +355,12 @@ class stack_inputvalidation_test_data {
         array('tan(x)', 'php_true', 'tan(x)', 'cas_true', '\tan \left( x \right)', '', ""),
         array('sec(x)', 'php_true', 'sec(x)', 'cas_true', '\sec \left( x \right)', '', ""),
         array('cot(x)', 'php_true', 'cot(x)', 'cas_true', '\cot \left( x \right)', '', ""),
+        array('csc(x)', 'php_true', 'csc(x)', 'cas_true', '\csc \left( x \right)', '', ""),
         array('cosec(x)', 'php_true', 'cosec(x)', 'cas_true', '\csc \left( x \right)', '', ""), /* This is now a Maxima alias. */
-        array('cosec(x)', 'php_true', 'cosec(x)', 'cas_true', '\csc \left( x \right)', '', ""), // This is now a Maxima alias.
+        array('csc(6*x)^2*(7*sin(6*x)*cos(7*x)-6*cos(6*x)*sin(7*x))', 'php_true',
+                'csc(6*x)^2*(7*sin(6*x)*cos(7*x)-6*cos(6*x)*sin(7*x))', 'cas_true',
+                '\csc ^2\left(6\cdot x\right)\cdot \left(7\cdot \sin \left( 6\cdot x \right)\cdot \cos \left( 7\cdot x \right)-6\cdot ' .
+                '\cos \left( 6\cdot x \right)\cdot \sin \left( 7\cdot x \right)\right)', '', ""),
         array('Sin(x)', 'php_false', '', '', '', 'unknownFunctionCase', ""),
         array('sim(x)', 'php_false', '', '', '', 'unknownFunction', ""),
         array('asin(x)', 'php_true', 'asin(x)', 'cas_true', '\sin^{-1}\left( x \right)', '', "Maxima uses the asin pattern"),
@@ -462,7 +466,7 @@ class stack_inputvalidation_test_data {
 
         $cs = new stack_cas_casstring($val);
         $cs->get_valid('s', false, 1);
-        $cs->set_cas_validation_casstring('sans1', true, true, null, 'typeless');
+        $cs->set_cas_validation_casstring('sans1', true, true, null, 'typeless', '', false);
 
         $phpvalid = $cs->get_valid();
         if ($phpvalid) {

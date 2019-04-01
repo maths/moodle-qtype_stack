@@ -32,6 +32,22 @@ require_once(__DIR__ . '/../stack/cas/keyval.class.php');
  */
 class stack_cas_session_test extends qtype_stack_testcase {
 
+    public function test_internal_config() {
+        // This test checks if the version number returned by Maxima matches our internal config.
+        $cs = array('m:MAXIMA_VERSION_NUM');
+        foreach ($cs as $s) {
+            $cs = new stack_cas_casstring($s);
+            $cs->get_valid('t');
+            $s1[] = $cs;
+        }
+        $at1 = new stack_cas_session($s1, null, 0);
+        $at1->instantiate();
+
+        $maximaversion = '5.' . $at1->get_value_key('m');
+        $maximaconfig = get_config('qtype_stack', 'maximaversion');
+        $this->assertEquals($maximaconfig, $maximaversion);
+    }
+
     public function get_valid($cs, $val) {
 
         if (is_array($cs)) {
@@ -907,9 +923,13 @@ class stack_cas_session_test extends qtype_stack_testcase {
                 '0.100000000000000000000 \right]', $at1->get_display_key('L'));
         // Even more worryingly, the "value" of the expression looses this at the 14th place.
         // This is because of the precision specified in the "string" routine of Maxima, which sends "values" from Maxima to PHP.
-        $this->assertEquals('[displaydp(0.100000000001,13),displaydp(0.1,14),displaydp(0.1,15),displaydp(0.1,16),'.
-                'displaydp(0.1,17),displaydp(0.1,18),displaydp(0.1,19),displaydp(0.1,20),displaydp(0.1,21)]',
-                $at1->get_value_key('L', false));
+        $expected = '[displaydp(.100000000001,13),displaydp(0.1,14),displaydp(0.1,15),displaydp(0.1,16),displaydp(0.1,17),'.
+                'displaydp(0.1,18),displaydp(0.1,19),displaydp(0.1,20),displaydp(0.1,21)]';
+        if ($this->adapt_to_new_maxima('5.32.2')) {
+            $expected = '[displaydp(0.100000000001,13),displaydp(0.1,14),displaydp(0.1,15),displaydp(0.1,16),'.
+                    'displaydp(0.1,17),displaydp(0.1,18),displaydp(0.1,19),displaydp(0.1,20),displaydp(0.1,21)]';
+        }
+        $this->assertEquals($expected, $at1->get_value_key('L', false));
         // The internal printf function is perfectly capable of printing more, if we use the "dispval" field.
         // This gives up at the same point as the displayed values above.
         $this->assertEquals('[0.1000000000010,0.10000000000010,0.100000000000010,0.1000000000000010,0.10000000000000010,'.
@@ -934,11 +954,16 @@ class stack_cas_session_test extends qtype_stack_testcase {
                 '0.10000000000000010 , 0.100000000000000000 , 0.1000000000000000000 , 0.10000000000000000000 , '.
                 '0.100000000000000000000 \right]', $at1->get_display_key('L'));
         // Note the difference, having increased fpprintprec:16 which is the maximum value permitted in Maxima.
-        $this->assertEquals('[displaydp(0.100000000001,13),displaydp(0.1000000000001,14),displaydp(0.10000000000001,15),'.
-                'displaydp(0.100000000000001,16),displaydp(0.1000000000000001,17),'.
-                // We get more decimal places preserved here that the above test cases.
-                'displaydp(0.1,18),displaydp(0.1,19),displaydp(0.1,20),displaydp(0.1,21)]',
-                $at1->get_value_key('L', false));
+        $expected = '[displaydp(0.100000000001,13),displaydp(0.1000000000001,14),displaydp(0.10000000000001,15),'.
+                'displaydp(0.100000000000001,16),displaydp(.1000000000000001,17),'.
+                'displaydp(0.1,18),displaydp(0.1,19),displaydp(0.1,20),displaydp(0.1,21)]';
+        if ($this->adapt_to_new_maxima('5.32.2')) {
+            $expected = '[displaydp(0.100000000001,13),displaydp(0.1000000000001,14),displaydp(0.10000000000001,15),'.
+                    'displaydp(0.100000000000001,16),displaydp(0.1000000000000001,17),'.
+                    // We get more decimal places preserved here that the above test cases.
+                    'displaydp(0.1,18),displaydp(0.1,19),displaydp(0.1,20),displaydp(0.1,21)]';
+        }
+        $this->assertEquals($expected, $at1->get_value_key('L', false));
         $this->assertEquals('[0.1000000000010,0.10000000000010,0.100000000000010,0.1000000000000010,0.10000000000000010,'.
                 '0.100000000000000000,0.1000000000000000000,0.10000000000000000000,0.100000000000000000000]',
                 $at1->get_value_key('L', true));
@@ -1046,7 +1071,12 @@ class stack_cas_session_test extends qtype_stack_testcase {
         $at1->instantiate();
         $this->assertEquals('a +- b', $at1->get_value_key('c1'));
         $this->assertEquals('{a \pm b}', $at1->get_display_key('c1'));
-        $this->assertEquals('x = ((-b) +- sqrt(b^2-4*a*c))/(2*a)', $at1->get_value_key('c2'));
+        if ($this->adapt_to_new_maxima('5.32.2')) {
+            // Why these extra brackets in the new version?
+            $this->assertEquals('x = ((-b) +- sqrt(b^2-4*a*c))/(2*a)', $at1->get_value_key('c2'));
+        } else {
+            $this->assertEquals('x = (-b +- sqrt(b^2-4*a*c))/(2*a)', $at1->get_value_key('c2'));
+        }
         $this->assertEquals('x=\frac{{-b \pm \sqrt{b^2-4\cdot a\cdot c}}}{2\cdot a}', $at1->get_display_key('c2'));
         $this->assertEquals('b +- a^2', $at1->get_value_key('c3'));
         $this->assertEquals('{b \pm a^2}', $at1->get_display_key('c3'));
@@ -1091,7 +1121,12 @@ class stack_cas_session_test extends qtype_stack_testcase {
         $at1->instantiate();
         $this->assertEquals('a +- b', $at1->get_value_key('c1'));
         $this->assertEquals('{a \pm b}', $at1->get_display_key('c1'));
-        $this->assertEquals('x = ((-b) +- sqrt(b^2-4*a*c))/(2*a)', $at1->get_value_key('c2'));
+        if ($this->adapt_to_new_maxima('5.32.2')) {
+            // Why these extra brackets in the new version?
+            $this->assertEquals('x = ((-b) +- sqrt(b^2-4*a*c))/(2*a)', $at1->get_value_key('c2'));
+        } else {
+            $this->assertEquals('x = (-b +- sqrt(b^2-4*a*c))/(2*a)', $at1->get_value_key('c2'));
+        }
         $this->assertEquals('x=\frac{{-b \pm \sqrt{b^2-4\cdot a\cdot c}}}{2\cdot a}', $at1->get_display_key('c2'));
         $this->assertEquals('b +- a^2', $at1->get_value_key('c3'));
         $this->assertEquals('{b \pm a^2}', $at1->get_display_key('c3'));
@@ -1156,10 +1191,13 @@ class stack_cas_session_test extends qtype_stack_testcase {
         // 2. Displayed form.
         // E.g. scientific_notation(314.159,2) -> 3.1\times 10^2.
         // 3. Dispvalue form, that is how it should be typed in.
+        // 4. Optional: what happens to the displayed form with simp:true.
+        // 5. Optional: what happens to the dispvalue form with simp:true.
 
         // @codingStandardsIgnoreEnd
 
         $tests = array(
+
             array('2.998e8', '2', '3.00 \times 10^{8}', '3.00E8'),
             array('-2.998e8', '2', '-3.00 \times 10^{8}', '-3.00E8'),
             array('6.626e-34', '2', '6.63 \times 10^{-34}', '6.63E-34'),
@@ -1194,8 +1232,9 @@ class stack_cas_session_test extends qtype_stack_testcase {
             array('6720000000', '3', '6.720 \times 10^{9}', '6.720E9'),
             array('6.0221409e23', '4', '6.0221 \times 10^{23}', '6.0221E23'),
             array('1.6022e-19', '4', '1.6022 \times 10^{-19}', '1.6022E-19'),
-            array('9000', '1', '9.0 \times 10^{3}', '9.0E3'),
-            array('9000', '0', '9 \times 10^{3}', '9E3'),
+            // The next two break with simp:true.
+            array('9000', '1', '9.0 \times 10^{3}', '9.0E3', '9.0 \times 10^{3}', '9000.0'),
+            array('9000', '0', '9 \times 10^{3}', '9E3', '9 \times 10^{3}', '9000.0'),
             array('1.55E8', '2', '1.55 \times 10^{8}', '1.55E8'),
             array('-0.01', '1', '-1.0 \times 10^{-2}', '-1.0E-2'),
             array('-0.00000001', '3', '-1.000 \times 10^{-8}', '-1.000E-8'),
@@ -1217,17 +1256,23 @@ class stack_cas_session_test extends qtype_stack_testcase {
             // If we don't supply a number of decimal places, then we return a value form.
             // This is entered as scientific_notation(x).
             // This is displayed normally (without a \times) and always returns a *float*.
-            array('9000', '', '9.0\cdot 10^3', '9.0*10^3'),
-            array('1000', '', '1.0\cdot 10^3', '1.0*10^3'),
-            array('-1000', '', '-1.0\cdot 10^3', '-1.0*10^3'),
-            array('1e50', '', '1.0\cdot 10^{50}', '1.0*10^50'),
+            array('9000', '', '9.0\cdot 10^3', '9.0*10^3', '9000.0', '9000.0'),
+            array('1000', '', '1.0\cdot 10^3', '1.0*10^3', '1000.0', '1000.0'),
+            array('-1000', '', '-1.0\cdot 10^3', '-1.0*10^3', '-1000.0', '-1000.0'),
+            array('1e50', '', '1.0\cdot 10^{50}', '1.0*10^50', '1.0E+50', '1.0E+50'),
+            // @codingStandardsIgnoreStart
+
             // In some versions of Maxima this comes out as -\frac{1.0}{10^8} with simp:true.
             // Adding in compile(scientific_notation)$ after the function definition cures this,
             // but breaks some versions of Maxima.
             // Maxima 5.38.1 gives -1.0*10^-8, which is what we actually want.
-            array('-0.00000001', '', '-1.0\cdot 10^ {- 8 }', '-1.0*10^-8'),
-            array('-0.000000001', '', '-1.0\cdot 10^ {- 9 }', '-1.0*10^-9'),
-            array('-0.000000000001', '', '-1.0\cdot 10^ {- 12 }', '-1.0*10^-12'),
+            // Pass: 36.1, 31.3, 38.1, 39.0, 41.0.
+            // Fail: 37.0, 37.1, 37.2, 37.3.
+
+            // @codingStandardsIgnoreEnd
+            array('-0.00000001', '', '-1.0\cdot 10^ {- 8 }', '-1.0*10^-8', '-1.0E-8', '-1.0E-8'),
+            array('-0.000000001', '', '-1.0\cdot 10^ {- 9 }', '-1.0*10^-9', '-1.0E-9', '-1.0E-9'),
+            array('-0.000000000001', '', '-1.0\cdot 10^ {- 12 }', '-1.0*10^-12', '-1.0E-12', '-1.0E-12'),
         );
 
         foreach ($tests as $key => $c) {
@@ -1245,10 +1290,34 @@ class stack_cas_session_test extends qtype_stack_testcase {
         $at1 = new stack_cas_session($s1, $options, 0);
         $at1->instantiate();
 
+        // All these tests should work with simp:false.
         foreach ($tests as $key => $c) {
             $sk = "p{$key}";
             $this->assertEquals($c[2], $at1->get_display_key($sk));
             $this->assertEquals($c[3], $at1->get_value_key($sk, true));
+        }
+
+        // Does simp:true make any difference?
+        // For some tests it does.
+        $options = new stack_options();
+        $options->set_option('simplify', true);
+        $at2 = new stack_cas_session($s1, $options, 0);
+        $at2->instantiate();
+
+        foreach ($tests as $key => $c) {
+            $sk = "p{$key}";
+            $simpdisp = $c[2];
+            // Is the value simplified?
+            if (array_key_exists(4, $c)) {
+                $simpdisp = $c[4];
+            }
+            $simpval = $c[3];
+            // Is the value simplified?
+            if (array_key_exists(5, $c)) {
+                $simpval = $c[5];
+            }
+            $this->assertEquals($simpdisp, $at2->get_display_key($sk));
+            $this->assertEquals($simpval, $at2->get_value_key($sk, true));
         }
     }
 
@@ -1418,6 +1487,46 @@ class stack_cas_session_test extends qtype_stack_testcase {
         foreach ($cases as $case) {
             $this->assertEquals($case[1], $s->get_value_key('n'.$i));
             $this->assertEquals($case[2], $s->get_display_key('n'.$i));
+            $i++;
+        }
+    }
+
+    public function test_stack_stack_equiv_find_step() {
+
+        $s1 = array();
+        $r1 = array('ta:[lg(25,5),stackeq(lg(5^2,5)),stackeq(2*lg(5,5)),stackeq(2*1),stackeq(2)]',
+            'sa1:[lg(25,5),stackeq(lg(5^2,5)),stackeq(2)]',
+            'sa0:[lg(25,5),stackeq(2)]'
+        );
+        foreach ($r1 as $r) {
+            $s1[] = new stack_cas_casstring($r);
+        }
+
+        $t1 = array();
+        $t1[] = array('stack_equiv_find_step(stackeq(2*lg(5,5)), ta)', '[3]');
+        $t1[] = array('stack_equiv_find_step(2*lg(5,5), ta)', '[3]');
+        $t1[] = array('stack_equiv_find_step(stackeq(lg(5,5)), ta)', '[]');
+        $t1[] = array('stack_equiv_find_step(stackeq(lg(5^2,5)), sa1)', '[2]');
+        $t1[] = array('stack_equiv_find_step(lg(5^2,5), sa1)', '[2]');
+        $t1[] = array('stack_equiv_find_step(stackeq(lg(5^2,5)), sa0)', '[]');
+        $t1[] = array('stack_equiv_find_step(lg(5^2,5), sa0)', '[]');
+
+        $i = 0;
+        foreach ($t1 as $t) {
+            $cs = new stack_cas_casstring('n' . $i . ':' . $t[0]);
+            $cs->get_valid('t');
+            $s1[] = $cs;
+            $i++;
+        }
+
+        $options = new stack_options();
+        $options->set_option('simplify', false);
+
+        $at1 = new stack_cas_session($s1, $options, 0);
+
+        $i = 0;
+        foreach ($t1 as $t) {
+            $this->assertEquals($t[1], $at1->get_value_key('n' . $i));
             $i++;
         }
     }

@@ -26,6 +26,11 @@ class stack_matrix_input extends stack_input {
     protected $width;
     protected $height;
 
+    protected $extraoptions = array(
+        'simp' => false,
+        'allowempty' => false
+    );
+
     public function adapt_to_model_answer($teacheranswer) {
 
         // Work out how big the matrix should be from the INSTANTIATED VALUE of the teacher's answer.
@@ -114,6 +119,17 @@ class stack_matrix_input extends stack_input {
             $matrix[] = $row;
         }
 
+        // We need to build a special definitely blank matrix of the correct shape.
+        if ($allblank && $this->get_extra_option('allowempty')) {
+            $matrix = array();
+            for ($i = 0; $i < $this->height; $i++) {
+                $row = array();
+                for ($j = 0; $j < $this->width; $j++) {
+                    $row[] = 'null';
+                }
+                $matrix[] = $row;
+            }
+        }
         return $matrix;
     }
 
@@ -244,7 +260,7 @@ class stack_matrix_input extends stack_input {
                 if (!$blank) {
                     $val = trim($tc[$i][$j]);
                 }
-                if ($val === 'null') {
+                if ($val === 'null' || $val === 'EMPTYANSWER') {
                     $val = '';
                 }
                 $name = $fieldname.'_sub_'.$i.'_'.$j;
@@ -317,7 +333,9 @@ class stack_matrix_input extends stack_input {
             'allowWords'         => '',
             'forbidFloats'       => true,
             'lowestTerms'        => true,
-            'sameType'           => true);
+            'sameType'           => true,
+            'options'            => ''
+        );
     }
 
     /**

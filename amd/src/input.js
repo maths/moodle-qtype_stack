@@ -196,6 +196,8 @@ define(['jquery', 'core/ajax', 'core/event'], function($, ajax, coreevent) {
         this.validationDiv.html(response.message);
         this.removeAllClasses();
         this.validationDiv.addClass('error');
+        // This fires the Maths filters for content in the validation div.
+        coreevent.notifyFilterContentUpdated(this.validationDiv[0]);
     };
 
     /**

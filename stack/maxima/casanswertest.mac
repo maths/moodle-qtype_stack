@@ -115,4 +115,11 @@ ATSigFigsStrict_CASSigFigsWrapper(requiredsigfigs,rawsans) := block([digits,Vali
     return([Validity, RawMark, AnswerNote, FeedBack])
 )$
 
-
+ATUnitsSigFigs_CASSigFigsWrapper(sans,tans,options,rawsans,strict) :=  block([tmp1, tmp2],
+    /* First check the figures */
+    tmp1: ATNumSigFigs_CASSigFigsWrapper(float(stack_units_nums(sans)),float(stack_units_nums(tans)),options,rawsans),
+    /* Then the units and value */
+    tmp2: ATUnitsFun(sans, tans, options, strict, "SigFigs"),
+    /* Merge*/
+    return([tmp1[1] and tmp2[1], tmp1[2] and tmp2[2], sconcat(tmp1[3],tmp2[3]), sconcat(tmp1[4],tmp2[4])])
+)$

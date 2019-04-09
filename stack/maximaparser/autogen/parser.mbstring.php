@@ -643,7 +643,7 @@ class MP_Parser {
 
     private function peg_parseRoot() {
 
-      $key    = $this->peg_currPos * 36 + 0;
+      $key    = $this->peg_currPos * 37 + 0;
           $cached = isset($this->peg_cache[$key]) ? $this->peg_cache[$key] : null;
 
       if ($cached) {
@@ -654,14 +654,14 @@ class MP_Parser {
       $s0 = $this->peg_currPos;
       $s1 = array();
       $s2 = $this->peg_currPos;
-      $s3 = $this->peg_parse_();
+      $s3 = $this->peg_parse__();
       if ($s3 === $this->peg_FAILED) {
         $s3 = null;
       }
       if ($s3 !== $this->peg_FAILED) {
         $s4 = $this->peg_parseLine();
         if ($s4 !== $this->peg_FAILED) {
-          $s5 = $this->peg_parse_();
+          $s5 = $this->peg_parse__();
           if ($s5 === $this->peg_FAILED) {
             $s5 = null;
           }
@@ -683,14 +683,14 @@ class MP_Parser {
       while ($s2 !== $this->peg_FAILED) {
         $s1[] = $s2;
         $s2 = $this->peg_currPos;
-        $s3 = $this->peg_parse_();
+        $s3 = $this->peg_parse__();
         if ($s3 === $this->peg_FAILED) {
           $s3 = null;
         }
         if ($s3 !== $this->peg_FAILED) {
           $s4 = $this->peg_parseLine();
           if ($s4 !== $this->peg_FAILED) {
-            $s5 = $this->peg_parse_();
+            $s5 = $this->peg_parse__();
             if ($s5 === $this->peg_FAILED) {
               $s5 = null;
             }
@@ -711,7 +711,7 @@ class MP_Parser {
         }
       }
       if ($s1 !== $this->peg_FAILED) {
-        $s2 = $this->peg_parse_();
+        $s2 = $this->peg_parse__();
         if ($s2 === $this->peg_FAILED) {
           $s2 = null;
         }
@@ -721,7 +721,7 @@ class MP_Parser {
             $s3 = null;
           }
           if ($s3 !== $this->peg_FAILED) {
-            $s4 = $this->peg_parse_();
+            $s4 = $this->peg_parse__();
             if ($s4 === $this->peg_FAILED) {
               $s4 = null;
             }
@@ -753,7 +753,7 @@ class MP_Parser {
 
     private function peg_parseLine() {
 
-      $key    = $this->peg_currPos * 36 + 1;
+      $key    = $this->peg_currPos * 37 + 1;
           $cached = isset($this->peg_cache[$key]) ? $this->peg_cache[$key] : null;
 
       if ($cached) {
@@ -762,7 +762,7 @@ class MP_Parser {
       }
 
       $s0 = $this->peg_currPos;
-      $s1 = $this->peg_parse_();
+      $s1 = $this->peg_parse__();
       if ($s1 === $this->peg_FAILED) {
         $s1 = null;
       }
@@ -814,7 +814,7 @@ class MP_Parser {
 
     private function peg_parseInteger() {
 
-      $key    = $this->peg_currPos * 36 + 2;
+      $key    = $this->peg_currPos * 37 + 2;
           $cached = isset($this->peg_cache[$key]) ? $this->peg_cache[$key] : null;
 
       if ($cached) {
@@ -870,7 +870,7 @@ class MP_Parser {
 
     private function peg_parseFloat() {
 
-      $key    = $this->peg_currPos * 36 + 3;
+      $key    = $this->peg_currPos * 37 + 3;
           $cached = isset($this->peg_cache[$key]) ? $this->peg_cache[$key] : null;
 
       if ($cached) {
@@ -1022,7 +1022,7 @@ class MP_Parser {
 
     private function peg_parseFloatExp() {
 
-      $key    = $this->peg_currPos * 36 + 4;
+      $key    = $this->peg_currPos * 37 + 4;
           $cached = isset($this->peg_cache[$key]) ? $this->peg_cache[$key] : null;
 
       if ($cached) {
@@ -1115,7 +1115,7 @@ class MP_Parser {
 
     private function peg_parseBoolean() {
 
-      $key    = $this->peg_currPos * 36 + 5;
+      $key    = $this->peg_currPos * 37 + 5;
           $cached = isset($this->peg_cache[$key]) ? $this->peg_cache[$key] : null;
 
       if ($cached) {
@@ -1183,7 +1183,7 @@ class MP_Parser {
 
     private function peg_parseString() {
 
-      $key    = $this->peg_currPos * 36 + 6;
+      $key    = $this->peg_currPos * 37 + 6;
           $cached = isset($this->peg_cache[$key]) ? $this->peg_cache[$key] : null;
 
       if ($cached) {
@@ -1250,7 +1250,7 @@ class MP_Parser {
 
     private function peg_parseStringChars() {
 
-      $key    = $this->peg_currPos * 36 + 7;
+      $key    = $this->peg_currPos * 37 + 7;
           $cached = isset($this->peg_cache[$key]) ? $this->peg_cache[$key] : null;
 
       if ($cached) {
@@ -1369,7 +1369,7 @@ class MP_Parser {
 
     private function peg_parseComment() {
 
-      $key    = $this->peg_currPos * 36 + 8;
+      $key    = $this->peg_currPos * 37 + 8;
           $cached = isset($this->peg_cache[$key]) ? $this->peg_cache[$key] : null;
 
       if ($cached) {
@@ -1434,7 +1434,7 @@ class MP_Parser {
 
     private function peg_parseCommentChars() {
 
-      $key    = $this->peg_currPos * 36 + 9;
+      $key    = $this->peg_currPos * 37 + 9;
           $cached = isset($this->peg_cache[$key]) ? $this->peg_cache[$key] : null;
 
       if ($cached) {
@@ -1525,7 +1525,7 @@ class MP_Parser {
 
     private function peg_parseAnnotation() {
 
-      $key    = $this->peg_currPos * 36 + 10;
+      $key    = $this->peg_currPos * 37 + 10;
           $cached = isset($this->peg_cache[$key]) ? $this->peg_cache[$key] : null;
 
       if ($cached) {
@@ -1718,7 +1718,7 @@ class MP_Parser {
 
     private function peg_parseIdentifier() {
 
-      $key    = $this->peg_currPos * 36 + 11;
+      $key    = $this->peg_currPos * 37 + 11;
           $cached = isset($this->peg_cache[$key]) ? $this->peg_cache[$key] : null;
 
       if ($cached) {
@@ -1763,7 +1763,7 @@ class MP_Parser {
 
     private function peg_parseIdentifierStart() {
 
-      $key    = $this->peg_currPos * 36 + 12;
+      $key    = $this->peg_currPos * 37 + 12;
           $cached = isset($this->peg_cache[$key]) ? $this->peg_cache[$key] : null;
 
       if ($cached) {
@@ -1813,7 +1813,7 @@ class MP_Parser {
 
     private function peg_parseIdentifierTail() {
 
-      $key    = $this->peg_currPos * 36 + 13;
+      $key    = $this->peg_currPos * 37 + 13;
           $cached = isset($this->peg_cache[$key]) ? $this->peg_cache[$key] : null;
 
       if ($cached) {
@@ -1841,7 +1841,7 @@ class MP_Parser {
 
     private function peg_parseEvaluationFlag() {
 
-      $key    = $this->peg_currPos * 36 + 14;
+      $key    = $this->peg_currPos * 37 + 14;
           $cached = isset($this->peg_cache[$key]) ? $this->peg_cache[$key] : null;
 
       if ($cached) {
@@ -1941,7 +1941,7 @@ class MP_Parser {
 
     private function peg_parseStatement() {
 
-      $key    = $this->peg_currPos * 36 + 15;
+      $key    = $this->peg_currPos * 37 + 15;
           $cached = isset($this->peg_cache[$key]) ? $this->peg_cache[$key] : null;
 
       if ($cached) {
@@ -1950,7 +1950,7 @@ class MP_Parser {
       }
 
       $s0 = $this->peg_currPos;
-      $s1 = $this->peg_parse_();
+      $s1 = $this->peg_parse__();
       if ($s1 === $this->peg_FAILED) {
         $s1 = null;
       }
@@ -1987,7 +1987,7 @@ class MP_Parser {
 
     private function peg_parseExpOp() {
 
-      $key    = $this->peg_currPos * 36 + 16;
+      $key    = $this->peg_currPos * 37 + 16;
           $cached = isset($this->peg_cache[$key]) ? $this->peg_cache[$key] : null;
 
       if ($cached) {
@@ -2007,7 +2007,7 @@ class MP_Parser {
 
     private function peg_parseExpression() {
 
-      $key    = $this->peg_currPos * 36 + 17;
+      $key    = $this->peg_currPos * 37 + 17;
           $cached = isset($this->peg_cache[$key]) ? $this->peg_cache[$key] : null;
 
       if ($cached) {
@@ -2048,7 +2048,7 @@ class MP_Parser {
 
     private function peg_parseFlow() {
 
-      $key    = $this->peg_currPos * 36 + 18;
+      $key    = $this->peg_currPos * 37 + 18;
           $cached = isset($this->peg_cache[$key]) ? $this->peg_cache[$key] : null;
 
       if ($cached) {
@@ -2068,7 +2068,7 @@ class MP_Parser {
 
     private function peg_parseIf() {
 
-      $key    = $this->peg_currPos * 36 + 19;
+      $key    = $this->peg_currPos * 37 + 19;
           $cached = isset($this->peg_cache[$key]) ? $this->peg_cache[$key] : null;
 
       if ($cached) {
@@ -2792,7 +2792,7 @@ class MP_Parser {
 
     private function peg_parseLoop() {
 
-      $key    = $this->peg_currPos * 36 + 20;
+      $key    = $this->peg_currPos * 37 + 20;
           $cached = isset($this->peg_cache[$key]) ? $this->peg_cache[$key] : null;
 
       if ($cached) {
@@ -2886,7 +2886,7 @@ class MP_Parser {
 
     private function peg_parseLoopBit() {
 
-      $key    = $this->peg_currPos * 36 + 21;
+      $key    = $this->peg_currPos * 37 + 21;
           $cached = isset($this->peg_cache[$key]) ? $this->peg_cache[$key] : null;
 
       if ($cached) {
@@ -3176,7 +3176,7 @@ class MP_Parser {
 
     private function peg_parsePrefixOp() {
 
-      $key    = $this->peg_currPos * 36 + 22;
+      $key    = $this->peg_currPos * 37 + 22;
           $cached = isset($this->peg_cache[$key]) ? $this->peg_cache[$key] : null;
 
       if ($cached) {
@@ -3278,7 +3278,7 @@ class MP_Parser {
 
     private function peg_parsePostfixOp() {
 
-      $key    = $this->peg_currPos * 36 + 23;
+      $key    = $this->peg_currPos * 37 + 23;
           $cached = isset($this->peg_cache[$key]) ? $this->peg_cache[$key] : null;
 
       if ($cached) {
@@ -3314,7 +3314,7 @@ class MP_Parser {
 
     private function peg_parseInfixOp() {
 
-      $key    = $this->peg_currPos * 36 + 24;
+      $key    = $this->peg_currPos * 37 + 24;
           $cached = isset($this->peg_cache[$key]) ? $this->peg_cache[$key] : null;
 
       if ($cached) {
@@ -3570,7 +3570,7 @@ class MP_Parser {
 
     private function peg_parseUnaryOp() {
 
-      $key    = $this->peg_currPos * 36 + 25;
+      $key    = $this->peg_currPos * 37 + 25;
           $cached = isset($this->peg_cache[$key]) ? $this->peg_cache[$key] : null;
 
       if ($cached) {
@@ -3722,7 +3722,7 @@ class MP_Parser {
 
     private function peg_parseOperation() {
 
-      $key    = $this->peg_currPos * 36 + 26;
+      $key    = $this->peg_currPos * 37 + 26;
           $cached = isset($this->peg_cache[$key]) ? $this->peg_cache[$key] : null;
 
       if ($cached) {
@@ -3787,7 +3787,7 @@ class MP_Parser {
 
     private function peg_parseDotOp() {
 
-      $key    = $this->peg_currPos * 36 + 27;
+      $key    = $this->peg_currPos * 37 + 27;
           $cached = isset($this->peg_cache[$key]) ? $this->peg_cache[$key] : null;
 
       if ($cached) {
@@ -3851,7 +3851,7 @@ class MP_Parser {
 
     private function peg_parseGroup() {
 
-      $key    = $this->peg_currPos * 36 + 28;
+      $key    = $this->peg_currPos * 37 + 28;
           $cached = isset($this->peg_cache[$key]) ? $this->peg_cache[$key] : null;
 
       if ($cached) {
@@ -4057,7 +4057,7 @@ class MP_Parser {
 
     private function peg_parseFunctionCall() {
 
-      $key    = $this->peg_currPos * 36 + 29;
+      $key    = $this->peg_currPos * 37 + 29;
           $cached = isset($this->peg_cache[$key]) ? $this->peg_cache[$key] : null;
 
       if ($cached) {
@@ -4318,7 +4318,7 @@ class MP_Parser {
 
     private function peg_parseIndexing() {
 
-      $key    = $this->peg_currPos * 36 + 30;
+      $key    = $this->peg_currPos * 37 + 30;
           $cached = isset($this->peg_cache[$key]) ? $this->peg_cache[$key] : null;
 
       if ($cached) {
@@ -4399,7 +4399,7 @@ class MP_Parser {
 
     private function peg_parseList() {
 
-      $key    = $this->peg_currPos * 36 + 31;
+      $key    = $this->peg_currPos * 37 + 31;
           $cached = isset($this->peg_cache[$key]) ? $this->peg_cache[$key] : null;
 
       if ($cached) {
@@ -4605,7 +4605,7 @@ class MP_Parser {
 
     private function peg_parseSet() {
 
-      $key    = $this->peg_currPos * 36 + 32;
+      $key    = $this->peg_currPos * 37 + 32;
           $cached = isset($this->peg_cache[$key]) ? $this->peg_cache[$key] : null;
 
       if ($cached) {
@@ -4811,7 +4811,7 @@ class MP_Parser {
 
     private function peg_parseLiteral() {
 
-      $key    = $this->peg_currPos * 36 + 33;
+      $key    = $this->peg_currPos * 37 + 33;
           $cached = isset($this->peg_cache[$key]) ? $this->peg_cache[$key] : null;
 
       if ($cached) {
@@ -4837,7 +4837,174 @@ class MP_Parser {
 
     private function peg_parse_() {
 
-      $key    = $this->peg_currPos * 36 + 34;
+      $key    = $this->peg_currPos * 37 + 34;
+          $cached = isset($this->peg_cache[$key]) ? $this->peg_cache[$key] : null;
+
+      if ($cached) {
+        $this->peg_currPos = $cached["nextPos"];
+        return $cached["result"];
+      }
+
+      $this->peg_silentFails++;
+      $s0 = $this->peg_currPos;
+      $s1 = array();
+      if (peg_regex_test($this->peg_c151, $this->input_substr($this->peg_currPos, 1))) {
+        $s2 = $this->input_substr($this->peg_currPos, 1);
+        $this->peg_currPos++;
+      } else {
+        $s2 = $this->peg_FAILED;
+        if ($this->peg_silentFails === 0) {
+            $this->peg_fail($this->peg_c152);
+        }
+      }
+      while ($s2 !== $this->peg_FAILED) {
+        $s1[] = $s2;
+        if (peg_regex_test($this->peg_c151, $this->input_substr($this->peg_currPos, 1))) {
+          $s2 = $this->input_substr($this->peg_currPos, 1);
+          $this->peg_currPos++;
+        } else {
+          $s2 = $this->peg_FAILED;
+          if ($this->peg_silentFails === 0) {
+              $this->peg_fail($this->peg_c152);
+          }
+        }
+      }
+      if ($s1 !== $this->peg_FAILED) {
+        $s2 = array();
+        $s3 = $this->peg_currPos;
+        $s4 = $this->peg_parseComment();
+        if ($s4 !== $this->peg_FAILED) {
+          $s5 = array();
+          if (peg_regex_test($this->peg_c151, $this->input_substr($this->peg_currPos, 1))) {
+            $s6 = $this->input_substr($this->peg_currPos, 1);
+            $this->peg_currPos++;
+          } else {
+            $s6 = $this->peg_FAILED;
+            if ($this->peg_silentFails === 0) {
+                $this->peg_fail($this->peg_c152);
+            }
+          }
+          while ($s6 !== $this->peg_FAILED) {
+            $s5[] = $s6;
+            if (peg_regex_test($this->peg_c151, $this->input_substr($this->peg_currPos, 1))) {
+              $s6 = $this->input_substr($this->peg_currPos, 1);
+              $this->peg_currPos++;
+            } else {
+              $s6 = $this->peg_FAILED;
+              if ($this->peg_silentFails === 0) {
+                  $this->peg_fail($this->peg_c152);
+              }
+            }
+          }
+          if ($s5 !== $this->peg_FAILED) {
+            $s4 = array($s4, $s5);
+            $s3 = $s4;
+          } else {
+            $this->peg_currPos = $s3;
+            $s3 = $this->peg_FAILED;
+          }
+        } else {
+          $this->peg_currPos = $s3;
+          $s3 = $this->peg_FAILED;
+        }
+        if ($s3 !== $this->peg_FAILED) {
+          while ($s3 !== $this->peg_FAILED) {
+            $s2[] = $s3;
+            $s3 = $this->peg_currPos;
+            $s4 = $this->peg_parseComment();
+            if ($s4 !== $this->peg_FAILED) {
+              $s5 = array();
+              if (peg_regex_test($this->peg_c151, $this->input_substr($this->peg_currPos, 1))) {
+                $s6 = $this->input_substr($this->peg_currPos, 1);
+                $this->peg_currPos++;
+              } else {
+                $s6 = $this->peg_FAILED;
+                if ($this->peg_silentFails === 0) {
+                    $this->peg_fail($this->peg_c152);
+                }
+              }
+              while ($s6 !== $this->peg_FAILED) {
+                $s5[] = $s6;
+                if (peg_regex_test($this->peg_c151, $this->input_substr($this->peg_currPos, 1))) {
+                  $s6 = $this->input_substr($this->peg_currPos, 1);
+                  $this->peg_currPos++;
+                } else {
+                  $s6 = $this->peg_FAILED;
+                  if ($this->peg_silentFails === 0) {
+                      $this->peg_fail($this->peg_c152);
+                  }
+                }
+              }
+              if ($s5 !== $this->peg_FAILED) {
+                $s4 = array($s4, $s5);
+                $s3 = $s4;
+              } else {
+                $this->peg_currPos = $s3;
+                $s3 = $this->peg_FAILED;
+              }
+            } else {
+              $this->peg_currPos = $s3;
+              $s3 = $this->peg_FAILED;
+            }
+          }
+        } else {
+          $s2 = $this->peg_FAILED;
+        }
+        if ($s2 !== $this->peg_FAILED) {
+          $s1 = array($s1, $s2);
+          $s0 = $s1;
+        } else {
+          $this->peg_currPos = $s0;
+          $s0 = $this->peg_FAILED;
+        }
+      } else {
+        $this->peg_currPos = $s0;
+        $s0 = $this->peg_FAILED;
+      }
+      if ($s0 === $this->peg_FAILED) {
+        $s0 = array();
+        if (peg_regex_test($this->peg_c151, $this->input_substr($this->peg_currPos, 1))) {
+          $s1 = $this->input_substr($this->peg_currPos, 1);
+          $this->peg_currPos++;
+        } else {
+          $s1 = $this->peg_FAILED;
+          if ($this->peg_silentFails === 0) {
+              $this->peg_fail($this->peg_c152);
+          }
+        }
+        if ($s1 !== $this->peg_FAILED) {
+          while ($s1 !== $this->peg_FAILED) {
+            $s0[] = $s1;
+            if (peg_regex_test($this->peg_c151, $this->input_substr($this->peg_currPos, 1))) {
+              $s1 = $this->input_substr($this->peg_currPos, 1);
+              $this->peg_currPos++;
+            } else {
+              $s1 = $this->peg_FAILED;
+              if ($this->peg_silentFails === 0) {
+                  $this->peg_fail($this->peg_c152);
+              }
+            }
+          }
+        } else {
+          $s0 = $this->peg_FAILED;
+        }
+      }
+      $this->peg_silentFails--;
+      if ($s0 === $this->peg_FAILED) {
+        $s1 = $this->peg_FAILED;
+        if ($this->peg_silentFails === 0) {
+            $this->peg_fail($this->peg_c150);
+        }
+      }
+
+      $this->peg_cache[$key] = array ("nextPos" => $this->peg_currPos, "result" => $s0 );
+
+      return $s0;
+    }
+
+    private function peg_parse__() {
+
+      $key    = $this->peg_currPos * 37 + 35;
           $cached = isset($this->peg_cache[$key]) ? $this->peg_cache[$key] : null;
 
       if ($cached) {
@@ -4887,7 +5054,7 @@ class MP_Parser {
 
     private function peg_parseULetter() {
 
-      $key    = $this->peg_currPos * 36 + 35;
+      $key    = $this->peg_currPos * 37 + 36;
           $cached = isset($this->peg_cache[$key]) ? $this->peg_cache[$key] : null;
 
       if ($cached) {

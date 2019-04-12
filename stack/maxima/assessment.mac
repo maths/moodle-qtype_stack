@@ -1114,8 +1114,10 @@ noun_logic_remove(ex) := block([rex],
 /*  Define noun versions of other functions                     */
 /****************************************************************/
 
-nounint([ex]):=apply(nounify(integrate), ex)$
-noundiff([ex]):=apply(nounify(diff), ex)$
+/* Maxima does not require more than one argument to diff, e.g. diff(sin(x)) is ok in maxima.
+   But, for student input we should require the variable! */
+nounint([ex]):= if ev(is(length(ex)>1),simp) then apply(nounify(integrate), ex) else error("int must have at least two arguments.")$
+noundiff([ex]):= if ev(is(length(ex)>1),simp) then apply(nounify(diff), ex) else error("diff must have at least two arguments.")$
 nounlimit([ex]):=apply(nounify(limit), ex)$
 
 /* ********************************** */

@@ -1,0 +1,66 @@
+
+/* Maxima error log from tests in /home/parryadmin/ownCloud/development/NetbeansProjects/moodle/question/type/stack/stack/maxima/rtest_inequalities.mac */
+
+/* Problem 41 */
+ineq_rem_redundant(x > 6 or 6 <= x);
+/* Erroneous Result?:
+x > 6 or 6 <= x */ 
+/* Expected result: */
+x >= 6;
+
+/* Problem 42 */
+ineq_rem_redundant(x > 6 or 1 <= x);
+/* Erroneous Result?:
+x > 6 or 1 <= x */ 
+/* Expected result: */
+x >= 1;
+
+/* Problem 43 */
+ineq_rem_redundant(x < 2 or 2 >= x);
+/* Erroneous Result?:
+x < 2 or 2 >= x */ 
+/* Expected result: */
+2 >= x;
+
+/* Problem 44 */
+ineq_rem_redundant((x > 6 or x > 1) and x >= 4);
+/* Erroneous Result?:
+(x > 6 or x > 1) and x >= 4 */ 
+/* Expected result: */
+x >= 4;
+
+/* Problem 54 */
+ineq_rem_redundant((x > 1) %or (x = 1));
+/* Erroneous Result?:
+(x = 1) %or (x > 1) */ 
+/* Expected result: */
+x >= 1;
+
+/* Problem 55 */
+ineq_rem_redundant((x > 1) %and (x = 1));
+/* Erroneous Result?:
+(x = 1) %and (x > 1) */ 
+/* Expected result: */
+false;
+
+/* Problem 57 */
+ineq_rem_redundant((x > 1) %or (x = 3));
+/* Erroneous Result?:
+(x > 1) %or (x = 3) */ 
+/* Expected result: */
+x > 1;
+
+/* Problem 63 */
+inequality_factor_solve(x^2+x > 1);
+/* Erroneous Result?:
+(-(sqrt(5)+1)/2 > x) %or (x > (sqrt(5)-1)/2) */ 
+/* Expected result: */
+((-(sqrt(5)+1))/2 > x) %or (x > (sqrt(5)-1)/2);
+
+/* Problem 64 */
+inequality_factor_solve(x^2+x < 1);
+/* Erroneous Result?:
+(((sqrt(5)-1)/2 > x) %and (x > -(sqrt(5)+1)/2)) %or ((-(sqrt(5)+1)/2 > x) %and (x > (sqrt(5)-1)/2)) */ 
+/* Expected result: */
+((sqrt(5)-1)/2 > x) %and (x > (-(sqrt(5)+1))/2);
+

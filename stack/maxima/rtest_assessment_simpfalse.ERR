@@ -1,0 +1,31 @@
+
+/* Maxima error log from tests in /home/parryadmin/ownCloud/development/NetbeansProjects/moodle/question/type/stack/stack/maxima/rtest_assessment_simpfalse.mac */
+
+/* Problem 22 */
+commonfaclist([x^2-1,x^3-1]);
+/* Erroneous Result?:
+x-1 */ 
+/* Expected result: */
+x-1;
+
+/* Problem 43 */
+list_expression_numbers(0.3*x+1/2);
+/* Erroneous Result?:
+[0.3,1/2] */ 
+/* Expected result: */
+[1/2,0.3];
+
+/* Problem 50 */
+buggy_pow(3*(x+1)^-1);
+/* Erroneous Result?:
+3*(x^-1+1^-1) */ 
+/* Expected result: */
+3*(1/x+1/1);
+
+/* Problem 51 */
+buggy_pow(3*(x+1)^-2);
+/* Erroneous Result?:
+3*(x^-2+1^-2) */ 
+/* Expected result: */
+3*(1/x^2+1/1^2);
+

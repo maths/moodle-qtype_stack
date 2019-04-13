@@ -1,0 +1,213 @@
+
+/* Maxima error log from tests in /home/parryadmin/ownCloud/development/NetbeansProjects/moodle/question/type/stack/stack/maxima/rtest_assessment_simpboth.mac */
+
+/* Problem 15 */
+coeff_list(x^2-3*x+5,x);
+/* Erroneous Result?:
+[5,-3,1] */ 
+/* Expected result: */
+[5,-3,1];
+
+/* Problem 19 */
+decimalplaces(-1.1292,2);
+/* Erroneous Result?:
+-1.13 */ 
+/* Expected result: */
+-1.13;
+
+/* Problem 27 */
+scientific_notation(1.123);
+/* Erroneous Result?:
+1.123*10^0 */ 
+/* Expected result: */
+1.123;
+
+/* Problem 28 */
+scientific_notation(1123);
+/* Erroneous Result?:
+1.123*10^3 */ 
+/* Expected result: */
+1123.0;
+
+/* Problem 29 */
+significantfigures(-0.99,1);
+/* Erroneous Result?:
+-1 */ 
+/* Expected result: */
+-1;
+
+/* Problem 36 */
+expandp((p-1)*(1+p)),p = [[],[1,2]];
+/* Erroneous Result?:
+true */ 
+/* Expected result: */
+false;
+
+/* Problem 37 */
+expandp(2*(p-1)),p = [[],[1,2]];
+/* Erroneous Result?:
+true */ 
+/* Expected result: */
+false;
+
+/* Problem 39 */
+ineqprepare(x > 1);
+/* Erroneous Result?:
+x-1 > 0 */ 
+/* Expected result: */
+x-1 > 0;
+
+/* Problem 40 */
+ineqprepare(3*x <= 7-x);
+/* Erroneous Result?:
+7/4-x >= 0 */ 
+/* Expected result: */
+7-4*x >= 0;
+
+/* Problem 59 */
+irred_Q(2*x-2,x);
+/* Erroneous Result?:
+[false,"stack_trans('irred_Q_commonint'); !NEWLINE!",true] */ 
+/* Expected result: */
+[false,"stack_trans('irred_Q_commonint'); ",true];
+
+/* Problem 62 */
+irred_Q(4*x^2,x);
+/* Erroneous Result?:
+[true,"stack_trans('irred_Q_optional_fac' , !quot!\\(4\\,x^2\\)!quot! ); !NEWLINE!",false] */ 
+/* Expected result: */
+[true,"stack_trans('irred_Q_optional_fac' , !quot!\\(4\\,x^2\\)!quot! ); ",false];
+
+/* Problem 72 */
+irred_Q(3*x-6*x^3+3*x^6,x);
+/* Erroneous Result?:
+[false,"stack_trans('irred_Q_commonint'); !NEWLINE!",false] */ 
+/* Expected result: */
+[false,"stack_trans('irred_Q_commonint'); ",false];
+
+/* Problem 73 */
+irred_Q(9-3*x+3*x^5,x);
+/* Erroneous Result?:
+[false,"stack_trans('irred_Q_commonint'); !NEWLINE!",true] */ 
+/* Expected result: */
+[false,"stack_trans('irred_Q_commonint'); ",true];
+
+/* Problem 91 */
+diffp(x^2*sin(1/x),x,0);
+/* Erroneous Result?:
+true */ 
+/* Expected result: */
+false;
+
+/* Problem 101 */
+subst_int_const((c*x^4)/4+(c^2*x)/2+c*x = %c9*c+%c10,[v]);
+/* Erroneous Result?:
+(c*x^4)/4+(c^2*x)/2+c*x = v*c+%c10 */ 
+/* Expected result: */
+(c*x^4)/4+(c^2*x)/2+c*x = %c9*c+v;
+
+/* Problem 102 */
+subst_int_const((c*x^4)/4+(c^2*x)/2+c*x = %c9*c+%c10,[k1,k2]);
+/* Erroneous Result?:
+(c*x^4)/4+(c^2*x)/2+c*x = k1*c+k2 */ 
+/* Expected result: */
+(c*x^4)/4+(c^2*x)/2+c*x = k1+c*k2;
+
+/* Problem 103 */
+subst_int_const((c*x^4)/4+(c^2*x)/2+c*x = %c9*c+%c10,[k1,k2,k3]);
+/* Erroneous Result?:
+(c*x^4)/4+(c^2*x)/2+c*x = k1*c+k2 */ 
+/* Expected result: */
+(c*x^4)/4+(c^2*x)/2+c*x = k1+c*k2;
+
+/* Problem 123 */
+StackDISP(asin(x),"");
+/* Erroneous Result?:
+"{\\rm asin}\\left( x \\right)" */ 
+/* Expected result: */
+"\\sin^{-1} \\left( x \\right)";
+
+/* Problem 146 */
+StackDISP(ab0,"i");
+/* Erroneous Result?:
+"\\({\\it ab}_{0}\\)" */ 
+/* Expected result: */
+"\\({{\\it ab}}_{0}\\)";
+
+/* Problem 147 */
+StackDISP(epsilon0345,"i");
+/* Erroneous Result?:
+"\\(\\varepsilon_{345}\\)" */ 
+/* Expected result: */
+"\\({\\varepsilon}_{0345}\\)";
+
+/* Problem 148 */
+StackDISP(a+1/pi3,"i");
+/* Erroneous Result?:
+"\\(a+\\frac{1}{\\pi_{3}}\\)" */ 
+/* Expected result: */
+"\\(a+\\frac{1}{{\\pi}_{3}}\\)";
+
+/* Problem 149 */
+StackDISP(gamma7^3,"i");
+/* Erroneous Result?:
+"\\(\\gamma_{7}^3\\)" */ 
+/* Expected result: */
+"\\({\\gamma}_{7}^3\\)";
+
+/* Problem 150 */
+StackDISP(gamma7^(2*x),"i");
+/* Erroneous Result?:
+"\\(\\gamma_{7}^{2\\,x}\\)" */ 
+/* Expected result: */
+"\\({\\gamma}_{7}^{2\\,x}\\)";
+
+/* Problem 153 */
+stack_unit_si_to_si_base(25*kg);
+/* Erroneous Result?:
+error\-catch */ 
+/* Expected result: */
+25*kg;
+
+/* Problem 154 */
+stack_unit_si_to_si_base(kg);
+/* Erroneous Result?:
+error\-catch */ 
+/* Expected result: */
+kg;
+
+/* Problem 155 */
+stack_unit_si_to_si_base(5*g);
+/* Erroneous Result?:
+error\-catch */ 
+/* Expected result: */
+(1/200)*kg;
+
+/* Problem 157 */
+stack_unit_si_to_si_base(stackunits(25,kg));
+/* Erroneous Result?:
+error\-catch */ 
+/* Expected result: */
+stackunits(25,kg);
+
+/* Problem 158 */
+stack_unit_si_to_si_base(stackunits(NULLNUMS,kg));
+/* Erroneous Result?:
+error\-catch */ 
+/* Expected result: */
+stackunits(NULLNUMS,kg);
+
+/* Problem 159 */
+stack_unit_si_to_si_base(stackunits(NULLNUM,g));
+/* Erroneous Result?:
+error\-catch */ 
+/* Expected result: */
+stackunits(1/1000,kg);
+
+/* Problem 160 */
+stack_unit_si_to_si_base(stackunits(5,g));
+/* Erroneous Result?:
+error\-catch */ 
+/* Expected result: */
+stackunits(1/200,kg);
+

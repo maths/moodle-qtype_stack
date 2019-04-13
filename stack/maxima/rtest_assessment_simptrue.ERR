@@ -1,0 +1,80 @@
+
+/* Maxima error log from tests in /home/parryadmin/ownCloud/development/NetbeansProjects/moodle/question/type/stack/stack/maxima/rtest_assessment_simptrue.mac */
+
+/* Problem 16 */
+stack_unit_si_to_si_base(stackunits(10,km));
+/* Erroneous Result?:
+error\-catch */ 
+/* Expected result: */
+stackunits(10000,m);
+
+/* Problem 17 */
+stack_unit_si_to_si_base(10*km);
+/* Erroneous Result?:
+error\-catch */ 
+/* Expected result: */
+10000*m;
+
+/* Problem 18 */
+stack_unit_si_present((10*m)/s,km/h);
+/* Erroneous Result?:
+error\-catch */ 
+/* Expected result: */
+stackunits(36,km/h);
+
+/* Problem 19 */
+stack_unit_si_present((5.0*N)/m^2,Pa);
+/* Erroneous Result?:
+error\-catch */ 
+/* Expected result: */
+stackunits(5.0,Pa);
+
+/* Problem 20 */
+stack_unit_si_present((5.0*N)/m^2,[Pa,kPa,cPa]);
+/* Erroneous Result?:
+error\-catch */ 
+/* Expected result: */
+stackunits(5.0,Pa);
+
+/* Problem 21 */
+stack_unit_si_present((500.0*N)/m^2,[Pa,kPa,cPa]);
+/* Erroneous Result?:
+error\-catch */ 
+/* Expected result: */
+stackunits(0.5,kPa);
+
+/* Problem 22 */
+stack_unit_si_present((100.0*N)/m^2,[Pa,kPa,cPa]);
+/* Erroneous Result?:
+error\-catch */ 
+/* Expected result: */
+stackunits(100.0,Pa);
+
+/* Problem 23 */
+stack_unit_si_present((0.0*N)/m^2,[Pa,kPa,cPa]);
+/* Erroneous Result?:
+error\-catch */ 
+/* Expected result: */
+stackunits(0.0,Pa);
+
+/* Problem 24 */
+stack_unit_si_present((0*N)/m^2,[Pa,kPa,cPa]);
+/* Erroneous Result?:
+error\-catch */ 
+/* Expected result: */
+stackunits(0,Pa);
+
+/* Problem 25 */
+stack_unit_si_present(stackunits(345.023,m/s),[km/s,km/h]);
+/* Erroneous Result?:
+error\-catch */ 
+/* Expected result: */
+stackunits(0.345023,km/s);
+
+/* Problem 26 */
+stack_unit_si_present(stackunits(0.023,m/s),[km/s,km/h]);
+/* Erroneous Result?:
+error\-catch */ 
+/* Expected result: */
+stackunits(0.0828,km/h);
+

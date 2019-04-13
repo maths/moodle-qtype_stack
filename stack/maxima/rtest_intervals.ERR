@@ -1,0 +1,10 @@
+
+/* Maxima error log from tests in /home/parryadmin/ownCloud/development/NetbeansProjects/moodle/question/type/stack/stack/maxima/rtest_intervals.mac */
+
+/* Problem 20 */
+single_variable_solver_real((2*x)/abs(x-1) < 1);
+/* Erroneous Result?:
+1-(2*x)/abs(x-1) > 0 */ 
+/* Expected result: */
+(1-(2*x)/(x-1) > 0) %or ((2*x)/(x-1)+1 > 0);
+

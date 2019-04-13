@@ -50,12 +50,19 @@ class stack_basen_options {
     const BASENMODE_CHOICE = 64;        // Combined with B,C or S mode, this allows the student to choose
                                         // the radix they use themselves; they must enter the number in
                                         // correct format for that base.
+    const BASENMODE_RIGHT_PAD = 128;    // Combined with D,M or G mode, the number reads as if padded from the right with
+                                        // zeroes, i.e. the most significant digit is fixed as maximum value. Useful
+                                        // for processing fixed point numbers.
+    
     const BASENMODE_MAP = [
         "D" => self::BASENMODE_COMPATIBLE,
+        "D<" => self::BASENMODE_COMPATIBLE | self::BASENMODE_RIGHT_PAD,
         "" => self::BASENMODE_COMPATIBLE,
         Null => self::BASENMODE_COMPATIBLE,
         "M" => self::BASENMODE_ZERO_PREFIX,
+        "M<" => self::BASENMODE_ZERO_PREFIX | self::BASENMODE_RIGHT_PAD,
         "G" => self::BASENMODE_GREEDY,
+        "G<" => self::BASENMODE_GREEDY | self::BASENMODE_RIGHT_PAD,
         "C" => self::BASENMODE_C,
         "C*" => self::BASENMODE_C | self::BASENMODE_CHOICE,
         "B" => self::BASENMODE_BASIC,
@@ -112,6 +119,10 @@ class stack_basen_options {
         return ((($this->get_mode()) & self::BASENMODE_CHOICE) != 0);
     }
 
+    public function get_rightpad() {
+        return ((($this->get_mode()) & self::BASENMODE_RIGHT_PAD) != 0);
+    }
+
     private static function digit_range_pattern($radix, $underscoresAllowed) {
         $r = $radix - 1;
         if ($radix <= 10) {
@@ -160,7 +171,8 @@ class stack_basen_options {
 
     private function full_number_pattern(bool $tail) {
         $choice = $this->get_choice();
-        $mode = ($this->get_mode()) & ~self::BASENMODE_CHOICE;
+        $rightpad = $this->get_rightpad();
+        $mode = ($this->get_mode()) & ~(self::BASENMODE_CHOICE | self::BASENMODE_RIGHT_PAD);
         $radix = $this->get_radix();
         if ($mode == self::BASENMODE_COMPATIBLE) {
             $pattern = self::digit_pattern(min($radix, 10), false) . self::digit_pattern($radix, true) . "*";

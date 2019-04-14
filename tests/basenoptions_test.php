@@ -34,11 +34,11 @@ require_once(__DIR__ . '/../stack/basenoptions.class.php');
 class stack_basen_options_test extends qtype_stack_testcase {
 
     public function test() {
-        $bno1 = new stack_basen_options(2, self::BASENMODE_SUFFIX);
-        $bno2 = new stack_basen_options(16, self::BASENMODE_SUFFIX | self::BASENMODE_CHOICE);
-        $bno3 = new stack_basen_options(16, self::BASENMODE_GREEDY);
-        $bno4 = new stack_basen_options(16, self::BASENMODE_C | self::BASENMODE_CHOICE);
-        $bno5 = new stack_basen_options(16, self::BASENMODE_ZERO_PREFIX);
+        $bno1 = new stack_basen_options(2, stack_basen_options::BASENMODE_SUFFIX);
+        $bno2 = new stack_basen_options(16, stack_basen_options::BASENMODE_SUFFIX | self::BASENMODE_CHOICE);
+        $bno3 = new stack_basen_options(16, stack_basen_options::BASENMODE_GREEDY);
+        $bno4 = new stack_basen_options(16, stack_basen_options::BASENMODE_C | self::BASENMODE_CHOICE);
+        $bno5 = new stack_basen_options(16, stack_basen_options::BASENMODE_ZERO_PREFIX);
         $this->assertTrue($bno1->inject_temp_escapes("xxxx01010101_2xxxxx") == 'xxxx![!"01010101_2"!]!xxxxx');
         $this->assertTrue($bno2->inject_temp_escapes("xxxxABCDEF_16xxxxx") == 'xxxx![!"ABCDEF_16"!]!xxxxx');
         $this->assertTrue($bno3->inject_temp_escapes("xxxxABCDEFxxxxx") == 'xxxx![!"ABCDEF"!]!xxxxx');

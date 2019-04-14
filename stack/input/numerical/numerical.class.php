@@ -48,7 +48,7 @@ class stack_numerical_input extends stack_input {
     );
 
     public function adapt_to_model_answer($teacheranswer) {
-        adapt_to_basen($teacheranswer);
+        $this->adapt_to_basen($teacheranswer);
     }
 
     public function render(stack_input_state $state, $fieldname, $readonly, $tavalue) {

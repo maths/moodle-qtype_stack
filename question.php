@@ -375,7 +375,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         $hinttext = new stack_cas_text($hint->hint, $this->session, $this->seed, 't', false, 1);
 
         if ($hinttext->get_errors()) {
-            $this->runtimeerrors[$gftext->get_errors()] = true;
+            $this->runtimeerrors[$hinttext->get_errors()] = true;
         }
 
         return $hinttext;
@@ -1003,7 +1003,8 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         // Things no longer allowed in questions.
         $patterns = array(
              array('pat' => 'addrow', 'ver' => 2018060601, 'alt' => 'rowadd'),
-             array('pat' => 'texdecorate', 'ver' => 2018080600)
+             array('pat' => 'texdecorate', 'ver' => 2018080600),
+             array('pat' => 'logbase', 'ver' => 2019031300, 'alt' => 'lg')
         );
         foreach ($patterns as $checkpat) {
             if ($stackversion < $checkpat['ver']) {

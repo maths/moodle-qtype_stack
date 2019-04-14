@@ -20,7 +20,7 @@
 /* ********************************** */
 
 stack_reset(not_used) := block(
-  if featurep(all,constant) then remove(all, constant),
+  if featurep(all, constant) then remove(all, constant),
   kill(allbut [functions]),
   kill(trigsimp),
   /* Very unlikley the function psi will be needed for assessment and it breaks the session
@@ -35,6 +35,8 @@ stack_reset(not_used) := block(
   exptdispflag: true,
   linsolvewarn: false,
   ratprint: false,
+  /* Suppress warnings printed by mtell, e.g. by solve, rat and other functions. */
+  stack_mtell_quiet:false,
   fpprintprec: 12,     /* Print only 12 digits. */
   fpprec: 20,          /* Work with 20 digits. */
   %E_TO_NUMLOG: true,  /* "r" some rational number, and "x" some expression, %E^(r*LOG(x)) => x^r .*/
@@ -76,12 +78,12 @@ alias(cosec,csc);            /* Corresponds to current student expectations */
 simplify(ex) := ev(fullratsimp(ex), simp);      /* Allows simplify to be something. */
 degree(ex,v) := ev(hipow(expand(ex), v), simp); /* See notes on hipow.              */
 
-
 /* ********************************** */
 /* Load contributed packages          */
 /* ********************************** */
 
-load ("functs");
+load("functs");
+/* Not yet testsed: load("vect"); */
 
 /* We don't want to allow people to put boxes round things. */
 box(ex) := ex;
@@ -122,6 +124,9 @@ if is(MAXIMA_VERSION_NUM<40.1) then load("stacktex40.lisp");
 load("utils.mac");
 load("basen.lisp");
 load("basenfuncs.mac");
+
+/* Breaks on older versions of Maxima. */
+if is(MAXIMA_VERSION_NUM>30.0) then compile(scientific_notation)$
 
 texput(QMCHAR, "\\color{red}{?}");
 texput(theta, "\\theta");
@@ -447,8 +452,12 @@ stack_disp_strip_dollars(ex) := block(
 stackintfmt: "~d";
 stackfltfmt: "~a";
 ?texnumformat(x) := if ev(floatnump(x),simp) then
-    ev(printf(false, stackfltfmt, x), simp) else if ev(integerp(x),simp) then
-    ev(printf(false, stackintfmt, x), simp) else
+    ev(printf(false, stackfltfmt, x), simp) else if ev(integerp(x),simp) then (
+        if (is(stackintfmt="~r") or is(stackintfmt="~:r")) then
+            sconcat("\\mbox{",ev(printf(false, stackintfmt, x), simp),"}")
+        else
+            ev(printf(false, stackintfmt, x), simp)
+    ) else
     string(x);
 /* Some systems are throwing an error here, which is spurious. */
 errcatch(compile(?texnumformat));
@@ -476,6 +485,18 @@ stack_disp_sub_script(ex) := block([s],
 stack_disp_sub_script_helper(l) := block(
   if length(l) = 1 then return(first(l)),
   texsub(stack_disp_sub_script_helper(reverse(rest(reverse(l)))), first(reverse(l)))
+)$
+
+/* This function turns a list into a string representation of its arguments, without braces.
+   stackcommaseparate([a,b,pi]);
+   "a, b, pi"
+   Not the TeX version, "a, b, \pi".
+
+   Useful for passing values to Javascript, R and so on, or generating data for students. 
+*/
+stack_disp_comma_separate(ex):= block(
+  if not(listp(ex)) then error("stack_disp_comma_separate: expects its argument to be a list"),
+  return(simplode(maplist(string, ex), ", "))
 )$
 
 /* ********************************** */
@@ -700,6 +721,13 @@ StackReturn(ex) := block([str],
 /* Validate an expression                      */
 /* ******************************************* */
 
+/* List of variables, without some specific tokens in. */
+stack_validate_listofvars(ex) := block([lvars],
+   lvars:ev(setify(listofvars(ex)), simp),
+   lvars:ev(setdifference(lvars,{null, QMCHAR, EMPTYANSWER}), simp),
+   lvars:ev(sort(listify(lvars)), simp)
+)$
+
 stack_validate(expr, ForbidFloats, LowestTerms, TAns) := block([simp:false, exs, SameType, fvs, fvs1, fvs2],
   /* Try to simply the expression to catch CAS errors */
   exs: errcatch(ev(expr, simp)),
@@ -835,7 +863,8 @@ set_plot_option([adapt_depth, 10]);
 set_plot_option([gnuplot_default_term_command, ""]);
 
 plot(ex, [ra]) :=  /*stack_web_plot*/
-    block([simp:true, tfn, tfnp1, tfnp2, tfnp3, afn, ufn, lvs, preamble, sysp, sysr, filename, tn, alt, altc, alttext, ral, ralforbid, pltargs, plotfunmake, plotdebug, plotgrid2d, size, psize, plot_size, plot_tags],
+    block([simp:true, tfn, tfnp1, tfnp2, tfnp3, afn, ufn, lvs, preamble, sysp, sysr, filename, tn, alt, altc, alttext, ral, ralforbid, pltargs, plotfunmake, plotdebug, plotgrid2d, size, psize, plot_size, plot_tags, stack_mtell_quiet],
+    stack_mtell_quiet:true,
     plotdebug: false,
     /* Check for grid2d  in the plotoptions. */
     plotgrid2d: false,
@@ -846,8 +875,8 @@ plot(ex, [ra]) :=  /*stack_web_plot*/
     /* Check expressions to be plotted has/have only one variable. */
     ex: ev(ex, nouns, simp),
     /* Remove logarithms to other bases from expressions. */
-    if not(freeof(logbase, ex)) then
-        ex:ev(ex, logbase=logbasesimp),
+    if not(freeof(lg, ex)) then
+        ex:ev(ex, lg=logbasesimp),
     lvs: listofvars(ex),
     lvs: sublist(lvs, lambda([ex], not(ex = discrete or ex = parametric))),
     if length(lvs)>1 then
@@ -2340,13 +2369,13 @@ ATSingleFrac(SA, SB) := block(
 divthru(q) :=
        if (not atom(q) and part(q,0)="/")
        then
-         block([num, den, div, quo, rem],
+         block([num,den,divt,quo,rem],
            num:part(q, 1),
            den:part(q, 2),
-           div:divide(num, den) ,
-           quo:div[1],
-           rem:div[2],
-           quo+rem/ den )
+           divt:divide(num, den) ,
+           quo:divt[1],
+           rem:divt[2],
+           quo+rem/den )
        else q;
 
 /*****************************************************************/
@@ -2856,6 +2885,13 @@ Difffun(SA,SB,v) := block([val,rawmk,ansnote,fb,ret,lSAv,lSBv,mSAv,mSBv],
     ret:[val,rawmk,ansnote,fb],
     return(ret)
     )$
+
+/* Look over an expression and find all the variables wrt which we are differentiating. */
+ATDiffGetVar(ex):= block(
+    if atom(ex) then return([]),
+    if safe_op(ex)="diff" then return([second(args(ex))]),
+    flatten(map(ATDiffGetVar, args(ex)))
+);
 
 /* ****************************************************** */
 /*                                                        */

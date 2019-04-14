@@ -341,7 +341,7 @@ If we enter Node 3, we know the student has the correct answer and just need to 
 Update the form so that Node 3 has
 
     SAns = strip_int_const(ans1,x)
-    TAns = strip_int_const(ans1,x)
+    TAns = strip_int_const(ta,x)
     Answer test = FacForm
     Test options = x
     Quiet = Yes.
@@ -352,8 +352,8 @@ The FacForm answer test provides automatic feedback which would be inappropriate
 
 We also need to assign outcomes in Node 3.
 
-1. On the true branch set the `score=1`
-2. On the false branch set the `score=1`
+1. On the true branch set the `score=1`, and `mod` to `=`
+2. On the false branch set the `score=1`, and `mod` to `=`
 3. On the false branch set the feedback to `Your answer is not factored. Well done for getting the correct answer but remember that there is no need to expand out the brackets.`
 
 Having developed our integration question to the point where we can provide some quite detailed guidance to students (based on the mathematical properties of their answer) we can now consider using this particular question as the basis for a whole set of random questions.

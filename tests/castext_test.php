@@ -895,7 +895,7 @@ class stack_cas_text_test extends qtype_stack_testcase {
 
         $this->assertContentWithMathsEquals(
                 'The decimal number \({73}\) is written in base \(2\) as \({1001001}\), in base \(7\) as \({133}\), ' .
-                'in scientific notation as \({7.3e+1}\) and in rhetoric as \({seventy-three}\).',
+                'in scientific notation as \({7.3e+1}\) and in rhetoric as \({\mbox{seventy-three}}\).',
                 $at2->get_display_castext());
     }
 
@@ -987,8 +987,13 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $this->assertTrue($at1->get_valid());
         $at1->get_display_castext();
 
-        $this->assertEquals('\({{v}_{2\cdot \alpha}}\), \({{v}_{{m}_{n}}}\), '.
-            '\({{\it beta_{47}}}\), \({{\beta}_{47}}\)', $at1->get_display_castext());
+        $expected = '\({{v}_{2\cdot \alpha}}\), \({{v}_{{m}_{n}}}\), '.
+            '\({{\it beta_{47}}}\), \({{\beta}_{47}}\)';
+        if ($this->adapt_to_new_maxima('5.42.0')) {
+            $expected = '\({{v}_{2\cdot \alpha}}\), \({{v}_{{m}_{n}}}\), '.
+                    '\({\beta_{47}}\), \({{\beta}_{47}}\)';
+        }
+        $this->assertEquals($expected, $at1->get_display_castext());
     }
 
     public function test_maxima_arrays() {
@@ -1032,8 +1037,8 @@ class stack_cas_text_test extends qtype_stack_testcase {
     }
 
     public function test_lambda() {
-        $a2 = array('sf: lambda([x,n],significantfigures(x,n))',
-            'n:[3.1234,1]', 'm:apply(sf,n)');
+        $a2 = array('sfc: lambda([x,n],significantfigures(x,n))',
+            'n:[3.1234,1]', 'm:apply(sfc,n)');
         $s2 = array();
         foreach ($a2 as $s) {
             $cs = new stack_cas_casstring($s);
@@ -1043,7 +1048,7 @@ class stack_cas_text_test extends qtype_stack_testcase {
         }
         $cs2 = new stack_cas_session($s2, null, 0);
 
-        $at1 = new stack_cas_text('{@sf@}, {@m@}', $cs2, 0, 't');
+        $at1 = new stack_cas_text('{@sfc@}, {@m@}', $cs2, 0, 't');
         $this->assertTrue($at1->get_valid());
         $at1->get_display_castext();
 

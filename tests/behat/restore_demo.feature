@@ -6,7 +6,7 @@ Feature: Test restoring the STACK demo course
 
   Background:
     Given I log in as "admin"
-    And I navigate to "Restore course" node in "Site administration > Courses"
+    And I navigate to "Courses > Restore course" in site administration
     And I click on "Manage backup files" "button" in the "//h2[contains(., 'User private backup area')]/following-sibling::div[1]" "xpath_element"
     And I upload "question/type/stack/samplequestions/STACK-demo.mbz" file to "Files" filemanager
     And I press "Save changes"
@@ -14,8 +14,8 @@ Feature: Test restoring the STACK demo course
   @javascript
   Scenario: Restore the STACK demo course.
     When I restore "STACK-demo.mbz" backup into a new course using this options:
-    Then I should see "Demonstrating STACK"
+    And I am on "Demonstrating STACK" course homepage
     Then I should see "Demonstration Quiz"
-    When I navigate to "Question bank" node in "Course administration"
+    And I navigate to "Question bank" in current page administration
     And I set the field "Select a category" to "Example_questions"
-    Then I should see "Cart speed analysis"
+    And I should see "Cart speed analysis"

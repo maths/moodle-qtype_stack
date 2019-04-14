@@ -50,16 +50,9 @@ Note that students must use correct propositional logic connectives `or` and `an
 E.g. their answer must be something correct such as `x=1 or x=2`, *not* something sloppy like `x=1 or 2` or `x=1,2`.  
 It certainly can't be something wrong such as `x=1 and x=2` which is often seen in written answers!
 
-Note that students may not take square roots of both sides of an equation.  This will be rejected because it it not equivalen!  
-Similarly, students may not cancel terms from both sides which may be zero.  As we require equivalence, students may not *multiply* either.  
-This will take a bit of geting used to!
+Note that students may not take square roots of both sides of an equation.  This will be rejected because it it not equivalen!  Similarly, students may not cancel terms from both sides which may be zero.  As we require equivalence, students may not *multiply* either.  This will probably not correspond to students' expectations, and may take a bit of geting used to.
 
-But, shouldn't student really use logical connectives?  
-Yes, I (CJS) believe they should but that to require this from the input type now would be too big a step for students and their teachers.
-Students are already being expected to use connectives such as `and` and `or` correctly.  
-The input type uses these connectives and in the futre options may be added to this input type which require students to be explicit 
-about logical connectives, especially when we add support for implication in addition to equivalence.  
-As we gain confidence in teaching with equivalence reasoning, so we will add more options to this input type.
+But, shouldn't student really use logical connectives?  Yes, I (CJS) believe they should but that to require this from the input type now would be too big a step for students and their teachers. Students are already being expected to use connectives such as `and` and `or` correctly.  The input type uses these connectives and in the futre options may be added to this input type which require students to be explicit about logical connectives, especially when we add support for implication in addition to equivalence.  As we gain confidence in teaching with equivalence reasoning, so we will add more options to this input type.
 
 __If you have strong views on how this input type should behave, please contact the developers.__
 
@@ -133,7 +126,8 @@ There are a number of answer tests which seek to establish whether a student's l
 In these tests there is no concept of "step size" or any test that a student has worked in a sensible order.  
 The tests share code with the input type, and feedback from the test will be identical to that from the input when this is shown.
 
-To work over the real numbers make the answer test options `assume_real`.
+You will also need to set options, as in the input type above, to get the answer tests to reflect the options set.
+The options supported are `assume_pos`, `assume_real`, and `calculus`.
 
 ### EquivReasoning ###
 
@@ -182,15 +176,39 @@ With the equivalence symbols but without natural domains you use
 
     \[ {@stack_disp_arg(ta, true, false)@} \]
 
+# Finding a step in working. #
+
+It is relatively common to want students to take a "particular step" in their argument.  That is to say, to expect a particular intermeditate expression to appear explicitly in their list of answers.
+
+For example, imagine you want students to "simplify" \( \log_5(25) \) to \(2\).  It is important to see evidence of the expression \( \log_5(5^2) \) in their answer.  The teacher's answer is, e.g.
+
+    ta:[lg(25,5),stackeq(lg(5^2,5)),stackeq(2*lg(5,5)),stackeq(2*1),stackeq(2)]
+
+We want to accept 
+
+    sa1:[lg(25,5),stackeq(lg(5^2,5)),stackeq(2)]
+
+But reject
+
+    sa0:[lg(25,5),stackeq(2)]
+
+Both of these are correct reasoning arguments, but the second is missing the desired step.
+
+To facilitate this search we provide the function `stack_equiv_find_step(ex, exl)`.  This looks for expression `ex` in the list `exl` using `ATEqualComAss`.  It returns the list of indices of the position.  If you just want to know if the expression is missing use the predicate `emptyp`.  Note, this function strips off `stackeq` before testing, so this function will find \( \log_5(5^2) \) in both `sa1` and `sa2` below.
+
+    sa2:[lg(25,5),lg(5^2,5),2]
+
+
 ## Longer term plans
 
 1. Define \(x\neq a\) operator.  Needed to exclude single numbers from the domain.
-2. Add in constants of integration into the calculus tests.
-3. Provide better feedback to students about which steps they have taken and what goes wrong.
+2. Define \(x\in X\) operator, for student use.
+3. Provide better tools for dealing with assessment, such as checking for particular steps.
+2. Provide better feedback to students about which steps they have taken and what goes wrong.
 
 In the long term, we may fully implement the ideas in the paper Sangwin, C.J. __An Audited Elementary Algebra__ The Mathematical Gazette, July 2015.
 
-In the future students might also be expected to say what they are doing, e.g. ``add \(a\) to both sides", as well as just do it.  Quite how it does this, and the options available to the teacher is what is most likely to change!  
+In the future students might also be expected to say what they are doing, e.g. ``add \(a\) to both sides", as well as just do it.  Quite how it does this, and the options available to the teacher is what is most likely to change.
 
 We would like to introduce the idea of a *model answer*.  STACK will then establish the extent to which the student's answer follows this model solution.
 

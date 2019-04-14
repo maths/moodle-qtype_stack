@@ -35,15 +35,22 @@ class stack_boolean_input extends stack_input {
         );
     }
 
+    protected $extraoptions = array(
+        'allowempty' => false
+    );
+
     protected function extra_validation($contents) {
-        if (!array_key_exists($contents[0], $this->get_choices())) {
+        $validation = $contents[0];
+        if ($validation === 'EMPTYANSWER') {
+            $validation = '';
+        }
+        if (!array_key_exists($validation, $this->get_choices())) {
             return stack_string('booleangotunrecognisedvalue');
         }
         return '';
     }
 
     public function render(stack_input_state $state, $fieldname, $readonly, $tavalue) {
-
         if ($this->errors) {
             return $this->render_error($this->errors);
         }
@@ -53,8 +60,12 @@ class stack_boolean_input extends stack_input {
             $attributes['disabled'] = 'disabled';
         }
 
+        $value = $this->contents_to_maxima($state->contents);
+        if ($value === 'EMPTYANSWER') {
+            $value = '';
+        }
         return html_writer::select(self::get_choices(), $fieldname,
-                $this->contents_to_maxima($state->contents), '', $attributes);
+                $value, '', $attributes);
     }
 
 
@@ -70,6 +81,8 @@ class stack_boolean_input extends stack_input {
     public static function get_parameters_defaults() {
         return array(
                 'mustVerify'      => false,
-                'showValidation'  => 0);
+                'showValidation'  => 0,
+                'options'            => ''
+        );
     }
 }

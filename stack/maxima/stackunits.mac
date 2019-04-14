@@ -41,15 +41,17 @@
   stack_unit_other_unit_tex:["\\mathrm{min}", "\\mathrm{day}", "\\mathrm{amu}", "\\mathrm{u}", "\\mathrm{mmHg}", "\\mathrm{bar}", "\\mathrm{cc}", "\\mathrm{mbar}", "\\mathrm{atm}", "\\mathrm{Torr}", "\\mathrm{rev}", "\\mathrm{{}^{o}}", "\\mathrm{rpm}", "\\mathrm{K}"],
 */
 
-/* Add rules to the simplifier to deal with stackunits.  */
-matchdeclare(STACKNUM1, all, STACKNUM2, all, STACKUNITS1, all, STACKUNITS2, all, STACKNUM, numberp)$
-matchdeclare(STACKANY, all)$
+/* In Maxima 5.42.2 there are changes to the default simplifier.  We can no longer use the default, but need 
+   to add rules and explicitly simplify to deal with stackunits.  */
+matchdeclare(STACKNUM1, all, STACKNUM2, all, STACKUNITS1, all, STACKUNITS2, all, STACKANY, all)$
+matchdeclare(STACKNUM, lambda([ex], numberp(ex) and is(ex>0)))$
 tellsimpafter(STACKNUM*stackunits(STACKNUM1,STACKUNITS1), stackunits(STACKNUM*STACKNUM1, STACKUNITS1));
-tellsimpafter(stackunits(STACKNUM1, STACKUNITS1)^STACKNUM, stackunits(STACKNUM1^STACKNUM, STACKUNITS1^STACKNUM));
 tellsimpafter(stackunits(STACKNUM1, STACKUNITS1)*stackunits(STACKNUM2, STACKUNITS2), stackunits(STACKNUM1*STACKNUM2, STACKUNITS1*STACKUNITS2));
 tellsimpafter(stackunits(STACKNUM1, STACKUNITS1)*stackunits(STACKNUM2, STACKUNITS2)*STACKANY, stackunits(STACKNUM1*STACKNUM2, STACKUNITS1*STACKUNITS2)*STACKANY);
+tellsimpafter(stackunits(STACKNUM1, STACKUNITS1)^STACKNUM, stackunits(STACKNUM1^STACKNUM, STACKUNITS1^STACKNUM));
 tellsimpafter(stackunits(STACKNUM1, STACKUNITS1)+stackunits(STACKNUM2, STACKUNITS1), stackunits(STACKNUM1+STACKNUM2, STACKUNITS1));
 tellsimpafter(stackunits(STACKNUM1, STACKUNITS1)+stackunits(STACKNUM2, STACKUNITS1)+STACKANY, stackunits(STACKNUM1+STACKNUM2, STACKUNITS1)+STACKANY);
+
 
 unitsp(ex) := featurep(ex, units)$
 
@@ -118,7 +120,7 @@ stack_unit_si_to_si_base(expression) := block([ui, pfi, ex, workex, oldsimp],
     workex:stackunits_make(workex),
     if not(stack_units_nums(ex)=NULLNUMS and stack_units_nums(workex)=NULLNUM) then
         workex:stackunits(ev(stack_units_nums(ex)*stack_units_nums(workex), NULLNUM=1), stack_units_units(workex)),
-    /* Return the expression with the operator is started with. */
+    /* Return the expression with the operator it started with. */
     simp:oldsimp,
     if not(safe_op(expression) = "stackunits") then
       workex:stackunits_to_product(workex),
@@ -200,8 +202,12 @@ stackunits_make(ex) := block([oldsimp, exn, exu, exl],
   exn:flatten_recurse_nouns(noun_arith(ex)),
   if (debug) then (print("stackunits_make: nounarith expression is"), print(exn)),
   /* If the student has indicated +- we deal with this. */
-  /* If we don't have a product we are return what we are given. */
-  if not(is_simp(op(exn)="noun*")) then
+  /* If we don't have units we are return what we are given. */
+  if is_simp(listofunits(ex)=[]) then
+    return(stackunits(ex, NULLUNITS)),
+  /* Edge case like s^(-1). */
+  if is_simp(op(exn)="noun^") then
+    exn:[exn] elseif not(is_simp(op(exn)="noun*")) then
     return(stackunits(ex, NULLUNITS)),
   exu:sublist(args(exn), lambda([ex2], not(stackunits_make_p(ex2)))),
   exn:sublist(args(exn), lambda([ex2], stackunits_make_p(ex2))),
@@ -334,6 +340,9 @@ stack_validate_units(expr, LowestTerms, TAns, fracdisp, fltfmt) := block( [simp:
   expr:first(expr),
   /* Declare all symobols as "units", and change their TeX display. */
   stack_unit_si_declare(false),
+
+  /* An empty answer is validated as valid! */
+  if (expr = EMPTYANSWER) then return(expr),
 
   /* Do not check for floats.  They are always ok here. */
   /* Checks fractions are in lowest terms */

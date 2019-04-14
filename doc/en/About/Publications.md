@@ -22,11 +22,13 @@ Y. Nakamura, [The STACK e-Learning and Assessment System for mathematics, scienc
 
 ## Papers about STACK
 
-Below are a small selection of papers about STACK, and are a good place to start.  A comprehensive bibliography is available here: [STACK bibliography](%CONTENT/stack_publications.pdf), with the entries in [BiBTeX format](%CONTENT/stack.bib).
+Proceedings of the 1st International STACK Conference can be found can be found on the open access publication server Zenodo here: [https://zenodo.org/communities/stack](https://zenodo.org/communities/stack)
 
-* C. J. Sangwin, Assessment and reporting with STACK, Proceedings of Assessment and Effective Teaching of Calculus, NSF-Academy of Finland SAVI Workshop Tallahassee, Florida, 2013.
-* P. Butcher, C. Sangwin, T. Hunt, [Embedding and enhancing eAssessment in the leading open source VLE](http://www.heacademy.ac.uk/assets/documents/disciplines/stem/conf-proceedings-2013/GEN/gen_049.pdf), Proceedings of the Higher Education Academy Conference, Birmingham, 2013.
-* T. Lowe. [e-Assessment using Symbolic Manipulation Tools](http://www.open.ac.uk/opencetl/resources/details/detail.php?itemId=4b6abb677f175) Centre for Open Learning of Mathematics, Science, Computing and Technology, The Open University, 2010.
-* A. Rasila, L. Havola, H. Majander and J. Malinen. Automatic assessment of mathematics exercises: Experiences and future prospects. In [ReflekTori 2010: Symposium of Engineering Education](http://opetuki2.tkk.fi/p/reflektori2010/index.en.php), pages Alto University, Helsinki Finland, 2010.
+A comprehensive bibliography is available here: [STACK bibliography](%CONTENT/stack_publications.pdf), with the entries in [BiBTeX format](%CONTENT/stack.bib).
+
+Two recent papers about STACK are a good place to start.
+
+* C. J. Sangwin and N. Kocher. [Automation of mathematics examinations](https://www.research.ed.ac.uk/portal/files/22213256/2015_11_9_AutomationExaminations.pdf). Computers and Education, 94:215-227, 2016.
+* C. J. Sangwin and I. Jones. [Asymmetry in student achievement on multiple choice and constructed response items in reversible mathematics processes](https://dspace.lboro.ac.uk/dspace-jspui/handle/2134/22120). Educational Studies in Mathematics, 94:205-222, 2017.
 
 

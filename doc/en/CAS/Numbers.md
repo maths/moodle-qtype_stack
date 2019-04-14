@@ -76,18 +76,18 @@ To force all floating point numbers to decimal floating point numbers use
 
 You can also force all integers to be displayed as floating point decimals or in scientific notation using `stackintfmt` and the appropriate template.  This function calls the LISP `format` function, which is complex and more example are available [online](http://www.gigamonkeys.com/book/a-few-format-recipes.html) elsewhere.
 
-| Template    | Input       |  TeX Output    |  Description/notes
-| ----------- | ----------- | -------------- | ----------------------------------------------------------------------------------------------
-| `"~,4f"`    | `0.12349`   | \(0.1235\)     |  Output four decimal places: floating point.
-|             | `0.12345`   | \(0.1234\)     |  Note the rounding.
-|             | `0.12`      | \(0.1200\)     |  
-| `"~,5e"`    | `100.34`    | \(1.00340e+2\) |  Output five decimal places: scientific notation.
-| `"~:d"`     | `10000000`  | \(10,000,000\) |  Separate decimal groups of three digits with commas.
-| `~r`        | `9`         | \(nine\)       |  Rhetoric.
-| `~:r`       | `9`         | \(ninth\)      |  Ordinal rhetoric.
-| `~7r`       | `9`         | \(12\)         |  Base 7.
-| `~@r`       | `9`         | \(IX\)         |  Roman numerals.
-| `~:@r`      | `9`         | \(VIIII\)      |  Old style Roman numerals.
+| Template    | Input       |  TeX Output      |  Description/notes
+| ----------- | ----------- | ---------------- | ----------------------------------------------------------------------------------------------
+| `"~,4f"`    | `0.12349`   | \(0.1235\)       |  Output four decimal places: floating point.
+|             | `0.12345`   | \(0.1234\)       |  Note the rounding.
+|             | `0.12`      | \(0.1200\)       |  
+| `"~,5e"`    | `100.34`    | \(1.00340e+2\)   |  Output five decimal places: scientific notation.
+| `"~:d"`     | `10000000`  | \(10,000,000\)   |  Separate decimal groups of three digits with commas.
+| `~r`        | `9`         | \(\mbox{nine}\)  |  Rhetoric.
+| `~:r`       | `9`         | \(\mbox{ninth}\) |  Ordinal rhetoric.
+| `~7r`       | `9`         | \(12\)           |  Base 7.
+| `~@r`       | `9`         | \(IX\)           |  Roman numerals.
+| `~:@r`      | `9`         | \(VIIII\)        |  Old style Roman numerals.
 
 There are many other options within the LISP format command. Please note with the rhetoric and Roman numerals that the numbers will be in LaTeX mathematics environments.
 
@@ -128,7 +128,7 @@ The following commands generate displayed forms of numbers.  These will not be m
 | ------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 | `dispdp(x,n)`                   | Truncate \(x\) to \(n\) decimal places and display with trailing digits.  Note, this always prints as a float (or integer), and not in scientific notation.
 | `dispsf(x,n)`                   | Truncate \(x\) to \(n\) significant figures and display with trailing digits.  Note, this always prints as a float, and not in scientific notation.
-| `scientific_notation(x,n)`      | Write \(x\) in the form \(m10^e\).   Only works with `simp:false` and when printing as a float.  The optional second argument applies `displaydp(m,n)` to the mantissa to control the display of trailing zeros.
+| `scientific_notation(x,n)`      | Write \(x\) in the form \(m10^e\).   Only works reliably with `simp:false` (e.g. try 9000).  The optional second argument applies `displaysci(m,n)` to the mantissa to control the display of trailing zeros.
 | `displaydp(x,n)`                | An intert internal function to record that \(x\) should be displayed to \(n\) decimal places with trailing digits.  This function does no rounding.
 | `displaysci(x,n,expo)`          | An intert internal function to record that \(x\) should be displayed to \(n\) decimal places with trailing digits, in scientific notation.  E.g. \(x\times 10^{expo}\).
 | `basen(x,n[,mode[,mindigits]])` | An inert internal function to record that \(x\) should be displayed and input in a base\(n\) integer format with at least mindigits digits.

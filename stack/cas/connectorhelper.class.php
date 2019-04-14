@@ -118,7 +118,7 @@ abstract class stack_connection_helper {
     }
 
     /**
-     * @return the configured platform type.
+     * @return string the configured platform type.
      */
     public static function get_platform() {
         self::ensure_config_loaded();
@@ -126,7 +126,7 @@ abstract class stack_connection_helper {
     }
 
     /**
-     * @return the configured version number.
+     * @return string the configured version number.
      */
     public static function get_maximaversion() {
         self::ensure_config_loaded();
@@ -134,6 +134,8 @@ abstract class stack_connection_helper {
     }
 
     /**
+     * Check the result of a CAS computation to see if a time-out occurred.
+     * @param array $result as returned from stack_cas_connection::compute.
      * @return bool whether the CAS timed out.
      */
     public static function did_cas_timeout($result) {
@@ -188,7 +190,7 @@ abstract class stack_connection_helper {
     }
 
     /**
-     * @return the version of the STACK Maxima libraries that should be in use.
+     * @return string the version of the STACK Maxima libraries that should be in use.
      */
     public static function get_required_stackmaxima_version() {
         self::ensure_config_loaded();
@@ -268,6 +270,9 @@ abstract class stack_connection_helper {
 
     /**
      * Exectue a CAS command, without any caching.
+     *
+     * @param string the command to execute.
+     * @return array with tho elements, the results from compute, and the CAS debug output.
      */
     private static function stackmaxima_nocache_call($command) {
         self::ensure_config_loaded();
@@ -347,7 +352,7 @@ abstract class stack_connection_helper {
             }
         }
 
-        if (strstr($debug, 'failed to load')) {
+        if (strpos($debug, 'failed to load') !== false) {
             $message[] = stack_string('settingmaximalibraries_failed');
             $success = false;
         }

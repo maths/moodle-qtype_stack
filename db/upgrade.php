@@ -789,6 +789,24 @@ function xmldb_qtype_stack_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2018060102, 'qtype', 'stack');
     }
 
+    if ($oldversion < 2018120500) {
+
+        // Changing nullability of field stackversion on table qtype_stack_options to null.
+        $table = new xmldb_table('qtype_stack_options');
+        $field = new xmldb_field('stackversion', XMLDB_TYPE_TEXT, null, null, null, null, null, 'questionid');
+
+        // Conditionally launch add field stackversion.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // Launch change of nullability for field stackversion.
+        $dbman->change_field_notnull($table, $field);
+
+        // Stack savepoint reached.
+        upgrade_plugin_savepoint(true, 2018120500, 'qtype', 'stack');
+    }
+
     // Add new upgrade blocks just above here.
 
     // Check the version of the Maxima library code that comes with this version

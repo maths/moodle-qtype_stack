@@ -35,6 +35,10 @@ class stack_textarea_input extends stack_input {
         }
     }
 
+    protected $extraoptions = array(
+        'simp' => false
+    );
+
     public function render(stack_input_state $state, $fieldname, $readonly, $tavalue) {
         // Note that at the moment, $this->boxHeight and $this->boxWidth are only
         // used as minimums. If the current input is bigger, the box is expanded.
@@ -192,7 +196,9 @@ class stack_textarea_input extends stack_input {
             'allowWords'         => '',
             'forbidFloats'       => true,
             'lowestTerms'        => true,
-            'sameType'           => true);
+            'sameType'           => true,
+            'options'            => ''
+        );
     }
 
     /**

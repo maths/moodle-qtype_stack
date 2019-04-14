@@ -25,8 +25,8 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/fixtures/test_base.php');
 require_once(__DIR__ . '/../locallib.php');
-require_once(__DIR__ . '/../options.class.php');
-require_once(__DIR__ . '/../basenoptions.class.php');
+require_once(__DIR__ . '/../stack/options.class.php');
+require_once(__DIR__ . '/../stack/basenoptions.class.php');
 
 /**
  * @group qtype_stack

@@ -28,7 +28,8 @@ class stack_matrix_input extends stack_input {
 
     protected $extraoptions = array(
         'simp' => false,
-        'allowempty' => false
+        'allowempty' => false,
+        'allowsparse' => false
     );
 
     public function adapt_to_model_answer($teacheranswer) {
@@ -120,7 +121,11 @@ class stack_matrix_input extends stack_input {
                     $element = trim($response[$this->name . '_sub_' . $i . '_' . $j]);
                 }
                 if ('' == $element) {
-                    $element = '?';  // Ensures all matrix elements have something non-empty.
+                    if ($this->get_extra_option('allowsparse')) {
+                        $element = 'null';
+                    } else {
+                        $element = '?';  // Ensures all matrix elements have something non-empty.
+                    }
                 } else {
                     $allblank = false;
                 }

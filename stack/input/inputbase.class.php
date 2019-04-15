@@ -230,6 +230,12 @@ abstract class stack_input {
                     }
                     break;
 
+                case 'allowsparse':
+                    if (!(is_bool($arg))) {
+                        $this->errors[] = stack_string('numericalinputoptboolerr', array('opt' => $option, 'val' => $arg));
+                    }
+                    break;
+
                 case 'rationalized':
                     if (!(is_bool($arg))) {
                         $this->errors[] = stack_string('numericalinputoptboolerr', array('opt' => $option, 'val' => $arg));

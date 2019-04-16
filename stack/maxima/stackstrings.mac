@@ -223,12 +223,13 @@ stackjson_stringify(obj) := block([tmp,r,l],
   tmp:ssubst("\\n",ascii(10),tmp),
   tmp:ssubst("\\f",ascii(12),tmp),
   tmp:ssubst("\\r",ascii(13),tmp),
-  r:sconcat("\\\"",tmp,"\\\"")
+  r:sconcat("\"",tmp,"\"")
  ) else if is_stackmap(obj) then (
   l:[],
   for tmp in stackmap_keys(obj) do l:append(l,[sconcat(stackjson_stringify(tmp),":",stackjson_stringify(stackmap_get(obj,tmp)))]), 
   r:sconcat("{",simplode(l,","),"}")
- ) else if listp(obj) then r:sconcat("[",simplode(makelist(stackjson_stringify(x),x,obj),","),"]")
+ ) else if listp(obj) and length(obj) > 0 then r:sconcat("[",simplode(makelist(stackjson_stringify(x),x,obj),","),"]")
+ else if listp(obj) then r:"[]"
  else if integerp(obj) then r:string(obj)
  else if numberp(obj) then r:string(float(obj))
  else r:stackjson_stringify(string(obj)),

@@ -32,7 +32,7 @@ class stack_cas_casstring {
     private $rawcasstring;
 
     /** @var string immediately prior to string elimination. */
-    private $cas_with_strings;
+    private $caswithstrings;
 
     /** @var string as modified by the validation. */
     private $casstring;
@@ -559,7 +559,7 @@ class stack_cas_casstring {
             throw new stack_exception('stack_cas_casstring: rawstring must be a string.');
         }
         $this->rawcasstring = $rawstring;
-        $this->cas_with_strings = $rawstring;
+        $this->caswithstrings = $rawstring;
         if (!($conditions === null || is_array($conditions))) {
             throw new stack_exception('stack_cas_casstring: conditions must be null or an array.');
         }
@@ -567,7 +567,7 @@ class stack_cas_casstring {
             $this->conditions   = $conditions;
         }
     }
-    
+
     /*********************************************************/
     /* Validation functions                                  */
     /*********************************************************/
@@ -581,7 +581,8 @@ class stack_cas_casstring {
      *              2 - assume single letter variables only.
      * $allowwords enables specific function names (but never those from $globalforbid)
      */
-    private function validate($security='s', $syntax=true, $insertstars=0, $allowwords='', stack_basen_options $basen_options=null) {
+    private function validate($security='s', $syntax=true, $insertstars=0, $allowwords='',
+            stack_basen_options $basenoptions=null) {
 
         if (!('s' === $security || 't' === $security)) {
             throw new stack_exception('stack_cas_casstring: security level, must be "s" or "t" only.');
@@ -604,21 +605,21 @@ class stack_cas_casstring {
             $this->valid = false;
             return false;
         }
-        
+
         $stringles = $this->casstring;
 
-        // inject base N temp escapes
-        if($basen_options) {
-            $this->check_for_basen_escapes($stringles, $basen_options);
-            $stringles = $basen_options->inject_temp_escapes($stringles);
+        // Inject base N temp escapes.
+        if ($basenoptions) {
+            $this->check_for_basen_escapes($stringles, $basenoptions);
+            $stringles = $basenoptions->inject_temp_escapes($stringles);
         }
-        $this->cas_with_strings = $stringles;
+        $this->caswithstrings = $stringles;
 
         // Remove the contents of "strings".
         $stringles = stack_utils::eliminate_strings($stringles);
-        
-        if($basen_options) {
-            $this->check_residual_base10s($stringles, $basen_options);
+
+        if ($basenoptions) {
+            $this->check_residual_base10s($stringles, $basenoptions);
         }
 
         // From now on all checks ignore the contents of "strings" and most definitely do not modify them.
@@ -671,26 +672,25 @@ class stack_cas_casstring {
         $split = explode('|>key_val_split<|', $injecttarget, 2);
         $this->casstring = $split[1];
         $this->key = $split[0];
-        
-        if($basen_options) {
-            // Replace the base N temp placeholders with to calls to basen(frombasen())
-            $this->casstring = $basen_options->upgrade_escapes($this->casstring);
+
+        if ($basenoptions) {
+            // Replace the base N temp placeholders with to calls to basen(frombasen()).
+            $this->casstring = $basenoptions->upgrade_escapes($this->casstring);
         }
-        
+
         return $this->valid;
     }
-    
-    private function check_for_basen_escapes($stringles, $basen_options) {
-        if(($escape = $basen_options->check_for_escapes($stringles)) != NULL) {
+
+    private function check_for_basen_escapes($stringles, $basenoptions) {
+        if (($escape = $basenoptions->check_for_escapes($stringles)) != null) {
             $this->errors .= stack_string('stackCas_forbiddenWord', $escape);
             $this->answernote[] = 'forbiddenWord';
             $this->valid = false;
         }
     }
-    
-    private function check_residual_base10s($stringles, stack_basen_options $basen_options) {
-        if(!$basen_options->check_residual_base10s($stringles))
-        {
+
+    private function check_residual_base10s($stringles, stack_basen_options $basenoptions) {
+        if (!$basenoptions->check_residual_base10s($stringles)) {
             $this->errors .= stack_string('stackCas_baseWrongBase');
             $this->answernote[] = 'baseWrongBase';
             $this->valid = false;
@@ -712,7 +712,7 @@ class stack_cas_casstring {
         // Check for % signs, allow a restricted subset of things.
         if (strstr($stringles, '%') !== false) {
             $cmdl = strtolower($stringles);
-            $found=null;
+            $found = null;
             preg_match_all("(\%(?!e|pi|i|j|gamma|phi|and|or|union).*)", $cmdl, $found);
 
             foreach ($found[0] as $match) {
@@ -811,7 +811,7 @@ class stack_cas_casstring {
         $cmd = trim(stack_utils::logic_nouns_sort($cmd, 'remove'));
 
         // Check for permitted characters.
-        $matches=null;
+        $matches = null;
         if (preg_match_all($allowedcharsregex, $cmd, $matches)) {
             $invalidchars = array();
             foreach ($matches as $match) {
@@ -1496,9 +1496,10 @@ class stack_cas_casstring {
     /* Return and modify information                         */
     /*********************************************************/
 
-    public function get_valid($security = 's', $syntax = true, $insertstars = 0, $allowwords = '', stack_basen_options $basen_options = null) {
+    public function get_valid($security = 's', $syntax = true, $insertstars = 0, $allowwords = '',
+            stack_basen_options $basenoptions = null) {
         if (null === $this->valid) {
-            $this->validate($security, $syntax, $insertstars, $allowwords, $basen_options);
+            $this->validate($security, $syntax, $insertstars, $allowwords, $basenoptions);
         }
         return $this->valid;
     }
@@ -1609,7 +1610,8 @@ class stack_cas_casstring {
     // If we "CAS validate" this string, then we need to set various options.
     // If the teacher's answer is null then we use typeless validation, otherwise we check type.
     public function set_cas_validation_casstring($key, $forbidfloats = true,
-                    $lowestterms = true, $tans = null, $validationmethod, $allowwords = '', $simp, stack_basen_options $basen_options = null) {
+                    $lowestterms = true, $tans = null, $validationmethod, $allowwords = '', $simp,
+                    stack_basen_options $basenoptions = null) {
 
         if (!($validationmethod == 'checktype' || $validationmethod == 'typeless' || $validationmethod == 'units'
             || $validationmethod == 'unitsnegpow' || $validationmethod == 'equiv' || $validationmethod == 'numerical')) {
@@ -1621,10 +1623,10 @@ class stack_cas_casstring {
             // If we have base N options, then we should already have escaped them
             // in the main string on which this validation string is based,
             // so allow the basen functions and don't pass the options on.
-            if($basen_options) {
+            if ($basenoptions) {
                 $allowwords2 .= (($allowwords2) ? "," : "") . "frombasen,basen";
             }
-            $this->validate('s', true, 0, $allowwords2, NULL);
+            $this->validate('s', true, 0, $allowwords2, null);
         }
         if (false === $this->valid) {
             return false;
@@ -1651,7 +1653,7 @@ class stack_cas_casstring {
 
         $fltfmt = stack_utils::decimal_digits($starredanswer);
         $fltfmt = $fltfmt['fltfmt'];
-        
+
         $this->casstring = 'stack_validate(['.$starredanswer.'], '.$forbidfloats.','.$lowestterms.','.$tans.')';
         if ($validationmethod == 'typeless') {
             // Note, we don't pass in the teacher's as this option is ignored by the typeless validation.
@@ -1684,7 +1686,7 @@ class stack_cas_casstring {
     private function strings_replace($stringles) {
         // NOTE: This function should not exist, as this should only happen at the end of validate().
         // We still have some error messages that need it.
-        $strings = stack_utils::all_substring_strings($this->cas_with_strings);
+        $strings = stack_utils::all_substring_strings($this->caswithstrings);
         if (count($strings) > 0) {
             $split = explode('""', $stringles);
             $stringbuilder = array();

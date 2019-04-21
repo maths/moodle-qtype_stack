@@ -16,12 +16,10 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-/** Unit tests for basen_options.
- *
- * @copyright  2017 The University of Birmingham.
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
- * @author     Stephen Parry <stephen@edumake.org>
- */
+// Unit tests for basen_options.
+// @copyright  2017 The University of Birmingham.
+// @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+// @author     Stephen Parry <stephen@edumake.org>.
 
 require_once(__DIR__ . '/fixtures/test_base.php');
 require_once(__DIR__ . '/../locallib.php');

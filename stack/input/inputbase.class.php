@@ -38,8 +38,8 @@ abstract class stack_input {
     const VALID = 'valid';
     const INVALID = 'invalid';
     const SCORE = 'score';
-    
-    protected $basen_options = null;
+
+    protected $basenoptions = null;
 
     /**
      * @var string the name of the input.
@@ -340,55 +340,47 @@ abstract class stack_input {
             $maxsf = $this->extraoptions['maxsf'];
         }
         if (is_numeric($mindp) && is_numeric($maxdp) && $mindp > $maxdp) {
-                    $this->errors[] = stack_string('numericalinputminmaxerr');
+            $this->errors[] = stack_string('numericalinputminmaxerr');
         }
         if (is_numeric($minsf) && is_numeric($maxsf) && $minsf > $maxsf) {
-                    $this->errors[] = stack_string('numericalinputminmaxerr');
+            $this->errors[] = stack_string('numericalinputminmaxerr');
         }
         if ((is_numeric($mindp) || is_numeric($maxdp)) && (is_numeric($minsf) || is_numeric($maxsf))) {
-                    $this->errors[] = stack_string('numericalinputminsfmaxdperr');
+            $this->errors[] = stack_string('numericalinputminsfmaxdperr');
         }
 
         return true;
     }
-    
+
     private function parse_basen_call($teacheranswer) {
         $matches = null;
         $found = preg_match("/\bbasen\s*\(([^)]*)\)/", $teacheranswer, $matches);
-        if($found !== 1)
-        {
+        if ($found !== 1) {
             return null;
         }
         $params = explode(',', $matches[1]);
-        if(count($params) > 1 && is_numeric($params[1]))
-        {
+        if (count($params) > 1 && is_numeric($params[1])) {
             $radix = (int)$params[1];
-            if(count($params) > 2)
-            {
+            if (count($params) > 2) {
                 $mode = trim($params[2], "\'\"");
             } else {
                 $mode = 1;
-            }
-            if(count($params) > 3 && is_numeric($params[3]))
-            {
+            } if (count($params) > 3 && is_numeric($params[3])) {
                 $mindigits = (int)$params[3];
-            }
-            else
-            {
-               $mindigits = 0; 
+            } else {
+                $mindigits = 0;
             }
             return new stack_basen_options($radix, $mode, $mindigits);
         } else {
             return null;
         }
     }
-    
+
     protected function adapt_to_basen_elt($teacheranswer, $key) {
-        if (!$this->basen_options)
-        {
-            $this->basen_options = array();
+        if (!$this->basenoptions) {
+            $this->basenoptions = array();
         }
-        $this->basen_options[$key] = $this->parse_basen_call($teacheranswer);
+        $this->basenoptions[$key] = $this->parse_basen_call($teacheranswer);
     }
 
     /**
@@ -397,14 +389,13 @@ abstract class stack_input {
      * @param type $teacheranswer
      */
     protected function adapt_to_basen($teacheranswer) {
-        
-        if(is_array($teacheranswer))
-        {
-            foreach($teacheranswer as $k => $a) {
+
+        if (is_array($teacheranswer)) {
+            foreach ($teacheranswer as $k => $a) {
                 adapt_to_basen_elt($a, $k);
             }
         } else {
-            $this->basen_options = $this->parse_basen_call($teacheranswer);
+            $this->basenoptions = $this->parse_basen_call($teacheranswer);
         }
     }
 
@@ -690,7 +681,7 @@ abstract class stack_input {
                 $cs->set_cas_validation_casstring($this->name.$index,
                     $this->get_parameter('forbidFloats', false), $this->get_parameter('lowestTerms', false),
                     $ta, $ivalidationmethod, $this->get_parameter('allowWords', ''),
-                    $this->get_extra_option('simp', false),$this->basen_options);
+                    $this->get_extra_option('simp', false), $this->basenoptions);
                 $sessionvars[] = $cs;
             }
         }
@@ -704,7 +695,7 @@ abstract class stack_input {
         $answer->set_cas_validation_casstring($this->name,
             $this->get_parameter('forbidFloats', false), $this->get_parameter('lowestTerms', false),
             $teacheranswer, $validationmethod, $this->get_parameter('allowWords', ''),
-            $this->get_extra_option('simp', false), $this->basen_options);
+            $this->get_extra_option('simp', false), $this->basenoptions);
         if ($valid && $answer->get_valid()) {
             $sessionvars[] = $answer;
         }
@@ -820,7 +811,7 @@ abstract class stack_input {
             if (2 == $this->get_parameter('insertStars', 0) || 5 == $this->get_parameter('insertStars', 0)) {
                 $val = stack_utils::make_single_char_vars($val, $localoptions,
                         $this->get_parameter('strictSyntax', true), $this->get_parameter('insertStars', 0),
-                        $this->get_parameter('allowWords', ''), $this->basen_options);
+                        $this->get_parameter('allowWords', ''), $this->basenoptions);
             }
 
             $val = stack_utils::logic_nouns_sort($val, 'add');
@@ -829,7 +820,7 @@ abstract class stack_input {
                 $answer->set_units(true);
             }
             $answer->get_valid('s', $this->get_parameter('strictSyntax', true),
-                    $this->get_parameter('insertStars', 0), $allowwords, $this->basen_options);
+                    $this->get_parameter('insertStars', 0), $allowwords, $this->basenoptions);
 
             // Ensure student hasn't used a variable name used by the teacher.
             if ($forbiddenkeys) {
@@ -1047,7 +1038,6 @@ abstract class stack_input {
                 $errors[] = stack_string('ATLowestTerms_not_rat', array('m0' => '\[ '.$rn->get_display().' \]'));
             }
         }
-        
         return array($valid, $errors, $display);
     }
 

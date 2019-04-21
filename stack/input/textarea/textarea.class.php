@@ -27,10 +27,9 @@ require_once(__DIR__ . '/../../utils.class.php');
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class stack_textarea_input extends stack_input {
-    
     // If we have base N used in the answer, determine base options for each line.
     public function adapt_to_model_answer($teacheranswer) {
-        if(preg_match("/basen/",$teacheranswer)) {
+        if (preg_match("/basen/", $teacheranswer)) {
             adapt_to_basen(stack_utils::list_to_array($teacheranswer));
         }
     }

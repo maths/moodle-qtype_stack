@@ -33,7 +33,7 @@ class stack_basen_options {
                                         // The zero is not included in mindig counts.
                                         // base 10- are written as normal integers - float literals
                                         // prefixed zero may be misinterpreted - e.g. 0e0
-    const BASENMODE_GREEDY = 2;         // Greedy mode - treat all literals starting with a letter or 
+    const BASENMODE_GREEDY = 2;         // Greedy mode - treat all literals starting with a letter or
                                         // digit in the correct base range as a numeric. Will break
                                         // most formulae because of confusion with var names and
                                         // scientific notation, but good for simple literal values
@@ -53,12 +53,12 @@ class stack_basen_options {
     const BASENMODE_RIGHT_PAD = 128;    // Combined with D,M or G mode, the number reads as if padded from the right with
                                         // zeroes, i.e. the most significant digit is fixed as maximum value. Useful
                                         // for processing fixed point numbers.
-    
+
     const BASENMODE_MAP = [
         "D" => self::BASENMODE_COMPATIBLE,
         "D<" => self::BASENMODE_COMPATIBLE | self::BASENMODE_RIGHT_PAD,
         "" => self::BASENMODE_COMPATIBLE,
-        Null => self::BASENMODE_COMPATIBLE,
+        null => self::BASENMODE_COMPATIBLE,
         "M" => self::BASENMODE_ZERO_PREFIX,
         "M<" => self::BASENMODE_ZERO_PREFIX | self::BASENMODE_RIGHT_PAD,
         "G" => self::BASENMODE_GREEDY,
@@ -94,7 +94,7 @@ class stack_basen_options {
      *
      * @param int $radix the number base 2 = binary etc.
      * @param int $mode one of the mode constants controlling the format of base-N literals.
-     * @param int $mindigits the minimum number of digits used to display the base n number 
+     * @param int $mindigits the minimum number of digits used to display the base n number
      *      - padded with zeroes.
      */
     public function __construct($radix = 0, $mode = 1, $mindigits = 0) {
@@ -123,47 +123,47 @@ class stack_basen_options {
         return ((($this->get_mode()) & self::BASENMODE_RIGHT_PAD) != 0);
     }
 
-    private static function digit_range_pattern($radix, $underscoresAllowed) {
+    private static function digit_range_pattern($radix, $underscoresallowed) {
         $r = $radix - 1;
         if ($radix <= 10) {
             $pattern = "0-$r";
-        } elseif ($radix == 11) {
+        } else if ($radix == 11) {
             $pattern = "0-Aa";
         } else {
             $pattern = "0-9A-" . chr(ord("A") + $radix - 11) . "a-" . chr(ord("a") + $radix - 11);
         }
-        if ($underscoresAllowed) {
+        if ($underscoresallowed) {
             $pattern .= "_";
         }
         return $pattern;
     }
 
-    private static function digit_pattern($radix, $underscoresAllowed) {
-        return "[" . self::digit_range_pattern($radix, $underscoresAllowed) . "]";
+    private static function digit_pattern($radix, $underscoresallowed) {
+        return "[" . self::digit_range_pattern($radix, $underscoresallowed) . "]";
     }
 
     private static function number_pattern($mode, $radix) {
         if ($mode == self::BASENMODE_C) {
             if ($radix == 2) {
                 $pattern = "0[bB]" . self::digit_pattern($radix, true) . "+";
-            } elseif ($radix == 8) {
+            } else if ($radix == 8) {
                 $pattern = "0" . self::digit_pattern($radix, true) . "+";
-            } elseif ($radix == 10) {
+            } else if ($radix == 10) {
                 $pattern = "[1-9][0-9_]*";
-            } elseif ($radix == 16) {
+            } else if ($radix == 16) {
                 $pattern = "0[xX]" . self::digit_pattern($radix, true) . "+";
             }
-        } elseif ($mode == self::BASENMODE_BASIC) {
+        } else if ($mode == self::BASENMODE_BASIC) {
             if ($radix == 2) {
                 $pattern = "&[bB]" . self::digit_pattern($radix, true) . "+";
-            } elseif ($radix == 8) {
+            } else if ($radix == 8) {
                 $pattern = "&[oO]" . self::digit_pattern($radix, true) . "+";
-            } elseif ($radix == 10) {
+            } else if ($radix == 10) {
                 $pattern = "[0-9][0-9_]*";
-            } elseif ($radix == 16) {
+            } else if ($radix == 16) {
                 $pattern = "&[xX]" . self::digit_pattern($radix, true) . "+";
             }
-        } elseif ($mode == self::BASENMODE_SUFFIX) {
+        } else if ($mode == self::BASENMODE_SUFFIX) {
             $pattern = self::digit_pattern($radix, false) . "+" . "_$radix";
         }
         return $pattern;
@@ -177,17 +177,17 @@ class stack_basen_options {
         if ($mode == self::BASENMODE_COMPATIBLE) {
             $pattern = self::digit_pattern(min($radix, 10), false) . self::digit_pattern($radix, true) . "*";
             $rpattern = self::digit_range_pattern($mode, min($radix, 10));
-        } elseif ($mode == self::BASENMODE_ZERO_PREFIX) {
+        } else if ($mode == self::BASENMODE_ZERO_PREFIX) {
             if ($radix <= 10) {
                 $pattern = self::digit_pattern($radix, false) . self::digit_pattern($radix, true) . "*";
             } else {
                 $pattern = "0" . self::digit_pattern($radix, true) . "*";
             }
             $rpattern = self::digit_range_pattern($mode, $radix);
-        } elseif ($mode == self::BASENMODE_GREEDY) {
+        } else if ($mode == self::BASENMODE_GREEDY) {
             $pattern = self::digit_pattern($radix, false) . self::digit_pattern($radix, true) . "*";
             $rpattern = self::digit_range_pattern($mode, $radix);
-        } elseif ($mode == self::BASENMODE_SUFFIX) {
+        } else if ($mode == self::BASENMODE_SUFFIX) {
             if ($choice) {
                 $pattern = "(?:" . self::number_pattern($mode, 2);
                 for ($i = 3; $i <= 36; $i++) {
@@ -219,7 +219,7 @@ class stack_basen_options {
     }
 
     /**
-     * Surround any base N literals in a supplied string with quotes and markers that can 
+     * Surround any base N literals in a supplied string with quotes and markers that can
      * easily be replaced later by calls to basen(frombasen()). The literals must be in
      * the format dictated by this options object. This function is used to protect
      * any base n literals in a students input from being trashed by the validation
@@ -254,7 +254,7 @@ class stack_basen_options {
         if (preg_match('![><]!', $string, $matches) != 0) {
             return $matches[0];
         } else {
-            return NULL;
+            return null;
         }
     }
 

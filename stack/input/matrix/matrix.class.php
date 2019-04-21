@@ -33,7 +33,7 @@ class stack_matrix_input extends stack_input {
     );
 
     public function adapt_to_model_answer($teacheranswer) {
-        
+
         // Work out how big the matrix should be from the INSTANTIATED VALUE of the teacher's answer.
         $cs = new stack_cas_casstring('ta:matrix_size(' . $teacheranswer . ')');
         $cs->get_valid('t');
@@ -50,13 +50,13 @@ class stack_matrix_input extends stack_input {
 
         $this->height = trim($dimensions[0], '[]');
         $this->width = trim($dimensions[1], '[]');
-        
+
         // If we have base N used in the array, determine base options for each element.
-        if(preg_match("/basen/",$teacheranswer)) {
+        if (preg_match("/basen/", $teacheranswer)) {
             $a = $this->maxima_to_array($teacheranswer);
             for ($i = 0; $i < $this->height; $i++) {
                 for ($j = 0; $j < $this->width; $j++) {
-                    $this->adapt_to_basen_elt($a[i][j],"elt_" . i . "_" .j);
+                    $this->adapt_to_basen_elt($a[i][j], 'elt_' . i . '_' .j);
                 }
             }
         }

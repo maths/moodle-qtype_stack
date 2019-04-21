@@ -285,6 +285,14 @@ The variable `sa` will be a set containing the non-empty answers (if any).
 
 The teacher can use the `EMPTYANSWER` tag as a "correct answer".
 
+### Extra option: allowsparse ###
+
+This option only applies to the matrix input type.
+
+Normally a _blank_, i.e. empty, answer has a special status and are not considered "valid".  Hence, a PRT relying on an input left blank will not be traversed.  Answers consisting only of whitespace are also considered as empty.  The extra option `allowsparse` allows part of a matrix input to be empty.
+
+Internally blank entries will beceome `null` characters.
+
 ### Extra option: simp ###
 
 Actually simplify the student's answer during the validation process.  This will allow students to type in something like
@@ -346,6 +354,7 @@ min/max sf/dp     |  .  |  Y  |  Y    |   .    |   .   |   .   |   .  |  .  |   
 `rationalnum`   |  .  |  Y  |  .    |   .    |   .   |   .   |   .  |  .  |    .     |   .   |   .    |   .  
 `negpow`        |  .  |  .  |  Y    |   .    |   .   |   .   |   .  |  .  |    .     |   .   |   .    |   .  
 `allowempty`   |  Y  |  Y  |  Y    |   Y    |   .   |   .   |   .  |  Y  |    .     |   .   |   .    |   .  
+`allowsparse`  |  .  |  .  |  .    |   Y    |   .   |   .   |   .  |  .  |    .     |   .   |   .    |   .  
 `hideanswer`   |  .  |  .  |  .    |   .    |   .   |   .   |   .  |  .  |    .     |   .   |   Y    |   .  
 `simp`            |  Y  |  Y  |  Y    |   Y    |   .   |   .   |   .  |  .  |    Y     |   .   |   .    |   .  
 

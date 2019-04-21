@@ -11,7 +11,7 @@ DONE:
 
 * Removed the maxima mathml code (which wasn't connected or used).
 * Add in extra option `simp` to inputs.
-* Add in extra options in the input `allowempty` and `hideanswer`.
+* Add in extra options in the input `allowempty`, `allowsparse` and `hideanswer`.
 
 TODO:
 

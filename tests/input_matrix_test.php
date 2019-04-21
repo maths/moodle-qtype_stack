@@ -288,4 +288,28 @@ class stack_matrix_input_test extends qtype_stack_testcase {
                 $state->contentsdisplayed);
         $this->assertEquals('\( \left[ x \right]\) ', $state->lvars);
     }
+
+    public function test_validate_student_response_blank_allowsparse() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('matrix', 'ans1', 'M');
+        $el->set_parameter('options', 'allowsparse');
+        $el->adapt_to_model_answer('matrix([null,null,null],[null,null,null])');
+        $inputvals = array(
+            'ans1_sub_0_0' => '1',
+            'ans1_sub_0_1' => '',
+            'ans1_sub_0_2' => '',
+            'ans1_sub_1_0' => '2',
+            'ans1_sub_1_1' => 'x',
+            'ans1_sub_1_2' => '',
+        );
+        $state = $el->validate_student_response($inputvals, $options,
+                'matrix([1,null,null],[2,3,null])', null);
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('', $state->note);
+        $this->assertEquals('matrix([1,null,null],[2,x,null])', $state->contentsmodified);
+        $this->assertEquals('\[ \left[\begin{array}{ccc} 1 & {\it null} & {\it null} \\\\ ' .
+                '2 & x & {\it null} \end{array}\right] \]',
+                $state->contentsdisplayed);
+        $this->assertEquals('\( \left[ x \right]\) ', $state->lvars);
+    }
 }

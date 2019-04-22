@@ -4,7 +4,7 @@ STACK has dedicated support for number bases.
 
 ## Maxima functions
 
-In Maxima, we represent base \(b\) numbers as with an intert form `basen(n, b)`.  This is similar to the other intert/ephemeral forms such as used in the [scientific units](../Authoring/Units.md).  Most of the work in STACK questions should be done with this function.
+In Maxima, we represent base \(b\) numbers as with `basen(n, b)`.  This is similar to the other inert/ephemeral forms such as used in the [scientific units](../Authoring/Units.md).  Most of the work in STACK questions should be done with this function.
 
 We also have the following functions for converting to and from a string representation.
 
@@ -16,7 +16,7 @@ Takes the string `str` and base `b` and returns the base 10 representation.
     tobasen(n, b);
     tobasen(15, 2);
 
-Takes the integer `n` and base `b` and returns the base \(b\) representation of \(n\) as a string. This function is designed for converting from a number to a base n representation string.
+Takes the integer `n` and base `b` and returns the base \(b\) representation of \(n\) as a string. This function is designed for converting from a number to a base \(n\) representation string.
 
     tobasen(n, b, mode, mindigits) 
 
@@ -50,7 +50,7 @@ Takes the integer `n` and base `b` and returns the base \(b\) representation of 
 
 ## Input options
 
-Students need to type in their answer, If the teacher's answer uses the intert `basen` function then the input automatically adapts and assumes the students' answer will also be in the same base.
+Students need to type in their answer, If the teacher's answer uses the `basen` function then the input automatically adapts and assumes the students' answer will also be in the same base.
 
 ## Adding test cases to questions
 

@@ -91,6 +91,12 @@ class stack_answertest_test_data {
         array('AlgEquiv', '', '2*inf', 'inf', 0, '', ''),
         array('AlgEquiv', '', '0*inf', '0', 1, '', ''),
 
+        array('AlgEquiv', '', 'basen(7,2)', '7', 1, '', 'Base n numbers'),
+        array('AlgEquiv', '', 'basen(7,2)', 'basen(7,2)', 1, '', ''),
+        array('AlgEquiv', '', 'frombasen("110", 2)', 'basen(7,2)', 0, '', ''),
+        array('AlgEquiv', '', 'frombasen("111", 2)', 'basen(7,2)', 1, '', ''),
+        array('AlgEquiv', '', 'frombasen("112", 2)', 'basen(7,2)', -1, 'ATAlgEquiv_STACKERROR_SAns.', ''),
+
         array('AlgEquiv', '', 'x^(1/2)', 'sqrt(x)', 1, '', 'Powers and roots'),
         array('AlgEquiv', '', 'x', 'sqrt(x^2)', 0, '', ''),
         array('AlgEquiv', '', 'abs(x)', 'sqrt(x^2)', 1, '', ''),

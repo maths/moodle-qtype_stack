@@ -47,6 +47,10 @@ Display of numbers in STACK is controlled with LaTeX, and the underlying LISP pr
 
 Note, that apart from the units input, all other input types truncate the display of unnecessary trailing zeros in floating point numbers, loosing information about significant figures.  So, when the student's answer is a floating point number, trailing zeros will not be displayed.  If you want to specifically test for significant figures, use the [units input type](../Authoring/Units.md), with the teacher's answer having no units.  The units input type should display the same number of significant figures as typed in by the student.  
 
+## Number bases
+
+STACK has dedicated support for number bases.  See the separate documentation for [number bases](Number_bases.md).
+
 ## Display of numbers with LaTeX ##
 
 The display of numbers is controlled by Maxima's `texnumformat` command, which STACK modifies.
@@ -143,5 +147,7 @@ The following commands generate displayed forms of numbers.  These will not be m
 
 
 ## See also
+
+[Number bases](Number_bases.md)
 
 [Maxima reference topics](index.md#reference)

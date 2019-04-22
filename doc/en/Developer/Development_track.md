@@ -12,6 +12,8 @@ DONE:
 * Removed the maxima mathml code (which wasn't connected or used).
 * Add in extra option `simp` to inputs.
 * Add in extra options in the input `allowempty`, `allowsparse` and `hideanswer`.
+* Add a base N check to the numeric input.
+* Allow the use of Maxima "bitwise" library.
 
 TODO:
 
@@ -23,7 +25,6 @@ TODO:
 * Re-sizable matrix input.  See Aalto/NUMBAS examples here, with Javascript.
 * Add support for matrices with floating point entries, and testing numerical accuracy.
 * Update MCQ to accept units.
-* Add a base N check to the numeric input.
 * Expand support for input validation options to matrices (e.g. floatnum, rationalize etc.)
 * Add in full parser, to address issue #324.
 

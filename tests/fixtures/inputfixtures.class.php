@@ -70,6 +70,8 @@ class stack_inputvalidation_test_data {
         array('1+2i', 'php_true', '1+2*i', 'cas_true', '1+2\cdot \mathrm{i}', 'missing_stars', ""),
         array('-(1/512) + i(sqrt(3)/512)', 'php_true', '-(1/512) + i*(sqrt(3)/512)', 'cas_true',
                 '-\frac{1}{512}+\mathrm{i}\cdot \left(\frac{\sqrt{3}}{512}\right)', 'missing_stars', ""),
+        // Students may not type in the basen function directly.
+        array('basen(7,2)', 'php_false', 'basen(7,2)', '', '', 'unknownFunction', "Base b"),
         array('true', 'php_true', 'true', 'cas_true', '\mathbf{true}', '', "Booleans"),
         array('false', 'php_true', 'false', 'cas_true', '\mathbf{false}', '', ""),
         array('"1+1"', 'php_true', '"1+1"', 'cas_true', '\mbox{1+1}', '',

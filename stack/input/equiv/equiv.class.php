@@ -214,14 +214,14 @@ class stack_equiv_input extends stack_input {
                 if (2 == $this->get_parameter('insertStars', 0) || 5 == $this->get_parameter('insertStars', 0)) {
                     $val = stack_utils::make_single_char_vars($val, $localoptions,
                         $this->get_parameter('strictSyntax', true), $this->get_parameter('insertStars', 0),
-                        $this->get_parameter('allowWords', ''), $this->basen_options);
+                        $this->get_parameter('allowWords', ''), $this->basenoptions);
                 }
                 $val = stack_utils::logic_nouns_sort($val, 'add');
                 $answer = new stack_cas_casstring($val);
             }
 
             $answer->get_valid('s', $this->get_parameter('strictSyntax', true),
-                $this->get_parameter('insertStars', 0), $allowwords, $this->basen_options);
+                $this->get_parameter('insertStars', 0), $allowwords, $this->basenoptions);
 
             // Ensure student hasn't used a variable name used by the teacher.
             if ($forbiddenkeys) {

@@ -9,6 +9,8 @@ STACK is designed to be used on a linux-based server.  The Windows/MS option exi
 * Please ensure you have [installed Moodle](http://docs.moodle.org/en/Main_page).  You must use Moodle 2.7.0 or later, [e.g. here.](https://github.com/moodle/moodle)  We recommend using Moodle 3.5, and STACK 4.2 is untested on versions before Moodle 3.0.
 * Please ensure LaTeX can be displayed.  We currently support [MathJax](Mathjax.md) through the Moodle MathJax filter.
 
+STACK requires PHP 5.6 or later.
+
 ## 2. Install GNUPlot and Maxima
 
 Ensure GNUPlot and [Maxima](http://maxima.sourceforge.net) are installed on your server.  Currently Maxima 5.34.1 to 5.36.1 then 5.38.0 to 5.42.2 are supported.  Please avoid versions 5.37.x which are known to have a minor bug which affects STACK.  STACK has been used with Maxima 5.25.1 to 5.36.1, but these older versions are not being actively tested. Please contact the developers to request support for other versions.

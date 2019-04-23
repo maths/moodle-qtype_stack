@@ -1040,6 +1040,16 @@ class stack_equiv_test_data {
         $samplearguments[] = $newarg;
 
         $newarg = array();
+        $newarg['title']     = "";
+        $newarg['narrative'] = 'Squaring both sides introduces an extra root into an interesting example.';
+        $newarg['casstring'] = "[11*sqrt(abs(x)+1)=25-x,11^2*(abs(x)+1)=(25-x)^2,11^2*abs(x)=(25-x)^2-11^2,11^4*x^2=((25-x)^2-11^2)^2, " .
+            "((25-x)^2-11^2)^2-11^4*x^2=0,((25-x)^2-11^2-11^2*x)*((25-x)^2-11^2+11^2*x)=0,(x^2-50*x+504-121*x)*(x^2-50*x+504+121*x)=0, " .
+            "(x-168)*(x-3)*(x+8)*(x+63)=0]";
+        $newarg['debuglist'] = "[EMPTYCHAR,QMCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR]";
+        $newarg['outcome']   = false;
+        $samplearguments[] = $newarg;
+
+        $newarg = array();
         $newarg['title']     = "Non-trivial partial fractions";
         $newarg['narrative'] = '';
         $newarg['casstring'] = "[1/(x^2+1)=1/((x+%i)*(x-%i)), stackeq(1/(2*%i)*(1/(x-%i)-1/(x+%i)))]";

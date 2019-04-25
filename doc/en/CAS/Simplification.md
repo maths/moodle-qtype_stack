@@ -16,7 +16,7 @@ See Maxima's documentation for more details.
 Only one `orderless` or `ordergreat` command can be issued in any session.  The last one encountered will be used and the others ignored.  
 No warnings or errors are issued if more than one is encountered.
 
-## Logarithms to an arbitrary base.
+## Logarithms to an arbitrary base
 
 By default, Maxima does not provide logarithms to an arbitrary base.  To overcome this, STACK provides a function `lg` for student entry.
 
@@ -124,9 +124,9 @@ Of course, to print out one line in the worked solution you can also `apply("+",
 
 To create the binomial coefficients
 
-   simp:false;
-   n:5;
-   apply("+",map(lambda([ex],binomial(n,ex)*x^ex), ev(makelist(k,k,0,5),simp)));
+    simp:false;
+    n:5;
+    apply("+",map(lambda([ex],binomial(n,ex)*x^ex), ev(makelist(k,k,0,5),simp)));
 
 ## Boolean functions
 

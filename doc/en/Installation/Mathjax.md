@@ -1,4 +1,4 @@
-# Displaying mathematics for STACK in moodle #
+# Displaying mathematics for STACK in Moodle #
 
 STACK generates LaTeX code on the fly and expects to use a Moodle filter to convert this into something the user's browser will display.  For Moodle 2.7 or later, MathJax is distributed as a filter.  We strongly recommend using the Moodle MathJax filter.  One reason for adopting MathJax is that it aids [accessibility](../Students/Accessibility.md).
 
@@ -7,9 +7,9 @@ STACK generates LaTeX code on the fly and expects to use a Moodle filter to conv
 These are notes on configuring the MathJax filter options for use with STACK.
 
 1. Do not use "TeX filter compatibility" unless you want all equations to appear inline!
-2. To add suppport for [actuarial notation](../Authoring/Actuarial.md) you need to add the option 'enclose.js' to the extensions.  I.e. within the "MathJax configuration" text we need the the following.   
+2. To add support for [actuarial notation](../Authoring/Actuarial.md) you need to add the option 'enclose.js' to the extensions.  I.e. within the "MathJax configuration" text we need the following.   
 
-    TeX: { extensions: ['enclose.js'] }
+        TeX: { extensions: ['enclose.js'] }
 
 ## Accessibility ##
 
@@ -19,7 +19,7 @@ The accessibility features supported by MathJax are given detailed [here](http:/
 
 If the MathJax filter is not available then you can include it in the head of every page by adding additional HTML to every page.  We don't recommend you do this, but have retained this information in the documentation for completeness.
 
-### Option 1: install MathJax locally. ###
+### Option 1: install MathJax locally ###
 
 A local installation may be preferable, e.g., if you want your STACK-equipped Moodle to work off-line, or if you want to try to speed up LaTeX rendering.
 
@@ -30,7 +30,7 @@ A local installation may be preferable, e.g., if you want your STACK-equipped Mo
 `<script type="text/javascript" src="http://localhost/moodle/lib/mathjax/MathJax.js?config=TeX-AMS_HTML"></script>`
 
 
-### Option 2: link to external MathJax setup. ###
+### Option 2: link to external MathJax setup ###
 
 As of August 2017, you can use an external CDN at `cdnjs.cloudflare.com`.
 
@@ -68,7 +68,7 @@ If you have extensive existing materials using these delimiters then we have scr
 
     Home > Site administration > Plugins > Question types > STACK
 
-If you have ad-hoc text to convert then the CAS chat script *always* converts dollars into the forms `\( .... \)`and `\[ .... \]`.  You can test and edit the display of text in this window to see the conversion. 
+If you have ad-hoc text to convert then the CAS chat script *always* converts dollars into the forms `\( .... \)` and `\[ .... \]`.  You can test and edit the display of text in this window to see the conversion. 
 
 If you really want to use dollars, MathJax can display them with the code
 

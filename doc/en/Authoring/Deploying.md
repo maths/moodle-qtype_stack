@@ -1,6 +1,6 @@
 # Deploying
 
-Computer aided assessment of mathematics works in the following phases.
+Computer-aided assessment of mathematics works in the following phases.
 
 1. [Authoring](../Authoring/index.md),
 2. [Testing](Testing.md) and
@@ -27,7 +27,7 @@ Notes:
 
 ## How to deploy question variants ##
 
-The deployment interface can be found on the top of the [Testing](Testing.md) page.  This page also contains the list of currently deployed versions, and links to un-deply a variant.
+The deployment interface can be found on the top of the [Testing](Testing.md) page.  This page also contains the list of currently deployed versions, and links to un-deploy a variant.
 
 Notes:
 

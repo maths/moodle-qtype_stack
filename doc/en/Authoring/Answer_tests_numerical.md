@@ -6,7 +6,7 @@ Other tests are documented in a page on [answer tests](../Authoring/Answer_tests
 
 Please also see the separate notes on [numbers](../CAS/Numbers.md) and [scientific units](Units.md).  
 
-With other answer tests a question author can manipulate the student's answer with the CAS before applying an answer test.  With these tests it is _essential_ that the SAns field is exactly the name of the input.  For example, if your input is `ans1` then the SAns field of the answer test must only be `ans1`. The reason for this is that Maxima changes the display of floating point numbers to remove or add trailing zeros.  These answer tests must take the value typed at the input, not the value passed through the CAS, otherwise digits will be changed.  Further information and examples are given in the page on [numbers](../CAS/Numbers.md).   This problem does not apply to the teacher's answer because we do not test whether the teacher has supplied the correct number of trailing zeros.  We only test if the student's answer is sufficiently close in numerical precision.  So, it is safe to calculate the teacher's answer field of the answer test from question variables using the CAS.  Care will be needed to display the correct number of significant figures with trailing zeros elsewhere in the question though.
+With other answer tests a question author can manipulate the student's answer with the CAS before applying an answer test.  With these tests it is _essential_ that the SAns field is exactly the name of the input.  For example, if your input is `ans1` then the SAns field of the answer test must only be `ans1`. The reason for this is that Maxima changes the display of floating-point numbers to remove or add trailing zeros.  These answer tests must take the value typed at the input, not the value passed through the CAS, otherwise digits will be changed.  Further information and examples are given in the page on [numbers](../CAS/Numbers.md).   This problem does not apply to the teacher's answer because we do not test whether the teacher has supplied the correct number of trailing zeros.  We only test if the student's answer is sufficiently close in numerical precision.  So, it is safe to calculate the teacher's answer field of the answer test from question variables using the CAS.  Care will be needed to display the correct number of significant figures with trailing zeros elsewhere in the question though.
 
 # Introduction to numerical testing #
 
@@ -15,7 +15,7 @@ There are two issues of which a question author should be aware.
 * Limits on numerical accuracy.
 * Dealing with trailing zeros.
 
-All software have limitations on the extent to which they can robustly deal with numerical quantities.  Maxima, PHP (and hence STACK) are no exceptions.  Integers are essentially unproblematic, and CAS will support (almost) arbitrary precision integers.  Floating point representations of real numbers are more difficult, and a classic discussion of how to represent continuous quantities in finite state machine is given by D. Goldberg. _What every computer scientist should know about floating-point arithmetic._ Computing Surveys, 23(1):5-48, March 1991.
+All software have limitations on the extent to which they can robustly deal with numerical quantities.  Maxima, PHP (and hence STACK) are no exceptions.  Integers are essentially unproblematic, and CAS will support (almost) arbitrary precision integers.  Floating-point representations of real numbers are more difficult, and a classic discussion of how to represent continuous quantities in finite state machine is given by D. Goldberg. _What every computer scientist should know about floating-point arithmetic._ Computing Surveys, 23(1):5-48, March 1991.
 
 # Answer tests in STACK#
 
@@ -30,7 +30,7 @@ NumRelative  and NumAbsolute can also accept lists and sets.  Elements are autom
 
 ### GT & GTE ###
 
-"Greater than" or "Greater than or equal to".  Both arguments are assumed to be numbers. The Answer test fully simplifies the SAns and converts this to a float if possible. This is needed to cope with expressions involving sums of surds, \(\pi\) etc.  Therefore do expect some numerical rounding which may cause the test to fail in very sharp comparisons.
+"Greater than" or "Greater than or equal to".  Both arguments are assumed to be numbers. The Answer test fully simplifies the SAns and converts this to a float if possible. This is needed to cope with expressions involving sums of surds, \(\pi\) etc.  Therefore, do expect some numerical rounding which may cause the test to fail in very sharp comparisons.
 
 # Significant figure testing #
 
@@ -39,7 +39,7 @@ The significant figures of a number are digits that carry meaning. This includes
 * leading zeros;
 * trailing zeros when they are only placeholders to indicate the scale of the number.
 
-To establish the number of significant figures which arise from a calculation it is necessary to know the number of significant figures involved in the floating point numbers used in the calculation.  This causes a problem in assessment when we have a numerical expression, such as \(100\), and seek to infer the number of significant figures.  Does this have one significant figure or three?
+To establish the number of significant figures which arise from a calculation it is necessary to know the number of significant figures involved in the floating-point numbers used in the calculation.  This causes a problem in assessment when we have a numerical expression, such as \(100\), and seek to infer the number of significant figures.  Does this have one significant figure or three?
 
 The following cases illustrate the difficulties in inferring the number of significant digits from only the written form of a number.
 
@@ -65,7 +65,7 @@ The option is the required number of significant figures.  This must be an integ
 
 ### NumSigFigs ####
 
-This is a more liberal test.  Primarily it checks numerical accuracy, but it also checks the number of significant figures in a liberal way.  That is to say, it makes sure that the number of significant figures specified by the teacher lies within the range infered from the student's answer.  For example, this test will accept \(100\) as being correctly written to 1, 2 or 3 significant figures.  If you want to enforce the precise rules use the `StrictSigFigs` test.
+This is a more liberal test.  Primarily it checks numerical accuracy, but it also checks the number of significant figures in a liberal way.  That is to say, it makes sure that the number of significant figures specified by the teacher lies within the range inferred from the student's answer.  For example, this test will accept \(100\) as being correctly written to 1, 2 or 3 significant figures.  If you want to enforce the precise rules use the `StrictSigFigs` test.
 
 Tests 
 
@@ -82,7 +82,7 @@ This test only supports numbers where \(|sa|<10^{22}\).  Please see the [notes a
 
 ### NumDecPlaces ###
 
-Tests (i) whether the student's answer is equivalent to the teacher's and is written to `opt` decimal places.  The option, which must be a positive integer, dictates the number of digits following the decimal separator `.`.  Note that trailing zeros are ''required'', i.e. to two decimal placed you must write `12.30` not just `12.3`.  The test rounds the numbers to the specified number of decimal places before trying to establish equivalence.
+Tests (i) whether the student's answer is equivalent to the teacher's and (ii) is written to `opt` decimal places.  The option, which must be a positive integer, dictates the number of digits following the decimal separator `.`.  Note that trailing zeros are ''required'', i.e. to two decimal places you must write `12.30` not just `12.3`.  The test rounds the numbers to the specified number of decimal places before trying to establish equivalence.
 
 
 ### NumDecPlacesWrong ###

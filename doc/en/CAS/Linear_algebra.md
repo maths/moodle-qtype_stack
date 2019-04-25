@@ -2,7 +2,7 @@
 
 Linear algebra, next to calculus, is one of the pillars of modern mathematics and an important application in STACK is testing linear algebra questions.
 
-Often there will be many equivalent answers, especially when asking for students to find the basis for a subspace etc.
+Often there will be many equivalent answers, especially when asking for students to find the basis for a subspace, etc.
 
 This document provides some tips and hints for writing STACK questions.
 
@@ -14,9 +14,9 @@ The paper [Setting linear algebra problems](https://www.researchgate.net/publica
 
 ## Lines and planes
 
-Problem: the student has been asked to represent a subspace in parametric form, we want to decide if these spaces are equivalent.
+Problem: the student has been asked to represent a subspace in parametric form; we want to decide if these spaces are equivalent.
 
-## Converting from parametric form to vector form.
+## Converting from parametric form to vector form
 
 Let us start with an answer such as
 
@@ -61,7 +61,7 @@ Does `ta` pass through the origin?  This amounts to solving
 
 But, solve can throw errors when we have dependent equations (as we might well do...).
 
-## Solving systems of linear equations.
+## Solving systems of linear equations
 
 Using solve can throw errors, so use `linsolve` instead.  For example.
 

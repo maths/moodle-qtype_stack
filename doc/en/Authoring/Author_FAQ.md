@@ -13,8 +13,8 @@ Yes, see support for [multiple languages](Languages.md).
 LaTeX is a document preparation system. For STACK questions we only need some simple LaTeX, so please do not be put off.
 In particular STACK only really makes use of LaTeX for mathematical markup, and does not use the document structure tags.
 
-* An introduction for those totally new to LaTeX is found [here](http://www.andy-roberts.net/misc/latex/index.html)
-* The mathematics environment is describe [here](http://www.andy-roberts.net/writing/latex/mathematics_1)
+* An introduction for those totally new to LaTeX is found [here](http://www.andy-roberts.net/misc/latex/index.html).
+* The mathematics environment is described [here](http://www.andy-roberts.net/writing/latex/mathematics_1).
 * Details about LaTeX are available from <http://www.latex-project.org/guides/>.
 
 Note that some of the more complex examples will not work on STACK. Just keep things simple.
@@ -41,7 +41,7 @@ The command you need may well not be enabled since you should use one STACK prov
 
 ## How can I use subscripts in STACK ##
 
-Note that normally a maxima atom `theta2` is displayed by Maxima as `{\it theta_2}`. This is problematic as the Greek letter is not rendered as LateX `\theta`, and the subscript is in italic which is wrong.
+Note that normally a maxima atom `theta2` is displayed by Maxima as `{\it theta_2}`. This is problematic as the Greek letter is not rendered as LaTeX `\theta`, and the subscript is in italic which is wrong.
 
 Maxima "atoms" with a subscript will be displayed using subscripts.  For example
 
@@ -53,11 +53,11 @@ Teachers can create an inert function which displays using subscripts.
 
     texsub(a,b)
 
-is typeset as \({a}_{b}\) i.e. `{a}_{b}` in LaTeX.  This enables subscipts to be displayed with non-atomic things like
+is typeset as \({a}_{b}\) i.e. `{a}_{b}` in LaTeX.  This enables subscripts to be displayed with non-atomic things like
 
     texsub(F,1-2)
 
-with simplification off will be displayed as \({F}_{1-2}\) (with simplification off).  The complex expression in the subscript cannot form an atomic Maxima expression.
+with simplification off will be displayed as \({F}_{1-2}\).  The complex expression in the subscript cannot form an atomic Maxima expression.
 
 Note however there is a subtle (and perhaps confusing) difference in the display between the Maxima atoms `a1` and `a_1` in STACK.  The atom `a1` will follow the Maxima default and generate the LaTeX `{\it a_1}` and so the numeral 1 will be in italic, which some people consider incorrect.  The atom `a_1` will use the `texsub` function as an intermediate and generate the LaTeX `{a}_{1}` and so the normal LaTeX rules will render the numeral 1 in Roman, which is correct.  
 

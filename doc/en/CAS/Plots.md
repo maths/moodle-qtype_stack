@@ -1,6 +1,6 @@
 # Plots and graphics in STACK questions.
 
-Plots and graphics can be placed into any of the [CAStext](../Authoring/CASText.md) fields.
+Plots and graphics can be placed into any of the [CASText](../Authoring/CASText.md) fields.
 
 The main way to create plots with the core STACK commands is using Maxima.  As of version 4.0, the tags `{#...#}` provide the possibility to interact with 3rd party scripts.  If you have examples of this, please contact the developers.  This page is about core supported functionality.
 
@@ -84,13 +84,13 @@ If you would like an expression as part of this then try
 
 ## A catalogue of plots
 
-The following CAStext gives representative examples of the plot2d features supported by STACK's plot command.  Cut and paste it into the caschat script.  Beware that these are likely to cause a timeout on the CAS if you try them all at once.
+The following CASText gives representative examples of the plot2d features supported by STACK's plot command.  Cut and paste it into the CASchat script.  Beware that these are likely to cause a timeout on the CAS if you try them all at once.
 
     <h3>Basic plot</h3>
     {@plot(x^2,[x,-2,2])@}
     The following plot tests the option to explicitly test the alt-text.
     {@plot(x^3,[x,-3,3], [alt,"What is this function?"])@}
-    <h3>Mutiple graphs, clips the \(y\) values</h3>
+    <h3>Multiple graphs, clips the \(y\) values</h3>
     {@plot([x^3,exp(x)],[x,-2,2],[y,-4,4])@}
     <h3>With and without a grid</h3>
     {@plot([x^2/(1+x^2),2*x/(1+x^2)^2], [x, -2, 2], [y,-2.1,2.1], grid2d)@}
@@ -198,4 +198,4 @@ This should look like the following, with in this case \(a=33\), \(b=65\), \(a\c
 
 ## See also
 
-[Maxima reference topics](index.md#reference).
+[Maxima reference topics](index.md#reference)

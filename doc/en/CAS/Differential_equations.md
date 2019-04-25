@@ -20,7 +20,7 @@ If `derivabbrev:false` then`'diff(y,x)` is displayed in STACK as \( \frac{\mathr
 
 If `derivabbrev:true` then `'diff(y,x)` is displayed in STACK and Maxima as \( y_x \).  
 
-* Extra brackets are sometime produces around the differential.
+* Extra brackets are sometimes produced around the differential.
 * You must have `simp:true` otherwise the display routines will not work.
 
 ## Manipulating ODEs in Maxima
@@ -137,7 +137,7 @@ If the student's answer is `ans` then we can check initial/boundary conditions a
     block([ds],ds:diff(ans,x),ev(ds,x=x0));
 
 Notice in the second example the need to calculate the derivative of the student's answer before it is evaluated at the point `x=x0`.
-These values can be compare with answer tests in the usual way.
+These values can be compared with answer tests in the usual way.
 
 ### Arbitrary constants ###
 
@@ -173,7 +173,7 @@ A [sample question](../Authoring/Sample_questions.md) of this type is provided b
 1. Here `sa1`, `sa2` and `sa3` are used to ensure the answer satisfies the ODE and if not to provide feedback.
 2. To ensure we have two constants we count the number of variables using `listofvars`, not including `t`. We are looking for two constants.
 3. To ensure the solution is suitably general, we confirm \(y(1)\neq 0\) and calculate \(y(0)/y(1)\).
-    If this simplifies to a number then the constants have canceled out and we don't have a general solution consisting of two linearly independent parts.
+    If this simplifies to a number then the constants have cancelled out and we don't have a general solution consisting of two linearly independent parts.
 
 These are the properties a correct answer should have.  If the teacher has a preference for the form, then a separate test is required to enforce it.
 For example, you might like the top operation to be a \(+\), i.e. sum.   This can be confirmed by
@@ -312,5 +312,5 @@ Further examples are
 
 ## See also
 
-[Maxima reference topics](index.md#reference).
+[Maxima reference topics](index.md#reference)
 

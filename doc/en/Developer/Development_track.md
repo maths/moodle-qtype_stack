@@ -9,7 +9,7 @@ How to report bugs and make suggestions is described on the [community](../About
 
 DONE:
 
-* Removed the maxima mathml code (which wasn't connected or used).
+* Removed the Maxima MathML code (which wasn't connected or used).
 * Add in extra option `simp` to inputs.
 * Add in extra options in the input `allowempty` and `hideanswer`.
 
@@ -17,8 +17,8 @@ TODO:
 
 * 1st version of API.
 * Better install code (see #332).
-* Better CSS, including "tool tips".  May need to refactor javascript.  (See issue #380)
-* A STACK maxima function which returns the number of decimal places/significant figures in a variable (useful when providing feedback).  Needed for the refactoring.
+* Better CSS, including "tool tips".  May need to refactor JavaScript.  (See issue #380)
+* A STACK Maxima function which returns the number of decimal places/significant figures in a variable (useful when providing feedback).  Needed for the refactoring.
 * Enable individual questions to load Maxima libraries.  (See issue #305)
 * Re-sizable matrix input.  See Aalto/NUMBAS examples here, with Javascript.
 * Add support for matrices with floating point entries, and testing numerical accuracy.

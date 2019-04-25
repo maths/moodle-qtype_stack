@@ -1,6 +1,6 @@
 # Adding questions to a quiz
 
-Computer aided assessment of mathematics works in the following phases.
+Computer-aided assessment of mathematics works in the following phases.
 
 1. [Authoring](../Authoring/index.md),
 2. [Testing](Testing.md) and
@@ -12,7 +12,7 @@ Computer aided assessment of mathematics works in the following phases.
 
 STACK questions form part of the Moodle quiz.
 You may form quizzes with a mix of STACK questions and other Moodle question types.
-Please consult the [moodle documentation](http://docs.moodle.org/en/Quiz_module) for details of how to create
+Please consult the [Moodle documentation](http://docs.moodle.org/en/Quiz_module) for details of how to create
 and use Moodle quizzes.
 
 ## Setting quiz options ##

@@ -21,7 +21,7 @@ Sometimes these processes are done in one step, sometimes you will need to submi
 You may change your answer. Just press `check` to validate and then `check` again to assess.
 The system keeps track of any changes you make.
 
-You will never loose marks for making a syntax error, e.g. missing a closing bracket.   However, you may type in a valid expression which is not what you meant and which is wrong.  You need to learn how to express yourself using an unambiguous syntax.  This is simple and comes to most students easily with practice.   If you make a mathematical mistake you should try to do the question again!
+You will never lose marks for making a syntax error, e.g. missing a closing bracket.   However, you may type in a valid expression which is not what you meant and which is wrong.  You need to learn how to express yourself using an unambiguous syntax.  This is simple and comes to most students easily with practice.   If you make a mathematical mistake you should try to do the question again!
 
 If you have asked for a worked solution then you may not change any of your answers.
 
@@ -63,7 +63,7 @@ Think about the form your answer should have before you type it in.
   In this case you should give an exact answer as, e.g. a fraction: `1/2` or a surd: `sqrt(2)`.
 * Some expressions make no mathematical sense at all, e.g. one divided by zero. These are also invalid.
 
-## What are _mathematical properties?_ ##
+## What are _mathematical properties_? ##
 
 When your answers are all valid you submit them again. This time they are assessed.
 The outcomes are a mark, and sometimes some written feedback. If you did not obtain full marks

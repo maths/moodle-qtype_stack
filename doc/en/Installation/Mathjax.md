@@ -26,8 +26,9 @@ A local installation may be preferable, e.g., if you want your STACK-equipped Mo
 1. Download [MathJax](http://www.mathjax.org/)
 2. Unpack the archive and rename folder to "mathjax".
 3. Place the mathjax folder in .../moodle/lib and set appropriate ownership, e.g., `chown -R root.root mathjax`.
-4. Carry out the procedure in Option 1, editing the script above to reflect your path to MathJax. The last line can resemble the following:<br>
-`<script type="text/javascript" src="http://localhost/moodle/lib/mathjax/MathJax.js?config=TeX-AMS_HTML"></script>`
+4. Carry out the procedure in Option 1, editing the script above to reflect your path to MathJax. The last line can resemble the following:
+
+       <script type="text/javascript" src="http://localhost/moodle/lib/mathjax/MathJax.js?config=TeX-AMS_HTML"></script>
 
 
 ### Option 2: link to external MathJax setup ###
@@ -37,20 +38,20 @@ As of August 2017, you can use an external CDN at `cdnjs.cloudflare.com`.
 1. Admin -> Appearance -> Additional HTML -> Within HEAD
 2. Put the following script in it and save
 
-`<script type="text/x-mathjax-config"> MathJax.Hub.Config({`<br>
-`        MMLorHTML: { prefer: "HTML" },`<br>
-`        tex2jax: {`<br>
-`            displayMath: [['\\[', '\\]']],`<br>
-`            inlineMath:  [['\\(', '\\)']],`<br>
-`            processEscapes: true`<br>
-`        },`<br>
-`        TeX: { `<br>
-`           extensions: ['enclose.js'],`<br>
-`           Macros: { pounds: '{\\it\\unicode{xA3}}', euro: '\\unicode{x20AC}' }`<br>
-`             }`<br>
-`      });`<br>
-`</script>`<br>
-`<script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"> </script>`
+       <script type="text/x-mathjax-config"> MathJax.Hub.Config({
+                MMLorHTML: { prefer: "HTML" },
+                tex2jax: {
+                    displayMath: [['\\[', '\\]']],
+                    inlineMath:  [['\\(', '\\)']],
+                    processEscapes: true
+                },
+                TeX: { 
+                extensions: ['enclose.js'],
+                Macros: { pounds: '{\\it\\unicode{xA3}}', euro: '\\unicode{x20AC}' }
+                }
+            });
+       </script>
+       <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"> </script>
 
 Please note the following.
 
@@ -72,8 +73,8 @@ If you have ad-hoc text to convert then the CAS chat script *always* converts do
 
 If you really want to use dollars, MathJax can display them with the code
 
-`        displayMath: [['$$', '$$'], ['\\[', '\\]']],`<br>
-`        inlineMath:  [['$',  '$' ], ['\\(', '\\)']],`
+    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+    inlineMath:  [['$',  '$' ], ['\\(', '\\)']],
 
 Before deciding to support the use of dollars for mathematics on your site, please see the notes on the use of dollars for [currency](../Authoring/CASText.md#currency).
 

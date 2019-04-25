@@ -122,16 +122,33 @@ The following data was gathered by CJS on 23/9/2012 using Maxima 5.28.0 with CLI
 
 Running the PHP testing suites we have the following data, where all times are in seconds. The second line, in italics, is time per test.
 
-CAS setting       | Answertest (460 tests) | Inputs (257 tests)
------------------ | ---------------------- | -------------------
-Linux             | 517.8672               | 208.85655
-                  | _1.1258_               | _0.81267_
-Mature cache      | 0.92644                | 13.9798
-(with Linux)      | _0.00201_              | _0.0544_
-Linux (optimised) | 95.16954               | 20.89807
-                  | _0.20689_              | _0.08132_
-Mature cache      | 0.90839                | 1.48648
-(when optimised)  | _0.00197_              | _0.00578_
+<table>
+  <tr>
+    <th align="left">CAS setting</th>
+    <th align="left">Answertest (460 tests)</th>
+    <th align="left">Inputs (257 tests)</th>
+  </tr>
+  <tr>
+    <td>Linux</td>
+    <td>517.8672<br> <i>1.1258</i>  </td>
+    <td>208.85655<br> <i>0.81267</i>  </td>
+  </tr>
+  <tr>
+    <td>Mature cache <br>(with Linux)</td>
+    <td>0.92644 <br> <i>0.00201</i> </td>
+    <td>13.9798<br> <i>0.0544</i> </td>
+  </tr>
+  <tr>
+    <td>Linux (optimised)</td>
+    <td>95.16954<br> <i>0.20689</i>  </td>
+    <td>20.89807<br> <i>0.08132</i>  </td>
+  </tr>
+  <tr>
+    <td>Mature cache <br>(when optimised)</td>
+    <td>0.90839 <br> <i>0.00197</i> </td>
+    <td>1.48648<br> <i>0.00578</i> </td>
+  </tr>
+</table>
 
 However, not all tests result in a CAS call.  So, to estimate this we subtract the overhead time for a mature cache (which is essentially time for database/PHP processing) from the raw time and divide by the number of CAS calls.  We have the following time per CAS call estimates.
 

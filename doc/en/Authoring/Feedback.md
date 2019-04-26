@@ -33,7 +33,7 @@ it must be validated.  In particular, at each attempt, each input is assigned a 
 
 Normally a student will view a displayed form of their expression and submit it again.  This default behaviour is inappropriate for multiple choice/selection interactions, and can be changed for each input using the option "Student must verify".  Whether the student's answer is echoed back and shown is controlled by a separate option "Show the validation".  Validation errors are always shown.
 
-Whether a string entered by the student is valid or invalid does not depend on the question. I.e. there _should_ be a consistent mechanism for what constitutes a syntactically valid expression. However, in practice things are not quite so clean!  Some [input options](Inputs.md#Input_options) do affect validity, such as _forbid floats_.   Some symbols, e.g. \(i\) and \(j\) change meaning in differnent contexts, e.g. \(\sqrt{-1}\) or vector components.  See details about [options](Options.md).
+Whether a string entered by the student is valid or invalid does not depend on the question. I.e. there _should_ be a consistent mechanism for what constitutes a syntactically valid expression. However, in practice things are not quite so clean!  Some [input options](Inputs.md#Input_options) do affect validity, such as _forbid floats_.   Some symbols, e.g. \(i\) and \(j\) change meaning in different contexts, e.g. \(\sqrt{-1}\) or vector components.  See details about [options](Options.md).
 
 # Properties #
 
@@ -58,7 +58,7 @@ The numerical scores are assembled by traversing each potential response tree.
 
 * Each branch of each node can add, subtract or set an absolute, score.
 * The outcome at the end should be between 0 and 1.  If the score, \(s\), lies outside this range it is taken to be \( \min(\max(s,0),1) \) to bring it within range, then it is scaled by multiplying by the [question value](Potential_response_trees.md#Question_value) for that potential response tree.
-* A "penalty" may also set in the potential response tree for this attempt. Normally the penalty field in each branch of the the potential response tree is empty, in which case the question level penalty value is used.  However, these fields are useful to _remove_ any penalty for this outcome, by setting it to zero explicitly.
+* A "penalty" may also set in the potential response tree for this attempt. Normally the penalty field in each branch of the potential response tree is empty, in which case the question level penalty value is used.  However, these fields are useful to _remove_ any penalty for this outcome, by setting it to zero explicitly.
 * After the whole tree has been traversed, if the score is 1 then the penalty is always assigned to 0.
 
 STACK adjusts the score for each potential response tree, based on the number of valid, different attempts.  The penalty scheme deducts from the score a small amount (default is \(0.1=10\%\)) for each different and valid attempt which is not completely correct.   It is designed to _reward persistence and diligence_ when students initially get a question wrong, but they try again.

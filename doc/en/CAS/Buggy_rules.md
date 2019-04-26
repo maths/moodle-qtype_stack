@@ -32,4 +32,4 @@ There is scope for further examples of such rules.
 
 ## See also
 
-[Maxima reference topics](index.md#reference).
+[Maxima reference topics](index.md#reference)

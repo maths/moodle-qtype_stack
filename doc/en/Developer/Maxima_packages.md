@@ -1,4 +1,4 @@
-# Adding support for Maxima packages.
+# Adding support for Maxima packages
 
 Maxima has a very wide range of optional packages.  Some of these write to the server file system, and so we do not permit question authors to load arbitrary packages into Maxima.  Instead the developers maintain a "whitelist" of packages.
 

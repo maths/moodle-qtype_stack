@@ -19,7 +19,7 @@ For solutions we are not interested in order, but we need multiplicity.  Therefo
 
 If the student enters a set or list, the AlgEquiv answer test can be used to compare sets and lists, but it does so element-wise.  We need to do something different.
 
-In the feeback variables we create a new list called "listans" as follows, assuming the student's answer is assigned to `ans1`.
+In the feedback variables we create a new list called "listans" as follows, assuming the student's answer is assigned to `ans1`.
 
     /* Need a *LIST* from this point on, so we have a definite order. */
     sans:listify(ans1);
@@ -31,7 +31,7 @@ The values of `listans` are what we get when we substitute in each of the studen
     /* "Simplify" the result (not strictly necessary) */
     listans:maplist(fullratsimp, listans);
 
-Now we have a list of numbers.  We need to compare this with something, but the student's list may have a different number of entries than than of the teacher's solution!
+Now we have a list of numbers.  We need to compare this with something, but the student's list may have a different number of entries than of the teacher's solution!
 
     /* Generate something to compare this list with. */
     zl:makelist(0,length(listans));
@@ -57,7 +57,7 @@ If the student has too many they have repeated solutions.  If they have too few 
     length(fullratsimp(sans))
     length(ta)
 
-## Randomly generated variables.
+## Randomly generated variables
 
 In the above example, we may have created a randomly generated variable.  E.g.
 
@@ -70,13 +70,13 @@ In this case, to make the substitution you need to put in an extra evaluation.
 
 ## Repeated roots!
 
-If the teacher asks a student to enter the answer as a set, then by default STACK does not remove duplicates because validation etc. 
-is done with `simp:false`.  If you want the student to enter repeated roots you must set `Auto-simplify` to `no` in the PRT to avoid loosing solutions from the student.  You can then check that each answer satisfies the equation and the student has the correct number of answers using
+If the teacher asks a student to enter the answer as a set, then by default STACK does not remove duplicates because validation, etc. 
+is done with `simp:false`.  If you want the student to enter repeated roots you must set `Auto-simplify` to `no` in the PRT to avoid losing solutions from the student.  You can then check that each answer satisfies the equation and the student has the correct number of answers using
 
     length(ans1)
 
 being equivalent to the correct number using `EqualComAss` to avoid simplification.  
-Note, that if you "simplify" `ans1` you are likely to loose answers as sets automatically loose duplicates.
+Note, that if you "simplify" `ans1` you are likely to lose answers as sets automatically lose duplicates.
 
 Alternatively, you may want to simplify the student's answer to make sure they have the right number of *different* solutions.  This is a separate test.
 

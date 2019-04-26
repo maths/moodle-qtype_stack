@@ -53,7 +53,7 @@ Find \(\int 5(3x-2)^{-3} \mathrm{d}x\).
 
 Notes:
 
-* Moodle has a wide choice for text editors, so the screenshots in this quickstart guide might look slightly different to your version of Moodle.  Also the cut and paste may, or may not, include some of the formatting.
+* Moodle has a wide choice for text editors, so the screenshots in this quick start guide might look slightly different to your version of Moodle.  Also the cut and paste may, or may not, include some of the formatting.
 * The text contains LaTeX mathematics environments.  Do not use mathematics environments `$..$` and `$$..$$`.  Instead you must use `\(..\)` and `\[..]\` for inline and displayed mathematics respectively.  (There is an automatic bulk converter if you have a lot of legacy materials.)
 * The tag `[[input:ans1]]` denotes the position of the box into which the student puts their answer.
 * The tag `[[validation:ans1]]` will be replaced by any feedback related to the validity of the input `ans1`.  E.g. syntax errors caused by missing brackets.
@@ -200,17 +200,17 @@ In the input `ans1` replace the _model answer_ with `ta`.
 
 In the potential response tree, node 1, replace the expression `TAns` with `ta`.
 
-These change just propogate the new variables through out the question.  We should test the question again, but this can be done in an automatic way.
+These changes just propagate the new variables through out the question.  We should test the question again, but this can be done in an automatic way.
 
 ## Student validation ##
 
-Notice in the above there is a two step process for the student to enter their answer.
+Notice in the above there is a two-step process for the student to enter their answer.
 
 First is "validation", and normally servers have "instant validation" enabled.  If the expression is valid STACK shows the student "Your last answer was interpreted as follows:" and displays their expression.  An invalid response creates an error message. 
 
 The second stage executes when a valid expression is entered, and this evaluates the potential response tree to assess the student's answer.
 
-This two stage process is a unique and essential feature of STACK.  There are lots of options for validation to help the student.  For example, in the above all example expressions have a strict syntax.  Here we used expressions like `-5/6*(3*x-2)^-2+c` which has all the `*` symbols to denote multiplication.  STACK has lots of options, and you could choose to let students type in expressions like `-5/6(3x-2)^-2+c` and accept implied multiplication.  Documentation on these options is given in the [inputs](Inputs.md) section.
+This two-stage process is a unique and essential feature of STACK.  There are lots of options for validation to help the student.  For example, in the above all example expressions have a strict syntax.  Here we used expressions like `-5/6*(3*x-2)^-2+c` which has all the `*` symbols to denote multiplication.  STACK has lots of options, and you could choose to let students type in expressions like `-5/6(3x-2)^-2+c` and accept implied multiplication.  Documentation on these options is given in the [inputs](Inputs.md) section.
 
 ## Question tests ##
 
@@ -269,7 +269,7 @@ Notice that the student has:
 - Forgotten to include the constant of integration.
 - Differentiated the outer function, instead of integrating.
 
-These are things which students are likley to do with any integration question.  Indeed, through force of habit students have been known to differentiate by mistake and still add a constant of integration!  Also, there are mistakes students have made which are much more specific to this particular question:
+These are things which students are likely to do with any integration question.  Indeed, through force of habit students have been known to differentiate by mistake and still add a constant of integration!  Also, there are mistakes students have made which are much more specific to this particular question:
 
 - Forgetting to use substitution and hence not dividing by \(p\), and effectively integrating \( \int r(px+q)^n \mathrm{d}x \rightarrow \frac{r}{n+1}(px+q)^{n+1}+c \).
 - having difficulties in increasing a negative number (in this case \(-3\) by one).  In our example \( \int \frac{5}{(3x - 2)^3} \mathrm{d}x \rightarrow \frac{5}{3}\frac{1}{(3x - 2)^4}+c\).
@@ -423,6 +423,6 @@ STACK's question type is very flexible.
 * You can change the behaviour of the question with the [options](Options.md).
 * You can add plots to all the [CASText](CASText.md) fields with the [`plot`](../CAS/Maxima.md#plot) command.
 * You can add support for [multiple languages](Languages.md).
-* You might like to look at Moodle's quiz settings, creating a simple quiz.  This is, strictly speaking, a completely Moodle issue and there is every reason to combine STACK questions with other Moodle question types.  Some very brief notes are included in the [quiz quickstart guide](Authoring_quick_start_quiz.md).
+* You might like to look at Moodle's quiz settings, creating a simple quiz.  This is, strictly speaking, a completely Moodle issue and there is every reason to combine STACK questions with other Moodle question types.  Some very brief notes are included in the [quiz quick start guide](Authoring_quick_start_quiz.md).
 
 The next part of the authoring quick start guide looks at [multi-part mathematical questions](Authoring_quick_start_2.md).

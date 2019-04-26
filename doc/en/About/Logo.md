@@ -13,7 +13,7 @@ Model made by Dr John Bryant.
 ## The mathematics of this problem
 
 To see why the STACK of blocks doesn't fall over assume that the width of each domino is \(2\) "units".
-Our strategy is this: at each stage we consider an existing balancing stack of \(n\) dominoes which has its centre of mass a distance \(c_n\) from its left hand edge.
+Our strategy is this: at each stage we consider an existing balancing stack of \(n\) dominoes which has its centre of mass a distance \(c_n\) from its left-hand edge.
 
 Obviously \(c_n\leq 2\) for all \(n\) as the centre of mass is to be above the bottom domino! We then place this stack on _top_ of a new domino a distance \(\delta_n\) from the left of the domino.
 There will clearly be no toppling if
@@ -55,7 +55,7 @@ To see this, we group the terms as follows,
 which shows that the series keeps getting larger as we continue to add
 terms. That is to say it does not converge.
 
-In terms of the domino problem: we can chose displacements
+In terms of the domino problem: we can choose displacements
 \(\delta_n\) so that (i) the stack does not topple over, and (ii) we can produce an
 arbitrarily large horizontal displacement. Bizarre indeed!
 

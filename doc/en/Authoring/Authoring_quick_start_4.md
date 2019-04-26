@@ -7,7 +7,7 @@ As an example, we want the students to expand the cubic \((x+2)^3\) showing thei
 The student's response to this question will allow us to test their knowledge and competency in the following:
 
 1. Expanding brackets
-2. Simplifiying by collecting like terms
+2. Simplifying by collecting like terms
 
 Therefore we need them to show their working. 
 
@@ -117,7 +117,7 @@ At this point, any expressions which are equivalent are considered to be a legit
 
 Clearly this is not entirely satisfactory.
 At this point in the development there is no concept of "a step" and indeed this appears to be very hard to define.
-In the future we will develop better tools for checkin "step size", and any contributions in this direction are welcome.
+In the future we will develop better tools for checking "step size", and any contributions in this direction are welcome.
 
 Teachers can check the students answer is long enough or not too long by looking at `length(ta)`.
 

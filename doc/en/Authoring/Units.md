@@ -14,11 +14,11 @@ In Maxima there are a number of separate packages which enable a user to manipul
 
 **WE DO NOT USE THESE PACKAGES** as they are too slow to load and have a variety of side effects.  Instead we have a lightweight package of our own.
 
-By default in maxima, letters such as `k` are unbound variables.  If you would like to give these prefix values \(10^3\) so that `km` literally means `10^3*m` then you will need to add the following to the question variables field.
+By default in Maxima, letters such as `k` are unbound variables.  If you would like to give these prefix values \(10^3\) so that `km` literally means `10^3*m` then you will need to add the following to the question variables field.
 
     stack_unit_si_declare(true);
 
-The units input and units answertest automatically execute this command.  More details are given below.
+The units input and units answer test automatically execute this command.  More details are given below.
 
 Internally numbers can be separated from units using the following inert Maxima function.
 
@@ -47,7 +47,7 @@ Stack provides an input type to enable teachers to support students in entering 
 This input type is built closely on the algebraic input type with the following differences.
 
 1. The input type will check both the teacher's answer and the student's answer for units.  The input will require the student's answer to have units if and only if the teacher's answer also has units.  This normally forces the student to use units.  Also, students sometimes add units to dimensionless quantities (such as pH) and this input type will also enable a teacher to reject such input as invalid when the teacher does not use units.
-2. This input type *always accepts floating point numbers*, regardless of the option set on the edit form.  The input type should display the same number of significant figures as typed in by the student.  Note that all other input types truncate the display of unnecessary trailing zeros in floating point numbers, loosing information about significant figures.  If you want to specifically test for significant figures, use this input type, with the teacher's answer having no units.
+2. This input type *always accepts floating-point numbers*, regardless of the option set on the edit form.  The input type should display the same number of significant figures as typed in by the student.  Note that all other input types truncate the display of unnecessary trailing zeros in floating point numbers, loosing information about significant figures.  If you want to specifically test for significant figures, use this input type, with the teacher's answer having no units.
 3. The student must type a number of some kind.  Entering units on their own will be invalid.  If you want to ask a student for units, then use the algebraic input type.  Units on their own are a not valid expression for this input.
 4. If the teacher shows the validation, "with variable list" this will be displayed as "the units found in your answer are"...
 5. The student is permitted to use variable names in this input type.
@@ -68,7 +68,7 @@ The extra options to the input should be a comma separated list of tags.  This i
 
 ## Answer tests  ##
 
-STACK provides a number of answer tests for dealing with units.  These are designed to accept an answer which is a dimensional numerical quantity, that is a floating point number with units such as `12.3*m/s`.  This will not work with sets, lists, matrices, equations etc.
+STACK provides a number of answer tests for dealing with units.  These are designed to accept an answer which is a dimensional numerical quantity, that is a floating-point number with units such as `12.3*m/s`.  This will not work with sets, lists, matrices, equations, etc.
 
 The answer tests *require* the teacher's answer (second argument to the function) to have units.  If the teacher does not specify units then the test will fail.  This decision is to help question authors write robust questions e.g. just specifying a number would be problematic.  The input will accept an answer as valid if and only if the teacher's answer has units, so you should know in advance if you have units.  If you want to compare numbers (i.e. no units), just use the numerical test.
 
@@ -85,7 +85,7 @@ Essentially, the teacher has to make three decisions.  These could always be don
 For scientific units (Q3.) there are two families of answer tests.
 
 1. `Units[...]` gives feedback if the student has the wrong units, but number is equivalent on conversion,
-2. `UnitsStrict[...]` expects the student's answer to use exactly the units which appear in the teacher's answer.  There is no conversion here.  However, answernotes will record whether the conversion would have worked.
+2. `UnitsStrict[...]` expects the student's answer to use exactly the units which appear in the teacher's answer.  There is no conversion here.  However, answer notes will record whether the conversion would have worked.
 
 The two issues related to the numerical part are tested with one of the [numerical answer tests](Answer_tests_numerical.md) which are documented elsewhere. Units answer tests share code with these functions.  Use the appropriate options for the chosen test.
 
@@ -93,7 +93,7 @@ The two issues related to the numerical part are tested with one of the [numeric
 __Notes__
 
 1. All variables are considered to be units.
-2. The numerical part is compared using the one of the three numerical answer tests.  Each *requires* various options, e.g. the number of significant figures, or the numerical accuracy.  These answer tests uses identical options to the numerical tests.
+2. The numerical part is compared using the one of the three numerical answer tests.  Each *requires* various options, e.g. the number of significant figures, or the numerical accuracy.  These answer tests use identical options to the numerical tests.
 3. The units system accepts both `l` and `L` for litres, and the display respects the way they are typed in.
 4. Only abbreviations are accepted, not full names.  I.e. students may not use `meter`, instead they must use `m`.
 5. Currently there is no localisation (i.e. language support) for unit names/spellings.

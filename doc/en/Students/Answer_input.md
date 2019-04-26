@@ -5,8 +5,8 @@ You should type in your answers using the same syntax as that used in the
 symbolic mathematics package Maxima.
 
 The syntax is broadly similar to the syntax used for
-mathematical formulae in graphical calculators, general programming languages such as
-Java, C and Basic and in spreadsheet programs, so you will find it useful to master it.
+mathematical formulae in graphical calculators; general programming languages such as
+Java, C and Basic; and in spreadsheet programs. You will find it useful to master it.
 
 For example, to enter \( e^{-t}\sin(3t)\) you need to type in
 
@@ -56,7 +56,7 @@ Negative or fractional powers need brackets:
 ### Brackets  ###
 
 Brackets are important to group terms in an expression.
-This is particularly the case in STACK since we use a one dimensional input rather than
+This is particularly the case in STACK since we use a one-dimensional input rather than
 traditional written mathematics. Try to consciously develop a sense of when you need brackets
 and avoid putting in too many.
 
@@ -130,7 +130,7 @@ Things to remember:
 
 * To enter the exponential function type `exp(x)`. Typing `e^x` should work in STACK, but gets you into bad habits when using a CAS later!
 * Type `ln(x)` or `log(x)` to enter the _natural logarithm_ of \(x\) with base \(e\approx 2.71\cdots\). Note that both of these start with a lower case l for logarithm, not a capital I (`i`).
-* Log \(x\) to base \(10\) is entered as `lg(x)`.
+* The logarithm of \(x\) to base \(10\) is entered as `lg(x)`.
 * The logarithm of \(x\) to base \(a\) is entered as `lg(x,a)`, sometimes written \(\log_{a}(x)\).
 
 ## Matrices  ##
@@ -155,7 +155,7 @@ Inequalities can be entered using the greater than and less than signs on the ke
 Notice that there are four possibilities for you to choose from: `<` or `>` or `<=` or `>=`.
 Note there is no space between these symbols, and the equality must come second when it is used, i.e. you cannot use `=<`.
 
-Sometimes you will need to connect inqualities together as `x>1 and x<=5`.  You must use the logical connectives `and` and `or`.  "Chained inequalities" such as \(1<x<5\) are not permitted as input syntax.  You should enter this as `1<x and x<5`.
+Sometimes you will need to connect inequalities together as `x>1 and x<=5`.  You must use the logical connectives `and` and `or`.  "Chained inequalities" such as \(1<x<5\) are not permitted as input syntax.  You should enter this as `1<x and x<5`.
 
 ### Reasoning line by line ###
 

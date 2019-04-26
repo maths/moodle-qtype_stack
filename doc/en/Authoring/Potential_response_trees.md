@@ -1,7 +1,7 @@
 # Potential response trees
 
 The potential response tree is the algorithm which establishes the mathematical properties of the student's answer and assigns outcomes. For examples 
-of how to use this see the entry on [establishing properties of the student's answer via the potential response 
+of how to use this, see the entry on [establishing properties of the student's answer via the potential response 
 tree](Authoring_quick_start.md#Answer_props_via_prt) in the quick start guide.
 
 ## When is the tree used? ##
@@ -20,7 +20,7 @@ tests](Answer_tests.md) and all [CASText](CASText.md) fields within the tree, fo
 
 Note, you cannot define a feedback variable with the same name as an input.  For example, if your input is `ans1` then it is tempting to define a 
 feedback variable `ans1:exdowncase(ans1)` to ensure it is in lower case.  Do not do this!  Please use a different variable name.  This is because in 
-some situations the answer test will choose to take the raw value of `ans1` exactly as the student typed it.  Any redefinition will interfear with this 
+some situations the answer test will choose to take the raw value of `ans1` exactly as the student typed it.  Any redefinition will interfere with this 
 process.
 
 ## Traversing the tree ##
@@ -30,14 +30,20 @@ A potential response tree (technically an acyclic directed graph) consists of an
 In each node two expressions are compared using a specified [answer tests](Answer_tests.md), and the result is either `true` or `false`. A 
 corresponding branch of the tree has the opportunity to each of the following.
 
-1. Adjust the score, (e.g. assign a value, add or subtract a value); 2. Add written feedback specifically for the student; 3. Generate an "[answer 
-note](Potential_response_trees.md#Answer_note)", used by the teacher for evaluative assessment; 4. Nominate the next node, or end the process.
+1. Adjust the score, (e.g. assign a value, add or subtract a value)
+2. Add written feedback specifically for the student
+3. Generate an "[answer 
+note](Potential_response_trees.md#Answer_note)", used by the teacher for evaluative assessment
+4. Nominate the next node, or end the process.
 
 ## Outcomes  ##
 
 The outcomes are
 
-1. The raw score 2. The penalty for this attempt 3. [Feedback](Feedback.md) to the student 4. An Answer Note
+1. The raw score 
+2. The penalty for this attempt 
+3. [Feedback](Feedback.md) to the student 
+4. An answer note
 
 ### Question Value {#Question_value}
 
@@ -78,17 +84,16 @@ Overall, the potential response tree returns the current score minus total penal
 "Question value" set in the potential response tree.  These are summed across all potential response trees.
 
 In this example, some colleagues would prefer to give partial credit for missing a constant of integration rather than zero marks and a penalty.  In a 
-formative setting, where students have an opportunity to have another attempt the penalty system has been found to be an effective way to encourage 
-students to have another attempt and to read the feedback.  In an examination, where no feedback is available and so further attempts are not made 
-different choices need to be made and partial credit would be more appropriate than a zero mark.
+formative setting, where students have an opportunity to have another attempt, the penalty system has been found to be an effective way to encourage 
+students to have another attempt and to read the feedback.  In an examination, where no feedback is available and so further attempts are not made, different choices need to be made and partial credit would be more appropriate than a zero mark.
 
-* The penalty is given a default value in the question.  This is a mandatory field, the default for STACK is 0.1.  * Penalties are cumulative, but the 
+* The penalty is given a default value in the question.  This is a mandatory field; the default for STACK is 0.1.  
+* Penalties are cumulative, but the 
 student will be given the maximum possible mark.  I.e. while they accumulate penalties they are never worse off by repeatedly attempting the question.  
 In particular, if the student in the above example makes another attempt and scores \(0\) they will retain their mark of \(0.9\).  This is to encourage 
-students to have another go in a formative setting.  STACK generates a list of penalty adjusted scores for each attempt, and takes the maximum. * The 
+students to have another go in a formative setting.  STACK generates a list of penalty adjusted scores for each attempt, and takes the maximum. 
+* The 
 penalty can be assigned a different value in the nodes of the potential response tree.  This means, e.g., the teacher can assign a cumulative penalty 
-for a particular answer. * The penalties are also controlled at a quiz level by the "question behaviours" mechanism for the quiz.  Hence, if you set 
+for a particular answer. 
+* The penalties are also controlled at a quiz level by the "question behaviours" mechanism for the quiz.  Hence, if you set 
 the behaviour as "Adaptive mode (no penalties)" the penalty assigned will be ignored when the question is used by students in the quiz.
-
-
-

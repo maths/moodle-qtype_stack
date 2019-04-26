@@ -37,7 +37,7 @@ STACK stores all documentation within language subdirectories.  For example, Eng
    * `../` refers to the docs homepage (if currently only one tier deep)
    * `../Category/Article.md` refers to `Article.md` in the `Category` in the parent directory.
 
-## Conventions in authoring pages.
+## Conventions in authoring pages
 
 Markdown does not have *categories* in the way that MediaWiki does.  Instead, we strongly encourage authors to include a `# See also` section at the end of *each* STACK documentation page.  This should be part of the markdown page.
 
@@ -60,7 +60,7 @@ renders to
 
 ## Mathematics
 
-For the purpose of rendering Mathematical equations, an [extended version](https://github.com/drdrang/php-markdown-extra-math) of [PHP Markdown Extra](http://michelf.com/projects/php-markdown/extra/) is used.
+For the purpose of rendering mathematical equations, an [extended version](https://github.com/drdrang/php-markdown-extra-math) of [PHP Markdown Extra](http://michelf.com/projects/php-markdown/extra/) is used.
 
 It uses LaTeX style notation `\(` and `\[` to write inline and display maths respectively. Fortunately GitHub documentation uses the same notation :D.
 An example:

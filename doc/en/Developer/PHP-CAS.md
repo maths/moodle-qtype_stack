@@ -1,10 +1,10 @@
-# PHP interface with the CAS.
+# PHP interface with the CAS
 
 This document describes the design of the PHP interface to the CAS.  While this interface was developed specifically to connect STACK to Maxima, it should be possible to factor this into other projects.
 
 # High level objects
 
-## CAS text.
+## CAS text
 
 CAS text is literally "computer algebra active text".  This is documented [elsewhere](../Authoring/CASText.md).  It should be, in principle, possible to develop a "CASText filter" for Moodle.
 
@@ -20,7 +20,7 @@ in the question variables field.  The question is instantiated,  and then later 
 
 Here, we need the CAS text to be able to construct the text, with the previously evaluated value of `n`.  This need is also why the CAS session returns the *value* of the variables as well as a displayed form.  It is used here.
 
-## CAS session.
+## CAS session
 
 This class actually calls the CAS itself.
 
@@ -47,7 +47,7 @@ We have implemented a lazy approach where the connection to the CAS is only made
 ## Answer tests
 
 The answer tests essentially compare two expressions.  These may accept an option, e.g. the number of significant figures.
-Details of the current answertests are available [elsewhere](../Authoring/Answer_tests.md).  The result of an answer test should be
+Details of the current answer tests are available [elsewhere](../Authoring/Answer_tests.md).  The result of an answer test should be
 
 1. Boolean outcome, true or false,
 2. errors,
@@ -68,9 +68,9 @@ There are a number of reasons why a CAS expression needs to be "valid".   These 
 1. security,
 2. stability,
 3. error trapping,
-4. pedagogic reasons, specific to a particular questions.
+4. pedagogic reasons, specific to a particular question.
 
-### Security checks.
+### Security checks
 
 It is important that students do not evaluate expressions such as the following with the CAS :
 
@@ -84,29 +84,29 @@ STACK "trusts" the teacher.  Therefore there are three levels of Maxima function
 2. Teacher.  Teacher's answers cannot contain these, but they are not a security risk.  Usually these have side effects within the Maxima code, e.g. setting a global variable which might cause problems later/elsewhere.
 3. Student.  Student's expressions can only contain these.
 
-Each maxima command is tagged in 
+Each Maxima command is tagged in 
 
     /stack/stack/cas/casstring.class.php
 
 ### Stability
 
-It is important to try to prevent generating maxima errors, particularly syntax errors.  These cause havoc, because we don't have a proper API to maxima.
+It is important to try to prevent generating Maxima errors, particularly syntax errors.  These cause havoc, because we don't have a proper API to Maxima.
 
 However, students are apt to put in ill-formed expressions, e.g. `2x`, and it is obvious what they mean.  So, STACK has options such as "insert stars" which try to patch these things up.
 
 ### Pedagogic reasons
 
-Some expressions will be rendered "invalid" because the student has done something which is not mathematically appropriate, i.e. permitted.  For example, they may have used floating point numbers in an expression when the teacher wanted rational numbers.    See the section below on options.
+Some expressions will be rendered "invalid" because the student has done something which is not mathematically appropriate, i.e. permitted.  For example, they may have used floating-point numbers in an expression when the teacher wanted rational numbers.    See the section below on options.
 
 ## STACK Options
 
 We need to ensure the current options are respected in the new CAS setup.  See [options](../Authoring/Options.md).
 
-Note that some of the inputs enable options to be set there.  We might have a multi-part question in which part one forbids floating point numbers, whereas the next part allows them.  Validity is a concept tied to the input.
+Note that some of the inputs enable options to be set there.  We might have a multi-part question in which part one forbids floating-point numbers, whereas the next part allows them.  Validity is a concept tied to the input.
 
 # Code layout
 
-## Install Options.
+## Install Options
 
 The most difficult part of configuring the CAS is enabling Maxima to plot graphs.   At install time, the relevant local setting for this installation are transferred to the file :
 
@@ -116,5 +116,5 @@ The PHP code which creates this file sorts out backslashes and other vagaries...
 
 ## Efficiency
 
-The connection to Maxima is slow, and is certainly the most important issue when trying to scale up the STACK.  The issue is that Maxima is quite slow to start.  The University of Manchester provided a mechanism to compile the Maxima code and this leads to increased server response.  See [optimising maxima](../CAS/Optimising_Maxima.md).
+The connection to Maxima is slow, and is certainly the most important issue when trying to scale up the STACK.  The issue is that Maxima is quite slow to start.  The University of Manchester provided a mechanism to compile the Maxima code and this leads to increased server response.  See [Optimising Maxima](../CAS/Optimising_Maxima.md).
 

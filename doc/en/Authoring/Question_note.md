@@ -4,7 +4,7 @@ The question note is [CASText](CASText.md).  The question note is used to decide
 
 _Two question variants are equal if and only if the question notes are equal._
 
-In particular, when we generate statisticts about students' attempts we group attempts according to the equality of their question notes.
+In particular, when we generate statistics about students' attempts we group attempts according to the equality of their question notes.
 Two versions are not necessarily different if their [question variables](KeyVals.md#Question_variables)
 are different, and hence a note is useful.  The teacher needs to choose what identifies each unique version - this cannot be automated.
 

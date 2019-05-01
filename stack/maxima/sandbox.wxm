@@ -1,9 +1,9 @@
 /* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
-/* [ Created with wxMaxima version 18.02.0 ] */
+/* [ Created with wxMaxima version 13.04.2 ] */
+
 /* [wxMaxima: title   start ]
 STACK Sandbox
    [wxMaxima: title   end   ] */
-
 
 /* [wxMaxima: comment start ]
 This document loads the extra files needed for STACK.
@@ -17,12 +17,20 @@ See https://github.com/maths/moodle-qtype_stack
 Note, that plots *will not work* in this sandbox.
    [wxMaxima: comment end   ] */
 
-
 /* [wxMaxima: input   start ] */
-/* In MS platforms use the forward slash as a directory seperator.  No trailing slash. */
+/* No trailing slash. */
 maximaplatform:"linux"$
 stacklocation:"."$
 stacktmplocation:"/tmp"$
+
+/* For MS platforms you normally need to explicitly set the path.
+   Use the forward slash as a directory seperator.
+   You have cloned your code into c:/tmp/stackroot   
+*/
+/*
+maximaplatform:"win"$
+stacklocation:"c:/tmp/stackroot/stack"$
+*/
 
 
 /****************************************************
@@ -66,7 +74,6 @@ load("descriptive")$
 print(sconcat("[ STACK-Maxima started, library version ", stackmaximaversion, " ]"))$
 /* [wxMaxima: input   end   ] */
 
-
 /* [wxMaxima: comment start ]
 To time code, and spot inefficiencies.
 
@@ -88,7 +95,5 @@ sort(l,lambda([a,b], is(second(a)>second(b))));
 
    [wxMaxima: comment end   ] */
 
-
-
-/* Old versions of Maxima abort on loading files that end in a comment. */
-"Created with wxMaxima 18.02.0"$
+/* Maxima can't load/batch files which end with a comment! */
+"Created with wxMaxima"$

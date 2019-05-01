@@ -4,17 +4,21 @@ It is very useful when authoring questions to be able to test out Maxima code in
 That is to say, to run a desktop version of Maxima with the local settings and STACK specific functions loaded.  This is also used in [reporting](../Authoring/Reporting.md) and analysis of students' responses.
 To do this you will need to load your local settings, and also the libraries of Maxima functions specific to STACK.
 
-# STACK - Maxima sandbox (without access to a server)
+## Setup Maxima and wxMaxima
+
+Install Maxima (http://maxima.sourceforge.net/) and wxMaxima (https://wxmaxima-developers.github.io/wxmaxima/).
+
+## STACK - Maxima sandbox (without access to a server)
 
 If you don't have access to a STACK server then you will need to download the files.   Download all the STACK files from GitHub (git or as a .zip).   E.g. try `https://github.com/maths/moodle-qtype_stack/archive/master.zip`
 
-Unfortunately, there are a lot of .php files as well.  Most of the files you need are in
+The only files you need are in
 
     .../stack/maxima/
 
-Edit and use the file `.../stack/maxima/sandbox.wmx`
+In this directory open the file `sandbox.wmx` with wxMaxima and edit it to your needs.
 
-# STACK - Maxima sandbox (with access to a server)
+## STACK - Maxima sandbox (with access to a server)
 
 It is very useful when authoring questions to be able to test out Maxima code in the same environment in which STACK uses [Maxima](Maxima.md).
 That is to say, to run a desktop version of Maxima with the local settings and STACK specific functions loaded.  This is also used in [reporting](../Authoring/Reporting.md) and analysis of students' responses.
@@ -92,7 +96,7 @@ In a terminal window, execute the following commands, e.g., in your home folder:
      mkdir stack-maxima
      cd stack-maxima
      pico maxima-init.mac
-     
+
 Put the following three lines into maxima-init.mac:
 
     file_search_maxima:append([sconcat("<path to your home folder>/stack-maxima/###.{mac,mc}")],file_search_maxima)$
@@ -172,16 +176,16 @@ The chart below shows the answer test, whether it is defined in Maxima or PHP an
 If you just want to decide if two expressions are considered to be algebraically equivalent, then use
 
     algebraic_equivalence(ex1,ex2);
-    
+
 This is the function the answer test `ATAlgEquiv` uses without all the wrapper of a full answer test.
 
 ### Where is the Maxima code?
 
 All the maxima code is kept in
-   
+
     ...\moodle\question\type\stack\stack\maxima
 
-The bulk of the functions are defined in 
+The bulk of the functions are defined in
 
     ...\moodle\question\type\stack\stack\maxima\stackmaxima.mac
     ...\moodle\question\type\stack\stack\maxima\assessment.mac

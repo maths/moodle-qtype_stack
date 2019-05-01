@@ -25,11 +25,42 @@ defined('MOODLE_INTERNAL') || die();
  */
 class stack_autocomplete_input extends stack_input {
 
+    /*
+     * completeoptions is an array of the possible values the teacher suggests.
+    */
+    protected $completeoptions = array();
+
+    /*
+     * This holds the value of those which the teacher has indicated are correct.
+     */
+    protected $teacheranswervalue = '';
+
+    /*
+     * This holds a displayed form of $this->teacheranswer. We need to generate this from those
+     * entries which the teacher has indicated are correct.
+     */
+    protected $teacheranswerdisplay = '';
+
     protected $extraoptions = array(
         'simp' => false,
         'rationalized' => false,
         'allowempty' => false
     );
+
+    public function adapt_to_model_answer($teacheranswer) {
+
+        // We need to reset the errors here, now we have a new teacher's answer.
+        $this->errors = null;
+
+        $values = stack_utils::list_to_array($teacheranswer, true);
+        // TODO error check this returned lists, and create run-time error when the teacher didn't give a list.
+        $this->teacheranswervalue = $values[0];
+        $this->completeoptions = $values[1];
+
+        // TODO: call the CAS and fill in the values...
+        $this->teacheranswerdisplay = 'TODO';
+        return;
+    }
 
     public function render(stack_input_state $state, $fieldname, $readonly, $tavalue) {
 
@@ -66,7 +97,9 @@ class stack_autocomplete_input extends stack_input {
             $attributes['readonly'] = 'readonly';
         }
 
-        return html_writer::empty_tag('input', $attributes);
+        // Put in the Javascript magic!
+        $jsoptions = '<code>'. implode($this->completeoptions, ' | ') . '</code>';
+        return $jsoptions . html_writer::empty_tag('input', $attributes);
     }
 
     public function add_to_moodleform_testinput(MoodleQuickForm $mform) {
@@ -112,13 +145,20 @@ class stack_autocomplete_input extends stack_input {
     }
 
     /**
+     * This is used by the question to get the teacher's correct response.
+     * The dropdown type needs to intercept this to filter the correct answers.
+     * @param unknown_type $in
+     */
+    public function get_correct_response($in) {
+        $this->adapt_to_model_answer($in);
+        return $this->maxima_to_response_array($this->teacheranswervalue);
+    }
+
+    /**
      * @return string the teacher's answer, displayed to the student in the general feedback.
      */
     public function get_teacher_answer_display($value, $display) {
-        $value = stack_utils::logic_nouns_sort($value, 'remove');
-        if (trim($value) == 'EMPTYANSWER') {
-            return stack_string('teacheranswerempty');
-        }
-        return stack_string('teacheranswershow', array('value' => '<code>'.$value.'</code>', 'display' => $display));
+        return stack_string('teacheranswershow',
+                array('value' => '<code>'.$this->teacheranswervalue.'</code>', 'display' => $this->teacheranswerdisplay));
     }
 }

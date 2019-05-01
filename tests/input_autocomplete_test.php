@@ -33,7 +33,9 @@ require_once(__DIR__ . '/../stack/input/factory.class.php');
 class stack_autocomplete_input_test extends qtype_stack_testcase {
 
     public function test_render_blank() {
-        $el = stack_input_factory::make('autocomplete', 'ans1', 'x^2');
+        $ta = '[x^2,[]]';
+        $el = stack_input_factory::make('autocomplete', 'ans1', $ta);
+        $el->adapt_to_model_answer($ta);
         $this->assertEquals('<input type="text" name="stack1__ans1" id="stack1__ans1" '
                 .'size="16.5" style="width: 13.6em" autocapitalize="none" spellcheck="false" value="" />',
                 $el->render(new stack_input_state(stack_input::VALID, array(), '', '', '', '', ''),
@@ -41,8 +43,10 @@ class stack_autocomplete_input_test extends qtype_stack_testcase {
     }
 
     public function test_render_blank_allowempty() {
+        $ta = '[x^2,[]]';
         $options = new stack_options();
-        $el = stack_input_factory::make('autocomplete', 'ans1', 'x^2');
+        $el = stack_input_factory::make('autocomplete', 'ans1', $ta);
+        $el->adapt_to_model_answer($ta);
         $el->set_parameter('options', 'allowempty');
         $this->assertEquals('<input type="text" name="stack1__ans1" id="stack1__ans1" '
                 .'size="16.5" style="width: 13.6em" autocapitalize="none" spellcheck="false" value="" />',
@@ -51,20 +55,47 @@ class stack_autocomplete_input_test extends qtype_stack_testcase {
     }
 
     public function test_render_zero() {
-        $el = stack_input_factory::make('autocomplete', 'ans1', '0');
+        $ta = '[x^2,[]]';
+        $el = stack_input_factory::make('autocomplete', 'ans1', $ta);
         $this->assertEquals('<input type="text" name="stack1__ans1" id="stack1__ans1" '
                 .'size="16.5" style="width: 13.6em" autocapitalize="none" spellcheck="false" value="0" />',
                 $el->render(new stack_input_state(stack_input::VALID, array('0'), '', '', '', '', ''),
                         'stack1__ans1', false, null));
     }
 
-    public function test_validate_student_response_1() {
+    public function test_validate_student_response_0() {
         $options = new stack_options();
-        $el = stack_input_factory::make('autocomplete', 'sans1', 'x^2/(1+x^2)');
+        $ta = '[x^2/(1+x^2),[]]';
+        $el = stack_input_factory::make('autocomplete', 'sans1', $ta);
+        $el->adapt_to_model_answer($ta);
         $el->set_parameter('insertStars', 0);
         $el->set_parameter('strictSyntax', true);
+
         $state = $el->validate_student_response(array('sans1' => '2x(1+x^2)+tans'), $options, 'x^2/(1+x^2)', array('tans'));
         $this->assertEquals(stack_input::INVALID, $state->status);
         $this->assertEquals('unknownFunction | missing_stars', $state->note);
+    }
+
+    public function test_validate_student_response_1() {
+        $options = new stack_options();
+        $ta = '[a^2+2*a*b+b^2,[a^2+b^2,(a+b)^2,a^2+2*a*b+b^2]]';
+        $el = stack_input_factory::make('autocomplete', 'sans1', $ta);
+        $el->adapt_to_model_answer($ta);
+
+        $state = $el->validate_student_response(array('sans1' => 'a^2+2*a*b+b^2'), $options, 'a^2+2*a*b+b^2', array('tans'));
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals(array('sans1' => 'a^2+2*a*b+b^2', 'sans1_val' => 'a^2+2*a*b+b^2'),
+                $el->get_correct_response($ta));
+    }
+
+    public function test_validate_student_response_2() {
+        $options = new stack_options();
+        $ta = '[a^2+2*a*b+b^2,[a^2+b^2,(a+b)^2,a^2+2*a*b+b^2]]';
+        $el = stack_input_factory::make('autocomplete', 'sans1', $ta);
+        $el->adapt_to_model_answer($ta);
+
+        $state = $el->validate_student_response(array('sans1' => 'a^2+2*a*b+b^2', 'sans1_val' => 'a^2+2*a*b+b^2'),
+                $options, 'a^2+2*a*b+b^2', array('tans'));
+        $this->assertEquals(stack_input::SCORE, $state->status);
     }
 }

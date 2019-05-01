@@ -114,6 +114,14 @@ A single letter can be entered.  This is useful for creating multiple-choice que
 
 This input uses a list of teacher provided options to autocomplete the student's input.  The student is still free to type whatever they like, and ignore the autocomplete options.
 
+For this input type the teacher's answer must be a list
+
+    [ta, [exp1, exp2, ....]]
+
+where each `expi` is an expression.  Strings here are not permitted.  For example, the teacher could use the following.
+
+    [a^2+2*a*b+b^2, [a^2+b^2, (a+b)^2, a^2+2*a*b+b^2]]
+
 ## Options ##
 
 ### Input Box Size ### {#Box_Size}

@@ -164,6 +164,7 @@ $string['inputtypeunits'] = 'Units';
 $string['inputtypeequiv'] = 'Equivalence reasoning';
 $string['inputtypestring'] = 'String';
 $string['inputtypenumerical'] = 'Numerical';
+$string['inputtypeautocomplete'] = 'Autocomplete';
 $string['numericalinputmustnumber'] = 'This input expects a number.';
 $string['numericalinputvarsforbidden'] = 'This input expects a number, and so may not contain variables.';
 $string['numericalinputmustfloat'] = 'This input expects a floating point number.';

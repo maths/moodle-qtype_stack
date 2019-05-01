@@ -110,6 +110,10 @@ Note that any potential response tree which relies on this input will never get 
 
 A single letter can be entered.  This is useful for creating multiple-choice questions, but is not used regularly.
 
+#### Autocomplete ####
+
+This input uses a list of teacher provided options to autocomplete the student's input.  The student is still free to type whatever they like, and ignore the autocomplete options.
+
 ## Options ##
 
 ### Input Box Size ### {#Box_Size}
@@ -325,29 +329,29 @@ as an answer.  The `op` command can be used to filter out a particular point, an
 
 This table lists all options, and which inputs use/respect them.  The `.` means the option is ignored.
 
-Options           | Alg | Num | Units | Matrix | Check | Radio | Drop | T/F | TextArea | Equiv | String | Notes
-------------------|-----|-----|-------|--------|-------|-------|------|-----|----------|-------|--------|------
-Box size          |  Y  |  Y  |  Y    |   Y    |   .   |   .   |   .  |  .  |    Y     |   Y   |   Y    |   Y  
-Strict Syn        |  Y  | (1) |  (1)  |   Y    |   .   |   .   |   .  |  .  |    Y     |   Y   |   .    |   .  
-Insert stars      |  Y  |  Y  |  Y    |   Y    |   .   |   .   |   .  |  .  |    Y     |   Y   |   .    |   .  
-Syntax hint       |  Y  |  Y  |  Y    |   Y    |   .   |   .   |   .  |  .  |    Y     |   Y   |   Y    |   Y  
-Hint att          |  Y  |  Y  |  Y    |   Y    |   .   |   .   |   .  |  .  |    Y     |   Y   |   Y    |   Y  
-Forbidden words   |  Y  |  Y  |  Y    |   Y    |   .   |   .   |   .  |  .  |    Y     |   Y   |   .    |   .  
-Allowed words     |  Y  |  Y  |  Y    |   Y    |   .   |   .   |   .  |  .  |    Y     |   Y   |   .    |   .  
-Forbid float      |  Y  |  Y  |  Y    |   Y    |   .   |   .   |   .  |  .  |    Y     |   Y   |   .    |   .  
-Lowest terms      |  Y  |  Y  |  Y    |   Y    |   .   |   .   |   .  |  .  |    Y     |   Y   |   .    |   .  
-Check type        |  Y  |  Y  |  Y    |   Y    |   .   |   .   |   .  |  .  |    .     |   .   |   .    |   .  
-Must verify       |  Y  |  Y  |  Y    |   Y    |   Y   |   Y   |   Y  |  Y  |    Y     |   Y   |   Y    |   .  
-Show validation   |  Y  |  Y  |  Y    |   Y    |   Y   |   Y   |   Y  |  Y  |    Y     |   Y   |   Y    |   .  
-**Extra options:**|     |     |       |        |       |       |      |     |          |       |        |      
-`rationalize`   |  Y  |  Y  |  .    |   .    |   .   |   .   |   .  |  .  |    .     |   .   |   .    |   .  
-min/max sf/dp     |  .  |  Y  |  Y    |   .    |   .   |   .   |   .  |  .  |    .     |   .   |   .    |   .  
-`floatnum`      |  .  |  Y  |  .    |   .    |   .   |   .   |   .  |  .  |    .     |   .   |   .    |   .  
-`rationalnum`   |  .  |  Y  |  .    |   .    |   .   |   .   |   .  |  .  |    .     |   .   |   .    |   .  
-`negpow`        |  .  |  .  |  Y    |   .    |   .   |   .   |   .  |  .  |    .     |   .   |   .    |   .  
-`allowempty`   |  Y  |  Y  |  Y    |   Y    |   .   |   .   |   .  |  Y  |    .     |   .   |   .    |   .  
-`hideanswer`   |  .  |  .  |  .    |   .    |   .   |   .   |   .  |  .  |    .     |   .   |   Y    |   .  
-`simp`            |  Y  |  Y  |  Y    |   Y    |   .   |   .   |   .  |  .  |    Y     |   .   |   .    |   .  
+Options           | Alg | Num | Units | Matrix | Check | Radio | Drop | T/F | TextArea | Equiv | String | Notes | Auto
+------------------|-----|-----|-------|--------|-------|-------|------|-----|----------|-------|--------|-------|-----
+Box size          |  Y  |  Y  |  Y    |   Y    |   .   |   .   |   .  |  .  |    Y     |   Y   |   Y    |   Y   |  Y
+Strict Syn        |  Y  | (1) |  (1)  |   Y    |   .   |   .   |   .  |  .  |    Y     |   Y   |   .    |   .   |  Y
+Insert stars      |  Y  |  Y  |  Y    |   Y    |   .   |   .   |   .  |  .  |    Y     |   Y   |   .    |   .   |  Y
+Syntax hint       |  Y  |  Y  |  Y    |   Y    |   .   |   .   |   .  |  .  |    Y     |   Y   |   Y    |   Y   |  Y
+Hint att          |  Y  |  Y  |  Y    |   Y    |   .   |   .   |   .  |  .  |    Y     |   Y   |   Y    |   Y   |  Y
+Forbidden words   |  Y  |  Y  |  Y    |   Y    |   .   |   .   |   .  |  .  |    Y     |   Y   |   .    |   .   |  Y
+Allowed words     |  Y  |  Y  |  Y    |   Y    |   .   |   .   |   .  |  .  |    Y     |   Y   |   .    |   .   |  Y
+Forbid float      |  Y  |  Y  |  Y    |   Y    |   .   |   .   |   .  |  .  |    Y     |   Y   |   .    |   .   |  Y
+Lowest terms      |  Y  |  Y  |  Y    |   Y    |   .   |   .   |   .  |  .  |    Y     |   Y   |   .    |   .   |  Y
+Check type        |  Y  |  Y  |  Y    |   Y    |   .   |   .   |   .  |  .  |    .     |   .   |   .    |   .   |  Y
+Must verify       |  Y  |  Y  |  Y    |   Y    |   Y   |   Y   |   Y  |  Y  |    Y     |   Y   |   Y    |   .   |  Y
+Show validation   |  Y  |  Y  |  Y    |   Y    |   Y   |   Y   |   Y  |  Y  |    Y     |   Y   |   Y    |   .   |  Y
+**Extra options:**|     |     |       |        |       |       |      |     |          |       |        |       |  
+`rationalize`   |  Y  |  Y  |  .    |   .    |   .   |   .   |   .  |  .  |    .     |   .   |   .    |   .   |  Y
+min/max sf/dp     |  .  |  Y  |  Y    |   .    |   .   |   .   |   .  |  .  |    .     |   .   |   .    |   .   |  .
+`floatnum`      |  .  |  Y  |  .    |   .    |   .   |   .   |   .  |  .  |    .     |   .   |   .    |   .   |  .
+`rationalnum`   |  .  |  Y  |  .    |   .    |   .   |   .   |   .  |  .  |    .     |   .   |   .    |   .   |  .
+`negpow`        |  .  |  .  |  Y    |   .    |   .   |   .   |   .  |  .  |    .     |   .   |   .    |   .   |  .
+`allowempty`   |  Y  |  Y  |  Y    |   Y    |   .   |   .   |   .  |  Y  |    .     |   .   |   .    |   .   |  Y
+`hideanswer`   |  .  |  .  |  .    |   .    |   .   |   .   |   .  |  .  |    .     |   .   |   Y    |   .   |  .
+`simp`            |  Y  |  Y  |  Y    |   Y    |   .   |   .   |   .  |  .  |    Y     |   .   |   .    |   .   |  Y
 
 For documentation about the various options not documented on this page look at the pages for the specific inputs in which each option is used.
 

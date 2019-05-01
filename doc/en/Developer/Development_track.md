@@ -12,6 +12,7 @@ DONE:
 * Removed the Maxima MathML code (which wasn't connected or used).
 * Add in extra option `simp` to inputs.
 * Add in extra options in the input `allowempty` and `hideanswer`.
+* Add in the autocomplete input type.
 
 TODO:
 

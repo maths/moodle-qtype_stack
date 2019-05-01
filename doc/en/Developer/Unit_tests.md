@@ -51,6 +51,10 @@ If you want to run just the unit tests for STACK, you can use the command
     vendor\bin\phpunit --group qtype_stack
     vendor/bin/phpunit --group qtype_stack
 
+Or you can run the tests for one class as
+
+    vendor/bin/phpunit stack_autocomplete_input_test question/type/stack/tests/input_autocomplete_test.php
+
 To make sure this keeps working, please annotate all test classes with
 
     /**

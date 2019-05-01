@@ -124,7 +124,8 @@ foreach ($tests as $test) {
     }
 
     set_time_limit(30);
-    list($passed, $error, $rawmark, $feedback, $ansnote, $expectednote) = stack_answertest_test_data::run_test($test);
+    list($passed, $error, $rawmark, $feedback, $ansnote, $expectednote, $trace)
+        = stack_answertest_test_data::run_test($test);
     $allpassed = $allpassed && $passed;
 
     if ($passed) {
@@ -157,6 +158,7 @@ foreach ($tests as $test) {
         'expectednote'  => $expectednote,
     );
     if (!$passed) {
+        $row['answernote'] .= html_writer::tag('pre', $trace);
         $failedtable[] = $row;
     }
 

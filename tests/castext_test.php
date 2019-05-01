@@ -987,8 +987,13 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $this->assertTrue($at1->get_valid());
         $at1->get_display_castext();
 
-        $this->assertEquals('\({{v}_{2\cdot \alpha}}\), \({{v}_{{m}_{n}}}\), '.
-            '\({{\it beta_{47}}}\), \({{\beta}_{47}}\)', $at1->get_display_castext());
+        $expected = '\({{v}_{2\cdot \alpha}}\), \({{v}_{{m}_{n}}}\), '.
+            '\({{\it beta_{47}}}\), \({{\beta}_{47}}\)';
+        if ($this->adapt_to_new_maxima('5.42.0')) {
+            $expected = '\({{v}_{2\cdot \alpha}}\), \({{v}_{{m}_{n}}}\), '.
+                    '\({\beta_{47}}\), \({{\beta}_{47}}\)';
+        }
+        $this->assertEquals($expected, $at1->get_display_castext());
     }
 
     public function test_maxima_arrays() {

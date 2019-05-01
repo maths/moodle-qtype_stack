@@ -15,7 +15,7 @@ STACK is a community project and contributions are welcome in many ways.
 
 * Helping colleagues write questions, and use online assessment is a good place to start.
 * Contributing to the documentation and examples.
-* Undertaking projects with your students, and sharing the results.
+* Undertaking projects with your students and sharing the results.
 * Contributing sample questions and question banks.
 * Translating the system and sample materials.
 
@@ -28,7 +28,7 @@ For the STACK Question Plugin see https://docu.ilias.de/goto_docu_cat_4119.html.
 
 ### How do I report a bug?
 
-Bug reports are always very welcome.  Please try to make sure it is really not a bug with your question!  Where possible, please export a minimal question and a clear description of how to recreate the bug.  Issues such as this can be reported on [github](http://github.com/maths/moodle-qtype_stack/issues).
+Bug reports are always very welcome.  Please try to make sure it is really not a bug with your question!  Where possible, please export a minimal question and a clear description of how to recreate the bug.  Issues such as this can be reported on [GitHub](http://github.com/maths/moodle-qtype_stack/issues).
 For the STACK Question Plugin see https://docu.ilias.de/goto_docu_cat_4119.html.
 
 ### How do I request a new feature?
@@ -47,7 +47,7 @@ Please do research and publish your experiences of using STACK with students.  A
 ## User Community
 
 ### Exchange of questions
-There is a database of STACK-question at https://db.ak-mathe-digital.de/domain. Right now there are over 400 STACK-questions, in many different languages. A filter simplifies the search for specific questions. Questions can easily be exported as xml-files and as such can be used in moodle as well as in ILIAS. Everybody can contribute their own questions. 
+There is a database of STACK-questions at https://db.ak-mathe-digital.de/domain. Right now, there are over 400 STACK-questions, in many different languages. A filter simplifies the search for specific questions. Questions can easily be exported as xml-files and as such can be used in Moodle as well as in ILIAS. Everybody can contribute their own questions. 
 
 ### Meetings
 The 1st international STACK Conference took place on the 15th and 16th of November 2018 in Fürth at the Friedrich-Alexander-Universität Erlangen-Nürnberg. Further information and slides at https://www.stack-konferenz.de/.
@@ -83,7 +83,7 @@ Polytechnic Institute of Leiria, Leiria, Portugal
 : Contact [Rui Paiva](mailto:rui.paiva@estg.ipleiria.pt)
 
 School of Computing, Information and Mathematical Sciences, The University of the South Pacific
-: Contact [Dhiraj bhartu](mailto:dhiraj.bhartu@usp.ac.fj)
+: Contact [Dhiraj Bhartu](mailto:dhiraj.bhartu@usp.ac.fj)
 
 Gymnasium Himmelsthür, Hildesheim, Deutschland
 : Contact [Frank Schütte](mailto:fschuett@gymnasium-himmelsthuer.de)

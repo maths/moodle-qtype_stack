@@ -1010,7 +1010,7 @@ natural_domain_rec(ex):=block([v, ex2],
 
   if safe_op(ex)="sqrt" then
     return(single_variable_solver_real(first(args(ex))>=0)),
-  if safe_op(ex)="ln" or safe_op(ex)="log" or safe_op(ex)="logbase" then
+  if safe_op(ex)="ln" or safe_op(ex)="log" or safe_op(ex)="lg" then
     return(single_variable_solver_real(first(args(ex))>0)),
   if safe_op(ex)="/" then
         ex2:[natural_domain_rec(first(args(ex))), single_variable_solver_real((second(args(ex))>0) %or (second(args(ex))<0))]

@@ -7,7 +7,7 @@ As an example, we want the students to expand the cubic \((x+2)^3\) showing thei
 The student's response to this question will allow us to test their knowledge and competency in the following:
 
 1. Expanding brackets
-2. Simplifiying by collecting like terms
+2. Simplifying by collecting like terms
 
 Therefore we need them to show their working. 
 
@@ -31,13 +31,13 @@ The variable `ta` is a list containing each step we are expecting our students t
 
 \(=x^{3}+4x^{2}+4x+2x^{2}+8x+8\)
 
-\(=x^{3}+6x^{2}+8x+8\)
+\(=x^{3}+6x^{2}+12x+8\)
 
 
 Notes:
 
 * We use the CAS functions `expand()` and `ev(...,simp)` to simply the output of `expand()`, to determine the model answer. 
-* The special function `stackeq` is replaced by a unary equals symbols.  Maxima expects equality to be an infix \(a=b\) not unary prefix \(=b\), so STACK needs this special operator.  Students can just start a line with \(=\), but teachers cannot!
+* The special function `stackeq` is replaced by unary equals.  Maxima expects equality to be an infix \(a=b\) not unary prefix \(=b\), so STACK needs this special operator.  Students using the input area can just start a line with \(=\), but teachers cannot!
 
 In this context the teacher's answer and the student's answer is a list.  The whole answer is a single object, which we assess.
 
@@ -88,7 +88,7 @@ Save the question.  This should be a minimal working question, so preview it and
 At this point the question only checks
 
 1. Has the student started from the right expression, specifically is the first line of their argument equivalent to the first line of `ta` using `EqualComAss` test (commutativity and associativity)?
-2. Are all the lines in the student's answer algebraically equivalent.
+2. Are all the lines in the student's answer algebraically equivalent?
 
 Clearly, more is needed for a complete sensible question.
 
@@ -96,7 +96,7 @@ At this point please read the [equivalence reasoning](../CAS/Equivalence_reasoni
 
 ## Getting to the right place ##
 
-We probably want the student to end up at the expression \(x^{3}+6x^{2}+8x+8\).
+We probably want the student to end up at the expression \(x^{3}+6x^{2}+12x+8\).
 
 To check is the student has reached this point, add another node to the PRT.  If node 1 is true (i.e. the student started in the correct place and didn't make a mistake) then connect to node 2.
 Node 2 should be set up as
@@ -108,8 +108,8 @@ Node 2 should be set up as
 
 This node adds in feedback to check the student has reached the right place.
 
-Note, by using `EqualComAss` both \(x^{3}+6x^{2}+8x+8\) and \(x^{3}+x^{2}6+8+8x\) will be accepted.
-If you really want \(x^{3}+6x^{2}+8x+8\) then you need to use `CasEqual` as the answer test instead.
+Note, by using `EqualComAss` both \(x^{3}+6x^{2}+12x+8\) and \(x^{3}+x^{2}6+8+12x\) will be accepted.
+If you really want the term order as well, as in, \(x^{3}+6x^{2}+12x+8\) then you need to use `CasEqual` as the answer test instead.
 
 ## What is a legitimate step?
 
@@ -117,11 +117,13 @@ At this point, any expressions which are equivalent are considered to be a legit
 
 Clearly this is not entirely satisfactory.
 At this point in the development there is no concept of "a step" and indeed this appears to be very hard to define.
-In the future we will develop better tools for checkin "step size", and any contributions in this direction are welcome.
+In the future we will develop better tools for checking "step size", and any contributions in this direction are welcome.
 
 Teachers can check the students answer is long enough or not too long by looking at `length(ta)`.
 
-Teachers can check if specific expressions appear somewhere inside the student's answer.  For example, you can check that the factored form exists somewhere in the student's answers using the following code in the [feedback variables](KeyVals.md).
+Teachers can check if specific expressions appear somewhere inside the student's answer.  To facilitate this search we provide the function `stack_equiv_find_step(ex, exl)`.  This looks for expression `ex` in the list `exl` using `ATEqualComAss`.  It returns the list of indices of the position.  If you just want to know if the expression is missing use the predicate `emptyp`.
+
+As an alternative you can check that the factored form exists somewhere in the student's answers using the following code in the [feedback variables](KeyVals.md).
 
     foundfac:sublist(ans1,lambda([ex], equationp(ex) and is(rhs(ex)=0)));
     foundfac:ev(any_listp(lambda([ex], second(ATFacForm(lhs(ex),lhs(ex),x))), foundfac), simp);

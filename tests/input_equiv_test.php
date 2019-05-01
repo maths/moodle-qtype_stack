@@ -57,6 +57,19 @@ class stack_equiv_input_test extends qtype_stack_testcase {
                         'stack1__ans1', false, null));
     }
 
+    public function test_render_syntaxhint() {
+        $el = stack_input_factory::make('equiv', 'ans1', '[]');
+        $el->set_parameter('syntaxHint',
+            '[r1=0,r2=0,r3=0,r4=0,r5=0,r6=0,t*h*i*s+i*s+a+v*e*r*y+l*o*n*g+e*x*p*r*e*s*s*i*o*n=g*o*o*d+t*e*s*t!]');
+        $this->assertEquals("<div class=\"equivreasoning\"><textarea name=\"stack1__ans1\" id=\"stack1__ans1\" " .
+            "rows=\"8\" cols=\"50\" autocapitalize=\"none\" spellcheck=\"false\">" .
+            "r1=0\nr2=0\nr3=0\nr4=0\nr5=0\nr6=0\nt*h*i*s+i*s+a+v*e*r*y+l*o*n*g+e*x*p*r*e*s*s*i*o*n=g*o*o*d+t*e*s*t!" .
+            "</textarea><div class=\"stackinputfeedback\" " .
+            "id=\"stack1__ans1_val\"><input type=\"hidden\" name=\"stack1__ans1_val\" value=\"[]\" /></div></div>",
+                $el->render(new stack_input_state(stack_input::VALID, array(), '', '', '', '', ''),
+                    'stack1__ans1', false, null));
+    }
+
     public function test_render_firstline() {
         $el = stack_input_factory::make('equiv', 'ans1', '[]');
         $el->set_parameter('syntaxHint', 'firstline');
@@ -90,6 +103,12 @@ class stack_equiv_input_test extends qtype_stack_testcase {
         $this->assertEquals('[x^2-2*x+1=0]', $state->contentsmodified);
         $this->assertEquals('\[ \begin{array}{lll} &x^2-2\cdot x+1=0& \cr \end{array} \]', $state->contentsdisplayed);
         $this->assertEquals('', $state->errors);
+        $this->assertEquals('<span class="filter_mathjaxloader_equation"><span class="nolink">' .
+                '\[ \begin{array}{lll} &x^2-2\cdot x+1=0& \cr \end{array} \]</span></span>' .
+                '<input type="hidden" name="q140:1_ans1_val" value="[x^2-2*x+1=0]" /><p>The variables found in your ' .
+                'answer were: <span class="filter_mathjaxloader_equation"><span class="nolink">\( \left[ x \right]\)' .
+                '</span></span> </p>',
+                $el->render_validation($state, 'q140:1_ans1'));
     }
 
     public function test_validate_student_response_2() {

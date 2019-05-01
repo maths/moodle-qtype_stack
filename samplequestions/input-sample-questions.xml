@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <quiz>
-<!-- question: 2049  -->
+<!-- question: 649  -->
   <question type="stack">
     <name>
       <text>Algebraic input</text>
@@ -15,6 +15,7 @@
     <defaultgrade>1.0000000</defaultgrade>
     <penalty>0.1000000</penalty>
     <hidden>0</hidden>
+    <idnumber></idnumber>
     <stackversion>
       <text>2018080600</text>
     </stackversion>
@@ -123,7 +124,7 @@
     </qtest>
   </question>
 
-<!-- question: 2050  -->
+<!-- question: 650  -->
   <question type="stack">
     <name>
       <text>Algebraic input (answer box sizes test)</text>
@@ -137,6 +138,7 @@
     <defaultgrade>1.0000000</defaultgrade>
     <penalty>0.1000000</penalty>
     <hidden>0</hidden>
+    <idnumber></idnumber>
     <stackversion>
       <text></text>
     </stackversion>
@@ -408,7 +410,7 @@
     </qtest>
   </question>
 
-<!-- question: 2061  -->
+<!-- question: 651  -->
   <question type="stack">
     <name>
       <text>Algebraic input (empty answer permitted)</text>
@@ -425,6 +427,7 @@
     <defaultgrade>1.0000000</defaultgrade>
     <penalty>0.1000000</penalty>
     <hidden>0</hidden>
+    <idnumber></idnumber>
     <stackversion>
       <text>2018080600</text>
     </stackversion>
@@ -606,7 +609,145 @@
     </qtest>
   </question>
 
-<!-- question: 2051  -->
+<!-- question: 664  -->
+  <question type="stack">
+    <name>
+      <text>Algebraic input (with simplification)</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>Type in {@ta@}</p>
+<p>[[input:ans1]] [[validation:ans1]]</p>
+<p>Hint: use <code>makelist(k^2,k,1,8)</code></p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text></text>
+    </generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.1000000</penalty>
+    <hidden>0</hidden>
+    <idnumber></idnumber>
+    <stackversion>
+      <text>2018120500</text>
+    </stackversion>
+    <questionvariables>
+      <text>ta:makelist(k^2,k,1,8)</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text>[[feedback:prt1]]</text>
+    </specificfeedback>
+    <questionnote>
+      <text></text>
+    </questionnote>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <matrixparens>[</matrixparens>
+    <variantsselectionseed></variantsselectionseed>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>ta</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint></syntaxhint>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords></forbidwords>
+      <allowwords></allowwords>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options>simp</options>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackvariables>
+        <text></text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <answertest>AlgEquiv</answertest>
+        <sans>ev(ans1,simp)</sans>
+        <tans>ta</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <qtest>
+      <testcase>1</testcase>
+      <testinput>
+        <name>ans1</name>
+        <value>[1,4,9,16,25,36,49,64]</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <testinput>
+        <name>ans1</name>
+        <value>makelist(k^2,k,1,8)</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>3</testcase>
+      <testinput>
+        <name>ans1</name>
+        <value>[1,4,9,16,25,36,49]</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt1-1-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+
+<!-- question: 652  -->
   <question type="stack">
     <name>
       <text>Checkbox</text>
@@ -620,6 +761,7 @@
     <defaultgrade>1.0000000</defaultgrade>
     <penalty>0.1000000</penalty>
     <hidden>0</hidden>
+    <idnumber></idnumber>
     <stackversion>
       <text>2018080600</text>
     </stackversion>
@@ -735,7 +877,7 @@ ta:append(ta,[tao]);]]></text>
     </qtest>
   </question>
 
-<!-- question: 2052  -->
+<!-- question: 653  -->
   <question type="stack">
     <name>
       <text>Dropdown (shuffle)</text>
@@ -749,6 +891,7 @@ ta:append(ta,[tao]);]]></text>
     <defaultgrade>1.0000000</defaultgrade>
     <penalty>0.1000000</penalty>
     <hidden>0</hidden>
+    <idnumber></idnumber>
     <stackversion>
       <text>2018080600</text>
     </stackversion>
@@ -879,7 +1022,7 @@ ta:append(ta,[tao]);]]></text>
     </qtest>
   </question>
 
-<!-- question: 2053  -->
+<!-- question: 654  -->
   <question type="stack">
     <name>
       <text>Equiv input test</text>
@@ -893,6 +1036,7 @@ ta:append(ta,[tao]);]]></text>
     <defaultgrade>1.0000000</defaultgrade>
     <penalty>0.1000000</penalty>
     <hidden>0</hidden>
+    <idnumber></idnumber>
     <stackversion>
       <text></text>
     </stackversion>
@@ -990,7 +1134,7 @@ ta:[p,x=(4-7)/3,x=-1]</text>
     </qtest>
   </question>
 
-<!-- question: 2054  -->
+<!-- question: 655  -->
   <question type="stack">
     <name>
       <text>Matrix</text>
@@ -1004,6 +1148,7 @@ ta:[p,x=(4-7)/3,x=-1]</text>
     <defaultgrade>1.0000000</defaultgrade>
     <penalty>0.1000000</penalty>
     <hidden>0</hidden>
+    <idnumber></idnumber>
     <stackversion>
       <text>2018080600</text>
     </stackversion>
@@ -1112,7 +1257,7 @@ ta:[p,x=(4-7)/3,x=-1]</text>
     </qtest>
   </question>
 
-<!-- question: 2055  -->
+<!-- question: 656  -->
   <question type="stack">
     <name>
       <text>Notes</text>
@@ -1126,6 +1271,7 @@ ta:[p,x=(4-7)/3,x=-1]</text>
     <defaultgrade>1.0000000</defaultgrade>
     <penalty>0.1000000</penalty>
     <hidden>0</hidden>
+    <idnumber></idnumber>
     <stackversion>
       <text>2018080600</text>
     </stackversion>
@@ -1221,7 +1367,7 @@ ta:[p,x=(4-7)/3,x=-1]</text>
     </qtest>
   </question>
 
-<!-- question: 2062  -->
+<!-- question: 657  -->
   <question type="stack">
     <name>
       <text>Numerical input (min sf)</text>
@@ -1235,6 +1381,7 @@ ta:[p,x=(4-7)/3,x=-1]</text>
     <defaultgrade>1.0000000</defaultgrade>
     <penalty>0.1000000</penalty>
     <hidden>0</hidden>
+    <idnumber></idnumber>
     <stackversion>
       <text>2018080600</text>
     </stackversion>
@@ -1317,7 +1464,7 @@ ta:[p,x=(4-7)/3,x=-1]</text>
     </prt>
   </question>
 
-<!-- question: 2056  -->
+<!-- question: 658  -->
   <question type="stack">
     <name>
       <text>Radio</text>
@@ -1331,6 +1478,7 @@ ta:[p,x=(4-7)/3,x=-1]</text>
     <defaultgrade>1.0000000</defaultgrade>
     <penalty>0.1000000</penalty>
     <hidden>0</hidden>
+    <idnumber></idnumber>
     <stackversion>
       <text>2018080600</text>
     </stackversion>
@@ -1433,7 +1581,7 @@ ta:append(ta,[tao]);]]></text>
     </qtest>
   </question>
 
-<!-- question: 2057  -->
+<!-- question: 659  -->
   <question type="stack">
     <name>
       <text>Single char</text>
@@ -1447,6 +1595,7 @@ ta:append(ta,[tao]);]]></text>
     <defaultgrade>1.0000000</defaultgrade>
     <penalty>0.1000000</penalty>
     <hidden>0</hidden>
+    <idnumber></idnumber>
     <stackversion>
       <text></text>
     </stackversion>
@@ -1542,7 +1691,7 @@ ta:append(ta,[tao]);]]></text>
     </qtest>
   </question>
 
-<!-- question: 2063  -->
+<!-- question: 660  -->
   <question type="stack">
     <name>
       <text>String input</text>
@@ -1559,6 +1708,7 @@ This input is not, perhaps it is used to store JSXGraph state?
     <defaultgrade>1.0000000</defaultgrade>
     <penalty>0.1000000</penalty>
     <hidden>0</hidden>
+    <idnumber></idnumber>
     <stackversion>
       <text>2018080600</text>
     </stackversion>
@@ -1659,7 +1809,7 @@ This input is not, perhaps it is used to store JSXGraph state?
     </prt>
   </question>
 
-<!-- question: 2058  -->
+<!-- question: 661  -->
   <question type="stack">
     <name>
       <text>Textarea test</text>
@@ -1673,6 +1823,7 @@ This input is not, perhaps it is used to store JSXGraph state?
     <defaultgrade>1.0000000</defaultgrade>
     <penalty>0.1000000</penalty>
     <hidden>0</hidden>
+    <idnumber></idnumber>
     <stackversion>
       <text>2018080600</text>
     </stackversion>
@@ -1768,7 +1919,117 @@ This input is not, perhaps it is used to store JSXGraph state?
     </qtest>
   </question>
 
-<!-- question: 2059  -->
+<!-- question: 665  -->
+  <question type="stack">
+    <name>
+      <text>Textarea test (with simplification)</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[Dummy maths input:&nbsp; \({@ta@}\).<br>[[input:ans1]] [[validation:ans1]]]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text></text>
+    </generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.1000000</penalty>
+    <hidden>0</hidden>
+    <idnumber></idnumber>
+    <stackversion>
+      <text>2018120500</text>
+    </stackversion>
+    <questionvariables>
+      <text>ta:[x=1,x=2]</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text>[[feedback:prt1]]</text>
+    </specificfeedback>
+    <questionnote>
+      <text>vendor/bin/phpunit --group qtype_stack</text>
+    </questionnote>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <matrixparens>[</matrixparens>
+    <variantsselectionseed></variantsselectionseed>
+    <input>
+      <name>ans1</name>
+      <type>textarea</type>
+      <tans>ta</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>1</insertstars>
+      <syntaxhint></syntaxhint>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords></forbidwords>
+      <allowwords></allowwords>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options>simp</options>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackvariables>
+        <text></text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>ta</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <qtest>
+      <testcase>1</testcase>
+      <testinput>
+        <name>ans1</name>
+        <value>ta</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+
+<!-- question: 662  -->
   <question type="stack">
     <name>
       <text>True/false</text>
@@ -1782,6 +2043,7 @@ This input is not, perhaps it is used to store JSXGraph state?
     <defaultgrade>1.0000000</defaultgrade>
     <penalty>0.1000000</penalty>
     <hidden>0</hidden>
+    <idnumber></idnumber>
     <stackversion>
       <text></text>
     </stackversion>
@@ -1890,7 +2152,7 @@ This input is not, perhaps it is used to store JSXGraph state?
     </qtest>
   </question>
 
-<!-- question: 2060  -->
+<!-- question: 663  -->
   <question type="stack">
     <name>
       <text>Units</text>
@@ -1904,6 +2166,7 @@ This input is not, perhaps it is used to store JSXGraph state?
     <defaultgrade>1.0000000</defaultgrade>
     <penalty>0.1000000</penalty>
     <hidden>0</hidden>
+    <idnumber></idnumber>
     <stackversion>
       <text>2018080600</text>
     </stackversion>

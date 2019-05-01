@@ -14,7 +14,7 @@ Wider support is intended for future versions.
 
 ##  What is reasoning by equivalence and this input type?
 
-Reasoning by Equivalence is a particularly important activity in elementary algebra.  
+Reasoning by equivalence is a particularly important activity in elementary algebra.  
 It is an iterative formal symbolic procedure where algebraic expressions, or terms within an expression, 
 are replaced by an equivalent until a "solved" form is reached.
 An example of solving a quadratic equation is shown below.
@@ -26,10 +26,10 @@ An example of solving a quadratic equation is shown below.
 \end{array}\]
 
 The point is that replacing an expression or a sub-expression in a problem by an equivalent expression provides a new problem having the same solutions.
-This input type enables us to capture and evaluate student's line by line reasoning, i.e. their steps in working, during this kind of activity.
+This input type enables us to capture and evaluate student's line-by-line reasoning, i.e. their steps in working, during this kind of activity.
 
 Reasoning by equivalence is very common in elementary mathematics.  It is either the entire task (such as when solving a quadratic)
-or it is an important part of a bigger problem.  E.g. proving the inducion step is often achieved by reasoning by equivalence.  
+or it is an important part of a bigger problem.  E.g. proving the induction step is often achieved by reasoning by equivalence.  
 
 ## How do students use this input?
 
@@ -50,16 +50,9 @@ Note that students must use correct propositional logic connectives `or` and `an
 E.g. their answer must be something correct such as `x=1 or x=2`, *not* something sloppy like `x=1 or 2` or `x=1,2`.  
 It certainly can't be something wrong such as `x=1 and x=2` which is often seen in written answers!
 
-Note that students may not take square roots of both sides of an equation.  This will be rejected because it it not equivalen!  
-Similarly, students may not cancel terms from both sides which may be zero.  As we require equivalence, students may not *multiply* either.  
-This will take a bit of geting used to!
+Note that students may not take square roots of both sides of an equation.  This will be rejected because it is not equivalent!  Similarly, students may not cancel terms from both sides which may be zero.  As we require equivalence, students may not *multiply* either.  This will probably not correspond to students' expectations, and may take a bit of getting used to.
 
-But, shouldn't student really use logical connectives?  
-Yes, I (CJS) believe they should but that to require this from the input type now would be too big a step for students and their teachers.
-Students are already being expected to use connectives such as `and` and `or` correctly.  
-The input type uses these connectives and in the futre options may be added to this input type which require students to be explicit 
-about logical connectives, especially when we add support for implication in addition to equivalence.  
-As we gain confidence in teaching with equivalence reasoning, so we will add more options to this input type.
+But should students really use logical connectives?  Yes, I (CJS) believe they should but to require this from the input type now would be too big a step for students and their teachers. Students are already being expected to use connectives such as `and` and `or` correctly.  The input type uses these connectives and in the future options may be added to this input type which require students to be explicit about logical connectives, especially when we add support for implication in addition to equivalence.  As we gain confidence in teaching with equivalence reasoning, we will add more options to this input type.
 
 __If you have strong views on how this input type should behave, please contact the developers.__
 
@@ -73,7 +66,7 @@ Each line of a student's answer must be a valid expression, just as with the alg
 However, sets, lists and matrices are not permitted in this input type.  
 The internal result is a *list* of expressions (equations or inequalities).
 
-## Example use cases for this input type.
+## Example use cases for this input type
 
 1. Reasoning by equivalence is the entire task.  The argument must be correct and the last line is the final answer.
 
@@ -86,9 +79,9 @@ blurs the distinction between validation and correctness, but in a way which is 
 
 ## Notes for question authors
 
-* The position of the validation tags, e.g. `[[validation:ans1]]` are ignored for this input type.  Validation feeback is always displayed next to the textarea into which students type their answer.
+* The position of the validation tags, e.g. `[[validation:ans1]]` are ignored for this input type.  Validation feedback is always displayed next to the TextArea into which students type their answer.
 * The teacher's answer and any syntax hint must be a list.  If you just pass in an expression strange behaviour may result.
-* The input type works very much like the textarea input type.  Internally, the student's lines are turned into a list.  If you want to use the "final answer" then use code such as `last(ans1)` in your potential response tree.
+* The input type works very much like the TextArea input type.  Internally, the student's lines are turned into a list.  If you want to use the "final answer" then use code such as `last(ans1)` in your potential response tree.
 * If students type in an expression rather than an equation, the system will assume they forgot to add \(=0\) at the end and act accordingly.  This is displayed to the student.
 
 If the student starts their line with an `=` sign, this is accepted.  Teachers cannot use a prefix `=`.  In a worked solution the teacher must use the prefix function `stackeq`.  For example,
@@ -100,7 +93,7 @@ Teachers must explicitly use the `nounor` and `nounand` commands, not the `and` 
     ta:[p=0,(v-n1)*(v-n2)=0,v-n1=0 nounor v-n2=0,v=n1 nounor v=n2]
 
 
-## Input type options.
+## Input type options
 
 To enter options for this input use the "extra options field".   Options should be a comma separated list of values only from the following list.
 
@@ -116,7 +109,7 @@ To enter options for this input use the "extra options field".   Options should 
 If we `assume_pos` they any negative solutions will be ignored, whether or not they exist.  So \(x=\pm 2\) will now be equivalent to \(x=2\).  
 You might not want this equivalence.  In particular, this also has the effect of condoning squaring or rooting both sides of an equation.  
 For example \(x^4=2\) will now be equivalent to \(x=2\) (rather than \(x=2 \vee x=-2\)).  
-This is not the default, but is useful in situations where a student is rearranging an equation to a given subject, and all the variables are assume to be positive.  Note, this option is only for the input type. You will also need to set this in the question options to also affect the answer test.
+This is not the default, but is useful in situations where a student is rearranging an equation to a given subject, and all the variables are assumed to be positive.  Note, this option is only for the input type. You will also need to set this in the question options to also affect the answer test.
 
 `assume_real` sets an internal flag to work over the real numbers.  If `true` then \(x=1\) will be considered equivalent to \(x^3=1\).  Note, this option is only for the input type. You will also need to set this in the question options to also affect the answer test.
 
@@ -133,7 +126,8 @@ There are a number of answer tests which seek to establish whether a student's l
 In these tests there is no concept of "step size" or any test that a student has worked in a sensible order.  
 The tests share code with the input type, and feedback from the test will be identical to that from the input when this is shown.
 
-To work over the real numbers make the answer test options `assume_real`.
+You will also need to set options, as in the input type above, to get the answer tests to reflect the options set.
+The options supported are `assume_pos`, `assume_real`, and `calculus`.
 
 ### EquivReasoning ###
 
@@ -167,8 +161,8 @@ For this reason, STACK accepts \(x=3\) as equivalent to \((x-3)^2=0\), but with 
 The maxima function `stack_disp_arg(ex, [showlogic, showdomain])` can be used to display a list of expressions `ex` in the same form as used in the input and answer tests.  This is useful for displaying the teacher's worked solution in the general feedback.  
 
 The second two arguments are optional.
-1. The boolean variable `showlogic` dertemines whether the equivalence symbols are shown.  For a worked solution you probably need to use the following:
-2. The boolean variable `showdomain` dertemines whether the natural domains are shown.
+1. The boolean variable `showlogic` determines whether the equivalence symbols are shown.  For a worked solution you probably need to use the following:
+2. The boolean variable `showdomain` determines whether the natural domains are shown.
 
 For a worked solution you probably need to use the function
 
@@ -182,15 +176,39 @@ With the equivalence symbols but without natural domains you use
 
     \[ {@stack_disp_arg(ta, true, false)@} \]
 
+# Finding a step in working #
+
+It is relatively common to want students to take a "particular step" in their argument.  That is to say, to expect a particular intermediate expression to appear explicitly in their list of answers.
+
+For example, imagine you want students to "simplify" \( \log_5(25) \) to \(2\).  It is important to see evidence of the expression \( \log_5(5^2) \) in their answer.  The teacher's answer is, e.g.
+
+    ta:[lg(25,5),stackeq(lg(5^2,5)),stackeq(2*lg(5,5)),stackeq(2*1),stackeq(2)]
+
+We want to accept 
+
+    sa1:[lg(25,5),stackeq(lg(5^2,5)),stackeq(2)]
+
+But reject
+
+    sa0:[lg(25,5),stackeq(2)]
+
+Both of these are correct reasoning arguments, but the second is missing the desired step.
+
+To facilitate this search we provide the function `stack_equiv_find_step(ex, exl)`.  This looks for expression `ex` in the list `exl` using `ATEqualComAss`.  It returns the list of indices of the position.  If you just want to know if the expression is missing use the predicate `emptyp`.  Note, this function strips off `stackeq` before testing, so this function will find \( \log_5(5^2) \) in both `sa1` and `sa2` below.
+
+    sa2:[lg(25,5),lg(5^2,5),2]
+
+
 ## Longer term plans
 
 1. Define \(x\neq a\) operator.  Needed to exclude single numbers from the domain.
-2. Add in constants of integration into the calculus tests.
-3. Provide better feedback to students about which steps they have taken and what goes wrong.
+2. Define \(x\in X\) operator, for student use.
+3. Provide better tools for dealing with assessment, such as checking for particular steps.
+2. Provide better feedback to students about which steps they have taken and what goes wrong.
 
 In the long term, we may fully implement the ideas in the paper Sangwin, C.J. __An Audited Elementary Algebra__ The Mathematical Gazette, July 2015.
 
-In the future students might also be expected to say what they are doing, e.g. ``add \(a\) to both sides", as well as just do it.  Quite how it does this, and the options available to the teacher is what is most likely to change!  
+In the future students might also be expected to say what they are doing, e.g. ``add \(a\) to both sides", as well as just do it.  Quite how it does this, and the options available to the teacher is what is most likely to change.
 
 We would like to introduce the idea of a *model answer*.  STACK will then establish the extent to which the student's answer follows this model solution.
 

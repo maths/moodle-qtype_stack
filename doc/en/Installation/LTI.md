@@ -2,7 +2,7 @@
 
 Learning Tools Interoperability (LTI) is a specification of a web protocol which allows online learning systems to exchange information and interconnect.  It can be used to provide quizzes (containing STACK questions or not) to other learning systems, or to include quizzes within a Moodle system on which STACK is not installed.
 
-LTI is entirely separate from STACK, and the details of the protocol are available from the [IMS Global](https://www.imsglobal.org/activity/learning-tools-interoperability) website.  LTI can be use to provide/consume a wide range of functionality beyond STACK quizzes.
+LTI is entirely separate from STACK, and the details of the protocol are available from the [IMS Global](https://www.imsglobal.org/activity/learning-tools-interoperability) website.  LTI can be used to provide/consume a wide range of functionality beyond STACK quizzes.
 
 # Installing LTI
 
@@ -19,7 +19,7 @@ The LTI provider plugin can be used with the default settings.
 
 This section describes how to use LTI to provide STACK quizzes as part of a short Moodle course.
 
-## Setting up a Moodle course as a service for Learn.
+## Setting up a Moodle course as a service for Learn
 
 The Moodle LTI provider enables a wide range of possibilities.  The following, provided as an example, is the default used at Edinburgh.
 
@@ -32,13 +32,13 @@ If you would like more than one grade in Learn, then consider having more than o
 
 1. Login to the provider (STACK) directly with Moodle admin privileges and create a course as follows.
 
-    Site administration -> Courses -> Manage courses and categories.
+        Site administration -> Courses -> Manage courses and categories.
     
    Then choose "Create new course".
 2. Create the course with appropriate Course full name and Course short name.  These should be identical to those on Learn.
 
-   Course format -> Format -> Topics format
-   Number of sections -> 0
+        Course format -> Format -> Topics format
+        Number of sections -> 0
    
    This creates the simplest possible course, with no section breakup.  All the quizzes will then appear as a list in this.  Other options are, of course, possible.
    (If you just really want a single quiz, consider the "Single activity format").
@@ -53,6 +53,6 @@ If you would like more than one grade in Learn, then consider having more than o
        Layout and CSS -> Hide page header, footer, left, right blocks.
    
    Save changes.
-6. The "List of tools provided" will give the'Tool name', 'Shared secret' and 'Launch URL'.  These will be needed by the LTI consumer.
+6. The "List of tools provided" will give the 'Tool name', 'Shared secret' and 'Launch URL'.  These will be needed by the LTI consumer.
    
 

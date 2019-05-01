@@ -158,6 +158,7 @@ class qtype_stack_test extends qtype_stack_walkthrough_test_base {
     <defaultgrade>1</defaultgrade>
     <penalty>0.3333333</penalty>
     <hidden>0</hidden>
+    <idnumber></idnumber>
     <stackversion>
       <text>' . get_config('qtype_stack', 'version') . '</text>
     </stackversion>
@@ -254,6 +255,11 @@ class qtype_stack_test extends qtype_stack_walkthrough_test_base {
     </qtest>
   </question>
 ';
+
+        // Hack so the test passes in both 3.5 and 3.6.
+        if (strpos($xml, 'idnumber') === false) {
+            $expectedxml = str_replace("    <idnumber></idnumber>\n", '', $expectedxml);
+        }
 
         $this->assert_same_xml($expectedxml, $xml);
     }

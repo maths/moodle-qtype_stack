@@ -15,7 +15,7 @@ Note, some things (like forbid floats) can be applied to any numbers in an algeb
 
 The "Extra options" field on the input must be a comma separated list of the following tags.  Note, these options may not depend on the question variables.
 
-`floatnum`:  requires the student's answer to be a floating point number, as judged by Maxima's `floatnump` predicate.
+`floatnum`:  requires the student's answer to be a floating-point number, as judged by Maxima's `floatnump` predicate.
 
 `rationalnum`:  requires the student's answer to be a rational number (i.e. a fraction), as judged by STACK's `rational_numberp` predicate.  Integers are excluded here!
 

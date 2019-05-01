@@ -1,6 +1,6 @@
 # Developer
 
-If you want to track the development of STACK or report bugs then you should visit [github](https://github.com/maths/moodle-qtype_stack).
+If you want to track the development of STACK or report bugs then you should visit [GitHub](https://github.com/maths/moodle-qtype_stack).
 
 Work towards the next release of STACK is detailed on [Development track](Development_track.md).
 

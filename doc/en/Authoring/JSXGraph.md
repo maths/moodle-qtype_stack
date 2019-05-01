@@ -2,7 +2,7 @@
 
 STACK supports inclusion of dynamic graphs using JSXGraph: [http://jsxgraph.uni-bayreuth.de/wiki/](http://jsxgraph.uni-bayreuth.de/wiki/).
 
-Note, we strongly recommend you do not use an HTML aware editor when using JSXGraph questions.  Instead turn off the editor within Moodle and edit the raw HTML.
+Note, we strongly recommend you do not use an HTML-aware editor when using JSXGraph questions.  Instead turn off the editor within Moodle and edit the raw HTML.
 
     Site administration > Plugins > Text editors > Manage editors
 
@@ -14,7 +14,7 @@ Individual users can also set their editor preferences:
 
 This example is based on the documentation for [curve](http://jsxgraph.uni-bayreuth.de/wiki/index.php/Curve) and the [even simpler function plotter](http://jsxgraph.uni-bayreuth.de/wiki/index.php/Even_simpler_function_plotter) example.
 
-To include a basic dynamically generated sketch into a STACK question, first define the expression of the graph to be plotted in the question variables.  For example
+To include a basic dynamically-generated sketch into a STACK question, first define the expression of the graph to be plotted in the question variables.  For example
 
     a:rand(6)-3
     fx:sin(x)+a
@@ -30,7 +30,7 @@ Then include the following question text, which includes a simple `[[jsxgraph]]`
     [[/jsxgraph]]
     <p>\(f(x)=\) [[input:ans1]] [[validation:ans1]]</p>
 
-Note the code `board.jc.snippet('{#fx#}', true, 'x', true);` which turns a reasonable expression for a function into the Javascript function.  You cannot just plot the `functiongraph` on its own.
+Note the code `board.jc.snippet('{#fx#}', true, 'x', true);` which turns a reasonable expression for a function into the JavaScript function.  You cannot just plot the `functiongraph` on its own.
 
 To make a working question, you will then need to add in `fx` as the model answer to input `ans1`, a question note (e.g. `\({@fx@}\)`) and an appropriate potential response tree.
 
@@ -60,7 +60,7 @@ In this example the student can interact with a dynamic diagram to help them und
 
 ## An example with a slider
 
-In this example we provide a simple slider.  Notice in this example we use the Javascript notation `a**x` for \(a^x\) and not Maxima's `a^x`.
+In this example we provide a simple slider.  Notice in this example we use the JavaScript notation `a**x` for \(a^x\) and not Maxima's `a^x`.
 
     [[jsxgraph]]
       // boundingbox:[left, top, right, bottom]
@@ -72,7 +72,7 @@ In this example we provide a simple slider.  Notice in this example we use the J
 
 ## General considerations when building interactive graphs
 
-In general you should pay attenttion on how your graph reacts to the student returning to the page/question later. For example, will your graph 
+In general you should pay attention on how your graph reacts to the student returning to the page/question later. For example, will your graph 
 reset to display the original situation or will it at least move all movable things to the positions the student last left them? If 
 the student can do things that are not actually considered as part of the answer, e.g. zoom out or pan the view, do you also remember 
 those actions? If your graph is not used for inputting answers then this is not a major issue but if it is then you will need to solve 
@@ -88,12 +88,12 @@ The simplest solution for storing state is to add a `string` type input field to
 
  1. That input field should not be connected to any PRTs.
  2. You should turn off the validation and verification of the field. 
- 3. You should use the extra option `hideanswer` to make sture the teacher's answer is not shown to students.
+ 3. You should use the extra option `hideanswer` to make sure the teacher's answer is not shown to students.
  4. You can hide this input with CSS, e.g. `<p style="display:none">[[input:state]] [[validation:state]]</p>` (but probably not while you develop the question!)
- 4. You can even use the syntax hint feature to pass in a default value but only if that is not parametric (currently the syntax hint is not castext: see the todo list).
+ 4. You can even use the syntax hint feature to pass in a default value but only if that is not parametric (currently the syntax hint is not CASText: see the todo list).
 
 You can use that input field to store the state of the graph as a string, for example 
-as a JSON encoded structure. For example like this, assuming the name of the String input is named "stateStore":
+as a JSON-encoded structure. For example like this, assuming the name of the String input is named "stateStore":
 
 
     [[jsxgraph input-ref-stateStore="stateRef"]]
@@ -128,11 +128,11 @@ as a JSON encoded structure. For example like this, assuming the name of the Str
 
 In that trivial example you only have one point that you can drag around but the position of that point will be stored and it will be where 
 you left it when you return to the page. However, the position has been stored in a String encoded in JSON format and cannot directly be 
-used in STACK side logic. The JSON format is however very handy if you create objects to store dynamically and want to represent things 
-of more complex nature but in this example we could have just as well have had two separate Numeric inputs storing just the raw 'x' 
-and 'y' coordinates separately as raw numbers and in that case we could have used them directly in STACKs grading logic.
+used in STACK-side logic. The JSON format is however very handy if you create objects to store dynamically and want to represent things 
+of more complex nature, but in this example we could have just as well have had two separate Numeric inputs storing just the raw 'x' 
+and 'y' coordinates separately as raw numbers and in that case we could have used them directly in STACK's grading logic.
 
-If needed JSON is not impossible to parse in STACK, but it is not easy (as in JavaScript) because Maxima has no map 
+If needed, JSON is not impossible to parse in STACK, but it is not easy (as in JavaScript) because Maxima has no map 
 data-structures and is not object oriented. In any case, the JSON string generated in the previous example would look like this:
 
     stateStore:"{\"x\":4,\"y\":3}";
@@ -148,7 +148,7 @@ To parse and manipulate it you can use STACK's custom JSON parsing functions:
 
 ## Convenience tools for building graphs
 
-The previous section covered the general case of storing the state of the graph and acting on it. Typically, you only need to handle a few points and maybe some sliders and for this task we provide ready made functions that bind those primitive objects to STACK input fields. As these binding functions only deal with singular sliders and points they will also use simpler forms of passing around the values.
+The previous section covered the general case of storing the state of the graph and acting on it. Typically, you only need to handle a few points and maybe some sliders and for this task we provide ready-made functions that bind those primitive objects to STACK input fields. As these binding functions only deal with singular sliders and points they will also use simpler forms of passing around the values.
 
 The example in the previous section about moving the point around and storing the points position as an JSON object can be redone with the convenience functions in much simpler form. The only major differences being that the value is stored as a raw list of float values, and the input field should not be of the String type instead we can store it as Algebraic input and directly access the values, just make sure you allow float values in that input.
 

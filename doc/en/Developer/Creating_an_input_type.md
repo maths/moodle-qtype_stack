@@ -3,8 +3,8 @@
 ## Background ##
 
 To allow questions to be as flexible as possible, the types of input that can be
-used to build quiestions are a type of plugin. You can make an new one and add
-it to Stack if you wish. This document explains how.
+used to build questions are a type of plugin. You can make a new one and add
+it to STACK if you wish. This document explains how.
 
 ## File layout ##
 

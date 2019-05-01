@@ -1,4 +1,4 @@
-# STACK release process notes.
+# STACK release process notes
 
 Note, these notes are designed for developers releasing a new version through the Moodle plugin database.  They are probably not useful for anyone else.
 
@@ -8,7 +8,7 @@ Release needs to be done for the whole "set".  Do we increment the numbers of al
 * for bug fixes just the question type.
 
 
-## 1. Pre-release checks.
+## 1. Pre-release checks
 
 Check 
 
@@ -19,27 +19,27 @@ Check
 * Check docs (including development history/track).
 * Commit all changes to git, e.g. "Update version number for the 4.0 release."
 
-## 2. Run all unit tests.
+## 2. Run all unit tests
 
-## 3. Create new tag with version name.
+## 3. Create new tag with version name
 
 E.g. "v4.1".
 
-* Push to github.
-* Push tags to github 
+* Push to GitHub.
+* Push tags to GitHub 
  * Tortoise git: pulldown from push
  * Unix: `git tag -a v4.1 -m "Update version number for the 4.1 release."`
  * Unix: `git push --tags`
 
-## Moodle plugins database entry for the plugin.
+## Moodle plugins database entry for the plugin
 
 Add a new version to the Moodle plugins database entry for the plugin.
 
-* If version number does not appear in the dropdown, then upload it from github.
+* If version number does not appear in the dropdown, then upload it from GitHub.
  
 * Version information
 * Upload zipfile
-* Github
+* GitHub
 * Username = maths
 * Choose appropriate plugin
 * Choose tags

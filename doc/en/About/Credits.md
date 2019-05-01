@@ -2,7 +2,7 @@
 
 _This list is currently incomplete_.
 
-More details of our development history is given in the [development track](../Developer/Development_track.md).
+More details of our development history are given in the [development track](../Developer/Development_track.md).
 
 * [Chris Sangwin](http://www.maths.ed.ac.uk/~csangwin/) of the University of Edinburgh. STACK is the brainchild of Chris Sangwin.
 * [Tim Hunt](http://tjhunt.blogspot.co.uk/) and Time Lowe of the Open University.
@@ -18,15 +18,17 @@ Previous developers have included.
 
 # Translation of the STACK Project
 
-STACK is designed to support the straightforward addition of other language packs. If you have translated STACK into other languages - or would be interested in doing so - please let us know! Likewise if you would really like to see STACK in another language please contact us.  Details of how to translate STACK, and forthcoming translations, are given on the [languages](../Developer/Languages.md) developer's page.
+STACK is designed to support the straightforward addition of other language packs. If you have translated STACK into other languages - or would be interested in doing so - please let us know! Likewise, if you would really like to see STACK in another language please contact us.  Details of how to translate STACK, and forthcoming translations, are given on the [languages](../Developer/Languages.md) developer's page.
 
-Currently STACK is released with the following languages.
+STACK is released in many languages, using Moodle's ATOS language system.
 
   * EN: English (British), by Chris Sangwin (and others)
   * FI: Finnish, by Matti Pauna
   * SV: Swedish, by Mikael Kurula
   * ES: Spanish, by Victor Hugo Huerta 
   * JA: Japanese, by Yasuyuki Nakamura and Takahiro Nakahara  
+
+German documentation added in Jan 2019 by Eva Mix of University of Cologne, Germany and Mario Josupeit of University of Cologne, Germany.
 
 # Other implementations and projects
 
@@ -55,7 +57,7 @@ School of Physics, The University of Birmingham
 : Contact Jon Watkins
 
 School of Computing, Information and Mathematical Sciences, The University of the South Pacific
-: Contact [Dhiraj bhartu](mailto:dhiraj.bhartu@usp.ac.fj)
+: Contact [Dhiraj Bhartu](mailto:dhiraj.bhartu@usp.ac.fj)
 
 Gymnasium Himmelstherr, Hildesheim, Deutschland
 : Contact [Frank Schuette](mailto:fschuett@gymnasium-himmelsthuer.de)

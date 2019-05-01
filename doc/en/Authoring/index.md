@@ -1,6 +1,6 @@
 # Authoring
 
-Computer aided assessment of mathematics works in the following phases.
+Computer-aided assessment of mathematics works in the following phases.
 
 1. [Authoring](../Authoring/index.md),
 2. [Testing](Testing.md) and

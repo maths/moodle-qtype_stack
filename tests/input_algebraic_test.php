@@ -346,6 +346,40 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         $this->assertEquals('SA_not_expression', $state->note);
     }
 
+    public function test_validate_student_response_sametype_subscripts_true_valid() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('algebraic', 'sans1', 'mu_0*(I_0-I_1)');
+        $el->set_parameter('sameType', true);
+        $state = $el->validate_student_response(array('sans1' => 'mu_0*(I_1-I_2)'), $options, 'x', array('tans'));
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('mu_0*(I_1-I_2)', $state->contentsmodified);
+        $this->assertEquals('\[ {\mu}_{0}\cdot \left({I}_{1}-{I}_{2}\right) \]', $state->contentsdisplayed);
+        if ($this->adapt_to_new_maxima('5.32.2')) {
+            // Why change the order here?
+            $this->assertEquals('\( \left[ {I}_{1} , {I}_{2} , {\mu}_{0} \right]\) ', $state->lvars);
+        } else {
+            $this->assertEquals('\( \left[ {\mu}_{0} , {I}_{1} , {I}_{2} \right]\) ', $state->lvars);
+        }
+    }
+
+    public function test_validate_student_response_sametype_subscripts_true_invalid() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('algebraic', 'sans1', 'mu_0*(I_0-I_1)');
+        $el->set_parameter('sameType', true);
+        $state = $el->validate_student_response(array('sans1' => '{mu_0*(I_1-I_2)}'), $options, 'x', array('tans'));
+        $this->assertEquals(stack_input::INVALID, $state->status);
+        $this->assertEquals('SA_not_expression', $state->note);
+        $this->assertEquals('{mu_0*(I_1-I_2)}', $state->contentsmodified);
+        $this->assertEquals('\[ \left \{{\mu}_{0}\cdot \left({I}_{1}-{I}_{2}\right) \right \} \]',
+            $state->contentsdisplayed);
+        if ($this->adapt_to_new_maxima('5.32.2')) {
+            // Why change the order here?
+            $this->assertEquals('\( \left[ {I}_{1} , {I}_{2} , {\mu}_{0} \right]\) ', $state->lvars);
+        } else {
+            $this->assertEquals('\( \left[ {\mu}_{0} , {I}_{1} , {I}_{2} \right]\) ', $state->lvars);
+        }
+    }
+
     public function test_validate_student_response_display_1() {
         $options = new stack_options();
         $el = stack_input_factory::make('algebraic', 'sans1', '-3*x^2-4');
@@ -398,9 +432,9 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         $state = $el->validate_student_response(array('sans1' => 'noundiff(y/x^2,x,1)-(2*y)/x = x^3*sin(3*x)'),
                 $options, 'diff(y/x^2,x,1)-(2*y)/x = x^3*sin(3*x)', null);
         $this->assertEquals(stack_input::VALID, $state->status);
-        $this->assertEquals('noundiff(y/x^2,x,1)-(2*y)/x=x^3*sin(3*x)', $state->contentsmodified);
-        $this->assertEquals('\[ \frac{\mathrm{d} \frac{y}{x^2}}{\mathrm{d} x}-\frac{2\cdot y}{x}' .
-                '=x^3\cdot \sin \left( 3\cdot x \right) \]', $state->contentsdisplayed);
+        $this->assertEquals('noundiff(y/x^2,x,1)-(2*y)/x = x^3*sin(3*x)', $state->contentsmodified);
+        $this->assertEquals('\[ \left(\frac{\mathrm{d}}{\mathrm{d} x} \frac{y}{x^2}\right)-\frac{2\cdot y}{x}=x^3\cdot ' .
+                '\sin \left( 3\cdot x \right) \]', $state->contentsdisplayed);
     }
 
     public function test_validate_student_response_single_var_chars_on() {
@@ -551,6 +585,19 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         $this->assertEquals("Variable_function", $state->note);
     }
 
+    public function test_validate_student_response_simp_1() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('algebraic', 'sans1', '[1,4,9,16,25,36,49,64]');
+        $el->set_parameter('options', 'simp');
+        $state = $el->validate_student_response(array('sans1' => 'makelist(k^2,k,1,8)'), $options,
+                '[1,4,9,16,25,36,49,64]', null);
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $content = $state->contentsmodified;
+        $this->assertEquals('makelist(k^2,k,1,8)', $content);
+        $this->assertEquals('\[ \left[ 1 , 4 , 9 , 16 , 25 , 36 , 49 , 64 \right] \]',
+                $state->contentsdisplayed);
+    }
+
     public function test_validate_lg_1() {
         $options = new stack_options();
         $el = stack_input_factory::make('algebraic', 'sans1', 'lg(27,3)');
@@ -558,6 +605,36 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('lg(27,3)', $state->contentsmodified);
         $this->assertEquals('\[ \log_{3}\left(27\right) \]', $state->contentsdisplayed);
+        $this->assertEquals('A correct answer is <span class="filter_mathjaxloader_equation">' .
+                '<span class="nolink">\[ \[ \log_{3}\left(27\right) \]</span></span> \), ' .
+                'which can be typed in as follows: <code>lg(27,3)</code>',
+                $el->get_teacher_answer_display($state->contentsmodified, $state->contentsdisplayed));
+    }
+
+    public function test_validate_lg_10() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('algebraic', 'sans1', 'lg(23,10)');
+        $state = $el->validate_student_response(array('sans1' => 'lg(23,10)'), $options, 'lg(23,10)', null);
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('lg(23,10)', $state->contentsmodified);
+        $this->assertEquals('\[ \log_{10}\left(23\right) \]', $state->contentsdisplayed);
+        $this->assertEquals('A correct answer is <span class="filter_mathjaxloader_equation">' .
+                '<span class="nolink">\[ \[ \log_{10}\left(23\right) \]</span></span> \), ' .
+                'which can be typed in as follows: <code>lg(23,10)</code>',
+                $el->get_teacher_answer_display($state->contentsmodified, $state->contentsdisplayed));
+    }
+
+    public function test_validate_lg_10b() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('algebraic', 'sans1', 'lg(19)');
+        $state = $el->validate_student_response(array('sans1' => 'lg(19)'), $options, 'lg(19)', null);
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('lg(19)', $state->contentsmodified);
+        $this->assertEquals('\[ \log_{10}\left(19\right) \]', $state->contentsdisplayed);
+        $this->assertEquals('A correct answer is <span class="filter_mathjaxloader_equation">' .
+                '<span class="nolink">\[ \[ \log_{10}\left(19\right) \]</span></span> \), ' .
+                'which can be typed in as follows: <code>lg(19)</code>',
+                $el->get_teacher_answer_display($state->contentsmodified, $state->contentsdisplayed));
     }
 
     public function test_validate_set_1() {
@@ -605,7 +682,7 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         $state = $el->validate_student_response(array('sans1' => '"Hello world"'), $options, 'x^2', null);
         $this->assertEquals(stack_input::INVALID, $state->status);
         $this->assertEquals('"Hello world"', $state->contentsmodified);
-        $this->assertEquals('<span class="stacksyntaxexample">"Hello world"</span>', $state->contentsdisplayed);
+        $this->assertEquals('\[ \mbox{Hello world} \]', $state->contentsdisplayed);
     }
 
     public function test_validate_string_same_type_invalid2() {
@@ -626,8 +703,8 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         // In this case empty responses jump straight to score.
         $this->assertEquals(stack_input::SCORE, $state->status);
         $this->assertEquals('EMPTYANSWER', $state->contentsmodified);
-        $this->assertEquals('\[ {\it EMPTYANSWER} \]', $state->contentsdisplayed);
-        $this->assertEquals('', $state->errors);
+        $this->assertEquals('', $state->contentsdisplayed);
+        $this->assertEquals(array(), $state->errors);
         $this->assertEquals('This input can be left blank.',
                 $el->get_teacher_answer_display($state->contentsmodified, $state->contentsdisplayed));
     }

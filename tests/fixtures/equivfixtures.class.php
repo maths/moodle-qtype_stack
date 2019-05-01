@@ -146,6 +146,68 @@ class stack_equiv_test_data {
         $newarg['outcome']   = false;
         $samplearguments[] = $newarg;
 
+        $newarg = array();
+        $newarg['title']     = "";
+        $newarg['narrative'] = '';
+        $newarg['casstring'] = "[1/(x^2+1)=1/((x+%i)*(x-%i)),true]";
+        $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR]";
+        $newarg['outcome']   = true;
+        $samplearguments[] = $newarg;
+
+        //******************************************************************************
+
+        $newarg = array();
+        $newarg['section'] = 'Numerical arguments.';
+        $samplearguments[] = $newarg;
+
+        $newarg = array();
+        $newarg['title']     = "";
+        $newarg['narrative'] = '';
+        $newarg['casstring'] = "[2^2,stackeq(4)]";
+        $newarg['debuglist'] = "[EMPTYCHAR,CHECKMARK]";
+        $newarg['outcome']   = true;
+        $samplearguments[] = $newarg;
+
+        $newarg = array();
+        $newarg['title']     = "";
+        $newarg['narrative'] = '';
+        $newarg['casstring'] = "[2^2,stackeq(3)]";
+        $newarg['debuglist'] = "[EMPTYCHAR,IMPLIESCHAR]";
+        $newarg['outcome']   = false;
+        $samplearguments[] = $newarg;
+
+        $newarg = array();
+        $newarg['title']     = "";
+        $newarg['narrative'] = '';
+        $newarg['casstring'] = "[2^2,4]";
+        $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR]";
+        $newarg['outcome']   = true;
+        $samplearguments[] = $newarg;
+
+        $newarg = array();
+        $newarg['title']     = "";
+        $newarg['narrative'] = '';
+        $newarg['casstring'] = "[2^2,3]";
+        $newarg['debuglist'] = "[EMPTYCHAR,IMPLIESCHAR]";
+        $newarg['outcome']   = false;
+        $samplearguments[] = $newarg;
+
+        $newarg = array();
+        $newarg['title']     = "";
+        $newarg['narrative'] = '';
+        $newarg['casstring'] = "[lg(64,4),lg(4^3,4),3*lg(4,4),3]";
+        $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR]";
+        $newarg['outcome']   = true;
+        $samplearguments[] = $newarg;
+
+        $newarg = array();
+        $newarg['title']     = "";
+        $newarg['narrative'] = '';
+        $newarg['casstring'] = "[lg(64,4),stackeq(lg(4^3,4)),stackeq(3*lg(4,4)),stackeq(3)]";
+        $newarg['debuglist'] = "[EMPTYCHAR,CHECKMARK,CHECKMARK,CHECKMARK]";
+        $newarg['outcome']   = true;
+        $samplearguments[] = $newarg;
+
         //******************************************************************************
 
         $newarg = array();
@@ -693,6 +755,14 @@ class stack_equiv_test_data {
 
         $newarg = array();
         $newarg['title']     = "";
+        $newarg['narrative'] = '';
+        $newarg['casstring'] = "[x^log(y),stackeq(e^(log(x)*log(y))),stackeq(e^(log(y)*log(x))),stackeq(y^log(x))]";
+        $newarg['debuglist'] = "[EMPTYCHAR,CHECKMARK,CHECKMARK,CHECKMARK]";
+        $newarg['outcome']   = true;
+        $samplearguments[] = $newarg;
+
+        $newarg = array();
+        $newarg['title']     = "";
         $newarg['narrative'] = 'For the moment we do not support this case.  That is we accept the failure to estabilsh equivalence.  To fix this it needs the rule A=B <=> e^A=e^B.';
         $newarg['casstring'] = "[lg(x+17,3)-2=lg(2*x,3),lg(x+17,3)-lg(2*x,3)=2,lg((x+17)/(2*x),3)=2,(x+17)/(2*x)=3^2,(x+17)=18*x,17*x=17,x=1]";
         $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,QMCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR]";
@@ -966,6 +1036,16 @@ class stack_equiv_test_data {
         $newarg['narrative'] = 'This contains an edge case of zero only in a line.';
         $newarg['casstring'] = "[abs(x-1/2)+abs(x+1/2)-2,stackeq(abs(x)-1)]";
         $newarg['debuglist'] = "[EMPTYCHAR,QMCHAR]";
+        $newarg['outcome']   = false;
+        $samplearguments[] = $newarg;
+
+        $newarg = array();
+        $newarg['title']     = "";
+        $newarg['narrative'] = 'Squaring both sides introduces an extra root into an interesting example.';
+        $newarg['casstring'] = "[11*sqrt(abs(x)+1)=25-x,11^2*(abs(x)+1)=(25-x)^2,11^2*abs(x)=(25-x)^2-11^2,11^4*x^2=((25-x)^2-11^2)^2, " .
+            "((25-x)^2-11^2)^2-11^4*x^2=0,((25-x)^2-11^2-11^2*x)*((25-x)^2-11^2+11^2*x)=0,(x^2-50*x+504-121*x)*(x^2-50*x+504+121*x)=0, " .
+            "(x-168)*(x-3)*(x+8)*(x+63)=0]";
+        $newarg['debuglist'] = "[EMPTYCHAR,QMCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR]";
         $newarg['outcome']   = false;
         $samplearguments[] = $newarg;
 
@@ -1268,6 +1348,29 @@ class stack_equiv_test_data {
 
         //******************************************************************************
         $newarg = array();
+        $newarg['section'] = 'Limits';
+        $samplearguments[] = $newarg;
+
+        $newarg = array();
+        $newarg['title']     = "Indefinite integration";
+        $newarg['narrative'] = "";
+        $newarg['casstring'] = '[nounint(x*e^x,x,-inf,0),nounlimit(nounint(x*e^x,x,t,0),t,-inf),'.
+            'nounlimit(e^t-t*e^t-1,t,-inf),nounlimit(e^t,t,-inf)+nounlimit(-t*e^t,t,-inf)+nounlimit(-1,t,-inf),-1]';
+        $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR]";
+        $newarg['outcome']   = true;
+        $samplearguments[] = $newarg;
+
+        $newarg = array();
+        $newarg['title']     = "Calculus from first principles";
+        $newarg['narrative'] = "";
+        $newarg['casstring'] = '[noundiff(x^2,x),stackeq(nounlimit(((x+h)^2-x^2)/h,h,0)),'.
+            'stackeq(nounlimit(2*x+h,h,0)),stackeq(2*x)]';
+        $newarg['debuglist'] = "[EMPTYCHAR,CHECKMARK,CHECKMARK,CHECKMARK]";
+        $newarg['outcome']   = true;
+        $samplearguments[] = $newarg;
+
+        //******************************************************************************
+        $newarg = array();
         $newarg['section'] = 'Calculus';
         $samplearguments[] = $newarg;
 
@@ -1313,6 +1416,15 @@ class stack_equiv_test_data {
         $newarg['casstring'] = "[noundiff(x^2*sin(x),x),stackeq(x^2*noundiff(sin(x),x)+noundiff(x^2,x)*sin(x))," .
             "stackeq(x^2*cos(x)+2*x*sin(x))]";
         $newarg['debuglist'] = "[EMPTYCHAR,CHECKMARK,CHECKMARK]";
+        $newarg['calculus']  = true;
+        $newarg['outcome']   = true;
+        $samplearguments[]   = $newarg;
+
+        $newarg = array();
+        $newarg['title']     = "Implicit differentiation";
+        $newarg['narrative'] = '';
+        $newarg['casstring'] = "[y(x)*cos(x)+y(x)^2 = 6*x,cos(x)*noundiff(y(x),x)+2*y(x)*noundiff(y(x),x)-y(x)*sin(x) = 6,(cos(x)+2*y(x))*noundiff(y(x),x) = y(x)*sin(x)+6,noundiff(y(x),x) = (y(x)*sin(x)+6)/(cos(x)+2*y(x))]";
+        $newarg['debuglist'] = "[EMPTYCHAR,DIFFCHAR(x),EQUIVCHAR,EQUIVCHAR]";
         $newarg['calculus']  = true;
         $newarg['outcome']   = true;
         $samplearguments[]   = $newarg;

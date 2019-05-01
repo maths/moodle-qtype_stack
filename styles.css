@@ -55,6 +55,10 @@
     font-size: 0.7em;
     margin: -1.3em -3em;
 }
+body.pagelayout-embedded .que.stack .formulation .questiontestslink {
+    display: none;
+}
+
 .que.stack .formulation .answer .option {
     margin: 0.7em;
 }
@@ -296,4 +300,10 @@ body.ie:not(.ie11) .stack_abstract_graph {
     top: -15px;
     right: -16px;
     cursor: pointer;
+}
+
+/* Hide check button when javascript alternative available */
+.jsenabled div.que.stack.dfexplicitvaildate .im-controls input.submit,
+.jsenabled div.que.stack.dfcbmexplicitvaildate .im-controls input.submit {
+    display: none;
 }

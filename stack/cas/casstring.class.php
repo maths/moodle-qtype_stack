@@ -1126,7 +1126,7 @@ class stack_cas_casstring {
     // If we "CAS validate" this string, then we need to set various options.
     // If the teacher's answer is null then we use typeless validation, otherwise we check type.
     public function set_cas_validation_casstring($key, $forbidfloats = true,
-                    $lowestterms = true, $tans = null, $validationmethod, $secrules = null) {
+                    $lowestterms = true, $tans = null, $validationmethod, $secrules = null, $simp) {
 
         if (!($validationmethod == 'checktype' || $validationmethod == 'typeless' || $validationmethod == 'units'
             || $validationmethod == 'unitsnegpow' || $validationmethod == 'equiv' || $validationmethod == 'numerical')) {
@@ -1155,6 +1155,10 @@ class stack_cas_casstring {
             $lowestterms = 'false';
         }
 
+        if ($simp) {
+            $starredanswer = 'ev(' . $starredanswer . ',simp)';
+        }
+
         $fltfmt = stack_utils::decimal_digits($starredanswer);
         $fltfmt = $fltfmt['fltfmt'];
 
@@ -1172,13 +1176,14 @@ class stack_cas_casstring {
         }
         if ($validationmethod == 'units') {
             // Note, we don't pass in forbidfloats as this option is ignored by the units validation.
-            $this->casstring = '(make_multsgn("blank"),stack_validate_units(['.$starredanswer.'], '.$lowestterms.',
-                '.$tans.', "inline", '.$fltfmt.'))';
+
+            $this->casstring = '(make_multsgn("blank"),stack_validate_units(['.$starredanswer.'], ' .
+                $lowestterms.', '.$tans.', "inline", '.$fltfmt.'))';
         }
         if ($validationmethod == 'unitsnegpow') {
             // Note, we don't pass in forbidfloats as this option is ignored by the units validation.
-            $this->casstring = '(make_multsgn("blank"),stack_validate_units(['.$starredanswer.'], '.$lowestterms.',
-                '.$tans.', "negpow", '.$fltfmt.'))';
+            $this->casstring = '(make_multsgn("blank"),stack_validate_units(['.$starredanswer.'], ' .
+                $lowestterms.', '.$tans.', "negpow", '.$fltfmt.'))';
         }
 
         return true;

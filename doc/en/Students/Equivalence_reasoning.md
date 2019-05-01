@@ -53,7 +53,7 @@ Do not take the square root of both sides of an equation.
 \[ \mbox{ If } a=b \mbox{ then } a^2=b^2.\]
 However, 
 \[ \mbox{ if } a^2=b^2 \mbox{ then } a=b \mbox{ or } a=-b.\]
-So, if you take the square root of both sides of an equation to tansform \(a^2=b^2\) into \(a=b\) you might miss a root!
+So, if you take the square root of both sides of an equation to transform \(a^2=b^2\) into \(a=b\) you might miss a root!
 
 To avoid this problem use the *difference of two squares* in the following way.
 

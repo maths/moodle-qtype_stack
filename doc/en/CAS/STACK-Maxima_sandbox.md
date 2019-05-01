@@ -6,9 +6,9 @@ To do this you will need to load your local settings, and also the libraries of 
 
 # STACK - Maxima sandbox (without access to a server)
 
-If you don't have access to a STACK server then you will need to download the files.   Download all the STACK files from github (git or as a .zip).   E.g. try `https://github.com/maths/moodle-qtype_stack/archive/master.zip`
+If you don't have access to a STACK server then you will need to download the files.   Download all the STACK files from GitHub (git or as a .zip).   E.g. try `https://github.com/maths/moodle-qtype_stack/archive/master.zip`
 
-Unfortunately, there are a lots of .php files as well.  Most of the files you need are in
+Unfortunately, there are a lot of .php files as well.  Most of the files you need are in
 
     .../stack/maxima/
 
@@ -59,7 +59,7 @@ For example, the value might look like
 
     C:/xampp/data/moodledata/stack/maximalocal.mac
 
-You need to load this file into Maxima to recreate the setup of Maxima as seen by STACK.  Assuming you have created a directory `c:/maxima` as suggested above and added it to Maxima's path, the simplest way to do this is to create a file
+You need to load this file into Maxima to recreate the setup of Maxima as seen by STACK.  Assuming you have created a directory `C:/maxima` as suggested above and added it to Maxima's path, the simplest way to do this is to create a file
 
     C:/maxima/sm.mac
 
@@ -117,7 +117,7 @@ actually the results returned in Maxima are
 
 Errors are echoed to the console, and are trapped by another mechanism.  The valid field is used to render an attempt invalid, not wrong.
 
-To call an answertest directly from maxima, you need to use the correct function name.   For example, to call the algebraic equivalence (AlgEquiv) answer test you need to use
+To call an answer test directly from Maxima, you need to use the correct function name.   For example, to call the algebraic equivalence (AlgEquiv) answer test you need to use
 
     ATAlgEquiv(x^2+2,x*(x+1));
 
@@ -125,7 +125,7 @@ The values returned are actually in the form
 
     [true,false,"",""]
 
-Feeback is returned in the form of a language tag which is translated later. For example,
+Feedback is returned in the form of a language tag which is translated later. For example,
 
     (%i1) ATInt(x^2,[x*(x+1),x]);
     (%o1) [true,false,"ATInt_generic. ",
@@ -188,6 +188,6 @@ The bulk of the functions are defined in
 
 ### Useful tips
 
-STACK turns off the traditional two dimensional display, which we can turn back on with the following command.
+STACK turns off the traditional two-dimensional display, which we can turn back on with the following command.
 
     display2d:true;

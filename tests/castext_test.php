@@ -277,6 +277,10 @@ class stack_cas_text_test extends qtype_stack_testcase {
     }
 
     public function check_external_forbidden_words($ct, $val, $words) {
+        // TODO: map the new security class to do external forbidden words with CASText?
+        // are we really testing forbidden words in CASText? Who puts them there?
+        $secrules = new stack_cas_security();
+        $secrules->set_forbiddenwords($words);
 
         $a2 = array('a:x^2)', 'b:(sin(x)+1)^2');
         $s2 = array();

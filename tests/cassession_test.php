@@ -564,7 +564,6 @@ class stack_cas_session_test extends qtype_stack_testcase {
     }
 
     public function test_ordergreat() {
-
         $cs = array('ordergreat(i,j,k)', 'p:matrix([-7],[2],[-3])', 'q:matrix([i],[j],[k])', 'v:dotproduct(p,q)');
         foreach ($cs as $s) {
             $cs = new stack_cas_casstring($s);
@@ -573,7 +572,6 @@ class stack_cas_session_test extends qtype_stack_testcase {
         }
         $at1 = new stack_cas_session($s1, null, 0);
         $at1->instantiate();
-        print_r($at1);
         // There has been a subtle change to associativity in Maxima 5.37.0.
         $this->assertEquals('-7\cdot i+2\cdot j-3\cdot k', $at1->get_display_key('v'));
     }

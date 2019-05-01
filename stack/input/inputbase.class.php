@@ -628,7 +628,7 @@ abstract class stack_input {
             if (array_key_exists($index, $errors) && '' == $errors[$index]) {
                 $cs->set_cas_validation_casstring($this->name.$index,
                     $this->get_parameter('forbidFloats', false), $this->get_parameter('lowestTerms', false),
-                    $ta, $ivalidationmethod, $secrules);
+                    $ta, $ivalidationmethod, $secrules,
                     $this->get_extra_option('simp', false));
                 $sessionvars[] = $cs;
             }
@@ -643,7 +643,7 @@ abstract class stack_input {
 
         $answer->set_cas_validation_casstring($this->name,
             $this->get_parameter('forbidFloats', false), $this->get_parameter('lowestTerms', false),
-            $teacheranswer, $validationmethod, $secrules);
+            $teacheranswer, $validationmethod, $secrules,
             $this->get_extra_option('simp', false));
         if ($valid && $answer->get_valid()) {
             $sessionvars[] = $answer;

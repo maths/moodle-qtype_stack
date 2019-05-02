@@ -262,7 +262,7 @@ class stack_cas_security {
             return false;
         }
 
-        // Units. 
+        // Units.
         if ($this->units) {
             $units = stack_cas_casstring_units::get_permitted_units(0);
             if (isset($units[$identifier])) {

@@ -303,6 +303,8 @@ class stack_cas_casstring {
             }
             return true;
         };
+
+        // @codingStandardsIgnoreStart
         // We repeat this until all is done. Identifiers first as they may turn into function calls.
         while ($this->ast->callbackRecurse($processidentifiers) !== true) {
             // Do nothing.
@@ -310,6 +312,7 @@ class stack_cas_casstring {
         while ($this->ast->callbackRecurse($processfunctioncalls) !== true) {
             // Do nothing.
         }
+        // @codingStandardsIgnoreEnd
 
         // Then the rest.
         $mainloop = function($node) use($security, $secrules, $insertstars) {
@@ -802,7 +805,7 @@ class stack_cas_casstring {
                             $ind = $node->name->indices[0]->items[0]->value - 1;
                         }
                         if ($ind >= 0 && $ind < count($node->name->target->items)) {
-                            // We do this due to this [1,(cos,sin)][2](x) => sin(x).
+                            // We do this due to this because of examples such as [1,(cos,sin)][2](x) => sin(x).
                             $notsafe = false;
                             $virtualfunction = new MP_FunctionCall($node->name->target->items[$ind], $node->arguments);
                             $virtualfunction->position['virtual'] = true;

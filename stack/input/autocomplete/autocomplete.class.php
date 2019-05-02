@@ -24,6 +24,7 @@ defined('MOODLE_INTERNAL') || die();
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class stack_autocomplete_input extends stack_input {
+    
 
     /*
      * completeoptions is an array of the possible values the teacher suggests.
@@ -63,6 +64,7 @@ class stack_autocomplete_input extends stack_input {
     }
 
     public function render(stack_input_state $state, $fieldname, $readonly, $tavalue) {
+        global $PAGE;
 
         if ($this->errors) {
             return $this->render_error($this->errors);
@@ -73,6 +75,7 @@ class stack_autocomplete_input extends stack_input {
             'type'  => 'text',
             'name'  => $fieldname,
             'id'    => $fieldname,
+            'class' => 'autocompleteinput',
             'size'  => $this->parameters['boxWidth'] * 1.1,
             'style' => 'width: '.$size.'em',
             'autocapitalize' => 'none',
@@ -96,10 +99,11 @@ class stack_autocomplete_input extends stack_input {
         if ($readonly) {
             $attributes['readonly'] = 'readonly';
         }
-
         // Put in the Javascript magic!
-        $jsoptions = '<code>'. implode($this->completeoptions, ' | ') . '</code>';
-        return $jsoptions . html_writer::empty_tag('input', $attributes);
+        $PAGE->requires->js_call_amd('qtype_stack/inputautocomplete','setAutocomplete',[$attributes['id']]);
+
+        $attributes['data-options'] = '["'.implode($this->completeoptions, '","').'"]';
+        return html_writer::empty_tag('input', $attributes);
     }
 
     public function add_to_moodleform_testinput(MoodleQuickForm $mform) {

@@ -175,6 +175,9 @@
     "@": {
         "operator": "f"
     },
+    "QMCHAR": {
+        "variable": "s"
+    },
     "Alpha": {
         "variable": "s"
     },

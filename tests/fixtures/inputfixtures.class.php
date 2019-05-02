@@ -226,6 +226,7 @@ class stack_inputvalidation_test_data {
         array('chi', 'php_true', 'chi', 'cas_true', '\chi', '', ""),
         array('psi', 'php_true', 'psi', 'cas_true', '\psi', '', "The derivative of \(\log (\gamma (x))\) of order \(n+1\)."),
         array('omega', 'php_true', 'omega', 'cas_true', '\omega', '', ""),
+        array('p=?*s', 'php_true', 'p=QMCHAR*s', 'cas_true', 'p=\color{red}{?}\cdot s', '', "Question marks"),
         array('(x+2)3', 'php_true', '(x+2)*3', 'cas_true', '\left(x+2\right)\cdot 3', 'missing_stars', "Implicit multiplication"),
         array('(x+2)y', 'php_true', '(x+2)*y', 'cas_true', '\left(x+2\right)\cdot y', 'missing_stars', ""),
         array('3(x+1)', 'php_true', '3*(x+1)', 'cas_true', '3\cdot \left(x+1\right)', 'missing_stars', ""),
@@ -361,7 +362,8 @@ class stack_inputvalidation_test_data {
         array('sec(x)', 'php_true', 'sec(x)', 'cas_true', '\sec \left( x \right)', '', ""),
         array('cot(x)', 'php_true', 'cot(x)', 'cas_true', '\cot \left( x \right)', '', ""),
         array('csc(x)', 'php_true', 'csc(x)', 'cas_true', '\csc \left( x \right)', '', ""),
-        array('cosec(x)', 'php_true', 'cosec(x)', 'cas_true', '\csc \left( x \right)', '', ""), /* This is now a Maxima alias. */
+        // This is now a Maxima alias.
+        array('cosec(x)', 'php_true', 'cosec(x)', 'cas_true', '\csc \left( x \right)', '', ""), 
         array('csc(6*x)^2*(7*sin(6*x)*cos(7*x)-6*cos(6*x)*sin(7*x))', 'php_true',
                 'csc(6*x)^2*(7*sin(6*x)*cos(7*x)-6*cos(6*x)*sin(7*x))', 'cas_true',
                 '\csc ^2\left(6\cdot x\right)\cdot \left(7\cdot \sin \left( 6\cdot x \right)\cdot \cos \left( 7\cdot x \right)-6\cdot ' .

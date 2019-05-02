@@ -856,7 +856,7 @@ class stack_cas_casstring_test extends basic_testcase {
         $at1 = new stack_cas_casstring($s);
         $this->assertFalse($at1->get_valid('s', true, 1));
         $this->assertEquals('3*sin(a*b)', $at1->get_casstring());
-        $err = 'Illegal spaces found in expression <span class="stacksyntaxexample">3*sin(a<font color="red">_</font>b)</span>.';
+        $err = 'You seem to be missing * characters. Perhaps you meant to type <span class="stacksyntaxexample">3<font color="red">*</font>sin(a*b)</span>. Illegal spaces found in expression <span class="stacksyntaxexample">3*sin(a<font color="red">_</font>b)</span>.';
         $this->assertEquals($err, $at1->get_errors());
         $this->assertEquals('missing_stars | spaces', $at1->get_answernote());
     }
@@ -866,7 +866,7 @@ class stack_cas_casstring_test extends basic_testcase {
         $at1 = new stack_cas_casstring($s);
         $this->assertFalse($at1->get_valid('s', true, 3));
         $this->assertEquals('3*sin(a*b)', $at1->get_casstring());
-        $err = 'You seem to be missing * characters. Perhaps you meant to type <span class="stacksyntaxexample">3<font color="red">*</font>sin(a*b)</span>.';
+        $err = 'You seem to be missing * characters. Perhaps you meant to type <span class="stacksyntaxexample">3<font color="red">*</font>sin(a*b)</span>. Illegal spaces found in expression <span class="stacksyntaxexample">3*sin(a<font color="red">_</font>b)</span>.';
         $this->assertEquals($err, $at1->get_errors());
         $this->assertEquals('missing_stars | spaces', $at1->get_answernote());
     }

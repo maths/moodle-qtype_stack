@@ -110,7 +110,7 @@ class stack_cas_casstring_units {
      * Entries in this array are supported units which are used without any prefix.
      * Entries below are in the form of array(label, base, TeX, fullname).
      */
-    private static $nonpreficunits = array(
+    private static $nonprefixunits = array(
         array('min', 's*60', 'min', 'minutes'),
         array('amu', 'amu', 'amu', 'Atomic mass units'),
         array('u', 'amu', 'u', ''),
@@ -190,7 +190,7 @@ class stack_cas_casstring_units {
         $code = array();
         $conversions = array();
         $tex = array();
-        foreach (self::$nonpreficunits as $unit) {
+        foreach (self::$nonprefixunits as $unit) {
             $code[] = $unit[0];
             $conversions[] = $unit[1];
             $tex[] = self::maximalocal_units_tex($unit[2]);
@@ -223,7 +223,7 @@ class stack_cas_casstring_units {
             return $cache[$len];
         }
         $units = array();
-        foreach (self::$nonpreficunits as $unit) {
+        foreach (self::$nonprefixunits as $unit) {
             if (strlen($unit[0]) > $len) {
                 $units[$unit[0]] = true;
             }
@@ -314,7 +314,7 @@ class stack_cas_casstring_units {
             $valid = array();
             $invalid = array();
 
-            foreach (self::$nonpreficunits as $unit) {
+            foreach (self::$nonprefixunits as $unit) {
                 $valid[$unit[0]] = true;
             }
             foreach (self::$supportedunits as $unit) {

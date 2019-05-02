@@ -116,7 +116,6 @@ class stack_cas_casstring {
         'Sigma' => true, 'Tau' => true, 'Upsilon' => true, 'Phi' => true, 'Chi' => true, 'Psi' => true,
         'Omega' => true);
 
-
     /**
      * @var all the characters permitted in responses.
      * Note, these are used in regular expression ranges, so - must be at the end, and ^ may not be first.
@@ -140,7 +139,6 @@ class stack_cas_casstring {
     private static $spacepatterns = array(
              ' or ' => 'STACKOR', ' and ' => 'STACKAND', 'not ' => 'STACKNOT',
              ' nounor ' => 'STACKNOUNOR', ' nounand ' => 'STACKNOUNAND');
-
 
     public function __construct($rawstring, $conditions = null, $ast = null) {
         // If null the validation will need to parse, in case of keyval just give the statement from bulk parsing.
@@ -479,7 +477,7 @@ class stack_cas_casstring {
                         }
                     } else if ($op === '=') {
                         // Actually you may use evaluation flags and other things to
-                        // redefine functions: ev(lg(19),lg=logbasesimp)
+                        // redefine functions: ev(lg(19),lg=logbasesimp).
                         $this->valid = true;
                         return true;
                     }
@@ -1250,7 +1248,7 @@ class stack_cas_casstring {
     private function teacher_parse_errors($e) {
         $errs = array();
         $ansnotes = array();
-        stack_parser_logic_insertstars0::handle_parse_error($e, $this->rawcasstring, 
+        stack_parser_logic_insertstars0::handle_parse_error($e, $this->rawcasstring,
                                                             $errs, $ansnotes);
 
         if (count($errs) > 0) {
@@ -1261,7 +1259,7 @@ class stack_cas_casstring {
         if (count($ansnotes) > 0) {
             foreach ($ansnotes as $note) {
                 $this->answernote[] = $note;
-            }   
+            }
         }
         if (count($this->errors) === 0) {
             // Nothing to say yet, lets throw this string through student validation and pick some errors from it.

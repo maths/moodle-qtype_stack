@@ -1426,7 +1426,6 @@ class stack_answertest_test_data {
         array('SigFigsStrict', '3', '15.100', '15.1', 0, '', ''),
         array('SigFigsStrict', '3', '9.81*m/s^2', 'null', 1, '', 'Units are ignored'),
 
-
         array('Units', '2', '1/0', '1', -1, 'CASError: Division by zero. | ATUnits_STACKERROR_SAns.', ''),
         array('Units', '2', '1', '1/0', -1, 'CASError: Division by zero. | ATUnits_STACKERROR_TAns.', ''),
         array('Units', '1/0', '1', '1', -1, 'STACKERROR_OPTION.', ''),

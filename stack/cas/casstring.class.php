@@ -116,7 +116,6 @@ class stack_cas_casstring {
         'Sigma' => true, 'Tau' => true, 'Upsilon' => true, 'Phi' => true, 'Chi' => true, 'Psi' => true,
         'Omega' => true);
 
-
     /**
      * @var all the characters permitted in responses.
      * Note, these are used in regular expression ranges, so - must be at the end, and ^ may not be first.
@@ -140,7 +139,6 @@ class stack_cas_casstring {
     private static $spacepatterns = array(
              ' or ' => 'STACKOR', ' and ' => 'STACKAND', 'not ' => 'STACKNOT',
              ' nounor ' => 'STACKNOUNOR', ' nounand ' => 'STACKNOUNAND');
-
 
     public function __construct($rawstring, $conditions = null, $ast = null) {
         // If null the validation will need to parse, in case of keyval just give the statement from bulk parsing.
@@ -479,7 +477,7 @@ class stack_cas_casstring {
                         }
                     } else if ($op === '=') {
                         // Actually you may use evaluation flags and other things to
-                        // redefine functions: ev(lg(19),lg=logbasesimp)
+                        // redefine functions: ev(lg(19),lg=logbasesimp).
                         $this->valid = true;
                         return true;
                     }
@@ -650,16 +648,16 @@ class stack_cas_casstring {
         }
         // 1..1, essentially a matrix multiplication of float of particular presentation.
         if ($opnode instanceof MP_Operation && $opnode->op === '.') {
-            /* TODO: this should just fail in parser...
-             * There is an parser error here:
-             * 0.1..1.2
-             * -------- MP_Statement
-             * -------- MP_Operation .
-             * ---      MP_Float 0.1
-             *     ---- MP_Operation .
-             *     --   MP_Float 0.1
-             *        - MP_Integer 2
-             */
+
+            if ($opnode->lhs instanceof MP_Float && $opnode->rhs instanceof MP_Integer &&
+                    substr($opnode->lhs->raw, -1, 1) === '.') {
+                $this->valid = false;
+                $a = array();
+                $a['cmd']  = stack_maxima_format_casstring('..');
+                $this->add_error(stack_string('stackCas_spuriousop', $a));
+                $this->answernote[] = 'spuriousop';
+            }
+
             $operand = $opnode->leftmostofright();
             if ($operand instanceof MP_Float && $operand->raw !== null &&
                     core_text::substr($operand->raw, 0, 1) === '.') {
@@ -1250,7 +1248,7 @@ class stack_cas_casstring {
     private function teacher_parse_errors($e) {
         $errs = array();
         $ansnotes = array();
-        stack_parser_logic_insertstars0::handle_parse_error($e, $this->rawcasstring, 
+        stack_parser_logic_insertstars0::handle_parse_error($e, $this->rawcasstring,
                                                             $errs, $ansnotes);
 
         if (count($errs) > 0) {
@@ -1261,7 +1259,7 @@ class stack_cas_casstring {
         if (count($ansnotes) > 0) {
             foreach ($ansnotes as $note) {
                 $this->answernote[] = $note;
-            }   
+            }
         }
         if (count($this->errors) === 0) {
             // Nothing to say yet, lets throw this string through student validation and pick some errors from it.

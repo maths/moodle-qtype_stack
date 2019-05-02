@@ -16,8 +16,10 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-// @copyright  2018 Aalto University.
-// @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+/*
+ @copyright  2018 Aalto University.
+ @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+*/
 
 // We select the implementation of the parser, depending on mbstring.
 if (function_exists('mb_ereg')) {
@@ -97,7 +99,7 @@ class maxima_parser_utils {
     // tries to fix by adding semicolons.
     public static function parse_and_insert_missing_semicolons($str, $lastfix = -1) {
         try {
-            $ast = maxima_parser_utils::parse($str);
+            $ast = self::parse($str);
             if ($lastfix !== -1) {
                 // If fixing has happened lets hide the fixed string to the result.
                 // Might be useful for the editor to have a way of placing those
@@ -109,15 +111,15 @@ class maxima_parser_utils {
         } catch (SyntaxError $e) {
             if ($lastfix !== $e->grammarOffset && $lastfix + 1 !== $e->grammarOffset) {
                 if (substr($str, $e->grammarOffset - 1, 2) === '/*') {
-                    $fix = maxima_parser_utils::previous_non_whitespace($str, $e->grammarOffset - 1);
+                    $fix = self::previous_non_whitespace($str, $e->grammarOffset - 1);
                 } else {
-                    $fix = maxima_parser_utils::previous_non_whitespace($str, $e->grammarOffset);
+                    $fix = self::previous_non_whitespace($str, $e->grammarOffset);
                 }
-                // cut some memory leakage in the recursion here.
+                // Cut some memory leakage in the recursion here.
                 $off = $e->grammarOffset;
                 $e = null;
 
-                return maxima_parser_utils::parse_and_insert_missing_semicolons($fix, $off);
+                return self::parse_and_insert_missing_semicolons($fix, $off);
             } else {
                 return $e;
             }
@@ -131,7 +133,7 @@ class maxima_parser_utils {
         if (core_text::substr($code, $i - 1, 2) === '/*') {
             $i--;
         }
-        while ($i > 1 && maxima_parser_utils::is_whitespace(core_text::substr($code, $i - 1, 1))) {
+        while ($i > 1 && self::is_whitespace(core_text::substr($code, $i - 1, 1))) {
             $i--;
         }
         return core_text::substr($code, 0, $i) . ';' . core_text::substr($code, $i);

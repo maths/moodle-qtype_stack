@@ -52,7 +52,7 @@ if ($olddata !== false) {
 
 
 // Type aliases, not all of these come from the base-identifier-map.
-// Some are added to the security-map by hand:
+// Some are added to the security-map by hand.
 $aliases = array(
     // Note that values are arrays, some might have multiple targets but not now.
 

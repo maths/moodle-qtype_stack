@@ -79,15 +79,15 @@ class stack_cas_security {
 
     public static function is_good_function(string $identifier): bool {
         // Generic tool for telling if a given identifier matches a function.
-        if (stack_cas_security::$securitymap === null) {
+        if (self::$securitymap === null) {
             // Initialise the map.
             $data = file_get_contents(__DIR__ . '/security-map.json');
-            stack_cas_security::$securitymap = json_decode($data, true);
+            self::$securitymap = json_decode($data, true);
         }
 
-        if (isset(stack_cas_security::$securitymap[$identifier])) {
-            if (isset(stack_cas_security::$securitymap[$identifier]['function'])) {
-                return stack_cas_security::$securitymap[$identifier]['function'] == 's';
+        if (isset(self::$securitymap[$identifier])) {
+            if (isset(self::$securitymap[$identifier]['function'])) {
+                return self::$securitymap[$identifier]['function'] == 's';
             }
         }
 
@@ -95,10 +95,10 @@ class stack_cas_security {
     }
 
     public function __construct($units = false, $allowedwords = '', $forbiddenwords = '', $forbiddenkeys = array()) {
-        if (stack_cas_security::$securitymap === null) {
+        if (self::$securitymap === null) {
             // Initialise the map.
             $data = file_get_contents(__DIR__ . '/security-map.json');
-            stack_cas_security::$securitymap = json_decode($data, true);
+            self::$securitymap = json_decode($data, true);
         }
 
         $this->units          = $units;
@@ -147,13 +147,13 @@ class stack_cas_security {
             $this->forbiddenkeys = array_flip($this->forbiddenkeys);
         }
 
-        // Check for keyword-lists. 
+        // Check for keyword-lists.
         // They should not exists here as this is used to check for teacher reserved words.
         // But they do exist in tests.
         $real = array();
         foreach ($this->forbiddenkeys as $key => $duh) {
-            if (isset(stack_cas_security::$keywordlists[strtolower($key)])) {
-                foreach (stack_cas_security::$keywordlists[strtolower($key)] as $k => $v) {
+            if (isset(self::$keywordlists[strtolower($key)])) {
+                foreach (self::$keywordlists[strtolower($key)] as $k => $v) {
                     $real[$k] = $v;
                 }
             } else if (core_text::strlen($key) > 1) {
@@ -173,9 +173,9 @@ class stack_cas_security {
      */
     public function is_allowed_to_call(string $security, string $identifier): bool {
         $foundsecurity = '-';
-        if (isset(stack_cas_security::$securitymap[$identifier])) {
-            if (isset(stack_cas_security::$securitymap[$identifier]['function'])) {
-                $foundsecurity = stack_cas_security::$securitymap[$identifier]['function'];
+        if (isset(self::$securitymap[$identifier])) {
+            if (isset(self::$securitymap[$identifier]['function'])) {
+                $foundsecurity = self::$securitymap[$identifier]['function'];
             }
         }
         // Never, if it is forbidden.
@@ -185,13 +185,12 @@ class stack_cas_security {
 
         // Check for forbidden words.
         if ($this->forbiddenwordsasmap == null) {
-            $this->forbiddenwordsasmap = stack_cas_security::list_to_map($this->forbiddenwords);
+            $this->forbiddenwordsasmap = self::list_to_map($this->forbiddenwords);
         }
         if (isset($this->forbiddenwordsasmap[$identifier])) {
             // Forbidden words are not considered as typed. For now.
             return false;
         }
-
 
         // If its already security 's' then all fine.
         if ($foundsecurity === 's') {
@@ -205,7 +204,7 @@ class stack_cas_security {
 
         // Try promoting to security 's'.
         if ($this->allowedwordsasmap == null) {
-            $this->allowedwordsasmap = stack_cas_security::list_to_map($this->allowedwords);
+            $this->allowedwordsasmap = self::list_to_map($this->allowedwords);
         }
         if (isset($this->allowedwordsasmap[$identifier])) {
             // Allow words might be typed.
@@ -236,12 +235,12 @@ class stack_cas_security {
      */
     public function is_allowed_to_read(string $security, string $identifier): bool {
         $foundsecurity = '-';
-        if (isset(stack_cas_security::$securitymap[$identifier])) {
-            if (isset(stack_cas_security::$securitymap[$identifier]['variable'])) {
-                $foundsecurity = stack_cas_security::$securitymap[$identifier]['variable'];
+        if (isset(self::$securitymap[$identifier])) {
+            if (isset(self::$securitymap[$identifier]['variable'])) {
+                $foundsecurity = self::$securitymap[$identifier]['variable'];
             }
-            if (isset(stack_cas_security::$securitymap[$identifier]['constant'])) {
-                $foundsecurity = stack_cas_security::$securitymap[$identifier]['constant'];
+            if (isset(self::$securitymap[$identifier]['constant'])) {
+                $foundsecurity = self::$securitymap[$identifier]['constant'];
             }
         }
         // Never, if it is forbidden.
@@ -256,15 +255,14 @@ class stack_cas_security {
 
         // Check for forbidden words.
         if ($this->forbiddenwordsasmap == null) {
-            $this->forbiddenwordsasmap = stack_cas_security::list_to_map($this->forbiddenwords);
+            $this->forbiddenwordsasmap = self::list_to_map($this->forbiddenwords);
         }
         if (isset($this->forbiddenwordsasmap[$identifier])) {
             // Forbidden words are not considered as typed. For now.
             return false;
         }
 
-
-        // Units.
+        // Units. 
         if ($this->units) {
             $units = stack_cas_casstring_units::get_permitted_units(0);
             if (isset($units[$identifier])) {
@@ -284,7 +282,7 @@ class stack_cas_security {
 
         // Try promoting to security 's'.
         if ($this->allowedwordsasmap == null) {
-            $this->allowedwordsasmap = stack_cas_security::list_to_map($this->allowedwords);
+            $this->allowedwordsasmap = self::list_to_map($this->allowedwords);
         }
         if (isset($this->allowedwordsasmap[$identifier])) {
             // Allow words might be typed.
@@ -335,9 +333,9 @@ class stack_cas_security {
         }
 
         $foundsecurity = '?';
-        if (isset(stack_cas_security::$securitymap[$identifier])) {
-            if (isset(stack_cas_security::$securitymap[$identifier]['operator'])) {
-                $foundsecurity = stack_cas_security::$securitymap[$identifier]['operator'];
+        if (isset(self::$securitymap[$identifier])) {
+            if (isset(self::$securitymap[$identifier]['operator'])) {
+                $foundsecurity = self::$securitymap[$identifier]['operator'];
             } else {
                 // In the case of operators they must be defined as operators in the map.
                 return false;
@@ -352,7 +350,7 @@ class stack_cas_security {
 
         // Check for forbidden words.
         if ($this->forbiddenwordsasmap == null) {
-            $this->forbiddenwordsasmap = stack_cas_security::list_to_map($this->forbiddenwords);
+            $this->forbiddenwordsasmap = self::list_to_map($this->forbiddenwords);
         }
         if (isset($this->forbiddenwordsasmap[$identifier])) {
             // Forbidden words are not considered as typed. For now.
@@ -366,7 +364,7 @@ class stack_cas_security {
 
         // Try promoting to security 's'.
         if ($this->allowedwordsasmap == null) {
-            $this->allowedwordsasmap = stack_cas_security::list_to_map($this->allowedwords);
+            $this->allowedwordsasmap = self::list_to_map($this->allowedwords);
         }
         if (isset($this->allowedwordsasmap[$identifier])) {
             // Allow words might be typed.
@@ -383,7 +381,7 @@ class stack_cas_security {
 
     public function is_allowed_word(string $identifier, string $type='variable'): bool {
         if ($this->allowedwordsasmap == null) {
-            $this->allowedwordsasmap = stack_cas_security::list_to_map($this->allowedwords);
+            $this->allowedwordsasmap = self::list_to_map($this->allowedwords);
         }
         if (isset($this->allowedwordsasmap[$identifier])) {
             // Allow words might be typed.
@@ -413,8 +411,8 @@ class stack_cas_security {
                 return true;
             }
         }
-        if (isset(stack_cas_security::$securitymap[$identifier])) {
-            return isset(stack_cas_security::$securitymap[$identifier][$feature]);
+        if (isset(self::$securitymap[$identifier])) {
+            return isset(self::$securitymap[$identifier][$feature]);
         }
         // If not part of the map then it has no features.
         return false;
@@ -429,7 +427,7 @@ class stack_cas_security {
         // identifiers on demand? And should it drop forbidden items?
         $r = array();
         $l = strtolower($identifier);
-        foreach (stack_cas_security::$securitymap as $key => $duh) {
+        foreach (self::$securitymap as $key => $duh) {
             if (strtolower($key) === $l) {
                 if (isset($duh[$type])) {
                     $r[] = $key;
@@ -440,7 +438,7 @@ class stack_cas_security {
                 }
             }
         }
-        foreach (stack_cas_security::list_to_map($this->allowedwords) as $key => $duh) {
+        foreach (self::list_to_map($this->allowedwords) as $key => $duh) {
             if (is_array($duh)) {
                 if (strtolower($key) === $l) {
                     if (isset($duh[$type])) {
@@ -489,11 +487,11 @@ class stack_cas_security {
             $item = trim($item);
             if ($item !== '') {
                 // If its a name of a list.
-                if (isset(stack_cas_security::$keywordlists[$item])) {
-                    $result = array_merge($result, stack_cas_security::$keywordlists[$item]);
-                } else if (isset(stack_cas_security::$keywordlists[strtolower($item)])) {
+                if (isset(self::$keywordlists[$item])) {
+                    $result = array_merge($result, self::$keywordlists[$item]);
+                } else if (isset(self::$keywordlists[strtolower($item)])) {
                     // These are present in upper case in old test cases.
-                    $result = array_merge($result, stack_cas_security::$keywordlists[strtolower($item)]);
+                    $result = array_merge($result, self::$keywordlists[strtolower($item)]);
                 } else {
                     if ($item === 'COMMA_TAG') {
                         $result[','] = true;
@@ -510,15 +508,15 @@ class stack_cas_security {
         return $result;
     }
 
-    // Returns all identifiers with a given feature as long as the feature is not valued 'f'
+    // Returns all identifiers with a given feature as long as the feature is not valued 'f'.
     public static function get_all_with_feature(string $feature): array {
-        if (stack_cas_security::$securitymap === null) {
+        if (self::$securitymap === null) {
             // Initialise the map.
             $data = file_get_contents(__DIR__ . '/security-map.json');
-            stack_cas_security::$securitymap = json_decode($data, true);
+            self::$securitymap = json_decode($data, true);
         }
         $r = array();
-        foreach (stack_cas_security::$securitymap as $key => $features) {
+        foreach (self::$securitymap as $key => $features) {
             if (array_key_exists($feature, $features) && $features[$feature] !== 'f') {
                 $r[$key] = $key;
             }

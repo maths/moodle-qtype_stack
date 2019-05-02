@@ -3142,9 +3142,6 @@
     "implicit_plot": {
         "function": "f"
     },
-    "in": {
-        "keyword": "?"
-    },
     "in_neighbors": {
         "function": "?"
     },
@@ -3741,6 +3738,9 @@
         "function": "f"
     },
     "limit": {
+        "function": "s"
+    },
+    "nounlimit": {
         "function": "s"
     },
     "limsubst": {
@@ -7409,9 +7409,6 @@
     },
     "uforget": {
         "function": "f"
-    },
-    "ug": {
-        "variable": "f"
     },
     "ultraspherical": {
         "function": "f"

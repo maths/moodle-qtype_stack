@@ -47,7 +47,7 @@ class stack_parser_logic_insertstars2 extends stack_parser_logic_insertstars0 {
             ) {
                 return strlen($a) < strlen($b);
             });
-            // Now that they are sortted by the length lets remap them so that the array has 
+            // Now that they are sortted by the length lets remap them so that the array has
             // keys in the same order
             $functions = array();
             $variables = array();
@@ -60,7 +60,6 @@ class stack_parser_logic_insertstars2 extends stack_parser_logic_insertstars0 {
             self::$protectedidentifiermap['functions'] = $functions;
             self::$protectedidentifiermap['variables'] = $variables;
         }
-
 
         $process = function($node) use (&$valid, &$errors, &$answernote, $syntax, $safevars, $safefunctions) {
             if ($node instanceof MP_Identifier && !($node->parentnode instanceof MP_FunctionCall)) {

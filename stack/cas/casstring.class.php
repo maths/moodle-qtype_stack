@@ -648,16 +648,16 @@ class stack_cas_casstring {
         }
         // 1..1, essentially a matrix multiplication of float of particular presentation.
         if ($opnode instanceof MP_Operation && $opnode->op === '.') {
-            /* TODO: this should just fail in parser...
-             * There is an parser error here:
-             * 0.1..1.2
-             * -------- MP_Statement
-             * -------- MP_Operation .
-             * ---      MP_Float 0.1
-             *     ---- MP_Operation .
-             *     --   MP_Float 0.1
-             *        - MP_Integer 2
-             */
+
+            if ($opnode->lhs instanceof MP_Float && $opnode->rhs instanceof MP_Integer &&
+                    substr($opnode->lhs->raw, -1, 1) === '.') {
+                $this->valid = false;
+                $a = array();
+                $a['cmd']  = stack_maxima_format_casstring('..');
+                $this->add_error(stack_string('stackCas_spuriousop', $a));
+                $this->answernote[] = 'spuriousop';
+            }
+
             $operand = $opnode->leftmostofright();
             if ($operand instanceof MP_Float && $operand->raw !== null &&
                     core_text::substr($operand->raw, 0, 1) === '.') {

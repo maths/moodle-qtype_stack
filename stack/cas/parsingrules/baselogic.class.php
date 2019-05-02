@@ -202,7 +202,7 @@ abstract class stack_parser_logic {
                     $newop = new MP_Operation('*', new MP_Integer(intval($node->name->value), new MP_Group($node->arguments)));
                     // This one is tricky, as it is basically an insertstars in non insertstars context.
                     // Might require a special case upstream and maybe set to invalid...
-                    $newop->position['insertstars'] = true;
+                    $newop->position['fixspaces'] = true;
                     $node->parentnode->position['fixspaces'] = true;
                     $node->parentnode->replace($node, $newop);
                 }

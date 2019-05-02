@@ -162,8 +162,8 @@ class stack_numerical_input_test extends qtype_stack_testcase {
         $el->set_parameter('options', 'rationalnum');
         $state = $el->validate_student_response(array('sans1' => "1 3/7"), $options, '3.14', null);
         $this->assertEquals(stack_input::INVALID, $state->status);
-        $this->assertEquals('1 3/7', $state->contentsmodified);
-        $this->assertEquals('<span class="stacksyntaxexample">1 3/7</span>', $state->contentsdisplayed);
+        $this->assertEquals('1*3/7', $state->contentsmodified);
+        $this->assertEquals('<span class="stacksyntaxexample">1*3/7</span>', $state->contentsdisplayed);
         $this->assertEquals('Illegal spaces found in expression '.
                 '<span class="stacksyntaxexample">1<font color="red">_</font>3/7</span>.' .
                 ' This input expects a number.', $state->errors);

@@ -64,7 +64,7 @@ class stack_parser_logic_insertstars0 extends stack_parser_logic {
         }
 
         // Common spaces insertion errors.
-        if (!$valid && array_search('spaces', $answernote) !== false && !$this->fixspaces) {
+        if (!$valid || !$this->fixspaces) {
             $hasany = false;
             $checks = function($node)  use(&$hasany) {
                 if ($node instanceof MP_Operation && $node->op === '*' && isset($node->position['fixspaces'])) {
@@ -74,6 +74,9 @@ class stack_parser_logic_insertstars0 extends stack_parser_logic {
             };
             $ast->callbackRecurse($checks);
             if ($hasany) {
+                if (array_search('spaces', $answernote) === false) {
+                    $answernote[] = 'spaces';
+                }
                 $missingstring = core_text::substr(stack_utils::logic_nouns_sort($ast->toString(array('fixspaces_as_red_spaces' => true, 'qmchar' => true)), 'remove'), 0, -2);
                 $a = array();
                 $a['expr']  = stack_maxima_format_casstring($missingstring);

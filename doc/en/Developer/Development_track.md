@@ -7,6 +7,9 @@ How to report bugs and make suggestions is described on the [community](../About
 
 ## Version 4.3
 
+CHANGES:
+* In the forbidden words we now match whole words not substrings.
+
 DONE:
 
 * Removed the Maxima MathML code (which wasn't connected or used).

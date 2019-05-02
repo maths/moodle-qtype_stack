@@ -432,7 +432,7 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         $state = $el->validate_student_response(array('sans1' => 'noundiff(y/x^2,x,1)-(2*y)/x = x^3*sin(3*x)'),
                 $options, 'diff(y/x^2,x,1)-(2*y)/x = x^3*sin(3*x)', null);
         $this->assertEquals(stack_input::VALID, $state->status);
-        $this->assertEquals('noundiff(y/x^2,x,1)-(2*y)/x = x^3*sin(3*x)', $state->contentsmodified);
+        $this->assertEquals('noundiff(y/x^2,x,1)-(2*y)/x=x^3*sin(3*x)', $state->contentsmodified);
         $this->assertEquals('\[ \left(\frac{\mathrm{d}}{\mathrm{d} x} \frac{y}{x^2}\right)-\frac{2\cdot y}{x}=x^3\cdot ' .
                 '\sin \left( 3\cdot x \right) \]', $state->contentsdisplayed);
     }

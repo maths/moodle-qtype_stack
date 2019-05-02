@@ -477,6 +477,11 @@ class stack_cas_casstring {
                             $this->answernote[] = 'trigop';
                             return true;
                         }
+                    } else if ($op === '=') {
+                        // Actually you may use evaluation flags and other things to
+                        // redefine functions: ev(lg(19),lg=logbasesimp)
+                        $this->valid = true;
+                        return true;
                     }
                 } else {
                     $op = $id->parentnode->operationOnRight();
@@ -512,7 +517,7 @@ class stack_cas_casstring {
                         $id->parentnode->parentnode->replace($id->parentnode, $ni);
                         return false;
                     }
-                    // Examples such aslog_...-a^b.
+                    // Examples such as log_...-a^b.
                     if ($id->parentnode->rhs instanceof MP_Operation && $id->parentnode->rhs->lhs instanceof MP_Atom) {
                         $ni = new MP_Identifier($id->value . $id->parentnode->op . $id->parentnode->rhs->lhs->toString());
                         $id->parentnode->rhs->replace($id->parentnode->rhs->lhs, $ni);
@@ -1149,6 +1154,16 @@ class stack_cas_casstring {
         } else {
             $forbidfloats = 'false';
         }
+        $floatspresent = false;
+        $checkfloats = function($node) use (&$floatspresent){
+            if ($node instanceof MP_Float) {
+                $floatspresent = true;
+                return false;
+            }
+            return true;
+        };
+        $this->ast->callbackRecurse($checkfloats);
+
         if ($lowestterms) {
             $lowestterms = 'true';
         } else {
@@ -1233,26 +1248,28 @@ class stack_cas_casstring {
     }
 
     private function teacher_parse_errors($e) {
+        $errs = array();
+        $ansnotes = array();
+        stack_parser_logic_insertstars0::handle_parse_error($e, $this->rawcasstring, 
+                                                            $errs, $ansnotes);
 
-        $foundchar = $e->found;
-        $previouschar = null;
-        $nextchar = null;
-
-        if ($e->grammarOffset >= 1) {
-            $previouschar = core_text::substr($this->rawcasstring, $e->grammarOffset - 1, 1);
+        if (count($errs) > 0) {
+            foreach ($errs as $err) {
+                $this->add_error($err);
+            }
         }
-        if ($e->grammarOffset < (core_text::strlen($this->rawcasstring) - 1)) {
-            $nextchar = core_text::substr($this->rawcasstring, $e->grammarOffset + 1, 1);
+        if (count($ansnotes) > 0) {
+            foreach ($ansnotes as $note) {
+                $this->answernote[] = $note;
+            }   
         }
-
-        if ($foundchar === ':' && (core_text::strpos($this->rawcasstring, ':lisp') !== false)) {
-            $this->add_error(stack_string('stackCas_forbiddenWord',
-                    array('forbid' => stack_maxima_format_casstring('lisp'))));
-            $this->answernote[] = 'forbiddenWord';
-        } else {
-            $this->add_error($e->getMessage());
-            $this->answernote[] = 'ParseError';
-
+        if (count($this->errors) === 0) {
+            // Nothing to say yet, lets throw this string through student validation and pick some errors from it.
+            $csb = new stack_cas_casstring($this->rawcasstring);
+            $csb->get_valid('s', true, 0);
+            foreach ($csb->get_errors(false) as $err) {
+                $this->add_error($err);
+            }
         }
     }
 

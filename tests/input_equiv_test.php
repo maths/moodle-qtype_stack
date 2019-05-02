@@ -401,7 +401,7 @@ class stack_equiv_input_test extends qtype_stack_testcase {
         $el = stack_input_factory::make('equiv', 'sans1', $ta);
         $state = $el->validate_student_response(array('sans1' => $sa), $options, $ta, null);
         $this->assertEquals(stack_input::VALID, $state->status);
-        $this->assertEquals('[5*x/(2*x+1)-3/(x+1) = 1,5*x*(x+1)-3*(2*x+1)=(x+1)*(2*x+1),(x-2)*(3*x+2)=0,x=2 nounor x=-2/3]',
+        $this->assertEquals('[5*x/(2*x+1)-3/(x+1)=1,5*x*(x+1)-3*(2*x+1)=(x+1)*(2*x+1),(x-2)*(3*x+2)=0,x=2 nounor x=-2/3]',
                 $state->contentsmodified);
         $this->assertEquals('\[ \begin{array}{lll} &\frac{5\,x}{2\,x+1}-\frac{3}{x+1}=1'.
                 '&{\color{blue}{{x \not\in {\left \{-1 , -\frac{1}{2} \right \}}}}}\cr \color{green}{\Leftrightarrow}&'.

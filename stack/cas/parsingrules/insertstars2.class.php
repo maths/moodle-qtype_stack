@@ -18,6 +18,8 @@ require_once(__DIR__ . '/insertstars0.class.php');
 
 class stack_parser_logic_insertstars2 extends stack_parser_logic_insertstars0 {
 
+    private static $protectedidentifiermap = null;
+
     public function __construct($insertstars = true, $fixspaces = false) {
         // Stars but not spaces. Single char vars.
         parent::__construct($insertstars, $fixspaces);
@@ -26,6 +28,40 @@ class stack_parser_logic_insertstars2 extends stack_parser_logic_insertstars0 {
     }
 
     public function post($ast, &$valid, &$errors, &$answernote, $syntax, $safevars, $safefunctions) {
+        if (self::$protectedidentifiermap === null) {
+            self::$protectedidentifiermap = array('functions' => array(), 'variables' => array());
+            self::$protectedidentifiermap['functions'] = stack_cas_security::get_all_with_feature('function');
+            self::$protectedidentifiermap['variables'] = stack_cas_security::get_all_with_feature('variable');
+            foreach (stack_cas_security::get_all_with_feature('constant') as $key => $value) {
+                self::$protectedidentifiermap['variables'][$key] = $value;
+            }
+            usort(self::$protectedidentifiermap['functions'], function (
+                string $a,
+                string $b
+            ) {
+                return strlen($a) < strlen($b);
+            });
+            usort(self::$protectedidentifiermap['variables'], function (
+                string $a,
+                string $b
+            ) {
+                return strlen($a) < strlen($b);
+            });
+            // Now that they are sortted by the length lets remap them so that the array has 
+            // keys in the same order
+            $functions = array();
+            $variables = array();
+            foreach (self::$protectedidentifiermap['functions'] as $funct) {
+                $functions[$funct] = $funct;
+            }
+            foreach (self::$protectedidentifiermap['variables'] as $var) {
+                $variables[$var] = $var;
+            }
+            self::$protectedidentifiermap['functions'] = $functions;
+            self::$protectedidentifiermap['variables'] = $variables;
+        }
+
+
         $process = function($node) use (&$valid, &$errors, &$answernote, $syntax, $safevars, $safefunctions) {
             if ($node instanceof MP_Identifier && !($node->parentnode instanceof MP_FunctionCall)) {
                 // Cannot split further.
@@ -44,6 +80,46 @@ class stack_parser_logic_insertstars2 extends stack_parser_logic_insertstars0 {
                     return true;
                 }
 
+                // If the identifier is a protected one stop here.
+                if (array_key_exists($node->value, self::$protectedidentifiermap['variables'])) {
+                    return true;
+                }
+
+                // If it starts with any know identifier split after that.
+                foreach (self::$protectedidentifiermap['variables'] as $safe) {
+                    if (core_text::strpos($node->value, $safe) === 0) {
+                        $remainder = core_text::substr($node->value, core_text::strlen($safe));
+                        if (ctype_digit($remainder)) {
+                            $remainder = new MP_Integer($remainder);
+                        } else {
+                            $remainder = new MP_Identifier($remainder);
+                        }
+                        $replacement = new MP_Operation('*', new MP_Identifier($safe), $remainder);
+                        $node->parentnode->replace($node, $replacement);
+                        $answernote[] = 'missing_stars';
+                        return false;
+                    }
+                }
+
+                // If it does not start with a know identifier split the first char.
+                $remainder = core_text::substr($node->value, 1);
+                if (ctype_digit($remainder)) {
+                    $remainder = new MP_Integer($remainder);
+                } else {
+                    $remainder = new MP_Identifier($remainder);
+                }
+                $firstchar = core_text::substr($node->value, 0, 1);
+                if (ctype_digit($firstchar)) {
+                    $firstchar = new MP_Integer($firstchar);
+                } else {
+                    $firstchar = new MP_Identifier($firstchar);
+                }
+                $replacement = new MP_Operation('*', $firstchar, $remainder);
+                $node->parentnode->replace($node, $replacement);
+                $answernote[] = 'missing_stars';
+                return false;
+        
+                /*
                 // Split the whole identifier to single chars.
                 $temp = new MP_Identifier('rhs');
                 $replacement = new MP_Operation('*', new MP_Identifier(core_text::substr($node->value, 0, 1)), $temp);
@@ -65,6 +141,7 @@ class stack_parser_logic_insertstars2 extends stack_parser_logic_insertstars0 {
                 $node->parentnode->replace($node, $replacement);
                 $answernote[] = 'missing_stars';
                 return false;
+                */
             }
             // TODO: Do we do this also for function names? All of them? Is even log10 safe?
 

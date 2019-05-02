@@ -273,25 +273,6 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $at1 = new stack_cas_text($raw, $cs1, 0);
         $val = array('p:diff(sans)', 'q=int(tans)', '1/(1+x^2)', 'sin(z^2)');
         $this->assertEquals($val, $at1->get_all_raw_casstrings());
-
-    }
-
-    public function check_external_forbidden_words($ct, $val, $words) {
-        // TODO: map the new security class to do external forbidden words with CASText?
-        // are we really testing forbidden words in CASText? Who puts them there?
-        $secrules = new stack_cas_security();
-        $secrules->set_forbiddenwords($words);
-
-        $a2 = array('a:x^2)', 'b:(sin(x)+1)^2');
-        $s2 = array();
-        foreach ($a2 as $s) {
-            $s2[] = new stack_cas_casstring($s);
-        }
-        $cs2 = new stack_cas_session($s2, null, 0);
-
-        $at1 = new stack_cas_text($ct, $cs2, 0);
-        $this->assertEquals($val, $at1->check_external_forbidden_words($words));
-
     }
 
     public function test_auto_generated_key_names() {
@@ -318,20 +299,6 @@ class stack_cas_text_test extends qtype_stack_testcase {
                 null, 0);
         $this->assertEquals('Let \(n\) be defined by \({3}\). Now add one to get \({4}\) and square the result \({16}\).',
                 $at1->get_display_castext());
-    }
-
-    public function testcheck_external_forbidden_words() {
-        $cases = array(
-            array('', false, array()),
-            array('$\sin(x)$', false, array()),
-            array('$\cos(x)$', false, array('cos')),
-            array('{@cos(x)@}', true, array('cos')),
-            array('$\cos(x)$', true, array('sin')), // The session already has sin(x) above!
-        );
-
-        foreach ($cases as $case) {
-            $this->check_external_forbidden_words($case[0], $case[1], $case[2]);
-        }
     }
 
     public function test_fact_sheets() {

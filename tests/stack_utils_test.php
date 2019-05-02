@@ -248,11 +248,11 @@ class stack_utils_test extends qtype_stack_testcase {
             'sin(xy)' => 'sin(x*y)',
             'sin(xy)+cos(ab)+c' => 'sin(x*y)+cos(a*b)+c',
             'xe^x' => 'x*e^x',
-            'pix' => 'p*i*x',
-            '2(xya+3c)' => '2(x*y*a+3c)',
-            '2pi+nk' => '2pi+n*k',  // This function does not add the star in 2*pi here.  That is done elsewhere.
-            '(ax+1)(ax-1)' => '(a*x+1)(a*x-1)',
-            'nx(1+2x)' => 'nx(1+2x)' // Note, two letter function names are permitted.
+            'pix' => 'pi*x',
+            '2(xya+3c)' => '2*(x*y*a+3c)',
+            '2pi+nk' => '2*pi+n*k',  // This function does not add the star in 2*pi here.  That is done elsewhere.
+            '(ax+1)(ax-1)' => '(a*x+1)*(a*x-1)',
+            'nx(1+2x)' => 'n*x(1+2*x)' // Note, two letter function names are permitted.
         );
 
         foreach ($testcases as $test => $result) {

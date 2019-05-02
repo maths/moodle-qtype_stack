@@ -192,13 +192,6 @@ class stack_cas_security {
             return false;
         }
 
-        // For backwards compatibility check for substrings.
-        foreach ($this->forbiddenwordsasmap as $key => $duh) {
-            if (strpos($identifier, $key) !== false) {
-                // The 'i' in 'sin' case.
-                return false;
-            }
-        }
 
         // If its already security 's' then all fine.
         if ($foundsecurity === 's') {
@@ -270,13 +263,6 @@ class stack_cas_security {
             return false;
         }
 
-        // For backwards compatibility check for substrings.
-        foreach ($this->forbiddenwordsasmap as $key => $duh) {
-            if (strpos($identifier, $key) !== false) {
-                // The 'i' in 'sin' case.
-                return false;
-            }
-        }
 
         // Units.
         if ($this->units) {
@@ -522,5 +508,21 @@ class stack_cas_security {
 
         $cache[$list] = $result;
         return $result;
+    }
+
+    // Returns all identifiers with a given feature as long as the feature is not valued 'f'
+    public static function get_all_with_feature(string $feature): array {
+        if (stack_cas_security::$securitymap === null) {
+            // Initialise the map.
+            $data = file_get_contents(__DIR__ . '/security-map.json');
+            stack_cas_security::$securitymap = json_decode($data, true);
+        }
+        $r = array();
+        foreach (stack_cas_security::$securitymap as $key => $features) {
+            if (array_key_exists($feature, $features) && $features[$feature] !== 'f') {
+                $r[$key] = $key;
+            }
+        }
+        return $r;
     }
 }

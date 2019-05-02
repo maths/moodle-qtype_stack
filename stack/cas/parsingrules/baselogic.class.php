@@ -259,7 +259,7 @@ abstract class stack_parser_logic {
     // This is the student only parser error handler. For teachers we might
     // want to give raw errors as the syntax they use may be quite a bit more
     // complex.
-    private function handle_parse_error($exception, $string, &$errors, &$answernote) {
+    public static function handle_parse_error($exception, $string, &$errors, &$answernote) {
         static $disallowedfinalchars = '/+*^#~=,_&`;:$-.<>';
 
         $foundchar = $exception->found;

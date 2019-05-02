@@ -3894,6 +3894,9 @@
     "logbase": {
         "function": "s"
     },
+    "logbasesimp": {
+        "function": "s"
+    },
     "logcb": {
         "variable": "f"
     },

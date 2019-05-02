@@ -210,20 +210,20 @@ class stack_cas_casstring_test extends basic_testcase {
 
     public function test_check_external_forbidden_words() {
         $cases = array(
-            array('sin(ta)', array('ta'), false, 'forbiddenVariable'),
-            array('sin(ta)', array('ta', 'a', 'b'), false, 'forbiddenVariable'),
-            array('1+sin(ta)', array('a', 'b'), true, ''),
-            array('sin(ta)', array('sa'), true, ''),
-            array('sin(ta)', array('sin'), false, 'forbiddenFunction'),
-            array('sin(a)', array('a'), false, 'forbiddenVariable'),
-            array('diff(x^2,x)', array('[[basic-calculus]]'), false, 'forbiddenVariable'),
-            array('diff(x^2,x)', array('[[BASIC-CALCULUS]]'), false, 'forbiddenVariable'),
+            array('sin(ta)', 'ta', false, 'forbiddenVariable'),
+            array('sin(ta)', 'ta,a,b', false, 'forbiddenVariable'),
+            array('1+sin(ta)', 'a,b', true, ''),
+            array('sin(ta)', 'sa', true, ''),
+            array('sin(ta)', 'sin', false, 'forbiddenFunction'),
+            array('sin(a)', 'a', false, 'forbiddenVariable'),
+            array('diff(x^2,x)', '[[basic-calculus]]', false, 'forbiddenFunction'),
+            array('diff(x^2,x)', '[[BASIC-CALCULUS]]', false, 'forbiddenFunction'),
         );
 
         foreach ($cases as $case) {
             $cs = new stack_cas_casstring($case[0]);
             $secrules = new stack_cas_security();
-            $secrules->set_forbiddenkeys($case[1]);
+            $secrules->set_forbiddenwords($case[1]);
             $this->assertEquals($case[2], $cs->get_valid('s', true, 0, $secrules));
             $this->assertEquals($case[3], $cs->get_answernote());
         }
@@ -233,7 +233,8 @@ class stack_cas_casstring_test extends basic_testcase {
         $cases = array(
             array('3+5', '+', false),
             array('sin(a)', 'a', false), // It includes single letters.
-            array('sin(a)', 'i', false), // Since it is a string match, this can be inside a name.
+            // Changed in 4.3.
+            array('sin(a)', 'i', true), // Since it is a string match, this can be inside a name.
             array('sin(a)', 'b', true),
             array('sin(a)', 'b,\,,c', true), // Test escaped commas.
             array('[x,y,z]', 'b,\,,c', false),
@@ -947,9 +948,12 @@ class stack_cas_casstring_test extends basic_testcase {
     public function test_log_sugar_5() {
         $s = 'log_x^2(3)';
         $at1 = new stack_cas_casstring($s);
-        $this->assertTrue($at1->get_valid('s', true, 0));
-        $this->assertEquals('lg(3, x^2)', $at1->get_casstring());
+        $this->assertTrue($at1->get_valid('s', true, 1));
+        $this->assertEquals('lg(3,x^2)', $at1->get_casstring());
         $this->assertEquals('logsubs', $at1->get_answernote());
+        // Parser behaviour has changed. Not worth it currently.
+        $at2 = new stack_cas_casstring($s);
+        $this->assertFalse($at2->get_valid('s', true, 0));
     }
 
     public function test_log_sugar_6() {

@@ -35,6 +35,7 @@ class stack_parser_logic_insertstars2 extends stack_parser_logic_insertstars0 {
             foreach (stack_cas_security::get_all_with_feature('constant') as $key => $value) {
                 self::$protectedidentifiermap['variables'][$key] = $value;
             }
+            self::$protectedidentifiermap['variables']['QMCHAR'] = 'QMCHAR';
             usort(self::$protectedidentifiermap['functions'], function (
                 string $a,
                 string $b

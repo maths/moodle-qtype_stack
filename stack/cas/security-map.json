@@ -2654,6 +2654,9 @@
     "gaussprob": {
         "function": "f"
     },
+    "gcf": {
+        "function": "s"
+    },
     "gcd": {
         "function": "s"
     },
@@ -3723,7 +3726,7 @@
     },
     "lg": {
         "function": "s",
-        "variable": "f"
+        "variable": "t"
     },
     "lgtreillis": {
         "function": "f"
@@ -3898,7 +3901,8 @@
         "function": "s"
     },
     "logbasesimp": {
-        "function": "s"
+        "function": "s",
+        "variable": "s"
     },
     "logcb": {
         "variable": "f"

@@ -622,7 +622,7 @@ class stack_units_input_test extends qtype_stack_testcase {
         $el->set_parameter('options', 'negpow');
         $state = $el->validate_student_response(array('sans1' => '?*m/s^2'), $options, '9.81*m/s^2', null);
         $this->assertEquals(stack_input::INVALID, $state->status);
-        $this->assertEquals('?*m/s^2', $state->contentsmodified);
+        $this->assertEquals('QMCHAR*m/s^2', $state->contentsmodified);
         $this->assertEquals('\[ \color{red}{?}\, \mathrm{m}\, \mathrm{s}^ {- 2 } \]', $state->contentsdisplayed);
     }
 

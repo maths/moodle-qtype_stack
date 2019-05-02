@@ -317,7 +317,7 @@ class stack_cas_text_test extends qtype_stack_testcase {
                 '& {@a@}\,\\ {@double_cA + cB@} + C& =& 0,\\ {@Ac2@}& =& {@b@}. \end{array}\]';
         $at1 = new stack_cas_text($rawcastext, $cs, 0, 't', false, 0);
 
-        $this->assertFalse($at1->get_valid());
+        $this->assertTrue($at1->get_valid());
         $this->assertEquals('<span class="error">CASText failed validation. </span> ' .
                         'CAS commands not valid.  You seem to be missing * characters. Perhaps you meant to type ' .
                         '<span class="stacksyntaxexample">c2<font color="red">*</font>A</span>.',
@@ -1054,7 +1054,7 @@ class stack_cas_text_test extends qtype_stack_testcase {
     }
 
     public function test_stackintfmt() {
-        $a2 = array('n:1234');
+        $a2 = array('n:1234', 'st1:"~@R"');
         $s2 = array();
         foreach ($a2 as $s) {
             $cs = new stack_cas_casstring($s);
@@ -1075,7 +1075,7 @@ class stack_cas_text_test extends qtype_stack_testcase {
 <p>ordinal rethoric: {@}(stackintfmt:"~:r",n){@}</p>
 <p>scientific notation: {@}(stackintfmt:"~e",n)@}</p>
          */
-        $at1 = new stack_cas_text('{@(stackintfmt:"~@R",n)@}', $cs2, 0, 't');
+        $at1 = new stack_cas_text('{@(stackintfmt:st1,n)@}', $cs2, 0, 't');
         $this->assertTrue($at1->get_valid());
         $at1->get_display_castext();
 

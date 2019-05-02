@@ -89,6 +89,9 @@ class stack_parser_logic_insertstars2 extends stack_parser_logic_insertstars0 {
                 foreach (self::$protectedidentifiermap['variables'] as $safe) {
                     if (core_text::strpos($node->value, $safe) === 0) {
                         $remainder = core_text::substr($node->value, core_text::strlen($safe));
+                        if (core_text::substr($remainder, 0, 1) === '_') {
+                            return true;
+                        }
                         if (ctype_digit($remainder)) {
                             $remainder = new MP_Integer($remainder);
                         } else {

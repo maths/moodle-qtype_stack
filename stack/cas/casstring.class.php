@@ -314,12 +314,12 @@ class stack_cas_casstring {
         // @codingStandardsIgnoreEnd
 
         // Then the rest.
-        $mainloop = function($node) use($security, $secrules, $insertstars) {
+        $mainloop = function($node) use($security, $secrules, $insertstars, &$usages) {
             if ($node instanceof MP_Identifier) {
                 $this->check_characters($node->value);
                 if ($node->is_function_name()) {
                     $usages['functions'][$node->value] = true;
-                } else {
+                } else if (!($node->parentnode instanceof MP_Operation && $node->parentnode->op === '=' && $node->parentnode->lhs === $node)) {
                     $usages['variables'][$node->value] = true;
                 }
             } else if ($node instanceof MP_PrefixOp || $node instanceof MP_PostfixOp || $node instanceof MP_Operation) {
@@ -343,6 +343,7 @@ class stack_cas_casstring {
         foreach ($usages['variables'] as $key => $duh) {
             if (isset($usages['functions'][$key])) {
                 $this->answernote[] = 'Variable_function';
+                $this->valid = false;
             }
         }
 

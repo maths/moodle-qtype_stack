@@ -254,7 +254,6 @@ class stack_cas_casstring {
                     return false;
                 }
             }
-
         }
 
         // Check that we have only one statement. Should not have comments either.
@@ -289,7 +288,7 @@ class stack_cas_casstring {
         // Minimal accuracy matching of mixed use.
         $usages = array('functions' => array(), 'variables' => array());
 
-        // Lets do this in phases, first go through all identifiers. Rewrite things related to them.
+        // Let's do this in phases, first go through all identifiers. Rewrite things related to them.
         $processidentifiers = function($node) use($security, $secrules, $insertstars) {
             if ($node instanceof MP_Identifier) {
                 return $this->process_identifier($node, $security, $secrules, $insertstars);
@@ -322,13 +321,6 @@ class stack_cas_casstring {
                     $usages['functions'][$node->value] = true;
                 } else {
                     $usages['variables'][$node->value] = true;
-                }
-            } else if ($node instanceof MP_Group) {
-                if (count($node->items) === 0) {
-                    $this->valid = false;
-                    $this->add_error(stack_string('stackCas_forbiddenWord',
-                            array('forbid' => stack_maxima_format_casstring('()'))));
-                    $this->answernote[] = 'forbiddenWord';
                 }
             } else if ($node instanceof MP_PrefixOp || $node instanceof MP_PostfixOp || $node instanceof MP_Operation) {
                 $this->check_operators($node);
@@ -821,8 +813,7 @@ class stack_cas_casstring {
                     }
                 }
                 if ($notsafe) {
-                    // As in not safe identification of the function to be
-                    // called.
+                    // As in not safe identification of the function to be called.
                     $this->add_error(stack_string('stackCas_applyingnonobviousfunction',
                                                   array('problem' => $node->toString())));
                     $this->answernote[] = 'forbiddenWord';
@@ -886,6 +877,28 @@ class stack_cas_casstring {
                 $this->valid = false;
             }
             // Other checks happen at the $variables loop. These are all members of that.
+        }
+
+        if ($security === 's') {
+            $emptyfungroup = array();
+            $checkemptyfungroup = function($node) use (&$emptyfungroup) {
+                // A function call with no arguments.
+                if ($node instanceof MP_FunctionCall && count($node->arguments) === 0 ) {
+                    $emptyfungroup[] = $node;
+                }
+                // A "group", programatic groups.
+                if ($node instanceof MP_Group && count($node->items) === 0 ) {
+                    $emptyfungroup[] = $node;
+                }
+                return true;
+            };
+            $this->ast->callbackRecurse($checkemptyfungroup);
+            if (count($emptyfungroup) > 0) {
+                $this->add_error(stack_string('stackCas_forbiddenWord',
+                            array('forbid' => stack_maxima_format_casstring('()'))));
+                $this->answernote[] = 'emptyParens';
+                $this->valid = false;
+            }
         }
 
         /*

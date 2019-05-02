@@ -35,6 +35,7 @@ class stack_parser_logic_insertstars2 extends stack_parser_logic_insertstars0 {
             foreach (stack_cas_security::get_all_with_feature('constant') as $key => $value) {
                 self::$protectedidentifiermap['variables'][$key] = $value;
             }
+            self::$protectedidentifiermap['variables']['QMCHAR'] = 'QMCHAR';
             usort(self::$protectedidentifiermap['functions'], function (
                 string $a,
                 string $b
@@ -47,8 +48,8 @@ class stack_parser_logic_insertstars2 extends stack_parser_logic_insertstars0 {
             ) {
                 return strlen($a) < strlen($b);
             });
-            // Now that they are sortted by the length lets remap them so that the array has
-            // keys in the same order
+            // Now that they are sorted by the length let's remap them so that the array has
+            // keys in the same order.
             $functions = array();
             $variables = array();
             foreach (self::$protectedidentifiermap['functions'] as $funct) {

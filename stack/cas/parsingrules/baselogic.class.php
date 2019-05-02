@@ -172,7 +172,8 @@ abstract class stack_parser_logic {
     protected function commonpostparse($ast) {
         $processmarkkers = function($node) {
             // %%IS is used in the pre-parser to mark implied multiplications
-            if ($node instanceof MP_FunctionCall && $node->name instanceof MP_Identifier && core_text::substr($node->name->value, 0, 4) === '%%IS') {
+            if ($node instanceof MP_FunctionCall && $node->name instanceof MP_Identifier &&
+                    core_text::substr($node->name->value, 0, 4) === '%%IS') {
                 $node->name->value = core_text::substr($node->name->value, 4);
                 $node->parentnode->position['insertstars'] = true;
                 if ($node->name->value === '') {

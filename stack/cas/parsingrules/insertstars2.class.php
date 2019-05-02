@@ -118,7 +118,7 @@ class stack_parser_logic_insertstars2 extends stack_parser_logic_insertstars0 {
                 $node->parentnode->replace($node, $replacement);
                 $answernote[] = 'missing_stars';
                 return false;
-        
+
                 /*
                 // Split the whole identifier to single chars.
                 $temp = new MP_Identifier('rhs');
@@ -148,7 +148,10 @@ class stack_parser_logic_insertstars2 extends stack_parser_logic_insertstars0 {
             return true;
         };
 
+        // @codingStandardsIgnoreStart
         while ($ast->callbackRecurse($process) !== true) {
         }
+        // @codingStandardsIgnoreEnd
+
     }
 }

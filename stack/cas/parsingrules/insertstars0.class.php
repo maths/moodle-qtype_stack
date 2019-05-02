@@ -324,8 +324,10 @@ class stack_parser_logic_insertstars0 extends stack_parser_logic {
             return true;
         };
 
+        // @codingStandardsIgnoreStart
         while ($ast->callbackRecurse($process) !== true) {
         }
+        // @codingStandardsIgnoreEnd
 
         // There is a chance that the pre-parser added stars that we don't
         // aknowledge yet. Search for them. These cover a relatively rare edge

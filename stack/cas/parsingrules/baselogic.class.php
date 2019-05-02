@@ -252,8 +252,11 @@ abstract class stack_parser_logic {
             return true;
         };
 
+        // @codingStandardsIgnoreStart
         while ($ast->callbackRecurse($processmarkkers) !== true) {
         }
+        // @codingStandardsIgnoreEnd
+
     }
 
     private function strings_replace($stringles, $original) {

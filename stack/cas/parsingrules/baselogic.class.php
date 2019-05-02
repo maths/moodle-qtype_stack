@@ -171,6 +171,23 @@ abstract class stack_parser_logic {
     // multiplication operations.
     protected function commonpostparse($ast) {
         $processmarkkers = function($node) {
+            // Map most of the insertted stars
+            if ($node instanceof MP_Operation && $node->op === '*') {
+                $rhs = $node->leftmostofright();
+                if ($rhs instanceof MP_Identifier && core_text::substr($rhs->value, 0, 4) === '%%IS') {
+                    $node->position['insertstars'] = true;
+                }
+                if ($rhs instanceof MP_Identifier && core_text::substr($rhs->value, 0, 4) === '%%Is') {
+                    $node->position['fixspaces'] = true;
+                }
+                if ($rhs instanceof MP_FunctionCall && core_text::substr($rhs->name->value, 0, 4) === '%%IS') {
+                    $node->position['insertstars'] = true;
+                }
+                if ($rhs instanceof MP_FunctionCall && core_text::substr($rhs->name->value, 0, 4) === '%%Is') {
+                    $node->position['fixspaces'] = true;
+                }
+            }
+
             // %%IS is used in the pre-parser to mark implied multiplications
             if ($node instanceof MP_FunctionCall && $node->name instanceof MP_Identifier &&
                     core_text::substr($node->name->value, 0, 4) === '%%IS') {
@@ -203,7 +220,7 @@ abstract class stack_parser_logic {
                     $newop = new MP_Operation('*', new MP_Integer(intval($node->name->value), new MP_Group($node->arguments)));
                     // This one is tricky, as it is basically an insertstars in non insertstars context.
                     // Might require a special case upstream and maybe set to invalid...
-                    $newop->position['insertstars'] = true;
+                    $newop->position['fixspaces'] = true;
                     $node->parentnode->position['fixspaces'] = true;
                     $node->parentnode->replace($node, $newop);
                 }

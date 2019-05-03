@@ -760,15 +760,6 @@ abstract class stack_input {
                 $forbiddenkeys);
 
         foreach ($contents as $index => $val) {
-            // Process single character variable names in PHP.
-            // This is done before we validate the casstring to split up abc->a*b*c which would otherwise be invalid.
-            // TODO: Wouldn't the parser-logics/parsingrules handle this better?
-            if (2 == $this->get_parameter('insertStars', 0) || 5 == $this->get_parameter('insertStars', 0)) {
-                $val = stack_utils::make_single_char_vars($val, $localoptions,
-                        $this->get_parameter('strictSyntax', true), $this->get_parameter('insertStars', 0),
-                        $secrules);
-            }
-
             $val = stack_utils::logic_nouns_sort($val, 'add');
             $answer = new stack_cas_casstring($val);
             if ($this->units) {

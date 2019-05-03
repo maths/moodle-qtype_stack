@@ -447,6 +447,15 @@ abstract class stack_parser_logic {
             $a = array('op' => stack_maxima_format_casstring('!'));
             $errors[] = stack_string('stackCas_badpostfixop', $a);
             $answernote[] = 'badpostfixop';
+        } else if (core_text::strpos($disallowedfinalchars, 
+                                     core_text::substr(trim(stack_utils::logic_nouns_sort($string, 'remove')), -1)) !== false) { 
+            // This is for unpacking stackeq() ant similar.
+            $a = array();
+            $a['char'] = core_text::substr(trim(stack_utils::logic_nouns_sort($string, 'remove')), -1);
+            $cdisp = stack_utils::logic_nouns_sort($string, 'remove');
+            $a['cmd']  = stack_maxima_format_casstring($cdisp);
+            $errors[] = stack_string('stackCas_finalChar', $a);
+            $answernote[] = 'finalChar';
         } else {
             $errors[] = $exception->getMessage();
             $answernote[] = 'ParseError';

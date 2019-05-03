@@ -1016,7 +1016,8 @@ class stack_cas_casstring_test extends basic_testcase {
         );
 
         foreach ($testcases as $test => $result) {
-            $cs = new stack_cas_casstring($test, false, 2);
+            $cs = new stack_cas_casstring($test);
+            $cs->get_valid('s', false, 2);
             $this->assertEquals($result, $cs->get_casstring());
         }
     }
@@ -1037,7 +1038,8 @@ class stack_cas_casstring_test extends basic_testcase {
 
         foreach ($testcases as $test => $result) {
             $this->resetAfterTest();
-            $cs = new stack_cas_casstring($test, false, 5);
+            $cs = new stack_cas_casstring($test);
+            $cs->get_valid('s', false, 5);
             $this->assertEquals($result, $cs->get_casstring());
         }
     }

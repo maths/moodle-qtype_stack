@@ -191,13 +191,13 @@ class stack_equiv_input extends stack_input {
      */
     protected function validate_contents($contents, $forbiddenkeys, $localoptions) {
 
-        $errors = $this->extra_validation($contents);
-        $valid = !$errors;
+        // This input re-defines validate_condents, and so does not make use of extra_validation methods.
+        $errors = array();
+        $valid = true;
 
         // Now validate the input as CAS code.
         $modifiedcontents = array();
         $caslines = array();
-        $errors = array();
 
         $secrules = new stack_cas_security($this->units,
                         $this->get_parameter('allowWords', ''),
@@ -207,18 +207,16 @@ class stack_equiv_input extends stack_input {
 
         $logic = stack_parsingrule_factory::get_parsingrule($this->get_parameter('insertStars', 0));
         foreach ($contents as $index => $val) {
-            $nvalid = true;
-            $nerrors = array();
-            $nnote = array();
-            $ast = $logic->parse($val, $nvalid, $nerrors, $nnote, $this->get_parameter('strictSyntax', true),
-                        array(), array(), 'Equivline');
 
-            $valid = $valid && $nvalid;
-            $this->errors = array_merge($this->errors, $nerrors);
+            // TODO: factor logic_nouns_sort as a method on ast.
+            $val = stack_utils::logic_nouns_sort($val, 'add');
 
-            $answer = new stack_cas_casstring($ast->toString());
+            $answer = new stack_cas_casstring($val);
+            $answer->set_context('equivline', true);
 
-            if ($ast instanceof MP_String) {
+            $answer->get_valid('s', $this->get_parameter('strictSyntax', true),
+                    $this->get_parameter('insertStars', 0), $secrules);
+            if ($answer->ast instanceof MP_String) {
                 // Is the student permitted to include comments in their answer?
                 if (!$this->extraoptions['comments']) {
                     $valid = false;
@@ -227,10 +225,9 @@ class stack_equiv_input extends stack_input {
             }
 
             $caslines[] = $answer;
-
             $modifiedcontents[] = $answer->get_casstring();
             $valid = $valid && $answer->get_valid();
-            $errors[] = trim($answer->get_errors());
+            $errors[] = $answer->get_errors();
         }
 
         return array($valid, $errors, $modifiedcontents, $caslines);

@@ -1329,7 +1329,7 @@ class MP_Prefixeq extends MP_Node {
 
     public function toString($params = null) {
         $indent = '';
-        if (is_integer($params['pretty'])) {
+        if (isset($params['pretty']) && is_integer($params['pretty'])) {
             $indent = str_pad($indent, $params['pretty']);
         }
 

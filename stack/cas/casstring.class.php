@@ -84,8 +84,8 @@ class stack_cas_casstring {
     /** @var string */
     private $key;
 
-    /** @var bool whether the string has scientific units. */
-    private $units;
+    /** @var array Set the value of various contexts, e.g. whether the string has scientific units. */
+    private $contexts = array();
 
     /** @var array any error messages to display to the user. */
     private $errors;
@@ -146,6 +146,8 @@ class stack_cas_casstring {
         // If null then the validate command has not yet been run.
         $this->valid          = null;
 
+        $this->contexts = array('units' => false, 'equivline' => false);
+
         if (!is_string($this->rawcasstring)) {
             throw new stack_exception('stack_cas_casstring: rawstring must be a string.');
         }
@@ -196,7 +198,7 @@ class stack_cas_casstring {
         // NOTE: will probably cause debug nightmares untill the units setting
         // gets a better defintion logic. Its not a setting that should be
         // distributed it should be a question level setting.
-        $secrules->set_units($this->units);
+        $secrules->set_units($this->contexts['units']);
 
         $this->valid     = true;
         $this->casstring = str_replace('?', 'QMCHAR', $this->rawcasstring);;
@@ -221,8 +223,12 @@ class stack_cas_casstring {
                 }
             } else {
                 $logic = stack_parsingrule_factory::get_parsingrule($insertstars);
+                $parserule = 'Root';
+                if ($this->contexts['equivline']) {
+                    $parserule = 'Equivline';
+                }
                 $this->ast = $logic->parse($this->casstring, $this->valid, $this->errors, $this->answernote, $syntax,
-                        array(), array());
+                        array(), array(), $parserule);
                 if ($this->ast === null) {
                     $this->valid = false;
                     return false;
@@ -372,7 +378,7 @@ class stack_cas_casstring {
                     return true;
                 }
             }
-            if ($this->units) {
+            if ($this->contexts['units']) {
                 // These could still be in stack_cas_casstring_units, but why do a separate call
                 // and we need that strutural change detection here.
                 if ($id->value === 'Torr') {
@@ -528,7 +534,7 @@ class stack_cas_casstring {
                         // of the identifier we can just parse it as a casstring.
                         $operand = new MP_Identifier($num);
                         $cs = new stack_cas_casstring($num);
-                        $cs->set_units($this->units);
+                        $cs->set_context('units', $this->contexts['units']);
                         if ($cs->get_valid($security, $syntax, $insertstars, $secrules)) {
                             // There are no evaluationflags here.
                             $operand = $cs->ast->statement;
@@ -907,7 +913,7 @@ class stack_cas_casstring {
                 continue;
             }
 
-            if ($this->units) {
+            if ($this->contexts['units']) {
                 // Check for unit synonyms. Ignore if specifically allowed.
                 list ($fndsynonym, $answernote, $synonymerr) = stack_cas_casstring_units::find_units_synonyms($name);
                 if ($security == 's' && $fndsynonym && !$secrules->is_allowed_word($name)) {
@@ -1067,8 +1073,11 @@ class stack_cas_casstring {
         }
     }
 
-    public function set_units($val) {
-        $this->units = $val;
+    public function set_context($context, $val) {
+        if (!isset($this->contexts[$context])) {
+            throw new stack_exception('Tried to set a casstring context ' . $context . ' which does not exist');
+        }
+        $this->contexts[$context] = $val;
     }
 
     public function set_value($val) {

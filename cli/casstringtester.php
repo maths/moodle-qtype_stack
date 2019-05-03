@@ -79,7 +79,7 @@ for ($insertstars = 0; $insertstars < 6; $insertstars++) {
                 $heading = $heading3 . ' units = ' . ($units ? 'true' : 'false');
                 $output = array();
                 $cs = new stack_cas_casstring($str);
-                $cs->set_units($units);
+                $cs->set_context('units', $units);
                 $cs2 = false;
                 if ($comparemode) {
                     $cs2 = new stack_cas_casstring_old($str);

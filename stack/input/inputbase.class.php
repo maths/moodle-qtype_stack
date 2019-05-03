@@ -638,7 +638,7 @@ abstract class stack_input {
         // This results in a duplication for many, but textareas create a single list here representing the whole answer.
         $answer = new stack_cas_casstring($interpretedanswer);
         if ($this->units) {
-            $answer->set_units(true);
+            $answer->set_context('units', true);
         }
 
         $answer->set_cas_validation_casstring($this->name,
@@ -763,7 +763,7 @@ abstract class stack_input {
             $val = stack_utils::logic_nouns_sort($val, 'add');
             $answer = new stack_cas_casstring($val);
             if ($this->units) {
-                $answer->set_units(true);
+                $answer->set_context('units', true);
             }
             $answer->get_valid('s', $this->get_parameter('strictSyntax', true),
                     $this->get_parameter('insertStars', 0), $secrules);

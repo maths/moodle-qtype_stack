@@ -597,7 +597,7 @@ class stack_cas_casstring_test extends basic_testcase {
     public function test_units_1() {
         $s = 'sa:3.14*mol';
         $at1 = new stack_cas_casstring($s);
-        $at1->set_units(true);
+        $at1->set_context('units', true);
         $this->assertTrue($at1->get_valid('s', true, 0));
     }
 
@@ -611,7 +611,7 @@ class stack_cas_casstring_test extends basic_testcase {
     public function test_units_2_u() {
         $s = 'sa:3.14*moles';
         $at1 = new stack_cas_casstring($s);
-        $at1->set_units(true);
+        $at1->set_context('units', true);
         $this->assertFalse($at1->get_valid('s', true, 0));
         $this->assertEquals('unitssynonym', $at1->get_answernote());
     }
@@ -626,7 +626,7 @@ class stack_cas_casstring_test extends basic_testcase {
     public function test_units_3_u() {
         $s = 'sa:3.14*Moles';
         $at1 = new stack_cas_casstring($s);
-        $at1->set_units(true);
+        $at1->set_context('units', true);
         $this->assertFalse($at1->get_valid('s', true, 0));
         $this->assertEquals('unitssynonym', $at1->get_answernote());
     }
@@ -648,14 +648,14 @@ class stack_cas_casstring_test extends basic_testcase {
     public function test_units_5() {
         $s = 'sa:52.3*MHz';
         $at1 = new stack_cas_casstring($s);
-        $at1->set_units(true);
+        $at1->set_context('units', true);
         $this->assertTrue($at1->get_valid('s', true, 0));
     }
 
     public function test_units_6() {
         $s = 'sa:52.3*Mhz';
         $at1 = new stack_cas_casstring($s);
-        $at1->set_units(true);
+        $at1->set_context('units', true);
         $this->assertFalse($at1->get_valid('s', true, 0));
         $this->assertEquals('unknownUnitsCase', $at1->get_answernote());
         $err = 'Input of units is case sensitive:  <span class="stacksyntaxexample">Mhz</span> is an unknown unit. '
@@ -675,7 +675,7 @@ class stack_cas_casstring_test extends basic_testcase {
     public function test_units_8() {
         $s = '56.7*hr';
         $at1 = new stack_cas_casstring($s);
-        $at1->set_units(true);
+        $at1->set_context('units', true);
         $this->assertFalse($at1->get_valid('s', true, 0));
         $this->assertEquals('56.7*hr', $at1->get_casstring());
         $this->assertEquals('', $at1->get_key());
@@ -694,7 +694,7 @@ class stack_cas_casstring_test extends basic_testcase {
     public function test_units_10() {
         $s = '56.7*kgm/s';
         $at1 = new stack_cas_casstring($s);
-        $at1->set_units(true);
+        $at1->set_context('units', true);
         $this->assertTrue($at1->get_valid('s', true, 0));
         $this->assertEquals('56.7*kg*m/s', $at1->get_casstring());
         $this->assertEquals('', $at1->get_key());
@@ -704,21 +704,21 @@ class stack_cas_casstring_test extends basic_testcase {
     public function test_units_amu() {
         $s = '520*amu';
         $at1 = new stack_cas_casstring($s);
-        $at1->set_units(true); // If we do not toggle units then amu if forbiddenly long.
+        $at1->set_context('units', true); // If we do not toggle units then amu if forbiddenly long.
         $this->assertTrue($at1->get_valid('s', true, 0));
     }
 
     public function test_units_mamu() {
         $s = '520*mamu';
         $at1 = new stack_cas_casstring($s);
-        $at1->set_units(true); // If we do not toggle units then mamu if forbiddenly long.
+        $at1->set_context('units', true); // If we do not toggle units then mamu if forbiddenly long.
         $this->assertFalse($at1->get_valid('s', true, 0));
     }
 
     public function test_units_mmhg() {
         $s = '7*mmhg';
         $at1 = new stack_cas_casstring($s);
-        $at1->set_units(true);
+        $at1->set_context('units', true);
         $this->assertFalse($at1->get_valid('s', true, 0));
         $this->assertEquals('unknownUnitsCase', $at1->get_answernote());
         $err = 'Input of units is case sensitive:  <span class="stacksyntaxexample">mmhg</span> is an unknown unit. '

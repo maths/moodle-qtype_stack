@@ -107,7 +107,7 @@ class stack_numerical_input_test extends qtype_stack_testcase {
         $el->set_parameter('forbidWords', 'sin,cos,tan');
         $state = $el->validate_student_response(array('sans1' => 'sin(pi/2)'), $options, '3.14*x^2', null);
         $this->assertEquals(stack_input::INVALID, $state->status);
-        $this->assertEquals('The expression <span class="stacksyntaxexample">sin</span> is forbidden.' .
+        $this->assertEquals('Forbidden function: <span class="stacksyntaxexample">sin</span>.' .
             ' This input expects a number.',
                 $state->errors);
     }
@@ -482,9 +482,9 @@ class stack_numerical_input_test extends qtype_stack_testcase {
         $el = stack_input_factory::make('numerical', 'sans1', '3.14159');
         $state = $el->validate_student_response(array('sans1' => 'letters'), $options, '10', array('tans'));
         $this->assertEquals(stack_input::INVALID, $state->status);
-        $this->assertEquals('unknownFunction', $state->note);
-        $this->assertEquals('Unknown function: <span class="stacksyntaxexample">letters</span>.' .
-            ' This input expects a number.',
+        $this->assertEquals('forbiddenVariable', $state->note);
+        $this->assertEquals('Forbidden variable or constant: <span class="stacksyntaxexample">letters</span>. ' .
+                'This input expects a number.',
             $state->errors);
     }
 }

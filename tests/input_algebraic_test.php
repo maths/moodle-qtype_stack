@@ -194,7 +194,7 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         $el->set_parameter('strictSyntax', true);
         $state = $el->validate_student_response(array('sans1' => '2x(1+x^2)+tans'), $options, 'x^2/(1+x^2)', array('tans'));
         $this->assertEquals(stack_input::INVALID, $state->status);
-        $this->assertEquals('forbiddenVariable', $state->note);
+        $this->assertEquals('Variable_function', $state->note);
     }
 
     public function test_validate_student_response_8() {

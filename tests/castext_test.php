@@ -1054,7 +1054,9 @@ class stack_cas_text_test extends qtype_stack_testcase {
     }
 
     public function test_stackintfmt() {
-        $a2 = array('n:1234', 'st1:"~@R"');
+        // Note, we have set up one pattern as CAS strings because we cannot have @ symbols in CAStext at this point.
+        // This will be fixed in castext2 (stateful).
+        $a2 = array('n:1234', 'str1:"~@R"');
         $s2 = array();
         foreach ($a2 as $s) {
             $cs = new stack_cas_casstring($s);
@@ -1064,22 +1066,21 @@ class stack_cas_text_test extends qtype_stack_testcase {
         }
         $cs2 = new stack_cas_session($s2, null, 0);
 
-        /*TODO: add in all the other examples.
-         * 
-         * <p>Now we are able to use nice and fancy formats. Here are a few examples:</p>
-<p>Standard: {@n@}</p>
-<p>with commas: {@(stackintfmt:"~:d",n)@}</p>
-<p>tabs instead of commas doesn't work: {@(stackintfmt:"~,,' ,3:d",n)@}</p>
-<p>tabs instead of commas doesn't work: {@(stackintfmt:"~,,' ,3d",n)@}</p>
-<p>Roman numerals: {@(stackintfmt:"~@}r",n){@}</p>
-<p>ordinal rethoric: {@}(stackintfmt:"~:r",n){@}</p>
-<p>scientific notation: {@}(stackintfmt:"~e",n)@}</p>
-         */
-        $at1 = new stack_cas_text('{@(stackintfmt:st1,n)@}', $cs2, 0, 't');
+        // Further examples.
+        // Tabs instead of commas doesn't work: {@(stackintfmt:"~,,' ,3:d",n)@}.
+        // Tabs instead of commas doesn't work: {@(stackintfmt:"~,,' ,3d",n)@}.
+        $at1 = new stack_cas_text('Standard: {@n@}. ' .
+            'Scientific notation: {@(stackintfmt:"~e",n)@}. ' .
+            'With commas: {@(stackintfmt:"~:d",n)@}. ' .
+            'Ordinal rethoric: {@(stackintfmt:"~:r",n)@}. ' .
+            // Roman numerals don't work with very large numbers!
+            'Roman numerals: {@(stackintfmt:str1,n)@}.', $cs2, 0, 't');
         $this->assertTrue($at1->get_valid());
         $at1->get_display_castext();
 
-        $this->assertEquals('MCCXXXIV',
+        $this->assertEquals('Standard: \({1234}\). Scientific notation: \({1.234E+3}\). With commas: \({1,234}\). ' .
+                'Ordinal rethoric: \({\mbox{one thousand two hundred thirty-fourth}}\). ' .
+                'Roman numerals: \({MCCXXXIV}\).',
                 $at1->get_display_castext());
     }
 }

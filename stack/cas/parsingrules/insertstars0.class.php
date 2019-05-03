@@ -17,7 +17,7 @@ defined('MOODLE_INTERNAL')|| die();
 require_once(__DIR__ . '/baselogic.class.php');
 require_once(__DIR__ . '/../../maximaparser/MP_classes.php');
 
-// This class is the base of the old insert stars logics 0-5
+// This class is the base of the old insert stars logics 0-5.
 class stack_parser_logic_insertstars0 extends stack_parser_logic {
     // These control the logic, if these are false the logic will tag
     // things as invalid if it meets core syntax rules matching these.
@@ -109,7 +109,8 @@ class stack_parser_logic_insertstars0 extends stack_parser_logic {
 
         $identifiedsinglelettervariables = array();
 
-        $process = function($node) use (&$valid, $errors, &$answernote, $syntax, $safevars, $safefunctions, &$identifiedsinglelettervariables) {
+        $process = function($node) use (&$valid, $errors, &$answernote, $syntax, $safevars,
+                $safefunctions, &$identifiedsinglelettervariables) {
             if ($node instanceof MP_FunctionCall) {
                 // Do not touch functions with names that are safe.
                 if (($node->name instanceof MP_Identifier ||
@@ -153,7 +154,8 @@ class stack_parser_logic_insertstars0 extends stack_parser_logic {
                         $replacement->position['insertstars'] = true;
                         $node->parentnode->replace($node, $replacement);
                         return false;
-                    } else if (!$syntax && core_text::strlen($node->name->value) === 1 && isset($identifiedsinglelettervariables[$node->name->value])) {
+                    } else if (!$syntax && core_text::strlen($node->name->value) === 1 &&
+                            isset($identifiedsinglelettervariables[$node->name->value])) {
                         // Single character function names... TODO: what is this!?
                         $replacement = new MP_Operation('*', $node->name, new MP_Group($node->arguments));
                         $answernote[] = 'missing_stars';
@@ -192,7 +194,8 @@ class stack_parser_logic_insertstars0 extends stack_parser_logic {
             }
             if ($node instanceof MP_Identifier) {
                 // Identify single letter varaible names.
-                if (core_text::strlen($node->value) === 1 && !isset($identifiedsinglelettervariables[$node->value]) && !$node->is_function_name()) {
+                if (core_text::strlen($node->value) === 1 &&
+                        !isset($identifiedsinglelettervariables[$node->value]) && !$node->is_function_name()) {
                     $identifiedsinglelettervariables[$node->value] = true;
                     return false;
                 }

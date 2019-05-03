@@ -214,13 +214,6 @@ class stack_equiv_input extends stack_input {
                     $answer->add_errors(stack_string('equivnocomments'));
                 }
             } else {
-                // Process single character variable names in PHP.
-                // This is done before we validate the casstring to split up abc->a*b*c which would otherwise be invalid.
-                if (2 == $this->get_parameter('insertStars', 0) || 5 == $this->get_parameter('insertStars', 0)) {
-                    $val = stack_utils::make_single_char_vars($val, $localoptions,
-                        $this->get_parameter('strictSyntax', true), $this->get_parameter('insertStars', 0),
-                        $secrules);
-                }
                 $val = stack_utils::logic_nouns_sort($val, 'add');
                 $answer = new stack_cas_casstring($val);
             }

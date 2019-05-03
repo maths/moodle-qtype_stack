@@ -98,6 +98,7 @@ class stack_parser_logic_insertstars2 extends stack_parser_logic_insertstars0 {
                             $remainder = new MP_Identifier($remainder);
                         }
                         $replacement = new MP_Operation('*', new MP_Identifier($safe), $remainder);
+                        $replacement->position['insertstars'] = true;
                         $node->parentnode->replace($node, $replacement);
                         $answernote[] = 'missing_stars';
                         return false;
@@ -118,11 +119,12 @@ class stack_parser_logic_insertstars2 extends stack_parser_logic_insertstars0 {
                     $firstchar = new MP_Identifier($firstchar);
                 }
                 $replacement = new MP_Operation('*', $firstchar, $remainder);
+                $replacement->position['insertstars'] = true;
                 $node->parentnode->replace($node, $replacement);
                 $answernote[] = 'missing_stars';
                 return false;
 
-                /*
+                /* // The version befor the greek-logic
                 // Split the whole identifier to single chars.
                 $temp = new MP_Identifier('rhs');
                 $replacement = new MP_Operation('*', new MP_Identifier(core_text::substr($node->value, 0, 1)), $temp);

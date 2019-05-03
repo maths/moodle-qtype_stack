@@ -31,6 +31,8 @@
  *
  */
 
+defined('MOODLE_INTERNAL') || die();
+
 class MP_Node {
     public $parentnode  = null;
     public $position    = null;

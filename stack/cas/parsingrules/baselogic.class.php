@@ -47,13 +47,15 @@ abstract class stack_parser_logic {
 
     // $string => $ast, with direct assignments of details to fields in
     // the casstring, will update the string given as it is changed.
-    public abstract function parse(&$string, &$valid, &$errors, &$answernote, $syntax, $safevars, $safefunctions);
+    public abstract function parse(&$string, &$valid, &$errors, &$answernote, $syntax, $safevars,
+            $safefunctions, string $parserule = 'Root');
 
     // This is the minimal implementation of pre-parse syntax fail fixes.
     // Should be enough for most logics will return an $ast or null.
     // If $insertstars or $fixspaces are false and such functionality is
     // required will set $valid=false and so on.
-    protected function preparse(&$string, &$valid, &$errors, &$answernote, $insertstars = false, $fixspaces = false) {
+    protected function preparse(&$string, &$valid, &$errors, &$answernote, $insertstars = false,
+            $fixspaces = false, string $parserule = 'Root') {
         // These will store certain errors if the parsing is impossible.
         $err1 = false;
         $err2 = false;
@@ -61,6 +63,17 @@ abstract class stack_parser_logic {
         $stringles = stack_utils::eliminate_strings($string);
         // Hide ?-chars as those can do many things.
         $stringles = str_replace('?', 'QMCHAR', $stringles);
+
+        // Safely wrap "let" statements.
+        $fixlet = false;
+        if ($parserule == 'Equivline') {
+            //$langlet = strtolower(stack_string('equiv_LET'));
+            $langlet = 'let ';
+            if (strtolower(substr($stringles, 0, strlen($langlet))) === $langlet) {
+                $stringles = substr($stringles, strlen($langlet));
+                $fixlet = true;
+            }
+        }
 
         // Missing stars patterns to fix.
         // NOTE: These patterns take into account floats, if the logic wants to
@@ -144,12 +157,15 @@ abstract class stack_parser_logic {
 
         $string = $this->strings_replace($stringles, $string);
 
+        if ($fixlet) {
+            $string = $langlet . $string;
+        }
         try {
             // Set the "raw" to onto include these for tests and [[debug/]] presentation...
             $tmp = $string . '';
             $string = str_replace('*%%IS', '*', $string);
             $string = str_replace('*%%Is', '*', $string);
-            return maxima_parser_utils::parse($tmp);
+            return maxima_parser_utils::parse($tmp, $parserule);
         } catch (SyntaxError $e) {
             $valid = false;
 

@@ -27,12 +27,7 @@ require_once(__DIR__ . '/../maximaparser/utils.php');
 require_once(__DIR__ . '/../maximaparser/MP_classes.php');
 require_once(__DIR__ . '/casstring.units.class.php');
 require_once(__DIR__ . '/cassecurity.class.php');
-require_once(__DIR__ . '/parsingrules/insertstars0.class.php');
-require_once(__DIR__ . '/parsingrules/insertstars1.class.php');
-require_once(__DIR__ . '/parsingrules/insertstars2.class.php');
-require_once(__DIR__ . '/parsingrules/insertstars3.class.php');
-require_once(__DIR__ . '/parsingrules/insertstars4.class.php');
-require_once(__DIR__ . '/parsingrules/insertstars5.class.php');
+require_once(__DIR__ . '/parsingrules/factory.class.php');
 
 
 class stack_cas_casstring {
@@ -225,28 +220,7 @@ class stack_cas_casstring {
                     return false;
                 }
             } else {
-                $logic = null;
-                switch ($insertstars) {
-                    case 5:
-                        $logic = new stack_parser_logic_insertstars5();
-                        break;
-                    case 4:
-                        $logic = new stack_parser_logic_insertstars4();
-                        break;
-                    case 3:
-                        $logic = new stack_parser_logic_insertstars3();
-                        break;
-                    case 2:
-                        $logic = new stack_parser_logic_insertstars2();
-                        break;
-                    case 1:
-                        $logic = new stack_parser_logic_insertstars1();
-                        break;
-                    case 0:
-                    default:
-                        $logic = new stack_parser_logic_insertstars0();
-                        break;
-                }
+                $logic = stack_parsingrule_factory::get_parsingrule($insertstars);
                 $this->ast = $logic->parse($this->casstring, $this->valid, $this->errors, $this->answernote, $syntax,
                         array(), array());
                 if ($this->ast === null) {
@@ -280,7 +254,7 @@ class stack_cas_casstring {
         if ($root instanceof MP_Root) {
             $root = $root->items[0];
         }
-        if ($root->statement instanceof MP_Operation && $root->statement->op === ':') {
+        if ($root instanceof MP_Statement && $root->statement instanceof MP_Operation && $root->statement->op === ':') {
             $this->key = $root->statement->lhs->toString();
             $root->replace($root->statement, $root->statement->rhs);
         }

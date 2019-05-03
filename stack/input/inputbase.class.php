@@ -98,7 +98,7 @@ abstract class stack_input {
      * Catch and report runtime errors.
      * @var array.
      */
-    protected $errors = null;
+    protected $errors = array();
 
     /**
      * Decide if the student's expression should have units.

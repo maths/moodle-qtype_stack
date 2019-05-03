@@ -173,6 +173,25 @@ Root
   return n;
   }
 
+Equivline
+  = __? '=' __? exp:ExpOp {
+  /** <?php 
+  $r = new MP_Prefixeq($exp);
+  $r->position = array('start'=>$this->peg_reportedPos,'end'=>$this->peg_currPos);
+  return $r; 
+  ?> **/ 
+  return exp;
+  }
+  / __? 'let ' __? op:Operation __? {
+  /** <?php 
+  $r = new MP_Let($op);
+  $r->position = array('start'=>$this->peg_reportedPos,'end'=>$this->peg_currPos);
+  return $r; 
+  ?> **/ 
+  return op;
+  }
+  / __? exp:ExpOp __?  {/** <?php return $exp; ?> **/ return exp;}
+
 Line
  = __? s:Statement _? ';' {/** <?php return $s; ?> **/ return s;}
  / Comment

@@ -14,6 +14,7 @@ var parserCode = fs.readFile('./parser-grammar.pegjs','utf8',function
    let PHPparser = pegjs.generate(data, {
        plugins: [phpegjs],
        cache: true,
+       allowedStartRules: ["Root", "Equivline"],
        phpegjs: {parserNamespace: '', parserClassName: 'MP_Parser'}
    });
 
@@ -22,6 +23,7 @@ var parserCode = fs.readFile('./parser-grammar.pegjs','utf8',function
    PHPparser = pegjs.generate(data, {
        plugins: [phpegjs],
        cache: true,
+       allowedStartRules: ["Root", "Equivline"],
        phpegjs: {parserNamespace: '', parserClassName: 'MP_Parser',
 mbstringAllowed: false}
    });
@@ -32,6 +34,7 @@ mbstringAllowed: false}
        output: 'source',
        cache: true,
        plugins: [tspegjs],
+       allowedStartRules: ["Root", "Equivline"],
        tspegjs: {
          customHeader: 'import {MPNode, MPOperation, MPAtom, MPInteger, MPFloat, MPString, MPBoolean, MPIdentifier, MPComment, MPFunctionCall, MPGroup, MPSet, MPList, MPPrefixOp, MPPostfixOp, MPIndexing, MPIf, MPLoop, MPLoopBit, MPEvaluationFlag, MPStatement, MPRoot, MPAnnotation} from \'./MP_classes\';'
        }

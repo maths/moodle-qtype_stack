@@ -20,6 +20,15 @@
  * toString functions are mainly to document what the objects parts mean. But
  * you can do some debugging with them.
  * end of the file contains functions the parser uses...
+ *
+ * function to_String should return something which is completely correct in Maxima.
+ * Known parameter values for toString.
+ *
+ * 'pretty'                  Used for debug pretty-printing of the statement.
+ * 'insertstars_as_red'      All * operators created by insert stars logic will be marked with red.
+ * 'fixspaces_as_red_spaces' Similar to above, but for spaces.
+ * 'inputform'               Something a user (normally student) would expect to type.
+ *
  */
 
 class MP_Node {
@@ -1304,6 +1313,83 @@ class MP_Statement extends MP_Node {
             $this->statement = $with;
         }
         $this->children = array_merge([ & $this->statement], $this->flags);
+    }
+}
+
+class MP_Prefixeq extends MP_Node {
+    public $statement = null;
+
+    public function __construct(
+        $statement
+    ) {
+        parent::__construct();
+        $this->statement = $statement;
+        $this->children  = [ & $this->statement];
+    }
+
+    public function toString($params = null) {
+        $indent = '';
+        if (is_integer($params['pretty'])) {
+            $indent = str_pad($indent, $params['pretty']);
+        }
+
+        if (isset($params['inputform']) && $params['inputform'] === true) {
+            return $indent . '=' . $this->statement->toString($params);
+        }
+        $r = $indent . 'stackeq(' . $this->statement->toString($params) . ')';
+
+        return $r;
+    }
+
+    public function replace(
+        $node,
+        $with
+    ) {
+        $with->parentnode = $this;
+
+        if ($this->statement === $node) {
+            $this->statement = $with;
+        }
+        $this->children = [ & $this->statement];
+    }
+}
+
+class MP_Let extends MP_Node {
+    public $statement = null;
+
+    public function __construct(
+        $statement
+    ) {
+        parent::__construct();
+        $this->statement = $statement;
+        $this->children  = [ & $this->statement];
+    }
+
+    public function toString($params = null) {
+        $indent = '';
+        if (is_integer($params['pretty'])) {
+            $indent = str_pad($indent, $params['pretty']);
+        }
+
+        if (isset($params['inputform']) && $params['inputform'] === true) {
+            return $indent . 'let ' . $this->statement->toString($params);
+        }
+        $r = $indent . 'stacklet(' . $this->statement->lhs->toString($params) .',' .
+            $this->statement->rhs->toString($params) . ')';
+
+        return $r;
+    }
+
+    public function replace(
+        $node,
+        $with
+    ) {
+        $with->parentnode = $this;
+
+        if ($this->statement === $node) {
+            $this->statement = $with;
+        }
+        $this->children = [ & $this->statement];
     }
 }
 

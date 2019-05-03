@@ -199,27 +199,33 @@ class stack_equiv_input extends stack_input {
         $caslines = array();
         $errors = array();
 
+
         $secrules = new stack_cas_security($this->units,
                         $this->get_parameter('allowWords', ''),
                         // Forbid function definition for now.
                         $this->get_parameter('forbidWords', '') . ', :=',
                         $forbiddenkeys);
 
+        $logic = stack_parsingrule_factory::get_parsingrule($this->get_parameter('insertStars', 0));
         foreach ($contents as $index => $val) {
-            if ($this->identify_comments($val)) {
-                $answer = new stack_cas_casstring($val);
+            $nvalid = true;
+            $nerrors = array();
+            $nnote = array();
+            $ast = $logic->parse($val, $nvalid, $nerrors, $nnote, $this->get_parameter('strictSyntax', true),
+                        array(), array(), 'Equivline');
+
+            $valid = $valid && $nvalid;
+            $this->errors = array_merge($this->errors, $nerrors);
+
+            $answer = new stack_cas_casstring($ast->toString());
+
+            if ($ast instanceof MP_String) {
                 // Is the student permitted to include comments in their answer?
                 if (!$this->extraoptions['comments']) {
                     $valid = false;
                     $answer->add_errors(stack_string('equivnocomments'));
                 }
-            } else {
-                $val = stack_utils::logic_nouns_sort($val, 'add');
-                $answer = new stack_cas_casstring($val);
             }
-
-            $answer->get_valid('s', $this->get_parameter('strictSyntax', true),
-                $this->get_parameter('insertStars', 0), $secrules);
 
             $caslines[] = $answer;
 
@@ -334,16 +340,6 @@ class stack_equiv_input extends stack_input {
 
     protected function get_validation_method() {
         return 'equiv';
-    }
-
-
-    /** This function decides if an expression looks like a comment in a chain of reasoning.
-     */
-    private function identify_comments($ex) {
-        if (substr(trim($ex), 0, 1) === '"') {
-            return true;
-        }
-        return false;
     }
 
     private function comment_tag($index) {

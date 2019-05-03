@@ -199,7 +199,6 @@ class stack_equiv_input extends stack_input {
         $caslines = array();
         $errors = array();
 
-
         $secrules = new stack_cas_security($this->units,
                         $this->get_parameter('allowWords', ''),
                         // Forbid function definition for now.

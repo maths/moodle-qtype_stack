@@ -293,7 +293,8 @@ class stack_cas_casstring {
                 $this->check_characters($node->value);
                 if ($node->is_function_name()) {
                     $usages['functions'][$node->value] = true;
-                } else if (!($node->parentnode instanceof MP_Operation && $node->parentnode->op === '=' && $node->parentnode->lhs === $node)) {
+                } else if (!($node->parentnode instanceof MP_Operation && $node->parentnode->op === '=' &&
+                        $node->parentnode->lhs === $node)) {
                     $usages['variables'][$node->value] = true;
                 }
             } else if ($node instanceof MP_PrefixOp || $node instanceof MP_PostfixOp || $node instanceof MP_Operation) {

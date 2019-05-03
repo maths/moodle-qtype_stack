@@ -67,7 +67,7 @@ abstract class stack_parser_logic {
         // Safely wrap "let" statements.
         $fixlet = false;
         if ($parserule == 'Equivline') {
-            //$langlet = strtolower(stack_string('equiv_LET'));
+            // TODO: localize parser $langlet = strtolower(stack_string('equiv_LET'));
             $langlet = 'let ';
             if (strtolower(substr($stringles, 0, strlen($langlet))) === $langlet) {
                 $stringles = substr($stringles, strlen($langlet));
@@ -227,13 +227,15 @@ abstract class stack_parser_logic {
             }
 
             // and %%Is that is used for pre-parser fixed spaces.
-            if ($node instanceof MP_FunctionCall && $node->name instanceof MP_Identifier && core_text::substr($node->name->value, 0, 4) === '%%Is') {
+            if ($node instanceof MP_FunctionCall && $node->name instanceof MP_Identifier &&
+                    core_text::substr($node->name->value, 0, 4) === '%%Is') {
                 $node->name->value = core_text::substr($node->name->value, 4);
                 if ($node->name->value === '') {
                     $node->parentnode->position['fixspaces'] = true;
                     $node->parentnode->replace($node, new MP_Group($node->arguments));
                 } else if (ctype_digit($node->name->value)) {
-                    $newop = new MP_Operation('*', new MP_Integer(intval($node->name->value), new MP_Group($node->arguments)));
+                    $newop = new MP_Operation('*', new MP_Integer(intval($node->name->value),
+                            new MP_Group($node->arguments)));
                     // This one is tricky, as it is basically an insertstars in non insertstars context.
                     // Might require a special case upstream and maybe set to invalid...
                     $newop->position['fixspaces'] = true;
@@ -463,8 +465,8 @@ abstract class stack_parser_logic {
             $a = array('op' => stack_maxima_format_casstring('!'));
             $errors[] = stack_string('stackCas_badpostfixop', $a);
             $answernote[] = 'badpostfixop';
-        } else if (core_text::strpos($disallowedfinalchars, 
-                                     core_text::substr(trim(stack_utils::logic_nouns_sort($string, 'remove')), -1)) !== false) { 
+        } else if (core_text::strpos($disallowedfinalchars,
+                                     core_text::substr(trim(stack_utils::logic_nouns_sort($string, 'remove')), -1)) !== false) {
             // This is for unpacking stackeq() ant similar.
             $a = array();
             $a['char'] = core_text::substr(trim(stack_utils::logic_nouns_sort($string, 'remove')), -1);

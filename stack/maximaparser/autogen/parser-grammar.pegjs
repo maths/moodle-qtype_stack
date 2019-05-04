@@ -21,7 +21,15 @@
 
  /** <?php
  require_once(__DIR__ . '/../MP_classes.php');
+ if (!array_key_exists('letToken', $options)) {
+   $options['letToken'] = 'let';
+ }
+ $this->options = $options;
  ?> **/
+ if (!options.hasOwnProperty('letToken')) {
+   options.letToken = 'let';
+ }
+
  function opLBind(op) {
   switch(op) {
    case ':':
@@ -182,7 +190,7 @@ Equivline
   ?> **/ 
   return exp;
   }
-  / __? 'let ' __? op:Operation __? {
+  / __? let:Identifier ' ' __? op:Operation __? & { /** return strtolower($let->value) === strtolower($this->options['letToken']); ?> **/ return let.value.toLowerCase() === options.letToken.toLowerCase(); } {
   /** <?php 
   $r = new MP_Let($op);
   $r->position = array('start'=>$this->peg_reportedPos,'end'=>$this->peg_currPos);

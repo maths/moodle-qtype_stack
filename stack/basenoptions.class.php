@@ -124,7 +124,7 @@ class stack_basen_options {
     }
 
     private static function digit_range_pattern($radix, $underscoresallowed) {
-        $r = $radix - 1;
+        $r = abs($radix) - 1;
         if ($radix <= 10) {
             $pattern = "0-$r";
         } else if ($radix == 11) {
@@ -144,7 +144,7 @@ class stack_basen_options {
 
     private static function number_pattern($mode, $radix) {
         if ($mode == self::BASENMODE_C) {
-            if ($radix == 2) {
+            if (abs($radix) == 2) {
                 $pattern = "0[bB]" . self::digit_pattern($radix, true) . "+";
             } else if ($radix == 8) {
                 $pattern = "0" . self::digit_pattern($radix, true) . "+";
@@ -154,7 +154,7 @@ class stack_basen_options {
                 $pattern = "0[xX]" . self::digit_pattern($radix, true) . "+";
             }
         } else if ($mode == self::BASENMODE_BASIC) {
-            if ($radix == 2) {
+            if (abs($radix) == 2) {
                 $pattern = "&[bB]" . self::digit_pattern($radix, true) . "+";
             } else if ($radix == 8) {
                 $pattern = "&[oO]" . self::digit_pattern($radix, true) . "+";
@@ -164,7 +164,7 @@ class stack_basen_options {
                 $pattern = "&[xX]" . self::digit_pattern($radix, true) . "+";
             }
         } else if ($mode == self::BASENMODE_SUFFIX) {
-            $pattern = self::digit_pattern($radix, false) . "+" . "_$radix";
+            $pattern = self::digit_pattern($radix, false) . "+" . "_abs($radix)";
         }
         return $pattern;
     }

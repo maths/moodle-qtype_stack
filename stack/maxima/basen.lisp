@@ -72,7 +72,7 @@
   (let ((mode-entry (lookup-basen-mode mode)))
     (if (and (integerp base) (or ( <= 2 base 36 ) ( = -2 base ) (and mode-entry (third mode-entry) (= base 0))))
 	(if mode-entry
-            (if (or (not (or (eql (first mode-entry) #\B) (eql (first mode-entry) #\C) )) (third mode-entry) (= base 2) (= base 8) (= base 10) (= base 16) )
+            (if (or (not (or (eql (first mode-entry) #\B) (eql (first mode-entry) #\C) )) (third mode-entry) (= base -2) (= base 2) (= base 8) (= base 10) (= base 16) )
 		(if (or (not (eql (first mode-entry) #\D)) (<= base 10))
 		    (if (and (integerp mindigits) ( >= mindigits 0 ))
 			mode-entry
@@ -80,7 +80,7 @@
 		  (merror "~M: base must be 10 or less for default mode." func ) )
               (merror "~M: base must be 2, 8, 10 or 16 for mode ~M." func mode ) )
           (merror "~M: ~M is not valid; must be one of ~M." func mode (summarize-basen-mode-list) ) )
-      (merror "~M: base of ~M is not an integer between 2 and 36." func base) ) ) )
+      (merror "~M: base of ~M is not an integer between 2 and 36. ~M ~M ~M" func base (type-of base) (car base) (cdr base)) ) ) )
 
 
 ;; This function is designed for converting from a base n representation string to an integer.
@@ -117,9 +117,10 @@
 (defun $frombasen (s base &optional (mode "M") (mindigits 0))
   (if (stringp s)
       (if (> (length (string-trim '(#\Space #\Tab #\Newline) s)) 0)
-	  (let 
-              ((mode-entry (validate-basen-params "frombasen" base mode mindigits))
-               (absbase (abs base)))
+	  (let* 
+              ((basefixed (if (equal '((mminus) 2) base) -2 base))
+               (mode-entry (validate-basen-params "frombasen" basefixed mode mindigits))
+               (absbase (abs basefixed)))
             (destructuring-bind (ml mn choice leftj) mode-entry
 				(declare (ignore mn))
 				(destructuring-bind (pref body suff b2) (split-number-string s absbase ml)
@@ -135,12 +136,12 @@
 									   (body-padded (cond-left-pad body mindigits leftj))
 									   (n 
 									    (catch 'macsyma-quit 
-									      (parse-basen-string (if (and (integerp b2) (> b2 10)) (concatenate 'string "0" body-padded) body-padded) (if (= base -2) -2 b2))) ))
+									      (parse-basen-string (if (and (integerp b2) (> b2 10)) (concatenate 'string "0" body-padded) body-padded) (if (= basefixed -2) -2 b2))) ))
 								      (declare (special $report_synerr_info))
 								      (if (integerp n)
 									  (if (or (eq mindigits 0) (eq mindigits (length body)) (and leftj (>= mindigits (length body))) )
 									      n
-									    (merror "~M: ~M contains wrong number of digits for ~M digit base ~M integer." "frombasen" s mindigits (cond ((> base 0) base) (t b2))) )
+									    (merror "~M: ~M contains wrong number of digits for ~M digit base ~M integer." "frombasen" s mindigits (cond ((> basefixed 0) basefixed) (t b2))) )
 
 									(merror "~M: ~M is not a valid base ~M integer." "frombasen" s b2) ))
 								  
@@ -148,7 +149,7 @@
 							      
 							      (merror "~M: base \"~M\" should be an integer between 2 and 36." "frombasen" suff) )
 							  
-							  (merror "~M: ~M is incorrect format for base ~M integer." "frombasen" s (if (> base 0) base b2) ) )
+							  (merror "~M: ~M is incorrect format for base ~M integer." "frombasen" s (if (> basefixed 0) basefixed b2) ) )
 						      
 						      (merror "~M: Prefix 0 missing from ~M." "frombasen" s) ) ) ) )
 	
@@ -177,10 +178,10 @@
     (cond ((and (= base -2) (and (> (length s) 0) (not (eq (elt s 0) #\0))))
 	   (setq s1 (subseq s 1)) (setq adj (- (expt 2 (- (length s) 1)))))
 	  (t (setq s1 s) (setq adj 0)))
-    (+ (with-output-to-string (*standard-output* fstr)
+    (if (> (length s1) 0) (+ (with-output-to-string (*standard-output* fstr)
 			      (with-input-from-string
 			       (ss (ens-term s1))
-			       (third (let ((*mread-prompt*)) (mread ss))))) adj )))
+			       (third (let ((*mread-prompt*)) (mread ss))))) adj ) adj ) ))
 
 ;; (ENS-TERM S)  -- if the string S does not contain dollar sign `$' or semicolon `;'
 ;; then append a dollar sign to the end of S.

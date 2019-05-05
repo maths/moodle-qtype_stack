@@ -263,12 +263,17 @@
   (tobasen n base mode mindigits))
 
 ;; This function has grind (and hence "string") output the number in the following base.
-;; basen(number, base, mode, mindigits).
+;; basen(number, base, mode, inpdigits, mindigits).
 (defprop $basenvalue msz-basenvalue grind)
 (defun msz-basenvalue (x l r)
   (msz (mapcar #'(lambda (l) (char (string l) 0)) 
 	       (let* (
-		      (value (second x)) (base (third x)) (mode (fourth x)) (mindigits (fifth x)) (m (first (lookup-basen-mode mode))))
+		      (value (second x))
+              (base (if (null (third x)) 0 (third x)))
+              (mode (if (null (fourth x)) 1 (fourth x)))
+              (inpdigits (if (null (fifth x)) 0 (fifth x)))
+              (mindigits (if (or (null (sixth x)) (< (sixth x) 0) ) inpdigits (sixth x)) )
+              (m (first (lookup-basen-mode mode))))
 		 (makestring (tobasen value base mode mindigits) )  ) ) l r))
 
 ;; This function calculates the two's complement of a number, with mindigits or more bits.

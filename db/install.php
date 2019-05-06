@@ -54,7 +54,8 @@ function xmldb_qtype_stack_install() {
 
     // If this is a PHP unit test site, automatically create maxima_opt_auto.
     // Should probably consider doing this for real in the future.
-    if ($platform != 'win' && (PHPUNIT_TEST || defined('BEHAT_UTIL'))) {
+    if ($platform != 'win' && (PHPUNIT_TEST || defined('BEHAT_UTIL')) && 
+        QTYPE_STACK_TEST_CONFIG_PLATFORM !== 'server') {
         // Set to the same defaults as in settings.php - however, that has not been done
         // yet in the Moodle install code flow, so we have to duplicate here.
         set_config('maximaversion', 'default', 'qtype_stack');

@@ -184,6 +184,7 @@ if ($config->platform === 'unix' and $genuinecascall) {
 echo $OUTPUT->heading(stack_string('healthchecksstackmaximaversion'), 3);
 list($message, $details, $result) = stack_connection_helper::stackmaxima_version_healthcheck();
 $summary[] = array($result, stack_string($message, $details));
+$summary[] = array(null, stack_string('settingmaximalibraries') . ' ' . $config->maximalibraries);
 echo html_writer::tag('p', stack_string($message, $details));
 
 // Test plots.

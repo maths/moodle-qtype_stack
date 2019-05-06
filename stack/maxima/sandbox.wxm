@@ -9,32 +9,43 @@ STACK Sandbox
 This document loads the extra files needed for STACK.
 See https://github.com/maths/moodle-qtype_stack
 
-1. Download the files from github, either using git or as a zip file.
-2. Place the files somewhere they can be read, and edit the line velow to give the location.
-   E.g. Place the files in C:\files\stack
-3. Specify a directory for temporary working files, e.g. C:\tmp    [Directories in 2 & 3 can be the same if you don't mind clutter.]
+1. Set your operation system in the variable maximaplatform. For Windows set it to "win".
+2. If needed, set the stacklocation variable to the location of this sandbox file and the needed maxima and lisp files.
+3. Specify a directory for temporary working files, e.g. /tmp or C:/tmp
+[Directories in 2 & 3 can be the same if you don't mind clutter.]
 
 Note, that plots *will not work* in this sandbox.
    [wxMaxima: comment end   ] */
 
 /* [wxMaxima: input   start ] */
-/* In MS platforms use the forward slash as a directory seperator.  No trailing slash. */
-stacklocation:"C:/files/stack"$
-stacktmplocation:"C:/tmp"$
+/* No trailing slash. */
+maximaplatform:"linux"$
+stacklocation:"."$
+stacktmplocation:"/tmp"$
+
+/* For MS platforms you normally need to explicitly set the path.
+   Use the forward slash as a directory seperator.
+   You have cloned your code into c:/tmp/stackroot   
+*/
+/*
+maximaplatform:"win"$
+stacklocation:"c:/tmp/stackroot/stack"$
+*/
+
 
 /****************************************************
    There should be no need to edit below this line.  
    
    These commands add the location to Maxima's search path. 
 */
-file_search_maxima:append( [sconcat(stacklocation, "/question/type/stack/stack/maxima/###.{mac,mc}")] , file_search_maxima)$
-file_search_lisp:append( [sconcat(stacklocation, "/question/type/stack/stack/maxima/###.{lisp}")] , file_search_lisp)$
+file_search_maxima:append( [sconcat(stacklocation, "/maxima/###.{mac,mc}")] , file_search_maxima)$
+file_search_lisp:append( [sconcat(stacklocation, "/maxima/###.{lisp}")] , file_search_lisp)$
 file_search_maxima:append( [sconcat(stacktmplocation, "/###.{mac,mc}")] , file_search_maxima)$
 file_search_lisp:append( [sconcat(stacktmplocation, "/###.{lisp}")] , file_search_lisp)$
 
 STACK_SETUP(ex):=block(
     MAXIMA_VERSION_NUM_EXPECTED:41.0,
-    MAXIMA_PLATFORM:"win",
+    MAXIMA_PLATFORM:maximaplatform,
     maxima_tempdir:"",
     IMAGE_DIR:"",
     PLOT_SIZE:[450,300],

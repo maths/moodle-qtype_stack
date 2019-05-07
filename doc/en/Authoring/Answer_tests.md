@@ -107,6 +107,10 @@ Notice that this test does not include laws of indices, so \(x\times x \neq x^2\
 
 This is a particularly useful test for checking that an answer is written in a particular form, e.g. "simplified".
 
+This test can also be used to establish \(\{4,4\} \neq \{4\}\).
+
+In order to implement this test it is necessary to have some simplification switched on.  Really this test needs to be refactored to implement only the commutativity and associativity of the operators.
+
 ### CasEqual ###
 
 The CAS returns the result of the simple Maxima command

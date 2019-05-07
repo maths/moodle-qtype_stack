@@ -29,8 +29,7 @@ class stack_parser_logic_insertstars0 extends stack_parser_logic {
         $this->fixspaces = $fixspaces;
     }
 
-    public function parse(&$string, &$valid, &$errors, &$answernote, $syntax, $safevars,
-            $safefunctions, string $parserule = 'Root') {
+    public function parse(&$string, &$valid, &$errors, &$answernote, $syntax, string $parserule = 'Root', bool $units = false) {
         $ast = $this->preparse($string, $valid, $errors, $answernote, $this->insertstars, $this->fixspaces, $parserule);
         // If the parser fails it has already markeed all the correct errors.
         if ($ast === null) {
@@ -39,11 +38,11 @@ class stack_parser_logic_insertstars0 extends stack_parser_logic {
         // Fix the common magic markkers.
         $this->commonpostparse($ast);
         // Give a place to hook things in.
-        $this->pre($ast, $valid, $errors, $answernote, $syntax, $safevars, $safefunctions);
+        $this->pre($ast, $valid, $errors, $answernote, $syntax, $units);
         // The common insertstars rules.
-        $this->handletree($ast, $valid, $errors, $answernote, $syntax, $safevars, $safefunctions);
+        $this->handletree($ast, $valid, $errors, $answernote, $syntax, $units);
         // Give a place to hook things in.
-        $this->post($ast, $valid, $errors, $answernote, $syntax, $safevars, $safefunctions);
+        $this->post($ast, $valid, $errors, $answernote, $syntax, $units);
 
         // Common stars insertion error.
         if (!$valid || !$this->insertstars) {
@@ -94,27 +93,25 @@ class stack_parser_logic_insertstars0 extends stack_parser_logic {
     }
 
     // Here is a hook to place things if you want to extend.
-    public function pre($ast, &$valid, &$errors, &$answernote, $syntax, $safevars, $safefunctions) {
+    public function pre($ast, &$valid, &$errors, &$answernote, $syntax, $units) {
         return;
     }
 
     // Here is a hook to place things if you want to extend.
-    public function post($ast, &$valid, &$errors, &$answernote, $syntax, $safevars, $safefunctions) {
+    public function post($ast, &$valid, &$errors, &$answernote, $syntax, $units) {
         return;
     }
 
     // This applies all the common old rules about suitable names and
     // numbers mixed in them. Also certain other old tricks.
-    private function handletree($ast, &$valid, &$errors, &$answernote, $syntax, $safevars, $safefunctions) {
-
+    private function handletree($ast, &$valid, &$errors, &$answernote, $syntax, $units) {
         $identifiedsinglelettervariables = array();
 
-        $process = function($node) use (&$valid, $errors, &$answernote, $syntax, $safevars,
-                $safefunctions, &$identifiedsinglelettervariables) {
+        $process = function($node) use (&$valid, $errors, &$answernote, $syntax, $units, &$identifiedsinglelettervariables) {
             if ($node instanceof MP_FunctionCall) {
                 // Do not touch functions with names that are safe.
                 if (($node->name instanceof MP_Identifier ||
-                        $node->name instanceof MP_String) && isset($safefunctions[$node->name->value])) {
+                        $node->name instanceof MP_String) && array_key_exists($node->name->value, stack_cas_security::get_protected_identifiers('function', $units))) {
                     return true;
                 }
                 // Skip the very special identifiers for log-candy.
@@ -169,7 +166,7 @@ class stack_parser_logic_insertstars0 extends stack_parser_logic {
                 }
             } else if ($node instanceof MP_Identifier && !($node->parentnode instanceof MP_FunctionCall)) {
                 // Do not touch variables that are safe. e.g. unit names.
-                if (isset($safevars[$node->value])) {
+                if (array_key_exists($node->value, stack_cas_security::get_protected_identifiers('variable', $units))) {
                     return true;
                 }
                 // Skip the very special identifiers for log-candy. These will be reconstructed
@@ -275,7 +272,8 @@ class stack_parser_logic_insertstars0 extends stack_parser_logic {
                     }
                 }
             }
-            if (!$syntax && $node instanceof MP_Float && $node->raw !== null) {
+            // Disabled for now. May need additional context to decide whether this gets done.
+            if (false && !$syntax && $node instanceof MP_Float && $node->raw !== null) {
                 // TODO: When and how does this need to break the floats?
                 // This is one odd case to handle but maybe some people want to kill floats like this.
                 $replacement = false;

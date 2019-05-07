@@ -509,13 +509,18 @@ class stack_cas_security {
     }
 
     // Returns all identifiers with a given feature as long as the feature is not valued 'f'.
-    public static function get_all_with_feature(string $feature): array {
+    public static function get_all_with_feature(string $feature, bool $units = false): array {
         if (self::$securitymap === null) {
             // Initialise the map.
             $data = file_get_contents(__DIR__ . '/security-map.json');
             self::$securitymap = json_decode($data, true);
         }
         $r = array();
+        if ($units === true && $feature === 'constant') {
+            foreach(stack_cas_casstring_units::get_permitted_units(0) as $key => $duh) {
+                $r[$key] = $key;
+            }
+        }
         foreach (self::$securitymap as $key => $features) {
             if (array_key_exists($feature, $features) && $features[$feature] !== 'f') {
                 $r[$key] = $key;
@@ -523,4 +528,53 @@ class stack_cas_security {
         }
         return $r;
     }
+
+    // The so called alpha-map, of all known identifiers that should be protected from
+    // insert-stars. Ordered with the longest first and indexed with the identifiers.
+    public static function get_protected_identifiers(string $type = 'variable', bool $units = false): array {
+        static $variable_without_units = null;
+        static $variable_with_units = null;
+        static $functions = null;
+
+        if ($type === 'variable') {
+            if ($units === true) {
+                if ($variable_with_units !== null) {
+                    return $variable_with_units;
+                }
+            } else {
+                if ($variable_without_units !== null) {
+                    return $variable_without_units;
+                } 
+            }
+            $workmap = array_merge(self::get_all_with_feature('variable', $units),
+                                   self::get_all_with_feature('constant', $units));
+            uksort($workmap, function (
+                string $a,
+                string $b
+            ) {
+                return strlen($a) < strlen($b);
+            });
+            if ($units === true) {
+                $variable_with_units = $workmap;
+                return $variable_with_units;
+            } else {
+                $variable_without_units = $workmap;
+                return $variable_without_units;
+            }
+        } else {
+            if ($functions !== null) {
+                return $functions;
+            }
+            $workmap = self::get_all_with_feature('function');
+            uksort($workmap, function (
+                string $a,
+                string $b
+            ) {
+                return strlen($a) < strlen($b);
+            });
+            $functions = $workmap;
+            return $functions;
+        }
+    }
+
 }

@@ -142,7 +142,6 @@ class stack_cas_casstring {
         $this->rawcasstring   = $rawstring;
         $this->answernote     = array();
         $this->errors         = array();
-        $this->units          = false;
         // If null then the validate command has not yet been run.
         $this->valid          = null;
 
@@ -228,7 +227,7 @@ class stack_cas_casstring {
                     $parserule = 'Equivline';
                 }
                 $this->ast = $logic->parse($this->casstring, $this->valid, $this->errors, $this->answernote, $syntax,
-                        array(), array(), $parserule);
+                        $parserule, $this->contexts['units']);
                 if ($this->ast === null) {
                     $this->valid = false;
                     return false;

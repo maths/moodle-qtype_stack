@@ -18,8 +18,6 @@ require_once(__DIR__ . '/insertstars0.class.php');
 
 class stack_parser_logic_insertstars2 extends stack_parser_logic_insertstars0 {
 
-    private static $protectedidentifiermap = null;
-
     public function __construct($insertstars = true, $fixspaces = false) {
         // Stars but not spaces. Single char vars.
         parent::__construct($insertstars, $fixspaces);
@@ -27,50 +25,12 @@ class stack_parser_logic_insertstars2 extends stack_parser_logic_insertstars0 {
         $this->fixspaces = $fixspaces;
     }
 
-    public function post($ast, &$valid, &$errors, &$answernote, $syntax, $safevars, $safefunctions) {
-        if (self::$protectedidentifiermap === null) {
-            self::$protectedidentifiermap = array('functions' => array(), 'variables' => array());
-            self::$protectedidentifiermap['functions'] = stack_cas_security::get_all_with_feature('function');
-            self::$protectedidentifiermap['variables'] = stack_cas_security::get_all_with_feature('variable');
-            foreach (stack_cas_security::get_all_with_feature('constant') as $key => $value) {
-                self::$protectedidentifiermap['variables'][$key] = $value;
-            }
-            self::$protectedidentifiermap['variables']['QMCHAR'] = 'QMCHAR';
-            usort(self::$protectedidentifiermap['functions'], function (
-                string $a,
-                string $b
-            ) {
-                return strlen($a) < strlen($b);
-            });
-            usort(self::$protectedidentifiermap['variables'], function (
-                string $a,
-                string $b
-            ) {
-                return strlen($a) < strlen($b);
-            });
-            // Now that they are sorted by the length let's remap them so that the array has
-            // keys in the same order.
-            $functions = array();
-            $variables = array();
-            foreach (self::$protectedidentifiermap['functions'] as $funct) {
-                $functions[$funct] = $funct;
-            }
-            foreach (self::$protectedidentifiermap['variables'] as $var) {
-                $variables[$var] = $var;
-            }
-            self::$protectedidentifiermap['functions'] = $functions;
-            self::$protectedidentifiermap['variables'] = $variables;
-        }
+    public function post($ast, &$valid, &$errors, &$answernote, $syntax, $units) {
 
-        $process = function($node) use (&$valid, &$errors, &$answernote, $syntax, $safevars, $safefunctions) {
-            if ($node instanceof MP_Identifier && !($node->parentnode instanceof MP_FunctionCall)) {
+        $process = function($node) use (&$valid, &$errors, &$answernote, $syntax, $units) {
+            if ($node instanceof MP_Identifier && !$node->is_function_name()) {
                 // Cannot split further.
                 if (core_text::strlen($node->value) === 1) {
-                    return true;
-                }
-
-                // Do not touch variables that are safe. e.g. unit names.
-                if (isset($safevars[$node->value])) {
                     return true;
                 }
 
@@ -80,13 +40,16 @@ class stack_parser_logic_insertstars2 extends stack_parser_logic_insertstars0 {
                     return true;
                 }
 
+                // Get the list/map of protected variable names and constants
+                $protected = stack_cas_security::get_protected_identifiers('variable', $units);
+
                 // If the identifier is a protected one stop here.
-                if (array_key_exists($node->value, self::$protectedidentifiermap['variables'])) {
+                if (array_key_exists($node->value, $protected)) {
                     return true;
                 }
 
                 // If it starts with any know identifier split after that.
-                foreach (self::$protectedidentifiermap['variables'] as $safe) {
+                foreach ($protected as $safe) {
                     if (core_text::strpos($node->value, $safe) === 0) {
                         $remainder = core_text::substr($node->value, core_text::strlen($safe));
                         if (core_text::substr($remainder, 0, 1) === '_') {

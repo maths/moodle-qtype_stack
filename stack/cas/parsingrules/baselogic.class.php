@@ -47,8 +47,7 @@ abstract class stack_parser_logic {
 
     // $string => $ast, with direct assignments of details to fields in
     // the casstring, will update the string given as it is changed.
-    public abstract function parse(&$string, &$valid, &$errors, &$answernote, $syntax, $safevars,
-            $safefunctions, string $parserule = 'Root');
+    public abstract function parse(&$string, &$valid, &$errors, &$answernote, $syntax, string $parserule = 'Root', bool $units = false);
 
     // This is the minimal implementation of pre-parse syntax fail fixes.
     // Should be enough for most logics will return an $ast or null.

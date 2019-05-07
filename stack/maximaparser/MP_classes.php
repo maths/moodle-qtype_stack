@@ -1273,7 +1273,8 @@ class MP_Let extends MP_Node {
         }
 
         if (isset($params['inputform']) && $params['inputform'] === true) {
-            return $indent . 'let ' . $this->statement->toString($params);
+            return $indent . stack_string('equiv_LET') . ' ' .
+                    $this->statement->toString($params);
         }
         $r = $indent . 'stacklet(' . $this->statement->lhs->toString($params) .',' .
             $this->statement->rhs->toString($params) . ')';

@@ -54,8 +54,7 @@ function xmldb_qtype_stack_install() {
 
     // If this is a PHP unit test site, automatically create maxima_opt_auto.
     // Should probably consider doing this for real in the future.
-    if ($platform != 'win' && (PHPUNIT_TEST || defined('BEHAT_UTIL')) && 
-        QTYPE_STACK_TEST_CONFIG_PLATFORM !== 'server') {
+    if ($platform != 'win' && (PHPUNIT_TEST || defined('BEHAT_UTIL'))) {
         // Set to the same defaults as in settings.php - however, that has not been done
         // yet in the Moodle install code flow, so we have to duplicate here.
         set_config('maximaversion', 'default', 'qtype_stack');
@@ -75,9 +74,11 @@ function xmldb_qtype_stack_install() {
         set_config('casdebugging', 1, 'qtype_stack');
         set_config('mathsdisplay', 'mathjax', 'qtype_stack');
 
-        list($ok, $message) = stack_cas_configuration::create_auto_maxima_image();
-        if (!$ok) {
-            throw new coding_exception('maxima_opt_auto creation failed.', $message);
+        if (QTYPE_STACK_TEST_CONFIG_PLATFORM !== 'server') {
+            list($ok, $message) = stack_cas_configuration::create_auto_maxima_image();
+            if (!$ok) {
+                throw new coding_exception('maxima_opt_auto creation failed.', $message);
+            }
         }
     }
 }

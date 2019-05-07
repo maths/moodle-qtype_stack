@@ -128,14 +128,14 @@ The following commands which are relevant to manipulation of numbers are defined
 
 The following commands generate displayed forms of numbers.  These will not be manipulated further automatically, so you will need to use these at the last moment, e.g. only when generating the teacher's answer etc.
 
-| Command                         | Description
-| ------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-| `dispdp(x,n)`                   | Truncate \(x\) to \(n\) decimal places and display with trailing digits.  Note, this always prints as a float (or integer), and not in scientific notation.
-| `dispsf(x,n)`                   | Truncate \(x\) to \(n\) significant figures and display with trailing digits.  Note, this always prints as a float, and not in scientific notation.
-| `scientific_notation(x,n)`      | Write \(x\) in the form \(m10^e\).   Only works reliably with `simp:false` (e.g. try 9000).  The optional second argument applies `displaysci(m,n)` to the mantissa to control the display of trailing zeros.
-| `displaydp(x,n)`                | An intert internal function to record that \(x\) should be displayed to \(n\) decimal places with trailing digits.  This function does no rounding.
-| `displaysci(x,n,expo)`          | An intert internal function to record that \(x\) should be displayed to \(n\) decimal places with trailing digits, in scientific notation.  E.g. \(x\times 10^{expo}\).
-| `basen(x,n[,mode[,mindigits]])` | An inert internal function to record that \(x\) should be displayed and input in a base\(n\) integer format with at least mindigits digits.
+| Command                                         | Description
+| ------------------------------------------------| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+| `dispdp(x,n)`                                   | Truncate \(x\) to \(n\) decimal places and display with trailing digits.  Note, this always prints as a float (or integer), and not in scientific notation.
+| `dispsf(x,n)`                                   | Truncate \(x\) to \(n\) significant figures and display with trailing digits.  Note, this always prints as a float, and not in scientific notation.
+| `scientific_notation(x,n)`                      | Write \(x\) in the form \(m10^e\).   Only works reliably with `simp:false` (e.g. try 9000).  The optional second argument applies `displaysci(m,n)` to the mantissa to control the display of trailing zeros.
+| `displaydp(x,n)`                                | An intert internal function to record that \(x\) should be displayed to \(n\) decimal places with trailing digits.  This function does no rounding.
+| `displaysci(x,n,expo)`                          | An intert internal function to record that \(x\) should be displayed to \(n\) decimal places with trailing digits, in scientific notation.  E.g. \(x\times 10^{expo}\).
+| `basen(x,n[,mode[,inpdigits[,mindispdigits]]])` | An inert internal function to record that \(x\) should be displayed with at least mindispdigits and input  with exactly inpdigits digits in a base\(n\) integer format.
 
 
 | Function                  | Predicate

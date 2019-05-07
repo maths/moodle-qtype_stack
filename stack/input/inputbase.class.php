@@ -365,12 +365,18 @@ abstract class stack_input {
                 $mode = trim($params[2], "\'\"");
             } else {
                 $mode = 1;
-            } if (count($params) > 3 && is_numeric($params[3])) {
-                $mindigits = (int)$params[3];
-            } else {
-                $mindigits = 0;
             }
-            return new stack_basen_options($radix, $mode, $mindigits);
+            if (count($params) > 3 && is_numeric($params[3])) {
+                $inpdigits = (int)$params[3];
+            } else {
+                $inpdigits = 0;
+            }
+            if (count($params) > 4 && is_numeric($params[4])) {
+                $mindispdigits = (int)$params[4];
+            } else {
+                $mindispdigits = -1;
+            }
+            return new stack_basen_options($radix, $mode, $inpdigits, $mindispdigits);
         } else {
             return null;
         }

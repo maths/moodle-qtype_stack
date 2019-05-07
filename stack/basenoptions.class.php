@@ -21,7 +21,7 @@ defined('MOODLE_INTERNAL') || die();
  *
  * @property-read int $radix the number base 2 = binary etc.
  * @property-read int $mode one of the mode constants controlling the format of base-N literals.
- * @property-read int $mindigits the minimum number of digits used to display the base n number - padded with zeroes.
+ * @property-read int $inpdigits the minimum number of digits used to display the base n number - padded with zeroes.
  * @copyright 2017 The Open University
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  * @author Stephen Parry <stephen@edumake.org>
@@ -86,7 +86,8 @@ class stack_basen_options {
     }
 
     private $radix = 0;
-    private $mindigits = 0;
+    private $inpdigits = 0;
+    private $mindispdigits = 0;
     private $mode = 0;
 
     /**
@@ -94,12 +95,15 @@ class stack_basen_options {
      *
      * @param int $radix the number base 2 = binary etc.
      * @param int $mode one of the mode constants controlling the format of base-N literals.
-     * @param int $mindigits the minimum number of digits used to display the base n number
-     *      - padded with zeroes.
+     * @param int $inpdigits the exact number of digits the student must enter. zero => any.
+     *     -1 => use the minimum.
+     * @param int $mindispdigits the minimum number of digits used to display the base n
+     *     number, padded with zeroes. -1 => use inpdigits.
      */
-    public function __construct($radix = 0, $mode = 1, $mindigits = 0) {
+    public function __construct($radix = 0, $mode = 1, $inpdigits = 0, $mindispdigits = -1) {
         $this->radix = $radix;
-        $this->mindigits = $mindigits;
+        $this->inpdigits = $inpdigits;
+        $this->mindispdigits = $mindispdigits;
         $this->mode = self::basen_mode_to_num($mode);
     }
 
@@ -107,8 +111,12 @@ class stack_basen_options {
         return $this->radix;
     }
 
-    public function get_mindigits() {
-        return $this->mindigits;
+    public function get_inpdigits() {
+        return $this->inpdigits;
+    }
+
+    public function get_mindispdigits() {
+        return $this->mindispdigits;
     }
 
     public function get_mode() {
@@ -124,7 +132,7 @@ class stack_basen_options {
     }
 
     private static function digit_range_pattern($radix, $underscoresallowed) {
-        $r = $radix - 1;
+        $r = abs($radix) - 1;
         if ($radix <= 10) {
             $pattern = "0-$r";
         } else if ($radix == 11) {
@@ -144,7 +152,7 @@ class stack_basen_options {
 
     private static function number_pattern($mode, $radix) {
         if ($mode == self::BASENMODE_C) {
-            if ($radix == 2) {
+            if (abs($radix) == 2) {
                 $pattern = "0[bB]" . self::digit_pattern($radix, true) . "+";
             } else if ($radix == 8) {
                 $pattern = "0" . self::digit_pattern($radix, true) . "+";
@@ -154,7 +162,7 @@ class stack_basen_options {
                 $pattern = "0[xX]" . self::digit_pattern($radix, true) . "+";
             }
         } else if ($mode == self::BASENMODE_BASIC) {
-            if ($radix == 2) {
+            if (abs($radix) == 2) {
                 $pattern = "&[bB]" . self::digit_pattern($radix, true) . "+";
             } else if ($radix == 8) {
                 $pattern = "&[oO]" . self::digit_pattern($radix, true) . "+";
@@ -164,7 +172,7 @@ class stack_basen_options {
                 $pattern = "&[xX]" . self::digit_pattern($radix, true) . "+";
             }
         } else if ($mode == self::BASENMODE_SUFFIX) {
-            $pattern = self::digit_pattern($radix, false) . "+" . "_$radix";
+            $pattern = self::digit_pattern($radix, false) . "+" . "_abs($radix)";
         }
         return $pattern;
     }
@@ -239,8 +247,9 @@ class stack_basen_options {
      * @returns string  the string with literals wrapped in function calls.
      */
     public function upgrade_escapes($string) {
-        $tail = "," . $this->get_radix() . "," . $this->get_mode() . "," . $this->get_mindigits() . ")";
-        return str_replace("![!", "basen(frombasen(", str_replace("!]!", "$tail$tail", $string));
+        $tail = "," . $this->get_radix() . "," . $this->get_mode() . "," . $this->get_inpdigits() . ")," . 
+                $this->get_radix() . "," . $this->get_mode() . "," . $this->get_inpdigits() . "," . $this->get_mindispdigits() . ")";
+        return str_replace("![!", "basen(frombasen(", str_replace("!]!", "$tail", $string));
     }
 
     /**

@@ -13,7 +13,7 @@ See [https://travis-ci.org/maths/moodle-qtype_stack](https://travis-ci.org/maths
 
 # PHP Unit tests
 
-Moodle uses PHPunit for its unit tests. Setting this up and getting it working
+Moodle uses PHPUnit for its unit tests. Setting this up and getting it working
 is a bit of a pain, but you only have to follow the instructions in
 [the Moodle PHPUnit documentation](http://docs.moodle.org/dev/PHPUnit) once to get it working.
 
@@ -74,7 +74,7 @@ This stops the unit tests from deleting the Maxima image files at each step.
 
 The tests will be very slow, because the Moodle PHPUnit integration keeps resetting
 the database state between each test, so you get no benefit from the cache. To
-get round that problem, you an use the option to connect to a different database
+get around that problem, you can use the option to connect to a different database
 server for the cache. Modify the following to suit your system and put this near the end of your config.php file:
 
 Note you need to make sure the `QTYPE_STACK_TEST_CONFIG_CASRESULTSCACHE` variable is only defined once.
@@ -88,7 +88,7 @@ Note you need to make sure the `QTYPE_STACK_TEST_CONFIG_CASRESULTSCACHE` variabl
     define('QTYPE_STACK_TEST_CONFIG_CASCACHEDBPASS',    $CFG->dbpass);
     define('QTYPE_STACK_TEST_CONFIG_CASCACHEDBPREFIX',  $CFG->prefix);
 
-To make sure the CAS cache is cleared after each unit test rever back to the `db` settings for `QTYPE_STACK_TEST_CONFIG_CASRESULTSCACHE` as described above.  This will be slow...
+To make sure the CAS cache is cleared after each unit test, revert back to the `db` settings for `QTYPE_STACK_TEST_CONFIG_CASRESULTSCACHE` as described above.  This will be slow...
 
 # Other configuration issues
 

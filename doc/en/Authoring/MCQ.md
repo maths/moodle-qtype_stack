@@ -1,8 +1,8 @@
 # Multiple choice questions
 
-The whole point of STACK is not to use multiple choice questions, but instead to have the student enter an algebraic expression!  
-That said their are occasions where it is very useful, if not necessary, to use multiple choice questions in their various forms.  
-STACK's use of a CAS is then very helpful to generate random versions of multiple choice questions based on the mathematical values.
+The whole point of STACK is not to use multiple-choice questions, but instead to have the student enter an algebraic expression!  
+That said there are occasions where it is very useful, if not necessary, to use multiple-choice questions in their various forms.  
+STACK's use of a CAS is then very helpful to generate random versions of multiple-choice questions based on the mathematical values.
 
 This can also be one input in a multi-part randomly generated question. 
 E.g. you might say "which method do you need to integrate \( \sin(x)\cos(x) \)?" and give students the choice of (i) trig functions first, 
@@ -16,8 +16,8 @@ For this reason, these inputs do not provide "feedback" fields for each possible
 
 The goal of these input types is to provide *modest* facilities for MCQ.  
 An early design decision was to restrict each of the possible answers to be a CAS expression.  
-In particular, we decided *NOT* to make each possible answer [castext](CASText.md).  
-Adopting castext would have provided more flexibility but would have significantly increased the complexity of the internal code. 
+In particular, we decided *NOT* to make each possible answer [CASText](CASText.md).  
+Adopting CASText would have provided more flexibility but would have significantly increased the complexity of the internal code. 
 If these features are extensively used we will consider modifying the functionality.  Please contact the developers with comments.
 
 ## Model answer ##
@@ -104,7 +104,7 @@ this is the true or false answer to the question.  To support randomisation, thi
 ## Extra options ##
 
 These input types make use of the "Extra options" field of the input type to pass in options.  These options are not case sensitive.  
-This must be a comma separated list of values as follows, but currently the only option is to control the display of mathematical expressions.
+This must be a comma-separated list of values as follows, but currently the only option is to control the display of mathematical expressions.
 
 The way the items are displayed can be controlled by the following options.
 
@@ -132,11 +132,11 @@ For example, the question variables might look like the following.
     tao:[null, false, "None of these"];
     ta:append(ta,[tao]);
 
-These command ensure (1) the substantive options are in a random order, and (2) that the `None of these` always comes at the end of the list. 
+These commands ensure (1) the substantive options are in a random order, and (2) that the `None of these` always comes at the end of the list. 
 Note, the value for the `None of these` is the CAS atom `null`.  
 In Maxima `null` has no special significance but it is a useful atom to use in this situation.
 
-As the Question Note, you might like to consider just takeing the first item from each list, for example:
+As the Question Note, you might like to consider just taking the first item from each list, for example:
 
     {@maplist(first,ta)@}.  The correct answer is {@tac@}.
 
@@ -178,7 +178,7 @@ Say you have the following list of wrong answers and you want to take only 3 out
     ta2:maplist(lambda([ex],[ex, false]), ta2);
 
 
-Another way to create a MCQ answer list is to have Maxima decide which of the answers are true.  
+Another way to create an MCQ answer list is to have Maxima decide which of the answers are true.  
 For example, in this question the student has to choose which of the answers are integers.
 
     L:[1,4/2,3.0,2.7,1/4,%pi,10028];
@@ -253,7 +253,7 @@ Notes
 
 ## Dealing with strings in MCQ ##
 
-A likely situation is that a teacher wants to include a language string as one of the options for a student's answer in a multiple choice question.
+A likely situation is that a teacher wants to include a language string as one of the options for a student's answer in a multiple-choice question.
 
 Recall: *A fundamental design principal of STACK is that the student's answer should be a mathematical expression which can be
 manipulated by the CAS as a valid expression.* Students are very limited in the keywords they are permitted to use in an input type.  
@@ -269,7 +269,7 @@ To construct appropriate arrays use the `multiselqnalpha` function.
 
 The quotation marks will be removed from strings, and the strings will not be wrapped `<code>...</code>` tags or LaTeX mathematics environments.
 
-Question authors should consider using the Moodle MCQ question type in addition to these facilities for purely text based answers.
+Question authors should consider using the Moodle MCQ question type in addition to these facilities for purely text-based answers.
 
 ## Dealing with plots in MCQ ##
 

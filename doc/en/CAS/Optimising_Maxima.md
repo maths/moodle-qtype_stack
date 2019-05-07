@@ -17,18 +17,18 @@ It is relatively easy for students to inadvertently generate an answer which tak
 
 It is important that the timeout time is *longer* than the CAS connection timeout.  That way, PHP gives up first and degrades gracefully.  The OS then kills the process later.  If you choose the timeout to be the same or less, PHP may not have gathered enough data to degrade gracefully.  
 
-The above can be used with either a direct maxima connection, or with the image created as described below.
+The above can be used with either a direct Maxima connection, or with the image created as described below.
 
 ## Compiled Lisp ##
 
-[Maxima](../CAS/Maxima.md) can be run with a number of different [lisp implementations](http://maxima.sourceforge.net/lisp.html).
-Although CLISP is the most portable - due to being interpreted - other lisps can give faster execution.
+[Maxima](../CAS/Maxima.md) can be run with a number of different [Lisp implementations](http://maxima.sourceforge.net/lisp.html).
+Although CLISP is the most portable - due to being interpreted - other Lisps can give faster execution.
 
 ## Create Maxima Image ##
 
-Lisp is able to save a snapshot of its current state to a file. This file can then be used to re-start Lisp, and hence Maxima, in exactly that state. This optimization involves creating a snap-shot of Lisp with Maxima and all the STACK code loaded, which can speed up launch times by an order of magnitude on Linux. This tip was originally provided Niels Walet.
+Lisp is able to save a snapshot of its current state to a file. This file can then be used to restart Lisp, and hence Maxima, in exactly that state. This optimization involves creating a snapshot of Lisp with Maxima and all the STACK code loaded, which can speed up launch times by an order of magnitude on Linux. This tip was originally provided Niels Walet.
 
-The principle is to save an image of Maxima running with STACK libraries already loaded then run this directly.  The healtcheck page contains a link at the bottom "Create Maxima Image".  We strongly recommend you use the automated option to create a Maxima image.
+The principle is to save an image of Maxima running with STACK libraries already loaded then run this directly.  The healthcheck page contains a link at the bottom "Create Maxima Image".  We strongly recommend you use the automated option to create a Maxima image.
 
 ## Create Maxima Image by hand ##
 
@@ -41,7 +41,7 @@ For reference:
 
 ### GCL ###
 
-This is the default lisp used by most of the binary distributions, and therefore the lisp which you are most likely to have.
+This is the default Lisp used by most of the binary distributions, and therefore the Lisp which you are most likely to have.
 
 * Get STACK working with Platform type set to 'Linux'. Run the health-check. It is important to do this every time you upgrade your version.
 
@@ -87,10 +87,10 @@ Access speed increases of between 2 and 9.5 times have been reported over the st
 
 ### SBCL ###
 
-If you are using stack with sbcl (if you are using CentOS/sl5/RHEL with maxima from epel),
-use the following to generate a stand alone executable:
+If you are using STACK with SBCL (if you are using CentOS/SL5/RHEL with Maxima from EPEL),
+use the following to generate a standalone executable:
 
-* Get STACK working with Platform type set to 'Linux'. Run the health-check. It is important to do this every time you upgrade your version.
+* Get STACK working with Platform type set to 'Linux'. Run the healthcheck. It is important to do this every time you upgrade your version.
 * Go into your moodledata/stack folder as the current directory, and run Maxima.
 * In Maxima, type the commands:
 ~~~~
@@ -105,7 +105,7 @@ use the following to generate a stand alone executable:
 
 ### Other Lisps ###
 
-The following web pages have more information for a few types of lisp: <http://stackoverflow.com/questions/25046/lisp-executable> and
+The following web pages have more information for a few types of Lisp: <http://stackoverflow.com/questions/25046/lisp-executable> and
 <http://code.google.com/p/lispbuilder/wiki/StandAloneExecutables#Defining_a_Startup_Function>
 
 ## Putting Maxima on other servers ##
@@ -122,16 +122,33 @@ The following data was gathered by CJS on 23/9/2012 using Maxima 5.28.0 with CLI
 
 Running the PHP testing suites we have the following data, where all times are in seconds. The second line, in italics, is time per test.
 
-CAS setting       | Answertest (460 tests) | Inputs (257 tests)
------------------ | ---------------------- | -------------------
-Linux             | 517.8672               | 208.85655
-                  | _1.1258_               | _0.81267_
-Mature cache      | 0.92644                | 13.9798
-(with Linux)      | _0.00201_              | _0.0544_
-Linux (optimised) | 95.16954               | 20.89807
-                  | _0.20689_              | _0.08132_
-Mature cache      | 0.90839                | 1.48648
-(when optimised)  | _0.00197_              | _0.00578_
+<table>
+  <tr>
+    <th align="left">CAS setting</th>
+    <th align="left">Answertest (460 tests)</th>
+    <th align="left">Inputs (257 tests)</th>
+  </tr>
+  <tr>
+    <td>Linux</td>
+    <td>517.8672<br> <i>1.1258</i>  </td>
+    <td>208.85655<br> <i>0.81267</i>  </td>
+  </tr>
+  <tr>
+    <td>Mature cache <br>(with Linux)</td>
+    <td>0.92644 <br> <i>0.00201</i> </td>
+    <td>13.9798<br> <i>0.0544</i> </td>
+  </tr>
+  <tr>
+    <td>Linux (optimised)</td>
+    <td>95.16954<br> <i>0.20689</i>  </td>
+    <td>20.89807<br> <i>0.08132</i>  </td>
+  </tr>
+  <tr>
+    <td>Mature cache <br>(when optimised)</td>
+    <td>0.90839 <br> <i>0.00197</i> </td>
+    <td>1.48648<br> <i>0.00578</i> </td>
+  </tr>
+</table>
 
 However, not all tests result in a CAS call.  So, to estimate this we subtract the overhead time for a mature cache (which is essentially time for database/PHP processing) from the raw time and divide by the number of CAS calls.  We have the following time per CAS call estimates.
 
@@ -142,9 +159,9 @@ Linux (optimised) | 0.215                  | 0.095
 
 The optimised version saves a considerable amount of time, representing a significant performance improvement in the critical step of just under a second per call.  Well worth the effort (& maintenance) to reward ratio.  It is likely that using a compiled version of LISP would result in further considerable savings.
 
-However, it isn't entirely clear to me at this point why the input tests with a mature cache using the default linux connection takes over 13 seconds.  This seems anomalous.
+However, it isn't entirely clear to me at this point why the input tests with a mature cache using the default Linux connection takes over 13 seconds.  This seems anomalous.
 
-The following data was gathered by CJS on 10/10/2012 using Maxima 5.28.0 with CLISP 2.49 and SBCL 1.0.58-1.el6, both on the same linux server.  The table gives time in seconds to run the answer tests (462 tests).
+The following data was gathered by CJS on 10/10/2012 using Maxima 5.28.0 with CLISP 2.49 and SBCL 1.0.58-1.el6, both on the same Linux server.  The table gives time in seconds to run the answer tests (462 tests).
 
 Maxima version    | Linux    | Linux optimised
 ----------------- | -------- | -------------------
@@ -153,7 +170,7 @@ SBCL 1.0.58-1.el6 | 1570.6   | 118.39215
 
 With both lisp versions, the optimisation gives a significant performance gain and there is very little difference between the times of the optimised versions.
 
-## CAS on linux ##
+## CAS on Linux ##
 
 The tests above use Maxima through the PHP interface.  To gauge the overhead from the CAS itself we ran the following tests on the same server using Maxima 5.28.0 with CLISP 2.49.
 
@@ -165,21 +182,21 @@ Start Maxima and quit | 43
 Start STACK  and quit | 124
 Process AtAlgEquiv    | 133
 
-Without optimising linux, compared to processing one AtAlgEquiv, there is approximately 93% overhead in starting the maxima process.
+Without optimising Linux, compared to processing one AtAlgEquiv, there is approximately 93% overhead in starting the maxima process.
 
-Optimsed Linux         | Time for 100 cycles (s)
+Optimised Linux         | Time for 100 cycles (s)
 -----------------------| -----------------------
-Start STACK  and quit  | 12
+Start STACK and quit  | 12
 Process AtAlgEquiv     | 16
 Process 100 AtAlgEquiv | 104
 Process 100 plot       | 117
 
 The PHP processing time is almost insignificant against the time it takes to initiate and use the CAS.
 
-With the optimised linux we have reduced the loading time, and the loading overhead considerably.  A single ATAlgEquiv request takes about 0.04s.  Asking for 100 ATAlgEquiv requests in a single session take 0.0092s per request.  Asking for 100 plot commands takes 1.05s per plot - which is rather slow (plots undertake a large number of floating point calculations).
-The overhead times for loading maxima might be reduced, and smoothed out by using the maxima pool, see <http://github.com/maths/stack_util_maximapool> for an implementation of this.  The computation times are difficult to reduce.
+With the optimised Linux we have reduced the loading time, and the loading overhead considerably.  A single ATAlgEquiv request takes about 0.04s.  Asking for 100 ATAlgEquiv requests in a single session take 0.0092s per request.  Asking for 100 plot commands takes 1.05s per plot - which is rather slow (plots undertake a large number of floating point calculations).
+The overhead times for loading Maxima might be reduced, and smoothed out by using the Maxima pool, see <http://github.com/maths/stack_util_maximapool> for an implementation of this.  The computation times are difficult to reduce.
 
-Memory appears to be modest: the optimised linux takes about 15Mb of memory per process.
+Memory appears to be modest: the optimised Linux takes about 15Mb of memory per process.
 
 # Compiling a Maxima image
 

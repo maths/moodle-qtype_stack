@@ -4,7 +4,7 @@ Greek letters are transliterated using their English names.  I.e.
 
     [alpha,beta,gamma,delta,epsilon,zeta,eta,theta,iota,kappa,lambda,mu,nu,xi,omicron,pi,rho,sigma,tau,upsilon,phi,chi,psi,omega]
     
-Upper case Greek letters have an upper case English first letter.  I.e.
+Upper case Greek letters have an upper-case English first letter.  I.e.
 
     [Alpha,Beta,Gamma,Delta,Epsilon,Zeta,Eta,Theta,Iota,Kappa,Lambda,Mu,Nu,Xi,Omicron,Pi,Rho,Sigma,Tau,Upsilon,Phi,Chi,Psi,Omega]
     
@@ -25,7 +25,7 @@ The following are given a specific value by STACK.
 * `pi` is defined to be the numeric constant which is the ratio of the diameter to the circumference of a circle.  In Maxima this is normally `%pi`, but STACK also defines the letter `pi` to have this value.
 * In Maxima the numeric constant which represents the so-called golden mean, \((1 + \sqrt{5})/2\) is `%phi`.
 
-## "Undefine" Maxima defaults.
+## "Undefine" Maxima defaults
 
 It is currently not possible to "undefine" function names and return them to variables.
 

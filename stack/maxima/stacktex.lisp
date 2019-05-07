@@ -179,7 +179,10 @@
             (mapcan #'(lambda(b e)
                 `(,dsym ,(simplifya (mfuncall `$simplify `((mexpt) ,b ,(mfuncall `$simplify e))) nil)))
                 vars ords))))
-    `((mquotient) (($blankmult) ,(simplifya numer nil) ,arg) ,denom)
+      (if (symbolp arg)
+      `((mquotient) (($blankmult) ,(simplifya numer nil) ,arg) ,denom)
+      `(($blankmult) ((mquotient) ,numer ,denom) ,arg)
+      )
      ))
 
 

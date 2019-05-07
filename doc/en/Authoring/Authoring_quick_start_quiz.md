@@ -88,7 +88,7 @@ If you have students who need extra time you need to set up `Groups` with these 
 
 1. In the Administration block, click on `Users` then `Groups` then `Create group`.  
 2. Give the group a name, e.g. "25% extra time".  You can put more details of who the group is for in the `Group description` box.  Click `Save changes`. 
-3. `Add/remove users` then click on the ID for a particular students for this group and click `Add` to put them in the group.  Repeat for each student who needs to be in this group.  
+3. `Add/remove users` then click on the ID for a particular student for this group and click `Add` to put them in the group.  Repeat for each student who needs to be in this group.  
 4. Set up other groups for students who need different amounts of extra time, if necessary.
 
 Once you have set up the groups, go back and click on the Moodle quiz on the Learn server page.  In the Administration block click on `Group overrides` then click `Add group override`, choose the relevant group and set the appropriate `Time limit` for the quiz for that group and click `Save`.  Repeat for each group requiring a different amount of extra time.

@@ -20,11 +20,11 @@ There are two ways to export STACK questions.
    2. Follow the link to "Question tests & deployed versions".
    3. Export this question.
 
-   This export mechanism is only available to STACK questions and not other question types in Moodle.
+   This export mechanism is only available to STACK questions and no other question types in Moodle.
 
 ## Migrating STACK 3 questions to STACK 4
 
-STACK 4.0 has one important change in the question authoring.  [CAS text](../Authoring/CASText.md) now uses `{@...@}` in include mathematics in the text.  The change from `@...@` to `{@...@}` gives us matching parentheses to parse, which is much better.  The `{..}` will not break LaTeX.
+STACK 4.0 has one important change in the question authoring.  [CASText](../Authoring/CASText.md) now uses `{@...@}` in include mathematics in the text.  The change from `@...@` to `{@...@}` gives us matching parentheses to parse, which is much better.  The `{..}` will not break LaTeX.
 
 You will need to update all your existing questions which include CAS calculations. This includes all fields, e.g. in the feedback as well.  To help with this process we have an automatic conversion script.  As an admin user navigate to 
 
@@ -48,12 +48,12 @@ Choose "STACK2.0 format" and the question bank category you wish to import your 
 There have been a number of changes between STACK 2 and STACK 3.  These are detailed in the [development track](../Developer/Development_track.md).
 
 * The following question level options are now ignored by the importer
- * Display (Reason: this should not be set at the question level anyway).
- * Worked Solution on Demand (Reason: the quiz behaviours are the right place to deal with this.  Providing this option was always a hack in the first place...).
- * Feedback shown (Reason: again, the quiz behaviours are the right place to deal with this.)
+  * Display (Reason: this should not be set at the question level anyway).
+  * Worked Solution on Demand (Reason: the quiz behaviours are the right place to deal with this.  Providing this option was always a hack in the first place...).
+  * Feedback shown (Reason: again, the quiz behaviours are the right place to deal with this.)
 * From the old MetaData only the `name` is preserved.  All other MetaData is lost on import.
 * STACK 2 exporter does not seem to export some of the interaction element options correctly, in particular
- * the options which ask the student to verify and to show validation feedback.
- * question level penalty option.
+  * the options which ask the student to verify and to show validation feedback.
+  * question level penalty option.
 * Questions with a single potential response tree import with the PRT feedback in the specific feedback slot, not in the question text.  We envisage this will enable single part questions to respect a wider variety of Moodle question behaviours.
-* When importing question tests, the new testing mechanism in STACK 3 enables the teacher to specify a score and penalty, not just an answernote.  Since we have to set defaults on import, most question tests now fail and this information will need to be added by hand.  A good opportunity to confirm questions have imported correctly.....
+* When importing question tests, the new testing mechanism in STACK 3 enables the teacher to specify a score and penalty, not just an answer note.  Since we have to set defaults on import, most question tests now fail and this information will need to be added by hand.  A good opportunity to confirm questions have imported correctly.....

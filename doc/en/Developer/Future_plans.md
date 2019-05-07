@@ -8,7 +8,7 @@ Note, where the feature is listed as "(done)" means we have prototype code in th
 
 ### Units Inputs ###
 
-* Convestion from Celsius to Kelvin?  What units to choose for degrees Celsius which don't conflict with Coulomb?
+* Conversion from Celsius to Kelvin?  What units to choose for degrees Celsius which don't conflict with Coulomb?
 * Support for United States customary units?
 * Add an option to validation to require compatible units with the teacher's answer, not just some units.
 * Create a mechanism to distinguish between `m/s` and `m*s^-1`, both at validation and answer test levels.
@@ -19,17 +19,17 @@ Note, where the feature is listed as "(done)" means we have prototype code in th
 
 * Add support for coordinates, so students can type in (x,y).  This should be converted internally to a list.
 * Add new input types
- 1. Dragmath (actually, probably use javascript from NUMBAS instead here, or the MathDox editor).
+ 1. DragMath (actually, probably use JavaScript from NUMBAS instead here, or the MathDox editor).
  2. Sliders.
- 3. Re-sizable matrix input.  See NUMBAS examples here, with Javascript.
+ 3. Re-sizable matrix input.  See NUMBAS examples here, with JavaScript.
 * It is very useful to be able to embed input elements in equations, and this was working in STACK 2.0. However is it possible with MathJax or other Moodle maths filters?
   This might offer one option:  http://stackoverflow.com/questions/23818478/html-input-field-within-a-mathjax-tex-equation
 * In the MCQ input type: Add choose N (correct) from M feature (used at Aalto).
-* A new MCQ input type with a "none of these" option which uses Javascript to degrade to an algebraic input: https://community.articulate.com/articles/how-to-use-an-other-please-specify-answer-option
+* A new MCQ input type with a "none of these" option which uses JavaScript to degrade to an algebraic input: https://community.articulate.com/articles/how-to-use-an-other-please-specify-answer-option
 * Add an option for "no functions" which will always insert stars and transform "x(" -> "x*(" even when x occurs as both a function and a variable.
 * Make the syntax hint CAS text, to depend on the question variables.
 * Make the extra options CAS text as well.
-* Refactor the validation to use tooltypes to make the validation fit much closer to the input box itself.
+* Refactor the validation to use tool types to make the validation fit much closer to the input box itself.
 
 ### Improve the editing form ###
 
@@ -52,24 +52,24 @@ Note, where the feature is listed as "(done)" means we have prototype code in th
 * Introduce a variable so the maxima code "knows the attempt number". [Note to self: check how this changes reporting].  This is now being done with the "state" code in the abacus branch.
 * Make the PRT Score element CAS text, so that a value calculated in the "Feedback variables" could be included here.
 * Refactor the STACK return object in maxima as a structure. ` ? defstruct`.  Note that `@` is the element access operator.
-* Refector blocks parser so that evaluation of anything inside a comment block is ignored, this will allow it to contain contents are syntactically incorrect, e.g. mismatched blocks.
+* Refactor blocks parser so that evaluation of anything inside a comment block is ignored, this will allow it to contain contents are syntactically incorrect, e.g. mismatched blocks.
 
-## Anser tests
+## Answer tests
 
 Refactor answer tests so they are all in Maxima.
 
-* Answertests should be like inputs. We should return an answer test object, not a controller object.
+* Answer tests should be like inputs. We should return an answer test object, not a controller object.
 * at->get_at_mark() really ought to be at->matches(), since that is how it is used.
 * Use `defstruct` in Maxima for the return objects. (Note to self: `@` is the element access operator).
 * Investigate how a whole PRT might make only one CAS call.
 
-## Features that might be attempted in the future - possible self contained projects
+## Features that might be attempted in the future - possible self-contained projects
 
 * Read other file formats into STACK.  In particular
   * AIM
-  * WebWork, including the Open Problem Library:  http://webwork.maa.org/wiki/Open_Problem_Library
-  * MapleTA (underway: see https://github.com/maths/moodle-qformat_mapleta)
-  * Wiris
+  * WeBWorK, including the Open Problem Library:  http://webwork.maa.org/wiki/Open_Problem_Library
+  * Maple T.A. (underway: see https://github.com/maths/moodle-qformat_mapleta)
+  * WIRIS
 * Possible Maxima packages:
   * Better support for rational expressions, in particular really firm up the PartFrac and SingleFrac functions with better support.
   * Add in another test for rational algebraic expressions at validation time. See issue #370.
@@ -78,22 +78,22 @@ Refactor answer tests so they are all in Maxima.
 * When validating the editing form, also evaluate the Maxima code in the PRTs, using the teacher's model answers.
 * You cannot use one PRT node to guard the evaluation of another, for example Node 1 check x = 0, and only if that is false, Node 2 do 1 / x. We need to change how PRTs do CAS evaluation.
 
-### Authoring and execution of PRTs.
+### Authoring and execution of PRTs
 
-Can we write the whole PRT as Maxima code?  This seems like an attractive option, but there are some serious problems which make it probably impratical.
+Can we write the whole PRT as Maxima code?  This seems like an attractive option, but there are some serious problems which make it probably impractical.
 
 1. Error trapping.  Currently, the arguments each answer test are evaluated with Maxima's `errcatch` command independently before the answer test is executed.  This helps track down the source of any error. If we write a single Maxima command for the PRT (not just one node) then it is likely that error trapping will become much more difficult.
 2. Not all answer tests are implemented in pure Maxima!  Answer tests are accessed through this class `moodle-qtype_stack/stack/answertest/controller.class.php` only those which make use of `stack_answertest_general_cas` are pure maxima.  Many of the numerical tests use PHP code to infer the number of significant figures.  While we could (perhaps) rewrite some of these in Maxima, they were written in PHP as it is significantly easier to do so.
 
 So, while it is attractive to ask for the PRT as a single Maxima function it is currently difficult to do so.
 
-The current plan is to produce a solid YAML mark up language for PRTs.
+The current plan is to produce a solid YAML markup language for PRTs.
 
 Other (past ideas) were http://zaach.github.com/jison/ or https://github.com/hafriedlander/php-peg.
 
 ## "Reveal block"
 
-The functionality we want to develop is a block in which the contents is revealed or hidden by javascript, depending on the value of a separate input.
+The functionality we want to develop is a block in which the contents is revealed or hidden by JavaScript, depending on the value of a separate input.
 
     [[ reveal input="ans1" value="true" ]]
 
@@ -107,7 +107,7 @@ The functionality we want to develop is a block in which the contents is reveale
 
     [[/ reveal ]]
 
-This implements a Javascript listener on input "ans1", which reveals or hides the appropriate content.
+This implements a JavaScript listener on input "ans1", which reveals or hides the appropriate content.
 
 1. These blocks can be nested.
 2. Inputs can be inside reveal blocks (that is sort of the whole point!).  This works well with the new `EMPTYANSWER` functionality, allowing an input to expect not to be used in a correct response.
@@ -118,7 +118,7 @@ This implements a Javascript listener on input "ans1", which reveals or hides th
 
 An example question is included as samplequestions/reveal_block_example.xml
 
-In this example, we have only revealed the first level, which should be linked to ans1.  If this functionality were available and nested then we would add a MCQ checkbox input within the second reveal block, which is linked to reveal further inputs.
+In this example, we have only revealed the first level, which should be linked to ans1.  If this functionality were available and nested then we would add an MCQ checkbox input within the second reveal block, which is linked to reveal further inputs.
 
 
 ## Improvements to the "equiv" input type

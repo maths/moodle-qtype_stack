@@ -76,4 +76,4 @@ This is not, strictly speaking, a predicate function.  It is common to want to e
 
 ## See also
 
-[Maxima reference topics](index.md#reference.md).
+[Maxima reference topics](index.md#reference.md)

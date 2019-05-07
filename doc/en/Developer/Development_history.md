@@ -14,21 +14,21 @@ Released July 2018.
 
 Note: newer versions of Maxima require that a variable has been initialised as a list/array before you can assign values to its indices.  For this reason some older questions may stop working when you upgrade to a new version of Maxima.  Please use the bulk test script after each upgrade!  See issue #343.
 
-Note: the behaviour of the maxima `addrow` function has changed.  Use the bulk test script to identify questions which are affected. Note, once you save a question you will update the version number, and this will prevent questions using `addrow` from being identified.
+Note: the behaviour of the Maxima `addrow` function has changed.  Use the bulk test script to identify questions which are affected. Note, once you save a question you will update the version number, and this will prevent questions using `addrow` from being identified.
 
 * Add support for using JSXGraph  `http://jsxgraph.org` for better support of interactive graphics, and as part of an input type.  See [JSXGraph](../Authoring/JSXGraph.md)
 * Add in a version number to STACK questions.
-* Update reasoning by eqivalence.  This includes the following.
+* Update reasoning by equivalence.  This includes the following.
   1. Equating coefficients as a step in reasoning by equivalence. E.g. \( a x^2+b x+c=r x^2+s x+t \leftrightarrow a=r \mbox{ and } b=s \mbox{ and } c=t\). See `poly_equate_coeffs` in assessment.mac
   2. Solving simple simultaneous equations.  (Interface)
   3. Include simple calculus operations (but constant of integration needs some further thought.)
 * Refactor internal question validation away from Moodle editing, and into the question type.  Add in a "warning" system.
-* Add in native multi-language support, to separate out languages in the question text.  This is needed so as not to create spurious validation errors, such as "input cannout occur twice".
+* Add in native multi-language support, to separate out languages in the question text.  This is needed so as not to create spurious validation errors, such as "input cannot occur twice".
 * Output results of PRTs in the `summarise_response` method of `question.php`.  Gives more information for reporting.
 * Sort out the "addrow" problem. (See issue #333).  This is changed to "rowadd".
 * Add in check for "mul" (see issue #339) and better checking of input options.
 * Refactor equiv_input and MCQ to make use of the new extra options mechanism.
-* Add in support for the maxima `simplex` package.
+* Add in support for the Maxima `simplex` package.
 * Add an answer test to check if decimal separator is in the wrong place (See issue #314).
 * Add an answer test to check sets and provide better feedback.
 * Significant improvements to the bulk testing, returning runtime errors and identifying all questions without tests or worked solutions.
@@ -66,20 +66,20 @@ This is a bug-fix release, mostly associated with the upgrade process from versi
 
 Released August 2017.
 
-**STACK 4.0 represents a major release of STACK and is a non-reversible change, with important differences which break back-compatability.**
+**STACK 4.0 represents a major release of STACK and is a non-reversible change, with important differences which break back-compatibility.**
 
 Note that much of the underlying code in this development have been used at Aalto for many years, with complex questions.  We believe these are battle tested improvements in the functionality.
 
 STACK 4.0 includes the block features and other important changes in CASText.
 
-* To generate the LaTeX displayed form of a CAS variable in castext you must use `{@...@}`.  Note the curly braces which now must be used.  We have an upgrade script for existing questions.
-* To generate the Maxima value of a CAS variable in castext you can use `{#...#}`. This is useful when interfacing with other software, or showing examples to students.
+* To generate the LaTeX displayed form of a CAS variable in CASText you must use `{@...@}`.  Note the curly braces which now must be used.  We have an upgrade script for existing questions.
+* To generate the Maxima value of a CAS variable in CASText you can use `{#...#}`. This is useful when interfacing with other software, or showing examples to students.
 * CASText now supports conditional statements and adaptive blocks. See [question blocks](../Authoring/Question_blocks.md).
 
 Other changes.
 
 * The question note is no longer limited in size.
-* Mathematics in LaTeX can no longer be supported with `$..$` or `$$..$$`.  This useage has been discouraged for many years, and we have a long-standing "fix" script to convert from dollars to the forms `\(..\)` and `\[..\]`.
+* Mathematics in LaTeX can no longer be supported with `$..$` or `$$..$$`.  This usage has been discouraged for many years, and we have a long-standing "fix" script to convert from dollars to the forms `\(..\)` and `\[..\]`.
 * Remove the artificial limit on the size of CASText.  We now rely on surrounding limits, like POST requests and database limits.  This may result in ugly errors, but we need larger limits to accommodate interactive elements embedded into text fields.
 
 ## STACK 3.6
@@ -92,7 +92,7 @@ Other new features and enhancements in this release.
 
 * Modify the text area input so that each line is validated separately.
 * Add a "scratch working" input type in which students can record their thinking etc. alongside the final answer.
-* Support for intervals in STACK, using the Maxima syntax `oo(a,b)` for an open inteval \((a,b)\), `cc(a,b)` for an open inteval \([a,b]\) and `oc(a,b)`, `co(a,b)` for the half open intervals.
+* Support for intervals in STACK, using the Maxima syntax `oo(a,b)` for an open interval \((a,b)\), `cc(a,b)` for an open interval \([a,b]\) and `oc(a,b)`, `co(a,b)` for the half open intervals.
 * Much better support for solving and dealing with single variable inequalities.
 
 ## Version 3.5.7
@@ -116,7 +116,7 @@ Note, many of these changes have resulted in stricter rules on the acceptability
 
 1 You can no longer have a feedback variable, or a question variable, with a name that is the same as an input.
 2. `log10` function and `log_b` functions are now handled by STACK, by manipulating the CAS string before it is sent to Maxima. Therefore, if your question previously defined a function with names like that, it will now break.
-3. Variable names with a digit in the middle `eqn1gen` no longer work. (They should never have been used, but used not to break quesitons.)
+3. Variable names with a digit in the middle `eqn1gen` no longer work. (They should never have been used, but used not to break questions.)
 4. Previously, unnecessary `\` in CAS text were ignored. E.g. if you have a question variable called `vangle2` then `{@\vangle2@}` used to work, it does not any more.
 
 ## Version 3.5.5
@@ -128,20 +128,20 @@ Numerous minor bug fixes and improvements, particularly with numerical tests and
 1. Expose functionality of `printf` to better control the display of integers and floats.
 2. Expand the "units" answer test to allow authors to use other numerical answer tests, see [units](../Authoring/Units.md).
 3. Add a mechanism to allow spaces in inputs.  Trial functionality, which might change.
-4. Improve the mechanism to create a maxima image and update the options in one go.
+4. Improve the mechanism to create a Maxima image and update the options in one go.
 5. Numerous options for units and the display of fractions.
-6. Added a xMaxima file to give more direct access to the sandbox.
+6. Added an xMaxima file to give more direct access to the sandbox.
 
 ## Version 3.5
 
 Numerous minor bug fixes and improvements.
 
-1. Added an export mechanism for single stack questions throught a link on the "Question tests & deployed versions" page.
+1. Added an export mechanism for single stack questions through a link on the "Question tests & deployed versions" page.
 2. Modify the text area input so that each line is validated separately.
 3. Support for plot2d "label" command.
 4. Added support for `grid2d` for plot in newer versions of Maxima only.
 5. Add the `NOCONST` option to the ATInt answertest.
-6. Added support for optional Maxima packages throught the config settings.
+6. Added support for optional Maxima packages through the config settings.
 7. Added the dropdown, radio and checkbox input types.
 8. Added basic support for scientific [units](../Authoring/Units.md), including a new input type and science answer tests.
 
@@ -153,11 +153,11 @@ This contains numerous minor bug fixes and improvements.
 
 1. Expand the capability of ATInt options to accept the integrand to improve feedback.
 2. When validating a student's expression, add the option to show a list of variables alongside the displayed expression.
-3. The install process now attempts to auto-generate a maxima image.
+3. The install process now attempts to auto-generate a Maxima image.
 4. Support for the stats package added.
 5. Change in the behaviour of the CASEqual answer test.  Now we always assume `simp:false`.
 6. Add support for more AMS mathematics environments, including `\begin{align}...\end{align}`, `\begin{align*}...\end{align*}` etc.
-7. STACK tried to automatically write an optimised image for linux.  This should help installs where unix access is difficult.
+7. STACK tried to automatically write an optimised image for Linux.  This should help installs where Unix access is difficult.
 
 
 ## Version 3.3
@@ -171,7 +171,7 @@ This contains numerous minor bug fixes and improvements.
  3. Improvements to catching common syntax errors with trig functions, e.g. sin^-1(x) or cos[x]
  4. Refactored the numerical tests.  This means they are now standard Maxima tests, not using PHP.
  5. Allow the use of the Maxima orderless and ordergreat in cassessions.  This helps with display, without turning off simplification.
- 6. Expanding CAStext features.
+ 6. Expanding CASText features.
    *  Enable a function as an answer type, e.g. improve validation.
    *  Refactor answer test unit testing to distinguish "test fail" from "zero".
    *  Reject things like sin*(x) and sin^2(x) as invalid
@@ -179,8 +179,8 @@ This contains numerous minor bug fixes and improvements.
    *  Provide an extra syntax checking option to enable stars to be inserted between single characters, e.g. xy -> x*y.
  7.  Add the input parameter `allowwords` to enable the teacher to specify some permitted words of more than 2 symbols length.
  8.  Reinstate the STACK 2 feature called "Hints".  This has been done as a "Fact sheet" to avoid ambiguity with other Moodle features.  See [Fact sheet](../Authoring/Fact_sheets.md) documentation.  
- 9.  Better install (auto OS detection), healtcheck and testing.
- 10. When using the Maxima Pool servlet, it is now possible to use any type of HTTP authenication
+ 9.  Better install (auto OS detection), healthcheck and testing.
+ 10. When using the Maxima Pool servlet, it is now possible to use any type of HTTP authentication
     (e.g. basic or digest), and there is a separate configuration option, so that you don't need to put the username and password in the URL.
 
 
@@ -191,7 +191,7 @@ Released January 2014. This is mainly a bugfix release, and is updated to work w
 Changes since 3.1:
 
  1. Better support for inequalities
- 2. Better supoprt for reporting, e.g. more consistent tagging of errors, validation notes etc.
+ 2. Better support for reporting, e.g. more consistent tagging of errors, validation notes etc.
  3. Support for "discrete" and "parametric" plots.  Support for plot Alt text.
   *  Refactor the Maxima plot command to include "discrete" and "parametric plots"
   *  Refactor the Maxima plot command to include options, e.g., xlabel, ylabel, legend, color, style, point_type.
@@ -211,13 +211,13 @@ Changes since 3.0:
 * Split up the answer notes to report back for each PRT separately.
 * Introduce "validation notes".  This should work at the PHP level, recording reasons for invalidity.  Since we already connect to the CAS, this should also record whether the student's input is equivalent to the teacher's, in what sense, and what form their answer is in.  Maybe too slow?  Useful perhaps for learning analytics.
 
-### Expanding CAStext features
+### Expanding CASText features
 
-* Add in support for strings within CASText.  These are currently supported only when the contents is a valid castring, which is overly restrictive.
+* Add in support for strings within CASText.  These are currently supported only when the contents is a valid casstring, which is overly restrictive.
 
 ### Improvements to the editing form
 
- 2. A way to set defaults for many of the options on the question edit form. There are two ways we could do it. We could make it a system-wide setting, controlled by the admin, just like admins can set defaults for all the quiz settings. Alternatively, we could use user_preferences, so the next time you create a STACK question, it uses the same settings as the previous STACK qusetion you created.
+ 2. A way to set defaults for many of the options on the question edit form. There are two ways we could do it. We could make it a system-wide setting, controlled by the admin, just like admins can set defaults for all the quiz settings. Alternatively, we could use user_preferences, so the next time you create a STACK question, it uses the same settings as the previous STACK question you created.
  3. Display inputs and PRTs in the order they are mentioned in the question text + specific feedback.
  4. Allow an arbitrary PRT node to be the root node, rather than assuming it is the lowest numbered one.
  5. Display a graphical representation of each PRT, that can be clicked to jump to that Node on the editing form.
@@ -226,7 +226,7 @@ Changes since 3.0:
 ### Other improvements
 
 * Create a "tidy question" script that can be used to rename Inputs, PRTs and/or Nodes everywhere in a question.
-* Add CAStext-enabled ALT tags to the automatically generated images. For example, adding a final, optional, string argument to the "plot" command that the system uses as the ALT text of the image. That way, we can say the function that the graph is of.
+* Add CASText-enabled ALT tags to the automatically generated images. For example, adding a final, optional, string argument to the "plot" command that the system uses as the ALT text of the image. That way, we can say the function that the graph is of.
 * New option for how inverse trig functions are displayed.
 * A script to run question tests in bulk.
 * Add a new answer test to deal with decimal places.
@@ -259,23 +259,23 @@ Key features
 
 ### Changes in features between STACK 2 and STACK 3.
 
-* Key-val pairs, i.e. Question variables and feedback variables, now use Maxima's assignment syntax, e.g. `n:5` not the oldstyle `n=5`.  The importer automtically converts old questions to this new style.
+* Key-val pairs, i.e. Question variables and feedback variables, now use Maxima's assignment syntax, e.g. `n:5` not the oldstyle `n=5`.  The importer automatically converts old questions to this new style.
 * Interaction elements, now called inputs, are indicated in questions as `[[input:ans1]]` to match the existing style in Moodle.  Existing questions will be converted when imported.
 * A number of other terminology changes have brought STACK's use into line with Moodle's, e.g. Worked solution has changed to "general feedback".
 * Change in the internal name of one answer test `Equal_Com_ASS` changed to `EqualComASS`.
 * Feature "allowed words" dropped from inputs (i.e. interaction elements).
 * JSMath is no longer under development, and hence we are no longer providing an option for this in STACK.  However, in STACK 2 we modified JSMath to enable inputs within equations.  Display now assumes the use of a Moodle filter and we recommend (and test with) MathJax, which does not currently support this feature.  If it is important for you to use this feature you will need to copy and modify the load.js file from STACK 2 and use JSMath.
 * Worked solution on demand feature has been removed.  This was a hack in STACK 2, and the use of Moodle quiz has made this unnecessary.
-* Some options are no longer needed.  This functionality is now handelled by the "behaviours", so are uncecessary in STACK 3.
+* Some options are no longer needed.  This functionality is now handled by the "behaviours", so are unnecessary in STACK 3.
  * The "Feedback used".
  * The "Mark modification".
 * We have lost some of the nice styling on the editing form, compared to Stack 2.
 * Answer tests no longer return a numerical mark, hence the "+AT" option for mark modification method has been dropped.
-* The STACK maxima function `filter` has been removed.  It should be replaced by the internal Maxima function `sublist`.  Note, the order of the arguments is reversed!
+* The STACK Maxima function `filter` has been removed.  It should be replaced by the internal Maxima function `sublist`.  Note, the order of the arguments is reversed!
 * STACK can now work with either MathJax, the Moodle TeX filter, or the OU's maths rendering filter.
-* The maxima libraries `powers` and `format` have been removed.
-* We now strongly discourage the use of dollar symbols for denoting LaTeX mathematics environments.  See the pages on [mathjax](Mathjax.md#delimiters) for more information on this change.
-* The expessions supplied by the question author as question tests are no longer simplified at all.  See the entry on [question tests](../Authoring/Testing.md#Simplification).
+* The Maxima libraries `powers` and `format` have been removed.
+* We now strongly discourage the use of dollar symbols for denoting LaTeX mathematics environments.  See the pages on [MathJax](Mathjax.md#delimiters) for more information on this change.
+* The expressions supplied by the question author as question tests are no longer simplified at all.  See the entry on [question tests](../Authoring/Testing.md#Simplification).
 
 ### Full development log
 
@@ -363,7 +363,7 @@ Once completed we are ready for the **Beta release!**
 6. Dropdown input element needs some unit tests. (There is a TODO in the code for this.)
 7. We need to check for and handle CAS errors in get_prt_result and grade_parts_that_can_be_graded. (There is a TODO in the code for this.)
 8. Un-comment the throw in the matrix input.
-9. Unit tests for adative mode score display - and to verify nothing like that appears for other behaviours.
+9. Unit tests for adaptive mode score display - and to verify nothing like that appears for other behaviours.
 10. Duplicate response detection for PRTs should consider all previous responses.
 11. It appears as if the phrase "This submission attracted a penalty of ..." isn't working.  It looks like this is the *old* penalty, not the *current*.
 12. PRT node feedback was briefly not being treated as CAS text.
@@ -398,7 +398,7 @@ Key features
 * [Precision](../Authoring/Answer_tests.md#Precision) answer test added to allow significant to be checked.
 * [Form](../Authoring/Answer_tests.md#Form) answer test added to test if an expression is in completed square form.
 * List interaction element expanded to include checkboxes.  See [List](../Authoring/Inputs.md#List).
-* Move to Maxima's `random()` function, rather then generate our own pseudo random numbers
+* Move to Maxima's `random()` function, rather than generate our own pseudo random numbers
 * [Conditionals in CASText](https://sourceforge.net/tracker/?func=detail&aid=2888054&group_id=119224&atid=683351)
 * Support for Maxima 5.20.1
 * New option added: OptWorkedSol.  This allows the teacher to decide whether the tick box to request the worked solution is available.

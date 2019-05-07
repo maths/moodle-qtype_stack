@@ -27,4 +27,4 @@ which is typeset using `\[\require{enclose} EPV = a _{[25]+5:\enclose{actuarial}
 | \( \require{enclose} {}^{2}\bar{a}_{x:\enclose{actuarial}{n}} \)        |  `\require{enclose} {}^{2}\bar{a}_{x:\enclose{actuarial}{n}}`           | 
 | \( \require{enclose} {}^{2}\ddot{a}_{xy:\enclose{actuarial}{n}} \)      |  `\require{enclose} {}^{2}\ddot{a}_{xy:\enclose{actuarial}{n}}`         | 
 
-STACK provides some support for statistical functions via optional maxima packages.  See specific pages on [statistics](../CAS/Statistics.md).
+STACK provides some support for statistical functions via optional Maxima packages.  See specific pages on [statistics](../CAS/Statistics.md).

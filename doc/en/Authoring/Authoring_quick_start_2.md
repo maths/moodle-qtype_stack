@@ -193,7 +193,7 @@ You will need to add a non-empty question note to enable grouping of random vers
 
     {@p@}
 
-We now need to update the question tests to reflect this.  In the first test, you are free to use `ta1` etc to specify the correct answers.
+We now need to update the question tests to reflect this.  In the first test, you are free to use `ta1` etc. to specify the correct answers.
 
 In the second test you might as well leave the test as is.
 

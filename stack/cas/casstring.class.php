@@ -142,7 +142,6 @@ class stack_cas_casstring {
         $this->rawcasstring   = $rawstring;
         $this->answernote     = array();
         $this->errors         = array();
-        $this->units          = false;
         // If null then the validate command has not yet been run.
         $this->valid          = null;
 
@@ -168,7 +167,7 @@ class stack_cas_casstring {
     /*********************************************************/
 
     /* We may need to use this function more than once to validate with different options.
-     * $secutrity must either be 's' for student, or 't' for teacher.
+     * $security must either be 's' for student, or 't' for teacher.
      * $syntax is whether we enforce a "strict syntax".
      * $insertstars is whether we actually put stars into the places we expect them to go.
      *              0 - don't insert stars
@@ -228,7 +227,7 @@ class stack_cas_casstring {
                     $parserule = 'Equivline';
                 }
                 $this->ast = $logic->parse($this->casstring, $this->valid, $this->errors, $this->answernote, $syntax,
-                        array(), array(), $parserule);
+                        $parserule, $this->contexts['units']);
                 if ($this->ast === null) {
                     $this->valid = false;
                     return false;
@@ -1021,7 +1020,7 @@ class stack_cas_casstring {
         if (null === $this->valid) {
             $this->validate();
         }
-        if ($raw == 'implode') {
+        if ($raw === 'implode') {
             return implode(' ', array_unique($this->errors));
         }
         return $this->errors;

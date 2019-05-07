@@ -185,6 +185,12 @@ if ($cs->get_valid('t')) {
 	$out .= $nl . $indent2 . '$this->assertEquals(\'' . $cs->get_casstring() . '\', $cs->get_casstring());';
 } else {
 	$out .= $nl . $indent2 . '$this->assertFalse($cs->get_valid(\'t\'));';
+	// In all cases if it is invalid there must be some error messages.
+	$out .= $nl . $indent2 . '$this->assertTrue(count($cs->get_errors(true)) > 0);';
+}
+
+foreach ($cs->get_answernote(true) as $note) {
+	$out .= $nl . $indent2 . '$this->assertContains(\'' . addslashes($note) . '\', $cs->get_answernote(true));';	
 }
 
 $out .= $nl . $indent .'}';
@@ -204,6 +210,12 @@ for ($is = 0; $is <= 5; $is++) {
 		$out .= $nl . $indent2 . '$this->assertEquals(\'' . $cs->get_casstring() . '\', $cs->get_casstring());';
 	} else {
 		$out .= $nl . $indent2 . '$this->assertFalse($cs->get_valid(\'s\', true, ' . $is . '));';
+		// In all cases if it is invalid there must be some error messages.
+		$out .= $nl . $indent2 . '$this->assertTrue(count($cs->get_errors(true)) > 0);';
+	}
+
+	foreach ($cs->get_answernote(true) as $note) {
+		$out .= $nl . $indent2 . '$this->assertContains(\'' . addslashes($note) . '\', $cs->get_answernote(true));';	
 	}
 
 	$out .= $nl . $indent .'}';
@@ -226,6 +238,12 @@ for ($is = 0; $is <= 5; $is++) {
 		$out .= $nl . $indent2 . '$this->assertEquals(\'' . $cs->get_casstring() . '\', $cs->get_casstring());';
 	} else {
 		$out .= $nl . $indent2 . '$this->assertFalse($cs->get_valid(\'s\', true, ' . $is . '));';
+		// In all cases if it is invalid there must be some error messages.
+		$out .= $nl . $indent2 . '$this->assertTrue(count($cs->get_errors(true)) > 0);';
+	}
+
+	foreach ($cs->get_answernote(true) as $note) {
+		$out .= $nl . $indent2 . '$this->assertContains(\'' . addslashes($note) . '\', $cs->get_answernote(true));';	
 	}
 
 	$out .= $nl . $indent .'}';
@@ -251,6 +269,12 @@ if ($allow !== '') {
 			$out .= $nl . $indent2 . '$this->assertEquals(\'' . $cs->get_casstring() . '\', $cs->get_casstring());';
 		} else {
 			$out .= $nl . $indent2 . '$this->assertFalse($cs->get_valid(\'s\', true, ' . $is . ', $security));';
+			// In all cases if it is invalid there must be some error messages.
+			$out .= $nl . $indent2 . '$this->assertTrue(count($cs->get_errors(true)) > 0);';
+		}
+
+		foreach ($cs->get_answernote(true) as $note) {
+			$out .= $nl . $indent2 . '$this->assertContains(\'' . addslashes($note) . '\', $cs->get_answernote(true));';	
 		}
 
 		$out .= $nl . $indent .'}';
@@ -276,6 +300,12 @@ if ($allow !== '') {
 			$out .= $nl . $indent2 . '$this->assertEquals(\'' . $cs->get_casstring() . '\', $cs->get_casstring());';
 		} else {
 			$out .= $nl . $indent2 . '$this->assertFalse($cs->get_valid(\'s\', true, ' . $is . ', $security));';
+			// In all cases if it is invalid there must be some error messages.
+			$out .= $nl . $indent2 . '$this->assertTrue(count($cs->get_errors(true)) > 0);';
+		}
+
+		foreach ($cs->get_answernote(true) as $note) {
+			$out .= $nl . $indent2 . '$this->assertContains(\'' . addslashes($note) . '\', $cs->get_answernote(true));';	
 		}
 
 		$out .= $nl . $indent .'}';
@@ -302,6 +332,12 @@ if ($forbid !== '') {
 			$out .= $nl . $indent2 . '$this->assertEquals(\'' . $cs->get_casstring() . '\', $cs->get_casstring());';
 		} else {
 			$out .= $nl . $indent2 . '$this->assertFalse($cs->get_valid(\'s\', true, ' . $is . ', $security));';
+			// In all cases if it is invalid there must be some error messages.
+			$out .= $nl . $indent2 . '$this->assertTrue(count($cs->get_errors(true)) > 0);';
+		}
+
+		foreach ($cs->get_answernote(true) as $note) {
+			$out .= $nl . $indent2 . '$this->assertContains(\'' . addslashes($note) . '\', $cs->get_answernote(true));';	
 		}
 
 		$out .= $nl . $indent .'}';
@@ -327,6 +363,12 @@ if ($forbid !== '') {
 			$out .= $nl . $indent2 . '$this->assertEquals(\'' . $cs->get_casstring() . '\', $cs->get_casstring());';
 		} else {
 			$out .= $nl . $indent2 . '$this->assertFalse($cs->get_valid(\'s\', true, ' . $is . ', $security));';
+			// In all cases if it is invalid there must be some error messages.
+			$out .= $nl . $indent2 . '$this->assertTrue(count($cs->get_errors(true)) > 0);';
+		}
+
+		foreach ($cs->get_answernote(true) as $note) {
+			$out .= $nl . $indent2 . '$this->assertContains(\'' . addslashes($note) . '\', $cs->get_answernote(true));';	
 		}
 
 		$out .= $nl . $indent .'}';
@@ -353,6 +395,12 @@ if (count($keys) > 0) {
 			$out .= $nl . $indent2 . '$this->assertEquals(\'' . $cs->get_casstring() . '\', $cs->get_casstring());';
 		} else {
 			$out .= $nl . $indent2 . '$this->assertFalse($cs->get_valid(\'s\', true, ' . $is . ', $security));';
+			// In all cases if it is invalid there must be some error messages.
+			$out .= $nl . $indent2 . '$this->assertTrue(count($cs->get_errors(true)) > 0);';
+		}
+
+		foreach ($cs->get_answernote(true) as $note) {
+			$out .= $nl . $indent2 . '$this->assertContains(\'' . addslashes($note) . '\', $cs->get_answernote(true));';	
 		}
 
 		$out .= $nl . $indent .'}';
@@ -378,6 +426,12 @@ if (count($keys) > 0) {
 			$out .= $nl . $indent2 . '$this->assertEquals(\'' . $cs->get_casstring() . '\', $cs->get_casstring());';
 		} else {
 			$out .= $nl . $indent2 . '$this->assertFalse($cs->get_valid(\'s\', true, ' . $is . ', $security));';
+			// In all cases if it is invalid there must be some error messages.
+			$out .= $nl . $indent2 . '$this->assertTrue(count($cs->get_errors(true)) > 0);';
+		}
+
+		foreach ($cs->get_answernote(true) as $note) {
+			$out .= $nl . $indent2 . '$this->assertContains(\'' . addslashes($note) . '\', $cs->get_answernote(true));';	
 		}
 
 		$out .= $nl . $indent .'}';
@@ -417,6 +471,12 @@ if (($allow !== '' && $forbid !== '') ||
 			$out .= $nl . $indent2 . '$this->assertEquals(\'' . $cs->get_casstring() . '\', $cs->get_casstring());';
 		} else {
 			$out .= $nl . $indent2 . '$this->assertFalse($cs->get_valid(\'s\', true, ' . $is . ', $security));';
+			// In all cases if it is invalid there must be some error messages.
+			$out .= $nl . $indent2 . '$this->assertTrue(count($cs->get_errors(true)) > 0);';
+		}
+
+		foreach ($cs->get_answernote(true) as $note) {
+			$out .= $nl . $indent2 . '$this->assertContains(\'' . addslashes($note) . '\', $cs->get_answernote(true));';	
 		}
 
 		$out .= $nl . $indent .'}';
@@ -453,12 +513,16 @@ if (($allow !== '' && $forbid !== '') ||
 			$out .= $nl . $indent2 . '$this->assertEquals(\'' . $cs->get_casstring() . '\', $cs->get_casstring());';
 		} else {
 			$out .= $nl . $indent2 . '$this->assertFalse($cs->get_valid(\'s\', true, ' . $is . ', $security));';
+			// In all cases if it is invalid there must be some error messages.
+			$out .= $nl . $indent2 . '$this->assertTrue(count($cs->get_errors(true)) > 0);';
+		}
+
+		foreach ($cs->get_answernote(true) as $note) {
+			$out .= $nl . $indent2 . '$this->assertContains(\'' . addslashes($note) . '\', $cs->get_answernote(true));';	
 		}
 
 		$out .= $nl . $indent .'}';
 	}	
-
-
 }
 
 

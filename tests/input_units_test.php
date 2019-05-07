@@ -125,7 +125,7 @@ class stack_units_input_test extends qtype_stack_testcase {
         $el->set_parameter('strictSyntax', false);
         $state = $el->validate_student_response(array('sans1' => '9.81*m/s^2+tans'), $options, '9.81*m/s^2', array('tans'));
         $this->assertEquals(stack_input::INVALID, $state->status);
-        $this->assertEquals('unknownFunction', $state->note);
+        $this->assertEquals('forbiddenVariable', $state->note);
     }
 
     public function test_validate_student_response_6() {
@@ -136,7 +136,7 @@ class stack_units_input_test extends qtype_stack_testcase {
         $state = $el->validate_student_response(array('sans1' => '9.81*m/s^2*sillyname(x)'),
                 $options, '9.81*m/s^2', array('tans'));
         $this->assertEquals(stack_input::INVALID, $state->status);
-        $this->assertEquals('unknownFunction', $state->note);
+        $this->assertEquals('forbiddenFunction', $state->note);
     }
 
     public function test_validate_student_response_7() {

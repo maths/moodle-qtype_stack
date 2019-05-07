@@ -950,7 +950,7 @@ class stack_cas_casstring_test extends basic_testcase {
         $at1 = new stack_cas_casstring($s);
         $this->assertTrue($at1->get_valid('s', true, 1));
         $this->assertEquals('lg(3,x^2)', $at1->get_casstring());
-        $this->assertEquals('logsubs', $at1->get_answernote());
+        $this->assertEquals('missing_stars | logsubs', $at1->get_answernote());
         // Parser behaviour has changed. Not worth it currently.
         $at2 = new stack_cas_casstring($s);
         $this->assertFalse($at2->get_valid('s', true, 0));
@@ -1009,10 +1009,10 @@ class stack_cas_casstring_test extends basic_testcase {
             'sin(xy)+cos(ab)+c' => 'sin(x*y)+cos(a*b)+c',
             'xe^x' => 'x*e^x',
             'pix' => 'pi*x',
-            '2(xya+3c)' => '2*(x*y*a+3c)',
+            '2(xya+3c)' => '2*(x*y*a+3*c)',
             '2pi+nk' => '2*pi+n*k',  // This function does not add the star in 2*pi here.  That is done elsewhere.
             '(ax+1)(ax-1)' => '(a*x+1)*(a*x-1)',
-            'nx(1+2x)' => 'n*x(1+2*x)' // Note, two letter function names are permitted.
+            'nx(1+2x)' => 'nx(1+2*x)' // Note, two letter function names are permitted.
         );
 
         foreach ($testcases as $test => $result) {
@@ -1029,7 +1029,7 @@ class stack_cas_casstring_test extends basic_testcase {
             'sin(xy)' => 'sin(x*y)',
             'sin(xy)+cos(ab)+c' => 'sin(x*y)+cos(a*b)+c',
             'xe^x' => 'x*e^x',
-            'pix' => 'p*i*x',
+            'pix' => 'pi*x',
             '2(xya+3c)' => '2*(x*y*a+3*c)',
             '2pi+nk' => '2*pi+n*k',
             '(ax+1)(ax-1)' => '(a*x+1)*(a*x-1)',
@@ -1037,7 +1037,6 @@ class stack_cas_casstring_test extends basic_testcase {
         );
 
         foreach ($testcases as $test => $result) {
-            $this->resetAfterTest();
             $cs = new stack_cas_casstring($test);
             $cs->get_valid('s', false, 5);
             $this->assertEquals($result, $cs->get_casstring());

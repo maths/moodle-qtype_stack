@@ -420,7 +420,11 @@ class MP_Parser {
       $r->position = array('start'=>$this->peg_reportedPos,'end'=>$this->peg_currPos);
       return $r; 
       }
-    private function peg_f4($exp) { return $exp; }
+    private function peg_f4($exp) { 
+      $r = new MP_Statement($exp,[]);
+      $r->position = array('start'=>$this->peg_reportedPos,'end'=>$this->peg_currPos);
+      return $r; 
+      }
     private function peg_f5($s) { return $s; }
     private function peg_f6($d) {
       $r = new MP_Integer(intval(join("",$d),10), join("",$d));

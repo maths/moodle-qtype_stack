@@ -59,15 +59,15 @@ abstract class stack_parser_logic {
         $err1 = false;
         $err2 = false;
 
-        $stringles = stack_utils::eliminate_strings($string);
+        $stringles = trim(stack_utils::eliminate_strings($string));
         // Hide ?-chars as those can do many things.
         $stringles = str_replace('?', 'QMCHAR', $stringles);
 
         // Safely wrap "let" statements.
         $fixlet = false;
+        $langlet = '';
         if ($parserule == 'Equivline') {
-            // TODO: localize parser $langlet = strtolower(stack_string('equiv_LET'));
-            $langlet = 'let ';
+            $langlet = strtolower(stack_string('equiv_LET')) . ' ';
             if (strtolower(substr($stringles, 0, strlen($langlet))) === $langlet) {
                 $stringles = substr($stringles, strlen($langlet));
                 $fixlet = true;
@@ -102,7 +102,7 @@ abstract class stack_parser_logic {
             // Just so that we do not add this for each star.
             $answernote[] = 'missing_stars';
             if (!$insertstars) {
-                $stringged = $this->strings_replace($stringles, $string);
+                $stringged = $this->strings_replace($langlet . $stringles, $string);
                 $missingstring = stack_utils::logic_nouns_sort($stringged, 'remove');
                 $missingstring = stack_maxima_format_casstring(str_replace('*%%IS',
                   "<font color=\"red\">*</font>", $missingstring));
@@ -143,7 +143,7 @@ abstract class stack_parser_logic {
             if ($fixedspace) {
                 $answernote[] = 'spaces';
                 if (!$fixspaces) {
-                    $cmds = $this->strings_replace($stringles, $string);
+                    $cmds = $this->strings_replace($langlet . $stringles, $string);
 
                     $cmds = str_replace('*%%IS', '*', $cmds);
                     $cmds = str_replace('*%%Is', '<font color="red">_</font>', $cmds);

@@ -165,7 +165,7 @@ class stack_inputvalidation_test_data {
         array('x.', 'php_flase', 'x.', '', '', 'finalChar', ""),
         array('x and', 'php_false', '', '', '', 'spaces', ""),
         array('!', 'php_false', '!', 'badpostfixop', '', 'badpostfixop', ""),
-        array('sin', 'php_false', 'sin', 'cas_true', '\sin', 'forbiddenVariable',
+        array('sin', 'php_false', 'sin', 'cas_true', '', 'forbiddenVariable',
         "This names the operator sine, which is a valid expression on its own.
         The classic difference between the function \(f\) and the value of the
         function at a point \(f(x)\).  Maybe a 'gocha' for the question author...."),
@@ -187,7 +187,7 @@ class stack_inputvalidation_test_data {
         array('((x))', 'php_true', '((x))', 'cas_true', 'x', '', ""),
         array('(()x)', 'php_false', '(()*x)', 'cas_false', '', 'missing_stars | emptyParens', ""),
         array('()x', 'php_false', '()*x', 'cas_false', '', 'missing_stars | emptyParens', ""),
-        array('x()', 'php_false', 'x*()', 'cas_false', '', 'missing_stars | emptyParens', ""),
+        array('x()', 'php_false', 'x*()', 'cas_false', '', 'emptyParens', ""),
         array('([x)]', 'php_false', '([x)]', '', '', 'ParseError', ""),
         array('(', 'php_false', '', '', '', 'missingRightBracket', "Brackets"),
         array(')', 'php_false', '', '', '', 'missingLeftBracket', ""),
@@ -428,7 +428,7 @@ class stack_inputvalidation_test_data {
         array('3,14159', 'php_false', '3,14159', 'cas_true', '', 'unencpsulated_comma', ""),
         array('0,5*x^2+3', 'php_false', '0,5*x^2+3', 'cas_true', '', 'unencpsulated_comma', ""),
         array('\sqrt{2+x}', 'php_false', '\sqrt{2+x}', 'cas_false', '', 'illegalcaschars', "Student uses LaTeX"),
-        array('sin(x),cos(y)', 'php_false', 'sin(x),cos(y)', 'cas_true', '\sin \left( x \right)',
+        array('sin(x),cos(y)', 'php_false', 'sin(x),cos(y)', 'cas_true', '',
                 'unencpsulated_comma', ""),
         array('sum(k^n,n,0,3)', 'php_true', 'sum(k^n,n,0,3)', 'cas_true', '\sum_{n=0}^{3}{k^{n}}', '', "Sums and products"),
         array('product(cos(k*x),k,1,3)', 'php_true', 'product(cos(k*x),k,1,3)', 'cas_true',

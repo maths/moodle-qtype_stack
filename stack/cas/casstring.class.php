@@ -167,7 +167,7 @@ class stack_cas_casstring {
     /*********************************************************/
 
     /* We may need to use this function more than once to validate with different options.
-     * $secutrity must either be 's' for student, or 't' for teacher.
+     * $security must either be 's' for student, or 't' for teacher.
      * $syntax is whether we enforce a "strict syntax".
      * $insertstars is whether we actually put stars into the places we expect them to go.
      *              0 - don't insert stars
@@ -1020,7 +1020,7 @@ class stack_cas_casstring {
         if (null === $this->valid) {
             $this->validate();
         }
-        if ($raw == 'implode') {
+        if ($raw === 'implode') {
             return implode(' ', array_unique($this->errors));
         }
         return $this->errors;

@@ -198,7 +198,13 @@ Equivline
   ?> **/ 
   return op;
   }
-  / __? exp:ExpOp __?  {/** <?php return $exp; ?> **/ return exp;}
+  / __? exp:ExpOp __?  {/** <?php 
+  $r = new MP_Statement($exp,[]);
+  $r->position = array('start'=>$this->peg_reportedPos,'end'=>$this->peg_currPos);
+  return $r; 
+  ?> **/ 
+  return exp;
+  }
 
 Line
  = __? s:Statement _? ';' {/** <?php return $s; ?> **/ return s;}

@@ -44,7 +44,18 @@ class stack_cas_security {
              down the student allowed identifiers set. */
     private $forbiddenkeys = array();
 
+    /** 
+     * This list has items which have parallel noun forms.
+     */
+    public static $nounlist = array(
+        'and' => true, 'or' => true, 'int' => true, 'diff' => true,
+        'limit' => true);
 
+    /**
+     * This is a list of synonyms.
+     * TODO: See also "alias" in the stackmaxima.mac files.....
+     */
+    public static $synonymlist = array('int' => 'integrate');
 
     /**
      * These lists are used by question authors for groups of words.
@@ -500,10 +511,17 @@ class stack_cas_security {
                     } else {
                         $result[$item] = true;
                     }
+                    // If we forbid an active function such as int, then we should also forbid nounint.
+                    if (isset(self::$nounlist[$item])) {
+                        $result['noun'.$item] = true;
+                    }
+                    // We should also forbit synonyms for good measure.
+                    if (isset(self::$synonymlist[$item])) {
+                        $result[self::$synonymlist[$item]] = true;
+                    }
                 }
             }
         }
-
         $cache[$list] = $result;
         return $result;
     }

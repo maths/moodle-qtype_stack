@@ -522,6 +522,7 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         // Note the "nounint" in the contentsmodified.
         $this->assertEquals('nounint(x^2+1,x)+c', $state->contentsmodified);
         $this->assertEquals(stack_input::INVALID, $state->status);
+        $this->assertEquals('forbiddenFunction', $state->note);
         // The noun form has been converted back to "int" in the contentsdisplayed.
         $this->assertEquals('<span class="stacksyntaxexample">int(x^2+1,x)+c</span>', $state->contentsdisplayed);
     }

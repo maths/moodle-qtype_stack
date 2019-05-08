@@ -1502,9 +1502,6 @@ class stack_equiv_test_data {
                 if ($equivarg['outcome'] === true) {
                     $score = 1;
                 }
-                $arg = $equivarg['casstring'];
-                // TODO: do we need to do this?
-                //$arg = stack_utils::logic_nouns_sort($equivarg['casstring'], 'add');
 
                 foreach ($validoptions as $opt) {
                     if (array_key_exists($opt, $equivarg)) {
@@ -1520,7 +1517,8 @@ class stack_equiv_test_data {
 
                 // TODO: add in CAS code to support all these arguments!
                 if ('unsupported' !== $equivarg['outcome']) {
-                    $answertestfixtures[] = array('Equiv', $options, $arg, '[]', $score, $equivarg['debuglist'], '');
+                    $answertestfixtures[] = array('Equiv', $options, $equivarg['casstring'], '[]',
+                            $score, $equivarg['debuglist'], '');
                 }
             }
         }

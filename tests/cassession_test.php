@@ -1320,15 +1320,14 @@ class stack_cas_session_test extends qtype_stack_testcase {
         }
     }
 
-    public function test_logic_nouns_sort() {
-        // As logic_nouns_sort is no more the corect way is this.
+    public function test_logic_nouns() {
+        // Nouns forms of logic operators are added by student validation.
         $cs = new stack_cas_casstring('p1:x=1 or x=2');
         $cs->get_valid('s');
         $cs = 'p1:' . $cs->get_casstring();
 
         $cmds = array('p0:x=1 or x=2',
             $cs,
-            //stack_utils::logic_nouns_sort('p1:x=1 or x=2', 'add'),
             'p2:noun_logic_remove(p1)', 'p3:ev(p2)');
         $options = new stack_options();
         $kv = new stack_cas_keyval(implode(';', $cmds), $options, 0, 't');

@@ -383,20 +383,24 @@ class stack_cas_casstring {
         }
 
         $this->ast = $root;
+        $this->update_casstring($security);
 
+        return $this->valid;
+    }
+
+    /* Use the ast to create a casstring. */
+    private function update_casstring($security) {
         if ($security === 's') {
             $this->casstring = $this->ast->toString(array('nounify' => true));
         } else if ($security === 't') {
             $this->casstring = $this->ast->toString();
-            if ($this->ast instanceof MP_Statement && 
+            if ($this->ast instanceof MP_Statement &&
                 $this->ast->flags !== null && count($this->ast->flags) > 0) {
-                // This makes it possible to write when authoring evaluation flags 
+                // This makes it possible to write when authoring evaluation flags
                 // like in maxima without wrapping in ev() yourself.
                 $this->casstring = 'ev(' . $this->ast->toString() . ')';
             }
         }
-
-        return $this->valid;
     }
 
     private function process_identifier($id, $security, $secrules, $insertstars) {
@@ -1130,6 +1134,37 @@ class stack_cas_casstring {
             throw new stack_exception('Tried to set a casstring context ' . $context . ' which does not exist');
         }
         $this->contexts[$context] = $val;
+    }
+
+    /* Traverse the ast, and add/remove all nounable nouns. */
+    public function set_nounvalues($direction) {
+        if ($this->ast === null) {
+            return true;
+        }
+        $setnounvalues = function($node) use ($direction) {
+            if ($node instanceof MP_Operation) {
+                $op = $node->op;
+                $feat = null;
+                if ($direction == 'add') {
+                    $feat = stack_cas_security::get_feature($node->op, 'nounoperator');
+                }
+                if ($direction == 'remove') {
+                    $feat = stack_cas_security::get_feature($node->op, 'nounoperatorfor');
+                }
+                if ($feat !== null) {
+                    $node->op = $feat;
+                    return false;
+                }
+            }
+            return true;
+        };
+        
+        // @codingStandardsIgnoreStart
+        while ($this->ast->callbackRecurse($setnounvalues) !== true) {
+            // Do nothing.
+        }
+        // @codingStandardsIgnoreEnd
+        $this->update_casstring('t');
     }
 
     public function set_value($val) {

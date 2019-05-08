@@ -162,7 +162,13 @@ class stack_equiv_input extends stack_input {
     private function maxima_to_raw_input($in) {
         $values = stack_utils::list_to_array($in, false);
         foreach ($values as $key => $val) {
-            $values[$key] = $this->stackeq_to_equals($val);
+            if (trim($val) != '') {
+                $cs = new stack_cas_casstring($val);
+                if ($cs->get_valid('t')) {
+                    $val = $cs->ast->toString(array('nounify' => false, 'inputform' => true));
+                }
+            }
+            $values[$key] = $val;
         }
         return implode("\n", $values);
     }
@@ -207,9 +213,6 @@ class stack_equiv_input extends stack_input {
 
         $logic = stack_parsingrule_factory::get_parsingrule($this->get_parameter('insertStars', 0));
         foreach ($contents as $index => $val) {
-
-            // TODO: factor logic_nouns_sort as a method on ast.
-            $val = stack_utils::old_logic_nouns_sort($val, 'add');
 
             $answer = new stack_cas_casstring($val);
             $answer->set_context('equivline', true);
@@ -409,9 +412,10 @@ class stack_equiv_input extends stack_input {
         $values = stack_utils::list_to_array($value, false);
         foreach ($values as $key => $val) {
             if (trim($val) !== '' ) {
-                $val = stack_utils::old_logic_nouns_sort($val, 'remove');
+                $cs = new stack_cas_casstring($val);
+                $cs->get_valid('t');
+                $val = '<code>'.$cs->ast->toString(array('nounify' => false, 'inputform' => true)).'</code>';
             }
-            $val = '<code>'.$this->stackeq_to_equals($val).'</code>';
             $values[$key] = $val;
         }
         $value = "<br/>".implode("<br/>", $values);

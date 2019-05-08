@@ -122,13 +122,7 @@ class stack_answertest_general_cas extends stack_anstest {
             $this->options->set_option('simplify', $this->simp);
         }
 
-        // Protect "and" and "or" as noun forms.  In maxima with simp:false these are always verbs.
-        // TODO: this is very weird as here we are acting with security 't' and still doing
-        // nounification...
-        $ta = stack_utils::old_logic_nouns_sort($this->tanskey, 'add');
-        $sa = stack_utils::old_logic_nouns_sort($this->sanskey, 'add');
-        $op = stack_utils::old_logic_nouns_sort($this->atoption, 'add');
-
+        $op = $this->atoption;
         $cascommands = array();
         // Normally the prefix equality should be the identity function in the context of answer tests.
         if ($this->casfunction == 'ATEquiv' || $this->casfunction == 'ATEquivFirst') {
@@ -137,8 +131,8 @@ class stack_answertest_general_cas extends stack_anstest {
         } else {
             $cascommands['n1'] = "stackeq(x):=x";
         }
-        $cascommands['STACKSA'] = $sa;
-        $cascommands['STACKTA'] = $ta;
+        $cascommands['STACKSA'] = $this->sanskey;
+        $cascommands['STACKTA'] = $this->tanskey;
         if (!$this->processcasoptions || trim($op) === '' ) {
             $cascommands['result'] = "StackReturn({$this->casfunction}(STACKSA,STACKTA))";
         } else {
@@ -150,6 +144,9 @@ class stack_answertest_general_cas extends stack_anstest {
         foreach ($cascommands as $key => $com) {
             $cs = new stack_cas_casstring($com);
             $cs->get_valid('t', true, 0);
+            // It looks odd that the answer tests always get "nouns".  But with simp:true we have problems with
+            // expressions like x=1 or x=2 which will always simplify to "false" in maxima.  
+            $cs->set_nounvalues('add');
             $cs->set_key($key);
             $cts[] = $cs;
         }

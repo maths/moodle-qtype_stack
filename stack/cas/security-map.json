@@ -6782,10 +6782,12 @@
         "function": "s"
     },
     "stackeq": {
-        "function": "s"
+        "function": "s",
+        "prefixinputform": "="
     },
     "stacklet": {
-        "function": "s"
+        "function": "s",
+        "prefixinputform": "let"
     },
     "stackunits": {
         "function": "s"

@@ -95,11 +95,9 @@ class MP_Node {
         }
         return $r;
     }
+
     // Replace a child of this now with other...
-    public function replace(
-        $node,
-        $with
-    ) {
+    public function replace($node, $with) {
         // Noop for most.
     }
 
@@ -302,8 +300,7 @@ class MP_Operation extends MP_Node {
         } else if ($this->rhs === $node) {
             $this->rhs = $with;
         }
-        $this->children = [ & $this->lhs,
-            &$this->rhs];
+        $this->children = [&$this->lhs, &$this->rhs];
     }
 
     // Goes up the tree to identify if there is any op on the right of this.
@@ -670,7 +667,7 @@ class MP_FunctionCall extends MP_Node {
         if ($params !== null && isset($params['pretty'])) {
             $indent = '';
             if (!$this->name instanceof MP_Identifier && !$this->name instanceof MP_String) {
-                $n      = $this->name->toString();
+                $n = $this->name->toString();
             }
 
             if (is_integer($params['pretty'])) {
@@ -703,14 +700,24 @@ class MP_FunctionCall extends MP_Node {
             }
         }
 
-        $r  = $n . '(';
         $ar = [];
-
         foreach ($this->arguments as $value) {
             $ar[] = $value->toString($params);
         }
 
-        return $r . implode(',', $ar) . ')';
+        if (isset($params['inputform']) && $params['inputform'] === true) {
+            $prefix = stack_cas_security::get_feature($this->name->value, 'prefixinputform');
+            if ('' != $prefix) {
+                // Hack for stacklet
+                if ($n == 'stacklet') {
+                    // TODO: fix parsing of let
+                    // return $prefix .' '. implode('=', $ar);
+                }
+                return $prefix .' '. implode(',', $ar);
+            }
+        }
+
+        return $n . '(' . implode(',', $ar) . ')';
     }
     // Covenience functions that work only after $parentnode has been filled in.
     public function is_definition(): bool {

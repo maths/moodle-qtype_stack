@@ -766,7 +766,7 @@ class stack_cas_casstring_old {
         $allowedcharsregex = '~[^' . preg_quote(self::$allowedchars, '~') . ']~u';
 
         // Need to trim off the "stackeq(..)" operator.
-        $cmd = trim(stack_utils::logic_nouns_sort($cmd, 'remove'));
+        $cmd = trim(stack_utils::old_logic_nouns_sort($cmd, 'remove'));
 
         // Check for permitted characters.
         if (preg_match_all($allowedcharsregex, $cmd, $matches)) {
@@ -811,7 +811,7 @@ class stack_cas_casstring_old {
             $a['char'] = $match[0];
             $cdisp = $this->rawcasstring;
             if ($security == 's') {
-                $cdisp = stack_utils::logic_nouns_sort($cdisp, 'remove');
+                $cdisp = stack_utils::old_logic_nouns_sort($cdisp, 'remove');
             }
             $a['cmd']  = stack_maxima_format_casstring($cdisp);
             $this->add_error(stack_string('stackCas_finalChar', $a));
@@ -968,7 +968,7 @@ class stack_cas_casstring_old {
                 foreach (self::$spacepatterns as $key => $pat) {
                     $cmds = str_replace($pat, $key, $cmds);
                 }
-                $cmds = stack_utils::logic_nouns_sort($cmds, 'remove');
+                $cmds = stack_utils::old_logic_nouns_sort($cmds, 'remove');
                 $this->add_error(stack_string('stackCas_spaces', array('expr' => stack_maxima_format_casstring($cmds))));
                 $this->valid = false;
             }
@@ -1048,7 +1048,7 @@ class stack_cas_casstring_old {
                     $cmd = preg_replace($pat, "\${1}*\${2}", $cmd);
                 } else {
                     // Flag up the error.
-                    $missingstring = stack_utils::logic_nouns_sort($cmd, 'remove');
+                    $missingstring = stack_utils::old_logic_nouns_sort($cmd, 'remove');
                     $missingstring = stack_maxima_format_casstring(preg_replace($pat,
                         "\${1}<font color=\"red\">*</font>\${2}", $missingstring));
                 }
@@ -1066,7 +1066,7 @@ class stack_cas_casstring_old {
             return str_replace('QMCHAR', '?', $cmd);
         } else {
             // If missing stars & strict syntax is on return errors.
-            $missingstring = stack_utils::logic_nouns_sort($missingstring, 'remove');
+            $missingstring = stack_utils::old_logic_nouns_sort($missingstring, 'remove');
             $a['cmd']  = str_replace('QMCHAR', '?', $missingstring);
             $this->add_error(stack_string('stackCas_MissingStars', $a));
             $this->valid = false;

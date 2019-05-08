@@ -480,12 +480,7 @@ class stack_inputvalidation_test_data {
 
         // @codingStandardsIgnoreEnd
 
-        // This would be done by the input base class.
-        // Not anymore, the student casstring does this automatically.
-        //$val = stack_utils::logic_nouns_sort($test->rawstring, 'add');
-        $val = $test->rawstring;
-
-        $cs = new stack_cas_casstring($val);
+        $cs = new stack_cas_casstring($test->rawstring);
         $cs->get_valid('s', false, 1);
         $cs->set_cas_validation_casstring('sans1', true, true, null, 'typeless', '', false);
 

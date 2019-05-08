@@ -61,11 +61,11 @@ class stack_equiv_input extends stack_input {
 
         if ($this->is_blank_response($state->contents)) {
             $current = $this->maxima_to_raw_input($this->parameters['syntaxHint']);
-            $current = stack_utils::logic_nouns_sort($current, 'remove');
+            $current = stack_utils::old_logic_nouns_sort($current, 'remove');
             // Put the first line of the value of the teacher's answer in the input.
             if (trim($this->parameters['syntaxHint']) == 'firstline') {
                 $values = stack_utils::list_to_array($tavalue, false);
-                $current = stack_utils::logic_nouns_sort($values[0], 'remove');
+                $current = stack_utils::old_logic_nouns_sort($values[0], 'remove');
             }
             // Remove % characters, e.g. %pi should be printed just as "pi".
             $current = str_replace('%', '', $current);
@@ -209,7 +209,7 @@ class stack_equiv_input extends stack_input {
         foreach ($contents as $index => $val) {
 
             // TODO: factor logic_nouns_sort as a method on ast.
-            $val = stack_utils::logic_nouns_sort($val, 'add');
+            $val = stack_utils::old_logic_nouns_sort($val, 'add');
 
             $answer = new stack_cas_casstring($val);
             $answer->set_context('equivline', true);
@@ -267,7 +267,7 @@ class stack_equiv_input extends stack_input {
             if ('' != $cs->get_errors()  || '' == $cs->get_value()) {
                 $valid = false;
                 $errors[$index] = ' '.stack_maxima_translate($cs->get_errors());
-                $cds = stack_utils::logic_nouns_sort($cs->get_raw_casstring(), 'remove');
+                $cds = stack_utils::old_logic_nouns_sort($cs->get_raw_casstring(), 'remove');
                 $display .= '<td>'. stack_maxima_format_casstring($cds). '</td>';
                 $display .= '<td>'. stack_maxima_translate($errors[$index]). '</td></tr>';
             } else {
@@ -409,7 +409,7 @@ class stack_equiv_input extends stack_input {
         $values = stack_utils::list_to_array($value, false);
         foreach ($values as $key => $val) {
             if (trim($val) !== '' ) {
-                $val = stack_utils::logic_nouns_sort($val, 'remove');
+                $val = stack_utils::old_logic_nouns_sort($val, 'remove');
             }
             $val = '<code>'.$this->stackeq_to_equals($val).'</code>';
             $values[$key] = $val;

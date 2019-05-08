@@ -1121,7 +1121,9 @@ class stack_utils {
      *
      * If the parameter is 'add' we put in noun versions, and if 'remove' we remove them.
      */
-    public static function logic_nouns_sort($str, $direction) {
+    public static function old_logic_nouns_sort($str, $direction) {
+        // NOTE: This function is being removed and only used in places 
+        // from where it has not been removed yet.
 
         if ($direction != 'add' && $direction != 'remove') {
             throw new stack_exception('logic_nouns_sort: direction must be "add" or "remove", but received: '. $direction);

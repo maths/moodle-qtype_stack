@@ -70,7 +70,7 @@ class stack_numerical_input extends stack_input {
             if ($this->parameters['syntaxAttribute'] == '1') {
                 $field = 'placeholder';
             }
-            $attributes[$field] = stack_utils::logic_nouns_sort($this->parameters['syntaxHint'], 'remove');
+            $attributes[$field] = $this->parameters['syntaxHint'];
         } else if ($value == 'EMPTYANSWER') {
             // Active empty choices don't result in a syntax hint again (with that option set).
             $attributes['value'] = '';

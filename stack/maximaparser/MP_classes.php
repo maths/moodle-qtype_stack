@@ -28,10 +28,14 @@
  * 'insertstars_as_red'      All * operators created by insert stars logic will be marked with red.
  * 'fixspaces_as_red_spaces' Similar to above, but for spaces.
  * 'inputform'               Something a user (normally student) would expect to type.
- *
+ * 'nounify'                 If defined and true nounifies certain operators and functions. If false does the opposite.
+ * 'dealias'                 If defined unpacks potenttial aliases.
+ * 'qmchar'                  If defined prints question marks directly if present as QMCHAR
  */
 
 defined('MOODLE_INTERNAL') || die();
+
+require_once(__DIR__ . '/../cas/cassecurity.class.php');
 
 class MP_Node {
     public $parentnode  = null;
@@ -246,20 +250,31 @@ class MP_Operation extends MP_Node {
     }
 
     public function toString($params = null) {
+        $op = $this->op;
+        if ($params !== null && isset($params['nounify'])) {
+            $feat = stack_cas_security::get_feature($op, 'nounoperator');
+            if ($params['nounify'] === false) {
+                $feat = stack_cas_security::get_feature($op, 'nounoperatorfor');
+            }
+            if ($feat !== null) {
+                $op = $feat;
+            }
+        }
+
         if ($params !== null && isset($params['pretty'])) {
             $indent = '';
             if (is_integer($params['pretty'])) {
                 $indent = str_pad($indent, $params['pretty']);
             }
             $params['pretty'] = 0;
-            return $indent . $this->lhs->toString($params) . ' ' . $this->op .
+            return $indent . $this->lhs->toString($params) . ' ' . $op .
             ' ' . $this->rhs->toString($params);
         }
-        if ($params !== null && isset($params['insertstars_as_red']) && $this->op === '*'
+        if ($params !== null && isset($params['insertstars_as_red']) && $op === '*'
                 && isset($this->position['insertstars'])) {
             // This is a special rendering rule that colors all multiplications as red if they have no position.
             // i.e. if they have been added after parsing...
-            return $this->lhs->toString($params) . '<font color="red">' . $this->op . '</font>' .
+            return $this->lhs->toString($params) . '<font color="red">' . $op . '</font>' .
                 $this->rhs->toString($params);
         }
         if ($params !== null && isset($params['fixspaces_as_red_spaces']) &&
@@ -269,14 +284,14 @@ class MP_Operation extends MP_Node {
             return $this->lhs->toString($params) . '<font color="red">_</font>'
             . $this->rhs->toString($params);
         }
-        switch ($this->op) {
+        switch ($op) {
             case 'and':
             case 'or':
             case 'nounand':
             case 'nounor':
-                return $this->lhs->toString($params) . ' ' . $this->op . ' ' . $this->rhs->toString($params);
+                return $this->lhs->toString($params) . ' ' . $op . ' ' . $this->rhs->toString($params);
         }
-        return $this->lhs->toString($params) . $this->op . $this->rhs->toString($params);
+        return $this->lhs->toString($params) . $op . $this->rhs->toString($params);
     }
 
     // Replace a child of this now with other...
@@ -639,9 +654,24 @@ class MP_FunctionCall extends MP_Node {
     }
 
     public function toString($params = null) {
+        $n = $this->name->toString($params);
+        if ($params !== null && isset($params['nounify'])) {
+            if ($this->name instanceof MP_Identifier || $this->name instanceof MP_String) {
+                $feat = stack_cas_security::get_feature($this->name->value, 'nounfunction');
+                if ($params['nounify'] === false) {
+                   $feat = stack_cas_security::get_feature($this->name->value, 'nounfunctionfor');
+                }
+                if ($feat !== null) {
+                    $n = $feat;
+                }
+            }
+        }
+
         if ($params !== null && isset($params['pretty'])) {
             $indent = '';
-            $n      = $this->name->toString();
+            if (!$this->name instanceof MP_Identifier && !$this->name instanceof MP_String) {
+                $n      = $this->name->toString();
+            }
 
             if (is_integer($params['pretty'])) {
                 $indent           = str_pad($indent, $params['pretty']);
@@ -673,7 +703,7 @@ class MP_FunctionCall extends MP_Node {
             }
         }
 
-        $r  = $this->name->toString($params) . '(';
+        $r  = $n . '(';
         $ar = [];
 
         foreach ($this->arguments as $value) {

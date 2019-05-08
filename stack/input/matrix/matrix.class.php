@@ -216,7 +216,7 @@ class stack_matrix_input extends stack_input {
         $tc = $state->contents;
         $blank = $this->is_blank_response($state->contents);
         if ($blank) {
-            $syntaxhint = stack_utils::logic_nouns_sort($this->parameters['syntaxHint'], 'remove');
+            $syntaxhint = $this->parameters['syntaxHint'];
             if (trim($syntaxhint) != '') {
                 $tc = $this->maxima_to_array($syntaxhint);
                 $blank = false;

@@ -44,19 +44,6 @@ class stack_cas_security {
              down the student allowed identifiers set. */
     private $forbiddenkeys = array();
 
-    /** 
-     * This list has items which have parallel noun forms.
-     */
-    public static $nounlist = array(
-        'and' => true, 'or' => true, 'int' => true, 'diff' => true,
-        'limit' => true);
-
-    /**
-     * This is a list of synonyms.
-     * TODO: See also "alias" in the stackmaxima.mac files.....
-     */
-    public static $synonymlist = array('int' => 'integrate');
-
     /**
      * These lists are used by question authors for groups of words.
      * They should be lower case, because Maxima is lower case, and these correspond to Maxima names.
@@ -103,6 +90,22 @@ class stack_cas_security {
         }
 
         return false;
+    }
+
+    public static function get_feature(string $identifier, string $feature) {
+        // Generic tool for telling if a given identifier matches a function.
+        if (self::$securitymap === null) {
+            // Initialise the map.
+            $data = file_get_contents(__DIR__ . '/security-map.json');
+            self::$securitymap = json_decode($data, true);
+        }
+        
+        if (isset(self::$securitymap[$identifier])) {
+            if (isset(self::$securitymap[$identifier][$feature])) {
+                return self::$securitymap[$identifier][$feature];
+            }
+        }
+        return null;
     }
 
     public function __construct($units = false, $allowedwords = '', $forbiddenwords = '', $forbiddenkeys = array()) {
@@ -260,7 +263,8 @@ class stack_cas_security {
         }
 
         // Forbid keywords and operators as variable names.
-        if ($this->has_feature($identifier, 'keyword') || $this->has_feature($identifier, 'operator')) {
+        if (($this->has_feature($identifier, 'keyword') || $this->has_feature($identifier, 'operator')) && !$this->has_feature($identifier, 'specialallowvariable')) {
+            // The special one is for 'inches'.
             return false;
         }
 
@@ -512,12 +516,44 @@ class stack_cas_security {
                         $result[$item] = true;
                     }
                     // If we forbid an active function such as int, then we should also forbid nounint.
-                    if (isset(self::$nounlist[$item])) {
-                        $result['noun'.$item] = true;
+                    $t = null;
+                    if (($t = self::get_feature($item, 'nounfunction')) !== null) {
+                        $result[$t] = true;
                     }
                     // We should also forbit synonyms for good measure.
-                    if (isset(self::$synonymlist[$item])) {
-                        $result[self::$synonymlist[$item]] = true;
+                    if (($t = self::get_feature($item, 'aliasfunction')) !== null) {
+                        // If we are a alias for something, add that to the list.
+                        $result[$t] = true;
+                        // And if it has an alias add that also.
+                        $t = self::get_feature($t, 'aliasfunctions');
+                        if ($t !== null) {
+                            // Should never be null, but one might not update the map every time.
+                            foreach ($t as $key) {
+                                $result[$key] = true;
+                            }
+                        }
+                    }
+                    if (($t = self::get_feature($item, 'aliasfunctions')) !== null) {
+                        foreach ($t as $key) {
+                            $result[$key] = true;
+                        }
+                    }
+                    if (($t = self::get_feature($item, 'aliasvariable')) !== null) {
+                        // If we are a alias for something, add that to the list.
+                        $result[$t] = true;
+                        // And if it has an alias add that also.
+                        $t = self::get_feature($t, 'aliasvariables');
+                        if ($t !== null) {
+                            // Should never be null, but one might not update the map every time.
+                            foreach ($t as $key) {
+                                $result[$key] = true;
+                            }
+                        }
+                    }
+                    if (($t = self::get_feature($item, 'aliasvariables')) !== null) {
+                        foreach ($t as $key) {
+                            $result[$key] = true;
+                        }
                     }
                 }
             }

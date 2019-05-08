@@ -123,9 +123,11 @@ class stack_answertest_general_cas extends stack_anstest {
         }
 
         // Protect "and" and "or" as noun forms.  In maxima with simp:false these are always verbs.
-        $ta = stack_utils::logic_nouns_sort($this->tanskey, 'add');
-        $sa = stack_utils::logic_nouns_sort($this->sanskey, 'add');
-        $op = stack_utils::logic_nouns_sort($this->atoption, 'add');
+        // TODO: this is very weird as here we are acting with security 't' and still doing
+        // nounification...
+        $ta = stack_utils::old_logic_nouns_sort($this->tanskey, 'add');
+        $sa = stack_utils::old_logic_nouns_sort($this->sanskey, 'add');
+        $op = stack_utils::old_logic_nouns_sort($this->atoption, 'add');
 
         $cascommands = array();
         // Normally the prefix equality should be the identity function in the context of answer tests.

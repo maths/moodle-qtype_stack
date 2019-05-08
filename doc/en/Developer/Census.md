@@ -17,7 +17,7 @@ variables or common constants are being redefined.
 ## The census and security files
 
 Currently, the data can be found from JSON files under `/stack/cas/` the census
-in its raw form is in `base-identifier-map.json` and the security-map is In
+in its raw form is in `base-identifier-map.json` and the [security-map](Security_map.md) is In
 `security-map.json`. The census file lists identifiers and their usage types
 and the versions of Maxima those usages have been present in the documentation.
 The security file gives meta-data about selected identifiers, that meta-data

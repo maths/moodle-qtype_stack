@@ -56,7 +56,7 @@ class stack_algebraic_input extends stack_input {
             if ($this->parameters['syntaxAttribute'] == '1') {
                 $field = 'placeholder';
             }
-            $attributes[$field] = stack_utils::logic_nouns_sort($this->parameters['syntaxHint'], 'remove');
+            $attributes[$field] = $this->parameters['syntaxHint'];
         } else {
             $attributes['value'] = $value;
         }
@@ -114,7 +114,7 @@ class stack_algebraic_input extends stack_input {
      * @return string the teacher's answer, displayed to the student in the general feedback.
      */
     public function get_teacher_answer_display($value, $display) {
-        $value = stack_utils::logic_nouns_sort($value, 'remove');
+        $value = stack_utils::old_logic_nouns_sort($value, 'remove');
         if (trim($value) == 'EMPTYANSWER') {
             return stack_string('teacheranswerempty');
         }

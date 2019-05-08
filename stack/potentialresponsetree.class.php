@@ -125,7 +125,9 @@ class stack_potentialresponse_tree {
                 $ans = $answers[$name];
             }
             // We always add logical nouns to students' answers.
-            $ans = stack_utils::logic_nouns_sort($ans, 'add');
+            // No we do not need to do that anymore (4.3) as the contentsmodified already 
+            // contains nouns now.
+            // $ans = stack_utils::logic_nouns_sort($ans, 'add');
             $cs = new stack_cas_casstring($ans);
 
             // Validating as teacher at this stage removes the problem of "allowWords" which

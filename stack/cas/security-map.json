@@ -76,6 +76,9 @@
         "constant": "s"
     },
     "%pi": {
+        "aliasvariables": [
+            "pi"
+        ],
         "constant": "s"
     },
     "%piargs": {
@@ -175,9 +178,6 @@
     "@": {
         "operator": "f"
     },
-    "QMCHAR": {
-        "variable": "s"
-    },
     "Alpha": {
         "variable": "s"
     },
@@ -257,6 +257,9 @@
         "variable": "s"
     },
     "Psi": {
+        "variable": "s"
+    },
+    "QMCHAR": {
         "variable": "s"
     },
     "Rho": {
@@ -470,6 +473,7 @@
         "function": "?"
     },
     "and": {
+        "nounoperator": "nounand",
         "operator": "s"
     },
     "annuity_fv": {
@@ -1711,7 +1715,8 @@
         "function": "?"
     },
     "diff": {
-        "function": "s"
+        "function": "s",
+        "nounfunction": "noundiff"
     },
     "digitcharp": {
         "function": "s"
@@ -2654,9 +2659,6 @@
     "gaussprob": {
         "function": "f"
     },
-    "gcf": {
-        "function": "s"
-    },
     "gcd": {
         "function": "s"
     },
@@ -2665,6 +2667,9 @@
     },
     "gcdivide": {
         "function": "f"
+    },
+    "gcf": {
+        "function": "s"
     },
     "gcfac": {
         "function": "f"
@@ -3148,6 +3153,10 @@
     "implicit_plot": {
         "function": "f"
     },
+    "in": {
+        "keyword": "?",
+        "specialallowvariable": true
+    },
     "in_neighbors": {
         "function": "?"
     },
@@ -3228,7 +3237,11 @@
         "function": "s"
     },
     "int": {
-        "function": "s"
+        "function": "s",
+        "nounfunction": "nounint",
+        "aliasfunctions": [
+            "integrate"
+        ]
     },
     "intanalysis": {
         "variable": "?"
@@ -3246,7 +3259,9 @@
         "property": "?"
     },
     "integrate": {
-        "function": "s"
+        "aliasfunction": "int",
+        "function": "s",
+        "nounfunction": "nounint"
     },
     "integrate_use_rootsof": {
         "variable": "?"
@@ -3744,10 +3759,8 @@
         "function": "f"
     },
     "limit": {
-        "function": "s"
-    },
-    "nounlimit": {
-        "function": "s"
+        "function": "s",
+        "nounfunction": "nounlimit"
     },
     "limsubst": {
         "variable": "?"
@@ -4601,10 +4614,12 @@
         "property": "?"
     },
     "nounand": {
+        "nounoperatorfor": "and",
         "operator": "s"
     },
     "noundiff": {
-        "function": "s"
+        "function": "s",
+        "nounfunctionfor": "diff"
     },
     "noundisp": {
         "variable": "f"
@@ -4613,9 +4628,15 @@
         "function": "?"
     },
     "nounint": {
-        "function": "s"
+        "function": "s",
+        "nounfunctionfor": "int"
+    },
+    "nounlimit": {
+        "function": "s",
+        "nounfunctionfor": "limit"
     },
     "nounor": {
+        "nounoperatorfor": "or",
         "operator": "s"
     },
     "np": {
@@ -4792,6 +4813,7 @@
         "variable": "f"
     },
     "or": {
+        "nounoperator": "nounor",
         "operator": "s"
     },
     "orbit": {
@@ -5075,7 +5097,8 @@
         "variable": "s"
     },
     "pi": {
-        "constant": "s"
+        "constant": "s",
+        "aliasvariable": "%pi"
     },
     "pickapart": {
         "function": "f",
@@ -7416,6 +7439,9 @@
     },
     "uforget": {
         "function": "f"
+    },
+    "ug": {
+        "variable": "?"
     },
     "ultraspherical": {
         "function": "f"

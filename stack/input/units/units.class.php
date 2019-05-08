@@ -68,7 +68,7 @@ class stack_units_input extends stack_input {
             // Active empty choices don't result in a syntax hint again (with that option set).
             $attributes['value'] = '';
         } else if ($this->is_blank_response($state->contents)) {
-            $attributes['value'] = stack_utils::logic_nouns_sort($this->parameters['syntaxHint'], 'remove');
+            $attributes['value'] = $this->parameters['syntaxHint'];
         } else {
             $attributes['value'] = $this->contents_to_maxima($state->contents);
         }

@@ -26,6 +26,7 @@ defined('MOODLE_INTERNAL') || die();
 require_once('casstring.class.php');
 require_once('connectorhelper.class.php');
 require_once(__DIR__ . '/../options.class.php');
+require_once(__DIR__ . '/../maximaparser/utils.php');
 
 class stack_cas_session {
     /**
@@ -63,8 +64,27 @@ class stack_cas_session {
      */
     private $debuginfo;
 
+    /**
+     * @var array Cache for parsed values.
+     */
+    private $astcache;
+
     /** @var array Global variables. */
     private static $maximaglobals = array('stackintfmt' => true, 'stackfltfmt' => true, 'ibase' => true, 'obase' => true);
+
+    public function __debugInfo() {
+        // For various reasons we do not want to print out certain things like the ASTs.
+        // Make sure that if you add new fields you add them also here.
+        return array(
+            'session' => $this->session,
+            'options' => $this->options,
+            'seed' => $this->seed,
+            'valid' => $this->valid,
+            'instantiated' => $this->instantiated,
+            'errors' => $this->errors,
+            'debuginfo' => $this->debuginfo
+        );
+    }
 
     public function __construct($session, $options = null, $seed = null) {
 
@@ -144,6 +164,7 @@ class stack_cas_session {
         if (null === $this->valid) {
             $this->validate();
         }
+        $this->astcache = array();
         if (!$this->valid) {
             return false;
         }
@@ -339,6 +360,19 @@ class stack_cas_session {
             }
         }
         return false;
+    }
+
+    public function get_ast_key($key) {
+        if (isset($this->astcache[$key])) {
+            return $this->astcache[$key];
+        }
+        $value = $this->get_value_key($key, false);
+        $ast = maxima_parser_utils::parse($value);
+        if ($ast instanceof MP_Root) {
+            $ast = $ast->items[0];
+        }
+        $this->astcache[$key] = $ast;
+        return $ast;
     }
 
     public function get_display_key($key) {

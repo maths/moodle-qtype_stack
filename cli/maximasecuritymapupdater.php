@@ -110,9 +110,9 @@ foreach ($identifierdata as $identifier => $types) {
                         $olddata[$identifier] = array($t => '?');
                     } else if (!isset($olddata[$identifier][$t])) {
                         // Only set value if not already set.
-                        // The default value is '?' other options are 'f', 'tf'
-                        // and 's' for forbid, teacher forbid and student allow.
-                        // Things allowed for teachers are nto allowed for
+                        // The default value is '?' other options are 'f', 't'
+                        // and 's' for forbid, teacher allow and student allow.
+                        // Things allowed for teachers are not allowed for
                         // students but teachers may override that and forbidden
                         // Things are forbidden from all.
                         // '?' means we don't care yet.
@@ -122,6 +122,34 @@ foreach ($identifierdata as $identifier => $types) {
             }
         } else {
             cli_writeln("New type '$type'.");
+        }
+        if (isset($olddata[$identifier])) {
+            if (isset($olddata[$identifier]['aliasfunction'])) {
+                $targetdata = array();
+                if (isset($olddata[$olddata[$identifier]['aliasfunction']])) {
+                    $targetdata = $olddata[$olddata[$identifier]['aliasfunction']];
+                }
+                if (!isset($targetdata['aliasfunctions'])) {
+                    $targetdata['aliasfunctions'] = array($identifier);
+                }
+                if (array_search($identifier, $targetdata['aliasfunctions']) === false) {
+                    $targetdata['aliasfunctions'][] = $identifier;
+                }
+                $olddata[$olddata[$identifier]['aliasfunction']] = $targetdata;
+            }
+            if (isset($olddata[$identifier]['aliasvariable'])) {
+                $targetdata = array();
+                if (isset($olddata[$olddata[$identifier]['aliasvariable']])) {
+                    $targetdata = $olddata[$olddata[$identifier]['aliasvariable']];
+                }
+                if (!isset($targetdata['aliasvariables'])) {
+                    $targetdata['aliasvariables'] = array($identifier);
+                }
+                if (array_search($identifier, $targetdata['aliasvariables']) === false) {
+                    $targetdata['aliasvariables'][] = $identifier;
+                }
+                $olddata[$olddata[$identifier]['aliasvariable']] = $targetdata;
+            }
         }
     }
     if (isset($olddata[$identifier])) {

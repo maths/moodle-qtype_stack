@@ -135,6 +135,26 @@ class stack_cas_casstring {
              ' or ' => 'STACKOR', ' and ' => 'STACKAND', 'not ' => 'STACKNOT',
              ' nounor ' => 'STACKNOUNOR', ' nounand ' => 'STACKNOUNAND');
 
+
+    public function __debugInfo() {
+        // For various reasons we do not want to print out certain things like the AST.
+        // Make sure that if you add new fields you add them also here.
+        return array(
+            'rawcasstring' => $this->rawcasstring,
+            'casstring' => $this->casstring,
+            'value' => $this->value,
+            'dispvalue' => $this->dispvalue,
+            'conditions' => $this->conditions,
+            'feedback' => $this->feedback,
+            'valid' => $this->valid,
+            'key' => $this->key,
+            'contexts' => $this->contexts,
+            'errors' => $this->errors,
+            'answernote' => $this->answernote
+        );
+    }
+
+
     public function __construct($rawstring, $conditions = null, $ast = null) {
         // If null the validation will need to parse, in case of keyval just give the statement from bulk parsing.
         // Also means that potenttial unparseable insert starts magick will need to be done.
@@ -200,7 +220,7 @@ class stack_cas_casstring {
         $secrules->set_units($this->contexts['units']);
 
         $this->valid     = true;
-        $this->casstring = str_replace('?', 'QMCHAR', $this->rawcasstring);;
+        $this->casstring = $this->rawcasstring;
 
         // CAS strings must be non-empty.
         if (trim($this->casstring) == '') {
@@ -214,7 +234,30 @@ class stack_cas_casstring {
         if ($this->ast === null) {
             if ($security === 't') {
                 try {
-                    $this->ast = maxima_parser_utils::parse($this->casstring);
+                    // Without logic_nouns_sort we need to deal with QMCHAR manually here.
+                    $protected = $this->casstring;
+                    if (core_text::strpos($this->casstring, '"')) {
+                        $stringles = trim(stack_utils::eliminate_strings($this->casstring));
+                        $stringles = str_replace('?', 'QMCHAR', $stringles);
+                        $strings = stack_utils::all_substring_strings($this->casstring);
+                        $string = $this->casstring;
+                        if (count($strings) > 0) {
+                            $split = explode('""', $stringles);
+                            $stringbuilder = array();
+                            $i = 0;
+                            foreach ($strings as $string) {
+                                $stringbuilder[] = $split[$i];
+                                $stringbuilder[] = $string;
+                                $i++;
+                            }
+                            $stringbuilder[] = $split[$i];
+                            $protected = implode('"', $stringbuilder);
+                        }
+                    } else {
+                        $protected = str_replace('?', 'QMCHAR', $this->casstring);
+                    }
+
+                    $this->ast = maxima_parser_utils::parse($protected);
                 } catch (SyntaxError $e) {
                     $this->valid = false;
                     $this->teacher_parse_errors($e);
@@ -341,7 +384,17 @@ class stack_cas_casstring {
 
         $this->ast = $root;
 
-        $this->casstring = $this->ast->toString();
+        if ($security === 's') {
+            $this->casstring = $this->ast->toString(array('nounify' => true));
+        } else if ($security === 't') {
+            $this->casstring = $this->ast->toString();
+            if ($this->ast instanceof MP_Statement && 
+                $this->ast->flags !== null && count($this->ast->flags) > 0) {
+                // This makes it possible to write when authoring evaluation flags 
+                // like in maxima without wrapping in ev() yourself.
+                $this->casstring = 'ev(' . $this->ast->toString() . ')';
+            }
+        }
 
         return $this->valid;
     }
@@ -1090,7 +1143,7 @@ class stack_cas_casstring {
     public function set_dispvalue($val) {
         $val = str_replace('"!! ', '', $val);
         $val = str_replace(' !!"', '', $val);
-        $this->dispvalue = trim(stack_utils::logic_nouns_sort($val, 'remove'));
+        $this->dispvalue = trim(stack_utils::old_logic_nouns_sort($val, 'remove'));
     }
 
     public function get_answernote($raw = 'implode') {

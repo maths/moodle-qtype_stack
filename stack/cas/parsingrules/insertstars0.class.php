@@ -59,8 +59,8 @@ class stack_parser_logic_insertstars0 extends stack_parser_logic {
                     $answernote[] = 'missing_stars';
                 }
                 // As we output the AST as a whole including the MP_Root there will be extra chars at the end.
-                $missingstring = core_text::substr(stack_utils::logic_nouns_sort($ast->toString(
-                        array('insertstars_as_red' => true, 'qmchar' => true)), 'remove'), 0, -2);
+                $missingstring = core_text::substr($ast->toString(
+                        array('insertstars_as_red' => true, 'qmchar' => true)), 0, -2);
                 $a = array();
                 $a['cmd']  = stack_maxima_format_casstring($missingstring);
                 $errors[] = stack_string('stackCas_MissingStars', $a);
@@ -81,8 +81,8 @@ class stack_parser_logic_insertstars0 extends stack_parser_logic {
                 if (array_search('spaces', $answernote) === false) {
                     $answernote[] = 'spaces';
                 }
-                $missingstring = core_text::substr(stack_utils::logic_nouns_sort($ast->toString(
-                        array('fixspaces_as_red_spaces' => true, 'qmchar' => true)), 'remove'), 0, -2);
+                $missingstring = core_text::substr($ast->toString(
+                        array('fixspaces_as_red_spaces' => true, 'qmchar' => true)), 0, -2);
                 $a = array();
                 $a['expr']  = stack_maxima_format_casstring($missingstring);
                 $errors[] = stack_string('stackCas_spaces', $a);

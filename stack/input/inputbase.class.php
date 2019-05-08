@@ -760,7 +760,6 @@ abstract class stack_input {
                 $forbiddenkeys);
 
         foreach ($contents as $index => $val) {
-            $val = stack_utils::logic_nouns_sort($val, 'add');
             $answer = new stack_cas_casstring($val);
             if ($this->units) {
                 $answer->set_context('units', true);
@@ -1034,7 +1033,7 @@ abstract class stack_input {
         }
         $feedback  = '';
         $feedback .= html_writer::tag('p', stack_string('studentValidation_yourLastAnswer',
-                stack_utils::logic_nouns_sort($state->contentsdisplayed, 'remove')));
+                stack_utils::old_logic_nouns_sort($state->contentsdisplayed, 'remove')));
 
         if ($this->requires_validation() && '' !== $state->contents) {
             $feedback .= html_writer::empty_tag('input', array('type' => 'hidden',
@@ -1103,7 +1102,7 @@ abstract class stack_input {
      * @param unknown_type $in
      */
     public function get_correct_response($in) {
-        $value = stack_utils::logic_nouns_sort($in, 'remove');
+        $value = stack_utils::old_logic_nouns_sort($in, 'remove');
         if (trim($value) == 'EMPTYANSWER') {
             $value = '';
         }

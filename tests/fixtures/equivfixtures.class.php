@@ -1502,7 +1502,9 @@ class stack_equiv_test_data {
                 if ($equivarg['outcome'] === true) {
                     $score = 1;
                 }
-                $arg = stack_utils::logic_nouns_sort($equivarg['casstring'], 'add');
+                $arg = $equivarg['casstring'];
+                // TODO: do we need to do this?
+                //$arg = stack_utils::logic_nouns_sort($equivarg['casstring'], 'add');
 
                 foreach ($validoptions as $opt) {
                     if (array_key_exists($opt, $equivarg)) {

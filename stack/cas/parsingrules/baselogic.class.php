@@ -103,9 +103,8 @@ abstract class stack_parser_logic {
             $answernote[] = 'missing_stars';
             if (!$insertstars) {
                 $stringged = $this->strings_replace($langlet . $stringles, $string);
-                $missingstring = stack_utils::logic_nouns_sort($stringged, 'remove');
                 $missingstring = stack_maxima_format_casstring(str_replace('*%%IS',
-                  "<font color=\"red\">*</font>", $missingstring));
+                  "<font color=\"red\">*</font>", $stringged));
                 $a  = array('cmd' => str_replace('QMCHAR', '?', $missingstring));
                 $err1 = stack_string('stackCas_MissingStars', $a);
             }
@@ -147,7 +146,6 @@ abstract class stack_parser_logic {
 
                     $cmds = str_replace('*%%IS', '*', $cmds);
                     $cmds = str_replace('*%%Is', '<font color="red">_</font>', $cmds);
-                    $cmds = stack_utils::logic_nouns_sort($cmds, 'remove');
                     $cmds = str_replace('QMCHAR', '?', $cmds);
                     $err2 = stack_string('stackCas_spaces', array('expr' => stack_maxima_format_casstring($cmds)));
                 }
@@ -315,6 +313,7 @@ abstract class stack_parser_logic {
         $original = $string;
         $string = str_replace('*%%IS', '*', $string);
         $string = str_replace('*%%Is', '*', $string);
+        $string = str_replace('QMCHAR', '?', $string);
 
         if ($foundchar === '(' || $foundchar === ')' || $previouschar === '(' || $previouschar === ')' || $foundchar === null) {
             $stringles = stack_utils::eliminate_strings($string);
@@ -425,7 +424,6 @@ abstract class stack_parser_logic {
             $cmds = str_replace('*%%IS', '*', $cmds);
             $cmds = str_replace('*%%Is', '<font color="red">_</font>', $cmds);
             $answernote[] = 'spaces';
-            $cmds = stack_utils::logic_nouns_sort($cmds, 'remove');
             $errors[] = stack_string('stackCas_spaces', array('expr' => stack_maxima_format_casstring($cmds)));
         } else if ($foundchar === ':' && (strpos($string, ':lisp') !== false)) {
             $errors[] = stack_string('stackCas_forbiddenWord',
@@ -446,16 +444,14 @@ abstract class stack_parser_logic {
         } else if ($nextchar === null && ($foundchar !== null && core_text::strpos($disallowedfinalchars, $foundchar) !== false)) {
             $a = array();
             $a['char'] = $foundchar;
-            $cdisp = stack_utils::logic_nouns_sort($string, 'remove');
-            $a['cmd']  = stack_maxima_format_casstring($cdisp);
+            $a['cmd']  = stack_maxima_format_casstring($string);
             $errors[] = stack_string('stackCas_finalChar', $a);
             $answernote[] = 'finalChar';
         } else if ($foundchar === null && ($previouschar !== null &&
                 core_text::strpos($disallowedfinalchars, $previouschar) !== false)) {
             $a = array();
             $a['char'] = $previouschar;
-            $cdisp = stack_utils::logic_nouns_sort($string, 'remove');
-            $a['cmd']  = stack_maxima_format_casstring($cdisp);
+            $a['cmd']  = stack_maxima_format_casstring($string);
             $errors[] = stack_string('stackCas_finalChar', $a);
             $answernote[] = 'finalChar';
         } else if ($foundchar === '!' && ($previouschar === null ||
@@ -464,15 +460,6 @@ abstract class stack_parser_logic {
             $a = array('op' => stack_maxima_format_casstring('!'));
             $errors[] = stack_string('stackCas_badpostfixop', $a);
             $answernote[] = 'badpostfixop';
-        } else if (core_text::strpos($disallowedfinalchars,
-                                     core_text::substr(trim(stack_utils::logic_nouns_sort($string, 'remove')), -1)) !== false) {
-            // This is for unpacking stackeq() ant similar.
-            $a = array();
-            $a['char'] = core_text::substr(trim(stack_utils::logic_nouns_sort($string, 'remove')), -1);
-            $cdisp = stack_utils::logic_nouns_sort($string, 'remove');
-            $a['cmd']  = stack_maxima_format_casstring($cdisp);
-            $errors[] = stack_string('stackCas_finalChar', $a);
-            $answernote[] = 'finalChar';
         } else {
             $errors[] = $exception->getMessage();
             $answernote[] = 'ParseError';

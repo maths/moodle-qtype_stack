@@ -219,7 +219,7 @@ class stack_dropdown_input extends stack_input {
                 if (substr($display, 0, 1) == '"' && substr($display, 0, 1) == '"') {
                     $ddlvalues[$key]['display'] = substr($display, 1, strlen($display) - 2);
                 } else {
-                    $display = stack_utils::logic_nouns_sort($display, 'remove');
+                    $display = stack_utils::old_logic_nouns_sort($display, 'remove');
                     $ddlvalues[$key]['display'] = '<code>'.$display.'</code>';
                 }
             }

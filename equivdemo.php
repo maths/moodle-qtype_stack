@@ -133,7 +133,7 @@ foreach ($samplearguments as $argument) {
             }
             $ac->get_valid('t');
 
-            $arg = stack_utils::logic_nouns_sort($argument['casstring'], 'add');
+            $arg = stack_utils::old_logic_nouns_sort($argument['casstring'], 'add');
             $cs1 = new stack_cas_casstring($arg);
             $cs1->get_valid('s');
             // This step is needed because validate replaces `or` with `nounor` etc.

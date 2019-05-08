@@ -145,10 +145,15 @@ class stack_question_test {
             // This permits invalid expressions in the inputs, and to compute with valid expressions.
             if ('' == $computedinput) {
                 $computedinput = $inputs[$name];
+            } else {
+                // 4.3. menas the logic_nouns_sort is done through parse trees.
+                $computedinput = $cascontext->get_ast_key('testresponse_' . $name)->toString(array('nounify' => false));
             }
             if (array_key_exists($name, $question->inputs)) {
                 // Remove things like apostrophies in test case inputs so we don't create an invalid student input.
-                $value = stack_utils::logic_nouns_sort($computedinput, 'remove');
+                // 4.3. changes this
+                //$value = stack_utils::logic_nouns_sort($computedinput, 'remove');
+                $value = $computedinput;
                 $response = array_merge($response, $question->inputs[$name]->maxima_to_response_array($value));
             }
         }

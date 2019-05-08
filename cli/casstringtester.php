@@ -73,9 +73,6 @@ for ($insertstars = 0; $insertstars < 6; $insertstars++) {
             $heading3 = $heading2 . ' syntax = ' . ($syntax ? 'true' : 'false');
             foreach (array(true, false) as $units) {
                 $str = $teststring;
-                if ($security === 's') {
-                    $str = stack_utils::logic_nouns_sort($str, 'add');
-                }
                 $heading = $heading3 . ' units = ' . ($units ? 'true' : 'false');
                 $output = array();
                 $cs = new stack_cas_casstring($str);

@@ -760,6 +760,10 @@ abstract class stack_input {
                 $forbiddenkeys);
 
         foreach ($contents as $index => $val) {
+            if ($val === null) {
+                // One of those things logic nouns hid.
+                $val = '';
+            }
             $answer = new stack_cas_casstring($val);
             if ($this->units) {
                 $answer->set_context('units', true);

@@ -54,7 +54,7 @@ Find \(\int 5(3x-2)^{-3} \mathrm{d}x\).
 Notes:
 
 * Moodle has a wide choice for text editors, so the screenshots in this quick start guide might look slightly different to your version of Moodle.  Also the cut and paste may, or may not, include some of the formatting.
-* The text contains LaTeX mathematics environments.  Do not use mathematics environments `$..$` and `$$..$$`.  Instead you must use `\(..\)` and `\[..]\` for inline and displayed mathematics respectively.  (There is an automatic bulk converter if you have a lot of legacy materials.)
+* The text contains LaTeX mathematics environments.  Do not use mathematics environments `$..$` and `$$..$$`.  Instead you must use `\(..\)` and `\[..\]` for inline and displayed mathematics respectively.  (There is an automatic bulk converter if you have a lot of legacy materials.)
 * The tag `[[input:ans1]]` denotes the position of the box into which the student puts their answer.
 * The tag `[[validation:ans1]]` will be replaced by any feedback related to the validity of the input `ans1`.  E.g. syntax errors caused by missing brackets.
 * The tags could be positioned anywhere in the question text: more on this later.
@@ -401,11 +401,11 @@ Two question versions are considered to be the same if and only if the question 
 ### Handling random variables in the Potential Response Tree ###
 
 We also need to ensure the test answers, `TAns`, in each node of the potential response tree are updated accordingly. 
-If the student has differentiated the outer function by mistake then the derivative of their response will be of the form `a1*n*(n-1)*(x-a_2)^(n-2)`.
+If the student has differentiated the outer function by mistake then the derivative of their response will be of the form `a1*n*(n-1)*(x-a2)^(n-2)`.
 
 We will need to update `TAns` of node 2 of the potential response tree to add in this value.  It is sensible to create another question variable
 
-    taw1:a1*n*(n-1)*(x-a_2)^(n-2)
+    taw1:a1*n*(n-1)*(x-a2)^(n-2)
 
 So this possible outcome can be used in the potential response tree, question tests and so on by referring to the variable `taw1`.
 

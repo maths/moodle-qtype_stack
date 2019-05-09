@@ -219,12 +219,11 @@ class stack_equiv_input extends stack_input {
 
             $answer->get_valid('s', $this->get_parameter('strictSyntax', true),
                     $this->get_parameter('insertStars', 0), $secrules);
-            if ($answer->ast instanceof MP_String) {
-                // Is the student permitted to include comments in their answer?
-                if (!$this->extraoptions['comments']) {
-                    $valid = false;
-                    $answer->add_errors(stack_string('equivnocomments'));
-                }
+            // Is the student permitted to include comments in their answer?
+            if (!$this->extraoptions['comments'] && $answer->ast instanceof MP_Statement &&
+                    array_pop($answer->ast->getChildren()) instanceof MP_String) {
+                $valid = false;
+                $answer->add_errors(stack_string('equivnocomments'));
             }
 
             $caslines[] = $answer;

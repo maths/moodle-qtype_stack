@@ -71,6 +71,11 @@ abstract class stack_parser_logic {
             if (strtolower(substr($stringles, 0, strlen($langlet))) === $langlet) {
                 $stringles = substr($stringles, strlen($langlet));
                 $fixlet = true;
+            } else if (strtolower(substr($stringles, 0, strlen('let '))) === 'let ') {
+                // In the case of localisable grammar we alway support the original form.
+                // But may represent it as other during latter processing.
+                $stringles = substr($stringles, strlen($langlet));
+                $fixlet = true;
             }
         }
 

@@ -122,7 +122,7 @@ class stack_textarea_input extends stack_input {
             if (trim($val) != '') {
                 $cs = new stack_cas_casstring($val);
                 if ($cs->get_valid('t')) {
-                    $val = $cs->ast->toString(array('nounify' => false, 'inputform' => true));
+                    $val = $cs->ast->toString(array('nounify' => false, 'inputform' => true, 'qmchar' => true));
                 }
             }
             $values[$key] = $val;

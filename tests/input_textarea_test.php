@@ -56,7 +56,7 @@ class stack_textarea_input_test extends qtype_stack_testcase {
         $el = stack_input_factory::make('textArea', 'test', null, null, array('syntaxHint' => '[y=?, z=?]'));
         $this->assertEquals('<textarea name="st_ans1" id="st_ans1" autocapitalize="none" spellcheck="false" rows="5" ' .
                 'cols="20">' .
-                    "y=?\n z=?</textarea><div class=\"clearfix\"></div>",
+                    "y=?\nz=?</textarea><div class=\"clearfix\"></div>",
         $el->render(new stack_input_state(stack_input::BLANK, array(), '', '', '', '', ''),
                             'st_ans1', false, null));
     }

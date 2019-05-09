@@ -190,6 +190,14 @@ Equivline
   ?> **/ 
   return exp;
   }
+  / __? 'let ' __? op:Operation __? {
+  /** <?php 
+  $r = new MP_Let($op);
+  $r->position = array('start'=>$this->peg_reportedPos,'end'=>$this->peg_currPos);
+  return $r; 
+  ?> **/ 
+  return op;
+  }
   / __? let:Identifier ' ' __? op:Operation __? & { /** return strtolower($let->value) === strtolower($this->options['letToken']); ?> **/ return let.value.toLowerCase() === options.letToken.toLowerCase(); } {
   /** <?php 
   $r = new MP_Let($op);

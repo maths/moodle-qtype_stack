@@ -311,16 +311,16 @@ class stack_cas_text_test extends qtype_stack_testcase {
     }
 
     public function test_bad_variablenames() {
+        // NOTE: Consider this test, when does the student actually write castext?
+        // And insert stars in that case surely does not matter much.
         $cs = new stack_cas_session(array(), null, 0);
         $rawcastext = '\[\begin{array}{rcl} & =& {@Ax2@} + {@double_cAx@} + {@c2A@} + {@Bx2@} + {@cBx@} + {@Cx@},\\ & =' .
                 '& {@ApBx2@} + {@xterm@} + {@c2A@}. \end{array}\] Matching coefficients \[\begin{array}{rcl} A + B& =' .
                 '& {@a@}\,\\ {@double_cA + cB@} + C& =& 0,\\ {@Ac2@}& =& {@b@}. \end{array}\]';
-        $at1 = new stack_cas_text($rawcastext, $cs, 0, 't', false, 0);
+        $at1 = new stack_cas_text($rawcastext, $cs, 0, 's', false, 0);
 
-        $this->assertTrue($at1->get_valid());
-        $this->assertEquals('<span class="error">CASText failed validation. </span> ' .
-                        'CAS commands not valid.  You seem to be missing * characters. Perhaps you meant to type ' .
-                        '<span class="stacksyntaxexample">c2<font color="red">*</font>A</span>.',
+        $this->assertFalse($at1->get_valid());
+        $this->assertEquals('<span class="error">CASText failed validation. </span>CAS commands not valid.  You seem to be missing * characters. Perhaps you meant to type <span class="stacksyntaxexample">Ax<font color="red">*</font>2</span>. Forbidden variable or constant: <span class="stacksyntaxexample">double</span>. Forbidden variable or constant: <span class="stacksyntaxexample">cAx</span>. You seem to be missing * characters. Perhaps you meant to type <span class="stacksyntaxexample">c<font color="red">*</font>2<font color="red">*</font>A</span>. You seem to be missing * characters. Perhaps you meant to type <span class="stacksyntaxexample">Bx<font color="red">*</font>2</span>. Forbidden variable or constant: <span class="stacksyntaxexample">cBx</span>.  You seem to be missing * characters. Perhaps you meant to type <span class="stacksyntaxexample">ApBx<font color="red">*</font>2</span>. Forbidden variable or constant: <span class="stacksyntaxexample">xterm</span>. Forbidden variable or constant: <span class="stacksyntaxexample">double</span>. You seem to be missing * characters. Perhaps you meant to type <span class="stacksyntaxexample">Ac<font color="red">*</font>2</span>.',
                         $at1->get_errors());
     }
 
@@ -1021,32 +1021,6 @@ class stack_cas_text_test extends qtype_stack_testcase {
 
         $this->assertEquals('\({\lambda\left(\left[ x , n \right]  , {\it significantfigures}\left(x , n\right)\right)}\), \({3}\)',
             $at1->get_display_castext());
-    }
-
-
-    public function test_odd_logic_eval() {
-        // First we have a session. That comes from keyval like question-vars.
-        $kv = new stack_cas_keyval('a:true;b:is(1>2);c:false');
-        $s = $kv->get_session(); // This does a validation on the side.
-
-        // Take '[[ if test="b" ]]ok4[[elif test="c"]]Ok4[[ else ]]OK4[[/ if ]]' as the castext.
-        // Then we start to add some new variables into it as the castext is evaluated.
-        // First the conditions that have been extracted from a if-elif-else construct during the "compilation"-step.
-        $s->add_vars(array(new stack_cas_casstring('stackparsecond8:b')));
-        $s->add_vars(array(new stack_cas_casstring('stackparsecond9:not (stackparsecond8) and (c)')));
-        $s->add_vars(array(new stack_cas_casstring('stackparsecond10:not (stackparsecond9)')));
-
-        // After that the if-blocks will map those definitions to their own conditions.
-        $s->add_vars(array(new stack_cas_casstring('caschat0:stackparsecond8')));
-        $s->add_vars(array(new stack_cas_casstring('caschat1:stackparsecond9')));
-        $s->add_vars(array(new stack_cas_casstring('caschat2:stackparsecond10')));
-
-        // Now lets instantiate.
-        $s->instantiate();
-
-        $this->assertEquals('false', $s->get_value_key('caschat0'));
-        $this->assertEquals('false', $s->get_value_key('caschat1'));
-        $this->assertEquals('true', $s->get_value_key('caschat2'));
     }
 
     public function test_stackintfmt() {

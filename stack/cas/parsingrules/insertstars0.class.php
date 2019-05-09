@@ -58,9 +58,12 @@ class stack_parser_logic_insertstars0 extends stack_parser_logic {
                 if (array_search('missing_stars', $answernote) === false) {
                     $answernote[] = 'missing_stars';
                 }
-                // As we output the AST as a whole including the MP_Root there will be extra chars at the end.
-                $missingstring = core_text::substr($ast->toString(
-                        array('insertstars_as_red' => true, 'qmchar' => true)), 0, -2);
+                // As we output the AST as a whole including the MP_Root there will be extra chars at the end. But it might also come form other parsing rules...
+                $missingstring = $ast->toString(array('insertstars_as_red' => true, 'qmchar' => true, 'inputform' => true));
+                if ($ast instanceof MP_Root) {
+                    $missingstring = core_text::substr($missingstring, 0, -2);
+                }
+
                 $a = array();
                 $a['cmd']  = stack_maxima_format_casstring($missingstring);
                 $errors[] = stack_string('stackCas_MissingStars', $a);
@@ -81,8 +84,11 @@ class stack_parser_logic_insertstars0 extends stack_parser_logic {
                 if (array_search('spaces', $answernote) === false) {
                     $answernote[] = 'spaces';
                 }
-                $missingstring = core_text::substr($ast->toString(
-                        array('fixspaces_as_red_spaces' => true, 'qmchar' => true)), 0, -2);
+                $missingstring = $ast->toString(
+                        array('fixspaces_as_red_spaces' => true, 'qmchar' => true, 'inputform' => true));
+                if ($ast instanceof MP_Root) {
+                    $missingstring = core_text::substr($missingstring, 0, -2);
+                }
                 $a = array();
                 $a['expr']  = stack_maxima_format_casstring($missingstring);
                 $errors[] = stack_string('stackCas_spaces', $a);

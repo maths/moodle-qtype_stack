@@ -47,9 +47,12 @@ class stack_cas_castext_if extends stack_cas_castext_block {
         $cs = null;
         $cs = new stack_cas_casstring("$key:$condition", $conditionstack);
 
-        $this->condition = $cs;
-
         $cs->get_valid($this->security, $this->syntax, $this->insertstars);
+        // In 4.3 the nounification happens in such a way that evaluation of 
+        // conditions may break, therefore we must force denounification here.
+        $cs->set_nounvalues('remove');
+
+        $this->condition = $cs;
 
         $tobeevaluatedcassession->add_vars(array($cs));
     }

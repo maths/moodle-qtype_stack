@@ -146,6 +146,14 @@ class stack_equiv_input extends stack_input {
         return $contents;
     }
 
+    protected function caslines_to_answer($caslines) {
+        $vals = array();
+        foreach ($caslines as $line) {
+            $vals[] = $line->get_casstring();
+        }
+        return new stack_cas_casstring('['.implode(',', $vals).']');
+    }
+
     /**
      * Transforms the contents array into a maxima expression.
      *
@@ -206,9 +214,6 @@ class stack_equiv_input extends stack_input {
         // This input re-defines validate_condents, and so does not make use of extra_validation methods.
         $errors = array();
         $valid = true;
-
-        // Now validate the input as CAS code.
-        $modifiedcontents = array();
         $caslines = array();
 
         $secrules = new stack_cas_security($this->units,
@@ -217,12 +222,13 @@ class stack_equiv_input extends stack_input {
                         $this->get_parameter('forbidWords', '') . ', :=',
                         $forbiddenkeys);
 
-        $logic = stack_parsingrule_factory::get_parsingrule($this->get_parameter('insertStars', 0));
         foreach ($contents as $index => $val) {
-
+            if ($val === null) {
+                // One of those things logic nouns hid.
+                $val = '';
+            }
             $answer = new stack_cas_casstring($val);
             $answer->set_context('equivline', true);
-
             $answer->get_valid('s', $this->get_parameter('strictSyntax', true),
                     $this->get_parameter('insertStars', 0), $secrules);
             // Is the student permitted to include comments in their answer?
@@ -233,12 +239,17 @@ class stack_equiv_input extends stack_input {
             }
 
             $caslines[] = $answer;
-            $modifiedcontents[] = $answer->get_casstring();
             $valid = $valid && $answer->get_valid();
             $errors[] = $answer->get_errors();
         }
 
-        return array($valid, $errors, $modifiedcontents, $caslines);
+        // Construct one final "answer" as a single maxima object.
+        $answer = $this->caslines_to_answer($caslines);
+        $answer->set_context('equivline', true);
+        $answer->get_valid('s', $this->get_parameter('strictSyntax', true),
+                $this->get_parameter('insertStars', 0), $secrules);
+
+        return array($valid, $errors, $answer, $caslines);
     }
 
     /**

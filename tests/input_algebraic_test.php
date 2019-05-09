@@ -173,7 +173,7 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         $el->set_parameter('strictSyntax', false);
         $state = $el->validate_student_response(array('sans1' => '2x(1+x^2)+tans'), $options, 'x^2/(1+x^2)', array('tans'));
         $this->assertEquals(stack_input::INVALID, $state->status);
-        $this->assertEquals('forbiddenVariable', $state->note);
+        $this->assertEquals('missing_stars | forbiddenVariable', $state->note);
     }
 
     public function test_validate_student_response_6() {
@@ -194,7 +194,7 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         $el->set_parameter('strictSyntax', true);
         $state = $el->validate_student_response(array('sans1' => '2x(1+x^2)+tans'), $options, 'x^2/(1+x^2)', array('tans'));
         $this->assertEquals(stack_input::INVALID, $state->status);
-        $this->assertEquals('Variable_function', $state->note);
+        $this->assertEquals('missing_stars | Variable_function', $state->note);
     }
 
     public function test_validate_student_response_8() {
@@ -507,7 +507,6 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         $options = new stack_options();
         $el = stack_input_factory::make('algebraic', 'sans1', 'int(x^2+1,x)+c');
         $state = $el->validate_student_response(array('sans1' => 'integrate(x^2+1,x)+c'), $options, 'int(x^2+1,x)+c', array('ta'));
-        print_r($state);
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('nounint(x^2+1,x)+c', $state->contentsmodified);
         $this->assertEquals('\[ \int {x^2+1}{\;\mathrm{d}x}+c \]', $state->contentsdisplayed);
@@ -524,8 +523,7 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         $this->assertEquals('nounint(x^2+1,x)+c', $state->contentsmodified);
         $this->assertEquals(stack_input::INVALID, $state->status);
         $this->assertEquals('forbiddenFunction', $state->note);
-        // The noun form has been converted back to "int" in the contentsdisplayed.
-        $this->assertEquals('<span class="stacksyntaxexample">int(x^2+1,x)+c</span>', $state->contentsdisplayed);
+        $this->assertEquals('<span class="stacksyntaxexample">integrate(x^2+1,x)+c</span>', $state->contentsdisplayed);
     }
 
     public function test_validate_student_response_single_variable() {

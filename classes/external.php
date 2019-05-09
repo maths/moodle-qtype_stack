@@ -85,6 +85,8 @@ class external extends \external_api {
         $input = $question->inputs[$name];
         $state = $question->get_input_state($params['name'], $params['input'], true);
 
+file_put_contents('/home/sangwinc/tmp/ajax.txt', $input->render_validation($state, $qa->get_qt_field_name($params['name'])));
+
         return [
             'input'   => $params['input'],
             'status'  => $state->status,

@@ -202,9 +202,15 @@ class stack_matrix_input extends stack_input {
             }
             $modifiedcontents[] = $modifiedrow;
         }
+        // Construct one final "answer" as a single maxima object.
+        // In the case of matrices (where $caslines are empty) create the object directly here.
+        $value = $this->contents_to_maxima($modifiedcontents);
+        $answer = new stack_cas_casstring($value);
+        $answer->get_valid('s', $this->get_parameter('strictSyntax', true),
+                $this->get_parameter('insertStars', 0), $secrules);
 
         $caslines = array();
-        return array($valid, $errors, $modifiedcontents, $caslines);
+        return array($valid, $errors, $answer, $caslines);
     }
 
     public function render(stack_input_state $state, $fieldname, $readonly, $tavalue) {

@@ -766,7 +766,7 @@ class stack_cas_casstring_old {
         $allowedcharsregex = '~[^' . preg_quote(self::$allowedchars, '~') . ']~u';
 
         // Need to trim off the "stackeq(..)" operator.
-        $cmd = trim(stack_utils::old_logic_nouns_sort($cmd, 'remove'));
+        $cmd = trim(old_logic_nouns_sort($cmd, 'remove'));
 
         // Check for permitted characters.
         if (preg_match_all($allowedcharsregex, $cmd, $matches)) {
@@ -811,7 +811,7 @@ class stack_cas_casstring_old {
             $a['char'] = $match[0];
             $cdisp = $this->rawcasstring;
             if ($security == 's') {
-                $cdisp = stack_utils::old_logic_nouns_sort($cdisp, 'remove');
+                $cdisp = old_logic_nouns_sort($cdisp, 'remove');
             }
             $a['cmd']  = stack_maxima_format_casstring($cdisp);
             $this->add_error(stack_string('stackCas_finalChar', $a));
@@ -968,7 +968,7 @@ class stack_cas_casstring_old {
                 foreach (self::$spacepatterns as $key => $pat) {
                     $cmds = str_replace($pat, $key, $cmds);
                 }
-                $cmds = stack_utils::old_logic_nouns_sort($cmds, 'remove');
+                $cmds = old_logic_nouns_sort($cmds, 'remove');
                 $this->add_error(stack_string('stackCas_spaces', array('expr' => stack_maxima_format_casstring($cmds))));
                 $this->valid = false;
             }
@@ -1048,7 +1048,7 @@ class stack_cas_casstring_old {
                     $cmd = preg_replace($pat, "\${1}*\${2}", $cmd);
                 } else {
                     // Flag up the error.
-                    $missingstring = stack_utils::old_logic_nouns_sort($cmd, 'remove');
+                    $missingstring = old_logic_nouns_sort($cmd, 'remove');
                     $missingstring = stack_maxima_format_casstring(preg_replace($pat,
                         "\${1}<font color=\"red\">*</font>\${2}", $missingstring));
                 }
@@ -1066,7 +1066,7 @@ class stack_cas_casstring_old {
             return str_replace('QMCHAR', '?', $cmd);
         } else {
             // If missing stars & strict syntax is on return errors.
-            $missingstring = stack_utils::old_logic_nouns_sort($missingstring, 'remove');
+            $missingstring = old_logic_nouns_sort($missingstring, 'remove');
             $a['cmd']  = str_replace('QMCHAR', '?', $missingstring);
             $this->add_error(stack_string('stackCas_MissingStars', $a));
             $this->valid = false;
@@ -1661,4 +1661,71 @@ class stack_cas_casstring_old {
             $this->set_answernote('CASError: '.$error);
         }
     }
+}
+
+/* The purpose of this function is to make all occurances of the logical
+ * operators "and" and "or" into their noun equivalent versions.  The support
+ * for these opertators in Maxima relies on the underlying lisp version and hence
+ * it is impossible to turn simplification off and make them inert.  In particular
+ * expressions such as x=1 or x=2 immediately evaluate to false in Maxima,
+ * which is awkward for students' input.
+ *
+ * Teachers need to use the non-intert forms in loops and conditional statements.
+ *
+ * If the parameter is 'add' we put in noun versions, and if 'remove' we remove them.
+ */
+function old_logic_nouns_sort($str, $direction) {
+    // NOTE: This function is being removed and only used in places
+    // from where it has not been removed yet.
+
+    if ($direction != 'add' && $direction != 'remove') {
+        throw new stack_exception('logic_nouns_sort: direction must be "add" or "remove", but received: '. $direction);
+    }
+
+    // Note, the spaces before these connectives are essential.
+    $connectives = array(' and' => ' nounand', ' or' => ' nounor', ')and' => ') nounand', ')or' => ') nounor');
+    // The last two patterns are fine in the reverse direction as these patterns will have gone.
+    $regexnouns = array('int' => 'nounint', 'integrate' => 'nounint', 'diff' => 'noundiff', 'limit' => 'nounlimit');
+
+    if ($direction === 'add') {
+        foreach ($connectives as $key => $val) {
+            $str = str_replace($key, $val, $str);
+        }
+        foreach ($regexnouns as $key => $val) {
+            $str = preg_replace('!(\b)(' . $key . '\\()!', $val . '(', $str);
+        }
+        // Check if we are using equational reasoning.
+        if (substr(trim($str), 0, 1) === "=") {
+            $trimmed = trim(substr(trim($str), 1));
+            if ( $trimmed !== '') {
+                $str = 'stackeq(' . $trimmed . ')';
+            }
+        }
+        // Safely wrap "let" statements.
+        $langlet = strtolower(stack_string('equiv_LET'));
+        if (strtolower(substr($str, 0, strlen($langlet))) === $langlet) {
+            $nv = explode('=', substr($str, strlen($langlet) + 1));
+            if (count($nv) === 2) {
+                $str = 'stacklet('.trim($nv[0]).','.trim($nv[1]).')';
+            }
+        }
+    } else {
+        foreach (array_merge($connectives, $regexnouns) as $key => $val) {
+            $str = str_replace($val, $key, $str);
+        }
+        if (substr(trim($str), 0, 8) == 'stackeq(' && substr(trim($str), -1, 1) == ')') {
+            $str = '=' . substr(trim($str), 8, -1);
+        }
+        if (substr(trim($str), 0, 9) == 'stacklet(' && substr(trim($str), -1, 1) == ')') {
+            $str = stack_string('equiv_LET') . ' ' . implode('=', explode(',', substr(trim($str), 9, -1)));
+        }
+        // Apostophies are not permitted in student's expressions.
+        $str = str_replace("'sum", "sum", $str);
+        $str = str_replace("'int", "int", $str);
+        $str = str_replace("'diff", "diff", $str);
+        $str = str_replace('QMCHAR', '?', $str);
+        $str = str_replace("'limit", "limit", $str);
+    }
+
+    return $str;
 }

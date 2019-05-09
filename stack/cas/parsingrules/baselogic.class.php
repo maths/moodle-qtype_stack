@@ -45,9 +45,10 @@ abstract class stack_parser_logic {
              ':if ' => ':%%STACKIF%%', ' then ' => '%%STACKTHEN%%',
              ' else ' => '%%STACKELSE%%');
 
-    // $string => $ast, with direct assignments of details to fields in
+    // With $string => $ast, with direct assignments of details to fields in
     // the casstring, will update the string given as it is changed.
-    public abstract function parse(&$string, &$valid, &$errors, &$answernote, $syntax, string $parserule = 'Root', bool $units = false);
+    public abstract function parse(&$string, &$valid, &$errors, &$answernote, $syntax,
+            string $parserule = 'Root', bool $units = false);
 
     // This is the minimal implementation of pre-parse syntax fail fixes.
     // Should be enough for most logics will return an $ast or null.
@@ -189,7 +190,7 @@ abstract class stack_parser_logic {
     // multiplication operations.
     protected function commonpostparse($ast) {
         $processmarkkers = function($node) {
-            // Map most of the insertted stars
+            // Map most of the insertted stars.
             if ($node instanceof MP_Operation && $node->op === '*') {
                 $rhs = $node->leftmostofright();
                 if ($rhs instanceof MP_Identifier && core_text::substr($rhs->value, 0, 4) === '%%IS') {
@@ -206,7 +207,7 @@ abstract class stack_parser_logic {
                 }
             }
 
-            // %%IS is used in the pre-parser to mark implied multiplications
+            // %%IS is used in the pre-parser to mark implied multiplications.
             if ($node instanceof MP_FunctionCall && $node->name instanceof MP_Identifier &&
                     core_text::substr($node->name->value, 0, 4) === '%%IS') {
                 $node->name->value = core_text::substr($node->name->value, 4);
@@ -262,7 +263,8 @@ abstract class stack_parser_logic {
                 $prefix = core_text::substr($node->name->value, 0, 1);
                 $name = core_text::substr($node->name->value, 1);
                 if (stack_cas_security::is_good_function($name) == true) {
-                    $newop = new MP_Operation('*', new MP_Identifier($prefix), new MP_FunctionCall(new MP_Identifier($name), $node->arguments));
+                    $newop = new MP_Operation('*', new MP_Identifier($prefix),
+                            new MP_FunctionCall(new MP_Identifier($name), $node->arguments));
                     $newop->position['insertstars'] = true;
                     $node->parentnode->position['insertstars'] = true;
                     $node->parentnode->replace($node, $newop);

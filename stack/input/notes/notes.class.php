@@ -84,9 +84,9 @@ class stack_notes_input extends stack_input {
         $errors   = null;
         $caslines = array();
         $valid    = true;
-        $modifiedcontents[] = '';
+        $answer   = new stack_cas_casstring('');
 
-        return array($valid, $errors, $modifiedcontents, $caslines);
+        return array($valid, $errors, $answer, $caslines);
     }
 
     public function add_to_moodleform_testinput(MoodleQuickForm $mform) {

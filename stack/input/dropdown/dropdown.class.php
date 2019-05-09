@@ -323,10 +323,22 @@ class stack_dropdown_input extends stack_input {
     protected function validate_contents($contents, $forbiddenkeys, $localoptions) {
         $valid = true;
         $errors = $this->errors;
-        $modifiedcontents = $contents;
         $caslines = array();
 
-        return array($valid, $errors, $modifiedcontents, $caslines);
+        $secrules = new stack_cas_security($this->units,
+                $this->get_parameter('allowWords', ''),
+                $this->get_parameter('forbidWords', ''),
+                $forbiddenkeys);
+
+        // Construct one final "answer" as a single maxima object.
+        // In the case of dropdown create the object directly here.
+        $value = $this->contents_to_maxima($contents);
+
+        $answer = new stack_cas_casstring($value);
+        $answer->get_valid('s', $this->get_parameter('strictSyntax', true),
+                $this->get_parameter('insertStars', 0), $secrules);
+
+        return array($valid, $errors, $answer, $caslines);
     }
 
     /**

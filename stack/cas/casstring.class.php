@@ -97,6 +97,11 @@ class stack_cas_casstring {
     private $answernote;
 
     /**
+     * If this casstring is an input about to be validated, then we need to store some information here.
+     */
+    private $validationcontext = null;
+
+    /**
      * @var MPNode the parse tree presentation of this CAS string. Public for debug access...
      */
     public $ast = null;
@@ -135,7 +140,6 @@ class stack_cas_casstring {
              ' or ' => 'STACKOR', ' and ' => 'STACKAND', 'not ' => 'STACKNOT',
              ' nounor ' => 'STACKNOUNOR', ' nounand ' => 'STACKNOUNAND');
 
-
     public function __debugInfo() {
         // For various reasons we do not want to print out certain things like the AST.
         // Make sure that if you add new fields you add them also here.
@@ -150,7 +154,8 @@ class stack_cas_casstring {
             'key' => $this->key,
             'contexts' => $this->contexts,
             'errors' => $this->errors,
-            'answernote' => $this->answernote
+            'answernote' => $this->answernote,
+            'validationcontext' => $this->validationcontext
         );
     }
 
@@ -214,8 +219,8 @@ class stack_cas_casstring {
         }
 
         // Ensure that the security rules use the same units setting as this string.
-        // NOTE: will probably cause debug nightmares untill the units setting
-        // gets a better defintion logic. Its not a setting that should be
+        // NOTE: will probably cause debug nightmares until the units setting
+        // gets a better defintion logic. It is not a setting that should be
         // distributed it should be a question level setting.
         $secrules->set_units($this->contexts['units']);
 
@@ -369,6 +374,19 @@ class stack_cas_casstring {
                 $this->valid = false;
             }
         }
+
+        // Move this check in here?
+        /*
+        $floatspresent = false;
+        $checkfloats = function($node) use (&$floatspresent){
+            if ($node instanceof MP_Float) {
+                $floatspresent = true;
+                return false;
+            }
+            return true;
+        };
+        $this->ast->callbackRecurse($checkfloats);
+        */
 
         // Security check contains various errors related to using functions as
         // variables that have already been covered in earlier checks so it
@@ -1158,7 +1176,7 @@ class stack_cas_casstring {
             }
             return true;
         };
-        
+
         // @codingStandardsIgnoreStart
         while ($this->ast->callbackRecurse($setnounvalues) !== true) {
             // Do nothing.
@@ -1178,7 +1196,8 @@ class stack_cas_casstring {
     public function set_dispvalue($val) {
         $val = str_replace('"!! ', '', $val);
         $val = str_replace(' !!"', '', $val);
-        $this->dispvalue = trim(stack_utils::old_logic_nouns_sort($val, 'remove'));
+        // TODO, we might need to remove nouns here....
+        $this->dispvalue = $val;
     }
 
     public function get_answernote($raw = 'implode') {
@@ -1216,78 +1235,25 @@ class stack_cas_casstring {
 
     // If we "CAS validate" this string, then we need to set various options.
     // If the teacher's answer is null then we use typeless validation, otherwise we check type.
-    public function set_cas_validation_casstring($key, $forbidfloats = true,
-                    $lowestterms = true, $tans = null, $validationmethod, $secrules = null, $simp) {
+    public function set_cas_validation_context($forbidfloats, $lowestterms, $tans, $validationmethod, $simp) {
 
         if (!($validationmethod == 'checktype' || $validationmethod == 'typeless' || $validationmethod == 'units'
-            || $validationmethod == 'unitsnegpow' || $validationmethod == 'equiv' || $validationmethod == 'numerical')) {
-            throw new stack_exception('stack_cas_casstring: validationmethod must one of "checktype", "typeless", ' .
-                '"units" or "unitsnegpow" or "equiv" or "numerical", but received "'.$validationmethod.'".');
-        }
-        if (null === $this->valid) {
-            $this->validate('s', true, 0, $secrules);
-        }
-        if (false === $this->valid) {
-            return false;
+                || $validationmethod == 'unitsnegpow' || $validationmethod == 'equiv' || $validationmethod == 'numerical')) {
+                    throw new stack_exception('stack_cas_casstring: validationmethod must one of "checktype", "typeless", ' .
+                            '"units" or "unitsnegpow" or "equiv" or "numerical", but received "'.$validationmethod.'".');
         }
 
-        $this->key = $key;
-        $starredanswer = $this->casstring;
+        $this->validationcontext = array(
+            'forbidfloats'     => $forbidfloats,
+            'lowestterms'      => $lowestterms,
+            'tans'             => $tans,
+            'validationmethod' => $validationmethod,
+            'simp'             => $simp
+        );
+    }
 
-        // Turn PHP Booleans into Maxima true & false.
-        if ($forbidfloats) {
-            $forbidfloats = 'true';
-        } else {
-            $forbidfloats = 'false';
-        }
-        $floatspresent = false;
-        $checkfloats = function($node) use (&$floatspresent){
-            if ($node instanceof MP_Float) {
-                $floatspresent = true;
-                return false;
-            }
-            return true;
-        };
-        $this->ast->callbackRecurse($checkfloats);
-
-        if ($lowestterms) {
-            $lowestterms = 'true';
-        } else {
-            $lowestterms = 'false';
-        }
-
-        if ($simp) {
-            $starredanswer = 'ev(' . $starredanswer . ',simp)';
-        }
-
-        $fltfmt = stack_utils::decimal_digits($starredanswer);
-        $fltfmt = $fltfmt['fltfmt'];
-
-        $this->casstring = 'stack_validate(['.$starredanswer.'], '.$forbidfloats.','.$lowestterms.','.$tans.')';
-        if ($validationmethod == 'typeless') {
-            // Note, we don't pass in the teacher's as this option is ignored by the typeless validation.
-            $this->casstring = 'stack_validate_typeless(['.$starredanswer.'], '.$forbidfloats.', '.$lowestterms.', false, false)';
-        }
-        if ($validationmethod == 'numerical') {
-            $this->casstring = 'stack_validate_typeless(['.$starredanswer.'],
-                    '.$forbidfloats.', '.$lowestterms.', false, '.$fltfmt.')';
-        }
-        if ($validationmethod == 'equiv') {
-            $this->casstring = 'stack_validate_typeless(['.$starredanswer.'], '.$forbidfloats.', '.$lowestterms.', true, false)';
-        }
-        if ($validationmethod == 'units') {
-            // Note, we don't pass in forbidfloats as this option is ignored by the units validation.
-
-            $this->casstring = '(make_multsgn("blank"),stack_validate_units(['.$starredanswer.'], ' .
-                $lowestterms.', '.$tans.', "inline", '.$fltfmt.'))';
-        }
-        if ($validationmethod == 'unitsnegpow') {
-            // Note, we don't pass in forbidfloats as this option is ignored by the units validation.
-            $this->casstring = '(make_multsgn("blank"),stack_validate_units(['.$starredanswer.'], ' .
-                $lowestterms.', '.$tans.', "negpow", '.$fltfmt.'))';
-        }
-
-        return true;
+    public function get_cas_validation_context() {
+        return $this->validationcontext;
     }
 
     /**

@@ -66,9 +66,9 @@ class stack_string_input_test extends qtype_stack_testcase {
         $options = new stack_options();
         $el = stack_input_factory::make('string', 'sans1', '"A random string"');
         $el->set_parameter('sameType', true);
-        // Note here the student has used string quotes which are no longer respected.
+        // Note here the student has used string quotes which are respected.
         $state = $el->validate_student_response(array('sans1' => '"Hello world"'), $options, '"A random string"', null);
-        $this->assertEquals(stack_input::INVALID, $state->status);
+        $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('"\\"Hello world\\""', $state->contentsmodified);
         $this->assertEquals('\[ \mbox{"Hello world"} \]', $state->contentsdisplayed);
     }

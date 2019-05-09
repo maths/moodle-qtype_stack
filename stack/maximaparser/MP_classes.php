@@ -656,7 +656,7 @@ class MP_FunctionCall extends MP_Node {
             if ($this->name instanceof MP_Identifier || $this->name instanceof MP_String) {
                 $feat = stack_cas_security::get_feature($this->name->value, 'nounfunction');
                 if ($params['nounify'] === false) {
-                   $feat = stack_cas_security::get_feature($this->name->value, 'nounfunctionfor');
+                    $feat = stack_cas_security::get_feature($this->name->value, 'nounfunctionfor');
                 }
                 if ($feat !== null) {
                     $n = $feat;
@@ -708,7 +708,7 @@ class MP_FunctionCall extends MP_Node {
         if (isset($params['inputform']) && $params['inputform'] === true) {
             $prefix = stack_cas_security::get_feature($this->name->value, 'prefixinputform');
             if ('' != $prefix) {
-                // Hack for stacklet
+                // Hack for stacklet.
                 if ($n == 'stacklet') {
                     // TODO: fix parsing of let
                     // return $prefix .' '. implode('=', $ar);

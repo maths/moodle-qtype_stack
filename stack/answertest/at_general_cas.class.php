@@ -145,7 +145,7 @@ class stack_answertest_general_cas extends stack_anstest {
             $cs = new stack_cas_casstring($com);
             $cs->get_valid('t', true, 0);
             // It looks odd that the answer tests always get "nouns".  But with simp:true we have problems with
-            // expressions like x=1 or x=2 which will always simplify to "false" in maxima.  
+            // expressions like x=1 or x=2 which will always simplify to "false" in maxima.
             $cs->set_nounvalues('add');
             $cs->set_key($key);
             $cts[] = $cs;

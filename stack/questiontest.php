@@ -152,7 +152,6 @@ class stack_question_test {
             if (array_key_exists($name, $question->inputs)) {
                 // Remove things like apostrophies in test case inputs so we don't create an invalid student input.
                 // 4.3. changes this.
-                // $value = stack_utils::logic_nouns_sort($computedinput, 'remove');
                 $value = $computedinput;
                 $response = array_merge($response, $question->inputs[$name]->maxima_to_response_array($value));
             }

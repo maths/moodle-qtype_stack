@@ -100,6 +100,14 @@ class stack_textarea_input extends stack_input {
         return $contents;
     }
 
+    protected function caslines_to_answer($caslines) {
+        $vals = array();
+        foreach ($caslines as $line) {
+            $vals[] = $line->get_casstring();
+        }
+        return new stack_cas_casstring('['.implode(',', $vals).']');
+    }
+
     /**
      * Transforms the contents array into a maxima expression.
      *

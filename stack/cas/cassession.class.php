@@ -520,6 +520,12 @@ class stack_cas_session {
                 $cleanlabel = substr($label, 0, strpos($label, '['));
             }
 
+            // Sort out any validation modifications.
+            $validationcontext = $cs->get_cas_validation_context();
+            if ($validationcontext) {
+                $cmd = $this->validation_casstring($cmd, $validationcontext);
+            }
+
             // Now we do special things if we have a command to re-order expressions.
             if (false !== strpos($cmd, 'ordergreat') || false !== strpos($cmd, 'orderless')) {
                 // These commands must be in a separate block, and must only appear once.
@@ -570,6 +576,59 @@ class stack_cas_session {
         $cass .= ", print(\"] ]\"), return(true) ); \n ";
 
         return $cass;
+    }
+
+    /*
+     * In the special case we are validating a student's answer, we modify the Maxima code.
+     */
+    private function validation_casstring($starredanswer, $validationcontext) {
+
+        // Turn PHP Booleans into Maxima true & false.
+        if ($validationcontext['forbidfloats']) {
+            $forbidfloats = 'true';
+        } else {
+            $forbidfloats = 'false';
+        }
+
+        if ($validationcontext['lowestterms']) {
+            $lowestterms = 'true';
+        } else {
+            $lowestterms = 'false';
+        }
+
+        if ($validationcontext['simp']) {
+            $starredanswer = 'ev(' . $starredanswer . ',simp)';
+        }
+
+        $fltfmt = stack_utils::decimal_digits($starredanswer);
+        $fltfmt = $fltfmt['fltfmt'];
+
+        $tans = $validationcontext['tans'];
+        $validationmethod = $validationcontext['validationmethod'];
+
+        $vcmd = 'stack_validate(['.$starredanswer.'], '.$forbidfloats.','.$lowestterms.','.$tans.')';
+        if ($validationmethod == 'typeless') {
+            // Note, we don't pass in the teacher's as this option is ignored by the typeless validation.
+            $vcmd = 'stack_validate_typeless(['.$starredanswer.'], '.$forbidfloats.', '.$lowestterms.', false, false)';
+        }
+        if ($validationmethod == 'numerical') {
+            $vcmd = 'stack_validate_typeless(['.$starredanswer.'],
+            '.$forbidfloats.', '.$lowestterms.', false, '.$fltfmt.')';
+        }
+        if ($validationmethod == 'equiv') {
+            $vcmd = 'stack_validate_typeless(['.$starredanswer.'], '.$forbidfloats.', '.$lowestterms.', true, false)';
+        }
+        if ($validationmethod == 'units') {
+            // Note, we don't pass in forbidfloats as this option is ignored by the units validation.
+            $vcmd = '(make_multsgn("blank"),stack_validate_units(['.$starredanswer.'], ' .
+                    $lowestterms.', '.$tans.', "inline", '.$fltfmt.'))';
+        }
+        if ($validationmethod == 'unitsnegpow') {
+            // Note, we don't pass in forbidfloats as this option is ignored by the units validation.
+            $vcmd = '(make_multsgn("blank"),stack_validate_units(['.$starredanswer.'], ' .
+                    $lowestterms.', '.$tans.', "negpow", '.$fltfmt.'))';
+        }
+        return $vcmd;
     }
 
     /**

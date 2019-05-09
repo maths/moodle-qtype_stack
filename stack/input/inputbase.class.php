@@ -567,7 +567,7 @@ abstract class stack_input {
         // This method actually validates any CAS strings etc.
         // Modified contents is already an array of things which become individually validated CAS statements.
         // At this sage, $valid records the PHP validation or other non-CAS issues.
-        list($valid, $errors, $modifiedcontents, $caslines) = $this->validate_contents($contents, $forbiddenkeys, $localoptions);
+        list($valid, $errors, $answer, $caslines) = $this->validate_contents($contents, $forbiddenkeys, $localoptions);
 
         // Match up lines from the teacher's answer to lines in the student's answer.
         // Send as much of the string to the CAS as possible.
@@ -590,7 +590,6 @@ abstract class stack_input {
                 $tvalidator[$index] = $ta->get_casstring();
             }
         }
-        $interpretedanswer = $this->contents_to_maxima($modifiedcontents);
         $lvarsdisp   = '';
         $note        = '';
         $sessionvars = array();
@@ -615,37 +614,32 @@ abstract class stack_input {
             }
 
             if (array_key_exists($index, $errors) && '' == $errors[$index]) {
-                $cs->set_cas_validation_casstring($this->name.$index,
-                    $this->get_parameter('forbidFloats', false), $this->get_parameter('lowestTerms', false),
-                    $ta, $ivalidationmethod, $secrules,
+                $cs->set_key($this->name.$index);
+                $cs->set_cas_validation_context($this->get_parameter('forbidFloats', false),
+                    $this->get_parameter('lowestTerms', false), $ta, $ivalidationmethod,
                     $this->get_extra_option('simp', false));
                 $sessionvars[] = $cs;
             }
         }
-
-        // Ensure we have an element in the session which is the whole answer.
-        // This results in a duplication for many, but textareas create a single list here representing the whole answer.
-        $answer = new stack_cas_casstring($interpretedanswer);
-        if ($this->units) {
-            $answer->set_context('units', true);
-        }
-
-        $answer->set_cas_validation_casstring($this->name,
-            $this->get_parameter('forbidFloats', false), $this->get_parameter('lowestTerms', false),
-            $teacheranswer, $validationmethod, $secrules,
-            $this->get_extra_option('simp', false));
         if ($valid && $answer->get_valid()) {
+            $answer->set_key($this->name);
+            $answer->set_cas_validation_context($this->get_parameter('forbidFloats', false),
+                    $this->get_parameter('lowestTerms', false), $teacheranswer, $validationmethod,
+                    $this->get_extra_option('simp', false));
             $sessionvars[] = $answer;
         }
 
         // Generate an expression from which we extract the list of variables in the student's answer.
-        // We do this from the *answer* once interprted, so stars are inserted if insertStars=2.
+        $lrules = new stack_cas_security($this->units,
+                        $this->get_parameter('allowWords', ''),
+                        $this->get_parameter('forbidWords', ''));
         $lvars = new stack_cas_casstring('stack_validate_listofvars('.$this->name.')');
         $lvars->get_valid('t', $this->get_parameter('strictSyntax', true),
-                $this->get_parameter('insertStars', 0), $secrules);
+                $this->get_parameter('insertStars', 0), $lrules);
         if ($lvars->get_valid() && $valid && $answer->get_valid()) {
             $sessionvars[] = $lvars;
         }
+
         $additionalvars = array_merge($this->extra_option_variables(),
                 $this->additional_session_variables($caslines, $teacheranswer));
         $sessionvars = array_merge($sessionvars, $additionalvars);
@@ -668,6 +662,7 @@ abstract class stack_input {
 
         // Answers may not contain the ? character.  CAS-strings may, but answers may not.
         // It is very useful for teachers to be able to add in syntax hints.
+        $interpretedanswer = $answer->get_casstring();
         if (!(strpos($interpretedanswer, '?') === false)) {
             $valid = false;
             $errors[] = stack_string('qm_error');
@@ -736,10 +731,9 @@ abstract class stack_input {
      * @return array of the validity, errors strings, modified contents and caslines.
      */
     protected function validate_contents($contents, $forbiddenkeys, $localoptions) {
+
         $errors = $this->extra_validation($contents);
         $valid = !$errors;
-        // Now validate the input as CAS code.
-        $modifiedcontents = array();
         $caslines = array();
         $errors = array();
 
@@ -761,12 +755,19 @@ abstract class stack_input {
                     $this->get_parameter('insertStars', 0), $secrules);
 
             $caslines[] = $answer;
-            $modifiedcontents[] = $answer->get_casstring();
             $valid = $valid && $answer->get_valid();
             $errors[] = $answer->get_errors();
         }
 
-        return array($valid, $errors, $modifiedcontents, $caslines);
+        // Construct one final "answer" as a single maxima object.
+        $answer = $this->caslines_to_answer($caslines);
+        if ($this->units) {
+            $answer->set_context('units', true);
+        }
+        $answer->get_valid('s', $this->get_parameter('strictSyntax', true),
+                $this->get_parameter('insertStars', 0), $secrules);
+
+        return array($valid, $errors, $answer, $caslines);
     }
 
     /**
@@ -1080,6 +1081,19 @@ abstract class stack_input {
     }
 
     /**
+     * Transforms the caslines array into a single casstring representing the student's answer.
+     *
+     * @param array|string $in
+     * @return string
+     */
+    protected function caslines_to_answer($caslines) {
+        if (array_key_exists(0, $caslines)) {
+            return $caslines[0];
+        }
+        throw new stack_exception('caslines_to_answer could not create the answer.');
+    }
+
+    /**
      * Transforms the contents array into a maxima expression.
      * Most simply take the casstring from the first element of the contents array.
      *
@@ -1099,14 +1113,17 @@ abstract class stack_input {
      * The dropdown type needs to intercept this to filter the correct answers.
      * @param unknown_type $in
      */
-    public function get_correct_response($in) {
+    public function get_correct_response($value) {
         if (trim($value) == 'EMPTYANSWER') {
             $value = '';
         }
         $cs = new stack_cas_casstring($value);
         $cs->get_valid('t');
-        $val = $cs->ast->toString(array('nounify' => false, 'inputform' => true));
-        return $this->maxima_to_response_array($value);
+        $val = '';
+        if ($cs->ast) {
+            $val = $cs->ast->toString(array('nounify' => false, 'inputform' => true));
+        }
+        return $this->maxima_to_response_array($val);
     }
 
     /**

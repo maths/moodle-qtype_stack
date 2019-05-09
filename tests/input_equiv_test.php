@@ -156,6 +156,22 @@ class stack_equiv_input_test extends qtype_stack_testcase {
                 $state->errors);
     }
 
+    public function test_validate_student_response_invalid_4() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('equiv', 'sans1', '[x^2-5*x+6=0,(x-2)*(x-3)=0]');
+        $state = $el->validate_student_response(array('sans1' => "x^2-5*x+6=0\n x=2 or x=3)"), $options,
+                '[x^2-5*x+6=0\n x=2 or x=3)]', null);
+        $this->assertEquals(stack_input::INVALID, $state->status);
+        $this->assertEquals('  You have a missing left bracket <span class="stacksyntaxexample">(</span> in the ' .
+                'expression: <span class="stacksyntaxexample">x=2 or x=3)</span>.', $state->errors);
+        $this->assertEquals('<center><table style="vertical-align: middle;" border="0" cellpadding="4" cellspacing="0">' .
+                '<tbody><tr><td>\(\displaystyle x^2-5\cdot x+6=0 \)</td></tr><tr><td>' .
+                '<span class="stacksyntaxexample">x=2 or x=3)</span></td>' .
+                '<td>You have a missing left bracket <span class="stacksyntaxexample">(</span> in the expression: ' .
+                '<span class="stacksyntaxexample">x=2 or x=3)</span>.</td></tr></tr></tbody></table></center>',
+                $state->contentsdisplayed);
+    }
+
     public function test_validate_student_response_with_equiv() {
         $options = new stack_options();
         $el = stack_input_factory::make('equiv', 'sans1', '[x^2-5*x+6=0]');

@@ -114,10 +114,12 @@ class stack_algebraic_input extends stack_input {
      * @return string the teacher's answer, displayed to the student in the general feedback.
      */
     public function get_teacher_answer_display($value, $display) {
-        $value = stack_utils::old_logic_nouns_sort($value, 'remove');
         if (trim($value) == 'EMPTYANSWER') {
             return stack_string('teacheranswerempty');
         }
+        $cs = new stack_cas_casstring($value);
+        $cs->get_valid('t');
+        $value = $cs->ast->toString(array('nounify' => false, 'inputform' => true));
         return stack_string('teacheranswershow', array('value' => '<code>'.$value.'</code>', 'display' => $display));
     }
 }

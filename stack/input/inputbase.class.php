@@ -1025,8 +1025,13 @@ abstract class stack_input {
             return '';
         }
         $feedback  = '';
-        $feedback .= html_writer::tag('p', stack_string('studentValidation_yourLastAnswer',
-                stack_utils::old_logic_nouns_sort($state->contentsdisplayed, 'remove')));
+
+        $val = $state->contentsdisplayed;
+        $cs = new stack_cas_casstring($state->contentsdisplayed);
+        if ($cs->get_valid('t')) {
+            $val = $cs->ast->toString(array('nounify' => false, 'inputform' => true));
+        }
+        $feedback .= html_writer::tag('p', stack_string('studentValidation_yourLastAnswer', $val));
 
         if ($this->requires_validation() && '' !== $state->contents) {
             $feedback .= html_writer::empty_tag('input', array('type' => 'hidden',
@@ -1095,10 +1100,12 @@ abstract class stack_input {
      * @param unknown_type $in
      */
     public function get_correct_response($in) {
-        $value = stack_utils::old_logic_nouns_sort($in, 'remove');
         if (trim($value) == 'EMPTYANSWER') {
             $value = '';
         }
+        $cs = new stack_cas_casstring($value);
+        $cs->get_valid('t');
+        $val = $cs->ast->toString(array('nounify' => false, 'inputform' => true));
         return $this->maxima_to_response_array($value);
     }
 

@@ -167,10 +167,8 @@ class stack_textarea_input extends stack_input {
             if ('' != $cs->get_errors()  || '' == $cs->get_value()) {
                 $valid = false;
                 $errors[$index] = ' ' . stack_maxima_translate($cs->get_errors());
-                $cds = stack_utils::old_logic_nouns_sort($cs->get_raw_casstring(), 'remove');
-                $display .= '<td>'. stack_maxima_format_casstring($cds). '</td>';
-                $display .= '<td>'. stack_maxima_format_casstring($cs->get_casstring()). '</td>';
-                $display .= '<td>'. stack_maxima_translate($errors[$index]). '</td></tr>';
+                $display .= '<td>' . stack_maxima_format_casstring($cs->get_raw_casstring()) . '</td>';
+                $display .= '<td>' . stack_maxima_translate($errors[$index]). '</td></tr>';
             } else {
                 $display .= '<td>\(\displaystyle ' . $cs->get_display() . ' \)</td>';
             }

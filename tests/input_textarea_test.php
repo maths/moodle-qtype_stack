@@ -84,7 +84,13 @@ class stack_textarea_input_test extends qtype_stack_testcase {
         $state = $el->validate_student_response(array('sans1' => "x^2=-7*x\nab=2"), $options, '[x^2=-7*x,a*b=2]', null);
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('[x^2=-7*x,a*b=2]', $state->contentsmodified);
+        $this->assertEquals('<center><table style="vertical-align: middle;" border="0" cellpadding="4" cellspacing="0">' .
+                '<tbody><tr><td>\(\displaystyle x^2=-7\cdot x \)</td></tr><tr><td>\(\displaystyle a\cdot b=2 \)</td>' .
+                '</tr></tbody></table></center>', $state->contentsdisplayed);
         $this->assertEquals('\( \left[ a , b , x \right]\) ', $state->lvars);
+        $this->assertEquals('<textarea name="sans1" id="sans1" autocapitalize="none" spellcheck="false" ' .
+                'rows="5" cols="20">x^2=-7*x'."\n".'ab=2</textarea><div class="clearfix"></div>',
+                $el->render($state, 'sans1', false, null));
     }
 
     public function test_validate_student_response_single_var_chars_off() {
@@ -119,6 +125,15 @@ class stack_textarea_input_test extends qtype_stack_testcase {
         $this->assertEquals(stack_input::INVALID, $state->status);
         $this->assertEquals('  You have a missing right bracket', substr($state->errors, 0, 34));
         $this->assertEquals('missingRightBracket', $state->note);
+        $this->assertEquals('<center><table style="vertical-align: middle;" border="0" cellpadding="4" cellspacing="0">' .
+                '<tbody><tr><td>\(\displaystyle x^2=-7\cdot x \)</td></tr><tr>' .
+                '<td><span class="stacksyntaxexample">[a=1,b=2</span></td>' .
+                '<td>You have a missing right bracket <span class="stacksyntaxexample">]</span> ' .
+                'in the expression: <span class="stacksyntaxexample">[a=1,b=2</span>.</td></tr></tr>' .
+                '</tbody></table></center>', $state->contentsdisplayed);
+        $this->assertEquals('<textarea name="sans1" id="sans1" autocapitalize="none" spellcheck="false" rows="5" ' .
+                'cols="20">x^2=-7x'."\n".'[a=1,b=2</textarea><div class="clearfix"></div>',
+                $el->render($state, 'sans1', false, null));
     }
 
     public function test_validate_student_response_same_type_false_1() {
@@ -170,7 +185,6 @@ class stack_textarea_input_test extends qtype_stack_testcase {
         $this->assertEquals('', trim($state->errors));
     }
 }
-
 
 /**
  * Test helper class that exploses some protected methods.

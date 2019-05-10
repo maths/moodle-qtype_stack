@@ -341,7 +341,8 @@ class stack_cas_casstring {
         // @codingStandardsIgnoreEnd
 
         // Then the rest.
-        $mainloop = function($node) use($security, $secrules, $insertstars, &$usages) {
+        $hasfloats = false;
+        $mainloop = function($node) use($security, $secrules, $insertstars, &$usages, &$hasfloats) {
             if ($node instanceof MP_Identifier) {
                 $this->check_characters($node->value);
                 if ($node->is_function_name()) {
@@ -362,6 +363,8 @@ class stack_cas_casstring {
                 $this->valid = false;
                 $this->add_error(stack_string('stackCas_unencpsulated_comma'));
                 $this->answernote[] = 'unencpsulated_comma';
+            } else if ($node instanceof MP_Float) {
+                $hasfloats = true;
             }
             return true;
         };
@@ -376,6 +379,8 @@ class stack_cas_casstring {
         }
 
         // Move this check in here?
+        // Yes sensible, but we can already pick that from the $mainloop, no need to 
+        // iterate too often.
         /*
         $floatspresent = false;
         $checkfloats = function($node) use (&$floatspresent){
@@ -395,9 +400,40 @@ class stack_cas_casstring {
             $this->check_security($security, $secrules);
         }
 
+        // Lastly check certain context validation steps.
+        if ($this->validationcontext !== null &&
+            $this->validationcontext['forbidfloats'] === true &&
+            $hasfloats) {
+            $this->valid = false;
+            $this->add_error(stack_string('Illegal_floats'));
+        }
+
         $root = $this->ast;
         if ($this->ast instanceof MP_Root) {
             $root = $this->ast->items[0];
+        }
+
+        // Infer topmost type.
+        $type = 'expression';
+        $obj = $root;
+        if ($obj instanceof MP_Statement) {
+            $obj = $obj->statement;
+        }
+        if ($obj instanceof MP_Set) {
+            $type = 'set';
+        } else if ($obj instanceof MP_List) {
+            $type = 'list';
+        } else if ($obj instanceof MP_FunctionCall &&
+              $obj->name instanceof MP_Identifier &&
+              $obj->name->value === 'matrix') {
+            $type = 'matrix';
+        } else if ($obj instanceof MP_Operation && $obj->op === '=') {
+            $type = 'equality';
+        } else if ($obj instanceof MP_Operation && (
+               $obj->op === '<' || $obj->op === '>' ||
+               $obj->op === '>=' || $obj->op === '<=' || $obj->op === '#'
+        )) {
+            $type = 'inequality';
         }
 
         $this->ast = $root;

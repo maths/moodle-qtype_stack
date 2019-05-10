@@ -304,7 +304,7 @@ If the first test is false, we will then perform the test in Node 2.
 Update the form so that Node 2 has
 
     SAns = diff(ans1, x)
-    TAns = 60*(3*x-2)^-5
+    TAns = 5*(3*x-2)^-5
     Answer test = AlgEquiv
 
 See that we are using Maxima to differentiate the student's answer. We then compare that result, algebraically, to what the question would have been for the student to respond in the way they have.
@@ -405,7 +405,7 @@ If the student has differentiated the outer function by mistake then the derivat
 
 We will need to update `TAns` of node 2 of the potential response tree to add in this value.  It is sensible to create another question variable
 
-    taw1:a1*n*(n-1)*(x-a2)^(n-2)
+    taw1:a1*(x-a2)^(n-2)
 
 So this possible outcome can be used in the potential response tree, question tests and so on by referring to the variable `taw1`.
 

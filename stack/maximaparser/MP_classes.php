@@ -63,6 +63,7 @@ class MP_Node {
     public function toString($params = null) {
         return '[NO TOSTRING FOR ' . get_class($this) . ']';
     }
+
     // Calls a function for all this nodes children.
     // Callback needs to take a node and return true if it changes nothing or does no structural changes.
     // If it does structural changes it must return false so that the recursion may be repeated on
@@ -75,6 +76,21 @@ class MP_Node {
                 return false;
             }
             if ($this->children[$i]->callbackRecurse($function) !== true) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    // Calls a predicate function for all this nodes children.
+    public function predicate_recurse($function) {
+        for ($i = 0; $i < count($this->children); $i++) {
+            // Not a foreach as the list may change.
+            $this->children[$i]->parentnode = $this;
+            if ($function($this->children[$i]) !== true) {
+                return false;
+            }
+            if ($this->children[$i]->predicate_recurse($function) !== true) {
                 return false;
             }
         }

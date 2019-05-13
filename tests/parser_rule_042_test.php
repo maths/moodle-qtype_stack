@@ -84,4 +84,24 @@ class stack_parser_rule_042_test extends qtype_stack_testcase {
         $this->assertEquals($errs, array());
         $this->assertEquals($note, array(0 => 'functions'));
     }
+
+    public function test_functions_3() {
+
+        $predicate = function($node) {
+            if ($node instanceof MP_FunctionCall) {
+                return true;
+            };
+            return false;
+        };
+
+        // User defined function.
+        $raw = '1-2*f(x^2-1)+sin(x)/7';
+        $cs = new stack_cas_casstring($raw);
+        $errs = array();
+        $note = array();
+
+        $this->assertTrue($cs->get_valid());
+        $this->assertEquals($cs->ast->toString(), $raw);
+        $this->assertFalse($cs->ast->predicate_recurse($predicate));
+    }
 }

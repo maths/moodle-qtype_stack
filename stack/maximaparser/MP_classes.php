@@ -82,21 +82,6 @@ class MP_Node {
         return true;
     }
 
-    // Calls a predicate function for all this nodes children.
-    public function predicate_recurse($function) {
-        for ($i = 0; $i < count($this->children); $i++) {
-            // Not a foreach as the list may change.
-            $this->children[$i]->parentnode = $this;
-            if ($function($this->children[$i]) !== true) {
-                return false;
-            }
-            if ($this->children[$i]->predicate_recurse($function) !== true) {
-                return false;
-            }
-        }
-        return true;
-    }
-
     public function &asAList() {
         // This one recursively goes through the whole tree and returns a list of
         // all the nodes found, it also populates the parent details as those might

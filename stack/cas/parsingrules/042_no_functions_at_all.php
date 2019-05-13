@@ -22,17 +22,19 @@ require_once(__DIR__ . '/filter.interface.php');
  */
 class stack_ast_filter_no_functions_at_all_042 implements stack_cas_astfilter {
     public function filter(MP_Node $ast, array &$errors, array &$answernotes, stack_cas_security $identifierrules): MP_Node {
-        $process = function($node) use (&$answernotes) {
+        $hasany = false;
+
+        $process = function($node) use (&$hasany) {
             if ($node instanceof MP_FunctionCall) {
-                $answernotes[] = 'functions';
+                $hasany = true;
             }
             return true;
         };
 
-        // @codingStandardsIgnoreStart
-        while ($ast->callbackRecurse($process) !== true) {
+        $ast->callbackRecurse($process);
+        if ($hasany) {
+            $answernotes[] = 'functions';
         }
-        // @codingStandardsIgnoreEnd
         return $ast;
     }
 }

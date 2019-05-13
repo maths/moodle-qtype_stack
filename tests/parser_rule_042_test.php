@@ -33,7 +33,7 @@ class stack_parser_rule_042_test extends qtype_stack_testcase {
         $filter = new stack_ast_filter_no_functions_at_all_042();
         $errs = array();
         $note = array();
-        $security    = new stack_cas_security();
+        $security = new stack_cas_security();
 
         $this->assertTrue($cs->get_valid());
         $this->assertEquals($cs->ast->toString(), $raw);
@@ -48,7 +48,7 @@ class stack_parser_rule_042_test extends qtype_stack_testcase {
         $filter = new stack_ast_filter_no_functions_at_all_042();
         $errs = array();
         $note = array();
-        $security    = new stack_cas_security();
+        $security = new stack_cas_security();
 
         $this->assertTrue($cs->get_valid());
         $this->assertEquals($cs->ast->toString(), $raw);
@@ -64,7 +64,7 @@ class stack_parser_rule_042_test extends qtype_stack_testcase {
         $filter = new stack_ast_filter_no_functions_at_all_042();
         $errs = array();
         $note = array();
-        $security    = new stack_cas_security();
+        $security = new stack_cas_security();
 
         $this->assertTrue($cs->get_valid());
         $this->assertEquals($cs->ast->toString(), $raw);
@@ -80,30 +80,12 @@ class stack_parser_rule_042_test extends qtype_stack_testcase {
         $filter = new stack_ast_filter_no_functions_at_all_042();
         $errs = array();
         $note = array();
-        $security    = new stack_cas_security();
+        $security = new stack_cas_security();
 
         $this->assertTrue($cs->get_valid());
         $this->assertEquals($cs->ast->toString(), $raw);
         $filter->filter($cs->ast, $errs, $note, $security);
         $this->assertEquals($errs, array());
         $this->assertEquals($note, array(0 => 'functions'));
-    }
-
-    public function test_functions_3() {
-
-        $predicate = function($node) {
-            if ($node instanceof MP_FunctionCall) {
-                return true;
-            };
-            return false;
-        };
-
-        // User defined function.
-        $raw = '1-2*f(x^2-1)+sin(x)/7';
-        $cs = new stack_cas_casstring($raw);
-
-        $this->assertTrue($cs->get_valid());
-        $this->assertEquals($cs->ast->toString(), $raw);
-        $this->assertFalse($cs->ast->predicate_recurse($predicate));
     }
 }

@@ -1,19 +1,18 @@
 <?php
 
-
 require_once(__DIR__ . '/filter.interface.php');
 
 /**
- * AST filter that removes floats that have the "e" in them. Will tag 
+ * AST filter that removes floats that have the "e" in them. Will tag
  * the new stars with the 'insertstars' position marker, and adds
  * 'missing_stars' to the answernote.
  *
- * Note that in cases like '1.23e-4' or '5.6E+7' only adds one star and 
+ * Note that in cases like '1.23e-4' or '5.6E+7' only adds one star and
  * turns that -/+ to an op.
  */
 class stack_ast_filter_split_floats_050 implements stack_cas_astfilter {
     public function filter(MP_Node $ast, array &$errors, array &$answernotes): MP_Node {
-		$process = function($node) use (&$answernotes) {
+        $process = function($node) use (&$answernotes) {
             if ($node instanceof MP_Float && $node->raw !== null) {
                 $replacement = false;
                 if (strpos($node->raw, 'e') !== false) {

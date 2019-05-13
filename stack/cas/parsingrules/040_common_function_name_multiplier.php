@@ -28,8 +28,9 @@ require_once(__DIR__ . '/../cassecurity.class.php');
  * Tags the stars and adds 'missing_stars' answernote.
  */
 class stack_ast_common_function_name_multiplier_040 implements stack_cas_astfilter {
-    public function filter(MP_Node $ast, array &$errors, array &$answernotes): MP_Node {
-        $known = stack_cas_security::get_protected_identifiers('function');
+
+    public function filter(MP_Node $ast, array &$errors, array &$answernotes, stack_cas_security $identifierrules): MP_Node {
+        $known = stack_cas_security::get_protected_identifiers('function', $identifierrules->get_units());
 
         $process = function($node) use (&$answernotes, $known) {
             if ($node instanceof MP_Functioncall && $node->name instanceof MP_Identifier) {

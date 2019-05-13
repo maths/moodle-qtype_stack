@@ -21,7 +21,7 @@ require_once(__DIR__ . '/filter.interface.php');
  * AST filter that prevents any function calls, including standard functions.
  */
 class stack_ast_filter_no_functions_at_all_042 implements stack_cas_astfilter {
-    public function filter(MP_Node $ast, array &$errors, array &$answernotes): MP_Node {
+    public function filter(MP_Node $ast, array &$errors, array &$answernotes, stack_cas_security $identifierrules): MP_Node {
         $process = function($node) use (&$answernotes) {
             if ($node instanceof MP_FunctionCall) {
                 $answernotes[] = 'functions';

@@ -181,6 +181,10 @@ class stack_cas_security {
         $this->units = $units;
     }
 
+    public function get_units(): bool {
+        return $this->units;
+    }
+
     /**
      * Answers the question whether something can be called as a function.
      * Within the defined security scope.

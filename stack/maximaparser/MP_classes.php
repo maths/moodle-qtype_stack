@@ -298,12 +298,8 @@ class MP_Operation extends MP_Node {
             return $this->lhs->toString($params) . '<font color="red">_</font>'
             . $this->rhs->toString($params);
         }
-        switch ($op) {
-            case 'and':
-            case 'or':
-            case 'nounand':
-            case 'nounor':
-                return $this->lhs->toString($params) . ' ' . $op . ' ' . $this->rhs->toString($params);
+        if (stack_cas_security::get_feature($op, 'spacesurroundedop') !== null) {
+            return $this->lhs->toString($params) . ' ' . $op . ' ' . $this->rhs->toString($params);
         }
         return $this->lhs->toString($params) . $op . $this->rhs->toString($params);
     }

@@ -379,7 +379,7 @@ class stack_cas_casstring {
         }
 
         // Move this check in here?
-        // Yes sensible, but we can already pick that from the $mainloop, no need to 
+        // Yes sensible, but we can already pick that from the $mainloop, no need to
         // iterate too often.
         /*
         $floatspresent = false;

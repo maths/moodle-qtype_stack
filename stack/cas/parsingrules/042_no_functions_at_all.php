@@ -27,6 +27,7 @@ class stack_ast_filter_no_functions_at_all_042 implements stack_cas_astfilter {
         $process = function($node) use (&$hasany) {
             if ($node instanceof MP_FunctionCall && $node->name instanceof MP_Identifier) {
                 $hasany = true;
+                return false;
             }
             return true;
         };

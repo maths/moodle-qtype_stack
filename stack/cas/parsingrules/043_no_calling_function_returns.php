@@ -18,18 +18,14 @@ defined('MOODLE_INTERNAL') || die();
 require_once(__DIR__ . '/filter.interface.php');
 
 /**
- * AST filter that prevents any function calls.
+ * AST filter that prevents calling function returns.
  */
-class stack_ast_filter_no_functions_041 implements stack_cas_astfilter {
+class stack_ast_filter_no_calling_function_returns_43 implements stack_cas_astfilter {
     public function filter(MP_Node $ast, array &$errors, array &$answernotes, stack_cas_security $identifierrules): MP_Node {
         $hasany = false;
-        $known = stack_cas_security::get_protected_identifiers('function', $identifierrules->get_units());
 
-        $process = function($node) use (&$hasany, $known) {
-            if ($node instanceof MP_FunctionCall && $node->name instanceof MP_Identifier) {
-                if (array_key_exists($node->name->value, $known)) {
-                    return true;
-                }
+        $process = function($node) use (&$hasany) {
+            if ($node instanceof MP_FunctionCall && !$node->name instanceof MP_Identifier) {
                 $hasany = true;
                 return false;
             }
@@ -38,7 +34,7 @@ class stack_ast_filter_no_functions_041 implements stack_cas_astfilter {
 
         $ast->callbackRecurse($process);
         if ($hasany) {
-            $answernotes[] = 'functions';
+            $answernotes[] = 'calling_function_returns';
         }
         return $ast;
     }

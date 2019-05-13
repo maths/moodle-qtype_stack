@@ -474,7 +474,8 @@
     },
     "and": {
         "nounoperator": "nounand",
-        "operator": "s"
+        "operator": "s",
+        "spacesurroundedop": true
     },
     "annuity_fv": {
         "function": "?"
@@ -4615,7 +4616,8 @@
     },
     "nounand": {
         "nounoperatorfor": "and",
-        "operator": "s"
+        "operator": "s",
+        "spacesurroundedop": true
     },
     "noundiff": {
         "function": "s",
@@ -4637,7 +4639,8 @@
     },
     "nounor": {
         "nounoperatorfor": "or",
-        "operator": "s"
+        "operator": "s",
+        "spacesurroundedop": true
     },
     "np": {
         "variable": "f"
@@ -4814,7 +4817,8 @@
     },
     "or": {
         "nounoperator": "nounor",
-        "operator": "s"
+        "operator": "s",
+        "spacesurroundedop": true
     },
     "orbit": {
         "function": "f"
@@ -7782,7 +7786,8 @@
         "variable": "s"
     },
     "xor": {
-        "operator": "s"
+        "operator": "s",
+        "spacesurroundedop": true
     },
     "xrange": {
         "variable": "f"

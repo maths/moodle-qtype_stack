@@ -589,14 +589,14 @@ class stack_cas_casstring {
                         $id->parentnode->parentnode->replace($id->parentnode, $nf);
                         return false;
                     }
-                    // Examples such aslog_...+zz(...).
+                    // Examples such as log_...+zz(...).
                     if ($id->parentnode->rhs instanceof MP_FunctionCall) {
                         $nf = new MP_FunctionCall(new MP_Identifier($id->value . $id->parentnode->op
                                 . $id->parentnode->rhs->name->toString()), $id->parentnode->rhs->arguments);
                         $id->parentnode->parentnode->replace($id->parentnode, $nf);
                         return false;
                     }
-                    // Examples such aslog_...-a.
+                    // Examples such as log_...-a.
                     if ($id->parentnode->rhs instanceof MP_Atom) {
                         $ni = new MP_Identifier($id->value . $id->parentnode->op . $id->parentnode->rhs->toString());
                         $id->parentnode->parentnode->replace($id->parentnode, $ni);

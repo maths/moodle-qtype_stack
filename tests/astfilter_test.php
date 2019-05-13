@@ -21,6 +21,7 @@ defined('MOODLE_INTERNAL') || die();
 // @copyright  2019 Aalto University
 // @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
 
+require_once(__DIR__ . '/../stack/cas/parsingrules/002_log_candy.php');
 require_once(__DIR__ . '/../stack/cas/parsingrules/040_common_function_name_multiplier.php');
 require_once(__DIR__ . '/../stack/cas/parsingrules/050_split_floats.php');
 require_once(__DIR__ . '/../stack/maximaparser/utils.php');
@@ -32,6 +33,27 @@ require_once(__DIR__ . '/fixtures/test_base.php');
 class stack_astfilter_test extends qtype_stack_testcase {
 
 
+
+    public function test_002_log_candy() {
+        $teststring  = 'log_5(x)+log_x+y(x)+log_x^y(y);';
+        $result      = 'lg(x,5)+lg(x,x+y)+lg(y,x^y);' . "\n";
+        $ast         = maxima_parser_utils::parse($teststring);
+        $answernotes = array();
+        $errors      = array();
+
+        $astfilter   = new stack_ast_log_candy_002();
+
+        // This test might allow functions that are allowed, but not yet.
+        $security    = new stack_cas_security();
+        $filtered    = $astfilter->filter($ast, $errors, $answernotes, $security);
+
+        $this->assertEquals(0, count($errors));
+        $this->assertContains('logsubs', $answernotes);
+        $this->assertEquals($result, $filtered->toString());
+    }
+
+
+
 	public function test_040_function_prefix() {
 		$teststring  = 'foosin(x)+ratan(ylg(y))+sinsin;';
         $result      = 'foo*sin(x)+r*atan(y*lg(y))+sinsin;' . "\n";
@@ -41,7 +63,9 @@ class stack_astfilter_test extends qtype_stack_testcase {
 
         $astfilter   = new stack_ast_common_function_name_multiplier_040();
 
-        $filtered    = $astfilter->filter($ast, $errors, $answernotes);
+		// This test might allow functions that are allowed, but not yet.
+		$security    = new stack_cas_security();
+        $filtered    = $astfilter->filter($ast, $errors, $answernotes, $security);
 
         $this->assertEquals(0, count($errors));
         $this->assertContains('missing_stars', $answernotes);
@@ -57,7 +81,9 @@ class stack_astfilter_test extends qtype_stack_testcase {
 
         $astfilter   = new stack_ast_filter_split_floats_050();
 
-        $filtered    = $astfilter->filter($ast, $errors, $answernotes);
+        // This test does not require knowledge of security but the interface does.
+        $security    = new stack_cas_security();
+        $filtered    = $astfilter->filter($ast, $errors, $answernotes, $security);
 
         $this->assertEquals(0, count($errors));
         $this->assertContains('missing_stars', $answernotes);

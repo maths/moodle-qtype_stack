@@ -32,8 +32,8 @@ require_once(__DIR__ . '/fixtures/test_base.php');
 class stack_astfilter_test extends qtype_stack_testcase {
 
 
-	public function test_040_function_prefix() {
-		$teststring  = 'foosin(x)+ratan(ylg(y))+sinsin;';
+    public function test_040_function_prefix() {
+        $teststring  = 'foosin(x)+ratan(ylg(y))+sinsin;';
         $result      = 'foo*sin(x)+r*atan(y*lg(y))+sinsin;' . "\n";
         $ast         = maxima_parser_utils::parse($teststring);
         $answernotes = array();
@@ -48,8 +48,8 @@ class stack_astfilter_test extends qtype_stack_testcase {
         $this->assertEquals($result, $filtered->toString());
     }
 
-	public function test_050_float_split() {
-		$teststring  = '[xsin(x)*1.0*2.0e-1,2e2,sqrt(2E-1),.1e-90];';
+public function test_050_float_split() {
+        $teststring  = '[xsin(x)*1.0*2.0e-1,2e2,sqrt(2E-1),.1e-90];';
         $result      = '[xsin(x)*1.0*2.0*e-1,2*e*2,sqrt(2*E-1),.1*e-90];' . "\n";
         $ast         = maxima_parser_utils::parse($teststring);
         $answernotes = array();
@@ -63,6 +63,5 @@ class stack_astfilter_test extends qtype_stack_testcase {
         $this->assertContains('missing_stars', $answernotes);
         $this->assertEquals($result, $filtered->toString());
     }
-
 
 }

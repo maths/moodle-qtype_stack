@@ -406,6 +406,7 @@ class stack_cas_casstring {
             $hasfloats) {
             $this->valid = false;
             $this->add_error(stack_string('Illegal_floats'));
+            $this->answernote[] = 'Illegal_floats';
         }
 
         $root = $this->ast;

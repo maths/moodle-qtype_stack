@@ -24,17 +24,25 @@ class stack_ast_filter_no_functions_at_all_042 implements stack_cas_astfilter {
     public function filter(MP_Node $ast, array &$errors, array &$answernotes, stack_cas_security $identifierrules): MP_Node {
         $hasany = false;
 
-        $process = function($node) use (&$hasany) {
+        $process = function($node) use (&$hasany, &$errors) {
             if ($node instanceof MP_FunctionCall && $node->name instanceof MP_Identifier) {
                 $hasany = true;
+                // Insert stars into the patten.
+                // Probably not very sensible to end up with sin(x) -> sin*(x) but ho hum.
+                $errors [] = stack_string('stackCas_forbiddenFunction',
+                        array('forbid' => stack_maxima_format_casstring($node->toString())));
+                $nop = new MP_Operation('*', $node->name, new MP_Group($node->arguments));
+                $nop->position['insertstars'] = true;
+                $node->parentnode->replace($node, $nop);
                 return false;
             }
             return true;
         };
 
-        $ast->callbackRecurse($process);
+        while ($ast->callbackRecurse($process, true) !== true) {
+        }
         if ($hasany) {
-            $answernotes[] = 'functions';
+            $answernotes[] = 'forbiddenFunction';
         }
         return $ast;
     }

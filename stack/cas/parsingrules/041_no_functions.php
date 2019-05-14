@@ -25,20 +25,27 @@ class stack_ast_filter_no_functions_041 implements stack_cas_astfilter {
         $hasany = false;
         $known = stack_cas_security::get_protected_identifiers('function', $identifierrules->get_units());
 
-        $process = function($node) use (&$hasany, $known) {
+        $process = function($node) use (&$hasany, &$errors, $known) {
             if ($node instanceof MP_FunctionCall && $node->name instanceof MP_Identifier) {
                 if (array_key_exists($node->name->value, $known)) {
                     return true;
                 }
                 $hasany = true;
+                // Insert stars into the patten.
+                $errors [] = stack_string('stackCas_unknownFunction',
+                        array('forbid' => stack_maxima_format_casstring($node->toString())));
+                $nop = new MP_Operation('*', $node->name, new MP_Group($node->arguments));
+                $nop->position['insertstars'] = true;
+                $node->parentnode->replace($node, $nop);
                 return false;
             }
             return true;
         };
 
-        $ast->callbackRecurse($process);
+        while ($ast->callbackRecurse($process, true) !== true) {
+        }
         if ($hasany) {
-            $answernotes[] = 'functions';
+            $answernotes[] = 'unknownFunction';
         }
         return $ast;
     }

@@ -132,7 +132,6 @@ class stack_ast_log_candy_002 implements stack_cas_astfilter {
                             return false;
                         }
 
-
                         // Insert into the subtree on the right. Elevate the subtree.
                         $rhs = $node->parentnode->leftmostofright();
                         if ($rhs instanceof MP_Atom) {
@@ -155,7 +154,6 @@ class stack_ast_log_candy_002 implements stack_cas_astfilter {
                         return false;
                     }
                 }
-
 
                 if (core_text::substr($node->value, 0, 4) === 'log_' && (
                     $node->parentnode instanceof MP_List ||
@@ -181,7 +179,7 @@ class stack_ast_log_candy_002 implements stack_cas_astfilter {
         while ($ast->callbackRecurse($process, true) !== true) {
             $ast->callbackRecurse(null);
         }
-        
+
         return $ast;
     }
 }

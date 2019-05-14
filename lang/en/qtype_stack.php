@@ -616,6 +616,7 @@ $string['stackCas_finalChar']               = '\'{$a->char}\' is an invalid fina
 $string['stackCas_MissingStars']            = 'You seem to be missing * characters. Perhaps you meant to type {$a->cmd}.';
 $string['stackCas_unknownFunction']         = 'Unknown function: {$a->forbid}.';
 $string['stackCas_forbiddenFunction']       = 'Forbidden function: {$a->forbid}.';
+$string['stackCas_spuriousop']              = 'Unknown operator: {$a->cmd}.';
 $string['stackCas_forbiddenOperator']       = 'Forbidden operator: {$a->forbid}.';
 $string['stackCas_forbiddenVariable']       = 'Forbidden variable or constant: {$a->forbid}.';
 $string['stackCas_operatorAsVariable']      = 'Operator {$a->op} interpreted as variable, check syntax.';
@@ -626,7 +627,6 @@ $string['stackCas_unknownVariableCase']     = 'Input is case sensitive: {$a->for
 $string['stackCas_unsupportedKeyword']      = 'Unsupported keyword: {$a->forbid}.';
 $string['stackCas_forbiddenWord']           = 'The expression {$a->forbid} is forbidden.';
 $string['stackCas_bracketsdontmatch']       = 'The brackets are incorrectly nested in the expression: {$a->cmd}.';
-$string['stackCas_spuriousop']              = 'Unknown operator: {$a->cmd}.';
 $string['stackCas_chained_inequalities']    = 'You appear to have "chained inequalities" e.g. \(a &lt b &lt c\).  You need to connect individual inequalities with logical operations such as \(and\) or \(or\).';
 $string['stackCas_backward_inequalities']   = 'Non-strict inequalities e.g. \( \leq \) or \( \geq \) must be entered as <= or >=.  You have {$a->cmd} in your expression, which is backwards.';
 $string['stackCas_unencpsulated_comma']     = 'A comma in your expression appears in a strange way.  Commas are used to separate items in lists, sets etc.  You need to use a decimal point, not a comma, in floating point numbers.';

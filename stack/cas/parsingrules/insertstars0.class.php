@@ -31,7 +31,7 @@ class stack_parser_logic_insertstars0 extends stack_parser_logic {
 
     public function parse(&$string, &$valid, &$errors, &$answernote, $syntax, string $parserule = 'Root', bool $units = false) {
         $ast = $this->preparse($string, $valid, $errors, $answernote, $this->insertstars, $this->fixspaces, $parserule);
-        // If the parser fails it has already markeed all the correct errors.
+        // If the parser fails it has already marked all the correct errors.
         if ($ast === null) {
             return null;
         }

@@ -26,7 +26,7 @@ require_once(__DIR__ . '/../stack/cas/parsingrules/040_common_function_name_mult
 require_once(__DIR__ . '/../stack/cas/parsingrules/043_no_calling_function_returns.php');
 require_once(__DIR__ . '/../stack/cas/parsingrules/050_split_floats.php');
 require_once(__DIR__ . '/../stack/maximaparser/utils.php');
-require_once(__DIR__ . '/../stack/maximaparser/corrective_parser.php');
+//require_once(__DIR__ . '/../stack/maximaparser/corrective_parser.php');
 
 require_once(__DIR__ . '/fixtures/test_base.php');
 
@@ -145,7 +145,7 @@ public function test_050_float_split() {
 
 public function test_043_no_calling_function_returns() {
         $teststring  = 'foo(x)(y);';
-        $result      = $teststring . "\n";
+        $result      = 'foo(x)*(y);' . "\n";
         $ast         = maxima_parser_utils::parse($teststring);
         $answernotes = array();
         $errors      = array();
@@ -156,7 +156,8 @@ public function test_043_no_calling_function_returns() {
         $security    = new stack_cas_security();
         $filtered    = $astfilter->filter($ast, $errors, $answernotes, $security);
 
-        $this->assertEquals(0, count($errors));
+        $this->assertEquals(array(0 => 'You seem to be missing * characters. ' .
+                'Perhaps you meant to type <span class="stacksyntaxexample">foo(x)*(y)</span>.'), $errors);
         $this->assertContains('calling_function_returns', $answernotes);
         $this->assertEquals($result, $filtered->toString());
     }
@@ -174,7 +175,7 @@ public function test_043_no_calling_function_returns_ok() {
         $security    = new stack_cas_security();
         $filtered    = $astfilter->filter($ast, $errors, $answernotes, $security);
 
-        $this->assertEquals(0, count($errors));
+        $this->assertEquals(array(), $errors);
         $this->assertEquals(array(), $answernotes);
         $this->assertEquals($result, $filtered->toString());
     }

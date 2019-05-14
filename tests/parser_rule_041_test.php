@@ -29,59 +29,80 @@ class stack_parser_rule_041_test extends qtype_stack_testcase {
 
     public function test_no_functions_0() {
         $teststring = '1+x^2/2!-x^3/3!;';
+        $result     = $teststring . "\n";
         $ast = maxima_parser_utils::parse($teststring);
         $filter = new stack_ast_filter_no_functions_041();
         $errs = array();
         $note = array();
         $security = new stack_cas_security();
 
-        $this->assertEquals($ast->toString(), $teststring . "\n");
         $filter->filter($ast, $errs, $note, $security);
         $this->assertEquals($errs, array());
         $this->assertEquals($note, array());
+        $this->assertEquals($ast->toString(), $result);
     }
 
     public function test_functions_0() {
         $teststring = '1+sin(x)^2/2!-x^3/3!;';
+        $result     = $teststring . "\n";
         $ast = maxima_parser_utils::parse($teststring);
         $filter = new stack_ast_filter_no_functions_041();
         $errs = array();
         $note = array();
         $security = new stack_cas_security();
 
-        $this->assertEquals($ast->toString(), $teststring . "\n");
         $filter->filter($ast, $errs, $note, $security);
         $this->assertEquals($errs, array());
         $this->assertEquals($note, array());
+        $this->assertEquals($ast->toString(), $result);
     }
 
     public function test_functions_1() {
         // User defined function.
-        $teststring = '1-2*f(x^2);';
+        $teststring = '1+2*f(x^2);';
+        $result     = '1+2*f*(x^2);' . "\n";
         $ast = maxima_parser_utils::parse($teststring);
         $filter = new stack_ast_filter_no_functions_041();
         $errs = array();
         $note = array();
         $security = new stack_cas_security();
 
-        $this->assertEquals($ast->toString(), $teststring . "\n");
         $filter->filter($ast, $errs, $note, $security);
-        $this->assertEquals($errs, array());
-        $this->assertEquals($note, array(0 => 'functions'));
+        $this->assertEquals($errs, array(0 => 'Unknown function: <span class="stacksyntaxexample">f(x^2)</span>.'));
+        $this->assertEquals($note, array(0 => 'unknownFunction'));
+        $this->assertEquals($ast->toString(), $result);
     }
 
     public function test_functions_2() {
         // User defined function.
-        $teststring = '1-2*f(x^2-1)+sin(x)/7;';
+        $teststring = '1-2*foo(x^2-1)+sin(x)/7;';
+        $result     = '1-2*foo*(x^2-1)+sin(x)/7;' . "\n";
         $ast = maxima_parser_utils::parse($teststring);
         $filter = new stack_ast_filter_no_functions_041();
         $errs = array();
         $note = array();
         $security = new stack_cas_security();
 
-        $this->assertEquals($ast->toString(), $teststring . "\n");
         $filter->filter($ast, $errs, $note, $security);
-        $this->assertEquals($errs, array());
-        $this->assertEquals($note, array(0 => 'functions'));
+        $this->assertEquals($errs, array(0 => 'Unknown function: <span class="stacksyntaxexample">foo(x^2-1)</span>.'));
+        $this->assertEquals($note, array(0 => 'unknownFunction'));
+        $this->assertEquals($ast->toString(), $result);
+    }
+
+    public function test_functions_3() {
+        // Nested user defined function.
+        $teststring = '1+x(t(3)+1);';
+        $result     = '1+x*(t*(3)+1);' . "\n";
+        $ast = maxima_parser_utils::parse($teststring);
+        $filter = new stack_ast_filter_no_functions_041();
+        $errs = array();
+        $note = array();
+        $security = new stack_cas_security();
+
+        $filter->filter($ast, $errs, $note, $security);
+        $this->assertEquals($errs, array(0 => 'Unknown function: <span class="stacksyntaxexample">x(t(3)+1)</span>.',
+                1 => 'Unknown function: <span class="stacksyntaxexample">t(3)</span>.'));
+        $this->assertEquals($note, array(0 => 'unknownFunction'));
+        $this->assertEquals($ast->toString(), $result);
     }
 }

@@ -24,9 +24,15 @@ class stack_ast_filter_no_calling_function_returns_43 implements stack_cas_astfi
     public function filter(MP_Node $ast, array &$errors, array &$answernotes, stack_cas_security $identifierrules): MP_Node {
         $hasany = false;
 
-        $process = function($node) use (&$hasany) {
+        $process = function($node) use (&$hasany, &$errors) {
             if ($node instanceof MP_FunctionCall && !$node->name instanceof MP_Identifier) {
                 $hasany = true;
+                // Insert stars into the patten.
+                $nop = new MP_Operation('*', $node->name, new MP_Group($node->arguments));
+                $nop->position['calling_function_returns'] = true;
+                $node->parentnode->replace($node, $nop);
+                $errors[] = stack_string('stackCas_MissingStars',
+                        array('cmd' => stack_maxima_format_casstring($node->toString())));
                 return false;
             }
             return true;

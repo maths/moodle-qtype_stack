@@ -115,6 +115,27 @@ class stack_ast_log_candy_002 implements stack_cas_astfilter {
                             $node->parentnode->replace($node, $node->lhs);
                             return false;
                         }
+
+                        // Insert into the subtree on the right. Elevate the subtree.
+                        $rhs = $node->parentnode->leftmostofright();
+                        if ($rhs instanceof MP_Atom) {
+                            $newname .= $rhs->toString();
+                            $node->value = $newname;
+                            $rhs->parentnode->replace($rhs, $node);
+                            $node->parentnode->parentnode->replace($node->parentnode, $node->parentnode->rhs);  
+                            return false;
+                        } else if ($rhs instanceof MP_Functioncall) {
+                            $newname .= $rhs->name->toString();
+                            $rhs->parentnode->replace($rhs, new MP_Functioncall(new MP_Identifier($newname), $rhs->arguments));
+                            $node->parentnode->parentnode->replace($node->parentnode, $node->parentnode->rhs);  
+                            return false;
+                        } 
+                    }
+                    if ($node->parentnode->rhs instanceof MP_Atom) {
+                        $newname .= $node->parentnode->rhs->toString();
+                        $node->parentnode->parentnode->replace($node->parentnode, 
+                            new MP_Identifier($newname));   
+                        return false;
                     }
                 }
             }
@@ -145,7 +166,7 @@ class stack_ast_log_candy_002 implements stack_cas_astfilter {
         while ($ast->callbackRecurse($process, true) !== true) {
             $ast->callbackRecurse(null);
         }
-        
+
         return $ast;
     }
 }

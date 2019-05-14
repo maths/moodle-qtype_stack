@@ -25,6 +25,8 @@ require_once(__DIR__ . '/../stack/cas/parsingrules/002_log_candy.php');
 require_once(__DIR__ . '/../stack/cas/parsingrules/040_common_function_name_multiplier.php');
 require_once(__DIR__ . '/../stack/cas/parsingrules/050_split_floats.php');
 require_once(__DIR__ . '/../stack/maximaparser/utils.php');
+require_once(__DIR__ . '/../stack/maximaparser/corrective_parser.php');
+
 require_once(__DIR__ . '/fixtures/test_base.php');
 
 /**
@@ -33,11 +35,29 @@ require_once(__DIR__ . '/fixtures/test_base.php');
 class stack_astfilter_test extends qtype_stack_testcase {
 
     public function test_002_log_candy() {
-        $teststring  = 'log_5(x)+log_x+y(x)+log_x^y(y);';
-        $result      = 'lg(x,5)+lg(x,x+y)+lg(y,x^y);' . "\n";
+        $teststring  = 'log_5(x)+log_x+y(x)+log_x^y(y)-log_(x-y)(z);';
+        $result      = 'lg(x,5)+lg(x,x+y)+lg(y,x^y)-lg(z,(x-y));' . "\n";
         $ast         = maxima_parser_utils::parse($teststring);
         $answernotes = array();
         $errors      = array();
+
+        $astfilter   = new stack_ast_log_candy_002();
+
+        // This test might allow functions that are allowed, but not yet.
+        $security    = new stack_cas_security();
+        $filtered    = $astfilter->filter($ast, $errors, $answernotes, $security);
+
+        $this->assertEquals(0, count($errors));
+        $this->assertContains('logsubs', $answernotes);
+        $this->assertEquals($result, $filtered->toString());
+    }
+
+    public function test_002_log_candy_corrective() {
+        $teststring  = 'log_5-1(x)+log_x+3y(x)+log_x^3(y)-log_(x-y)(z);';
+        $result      = 'lg(x,5-1)+lg(x,x+3*y)+lg(y,x^3)-lg(z,(x-y));' . "\n";
+        $answernotes = array();
+        $errors      = array();
+        $ast         = maxima_corrective_parser::parse($teststring, $errors, $answernotes, array());
 
         $astfilter   = new stack_ast_log_candy_002();
 

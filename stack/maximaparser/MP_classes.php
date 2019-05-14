@@ -68,11 +68,19 @@ class MP_Node {
     // Callback needs to take a node and return true if it changes nothing or does no structural changes.
     // If it does structural changes it must return false so that the recursion may be repeated on
     // the changed structure.
-    public function callbackRecurse($function) {
+    // Calling with null function will upgrade parentnodes, but does nothing else.
+    // Which may be necessary in some cases, where modifications are heavy and the paintting
+    // cannot paint fast enough, should you parentnode happen to be null then this might 
+    // have happened we do not do this automatically as most code works without back referencing.
+    // One may also declare that invalid subtrees are not to be processed.
+    public function callbackRecurse($function = null, $skipinvalid = false) {
+        if ($skipinvalid === true && isset($this->position['invalid'])) {
+            return true;
+        }
         for ($i = 0; $i < count($this->children); $i++) {
             // Not a foreach as the list may change.
             $this->children[$i]->parentnode = $this;
-            if ($function($this->children[$i]) !== true) {
+            if ($function !== null && $function($this->children[$i]) !== true) {
                 return false;
             }
             if ($this->children[$i]->callbackRecurse($function) !== true) {
@@ -306,7 +314,6 @@ class MP_Operation extends MP_Node {
 
     // Replace a child of this now with other...
     public function replace($node, $with) {
-        $with->parentnode = $this;
         if ($this->lhs === $node) {
             $this->lhs = $with;
         } else if ($this->rhs === $node) {
@@ -385,7 +392,7 @@ class MP_Operation extends MP_Node {
         $i = $this->rhs;
 
         while ($i instanceof MP_Operation || $i instanceof MP_PostfixOp) {
-            $i = $i->lhs;
+            $i = $i->lhs;            
         }
         return $i;
     }
@@ -743,7 +750,6 @@ class MP_FunctionCall extends MP_Node {
     }
 
     public function replace($node, $with) {
-        $with->parentnode = $this;
         if ($this->name === $node) {
             $this->name = $with;
         } else if ($node === -1) {
@@ -807,7 +813,6 @@ class MP_Group extends MP_Node {
     }
 
     public function replace($node, $with) {
-        $with->parentnode = $this;
         if ($node === -1) {
             // Special case. Append a node to items.
             $this->items[] = $with;
@@ -869,7 +874,6 @@ class MP_Set extends MP_Node {
     }
 
     public function replace($node, $with) {
-        $with->parentnode = $this;
         if ($node === -1) {
             // Special case. append a node to items.
             $this->items[] = $with;
@@ -931,7 +935,6 @@ class MP_List extends MP_Node {
     }
 
     public function replace($node, $with) {
-        $with->parentnode = $this;
         if ($node === -1) {
             // Special case. Append a node to items.
             $this->items[] = $with;
@@ -979,7 +982,6 @@ class MP_PrefixOp extends MP_Node {
     }
 
     public function replace($node, $with) {
-        $with->parentnode = $this;
         if ($this->rhs === $node) {
             $this->rhs      = $with;
             $this->children = [ & $this->rhs];
@@ -1012,7 +1014,6 @@ class MP_PostfixOp extends MP_Node {
     }
 
     public function replace($node, $with) {
-        $with->parentnode = $this;
         if ($this->lhs === $node) {
             $this->lhs      = $with;
             $this->children = [&$this->lhs];
@@ -1043,7 +1044,6 @@ class MP_Indexing extends MP_Node {
     }
 
     public function replace($node, $with) {
-        $with->parentnode = $this;
         if ($this->target === $node) {
             $this->target = $with;
         } else {
@@ -1115,7 +1115,6 @@ class MP_If extends MP_Node {
     }
 
     public function replace($node, $with) {
-        $with->parentnode = $this;
 
         foreach ($this->conditions as $key => $value) {
             if ($value === $node) {
@@ -1144,7 +1143,6 @@ class MP_Loop extends MP_Node {
     }
 
     public function replace($node, $with) {
-        $with->parentnode = $this;
 
         foreach ($this->conf as $key => $value) {
             if ($value === $node) {
@@ -1198,7 +1196,6 @@ class MP_LoopBit extends MP_Node {
         $node,
         $with
     ) {
-        $with->parentnode = $this;
         if ($this->param === $node) {
             $this->param = $with;
         }
@@ -1227,7 +1224,6 @@ class MP_EvaluationFlag extends MP_Node {
     }
 
     public function replace($node, $with) {
-        $with->parentnode = $this;
         if ($this->name === $node) {
             $this->name = $with;
         } else if ($this->value === $node) {
@@ -1259,7 +1255,6 @@ class MP_Statement extends MP_Node {
     }
 
     public function replace($node, $with) {
-        $with->parentnode = $this;
 
         foreach ($this->flags as $key => $value) {
             if ($value === $node) {
@@ -1297,7 +1292,6 @@ class MP_Prefixeq extends MP_Node {
     }
 
     public function replace($node, $with) {
-        $with->parentnode = $this;
 
         if ($this->statement === $node) {
             $this->statement = $with;
@@ -1332,7 +1326,6 @@ class MP_Let extends MP_Node {
     }
 
     public function replace($node, $with) {
-        $with->parentnode = $this;
 
         if ($this->statement === $node) {
             $this->statement = $with;
@@ -1364,7 +1357,6 @@ class MP_Root extends MP_Node {
         $node,
         $with
     ) {
-        $with->parentnode = $this;
 
         foreach ($this->items as $key => $value) {
             if ($value === $node) {

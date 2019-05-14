@@ -83,7 +83,7 @@ class MP_Node {
             if ($function !== null && $function($this->children[$i]) !== true) {
                 return false;
             }
-            if ($this->children[$i]->callbackRecurse($function) !== true) {
+            if ($this->children[$i]->callbackRecurse($function, $skipinvalid) !== true) {
                 return false;
             }
         }

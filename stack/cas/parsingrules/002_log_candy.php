@@ -39,124 +39,87 @@ class stack_ast_log_candy_002 implements stack_cas_astfilter {
                     // expression not before.
                     return false;
                 }
-                if (core_text::substr($node->name->value, 0, 4) === 'log_') {
+                if (core_text::substr($node->name->value, 0, 4) === 'log_' &&
+                    !isset($node->position['invalid'])) {
                     // Now we have something of the form 'log_xyz(y)' we will simply turn it 
                     // to 'lg(y,xyz)' by parsing 'xyz'. We do not need to care about any rules
                     // when parsing it as it will be a pure statement and will be parseable.
                     $argument = core_text::substr($node->name->value, 4);
                     // This will unfortunately lose all the inforamtion about insertted stars 
                     // but that is hardly an issue.
-                    $parsed = maxima_parser_utils::parse($argument, 'Root');
-                    // There will be only one statement and it is a statement.
-                    $parsed = $parsed->items[0]->statement;
+                    if (core_text::substr($argument, -1) === '*') {
+                        // If we have this for whatever reason somethign went wrong in the logic
+                        // Something we still don't know. Lets hack it here.
+                        $argument = core_text::substr($argument, 0, -1);
+                    }
+                    try {
+                        $parsed = maxima_parser_utils::parse($argument, 'Root');
+                        // There will be only one statement and it is a statement.
+                        $parsed = $parsed->items[0]->statement;
 
-                    // Then we rewrite things.
-                    $node->name->value = 'lg';
-                    // The special replace of FunctionCalls appends an argument.
-                    $node->replace(-1, $parsed);
-                    $answernotes[] = 'logsubs';
-                    return false;
+                        // Then we rewrite things.
+                        $node->name->value = 'lg';
+                        // The special replace of FunctionCalls appends an argument.
+                        $node->replace(-1, $parsed);
+                        $answernotes[] = 'logsubs';
+                        return false;
+                    }  catch (SyntaxError $e) {
+                        $node->position['invalid'] = true;
+                        $errors[] = 'Trouble parsing logarithms base.';
+                        return false;
+                    }
                 }
-            } else if ($node instanceof MP_Identifier && !$node->is_function_name()) {
-                // The more problematic case is dealing with variables that float around,
-                // they must be tied to groups so that they can form functions, but we can
-                // end up in a situation where the variable starting with 'log_' eats all
-                // and has nothing to tie into, this would then be an error.
-                // We also need to know the difference between automatically inserted stars
-                // and real stars.
+            }
 
-                if ($node->value === 'log_' && $node->parentnode instanceof MP_Operation &&
-                    $node->parentnode->lhs === $node) {
-                    // If the situation is 'log_*(x)' we have an syntax error unless that
-                    // * comes from insert stars of some sort i.e. spaces...
-                    if ($node->parentnode->rhs instanceof MP_Group && $node->parentnode->op === '*') {
-                        if (isset($node->parentnode->position['fixspaces'])) {
-                            // Return the situation to an already solved one.
-                            $node->parentnode->parentnode->replace($node->parentnode, 
-                                new MP_Functioncall($node, $node->parentnode->rhs->items));
-                            return false;
+            if ($node instanceof MP_Operation && !($node->op === ':' || $node->op === '=')) {
+                $lhs = $node->rightmostofleft();
+                if ($lhs instanceof MP_Identifier && core_text::substr($lhs->value, 0, 4) === 'log_') {
+                    $rhs = $node->leftmostofright();
+                    // There is an operation between an identifier and something else
+                    // We eat that op and either merge to the other thing or eat it as well.
+                    $newname = $lhs->value;
+                    if (stack_cas_security::get_feature($node->op, 'spacesurroundedop') !== null) {
+                        $newname = $newname . ' ' . $node->op . ' ';
+                    } else {
+                        $newname = $newname . $node->op;
+                    }
+                    if ($rhs instanceof MP_Atom) {
+                        $newname = $newname . $rhs->toString();
+                        // lets take the term from the lhs and plug it into rhs
+                        $rhs->parentnode->replace($rhs, new MP_Identifier($newname));
+                        // Then move the whole rhs under the lhs
+                        $lhs->parentnode->replace($lhs, $node->rhs);
+                        // And elevate the lhs to replace the original op.
+                        $node->parentnode->replace($node, $node->lhs);
+                        return false;
+                    } else if ($rhs instanceof MP_Functioncall) {
+                        $newname = $newname . $rhs->name->toString();
+                        $rhs->parentnode->replace($rhs, new MP_Functioncall(new MP_Identifier($newname), $rhs->arguments));
+                        $lhs->parentnode->replace($lhs, $node->rhs);
+                        $node->parentnode->replace($node, $node->lhs);
+                        return false;
+                    } else if ($rhs instanceof MP_Group) {
+                        if ($node->op === '*' && (isset($node->position['fixspaces']) ||
+                            isset($node->position['insertstars']))) {
+                            // If there were starts insertted it was probably a function call 
+                            // to begin with. Lets merge it back.
+                            $rhs->parentnode->replace($rhs, new MP_Functioncall(new MP_Identifier($lhs->value), $rhs->items));
+                            $lhs->parentnode->replace($lhs, $node->rhs);
+                            $node->parentnode->replace($node, $node->lhs);
+                            return false;                            
                         } else {
-                            $node->parentnode->position['invalid'] = true;
-                            // TODO: localise, maybe include the erroneous portion.
-                            $errors[] = 'Logarithm without a base...';
+                            // The stars were there from the start so lets eat it.
+                            $newname = $newname . $rhs->toString();
+                            $rhs->parentnode->replace($rhs, new MP_Identifier($newname));
+                            $lhs->parentnode->replace($lhs, $node->rhs);
+                            $node->parentnode->replace($node, $node->lhs);
                             return false;
                         }
-                    } else {
-                        // For any other operation this is a fail. e.g. 'log_^3x(x)'
-                        $node->parentnode->position['invalid'] = true;
-                        // TODO: localise, maybe include the erroneous portion.
-                        $errors[] = 'Logarithm syntax missing left hand side of operattion...';
-                        return false;
-                    }
-                } 
-                if (core_text::substr($node->value, 0, 4) === 'log_' &&
-                    $node->parentnode instanceof MP_Operation &&
-                    $node->parentnode->lhs === $node) {
-                    // log_x^3 eats that op, but if log_x*(x) then it depends on 
-                    // where that star came from
-                    if ($node->parentnode->rhs instanceof MP_Group && $node->parentnode->op === '*') {
-                        // If it is a generated star then interpret as a function call.
-                        if (isset($node->parentnode->position['insertstars']) ||
-                            isset($node->parentnode->position['fixspaces'])) {
-                            // Return the situation to an already solved one.
-                            $node->parentnode->parentnode->replace($node->parentnode, 
-                                new MP_Functioncall($node, $node->parentnode->rhs->items));
-                            return false;
-                        }
-                    }
-                    $newname = $node->value;
-                    if (stack_cas_security::get_feature($node->parentnode->op, 'spacesurroundedop') !== null) {
-                        $newname .= ' ' . $node->parentnode->op . ' ';
-                    } else {
-                        $newname .= $node->parentnode->op;
-                    }
-                    // Some variation about how to deal.
-                    if ($node->parentnode->rhs instanceof MP_Functioncall) {
-                        $newname .= $node->parentnode->rhs->name->toString();
-                        $node->parentnode->parentnode->replace($node->parentnode, 
-                            new MP_Functioncall(new MP_Identifier($newname), $node->parentnode->rhs->arguments));   
-                        return false;
-                    }
-                    if ($node->parentnode->rhs instanceof MP_Operation) {
-                        // There is a very specific subgroup that causes trouble:
-                        if ($node->parentnode->rhs->op === '*' && 
-                            isset($node->parentnode->rhs->position['insertstars']) &&
-                            $node->parentnode->rhs->rhs instanceof MP_Group &&
-                            $node->parentnode->rhs->lhs instanceof MP_Atom) {
-                            // Basically these are created by the insert stars logic
-                            // and have slightly od order of precedence in most cases.
-                            $newname .= $node->parentnode->rhs->lhs->toString();
-                            $nf = new MP_Functioncall(new MP_Identifier($newname),
-                                $node->parentnode->rhs->rhs->items);
-                            $node->parentnode->parentnode->replace($node->parentnode, $nf);
-                            return false;
-                        }
-
-
-                        // Insert into the subtree on the right. Elevate the subtree.
-                        $rhs = $node->parentnode->leftmostofright();
-                        if ($rhs instanceof MP_Atom) {
-                            $newname .= $rhs->toString();
-                            $node->value = $newname;
-                            $rhs->parentnode->replace($rhs, $node);
-                            $node->parentnode->parentnode->replace($node->parentnode, $node->parentnode->rhs);  
-                            return false;
-                        } else if ($rhs instanceof MP_Functioncall) {
-                            $newname .= $rhs->name->toString();
-                            $rhs->parentnode->replace($rhs, new MP_Functioncall(new MP_Identifier($newname), $rhs->arguments));
-                            $node->parentnode->parentnode->replace($node->parentnode, $node->parentnode->rhs);  
-                            return false;
-                        } 
-                    }
-                    if ($node->parentnode->rhs instanceof MP_Atom) {
-                        $newname .= $node->parentnode->rhs->toString();
-                        $node->parentnode->parentnode->replace($node->parentnode, 
-                            new MP_Identifier($newname));   
-                        return false;
                     }
                 }
+            }
 
-
+            if ($node instanceof MP_Identifier && !$node->is_function_name()) {
                 if (core_text::substr($node->value, 0, 4) === 'log_' && (
                     $node->parentnode instanceof MP_List ||
                     $node->parentnode instanceof MP_Set ||
@@ -164,12 +127,13 @@ class stack_ast_log_candy_002 implements stack_cas_astfilter {
                     $node->parentnode instanceof MP_Statement ||
                     $node->parentnode instanceof MP_Functioncall)) {
                     // We have ended up in a situation where there is nothing to eat.
-                    $node->parentnode->position['invalid'] = true;
+                    $node->position['invalid'] = true;
                     // TODO: localise, maybe include the erroneous portion.
                     $errors[] = 'Logarithm without an argument...';
                     return false;
                 }
             }
+
             return true;
         };
 

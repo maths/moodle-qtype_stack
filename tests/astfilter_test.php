@@ -53,7 +53,7 @@ class stack_astfilter_test extends qtype_stack_testcase {
         $this->assertEquals($result, $filtered->toString());
     }
 
-    public function test_002_log_candy_corrective() {
+    public function test_002_log_candy_corrective1() {
         $teststring  = 'log_5-1(x)+log_x+3y(x)+log_x^3(y)-log_(x-y)(z);';
         $result      = 'lg(x,5-1)+lg(x,x+3*y)+lg(y,x^3)-lg(z,(x-y));' . "\n";
         $answernotes = array();
@@ -66,9 +66,45 @@ class stack_astfilter_test extends qtype_stack_testcase {
         $security    = new stack_cas_security();
         $filtered    = $astfilter->filter($ast, $errors, $answernotes, $security);
 
-        $this->assertEquals(0, count($errors));
         $this->assertContains('logsubs', $answernotes);
         $this->assertEquals($result, $filtered->toString());
+        $this->assertEquals(0, count($errors));
+    }
+
+    public function test_002_log_candy_corrective2() {
+        $teststring  = 'log_10(a+x^2)+log_a(b)*log_%e(%e);';
+        $result      = 'lg(a+x^2,10)+lg(b,a)*lg(%e,%e);' . "\n";
+        $answernotes = array();
+        $errors      = array();
+        $ast         = maxima_corrective_parser::parse($teststring, $errors, $answernotes, array());
+
+        $astfilter   = new stack_ast_log_candy_002();
+
+        // This test might allow functions that are allowed, but not yet.
+        $security    = new stack_cas_security();
+        $filtered    = $astfilter->filter($ast, $errors, $answernotes, $security);
+
+        $this->assertContains('logsubs', $answernotes);
+        $this->assertEquals($result, $filtered->toString());
+        $this->assertEquals(0, count($errors));
+    }
+
+    public function test_002_log_candy_corrective3() {
+        $teststring  = 'log_x:log_x(a);';
+        $result      = 'log_x:lg(a,x);' . "\n";
+        $answernotes = array();
+        $errors      = array();
+        $ast         = maxima_corrective_parser::parse($teststring, $errors, $answernotes, array());
+
+        $astfilter   = new stack_ast_log_candy_002();
+
+        // This test might allow functions that are allowed, but not yet.
+        $security    = new stack_cas_security();
+        $filtered    = $astfilter->filter($ast, $errors, $answernotes, $security);
+
+        $this->assertContains('logsubs', $answernotes);
+        $this->assertEquals($result, $filtered->toString());
+        $this->assertEquals(0, count($errors));
     }
 
     public function test_040_function_prefix() {

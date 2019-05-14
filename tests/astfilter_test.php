@@ -26,7 +26,7 @@ require_once(__DIR__ . '/../stack/cas/parsingrules/040_common_function_name_mult
 require_once(__DIR__ . '/../stack/cas/parsingrules/043_no_calling_function_returns.php');
 require_once(__DIR__ . '/../stack/cas/parsingrules/050_split_floats.php');
 require_once(__DIR__ . '/../stack/maximaparser/utils.php');
-//require_once(__DIR__ . '/../stack/maximaparser/corrective_parser.php');
+require_once(__DIR__ . '/../stack/maximaparser/corrective_parser.php');
 
 require_once(__DIR__ . '/fixtures/test_base.php');
 

@@ -289,7 +289,7 @@ Next, a teacher needs to ask _"What might a student do incorrectly, and what wil
 
 There are two further common mistakes for students to make when finding the anti-derivative of simple functions-of-functions:
 
-1. Accidentally finding the derivative of the outer function (multiplying by the power and taking one off the power - i.e. following the wrong process). In this case effectively integrating \( \int r(px+q)^n \mathrm{d}x \rightarrow r\times n(px+q)^{n-1}+c \).
+1. Accidentally finding the derivative of the outer function (multiplying by the power and taking one off the power - i.e. following the wrong process). In this case effectively integrating \( \int r(px+q)^n \mathrm{d}x \rightarrow r \, n(px+q)^{n-1}+c \).
 2. Expanding brackets when they didn't need to - not remembering to leave their final answer in factored form. 
 
 Let us continue to enhance feedback by checking that the student has differentiated the outer function by mistake. We do this by adding another potential response node.
@@ -304,10 +304,10 @@ If the first test is false, we will then perform the test in Node 2.
 Update the form so that Node 2 has
 
     SAns = diff(ans1, x)
-    TAns = 5*(-3)*(-4)*(3*x-2)^-5
+    TAns = 5*(-3)*(-4)*3*(3*x-2)^-5
     Answer test = AlgEquiv
 
-Notice that we are using Maxima to differentiate the student's answer, which helps to remove a constant of integration. We then compare that result, algebraically, to an expression we would expect had the student responded in the way they have.  If the studnet has made this mistake they will end up with \(r\, n(px+q)^{n-1}+c\) so differentiating this we have the expression \(r\, n\, (n-1)(px+q)^{n-2}\) from which we get `5*(-3)*(-4)*(3*x-2)^-5` in this example.  We might as well have the CAS calculate the value.
+Notice that we are using Maxima to differentiate the student's answer, which helps to remove a constant of integration. We then compare that result, algebraically, to an expression we would expect had the student responded in the way they have.  If the student has made this mistake they will end up with \(r\, n(px+q)^{n-1}+c\) so differentiating this we have the expression \(r\, n\, p\, (n-1)(px+q)^{n-2}\) from which we get `5*(-3)*(-4)*3*(3*x-2)^-5` in this example.  We might as well have the CAS calculate the value.
 
 This gives us the test, but what about the outcomes?
 

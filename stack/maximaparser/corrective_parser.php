@@ -28,17 +28,17 @@ require_once(__DIR__ . '/../utils.class.php');
 
 require_once(__DIR__ . '/MP_classes.php');
 
-// A Maxima parser wrapper that tries to insert missing stars to statements 
-// to make them parseable. Filter further to handle extended syntax and more 
+// A Maxima parser wrapper that tries to insert missing stars to statements
+// to make them parseable. Filter further to handle extended syntax and more
 // complex star insertion.
 //
 // @copyright  2019 Aalto University
 // @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
 class maxima_corrective_parser {
 
-	// Returns an AST if possible
-	public static function parse(string $string, array &$errors, array &$answernote, array $parseroptions) {
-		static $safespacepatterns = array(
+    // Returns an AST if possible.
+    public static function parse(string $string, array &$errors, array &$answernote, array $parseroptions) {
+        static $safespacepatterns = array(
          ' or ' => 'STACKOR', ' and ' => 'STACKAND', 'not ' => 'STACKNOT',
          ' nounor ' => 'STACKNOUNOR', ' nounand ' => 'STACKNOUNAND',
          // TODO: we really need to think about keywords and whether we allow
@@ -79,9 +79,9 @@ class maxima_corrective_parser {
         $starpatterns   = array("/(\))([0-9A-Za-z_])/");    // E.g. )a, or )3.
         $starpatterns[] = "/([^0-9A-Za-z_][0-9]+)([A-DF-Za-df-z_]+|[eE][^\+\-0-9]+)/"; // +3z(, -2ee+ not *4e-2 or /1e3
         $starpatterns[] = "/^([\+\-]?[0-9]+)([A-DF-Za-df-z_]+|[eE][^\+\-0-9]+)/"; // Same but start of line.
-        $starpatterns[] = "/([^0-9A-Za-z_][0-9]+)(\()/"; // -124()
+        $starpatterns[] = "/([^0-9A-Za-z_][0-9]+)(\()/"; // Pattern such as -124().
         $starpatterns[] = "/^([\+\-]?[0-9]+)(\()/"; // Same but start of line
-        $starpatterns[] = "/([^0-9A-Za-z_][0-9]+[\.]?[0-9]*[eE][\+\-]?[0-9]+)(\()/"; // -124.4e-3()
+        $starpatterns[] = "/([^0-9A-Za-z_][0-9]+[\.]?[0-9]*[eE][\+\-]?[0-9]+)(\()/"; // Pattern such as -124.4e-3().
         $starpatterns[] = "/^([\+\-]?[0-9]+[\.]?[0-9]*[eE][\+\-]?[0-9]+)(\()/"; // Same but start of line.
 
         $missingstar    = false;
@@ -141,56 +141,55 @@ class maxima_corrective_parser {
             $parser = new MP_Parser();
             $ast = $parser->parse($string, $parseroptions);
         } catch (SyntaxError $e) {
-        	self::handle_parse_error($e, $string, $errors, $answernote);
+            self::handle_parse_error($e, $string, $errors, $answernote);
             return null;
         }
 
-
-		// Once parsed check if we added stars and tag them.
-		$processmarkkers = function($node) {
+        // Once parsed check if we added stars and tag them.
+        $processmarkkers = function($node) {
             // Map the insertted stars.
             if ($node instanceof MP_Operation && $node->op === '*' && !(
-            	isset($node->position['insertstars']) ||
-            	isset($node->position['fixspaces']))) {
+                isset($node->position['insertstars']) ||
+                isset($node->position['fixspaces']))) {
                 $rhs = $node->leftmostofright();
                 if ($rhs instanceof MP_Identifier &&
-                	core_text::substr($rhs->value, 0, 4) === '%%IS') {
+                    core_text::substr($rhs->value, 0, 4) === '%%IS') {
                     $node->position['insertstars'] = true;
                     $rhs->value = core_text::substr($rhs->value, 4);
                     return false;
                 }
                 if ($rhs instanceof MP_Identifier &&
-                	core_text::substr($rhs->value, 0, 4) === '%%Is') {
+                    core_text::substr($rhs->value, 0, 4) === '%%Is') {
                     $node->position['fixspaces'] = true;
                     $rhs->value = core_text::substr($rhs->value, 4);
                     return false;
                 }
                 if ($rhs instanceof MP_FunctionCall && $rhs->name instanceof MP_Identifier &&
-                	core_text::substr($rhs->name->value, 0, 4) === '%%IS') {
+                    core_text::substr($rhs->name->value, 0, 4) === '%%IS') {
                     $node->position['insertstars'] = true;
                     $rhs->name->value = core_text::substr($rhs->name->value, 4);
                     if ($rhs->name->value === '') {
-                    	$node->replace($rhs, new MP_Group($rhs->arguments));
+                        $node->replace($rhs, new MP_Group($rhs->arguments));
                     }
                     return false;
                 }
                 if ($rhs instanceof MP_FunctionCall && $rhs->name instanceof MP_Identifier &&
-                	core_text::substr($rhs->name->value, 0, 4) === '%%Is') {
+                    core_text::substr($rhs->name->value, 0, 4) === '%%Is') {
                     $node->position['fixspaces'] = true;
                     $rhs->name->value = core_text::substr($rhs->name->value, 4);
                     if ($rhs->name->value === '') {
-                    	$node->replace($rhs, new MP_Group($rhs->arguments));
+                        $node->replace($rhs, new MP_Group($rhs->arguments));
                     }
                     return false;
                 }
                 if ($rhs instanceof MP_Indexing && $rhs->target instanceof MP_Identifier &&
-                	core_text::substr($rhs->target->value, 0, 4) === '%%IS') {
+                    core_text::substr($rhs->target->value, 0, 4) === '%%IS') {
                     $node->position['insertstars'] = true;
                     $rhs->target->value = core_text::substr($rhs->target->value, 4);
                     return false;
                 }
                 if ($rhs instanceof MP_Indexing && $rhs->target instanceof MP_Identifier &&
-                	core_text::substr($rhs->target->value, 0, 4) === '%%Is') {
+                    core_text::substr($rhs->target->value, 0, 4) === '%%Is') {
                     $node->position['fixspaces'] = true;
                     $rhs->target->value = core_text::substr($rhs->target->value, 4);
                     return false;
@@ -198,37 +197,37 @@ class maxima_corrective_parser {
                 // Then deep trees.
                 $rhs = $node->leftmostofright();
                 if ($rhs instanceof MP_Identifier &&
-                	core_text::substr($rhs->value, 0, 4) === '%%IS') {
+                    core_text::substr($rhs->value, 0, 4) === '%%IS') {
                     $node->position['insertstars'] = true;
                     $rhs->value = core_text::substr($rhs->value, 4);
                     return false;
                 }
                 if ($rhs instanceof MP_Identifier &&
-                	core_text::substr($rhs->value, 0, 4) === '%%Is') {
+                    core_text::substr($rhs->value, 0, 4) === '%%Is') {
                     $node->position['fixspaces'] = true;
                     $rhs->value = core_text::substr($rhs->value, 4);
                     return false;
                 }
                 if ($rhs instanceof MP_FunctionCall && $rhs->name instanceof MP_Identifier &&
-                	core_text::substr($rhs->name->value, 0, 4) === '%%IS') {
+                    core_text::substr($rhs->name->value, 0, 4) === '%%IS') {
                     $node->position['insertstars'] = true;
                     $rhs->name->value = core_text::substr($rhs->name->value, 4);
                     return false;
                 }
                 if ($rhs instanceof MP_FunctionCall && $rhs->name instanceof MP_Identifier &&
-                	core_text::substr($rhs->name->value, 0, 4) === '%%Is') {
+                    core_text::substr($rhs->name->value, 0, 4) === '%%Is') {
                     $node->position['fixspaces'] = true;
                     $rhs->name->value = core_text::substr($rhs->name->value, 4);
                     return false;
                 }
                 if ($rhs instanceof MP_Indexing && $rhs->target instanceof MP_Identifier &&
-                	core_text::substr($rhs->target->value, 0, 4) === '%%IS') {
+                    core_text::substr($rhs->target->value, 0, 4) === '%%IS') {
                     $node->position['insertstars'] = true;
                     $rhs->target->value = core_text::substr($rhs->target->value, 4);
                     return false;
                 }
                 if ($rhs instanceof MP_Indexing && $rhs->target instanceof MP_Identifier &&
-                	core_text::substr($rhs->target->value, 0, 4) === '%%Is') {
+                    core_text::substr($rhs->target->value, 0, 4) === '%%Is') {
                     $node->position['fixspaces'] = true;
                     $rhs->target->value = core_text::substr($rhs->target->value, 4);
                     return false;
@@ -236,14 +235,13 @@ class maxima_corrective_parser {
 
             }
             if ($node instanceof MP_FunctionCall && $node->name instanceof MP_Identifier &&
-            	$node->name->value === '') {
-            	// the previous one may have caused trouble.
-            	$node->parentnode->replace($node, new MP_Group($node->arguments));
-            	return false;
+                $node->name->value === '') {
+                // The previous one may have caused trouble.
+                $node->parentnode->replace($node, new MP_Group($node->arguments));
+                return false;
             }
 
-
-            // %%IS is used in the pre-parser to mark implied multiplications.
+            // Note that %%IS is used in the pre-parser to mark implied multiplications.
             if ($node instanceof MP_FunctionCall && $node->name instanceof MP_Identifier &&
                     core_text::substr($node->name->value, 0, 4) === '%%IS') {
                 $node->name->value = core_text::substr($node->name->value, 4);
@@ -265,7 +263,7 @@ class maxima_corrective_parser {
                 return false;
             }
 
-            // and %%Is that is used for pre-parser fixed spaces.
+            // And %%Is that is used for pre-parser fixed spaces.
             if ($node instanceof MP_FunctionCall && $node->name instanceof MP_Identifier &&
                     core_text::substr($node->name->value, 0, 4) === '%%Is') {
                 $node->name->value = core_text::substr($node->name->value, 4);
@@ -299,10 +297,13 @@ class maxima_corrective_parser {
         // @codingStandardsIgnoreEnd
 
         return $ast;
-	}
+    }
 
-	public static function handle_parse_error($exception, $string, &$errors, &$answernote) {
+    public static function handle_parse_error($exception, $string, &$errors, &$answernote) {
+        // @codingStandardsIgnoreStart
+        // We also disallow backticks.
         static $disallowedfinalchars = '/+*^#~=,_&`;:$-.<>';
+        // @codingStandardsIgnoreEnd
 
         $foundchar = $exception->found;
         $previouschar = null;

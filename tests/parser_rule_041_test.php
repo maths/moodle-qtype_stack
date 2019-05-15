@@ -22,7 +22,7 @@ require_once(__DIR__ . '/../stack/cas/casstring.class.php');
 require_once(__DIR__ . '/../stack/cas/parsingrules/041_no_functions.php');
 
 /**
- * Unit tests for {@link stack_ast_filter_no_functions_at_all_042}.
+ * Unit tests for {@link stack_ast_filter_no_functions_041}.
  * @group qtype_stack
  */
 class stack_parser_rule_041_test extends qtype_stack_testcase {
@@ -75,7 +75,7 @@ class stack_parser_rule_041_test extends qtype_stack_testcase {
     }
 
     public function test_functions_2() {
-        // User defined function.
+        // User defined function, but sin is known.
         $teststring = '1-2*foo(x^2-1)+sin(x)/7;';
         $result     = '1-2*foo*(x^2-1)+sin(x)/7;' . "\n";
         $ast = maxima_parser_utils::parse($teststring);
@@ -92,7 +92,7 @@ class stack_parser_rule_041_test extends qtype_stack_testcase {
     }
 
     public function test_functions_3() {
-        // Nested user defined function.
+        // Nested user defined functions.
         $teststring = '1+x(t(3)+1);';
         $result     = '1+x*(t*(3)+1);' . "\n";
         $ast = maxima_parser_utils::parse($teststring);

@@ -152,6 +152,17 @@ class MP_Node {
         return implode("\n", $r);
     }
 
+    // Re calculates the positions of nodes from their contents not from 
+    // the original parsed content. Uses minimal toString() presentation.
+    // Intended to ease interpretation of debug prints in some cases.
+    public function remap_position_data(int $offset=0) {
+        $total = $this->toString();
+        $this->position['start'] = $offset;
+        $this->position['end'] = $offset + core_text::strlen($total);
+    }
+
+
+
     // Quick check if we are part of an operation.
     public function is_in_operation() {
         if ($this->parentnode === null) {
@@ -297,6 +308,20 @@ class MP_Operation extends MP_Node {
         return $this->lhs->toString($params) . $op . $this->rhs->toString($params);
     }
 
+    public function remap_position_data(int $offset=0) {
+        $lhs = $this->lhs->toString();
+        $rhs = $this->rhs->toString();
+        $start = $offset;
+        $op = $this->op;
+        if (stack_cas_security::get_feature($op, 'spacesurroundedop') !== null) {
+            $op = ' ' . $op . ''; 
+        }
+        $this->position['start'] = $start;
+        $this->position['end'] = $start + core_text::strlen($lhs) + core_text::strlen($op) + core_text::strlen($rhs);
+        $this->lhs->remap_position_data($start);
+        $this->rhs->remap_position_data($start + core_text::strlen($lhs) + core_text::strlen($op));
+    }
+
     // Replace a child of this now with other...
     public function replace($node, $with) {
         if ($this->lhs === $node) {
@@ -398,6 +423,12 @@ class MP_Atom extends MP_Node {
     public function __construct($value) {
         parent::__construct();
         $this->value = $value;
+    }
+
+    public function remap_position_data(int $offset=0) {
+        $value = $this->toString();
+        $this->position['start'] = $offset;
+        $this->position['end'] = $offset + core_text::strlen($value);
     }
 
     public function toString($params = null) {
@@ -654,6 +685,18 @@ class MP_FunctionCall extends MP_Node {
         $this->children  = array_merge([ & $name], $arguments);
     }
 
+    public function remap_position_data(int $offset=0) {
+        $total = $this->toString();
+        $this->position['start'] = $offset;
+        $this->position['end'] = $offset + core_text::strlen($total);
+        $itemoffset = $offset + core_text::strlen($this->name->toString()) + 1;
+        foreach ($this->arguments as $arg) {
+            $arg->remap_position_data($itemoffset);
+            $itemoffset = $itemoffset + core_text::strlen($arg->toString()) + 1;
+        }
+        $this->name->remap_position_data($offset);
+    }
+
     public function toString($params = null) {
         $n = $this->name->toString($params);
         if ($params !== null && isset($params['nounify'])) {
@@ -761,6 +804,17 @@ class MP_Group extends MP_Node {
         $this->children = $items;
     }
 
+    public function remap_position_data(int $offset=0) {
+        $total = $this->toString();
+        $this->position['start'] = $offset;
+        $this->position['end'] = $offset + core_text::strlen($total);
+        $itemoffset = $offset + 1;
+        foreach ($this->items as $item) {
+            $item->remap_position_data($itemoffset);
+            $itemoffset = $itemoffset + core_text::strlen($item->toString()) + 1;
+        }
+    }
+
     public function toString($params = null) {
         $indent = '';
         if ($params !== null && isset($params['pretty'])) {
@@ -822,6 +876,17 @@ class MP_Set extends MP_Node {
         $this->children = $items;
     }
 
+    public function remap_position_data(int $offset=0) {
+        $total = $this->toString();
+        $this->position['start'] = $offset;
+        $this->position['end'] = $offset + core_text::strlen($total);
+        $itemoffset = $offset + 1;
+        foreach ($this->items as $item) {
+            $item->remap_position_data($itemoffset);
+            $itemoffset = $itemoffset + core_text::strlen($item->toString()) + 1;
+        }
+    }
+
     public function toString($params = null) {
         $indent = '';
         if ($params !== null && isset($params['pretty'])) {
@@ -881,6 +946,17 @@ class MP_List extends MP_Node {
         parent::__construct();
         $this->items    = $items;
         $this->children = $items;
+    }
+
+    public function remap_position_data(int $offset=0) {
+        $total = $this->toString();
+        $this->position['start'] = $offset;
+        $this->position['end'] = $offset + core_text::strlen($total);
+        $itemoffset = $offset + 1;
+        foreach ($this->items as $item) {
+            $item->remap_position_data($itemoffset);
+            $itemoffset = $itemoffset + core_text::strlen($item->toString()) + 1;
+        }
     }
 
     public function toString($params = null) {
@@ -946,6 +1022,13 @@ class MP_PrefixOp extends MP_Node {
         $this->children[] = &$rhs;
     }
 
+    public function remap_position_data(int $offset=0) {
+        $total = $this->toString();
+        $this->position['start'] = $offset;
+        $this->position['end'] = $offset + core_text::strlen($total);
+        $this->rhs->remap_position_data($offset + core_text::strlen($this->op));
+    }
+
     public function toString($params = null) {
         $indent = '';
         if ($params !== null && isset($params['pretty'])) {
@@ -985,6 +1068,14 @@ class MP_PostfixOp extends MP_Node {
         $this->children[] = &$lhs;
     }
 
+    public function remap_position_data(int $offset=0) {
+        $total = $this->toString();
+        $this->position['start'] = $offset;
+        $this->position['end'] = $offset + core_text::strlen($total);
+        $this->lhs->remap_position_data($offset);
+    }
+
+
     public function toString($params = null) {
         $indent = '';
         if ($params !== null && isset($params['pretty'])) {
@@ -1016,6 +1107,18 @@ class MP_Indexing extends MP_Node {
         $this->target   = $target;
         $this->indices  = $indices;
         $this->children = array_merge([&$target], $indices);
+    }
+
+    public function remap_position_data(int $offset=0) {
+        $total = $this->toString();
+        $this->position['start'] = $offset;
+        $this->position['end'] = $offset + core_text::strlen($total);
+        $this->target->remap_position_data($offset);
+        $itemoffset = $offset + core_text::strlen($this->target->toString());
+        foreach ($this->indices as $ind) {
+            $ind->remap_position_data($itemoffset);
+            $itemoffset = $itemoffset + core_text::strlen($ind->toString());
+        }
     }
 
     public function toString($params = null) {
@@ -1051,6 +1154,13 @@ class MP_If extends MP_Node {
         $this->conditions = $conditions;
         $this->branches   = $branches;
         $this->children   = array_merge($conditions, $branches);
+    }
+
+    public function remap_position_data(int $offset=0) {
+        $total = $this->toString();
+        $this->position['start'] = $offset;
+        $this->position['end'] = $offset + core_text::strlen($total);
+        // TODO: fill in this.
     }
 
     public function toString($params = null) {
@@ -1127,6 +1237,13 @@ class MP_Loop extends MP_Node {
         $this->children = array_merge($conf, [&$body]);
     }
 
+    public function remap_position_data(int $offset=0) {
+        $total = $this->toString();
+        $this->position['start'] = $offset;
+        $this->position['end'] = $offset + core_text::strlen($total);
+        // TODO: fill in this.
+    }
+
     public function replace($node, $with) {
 
         foreach ($this->conf as $key => $value) {
@@ -1177,6 +1294,14 @@ class MP_LoopBit extends MP_Node {
         $this->children[] = &$param;
     }
 
+    public function remap_position_data(int $offset=0) {
+        $total = $this->toString();
+        $this->position['start'] = $offset;
+        $this->position['end'] = $offset + core_text::strlen($total);
+        $this->param->remap_position_data($offset + core_text::strlen($this->mode) + 1);
+    }
+
+
     public function replace(
         $node,
         $with
@@ -1204,6 +1329,14 @@ class MP_EvaluationFlag extends MP_Node {
         $this->children[] = &$value;
     }
 
+    public function remap_position_data(int $offset=0) {
+        $total = $this->toString();
+        $this->position['start'] = $offset;
+        $this->position['end'] = $offset + core_text::strlen($total);
+        $this->name->remap_position_data($offset + 1);
+        $this->value->remap_position_data($offset + 2 + core_text::strlen($this->name->toString()));
+    }
+
     public function toString($params = null) {
         return ',' . $this->name->toString($params) . '=' . $this->value->toString($params);
     }
@@ -1227,6 +1360,18 @@ class MP_Statement extends MP_Node {
         $this->statement = $statement;
         $this->flags     = $flags;
         $this->children  = array_merge([&$this->statement], $this->flags);
+    }
+
+    public function remap_position_data(int $offset=0) {
+        $total = $this->toString();
+        $this->position['start'] = $offset;
+        $this->position['end'] = $offset + core_text::strlen($total);
+        $this->statement->remap_position_data($offset);
+        $itemoffset = $offset + core_text::strlen($this->statement->toString());
+        foreach ($this->flags as $flag) {
+            $flag->remap_position_data($itemoffset);
+            $itemoffset = $itemoffset + core_text::strlen($flag->toString());
+        }
     }
 
     public function toString($params = null) {
@@ -1326,6 +1471,17 @@ class MP_Root extends MP_Node {
         parent::__construct();
         $this->items    = $items;
         $this->children = $items;
+    }
+
+    public function remap_position_data(int $offset=0) {
+        $total = $this->toString();
+        $this->position['start'] = $offset;
+        $this->position['end'] = $offset + core_text::strlen($total);
+        $itemoffset = $offset;
+        foreach ($this->items as $item) {
+            $item->remap_position_data($itemoffset);
+            $itemoffset = $itemoffset + core_text::strlen($item->toString());
+        }
     }
 
     public function toString($params = null) {

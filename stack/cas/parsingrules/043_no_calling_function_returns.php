@@ -32,13 +32,14 @@ class stack_ast_filter_no_calling_function_returns_43 implements stack_cas_astfi
                 $nop->position['calling_function_returns'] = true;
                 $node->parentnode->replace($node, $nop);
                 $errors[] = stack_string('stackCas_MissingStars',
-                        array('cmd' => stack_maxima_format_casstring($node->toString())));
+                        array('cmd' => stack_maxima_format_casstring($nop->toString())));
                 return false;
             }
             return true;
         };
 
-        $ast->callbackRecurse($process);
+        while ($ast->callbackRecurse($process, true) !== true) {
+        }
         if ($hasany) {
             $answernotes[] = 'calling_function_returns';
         }

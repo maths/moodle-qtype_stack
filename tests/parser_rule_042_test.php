@@ -52,9 +52,9 @@ class stack_parser_rule_042_test extends qtype_stack_testcase {
         $security = new stack_cas_security();
 
         $filter->filter($ast, $errs, $note, $security);
-        $this->assertEquals($errs, array(0 => 'Forbidden function: <span class="stacksyntaxexample">sin</span> in the term ' .
-                '<span class="stacksyntaxexample">sin(x)</span>.'));
-        $this->assertEquals($note, array(0 => 'forbiddenFunction'));
+        $this->assertEquals($errs, array(0 => 'The use of the function <span class="stacksyntaxexample">sin</span> in the term ' .
+                '<span class="stacksyntaxexample">sin(x)</span> is not permitted in this context.'));
+        $this->assertEquals($note, array(0 => 'noFunction'));
         $this->assertEquals($result, $ast->toString());
     }
 
@@ -69,9 +69,9 @@ class stack_parser_rule_042_test extends qtype_stack_testcase {
         $security = new stack_cas_security();
 
         $filter->filter($ast, $errs, $note, $security);
-        $this->assertEquals($errs, array(0 => 'Forbidden function: <span class="stacksyntaxexample">f</span> in the term ' .
-                '<span class="stacksyntaxexample">f(x^2)</span>.'));
-        $this->assertEquals($note, array(0 => 'forbiddenFunction'));
+        $this->assertEquals($errs, array(0 => 'The use of the function <span class="stacksyntaxexample">f</span> in the term ' .
+                '<span class="stacksyntaxexample">f(x^2)</span> is not permitted in this context.'));
+        $this->assertEquals($note, array(0 => 'noFunction'));
         $this->assertEquals($result, $ast->toString());
     }
 
@@ -86,11 +86,11 @@ class stack_parser_rule_042_test extends qtype_stack_testcase {
         $security = new stack_cas_security();
 
         $filter->filter($ast, $errs, $note, $security);
-        $this->assertEquals($errs, array(0 => 'Forbidden function: <span class="stacksyntaxexample">f</span> in the term ' .
-                    '<span class="stacksyntaxexample">f(x^2-1)</span>.',
-                1 => 'Forbidden function: <span class="stacksyntaxexample">sin</span> in the term ' .
-                    '<span class="stacksyntaxexample">sin(x)</span>.'));
-        $this->assertEquals($note, array(0 => 'forbiddenFunction'));
+        $this->assertEquals($errs, array(0 => 'The use of the function <span class="stacksyntaxexample">f</span> in the term ' .
+                    '<span class="stacksyntaxexample">f(x^2-1)</span> is not permitted in this context.',
+                1 => 'The use of the function <span class="stacksyntaxexample">sin</span> in the term ' .
+                    '<span class="stacksyntaxexample">sin(x)</span> is not permitted in this context.'));
+        $this->assertEquals($note, array(0 => 'noFunction'));
         $this->assertEquals($result, $ast->toString());
     }
 
@@ -105,11 +105,11 @@ class stack_parser_rule_042_test extends qtype_stack_testcase {
         $security = new stack_cas_security();
 
         $filter->filter($ast, $errs, $note, $security);
-        $this->assertEquals($errs, array(0 => 'Forbidden function: <span class="stacksyntaxexample">x</span> in the term ' .
-                    '<span class="stacksyntaxexample">x(t(3)+1)</span>.',
-                1 => 'Forbidden function: <span class="stacksyntaxexample">t</span> in the term ' .
-                    '<span class="stacksyntaxexample">t(3)</span>.'));
-        $this->assertEquals($note, array(0 => 'forbiddenFunction'));
+        $this->assertEquals($errs, array(0 => 'The use of the function <span class="stacksyntaxexample">x</span> in the term ' .
+                    '<span class="stacksyntaxexample">x(t(3)+1)</span> is not permitted in this context.',
+                1 => 'The use of the function <span class="stacksyntaxexample">t</span> in the term ' .
+                    '<span class="stacksyntaxexample">t(3)</span> is not permitted in this context.'));
+        $this->assertEquals($note, array(0 => 'noFunction'));
         $this->assertEquals($result, $ast->toString());
     }
 }

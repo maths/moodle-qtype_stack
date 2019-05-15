@@ -29,7 +29,7 @@ class stack_ast_filter_no_functions_at_all_042 implements stack_cas_astfilter {
                 $hasany = true;
                 // Insert stars into the patten.
                 // Probably not very sensible to end up with sin(x) -> sin*(x) but ho hum.
-                $errors [] = stack_string('stackCas_forbiddenFunction',
+                $errors [] = stack_string('stackCas_noFunction',
                         array('forbid' => stack_maxima_format_casstring($node->name->toString()),
                             'term' => stack_maxima_format_casstring($node->toString())));
                 $nop = new MP_Operation('*', $node->name, new MP_Group($node->arguments));
@@ -45,7 +45,7 @@ class stack_ast_filter_no_functions_at_all_042 implements stack_cas_astfilter {
         }
         // @codingStandardsIgnoreEnd
         if ($hasany) {
-            $answernotes[] = 'forbiddenFunction';
+            $answernotes[] = 'noFunction';
         }
         return $ast;
     }

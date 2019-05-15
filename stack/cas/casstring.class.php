@@ -352,21 +352,6 @@ class stack_cas_casstring {
             }
         }
 
-        // Move this check in here?
-        // Yes sensible, but we can already pick that from the $mainloop, no need to
-        // iterate too often.
-        /*
-        $floatspresent = false;
-        $checkfloats = function($node) use (&$floatspresent){
-            if ($node instanceof MP_Float) {
-                $floatspresent = true;
-                return false;
-            }
-            return true;
-        };
-        $this->ast->callbackRecurse($checkfloats);
-        */
-
         // Security check contains various errors related to using functions as
         // variables that have already been covered in earlier checks so it
         // make sense to skip it if we are already invalid.

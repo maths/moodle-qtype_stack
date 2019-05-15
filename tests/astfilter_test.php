@@ -25,6 +25,7 @@ require_once(__DIR__ . '/../stack/cas/parsingrules/002_log_candy.php');
 require_once(__DIR__ . '/../stack/cas/parsingrules/040_common_function_name_multiplier.php');
 require_once(__DIR__ . '/../stack/cas/parsingrules/043_no_calling_function_returns.php');
 require_once(__DIR__ . '/../stack/cas/parsingrules/050_split_floats.php');
+require_once(__DIR__ . '/../stack/cas/parsingrules/051_no_floats.php');
 require_once(__DIR__ . '/../stack/maximaparser/utils.php');
 require_once(__DIR__ . '/../stack/maximaparser/corrective_parser.php');
 
@@ -125,24 +126,6 @@ class stack_astfilter_test extends qtype_stack_testcase {
         $this->assertEquals($result, $filtered->toString());
     }
 
-    public function test_050_float_split() {
-        $teststring  = '[xsin(x)*1.0*2.0e-1,2e2,sqrt(2E-1),.1e-90];';
-        $result      = '[xsin(x)*1.0*2.0*e-1,2*e*2,sqrt(2*E-1),.1*e-90];' . "\n";
-        $ast         = maxima_parser_utils::parse($teststring);
-        $answernotes = array();
-        $errors      = array();
-
-        $astfilter   = new stack_ast_filter_split_floats_050();
-
-        // This test does not require knowledge of security but the interface does.
-        $security    = new stack_cas_security();
-        $filtered    = $astfilter->filter($ast, $errors, $answernotes, $security);
-
-        $this->assertEquals(0, count($errors));
-        $this->assertContains('missing_stars', $answernotes);
-        $this->assertEquals($result, $filtered->toString());
-    }
-
     public function test_043_no_calling_function_returns() {
         $teststring  = 'foo(x)(y);';
         $result      = 'foo(x)*(y);' . "\n";
@@ -179,4 +162,41 @@ class stack_astfilter_test extends qtype_stack_testcase {
         $this->assertEquals(array(), $answernotes);
         $this->assertEquals($result, $filtered->toString());
     }
+
+    public function test_050_float_split() {
+        $teststring  = '[xsin(x)*1.0*2.0e-1,2e2,sqrt(2E-1),.1e-90];';
+        $result      = '[xsin(x)*1.0*2.0*e-1,2*e*2,sqrt(2*E-1),.1*e-90];' . "\n";
+        $ast         = maxima_parser_utils::parse($teststring);
+        $answernotes = array();
+        $errors      = array();
+
+        $astfilter   = new stack_ast_filter_split_floats_050();
+
+        // This test does not require knowledge of security but the interface does.
+        $security    = new stack_cas_security();
+        $filtered    = $astfilter->filter($ast, $errors, $answernotes, $security);
+
+        $this->assertEquals(0, count($errors));
+        $this->assertContains('missing_stars', $answernotes);
+        $this->assertEquals($result, $filtered->toString());
+    }
+
+    public function test_051_no_float_split() {
+        $teststring  = '1+0.5*x;';
+        $result      = $teststring . "\n";
+        $ast         = maxima_parser_utils::parse($teststring);
+        $answernotes = array();
+        $errors      = array();
+
+        $astfilter   = new stack_ast_filter_no_floats_051();
+
+        // This test does not require knowledge of security but the interface does.
+        $security    = new stack_cas_security();
+        $filtered    = $astfilter->filter($ast, $errors, $answernotes, $security);
+
+        $this->assertEquals(0, count($errors));
+        $this->assertContains('Illegal_floats', $answernotes);
+        $this->assertEquals($result, $filtered->toString());
+    }
+
 }

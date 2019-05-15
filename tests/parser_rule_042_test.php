@@ -68,7 +68,7 @@ class stack_parser_rule_042_test extends qtype_stack_testcase {
         $security = new stack_cas_security();
 
         $filter->filter($ast, $errs, $note, $security);
-        $this->assertEquals($errs, array(0 => 'Forbidden function: <span class="stacksyntaxexample">f</span>.'));
+        $this->assertEquals($errs, array(0 => 'Forbidden function: <span class="stacksyntaxexample">f(x^2)</span>.'));
         $this->assertEquals($note, array(0 => 'forbiddenFunction'));
         $this->assertEquals($result, $ast->toString());
     }

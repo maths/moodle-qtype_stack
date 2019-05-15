@@ -125,7 +125,7 @@ class stack_astfilter_test extends qtype_stack_testcase {
         $this->assertEquals($result, $filtered->toString());
     }
 
-public function test_050_float_split() {
+    public function test_050_float_split() {
         $teststring  = '[xsin(x)*1.0*2.0e-1,2e2,sqrt(2E-1),.1e-90];';
         $result      = '[xsin(x)*1.0*2.0*e-1,2*e*2,sqrt(2*E-1),.1*e-90];' . "\n";
         $ast         = maxima_parser_utils::parse($teststring);
@@ -143,7 +143,7 @@ public function test_050_float_split() {
         $this->assertEquals($result, $filtered->toString());
     }
 
-public function test_043_no_calling_function_returns() {
+    public function test_043_no_calling_function_returns() {
         $teststring  = 'foo(x)(y);';
         $result      = 'foo(x)*(y);' . "\n";
         $ast         = maxima_parser_utils::parse($teststring);
@@ -162,7 +162,7 @@ public function test_043_no_calling_function_returns() {
         $this->assertEquals($result, $filtered->toString());
     }
 
-public function test_043_no_calling_function_returns_ok() {
+    public function test_043_no_calling_function_returns_ok() {
         $teststring  = 'foo(x)*(y);';
         $result      = $teststring . "\n";
         $ast         = maxima_parser_utils::parse($teststring);

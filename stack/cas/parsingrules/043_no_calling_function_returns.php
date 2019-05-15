@@ -30,6 +30,7 @@ class stack_ast_filter_no_calling_function_returns_43 implements stack_cas_astfi
                 // Insert stars into the patten.
                 $nop = new MP_Operation('*', $node->name, new MP_Group($node->arguments));
                 $nop->position['calling_function_returns'] = true;
+                $nop->position['insertstars'] = true;
                 $node->parentnode->replace($node, $nop);
                 $errors[] = stack_string('stackCas_MissingStars',
                         array('cmd' => stack_maxima_format_casstring($nop->toString())));
@@ -38,8 +39,10 @@ class stack_ast_filter_no_calling_function_returns_43 implements stack_cas_astfi
             return true;
         };
 
-        while ($ast->callbackRecurse($process, true) !== true) {
+        // @codingStandardsIgnoreStart
+        while ($ast->callbackRecurse($process) !== true) {
         }
+        // @codingStandardsIgnoreEnd
         if ($hasany) {
             $answernotes[] = 'calling_function_returns';
         }

@@ -19,3 +19,11 @@ To compile the parser
     node gen.js
 
 This should return `null null null` and create new parsers for STACK.
+
+## Debugging the parser rules
+
+    echo "\n" . $ast->debugPrint($ast->toString() . '     ') . "\n";
+    while ($ast->callbackRecurse($process, true) !== true) {
+        echo "\n" . $ast->debugPrint($ast->toString() . '     ') . "\n";
+    }
+    echo "\n" . $ast->debugPrint($ast->toString() . '     ') . "\n";

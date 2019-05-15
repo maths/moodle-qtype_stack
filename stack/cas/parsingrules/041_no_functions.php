@@ -32,8 +32,9 @@ class stack_ast_filter_no_functions_041 implements stack_cas_astfilter {
                 }
                 $hasany = true;
                 // Insert stars into the patten.
-                $errors [] = stack_string('stackCas_unknownFunction',
-                        array('forbid' => stack_maxima_format_casstring($node->toString())));
+                $errors[] = stack_string('stackCas_unknownFunction',
+                        array('forbid' => stack_maxima_format_casstring($node->name->toString()),
+                            'term' => stack_maxima_format_casstring($node->toString())));
                 $nop = new MP_Operation('*', $node->name, new MP_Group($node->arguments));
                 $nop->position['insertstars'] = true;
                 $node->parentnode->replace($node, $nop);
@@ -42,8 +43,10 @@ class stack_ast_filter_no_functions_041 implements stack_cas_astfilter {
             return true;
         };
 
-        while ($ast->callbackRecurse($process, true) !== true) {
+        // @codingStandardsIgnoreStart
+        while ($ast->callbackRecurse($process) !== true) {
         }
+        // @codingStandardsIgnoreEnd
         if ($hasany) {
             $answernotes[] = 'unknownFunction';
         }

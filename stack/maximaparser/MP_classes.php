@@ -48,7 +48,7 @@ class MP_Node {
         $this->children   = [];
     }
 
-    public function &getChildren() {
+    public function getChildren() {
         return $this->children;
     }
 
@@ -90,7 +90,7 @@ class MP_Node {
         return true;
     }
 
-    public function &asAList() {
+    public function asAList() {
         // This one recursively goes through the whole tree and returns a list of
         // all the nodes found, it also populates the parent details as those might
         // be handy. You can act more efficiently with that list if you need to go
@@ -263,8 +263,8 @@ class MP_Operation extends MP_Node {
         $this->op         = $op;
         $this->lhs        = $lhs;
         $this->rhs        = $rhs;
-        $this->children[] = &$lhs;
-        $this->children[] = &$rhs;
+        $this->children[] = $lhs;
+        $this->children[] = $rhs;
     }
 
     public function toString($params = null) {
@@ -329,7 +329,7 @@ class MP_Operation extends MP_Node {
         } else if ($this->rhs === $node) {
             $this->rhs = $with;
         }
-        $this->children = [&$this->lhs, &$this->rhs];
+        $this->children = [$this->lhs, $this->rhs];
     }
 
     // Goes up the tree to identify if there is any op on the right of this.
@@ -682,7 +682,7 @@ class MP_FunctionCall extends MP_Node {
         parent::__construct();
         $this->name      = $name;
         $this->arguments = $arguments;
-        $this->children  = array_merge([ & $name], $arguments);
+        $this->children  = array_merge([ $name], $arguments);
     }
 
     public function remap_position_data(int $offset=0) {
@@ -791,7 +791,7 @@ class MP_FunctionCall extends MP_Node {
                 }
             }
         }
-        $this->children = array_merge([ & $this->name], $this->arguments);
+        $this->children = array_merge([$this->name], $this->arguments);
     }
 }
 
@@ -1019,7 +1019,7 @@ class MP_PrefixOp extends MP_Node {
         parent::__construct();
         $this->op         = $op;
         $this->rhs        = $rhs;
-        $this->children[] = &$rhs;
+        $this->children[] = $rhs;
     }
 
     public function remap_position_data(int $offset=0) {
@@ -1052,7 +1052,7 @@ class MP_PrefixOp extends MP_Node {
     public function replace($node, $with) {
         if ($this->rhs === $node) {
             $this->rhs      = $with;
-            $this->children = [ & $this->rhs];
+            $this->children = [ $this->rhs];
         }
     }
 }
@@ -1065,7 +1065,7 @@ class MP_PostfixOp extends MP_Node {
         parent::__construct();
         $this->op         = $op;
         $this->lhs        = $lhs;
-        $this->children[] = &$lhs;
+        $this->children[] = $lhs;
     }
 
     public function remap_position_data(int $offset=0) {
@@ -1092,7 +1092,7 @@ class MP_PostfixOp extends MP_Node {
     public function replace($node, $with) {
         if ($this->lhs === $node) {
             $this->lhs      = $with;
-            $this->children = [&$this->lhs];
+            $this->children = [$this->lhs];
         }
     }
 }
@@ -1106,7 +1106,7 @@ class MP_Indexing extends MP_Node {
         parent::__construct();
         $this->target   = $target;
         $this->indices  = $indices;
-        $this->children = array_merge([&$target], $indices);
+        $this->children = array_merge([$target], $indices);
     }
 
     public function remap_position_data(int $offset=0) {
@@ -1141,7 +1141,7 @@ class MP_Indexing extends MP_Node {
                 }
             }
         }
-        $this->children = array_merge([ & $this->target], $this->indices);
+        $this->children = array_merge([ $this->target], $this->indices);
     }
 }
 
@@ -1234,7 +1234,7 @@ class MP_Loop extends MP_Node {
         parent::__construct();
         $this->body     = $body;
         $this->conf     = $conf;
-        $this->children = array_merge($conf, [&$body]);
+        $this->children = array_merge($conf, [$body]);
     }
 
     public function remap_position_data(int $offset=0) {
@@ -1254,7 +1254,7 @@ class MP_Loop extends MP_Node {
         if ($this->body === $node) {
             $this->body = $with;
         }
-        $this->children = array_merge($this->conf, [&$this->body]);
+        $this->children = array_merge($this->conf, [$this->body]);
     }
 
     public function toString($params = null) {
@@ -1291,7 +1291,7 @@ class MP_LoopBit extends MP_Node {
         parent::__construct();
         $this->mode       = $mode;
         $this->param      = $param;
-        $this->children[] = &$param;
+        $this->children[] = $param;
     }
 
     public function remap_position_data(int $offset=0) {
@@ -1309,7 +1309,7 @@ class MP_LoopBit extends MP_Node {
         if ($this->param === $node) {
             $this->param = $with;
         }
-        $this->children = [&$this->param];
+        $this->children = [$this->param];
     }
 
     public function toString($params = null) {
@@ -1325,8 +1325,8 @@ class MP_EvaluationFlag extends MP_Node {
         parent::__construct();
         $this->name       = $name;
         $this->value      = $value;
-        $this->children[] = &$name;
-        $this->children[] = &$value;
+        $this->children[] = $name;
+        $this->children[] = $value;
     }
 
     public function remap_position_data(int $offset=0) {
@@ -1347,7 +1347,7 @@ class MP_EvaluationFlag extends MP_Node {
         } else if ($this->value === $node) {
             $this->value = $with;
         }
-        $this->children = [&$this->name, &$this->value];
+        $this->children = [$this->name, $this->value];
     }
 }
 
@@ -1359,7 +1359,7 @@ class MP_Statement extends MP_Node {
         parent::__construct();
         $this->statement = $statement;
         $this->flags     = $flags;
-        $this->children  = array_merge([&$this->statement], $this->flags);
+        $this->children  = array_merge([$this->statement], $this->flags);
     }
 
     public function remap_position_data(int $offset=0) {
@@ -1394,7 +1394,7 @@ class MP_Statement extends MP_Node {
         if ($this->statement === $node) {
             $this->statement = $with;
         }
-        $this->children = array_merge([&$this->statement], $this->flags);
+        $this->children = array_merge([$this->statement], $this->flags);
     }
 }
 
@@ -1404,7 +1404,7 @@ class MP_Prefixeq extends MP_Node {
     public function __construct($statement) {
         parent::__construct();
         $this->statement = $statement;
-        $this->children  = [&$this->statement];
+        $this->children  = [$this->statement];
     }
 
     public function toString($params = null) {
@@ -1426,7 +1426,7 @@ class MP_Prefixeq extends MP_Node {
         if ($this->statement === $node) {
             $this->statement = $with;
         }
-        $this->children = [&$this->statement];
+        $this->children = [$this->statement];
     }
 }
 
@@ -1436,7 +1436,7 @@ class MP_Let extends MP_Node {
     public function __construct($statement) {
         parent::__construct();
         $this->statement = $statement;
-        $this->children  = [&$this->statement];
+        $this->children  = [$this->statement];
     }
 
     public function toString($params = null) {
@@ -1460,7 +1460,7 @@ class MP_Let extends MP_Node {
         if ($this->statement === $node) {
             $this->statement = $with;
         }
-        $this->children = [&$this->statement];
+        $this->children = [$this->statement];
     }
 }
 

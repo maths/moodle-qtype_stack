@@ -34,6 +34,7 @@ class stack_inputvalidation_test_data {
     const NOTES         = 6;
 
     protected static $rawdata = array(
+
         array('x', 'php_true', 'x', 'cas_true', 'x', '', "Whitespace"),
         array('xy', 'php_true', 'xy', 'cas_true', '{\it xy}', '', "This is a single variable name, not a product."),
         array('x+1', 'php_true', 'x+1', 'cas_true', 'x+1', '', ""),
@@ -59,11 +60,10 @@ class stack_inputvalidation_test_data {
             "Can define \(j^2=-1\) as an option, or a vector unit.  By default a variable, so italic."),
         array('inf', 'php_true', 'inf', 'cas_true', '\infty', '', ""),
 
-        array('1E+3', 'php_true', '1*E+3', 'cas_true', '1\cdot E+3', 'missing_stars',
-            "Scientific notation - does not work when strict syntax is false."),
-        array('3E2', 'php_true', '3*E*2', 'cas_true', '3\cdot E\cdot 2', 'missing_stars', ""),
-        array('3e2', 'php_true', '3*e*2', 'cas_true', '3\cdot e\cdot 2', 'missing_stars', ""),
-        array('3e-2', 'php_true', '3*e-2', 'cas_true', '3\cdot e-2', 'missing_stars', ""),
+        array('1E+3', 'php_true', '1*E+3', 'cas_true', '1\cdot E+3', 'Illegal_floats', "Scientific notation"),
+        array('3E2', 'php_true', '3*E*2', 'cas_true', '3\cdot E\cdot 2', 'Illegal_floats', ""),
+        array('3e2', 'php_true', '3*e*2', 'cas_true', '3\cdot e\cdot 2', 'Illegal_floats', ""),
+        array('3e-2', 'php_true', '3*e-2', 'cas_true', '3\cdot e-2', 'Illegal_floats', ""),
         array('1+i', 'php_true', '1+i', 'cas_true', '1+\mathrm{i}', '', ""),
         array('3-i', 'php_true', '3-i', 'cas_true', '3-\mathrm{i}', '', ""),
         array('-3+i', 'php_true', '-3+i', 'cas_true', '-3+\mathrm{i}', '', ""),
@@ -433,7 +433,7 @@ class stack_inputvalidation_test_data {
         array('sum(k^n,n,0,3)', 'php_true', 'sum(k^n,n,0,3)', 'cas_true', '\sum_{n=0}^{3}{k^{n}}', '', "Sums and products"),
         array('product(cos(k*x),k,1,3)', 'php_true', 'product(cos(k*x),k,1,3)', 'cas_true',
             '\prod_{k=1}^{3}{\cos \left( k\cdot x \right)}', '', '')
-    );
+);
 
     public static function get_raw_test_data() {
         return self::$rawdata;
@@ -484,23 +484,11 @@ class stack_inputvalidation_test_data {
         $cs->set_cas_validation_context(true, true, null, 'typeless', false);
         $cs->get_valid('s', false, 1);
 
-        $phpvalid = $cs->get_valid();
-        if ($phpvalid) {
-            // @codingStandardsIgnoreStart
-            // Trim off stack_validate_typeless([..], true, true).
-            // @codingStandardsIgnoreEnd
-            $phpcasstring = $cs->get_casstring();
-            $phpcasstring = substr($phpcasstring, 25);
-            $phpcasstring = substr($phpcasstring, 0, strlen($phpcasstring) - 28);
-            $outputphpcasstring = $phpcasstring;
-        } else {
-            $phpcasstring = '';
-            $outputphpcasstring = 'N/A...';
-        }
+        $phpvalid     = $cs->get_valid();
+        $phpcasstring = $cs->get_casstring();
+        $errors       = $cs->get_errors();
 
-        $errors   = $cs->get_errors();
         $passed = true;
-
         if ('php_true' === $test->phpvalid) {
             $expected = true;
         } else {
@@ -521,6 +509,7 @@ class stack_inputvalidation_test_data {
         $caserrors = '';
         $casvalue = '';
         $casdisplay = '';
+
         if ($cs->get_valid()) {
             $options = new stack_options();
             $options->set_option('simplify', false);

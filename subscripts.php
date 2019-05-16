@@ -1,5 +1,5 @@
 <?php
-// This file is part of STACK - http://stack.ed.ac.uk/
+// This file is part of STACK - https://stack.maths.ed.ac.uk
 //
 // Stack is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by

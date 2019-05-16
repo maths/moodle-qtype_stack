@@ -216,7 +216,7 @@ class stack_cas_session {
                 }
 
                 if (array_key_exists('display', $result)) {
-                    $cs->set_display($result['display']);
+                    $cs->set_display($this->translate_displayed_tex($result['display']));
                 }
 
                 if (array_key_exists('dispvalue', $result)) {
@@ -629,6 +629,25 @@ class stack_cas_session {
                     $lowestterms.', '.$tans.', "negpow", '.$fltfmt.'))';
         }
         return $vcmd;
+    }
+
+    /**
+     * Some of the TeX contains language tags which we need to translate.
+     * @param string $str
+     */
+    private function translate_displayed_tex($str) {
+        $dispfix = array('!LEFTSQ!' => '\left[', '!LEFTR!' => '\left(',
+                '!RIGHTSQ!' => '\right]', '!RIGHTR!' => '\right)');
+        // Need to add this in here also because strings may contain question mark characters.
+        foreach ($dispfix as $key => $fix) {
+            $str = str_replace($key, $fix, $str);
+        }
+        $loctags = array('ANDOR', 'SAMEROOTS', 'MISSINGVAR', 'ASSUMEPOSVARS', 'ASSUMEPOSREALVARS', 'LET',
+                'AND', 'OR', 'NOT');
+        foreach ($loctags as $tag) {
+            $str = str_replace('!'.$tag.'!', stack_string('equiv_'.$tag), $str);
+        }
+        return $str;
     }
 
     /**

@@ -48,7 +48,7 @@ class MP_Node {
         $this->children   = [];
     }
 
-    public function &getChildren() {
+    public function getChildren() {
         return $this->children;
     }
 
@@ -63,25 +63,34 @@ class MP_Node {
     public function toString($params = null) {
         return '[NO TOSTRING FOR ' . get_class($this) . ']';
     }
+
     // Calls a function for all this nodes children.
-    // Callback needs to take a node and return true if it changes nothing or does no structural changes
-    // if it does structural changes it must return false so that the recursion may be repeated on
+    // Callback needs to take a node and return true if it changes nothing or does no structural changes.
+    // If it does structural changes it must return false so that the recursion may be repeated on
     // the changed structure.
-    public function callbackRecurse($function) {
+    // Calling with null function will upgrade parentnodes, but does nothing else.
+    // Which may be necessary in some cases, where modifications are heavy and the paintting
+    // cannot paint fast enough, should you parentnode happen to be null then this might 
+    // have happened we do not do this automatically as most code works without back referencing.
+    // One may also declare that invalid subtrees are not to be processed.
+    public function callbackRecurse($function = null, $skipinvalid = false) {
+        if ($skipinvalid === true && isset($this->position['invalid'])) {
+            return true;
+        }
         for ($i = 0; $i < count($this->children); $i++) {
             // Not a foreach as the list may change.
             $this->children[$i]->parentnode = $this;
-            if ($function($this->children[$i]) !== true) {
+            if ($function !== null && $function($this->children[$i]) !== true) {
                 return false;
             }
-            if ($this->children[$i]->callbackRecurse($function) !== true) {
+            if ($this->children[$i]->callbackRecurse($function, $skipinvalid) !== true) {
                 return false;
             }
         }
         return true;
     }
 
-    public function &asAList() {
+    public function asAList() {
         // This one recursively goes through the whole tree and returns a list of
         // all the nodes found, it also populates the parent details as those might
         // be handy. You can act more efficiently with that list if you need to go
@@ -142,6 +151,17 @@ class MP_Node {
         }
         return implode("\n", $r);
     }
+
+    // Re calculates the positions of nodes from their contents not from 
+    // the original parsed content. Uses minimal toString() presentation.
+    // Intended to ease interpretation of debug prints in some cases.
+    public function remap_position_data(int $offset=0) {
+        $total = $this->toString();
+        $this->position['start'] = $offset;
+        $this->position['end'] = $offset + core_text::strlen($total);
+    }
+
+
 
     // Quick check if we are part of an operation.
     public function is_in_operation() {
@@ -243,8 +263,8 @@ class MP_Operation extends MP_Node {
         $this->op         = $op;
         $this->lhs        = $lhs;
         $this->rhs        = $rhs;
-        $this->children[] = &$lhs;
-        $this->children[] = &$rhs;
+        $this->children[] = $lhs;
+        $this->children[] = $rhs;
     }
 
     public function toString($params = null) {
@@ -282,25 +302,34 @@ class MP_Operation extends MP_Node {
             return $this->lhs->toString($params) . '<font color="red">_</font>'
             . $this->rhs->toString($params);
         }
-        switch ($op) {
-            case 'and':
-            case 'or':
-            case 'nounand':
-            case 'nounor':
-                return $this->lhs->toString($params) . ' ' . $op . ' ' . $this->rhs->toString($params);
+        if (stack_cas_security::get_feature($op, 'spacesurroundedop') !== null) {
+            return $this->lhs->toString($params) . ' ' . $op . ' ' . $this->rhs->toString($params);
         }
         return $this->lhs->toString($params) . $op . $this->rhs->toString($params);
     }
 
+    public function remap_position_data(int $offset=0) {
+        $lhs = $this->lhs->toString();
+        $rhs = $this->rhs->toString();
+        $start = $offset;
+        $op = $this->op;
+        if (stack_cas_security::get_feature($op, 'spacesurroundedop') !== null) {
+            $op = ' ' . $op . ''; 
+        }
+        $this->position['start'] = $start;
+        $this->position['end'] = $start + core_text::strlen($lhs) + core_text::strlen($op) + core_text::strlen($rhs);
+        $this->lhs->remap_position_data($start);
+        $this->rhs->remap_position_data($start + core_text::strlen($lhs) + core_text::strlen($op));
+    }
+
     // Replace a child of this now with other...
     public function replace($node, $with) {
-        $with->parentnode = $this;
         if ($this->lhs === $node) {
             $this->lhs = $with;
         } else if ($this->rhs === $node) {
             $this->rhs = $with;
         }
-        $this->children = [&$this->lhs, &$this->rhs];
+        $this->children = [$this->lhs, $this->rhs];
     }
 
     // Goes up the tree to identify if there is any op on the right of this.
@@ -373,7 +402,7 @@ class MP_Operation extends MP_Node {
         $i = $this->rhs;
 
         while ($i instanceof MP_Operation || $i instanceof MP_PostfixOp) {
-            $i = $i->lhs;
+            $i = $i->lhs;            
         }
         return $i;
     }
@@ -394,6 +423,12 @@ class MP_Atom extends MP_Node {
     public function __construct($value) {
         parent::__construct();
         $this->value = $value;
+    }
+
+    public function remap_position_data(int $offset=0) {
+        $value = $this->toString();
+        $this->position['start'] = $offset;
+        $this->position['end'] = $offset + core_text::strlen($value);
     }
 
     public function toString($params = null) {
@@ -647,7 +682,19 @@ class MP_FunctionCall extends MP_Node {
         parent::__construct();
         $this->name      = $name;
         $this->arguments = $arguments;
-        $this->children  = array_merge([ & $name], $arguments);
+        $this->children  = array_merge([ $name], $arguments);
+    }
+
+    public function remap_position_data(int $offset=0) {
+        $total = $this->toString();
+        $this->position['start'] = $offset;
+        $this->position['end'] = $offset + core_text::strlen($total);
+        $itemoffset = $offset + core_text::strlen($this->name->toString()) + 1;
+        foreach ($this->arguments as $arg) {
+            $arg->remap_position_data($itemoffset);
+            $itemoffset = $itemoffset + core_text::strlen($arg->toString()) + 1;
+        }
+        $this->name->remap_position_data($offset);
     }
 
     public function toString($params = null) {
@@ -731,7 +778,6 @@ class MP_FunctionCall extends MP_Node {
     }
 
     public function replace($node, $with) {
-        $with->parentnode = $this;
         if ($this->name === $node) {
             $this->name = $with;
         } else if ($node === -1) {
@@ -745,7 +791,7 @@ class MP_FunctionCall extends MP_Node {
                 }
             }
         }
-        $this->children = array_merge([ & $this->name], $this->arguments);
+        $this->children = array_merge([$this->name], $this->arguments);
     }
 }
 
@@ -756,6 +802,17 @@ class MP_Group extends MP_Node {
         parent::__construct();
         $this->items    = $items;
         $this->children = $items;
+    }
+
+    public function remap_position_data(int $offset=0) {
+        $total = $this->toString();
+        $this->position['start'] = $offset;
+        $this->position['end'] = $offset + core_text::strlen($total);
+        $itemoffset = $offset + 1;
+        foreach ($this->items as $item) {
+            $item->remap_position_data($itemoffset);
+            $itemoffset = $itemoffset + core_text::strlen($item->toString()) + 1;
+        }
     }
 
     public function toString($params = null) {
@@ -795,7 +852,6 @@ class MP_Group extends MP_Node {
     }
 
     public function replace($node, $with) {
-        $with->parentnode = $this;
         if ($node === -1) {
             // Special case. Append a node to items.
             $this->items[] = $with;
@@ -818,6 +874,17 @@ class MP_Set extends MP_Node {
         parent::__construct();
         $this->items    = $items;
         $this->children = $items;
+    }
+
+    public function remap_position_data(int $offset=0) {
+        $total = $this->toString();
+        $this->position['start'] = $offset;
+        $this->position['end'] = $offset + core_text::strlen($total);
+        $itemoffset = $offset + 1;
+        foreach ($this->items as $item) {
+            $item->remap_position_data($itemoffset);
+            $itemoffset = $itemoffset + core_text::strlen($item->toString()) + 1;
+        }
     }
 
     public function toString($params = null) {
@@ -857,7 +924,6 @@ class MP_Set extends MP_Node {
     }
 
     public function replace($node, $with) {
-        $with->parentnode = $this;
         if ($node === -1) {
             // Special case. append a node to items.
             $this->items[] = $with;
@@ -880,6 +946,17 @@ class MP_List extends MP_Node {
         parent::__construct();
         $this->items    = $items;
         $this->children = $items;
+    }
+
+    public function remap_position_data(int $offset=0) {
+        $total = $this->toString();
+        $this->position['start'] = $offset;
+        $this->position['end'] = $offset + core_text::strlen($total);
+        $itemoffset = $offset + 1;
+        foreach ($this->items as $item) {
+            $item->remap_position_data($itemoffset);
+            $itemoffset = $itemoffset + core_text::strlen($item->toString()) + 1;
+        }
     }
 
     public function toString($params = null) {
@@ -919,7 +996,6 @@ class MP_List extends MP_Node {
     }
 
     public function replace($node, $with) {
-        $with->parentnode = $this;
         if ($node === -1) {
             // Special case. Append a node to items.
             $this->items[] = $with;
@@ -943,7 +1019,14 @@ class MP_PrefixOp extends MP_Node {
         parent::__construct();
         $this->op         = $op;
         $this->rhs        = $rhs;
-        $this->children[] = &$rhs;
+        $this->children[] = $rhs;
+    }
+
+    public function remap_position_data(int $offset=0) {
+        $total = $this->toString();
+        $this->position['start'] = $offset;
+        $this->position['end'] = $offset + core_text::strlen($total);
+        $this->rhs->remap_position_data($offset + core_text::strlen($this->op));
     }
 
     public function toString($params = null) {
@@ -967,10 +1050,9 @@ class MP_PrefixOp extends MP_Node {
     }
 
     public function replace($node, $with) {
-        $with->parentnode = $this;
         if ($this->rhs === $node) {
             $this->rhs      = $with;
-            $this->children = [ & $this->rhs];
+            $this->children = [ $this->rhs];
         }
     }
 }
@@ -983,8 +1065,16 @@ class MP_PostfixOp extends MP_Node {
         parent::__construct();
         $this->op         = $op;
         $this->lhs        = $lhs;
-        $this->children[] = &$lhs;
+        $this->children[] = $lhs;
     }
+
+    public function remap_position_data(int $offset=0) {
+        $total = $this->toString();
+        $this->position['start'] = $offset;
+        $this->position['end'] = $offset + core_text::strlen($total);
+        $this->lhs->remap_position_data($offset);
+    }
+
 
     public function toString($params = null) {
         $indent = '';
@@ -1000,24 +1090,35 @@ class MP_PostfixOp extends MP_Node {
     }
 
     public function replace($node, $with) {
-        $with->parentnode = $this;
         if ($this->lhs === $node) {
             $this->lhs      = $with;
-            $this->children = [&$this->lhs];
+            $this->children = [$this->lhs];
         }
     }
 }
 
 class MP_Indexing extends MP_Node {
     public $target = null;
-    // This is and identifier of a function call.
+    // This is and identifier or a function call.
     public $indices = null;
     // These are MP_List objects.
     public function __construct($target, $indices) {
         parent::__construct();
         $this->target   = $target;
         $this->indices  = $indices;
-        $this->children = array_merge([&$target], $indices);
+        $this->children = array_merge([$target], $indices);
+    }
+
+    public function remap_position_data(int $offset=0) {
+        $total = $this->toString();
+        $this->position['start'] = $offset;
+        $this->position['end'] = $offset + core_text::strlen($total);
+        $this->target->remap_position_data($offset);
+        $itemoffset = $offset + core_text::strlen($this->target->toString());
+        foreach ($this->indices as $ind) {
+            $ind->remap_position_data($itemoffset);
+            $itemoffset = $itemoffset + core_text::strlen($ind->toString());
+        }
     }
 
     public function toString($params = null) {
@@ -1031,7 +1132,6 @@ class MP_Indexing extends MP_Node {
     }
 
     public function replace($node, $with) {
-        $with->parentnode = $this;
         if ($this->target === $node) {
             $this->target = $with;
         } else {
@@ -1041,7 +1141,7 @@ class MP_Indexing extends MP_Node {
                 }
             }
         }
-        $this->children = array_merge([ & $this->target], $this->indices);
+        $this->children = array_merge([ $this->target], $this->indices);
     }
 }
 
@@ -1054,6 +1154,13 @@ class MP_If extends MP_Node {
         $this->conditions = $conditions;
         $this->branches   = $branches;
         $this->children   = array_merge($conditions, $branches);
+    }
+
+    public function remap_position_data(int $offset=0) {
+        $total = $this->toString();
+        $this->position['start'] = $offset;
+        $this->position['end'] = $offset + core_text::strlen($total);
+        // TODO: fill in this.
     }
 
     public function toString($params = null) {
@@ -1103,7 +1210,6 @@ class MP_If extends MP_Node {
     }
 
     public function replace($node, $with) {
-        $with->parentnode = $this;
 
         foreach ($this->conditions as $key => $value) {
             if ($value === $node) {
@@ -1128,11 +1234,17 @@ class MP_Loop extends MP_Node {
         parent::__construct();
         $this->body     = $body;
         $this->conf     = $conf;
-        $this->children = array_merge($conf, [&$body]);
+        $this->children = array_merge($conf, [$body]);
+    }
+
+    public function remap_position_data(int $offset=0) {
+        $total = $this->toString();
+        $this->position['start'] = $offset;
+        $this->position['end'] = $offset + core_text::strlen($total);
+        // TODO: fill in this.
     }
 
     public function replace($node, $with) {
-        $with->parentnode = $this;
 
         foreach ($this->conf as $key => $value) {
             if ($value === $node) {
@@ -1142,7 +1254,7 @@ class MP_Loop extends MP_Node {
         if ($this->body === $node) {
             $this->body = $with;
         }
-        $this->children = array_merge($this->conf, [&$this->body]);
+        $this->children = array_merge($this->conf, [$this->body]);
     }
 
     public function toString($params = null) {
@@ -1179,18 +1291,25 @@ class MP_LoopBit extends MP_Node {
         parent::__construct();
         $this->mode       = $mode;
         $this->param      = $param;
-        $this->children[] = &$param;
+        $this->children[] = $param;
     }
+
+    public function remap_position_data(int $offset=0) {
+        $total = $this->toString();
+        $this->position['start'] = $offset;
+        $this->position['end'] = $offset + core_text::strlen($total);
+        $this->param->remap_position_data($offset + core_text::strlen($this->mode) + 1);
+    }
+
 
     public function replace(
         $node,
         $with
     ) {
-        $with->parentnode = $this;
         if ($this->param === $node) {
             $this->param = $with;
         }
-        $this->children = [&$this->param];
+        $this->children = [$this->param];
     }
 
     public function toString($params = null) {
@@ -1206,8 +1325,16 @@ class MP_EvaluationFlag extends MP_Node {
         parent::__construct();
         $this->name       = $name;
         $this->value      = $value;
-        $this->children[] = &$name;
-        $this->children[] = &$value;
+        $this->children[] = $name;
+        $this->children[] = $value;
+    }
+
+    public function remap_position_data(int $offset=0) {
+        $total = $this->toString();
+        $this->position['start'] = $offset;
+        $this->position['end'] = $offset + core_text::strlen($total);
+        $this->name->remap_position_data($offset + 1);
+        $this->value->remap_position_data($offset + 2 + core_text::strlen($this->name->toString()));
     }
 
     public function toString($params = null) {
@@ -1215,13 +1342,12 @@ class MP_EvaluationFlag extends MP_Node {
     }
 
     public function replace($node, $with) {
-        $with->parentnode = $this;
         if ($this->name === $node) {
             $this->name = $with;
         } else if ($this->value === $node) {
             $this->value = $with;
         }
-        $this->children = [&$this->name, &$this->value];
+        $this->children = [$this->name, $this->value];
     }
 }
 
@@ -1233,7 +1359,19 @@ class MP_Statement extends MP_Node {
         parent::__construct();
         $this->statement = $statement;
         $this->flags     = $flags;
-        $this->children  = array_merge([&$this->statement], $this->flags);
+        $this->children  = array_merge([$this->statement], $this->flags);
+    }
+
+    public function remap_position_data(int $offset=0) {
+        $total = $this->toString();
+        $this->position['start'] = $offset;
+        $this->position['end'] = $offset + core_text::strlen($total);
+        $this->statement->remap_position_data($offset);
+        $itemoffset = $offset + core_text::strlen($this->statement->toString());
+        foreach ($this->flags as $flag) {
+            $flag->remap_position_data($itemoffset);
+            $itemoffset = $itemoffset + core_text::strlen($flag->toString());
+        }
     }
 
     public function toString($params = null) {
@@ -1247,7 +1385,6 @@ class MP_Statement extends MP_Node {
     }
 
     public function replace($node, $with) {
-        $with->parentnode = $this;
 
         foreach ($this->flags as $key => $value) {
             if ($value === $node) {
@@ -1257,7 +1394,7 @@ class MP_Statement extends MP_Node {
         if ($this->statement === $node) {
             $this->statement = $with;
         }
-        $this->children = array_merge([&$this->statement], $this->flags);
+        $this->children = array_merge([$this->statement], $this->flags);
     }
 }
 
@@ -1267,7 +1404,7 @@ class MP_Prefixeq extends MP_Node {
     public function __construct($statement) {
         parent::__construct();
         $this->statement = $statement;
-        $this->children  = [&$this->statement];
+        $this->children  = [$this->statement];
     }
 
     public function toString($params = null) {
@@ -1285,12 +1422,11 @@ class MP_Prefixeq extends MP_Node {
     }
 
     public function replace($node, $with) {
-        $with->parentnode = $this;
 
         if ($this->statement === $node) {
             $this->statement = $with;
         }
-        $this->children = [&$this->statement];
+        $this->children = [$this->statement];
     }
 }
 
@@ -1300,7 +1436,7 @@ class MP_Let extends MP_Node {
     public function __construct($statement) {
         parent::__construct();
         $this->statement = $statement;
-        $this->children  = [&$this->statement];
+        $this->children  = [$this->statement];
     }
 
     public function toString($params = null) {
@@ -1320,12 +1456,11 @@ class MP_Let extends MP_Node {
     }
 
     public function replace($node, $with) {
-        $with->parentnode = $this;
 
         if ($this->statement === $node) {
             $this->statement = $with;
         }
-        $this->children = [&$this->statement];
+        $this->children = [$this->statement];
     }
 }
 
@@ -1336,6 +1471,17 @@ class MP_Root extends MP_Node {
         parent::__construct();
         $this->items    = $items;
         $this->children = $items;
+    }
+
+    public function remap_position_data(int $offset=0) {
+        $total = $this->toString();
+        $this->position['start'] = $offset;
+        $this->position['end'] = $offset + core_text::strlen($total);
+        $itemoffset = $offset;
+        foreach ($this->items as $item) {
+            $item->remap_position_data($itemoffset);
+            $itemoffset = $itemoffset + core_text::strlen($item->toString());
+        }
     }
 
     public function toString($params = null) {
@@ -1352,7 +1498,6 @@ class MP_Root extends MP_Node {
         $node,
         $with
     ) {
-        $with->parentnode = $this;
 
         foreach ($this->items as $key => $value) {
             if ($value === $node) {

@@ -262,50 +262,55 @@ class stack_cas_casstring_test extends basic_testcase {
         $this->assertTrue($at1->get_valid('t'));
     }
 
-    // @codingStandardsIgnoreStart
+    public function test_strings_mismatched_string_delimiters() {
+        $s = 'a:"hello';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertEquals('You are missing a quotation sign <code>"</code>. ', $at1->get_errors());
 
-    /* TODO: we need a full parser to check for mismatched string delimiters.
-     * Below are some test cases which need a parser.
-     *
-     *  $s = 'a:"hello';
-     *  $at1 = new stack_cas_casstring($s);
-     *  $this->assertEquals('You are missing a quotation sign <code>"</code>. ', $at1->get_errors());
-     *  $s = 'a:""hello""';
-     *  $at1 = new stack_cas_casstring($s);
-     *  $this->assertFalse($at1->get_valid('t'));
-     *  $s = 'a:"hello"   "hello"';
-     *  $at1 = new stack_cas_casstring($s);
-     *  $this->assertFalse($at1->get_valid('t'));
-     *  $s = 'a:"hello"5';
-     *  $at1 = new stack_cas_casstring($s);
-     *  $this->assertFalse($at1->get_valid('t'));
-     *  $s = 'a:"hello"*5';
-     *  $at1 = new stack_cas_casstring($s);
-     *  $this->assertFalse($at1->get_valid('t'));
-     *  $s = 'a:"hello"  +  "hello"';
-     *  $at1 = new stack_cas_casstring($s);
-     *  $this->assertFalse($at1->get_valid('t'));
-     *  $s = 'a:(5)*"hello"';
-     *  $at1 = new stack_cas_casstring($s);
-     *  $this->assertFalse($at1->get_valid('t'));
-     *  $s = 'a:(5)/"hello"';
-     *  $at1 = new stack_cas_casstring($s);
-     *  $this->assertFalse($at1->get_valid('t'));
-     *  $s = 'a:5-"hello"';
-     *  $at1 = new stack_cas_casstring($s);
-     *  $this->assertFalse($at1->get_valid('t'));
-     *  $s = 'a:[{"hello"},"hello",["hello"]]';
-     *  $at1 = new stack_cas_casstring($s);
-     *  $this->assertTrue($at1->get_valid('t'));
-     *  $s = 'a:cos(pi)"hello"';
-     *  $at1 = new stack_cas_casstring($s);
-     *  $this->assertFalse($at1->get_valid('t'));
-     *  $s = 'a:[{"hello"}"hello"["hello"]]';
-     *  $at1 = new stack_cas_casstring($s);
-     *  $this->assertFalse($at1->get_valid('t'));
-     */
+        $s = 'a:""hello""';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertFalse($at1->get_valid('t'));
 
-    // @codingStandardsIgnoreEND
+        $s = 'a:"hello"   "hello"';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertFalse($at1->get_valid('t'));
+
+        $s = 'a:"hello"5';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertFalse($at1->get_valid('t'));
+
+        $s = 'a:"hello"*5';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertFalse($at1->get_valid('t'));
+
+        $s = 'a:"hello"  +  "hello"';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertFalse($at1->get_valid('t'));
+
+        $s = 'a:(5)*"hello"';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertFalse($at1->get_valid('t'));
+
+        $s = 'a:(5)/"hello"';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertFalse($at1->get_valid('t'));
+
+        $s = 'a:5-"hello"';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertFalse($at1->get_valid('t'));
+
+        $s = 'a:[{"hello"},"hello",["hello"]]';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertTrue($at1->get_valid('t'));
+
+        $s = 'a:cos(pi)"hello"';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertFalse($at1->get_valid('t'));
+
+        $s = 'a:[{"hello"}"hello"["hello"]]';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertFalse($at1->get_valid('t'));
+    }
 
     public function test_system_execution() {
         // First the obvious one, just eval that string.

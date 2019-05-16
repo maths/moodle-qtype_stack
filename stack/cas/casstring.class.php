@@ -107,16 +107,6 @@ class stack_cas_casstring {
     public $ast = null;
 
     /**
-     * Upper case Greek letters are allowed.
-     */
-    private static $greekupper = array(
-        'Alpha' => true, 'Beta' => true, 'Gamma' => true, 'Delta' => true, 'Epsilon' => true,
-        'Zeta' => true, 'Eta' => true, 'Theta' => true, 'Iota' => true, 'Kappa' => true, 'Lambda' => true,
-        'Mu' => true, 'Nu' => true, 'Xi' => true, 'Omicron' => true, 'Pi' => true, 'Rho' => true,
-        'Sigma' => true, 'Tau' => true, 'Upsilon' => true, 'Phi' => true, 'Chi' => true, 'Psi' => true,
-        'Omega' => true);
-
-    /**
      * @var all the characters permitted in responses.
      * Note, these are used in regular expression ranges, so - must be at the end, and ^ may not be first.
      */
@@ -124,21 +114,6 @@ class stack_cas_casstring {
     private static $allowedchars =
             '0123456789,./\%&{}[]()$@!"\'?`^~*_+qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM:=><|: -';
     // @codingStandardsIgnoreEnd
-
-    /**
-     * @var all the permitted which are not allowed to be the final character.
-     * Note, these are used in regular expression ranges, so - must be at the end, and ^ may not be first.
-     */
-    // @codingStandardsIgnoreStart
-    private static $disallowedfinalchars = '/+*^#~=,_&`;:$-.<>';
-    // @codingStandardsIgnoreEnd
-
-    /**
-     * @var all the permitted patterns in which spaces occur.  Simple find and replace.
-     */
-    private static $spacepatterns = array(
-             ' or ' => 'STACKOR', ' and ' => 'STACKAND', 'not ' => 'STACKNOT',
-             ' nounor ' => 'STACKNOUNOR', ' nounand ' => 'STACKNOUNAND');
 
     public function __debugInfo() {
         // For various reasons we do not want to print out certain things like the AST.
@@ -158,7 +133,6 @@ class stack_cas_casstring {
             'validationcontext' => $this->validationcontext
         );
     }
-
 
     public function __construct($rawstring, $conditions = null, $ast = null) {
         // If null the validation will need to parse, in case of keyval just give the statement from bulk parsing.
@@ -234,7 +208,7 @@ class stack_cas_casstring {
             return false;
         }
 
-        // Now then do we already have validly parsed AST? if not what do we need to do to get one?
+        // Now then do we already have validly parsed AST? If not what do we need to do to get one?
         // If we have then this is most certainly coming from keyval and $security better be 't'.
         if ($this->ast === null) {
             if ($security === 't') {
@@ -378,21 +352,6 @@ class stack_cas_casstring {
             }
         }
 
-        // Move this check in here?
-        // Yes sensible, but we can already pick that from the $mainloop, no need to 
-        // iterate too often.
-        /*
-        $floatspresent = false;
-        $checkfloats = function($node) use (&$floatspresent){
-            if ($node instanceof MP_Float) {
-                $floatspresent = true;
-                return false;
-            }
-            return true;
-        };
-        $this->ast->callbackRecurse($checkfloats);
-        */
-
         // Security check contains various errors related to using functions as
         // variables that have already been covered in earlier checks so it
         // make sense to skip it if we are already invalid.
@@ -406,6 +365,7 @@ class stack_cas_casstring {
             $hasfloats) {
             $this->valid = false;
             $this->add_error(stack_string('Illegal_floats'));
+            $this->answernote[] = 'Illegal_floats';
         }
 
         $root = $this->ast;
@@ -589,14 +549,14 @@ class stack_cas_casstring {
                         $id->parentnode->parentnode->replace($id->parentnode, $nf);
                         return false;
                     }
-                    // Examples such aslog_...+zz(...).
+                    // Examples such as log_...+zz(...).
                     if ($id->parentnode->rhs instanceof MP_FunctionCall) {
                         $nf = new MP_FunctionCall(new MP_Identifier($id->value . $id->parentnode->op
                                 . $id->parentnode->rhs->name->toString()), $id->parentnode->rhs->arguments);
                         $id->parentnode->parentnode->replace($id->parentnode, $nf);
                         return false;
                     }
-                    // Examples such aslog_...-a.
+                    // Examples such as log_...-a.
                     if ($id->parentnode->rhs instanceof MP_Atom) {
                         $ni = new MP_Identifier($id->value . $id->parentnode->op . $id->parentnode->rhs->toString());
                         $id->parentnode->parentnode->replace($id->parentnode, $ni);
@@ -1226,7 +1186,7 @@ class stack_cas_casstring {
     }
 
     public function set_display($val) {
-        $this->display = $this->translate_displayed_tex($val);
+        $this->display = $val;
     }
 
     public function set_dispvalue($val) {
@@ -1293,28 +1253,6 @@ class stack_cas_casstring {
     }
 
     /**
-     *  Replace the contents of strings to the stringles version.
-     */
-    private function strings_replace($stringles) {
-        // NOTE: This function should not exist, as this should only happen at the end of validate().
-        // We still have some error messages that need it.
-        $strings = stack_utils::all_substring_strings($this->rawcasstring);
-        if (count($strings) > 0) {
-            $split = explode('""', $stringles);
-            $stringbuilder = array();
-            $i = 0;
-            foreach ($strings as $string) {
-                $stringbuilder[] = $split[$i];
-                $stringbuilder[] = $string;
-                $i++;
-            }
-            $stringbuilder[] = $split[$i];
-            $stringles = implode('"', $stringbuilder);
-        }
-        return $stringles;
-    }
-
-    /**
      *  This function decodes the error generated by Maxima into meaningful notes.
      *  */
     public function decode_maxima_errors($error) {
@@ -1359,25 +1297,6 @@ class stack_cas_casstring {
                 $this->add_error($err);
             }
         }
-    }
-
-    /**
-     * Some of the TeX contains language tags which we need to translate.
-     * @param string $str
-     */
-    private function translate_displayed_tex($str) {
-        $dispfix = array('!LEFTSQ!' => '\left[', '!LEFTR!' => '\left(',
-                '!RIGHTSQ!' => '\right]', '!RIGHTR!' => '\right)');
-        // Need to add this in here also because strings may contain question mark characters.
-        foreach ($dispfix as $key => $fix) {
-            $str = str_replace($key, $fix, $str);
-        }
-        $loctags = array('ANDOR', 'SAMEROOTS', 'MISSINGVAR', 'ASSUMEPOSVARS', 'ASSUMEPOSREALVARS', 'LET',
-                'AND', 'OR', 'NOT');
-        foreach ($loctags as $tag) {
-            $str = str_replace('!'.$tag.'!', stack_string('equiv_'.$tag), $str);
-        }
-        return $str;
     }
 
     /**

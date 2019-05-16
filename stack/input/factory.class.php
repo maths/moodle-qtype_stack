@@ -202,4 +202,19 @@ class stack_input_factory {
         }
         return $value;
     }
+
+    /**
+     * Convert the old value of "insert stars" (version<
+     */
+    public static function convert_legacy_insert_stars($value) {
+        $map = array(
+            0 => 0, // Don't insert stars.
+            1 => 1, // Insert stars for implied multiplication only.
+            2 => 4, // Insert stars assuming single-character variable names.
+            3 => 2, // Insert stars for spaces only.
+            4 => 3, // Insert stars for implied multiplication and for spaces.
+            5 => 7  // Insert stars assuming single-character variables, implied and for spaces.
+            );
+        return $map[$value];
+    }
 }

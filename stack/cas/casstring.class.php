@@ -403,7 +403,7 @@ class stack_cas_casstring {
     }
 
     /* Use the ast to create a casstring. */
-    private function update_casstring($security) {
+    public function update_casstring($security) {
         if ($security === 's') {
             $this->casstring = $this->ast->toString(array('nounify' => true));
         } else if ($security === 't') {

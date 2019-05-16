@@ -22,6 +22,8 @@ require_once(__DIR__ . '/../cas/casstring.class.php');
 require_once(__DIR__ . '/../cas/cassession.class.php');
 require_once(__DIR__ . '/inputstate.class.php');
 
+//TODO: manage loading of filters.
+require_once(__DIR__ . '/../cas/parsingrules/010_single_char_vars.php');
 
 /**
  * The base class for inputs in Stack.
@@ -380,6 +382,11 @@ abstract class stack_input {
         $this->parameters[$parameter] = $value;
         // Often setting a paramter needs to update internal flags, so we call this again.
         // Mostly used by testing.
+
+        // Legacy values used up to this point.
+        if ($parameter == 'insertStars') {
+            $this->parameters[$parameter] = stack_input_factory::convert_legacy_insert_stars($value);
+        }
         $this->internal_contruct();
     }
 
@@ -519,6 +526,23 @@ abstract class stack_input {
     }
 
     /**
+     * Decide if the contents of this attempt is blank.
+     *
+     * @param array $contents a non-empty array of the student's input as a split array of raw strings.
+     * @return boolean
+     *
+     */
+    protected function is_blank_response($contents) {
+        $allblank = true;
+        foreach ($contents as $val) {
+            if (!('' === trim($val) || 'EMPTYANSWER' == $val)) {
+                $allblank = false;
+            }
+        }
+        return $allblank;
+    }
+
+    /**
      * Validate any attempts at this question.
      *
      * @param array $response the student response to the question.
@@ -553,11 +577,6 @@ abstract class stack_input {
                 $errors = implode(' ', $errors);
             }
             return new stack_input_state(self::BLANK, array(), '', '', $errors, '', '');
-        }
-
-        $singlevarchars = false;
-        if (2 == $this->get_parameter('insertStars', 0) || 5 == $this->get_parameter('insertStars', 0)) {
-            $singlevarchars = true;
         }
 
         $secrules = new stack_cas_security($this->units,
@@ -702,23 +721,6 @@ abstract class stack_input {
     }
 
     /**
-     * Decide if the contents of this attempt is blank.
-     *
-     * @param array $contents a non-empty array of the student's input as a split array of raw strings.
-     * @return boolean
-     *
-     */
-    protected function is_blank_response($contents) {
-        $allblank = true;
-        foreach ($contents as $val) {
-            if (!('' === trim($val) || 'EMPTYANSWER' == $val)) {
-                $allblank = false;
-            }
-        }
-        return $allblank;
-    }
-
-    /**
      * This is the basic validation of the student's "answer".
      * This method is only called if the input is not blank.
      *
@@ -736,11 +738,15 @@ abstract class stack_input {
         $valid = !$errors;
         $caslines = array();
         $errors = array();
+        $note = array();
 
         $secrules = new stack_cas_security($this->units,
                 $this->get_parameter('allowWords', ''),
                 $this->get_parameter('forbidWords', ''),
                 $forbiddenkeys);
+
+        $stars = $this->get_parameter('insertStars', 0);
+        $strict = $this->get_parameter('strictSyntax', true);
 
         foreach ($contents as $index => $val) {
             if ($val === null) {
@@ -748,11 +754,24 @@ abstract class stack_input {
                 $val = '';
             }
             $answer = new stack_cas_casstring($val);
+
             if ($this->units) {
                 $answer->set_context('units', true);
             }
             $answer->get_valid('s', $this->get_parameter('strictSyntax', true),
                     $this->get_parameter('insertStars', 0), $secrules);
+
+            $ast = $answer->ast;
+            // Assume single letter variable names = 4.
+            if ($stars & (1 << 2)) {
+                    $filter = new stack_ast_filter_single_char_vars_010();
+                    $filter->filter($ast, $errors, $note, $secrules);
+            }
+
+            // Do we actually use the updated ast?
+            if (!$strict) {
+                $answer->update_casstring('s');
+            }
 
             $caslines[] = $answer;
             $valid = $valid && $answer->get_valid();

@@ -200,7 +200,7 @@ class stack_astfilter_test extends qtype_stack_testcase {
         $this->assertEquals($result, $filtered->toString());
     }
 
-    public function test_051_no_float_split() {
+    public function test_051_no_float() {
         $teststring  = '1+0.5*x;';
         $result      = $teststring . "\n";
         $ast         = maxima_parser_utils::parse($teststring);
@@ -213,7 +213,9 @@ class stack_astfilter_test extends qtype_stack_testcase {
         $security    = new stack_cas_security();
         $filtered    = $astfilter->filter($ast, $errors, $answernotes, $security);
 
-        $this->assertEquals(0, count($errors));
+        $this->assertEquals(array(0 => 'Your answer contains floating point numbers, that are not allowed in this question.  ' .
+                'You need to type in numbers as fractions.  For example, you should type 1/3 not 0.3333, ' .
+                'which is after all only an approximation to one third.'), $errors);
         $this->assertContains('Illegal_floats', $answernotes);
         $this->assertEquals($result, $filtered->toString());
     }

@@ -589,11 +589,6 @@ class stack_cas_session {
     private function validation_casstring($starredanswer, $validationcontext) {
 
         // Turn PHP Booleans into Maxima true & false.
-        if ($validationcontext['forbidfloats']) {
-            $forbidfloats = 'true';
-        } else {
-            $forbidfloats = 'false';
-        }
 
         if ($validationcontext['lowestterms']) {
             $lowestterms = 'true';
@@ -611,17 +606,17 @@ class stack_cas_session {
         $tans = $validationcontext['tans'];
         $validationmethod = $validationcontext['validationmethod'];
 
-        $vcmd = 'stack_validate(['.$starredanswer.'], '.$forbidfloats.','.$lowestterms.','.$tans.')';
+        $vcmd = 'stack_validate(['.$starredanswer.'], '.$lowestterms.','.$tans.')';
         if ($validationmethod == 'typeless') {
             // Note, we don't pass in the teacher's as this option is ignored by the typeless validation.
-            $vcmd = 'stack_validate_typeless(['.$starredanswer.'], '.$forbidfloats.', '.$lowestterms.', false, false)';
+            $vcmd = 'stack_validate_typeless(['.$starredanswer.'], '.$lowestterms.', false, false)';
         }
         if ($validationmethod == 'numerical') {
             $vcmd = 'stack_validate_typeless(['.$starredanswer.'],
             '.$forbidfloats.', '.$lowestterms.', false, '.$fltfmt.')';
         }
         if ($validationmethod == 'equiv') {
-            $vcmd = 'stack_validate_typeless(['.$starredanswer.'], '.$forbidfloats.', '.$lowestterms.', true, false)';
+            $vcmd = 'stack_validate_typeless(['.$starredanswer.'], '.$lowestterms.', true, false)';
         }
         if ($validationmethod == 'units') {
             // Note, we don't pass in forbidfloats as this option is ignored by the units validation.

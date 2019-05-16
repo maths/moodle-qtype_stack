@@ -24,6 +24,7 @@ require_once(__DIR__ . '/inputstate.class.php');
 
 //TODO: manage loading of filters.
 require_once(__DIR__ . '/../cas/parsingrules/010_single_char_vars.php');
+require_once(__DIR__ . '/../cas/parsingrules/051_no_floats.php');
 
 /**
  * The base class for inputs in Stack.
@@ -634,16 +635,14 @@ abstract class stack_input {
 
             if (array_key_exists($index, $errors) && '' == $errors[$index]) {
                 $cs->set_key($this->name.$index);
-                $cs->set_cas_validation_context($this->get_parameter('forbidFloats', false),
-                    $this->get_parameter('lowestTerms', false), $ta, $ivalidationmethod,
+                $cs->set_cas_validation_context($this->get_parameter('lowestTerms', false), $ta, $ivalidationmethod,
                     $this->get_extra_option('simp', false));
                 $sessionvars[] = $cs;
             }
         }
         if ($valid && $answer->get_valid()) {
             $answer->set_key($this->name);
-            $answer->set_cas_validation_context($this->get_parameter('forbidFloats', false),
-                    $this->get_parameter('lowestTerms', false), $teacheranswer, $validationmethod,
+            $answer->set_cas_validation_context($this->get_parameter('lowestTerms', false), $teacheranswer, $validationmethod,
                     $this->get_extra_option('simp', false));
             $sessionvars[] = $answer;
         }
@@ -766,6 +765,11 @@ abstract class stack_input {
             if ($stars & (1 << 2)) {
                     $filter = new stack_ast_filter_single_char_vars_010();
                     $filter->filter($ast, $errors, $note, $secrules);
+            }
+
+            if ($this->get_parameter('forbidFloats', false)) {
+                $filter = new stack_ast_filter_no_floats_051();
+                $filter->filter($ast, $errors, $note, $secrules);
             }
 
             // Do we actually use the updated ast?

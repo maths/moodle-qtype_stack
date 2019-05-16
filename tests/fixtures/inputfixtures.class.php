@@ -46,7 +46,7 @@ class stack_inputvalidation_test_data {
         array('1x', 'php_true', '1*x', 'cas_true', '1\cdot x', 'missing_stars', ""),
         array('x1', 'php_true', 'x*1', 'cas_true', 'x\cdot 1', 'missing_stars', ""),
         array('1', 'php_true', '1', 'cas_true', '1', '', "Numbers"),
-        array('.1', 'php_true', '.1', 'cas_true', '0.1', 'Illegal_floats', "This is an option."),
+        array('.1', 'php_true', '.1', 'cas_true', '0.1', '', ""),
         array('1/2', 'php_true', '1/2', 'cas_true', '\frac{1}{2}', '', ""),
         array('2/4', 'php_true', '2/4', 'cas_true', '\frac{2}{4}', 'Lowest_Terms',
             "Rejecting this as 'invalid' not 'wrong' is a question option."),
@@ -60,10 +60,11 @@ class stack_inputvalidation_test_data {
             "Can define \(j^2=-1\) as an option, or a vector unit.  By default a variable, so italic."),
         array('inf', 'php_true', 'inf', 'cas_true', '\infty', '', ""),
 
-        array('1E+3', 'php_true', '1*E+3', 'cas_true', '1\cdot E+3', 'Illegal_floats', "Scientific notation"),
-        array('3E2', 'php_true', '3*E*2', 'cas_true', '3\cdot E\cdot 2', 'Illegal_floats', ""),
-        array('3e2', 'php_true', '3*e*2', 'cas_true', '3\cdot e\cdot 2', 'Illegal_floats', ""),
-        array('3e-2', 'php_true', '3*e-2', 'cas_true', '3\cdot e-2', 'Illegal_floats', ""),
+        // Different version of Maxima (LISP?) use 1E3 or 1e3.
+        array('1E+3', 'php_true', '1E+3', 'cas_true', '1000.0', '', "Scientific notation"),
+        array('3E2', 'php_true', '3E2', 'cas_true', '300.0', '', ""),
+        array('3e2', 'php_true', '3e2', 'cas_true', '300.0', '', ""),
+        array('3e-2', 'php_true', '3e-2', 'cas_true', '0.03', '', ""),
         array('1+i', 'php_true', '1+i', 'cas_true', '1+\mathrm{i}', '', ""),
         array('3-i', 'php_true', '3-i', 'cas_true', '3-\mathrm{i}', '', ""),
         array('-3+i', 'php_true', '-3+i', 'cas_true', '-3+\mathrm{i}', '', ""),
@@ -97,7 +98,7 @@ class stack_inputvalidation_test_data {
         "Students have a restricted list of function names.  Teachers are less restricted."),
         array('[]', 'php_true', '[]', 'cas_true', '\left[  \right]', '', "Lists"),
         array('[1]', 'php_true', '[1]', 'cas_true', '\left[ 1 \right]', '', ""),
-        array('[1,2,3.4]', 'php_true', '[1,2,3.4]', 'cas_true', '\left[ 1 , 2 , 3.4 \right]', 'Illegal_floats', ""),
+        array('[1,2,3.4]', 'php_true', '[1,2,3.4]', 'cas_true', '\left[ 1 , 2 , 3.4 \right]', '', ""),
         array('[x, y, z ]', 'php_true', '[x,y,z]', 'cas_true', '\left[ x , y , z \right]', '', ""),
         array('["a"]', 'php_true', '["a"]', 'cas_true', '\left[ \mbox{a} \right]', '', ""),
         array('[1,true,"a"]', 'php_true', '[1,true,"a"]', 'cas_true', '\left[ 1 , \mathbf{true} , \mbox{a} \right]', '', ""),
@@ -105,7 +106,7 @@ class stack_inputvalidation_test_data {
                 '\left[ \left[ 1 , 2 \right]  , \left[ 3 , 4 \right]  \right]', '', ""),
         array('{}', 'php_true', '{}', 'cas_true', '\left \{ \right \}', '', "Sets"),
         array('{1}', 'php_true', '{1}', 'cas_true', '\left \{1 \right \}', '', ""),
-        array('{1,2,3.4}', 'php_true', '{1,2,3.4}', 'cas_true', '\left \{1 , 2 , 3.4 \right \}', 'Illegal_floats', ""),
+        array('{1,2,3.4}', 'php_true', '{1,2,3.4}', 'cas_true', '\left \{1 , 2 , 3.4 \right \}', '', ""),
         array('{x, y, z }', 'php_true', '{x,y,z}', 'cas_true', '\left \{x , y , z \right \}', '', ""),
         array('set(x, y, z)', 'php_false', '', '', '', 'forbiddenFunction', ""),
         array('matrix([a,b],[c,d])', 'php_true', 'matrix([a,b],[c,d])', 'cas_true', '\left[\begin{array}{cc} a & b \\\\ c & d \end{array}\right]', '', 'Matrices'),
@@ -182,7 +183,7 @@ class stack_inputvalidation_test_data {
         array('(1+i)+x', 'php_true', '(1+i)+x', 'cas_true', '1+\mathrm{i}+x', '', ""),
         array('y^3-2*y^2-8*y', 'php_true', 'y^3-2*y^2-8*y', 'cas_true', 'y^3-2\cdot y^2-8\cdot y', '', ""),
         array('y^2-2*y-8', 'php_true', 'y^2-2*y-8', 'cas_true', 'y^2-2\cdot y-8', '', ""),
-        array('y^2-2*y-0.5', 'php_true', 'y^2-2*y-0.5', 'cas_true', 'y^2-2\cdot y-0.5', 'Illegal_floats', ""),
+        array('y^2-2*y-0.5', 'php_true', 'y^2-2*y-0.5', 'cas_true', 'y^2-2\cdot y-0.5', '', ""),
         array('(x)', 'php_true', '(x)', 'cas_true', 'x', '', "Brackets"),
         array('((x))', 'php_true', '((x))', 'cas_true', 'x', '', ""),
         array('(()x)', 'php_false', '(()*x)', 'cas_false', '', 'missing_stars | emptyParens', ""),
@@ -256,7 +257,7 @@ class stack_inputvalidation_test_data {
         array('ycos(2)', 'php_true', 'y*cos(2)', 'cas_true', 'y\cdot \cos \left( 2 \right)', 'missing_stars', ""),
         array('Bgcd(3,2)', 'php_true', 'B*gcd(3,2)', 'cas_true', 'B\cdot 1', 'missing_stars', ""),
         array('+1', 'php_true', '+1', 'cas_true', '1', '', "Unary plus"),
-        array('+0.2', 'php_true', '+0.2', 'cas_true', '0.2', 'Illegal_floats', ""),
+        array('+0.2', 'php_true', '+0.2', 'cas_true', '0.2', '', ""),
         array('+e', 'php_true', '+e', 'cas_true', 'e', '', ""),
         array('+pi', 'php_true', '+pi', 'cas_true', '\pi', '', ""),
         array('+i', 'php_true', '+i', 'cas_true', '\mathrm{i}', '', ""),
@@ -268,7 +269,7 @@ class stack_inputvalidation_test_data {
         array('[1,+2]', 'php_true', '[1,+2]', 'cas_true', '\left[ 1 , 2 \right]', '', ""),
         array('[+1,+2]', 'php_true', '[+1,+2]', 'cas_true', '\left[ 1 , 2 \right]', '', ""),
         array('-1', 'php_true', '-1', 'cas_true', '-1', '', "Unary minus"),
-        array('-0.2', 'php_true', '-0.2', 'cas_true', '-0.2', 'Illegal_floats', ""),
+        array('-0.2', 'php_true', '-0.2', 'cas_true', '-0.2', '', ""),
         array('-e', 'php_true', '-e', 'cas_true', '-e', '', ""),
         array('-pi', 'php_true', '-pi', 'cas_true', '-\pi', '', ""),
         array('-i', 'php_true', '-i', 'cas_true', '-\mathrm{i}', '', ""),
@@ -481,7 +482,7 @@ class stack_inputvalidation_test_data {
         // @codingStandardsIgnoreEnd
 
         $cs = new stack_cas_casstring($test->rawstring);
-        $cs->set_cas_validation_context(true, true, null, 'typeless', false);
+        $cs->set_cas_validation_context(true, null, 'typeless', false);
         $cs->get_valid('s', false, 1);
 
         $phpvalid     = $cs->get_valid();

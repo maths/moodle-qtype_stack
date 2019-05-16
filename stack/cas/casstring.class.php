@@ -359,15 +359,6 @@ class stack_cas_casstring {
             $this->check_security($security, $secrules);
         }
 
-        // Lastly check certain context validation steps.
-        if ($this->validationcontext !== null &&
-            $this->validationcontext['forbidfloats'] === true &&
-            $hasfloats) {
-            $this->valid = false;
-            $this->add_error(stack_string('Illegal_floats'));
-            $this->answernote[] = 'Illegal_floats';
-        }
-
         $root = $this->ast;
         if ($this->ast instanceof MP_Root) {
             $root = $this->ast->items[0];
@@ -1231,7 +1222,7 @@ class stack_cas_casstring {
 
     // If we "CAS validate" this string, then we need to set various options.
     // If the teacher's answer is null then we use typeless validation, otherwise we check type.
-    public function set_cas_validation_context($forbidfloats, $lowestterms, $tans, $validationmethod, $simp) {
+    public function set_cas_validation_context($lowestterms, $tans, $validationmethod, $simp) {
 
         if (!($validationmethod == 'checktype' || $validationmethod == 'typeless' || $validationmethod == 'units'
                 || $validationmethod == 'unitsnegpow' || $validationmethod == 'equiv' || $validationmethod == 'numerical')) {
@@ -1240,7 +1231,6 @@ class stack_cas_casstring {
         }
 
         $this->validationcontext = array(
-            'forbidfloats'     => $forbidfloats,
             'lowestterms'      => $lowestterms,
             'tans'             => $tans,
             'validationmethod' => $validationmethod,

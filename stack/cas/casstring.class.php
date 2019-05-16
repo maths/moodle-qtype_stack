@@ -1215,7 +1215,7 @@ class stack_cas_casstring {
     }
 
     public function set_feedback($val) {
-        $this->feedback = $this->translate_displayed_tex($val);;
+        $this->feedback = $val;
     }
 
     public function add_errors($err) {

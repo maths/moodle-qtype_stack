@@ -35,9 +35,6 @@ abstract class stack_cas_castext_block {
     private $node;
     private $session;
     protected $seed;
-    protected $security;
-    protected $syntax;
-    protected $insertstars;
 
     // Returns the node this block is supposed to act on.
     public function &get_node() {
@@ -48,28 +45,12 @@ abstract class stack_cas_castext_block {
     /**
      * The functions here are listed in the order they will be called from the castext-processor.
      */
-    public function __construct(&$node, &$session=null, $seed=null, $security='s', $syntax=true, $insertstars=0) {
+    public function __construct(&$node, &$session=null, $seed=null) {
         $this->node = $node;
-
-        if (!('s' === $security || 't' === $security)) {
-            throw new stack_exception('stack_cas_castext_block: security level, must be "s" or "t" only.  Got the following: '
-                    .$security);
-        }
-
-        if (!is_bool($syntax)) {
-            throw new stack_exception('stack_cas_castext_block: syntax, must be Boolean.');
-        }
-
-        if (!is_int($insertstars)) {
-            throw new stack_exception('stack_cas_castext_block: insertstars, must be an integer.');
-        }
 
         // These are for creating a new castext-parser if need be.
         $this->session     = &$session;
         $this->seed        = $seed;
-        $this->security    = $security;
-        $this->syntax      = $syntax;
-        $this->insertstars = $insertstars;
     }
 
     /**
@@ -119,7 +100,7 @@ abstract class stack_cas_castext_block {
         $valid = true;
         $first = true;
         foreach ($this->validate_extract_attributes() as $casstring) {
-            $v = $casstring->get_valid($this->security, $this->syntax, $this->insertstars);
+            $v = $casstring->get_valid('t');
             if (!$v) {
                 if ($first) {
                     $first = false;

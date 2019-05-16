@@ -282,7 +282,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
     public function initialise_question_from_seed() {
         // Build up the question session out of all the bits that need to go into it.
         // 1. question variables.
-        $questionvars = new stack_cas_keyval($this->questionvariables, $this->options, $this->seed, 't');
+        $questionvars = new stack_cas_keyval($this->questionvariables, $this->options, $this->seed);
         $session = $questionvars->get_session();
         if ($session->get_errors()) {
             $this->runtimeerrors[$session->get_errors()] = true;
@@ -343,7 +343,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
      * @return stack_cas_text the CAS text version of $text.
      */
     protected function prepare_cas_text($text, $session) {
-        $castext = new stack_cas_text($text, $session, $this->seed, 't', false, 1);
+        $castext = new stack_cas_text($text, $session, $this->seed);
         if ($castext->get_errors()) {
             $this->runtimeerrors[$castext->get_errors()] = true;
         }
@@ -372,7 +372,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
      * @return stack_cas_text the castext.
      */
     public function get_hint_castext(question_hint $hint) {
-        $hinttext = new stack_cas_text($hint->hint, $this->session, $this->seed, 't', false, 1);
+        $hinttext = new stack_cas_text($hint->hint, $this->session, $this->seed);
 
         if ($hinttext->get_errors()) {
             $this->runtimeerrors[$hinttext->get_errors()] = true;
@@ -386,7 +386,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
      * @return stack_cas_text the castext.
      */
     public function get_generalfeedback_castext() {
-        $gftext = new stack_cas_text($this->generalfeedback, $this->session, $this->seed, 't', false, 1);
+        $gftext = new stack_cas_text($this->generalfeedback, $this->session, $this->seed);
 
         if ($gftext->get_errors()) {
             $this->runtimeerrors[$gftext->get_errors()] = true;

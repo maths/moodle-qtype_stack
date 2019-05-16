@@ -59,22 +59,13 @@ class stack_cas_text {
     /** @var array any error messages to display to the user. */
     private $errors;
 
-    /** @var string security level, 's' or 't'. */
-    private $security;
-
-    /** @var int whether to insert stars. */
-    private $insertstars;
-
-    /** @var bool whether to do strict syntax checks. */
-    private $syntax;
-
     /** @var stack_cas_castext_parsetreenode the root of the parse tree */
     private $parsetreeroot = null;
 
     /** @var array holds block-handlers for various parse_tree nodes */
     private $blocks = array();
 
-    public function __construct($rawcastext, $session=null, $seed=null, $security='s', $syntax=true, $insertstars=0) {
+    public function __construct($rawcastext, $session=null, $seed=null) {
 
         if (!is_string($rawcastext)) {
             throw new stack_exception('stack_cas_text: raw_castext must be a STRING.');
@@ -95,22 +86,6 @@ class stack_cas_text {
         } else {
             throw new stack_exception('stack_cas_text: $seed must be a number (or null).');
         }
-
-        if (!('s' === $security || 't' === $security)) {
-            throw new stack_exception('stack_cas_text: 4th argument, security level, must be "s" or "t" only.');
-        }
-
-        if (!is_bool($syntax)) {
-            throw new stack_exception('stack_cas_text: 5th argument, stringSyntax, must be Boolean.');
-        }
-
-        if (!is_int($insertstars)) {
-            throw new stack_exception('stack_cas_text: 6th argument, insertStars, must be an integer.');
-        }
-
-        $this->security    = $security;
-        $this->syntax      = $syntax;
-        $this->insertstars = $insertstars;
     }
 
     /**
@@ -240,8 +215,7 @@ class stack_cas_text {
             case 'block':
                 $block = null;
                 if (array_key_exists($node->get_content(), $types)) {
-                    $block = castext_block_factory::make($node->get_content(), $node, $session,
-                            $this->seed, $this->security, $this->syntax, $this->insertstars);
+                    $block = castext_block_factory::make($node->get_content(), $node, $session, $this->seed);
                 } else {
                     $this->errors[] = stack_string('stackBlock_unknownBlock') . " '" . $node->get_content() . "'";
                     $valid = false;
@@ -260,16 +234,14 @@ class stack_cas_text {
                 }
                 break;
             case 'rawcasblock':
-                $block = castext_block_factory::make('raw', $node, $session, $this->seed, $this->security, $this->syntax,
-                    $this->insertstars);
+                $block = castext_block_factory::make('raw', $node, $session, $this->seed);
                 $valid = $block->validate($this->errors) && $valid;
                 foreach ($block->validate_extract_attributes() as $cs) {
                     $this->rawsession[] = $cs;
                 }
                 break;
             case 'texcasblock':
-                $block = castext_block_factory::make('latex', $node, $session, $this->seed, $this->security, $this->syntax,
-                $this->insertstars);
+                $block = castext_block_factory::make('latex', $node, $session, $this->seed);
                 $valid = $block->validate($this->errors) && $valid;
                 foreach ($block->validate_extract_attributes() as $cs) {
                     $this->rawsession[] = $cs;
@@ -293,8 +265,7 @@ class stack_cas_text {
             case 'block':
                 $block = null;
                 if (array_key_exists($node->get_content(), $types)) {
-                    $block = castext_block_factory::make($node->get_content(), $node, $session, $this->seed,
-                            $this->security, $this->syntax, $this->insertstars);
+                    $block = castext_block_factory::make($node->get_content(), $node, $session, $this->seed);
                 } else {
                     throw new stack_exception('stack_cas_text: UNKNOWN NODE '.$node->get_content());
                 }
@@ -315,14 +286,12 @@ class stack_cas_text {
                 }
                 break;
             case 'rawcasblock':
-                $block = castext_block_factory::make('raw', $node, $session, $this->seed, $this->security, $this->syntax,
-                        $this->insertstars);
+                $block = castext_block_factory::make('raw', $node, $session, $this->seed);
                 $block->extract_attributes($this->session, $conditionstack);
                 $this->blocks[] = $block;
                 break;
             case 'texcasblock':
-                $block = castext_block_factory::make('latex', $node, $session, $this->seed, $this->security, $this->syntax,
-                        $this->insertstars);
+                $block = castext_block_factory::make('latex', $node, $session, $this->seed);
                 $block->extract_attributes($this->session, $conditionstack);
                 $this->blocks[] = $block;
                 break;

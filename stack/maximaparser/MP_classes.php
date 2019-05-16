@@ -40,27 +40,21 @@ require_once(__DIR__ . '/../cas/cassecurity.class.php');
 class MP_Node {
     public $parentnode  = null;
     public $position    = null;
-    protected $children = null;
 
     public function __construct() {
         $this->parentnode = null;
         $this->position   = [];
-        $this->children   = [];
     }
 
     public function getChildren() {
-        return $this->children;
-    }
-
-    public function regenChildren() {
-        // For those users that must do direct manipulation that bypasses children updating.
+        return [];
     }
 
     public function hasChildren() {
-        return count($this->children) > 0;
+        return count($this->getChildren()) > 0;
     }
 
-    public function toString($params = null) {
+    public function toString($params = null): string {
         return '[NO TOSTRING FOR ' . get_class($this) . ']';
     }
 
@@ -74,16 +68,17 @@ class MP_Node {
     // have happened we do not do this automatically as most code works without back referencing.
     // One may also declare that invalid subtrees are not to be processed.
     public function callbackRecurse($function = null, $skipinvalid = false) {
-        if ($skipinvalid === true && isset($this->position['invalid'])) {
+        if ($skipinvalid === true && isset($this->position['invalid']) && 
+            $this->position['invalid'] === true) {
             return true;
         }
-        for ($i = 0; $i < count($this->children); $i++) {
+        foreach ($this->getChildren() as $child) {
             // Not a foreach as the list may change.
-            $this->children[$i]->parentnode = $this;
-            if ($function !== null && $function($this->children[$i]) !== true) {
+            $child->parentnode = $this;
+            if ($function !== null && $function($child) !== true) {
                 return false;
             }
-            if ($this->children[$i]->callbackRecurse($function, $skipinvalid) !== true) {
+            if ($child->callbackRecurse($function, $skipinvalid) !== true) {
                 return false;
             }
         }
@@ -159,6 +154,7 @@ class MP_Node {
         $total = $this->toString();
         $this->position['start'] = $offset;
         $this->position['end'] = $offset + core_text::strlen($total);
+        // For recursion this needs more. But this works for the general case.
     }
 
 
@@ -263,11 +259,13 @@ class MP_Operation extends MP_Node {
         $this->op         = $op;
         $this->lhs        = $lhs;
         $this->rhs        = $rhs;
-        $this->children[] = $lhs;
-        $this->children[] = $rhs;
     }
 
-    public function toString($params = null) {
+    public function getChildren() {
+        return [$this->lhs, $this->rhs];
+    }
+
+    public function toString($params = null): string {
         $op = $this->op;
         if ($params !== null && isset($params['nounify'])) {
             $feat = stack_cas_security::get_feature($op, 'nounoperator');
@@ -329,7 +327,6 @@ class MP_Operation extends MP_Node {
         } else if ($this->rhs === $node) {
             $this->rhs = $with;
         }
-        $this->children = [$this->lhs, $this->rhs];
     }
 
     // Goes up the tree to identify if there is any op on the right of this.
@@ -431,7 +428,7 @@ class MP_Atom extends MP_Node {
         $this->position['end'] = $offset + core_text::strlen($value);
     }
 
-    public function toString($params = null) {
+    public function toString($params = null): string {
         if ($params !== null && isset($params['pretty'])) {
             $indent = '';
             if (is_integer($params['pretty'])) {
@@ -458,7 +455,7 @@ class MP_Integer extends MP_Atom {
         $this->raw = $raw;
     }
 
-    public function toString($params = null) {
+    public function toString($params = null): string {
         if ($params !== null && isset($params['pretty'])) {
             $indent = '';
             if (is_integer($params['pretty'])) {
@@ -488,7 +485,7 @@ class MP_Float extends MP_Atom {
         $this->raw = $raw;
     }
 
-    public function toString($params = null) {
+    public function toString($params = null): string {
         if ($params !== null && isset($params['pretty'])) {
             $indent = '';
             if (is_integer($params['pretty'])) {
@@ -511,7 +508,7 @@ class MP_Float extends MP_Atom {
 
 class MP_String extends MP_Atom {
 
-    public function toString($params = null) {
+    public function toString($params = null): string {
         if ($params !== null && isset($params['pretty'])) {
             $indent = '';
             if (is_integer($params['pretty'])) {
@@ -526,7 +523,7 @@ class MP_String extends MP_Atom {
 
 class MP_Boolean extends MP_Atom {
 
-    public function toString($params = null) {
+    public function toString($params = null): string {
         if ($params !== null && isset($params['pretty'])) {
             $indent = '';
             if (is_integer($params['pretty'])) {
@@ -550,7 +547,7 @@ class MP_Identifier extends MP_Atom {
         return !$this->is_function_name();
     }
 
-    public function toString($params = null) {
+    public function toString($params = null): string {
         $indent = '';
         if ($params !== null && isset($params['pretty'])) {
             if (is_integer($params['pretty'])) {
@@ -632,10 +629,12 @@ class MP_Annotation extends MP_Node {
         parent::__construct();
         $this->annotationType = $annotationType;
         $this->params         = $params;
-        $this->children       = $params;
     }
 
-    public function toString($params = null) {
+    public function getChildren() {
+        return $this->params;
+    }
+    public function toString($params = null): string {
         $params = [];
 
         foreach ($this->params as $value) {
@@ -656,10 +655,13 @@ class MP_Comment extends MP_Node {
         parent::__construct();
         $this->value       = $value;
         $this->annotations = $annotations;
-        $this->children    = $annotations;
     }
 
-    public function toString($params = null) {
+    public function getChildren() {
+        return $this->annotations;
+    }
+
+    public function toString($params = null): string {
         $annotations = [];
 
         foreach ($this->annotations as $value) {
@@ -682,7 +684,10 @@ class MP_FunctionCall extends MP_Node {
         parent::__construct();
         $this->name      = $name;
         $this->arguments = $arguments;
-        $this->children  = array_merge([ $name], $arguments);
+    }
+
+    public function getChildren() {
+        return array_merge([$this->name], $this->arguments);
     }
 
     public function remap_position_data(int $offset=0) {
@@ -697,7 +702,7 @@ class MP_FunctionCall extends MP_Node {
         $this->name->remap_position_data($offset);
     }
 
-    public function toString($params = null) {
+    public function toString($params = null): string {
         $n = $this->name->toString($params);
         if ($params !== null && isset($params['nounify'])) {
             if ($this->name instanceof MP_Identifier || $this->name instanceof MP_String) {
@@ -791,7 +796,6 @@ class MP_FunctionCall extends MP_Node {
                 }
             }
         }
-        $this->children = array_merge([$this->name], $this->arguments);
     }
 }
 
@@ -801,7 +805,10 @@ class MP_Group extends MP_Node {
     public function __construct($items) {
         parent::__construct();
         $this->items    = $items;
-        $this->children = $items;
+    }
+
+    public function getChildren() {
+        return $this->items;
     }
 
     public function remap_position_data(int $offset=0) {
@@ -815,7 +822,7 @@ class MP_Group extends MP_Node {
         }
     }
 
-    public function toString($params = null) {
+    public function toString($params = null): string {
         $indent = '';
         if ($params !== null && isset($params['pretty'])) {
             if (is_integer($params['pretty'])) {
@@ -863,7 +870,6 @@ class MP_Group extends MP_Node {
                 }
             }
         }
-        $this->children = $this->items;
     }
 }
 
@@ -873,7 +879,10 @@ class MP_Set extends MP_Node {
     public function __construct($items) {
         parent::__construct();
         $this->items    = $items;
-        $this->children = $items;
+    }
+
+    public function getChildren() {
+        return $this->items;
     }
 
     public function remap_position_data(int $offset=0) {
@@ -887,7 +896,7 @@ class MP_Set extends MP_Node {
         }
     }
 
-    public function toString($params = null) {
+    public function toString($params = null): string {
         $indent = '';
         if ($params !== null && isset($params['pretty'])) {
             if (is_integer($params['pretty'])) {
@@ -935,7 +944,6 @@ class MP_Set extends MP_Node {
                 }
             }
         }
-        $this->children = $this->items;
     }
 }
 
@@ -945,7 +953,10 @@ class MP_List extends MP_Node {
     public function __construct($items) {
         parent::__construct();
         $this->items    = $items;
-        $this->children = $items;
+    }
+
+    public function getChildren() {
+        return $this->items;
     }
 
     public function remap_position_data(int $offset=0) {
@@ -959,7 +970,7 @@ class MP_List extends MP_Node {
         }
     }
 
-    public function toString($params = null) {
+    public function toString($params = null): string {
         $indent = '';
         if ($params !== null && isset($params['pretty'])) {
             if (is_integer($params['pretty'])) {
@@ -1007,7 +1018,6 @@ class MP_List extends MP_Node {
                 }
             }
         }
-        $this->children = $this->items;
     }
 }
 
@@ -1019,8 +1029,12 @@ class MP_PrefixOp extends MP_Node {
         parent::__construct();
         $this->op         = $op;
         $this->rhs        = $rhs;
-        $this->children[] = $rhs;
     }
+
+    public function getChildren() {
+        return [$this->rhs];
+    }
+
 
     public function remap_position_data(int $offset=0) {
         $total = $this->toString();
@@ -1029,7 +1043,7 @@ class MP_PrefixOp extends MP_Node {
         $this->rhs->remap_position_data($offset + core_text::strlen($this->op));
     }
 
-    public function toString($params = null) {
+    public function toString($params = null): string {
         $indent = '';
         if ($params !== null && isset($params['pretty'])) {
             if (is_integer($params['pretty'])) {
@@ -1052,7 +1066,6 @@ class MP_PrefixOp extends MP_Node {
     public function replace($node, $with) {
         if ($this->rhs === $node) {
             $this->rhs      = $with;
-            $this->children = [ $this->rhs];
         }
     }
 }
@@ -1065,7 +1078,10 @@ class MP_PostfixOp extends MP_Node {
         parent::__construct();
         $this->op         = $op;
         $this->lhs        = $lhs;
-        $this->children[] = $lhs;
+    }
+
+    public function getChildren() {
+        return [$this->lhs];
     }
 
     public function remap_position_data(int $offset=0) {
@@ -1076,7 +1092,7 @@ class MP_PostfixOp extends MP_Node {
     }
 
 
-    public function toString($params = null) {
+    public function toString($params = null): string {
         $indent = '';
         if ($params !== null && isset($params['pretty'])) {
             if (is_integer($params['pretty'])) {
@@ -1092,7 +1108,6 @@ class MP_PostfixOp extends MP_Node {
     public function replace($node, $with) {
         if ($this->lhs === $node) {
             $this->lhs      = $with;
-            $this->children = [$this->lhs];
         }
     }
 }
@@ -1106,7 +1121,10 @@ class MP_Indexing extends MP_Node {
         parent::__construct();
         $this->target   = $target;
         $this->indices  = $indices;
-        $this->children = array_merge([$target], $indices);
+    }
+
+    public function getChildren() {
+        return array_merge([$this->target], $this->indices);
     }
 
     public function remap_position_data(int $offset=0) {
@@ -1121,7 +1139,7 @@ class MP_Indexing extends MP_Node {
         }
     }
 
-    public function toString($params = null) {
+    public function toString($params = null): string {
         $r = $this->target->toString($params);
 
         foreach ($this->indices as $ind) {
@@ -1141,7 +1159,6 @@ class MP_Indexing extends MP_Node {
                 }
             }
         }
-        $this->children = array_merge([ $this->target], $this->indices);
     }
 }
 
@@ -1153,7 +1170,10 @@ class MP_If extends MP_Node {
         parent::__construct();
         $this->conditions = $conditions;
         $this->branches   = $branches;
-        $this->children   = array_merge($conditions, $branches);
+    }
+
+    public function getChildren() {
+        return array_merge($this->conditions, $this->branches);
     }
 
     public function remap_position_data(int $offset=0) {
@@ -1163,7 +1183,7 @@ class MP_If extends MP_Node {
         // TODO: fill in this.
     }
 
-    public function toString($params = null) {
+    public function toString($params = null): string {
         $indent = '';
         if ($params !== null && isset($params['pretty'])) {
             $ind = 2;
@@ -1222,7 +1242,6 @@ class MP_If extends MP_Node {
                 $this->branches[$key] = $with;
             }
         }
-        $this->children = array_merge($this->conditions, $this->branches);
     }
 }
 
@@ -1234,7 +1253,10 @@ class MP_Loop extends MP_Node {
         parent::__construct();
         $this->body     = $body;
         $this->conf     = $conf;
-        $this->children = array_merge($conf, [$body]);
+    }
+
+    public function getChildren() {
+        return array_merge($this->conf, [$this->body]);
     }
 
     public function remap_position_data(int $offset=0) {
@@ -1254,10 +1276,9 @@ class MP_Loop extends MP_Node {
         if ($this->body === $node) {
             $this->body = $with;
         }
-        $this->children = array_merge($this->conf, [$this->body]);
     }
 
-    public function toString($params = null) {
+    public function toString($params = null): string {
         $indent = '';
         if ($params !== null && isset($params['pretty'])) {
             $ind = 2;
@@ -1291,7 +1312,10 @@ class MP_LoopBit extends MP_Node {
         parent::__construct();
         $this->mode       = $mode;
         $this->param      = $param;
-        $this->children[] = $param;
+    }
+
+    public function getChildren() {
+        return [$this->param];
     }
 
     public function remap_position_data(int $offset=0) {
@@ -1309,10 +1333,9 @@ class MP_LoopBit extends MP_Node {
         if ($this->param === $node) {
             $this->param = $with;
         }
-        $this->children = [$this->param];
     }
 
-    public function toString($params = null) {
+    public function toString($params = null): string {
         return $this->mode . ' ' . $this->param->toString($params);
     }
 }
@@ -1325,8 +1348,10 @@ class MP_EvaluationFlag extends MP_Node {
         parent::__construct();
         $this->name       = $name;
         $this->value      = $value;
-        $this->children[] = $name;
-        $this->children[] = $value;
+    }
+
+    public function getChildren() {
+        return [$this->name, $this->value];
     }
 
     public function remap_position_data(int $offset=0) {
@@ -1337,7 +1362,7 @@ class MP_EvaluationFlag extends MP_Node {
         $this->value->remap_position_data($offset + 2 + core_text::strlen($this->name->toString()));
     }
 
-    public function toString($params = null) {
+    public function toString($params = null): string {
         return ',' . $this->name->toString($params) . '=' . $this->value->toString($params);
     }
 
@@ -1347,7 +1372,6 @@ class MP_EvaluationFlag extends MP_Node {
         } else if ($this->value === $node) {
             $this->value = $with;
         }
-        $this->children = [$this->name, $this->value];
     }
 }
 
@@ -1359,7 +1383,10 @@ class MP_Statement extends MP_Node {
         parent::__construct();
         $this->statement = $statement;
         $this->flags     = $flags;
-        $this->children  = array_merge([$this->statement], $this->flags);
+    }
+
+    public function getChildren() {
+        return array_merge([$this->statement], $this->flags);
     }
 
     public function remap_position_data(int $offset=0) {
@@ -1374,7 +1401,7 @@ class MP_Statement extends MP_Node {
         }
     }
 
-    public function toString($params = null) {
+    public function toString($params = null): string {
         $r = $this->statement->toString($params);
 
         foreach ($this->flags as $flag) {
@@ -1394,7 +1421,6 @@ class MP_Statement extends MP_Node {
         if ($this->statement === $node) {
             $this->statement = $with;
         }
-        $this->children = array_merge([$this->statement], $this->flags);
     }
 }
 
@@ -1404,10 +1430,13 @@ class MP_Prefixeq extends MP_Node {
     public function __construct($statement) {
         parent::__construct();
         $this->statement = $statement;
-        $this->children  = [$this->statement];
     }
 
-    public function toString($params = null) {
+    public function getChildren() {
+        return [$this->statement];
+    }
+
+    public function toString($params = null): string {
         $indent = '';
         if (isset($params['pretty']) && is_integer($params['pretty'])) {
             $indent = str_pad($indent, $params['pretty']);
@@ -1426,7 +1455,6 @@ class MP_Prefixeq extends MP_Node {
         if ($this->statement === $node) {
             $this->statement = $with;
         }
-        $this->children = [$this->statement];
     }
 }
 
@@ -1436,10 +1464,13 @@ class MP_Let extends MP_Node {
     public function __construct($statement) {
         parent::__construct();
         $this->statement = $statement;
-        $this->children  = [$this->statement];
     }
 
-    public function toString($params = null) {
+    public function getChildren() {
+        return [$this->statement];
+    }
+
+    public function toString($params = null): string {
         $indent = '';
         if (is_integer($params['pretty'])) {
             $indent = str_pad($indent, $params['pretty']);
@@ -1460,7 +1491,6 @@ class MP_Let extends MP_Node {
         if ($this->statement === $node) {
             $this->statement = $with;
         }
-        $this->children = [$this->statement];
     }
 }
 
@@ -1470,7 +1500,10 @@ class MP_Root extends MP_Node {
     public function __construct($items) {
         parent::__construct();
         $this->items    = $items;
-        $this->children = $items;
+    }
+
+    public function getChildren() {
+        return $this->items;
     }
 
     public function remap_position_data(int $offset=0) {
@@ -1484,7 +1517,7 @@ class MP_Root extends MP_Node {
         }
     }
 
-    public function toString($params = null) {
+    public function toString($params = null): string {
         $r = '';
 
         foreach ($this->items as $item) {
@@ -1498,13 +1531,11 @@ class MP_Root extends MP_Node {
         $node,
         $with
     ) {
-
         foreach ($this->items as $key => $value) {
             if ($value === $node) {
                 $this->items[$key] = $with;
             }
         }
-        $this->children = $this->items;
     }
 }
 // These are required by the parser. They are defined here instead of the parser

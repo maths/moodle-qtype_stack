@@ -75,7 +75,9 @@ class MP_Node {
         foreach ($this->getChildren() as $child) {
             // Not a foreach as the list may change.
             $child->parentnode = $this;
-            if ($function !== null && $function($child) !== true) {
+            if (!($skipinvalid === true && isset($child->position['invalid'])
+                && $child->position['invalid'] === true) && 
+                $function !== null && $function($child) !== true) {
                 return false;
             }
             if ($child->callbackRecurse($function, $skipinvalid) !== true) {

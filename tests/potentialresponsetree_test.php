@@ -86,7 +86,7 @@ class stack_potentialresponsetree_test extends qtype_stack_testcase {
 
         $seed = 12345;
         $options = new stack_options();
-        $questionvars = new stack_cas_keyval('n:3; p:(x+1)^n; ta:diff(p,x);', $options, $seed, 't');
+        $questionvars = new stack_cas_keyval('n:3; p:(x+1)^n; ta:diff(p,x);', $options, $seed);
         $questionvars->instantiate();
 
         $answers = array('sans' => '3*x^2+6*x+3');
@@ -126,7 +126,7 @@ class stack_potentialresponsetree_test extends qtype_stack_testcase {
         $options = new stack_options();
         $seed = 12345;
 
-        $questionvars = new stack_cas_keyval('n:3; p:(x+1)^n; ta:p;', $options, $seed, 't');
+        $questionvars = new stack_cas_keyval('n:3; p:(x+1)^n; ta:p;', $options, $seed);
 
         // Feeback variables.
         $cstrings = array('sa1:sans', 'sa2:expand(sans)');

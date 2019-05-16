@@ -242,7 +242,7 @@ class qtype_stack_test_helper extends question_test_helper {
                         array('boxWidth' => 15, 'strictSyntax' => true, 'lowestTerms' => false, 'sameType' => false));
         $q->inputs['ans4'] = stack_input_factory::make('boolean', 'ans4', 'true', $options);
 
-        $feedbackvars = new stack_cas_keyval('sa:subst(x=-x,ans1)+ans1', null, null, 't');
+        $feedbackvars = new stack_cas_keyval('sa:subst(x=-x,ans1)+ans1', null, null);
         $sans = new stack_cas_casstring('sa');
         $sans->get_valid('t');
         $tans = new stack_cas_casstring('0');
@@ -254,7 +254,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->prts['odd']     = new stack_potentialresponse_tree('odd',
                 '', true, 0.25, $feedbackvars->get_session(), array($node), 0);
 
-        $feedbackvars = new stack_cas_keyval('sa:subst(x=-x,ans2)-ans2', null, null, 't');
+        $feedbackvars = new stack_cas_keyval('sa:subst(x=-x,ans2)-ans2', null, null);
         $sans = new stack_cas_casstring('sa');
         $sans->get_valid('t');
         $tans = new stack_cas_casstring('0');
@@ -344,7 +344,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->inputs['ans4'] = stack_input_factory::make(
                         'boolean',   'ans4', 'true');
 
-        $feedbackvars = new stack_cas_keyval('sa:subst(x=-x,ans1)+ans1', null, null, 't');
+        $feedbackvars = new stack_cas_keyval('sa:subst(x=-x,ans1)+ans1', null, null);
         $sans = new stack_cas_casstring('sa');
         $sans->get_valid('t');
         $tans = new stack_cas_casstring('0');
@@ -356,7 +356,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->prts['odd']     = new stack_potentialresponse_tree('odd',
                 '', true, 0.25, $feedbackvars->get_session(), array($node), 0);
 
-        $feedbackvars = new stack_cas_keyval('sa:subst(x=-x,ans2)-ans2', null, null, 't');
+        $feedbackvars = new stack_cas_keyval('sa:subst(x=-x,ans2)-ans2', null, null);
         $sans = new stack_cas_casstring('sa');
         $tans->get_valid('t');
         $tans = new stack_cas_casstring('0');
@@ -605,8 +605,7 @@ class qtype_stack_test_helper extends question_test_helper {
                                              'lv : length(l); ' .
                                              'b1 : ev(ans1,t=0,fullratsimp); ' .
                                              'b2 : ev(ans1,t=1,fullratsimp); ' .
-                                             'm : float(if not(equal(b2,0)) then fullratsimp(b1/b2) else 0)',
-                                             null, 0, 't');
+                                             'm : float(if not(equal(b2,0)) then fullratsimp(b1/b2) else 0)');
 
         $sans = new stack_cas_casstring('sa3');
         $sans->get_valid('t');
@@ -1062,7 +1061,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->inputs['ans1'] = stack_input_factory::make(
                 'algebraic', 'ans1', '[x+y=1,x-y=1]', null, array('boxWidth' => 25));
 
-        $feedbackvars = new stack_cas_keyval('', null, 0, 't');
+        $feedbackvars = new stack_cas_keyval('');
 
         $sans = new stack_cas_casstring('all_listp(equationp,ans1)');
         $sans->get_valid('t');

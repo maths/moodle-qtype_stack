@@ -88,6 +88,7 @@ class stack_cas_session {
 
     public function __construct($session, $options = null, $seed = null) {
 
+        // The session should always be an array.
         if (is_null($session)) {
             $session = array();
         }
@@ -165,12 +166,13 @@ class stack_cas_session {
             $this->validate();
         }
         $this->astcache = array();
+
         if (!$this->valid) {
             return false;
         }
         // Lazy instantiation - only do this once...
         // Empty session.  Nothing to do.
-        if ($this->instantiated || null === $this->session) {
+        if ($this->instantiated || null === $this->session || $this->session == array()) {
             return true;
         }
 
@@ -409,6 +411,9 @@ class stack_cas_session {
     }
 
     public function get_session() {
+        if ($this->session === null) {
+            return array();
+        }
         return $this->session;
     }
 

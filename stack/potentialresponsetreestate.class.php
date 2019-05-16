@@ -176,7 +176,7 @@ class stack_potentialresponse_tree_state {
      * @return string the feedback with question variables substituted.
      */
     public function substitue_variables_in_feedback($feedback) {
-        $feedbackct = new stack_cas_text($feedback, $this->cascontext, $this->seed, 't', false, 0);
+        $feedbackct = new stack_cas_text($feedback, $this->cascontext, $this->seed);
         $result = $feedbackct->get_display_castext();
         $this->_errors = trim($this->_errors . ' ' . $feedbackct->get_errors());
         return $result;

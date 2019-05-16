@@ -660,7 +660,7 @@ class stack_cas_session_test extends qtype_stack_testcase {
         }
 
         $options = new stack_options();
-        $kv = new stack_cas_keyval(implode(';', $cmds), $options, 0, 't');
+        $kv = new stack_cas_keyval(implode(';', $cmds), $options, 0);
         $s = $kv->get_session(); // This does a validation on the side.
 
         $s->instantiate();
@@ -1330,7 +1330,7 @@ class stack_cas_session_test extends qtype_stack_testcase {
             $cs,
             'p2:noun_logic_remove(p1)', 'p3:ev(p2)');
         $options = new stack_options();
-        $kv = new stack_cas_keyval(implode(';', $cmds), $options, 0, 't');
+        $kv = new stack_cas_keyval(implode(';', $cmds), $options, 0);
         $s = $kv->get_session(); // This does a validation on the side.
 
         $s->instantiate();
@@ -1365,7 +1365,7 @@ class stack_cas_session_test extends qtype_stack_testcase {
         }
 
         $options = new stack_options();
-        $kv = new stack_cas_keyval(implode(';', $cmds), $options, 0, 't');
+        $kv = new stack_cas_keyval(implode(';', $cmds), $options, 0);
         $s = $kv->get_session(); // This does a validation on the side.
 
         $s->instantiate();
@@ -1396,7 +1396,7 @@ class stack_cas_session_test extends qtype_stack_testcase {
         }
 
         $options = new stack_options();
-        $kv = new stack_cas_keyval(implode(';', $cmds), $options, 0, 't');
+        $kv = new stack_cas_keyval(implode(';', $cmds), $options, 0);
         $s = $kv->get_session(); // This does a validation on the side.
 
         $s->instantiate();
@@ -1425,7 +1425,7 @@ class stack_cas_session_test extends qtype_stack_testcase {
         }
 
         $options = new stack_options();
-        $kv = new stack_cas_keyval(implode(';', $cmds), $options, 0, 't');
+        $kv = new stack_cas_keyval(implode(';', $cmds), $options, 0);
         $s = $kv->get_session(); // This does a validation on the side.
 
         $s->instantiate();

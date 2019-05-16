@@ -166,7 +166,7 @@ foreach ($samplearguments as $argument) {
                 $expected = 'false';
             }
             $string       = "\[{@second(S1)@}\]";
-            $ct           = new stack_cas_text($string, $session, 0, 't');
+            $ct           = new stack_cas_text($string, $session, 0);
 
             $start = microtime(true);
             $displaytext  = $ct->get_display_castext();
@@ -301,13 +301,13 @@ if ($string) {
 
     $session = new stack_cas_session(null, $options);
     if ($vars) {
-        $keyvals = new stack_cas_keyval($vars, $options, 0, 't');
+        $keyvals = new stack_cas_keyval($vars, $options, 0);
         $session = $keyvals->get_session();
         $varerrs = $keyvals->get_errors();
     }
 
     if (!$varerrs) {
-        $ct           = new stack_cas_text($string, $session, 0, 't');
+        $ct           = new stack_cas_text($string, $session, 0);
         $displaytext  = $ct->get_display_castext();
         $errs         = $ct->get_errors();
         $debuginfo    = $ct->get_debuginfo();

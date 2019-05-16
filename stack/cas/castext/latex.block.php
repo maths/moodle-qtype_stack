@@ -44,7 +44,7 @@ class stack_cas_castext_latex extends stack_cas_castext_block {
         } while (in_array($key, $sessionkeys));
         $this->number = $i - 1;
 
-        $cs->get_valid($this->security, $this->syntax, $this->insertstars);
+        $cs->get_valid('t');
         $cs->set_key($key, true);
 
         $tobeevaluatedcassession->add_vars(array($cs));

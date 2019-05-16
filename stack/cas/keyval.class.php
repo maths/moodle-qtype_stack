@@ -20,7 +20,7 @@ require_once(__DIR__ . '/../maximaparser/utils.php');
 require_once(__DIR__ . '/../maximaparser/MP_classes.php');
 
 /**
- * "key=value" class to parse user-entered data into CAS sessions.
+ * Class to parse user-entered data into CAS sessions.
  *
  * @copyright  2012 University of Birmingham
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -36,47 +36,21 @@ class stack_cas_keyval {
     /** @var bool */
     private $valid;
 
-    /** @var bool has this been sent to the CAS yet? */
-    private $instantiated;
-
     /** @var string HTML error message that can be displayed to the user. */
     private $errors;
 
-    /** @var string 's' or 't' for student or teacher security level. */
-    private $security;
-
-    /** @var bool whether to insert *s where there are implied multipliations. */
-    private $insertstars;
-
-    /** @var bool if true, apply strict syntax checks. */
-    private $syntax;
-
-    public function __construct($raw, $options = null, $seed=null, $security='s', $syntax=true, $insertstars=0) {
+    public function __construct($raw, $options = null, $seed = 0) {
         $this->raw          = $raw;
-        $this->security     = $security;
-        $this->syntax       = $syntax;
-        $this->insertstars  = $insertstars;
 
         $this->session      = new stack_cas_session(array(), $options, $seed);
 
         if (!is_string($raw)) {
             throw new stack_exception('stack_cas_keyval: raw must be a string.');
         }
-
-        if (!('s' === $security || 't' === $security)) {
-            throw new stack_exception('stack_cas_keyval: 2nd argument, security level, must be "s" or "t" only.');
-        }
-
-        if (!is_bool($syntax)) {
-            throw new stack_exception('stack_cas_keyval: 5th argument, syntax, must be boolean.');
-        }
-
-        if (!is_int($insertstars)) {
-            throw new stack_exception('stack_cas_keyval: 6th argument, stars, must be an integer.');
-        }
     }
 
     private function validate($inputs) {
+
         if (empty($this->raw) or '' == trim($this->raw)) {
             $this->valid = true;
             return true;
@@ -89,76 +63,38 @@ class stack_cas_keyval {
             return false;
         }
 
-        // There are essentially two modes of operation. The old one
-        // where statements are separated by either line changes or semicolons,
-        // and the new one where we allow multi-line statements and inject
-        // semicolons to syntax-error positions.
-        // The old one is used for student input as student input may contain
-        // syntax errors and the new one will be for teachers.
-        $vars = array();
-        if ($this->security === 's') {
-            // Subtle one: must protect things inside strings before we explode.
-            $str = $this->raw;
-            $strings = stack_utils::all_substring_strings($str);
-            foreach ($strings as $key => $string) {
-                $str = str_replace('"'.$string.'"', '[STR:'.$key.']', $str);
-            }
+        // Subtle one: must protect things inside strings before we do QMCHAR tricks.
+        $str = $this->raw;
+        $strings = stack_utils::all_substring_strings($str);
+        foreach ($strings as $key => $string) {
+            $str = str_replace('"'.$string.'"', '[STR:'.$key.']', $str);
+        }
 
-            $str = str_replace("\n", ';', $str);
-            $str = stack_utils::remove_comments($str);
-            $str = str_replace(';', "\n", $str);
-            $kvarray = explode("\n", $str);
+        $str = str_replace('?', 'QMCHAR', $str);
 
-            foreach ($strings as $key => $string) {
-                foreach ($kvarray as $kkey => $kstr) {
-                    $kvarray[$kkey] = str_replace('[STR:'.$key.']', '"'.$string.'"', $kstr);
-                }
-            }
-            // 23/4/12 - significant changes to the way keyvals are interpreted.  Use Maxima assignmentsm i.e. x:2.
-            $errors  = '';
-            $valid   = true;
-            foreach ($kvarray as $kvs) {
-                $kvs = trim($kvs);
-                if ('' != $kvs) {
-                    $cs = new stack_cas_casstring($kvs);
-                    $cs->get_valid($this->security, $this->syntax, $this->insertstars);
-                    $vars[] = $cs;
-                }
-            }
-        } else if ($this->security === 't') {
-            // Subtle one: must protect things inside strings before we do QMCHAR tricks.
-            $str = $this->raw;
-            $strings = stack_utils::all_substring_strings($str);
-            foreach ($strings as $key => $string) {
-                $str = str_replace('"'.$string.'"', '[STR:'.$key.']', $str);
-            }
+        foreach ($strings as $key => $string) {
+            $str = str_replace('[STR:'.$key.']', '"' .$string . '"', $str);
+        }
 
-            $str = str_replace('?', 'QMCHAR', $str);
+        // 6/10/18 No longer split by line change, split by statement.
+        // Allow writing of loops and other long statements onto multiple lines.
+        $ast = maxima_parser_utils::parse_and_insert_missing_semicolons($str);
+        if (!$ast instanceof MP_Root) {
+            // If not then it is a SyntaxError.
+            $this->errors = $ast->getMessage();
+            $this->valid = false;
+            return false;
+        }
 
-            foreach ($strings as $key => $string) {
-                $str = str_replace('[STR:'.$key.']', '"' .$string . '"', $str);
-            }
+        $ast = maxima_parser_utils::strip_comments($ast);
 
-            // 6/10/18 No longer split by line change, split by statement.
-            // Allow writing of loops and other long statements onto multiple lines.
-            $ast = maxima_parser_utils::parse_and_insert_missing_semicolons($str);
-            if (!$ast instanceof MP_Root) {
-                // If not then it is a SyntaxError.
-                $this->errors = $ast->getMessage();
-                $this->valid = false;
-                return false;
-            }
-
-            $ast = maxima_parser_utils::strip_comments($ast);
-
-            // 23/4/12 Use Maxima assignments i.e. x:2.
-            $errors  = '';
-            $valid   = true;
-            foreach ($ast->items as $item) {
-                $cs = new stack_cas_casstring($item->toString(), null, $item);
-                $cs->get_valid($this->security, $this->syntax, $this->insertstars);
-                $vars[] = $cs;
-            }
+        // 23/4/12 Use Maxima assignments i.e. x:2.
+        $errors  = '';
+        $valid   = true;
+        foreach ($ast->items as $item) {
+            $cs = new stack_cas_casstring($item->toString(), null, $item);
+            $cs->get_valid('t');
+            $vars[] = $cs;
         }
 
         $this->session->add_vars($vars);
@@ -202,11 +138,7 @@ class stack_cas_keyval {
         if (null === $this->valid) {
             $this->validate(null);
         }
-        if (!$this->valid) {
-            return false;
-        }
         $this->session->instantiate();
-        $this->instantiated = true;
     }
 
     public function get_session() {
@@ -220,9 +152,7 @@ class stack_cas_keyval {
      * Remove the ast, and other clutter from casstrings, so we can test equality cleanly and dump values.
      */
     public function test_clean() {
-        if ($this->session !== null) {
-            $this->session->test_clean();
-        }
+        $this->session->test_clean();
         return true;
     }
 }

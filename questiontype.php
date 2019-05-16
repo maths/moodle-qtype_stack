@@ -497,7 +497,7 @@ class qtype_stack extends question_type {
             // TODO $feedbackvariables, and $sans, $tans, should probably still be strings
             // here, and should be converted to CAS stuff later, only if needed.
             if ($prtdata->feedbackvariables) {
-                $feedbackvariables = new stack_cas_keyval($prtdata->feedbackvariables, null, null, 't');
+                $feedbackvariables = new stack_cas_keyval($prtdata->feedbackvariables);
                 $feedbackvariables = $feedbackvariables->get_session();
             } else {
                 $feedbackvariables = null;
@@ -1617,7 +1617,7 @@ class qtype_stack extends question_type {
             $errors[$fieldname][] = stack_string('forbiddendoubledollars');
         }
 
-        $castext = new stack_cas_text($value, $session, $this->seed, 't');
+        $castext = new stack_cas_text($value, $session, $this->seed);
         if (!$castext->get_valid()) {
             $errors[$fieldname][] = $castext->get_errors();
             return $errors;
@@ -1655,7 +1655,7 @@ class qtype_stack extends question_type {
             return $errors;
         }
 
-        $keyval = new stack_cas_keyval($value, $this->options, $this->seed, 't');
+        $keyval = new stack_cas_keyval($value, $this->options, $this->seed);
         if (!$keyval->get_valid($inputs)) {
             $errors[$fieldname][] = $keyval->get_errors();
         }
@@ -1679,7 +1679,7 @@ class qtype_stack extends question_type {
      */
     protected function validate_question_cas_code($errors, $fromform, $fixingdollars) {
 
-        $keyval = new stack_cas_keyval($fromform['questionvariables'], $this->options, $this->seed, 't');
+        $keyval = new stack_cas_keyval($fromform['questionvariables'], $this->options, $this->seed);
         $keyval->instantiate();
         $session = $keyval->get_session();
         if ($session->get_errors()) {
@@ -2158,7 +2158,7 @@ class qtype_stack extends question_type {
             $prtnode->add_branch(0, '+', 0, '', -1, $node->falsefeedback, $node->falsefeedbackformat, '');
             $prtnodes[$name] = $prtnode;
         }
-        $feedbackvariables = new stack_cas_keyval($prt->feedbackvariables, null, 0, 't');
+        $feedbackvariables = new stack_cas_keyval($prt->feedbackvariables);
         $potentialresponsetree = new stack_potentialresponse_tree(
                 '', '', false, 0, $feedbackvariables->get_session(), $prtnodes, $prt->firstnodename);
         return $potentialresponsetree->get_required_variables($inputkeys);

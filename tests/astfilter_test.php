@@ -54,6 +54,25 @@ class stack_astfilter_test extends qtype_stack_testcase {
         $this->assertEquals($result, $filtered->toString());
     }
 
+    public function test_002_log_candy_bad() {
+        $teststring  = '[log_x+y,log_bar(foo),log_*(x)];';
+        $result      = '[log_x+y,lg(foo,bar),log_*(x)];' . "\n";
+        $ast         = maxima_parser_utils::parse($teststring);
+        $answernotes = array();
+        $errors      = array();
+
+        $astfilter   = new stack_ast_log_candy_002();
+
+        // This test might allow functions that are allowed, but not yet.
+        $security    = new stack_cas_security();
+        $filtered    = $astfilter->filter($ast, $errors, $answernotes, $security);
+
+        $this->assertEquals(2, count($errors));
+        $this->assertEquals($result, $filtered->toString());
+        $this->assertArrayHasKey('invalid', $filtered->items[0]->statement->items[0]->position);
+        $this->assertArrayHasKey('invalid', $filtered->items[0]->statement->items[2]->position);
+    }
+
     public function test_002_log_candy_corrective1() {
         $teststring  = 'log_5-1(x)+log_x+3y(x)+log_x^3(y)-log_(x-y)(z);';
         $result      = 'lg(x,5-1)+lg(x,x+3*y)+lg(y,x^3)-lg(z,(x-y));' . "\n";

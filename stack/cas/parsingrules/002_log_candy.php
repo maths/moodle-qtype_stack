@@ -39,35 +39,22 @@ class stack_ast_log_candy_002 implements stack_cas_astfilter {
                     // expression not before.
                     return false;
                 }
-                if (core_text::substr($node->name->value, 0, 4) === 'log_' &&
-                    !isset($node->position['invalid'])) {
+                if (core_text::substr($node->name->value, 0, 4) === 'log_') {
                     // Now we have something of the form 'log_xyz(y)' we will simply turn it 
                     // to 'lg(y,xyz)' by parsing 'xyz'. We do not need to care about any rules
                     // when parsing it as it will be a pure statement and will be parseable.
                     $argument = core_text::substr($node->name->value, 4);
                     // This will unfortunately lose all the inforamtion about insertted stars 
                     // but that is hardly an issue.
-                    if (core_text::substr($argument, -1) === '*') {
-                        // If we have this for whatever reason somethign went wrong in the logic
-                        // Something we still don't know. Lets hack it here.
-                        $argument = core_text::substr($argument, 0, -1);
-                    }
-                    try {
-                        $parsed = maxima_parser_utils::parse($argument, 'Root');
-                        // There will be only one statement and it is a statement.
-                        $parsed = $parsed->items[0]->statement;
-
-                        // Then we rewrite things.
-                        $node->name->value = 'lg';
-                        // The special replace of FunctionCalls appends an argument.
-                        $node->replace(-1, $parsed);
-                        $answernotes[] = 'logsubs';
-                        return false;
-                    }  catch (SyntaxError $e) {
-                        $node->position['invalid'] = true;
-                        $errors[] = 'Trouble parsing logarithms base.';
-                        return false;
-                    }
+                    $parsed = maxima_parser_utils::parse($argument, 'Root');
+                    // There will be only one statement and it is a statement.
+                    $parsed = $parsed->items[0]->statement;
+                    // Then we rewrite things.
+                    $node->name->value = 'lg';
+                    // The special replace of FunctionCalls appends an argument.
+                    $node->replace(-1, $parsed);
+                    $answernotes[] = 'logsubs';
+                    return false;
                 }
             }
 

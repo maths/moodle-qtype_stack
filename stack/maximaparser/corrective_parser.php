@@ -29,7 +29,9 @@ require_once(__DIR__ . '/../utils.class.php');
 require_once(__DIR__ . '/MP_classes.php');
 
 // A Maxima parser wrapper that tries to insert missing stars to statements
-// to make them parseable. Filter further to handle extended syntax and more
+// to make them parseable.
+//
+// Once we have an ast we filter further to handle extended syntax and more
 // complex star insertion.
 //
 // @copyright  2019 Aalto University

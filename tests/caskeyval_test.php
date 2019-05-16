@@ -33,10 +33,12 @@ class stack_cas_keyval_test extends qtype_stack_testcase {
         $kv->instantiate();
         $this->assertEquals($val, $kv->get_valid());
 
+        // @codingStandardsIgnoreStart
         // This is a problematic thing now that casstrings have the AST structures in them.
         // $this->assertEquals($session->get_session(), $kvsession->get_session());
         // Depending how they have been built they may have very different positional data.
         // To deal with this we need to ask the casstrings to drop the AST before comparison.
+        // @codingStandardsIgnoreEnd
         $session->test_clean();
         $ses1 = $session->get_session();
 

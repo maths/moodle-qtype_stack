@@ -88,11 +88,11 @@ class stack_cas_keyval {
 
         $ast = maxima_parser_utils::strip_comments($ast);
 
-        // 23/4/12 Use Maxima assignments i.e. x:2.
         $errors  = '';
         $valid   = true;
         foreach ($ast->items as $item) {
-            $cs = new stack_cas_casstring($item->toString(), null, $item);
+            $cs = stack_ast_container::make_from_teacher_ast($item, $item->toString(), '',
+                    new stack_cas_security(), array());
             $cs->get_valid('t');
             $vars[] = $cs;
         }

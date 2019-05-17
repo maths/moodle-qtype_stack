@@ -66,7 +66,6 @@ class stack_ast_container {
         } 
         // It is now ready to be created.
         $astc = new self;
-        //new stack_ast_container($ast, 's', $context, $securitymodel, $errors, $answernotes);
         $astc->rawcasstring = $raw;
         $astc->ast = $ast;
         $astc->source = 's';
@@ -108,11 +107,20 @@ class stack_ast_container {
         } 
 
         // It is now ready to be created.
-        return new stack_ast_container($ast, 't', $context, $securitymodel, 
-                                           $errors, $answernotes);
+        $astc = new self;
+        $astc->rawcasstring = $raw;
+        $astc->ast = $ast;
+        $astc->source = 't';
+        $astc->context = $context;
+        $astc->securitymodel = $securitymodel;
+        $astc->errors = $errors;
+        $astc->answernotes = $answernotes;
+        $astc->conditions = array();
+        $astc->valid = null;
+        return $astc;
     }
 
-    public static function make_from_teacher_ast(MP_Statement $ast, string $context,
+    public static function make_from_teacher_ast(MP_Statement $ast, string $raw, string $context,
             stack_cas_security $securitymodel): stack_ast_container {
         // This function is intended to be used when dealing with keyvals, 
         // as there one already has an AST representing multiple casstring 
@@ -122,8 +130,18 @@ class stack_ast_container {
         $answernotes = array();
         $pipeline = stack_parsing_rule_factory::get_filter_pipeline(array("999_strict"), true);
         $ast = $pipeline->filter($ast, $errors, $answernotes, $securitymodel);
-        return new stack_cas_casstring_new($ast, 't', $context, $securitymodel, 
-                                           $errors, $answernotes);
+
+        $astc = new self;
+        $astc->rawcasstring = $raw;
+        $astc->ast = $ast;
+        $astc->source = 't';
+        $astc->context = $context;
+        $astc->securitymodel = $securitymodel;
+        $astc->errors = $errors;
+        $astc->answernotes = $answernotes;
+        $astc->conditions = array();
+        $astc->valid = null;
+        return $astc;
     }
 
     /** @var string as typed in by the user.
@@ -202,6 +220,11 @@ class stack_ast_container {
      *             after the casstring has been processed by the CAS.
      */
     private $display;
+
+    /**
+     * @var string Used by the testing setup only.
+     */
+    private $testclean;
 
     private function __constructor($ast, string $source, string $context,
                                    stack_cas_security $securitymodel,
@@ -705,6 +728,10 @@ class stack_ast_container {
         return $this->validationcontext;
     }
 
+    public function set_conditions($c) {
+        $this->conditions = $c;
+    }
+
     public function get_conditions() {
         return $this->conditions;
     }
@@ -734,5 +761,16 @@ class stack_ast_container {
 
     public function get_display() {
         return $this->display;
+    }
+
+    /**
+     * Replace the ast, with a human readable value, so we can test equality cleanly and dump values.
+     */
+    public function test_clean() {
+        if ($this->ast) {
+            $this->testclean = $this->ast->toString(array('nosemicolon' => true));
+        }
+        $this->ast = null;
+        return true;
     }
 }

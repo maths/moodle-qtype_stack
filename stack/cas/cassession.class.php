@@ -276,8 +276,8 @@ class stack_cas_session {
             return;
         }
         foreach ($vars as $var) {
-            if (!is_a($var, 'stack_cas_casstring')) {
-                throw new stack_exception('stack_cas_session: trying to add a non-stack_cas_casstring to an existing session.');
+            if (!is_a($var, 'stack_ast_container')) {
+                throw new stack_exception('stack_cas_session: trying to add a non-stack_ast_container to an existing session.');
             }
 
             $this->instantiated = null;

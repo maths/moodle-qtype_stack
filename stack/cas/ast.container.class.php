@@ -45,7 +45,7 @@ class stack_ast_container {
             sure that the AST is ready before you put it in a casstring
      */
 
-    public static function make_ast_container_from_student_source(string $raw, string $context,
+    public static function make_from_student_source(string $raw, string $context,
             stack_cas_security $securitymodel, array $filters_to_apply,
             string $grammar = 'Root'): stack_ast_container {
 
@@ -67,6 +67,7 @@ class stack_ast_container {
         // It is now ready to be created.
         $astc = new self;
         //new stack_ast_container($ast, 's', $context, $securitymodel, $errors, $answernotes);
+        $astc->rawcasstring = $raw;
         $astc->ast = $ast;
         $astc->source = 's';
         $astc->context = $context;
@@ -78,7 +79,7 @@ class stack_ast_container {
         return $astc;
     }
 
-    public static function make_ast_container_from_teacher_source(string $raw, string $context,
+    public static function make_from_teacher_source(string $raw, string $context,
             stack_cas_security $securitymodel): stack_ast_container {
         // If you wonder why the security model is in play for teachers it
         // is here to bring in the information on whether units are constants
@@ -111,7 +112,7 @@ class stack_ast_container {
                                            $errors, $answernotes);
     }
 
-    public static function make_ast_container_from_teacher_ast(MP_Statement $ast, string $context,
+    public static function make_from_teacher_ast(MP_Statement $ast, string $context,
             stack_cas_security $securitymodel): stack_ast_container {
         // This function is intended to be used when dealing with keyvals, 
         // as there one already has an AST representing multiple casstring 
@@ -124,6 +125,11 @@ class stack_ast_container {
         return new stack_cas_casstring_new($ast, 't', $context, $securitymodel, 
                                            $errors, $answernotes);
     }
+
+    /** @var string as typed in by the user.
+     *  This should not be changed by the system, so will contains things like ?, which are otherwise not permitted.
+     */
+    private $rawcasstring;
 
     /**
        * The parsetree representing this ast after all modifications.
@@ -141,6 +147,11 @@ class stack_ast_container {
      * more specific location data i.e. character position data is in the AST.
      */
     private $context;
+
+    /**
+     * If this is an input about to be validated, then we need to store some information here.
+     */
+    private $validationcontext = null;
 
     /**
      * The cassecurity settings applied to this question.
@@ -170,6 +181,27 @@ class stack_ast_container {
      * Same format as the $value string, and not designed to be read by end users.
      */
     private $conditions;
+
+    /**
+     * @var string the value of the CAS string, in Maxima syntax. Only gets set
+     *             after the casstring has been processed by the CAS.
+     *             Exactly what Maxima returns, and so suitable to be sent back.
+     */
+    private $value;
+
+    /**
+     * @var string A sanitised version of the value, e.g. with decimal places printed
+     *             and stackunits replaced by multiplication.
+     *             Used sparingly, e.g. for the teacher's answer, and testing inputs.
+     *             Will contain ?, not QMCHAR.
+     */
+    private $dispvalue;
+
+    /**
+     * @var string Displayed for of the value. LaTeX. Only gets set
+     *             after the casstring has been processed by the CAS.
+     */
+    private $display;
 
     private function __constructor($ast, string $source, string $context,
                                    stack_cas_security $securitymodel,
@@ -217,6 +249,17 @@ class stack_ast_container {
         return $this->valid;
     }
 
+    public function add_errors($err) {
+        if ('' == trim($err)) {
+            return false;
+        } else {
+            $this->errors[] = $err;
+            // Old behaviour was to return the combined errors, but apparently it was not used in master?
+            // TODO: maybe remove the whole return?
+            return $this->get_errors();
+        }
+    }
+
     public function get_errors($raw = 'implode') {
         if (null === $this->valid) {
             $this->get_valid();
@@ -225,6 +268,10 @@ class stack_ast_container {
             return implode(' ', array_unique($this->errors));
         }
         return $this->errors;
+    }
+
+    public function add_answernote($val) {
+        $this->answernote[] = $val;
     }
 
     public function get_answernotes($raw = 'implode') {
@@ -237,11 +284,15 @@ class stack_ast_container {
         return $this->answernotes;
     }
 
+    public function get_raw_casstring() {
+        return $this->rawcasstring;
+    }
+
     // This returns the fully filttered AST as it should be inputted were 
     // it inputted perfectly.
     public function get_inputform(): string {
         if ($this->ast) {
-            return $this->ast->toString(array('inputform' => true, 'qmchar' => true));
+            return $this->ast->toString(array('inputform' => true, 'qmchar' => true, 'nosemicolon' => true));
         }
         return '';
     }
@@ -632,4 +683,56 @@ class stack_ast_container {
         return true;
     }
 
+    // If we "CAS validate" this string, then we need to set various options.
+    // If the teacher's answer is null then we use typeless validation, otherwise we check type.
+    public function set_cas_validation_context($lowestterms, $tans, $validationmethod, $simp) {
+
+        if (!($validationmethod == 'checktype' || $validationmethod == 'typeless' || $validationmethod == 'units'
+                || $validationmethod == 'unitsnegpow' || $validationmethod == 'equiv' || $validationmethod == 'numerical')) {
+                    throw new stack_exception('stack_cas_casstring: validationmethod must one of "checktype", "typeless", ' .
+                            '"units" or "unitsnegpow" or "equiv" or "numerical", but received "'.$validationmethod.'".');
+                }
+    
+                $this->validationcontext = array(
+                    'lowestterms'      => $lowestterms,
+                    'tans'             => $tans,
+                    'validationmethod' => $validationmethod,
+                    'simp'             => $simp
+                );
+    }
+
+    public function get_cas_validation_context() {
+        return $this->validationcontext;
+    }
+
+    public function get_conditions() {
+        return $this->conditions;
+    }
+
+    public function set_value($val) {
+        $this->value = $val;
+    }
+
+    public function get_value() {
+        return $this->value;
+    }
+
+    public function set_dispvalue($val) {
+        $val = str_replace('"!! ', '', $val);
+        $val = str_replace(' !!"', '', $val);
+        // TODO, we might need to remove nouns here....
+        $this->dispvalue = $val;
+    }
+
+    public function get_dispvalue() {
+        return $this->dispvalue;
+    }
+
+    public function set_display($val) {
+        $this->display = $val;
+    }
+
+    public function get_display() {
+        return $this->display;
+    }
 }

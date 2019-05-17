@@ -232,17 +232,17 @@ class stack_cas_session {
                 }
 
                 if (array_key_exists('answernote', $result)) {
-                    $cs->set_answernote($result['answernote']);
+                    $cs->add_answernote($result['answernote']);
                 }
 
                 if (array_key_exists('feedback', $result)) {
-                    $cs->set_feedback($result['feedback']);
+                    $cs->add_feedback($result['feedback']);
                 }
 
             } else if (!$gotvalue) {
                 $errstr = stack_string("stackCas_failedReturn").' '.stack_maxima_format_casstring($cs->get_raw_casstring());
                 $cs->add_errors($errstr);
-                $cs->set_answernote('CASFailedReturn');
+                $cs->add_answernote('CASFailedReturn');
                 $newerrors .= $errstr;
             }
 
@@ -518,7 +518,7 @@ class stack_cas_session {
                 $label = $cs->get_key();
             }
 
-            $cmd = $cs->get_casstring();
+            $cmd = $cs->get_inputform();
             // Strip off any []s at the end of a variable name.
             // These are used to assign elements of lists and matrices, but this breaks Maxima's block command.
             if (false === strpos($label, '[')) {

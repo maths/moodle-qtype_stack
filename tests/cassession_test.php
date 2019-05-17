@@ -47,15 +47,13 @@ class stack_cas_session_test extends qtype_stack_testcase {
         $maximaconfig = get_config('qtype_stack', 'maximaversion');
         $this->assertEquals($maximaconfig, $maximaversion);
     }
-*/
+
     public function get_valid($cs, $val) {
 
         if (is_array($cs)) {
             $s1 = array();
             foreach ($cs as $s) {
-                $s = stack_ast_container::make_ast_container_from_student_source($s, '', new stack_cas_security(),
-                        array());
-                $s1[] = $s;
+                $s1[] = stack_ast_container::make_from_student_source($s, '', new stack_cas_security(), array());
             }
         } else {
             $s1 = null;
@@ -82,12 +80,12 @@ class stack_cas_session_test extends qtype_stack_testcase {
         }
 
     }
-/*
+*/
     public function test_get_display() {
 
         $cs = array('a:x^2', 'b:1/(1+x^2)', 'c:e^(i*pi)');
         foreach ($cs as $s) {
-            $s1[] = new stack_cas_casstring($s);
+            $s1[] = stack_ast_container::make_from_student_source($s, '', new stack_cas_security(), array());
         }
 
         $options = new stack_options();
@@ -99,7 +97,7 @@ class stack_cas_session_test extends qtype_stack_testcase {
         $this->assertEquals('e^{\mathrm{i}\cdot \pi}', $at1->get_display_key('c'));
 
     }
-
+/*
     public function test_multiplication_option_complexno_i() {
 
         $cs = array('p:a+b*%i', 'q:a+b*i', 'r:a+b*j');

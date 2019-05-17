@@ -1523,7 +1523,11 @@ class MP_Root extends MP_Node {
         $r = '';
 
         foreach ($this->items as $item) {
-            $r .= $item->toString($params) . ";\n";
+            $r .= $item->toString($params);
+        }
+
+        if (!isset($params['nosemicolon'])) {
+            $r .= ";\n";
         }
 
         return $r;

@@ -65,7 +65,17 @@ class stack_ast_container {
             $ast = $pipeline->filter($ast, $errors, $answernotes, $securitymodel);
         } 
         // It is now ready to be created.
-        return new stack_ast_container($ast, 's', $context, $securitymodel, $errors, $answernotes);
+        $astc = new self;
+        //new stack_ast_container($ast, 's', $context, $securitymodel, $errors, $answernotes);
+        $astc->ast = $ast;
+        $astc->source = 's';
+        $astc->context = $context;
+        $astc->securitymodel = $securitymodel;
+        $astc->errors = $errors;
+        $astc->answernotes = $answernotes;
+        $astc->conditions = array();
+        $astc->valid = null;
+        return $astc;
     }
 
     public static function make_ast_container_from_teacher_source(string $raw, string $context,
@@ -187,7 +197,7 @@ class stack_ast_container {
                 return false;
             }
 
-            // First check if the AST contains something markked as invalid.
+            // First check if the AST contains something marked as invalid.
             $has_invalid = false;
             $findinvalid = function($node)  use(&$has_invalid) {
                 if (isset($node->position['invalid']) && $node->position['invalid'] === true) {
@@ -198,10 +208,10 @@ class stack_ast_container {
             };
             $this->ast->callbackRecurse($findinvalid, false);
 
-            $this->valid = $has_invalid;
+            $this->valid = !$has_invalid;
 
             // Then do the whole security mess.
-            $this->valid = $this->valid && $this->check_security();
+            $this->valid = $this->valid  && $this->check_security();
         }
 
         return $this->valid;
@@ -281,7 +291,7 @@ class stack_ast_container {
     // NOTE this is the "old" one an can be pruned a bit.
     private function check_security() {
 
-        // First extract things of interest from the tree, i.e. functioncalls,
+        // First extract things of interest from the tree, i.e. function calls,
         // variable references and operations.
         $ofinterest = array();
 
@@ -528,7 +538,7 @@ class stack_ast_container {
          *   if not (know or in security-map) and case variant in security-map then false else
          *   true
          */
-
+  
         // Check for variables.
         foreach (array_keys($variables) as $name) {
             // Check for operators like 'and' if they appear as variables
@@ -541,7 +551,7 @@ class stack_ast_container {
                 continue;
             }
 
-            if ($this->contexts['units']) {
+            if (isset($this->context['units']) && $this->context['units']) {
                 // Check for unit synonyms. Ignore if specifically allowed.
                 list ($fndsynonym, $answernote, $synonymerr) = stack_cas_casstring_units::find_units_synonyms($name);
                 if ($this->source == 's' && $fndsynonym && !$this->securitymodel->is_allowed_word($name)) {
@@ -619,6 +629,7 @@ class stack_ast_container {
                 }
             }
         }
+        return true;
     }
 
 }

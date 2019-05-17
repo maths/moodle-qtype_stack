@@ -62,6 +62,7 @@ class stack_cas_session_test extends qtype_stack_testcase {
         }
 
         $at1 = new stack_cas_session($s1);
+        $at1->get_valid();
         $this->assertEquals($val, $at1->get_valid());
     }
 
@@ -81,7 +82,7 @@ class stack_cas_session_test extends qtype_stack_testcase {
         }
 
     }
-
+/*
     public function test_get_display() {
 
         $cs = array('a:x^2', 'b:1/(1+x^2)', 'c:e^(i*pi)');
@@ -1512,5 +1513,5 @@ class stack_cas_session_test extends qtype_stack_testcase {
             $i++;
         }
     }
-
+*/
 }

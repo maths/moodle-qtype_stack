@@ -2110,6 +2110,7 @@ FacFormfun(SA, SB, SO) := block([val, rawmk, ansnote, fb, ret, deg, aequiv, up, 
         fb: StackAddFeedback("", "ATFacForm_error_degreeSA")
         ),
     aequiv:algebraic_equivalence(SA, SB),
+    SA:flatten(SA),
     /* An integer answer is always correct. */
     if (integerp(SA)) then
         if (SA=SB) then

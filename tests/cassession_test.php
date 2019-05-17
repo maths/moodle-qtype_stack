@@ -55,13 +55,13 @@ class stack_cas_session_test extends qtype_stack_testcase {
             foreach ($cs as $s) {
                 $s = stack_ast_container::make_ast_container_from_student_source($s, '', new stack_cas_security(),
                         array());
-                $at1= $s;
+                $s1[] = $s;
             }
         } else {
             $s1 = null;
         }
 
-        //$at1 = new stack_cas_session($s1);
+        $at1 = new stack_cas_session($s1);
         $this->assertEquals($val, $at1->get_valid());
     }
 

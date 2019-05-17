@@ -23,6 +23,7 @@ defined('MOODLE_INTERNAL') || die();
 // @copyright  2012 The University of Birmingham.
 // @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
 
+require_once('ast.container.class.php');
 require_once('casstring.class.php');
 require_once('connectorhelper.class.php');
 require_once(__DIR__ . '/../options.class.php');
@@ -148,13 +149,13 @@ class stack_cas_session {
     private function validate_array($cmd) {
         $valid  = true;
         foreach ($cmd as $key => $val) {
-            if (is_a($val, 'stack_cas_casstring')) {
+            if (is_a($val, 'stack_ast_container')) {
                 if (!$val->get_valid()) {
                     $valid = false;
                     $this->errors .= $val->get_errors();
                 }
             } else {
-                throw new stack_exception('stack_cas_session: $session must be null or an array of stack_cas_casstring.');
+                throw new stack_exception('stack_cas_session: $session must be null or an array of stack_ast_container.');
             }
         }
         return $valid;
@@ -204,7 +205,8 @@ class stack_cas_session {
 
                 if ('' != $result['error'] and false === strstr($result['error'], 'clipped')) {
                     $cs->add_errors($result['error']);
-                    $cs->decode_maxima_errors($result['error']);
+                    // TODO: reinstate this.
+                    //$cs->decode_maxima_errors($result['error']);
                     $newerrors .= stack_maxima_format_casstring($cs->get_raw_casstring());
                     $newerrors .= ' '.stack_string("stackCas_CASErrorCaused") .
                             ' ' . $result['error'] . ' ';

@@ -31,7 +31,7 @@ require_once(__DIR__ . '/../stack/cas/keyval.class.php');
  * @group qtype_stack
  */
 class stack_cas_session_test extends qtype_stack_testcase {
-
+/*
     public function test_internal_config() {
         // This test checks if the version number returned by Maxima matches our internal config.
         $cs = array('m:MAXIMA_VERSION_NUM');
@@ -47,19 +47,21 @@ class stack_cas_session_test extends qtype_stack_testcase {
         $maximaconfig = get_config('qtype_stack', 'maximaversion');
         $this->assertEquals($maximaconfig, $maximaversion);
     }
-
+*/
     public function get_valid($cs, $val) {
 
         if (is_array($cs)) {
             $s1 = array();
             foreach ($cs as $s) {
-                $s1[] = new stack_cas_casstring($s);
+                $s = stack_ast_container::make_ast_container_from_student_source($s, '', new stack_cas_security(),
+                        array());
+                $at1= $s;
             }
         } else {
             $s1 = null;
         }
 
-        $at1 = new stack_cas_session($s1);
+        //$at1 = new stack_cas_session($s1);
         $this->assertEquals($val, $at1->get_valid());
     }
 
@@ -1510,4 +1512,5 @@ class stack_cas_session_test extends qtype_stack_testcase {
             $i++;
         }
     }
+
 }

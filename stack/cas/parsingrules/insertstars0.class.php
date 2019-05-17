@@ -1,4 +1,4 @@
-<?php
+<?php // TO BE DELETED
 // This file is part of Stack - http://stack.maths.ed.ac.uk/
 //
 // Stack is free software: you can redistribute it and/or modify

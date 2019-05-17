@@ -1,0 +1,62 @@
+<?php
+
+
+require_once(__DIR__ . '/filter.interface.php');
+require_once(__DIR__ . '/pipeline.class.php');
+
+
+require_once(__DIR__ . '/002_log_candy.php');
+require_once(__DIR__ . '/010_single_char_vars.php');
+require_once(__DIR__ . '/040_common_function_name_multiplier.php');
+require_once(__DIR__ . '/041_no_functions.php');
+require_once(__DIR__ . '/042_no_functions_at_all.php');
+require_once(__DIR__ . '/043_no_calling_function_returns.php');
+require_once(__DIR__ . '/050_split_floats.php');
+require_once(__DIR__ . '/051_no_floats.php');
+require_once(__DIR__ . '/999_strict.php');
+
+
+
+/**
+ * Unlike some other factories in STACK the parsing rule factory does not
+ * try to find rules from the filesystem automatically, and rules must be
+ * declared by hardcoding here. In the get_by_common_name function.
+ */
+class stack_parsing_rule_factory {
+
+	private static $singletons = array();
+
+	public static function get_by_common_name(string $name): stack_cas_astfilter {
+		if (empty(self::$singletons)) {
+			// If the static set has not been initialised do so.
+			self::$singletons['002_log_candy'] = new stack_ast_log_candy_002();
+			self::$singletons['010_single_char_vars'] = new stack_ast_filter_single_char_vars_010();
+			self::$singletons['040_common_function_name_multiplier'] = new stack_ast_common_function_name_multiplier_040();
+			self::$singletons['041_no_functions'] = new stack_ast_filter_no_functions_041();
+			self::$singletons['042_no_functions_at_all'] = new stack_ast_filter_no_functions_at_all_042();
+			self::$singletons['043_no_calling_function_returns'] = new stack_ast_filter_no_calling_function_returns_43();
+			self::$singletons['050_split_floats'] = new stack_ast_filter_split_floats_050();
+			self::$singletons['051_no_floats'] = new stack_ast_filter_no_floats_051();
+			self::$singletons['999_strict'] = new stack_ast_filter_strict_999();
+		}
+		return self::$singletons[$name];
+	}
+
+	public static function get_filter_pipeline(array $active_filters, bool $include_core=true): stack_cas_astfilter {
+		$to_be_included = array();
+		if ($include_core === true) {
+			// This would be simpler when we rename the filters so that for example 
+			// everything with number in the range 000-099 is core, then we could simply
+			// include them from the keys of self::$singletons...
+			$to_be_included['002_log_candy'] = self::get_by_common_name('002_log_candy');
+		}
+		foreach ($active_filters as $value) {
+			$to_be_included[$value] = self::get_by_common_name($value);
+		}
+		// Sort them into order.
+		ksort($to_be_included);
+		// And return the combination filter.
+		return new stack_ast_filter_pipeline($to_be_included);
+	}
+
+}

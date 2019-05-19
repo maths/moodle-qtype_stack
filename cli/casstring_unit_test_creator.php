@@ -17,7 +17,7 @@
 /**
  * A command-line script for generating unit tests to freeze the behaviour
  * of casstring parsing process for all possible combinations of settings.
- * 
+ *
  * This tool generates a full test suite as its standard output, pipe that
  * where ever you want.
  *
@@ -35,7 +35,7 @@
  *  5. ... with forbid keys if defined.
  *  6. ... with all those if more than one defined.
  *  7. 2-6 with units enabled.
- * 
+ *
  * In the future this tool could be extended to include more combinations.
  *
  * @package   qtype_stack
@@ -49,11 +49,11 @@ require_once($CFG->libdir . '/clilib.php');
 require_once(__DIR__ . '/../stack/cas/casstring.class.php');
 require_once(__DIR__ . '/../stack/cas/cassecurity.class.php');
 
-list($options, $unrecognized) = cli_get_params(array('help' => false, 
-													 'string' => '1+2x', 
-													 'allow' => '', 
-													 'forbid' => '', 
-													 'keys' => ''),
+list($options, $unrecognized) = cli_get_params(array('help' => false,
+                                                     'string' => '1+2x',
+                                                     'allow' => '',
+                                                     'forbid' => '',
+                                                     'keys' => ''),
     array('h' => 'help'));
 if ($unrecognized) {
     $unrecognized = implode("\n  ", $unrecognized);
@@ -79,7 +79,6 @@ $indent = '    ';
 $indent2 = $indent . $indent;
 $out = '<?' . 'php' . $nl;
 
-
 $teststring = '1+2x';
 if (isset($options['string'])) {
     $teststring = $options['string'];
@@ -101,7 +100,7 @@ if (isset($options['keys'])) {
 // We need to come up with a "unique" name for the test class.
 $testidentifier = hash('crc32', $teststring);
 
-// We assume that whatever is generated goes into the question/type/stack//tests/ 
+// We assume that whatever is generated goes into the question/type/stack//tests/
 // directory and no deepper, if and probably when otherwise modify the following bit.
 $out .= <<<ESCAPE
 // This file is part of Stack - http://stack.maths.ed.ac.uk/
@@ -130,10 +129,10 @@ ESCAPE;
 
 $out .= '// Using input \'' . $teststring . '\'' . $nl;
 if ($allow !== '') {
-	$out .= '// Using allow \'' . $allow . '\'' . $nl;
+    $out .= '// Using allow \'' . $allow . '\'' . $nl;
 }
 if ($forbid !== '') {
-	$out .= '// Using forbid \'' . $forbid . '\'' . $nl;
+    $out .= '// Using forbid \'' . $forbid . '\'' . $nl;
 }
 
 $out .= <<<ESCAPE
@@ -149,25 +148,25 @@ ESCAPE;
 
 $out .= 'class stack_cas_casstring_' . $testidentifier . '_test extends basic_testcase {' . $nl;
 
-// Lets store the common teststring. and other bits as static variables 
+// Lets store the common teststring. and other bits as static variables
 // of the test class, note we use this string representation to overcome all
-// possible escape issues, except of course ^ESCAPE... also works for 
+// possible escape issues, except of course ^ESCAPE... also works for
 // parsing in these test files, for analysis...
 
 $out .= $indent . 'static $teststring = <<<\'ESCAPESTRING\'' . $nl .
-			$teststring . $nl . 'ESCAPESTRING;' . $nl;
+            $teststring . $nl . 'ESCAPESTRING;' . $nl;
 
 if ($allow !== '') {
-	$out .= $indent . 'static $allow = <<<\'ESCAPEALLOW\'' . $nl .
-				$allow . $nl . 'ESCAPEALLOW;' . $nl;
+    $out .= $indent . 'static $allow = <<<\'ESCAPEALLOW\'' . $nl .
+                $allow . $nl . 'ESCAPEALLOW;' . $nl;
 }
 if ($forbid !== '') {
-	$out .= $indent . 'static $forbid = <<<\'ESCAPEFORBID\'' . $nl .
-				$forbid . $nl . 'ESCAPEFORBID;' . $nl;
+    $out .= $indent . 'static $forbid = <<<\'ESCAPEFORBID\'' . $nl .
+                $forbid . $nl . 'ESCAPEFORBID;' . $nl;
 }
 // Lets assume that the keys if defined are better defined.
 if (count($keys) > 0) {
-	$out .= $indent . 'static $keys = array(\'' . implode('\', \'', array_map('addslashes', $keys)) . '\');' . $nl;
+    $out .= $indent . 'static $keys = array(\'' . implode('\', \'', array_map('addslashes', $keys)) . '\');' . $nl;
 }
 
 // First the check against teacher rights.
@@ -177,354 +176,353 @@ $out .= $nl . $indent . 'public function test_teacher() {';
 $out .= $nl . $indent2 . '$cs = new stack_cas_casstring(self::$teststring);';
 
 if ($cs->get_valid('t')) {
-	$out .= $nl . $indent2 . '$this->assertTrue($cs->get_valid(\'t\'));';
-	$out .= $nl . $indent2 . '$presentation = <<<\'ESCAPEDEBUG\'' . $nl;
-	$out .= $cs->ast->debugPrint($teststring);
-	$out .= $nl . 'ESCAPEDEBUG;';
-	$out .= $nl . $indent2 . '$this->assertEquals($presentation, $cs->ast->debugPrint(self::$teststring));';
-	$out .= $nl . $indent2 . '$this->assertEquals(\'' . $cs->get_casstring() . '\', $cs->get_casstring());';
+    $out .= $nl . $indent2 . '$this->assertTrue($cs->get_valid(\'t\'));';
+    $out .= $nl . $indent2 . '$presentation = <<<\'ESCAPEDEBUG\'' . $nl;
+    $out .= $cs->ast->debugPrint($teststring);
+    $out .= $nl . 'ESCAPEDEBUG;';
+    $out .= $nl . $indent2 . '$this->assertEquals($presentation, $cs->ast->debugPrint(self::$teststring));';
+    $out .= $nl . $indent2 . '$this->assertEquals(\'' . $cs->get_casstring() . '\', $cs->get_casstring());';
 } else {
-	$out .= $nl . $indent2 . '$this->assertFalse($cs->get_valid(\'t\'));';
-	// In all cases if it is invalid there must be some error messages.
-	$out .= $nl . $indent2 . '$this->assertTrue(count($cs->get_errors(true)) > 0);';
+    $out .= $nl . $indent2 . '$this->assertFalse($cs->get_valid(\'t\'));';
+    // In all cases if it is invalid there must be some error messages.
+    $out .= $nl . $indent2 . '$this->assertTrue(count($cs->get_errors(true)) > 0);';
 }
 
 foreach ($cs->get_answernote(true) as $note) {
-	$out .= $nl . $indent2 . '$this->assertContains(\'' . addslashes($note) . '\', $cs->get_answernote(true));';	
+    $out .= $nl . $indent2 . '$this->assertContains(\'' . addslashes($note) . '\', $cs->get_answernote(true));';
 }
 
 $out .= $nl . $indent .'}';
 
 // Then the insert stars with default settings.
 for ($is = 0; $is <= 5; $is++) {
-	$out .= $nl . $nl . $indent . 'public function test_insert_stars_' . $is . '_defaults() {';
-	$out .= $nl . $indent2 . '$cs = new stack_cas_casstring(self::$teststring);';
-	$cs = new stack_cas_casstring($teststring);
+    $out .= $nl . $nl . $indent . 'public function test_insert_stars_' . $is . '_defaults() {';
+    $out .= $nl . $indent2 . '$cs = new stack_cas_casstring(self::$teststring);';
+    $cs = new stack_cas_casstring($teststring);
 
-	if ($cs->get_valid('s', true, $is)) {
-		$out .= $nl . $indent2 . '$this->assertTrue($cs->get_valid(\'s\', true, ' . $is . '));';
-		$out .= $nl . $indent2 . '$presentation = <<<\'ESCAPEDEBUG\'' . $nl;
-		$out .= $cs->ast->debugPrint($teststring);
-		$out .= $nl . 'ESCAPEDEBUG;';
-		$out .= $nl . $indent2 . '$this->assertEquals($presentation, $cs->ast->debugPrint(self::$teststring));';
-		$out .= $nl . $indent2 . '$this->assertEquals(\'' . $cs->get_casstring() . '\', $cs->get_casstring());';
-	} else {
-		$out .= $nl . $indent2 . '$this->assertFalse($cs->get_valid(\'s\', true, ' . $is . '));';
-		// In all cases if it is invalid there must be some error messages.
-		$out .= $nl . $indent2 . '$this->assertTrue(count($cs->get_errors(true)) > 0);';
-	}
+    if ($cs->get_valid('s', true, $is)) {
+        $out .= $nl . $indent2 . '$this->assertTrue($cs->get_valid(\'s\', true, ' . $is . '));';
+        $out .= $nl . $indent2 . '$presentation = <<<\'ESCAPEDEBUG\'' . $nl;
+        $out .= $cs->ast->debugPrint($teststring);
+        $out .= $nl . 'ESCAPEDEBUG;';
+        $out .= $nl . $indent2 . '$this->assertEquals($presentation, $cs->ast->debugPrint(self::$teststring));';
+        $out .= $nl . $indent2 . '$this->assertEquals(\'' . $cs->get_casstring() . '\', $cs->get_casstring());';
+    } else {
+        $out .= $nl . $indent2 . '$this->assertFalse($cs->get_valid(\'s\', true, ' . $is . '));';
+        // In all cases if it is invalid there must be some error messages.
+        $out .= $nl . $indent2 . '$this->assertTrue(count($cs->get_errors(true)) > 0);';
+    }
 
-	foreach ($cs->get_answernote(true) as $note) {
-		$out .= $nl . $indent2 . '$this->assertContains(\'' . addslashes($note) . '\', $cs->get_answernote(true));';	
-	}
+    foreach ($cs->get_answernote(true) as $note) {
+        $out .= $nl . $indent2 . '$this->assertContains(\'' . addslashes($note) . '\', $cs->get_answernote(true));';
+    }
 
-	$out .= $nl . $indent .'}';
+    $out .= $nl . $indent .'}';
 }
 
 // Then the insert stars with units.
 for ($is = 0; $is <= 5; $is++) {
-	$out .= $nl . $nl . $indent . 'public function test_insert_stars_' . $is . '_units() {';
-	$out .= $nl . $indent2 . '$cs = new stack_cas_casstring(self::$teststring);';
-	$out .= $nl . $indent2 . '$cs->set_context(\'units\', true);';
-	$cs = new stack_cas_casstring($teststring);
-	$cs->set_context('units', true);
+    $out .= $nl . $nl . $indent . 'public function test_insert_stars_' . $is . '_units() {';
+    $out .= $nl . $indent2 . '$cs = new stack_cas_casstring(self::$teststring);';
+    $out .= $nl . $indent2 . '$cs->set_context(\'units\', true);';
+    $cs = new stack_cas_casstring($teststring);
+    $cs->set_context('units', true);
 
-	if ($cs->get_valid('s', true, $is)) {
-		$out .= $nl . $indent2 . '$this->assertTrue($cs->get_valid(\'s\', true, ' . $is . '));';
-		$out .= $nl . $indent2 . '$presentation = <<<\'ESCAPEDEBUG\'' . $nl;
-		$out .= $cs->ast->debugPrint($teststring);
-		$out .= $nl . 'ESCAPEDEBUG;';
-		$out .= $nl . $indent2 . '$this->assertEquals($presentation, $cs->ast->debugPrint(self::$teststring));';
-		$out .= $nl . $indent2 . '$this->assertEquals(\'' . $cs->get_casstring() . '\', $cs->get_casstring());';
-	} else {
-		$out .= $nl . $indent2 . '$this->assertFalse($cs->get_valid(\'s\', true, ' . $is . '));';
-		// In all cases if it is invalid there must be some error messages.
-		$out .= $nl . $indent2 . '$this->assertTrue(count($cs->get_errors(true)) > 0);';
-	}
+    if ($cs->get_valid('s', true, $is)) {
+        $out .= $nl . $indent2 . '$this->assertTrue($cs->get_valid(\'s\', true, ' . $is . '));';
+        $out .= $nl . $indent2 . '$presentation = <<<\'ESCAPEDEBUG\'' . $nl;
+        $out .= $cs->ast->debugPrint($teststring);
+        $out .= $nl . 'ESCAPEDEBUG;';
+        $out .= $nl . $indent2 . '$this->assertEquals($presentation, $cs->ast->debugPrint(self::$teststring));';
+        $out .= $nl . $indent2 . '$this->assertEquals(\'' . $cs->get_casstring() . '\', $cs->get_casstring());';
+    } else {
+        $out .= $nl . $indent2 . '$this->assertFalse($cs->get_valid(\'s\', true, ' . $is . '));';
+        // In all cases if it is invalid there must be some error messages.
+        $out .= $nl . $indent2 . '$this->assertTrue(count($cs->get_errors(true)) > 0);';
+    }
 
-	foreach ($cs->get_answernote(true) as $note) {
-		$out .= $nl . $indent2 . '$this->assertContains(\'' . addslashes($note) . '\', $cs->get_answernote(true));';	
-	}
+    foreach ($cs->get_answernote(true) as $note) {
+        $out .= $nl . $indent2 . '$this->assertContains(\'' . addslashes($note) . '\', $cs->get_answernote(true));';
+    }
 
-	$out .= $nl . $indent .'}';
+    $out .= $nl . $indent .'}';
 }
 
 // Then the same for allow if defined.
 if ($allow !== '') {
-	// Insert stars with default settings.
-	for ($is = 0; $is <= 5; $is++) {
-		$out .= $nl . $nl . $indent . 'public function test_insert_stars_' . $is . '_defaults_allow() {';
-		$out .= $nl . $indent2 . '$cs = new stack_cas_casstring(self::$teststring);';
-		$out .= $nl . $indent2 . '$security = new stack_cas_security(false, self::$allow);';
-		$security = new stack_cas_security(false, $allow);
+    // Insert stars with default settings.
+    for ($is = 0; $is <= 5; $is++) {
+        $out .= $nl . $nl . $indent . 'public function test_insert_stars_' . $is . '_defaults_allow() {';
+        $out .= $nl . $indent2 . '$cs = new stack_cas_casstring(self::$teststring);';
+        $out .= $nl . $indent2 . '$security = new stack_cas_security(false, self::$allow);';
+        $security = new stack_cas_security(false, $allow);
 
-		$cs = new stack_cas_casstring($teststring);
+        $cs = new stack_cas_casstring($teststring);
 
-		if ($cs->get_valid('s', true, $is, $security)) {
-			$out .= $nl . $indent2 . '$this->assertTrue($cs->get_valid(\'s\', true, ' . $is . ', $security));';
-			$out .= $nl . $indent2 . '$presentation = <<<\'ESCAPEDEBUG\'' . $nl;
-			$out .= $cs->ast->debugPrint($teststring);
-			$out .= $nl . 'ESCAPEDEBUG;';
-			$out .= $nl . $indent2 . '$this->assertEquals($presentation, $cs->ast->debugPrint(self::$teststring));';
-			$out .= $nl . $indent2 . '$this->assertEquals(\'' . $cs->get_casstring() . '\', $cs->get_casstring());';
-		} else {
-			$out .= $nl . $indent2 . '$this->assertFalse($cs->get_valid(\'s\', true, ' . $is . ', $security));';
-			// In all cases if it is invalid there must be some error messages.
-			$out .= $nl . $indent2 . '$this->assertTrue(count($cs->get_errors(true)) > 0);';
-		}
+        if ($cs->get_valid('s', true, $is, $security)) {
+            $out .= $nl . $indent2 . '$this->assertTrue($cs->get_valid(\'s\', true, ' . $is . ', $security));';
+            $out .= $nl . $indent2 . '$presentation = <<<\'ESCAPEDEBUG\'' . $nl;
+            $out .= $cs->ast->debugPrint($teststring);
+            $out .= $nl . 'ESCAPEDEBUG;';
+            $out .= $nl . $indent2 . '$this->assertEquals($presentation, $cs->ast->debugPrint(self::$teststring));';
+            $out .= $nl . $indent2 . '$this->assertEquals(\'' . $cs->get_casstring() . '\', $cs->get_casstring());';
+        } else {
+            $out .= $nl . $indent2 . '$this->assertFalse($cs->get_valid(\'s\', true, ' . $is . ', $security));';
+            // In all cases if it is invalid there must be some error messages.
+            $out .= $nl . $indent2 . '$this->assertTrue(count($cs->get_errors(true)) > 0);';
+        }
 
-		foreach ($cs->get_answernote(true) as $note) {
-			$out .= $nl . $indent2 . '$this->assertContains(\'' . addslashes($note) . '\', $cs->get_answernote(true));';	
-		}
+        foreach ($cs->get_answernote(true) as $note) {
+            $out .= $nl . $indent2 . '$this->assertContains(\'' . addslashes($note) . '\', $cs->get_answernote(true));';
+        }
 
-		$out .= $nl . $indent .'}';
-	}
+        $out .= $nl . $indent .'}';
+    }
 
-	// Insert stars with units.
-	for ($is = 0; $is <= 5; $is++) {
-		$out .= $nl . $nl . $indent . 'public function test_insert_stars_' . $is . '_units_allow() {';
-		$out .= $nl . $indent2 . '$cs = new stack_cas_casstring(self::$teststring);';
-		$out .= $nl . $indent2 . '$security = new stack_cas_security(true, self::$allow);';
-		$out .= $nl . $indent2 . '$cs->set_context(\'units\', true);';
-		$security = new stack_cas_security(true, $allow);
+    // Insert stars with units.
+    for ($is = 0; $is <= 5; $is++) {
+        $out .= $nl . $nl . $indent . 'public function test_insert_stars_' . $is . '_units_allow() {';
+        $out .= $nl . $indent2 . '$cs = new stack_cas_casstring(self::$teststring);';
+        $out .= $nl . $indent2 . '$security = new stack_cas_security(true, self::$allow);';
+        $out .= $nl . $indent2 . '$cs->set_context(\'units\', true);';
+        $security = new stack_cas_security(true, $allow);
 
-		$cs = new stack_cas_casstring($teststring);
-		$cs->set_context('units', true);
+        $cs = new stack_cas_casstring($teststring);
+        $cs->set_context('units', true);
 
-		if ($cs->get_valid('s', true, $is, $security)) {
-			$out .= $nl . $indent2 . '$this->assertTrue($cs->get_valid(\'s\', true, ' . $is . ', $security));';
-			$out .= $nl . $indent2 . '$presentation = <<<\'ESCAPEDEBUG\'' . $nl;
-			$out .= $cs->ast->debugPrint($teststring);
-			$out .= $nl . 'ESCAPEDEBUG;';
-			$out .= $nl . $indent2 . '$this->assertEquals($presentation, $cs->ast->debugPrint(self::$teststring));';
-			$out .= $nl . $indent2 . '$this->assertEquals(\'' . $cs->get_casstring() . '\', $cs->get_casstring());';
-		} else {
-			$out .= $nl . $indent2 . '$this->assertFalse($cs->get_valid(\'s\', true, ' . $is . ', $security));';
-			// In all cases if it is invalid there must be some error messages.
-			$out .= $nl . $indent2 . '$this->assertTrue(count($cs->get_errors(true)) > 0);';
-		}
+        if ($cs->get_valid('s', true, $is, $security)) {
+            $out .= $nl . $indent2 . '$this->assertTrue($cs->get_valid(\'s\', true, ' . $is . ', $security));';
+            $out .= $nl . $indent2 . '$presentation = <<<\'ESCAPEDEBUG\'' . $nl;
+            $out .= $cs->ast->debugPrint($teststring);
+            $out .= $nl . 'ESCAPEDEBUG;';
+            $out .= $nl . $indent2 . '$this->assertEquals($presentation, $cs->ast->debugPrint(self::$teststring));';
+            $out .= $nl . $indent2 . '$this->assertEquals(\'' . $cs->get_casstring() . '\', $cs->get_casstring());';
+        } else {
+            $out .= $nl . $indent2 . '$this->assertFalse($cs->get_valid(\'s\', true, ' . $is . ', $security));';
+            // In all cases if it is invalid there must be some error messages.
+            $out .= $nl . $indent2 . '$this->assertTrue(count($cs->get_errors(true)) > 0);';
+        }
 
-		foreach ($cs->get_answernote(true) as $note) {
-			$out .= $nl . $indent2 . '$this->assertContains(\'' . addslashes($note) . '\', $cs->get_answernote(true));';	
-		}
+        foreach ($cs->get_answernote(true) as $note) {
+            $out .= $nl . $indent2 . '$this->assertContains(\'' . addslashes($note) . '\', $cs->get_answernote(true));';
+        }
 
-		$out .= $nl . $indent .'}';
-	}	
+        $out .= $nl . $indent .'}';
+    }
 }
 
 // Then the same for forbid if defined.
 if ($forbid !== '') {
-	// Insert stars with default settings.
-	for ($is = 0; $is <= 5; $is++) {
-		$out .= $nl . $nl . $indent . 'public function test_insert_stars_' . $is . '_defaults_forbid() {';
-		$out .= $nl . $indent2 . '$cs = new stack_cas_casstring(self::$teststring);';
-		$out .= $nl . $indent2 . '$security = new stack_cas_security(false, \'\', self::$forbid);';
-		$security = new stack_cas_security(false, '', $forbid);
+    // Insert stars with default settings.
+    for ($is = 0; $is <= 5; $is++) {
+        $out .= $nl . $nl . $indent . 'public function test_insert_stars_' . $is . '_defaults_forbid() {';
+        $out .= $nl . $indent2 . '$cs = new stack_cas_casstring(self::$teststring);';
+        $out .= $nl . $indent2 . '$security = new stack_cas_security(false, \'\', self::$forbid);';
+        $security = new stack_cas_security(false, '', $forbid);
 
-		$cs = new stack_cas_casstring($teststring);
+        $cs = new stack_cas_casstring($teststring);
 
-		if ($cs->get_valid('s', true, $is, $security)) {
-			$out .= $nl . $indent2 . '$this->assertTrue($cs->get_valid(\'s\', true, ' . $is . ', $security));';
-			$out .= $nl . $indent2 . '$presentation = <<<\'ESCAPEDEBUG\'' . $nl;
-			$out .= $cs->ast->debugPrint($teststring);
-			$out .= $nl . 'ESCAPEDEBUG;';
-			$out .= $nl . $indent2 . '$this->assertEquals($presentation, $cs->ast->debugPrint(self::$teststring));';
-			$out .= $nl . $indent2 . '$this->assertEquals(\'' . $cs->get_casstring() . '\', $cs->get_casstring());';
-		} else {
-			$out .= $nl . $indent2 . '$this->assertFalse($cs->get_valid(\'s\', true, ' . $is . ', $security));';
-			// In all cases if it is invalid there must be some error messages.
-			$out .= $nl . $indent2 . '$this->assertTrue(count($cs->get_errors(true)) > 0);';
-		}
+        if ($cs->get_valid('s', true, $is, $security)) {
+            $out .= $nl . $indent2 . '$this->assertTrue($cs->get_valid(\'s\', true, ' . $is . ', $security));';
+            $out .= $nl . $indent2 . '$presentation = <<<\'ESCAPEDEBUG\'' . $nl;
+            $out .= $cs->ast->debugPrint($teststring);
+            $out .= $nl . 'ESCAPEDEBUG;';
+            $out .= $nl . $indent2 . '$this->assertEquals($presentation, $cs->ast->debugPrint(self::$teststring));';
+            $out .= $nl . $indent2 . '$this->assertEquals(\'' . $cs->get_casstring() . '\', $cs->get_casstring());';
+        } else {
+            $out .= $nl . $indent2 . '$this->assertFalse($cs->get_valid(\'s\', true, ' . $is . ', $security));';
+            // In all cases if it is invalid there must be some error messages.
+            $out .= $nl . $indent2 . '$this->assertTrue(count($cs->get_errors(true)) > 0);';
+        }
 
-		foreach ($cs->get_answernote(true) as $note) {
-			$out .= $nl . $indent2 . '$this->assertContains(\'' . addslashes($note) . '\', $cs->get_answernote(true));';	
-		}
+        foreach ($cs->get_answernote(true) as $note) {
+            $out .= $nl . $indent2 . '$this->assertContains(\'' . addslashes($note) . '\', $cs->get_answernote(true));';
+        }
 
-		$out .= $nl . $indent .'}';
-	}
+        $out .= $nl . $indent .'}';
+    }
 
-	// Insert stars with units.
-	for ($is = 0; $is <= 5; $is++) {
-		$out .= $nl . $nl . $indent . 'public function test_insert_stars_' . $is . '_units_forbid() {';
-		$out .= $nl . $indent2 . '$cs = new stack_cas_casstring(self::$teststring);';
-		$out .= $nl . $indent2 . '$security = new stack_cas_security(true, \'\', self::$forbid);';
-		$out .= $nl . $indent2 . '$cs->set_context(\'units\', true);';
-		$security = new stack_cas_security(true, '', $forbid);
+    // Insert stars with units.
+    for ($is = 0; $is <= 5; $is++) {
+        $out .= $nl . $nl . $indent . 'public function test_insert_stars_' . $is . '_units_forbid() {';
+        $out .= $nl . $indent2 . '$cs = new stack_cas_casstring(self::$teststring);';
+        $out .= $nl . $indent2 . '$security = new stack_cas_security(true, \'\', self::$forbid);';
+        $out .= $nl . $indent2 . '$cs->set_context(\'units\', true);';
+        $security = new stack_cas_security(true, '', $forbid);
 
-		$cs = new stack_cas_casstring($teststring);
-		$cs->set_context('units', true);
+        $cs = new stack_cas_casstring($teststring);
+        $cs->set_context('units', true);
 
-		if ($cs->get_valid('s', true, $is, $security)) {
-			$out .= $nl . $indent2 . '$this->assertTrue($cs->get_valid(\'s\', true, ' . $is . ', $security));';
-			$out .= $nl . $indent2 . '$presentation = <<<\'ESCAPEDEBUG\'' . $nl;
-			$out .= $cs->ast->debugPrint($teststring);
-			$out .= $nl . 'ESCAPEDEBUG;';
-			$out .= $nl . $indent2 . '$this->assertEquals($presentation, $cs->ast->debugPrint(self::$teststring));';
-			$out .= $nl . $indent2 . '$this->assertEquals(\'' . $cs->get_casstring() . '\', $cs->get_casstring());';
-		} else {
-			$out .= $nl . $indent2 . '$this->assertFalse($cs->get_valid(\'s\', true, ' . $is . ', $security));';
-			// In all cases if it is invalid there must be some error messages.
-			$out .= $nl . $indent2 . '$this->assertTrue(count($cs->get_errors(true)) > 0);';
-		}
+        if ($cs->get_valid('s', true, $is, $security)) {
+            $out .= $nl . $indent2 . '$this->assertTrue($cs->get_valid(\'s\', true, ' . $is . ', $security));';
+            $out .= $nl . $indent2 . '$presentation = <<<\'ESCAPEDEBUG\'' . $nl;
+            $out .= $cs->ast->debugPrint($teststring);
+            $out .= $nl . 'ESCAPEDEBUG;';
+            $out .= $nl . $indent2 . '$this->assertEquals($presentation, $cs->ast->debugPrint(self::$teststring));';
+            $out .= $nl . $indent2 . '$this->assertEquals(\'' . $cs->get_casstring() . '\', $cs->get_casstring());';
+        } else {
+            $out .= $nl . $indent2 . '$this->assertFalse($cs->get_valid(\'s\', true, ' . $is . ', $security));';
+            // In all cases if it is invalid there must be some error messages.
+            $out .= $nl . $indent2 . '$this->assertTrue(count($cs->get_errors(true)) > 0);';
+        }
 
-		foreach ($cs->get_answernote(true) as $note) {
-			$out .= $nl . $indent2 . '$this->assertContains(\'' . addslashes($note) . '\', $cs->get_answernote(true));';	
-		}
+        foreach ($cs->get_answernote(true) as $note) {
+            $out .= $nl . $indent2 . '$this->assertContains(\'' . addslashes($note) . '\', $cs->get_answernote(true));';
+        }
 
-		$out .= $nl . $indent .'}';
-	}	
+        $out .= $nl . $indent .'}';
+    }
 }
 
 // Keys...
 if (count($keys) > 0) {
-	// Insert stars with default settings.
-	for ($is = 0; $is <= 5; $is++) {
-		$out .= $nl . $nl . $indent . 'public function test_insert_stars_' . $is . '_defaults_keys() {';
-		$out .= $nl . $indent2 . '$cs = new stack_cas_casstring(self::$teststring);';
-		$out .= $nl . $indent2 . '$security = new stack_cas_security(false, \'\', \'\', self::$keys);';
-		$security = new stack_cas_security(false, '', '', $keys);
+    // Insert stars with default settings.
+    for ($is = 0; $is <= 5; $is++) {
+        $out .= $nl . $nl . $indent . 'public function test_insert_stars_' . $is . '_defaults_keys() {';
+        $out .= $nl . $indent2 . '$cs = new stack_cas_casstring(self::$teststring);';
+        $out .= $nl . $indent2 . '$security = new stack_cas_security(false, \'\', \'\', self::$keys);';
+        $security = new stack_cas_security(false, '', '', $keys);
 
-		$cs = new stack_cas_casstring($teststring);
+        $cs = new stack_cas_casstring($teststring);
 
-		if ($cs->get_valid('s', true, $is, $security)) {
-			$out .= $nl . $indent2 . '$this->assertTrue($cs->get_valid(\'s\', true, ' . $is . ', $security));';
-			$out .= $nl . $indent2 . '$presentation = <<<\'ESCAPEDEBUG\'' . $nl;
-			$out .= $cs->ast->debugPrint($teststring);
-			$out .= $nl . 'ESCAPEDEBUG;';
-			$out .= $nl . $indent2 . '$this->assertEquals($presentation, $cs->ast->debugPrint(self::$teststring));';
-			$out .= $nl . $indent2 . '$this->assertEquals(\'' . $cs->get_casstring() . '\', $cs->get_casstring());';
-		} else {
-			$out .= $nl . $indent2 . '$this->assertFalse($cs->get_valid(\'s\', true, ' . $is . ', $security));';
-			// In all cases if it is invalid there must be some error messages.
-			$out .= $nl . $indent2 . '$this->assertTrue(count($cs->get_errors(true)) > 0);';
-		}
+        if ($cs->get_valid('s', true, $is, $security)) {
+            $out .= $nl . $indent2 . '$this->assertTrue($cs->get_valid(\'s\', true, ' . $is . ', $security));';
+            $out .= $nl . $indent2 . '$presentation = <<<\'ESCAPEDEBUG\'' . $nl;
+            $out .= $cs->ast->debugPrint($teststring);
+            $out .= $nl . 'ESCAPEDEBUG;';
+            $out .= $nl . $indent2 . '$this->assertEquals($presentation, $cs->ast->debugPrint(self::$teststring));';
+            $out .= $nl . $indent2 . '$this->assertEquals(\'' . $cs->get_casstring() . '\', $cs->get_casstring());';
+        } else {
+            $out .= $nl . $indent2 . '$this->assertFalse($cs->get_valid(\'s\', true, ' . $is . ', $security));';
+            // In all cases if it is invalid there must be some error messages.
+            $out .= $nl . $indent2 . '$this->assertTrue(count($cs->get_errors(true)) > 0);';
+        }
 
-		foreach ($cs->get_answernote(true) as $note) {
-			$out .= $nl . $indent2 . '$this->assertContains(\'' . addslashes($note) . '\', $cs->get_answernote(true));';	
-		}
+        foreach ($cs->get_answernote(true) as $note) {
+            $out .= $nl . $indent2 . '$this->assertContains(\'' . addslashes($note) . '\', $cs->get_answernote(true));';
+        }
 
-		$out .= $nl . $indent .'}';
-	}
+        $out .= $nl . $indent .'}';
+    }
 
-	// Insert stars with units.
-	for ($is = 0; $is <= 5; $is++) {
-		$out .= $nl . $nl . $indent . 'public function test_insert_stars_' . $is . '_units_keys() {';
-		$out .= $nl . $indent2 . '$cs = new stack_cas_casstring(self::$teststring);';
-		$out .= $nl . $indent2 . '$security = new stack_cas_security(true, \'\', \'\', self::$keys);';
-		$out .= $nl . $indent2 . '$cs->set_context(\'units\', true);';
-		$security = new stack_cas_security(true, '', '', $keys);
+    // Insert stars with units.
+    for ($is = 0; $is <= 5; $is++) {
+        $out .= $nl . $nl . $indent . 'public function test_insert_stars_' . $is . '_units_keys() {';
+        $out .= $nl . $indent2 . '$cs = new stack_cas_casstring(self::$teststring);';
+        $out .= $nl . $indent2 . '$security = new stack_cas_security(true, \'\', \'\', self::$keys);';
+        $out .= $nl . $indent2 . '$cs->set_context(\'units\', true);';
+        $security = new stack_cas_security(true, '', '', $keys);
 
-		$cs = new stack_cas_casstring($teststring);
-		$cs->set_context('units', true);
+        $cs = new stack_cas_casstring($teststring);
+        $cs->set_context('units', true);
 
-		if ($cs->get_valid('s', true, $is, $security)) {
-			$out .= $nl . $indent2 . '$this->assertTrue($cs->get_valid(\'s\', true, ' . $is . ', $security));';
-			$out .= $nl . $indent2 . '$presentation = <<<\'ESCAPEDEBUG\'' . $nl;
-			$out .= $cs->ast->debugPrint($teststring);
-			$out .= $nl . 'ESCAPEDEBUG;';
-			$out .= $nl . $indent2 . '$this->assertEquals($presentation, $cs->ast->debugPrint(self::$teststring));';
-			$out .= $nl . $indent2 . '$this->assertEquals(\'' . $cs->get_casstring() . '\', $cs->get_casstring());';
-		} else {
-			$out .= $nl . $indent2 . '$this->assertFalse($cs->get_valid(\'s\', true, ' . $is . ', $security));';
-			// In all cases if it is invalid there must be some error messages.
-			$out .= $nl . $indent2 . '$this->assertTrue(count($cs->get_errors(true)) > 0);';
-		}
+        if ($cs->get_valid('s', true, $is, $security)) {
+            $out .= $nl . $indent2 . '$this->assertTrue($cs->get_valid(\'s\', true, ' . $is . ', $security));';
+            $out .= $nl . $indent2 . '$presentation = <<<\'ESCAPEDEBUG\'' . $nl;
+            $out .= $cs->ast->debugPrint($teststring);
+            $out .= $nl . 'ESCAPEDEBUG;';
+            $out .= $nl . $indent2 . '$this->assertEquals($presentation, $cs->ast->debugPrint(self::$teststring));';
+            $out .= $nl . $indent2 . '$this->assertEquals(\'' . $cs->get_casstring() . '\', $cs->get_casstring());';
+        } else {
+            $out .= $nl . $indent2 . '$this->assertFalse($cs->get_valid(\'s\', true, ' . $is . ', $security));';
+            // In all cases if it is invalid there must be some error messages.
+            $out .= $nl . $indent2 . '$this->assertTrue(count($cs->get_errors(true)) > 0);';
+        }
 
-		foreach ($cs->get_answernote(true) as $note) {
-			$out .= $nl . $indent2 . '$this->assertContains(\'' . addslashes($note) . '\', $cs->get_answernote(true));';	
-		}
+        foreach ($cs->get_answernote(true) as $note) {
+            $out .= $nl . $indent2 . '$this->assertContains(\'' . addslashes($note) . '\', $cs->get_answernote(true));';
+        }
 
-		$out .= $nl . $indent .'}';
-	}	
+        $out .= $nl . $indent .'}';
+    }
 }
 
-// If more than one security then combined
-if (($allow !== '' && $forbid !== '') || 
-	($allow !== '' && count($keys) > 0) || 
-	($forbid !== '' && count($keys) > 0)) {
-	// Insert stars with default settings.
-	for ($is = 0; $is <= 5; $is++) {
-		$out .= $nl . $nl . $indent . 'public function test_insert_stars_' . $is . '_defaults_combined() {';
-		$out .= $nl . $indent2 . '$cs = new stack_cas_casstring(self::$teststring);';
-		$out .= $nl . $indent2 . '$security = new stack_cas_security(false);';
-		$security = new stack_cas_security(false);
-		if ($allow !== '') {
-			$security->set_allowedwords($allow);
-			$out .= $nl . $indent2 . '$security->set_allowedwords(self::$allow);';
-		}
-		if ($forbid !== '') {
-			$security->set_forbiddenwords($forbid);
-			$out .= $nl . $indent2 . '$security->set_forbiddenwords(self::$forbid);';
-		}
-		if (count($keys) > 0) {
-			$security->set_forbiddenkeys($keys);
-			$out .= $nl . $indent2 . '$security->set_forbiddenkeys(self::$keys);';
-		}
-		$cs = new stack_cas_casstring($teststring);
+// If more than one security then combined.
+if (($allow !== '' && $forbid !== '') ||
+    ($allow !== '' && count($keys) > 0) ||
+    ($forbid !== '' && count($keys) > 0)) {
+    // Insert stars with default settings.
+    for ($is = 0; $is <= 5; $is++) {
+        $out .= $nl . $nl . $indent . 'public function test_insert_stars_' . $is . '_defaults_combined() {';
+        $out .= $nl . $indent2 . '$cs = new stack_cas_casstring(self::$teststring);';
+        $out .= $nl . $indent2 . '$security = new stack_cas_security(false);';
+        $security = new stack_cas_security(false);
+        if ($allow !== '') {
+            $security->set_allowedwords($allow);
+            $out .= $nl . $indent2 . '$security->set_allowedwords(self::$allow);';
+        }
+        if ($forbid !== '') {
+            $security->set_forbiddenwords($forbid);
+            $out .= $nl . $indent2 . '$security->set_forbiddenwords(self::$forbid);';
+        }
+        if (count($keys) > 0) {
+            $security->set_forbiddenkeys($keys);
+            $out .= $nl . $indent2 . '$security->set_forbiddenkeys(self::$keys);';
+        }
+        $cs = new stack_cas_casstring($teststring);
 
-		if ($cs->get_valid('s', true, $is, $security)) {
-			$out .= $nl . $indent2 . '$this->assertTrue($cs->get_valid(\'s\', true, ' . $is . ', $security));';
-			$out .= $nl . $indent2 . '$presentation = <<<\'ESCAPEDEBUG\'' . $nl;
-			$out .= $cs->ast->debugPrint($teststring);
-			$out .= $nl . 'ESCAPEDEBUG;';
-			$out .= $nl . $indent2 . '$this->assertEquals($presentation, $cs->ast->debugPrint(self::$teststring));';
-			$out .= $nl . $indent2 . '$this->assertEquals(\'' . $cs->get_casstring() . '\', $cs->get_casstring());';
-		} else {
-			$out .= $nl . $indent2 . '$this->assertFalse($cs->get_valid(\'s\', true, ' . $is . ', $security));';
-			// In all cases if it is invalid there must be some error messages.
-			$out .= $nl . $indent2 . '$this->assertTrue(count($cs->get_errors(true)) > 0);';
-		}
+        if ($cs->get_valid('s', true, $is, $security)) {
+            $out .= $nl . $indent2 . '$this->assertTrue($cs->get_valid(\'s\', true, ' . $is . ', $security));';
+            $out .= $nl . $indent2 . '$presentation = <<<\'ESCAPEDEBUG\'' . $nl;
+            $out .= $cs->ast->debugPrint($teststring);
+            $out .= $nl . 'ESCAPEDEBUG;';
+            $out .= $nl . $indent2 . '$this->assertEquals($presentation, $cs->ast->debugPrint(self::$teststring));';
+            $out .= $nl . $indent2 . '$this->assertEquals(\'' . $cs->get_casstring() . '\', $cs->get_casstring());';
+        } else {
+            $out .= $nl . $indent2 . '$this->assertFalse($cs->get_valid(\'s\', true, ' . $is . ', $security));';
+            // In all cases if it is invalid there must be some error messages.
+            $out .= $nl . $indent2 . '$this->assertTrue(count($cs->get_errors(true)) > 0);';
+        }
 
-		foreach ($cs->get_answernote(true) as $note) {
-			$out .= $nl . $indent2 . '$this->assertContains(\'' . addslashes($note) . '\', $cs->get_answernote(true));';	
-		}
+        foreach ($cs->get_answernote(true) as $note) {
+            $out .= $nl . $indent2 . '$this->assertContains(\'' . addslashes($note) . '\', $cs->get_answernote(true));';
+        }
 
-		$out .= $nl . $indent .'}';
-	}
+        $out .= $nl . $indent .'}';
+    }
 
-	// Insert stars with units.
-	for ($is = 0; $is <= 5; $is++) {
-		$out .= $nl . $nl . $indent . 'public function test_insert_stars_' . $is . '_units_combined() {';
-		$out .= $nl . $indent2 . '$cs = new stack_cas_casstring(self::$teststring);';
-		$out .= $nl . $indent2 . '$security = new stack_cas_security(true);';
-		$out .= $nl . $indent2 . '$cs->set_context(\'units\', true);';
-		$security = new stack_cas_security(true);
-		if ($allow !== '') {
-			$security->set_allowedwords($allow);
-			$out .= $nl . $indent2 . '$security->set_allowedwords(self::$allow);';
-		}
-		if ($forbid !== '') {
-			$security->set_forbiddenwords($forbid);
-			$out .= $nl . $indent2 . '$security->set_forbiddenwords(self::$forbid);';
-		}
-		if (count($keys) > 0) {
-			$security->set_forbiddenkeys($keys);
-			$out .= $nl . $indent2 . '$security->set_forbiddenkeys(self::$keys);';
-		}
-		$cs = new stack_cas_casstring($teststring);
-		$cs->set_context('units', true);
+    // Insert stars with units.
+    for ($is = 0; $is <= 5; $is++) {
+        $out .= $nl . $nl . $indent . 'public function test_insert_stars_' . $is . '_units_combined() {';
+        $out .= $nl . $indent2 . '$cs = new stack_cas_casstring(self::$teststring);';
+        $out .= $nl . $indent2 . '$security = new stack_cas_security(true);';
+        $out .= $nl . $indent2 . '$cs->set_context(\'units\', true);';
+        $security = new stack_cas_security(true);
+        if ($allow !== '') {
+            $security->set_allowedwords($allow);
+            $out .= $nl . $indent2 . '$security->set_allowedwords(self::$allow);';
+        }
+        if ($forbid !== '') {
+            $security->set_forbiddenwords($forbid);
+            $out .= $nl . $indent2 . '$security->set_forbiddenwords(self::$forbid);';
+        }
+        if (count($keys) > 0) {
+            $security->set_forbiddenkeys($keys);
+            $out .= $nl . $indent2 . '$security->set_forbiddenkeys(self::$keys);';
+        }
+        $cs = new stack_cas_casstring($teststring);
+        $cs->set_context('units', true);
 
-		if ($cs->get_valid('s', true, $is, $security)) {
-			$out .= $nl . $indent2 . '$this->assertTrue($cs->get_valid(\'s\', true, ' . $is . ', $security));';
-			$out .= $nl . $indent2 . '$presentation = <<<\'ESCAPEDEBUG\'' . $nl;
-			$out .= $cs->ast->debugPrint($teststring);
-			$out .= $nl . 'ESCAPEDEBUG;';
-			$out .= $nl . $indent2 . '$this->assertEquals($presentation, $cs->ast->debugPrint(self::$teststring));';
-			$out .= $nl . $indent2 . '$this->assertEquals(\'' . $cs->get_casstring() . '\', $cs->get_casstring());';
-		} else {
-			$out .= $nl . $indent2 . '$this->assertFalse($cs->get_valid(\'s\', true, ' . $is . ', $security));';
-			// In all cases if it is invalid there must be some error messages.
-			$out .= $nl . $indent2 . '$this->assertTrue(count($cs->get_errors(true)) > 0);';
-		}
+        if ($cs->get_valid('s', true, $is, $security)) {
+            $out .= $nl . $indent2 . '$this->assertTrue($cs->get_valid(\'s\', true, ' . $is . ', $security));';
+            $out .= $nl . $indent2 . '$presentation = <<<\'ESCAPEDEBUG\'' . $nl;
+            $out .= $cs->ast->debugPrint($teststring);
+            $out .= $nl . 'ESCAPEDEBUG;';
+            $out .= $nl . $indent2 . '$this->assertEquals($presentation, $cs->ast->debugPrint(self::$teststring));';
+            $out .= $nl . $indent2 . '$this->assertEquals(\'' . $cs->get_casstring() . '\', $cs->get_casstring());';
+        } else {
+            $out .= $nl . $indent2 . '$this->assertFalse($cs->get_valid(\'s\', true, ' . $is . ', $security));';
+            // In all cases if it is invalid there must be some error messages.
+            $out .= $nl . $indent2 . '$this->assertTrue(count($cs->get_errors(true)) > 0);';
+        }
 
-		foreach ($cs->get_answernote(true) as $note) {
-			$out .= $nl . $indent2 . '$this->assertContains(\'' . addslashes($note) . '\', $cs->get_answernote(true));';	
-		}
+        foreach ($cs->get_answernote(true) as $note) {
+            $out .= $nl . $indent2 . '$this->assertContains(\'' . addslashes($note) . '\', $cs->get_answernote(true));';
+        }
 
-		$out .= $nl . $indent .'}';
-	}	
+        $out .= $nl . $indent .'}';
+    }
 }
-
 
 $out .= $nl . '}';
 

@@ -41,12 +41,12 @@ class stack_ast_container {
      *    - check errors and answernotes
      *    - ask for inputform or evaluation form representation
      *    - you can also retrieve the AST but it is not secured and you should
-     *      never modify it when taking it from an existing casstring, make 
+     *      never modify it when taking it from an existing casstring, make
             sure that the AST is ready before you put it in a casstring
      */
 
     public static function make_from_student_source(string $raw, string $context,
-            stack_cas_security $securitymodel, array $filters_to_apply = array(),
+            stack_cas_security $securitymodel, array $filterstoapply = array(),
             string $grammar = 'Root'): stack_ast_container {
 
         $errors = array();
@@ -57,13 +57,13 @@ class stack_ast_container {
         // Use the corective parser as this comes from the student.
         $ast = maxima_corrective_parser::parse($raw, $errors, $answernotes, $parseroptions);
 
-        // Get the filter pipeline. Even if we would not use it in case of 
+        // Get the filter pipeline. Even if we would not use it in case of
         // ast = null, we still want to check that the request is valid.
-        $pipeline = stack_parsing_rule_factory::get_filter_pipeline($filters_to_apply, true);
+        $pipeline = stack_parsing_rule_factory::get_filter_pipeline($filterstoapply, true);
 
         if ($ast !== null) {
             $ast = $pipeline->filter($ast, $errors, $answernotes, $securitymodel);
-        } 
+        }
         // It is now ready to be created.
         $astc = new self;
         $astc->rawcasstring = $raw;
@@ -95,16 +95,16 @@ class stack_ast_container {
         } catch (SyntaxError $e) {
             $ast = maxima_corrective_parser::parse($raw, $errors, $answernotes, $parseroptions);
             // All stars that were insertted by that are invalid.
-            // And that comes from the strict filter later
+            // And that comes from the strict filter later.
         }
 
-        // Get the filter pipeline. Now we only want the core filtters and 
+        // Get the filter pipeline. Now we only want the core filtters and
         // append the strict syntax check to the end.
         $pipeline = stack_parsing_rule_factory::get_filter_pipeline(array("999_strict"), true);
 
         if ($ast !== null) {
             $ast = $pipeline->filter($ast, $errors, $answernotes, $securitymodel);
-        } 
+        }
 
         // It is now ready to be created.
         $astc = new self;
@@ -122,8 +122,8 @@ class stack_ast_container {
 
     public static function make_from_teacher_ast(MP_Statement $ast, string $raw, string $context,
             stack_cas_security $securitymodel): stack_ast_container {
-        // This function is intended to be used when dealing with keyvals, 
-        // as there one already has an AST representing multiple casstring 
+        // This function is intended to be used when dealing with keyvals,
+        // as there one already has an AST representing multiple casstring
         // and can just split it to pieces.
 
         $errors = array();
@@ -150,7 +150,7 @@ class stack_ast_container {
     private $rawcasstring;
 
     /**
-       * The parsetree representing this ast after all modifications.
+     * The parsetree representing this ast after all modifications.
      */
     // TODO: refactor the inputs....
     public $ast;
@@ -197,7 +197,7 @@ class stack_ast_container {
      */
     private $feedback;
 
-    /** 
+    /**
      * NOTE this really should be in a seprate subclass type, like those that do not generate
      * output... ALSO NOTE that castext2 no longer uses these at all so need is somewhat unknown.
      * @array of additional CAS strings which are conditions when the main expression can
@@ -259,17 +259,17 @@ class stack_ast_container {
             }
 
             // First check if the AST contains something marked as invalid.
-            $has_invalid = false;
-            $findinvalid = function($node)  use(&$has_invalid) {
+            $hasinvalid = false;
+            $findinvalid = function($node)  use(&$hasinvalid) {
                 if (isset($node->position['invalid']) && $node->position['invalid'] === true) {
-                    $has_invalid = true;
+                    $hasinvalid = true;
                     return false;
                 }
                 return true;
             };
             $this->ast->callbackRecurse($findinvalid, false);
 
-            $this->valid = !$has_invalid;
+            $this->valid = !$hasinvalid;
 
             // Then do the whole security mess.
             $this->valid = $this->valid  && $this->check_security();
@@ -303,7 +303,7 @@ class stack_ast_container {
         return $this->rawcasstring;
     }
 
-    // This returns the fully filttered AST as it should be inputted were 
+    // This returns the fully filttered AST as it should be inputted were
     // it inputted perfectly.
     public function get_inputform(): string {
         if ($this->ast) {
@@ -313,8 +313,8 @@ class stack_ast_container {
     }
 
     // This returns the form that could be sent to CAS.
-    // Note that this will do serious amount of work and could for example tie 
-    // in the conditions if needed
+    // Note that this will do serious amount of work and could for example tie
+    // in the conditions if needed.
     public function get_evaluationform(): string {
         if (false === $this->get_valid()) {
             throw new stack_exception('stack_ast_container: tried to get the evalution form of an invalid casstring.');
@@ -603,7 +603,7 @@ class stack_ast_container {
          *   if not (know or in security-map) and case variant in security-map then false else
          *   true
          */
-  
+
         // Check for variables.
         foreach (array_keys($variables) as $name) {
             // Check for operators like 'and' if they appear as variables
@@ -704,16 +704,15 @@ class stack_ast_container {
         if (!($validationmethod == 'checktype' || $validationmethod == 'typeless' || $validationmethod == 'units'
                 || $validationmethod == 'unitsnegpow' || $validationmethod == 'equiv' || $validationmethod == 'numerical')) {
                     throw new stack_exception('stack_ast_container: validationmethod must one of "checktype", "typeless", ' .
-                            '"units" or "unitsnegpow" or "equiv" or "numerical", but received "'.$validationmethod.'".');
-                }
-    
-                $this->validationcontext = array(
-                    'vname'            => $vname,
-                    'lowestterms'      => $lowestterms,
-                    'tans'             => $tans,
-                    'validationmethod' => $validationmethod,
-                    'simp'             => $simp
-                );
+                        '"units" or "unitsnegpow" or "equiv" or "numerical", but received "'.$validationmethod.'".');
+        }
+        $this->validationcontext = array(
+            'vname'            => $vname,
+            'lowestterms'      => $lowestterms,
+            'tans'             => $tans,
+            'validationmethod' => $validationmethod,
+            'simp'             => $simp
+        );
     }
 
     public function get_cas_validation_context() {
@@ -768,7 +767,6 @@ class stack_ast_container {
         }
         return $this->answernotes;
     }
-    
 
     public function get_feedback() {
         return $this->feedback;

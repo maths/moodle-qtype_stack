@@ -115,7 +115,7 @@ class stack_cas_casstring {
             '0123456789,./\%&{}[]()$@!"\'?`^~*_+qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM:=><|: -';
     // @codingStandardsIgnoreEnd
 
-    public function __debugInfo() {
+    public function debug_info() {
         // For various reasons we do not want to print out certain things like the AST.
         // Make sure that if you add new fields you add them also here.
         return array(

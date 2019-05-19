@@ -37,7 +37,7 @@ class stack_ast_filter_single_char_vars_010 implements stack_cas_astfilter {
                     return true;
                 }
 
-                // Get the list/map of protected variable names and constants
+                // Get the list/map of protected variable names and constants.
                 $units = false;
                 $protected = stack_cas_security::get_protected_identifiers('variable', $units);
 

@@ -72,7 +72,7 @@ class stack_cas_session {
     /** @var array Global variables. */
     private static $maximaglobals = array('stackintfmt' => true, 'stackfltfmt' => true, 'ibase' => true, 'obase' => true);
 
-    public function __debugInfo() {
+    public function debug_info() {
         // For various reasons we do not want to print out certain things like the ASTs.
         // Make sure that if you add new fields you add them also here.
         return array(
@@ -224,12 +224,6 @@ class stack_cas_session {
                 if (array_key_exists('dispvalue', $result)) {
                     $cs->set_dispvalue($result['dispvalue']);
                 }
-
-                /*  Where is this used?
-                if (array_key_exists('valid', $result)) {
-                    $cs->set_valid($result['valid']);
-                }
-                */
 
                 if (array_key_exists('answernote', $result)) {
                     $cs->add_answernote($result['answernote']);

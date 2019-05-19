@@ -603,7 +603,7 @@ $string['cassuitecolerrors'] = 'CAS errors';
 $string['texdisplaystyle'] = 'Display-style equation';
 $string['texinlinestyle'] = 'Inline-style equation';
 
-// Used in CAS statement validation
+// Used in CAS statement validation.
 $string['stackCas_spaces']                  = 'Illegal spaces found in expression {$a->expr}.';
 $string['stackCas_underscores']             = 'The following use of underscore characters is not permitted: {$a}.';
 $string['stackCas_percent']                 = '&#037; found in expression {$a->expr}.';

@@ -64,11 +64,11 @@ class MP_Node {
     // the changed structure.
     // Calling with null function will upgrade parentnodes, but does nothing else.
     // Which may be necessary in some cases, where modifications are heavy and the paintting
-    // cannot paint fast enough, should you parentnode happen to be null then this might 
+    // cannot paint fast enough, should you parentnode happen to be null then this might
     // have happened we do not do this automatically as most code works without back referencing.
     // One may also declare that invalid subtrees are not to be processed.
     public function callbackRecurse($function = null, $skipinvalid = false) {
-        if ($skipinvalid === true && isset($this->position['invalid']) && 
+        if ($skipinvalid === true && isset($this->position['invalid']) &&
             $this->position['invalid'] === true) {
             return true;
         }
@@ -76,7 +76,7 @@ class MP_Node {
             // Not a foreach as the list may change.
             $child->parentnode = $this;
             if (!($skipinvalid === true && isset($child->position['invalid'])
-                && $child->position['invalid'] === true) && 
+                && $child->position['invalid'] === true) &&
                 $function !== null && $function($child) !== true) {
                 return false;
             }
@@ -149,7 +149,7 @@ class MP_Node {
         return implode("\n", $r);
     }
 
-    // Re calculates the positions of nodes from their contents not from 
+    // Re calculates the positions of nodes from their contents not from
     // the original parsed content. Uses minimal toString() presentation.
     // Intended to ease interpretation of debug prints in some cases.
     public function remap_position_data(int $offset=0) {
@@ -185,7 +185,8 @@ class MP_Node {
     return $this->parentnode->leftmostofright();
     }
 
-    if (is_a($this->parentnode, 'MP_Operation') || is_a($this->parentnode, 'MP_PrefixOp') || is_a($this->parentnode, 'MP_PostfixOp')) {
+    if (is_a($this->parentnode, 'MP_Operation') || is_a($this->parentnode, 'MP_PrefixOp') ||
+        is_a($this->parentnode, 'MP_PostfixOp')) {
     return $this->parentnode->get_operand_on_right();
     }
 
@@ -314,7 +315,7 @@ class MP_Operation extends MP_Node {
         $start = $offset;
         $op = $this->op;
         if (stack_cas_security::get_feature($op, 'spacesurroundedop') !== null) {
-            $op = ' ' . $op . ''; 
+            $op = ' ' . $op . '';
         }
         $this->position['start'] = $start;
         $this->position['end'] = $start + core_text::strlen($lhs) + core_text::strlen($op) + core_text::strlen($rhs);
@@ -401,7 +402,7 @@ class MP_Operation extends MP_Node {
         $i = $this->rhs;
 
         while ($i instanceof MP_Operation || $i instanceof MP_PostfixOp) {
-            $i = $i->lhs;            
+            $i = $i->lhs;
         }
         return $i;
     }

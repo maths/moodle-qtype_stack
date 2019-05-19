@@ -1,5 +1,20 @@
 <?php
+// This file is part of Stack - https://stack.maths.ed.ac.uk
+//
+// Stack is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// Stack is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
+defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/filter.interface.php');
 require_once(__DIR__ . '/../../maximaparser/utils.php');
@@ -14,7 +29,8 @@ require_once(__DIR__ . '/../../maximaparser/utils.php');
  * Will add 'logsubs' answernote if triggered.
  */
 class stack_ast_log_candy_002 implements stack_cas_astfilter {
-    public function filter(MP_Node $ast, array &$errors, array &$answernotes, stack_cas_security $identifierrules): MP_Node {
+    public function filter(MP_Node $ast, array &$errors,
+            array &$answernotes, stack_cas_security $identifierrules): MP_Node {
         $process = function($node) use (&$errors, &$answernotes) {
             if ($node instanceof MP_Functioncall && $node->name instanceof MP_Identifier) {
                 // If we are already a function call and the name fits then this might be easy.
@@ -26,25 +42,25 @@ class stack_ast_log_candy_002 implements stack_cas_astfilter {
                     return false;
                 }
                 if ($node->name->value === 'log_') {
-                    // This is a problem case. Lets assume we are dealing with:
-                    //  log_(baseexpression)...(x) => lg(x,(baseexpression)...)
-                    // As we cannot be dealing with an empty base. So lets eat that.
+                    // This is a problem case.
+                    // Let's assume we are dealing with: log_(ex)...(x) => lg(x,(ex)...).
+                    // As we cannot be dealing with an empty base. So let's eat that.
                     $arguments = array(); // Should be only one.
                     foreach ($node->arguments as $arg) {
                         $arguments[] = $arg->toString();
                     }
                     $newnode = new MP_Identifier('log_(' . implode(',', $arguments) . ')');
                     $node->parentnode->replace($node, $newnode);
-                    // We generate answernotes and errors if this thing eats the whole 
+                    // We generate answernotes and errors if this thing eats the whole
                     // expression not before.
                     return false;
                 }
                 if (core_text::substr($node->name->value, 0, 4) === 'log_') {
-                    // Now we have something of the form 'log_xyz(y)' we will simply turn it 
+                    // Now we have something of the form 'log_xyz(y)' we will simply turn it
                     // to 'lg(y,xyz)' by parsing 'xyz'. We do not need to care about any rules
                     // when parsing it as it will be a pure statement and will be parseable.
                     $argument = core_text::substr($node->name->value, 4);
-                    // This will unfortunately lose all the inforamtion about insertted stars 
+                    // This will unfortunately lose all the inforamtion about insertted stars
                     // but that is hardly an issue.
                     $parsed = maxima_parser_utils::parse($argument, 'Root');
                     // There will be only one statement and it is a statement.
@@ -72,9 +88,9 @@ class stack_ast_log_candy_002 implements stack_cas_astfilter {
                     }
                     if ($rhs instanceof MP_Atom) {
                         $newname = $newname . $rhs->toString();
-                        // lets take the term from the lhs and plug it into rhs
+                        // Let's take the term from the lhs and plug it into rhs.
                         $rhs->parentnode->replace($rhs, new MP_Identifier($newname));
-                        // Then move the whole rhs under the lhs
+                        // Then move the whole rhs under the lhs.
                         $lhs->parentnode->replace($lhs, $node->rhs);
                         // And elevate the lhs to replace the original op.
                         $node->parentnode->replace($node, $node->lhs);
@@ -88,12 +104,12 @@ class stack_ast_log_candy_002 implements stack_cas_astfilter {
                     } else if ($rhs instanceof MP_Group) {
                         if ($node->op === '*' && (isset($node->position['fixspaces']) ||
                             isset($node->position['insertstars']))) {
-                            // If there were starts insertted it was probably a function call 
+                            // If there were starts insertted it was probably a function call
                             // to begin with. Lets merge it back.
                             $rhs->parentnode->replace($rhs, new MP_Functioncall(new MP_Identifier($lhs->value), $rhs->items));
                             $lhs->parentnode->replace($lhs, $node->rhs);
                             $node->parentnode->replace($node, $node->lhs);
-                            return false;                            
+                            return false;
                         } else {
                             // The stars were there from the start so lets eat it.
                             $newname = $newname . $rhs->toString();
@@ -109,19 +125,19 @@ class stack_ast_log_candy_002 implements stack_cas_astfilter {
                             $newname .= $rhs->toString();
                             $node->value = $newname;
                             $rhs->parentnode->replace($rhs, $node);
-                            $node->parentnode->parentnode->replace($node->parentnode, $node->parentnode->rhs);  
+                            $node->parentnode->parentnode->replace($node->parentnode, $node->parentnode->rhs);
                             return false;
                         } else if ($rhs instanceof MP_Functioncall) {
                             $newname .= $rhs->name->toString();
                             $rhs->parentnode->replace($rhs, new MP_Functioncall(new MP_Identifier($newname), $rhs->arguments));
-                            $node->parentnode->parentnode->replace($node->parentnode, $node->parentnode->rhs);  
+                            $node->parentnode->parentnode->replace($node->parentnode, $node->parentnode->rhs);
                             return false;
-                        } 
+                        }
                     }
                     if ($node->parentnode->rhs instanceof MP_Atom) {
                         $newname .= $node->parentnode->rhs->toString();
-                        $node->parentnode->parentnode->replace($node->parentnode, 
-                            new MP_Identifier($newname));   
+                        $node->parentnode->parentnode->replace($node->parentnode,
+                            new MP_Identifier($newname));
                         return false;
                     }
                 }
@@ -147,7 +163,7 @@ class stack_ast_log_candy_002 implements stack_cas_astfilter {
 
         // This filter does massive tree modifications that are beyond the capabilities
         // of the normal graph updating so we need to activate that updating manually
-        // between steps. That updating ensures that parentnode links i.e. backreferences 
+        // between steps. That updating ensures that parentnode links i.e. backreferences
         // are valid but it does not do it unless absolutely necessary. And now it is.
         $ast->callbackRecurse(null);
         while ($ast->callbackRecurse($process, true) !== true) {

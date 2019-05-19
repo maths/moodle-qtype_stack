@@ -632,13 +632,15 @@ abstract class stack_input {
             }
 
             if (array_key_exists($index, $errors) && '' == $errors[$index]) {
-                $cs->set_cas_validation_context($this->name.$index, $this->get_parameter('lowestTerms', false), $ta, $ivalidationmethod,
+                $cs->set_cas_validation_context($this->name.$index, $this->get_parameter('lowestTerms', false),
+                        $ta, $ivalidationmethod,
                     $this->get_extra_option('simp', false));
                 $sessionvars[] = $cs;
             }
         }
         if ($valid && $answer->get_valid()) {
-            $answer->set_cas_validation_context($this->name, $this->get_parameter('lowestTerms', false), $teacheranswer, $validationmethod,
+            $answer->set_cas_validation_context($this->name, $this->get_parameter('lowestTerms', false),
+                    $teacheranswer, $validationmethod,
                     $this->get_extra_option('simp', false));
             $sessionvars[] = $answer;
         }
@@ -677,7 +679,6 @@ abstract class stack_input {
         // It is very useful for teachers to be able to add in syntax hints.
 
         $interpretedanswer = $answer->get_value();
-//        $interpretedanswer = $answer->get_casstring();
         // TODO: apply a filter to check the ast!
         if (!(strpos($interpretedanswer, '?') === false)) {
             $valid = false;

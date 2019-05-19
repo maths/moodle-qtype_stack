@@ -99,7 +99,7 @@ class stack_cas_security {
             $data = file_get_contents(__DIR__ . '/security-map.json');
             self::$securitymap = json_decode($data, true);
         }
-        
+
         if (isset(self::$securitymap[$identifier])) {
             if (isset(self::$securitymap[$identifier][$feature])) {
                 return self::$securitymap[$identifier][$feature];
@@ -267,7 +267,8 @@ class stack_cas_security {
         }
 
         // Forbid keywords and operators as variable names.
-        if (($this->has_feature($identifier, 'keyword') || $this->has_feature($identifier, 'operator')) && !$this->has_feature($identifier, 'specialallowvariable')) {
+        if (($this->has_feature($identifier, 'keyword') || $this->has_feature($identifier, 'operator')) &&
+                !$this->has_feature($identifier, 'specialallowvariable')) {
             // The special one is for 'inches'.
             return false;
         }
@@ -575,7 +576,7 @@ class stack_cas_security {
         }
         $r = array();
         if ($units === true && $feature === 'constant') {
-            foreach(stack_cas_casstring_units::get_permitted_units(0) as $key => $duh) {
+            foreach (stack_cas_casstring_units::get_permitted_units(0) as $key => $duh) {
                 $r[$key] = $key;
             }
         }
@@ -590,19 +591,19 @@ class stack_cas_security {
     // The so called alpha-map, of all known identifiers that should be protected from
     // insert-stars. Ordered with the longest first and indexed with the identifiers.
     public static function get_protected_identifiers(string $type = 'variable', bool $units = false): array {
-        static $variable_without_units = null;
-        static $variable_with_units = null;
+        static $variablewithoutunits = null;
+        static $variablewithunits = null;
         static $functions = null;
 
         if ($type === 'variable') {
             if ($units === true) {
-                if ($variable_with_units !== null) {
-                    return $variable_with_units;
+                if ($variablewithunits !== null) {
+                    return $variablewithunits;
                 }
             } else {
-                if ($variable_without_units !== null) {
-                    return $variable_without_units;
-                } 
+                if ($variablewithoutunits !== null) {
+                    return $variablewithoutunits;
+                }
             }
             $workmap = array_merge(self::get_all_with_feature('variable', $units),
                                    self::get_all_with_feature('constant', $units));
@@ -613,11 +614,11 @@ class stack_cas_security {
                 return strlen($a) < strlen($b);
             });
             if ($units === true) {
-                $variable_with_units = $workmap;
-                return $variable_with_units;
+                $variablewithunits = $workmap;
+                return $variablewithunits;
             } else {
-                $variable_without_units = $workmap;
-                return $variable_without_units;
+                $variablewithoutunits = $workmap;
+                return $variablewithoutunits;
             }
         } else {
             if ($functions !== null) {

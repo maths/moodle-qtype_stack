@@ -42,7 +42,7 @@ class stack_ast_filter_split_floats_050 implements stack_cas_astfilter {
                     }
                     $replacement->position['insertstars'] = true;
                     if ($parts[1]{0} === '-' || $parts[1]{0} === '+') {
-                        // 1e+1...
+                        // Forms such as 1e+1...
                         $op = $parts[1]{0};
                         $val = abs(intval($parts[1]));
                         $replacement = new MP_Operation($op, new MP_Operation('*', $replacement->lhs,
@@ -60,7 +60,7 @@ class stack_ast_filter_split_floats_050 implements stack_cas_astfilter {
                     }
                     $replacement->position['insertstars'] = true;
                     if ($parts[1]{0} === '-' || $parts[1]{0} === '+') {
-                        // 1.2E-1...
+                        // Forms such as 1.2E-1...
                         $op = $parts[1]{0};
                         $val = abs(intval($parts[1]));
                         $replacement = new MP_Operation($op, new MP_Operation('*', $replacement->lhs,

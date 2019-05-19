@@ -216,7 +216,7 @@ foreach ($samplearguments as $argument) {
                 }
                 echo html_writer::tag('p', stack_ouput_castext($displaytext));
                 if ($debug) {
-                    echo html_writer::tag('pre', $cskey . ": ". htmlspecialchars($cs1->ast-toString()) .
+                    echo html_writer::tag('pre', $cskey . ": ". htmlspecialchars($cs1->get_inputform()) .
                             ";\nDL:" . htmlspecialchars($argument['debuglist']) . ";").
                         html_writer::tag('p', $errs);
                 }
@@ -224,7 +224,7 @@ foreach ($samplearguments as $argument) {
             }
             /* Use the real validation code, and also create something which can be pasted into a live input box. */
             if ($onlyarg) {
-                $teacheranswer = $cs1->ast-toString();
+                $teacheranswer = $cs1->get_inputform();
                 $input = new stack_equiv_input('ans1', $teacheranswer, $options, array('options' => 'comments'));
                 $response = $input->get_correct_response($teacheranswer);
                 $state = $input->validate_student_response($response, $options, $teacheranswer, null);

@@ -54,20 +54,20 @@ class stack_parsing_rule_factory {
         return self::$singletons[$name];
     }
 
-    public static function get_filter_pipeline(array $active_filters, bool $include_core=true): stack_cas_astfilter {
-        $to_be_included = array();
-        if ($include_core === true) {
+    public static function get_filter_pipeline(array $activefilters, bool $includecore=true): stack_cas_astfilter {
+        $tobeincluded = array();
+        if ($includecore === true) {
         // This would be simpler when we rename the filters so that for example 
             // everything with number in the range 000-099 is core, then we could simply
             // include them from the keys of self::$singletons...
-        $to_be_included['002_log_candy'] = self::get_by_common_name('002_log_candy');
+        $tobeincluded['002_log_candy'] = self::get_by_common_name('002_log_candy');
         }
-        foreach ($active_filters as $value) {
-            $to_be_included[$value] = self::get_by_common_name($value);
+        foreach ($activefilters as $value) {
+            $tobeincluded[$value] = self::get_by_common_name($value);
         }
         // Sort them into order.
-        ksort($to_be_included);
+        ksort($tobeincluded);
         // And return the combination filter.
-        return new stack_ast_filter_pipeline($to_be_included);
+        return new stack_ast_filter_pipeline($tobeincluded);
     }
 }

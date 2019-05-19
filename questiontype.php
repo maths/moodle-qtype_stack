@@ -467,8 +467,10 @@ class qtype_stack extends question_type {
             $prtdata = $questiondata->prts[$name];
             $nodes = array();
             foreach ($prtdata->nodes as $key => $nodedata) {
-                $sans = stack_ast_container::make_from_teacher_source('PRSANS' . $key . ':' . $nodedata->sans, '', new stack_cas_security());
-                $tans = stack_ast_container::make_from_teacher_source('PRTANS' . $key . ':' . $nodedata->tans, '', new stack_cas_security());
+                $sans = stack_ast_container::make_from_teacher_source('PRSANS' . $key . ':' . $nodedata->sans,
+                        '', new stack_cas_security());
+                $tans = stack_ast_container::make_from_teacher_source('PRTANS' . $key . ':' . $nodedata->tans,
+                        '', new stack_cas_security());
 
                 if (is_null($nodedata->falsepenalty) || $nodedata->falsepenalty === '') {
                     $falsepenalty = $questiondata->penalty;

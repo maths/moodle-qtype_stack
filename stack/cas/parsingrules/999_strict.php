@@ -25,19 +25,19 @@ class stack_ast_filter_strict_999 implements stack_cas_astfilter {
 
     public function filter(MP_Node $ast, array &$errors, array &$answernotes, stack_cas_security $identifierrules): MP_Node {
 
-    	$spaces = false;
-    	$stars = false;
+        $spaces = false;
+        $stars = false;
 
         $check = function($node) use (&$stars, &$spaces) {
-        	if (isset($node->position['inserstars'])) {
-        		$stars = true;
-        		$node->position['invalid'] = true;
-        	}
+            if (isset($node->position['inserstars'])) {
+                $stars = true;
+                $node->position['invalid'] = true;
+            }
 
-			if (isset($node->position['fixspaces'])) {
-        		$spaces = true;
-        		$node->position['invalid'] = true;
-        	}
+            if (isset($node->position['fixspaces'])) {
+                $spaces = true;
+                $node->position['invalid'] = true;
+            }
             return true;
         };
 
@@ -56,17 +56,17 @@ class stack_ast_filter_strict_999 implements stack_cas_astfilter {
         }
 
         if ($stars === true) {
-	        $missingstring = $ast->toString(array('insertstars_as_red' => true, 'qmchar' => true, 'inputform' => true));
-	        if ($ast instanceof MP_Root) {
-	        	// If MP_Root then it ads ";\n" to the string after statement
-	            $missingstring = core_text::substr($missingstring, 0, -2);
-	        }
-	        $a = array();
-	        $a['cmd']  = stack_maxima_format_casstring($missingstring);
-	        // This is an error worthy of being at the top.
-	        array_unshift($errors, stack_string('stackCas_MissingStars', $a));
-		}
-        
+            $missingstring = $ast->toString(array('insertstars_as_red' => true, 'qmchar' => true, 'inputform' => true));
+            if ($ast instanceof MP_Root) {
+                // If MP_Root then it ads ";\n" to the string after statement.
+                $missingstring = core_text::substr($missingstring, 0, -2);
+            }
+            $a = array();
+            $a['cmd']  = stack_maxima_format_casstring($missingstring);
+            // This is an error worthy of being at the top.
+            array_unshift($errors, stack_string('stackCas_MissingStars', $a));
+        }
+
         return $ast;
     }
 }

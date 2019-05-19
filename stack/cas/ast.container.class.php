@@ -79,7 +79,7 @@ class stack_ast_container {
     }
 
     public static function make_from_teacher_source(string $raw, string $context,
-            stack_cas_security $securitymodel): stack_ast_container {
+            stack_cas_security $securitymodel, $conditions = array()): stack_ast_container {
         // If you wonder why the security model is in play for teachers it
         // is here to bring in the information on whether units are constants
         // or not and thus affect the teachers ability to write into them.
@@ -115,7 +115,7 @@ class stack_ast_container {
         $astc->securitymodel = $securitymodel;
         $astc->errors = $errors;
         $astc->answernotes = $answernotes;
-        $astc->conditions = array();
+        $astc->conditions = $conditions;
         $astc->valid = null;
         return $astc;
     }
@@ -348,8 +348,7 @@ class stack_ast_container {
     }
 
     public function get_key() {
-        // If this is an assignment type of an casstring we can return its 
-        // target "key".
+        // If this is an assignment type we can return its target "key".
         $key = '';
         $root = $this->ast;
         if ($root instanceof MP_Root) {

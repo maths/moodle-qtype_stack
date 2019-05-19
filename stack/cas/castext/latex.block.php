@@ -32,9 +32,7 @@ class stack_cas_castext_latex extends stack_cas_castext_block {
      // Remembers the number for this instance.
     private $number;
 
-    public function extract_attributes(&$tobeevaluatedcassession, $conditionstack = null) {
-        $cs = null;
-        $cs = new stack_cas_casstring(trim($this->get_node()->get_content()), $conditionstack);
+    public function extract_attributes(&$tobeevaluatedcassession, $conditionstack = array()) {
 
         $sessionkeys = $tobeevaluatedcassession->get_all_keys();
         $i = 0;
@@ -44,8 +42,10 @@ class stack_cas_castext_latex extends stack_cas_castext_block {
         } while (in_array($key, $sessionkeys));
         $this->number = $i - 1;
 
-        $cs->get_valid('t');
-        $cs->set_key($key, true);
+        // The new ast_container does not modify the casstring, so we create the key here
+        // to avoid using "set_key" methods on the ast.
+        $raw = $key . ':' . trim($this->get_node()->get_content());
+        $cs = stack_ast_container::make_from_teacher_source($raw, '', new stack_cas_security(), $conditionstack);
 
         $tobeevaluatedcassession->add_vars(array($cs));
     }

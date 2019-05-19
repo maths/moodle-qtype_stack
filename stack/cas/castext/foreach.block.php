@@ -53,8 +53,10 @@ class stack_cas_castext_foreach extends stack_cas_castext_block {
                 $i++;
             } while (in_array($caskey, $sessionkeys));
             $this->numbers[$key] = $i - 1;
-            $cs = new stack_cas_casstring("$caskey:$value", $conditionstack);
-            $cs->get_valid('t');
+
+            $raw = "$caskey:$value";
+            $cs = stack_ast_container::make_from_teacher_source($raw, '', new stack_cas_security(), $conditionstack);
+
             $tobeevaluatedcassession->add_vars(array($cs));
         }
     }

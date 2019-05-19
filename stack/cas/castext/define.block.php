@@ -32,12 +32,12 @@ class stack_cas_castext_define extends stack_cas_castext_block {
         $css = array();
 
         foreach ($this->get_node()->get_parameters() as $key => $value) {
-            $cs = new stack_cas_casstring("$key:$value", $conditionstack);
-            $cs->get_valid('t');
             // In 4.3 the nounification happens in such a way that evaluation of
             // conditions may break, therefore we must force denounification here.
-            // Conditions apply for define-blocks as they are used for if-blocks.
-            $cs->set_nounvalues('remove');
+
+            // TODO:         $cs->set_nounvalues('remove');
+            $raw = "$key:$value";
+            $cs = stack_ast_container::make_from_teacher_source($raw, '', new stack_cas_security(), $conditionstack);
             $css[] = $cs;
         }
         if (count($css) > 0) {

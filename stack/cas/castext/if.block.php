@@ -44,14 +44,13 @@ class stack_cas_castext_if extends stack_cas_castext_block {
         } while (in_array($key, $sessionkeys));
         $this->number = $i - 1;
 
-        $cs = null;
-        $cs = new stack_cas_casstring("$key:$condition", $conditionstack);
-
-        $cs->get_valid('t');
+        $raw = "$key:$condition";
         // In 4.3 the nounification happens in such a way that evaluation of
         // conditions may break, therefore we must force denounification here.
-        $cs->set_nounvalues('remove');
 
+        // TODO:         $cs->set_nounvalues('remove');
+
+        $cs = stack_ast_container::make_from_teacher_source($raw, '', new stack_cas_security(), $conditionstack);
         $this->condition = $cs;
 
         $tobeevaluatedcassession->add_vars(array($cs));

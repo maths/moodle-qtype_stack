@@ -46,7 +46,7 @@ class stack_ast_container {
      */
 
     public static function make_from_student_source(string $raw, string $context,
-            stack_cas_security $securitymodel, array $filters_to_apply,
+            stack_cas_security $securitymodel, array $filters_to_apply = array(),
             string $grammar = 'Root'): stack_ast_container {
 
         $errors = array();
@@ -246,7 +246,7 @@ class stack_ast_container {
         $this->valid = null;
 
         if (!('s' === $source || 't' === $source)) {
-            throw new stack_exception('stack_cas_casstring: source, must be "s" or "t" only.');
+            throw new stack_exception('stack_ast_container: source, must be "s" or "t" only.');
         }
     }
 
@@ -317,7 +317,7 @@ class stack_ast_container {
     // in the conditions if needed
     public function get_evaluationform(): string {
         if (false === $this->get_valid()) {
-            throw new stack_exception('stack_cas_casstring: tried to get the evalution form of an invalid casstring.');
+            throw new stack_exception('stack_ast_container: tried to get the evalution form of an invalid casstring.');
         }
         $root = $this->ast;
         if ($root instanceof MP_Root) {
@@ -703,7 +703,7 @@ class stack_ast_container {
 
         if (!($validationmethod == 'checktype' || $validationmethod == 'typeless' || $validationmethod == 'units'
                 || $validationmethod == 'unitsnegpow' || $validationmethod == 'equiv' || $validationmethod == 'numerical')) {
-                    throw new stack_exception('stack_cas_casstring: validationmethod must one of "checktype", "typeless", ' .
+                    throw new stack_exception('stack_ast_container: validationmethod must one of "checktype", "typeless", ' .
                             '"units" or "unitsnegpow" or "equiv" or "numerical", but received "'.$validationmethod.'".');
                 }
     

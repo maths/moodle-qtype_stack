@@ -1032,7 +1032,7 @@ abstract class stack_input {
         $cs = stack_ast_container::make_from_teacher_source($state->contentsdisplayed,
                 '', new stack_cas_security(), array());
         if ($cs->get_valid()) {
-            $val = $cs->ast->toString(array('nounify' => false, 'inputform' => true));
+            $val = $cs->get_inputform();
         }
         $feedback .= html_writer::tag('p', stack_string('studentValidation_yourLastAnswer', $val));
 
@@ -1124,7 +1124,7 @@ abstract class stack_input {
                 '', new stack_cas_security(), array());
         $val = '';
         if ($cs->ast) {
-            $val = $cs->ast->toString(array('nounify' => false, 'inputform' => true));
+            $val = $cs->get_inputform();
         }
         return $this->maxima_to_response_array($val);
     }

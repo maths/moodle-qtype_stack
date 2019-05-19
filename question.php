@@ -291,9 +291,8 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         // 2. correct answer for all inputs.
         $response = array();
         foreach ($this->inputs as $name => $input) {
-            $cs = new stack_cas_casstring($input->get_teacher_answer());
-            $cs->get_valid('t');
-            $cs->set_key($name);
+            $cs = stack_ast_container::make_from_teacher_source($name . ':' . $input->get_teacher_answer(),
+                    '', new stack_cas_security());
             $response[$name] = $cs;
         }
         $session->add_vars($response);

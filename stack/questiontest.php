@@ -121,15 +121,14 @@ class stack_question_test {
 
         // Turn off simplification - we *always* need test cases to be unsimplified, even if the question option is true.
         $vars = array();
-        $cs = new stack_cas_casstring('false');
-        $cs->set_key('simp');
+        $cs = stack_ast_container::make_from_teacher_source('simp:false' , '', new stack_cas_security());
         $vars[] = $cs;
         // Now add the expressions we want evaluated.
         foreach ($inputs as $name => $value) {
             if ('' !== $value) {
-                $cs = new stack_cas_casstring($value);
-                if ($cs->get_valid('t')) {
-                    $cs->set_key('testresponse_' . $name);
+                $val = 'testresponse_' . $name . ':' . $input->get_teacher_answer();
+                $cs = stack_ast_container::make_from_teacher_source($val , '', new stack_cas_security());
+                if ($cs->get_valid()) {
                     $vars[] = $cs;
                 }
             }
@@ -146,7 +145,7 @@ class stack_question_test {
             if ('' == $computedinput) {
                 $computedinput = $inputs[$name];
             } else {
-                // 4.3. menas the logic_nouns_sort is done through parse trees.
+                // 4.3. means the logic_nouns_sort is done through parse trees.
                 $computedinput = $cascontext->get_ast_key('testresponse_' . $name)->toString(array('nounify' => false));
             }
             if (array_key_exists($name, $question->inputs)) {

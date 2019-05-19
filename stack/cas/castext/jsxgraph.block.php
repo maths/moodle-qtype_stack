@@ -26,7 +26,6 @@ defined('MOODLE_INTERNAL') || die();
 // @copyright  2018 Aalto University
 // @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
 
-require_once(__DIR__ . '/../casstring.class.php');
 require_once("block.interface.php");
 require_once(__DIR__ . '/../../../../../../lib/pagelib.php');
 

@@ -26,8 +26,6 @@ require_once(__DIR__ . '/locallib.php');
 require_once(__DIR__ . '/stack/utils.class.php');
 require_once(__DIR__ . '/stack/options.class.php');
 require_once(__DIR__ . '/stack/cas/castext.class.php');
-require_once(__DIR__ . '/stack/cas/casstring.class.php');
-require_once(__DIR__ . '/stack/cas/cassession.class.php');
 require_once(__DIR__ . '/stack/cas/keyval.class.php');
 require_once(__DIR__ . '/stack/cas/installhelper.class.php');
 require_once(__DIR__ . '/stack/input/inputbase.class.php');
@@ -115,48 +113,46 @@ foreach ($samplearguments as $argument) {
         if (false === $onlyarg || $i == $onlyarg) {
             $cskey = 'A'.$i;
 
-            $ap = new stack_cas_casstring('assume_pos:false');
+            $val = 'false';
             if (array_key_exists('assumepos', $argument)) {
-                $ap = new stack_cas_casstring('assume_pos:true');
+                $val = 'true';
             }
-            $ap->get_valid('t');
+            $ap = stack_ast_container::make_from_teacher_source('assume_pos:' . $val, '', new stack_cas_security());
 
-            $ar = new stack_cas_casstring('assume_real:false');
+            $val = 'false';
             if (array_key_exists('assumereal', $argument)) {
-                $ar = new stack_cas_casstring('assume_real:true');
+                $val = 'true';
             }
-            $ar->get_valid('t');
+            $ar = stack_ast_container::make_from_teacher_source('assume_real:' . $val, '', new stack_cas_security());
 
-            $ac = new stack_cas_casstring('stack_calculus:false');
+            $val = 'false';
             if (array_key_exists('calculus', $argument)) {
-                $ac = new stack_cas_casstring('stack_calculus:true');
+                $val = 'true';
             }
-            $ac->get_valid('t');
+            $ac = stack_ast_container::make_from_teacher_source('stack_calculus:' . $val, '', new stack_cas_security());
 
-            $cs1 = new stack_cas_casstring($argument['casstring']);
-            $cs1->get_valid('s');
+            $cs1 = stack_ast_container::make_from_student_source($cskey . ':' . $argument['casstring'],
+                    '', new stack_cas_security());
 
-            $casstrings[$cskey] = $cs1->get_casstring();
+            $casstrings[$cskey] = $cs1->ast->toString();
             $casstrings['D'.$i] = $argument['debuglist'];
-            $cs1->set_key($cskey);
             if (array_key_exists('debuglist', $argument)) {
-                $cs2 = new stack_cas_casstring("DL:" . $argument['debuglist']);
-                $cs2->get_valid('t');
+                $val = "DL:" . $argument['debuglist'];
+                $cs2 = stack_ast_container::make_from_teacher_source($val, '', new stack_cas_security());
             } else {
-                $cs2 = new stack_cas_casstring("DL:false");
-                $cs2->get_valid('t');
+                $val = "DL:false";
+                $cs2 = stack_ast_container::make_from_teacher_source($val, '', new stack_cas_security());
             }
             if ($debug) {
                 // Print debug information and show logical connectives on this page.
-                $cs3 = new stack_cas_casstring("S1:stack_eval_equiv_arg(" . $cskey. ", true, true, true, DL)");
+                $val = "S1:stack_eval_equiv_arg(" . $cskey. ", true, true, true, DL)";
             } else {
                 // Print only logical connectives on this page.
-                $cs3 = new stack_cas_casstring("S1:stack_eval_equiv_arg(" . $cskey. ", true, true, false, DL)");
+                $val = "S1:stack_eval_equiv_arg(" . $cskey. ", true, true, false, DL)";
             }
-            $cs3->get_valid('t');
+            $cs3 = stack_ast_container::make_from_teacher_source($val, '', new stack_cas_security());
 
-            $cs4 = new stack_cas_casstring("R1:first(S1)");
-            $cs4->get_valid('t');
+            $cs4 = stack_ast_container::make_from_teacher_source("R1:first(S1)", '', new stack_cas_security());
 
             $session = new stack_cas_session(array($ap, $ar, $ac, $cs1, $cs2, $cs3, $cs4), $options);
             $expected = $argument['outcome'];
@@ -220,7 +216,7 @@ foreach ($samplearguments as $argument) {
                 }
                 echo html_writer::tag('p', stack_ouput_castext($displaytext));
                 if ($debug) {
-                    echo html_writer::tag('pre', $cskey . ": ". htmlspecialchars($cs1->get_casstring()) .
+                    echo html_writer::tag('pre', $cskey . ": ". htmlspecialchars($cs1->ast-toString()) .
                             ";\nDL:" . htmlspecialchars($argument['debuglist']) . ";").
                         html_writer::tag('p', $errs);
                 }
@@ -228,7 +224,7 @@ foreach ($samplearguments as $argument) {
             }
             /* Use the real validation code, and also create something which can be pasted into a live input box. */
             if ($onlyarg) {
-                $teacheranswer = $cs1->get_casstring();
+                $teacheranswer = $cs1->ast-toString();
                 $input = new stack_equiv_input('ans1', $teacheranswer, $options, array('options' => 'comments'));
                 $response = $input->get_correct_response($teacheranswer);
                 $state = $input->validate_student_response($response, $options, $teacheranswer, null);

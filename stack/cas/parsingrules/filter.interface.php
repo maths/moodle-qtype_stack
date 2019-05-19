@@ -23,7 +23,7 @@ interface stack_cas_astfilter {
 
     /**
      * Does whatever it needs to the AST and may append to the errors or notes
-     * might receive stack_cas_casstring directly, but better to keep these
+     * might receive stack_ast_container directly, but better to keep these
      * separate. The security object will tell about identifiers allowed and
      * includes the knowledge of status of units mode.
      *

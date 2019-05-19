@@ -33,8 +33,6 @@ require_once(__DIR__ . '/locallib.php');
 require_once(__DIR__ . '/stack/utils.class.php');
 require_once(__DIR__ . '/stack/options.class.php');
 require_once(__DIR__ . '/stack/cas/castext.class.php');
-require_once(__DIR__ . '/stack/cas/casstring.class.php');
-require_once(__DIR__ . '/stack/cas/cassession.class.php');
 require_once(__DIR__ . '/stack/cas/connector.dbcache.class.php');
 require_once(__DIR__ . '/stack/cas/installhelper.class.php');
 

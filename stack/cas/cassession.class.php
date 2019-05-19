@@ -30,7 +30,7 @@ require_once(__DIR__ . '/../maximaparser/utils.php');
 
 class stack_cas_session {
     /**
-     * @var stack_cas_casstring[] the CAS strings that make up this session.
+     * @var stack_ast_container[] the CAS strings that make up this session.
      */
     private $session;
 
@@ -93,7 +93,7 @@ class stack_cas_session {
             $session = array();
         }
 
-        // An array of stack_cas_casstring.
+        // An array of stack_ast_container.
         $this->session = $session;
 
         if ($options === null) {
@@ -144,7 +144,7 @@ class stack_cas_session {
         return $this->valid;
     }
 
-    /* A helper function which enables an array of stack_cas_casstring to be validated. */
+    /* A helper function which enables an array of stack_ast_container to be validated. */
     private function validate_array($cmd) {
         $valid  = true;
         foreach ($cmd as $key => $val) {
@@ -269,7 +269,7 @@ class stack_cas_session {
      * Add extra variables to the end of the existing session.
      * Note that this resets instantiation and validation, which will need to be
      * done again if used.
-     * @param array $vars variable name => stack_cas_casstring, the variables to add.
+     * @param array $vars variable name => stack_ast_container, the variables to add.
      */
     public function add_vars($vars) {
         if (!is_array($vars)) {

@@ -37,12 +37,12 @@ class stack_potentialresponse_node {
     public $nodeid;
 
     /*
-     * @var stack_cas_casstring Hold's nominal "student's answer".
+     * @var stack_ast_container Hold's nominal "student's answer".
      */
     public $sans;
 
     /*
-     * @var stack_cas_casstring Hold's nominal "teacher's answer".
+     * @var stack_ast_container Hold's nominal "teacher's answer".
      */
     public $tans;
 
@@ -72,15 +72,15 @@ class stack_potentialresponse_node {
     private $branches;
 
     public function __construct($sans, $tans, $answertest, $atoptions = null, $quiet=false, $notes='', $nodeid = 0) {
-        if (is_a($sans, 'stack_cas_casstring')) {
+        if (is_a($sans, 'stack_ast_container')) {
             $this->sans        = $sans;
         } else {
-            throw new stack_exception('stack_potentialresponse_node: sans must be a stack_cas_casstring');
+            throw new stack_exception('stack_potentialresponse_node: sans must be a stack_ast_container');
         }
-        if (is_a($tans, 'stack_cas_casstring')) {
+        if (is_a($tans, 'stack_ast_container')) {
             $this->tans        = $tans;
         } else {
-            throw new stack_exception('stack_potentialresponse_node: tans must be a stack_cas_casstring');
+            throw new stack_exception('stack_potentialresponse_node: tans must be a stack_ast_container');
         }
         $this->answertest  = $answertest;
         if (!is_bool($quiet)) {
@@ -91,9 +91,9 @@ class stack_potentialresponse_node {
 
         // This is not a stack_options class, but a string.
         // Some answertests need non-casstring options, eg. regular expressions.
-        if (is_a($atoptions, 'stack_cas_casstring')) {
+        if (is_a($atoptions, 'stack_ast_container')) {
             throw new stack_exception('stack_potentialresponse_node: ' .
-                    'atoptions must NOT be a stack_cas_casstring.  This should be a string.');
+                    'atoptions must NOT be a stack_ast_container.  This should be a string.');
         }
 
         /*
@@ -320,24 +320,19 @@ class stack_potentialresponse_node {
 
     /**
      * Get the context variables that this node uses, so that they can be
-     * pre-evaluated prior to transversing the tree.
+     * pre-evaluated prior to traversing the tree.
      * @param string $key used to make the variable names unique to this node.
-     * @return array of stack_cas_casstring
+     * @return array of stack_ast_container
      */
     public function get_context_variables($key) {
         $variables = array();
 
-        $this->sans->set_key('PRSANS' . $key);
         $variables[] = $this->sans;
-
-        $this->tans->set_key('PRTANS' . $key);
         $variables[] = $this->tans;
 
         if ($this->process_atoptions() && trim($this->atoptions) != '') {
-
-            $atopts = new stack_cas_casstring($this->atoptions);
-            $atopts->get_valid('t', false, 0);
-            $atopts->set_key('PRATOPT' . $key);
+            $cs = stack_ast_container::make_from_teacher_source('PRATOPT:' . $this->atoptions,
+                    '', new stack_cas_security());
             $variables[] = $atopts;
         }
 

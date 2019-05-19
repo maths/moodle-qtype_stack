@@ -64,14 +64,14 @@ class stack_equiv_input extends stack_input {
             $cs = new stack_cas_casstring($current);
             // The syntax hint need not be valid, but we don't want nouns.
             if ($cs->get_valid('t')) {
-                $current = $cs->ast->toString(array('nounify' => false, 'inputform' => true));
+                $current = $cs->get_inputform();
             }
             // Put the first line of the value of the teacher's answer in the input.
             if (trim($this->parameters['syntaxHint']) == 'firstline') {
                 $values = stack_utils::list_to_array($tavalue, false);
                 $cs = new stack_cas_casstring($values[0]);
                 $cs->get_valid('t');
-                $current = $cs->ast->toString(array('nounify' => false, 'inputform' => true));
+                $current = $cs->get_inputform();
             }
             // Remove % characters, e.g. %pi should be printed just as "pi".
             $current = str_replace('%', '', $current);
@@ -316,11 +316,10 @@ class stack_equiv_input extends stack_input {
             $showdomain = 'false';
         }
         $debuglist = 'false';
-        $an = new stack_cas_casstring('disp_stack_eval_arg('.$this->name.', '.$showlogic.', '.
+        $an = new stack_cas_casstring('equiv'.$this->name.':disp_stack_eval_arg('.$this->name.', '.$showlogic.', '.
                 $showdomain.', '.$equivdebug.', '.$debuglist.')');
         $an->get_valid('t', $this->get_parameter('strictSyntax', true),
                  $this->get_parameter('insertStars', 0));
-        $an->set_key('equiv'.$this->name);
 
         $calculus = 'false';
         if ($this->extraoptions['calculus']) {

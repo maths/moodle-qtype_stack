@@ -41,8 +41,6 @@ class stack_cas_castext_latex extends stack_cas_castext_block {
         } while (in_array($key, $sessionkeys));
         $this->number = $i - 1;
 
-        // The new ast_container does not modify the casstring, so we create the key here
-        // to avoid using "set_key" methods on the ast.
         $raw = $key . ':' . trim($this->get_node()->get_content());
         $cs = stack_ast_container::make_from_teacher_source($raw, '', new stack_cas_security(), $conditionstack);
 

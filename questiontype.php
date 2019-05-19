@@ -466,11 +466,9 @@ class qtype_stack extends question_type {
         foreach ($prtnames as $name) {
             $prtdata = $questiondata->prts[$name];
             $nodes = array();
-            foreach ($prtdata->nodes as $nodedata) {
-                $sans = new stack_cas_casstring($nodedata->sans);
-                $sans->get_valid('t');
-                $tans = new stack_cas_casstring($nodedata->tans);
-                $tans->get_valid('t');
+            foreach ($prtdata->nodes as $key => $nodedata) {
+                $sans = stack_ast_container::make_from_teacher_source('PRSANS' . $key . ':' . $nodedata->sans, '', new stack_cas_security());
+                $tans = stack_ast_container::make_from_teacher_source('PRTANS' . $key . ':' . $nodedata->tans, '', new stack_cas_security());
 
                 if (is_null($nodedata->falsepenalty) || $nodedata->falsepenalty === '') {
                     $falsepenalty = $questiondata->penalty;
@@ -494,8 +492,6 @@ class qtype_stack extends question_type {
                 $nodes[$nodedata->nodename] = $node;
             }
 
-            // TODO $feedbackvariables, and $sans, $tans, should probably still be strings
-            // here, and should be converted to CAS stuff later, only if needed.
             if ($prtdata->feedbackvariables) {
                 $feedbackvariables = new stack_cas_keyval($prtdata->feedbackvariables);
                 $feedbackvariables = $feedbackvariables->get_session();
@@ -1595,8 +1591,8 @@ class qtype_stack extends question_type {
             $errors[$fieldname][] = stack_string('strlengtherror');
 
         } else {
-            $casstring = new stack_cas_casstring($value);
-            if (!$casstring->get_valid('t')) {
+            $casstring = stack_ast_container::make_from_teacher_source($value, '', new stack_cas_security());
+            if (!$casstring->get_valid()) {
                 $errors[$fieldname][] = $casstring->get_errors();
             }
         }
@@ -1699,8 +1695,8 @@ class qtype_stack extends question_type {
         $inputvalues = array();
         foreach ($inputs as $inputname) {
             if (array_key_exists($inputname . 'modelans', $fromform)) {
-                $cs = new stack_cas_casstring($inputname.':'.$fromform[$inputname . 'modelans']);
-                $cs->get_valid('t');
+                $value = $inputname.':'.$fromform[$inputname . 'modelans'];
+                $cs = stack_ast_container::make_from_teacher_source($value, '', new stack_cas_security());
                 $inputvalues[] = $cs;
             }
         }
@@ -2151,8 +2147,8 @@ class qtype_stack extends question_type {
 
         $prtnodes = array();
         foreach ($prt->nodes as $name => $node) {
-            $sans = new stack_cas_casstring($node->sans);
-            $tans = new stack_cas_casstring($node->tans);
+            $sans = stack_ast_container::make_from_teacher_source($node->sans, '', new stack_cas_security());
+            $tans = stack_ast_container::make_from_teacher_source($node->tans, '', new stack_cas_security());
             $prtnode = new stack_potentialresponse_node($sans, $tans, $node->answertest, $node->testoptions);
             $prtnode->add_branch(1, '+', 0, '', -1, $node->truefeedback, $node->truefeedbackformat, '');
             $prtnode->add_branch(0, '+', 0, '', -1, $node->falsefeedback, $node->falsefeedbackformat, '');

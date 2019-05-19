@@ -20,7 +20,7 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/../../locallib.php');
 require_once(__DIR__ . '/../utils.class.php');
-require_once(__DIR__ . '/casstring.units.class.php');
+require_once(__DIR__ . '/ast.container.class.php');
 require_once(__DIR__ . '/connectorhelper.class.php');
 require_once(__DIR__ . '/cassession.class.php');
 
@@ -445,7 +445,7 @@ END;
                 self::create_maximalocal();
 
                 // Now we need to check this actually works.
-                $cs = new stack_cas_casstring('a:1+1');
+                $cs = stack_ast_container::make_from_teacher_source('a:1+1', '', new stack_cas_security());
                 $ts = new stack_cas_session(array($cs));
                 $ts->instantiate();
                 if ($ts->get_value_key('a') != '2') {

@@ -59,6 +59,7 @@ class stack_answertest_test_data {
         array('AlgEquiv', '', '', '(x-1)^2', -1, 'ATAlgEquivTEST_FAILED:Empty SA.', ''),
         array('AlgEquiv', '', 'x^2', '', -1, 'ATAlgEquivTEST_FAILED:Empty TA.', ''),
         array('AlgEquiv', '', 'x-1)^2', '(x-1)^2', -1, 'ATAlgEquiv_STACKERROR_SAns.', ''),
+
         array('AlgEquiv', '', 'integerp(3)', 'true', 1, 'ATLogic_True', 'Predicates'),
         array('AlgEquiv', '', 'integerp(3.1)', 'true', 0, '', ''),
         array('AlgEquiv', '', 'integerp(3)', 'false', 0, '', ''),
@@ -1630,6 +1631,7 @@ class stack_answertest_test_data {
         array('LowestTerms', '', '1+2/sqrt(3)', '(2*sqrt(3)+3)/3', 0, 'ATLowestTerms_not_rat.', ''),
         array('LowestTerms', '', '1/(1+1/root(3,2))', 'sqrt(3)/(sqrt(3)+1)', 0, 'ATLowestTerms_not_rat.', ''),
         array('LowestTerms', '', '1/(1+1/root(2,3))', '1/(1+1/root(2,3))', 0, 'ATLowestTerms_not_rat.', '')
+
     );
 
     public static function get_raw_test_data() {

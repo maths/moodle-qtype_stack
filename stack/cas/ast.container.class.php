@@ -192,6 +192,11 @@ class stack_ast_container {
      */
     private $answernotes;
 
+    /**
+     * @var string Only gets set by an answertest.
+     */
+    private $feedback;
+
     /** 
      * NOTE this really should be in a seprate subclass type, like those that do not generate
      * output... ALSO NOTE that castext2 no longer uses these at all so need is somewhat unknown.
@@ -292,20 +297,6 @@ class stack_ast_container {
             return implode(' ', array_unique($this->errors));
         }
         return $this->errors;
-    }
-
-    public function add_answernote($val) {
-        $this->answernote[] = $val;
-    }
-
-    public function get_answernotes($raw = 'implode') {
-        if (null === $this->valid) {
-            $this->get_valid();
-        }
-        if ($raw === 'implode') {
-            return trim(implode(' | ', array_unique($this->answernotes)));
-        }
-        return $this->answernotes;
     }
 
     public function get_raw_casstring() {
@@ -764,18 +755,27 @@ class stack_ast_container {
         return $this->display;
     }
 
+    public function add_answernote($val) {
+        $this->answernotes[] = $val;
+    }
+
     public function get_answernote($raw = 'implode') {
         if (null === $this->valid) {
-            $this->validate();
+            $this->get_valid();
         }
         if ($raw === 'implode') {
             return trim(implode(' | ', array_unique($this->answernotes)));
         }
         return $this->answernotes;
     }
+    
 
-    public function set_answernote($val) {
-        $this->answernotes[] = $val;
+    public function get_feedback() {
+        return $this->feedback;
+    }
+
+    public function set_feedback($val) {
+        $this->feedback = $val;
     }
 
     /**

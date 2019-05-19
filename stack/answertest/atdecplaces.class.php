@@ -43,8 +43,8 @@ class stack_anstest_atdecplaces extends stack_anstest {
 
         $commands = array($this->sanskey, $this->tanskey, (string) $this->atoption);
         foreach ($commands as $com) {
-            $cs = new stack_cas_casstring($com);
-            if (!$cs->get_valid('t', true, 0)) {
+            $cs = stack_ast_container::make_from_teacher_source($com, '', new stack_cas_security());
+            if (!$cs->get_valid()) {
                 $this->aterror      = 'TEST_FAILED';
                 $this->atfeedback   = stack_string('TEST_FAILED', array('errors' => ''));
                 $this->atfeedback  .= stack_string('AT_InvalidOptions', array('errors' => $cs->get_errors()));
@@ -76,9 +76,7 @@ class stack_anstest_atdecplaces extends stack_anstest {
 
         $cts = array();
         foreach ($cascommands as $key => $com) {
-            $cs = new stack_cas_casstring($com);
-            $cs->get_valid('t', true, 0);
-            $cs->set_key($key);
+            $cs = stack_ast_container::make_from_teacher_source($key . ':' . $com, '', new stack_cas_security());
             $cts[] = $cs;
         }
         $session = new stack_cas_session($cts, null, 0);

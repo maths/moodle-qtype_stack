@@ -100,9 +100,9 @@ class stack_answertest_general_cas extends stack_anstest {
                 return null;
             } else {
                 // Validate with teacher privileges, strict syntax & no automatically adding stars.
-                $ct  = new stack_cas_casstring($this->atoption);
+                $ct  = stack_ast_container::make_from_teacher_source($this->atoption, '', new stack_cas_security());
 
-                if (!$ct->get_valid('t', true, 1)) {
+                if (!$ct->get_valid()) {
                     $this->aterror      = 'TEST_FAILED';
                     $this->atfeedback   = stack_string('TEST_FAILED', array('errors' => ''));
                     $this->atfeedback  .= stack_string('AT_InvalidOptions', array('errors' => $ct->get_errors()));
@@ -124,13 +124,8 @@ class stack_answertest_general_cas extends stack_anstest {
 
         $op = $this->atoption;
         $cascommands = array();
-        // Normally the prefix equality should be the identity function in the context of answer tests.
-        if ($this->casfunction == 'ATEquiv' || $this->casfunction == 'ATEquivFirst') {
-            // This is a placeholder to ensure the result is always in slot 3.
-            $cascommands['n1'] = "null";
-        } else {
-            $cascommands['n1'] = "stackeq(x):=x";
-        }
+        // The prefix equality should be the identity function in the context of answer tests.
+        // The conversion "stackeq(x):=x" is now done at the ast level.
         $cascommands['STACKSA'] = $this->sanskey;
         $cascommands['STACKTA'] = $this->tanskey;
         if (!$this->processcasoptions || trim($op) === '' ) {
@@ -142,19 +137,18 @@ class stack_answertest_general_cas extends stack_anstest {
 
         $cts = array();
         foreach ($cascommands as $key => $com) {
-            $cs = new stack_cas_casstring($com);
-            $cs->get_valid('t', true, 0);
+            // TODO  $cs->set_nounvalues('add');
+            $cs = stack_ast_container::make_from_teacher_source($key . ':' . $com, '', new stack_cas_security());
             // It looks odd that the answer tests always get "nouns".  But with simp:true we have problems with
             // expressions like x=1 or x=2 which will always simplify to "false" in maxima.
-            $cs->set_nounvalues('add');
-            $cs->set_key($key);
             $cts[] = $cs;
         }
 
         $session = new stack_cas_session($cts, $this->options, 0);
         $session->instantiate();
         $this->debuginfo = $session->get_debuginfo();
-        if ('' != $session->get_errors_key('STACKSA')) {
+
+        if ('' != $session->get_errors_key('STACKSA') || !$cts[0]->get_valid()) {
             $this->aterror      = 'TEST_FAILED';
             $this->atfeedback   = stack_string('TEST_FAILED', array('errors' => $session->get_errors_key('STACKSA')));
             $this->atansnote    = $this->casfunction.'_STACKERROR_SAns.';
@@ -163,7 +157,7 @@ class stack_answertest_general_cas extends stack_anstest {
             return null;
         }
 
-        if ('' != $session->get_errors_key('STACKTA')) {
+        if ('' != $session->get_errors_key('STACKTA') || !$cts[1]->get_valid()) {
             $this->aterror      = 'TEST_FAILED';
             $this->atfeedback   = stack_string('TEST_FAILED', array('errors' => $session->get_errors_key('STACKTA')));
             $this->atansnote    = $this->casfunction.'_STACKERROR_TAns.';
@@ -173,7 +167,7 @@ class stack_answertest_general_cas extends stack_anstest {
         }
 
         if ($this->processcasoptions && trim($op) !== '') {
-            if ('' != $session->get_errors_key('STACKOP')) {
+            if ('' != $session->get_errors_key('STACKOP')  || !$cts[2]->get_valid()) {
                 $this->aterror      = 'TEST_FAILED';
                 $this->atfeedback   = stack_string('TEST_FAILED', array('errors' => $session->get_errors_key('STACKTA')));
                 $this->atansnote    = $this->casfunction.'_STACKERROR_Opt.';
@@ -185,9 +179,9 @@ class stack_answertest_general_cas extends stack_anstest {
 
         $sessionvars = $session->get_session();
         if (!$this->processcasoptions || trim($op) === '' ) {
-            $result = $sessionvars[3];
+            $result = $sessionvars[2];
         } else {
-            $result = $sessionvars[4];
+            $result = $sessionvars[3];
         }
 
         if ('' != $result->get_errors()) {
@@ -240,8 +234,8 @@ class stack_answertest_general_cas extends stack_anstest {
      */
     public function validate_atoptions($opt) {
         if ($this->processcasoptions) {
-            $cs = new stack_cas_casstring($opt);
-            return array($cs->get_valid('t'), $cs->get_errors());
+            $cs = stack_ast_container::make_from_teacher_source($opt, '', new stack_cas_security());
+            return array($cs->get_valid(), $cs->get_errors());
         }
         return array(true, '');
     }

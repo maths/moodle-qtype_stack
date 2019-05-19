@@ -87,9 +87,9 @@ class stack_anstest_atnumsigfigs extends stack_anstest {
             return null;
         } else {
             // Validate with teacher privileges, strict syntax & no automatically adding stars.
-            $ct  = new stack_cas_casstring($this->atoption);
+            $ct = stack_ast_container::make_from_teacher_source($this->atoption, '', new stack_cas_security());
 
-            if (!$ct->get_valid('t', true, 1)) {
+            if (!$ct->get_valid()) {
                 $this->aterror      = 'TEST_FAILED';
                 $this->atfeedback   = stack_string('TEST_FAILED', array('errors' => ''));
                 $this->atfeedback  .= stack_string('AT_InvalidOptions', array('errors' => $ct->get_errors()));
@@ -166,9 +166,7 @@ class stack_anstest_atnumsigfigs extends stack_anstest {
 
         $cts = array();
         foreach ($cascommands as $key => $com) {
-            $cs = new stack_cas_casstring($com);
-            $cs->get_valid('t', true, 0);
-            $cs->set_key($key);
+            $cs = stack_ast_container::make_from_teacher_source($key . ':' . $com, '', new stack_cas_security());
             $cts[] = $cs;
         }
 
@@ -176,7 +174,7 @@ class stack_anstest_atnumsigfigs extends stack_anstest {
         $session->instantiate();
 
         $this->debuginfo = $session->get_debuginfo();
-        if ('' != $session->get_errors_key('STACKSA')) {
+        if ('' != $session->get_errors_key('STACKSA') || !$cts[0]->get_valid()) {
             $this->aterror      = 'TEST_FAILED';
             $this->atfeedback   = stack_string('TEST_FAILED', array('errors' => $session->get_errors_key('STACKSA')));
             $this->atansnote    = $this->casfunction.'_STACKERROR_SAns.';
@@ -185,7 +183,7 @@ class stack_anstest_atnumsigfigs extends stack_anstest {
             return null;
         }
 
-        if ('' != $session->get_errors_key('STACKTA')) {
+        if ('' != $session->get_errors_key('STACKTA') || !$cts[1]->get_valid()) {
             $this->aterror      = 'TEST_FAILED';
             $this->atfeedback   = stack_string('TEST_FAILED', array('errors' => $session->get_errors_key('STACKTA')));
             $this->atansnote    = $this->casfunction.'_STACKERROR_TAns.';
@@ -194,7 +192,7 @@ class stack_anstest_atnumsigfigs extends stack_anstest {
             return null;
         }
 
-        if ('' != $session->get_errors_key('STACKOP')) {
+        if ('' != $session->get_errors_key('STACKOP') || !$cts[2]->get_valid()) {
             $this->aterror      = 'TEST_FAILED';
             $this->atfeedback   = stack_string('TEST_FAILED', array('errors' => $session->get_errors_key('STACKOP')));
             $this->atansnote    = $this->casfunction.'_STACKERROR_Opt.';

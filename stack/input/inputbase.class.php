@@ -18,7 +18,6 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/../../locallib.php');
 require_once(__DIR__ . '/../options.class.php');
-require_once(__DIR__ . '/../cas/casstring.class.php');
 require_once(__DIR__ . '/../cas/cassession.class.php');
 require_once(__DIR__ . '/inputstate.class.php');
 
@@ -606,8 +605,7 @@ abstract class stack_input {
         foreach ($caslines as $index => $cs) {
             $tvalidator[$index] = null;
             if (array_key_exists($index, $tcaslines)) {
-                $ta = $tcaslines[$index];
-                $tvalidator[$index] = $ta->get_casstring();
+                $tvalidator[$index] = $tcaslines[$index]->ast->toString();
             }
         }
         $lvarsdisp   = '';
@@ -634,15 +632,13 @@ abstract class stack_input {
             }
 
             if (array_key_exists($index, $errors) && '' == $errors[$index]) {
-                $cs->set_key($this->name.$index);
-                $cs->set_cas_validation_context($this->get_parameter('lowestTerms', false), $ta, $ivalidationmethod,
+                $cs->set_cas_validation_context($this->name.$index, $this->get_parameter('lowestTerms', false), $ta, $ivalidationmethod,
                     $this->get_extra_option('simp', false));
                 $sessionvars[] = $cs;
             }
         }
         if ($valid && $answer->get_valid()) {
-            $answer->set_key($this->name);
-            $answer->set_cas_validation_context($this->get_parameter('lowestTerms', false), $teacheranswer, $validationmethod,
+            $answer->set_cas_validation_context($this->name, $this->get_parameter('lowestTerms', false), $teacheranswer, $validationmethod,
                     $this->get_extra_option('simp', false));
             $sessionvars[] = $answer;
         }
@@ -651,9 +647,8 @@ abstract class stack_input {
         $lrules = new stack_cas_security($this->units,
                         $this->get_parameter('allowWords', ''),
                         $this->get_parameter('forbidWords', ''));
-        $lvars = new stack_cas_casstring('stack_validate_listofvars('.$this->name.')');
-        $lvars->get_valid('t', $this->get_parameter('strictSyntax', true),
-                $this->get_parameter('insertStars', 0), $lrules);
+        $raw = 'stack_validate_listofvars('.$this->name.')';
+        $lvars = stack_ast_container::make_from_teacher_source($raw, '', $lrules, array());
         if ($lvars->get_valid() && $valid && $answer->get_valid()) {
             $sessionvars[] = $lvars;
         }
@@ -680,7 +675,10 @@ abstract class stack_input {
 
         // Answers may not contain the ? character.  CAS-strings may, but answers may not.
         // It is very useful for teachers to be able to add in syntax hints.
-        $interpretedanswer = $answer->get_casstring();
+
+        $interpretedanswer = $answer->get_value();
+//        $interpretedanswer = $answer->get_casstring();
+        // TODO: apply a filter to check the ast!
         if (!(strpos($interpretedanswer, '?') === false)) {
             $valid = false;
             $errors[] = stack_string('qm_error');
@@ -752,13 +750,8 @@ abstract class stack_input {
                 // One of those things logic nouns hid.
                 $val = '';
             }
-            $answer = new stack_cas_casstring($val);
-
-            if ($this->units) {
-                $answer->set_context('units', true);
-            }
-            $answer->get_valid('s', $this->get_parameter('strictSyntax', true),
-                    $this->get_parameter('insertStars', 0), $secrules);
+            // TODO (!) use $this->get_parameter('insertStars', 0)....
+            $answer = stack_ast_container::make_from_student_source($val, '', $secrules, array());
 
             $ast = $answer->ast;
             // Assume single letter variable names = 4.
@@ -772,11 +765,6 @@ abstract class stack_input {
                 $filter->filter($ast, $errors, $note, $secrules);
             }
 
-            // Do we actually use the updated ast?
-            if (!$strict) {
-                $answer->update_casstring('s');
-            }
-
             $caslines[] = $answer;
             $valid = $valid && $answer->get_valid();
             $errors[] = $answer->get_errors();
@@ -784,11 +772,6 @@ abstract class stack_input {
 
         // Construct one final "answer" as a single maxima object.
         $answer = $this->caslines_to_answer($caslines);
-        if ($this->units) {
-            $answer->set_context('units', true);
-        }
-        $answer->get_valid('s', $this->get_parameter('strictSyntax', true),
-                $this->get_parameter('insertStars', 0), $secrules);
 
         return array($valid, $errors, $answer, $caslines);
     }
@@ -821,21 +804,18 @@ abstract class stack_input {
         $additionalvars = array();
 
         if (array_key_exists('floatnum', $this->extraoptions) && $this->extraoptions['floatnum']) {
-            $floatnum = new stack_cas_casstring('floatnump('.$this->name.')');
-            $floatnum->get_valid('t');
-            $additionalvars['floatnum'] = $floatnum;
+            $additionalvars['floatnum'] = stack_ast_container::make_from_teacher_source('floatnump('.$this->name.')',
+                    '', new stack_cas_security(), array());
         }
 
         if (array_key_exists('rationalnum', $this->extraoptions) && $this->extraoptions['rationalnum']) {
-            $rationalnum = new stack_cas_casstring('rationalnum('.$this->name.')');
-            $rationalnum->get_valid('t');
-            $additionalvars['rationalnum'] = $rationalnum;
+            $additionalvars['rationalnum'] = stack_ast_container::make_from_teacher_source('rationalnum('.$this->name.')',
+                    '', new stack_cas_security(), array());
         }
 
         if (array_key_exists('rationalized', $this->extraoptions) && $this->extraoptions['rationalized']) {
-            $rationalized = new stack_cas_casstring('rationalized('.$this->name.')');
-            $rationalized->get_valid('t');
-            $additionalvars['rationalized'] = $rationalized;
+            $additionalvars['rationalized'] = stack_ast_container::make_from_teacher_source('rationalized('.$this->name.')',
+                    '', new stack_cas_security(), array());
         }
 
         if (array_key_exists('assume_pos', $this->extraoptions)) {
@@ -843,9 +823,8 @@ abstract class stack_input {
             if ($this->extraoptions['assume_pos']) {
                 $assumepos = 'true';
             }
-            $assumepos = new stack_cas_casstring('assume_pos:'.$assumepos);
-            $assumepos->get_valid('t');
-            $additionalvars['assume_pos'] = $assumepos;
+            $additionalvars['assume_pos'] = stack_ast_container::make_from_teacher_source('assume_pos:'.$assumepos,
+                    '', new stack_cas_security(), array());
         }
 
         if (array_key_exists('assume_real', $this->extraoptions)) {
@@ -853,9 +832,8 @@ abstract class stack_input {
             if ($this->extraoptions['assume_real']) {
                 $assumereal = 'true';
             }
-            $assumereal = new stack_cas_casstring('assume_real:'.$assumereal);
-            $assumereal->get_valid('t');
-            $additionalvars['assume_real'] = $assumereal;
+            $additionalvars['assume_real'] = stack_ast_container::make_from_teacher_source('assume_real:'.$assumereal,
+                    '', new stack_cas_security(), array());
         }
 
         if (array_key_exists('calculus', $this->extraoptions)) {
@@ -863,9 +841,8 @@ abstract class stack_input {
             if ($this->extraoptions['calculus']) {
                 $calculus = 'true';
             }
-            $calculus = new stack_cas_casstring('stack_calculus:'.$calculus);
-            $calculus->get_valid('t');
-            $additionalvars['calculus'] = $assumereal;
+            $additionalvars['calculus'] = stack_ast_container::make_from_teacher_source('stack_calculus:'.$calculus,
+                    '', new stack_cas_security(), array());;
         }
 
         return $additionalvars;
@@ -1050,9 +1027,11 @@ abstract class stack_input {
         }
         $feedback  = '';
 
+        // TODO: refactor this ast creation away.
         $val = $state->contentsdisplayed;
-        $cs = new stack_cas_casstring($state->contentsdisplayed);
-        if ($cs->get_valid('t')) {
+        $cs = stack_ast_container::make_from_teacher_source($state->contentsdisplayed,
+                '', new stack_cas_security(), array());
+        if ($cs->get_valid()) {
             $val = $cs->ast->toString(array('nounify' => false, 'inputform' => true));
         }
         $feedback .= html_writer::tag('p', stack_string('studentValidation_yourLastAnswer', $val));
@@ -1140,8 +1119,9 @@ abstract class stack_input {
         if (trim($value) == 'EMPTYANSWER') {
             $value = '';
         }
-        $cs = new stack_cas_casstring($value);
-        $cs->get_valid('t');
+        // TODO: refactor this ast creation away.
+        $cs = stack_ast_container::make_from_teacher_source($value,
+                '', new stack_cas_security(), array());
         $val = '';
         if ($cs->ast) {
             $val = $cs->ast->toString(array('nounify' => false, 'inputform' => true));

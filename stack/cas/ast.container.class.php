@@ -152,7 +152,8 @@ class stack_ast_container {
     /**
        * The parsetree representing this ast after all modifications.
      */
-    private $ast;
+    // TODO: refactor the inputs....
+    public $ast;
 
     /**
      * The source of this ast. As used for security considerations.
@@ -707,7 +708,7 @@ class stack_ast_container {
 
     // If we "CAS validate" this string, then we need to set various options.
     // If the teacher's answer is null then we use typeless validation, otherwise we check type.
-    public function set_cas_validation_context($lowestterms, $tans, $validationmethod, $simp) {
+    public function set_cas_validation_context($vname, $lowestterms, $tans, $validationmethod, $simp) {
 
         if (!($validationmethod == 'checktype' || $validationmethod == 'typeless' || $validationmethod == 'units'
                 || $validationmethod == 'unitsnegpow' || $validationmethod == 'equiv' || $validationmethod == 'numerical')) {
@@ -716,6 +717,7 @@ class stack_ast_container {
                 }
     
                 $this->validationcontext = array(
+                    'vname'            => $vname,
                     'lowestterms'      => $lowestterms,
                     'tans'             => $tans,
                     'validationmethod' => $validationmethod,
@@ -760,6 +762,20 @@ class stack_ast_container {
 
     public function get_display() {
         return $this->display;
+    }
+
+    public function get_answernote($raw = 'implode') {
+        if (null === $this->valid) {
+            $this->validate();
+        }
+        if ($raw === 'implode') {
+            return trim(implode(' | ', array_unique($this->answernotes)));
+        }
+        return $this->answernotes;
+    }
+
+    public function set_answernote($val) {
+        $this->answernotes[] = $val;
     }
 
     /**

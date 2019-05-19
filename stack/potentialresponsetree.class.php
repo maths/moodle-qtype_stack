@@ -113,8 +113,7 @@ class stack_potentialresponse_tree {
         } else {
             $simp = 'false';
         }
-        $cs = new stack_cas_casstring($simp);
-        $cs->set_key('simp');
+        $cs = stack_ast_container::make_from_teacher_source('simp:'.$simp, '', new stack_cas_security(), array());
         $answervars = array($cs);
         // Add the student's responses, but only those needed by this prt.
         // Some irrelevant but invalid answers might break the CAS connection.
@@ -124,14 +123,11 @@ class stack_potentialresponse_tree {
             } else {
                 $ans = $answers[$name];
             }
-            $cs = new stack_cas_casstring($ans);
-
             // Validating as teacher at this stage removes the problem of "allowWords" which
             // we don't have access to.  This effectively allows any words here.  But the
             // student's answer has already been through validation.
-            $cs->get_valid('t');
-            // Setting the key must come after validation.
-            $cs->set_key($name);
+            $cs = stack_ast_container::make_from_teacher_source($name . ':' . $ans, '',
+                    new stack_cas_security(), array());
             $answervars[] = $cs;
         }
         $cascontext->add_vars($answervars);

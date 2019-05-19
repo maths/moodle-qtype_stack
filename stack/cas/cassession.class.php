@@ -24,7 +24,6 @@ defined('MOODLE_INTERNAL') || die();
 // @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
 
 require_once('ast.container.class.php');
-require_once('casstring.class.php');
 require_once('connectorhelper.class.php');
 require_once(__DIR__ . '/../options.class.php');
 require_once(__DIR__ . '/../maximaparser/utils.php');
@@ -630,7 +629,7 @@ class stack_cas_session {
             $vcmd = '(make_multsgn("blank"),stack_validate_units(['.$starredanswer.'], ' .
                     $lowestterms.', '.$tans.', "negpow", '.$fltfmt.'))';
         }
-        return $vcmd;
+        return $validationcontext['vname'] . ':' . $vcmd;
     }
 
     /**

@@ -95,7 +95,7 @@ class stack_cas_session_test extends qtype_stack_testcase {
         $this->assertEquals('e^{\mathrm{i}\cdot \pi}', $at1->get_display_key('c'));
 
     }
-/*
+
     public function test_multiplication_option_complexno_i() {
 
         $cs = array('p:a+b*%i', 'q:a+b*i', 'r:a+b*j');
@@ -1509,5 +1509,5 @@ class stack_cas_session_test extends qtype_stack_testcase {
             $i++;
         }
     }
-*/
+
 }

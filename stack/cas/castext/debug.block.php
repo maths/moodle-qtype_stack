@@ -57,7 +57,7 @@ class stack_cas_castext_debug extends stack_cas_castext_block {
         foreach ($evaluatedcassession->get_session() as $cs) {
             $output .= "<tr>";
             $output .= "<td>" . $cs->get_key() . "</td>";
-            $output .= "<td>" . $cs->get_casstring() . "</td>";
+            $output .= "<td>" . $cs->get_inputform()() . "</td>";
             $output .= "<td>" . $cs->get_raw_casstring() . "</td>";
             $output .= "<td>" . $cs->get_value() . "</td>";
             $output .= "<td>" . $cs->get_dispvalue() . "</td>";

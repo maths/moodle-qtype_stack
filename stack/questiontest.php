@@ -126,7 +126,7 @@ class stack_question_test {
         // Now add the expressions we want evaluated.
         foreach ($inputs as $name => $value) {
             if ('' !== $value) {
-                $val = 'testresponse_' . $name . ':' . $input->get_teacher_answer();
+                $val = 'testresponse_' . $name . ':' . $value;
                 $cs = stack_ast_container::make_from_teacher_source($val , '', new stack_cas_security());
                 if ($cs->get_valid()) {
                     $vars[] = $cs;

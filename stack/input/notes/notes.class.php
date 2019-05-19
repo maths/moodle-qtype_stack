@@ -84,7 +84,7 @@ class stack_notes_input extends stack_input {
         $errors   = null;
         $caslines = array();
         $valid    = true;
-        $answer   = new stack_cas_casstring('');
+        $answer   = stack_ast_container::make_from_student_source('', '', new stack_cas_security());;
 
         return array($valid, $errors, $answer, $caslines);
     }

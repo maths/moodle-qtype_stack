@@ -335,18 +335,6 @@ class stack_cas_session {
         return $return;
     }
 
-    public function get_casstring_key($key) {
-        if (null === $this->valid) {
-            $this->validate();
-        }
-        foreach (array_reverse($this->session) as $casstr) {
-            if ($casstr->get_key() === $key) {
-                return $casstr->get_casstring();
-            }
-        }
-        return false;
-    }
-
     public function get_value_key($key, $dispvalue = false) {
         if (null === $this->valid) {
             $this->validate();
@@ -485,7 +473,7 @@ class stack_cas_session {
             }
 
             if ('' !== $errors && null != $errors) {
-                $strin = str_replace($dummy, $casstr->get_casstring(), $strin);
+                $strin = str_replace($dummy, $casstr->get_inputform(), $strin);
             } else if (strstr($strin, $dummy)) {
                 $strin = str_replace($dummy, $disp, $strin);
             }
@@ -549,7 +537,7 @@ class stack_cas_session {
                             && array_search($cond, $this->session) < array_search($cs, $this->session)) {
                         $conditions[] = $cond->get_key();
                     } else {
-                        $conditions[] = $cond->get_casstring();
+                        $conditions[] = $cond->get_inputform();
                     }
                 }
 
@@ -687,7 +675,7 @@ class stack_cas_session {
         $keyvals = '';
         foreach ($this->session as $cs) {
             if (null === $this->instantiated) {
-                $val = $cs->get_casstring();
+                $val = $cs->get_inputform();
             } else {
                 $val = $cs->get_value();
             }

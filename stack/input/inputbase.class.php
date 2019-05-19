@@ -1120,8 +1120,7 @@ abstract class stack_input {
             $value = '';
         }
         // TODO: refactor this ast creation away.
-        $cs = stack_ast_container::make_from_teacher_source($value,
-                '', new stack_cas_security(), array());
+        $cs = stack_ast_container::make_from_teacher_source($value, '', new stack_cas_security(), array());
         $val = '';
         if ($cs->ast) {
             $val = $cs->get_inputform();

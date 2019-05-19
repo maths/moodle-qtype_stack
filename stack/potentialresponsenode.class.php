@@ -240,6 +240,8 @@ class stack_potentialresponse_node {
         // At this point we need to subvert the CAS.  If the sans or tans is *exactly* the name of one of the
         // inputs, then we should use the casstring (not the rawcasstring).  Running the value through the CAS strips
         // off trailing zeros, making it effectively impossible to run the numerical sigfigs tests.
+
+        // TODO: refactor this to pass the ast, then we won't need to "subvert the CAS".....
         $sans   = $cascontext->get_value_key('PRSANS' . $key);
         $tans   = $cascontext->get_value_key('PRTANS' . $key);
         foreach ($answers as $cskey => $val) {

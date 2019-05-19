@@ -481,12 +481,11 @@ class stack_inputvalidation_test_data {
 
         // @codingStandardsIgnoreEnd
 
-        $cs = new stack_cas_casstring($test->rawstring);
-        $cs->set_cas_validation_context(true, null, 'typeless', false);
-        $cs->get_valid('s', false, 1);
+        $cs = stack_ast_container::make_from_student_source($test->rawstring, '', new stack_cas_security());
+        $cs->set_cas_validation_context('ans1', true, '', 'typeless', false);
 
         $phpvalid     = $cs->get_valid();
-        $phpcasstring = $cs->get_casstring();
+        $phpcasstring = $cs->get_inputform();
         $errors       = $cs->get_errors();
 
         $passed = true;

@@ -21,8 +21,8 @@ defined('MOODLE_INTERNAL') || die();
 // @copyright  2012 University of Birmingham.
 // @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
 
+require_once(__DIR__ . '/ast.container.class.php');
 require_once(__DIR__ . '/cassession.class.php');
-require_once(__DIR__ . '/casstring.class.php');
 require_once(__DIR__ . '/castext/autogen/castextparser.class.php');
 require_once(__DIR__ . '/castext/block.factory.php');
 

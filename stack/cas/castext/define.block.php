@@ -23,7 +23,6 @@ defined('MOODLE_INTERNAL') || die();
 // @copyright  2012 University of Birmingham
 // @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
 
-require_once(__DIR__ . '/../casstring.class.php');
 require_once("block.interface.php");
 
 class stack_cas_castext_define extends stack_cas_castext_block {
@@ -60,9 +59,10 @@ class stack_cas_castext_define extends stack_cas_castext_block {
     public function validate_extract_attributes() {
         $r = array();
         foreach ($this->get_node()->get_parameters() as $key => $value) {
-            $cs = new stack_cas_casstring("$key:$value");
+            $cs = stack_ast_container::make_from_teacher_source($key . ':' . $value, '', new stack_cas_security(), array());
             $r[] = $cs;
         }
         return $r;
     }
+
 }

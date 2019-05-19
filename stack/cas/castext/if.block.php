@@ -22,7 +22,6 @@ defined('MOODLE_INTERNAL') || die();
 // @copyright  2012 University of Birmingham
 // @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
 
-require_once(__DIR__ . '/../casstring.class.php');
 require_once("block.interface.php");
 
 class stack_cas_castext_if extends stack_cas_castext_block {
@@ -76,7 +75,7 @@ class stack_cas_castext_if extends stack_cas_castext_block {
 
     public function validate_extract_attributes() {
         $condition = $this->get_node()->get_parameter('test', 'false');
-        $r = array(new stack_cas_casstring($condition));
+        $r = array(stack_ast_container::make_from_teacher_source($condition, '', new stack_cas_security(), array()));
         return $r;
     }
 

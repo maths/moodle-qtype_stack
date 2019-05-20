@@ -21,11 +21,11 @@ defined('MOODLE_INTERNAL') || die();
 // @copyright  2019 Aalto University
 // @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
 
-require_once(__DIR__ . '/../stack/cas/parsingrules/002_log_candy.php');
 require_once(__DIR__ . '/../stack/cas/parsingrules/040_common_function_name_multiplier.php');
 require_once(__DIR__ . '/../stack/cas/parsingrules/043_no_calling_function_returns.php');
 require_once(__DIR__ . '/../stack/cas/parsingrules/050_split_floats.php');
 require_once(__DIR__ . '/../stack/cas/parsingrules/051_no_floats.php');
+require_once(__DIR__ . '/../stack/cas/parsingrules/parsingrule.factory.php');
 require_once(__DIR__ . '/../stack/maximaparser/utils.php');
 require_once(__DIR__ . '/../stack/maximaparser/corrective_parser.php');
 
@@ -43,7 +43,7 @@ class stack_astfilter_test extends qtype_stack_testcase {
         $answernotes = array();
         $errors      = array();
 
-        $astfilter   = new stack_ast_log_candy_002();
+        $astfilter   = stack_parsing_rule_factory::get_by_common_name('002_log_candy');
 
         // This test might allow functions that are allowed, but not yet.
         $security    = new stack_cas_security();
@@ -61,7 +61,7 @@ class stack_astfilter_test extends qtype_stack_testcase {
         $answernotes = array();
         $errors      = array();
 
-        $astfilter   = new stack_ast_log_candy_002();
+        $astfilter   = stack_parsing_rule_factory::get_by_common_name('002_log_candy');
 
         // This test might allow functions that are allowed, but not yet.
         $security    = new stack_cas_security();
@@ -80,7 +80,7 @@ class stack_astfilter_test extends qtype_stack_testcase {
         $errors      = array();
         $ast         = maxima_corrective_parser::parse($teststring, $errors, $answernotes, array());
 
-        $astfilter   = new stack_ast_log_candy_002();
+        $astfilter   = stack_parsing_rule_factory::get_by_common_name('002_log_candy');
 
         // This test might allow functions that are allowed, but not yet.
         $security    = new stack_cas_security();
@@ -98,7 +98,7 @@ class stack_astfilter_test extends qtype_stack_testcase {
         $errors      = array();
         $ast         = maxima_corrective_parser::parse($teststring, $errors, $answernotes, array());
 
-        $astfilter   = new stack_ast_log_candy_002();
+        $astfilter   = stack_parsing_rule_factory::get_by_common_name('002_log_candy');
 
         // This test might allow functions that are allowed, but not yet.
         $security    = new stack_cas_security();
@@ -116,7 +116,7 @@ class stack_astfilter_test extends qtype_stack_testcase {
         $errors      = array();
         $ast         = maxima_corrective_parser::parse($teststring, $errors, $answernotes, array());
 
-        $astfilter   = new stack_ast_log_candy_002();
+        $astfilter   = stack_parsing_rule_factory::get_by_common_name('002_log_candy');
 
         // This test might allow functions that are allowed, but not yet.
         $security    = new stack_cas_security();

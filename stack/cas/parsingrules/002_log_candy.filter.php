@@ -28,7 +28,7 @@ require_once(__DIR__ . '/../../maximaparser/utils.php');
  *
  * Will add 'logsubs' answernote if triggered.
  */
-class stack_ast_log_candy_002 implements stack_cas_astfilter {
+class stack_ast_filter_002_log_candy implements stack_cas_astfilter {
     public function filter(MP_Node $ast, array &$errors,
             array &$answernotes, stack_cas_security $identifierrules): MP_Node {
         $process = function($node) use (&$errors, &$answernotes) {

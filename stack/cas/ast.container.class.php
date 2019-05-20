@@ -23,6 +23,7 @@ defined('MOODLE_INTERNAL')|| die();
 
 require_once(__DIR__ . '/parsingrules/parsingrule.factory.php');
 require_once(__DIR__ . '/cassecurity.class.php');
+require_once(__DIR__ . '/evaluatable_object.interfaces.php');
 require_once(__DIR__ . '/../../locallib.php');
 require_once(__DIR__ . '/../utils.class.php');
 require_once(__DIR__ . '/../maximaparser/utils.php');
@@ -30,7 +31,7 @@ require_once(__DIR__ . '/../maximaparser/corrective_parser.php');
 require_once(__DIR__ . '/../maximaparser/MP_classes.php');
 
 
-class stack_ast_container {
+class stack_ast_container implements cas_latex_extractor, cas_value_extractor{
 
     /*
      * NOTES:
@@ -46,20 +47,31 @@ class stack_ast_container {
      */
 
     public static function make_from_student_source(string $raw, string $context,
-            stack_cas_security $securitymodel, array $filterstoapply = array(),
-            string $grammar = 'Root'): stack_ast_container {
+            stack_cas_security $securitymodel, array $filterstoapply = array(), 
+            array $filteroptions = array(), string $grammar = 'Root'): stack_ast_container {
 
         $errors = array();
         $answernotes = array();
         $parseroptions = array('startRule' => $grammar,
                                'letToken' => stack_string('equiv_LET'));
 
+        // Force the security filter to use 's'.
+        if (isset($filteroptions['998_security'])) {
+            $filteroptions['998_security']['security'] = 's';
+        } else {
+            $filteroptions['998_security'] = array('security' => 's');
+        }
+        // If security filter is not included include it.
+        if (array_search('998_security', $filterstoapply) === false) {
+            $filterstoapply[] = '998_security';
+        }
+
         // Use the corective parser as this comes from the student.
         $ast = maxima_corrective_parser::parse($raw, $errors, $answernotes, $parseroptions);
 
         // Get the filter pipeline. Even if we would not use it in case of
         // ast = null, we still want to check that the request is valid.
-        $pipeline = stack_parsing_rule_factory::get_filter_pipeline($filterstoapply, true);
+        $pipeline = stack_parsing_rule_factory::get_filter_pipeline($filterstoapply, $filteroptions, true);
 
         if ($ast !== null) {
             $ast = $pipeline->filter($ast, $errors, $answernotes, $securitymodel);
@@ -98,9 +110,12 @@ class stack_ast_container {
             // And that comes from the strict filter later.
         }
 
+        // As we take no filter options for teachers sourced stuff lets build them from scratch.
+        $filteroptions = array('998_security' => array('security' => 't'));
+
         // Get the filter pipeline. Now we only want the core filtters and
         // append the strict syntax check to the end.
-        $pipeline = stack_parsing_rule_factory::get_filter_pipeline(array("999_strict"), true);
+        $pipeline = stack_parsing_rule_factory::get_filter_pipeline(array('998_security', '999_strict'), $filteroptions, true);
 
         if ($ast !== null) {
             $ast = $pipeline->filter($ast, $errors, $answernotes, $securitymodel);
@@ -128,7 +143,8 @@ class stack_ast_container {
 
         $errors = array();
         $answernotes = array();
-        $pipeline = stack_parsing_rule_factory::get_filter_pipeline(array("999_strict"), true);
+        $filteroptions = array('998_security' => array('security' => 't'));
+        $pipeline = stack_parsing_rule_factory::get_filter_pipeline(array('998_security', '999_strict'), $filteroptions, true);
         $ast = $pipeline->filter($ast, $errors, $answernotes, $securitymodel);
 
         $astc = new self;
@@ -232,6 +248,18 @@ class stack_ast_container {
      */
     private $testclean;
 
+    /**
+     * AST value coming back from CAS
+     */
+    private $evaluated;
+
+    /**
+     * LaTeX value coming back from CAS
+     */
+    private $latex;
+
+
+
     private function __constructor($ast, string $source, string $context,
                                    stack_cas_security $securitymodel,
                                    array $errors, array $answernotes, array $conditions = array()) {
@@ -270,9 +298,6 @@ class stack_ast_container {
             $this->ast->callbackRecurse($findinvalid, false);
 
             $this->valid = !$hasinvalid;
-
-            // Then do the whole security mess.
-            $this->valid = $this->valid  && $this->check_security();
         }
 
         return $this->valid;
@@ -353,349 +378,30 @@ class stack_ast_container {
         return $key;
     }
 
-    // NOTE this is the "old" one an can be pruned a bit.
-    private function check_security() {
 
-        // First extract things of interest from the tree, i.e. function calls,
-        // variable references and operations.
-        $ofinterest = array();
-
-        // For certain cases we want to know of commas. For this reason
-        // certain structures need to be checked for them.
-        $commas = false;
-        $extraction = function($node) use (&$ofinterest, &$commas){
-            if ($node instanceof MP_Identifier ||
-                $node instanceof MP_FunctionCall ||
-                $node instanceof MP_Operation ||
-                $node instanceof MP_PrefixOp ||
-                $node instanceof MP_PostfixOp) {
-
-                $ofinterest[] = $node;
-            }
-            if (!$commas) {
-                if ($node instanceof MP_FunctionCall && count($node->arguments) > 1) {
-                    $commas = true;
-                } else if (($node instanceof MP_Set || $node instanceof MP_List ||
-                            $node instanceof MP_Group) && count($node->items) > 1) {
-                    $commas = true;
-                } else if ($node instanceof MP_EvaluationFlag) {
-                    $commas = true;
-                }
-            }
-
-            return true;
-        };
-        $this->ast->callbackRecurse($extraction);
-
-        // Separate the identifiers we meet for latter use. Not the nodes
-        // the string identifiers. Key is the value so unique from the start.
-        $functionnames = array();
-        $writtenvariables = array();
-        $variables = array();
-        $operators = array();
-
-        // If we had commas in play add them to the operators.
-        if ($commas) {
-            $operators[','] = true;
+    // cas_evaluatable interfaces.
+    public function set_cas_status(array $errors) {
+        if (count($errors) > 0) {
+            $this->errors = array_merge($this->errors, $errors);
         }
-
-        // Now loop over the initially found things of interest. Note that
-        // the list may grow as we go forward and unwrap things.
-        $i = 0;
-        while ($i < count($ofinterest)) {
-            $node = $ofinterest[$i];
-            $i = $i + 1;
-
-            if ($node instanceof MP_Operation || $node instanceof MP_PrefixOp || $node instanceof MP_PostfixOp) {
-                // We could just strip these out in the recurse but maybe we want
-                // to check something in the future.
-                $operators[$node->op] = true;
-            } else if ($node instanceof MP_Identifier && !$node->is_function_name()) {
-                $variables[$node->value] = true;
-                if ($node->is_being_written_to()) {
-                    // This can be used to check if someone tries to redefine
-                    // %pi or some other important thing.
-                    $writtenvariables[$node->value] = true;
-                }
-            } else if ($node instanceof MP_FunctionCall) {
-                $notsafe = true;
-                if ($node->name instanceof MP_Identifier || $node->name instanceof MP_String) {
-                    $notsafe = false;
-                    $functionnames[$node->name->value] = true;
-                    $safemap = false;
-                    if ($this->securitymodel->has_feature($node->name->value, 'mapfunction')) {
-                        // If it is an apply or map function throw it in for
-                        // validation.
-                        switch ($node->name->value) {
-                            case 'apply':
-                            case 'funmake':
-                                $safemap = true;
-
-                                // TODO: add errors about applying to wrong types
-                                // of things and check them. For the other map
-                                // functions to allow more to be done.
-
-                            default:
-                                // NOTE: this is a correct virtual form for only
-                                // 'apply' and 'funmake' others will need to be
-                                // written out as multiplce calls. And are
-                                // therefore still unsafe atleast untill we do
-                                // the writing out...
-                                $virtualfunction = new MP_FunctionCall($node->arguments[0], array_slice($node->arguments, 1));
-                                $virtualfunction->position['virtual'] = true;
-                                $ofinterest[] = $virtualfunction;
-                                break;
-                        }
-                        if (isset($node->position['virtual']) && !$safemap) {
-                            // TODO: localise "Function application through mapping
-                            // functions has depth limits as it hides things."
-                            $this->errors[] = trim(stack_string('stackCas_deepmap'));
-                            $this->answernote[] = 'deepmap';
-                            $this->valid = false;
-                        }
-                    }
-
-                } else if ($node->name instanceof MP_FunctionCall) {
-                    $outter = $node->name;
-                    if (($outter->name instanceof MP_Identifier || $outter->name instanceof MP_String)
-                        && $outter->name->value === 'lambda') {
-                        // This is safe, but we will not go out of our way to identify the function from further.
-                        $notsafe = false;
-                    } else {
-                        // Calling the result of a function that is not lambda.
-                        $this->errors[] = trim(stack_string('stackCas_callingasfunction',
-                                                      array('problem' => stack_maxima_format_casstring($node->toString()))));
-                        $this->answernote[] = 'forbiddenWord';
-                        $this->valid = false;
-                    }
-                } else if ($node->name instanceof MP_Group) {
-                    $outter = $node->name->items[count($node->name->items) - 1];
-                    // We do this due to this (1,(cos,sin))(x) => sin(x).
-                    $notsafe = false;
-                    $virtualfunction = new MP_FunctionCall($outter, $node->arguments);
-                    $virtualfunction->position['virtual'] = true;
-                    $ofinterest[] = $virtualfunction;
-                } else if ($node->name instanceof MP_Indexing) {
-                    if (count($node->name->indices) === 1 && $node->name->target instanceof MP_List) {
-                        $ind = -1;
-                        if (count($node->name->indices[0]) === 1 && $node->name->indices[0]->items[0] instanceof MP_Integer) {
-                            $ind = $node->name->indices[0]->items[0]->value - 1;
-                        }
-                        if ($ind >= 0 && $ind < count($node->name->target->items)) {
-                            // We do this due to this because of examples such as [1,(cos,sin)][2](x) => sin(x).
-                            $notsafe = false;
-                            $virtualfunction = new MP_FunctionCall($node->name->target->items[$ind], $node->arguments);
-                            $virtualfunction->position['virtual'] = true;
-                            $ofinterest[] = $virtualfunction;
-                        } else {
-                            $notsafe = false;
-                            foreach ($node->name->target->items as $id) {
-                                $virtualfunction = new MP_FunctionCall($id, $node->arguments);
-                                $virtualfunction->position['virtual'] = true;
-                                $ofinterest[] = $virtualfunction;
-                            }
-                        }
-                    }
-                }
-                if ($notsafe) {
-                    // As in not safe identification of the function to be called.
-                    $this->errors[] = trim(stack_string('stackCas_applyingnonobviousfunction',
-                                                  array('problem' => $node->toString())));
-                    $this->answernote[] = 'forbiddenWord';
-                    $this->valid = false;
-                }
-            }
-        }
-
-        // Go through operators.
-        foreach (array_keys($operators) as $op) {
-            // First handle certain fixed special rules for ops.
-            if ($op === '?' || $op === '?? ' || $op === '? ') {
-                $this->errors[] = trim(stack_string('stackCas_qmarkoperators'));
-                $this->answernote[] = 'qmark';
-                $this->valid = false;
-            } else if ($this->source === 's' && ($op === "'" || $op === "''")) {
-                $this->errors[] = trim(stack_string('stackCas_apostrophe'));
-                $this->answernote[] = 'apostrophe';
-                $this->valid = false;
-            } else if (!$this->securitymodel->is_allowed_as_operator($this->source, $op)) {
-                $this->errors[] = trim(stack_string('stackCas_forbiddenOperator',
-                        array('forbid' => stack_maxima_format_casstring($op))));
-                $this->answernote[] = 'forbiddenOp';
-                $this->valid = false;
-            }
-        }
-
-        // Go through function calls.
-        foreach (array_keys($functionnames) as $name) {
-            // Special feedback for 'In' != 'ln' depends on the allow status of
-            // 'In' that is why it is here.
-            $vars = $this->securitymodel->get_case_variants($name, 'function');
-
-            if ($this->source === 's' && $name === 'In' && !$this->securitymodel->is_allowed_word($name, 'function')) {
-                $this->errors[] = trim(stack_string('stackCas_badLogIn'));
-                $this->answernote[] = 'stackCas_badLogIn';
-                $this->valid = false;
-            } else if ($this->source === 's' && count($vars) > 0 && array_search($name, $vars) === false) {
-                // Case sensitivity issues.
-                $this->errors[] = trim(stack_string('stackCas_unknownFunctionCase',
-                    array('forbid' => stack_maxima_format_casstring($name),
-                          'lower' => stack_maxima_format_casstring(implode(', ', $vars)))));
-                $this->answernote[] = 'unknownFunctionCase';
-                $this->valid = false;
-            } else if (!$this->securitymodel->is_allowed_to_call($this->source, $name)) {
-                $this->errors[] = trim(stack_string('stackCas_forbiddenFunction',
-                        array('forbid' => stack_maxima_format_casstring($name))));
-                $this->answernote[] = 'forbiddenFunction';
-                $this->valid = false;
-            }
-        }
-
-        // Check for constants.
-        foreach (array_keys($writtenvariables) as $name) {
-            if ($this->securitymodel->has_feature($name, 'constant')) {
-                // TODO: decide if we set this as validity issue, might break
-                // materials where the constants redefined do not affect things.
-                $this->errors[] = trim(stack_string('stackCas_redefinitionOfConstant',
-                        array('constant' => stack_maxima_format_casstring($name))));
-                $this->answernote[] = 'writingToConstant';
-                $this->valid = false;
-            }
-            // Other checks happen at the $variables loop. These are all members of that.
-        }
-
-        if ($this->source === 's') {
-            $emptyfungroup = array();
-            $checkemptyfungroup = function($node) use (&$emptyfungroup) {
-                // A function call with no arguments.
-                if ($node instanceof MP_FunctionCall && count($node->arguments) === 0 ) {
-                    $emptyfungroup[] = $node;
-                }
-                // A "group", programatic groups.
-                if ($node instanceof MP_Group && count($node->items) === 0 ) {
-                    $emptyfungroup[] = $node;
-                }
-                return true;
-            };
-            $this->ast->callbackRecurse($checkemptyfungroup);
-            if (count($emptyfungroup) > 0) {
-                $this->errors[] = trim(stack_string('stackCas_forbiddenWord',
-                            array('forbid' => stack_maxima_format_casstring('()'))));
-                $this->answernote[] = 'emptyParens';
-                $this->valid = false;
-            }
-        }
-
-        /*
-         * The rules of student identifiers are as follows, applies to whole
-         * identifier or its subparts:
-         *   Phase 1:
-         *   if forbidden identifier in security-map then false else
-         *   if present in forbidden words or contains such then false else
-         *   if strlen() == 1 then true else
-         *   if author used key then false else
-         *   if strlen() > 2 and in allowed words then true else
-         *   if strlen() > 2 and in security-map then true else
-         *   if ends with a number then true else false
-         *  Phase 2:
-         *   if phase 1 = false then false else
-         *   if units and not unit name and is unit case variant then false else
-         *   if not (know or in security-map) and case variant in security-map then false else
-         *   true
-         */
-
-        // Check for variables.
-        foreach (array_keys($variables) as $name) {
-            // Check for operators like 'and' if they appear as variables
-            // things have gone wrong.
-            if ($this->securitymodel->has_feature($name, 'operator')) {
-                $this->errors[] = trim(stack_string('stackCas_operatorAsVariable',
-                    array('op' => stack_maxima_format_casstring($name))));
-                $this->answernote[] = 'operatorPlacement';
-                $this->valid = false;
-                continue;
-            }
-
-            if (isset($this->context['units']) && $this->context['units']) {
-                // Check for unit synonyms. Ignore if specifically allowed.
-                list ($fndsynonym, $answernote, $synonymerr) = stack_cas_casstring_units::find_units_synonyms($name);
-                if ($this->source == 's' && $fndsynonym && !$this->securitymodel->is_allowed_word($name)) {
-                    $this->errors[] = trim($synonymerr);
-                    $this->answernote[] = $answernote;
-                    $this->valid = false;
-                    continue;
-                }
-                $err = stack_cas_casstring_units::check_units_case($name);
-                if ($err) {
-                    // We have spotted a case sensitivity problem in the units.
-                    $this->errors[] = trim($err);
-                    $this->answernote[] = 'unknownUnitsCase';
-                    $this->valid = false;
-                    continue;
-                }
-            }
-
-            if ($this->securitymodel->has_feature($name, 'globalyforbiddenvariable')) {
-                // Very bad!
-                $this->errors[] = trim(stack_string('stackCas_forbiddenWord',
-                    array('forbid' => stack_maxima_format_casstring($name))));
-                $this->answernote[] = 'forbiddenWord';
-                $this->valid = false;
-                continue;
-            }
-
-            // TODO: Did I understand the split by underscores right?
-            // Could we do that split on the PHP side to ensure security
-            // covering any possible construction of function calls?
-            $keys = array($name => true);
-            // If the whole thing is allowed no need to split it down.
-            if ($this->source === 's' && !$this->securitymodel->is_allowed_to_read($this->source, $name)) {
-                $keys = array();
-                foreach (explode("_", $name) as $kw) {
-                    $keys[$kw] = true;
-                }
-            }
-            foreach (array_keys($keys) as $n) {
-                if (!$this->securitymodel->is_allowed_to_read($this->source, $n)) {
-                    if ($this->source === 't') {
-                        $this->errors[] = trim(stack_string('stackCas_forbiddenWord',
-                            array('forbid' => stack_maxima_format_casstring($n))));
-                        $this->answernote[] = 'forbiddenWord';
-                        $this->valid = false;
-                    } else {
-                        $vars = $this->securitymodel->get_case_variants($n, 'variable');
-                        if (count($vars) > 0 && array_search($n, $vars) === false) {
-                            $this->errors[] = trim(stack_string('stackCas_unknownVariableCase',
-                                array('forbid' => stack_maxima_format_casstring($n),
-                                'lower' => stack_maxima_format_casstring(
-                                    implode(', ', $vars)))));
-                            $this->answernote[] = 'unknownVariableCase';
-                            $this->valid = false;
-                        } else {
-                            $this->errors[] = trim(stack_string('stackCas_forbiddenVariable',
-                                array('forbid' => stack_maxima_format_casstring($n))));
-                            $this->answernote[] = 'forbiddenVariable';
-                            $this->valid = false;
-                        }
-                    }
-                } else if (strlen($n) > 1) {
-                    // We still need to try for case variants.
-                    if ($this->source === 's') {
-                        $vars = $this->securitymodel->get_case_variants($n, 'variable');
-                        if (count($vars) > 0 && array_search($n, $vars) === false) {
-                            $this->errors[] = trim(stack_string('stackCas_unknownVariableCase',
-                                array('forbid' => stack_maxima_format_casstring($n),
-                                'lower' => stack_maxima_format_casstring(
-                                    implode(', ', $vars)))));
-                            $this->answernote[] = 'unknownVariableCase';
-                            $this->valid = false;
-                        }
-                    }
-                }
-            }
-        }
-        return true;
     }
+    
+    public function get_source_context(): string {
+        return $this->context;
+    }
+
+    public function set_cas_evaluated_value(MP_Node $ast) {
+        $this->evaluated = $ast;
+    }
+
+    public function set_cas_latex_value(string $latex) {
+        $this->latex = $latex;
+    }
+
+    public function get_evaluated(): MP_Node {
+        return $this->evaluated;
+    }
+
 
     // If we "CAS validate" this string, then we need to set various options.
     // If the teacher's answer is null then we use typeless validation, otherwise we check type.

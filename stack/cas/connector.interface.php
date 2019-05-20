@@ -36,4 +36,12 @@ interface stack_cas_connection {
      *      debugging is enabled by the configuration.
      */
     public function get_debuginfo();
+
+
+    /**
+     * Send some Maxima code to Maxima, and return the parsed results.
+     * @param string $command Maxima code to execute.
+     * @return array the unpacked results returned by Maxima.
+     */
+    public function json_compute($command): array;
 }

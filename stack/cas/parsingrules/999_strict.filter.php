@@ -21,7 +21,7 @@ require_once(__DIR__ . '/filter.interface.php');
  * AST filter that marks everything that has been fiexd by insertting stars
  * or fixing spaces as invalid.
  */
-class stack_ast_filter_strict_999 implements stack_cas_astfilter {
+class stack_ast_filter_999_strict implements stack_cas_astfilter {
 
     public function filter(MP_Node $ast, array &$errors, array &$answernotes, stack_cas_security $identifierrules): MP_Node {
 

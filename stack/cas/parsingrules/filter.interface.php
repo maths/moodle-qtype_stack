@@ -32,3 +32,11 @@ interface stack_cas_astfilter {
     public function filter(MP_Node $ast, array &$errors, array &$answernotes, stack_cas_security $identifierrules): MP_Node;
 
 }
+
+interface stack_cas_astfilter_parametric extends stack_cas_astfilter {
+
+	/**
+	 * Sets any paramters this filter instance might have.
+	 */
+	public function set_filter_parameters(array $parameters);
+}

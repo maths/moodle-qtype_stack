@@ -20,7 +20,7 @@ require_once(__DIR__ . '/filter.interface.php');
 /**
  * AST filter that prevents the use of any floats.
  */
-class stack_ast_filter_no_floats_051 implements stack_cas_astfilter {
+class stack_ast_filter_101_no_floats implements stack_cas_astfilter {
     public function filter(MP_Node $ast, array &$errors, array &$answernotes, stack_cas_security $identifierrules): MP_Node {
         $checkfloats = function($node) use (&$answernotes, &$errors) {
             if ($node instanceof MP_Float) {

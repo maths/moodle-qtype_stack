@@ -26,7 +26,7 @@ require_once(__DIR__ . '/filter.interface.php');
  * Note that in cases like '1.23e-4' or '5.6E+7' only adds one star and
  * turns that -/+ to an op.
  */
-class stack_ast_filter_split_floats_050 implements stack_cas_astfilter {
+class stack_ast_filter_450_split_floats implements stack_cas_astfilter {
     public function filter(MP_Node $ast, array &$errors, array &$answernotes, stack_cas_security $identifierrules): MP_Node {
         $process = function($node) use (&$answernotes) {
             if ($node instanceof MP_Float && $node->raw !== null) {

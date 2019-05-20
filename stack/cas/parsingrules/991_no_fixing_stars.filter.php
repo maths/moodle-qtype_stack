@@ -18,43 +18,25 @@ defined('MOODLE_INTERNAL') || die();
 require_once(__DIR__ . '/filter.interface.php');
 
 /**
- * AST filter that marks everything that has been fiexd by insertting stars
- * or fixing spaces as invalid.
+ * AST filter that marks everything that has been fiexd by inserting 
+ * stars as invalid.
  */
-class stack_ast_filter_999_strict implements stack_cas_astfilter_exclusion {
+class stack_ast_filter_991_no_fixing_stars implements stack_cas_astfilter_exclusion {
 
     public function filter(MP_Node $ast, array &$errors, array &$answernotes, stack_cas_security $identifierrules): MP_Node {
 
-        $spaces = false;
         $stars = false;
 
-        $check = function($node) use (&$stars, &$spaces) {
+        $check = function($node) use (&$stars) {
             if (isset($node->position['inserstars'])) {
                 $stars = true;
                 $node->position['invalid'] = true;
             }
-
-            if (isset($node->position['fixspaces'])) {
-                $spaces = true;
-                $node->position['invalid'] = true;
-            }
-            return true;
         };
 
         $ast->callbackRecurse($check, false);
 
         // Now that those have been checked and invalidated. Lets write custom errors.
-        if ($spaces === true) {
-            $missingstring = $ast->toString(
-                    array('fixspaces_as_red_spaces' => true, 'qmchar' => true, 'inputform' => true));
-            if ($ast instanceof MP_Root) {
-                $missingstring = core_text::substr($missingstring, 0, -2);
-            }
-            $a = array();
-            $a['expr']  = stack_maxima_format_casstring($missingstring);
-            array_unshift($errors, stack_string('stackCas_spaces', $a));
-        }
-
         if ($stars === true) {
             $missingstring = $ast->toString(array('insertstars_as_red' => true, 'qmchar' => true, 'inputform' => true));
             if ($ast instanceof MP_Root) {
@@ -71,8 +53,8 @@ class stack_ast_filter_999_strict implements stack_cas_astfilter_exclusion {
     }
 
     public function conflicts_with(string $other_filter_name): bool {
-        if ($other_filter_name === '990_no_fixing_spaces' ||
-            $other_filter_name === '991_no_fixing_stars') {
+        if ($other_filter_name === '999_strict' ||
+            $other_filter_name === '991_no_fixing_spaces') {
             return true;
         }
         return false;

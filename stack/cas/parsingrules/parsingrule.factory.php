@@ -19,14 +19,16 @@ defined('MOODLE_INTERNAL')|| die();
 require_once(__DIR__ . '/filter.interface.php');
 require_once(__DIR__ . '/pipeline.class.php');
 
+require_once(__DIR__ . '/001_fix_call_of_a_group_or_function.filter.php');
 require_once(__DIR__ . '/002_log_candy.filter.php');
-require_once(__DIR__ . '/010_single_char_vars.php');
-require_once(__DIR__ . '/040_common_function_name_multiplier.php');
 require_once(__DIR__ . '/041_no_functions.php');
 require_once(__DIR__ . '/042_no_functions_at_all.php');
-require_once(__DIR__ . '/043_no_calling_function_returns.php');
-require_once(__DIR__ . '/050_split_floats.php');
-require_once(__DIR__ . '/051_no_floats.php');
+require_once(__DIR__ . '/101_no_floats.filter.php');
+require_once(__DIR__ . '/402_split_prefix_from_common_function_name.filter.php');
+require_once(__DIR__ . '/410_single_char_vars.filter.php');
+require_once(__DIR__ . '/450_split_floats.filter.php');
+require_once(__DIR__ . '/990_no_fixing_spaces.filter.php');
+require_once(__DIR__ . '/991_no_fixing_stars.filter.php');
 require_once(__DIR__ . '/998_security.filter.php');
 require_once(__DIR__ . '/999_strict.filter.php');
 
@@ -43,8 +45,22 @@ class stack_parsing_rule_factory {
         // Might as well do the require once here, but better limit to 
         // vetted and require all by default to catch syntax errors.
         switch ($name) {
+            case '001_fix_call_of_a_group_or_function':
+                return new stack_ast_filter_001_fix_call_of_a_group_or_function();
             case '002_log_candy':
                 return new stack_ast_filter_002_log_candy();
+            case '101_no_floats':
+                return new stack_ast_filter_101_no_floats();
+            case '402_split_prefix_from_common_function_name':
+                return new stack_ast_filter_402_split_prefix_from_common_function_name();
+            case '410_single_char_vars':
+                return new stack_ast_filter_410_single_char_vars();
+            case '450_split_floats':
+                return new stack_ast_filter_450_split_floats();
+            case '990_no_fixing_spaces':
+                return new stack_ast_filter_990_no_fixing_spaces();
+            case '991_no_fixing_stars':
+                return new stack_ast_filter_991_no_fixing_stars();
             case '998_security':
                 return new stack_ast_filter_998_security();
             case '999_strict':
@@ -56,20 +72,19 @@ class stack_parsing_rule_factory {
 
     public static function get_by_common_name(string $name): stack_cas_astfilter {
         if (empty(self::$singletons)) {
-            foreach (array('002_log_candy', '998_security', '999_strict') as $name) {
+            // If the static set has not been initialised do so.            
+            foreach (array('001_fix_call_of_a_group_or_function', '002_log_candy', 
+                           '101_no_floats',
+                           '402_split_prefix_from_common_function_name', 
+                           '410_single_char_vars', '450_split_floats',
+                           '990_no_fixing_spaces', '991_no_fixing_stars',
+                           '998_security', '999_strict') as $name) {
                 self::$singletons[$name] = self::build_from_name($name);
             }
 
 
-            // If the static set has not been initialised do so.
-            
-            self::$singletons['010_single_char_vars'] = new stack_ast_filter_single_char_vars_010();
-            self::$singletons['040_common_function_name_multiplier'] = new stack_ast_common_function_name_multiplier_040();
             self::$singletons['041_no_functions'] = new stack_ast_filter_no_functions_041();
             self::$singletons['042_no_functions_at_all'] = new stack_ast_filter_no_functions_at_all_042();
-            self::$singletons['043_no_calling_function_returns'] = new stack_ast_filter_no_calling_function_returns_43();
-            self::$singletons['050_split_floats'] = new stack_ast_filter_split_floats_050();
-            self::$singletons['051_no_floats'] = new stack_ast_filter_no_floats_051();
         }
         return self::$singletons[$name];
     }
@@ -77,12 +92,20 @@ class stack_parsing_rule_factory {
     public static function get_filter_pipeline(array $activefilters, array $settings, bool $includecore=true): stack_cas_astfilter {
         $tobeincluded = array();
         if ($includecore === true) {
-            // This would be simpler when we rename the filters so that for example 
-            // everything with number in the range 000-099 is core, then we could simply
-            // include them from the keys of self::$singletons...
-            $tobeincluded['002_log_candy'] = self::get_by_common_name('002_log_candy');
+            if (empty(self::$singletons)) {
+                // If not generated generate the list.
+                $tobeincluded['001_fix_call_of_a_group_or_function'] = self::get_by_common_name('001_fix_call_of_a_group_or_function');
+            }
 
-            // The security filter is not a core filter, maybe it should be?
+            // All core filters begin with 0.
+            foreach (self::$singletons as $key => $filter) {
+                if (strpos($key, '0') === 0) {
+                    $tobeincluded[$key] = $filter;
+                }
+            }
+
+            // 999_strict and 998_security can also be considered as core but
+            // are not included by default as they are selective features.
         }
         foreach ($activefilters as $value) {
             $filter = self::get_by_common_name($value);
@@ -95,6 +118,18 @@ class stack_parsing_rule_factory {
             }
             $tobeincluded[$value] = $filter;
         }
+
+        // Check for exclusions, just in case.
+        foreach ($tobeincluded as $key => $filter) {
+            if ($filter instanceof stack_cas_astfilter_exclusion) {
+                foreach ($tobeincluded as $name => $duh) {
+                    if ($name !== $key && $filter->conflicts_with($name)) {
+                        throw new stack_exception('stack_ast_filter: conflicting filters present in pipeline ' . $key . ' and ' . $name);
+                    }
+                }
+            }
+        }
+
         // Sort them into order.
         ksort($tobeincluded);
         // And return the combination filter.

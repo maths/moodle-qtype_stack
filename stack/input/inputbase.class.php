@@ -21,10 +21,6 @@ require_once(__DIR__ . '/../options.class.php');
 require_once(__DIR__ . '/../cas/cassession.class.php');
 require_once(__DIR__ . '/inputstate.class.php');
 
-//TODO: manage loading of filters.
-require_once(__DIR__ . '/../cas/parsingrules/010_single_char_vars.php');
-require_once(__DIR__ . '/../cas/parsingrules/051_no_floats.php');
-
 /**
  * The base class for inputs in Stack.
  *
@@ -746,25 +742,24 @@ abstract class stack_input {
         $stars = $this->get_parameter('insertStars', 0);
         $strict = $this->get_parameter('strictSyntax', true);
 
+        $filterstoapply = array();
+
+        if ($this->get_parameter('forbidFloats', false)) {
+            $filterstoapply[] = '101_no_floats';
+        }
+
+        // Assume single letter variable names = 4.
+        if ($stars & (1 << 2)) {
+            $filterstoapply[] = '410_single_char_vars';
+        }
+
         foreach ($contents as $index => $val) {
             if ($val === null) {
                 // One of those things logic nouns hid.
                 $val = '';
             }
             // TODO (!) use $this->get_parameter('insertStars', 0)....
-            $answer = stack_ast_container::make_from_student_source($val, '', $secrules, array());
-
-            $ast = $answer->ast;
-            // Assume single letter variable names = 4.
-            if ($stars & (1 << 2)) {
-                    $filter = new stack_ast_filter_single_char_vars_010();
-                    $filter->filter($ast, $errors, $note, $secrules);
-            }
-
-            if ($this->get_parameter('forbidFloats', false)) {
-                $filter = new stack_ast_filter_no_floats_051();
-                $filter->filter($ast, $errors, $note, $secrules);
-            }
+            $answer = stack_ast_container::make_from_student_source($val, '', $secrules, $filterstoapply);
 
             $caslines[] = $answer;
             $valid = $valid && $answer->get_valid();

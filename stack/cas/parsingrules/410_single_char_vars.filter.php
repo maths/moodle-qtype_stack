@@ -18,9 +18,10 @@ defined('MOODLE_INTERNAL') || die();
 require_once(__DIR__ . '/filter.interface.php');
 
 /**
- * AST filter that splits variable names into single characters.
+ * AST filter that splits variable names into single characters. 
+ * Or longest known variable names.
  */
-class stack_ast_filter_single_char_vars_010 implements stack_cas_astfilter {
+class stack_ast_filter_410_single_char_vars implements stack_cas_astfilter {
 
     public function filter(MP_Node $ast, array &$errors, array &$answernotes, stack_cas_security $identifierrules): MP_Node {
 
@@ -31,15 +32,8 @@ class stack_ast_filter_single_char_vars_010 implements stack_cas_astfilter {
                     return true;
                 }
 
-                // Skip the very special identifiers for log-candy. These will be reconstructed
-                // as function calls elsewhere.
-                if ($node->value === 'log10' || core_text::substr($node->value, 0, 4) === 'log_') {
-                    return true;
-                }
-
                 // Get the list/map of protected variable names and constants.
-                $units = false;
-                $protected = stack_cas_security::get_protected_identifiers('variable', $units);
+                $protected = stack_cas_security::get_protected_identifiers('variable', $identifierrules->get_units());
 
                 // If the identifier is a protected one stop here.
                 if (array_key_exists($node->value, $protected)) {
@@ -85,8 +79,6 @@ class stack_ast_filter_single_char_vars_010 implements stack_cas_astfilter {
                 $answernote[] = 'missing_stars';
                 return false;
             }
-            // TODO: Do we do this also for function names? All of them? Is even log10 safe?
-
             return true;
         };
 

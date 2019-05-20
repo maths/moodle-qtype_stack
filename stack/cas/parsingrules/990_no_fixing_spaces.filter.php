@@ -18,22 +18,16 @@ defined('MOODLE_INTERNAL') || die();
 require_once(__DIR__ . '/filter.interface.php');
 
 /**
- * AST filter that marks everything that has been fiexd by insertting stars
- * or fixing spaces as invalid.
+ * AST filter that marks everything that has been fiexd by fixing 
+ * spaces as invalid.
  */
-class stack_ast_filter_999_strict implements stack_cas_astfilter_exclusion {
+class stack_ast_filter_990_no_fixing_spaces implements stack_cas_astfilter_exclusion {
 
     public function filter(MP_Node $ast, array &$errors, array &$answernotes, stack_cas_security $identifierrules): MP_Node {
 
         $spaces = false;
-        $stars = false;
 
-        $check = function($node) use (&$stars, &$spaces) {
-            if (isset($node->position['inserstars'])) {
-                $stars = true;
-                $node->position['invalid'] = true;
-            }
-
+        $check = function($node) use (&$spaces) {
             if (isset($node->position['fixspaces'])) {
                 $spaces = true;
                 $node->position['invalid'] = true;
@@ -55,23 +49,11 @@ class stack_ast_filter_999_strict implements stack_cas_astfilter_exclusion {
             array_unshift($errors, stack_string('stackCas_spaces', $a));
         }
 
-        if ($stars === true) {
-            $missingstring = $ast->toString(array('insertstars_as_red' => true, 'qmchar' => true, 'inputform' => true));
-            if ($ast instanceof MP_Root) {
-                // If MP_Root then it ads ";\n" to the string after statement.
-                $missingstring = core_text::substr($missingstring, 0, -2);
-            }
-            $a = array();
-            $a['cmd']  = stack_maxima_format_casstring($missingstring);
-            // This is an error worthy of being at the top.
-            array_unshift($errors, stack_string('stackCas_MissingStars', $a));
-        }
-
         return $ast;
     }
 
     public function conflicts_with(string $other_filter_name): bool {
-        if ($other_filter_name === '990_no_fixing_spaces' ||
+        if ($other_filter_name === '999_strict' ||
             $other_filter_name === '991_no_fixing_stars') {
             return true;
         }

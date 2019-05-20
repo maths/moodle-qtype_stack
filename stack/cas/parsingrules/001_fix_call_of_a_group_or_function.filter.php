@@ -18,24 +18,24 @@ defined('MOODLE_INTERNAL') || die();
 require_once(__DIR__ . '/filter.interface.php');
 
 /**
- * AST filter that prevents calling function returns.
+ * AST filter that splits the inconvenient (x-1)(x+2) pattern should it 
+ * survive corrective parsing, also acts as a security feature.
  */
-class stack_ast_filter_no_calling_function_returns_43 implements stack_cas_astfilter {
-    public function filter(MP_Node $ast, array &$errors, array &$answernotes, stack_cas_security $identifierrules): MP_Node {
-        $hasany = false;
+class stack_ast_filter_001_fix_call_of_a_group_or_function implements stack_cas_astfilter {
 
-        $process = function($node) use (&$hasany, &$errors) {
-            if ($node instanceof MP_FunctionCall && !$node->name instanceof MP_Identifier) {
-                $hasany = true;
-                // Insert stars into the patten.
-                $nop = new MP_Operation('*', $node->name, new MP_Group($node->arguments));
-                $nop->position['calling_function_returns'] = true;
-                $nop->position['insertstars'] = true;
-                $node->parentnode->replace($node, $nop);
-                $errors[] = stack_string('stackCas_MissingStars',
-                        array('cmd' => stack_maxima_format_casstring($nop->toString())));
+    public function filter(MP_Node $ast, array &$errors, array &$answernotes, stack_cas_security $identifierrules): MP_Node {
+
+        $process = function($node) use (&$valid, &$errors, &$answernote) {
+            if (($node instanceof MP_Functioncall) &&
+                (($node->name instanceof MP_Group) ||
+                 ($node->name instanceof MP_Functioncall))) {
+                $replacement = new MP_Operation('*', $node->name, new MP_Group($node->arguments));
+                $replacement->position['insertstars'] = true;
+                $node->parentnode->replace($node, $replacement);
+                $answernote[] = 'missing_stars';
                 return false;
             }
+            
             return true;
         };
 
@@ -43,9 +43,6 @@ class stack_ast_filter_no_calling_function_returns_43 implements stack_cas_astfi
         while ($ast->callbackRecurse($process) !== true) {
         }
         // @codingStandardsIgnoreEnd
-        if ($hasany) {
-            $answernotes[] = 'calling_function_returns';
-        }
         return $ast;
     }
 }

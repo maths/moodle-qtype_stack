@@ -18,19 +18,19 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/../locallib.php');
 require_once(__DIR__ . '/fixtures/test_base.php');
-require_once(__DIR__ . '/../stack/cas/parsingrules/010_single_char_vars.php');
+require_once(__DIR__ . '/../stack/cas/parsingrules/410_single_char_vars.filter.php');
 
 /**
- * Unit tests for {@link stack_ast_filter_single_char_vars_010}.
+ * Unit tests for {@link stack_ast_filter_410_single_char_vars}.
  * @group qtype_stack
  */
-class stack_parser_rule_010_test extends qtype_stack_testcase {
+class stack_parser_rule_410_test extends qtype_stack_testcase {
 
     public function test_nothing_to_do() {
         $teststring = '2*a*b;';
         $result     = $teststring . "\n";
         $ast = maxima_parser_utils::parse($teststring);
-        $filter = new stack_ast_filter_single_char_vars_010();
+        $filter = new stack_ast_filter_410_single_char_vars();
         $errs = array();
         $note = array();
         $security = new stack_cas_security();
@@ -45,7 +45,7 @@ class stack_parser_rule_010_test extends qtype_stack_testcase {
         $teststring = '2*ab;';
         $result     = '2*a*b;' . "\n";
         $ast = maxima_parser_utils::parse($teststring);
-        $filter = new stack_ast_filter_single_char_vars_010();
+        $filter = new stack_ast_filter_410_single_char_vars();
         $errs = array();
         $note = array();
         $security = new stack_cas_security();
@@ -60,7 +60,7 @@ class stack_parser_rule_010_test extends qtype_stack_testcase {
         $teststring = 'nalpha+sin(pin);';
         $result     = 'n*alpha+sin(pi*n);' . "\n";
         $ast = maxima_parser_utils::parse($teststring);
-        $filter = new stack_ast_filter_single_char_vars_010();
+        $filter = new stack_ast_filter_410_single_char_vars();
         $errs = array();
         $note = array();
         $security = new stack_cas_security();

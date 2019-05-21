@@ -38,7 +38,9 @@ class stack_ast_filter_002_log_candy implements stack_cas_astfilter {
                     $node->name->value = 'lg';
                     // The special replace of FunctionCalls appends an argument.
                     $node->replace(-1, new MP_Integer(10));
-                    $answernotes[] = 'logsubs';
+                    if (array_search('logsubs', $answernotes) === false) {
+                        $answernotes[] = 'logsubs';
+                    }
                     return false;
                 }
                 if ($node->name->value === 'log_') {
@@ -60,7 +62,7 @@ class stack_ast_filter_002_log_candy implements stack_cas_astfilter {
                     // to 'lg(y,xyz)' by parsing 'xyz'. We do not need to care about any rules
                     // when parsing it as it will be a pure statement and will be parseable.
                     $argument = core_text::substr($node->name->value, 4);
-                    // This will unfortunately lose all the inforamtion about insertted stars
+                    // This will unfortunately lose all the information about insertted stars
                     // but that is hardly an issue.
                     $parsed = maxima_parser_utils::parse($argument, 'Root');
                     // There will be only one statement and it is a statement.
@@ -69,7 +71,9 @@ class stack_ast_filter_002_log_candy implements stack_cas_astfilter {
                     $node->name->value = 'lg';
                     // The special replace of FunctionCalls appends an argument.
                     $node->replace(-1, $parsed);
-                    $answernotes[] = 'logsubs';
+                    if (array_search('logsubs', $answernotes) === false) {
+                        $answernotes[] = 'logsubs';
+                    }                    
                     return false;
                 }
             }

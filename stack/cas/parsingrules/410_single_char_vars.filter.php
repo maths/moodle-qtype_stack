@@ -32,6 +32,10 @@ class stack_ast_filter_410_single_char_vars implements stack_cas_astfilter {
                     return true;
                 }
 
+                // TODO: do we maybe want to use the allowed words here also?
+                // although then allowed words should be typed, to get 
+                // the best results.
+
                 // Get the list/map of protected variable names and constants.
                 $protected = stack_cas_security::get_protected_identifiers('variable', $identifierrules->get_units());
 

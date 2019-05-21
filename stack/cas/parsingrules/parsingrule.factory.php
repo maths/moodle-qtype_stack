@@ -21,9 +21,11 @@ require_once(__DIR__ . '/pipeline.class.php');
 
 require_once(__DIR__ . '/001_fix_call_of_a_group_or_function.filter.php');
 require_once(__DIR__ . '/002_log_candy.filter.php');
+require_once(__DIR__ . '/020_no_arc.filter.php');
 require_once(__DIR__ . '/101_no_floats.filter.php');
 require_once(__DIR__ . '/102_no_strings.filter.php');
 require_once(__DIR__ . '/402_split_prefix_from_common_function_name.filter.php');
+require_once(__DIR__ . '/403_split_at_number_letter_boundary.filter.php');
 require_once(__DIR__ . '/410_single_char_vars.filter.php');
 require_once(__DIR__ . '/441_split_unknown_functions.filter.php');
 require_once(__DIR__ . '/442_split_all_functions.filter.php');
@@ -52,12 +54,16 @@ class stack_parsing_rule_factory {
                 return new stack_ast_filter_001_fix_call_of_a_group_or_function();
             case '002_log_candy':
                 return new stack_ast_filter_002_log_candy();
+            case '020_no_arc':
+                return new stack_ast_filter_020_no_arc();
             case '101_no_floats':
                 return new stack_ast_filter_101_no_floats();
             case '102_no_strings':
                 return new stack_ast_filter_102_no_strings();
             case '402_split_prefix_from_common_function_name':
                 return new stack_ast_filter_402_split_prefix_from_common_function_name();
+            case '403_split_at_number_letter_boundary':
+                return new stack_ast_filter_403_split_at_number_letter_boundary();
             case '410_single_char_vars':
                 return new stack_ast_filter_410_single_char_vars();
             case '441_split_unknown_functions':
@@ -86,9 +92,11 @@ class stack_parsing_rule_factory {
     public static function get_by_common_name(string $name): stack_cas_astfilter {
         if (empty(self::$singletons)) {
             // If the static set has not been initialised do so.            
-            foreach (array('001_fix_call_of_a_group_or_function', '002_log_candy', 
+            foreach (array('001_fix_call_of_a_group_or_function', '002_log_candy',
+                           '020_no_arc' ,
                            '101_no_floats', '102_no_strings',
-                           '402_split_prefix_from_common_function_name', 
+                           '402_split_prefix_from_common_function_name',
+                           '403_split_at_number_letter_boundary',
                            '410_single_char_vars', '441_split_unknown_functions', 
                            '442_split_all_functions', '450_split_floats',
                            '541_no_unknown_functions', '542_no_functions_at_all',
@@ -120,6 +128,9 @@ class stack_parsing_rule_factory {
         }
         foreach ($activefilters as $value) {
             $filter = self::get_by_common_name($value);
+            if ($filter === null) {
+                throw new stack_exception('stack_ast_filter: unknown filter ' . $value);
+            }
             if ($filter instanceof stack_cas_astfilter_parametric) {
                 // If the filter is parametric we cannot use the 'singleton' instance.
                 $filter = self::build_from_name($value);

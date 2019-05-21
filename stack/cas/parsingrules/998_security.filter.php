@@ -253,7 +253,7 @@ class stack_ast_filter_998_security implements stack_cas_astfilter_parametric {
                 }
                 return true;
             };
-            $this->ast->callbackRecurse($checkemptyfungroup);
+            $ast->callbackRecurse($checkemptyfungroup);
             if (count($emptyfungroup) > 0) {
                 $errors[] = trim(stack_string('stackCas_forbiddenWord',
                             array('forbid' => stack_maxima_format_casstring('()'))));

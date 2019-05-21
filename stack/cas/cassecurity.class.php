@@ -75,6 +75,7 @@ class stack_cas_security {
                     'nullspace' => true, 'resultant' => true, 'rowop' => true, 'rowswap' => true, 'transpose' => true)
     );
 
+    // TODO: remove once baselogic.class.php has been removed.
     public static function is_good_function(string $identifier): bool {
         // Generic tool for telling if a given identifier matches a function.
         if (self::$securitymap === null) {

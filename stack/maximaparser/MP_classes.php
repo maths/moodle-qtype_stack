@@ -114,7 +114,6 @@ class MP_Node {
             return 'Not possible to debug print without position data for the root node.';
         }
         $ofset = $this->position['start'];
-
         foreach ($this->asAList() as $node) {
             $i = $node;
 
@@ -144,6 +143,9 @@ class MP_Node {
                     $line .= ' [insertstars]';
                 }
             }
+            if ($node->is_invalid()) {
+                $line .= '!';
+            }
             $r[] = rtrim($line);
         }
         return implode("\n", $r);
@@ -159,6 +161,16 @@ class MP_Node {
         // For recursion this needs more. But this works for the general case.
     }
 
+
+    public function is_invalid(): bool {
+        if (isset($this->position['invalid']) && $this->position['true']) {
+            return true;
+        }
+        if ($this->parentnode !== null) {
+            return $this->parentnode->is_invalid();
+        }
+        return false;
+    }
 
 
     // Quick check if we are part of an operation.

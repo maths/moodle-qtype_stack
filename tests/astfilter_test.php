@@ -46,8 +46,8 @@ class stack_astfilter_test extends qtype_stack_testcase {
         $filtered    = $astfilter->filter($ast, $errors, $answernotes, $security);
 
         $this->assertEquals(0, count($errors));
-        $this->assertContains('logsubs', $answernotes);
         $this->assertEquals($result, $filtered->toString());
+        $this->assertContains('logsubs', $answernotes);
     }
 
     public function test_002_log_candy_bad() {

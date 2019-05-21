@@ -18,16 +18,16 @@ defined('MOODLE_INTERNAL') || die();
 require_once(__DIR__ . '/filter.interface.php');
 
 /**
- * AST filter that prevents the use of any floats.
+ * AST filter that prevents the use of any strings.
  */
-class stack_ast_filter_101_no_floats implements stack_cas_astfilter_exclusion {
+class stack_ast_filter_102_no_strings implements stack_cas_astfilter {
     public function filter(MP_Node $ast, array &$errors, array &$answernotes, stack_cas_security $identifierrules): MP_Node {
         $checkfloats = function($node) use (&$answernotes, &$errors) {
-            if ($node instanceof MP_Float) {
+            if ($node instanceof MP_String) {
                 $node->position['invalid'] = true;
-                if (array_search('Illegal_floats', $answernotes) === false) {
-                    $answernotes[] = 'Illegal_floats';
-                    $errors[] = stack_string('Illegal_floats');
+                if (array_search('Illegal_strings', $answernotes) === false) {
+                    $answernotes[] = 'Illegal_strings';
+                    $errors[] = stack_string('Illegal_strings');
                 }
             }
             return true;
@@ -35,12 +35,5 @@ class stack_ast_filter_101_no_floats implements stack_cas_astfilter_exclusion {
 
         $ast->callbackRecurse($checkfloats);
         return $ast;
-    }
-
-    public function conflicts_with(string $other_filter_name): bool {
-        if ($other_filter_name === '450_split_floats') {
-            return true;
-        }
-        return false;
     }
 }

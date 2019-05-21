@@ -20,9 +20,8 @@ require_once(__DIR__ . '/filter.interface.php');
 /**
  * AST filter that prevents any function calls.
  */
-class stack_ast_filter_no_functions_041 implements stack_cas_astfilter {
+class stack_ast_filter_441_split_unknown_functions implements stack_cas_astfilter_exclusion {
     public function filter(MP_Node $ast, array &$errors, array &$answernotes, stack_cas_security $identifierrules): MP_Node {
-        $hasany = false;
         $known = stack_cas_security::get_protected_identifiers('function', $identifierrules->get_units());
 
         $process = function($node) use (&$hasany, &$errors, $known) {
@@ -30,11 +29,7 @@ class stack_ast_filter_no_functions_041 implements stack_cas_astfilter {
                 if (array_key_exists($node->name->value, $known)) {
                     return true;
                 }
-                $hasany = true;
-                // Insert stars into the patten.
-                $errors[] = stack_string('stackCas_unknownFunction',
-                        array('forbid' => stack_maxima_format_casstring($node->name->toString()),
-                            'term' => stack_maxima_format_casstring($node->toString())));
+                // Insert stars into the pattern.
                 $nop = new MP_Operation('*', $node->name, new MP_Group($node->arguments));
                 $nop->position['insertstars'] = true;
                 $node->parentnode->replace($node, $nop);
@@ -47,9 +42,15 @@ class stack_ast_filter_no_functions_041 implements stack_cas_astfilter {
         while ($ast->callbackRecurse($process) !== true) {
         }
         // @codingStandardsIgnoreEnd
-        if ($hasany) {
-            $answernotes[] = 'unknownFunction';
-        }
+
         return $ast;
+    }
+
+    public function conflicts_with(string $other_filter_name): bool {
+        if ($other_filter_name === '542_no_functions_at_all' ||
+            $other_filter_name === '442_split_all_functions') {
+            return true;
+        }
+        return false;
     }
 }

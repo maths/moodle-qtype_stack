@@ -18,23 +18,25 @@ defined('MOODLE_INTERNAL') || die();
 require_once(__DIR__ . '/filter.interface.php');
 
 /**
- * AST filter that prevents any function calls, including standard functions.
+ * AST filter that prevents any function calls.
  */
-class stack_ast_filter_no_functions_at_all_042 implements stack_cas_astfilter {
+class stack_ast_filter_541_no_unknown_functions implements stack_cas_astfilter_exclusion {
     public function filter(MP_Node $ast, array &$errors, array &$answernotes, stack_cas_security $identifierrules): MP_Node {
         $hasany = false;
+        $known = stack_cas_security::get_protected_identifiers('function', $identifierrules->get_units());
 
-        $process = function($node) use (&$hasany, &$errors) {
-            if ($node instanceof MP_FunctionCall && $node->name instanceof MP_Identifier) {
+        $process = function($node) use (&$hasany, &$errors, $known) {
+            if ($node instanceof MP_FunctionCall) {
+                if ($node->name instanceof MP_Identifier && 
+                    array_key_exists($node->name->value, $known)) {
+                    return true;
+                }
                 $hasany = true;
-                // Insert stars into the patten.
-                // Probably not very sensible to end up with sin(x) -> sin*(x) but ho hum.
-                $errors [] = stack_string('stackCas_noFunction',
+                // Insert stars into the pattern.
+                $errors[] = stack_string('stackCas_unknownFunction',
                         array('forbid' => stack_maxima_format_casstring($node->name->toString()),
                             'term' => stack_maxima_format_casstring($node->toString())));
-                $nop = new MP_Operation('*', $node->name, new MP_Group($node->arguments));
-                $nop->position['insertstars'] = true;
-                $node->parentnode->replace($node, $nop);
+                $node->position['invalid'] = true;
                 return false;
             }
             return true;
@@ -45,8 +47,16 @@ class stack_ast_filter_no_functions_at_all_042 implements stack_cas_astfilter {
         }
         // @codingStandardsIgnoreEnd
         if ($hasany) {
-            $answernotes[] = 'noFunction';
+            $answernotes[] = 'unknownFunction';
         }
         return $ast;
+    }
+
+    public function conflicts_with(string $other_filter_name): bool {
+        if ($other_filter_name === '442_split_all_functions' ||
+            $other_filter_name === '441_split_unknown_functions') {
+            return true;
+        }
+        return false;
     }
 }

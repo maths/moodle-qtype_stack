@@ -18,27 +18,39 @@ defined('MOODLE_INTERNAL') || die();
 require_once(__DIR__ . '/filter.interface.php');
 
 /**
- * AST filter that prevents the use of any floats.
+ * AST filter that prevents any function calls, including standard functions.
  */
-class stack_ast_filter_101_no_floats implements stack_cas_astfilter_exclusion {
+class stack_ast_filter_542_no_functions_at_all implements stack_cas_astfilter_exclusion {
     public function filter(MP_Node $ast, array &$errors, array &$answernotes, stack_cas_security $identifierrules): MP_Node {
-        $checkfloats = function($node) use (&$answernotes, &$errors) {
-            if ($node instanceof MP_Float) {
+        $hasany = false;
+
+        $process = function($node) use (&$hasany, &$errors) {
+            if ($node instanceof MP_FunctionCall) {
+                $hasany = true;
+                // Insert stars into the pattern.
+                // Probably not very sensible to end up with sin(x) -> sin*(x) but ho hum.
+                $errors [] = stack_string('stackCas_noFunction',
+                        array('forbid' => stack_maxima_format_casstring($node->name->toString()),
+                            'term' => stack_maxima_format_casstring($node->toString())));
                 $node->position['invalid'] = true;
-                if (array_search('Illegal_floats', $answernotes) === false) {
-                    $answernotes[] = 'Illegal_floats';
-                    $errors[] = stack_string('Illegal_floats');
-                }
+                return false;
             }
             return true;
         };
 
-        $ast->callbackRecurse($checkfloats);
+        // @codingStandardsIgnoreStart
+        while ($ast->callbackRecurse($process) !== true) {
+        }
+        // @codingStandardsIgnoreEnd
+        if ($hasany) {
+            $answernotes[] = 'noFunction';
+        }
         return $ast;
     }
 
     public function conflicts_with(string $other_filter_name): bool {
-        if ($other_filter_name === '450_split_floats') {
+        if ($other_filter_name === '442_split_all_functions' ||
+            $other_filter_name === '441_split_unknown_functions') {
             return true;
         }
         return false;

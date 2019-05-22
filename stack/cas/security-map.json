@@ -328,22 +328,28 @@
         "function": "f"
     },
     "acos": {
-        "function": "s"
+        "function": "s",
+        "trigfun": true
     },
     "acosh": {
-        "function": "s"
+        "function": "s",
+        "trigfun": true
     },
     "acot": {
-        "function": "s"
+        "function": "s",
+        "trigfun": true
     },
     "acoth": {
-        "function": "s"
+        "function": "s",
+        "trigfun": true
     },
     "acsc": {
-        "function": "s"
+        "function": "s",
+        "trigfun": true
     },
     "acsch": {
-        "function": "s"
+        "function": "s",
+        "trigfun": true
     },
     "activate": {
         "function": "f"
@@ -559,16 +565,20 @@
         "function": "s"
     },
     "asec": {
-        "function": "s"
+        "function": "s",
+        "trigfun": true
     },
     "asech": {
-        "function": "s"
+        "function": "s",
+        "trigfun": true
     },
     "asin": {
-        "function": "s"
+        "function": "s",
+        "trigfun": true
     },
     "asinh": {
-        "function": "s"
+        "function": "s",
+        "trigfun": true
     },
     "askexp": {
         "variable": "?"
@@ -614,13 +624,15 @@
         "function": "?"
     },
     "atan": {
-        "function": "s"
+        "function": "s",
+        "trigfun": true
     },
     "atan2": {
         "function": "s"
     },
     "atanh": {
-        "function": "s"
+        "function": "s",
+        "trigfun": true
     },
     "atensimp": {
         "function": "f"
@@ -1386,22 +1398,27 @@
         "function": "?"
     },
     "cos": {
-        "function": "s"
+        "function": "s",
+        "trigfun": true
     },
     "cosec": {
-        "function": "s"
+        "function": "s",
+        "trigfun": true
     },
     "cosh": {
-        "function": "s"
+        "function": "s",
+        "trigfun": true
     },
     "cosnpiflag": {
         "variable": "?"
     },
     "cot": {
-        "function": "s"
+        "function": "s",
+        "trigfun": true
     },
     "coth": {
-        "function": "s"
+        "function": "s",
+        "trigfun": true
     },
     "cov": {
         "function": "?"
@@ -1428,10 +1445,12 @@
         "function": "f"
     },
     "csc": {
-        "function": "s"
+        "function": "s",
+        "trigfun": true
     },
     "csch": {
-        "function": "s"
+        "function": "s",
+        "trigfun": true
     },
     "csetup": {
         "function": "f"
@@ -6348,10 +6367,12 @@
         "function": "?"
     },
     "sec": {
-        "function": "s"
+        "function": "s",
+        "trigfun": true
     },
     "sech": {
-        "function": "s"
+        "function": "s",
+        "trigfun": true
     },
     "second": {
         "function": "s"
@@ -6527,10 +6548,12 @@
         "function": "f"
     },
     "sin": {
-        "function": "s"
+        "function": "s",
+        "trigfun": true
     },
     "sinh": {
-        "function": "s"
+        "function": "s",
+        "trigfun": true
     },
     "sinnpiflag": {
         "variable": "s"
@@ -7065,10 +7088,12 @@
         "function": "?"
     },
     "tan": {
-        "function": "s"
+        "function": "s",
+        "trigfun": true
     },
     "tanh": {
-        "function": "s"
+        "function": "s",
+        "trigfun": true
     },
     "tau": {
         "variable": "s"

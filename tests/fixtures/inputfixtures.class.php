@@ -23,6 +23,8 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+require_once(__DIR__ . '/../../stack/cas/cassession2.class.php');
+
 class stack_inputvalidation_test_data {
 
     const RAWSTRING     = 0;
@@ -514,10 +516,11 @@ class stack_inputvalidation_test_data {
             $options = new stack_options();
             $options->set_option('simplify', false);
 
-            $session = new stack_cas_session(array($cs), $options, 0);
+            $session = new stack_cas_session2(array($cs), $options, 0);
             $session->instantiate();
-            $session = $session->get_session();
-            $cs = $session[0];
+            // In cassession2 we already placed that in the correct place.
+            //$session = $session->get_session();
+            //$cs = $session[0];
             $caserrors = stack_maxima_translate($cs->get_errors());
             $casvalue = stack_maxima_format_casstring($cs->get_value());
             if ('cas_true' == $test->casvalid) {

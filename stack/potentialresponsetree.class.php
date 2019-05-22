@@ -237,20 +237,17 @@ class stack_potentialresponse_tree {
      */
     public function get_required_variables($variablenames) {
 
-        $rawcasstrings = array();
+        $usedvariables = array();
         if ($this->feedbackvariables !== null) {
-            $rawcasstrings = $this->feedbackvariables->get_all_raw_casstrings();
+            $usedvariables = $this->feedbackvariables->get_variable_usage($usedvariables);
         }
         foreach ($this->nodes as $node) {
-            $rawcasstrings = array_merge($rawcasstrings, $node->get_required_cas_strings());
+            $usedvariables = $node->get_variable_usage($usedvariables);
         }
-
-        // Remove strings in castrings so that strings like "...ans1..." do not match ans1.
-        $rawcasstring = stack_utils::eliminate_strings(implode('; ', $rawcasstrings));
 
         $requirednames = array();
         foreach ($variablenames as $name) {
-            if ($this->string_contains_variable($name, $rawcasstring)) {
+            if (isset($usedvariables['read']) && isset($usedvariables['read'][$name])) {
                 $requirednames[] = $name;
             }
         }

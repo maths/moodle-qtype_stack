@@ -18,7 +18,8 @@ defined('MOODLE_INTERNAL') || die();
 require_once(__DIR__ . '/filter.interface.php');
 
 /**
- * AST filter that identifies a particular family of functinnoames and marks them invalid.
+ * AST filter that identifies a particular family of function names 
+ * and marks them invalid.
  */
 class stack_ast_filter_020_no_arc implements stack_cas_astfilter {
 

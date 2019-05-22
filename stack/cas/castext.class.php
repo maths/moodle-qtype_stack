@@ -451,6 +451,17 @@ class stack_cas_text {
         return $raw;
     }
 
+    public function get_variable_usage(array &$update_array = array()): array {
+        if (null === $this->valid) {
+            $this->validate();
+        }
+        // Simply ask all the ast_containers in play for the used variables.
+        foreach ($this->rawsession as $cs) {
+            $update_array = $cs->get_variable_usage($update_array);
+        }
+        return $update_array;
+    }
+
     public function get_display_castext() {
         if (null === $this->valid) {
             $this->validate();

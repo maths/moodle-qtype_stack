@@ -18,6 +18,7 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/../maximaparser/utils.php');
 require_once(__DIR__ . '/../maximaparser/MP_classes.php');
+require_once(__DIR__ . '/cassession2.class.php');
 
 /**
  * Class to parse user-entered data into CAS sessions.
@@ -30,8 +31,8 @@ class stack_cas_keyval {
     /** @var Holds the raw text as entered by a question author. */
     private $raw;
 
-    /** @var stack_cas_session */
-    private $session;
+    /** @var array of stack_ast_container_silent */
+    private $statements;
 
     /** @var bool */
     private $valid;
@@ -39,10 +40,9 @@ class stack_cas_keyval {
     /** @var string HTML error message that can be displayed to the user. */
     private $errors;
 
-    public function __construct($raw, $options = null, $seed = 0) {
+    public function __construct($raw) {
         $this->raw          = $raw;
-
-        $this->session      = new stack_cas_session(array(), $options, $seed);
+        $this->statements   = array();
 
         if (!is_string($raw)) {
             throw new stack_exception('stack_cas_keyval: raw must be a string.');
@@ -88,23 +88,20 @@ class stack_cas_keyval {
 
         $ast = maxima_parser_utils::strip_comments($ast);
 
-        $errors  = '';
-        $valid   = true;
+        $this->valid   = true;
+        $this->statements   = array();
         foreach ($ast->items as $item) {
-            $cs = stack_ast_container::make_from_teacher_ast($item, $item->toString(), '',
+            $cs = stack_ast_container_silent::make_from_teacher_ast($item, $item->toString(), '',
                     new stack_cas_security(), array());
-            $cs->get_valid('t');
-            $vars[] = $cs;
+            $this->valid = $this->valid && $cs->get_valid();
+            $this->errors = array_merge($this->errors, $cs->get_errors(true));
+            $this->statements[] = $cs;
         }
-
-        $this->session->add_vars($vars);
-        $this->valid       = $this->session->get_valid();
-        $this->errors      = $this->session->get_errors();
 
         // Prevent reference to inputs in the values of the question variables.
         if (is_array($inputs)) {
-            $keys = $this->session->get_all_keys();
-            foreach ($keys as $key) {
+            $usage = $this->get_variable_usage();
+            foreach (array_merge($usage['read'],$usage['write']) as $key => $used) {
                 if (in_array($key, $inputs)) {
                     $this->valid = false;
                     $this->errors .= stack_string('stackCas_inputsdefined', $key);
@@ -138,15 +135,24 @@ class stack_cas_keyval {
         if (null === $this->valid) {
             $this->validate(null);
         }
-        $this->session->instantiate();
+        $cs = new stack_cas_cassession2($this->statements, $this->options, $this->seed);
+        $cs->instantiate();
     }
 
     public function get_session() {
         if (null === $this->valid) {
             $this->validate(null);
         }
-        return $this->session;
+        return new stack_cas_cassession2($this->statements, $this->options, $this->seed);
     }
+
+    public function get_variable_usage(array &$update_array = array()): array {
+        foreach ($this->statements as $statement) {
+            $update_array = $statement->get_variable_usage($update_array);
+        }
+        return $update_array;
+    }
+
 
     /**
      * Remove the ast, and other clutter from casstrings, so we can test equality cleanly and dump values.

@@ -22,6 +22,7 @@ defined('MOODLE_INTERNAL') || die();
 // @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
 
 require_once(__DIR__ . '/answertest/controller.class.php');
+require_once(__DIR__ . '/maximaparser/utils.php');
 
 /**
  * A node in a potential response tree.
@@ -318,6 +319,22 @@ class stack_potentialresponse_node {
         }
 
         return $requiredcasstrings;
+    }
+
+    public function get_variable_usage(array &$update_array = array()): array {
+        $ct = new stack_cas_text($this->branches[0]['feedback'] . $this->branches[1]['feedback']);
+        $update_array = $ct->get_variable_usage($update_array);
+        $update_array = $this->sans->get_variable_usage($update_array);
+        $update_array = $this->tans->get_variable_usage($update_array);
+
+        if ($this->process_atoptions() && trim($this->atoptions) != '') {
+            // Eventtually at-options will be an ast_container, not yet though
+            // so if it is not an empty string then it is parseable.
+            $ast = maxima_parser_utils::parse($this->atoptions);
+            $update_array = maxima_parser_utils::variable_usage_finder($ast, $update_array);
+        }
+
+        return $update_array;
     }
 
     /**

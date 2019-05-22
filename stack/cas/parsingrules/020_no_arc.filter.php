@@ -34,7 +34,7 @@ class stack_ast_filter_020_no_arc implements stack_cas_astfilter {
                                'arccoth' => 'acoth', 'arccsch' => 'acsch', 
                                'arccosec' => 'acsc');
 
-        $process = function($node) use (&$valid, &$errors, &$answernote, $selectednames) {
+        $process = function($node) use (&$valid, &$errors, &$answernotes, $selectednames) {
             if ($node instanceof MP_Functioncall &&
                 $node->name instanceof MP_Identifier) {
                 if (array_key_exists($node->name->value, $selectednames)) {

@@ -483,7 +483,19 @@ class stack_inputvalidation_test_data {
 
         // @codingStandardsIgnoreEnd
 
-        $cs = stack_ast_container::make_from_student_source($test->rawstring, '', new stack_cas_security());
+        // We need to duplicate certain insert stars logic from input base.
+        $filterstoapply = array();
+
+        // The common insert stars rules, that will be forced
+        // and if you do not allow inserttion of stars then it is invalid.
+        $filterstoapply[] = '402_split_prefix_from_common_function_name';
+        $filterstoapply[] = '403_split_at_number_letter_boundary';
+
+        // We want to apply this as our "insert stars" but not spaces...
+        $filterstoapply[] = '990_no_fixing_spaces';
+
+
+        $cs = stack_ast_container::make_from_student_source($test->rawstring, '', new stack_cas_security(), $filterstoapply);
         $cs->set_cas_validation_context('ans1', true, '', 'typeless', false);
 
         $phpvalid     = $cs->get_valid();

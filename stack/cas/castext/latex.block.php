@@ -28,23 +28,16 @@ require_once(__DIR__ . '/../../utils.class.php');
 
 class stack_cas_castext_latex extends stack_cas_castext_block {
 
-     // Remembers the number for this instance.
-    private $number;
+
+    private $string;
 
     public function extract_attributes(&$tobeevaluatedcassession, $conditionstack = array()) {
+        $raw = trim($this->get_node()->get_content());
+        $cs = stack_ast_container_conditional::make_from_teacher_source($raw, '', new stack_cas_security());
+        $cs->set_conditions($conditionstack);
+        $this->string = $cs;
 
-        $sessionkeys = $tobeevaluatedcassession->get_all_keys();
-        $i = 0;
-        do { // Make sure names are not already in use.
-            $key = 'caschat'.$i;
-            $i++;
-        } while (in_array($key, $sessionkeys));
-        $this->number = $i - 1;
-
-        $raw = $key . ':' . trim($this->get_node()->get_content());
-        $cs = stack_ast_container::make_from_teacher_source($raw, '', new stack_cas_security(), $conditionstack);
-
-        $tobeevaluatedcassession->add_vars(array($cs));
+        $tobeevaluatedcassession->add_statement($cs);
     }
 
     public function content_evaluation_context($conditionstack = array()) {
@@ -54,16 +47,16 @@ class stack_cas_castext_latex extends stack_cas_castext_block {
 
     public function process_content($evaluatedcassession, $conditionstack = null) {
 
-        $errors = $evaluatedcassession->get_errors_key("caschat".$this->number);
+        $errors = $this->string->get_errors();
         if ('' !== $errors && null != $errors) {
             $this->get_node()->convert_to_text($this->get_node()->get_content());
             return false;
         }
 
-        $value = $evaluatedcassession->get_value_key("caschat".$this->number);
+        $value = $this->string->get_value();
         $stringvalue = substr(trim($value), 0, 1) == '"';
         if (!$stringvalue) {
-            $evaluated = $evaluatedcassession->get_display_key("caschat".$this->number);
+            $evaluated = $this->string->get_display();
             if (strpos($evaluated, "<html") !== false) {
                 $this->get_node()->convert_to_text($evaluated);
             } else {
@@ -87,7 +80,7 @@ class stack_cas_castext_latex extends stack_cas_castext_block {
 
     public function validate_extract_attributes() {
         $condition = trim($this->get_node()->get_content());
-        $r = array(stack_ast_container::make_from_teacher_source($condition, '', new stack_cas_security(), array()));
+        $r = array(stack_ast_container::make_from_teacher_source($condition, '', new stack_cas_security()));
         return $r;
     }
 }

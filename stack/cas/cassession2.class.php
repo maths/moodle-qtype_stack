@@ -74,6 +74,10 @@ class stack_cas_session2 {
         }
     }
 
+    public function get_session(): array {
+        return $this->statements;
+    }
+
     public function add_statement(cas_evaluatable $statement) {
         $this->statements[] = $statement;
         $this->instantiated = false;

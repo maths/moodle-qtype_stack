@@ -16,6 +16,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+require_once(__DIR__ . '/../cas/cassession2.class.php');
 //
 // Decimal places answer tests.
 //
@@ -75,16 +76,18 @@ class stack_anstest_atdecplaces extends stack_anstest {
         $cascommands['caschat4'] = "floatnump({$this->sanskey})";
 
         $cts = array();
+        $strings = array();
         foreach ($cascommands as $key => $com) {
             $cs = stack_ast_container::make_from_teacher_source($key . ':' . $com, '', new stack_cas_security());
             $cts[] = $cs;
+            $strings[$key] = $cs;
         }
-        $session = new stack_cas_session($cts, null, 0);
+        $session = new stack_cas_session2($cts, null, 0);
         $session->instantiate();
 
-        if ('' != $session->get_errors_key('caschat0')) {
+        if ('' != $strings['caschat0']->get_errors()) {
             $this->aterror      = 'TEST_FAILED';
-            $this->atfeedback   = stack_string('TEST_FAILED', array('errors' => $session->get_errors_key('caschat0')));
+            $this->atfeedback   = stack_string('TEST_FAILED', array('errors' => $strings['caschat0']->get_errors()));
             $anotes[]           = 'ATNumDecPlaces_STACKERROR_SAns';
             $this->atansnote    = implode('. ', $anotes).'.';
             $this->atmark       = 0;
@@ -92,9 +95,9 @@ class stack_anstest_atdecplaces extends stack_anstest {
             return null;
         }
 
-        if ('' != $session->get_errors_key('caschat1')) {
+        if ('' != $strings['caschat1']->get_errors()) {
             $this->aterror      = 'TEST_FAILED';
-            $this->atfeedback   = stack_string('TEST_FAILED', array('errors' => $session->get_errors_key('caschat1')));
+            $this->atfeedback   = stack_string('TEST_FAILED', array('errors' => $strings['caschat1']->get_errors()));
             $anotes[]           = 'ATNumDecPlaces_STACKERROR_TAns';
             $this->atansnote    = implode('. ', $anotes).'.';
             $this->atmark       = 0;
@@ -102,10 +105,10 @@ class stack_anstest_atdecplaces extends stack_anstest {
             return null;
         }
 
-        if ('' != $session->get_errors_key('caschat2')) {
+        if ('' != $strings['caschat2']->get_errors()) {
             $this->aterror      = 'TEST_FAILED';
             $this->atfeedback   = stack_string('TEST_FAILED', array('errors' => ''));
-            $this->atfeedback  .= stack_string('AT_InvalidOptions', array('errors' => $session->get_errors_key('caschat2')));
+            $this->atfeedback  .= stack_string('AT_InvalidOptions', array('errors' => $strings['caschat2']->get_errors()));
             $anotes[]           = 'ATNumDecPlaces_STACKERROR_Options.';
             $this->atansnote    = implode('. ', $anotes).'.';
             $this->atmark       = 0;
@@ -113,7 +116,7 @@ class stack_anstest_atdecplaces extends stack_anstest {
             return null;
         }
 
-        if ($session->get_value_key('caschat3') == 'true') {
+        if ($strings['caschat3']->get_value() == 'true') {
             // Note, we only want the mark to *stay* at 1.
             $this->atmark *= 1;
             $anotes[]      = 'ATNumDecPlaces_Equiv';
@@ -122,7 +125,7 @@ class stack_anstest_atdecplaces extends stack_anstest {
             $anotes[]     = 'ATNumDecPlaces_Not_equiv';
         }
 
-        if ($session->get_value_key('caschat4') == 'false') {
+        if ($strings['caschat4']->get_errors() == 'false') {
             $this->atmark = 0;
             $this->atfeedback  = stack_string('ATNumDecPlaces_NoDP');
             $anotes             = array('ATNumDecPlaces_NoDP');

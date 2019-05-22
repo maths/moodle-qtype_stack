@@ -16,6 +16,9 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+
+require_once(__DIR__ . '/../cas/cassession2.class.php');
+
 /**
  * General answer test which connects to the CAS - prevents duplicate code.
  *
@@ -126,40 +129,31 @@ class stack_answertest_general_cas extends stack_anstest {
         $cascommands = array();
         // The prefix equality should be the identity function in the context of answer tests.
         // The conversion "stackeq(x):=x" is now done at the ast level.
-        $cascommands['STACKSA'] = $this->sanskey;
-        $cascommands['STACKTA'] = $this->tanskey;
-        if (!$this->processcasoptions || trim($op) === '' ) {
-            $cascommands['result'] = "StackReturn({$this->casfunction}(STACKSA,STACKTA))";
-        } else {
-            $cascommands['STACKOP'] = $op;
-            $cascommands['result'] = "StackReturn({$this->casfunction}(STACKSA,STACKTA,STACKOP))";
-        }
-
-        $cts = array();
-        foreach ($cascommands as $key => $com) {
-            // TODO  $cs->set_nounvalues('add');
-            $cs = stack_ast_container::make_from_teacher_source($key . ':' . $com, '', new stack_cas_security());
-            // It looks odd that the answer tests always get "nouns".  But with simp:true we have problems with
-            // expressions like x=1 or x=2 which will always simplify to "false" in maxima.
-            $cts[] = $cs;
+        $sa = stack_ast_container::make_from_teacher_source('STACKSA:' . $this->sanskey, '', new stack_cas_security());
+        $ta = stack_ast_container::make_from_teacher_source('STACKTA:' . $this->tanskey, '', new stack_cas_security());
+        $ops = stack_ast_container::make_from_teacher_source('STACKOP:true', '', new stack_cas_security());
+        $result = stack_ast_container::make_from_teacher_source("result:StackReturn({$this->casfunction}(STACKSA,STACKTA))", '', new stack_cas_security());
+        if (!(!$this->processcasoptions || trim($op) === '')) {
+            $ops = stack_ast_container::make_from_teacher_source('STACKOP:' . $op, '', new stack_cas_security());
+            $res = stack_ast_container::make_from_teacher_source("result:StackReturn({$this->casfunction}(STACKSA,STACKTA,STACKOP))", new stack_cas_security());
         }
 
         $session = new stack_cas_session($cts, $this->options, 0);
         $session->instantiate();
         $this->debuginfo = $session->get_debuginfo();
 
-        if ('' != $session->get_errors_key('STACKSA') || !$cts[0]->get_valid()) {
+        if ('' != $sa->get_errors() || !$sa->get_valid()) {
             $this->aterror      = 'TEST_FAILED';
-            $this->atfeedback   = stack_string('TEST_FAILED', array('errors' => $session->get_errors_key('STACKSA')));
+            $this->atfeedback   = stack_string('TEST_FAILED', array('errors' => $sa->get_errors()));
             $this->atansnote    = $this->casfunction.'_STACKERROR_SAns.';
             $this->atmark       = 0;
             $this->atvalid      = false;
             return null;
         }
 
-        if ('' != $session->get_errors_key('STACKTA') || !$cts[1]->get_valid()) {
+        if ('' != $ta->get_errors() || !$ta->get_valid()) {
             $this->aterror      = 'TEST_FAILED';
-            $this->atfeedback   = stack_string('TEST_FAILED', array('errors' => $session->get_errors_key('STACKTA')));
+            $this->atfeedback   = stack_string('TEST_FAILED', array('errors' => $ta->get_errors()));
             $this->atansnote    = $this->casfunction.'_STACKERROR_TAns.';
             $this->atmark       = 0;
             $this->atvalid      = false;
@@ -167,9 +161,9 @@ class stack_answertest_general_cas extends stack_anstest {
         }
 
         if ($this->processcasoptions && trim($op) !== '') {
-            if ('' != $session->get_errors_key('STACKOP')  || !$cts[2]->get_valid()) {
+            if ('' != $ops->get_errors() || !$ops->get_valid()) {
                 $this->aterror      = 'TEST_FAILED';
-                $this->atfeedback   = stack_string('TEST_FAILED', array('errors' => $session->get_errors_key('STACKTA')));
+                $this->atfeedback   = stack_string('TEST_FAILED', array('errors' => $ops->get_errors()));
                 $this->atansnote    = $this->casfunction.'_STACKERROR_Opt.';
                 $this->atmark       = 0;
                 $this->atvalid      = false;
@@ -177,12 +171,6 @@ class stack_answertest_general_cas extends stack_anstest {
             }
         }
 
-        $sessionvars = $session->get_session();
-        if (!$this->processcasoptions || trim($op) === '' ) {
-            $result = $sessionvars[2];
-        } else {
-            $result = $sessionvars[3];
-        }
 
         if ('' != $result->get_errors()) {
             $this->aterror      = 'TEST_FAILED';

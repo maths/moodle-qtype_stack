@@ -22,7 +22,7 @@ defined('MOODLE_INTERNAL') || die();
 // @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
 
 require_once(__DIR__ . '/ast.container.class.php');
-require_once(__DIR__ . '/cassession.class.php');
+require_once(__DIR__ . '/cassession2.class.php');
 require_once(__DIR__ . '/castext/autogen/castextparser.class.php');
 require_once(__DIR__ . '/castext/block.factory.php');
 
@@ -38,7 +38,7 @@ class stack_cas_text {
     private $castext;
 
     /**
-     * @var stack_cas_session Context in which the castext is evaluated.
+     * @var stack_cas_session2 Context in which the castext is evaluated.
      *  Note, this is the place to set any CAS options of STACK_CAS_Maxima_Preferences.
      */
     private $session;
@@ -73,10 +73,10 @@ class stack_cas_text {
             $this->rawcastext   = $rawcastext;
         }
 
-        if (is_a($session, 'stack_cas_session') || null === $session) {
+        if (is_a($session, 'stack_cas_session2') || null === $session) {
             $this->session      = $session;
         } else {
-            throw new stack_exception('stack_cas_text constructor expects $session to be a stack_cas_session.');
+            throw new stack_exception('stack_cas_text constructor expects $session to be a stack_cas_session2.');
         }
 
         if (is_int($seed)) {
@@ -183,7 +183,7 @@ class stack_cas_text {
 
         // Perform block and casstring validation.
         $parser = new stack_cas_castext_castextparser($this->trimmedcastext);
-        $validationsession = new stack_cas_session(array(), null, $this->seed);
+        $validationsession = new stack_cas_session2(array(), null, $this->seed);
         $arrayform = $parser->match_castext();
         $arrayform = stack_cas_castext_castextparser::normalize($arrayform);
         $arrayform = stack_cas_castext_castextparser::block_conversion($arrayform);
@@ -305,7 +305,7 @@ class stack_cas_text {
         // Initial pass.
         if (stack_cas_castext_castextparser::castext_parsing_required($this->trimmedcastext)) {
             if ($this->session == null) {
-                $this->session = new stack_cas_session(array(), null, $this->seed);
+                $this->session = new stack_cas_session2(array(), null, $this->seed);
             }
             $parser = new stack_cas_castext_castextparser($this->trimmedcastext);
             $arrayform = $parser->match_castext();
@@ -326,7 +326,7 @@ class stack_cas_text {
         }
 
         // Deal with castext without any CAS variables.
-        if (null !== $this->session && null !== $this->session->get_session() && count($this->session->get_session()) > 0) {
+        if (null !== $this->session ) {
             $this->session->instantiate();
         }
 

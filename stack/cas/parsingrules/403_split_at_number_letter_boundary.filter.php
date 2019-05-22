@@ -29,7 +29,7 @@ class stack_ast_filter_403_split_at_number_letter_boundary implements stack_cas_
     public function filter(MP_Node $ast, array &$errors, array &$answernotes, stack_cas_security $identifierrules): MP_Node {
 
 
-        $process = function($node) use (&$answernotes, $known) {
+        $process = function($node) use (&$answernotes) {
             if ($node instanceof MP_Identifier && !$node->is_function_name()) {
             	// First find the boundaries.
             	$splits = array();

@@ -764,7 +764,7 @@ abstract class stack_input {
             // The rules are applied anyway, we just check the use of them.
             // If code-tidy issue just negate the test and cut this one out.
         } else {
-            $filterstoapply[] = '990_no_fixing_stars';
+            $filterstoapply[] = '991_no_fixing_stars';
         }
 
         // Fix spaces = 2
@@ -772,7 +772,7 @@ abstract class stack_input {
             // The rules are applied anyway, we just check the use of them.
             // If code-tidy issue just negate the test and cut this one out.
         } else {
-            $filterstoapply[] = '991_no_fixing_spaces';
+            $filterstoapply[] = '990_no_fixing_spaces';
         }
 
         // Assume single letter variable names = 4.

@@ -28,7 +28,7 @@ class stack_ast_filter_030_no_trig_space implements stack_cas_astfilter {
     	
     	$selectednames = stack_cas_security::get_all_with_feature('trigfun');
 
-        $process = function($node) use (&$valid, &$errors, &$answernote, $selectednames) {
+        $process = function($node) use (&$valid, &$errors, &$answernotes, $selectednames) {
             if ($node instanceof MP_Identifier &&
                 !$node->is_function_name()) {
                 if (array_key_exists($node->value, $selectednames)) {
@@ -41,7 +41,7 @@ class stack_ast_filter_030_no_trig_space implements stack_cas_astfilter {
                         $errors[] = stack_string('stackCas_trigspace',
         					array('trig' => stack_maxima_format_casstring($node->value.'(...)')));
                         if (array_search('trigspace', $answernotes) === false) {
-    						$answernote[] = 'trigspace';
+    						$answernotes[] = 'trigspace';
     					}
 						$node->parentnode->position['invalid'] = true;
                 		// TODO: handle the case where we are not the lhs of the shared op.

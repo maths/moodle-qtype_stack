@@ -40,9 +40,16 @@ class stack_cas_keyval {
     /** @var string HTML error message that can be displayed to the user. */
     private $errors;
 
-    public function __construct($raw) {
+    // For those using keyvals as a generator for sessions.
+    private $options;
+    private $seed;
+
+    public function __construct($raw, $options = null, $seed=null) {
         $this->raw          = $raw;
         $this->statements   = array();
+        $this->errors       = array();
+        $this->options      = $options;
+        $this->seed         = $seed;
 
         if (!is_string($raw)) {
             throw new stack_exception('stack_cas_keyval: raw must be a string.');
@@ -91,8 +98,8 @@ class stack_cas_keyval {
         $this->valid   = true;
         $this->statements   = array();
         foreach ($ast->items as $item) {
-            $cs = stack_ast_container_silent::make_from_teacher_ast($item, $item->toString(), '',
-                    new stack_cas_security(), array());
+            $cs = stack_ast_container_silent::make_from_teacher_ast($item, '',
+                    new stack_cas_security());
             $this->valid = $this->valid && $cs->get_valid();
             $this->errors = array_merge($this->errors, $cs->get_errors(true));
             $this->statements[] = $cs;
@@ -135,7 +142,7 @@ class stack_cas_keyval {
         if (null === $this->valid) {
             $this->validate(null);
         }
-        $cs = new stack_cas_cassession2($this->statements, $this->options, $this->seed);
+        $cs = new stack_cas_session2($this->statements, $this->options, $this->seed);
         $cs->instantiate();
     }
 
@@ -143,7 +150,7 @@ class stack_cas_keyval {
         if (null === $this->valid) {
             $this->validate(null);
         }
-        return new stack_cas_cassession2($this->statements, $this->options, $this->seed);
+        return new stack_cas_session2($this->statements, $this->options, $this->seed);
     }
 
     public function get_variable_usage(array &$update_array = array()): array {

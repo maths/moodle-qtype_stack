@@ -24,6 +24,7 @@ defined('MOODLE_INTERNAL') || die();
 // @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
 
 require_once("block.interface.php");
+require_once(__DIR__ . '/../ast.container.conditional.class.php');
 
 class stack_cas_castext_define extends stack_cas_castext_block {
 
@@ -36,11 +37,9 @@ class stack_cas_castext_define extends stack_cas_castext_block {
 
             // TODO:         $cs->set_nounvalues('remove');
             $raw = "$key:$value";
-            $cs = stack_ast_container::make_from_teacher_source($raw, '', new stack_cas_security(), $conditionstack);
-            $css[] = $cs;
-        }
-        if (count($css) > 0) {
-            $tobeevaluatedcassession->add_vars($css);
+            $cs = stack_ast_container_conditional::make_from_teacher_source($raw, '', new stack_cas_security());
+            $cs->set_conditions($conditionstack);
+            $tobeevaluatedcassession->add_statement($cs);
         }
     }
 

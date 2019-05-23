@@ -534,7 +534,11 @@ class stack_inputvalidation_test_data {
             //$session = $session->get_session();
             //$cs = $session[0];
             $caserrors = stack_maxima_translate($cs->get_errors());
-            $casvalue = stack_maxima_format_casstring($cs->get_value());
+            if ($cs->get_errors() === '') {
+                // If it has errors it could not be evaluated and you may
+                // not ask the value of something not evaluated.
+                $casvalue = stack_maxima_format_casstring($cs->get_value());
+            }
             if ('cas_true' == $test->casvalid) {
                 $casexpected = true;
             } else {

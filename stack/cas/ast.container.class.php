@@ -99,6 +99,56 @@ class stack_ast_container extends stack_ast_container_silent implements cas_late
     }
 
 
+
+    public function get_evaluationform(): string {
+        // The common_ast_container provides means of dealing with validation context.
+        if ($this->validationcontext === null) {
+            return parent::get_evaluationform();
+        }
+
+        $starredanswer = parent::get_evaluationform();
+        if ($this->validationcontext['lowestterms']) {
+            $lowestterms = 'true';
+        } else {
+            $lowestterms = 'false';
+        }
+
+        if ($this->validationcontext['simp']) {
+            $starredanswer = 'ev(' . $starredanswer . ',simp)';
+        }
+
+        $fltfmt = stack_utils::decimal_digits($starredanswer);
+        $fltfmt = $fltfmt['fltfmt'];
+
+        $tans = $this->validationcontext['tans'];
+        $validationmethod = $this->validationcontext['validationmethod'];
+
+        $vcmd = 'stack_validate(['.$starredanswer.'], '.$lowestterms.','.$tans.')';
+        if ($validationmethod == 'typeless') {
+            // Note, we don't pass in the teacher's as this option is ignored by the typeless validation.
+            $vcmd = 'stack_validate_typeless(['.$starredanswer.'], '.$lowestterms.', false, false)';
+        }
+        if ($validationmethod == 'numerical') {
+            $vcmd = 'stack_validate_typeless(['.$starredanswer.'],
+            '.$forbidfloats.', '.$lowestterms.', false, '.$fltfmt.')';
+        }
+        if ($validationmethod == 'equiv') {
+            $vcmd = 'stack_validate_typeless(['.$starredanswer.'], '.$lowestterms.', true, false)';
+        }
+        if ($validationmethod == 'units') {
+            // Note, we don't pass in forbidfloats as this option is ignored by the units validation.
+            $vcmd = '(make_multsgn("blank"),stack_validate_units(['.$starredanswer.'], ' .
+                    $lowestterms.', '.$tans.', "inline", '.$fltfmt.'))';
+        }
+        if ($validationmethod == 'unitsnegpow') {
+            // Note, we don't pass in forbidfloats as this option is ignored by the units validation.
+            $vcmd = '(make_multsgn("blank"),stack_validate_units(['.$starredanswer.'], ' .
+                    $lowestterms.', '.$tans.', "negpow", '.$fltfmt.'))';
+        }
+        return $this->validationcontext['vname'] . ':' . $vcmd;
+    }
+
+
     // This returns the fully filttered AST as it should be inputted were
     // it inputted perfectly.
     public function get_inputform(): string {

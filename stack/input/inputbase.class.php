@@ -18,7 +18,7 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/../../locallib.php');
 require_once(__DIR__ . '/../options.class.php');
-require_once(__DIR__ . '/../cas/cassession.class.php');
+require_once(__DIR__ . '/../cas/cassession2.class.php');
 require_once(__DIR__ . '/inputstate.class.php');
 
 /**
@@ -656,7 +656,7 @@ abstract class stack_input {
         $sessionvars = array_merge($sessionvars, $additionalvars);
 
         $localoptions->set_option('simplify', false);
-        $session = new stack_cas_session($sessionvars, $localoptions, 0);
+        $session = new stack_cas_session2($sessionvars, $localoptions, 0);
         $session->instantiate();
 
         // Since $lvars and $answer and the other casstrings are passed by reference, into the $session,

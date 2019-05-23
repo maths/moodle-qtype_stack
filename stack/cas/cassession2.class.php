@@ -101,8 +101,18 @@ class stack_cas_session2 {
      * Returns all the errors related to evaluation. Naturally only call after
      * instanttiation.
      */
-    public function get_errors(): array {
-        return $this->errors;
+    public function get_errors($implode = true) {
+        if ($implode !== true) {
+            return $this->errors;
+        }
+        $r = array();
+        foreach ($this->errors as $value) {
+            // [0] the list of errors
+            // [1] the context information
+            // [2] the statement number
+            $r[] = implode(' ', $value[0]);
+        }
+        return implode(' ', $r);
     }
 
     /**
@@ -255,5 +265,11 @@ class stack_cas_session2 {
             $this->instantiated = true;
         }
         return $this->instantiated;
+    }
+
+
+    public function get_debuginfo() {
+        // TODO...
+        return '';
     }
 }

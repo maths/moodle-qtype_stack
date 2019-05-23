@@ -22,7 +22,7 @@ require_once(__DIR__ . '/../../locallib.php');
 require_once(__DIR__ . '/../utils.class.php');
 require_once(__DIR__ . '/ast.container.class.php');
 require_once(__DIR__ . '/connectorhelper.class.php');
-require_once(__DIR__ . '/cassession.class.php');
+require_once(__DIR__ . '/cassession2.class.php');
 
 
 class stack_cas_configuration {
@@ -446,9 +446,9 @@ END;
 
                 // Now we need to check this actually works.
                 $cs = stack_ast_container::make_from_teacher_source('a:1+1', '', new stack_cas_security());
-                $ts = new stack_cas_session(array($cs));
+                $ts = new stack_cas_session2(array($cs));
                 $ts->instantiate();
-                if ($ts->get_value_key('a') != '2') {
+                if ($cs->get_value() != '2') {
                     $errors = $ts->get_errors();
                     $errmsg = "Evaluation test failed, errors: $errors";
                 } else {

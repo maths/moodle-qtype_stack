@@ -83,7 +83,9 @@ class stack_anstest_atdecplaces extends stack_anstest {
             $strings[$key] = $cs;
         }
         $session = new stack_cas_session2($cts, null, 0);
-        $session->instantiate();
+        if ($session->get_valid()) {
+            $session->instantiate();
+        }
 
         if ('' != $strings['caschat0']->get_errors()) {
             $this->aterror      = 'TEST_FAILED';

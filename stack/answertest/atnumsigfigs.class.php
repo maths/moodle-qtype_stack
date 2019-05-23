@@ -16,6 +16,9 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+
+require_once(__DIR__ . '/../cas/cassession2.class.php');
+
 /**
  * Significant figure answer test.
  *
@@ -159,50 +162,43 @@ class stack_anstest_atnumsigfigs extends stack_anstest {
         $this->options->set_option('simplify', $this->simp);
 
         $cascommands = array();
-        $cascommands['STACKSA'] = $this->sanskey;
-        $cascommands['STACKTA'] = $this->tanskey;
-        $cascommands['STACKOP'] = $atopt;
-        $cascommands['result']  = "StackReturn({$this->casfunction}(STACKSA,STACKTA,STACKOP))";
-
-        $cts = array();
-        foreach ($cascommands as $key => $com) {
-            $cs = stack_ast_container::make_from_teacher_source($key . ':' . $com, '', new stack_cas_security());
-            $cts[] = $cs;
+        $sa = stack_ast_container::make_from_teacher_source('STACKSA:' . $this->sanskey, '', new stack_cas_security());
+        $ta = stack_ast_container::make_from_teacher_source('STACKTA:' . $this->tanskey, '', new stack_cas_security());
+        $ops = stack_ast_container::make_from_teacher_source('STACKOP:true', '', new stack_cas_security());
+        $result = stack_ast_container::make_from_teacher_source("result:StackReturn({$this->casfunction}(STACKSA,STACKTA,STACKOP))", '', new stack_cas_security());
+        
+        $session = new stack_cas_session2(array($sa, $ta, $ops, $result), $this->options, 0);
+        if ($session->get_valid()) {
+            $session->instantiate();
         }
 
-        $session = new stack_cas_session($cts, $this->options, 0);
-        $session->instantiate();
-
         $this->debuginfo = $session->get_debuginfo();
-        if ('' != $session->get_errors_key('STACKSA') || !$cts[0]->get_valid()) {
+        if ('' != $sa->get_errors() || !$sa->get_valid()) {
             $this->aterror      = 'TEST_FAILED';
-            $this->atfeedback   = stack_string('TEST_FAILED', array('errors' => $session->get_errors_key('STACKSA')));
+            $this->atfeedback   = stack_string('TEST_FAILED', array('errors' => $sa->get_errors()));
             $this->atansnote    = $this->casfunction.'_STACKERROR_SAns.';
             $this->atmark       = 0;
             $this->atvalid      = false;
             return null;
         }
 
-        if ('' != $session->get_errors_key('STACKTA') || !$cts[1]->get_valid()) {
+        if ('' != $ta->get_errors() || !$ta->get_valid()) {
             $this->aterror      = 'TEST_FAILED';
-            $this->atfeedback   = stack_string('TEST_FAILED', array('errors' => $session->get_errors_key('STACKTA')));
+            $this->atfeedback   = stack_string('TEST_FAILED', array('errors' => $ta->get_errors()));
             $this->atansnote    = $this->casfunction.'_STACKERROR_TAns.';
             $this->atmark       = 0;
             $this->atvalid      = false;
             return null;
         }
 
-        if ('' != $session->get_errors_key('STACKOP') || !$cts[2]->get_valid()) {
+        if ('' != $ops->get_errors() || !$ops->get_valid()) {
             $this->aterror      = 'TEST_FAILED';
-            $this->atfeedback   = stack_string('TEST_FAILED', array('errors' => $session->get_errors_key('STACKOP')));
+            $this->atfeedback   = stack_string('TEST_FAILED', array('errors' => $ops->get_errors()));
             $this->atansnote    = $this->casfunction.'_STACKERROR_Opt.';
             $this->atmark       = 0;
             $this->atvalid      = false;
             return null;
         }
-
-        $sessionvars = $session->get_session();
-        $result = $sessionvars[3];
 
         if ('' != $result->get_errors()) {
             $this->aterror      = 'TEST_FAILED';

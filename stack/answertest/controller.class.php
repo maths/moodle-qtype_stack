@@ -26,7 +26,6 @@ require_once(__DIR__ . '/anstest.class.php');
 require_once(__DIR__ . '/at_general_cas.class.php');
 require_once(__DIR__ . '/../cas/connector.class.php');
 require_once(__DIR__ . '/../cas/ast.container.class.php');
-require_once(__DIR__ . '/../cas/cassession.class.php');
 
 class stack_ans_test_controller {
     protected static $types = array(

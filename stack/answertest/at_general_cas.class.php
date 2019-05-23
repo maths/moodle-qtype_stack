@@ -135,11 +135,13 @@ class stack_answertest_general_cas extends stack_anstest {
         $result = stack_ast_container::make_from_teacher_source("result:StackReturn({$this->casfunction}(STACKSA,STACKTA))", '', new stack_cas_security());
         if (!(!$this->processcasoptions || trim($op) === '')) {
             $ops = stack_ast_container::make_from_teacher_source('STACKOP:' . $op, '', new stack_cas_security());
-            $res = stack_ast_container::make_from_teacher_source("result:StackReturn({$this->casfunction}(STACKSA,STACKTA,STACKOP))", new stack_cas_security());
+            $res = stack_ast_container::make_from_teacher_source("result:StackReturn({$this->casfunction}(STACKSA,STACKTA,STACKOP))", '', new stack_cas_security());
         }
 
-        $session = new stack_cas_session($cts, $this->options, 0);
-        $session->instantiate();
+        $session = new stack_cas_session2(array($sa, $ta, $ops, $result), $this->options, 0);
+        if ($session->get_valid()) {
+            $session->instantiate();
+        }
         $this->debuginfo = $session->get_debuginfo();
 
         if ('' != $sa->get_errors() || !$sa->get_valid()) {

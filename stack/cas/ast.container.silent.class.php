@@ -269,6 +269,21 @@ class stack_ast_container_silent implements cas_evaluatable {
         return $this->context;
     }
 
+    public function get_key(): string {
+        $root = $this->ast;
+        if ($root instanceof MP_Root) {
+            $root = $root->items[0];
+        }
+        if ($root instanceof MP_Statement) {
+            $root = $root->statement;
+        }
+        if ($root instanceof MP_Operation && $root->op === ':' &&
+            $root->lhs instanceof MP_Identifier) {
+            return $root->lhs->value;
+        }
+
+        return '';
+    }
 
 
     // General accessors.

@@ -119,6 +119,11 @@ class qtype_stack_question extends question_graded_automatically_with_countback
     protected $session;
 
     /**
+     * @var array stack_ast_container STACK specific: the teachers answers for each input
+     */
+    private $tas;
+
+    /**
      * @var array stack_cas_session STACK specific: session of variables.
      */
     protected $questionnoteinstantiated;
@@ -288,15 +293,16 @@ class qtype_stack_question extends question_graded_automatically_with_countback
             $this->runtimeerrors[$session->get_errors()] = true;
         }
 
+        // The session to keep. Note we do not need to reinstantiate the teachers answers.
+        $sessiontokeep = new stack_cas_session2($session->get_session(), $this->options, $this->seed);
+
         // 2. correct answer for all inputs.
-        $response = array();
         foreach ($this->inputs as $name => $input) {
             $cs = stack_ast_container::make_from_teacher_source($name . ':' . $input->get_teacher_answer(),
                     '', new stack_cas_security());
-            $response[$name] = $cs;
+            $this->tas[$name] = $cs;
+            $session->add_statement($cs);
         }
-        $session->add_vars($response);
-        $sessionlength = count($session->get_session());
 
         // 3. CAS bits inside the question text.
         $questiontext = $this->prepare_cas_text($this->questiontext, $session);
@@ -328,8 +334,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         $this->prtcorrectinstantiated          = $prtcorrect->get_display_castext();
         $this->prtpartiallycorrectinstantiated = $prtpartiallycorrect->get_display_castext();
         $this->prtincorrectinstantiated        = $prtincorrect->get_display_castext();
-        $session->prune_session($sessionlength);
-        $this->session = $session;
+        $this->session = $sessiontokeep;
 
         // Allow inputs to update themselves based on the model answers.
         $this->adapt_inputs();
@@ -360,7 +365,8 @@ class qtype_stack_question extends question_graded_automatically_with_countback
      */
     protected function adapt_inputs() {
         foreach ($this->inputs as $name => $input) {
-            $teacheranswer = $this->session->get_value_key($name);
+            // TODO: again should we give the whole thing to the input.
+            $teacheranswer = $this->tas[$name]->get_value();
             $input->adapt_to_model_answer($teacheranswer);
         }
     }
@@ -459,7 +465,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         $teacheranswer = array();
         foreach ($this->inputs as $name => $input) {
             $teacheranswer = array_merge($teacheranswer,
-                    $input->get_correct_response($this->session->get_value_key($name, true)));
+                    $input->get_correct_response($this->tas[$name]->get_dispvalue()));
         }
         return $teacheranswer;
     }
@@ -495,12 +501,16 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         }
 
         // The student's answer may not contain any of the variable names with which
-        // the teacher has defined question variables.   Otherwise when it is evaluated
+        // the teacher has defined question variables. Otherwise when it is evaluated
         // in a PRT, the student's answer will take these values.   If the teacher defines
         // 'ta' to be the answer, the student could type in 'ta'!  We forbid this.
 
-        $forbiddenkeys = $this->session->get_all_keys();
-        $teacheranswer = $this->session->get_value_key($name);
+        // TODO: shouldn't we also protect variables used in PRT logic? Feedback vars 
+        // and so on?
+        $forbiddenkeys = $this->session->get_variable_usage()['write'];
+        // TODO: we should probably give the whole ast_container to the input.
+        // Direct access to LaTeX and the AST might be handy.
+        $teacheranswer = $this->tas[$name]->get_value();
         if (array_key_exists($name, $this->inputs)) {
             $this->inputstates[$name] = $this->inputs[$name]->validate_student_response(
                 $response, $this->options, $teacheranswer, $forbiddenkeys, $rawinput);
@@ -924,16 +934,18 @@ class qtype_stack_question extends question_graded_automatically_with_countback
      * the question variables.
      * @param stack_cas_session $session the CAS session to add the question variables to.
      */
-    public function add_question_vars_to_session(stack_cas_session $session) {
-        $session->merge_session($this->session);
+    public function add_question_vars_to_session(stack_cas_session2 $session) {
+        // Question vars will always get added to the begining of whatever session you give.
+        $this->session->prepend_to_session($session);
     }
 
     /**
      * Enable the renderer to access the teacher's answer in the session.
-     * @param vname varaiable name.
+     * TODO: should we give the whole thing?
+     * @param vname variable name.
      */
-    public function get_session_variable($vname) {
-        return $this->session->get_value_key($vname);
+    public function get_ta_for_input(string $vname): string {
+        return $this->tas[$vname]->get_value();
     }
 
     public function classify_response(array $response) {

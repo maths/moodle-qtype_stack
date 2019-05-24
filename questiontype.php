@@ -1703,7 +1703,7 @@ class qtype_stack extends question_type {
             }
         }
         $inputsession = clone $session;
-        $inputsession->add_vars($inputvalues);
+        $inputsession->add_statements($inputvalues);
         $inputsession->instantiate();
 
         $getdebuginfo = false;

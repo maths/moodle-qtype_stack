@@ -158,24 +158,6 @@ class stack_ast_container extends stack_ast_container_silent implements cas_late
         return '';
     }
 
- 
-
-    public function get_key() {
-        // If this is an assignment type we can return its target "key".
-        $key = '';
-        $root = $this->ast;
-        if ($root instanceof MP_Root) {
-            $root = $root->items[0];
-        }
-        if ($root instanceof MP_Statement && $root->statement instanceof MP_Operation && $root->statement->op === ':') {
-            $key = $root->statement->lhs->toString();
-            // Note that we do not split the key out of it that is not necessary.
-        }
-        return $key;
-    }
-
-
-
     public function set_cas_evaluated_value(MP_Node $ast) {
         $this->evaluated = $ast;
     }

@@ -78,9 +78,43 @@ class stack_cas_session2 {
         return $this->statements;
     }
 
-    public function add_statement(cas_evaluatable $statement) {
-        $this->statements[] = $statement;
+    public function add_statement(cas_evaluatable $statement, bool $append = true) {
+        if ($append) {
+            $this->statements[] = $statement;
+        } else {
+            array_unshift($this->statements, $statement);
+        }
         $this->instantiated = false;
+    }
+
+    public function add_statements(array $statements, bool $append = true) {
+        foreach ($statements as $statement) {
+            if (!is_subclass_of($statement, 'cas_evaluatable')) {
+                throw new stack_exception('stack_cas_session: items in $statements must be cas_evaluatable.');
+            }
+        }
+
+        if ($append) {
+            $this->statements = array_merge($this->statements, $statements);
+        } else {
+            $this->statements = array_merge($statements, $this->statements);
+        }
+        $this->instantiated = false;
+    }
+
+    public function prepend_to_session(stack_cas_session2 $target) {
+        $target->statements = array_merge($this->statements, $target->statements);
+    }
+
+    public function append_to_session(stack_cas_session2 $target) {
+        $target->statements = array_merge($target->statements, $this->statements);
+    }
+
+    public function get_variable_usage(array &$update_array = array()): array {
+        foreach ($this->statements as $statement) {
+            $update_array = $statement->get_variable_usage($update_array);
+        }
+        return $update_array;
     }
 
     public function is_instantiated(): bool {
@@ -95,6 +129,18 @@ class stack_cas_session2 {
         }
         // There is nothing wrong with an empty session.
         return true;
+    }
+
+    public function get_by_key(string $key): ?cas_evaluatable {
+        // Searches from the statements the last one with a given key.
+        // This is a concession for backwards compatibility and should not be used.
+        $found = null;
+        foreach ($this->statements as $statement) {
+            if ($statement->get_key() === $key) {
+                $found = $statement;
+            }
+        }
+        return $found;
     }
 
     /**

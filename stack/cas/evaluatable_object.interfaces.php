@@ -31,6 +31,15 @@ interface cas_evaluatable {
 	 * or '/prt/0/node/4/tans'.
 	 */
 	public function get_source_context(): string;
+
+	/**
+	 * If this is something with a specific key return it otherwise ''.
+	 * A key is typically the left hand side of the topmost assignment 
+	 * operation. Not all things have those and most do not need them,
+	 * but old style systems tend to rely on them. Focus on removing any and
+	 * all code relying on keys.
+	 */
+    public function get_key(): string;
 }
 
 

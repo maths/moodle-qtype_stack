@@ -64,4 +64,8 @@ class stack_secure_loader implements cas_evaluatable {
         }
         return $this->errors;
     }
+
+    public function get_key(): string {
+        return '';
+    }
 }

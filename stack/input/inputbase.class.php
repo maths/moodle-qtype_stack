@@ -601,7 +601,8 @@ abstract class stack_input {
         foreach ($caslines as $index => $cs) {
             $tvalidator[$index] = null;
             if (array_key_exists($index, $tcaslines)) {
-                $tvalidator[$index] = $tcaslines[$index]->ast->toString();
+                // TODO: what happens here?
+                $tvalidator[$index] = $tcaslines[$index]->get_inputform();
             }
         }
         $lvarsdisp   = '';
@@ -763,7 +764,7 @@ abstract class stack_input {
         if ($stars & 1) {
             // The rules are applied anyway, we just check the use of them.
             // If code-tidy issue just negate the test and cut this one out.
-        } else {
+        } else if ($stars !== 0) {
             $filterstoapply[] = '991_no_fixing_stars';
         }
 
@@ -771,7 +772,7 @@ abstract class stack_input {
         if ($stars & (1 << 1)) {
             // The rules are applied anyway, we just check the use of them.
             // If code-tidy issue just negate the test and cut this one out.
-        } else {
+        } else if ($stars !== 0) {
             $filterstoapply[] = '990_no_fixing_spaces';
         }
 
@@ -882,7 +883,13 @@ abstract class stack_input {
      */
     protected function validation_display($answer, $lvars, $caslines, $additionalvars, $valid, $errors) {
 
-        $display = stack_maxima_format_casstring($answer->get_raw_casstring());
+        // TODO: This is probably the only place where we truly need the raw value,
+        // lets find a way of handling it, but not so that we store it into every
+        // cas-evaluated item just for this one use.
+
+        //$display = stack_maxima_format_casstring($answer->get_raw_casstring());
+
+        $display = $answer->get_inputform();
         if ('' != $answer->get_errors()) {
             $valid = false;
             $errors = array(stack_maxima_translate($answer->get_errors()));
@@ -940,7 +947,8 @@ abstract class stack_input {
         }
         // Do we need to check any numerical accuracy at validation stage?
         if ($mindp || $maxdp || $minsf || $maxsf) {
-            $fltfmt = stack_utils::decimal_digits($answer->get_raw_casstring());
+            // TODO: we should do this on the AST.
+            $fltfmt = stack_utils::decimal_digits($answer->get_inputform());
             $accuracychecked = false;
             if (!is_bool($mindp) && !is_bool($maxdp) && $mindp == $maxdp) {
                 $accuracychecked = true;
@@ -1145,7 +1153,7 @@ abstract class stack_input {
         // TODO: refactor this ast creation away.
         $cs = stack_ast_container::make_from_teacher_source($value, '', new stack_cas_security(), array());
         $val = '';
-        if ($cs->ast) {
+        if ($cs->get_valid()) {
             $val = $cs->get_inputform();
         }
         return $this->maxima_to_response_array($val);

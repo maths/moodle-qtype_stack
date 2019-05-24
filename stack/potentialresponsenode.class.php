@@ -217,22 +217,22 @@ class stack_potentialresponse_node {
     public function traverse($results, $key, $cascontext, $answers, $options) {
 
         $errorfree = true;
-        if ($cascontext->get_errors_key('PRSANS' . $key)) {
-            $results->_errors .= $cascontext->get_errors_key('PRSANS' . $key);
+        if ($cascontext->get_by_key('PRSANS' . $key)->get_errors() !== '') {
+            $results->_errors .= $cascontext->get_by_key('PRSANS' . $key)->get_errors();
             $results->add_feedback(' '.stack_string('prtruntimeerror',
-                    array('node' => 'PRSANS'.($key + 1), 'error' => $cascontext->get_errors_key('PRSANS' . $key))));
+                    array('node' => 'PRSANS'.($key + 1), 'error' => $cascontext->get_by_key('PRSANS' . $key)->get_errors())));
             $errorfree = false;
         }
-        if ($cascontext->get_errors_key('PRTANS' . $key)) {
-            $results->_errors .= $cascontext->get_errors_key('PRTANS' . $key);
+        if ($cascontext->get_by_key('PRTANS' . $key)->get_errors() !== '') {
+            $results->_errors .= $cascontext->get_by_key('PRTANS' . $key)->get_errors();
             $results->add_feedback(' '.stack_string('prtruntimeerror',
-                    array('node' => 'PRTANS'.($key + 1), 'error' => $cascontext->get_errors_key('PRTANS' . $key))));
+                    array('node' => 'PRTANS'.($key + 1), 'error' => $cascontext->get_by_key('PRTANS' . $key)->get_errors())));
             $errorfree = false;
         }
-        if ($cascontext->get_errors_key('PRATOPT' . $key)) {
-            $results->_errors .= $cascontext->get_errors_key('PRATOPT' . $key);
+        if ($cascontext->get_by_key('PRATOPT' . $key)->get_errors() !== '') {
+            $results->_errors .= $cascontext->get_by_key('PRATOPT' . $key)->get_errors();
             $results->add_feedback(' '.stack_string('prtruntimeerror',
-                    array('node' => 'PRATOPT'.($key + 1), 'error' => $cascontext->get_errors_key('PRATOPT' . $key))));
+                    array('node' => 'PRATOPT'.($key + 1), 'error' => $cascontext->get_by_key('PRATOPT' . $key)->get_errors())));
             $errorfree = false;
         }
         if (!($errorfree)) {
@@ -243,20 +243,20 @@ class stack_potentialresponse_node {
         // off trailing zeros, making it effectively impossible to run the numerical sigfigs tests.
 
         // TODO: refactor this to pass the ast, then we won't need to "subvert the CAS".....
-        $sans   = $cascontext->get_value_key('PRSANS' . $key);
-        $tans   = $cascontext->get_value_key('PRTANS' . $key);
+        $sans   = $cascontext->get_by_key('PRSANS' . $key);
+        $tans   = $cascontext->get_by_key('PRTANS' . $key);
         foreach ($answers as $cskey => $val) {
             // Check whether the raw input to the node exactly matches one of the answer names.
             $cs = $this->sans;
-            if (trim($cs->get_raw_casstring()) == trim($cskey)) {
-                $sans = $cascontext->get_casstring_key($cskey);
+            if (trim($cs->get_inputform()) == trim($cskey)) {
+                $sans = $cascontext->get_by_key($cskey);
             }
             $cs = $this->tans;
-            if (trim($cs->get_raw_casstring()) == trim($cskey)) {
-                $tans = $cascontext->get_casstring_key($cskey);
+            if (trim($cs->get_inputform()) == trim($cskey)) {
+                $tans = $cascontext->get_by_key($cskey);
             }
         }
-        $atopts = $cascontext->get_value_key('PRATOPT' . $key);
+        $atopts = $cascontext->get_by_key('PRSANS' . $key);
         // If we can't find atopts then they were not processed by the CAS.
         // They might still be some in the potential response which do not
         // need to be processed.

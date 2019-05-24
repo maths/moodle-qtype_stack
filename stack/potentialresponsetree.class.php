@@ -60,7 +60,7 @@ class stack_potentialresponse_tree {
 
         $this->value = $value;
 
-        if (is_a($feedbackvariables, 'stack_cas_session') || null === $feedbackvariables) {
+        if (is_a($feedbackvariables, 'stack_cas_session2') || null === $feedbackvariables) {
             $this->feedbackvariables = $feedbackvariables;
         } else {
             throw new stack_exception('stack_potentialresponse_tree: __construct: ' .
@@ -105,6 +105,8 @@ class stack_potentialresponse_tree {
     protected function create_cas_context_for_evaluation($questionvars, $options, $answers, $seed) {
 
         // Start with the question variables (note that order matters here).
+        // TODO: this clone needs to go, we need a way of pulling the setting and seed
+        // from the questionvars to start up this thing.
         $cascontext = clone $questionvars;
         // Set the value of simp from this point onwards.
         // If the question has simp:true, but the prt simp:false, then this needs to be done here.
@@ -114,7 +116,8 @@ class stack_potentialresponse_tree {
             $simp = 'false';
         }
         $cs = stack_ast_container::make_from_teacher_source('simp:'.$simp, '', new stack_cas_security(), array());
-        $answervars = array($cs);
+
+        $cascontext->add_statement($cs);
         // Add the student's responses, but only those needed by this prt.
         // Some irrelevant but invalid answers might break the CAS connection.
         foreach ($this->get_required_variables(array_keys($answers)) as $name) {
@@ -128,18 +131,17 @@ class stack_potentialresponse_tree {
             // student's answer has already been through validation.
             $cs = stack_ast_container::make_from_teacher_source($name . ':' . $ans, '',
                     new stack_cas_security(), array());
-            $answervars[] = $cs;
+            $cascontext->add_statement($cs);
         }
-        $cascontext->add_vars($answervars);
 
         // Add the feedback variables.
-        $cascontext->merge_session($this->feedbackvariables);
+        $this->feedbackvariables->append_to_session($cascontext);
 
         // Add all the expressions from all the nodes.
         // Note this approach does not allow for effective guard clauses in the PRT.
         // All the inputs to answer tests are evaluated at the start.
         foreach ($this->nodes as $key => $node) {
-            $cascontext->add_vars($node->get_context_variables($key));
+            $cascontext->add_statements($node->get_context_variables($key));
         }
 
         $cascontext->instantiate();

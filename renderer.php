@@ -43,7 +43,7 @@ class qtype_stack_renderer extends qtype_renderer {
         $qaid = null;
         foreach ($question->inputs as $name => $input) {
             // Get the actual value of the teacher's answer at this point.
-            $tavalue = $question->get_session_variable($name);
+            $tavalue = $question->get_ta_for_input($name);
 
             $fieldname = $qa->get_qt_field_name($name);
             $state = $question->get_input_state($name, $response);

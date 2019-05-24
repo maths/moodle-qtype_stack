@@ -21,9 +21,10 @@ interface cas_evaluatable {
 
 	/**
 	 * Receives errors that may have happened in CAS evaluation. Or an empty 
-	 * list signaling that everything went well.
+	 * list signaling that everything went well. Also returns wverything that 
+	 * has gone through the StackAddFeedback() function as answernotes.
 	 */
-	public function set_cas_status(array $errors);
+	public function set_cas_status(array $errors, array $answernotes);
 
 	/**
 	 * For error tracking puposes provides a name or reference to the area

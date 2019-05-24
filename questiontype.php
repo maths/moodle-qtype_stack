@@ -1702,25 +1702,26 @@ class qtype_stack extends question_type {
                 $inputvalues[] = $cs;
             }
         }
+        // TODO: why clone when we never reuse the original...
         $inputsession = clone $session;
         $inputsession->add_statements($inputvalues);
         $inputsession->instantiate();
 
         $getdebuginfo = false;
         foreach ($inputs as $inputname) {
-            if ($inputsession->get_errors_key($inputname)) {
-                $errors[$inputname . 'modelans'][] = $inputsession->get_errors_key($inputname);
-                if ('' == $inputsession->get_value_key($inputname)) {
+            if ($inputsession->get_by_key($inputname)->get_errors() !== '') {
+                $errors[$inputname . 'modelans'][] = $inputsession->get_by_key($inputname)->get_errors();
+                if ('' == $inputsession->get_by_key($inputname)->get_value()) {
                     $getdebuginfo = true;
                 }
-                // TODO: Send the acutal value to the input, and ask it to validate it.
+                // TODO: Send the actual value to the input, and ask it to validate it.
                 // For example, the matrix input type could check that the model answer is a matrix.
             }
 
-            if ($fromform[$inputname . 'options'] && $inputsession->get_errors_key('optionsfor' . $inputname)) {
-                $errors[$inputname . 'options'][] = $inputsession->get_errors_key('optionsfor' . $inputname);
+            if ($fromform[$inputname . 'options'] && $inputsession->get_by_key('optionsfor' . $inputname)->get_errors() !== '') {
+                $errors[$inputname . 'options'][] = $inputsession->get_by_key('optionsfor' . $inputname)->get_errors();
             }
-            // ... else TODO: Send the acutal value to the input, and ask it to validate it.
+            // ... else TODO: Send the actual value to the input, and ask it to validate it.
         }
 
         if ($getdebuginfo) {

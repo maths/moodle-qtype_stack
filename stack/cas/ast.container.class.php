@@ -126,14 +126,15 @@ class stack_ast_container extends stack_ast_container_silent implements cas_late
         $vcmd = 'stack_validate(['.$starredanswer.'], '.$lowestterms.','.$tans.')';
         if ($validationmethod == 'typeless') {
             // Note, we don't pass in the teacher's as this option is ignored by the typeless validation.
-            $vcmd = 'stack_validate_typeless(['.$starredanswer.'], '.$lowestterms.', false, false)';
+            $vcmd = 'stack_validate_typeless(['.$starredanswer.'], '.$lowestterms.', false,'.$fltfmt.')';
         }
         if ($validationmethod == 'numerical') {
+            // TODO: What happens here what are the argumentsm is that the correct function?
             $vcmd = 'stack_validate_typeless(['.$starredanswer.'],
-            '.$forbidfloats.', '.$lowestterms.', false, '.$fltfmt.')';
+            '.$forbidfloats.', '.$lowestterms.', false,'.$fltfmt.')';
         }
         if ($validationmethod == 'equiv') {
-            $vcmd = 'stack_validate_typeless(['.$starredanswer.'], '.$lowestterms.', true, false)';
+            $vcmd = 'stack_validate_typeless(['.$starredanswer.'], '.$lowestterms.', true,'.$fltfmt.')';
         }
         if ($validationmethod == 'units') {
             // Note, we don't pass in forbidfloats as this option is ignored by the units validation.
@@ -166,7 +167,7 @@ class stack_ast_container extends stack_ast_container_silent implements cas_late
         $this->latex = $latex;
     }
 
-    public function get_evaluated(): MP_Node {
+    public function get_evaluated(): ?MP_Node {
         return $this->evaluated;
     }
 

@@ -259,9 +259,12 @@ class stack_ast_container_silent implements cas_evaluatable {
         return $casstring;
     }
 
-    public function set_cas_status(array $errors) {
+    public function set_cas_status(array $errors, array $answernotes) {
         if (count($errors) > 0) {
             $this->errors = array_merge($this->errors, $errors);
+        }
+        if (count($answernotes) > 0) {
+            $this->answernotes = array_merge($this->answernotes, $answernotes);
         }
     }
     

@@ -132,10 +132,10 @@ class stack_answertest_general_cas extends stack_anstest {
         $sa = stack_ast_container::make_from_teacher_source('STACKSA:' . $this->sanskey, '', new stack_cas_security());
         $ta = stack_ast_container::make_from_teacher_source('STACKTA:' . $this->tanskey, '', new stack_cas_security());
         $ops = stack_ast_container::make_from_teacher_source('STACKOP:true', '', new stack_cas_security());
-        $result = stack_ast_container::make_from_teacher_source("result:StackReturn({$this->casfunction}(STACKSA,STACKTA))", '', new stack_cas_security());
+        $result = stack_ast_container::make_from_teacher_source("result:{$this->casfunction}(STACKSA,STACKTA)", '', new stack_cas_security());
         if (!(!$this->processcasoptions || trim($op) === '')) {
             $ops = stack_ast_container::make_from_teacher_source('STACKOP:' . $op, '', new stack_cas_security());
-            $res = stack_ast_container::make_from_teacher_source("result:StackReturn({$this->casfunction}(STACKSA,STACKTA,STACKOP))", '', new stack_cas_security());
+            $res = stack_ast_container::make_from_teacher_source("result:{$this->casfunction}(STACKSA,STACKTA,STACKOP)", '', new stack_cas_security());
         }
 
         $session = new stack_cas_session2(array($sa, $ta, $ops, $result), $this->options, 0);
@@ -173,36 +173,57 @@ class stack_answertest_general_cas extends stack_anstest {
             }
         }
 
+        $unpacked = $this->unpack_result($result->get_evaluated());
 
         if ('' != $result->get_errors()) {
             $this->aterror      = 'TEST_FAILED';
-            if ('' != trim($result->get_feedback())) {
-                $this->atfeedback = $result->get_feedback();
+            if ('' != trim($unpacked['feedback'])) {
+                $this->atfeedback = $unpacked['feedback'];
             } else {
                 $this->atfeedback = stack_string('TEST_FAILED', array('errors' => $result->get_errors()));
             }
-            $this->atansnote    = trim($result->get_answernote());
+            $this->atansnote    = trim($unpacked['answernote']);
             $this->atmark       = 0;
             $this->atvalid      = false;
             return null;
         }
 
-        $this->atansnote  = str_replace("\n", '', trim($result->get_answernote()));
+        $this->atansnote  = str_replace("\n", '', trim($unpacked['answernote']));
 
         // Convert the Maxima string 'true' to PHP true.
-        if ('true' == $result->get_value()) {
+        // Actually in the AST parsing we already have a bool.
+        if ($unpacked['result']) {
             $this->atmark = 1;
         } else {
             $this->atmark = 0;
         }
-        $this->atfeedback = $result->get_feedback();
-        $this->atvalid    = $result->get_valid();
+        $this->atfeedback = $unpacked['feedback'];
+        $this->atvalid    = $unpacked['valid'];
         if ($this->atmark) {
             return true;
         } else {
             return false;
         }
     }
+
+    private function unpack_result(MP_Node $result): array {
+        $r = array('valid' => false, 'result' => 'unknown', 'answernote' => '', 'feedback' => '');
+
+        if ($result instanceof MP_Root) {
+            $result = $result->items[0];
+        }
+        if ($result instanceof MP_Statement) {
+            $result = $result->statement;
+        }
+        if ($result instanceof MP_List) {
+            $r['valid'] = $result->items[0]->value;
+            $r['result'] = $result->items[1]->value;
+            $r['answernote'] = $result->items[2]->value;
+            $r['feedback'] = $result->items[3]->value;
+        }
+        return $r;
+    }
+
 
     public function process_atoptions() {
         return $this->processcasoptions;

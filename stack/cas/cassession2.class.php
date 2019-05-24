@@ -221,10 +221,10 @@ class stack_cas_session2 {
         $i = 0;
         foreach ($this->statements as $num => $statement) {
             $ef = $statement->get_evaluationform();
-            $line = ',_EC(' . $ef . ',';
+            $line = ',_EC(errcatch(' . $ef . '),';
             if (($statement instanceof cas_value_extractor) || ($statement instanceof cas_latex_extractor)) {
                 // One of those that need to be collected later.
-                $line = ',__ANSWERNOTES:[],_EC(__e_statement_' . $i . ':' . $ef . ',';
+                $line = ',__ANSWERNOTES:[],_EC(errcatch(__e_statement_' . $i . ':' . $ef . '),';
             }
             $line .= stack_utils::php_string_to_maxima_string($statement->get_source_context());
             $line .= ',' . $i . ')';
@@ -309,7 +309,7 @@ class stack_cas_session2 {
                     // [0] the list of errors
                     // [1] the context information
                     // [2] the statement number
-                    $notesby_statement[intval(substr($key, strlen('__e_statement_')))] = $value;
+                    $notesby_statement[intval(substr($key, strlen('__e_statement_')))] = array_map('stack_maxima_translate', $value);
                 }
             }
 

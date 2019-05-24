@@ -165,7 +165,7 @@ class stack_anstest_atnumsigfigs extends stack_anstest {
         $sa = stack_ast_container::make_from_teacher_source('STACKSA:' . $this->sanskey, '', new stack_cas_security());
         $ta = stack_ast_container::make_from_teacher_source('STACKTA:' . $this->tanskey, '', new stack_cas_security());
         $ops = stack_ast_container::make_from_teacher_source('STACKOP:true', '', new stack_cas_security());
-        $result = stack_ast_container::make_from_teacher_source("result:StackReturn({$this->casfunction}(STACKSA,STACKTA,STACKOP))", '', new stack_cas_security());
+        $result = stack_ast_container::make_from_teacher_source("result:{$this->casfunction}(STACKSA,STACKTA,STACKOP)", '', new stack_cas_security());
         
         $session = new stack_cas_session2(array($sa, $ta, $ops, $result), $this->options, 0);
         if ($session->get_valid()) {
@@ -200,34 +200,37 @@ class stack_anstest_atnumsigfigs extends stack_anstest {
             return null;
         }
 
+        $unpacked = $this->unpack_result($result->get_evaluated());
+
         if ('' != $result->get_errors()) {
             $this->aterror      = 'TEST_FAILED';
-            if ('' != trim($result->get_feedback())) {
-                $this->atfeedback .= $result->get_feedback();
+            if ('' != trim($unpacked['feedback'])) {
+                $this->atfeedback = $unpacked['feedback'];
             } else {
                 $this->atfeedback = stack_string('TEST_FAILED', array('errors' => $result->get_errors()));
             }
-            $this->atansnote    = trim($result->get_answernote());
+            $this->atansnote    = trim($unpacked['answernote']);
             $this->atmark       = 0;
             $this->atvalid      = false;
             return null;
         }
 
+
         // Convert the Maxima string 'true' to PHP true.
-        if ('true' == $result->get_value() && $withinrange) {
+        if ($unpacked['result'] && $withinrange) {
             $this->atmark = 1;
         } else {
             $this->atmark = 0;
         }
 
-        $this->atvalid     = $result->get_valid();
-        $this->atansnote  .= trim($result->get_answernote());
-        $this->atfeedback .= $result->get_feedback();
+        $this->atvalid     = $unpacked['valid'];
+        $this->atansnote   = str_replace("\n", '', trim($unpacked['answernote']));
+        $this->atfeedback .= $unpacked['feedback'];
         $caserrormsgs = array('ATNumSigFigs_NotDecimal.', 'ATUnits_SA_not_expression.',
             'ATUnits_SA_no_units.', 'ATUnits_SA_only_units.');
-        if (in_array(trim($result->get_answernote()), $caserrormsgs)) {
-            $this->atansnote  = trim($result->get_answernote());
-            $this->atfeedback = $result->get_feedback();
+        if (in_array(trim($unpacked['answernote']), $caserrormsgs)) {
+            $this->atansnote  = trim($unpacked['answernote']);
+            $this->atfeedback = $unpacked['feedback'];
             $this->atvalid = false;
         }
 
@@ -236,6 +239,24 @@ class stack_anstest_atnumsigfigs extends stack_anstest {
         } else {
             return false;
         }
+    }
+
+        private function unpack_result(MP_Node $result): array {
+        $r = array('valid' => false, 'result' => 'unknown', 'answernote' => '', 'feedback' => '');
+
+        if ($result instanceof MP_Root) {
+            $result = $result->items[0];
+        }
+        if ($result instanceof MP_Statement) {
+            $result = $result->statement;
+        }
+        if ($result instanceof MP_List) {
+            $r['valid'] = $result->items[0]->value;
+            $r['result'] = $result->items[1]->value;
+            $r['answernote'] = $result->items[2]->value;
+            $r['feedback'] = $result->items[3]->value;
+        }
+        return $r;
     }
 
     public function process_atoptions() {

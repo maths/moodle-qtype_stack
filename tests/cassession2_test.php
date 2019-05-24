@@ -93,4 +93,37 @@ class stack_cas_session2_test extends qtype_stack_testcase {
 		}
 	}
 
+	public function test_error() {
+		$simpon = stack_ast_container::make_from_teacher_source('simp:true', 'test_error()', new stack_cas_security());
+		$divzero = stack_ast_container::make_from_teacher_source('1/0', 'test_error()', new stack_cas_security());
+		$foo = stack_ast_container::make_from_teacher_source('sconcat("f","o","o")', 'test_error()', new stack_cas_security());
+
+		$session = new stack_cas_session2([$simpon, $divzero, $foo]);
+
+		$this->assertTrue($session->get_valid());
+		$this->assertFalse($session->is_instantiated());
+		$session->instantiate();
+		$this->assertTrue($session->is_instantiated());
+
+		$this->assertEquals('', $simpon->get_errors());
+		$this->assertEquals('', $foo->get_errors());
+		$this->assertEquals('"foo"', $foo->get_value());
+		$this->assertTrue(count($divzero->get_errors(true)) > 0);
+		$this->assertContains('expt: undefined: 0 to a negative exponent.', $divzero->get_errors(true));
+	}
+
+	public function test_answernote() {
+		$simpoff = stack_ast_container::make_from_teacher_source('simp:false', 'test_answernote()', new stack_cas_security());
+		$validation = stack_ast_container::make_from_teacher_source('stack_validate_typeless([2/4], true, true,"~a")', 'test_answernote()', new stack_cas_security());
+
+		$session = new stack_cas_session2([$simpoff, $validation]);
+		$this->assertEquals('', $validation->get_answernote());
+
+		$this->assertTrue($session->get_valid());
+		$this->assertFalse($session->is_instantiated());
+		$session->instantiate();
+		$this->assertTrue($session->is_instantiated());
+
+		$this->assertEquals('Lowest_Terms', $validation->get_answernote());
+	}
 }

@@ -39,7 +39,7 @@ class stack_ast_filter_542_no_functions_at_all implements stack_cas_astfilter_ex
         };
 
         // @codingStandardsIgnoreStart
-        while ($ast->callbackRecurse($process) !== true) {
+        while ($ast->callbackRecurse($process, true) !== true) {
         }
         // @codingStandardsIgnoreEnd
         if ($hasany) {

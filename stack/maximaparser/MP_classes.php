@@ -163,7 +163,7 @@ class MP_Node {
 
 
     public function is_invalid(): bool {
-        if (isset($this->position['invalid']) && $this->position['true']) {
+        if (isset($this->position['invalid']) && $this->position['invalid'] === true) {
             return true;
         }
         if ($this->parentnode !== null) {

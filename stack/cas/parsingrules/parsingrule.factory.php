@@ -91,8 +91,6 @@ class stack_parsing_rule_factory {
             case '999_strict':
                 return new stack_ast_filter_999_strict();
         }
-
-
     }
 
     public static function get_by_common_name(string $name): stack_cas_astfilter {
@@ -162,5 +160,12 @@ class stack_parsing_rule_factory {
         ksort($tobeincluded);
         // And return the combination filter.
         return new stack_ast_filter_pipeline($tobeincluded);
+    }
+
+    public static function list_filters(): array {
+        if (empty(self::$singletons)) {
+            self::get_by_common_name('001_fix_call_of_a_group_or_function');
+        }
+        return array_keys(self::$singletons);
     }
 }

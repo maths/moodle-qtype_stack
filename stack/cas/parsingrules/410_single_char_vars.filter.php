@@ -25,19 +25,21 @@ class stack_ast_filter_410_single_char_vars implements stack_cas_astfilter {
 
     public function filter(MP_Node $ast, array &$errors, array &$answernotes, stack_cas_security $identifierrules): MP_Node {
 
-        $process = function($node) use (&$valid, &$errors, &$answernote) {
+
+        // TODO: do we maybe want to use the allowed words here also?
+        // although then allowed words should be typed, to get 
+        // the best results.
+
+        // Get the list/map of protected variable names and constants.
+        $protected = stack_cas_security::get_protected_identifiers('variable', $identifierrules->get_units());
+
+        $process = function($node) use (&$valid, &$errors, &$answernote, $protected) {
             if ($node instanceof MP_Identifier && !$node->is_function_name()) {
                 // Cannot split further.
                 if (core_text::strlen($node->value) === 1) {
                     return true;
                 }
 
-                // TODO: do we maybe want to use the allowed words here also?
-                // although then allowed words should be typed, to get 
-                // the best results.
-
-                // Get the list/map of protected variable names and constants.
-                $protected = stack_cas_security::get_protected_identifiers('variable', $identifierrules->get_units());
 
                 // If the identifier is a protected one stop here.
                 if (array_key_exists($node->value, $protected)) {

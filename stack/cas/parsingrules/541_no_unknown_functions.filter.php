@@ -43,7 +43,7 @@ class stack_ast_filter_541_no_unknown_functions implements stack_cas_astfilter_e
         };
 
         // @codingStandardsIgnoreStart
-        while ($ast->callbackRecurse($process) !== true) {
+        while ($ast->callbackRecurse($process, true) !== true) {
         }
         // @codingStandardsIgnoreEnd
         if ($hasany) {

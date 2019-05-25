@@ -501,23 +501,24 @@ class MP_Float extends MP_Atom {
     }
 
     public function toString($params = null): string {
+        // For normalisation purposes we will always uppercase the e.
         if ($params !== null && isset($params['pretty'])) {
             $indent = '';
             if (is_integer($params['pretty'])) {
                 $indent = str_pad($indent, $params['pretty']);
             }
             if ($this->raw !== null) {
-                return $indent . $this->raw;
+                return $indent . strtoupper($this->raw);
             }
 
-            return $indent . $this->value;
+            return $indent . strtoupper('' . $this->value);
         }
 
         if ($this->raw !== null) {
-            return $this->raw;
+            return strtoupper($this->raw);
         }
 
-        return '' . $this->value;
+        return strtoupper('' . $this->value);
     }
 }
 

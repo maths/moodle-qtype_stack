@@ -18,17 +18,16 @@ defined('MOODLE_INTERNAL') || die();
 require_once(__DIR__ . '/filter.interface.php');
 
 /**
- * AST filter that splits the inconvenient (x-1)(x+2) pattern should it
- * survive corrective parsing, also acts as a security feature.
+ * AST filter that ensures that 'i(x)' will always be split.
  */
-class stack_ast_filter_001_fix_call_of_a_group_or_function implements stack_cas_astfilter {
+class stack_ast_filter_005_i_is_never_a_function implements stack_cas_astfilter {
 
     public function filter(MP_Node $ast, array &$errors, array &$answernotes, stack_cas_security $identifierrules): MP_Node {
 
         $process = function($node) use (&$valid, &$errors, &$answernotes) {
-            if (($node instanceof MP_Functioncall) &&
-                (($node->name instanceof MP_Group) ||
-                 ($node->name instanceof MP_Functioncall))) {
+            if ($node instanceof MP_Functioncall &&
+                $node->name instanceof MP_Identifier &&
+                 $node->name->value === 'i') {
                 $replacement = new MP_Operation('*', $node->name, new MP_Group($node->arguments));
                 $replacement->position['insertstars'] = true;
                 $node->parentnode->replace($node, $replacement);
@@ -37,7 +36,7 @@ class stack_ast_filter_001_fix_call_of_a_group_or_function implements stack_cas_
                 }
                 return false;
             }
-
+            
             return true;
         };
 

@@ -18,7 +18,7 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/../locallib.php');
 require_once(__DIR__ . '/fixtures/test_base.php');
-require_once(__DIR__ . '/../stack/cas/cassession.class.php');
+require_once(__DIR__ . '/../stack/cas/cassession2.class.php');
 require_once(__DIR__ . '/../stack/cas/keyval.class.php');
 
 // Unit tests for {@link stack_cas_keyval}.
@@ -52,7 +52,7 @@ class stack_cas_keyval_test extends qtype_stack_testcase {
 
     public function test_get_valid() {
 
-        $cs0 = new stack_cas_session(null, null, 123);
+        $cs0 = new stack_cas_session2(array(), null, 123);
         $cs0->instantiate();
 
         $a1 = array('a:x^2', 'b:(x+1)^2');
@@ -60,7 +60,7 @@ class stack_cas_keyval_test extends qtype_stack_testcase {
         foreach ($a1 as $s) {
             $s1[] = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security(), array());
         }
-        $cs1 = new stack_cas_session($s1, null, 123);
+        $cs1 = new stack_cas_session2($s1, null, 123);
         $cs1->instantiate();
 
         $a2 = array('a:1/0');
@@ -68,7 +68,7 @@ class stack_cas_keyval_test extends qtype_stack_testcase {
         foreach ($a2 as $s) {
             $s2[] = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security(), array());
         }
-        $cs2 = new stack_cas_session($s2, null, 123);
+        $cs2 = new stack_cas_session2($s2, null, 123);
         $cs2->instantiate();
 
         $cases = array(

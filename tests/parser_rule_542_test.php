@@ -18,19 +18,19 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/../locallib.php');
 require_once(__DIR__ . '/fixtures/test_base.php');
-require_once(__DIR__ . '/../stack/cas/parsingrules/042_no_functions_at_all.php');
+require_once(__DIR__ . '/../stack/cas/parsingrules/542_no_functions_at_all.filter.php');
 
 /**
  * Unit tests for {@link stack_ast_filter_no_functions_at_all_042}.
  * @group qtype_stack
  */
-class stack_parser_rule_042_test extends qtype_stack_testcase {
+class stack_parser_rule_542_test extends qtype_stack_testcase {
 
     public function test_no_functions_0() {
         $teststring = '1+x^2/2!-x^3/3!;';
         $result = $teststring . "\n";
         $ast = maxima_parser_utils::parse($teststring);
-        $filter = new stack_ast_filter_no_functions_at_all_042();
+        $filter = new stack_ast_filter_542_no_functions_at_all();
         $errs = array();
         $note = array();
         $security = new stack_cas_security();
@@ -45,7 +45,7 @@ class stack_parser_rule_042_test extends qtype_stack_testcase {
         $teststring = '1+sin(x)^2/2!-x^3/3!;';
         $result     = '1+sin*(x)^2/2!-x^3/3!;' . "\n";
         $ast = maxima_parser_utils::parse($teststring);
-        $filter = new stack_ast_filter_no_functions_at_all_042();
+        $filter = new stack_ast_filter_542_no_functions_at_all();
         $errs = array();
         $note = array();
         $security = new stack_cas_security();
@@ -62,7 +62,7 @@ class stack_parser_rule_042_test extends qtype_stack_testcase {
         $teststring = '1-2*f(x^2);';
         $result     = '1-2*f*(x^2);' . "\n";
         $ast = maxima_parser_utils::parse($teststring);
-        $filter = new stack_ast_filter_no_functions_at_all_042();
+        $filter = new stack_ast_filter_542_no_functions_at_all();
         $errs = array();
         $note = array();
         $security = new stack_cas_security();
@@ -79,7 +79,7 @@ class stack_parser_rule_042_test extends qtype_stack_testcase {
         $teststring = '1-2*f(x^2-1)+sin(x)/7;';
         $result     = '1-2*f*(x^2-1)+sin*(x)/7;' . "\n";
         $ast = maxima_parser_utils::parse($teststring);
-        $filter = new stack_ast_filter_no_functions_at_all_042();
+        $filter = new stack_ast_filter_542_no_functions_at_all();
         $errs = array();
         $note = array();
         $security = new stack_cas_security();
@@ -98,7 +98,7 @@ class stack_parser_rule_042_test extends qtype_stack_testcase {
         $teststring = '1+x(t(3)+1);';
         $result     = '1+x*(t*(3)+1);' . "\n";
         $ast = maxima_parser_utils::parse($teststring);
-        $filter = new stack_ast_filter_no_functions_at_all_042();
+        $filter = new stack_ast_filter_542_no_functions_at_all();
         $errs = array();
         $note = array();
         $security = new stack_cas_security();

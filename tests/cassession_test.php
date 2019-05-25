@@ -19,7 +19,7 @@ defined('MOODLE_INTERNAL') || die();
 require_once(__DIR__ . '/../locallib.php');
 require_once(__DIR__ . '/fixtures/test_base.php');
 require_once(__DIR__ . '/fixtures/numbersfixtures.class.php');
-require_once(__DIR__ . '/../stack/cas/cassession.class.php');
+require_once(__DIR__ . '/../stack/cas/cassession2.class.php');
 require_once(__DIR__ . '/../stack/cas/keyval.class.php');
 
 // Unit tests for {@link stack_cas_session}.
@@ -38,7 +38,7 @@ class stack_cas_session_test extends qtype_stack_testcase {
         foreach ($cs as $s) {
             $s1[] = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security(), array());
         }
-        $at1 = new stack_cas_session($s1, null, 0);
+        $at1 = new stack_cas_session2($s1, null, 0);
         $at1->instantiate();
 
         $maximaversion = '5.' . $at1->get_value_key('m');
@@ -57,7 +57,7 @@ class stack_cas_session_test extends qtype_stack_testcase {
             $s1 = null;
         }
 
-        $at1 = new stack_cas_session($s1);
+        $at1 = new stack_cas_session2($s1);
         $at1->get_valid();
         $this->assertEquals($val, $at1->get_valid());
     }
@@ -89,7 +89,7 @@ class stack_cas_session_test extends qtype_stack_testcase {
         $options = new stack_options();
         $options->set_option('simplify', false);
 
-        $at1 = new stack_cas_session($s1, $options, 0);
+        $at1 = new stack_cas_session2($s1, $options, 0);
         $this->assertEquals('x^2', $at1->get_display_key('a'));
         $this->assertEquals('\frac{1}{1+x^2}', $at1->get_display_key('b'));
         $this->assertEquals('e^{\mathrm{i}\cdot \pi}', $at1->get_display_key('c'));
@@ -107,7 +107,7 @@ class stack_cas_session_test extends qtype_stack_testcase {
         $options->set_option('simplify', false);
         $options->set_option('complexno', 'i');
 
-        $at1 = new stack_cas_session($s1, $options, 0);
+        $at1 = new stack_cas_session2($s1, $options, 0);
         $this->assertEquals('a+b\cdot \mathrm{i}', $at1->get_display_key('p'));
         $this->assertEquals('a+b\cdot \mathrm{i}', $at1->get_display_key('q'));
         $this->assertEquals('a+b\cdot j', $at1->get_display_key('r'));
@@ -124,7 +124,7 @@ class stack_cas_session_test extends qtype_stack_testcase {
         $options->set_option('simplify', false);
         $options->set_option('complexno', 'j');
 
-        $at1 = new stack_cas_session($s1, $options, 0);
+        $at1 = new stack_cas_session2($s1, $options, 0);
         $this->assertEquals('a+b\cdot \mathrm{j}', $at1->get_display_key('p'));
         $this->assertEquals('a+b\cdot i', $at1->get_display_key('q'));
         $this->assertEquals('a+b\cdot \mathrm{j}', $at1->get_display_key('r'));
@@ -141,7 +141,7 @@ class stack_cas_session_test extends qtype_stack_testcase {
         $options->set_option('simplify', false);
         $options->set_option('complexno', 'symi');
 
-        $at1 = new stack_cas_session($s1, $options, 0);
+        $at1 = new stack_cas_session2($s1, $options, 0);
         $this->assertEquals('a+b\cdot \mathrm{i}', $at1->get_display_key('p'));
         $this->assertEquals('a+b\cdot i', $at1->get_display_key('q'));
         $this->assertEquals('a+b\cdot j', $at1->get_display_key('r'));
@@ -158,7 +158,7 @@ class stack_cas_session_test extends qtype_stack_testcase {
         $options->set_option('simplify', false);
         $options->set_option('complexno', 'symj');
 
-        $at1 = new stack_cas_session($s1, $options, 0);
+        $at1 = new stack_cas_session2($s1, $options, 0);
         $this->assertEquals('a+b\cdot \mathrm{j}', $at1->get_display_key('p'));
         $this->assertEquals('a+b\cdot i', $at1->get_display_key('q'));
         $this->assertEquals('a+b\cdot j', $at1->get_display_key('r'));
@@ -175,7 +175,7 @@ class stack_cas_session_test extends qtype_stack_testcase {
         $options->set_option('multiplicationsign', 'dot');
         $options->set_option('simplify', false);
 
-        $at1 = new stack_cas_session($s1, $options, 0);
+        $at1 = new stack_cas_session2($s1, $options, 0);
         $this->assertEquals('x\cdot y', $at1->get_display_key('a'));
         $this->assertEquals('x\cdot y\cdot z', $at1->get_display_key('b'));
         $this->assertEquals('x\cdot \left(y\cdot z\right)', $at1->get_display_key('c'));
@@ -194,7 +194,7 @@ class stack_cas_session_test extends qtype_stack_testcase {
         $options->set_option('multiplicationsign', 'none');
         $options->set_option('simplify', false);
 
-        $at1 = new stack_cas_session($s1, $options, 0);
+        $at1 = new stack_cas_session2($s1, $options, 0);
         $this->assertEquals('x\,y', $at1->get_display_key('a'));
         $this->assertEquals('x\,y\,z', $at1->get_display_key('b'));
         $this->assertEquals('x\,\left(y\,z\right)', $at1->get_display_key('c'));
@@ -213,7 +213,7 @@ class stack_cas_session_test extends qtype_stack_testcase {
         $options->set_option('multiplicationsign', 'cross');
         $options->set_option('simplify', false);
 
-        $at1 = new stack_cas_session($s1, $options, 0);
+        $at1 = new stack_cas_session2($s1, $options, 0);
         $this->assertEquals('x\times y', $at1->get_display_key('a'));
         $this->assertEquals('x\times y\times z', $at1->get_display_key('b'));
         $this->assertEquals('x\times \left(y\times z\right)', $at1->get_display_key('c'));
@@ -231,7 +231,7 @@ class stack_cas_session_test extends qtype_stack_testcase {
         $options = new stack_options();
         $options->set_option('inversetrig', 'cos-1');
 
-        $at1 = new stack_cas_session($s1, $options, 0);
+        $at1 = new stack_cas_session2($s1, $options, 0);
         $this->assertEquals('\cos^{-1}\left( x \right)', $at1->get_display_key('a'));
         $this->assertEquals('\sin^{-1}\left( x \right)', $at1->get_display_key('b'));
         $this->assertEquals('{\rm sinh}^{-1}\left( x \right)', $at1->get_display_key('c'));
@@ -247,7 +247,7 @@ class stack_cas_session_test extends qtype_stack_testcase {
         $options = new stack_options();
         $options->set_option('inversetrig', 'acos');
 
-        $at1 = new stack_cas_session($s1, $options, 0);
+        $at1 = new stack_cas_session2($s1, $options, 0);
         $this->assertEquals('{\rm acos}\left( x \right)', $at1->get_display_key('a'));
         $this->assertEquals('{\rm asin}\left( x \right)', $at1->get_display_key('b'));
         $this->assertEquals('{\rm asinh}\left( x \right)', $at1->get_display_key('c'));
@@ -263,7 +263,7 @@ class stack_cas_session_test extends qtype_stack_testcase {
         $options = new stack_options();
         $options->set_option('inversetrig', 'arccos');
 
-        $at1 = new stack_cas_session($s1, $options, 0);
+        $at1 = new stack_cas_session2($s1, $options, 0);
         $this->assertEquals('\arccos \left( x \right)', $at1->get_display_key('a'));
         $this->assertEquals('\arcsin \left( x \right)', $at1->get_display_key('b'));
         $this->assertEquals('{\rm arcsinh}\left( x \right)', $at1->get_display_key('c'));
@@ -276,11 +276,11 @@ class stack_cas_session_test extends qtype_stack_testcase {
             $s1[] = new stack_cas_casstring($s);
         }
 
-        $at1 = new stack_cas_session($s1, null, 0);
+        $at1 = new stack_cas_session2($s1, null, 0);
         $this->assertEquals('a:x^2; b:1/(1+x^2); c:e^(i*pi);', $at1->get_keyval_representation());
         $this->assertEquals(array('a', 'b', 'c'), $at1->get_all_keys());
 
-        $at1->prune_session(1);
+        $at1->prune_session2(1);
         $this->assertEquals(array('a'), $at1->get_all_keys());
     }
 
@@ -291,7 +291,7 @@ class stack_cas_session_test extends qtype_stack_testcase {
             $s1[] = new stack_cas_casstring($s);
         }
 
-        $at1 = new stack_cas_session($s1, null, 0);
+        $at1 = new stack_cas_session2($s1, null, 0);
         $this->assertEquals('a:(-1)^2;', $at1->get_keyval_representation());
         $at1->instantiate();
         $this->assertEquals('a:1;', $at1->get_keyval_representation());
@@ -309,7 +309,7 @@ class stack_cas_session_test extends qtype_stack_testcase {
         $options = new stack_options();
         $options->set_option('simplify', false);
 
-        $at1 = new stack_cas_session($s1, $options, 0);
+        $at1 = new stack_cas_session2($s1, $options, 0);
         $this->assertEquals('y^3-2\\cdot y^2-8\\cdot y', $at1->get_display_key('p1'));
         $this->assertEquals('y^2-2\\cdot y-8', $at1->get_display_key('p2'));
         $this->assertEquals('y^2-2\\cdot y-0.5', $at1->get_display_key('p3'));
@@ -326,7 +326,7 @@ class stack_cas_session_test extends qtype_stack_testcase {
             $cs->get_valid('t');
             $s1[] = $cs;
         }
-        $at1 = new stack_cas_session($s1, null, 0);
+        $at1 = new stack_cas_session2($s1, null, 0);
         $at1->instantiate();
         $this->assertEquals('"This is a string"', $at1->get_value_key('s'));
     }
@@ -339,7 +339,7 @@ class stack_cas_session_test extends qtype_stack_testcase {
             $cs->get_valid('t');
             $s1[] = $cs;
         }
-        $at1 = new stack_cas_session($s1, null, 0);
+        $at1 = new stack_cas_session2($s1, null, 0);
         $at1->instantiate();
 
         $this->assertEquals('11*QMCHAR', $at1->get_value_key('s'));
@@ -361,7 +361,7 @@ class stack_cas_session_test extends qtype_stack_testcase {
 
         $options = new stack_options();
         $options->set_option('simplify', false);
-        $at1 = new stack_cas_session($s1, $options, 0);
+        $at1 = new stack_cas_session2($s1, $options, 0);
         $at1->instantiate();
 
         $this->assertEquals($at1->get_value_key('a'), 'pi_25');
@@ -388,7 +388,7 @@ class stack_cas_session_test extends qtype_stack_testcase {
             $cs->get_valid('t');
             $s1[] = $cs;
         }
-        $at1 = new stack_cas_session($s1, null, 0);
+        $at1 = new stack_cas_session2($s1, null, 0);
         $at1->instantiate();
 
         // Note we need to re-evaluate the matrix to get its actual value.
@@ -410,7 +410,7 @@ class stack_cas_session_test extends qtype_stack_testcase {
 
         $options = new stack_options();
         $options->set_option('simplify', false);
-        $at1 = new stack_cas_session($s1, $options, 0);
+        $at1 = new stack_cas_session2($s1, $options, 0);
         $at1->instantiate();
 
         $this->assertEquals('2+3', $at1->get_value_key('a'));
@@ -435,7 +435,7 @@ class stack_cas_session_test extends qtype_stack_testcase {
 
         $options = new stack_options();
         $options->set_option('simplify', false);
-        $at1 = new stack_cas_session($s1, $options, 0);
+        $at1 = new stack_cas_session2($s1, $options, 0);
         $at1->instantiate();
 
         $this->assertEquals('', $at1->get_errors(false));
@@ -468,7 +468,7 @@ class stack_cas_session_test extends qtype_stack_testcase {
 
         $options = new stack_options();
         $options->set_option('simplify', true);
-        $at1 = new stack_cas_session($s1, $options, 0);
+        $at1 = new stack_cas_session2($s1, $options, 0);
         $at1->instantiate();
 
         $this->assertEquals('36', $at1->get_value_key('n'));
@@ -496,7 +496,7 @@ class stack_cas_session_test extends qtype_stack_testcase {
 
         $options = new stack_options();
         $options->set_option('simplify', false);
-        $at1 = new stack_cas_session($s1, $options, 0);
+        $at1 = new stack_cas_session2($s1, $options, 0);
         $at1->instantiate();
 
         $this->assertEquals(false, $at1->get_value_key('a'));
@@ -512,7 +512,7 @@ class stack_cas_session_test extends qtype_stack_testcase {
             $cs->get_valid('t');
             $s1[] = $cs;
         }
-        $at1 = new stack_cas_session($s1, null, 0);
+        $at1 = new stack_cas_session2($s1, null, 0);
         $at1->instantiate();
         $this->assertEquals('1385715.257', $at1->get_value_key('a'));
     }
@@ -525,7 +525,7 @@ class stack_cas_session_test extends qtype_stack_testcase {
             $cs->get_valid('t');
             $s1[] = $cs;
         }
-        $at1 = new stack_cas_session($s1, null, 0);
+        $at1 = new stack_cas_session2($s1, null, 0);
         $at1->instantiate();
         $this->assertEquals('3^(3/2)', $at1->get_value_key('a'));
 
@@ -554,7 +554,7 @@ class stack_cas_session_test extends qtype_stack_testcase {
         $options = new stack_options();
         $options->set_option('matrixparens', '(');
 
-        $at1 = new stack_cas_session($s1, $options, 0);
+        $at1 = new stack_cas_session2($s1, $options, 0);
         $this->assertEquals('[1-sqrt(66),sqrt(66)+1,-2]', $at1->get_value_key('E'));
         $this->assertEquals('130', $at1->get_value_key('dt'));
         $this->assertEquals('\left(\begin{array}{ccc} 7 & 1 & 3 \\\\ 5 & -3 & 4 \\\\ 5 & 3 & -4 \end{array}\right)',
@@ -569,7 +569,7 @@ class stack_cas_session_test extends qtype_stack_testcase {
             $cs->get_valid('t');
             $s1[] = $cs;
         }
-        $at1 = new stack_cas_session($s1, null, 0);
+        $at1 = new stack_cas_session2($s1, null, 0);
         $at1->instantiate();
         // There has been a subtle change to associativity in Maxima 5.37.0.
         $this->assertEquals('-7\cdot i+2\cdot j-3\cdot k', $at1->get_display_key('v'));
@@ -583,7 +583,7 @@ class stack_cas_session_test extends qtype_stack_testcase {
             $cs->get_valid('t');
             $s1[] = $cs;
         }
-        $at1 = new stack_cas_session($s1, null, 0);
+        $at1 = new stack_cas_session2($s1, null, 0);
         $at1->instantiate();
         $this->assertEquals('0', $at1->get_value_key('a'));
         $this->assertTrue(is_numeric(strpos($at1->get_value_key('p'), 'STACK auto-generated plot of 0 with parameters')));
@@ -598,7 +598,7 @@ class stack_cas_session_test extends qtype_stack_testcase {
             $cs->get_valid('t');
             $s1[] = $cs;
         }
-        $at1 = new stack_cas_session($s1, null, 0);
+        $at1 = new stack_cas_session2($s1, null, 0);
         $at1->instantiate();
         $this->assertEquals('0', $at1->get_value_key('a'));
         $this->assertRegExp('/Division by (zero|0)/', trim($at1->get_errors_key('p')));
@@ -612,7 +612,7 @@ class stack_cas_session_test extends qtype_stack_testcase {
             $cs->get_valid('t');
             $s1[] = $cs;
         }
-        $at1 = new stack_cas_session($s1, null, 0);
+        $at1 = new stack_cas_session2($s1, null, 0);
         $at1->instantiate();
         $this->assertEquals('[]', $at1->get_value_key('a'));
         $this->assertEquals('rand_selection error: first argument must be a list.', $at1->get_errors_key('a'));
@@ -625,7 +625,7 @@ class stack_cas_session_test extends qtype_stack_testcase {
             $cs->get_valid('t');
             $s1[] = $cs;
         }
-        $at1 = new stack_cas_session($s1, null, 0);
+        $at1 = new stack_cas_session2($s1, null, 0);
         $at1->instantiate();
         $this->assertEquals('[]', $at1->get_value_key('a'));
         $this->assertEquals('rand_selection error: insuffient elements in the list.', $at1->get_errors_key('a'));
@@ -638,7 +638,7 @@ class stack_cas_session_test extends qtype_stack_testcase {
             $cs->get_valid('t');
             $s1[] = $cs;
         }
-        $at1 = new stack_cas_session($s1, null, 0);
+        $at1 = new stack_cas_session2($s1, null, 0);
         $at1->instantiate();
         $this->assertEquals('[a,b,c,d]', $at1->get_value_key('b'));
     }
@@ -683,7 +683,7 @@ class stack_cas_session_test extends qtype_stack_testcase {
             $cs->get_valid('s');
             $s1[] = $cs;
         }
-        $at1 = new stack_cas_session($s1, null, 0);
+        $at1 = new stack_cas_session2($s1, null, 0);
         $at1->instantiate();
         $this->assertEquals('[alpha,beta,delta,epsilon]', $at1->get_value_key('greek1'));
         $this->assertEquals('\left[ \alpha , \beta , \delta , \varepsilon \right]',
@@ -705,7 +705,7 @@ class stack_cas_session_test extends qtype_stack_testcase {
         $this->skip_if_old_maxima('5.23.2');
         $cs = new stack_cas_casstring('greek1:gamma');
         $cs->get_valid('s');
-        $at1 = new stack_cas_session(array($cs), null, 0);
+        $at1 = new stack_cas_session2(array($cs), null, 0);
         $at1->instantiate();
         $this->assertEquals('gamma', $at1->get_value_key('greek1'));
         $this->assertEquals('\gamma', $at1->get_display_key('greek1'));
@@ -722,7 +722,7 @@ class stack_cas_session_test extends qtype_stack_testcase {
             $cs->get_valid('s');
             $s1[] = $cs;
         }
-        $at1 = new stack_cas_session($s1, null, 0);
+        $at1 = new stack_cas_session2($s1, null, 0);
         $at1->instantiate();
         $this->assertEquals('3', $at1->get_value_key('v'));
         $this->assertEquals('[Alpha,Beta,Gamma,Delta,Epsilon]', $at1->get_value_key('greek1'));
@@ -752,7 +752,7 @@ class stack_cas_session_test extends qtype_stack_testcase {
         $options = new stack_options();
         $options->set_option('simplify', true);
 
-        $at1 = new stack_cas_session($s1, $options, 0);
+        $at1 = new stack_cas_session2($s1, $options, 0);
         $at1->instantiate();
         // For some reason Maxima's taylor function doesn't always put \cdots at the end.
         $this->assertEquals('+1', $at1->get_value_key('c1'));
@@ -773,7 +773,7 @@ class stack_cas_session_test extends qtype_stack_testcase {
         $options = new stack_options();
         $options->set_option('simplify', true);
 
-        $at1 = new stack_cas_session($s1, $options, 0);
+        $at1 = new stack_cas_session2($s1, $options, 0);
         $at1->instantiate();
         // For some reason Maxima's taylor function doesn't always put \cdots at the end.
         $this->assertEquals('+1', $at1->get_value_key('c1'));
@@ -792,7 +792,7 @@ class stack_cas_session_test extends qtype_stack_testcase {
             $cs->get_valid('s');
             $s1[] = $cs;
         }
-        $at1 = new stack_cas_session($s1, null, 0);
+        $at1 = new stack_cas_session2($s1, null, 0);
         $at1->instantiate();
         // For some reason Maxima's taylor function doesn't always put \cdots at the end.
         $this->assertEquals('lambda([ex],ex^3)', $at1->get_value_key('l1'));
@@ -810,7 +810,7 @@ class stack_cas_session_test extends qtype_stack_testcase {
 
         $options = new stack_options();
         $options->set_option('simplify', true);
-        $at1 = new stack_cas_session($s1, $options, 0);
+        $at1 = new stack_cas_session2($s1, $options, 0);
         $at1->instantiate();
 
         $this->assertEquals('{}', $at1->get_value_key('c1'));
@@ -831,7 +831,7 @@ class stack_cas_session_test extends qtype_stack_testcase {
         $options = new stack_options();
         $options->set_option('simplify', false);
 
-        $at1 = new stack_cas_session($s1, $options, 0);
+        $at1 = new stack_cas_session2($s1, $options, 0);
         $at1->instantiate();
         $this->assertEquals('{}', $at1->get_value_key('c1'));
         $this->assertEquals('\left \{ \right \}', $at1->get_display_key('c1'));
@@ -853,7 +853,7 @@ class stack_cas_session_test extends qtype_stack_testcase {
         $options = new stack_options();
         $options->set_option('simplify', false);
 
-        $at1 = new stack_cas_session($s1, $options, 0);
+        $at1 = new stack_cas_session2($s1, $options, 0);
         $this->assertTrue($at1->get_valid());
         $at1->instantiate();
         foreach ($tests as $key => $test) {
@@ -893,7 +893,7 @@ class stack_cas_session_test extends qtype_stack_testcase {
 
         $options = new stack_options();
         $options->set_option('simplify', false);
-        $at1 = new stack_cas_session($s1, $options, 0);
+        $at1 = new stack_cas_session2($s1, $options, 0);
         $at1->instantiate();
         foreach ($tests as $key => $c) {
             $sk = "p{$key}";
@@ -912,7 +912,7 @@ class stack_cas_session_test extends qtype_stack_testcase {
 
         $options = new stack_options();
         $options->set_option('simplify', true);
-        $at1 = new stack_cas_session($s1, $options, 0);
+        $at1 = new stack_cas_session2($s1, $options, 0);
         $at1->instantiate();
         // The purpose of this test is to ilustrate how numerical precision runs out.
         // This is currently in the 16th decimal place, where we loose the 10^-k from the displayed output.
@@ -946,7 +946,7 @@ class stack_cas_session_test extends qtype_stack_testcase {
 
         $options = new stack_options();
         $options->set_option('simplify', true);
-        $at1 = new stack_cas_session($s1, $options, 0);
+        $at1 = new stack_cas_session2($s1, $options, 0);
         $at1->instantiate();
         $this->assertEquals('\left[ 0.1000000000010 , 0.10000000000010 , 0.100000000000010 , 0.1000000000000010 , '.
                 '0.10000000000000010 , 0.100000000000000000 , 0.1000000000000000000 , 0.10000000000000000000 , '.
@@ -1006,7 +1006,7 @@ class stack_cas_session_test extends qtype_stack_testcase {
 
         $options = new stack_options();
         $options->set_option('simplify', false);
-        $at1 = new stack_cas_session($s1, $options, 0);
+        $at1 = new stack_cas_session2($s1, $options, 0);
         $at1->instantiate();
 
         foreach ($tests as $key => $c) {
@@ -1034,7 +1034,7 @@ class stack_cas_session_test extends qtype_stack_testcase {
         }
 
         $options = new stack_options();
-        $at1 = new stack_cas_session($s1, $options, 0);
+        $at1 = new stack_cas_session2($s1, $options, 0);
         $at1->instantiate();
 
         foreach ($tests as $key => $c) {
@@ -1065,7 +1065,7 @@ class stack_cas_session_test extends qtype_stack_testcase {
         $options = new stack_options();
         $options->set_option('simplify', false);
 
-        $at1 = new stack_cas_session($s1, $options, 0);
+        $at1 = new stack_cas_session2($s1, $options, 0);
         $at1->instantiate();
         $this->assertEquals('a +- b', $at1->get_value_key('c1'));
         $this->assertEquals('{a \pm b}', $at1->get_display_key('c1'));
@@ -1115,7 +1115,7 @@ class stack_cas_session_test extends qtype_stack_testcase {
         $options = new stack_options();
         $options->set_option('simplify', true);
 
-        $at1 = new stack_cas_session($s1, $options, 0);
+        $at1 = new stack_cas_session2($s1, $options, 0);
         $at1->instantiate();
         $this->assertEquals('a +- b', $at1->get_value_key('c1'));
         $this->assertEquals('{a \pm b}', $at1->get_display_key('c1'));
@@ -1171,7 +1171,7 @@ class stack_cas_session_test extends qtype_stack_testcase {
 
         $options = new stack_options();
         $options->set_option('simplify', false);
-        $at1 = new stack_cas_session($s1, $options, 0);
+        $at1 = new stack_cas_session2($s1, $options, 0);
         $at1->instantiate();
 
         foreach ($tests as $key => $c) {
@@ -1285,7 +1285,7 @@ class stack_cas_session_test extends qtype_stack_testcase {
 
         $options = new stack_options();
         $options->set_option('simplify', false);
-        $at1 = new stack_cas_session($s1, $options, 0);
+        $at1 = new stack_cas_session2($s1, $options, 0);
         $at1->instantiate();
 
         // All these tests should work with simp:false.
@@ -1299,7 +1299,7 @@ class stack_cas_session_test extends qtype_stack_testcase {
         // For some tests it does.
         $options = new stack_options();
         $options->set_option('simplify', true);
-        $at2 = new stack_cas_session($s1, $options, 0);
+        $at2 = new stack_cas_session2($s1, $options, 0);
         $at2->instantiate();
 
         foreach ($tests as $key => $c) {
@@ -1460,7 +1460,7 @@ class stack_cas_session_test extends qtype_stack_testcase {
         }
 
         $options = new stack_options();
-        $s = new stack_cas_session($cmds, $options, 0);
+        $s = new stack_cas_session2($cmds, $options, 0);
         $s->instantiate();
         $i = 0;
         foreach ($cases as $case) {
@@ -1501,7 +1501,7 @@ class stack_cas_session_test extends qtype_stack_testcase {
         $options = new stack_options();
         $options->set_option('simplify', false);
 
-        $at1 = new stack_cas_session($s1, $options, 0);
+        $at1 = new stack_cas_session2($s1, $options, 0);
 
         $i = 0;
         foreach ($t1 as $t) {

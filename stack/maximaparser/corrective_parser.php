@@ -41,7 +41,7 @@ class maxima_corrective_parser {
     // Returns an AST if possible.
     public static function parse(string $string, array &$errors, array &$answernote, array $parseroptions) {
         static $safespacepatterns = array(
-         ' xor ' => 'STACKXOR', ' or ' => 'STACKOR', ' and ' => 'STACKAND', 'not ' => 'STACKNOT',
+         ' or ' => 'STACKOR', ' and ' => 'STACKAND', 'not ' => 'STACKNOT',
          ' nounor ' => 'STACKNOUNOR', ' nounand ' => 'STACKNOUNAND',
          // TODO: we really need to think about keywords and whether we allow
          // them for students in the first case. Of course none of these requires
@@ -422,7 +422,7 @@ class maxima_corrective_parser {
             $answernote[] = 'missing_stars';
         } else if ($foundchar === ',' || (ctype_digit($foundchar) && $previouschar === ',')) {
             $errors[] = stack_string('stackCas_unencpsulated_comma');
-            $answernote[] = 'unencpsulated_comma';
+            $answernote[] = 'unencapsulated_comma';
         } else if ($foundchar === '\\') {
             $errors[] = stack_string('illegalcaschars');
             $answernote[] = 'illegalcaschars';
@@ -449,7 +449,7 @@ class maxima_corrective_parser {
             // This is extra special, if we have an unencpsulated comma we might be parsing for an evaluation
             // flag but not find the assingment of flag value...
             $errors[] = stack_string('stackCas_unencpsulated_comma');
-            $answernote[] = 'unencpsulated_comma';
+            $answernote[] = 'unencapsulated_comma';
         } else if ($nextchar === null && ($foundchar !== null && core_text::strpos($disallowedfinalchars, $foundchar) !== false)) {
             $a = array();
             $a['char'] = $foundchar;

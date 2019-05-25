@@ -878,7 +878,7 @@ class stack_cas_casstring_old {
         if (!(false === strpos($stringles, ',')) && !(!(false === strpos($stringles, '(')) ||
                 !(false === strpos($stringles, '[')) || !(false === strpos($stringles, '{')) )) {
             $this->add_error(stack_string('stackCas_unencpsulated_comma'));
-            $this->answernote[] = 'unencpsulated_comma';
+            $this->answernote[] = 'unencapsulated_comma';
             $this->valid = false;
         }
     }

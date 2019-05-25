@@ -62,7 +62,7 @@ class maxima_corrective_parser_test_data {
                     array(0 => 'Unknown operator: <span class="stacksyntaxexample">==</span>.')),
             array('x|y', null, array(0 => 'spuriousop'),
                     array(0 => 'Unknown operator: <span class="stacksyntaxexample">|</span>.')),
-            array('x=1,2', null, array(0 => 'unencpsulated_comma'),
+            array('x=1,2', null, array(0 => 'unencapsulated_comma'),
                     array(0 => 'A comma in your expression appears in a strange way.  ' .
                             'Commas are used to separate items in lists, sets etc.  You need to use a decimal point, ' .
                             'not a comma, in floating point numbers.')),

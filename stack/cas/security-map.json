@@ -7810,10 +7810,6 @@
     "xlabel": {
         "variable": "s"
     },
-    "xor": {
-        "operator": "s",
-        "spacesurroundedop": true
-    },
     "xrange": {
         "variable": "f"
     },

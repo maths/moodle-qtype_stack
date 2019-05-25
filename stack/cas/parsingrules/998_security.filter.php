@@ -39,7 +39,8 @@ class stack_ast_filter_998_security implements stack_cas_astfilter_parametric {
         // For certain cases we want to know of commas. For this reason
         // certain structures need to be checked for them.
         $commas = false;
-        $extraction = function($node) use (&$ofinterest, &$commas){
+        $evflags = false;
+        $extraction = function($node) use (&$ofinterest, &$commas, &$evflags){
             if ($node instanceof MP_Identifier ||
                 $node instanceof MP_FunctionCall ||
                 $node instanceof MP_Operation ||
@@ -56,12 +57,20 @@ class stack_ast_filter_998_security implements stack_cas_astfilter_parametric {
                     $commas = true;
                 } else if ($node instanceof MP_EvaluationFlag) {
                     $commas = true;
+                    $evflags = true;
                 }
             }
 
             return true;
         };
         $ast->callbackRecurse($extraction);
+
+        // Students may not use evaluation flags.
+        if ($this->source === 's' && $evflags === true) {
+            $valid = false;
+            $answernotes[] = 'unencapsulated_comma';
+            $errors[] = stack_string('stackCas_unencpsulated_comma');
+        }
 
         // Separate the identifiers we meet for latter use. Not the nodes
         // the string identifiers. Key is the value so unique from the start.

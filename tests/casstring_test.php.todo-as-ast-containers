@@ -577,7 +577,7 @@ class stack_cas_casstring_test extends basic_testcase {
         $s = 'a,b';
         $at1 = new stack_cas_casstring($s);
         $this->assertFalse($at1->get_valid('s'));
-        $this->assertEquals('unencpsulated_comma', $at1->get_answernote());
+        $this->assertEquals('unencapsulated_comma', $at1->get_answernote());
     }
 
     public function test_implied_complex_mult1() {

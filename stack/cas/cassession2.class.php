@@ -183,15 +183,21 @@ class stack_cas_session2 {
         $collectvalues = array();
         $collectlatex = array();
 
-        $i = 0;
-        foreach ($this->statements as $statement) {
+        foreach ($this->statements as $num => $statement) {
             if ($statement instanceof cas_value_extractor) {
-                $collectvalues['__e_smt_' . $i] = $statement;
+                if ($statement->get_key() === '') {
+                    $collectvalues['__e_smt_' . $num] = $statement;
+                } else {
+                    $collectvalues[$statement->get_key()] = $statement;
+                }
             }
             if ($statement instanceof cas_latex_extractor) {
-                $collectlatex['__e_smt_' . $i] = $statement;
+                if ($statement->get_key() === '') {
+                    $collectlatex['__e_smt_' . $num] = $statement;
+                } else {
+                    $collectlatex[$statement->get_key()] = $statement;
+                }
             }
-            $i = $i + 1;
         }
 
         // We will build the whole command here, note that the preamble should
@@ -218,23 +224,25 @@ class stack_cas_session2 {
         $command .= ',_VALUES:stackmap_set(_VALUES,"__stackmaximaversion",stackmaximaversion)';
 
         // Evaluate statements.
-        $i = 0;
         foreach ($this->statements as $num => $statement) {
             $ef = $statement->get_evaluationform();
             $line = ',_EC(errcatch(' . $ef . '),';
             if (($statement instanceof cas_value_extractor) || ($statement instanceof cas_latex_extractor)) {
                 // One of those that need to be collected later.
-                $line = ',__NOTES:[],_EC(errcatch(__e_smt_' . $i . ':' . $ef . '),';
+                if ($statement->get_key() === '') {
+                    $line = ',__NOTES:[],_EC(errcatch(__e_smt_' . $num . ':' . $ef . '),';
+                } else {
+                    $line = ',__NOTES:[],_EC(errcatch(' . $ef . '),';
+                }
             }
             $line .= stack_utils::php_string_to_maxima_string($statement->get_source_context());
-            $line .= ',' . $i . ')';
+            $line .= ',' . $num . ')';
             if (($statement instanceof cas_value_extractor) || ($statement instanceof cas_latex_extractor)) {
                 // If this is one of those that we collect answernotes for.
-                $line .= ',if length(__NOTES) > 0 then _NOTES:stackmap_set(_NOTES,"__e_smt_' . $i . '",__NOTES)';
+                $line .= ',if length(__NOTES) > 0 then _NOTES:stackmap_set(_NOTES,"__e_smt_' . $num . '",__NOTES)';
             }
 
             $command .= $line;
-            $i = $i + 1;
         }
 
         // Collect values if required.

@@ -164,7 +164,7 @@ class stack_anstest_atnumsigfigs extends stack_anstest {
         $cascommands = array();
         $sa = stack_ast_container::make_from_teacher_source('STACKSA:' . $this->sanskey, '', new stack_cas_security());
         $ta = stack_ast_container::make_from_teacher_source('STACKTA:' . $this->tanskey, '', new stack_cas_security());
-        $ops = stack_ast_container::make_from_teacher_source('STACKOP:true', '', new stack_cas_security());
+        $ops = stack_ast_container::make_from_teacher_source('STACKOP:' . $atopt, '', new stack_cas_security());
         $result = stack_ast_container::make_from_teacher_source("result:{$this->casfunction}(STACKSA,STACKTA,STACKOP)", '', new stack_cas_security());
         
         $session = new stack_cas_session2(array($sa, $ta, $ops, $result), $this->options, 0);
@@ -241,7 +241,7 @@ class stack_anstest_atnumsigfigs extends stack_anstest {
         }
     }
 
-        private function unpack_result(MP_Node $result): array {
+    private function unpack_result(MP_Node $result): array {
         $r = array('valid' => false, 'result' => 'unknown', 'answernote' => '', 'feedback' => '');
 
         if ($result instanceof MP_Root) {
@@ -254,7 +254,7 @@ class stack_anstest_atnumsigfigs extends stack_anstest {
             $r['valid'] = $result->items[0]->value;
             $r['result'] = $result->items[1]->value;
             $r['answernote'] = $result->items[2]->value;
-            $r['feedback'] = $result->items[3]->value;
+            $r['feedback'] = stack_maxima_translate($result->items[3]->value);
         }
         return $r;
     }

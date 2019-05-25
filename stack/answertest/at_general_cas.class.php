@@ -219,7 +219,7 @@ class stack_answertest_general_cas extends stack_anstest {
             $r['valid'] = $result->items[0]->value;
             $r['result'] = $result->items[1]->value;
             $r['answernote'] = $result->items[2]->value;
-            $r['feedback'] = $result->items[3]->value;
+            $r['feedback'] = stack_maxima_translate($result->items[3]->value);
         }
         return $r;
     }

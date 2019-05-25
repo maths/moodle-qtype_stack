@@ -21,6 +21,7 @@ require_once(__DIR__ . '/pipeline.class.php');
 
 require_once(__DIR__ . '/001_fix_call_of_a_group_or_function.filter.php');
 require_once(__DIR__ . '/002_log_candy.filter.php');
+require_once(__DIR__ . '/003_no_dot_dot.filter.php');
 require_once(__DIR__ . '/020_no_arc.filter.php');
 require_once(__DIR__ . '/030_no_trig_space.filter.php');
 require_once(__DIR__ . '/101_no_floats.filter.php');
@@ -55,6 +56,8 @@ class stack_parsing_rule_factory {
                 return new stack_ast_filter_001_fix_call_of_a_group_or_function();
             case '002_log_candy':
                 return new stack_ast_filter_002_log_candy();
+            case '003_no_dot_dot':
+                return new stack_ast_filter_003_no_dot_dot();
             case '020_no_arc':
                 return new stack_ast_filter_020_no_arc();
             case '030_no_trig_space':
@@ -95,7 +98,7 @@ class stack_parsing_rule_factory {
     public static function get_by_common_name(string $name): stack_cas_astfilter {
         if (empty(self::$singletons)) {
             // If the static set has not been initialised do so.            
-            foreach (array('001_fix_call_of_a_group_or_function', '002_log_candy',
+            foreach (array('001_fix_call_of_a_group_or_function', '002_log_candy', '003_no_dot_dot', 
                            '020_no_arc', '030_no_trig_space',
                            '101_no_floats', '102_no_strings',
                            '402_split_prefix_from_common_function_name',

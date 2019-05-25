@@ -697,7 +697,8 @@ StackBasicReturn(validity, result, note) := [validity, result, StackAddNote("", 
 /* ex[4] =  answernote, is for teacher stats                 */
 /*                                                           */
 /* ********************************************************* */
-
+/* AS OF 4.3 this is deprecated do not use, printing things  */
+/* is not the way to go.                                     */
 StackReturn(ex) := block([str],
   if not(listp(ex)) then
       (print("StackReturn failed: argument not a list: "), print(string(ex)), return("")),

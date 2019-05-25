@@ -41,7 +41,7 @@ class maxima_corrective_parser {
     // Returns an AST if possible.
     public static function parse(string $string, array &$errors, array &$answernote, array $parseroptions) {
         static $safespacepatterns = array(
-         ' or ' => 'STACKOR', ' and ' => 'STACKAND', 'not ' => 'STACKNOT',
+         ' xor ' => 'STACKXOR', ' or ' => 'STACKOR', ' and ' => 'STACKAND', 'not ' => 'STACKNOT',
          ' nounor ' => 'STACKNOUNOR', ' nounand ' => 'STACKNOUNAND',
          // TODO: we really need to think about keywords and whether we allow
          // them for students in the first case. Of course none of these requires

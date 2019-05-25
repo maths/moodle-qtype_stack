@@ -306,10 +306,7 @@ class stack_cas_session2 {
             }
             if (array_key_exists('answernotes', $results)) {
                 foreach ($results['answernotes'] as $key => $value) {
-                    // [0] the list of errors
-                    // [1] the context information
-                    // [2] the statement number
-                    $notesby_statement[intval(substr($key, strlen('__e_statement_')))] = array_map('stack_maxima_translate', $value);
+                    $notesby_statement[intval(substr($key, strlen('__e_statement_')))] = $value;
                 }
             }
 

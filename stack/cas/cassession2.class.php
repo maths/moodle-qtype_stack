@@ -143,8 +143,7 @@ class stack_cas_session2 {
     }
 
     /**
-     * Returns all the errors related to evaluation. Naturally only call after
-     * instanttiation.
+     * Returns all the errors related to evaluation. Naturally only call after instantiation.
      */
     public function get_errors($implode = true) {
         if ($implode !== true) {

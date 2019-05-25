@@ -89,9 +89,10 @@ if ($string) {
     $options->set_site_defaults();
     $options->set_option('simplify', $simp);
 
-    $session = new stack_cas_session(null, $options);
+    $session = new stack_cas_session2(array(), $options);
     if ($vars) {
         $keyvals = new stack_cas_keyval($vars, $options, 0);
+        $kvss    = $keyvals->get_session();
         $session = $keyvals->get_session();
         $varerrs = $keyvals->get_errors();
     }
@@ -145,13 +146,11 @@ echo html_writer::tag('form',
         array('action' => $PAGE->url, 'method' => 'post'));
 
 if ($string) {
-    // Display the question variables.
     echo $OUTPUT->heading(stack_string('questionvariablevalues'), 3);
     echo html_writer::start_tag('div', array('class' => 'questionvariables'));
-    $variables = $session->get_keyval_representation();
-    $variables = implode(";\n", explode('; ', $variables));
-    if (trim($variables) == '') {
-        $variables .= get_string('none');
+    // Display only the values of the question variables.
+    foreach ($kvss->get_session() as $var) {
+        $variables .= $var->get_evaluationform() . "\n";
     }
     echo  html_writer::tag('pre', $variables);
     echo html_writer::end_tag('div');

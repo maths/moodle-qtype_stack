@@ -175,7 +175,7 @@ class stack_ast_container extends stack_ast_container_silent implements cas_late
         $this->latex = $latex;
     }
 
-    public function get_evaluated(): ?MP_Node {
+    public function get_evaluated(): MP_Node {
         return $this->evaluated;
     }
 

@@ -130,7 +130,7 @@ class stack_cas_session2 {
         return true;
     }
 
-    public function get_by_key(string $key): ?cas_evaluatable {
+    public function get_by_key(string $key): cas_evaluatable {
         // Searches from the statements the last one with a given key.
         // This is a concession for backwards compatibility and should not be used.
         $found = null;

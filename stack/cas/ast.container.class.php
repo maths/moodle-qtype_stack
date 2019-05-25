@@ -36,7 +36,7 @@ class stack_ast_container extends stack_ast_container_silent implements cas_late
 
     /*
      * NOTES:
-     *  1. this does provide means of fetching the results of evaluation if 
+     *  1. this does provide means of fetching the results of evaluation if
      *     you do not need them use the silent one.
      *  2. the usage of this class boils down to this:
      *    - ask it to make a casstring for you based on various information
@@ -48,7 +48,6 @@ class stack_ast_container extends stack_ast_container_silent implements cas_late
             sure that the AST is ready before you put it in a casstring
      */
 
-
     /**
      * If this is an input about to be validated, then we need to store some information here.
      */
@@ -58,7 +57,6 @@ class stack_ast_container extends stack_ast_container_silent implements cas_late
      * @var string Only gets set by an answertest.
      */
     private $feedback;
-
 
     /**
      * @var string Used by the testing setup only.
@@ -75,12 +73,9 @@ class stack_ast_container extends stack_ast_container_silent implements cas_late
      */
     private $latex;
 
-
-
     protected function __constructor($ast, string $source, string $context,
                                    stack_cas_security $securitymodel,
                                    array $errors, array $answernotes) {
-
 
         parent::__construct($ast, $source, $context, $securitymodel,
                             $errors, $answernotes);

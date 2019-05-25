@@ -754,13 +754,12 @@ abstract class stack_input {
         $filterstoapply[] = '402_split_prefix_from_common_function_name';
         $filterstoapply[] = '403_split_at_number_letter_boundary';
 
-
         // If stars = 0 then strict, ignore the other strict syntax.
         if ($stars === 0) {
             $filterstoapply[] = '999_strict';
         }
 
-        // Insert stars = 1
+        // Insert stars = 1.
         if ($stars & 1) {
             // The rules are applied anyway, we just check the use of them.
             // If code-tidy issue just negate the test and cut this one out.
@@ -768,7 +767,7 @@ abstract class stack_input {
             $filterstoapply[] = '991_no_fixing_stars';
         }
 
-        // Fix spaces = 2
+        // Fix spaces = 2.
         if ($stars & (1 << 1)) {
             // The rules are applied anyway, we just check the use of them.
             // If code-tidy issue just negate the test and cut this one out.

@@ -222,7 +222,6 @@ class stack_dropdown_input extends stack_input {
                     $cs = new stack_cas_casstring($display);
                     if ($cs->get_valid('t')) {
                         $display = $cs->get_inputform();
-                    ;
                     }
                     $ddlvalues[$key]['display'] = '<code>'.$display.'</code>';
                 }

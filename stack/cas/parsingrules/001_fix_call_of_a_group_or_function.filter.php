@@ -18,7 +18,7 @@ defined('MOODLE_INTERNAL') || die();
 require_once(__DIR__ . '/filter.interface.php');
 
 /**
- * AST filter that splits the inconvenient (x-1)(x+2) pattern should it 
+ * AST filter that splits the inconvenient (x-1)(x+2) pattern should it
  * survive corrective parsing, also acts as a security feature.
  */
 class stack_ast_filter_001_fix_call_of_a_group_or_function implements stack_cas_astfilter {
@@ -35,7 +35,7 @@ class stack_ast_filter_001_fix_call_of_a_group_or_function implements stack_cas_
                 $answernote[] = 'missing_stars';
                 return false;
             }
-            
+
             return true;
         };
 

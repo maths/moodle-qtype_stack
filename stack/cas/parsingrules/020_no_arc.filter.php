@@ -18,37 +18,36 @@ defined('MOODLE_INTERNAL') || die();
 require_once(__DIR__ . '/filter.interface.php');
 
 /**
- * AST filter that identifies a particular family of function names 
+ * AST filter that identifies a particular family of function names
  * and marks them invalid.
  */
 class stack_ast_filter_020_no_arc implements stack_cas_astfilter {
 
     public function filter(MP_Node $ast, array &$errors, array &$answernotes, stack_cas_security $identifierrules): MP_Node {
 
-    	// As these are invalid they do not exist in the security-map.
-    	$selectednames = array('arcsin' => 'asin', 'arccos' => 'acos', 
-    						   'arctan' => 'atan', 'arcsec' => 'asec',
-    						   'arccot' => 'acot', 'arccsc' => 'acsc',
-    						   'arcsinh' => 'asinh', 'arccosh' => 'acosh',
-                               'arctanh' => 'atanh', 'arcsech' => 'asech',
-                               'arccoth' => 'acoth', 'arccsch' => 'acsch', 
-                               'arccosec' => 'acsc');
+        // As these are invalid they do not exist in the security-map.
+        $selectednames = array('arcsin' => 'asin', 'arccos' => 'acos',
+             'arctan' => 'atan', 'arcsec' => 'asec',
+             'arccot' => 'acot', 'arccsc' => 'acsc',
+             'arcsinh' => 'asinh', 'arccosh' => 'acosh',
+             'arctanh' => 'atanh', 'arcsech' => 'asech',
+             'arccoth' => 'acoth', 'arccsch' => 'acsch',
+             'arccosec' => 'acsc');
 
         $process = function($node) use (&$valid, &$errors, &$answernotes, $selectednames) {
             if ($node instanceof MP_Functioncall &&
                 $node->name instanceof MP_Identifier) {
                 if (array_key_exists($node->name->value, $selectednames)) {
-                	$node->position['invalid'] = true;
+                    $node->position['invalid'] = true;
 
-                	$errors[] = stack_string('stackCas_triginv',
-                		array('badinv' => stack_maxima_format_casstring($node->name->value),
-                        	  'goodinv' => stack_maxima_format_casstring($selectednames[$node->name->value])));
-                	if (array_search('triginv', $answernotes) === false) {
-                		$answernotes[] = 'triginv';
-                	}
+                    $errors[] = stack_string('stackCas_triginv',
+                        array('badinv' => stack_maxima_format_casstring($node->name->value),
+                              'goodinv' => stack_maxima_format_casstring($selectednames[$node->name->value])));
+                    if (array_search('triginv', $answernotes) === false) {
+                        $answernotes[] = 'triginv';
+                    }
                 }
             }
-            
             return true;
         };
 

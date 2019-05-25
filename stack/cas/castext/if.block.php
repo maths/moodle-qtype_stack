@@ -27,7 +27,7 @@ require_once(__DIR__ . '/../ast.container.conditional.class.php');
 
 class stack_cas_castext_if extends stack_cas_castext_block {
 
-    // Remembers the casstring
+    // Remembers the casstring.
     private $string;
 
     private $condition;
@@ -35,12 +35,10 @@ class stack_cas_castext_if extends stack_cas_castext_block {
     public function extract_attributes(&$tobeevaluatedcassession, $conditionstack = null) {
         $condition = $this->get_node()->get_parameter("test", "false");
 
-
-
         $cs = stack_ast_container_conditional::make_from_teacher_source($condition, '', new stack_cas_security());
         $cs->set_conditions($conditionstack);
 
-        // lets provide condition free version for deepper use.
+        // Let's provide condition free version for deepper use.
         $this->condition = stack_ast_container::make_from_teacher_source($condition, '', new stack_cas_security());
 
         $this->string = $cs;

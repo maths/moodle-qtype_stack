@@ -18,17 +18,15 @@ defined('MOODLE_INTERNAL') || die();
 require_once(__DIR__ . '/filter.interface.php');
 
 /**
- * AST filter that splits variable names into single characters. 
+ * AST filter that splits variable names into single characters.
  * Or longest known variable names.
  */
 class stack_ast_filter_410_single_char_vars implements stack_cas_astfilter {
 
     public function filter(MP_Node $ast, array &$errors, array &$answernotes, stack_cas_security $identifierrules): MP_Node {
 
-
         // TODO: do we maybe want to use the allowed words here also?
-        // although then allowed words should be typed, to get 
-        // the best results.
+        // although then allowed words should be typed, to get the best results.
 
         // Get the list/map of protected variable names and constants.
         $protected = stack_cas_security::get_protected_identifiers('variable', $identifierrules->get_units());
@@ -39,7 +37,6 @@ class stack_ast_filter_410_single_char_vars implements stack_cas_astfilter {
                 if (core_text::strlen($node->value) === 1) {
                     return true;
                 }
-
 
                 // If the identifier is a protected one stop here.
                 if (array_key_exists($node->value, $protected)) {

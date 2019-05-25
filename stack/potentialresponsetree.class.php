@@ -63,7 +63,7 @@ class stack_potentialresponse_tree {
         if (is_a($feedbackvariables, 'stack_cas_session2') || null === $feedbackvariables) {
             $this->feedbackvariables = $feedbackvariables;
             if ($this->feedbackvariables === null) {
-                // Using an empty session here makes life so much more simpler
+                // Using an empty session here makes life so much more simpler.
                 $this->feedbackvariables = new stack_cas_session2(array());
             }
         } else {
@@ -176,7 +176,7 @@ class stack_potentialresponse_tree {
 
         $results = new stack_potentialresponse_tree_state($this->value, true, 0, 0);
         $fv = $this->feedbackvariables;
-        // TODO: What is this? Surely we can build an actula dependency
+        // TODO: What is this? Surely we can build an actual dependency
         // graph and trace that if need be. Do we use this somehere?
         //if ($fv !== null) {
         //    $results->add_trace($fv->get_keyval_representation());

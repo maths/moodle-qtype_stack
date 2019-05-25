@@ -70,9 +70,9 @@ class stack_ast_filter_999_strict implements stack_cas_astfilter_exclusion {
         return $ast;
     }
 
-    public function conflicts_with(string $other_filter_name): bool {
-        if ($other_filter_name === '990_no_fixing_spaces' ||
-            $other_filter_name === '991_no_fixing_stars') {
+    public function conflicts_with(string $otherfiltername): bool {
+        if ($otherfiltername === '990_no_fixing_spaces' ||
+            $otherfiltername === '991_no_fixing_stars') {
             return true;
         }
         return false;

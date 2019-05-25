@@ -57,7 +57,7 @@ class stack_ast_container_silent implements cas_evaluatable {
      * Answernotes collected from various sources of validation.
      */
     protected $answernotes;
-   
+
     /**
      * The backreference to the location in the question model from which this
      * ast comes from. e.g., '/questionvariables' or '/prt/0/node/2/tans'.
@@ -84,7 +84,7 @@ class stack_ast_container_silent implements cas_evaluatable {
      */
 
     public static function make_from_student_source(string $raw, string $context,
-            stack_cas_security $securitymodel, array $filterstoapply = array(), 
+            stack_cas_security $securitymodel, array $filterstoapply = array(),
             array $filteroptions = array(), string $grammar = 'Root') {
 
         $errors = array();
@@ -210,9 +210,9 @@ class stack_ast_container_silent implements cas_evaluatable {
         }
     }
 
-	// Functions required by cas_evaluatable.
-	public function get_valid(): bool {
-		if ($this->valid === null) {
+    // Functions required by cas_evaluatable.
+    public function get_valid(): bool {
+        if ($this->valid === null) {
             if ($this->ast === null) {
                 // In case parsing was impossible we store the errors in this class.
                 $this->valid = false;
@@ -233,9 +233,9 @@ class stack_ast_container_silent implements cas_evaluatable {
             $this->valid = !$hasinvalid;
         }
         return $this->valid;
-	}
+    }
 
-	public function get_evaluationform(): string {
+    public function get_evaluationform(): string {
         if (false === $this->get_valid()) {
             throw new stack_exception('stack_ast_container: tried to get the evalution form of an invalid casstring.');
         }
@@ -278,7 +278,7 @@ class stack_ast_container_silent implements cas_evaluatable {
             }
         }
     }
-    
+
     public function get_source_context(): string {
         return $this->context;
     }
@@ -321,13 +321,13 @@ class stack_ast_container_silent implements cas_evaluatable {
         return $this->answernotes;
     }
 
-    public function get_variable_usage(array &$update_array = array()): array {
-    	// Find out which identifiers are being written to and which are being red from.
-    	// Simply go through the AST if it exists.
-    	if ($this->ast !== null) {
-    		$update_array = maxima_parser_utils::variable_usage_finder($this->ast, $update_array);
-    	}
-        return $update_array;
+    public function get_variable_usage(array &$updatearray = array()): array {
+        // Find out which identifiers are being written to and which are being red from.
+        // Simply go through the AST if it exists.
+        if ($this->ast !== null) {
+            $updatearray = maxima_parser_utils::variable_usage_finder($this->ast, $updatearray);
+        }
+        return $updatearray;
     }
 
 
@@ -356,7 +356,7 @@ class stack_ast_container_silent implements cas_evaluatable {
     }
 
     /**
-     * HAndle some concatenations in error messages.
+     * Handle some concatenations in error messages.
      */
     public function __toString() {
         return $this->get_evaluationform();

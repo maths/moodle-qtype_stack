@@ -321,20 +321,20 @@ class stack_potentialresponse_node {
         return $requiredcasstrings;
     }
 
-    public function get_variable_usage(array &$update_array = array()): array {
+    public function get_variable_usage(array &$updatearray = array()): array {
         $ct = new stack_cas_text($this->branches[0]['feedback'] . $this->branches[1]['feedback']);
-        $update_array = $ct->get_variable_usage($update_array);
-        $update_array = $this->sans->get_variable_usage($update_array);
-        $update_array = $this->tans->get_variable_usage($update_array);
+        $updatearray = $ct->get_variable_usage($updatearray);
+        $updatearray = $this->sans->get_variable_usage($updatearray);
+        $updatearray = $this->tans->get_variable_usage($updatearray);
 
         if ($this->process_atoptions() && trim($this->atoptions) != '') {
             // Eventtually at-options will be an ast_container, not yet though
             // so if it is not an empty string then it is parseable.
             $ast = maxima_parser_utils::parse($this->atoptions);
-            $update_array = maxima_parser_utils::variable_usage_finder($ast, $update_array);
+            $updatearray = maxima_parser_utils::variable_usage_finder($ast, $updatearray);
         }
 
-        return $update_array;
+        return $updatearray;
     }
 
     /**

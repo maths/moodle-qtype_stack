@@ -52,7 +52,7 @@ class stack_cas_castext_foreach extends stack_cas_castext_block {
                 $caskey = 'caschat'.$i;
                 $i++;
             } while (in_array($caskey, $sessionkeys));
-    
+
             $raw = "$caskey:$value";
             $cs = stack_ast_container_conditional::make_from_teacher_source($raw, '', new stack_cas_security());
             $cs->set_conditions($conditionstack);

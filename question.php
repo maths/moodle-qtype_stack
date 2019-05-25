@@ -505,7 +505,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         // in a PRT, the student's answer will take these values.   If the teacher defines
         // 'ta' to be the answer, the student could type in 'ta'!  We forbid this.
 
-        // TODO: shouldn't we also protect variables used in PRT logic? Feedback vars 
+        // TODO: shouldn't we also protect variables used in PRT logic? Feedback vars
         // and so on?
         $usage = $this->session->get_variable_usage();
         $forbiddenkeys = isset($usage['write']) ? $usage['write'] : array();

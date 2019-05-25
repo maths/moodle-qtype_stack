@@ -73,7 +73,7 @@ class stack_ast_filter_002_log_candy implements stack_cas_astfilter {
                     $node->replace(-1, $parsed);
                     if (array_search('logsubs', $answernotes) === false) {
                         $answernotes[] = 'logsubs';
-                    }                    
+                    }
                     return false;
                 }
             }

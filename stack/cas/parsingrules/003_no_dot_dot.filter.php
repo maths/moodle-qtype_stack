@@ -32,16 +32,16 @@ class stack_ast_filter_003_no_dot_dot implements stack_cas_astfilter {
                 // In general one can write '0.1 . 0.1' but one
                 // cannot write '0.1.0.1' while we could check
                 // for the original representation and ensure that
-                // there are spaces correctly there it's a special 
-                // case that we do not want to deal with as 
-                // the students will not be able to deal with it 
-                // anyway. So lets forbid all matrix 
+                // there are spaces correctly there it's a special
+                // case that we do not want to deal with as
+                // the students will not be able to deal with it
+                // anyway. So lets forbid all matrix
                 // multiplications that have floats as scalars.
                 // also deal with the extra special '1..1'.
                 $node->position['invalid'] = true;
                 if (($node->rhs instanceof MP_Float &&
                     $node->rhs->raw !== null &&
-                    substr($node->rhs->raw, 0, 1) === '.') || 
+                    substr($node->rhs->raw, 0, 1) === '.') ||
                     ($node->lhs instanceof MP_Float &&
                     $node->lhs->raw !== null &&
                     substr($node->lhs->raw, -1) === '.')) {
@@ -73,11 +73,12 @@ class stack_ast_filter_003_no_dot_dot implements stack_cas_astfilter {
                     if (!$node->is_invalid()) {
                         // No need to warn about this if we are already invalid due to whatever reason.
                         $answernotes[] = 'MatrixMultWithFloat';
-                        $errors[] = 'Due to syntactical reasons matrix multiplication "." with scalar floats is forbidden, use normal multiplication "*" instead for the same result.';
+                        $errors[] = 'Due to syntactical reasons matrix multiplication "." with scalar floats is ' .
+                                'forbidden, use normal multiplication "*" instead for the same result.';
                     }
                 }
             }
-            
+
             return true;
         };
 

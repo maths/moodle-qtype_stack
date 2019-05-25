@@ -37,8 +37,8 @@ class stack_ast_filter_101_no_floats implements stack_cas_astfilter_exclusion {
         return $ast;
     }
 
-    public function conflicts_with(string $other_filter_name): bool {
-        if ($other_filter_name === '450_split_floats') {
+    public function conflicts_with(string $otherfiltername): bool {
+        if ($otherfiltername === '450_split_floats') {
             return true;
         }
         return false;

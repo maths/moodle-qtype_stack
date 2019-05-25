@@ -28,29 +28,29 @@ require_once(__DIR__ . '/evaluatable_object.interfaces.php');
 
 class stack_secure_loader implements cas_evaluatable {
 
-	private $code;
-	private $errors;
-	private $context;
+    private $code;
+    private $errors;
+    private $context;
 
-	public function __constructor(string $code, string $from_where) {
-		$this->context = $from_where;
-		$this->code = $code;
-		$this->errors = array();
-	}
+    public function __constructor(string $code, string $fromwhere) {
+        $this->context = $fromwhere;
+        $this->code = $code;
+        $this->errors = array();
+    }
 
-	public function get_valid(): bool {
-		// This code has been validated elsewhere.
-		return true;
-	}
+    public function get_valid(): bool {
+        // This code has been validated elsewhere.
+        return true;
+    }
 
-	public function get_evaluationform(): string {
+    public function get_evaluationform(): string {
         return $this->code;
     }
 
     public function set_cas_status(array $errors, array $answernotes) {
         $this->errors = $errors;
     }
-    
+
     public function get_source_context(): string {
         return $this->context;
     }

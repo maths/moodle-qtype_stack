@@ -108,7 +108,7 @@ class stack_cas_keyval {
         // Prevent reference to inputs in the values of the question variables.
         if (is_array($inputs)) {
             $usage = $this->get_variable_usage();
-            foreach (array_merge($usage['read'],$usage['write']) as $key => $used) {
+            foreach (array_merge($usage['read'], $usage['write']) as $key => $used) {
                 if (in_array($key, $inputs)) {
                     $this->valid = false;
                     $this->errors .= stack_string('stackCas_inputsdefined', $key);
@@ -153,13 +153,12 @@ class stack_cas_keyval {
         return new stack_cas_session2($this->statements, $this->options, $this->seed);
     }
 
-    public function get_variable_usage(array &$update_array = array()): array {
+    public function get_variable_usage(array &$updatearray = array()): array {
         foreach ($this->statements as $statement) {
-            $update_array = $statement->get_variable_usage($update_array);
+            $updatearray = $statement->get_variable_usage($updatearray);
         }
-        return $update_array;
+        return $updatearray;
     }
-
 
     /**
      * Remove the ast, and other clutter from casstrings, so we can test equality cleanly and dump values.

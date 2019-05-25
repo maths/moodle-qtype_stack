@@ -22,15 +22,15 @@ require_once(__DIR__ . '/filter.interface.php');
  */
 class stack_ast_filter_998_security implements stack_cas_astfilter_parametric {
 
-	private $source = 's';
+    private $source = 's';
 
     public function set_filter_parameters(array $parameters) {
-    	$this->source = isset($parameters['security']) ? $parameters['security'] : 's';
+        $this->source = isset($parameters['security']) ? $parameters['security'] : 's';
     }
 
     public function filter(MP_Node $ast, array &$errors, array &$answernotes, stack_cas_security $identifierrules): MP_Node {
 
-		$valid = true;
+        $valid = true;
 
         // First extract things of interest from the tree, i.e. function calls,
         // variable references and operations.
@@ -373,11 +373,11 @@ class stack_ast_filter_998_security implements stack_cas_astfilter_parametric {
 
         // If not valid then we paint the whole tree invalid.
         if ($valid === false) {
-        	$paint = function($node) {
-        		$node->position['invalid'] = true;
-        		return true;
-        	};
-        	$ast->callbackRecurse($paint);
+            $paint = function($node) {
+                $node->position['invalid'] = true;
+                return true;
+            };
+            $ast->callbackRecurse($paint);
         }
 
         return $ast;

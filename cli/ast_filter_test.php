@@ -19,7 +19,7 @@ define('CLI_SCRIPT', true);
 // This script is for executing sensible combinations of all known
 // AST filters on a given input. It aims to identify filters that
 // affect the given input.
-// 
+//
 // @copyright  2019 Aalto University.
 // @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
 
@@ -63,74 +63,74 @@ $ast = null;
 $errors = array();
 $answernotes = array();
 try {
-	$ast = maxima_parser_utils::parse($teststring);
+    $ast = maxima_parser_utils::parse($teststring);
 } catch (SyntaxError $e) {
-	$parseable = false;
-	
-	$ast = maxima_corrective_parser::parse($teststring, $errors, $answernotes, array('startRule' => 'Root',
+    $parseable = false;
+
+    $ast = maxima_corrective_parser::parse($teststring, $errors, $answernotes, array('startRule' => 'Root',
                                'letToken' => stack_string('equiv_LET')));
 }
 if ($ast === null) {
-	cli_writeln('The test-string was not parseable, even with the corrective parser.');
-	foreach ($errors as $err) {
-		cli_writeln($err);
-	}
-	exit(0);
+    cli_writeln('The test-string was not parseable, even with the corrective parser.');
+    foreach ($errors as $err) {
+        cli_writeln($err);
+    }
+    exit(0);
 }
 if ($parseable) {
-	cli_writeln('The test-string was directly parseable.');
+    cli_writeln('The test-string was directly parseable.');
 } else {
-	cli_writeln('The test-string was not directly parseable, some corrections required.');
-	$ast->remap_position_data();
+    cli_writeln('The test-string was not directly parseable, some corrections required.');
+    $ast->remap_position_data();
 }
 cli_writeln('The AST is like this before filters:');
 cli_writeln($ast->debugPrint($ast->toString(array('nosemicolon' => true))));
 
 function check_filter($ast, $filter, $security, $filtername) {
-	$errors = array();
-	$answernotes = array();
-	$ast->remap_position_data();
-	$pre = $ast->debugPrint($ast->toString(array('nosemicolon' => true)));
-	$filter->filter($ast, $errors, $answernotes, $security);
-	$ast->remap_position_data();
-	$post = $ast->debugPrint($ast->toString(array('nosemicolon' => true)));
-	if ($pre === $post && count($errors) === 0 && count($answernotes) === 0) {
-		cli_writeln($filtername . ' had no effect');
-	} else {
-		cli_writeln($filtername . ' did change things');
-		cli_writeln(' answernotes: ' . implode(', ', $answernotes));
-		cli_writeln(' errors: ' . implode(', ', $errors));
-		cli_writeln(' AST after ' . $filtername . ':');
-		cli_writeln($post);
-	}
+    $errors = array();
+    $answernotes = array();
+    $ast->remap_position_data();
+    $pre = $ast->debugPrint($ast->toString(array('nosemicolon' => true)));
+    $filter->filter($ast, $errors, $answernotes, $security);
+    $ast->remap_position_data();
+    $post = $ast->debugPrint($ast->toString(array('nosemicolon' => true)));
+    if ($pre === $post && count($errors) === 0 && count($answernotes) === 0) {
+        cli_writeln($filtername . ' had no effect');
+    } else {
+        cli_writeln($filtername . ' did change things');
+        cli_writeln(' answernotes: ' . implode(', ', $answernotes));
+        cli_writeln(' errors: ' . implode(', ', $errors));
+        cli_writeln(' AST after ' . $filtername . ':');
+        cli_writeln($post);
+    }
 }
 
 cli_heading('= Every filter on its own on the raw AST, without units =');
 $filters = stack_parsing_rule_factory::list_filters();
 sort($filters);
 foreach ($filters as $filtername) {
-	$filter = stack_parsing_rule_factory::get_by_common_name($filtername);
-	// We need a fresh AST.
-	$freshast = null;
-	if ($parseable) {
-		$freshast = maxima_parser_utils::parse($teststring);
-	} else {
-		$freshast = maxima_corrective_parser::parse($teststring, $errors, $answernotes, array('startRule' => 'Root',
+    $filter = stack_parsing_rule_factory::get_by_common_name($filtername);
+    // We need a fresh AST.
+    $freshast = null;
+    if ($parseable) {
+        $freshast = maxima_parser_utils::parse($teststring);
+    } else {
+        $freshast = maxima_corrective_parser::parse($teststring, $errors, $answernotes, array('startRule' => 'Root',
                                'letToken' => stack_string('equiv_LET')));
-	}
-	check_filter($freshast, $filter, new stack_cas_security(false), $filtername);
+    }
+    check_filter($freshast, $filter, new stack_cas_security(false), $filtername);
 }
 
 cli_heading('= Every filter on its own on the raw AST, with units =');
 foreach ($filters as $filtername) {
-	$filter = stack_parsing_rule_factory::get_by_common_name($filtername);
-	// We need a fresh AST.
-	$freshast = null;
-	if ($parseable) {
-		$freshast = maxima_parser_utils::parse($teststring);
-	} else {
-		$freshast = maxima_corrective_parser::parse($teststring, $errors, $answernotes, array('startRule' => 'Root',
+    $filter = stack_parsing_rule_factory::get_by_common_name($filtername);
+    // We need a fresh AST.
+    $freshast = null;
+    if ($parseable) {
+        $freshast = maxima_parser_utils::parse($teststring);
+    } else {
+        $freshast = maxima_corrective_parser::parse($teststring, $errors, $answernotes, array('startRule' => 'Root',
                                'letToken' => stack_string('equiv_LET')));
-	}
-	check_filter($freshast, $filter, new stack_cas_security(true), $filtername);
+    }
+    check_filter($freshast, $filter, new stack_cas_security(true), $filtername);
 }

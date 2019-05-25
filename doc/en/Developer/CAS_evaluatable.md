@@ -1,10 +1,10 @@
 # The family tree of cas_evaluatables.
 
-As of 4.3 the CAS evaluation engine has been replaced to a more modular
-version basically the old casseission class was replaced with a version
+As of 4.3 the CAS evaluation engine has been replaced by a more modular
+version. Basically the old "casseission" class was replaced with a version
 that takes in objects that implement the cas_evaluatable interface, and 
 evaluates them. However, it does not extract values from the CAS unless
-those object implements additional interfaces that receive those values.
+those objects implement additional interfaces that receive those values.
 
 # The core interfaces
 
@@ -21,7 +21,7 @@ is probably the thing to use. And one can always add additional items to
 the session and those can then extract values if need be.
 
 In the old terms keyvals are closest to collections of cas_evaluatables
-as they are rarely extracte on their own.
+as they are rarely extracted on their own.
 
 ## cas_value_extractor and cas_latex_extractor
 
@@ -34,9 +34,8 @@ extracted values. What is wasted is bandwidth, processing power, and space
 in the cache all of which directly affect response time and the upkeep
 costs of the system.
 
-From the old model the thigns that best match these are CASText, getting
+From the old model the things that best match these are CASText, getting
 the results of PRTs, and generating the LaTeX values for validation messages.
-
 
 # The new class hierarchy of base level objects
 
@@ -56,25 +55,25 @@ code that evaluates a whole PRT or a forest of them. For the latter task there
 exists a special class (`stack_secure_loader`) that does just that.
 
 When dealing with student sourced material one tends to use 
-the `stack_ast_container` class which provides comples maker functions that
+the `stack_ast_container` class which provides complex maker functions that
 ensure that a raw string gets parsed correctly and goes through key filters
-in addition to whatever filter you may want to apply. In some cases one may 
-also use that class for teacher sourced material but in general 
+in addition to whatever filter you may want to apply in the context of a particular input.
+In some cases one may also use that class for teacher sourced material but in general 
 `stack_ast_container_silent` is the better choice for such material as it
 does not generate return values and typically teacher sourced content is used
-in logic and logic is not something that one needs to always show.
+in logic, and logic is not something that one needs to always show.
 
 ## Special cases
 
 The old system had the concept of conditional casstrings in the block system
-of CASText, as CASText is one of those things that will be redone and in 
-a way that it no longer needs conditional casstrings we provide a separate
+of CASText, as CASText is one of those things that will be redone, and in 
+a way that it no longer needs conditional casstrings, we provide a separate
 type of cas_evaluatable for this task thus freeing others from having to check
 for conditions.
 
 ## The makers
 
 There exists three different static maker functions in classes 
-`stack_ast_container_silent` and `stack_ast_container` the logic is identical
+`stack_ast_container_silent` and `stack_ast_container`. The logic is identical
 as they are only defined in former, but the result is different as they create 
 objects of classes type. So call they through the class you wish to use.

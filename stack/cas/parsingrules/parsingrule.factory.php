@@ -49,7 +49,7 @@ class stack_parsing_rule_factory {
     private static $singletons = array();
 
     private static function build_from_name(string $name): stack_cas_astfilter {
-        // Might as well do the require once here, but better limit to 
+        // Might as well do the require once here, but better limit to
         // vetted and require all by default to catch syntax errors.
         switch ($name) {
             case '001_fix_call_of_a_group_or_function':
@@ -95,13 +95,13 @@ class stack_parsing_rule_factory {
 
     public static function get_by_common_name(string $name): stack_cas_astfilter {
         if (empty(self::$singletons)) {
-            // If the static set has not been initialised do so.            
-            foreach (array('001_fix_call_of_a_group_or_function', '002_log_candy', '003_no_dot_dot', 
+            // If the static set has not been initialised do so.
+            foreach (array('001_fix_call_of_a_group_or_function', '002_log_candy', '003_no_dot_dot',
                            '020_no_arc', '030_no_trig_space',
                            '101_no_floats', '102_no_strings',
                            '402_split_prefix_from_common_function_name',
                            '403_split_at_number_letter_boundary',
-                           '410_single_char_vars', '441_split_unknown_functions', 
+                           '410_single_char_vars', '441_split_unknown_functions',
                            '442_split_all_functions', '450_split_floats',
                            '541_no_unknown_functions', '542_no_functions_at_all',
                            '990_no_fixing_spaces', '991_no_fixing_stars',
@@ -138,7 +138,7 @@ class stack_parsing_rule_factory {
             if ($filter instanceof stack_cas_astfilter_parametric) {
                 // If the filter is parametric we cannot use the 'singleton' instance.
                 $filter = self::build_from_name($value);
-                // And we need to push in the parameters. 
+                // And we need to push in the parameters.
                 // Key example being 's'/'t' for 998_security.
                 $filter->set_filter_parameters($settings[$value]);
             }
@@ -150,7 +150,8 @@ class stack_parsing_rule_factory {
             if ($filter instanceof stack_cas_astfilter_exclusion) {
                 foreach ($tobeincluded as $name => $duh) {
                     if ($name !== $key && $filter->conflicts_with($name)) {
-                        throw new stack_exception('stack_ast_filter: conflicting filters present in pipeline ' . $key . ' and ' . $name);
+                        throw new stack_exception('stack_ast_filter: conflicting filters present in pipeline ' .
+                                $key . ' and ' . $name);
                     }
                 }
             }

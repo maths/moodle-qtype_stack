@@ -18,7 +18,7 @@ defined('MOODLE_INTERNAL') || die();
 require_once(__DIR__ . '/filter.interface.php');
 
 /**
- * AST filter that marks everything that has been fiexd by fixing 
+ * AST filter that marks everything that has been fiexd by fixing
  * spaces as invalid.
  */
 class stack_ast_filter_990_no_fixing_spaces implements stack_cas_astfilter_exclusion {
@@ -52,9 +52,9 @@ class stack_ast_filter_990_no_fixing_spaces implements stack_cas_astfilter_exclu
         return $ast;
     }
 
-    public function conflicts_with(string $other_filter_name): bool {
-        if ($other_filter_name === '999_strict' ||
-            $other_filter_name === '991_no_fixing_stars') {
+    public function conflicts_with(string $otherfiltername): bool {
+        if ($otherfiltername === '999_strict' ||
+            $otherfiltername === '991_no_fixing_stars') {
             return true;
         }
         return false;

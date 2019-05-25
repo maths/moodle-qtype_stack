@@ -27,7 +27,7 @@ class stack_ast_filter_541_no_unknown_functions implements stack_cas_astfilter_e
 
         $process = function($node) use (&$hasany, &$errors, $known) {
             if ($node instanceof MP_FunctionCall) {
-                if ($node->name instanceof MP_Identifier && 
+                if ($node->name instanceof MP_Identifier &&
                     array_key_exists($node->name->value, $known)) {
                     return true;
                 }
@@ -52,9 +52,9 @@ class stack_ast_filter_541_no_unknown_functions implements stack_cas_astfilter_e
         return $ast;
     }
 
-    public function conflicts_with(string $other_filter_name): bool {
-        if ($other_filter_name === '442_split_all_functions' ||
-            $other_filter_name === '441_split_unknown_functions') {
+    public function conflicts_with(string $otherfiltername): bool {
+        if ($otherfiltername === '442_split_all_functions' ||
+            $otherfiltername === '441_split_unknown_functions') {
             return true;
         }
         return false;

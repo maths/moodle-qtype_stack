@@ -17,11 +17,10 @@
 defined('MOODLE_INTERNAL') || die();
 
 
-// Note that is a complete rewrite of cassession, in this we generate 
-// no "caching" in the form of keyval representations as we do not 
-// necessarily return enough information from the CAS to do that, for 
+// Note that is a complete rewrite of cassession, in this we generate
+// no "caching" in the form of keyval representations as we do not
+// necessarily return enough information from the CAS to do that, for
 // that matter neither did the old one...
-
 
 // @copyright  2019 Aalto University.
 // @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
@@ -32,7 +31,7 @@ require_once(__DIR__ . '/../utils.class.php');
 require_once(__DIR__ . '/evaluatable_object.interfaces.php');
 
 class stack_cas_session2 {
-  
+
     private $statements;
 
     private $instantiated;
@@ -110,11 +109,11 @@ class stack_cas_session2 {
         $target->statements = array_merge($target->statements, $this->statements);
     }
 
-    public function get_variable_usage(array &$update_array = array()): array {
+    public function get_variable_usage(array &$updatearray = array()): array {
         foreach ($this->statements as $statement) {
-            $update_array = $statement->get_variable_usage($update_array);
+            $updatearray = $statement->get_variable_usage($updatearray);
         }
-        return $update_array;
+        return $updatearray;
     }
 
     public function is_instantiated(): bool {
@@ -153,16 +152,16 @@ class stack_cas_session2 {
         }
         $r = array();
         foreach ($this->errors as $value) {
-            // [0] the list of errors
-            // [1] the context information
-            // [2] the statement number
+            // [0] the list of errors.
+            // [1] the context information.
+            // [2] the statement number.
             $r[] = implode(' ', $value[0]);
         }
         return implode(' ', $r);
     }
 
     /**
-     * Executes this session and returns the values to the statements that 
+     * Executes this session and returns the values to the statements that
      * request them.
      * Returns true if everything went well.
      */
@@ -175,10 +174,10 @@ class stack_cas_session2 {
             throw new stack_exception('stack_cas_session: cannot instantiate invalid session');
         }
 
-        // Lets simply build the expression here.
+        // Let's simply build the expression here.
         // NOTE that we do not even bother trying to protect the global scope
-        // as we have not seen anyone using the same CAS process twice, should 
-        // that become necessary much more would need to be done. But the parser 
+        // as we have not seen anyone using the same CAS process twice, should
+        // that become necessary much more would need to be done. But the parser
         // can handle that if need be.
         $collectvalues = array();
         $collectlatex = array();
@@ -204,15 +203,17 @@ class stack_cas_session2 {
         // go to the library.
         $command = '_EC(ec,sco,sta):=if is(ec=[]) then (_ERR:append(_ERR,[[error,sco,sta]]),false) else true$';
 
-        // We need to collect some answernotes so lets redefine this funtion:
-        $command .= 'StackAddFeedback(fb,key,[ex]):=block([str,exprs,jloop],exprs:"",ev(for jloop:1 thru length(ex) do exprs: sconcat(exprs," , !quot!",ex[jloop],"!quot! "),simp),str:sconcat(fb, "stack_trans(\'",key,"\'", exprs, "); !NEWLINE!"),__NOTES:append(__NOTES,[sconcat("stack_trans(\'",key,"\'", exprs, ");")]),return(str))$';
-
+        // We need to collect some answernotes so lets redefine this funtion.
+        $command .= 'StackAddFeedback(fb,key,[ex]):=block([str,exprs,jloop],exprs:"",' .
+                'ev(for jloop:1 thru length(ex) do exprs: sconcat(exprs," , !quot!",ex[jloop],"!quot! "),simp),' .
+                'str:sconcat(fb, "stack_trans(\'",key,"\'", exprs, "); !NEWLINE!"),__NOTES:' .
+                'append(__NOTES,[sconcat("stack_trans(\'",key,"\'", exprs, ");")]),return(str))$';
 
         // No protection in the block.
         $command .= 'block([],stack_randseed(' . $this->seed . ')';
         // The options.
-        $command .=  $this->options->get_cas_commands()['commands'];
-        // Some parts of logic storage:
+        $command .= $this->options->get_cas_commands()['commands'];
+        // Some parts of logic storage.
         $command .= ',_ERR:[],_RESPONSE:["stack_map"]';
         $command .= ',_NOTES:["stack_map"]';
         $command .= ',_VALUES:["stack_map"]';
@@ -220,7 +221,7 @@ class stack_cas_session2 {
             $command .= ',_LATEX:["stack_map"]';
         }
 
-        // Set some values:
+        // Set some values.
         $command .= ',_VALUES:stackmap_set(_VALUES,"__stackmaximaversion",stackmaximaversion)';
 
         // Evaluate statements.
@@ -279,8 +280,8 @@ class stack_cas_session2 {
         // Lets collect what we got.
         $asts = array();
         $latex = array();
-        $ersby_statement = array();
-        $notesby_statement = array();
+        $ersbystatement = array();
+        $notesbystatement = array();
 
         if ($results['timeout'] === true) {
             foreach ($this->statements as $num => $statement) {
@@ -306,43 +307,41 @@ class stack_cas_session2 {
             if (array_key_exists('errors', $results)) {
                 $this->errors = $results['errors'];
                 foreach ($results['errors'] as $key => $value) {
-                    // [0] the list of errors
-                    // [1] the context information
-                    // [2] the statement number
-                    $ersby_statement[$value[2]] = $value[0];
+                    // [0] the list of errors.
+                    // [1] the context information.
+                    // [2] the statement number.
+                    $ersbystatement[$value[2]] = $value[0];
                 }
             }
             if (array_key_exists('answernotes', $results)) {
                 foreach ($results['answernotes'] as $key => $value) {
-                    $notesby_statement[intval(substr($key, strlen('__e_smt_')))] = $value;
+                    $notesbystatement[intval(substr($key, strlen('__e_smt_')))] = $value;
                 }
             }
 
             // Then push those to the objects we are handling.
             foreach ($this->statements as $num => $statement) {
                 $err = array();
-                if (array_key_exists($num, $ersby_statement)) {
-                    $err = $ersby_statement[$num];
+                if (array_key_exists($num, $ersbystatement)) {
+                    $err = $ersbystatement[$num];
                 }
                 $answernotes = array();
-                if (array_key_exists($num, $notesby_statement)) {
-                    $answernotes = $notesby_statement[$num];
+                if (array_key_exists($num, $notesbystatement)) {
+                    $answernotes = $notesbystatement[$num];
                 }
                 $statement->set_cas_status($err, $answernotes);
             }
-            
+
             foreach ($collectvalues as $key => $statement) {
                 $statement->set_cas_evaluated_value($asts[$key]);
             }
             foreach ($collectlatex as $key => $statement) {
                 $statement->set_cas_latex_value($latex[$key]);
             }
-            
             $this->instantiated = true;
         }
         return $this->instantiated;
     }
-
 
     public function get_debuginfo() {
         // TODO...

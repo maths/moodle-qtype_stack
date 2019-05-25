@@ -46,9 +46,9 @@ class stack_ast_filter_441_split_unknown_functions implements stack_cas_astfilte
         return $ast;
     }
 
-    public function conflicts_with(string $other_filter_name): bool {
-        if ($other_filter_name === '542_no_functions_at_all' ||
-            $other_filter_name === '442_split_all_functions') {
+    public function conflicts_with(string $otherfiltername): bool {
+        if ($otherfiltername === '542_no_functions_at_all' ||
+            $otherfiltername === '442_split_all_functions') {
             return true;
         }
         return false;

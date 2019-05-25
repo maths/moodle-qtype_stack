@@ -35,24 +35,24 @@ interface stack_cas_astfilter {
 
 interface stack_cas_astfilter_parametric extends stack_cas_astfilter {
 
-	/**
-	 * Sets any paramters this filter instance might have.
-	 */
-	public function set_filter_parameters(array $parameters);
+    /**
+     * Sets any paramters this filter instance might have.
+     */
+    public function set_filter_parameters(array $parameters);
 }
 
 
 /**
- * Some filters conflict badly and need to exclude each other, we make it so 
+ * Some filters conflict badly and need to exclude each other, we make it so
  * that should one make an coding error leading to such filters being in the
  * same pipeline the situation will become obvious very fast indeed.
  */
 interface stack_cas_astfilter_exclusion extends stack_cas_astfilter {
 
     /**
-     * e.g. if this is '999_strict' and you ask for 
+     * e.g. if this is '999_strict' and you ask for
      * '990_no_fixing_spaces' it will return true as '999_strict'
      * already includes similar features otherwise false.
      */
-    public function conflicts_with(string $other_filter_name): bool;
+    public function conflicts_with(string $otherfiltername): bool;
 }

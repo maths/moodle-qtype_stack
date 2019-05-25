@@ -165,8 +165,9 @@ class stack_anstest_atnumsigfigs extends stack_anstest {
         $sa = stack_ast_container::make_from_teacher_source('STACKSA:' . $this->sanskey, '', new stack_cas_security());
         $ta = stack_ast_container::make_from_teacher_source('STACKTA:' . $this->tanskey, '', new stack_cas_security());
         $ops = stack_ast_container::make_from_teacher_source('STACKOP:' . $atopt, '', new stack_cas_security());
-        $result = stack_ast_container::make_from_teacher_source("result:{$this->casfunction}(STACKSA,STACKTA,STACKOP)", '', new stack_cas_security());
-        
+        $result = stack_ast_container::make_from_teacher_source("result:{$this->casfunction}(STACKSA,STACKTA,STACKOP)", '',
+            new stack_cas_security());
+
         $session = new stack_cas_session2(array($sa, $ta, $ops, $result), $this->options, 0);
         if ($session->get_valid()) {
             $session->instantiate();
@@ -214,7 +215,6 @@ class stack_anstest_atnumsigfigs extends stack_anstest {
             $this->atvalid      = false;
             return null;
         }
-
 
         // Convert the Maxima string 'true' to PHP true.
         if ($unpacked['result'] && $withinrange) {

@@ -239,7 +239,7 @@ class stack_cas_session2 {
             $line .= ',' . $num . ')';
             if (($statement instanceof cas_value_extractor) || ($statement instanceof cas_latex_extractor)) {
                 // If this is one of those that we collect answernotes for.
-                $line .= ',if length(__NOTES) > 0 then _NOTES:stackmap_set(_NOTES,"__e_smt_' . $num . '",__NOTES)';
+                $line .= ',if length(__NOTES) > 0 then _NOTES:stackmap_set(_NOTES,"' . $num . '",__NOTES)';
             }
 
             $command .= $line;
@@ -314,7 +314,7 @@ class stack_cas_session2 {
             }
             if (array_key_exists('answernotes', $results)) {
                 foreach ($results['answernotes'] as $key => $value) {
-                    $notesby_statement[intval(substr($key, strlen('__e_smt_')))] = $value;
+                    $notesby_statement[intval($key)] = $value;
                 }
             }
 

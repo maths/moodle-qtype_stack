@@ -63,7 +63,11 @@ class stack_ast_filter_998_security implements stack_cas_astfilter_parametric {
 
             return true;
         };
-        $ast->callbackRecurse($extraction);
+        // We can actually skip the invalid portions as in most
+        // cases those are wrongly used identifiers and it makes little
+        // sense to whine about "sin" being used as a variable if we 
+        // already noted how it should be used.
+        $ast->callbackRecurse($extraction, true);
 
         // Students may not use evaluation flags.
         if ($this->source === 's' && $evflags === true) {

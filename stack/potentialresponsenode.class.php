@@ -223,13 +223,13 @@ class stack_potentialresponse_node {
                     array('node' => 'PRSANS'.($key + 1), 'error' => $cascontext->get_by_key('PRSANS' . $key)->get_errors())));
             $errorfree = false;
         }
-        if ($cascontext->get_by_key('PRTANS' . $key)->get_errors() !== '') {
+        if ($cascontext->get_by_key('PRTANS' . $key) !== null && $cascontext->get_by_key('PRTANS' . $key)->get_errors() !== '') {
             $results->_errors .= $cascontext->get_by_key('PRTANS' . $key)->get_errors();
             $results->add_feedback(' '.stack_string('prtruntimeerror',
                     array('node' => 'PRTANS'.($key + 1), 'error' => $cascontext->get_by_key('PRTANS' . $key)->get_errors())));
             $errorfree = false;
         }
-        if ($cascontext->get_by_key('PRATOPT' . $key)->get_errors() !== '') {
+        if ($cascontext->get_by_key('PRATOPT' . $key) !== null && $cascontext->get_by_key('PRATOPT' . $key)->get_errors() !== '') {
             $results->_errors .= $cascontext->get_by_key('PRATOPT' . $key)->get_errors();
             $results->add_feedback(' '.stack_string('prtruntimeerror',
                     array('node' => 'PRATOPT'.($key + 1), 'error' => $cascontext->get_by_key('PRATOPT' . $key)->get_errors())));
@@ -248,11 +248,11 @@ class stack_potentialresponse_node {
         foreach ($answers as $cskey => $val) {
             // Check whether the raw input to the node exactly matches one of the answer names.
             $cs = $this->sans;
-            if (trim($cs->get_inputform()) == trim($cskey)) {
+            if (trim($cs->get_inputform(true)) == trim($cskey)) {
                 $sans = $cascontext->get_by_key($cskey);
             }
             $cs = $this->tans;
-            if (trim($cs->get_inputform()) == trim($cskey)) {
+            if (trim($cs->get_inputform(true)) == trim($cskey)) {
                 $tans = $cascontext->get_by_key($cskey);
             }
         }

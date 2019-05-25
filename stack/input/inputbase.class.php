@@ -664,7 +664,7 @@ abstract class stack_input {
         // we don't need to extract updated values from the instantiated $session explicitly.
         list($valid, $errors, $display) = $this->validation_display($answer, $lvars, $caslines, $additionalvars, $valid, $errors);
 
-        if ('' == $answer->get_value()) {
+        if (!$answer->get_valid()) {
             $valid = false;
         } else {
             if (!($lvars->get_value() == '[]' || trim($lvars->get_dispvalue()) == '')) {
@@ -675,7 +675,7 @@ abstract class stack_input {
         // Answers may not contain the ? character.  CAS-strings may, but answers may not.
         // It is very useful for teachers to be able to add in syntax hints.
 
-        $interpretedanswer = $answer->get_value();
+        $interpretedanswer = $answer->get_inputform();
         // TODO: apply a filter to check the ast!
         if (!(strpos($interpretedanswer, '?') === false)) {
             $valid = false;

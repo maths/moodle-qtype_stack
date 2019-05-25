@@ -133,7 +133,7 @@ class stack_potentialresponse_tree_state {
      *      feedback variables, sans and tans for each node, etc.
      * @param int $seed the random seed used.
      */
-    public function set_cas_context(stack_cas_session $cascontext, $seed) {
+    public function set_cas_context(stack_cas_session2 $cascontext, $seed) {
         $this->cascontext = $cascontext;
         $this->seed = $seed;
     }

@@ -354,4 +354,11 @@ class stack_ast_container_silent implements cas_evaluatable {
             }
         }
     }
+
+    /**
+     * HAndle some concatenations in error messages.
+     */
+    public function __toString() {
+        return $this->get_evaluationform();
+    }
 }

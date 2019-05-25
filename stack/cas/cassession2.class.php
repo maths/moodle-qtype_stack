@@ -186,10 +186,10 @@ class stack_cas_session2 {
         $i = 0;
         foreach ($this->statements as $statement) {
             if ($statement instanceof cas_value_extractor) {
-                $collectvalues['__e_statement_' . $i] = $statement;
+                $collectvalues['__e_smt_' . $i] = $statement;
             }
             if ($statement instanceof cas_latex_extractor) {
-                $collectlatex['__e_statement_' . $i] = $statement;
+                $collectlatex['__e_smt_' . $i] = $statement;
             }
             $i = $i + 1;
         }
@@ -199,7 +199,7 @@ class stack_cas_session2 {
         $command = '_EC(ec,sco,sta):=if is(ec=[]) then (_ERR:append(_ERR,[[error,sco,sta]]),false) else true$';
 
         // We need to collect some answernotes so lets redefine this funtion:
-        $command .= 'StackAddFeedback(fb,key,[ex]):=block([str,exprs,jloop],exprs:"",ev(for jloop:1 thru length(ex) do exprs: sconcat(exprs," , !quot!",ex[jloop],"!quot! "),simp),str:sconcat(fb, "stack_trans(\'",key,"\'", exprs, "); !NEWLINE!"),__ANSWERNOTES:append(__ANSWERNOTES,[sconcat("stack_trans(\'",key,"\'", exprs, ");")]),return(str))$';
+        $command .= 'StackAddFeedback(fb,key,[ex]):=block([str,exprs,jloop],exprs:"",ev(for jloop:1 thru length(ex) do exprs: sconcat(exprs," , !quot!",ex[jloop],"!quot! "),simp),str:sconcat(fb, "stack_trans(\'",key,"\'", exprs, "); !NEWLINE!"),__NOTES:append(__NOTES,[sconcat("stack_trans(\'",key,"\'", exprs, ");")]),return(str))$';
 
 
         // No protection in the block.
@@ -208,14 +208,14 @@ class stack_cas_session2 {
         $command .=  $this->options->get_cas_commands()['commands'];
         // Some parts of logic storage:
         $command .= ',_ERR:[],_RESPONSE:["stack_map"]';
-        $command .= ',_ANSWERNOTES:["stack_map"]';
-        $command .= ',_RAW_VALUES:["stack_map"]';
+        $command .= ',_NOTES:["stack_map"]';
+        $command .= ',_VALUES:["stack_map"]';
         if (count($collectlatex) > 0) {
-            $command .= ',_LATEX_VALUES:["stack_map"]';
+            $command .= ',_LATEX:["stack_map"]';
         }
 
         // Set some values:
-        $command .= ',_RAW_VALUES:stackmap_set(_RAW_VALUES,"__stackmaximaversion",stackmaximaversion)';
+        $command .= ',_VALUES:stackmap_set(_VALUES,"__stackmaximaversion",stackmaximaversion)';
 
         // Evaluate statements.
         $i = 0;
@@ -224,13 +224,13 @@ class stack_cas_session2 {
             $line = ',_EC(errcatch(' . $ef . '),';
             if (($statement instanceof cas_value_extractor) || ($statement instanceof cas_latex_extractor)) {
                 // One of those that need to be collected later.
-                $line = ',__ANSWERNOTES:[],_EC(errcatch(__e_statement_' . $i . ':' . $ef . '),';
+                $line = ',__NOTES:[],_EC(errcatch(__e_smt_' . $i . ':' . $ef . '),';
             }
             $line .= stack_utils::php_string_to_maxima_string($statement->get_source_context());
             $line .= ',' . $i . ')';
             if (($statement instanceof cas_value_extractor) || ($statement instanceof cas_latex_extractor)) {
                 // If this is one of those that we collect answernotes for.
-                $line .= ',if length(__ANSWERNOTES) > 0 then _ANSWERNOTES:stackmap_set(_ANSWERNOTES,"__e_statement_' . $i . '",__ANSWERNOTES)';
+                $line .= ',if length(__NOTES) > 0 then _NOTES:stackmap_set(_NOTES,"__e_smt_' . $i . '",__NOTES)';
             }
 
             $command .= $line;
@@ -239,22 +239,22 @@ class stack_cas_session2 {
 
         // Collect values if required.
         foreach ($collectvalues as $key => $statement) {
-            $command .= ',_RAW_VALUES:stackmap_set(_RAW_VALUES,';
+            $command .= ',_VALUES:stackmap_set(_VALUES,';
             $command .= stack_utils::php_string_to_maxima_string($key);
             $command .= ',string(' . $key . '))';
         }
         foreach ($collectlatex as $key => $statement) {
-            $command .= ',_LATEX_VALUES:stackmap_set(_LATEX_VALUES,';
+            $command .= ',_LATEX:stackmap_set(_LATEX,';
             $command .= stack_utils::php_string_to_maxima_string($key);
             $command .= ',tex1(' . $key . '))';
         }
 
         // Pack values to the response.
         $command .= ',_RESPONSE:stackmap_set(_RESPONSE,"timeout",false)';
-        $command .= ',_RESPONSE:stackmap_set(_RESPONSE,"values",_RAW_VALUES)';
-        $command .= ',if length(_ANSWERNOTES)>1 then _RESPONSE:stackmap_set(_RESPONSE,"answernotes",_ANSWERNOTES)';
+        $command .= ',_RESPONSE:stackmap_set(_RESPONSE,"values",_VALUES)';
+        $command .= ',if length(_NOTES)>1 then _RESPONSE:stackmap_set(_RESPONSE,"answernotes",_NOTES)';
         if (count($collectlatex) > 0) {
-            $command .= ',_RESPONSE:stackmap_set(_RESPONSE,"presentation",_LATEX_VALUES)';
+            $command .= ',_RESPONSE:stackmap_set(_RESPONSE,"presentation",_LATEX)';
         }
         $command .= ',if length(_ERR)>0 then _RESPONSE:stackmap_set(_RESPONSE,"errors",_ERR)';
 
@@ -306,7 +306,7 @@ class stack_cas_session2 {
             }
             if (array_key_exists('answernotes', $results)) {
                 foreach ($results['answernotes'] as $key => $value) {
-                    $notesby_statement[intval(substr($key, strlen('__e_statement_')))] = $value;
+                    $notesby_statement[intval(substr($key, strlen('__e_smt_')))] = $value;
                 }
             }
 

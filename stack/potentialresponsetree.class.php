@@ -62,6 +62,10 @@ class stack_potentialresponse_tree {
 
         if (is_a($feedbackvariables, 'stack_cas_session2') || null === $feedbackvariables) {
             $this->feedbackvariables = $feedbackvariables;
+            if ($this->feedbackvariables === null) {
+                // Using an empty session here makes life so much more simpler
+                $this->feedbackvariables = new stack_cas_session2(array());
+            }
         } else {
             throw new stack_exception('stack_potentialresponse_tree: __construct: ' .
                     'expects $feedbackvariables to be null or a stack_cas_session.');
@@ -158,7 +162,7 @@ class stack_potentialresponse_tree {
      * @param int $seed the random number seed.
      * @return stack_potentialresponse_tree_state the result.
      */
-    public function evaluate_response(stack_cas_session $questionvars, $options, $answers, $seed) {
+    public function evaluate_response(stack_cas_session2 $questionvars, $options, $answers, $seed) {
 
         if (empty($this->nodes)) {
             throw new stack_exception('stack_potentialresponse_tree: evaluate_response ' .
@@ -172,9 +176,11 @@ class stack_potentialresponse_tree {
 
         $results = new stack_potentialresponse_tree_state($this->value, true, 0, 0);
         $fv = $this->feedbackvariables;
-        if ($fv !== null) {
-            $results->add_trace($fv->get_keyval_representation());
-        }
+        // TODO: What is this? Surely we can build an actula dependency
+        // graph and trace that if need be. Do we use this somehere?
+        //if ($fv !== null) {
+        //    $results->add_trace($fv->get_keyval_representation());
+        //}
 
         // Traverse the tree.
         $nodekey = $this->firstnode;

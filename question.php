@@ -507,7 +507,8 @@ class qtype_stack_question extends question_graded_automatically_with_countback
 
         // TODO: shouldn't we also protect variables used in PRT logic? Feedback vars 
         // and so on?
-        $forbiddenkeys = $this->session->get_variable_usage()['write'];
+        $usage = $this->session->get_variable_usage();
+        $forbiddenkeys = isset($usage['write']) ? $usage['write'] : array();
         // TODO: we should probably give the whole ast_container to the input.
         // Direct access to LaTeX and the AST might be handy.
         $teacheranswer = $this->tas[$name]->get_value();

@@ -134,3 +134,27 @@ foreach ($filters as $filtername) {
     }
     check_filter($freshast, $filter, new stack_cas_security(true), $filtername);
 }
+
+cli_heading('= core + security(s) =');
+$freshast = null;
+if ($parseable) {
+    $freshast = maxima_parser_utils::parse($teststring);
+} else {
+    $freshast = maxima_corrective_parser::parse($teststring, $errors, $answernotes, array('startRule' => 'Root',
+                           'letToken' => stack_string('equiv_LET')));
+}
+
+$pipeline = stack_parsing_rule_factory::get_filter_pipeline(array('998_security'), array('998_security' => array('security' => 's')), true);
+check_filter($freshast, $pipeline, new stack_cas_security(false), 'core + security(s)');
+
+cli_heading('= core + security(t) + strict =');
+$freshast = null;
+if ($parseable) {
+    $freshast = maxima_parser_utils::parse($teststring);
+} else {
+    $freshast = maxima_corrective_parser::parse($teststring, $errors, $answernotes, array('startRule' => 'Root',
+                           'letToken' => stack_string('equiv_LET')));
+}
+
+$pipeline = stack_parsing_rule_factory::get_filter_pipeline(array('998_security', '999_strict'), array('998_security' => array('security' => 't')), true);
+check_filter($freshast, $pipeline, new stack_cas_security(false), 'core + security(t) + strict');

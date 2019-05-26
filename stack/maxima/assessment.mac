@@ -893,7 +893,17 @@ flatten_recurse_nouns(ex) := block(
     if atom(ex) then return(ex),
     if op(ex)="noun+" or op(ex)="noun*" then
         return(flatten(apply(op(ex), maplist(flatten_recurse_nouns, args(ex))))),
+    if safe_op(ex)="nounset" then 
+        return((apply(op(ex), maplist(flatten_recurse_nouns, sort(args(ex)))))),
     apply(op(ex), maplist(flatten_recurse_nouns, args(ex)))
+)$
+
+sort_nouns(ex) := block([exl],
+    if atom(ex) then return(ex),
+    exl:maplist(sort_nouns, args(ex)),
+    if safe_op(ex)="noun=" or safe_op(ex)="nounand" or safe_op(ex)="nounor" or safe_op(ex)="nounset" or op(ex)="noun+" or op(ex)="noun*" then
+        exl:sort(exl),
+    apply(op(ex), exl)
 )$
 
 /* Rule which takes (a^n)^-1 when n is an integer to a^-n */
@@ -913,17 +923,21 @@ unary_minus_remove(ex):= block(
 
 /*  (7)  */
 /* Returns true iff ex1 and ex2 are equal up to commutativity and associativity. */
-equals_commute_associate(ex1, ex2) := block([oldsimp, ex1n, ex2n, ret],
+equals_commute_associate(ex1, ex2) := block([oldsimp, ret, ex1n, ex2n],
     oldsimp:simp,
     simp:false,
-    ex1n:noun_arith(ex1),
-    ex2n:noun_arith(ex2),
-    simp:true,
-    ex1n:ev(flatten_recurse_nouns(ex1n), simp),
-    ex2n:ev(flatten_recurse_nouns(ex2n), simp),
-    if ex1n=ex2n then ret:true else ret:false,
+    ret:false,
+    ex1n:subst(nounset,set,ex1),
+    ex2n:subst(nounset,set,ex2),
+    ex1n:noun_arith(ex1n),
+    ex2n:noun_arith(ex2n),
+    ex1n:flatten_recurse_nouns(ex1n),
+    ex2n:flatten_recurse_nouns(ex2n),
+    ex1n:sort_nouns(ex1n),
+    ex2n:sort_nouns(ex2n),
+    if is(ex1n=ex2n) then ret:true,
     simp:oldsimp,
-    ret
+    return(ret)
 )$
 
 /* An answer test in the context of commutative+associative addition and multiplication. */
@@ -1442,6 +1456,7 @@ mediant(ex1,ex2) := (num(ex1)+num(ex2))/(denom(ex1)+denom(ex2));
 
 texput(EMPTYCHAR, " ");
 texput(EQUIVCHAR, "\\color{green}{\\Leftrightarrow}");
+texput(EQUIVLOG, "\\color{green}{\\log(?)}");
 texput(EQUIVCHARREAL, "\\color{green}{\\Leftrightarrow}\\, \\color{blue}{(\\mathbb{R})}");
 texput(CHECKMARK, "\\color{green}{\\checkmark}");
 texput(IMPLIESCHAR, "\\color{red}{\\Rightarrow}");
@@ -1974,6 +1989,23 @@ stack_eval_arg(ex) := block([eqoutcome, eqoutsymb, eqoutnote, res, id, truthargu
                       eqoutcome[ev(id, simp)]:false,
                       eqoutsymb[ev(id, simp)]:IMPLIEDCHAR,
                       tempnote:sconcat(tempnote, " | SquaredSecond | ", third(ATres))
+                  )
+              )
+          ),
+
+          if malrulecont then block([FBB, ATres],
+              /* (4) Log second. */
+              /* Errcatch to avoid log(0) errors.... */
+              FBB:errcatch(ev(log(SB),simp)),
+              if is(FBB = []) then (print("STACK: ignore previous error. (EQUIVLOG)")),
+              if not(emptyp(FBB)) then block(
+                  ATres:ev(ATAlgEquiv(SA, first(FBB)), simp),
+                  if (debug) then print(ATres),
+                  if second(ATres) then block(
+                      malrulecont:false,
+                      eqoutcome[ev(id, simp)]:true,
+                      eqoutsymb[ev(id, simp)]:EQUIVLOG,
+                      tempnote:sconcat(tempnote, " | LogSecondEquiv | ", third(ATres))
                   )
               )
           )

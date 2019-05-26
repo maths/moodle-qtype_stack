@@ -101,11 +101,13 @@ This is Cardano's example from Ars Magna, but currently the AlgEquiv test cannot
 
 ### EqualComAss: Equality up to Associativity and Commutativity ### {#EqualComAss}
 
-This test seeks to establish whether two expressions are the same when the basic arithmetic operations of addition and multiplication are assumed to be nouns but are commutative and associative.  Hence, \(2x+y=y+2x\) but \(x+x+y\neq 2x+y\).  The unary minus commutes with multiplication in a way natural to establishing the required form of equivalence.
+This test seeks to establish whether two expressions are the same when the basic operations of arithmetic addition/multiplication and Boolean and/or are assumed to be nouns but are commutative and associative.  Hence, \(2x+y=y+2x\) but \(x+x+y\neq 2x+y\).  The unary minus commutes with multiplication in a way natural to establishing the required form of equivalence.
 
 Notice that this test does not include laws of indices, so \(x\times x \neq x^2\). Since we are dealing only with nouns \(-\times -\) does not simplify to \(1\). E.g. \(-x\times -x \neq x\times x \neq x^2\).  This also means that \(\sqrt{x}\) is not considered to be equivalent to \(x^{\frac{1}{2}}\) under this test.  In many situations this notation is taken mean the same thing, but internally in Maxima they are represented by different functions and not converted to a canonical form by the test.  Extra re-write rules could be added to achieve this, which would change the equivalence classes.
 
 This is a particularly useful test for checking that an answer is written in a particular form, e.g. "simplified".
+
+This test can also be used to establish \(\{4,4\} \neq \{4\}\), but \(\{1,2\} = \{2,1\}\) since the arguments of the set constructor function are commutative.  Sets are not associative, so \(\{1,2\} \neq \{\{1\},2\}\).  (See Maxima's `flatten` command.)
 
 ### CasEqual ###
 

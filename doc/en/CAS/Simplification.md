@@ -109,6 +109,19 @@ How do we do the following in Maxima?
 
      factor(radcan((x-1)*(k*(x-1))^a))
 
+
+Maxima's internal representation of an expression sometimes does not correspond with what you expect -- in that case, `dispform` may help to bring it into the form you expect. For example, the output of `solve` in the following code shows the \(b\) in the denominator as \(b^{-1}\) which gives unnatural-looking output when a value is substituted in -- this is fixed by using `dispform` and substituting into that version instead.
+
+    simp:true;
+    eqn:b = 1/(6*a+3);
+    ta1: expand(rhs(solve(eqn,a)[1]));
+    dispta1:dispform(ta1);
+    simp:false;
+    subst(2,b,ta1);
+    subst(2,b,dispta1);
+
+
+
 ## Creating sequences and series
 
 One problem is that `makelist` needs simplification.  To create sequences/series, try something like the following

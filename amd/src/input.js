@@ -355,7 +355,18 @@ define(['jquery', 'core/ajax', 'core/event'], function($, ajax, coreevent) {
      */
     var t = {
         initInputs: function(inputs, qaid, prefix) {
+            var allok = true;
             for (var i = 0; i < inputs.length; i++) {
+                var name = inputs[i];
+                allok = t.initInput(name, qaid, prefix) && allok;
+            }
+            var outerdiv = $('input[name="' + prefix + ':sequencecheck"]').parents('div.que.stack');
+            if (allok && outerdiv && (outerdiv.hasClass('dfexplicitvaildate') || outerdiv.hasClass('dfcbmexplicitvaildate'))) {
+                // With instant validation, we don't need the Check button, so hide it.
+                var button = outerdiv.find('.im-controls input.submit');
+                if (button.attr('id') === prefix + '-submit') {
+                    button.hide();
+                }
                 t.initInput(inputs[i], qaid, prefix);
             }
         },

@@ -763,18 +763,18 @@ class stack_equiv_test_data {
 
         $newarg = array();
         $newarg['title']     = "";
-        $newarg['narrative'] = 'For the moment we do not support this case.  That is we accept the failure to estabilsh equivalence.  To fix this it needs the rule A=B <=> e^A=e^B.';
+        $newarg['narrative'] = 'This it needs the rule A=B <=> e^A=e^B.';
         $newarg['casstring'] = "[lg(x+17,3)-2=lg(2*x,3),lg(x+17,3)-lg(2*x,3)=2,lg((x+17)/(2*x),3)=2,(x+17)/(2*x)=3^2,(x+17)=18*x,17*x=17,x=1]";
-        $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,QMCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR]";
-        $newarg['outcome']   = 'unsupported';
+        $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVLOG,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR]";
+        $newarg['outcome']   = true;
         $samplearguments[] = $newarg;
 
         $newarg = array();
         $newarg['title']     = "";
         $newarg['narrative'] = 'Problematic case with nth roots.  (Needed for intrging integrals.)';
         $newarg['casstring'] = "[x=(1+y/n)^n,x^(1/n)=(1+y/n),y/n=x^(1/n)-1,y=n*(x^(1/n)-1)]";
-        $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR]";
-        $newarg['outcome']   = 'unsupported';
+        $newarg['debuglist'] = "[EMPTYCHAR,QMCHAR,EQUIVCHAR,EQUIVCHAR]";
+        $newarg['outcome']   = 'unspported';
         $samplearguments[] = $newarg;
 
         //******************************************************************************
@@ -1427,6 +1427,15 @@ class stack_equiv_test_data {
         $newarg['debuglist'] = "[EMPTYCHAR,DIFFCHAR(x),EQUIVCHAR,EQUIVCHAR]";
         $newarg['calculus']  = true;
         $newarg['outcome']   = true;
+        $samplearguments[]   = $newarg;
+
+        $newarg = array();
+        $newarg['title']     = "Logarithmic differentiation";
+        $newarg['narrative'] = '';
+        $newarg['casstring'] = "[y=e^(5*x)/(7*x+1),ln(y)=5*x-ln(abs(7*x+1)),1/y*noundiff(y,x) = 5-7/(7*x+1),noundiff(y,x)=y*(5-7/(7*x+1)),noundiff(y,x)=e^(5*x)/(7*x+1)*(5-7/(7*x+1))]";
+        $newarg['debuglist'] = "[EMPTYCHAR,EQUIVLOG,DIFFCHAR(x),EQUIVCHAR,EQUIVCHAR]";
+        $newarg['calculus']  = true;
+        $newarg['outcome']   = 'unsupported';
         $samplearguments[]   = $newarg;
 
         $newarg = array();

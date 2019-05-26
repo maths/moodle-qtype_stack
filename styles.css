@@ -301,9 +301,3 @@ body.ie:not(.ie11) .stack_abstract_graph {
     right: -16px;
     cursor: pointer;
 }
-
-/* Hide check button when javascript alternative available */
-.jsenabled div.que.stack.dfexplicitvaildate .im-controls input.submit,
-.jsenabled div.que.stack.dfcbmexplicitvaildate .im-controls input.submit {
-    display: none;
-}

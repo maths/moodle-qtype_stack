@@ -534,6 +534,8 @@ class stack_answertest_test_data {
         array('EqualComAss', '', '{1,2}', '{1,{2}}', 0, 'ATEqualComAss: (AlgEquiv:false)ATSet_wrongentries.', ''),
         array('EqualComAss', '', '{4,3}', '{3,4}', 1, '', ''),
         array('EqualComAss', '', '{4,4}', '{4}', 0, 'ATEqualComAss: (AlgEquiv:true).', ''),
+        array('EqualComAss', '', '{-1,1,-1}', '{-1,-1,1}', 1, '', ''),
+        array('EqualComAss', '', '{-1,1,-1}', '{-1,1}', 0, 'ATEqualComAss: (AlgEquiv:true).', ''),
         array('EqualComAss', '', '[2*x+1,2]', '[1+x*2,2]', 1, '', 'Lists'),
         array('EqualComAss', '', '[x+x+1, 1+1]', '[1+x*2,2]', 0, 'ATEqualComAss: (AlgEquiv:true).', ''),
         array('EqualComAss', '', 'matrix([1,2],[2,3])', 'matrix([1,2],[2,3])', 1, '', 'Matrices'),

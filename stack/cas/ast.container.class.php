@@ -93,8 +93,6 @@ class stack_ast_container extends stack_ast_container_silent implements cas_late
         }
     }
 
-
-
     public function get_evaluationform(): string {
         // The common_ast_container provides means of dealing with validation context.
         if ($this->validationcontext === null) {
@@ -144,7 +142,6 @@ class stack_ast_container extends stack_ast_container_silent implements cas_late
         return $this->validationcontext['vname'] . ':' . $vcmd;
     }
 
-
     // This returns the fully filttered AST as it should be inputted were
     // it inputted perfectly.
     public function get_inputform(bool $keyless=false): string {
@@ -183,8 +180,6 @@ class stack_ast_container extends stack_ast_container_silent implements cas_late
         return $this->latex;
     }
 
-
-
     // If we "CAS validate" this string, then we need to set various options.
     // If the teacher's answer is null then we use typeless validation, otherwise we check type.
     public function set_cas_validation_context($vname, $lowestterms, $tans, $validationmethod, $simp) {
@@ -206,7 +201,6 @@ class stack_ast_container extends stack_ast_container_silent implements cas_late
     public function get_cas_validation_context() {
         return $this->validationcontext;
     }
-
 
     public function get_value() {
         if (null === $this->evaluated) {
@@ -263,6 +257,28 @@ class stack_ast_container extends stack_ast_container_silent implements cas_late
 
     public function set_feedback($val) {
         $this->feedback = $val;
+    }
+
+    /*
+     * We sometimes need to modify the ast to set a particular key.
+     */
+    public function set_key($key) {
+        $root = $this->ast;
+        if ($root instanceof MP_Root) {
+            $root = $root->items[0];
+        }
+        if ($root instanceof MP_Statement) {
+            $root = $root->statement;
+        }
+        if ($root instanceof MP_Operation && $root->op === ':' &&
+                $root->lhs instanceof MP_Identifier) {
+            $root->lhs->value = $key;
+        }
+
+        // Otherwise set a key.
+        $ast = $this->ast;
+        $ast = new MP_Operation(':', new MP_Identifier($key), $ast);
+        $this->ast = $ast;
     }
 
     /**

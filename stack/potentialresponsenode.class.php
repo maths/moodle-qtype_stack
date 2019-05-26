@@ -311,8 +311,8 @@ class stack_potentialresponse_node {
         $ct = new stack_cas_text($this->branches[0]['feedback'] . $this->branches[1]['feedback']);
         $requiredcasstrings = $ct->get_all_raw_casstrings();
 
-        $requiredcasstrings[] = $this->sans->get_raw_casstring();
-        $requiredcasstrings[] = $this->tans->get_raw_casstring();
+        $requiredcasstrings[] = $this->sans->get_inputform();
+        $requiredcasstrings[] = $this->tans->get_inputform();
 
         if ($this->process_atoptions() && trim($this->atoptions) != '') {
             $requiredcasstrings[] = $this->atoptions;
@@ -352,7 +352,7 @@ class stack_potentialresponse_node {
         if ($this->process_atoptions() && trim($this->atoptions) != '') {
             $cs = stack_ast_container::make_from_teacher_source('PRATOPT:' . $this->atoptions,
                     '', new stack_cas_security());
-            $variables[] = $atopts;
+            $variables[] = $cs;
         }
 
         return $variables;
@@ -388,7 +388,7 @@ class stack_potentialresponse_node {
             $ncasoptions = $this->atoptions;
         }
         $at = new stack_ans_test_controller($this->answertest,
-            $this->sans->get_raw_casstring(), $this->tans->get_raw_casstring(), null, $ncasoptions);
+            $this->sans->get_inputform(), $this->tans->get_inputform(), null, $ncasoptions);
         return $at->get_trace(false);
     }
 }

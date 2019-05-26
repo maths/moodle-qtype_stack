@@ -112,11 +112,11 @@ class stack_question_test {
      */
     public static function compute_response(qtype_stack_question $question, $inputs) {
         // If the question has simp:false, then the local options should reflect this.
-        // In this case, test constructors (question authors) will need to explicitly simplify their test case constructions.
+        // In this case, question authors will need to explicitly simplify their test case constructions.
         $localoptions = clone $question->options;
 
         // Start with the question variables (note that order matters here).
-        $cascontext = new stack_cas_session(null, $localoptions, $question->seed);
+        $cascontext = new stack_cas_session2(array(), $localoptions, $question->seed);
         $question->add_question_vars_to_session($cascontext);
 
         // Turn off simplification - we *always* need test cases to be unsimplified, even if the question option is true.
@@ -133,12 +133,13 @@ class stack_question_test {
                 }
             }
         }
-        $cascontext->add_vars($vars);
+        $cascontext->add_statements($vars);
         $cascontext->instantiate();
 
         $response = array();
         foreach ($inputs as $name => $notused) {
-            $computedinput = $cascontext->get_value_key('testresponse_' . $name, true);
+            $var = $cascontext->get_by_key('testresponse_' . $name, true);
+            $computedinput = $var->get_value();
             // In the case we start with an invalid input, and hence don't send it to the CAS.
             // We want the response to constitute the raw invalid input.
             // This permits invalid expressions in the inputs, and to compute with valid expressions.
@@ -146,7 +147,7 @@ class stack_question_test {
                 $computedinput = $inputs[$name];
             } else {
                 // 4.3. means the logic_nouns_sort is done through parse trees.
-                $computedinput = $cascontext->get_ast_key('testresponse_' . $name)->toString(array('nounify' => false));
+                $computedinput = $cascontext->get_by_key('testresponse_' . $name)->get_dispvalue();
             }
             if (array_key_exists($name, $question->inputs)) {
                 // Remove things like apostrophies in test case inputs so we don't create an invalid student input.

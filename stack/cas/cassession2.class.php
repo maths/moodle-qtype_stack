@@ -130,7 +130,10 @@ class stack_cas_session2 {
         return true;
     }
 
-    public function get_by_key(string $key): cas_evaluatable {
+    /*
+     * TODO: set return value of : ?cas_evaluatable
+     */
+    public function get_by_key(string $key) {
         // Searches from the statements the last one with a given key.
         // This is a concession for backwards compatibility and should not be used.
         $found = null;
@@ -272,11 +275,11 @@ class stack_cas_session2 {
         $command .= ',print("<STACK-OUTPUT-ENDS")';
         $command .= ')$';
 
-        // Send it to cas.
+        // Send it to CAS.
         $connection = stack_connection_helper::make();
         $results = $connection->json_compute($command);
 
-        // Lets collect what we got.
+        // Let's collect what we got.
         $asts = array();
         $latex = array();
         $ersbystatement = array();
@@ -340,6 +343,22 @@ class stack_cas_session2 {
             $this->instantiated = true;
         }
         return $this->instantiated;
+    }
+
+    /* 
+     * This representation is only used in debugging questions, and for
+     * offline (sandbox) testing.  We need to provide teachers with something
+     * they can type into Maxima.
+     */
+    public function get_keyval_representation(): string {
+        $keyvals = '';
+        foreach ($this->statements as $statement) {
+            $val = trim($statement->get_evaluationform());
+            if ($val) {
+                $keyvals .= $val . ";\n";
+            }
+        }
+        return trim($keyvals);
     }
 
     public function get_debuginfo() {

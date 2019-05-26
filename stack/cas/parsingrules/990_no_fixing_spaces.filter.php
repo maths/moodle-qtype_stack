@@ -18,7 +18,7 @@ defined('MOODLE_INTERNAL') || die();
 require_once(__DIR__ . '/filter.interface.php');
 
 /**
- * AST filter that marks everything that has been fiexd by fixing
+ * AST filter that marks everything that has been fixed by fixing
  * spaces as invalid.
  */
 class stack_ast_filter_990_no_fixing_spaces implements stack_cas_astfilter_exclusion {
@@ -37,7 +37,7 @@ class stack_ast_filter_990_no_fixing_spaces implements stack_cas_astfilter_exclu
 
         $ast->callbackRecurse($check, false);
 
-        // Now that those have been checked and invalidated. Lets write custom errors.
+        // Now that those have been checked and invalidated. Let's write custom errors.
         if ($spaces === true) {
             $missingstring = $ast->toString(
                     array('fixspaces_as_red_spaces' => true, 'qmchar' => true, 'inputform' => true));
@@ -53,8 +53,7 @@ class stack_ast_filter_990_no_fixing_spaces implements stack_cas_astfilter_exclu
     }
 
     public function conflicts_with(string $otherfiltername): bool {
-        if ($otherfiltername === '999_strict' ||
-            $otherfiltername === '991_no_fixing_stars') {
+        if ($otherfiltername === '999_strict') {
             return true;
         }
         return false;

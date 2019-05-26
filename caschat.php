@@ -148,11 +148,7 @@ echo html_writer::tag('form',
 if ($string) {
     echo $OUTPUT->heading(stack_string('questionvariablevalues'), 3);
     echo html_writer::start_tag('div', array('class' => 'questionvariables'));
-    // Display only the values of the question variables.
-    foreach ($kvss->get_session() as $var) {
-        $variables .= $var->get_evaluationform() . "\n";
-    }
-    echo  html_writer::tag('pre', $variables);
+    echo html_writer::tag('pre', $kvss->get_keyval_representation());
     echo html_writer::end_tag('div');
 }
 

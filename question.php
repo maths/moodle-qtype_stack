@@ -921,12 +921,8 @@ class qtype_stack_question extends question_graded_automatically_with_countback
      * effects in Maxima, e.g. orderless.  If you use these values you may not get
      * the same results as if you recreate the whole session from $this->questionvariables.
      */
-    public function get_question_var_values() {
-        $vars = array();
-        foreach ($this->session->get_all_keys() as $key) {
-            $vars[$key] = $this->session->get_value_key($key);
-        }
-        return $vars;
+    public function get_question_session_keyval_representation() {
+        return $this->session->get_keyval_representation();
     }
 
     /**

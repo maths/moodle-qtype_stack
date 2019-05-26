@@ -54,11 +54,11 @@ Find \(\int 5(3x-2)^{-3} \mathrm{d}x\).
 Notes:
 
 * Moodle has a wide choice for text editors, so the screenshots in this quick start guide might look slightly different to your version of Moodle.  Also the cut and paste may, or may not, include some of the formatting.
-* The text contains LaTeX mathematics environments.  Do not use mathematics environments `$..$` and `$$..$$`.  Instead you must use `\(..\)` and `\[..]\` for inline and displayed mathematics respectively.  (There is an automatic bulk converter if you have a lot of legacy materials.)
+* The text contains LaTeX mathematics environments.  Do not use mathematics environments `$..$` and `$$..$$`.  Instead you must use `\(..\)` and `\[..\]` for inline and displayed mathematics respectively.  (There is an automatic bulk converter if you have a lot of legacy materials.)
+* Internally the student's answer will be assigned to a variable `ans1`.
 * The tag `[[input:ans1]]` denotes the position of the box into which the student puts their answer.
 * The tag `[[validation:ans1]]` will be replaced by any feedback related to the validity of the input `ans1`.  E.g. syntax errors caused by missing brackets.
 * The tags could be positioned anywhere in the question text: more on this later.
-* Internally the student's answer will be assigned to a variable `ans1`.
 
 ## Input: ans1
 
@@ -73,7 +73,7 @@ For a minimal question we must specify the _model answer_ field.
 Notes
 
 1. The student's response is stored in the answer variable `ans1`.
-2. The model answer must be a syntactically valid CAS expression, not LaTeX.  E.g. `-5/(6*(3*x-2)^2)+c` not `\frac{-5}{6(3x-2)^2}+c`.
+2. The model answer must be a syntactically valid expression in CAS (Maxima) syntax, not LaTeX.  E.g. `-5/(6*(3*x-2)^2)+c` not `\frac{-5}{6(3x-2)^2}+c`.
 3. [Inputs](Inputs.md) can have a variety of types selected by the  _Input type_ drop-down menu.  The _Algebraic input_ is default, and what we need here.
 4. A question can have many inputs for multiple parts.  These are discussed later in this guide.
 
@@ -272,7 +272,7 @@ Notice that the student has:
 These are things which students are likely to do with any integration question.  Indeed, through force of habit students have been known to differentiate by mistake and still add a constant of integration!  Also, there are mistakes students have made which are much more specific to this particular question:
 
 - Forgetting to use substitution and hence not dividing by \(p\), and effectively integrating \( \int r(px+q)^n \mathrm{d}x \rightarrow \frac{r}{n+1}(px+q)^{n+1}+c \).
-- having difficulties in increasing a negative number (in this case \(-3\) by one).  In our example \( \int \frac{5}{(3x - 2)^3} \mathrm{d}x \rightarrow \frac{5}{3}\frac{1}{(3x - 2)^4}+c\).
+- Having difficulties in increasing a negative number (in this case \(-3\) by one).  In our example \( \int \frac{5}{(3x - 2)^3} \mathrm{d}x \rightarrow \frac{5}{3}\frac{1}{(3x - 2)^4}+c\).
 
 __The whole point of STACK is that the CAS enables teachers to check for these kinds of errors and provide students with meaningful feedback which helps them improve their performance, without using multiple choice options which give the game away!__
 
@@ -289,10 +289,10 @@ Next, a teacher needs to ask _"What might a student do incorrectly, and what wil
 
 There are two further common mistakes for students to make when finding the anti-derivative of simple functions-of-functions:
 
-1. Accidentally finding the derivative of the outer function (multiplying by the power and taking one off the power - i.e. following the wrong process).
+1. Accidentally finding the derivative of the outer function (multiplying by the power and taking one off the power - i.e. following the wrong process). In this case effectively integrating \( \int r(px+q)^n \mathrm{d}x \rightarrow r \, n(px+q)^{n-1}+c \).
 2. Expanding brackets when they didn't need to - not remembering to leave their final answer in factored form. 
 
-Let us continue to enhance feedback by checking that the student has not differentiated the outer function by mistake. We do this by adding another potential response node.
+Let us continue to enhance feedback by checking that the student has differentiated the outer function by mistake. We do this by adding another potential response node.
 
 Close the preview, scroll down to the Potential Response Tree and click `[Add another node]` button at the bottom of the list of nodes:
 
@@ -304,10 +304,10 @@ If the first test is false, we will then perform the test in Node 2.
 Update the form so that Node 2 has
 
     SAns = diff(ans1, x)
-    TAns = 60*(3*x-2)^-5
+    TAns = 5*(-3)*(-4)*3*(3*x-2)^-5
     Answer test = AlgEquiv
 
-See that we are using Maxima to differentiate the student's answer. We then compare that result, algebraically, to what the question would have been for the student to respond in the way they have.
+Notice that we are using Maxima to differentiate the student's answer, which helps to remove a constant of integration. We then compare that result, algebraically, to an expression we would expect had the student responded in the way they have.  If the student has made this mistake they will end up with \(r\, n(px+q)^{n-1}+c\) so differentiating this we have the expression \(r\, n\, p\, (n-1)(px+q)^{n-2}\) from which we get `5*(-3)*(-4)*3*(3*x-2)^-5` in this example.  We might as well have the CAS calculate the value.
 
 This gives us the test, but what about the outcomes?
 
@@ -323,11 +323,11 @@ and different responses. You have something definite to group over.  This is dis
 
 Press the `[Save changes and continue editing]` button and preview the question.
 
-Type the following response into the answer box:
+To test this feedback type the following response into the answer box:
 
-    -5/12*(3*x-2)^-4+c
+    -15*(3*x-2)^-4+c
 
-Because we are using Maxima to differentiate the student's response, whether or not the student includes a constant of integration in their answer. You can verify this by typing the above response but missing off the constant.
+We are using Maxima to differentiate the student's response, so it does not matter whether or not the student includes a constant of integration in their answer. You can verify this by typing the above response but missing off the constant.
 
 ### The Form of a Response: not leaving an answer in factored form
 
@@ -401,11 +401,11 @@ Two question versions are considered to be the same if and only if the question 
 ### Handling random variables in the Potential Response Tree ###
 
 We also need to ensure the test answers, `TAns`, in each node of the potential response tree are updated accordingly. 
-If the student has differentiated the outer function by mistake then the derivative of their response will be of the form `a1*n*(n-1)*(x-a_2)^(n-2)`.
+If the student has differentiated the outer function by mistake then the derivative of their response will be of the form `a1*n*(n-1)*(x-a2)^(n-2)`.
 
 We will need to update `TAns` of node 2 of the potential response tree to add in this value.  It is sensible to create another question variable
 
-    taw1:a1*n*(n-1)*(x-a_2)^(n-2)
+    taw1:a1*n*(n-1)*(x-a2)^(n-2)
 
 So this possible outcome can be used in the potential response tree, question tests and so on by referring to the variable `taw1`.
 

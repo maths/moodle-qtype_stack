@@ -162,7 +162,7 @@ class stack_cas_casstring {
                 'defmatch' => true, 'defrule' => true, 'delay' => true, 'deleten' => true, 'diag' => true,
                 'diagmatrixp' => true, 'diagmetric' => true, 'dim' => true, 'dimension' => true, 'dimensionless' => true,
                 'dimensions' => true, 'dimensions_as_list' => true, 'direct' => true, 'dispcon' => true,
-                'dispflag' => true, 'dispform' => true, 'dispfun' => true, 'dispjordan' => true, 'display' => true,
+                'dispflag' => true, 'dispfun' => true, 'dispjordan' => true, 'display' => true,
                 'display2d' => true, 'display_format_internal' => true, 'disprule' => true, 'dispterms' => true,
                 'distrib' => true, 'domxexpt' => true, 'domxmxops' => true, 'domxnctimes' => true, 'dotsimp' => true,
                 'draw' => true, 'draw2d' => true, 'draw3d' => true, 'draw_file' => true, 'draw_graph' => true,

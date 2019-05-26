@@ -1442,6 +1442,7 @@ mediant(ex1,ex2) := (num(ex1)+num(ex2))/(denom(ex1)+denom(ex2));
 
 texput(EMPTYCHAR, " ");
 texput(EQUIVCHAR, "\\color{green}{\\Leftrightarrow}");
+texput(EQUIVLOG, "\\color{green}{\\log(?)}");
 texput(EQUIVCHARREAL, "\\color{green}{\\Leftrightarrow}\\, \\color{blue}{(\\mathbb{R})}");
 texput(CHECKMARK, "\\color{green}{\\checkmark}");
 texput(IMPLIESCHAR, "\\color{red}{\\Rightarrow}");
@@ -1974,6 +1975,23 @@ stack_eval_arg(ex) := block([eqoutcome, eqoutsymb, eqoutnote, res, id, truthargu
                       eqoutcome[ev(id, simp)]:false,
                       eqoutsymb[ev(id, simp)]:IMPLIEDCHAR,
                       tempnote:sconcat(tempnote, " | SquaredSecond | ", third(ATres))
+                  )
+              )
+          ),
+
+          if malrulecont then block([FBB, ATres],
+              /* (4) Log second. */
+              /* Errcatch to avoid log(0) errors.... */
+              FBB:errcatch(ev(log(SB),simp)),
+              if is(FBB = []) then (print("STACK: ignore previous error. (EQUIVLOG)")),
+              if not(emptyp(FBB)) then block(
+                  ATres:ev(ATAlgEquiv(SA, first(FBB)), simp),
+                  if (debug) then print(ATres),
+                  if second(ATres) then block(
+                      malrulecont:false,
+                      eqoutcome[ev(id, simp)]:true,
+                      eqoutsymb[ev(id, simp)]:EQUIVLOG,
+                      tempnote:sconcat(tempnote, " | LogSecondEquiv | ", third(ATres))
                   )
               )
           )

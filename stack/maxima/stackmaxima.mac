@@ -566,10 +566,10 @@ detexcolor(ex) := block([argsex],
 stack_matrix_pairs:[ ["[", "[", "]"], ["(", "(", ")"], ["\{", "\\{", "\\}"], ["{", "\\{", "\\}"], ["", "", ""], [".", "", ""], ["|", "|", "|"]] $
 
 stack_matrix_disp(m):= block([ret, lp, rp, parens],
-  if not(matrixp(m)) then (print("\\mbox{ERROR: argument to stack_matrix_disp must be a matrix.} "), return("")),
-  if not(stringp(lmxchar)) then (print("\\mbox{ERROR: stack_matrix_disp requires lmxchar to be a string. }"), return("")),
+  if not(matrixp(m)) then error("stack_matrix_disp: argument must be a matrix."),
+  if not(stringp(lmxchar)) then error("stack_matrix_disp requires lmxchar to be a string. "),
   parens: sublist(stack_matrix_pairs, lambda([ex], is(first(ex)=lmxchar))),
-  if emptyp(parens) then (print(concat("\\mbox{ERROR: stack_matrix_disp cannot display matrices with parentheses ", string(lmxchar), "}")), return("")),
+  if emptyp(parens) then error(concat("stack_matrix_disp: cannot display matrices with parentheses ", string(lmxchar))),
   parens: first(parens),
   lp: second(parens),
   rp: third(parens),
@@ -657,45 +657,6 @@ unary_minus_sort(ex) := block([ex2],
   if simp or atom(ex) or taylorp(ex) or functionp(ex) then return(ex),
   ex2: unary_minus_traverse(ex),
   return(unary_minus_pull(ex2))
-)$
-
-/* ********************************************************************* */
-/*  Evaluate variables are return errors, display, and content forms.    */
-/* ********************************************************************* */
-
-/* This function executes ex, which is assumed to be a stack expression  */
-/* which is surrounded by errcatch.  Hence we end up with a list.        */
-cte(var, ex) := block([str],
-    print("], key = ["),
-    print(var),
-    print("]"),
-    if ex = [] then block(
-        ex:STACKERROR,
-        print(", value = [], display = []")
-    )
-    else block(
-        print(", value = ["),
-        print(string(ex[1])),
-        print("], dispvalue = ["),
-        print(stack_dispvalue(ex[1])),
-        print("], display = ["),
-        print(stack_disp(ex[1], "")),
-        print("]"),
-        ex:ex[1]
-    ),
-    print("], "),
-    return(ex)
-)$
-
-/* This function strips out functions to leave only things in the value which might be typed in. */
-stack_dispvalue(ex) := block(
-  ex: detexcolor(ex),
-  ex: make_displaydpvalue(ex),
-  ex: make_displayscivalue(ex),
-  if not(stack_disp_control_structurep(ex)) then
-      ex: unary_minus_sort(opsubst("*", stackunits, ex)),
-      ex: destackvector(ex),
-  return(string(ex))
 )$
 
 /* ********************************** */
@@ -884,15 +845,14 @@ plot(ex, [ra]) :=  /*stack_web_plot*/
     lvs: listofvars(ex),
     lvs: sublist(lvs, lambda([ex], not(ex = discrete or ex = parametric))),
     if length(lvs)>1 then
-       (print(concat("Plot error: Can't create a plot with more than one variable, whereas you have: \\(",string(lvs),"\\)")),
-       return("<center>[Empty plot]</center>")),
+       error("Plot error: Can't create a plot with more than one variable, whereas you have: \\(",string(lvs),"\\)"),
     /*********************/
     /* Sort out alt-text */
     kill(alt),
     alttext: concat("STACK auto-generated plot of ", string(ex), " with parameters ", string(ral)),
     altc: sublist(ral, lambda([ex], if listp(ex) then is(first(ex) = alt) else false)),
     if not(emptyp(altc)) then (ral:delete(first(altc), ral), alttext:second(first(altc))),
-    if not(stringp(alttext)) then (alttext:"ERROR", print("Plot error: the alt tag definition must be a string, but is not."), return("")),
+    if not(stringp(alttext)) then error("Plot error: the alt tag definition must be a string, but it is not."),
     /*******************/
     /* Check for size. */
     kill(size, psize),
@@ -919,8 +879,7 @@ plot(ex, [ra]) :=  /*stack_web_plot*/
     else  permitted_options:append([x], permitted_options),
     ralforbid:sublist(ral, lambda([ex], not(member(first(ex), permitted_options)))),
     if not(emptyp(ralforbid)) then
-        (print(concat("Plot error: STACK does not currently support the following plot2d options: \\(",string(ralforbid),"\\)")),
-         return("<center>[Empty plot]</center>")),
+        error("Plot error: STACK does not currently support the following plot2d options: \\(",string(ralforbid),"\\)"),
     /********************************************/
     /* Create a unique identifier for the plot. */
     tn: string(absolute_real_time()),

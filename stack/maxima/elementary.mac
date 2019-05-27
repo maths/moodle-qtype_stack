@@ -85,7 +85,7 @@ trans_any(ex):=sublist(ALL_TRANS, lambda([ex2],trans_anyp(ex,ex2)))$
 /* Transform recursively accross an expression*/
 transr(ex,rl):=block(
   if atom(ex) then return(ex),
-  if listp(rl) then print("ERROR: only apply one rule using transr"),
+  if listp(rl) then error("transr: only apply one rule using transr"),
   if trans_topp(ex,rl) then 
       /* If applying the rule changes the expression then do so */
       block([ex2], ex2:apply(parse_string(rl),[ex]), if ex=ex2 then ex else transr(ex2,rl) ) 

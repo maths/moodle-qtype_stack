@@ -330,7 +330,7 @@ stack_units_errp(ex) := block(
 stack_validate_units(expr, LowestTerms, TAns, fracdisp, fltfmt) := block( [simp:false, exs, SAU, SBU],
   /* Check the display option. */
   if not(fracdisp = "inline" or fracdisp = "negpow") then block(
-    print("fracdisp argument to stack_validate_units must be either inline or negpow only.")
+    error("stack_validate_units: fracdisp argument must be either inline or negpow only.")
   ),
   /* Try to simply the expression to catch CAS errors. */
   exs:errcatch(ev(expr, simp)),

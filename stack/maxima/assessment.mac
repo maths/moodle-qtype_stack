@@ -654,15 +654,15 @@ algebraic_equivalence(SA, SB) :=
         SB:ev(SB, lg=logbasesimp),
     /* Try not to expand out: pure numbers. */
     ex:errcatch(ev(SA-SB, simp)),
-    if ex=[] then (print("algebraic_equivalence: evaluating the difference of two expressions threw an error."), return(false)),
+    if ex=[] then error("algebraic_equivalence: evaluating the difference of two expressions threw an error."),
     ex:ex[1],
     ex:append([ex], listofvars([ex])),
     /* Do our best to collect like terms, and transform numbers to cannonical forms without expanding out. */
     ex:errcatch(ev(apply(collectterms, ex), simp)),
-    if ex=[] then (print("algebraic_equivalence: evaluating collectterms threw an error."), return(false)),
+    if ex=[] then error("algebraic_equivalence: evaluating collectterms threw an error."),
     ex:ex[1],
     ex:errcatch(ev(radcan_num(ex), simp)),
-    if ex=[] then (print("algebraic_equivalence: evaluating radcan_num an error."), return(false)),
+    if ex=[] then error("algebraic_equivalence: evaluating radcan_num threw an error."),
     ex:ex[1],
     if numberp(ex) then
       if rat(ex)=0 then return(true)
@@ -672,7 +672,7 @@ algebraic_equivalence(SA, SB) :=
        ex:errcatch(ev(factor(SA-SB), simp))
     else
        ex:[ex],
-    if ex=[] then (print("algebraic_equivalence: factoring the difference of two expressions threw an error."), return(false)),
+    if ex=[] then error("algebraic_equivalence: factoring the difference of two expressions threw an error."),
     ex:ex[1],
     /* Try to return a negative result without expanding anything! */
     if safe_op(ex)="-" then
@@ -680,12 +680,12 @@ algebraic_equivalence(SA, SB) :=
     if (safe_op(ex)="*" or safe_op(ex)="^") then
        if not(any_listp(lambda([ex2], algebraic_equivalence(ex2, 0)), args(ex))) then return(false),
     ex:errcatch(ratsimp(ex)),
-    if ex=[] then (print("algebraic_equivalence: evaluating the difference of two expressions threw an error."), return(false)),
+    if ex=[] then error("algebraic_equivalence: evaluating the difference of two expressions threw an error."),
     ex:ex[1],
     if ex=0 then return(true),
     /* Next we expand out the difference. */
     ex:errcatch(ev(fullratsimp(SA-SB), simp)),
-    if ex=[] then (print("algebraic_equivalence: evaluating the difference of two expressions threw an error."), return(false)),
+    if ex=[] then error("algebraic_equivalence: evaluating the difference of two expressions threw an error."),
     ex:ex[1],
     if floatnump(ex) then return(false),
     ex:num(ex),  /* after a fullratsimp, we have a ratio.  We should only need to consider the top */
@@ -1245,16 +1245,16 @@ factorp(argfac) := block([a],
 /*  Write the polynomial in completed square form */
 comp_square(ex,var) := block([vc],
     if not(atom(var)) or numberp(var) then (
-        print("comp_square: var should be an atom but not a number.  "),
+        error("comp_square: var should be an atom but not a number.  "),
         return(ex)
     ),
     ex:ratsimp(expand(ex)),
     if not(polynomialp(ex, [var])) then (
-        print("comp_square: ex should be a polynomial in var.  "),
+        error("comp_square: ex should be a polynomial in var.  "),
         return(ex)
     ),
     if hipow(ex, var)#2 then (
-        print("comp_square: ex should be a quadratic.  "),
+        error("comp_square: ex should be a quadratic.  "),
         return(ex)
     ),
     delta:(coeff(ex, var, 1)^2-4*coeff(ex, var, 2)*coeff(ex, var, 0))/(4*coeff(ex, var, 2)^2),
@@ -1521,7 +1521,7 @@ texput(stacklet, stacklettex);
 /* Expr: expression, is the line of the argument.                                              */
 /* String: note is some deugging information.                                                  */
 stack_eval_arg(ex) := block([eqoutcome, eqoutsymb, eqoutnote, res, id, truthargument, tempnote, exmod, exmodpoly, exmodsolve, exnatdomain, SA, SAL, SB, SBL, malrulecont],
-  if not(listp(ex)) then (print("stack_disp_arg expects to receive a list."), return(false)),
+  if not(listp(ex)) then error("stack_arg expects to receive a list."),
   if emptyp(ex) then return(matrix([true, EMPTYCHAR, [], EMPTYCHAR, ""])),
   if length(ex)=1 then return(matrix([true, EMPTYCHAR, first(ex), EMPTYCHAR, ""])),
   /* Set up empty rows to hold the answer. */
@@ -2110,7 +2110,7 @@ stack_eval_equiv_arg(ex, showlogic, showdomain, equivdebug, debuglist) := block(
                     )
             )
         ) else (
-            print("ERROR, disp_stack_eval_arg: length of debuglist is ", string(length(debuglist)), ", but the length of the argument is ", string(length(eqoutsymb)), ".")
+            error("disp_stack_eval_arg: length of debuglist is ", string(length(debuglist)), ", but the length of the argument is ", string(length(eqoutsymb)), ".")
         )
     ),
     /* Only add in EQUIVZERO when we don't have equational reasoning and when we do have more than one line. */

@@ -156,7 +156,6 @@ class stack_cas_session2 {
         foreach ($this->errors as $value) {
             // [0] the list of errors.
             // [1] the context information.
-            // [2] the statement number.
             $r[] = implode(' ', $value[0]);
         }
         return implode(' ', $r);
@@ -203,21 +202,20 @@ class stack_cas_session2 {
 
         // We will build the whole command here, note that the preamble should
         // go to the library.
-        $command = '_EC(ec,sco,sta):=if is(ec=[]) then (_ERR:append(_ERR,[[error,sco,sta]]),false) else true$';
+        $command = '';
 
         // We need to collect some answernotes so lets redefine this funtion.
         $command .= 'StackAddFeedback(fb,key,[ex]):=block([str,exprs,jloop],exprs:"",' .
                 'ev(for jloop:1 thru length(ex) do exprs: sconcat(exprs," , !quot!",ex[jloop],"!quot! "),simp),' .
-                'str:sconcat(fb, "stack_trans(\'",key,"\'", exprs, "); !NEWLINE!"),__NOTES:' .
-                'append(__NOTES,[sconcat("stack_trans(\'",key,"\'", exprs, ");")]),return(str))$';
+                'str:sconcat(fb, "stack_trans(\'",key,"\'", exprs, "); !NEWLINE!"),_APPEND_NOTE' .
+                '(sconcat("stack_trans(\'",key,"\'", exprs, ");")),return(str))$';
 
         // No protection in the block.
         $command .= 'block([],stack_randseed(' . $this->seed . ')';
         // The options.
         $command .= $this->options->get_cas_commands()['commands'];
         // Some parts of logic storage.
-        $command .= ',_ERR:[],_RESPONSE:["stack_map"]';
-        $command .= ',_NOTES:["stack_map"]';
+        $command .= ',_RESPONSE:["stack_map"]';
         $command .= ',_VALUES:["stack_map"]';
         if (count($collectlatex) > 0) {
             $command .= ',_LATEX:["stack_map"]';
@@ -228,22 +226,17 @@ class stack_cas_session2 {
 
         // Evaluate statements.
         foreach ($this->statements as $num => $statement) {
+            $command .= ',%stmt:' . stack_utils::php_string_to_maxima_string('s' . $num);
             $ef = $statement->get_evaluationform();
             $line = ',_EC(errcatch(' . $ef . '),';
             if (($statement instanceof cas_value_extractor) || ($statement instanceof cas_latex_extractor)) {
                 // One of those that need to be collected later.
                 if ($statement->get_key() === '') {
-                    $line = ',__NOTES:[],_EC(errcatch(__e_smt_' . $num . ':' . $ef . '),';
-                } else {
-                    $line = ',__NOTES:[],_EC(errcatch(' . $ef . '),';
-                }
+                    $line = ',_EC(errcatch(__e_smt_' . $num . ':' . $ef . '),';
+                } 
             }
             $line .= stack_utils::php_string_to_maxima_string($statement->get_source_context());
-            $line .= ',' . $num . ')';
-            if (($statement instanceof cas_value_extractor) || ($statement instanceof cas_latex_extractor)) {
-                // If this is one of those that we collect answernotes for.
-                $line .= ',if length(__NOTES) > 0 then _NOTES:stackmap_set(_NOTES,"' . $num . '",__NOTES)';
-            }
+            $line .= ')';
 
             $command .= $line;
         }
@@ -263,11 +256,11 @@ class stack_cas_session2 {
         // Pack values to the response.
         $command .= ',_RESPONSE:stackmap_set(_RESPONSE,"timeout",false)';
         $command .= ',_RESPONSE:stackmap_set(_RESPONSE,"values",_VALUES)';
-        $command .= ',if length(_NOTES)>1 then _RESPONSE:stackmap_set(_RESPONSE,"answernotes",_NOTES)';
         if (count($collectlatex) > 0) {
             $command .= ',_RESPONSE:stackmap_set(_RESPONSE,"presentation",_LATEX)';
         }
-        $command .= ',if length(_ERR)>0 then _RESPONSE:stackmap_set(_RESPONSE,"errors",_ERR)';
+        $command .= ',if length(%ERR)>1 then _RESPONSE:stackmap_set(_RESPONSE,"errors",%ERR)';
+        $command .= ',if length(%NOTES)>1 then _RESPONSE:stackmap_set(_RESPONSE,"notes",%NOTES)';
 
         // Then output them.
         $command .= ',print("STACK-OUTPUT-BEGINS>")';
@@ -282,9 +275,6 @@ class stack_cas_session2 {
         // Let's collect what we got.
         $asts = array();
         $latex = array();
-        $ersbystatement = array();
-        $notesbystatement = array();
-
         if ($results['timeout'] === true) {
             foreach ($this->statements as $num => $statement) {
                 $statement->set_cas_status(array("TIMEDOUT"), array());
@@ -307,29 +297,32 @@ class stack_cas_session2 {
                 }
             }
             if (array_key_exists('errors', $results)) {
-                $this->errors = $results['errors'];
+                $this->errors = array();
                 foreach ($results['errors'] as $key => $value) {
                     // [0] the list of errors.
                     // [1] the context information.
-                    // [2] the statement number.
-                    $ersbystatement[$value[2]] = $value[0];
-                }
-            }
-            if (array_key_exists('answernotes', $results)) {
-                foreach ($results['answernotes'] as $key => $value) {
-                    $notesbystatement[intval($key)] = $value;
+                    $this->errors[$key] = $value;
                 }
             }
 
             // Then push those to the objects we are handling.
             foreach ($this->statements as $num => $statement) {
                 $err = array();
-                if (array_key_exists($num, $ersbystatement)) {
-                    $err = $ersbystatement[$num];
+                if (array_key_exists('errors', $results)) {
+                    if (array_key_exists('s' . $num, $results['errors'])) {
+                        foreach ($results['errors']['s' . $num] as $errs) {
+                            // The first element is a list of errors declared
+                            // at a given position in the logic.
+                            // There can be errors from multiple positions.
+                            $err = array_merge($err, $errs[0]);
+                        }
+                    }
                 }
                 $answernotes = array();
-                if (array_key_exists($num, $notesbystatement)) {
-                    $answernotes = $notesbystatement[$num];
+                if (array_key_exists('notes', $results)) {
+                    if (array_key_exists('s' . $num, $results['notes'])) {
+                        $answernotes = $results['errors']['s' . $num];
+                    }
                 }
                 $statement->set_cas_status($err, $answernotes);
             }

@@ -14,6 +14,24 @@
     "$": {
         "operator": "f"
     },
+    "%stmt": {
+        "variable": "f"
+    },
+    "%ERR": {
+        "variable": "f"
+    },
+    "%NOTES": {
+        "variable": "f"
+    },
+    "_EC": {
+        "function": "f"
+    },
+    "_APPEND_ERR": {
+        "function": "f"
+    },
+    "_APPEND_NOTE": {
+        "function": "f"
+    },
     "%": {
         "globalyforbiddenvariable": true,
         "variable": "f"

@@ -396,6 +396,41 @@ mcq_incorrect(ta):=block(
 )$
 
 /* ********************************** */
+/* cassession2 I/O management         */
+/* ********************************** */
+
+/* Current statement identifier */
+%stmt: "0"$
+
+/* Collected errors */
+%ERR: ["stack_map"]$
+
+/* Collected notes */
+%NOTES: ["stack_map"]$
+
+/* Function to declare errors from within logic. */
+/* With reference to position in logic. */
+_APPEND_ERR(err_list, reference) := if stackmap_has_key(%ERR, %stmt)
+ then
+  %ERR:stackmap_set(%ERR,%stmt,append(stackmap_get(%ERR,%stmt),makelist([x,reference],x,err_list)))
+ else
+  %ERR:stackmap_set(%ERR,%stmt,makelist([x, reference],x,err_list))$
+
+/* Function to attach a note to the current statement. */
+_APPEND_NOTE(note) := if stackmap_has_key(%NOTES, %stmt)
+ then
+  %NOTES:stackmap_set(%NOTES,%stmt,append(stackmap_get(%NOTES,%stmt),[note]))
+ else
+  %NOTES:stackmap_set(%NOTES,%stmt,[note])$
+
+/* General error catching wrapper */
+_EC(errcatched, reference) := if errcatched = [] 
+ then 
+  (_APPEND_ERR(error, reference), false)
+ else
+  true$
+
+/* ********************************** */
 /* Display                            */
 /* ********************************** */
 /* expr - expression to be displayed  */
@@ -687,31 +722,6 @@ StackTrimNote(ex) := strim(". ", ex)$
 
 /* In many situations we just need the most basic object. */
 StackBasicReturn(validity, result, note) := [validity, result, StackAddNote("", note), StackAddFeedback("", note)]$
-
-/* ********************************************************* */
-/*  Turns answertest output to a STACK return object string  */
-/*                                                           */
-/* ex[1] =  validity should be true/false                    */
-/* ex[2] =  result should be true/false,                     */
-/* ex[3] =  feedback, a string                               */
-/* ex[4] =  answernote, is for teacher stats                 */
-/*                                                           */
-/* ********************************************************* */
-/* AS OF 4.3 this is deprecated do not use, printing things  */
-/* is not the way to go.                                     */
-StackReturn(ex) := block([str],
-  if not(listp(ex)) then
-      (print("StackReturn failed: argument not a list: "), print(string(ex)), return("")),
-  if length(ex)#4 then
-      (print("StackReturn failed: argument wrong length: "), print(string(ex)), return("")),
-  print(" ], valid = [ "),
-  if ex[1] then print(1) else print(0),
-  print(" ], answernote = [ "),
-  print(ex[3]),
-  print(" ], feedback = [ "),
-  print(ex[4]),
-  return(ex[2])
-)$
 
 /* note the extra closing ] here.  The corresponding opening [ is generated in PHP. */
 /* This is about the most ugly API ever, but there we go.....                       */
@@ -2172,7 +2182,7 @@ ATExpanded(SA,SB) :=
 /*              [Teachers Question,                                     */
 /*              Respect To which the fractions are parted,              */
 /*              Formative Feedback]                                     */
-/* returns: StackReturn                                               */
+/* returns: [validity,rawmk,ansnote,fb]                                 */
 /*      CASE 1: topOp is divisor - single fraction                      */
 /*      CASE 2: CORRECT answer - true                                   */
 /*      CASE 3: Different Variables - diff vars                         */
@@ -2296,7 +2306,7 @@ PartFracfun(sExpr, tExpr, wrt) := block([val, rawmk, ansnote, fb],
 /* requires:    Student Answer                                          */
 /*      List:   [Teachers Answer, variable with which partial           */
 /*              fraction occurs, whether Formative Feedback is required */
-/* returns:     StackReturn                                             */
+/* returns:     [validity,rawmk,ansnote,fb]                             */
 /*     Cases:                                                           */
 /*              Returns True iff algebraic equivalence with TList[1]    */
 /*     and Division is the Top Operator.                                */
@@ -2927,4 +2937,4 @@ load(linearalgebra);
 
 /* Stack expects some output with the version number the output happens at */
 /* maximalocal.mac after additional library loading */
-stackmaximaversion:2019051400$
+stackmaximaversion:2019052700$

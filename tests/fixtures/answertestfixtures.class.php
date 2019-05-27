@@ -1601,7 +1601,9 @@ class stack_answertest_test_data {
         array('String', '', 'hello', 'heloo', 0, '', ''),
 
         array('StringSloppy', '', 'hello', 'Hello', 1, '', ''),
-        array('StringSloppy', '', 'hel lo', 'Hello', 1, '', ''),
+        // This is a change.  The ast does not have acess to the raw string typed by the student.
+        array('StringSloppy', '', 'hel lo', 'Hello', 0, 'TEST_FAILED:Invalid SA.', ''),
+        array('StringSloppy', '', 'hel lo', 'Hel*lo', 0, 'TEST_FAILED:Invalid SA.', ''),
         array('StringSloppy', '', 'hello', 'heloo', 0, '', ''),
 
         array('RegExp', '', '3.1415927', '3.1415927', -1, 'ATRegEx_STACKERROR_Option.', ''),
@@ -1690,8 +1692,11 @@ class stack_answertest_test_data {
     }
 
     public static function run_test($test) {
-        $anst = new stack_ans_test_controller($test->name, $test->studentanswer,
-                $test->teacheranswer, new stack_options(), $test->options);
+        $sans = stack_ast_container::make_from_teacher_source($test->studentanswer, '', new stack_cas_security());
+        $tans = stack_ast_container::make_from_teacher_source($test->teacheranswer, '', new stack_cas_security());
+        $topt = stack_ast_container::make_from_teacher_source($test->options, '', new stack_cas_security());
+
+        $anst = new stack_ans_test_controller($test->name, $sans, $tans, new stack_options(), $topt);
 
         // The false clause is useful for developers to track down which test case is breaking Maxima.
         if (true) {

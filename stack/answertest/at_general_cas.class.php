@@ -55,7 +55,7 @@ class stack_answertest_general_cas extends stack_anstest {
      */
     public function do_test() {
 
-        if ('' == trim($this->sanskey)) {
+        if ('' == trim($this->sanskey->get_inputform())) {
             $this->aterror      = stack_string('TEST_FAILED', array('errors' => stack_string("AT_EmptySA")));
             $this->atfeedback   = stack_string('TEST_FAILED', array('errors' => stack_string("AT_EmptySA")));
             $this->atansnote    = $this->casfunction.'TEST_FAILED:Empty SA.';
@@ -64,7 +64,7 @@ class stack_answertest_general_cas extends stack_anstest {
             return null;
         }
 
-        if ('' == trim($this->tanskey)) {
+        if ('' == trim($this->tanskey->get_inputform())) {
             $this->aterror      = stack_string('TEST_FAILED', array('errors' => stack_string("AT_EmptyTA")));
             $this->atfeedback   = stack_string('TEST_FAILED', array('errors' => stack_string("AT_EmptyTA")));
             $this->atansnote    = $this->casfunction.'TEST_FAILED:Empty TA.';
@@ -74,7 +74,7 @@ class stack_answertest_general_cas extends stack_anstest {
         }
 
         if (stack_ans_test_controller::process_atoptions($this->atname)) {
-            if (null == $this->atoption or '' == $this->atoption) {
+            if (null == $this->atoption or '' == $this->atoption->get_inputform()) {
                 $this->aterror      = 'TEST_FAILED';
                 $this->atfeedback   = stack_string('TEST_FAILED', array('errors' => stack_string("AT_MissingOptions")));
                 $this->atansnote    = 'STACKERROR_OPTION.';
@@ -82,13 +82,10 @@ class stack_answertest_general_cas extends stack_anstest {
                 $this->atvalid      = false;
                 return null;
             } else {
-                // Validate with teacher privileges, strict syntax & no automatically adding stars.
-                $ct  = stack_ast_container::make_from_teacher_source($this->atoption, '', new stack_cas_security());
-
-                if (!$ct->get_valid()) {
+                if (!$this->atoption->get_valid()) {
                     $this->aterror      = 'TEST_FAILED';
                     $this->atfeedback   = stack_string('TEST_FAILED', array('errors' => ''));
-                    $this->atfeedback  .= stack_string('AT_InvalidOptions', array('errors' => $ct->get_errors()));
+                    $this->atfeedback  .= stack_string('AT_InvalidOptions', array('errors' => $this->atoption->get_errors()));
                     $this->atansnote    = 'STACKERROR_OPTION.';
                     $this->atmark       = 0;
                     $this->atvalid      = false;
@@ -112,8 +109,7 @@ class stack_answertest_general_cas extends stack_anstest {
         $ops = stack_ast_container::make_from_teacher_source('STACKOP:true', '', new stack_cas_security());
         $result = stack_ast_container::make_from_teacher_source("result:{$this->casfunction}(STACKSA,STACKTA)", '',
             new stack_cas_security());
-        $op = $this->atoption->get_inputform();
-        if (!(!stack_ans_test_controller::process_atoptions($this->atname) || trim($op === ''))) {
+        if (stack_ans_test_controller::process_atoptions($this->atname)) {
             $ops = clone $this->atoption;
             $ops->set_key('STACKOP');
             $result = stack_ast_container::make_from_teacher_source("result:{$this->casfunction}(STACKSA,STACKTA,STACKOP)", '',
@@ -125,6 +121,7 @@ class stack_answertest_general_cas extends stack_anstest {
         }
         $this->debuginfo = $session->get_debuginfo();
 
+//        echo "<pre>"; echo $session->get_keyval_representation(); echo "</pre>";
         if ('' != $sa->get_errors() || !$sa->get_valid()) {
             $this->aterror      = 'TEST_FAILED';
             $this->atfeedback   = stack_string('TEST_FAILED', array('errors' => $sa->get_errors()));
@@ -143,7 +140,7 @@ class stack_answertest_general_cas extends stack_anstest {
             return null;
         }
 
-        if (stack_ans_test_controller::process_atoptions($this->atname) && trim($op) !== '') {
+        if (stack_ans_test_controller::process_atoptions($this->atname)) {
             if ('' != $ops->get_errors() || !$ops->get_valid()) {
                 $this->aterror      = 'TEST_FAILED';
                 $this->atfeedback   = stack_string('TEST_FAILED', array('errors' => $ops->get_errors()));

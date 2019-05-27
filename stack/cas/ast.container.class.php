@@ -144,12 +144,17 @@ class stack_ast_container extends stack_ast_container_silent implements cas_late
 
     // This returns the fully filttered AST as it should be inputted were
     // it inputted perfectly.
-    public function get_inputform(bool $keyless=false): string {
+    public function get_inputform(bool $keyless = false): string {
         if ($this->ast) {
             if ($keyless === true && $this->get_key() !== '') {
                 $root = $this->ast;
                 if ($root instanceof MP_Root) {
-                    $root = $root->items[0];
+                    // Null items fail here.
+                    if (array_key_exists(0, $root->items)) {
+                        $root = $root->items[0];
+                    } else {
+                        return '';
+                    }
                 }
                 if ($root instanceof MP_Statement) {
                     $root = $root->statement;

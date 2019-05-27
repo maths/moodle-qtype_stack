@@ -35,7 +35,7 @@ class stack_anstest_atnumsigfigs extends stack_anstest {
     }
 
     public function do_test() {
-        if ('' == trim($this->sanskey)) {
+        if ('' == trim($this->sanskey->get_inputform(true))) {
             $this->aterror      = stack_string('TEST_FAILED', array('errors' => stack_string("AT_EmptySA")));
             $this->atfeedback   = stack_string('TEST_FAILED', array('errors' => stack_string("AT_EmptySA")));
             $this->atansnote    = $this->casfunction.'TEST_FAILED:Empty SA.';
@@ -44,7 +44,7 @@ class stack_anstest_atnumsigfigs extends stack_anstest {
             return null;
         }
 
-        if ('' == trim($this->tanskey)) {
+        if ('' == trim($this->tanskey->get_inputform(true))) {
             $this->aterror      = stack_string('TEST_FAILED', array('errors' => stack_string("AT_EmptyTA")));
             $this->atfeedback   = stack_string('TEST_FAILED', array('errors' => stack_string("AT_EmptyTA")));
             $this->atansnote    = $this->casfunction.'TEST_FAILED:Empty TA.';
@@ -54,7 +54,7 @@ class stack_anstest_atnumsigfigs extends stack_anstest {
         }
 
         // Sort out teacher's options for this test.
-        $atopt = trim($this->atoption);
+        $atopt = trim($this->atoption->get_inputform(true));
         $requiredsigfigs = $atopt;
         $requiredaccuracy = $atopt;
         if (substr($atopt, 0, 1) == '[') {
@@ -89,9 +89,6 @@ class stack_anstest_atnumsigfigs extends stack_anstest {
             $this->atvalid      = false;
             return null;
         } else {
-            // Validate with teacher privileges, strict syntax & no automatically adding stars.
-            $ct = stack_ast_container::make_from_teacher_source($this->atoption, '', new stack_cas_security());
-
             if (!$ct->get_valid()) {
                 $this->aterror      = 'TEST_FAILED';
                 $this->atfeedback   = stack_string('TEST_FAILED', array('errors' => ''));

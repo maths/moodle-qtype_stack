@@ -24,6 +24,11 @@ defined('MOODLE_INTERNAL') || die();
  */
 class stack_anstest {
 
+    /**
+     * The name of the answer test.
+     * @var string
+     */
+    protected $atname;
 
     /**
      * Every answer test must have something sensible here for the tracing.
@@ -32,12 +37,12 @@ class stack_anstest {
     protected $casfunction;
 
     /**
-     * @var    string
+     * @var    stack_ast_container
      */
     protected $sanskey;
 
     /**
-     * @var    string
+     * @var    stack_ast_container
      */
     protected $tanskey;
 
@@ -47,9 +52,9 @@ class stack_anstest {
     protected $options;
 
     /**
-     * @var    CasString
+     * @var    stack_ast_container
      */
-    protected $atoption = null;
+    protected $atoption;
 
     /**
      * @var    float
@@ -87,7 +92,7 @@ class stack_anstest {
      * @param  string $sanskey
      * @param  string $tanskey
      */
-    public function __construct($sans, $tans, $options = null, $atoption = null) {
+    public function __construct(stack_ast_container $sans, stack_ast_container $tans, $options = null, $atoption = null) {
         $this->sanskey = $sans;
         $this->tanskey = $tans;
 
@@ -186,11 +191,20 @@ class stack_anstest {
      */
     public function get_trace($includeresult) {
 
-        $ta   = $this->tanskey;
-        $atopt = $this->atoption;
-        $traceline = $this->get_casfunction() . '(' . $this->sanskey . ', ' . $ta . ')';
-        if ('' != trim($atopt)) {
-            $traceline = $this->get_casfunction() . '(' . $this->sanskey . ', ' . $ta . ', '. trim($atopt) .')';
+        if ($this->tanskey) {
+            $ta = $this->tanskey->get_inputform(true);
+        } else {
+            return '';
+        }
+        if ($this->sanskey) {
+            $sa = $this->sanskey->get_inputform(true);
+        } else {
+            return '';
+        }
+        $traceline = $this->get_casfunction() . '(' . $sa . ', ' . $ta . ')';
+        if (stack_ans_test_controller::required_atoptions($this->atname)) {
+            $atopt = $this->atoption->get_inputform(true);
+            $traceline = $this->get_casfunction() . '(' . $sa . ', ' . $ta . ', '. $atopt .')';
         }
         if ($includeresult) {
             $traceline .= ' = ['.$this->atmark. ', "' . $this->atansnote .'"];';

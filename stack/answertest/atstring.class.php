@@ -24,9 +24,11 @@ defined('MOODLE_INTERNAL') || die();
  */
 class stack_anstest_atstring extends stack_anstest {
 
+    protected $atname = 'String';
+
     public function do_test() {
         $this->atvalid = true;
-        if (trim($this->sanskey) == trim($this->tanskey)) {
+        if (trim($this->sanskey->get_evaluationform(true)) == trim($this->tanskey->get_evaluationform(true))) {
             $this->atmark = 1;
             return true;
 

@@ -24,6 +24,8 @@ defined('MOODLE_INTERNAL') || die();
  */
 class stack_anstest_atregexp extends stack_anstest {
 
+    protected $atname = 'RegEx';
+
     public function do_test() {
         if ($this->atoption == null) {
             $this->aterror = 'TEST_FAILED';

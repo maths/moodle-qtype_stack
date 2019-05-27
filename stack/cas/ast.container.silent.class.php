@@ -221,7 +221,7 @@ class stack_ast_container_silent implements cas_evaluatable {
 
             // First check if the AST contains something marked as invalid.
             $hasinvalid = false;
-            $findinvalid = function($node)  use(&$hasinvalid) {
+            $findinvalid = function($node) use(&$hasinvalid) {
                 if (isset($node->position['invalid']) && $node->position['invalid'] === true) {
                     $hasinvalid = true;
                     return false;
@@ -269,12 +269,16 @@ class stack_ast_container_silent implements cas_evaluatable {
         if (count($errors) > 0) {
             $this->errors = array_merge($this->errors, $errors);
             foreach ($errors as $value) {
-                $this->decode_maxima_errors($value);
+                if ($value) {
+                    $this->decode_maxima_errors($value);
+                }
             }
         }
         if (count($answernotes) > 0) {
             foreach ($answernotes as $value) {
-                $this->decode_maxima_errors($value);
+                if ($value) {
+                    $this->decode_maxima_errors($value);
+                }
             }
         }
     }
@@ -286,7 +290,11 @@ class stack_ast_container_silent implements cas_evaluatable {
     public function get_key(): string {
         $root = $this->ast;
         if ($root instanceof MP_Root) {
-            $root = $root->items[0];
+            if (array_key_exists(0, $root->items)) {
+                $root = $root->items[0];
+            } else {
+                return '';
+            }
         }
         if ($root instanceof MP_Statement) {
             $root = $root->statement;

@@ -122,7 +122,8 @@ class stack_ans_test_controller {
      * @param  CasString $casoption
      * @access public
      */
-    public function __construct(string $anstest, $sans = null, $tans = null, $options = null, $casoption = null) {
+    public function __construct(string $anstest, stack_ast_container $sans, stack_ast_container $tans,
+            $options = null, $casoption = null) {
 
         switch($anstest) {
             case 'AlgEquiv':
@@ -170,19 +171,21 @@ class stack_ans_test_controller {
                 break;
 
             case 'Equiv':
-                if (trim($casoption) == '' ) {
+                if (trim($casoption->get_inputform(true)) === '' ) {
+                    $opts = stack_ast_container::make_from_teacher_source('null', '', new stack_cas_security());
                     // Note the *string* 'null' here is not mistake: this is passed to Maxima.
-                    $this->at = new stack_answertest_general_cas($sans, $tans, $anstest, 'null', $options);
+                    $this->at = new stack_answertest_general_cas($sans, $tans, $anstest, $opts, $options, false);
                 } else {
-                    $this->at = new stack_answertest_general_cas($sans, $tans, $anstest, $casoption, $options);
+                    $this->at = new stack_answertest_general_cas($sans, $tans, $anstest, $casoption, $options, false);
                 }
                 break;
 
             case 'EquivFirst':
-                if (trim($casoption) == '' ) {
-                    $this->at = new stack_answertest_general_cas($sans, $tans, $anstest, 'null', $options);
+                if (trim($casoption->get_inputform(true)) === '' ) {
+                    $opts = stack_ast_container::make_from_teacher_source('null', '', new stack_cas_security());
+                    $this->at = new stack_answertest_general_cas($sans, $tans, $anstest, $opts, $options, false);
                 } else {
-                    $this->at = new stack_answertest_general_cas($sans, $tans, $anstest, $casoption, $options);
+                    $this->at = new stack_answertest_general_cas($sans, $tans, $anstest, $casoption, $options, false);
                 }
                 break;
 
@@ -223,15 +226,15 @@ class stack_ans_test_controller {
                 break;
 
             case 'NumAbsolute':
-                if (trim($casoption) == '') {
-                    $casoption = '0.05';
+                if (trim($casoption->get_inputform(true)) === '' ) {
+                    $casoption =  stack_ast_container::make_from_teacher_source('0.05', '', new stack_cas_security());
                 }
                 $this->at = new stack_answertest_general_cas($sans, $tans, $anstest, $casoption, $options, true);
                 break;
 
             case 'NumRelative':
-                if (trim($casoption) == '') {
-                    $casoption = '0.05';
+                if (trim($casoption->get_inputform(true)) === '' ) {
+                    $casoption =  stack_ast_container::make_from_teacher_source('0.05', '', new stack_cas_security());
                 }
                 $this->at = new stack_answertest_general_cas($sans, $tans, $anstest, $casoption, $options, true);
                 break;

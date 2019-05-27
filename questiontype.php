@@ -1873,7 +1873,6 @@ class qtype_stack extends question_type {
                 $nodegroup, $prtname . 'tans' . $nodekey, 'tansrequired');
 
         $atname = $fromform[$prtname . 'answertest'][$nodekey];
-        $answertest = new stack_ans_test_controller($atname);
         if (stack_ans_test_controller::required_atoptions($atname)) {
             $opt = trim($fromform[$prtname . 'testoptions'][$nodekey]);
 
@@ -1885,7 +1884,8 @@ class qtype_stack extends question_type {
                         stack_string('strlengtherror'));
 
             } else {
-                // TODO capture this for later execution.
+                $cs = stack_ast_container::make_from_teacher_source('null', '', new stack_cas_security());
+                $answertest = new stack_ans_test_controller($cs, $cs, $atname);
                 list($valid, $message) = $answertest->validate_atoptions($opt);
                 if (!$valid) {
                     $errors[$nodegroup][] = stack_string('testoptionsinvalid', $message);

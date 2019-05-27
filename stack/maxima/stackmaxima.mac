@@ -282,15 +282,15 @@ rand_with_prohib(lower, upper, list) := block([currents, retVal, kloop],
 /* CJS, 7/6/2016                                                  */
 rand_selection(ex, n) := block(
   if not(listp(ex)) then (
-      print("rand_selection error: first argument must be a list."),
+      error("rand_selection error: first argument must be a list."),
       return([])
       ),
   if not(integerp(n)) then (
-      print("rand_selection error: second argument must be an integer."),
+      error("rand_selection error: second argument must be an integer."),
       return([])
       ),
   if is(n>length(ex)) then (
-      print("rand_selection error: insuffient elements in the list."),
+      error("rand_selection error: insuffient elements in the list."),
       return([])
       ),
   return(rand_selection_fun(ex, n))

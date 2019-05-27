@@ -273,16 +273,14 @@ class stack_potentialresponse_node {
      * Does this answer test actually require options to be processed by the CAS?
      */
     public function process_atoptions() {
-        $at = new stack_ans_test_controller($this->answertest, '', '', null, '');
-        return $at->process_atoptions();
+        return stack_ans_test_controller::process_atoptions($this->answertest);
     }
 
     /*
      * Does this answer test actually require options?
      */
     public function required_atoptions() {
-        $at = new stack_ans_test_controller($this->answertest, '', '', null, '');
-        return $at->required_atoptions();
+        return stack_ans_test_controller::required_atoptions($this->answertest);
     }
 
     protected function update_score($oldscore, $resultbranch) {

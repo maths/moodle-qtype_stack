@@ -182,14 +182,6 @@ class stack_anstest_atdecplaceswrong extends stack_anstest {
         return false;
     }
 
-    public function process_atoptions() {
-        return true;
-    }
-
-    public function required_atoptions() {
-        return true;
-    }
-
     protected function get_casfunction() {
         return 'ATDecimalPlacesWrong';
     }

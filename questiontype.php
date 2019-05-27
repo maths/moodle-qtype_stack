@@ -1872,8 +1872,9 @@ class qtype_stack extends question_type {
         $errors = $this->validate_cas_string($errors, $fromform[$prtname . 'tans'][$nodekey],
                 $nodegroup, $prtname . 'tans' . $nodekey, 'tansrequired');
 
-        $answertest = new stack_ans_test_controller($fromform[$prtname . 'answertest'][$nodekey]);
-        if ($answertest->required_atoptions()) {
+        $atname = $fromform[$prtname . 'answertest'][$nodekey];
+        $answertest = new stack_ans_test_controller($atname);
+        if (stack_ans_test_controller::required_atoptions($atname)) {
             $opt = trim($fromform[$prtname . 'testoptions'][$nodekey]);
 
             if ('' === trim($opt)) {

@@ -259,14 +259,6 @@ class stack_anstest_atnumsigfigs extends stack_anstest {
         return $r;
     }
 
-    public function process_atoptions() {
-        return true;
-    }
-
-    public function required_atoptions() {
-        return true;
-    }
-
     /**
      * Validates the options, when needed.
      *

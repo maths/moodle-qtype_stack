@@ -48,22 +48,12 @@ class stack_answertest_general_cas extends stack_anstest {
      * @param  string $tans
      * @param  string $casoption
      */
-    public function __construct($sans, $tans, $casfunction, $processcasoptions = false,
-            $atoption = null, $options = null, $simp = false, $requiredoptions = false) {
+    public function __construct(stack_ast_container $sans, stack_ast_container $tans, string $casfunction,
+            $atoption = null, $options = null, $simp = false) {
         parent::__construct($sans, $tans, $options, $atoption);
-
-        if (!is_bool($processcasoptions)) {
-            throw new stack_exception('stack_answertest_general_cas: processcasoptions, must be Boolean.');
-        }
-
-        if (!is_bool($requiredoptions)) {
-            throw new stack_exception('stack_answertest_general_cas: requiredoptions, must be Boolean.');
-        }
 
         $this->casfunction       = $casfunction;
         $this->atname            = $casfunction;
-        $this->processcasoptions = $processcasoptions;
-        $this->requiredoptions   = $requiredoptions;
         $this->simp              = (bool) $simp;
     }
 
@@ -128,7 +118,7 @@ class stack_answertest_general_cas extends stack_anstest {
         $sa = clone $this->sanskey;
         $sa->set_key('STACKSA');
         $ta = clone $this->tanskey;
-        $sa->set_key('STACKTA');
+        $ta->set_key('STACKTA');
         $ops = stack_ast_container::make_from_teacher_source('STACKOP:true', '', new stack_cas_security());
         $result = stack_ast_container::make_from_teacher_source("result:{$this->casfunction}(STACKSA,STACKTA)", '',
             new stack_cas_security());
@@ -223,15 +213,6 @@ class stack_answertest_general_cas extends stack_anstest {
             $r['feedback'] = stack_maxima_translate($result->items[3]->value);
         }
         return $r;
-    }
-
-
-    public function process_atoptions() {
-        return $this->processcasoptions;
-    }
-
-    public function required_atoptions() {
-        return $this->requiredoptions;
     }
 
     public function get_debuginfo() {

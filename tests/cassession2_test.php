@@ -19,6 +19,7 @@ defined('MOODLE_INTERNAL') || die();
 require_once(__DIR__ . '/../locallib.php');
 require_once(__DIR__ . '/fixtures/test_base.php');
 require_once(__DIR__ . '/../stack/cas/cassession2.class.php');
+require_once(__DIR__ . '/../stack/cas/keyval.class.php');
 require_once(__DIR__ . '/../stack/cas/ast.container.class.php');
 
 class stack_cas_session2_test extends qtype_stack_testcase {
@@ -142,4 +143,71 @@ class stack_cas_session2_test extends qtype_stack_testcase {
 
         $this->assertEquals('Lowest_Terms', $validation->get_answernote());
     }
+
+
+    public function test_answertest_usage() {
+        $qv = 'ta:diff(sin(x),x);';
+        $qv = new stack_cas_keyval($qv, null, 123);
+
+        $basesession = $qv->get_session();
+        $security = new stack_cas_security();
+        $security->set_forbiddenkeys($qv->get_variable_usage()['write']);
+        // Skip the allowed/forbidden words thing but the input could play with them if need be.
+
+        $input = '-cos(0-x)';
+        $input = stack_ast_container::make_from_student_source($input, 'ans1:raw-input', $security);
+        // First needs to have a key. As we probably are not adding that at the input side
+        // we probably should do that there.
+        $input->set_key('ans1');
+
+        $basesession->add_statement($input);
+        // We now have a session with the $input and the question variables.
+
+        // If our PRT requires simplification
+        $simpon = stack_ast_container_silent::make_from_teacher_source('simp:true', 'PRT1:simpon', $security);
+
+        // If we have feedbackvariables.
+        $fv = '';
+        $fv = new stack_cas_keyval($fv, null, 123);
+
+        $prtsession = $fv->get_session();
+
+        // Maybe set the simp before those?
+        $prtsession->add_statement($simpon, false);
+
+        // Add the shared stuff there naturelly before those...
+        $basesession->prepend_to_session($prtsession);
+
+        // Now then lets make some statements. No options now.
+        $sans = 'ans1';
+        $tans = 'ta';
+
+        $sans = stack_ast_container::make_from_teacher_source($sans, 'node1:sans', $security);
+        $tans = stack_ast_container::make_from_teacher_source($tans, 'node1:tans', $security);
+        $sans->set_key('STACKSA');
+        $tans->set_key('STACKTA');
+
+        $result = stack_ast_container::make_from_teacher_source('ATAlgEquiv(STACKSA,STACKTA)', 'node1:test', $security);
+
+        // Add those to the session.
+        $prtsession->add_statement($sans);
+        $prtsession->add_statement($tans);
+        $prtsession->add_statement($result);
+
+        // Instanttiate.
+        $prtsession->instantiate();
+
+        // Check parameters.
+        $this->assertEquals('', $sans->get_errors());
+        $this->assertEquals('', $tans->get_errors());
+        $this->assertEquals('', $result->get_errors());
+        $this->assertEquals('cos(x)', $tans->get_value());
+
+        // Note that the value is available as an AST and there is already 
+        // an unpacking function to pick it apart.
+        $this->assertEquals('[true,false,"",""]', $result->get_value());
+
+    }
+
+
 }

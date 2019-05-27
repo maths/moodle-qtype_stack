@@ -297,7 +297,7 @@ class stack_cas_security {
         }
 
         // Forbidden author used ones.
-        if (isset($this->forbiddenkeys[$identifier])) {
+        if ($security === 's' && isset($this->forbiddenkeys[$identifier])) {
             return false;
         }
 

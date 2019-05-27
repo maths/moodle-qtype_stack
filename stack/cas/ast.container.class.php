@@ -291,4 +291,14 @@ class stack_ast_container extends stack_ast_container_silent implements cas_late
         $this->ast = null;
         return true;
     }
+
+    /**
+     * Cloning is complex when we have object references.
+     */
+    public function __clone() {
+        parent::__clone();
+        if ($this->evaluated) {
+            $this->evaluated = clone $this->evaluated;
+        }
+    }
 }

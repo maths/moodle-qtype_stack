@@ -321,7 +321,7 @@ class stack_cas_session2 {
                 $answernotes = array();
                 if (array_key_exists('notes', $results)) {
                     if (array_key_exists('s' . $num, $results['notes'])) {
-                        $answernotes = $results['errors']['s' . $num];
+                        $answernotes = $results['notes']['s' . $num];
                     }
                 }
                 $statement->set_cas_status($err, $answernotes);

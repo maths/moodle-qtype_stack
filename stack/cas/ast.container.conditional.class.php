@@ -65,4 +65,17 @@ class stack_ast_container_conditional extends stack_ast_container{
         }
         return $r;
     }
+
+    /**
+     * Cloning is complex when we have object references.
+     */
+    public function __clone() {
+        parent::__clone();
+        if ($this->conditions !== null && count($this->conditions) > 0) {
+            $i = 0;
+            for ($i = 0; $i < $this->conditions; $i++) {
+                $this->conditions[$i] = clone $this->conditions[$i];
+            }
+        }
+    }
 }

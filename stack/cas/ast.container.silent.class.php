@@ -361,4 +361,17 @@ class stack_ast_container_silent implements cas_evaluatable {
     public function __toString() {
         return $this->get_evaluationform();
     }
+
+    /**
+     * Cloning is complex when we have object references.
+     */
+    public function __clone() {
+        if ($this->ast !== null) {
+            $this->ast = clone $this->ast;
+        }
+        if ($this->securitymodel !== null) {
+            $this->securitymodel = clone $this->securitymodel;
+        }
+    }
+
 }

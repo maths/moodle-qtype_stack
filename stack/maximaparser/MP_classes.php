@@ -276,6 +276,13 @@ class MP_Operation extends MP_Node {
         $this->rhs        = $rhs;
     }
 
+    public function __clone() {
+        $this->rhs = clone $this->rhs;
+        $this->lhs = clone $this->lhs;
+        $this->rhs->parentnode = $this;
+        $this->lhs->parentnode = $this;
+    }
+
     public function getChildren() {
         return [$this->lhs, $this->rhs];
     }
@@ -647,6 +654,16 @@ class MP_Annotation extends MP_Node {
         $this->params         = $params;
     }
 
+    public function __clone() {
+        if ($this->params !== null && count($this->params) > 0) {
+            $i = 0;
+            for ($i = 0; $i < count($this->params); $i++) {
+                $this->params[$i] = clone $this->params[$i];
+                $this->params[$i]->parentnode = $this;
+            }
+        }
+    }
+
     public function getChildren() {
         return $this->params;
     }
@@ -671,6 +688,16 @@ class MP_Comment extends MP_Node {
         parent::__construct();
         $this->value       = $value;
         $this->annotations = $annotations;
+    }
+
+    public function __clone() {
+        if ($this->annotations !== null && count($this->annotations) > 0) {
+            $i = 0;
+            for ($i = 0; $i < count($this->annotations); $i++) {
+                $this->annotations[$i] = clone $this->annotations[$i];
+                $this->annotations[$i]->parentnode = $this;
+            }
+        }
     }
 
     public function getChildren() {
@@ -700,6 +727,18 @@ class MP_FunctionCall extends MP_Node {
         parent::__construct();
         $this->name      = $name;
         $this->arguments = $arguments;
+    }
+
+    public function __clone() {
+        $this->name = clone $this->name;
+        $this->name->parentnode = $this;
+        if ($this->arguments !== null && count($this->arguments) > 0) {
+            $i = 0;
+            for ($i = 0; $i < count($this->arguments); $i++) {
+                $this->arguments[$i] = clone $this->arguments[$i];
+                $this->arguments[$i]->parentnode = $this;
+            }
+        }
     }
 
     public function getChildren() {
@@ -823,6 +862,16 @@ class MP_Group extends MP_Node {
         $this->items    = $items;
     }
 
+    public function __clone() {
+        if ($this->items !== null && count($this->items) > 0) {
+            $i = 0;
+            for ($i = 0; $i < count($this->items); $i++) {
+                $this->items[$i] = clone $this->items[$i];
+                $this->items[$i]->parentnode = $this;
+            }
+        }
+    }
+
     public function getChildren() {
         return $this->items;
     }
@@ -897,6 +946,16 @@ class MP_Set extends MP_Node {
         $this->items    = $items;
     }
 
+    public function __clone() {
+        if ($this->items !== null && count($this->items) > 0) {
+            $i = 0;
+            for ($i = 0; $i < count($this->items); $i++) {
+                $this->items[$i] = clone $this->items[$i];
+                $this->items[$i]->parentnode = $this;
+            }
+        }
+    }
+
     public function getChildren() {
         return $this->items;
     }
@@ -969,6 +1028,16 @@ class MP_List extends MP_Node {
     public function __construct($items) {
         parent::__construct();
         $this->items    = $items;
+    }
+
+    public function __clone() {
+        if ($this->items !== null && count($this->items) > 0) {
+            $i = 0;
+            for ($i = 0; $i < count($this->items); $i++) {
+                $this->items[$i] = clone $this->items[$i];
+                $this->items[$i]->parentnode = $this;
+            }
+        }
     }
 
     public function getChildren() {
@@ -1047,6 +1116,11 @@ class MP_PrefixOp extends MP_Node {
         $this->rhs        = $rhs;
     }
 
+    public function __clone() {
+        $this->rhs = clone $this->rhs;
+        $this->rhs->parent = $this;
+    }
+
     public function getChildren() {
         return [$this->rhs];
     }
@@ -1096,6 +1170,11 @@ class MP_PostfixOp extends MP_Node {
         $this->lhs        = $lhs;
     }
 
+    public function __clone() {
+        $this->lhs = clone $this->lhs;
+        $this->lhs->parent = $this;
+    }
+
     public function getChildren() {
         return [$this->lhs];
     }
@@ -1137,6 +1216,18 @@ class MP_Indexing extends MP_Node {
         parent::__construct();
         $this->target   = $target;
         $this->indices  = $indices;
+    }
+
+    public function __clone() {
+        $this->target = clone $this->target;
+        $this->target->parentnode = $this;
+        if ($this->indices !== null && count($this->indices) > 0) {
+            $i = 0;
+            for ($i = 0; $i < count($this->indices); $i++) {
+                $this->indices[$i] = clone $this->indices[$i];
+                $this->indices[$i]->parentnode = $this;
+            }
+        }
     }
 
     public function getChildren() {
@@ -1186,6 +1277,24 @@ class MP_If extends MP_Node {
         parent::__construct();
         $this->conditions = $conditions;
         $this->branches   = $branches;
+    }
+
+
+    public function __clone() {
+        if ($this->conditions !== null && count($this->conditions) > 0) {
+            $i = 0;
+            for ($i = 0; $i < count($this->conditions); $i++) {
+                $this->conditions[$i] = clone $this->conditions[$i];
+                $this->conditions[$i]->parentnode = $this;
+            }
+        }
+        if ($this->branches !== null && count($this->branches) > 0) {
+            $i = 0;
+            for ($i = 0; $i < count($this->branches); $i++) {
+                $this->branches[$i] = clone $this->branches[$i];
+                $this->branches[$i]->parentnode = $this;
+            }
+        }
     }
 
     public function getChildren() {
@@ -1271,6 +1380,18 @@ class MP_Loop extends MP_Node {
         $this->conf     = $conf;
     }
 
+    public function __clone() {
+        if ($this->conf !== null && count($this->conf) > 0) {
+            $i = 0;
+            for ($i = 0; $i < count($this->conf); $i++) {
+                $this->conf[$i] = clone $this->conf[$i];
+                $this->conf[$i]->parentnode = $this;
+            }
+        }
+        $this->body = clone $this->body;
+        $this->body->parentnode = $this;
+    }
+
     public function getChildren() {
         return array_merge($this->conf, [$this->body]);
     }
@@ -1330,6 +1451,11 @@ class MP_LoopBit extends MP_Node {
         $this->param      = $param;
     }
 
+    public function __clone() {
+        $this->param = clone $this->param;
+        $this->param->parentnode = $this;
+    }
+
     public function getChildren() {
         return [$this->param];
     }
@@ -1366,6 +1492,13 @@ class MP_EvaluationFlag extends MP_Node {
         $this->value      = $value;
     }
 
+    public function __clone() {
+        $this->name = clone $this->name;
+        $this->name->parentnode = $this;
+        $this->value = clone $this->value;
+        $this->value->parentnode = $this;
+    }
+
     public function getChildren() {
         return [$this->name, $this->value];
     }
@@ -1399,6 +1532,18 @@ class MP_Statement extends MP_Node {
         parent::__construct();
         $this->statement = $statement;
         $this->flags     = $flags;
+    }
+
+    public function __clone() {
+        if ($this->flags !== null && count($this->flags) > 0) {
+            $i = 0;
+            for ($i = 0; $i < count($this->flags); $i++) {
+                $this->flags[$i] = clone $this->flags[$i];
+                $this->flags[$i]->parentnode = $this;
+            }
+        }
+        $this->statement = clone $this->statement;
+        $this->statement->parentnode = $this;
     }
 
     public function getChildren() {
@@ -1448,6 +1593,11 @@ class MP_Prefixeq extends MP_Node {
         $this->statement = $statement;
     }
 
+    public function __clone() {
+        $this->statement = clone $this->statement;
+        $this->statement->parentnode = $this;
+    }
+
     public function getChildren() {
         return [$this->statement];
     }
@@ -1480,6 +1630,11 @@ class MP_Let extends MP_Node {
     public function __construct($statement) {
         parent::__construct();
         $this->statement = $statement;
+    }
+
+    public function __clone() {
+        $this->statement = clone $this->statement;
+        $this->statement->parentnode = $this;
     }
 
     public function getChildren() {
@@ -1516,6 +1671,16 @@ class MP_Root extends MP_Node {
     public function __construct($items) {
         parent::__construct();
         $this->items    = $items;
+    }
+
+    public function __clone() {
+        if ($this->items !== null && count($this->items) > 0) {
+            $i = 0;
+            for ($i = 0; $i < count($this->items); $i++) {
+                $this->items[$i] = clone $this->items[$i];
+                $this->items[$i]->parentnode = $this;
+            }
+        }
     }
 
     public function getChildren() {

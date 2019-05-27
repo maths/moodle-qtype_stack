@@ -28,16 +28,6 @@ require_once(__DIR__ . '/../cas/cassession2.class.php');
 class stack_answertest_general_cas extends stack_anstest {
 
     /**
-     * $var bool Are options processed by the CAS.
-     */
-    private $processcasoptions;
-
-    /**
-     * $var bool Are options required for this test.
-     */
-    private $requiredoptions;
-
-    /**
      * $var bool If this variable is set to true or false we override the
      *      simplification options in the CAS variables.
      */
@@ -48,12 +38,12 @@ class stack_answertest_general_cas extends stack_anstest {
      * @param  string $tans
      * @param  string $casoption
      */
-    public function __construct(stack_ast_container $sans, stack_ast_container $tans, string $casfunction,
+    public function __construct(stack_ast_container $sans, stack_ast_container $tans, string $atname,
             $atoption = null, $options = null, $simp = false) {
         parent::__construct($sans, $tans, $options, $atoption);
 
-        $this->casfunction       = $casfunction;
-        $this->atname            = $casfunction;
+        $this->casfunction       = 'AT'. $atname;
+        $this->atname            = $atname;
         $this->simp              = (bool) $simp;
     }
 
@@ -83,7 +73,7 @@ class stack_answertest_general_cas extends stack_anstest {
             return null;
         }
 
-        if ($this->processcasoptions) {
+        if (stack_ans_test_controller::process_atoptions($this->atname)) {
             if (null == $this->atoption or '' == $this->atoption) {
                 $this->aterror      = 'TEST_FAILED';
                 $this->atfeedback   = stack_string('TEST_FAILED', array('errors' => stack_string("AT_MissingOptions")));
@@ -117,14 +107,13 @@ class stack_answertest_general_cas extends stack_anstest {
 
         $sa = clone $this->sanskey;
         $sa->set_key('STACKSA');
-        print_r($sa);
         $ta = clone $this->tanskey;
         $ta->set_key('STACKTA');
         $ops = stack_ast_container::make_from_teacher_source('STACKOP:true', '', new stack_cas_security());
         $result = stack_ast_container::make_from_teacher_source("result:{$this->casfunction}(STACKSA,STACKTA)", '',
             new stack_cas_security());
         $op = $this->atoption->get_inputform();
-        if (!(!$this->processcasoptions || trim($op === ''))) {
+        if (!(!stack_ans_test_controller::process_atoptions($this->atname) || trim($op === ''))) {
             $ops = clone $this->atoption;
             $ops->set_key('STACKOP');
             $result = stack_ast_container::make_from_teacher_source("result:{$this->casfunction}(STACKSA,STACKTA,STACKOP)", '',
@@ -154,7 +143,7 @@ class stack_answertest_general_cas extends stack_anstest {
             return null;
         }
 
-        if ($this->processcasoptions && trim($op) !== '') {
+        if (stack_ans_test_controller::process_atoptions($this->atname) && trim($op) !== '') {
             if ('' != $ops->get_errors() || !$ops->get_valid()) {
                 $this->aterror      = 'TEST_FAILED';
                 $this->atfeedback   = stack_string('TEST_FAILED', array('errors' => $ops->get_errors()));

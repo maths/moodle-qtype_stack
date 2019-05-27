@@ -1923,7 +1923,7 @@ ATSysEquivGrob(GA, GB, SA, varlist) := block([retl, ret, kloop],
 /*****************************************************************/
 
 /* An answer test based on the Maxima's notion of equals. */
-ATCASEqual(SA,SB) :=
+ATCasEqual(SA,SB) :=
     block([keepfloat:true, Validity:true, RawMark:false, FeedBack:"", AnswerNote:"", SAA, SBB],
 
     SAA:errcatch(ev(SA, simp, nouns)),

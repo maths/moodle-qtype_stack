@@ -273,6 +273,7 @@ class stack_ast_container extends stack_ast_container_silent implements cas_late
         if ($root instanceof MP_Operation && $root->op === ':' &&
                 $root->lhs instanceof MP_Identifier) {
             $root->lhs->value = $key;
+            return true;
         }
 
         // Otherwise set a key.

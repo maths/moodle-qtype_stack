@@ -276,9 +276,8 @@ class stack_ast_container extends stack_ast_container_silent implements cas_late
         }
 
         // Otherwise set a key.
-        $ast = $this->ast;
-        $ast = new MP_Operation(':', new MP_Identifier($key), $ast);
-        $this->ast = $ast;
+        $nop = new MP_Operation(':', new MP_Identifier($key), $root);
+        $root->parentnode->replace($root, $nop);
     }
 
     /**

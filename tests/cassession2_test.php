@@ -194,14 +194,6 @@ class stack_cas_session2_test extends qtype_stack_testcase {
         $prtsession->add_statement($tans);
         $prtsession->add_statement($result);
 
-        foreach ($prtsession->get_session() as $stmt) {
-            if (!$stmt->get_valid()) {
-                echo "\n " . $stmt->get_inputform();
-                echo "\n" . $stmt->get_errors() . "\n";
-            }
-        }
-
-
         // Instanttiate.
         $prtsession->instantiate();
 

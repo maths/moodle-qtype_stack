@@ -31,9 +31,6 @@ require_once(__DIR__ . '/../locallib.php');
  */
 class stack_answertest_general_cas_test extends qtype_stack_testcase {
 
-
-    //  __construct($sans, $tans, $casfunction, $processcasoptions = false,
-    //          $atoption = null, $options = null, $simp = false, $requiredoptions = false)
     public function stack_answertest_general_cas_builder($sans, $tans, $atname,
             $atop = 'null', $options = null) {
         $sa = stack_ast_container::make_from_teacher_source($sans, '', new stack_cas_security());

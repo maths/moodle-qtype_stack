@@ -1313,8 +1313,7 @@ class stack_answertest_test_data {
         array('NumSigFigs', '2', 'matrix([0.33,1],[1,1])', 'matrix([0.333,1],[1,1])', 0, 'ATNumSigFigs_NotDecimal.',
                 'No support for matrices!'),
 
-        array('NumDecPlaces', '', '3.141', '3.1415927', -1, 'ATNumDecPlaces_STACKERROR_Option.', 'Basic tests'),
-        array('NumDecPlaces', '2', '1/0', '3', -1, 'ATNumDecPlaces_Wrong_DPs. ATNumDecPlaces_STACKERROR_SAns.', ''),
+        array('NumDecPlaces', '2', '1/0', '3', -1, 'ATNumDecPlaces_Wrong_DPs. ATNumDecPlaces_STACKERROR_SAns.', 'Basic tests'),
         array('NumDecPlaces', '2', '0', '1/0', -1, 'ATNumDecPlaces_Wrong_DPs. ATNumDecPlaces_STACKERROR_TAns.', ''),
         array('NumDecPlaces', '1/0', '0', '0', -1, 'ATNumDecPlaces_Wrong_DPs. ATNumDecPlaces_STACKERROR_Options..', ''),
         array('NumDecPlaces', 'x', '0', '1', -1, 'ATNumDecPlaces_STACKERROR_Option.', ''),
@@ -1344,9 +1343,7 @@ class stack_answertest_test_data {
         array('NumDecPlaces', '3', '4.000', '3.99999', 1, 'ATNumDecPlaces_Correct. ATNumDecPlaces_Equiv.',
             'Teacher needs to round their answer.'),
 
-        array('NumDecPlacesWrong', '', '3.141', '3.1415927', -1,
-            'ATNumDecPlacesWrong_STACKERROR_Option.', 'Basic tests'),
-        array('NumDecPlacesWrong', '2', '1/0', '3', -1, 'ATNumDecPlacesWrong_STACKERROR_SAns.', ''),
+        array('NumDecPlacesWrong', '2', '1/0', '3', -1, 'ATNumDecPlacesWrong_STACKERROR_SAns.', 'Basic tests'),
         array('NumDecPlacesWrong', '2', '0', '1/0', -1, 'ATNumDecPlacesWrong_STACKERROR_TAns.', ''),
         array('NumDecPlacesWrong', '1/0', '0', '0', -1, 'ATNumDecPlacesWrong_STACKERROR_Options.', ''),
         array('NumDecPlacesWrong', '4', 'x^2', '1234', 0, 'ATNumDecPlacesWrong_Sans_Not_Num.', ''),
@@ -1696,7 +1693,7 @@ class stack_answertest_test_data {
         $tans = stack_ast_container::make_from_teacher_source($test->teacheranswer, '', new stack_cas_security());
         $topt = stack_ast_container::make_from_teacher_source($test->options, '', new stack_cas_security());
 
-        $anst = new stack_ans_test_controller($test->name, $sans, $tans, new stack_options(), $topt);
+        $anst = new stack_ans_test_controller($test->name, $sans, $tans, $topt, new stack_options());
 
         // The false clause is useful for developers to track down which test case is breaking Maxima.
         if (true) {

@@ -1885,7 +1885,7 @@ class qtype_stack extends question_type {
 
             } else {
                 $cs = stack_ast_container::make_from_teacher_source('null', '', new stack_cas_security());
-                $answertest = new stack_ans_test_controller($cs, $cs, $atname);
+                $answertest = new stack_ans_test_controller($atname, $cs, $cs);
                 list($valid, $message) = $answertest->validate_atoptions($opt);
                 if (!$valid) {
                     $errors[$nodegroup][] = stack_string('testoptionsinvalid', $message);

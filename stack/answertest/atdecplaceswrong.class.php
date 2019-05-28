@@ -27,30 +27,20 @@ require_once(__DIR__ . '/../cas/cassession2.class.php');
 //
 class stack_anstest_atdecplaceswrong extends stack_anstest {
 
+    protected $atname = 'NumDecPlacesWrong';
+
+    protected $casfunction = 'ATDecimalPlacesWrong';
+
     public function do_test() {
         $this->atmark = 1;
         $anotes = array();
 
-        // Note that in casting to an integer we are lucky here.
-        // Non-integer strings get cast to zero, which is invalid anyway....
-        $atestops = (int) $this->atoption;
-        if (!is_int($atestops) or $atestops <= 0) {
-            $this->aterror      = 'TEST_FAILED';
-            $this->atfeedback   = stack_string('TEST_FAILED', array('errors' => ''));
-            $this->atfeedback  .= stack_string('ATNumDecPlacesWrong_OptNotInt', array('opt' => $this->atoption));
-            $this->atansnote    = 'ATNumDecPlacesWrong_STACKERROR_Option.';
-            $this->atmark       = 0;
-            $this->atvalid      = false;
-            return null;
-        }
-
-        $commands = array($this->sanskey, $this->tanskey, (string) $this->atoption);
+        $commands = array($this->sanskey, $this->tanskey, $this->atoption);
         foreach ($commands as $com) {
-            $cs = stack_ast_container::make_from_teacher_source($com, '', new stack_cas_security());
-            if (!$cs->get_valid()) {
+            if (!$com->get_valid()) {
                 $this->aterror      = 'TEST_FAILED';
                 $this->atfeedback   = stack_string('TEST_FAILED', array('errors' => ''));
-                $this->atfeedback  .= stack_string('AT_InvalidOptions', array('errors' => $cs->get_errors()));
+                $this->atfeedback  .= stack_string('AT_InvalidOptions', array('errors' => $com->get_errors()));
                 $this->atansnote    = 'ATNumDecPlacesWrong_STACKERROR_Option.';
                 $this->atmark       = 0;
                 $this->atvalid      = false;
@@ -58,13 +48,25 @@ class stack_anstest_atdecplaceswrong extends stack_anstest {
             }
         }
 
+        // TODO We need an "is_int" function direct on asts...
+        $atestops = (int) $this->atoption->get_evaluationform();
+        if (!is_int($atestops) or $atestops <= 0) {
+            $this->aterror      = 'TEST_FAILED';
+            $this->atfeedback   = stack_string('TEST_FAILED', array('errors' => ''));
+            $this->atfeedback  .= stack_string('ATNumDecPlaces_OptNotInt', array('opt' => $atestops));
+            $this->atansnote    = 'ATNumDecPlaces_STACKERROR_Option.';
+            $this->atmark       = 0;
+            $this->atvalid      = false;
+            return null;
+        }
+
         // Check that the two numbers evaluate to the same value.
         $cascommands = array();
-        $cascommands['caschat0'] = $this->sanskey;
-        $cascommands['caschat1'] = $this->tanskey;
-        $cascommands['caschat2'] = "ev({$this->atoption},simp)";
-        $cascommands['caschat3'] = "numberp({$this->sanskey})";
-        $cascommands['caschat4'] = "numberp({$this->tanskey})";
+        $cascommands['caschat0'] = $this->sanskey->get_evaluationform();
+        $cascommands['caschat1'] = $this->tanskey->get_evaluationform();
+        $cascommands['caschat2'] = "ev({$atestops},simp)";
+        $cascommands['caschat3'] = "numberp({$this->sanskey->get_evaluationform()})";
+        $cascommands['caschat4'] = "numberp({$this->tanskey->get_evaluationform()})";
 
         $cts = array();
         $strings = array();
@@ -182,10 +184,6 @@ class stack_anstest_atdecplaceswrong extends stack_anstest {
         return false;
     }
 
-    protected function get_casfunction() {
-        return 'ATDecimalPlacesWrong';
-    }
-
     /**
      * Validates the options, when needed.
      *
@@ -193,6 +191,9 @@ class stack_anstest_atdecplaceswrong extends stack_anstest {
      * @access public
      */
     public function validate_atoptions($opt) {
+        if ($opt == '') {
+            return array(false, stack_string('ATNumDecPlacesWrong_OptNotInt', array('opt' => $opt)));
+        }
         $atestops = (int) $opt;
         if (!is_int($atestops) or $atestops <= 0) {
             return array(false, stack_string('ATNumDecPlacesWrong_OptNotInt', array('opt' => $opt)));

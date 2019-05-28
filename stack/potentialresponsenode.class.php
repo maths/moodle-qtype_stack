@@ -151,7 +151,7 @@ class stack_potentialresponse_node {
         if ($this->required_atoptions() && !$this->process_atoptions()) {
             $ncasopts = $this->atoptions;
         }
-        $at = new stack_ans_test_controller($this->answertest, $nsans, $ntans, $options, $ncasopts);
+        $at = new stack_ans_test_controller($this->answertest, $nsans, $ntans, $ncasopts, $options);
         $at->do_test();
 
         $testpassed = $at->get_at_mark();
@@ -385,8 +385,7 @@ class stack_potentialresponse_node {
         if ($this->required_atoptions()) {
             $ncasoptions = $this->atoptions;
         }
-        $at = new stack_ans_test_controller($this->answertest,
-            $this->sans->get_inputform(), $this->tans->get_inputform(), null, $ncasoptions);
+        $at = new stack_ans_test_controller($this->answertest, $this->sans, $this->tans, $ncasoptions, null);
         return $at->get_trace(false);
     }
 }

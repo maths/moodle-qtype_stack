@@ -39,12 +39,12 @@ class stack_answertest_general_cas extends stack_anstest {
      * @param  string $casoption
      */
     public function __construct(stack_ast_container $sans, stack_ast_container $tans, string $atname,
-            $atoption = null, $options = null, $simp = false) {
+            $atoption = null, $options = null) {
         parent::__construct($sans, $tans, $options, $atoption);
 
         $this->casfunction       = 'AT'. $atname;
         $this->atname            = $atname;
-        $this->simp              = (bool) $simp;
+        $this->simp              = stack_ans_test_controller::simp($atname);
     }
 
     /**
@@ -98,9 +98,7 @@ class stack_answertest_general_cas extends stack_anstest {
         if (null === $this->options) {
             $this->options = new stack_options();
         }
-        if (!(null === $this->simp)) {
-            $this->options->set_option('simplify', $this->simp);
-        }
+        $this->options->set_option('simplify', $this->simp);
 
         $sa = clone $this->sanskey;
         $sa->set_key('STACKSA');
@@ -121,7 +119,6 @@ class stack_answertest_general_cas extends stack_anstest {
         }
         $this->debuginfo = $session->get_debuginfo();
 
-//        echo "<pre>"; echo $session->get_keyval_representation(); echo "</pre>";
         if ('' != $sa->get_errors() || !$sa->get_valid()) {
             $this->aterror      = 'TEST_FAILED';
             $this->atfeedback   = stack_string('TEST_FAILED', array('errors' => $sa->get_errors()));

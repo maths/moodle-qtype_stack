@@ -65,44 +65,45 @@ class stack_ans_test_controller {
               'RegExp'               => 'stackOptions_AnsTest_values_RegExp',
               );
 
-    /* 
+    /*
      * Does this test require options [0] and are these evaluated by the CAS [1] ?
+     * In [2] we have the value of simp in the CAS session.
      */
     protected static $pops = array(
-        'AlgEquiv'             => array(false, false),
-        'EqualComAss'          => array(false, false),
-        'CasEqual'             => array(false, false),
-        'SameType'             => array(false, false),
-        'SubstEquiv'           => array(false, false),
-        'SysEquiv'             => array(false, false),
-        'Sets'                 => array(false, false),
-        'Expanded'             => array(false, false),
-        'FacForm'              => array(true, true),
-        'SingleFrac'           => array(false, false),
-        'PartFrac'             => array(true, true),
-        'CompSquare'           => array(true, true),
-        'Equiv'                => array(true, true),
-        'EquivFirst'           => array(true, true),
-        'GT'                   => array(false, false),
-        'GTE'                  => array(false, false),
-        'SigFigsStrict'        => array(true, true),
-        'NumAbsolute'          => array(true, true),
-        'NumRelative'          => array(true, true),
-        'NumSigFigs'           => array(true, true),
-        'NumDecPlaces'         => array(true, true),
-        'NumDecPlacesWrong'    => array(true, true),
-        'Units'                => array(true, true),
-        'UnitsStrict'          => array(true, true),
-        'UnitsAbsolute'        => array(true, true),
-        'UnitsStrictAbsolute'  => array(true, true),
-        'UnitsRelative'        => array(true, true),
-        'UnitsStrictRelative'  => array(true, true),
-        'LowestTerms'          => array(false, false),
-        'Diff'                 => array(true, true),
-        'Int'                  => array(true, true),
-        'String'               => array(false, false),
-        'StringSloppy'         => array(false, false),
-        'RegExp'               => array(true, false),
+        'AlgEquiv'             => array(false, false, true),
+        'EqualComAss'          => array(false, false, false),
+        'CasEqual'             => array(false, false, false),
+        'SameType'             => array(false, false, true),
+        'SubstEquiv'           => array(false, false, true),
+        'SysEquiv'             => array(false, false, true),
+        'Sets'                 => array(false, false, false),
+        'Expanded'             => array(false, false, true),
+        'FacForm'              => array(true, true, false),
+        'SingleFrac'           => array(false, false, false),
+        'PartFrac'             => array(true, true, true),
+        'CompSquare'           => array(true, true, true),
+        'Equiv'                => array(true, true, false),
+        'EquivFirst'           => array(true, true, false),
+        'GT'                   => array(false, false, true),
+        'GTE'                  => array(false, false, true),
+        'SigFigsStrict'        => array(true, true, true),
+        'NumAbsolute'          => array(true, true, true),
+        'NumRelative'          => array(true, true, true),
+        'NumSigFigs'           => array(true, true, true),
+        'NumDecPlaces'         => array(true, true, null),
+        'NumDecPlacesWrong'    => array(true, true, null),
+        'Units'                => array(true, true, false),
+        'UnitsStrict'          => array(true, true, false),
+        'UnitsAbsolute'        => array(true, true, false),
+        'UnitsStrictAbsolute'  => array(true, true, false),
+        'UnitsRelative'        => array(true, true, false),
+        'UnitsStrictRelative'  => array(true, true, false),
+        'LowestTerms'          => array(false, false, false),
+        'Diff'                 => array(true, true, false),
+        'Int'                  => array(true, true, false),
+        'String'               => array(false, false, null),
+        'StringSloppy'         => array(false, false, null),
+        'RegExp'               => array(true, false, null),
     );
 
     /**
@@ -122,71 +123,83 @@ class stack_ans_test_controller {
      * @param  CasString $casoption
      * @access public
      */
-    public function __construct(string $anstest, stack_ast_container $sans, stack_ast_container $tans,
-            $options = null, $casoption = null) {
+    public function __construct(string $anstest, stack_ast_container $sans, stack_ast_container $tans, $casoption = null,
+            $options = null) {
 
         switch($anstest) {
             case 'AlgEquiv':
-                $this->at = new stack_answertest_general_cas($sans, $tans, $anstest, $casoption, $options);
-                break;
-
             case 'EqualComAss':
-                $this->at = new stack_answertest_general_cas($sans, $tans, $anstest, $casoption, $options, false);
-                break;
-
             case 'CasEqual':
-                $this->at = new stack_answertest_general_cas($sans, $tans, $anstest, $casoption, $options, false);
-                break;
-
             case 'SameType':
-                $this->at = new stack_answertest_general_cas($sans, $tans, $anstest, $casoption, $options);
-                break;
-
             case 'SubstEquiv':
-                $this->at = new stack_answertest_general_cas($sans, $tans, $anstest, $casoption, $options);
-                break;
-
             case 'Sets':
-                $this->at = new stack_answertest_general_cas($sans, $tans, $anstest, $casoption, $options, false);
-                break;
-
             case 'Expanded':
-                $this->at = new stack_answertest_general_cas($sans, $tans, $anstest, $casoption, $options);
-                break;
-
             case 'FacForm':
-                $this->at = new stack_answertest_general_cas($sans, $tans, $anstest, $casoption, $options, false);
-                break;
-
             case 'SingleFrac':
-                $this->at = new stack_answertest_general_cas($sans, $tans, $anstest, $casoption, $options, false);
-                break;
-
             case 'PartFrac':
-                $this->at = new stack_answertest_general_cas($sans, $tans, $anstest, $casoption, $options, true);
-                break;
-
             case 'CompSquare':
-                $this->at = new stack_answertest_general_cas($sans, $tans, $anstest, $casoption, $options, true);
+            case 'Diff':
+            case 'Int':
+            case 'GT':
+            case 'GTE':
+            case 'UnitsAbsolute':
+            case 'UnitsStrictAbsolute':
+            case 'UnitsRelative':
+            case 'UnitsStrictRelative':
+            case 'LowestTerms':
+            case 'SysEquiv':
+                $this->at = new stack_answertest_general_cas($sans, $tans, $anstest, $casoption, $options);
                 break;
 
             case 'Equiv':
                 if (trim($casoption->get_inputform(true)) === '' ) {
                     $opts = stack_ast_container::make_from_teacher_source('null', '', new stack_cas_security());
                     // Note the *string* 'null' here is not mistake: this is passed to Maxima.
-                    $this->at = new stack_answertest_general_cas($sans, $tans, $anstest, $opts, $options, false);
+                    $this->at = new stack_answertest_general_cas($sans, $tans, $anstest, $opts, $options);
                 } else {
-                    $this->at = new stack_answertest_general_cas($sans, $tans, $anstest, $casoption, $options, false);
+                    $this->at = new stack_answertest_general_cas($sans, $tans, $anstest, $casoption, $options);
                 }
                 break;
 
             case 'EquivFirst':
                 if (trim($casoption->get_inputform(true)) === '' ) {
                     $opts = stack_ast_container::make_from_teacher_source('null', '', new stack_cas_security());
-                    $this->at = new stack_answertest_general_cas($sans, $tans, $anstest, $opts, $options, false);
+                    $this->at = new stack_answertest_general_cas($sans, $tans, $anstest, $opts, $options);
                 } else {
-                    $this->at = new stack_answertest_general_cas($sans, $tans, $anstest, $casoption, $options, false);
+                    $this->at = new stack_answertest_general_cas($sans, $tans, $anstest, $casoption, $options);
                 }
+                break;
+
+            case 'NumAbsolute':
+                if (trim($casoption->get_inputform(true)) === '' ) {
+                    $casoption = stack_ast_container::make_from_teacher_source('0.05', '', new stack_cas_security());
+                }
+                $this->at = new stack_answertest_general_cas($sans, $tans, $anstest, $casoption, $options);
+                break;
+
+            case 'NumRelative':
+                if (trim($casoption->get_inputform(true)) === '' ) {
+                    $casoption = stack_ast_container::make_from_teacher_source('0.05', '', new stack_cas_security());
+                }
+                $this->at = new stack_answertest_general_cas($sans, $tans, $anstest, $casoption, $options);
+                break;
+
+            case 'SigFigsStrict':
+            case 'NumSigFigs':
+            case 'Units':
+            case 'UnitsStrict':
+                require_once(__DIR__ . '/atnumsigfigs.class.php');
+                $this->at = new stack_anstest_atnumsigfigs($sans, $tans, $anstest, $casoption, $options);
+                break;
+
+            case 'NumDecPlaces':
+                require_once(__DIR__ . '/atdecplaces.class.php');
+                $this->at = new stack_anstest_atdecplaces($sans, $tans, $options, $casoption);
+                break;
+
+            case 'NumDecPlacesWrong':
+                require_once(__DIR__ . '/atdecplaceswrong.class.php');
+                $this->at = new stack_anstest_atdecplaceswrong($sans, $tans, $options, $casoption);
                 break;
 
             case 'String':
@@ -202,90 +215,6 @@ class stack_ans_test_controller {
             case 'RegExp':
                 require_once(__DIR__ . '/atregexp.class.php');
                 $this->at = new stack_anstest_atregexp($sans, $tans, $options, $casoption);
-                break;
-
-            case 'Diff':
-                $this->at = new stack_answertest_general_cas($sans, $tans, $anstest, $casoption, $options, false, true);
-                break;
-
-            case 'Int':
-                $this->at = new stack_answertest_general_cas($sans, $tans, $anstest, $casoption, $options, false, true);
-                break;
-
-            case 'GT':
-                $this->at = new stack_answertest_general_cas($sans, $tans, $anstest, $casoption, $options);
-                break;
-
-            case 'GTE':
-                $this->at = new stack_answertest_general_cas($sans, $tans, $anstest, $casoption, $options);
-                break;
-
-            case 'SigFigsStrict':
-                require_once(__DIR__ . '/atnumsigfigs.class.php');
-                $this->at = new stack_anstest_atnumsigfigs($sans, $tans, $options, $casoption, $anstest, true);
-                break;
-
-            case 'NumAbsolute':
-                if (trim($casoption->get_inputform(true)) === '' ) {
-                    $casoption =  stack_ast_container::make_from_teacher_source('0.05', '', new stack_cas_security());
-                }
-                $this->at = new stack_answertest_general_cas($sans, $tans, $anstest, $casoption, $options, true);
-                break;
-
-            case 'NumRelative':
-                if (trim($casoption->get_inputform(true)) === '' ) {
-                    $casoption =  stack_ast_container::make_from_teacher_source('0.05', '', new stack_cas_security());
-                }
-                $this->at = new stack_answertest_general_cas($sans, $tans, $anstest, $casoption, $options, true);
-                break;
-
-            case 'NumSigFigs':
-                require_once(__DIR__ . '/atnumsigfigs.class.php');
-                $this->at = new stack_anstest_atnumsigfigs($sans, $tans, $options, $casoption, $anstest, true);
-                break;
-
-            case 'NumDecPlaces':
-                require_once(__DIR__ . '/atdecplaces.class.php');
-                $this->at = new stack_anstest_atdecplaces($sans, $tans, $options, $casoption);
-                break;
-
-            case 'NumDecPlacesWrong':
-                require_once(__DIR__ . '/atdecplaceswrong.class.php');
-                $this->at = new stack_anstest_atdecplaceswrong($sans, $tans, $options, $casoption);
-                break;
-
-            case 'Units':
-                require_once(__DIR__ . '/atnumsigfigs.class.php');
-                $this->at = new stack_anstest_atnumsigfigs($sans, $tans, $options, $casoption, 'ATUnitsSigFigs', false);
-                break;
-
-            case 'UnitsStrict':
-                require_once(__DIR__ . '/atnumsigfigs.class.php');
-                $this->at = new stack_anstest_atnumsigfigs($sans, $tans, $options, $casoption, 'ATUnitsStrictSigFigs', false);
-                break;
-
-            case 'UnitsAbsolute':
-                $this->at = new stack_answertest_general_cas($sans, $tans, $anstest, $casoption, $options, false);
-                break;
-
-            case 'UnitsStrictAbsolute':
-                $this->at = new stack_answertest_general_cas($sans, $tans, $anstest, $casoption, $options, false);
-                break;
-
-            case 'UnitsRelative':
-                $this->at = new stack_answertest_general_cas($sans, $tans, $anstest, $casoption, $options, false);
-                break;
-
-            case 'UnitsStrictRelative':
-                $this->at = new stack_answertest_general_cas($sans, $tans, $anstest, $casoption, $options, false);
-                break;
-
-            case 'LowestTerms':
-                $this->at = new stack_answertest_general_cas($sans, $tans, $anstest, $casoption, $options, false);
-                break;
-
-            case 'SysEquiv':
-                $this->at = new stack_answertest_general_cas($sans, $tans, $anstest, $casoption, $options);
                 break;
 
             default:
@@ -382,6 +311,17 @@ class stack_ans_test_controller {
     public static function required_atoptions($atest) {
         $op = self::$pops[$atest];
         return $op[0];
+    }
+
+    /**
+     * Returns whether the session needs simplification
+     *
+     * @return bool
+     * @access public
+     */
+    public static function simp($atest) {
+        $op = self::$pops[$atest];
+        return $op[2];
     }
 
     /**

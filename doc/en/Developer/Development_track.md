@@ -28,5 +28,15 @@ TODO:
 * Update MCQ to accept units.
 * Add a base N check to the numeric input.
 * Expand support for input validation options to matrices (e.g. floatnum, rationalize etc.)
-* Add in full parser, to address issue #324.
 
+## Add in full parser, to address issue #324.
+
+1. Get errors back from the CAS.
+2. Refactor answer tests to return "answer notes", "feedback" (and errors).
+3. Refactor numerical answer tests to make proper use of ast
+  1. Functions on ast, such as "this is an integer".
+4. What to do about regex and string tests? (Need the raw values).
+
+## Other things to fix
+
+1. Matrix instant validation does not appear to work.

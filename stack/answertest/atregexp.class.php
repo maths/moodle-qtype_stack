@@ -24,9 +24,18 @@ defined('MOODLE_INTERNAL') || die();
  */
 class stack_anstest_atregexp extends stack_anstest {
 
-    protected $atname = 'RegEx';
+    protected $atname = 'RegExp';
 
     public function do_test() {
+
+        // TODO: reinstate this test.
+        $this->aterror = 'TEST_FAILED';
+        $this->atfeedback = 'NOT IMPLEMENTED...';
+        $this->atansnote = '';
+        $this->atmark = 0;
+        $this->atvalid = false;
+        return false;
+
         if ($this->atoption == null) {
             $this->aterror = 'TEST_FAILED';
             $this->atfeedback = stack_string('TEST_FAILED', array('errors' => ''));

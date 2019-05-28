@@ -233,7 +233,7 @@ class stack_cas_session2 {
                 // One of those that need to be collected later.
                 if ($statement->get_key() === '') {
                     $line = ',_EC(errcatch(__e_smt_' . $num . ':' . $ef . '),';
-                } 
+                }
             }
             $line .= stack_utils::php_string_to_maxima_string($statement->get_source_context());
             $line .= ')';
@@ -338,7 +338,7 @@ class stack_cas_session2 {
         return $this->instantiated;
     }
 
-    /* 
+    /*
      * This representation is only used in debugging questions, and for
      * offline (sandbox) testing.  We need to provide teachers with something
      * they can type into Maxima.

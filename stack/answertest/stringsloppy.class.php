@@ -38,7 +38,7 @@ class stack_anstest_stringsloppy extends stack_anstest {
         $ta = '';
         if ($this->tanskey->get_valid()) {
             $ta = strtolower(trim($this->tanskey->get_evaluationform(true)));
-                } else {
+        } else {
             $this->atansnote    = $this->casfunction.'TEST_FAILED:Invalid TA.';
         }
 

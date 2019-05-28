@@ -27,11 +27,13 @@ require_once(__DIR__ . '/../cas/cassession2.class.php');
  */
 class stack_anstest_atnumsigfigs extends stack_anstest {
 
-    public function __construct($sans, $tans, $options, $atoption, $casfunction, $simp) {
+    public function __construct(stack_ast_container $sans, stack_ast_container $tans, string $atname,
+            $atoption, $options) {
         parent::__construct($sans, $tans, $options, $atoption);
 
-        $this->casfunction = $casfunction;
-        $this->simp        = (bool) $simp;
+        $this->casfunction       = 'AT'. $atname;
+        $this->atname            = $atname;
+        $this->simp              = stack_ans_test_controller::simp($atname);
     }
 
     public function do_test() {
@@ -48,6 +50,17 @@ class stack_anstest_atnumsigfigs extends stack_anstest {
             $this->aterror      = stack_string('TEST_FAILED', array('errors' => stack_string("AT_EmptyTA")));
             $this->atfeedback   = stack_string('TEST_FAILED', array('errors' => stack_string("AT_EmptyTA")));
             $this->atansnote    = $this->casfunction.'TEST_FAILED:Empty TA.';
+            $this->atmark       = 0;
+            $this->atvalid      = false;
+            return null;
+        }
+
+        // These tests must have an option at this point.
+        if (!$this->atoption->get_valid()) {
+            $this->aterror      = 'TEST_FAILED';
+            $this->atfeedback   = stack_string('TEST_FAILED', array('errors' => ''));
+            $this->atfeedback  .= stack_string('AT_InvalidOptions', array('errors' => $this->atoption->get_errors()));
+            $this->atansnote    = 'STACKERROR_OPTION.';
             $this->atmark       = 0;
             $this->atvalid      = false;
             return null;
@@ -88,16 +101,6 @@ class stack_anstest_atnumsigfigs extends stack_anstest {
             $this->atmark       = 0;
             $this->atvalid      = false;
             return null;
-        } else {
-            if (!$ct->get_valid()) {
-                $this->aterror      = 'TEST_FAILED';
-                $this->atfeedback   = stack_string('TEST_FAILED', array('errors' => ''));
-                $this->atfeedback  .= stack_string('AT_InvalidOptions', array('errors' => $ct->get_errors()));
-                $this->atansnote    = 'STACKERROR_OPTION.';
-                $this->atmark       = 0;
-                $this->atvalid      = false;
-                return null;
-            }
         }
 
         // Use PHP to establish that the range of significant figures from the student's expression
@@ -106,14 +109,15 @@ class stack_anstest_atnumsigfigs extends stack_anstest {
 
         if ($strictsigfigs) {
             $this->atmark = 0;
-            if ($r['lowerbound'] == $this->atoption) {
+            if ($r['lowerbound'] == $atopt) {
                 $this->atmark = 1;
-            } else if ($r['lowerbound'] <= $this->atoption && $this->atoption <= $r['upperbound']) {
+            } else if ($r['lowerbound'] <= $atopt && $atopt <= $r['upperbound']) {
                 $this->atansnote    = $this->casfunction.'_WithinRange. ';
             }
         } else if ($condoneextrasigfigs) {
             // Round the student's answer.
-            $this->sanskey = 'significantfigures('.$this->sanskey.','.$requiredsigfigs.')';
+            // TODO
+            // $this->sanskey = 'significantfigures('.$this->sanskey.','.$requiredsigfigs.')';
             if ($requiredsigfigs <= $r['lowerbound']) {
                 $withinrange = true;
                 $this->atmark = 1;
@@ -158,19 +162,25 @@ class stack_anstest_atnumsigfigs extends stack_anstest {
         }
         $this->options->set_option('simplify', $this->simp);
 
-        $cascommands = array();
-        $sa = stack_ast_container::make_from_teacher_source('STACKSA:' . $this->sanskey, '', new stack_cas_security());
-        $ta = stack_ast_container::make_from_teacher_source('STACKTA:' . $this->tanskey, '', new stack_cas_security());
-        $ops = stack_ast_container::make_from_teacher_source('STACKOP:' . $atopt, '', new stack_cas_security());
-        $result = stack_ast_container::make_from_teacher_source("result:{$this->casfunction}(STACKSA,STACKTA,STACKOP)", '',
+        $sa = clone $this->sanskey;
+        $sa->set_key('STACKSA');
+        $ta = clone $this->tanskey;
+        $ta->set_key('STACKTA');
+        $ops = stack_ast_container::make_from_teacher_source('STACKOP:true', '', new stack_cas_security());
+        $result = stack_ast_container::make_from_teacher_source("result:{$this->casfunction}(STACKSA,STACKTA)", '',
+        new stack_cas_security());
+        if (stack_ans_test_controller::process_atoptions($this->atname)) {
+            $ops = clone $this->atoption;
+            $ops->set_key('STACKOP');
+            $result = stack_ast_container::make_from_teacher_source("result:{$this->casfunction}(STACKSA,STACKTA,STACKOP)", '',
             new stack_cas_security());
-
+        }
         $session = new stack_cas_session2(array($sa, $ta, $ops, $result), $this->options, 0);
         if ($session->get_valid()) {
             $session->instantiate();
         }
-
         $this->debuginfo = $session->get_debuginfo();
+
         if ('' != $sa->get_errors() || !$sa->get_valid()) {
             $this->aterror      = 'TEST_FAILED';
             $this->atfeedback   = stack_string('TEST_FAILED', array('errors' => $sa->get_errors()));

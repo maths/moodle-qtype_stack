@@ -417,4 +417,196 @@ class stack_ast_container_silent implements cas_evaluatable {
         }
     }
 
+
+    /**
+     * Basic type checks, for checking if the expression is just one
+     * object (ignoring content) of a given type.
+     */
+    public function is_int(): bool {
+        $root = $this->ast;
+        if ($root instanceof MP_Root) {
+            if (array_key_exists(0, $root->items)) {
+                $root = $root->items[0];
+            }
+        }
+        if ($root instanceof MP_Statement) {
+            if (count($root->flags) > 0) {
+                // No matter what it is if there are flags its not pure anything.
+                return false;
+            }
+            $root = $root->statement;
+        }
+        if ($root instanceof MP_Operation &&
+            $root->op === ':' &&
+            $root->lhs instanceof MP_Identifier) {
+            $root = $root->rhs;
+        }
+        // For integers and floats we need to deal with prefix ops.
+        if ($root instanceof MP_PrefixOp && 
+            ($root->op === '-' || $root->op === '+')) {
+            $root = $root->rhs;
+        }
+        if ($root instanceof MP_Integer) {
+            return true;
+        }
+        return false;
+    }
+
+    public function is_float(): bool {
+        $root = $this->ast;
+        if ($root instanceof MP_Root) {
+            if (array_key_exists(0, $root->items)) {
+                $root = $root->items[0];
+            }
+        }
+        if ($root instanceof MP_Statement) {
+            if (count($root->flags) > 0) {
+                // No matter what it is if there are flags its not pure anything.
+                return false;
+            }
+            $root = $root->statement;
+        }
+        if ($root instanceof MP_Operation &&
+            $root->op === ':' &&
+            $root->lhs instanceof MP_Identifier) {
+            $root = $root->rhs;
+        }
+        // For integers and floats we need to deal with prefix ops.
+        if ($root instanceof MP_PrefixOp && 
+            ($root->op === '-' || $root->op === '+')) {
+            $root = $root->rhs;
+        }
+        if ($root instanceof MP_Float) {
+            return true;
+        }
+        return false;
+    }
+
+    // exception of the bool value style, we return the length of
+    // the list or -1 if not a list.
+    public function is_list(): int {
+        $root = $this->ast;
+        if ($root instanceof MP_Root) {
+            if (array_key_exists(0, $root->items)) {
+                $root = $root->items[0];
+            }
+        }
+        if ($root instanceof MP_Statement) {
+            if (count($root->flags) > 0) {
+                // No matter what it is if there are flags its not pure anything.
+                return -1;
+            }
+            $root = $root->statement;
+        }
+        if ($root instanceof MP_Operation &&
+            $root->op === ':' &&
+            $root->lhs instanceof MP_Identifier) {
+            $root = $root->rhs;
+        }
+        if ($root instanceof MP_List) {
+            return count($root->items);
+        }
+        return -1;
+    }
+
+    public function is_string(): bool {
+        $root = $this->ast;
+        if ($root instanceof MP_Root) {
+            if (array_key_exists(0, $root->items)) {
+                $root = $root->items[0];
+            }
+        }
+        if ($root instanceof MP_Statement) {
+            if (count($root->flags) > 0) {
+                // No matter what it is if there are flags its not pure anything.
+                return false;
+            }
+            $root = $root->statement;
+        }
+        if ($root instanceof MP_Operation &&
+            $root->op === ':' &&
+            $root->lhs instanceof MP_Identifier) {
+            $root = $root->rhs;
+        }
+        if ($root instanceof MP_String) {
+            return true;
+        }
+        return false;
+    }
+
+    public function is_set(): bool {
+        $root = $this->ast;
+        if ($root instanceof MP_Root) {
+            if (array_key_exists(0, $root->items)) {
+                $root = $root->items[0];
+            }
+        }
+        if ($root instanceof MP_Statement) {
+            if (count($root->flags) > 0) {
+                // No matter what it is if there are flags its not pure anything.
+                return false;
+            }
+            $root = $root->statement;
+        }
+        if ($root instanceof MP_Operation &&
+            $root->op === ':' &&
+            $root->lhs instanceof MP_Identifier) {
+            $root = $root->rhs;
+        }
+        if ($root instanceof MP_Set) {
+            return true;
+        }
+        return false;
+    }
+
+    public function is_matrix(): bool {
+        $root = $this->ast;
+        if ($root instanceof MP_Root) {
+            if (array_key_exists(0, $root->items)) {
+                $root = $root->items[0];
+            }
+        }
+        if ($root instanceof MP_Statement) {
+            if (count($root->flags) > 0) {
+                // No matter what it is if there are flags its not pure anything.
+                return false;
+            }
+            $root = $root->statement;
+        }
+        if ($root instanceof MP_Operation &&
+            $root->op === ':' &&
+            $root->lhs instanceof MP_Identifier) {
+            $root = $root->rhs;
+        }
+        if ($root instanceof MP_Functioncall &&
+            $root->name instanceof MP_Identifier &&
+            $root->name->value === 'matrix') {
+            return true;
+        }
+        return false;
+    }
+
+    // Do not call this unless you are dealing with a list.
+    // TODO: ?MP_Node for return type.
+    public function get_list_element(int $index) {
+        $root = $this->ast;
+        if ($root instanceof MP_Root) {
+            if (array_key_exists(0, $root->items)) {
+                $root = $root->items[0];
+            }
+        }
+        if ($root instanceof MP_Statement) {
+            if (count($root->flags) > 0) {
+                // No matter what it is if there are flags its not pure anything.
+                return null;
+            }
+            $root = $root->statement;
+        }
+        if ($root instanceof MP_Operation &&
+            $root->op === ':' &&
+            $root->lhs instanceof MP_Identifier) {
+            $root = $root->rhs;
+        }
+        return $root->items[$index];
+    }
 }

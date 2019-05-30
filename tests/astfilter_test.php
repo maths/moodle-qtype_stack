@@ -16,7 +16,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-// Unit tests for verious AST filters.
+// Unit tests for various AST filters.
 //
 // @copyright  2019 Aalto University
 // @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.

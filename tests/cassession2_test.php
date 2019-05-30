@@ -128,7 +128,7 @@ class stack_cas_session2_test extends qtype_stack_testcase {
         $this->assertContains('expt: undefined: 0 to a negative exponent.', $divzero->get_errors(true));
     }
 
-    public function test_answernote() {
+    public function test_feedback() {
         $simpoff = stack_ast_container::make_from_teacher_source('simp:false', 'test_answernote()', new stack_cas_security());
         $validation = stack_ast_container::make_from_teacher_source('stack_validate_typeless([2/4], true, true,"~a")',
                 'test_answernote()', new stack_cas_security());
@@ -141,7 +141,8 @@ class stack_cas_session2_test extends qtype_stack_testcase {
         $session->instantiate();
         $this->assertTrue($session->is_instantiated());
 
-        $this->assertEquals('Lowest_Terms', $validation->get_answernote());
+        // TODO: test the translated version...
+        $this->assertContains('Lowest_Terms', $validation->get_feedback());
     }
 
 

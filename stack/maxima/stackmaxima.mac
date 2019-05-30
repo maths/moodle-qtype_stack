@@ -448,6 +448,9 @@ mcq_incorrect(ta):=block(
 /* Collected notes */
 %NOTES: ["stack_map"]$
 
+/* Collected feedback */
+%FEEDBACK: ["stack_map"]$
+
 /* Function to declare errors from within logic. */
 /* With reference to position in logic. */
 _APPEND_ERR(err_list, reference) := if stackmap_has_key(%ERR, %stmt)
@@ -462,6 +465,13 @@ _APPEND_NOTE(note) := if stackmap_has_key(%NOTES, %stmt)
   %NOTES:stackmap_set(%NOTES,%stmt,append(stackmap_get(%NOTES,%stmt),[note]))
  else
   %NOTES:stackmap_set(%NOTES,%stmt,[note])$
+
+/* Function to attach a note to the current statement. */
+_APPEND_FEEDBACK(feedback) := if stackmap_has_key(%FEEDBACK, %stmt)
+ then
+  %FEEDBACK:stackmap_set(%FEEDBACK,%stmt,append(stackmap_get(%FEEDBACK,%stmt),[feedback]))
+ else
+  %FEEDBACK:stackmap_set(%FEEDBACK,%stmt,[feedback])$
 
 /* General error catching wrapper */
 _EC(errcatched, reference) := if errcatched = [] 
@@ -711,13 +721,14 @@ StackAddFeedback(fb, key, [ex]) := block([str, exprs, jloop],
     ev(for jloop:1 thru length(ex) do
         /* HACK: !quot! needs to be replaced with " when we get into PHP.  */
         exprs: concat(exprs, " , !quot!", ex[jloop], "!quot! "), simp),
-    str: concat(fb, "stack_trans('", key, "'", exprs, "); !NEWLINE!"),
-    return(str)
+    str: sconcat("stack_trans('", key, "'", exprs, "); !NEWLINE!"),
+    _APPEND_FEEDBACK(str),
+    return(sconcat(fb, str))
 )$
 
 /* Separate notes with puncutation, to enable clearer reading
    and the possibility to split them. */
-StackAddNote(exnote, newnote) := concat(exnote, newnote, ". ")$
+StackAddNote(exnote, newnote) := (_APPEND_NOTE(newnote),concat(exnote, newnote, ". "))$
 
 StackTrimNote(ex) := strim(". ", ex)$
 

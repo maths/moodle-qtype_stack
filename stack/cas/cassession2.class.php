@@ -200,18 +200,9 @@ class stack_cas_session2 {
             }
         }
 
-        // We will build the whole command here, note that the preamble should
-        // go to the library.
-        $command = '';
-
-        // We need to collect some answernotes so lets redefine this funtion.
-        $command .= 'StackAddFeedback(fb,key,[ex]):=block([str,exprs,jloop],exprs:"",' .
-                'ev(for jloop:1 thru length(ex) do exprs: sconcat(exprs," , !quot!",ex[jloop],"!quot! "),simp),' .
-                'str:sconcat(fb, "stack_trans(\'",key,"\'", exprs, "); !NEWLINE!"),_APPEND_NOTE' .
-                '(sconcat("stack_trans(\'",key,"\'", exprs, ");")),return(str))$';
-
+        // We will build the whole command here
         // No protection in the block.
-        $command .= 'block([],stack_randseed(' . $this->seed . ')';
+        $command = 'block([],stack_randseed(' . $this->seed . ')';
         // The options.
         $command .= $this->options->get_cas_commands()['commands'];
         // Some parts of logic storage.
@@ -261,6 +252,7 @@ class stack_cas_session2 {
         }
         $command .= ',if length(%ERR)>1 then _RESPONSE:stackmap_set(_RESPONSE,"errors",%ERR)';
         $command .= ',if length(%NOTES)>1 then _RESPONSE:stackmap_set(_RESPONSE,"notes",%NOTES)';
+        $command .= ',if length(%FEEDBACK)>1 then _RESPONSE:stackmap_set(_RESPONSE,"feedback",%FEEDBACK)';
 
         // Then output them.
         $command .= ',print("STACK-OUTPUT-BEGINS>")';
@@ -277,7 +269,7 @@ class stack_cas_session2 {
         $latex = array();
         if ($results['timeout'] === true) {
             foreach ($this->statements as $num => $statement) {
-                $statement->set_cas_status(array("TIMEDOUT"), array());
+                $statement->set_cas_status(array("TIMEDOUT"), array(), array());
             }
         } else {
             if (array_key_exists('values', $results)) {
@@ -324,7 +316,13 @@ class stack_cas_session2 {
                         $answernotes = $results['notes']['s' . $num];
                     }
                 }
-                $statement->set_cas_status($err, $answernotes);
+                $feedback = array();
+                if (array_key_exists('feedback', $results)) {
+                    if (array_key_exists('s' . $num, $results['feedback'])) {
+                        $feedback = $results['feedback']['s' . $num];
+                    }
+                }
+                $statement->set_cas_status($err, $answernotes, $feedback);
             }
 
             foreach ($collectvalues as $key => $statement) {

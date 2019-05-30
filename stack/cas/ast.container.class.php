@@ -54,11 +54,6 @@ class stack_ast_container extends stack_ast_container_silent implements cas_late
     private $validationcontext = null;
 
     /**
-     * @var string Only gets set by an answertest.
-     */
-    private $feedback;
-
-    /**
      * @var string Used by the testing setup only.
      */
     private $testclean;
@@ -254,14 +249,6 @@ class stack_ast_container extends stack_ast_container_silent implements cas_late
             return trim(implode(' | ', array_unique($this->answernotes)));
         }
         return $this->answernotes;
-    }
-
-    public function get_feedback() {
-        return $this->feedback;
-    }
-
-    public function set_feedback($val) {
-        $this->feedback = $val;
     }
 
     /*

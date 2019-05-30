@@ -47,7 +47,8 @@ class stack_secure_loader implements cas_evaluatable {
         return $this->code;
     }
 
-    public function set_cas_status(array $errors, array $answernotes) {
+    public function set_cas_status(array $errors, array $answernotes, array $feedback) {
+        // Note that secure_loader content does not care about feedback or notes.
         $this->errors = $errors;
     }
 

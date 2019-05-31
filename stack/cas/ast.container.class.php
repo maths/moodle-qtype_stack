@@ -169,6 +169,18 @@ class stack_ast_container extends stack_ast_container_silent implements cas_late
     }
 
     public function set_cas_latex_value(string $latex) {
+        $dispfix = array('QMCHAR' => '?', '!LEFTSQ!' => '\left[', '!LEFTR!' => '\left(',
+            '!RIGHTSQ!' => '\right]', '!RIGHTR!' => '\right)');
+        // Need to add this in here also because strings may contain question mark characters.
+        foreach ($dispfix as $key => $fix) {
+            $latex = str_replace($key, $fix, $latex);
+        }
+        $loctags = array('ANDOR', 'SAMEROOTS', 'MISSINGVAR', 'ASSUMEPOSVARS', 'ASSUMEPOSREALVARS', 'LET',
+                'AND', 'OR', 'NOT');
+        foreach ($loctags as $tag) {
+            $latex = str_replace('!'.$tag.'!', stack_string('equiv_'.$tag), $latex);
+        }
+        
         $this->latex = $latex;
     }
 

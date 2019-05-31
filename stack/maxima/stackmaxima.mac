@@ -2204,7 +2204,7 @@ ATExpanded(SA,SB) :=
 ATPartFrac(SA, SB, SO) := block([negdistrib, Validity, rawmk, fb, ansnote, ret, facdum, wrt, SAA, SBB, SOO],
     negdistrib:false,
     facdum:'facdum,
-    Validity:true, rawmk:true, fb:StackAddFeedback("",""), ansnote:"",
+    Validity:true, rawmk:true, fb:"", ansnote:"",
 
     SAA:errcatch(ev(SA, simp, nouns)),
     if (is(SAA=[STACKERROR]) or is(SAA=[])) then

@@ -282,7 +282,7 @@ class stack_ast_container_silent implements cas_evaluatable {
         if (count($errors) > 0) {
             $this->errors = array_merge($this->errors, $errors);
             foreach ($errors as $value) {
-                if ($value) {
+                if ($value !== '') {
                     $this->decode_maxima_errors($value);
                 }
             }
@@ -292,15 +292,15 @@ class stack_ast_container_silent implements cas_evaluatable {
         // from the CAS? Same with errors and feedback.
         if (count($answernotes) > 0) {
             foreach ($answernotes as $value) {
-                if ($value) {
+                if ($value !== '') {
                     $this->decode_maxima_errors($value);
                 }
             }
         }
         if (count($feedback) > 0) {
             foreach ($feedback as $value) {
-                if ($value) {
-                    $this->feedback[] = $value;
+                if ($value !== '') {
+                    $this->feedback[] = stack_maxima_translate($value);
                 }
             }
         }

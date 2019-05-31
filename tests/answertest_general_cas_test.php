@@ -125,19 +125,19 @@ class stack_answertest_general_cas_test extends qtype_stack_testcase {
     }
 
     public function test_is_true_for_equal_expressions_caseq() {
-        $at = $this->stack_answertest_general_cas_builder('x+y', 'x+y', 'CASEqual');
+        $at = $this->stack_answertest_general_cas_builder('x+y', 'x+y', 'CasEqual');
         $this->assertTrue($at->do_test());
         $this->assertEquals(1, $at->get_at_mark());
     }
 
     public function test_is_false_for_unequal_expressions_caseq() {
-        $at = $this->stack_answertest_general_cas_builder('(1-x)^2', '(x-1)^2', 'CASEqual');
+        $at = $this->stack_answertest_general_cas_builder('(1-x)^2', '(x-1)^2', 'CasEqual');
         $this->assertFalse($at->do_test());
         $this->assertEquals(0, $at->get_at_mark());
     }
 
     public function test_is_false_for_expressions_with_different_type_caseq() {
-        $at = $this->stack_answertest_general_cas_builder('(x+1)^2', '[a,b,c]', 'CASEqual');
+        $at = $this->stack_answertest_general_cas_builder('(x+1)^2', '[a,b,c]', 'CasEqual');
         $this->assertFalse($at->do_test());
         $this->assertEquals(0, $at->get_at_mark());
     }

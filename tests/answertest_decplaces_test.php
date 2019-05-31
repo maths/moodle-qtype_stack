@@ -36,19 +36,23 @@ class stack_anstest_atdecplaces_test extends qtype_stack_testcase {
         $at = new stack_ans_test_controller('NumDecPlaces',
                 stack_ast_container::make_from_teacher_source('1.01'),
                 stack_ast_container::make_from_teacher_source('1.01'), 
-                null, 
-                stack_ast_container::make_from_teacher_source('2'));
+                stack_ast_container::make_from_teacher_source('2'),
+                null);
         $this->assertTrue($at->do_test());
         $this->assertEquals(1, $at->get_at_mark());
-        $this->assertTrue($at->required_atoptions());
+        // This is no longer the way.
+        // $this->assertTrue($at->required_atoptions());
+        // This is the new way. We only check if they are needed, 
+        // when does the validity get checked?
+        $this->assertTrue(stack_ans_test_controller::required_atoptions('NumDecPlaces'));
     }
 
     public function test_is_false_for_unequal_expressions() {
         $at = new stack_ans_test_controller('NumDecPlaces',
             stack_ast_container::make_from_teacher_source('2'),
             stack_ast_container::make_from_teacher_source('1'), 
-            null,
-            stack_ast_container::make_from_teacher_source('4'));
+            stack_ast_container::make_from_teacher_source('4'),
+            null);
         $this->assertFalse($at->do_test());
         $this->assertEquals(0, $at->get_at_mark());
     }
@@ -57,8 +61,8 @@ class stack_anstest_atdecplaces_test extends qtype_stack_testcase {
         $at = new stack_ans_test_controller('NumDecPlaces',
             stack_ast_container::make_from_teacher_source('2.000'), 
             stack_ast_container::make_from_teacher_source('1'),
-            null, 
-            stack_ast_container::make_from_teacher_source('3'));
+            stack_ast_container::make_from_teacher_source('3'),
+            null);
         $this->assertFalse($at->do_test());
         $this->assertEquals(0, $at->get_at_mark());
         $this->assertEquals('ATNumDecPlaces_Correct. ATNumDecPlaces_Not_equiv.', $at->get_at_answernote());

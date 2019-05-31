@@ -131,8 +131,8 @@ class stack_ast_container_silent implements cas_evaluatable {
         return $astc;
     }
 
-    public static function make_from_teacher_source(string $raw, string $context,
-            stack_cas_security $securitymodel) {
+    public static function make_from_teacher_source(string $raw, string $context='',
+            stack_cas_security $securitymodel=null) {
         // If you wonder why the security model is in play for teachers it
         // is here to bring in the information on whether units are constants
         // or not and thus affect the teachers ability to write into them.
@@ -140,6 +140,10 @@ class stack_ast_container_silent implements cas_evaluatable {
         $answernotes = array();
         $parseroptions = array('startRule' => 'Root',
                                'letToken' => stack_string('equiv_LET'));
+
+        if ($securitymodel === null) {
+            $securitymodel = new stack_cas_security();
+        }
 
         // Use the raw parser if it does not work this is invalid input.
         $ast = null;

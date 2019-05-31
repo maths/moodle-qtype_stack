@@ -32,6 +32,9 @@ require_once(__DIR__ . '/../stack/cas/keyval.class.php');
  */
 class stack_cas_session_test extends qtype_stack_testcase {
 
+    /*
+    // TODO: similar tests for cassession2
+
     public function test_internal_config() {
         // This test checks if the version number returned by Maxima matches our internal config.
         $cs = array('m:MAXIMA_VERSION_NUM');
@@ -1509,5 +1512,5 @@ class stack_cas_session_test extends qtype_stack_testcase {
             $i++;
         }
     }
-
+   */
 }

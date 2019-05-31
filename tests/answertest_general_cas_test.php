@@ -279,7 +279,7 @@ class stack_answertest_general_cas_test extends qtype_stack_testcase {
         $at = $this->stack_answertest_general_cas_builder('(x+1)^2', '(x+1)^2', 'Int', '(x');
         $this->assertNull($at->do_test());
         $this->assertEquals(0, $at->get_at_mark());
-        $this->assertTrue($at->required_atoptions());
+        $this->assertTrue(stack_ans_test_controller::required_atoptions('Int'));
 
         list ($valid, $err) = $at->validate_atoptions('x');
         $this->assertTrue($valid);

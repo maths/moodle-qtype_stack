@@ -44,19 +44,12 @@ class stack_cas_castext_foreach extends stack_cas_castext_block {
     private $strings = array();
 
     public function extract_attributes(&$tobeevaluatedcassession, $conditionstack = null) {
-        $sessionkeys = $tobeevaluatedcassession->get_all_keys();
         foreach ($this->get_node()->get_parameters() as $key => $value) {
-            $cs = null;
-            $caskey = '';
-            do { // Make sure names are not already in use.
-                $caskey = 'caschat'.$i;
-                $i++;
-            } while (in_array($caskey, $sessionkeys));
-
-            $raw = "$caskey:$value";
-            $cs = stack_ast_container_conditional::make_from_teacher_source($raw, '', new stack_cas_security());
+            $cs = stack_ast_container_conditional::make_from_teacher_source($value, '', new stack_cas_security());
             $cs->set_conditions($conditionstack);
             $this->strings[$key] = $cs;
+            $cs->set_keyless(true);
+            
             $tobeevaluatedcassession->add_statement($cs);
         }
     }
@@ -70,8 +63,8 @@ class stack_cas_castext_foreach extends stack_cas_castext_block {
         // Extract the lists.
         $lists = array();
         $maxlength = -1;
-        foreach ($this->numbers as $key => $id) {
-            $lists[$key] = stack_utils::list_to_array($this->strings[$key]->get_value(), false);
+        foreach ($this->strings as $key => $value) {
+            $lists[$key] = stack_utils::list_to_array($value->get_value(), false);
             if ($maxlength == -1 || $maxlength > count($lists[$key])) {
                 $maxlength = count($lists[$key]);
             }

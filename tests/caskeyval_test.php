@@ -33,21 +33,11 @@ class stack_cas_keyval_test extends qtype_stack_testcase {
         $kv->instantiate();
         $this->assertEquals($val, $kv->get_valid());
 
-        // @codingStandardsIgnoreStart
-        // This is a problematic thing now that casstrings have the AST structures in them.
-        // $this->assertEquals($session->get_session(), $kvsession->get_session());
-        // Depending how they have been built they may have very different positional data.
-        // To deal with this we need to ask the casstrings to drop the AST before comparison.
-        // @codingStandardsIgnoreEnd
-        $session->test_clean();
-        $ses1 = $session->get_session();
-
-        $kvsession = $kv->get_session();
-        $kvsession->test_clean();
-        $ses2 = $kvsession->get_session();
-
-        // We still check if the result is the same though.
-        $this->assertEquals($ses1, $ses2);
+        // In the old world (<4.3) we compared the raw objects.
+        // But now the objects contain complex references and positional data
+        // so we comapre the representations of those objects.
+        $this->assertEquals($session->get_keyval_representation(), 
+                            $kv->get_session()->get_keyval_representation());
     }
 
     public function test_get_valid() {
@@ -89,12 +79,15 @@ class stack_cas_keyval_test extends qtype_stack_testcase {
             $this->get_valid($case[0], $case[1], $case[2]);
         }
     }
-/*
     public function test_empty_case_1() {
         $at1 = new stack_cas_keyval('', null, 123);
         $this->assertTrue($at1->get_valid());
     }
 
+/*
+    // Now here we have a problem, keyvals do not generate output values
+    // they just load stuff to the session, therefore you cannot get 
+    // the instantiated values.
     public function test_equations_1() {
         $at1 = new stack_cas_keyval('ta1 : x=1; ta2 : x^2-2*x=1', null, 123);
         $at1->instantiate();
@@ -102,6 +95,8 @@ class stack_cas_keyval_test extends qtype_stack_testcase {
         $this->assertEquals($s->get_value_key('ta1'), 'x = 1');
         $this->assertEquals($s->get_value_key('ta2'), 'x^2-2*x = 1');
     }
+
+
 */
 //    public function test_remove_comment() {
 //        $at1 = new stack_cas_keyval("a:1\n /* This is a comment \n b:2\n */\n c:3", null, 123);

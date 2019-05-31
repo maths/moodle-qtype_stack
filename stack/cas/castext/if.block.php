@@ -42,6 +42,7 @@ class stack_cas_castext_if extends stack_cas_castext_block {
         $this->condition = stack_ast_container::make_from_teacher_source($condition, '', new stack_cas_security());
 
         $this->string = $cs;
+        $cs->set_keyless(true);
 
         $tobeevaluatedcassession->add_statement($cs);
     }

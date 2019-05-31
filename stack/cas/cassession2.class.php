@@ -153,10 +153,12 @@ class stack_cas_session2 {
             return $this->errors;
         }
         $r = array();
-        foreach ($this->errors as $value) {
-            // [0] the list of errors.
-            // [1] the context information.
-            $r[] = implode(' ', $value[0]);
+        foreach ($this->errors as $statementerrors) {
+            foreach ($statementerrors as $value) {
+                // [0] the list of errors.
+                // [1] the context information.
+                $r[] = implode(' ', $value[0]);
+            }
         }
         return implode(' ', $r);
     }

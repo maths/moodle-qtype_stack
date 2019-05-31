@@ -75,6 +75,14 @@ class stack_ast_container_silent implements cas_evaluatable {
      */
     protected $securitymodel;
 
+    /**
+     * Some AST-containers have keys but are still to be used like they had 
+     * none. This is somewhat more complex behaviour connected to the new
+     * cassession only returning the values of last statements with a given 
+     * key.
+     */
+    protected $keyless = false;
+
     /*
      * NOTES:
      *  1. this does not provide means of storing the results of evaluation.
@@ -217,11 +225,17 @@ class stack_ast_container_silent implements cas_evaluatable {
         $this->answernotes = $answernotes;
         $this->valid = null;
         $this->feedback = array();
+        $this->keyless = false;
 
         if (!('s' === $source || 't' === $source)) {
             throw new stack_exception('stack_ast_container: source, must be "s" or "t" only.');
         }
     }
+
+    public function set_keyless(bool $key=true) {
+        $this->keyless = $key;
+    }
+
 
     // Functions required by cas_evaluatable.
     public function get_valid(): bool {
@@ -282,7 +296,7 @@ class stack_ast_container_silent implements cas_evaluatable {
         if (count($errors) > 0) {
             $this->errors = array_merge($this->errors, $errors);
             foreach ($errors as $value) {
-                if ($value !== '') {
+                if ($value !== '' && $value !== null) {
                     $this->decode_maxima_errors($value);
                 }
             }
@@ -292,15 +306,15 @@ class stack_ast_container_silent implements cas_evaluatable {
         // from the CAS? Same with errors and feedback.
         if (count($answernotes) > 0) {
             foreach ($answernotes as $value) {
-                if ($value !== '') {
+                if ($value !== '' && $value !== null) {
                     $this->decode_maxima_errors($value);
                 }
             }
         }
         if (count($feedback) > 0) {
             foreach ($feedback as $value) {
-                if ($value !== '') {
-                    $this->feedback[] = stack_maxima_translate($value);
+                if ($value !== '' && $value !== null) {
+                    $this->feedback[] = $value;
                 }
             }
         }
@@ -311,6 +325,10 @@ class stack_ast_container_silent implements cas_evaluatable {
     }
 
     public function get_key(): string {
+        if ($this->keyless === true) {
+            return '';
+        }
+
         $root = $this->ast;
         if ($root instanceof MP_Root) {
             if (array_key_exists(0, $root->items)) {
@@ -366,7 +384,11 @@ class stack_ast_container_silent implements cas_evaluatable {
             $this->get_valid();
         }
         if ($raw === 'implode') {
-            return trim(implode(' | ', array_unique($this->feedback)));
+            $r = trim(implode(' | ', array_unique($this->feedback)));
+            if (strrpos($r, '!NEWLINE!') === core_text::strlen($r) - 9) {
+                $r = trim(core_text::substr($r, 0, -9));
+                return $r;
+            }
         }
         return $this->feedback;
     }

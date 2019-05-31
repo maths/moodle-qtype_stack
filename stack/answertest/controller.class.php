@@ -280,7 +280,7 @@ class stack_ans_test_controller {
      * @access public
      */
     public function get_at_feedback() {
-        return stack_maxima_translate($this->at->get_at_feedback());
+        return ($this->at->get_at_feedback());
     }
 
     /**

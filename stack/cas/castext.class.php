@@ -302,34 +302,30 @@ class stack_cas_text {
      * This function actually evaluates the castext.
      */
     private function instantiate() {
+        if ($this->session == null) {
+            $this->session = new stack_cas_session2(array(), null, $this->seed);
+        }
+      
         // Initial pass.
         if (stack_cas_castext_castextparser::castext_parsing_required($this->trimmedcastext)) {
-            if ($this->session == null) {
-                $this->session = new stack_cas_session2(array(), null, $this->seed);
-            }
             $parser = new stack_cas_castext_castextparser($this->trimmedcastext);
             $arrayform = $parser->match_castext();
             $arrayform = stack_cas_castext_castextparser::normalize($arrayform);
             $arrayform = stack_cas_castext_castextparser::block_conversion($arrayform);
             $this->parsetreeroot = stack_cas_castext_parsetreenode::build_from_nested($arrayform);
             $this->first_pass_recursion($this->parsetreeroot, array());
-        }
+        } 
 
-        if (null != $this->session) {
-            if (!$this->session->get_valid()) {
-                $this->valid = false;
-            }
+
+        if (!$this->session->get_valid()) {
+            $this->valid = false;
         }
 
         if (!$this->valid) {
             return false;
         }
-
-        // Deal with castext without any CAS variables.
-        if (null !== $this->session ) {
-            $this->session->instantiate();
-        }
-
+        $this->session->instantiate();
+        
         // Handle blocks.
         $requiresrerun = false;
         foreach (array_reverse($this->blocks) as $block) {

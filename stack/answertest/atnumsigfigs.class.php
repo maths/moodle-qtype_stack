@@ -260,8 +260,16 @@ class stack_anstest_atnumsigfigs extends stack_anstest {
         if ($result instanceof MP_List) {
             $r['valid'] = $result->items[0]->value;
             $r['result'] = $result->items[1]->value;
-            $r['answernote'] = $result->items[2]->value;
+            if ($result->items[2] instanceof MP_String) {
+                $r['answernote'] = $result->items[2]->value;
+            } else if ($result->items[2] instanceof MP_List) {
+                // This is an odd case... We really should not have differing types.
+                $r['answernote'] = $result->items[2]->toString();
+            }
             $r['feedback'] = stack_maxima_translate($result->items[3]->value);
+            if (strrpos($r['feedback'], '!NEWLINE!') === core_text::strlen($r['feedback']) - 9) {
+                $r['feedback'] = trim(core_text::substr($r['feedback'], 0, -9));
+            }
         }
         return $r;
     }

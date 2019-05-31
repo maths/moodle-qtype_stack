@@ -219,7 +219,7 @@ class stack_cas_text_test extends qtype_stack_testcase {
     public function test_not_confused_by_pluginfile() {
         $ct = new stack_cas_text('Here {@x@} is some @@PLUGINFILE@@ {@x + 1@} some input', null, 0);
         $this->assertTrue($ct->get_valid());
-        $this->assertEquals(array('x', 'x + 1'), $ct->get_all_raw_casstrings());
+        //$this->assertEquals(array('x', 'x + 1'), $ct->get_all_raw_casstrings());
         $this->assertEquals('Here \({x}\) is some @@PLUGINFILE@@ \({x+1}\) some input', $ct->get_display_castext());
     }
 
@@ -228,9 +228,12 @@ class stack_cas_text_test extends qtype_stack_testcase {
                 'src="@@PLUGINFILE@@/inclined-plane.png" alt="" width="164" height="117" /></p>';
         $ct = new stack_cas_text($realexample);
         $this->assertTrue($ct->get_valid());
-        $this->assertEquals(array(), $ct->get_all_raw_casstrings());
+        //$this->assertEquals(array(), $ct->get_all_raw_casstrings());
         $this->assertEquals($realexample, $ct->get_display_castext());
     }
+
+/* TODO: we do still have access to those but do we need that? We have the better
+   logic of getting actual used identifiers if we need them.
 
     public function test_get_all_raw_casstrings() {
         $raw = 'Take {@x^2+2*x@} and then {@sin(z^2)@}.';
@@ -274,7 +277,8 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $val = array('p:diff(sans)', 'q=int(tans)', '1/(1+x^2)', 'sin(z^2)');
         $this->assertEquals($val, $at1->get_all_raw_casstrings());
     }
-
+*/
+    /* Keys are not needed after 4.3.
     public function test_auto_generated_key_names() {
 
         $a2 = array('a:x^2', 'caschat0:x^3');
@@ -289,6 +293,7 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $session = $at1->get_session();
         $this->assertEquals(array('a', 'caschat0', 'caschat1', 'caschat2'), $session->get_all_keys());
     }
+    */
 
     public function test_redefine_variables() {
         // Notice this means that within a session the value of n has to be returned at every stage....
@@ -308,6 +313,8 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $this->assertContains(stack_string('calc_diff_linearity_rule_fact'), $output);
     }
 
+/* TODO: now that teachers can use pretty much anything and the insert stars
+   logic is largely ignored for teacher content we need to think this test through.
     public function test_bad_variablenames() {
         // NOTE: Consider this test, when does the student actually write castext?
         // And insert stars in that case surely does not matter much.
@@ -321,6 +328,7 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $this->assertEquals('<span class="error">CASText failed validation. </span>CAS commands not valid.  You seem to be missing * characters. Perhaps you meant to type <span class="stacksyntaxexample">Ax<font color="red">*</font>2</span>. Forbidden variable or constant: <span class="stacksyntaxexample">double</span>. Forbidden variable or constant: <span class="stacksyntaxexample">cAx</span>. You seem to be missing * characters. Perhaps you meant to type <span class="stacksyntaxexample">c<font color="red">*</font>2<font color="red">*</font>A</span>. You seem to be missing * characters. Perhaps you meant to type <span class="stacksyntaxexample">Bx<font color="red">*</font>2</span>. Forbidden variable or constant: <span class="stacksyntaxexample">cBx</span>.  You seem to be missing * characters. Perhaps you meant to type <span class="stacksyntaxexample">ApBx<font color="red">*</font>2</span>. Forbidden variable or constant: <span class="stacksyntaxexample">xterm</span>. Forbidden variable or constant: <span class="stacksyntaxexample">double</span>. You seem to be missing * characters. Perhaps you meant to type <span class="stacksyntaxexample">Ac<font color="red">*</font>2</span>.',
                         $at1->get_errors());
     }
+*/
 
     public function test_assignmatrixelements() {
         // Assign a value to matrix entries.
@@ -385,7 +393,7 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $at1->get_display_castext();
 
         $session = $at1->get_session();
-        $this->assertEquals(array('p', 'caschat0'), $session->get_all_keys());
+        // $this->assertEquals(array('p', 'caschat0'), $session->get_all_keys());
 
         $this->assertTrue(is_int(strpos($at1->get_display_castext(),
                 ".svg' alt='STACK auto-generated plot of x^3 with parameters [[x,-2,3]]'")));
@@ -406,7 +414,7 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $at1->get_display_castext();
 
         $session = $at1->get_session();
-        $this->assertEquals(array('p', 'caschat0'), $session->get_all_keys());
+        // $this->assertEquals(array('p', 'caschat0'), $session->get_all_keys());
         $this->assertTrue(is_int(strpos($at1->get_display_castext(), ".svg' alt='Hello World!'")));
     }
 
@@ -425,7 +433,7 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $at1->get_display_castext();
 
         $session = $at1->get_session();
-        $this->assertEquals(array('p', 'caschat0'), $session->get_all_keys());
+        // $this->assertEquals(array('p', 'caschat0'), $session->get_all_keys());
         $this->assertTrue(is_int(strpos($at1->get_errors(), "Plot error: the alt tag definition must be a string, but is not.")));
     }
 
@@ -473,7 +481,7 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $at1->get_display_castext();
 
         $session = $at1->get_session();
-        $this->assertEquals(array('caschat0'), $session->get_all_keys());
+        // $this->assertEquals(array('caschat0'), $session->get_all_keys());
         $this->assertTrue(is_int(strpos($at1->get_errors(),
                 "Plot error: STACK does not currently support the following plot2d options:")));
     }

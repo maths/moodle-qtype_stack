@@ -118,8 +118,8 @@ class stack_ast_container extends stack_ast_container_silent implements cas_late
         }
         if ($validationmethod == 'numerical') {
             // TODO: What happens here what are the argumentsm is that the correct function?
-            $vcmd = 'stack_validate_typeless(['.$starredanswer.'],
-            '.$forbidfloats.', '.$lowestterms.', false,'.$fltfmt.')';
+            $vcmd = 'stack_validate_typeless(['.$starredanswer.'],'.
+                $lowestterms.', false,'.$fltfmt.')';
         }
         if ($validationmethod == 'equiv') {
             $vcmd = 'stack_validate_typeless(['.$starredanswer.'], '.$lowestterms.', true,'.$fltfmt.')';

@@ -320,6 +320,10 @@ class stack_ast_container_silent implements cas_evaluatable {
         }
     }
 
+    public function get_securitymodel(): stack_cas_security {
+        return $this->securitymodel;
+    }
+
     public function get_source_context(): string {
         return $this->context;
     }
@@ -448,8 +452,11 @@ class stack_ast_container_silent implements cas_evaluatable {
      * Basic type checks, for checking if the expression is just one
      * object (ignoring content) of a given type.
      */
-    public function is_int(): bool {
+    public function is_int(bool $evaluated=false): bool {
         $root = $this->ast;
+        if ($evaluated) {
+            $root = $this->get_evaluated();
+        }
         if ($root instanceof MP_Root) {
             if (array_key_exists(0, $root->items)) {
                 $root = $root->items[0];
@@ -478,8 +485,11 @@ class stack_ast_container_silent implements cas_evaluatable {
         return false;
     }
 
-    public function is_float(): bool {
+    public function is_float(bool $evaluated=false): bool {
         $root = $this->ast;
+        if ($evaluated) {
+            $root = $this->get_evaluated();
+        }
         if ($root instanceof MP_Root) {
             if (array_key_exists(0, $root->items)) {
                 $root = $root->items[0];
@@ -510,8 +520,11 @@ class stack_ast_container_silent implements cas_evaluatable {
 
     // exception of the bool value style, we return the length of
     // the list or -1 if not a list.
-    public function is_list(): int {
+    public function is_list(bool $evaluated=false): int {
         $root = $this->ast;
+        if ($evaluated) {
+            $root = $this->get_evaluated();
+        }
         if ($root instanceof MP_Root) {
             if (array_key_exists(0, $root->items)) {
                 $root = $root->items[0];
@@ -535,8 +548,11 @@ class stack_ast_container_silent implements cas_evaluatable {
         return -1;
     }
 
-    public function is_string(): bool {
+    public function is_string(bool $evaluated=false): bool {
         $root = $this->ast;
+        if ($evaluated) {
+            $root = $this->get_evaluated();
+        }
         if ($root instanceof MP_Root) {
             if (array_key_exists(0, $root->items)) {
                 $root = $root->items[0];
@@ -560,8 +576,11 @@ class stack_ast_container_silent implements cas_evaluatable {
         return false;
     }
 
-    public function is_set(): bool {
+    public function is_set(bool $evaluated=false): bool {
         $root = $this->ast;
+        if ($evaluated) {
+            $root = $this->get_evaluated();
+        }
         if ($root instanceof MP_Root) {
             if (array_key_exists(0, $root->items)) {
                 $root = $root->items[0];
@@ -585,8 +604,11 @@ class stack_ast_container_silent implements cas_evaluatable {
         return false;
     }
 
-    public function is_matrix(): bool {
+    public function is_matrix(bool $evaluated=false): bool {
         $root = $this->ast;
+        if ($evaluated) {
+            $root = $this->get_evaluated();
+        }
         if ($root instanceof MP_Root) {
             if (array_key_exists(0, $root->items)) {
                 $root = $root->items[0];
@@ -614,8 +636,11 @@ class stack_ast_container_silent implements cas_evaluatable {
 
     // Do not call this unless you are dealing with a list.
     // TODO: ?MP_Node for return type.
-    public function get_list_element(int $index) {
+    public function get_list_element(int $index, bool $evaluated=false) {
         $root = $this->ast;
+        if ($evaluated) {
+            $root = $this->get_evaluated();
+        }
         if ($root instanceof MP_Root) {
             if (array_key_exists(0, $root->items)) {
                 $root = $root->items[0];

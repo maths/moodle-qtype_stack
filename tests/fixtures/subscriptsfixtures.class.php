@@ -182,22 +182,22 @@ class stack_subscripts_test_data {
     }
 
     public static function run_test($test, $simp) {
+        $sec = new stack_cas_security();
 
         $cs = array('p:'.$test->rawinput);
         foreach ($cs as $s) {
-            $cs = new stack_cas_casstring($s);
-            $cs->get_valid('s', true, 0);
+            $cs = stack_ast_container::make_from_student_source($s, 'subscripts_fixtures', $sec);
+            $cs->get_valid();
             $s1[] = $cs;
         }
         $options = new stack_options();
         $options->set_option('simplify', $simp);
         $options->set_option('multiplicationsign', 'none');
 
-        $at1 = new stack_cas_session($s1, $options, 0);
+        $at1 = new stack_cas_session2($s1, $options, 0);
         $at1->instantiate();
 
-        $cs = $at1->get_session();
-        $cs = $cs[0];
+        $cs = $s1[0];
         $test->valid = $cs->get_valid();
         $test->value = $cs->get_value();
         $test->display = $cs->get_display();

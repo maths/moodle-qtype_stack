@@ -61,16 +61,16 @@ class stack_equiv_input extends stack_input {
 
         if ($this->is_blank_response($state->contents)) {
             $current = $this->maxima_to_raw_input($this->parameters['syntaxHint']);
-            $cs = new stack_cas_casstring($current);
+            $cs = stack_ast_container::make_from_teacher_source($current);
             // The syntax hint need not be valid, but we don't want nouns.
-            if ($cs->get_valid('t')) {
+            if ($cs->get_valid()) {
                 $current = $cs->get_inputform();
             }
             // Put the first line of the value of the teacher's answer in the input.
             if (trim($this->parameters['syntaxHint']) == 'firstline') {
                 $values = stack_utils::list_to_array($tavalue, false);
-                $cs = new stack_cas_casstring($values[0]);
-                $cs->get_valid('t');
+                $cs = stack_ast_container::make_from_teacher_source($values[0]);
+                $cs->get_valid();
                 $current = $cs->get_inputform();
             }
             // Remove % characters, e.g. %pi should be printed just as "pi".
@@ -149,9 +149,9 @@ class stack_equiv_input extends stack_input {
     protected function caslines_to_answer($caslines) {
         $vals = array();
         foreach ($caslines as $line) {
-            $vals[] = $line->get_casstring();
+            $vals[] = $line->get_evaluationform();
         }
-        return new stack_cas_casstring('['.implode(',', $vals).']');
+        return stack_ast_container::make_from_student_source('['.implode(',', $vals).']', '', $caslines[0]->get_securitymodel());
     }
 
     /**
@@ -177,9 +177,9 @@ class stack_equiv_input extends stack_input {
         $values = stack_utils::list_to_array($in, false);
         foreach ($values as $key => $val) {
             if (trim($val) != '') {
-                $cs = new stack_cas_casstring($val);
-                if ($cs->get_valid('t')) {
-                    $val = $cs->ast->toString(array('nounify' => false, 'inputform' => true));
+                $cs = stack_ast_container::make_from_teacher_source($val);
+                if ($cs->get_valid()) {
+                    $val = $cs->get_inputform();
                 }
             }
             $values[$key] = $val;
@@ -227,13 +227,12 @@ class stack_equiv_input extends stack_input {
                 // One of those things logic nouns hid.
                 $val = '';
             }
-            $answer = new stack_cas_casstring($val);
-            $answer->set_context('equivline', true);
-            $answer->get_valid('s', $this->get_parameter('strictSyntax', true),
-                    $this->get_parameter('insertStars', 0), $secrules);
+            // TODO: add filters, strict and so on.
+
+            $answer = stack_ast_container::make_from_student_source($val, '', $secrules, array(), array(), 'Equivline');
+            
             // Is the student permitted to include comments in their answer?
-            if (!$this->extraoptions['comments'] && $answer->ast instanceof MP_Statement &&
-                    array_pop($answer->ast->getChildren()) instanceof MP_String) {
+            if (!$this->extraoptions['comments'] && $answer->is_string()) {
                 $valid = false;
                 $answer->add_errors(stack_string('equivnocomments'));
             }
@@ -245,9 +244,7 @@ class stack_equiv_input extends stack_input {
 
         // Construct one final "answer" as a single maxima object.
         $answer = $this->caslines_to_answer($caslines);
-        $answer->set_context('equivline', true);
-        $answer->get_valid('s', $this->get_parameter('strictSyntax', true),
-                $this->get_parameter('insertStars', 0), $secrules);
+        $answer->get_valid();
 
         return array($valid, $errors, $answer, $caslines);
     }
@@ -316,35 +313,33 @@ class stack_equiv_input extends stack_input {
             $showdomain = 'false';
         }
         $debuglist = 'false';
-        $an = new stack_cas_casstring('equiv'.$this->name.':disp_stack_eval_arg('.$this->name.', '.$showlogic.', '.
+        $an = stack_ast_container::make_from_teacher_source('equiv'.$this->name.':disp_stack_eval_arg('.$this->name.', '.$showlogic.', '.
                 $showdomain.', '.$equivdebug.', '.$debuglist.')');
-        $an->get_valid('t', $this->get_parameter('strictSyntax', true),
-                 $this->get_parameter('insertStars', 0));
+        $an->get_valid();
 
         $calculus = 'false';
         if ($this->extraoptions['calculus']) {
             $calculus = 'true';
         }
-        $ca = new stack_cas_casstring('stack_calculus:'.$calculus);
-        $ca->get_valid('t');
+        $ca = stack_ast_container::make_from_teacher_source('stack_calculus:'.$calculus);
+        $ca->get_valid();
 
         $tresponse = $this->maxima_to_response_array($teacheranswer);
         $tcontents = $this->response_to_contents($tresponse);
         // Has the student used the correct first line?
-        $fl = new stack_cas_casstring('firstline:true');
+        $fl = stack_ast_container::make_from_teacher_source('firstline:true');
         if ($this->extraoptions['firstline']) {
             if (array_key_exists(0, $tcontents)) {
                 $ta = $tcontents[0];
                 if (array_key_exists(0, $caslines)) {
                     $sa = $caslines[0]->get_inputform();
-                    $fl = new stack_cas_casstring('firstline:second(ATEqualComAss('.$sa.','.$ta.'))');
+                    $fl = stack_ast_container::make_from_teacher_source('firstline:second(ATEqualComAss('.$sa.','.$ta.'))');
                 }
             }
         }
         // Looks odd making this true, but if there is a validity error here it will have
         // surfaced somewhere else.
-        if (!($fl->get_valid('t', $this->get_parameter('strictSyntax', true),
-                $this->get_parameter('insertStars', 0)))) {
+        if (!($fl->get_valid())) {
             $fl = new stack_cas_casstring('firstline:true');
         }
 
@@ -426,9 +421,9 @@ class stack_equiv_input extends stack_input {
         $values = stack_utils::list_to_array($value, false);
         foreach ($values as $key => $val) {
             if (trim($val) !== '' ) {
-                $cs = new stack_cas_casstring($val);
-                $cs->get_valid('t');
-                $val = '<code>'.$cs->ast->toString(array('nounify' => false, 'inputform' => true)).'</code>';
+                $cs = stack_ast_container::make_from_teacher_source($val);
+                $cs->get_valid();
+                $val = '<code>'.$cs->get_inputform().'</code>';
             }
             $values[$key] = $val;
         }

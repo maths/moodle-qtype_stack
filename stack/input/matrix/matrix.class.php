@@ -34,9 +34,9 @@ class stack_matrix_input extends stack_input {
     public function adapt_to_model_answer($teacheranswer) {
 
         // Work out how big the matrix should be from the INSTANTIATED VALUE of the teacher's answer.
-        $cs = new stack_cas_casstring('ta:matrix_size(' . $teacheranswer . ')');
-        $cs->get_valid('t');
-        $at1 = new stack_cas_session(array($cs), null, 0);
+        $cs = stack_ast_container::make_from_teacher_source('matrix_size(' . $teacheranswer . ')');
+        $cs->get_valid();
+        $at1 = new stack_cas_session2(array($cs), null, 0);
         $at1->instantiate();
 
         if ('' != $at1->get_errors()) {
@@ -44,11 +44,9 @@ class stack_matrix_input extends stack_input {
             return;
         }
 
-        $size = $at1->get_value_key('ta');
-        $dimensions = explode(',', $size);
-
-        $this->height = trim($dimensions[0], '[]');
-        $this->width = trim($dimensions[1], '[]');
+        // These are ints...
+        $this->height = $cs->get_list_element(0, true)->value;
+        $this->width = $cs->get_list_element(1, true)->value;
     }
 
     public function get_expected_data() {
@@ -192,11 +190,10 @@ class stack_matrix_input extends stack_input {
         foreach ($contents as $row) {
             $modifiedrow = array();
             foreach ($row as $val) {
-                $answer = new stack_cas_casstring($val);
-                $answer->get_valid('s', $this->get_parameter('strictSyntax', true),
-                        $this->get_parameter('insertStars', 0), $secrules);
-
-                $modifiedrow[] = $answer->get_casstring();
+                // TODO: insertstars filters... and such
+                $answer = stack_ast_container::make_from_student_source($val, '', $secrules);
+                
+                $modifiedrow[] = $answer->get_inputform();
                 $valid = $valid && $answer->get_valid();
                 $errors[] = $answer->get_errors();
             }
@@ -205,9 +202,8 @@ class stack_matrix_input extends stack_input {
         // Construct one final "answer" as a single maxima object.
         // In the case of matrices (where $caslines are empty) create the object directly here.
         $value = $this->contents_to_maxima($modifiedcontents);
-        $answer = new stack_cas_casstring($value);
-        $answer->get_valid('s', $this->get_parameter('strictSyntax', true),
-                $this->get_parameter('insertStars', 0), $secrules);
+        $answer = stack_ast_container::make_from_student_source($val, '', $secrules);
+        $answer->get_valid();
 
         $caslines = array();
         return array($valid, $errors, $answer, $caslines);

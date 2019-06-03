@@ -344,11 +344,15 @@ class stack_potentialresponse_node {
     public function get_context_variables($key) {
         $variables = array();
 
-        $variables[] = $this->sans;
-        $variables[] = $this->tans;
+        // TODO: cloning here makes zero sense but we are moving these around
+        // and the primary thing here is the validation of the values.
+        $variables[] = clone $this->sans;
+        $variables[0]->set_key('PRSANS' . $key);
+        $variables[] = clone $this->tans;
+        $variables[1]->set_key('PRTANS' . $key);
 
         if ($this->process_atoptions() && trim($this->atoptions) != '') {
-            $cs = stack_ast_container::make_from_teacher_source('PRATOPT:' . $this->atoptions,
+            $cs = stack_ast_container::make_from_teacher_source('PRATOPT' . $key . ':' . $this->atoptions,
                     '', new stack_cas_security());
             $variables[] = $cs;
         }

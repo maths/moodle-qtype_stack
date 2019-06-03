@@ -76,7 +76,7 @@ class stack_answertest_general_cas_test extends qtype_stack_testcase {
         $at = $this->stack_answertest_general_cas_builder('(x+1)^2', '[a,b,c]', 'AlgEquiv');
         $this->assertFalse($at->do_test());
         $this->assertEquals(0, $at->get_at_mark());
-        $this->assertEquals("stack_trans('AlgEquiv_SA_not_list');", $at->get_at_feedback());
+        $this->assertEquals("stack_trans('ATAlgEquiv_SA_not_list');", $at->get_at_feedback());
         $this->assertEquals("ATAlgEquiv_SA_not_list.", $at->get_at_answernote());
     }
 
@@ -84,7 +84,7 @@ class stack_answertest_general_cas_test extends qtype_stack_testcase {
         $at = $this->stack_answertest_general_cas_builder('[1,2]', '[1,2,3]', 'AlgEquiv');
         $this->assertFalse($at->do_test());
         $this->assertEquals(0, $at->get_at_mark());
-        $this->assertEquals("stack_trans('List_wronglen' , !quot!\\(3\\)!quot!  , !quot!\\(2\\)!quot! );",
+        $this->assertEquals("stack_trans('ATList_wronglen' , !quot!\\(3\\)!quot!  , !quot!\\(2\\)!quot! );",
                 $at->get_at_feedback());
         $this->assertEquals("ATList_wronglen.", $at->get_at_answernote());
     }
@@ -93,7 +93,7 @@ class stack_answertest_general_cas_test extends qtype_stack_testcase {
         $at = $this->stack_answertest_general_cas_builder('x', '{1,2,3}', 'AlgEquiv');
         $this->assertFalse($at->do_test());
         $this->assertEquals(0, $at->get_at_mark());
-        $this->assertEquals("stack_trans('AlgEquiv_SA_not_set');", $at->get_at_feedback());
+        $this->assertEquals("stack_trans('ATAlgEquiv_SA_not_set');", $at->get_at_feedback());
         $this->assertEquals("ATAlgEquiv_SA_not_set.", $at->get_at_answernote());
     }
 
@@ -101,7 +101,7 @@ class stack_answertest_general_cas_test extends qtype_stack_testcase {
         $at = $this->stack_answertest_general_cas_builder('{1,2}', '{1,2,3}', 'AlgEquiv');
         $this->assertFalse($at->do_test());
         $this->assertEquals(0, $at->get_at_mark());
-        $this->assertEquals("stack_trans('Set_wrongsz' , !quot!\\(3\\)!quot!  , !quot!\\(2\\)!quot! );",
+        $this->assertEquals("stack_trans('ATSet_wrongsz' , !quot!\\(3\\)!quot!  , !quot!\\(2\\)!quot! );",
                 $at->get_at_feedback());
         $this->assertEquals("ATSet_wrongsz.", $at->get_at_answernote());
     }
@@ -369,7 +369,7 @@ class stack_answertest_general_cas_test extends qtype_stack_testcase {
         $this->assertFalse($at->do_test());
         $this->assertEquals(0, $at->get_at_mark());
 
-        $fb = "stack_trans('Int_generic' , !quot!\\[x^5\\]!quot!  , !quot!\\(x\\)!quot!  , !quot!\\[6\\cdot x^5\\]!quot! );";
+        $fb = "stack_trans('ATInt_generic' , !quot!\\[x^5\\]!quot!  , !quot!\\(x\\)!quot!  , !quot!\\[6\\cdot x^5\\]!quot! );";
         $this->assertEquals($fb, $at->get_at_feedback());
 
         $fbt = 'The derivative of your answer should be equal to the expression ' .
@@ -385,7 +385,7 @@ class stack_answertest_general_cas_test extends qtype_stack_testcase {
         $this->assertFalse($at->do_test());
         $this->assertEquals(0, $at->get_at_mark());
 
-        $fb = 'stack_trans(\'List_wrongentries\' , !quot!\[\left[ x^2 , {\color{red}{\underline{x^2}}} , x^4 \right] \]!quot! );';
+        $fb = 'stack_trans(\'ATList_wrongentries\' , !quot!\[\left[ x^2 , {\color{red}{\underline{x^2}}} , x^4 \right] \]!quot! );';
         $this->assertEquals($fb, $at->get_at_feedback());
 
         $fbt = 'The entries underlined in red below are those that are incorrect. ' .
@@ -399,7 +399,7 @@ class stack_answertest_general_cas_test extends qtype_stack_testcase {
         $this->assertFalse($at->do_test());
         $this->assertEquals(0, $at->get_at_mark());
 
-        $fb = 'stack_trans(\'Matrix_wrongentries\' , ' .
+        $fb = 'stack_trans(\'ATMatrix_wrongentries\' , ' .
                 '!quot!\[\left[\begin{array}{cc} 1 & 2 \\\\ {\color{red}{\underline{2}}} & 4 \end{array}\right]\]!quot! );';
         $this->assertEquals($fb, $at->get_at_feedback());
 
@@ -414,7 +414,7 @@ class stack_answertest_general_cas_test extends qtype_stack_testcase {
         $this->assertFalse($at->do_test());
         $this->assertEquals(0, $at->get_at_mark());
 
-        $fbt = 'stack_trans(\'Int_generic\' , !quot!\[\frac{e^{5\cdot x+7}}{5}+\frac{\left(5\cdot e^7\cdot x-e^7\right)'.
+        $fbt = 'stack_trans(\'ATInt_generic\' , !quot!\[\frac{e^{5\cdot x+7}}{5}+\frac{\left(5\cdot e^7\cdot x-e^7\right)'.
                '\cdot e^{5\cdot x}}{5}\]!quot!  , !quot!\(x\)!quot!  , '.
                '!quot!\[5\cdot e^{5\cdot x+7}+5\cdot \left(5\cdot e^7\cdot x-e^7\right)\cdot e^{5\cdot x}\]!quot! );';
         $this->assertEquals($fbt, $at->get_at_feedback());
@@ -433,7 +433,7 @@ class stack_answertest_general_cas_test extends qtype_stack_testcase {
         $this->assertFalse($at->do_test());
         $this->assertEquals(0, $at->get_at_mark());
 
-        $fbt = 'stack_trans(\'Int_generic\' , !quot!\[x\cdot e^{5\cdot x+7}\]!quot!  , !quot!\(x\)!quot!  , '.
+        $fbt = 'stack_trans(\'ATInt_generic\' , !quot!\[x\cdot e^{5\cdot x+7}\]!quot!  , !quot!\(x\)!quot!  , '.
                '!quot!\[5\cdot e^{5\cdot x+7}+5\cdot \left(5\cdot e^7\cdot x-e^7\right)\cdot e^{5\cdot x}\]!quot! );';
         $this->assertEquals($fbt, $at->get_at_feedback());
 
@@ -448,28 +448,28 @@ class stack_answertest_general_cas_test extends qtype_stack_testcase {
         $at = $this->stack_answertest_general_cas_builder('3.1*m/s', '3.2*m/s', 'UnitsRelative', '0.1');
         $this->assertTrue($at->do_test());
         $this->assertEquals(1, $at->get_at_mark());
-        $this->assertEquals('Units_units_match.', $at->get_at_answernote());
+        $this->assertEquals('ATUnits_units_match.', $at->get_at_answernote());
     }
 
     public function test_is_false_units_relative() {
         $at = $this->stack_answertest_general_cas_builder('3.0*m/s', '3.2*m/s', 'UnitsRelative', '0.05');
         $this->assertFalse($at->do_test());
         $this->assertEquals(0, $at->get_at_mark());
-        $this->assertEquals('Units_units_match.', $at->get_at_answernote());
+        $this->assertEquals('ATUnits_units_match.', $at->get_at_answernote());
     }
 
     public function test_is_true_units_absolute() {
         $at = $this->stack_answertest_general_cas_builder('3.1*m/s', '3.2*m/s', 'UnitsAbsolute', '0.2');
         $this->assertTrue($at->do_test());
         $this->assertEquals(1, $at->get_at_mark());
-        $this->assertEquals('Units_units_match.', $at->get_at_answernote());
+        $this->assertEquals('ATUnits_units_match.', $at->get_at_answernote());
     }
 
     public function test_is_false_units_absolute() {
         $at = $this->stack_answertest_general_cas_builder('3.1*m/s', '3.2*m/s', 'UnitsAbsolute', '0.05');
         $this->assertFalse($at->do_test());
         $this->assertEquals(0, $at->get_at_mark());
-        $this->assertEquals('Units_units_match.', $at->get_at_answernote());
+        $this->assertEquals('ATUnits_units_match.', $at->get_at_answernote());
     }
 
     public function test_equiv_true() {

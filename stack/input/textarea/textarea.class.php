@@ -103,9 +103,9 @@ class stack_textarea_input extends stack_input {
     protected function caslines_to_answer($caslines) {
         $vals = array();
         foreach ($caslines as $line) {
-            $vals[] = $line->get_casstring();
+            $vals[] = $line->get_evaluationform();
         }
-        return new stack_cas_casstring('['.implode(',', $vals).']');
+        return stack_ast_container::make_from_student_source('['.implode(',', $vals).']', '', $caslines[0]->get_securitymodel());
     }
 
     /**
@@ -128,9 +128,9 @@ class stack_textarea_input extends stack_input {
         $values = stack_utils::list_to_array($in, false);
         foreach ($values as $key => $val) {
             if (trim($val) != '') {
-                $cs = new stack_cas_casstring($val);
-                if ($cs->get_valid('t')) {
-                    $val = $cs->ast->toString(array('nounify' => false, 'inputform' => true, 'qmchar' => true));
+                $cs = stack_ast_container::make_from_teacher_source($val);
+                if ($cs->get_valid()) {
+                    $val = $cs->get_inputform();
                 }
             }
             $values[$key] = $val;
@@ -235,9 +235,9 @@ class stack_textarea_input extends stack_input {
         $values = stack_utils::list_to_array($value, false);
         foreach ($values as $key => $val) {
             if (trim($val) !== '' ) {
-                $cs = new stack_cas_casstring($val);
-                $cs->get_valid('t');
-                $val = '<code>'.$cs->ast->toString(array('nounify' => false, 'inputform' => true)).'</code>';
+                $cs = stack_ast_container::make_from_teacher_source($val);
+                $cs->get_valid();
+                $val = '<code>'.$cs->get_inputform().'</code>';
             }
             $values[$key] = $val;
         }

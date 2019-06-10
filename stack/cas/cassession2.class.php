@@ -243,7 +243,7 @@ class stack_cas_session2 {
         foreach ($collectlatex as $key => $statement) {
             $command .= ',_LATEX:stackmap_set(_LATEX,';
             $command .= stack_utils::php_string_to_maxima_string($key);
-            $command .= ',tex1(' . $key . '))';
+            $command .= ',stack_disp(' . $key . ',""))';
         }
 
         // Pack values to the response.

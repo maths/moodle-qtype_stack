@@ -5575,7 +5575,8 @@
         "function": "f"
     },
     "push": {
-        "function": "?"
+        "function": "t",
+        "writesto": [1]
     },
     "put": {
         "function": "?"

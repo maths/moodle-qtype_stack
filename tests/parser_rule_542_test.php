@@ -20,6 +20,8 @@ require_once(__DIR__ . '/../locallib.php');
 require_once(__DIR__ . '/fixtures/test_base.php');
 require_once(__DIR__ . '/../stack/cas/parsingrules/542_no_functions_at_all.filter.php');
 
+// TODO: update these tests to match the realisty of 042 => 442 & 542
+
 /**
  * Unit tests for {@link stack_ast_filter_no_functions_at_all_042}.
  * @group qtype_stack

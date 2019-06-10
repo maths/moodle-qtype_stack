@@ -753,6 +753,8 @@ abstract class stack_input {
         // and if you do not allow inserttion of stars then it is invalid.
         $filterstoapply[] = '402_split_prefix_from_common_function_name';
         $filterstoapply[] = '403_split_at_number_letter_boundary';
+        $filterstoapply[] = '406_split_implied_variable_names';
+
 
         // If stars = 0 then strict, ignore the other strict syntax.
         if ($stars === 0) {

@@ -944,7 +944,7 @@ class stack_cas_text_test extends qtype_stack_testcase {
                 $at1->get_display_castext());
 
         $this->assertEquals('a[n+1]',
-            $cs2->get_value_key('p2'));
+            $cs2->get_by_key('p2')->get_value());
     }
 
     public function test_length() {

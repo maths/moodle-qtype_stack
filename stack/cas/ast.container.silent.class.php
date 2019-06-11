@@ -298,6 +298,7 @@ class stack_ast_container_silent implements cas_evaluatable {
             foreach ($errors as $value) {
                 if ($value !== '' && $value !== null) {
                     $this->decode_maxima_errors($value);
+                    $this->valid = false;
                 }
             }
         }

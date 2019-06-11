@@ -618,7 +618,7 @@ class MP_Identifier extends MP_Atom {
                 $i = array_search($this, $this->parentnode->arguments);
                 $indices = stack_cas_security::get_feature($this->parentnode->name->toString(), 
                     'writesto');
-                if (array_search($i, $indices) !== false) {
+                if ($indices !== null && array_search($i, $indices) !== false) {
                     return true;
                 }
             }

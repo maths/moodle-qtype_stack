@@ -91,7 +91,6 @@ class stack_question_test {
             $results->set_input_state($inputname, $inputresponse,
                     $inputstate->contentsdisplayed, $inputstate->status, $inputstate->errors);
         }
-
         foreach ($this->expectedresults as $prtname => $expectedresult) {
             $result = $question->get_prt_result($prtname, $response, false);
             $results->set_prt_result($prtname, $result);

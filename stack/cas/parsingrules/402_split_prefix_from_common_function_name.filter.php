@@ -66,7 +66,7 @@ class stack_ast_filter_402_split_prefix_from_common_function_name implements sta
             return true;
         };
         // @codingStandardsIgnoreStart
-        while ($ast->callbackRecurse($process) !== true) {
+        while ($ast->callbackRecurse($process, true) !== true) {
         }
         // @codingStandardsIgnoreEnd
         return $ast;

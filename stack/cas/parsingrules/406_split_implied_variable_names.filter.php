@@ -52,7 +52,7 @@ class stack_ast_filter_406_split_implied_variable_names implements stack_cas_ast
             return true;
         };
         // @codingStandardsIgnoreStart
-        while ($ast->callbackRecurse($process) !== true) {
+        while ($ast->callbackRecurse($process, true) !== true) {
         }
         // @codingStandardsIgnoreEnd
         return $ast;

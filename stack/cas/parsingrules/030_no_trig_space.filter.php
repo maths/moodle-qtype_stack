@@ -27,7 +27,7 @@ class stack_ast_filter_030_no_trig_space implements stack_cas_astfilter {
 
         $selectednames = stack_cas_security::get_all_with_feature('trigfun');
 
-        $process = function($node) use (&$valid, &$errors, &$answernotes, $selectednames) {
+        $process = function($node) use (&$errors, &$answernotes, $selectednames) {
             if ($node instanceof MP_Identifier &&
                 !$node->is_function_name()) {
                 if (array_key_exists($node->value, $selectednames)) {

@@ -319,6 +319,24 @@ class stack_cas_session2 {
                         }
                     }
                 }
+                // Check for ignores.
+                $last = null;
+                $errb = array();
+                foreach ($err as $error) {
+                    if (strpos($err, 'STACK: ignore previous error.') !== false) {
+                        $last = null;
+                    } else {
+                        if ($last !== null) {
+                            $errb[] = $last;
+                        }
+                        $last = $error;
+                    }
+                }
+                if ($last !== null) {
+                    $errb[] = $last;
+                }
+                $err = $errb;
+                
                 $answernotes = array();
                 if (array_key_exists('notes', $results)) {
                     if (array_key_exists('s' . $num, $results['notes'])) {

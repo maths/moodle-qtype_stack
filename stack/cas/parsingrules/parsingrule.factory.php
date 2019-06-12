@@ -26,6 +26,7 @@ require_once(__DIR__ . '/005_i_is_never_a_function.filter.php');
 require_once(__DIR__ . '/020_no_arc.filter.php');
 require_once(__DIR__ . '/025_no_trig_power.filter.php');
 require_once(__DIR__ . '/030_no_trig_space.filter.php');
+require_once(__DIR__ . '/031_no_trig_brackets.filter.php');
 require_once(__DIR__ . '/050_no_chained_inequalities.filter.php');
 require_once(__DIR__ . '/101_no_floats.filter.php');
 require_once(__DIR__ . '/102_no_strings.filter.php');
@@ -70,6 +71,8 @@ class stack_parsing_rule_factory {
                 return new stack_ast_filter_025_no_trig_power();
             case '030_no_trig_space':
                 return new stack_ast_filter_030_no_trig_space();
+            case '031_no_trig_brackets':
+                return new stack_ast_filter_031_no_trig_brackets();
             case '050_no_chained_inequalities':
                 return new stack_ast_filter_050_no_chained_inequalities();
             case '101_no_floats':
@@ -111,7 +114,8 @@ class stack_parsing_rule_factory {
             foreach (array('001_fix_call_of_a_group_or_function', '002_log_candy',
                            '003_no_dot_dot', '005_i_is_never_a_function',
                            '020_no_arc', '025_no_trig_power',
-                           '030_no_trig_space', '050_no_chained_inequalities',
+                           '030_no_trig_space', '031_no_trig_brackets',
+                           '050_no_chained_inequalities',
                            '101_no_floats', '102_no_strings',
                            '402_split_prefix_from_common_function_name',
                            '403_split_at_number_letter_boundary',

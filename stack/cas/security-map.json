@@ -14,36 +14,21 @@
     "$": {
         "operator": "f"
     },
-    "%stmt": {
-        "variable": "f"
-    },
-    "%ERR": {
-        "variable": "f"
-    },
-    "%NOTES": {
-        "variable": "f"
-    },
-    "%FEEDBACK": {
-        "variable": "f"
-    },
-    "_EC": {
-        "function": "f"
-    },
-    "_APPEND_ERR": {
-        "function": "f"
-    },
-    "_APPEND_NOTE": {
-        "function": "f"
-    },
-    "_APPEND_FEEDBACK": {
-        "function": "f"
-    },
     "%": {
         "globalyforbiddenvariable": true,
         "variable": "f"
     },
     "%%": {
         "globalyforbiddenvariable": true,
+        "variable": "f"
+    },
+    "%ERR": {
+        "variable": "f"
+    },
+    "%FEEDBACK": {
+        "variable": "f"
+    },
+    "%NOTES": {
         "variable": "f"
     },
     "%and": {
@@ -116,6 +101,9 @@
     },
     "%s": {
         "function": "?"
+    },
+    "%stmt": {
+        "variable": "f"
     },
     "%th": {
         "function": "f",
@@ -325,6 +313,18 @@
     "_": {
         "globalyforbiddenvariable": true,
         "variable": "f"
+    },
+    "_APPEND_ERR": {
+        "function": "f"
+    },
+    "_APPEND_FEEDBACK": {
+        "function": "f"
+    },
+    "_APPEND_NOTE": {
+        "function": "f"
+    },
+    "_EC": {
+        "function": "f"
     },
     "__": {
         "globalyforbiddenvariable": true,
@@ -5576,7 +5576,9 @@
     },
     "push": {
         "function": "t",
-        "writesto": [1]
+        "writesto": [
+            1
+        ]
     },
     "put": {
         "function": "?"

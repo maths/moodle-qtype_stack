@@ -69,7 +69,9 @@ class stack_ast_filter_450_split_floats implements stack_cas_astfilter_exclusion
                     }
                 }
                 if ($replacement !== false) {
-                    $answernotes[] = 'missing_stars';
+                    if (array_search('missing_stars', $answernotes) === false) {
+                        $answernotes[] = 'missing_stars';
+                    }
                     $node->parentnode->replace($node, $replacement);
                     return false;
                 }

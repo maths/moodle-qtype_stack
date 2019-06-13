@@ -47,7 +47,9 @@ class stack_ast_filter_541_no_unknown_functions implements stack_cas_astfilter_e
         }
         // @codingStandardsIgnoreEnd
         if ($hasany) {
-            $answernotes[] = 'unknownFunction';
+            if (array_search('unknownFunction', $answernotes) === false) {
+                $answernotes[] = 'unknownFunction';
+            }
         }
         return $ast;
     }

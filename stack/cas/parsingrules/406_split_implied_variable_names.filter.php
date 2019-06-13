@@ -44,6 +44,8 @@ class stack_ast_filter_406_split_implied_variable_names implements stack_cas_ast
                     $node->parentnode->replace($node, $nop);
                     if (array_search('missing_stars', $answernotes) === false) {
                         $answernotes[] = 'missing_stars';
+                    }
+                    if (array_search('Variable_function', $answernotes) === false) {
                         $answernotes[] = 'Variable_function';
                     }
                     return false;

@@ -323,7 +323,7 @@ class stack_cas_session2 {
                 $last = null;
                 $errb = array();
                 foreach ($err as $error) {
-                    if (strpos($err, 'STACK: ignore previous error.') !== false) {
+                    if (strpos($error, 'STACK: ignore previous error.') !== false) {
                         $last = null;
                     } else {
                         if ($last !== null) {

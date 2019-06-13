@@ -755,6 +755,8 @@ abstract class stack_input {
         $filterstoapply[] = '403_split_at_number_letter_boundary';
         $filterstoapply[] = '406_split_implied_variable_names';
 
+        // We do have some things that students are not supposed to do:
+        $filterstoapply[] = '520_no_equality_with_logic';
 
         // If stars = 0 then strict, ignore the other strict syntax.
         if ($stars === 0) {

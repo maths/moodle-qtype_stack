@@ -37,6 +37,7 @@ require_once(__DIR__ . '/410_single_char_vars.filter.php');
 require_once(__DIR__ . '/441_split_unknown_functions.filter.php');
 require_once(__DIR__ . '/442_split_all_functions.filter.php');
 require_once(__DIR__ . '/450_split_floats.filter.php');
+require_once(__DIR__ . '/520_no_equality_with_logic.filter.php');
 require_once(__DIR__ . '/541_no_unknown_functions.filter.php');
 require_once(__DIR__ . '/542_no_functions_at_all.filter.php');
 require_once(__DIR__ . '/990_no_fixing_spaces.filter.php');
@@ -93,6 +94,8 @@ class stack_parsing_rule_factory {
                 return new stack_ast_filter_442_split_all_functions();
             case '450_split_floats':
                 return new stack_ast_filter_450_split_floats();
+            case '520_no_equality_with_logic':
+                return new stack_ast_filter_520_no_equality_with_logic();
             case '541_no_unknown_functions':
                 return new stack_ast_filter_541_no_unknown_functions();
             case '542_no_functions_at_all':
@@ -122,6 +125,7 @@ class stack_parsing_rule_factory {
                            '406_split_implied_variable_names',
                            '410_single_char_vars', '441_split_unknown_functions',
                            '442_split_all_functions', '450_split_floats',
+                           '520_no_equality_with_logic',
                            '541_no_unknown_functions', '542_no_functions_at_all',
                            '990_no_fixing_spaces', '991_no_fixing_stars',
                            '998_security', '999_strict') as $name) {

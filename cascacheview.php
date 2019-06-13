@@ -64,8 +64,7 @@ foreach ($data as $item) {
 	echo $str;
 	echo '</pre>';
 	echo '<pre>';
-	// Odd why do I need to decode twice?
-	$json = json_decode(json_decode($item->result));
+	$json = json_decode($item->result);
 	$str = json_encode($json, JSON_UNESCAPED_SLASHES|JSON_PRETTY_PRINT);
 	$str = str_replace('&', '&amp;', $str);
 	$str = str_replace('<', '&lt;', $str);

@@ -667,7 +667,8 @@ abstract class stack_input {
         if (!$answer->get_valid()) {
             $valid = false;
         } else {
-            if (!($lvars->get_value() == '[]' || trim($lvars->get_dispvalue()) == '')) {
+            if ($lvars->get_valid() &&
+                !($lvars->get_value() == '[]' || trim($lvars->get_dispvalue()) == '')) {
                 $lvarsdisp = '\( ' . $lvars->get_display() . '\) ';
             }
         }

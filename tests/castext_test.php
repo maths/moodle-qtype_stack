@@ -979,7 +979,7 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $this->assertTrue($at1->get_valid());
         $at1->get_display_castext();
 
-        $this->assertEquals('\({\lambda\left(\left[ x , n \right]  , {\it significantfigures}\left(x , n\right)\right)}\), \({3}\)',
+        $this->assertEqualsIgnoreSpacesAndE('\({\lambda\left(\left[ x , n \right]  , {\it significantfigures}\left(x , n\right)\right)}\), \({3}\)',
             $at1->get_display_castext());
     }
 
@@ -1007,7 +1007,7 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $this->assertTrue($at1->get_valid());
         $at1->get_display_castext();
 
-        $this->assertEquals('Standard: \({1234}\). Scientific notation: \({1.234E+3}\). With commas: \({1,234}\). ' .
+        $this->assertEqualsIgnoreSpacesAndE('Standard: \({1234}\). Scientific notation: \({1.234E+3}\). With commas: \({1,234}\). ' .
                 'Ordinal rethoric: \({\mbox{one thousand two hundred thirty-fourth}}\). ' .
                 'Roman numerals: \({MCCXXXIV}\).',
                 $at1->get_display_castext());

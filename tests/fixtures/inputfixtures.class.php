@@ -94,7 +94,7 @@ class stack_inputvalidation_test_data {
         array('x(sin(t)+1)', 'php_true', 'x(sin(t)+1)', 'cas_true', 'x\left(\sin \left( t \right)+1\right)', '', ""),
         array('b/a(x)', 'php_true', 'b/a(x)', 'cas_true', '\frac{b}{a\left(x\right)}', '', ""),
         array('3b+5/a(x)', 'php_true', '3*b+5/a(x)', 'cas_true', '3\cdot b+\frac{5}{a\left(x\right)}', 'missing_stars', ""),
-        array('a/(a(x+1)+2)', 'php_true', 'a/(a(x+1)+2)', 'cas_true', '\frac{a}{a\left(x+1\right)+2}', 'missing_stars | Variable_function', ""),
+        array('a/(a(x+1)+2)', 'php_true', 'a/(a*(x+1)+2)', 'cas_true', '\frac{a}{a\cdot \left(x+1\right)+2}', 'missing_stars | Variable_function', ""),
         array("f''(x)", 'php_false', '' , '', '', 'apostrophe', "Apostrophies again..."),
         array('dosomething(x,y,z)', 'php_false', '', '', '', 'forbiddenFunction',
         "Students have a restricted list of function names.  Teachers are less restricted."),
@@ -547,16 +547,16 @@ class stack_inputvalidation_test_data {
             } else {
                 $casexpected = false;
             }
-            if ('' == $cs->get_dispvalue()) {
-                $casvalid = false;
-            } else {
-                $casvalid = true;
-            }
+            $casvalid = $cs->get_valid();
+
             if ($casexpected != $casvalid) {
                 $passed = false;
                 $caserrors .= ' '.stack_string('casvalidatemismatch');
             }
-            $casdisplay = trim($cs->get_display());
+            $casdisplay = '';
+            if ($cs->is_correctly_evaluated()) {
+                $casdisplay = trim($cs->get_display());
+            }
             if ($casdisplay != $test->display) {
                 $passed = false;
                 $errors .= ' '.stack_string('displaymismatch').html_writer::tag('pre', s($test->display));

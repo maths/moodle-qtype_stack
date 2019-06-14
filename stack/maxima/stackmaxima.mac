@@ -788,7 +788,10 @@ stack_validate_typeless(expr, LowestTerms, Equiv, fltfmt) := block([simp:false, 
     stackfltfmt:fltfmt,
   /* Try to simply the expression to catch CAS errors */
   exs: errcatch(ev(expr, simp)),
-  if exs = [] then return(false),
+  if exs = [] then (
+    _APPEND_ERR([errormsgtostring()], "stack_validate_typeless"),
+    return(false)
+  ),
   if length(expr)#1 then print(StackAddFeedback("", "CommaError", string(expr), string(setify(expr)))),
   expr: first(expr),
   /* Check to see if a variable is also a function name. */

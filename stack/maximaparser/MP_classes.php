@@ -821,13 +821,12 @@ class MP_FunctionCall extends MP_Node {
                 $r .= "\n" . $indent . ')';
                 return $r;
             } else {
-                $params['pretty'] = 0;
-                $r                = $indent . $this->name->toString($params) .
+                $r                = $indent . ltrim($this->name->toString($params)) .
                     '(';
                 $ar = [];
 
                 foreach ($this->arguments as $value) {
-                    $ar[] = $value->toString($params);
+                    $ar[] = ltrim($value->toString($params));
                 }
 
                 return $r . implode(', ', $ar) . ')';

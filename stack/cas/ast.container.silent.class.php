@@ -429,16 +429,15 @@ class stack_ast_container_silent implements cas_evaluatable {
                 'Units_SA_excess_units', 'Units_SA_no_units', 'Units_SA_only_units', 'Units_SA_bad_units',
                 'Units_SA_errorbounds_invalid', 'Variable_function', 'Bad_assignment');
         $foundone = false;
-        
+        $fixed = $error;
         if (strpos($error, '0 to a negative exponent') !== false) {
-            $error = stack_string('Maxima_DivisionZero');
-        }
-        if (strpos($error, 'args: argument must be a non-atomic expression;') !== false) {
-            $error = stack_string('Maxima_Args');
+            $fixed = stack_string('Maxima_DivisionZero');
+        } else if (strpos($error, 'args: argument must be a non-atomic expression;') !== false) {
+            $fixed = stack_string('Maxima_Args');
         }
 
         foreach ($searchstrings as $s) {
-            if (false !== strpos($error, $s)) {
+            if (false !== strpos($fixed, $s)) {
                 if (array_search($s, $this->answernotes) === false) {
                     $this->answernotes[] = $s;
                 }
@@ -448,8 +447,8 @@ class stack_ast_container_silent implements cas_evaluatable {
         
 
         if (!$foundone && !$feedback) {
-            if (array_search('CASError: ' . $error, $this->answernotes) === false) {
-                $this->answernotes[] = 'CASError: ' . $error;
+            if (array_search('CASError: ' . $fixed, $this->answernotes) === false) {
+                $this->answernotes[] = 'CASError: ' . $fixed;
             }
         }
     }

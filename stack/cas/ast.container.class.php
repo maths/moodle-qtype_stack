@@ -181,6 +181,15 @@ class stack_ast_container extends stack_ast_container_silent implements cas_late
             $latex = str_replace('!'.$tag.'!', stack_string('equiv_'.$tag), $latex);
         }
         
+        // Also previously some spaces have been eliminated and line changes dropped.
+        // Apparently returning verbatim LaTeX was not a thing.
+        $latex = str_replace("\n ", '', $latex);
+        $latex = str_replace("\n", '', $latex);
+        // Just don't want to use regexp.
+        $latex = str_replace('    ', ' ', $latex);
+        $latex = str_replace('   ', ' ', $latex);
+        $latex = str_replace('  ', ' ', $latex);
+
         $this->latex = $latex;
     }
 
@@ -216,7 +225,7 @@ class stack_ast_container extends stack_ast_container_silent implements cas_late
 
     public function get_value() {
         if (null === $this->evaluated) {
-            throw new stack_exception('stack_ast_container: tried to get the value form of an unevaluated casstring.');
+            throw new stack_exception('stack_ast_container: tried to get the value from of an unevaluated casstring.');
         }
         $root = $this->evaluated;
         if ($root instanceof MP_Root) {
@@ -246,6 +255,9 @@ class stack_ast_container extends stack_ast_container_silent implements cas_late
     }
 
     public function get_display() {
+        if (!$this->is_correctly_evaluated()) {
+            throw new stack_exception('stack_ast_container: tried to get the LaTeX representation from of an unevaluated or invalid casstring.');
+        }
         return $this->latex;
     }
 

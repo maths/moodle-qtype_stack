@@ -45,7 +45,12 @@ class stack_singlechar_input extends stack_input {
             $attributes['readonly'] = 'readonly';
         }
 
-        return html_writer::empty_tag('input', $attributes);
+        $input = html_writer::empty_tag('input', $attributes);
+        $result = html_writer::tag('label', get_string('answer', 'qtype_stack',
+                html_writer::tag('span', $input, ['class' => 'answer'])),
+                ['for' => $attributes['id']]);
+
+        return $result;
     }
 
     protected function extra_validation($contents) {

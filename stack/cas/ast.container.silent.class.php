@@ -83,6 +83,11 @@ class stack_ast_container_silent implements cas_evaluatable {
      */
     protected $keyless = false;
 
+    /**
+     * Track the status of correct evaluation at statement level.
+     */
+    protected $isevaluated = false;
+
     /*
      * NOTES:
      *  1. this does not provide means of storing the results of evaluation.
@@ -293,6 +298,7 @@ class stack_ast_container_silent implements cas_evaluatable {
         // things, the latter list is for those.
         // And in the former one we also need to handle the old way
         // of catching some key errors as answernotes.
+        $this->isevaluated = true;
         if (count($errors) > 0) {
             $this->errors = array_merge($this->errors, $errors);
             foreach ($errors as $value) {
@@ -320,6 +326,14 @@ class stack_ast_container_silent implements cas_evaluatable {
                 }
             }
         }
+    }
+
+    public function is_evaluated(): bool {
+        return $this->isevaluated;
+    }
+
+    public function is_correctly_evaluated(): bool {
+        return $this->isevaluated && $this->valid;
     }
 
     public function get_securitymodel(): stack_cas_security {

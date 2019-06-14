@@ -162,9 +162,20 @@ class stack_anstest_atnumsigfigs extends stack_anstest {
         }
         $this->options->set_option('simplify', $this->simp);
 
-        $sa = clone $this->sanskey;
+        // New values could be based on previously evaluated ones.
+        $sa = null;
+        if ($this->sanskey->is_correctly_evaluated()) {
+            $sa = stack_ast_container::make_from_teacher_source($this->sanskey->get_value());
+        } else {
+            $sa = clone $this->sanskey;    
+        }
         $sa->set_key('STACKSA');
-        $ta = clone $this->tanskey;
+        $ta = null;
+        if ($this->tanskey->is_correctly_evaluated()) {
+            $ta = stack_ast_container::make_from_teacher_source($this->tanskey->get_value());
+        } else {
+            $ta = clone $this->tanskey;    
+        }
         $ta->set_key('STACKTA');
         $ops = stack_ast_container::make_from_teacher_source('STACKOP:true', '', new stack_cas_security());
         $result = stack_ast_container::make_from_teacher_source("result:{$this->casfunction}(STACKSA,STACKTA)", '',

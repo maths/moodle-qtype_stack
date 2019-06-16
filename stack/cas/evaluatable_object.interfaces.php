@@ -42,7 +42,7 @@ interface cas_evaluatable {
     /**
      * Receives errors that may have happened in CAS evaluation. Or an empty
      * list signaling that everything went well. Also returns everything that
-     * has gone through the StackAddFeedback() function as feedback and 
+     * has gone through the StackAddFeedback() function as feedback and
      * StackAddNote() as answernotes.
      */
     public function set_cas_status(array $errors, array $answernotes, array $feedback);

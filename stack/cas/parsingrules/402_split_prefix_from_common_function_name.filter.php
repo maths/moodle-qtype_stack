@@ -59,7 +59,7 @@ class stack_ast_filter_402_split_prefix_from_common_function_name implements sta
                     $nop = new MP_Operation('*', new MP_Identifier($prefix), $node);
                     $nop->position['insertstars'] = true;
                     if (array_search('missing_stars', $answernotes) === false) {
-                       $answernotes[] = 'missing_stars';
+                        $answernotes[] = 'missing_stars';
                     }
                     $node->parentnode->replace($node, $nop);
                     return false;

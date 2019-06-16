@@ -74,7 +74,8 @@ class stack_cas_text {
         }
 
         if (is_a($session, 'stack_cas_session2') || null === $session) {
-            $this->session      = $session;
+            $this->session                 $sa->get
+        = $session;
         } else {
             throw new stack_exception('stack_cas_text constructor expects $session to be a stack_cas_session2.');
         }
@@ -305,7 +306,7 @@ class stack_cas_text {
         if ($this->session == null) {
             $this->session = new stack_cas_session2(array(), null, $this->seed);
         }
-      
+
         // Initial pass.
         if (stack_cas_castext_castextparser::castext_parsing_required($this->trimmedcastext)) {
             $parser = new stack_cas_castext_castextparser($this->trimmedcastext);
@@ -314,8 +315,7 @@ class stack_cas_text {
             $arrayform = stack_cas_castext_castextparser::block_conversion($arrayform);
             $this->parsetreeroot = stack_cas_castext_parsetreenode::build_from_nested($arrayform);
             $this->first_pass_recursion($this->parsetreeroot, array());
-        } 
-
+        }
 
         if (!$this->session->get_valid()) {
             $this->valid = false;
@@ -325,7 +325,7 @@ class stack_cas_text {
             return false;
         }
         $this->session->instantiate();
-        
+
         // Handle blocks.
         $requiresrerun = false;
         foreach (array_reverse($this->blocks) as $block) {

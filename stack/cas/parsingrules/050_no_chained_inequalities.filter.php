@@ -24,19 +24,19 @@ class stack_ast_filter_050_no_chained_inequalities implements stack_cas_astfilte
 
     public function filter(MP_Node $ast, array &$errors, array &$answernotes, stack_cas_security $identifierrules): MP_Node {
 
-    	$ops = array('<' => '<', '<=' => '<=', '>' => '>', '>=' => '>=',
-    				 '#' => '#', '=' => '=');
+        $ops = array('<' => '<', '<=' => '<=', '>' => '>', '>=' => '>=',
+            '#' => '#', '=' => '=');
 
         $process = function($node) use (&$valid, &$errors, &$answernotes, $ops) {
             if ($node instanceof MP_Operation && isset($ops[$node->op])) {
-            	if (($node->lhs instanceof MP_Operation && isset($ops[$node->lhs->op])) ||
+                if (($node->lhs instanceof MP_Operation && isset($ops[$node->lhs->op])) ||
                     ($node->rhs instanceof MP_Operation && isset($ops[$node->rhs->op]))) {
-            		$node->position['invalid'] = true;
-            		$errors[] = stack_string('stackCas_chained_inequalities');
+                    $node->position['invalid'] = true;
+                    $errors[] = stack_string('stackCas_chained_inequalities');
                     if (array_search('chained_inequalities', $answernotes) === false) {
-                	   $answernotes[] = 'chained_inequalities';
+                        $answernotes[] = 'chained_inequalities';
                     }
-            	} 
+                } 
             }
 
             return true;

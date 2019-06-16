@@ -33,7 +33,7 @@ class stack_ast_filter_025_no_trig_power implements stack_cas_astfilter {
              *
              * The first case where the power is a float or integer
              * and the insertion of stars happens e.g. 'sin^2(x)':
-             * 
+             *
              * sin^2*(x)
              * --------- MP_Root
              * --------- MP_Statement
@@ -67,7 +67,7 @@ class stack_ast_filter_025_no_trig_power implements stack_cas_astfilter {
             /**
              * The other case has an identifier as the power and that leads to
              * parsing as a valid function call:
-             * 
+             *
              * sin^y(x)
              * -------- MP_Root
              * -------- MP_Statement
@@ -76,7 +76,7 @@ class stack_ast_filter_025_no_trig_power implements stack_cas_astfilter {
              *     ---- MP_FunctionCall
              *     -    MP_Identifier y
              *       -  MP_Identifier x
-             * 
+             *
              */
             if ($node instanceof MP_Operation &&
                 $node->op === '^' &&

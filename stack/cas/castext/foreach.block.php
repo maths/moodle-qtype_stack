@@ -49,7 +49,7 @@ class stack_cas_castext_foreach extends stack_cas_castext_block {
             $cs->set_conditions($conditionstack);
             $this->strings[$key] = $cs;
             $cs->set_keyless(true);
-            
+
             $tobeevaluatedcassession->add_statement($cs);
         }
     }

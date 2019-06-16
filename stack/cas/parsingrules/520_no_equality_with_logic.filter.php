@@ -22,8 +22,8 @@ require_once(__DIR__ . '/filter.interface.php');
  */
 class stack_ast_filter_520_no_equality_with_logic implements stack_cas_astfilter {
     public function filter(MP_Node $ast, array &$errors, array &$answernotes, stack_cas_security $identifierrules): MP_Node {
-        
-        // The logic is that if you have an logic operation and one side has 
+
+        // The logic is that if you have an logic operation and one side has
         // an equality operation the other one must also have such.
 
         $process = function($node) use (&$answernotes, &$errors) {
@@ -51,7 +51,7 @@ class stack_ast_filter_520_no_equality_with_logic implements stack_cas_astfilter
         };
 
         $ast->callbackRecurse($process, true);
-        
+
         return $ast;
     }
 

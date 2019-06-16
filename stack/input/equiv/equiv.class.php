@@ -230,7 +230,7 @@ class stack_equiv_input extends stack_input {
             // TODO: add filters, strict and so on.
 
             $answer = stack_ast_container::make_from_student_source($val, '', $secrules, array(), array(), 'Equivline');
-            
+
             // Is the student permitted to include comments in their answer?
             if (!$this->extraoptions['comments'] && $answer->is_string()) {
                 $valid = false;

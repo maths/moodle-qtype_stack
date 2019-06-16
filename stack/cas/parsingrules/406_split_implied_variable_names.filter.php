@@ -20,10 +20,10 @@ require_once(__DIR__ . '/filter.interface.php');
 require_once(__DIR__ . '/../../maximaparser/utils.php');
 
 /**
- * AST filter that splits function calls to implied variable names 
+ * AST filter that splits function calls to implied variable names
  * from the same AST.
- * 
- *  f(x(x+f(1))) => f(x*(x+f(1)))
+ *
+ * f(x(x+f(1))) => f(x*(x+f(1)))
  *
  * Tags the stars and adds 'missing_stars' answernote.
  */

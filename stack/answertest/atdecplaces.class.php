@@ -46,13 +46,20 @@ class stack_anstest_atdecplaces extends stack_anstest {
             }
         }
 
-        // TODO We need an "is_int" function direct on asts...
         $atestops = (int) $this->atoption->get_evaluationform();
-        if (!is_int($atestops) or $atestops <= 0) {
+        if (!$this->atoption->is_int() or $atestops <= 0) {
             $this->aterror      = 'TEST_FAILED';
             $this->atfeedback   = stack_string('TEST_FAILED', array('errors' => ''));
             $this->atfeedback  .= stack_string('ATNumDecPlaces_OptNotInt', array('opt' => $atestops));
             $this->atansnote    = 'ATNumDecPlaces_STACKERROR_Option.';
+            $this->atmark       = 0;
+            $this->atvalid      = false;
+            return null;
+        }
+
+        if (!($this->sanskey->is_float() || $this->sanskey->is_int())) {
+            $this->atfeedback   = stack_string('ATNumDecPlaces_Float');
+            $this->atansnote    = 'ATNumDecPlaces_SA_Not_num.';
             $this->atmark       = 0;
             $this->atvalid      = false;
             return null;

@@ -418,7 +418,9 @@ texput(NULLUNITS, "");
 texput(NULLNUM, "");
 
 /* Units answer tests. */
+ATUnits(SA, SB, SO) := ATUnitsFun(SA, SB, SO, false, "SigFigs")$
 ATUnitsSigFigs(SA, SB, SO) := ATUnitsFun(SA, SB, SO, false, "SigFigs")$
+ATUnitsStrict(SA, SB, SO) := ATUnitsFun(SA, SB, SO, true, "SigFigs")$
 ATUnitsStrictSigFigs(SA, SB, SO) := ATUnitsFun(SA, SB, SO, true, "SigFigs")$
 ATUnitsRelative(SA, SB, SO) := ATUnitsFun(SA, SB, SO, false, "Relative")$
 ATUnitsStrictRelative(SA, SB, SO) := ATUnitsFun(SA, SB, SO, true, "Relative")$
@@ -431,14 +433,11 @@ ATUnitsStrictAbsolute(SA, SB, SO) := ATUnitsFun(SA, SB, SO, true, "Absolute")$
 */
 ATUnitsFun(SA, SB, SO, strictp, numtest) := block([validity, rawmk, sb, ansnote, SAU, SBU, SAU1, SBU1, ol, ret, ret1, ret2],
   validity:true, rawmk:true, fb:"", ansnote:"",
-  SAA:errcatch(ev(SA, simp, nouns)),
-  if (is_simp(SAA = [STACKERROR]) or is_simp(SAA = [])) then
+  if (is(_EC(errcatch(SAA:ev(SA, simp, nouns)), "") = false)) then
     return([false, false, StackAddNote("", "ATUnits_STACKERROR_SAns"), ""]),
-  SBB:errcatch(ev(SB, simp, nouns)),
-  if (is_simp(SBB = [STACKERROR]) or is_simp(SBB = [])) then
+  if (is(_EC(errcatch(SBB:ev(SB, simp, nouns)), "") = false)) then
     return([false, false, StackAddNote("", "ATUnits_STACKERROR_TAns"), ""]),
-  SOO:errcatch(ev(SO, simp, nouns)),
-  if (is_simp(SOO = [STACKERROR]) or is_simp(SOO = [])) then
+  if (is(_EC(errcatch(SOO:ev(SO, simp, nouns)), "") = false)) then
     return([false, false, StackAddNote("", "ATUnits_STACKERROR_Opt"), ""]),
 
   ol:SO,

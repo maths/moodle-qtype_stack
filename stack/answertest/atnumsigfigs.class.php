@@ -112,7 +112,7 @@ class stack_anstest_atnumsigfigs extends stack_anstest {
             if ($r['lowerbound'] == $atopt) {
                 $this->atmark = 1;
             } else if ($r['lowerbound'] <= $atopt && $atopt <= $r['upperbound']) {
-                $this->atansnote    = $this->casfunction.'_WithinRange. ';
+                $this->atansnote .= $this->casfunction.'_WithinRange. ';
             }
         } else if ($condoneextrasigfigs) {
             // Round the student's answer.
@@ -122,10 +122,8 @@ class stack_anstest_atnumsigfigs extends stack_anstest {
                 $withinrange = true;
                 $this->atmark = 1;
             } else {
-                $this->atansnote = $this->casfunction.'_WrongDigits. ';
-                // Note, we combine with feedback from the CAS, so we set up a situation which can be combined with
-                // other CAS-generated feedback here.
-                $this->atfeedback = "stack_trans('ATNumSigFigs_WrongDigits');";
+                $this->atansnote .= $this->casfunction.'_WrongDigits. ';
+                $this->atfeedback = stack_string('ATNumSigFigs_WrongDigits', '');
                 $this->atmark = 0;
                 $withinrange = false;
             }
@@ -134,14 +132,12 @@ class stack_anstest_atnumsigfigs extends stack_anstest {
                 $withinrange = true;
                 $this->atmark = 1;
             } else if ($r['lowerbound'] <= $requiredsigfigs && $requiredsigfigs <= $r['upperbound']) {
-                $this->atansnote = $this->casfunction.'_WithinRange. ';
+                $this->atansnote .= $this->casfunction.'_WithinRange. ';
                 $withinrange = true;
                 $this->atmark = 1;
             } else {
                 $this->atansnote = $this->casfunction.'_WrongDigits. ';
-                // Note, we combine with feedback from the CAS, so we set up a situation which can be combined with
-                // other CAS-generated feedback here.
-                $this->atfeedback = "stack_trans('ATNumSigFigs_WrongDigits');";
+                $this->atfeedback .= stack_string('ATNumSigFigs_WrongDigits', '');
                 $this->atmark = 0;
                 $withinrange = false;
             }
@@ -242,7 +238,7 @@ class stack_anstest_atnumsigfigs extends stack_anstest {
         }
 
         $this->atvalid     = $unpacked['valid'];
-        $this->atansnote   = str_replace("\n", '', trim($unpacked['answernote']));
+        $this->atansnote  .= str_replace("\n", '', trim($unpacked['answernote']));
         $this->atfeedback .= $unpacked['feedback'];
         $caserrormsgs = array('ATNumSigFigs_NotDecimal.', 'ATUnits_SA_not_expression.',
             'ATUnits_SA_no_units.', 'ATUnits_SA_only_units.');

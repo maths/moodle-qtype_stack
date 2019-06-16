@@ -1614,15 +1614,13 @@ ATSet(SA, SB) := block([RawMark, FeedBack, AnswerNote, str, SAl, SBl, ZM],
 /* Note, this test (ATSets not ATSet as above) gives much more detailed feedback
    than the Algebraic equivalence test.
 */
-ATSets(SA, SB) := block([RawMark, FeedBack, AnswerNote],
+ATSets(SA, SB) := block([RawMark, FeedBack, AnswerNote, SAsimp, SBsimp],
     RawMark:true, FeedBack:"", AnswerNote:"",
     /* Turn on simplification and error catch */
-    SAsimp:errcatch(ev(SA, simp, nouns)),
-    if is(SAsimp = [STACKERROR]) then return([false, false, StackAddNote("", "ATSets_STACKERROR_SAns"), ""]),
-    SAsimp:SAsimp[1],
-    SBsimp:errcatch(ev(SB, simp, nouns)),
-    if is(SBsimp = [STACKERROR]) then return([false, false, StackAddNote("", "ATSets_STACKERROR_TAns"), ""]),
-    SBsimp:SBsimp[1],
+    if (is(_EC(errcatch(SAsimp:ev(SA, simp, nouns)), "") = false)) then
+        return([false, false, StackAddNote("", "ATSets_STACKERROR_SAns"), ""]),
+    if (is(_EC(errcatch(SBsimp:ev(SB, simp, nouns)), "") = false)) then
+        return([false, false, StackAddNote("", "ATSets_STACKERROR_TAns"), ""]),
     if not(safe_setp(SB)) then
         return(StackBasicReturn(false, false, "ATSets_SB_not_set")),
     if not(safe_setp(SA)) then

@@ -165,7 +165,7 @@ class stack_answertest_general_cas extends stack_anstest {
         if ('' != $result->get_errors()) {
             $this->aterror      = 'TEST_FAILED';
             if ('' != trim($unpacked['feedback'])) {
-                $this->atfeedback = $unpacked['feedback'];
+                $this->atfeedback = stack_maxima_translate($unpacked['feedback']);
             } else {
                 $this->atfeedback = stack_string('TEST_FAILED', array('errors' => $result->get_errors()));
             }
@@ -184,7 +184,7 @@ class stack_answertest_general_cas extends stack_anstest {
         } else {
             $this->atmark = 0;
         }
-        $this->atfeedback = $unpacked['feedback'];
+        $this->atfeedback = stack_maxima_translate($unpacked['feedback']);
         $this->atvalid    = $unpacked['valid'];
         if ($this->atmark) {
             return true;

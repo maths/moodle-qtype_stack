@@ -48,13 +48,20 @@ class stack_anstest_atdecplaceswrong extends stack_anstest {
             }
         }
 
-        // TODO We need an "is_int" function direct on asts...
         $atestops = (int) $this->atoption->get_evaluationform();
-        if (!is_int($atestops) or $atestops <= 0) {
+        if (!$this->atoption->is_int() or $atestops <= 0) {
             $this->aterror      = 'TEST_FAILED';
             $this->atfeedback   = stack_string('TEST_FAILED', array('errors' => ''));
             $this->atfeedback  .= stack_string('ATNumDecPlaces_OptNotInt', array('opt' => $atestops));
-            $this->atansnote    = 'ATNumDecPlaces_STACKERROR_Option.';
+            $this->atansnote    = 'ATNumDecPlacesWrong_STACKERROR_Option.';
+            $this->atmark       = 0;
+            $this->atvalid      = false;
+            return null;
+        }
+
+        if (!($this->sanskey->is_float() || $this->sanskey->is_int())) {
+            $this->atfeedback   = stack_string('ATNumDecPlaces_Float');
+            $this->atansnote    = 'ATNumDecPlacesWrong_SA_Not_num.';
             $this->atmark       = 0;
             $this->atvalid      = false;
             return null;
@@ -104,7 +111,7 @@ class stack_anstest_atdecplaceswrong extends stack_anstest {
             $this->aterror      = 'TEST_FAILED';
             $this->atfeedback   = stack_string('TEST_FAILED', array('errors' => ''));
             $this->atfeedback  .= stack_string('AT_InvalidOptions', array('errors' => $strings['caschat2']->get_errors()));
-            $anotes[]           = 'ATNumDecPlacesWrong_STACKERROR_Options';
+            $anotes[]           = 'ATNumDecPlacesWrong_STACKERROR_Option';
             $this->atansnote    = implode('. ', $anotes).'.';
             $this->atmark       = 0;
             $this->atvalid      = false;

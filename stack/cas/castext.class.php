@@ -74,8 +74,7 @@ class stack_cas_text {
         }
 
         if (is_a($session, 'stack_cas_session2') || null === $session) {
-            $this->session                 $sa->get
-        = $session;
+            $this->session = $session;
         } else {
             throw new stack_exception('stack_cas_text constructor expects $session to be a stack_cas_session2.');
         }

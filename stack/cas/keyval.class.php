@@ -65,7 +65,7 @@ class stack_cas_keyval {
 
         // CAS keyval may not contain @ or $.
         if (strpos($this->raw, '@') !== false || strpos($this->raw, '$') !== false) {
-            $this->errors = stack_string('illegalcaschars');
+            $this->errors[] = stack_string('illegalcaschars');
             $this->valid = false;
             return false;
         }
@@ -88,7 +88,7 @@ class stack_cas_keyval {
         $ast = maxima_parser_utils::parse_and_insert_missing_semicolons($str);
         if (!$ast instanceof MP_Root) {
             // If not then it is a SyntaxError.
-            $this->errors = $ast->getMessage();
+            $this->errors[] = $ast->getMessage();
             $this->valid = false;
             return false;
         }
@@ -111,7 +111,7 @@ class stack_cas_keyval {
             foreach (array_merge($usage['read'], $usage['write']) as $key => $used) {
                 if (in_array($key, $inputs)) {
                     $this->valid = false;
-                    $this->errors .= stack_string('stackCas_inputsdefined', $key);
+                    $this->errors[] = stack_string('stackCas_inputsdefined', $key);
                 }
             }
         }
@@ -128,12 +128,12 @@ class stack_cas_keyval {
         return $this->valid;
     }
 
-    public function get_errors($casdebug=false) {
+    public function get_errors($casdebug = false) {
         if (null === $this->valid) {
             $this->validate(null);
         }
         if ($casdebug) {
-            return $this->errors.$this->session->get_debuginfo();
+            $this->errors[] = $this->session->get_debuginfo();
         }
         return $this->errors;
     }

@@ -371,7 +371,10 @@ class stack_cas_session2 {
     public function get_keyval_representation(): string {
         $keyvals = '';
         foreach ($this->statements as $statement) {
-            $val = trim($statement->get_evaluationform());
+            $val = 'null';
+            if ($statement->get_valid()) {
+                $val = trim($statement->get_evaluationform());
+            }
             if ($val) {
                 $keyvals .= $val . ";\n";
             }

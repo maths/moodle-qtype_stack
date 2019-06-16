@@ -133,7 +133,7 @@ $stringlen = max(substr_count($string, "\n") + 3, 8);
 
 echo html_writer::tag('form',
             html_writer::tag('h2', stack_string('questionvariables')) .
-            html_writer::tag('p', $varerrs) .
+            html_writer::tag('p', implode($varerrs)) .
             html_writer::tag('p', html_writer::tag('textarea', $vars,
                     array('cols' => 100, 'rows' => $varlen, 'name' => 'vars'))) .
             html_writer::tag('p', $simp) .

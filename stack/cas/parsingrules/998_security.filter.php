@@ -139,7 +139,9 @@ class stack_ast_filter_998_security implements stack_cas_astfilter_parametric {
                             // TODO: localise "Function application through mapping
                             // functions has depth limits as it hides things."
                             $errors[] = trim(stack_string('stackCas_deepmap'));
-                            $answernotes[] = 'deepmap';
+                            if (array_search('deepmap', $answernotes) === false) {
+                                $answernotes[] = 'deepmap';
+                            }
                             $valid = false;
                         }
                     }
@@ -154,7 +156,9 @@ class stack_ast_filter_998_security implements stack_cas_astfilter_parametric {
                         // Calling the result of a function that is not lambda.
                         $errors[] = trim(stack_string('stackCas_callingasfunction',
                                                       array('problem' => stack_maxima_format_casstring($node->toString()))));
-                        $answernotes[] = 'forbiddenWord';
+                        if (array_search('forbiddenWord', $answernotes) === false) {
+                            $answernotes[] = 'forbiddenWord';
+                        }
                         $valid = false;
                     }
                 } else if ($node->name instanceof MP_Group) {
@@ -190,7 +194,9 @@ class stack_ast_filter_998_security implements stack_cas_astfilter_parametric {
                     // As in not safe identification of the function to be called.
                     $errors[] = trim(stack_string('stackCas_applyingnonobviousfunction',
                                                   array('problem' => $node->toString())));
-                    $answernotes[] = 'forbiddenWord';
+                    if (array_search('forbiddenWord', $answernotes) === false) {
+                        $answernotes[] = 'forbiddenWord';
+                    }
                     $valid = false;
                 }
             }
@@ -201,16 +207,22 @@ class stack_ast_filter_998_security implements stack_cas_astfilter_parametric {
             // First handle certain fixed special rules for ops.
             if ($op === '?' || $op === '?? ' || $op === '? ') {
                 $errors[] = trim(stack_string('stackCas_qmarkoperators'));
-                $answernotes[] = 'qmark';
+                if (array_search('qmark', $answernotes) === false) {
+                    $answernotes[] = 'qmark';
+                }
                 $valid = false;
             } else if ($this->source === 's' && ($op === "'" || $op === "''")) {
                 $errors[] = trim(stack_string('stackCas_apostrophe'));
-                $answernotes[] = 'apostrophe';
+                if (array_search('apostrophe', $answernotes) === false) {
+                    $answernotes[] = 'apostrophe';
+                }
                 $valid = false;
             } else if (!$identifierrules->is_allowed_as_operator($this->source, $op)) {
                 $errors[] = trim(stack_string('stackCas_forbiddenOperator',
                         array('forbid' => stack_maxima_format_casstring($op))));
-                $answernotes[] = 'forbiddenOp';
+                if (array_search('forbiddenOp', $answernotes) === false) {
+                    $answernotes[] = 'forbiddenOp';
+                }
                 $valid = false;
             }
         }
@@ -223,19 +235,25 @@ class stack_ast_filter_998_security implements stack_cas_astfilter_parametric {
 
             if ($this->source === 's' && $name === 'In' && !$identifierrules->is_allowed_word($name, 'function')) {
                 $errors[] = trim(stack_string('stackCas_badLogIn'));
-                $answernotes[] = 'stackCas_badLogIn';
+                if (array_search('stackCas_badLogIn', $answernotes) === false) {
+                    $answernotes[] = 'stackCas_badLogIn';
+                }                
                 $valid = false;
             } else if ($this->source === 's' && count($vars) > 0 && array_search($name, $vars) === false) {
                 // Case sensitivity issues.
                 $errors[] = trim(stack_string('stackCas_unknownFunctionCase',
                     array('forbid' => stack_maxima_format_casstring($name),
                           'lower' => stack_maxima_format_casstring(implode(', ', $vars)))));
-                $answernotes[] = 'unknownFunctionCase';
+                if (array_search('unknownFunctionCase', $answernotes) === false) {
+                    $answernotes[] = 'unknownFunctionCase';
+                }
                 $valid = false;
             } else if (!$identifierrules->is_allowed_to_call($this->source, $name)) {
                 $errors[] = trim(stack_string('stackCas_forbiddenFunction',
                         array('forbid' => stack_maxima_format_casstring($name))));
-                $answernotes[] = 'forbiddenFunction';
+                if (array_search('forbiddenFunction', $answernotes) === false) {
+                    $answernotes[] = 'forbiddenFunction';
+                }
                 $valid = false;
             }
         }
@@ -247,7 +265,9 @@ class stack_ast_filter_998_security implements stack_cas_astfilter_parametric {
                 // materials where the constants redefined do not affect things.
                 $errors[] = trim(stack_string('stackCas_redefinitionOfConstant',
                         array('constant' => stack_maxima_format_casstring($name))));
-                $answernotes[] = 'writingToConstant';
+                if (array_search('writingToConstant', $answernotes) === false) {
+                    $answernotes[] = 'writingToConstant';
+                }                  
                 $valid = false;
             }
             // Other checks happen at the $variables loop. These are all members of that.
@@ -270,7 +290,9 @@ class stack_ast_filter_998_security implements stack_cas_astfilter_parametric {
             if (count($emptyfungroup) > 0) {
                 $errors[] = trim(stack_string('stackCas_forbiddenWord',
                             array('forbid' => stack_maxima_format_casstring('()'))));
-                $answernotes[] = 'emptyParens';
+                if (array_search('emptyParens', $answernotes) === false) {
+                    $answernotes[] = 'emptyParens';
+                }                  
                 $valid = false;
             }
         }
@@ -300,7 +322,9 @@ class stack_ast_filter_998_security implements stack_cas_astfilter_parametric {
             if ($identifierrules->has_feature($name, 'operator')) {
                 $errors[] = trim(stack_string('stackCas_operatorAsVariable',
                     array('op' => stack_maxima_format_casstring($name))));
-                $answernotes[] = 'operatorPlacement';
+                if (array_search('operatorPlacement', $answernotes) === false) {
+                    $answernotes[] = 'operatorPlacement';
+                }
                 $valid = false;
                 continue;
             }
@@ -310,7 +334,9 @@ class stack_ast_filter_998_security implements stack_cas_astfilter_parametric {
                 list ($fndsynonym, $answernote, $synonymerr) = stack_cas_casstring_units::find_units_synonyms($name);
                 if ($this->source == 's' && $fndsynonym && !$identifierrules->is_allowed_word($name)) {
                     $errors[] = trim($synonymerr);
-                    $answernotes[] = $answernote;
+                    if (array_search($answernote, $answernotes) === false) {
+                        $answernotes[] = $answernote;
+                    }
                     $valid = false;
                     continue;
                 }
@@ -318,7 +344,9 @@ class stack_ast_filter_998_security implements stack_cas_astfilter_parametric {
                 if ($err) {
                     // We have spotted a case sensitivity problem in the units.
                     $errors[] = trim($err);
-                    $answernotes[] = 'unknownUnitsCase';
+                    if (array_search('unknownUnitsCase', $answernotes) === false) {
+                        $answernotes[] = 'unknownUnitsCase';
+                    }
                     $valid = false;
                     continue;
                 }
@@ -328,7 +356,9 @@ class stack_ast_filter_998_security implements stack_cas_astfilter_parametric {
                 // Very bad!
                 $errors[] = trim(stack_string('stackCas_forbiddenWord',
                     array('forbid' => stack_maxima_format_casstring($name))));
-                $answernotes[] = 'forbiddenWord';
+                if (array_search('forbiddenWord', $answernotes) === false) {
+                    $answernotes[] = 'forbiddenWord';
+                }
                 $valid = false;
                 continue;
             }
@@ -349,7 +379,9 @@ class stack_ast_filter_998_security implements stack_cas_astfilter_parametric {
                     if ($this->source === 't') {
                         $errors[] = trim(stack_string('stackCas_forbiddenWord',
                             array('forbid' => stack_maxima_format_casstring($n))));
-                        $answernotes[] = 'forbiddenWord';
+                        if (array_search('forbiddenWord', $answernotes) === false) {
+                            $answernotes[] = 'forbiddenWord';
+                        }
                         $valid = false;
                     } else {
                         $vars = $identifierrules->get_case_variants($n, 'variable');
@@ -358,12 +390,16 @@ class stack_ast_filter_998_security implements stack_cas_astfilter_parametric {
                                 array('forbid' => stack_maxima_format_casstring($n),
                                 'lower' => stack_maxima_format_casstring(
                                     implode(', ', $vars)))));
-                            $answernotes[] = 'unknownVariableCase';
+                            if (array_search('unknownVariableCase', $answernotes) === false) {
+                                $answernotes[] = 'unknownVariableCase';
+                            }
                             $valid = false;
                         } else {
                             $errors[] = trim(stack_string('stackCas_forbiddenVariable',
                                 array('forbid' => stack_maxima_format_casstring($n))));
-                            $answernotes[] = 'forbiddenVariable';
+                            if (array_search('forbiddenVariable', $answernotes) === false) {
+                                $answernotes[] = 'forbiddenVariable';
+                            }
                             $valid = false;
                         }
                     }
@@ -376,7 +412,9 @@ class stack_ast_filter_998_security implements stack_cas_astfilter_parametric {
                                 array('forbid' => stack_maxima_format_casstring($n),
                                 'lower' => stack_maxima_format_casstring(
                                     implode(', ', $vars)))));
-                            $answernotes[] = 'unknownVariableCase';
+                            if (array_search('unknownVariableCase', $answernotes) === false) {
+                                $answernotes[] = 'unknownVariableCase';
+                            }
                             $valid = false;
                         }
                     }

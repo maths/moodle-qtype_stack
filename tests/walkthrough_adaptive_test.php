@@ -1948,17 +1948,17 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
     public function test_test0_validate_then_submit_wrong_answer_default_penalty() {
         // Create the stack question based on 'test0'.
         $q = test_question_maker::make_question('stack', 'test0');
-        $sans1 = new stack_cas_casstring('ans1');
-        $sans1->get_valid('t');
-        $tans1 = new stack_cas_casstring('2');
-        $tans1->get_valid('t');
+        $sans1 = stack_ast_container::make_from_teacher_source('ans1');
+        $sans1->get_valid();
+        $tans1 = stack_ast_container::make_from_teacher_source('2');
+        $tans1->get_valid();
         $node1 = new stack_potentialresponse_node($sans1, $tans1, 'EqualComAss');
         $node1->add_branch(0, '=', 0, 0.3, 1, '', FORMAT_HTML, 'firsttree-1-F');
         $node1->add_branch(1, '=', 1, 0.3, -1, '', FORMAT_HTML, 'firsttree-1-T');
-        $sans2 = new stack_cas_casstring('ans1');
-        $sans2->get_valid('t');
-        $tans2 = new stack_cas_casstring('3');
-        $tans2->get_valid('t');
+        $sans2 = stack_ast_container::make_from_teacher_source('ans1');
+        $sans2->get_valid();
+        $tans2 = stack_ast_container::make_from_teacher_source('3');
+        $tans2->get_valid();
         $node2 = new stack_potentialresponse_node($sans2, $tans2, 'EqualComAss');
         $node2->add_branch(0, '=', 0, 0.3, -1, '', FORMAT_HTML, 'firsttree-2-F');
         // This is the point of the test: we explicitly set a zero penalty here.
@@ -2018,10 +2018,10 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         // Create the stack question 'test0'.
         $q = test_question_maker::make_question('stack', 'test0');
         // Modify the PRT to that the penalty on the false branch is 0.1.
-        $sans = new stack_cas_casstring('ans1');
-        $sans->get_valid('t');
-        $tans = new stack_cas_casstring('2');
-        $tans->get_valid('t');
+        $sans = stack_ast_container::make_from_teacher_source('ans1');
+        $sans->get_valid();
+        $tans = stack_ast_container::make_from_teacher_source('2');
+        $tans->get_valid();
         $node = new stack_potentialresponse_node($sans, $tans, 'EqualComAss');
         $node->add_branch(0, '=', 0, 0.1, -1, '', FORMAT_HTML, 'firsttree-1-F');
         $node->add_branch(1, '=', 1, 0.1, -1, '', FORMAT_HTML, 'firsttree-1-T');
@@ -2079,17 +2079,17 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
 
         // Create the stack question based on 'test0'.
         $q = test_question_maker::make_question('stack', 'test0');
-        $sans1 = new stack_cas_casstring('ans1');
-        $sans1->get_valid('t');
-        $tans1 = new stack_cas_casstring('2');
-        $tans1->get_valid('t');
+        $sans1 = stack_ast_container::make_from_teacher_source('ans1');
+        $sans1->get_valid();
+        $tans1 = stack_ast_container::make_from_teacher_source('2');
+        $tans1->get_valid();
         $node1 = new stack_potentialresponse_node($sans1, $tans1, 'EqualComAss');
         $node1->add_branch(0, '=', 0, 0.1, 1, '', FORMAT_HTML, 'firsttree-1-F');
         $node1->add_branch(1, '=', 1, 0.3, -1, '', FORMAT_HTML, 'firsttree-1-T');
-        $sans2 = new stack_cas_casstring('ans1');
-        $sans2->get_valid('t');
-        $tans2 = new stack_cas_casstring('3');
-        $tans2->get_valid('t');
+        $sans2 = stack_ast_container::make_from_teacher_source('ans1');
+        $sans2->get_valid();
+        $tans2 = stack_ast_container::make_from_teacher_source('3');
+        $tans2->get_valid();
         $node2 = new stack_potentialresponse_node($sans2, $tans2, 'EqualComAss');
         $node2->add_branch(0, '=', 0, 0.2, -1, '', FORMAT_HTML, 'firsttree-2-F');
         // This is the point of the test: we explicitly set a zero penalty here.
@@ -2151,17 +2151,17 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
 
         // Create the stack question based on 'test0'.
         $q = test_question_maker::make_question('stack', 'test0');
-        $sans1 = new stack_cas_casstring('ans1');
-        $sans1->get_valid('t');
-        $tans1 = new stack_cas_casstring('2');
-        $tans1->get_valid('t');
+        $sans1 = stack_ast_container::make_from_teacher_source('ans1');
+        $sans1->get_valid();
+        $tans1 = stack_ast_container::make_from_teacher_source('2');
+        $tans1->get_valid();
         $node1 = new stack_potentialresponse_node($sans1, $tans1, 'EqualComAss');
         $node1->add_branch(0, '=', 0, 0.1, 1, '', FORMAT_HTML, 'firsttree-1-F');
         $node1->add_branch(1, '=', 1, 0.3, -1, '', FORMAT_HTML, 'firsttree-1-T');
-        $sans2 = new stack_cas_casstring('ans1');
-        $sans2->get_valid('t');
-        $tans2 = new stack_cas_casstring('3');
-        $tans2->get_valid('t');
+        $sans2 = stack_ast_container::make_from_teacher_source('ans1');
+        $sans2->get_valid();
+        $tans2 = stack_ast_container::make_from_teacher_source('3');
+        $tans2->get_valid();
         $node2 = new stack_potentialresponse_node($sans2, $tans2, 'EqualComAss');
         $node2->add_branch(0, '=', 0, 0.2, -1, '', FORMAT_HTML, 'firsttree-2-F');
         // This is the point of the test: we explicitly set a zero penalty here.

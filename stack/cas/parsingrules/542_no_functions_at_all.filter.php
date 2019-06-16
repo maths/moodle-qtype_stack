@@ -43,7 +43,9 @@ class stack_ast_filter_542_no_functions_at_all implements stack_cas_astfilter_ex
         }
         // @codingStandardsIgnoreEnd
         if ($hasany) {
-            $answernotes[] = 'noFunction';
+            if (array_search('noFunction', $answernotes) === false) {
+                $answernotes[] = 'noFunction';
+            }
         }
         return $ast;
     }

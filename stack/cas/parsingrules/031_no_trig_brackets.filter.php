@@ -19,9 +19,9 @@ require_once(__DIR__ . '/filter.interface.php');
 
 /**
  * AST filter that identifies a specific use case related to trig functions
- * and spaces.
+ * and [].
  */
-class stack_ast_filter_030_no_trig_space implements stack_cas_astfilter {
+class stack_ast_filter_031_no_trig_brackets implements stack_cas_astfilter {
 
     public function filter(MP_Node $ast, array &$errors, array &$answernotes, stack_cas_security $identifierrules): MP_Node {
 
@@ -29,22 +29,17 @@ class stack_ast_filter_030_no_trig_space implements stack_cas_astfilter {
 
         $process = function($node) use (&$errors, &$answernotes, $selectednames) {
             if ($node instanceof MP_Identifier &&
-                !$node->is_function_name()) {
+                !$node->is_function_name() &&
+            	$node->parentnode instanceof MP_Indexing &&
+            	$node->parentnode->target === $node) {
                 if (array_key_exists($node->value, $selectednames)) {
-                    // Now we are a variable named like "sin".
-                    // Do we have an "fixspaces" style of an star after us?
-                    if ($node->parentnode instanceof MP_Operation &&
-                            $node->parentnode->lhs === $node &&
-                            $node->parentnode->op === '*' &&
-                            isset($node->parentnode->position['fixspaces'])) {
-                        $errors[] = stack_string('stackCas_trigspace',
-                                array('trig' => stack_maxima_format_casstring($node->value.'(...)')));
-                        if (array_search('trigspace', $answernotes) === false) {
-                            $answernotes[] = 'trigspace';
-                        }
-                        $node->parentnode->position['invalid'] = true;
-                        // TODO: handle the case where we are not the lhs of the shared op.
+                    
+                	$errors[] = stack_string('stackCas_trigparens',
+                    	array('forbid' => stack_maxima_format_casstring($node->value.'(x)')));
+                    if (array_search('trigparens', $answernotes) === false) {
+                	   $answernotes[] = 'trigparens';
                     }
+                	$node->position['invalid'] = true;
                 }
             }
             return true;

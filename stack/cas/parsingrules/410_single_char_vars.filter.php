@@ -31,7 +31,7 @@ class stack_ast_filter_410_single_char_vars implements stack_cas_astfilter {
         // Get the list/map of protected variable names and constants.
         $protected = stack_cas_security::get_protected_identifiers('variable', $identifierrules->get_units());
 
-        $process = function($node) use (&$valid, &$errors, &$answernote, $protected) {
+        $process = function($node) use (&$valid, &$errors, &$answernotes, $protected) {
             if ($node instanceof MP_Identifier && !$node->is_function_name()) {
                 // Cannot split further.
                 if (core_text::strlen($node->value) === 1) {
@@ -58,7 +58,9 @@ class stack_ast_filter_410_single_char_vars implements stack_cas_astfilter {
                         $replacement = new MP_Operation('*', new MP_Identifier($safe), $remainder);
                         $replacement->position['insertstars'] = true;
                         $node->parentnode->replace($node, $replacement);
-                        $answernote[] = 'missing_stars';
+                        if (array_search('missing_stars', $answernotes) === false) {
+                            $answernotes[] = 'missing_stars';
+                        }
                         return false;
                     }
                 }
@@ -79,7 +81,9 @@ class stack_ast_filter_410_single_char_vars implements stack_cas_astfilter {
                 $replacement = new MP_Operation('*', $firstchar, $remainder);
                 $replacement->position['insertstars'] = true;
                 $node->parentnode->replace($node, $replacement);
-                $answernote[] = 'missing_stars';
+                if (array_search('missing_stars', $answernotes) === false) {
+                    $answernotes[] = 'missing_stars';
+                }
                 return false;
             }
             return true;

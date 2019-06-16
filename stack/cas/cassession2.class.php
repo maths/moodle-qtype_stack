@@ -222,9 +222,11 @@ class stack_cas_session2 {
             $command .= ',%stmt:' . stack_utils::php_string_to_maxima_string('s' . $num);
             $ef = $statement->get_evaluationform();
             $line = ',_EC(errcatch(' . $ef . '),';
+            $key = null;
             if (($statement instanceof cas_value_extractor) || ($statement instanceof cas_latex_extractor)) {
                 // One of those that need to be collected later.
-                if ($statement->get_key() === '') {
+                if (($key = $statement->get_key()) === '') {
+                    $key = '__e_smt_' . $num;
                     $line = ',_EC(errcatch(__e_smt_' . $num . ':' . $ef . '),';
                 }
             }
@@ -232,6 +234,16 @@ class stack_cas_session2 {
             $line .= ')';
 
             $command .= $line;
+
+            // If this is something that needs its LaTeX value collect it.
+            // Now while the settings are correct. Only the last statements.
+            if ($statement instanceof cas_latex_extractor) {
+                if ($collectlatex[$key] === $statement) {
+                    $command .= ',_LATEX:stackmap_set(_LATEX,';
+                    $command .= stack_utils::php_string_to_maxima_string($key);
+                    $command .= ',stack_disp(' . $key . ',""))';
+                }
+            }
         }
 
         // Collect values if required.
@@ -239,11 +251,6 @@ class stack_cas_session2 {
             $command .= ',_VALUES:stackmap_set(_VALUES,';
             $command .= stack_utils::php_string_to_maxima_string($key);
             $command .= ',string(' . $key . '))';
-        }
-        foreach ($collectlatex as $key => $statement) {
-            $command .= ',_LATEX:stackmap_set(_LATEX,';
-            $command .= stack_utils::php_string_to_maxima_string($key);
-            $command .= ',tex1(' . $key . '))';
         }
 
         // Pack values to the response.
@@ -312,6 +319,24 @@ class stack_cas_session2 {
                         }
                     }
                 }
+                // Check for ignores.
+                $last = null;
+                $errb = array();
+                foreach ($err as $error) {
+                    if (strpos($error, 'STACK: ignore previous error.') !== false) {
+                        $last = null;
+                    } else {
+                        if ($last !== null) {
+                            $errb[] = $last;
+                        }
+                        $last = $error;
+                    }
+                }
+                if ($last !== null) {
+                    $errb[] = $last;
+                }
+                $err = $errb;
+                
                 $answernotes = array();
                 if (array_key_exists('notes', $results)) {
                     if (array_key_exists('s' . $num, $results['notes'])) {

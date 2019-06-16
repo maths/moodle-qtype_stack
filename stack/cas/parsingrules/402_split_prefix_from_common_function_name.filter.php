@@ -58,7 +58,9 @@ class stack_ast_filter_402_split_prefix_from_common_function_name implements sta
                     $node->name->value = $longest;
                     $nop = new MP_Operation('*', new MP_Identifier($prefix), $node);
                     $nop->position['insertstars'] = true;
-                    $answernotes[] = 'missing_stars';
+                    if (array_search('missing_stars', $answernotes) === false) {
+                       $answernotes[] = 'missing_stars';
+                    }
                     $node->parentnode->replace($node, $nop);
                     return false;
                 }
@@ -66,7 +68,7 @@ class stack_ast_filter_402_split_prefix_from_common_function_name implements sta
             return true;
         };
         // @codingStandardsIgnoreStart
-        while ($ast->callbackRecurse($process) !== true) {
+        while ($ast->callbackRecurse($process, true) !== true) {
         }
         // @codingStandardsIgnoreEnd
         return $ast;

@@ -27,7 +27,7 @@ class stack_ast_filter_025_no_trig_power implements stack_cas_astfilter {
 
         $selectednames = stack_cas_security::get_all_with_feature('trigfun');
 
-        $process = function($node) use (&$valid, &$errors, &$answernotes, $selectednames) {
+        $process = function($node) use (&$errors, &$answernotes, $selectednames) {
             /**
              * Note we are not just looking for 'sin^' we want the context.
              *

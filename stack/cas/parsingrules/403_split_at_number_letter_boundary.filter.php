@@ -68,7 +68,7 @@ class stack_ast_filter_403_split_at_number_letter_boundary implements stack_cas_
             return true;
         };
         // @codingStandardsIgnoreStart
-        while ($ast->callbackRecurse($process) !== true) {
+        while ($ast->callbackRecurse($process, true) !== true) {
         }
         // @codingStandardsIgnoreEnd
         return $ast;

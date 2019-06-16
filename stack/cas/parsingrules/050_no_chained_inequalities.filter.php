@@ -33,7 +33,9 @@ class stack_ast_filter_050_no_chained_inequalities implements stack_cas_astfilte
                     ($node->rhs instanceof MP_Operation && isset($ops[$node->rhs->op]))) {
             		$node->position['invalid'] = true;
             		$errors[] = stack_string('stackCas_chained_inequalities');
-                	$answernotes[] = 'chained_inequalities';
+                    if (array_search('chained_inequalities', $answernotes) === false) {
+                	   $answernotes[] = 'chained_inequalities';
+                    }
             	} 
             }
 

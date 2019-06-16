@@ -33,8 +33,8 @@ class stack_cas_castext_raw extends stack_cas_castext_block {
         $raw = trim($this->get_node()->get_content());
         $cs = stack_ast_container_conditional::make_from_teacher_source($raw, '', new stack_cas_security());
         $cs->set_conditions($conditionstack);
-        $this->string = $cs;
         $cs->set_keyless(true);
+        $this->string = $cs;
 
         $tobeevaluatedcassession->add_statement($cs);
     }

@@ -410,8 +410,8 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         $inputs = stack_utils::extract_placeholders($this->questiontextinstantiated, 'input');
         foreach ($inputs as $name) {
             $input = $this->inputs[$name];
-            $feedback .= html_writer::tag('p', $input->get_teacher_answer_display($this->session->get_value_key($name, true),
-                    $this->session->get_display_key($name)));
+            $feedback .= html_writer::tag('p', $input->get_teacher_answer_display($this->tas[$name]->get_dispvalue(),
+                    $this->tas[$name]->get_latex()));
         }
         return stack_ouput_castext($feedback);
     }

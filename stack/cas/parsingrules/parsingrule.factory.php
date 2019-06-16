@@ -26,15 +26,18 @@ require_once(__DIR__ . '/005_i_is_never_a_function.filter.php');
 require_once(__DIR__ . '/020_no_arc.filter.php');
 require_once(__DIR__ . '/025_no_trig_power.filter.php');
 require_once(__DIR__ . '/030_no_trig_space.filter.php');
+require_once(__DIR__ . '/031_no_trig_brackets.filter.php');
 require_once(__DIR__ . '/050_no_chained_inequalities.filter.php');
 require_once(__DIR__ . '/101_no_floats.filter.php');
 require_once(__DIR__ . '/102_no_strings.filter.php');
 require_once(__DIR__ . '/402_split_prefix_from_common_function_name.filter.php');
 require_once(__DIR__ . '/403_split_at_number_letter_boundary.filter.php');
+require_once(__DIR__ . '/406_split_implied_variable_names.filter.php');
 require_once(__DIR__ . '/410_single_char_vars.filter.php');
 require_once(__DIR__ . '/441_split_unknown_functions.filter.php');
 require_once(__DIR__ . '/442_split_all_functions.filter.php');
 require_once(__DIR__ . '/450_split_floats.filter.php');
+require_once(__DIR__ . '/520_no_equality_with_logic.filter.php');
 require_once(__DIR__ . '/541_no_unknown_functions.filter.php');
 require_once(__DIR__ . '/542_no_functions_at_all.filter.php');
 require_once(__DIR__ . '/990_no_fixing_spaces.filter.php');
@@ -69,6 +72,8 @@ class stack_parsing_rule_factory {
                 return new stack_ast_filter_025_no_trig_power();
             case '030_no_trig_space':
                 return new stack_ast_filter_030_no_trig_space();
+            case '031_no_trig_brackets':
+                return new stack_ast_filter_031_no_trig_brackets();
             case '050_no_chained_inequalities':
                 return new stack_ast_filter_050_no_chained_inequalities();
             case '101_no_floats':
@@ -79,6 +84,8 @@ class stack_parsing_rule_factory {
                 return new stack_ast_filter_402_split_prefix_from_common_function_name();
             case '403_split_at_number_letter_boundary':
                 return new stack_ast_filter_403_split_at_number_letter_boundary();
+            case '406_split_implied_variable_names':
+                return new stack_ast_filter_406_split_implied_variable_names();
             case '410_single_char_vars':
                 return new stack_ast_filter_410_single_char_vars();
             case '441_split_unknown_functions':
@@ -87,6 +94,8 @@ class stack_parsing_rule_factory {
                 return new stack_ast_filter_442_split_all_functions();
             case '450_split_floats':
                 return new stack_ast_filter_450_split_floats();
+            case '520_no_equality_with_logic':
+                return new stack_ast_filter_520_no_equality_with_logic();
             case '541_no_unknown_functions':
                 return new stack_ast_filter_541_no_unknown_functions();
             case '542_no_functions_at_all':
@@ -108,12 +117,15 @@ class stack_parsing_rule_factory {
             foreach (array('001_fix_call_of_a_group_or_function', '002_log_candy',
                            '003_no_dot_dot', '005_i_is_never_a_function',
                            '020_no_arc', '025_no_trig_power',
-                           '030_no_trig_space', '050_no_chained_inequalities',
+                           '030_no_trig_space', '031_no_trig_brackets',
+                           '050_no_chained_inequalities',
                            '101_no_floats', '102_no_strings',
                            '402_split_prefix_from_common_function_name',
                            '403_split_at_number_letter_boundary',
+                           '406_split_implied_variable_names',
                            '410_single_char_vars', '441_split_unknown_functions',
                            '442_split_all_functions', '450_split_floats',
+                           '520_no_equality_with_logic',
                            '541_no_unknown_functions', '542_no_functions_at_all',
                            '990_no_fixing_spaces', '991_no_fixing_stars',
                            '998_security', '999_strict') as $name) {

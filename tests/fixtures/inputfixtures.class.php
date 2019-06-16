@@ -53,7 +53,7 @@ class stack_inputvalidation_test_data {
         array('2/4', 'php_true', '2/4', 'cas_true', '\frac{2}{4}', 'Lowest_Terms',
             "Rejecting this as 'invalid' not 'wrong' is a question option."),
         array('-10/-1', 'php_true', '-10/-1', 'cas_true', '\frac{-10}{-1}', 'Lowest_Terms', ""),
-        array('1/0', 'php_true', '1/0', 'cas_true', '\mathbf{false}', 'CASError: Division by zero.', ""),
+        array('1/0', 'php_true', '1/0', 'cas_false', '', 'CASError: Division by zero.', ""),
         array('pi', 'php_true', 'pi', 'cas_true', '\pi', '', ""),
         array('e', 'php_true', 'e', 'cas_true', 'e', '', "Cannot easily make \(e\) a variable name."),
         array('i', 'php_true', 'i', 'cas_true', '\mathrm{i}', '',
@@ -90,11 +90,11 @@ class stack_inputvalidation_test_data {
         array('a(x)', 'php_true', 'a(x)', 'cas_true', 'a\left(x\right)', '', ""),
         array('x(t+1)', 'php_true', 'x(t+1)', 'cas_true', 'x\left(t+1\right)', '', ""),
         // Because we are using x as a variable, we do insert a * here!
-        array('x(x+1)', 'php_true', 'x*(x+1)', 'cas_true', 'x\cdot \left(x+1\right)', 'missing_stars', ""),
+        array('x(x+1)', 'php_true', 'x*(x+1)', 'cas_true', 'x\cdot \left(x+1\right)', 'missing_stars | Variable_function', ""),
         array('x(sin(t)+1)', 'php_true', 'x(sin(t)+1)', 'cas_true', 'x\left(\sin \left( t \right)+1\right)', '', ""),
         array('b/a(x)', 'php_true', 'b/a(x)', 'cas_true', '\frac{b}{a\left(x\right)}', '', ""),
         array('3b+5/a(x)', 'php_true', '3*b+5/a(x)', 'cas_true', '3\cdot b+\frac{5}{a\left(x\right)}', 'missing_stars', ""),
-        array('a/(a(x+1)+2)', 'php_true', 'a/(a(x+1)+2)', 'cas_true', '\frac{a}{a\left(x+1\right)+2}', 'Variable_function', ""),
+        array('a/(a(x+1)+2)', 'php_true', 'a/(a*(x+1)+2)', 'cas_true', '\frac{a}{a\cdot \left(x+1\right)+2}', 'missing_stars | Variable_function', ""),
         array("f''(x)", 'php_false', '' , '', '', 'apostrophe', "Apostrophies again..."),
         array('dosomething(x,y,z)', 'php_false', '', '', '', 'forbiddenFunction',
         "Students have a restricted list of function names.  Teachers are less restricted."),
@@ -245,11 +245,11 @@ class stack_inputvalidation_test_data {
         array('(x+2)(x+3)', 'php_true', '(x+2)*(x+3)', 'cas_true', '\left(x+2\right)\cdot \left(x+3\right)', 'missing_stars', ""),
         array('cos(2x)(x+1)', 'php_true', 'cos(2*x)*(x+1)', 'cas_true', '\cos \left( 2\cdot x \right)\cdot \left(x+1\right)',
                 'missing_stars', ""),
-        array('b(b+1)', 'php_true', 'b*(b+1)', 'cas_true', 'b\cdot \left(b+1\right)', 'missing_stars', ""),
-        array('-b(5-b)', 'php_true', '-b*(5-b)', 'cas_true', '\left(-b\right)\cdot \left(5-b\right)', 'missing_stars', ""),
-        array('-x(1+x)', 'php_true', '-x*(1+x)', 'cas_true', '\left(-x\right)\cdot \left(1+x\right)', 'missing_stars', ""),
-        array('1-x(1+x)', 'php_true', '1-x*(1+x)', 'cas_true', '1-x\cdot \left(1+x\right)', 'missing_stars', ""),
-        array('-3x(1+x)', 'php_true', '-3*x*(1+x)', 'cas_true', '-3\cdot x\cdot \left(1+x\right)', 'missing_stars', ""),
+        array('b(b+1)', 'php_true', 'b*(b+1)', 'cas_true', 'b\cdot \left(b+1\right)', 'missing_stars | Variable_function', ""),
+        array('-b(5-b)', 'php_true', '-b*(5-b)', 'cas_true', '\left(-b\right)\cdot \left(5-b\right)', 'missing_stars | Variable_function', ""),
+        array('-x(1+x)', 'php_true', '-x*(1+x)', 'cas_true', '\left(-x\right)\cdot \left(1+x\right)', 'missing_stars | Variable_function', ""),
+        array('1-x(1+x)', 'php_true', '1-x*(1+x)', 'cas_true', '1-x\cdot \left(1+x\right)', 'missing_stars | Variable_function', ""),
+        array('-3x(1+x)', 'php_true', '-3*x*(1+x)', 'cas_true', '-3\cdot x\cdot \left(1+x\right)', 'missing_stars | Variable_function', ""),
         array('i(1+i)', 'php_true', 'i*(1+i)', 'cas_true', '\mathrm{i}\cdot \left(1+\mathrm{i}\right)', 'missing_stars', ""),
         array('i(4)', 'php_true', 'i*(4)', 'cas_true', '\mathrm{i}\cdot 4', 'missing_stars', ""),
         // The next case is important: please don't call the result of a function f(x), with an argument (2).
@@ -490,6 +490,9 @@ class stack_inputvalidation_test_data {
         // and if you do not allow inserttion of stars then it is invalid.
         $filterstoapply[] = '402_split_prefix_from_common_function_name';
         $filterstoapply[] = '403_split_at_number_letter_boundary';
+        $filterstoapply[] = '406_split_implied_variable_names';
+
+        $filterstoapply[] = '520_no_equality_with_logic';
 
         // We want to apply this as our "insert stars" but not spaces...
         $filterstoapply[] = '990_no_fixing_spaces';
@@ -544,16 +547,16 @@ class stack_inputvalidation_test_data {
             } else {
                 $casexpected = false;
             }
-            if ('' == $cs->get_dispvalue()) {
-                $casvalid = false;
-            } else {
-                $casvalid = true;
-            }
+            $casvalid = $cs->get_valid();
+
             if ($casexpected != $casvalid) {
                 $passed = false;
                 $caserrors .= ' '.stack_string('casvalidatemismatch');
             }
-            $casdisplay = trim($cs->get_display());
+            $casdisplay = '';
+            if ($cs->is_correctly_evaluated()) {
+                $casdisplay = trim($cs->get_display());
+            }
             if ($casdisplay != $test->display) {
                 $passed = false;
                 $errors .= ' '.stack_string('displaymismatch').html_writer::tag('pre', s($test->display));

@@ -56,7 +56,7 @@ The process of updating the census file is as follows:
 
      ```
      cd $MOODLE
-     php question/type/stack/cli/maximaidentifierupdate.php --version=5.42.0 --data=/tmp/maximatemp/identifiers-5.42.0.txt
+     php question/type/stack/cli/maximaidentifierupdater.php --version=5.42.0 --data=/tmp/maximatemp/identifiers-5.42.0.txt
      ```
 
  4. Also call the update script for the security map. The script will read

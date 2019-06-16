@@ -667,7 +667,8 @@ abstract class stack_input {
         if (!$answer->get_valid()) {
             $valid = false;
         } else {
-            if (!($lvars->get_value() == '[]' || trim($lvars->get_dispvalue()) == '')) {
+            if ($lvars->get_valid() &&
+                !($lvars->get_value() == '[]' || trim($lvars->get_dispvalue()) == '')) {
                 $lvarsdisp = '\( ' . $lvars->get_display() . '\) ';
             }
         }
@@ -753,6 +754,10 @@ abstract class stack_input {
         // and if you do not allow inserttion of stars then it is invalid.
         $filterstoapply[] = '402_split_prefix_from_common_function_name';
         $filterstoapply[] = '403_split_at_number_letter_boundary';
+        $filterstoapply[] = '406_split_implied_variable_names';
+
+        // We do have some things that students are not supposed to do:
+        $filterstoapply[] = '520_no_equality_with_logic';
 
         // If stars = 0 then strict, ignore the other strict syntax.
         if ($stars === 0) {

@@ -168,6 +168,20 @@ abstract class qtype_stack_testcase extends advanced_testcase {
 
         return $content;
     }
+
+    /**
+     * Compares two strings for equality. Ignoring multiplied whitespace e.g. 
+     * '\t\n ' ~ ' ' but '' != ' ' and E-surrounded by numeric characters is 
+     * assumed to be a float an thus case insensitive.
+     */
+    public function assertEqualsIgnoreSpacesAndE(string $expected, string $actual) {
+        $e = trim(preg_replace('/[\t\n\r\s]+/', ' ', $expected));
+        $a = trim(preg_replace('/[\t\n\r\s]+/', ' ', $actual));
+        $e = preg_replace('/([\d.])e([+\-\d])/', '$1E$2', $e);
+        $a = preg_replace('/([\d.])e([+\-\d])/', '$1E$2', $a);
+
+        $this->assertEquals($e, $a);
+    }
 }
 
 

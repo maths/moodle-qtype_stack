@@ -131,6 +131,12 @@ class MP_Node {
             $line = str_pad($line, strlen($originalcode) + 1);
             if (is_a($node, 'MP_EvaluationFlag')) {
                 $line .= get_class($node);
+            } if (is_a($node, 'MP_Float') || is_a($node, 'MP_Integer')) {
+                if ($node->raw !== null) {
+                    $line .= get_class($node) . ' ' . $node->raw;
+                } else {
+                    $line .= get_class($node) . ' ' . $node->value;
+                }
             } else {
                 $line .= get_class($node) . ' ' . @$node->op . @$node->value .
                 @$node->mode;
@@ -560,10 +566,21 @@ class MP_Boolean extends MP_Atom {
 }
 
 class MP_Identifier extends MP_Atom {
-                // Covenience functions that work only after $parentnode has been filled in.
+    // Convenience functions that work only after $parentnode has been filled in.
     public function is_function_name(): bool {
-        return $this->parentnode != null && $this->parentnode instanceof MP_FunctionCall &&
-            $this->parentnode->name === $this;
+        // Note that the first argument of map-functions is a function name.
+        if ($this->parentnode != null && $this->parentnode instanceof MP_FunctionCall) {
+            if ($this->parentnode->name === $this) {
+                return true;
+            }
+            if ($this->parentnode->arguments != null &&
+                $this->parentnode->arguments[0] === $this &&
+                stack_cas_security::get_feature($this->parentnode->name->toString(), 
+                    'mapfunction') === true) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public function is_variable_name(): bool {
@@ -599,6 +616,16 @@ class MP_Identifier extends MP_Atom {
                         $this->parentnode->parentnode instanceof MP_Operation &&
                         $this->parentnode->parentnode->lhs === $this->parentnode) {
                     return $this->parentnode->parentnode->op === ':';
+                }
+            } else if ($this->parentnode != null && 
+                       $this->parentnode instanceof MP_FunctionCall &&
+                       $this->parentnode->name !== $this) {
+                // Assignment by reference.
+                $i = array_search($this, $this->parentnode->arguments);
+                $indices = stack_cas_security::get_feature($this->parentnode->name->toString(), 
+                    'writesto');
+                if ($indices !== null && array_search($i, $indices) !== false) {
+                    return true;
                 }
             }
             return false;
@@ -794,13 +821,12 @@ class MP_FunctionCall extends MP_Node {
                 $r .= "\n" . $indent . ')';
                 return $r;
             } else {
-                $params['pretty'] = 0;
-                $r                = $indent . $this->name->toString($params) .
+                $r                = $indent . ltrim($this->name->toString($params)) .
                     '(';
                 $ar = [];
 
                 foreach ($this->arguments as $value) {
-                    $ar[] = $value->toString($params);
+                    $ar[] = ltrim($value->toString($params));
                 }
 
                 return $r . implode(', ', $ar) . ')';

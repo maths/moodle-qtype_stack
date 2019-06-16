@@ -32,7 +32,7 @@ require_once(__DIR__ . '/../maximaparser/corrective_parser.php');
 require_once(__DIR__ . '/../maximaparser/MP_classes.php');
 
 
-class stack_ast_container_conditional extends stack_ast_container{
+class stack_ast_container_conditional extends stack_ast_container {
 
     private $conditions;
 

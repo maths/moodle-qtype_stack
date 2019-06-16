@@ -453,21 +453,21 @@ mcq_incorrect(ta):=block(
 
 /* Function to declare errors from within logic. */
 /* With reference to position in logic. */
-_APPEND_ERR(err_list, reference) := if stackmap_has_key(%ERR, %stmt)
+_APPEND_ERR(err_list, reference) := if ev(stackmap_has_key(%ERR, %stmt), simp)
  then
-  %ERR:stackmap_set(%ERR,%stmt,append(stackmap_get(%ERR,%stmt),[[err_list,reference]]))
+  %ERR:stackmap_set(%ERR, %stmt, append(stackmap_get(%ERR,%stmt),[[err_list,reference]]))
  else
-  %ERR:stackmap_set(%ERR,%stmt,[[err_list,reference]])$
+  %ERR:stackmap_set(%ERR, %stmt, [[err_list,reference]])$
 
 /* Function to attach a note to the current statement. */
-_APPEND_NOTE(note) := if stackmap_has_key(%NOTES, %stmt)
+_APPEND_NOTE(note) := if ev(stackmap_has_key(%NOTES, %stmt), simp)
  then
   %NOTES:stackmap_set(%NOTES,%stmt,append(stackmap_get(%NOTES,%stmt),[note]))
  else
   %NOTES:stackmap_set(%NOTES,%stmt,[note])$
 
 /* Function to attach a note to the current statement. */
-_APPEND_FEEDBACK(feedback) := if stackmap_has_key(%FEEDBACK, %stmt)
+_APPEND_FEEDBACK(feedback) := if ev(stackmap_has_key(%FEEDBACK, %stmt), simp)
  then
   %FEEDBACK:stackmap_set(%FEEDBACK,%stmt,append(stackmap_get(%FEEDBACK,%stmt),[feedback]))
  else
@@ -1217,13 +1217,11 @@ ATNumSigFigs(SA, SB, SO) := block([Validity, RawMark, FeedBack, AnswerNote, ret,
 */
 ATAlgEquiv(SA,SB) := block([simp:true, ret, newret, SAN],
     /* Turn on simplification and error catch */
-    SA:errcatch(ev(SA, simp, nouns)),
-    if is(SA = [STACKERROR]) then return([false, false, StackAddNote("", "ATAlgEquiv_STACKERROR_SAns"), ""]),
-    SA:SA[1],
+    if is(_EC(errcatch(SA:ev(SA, simp, nouns)), "") = false) then 
+        return([false, false, StackAddNote("", "ATAlgEquiv_STACKERROR_SAns"), ""]),
     SAN:copy(SA), /* Need this for when we have lists etc. */
-    SB:errcatch(ev(SB, simp, nouns, rat)),
-    if is(SB = [STACKERROR]) then return([false, false, StackAddNote("", "ATAlgEquiv_STACKERROR_TAns"),""]),
-    SB:SB[1],
+    if is(_EC(errcatch(SB:ev(SB, simp, nouns, rat)), "") = false) then 
+        return([false, false, StackAddNote("", "ATAlgEquiv_STACKERROR_TAns"),""]),
     /* Start recursive process */
     ret:ATAlgEquivfun(SA, SB),
     /* Can we find a permutation of the variables? */
@@ -1753,12 +1751,12 @@ ATLogic(SA, SB) := block([SAL, SBL, res],
     if equationp(SB) and numberp(lhs(SB)) and not(algebraic_equivalence(lhs(SB), 0)) then SB:none,
     if (debug) then print("ATLogic: [", string(SA), " | ", string(SB), "]"),
     if SA = SB then
-        return([true, true, "ATLogic_True", ""]),
+        return([true, true, StackAddNote("", "ATLogic_True"), ""]),
     SAP:ev(single_variable_solver_real(SA), simp),
     SBP:ev(single_variable_solver_real(SB), simp),
     if (debug) then print("ATLogic_to_poly_solver: [", string(SAP), " | ", string(SBP), "]"),
     if SAP=SBP then
-        return([true, true, "ATLogic_Solver_True", ""]),
+        return([true, true, StackAddNote("", "ATLogic_Solver_True"), ""]),
     SAP:ev(logic_to_poly(SA), simp),
     SBP:ev(logic_to_poly(SB), simp),
     if (debug) then print("ATLogic_to_poly: [", string(SAP), " | ", string(SBP), "]"),

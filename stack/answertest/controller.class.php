@@ -70,7 +70,7 @@ class stack_ans_test_controller {
      * In [2] we have the value of simp in the CAS session.
      */
     protected static $pops = array(
-        'AlgEquiv'             => array(false, false, true),
+        'AlgEquiv'             => array(false, false, false),
         'EqualComAss'          => array(false, false, false),
         'CasEqual'             => array(false, false, false),
         'SameType'             => array(false, false, true),

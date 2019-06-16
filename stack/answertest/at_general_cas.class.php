@@ -101,8 +101,10 @@ class stack_answertest_general_cas extends stack_anstest {
         $this->options->set_option('simplify', $this->simp);
 
         $sa = clone $this->sanskey;
+        // TODO: Matti, how do we add nouns here, i.e. or->nounor?
         $sa->set_key('STACKSA');
         $ta = clone $this->tanskey;
+        // TODO: Matti, how do we add nouns here, i.e. or->nounor?
         $ta->set_key('STACKTA');
         $ops = stack_ast_container::make_from_teacher_source('STACKOP:true', '', new stack_cas_security());
         $result = stack_ast_container::make_from_teacher_source("result:{$this->casfunction}(STACKSA,STACKTA)", '',

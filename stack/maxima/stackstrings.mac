@@ -5,10 +5,10 @@
 
 /* A map is a list of key value pairs with the first element being the string "stack_map" */
 /* We intentionally skip the use of structs to allow people to directly process the "map" */
-/* from withing STACK question code as structs were still forbidden there at the time. */
+/* from within STACK question code as structs were still forbidden there at the time. */
 /* Also avoiding certain list convenience functions as they are quite recent additions */
 /* to Maxima, so do not wonder why things are done at quite a low level. */
-is_stackmap(x) := listp(x) and is(length(x)>0) and is(x[1]="stack_map")$
+is_stackmap(x) := ev(listp(x) and is(length(x)>0) and is(x[1]="stack_map"), simp)$
 /* might as we be called stackmapp() but that sounds odd. */
 stackmapp(x) := is_stackmap(x)$
 
@@ -24,7 +24,7 @@ stackmap_set(m, k, v) := block([tmp, found, r],
  r: ["stack_map"],
  /* If we are given anything else than a map as the map we make a new map. */
  if not is_stackmap(m) then return(append(r,[[k,v]])),
- for tmp in m do if not is(tmp="stack_map") then (if is(tmp[1]=k) then (r:append(r,[[k,v]]),found:true) else r:append(r,[tmp])),
+ for tmp in m do if not is(tmp="stack_map") then (if ev(is(tmp[1]=k), simp) then (r:append(r,[[k,v]]),found:true) else r:append(r,[tmp])),
  if not found then r:append(r,[[k,v]]),
  return(r)
 )$

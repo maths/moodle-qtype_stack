@@ -20,7 +20,7 @@ require_once(__DIR__ . '/../locallib.php');
 require_once(__DIR__ . '/fixtures/test_base.php');
 require_once(__DIR__ . '/../stack/cas/parsingrules/541_no_unknown_functions.filter.php');
 
-// TODO: update these tests to match the realisty of 041 => 441 & 541
+// TODO: update these tests to match the realisty of 041 => 441 & 541.
 
 /**
  * Unit tests for {@link stack_ast_filter_541_no_unknown_functions}.

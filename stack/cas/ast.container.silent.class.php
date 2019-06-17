@@ -81,9 +81,9 @@ class stack_ast_container_silent implements cas_evaluatable {
     protected $nounify = false;
 
     /**
-     * Some AST-containers have keys but are still to be used like they had 
+     * Some AST-containers have keys but are still to be used like they had
      * none. This is somewhat more complex behaviour connected to the new
-     * cassession only returning the values of last statements with a given 
+     * cassession only returning the values of last statements with a given
      * key.
      */
     protected $keyless = false;
@@ -300,7 +300,7 @@ class stack_ast_container_silent implements cas_evaluatable {
                         // This makes it possible to write, when authoring, evaluation flags
                         // like in maxima without wrapping in ev() yourself.
                         $casstring = 'ev(' . $casstring . ')';
-                    }
+            }
         }
         return $casstring;
     }
@@ -314,21 +314,20 @@ class stack_ast_container_silent implements cas_evaluatable {
         // of catching some key errors as answernotes.
         $this->isevaluated = true;
         if (count($errors) > 0) {
-            $this->errors = array_merge($this->errors, $errors);
-            foreach ($errors as $value) {
+            $errs = array_merge($this->errors, $errors);
+            foreach ($errs as $value) {
                 if ($value !== '' && $value !== null) {
-                    $this->decode_maxima_errors($value);
                     $this->valid = false;
+                    $this->errors[] = $this->decode_maxima_errors($value, true);
                 }
             }
         }
-        // TODO: should we not have somethign more logical than 
-        // decode_maxima_errors handle the notes? They are not coming mixed
-        // from the CAS? Same with errors and feedback.
         if (count($answernotes) > 0) {
             foreach ($answernotes as $value) {
                 if ($value !== '' && $value !== null) {
-                    $this->decode_maxima_errors($value);
+                    if (array_search($value, $this->answernotes) === false) {
+                        $this->answernotes[] = $value;
+                    }
                 }
             }
         }
@@ -336,7 +335,6 @@ class stack_ast_container_silent implements cas_evaluatable {
             foreach ($feedback as $value) {
                 if ($value !== '' && $value !== null) {
                     $this->feedback[] = $value;
-                    $this->decode_maxima_errors($value, true);
                 }
             }
         }
@@ -457,6 +455,7 @@ class stack_ast_container_silent implements cas_evaluatable {
                 $this->answernotes[] = 'CASError: ' . $fixed;
             }
         }
+        return $fixed;
     }
 
     /**

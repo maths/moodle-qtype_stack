@@ -35,22 +35,18 @@ class stack_anstest_atdecplaces_test extends qtype_stack_testcase {
     public function test_is_true_for_equal_expressions() {
         $at = new stack_ans_test_controller('NumDecPlaces',
                 stack_ast_container::make_from_teacher_source('1.01'),
-                stack_ast_container::make_from_teacher_source('1.01'), 
+                stack_ast_container::make_from_teacher_source('1.01'),
                 stack_ast_container::make_from_teacher_source('2'),
                 null);
         $this->assertTrue($at->do_test());
         $this->assertEquals(1, $at->get_at_mark());
-        // This is no longer the way.
-        // $this->assertTrue($at->required_atoptions());
-        // This is the new way. We only check if they are needed, 
-        // when does the validity get checked?
         $this->assertTrue(stack_ans_test_controller::required_atoptions('NumDecPlaces'));
     }
 
     public function test_is_false_for_unequal_expressions() {
         $at = new stack_ans_test_controller('NumDecPlaces',
             stack_ast_container::make_from_teacher_source('2'),
-            stack_ast_container::make_from_teacher_source('1'), 
+            stack_ast_container::make_from_teacher_source('1'),
             stack_ast_container::make_from_teacher_source('4'),
             null);
         $this->assertFalse($at->do_test());
@@ -59,7 +55,7 @@ class stack_anstest_atdecplaces_test extends qtype_stack_testcase {
 
     public function test_is_false_for_unequal_expressions_2() {
         $at = new stack_ans_test_controller('NumDecPlaces',
-            stack_ast_container::make_from_teacher_source('2.000'), 
+            stack_ast_container::make_from_teacher_source('2.000'),
             stack_ast_container::make_from_teacher_source('1'),
             stack_ast_container::make_from_teacher_source('3'),
             null);

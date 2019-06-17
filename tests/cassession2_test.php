@@ -164,7 +164,7 @@ class stack_cas_session2_test extends qtype_stack_testcase {
         $basesession->add_statement($input);
         // We now have a session with the $input and the question variables.
 
-        // If our PRT requires simplification
+        // If our PRT requires simplification.
         $simpon = stack_ast_container_silent::make_from_teacher_source('simp:true', 'PRT1:simpon', $security);
 
         // If we have feedbackvariables.
@@ -204,11 +204,10 @@ class stack_cas_session2_test extends qtype_stack_testcase {
         $this->assertEquals('', $result->get_errors());
         $this->assertEquals('cos(x)', $tans->get_value());
 
-        // Note that the value is available as an AST and there is already 
+        // Note that the value is available as an AST and there is already
         // an unpacking function to pick it apart.
         $this->assertEquals('[true,false,"",""]', $result->get_value());
 
     }
-
 
 }

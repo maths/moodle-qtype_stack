@@ -237,7 +237,7 @@ class stack_ast_filter_998_security implements stack_cas_astfilter_parametric {
                 $errors[] = trim(stack_string('stackCas_badLogIn'));
                 if (array_search('stackCas_badLogIn', $answernotes) === false) {
                     $answernotes[] = 'stackCas_badLogIn';
-                }                
+                }
                 $valid = false;
             } else if ($this->source === 's' && count($vars) > 0 && array_search($name, $vars) === false) {
                 // Case sensitivity issues.
@@ -267,7 +267,7 @@ class stack_ast_filter_998_security implements stack_cas_astfilter_parametric {
                         array('constant' => stack_maxima_format_casstring($name))));
                 if (array_search('writingToConstant', $answernotes) === false) {
                     $answernotes[] = 'writingToConstant';
-                }                  
+                }
                 $valid = false;
             }
             // Other checks happen at the $variables loop. These are all members of that.
@@ -292,7 +292,7 @@ class stack_ast_filter_998_security implements stack_cas_astfilter_parametric {
                             array('forbid' => stack_maxima_format_casstring('()'))));
                 if (array_search('emptyParens', $answernotes) === false) {
                     $answernotes[] = 'emptyParens';
-                }                  
+                }
                 $valid = false;
             }
         }

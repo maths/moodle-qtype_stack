@@ -115,9 +115,7 @@ class stack_anstest_atnumsigfigs extends stack_anstest {
                 $this->atansnote .= $this->casfunction.'_WithinRange. ';
             }
         } else if ($condoneextrasigfigs) {
-            // Round the student's answer.
-            // TODO
-            // $this->sanskey = 'significantfigures('.$this->sanskey.','.$requiredsigfigs.')';
+            // Rounding the student's answer now happens in maxima.
             if ($requiredsigfigs <= $r['lowerbound']) {
                 $withinrange = true;
                 $this->atmark = 1;
@@ -163,14 +161,14 @@ class stack_anstest_atnumsigfigs extends stack_anstest {
         if ($this->sanskey->is_correctly_evaluated()) {
             $sa = stack_ast_container::make_from_teacher_source($this->sanskey->get_value());
         } else {
-            $sa = clone $this->sanskey;    
+            $sa = clone $this->sanskey;
         }
         $sa->set_key('STACKSA');
         $ta = null;
         if ($this->tanskey->is_correctly_evaluated()) {
             $ta = stack_ast_container::make_from_teacher_source($this->tanskey->get_value());
         } else {
-            $ta = clone $this->tanskey;    
+            $ta = clone $this->tanskey;
         }
         $ta->set_key('STACKTA');
         $ops = stack_ast_container::make_from_teacher_source('STACKOP:true', '', new stack_cas_security());

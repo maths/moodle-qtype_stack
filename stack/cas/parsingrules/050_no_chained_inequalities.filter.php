@@ -36,7 +36,7 @@ class stack_ast_filter_050_no_chained_inequalities implements stack_cas_astfilte
                     if (array_search('chained_inequalities', $answernotes) === false) {
                         $answernotes[] = 'chained_inequalities';
                     }
-                } 
+                }
             }
 
             return true;

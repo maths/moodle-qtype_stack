@@ -76,6 +76,11 @@ class stack_ast_container_silent implements cas_evaluatable {
     protected $securitymodel;
 
     /**
+     * Do we nounify all operators in this expression?
+     */
+    protected $nounify = false;
+
+    /**
      * Some AST-containers have keys but are still to be used like they had 
      * none. This is somewhat more complex behaviour connected to the new
      * cassession only returning the values of last statements with a given 
@@ -241,6 +246,10 @@ class stack_ast_container_silent implements cas_evaluatable {
         $this->keyless = $key;
     }
 
+    /* TODO: a more coherent system for dealing with all options such as keyless, nounify. */
+    public function set_nounify(bool $key=true) {
+        $this->nounify = $key;
+    }
 
     // Functions required by cas_evaluatable.
     public function get_valid(): bool {
@@ -271,7 +280,13 @@ class stack_ast_container_silent implements cas_evaluatable {
         if (false === $this->get_valid()) {
             throw new stack_exception('stack_ast_container: tried to get the evalution form of an invalid casstring.');
         }
-        $root = $this->ast;
+        return $this->ast_to_casstring($this->ast);
+    }
+
+    /*
+     * Avoid duplicate code with stack_ast_container::get_value.
+     */
+    protected function ast_to_casstring($root) : string {
         if ($root instanceof MP_Root) {
             $root = $root->items[0];
         }
@@ -279,15 +294,14 @@ class stack_ast_container_silent implements cas_evaluatable {
         if ($this->source === 's') {
             $casstring = $root->toString(array('nounify' => true, 'dealias' => true));
         } else {
-            $casstring = $root->toString(array('dealias' => true));
+            $casstring = $root->toString(array('nounify' => $this->nounify, 'dealias' => true));
             if ($root instanceof MP_Statement &&
-                $root->flags !== null && count($root->flags) > 0) {
-                // This makes it possible to write, when authoring, evaluation flags
-                // like in maxima without wrapping in ev() yourself.
-                $casstring = 'ev(' . $casstring . ')';
-            }
+                    $root->flags !== null && count($root->flags) > 0) {
+                        // This makes it possible to write, when authoring, evaluation flags
+                        // like in maxima without wrapping in ev() yourself.
+                        $casstring = 'ev(' . $casstring . ')';
+                    }
         }
-
         return $casstring;
     }
 
@@ -463,7 +477,6 @@ class stack_ast_container_silent implements cas_evaluatable {
             $this->securitymodel = clone $this->securitymodel;
         }
     }
-
 
     /**
      * Basic type checks, for checking if the expression is just one

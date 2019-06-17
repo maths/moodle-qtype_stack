@@ -102,12 +102,12 @@ class stack_answertest_general_cas extends stack_anstest {
 
         // New values could be based on previously evaluated ones.
         $sa = null;
-        // TODO: Matti, how do we add nouns here, i.e. or->nounor?
         if ($this->sanskey->is_correctly_evaluated()) {
             $sa = stack_ast_container::make_from_teacher_source($this->sanskey->get_value());
         } else {
             $sa = clone $this->sanskey;
         }
+        $sa->set_nounify(true);
         $sa->set_key('STACKSA');
         $ta = null;
         if ($this->tanskey->is_correctly_evaluated()) {
@@ -115,6 +115,7 @@ class stack_answertest_general_cas extends stack_anstest {
         } else {
             $ta = clone $this->tanskey;
         }
+        $ta->set_nounify(true);
         $ta->set_key('STACKTA');
         $ops = stack_ast_container::make_from_teacher_source('STACKOP:true', '', new stack_cas_security());
         $result = stack_ast_container::make_from_teacher_source("result:{$this->casfunction}(STACKSA,STACKTA)", '',

@@ -227,24 +227,7 @@ class stack_ast_container extends stack_ast_container_silent implements cas_late
         if (null === $this->evaluated) {
             throw new stack_exception('stack_ast_container: tried to get the value from of an unevaluated casstring.');
         }
-        $root = $this->evaluated;
-        if ($root instanceof MP_Root) {
-            $root = $root->items[0];
-        }
-        $casstring = '';
-        if ($this->source === 's') {
-            $casstring = $root->toString(array('nounify' => true, 'dealias' => true));
-        } else {
-            $casstring = $root->toString(array('dealias' => true));
-            if ($root instanceof MP_Statement &&
-                $root->flags !== null && count($root->flags) > 0) {
-                // This makes it possible to write, when authoring, evaluation flags
-                // like in maxima without wrapping in ev() yourself.
-                $casstring = 'ev(' . $casstring . ')';
-            }
-        }
-
-        return $casstring;
+        return $this->ast_to_casstring($this->evaluated);
     }
 
     public function get_dispvalue() {

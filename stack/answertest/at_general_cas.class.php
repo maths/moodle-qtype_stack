@@ -185,7 +185,7 @@ class stack_answertest_general_cas extends stack_anstest {
         } else {
             $this->atmark = 0;
         }
-        $this->atfeedback = stack_maxima_translate($unpacked['feedback']);
+        $this->atfeedback = $unpacked['feedback'];
         $this->atvalid    = $unpacked['valid'];
         if ($this->atmark) {
             return true;
@@ -212,10 +212,13 @@ class stack_answertest_general_cas extends stack_anstest {
                 // This is an odd case... We really should not have differing types.
                 $r['answernote'] = $result->items[2]->toString();
             }
-            $r['feedback'] = $result->items[3]->value;
-            if (strrpos($r['feedback'], '!NEWLINE!') === core_text::strlen($r['feedback']) - 9) {
-                $r['feedback'] = trim(core_text::substr($r['feedback'], 0, -9));
+            // Sort out and tidy up any feedback.
+            $res = $result->items[3]->value;
+            if (strrpos($res, '!NEWLINE!') === core_text::strlen($res) - 9) {
+                $res = trim(core_text::substr($res, 0, -9));
             }
+            $astc = new stack_ast_container();
+            $r['feedback'] = $astc->set_cas_latex_value(stack_maxima_translate($res));
         }
         return $r;
     }

@@ -76,7 +76,8 @@ class stack_answertest_general_cas_test extends qtype_stack_testcase {
         $at = $this->stack_answertest_general_cas_builder('(x+1)^2', '[a,b,c]', 'AlgEquiv');
         $this->assertFalse($at->do_test());
         $this->assertEquals(0, $at->get_at_mark());
-        $this->assertEquals("stack_trans('ATAlgEquiv_SA_not_list');", $at->get_at_feedback());
+        $this->assertEquals("Your answer should be a list, but is not. Note that the syntax to enter a list" .
+                " is to enclose the comma separated values with square brackets.", $at->get_at_feedback());
         $this->assertEquals("ATAlgEquiv_SA_not_list.", $at->get_at_answernote());
     }
 
@@ -84,7 +85,9 @@ class stack_answertest_general_cas_test extends qtype_stack_testcase {
         $at = $this->stack_answertest_general_cas_builder('[1,2]', '[1,2,3]', 'AlgEquiv');
         $this->assertFalse($at->do_test());
         $this->assertEquals(0, $at->get_at_mark());
-        $this->assertEquals("stack_trans('ATList_wronglen' , !quot!\\(3\\)!quot!  , !quot!\\(2\\)!quot! );",
+        $this->assertEquals('Your list should have <span class="filter_mathjaxloader_equation">' .
+                '<span class="nolink">\(3\)</span></span> elements, but it actually has ' .
+                '<span class="filter_mathjaxloader_equation"><span class="nolink">\(2\)</span></span>.',
                 $at->get_at_feedback());
         $this->assertEquals("ATList_wronglen.", $at->get_at_answernote());
     }
@@ -93,7 +96,8 @@ class stack_answertest_general_cas_test extends qtype_stack_testcase {
         $at = $this->stack_answertest_general_cas_builder('x', '{1,2,3}', 'AlgEquiv');
         $this->assertFalse($at->do_test());
         $this->assertEquals(0, $at->get_at_mark());
-        $this->assertEquals("stack_trans('ATAlgEquiv_SA_not_set');", $at->get_at_feedback());
+        $this->assertEquals("Your answer should be a set, but is not. Note that the syntax to enter a set " .
+                "is to enclose the comma separated values with curly brackets.", $at->get_at_feedback());
         $this->assertEquals("ATAlgEquiv_SA_not_set.", $at->get_at_answernote());
     }
 
@@ -101,8 +105,8 @@ class stack_answertest_general_cas_test extends qtype_stack_testcase {
         $at = $this->stack_answertest_general_cas_builder('{1,2}', '{1,2,3}', 'AlgEquiv');
         $this->assertFalse($at->do_test());
         $this->assertEquals(0, $at->get_at_mark());
-        $this->assertEquals("stack_trans('ATSet_wrongsz' , !quot!\\(3\\)!quot!  , !quot!\\(2\\)!quot! );",
-                $at->get_at_feedback());
+        $s = "stack_trans('ATSet_wrongsz' , !quot!\\(3\\)!quot!  , !quot!\\(2\\)!quot! );";
+        $this->assertEquals(stack_maxima_translate($s), $at->get_at_feedback());
         $this->assertEquals("ATSet_wrongsz.", $at->get_at_answernote());
     }
 
@@ -305,7 +309,8 @@ class stack_answertest_general_cas_test extends qtype_stack_testcase {
 
     public function test_is_missingopt_numabsolute() {
         $at = $this->stack_answertest_general_cas_builder('1.05', '1', 'NumAbsolute');
-        $this->assertNull($at->do_test());
+        // If the option is missing then we take 5% of the teacher's answer.
+        $this->assertFalse($at->do_test());
         $this->assertEquals(0, $at->get_at_mark());
     }
 
@@ -323,13 +328,14 @@ class stack_answertest_general_cas_test extends qtype_stack_testcase {
 
     public function test_is_missingopt_numrelative() {
         $at = $this->stack_answertest_general_cas_builder('1.05', '1', 'NumRelative');
-        $this->assertNull($at->do_test());
+        // If the option is missing then we take 5%.
+        $this->assertFalse($at->do_test());
         $this->assertEquals(0, $at->get_at_mark());
     }
 
     public function test_is_invalidopt_numrelative() {
         $at = $this->stack_answertest_general_cas_builder('1.05', '1', 'NumRelative', 'x');
-        $this->assertNull($at->do_test());
+        $this->assertFalse($at->do_test());
         $this->assertEquals(0, $at->get_at_mark());
     }
 
@@ -369,14 +375,11 @@ class stack_answertest_general_cas_test extends qtype_stack_testcase {
         $this->assertFalse($at->do_test());
         $this->assertEquals(0, $at->get_at_mark());
 
-        $fb = "stack_trans('ATInt_generic' , !quot!\\[x^5\\]!quot!  , !quot!\\(x\\)!quot!  , !quot!\\[6\\cdot x^5\\]!quot! );";
-        $this->assertEquals($fb, $at->get_at_feedback());
-
         $fbt = 'The derivative of your answer should be equal to the expression ' .
-                'that you were asked to integrate, that was: \[x^5\]  In fact, ' .
+                'that you were asked to integrate, that was: \[x^5\] In fact, ' .
                 'the derivative of your answer, with respect to \(x\) is: ' .
                 '\[6\cdot x^5\] so you must have done something wrong!';
-        $this->assertContentWithMathsEquals($fbt, stack_maxima_translate($at->get_at_feedback()));
+        $this->assertContentWithMathsEquals($fbt, $at->get_at_feedback());
     }
 
     public function test_stack_maxima_translate_algequiv_list() {
@@ -386,7 +389,7 @@ class stack_answertest_general_cas_test extends qtype_stack_testcase {
         $this->assertEquals(0, $at->get_at_mark());
 
         $fb = 'stack_trans(\'ATList_wrongentries\' , !quot!\[\left[ x^2 , {\color{red}{\underline{x^2}}} , x^4 \right] \]!quot! );';
-        $this->assertEquals($fb, $at->get_at_feedback());
+        $this->assertEquals(stack_maxima_translate($fb), $at->get_at_feedback());
 
         $fbt = 'The entries underlined in red below are those that are incorrect. ' .
                 '\[\left[ x^2 , {\color{red}{\underline{x^2}}} , x^4 \right] \]';
@@ -400,12 +403,12 @@ class stack_answertest_general_cas_test extends qtype_stack_testcase {
         $this->assertEquals(0, $at->get_at_mark());
 
         $fb = 'stack_trans(\'ATMatrix_wrongentries\' , ' .
-                '!quot!\[\left[\begin{array}{cc} 1 & 2 \\\\ {\color{red}{\underline{2}}} & 4 \end{array}\right]\]!quot! );';
-        $this->assertEquals($fb, $at->get_at_feedback());
+                '!quot!\[ \left[\begin{array}{cc} 1 & 2 \\\\ {\color{red}{\underline{2}}} & 4 \end{array}\right]\]!quot! );';
+        $this->assertEquals(stack_maxima_translate($fb), $at->get_at_feedback());
 
         $fbt = 'The entries underlined in red below are those that are incorrect. ' .
-                '\[\left[\begin{array}{cc} 1 & 2 \\\\ {\color{red}{\underline{2}}} & 4 \end{array}\right]\]';
-        $this->assertContentWithMathsEquals($fbt, stack_maxima_translate($at->get_at_feedback()));
+                '\[ \left[\begin{array}{cc} 1 & 2 \\\\ {\color{red}{\underline{2}}} & 4 \end{array}\right]\]';
+        $this->assertContentWithMathsEquals($fbt, $at->get_at_feedback());
     }
 
     public function test_stack_maxima_int_feedback_1() {
@@ -414,17 +417,12 @@ class stack_answertest_general_cas_test extends qtype_stack_testcase {
         $this->assertFalse($at->do_test());
         $this->assertEquals(0, $at->get_at_mark());
 
-        $fbt = 'stack_trans(\'ATInt_generic\' , !quot!\[\frac{e^{5\cdot x+7}}{5}+\frac{\left(5\cdot e^7\cdot x-e^7\right)'.
-               '\cdot e^{5\cdot x}}{5}\]!quot!  , !quot!\(x\)!quot!  , '.
-               '!quot!\[5\cdot e^{5\cdot x+7}+5\cdot \left(5\cdot e^7\cdot x-e^7\right)\cdot e^{5\cdot x}\]!quot! );';
-        $this->assertEquals($fbt, $at->get_at_feedback());
-
         $fbt = 'The derivative of your answer should be equal to the expression that you were asked to integrate, that was: '.
-               '\[\frac{e^{5\cdot x+7}}{5}+\frac{\left(5\cdot e^7\cdot x-e^7\right)\cdot e^{5\cdot x}}{5}\]  '.
+               '\[\frac{e^{5\cdot x+7}}{5}+\frac{\left(5\cdot e^7\cdot x-e^7\right) \cdot e^{5\cdot x}}{5}\] '.
                'In fact, the derivative of your answer, with respect to \(x\) is: '.
-               '\[5\cdot e^{5\cdot x+7}+5\cdot \left(5\cdot e^7\cdot x-e^7\right)\cdot e^{5\cdot x}\] '.
+               '\[5\cdot e^{5\cdot x+7}+5\cdot \left(5\cdot e^7\cdot x-e^7\right) \cdot e^{5\cdot x}\] '.
                'so you must have done something wrong!';
-        $this->assertContentWithMathsEquals($fbt, stack_maxima_translate($at->get_at_feedback()));
+        $this->assertContentWithMathsEquals($fbt, $at->get_at_feedback());
     }
 
     public function test_stack_maxima_int_feedback_2() {
@@ -433,15 +431,11 @@ class stack_answertest_general_cas_test extends qtype_stack_testcase {
         $this->assertFalse($at->do_test());
         $this->assertEquals(0, $at->get_at_mark());
 
-        $fbt = 'stack_trans(\'ATInt_generic\' , !quot!\[x\cdot e^{5\cdot x+7}\]!quot!  , !quot!\(x\)!quot!  , '.
-               '!quot!\[5\cdot e^{5\cdot x+7}+5\cdot \left(5\cdot e^7\cdot x-e^7\right)\cdot e^{5\cdot x}\]!quot! );';
-        $this->assertEquals($fbt, $at->get_at_feedback());
-
         $fbt = 'The derivative of your answer should be equal to the expression that you were asked to integrate, that was: '.
-               '\[x\cdot e^{5\cdot x+7}\]  In fact, the derivative of your answer, with respect to \(x\) is: '.
-               '\[5\cdot e^{5\cdot x+7}+5\cdot \left(5\cdot e^7\cdot x-e^7\right)\cdot e^{5\cdot x}\] '.
+               '\[x\cdot e^{5\cdot x+7}\] In fact, the derivative of your answer, with respect to \(x\) is: '.
+               '\[5\cdot e^{5\cdot x+7}+5\cdot \left(5\cdot e^7\cdot x-e^7\right) \cdot e^{5\cdot x}\] '.
                'so you must have done something wrong!';
-        $this->assertContentWithMathsEquals($fbt, stack_maxima_translate($at->get_at_feedback()));
+        $this->assertContentWithMathsEquals($fbt, $at->get_at_feedback());
     }
 
     public function test_is_true_units_relative() {
@@ -480,7 +474,7 @@ class stack_answertest_general_cas_test extends qtype_stack_testcase {
         $this->assertEquals('[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR]', $at->get_at_answernote());
         $fbt = '\[\begin{array}{lll} &x^2-1=0& \cr \color{green}{\Leftrightarrow}&\left(x-1\right)\cdot \left(x+1\right)=0& '.
             '\cr \color{green}{\Leftrightarrow}&x=1\,{\mbox{ or }}\, x=-1& \cr \end{array}\]';
-        $this->assertContentWithMathsEquals($fbt, stack_maxima_translate($at->get_at_feedback()));
+        $this->assertContentWithMathsEquals($fbt, $at->get_at_feedback());
     }
 
     public function test_equiv_false() {
@@ -491,7 +485,7 @@ class stack_answertest_general_cas_test extends qtype_stack_testcase {
         $this->assertEquals('[EMPTYCHAR,EQUIVCHAR,QMCHAR]', $at->get_at_answernote());
         $fbt = '\[\begin{array}{lll} &x^2-1=0& \cr \color{green}{\Leftrightarrow}&\left(x-1\right)\cdot \left(x+1\right)=0&'.
             ' \cr \color{red}{?}&x=\mathrm{i}\,{\mbox{ or }}\, x=-1& \cr \end{array}\]';
-        $this->assertContentWithMathsEquals($fbt, stack_maxima_translate($at->get_at_feedback()));
+        $this->assertContentWithMathsEquals($fbt, $at->get_at_feedback());
     }
 
     public function test_equiv_comment() {
@@ -501,7 +495,7 @@ class stack_answertest_general_cas_test extends qtype_stack_testcase {
         $this->assertEquals(0, $at->get_at_mark());
         $this->assertEquals('[EMPTYCHAR,EQUIVCHAR,EMPTYCHAR,EMPTYCHAR]', $at->get_at_answernote());
         $fbt = '\[\begin{array}{lll} &x^2-1=0& \cr \color{green}{\Leftrightarrow}&\left(x-1\right)\cdot \left(x+1\right)=0& '.
-            '\cr  &\mbox{Could be}& \cr  &x=\mathrm{i}\,{\mbox{ or }}\, x=-1& \cr \end{array}\]';
-        $this->assertContentWithMathsEquals($fbt, stack_maxima_translate($at->get_at_feedback()));
+            '\cr &\mbox{Could be}& \cr &x=\mathrm{i}\,{\mbox{ or }}\, x=-1& \cr \end{array}\]';
+        $this->assertContentWithMathsEquals($fbt, $at->get_at_feedback());
     }
 }

@@ -180,7 +180,7 @@ class stack_ast_container extends stack_ast_container_silent implements cas_late
         foreach ($loctags as $tag) {
             $latex = str_replace('!'.$tag.'!', stack_string('equiv_'.$tag), $latex);
         }
-        
+
         // Also previously some spaces have been eliminated and line changes dropped.
         // Apparently returning verbatim LaTeX was not a thing.
         $latex = str_replace("\n ", '', $latex);
@@ -191,6 +191,7 @@ class stack_ast_container extends stack_ast_container_silent implements cas_late
         $latex = str_replace('  ', ' ', $latex);
 
         $this->latex = $latex;
+        return $latex;
     }
 
     public function get_evaluated(): MP_Node {

@@ -716,7 +716,9 @@ numerical_not_alg_equiv(p1, p2):= block([pvars, pval, lv, sz, stack_mtell_quiet]
   /* We can't remove all these with stack_mtell_quiet, because some are division by zero
      which are errors, not warnings.                                                      */
   if is(pval = []) then (print("STACK: ignore previous error. (p1)"), return(false)),
-  if abs(first(pval)) > 1/10000 then return(true),
+  pval:errcatch(ev(is(abs(first(pval)) > 1/10000), simp)), 
+  if is(pval = []) then (print("STACK: ignore previous error. (p1)"), return(false)),
+  if first(pval) then return(true),
   /* Evaluate the difference of the expressions at each variable as floats. */
   lv:zip_with("=", pvars, makelist(float((sqrt(2)^k+k*%pi)/4), k, length(pvars))),
   /* Now we evaluate the difference of the expressions at each variable. */
@@ -2090,7 +2092,8 @@ stack_eval_equiv_arg(ex, showlogic, showdomain, equivdebug, debuglist) := block(
     /* Remove first entry when this has not been set. */
     if first(res)=null then res:rest(res),
     if elementp(unknown, setify(res)) then
-        res:unknown
+        /* For now, "unknown" is triggered by strings/comments.  So this argument is not true. */
+        res:false
     else
         res:apply("and", res),
     /* If in debug mode check if we have what we expect. */

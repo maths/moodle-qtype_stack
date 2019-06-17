@@ -62,11 +62,11 @@ function stack_maxima_translate($rawfeedback) {
     } else {
         $rawfeedback = str_replace('[[', '', $rawfeedback);
         $rawfeedback = str_replace(']]', '', $rawfeedback);
+        $rawfeedback = str_replace("\n", '', $rawfeedback);
         $rawfeedback = str_replace('\n', '', $rawfeedback);
         $rawfeedback = str_replace('!quot!', '"', $rawfeedback);
 
         $translated = array();
-
         preg_match_all('/stack_trans\(.*?\);/', $rawfeedback, $matches);
         $feedback = $matches[0];
         foreach ($feedback as $fb) {

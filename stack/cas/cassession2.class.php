@@ -336,7 +336,7 @@ class stack_cas_session2 {
                     $errb[] = $last;
                 }
                 $err = $errb;
-                
+
                 $answernotes = array();
                 if (array_key_exists('notes', $results)) {
                     if (array_key_exists('s' . $num, $results['notes'])) {

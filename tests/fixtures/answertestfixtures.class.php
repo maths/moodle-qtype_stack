@@ -1293,6 +1293,7 @@ class stack_answertest_test_data {
         array('NumSigFigs', '[2,-1]', '82.5' ,'82', 0, 'ATNumSigFigs_Inaccurate.', ''),
         array('NumSigFigs', '[2,-1]', '83' ,'82', 0, 'ATNumSigFigs_Inaccurate.', ''),
         // 1/7 = 0.142857142857...
+        array('NumSigFigs', '[4,-1]', '0.1430' ,'1/7', 0, 'ATNumSigFigs_Inaccurate.', '1/7 = 0.142857142857...'),
         array('NumSigFigs', '[4,-1]', '0.1429' ,'1/7', 1, '', ''),
         array('NumSigFigs', '[4,-1]', '0.1428' ,'1/7', 0, 'ATNumSigFigs_Inaccurate.', ''),
         array('NumSigFigs', '[4,-1]', '0.143' ,'1/7', 0, 'ATNumSigFigs_WrongDigits. ATNumSigFigs_Inaccurate.', ''),

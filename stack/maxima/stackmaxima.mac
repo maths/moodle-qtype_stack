@@ -1150,8 +1150,6 @@ num_compare_helper(sal, tal, missing, excessive, tol, type) := block([sa, ta, f1
   return(num_compare_helper(sal, rest(tal), append([ta], missing), excessive, tol, type))
 )$
 
-
-
 ATNumSigFigs(SA, SB, SO) := block([Validity, RawMark, FeedBack, AnswerNote, ret, ol, nsf, asf, c0, c1, c2, SAA, SBB, SOO],
     Validity:true, RawMark:true, FeedBack:"", AnswerNote:"",
 
@@ -1169,33 +1167,35 @@ ATNumSigFigs(SA, SB, SO) := block([Validity, RawMark, FeedBack, AnswerNote, ret,
           else
              (nsf:ol[1], asf:ol[2])
        else (nsf:ol, asf:ol),
-    if not(integerp(nsf) and integerp(asf)) then
-             (print("TEST_FAILED"),return([false, false, StackAddNote("", "ATNumSigFigs_STACKERROR_not_integer"), StackAddFeedback("", "TEST_FAILED_Q")])),
+    if ev(not(integerp(nsf) and integerp(asf)), simp) then
+             (error("TEST_FAILED"),return([false, false, StackAddNote("", "ATNumSigFigs_STACKERROR_not_integer"), StackAddFeedback("", "TEST_FAILED_Q")])),
     /* SA should be only a number. */
-    SA:errcatch(ev(SA, simp, nouns)),
-    if is(SA = [STACKERROR]) then return([false, false, StackAddNote("", "ATNumSigFigs_Error simplifying SAns"),""]),
-    SA:SAA[1],
+    if is(_EC(errcatch(SA:ev(SA, simp, nouns)), "") = false) then return([false, false, StackAddNote("", "ATNumSigFigs_Error simplifying SAns"),""]),
     if (not(floatnump(SA)) and not(integerp(SA))) then
         return([false, false, StackAddNote("", "ATNumSigFigs_NotDecimal"), StackAddFeedback("", "ATNumSigFigs_NotDecimal")]),
     /* In the case of teacher's options [n,0] we ignore the question of numerical accuracy. */
     if ev(is(asf = 0), simp) then
         return([Validity, RawMark, AnswerNote, FeedBack]),
     /* Check answers have the same algebraic sign. */
-    if not(is(sign(SA)=sign(SB))) then block(
+    if ev(not(is(sign(SA)=sign(SB))), simp) then block(
         RawMark:false,
         FeedBack:StackAddFeedback(FeedBack, "ATNumSigFigs_WrongSign"),
         AnswerNote:StackAddNote(AnswerNote, "ATNumSigFigs_WrongSign")
     ),
     SA:ev(abs(SA), simp),
     SB:ev(abs(SB), simp),
-    /* Round the teacher's answer to the correct number of significant figures prior to comparison.
-      This changes 1.5 -> 2.0 (2.s.f).                                                              */
+    /* Round the teacher's answer to the correct number of significant figures prior to comparison. */
     SB:significantfigures(SB, nsf),
-    /* Puts Teacher's answer between 0 & 1 */
+    /* Find a power c0 which puts SB*10^c0 between 0 & 1 */
     if not(is(SB=0) or is(SB=0.0)) then
       c0:ev(-floor(log(abs(float(rat(SB))))/log(10)+1), simp)
     else
       c0:0.0,
+    /* In the case where we have an option [m,-1] we don't need the numerical accuracy to match for more than m significant figures. */
+    if ev(is(asf<0), simp) then block(
+        SA:significantfigures(SA, nsf),
+        asf:nsf
+        ),
     ev(c2:float(abs(abs(rat(SA)*10^(c0+floor(asf)))-abs(rat(SB)*10^(c0+floor(asf))))), simp),
     if (debug) then print([SA,SB,c0,asf,c2]),
     if not(ev(is(c2<(0.5)), simp)) then block(

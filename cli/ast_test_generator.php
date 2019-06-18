@@ -158,6 +158,11 @@ $findinvalid = function($node) use(&$hasinvalid) {
 function escp(string $string): string {
     // TODO: for coding style we should not use double quotes unless necessary.
     $a = addslashes($string);
+    if (strpos($a, "'") === false) {
+        $a = str_replace('\"', '"', $a);        
+        return "'$a'";
+    }
+
     $a = str_replace("\'", "'", $a);
     return '"' . $a . '"';
 }
@@ -185,14 +190,14 @@ foreach ($filters as $key => $filter) {
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once(__DIR__ . '/../locallib.php');
 require_once(__DIR__ . '/../tests/fixtures/ast_filter_test_base.php');
 
-// Auto-generated unit tests for AST-filter 
+// Auto-generated unit tests for AST-filter DO NOT EDIT!
+/**
+ * @group qtype_stack
+ */
 ESCAPE;
-    $code .= $key;
-    $code .= $nl . '// DO NOT EDIT, THIS IS AUTO-GENERATED';
-    $code .= $nl . $nl . "class stack_ast_filter_auto_gen_$key extends qtype_stack_ast_testcase {" . $nl;
+    $code .= "class stack_ast_filter_auto_gen_${key}_testcase extends qtype_stack_ast_testcase {" . $nl;
 
     $testactiveunits = $indent . 'public function test_affected_units() {' . $nl;
     $testactiveunits .= $indent2 . '$this->security = new stack_cas_security(true);' . $nl;
@@ -317,7 +322,7 @@ ESCAPE;
 
 cli_heading('Comparing to existing tests');
 foreach ($generatedcode as $key => $code) {
-    $name = __DIR__ . '/../tests/ast_filter_' . $key . '.auto-generated.test.php';
+    $name = __DIR__ . '/../tests/ast_filter_' . $key . '.auto-generated_test.php';
     $old = false;
     if (file_exists($name)) {
         $old = file_get_contents($name);

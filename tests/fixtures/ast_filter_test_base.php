@@ -14,6 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
+require_once(__DIR__ . '/../../locallib.php');
 require_once(__DIR__ . '/../../stack/maximaparser/corrective_parser.php');
 require_once(__DIR__ . '/../../stack/cas/parsingrules/parsingrule.factory.php');
 require_once(__DIR__ . '/../../stack/cas/cassecurity.class.php');
@@ -68,8 +69,6 @@ abstract class qtype_stack_ast_testcase extends basic_testcase {
         } else {
             $this->assertTrue(empty($filtererrors));
         }
-
-        $filternotes = array_map('trim', $filternotes); 
 
         // What notes we expect there to be.
         $this->assertArraySubset($notes, $filternotes);

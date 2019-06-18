@@ -94,7 +94,6 @@ class stack_matrix_input extends stack_input {
      * @access public
      */
     public function response_to_contents($response) {
-
         // At the start of an attempt we will have a completely blank matrix.
         // This must be spotted and a blank attempt returned.
         $allblank = true;
@@ -202,7 +201,7 @@ class stack_matrix_input extends stack_input {
         // Construct one final "answer" as a single maxima object.
         // In the case of matrices (where $caslines are empty) create the object directly here.
         $value = $this->contents_to_maxima($modifiedcontents);
-        $answer = stack_ast_container::make_from_student_source($val, '', $secrules);
+        $answer = stack_ast_container::make_from_student_source($value, '', $secrules);
         $answer->get_valid();
 
         $caslines = array();

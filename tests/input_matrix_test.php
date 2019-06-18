@@ -133,7 +133,7 @@ class stack_matrix_input_test extends qtype_stack_testcase {
         $this->assertEquals('matrix([1,2,3],[4,a,a+b])', $state->contentsmodified);
         $this->assertEquals('\[ \left[\begin{array}{ccc} 1 & 2 & 3 \\\\ 4 & a & a+b \end{array}\right] \]',
                 $state->contentsdisplayed);
-        $this->assertEquals('\( \left[ a , b \right]\) ', $state->lvars);
+        $this->assertEquals('\( \left[ a , b \right] \) ', $state->lvars);
     }
 
     public function test_validate_student_response_invalid_one_blank() {

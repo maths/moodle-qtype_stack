@@ -69,10 +69,10 @@ abstract class qtype_stack_ast_testcase extends basic_testcase {
             $this->assertTrue(empty($filtererrors));
         }
 
+        $filternotes = array_map('trim', $filternotes); 
+
         // What notes we expect there to be.
-        foreach ($notes as $note) {
-            $this->assertContains($note, $filternotes);
-        }
+        $this->assertArraySubset($notes, $filternotes);
 
         // If it is supposed to become invalid.
         if ($valid === true) {

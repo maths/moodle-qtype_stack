@@ -21,6 +21,7 @@ require_once(__DIR__ . '/../tests/fixtures/ast_filter_test_base.php');
 // Auto-generated unit tests for AST-filter DO NOT EDIT!
 /**
  * @group qtype_stack
+ * @group qtype_stack_ast_filters
  */class stack_ast_filter_auto_gen_406_split_implied_variable_names_testcase extends qtype_stack_ast_testcase {
     public function test_affected_no_units() {
         $this->security = new stack_cas_security(false);

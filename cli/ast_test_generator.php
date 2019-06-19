@@ -195,6 +195,7 @@ require_once(__DIR__ . '/../tests/fixtures/ast_filter_test_base.php');
 // Auto-generated unit tests for AST-filter DO NOT EDIT!
 /**
  * @group qtype_stack
+ * @group qtype_stack_ast_filters
  */
 ESCAPE;
     $code .= "class stack_ast_filter_auto_gen_${key}_testcase extends qtype_stack_ast_testcase {" . $nl;

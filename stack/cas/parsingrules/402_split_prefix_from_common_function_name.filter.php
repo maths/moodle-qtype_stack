@@ -33,7 +33,8 @@ class stack_ast_filter_402_split_prefix_from_common_function_name implements sta
         $known = stack_cas_security::get_protected_identifiers('function', $identifierrules->get_units());
 
         $process = function($node) use (&$answernotes, $known) {
-            if ($node instanceof MP_Functioncall && $node->name instanceof MP_Identifier) {
+            if ($node instanceof MP_Functioncall && $node->name instanceof MP_Identifier &&
+                core_text::strlen($node->name->value) > 1) {
                 // Is it known?
                 if (array_key_exists($node->name->value, $known)) {
                     return true;
@@ -42,13 +43,11 @@ class stack_ast_filter_402_split_prefix_from_common_function_name implements sta
                 // Find if there are any suffixes.
                 $longest = false;
                 $value = $node->name->value;
-                $len = core_text::strlen($value);
-                foreach ($known as $key => $other) {
-                    if ($len > core_text::strlen($key)) {
-                        if (core_text::substr($value, -core_text::strlen($key)) === $key) {
-                            $longest = $key;
-                            break;
-                        }
+                for ($i = core_text::strlen($value) - 1; $i > 0; $i--) {
+                    $suffix = core_text::substr($value, -$i);
+                    if (array_key_exists($suffix, $known)) {
+                        $longest = $suffix;
+                        break;
                     }
                 }
 

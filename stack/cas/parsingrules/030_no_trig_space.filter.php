@@ -29,22 +29,19 @@ class stack_ast_filter_030_no_trig_space implements stack_cas_astfilter {
 
         $process = function($node) use (&$errors, &$answernotes, $selectednames) {
             if ($node instanceof MP_Identifier &&
-                !$node->is_function_name()) {
-                if (array_key_exists($node->value, $selectednames)) {
-                    // Now we are a variable named like "sin".
-                    // Do we have an "fixspaces" style of an star after us?
-                    if ($node->parentnode instanceof MP_Operation &&
-                            $node->parentnode->lhs === $node &&
-                            $node->parentnode->op === '*' &&
-                            isset($node->parentnode->position['fixspaces'])) {
-                        $errors[] = stack_string('stackCas_trigspace',
-                                array('trig' => stack_maxima_format_casstring($node->value.'(...)')));
-                        if (array_search('trigspace', $answernotes) === false) {
-                            $answernotes[] = 'trigspace';
-                        }
-                        $node->parentnode->position['invalid'] = true;
-                        // TODO: handle the case where we are not the lhs of the shared op.
+                !$node->is_function_name() && 
+                $node->parentnode instanceof MP_Operation &&
+                $node->parentnode->lhs === $node &&
+                $node->parentnode->op === '*' &&
+                isset($node->parentnode->position['fixspaces'])) {
+                if (array_key_exists($node->value, $selectednames)) {    
+                    $errors[] = stack_string('stackCas_trigspace',
+                            array('trig' => stack_maxima_format_casstring($node->value.'(...)')));
+                    if (array_search('trigspace', $answernotes) === false) {
+                        $answernotes[] = 'trigspace';
                     }
+                    $node->parentnode->position['invalid'] = true;
+                    // TODO: handle the case where we are not the lhs of the shared op.
                 }
             }
             return true;

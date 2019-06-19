@@ -807,6 +807,19 @@ function xmldb_qtype_stack_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2018120500, 'qtype', 'stack');
     }
 
+    $newversion = 2019061900;
+    if ($oldversion < $newversion) {
+        // Changing the default of field firstnodename on table qtype_stack_prts to drop it.
+        $table = new xmldb_table('qtype_stack_prts');
+        $field = new xmldb_field('firstnodename', XMLDB_TYPE_CHAR, '8', null, XMLDB_NOTNULL, null, '', 'feedbackvariables');
+
+        // Launch change of default for field firstnodename.
+        $dbman->change_field_default($table, $field);
+
+        // Stack savepoint reached.
+        upgrade_plugin_savepoint(true, $newversion, 'qtype', 'stack');
+    }
+
     // Add new upgrade blocks just above here.
 
     // Check the version of the Maxima library code that comes with this version

@@ -192,18 +192,18 @@ class stack_anstest {
     public function get_trace($includeresult) {
 
         if ($this->tanskey) {
-            $ta = $this->tanskey->get_inputform(true);
+            $ta = $this->tanskey->get_inputform(true, true);
         } else {
             return '';
         }
         if ($this->sanskey) {
-            $sa = $this->sanskey->get_inputform(true);
+            $sa = $this->sanskey->get_inputform(true, true);
         } else {
             return '';
         }
         $traceline = $this->get_casfunction() . '(' . $sa . ', ' . $ta . ')';
         if (stack_ans_test_controller::required_atoptions($this->atname)) {
-            $atopt = $this->atoption->get_inputform(true);
+            $atopt = $this->atoption;
             $traceline = $this->get_casfunction() . '(' . $sa . ', ' . $ta . ', '. $atopt .')';
         }
         if ($includeresult) {

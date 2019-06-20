@@ -139,7 +139,10 @@ class stack_question_test {
         $response = array();
         foreach ($inputs as $name => $notused) {
             $var = $cascontext->get_by_key('testresponse_' . $name, true);
-            $computedinput = $var->get_value();
+            $computedinput = '';
+            if ($var !== null) {
+                $computedinput = $var->get_value();
+            }
             // In the case we start with an invalid input, and hence don't send it to the CAS.
             // We want the response to constitute the raw invalid input.
             // This permits invalid expressions in the inputs, and to compute with valid expressions.

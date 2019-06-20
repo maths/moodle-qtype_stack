@@ -888,7 +888,7 @@ abstract class stack_input {
     protected function validation_display($answer, $lvars, $caslines, $additionalvars, $valid, $errors) {
 
         // TODO: This is probably the only place where we truly need the raw value,
-        // lets find a way of handling it, but not so that we store it into every
+        // let's find a way of handling it, but not so that we store it into every
         // cas-evaluated item just for this one use.
 
         //$display = stack_maxima_format_casstring($answer->get_raw_casstring());
@@ -898,10 +898,10 @@ abstract class stack_input {
             $valid = false;
             $errors = array(stack_maxima_translate($answer->get_errors()));
         }
-        if (trim($answer->get_display()) == '') {
-            $valid = false;
-        } else {
+        if ($answer->is_correctly_evaluated()) {
             $display = '\[ ' . $answer->get_display() . ' \]';
+        } else {
+            $valid = false;
         }
 
         // The "novars" option is only used by the numerical input type.
@@ -1156,11 +1156,12 @@ abstract class stack_input {
         }
         // TODO: refactor this ast creation away.
         $cs = stack_ast_container::make_from_teacher_source($value, '', new stack_cas_security(), array());
+        $cs->set_nounify(false);
         $val = '';
         if ($cs->get_valid()) {
-            $val = $cs->get_inputform();
+            $value = $cs->get_evaluationform();
         }
-        return $this->maxima_to_response_array($val);
+        return $this->maxima_to_response_array($value);
     }
 
     /**

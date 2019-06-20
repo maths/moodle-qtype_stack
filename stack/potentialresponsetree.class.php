@@ -135,6 +135,8 @@ class stack_potentialresponse_tree {
             // student's answer has already been through validation.
             $cs = stack_ast_container::make_from_teacher_source($name . ':' . $ans, '',
                     new stack_cas_security(), array());
+            // That all said, we then need to manually add in nouns to ensure these are protected.
+            $cs->set_nounify(true);
             $cascontext->add_statement($cs);
         }
 

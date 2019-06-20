@@ -38,12 +38,12 @@ class stack_potentialresponse_node {
     public $nodeid;
 
     /*
-     * @var stack_ast_container Hold's nominal "student's answer".
+     * @var stack_ast_container Holds nominal "student's answer".
      */
     public $sans;
 
     /*
-     * @var stack_ast_container Hold's nominal "teacher's answer".
+     * @var stack_ast_container Holds nominal "teacher's answer".
      */
     public $tans;
 
@@ -90,7 +90,7 @@ class stack_potentialresponse_node {
             $this->quiet        = $quiet;
         }
 
-        // This is not a stack_options class, but a string.
+        // This is not a stack_ast_container class, but a string.
         // Some answertests need non-casstring options, eg. regular expressions.
         if (is_a($atoptions, 'stack_ast_container')) {
             throw new stack_exception('stack_potentialresponse_node: ' .
@@ -100,7 +100,7 @@ class stack_potentialresponse_node {
         /*
          * For some tests there is an option assume_pos. This will be evaluated by maxima (since this is also the name
          * of a maxima variable).  So, we need to protect the name from being evaluated.
-        */
+         */
         $op = $atoptions;
         $reps = array('assume_pos' => 'assumepos', 'assume_real' => 'assumereal');
         foreach ($reps as $key => $val) {
@@ -111,7 +111,7 @@ class stack_potentialresponse_node {
         $this->notes = $notes;
         $this->nodeid = $nodeid;
 
-        $this->branches     = array();
+        $this->branches = array();
     }
 
     /**

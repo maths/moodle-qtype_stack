@@ -20,13 +20,11 @@
  * @copyright 2015 the Open University
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-
 require_once(__DIR__.'/../../../config.php');
 
 require_once($CFG->libdir . '/questionlib.php');
 require_once($CFG->dirroot . '/question/format/xml/format.php');
 require_once(__DIR__ . '/locallib.php');
-
 
 // Get the parameters from the URL.
 $questionid = required_param('questionid', PARAM_INT);

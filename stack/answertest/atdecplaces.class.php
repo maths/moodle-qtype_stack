@@ -139,7 +139,7 @@ class stack_anstest_atdecplaces extends stack_anstest {
         if ($strings['caschat4']->get_errors() == 'false') {
             $this->atmark = 0;
             $this->atfeedback  = stack_string('ATNumDecPlaces_NoDP');
-            $anotes             = array('ATNumDecPlaces_NoDP');
+            $anotes            = array('ATNumDecPlaces_NoDP');
         }
 
         $this->atansnote = implode('. ', $anotes).'.';

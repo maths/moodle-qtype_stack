@@ -88,12 +88,13 @@ class stack_cas_keyval_test extends qtype_stack_testcase {
     // they just load stuff to the session, therefore you cannot get 
     // the instantiated values.
     public function test_equations_1() {
-        $at1 = new stack_cas_keyval('ta1 : x=1; ta2 : x^2-2*x=1', null, 123);
+        $at1 = new stack_cas_keyval('ta1 : x=1; ta2 : x^2-2*x=1; ta3:x=1 nounor x=2', null, 123);
         $at1->instantiate();
         $s = $at1->get_session();
         $s->instantiate();
         $this->assertEquals($s->get_by_key('ta1')->get_evaluationform(), 'ta1:x=1');
         $this->assertEquals($s->get_by_key('ta2')->get_evaluationform(), 'ta2:x^2-2*x=1');
+        $this->assertEquals($s->get_by_key('ta3')->get_evaluationform(), 'ta3:x=1 nounor x=2');
     }
 
     /*

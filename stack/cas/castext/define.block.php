@@ -35,12 +35,12 @@ class stack_cas_castext_define extends stack_cas_castext_block {
             // In 4.3 the nounification happens in such a way that evaluation of
             // conditions may break, therefore we must force denounification here.
 
-            // TODO:         $cs->set_nounvalues('remove');
             $raw = "$key:$value";
             $cs = stack_ast_container_conditional::make_from_teacher_source($raw, '', new stack_cas_security());
             $cs->set_conditions($conditionstack);
             $cs->set_keyless(true);
-            
+            $cs->set_nounify(false);
+
             $tobeevaluatedcassession->add_statement($cs);
         }
     }

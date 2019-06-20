@@ -296,7 +296,10 @@ class MP_Operation extends MP_Node {
     public function toString($params = null): string {
         $op = $this->op;
         if ($params !== null && isset($params['nounify'])) {
-            $feat = stack_cas_security::get_feature($op, 'nounoperator');
+            $feat = null;
+            if ($params['nounify'] === true) {
+                $feat = stack_cas_security::get_feature($op, 'nounoperator');
+            }
             if ($params['nounify'] === false) {
                 $feat = stack_cas_security::get_feature($op, 'nounoperatorfor');
             }

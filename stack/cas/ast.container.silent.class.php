@@ -77,8 +77,9 @@ class stack_ast_container_silent implements cas_evaluatable {
 
     /**
      * Do we nounify all operators in this expression?
+     * If true we do, if false we remove them, if null we leave well alone.
      */
-    protected $nounify = false;
+    protected $nounify = null;
 
     /**
      * Some AST-containers have keys but are still to be used like they had
@@ -146,6 +147,9 @@ class stack_ast_container_silent implements cas_evaluatable {
         $astc->answernotes = $answernotes;
         $astc->valid = null;
         $astc->feedback = array();
+        // Always add nouns to student input.
+        $astc->nounify = true;
+
         return $astc;
     }
 
@@ -292,9 +296,9 @@ class stack_ast_container_silent implements cas_evaluatable {
         }
         $casstring = '';
         if ($this->source === 's') {
-            $casstring = $root->toString(array('nounify' => true, 'dealias' => true));
+            $casstring = $root->toString(array('keyless'=> $this->keyless, 'nounify' => true, 'dealias' => true));
         } else {
-            $casstring = $root->toString(array('nounify' => $this->nounify, 'dealias' => true));
+            $casstring = $root->toString(array('keyless'=> $this->keyless, 'nounify' => $this->nounify, 'dealias' => true));
             if ($root instanceof MP_Statement &&
                     $root->flags !== null && count($root->flags) > 0) {
                         // This makes it possible to write, when authoring, evaluation flags

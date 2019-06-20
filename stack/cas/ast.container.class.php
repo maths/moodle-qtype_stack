@@ -139,7 +139,7 @@ class stack_ast_container extends stack_ast_container_silent implements cas_late
 
     // This returns the fully filttered AST as it should be inputted were
     // it inputted perfectly.
-    public function get_inputform(bool $keyless = false): string {
+    public function get_inputform(bool $keyless = false, bool $nounify = false): string {
         if ($this->ast) {
             if ($keyless === true && $this->get_key() !== '') {
                 $root = $this->ast;
@@ -156,10 +156,12 @@ class stack_ast_container extends stack_ast_container_silent implements cas_late
                 }
                 if ($root instanceof MP_Operation && $root->op === ':' &&
                     $root->lhs instanceof MP_Identifier) {
-                    return $root->rhs->toString(array('inputform' => true, 'qmchar' => true, 'nosemicolon' => true));
+                    return $root->rhs->toString(array('nounify' => $nounify, 'inputform' => true,
+                            'qmchar' => true, 'nosemicolon' => true));
                 }
             }
-            return $this->ast->toString(array('inputform' => true, 'qmchar' => true, 'nosemicolon' => true));
+            return $this->ast->toString(array('nounify' => $nounify, 'inputform' => true,
+                    'qmchar' => true, 'nosemicolon' => true));
         }
         return '';
     }
@@ -233,7 +235,7 @@ class stack_ast_container extends stack_ast_container_silent implements cas_late
 
     public function get_dispvalue() {
         if ($this->evaluated) {
-            return $this->evaluated->toString(array('inputform' => true, 'qmchar' => true, 'nosemicolon' => true));
+            return $this->evaluated->toString(array('nounify' => false, 'inputform' => true, 'qmchar' => true, 'nosemicolon' => true));
         }
         return '';
     }

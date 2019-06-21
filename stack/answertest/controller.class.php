@@ -152,7 +152,7 @@ class stack_ans_test_controller {
                 break;
 
             case 'Equiv':
-                if ($casoption === null || trim($casoption) === '' ) {
+                if ($casoption === null || '' == $casoption->get_evaluationform()) {
                     $opts = stack_ast_container::make_from_teacher_source('null', '', new stack_cas_security());
                     // Note the *string* 'null' here is not mistake: this is passed to Maxima.
                     $this->at = new stack_answertest_general_cas($sans, $tans, $anstest, $opts, $options);
@@ -162,7 +162,7 @@ class stack_ans_test_controller {
                 break;
 
             case 'EquivFirst':
-                if ($casoption === null || trim($casoption) === '' ) {
+                if ($casoption === null || '' == $casoption->get_evaluationform()) {
                     $opts = stack_ast_container::make_from_teacher_source('null', '', new stack_cas_security());
                     $this->at = new stack_answertest_general_cas($sans, $tans, $anstest, $opts, $options);
                 } else {
@@ -171,14 +171,14 @@ class stack_ans_test_controller {
                 break;
 
             case 'NumAbsolute':
-                if ($casoption === null || trim($casoption) === '' ) {
+                if ($casoption === null || !$casoption->get_valid() || '' == $casoption->get_evaluationform()) {
                     $casoption = stack_ast_container::make_from_teacher_source('0.05', '', new stack_cas_security());
                 }
                 $this->at = new stack_answertest_general_cas($sans, $tans, $anstest, $casoption, $options);
                 break;
 
             case 'NumRelative':
-                if ($casoption === null || trim($casoption) === '' ) {
+                if ($casoption === null || !$casoption->get_valid() || '' == $casoption->get_evaluationform()) {
                     $casoption = stack_ast_container::make_from_teacher_source('0.05', '', new stack_cas_security());
                 }
                 $this->at = new stack_answertest_general_cas($sans, $tans, $anstest, $casoption, $options);

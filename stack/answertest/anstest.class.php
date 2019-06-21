@@ -203,7 +203,7 @@ class stack_anstest {
         }
         $traceline = $this->get_casfunction() . '(' . $sa . ', ' . $ta . ')';
         if (stack_ans_test_controller::required_atoptions($this->atname)) {
-            $atopt = $this->atoption;
+            $atopt = $this->atoption->get_inputform(true, true);
             $traceline = $this->get_casfunction() . '(' . $sa . ', ' . $ta . ', '. $atopt .')';
         }
         if ($includeresult) {

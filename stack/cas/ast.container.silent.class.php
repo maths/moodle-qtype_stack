@@ -292,9 +292,13 @@ class stack_ast_container_silent implements cas_evaluatable {
      */
     protected function ast_to_casstring($root) : string {
         if ($root instanceof MP_Root) {
-            $root = $root->items[0];
+            // Edge case in which we have created an ast from the '' input.
+            if (array_key_exists(0, $root->items)) {
+                $root = $root->items[0];
+            } else {
+                return '';
+            }
         }
-        $casstring = '';
         if ($this->source === 's') {
             $casstring = $root->toString(array('keyless'=> $this->keyless, 'nounify' => true, 'dealias' => true));
         } else {

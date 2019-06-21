@@ -74,23 +74,30 @@ class stack_answertest_general_cas extends stack_anstest {
         }
 
         if (stack_ans_test_controller::process_atoptions($this->atname)) {
-            if (null == $this->atoption or '' == $this->atoption->get_inputform()) {
+            if (null == $this->atoption) {
                 $this->aterror      = 'TEST_FAILED';
                 $this->atfeedback   = stack_string('TEST_FAILED', array('errors' => stack_string("AT_MissingOptions")));
                 $this->atansnote    = 'STACKERROR_OPTION.';
                 $this->atmark       = 0;
                 $this->atvalid      = false;
                 return null;
-            } else {
-                if (!$this->atoption->get_valid()) {
-                    $this->aterror      = 'TEST_FAILED';
-                    $this->atfeedback   = stack_string('TEST_FAILED', array('errors' => ''));
-                    $this->atfeedback  .= stack_string('AT_InvalidOptions', array('errors' => $this->atoption->get_errors()));
-                    $this->atansnote    = 'STACKERROR_OPTION.';
-                    $this->atmark       = 0;
-                    $this->atvalid      = false;
-                    return null;
-                }
+            }
+            if (!$this->atoption->get_valid()) {
+                $this->aterror      = 'TEST_FAILED';
+                $this->atfeedback   = stack_string('TEST_FAILED', array('errors' => ''));
+                $this->atfeedback  .= stack_string('AT_InvalidOptions', array('errors' => $this->atoption->get_errors()));
+                $this->atansnote    = 'STACKERROR_OPTION.';
+                $this->atmark       = 0;
+                $this->atvalid      = false;
+                return null;
+            }
+            if ('' == $this->atoption->get_evaluationform()) {
+                $this->aterror      = 'TEST_FAILED';
+                $this->atfeedback   = stack_string('TEST_FAILED', array('errors' => stack_string("AT_MissingOptions")));
+                $this->atansnote    = 'STACKERROR_OPTION.';
+                $this->atmark       = 0;
+                $this->atvalid      = false;
+                return null;
             }
         }
 

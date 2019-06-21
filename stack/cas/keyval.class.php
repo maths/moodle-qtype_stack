@@ -98,7 +98,7 @@ class stack_cas_keyval {
         $this->valid   = true;
         $this->statements   = array();
         foreach ($ast->items as $item) {
-            $cs = stack_ast_container_silent::make_from_teacher_ast($item, '',
+            $cs = stack_ast_container::make_from_teacher_ast($item, '',
                     new stack_cas_security());
             $this->valid = $this->valid && $cs->get_valid();
             $this->errors = array_merge($this->errors, $cs->get_errors(true));

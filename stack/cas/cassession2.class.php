@@ -285,7 +285,7 @@ class stack_cas_session2 {
                 foreach ($results['values'] as $key => $value) {
                     if (is_string($value)) {
                         $ast = maxima_parser_utils::parse($value);
-                        // Lets unpack the MP_Root immediately.
+                        // Let's unpack the MP_Root immediately.
                         $asts[$key] = $ast->items[0];
                     }
                 }
@@ -366,16 +366,21 @@ class stack_cas_session2 {
     /*
      * This representation is only used in debugging questions, and for
      * offline (sandbox) testing.  We need to provide teachers with something
-     * they can type into Maxima.
+     * they can type back into Maxima.
      */
-    public function get_keyval_representation(): string {
+    public function get_keyval_representation($evaluatedvalues = false): string {
         $keyvals = '';
         foreach ($this->statements as $statement) {
-            $val = 'null';
-            if ($statement->get_valid()) {
+            if ($evaluatedvalues) {
+                if ($statement->is_correctly_evaluated()) {
+                    // Only print out variables with a key, to display their values.
+                    $key = trim($statement->get_key());
+                    if ($key !== '') {
+                        $keyvals .= $key . ':' . trim($statement->get_value()) . ";\n";
+                    }
+                }
+            } else {
                 $val = trim($statement->get_evaluationform());
-            }
-            if ($val) {
                 $keyvals .= $val . ";\n";
             }
         }

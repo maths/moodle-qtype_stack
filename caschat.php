@@ -63,7 +63,7 @@ $PAGE->set_title($title);
 
 $debuginfo = '';
 $errs = '';
-$varerrs = '';
+$varerrs = array();
 
 $vars   = optional_param('vars', '', PARAM_RAW);
 $string = optional_param('cas', '', PARAM_RAW);
@@ -92,7 +92,6 @@ if ($string) {
     $session = new stack_cas_session2(array(), $options);
     if ($vars) {
         $keyvals = new stack_cas_keyval($vars, $options, 0);
-        $kvss    = $keyvals->get_session();
         $session = $keyvals->get_session();
         $varerrs = $keyvals->get_errors();
     }
@@ -148,7 +147,7 @@ echo html_writer::tag('form',
 if ($string) {
     echo $OUTPUT->heading(stack_string('questionvariablevalues'), 3);
     echo html_writer::start_tag('div', array('class' => 'questionvariables'));
-    echo html_writer::tag('pre', $kvss->get_keyval_representation());
+    echo html_writer::tag('pre', $session->get_keyval_representation(true));
     echo html_writer::end_tag('div');
 }
 

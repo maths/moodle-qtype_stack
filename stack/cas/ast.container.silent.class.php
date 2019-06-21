@@ -300,9 +300,9 @@ class stack_ast_container_silent implements cas_evaluatable {
             }
         }
         if ($this->source === 's') {
-            $casstring = $root->toString(array('keyless'=> $this->keyless, 'nounify' => true, 'dealias' => true));
+            $casstring = $root->toString(array('keyless' => $this->keyless, 'nounify' => true, 'dealias' => true));
         } else {
-            $casstring = $root->toString(array('keyless'=> $this->keyless, 'nounify' => $this->nounify, 'dealias' => true));
+            $casstring = $root->toString(array('keyless' => $this->keyless, 'nounify' => $this->nounify, 'dealias' => true));
             if ($root instanceof MP_Statement &&
                     $root->flags !== null && count($root->flags) > 0) {
                         // This makes it possible to write, when authoring, evaluation flags
@@ -512,7 +512,7 @@ class stack_ast_container_silent implements cas_evaluatable {
             $root = $root->rhs;
         }
         // For integers and floats we need to deal with prefix ops.
-        if ($root instanceof MP_PrefixOp && 
+        if ($root instanceof MP_PrefixOp &&
             ($root->op === '-' || $root->op === '+')) {
             $root = $root->rhs;
         }
@@ -545,7 +545,7 @@ class stack_ast_container_silent implements cas_evaluatable {
             $root = $root->rhs;
         }
         // For integers and floats we need to deal with prefix ops.
-        if ($root instanceof MP_PrefixOp && 
+        if ($root instanceof MP_PrefixOp &&
             ($root->op === '-' || $root->op === '+')) {
             $root = $root->rhs;
         }
@@ -555,8 +555,7 @@ class stack_ast_container_silent implements cas_evaluatable {
         return false;
     }
 
-    // exception of the bool value style, we return the length of
-    // the list or -1 if not a list.
+    // Exception of the bool value style, we return the length of the list or -1 if not a list.
     public function is_list(bool $evaluated=false): int {
         $root = $this->ast;
         if ($evaluated) {

@@ -235,14 +235,16 @@ class stack_ast_container extends stack_ast_container_silent implements cas_late
 
     public function get_dispvalue() {
         if ($this->evaluated) {
-            return $this->evaluated->toString(array('nounify' => false, 'inputform' => true, 'qmchar' => true, 'nosemicolon' => true));
+            return $this->evaluated->toString(array('nounify' => false, 'inputform' => true,
+                'qmchar' => true, 'nosemicolon' => true));
         }
         return '';
     }
 
     public function get_display() {
         if (!$this->is_correctly_evaluated()) {
-            throw new stack_exception('stack_ast_container: tried to get the LaTeX representation from of an unevaluated or invalid casstring.');
+            throw new stack_exception('stack_ast_container: ' .
+                    'tried to get the LaTeX representation from of an unevaluated or invalid casstring.');
         }
         return $this->latex;
     }

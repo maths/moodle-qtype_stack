@@ -83,7 +83,7 @@ class stack_potentialresponse_node_test extends qtype_stack_testcase {
     }
 
     public function test_do_test_cas_error() {
-        $foo  = stack_ast_container::make_from_teacher_source('1/0'); 
+        $foo  = stack_ast_container::make_from_teacher_source('1/0');
         $sans = stack_ast_container::make_from_teacher_source('x^2+2*x-1');
         $tans = stack_ast_container::make_from_teacher_source('(x+1)^2');
         $tans->get_valid();

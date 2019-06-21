@@ -571,11 +571,11 @@ class stack_cas_security {
     // Returns all identifiers with a given feature as long as the feature is not valued 'f'.
     public static function get_all_with_feature(string $feature, bool $units = false): array {
         static $cache = array();
-        if (!array_key_exists($units?'true':'false', $cache)) {
-            $cache[$units?'true':'false'] = array();
+        if (!array_key_exists($units ? 'true' : 'false', $cache)) {
+            $cache[$units ? 'true' : 'false'] = array();
         }
-        if (array_key_exists($feature, $cache[$units?'true':'false'])) {
-            return $cache[$units?'true':'false'][$feature];
+        if (array_key_exists($feature, $cache[$units ? 'true' : 'false'])) {
+            return $cache[$units ? 'true' : 'false'][$feature];
         }
 
         if (self::$securitymap === null) {
@@ -596,7 +596,7 @@ class stack_cas_security {
         }
 
         // Cache this as full searches do cost quite a bit and we do call this repeatedly.
-        $cache[$units?'true':'false'][$feature] = $r;
+        $cache[$units ? 'true' : 'false'][$feature] = $r;
         return $r;
     }
 

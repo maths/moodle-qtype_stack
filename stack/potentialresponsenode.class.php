@@ -387,7 +387,7 @@ class stack_potentialresponse_node {
     public function get_maxima_representation() {
         $ncasoptions = null;
         if ($this->required_atoptions()) {
-            $ncasoptions = $this->atoptions;
+            $ncasoptions = stack_ast_container::make_from_teacher_source($this->atoptions);
         }
         $at = new stack_ans_test_controller($this->answertest, $this->sans, $this->tans, $ncasoptions, null);
         return $at->get_trace(false);

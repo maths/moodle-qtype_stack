@@ -36,7 +36,7 @@ class stack_cas_keyval_test extends qtype_stack_testcase {
         // In the old world (<4.3) we compared the raw objects.
         // But now the objects contain complex references and positional data
         // so we comapre the representations of those objects.
-        $this->assertEquals($session->get_keyval_representation(), 
+        $this->assertEquals($session->get_keyval_representation(),
                             $kv->get_session()->get_keyval_representation());
     }
 
@@ -79,13 +79,14 @@ class stack_cas_keyval_test extends qtype_stack_testcase {
             $this->get_valid($case[0], $case[1], $case[2]);
         }
     }
+
     public function test_empty_case_1() {
         $at1 = new stack_cas_keyval('', null, 123);
         $this->assertTrue($at1->get_valid());
     }
 
     // Now here we have a problem, keyvals do not generate output values
-    // they just load stuff to the session, therefore you cannot get 
+    // they just load stuff to the session, therefore you cannot get
     // the instantiated values.
     public function test_equations_1() {
         $at1 = new stack_cas_keyval('ta1 : x=1; ta2 : x^2-2*x=1; ta3:x=1 nounor x=2', null, 123);
@@ -97,48 +98,6 @@ class stack_cas_keyval_test extends qtype_stack_testcase {
         $this->assertEquals($s->get_by_key('ta3')->get_evaluationform(), 'ta3:x=1 nounor x=2');
     }
 
-    /*
-
-*/
-//    public function test_remove_comment() {
-//        $at1 = new stack_cas_keyval("a:1\n /* This is a comment \n b:2\n */\n c:3", null, 123);
-//        $this->assertTrue($at1->get_valid());
-/*
-        $a3 = array('a:1', 'c:3');
-        $s3 = array();
-        foreach ($a3 as $s) {
-            $s3[] = new stack_cas_casstring($s);
-        }
-        $cs3 = new stack_cas_session($s3, null, 123);
-        $cs3->instantiate();
-        $cs3->test_clean();
-        $at1->instantiate();
-        $at1->test_clean();
-
-        // This looks strange, but the cache layer gives inconsistent results if the first
-        // of these populates the cache, and the second one uses it.
-        $this->assertEquals($cs3->get_session(), $at1->get_session()->get_session());
-    }
-*/
-//    public function test_remove_comment_fail() {
-//        $at1 = new stack_cas_keyval("a:1\n /* This is a comment \n b:2\n */\n c:3", null, 123);
-/*
-    $this->assertTrue($at1->get_valid());
-
-        $a3 = array('a:1', 'c:4');
-        $s3 = array();
-        foreach ($a3 as $s) {
-            $s3[] = new stack_cas_casstring($s);
-        }
-        $cs3 = new stack_cas_session($s3, null, 123);
-        $cs3->instantiate();
-        $at1->instantiate();
-
-        // This looks strange, but the cache layer gives inconsistent results if the first
-        // of these populates the cache, and the second one uses it.
-        $this->assertNotEquals($cs3->get_session(), $at1->get_session()->get_session());
-    }
-
     public function test_keyval_session_keyval_0() {
         $kvin = "";
         $at1 = new stack_cas_keyval($kvin, null, 123);
@@ -148,7 +107,7 @@ class stack_cas_keyval_test extends qtype_stack_testcase {
     }
 
     public function test_keyval_session_keyval_1() {
-        $kvin = "a:1; c:3;";
+        $kvin = "a:1;\nc:3;";
         $at1 = new stack_cas_keyval($kvin, null, 123);
         $session = $at1->get_session();
         $kvout = $session->get_keyval_representation();
@@ -157,7 +116,7 @@ class stack_cas_keyval_test extends qtype_stack_testcase {
 
     public function test_keyval_session_keyval_2() {
         // Equation and function.
-        $kvin = "ans1:x^2-2*x=1; f(x):=x^2; sin(x^3);";
+        $kvin = "ans1:x^2-2*x=1;\nf(x):=x^2;\nsin(x^3);";
         $at1 = new stack_cas_keyval($kvin, null, 123);
         $session = $at1->get_session();
         $kvout = $session->get_keyval_representation();
@@ -189,8 +148,24 @@ class stack_cas_keyval_test extends qtype_stack_testcase {
         $s = 'a:x^2; ans1:a+1; ta:a^2';
         $kv = new stack_cas_keyval($s, null, 123);
         $this->assertFalse($kv->get_valid(array('ans1')));
-        $this->assertEquals('You may not use input names as variables.  '.
-                'You have tried to define <code>ans1</code>', $kv->get_errors());
+        $errs = array('You may not use input names as variables.  ' .
+                'You have tried to define <code>ans1</code>');
+        $this->assertEquals($errs, $kv->get_errors());
     }
-*/
+
+    public function test_remove_comment() {
+        $at1 = new stack_cas_keyval("a:1\n /* This is a comment \n b:2\n */\n c:3^2", null, 123);
+        $this->assertTrue($at1->get_valid());
+        $at1->instantiate();
+
+        $session = $at1->get_session()->get_session();
+        $expected = array('a:1', 'c:3^2');
+        foreach ($session as $key => $statement) {
+            $this->assertEquals($expected[$key], $statement->get_inputform());
+        }
+        $expected = array('1', '9');
+        foreach ($session as $key => $statement) {
+            $this->assertEquals($expected[$key], $statement->get_value());
+        }
+    }
 }

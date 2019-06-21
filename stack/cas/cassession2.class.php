@@ -380,8 +380,10 @@ class stack_cas_session2 {
                     }
                 }
             } else {
-                $val = trim($statement->get_evaluationform());
-                $keyvals .= $val . ";\n";
+                if ($statement->get_valid()) {
+                    $val = trim($statement->get_evaluationform());
+                    $keyvals .= $val . ";\n";
+                }
             }
         }
         return trim($keyvals);

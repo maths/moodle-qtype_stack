@@ -37,7 +37,7 @@ class stack_cas_keyval {
     /** @var bool */
     private $valid;
 
-    /** @var string HTML error message that can be displayed to the user. */
+    /** @var array of error messages that can be displayed to the user. */
     private $errors;
 
     // For those using keyvals as a generator for sessions.

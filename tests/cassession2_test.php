@@ -24,6 +24,21 @@ require_once(__DIR__ . '/../stack/cas/ast.container.class.php');
 
 class stack_cas_session2_test extends qtype_stack_testcase {
 
+    public function test_internal_config() {
+        // This test checks if the version number returned by Maxima matches our internal config.
+        $cs = array('m:MAXIMA_VERSION_NUM');
+        foreach ($cs as $s) {
+            $s1[] = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security(), array());
+        }
+        $at1 = new stack_cas_session2($s1, null, 0);
+        $at1->instantiate();
+
+        $ast = $at1->get_by_key('m');
+        $maximaversion = '5.' . $ast->get_value();
+        $maximaconfig = get_config('qtype_stack', 'maximaversion');
+        $this->assertEquals($maximaconfig, $maximaversion);
+    }
+
     public function test_get_valid() {
         $strings = array('foo', 'bar', 'sqrt(4)');
 
@@ -125,7 +140,7 @@ class stack_cas_session2_test extends qtype_stack_testcase {
         $this->assertEquals('', $foo->get_errors());
         $this->assertEquals('"foo"', $foo->get_value());
         $this->assertTrue(count($divzero->get_errors(true)) > 0);
-        $this->assertContains('expt: undefined: 0 to a negative exponent.', $divzero->get_errors(true));
+        $this->assertContains('Division by zero.', $divzero->get_errors(true));
     }
 
     public function test_feedback() {
@@ -208,6 +223,440 @@ class stack_cas_session2_test extends qtype_stack_testcase {
         // an unpacking function to pick it apart.
         $this->assertEquals('[true,false,"",""]', $result->get_value());
 
+    }
+
+    public function test_get_display() {
+
+        $cs = array('a:x^2', 'b:1/(1+x^2)', 'c:e^(i*pi)');
+        foreach ($cs as $s) {
+            $s1[] = stack_ast_container::make_from_student_source($s, '', new stack_cas_security(), array());
+        }
+
+        $options = new stack_options();
+        $options->set_option('simplify', false);
+
+        $at1 = new stack_cas_session2($s1, $options, 0);
+        $at1->instantiate();
+        $this->assertEquals('x^2', $s1[0]->get_display());
+        $this->assertEquals('\frac{1}{1+x^2}', $s1[1]->get_display());
+        $this->assertEquals('e^{\mathrm{i}\cdot \pi}', $s1[2]->get_display());
+
+    }
+
+    public function test_multiplication_option_complexno_i() {
+
+        $cs = array('p:a+b*%i', 'q:a+b*i', 'r:a+b*j');
+        foreach ($cs as $s) {
+            $s1[] = stack_ast_container::make_from_student_source($s, '', new stack_cas_security(), array());
+        }
+
+        $options = new stack_options();
+        $options->set_option('simplify', false);
+        $options->set_option('complexno', 'i');
+
+        $at1 = new stack_cas_session2($s1, $options, 0);
+        $at1->instantiate();
+        $p = $at1->get_by_key('p');
+        $this->assertEquals('a+b\cdot \mathrm{i}', $p->get_display());
+        $q = $at1->get_by_key('q');
+        $this->assertEquals('a+b\cdot \mathrm{i}', $q->get_display());
+        $r = $at1->get_by_key('r');
+        $this->assertEquals('a+b\cdot j', $r->get_display());
+    }
+
+    public function test_multiplication_option_complexno_j() {
+
+        $cs = array('p:a+b*%i', 'q:a+b*i', 'r:a+b*j');
+        foreach ($cs as $s) {
+            $s1[] = stack_ast_container::make_from_student_source($s, '', new stack_cas_security(), array());
+        }
+
+        $options = new stack_options();
+        $options->set_option('simplify', false);
+        $options->set_option('complexno', 'j');
+
+        $at1 = new stack_cas_session2($s1, $options, 0);
+        $at1->instantiate();
+        $p = $at1->get_by_key('p');
+        $this->assertEquals('a+b\cdot \mathrm{j}', $p->get_display());
+        $q = $at1->get_by_key('q');
+        $this->assertEquals('a+b\cdot i', $q->get_display());
+        $r = $at1->get_by_key('r');
+        $this->assertEquals('a+b\cdot \mathrm{j}', $r->get_display());
+    }
+
+    public function test_multiplication_option_complexno_symi() {
+
+        $cs = array('p:a+b*%i', 'q:a+b*i', 'r:a+b*j');
+        foreach ($cs as $s) {
+            $s1[] = stack_ast_container::make_from_student_source($s, '', new stack_cas_security(), array());
+        }
+
+        $options = new stack_options();
+        $options->set_option('simplify', false);
+        $options->set_option('complexno', 'symi');
+
+        $at1 = new stack_cas_session2($s1, $options, 0);
+        $at1->instantiate();
+        $p = $at1->get_by_key('p');
+        $this->assertEquals('a+b\cdot \mathrm{i}', $p->get_display());
+        $q = $at1->get_by_key('q');
+        $this->assertEquals('a+b\cdot i', $q->get_display());
+        $r = $at1->get_by_key('r');
+        $this->assertEquals('a+b\cdot j', $r->get_display());
+    }
+
+    public function test_multiplication_option_complexno_symj() {
+
+        $cs = array('p:a+b*%i', 'q:a+b*i', 'r:a+b*j');
+        foreach ($cs as $s) {
+            $s1[] = stack_ast_container::make_from_student_source($s, '', new stack_cas_security(), array());
+        }
+
+        $options = new stack_options();
+        $options->set_option('simplify', false);
+        $options->set_option('complexno', 'symj');
+
+        $at1 = new stack_cas_session2($s1, $options, 0);
+        $at1->instantiate();
+        $p = $at1->get_by_key('p');
+        $this->assertEquals('a+b\cdot \mathrm{j}', $p->get_display());
+        $q = $at1->get_by_key('q');
+        $this->assertEquals('a+b\cdot i', $q->get_display());
+        $r = $at1->get_by_key('r');
+        $this->assertEquals('a+b\cdot j', $r->get_display());
+    }
+
+    public function test_multiplication_option_dot() {
+
+        $cs = array('a:x*y', 'b:x*y*z', 'c:x*(y*z)', 'd:(x*y)*z');
+        foreach ($cs as $s) {
+            $s1[] = stack_ast_container::make_from_student_source($s, '', new stack_cas_security(), array());
+        }
+
+        $options = new stack_options();
+        $options->set_option('multiplicationsign', 'dot');
+        $options->set_option('simplify', false);
+
+        $at1 = new stack_cas_session2($s1, $options, 0);
+        $at1->instantiate();
+        $this->assertEquals('x\cdot y', $s1[0]->get_display());
+        $this->assertEquals('x\cdot y\cdot z', $s1[1]->get_display());
+        $this->assertEquals('x\cdot \left(y\cdot z\right)', $s1[2]->get_display());
+        // Notice the associativity of Maxima suppresses the extra explicit brackets here.
+        $this->assertEquals('x\cdot y\cdot z',$s1[3]->get_display());
+    }
+
+    public function test_multiplication_option_none() {
+
+        $cs = array('a:x*y', 'b:x*y*z', 'c:x*(y*z)', 'd:(x*y)*z');
+        foreach ($cs as $s) {
+            $s1[] = stack_ast_container::make_from_student_source($s, '', new stack_cas_security(), array());
+        }
+
+        $options = new stack_options();
+        $options->set_option('multiplicationsign', 'none');
+        $options->set_option('simplify', false);
+
+        $at1 = new stack_cas_session2($s1, $options, 0);
+        $at1->instantiate();
+        $this->assertEquals('x\,y', $s1[0]->get_display());
+        $this->assertEquals('x\,y\,z', $s1[1]->get_display());
+        $this->assertEquals('x\,\left(y\,z\right)', $s1[2]->get_display());
+        // Notice the associativity of Maxima suppresses the extra explicit brackets here.
+        $this->assertEquals('x\,y\,z', $s1[3]->get_display());
+    }
+
+    public function test_multiplication_option_cross() {
+
+        $cs = array('a:x*y', 'b:x*y*z', 'c:x*(y*z)', 'd:(x*y)*z');
+        foreach ($cs as $s) {
+            $s1[] = stack_ast_container::make_from_student_source($s, '', new stack_cas_security(), array());
+        }
+
+        $options = new stack_options();
+        $options->set_option('multiplicationsign', 'cross');
+        $options->set_option('simplify', false);
+
+        $at1 = new stack_cas_session2($s1, $options, 0);
+        $at1->instantiate();
+        $this->assertEquals('x\times y', $s1[0]->get_display());
+        $this->assertEquals('x\times y\times z', $s1[1]->get_display());
+        $this->assertEquals('x\times \left(y\times z\right)', $s1[2]->get_display());
+        // Notice the associativity of Maxima suppresses the extra explicit brackets here.
+        $this->assertEquals('x\times y\times z', $s1[3]->get_display());
+    }
+
+    public function test_acos_option_cosmone() {
+
+        $cs = array('a:acos(x)', 'b:asin(x)', 'c:asinh(x)');
+        foreach ($cs as $s) {
+            $s1[] = stack_ast_container::make_from_student_source($s, '', new stack_cas_security(), array());
+        }
+
+        $options = new stack_options();
+        $options->set_option('inversetrig', 'cos-1');
+
+        $at1 = new stack_cas_session2($s1, $options, 0);
+        $at1->instantiate();
+        $this->assertEquals('\cos^{-1}\left( x \right)', $s1[0]->get_display());
+        $this->assertEquals('\sin^{-1}\left( x \right)', $s1[1]->get_display());
+        $this->assertEquals('{\rm sinh}^{-1}\left( x \right)', $s1[2]->get_display());
+    }
+
+    public function test_acos_option_acos() {
+
+        $cs = array('a:acos(x)', 'b:asin(x)', 'c:asinh(x)');
+        foreach ($cs as $s) {
+            $s1[] = stack_ast_container::make_from_student_source($s, '', new stack_cas_security(), array());
+        }
+
+        $options = new stack_options();
+        $options->set_option('inversetrig', 'acos');
+
+        $at1 = new stack_cas_session2($s1, $options, 0);
+        $at1->instantiate();
+        $this->assertEquals('{\rm acos}\left( x \right)', $s1[0]->get_display());
+        $this->assertEquals('{\rm asin}\left( x \right)', $s1[1]->get_display());
+        $this->assertEquals('{\rm asinh}\left( x \right)', $s1[2]->get_display());
+    }
+
+    public function test_acos_option_arccos() {
+
+        $cs = array('a:acos(x)', 'b:asin(x)', 'c:asinh(x)');
+        foreach ($cs as $s) {
+            $s1[] = stack_ast_container::make_from_student_source($s, '', new stack_cas_security(), array());
+        }
+
+        $options = new stack_options();
+        $options->set_option('inversetrig', 'arccos');
+
+        $at1 = new stack_cas_session2($s1, $options, 0);
+        $at1->instantiate();
+        $this->assertEquals('\arccos \left( x \right)', $s1[0]->get_display());
+        $this->assertEquals('\arcsin \left( x \right)', $s1[1]->get_display());
+        $this->assertEquals('{\rm arcsinh}\left( x \right)', $s1[2]->get_display());
+    }
+
+    public function test_keyval_representation_1() {
+
+        $cs = array('a:x^2', 'b:1/(1+x^2)', 'c:e^(i*pi)');
+        foreach ($cs as $s) {
+            $s1[] = stack_ast_container::make_from_student_source($s, '', new stack_cas_security(), array());
+        }
+
+        $at1 = new stack_cas_session2($s1, null, 0);
+        $at1->instantiate();
+        $this->assertEquals("a:x^2;\nb:1/(1+x^2);\nc:e^(i*pi);", $at1->get_keyval_representation());
+
+        // TODO: no longer relevant?
+        //$this->assertEquals(array('a', 'b', 'c'), $at1->get_all_keys());
+        //$at1->prune_session2(1);
+        //$this->assertEquals(array('a'), $at1->get_all_keys());
+    }
+
+    public function test_keyval_representation_2() {
+
+        $cs = array('a:(-1)^2');
+        foreach ($cs as $s) {
+            $s1[] = stack_ast_container::make_from_student_source($s, '', new stack_cas_security(), array());
+        }
+
+        $at1 = new stack_cas_session2($s1, null, 0);
+        $at1->instantiate();
+        $this->assertEquals("a:(-1)^2;", $at1->get_keyval_representation());
+        $this->assertEquals('a:1;', $at1->get_keyval_representation(true));
+    }
+
+    public function test_get_display_unary_minus() {
+
+        $cs = array('p1:y^3-2*y^2-8*y', 'p2:y^2-2*y-8', 'p3:y^2-2*y-0.5', 'p4:x+-3+y', 'p5:x+(-5+y)');
+        // Notice the subtle difference in p4 & p5.
+        // Where extra brackets are put in they should stay.
+        foreach ($cs as $s) {
+            $s1[] = stack_ast_container::make_from_student_source($s, '', new stack_cas_security(), array());
+        }
+
+        $options = new stack_options();
+        $options->set_option('simplify', false);
+
+        $at1 = new stack_cas_session2($s1, $options, 0);
+        $at1->instantiate();
+        $this->assertEquals('y^3-2\\cdot y^2-8\\cdot y', $s1[0]->get_display());
+        $this->assertEquals('y^2-2\\cdot y-8', $s1[1]->get_display());
+        $this->assertEquals('y^2-2\\cdot y-0.5', $s1[2]->get_display());
+        // Since we introduced a +- operator, changes from Maxima's x-3+y.
+        $this->assertEquals('{x \pm 3}+y', $s1[3]->get_display());
+        $this->assertEquals('x+\\left(-5+y\\right)', $s1[4]->get_display());
+    }
+
+    public function test_string1() {
+
+        $cs = array('s:"This is a string"');
+        foreach ($cs as $s) {
+            $s1[] = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security(), array());
+        }
+        $at1 = new stack_cas_session2($s1, null, 0);
+        $at1->instantiate();
+        $this->assertEquals('"This is a string"', $s1[0]->get_value());
+    }
+
+    public function test_qmchar() {
+
+        $cs = array('s:5*?+6*?', 'A:matrix([?,1],[1,?])');
+        foreach ($cs as $s) {
+            $s1[] = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security(), array());
+        }
+        $at1 = new stack_cas_session2($s1, null, 0);
+        $at1->instantiate();
+
+        $this->assertEquals('11*QMCHAR', $s1[0]->get_value());
+        $this->assertEquals('11\cdot \color{red}{?}', $s1[0]->get_display());
+
+        $this->assertEquals('matrix([QMCHAR,1],[1,QMCHAR])', $s1[1]->get_value());
+    }
+
+    public function test_subscript_disp() {
+        // Fails with actual display output like '{\it pi_{025}}'.
+        $this->skip_if_old_maxima('5.23.2');
+
+        $cs = array('a:pi_25', 'b:1+x_3', 'c:f(x):=x^3', 'd:gamma_7^3', 'a2:pi_4^5');
+        foreach ($cs as $s) {
+            $s1[] = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security(), array());
+        }
+
+        $options = new stack_options();
+        $options->set_option('simplify', false);
+        $at1 = new stack_cas_session2($s1, $options, 0);
+        $at1->instantiate();
+
+        $this->assertEquals($s1[0]->get_value(), 'pi_25');
+        $this->assertEquals($s1[0]->get_display(), '{\pi}_{25}');
+
+        $this->assertEquals($s1[1]->get_value(), '1+x_3');
+        $this->assertEquals($s1[1]->get_display(), '1+{x}_{3}');
+
+        $this->assertEquals($s1[2]->get_value(), 'f(x):=x^3');
+        $this->assertEquals($s1[2]->get_display(), 'f(x):=x^3');
+
+        $this->assertEquals($s1[3]->get_value(), 'gamma_7^3');
+        $this->assertEquals($s1[3]->get_display(), '{\gamma}_{7}^3');
+
+        $this->assertEquals($s1[4]->get_value(), 'pi_4^5');
+        $this->assertEquals($s1[4]->get_display(), '{\pi}_{4}^5');
+    }
+
+    public function test_assignmatrixelements() {
+        // Assign a value to matrix entries.
+        $cs = array('A:matrix([1,2],[1,1])', 'A[1,2]:3', 'B:A');
+        foreach ($cs as $s) {
+            $s1[] = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security(), array());
+        }
+        $at1 = new stack_cas_session2($s1, null, 0);
+        $at1->instantiate();
+
+        $this->assertEquals('matrix([1,3],[1,1])', $s1[0]->get_value());
+        $this->assertEquals('matrix([1,3],[1,1])', $s1[2]->get_value());
+    }
+
+    public function test_simplify_false() {
+
+        $cs = array('a:2+3', 'b:ev(a,simp)');
+
+        foreach ($cs as $s) {
+            $s1[] = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security(), array());
+        }
+
+        $options = new stack_options();
+        $options->set_option('simplify', false);
+        $at1 = new stack_cas_session2($s1, $options, 0);
+        $at1->instantiate();
+
+        $this->assertEquals('2+3', $s1[0]->get_value());
+        $this->assertEquals('5', $s1[1]->get_value());
+    }
+
+    public function test_disp_control_structures() {
+
+        $csl = array('p:if a>b then setelmx(0,m[k],m[j],A)',
+            'addto1(ex):=thru ex do x:0.5*(x+5.0/x)',
+            'addto2(ex):=for a from -3 step 7 thru ex do a^2',
+            'addto3(ex):=for i from 2 while ex<=10 do s:s+i',
+            'addto4(ex):=block([l],l:ex,for f in [log,rho,atan] do l:append(l,[f]),l)',
+            'l:addto4([sin,cos])');
+
+        foreach ($csl as $s) {
+            $s1[] = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security(), array());
+        }
+
+        $options = new stack_options();
+        $options->set_option('simplify', false);
+        $at1 = new stack_cas_session2($s1, $options, 0);
+        $at1->instantiate();
+
+        $this->assertEquals(array(), $at1->get_errors(false));
+
+        $this->assertEquals('if a>b then setelmx(0,m[k],m[j],A)', $s1[0]->get_value());
+        $this->assertEquals('\mathbf{if}\;a > b\;\mathbf{then}\;{\it setelmx}\left(0 , m_{k} , m_{j} , A\right)',
+                $s1[0]->get_display());
+
+        // Confirm these expressions are unchanged by the CAS.
+        $atsession = $at1->get_session();
+        $at1->instantiate();
+        for ($i = 1; $i <= 4; $i++) {
+            $cs = $atsession[$i];
+            $this->assertEquals($csl[$i], $cs->get_value());
+        }
+
+        $this->assertEquals('[sin,cos,log,rho,atan]', $s1[5]->get_value());
+    }
+
+    public function test_redefine_variable() {
+
+        // This example redefines the value of n.
+        // It should return the last value.
+        $cs = array('n:3', 'n:n+3', 'n:n^2');
+
+        foreach ($cs as $s) {
+            $s1[] = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security(), array());
+        }
+
+        $options = new stack_options();
+        $options->set_option('simplify', true);
+        $at1 = new stack_cas_session2($s1, $options, 0);
+        $at1->instantiate();
+
+        // TODO: Matti, Why are the following two "unevaluated"?
+        //$this->assertEquals('3', $s1[0]->get_value());
+        //$this->assertEquals('3', $s1[0]->get_display());
+        $this->assertEquals('36', $s1[2]->get_value());
+        $this->assertEquals('36', $s1[2]->get_display());
+    }
+
+    public function test_indirect_redefinition_of_varibale() {
+
+        // This example uses a loop to change the values of elements of C.
+        // However the loop returns "done", and the values of C are changed.
+        $cs = array('A:matrix([5,2],[4,3])', 'B:matrix([4,5],[6,5])',
+            'C:zeromatrix (first(matrix_size(A)), second(matrix_size(A)))');
+        $cs[] = 'BT:transpose(B)';
+        $cs[] = 'S:for a:1 thru first(matrix_size(A)) do for b:1 thru second(matrix_size(A)) do ' .
+                'C[ev(a,simp),ev(b,simp)]:apply("+",zip_with("*",A[ev(a,simp)],BT[ev(b,simp)]))';
+        $cs[] = 'D:ev(C,simp)';
+        // We need this last assignment to re-evaluate C, and then we can grab the results.....
+        $cs[] = 'C:C';
+
+        foreach ($cs as $s) {
+            $s1[] = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security(), array());
+        }
+
+        $options = new stack_options();
+        $options->set_option('simplify', false);
+        $at1 = new stack_cas_session2($s1, $options, 0);
+        $at1->instantiate();
+
+        $this->assertEquals('matrix([5,2],[4,3])', $s1[0]->get_value());
+        $this->assertEquals('matrix([5*4+2*6,5*5+2*5],[4*4+3*6,4*5+3*5])', $s1[6]->get_value());
     }
 
 }

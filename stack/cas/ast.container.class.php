@@ -246,7 +246,7 @@ class stack_ast_container extends stack_ast_container_silent implements cas_late
             throw new stack_exception('stack_ast_container: ' .
                     'tried to get the LaTeX representation from of an unevaluated or invalid casstring.');
         }
-        return $this->latex;
+        return trim($this->latex);
     }
 
     public function add_answernote($val) {

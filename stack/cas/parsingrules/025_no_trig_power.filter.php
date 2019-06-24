@@ -28,23 +28,25 @@ class stack_ast_filter_025_no_trig_power implements stack_cas_astfilter {
         $selectednames = stack_cas_security::get_all_with_feature('trigfun');
 
         $process = function($node) use (&$errors, &$answernotes, $selectednames) {
-            /**
-             * Note we are not just looking for 'sin^' we want the context.
-             *
-             * The first case where the power is a float or integer
-             * and the insertion of stars happens e.g. 'sin^2(x)':
-             *
-             * sin^2*(x)
-             * --------- MP_Root
-             * --------- MP_Statement
-             * --------- MP_Operation * [insertstars]
-             * -----     MP_Operation ^
-             * ---       MP_Identifier sin
-             *     -     MP_Integer 2
-             *       --- MP_Group
-             *        -  MP_Identifier x
-             *
-             */
+            // @codingStandardsIgnoreStart
+
+            // Note we are not just looking for 'sin^' we want the context.
+            //
+            // The first case where the power is a float or integer
+            // and the insertion of stars happens e.g. 'sin^2(x)':
+            //
+            // sin^2*(x)
+            // --------- MP_Root
+            // --------- MP_Statement
+            // --------- MP_Operation * [insertstars]
+            // -----     MP_Operation ^
+            // ---       MP_Identifier sin
+            //     -     MP_Integer 2
+            //       --- MP_Group
+            //        -  MP_Identifier x
+
+            // @codingStandardsIgnoreEnd
+
             if ($node instanceof MP_Operation &&
                 $node->op === '*' &&
                 isset($node->position['insertstars']) &&

@@ -140,7 +140,8 @@ class stack_parsing_rule_factory {
         if ($includecore === true) {
             if (empty(self::$singletons)) {
                 // If not generated generate the list.
-                $tobeincluded['001_fix_call_of_a_group_or_function'] = self::get_by_common_name('001_fix_call_of_a_group_or_function');
+                $tobeincluded['001_fix_call_of_a_group_or_function']
+                    = self::get_by_common_name('001_fix_call_of_a_group_or_function');
             }
 
             // All core filters begin with 0.

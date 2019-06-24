@@ -157,7 +157,8 @@ abstract class stack_input {
     /* This allows each input type to adapt to the values of parameters.  For example, the dropdown and units
      * use this to sort out options.
      */
-    protected function internal_contruct() {
+    protected function internal_contruct(        // @codingStandardsIgnoreEnd
+            ) {
         $options = $this->get_parameter('options');
         if (trim($options) != '') {
             $options = explode(',', $options);
@@ -756,7 +757,7 @@ abstract class stack_input {
         $filterstoapply[] = '403_split_at_number_letter_boundary';
         $filterstoapply[] = '406_split_implied_variable_names';
 
-        // We do have some things that students are not supposed to do:
+        // We do have some things that students are not supposed to do.
         $filterstoapply[] = '520_no_equality_with_logic';
 
         // If stars = 0 then strict, ignore the other strict syntax.

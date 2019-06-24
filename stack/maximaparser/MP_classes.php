@@ -578,7 +578,7 @@ class MP_Identifier extends MP_Atom {
             }
             if ($this->parentnode->arguments != null &&
                 $this->parentnode->arguments[0] === $this &&
-                stack_cas_security::get_feature($this->parentnode->name->toString(), 
+                stack_cas_security::get_feature($this->parentnode->name->toString(),
                     'mapfunction') === true) {
                 return true;
             }
@@ -620,7 +620,7 @@ class MP_Identifier extends MP_Atom {
                         $this->parentnode->parentnode->lhs === $this->parentnode) {
                     return $this->parentnode->parentnode->op === ':';
                 }
-            } else if ($this->parentnode != null && 
+            } else if ($this->parentnode != null &&
                        $this->parentnode instanceof MP_FunctionCall &&
                        $this->parentnode->name !== $this) {
                 // Assignment by reference.

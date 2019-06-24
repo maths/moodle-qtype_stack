@@ -313,9 +313,9 @@ class stack_equiv_input extends stack_input {
             $showdomain = 'false';
         }
         $debuglist = 'false';
-        $an = stack_ast_container::make_from_teacher_source('equiv'.$this->name.':disp_stack_eval_arg('.$this->name.', '.$showlogic.', '.
-                $showdomain.', '.$equivdebug.', '.$debuglist.')');
-        $an->get_valid();
+        $s = 'equiv'.$this->name.':disp_stack_eval_arg('.$this->name.', '.$showlogic.', '. $showdomain.
+            ', '.$equivdebug.', '.$debuglist.')';
+        $an = stack_ast_container::make_from_teacher_source($s);
 
         $calculus = 'false';
         if ($this->extraoptions['calculus']) {

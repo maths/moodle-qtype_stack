@@ -43,8 +43,7 @@ $PAGE->set_url('/question/type/stack/caschat.php', $urlparams);
 $title = 'Cache debug';
 $PAGE->set_title($title);
 
-
-// Get the ten latest cached things:
+// Get the ten latest cached things.
 $data = $DB->get_recordset_sql('SELECT * FROM {qtype_stack_cas_cache} ORDER BY id DESC LIMIT 10;');
 
 echo $OUTPUT->header();
@@ -52,27 +51,25 @@ echo $OUTPUT->heading($title);
 
 $i = 0;
 foreach ($data as $item) {
-	$i++;
-	echo '<h2>item ' . $i . '</h2>';
-	echo '<pre>';
-	// Ends with $ which is bad.
-	$ast = maxima_parser_utils::parse(core_text::substr($item->command, 0, -1));
-	$str = $ast->toString(array('pretty' => true));
-	$str = str_replace('&', '&amp;', $str);
-	$str = str_replace('<', '&lt;', $str);
-	$str = str_replace('>', '&gt;', $str);
-	echo $str;
-	echo '</pre>';
-	echo '<pre>';
-	$json = json_decode($item->result);
-	$str = json_encode($json, JSON_UNESCAPED_SLASHES|JSON_PRETTY_PRINT);
-	$str = str_replace('&', '&amp;', $str);
-	$str = str_replace('<', '&lt;', $str);
-	$str = str_replace('>', '&gt;', $str);
-	echo $str;
-	echo '</pre>';
+    $i++;
+    echo '<h2>item ' . $i . '</h2>';
+    echo '<pre>';
+    // Ends with $ which is bad.
+    $ast = maxima_parser_utils::parse(core_text::substr($item->command, 0, -1));
+    $str = $ast->toString(array('pretty' => true));
+    $str = str_replace('&', '&amp;', $str);
+    $str = str_replace('<', '&lt;', $str);
+    $str = str_replace('>', '&gt;', $str);
+    echo $str;
+    echo '</pre>';
+    echo '<pre>';
+    $json = json_decode($item->result);
+    $str = json_encode($json, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
+    $str = str_replace('&', '&amp;', $str);
+    $str = str_replace('<', '&lt;', $str);
+    $str = str_replace('>', '&gt;', $str);
+    echo $str;
+    echo '</pre>';
 }
-
-
 
 echo $OUTPUT->footer();

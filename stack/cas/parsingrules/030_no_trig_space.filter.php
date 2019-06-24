@@ -29,12 +29,12 @@ class stack_ast_filter_030_no_trig_space implements stack_cas_astfilter {
 
         $process = function($node) use (&$errors, &$answernotes, $selectednames) {
             if ($node instanceof MP_Identifier &&
-                !$node->is_function_name() && 
+                !$node->is_function_name() &&
                 $node->parentnode instanceof MP_Operation &&
                 $node->parentnode->lhs === $node &&
                 $node->parentnode->op === '*' &&
                 isset($node->parentnode->position['fixspaces'])) {
-                if (array_key_exists($node->value, $selectednames)) {    
+                if (array_key_exists($node->value, $selectednames)) {
                     $errors[] = stack_string('stackCas_trigspace',
                             array('trig' => stack_maxima_format_casstring($node->value.'(...)')));
                     if (array_search('trigspace', $answernotes) === false) {

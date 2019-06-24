@@ -178,11 +178,6 @@ class stack_potentialresponse_tree {
 
         $results = new stack_potentialresponse_tree_state($this->value, true, 0, 0);
         $fv = $this->feedbackvariables;
-        // TODO: What is this? Surely we can build an actual dependency
-        // graph and trace that if need be. Do we use this somehere?
-        //if ($fv !== null) {
-        //    $results->add_trace($fv->get_keyval_representation());
-        //}
 
         // Traverse the tree.
         $nodekey = $this->firstnode;

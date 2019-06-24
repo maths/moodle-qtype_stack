@@ -256,7 +256,7 @@ class stack_potentialresponse_node {
                 $tans = $cascontext->get_by_key($cskey);
             }
         }
-        $atopts = $cascontext->get_by_key('PRSANS' . $key);
+        $atopts = $cascontext->get_by_key('PRATOPT' . $key);
         // If we can't find atopts then they were not processed by the CAS.
         // They might still be some in the potential response which do not
         // need to be processed.
@@ -351,12 +351,11 @@ class stack_potentialresponse_node {
         $variables[] = clone $this->tans;
         $variables[1]->set_key('PRTANS' . $key);
 
-        if ($this->process_atoptions() && trim($this->atoptions) != '') {
+        if (stack_ans_test_controller::process_atoptions($this->answertest) && trim($this->atoptions) != '') {
             $cs = stack_ast_container::make_from_teacher_source('PRATOPT' . $key . ':' . $this->atoptions,
                     '', new stack_cas_security());
             $variables[] = $cs;
         }
-
         return $variables;
     }
 

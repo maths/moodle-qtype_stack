@@ -193,17 +193,26 @@ class stack_anstest {
 
         if ($this->tanskey) {
             $ta = $this->tanskey->get_inputform(true, true);
+            if ($this->tanskey->is_correctly_evaluated()) {
+                $ta = $this->tanskey->get_value();
+            }
         } else {
             return '';
         }
         if ($this->sanskey) {
             $sa = $this->sanskey->get_inputform(true, true);
+            if ($this->sanskey->is_correctly_evaluated()) {
+                $sa = $this->sanskey->get_value();
+            }
         } else {
             return '';
         }
         $traceline = $this->get_casfunction() . '(' . $sa . ', ' . $ta . ')';
         if (stack_ans_test_controller::required_atoptions($this->atname)) {
             $atopt = $this->atoption->get_inputform(true, true);
+            if ($this->atoption->is_correctly_evaluated()) {
+                $atopt = $this->atoption->get_value();
+            }
             $traceline = $this->get_casfunction() . '(' . $sa . ', ' . $ta . ', '. $atopt .')';
         }
         if ($includeresult) {

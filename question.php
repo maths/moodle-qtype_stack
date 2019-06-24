@@ -922,7 +922,8 @@ class qtype_stack_question extends question_graded_automatically_with_countback
      * the same results as if you recreate the whole session from $this->questionvariables.
      */
     public function get_question_session_keyval_representation() {
-        return $this->session->get_keyval_representation();
+        // We always want the values when this method is called.
+        return $this->session->get_keyval_representation(true);
     }
 
     /**

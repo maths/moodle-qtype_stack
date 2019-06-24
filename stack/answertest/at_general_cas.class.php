@@ -128,7 +128,11 @@ class stack_answertest_general_cas extends stack_anstest {
         $result = stack_ast_container::make_from_teacher_source("result:{$this->casfunction}(STACKSA,STACKTA)", '',
             new stack_cas_security());
         if (stack_ans_test_controller::process_atoptions($this->atname)) {
-            $ops = clone $this->atoption;
+            if ($this->atoption->is_correctly_evaluated()) {
+                $ops = stack_ast_container::make_from_teacher_source($this->atoption->get_value());
+            } else {
+                $ops = clone $this->atoption;
+            }
             $ops->set_key('STACKOP');
             $result = stack_ast_container::make_from_teacher_source("result:{$this->casfunction}(STACKSA,STACKTA,STACKOP)", '',
                 new stack_cas_security());

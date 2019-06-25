@@ -165,8 +165,5 @@ class stack_potentialresponse_node_test extends qtype_stack_testcase {
                 $result->feedback[0]->feedback);
 
         $this->assertEquals(1.5, $result->score);
-
-        $data = array('factor(ans1)', 'ans1', '3*(x+2)', 'x');
-        $this->assertEquals($data, $node->get_required_cas_strings());
     }
 }

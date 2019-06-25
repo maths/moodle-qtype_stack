@@ -300,25 +300,6 @@ class stack_potentialresponse_node {
         }
     }
 
-    /**
-     * @return array of CAS strings. These cas strings include the names of all
-     * the input variables that are required by this node.
-     */
-    public function get_required_cas_strings() {
-
-        $ct = new stack_cas_text($this->branches[0]['feedback'] . $this->branches[1]['feedback']);
-        $requiredcasstrings = $ct->get_all_raw_casstrings();
-
-        $requiredcasstrings[] = $this->sans->get_inputform();
-        $requiredcasstrings[] = $this->tans->get_inputform();
-
-        if ($this->process_atoptions() && trim($this->atoptions) != '') {
-            $requiredcasstrings[] = $this->atoptions;
-        }
-
-        return $requiredcasstrings;
-    }
-
     public function get_variable_usage(array $updatearray = array()): array {
         $ct = new stack_cas_text($this->branches[0]['feedback'] . $this->branches[1]['feedback']);
         $updatearray = $ct->get_variable_usage($updatearray);

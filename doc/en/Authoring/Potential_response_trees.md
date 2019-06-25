@@ -54,7 +54,7 @@ before being returned to the student as [feedback](Feedback.md) or recorded in t
 
 The answer note is a tag which is key for reporting purposes.  It is designed to record the outcome of each answer test and the unique path through the 
 tree.  This is automatically generated, but can be changed to something meaningful.   When looking for identical paths through the tree we have to do 
-so, regardless of which random numbers were selected in this version of the question given to a particular student.  Hence, this string may not depend 
+so, regardless of which random numbers were selected in this variant of the question given to a particular student.  Hence, this string may not depend 
 on any of the variables.
 
 The answer note is the concatenation of each answer note from the [answer tests](Answer_tests.md) and then the corresponding true/false branch.  This 

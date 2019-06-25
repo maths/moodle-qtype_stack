@@ -110,7 +110,7 @@ How do we do the following in Maxima?
      factor(radcan((x-1)*(k*(x-1))^a))
 
 
-Maxima's internal representation of an expression sometimes does not correspond with what you expect -- in that case, `dispform` may help to bring it into the form you expect. For example, the output of `solve` in the following code shows the \(b\) in the denominator as \(b^{-1}\) which gives unnatural-looking output when a value is substituted in -- this is fixed by using `dispform` and substituting into that version instead.
+Maxima's internal representation of an expression sometimes does not correspond with what you expect -- in that case, `dispform` may help to bring it into the form you expect. For example, the output of `solve` in the following code shows the \(b\) in the denominator as \(b^{-1}\) which gives unnatural-looking output when a value is substituted in -- this is fixed by using `dispform` and substituting into that variants instead.
 
     simp:true;
     eqn:b = 1/(6*a+3);
@@ -183,7 +183,7 @@ You probably then want to make sure a student has "gathered" like terms.  In par
 \[ 2\sqrt{5}-3 \mbox{ or } \sqrt{20}-3\]
 but not \[ 5+4\sqrt{2}-2\sqrt{2}+6.\]
 This causes a problem because `ATComAss` thinks that \[ 2\sqrt{5}-3 \neq \sqrt{20}-3.\]
-So you can't use `ATComAss` here, and guarantee that all random versions will work by testing that we really have \(5+4\sqrt{2}\) for example.
+So you can't use `ATComAss` here, and guarantee that all random variants will work by testing that we really have \(5+4\sqrt{2}\) for example.
 
 What we really want is for the functions `sqrt` and `+` to appear precisely once in the student's answer, or that the answer is a sum of two things.
 

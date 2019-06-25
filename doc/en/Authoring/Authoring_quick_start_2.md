@@ -1,3 +1,7 @@
+
+
+
+
 # Authoring quick start 2: multi-part mathematical questions
 
 This is the second part of the [authoring quick start](Authoring_quick_start.md).  The purpose is to write multi-part questions.
@@ -154,7 +158,7 @@ Your answer to this part is correct, however you have got part 1 wrong!  Please 
 
 ###Stage 3: adding question tests###
 
-It is probably sensible to add question tests.  From the question preview window, click on `Question tests & deployed versions` link in the top right of the page.
+It is probably sensible to add question tests.  From the question preview window, click on `Question tests & deployed variants` link in the top right of the page.
 
 Add a test to your question which contains the correct answers, as follows.
 
@@ -189,7 +193,7 @@ Next we can add a randomly generated polynomial to the question.  Because we use
 
     p : (2+rand(3))*x^3+(2+rand(3))*x^2+(2+rand(3))*x;
 
-You will need to add a non-empty question note to enable grouping of random versions.  E.g. the following string will suffice.
+You will need to add a non-empty question note to enable grouping of random variants.  E.g. the following string will suffice.
 
     {@p@}
 

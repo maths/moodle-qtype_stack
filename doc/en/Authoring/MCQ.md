@@ -2,7 +2,7 @@
 
 The whole point of STACK is not to use multiple-choice questions, but instead to have the student enter an algebraic expression!  
 That said there are occasions where it is very useful, if not necessary, to use multiple-choice questions in their various forms.  
-STACK's use of a CAS is then very helpful to generate random versions of multiple-choice questions based on the mathematical values.
+STACK's use of a CAS is then very helpful to generate random variants of multiple-choice questions based on the mathematical values.
 
 This can also be one input in a multi-part randomly generated question. 
 E.g. you might say "which method do you need to integrate \( \sin(x)\cos(x) \)?" and give students the choice of (i) trig functions first, 
@@ -141,7 +141,7 @@ As the Question Note, you might like to consider just taking the first item from
     {@maplist(first,ta)@}.  The correct answer is {@tac@}.
 
 This note stores both the correct answer and the order shown to the student without the clutter of the `true/false` values or the optional display strings.  
-Remember, random versions of a question are considered to be the same if and only if the question note is the same,
+Remember, random variants of a question are considered to be the same if and only if the question note is the same,
 so the random order must be part of the question note if you shuffle the options.
 
 ## Constructing MCQ arrays in Maxima ##
@@ -193,11 +193,11 @@ For example, in this question the student has to choose which of the answers are
 
 STACK has helper functions to create MCQ arrays in Maxima.
 
-    [ta, version] = multiselqn(corbase, numcor, wrongbase, numwrong)
+    [ta, variant] = multiselqn(corbase, numcor, wrongbase, numwrong)
 
 This function takes two lists `corbase` and `wrongbase` and two integers `numcor` and `numwrong`.  
 It randomly selects `numcor` from `corbase`, and `numwrong` from `wrongbase` and then creates the MCQ list `ta` with these selections, 
-and an answernote `version`.
+and an answernote `variant`.
 
 The function returns a list with two arguments.  
 The first argument of the list is the MCQ array, the second is just the list of answers which is useful for the answer note.  
@@ -213,7 +213,7 @@ For example, the following generates random expressions for an MCQ calculus ques
     ans:diff(ev(trg), x);
     multisel:multiselqn([ans], 1, wrongbase, 3);
     ta:multisel[1];
-    version:multisel[2];
+    variant:multisel[2];
 
 In the above example there is only one correct answer, so we just select `1` from `[ans]`.
 This is fine, and we then choose three randomly generated wrong answers.
@@ -221,33 +221,33 @@ This is fine, and we then choose three randomly generated wrong answers.
 This returns (for example) the values
 
     ta = [[-2*a*x*cos(a*x^2+b),false],[-sin(2*a*x),false],[a*cos(a*x^2+b),false],[-2*a*x*sin(a*x^2+b),true]];
-    version = [-2*a*x*cos(a*x^2+b),-sin(2*a*x),a*cos(a*x^2+b),-2*a*x*sin(a*x^2+b)];
+    variant = [-2*a*x*cos(a*x^2+b),-sin(2*a*x),a*cos(a*x^2+b),-2*a*x*sin(a*x^2+b)];
 
 The following function does a similar job when we have MCQ display strings.
 
-    [ta, version] = multiselqndisplay(corbase, numcor, wrongbase, numwrong)
+    [ta, variant] = multiselqndisplay(corbase, numcor, wrongbase, numwrong)
 
 For example, here the return values could be
 
     ta = [[3,false,2*a*x*sin(a*x^2+b)],[2,false,a*sin(a*x^2+b)],[5,false,cos(2*a*x)],[1,true,2*a*x*cos(a*x^2+b)]]
-    version = [3,2,5,1]
+    variant = [3,2,5,1]
 
-The function `multiselqndisplay` automatically assigns numbers \(1,\cdots, k\) to the `corbase` entries, and then \(k+1,\cdots, n\) to the `wrongbase` entries so that the numbers returned by the input type uniquely map to the entries in the two lists regardless of which random version is generated.  These numbers are useful internally, but not for students.
+The function `multiselqndisplay` automatically assigns numbers \(1,\cdots, k\) to the `corbase` entries, and then \(k+1,\cdots, n\) to the `wrongbase` entries so that the numbers returned by the input type uniquely map to the entries in the two lists regardless of which random variant is generated.  These numbers are useful internally, but not for students.
 
 The function `multiselqnalpha` automatically selects the appropriate number of correct and incorrect entries, permutes the list and then assigns strings `"(a)"`, `"(b)"`, `"(c)"` etc. in the correct order. The student's answer will thus be a list of strings (somewhat subverting the whole purpose of STACK in returning a genuine mathematical expression, but this has its place...).  
 
-    [ta, version] = multiselqnalpha(corbase, numcor, wrongbase, numwrong, [dispstyle])
+    [ta, variant] = multiselqnalpha(corbase, numcor, wrongbase, numwrong, [dispstyle])
 
 For example, here the return values (with inline maths) could be
 
     ta = [["(a)",false,"<b>(a)</b> \\(-2\\,a\\,x\\,\\sin \\left( a\\,x^2+b \\right)\\)"],["(b)",true,"<b>(b)</b> \\(2\\,a\\,x\\,\\cos \\left( a\\,x^2+b \\right)\\)"],["(c)",false,"<b>(c)</b> \\(\\cos \\left( 2\\,a\\,x \\right)\\)"],["(d)",false,"<b>(d)</b> \\(2\\,a\\,x\\,\\cos \\left( 2\\,a\\,x \\right)\\)"]]
-    version = [-2*a*x*sin(a*x^2+b),2*a*x*cos(a*x^2+b),cos(2*a*x),2*a*x*cos(2*a*x)]
+    variant = [-2*a*x*sin(a*x^2+b),2*a*x*cos(a*x^2+b),cos(2*a*x),2*a*x*cos(2*a*x)]
 
 Notes
 
 1. The fifth optional argument to ` multiselqnalpha` controls the display style of the LaTeX.  Use `"i"` (a string containing `i`) for inline, `"d"` for displayed and `"id"` for inline "displaystyle" (which is the default).
 2. Note that the "student's" answer will now be a _string_ such as `"(a)"`.  When you construct the PRT you will not need to check against these strings, not the original CAS expressions.
-3. The `version` retains the CAS statements, in order.
+3. The `variant` retains the CAS statements, in order.
 4. Do not use `multiselqnalpha` in conjunction with the `shuffle` option.  There is no need as the selection are permuted, and it messes up the order of the choices for the student. 
 
 

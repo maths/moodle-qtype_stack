@@ -14,7 +14,7 @@ At the end of this guide you will be able to:
 
 - Create a new STACK question, ensuring mathematical notation is displayed correctly using \(\LaTeX\) notation.
 - Catch, and provide feedback on, common errors by building a *Potential Response Tree*. These include forgetting to include the constant of integration or accidentally differentiating instead of integrating.
-- Create random versions, and ensure the marking algorithms, feedback and worked solutions reflect the particular version.
+- Create random variants, and ensure the marking algorithms, feedback and worked solutions reflect the particular variant.
 - Preview and test STACK questions.
 
 ## Before you begin
@@ -218,7 +218,7 @@ Testing questions is time consuming and tedious, but important to ensure questio
 
 Scroll to the bottom of the page and press the `[Save changes and continue editing]` button. Press the `Preview` link.
 
-From the question preview window, click on `Question tests & deployed versions` link in the top right of the page.
+From the question preview window, click on `Question tests & deployed variants` link in the top right of the page.
 
 Click `Add a test case` to add a test to your question.  Fill in the following information
 
@@ -390,13 +390,13 @@ which you should use instead of [Maxima](../CAS/Maxima.md)'s random command. The
 
 ### Question note ###
 
-Now that our question contains random numbers we need to record the actual question version seen by a particular student.
+Now that our question contains random numbers we need to record the actual question variant seen by a particular student.
 As soon as we use the `rand` function STACK forces us to add a _Question note_. 
 Fill the question note in as
 
     \[ \int {@p@}\mathrm{d}x = {@ta@}.\]
 
-Two question versions are considered to be the same if and only if the question note is the same. It is the teacher's responsibility to create sensible notes.
+Two question variants are considered to be the same if and only if the question note is the same. It is the teacher's responsibility to create sensible notes.
 
 ### Handling random variables in the Potential Response Tree ###
 
@@ -409,11 +409,11 @@ We will need to update `TAns` of node 2 of the potential response tree to add in
 
 So this possible outcome can be used in the potential response tree, question tests and so on by referring to the variable `taw1`.
 
-Edit your trial question, save and preview it to get new random versions of the question.
+Edit your trial question, save and preview it to get new random variants of the question.
 
-### Deploying random versions ###
+### Deploying random variants ###
 
-Before a student sees the questions it is sensible to deploy random versions.  See [deploying](Deploying.md) for more information on this process.
+Before a student sees the questions it is sensible to deploy random variants.  See [deploying](Deploying.md) for more information on this process.
 
 # Next step #
 

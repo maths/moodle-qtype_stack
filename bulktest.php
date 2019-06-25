@@ -15,7 +15,7 @@
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * This script runs all the quesion tests for all deployed versions of all
+ * This script runs all the quesion tests for all deployed variants of all
  * questions in a given context.
  *
  * @package   qtype_stack

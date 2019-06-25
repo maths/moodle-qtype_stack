@@ -4,7 +4,7 @@ STACK can generate structured random objects.  STACK provides a [Maxima](Maxima.
 
 **Note:** it is important not to use Maxima's own `random()` function.
 STACK creates pseudo-random numbers from a definite seed.
-This ensures that when a particular student returns they see the same version of the question.
+This ensures that when a particular student returns they see the same variant of the question.
 Hence, STACK provides its own function `rand()`.
 
 For the purposes of learning and teaching, we do not need an algorithm which is statistically perfect.

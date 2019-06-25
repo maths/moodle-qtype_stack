@@ -10,11 +10,11 @@ We would encourage colleagues to release their materials under a creative common
 
 # Moodle courses released with STACK #
 
-STACK is released with a demonstration course which contains hundreds of tested STACK questions.  Many have a full worked solution and random versions, and this represents a substantial resource.
+STACK is released with a demonstration course which contains hundreds of tested STACK questions.  Many have a full worked solution and random variants, and this represents a substantial resource.
 
      /qtype_stack/samplequestions/STACK-demo.mbz
 
-You can "restore" this into your version of Moodle.  It has a number of quizzes, pre-created with questions and deployed versions.  It also has a large question bank, with questions not arranged into quizzes.
+You can "restore" this into your version of Moodle.  It has a number of quizzes, pre-created with questions and deployed variants.  It also has a large question bank, with questions not arranged into quizzes.
 
 # Materials released with STACK #
 

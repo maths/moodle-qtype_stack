@@ -17,7 +17,7 @@ There are two ways to export STACK questions.
 1. The normal Moodle procedure is to export whole category of questions at one time through the Moodle question bank.  To export a selection of questions, you need to move them into a separate category.  This can be any mix of STACK and other Moodle questions.  You must choose "Moodle XML format" as the file format.
 2. To export a single STACK question as "Moodle XML format".
    1. Preview the question.  
-   2. Follow the link to "Question tests & deployed versions".
+   2. Follow the link to "Question tests & deployed variants".
    3. Export this question.
 
    This export mechanism is only available to STACK questions and no other question types in Moodle.

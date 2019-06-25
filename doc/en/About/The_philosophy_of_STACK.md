@@ -33,7 +33,7 @@ This system is the brain child of [Chris Sangwin](mailto:C.J.Sangwin@ed.ac.uk).
 
 In STACK a lot of attention has been paid to allowing teachers to author and manage their own questions. The following are the key features.
 
-* Question versions are randomly generated within structured templates.
+* Question variants are randomly generated within structured templates.
 * There are many different kinds of inputs. These are, for example, where the student enters a mathematical expression, or makes a true/false selection.
 * Mathematical properties of students' answers are established using answer tests within the CAS Maxima.
 * Feedback is assigned on the basis of these properties using a potential response tree. This feedback includes:

@@ -56,9 +56,9 @@ The particular circumstances will dictate if it is better to have lots of variab
 
 ## The importance of the question note ##
 
-Notice in defining `b` we have a quotient which might well "simplify" when fractions cancel.  Hence, there is not a one-one correspondence between the values of the random variables and actual question versions.  In some situations there may similarly not be a one-one correspondence between the values of specific variables and actual questions.  We cannot use the values of the question variables as a unique key to the question versions (although in this case it would be fine because all algebraic cancelling occurs within the definition of `b` and so we end up with a unique key).
+Notice in defining `b` we have a quotient which might well "simplify" when fractions cancel.  Hence, there is not a one-one correspondence between the values of the random variables and actual question variants.  In some situations there may similarly not be a one-one correspondence between the values of specific variables and actual questions.  We cannot use the values of the question variables as a unique key to the question variants (although in this case it would be fine because all algebraic cancelling occurs within the definition of `b` and so we end up with a unique key).
 
-Hence the teacher must leave a meaningful question note.  Two versions of a question are _defined_ to be the same if and only if the question note is the same.
+Hence the teacher must leave a meaningful question note.  Two variants of a question are _defined_ to be the same if and only if the question note is the same.
 
 The question note field is ["CAS text"](CASText.md), just like the question text.  We could write something like
 
@@ -68,7 +68,7 @@ Or we could leave something more meaningful:
 
     {@q^n = a^n*(cos(p*%i*%pi)+%i*sin(p*%i*%pi))@}
 
-Notice, we probably don't want to evaluate `a^n` here as it isn't likely to be "simpler".  It is up to the teacher, but putting the answer in the answer note helps if students come and ask you for the answer to their version of the question...
+Notice, we probably don't want to evaluate `a^n` here as it isn't likely to be "simpler".  It is up to the teacher, but putting the answer in the answer note helps if students come and ask you for the answer to their variant of the question...
 
 ## Multi-part question ##
 
@@ -114,7 +114,7 @@ Again, if you want to enforce a test for the principle argument you will need to
 
 ## Question tests ##
 
-Please create some question tests!  This will save time in the long term, by enabling you to automatically test your question for each random version you wish to deploy.  You should create one test case for each outcome you expect. Here, we need
+Please create some question tests!  This will save time in the long term, by enabling you to automatically test your question for each random variant you wish to deploy.  You should create one test case for each outcome you expect. Here, we need
 
     ans1:a^n
     ans2:n*b*%pi

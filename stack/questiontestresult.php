@@ -124,11 +124,7 @@ class stack_question_test_result {
                 $state->penalty = $actualresult->penalty;
                 $state->answernote = implode(' | ', $actualresult->answernotes);
                 $state->trace = implode("\n", $actualresult->trace);
-                $feedback = array();
-                foreach ($actualresult->feedback as $fb) {
-                    $feedback[] = $fb->feedback;
-                }
-                $state->feedback = implode(' ', $feedback);
+                $state->feedback = $actualresult->feedback;
                 $state->debuginfo = $actualresult->debuginfo;
             } else {
                 $state->score = '';

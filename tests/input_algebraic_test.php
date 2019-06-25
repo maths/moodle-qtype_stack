@@ -708,5 +708,4 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         $this->assertEquals('This input can be left blank.',
                 $el->get_teacher_answer_display($state->contentsmodified, $state->contentsdisplayed));
     }
-
 }

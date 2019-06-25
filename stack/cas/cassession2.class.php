@@ -109,7 +109,7 @@ class stack_cas_session2 {
         $target->statements = array_merge($target->statements, $this->statements);
     }
 
-    public function get_variable_usage(array &$updatearray = array()): array {
+    public function get_variable_usage(array $updatearray = array()): array {
         foreach ($this->statements as $statement) {
             $updatearray = $statement->get_variable_usage($updatearray);
         }

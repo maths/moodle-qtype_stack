@@ -319,7 +319,7 @@ class stack_potentialresponse_node {
         return $requiredcasstrings;
     }
 
-    public function get_variable_usage(array &$updatearray = array()): array {
+    public function get_variable_usage(array $updatearray = array()): array {
         $ct = new stack_cas_text($this->branches[0]['feedback'] . $this->branches[1]['feedback']);
         $updatearray = $ct->get_variable_usage($updatearray);
         $updatearray = $this->sans->get_variable_usage($updatearray);

@@ -153,7 +153,7 @@ class stack_cas_keyval {
         return new stack_cas_session2($this->statements, $this->options, $this->seed);
     }
 
-    public function get_variable_usage(array &$updatearray = array()): array {
+    public function get_variable_usage(array $updatearray = array()): array {
         foreach ($this->statements as $statement) {
             $updatearray = $statement->get_variable_usage($updatearray);
         }

@@ -420,7 +420,7 @@ class stack_cas_text {
         return $errmsg;
     }
 
-    public function get_variable_usage(array &$updatearray = array()): array {
+    public function get_variable_usage(array $updatearray = array()): array {
         if (null === $this->valid) {
             $this->validate();
         }

@@ -103,7 +103,7 @@ class stack_textarea_input extends stack_input {
     protected function caslines_to_answer($caslines) {
         $vals = array();
         foreach ($caslines as $line) {
-            $vals[] = $line->get_evaluationform();
+            $vals[] = $line->get_inputform(true, true);
         }
         return stack_ast_container::make_from_student_source('['.implode(',', $vals).']', '', $caslines[0]->get_securitymodel());
     }

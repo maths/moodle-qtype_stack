@@ -142,16 +142,16 @@ class stack_equiv_input extends stack_input {
                 }
             }
         }
-
         return $contents;
     }
 
     protected function caslines_to_answer($caslines) {
         $vals = array();
         foreach ($caslines as $line) {
-            $vals[] = $line->get_evaluationform();
+            $vals[] = $line->get_inputform(true, true);
         }
-        return stack_ast_container::make_from_student_source('['.implode(',', $vals).']', '', $caslines[0]->get_securitymodel());
+        $s = '['.implode(',', $vals).']';
+        return stack_ast_container::make_from_student_source($s, '', $caslines[0]->get_securitymodel());
     }
 
     /**
@@ -179,7 +179,7 @@ class stack_equiv_input extends stack_input {
             if (trim($val) != '') {
                 $cs = stack_ast_container::make_from_teacher_source($val);
                 if ($cs->get_valid()) {
-                    $val = $cs->get_inputform();
+                    $val = $cs->get_inputform(true, false);
                 }
             }
             $values[$key] = $val;
@@ -223,11 +223,9 @@ class stack_equiv_input extends stack_input {
                         $forbiddenkeys);
 
         foreach ($contents as $index => $val) {
-            if ($val === null) {
-                // One of those things logic nouns hid.
-                $val = '';
-            }
             // TODO: add filters, strict and so on.
+            // TODO: add this cludge into the parser.
+            $val = $this->equals_to_stackeq($val);
 
             $answer = stack_ast_container::make_from_student_source($val, '', $secrules, array(), array(), 'Equivline');
 
@@ -280,20 +278,24 @@ class stack_equiv_input extends stack_input {
                 'border="0" cellpadding="4" cellspacing="0"><tbody>';
         foreach ($caslines as $index => $cs) {
             $display .= '<tr>';
-            if ('' != $cs->get_errors()  || '' == $cs->get_value()) {
+            if ($cs->is_correctly_evaluated()) {
+                $display .= '<td>\(\displaystyle ' . $cs->get_display() . ' \)</td>';
+            } else {
                 $valid = false;
                 $errors[$index] = ' '.stack_maxima_translate($cs->get_errors());
                 $display .= '<td>' . stack_maxima_format_casstring($cs->get_inputform()) . '</td>';
                 $display .= '<td>' . stack_maxima_translate($errors[$index]) . '</td></tr>';
-            } else {
-                $display .= '<td>\(\displaystyle ' . $cs->get_display() . ' \)</td>';
             }
             $display .= '</tr>';
         }
         $display .= '</tbody></table></center>';
-        if ($valid) {
+        if (array_key_exists('equivdisplay', $additionalvars)) {
             $equiv = $additionalvars['equivdisplay'];
-            $display = '\[ ' . $equiv->get_display() . ' \]';
+            if ($equiv->is_correctly_evaluated()) {
+                $display = '\[ ' . $equiv->get_display() . ' \]';
+            } else {
+                $display .= $equiv->get_errors();
+            }
         }
 
         return array($valid, $errors, $display);

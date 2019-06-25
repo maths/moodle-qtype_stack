@@ -841,7 +841,11 @@ class MP_FunctionCall extends MP_Node {
             $ar[] = $value->toString($params);
         }
 
-        if (isset($params['inputform']) && $params['inputform'] === true) {
+        // Two cases we need to consider.
+        // We want the inputform with nouns, e.g. to store.
+        // We want the input form without nouns, e.g. "the teacher's answer is..." situation.
+        if (isset($params['inputform']) && $params['inputform'] === true &&
+                isset($params['nounify']) && $params['nounify'] === false) {
             $prefix = stack_cas_security::get_feature($this->name->value, 'prefixinputform');
             if ('' != $prefix) {
                 // Hack for stacklet.

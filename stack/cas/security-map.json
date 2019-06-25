@@ -1762,6 +1762,12 @@
         "function": "s",
         "nounfunction": "noundiff"
     },
+    "partial": {
+        "function": "f"
+    },
+    "partialdiff": {
+        "function": "f"
+    },
     "digitcharp": {
         "function": "s"
     },

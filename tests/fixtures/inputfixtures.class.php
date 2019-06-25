@@ -386,7 +386,7 @@ class stack_inputvalidation_test_data {
         array('arcsin(x)', 'php_false', 'arcsin(x)', 'cas_true', '', 'triginv', "Not the arcsin"),
         array('sin^-1(x)', 'php_false', 'sin^-1(x)', 'cas_false', '', 'missing_stars | trigexp', ""),
         array('cos^2(x)', 'php_false', 'cos^2(x)', 'cas_false', '', 'missing_stars | trigexp', ""),
-        array('sin*2*x', 'php_false', 'sin*2*x', 'cas_false', '', 'trigop', ""),
+        array('sin*2*x', 'php_false', 'sin*2*x', 'cas_false', '', 'forbiddenVariable', ""),
         array('sin[2*x]', 'php_false', 'sin[2*x]', 'cas_false', '', 'trigparens', ""),
         array('cosh(x)', 'php_true', 'cosh(x)', 'cas_true', '\cosh \left( x \right)', '', ""),
         array('sinh(x)', 'php_true', 'sinh(x)', 'cas_true', '\sinh \left( x \right)', '', ""),

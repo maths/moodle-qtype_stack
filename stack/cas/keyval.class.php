@@ -154,6 +154,12 @@ class stack_cas_keyval {
     }
 
     public function get_variable_usage(array $updatearray = array()): array {
+        if (!array_key_exists('read', $updatearray)) {
+            $updatearray['read'] = array();
+        }
+        if (!array_key_exists('write', $updatearray)) {
+            $updatearray['write'] = array();
+        }
         foreach ($this->statements as $statement) {
             $updatearray = $statement->get_variable_usage($updatearray);
         }

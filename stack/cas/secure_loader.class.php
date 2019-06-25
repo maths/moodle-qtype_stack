@@ -32,9 +32,15 @@ class stack_secure_loader implements cas_evaluatable {
     private $errors;
     private $context;
 
-    public function __constructor(string $code, string $fromwhere) {
+    public function __construct(string $securedcode, string $fromwhere='') {
+        if ($securedcode === null) {
+            throw new stack_exception('secure_loader: the code must not be null.');
+        }
+        if (trim($securedcode) === '') {
+            throw new stack_exception('secure_loader: the code must be a non empty string.');
+        }
         $this->context = $fromwhere;
-        $this->code = $code;
+        $this->code = $securedcode;
         $this->errors = array();
     }
 

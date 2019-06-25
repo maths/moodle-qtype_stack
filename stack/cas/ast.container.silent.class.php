@@ -411,6 +411,12 @@ class stack_ast_container_silent implements cas_evaluatable {
     }
 
     public function get_variable_usage(array $updatearray = array()): array {
+        if (!array_key_exists('read', $updatearray)) {
+            $updatearray['read'] = array();
+        }
+        if (!array_key_exists('write', $updatearray)) {
+            $updatearray['write'] = array();
+        }
         // Find out which identifiers are being written to and which are being red from.
         // Simply go through the AST if it exists.
         if ($this->ast !== null) {

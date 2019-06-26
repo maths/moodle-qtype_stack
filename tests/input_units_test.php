@@ -240,8 +240,8 @@ class stack_units_input_test extends qtype_stack_testcase {
         $state = $el->validate_student_response(array('sans1' => '9.81 m/s^2'), $options, '9.81*m/s^2', array('tans'));
         $this->assertEquals(stack_input::INVALID, $state->status);
         $this->assertEquals("spaces", $state->note);
-        $this->assertEquals('9.81 m/s^2', $state->contentsmodified);
-        $this->assertEquals('<span class="stacksyntaxexample">9.81 m/s^2</span>', $state->contentsdisplayed);
+        $this->assertEquals('9.81*m/s^2', $state->contentsmodified);
+        $this->assertEquals('<span class="stacksyntaxexample">9.81*m/s^2</span>', $state->contentsdisplayed);
     }
 
     public function test_validate_student_response_student_edgecase() {
@@ -622,7 +622,7 @@ class stack_units_input_test extends qtype_stack_testcase {
         $el->set_parameter('options', 'negpow');
         $state = $el->validate_student_response(array('sans1' => '?*m/s^2'), $options, '9.81*m/s^2', null);
         $this->assertEquals(stack_input::INVALID, $state->status);
-        $this->assertEquals('QMCHAR*m/s^2', $state->contentsmodified);
+        $this->assertEquals('?*m/s^2', $state->contentsmodified);
         $this->assertEquals('\[ \color{red}{?}\, \mathrm{m}\, \mathrm{s}^ {- 2 } \]', $state->contentsdisplayed);
     }
 

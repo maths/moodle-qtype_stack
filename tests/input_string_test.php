@@ -113,7 +113,7 @@ class stack_string_input_test extends qtype_stack_testcase {
         $state = $el->validate_student_response(array('sans1' => ' Some whitespace  '), $options, '"A random string"', null);
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('" Some whitespace  "', $state->contentsmodified);
-        $this->assertEquals('\[ \mbox{ Some whitespace  } \]', $state->contentsdisplayed);
+        $this->assertEquals('\[ \mbox{ Some whitespace } \]', $state->contentsdisplayed);
     }
 
     public function test_validate_string_hideanswer() {

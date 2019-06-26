@@ -1282,7 +1282,7 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
                 $this->get_no_hint_visible_expectation()
         );
         $this->assertEquals('ans1: x [valid]; ans2: x^2 [score]; ans3: x+3 [valid]; ans4: true [score]; '
-                . 'odd: #; even: even-0-1; oddeven: #; unique: ATLogic_True | unique-0-1',
+                . 'odd: #; even: even-0-1; oddeven: #; unique: ATLogic_True. | unique-0-1',
                 $this->quba->get_response_summary($this->slot));
 
         // Step 8.
@@ -1311,7 +1311,7 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
                 $this->get_no_hint_visible_expectation()
         );
         $this->assertEquals('ans1: x [score]; ans3: x+3 [score]; ans4: true [score]; '
-                . 'odd: odd-0-1; even: #; oddeven: oddeven-0-0 | oddeven-1-0; unique: ATLogic_True | unique-0-1',
+                . 'odd: odd-0-1; even: #; oddeven: oddeven-0-0 | oddeven-1-0; unique: ATLogic_True. | unique-0-1',
                 $this->quba->get_response_summary($this->slot));
 
         // Step 9.
@@ -1340,7 +1340,7 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
                 $this->get_no_hint_visible_expectation()
         );
         $this->assertEquals('ans1: x^3 [valid]; ans2: x^2 [valid]; ans3: 0 [valid]; ans4: true [score]; '
-                . 'odd: #; even: #; oddeven: #; unique: ATLogic_True | unique-0-1',
+                . 'odd: #; even: #; oddeven: #; unique: ATLogic_True. | unique-0-1',
                 $this->quba->get_response_summary($this->slot));
 
         // Step 10.
@@ -1369,7 +1369,7 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
                 $this->get_no_hint_visible_expectation()
         );
         $this->assertEquals('ans1: x^3 [score]; ans2: x^2 [score]; ans3: 0 [score]; ans4: true [score]; '
-                . 'odd: odd-0-1; even: even-0-1; oddeven: oddeven-0-1 | oddeven-1-1; unique: ATLogic_True | unique-0-1',
+                . 'odd: odd-0-1; even: even-0-1; oddeven: oddeven-0-1 | oddeven-1-1; unique: ATLogic_True. | unique-0-1',
                 $this->quba->get_response_summary($this->slot));
 
         // Submit all and finish - should update state from complete to gradedright.
@@ -1396,7 +1396,7 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
                 $this->get_no_hint_visible_expectation()
         );
         $this->assertEquals('ans1: x^3 [score]; ans2: x^2 [score]; ans3: 0 [score]; ans4: true [score]; '
-                . 'odd: odd-0-1; even: even-0-1; oddeven: oddeven-0-1 | oddeven-1-1; unique: ATLogic_True | unique-0-1',
+                . 'odd: odd-0-1; even: even-0-1; oddeven: oddeven-0-1 | oddeven-1-1; unique: ATLogic_True. | unique-0-1',
                 $this->quba->get_response_summary($this->slot));
     }
 

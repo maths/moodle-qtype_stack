@@ -891,9 +891,7 @@ abstract class stack_input {
         // let's find a way of handling it, but not so that we store it into every
         // cas-evaluated item just for this one use.
 
-        //$display = stack_maxima_format_casstring($answer->get_raw_casstring());
-
-        $display = $answer->get_inputform();
+        $display = stack_maxima_format_casstring($answer->get_inputform());
         if ('' != $answer->get_errors()) {
             $valid = false;
             $errors = array(stack_maxima_translate($answer->get_errors()));

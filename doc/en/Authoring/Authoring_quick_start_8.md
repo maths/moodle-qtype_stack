@@ -29,7 +29,8 @@ Let us look at how you import questions from an existing server into your server
 First, you must export the existing questions:
 
 1. log into the module on the Moodle server from which you wish to export questions, and click on `Question bank` in the Administration block. Then click on `Export`,  
-2. Click on `Moodle XML format`, then choose the category you want to export.  Moodle only lets you export individual categories. This will download a file with the all the questions that category.
+2. Click on `Moodle XML format`, then choose the category you want to export.  Moodle only lets you export individual categories. 
+3. Click on `Export questions to file`. This will download a file with the all the questions that category.
 
 To import these questions into your course:
 
@@ -64,17 +65,17 @@ Question behaviours dictate how many attempts students are given and how penalti
 5. Click on `Grade` and fix the `Attempts allowed`.  E.g. you could use `Unlimited` for a practice quiz and `1` for a coursework quiz.  
 6. Click on  `Question behaviour` and choose your desired question behaviour, as discussed above.
 7. Under `Review options`, you can choose what students are allowed to see during or after the quiz. This includes options such as whether their answer is correct, their mark and feedback. We recommend turning off `Right answer` for both practice and coursework quizzes, and allowing `General feedback` (worked solution) to be on for a practice quiz, but off for coursework quizzes.
-8. Finish by clicking `Save and return to module`.  
+8. Finish by clicking `Save and return to course`.  
 
-Don't forget to ensure that the `Show` button next to the quiz is on, as well as the `Show` button next to the topic when you want the students to see the quiz.
+You can toggle whether students can see the quiz/topic by clicking `Edit` and `Show`.
 
 Note, the Moodle question bank will automatically create a category for the quiz.  It is sometimes sensible to put all the questions used in the quiz into this category, but note that you will only see the category if you have previously navigated to the quiz.
 
 ### Adding questions
 
-Turn editing on and click on the quiz then click `Edit quiz`.  
+Click on the quiz, and then `Edit quiz`.  
 
-2. Click `Add`  then click `from a question bank`, select a category then one or more of the STACK questions you have created.
+2. Click `Add`  then click `from question bank`, select a category then one or more of the STACK questions you have created.
 3. Click `Add selected questions to the quiz` then click `Save` and return to the main module page.  
 
 To preview the quiz, click on it, then click `Preview quiz now`.
@@ -83,14 +84,14 @@ To preview the quiz, click on it, then click `Preview quiz now`.
 
 If you have students who need extra time you need to set up `Groups` with these students in. Here is an example for a group of students who need 25% extra time.  
 
-1. In the Administration block, click on `Users`, then `Groups`, then `Create group`.  
+1. Under `Course Adminstration`, click on `Users`, then `Groups`, then `Create group`.  
 2. Give the group a name, e.g. "25% extra time".  You can put more details of who the group is for in the `Group description` box.  Click `Save changes`. 
 3. `Add/remove users`, then click on the ID for a particular student for this group and click `Add` to put them in the group.  Repeat for each student who needs to be in this group.  
-4. Go back and click on the Moodle quiz on the Learn server page.  In the Administration block, click on `Group overrides,` then click `Add group override`, choose the relevant group, set the appropriate `Time limit` for the quiz for that group and click `Save`. 
+4. Go back and click on the Moodle quiz. In the `Quiz Adminstration`, click on `Group overrides`, then click `Add group override`, choose the relevant group, set the appropriate `Time limit` for the quiz for that group and click `Save`. 
 
 ### Viewing results
 
-To see the students' results in Excel for a particular quiz, go to the Moodle server page and in the `Administration` box click on `Activity results`, then click `Export`. Next, choose `Excel spreadsheet`, then click on the quiz' name and click `Download`.  
+To see the students' results in for a particular quiz, go the the quiz, then under `Quiz adminstration` click on `Results`,  then `Grades`. This will let you see all attempts, with the overall grade and the grade for each question. You can choose to download the results in Excel here as well.
 
 # Next steps
 

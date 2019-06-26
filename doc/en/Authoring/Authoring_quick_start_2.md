@@ -16,38 +16,24 @@ For this example, we will be working with a simple integration problem. Below is
 
 (Reproduced with permission from _Advanced Mathematics for AS and A level 2_ (A-level mathematics), Haese Mathematics (2018) [978-1-925489-32-3](http://www.haesemathematics.com/books/advanced-mathematics-2-for-a-level))
 
-Let us focus on the problem of finding \(\int 3(x-1)^{-4} \mathrm{d}x\). As before, we will give our question a **Question name**, say "Integration Example" and a **Question text**, for example the following:
+Let us focus on the problem of finding \(\int 3(x-1)^{-4} \mathrm{d}x\). Create a new STACK question. As before, we will give our question a **Question name**, say "Integration Example".
 
-<textarea readonly="readonly" rows="3" cols="50">
-Find \(\int 3(x-1)^{-4} \mathrm{d}x\).
-[[input:ans1]] [[validation:ans1]]
-</textarea>
-Under input:ans1, we will also provide a **Model answer**:
+### Using question variables
 
-```
--1*(x-1)^(-3)+c
-```
-
-and we will create a simple potential response tree with the answer test  `AlgEquiv`, the variable `ans1` in the `SAns` setting, and the correct answer in the `TAns` setting: `-1*(x-1)^(-3)+c`.
-
-For now, we have set the constant of integration as `c`, so this will be the only allowed variable for the constant of integration. Later, we will look at allowing any variable name for the constant of integration.
-
-## Using question variables
-
-The model answer will normally be referred to more than once, so it is usually easiest to assign the model answer to a "question variable" using the optional [question variables](KeyVals.md#Question_variables) field.
+The next steps would be to add question text, and then to add the teacher's answer `-1*(x-1)^(-3)+c` to the `model answer` field and the `potential response tree`.  However, the expression and model answer will normally be referred to more than once, so it is usually easiest to assign them to "question variables" using the optional [question variables](KeyVals.md#Question_variables) field.
 
 Add the following to the question variables
 
 ```
 exp: 3*(x-1)^(-4);
-ta: int(p,x)+c;
+ta: int(exp,x)+c;
 ```
 
 The coding in question variables is based on Maxima, which has an unusual syntax for assignment.  In particular, the colon `:` is used to assign a value to a variable.  So to assign the value of `5` to `n`, we use the syntax `n:5`. Adding semicolons to the end of each line is optional, but good practice.
 
 Notice we are using the CAS to determine the model answer by calling the `int()` function to find the anti-derivative. When the CAS determines an anti-derivative, it does not include a constant of integration, so we have to add it ourselves.
 
-Now we need to update the rest of the question to use the variables. Replace the question text with
+Now it will be a lot faster to fill out the rest of the question. Add the following to the question text:
 
 <textarea readonly="readonly" rows="3" cols="50">
 Find \(\int{@exp@}dx\)
@@ -58,11 +44,11 @@ Notice that we have defined a local variable `exp`, and used the value of this i
 
 Since we have used `{@exp@}` here, the user will not see a \(exp\) on the screen when the question is instantiated, but the _displayed value_ of `exp`: \(\frac{3}{(x-1)^{-4}}\)
 
-In the input `ans1`, replace the _model answer_ with `ta`.
+In the input `ans1`, specify the `model answer` as the variable `ta`.
 
-In the potential response tree, node 1, replace the expression `TAns` with `ta`.
+In the potential response tree, set the `Answer test` to  `AlgEquiv`, set  `SAns` to `ans1` and set `TAns` to `ta`. 
 
-These changes just propagate the new variables throughout the question.
+It is good practice to use question variables often, as they save time and let you change properties of the question easily in the future.
 
 # Next step #
 

@@ -39,7 +39,7 @@ For each mistake we think students might make, we can create an answer test. For
 
 ![Adding a new node](%CONTENT/add_new_node.png)
 
-Go to the potential response tree and click `[Add another node]` . Then under Node 2's  `True` branch change `Next` to `Node 2`. If we enter Node 2, we know the student has the correct answer and just need to establish if it is factored or not. To establish this we need to use the [FacForm answer test](Answer_tests.md). This tests both that SAns and TAns are equivalent, and that SAns is factored. In this case we already know that the student's answer is equivalent to the teacher's answer (using *Int*'s better tailored algorithm). Hence we can just test the student's answer against itself.
+Go to the potential response tree and click `[Add another node]` . Then under Node 1's  `True` branch change `Next` to `Node 2`. If we enter Node 2, we know the student has the correct answer and just need to establish if it is factored or not. To establish this we need to use the [FacForm answer test](Answer_tests.md). This tests both that SAns and TAns are equivalent, and that SAns is factored. In this case we already know that the student's answer is equivalent to the teacher's answer (using *Int*'s better tailored algorithm). Hence we can just test the student's answer against itself.
 
 Update the form so that Node 2 has
 
@@ -48,7 +48,6 @@ Answer test = FacForm
 SAns = strip_int_const(ans1,x)
 TAns = strip_int_const(ans1,x)
 Test options = x
-Quiet: Yes
 ```
 
 STACK provides a function `strip_int_const` to remove any constant of integration which a student may have used. We again have to specify the variable in `Test options`. 

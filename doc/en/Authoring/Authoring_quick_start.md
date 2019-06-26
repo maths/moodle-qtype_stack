@@ -18,7 +18,7 @@ We assume you are familiar with the following:
 
 ## Creating a minimal STACK question
 
-Go to your Course, navigate to the [question bank](MoodleQuiz.md) and create a new question.
+Go to your Course, navigate to the [question bank](MoodleQuiz.md) and create a new question with the "STACK" question type.
 
 There are lots of fields, but only a few are compulsory:
 

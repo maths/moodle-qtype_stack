@@ -18,7 +18,7 @@ Let's take a look again at the question variables we declared:
 
 ```
 exp: 3*(x-1)^(-4);
-ta: int(p,x)+c;
+ta: int(exp,x)+c;
 ```
 
 We defined two local variables `exp` and `ta`, and used these values in other places such as the question text, input and potential response tree. 
@@ -30,7 +30,7 @@ a1 : 1+rand(6);
 a2 : 1+rand(6);
 nn : 1+rand(4);
 exp : a1*(x-a2)^(-nn);
-ta: int(p, x)+c;
+ta: int(exp, x)+c;
 ```
 
 In this new question we are asking the student to find the anti-derivative of a question with a definite form \(a_1(x-a_2)^-nn\). `a1`, `a2` and `nn` are all variables which are assigned random positive integers.  These are then used to define the variable `exp`, used in the question itself. We also have the CAS integrate the expression `exp` and store the result in the variable `ta`. It is good practice to use variables names with more than one character as single-character variables, like `x`, are meant for student input.

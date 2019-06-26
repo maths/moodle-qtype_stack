@@ -96,9 +96,9 @@ __Question variables:__
 ```
  exp:x^3-2*x^2+x;
  pt:2;
- ta1:diff(p,x);
+ ta1:diff(exp,x);
  ta2:subst(x=pt,diff(p,x));
- ta3:remainder(p,(x-pt)^2);
+ ta3:remainder(exp,(x-pt)^2);
 ```
 
 __Question text__
@@ -157,7 +157,6 @@ Node 2: did they get part 1 correct?  if "yes" then this is the ideal situation,
 <textarea readonly="readonly" rows="2" cols="50">
 Your answer to this part is correct, however you have got part 1 wrong!  Please try both parts again!
 </textarea>
-
 # Next step #
 
 You should now be able to make a multi-part question in STACK. If you have been following this quick-start guide, you should already know some steps you can take to improve this question. For example, you could add [more specific feedback](Authoring_quick_start_3.md), [randomise your question](Authoring_quick_start_4.md) and add [question tests](Authoring_quick_start_5.md).

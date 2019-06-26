@@ -41,7 +41,7 @@ simp:false;
 a2: (3*%e^(%i*pi/2))^4;
 ```
 
-Then type `Simplified: {@a1@} Not simplified: {@a2@}` into the question text. Preview to see the difference.
+Then type `Simplified: {@a1@} Not simplified: {@a2@}` somewhere in the question text. Preview to see the difference.
 
 Solving problems at the level of the CAS instead at the level of the display is often better. To tell STACK to set `simp:false` throughout the question, scroll towards the bottom of the form and under `Options`, set `Question-level simplify` to `No`.
 
@@ -54,9 +54,9 @@ aa : ev(2+rand(15),simp);
 In particular, we can define the question variables as follows.
 
 ```
-aa : ev(2+rand(15),simp);
-bb : ev((-1)^rand(2)*((1+rand(10)))/(2+rand(15)),simp);
-nn : ev(3+rand(20),simp);
+aa : ev(2+rand(10),simp);
+bb : ev(2+rand(10),simp);
+nn : ev(2+rand(5),simp);
 qq : aa*%e^(bb*%i*pi);
 ```
 
@@ -64,16 +64,16 @@ An alternative, when many consecutive expressions need to be simplified, is the 
 
 ```
 simp : true;
-aa : 2+rand(15);
-bb : (-1)^rand(2)*((1+rand(10)))/(2+rand(15));
-nn : 3+rand(20);
+aa : 2+rand(10);
+bb : 2+rand(10);
+nn : 2+rand(5);
 simp : false;
 qq : aa*%e^(bb*%i*pi);
 ```
 
 ### Unary minus
 
-The particular circumstances will dictate if it is better to have lots of variables and use the display, or whether to turn `simp:false` and work with this.  A common problem arises with the unary minus. Consider a question text such as `y={@aa@}+{@cc@}`. If \(cc<0\), the expression will be displayed as \(y=3+-5\), for example.  While simplification is "off", the display routines in Maxima will (often) cope with the unary minus in a sensible way.
+The particular circumstances will dictate if it is better to have lots of variables and use the display, or whether to turn `simp:false` and work with this.  A common problem arises with the unary minus. Consider a question text such as `y={@aa@}+{@cc@}`. If \(`cc`<0\), the expression will be displayed as \(y=3+-5\), for example.  While simplification is "off", the display routines in Maxima will (often) cope with the unary minus in a sensible way.
 
 # Next step
 

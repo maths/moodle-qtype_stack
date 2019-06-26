@@ -1,210 +1,71 @@
+# Authoring Quick Start 2: Question Variables
+
+Authoring Quick Start: [1 - First Question](Authoring_quick_start.md) | <u>2 - Question Variables</u> | [3 - Feedback](Authoring_quick_start_3.md) |[4 - Randomisation](Authoring_quick_start_4.md) | [5 - Question Tests](Authoring_quick_start_5.md) | [6 - Multiple-part Questions](Authoring_quick_start_6.md) | [7 - Simplification](Authoring_quick_start_7.md) | [8 - Quizzes](Authoring_quick_start_8.md)
 
 
 
+This part of the Authoring Quick Start Guide deals with using question variables. The following video explains the process:
 
-# Authoring quick start 2: multi-part mathematical questions
+EMBED VIDEO HERE
 
-This is the second part of the [authoring quick start](Authoring_quick_start.md).  The purpose is to write multi-part questions.
+## Example question
 
-### Example 1 ###
+For this example, we will be working with a simple integration problem. Below is a typical set of practice exercises.
 
-Find the equation of the line tangent to \(x^3-2x^2+x\) at the point \(x=2\).
+![Integration exercises](C:/Users/msporrin/Documents/Stack/Documentation/%25CONTENT/IntegrationExercises.jpg)
 
-1. Differentiate \(x^3-2x^2+x\) with respect to \(x\).
-2. Evaluate your derivative at \(x=2\).
-3. Hence, find the equation of the tangent line. \(y=...\)
+(Reproduced with permission from _Advanced Mathematics for AS and A level 2_ (A-level mathematics), Haese Mathematics (2018) [978-1-925489-32-3](http://www.haesemathematics.com/books/advanced-mathematics-2-for-a-level))
 
-Since all three parts refer to one polynomial, if randomly generated questions are being used then each
-of these parts needs to reference a single randomly generated equation. Hence parts 1.-3. really form
-one item.  Notice here that part 1. is independent of the others. Part 2. requires both the first and second inputs.
-Part 3. could easily be marked independently, or take into account parts 1 & 2. Notice also that the teacher may
-choose to award "follow on" marking.
+Let us focus on the problem of finding \(\int 3(x-1)^{-4} \mathrm{d}x\). As before, we will give our question a **Question name**, say "Integration Example" and a **Question text**, for example the following:
 
-### Example 2 ###
+<textarea readonly="readonly" rows="3" cols="50">
+Find \(\int 3(x-1)^{-4} \mathrm{d}x\).
+[[input:ans1]] [[validation:ans1]]
+</textarea>
+Under input:ans1, we will also provide a **Model answer**:
 
-Consider the following question, asked to relatively young school students.
+```
+-1*(x-1)^(-3)+c
+```
 
-Expand \((x+1)(x+2)\).
+and we will create a simple potential response tree with the answer test  `AlgEquiv`, the variable `ans1` in the `SAns` setting, and the correct answer in the `TAns` setting: `-1*(x-1)^(-3)+c`.
 
-In the context it is to be used it is appropriate to provide students with the
-opportunity to "fill in the blanks", in the following equation.
+For now, we have set the constant of integration as `c`, so this will be the only allowed variable for the constant of integration. Later, we will look at allowing any variable name for the constant of integration.
 
-    (x+1)(x+2) = [?] x2 + [?] x + [?].
+## Using question variables
 
-We argue this is really "one question" with "three inputs".
-Furthermore, it is likely that the teacher will want the student to complete all boxes
-before any feedback is assigned, even if separate feedback is generated for each input
-(i.e. coefficient). This feedback should all be grouped in one place on the screen. Furthermore,
-in order to identify the possible causes of algebraic mistakes, an automatic marking procedure
-will require all coefficient simultaneously. It is not satisfactory to have three totally
-independent marking procedures.
+The model answer will normally be referred to more than once, so it is usually easiest to assign the model answer to a "question variable" using the optional [question variables](KeyVals.md#Question_variables) field.
 
-These two examples illustrate two extreme positions.
+Add the following to the question variables
 
-1. All inputs within a single multi-part item can be assessed independently.
-2. All inputs within a single multi-part item must be completed before the item can be scored.
+```
+exp: 3*(x-1)^(-4);
+ta: int(p,x)+c;
+```
 
-Devising multi-part questions which satisfy these two extreme positions would be relatively straightforward.
-However, it is more common to have multi-part questions which are between these extremes, as in the case of our first example.
+The coding in question variables is based on Maxima, which has an unusual syntax for assignment.  In particular, the colon `:` is used to assign a value to a variable.  So to assign the value of `5` to `n`, we use the syntax `n:5`. Adding semicolons to the end of each line is optional, but good practice.
 
-### Response processing ###
+Notice we are using the CAS to determine the model answer by calling the `int()` function to find the anti-derivative. When the CAS determines an anti-derivative, it does not include a constant of integration, so we have to add it ourselves.
 
-Response processing is the means by which a student's answer is evaluated and feedback, of various forms,
-assigned. The crucial observation in STACK is a complete separation between two important components.
+Now we need to update the rest of the question to use the variables. Replace the question text with
 
-1. a list of [inputs](Inputs.md);
-2. a list of [potential response trees](Potential_response_trees.md).
-
-## [Inputs](Inputs.md) ##
-
-The [question text](CASText.md#question_text), i.e. the text actually displayed to the student, may have an arbitrary number of [inputs](Inputs.md). An element may be positioned
-anywhere within the question text, including within mathematical expressions, e.g. equations (_note_: MathJax currently does not support form elements within equations).
-Each input will be associated with a number of fields. For example
-
-1. The name of a CAS variable to which the student's answer (if any) is assigned during response processing.
-   This could be automatically assigned, e.g. in order `ans1`, `ans2`, etc. Each variable is known as an answer variable.
-2. The type of the input. Examples include
-  1. direct linear algebraic input, e.g. `2*e^x`.
-  2. graphical input tool, e.g. a slider.
-  3. True/False selection.
-3. The teacher's correct answer.
-
-## [Potential response trees](Potential_response_trees.md) ##
-
-A potential response tree (technically an acyclic directed graph) consists of an arbitrary number of linked nodes
-we call potential responses. In each node two expressions are compared using a specified Answer Test,
-and the result is either TRUE or FALSE. A corresponding branch of the tree has the opportunity to
-
-1. Adjust the score, (e.g. assign a value, add or subtract a value);
-2. Add written feedback specifically for the student;
-3. Generate an "Answer Note", used by the teacher for evaluative assessment;
-4. Nominate the next node, or end the process.
-
-Each question will have zero or more potential response trees. For each potential response tree there will be the following.
-
-1. A maximum number of marks available, i.e. score.
-2. A list of which answer variables are required for this response tree. Only when a student has
-   provided a **valid** response to all the elements in this list will the tree be traversed and outcomes assigned.
-3. A collection of potential response variables, which may depend on the relevant answer variables, question
-   variables and so on. These are evaluated before the potential response tree is traversed.
-4. A nominated point in the question itself into which feedback is inserted.
-   This feedback will be the mark, and textual feedback generated by this tree.
-
-Permitting zero potential response trees is necessary to include a survey question which is not
-automatically scored. An input which is not used in any potential response tree is
-therefore treated as a survey and is simply recorded.
-
-To illustrate multi-part mathematical questions we start by authoring an example.  We assume you have just worked through the [author quick start guide](Authoring_quick_start.md) so that this is somewhat abbreviated.
-
-## Authoring a multi-part question ##
-
-Start with a new STACK question, and give the question a name, e.g. "Tangent lines".  This question will have three parts.  Start by copying the question variables and question text as follows.  Notice that we have not included any randomization, but we have used variable names at the outset to facilitate this.
-
-__Question variables:__
-
-     p:x^3-2*x^2+x;
-     pt:2;
-     ta1:diff(p,x);
-     ta2:subst(x=pt,diff(p,x));
-     ta3:remainder(p,(x-pt)^2);
-
-__Question text__
-
-This text should be copied into the editor in HTML mode.
-
-<textarea readonly="readonly" rows="5" cols="120">
-<p>Find the equation of the line tangent to {@p@} at the point \(x={@pt@}\).</p>
-<p>1. Differentiate {@p@} with respect to \(x\). [[input:ans1]] [[validation:ans1]] [[feedback:prt1]]</p>
-<p>2. Evaluate your derivative at \(x={@pt@}\). [[input:ans2]] [[validation:ans2]] [[feedback:prt2]]</p>
-<p>3. Hence, find the equation of the tangent line. \(y=\)[[input:ans3]] [[validation:ans3]] [[feedback:prt3]]</p>
+<textarea readonly="readonly" rows="3" cols="50">
+Find \(\int{@exp@}dx\)
+[[input:ans1]] [[validation:ans1]]
 </textarea>
 
-Fill in the answer for `ans1` (which exists by default) and remove the `feedback` tag from the "specific feedback" section.  We choose to embed feedback within parts of this question.
-Notice there is one potential response tree for each "part".
+Notice that we have defined a local variable `exp`, and used the value of this in the Question text. There is a difference between mathematics enclosed between `\(..\)` symbols and `{@..@}` symbols. All the text-based fields in the question, including feedback, are [CAS text](CASText.md).  This is HTML into which mathematics can be inserted.  LaTeX is placed between `\(..\)`s, and CAS expressions (including your variables) between matching `{@..@}` symbols.  The CAS expressions are evaluated in the context of the question variables and displayed as LaTeX.
 
-Update the form and then ensure the Model Answers are filled in as `ta1`, `ta2` and `ta3`.
+Since we have used `{@exp@}` here, the user will not see a \(exp\) on the screen when the question is instantiated, but the _displayed value_ of `exp`: \(\frac{3}{(x-1)^{-4}}\)
 
-STACK has created the three potential response trees by detecting the feedback tags automatically.  Next we need to edit potential response trees.  These will establish the properties of the student's answers.
+In the input `ans1`, replace the _model answer_ with `ta`.
 
-###Stage 1: getting a working question###
+In the potential response tree, node 1, replace the expression `TAns` with `ta`.
 
-The first stage is to include the simplest potential response trees.  These will simply ensure that answers are "correct".  In each potential response tree, make sure that \(\mbox{ans}_i\) is algebraically equivalent to \(\mbox{ta}_i\), for \(i=1,2,3\).  At this stage we have a working question.  Save it and preview the question.  For reference the correct answers are
+These changes just propagate the new variables throughout the question.
 
-     ans1 = 3*x^2-4*x+1
-     ans2 = 5
-     ans3 = 5*x-8
+# Next step #
 
-###Stage 2: follow-through marking###
+You should now be able to use question variables in STACK.
 
-Next we will implement simple follow through marking.
-
-Look carefully at part 2.  This does not ask for the "correct answer" only that the student has evaluated the expression in part 1 correctly at the right point.  So the first task is to establish this property by evaluating the answer given in the first part, and comparing with the second part.  Update node 1 of `prt2` to establish the following.
-
-    AlgEquiv(ans2,subst(x=pt,ans1))
-
-Next, add a single node (to `prt2`), and ensure this node establishes that
-
-    AlgEquiv(ans1,ta1)
-
-We now link the true branch of node 1 to node 2 (of `prt2`).  We now have three outcomes.
-
-Node 1: did they evaluate the expression in part 1 correctly? If "yes" then go to node 2, else if "no" then exit with no marks.
-
-Node 2: did they get part 1 correct?  if "yes" then this is the ideal situation, full marks.  If "no" then choose marks, as suit your taste in this situation, and add some feedback such as the following in Node 2, false feedback.
-
-<textarea readonly="readonly" rows="5" cols="120">
-Your answer to this part is correct, however you have got part 1 wrong!  Please try both parts again!
-</textarea>
-
-###Stage 3: adding question tests###
-
-It is probably sensible to add question tests.  From the question preview window, click on `Question tests & deployed variants` link in the top right of the page.
-
-Add a test to your question which contains the correct answers, as follows.
-
-     ans1 = 3*x^2-4*x+1
-     ans2 = 5
-     ans3 = 5*x-8
-
-The marks should all be "1" and the answer notes as follows.
-
-     prt1 = prt1-1-T
-     prt2 = prt2-2-T
-     prt3 = prt3-1-T
-
-
-Now add a new answer test to check the follow-through marking.  For example, make the following mistake in part 1, but use it in part 2 correctly.
-
-     ans1 = 3*x^2-4
-     ans2 = 8
-     ans3 = y=8*x-8
-
-The marks should all be "0" and the answer notes as follows.
-
-     prt1 = prt1-1-F
-     prt2 = prt2-2-F
-     prt3 = prt3-1-F
-
-When you run the tests you can also look at the feedback to confirm the system is giving the kind of feedback you want for these types of mistake.
-
-###Stage 4: Random question###
-
-Next we can add a randomly generated polynomial to the question.  Because we used variable names throughout the question from the start, this should be a simple matter of redefining the value of `p` in the question variables as follows.
-
-    p : (2+rand(3))*x^3+(2+rand(3))*x^2+(2+rand(3))*x;
-
-You will need to add a non-empty question note to enable grouping of random variants.  E.g. the following string will suffice.
-
-    {@p@}
-
-We now need to update the question tests to reflect this.  In the first test, you are free to use `ta1` etc. to specify the correct answers.
-
-In the second test you might as well leave the test as is.
-
-# Next steps #
-
-* You might like to look at the entry for [feedback](Feedback.md).
-* You might like to look at more information on [Maxima](../CAS/index.md), particularly the Maxima documentation if you are not very familiar with Maxima's syntax and function names. A graphical Maxima interface like [wxMaxima](http://andrejv.github.com/wxmaxima/) can also be very helpful for finding the appropriate Maxima commands easily.
-
-The next part of the authoring quick start guide looks at [turning simplification off](Authoring_quick_start_3.md).
-
+##### The next part of the authoring quick start guide looks at [improving feedback](Authoring_quick_start_3.md).

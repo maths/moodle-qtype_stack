@@ -47,14 +47,14 @@ class stack_anstest {
     protected $tanskey;
 
     /**
+     * @var    stack_ast_container
+     */
+    protected $atoption = null;
+
+    /**
      * @var    string
      */
     protected $options;
-
-    /**
-     * @var    stack_ast_container
-     */
-    protected $atoption;
 
     /**
      * @var    float
@@ -97,7 +97,7 @@ class stack_anstest {
         $this->tanskey = $tans;
 
         if (!(null === $options || is_a($options, 'stack_options'))) {
-            throw new stack_exception('stack_anstest_atnumsigfigs: options must be stack_options or null.');
+            throw new stack_exception('stack_anstest: options must be stack_options or null.');
         }
 
         if ($options != null) {

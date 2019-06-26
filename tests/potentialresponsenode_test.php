@@ -109,13 +109,14 @@ class stack_potentialresponse_node_test extends qtype_stack_testcase {
         $sans = stack_ast_container::make_from_teacher_source('(x+1)^2');
         $tans = stack_ast_container::make_from_teacher_source('(x+1)^2');
         $tans->get_valid();
-        $node = new stack_potentialresponse_node($sans, $tans, 'FacForm', 'x', false);
+        $opt  = stack_ast_container::make_from_teacher_source('x');
+        $node = new stack_potentialresponse_node($sans, $tans, 'FacForm', $opt, false);
         $node->add_branch(0, '=', 0, '', -1, 'Boo!', FORMAT_HTML, '1-0-0');
         $node->add_branch(1, '=', 2, '', 3, 'Yeah!', FORMAT_HTML, '1-0-1');
 
         $options = new stack_options();
         $result = new stack_potentialresponse_tree_state(1);
-        $nextnode = $node->do_test($sans, $tans, 'x', $options, $result);
+        $nextnode = $node->do_test($sans, $tans, $opt, $options, $result);
 
         $this->assertEquals(true, $result->valid);
         $this->assertEquals('', $result->errors);
@@ -128,14 +129,15 @@ class stack_potentialresponse_node_test extends qtype_stack_testcase {
         $foo  = stack_ast_container::make_from_teacher_source('3*x+6');
         $sans = stack_ast_container::make_from_teacher_source('ans1');
         $tans = stack_ast_container::make_from_teacher_source('3*(x+2)');
+        $opt  = stack_ast_container::make_from_teacher_source('x');
         $tans->get_valid();
-        $node = new stack_potentialresponse_node($sans, $tans, 'FacForm', 'x', false);
+        $node = new stack_potentialresponse_node($sans, $tans, 'FacForm', $opt, false);
         $node->add_branch(0, '=', 0, '', -1, 'Boo!', FORMAT_HTML, '1-0-0');
         $node->add_branch(1, '=', 2, '', 3, 'Yeah!', FORMAT_HTML, '1-0-1');
 
         $options = new stack_options();
         $result = new stack_potentialresponse_tree_state(1);
-        $nextnode = $node->do_test($foo, $tans, 'x', $options, $result);
+        $nextnode = $node->do_test($foo, $tans, $opt, $options, $result);
 
         $this->assertEquals(true, $result->valid);
         $this->assertEquals('', $result->errors);
@@ -151,19 +153,20 @@ class stack_potentialresponse_node_test extends qtype_stack_testcase {
         $sans = stack_ast_container::make_from_teacher_source('ans1');
         $tans = stack_ast_container::make_from_teacher_source('3*(x+2)');
         $tans->get_valid();
-        $node = new stack_potentialresponse_node($sans, $tans, 'FacForm', 'x', true);
+        $opt  = stack_ast_container::make_from_teacher_source('x');
+        $node = new stack_potentialresponse_node($sans, $tans, 'FacForm', $opt, true);
         $node->add_branch(0, '+', 0.5, '', -1, 'Boo! Your answer should be in factored form, i.e. {@factor(ans1)@}.',
                 FORMAT_HTML, '1-0-0');
         $node->add_branch(1, '=', 2, '', 3, 'Yeah!', FORMAT_HTML, '1-0-1');
 
         $options = new stack_options();
         $result = new stack_potentialresponse_tree_state(1, true, 1);
-        $nextnode = $node->do_test($foo, $tans, 'x', $options, $result);
+        $nextnode = $node->do_test($foo, $tans, $opt, $options, $result);
 
         $this->assertEquals(1, count($result->feedback));
         $this->assertEquals('Boo! Your answer should be in factored form, i.e. {@factor(ans1)@}.',
                 $result->feedback[0]->feedback);
 
         $this->assertEquals(1.5, $result->score);
-    }
+      }
 }

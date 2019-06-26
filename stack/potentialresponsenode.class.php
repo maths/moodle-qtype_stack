@@ -53,7 +53,7 @@ class stack_potentialresponse_node {
     private $answertest;
 
     /*
-     * @var string Options taken by the answer test.
+     * @var Options taken by the answer test.
      */
     private $atoptions;
 
@@ -88,13 +88,6 @@ class stack_potentialresponse_node {
             throw new stack_exception('stack_potentialresponse_node: quiet must be a boolean.');
         } else {
             $this->quiet        = $quiet;
-        }
-
-        // This is not a stack_ast_container class, but a string.
-        // Some answertests need non-casstring options, eg. regular expressions.
-        if (is_a($atoptions, 'stack_ast_container')) {
-            throw new stack_exception('stack_potentialresponse_node: ' .
-                    'atoptions must NOT be a stack_ast_container.  This should be a string.');
         }
 
         /*

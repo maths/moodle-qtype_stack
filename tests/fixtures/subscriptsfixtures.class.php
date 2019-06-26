@@ -195,12 +195,18 @@ class stack_subscripts_test_data {
         $options->set_option('multiplicationsign', 'none');
 
         $at1 = new stack_cas_session2($s1, $options, 0);
-        $at1->instantiate();
+        if ($at1->get_valid()) {
+            $at1->instantiate();
+        }
 
         $cs = $s1[0];
         $test->valid = $cs->get_valid();
-        $test->value = $cs->get_value();
-        $test->display = $cs->get_display();
+        $test->value = '';
+        $test->display = '';
+        if ($cs->is_correctly_evaluated()) {
+            $test->value = $cs->get_value();
+            $test->display = $cs->get_display();
+        }
         $test->errors = $cs->get_errors();
         return($test);
     }

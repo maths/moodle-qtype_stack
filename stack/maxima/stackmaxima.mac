@@ -1532,8 +1532,15 @@ ATFunction(SA, SB) := block([RawMark, FeedBack, AnswerNote, df, SA1, SB1, SAd1, 
     RawMark:true, FeedBack:"", AnswerNote:"",
     if not(functionp(SA)) then return([false, 0, "ATFunction_SA_not_function", FeedBack]),
     if not(functionp(SB)) then return([false, 0, "ATFunction_TA_not_function", FeedBack]),
-    SA1:args(SA),  SAd1:second(SA1),
-    SB1:args(SB),  SBd1:second(SB1),
+    /* These may contain errors like 1/0 that need to be caught.
+       Actually also the function signature could have similar issues.
+       But as those have been ignored in the tests lets not catch those. */
+    SA1:args(SA),
+    SB1:args(SB),
+    if not _EC(errcatch(
+      (SAd1:second(SA1),
+       SBd1:second(SB1))),
+    "") then return([false, -1, "", FeedBack]),
     /* Are the functions the same name? */
     if not(is(op(first(SA1)) = op(first(SB1)))) then block(
         AnswerNote:StackAddNote("", "ATFunction_wrongname"),

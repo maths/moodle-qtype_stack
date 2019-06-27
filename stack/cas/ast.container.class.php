@@ -139,12 +139,21 @@ class stack_ast_container extends stack_ast_container_silent implements cas_late
 
     // This returns the fully filttered AST as it should be inputted were
     // it inputted perfectly.
-    public function get_inputform(bool $keyless = false, bool $nounify = false): string {
+    public function get_inputform(bool $keyless = false, $nounify = null): string {
         if ($this->ast) {
+            $params = array('inputform' => true, 'qmchar' => true, 'nosemicolon' => true);
+            if ($nounify !== null) {
+                $params['nounify'] = $nounify;
+            }
+
             if ($keyless === true && $this->get_key() !== '') {
                 $root = $this->ast;
                 if ($root instanceof MP_Root) {
                     // Null items fail here.
+                    // Indeed but there should be no null items, so might as well fail?
+                    // It would be better to fail as it signals that somewhere higher
+                    // in the gode is a logic fail trying to build something on top of
+                    // empty values.
                     if (array_key_exists(0, $root->items)) {
                         $root = $root->items[0];
                     } else {
@@ -154,14 +163,13 @@ class stack_ast_container extends stack_ast_container_silent implements cas_late
                 if ($root instanceof MP_Statement) {
                     $root = $root->statement;
                 }
+
                 if ($root instanceof MP_Operation && $root->op === ':' &&
                     $root->lhs instanceof MP_Identifier) {
-                    return $root->rhs->toString(array('nounify' => $nounify, 'inputform' => true,
-                            'qmchar' => true, 'nosemicolon' => true));
+                    return $root->rhs->toString($params);
                 }
             }
-            return $this->ast->toString(array('nounify' => $nounify, 'inputform' => true,
-                    'qmchar' => true, 'nosemicolon' => true));
+            return $this->ast->toString($params);
         }
         return '';
     }

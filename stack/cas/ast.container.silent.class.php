@@ -320,13 +320,18 @@ class stack_ast_container_silent implements cas_evaluatable {
         // things, the latter list is for those.
         // And in the former one we also need to handle the old way
         // of catching some key errors as answernotes.
+
+        // decode_maxima_errors will probably need to be refactored to three 
+        // separate functions, one for errors, one for answernotes and one
+        // for the feedback.
+
         $this->isevaluated = true;
         if (count($errors) > 0) {
             $errs = array_merge($this->errors, $errors);
             foreach ($errs as $value) {
                 if ($value !== '' && $value !== null) {
                     $this->valid = false;
-                    $this->errors[] = $this->decode_maxima_errors($value, true);
+                    $this->errors[] = $this->decode_maxima_errors($value, false);
                 }
             }
         }
@@ -343,6 +348,7 @@ class stack_ast_container_silent implements cas_evaluatable {
             foreach ($feedback as $value) {
                 if ($value !== '' && $value !== null) {
                     $this->feedback[] = $value;
+                    $this->decode_maxima_errors($value, true);
                 }
             }
         }

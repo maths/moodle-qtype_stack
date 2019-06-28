@@ -207,11 +207,6 @@ class stack_cas_session2 {
         $command = 'block([],stack_randseed(' . $this->seed . ')';
         // The options.
         $command .= $this->options->get_cas_commands()['commands'];
-        // For whatever reason if simplify is false then optiosn does not include it...
-        if (!$this->options->get_option('simplify')) {
-            // TODO: fix either options or tune the surrounding settings.
-            $command .= ',simp:false';
-        }
         // Some parts of logic storage.
         $command .= ',_RESPONSE:["stack_map"]';
         $command .= ',_VALUES:["stack_map"]';

@@ -122,7 +122,7 @@ class stack_options {
             if (!array_key_exists($key, $this->options)) {
                 throw new stack_exception('stack_options construct: $key '.$key.' is not a valid option name.');
             } else {
-                $this->options[$key] = $val;
+                $this->options[$key]['value'] = $val;
             }
         }
     }

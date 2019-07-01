@@ -219,7 +219,6 @@ class stack_cas_text_test extends qtype_stack_testcase {
     public function test_not_confused_by_pluginfile() {
         $ct = new stack_cas_text('Here {@x@} is some @@PLUGINFILE@@ {@x + 1@} some input', null, 0);
         $this->assertTrue($ct->get_valid());
-        //$this->assertEquals(array('x', 'x + 1'), $ct->get_all_raw_casstrings());
         $this->assertEquals('Here \({x}\) is some @@PLUGINFILE@@ \({x+1}\) some input', $ct->get_display_castext());
     }
 
@@ -228,7 +227,6 @@ class stack_cas_text_test extends qtype_stack_testcase {
                 'src="@@PLUGINFILE@@/inclined-plane.png" alt="" width="164" height="117" /></p>';
         $ct = new stack_cas_text($realexample);
         $this->assertTrue($ct->get_valid());
-        //$this->assertEquals(array(), $ct->get_all_raw_casstrings());
         $this->assertEquals($realexample, $ct->get_display_castext());
     }
 
@@ -278,23 +276,6 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $this->assertEquals($val, $at1->get_all_raw_casstrings());
     }
 */
-    /* Keys are not needed after 4.3.
-    public function test_auto_generated_key_names() {
-
-        $a2 = array('a:x^2', 'caschat0:x^3');
-        $s2 = array();
-        foreach ($a2 as $s) {
-            $s2[] = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security(), array());
-        }
-        $cs2 = new stack_cas_session2($s2, null, 0);
-
-        $at1 = new stack_cas_text("This is some text {@x^2@}, {@x^3@}", $cs2, 0);
-        $at1->get_display_castext();
-        $session = $at1->get_session();
-        $this->assertEquals(array('a', 'caschat0', 'caschat1', 'caschat2'), $session->get_all_keys());
-    }
-    */
-
     public function test_redefine_variables() {
         // Notice this means that within a session the value of n has to be returned at every stage....
         $at1 = new stack_cas_text(
@@ -312,23 +293,6 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $this->assertContains(stack_string('calc_diff_linearity_rule_name'), $output);
         $this->assertContains(stack_string('calc_diff_linearity_rule_fact'), $output);
     }
-
-/* TODO: now that teachers can use pretty much anything and the insert stars
-   logic is largely ignored for teacher content we need to think this test through.
-    public function test_bad_variablenames() {
-        // NOTE: Consider this test, when does the student actually write castext?
-        // And insert stars in that case surely does not matter much.
-        $cs = new stack_cas_session2(array(), null, 0);
-        $rawcastext = '\[\begin{array}{rcl} & =& {@Ax2@} + {@double_cAx@} + {@c2A@} + {@Bx2@} + {@cBx@} + {@Cx@},\\ & =' .
-                '& {@ApBx2@} + {@xterm@} + {@c2A@}. \end{array}\] Matching coefficients \[\begin{array}{rcl} A + B& =' .
-                '& {@a@}\,\\ {@double_cA + cB@} + C& =& 0,\\ {@Ac2@}& =& {@b@}. \end{array}\]';
-        $at1 = new stack_cas_text($rawcastext, $cs, 0, 's', false, 0);
-
-        $this->assertFalse($at1->get_valid());
-        $this->assertEquals('<span class="error">CASText failed validation. </span>CAS commands not valid.  You seem to be missing * characters. Perhaps you meant to type <span class="stacksyntaxexample">Ax<font color="red">*</font>2</span>. Forbidden variable or constant: <span class="stacksyntaxexample">double</span>. Forbidden variable or constant: <span class="stacksyntaxexample">cAx</span>. You seem to be missing * characters. Perhaps you meant to type <span class="stacksyntaxexample">c<font color="red">*</font>2<font color="red">*</font>A</span>. You seem to be missing * characters. Perhaps you meant to type <span class="stacksyntaxexample">Bx<font color="red">*</font>2</span>. Forbidden variable or constant: <span class="stacksyntaxexample">cBx</span>.  You seem to be missing * characters. Perhaps you meant to type <span class="stacksyntaxexample">ApBx<font color="red">*</font>2</span>. Forbidden variable or constant: <span class="stacksyntaxexample">xterm</span>. Forbidden variable or constant: <span class="stacksyntaxexample">double</span>. You seem to be missing * characters. Perhaps you meant to type <span class="stacksyntaxexample">Ac<font color="red">*</font>2</span>.',
-                        $at1->get_errors());
-    }
-*/
 
     public function test_assignmatrixelements() {
         // Assign a value to matrix entries.
@@ -393,7 +357,6 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $at1->get_display_castext();
 
         $session = $at1->get_session();
-        // $this->assertEquals(array('p', 'caschat0'), $session->get_all_keys());
 
         $this->assertTrue(is_int(strpos($at1->get_display_castext(),
                 ".svg' alt='STACK auto-generated plot of x^3 with parameters [[x,-2,3]]'")));
@@ -414,7 +377,6 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $at1->get_display_castext();
 
         $session = $at1->get_session();
-        // $this->assertEquals(array('p', 'caschat0'), $session->get_all_keys());
         $this->assertTrue(is_int(strpos($at1->get_display_castext(), ".svg' alt='Hello World!'")));
     }
 
@@ -433,7 +395,6 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $at1->get_display_castext();
 
         $session = $at1->get_session();
-        // $this->assertEquals(array('p', 'caschat0'), $session->get_all_keys());
         $this->assertTrue(is_int(strpos($at1->get_errors(), "Plot error: the alt tag definition must be a string, but is not.")));
     }
 
@@ -481,7 +442,6 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $at1->get_display_castext();
 
         $session = $at1->get_session();
-        // $this->assertEquals(array('caschat0'), $session->get_all_keys());
         $this->assertTrue(is_int(strpos($at1->get_errors(),
                 "Plot error: STACK does not currently support the following plot2d options:")));
     }
@@ -757,7 +717,7 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $this->assertTrue($at2->get_valid());
         $at2->get_display_castext();
 
-        $this->assertContentWithMathsEquals(
+        $this->assert_content_with_maths_equals(
             'Decimal numbers \({0.1}\), \({0.01}\), \({0.001}\), \({1.0e-4}\), \({1.0e-5}\).',
             $at2->get_display_castext());
     }
@@ -796,7 +756,7 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $this->assertTrue($at2->get_valid());
         $at2->get_display_castext();
 
-        $this->assertContentWithMathsEquals(
+        $this->assert_content_with_maths_equals(
                 'Decimal numbers \({1.0e-1}\), \({1.0e-2}\), \({1.0e-3}\), \({1.0e-4}\), \({1.0e-5}\).',
                 $at2->get_display_castext());
     }
@@ -818,7 +778,7 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $this->assertTrue($at2->get_valid());
         $at2->get_display_castext();
 
-        $this->assertContentWithMathsEquals(
+        $this->assert_content_with_maths_equals(
                 'Decimal number \({1.0e-6}\).',
                 $at2->get_display_castext());
     }
@@ -832,7 +792,7 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $this->assertTrue($at2->get_valid());
         $at2->get_display_castext();
 
-        $this->assertContentWithMathsEquals(
+        $this->assert_content_with_maths_equals(
                 'The decimal number \({73}\) is written in base \(2\) as \({1001001}\), in base \(7\) as \({133}\), ' .
                 'in scientific notation as \({7.3e+1}\) and in rhetoric as \({\mbox{seventy-three}}\).',
                 $at2->get_display_castext());
@@ -979,7 +939,8 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $this->assertTrue($at1->get_valid());
         $at1->get_display_castext();
 
-        $this->assertEqualsIgnoreSpacesAndE('\({\lambda\left(\left[ x , n \right]  , {\it significantfigures}\left(x , n\right)\right)}\), \({3}\)',
+        $this->assertEqualsIgnoreSpacesAndE('\({\lambda\left(\left[ x , n \right]  , ' .
+                '{\it significantfigures}\left(x , n\right)\right)}\), \({3}\)',
             $at1->get_display_castext());
     }
 
@@ -1007,7 +968,8 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $this->assertTrue($at1->get_valid());
         $at1->get_display_castext();
 
-        $this->assertEqualsIgnoreSpacesAndE('Standard: \({1234}\). Scientific notation: \({1.234E+3}\). With commas: \({1,234}\). ' .
+        $this->assertEqualsIgnoreSpacesAndE('Standard: \({1234}\). ' .
+                'Scientific notation: \({1.234E+3}\). With commas: \({1,234}\). ' .
                 'Ordinal rethoric: \({\mbox{one thousand two hundred thirty-fourth}}\). ' .
                 'Roman numerals: \({MCCXXXIV}\).',
                 $at1->get_display_castext());

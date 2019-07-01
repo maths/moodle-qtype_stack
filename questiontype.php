@@ -1563,6 +1563,11 @@ class qtype_stack extends question_type {
         // standard array of strings format.
         foreach ($errors as $field => $messages) {
             if ($messages) {
+                foreach ($messages as $key => $val) {
+                    if (is_array($val)) {
+                        $messages[$key] = implode(' ', $val);
+                    }
+                }
                 $errors[$field] = implode(' ', $messages);
             } else {
                 unset($errors[$field]);
@@ -1718,7 +1723,8 @@ class qtype_stack extends question_type {
                 // For example, the matrix input type could check that the model answer is a matrix.
             }
 
-            if ($fromform[$inputname . 'options'] && $inputsession->get_by_key('optionsfor' . $inputname)->get_errors() !== '') {
+            if ($fromform[$inputname . 'options'] && $inputsession->get_by_key('optionsfor' . $inputname)
+                    && $inputsession->get_by_key('optionsfor' . $inputname)->get_errors() !== '') {
                 $errors[$inputname . 'options'][] = $inputsession->get_by_key('optionsfor' . $inputname)->get_errors();
             }
             // ... else TODO: Send the actual value to the input, and ask it to validate it.

@@ -19,7 +19,7 @@ define('CLI_SCRIPT', true);
 // This script generates unit-tests for AST-filters using a common
 // list of example inputs. The generated tests exist only to document
 // and freeze the behaviour of the filters. When running this
-// script it overwrites the existing tests so do check if you agree 
+// script it overwrites the existing tests so do check if you agree
 // with the diffs.
 //
 // @copyright  2019 Aalto University.
@@ -39,14 +39,13 @@ require_once(__DIR__ . '/../stack/utils.class.php');
 $devnull = array(); // We really do not care about what goes here.
 
 // Load the test-inputs.
-$inputs = json_decode(file_get_contents(__DIR__ . '/../tests/fixtures/test_strings.json'), 
-                      true);
+$inputs = json_decode(file_get_contents(__DIR__ . '/../tests/fixtures/test_strings.json'), true);
 $inputs = array_unique($inputs);
 
-// Ensure that the inputs are parseable
+// Ensure that the inputs are parseable.
 $okinputs = array();
 foreach ($inputs as $input) {
-    $test = maxima_corrective_parser::parse($input, 
+    $test = maxima_corrective_parser::parse($input,
             $devnull, $devnull, array('startRule' => 'Root',
             'letToken' => stack_string('equiv_LET')));
     if ($test !== null) {
@@ -55,10 +54,9 @@ foreach ($inputs as $input) {
 }
 $inputs = $okinputs;
 
-
 // The filters to test.
 $filters = array();
-foreach(stack_parsing_rule_factory::list_filters() as $filter) {
+foreach (stack_parsing_rule_factory::list_filters() as $filter) {
     $filters[$filter] = stack_parsing_rule_factory::get_by_common_name($filter);
 }
 
@@ -84,11 +82,11 @@ foreach ($filters as $key => $filter) {
     $asts['units'][$key] = array();
     $asts['no units'][$key] = array();
     foreach ($inputs as $input) {
-        $ast = maxima_corrective_parser::parse($input, 
+        $ast = maxima_corrective_parser::parse($input,
             $devnull, $devnull, array('startRule' => 'Root',
             'letToken' => stack_string('equiv_LET')));
         $asts['units'][$key][$input] = $ast;
-        $ast = maxima_corrective_parser::parse($input, 
+        $ast = maxima_corrective_parser::parse($input,
             $devnull, $devnull, array('startRule' => 'Root',
             'letToken' => stack_string('equiv_LET')));
         $asts['no units'][$key][$input] = $ast;
@@ -98,7 +96,8 @@ foreach ($filters as $key => $filter) {
 
 $parsetime = microtime(true) - $start;
 
-cli_writeln('Parsed the test inputs ' . (2*count($filters)) . ' ('. $total . ') times. Average parsetime was ' . (1000*$parsetime/$total) . 'ms');
+cli_writeln('Parsed the test inputs ' . (2 * count($filters)) . ' ('. $total . ') times. Average parsetime was ' .
+        (1000 * $parsetime / $total) . 'ms');
 
 cli_writeln('');
 
@@ -134,14 +133,14 @@ foreach ($filters as $key => $filter) {
 cli_writeln('By average time usage the filters are:');
 asort($filtertimes);
 foreach ($filtertimes as $name => $time) {
-    cli_writeln(sprintf(' %01.4fms %s', 1000.0*$time/(2.0*count($inputs)), $name));
+    cli_writeln(sprintf(' %01.4fms %s', 1000.0 * $time / (2.0 * count($inputs)), $name));
 }
 
 cli_writeln('');
 
 cli_heading('Now generating the tests');
 
-// Some common things
+// Some common things.
 $nl = "\n";
 $indent = '    ';
 $indent2 = $indent . $indent;
@@ -159,14 +158,13 @@ function escp(string $string): string {
     // TODO: for coding style we should not use double quotes unless necessary.
     $a = addslashes($string);
     if (strpos($a, "'") === false) {
-        $a = str_replace('\"', '"', $a);        
+        $a = str_replace('\"', '"', $a);
         return "'$a'";
     }
 
     $a = str_replace("\'", "'", $a);
     return '"' . $a . '"';
 }
-
 
 // Place to store all the code.
 $generatedcode = array();
@@ -210,21 +208,29 @@ ESCAPE;
     $testpassivenounits .= $indent2 . '$this->security = new stack_cas_security(false);' . $nl;
 
     if (substr($key, 0, 3) !== '000') {
-        $testactiveunits .= $indent2 . '$this->filter = stack_parsing_rule_factory::get_by_common_name(\'' . addslashes($key) . '\');' . $nl . $nl;
-        $testpassiveunits .= $indent2 . '$this->filter = stack_parsing_rule_factory::get_by_common_name(\'' . addslashes($key) . '\');' . $nl . $nl;
-        $testactivenounits .= $indent2 . '$this->filter = stack_parsing_rule_factory::get_by_common_name(\'' . addslashes($key) . '\');' . $nl . $nl;
-        $testpassivenounits .= $indent2 . '$this->filter = stack_parsing_rule_factory::get_by_common_name(\'' . addslashes($key) . '\');' . $nl . $nl;
+        $testactiveunits .= $indent2 . '$this->filter = stack_parsing_rule_factory::get_by_common_name(\'' . addslashes($key) .
+            '\');' . $nl . $nl;
+        $testpassiveunits .= $indent2 . '$this->filter = stack_parsing_rule_factory::get_by_common_name(\'' . addslashes($key) .
+            '\');' . $nl . $nl;
+        $testactivenounits .= $indent2 . '$this->filter = stack_parsing_rule_factory::get_by_common_name(\'' . addslashes($key) .
+            '\');' . $nl . $nl;
+        $testpassivenounits .= $indent2 . '$this->filter = stack_parsing_rule_factory::get_by_common_name(\'' . addslashes($key) .
+            '\');' . $nl . $nl;
     } else {
-        $testactiveunits .= $indent2 . '$this->filter = stack_parsing_rule_factory::get_filter_pipeline(array(), array(), true);' . $nl . $nl;
-        $testpassiveunits .= $indent2 . '$this->filter = stack_parsing_rule_factory::get_filter_pipeline(array(), array(), true);' . $nl . $nl;
-        $testactivenounits .= $indent2 . '$this->filter = stack_parsing_rule_factory::get_filter_pipeline(array(), array(), true);' . $nl . $nl;
-        $testpassivenounits .= $indent2 . '$this->filter = stack_parsing_rule_factory::get_filter_pipeline(array(), array(), true);' . $nl . $nl;
+        $testactiveunits .= $indent2 .
+            '$this->filter = stack_parsing_rule_factory::get_filter_pipeline(array(), array(), true);' . $nl . $nl;
+        $testpassiveunits .= $indent2 .
+            '$this->filter = stack_parsing_rule_factory::get_filter_pipeline(array(), array(), true);' . $nl . $nl;
+        $testactivenounits .= $indent2 .
+            '$this->filter = stack_parsing_rule_factory::get_filter_pipeline(array(), array(), true);' . $nl . $nl;
+        $testpassivenounits .= $indent2 .
+            '$this->filter = stack_parsing_rule_factory::get_filter_pipeline(array(), array(), true);' . $nl . $nl;
     }
 
 
     foreach ($inputs as $input) {
         // What does it look if nothing changes.
-        $base = maxima_corrective_parser::parse($input, 
+        $base = maxima_corrective_parser::parse($input,
             $devnull, $devnull, array('startRule' => 'Root',
             'letToken' => stack_string('equiv_LET')));
         $basestring = $base->toString(array('nosemicolon' => true));
@@ -244,23 +250,24 @@ ESCAPE;
         $asts['units'][$key][$input]->callbackRecurse($findinvalid);
         $args[] = !$hasinvalid;
         if ($hasinvalid === true) {
-            $affects = true;    
+            $affects = true;
         }
         $args[] = !empty($errors['units'][$key][$input]);
         if (!empty($errors['units'][$key][$input])) {
-            $affects = true;        
+            $affects = true;
         }
 
         $item = $indent2 . '$this->expect(' . escp($args[0]) .',' . $nl;
         $item .= $indent2 . '              ' . escp($args[1]) . ',' . $nl;
-        $item .= $indent2 . '              array('; 
-        $nos = array_map('trim', $args[2]); 
-        $nos = array_map('escp', $nos); 
+        $item .= $indent2 . '              array(';
+        $nos = array_map('trim', $args[2]);
+        $nos = array_map('escp', $nos);
         if (!empty($nos)) {
             $item .= implode(', ', $nos);
         }
         $item .= '),' . $nl;
-        $item .= $indent2 . '              ' . ($args[3]===true?'true':'false') . ', ' . ($args[4]===true?'true':'false') . ');' . $nl;
+        $item .= $indent2 . '              ' . ($args[3] === true ? 'true' : 'false') .
+            ', ' . ($args[4] === true ? 'true' : 'false') . ');' . $nl;
         if ($affects) {
             $testactiveunits .= $item . $nl;
         } else {
@@ -282,23 +289,24 @@ ESCAPE;
         $asts['no units'][$key][$input]->callbackRecurse($findinvalid);
         $args[] = !$hasinvalid;
         if ($hasinvalid === true) {
-            $affects = true;    
+            $affects = true;
         }
         $args[] = !empty($errors['no units'][$key][$input]);
         if (!empty($errors['no units'][$key][$input])) {
-            $affects = true;        
+            $affects = true;
         }
 
         $item = $indent2 . '$this->expect(' . escp($args[0]) .',' . $nl;
         $item .= $indent2 . '              ' . escp($args[1]) . ',' . $nl;
-        $item .= $indent2 . '              array('; 
+        $item .= $indent2 . '              array(';
         $nos = array_map('trim', $args[2]);
         $nos = array_map('escp', $nos);
         if (!empty($nos)) {
             $item .= implode(', ', $nos);
         }
         $item .= '),' . $nl;
-        $item .= $indent2 . '              ' . ($args[3]===true?'true':'false') . ', ' . ($args[4]===true?'true':'false') . ');' . $nl;
+        $item .= $indent2 . '              ' . ($args[3] === true ? 'true' : 'false') .
+            ', ' . ($args[4] === true ? 'true' : 'false') . ');' . $nl;
         if ($affects) {
             $testactivenounits .= $item . $nl;
         } else {

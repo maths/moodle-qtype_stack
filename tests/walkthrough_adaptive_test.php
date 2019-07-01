@@ -134,7 +134,7 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->check_output_contains_text_input('ans1', 'sin(x)');
         $expectedvarlist = get_string('studentValidation_listofvariables',
                 'qtype_stack', '\( \left[ x \right]\)');
-        $this->assertContentWithMathsContains($expectedvarlist, $this->currentoutput);
+        $this->assert_content_with_maths_contains($expectedvarlist, $this->currentoutput);
         $this->check_output_contains_input_validation('ans1');
         $this->check_output_does_not_contain_prt_feedback();
         $this->check_output_does_not_contain_stray_placeholders();
@@ -629,7 +629,7 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->check_output_contains_input_validation('ans3');
         $this->check_output_contains_prt_feedback('oddeven');
         $this->check_output_does_not_contain_stray_placeholders();
-        $this->assertContentWithMathsContains('Your answer is not an even function. Look,'
+        $this->assert_content_with_maths_contains('Your answer is not an even function. Look,'
                 .' \[ f(x)-f(-x)={2\\cdot x} \neq 0.\]', $this->currentoutput);
 
         // Score ans3 => 'x'. (put it an ans1 to validate, to force the creation of a new step.)
@@ -2361,7 +2361,7 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $expectedvalidation = '\\[ \\begin{array}{lll} &x^2-3\cdot x+2=0& \\cr '.
             '\\color{green}{\Leftrightarrow}&\\left(x-2\\right)\cdot \\left(x-1\\right)=0& \\cr '.
             '\\color{red}{?}&\\left\{\\begin{array}{l}x=-1\\cr x=-2\\cr \\end{array}\\right.& \\cr \\end{array} \]';
-        $this->assertContentWithMathsContains($expectedvalidation, $this->currentoutput);
+        $this->assert_content_with_maths_contains($expectedvalidation, $this->currentoutput);
 
         // @codingStandardsIgnoreStart
         $this->process_submission(array('ans1' => "x^2-3*x+2=0\n(x-2)*(x-1)=0\nx=-1 and x=-2",
@@ -2387,7 +2387,7 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $expectedvalidation = '\\[ \\begin{array}{lll} &x^2-3\\cdot x+2=0& \\cr '.
                 '\\color{green}{\\Leftrightarrow}&\\left(x-2\\right)\\cdot \\left(x-1\\right)=0& \\cr '.
                 '\\color{green}{\\Leftrightarrow}&x=1\\,{\\mbox{ or }}\\, x=2& \\cr \\end{array} \\]';
-        $this->assertContentWithMathsContains($expectedvalidation, $this->currentoutput);
+        $this->assert_content_with_maths_contains($expectedvalidation, $this->currentoutput);
 
         // @codingStandardsIgnoreStart
         $this->process_submission(array('ans1' => "x^2-3*x+2=0\n(x-2)*(x-1)=0\nx=1 or x=2",
@@ -2404,7 +2404,7 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $expectedvalidation = '\\[ \\begin{array}{lll} &x^2-3\\cdot x+2=0& \\cr '.
                 '\\color{green}{\\Leftrightarrow}&\\left(x-2\\right)\\cdot \\left(x-1\\right)=0& \\cr '.
                 '\\color{green}{\\Leftrightarrow}&x=1\\,{\\mbox{ or }}\\, x=2& \\cr \\end{array} \\]';
-        $this->assertContentWithMathsContains($expectedvalidation, $this->currentoutput);
+        $this->assert_content_with_maths_contains($expectedvalidation, $this->currentoutput);
     }
 
     public function test_equiv_quad_first_line() {
@@ -2513,7 +2513,7 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         // This non-trivial sumbission should be shown without equivalence symbols.
         $expectedvalidation = '\\[ \\begin{array}{lll}x^2-3\cdot x+2=0& \\cr '.
                 '\\left(x-2\\right)\cdot \\left(x-1\\right)=0& \\cr \\end{array} \]';
-        $this->assertContentWithMathsContains($expectedvalidation, $this->currentoutput);
+        $this->assert_content_with_maths_contains($expectedvalidation, $this->currentoutput);
     }
 
     public function test_checkbox_empty() {

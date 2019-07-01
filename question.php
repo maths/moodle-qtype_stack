@@ -22,7 +22,6 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-
 defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/stack/input/factory.class.php');
@@ -31,7 +30,6 @@ require_once(__DIR__ . '/stack/cas/castext.class.php');
 require_once(__DIR__ . '/stack/potentialresponsetree.class.php');
 require_once($CFG->dirroot . '/question/behaviour/adaptivemultipart/behaviour.php');
 require_once(__DIR__ . '/locallib.php');
-
 
 /**
  * Represents a Stack question.
@@ -1059,5 +1057,12 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         }
 
         return implode(' ', $errors);
+    }
+
+    /*
+     * Used for unit testing of question states.
+     */
+    public function get_session() {
+        return $this->session;
     }
 }

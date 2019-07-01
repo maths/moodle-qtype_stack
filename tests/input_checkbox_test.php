@@ -265,7 +265,7 @@ class stack_checkbox_input_test extends qtype_stack_walkthrough_test_base {
                 null, array('options' => 'latex'));
         $el->adapt_to_model_answer('[[abs(x-5)=abs(5-x),true],[1+1,false],[x=3 nounor x=1,false]]');
         $expected = '<div class="answer"><div class="option"><input type="checkbox" name="stack1__ans1_1" value="1" id="stack1__ans1_1" />'.
-            '<label for="stack1__ans1_1">\(\left| x-5\right| =\left| 5-x\right|\)</label></div><div class="option">'.
+            '<label for="stack1__ans1_1">\(\left| x-5\right| =\left| 5-x\right| \)</label></div><div class="option">'.
             '<input type="checkbox" name="stack1__ans1_2" value="2" id="stack1__ans1_2" checked="checked" /><label for="stack1__ans1_2">\(1+1\)'.
             '</label></div><div class="option"><input type="checkbox" name="stack1__ans1_3" value="3" id="stack1__ans1_3" />'
             .'<label for="stack1__ans1_3">\(x=3\,{\mbox{ or }}\, x=1\)</label></div></div>';

@@ -154,11 +154,11 @@ abstract class stack_input {
         $this->internal_contruct();
     }
 
-    /* This allows each input type to adapt to the values of parameters.  For example, the dropdown and units
+    /**
+     * This allows each input type to adapt to the values of parameters.  For example, the dropdown and units
      * use this to sort out options.
      */
-    protected function internal_contruct(        // @codingStandardsIgnoreEnd
-            ) {
+    protected function internal_contruct() {
         $options = $this->get_parameter('options');
         if (trim($options) != '') {
             $options = explode(',', $options);

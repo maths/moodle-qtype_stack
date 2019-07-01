@@ -168,5 +168,5 @@ class stack_potentialresponse_node_test extends qtype_stack_testcase {
                 $result->feedback[0]->feedback);
 
         $this->assertEquals(1.5, $result->score);
-      }
+    }
 }

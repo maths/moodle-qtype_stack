@@ -124,7 +124,7 @@ abstract class qtype_stack_testcase extends advanced_testcase {
      * @param string $expected with plain maths delimiters. E.g. '<p>\(x + 1\)</p>'.
      * @param string $actual the actual output, as processed by the default Maths filter that STACK uses.
      */
-    protected function assertContentWithMathsEquals($expected, $actual) {
+    protected function assert_content_with_maths_equals($expected, $actual) {
         $this->assertEquals($expected, self::prepare_actual_maths($actual));
     }
 
@@ -136,7 +136,7 @@ abstract class qtype_stack_testcase extends advanced_testcase {
      * @param string $expected with plain maths delimiters. E.g. '<p>\(x + 1\)</p>'.
      * @param string $actual the actual output, as processed by the default Maths filter that STACK uses.
      */
-    protected function assertContentWithMathsContains($expected, $actual) {
+    protected function assert_content_with_maths_contains($expected, $actual) {
         $this->assertContains($expected, self::prepare_actual_maths($actual));
     }
 
@@ -360,7 +360,7 @@ abstract class qtype_stack_walkthrough_test_base extends qbehaviour_walkthrough_
      * @param string $expected with plain maths delimiters. E.g. '<p>\(x + 1\)</p>'.
      * @param string $actual the actual output, as processed by the default Maths filter that STACK uses.
      */
-    protected function assertContentWithMathsEquals($expected, $actual) {
+    protected function assert_content_with_maths_equals($expected, $actual) {
         $this->assertEquals($expected, qtype_stack_testcase::prepare_actual_maths($actual));
     }
 
@@ -372,7 +372,7 @@ abstract class qtype_stack_walkthrough_test_base extends qbehaviour_walkthrough_
      * @param string $expected with plain maths delimiters. E.g. '<p>\(x + 1\)</p>'.
      * @param string $actual the actual output, as processed by the default Maths filter that STACK uses.
      */
-    protected function assertContentWithMathsContains($expected, $actual) {
+    protected function assert_content_with_maths_contains($expected, $actual) {
         $this->assertContains($expected, qtype_stack_testcase::prepare_actual_maths($actual));
     }
 

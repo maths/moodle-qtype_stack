@@ -54,6 +54,15 @@ class stack_cas_keyval {
         if (!is_string($raw)) {
             throw new stack_exception('stack_cas_keyval: raw must be a string.');
         }
+
+        if (!is_null($options) && !is_a($options, 'stack_options')) {
+            throw new stack_exception('stack_cas_keyval: options must be null or stack_options.');
+        }
+
+        if (!is_null($seed) && !is_int($seed)) {
+            throw new stack_exception('stack_cas_keyval: seed must be a null or an integer.');
+        }
+
     }
 
     private function validate($inputs) {
@@ -105,10 +114,11 @@ class stack_cas_keyval {
             $this->statements[] = $cs;
         }
 
-        // Prevent reference to inputs in the values of the question variables.
+        // Allow reference to inputs in the values of the question variables (otherwise we can't use them)!
+        // Prevent reference to inputs in the keys.
         if (is_array($inputs)) {
             $usage = $this->get_variable_usage();
-            foreach (array_merge($usage['read'], $usage['write']) as $key => $used) {
+            foreach ($usage['write'] as $key => $used) {
                 if (in_array($key, $inputs)) {
                     $this->valid = false;
                     $this->errors[] = stack_string('stackCas_inputsdefined', $key);

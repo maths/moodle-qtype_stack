@@ -42,7 +42,7 @@ class stack_cas_session2 {
 
     private $errors;
 
-    public function __construct(array $statements, stack_options $options = null, $seed = null) {
+    public function __construct(array $statements, $options = null, $seed = null) {
 
         $this->instantiated = false;
         $this->errors = array();

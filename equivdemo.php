@@ -134,7 +134,7 @@ foreach ($samplearguments as $argument) {
             $cs1 = stack_ast_container::make_from_student_source($cskey . ':' . $argument['casstring'],
                     '', new stack_cas_security());
 
-            $casstrings[$cskey] = $cs1->ast->toString();
+            $casstrings[$cskey] = $cs1->get_inputform(false, true);
             $casstrings['D'.$i] = $argument['debuglist'];
             if (array_key_exists('debuglist', $argument)) {
                 $val = "DL:" . $argument['debuglist'];
@@ -154,7 +154,7 @@ foreach ($samplearguments as $argument) {
 
             $cs4 = stack_ast_container::make_from_teacher_source("R1:first(S1)", '', new stack_cas_security());
 
-            $session = new stack_cas_session(array($ap, $ar, $ac, $cs1, $cs2, $cs3, $cs4), $options);
+            $session = new stack_cas_session2(array($ap, $ar, $ac, $cs1, $cs2, $cs3, $cs4), $options);
             $expected = $argument['outcome'];
             if (true === $argument['outcome']) {
                 $expected = 'true';
@@ -169,8 +169,12 @@ foreach ($samplearguments as $argument) {
             $took = (microtime(true) - $start);
             $rtook = round($took, 5);
 
-            $argumentvalue = trim($session->get_value_key("R1"));
-            $overall = "Overall the argument is {$argumentvalue}.";
+            $argumentvalue = '';
+            $overall = "<font color='red'>".'No value returned.'."</font>";
+            if ($cs4->is_correctly_evaluated()) {
+                $argumentvalue = $cs4->get_value();
+                $overall = "Overall the argument is {$argumentvalue}.";
+            }
             if ('unsupported' !== $argument['outcome']) {
                 $overall .= "  We expected the argument to be {$expected}.";
                 if ($argumentvalue != $expected) {
@@ -295,7 +299,7 @@ if ($string) {
     $options->set_site_defaults();
     $options->set_option('simplify', $simp);
 
-    $session = new stack_cas_session(null, $options);
+    $session = new stack_cas_session2(null, $options);
     if ($vars) {
         $keyvals = new stack_cas_keyval($vars, $options, 0);
         $session = $keyvals->get_session();

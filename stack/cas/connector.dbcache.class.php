@@ -79,7 +79,9 @@ class stack_cas_connection_db_cache implements stack_cas_connection {
         $parsed = $this->rawconnection->json_compute($command);
 
         $this->add_to_cache($command, $parsed, $cached->key);
+        // @codingStandardsIgnoreStart
         $this->debug->log('Parsed result as', print_r($parsed, true));
+        // @codingStandardsIgnoreEnd
 
         return $parsed;
     }

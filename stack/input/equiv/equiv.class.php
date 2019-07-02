@@ -265,7 +265,7 @@ class stack_equiv_input extends stack_input {
                     if ('false' === $cs->get_value()) {
                         // Then the first line of the student's response does not match that of the teacher.
                         $valid = false;
-                        $caslines[0]->add_errors(stack_string('equivfirstline'));
+                        $errors[0] = stack_string('equivfirstline');
                     }
                 }
             }
@@ -276,24 +276,30 @@ class stack_equiv_input extends stack_input {
 
         $display = '<center><table style="vertical-align: middle;" ' .
                 'border="0" cellpadding="4" cellspacing="0"><tbody>';
+        $errorfree = true;
         foreach ($caslines as $index => $cs) {
             $display .= '<tr>';
             if ($cs->is_correctly_evaluated()) {
                 $display .= '<td>\(\displaystyle ' . $cs->get_display() . ' \)</td>';
+                if ($errors[$index]) {
+                    $errorfree = false;
+                    $display .= '<td>' . stack_maxima_translate($errors[$index]) . '</td>';
+                }
             } else {
                 $valid = false;
-                $errors[$index] = ' '.stack_maxima_translate($cs->get_errors());
+                $errorfree = false;
                 $display .= '<td>' . stack_maxima_format_casstring($cs->get_inputform()) . '</td>';
-                $display .= '<td>' . stack_maxima_translate($errors[$index]) . '</td></tr>';
+                $display .= '<td>' . stack_maxima_translate($errors[$index]) . '</td>';
             }
             $display .= '</tr>';
         }
         $display .= '</tbody></table></center>';
         if (array_key_exists('equivdisplay', $additionalvars)) {
             $equiv = $additionalvars['equivdisplay'];
-            if ($equiv->is_correctly_evaluated()) {
+            if ($equiv->is_correctly_evaluated() && $errorfree) {
                 $display = '\[ ' . $equiv->get_display() . ' \]';
-            } else {
+            } else if ($valid) {
+                // Invalid expressions always throw an error from equivdisplay.
                 $display .= $equiv->get_errors();
             }
         }

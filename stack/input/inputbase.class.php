@@ -685,7 +685,7 @@ abstract class stack_input {
 
         $note = $answer->get_answernote();
         if ($errors) {
-            $errors = implode(' ', $errors);
+            $errors = trim(implode(' ', $errors));
         }
 
         if (!$valid) {

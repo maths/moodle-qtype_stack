@@ -173,6 +173,7 @@ class stack_answertest_general_cas extends stack_anstest {
         }
 
         $unpacked = $this->unpack_result($result->get_evaluated());
+        $this->atansnote = str_replace("\n", '', trim($unpacked['answernote']));
 
         if ('' != $result->get_errors()) {
             $this->aterror      = 'TEST_FAILED';
@@ -181,13 +182,14 @@ class stack_answertest_general_cas extends stack_anstest {
             } else {
                 $this->atfeedback = stack_string('TEST_FAILED', array('errors' => $result->get_errors()));
             }
-            $this->atansnote    = trim($unpacked['answernote']);
+            // Make sure we have a non-empty answer note at least.
+            if (!$this->atansnote) {
+                $this->atansnote = 'TEST_FAILED';
+            }
             $this->atmark       = 0;
             $this->atvalid      = false;
             return null;
         }
-
-        $this->atansnote  = str_replace("\n", '', trim($unpacked['answernote']));
 
         // Convert the Maxima string 'true' to PHP true.
         // Actually in the AST parsing we already have a bool.

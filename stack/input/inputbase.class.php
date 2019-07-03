@@ -99,12 +99,6 @@ abstract class stack_input {
     protected $errors = array();
 
     /**
-     * Decide if the student's expression should have units.
-     * @var bool.
-     */
-    protected $units = false;
-
-    /**
      * Decide if the input is being used at run-time or just constructed elswhere.
      * @var bool.
      */
@@ -545,10 +539,10 @@ abstract class stack_input {
      * @param array $response the student response to the question.
      * @param stack_options $options CAS options to use when validating.
      * @param string $teacheranswer the teachers answer as a string representation of the evaluated expression.
-     * @param array $forbiddenkeys is an array of casstring keys which appears in the question variables.
+     * @param stack_cas_security $basesecurity declares the forbidden keys used in the question as well as wether we are dealign with units.
      * @return stack_input_state represents the current state of the input.
      */
-    public function validate_student_response($response, $options, $teacheranswer, $forbiddenkeys, $ajaxinput = false) {
+    public function validate_student_response($response, $options, $teacheranswer, stack_cas_security $basesecurity, $ajaxinput = false) {
         if (!is_a($options, 'stack_options')) {
             throw new stack_exception('stack_input: validate_student_response: options not of class stack_options');
         }
@@ -576,14 +570,14 @@ abstract class stack_input {
             return new stack_input_state(self::BLANK, array(), '', '', $errors, '', '');
         }
 
-        $secrules = new stack_cas_security($this->units,
-                        $this->get_parameter('allowWords', ''),
-                        $this->get_parameter('forbidWords', ''), $forbiddenkeys);
+        $secrules = clone $basesecurity;
+        $secrules->set_allowedwords($this->get_parameter('allowWords', ''));
+        $secrules->set_forbiddenwords($this->get_parameter('forbidWords', ''));
 
         // This method actually validates any CAS strings etc.
         // Modified contents is already an array of things which become individually validated CAS statements.
         // At this sage, $valid records the PHP validation or other non-CAS issues.
-        list($valid, $errors, $answer, $caslines) = $this->validate_contents($contents, $forbiddenkeys, $localoptions);
+        list($valid, $errors, $answer, $caslines) = $this->validate_contents($contents, $basesecurity, $localoptions);
 
         // Match up lines from the teacher's answer to lines in the student's answer.
         // Send as much of the string to the CAS as possible.
@@ -594,7 +588,7 @@ abstract class stack_input {
             $tresponse = $this->maxima_to_response_array($teacheranswer);
             $tcontents = $this->response_to_contents($tresponse);
             list($tvalid, $terrors, $tmodifiedcontents, $tcaslines)
-                = $this->validate_contents($tcontents, $forbiddenkeys, $localoptions);
+                = $this->validate_contents($tcontents, $basesecurity, $localoptions);
         } else {
             $tcaslines = array();
         }
@@ -644,11 +638,8 @@ abstract class stack_input {
         }
 
         // Generate an expression from which we extract the list of variables in the student's answer.
-        $lrules = new stack_cas_security($this->units,
-                        $this->get_parameter('allowWords', ''),
-                        $this->get_parameter('forbidWords', ''));
         $raw = 'stack_validate_listofvars('.$this->name.')';
-        $lvars = stack_ast_container::make_from_teacher_source($raw, '', $lrules, array());
+        $lvars = stack_ast_container::make_from_teacher_source($raw, '', $secrules, array());
         if ($lvars->get_valid() && $valid && $answer->get_valid()) {
             $sessionvars[] = $lvars;
         }
@@ -659,6 +650,13 @@ abstract class stack_input {
 
         $localoptions->set_option('simplify', false);
         $session = new stack_cas_session2($sessionvars, $localoptions, 0);
+
+        // If we are dealing with units in this question we apply units texput rules 
+        // everywhere.
+        if ($basesecurity->get_units()) {
+            $session->add_statement(stack_ast_container_silent::make_from_teacher_source('stack_unit_si_declare(true)', 'automatic unit declaration'), false);
+        }
+
         $session->instantiate();
 
         // Since $lvars and $answer and the other casstrings are passed by reference, into the $session,
@@ -724,11 +722,11 @@ abstract class stack_input {
      * For example, Matrix types have two dimensional contents arrays to loop over.
      *
      * @param array $contents the content array of the student's input.
-     * @param array $forbiddenkeys is an array of keys of casstings from the question
-     *                             variables which must not appear in the student's input.
+     * @param stack_cas_security $basesecurity declares the variables which must not 
+     *                                         appear in the student's input.
      * @return array of the validity, errors strings, modified contents and caslines.
      */
-    protected function validate_contents($contents, $forbiddenkeys, $localoptions) {
+    protected function validate_contents($contents, $basesecurity, $localoptions) {
 
         $errors = $this->extra_validation($contents);
         $valid = !$errors;
@@ -736,10 +734,9 @@ abstract class stack_input {
         $errors = array();
         $note = array();
 
-        $secrules = new stack_cas_security($this->units,
-                $this->get_parameter('allowWords', ''),
-                $this->get_parameter('forbidWords', ''),
-                $forbiddenkeys);
+        $secrules = clone $basesecurity;
+        $secrules->set_allowedwords($this->get_parameter('allowWords', ''));
+        $secrules->set_forbiddenwords($this->get_parameter('forbidWords', ''));
 
         $stars = $this->get_parameter('insertStars', 0);
         $strict = $this->get_parameter('strictSyntax', true);

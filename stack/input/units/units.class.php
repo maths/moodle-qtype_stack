@@ -41,11 +41,6 @@ class stack_units_input extends stack_input {
         'allowempty' => false
     );
 
-    /**
-     * Decide if the student's expression should have units.
-     * @var bool.
-     */
-    protected $units = true;
 
     public function render(stack_input_state $state, $fieldname, $readonly, $tavalue) {
 

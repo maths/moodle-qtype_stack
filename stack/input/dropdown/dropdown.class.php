@@ -318,15 +318,14 @@ class stack_dropdown_input extends stack_input {
         return '';
     }
 
-    protected function validate_contents($contents, $forbiddenkeys, $localoptions) {
+    protected function validate_contents($contents, $basesecurity, $localoptions) {
         $valid = true;
         $errors = $this->errors;
         $caslines = array();
 
-        $secrules = new stack_cas_security($this->units,
-                $this->get_parameter('allowWords', ''),
-                $this->get_parameter('forbidWords', ''),
-                $forbiddenkeys);
+        $secrules = clone $basesecurity;
+        $secrules->set_allowedwords($this->get_parameter('allowWords', ''));
+        $secrules->set_forbiddenwords($this->get_parameter('forbidWords', ''));
 
         // Construct one final "answer" as a single maxima object.
         // In the case of dropdown create the object directly here.

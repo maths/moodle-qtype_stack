@@ -27,6 +27,7 @@ defined('MOODLE_INTERNAL') || die();
 require_once(__DIR__ . '/stack/input/factory.class.php');
 require_once(__DIR__ . '/stack/cas/keyval.class.php');
 require_once(__DIR__ . '/stack/cas/castext.class.php');
+require_once(__DIR__ . '/stack/cas/cassecurity.class.php');
 require_once(__DIR__ . '/stack/potentialresponsetree.class.php');
 require_once($CFG->dirroot . '/question/behaviour/adaptivemultipart/behaviour.php');
 require_once(__DIR__ . '/locallib.php');
@@ -120,6 +121,15 @@ class qtype_stack_question extends question_graded_automatically_with_countback
      * @var array stack_ast_container STACK specific: the teachers answers for each input
      */
     private $tas;
+
+    /**
+     * @var stack_cas_security the question level common security
+     * settings, i.e. forbidden keys and wether units are in play.
+     * Note that the security-object is used to enforce read-only
+     * identifiers and therefore wether we are dealing with units
+     * is important to it, as obviously one should not redefine units.
+     */
+    private $security;
 
     /**
      * @var array stack_cas_session STACK specific: session of variables.
@@ -291,13 +301,49 @@ class qtype_stack_question extends question_graded_automatically_with_countback
             $this->runtimeerrors[$session->get_errors()] = true;
         }
 
+        // Construct the security object.
+        $units = false;
+        // Units are in use if there exists even one units*-test or input.
+        foreach ($this->inputs as $input) {
+            if (is_a($input, 'stack_units_input')) {
+                $units = true;
+                break;
+            }
+        }
+        if (!$units) {
+            foreach ($this->prts as $prt) {
+                if ($prt->has_units()) {
+                    $units = true;
+                    break;
+                }
+            }
+        }
+        // If we have units we might as well include the units declaration in the session.
+        // To simplify authors work and remove the need to call that long function.
+        if ($units) {
+            $session->add_statement(stack_ast_container_silent::make_from_teacher_source('stack_unit_si_declare(true)', 'automatic unit declaration'));
+        }
+
+        // Note that at this phase the security object has no "words".
+        $usage = $session->get_variable_usage();
+        // The student's answer may not contain any of the variable names with which
+        // the teacher has defined question variables. Otherwise when it is evaluated
+        // in a PRT, the student's answer will take these values.   If the teacher defines
+        // 'ta' to be the answer, the student could type in 'ta'!  We forbid this.
+
+        // TODO: shouldn't we also protect variables used in PRT logic? Feedback vars
+        // and so on?
+        $forbiddenkeys = isset($usage['write']) ? $usage['write'] : array();
+        $this->security = new stack_cas_security($units, '', '', $forbiddenkeys);
+
+
         // The session to keep. Note we do not need to reinstantiate the teachers answers.
         $sessiontokeep = new stack_cas_session2($session->get_session(), $this->options, $this->seed);
 
         // 2. correct answer for all inputs.
         foreach ($this->inputs as $name => $input) {
             $cs = stack_ast_container::make_from_teacher_source($name . ':' . $input->get_teacher_answer(),
-                    '', new stack_cas_security());
+                    '', $this->security);
             $this->tas[$name] = $cs;
             $session->add_statement($cs);
         }
@@ -498,21 +544,12 @@ class qtype_stack_question extends question_graded_automatically_with_countback
             return $this->inputstates[$name];
         }
 
-        // The student's answer may not contain any of the variable names with which
-        // the teacher has defined question variables. Otherwise when it is evaluated
-        // in a PRT, the student's answer will take these values.   If the teacher defines
-        // 'ta' to be the answer, the student could type in 'ta'!  We forbid this.
-
-        // TODO: shouldn't we also protect variables used in PRT logic? Feedback vars
-        // and so on?
-        $usage = $this->session->get_variable_usage();
-        $forbiddenkeys = isset($usage['write']) ? $usage['write'] : array();
         // TODO: we should probably give the whole ast_container to the input.
         // Direct access to LaTeX and the AST might be handy.
         $teacheranswer = $this->tas[$name]->get_value();
         if (array_key_exists($name, $this->inputs)) {
             $this->inputstates[$name] = $this->inputs[$name]->validate_student_response(
-                $response, $this->options, $teacheranswer, $forbiddenkeys, $rawinput);
+                $response, $this->options, $teacheranswer, $this->security, $rawinput);
             return $this->inputstates[$name];
         }
         return '';

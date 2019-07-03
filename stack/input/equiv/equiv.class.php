@@ -209,18 +209,16 @@ class stack_equiv_input extends stack_input {
      * @param array $contents the content array of the student's input.
      * @return array of the validity, errors strings and modified contents.
      */
-    protected function validate_contents($contents, $forbiddenkeys, $localoptions) {
+    protected function validate_contents($contents, $basesecurity, $localoptions) {
 
         // This input re-defines validate_condents, and so does not make use of extra_validation methods.
         $errors = array();
         $valid = true;
         $caslines = array();
 
-        $secrules = new stack_cas_security($this->units,
-                        $this->get_parameter('allowWords', ''),
-                        // Forbid function definition for now.
-                        $this->get_parameter('forbidWords', '') . ', :=',
-                        $forbiddenkeys);
+        $secrules = clone $basesecurity;
+        $secrules->set_allowedwords($this->get_parameter('allowWords', ''));
+        $secrules->set_forbiddenwords($this->get_parameter('forbidWords', ''));
 
         foreach ($contents as $index => $val) {
             // TODO: add filters, strict and so on.

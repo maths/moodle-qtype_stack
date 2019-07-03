@@ -18,6 +18,7 @@ defined('MOODLE_INTERNAL') || die();
 
 global $CFG;
 require_once(__DIR__ . '/../stack/input/factory.class.php');
+require_once(__DIR__ . '/../stack/input/boolean/boolean.class.php');
 require_once(__DIR__ . '/fixtures/test_base.php');
 
 // Unit tests for stack_boolean_input_test.

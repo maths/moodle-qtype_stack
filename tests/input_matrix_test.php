@@ -110,7 +110,7 @@ class stack_matrix_input_test extends qtype_stack_testcase {
         $options = new stack_options();
         $el = stack_input_factory::make('matrix', 'ans1', 'M');
         $el->adapt_to_model_answer('matrix([1,2,3],[3,4,5])');
-        $state = $el->validate_student_response(array(), $options, 'matrix([1,2,3],[3,4,5])', null);
+        $state = $el->validate_student_response(array(), $options, 'matrix([1,2,3],[3,4,5])', new stack_cas_security());
         $this->assertEquals(stack_input::BLANK, $state->status);
         $this->assertEquals('', $state->contentsmodified);
         $this->assertEquals('', $state->contentsdisplayed);
@@ -128,7 +128,7 @@ class stack_matrix_input_test extends qtype_stack_testcase {
             'ans1_sub_1_1' => 'a',
             'ans1_sub_1_2' => 'a+b'
         );
-        $state = $el->validate_student_response($inputvals, $options, 'matrix([1,2,3],[3,4,5])', null);
+        $state = $el->validate_student_response($inputvals, $options, 'matrix([1,2,3],[3,4,5])', new stack_cas_security());
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('matrix([1,2,3],[4,a,a+b])', $state->contentsmodified);
         $this->assertEquals('\[ \left[\begin{array}{ccc} 1 & 2 & 3 \\\\ 4 & a & a+b \end{array}\right] \]',
@@ -148,7 +148,7 @@ class stack_matrix_input_test extends qtype_stack_testcase {
             'ans1_sub_1_1' => '5',
             'ans1_sub_1_2' => '6'
         );
-        $state = $el->validate_student_response($inputvals, $options, 'matrix([1,2,3],[3,4,5])', null);
+        $state = $el->validate_student_response($inputvals, $options, 'matrix([1,2,3],[3,4,5])', new stack_cas_security());
         $this->assertEquals(stack_input::INVALID, $state->status);
         $this->assertEquals('', $state->note);
         $this->assertEquals('matrix([1,2,3],[?,5,6])', $state->contentsmodified);
@@ -170,7 +170,7 @@ class stack_matrix_input_test extends qtype_stack_testcase {
             'ans1_sub_1_1' => '5',
             'ans1_sub_1_2' => '6'
         );
-        $state = $el->validate_student_response($inputvals, $options, 'matrix([1,2,3],[3,4,5])', null);
+        $state = $el->validate_student_response($inputvals, $options, 'matrix([1,2,3],[3,4,5])', new stack_cas_security());
         $this->assertEquals(stack_input::INVALID, $state->status);
         $this->assertEquals('missing_stars', $state->note);
         $this->assertEquals('matrix([1,2x,3],[4,5,6])', $state->contentsmodified);
@@ -241,7 +241,7 @@ class stack_matrix_input_test extends qtype_stack_testcase {
             'ans1_sub_1_1' => '',
         );
         $state = $el->validate_student_response($inputvals, $options,
-                'matrix([null,null],[null,null])', null);
+                'matrix([null,null],[null,null])', new stack_cas_security());
         $this->assertEquals(stack_input::SCORE, $state->status);
         $this->assertEquals('', $state->note);
         $this->assertEquals('matrix([null,null],[null,null])', $state->contentsmodified);
@@ -261,7 +261,7 @@ class stack_matrix_input_test extends qtype_stack_testcase {
             'ans1_sub_1_1' => '',
         );
         $state = $el->validate_student_response($inputvals, $options,
-                'matrix([null,null],[null,null])', null);
+                'matrix([null,null],[null,null])', new stack_cas_security());
         $this->assertEquals(stack_input::BLANK, $state->status);
         $this->assertEquals('', $state->note);
         $this->assertEquals('', $state->contentsmodified);
@@ -280,7 +280,7 @@ class stack_matrix_input_test extends qtype_stack_testcase {
             'ans1_sub_1_1' => '',
         );
         $state = $el->validate_student_response($inputvals, $options,
-                'matrix([null,null],[null,null])', null);
+                'matrix([null,null],[null,null])', new stack_cas_security());
         $this->assertEquals(stack_input::INVALID, $state->status);
         $this->assertEquals('', $state->note);
         $this->assertEquals('matrix([1,2],[x,?])', $state->contentsmodified);

@@ -365,4 +365,11 @@ class stack_potentialresponse_node {
         $at = new stack_ans_test_controller($this->answertest, $this->sans, $this->tans, $ncasoptions, null);
         return $at->get_trace(false);
     }
+
+    /**
+     * @return string just the name of the test.
+     */
+    public function get_test(): string {
+        return $this->answertest;
+    }
 }

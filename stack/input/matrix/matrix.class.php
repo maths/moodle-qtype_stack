@@ -174,15 +174,14 @@ class stack_matrix_input extends stack_input {
      * @param array $contents the content array of the student's input.
      * @return array of the validity, errors strings and modified contents.
      */
-    protected function validate_contents($contents, $forbiddenkeys, $localoptions) {
+    protected function validate_contents($contents, $basesecurity, $localoptions) {
 
         $errors = array();
         $valid = true;
 
-        $secrules = new stack_cas_security($this->units,
-                $this->get_parameter('allowWords', ''),
-                $this->get_parameter('forbidWords', ''),
-                $forbiddenkeys);
+        $secrules = clone $basesecurity;
+        $secrules->set_allowedwords($this->get_parameter('allowWords', ''));
+        $secrules->set_forbiddenwords($this->get_parameter('forbidWords', ''));
 
         // Now validate the input as CAS code.
         $modifiedcontents = array();

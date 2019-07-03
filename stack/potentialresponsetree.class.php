@@ -337,4 +337,16 @@ class stack_potentialresponse_tree {
         }
         return $this->feedbackvariables->get_keyval_representation();
     }
+
+    /**
+     * @return boolean whether this PRT contains any tests that use units.
+     */
+    public function has_units(): bool {
+        foreach ($this->nodes as $node) {
+            if (strpos($node->get_test(), 'Units') === 0) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

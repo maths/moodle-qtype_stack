@@ -243,21 +243,21 @@ class stack_radio_input_test extends qtype_stack_walkthrough_test_base {
     public function test_validate_student_response_blank() {
         $options = new stack_options();
         $el = $this->make_radio();
-        $state = $el->validate_student_response(array('ans1' => ''), $options, 'x+1', null);
+        $state = $el->validate_student_response(array('ans1' => ''), $options, 'x+1', new stack_cas_security());
         $this->assertEquals(stack_input::BLANK, $state->status);
     }
 
     public function test_validate_student_response_x_plus_1() {
         $options = new stack_options();
         $el = $this->make_radio();
-        $state = $el->validate_student_response(array('ans1' => '1'), $options, '1', null);
+        $state = $el->validate_student_response(array('ans1' => '1'), $options, '1', new stack_cas_security());
         $this->assertEquals(stack_input::SCORE, $state->status);
     }
 
     public function test_validate_student_response_x_plus_2() {
         $options = new stack_options();
         $el = $this->make_radio();
-        $state = $el->validate_student_response(array('ans1' => '2'), $options, '2', null);
+        $state = $el->validate_student_response(array('ans1' => '2'), $options, '2', new stack_cas_security());
         $this->assertEquals(stack_input::SCORE, $state->status);
     }
 

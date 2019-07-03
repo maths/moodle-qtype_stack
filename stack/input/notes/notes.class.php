@@ -80,11 +80,11 @@ class stack_notes_input extends stack_input {
      * @param array $contents the content array of the student's input.
      * @return array of the validity, errors strings and modified contents.
      */
-    protected function validate_contents($contents, $forbiddenkeys, $localoptions) {
+    protected function validate_contents($contents, $basesecurity, $localoptions) {
         $errors   = null;
         $caslines = array();
         $valid    = true;
-        $answer   = stack_ast_container::make_from_student_source('', '', new stack_cas_security());;
+        $answer   = stack_ast_container::make_from_student_source('', '', $basesecurity);;
 
         return array($valid, $errors, $answer, $caslines);
     }

@@ -469,6 +469,12 @@ class maxima_corrective_parser {
             $a = array('op' => stack_maxima_format_casstring('!'));
             $errors[] = stack_string('stackCas_badpostfixop', $a);
             $answernote[] = 'badpostfixop';
+        } else if (core_text::strpos($disallowedfinalchars, core_text::substr(trim($string), -1)) !== false) {
+            $a = array();
+            $a['char'] = core_text::substr(trim($original), -1);
+            $a['cmd']  = stack_maxima_format_casstring($string);
+            $errors[] = stack_string('stackCas_finalChar', $a);
+            $answernote[] = 'finalChar';
         } else {
             $errors[] = $exception->getMessage();
             $answernote[] = 'ParseError';

@@ -43,7 +43,7 @@ Now that as our question contains random numbers, we need to record the actual q
 Fill the question note in as
 
 ```
-\[ \int {@exp@} dx = {@ta@}.\]
+\[ \int {@exp@} \mathrm{d}x = {@ta@}.\]
 ```
 
 Two question variants are considered to be the same if and only if the question note is the same. It is the teacher's responsibility to create sensible notes.

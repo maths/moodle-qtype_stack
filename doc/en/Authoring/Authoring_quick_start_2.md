@@ -29,17 +29,16 @@ exp: 3*(x-1)^(-4);
 ta: int(exp,x)+c;
 ```
 
-The coding in question variables is based on Maxima, which has an unusual syntax for assignment.  In particular, the colon `:` is used to assign a value to a variable.  So to assign the value of `5` to `n`, we use the syntax `n:5`. Adding semicolons to the end of each line is optional, but good practice.
+The coding in question variables is based on Maxima, which has an unusual syntax for assignment.  In particular, the colon `:` is used to assign a value to a variable.  So to assign the value of `5` to `a1`, we use the syntax `a1:5`. In general, it is good practice to give variables multi-character names, as single-character names are meant for student input. This is because multi-character variables the author defined cannot by default be input by students. Additionally, adding semicolons to the end of each line is optional, but good practice.
 
 Notice we are using the CAS to determine the model answer by calling the `int()` function to find the anti-derivative. When the CAS determines an anti-derivative, it does not include a constant of integration, so we have to add it ourselves.
 
 Now it will be a lot faster to fill out the rest of the question. Add the following to the question text:
 
 <textarea readonly="readonly" rows="3" cols="50">
-Find \(\int{@exp@}dx\)
+Find \(\int{@exp@} \mathrm{d}x\)
 [[input:ans1]] [[validation:ans1]]
 </textarea>
-
 Notice that we have defined a local variable `exp`, and used the value of this in the Question text. There is a difference between mathematics enclosed between `\(..\)` symbols and `{@..@}` symbols. All the text-based fields in the question, including feedback, are [CAS text](CASText.md).  This is HTML into which mathematics can be inserted.  LaTeX is placed between `\(..\)`s, and CAS expressions (including your variables) between matching `{@..@}` symbols.  The CAS expressions are evaluated in the context of the question variables and displayed as LaTeX.
 
 Since we have used `{@exp@}` here, the user will not see a \(exp\) on the screen when the question is instantiated, but the _displayed value_ of `exp`: \(\frac{3}{(x-1)^{-4}}\)

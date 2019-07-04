@@ -97,7 +97,7 @@ __Question variables:__
  exp:x^3-2*x^2+x;
  pt:2;
  ta1:diff(exp,x);
- ta2:subst(x=pt,diff(p,x));
+ ta2:subst(x=pt,ta1);
  ta3:remainder(exp,(x-pt)^2);
 ```
 

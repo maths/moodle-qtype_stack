@@ -18,7 +18,7 @@ Try previewing this question and typing in  `-1*(x-1)^(-3)+c`. The system should
 
 We will need to edit the potential response tree to use a better [answer test](Answer_tests.md#Int). Return to the page "Editing a STACK question". Find your potential response tree settings, click on the drop-down menu where we selected `AlgEquiv` and select `Int` from the list. Type `x` (the variable) into the Test options setting. Now press the `[Save changes and continue editing]` button and once more click the preview button.  We have just selected a special [answer test](Answer_tests.md) for dealing with integration questions.
 
-The _Int_ answer test will accept any variable name for the constant of integration. For example, try typing in  `-1*(x-1)^(-3)+k`. The system should accept this as correct.  It will also give standard feedback if the student forgets a constant of integration or accidentally differentiates instead.  To try this, type `-12*(x-1)^(-5)`.  If you don't want students to see the automatic feedback, select the _Quiet_ option in the potential response node.
+The _Int_ answer test will accept any variable name for the constant of integration. For example, try typing in  `-(x-1)^(-3)+k`. The system should accept this as correct.  It will also give standard feedback if the student forgets a constant of integration or accidentally differentiates instead.  To try this, type `-12*(x-1)^(-5)`.  If you don't want students to see the automatic feedback, select the _Quiet_ option in the potential response node.
 
 An outcome's  `Answer Note` is a name given for that specific outcome. STACK will automatically generate these with information on the potential response tree, the node number and the outcome of the node.
 

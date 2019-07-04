@@ -198,7 +198,7 @@ Equivline
   ?> **/ 
   return op;
   }
-  / __? let:Identifier ' ' __? op:Operation __? & { /** return strtolower($let->value) === strtolower($this->options['letToken']); ?> **/ return let.value.toLowerCase() === options.letToken.toLowerCase(); } {
+  / __? let1:Identifier ' ' __? op:Operation __? & { /** return strtolower($let1->value) === strtolower($this->options['letToken']); ?> **/ return let1.value.toLowerCase() === options.letToken.toLowerCase(); } {
   /** <?php 
   $r = new MP_Let($op);
   $r->position = array('start'=>$this->peg_reportedPos,'end'=>$this->peg_currPos);

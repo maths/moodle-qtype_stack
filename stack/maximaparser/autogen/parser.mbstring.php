@@ -419,8 +419,8 @@ class MP_Parser {
       $r->position = array('start'=>$this->peg_reportedPos,'end'=>$this->peg_currPos);
       return $r; 
       }
-    private function peg_f3($let, $op) { /** return strtolower($let->value) === strtolower($this->options['letToken']); ?> **/ return let.value.toLowerCase() === options.letToken.toLowerCase(); }
-    private function peg_f4($let, $op) { 
+    private function peg_f3($let1, $op) { /** return strtolower($let1->value) === strtolower($this->options['letToken']); ?> **/ return let1.value.toLowerCase() === options.letToken.toLowerCase(); }
+    private function peg_f4($let1, $op) { 
       $r = new MP_Let($op);
       $r->position = array('start'=>$this->peg_reportedPos,'end'=>$this->peg_currPos);
       return $r; 

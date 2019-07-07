@@ -29,7 +29,7 @@ class stack_ast_filter_999_strict implements stack_cas_astfilter_exclusion {
         $stars = false;
 
         $check = function($node) use (&$stars, &$spaces) {
-            if (isset($node->position['inserstars'])) {
+            if (isset($node->position['insertstars'])) {
                 $stars = true;
                 $node->position['invalid'] = true;
             }

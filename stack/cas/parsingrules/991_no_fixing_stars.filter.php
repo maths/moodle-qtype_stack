@@ -28,7 +28,7 @@ class stack_ast_filter_991_no_fixing_stars implements stack_cas_astfilter_exclus
         $stars = false;
 
         $check = function($node) use (&$stars) {
-            if (isset($node->position['inserstars'])) {
+            if (isset($node->position['insertstars'])) {
                 $stars = true;
                 $node->position['invalid'] = true;
             }

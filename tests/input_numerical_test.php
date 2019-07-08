@@ -89,7 +89,7 @@ class stack_numerical_input_test extends qtype_stack_testcase {
         $el = stack_input_factory::make('numerical', 'sans1', '3.14');
         $state = $el->validate_student_response(array('sans1' => '3.14*x^2'), $options, '3.14*x^2', new stack_cas_security());
         $this->assertEquals(stack_input::INVALID, $state->status);
-        $this->assertEquals(' This input expects a number, and so may not contain variables.', $state->errors);
+        $this->assertEquals('This input expects a number, and so may not contain variables.', $state->errors);
     }
 
     public function test_validate_student_response_valid_functions() {
@@ -142,7 +142,7 @@ class stack_numerical_input_test extends qtype_stack_testcase {
         $this->assertEquals(stack_input::INVALID, $state->status);
         $this->assertEquals('1/3', $state->contentsmodified);
         $this->assertEquals('\[ \frac{1}{3} \]', $state->contentsdisplayed);
-        $this->assertEquals(' This input expects a floating point number.', $state->errors);
+        $this->assertEquals('This input expects a floating point number.', $state->errors);
     }
 
     public function test_validate_student_response_with_rationalnum() {
@@ -177,7 +177,7 @@ class stack_numerical_input_test extends qtype_stack_testcase {
         $this->assertEquals(stack_input::INVALID, $state->status);
         $this->assertEquals('1/sqrt(2)', $state->contentsmodified);
         $this->assertEquals('\[ \frac{1}{\sqrt{2}} \]', $state->contentsdisplayed);
-        $this->assertEquals(' You must clear the following from the denominator of your fraction: '.
+        $this->assertEquals('You must clear the following from the denominator of your fraction: '.
                 '<span class="filter_mathjaxloader_equation"><span class="nolink">'.
                 '\[ \left[ \sqrt{2} \right] \]</span></span>', $state->errors);
     }
@@ -229,7 +229,7 @@ class stack_numerical_input_test extends qtype_stack_testcase {
         $el->set_parameter('options', 'mindp:4');
         $state = $el->validate_student_response(array('sans1' => '3.141'), $options, '10', new stack_cas_security(false, '', '', array('tans')));
         $this->assertEquals(stack_input::INVALID, $state->status);
-        $this->assertEquals(' You must supply at least <span class="filter_mathjaxloader_equation">' .
+        $this->assertEquals('You must supply at least <span class="filter_mathjaxloader_equation">' .
                 '<span class="nolink">\( 4 \)</span></span> decimal places.', $state->errors);
     }
 
@@ -248,7 +248,7 @@ class stack_numerical_input_test extends qtype_stack_testcase {
         $el->set_parameter('options', 'maxdp:4');
         $state = $el->validate_student_response(array('sans1' => '3.14159'), $options, '10', new stack_cas_security(false, '', '', array('tans')));
         $this->assertEquals(stack_input::INVALID, $state->status);
-        $this->assertEquals(' You must supply at most <span class="filter_mathjaxloader_equation">' .
+        $this->assertEquals('You must supply at most <span class="filter_mathjaxloader_equation">' .
                 '<span class="nolink">\( 4 \)</span></span> decimal places.', $state->errors);
     }
 
@@ -287,7 +287,7 @@ class stack_numerical_input_test extends qtype_stack_testcase {
         $el->set_parameter('options', 'mindp:3, maxdp:4');
         $state = $el->validate_student_response(array('sans1' => '3.14'), $options, '10', new stack_cas_security(false, '', '', array('tans')));
         $this->assertEquals(stack_input::INVALID, $state->status);
-        $this->assertEquals(' You must supply at least <span class="filter_mathjaxloader_equation">' .
+        $this->assertEquals('You must supply at least <span class="filter_mathjaxloader_equation">' .
                 '<span class="nolink">\( 3 \)</span></span> decimal places.', $state->errors);
     }
 
@@ -297,7 +297,7 @@ class stack_numerical_input_test extends qtype_stack_testcase {
         $el->set_parameter('options', 'mindp:3, maxdp:4');
         $state = $el->validate_student_response(array('sans1' => '3.14159'), $options, '10', new stack_cas_security(false, '', '', array('tans')));
         $this->assertEquals(stack_input::INVALID, $state->status);
-        $this->assertEquals(' You must supply at most <span class="filter_mathjaxloader_equation">' .
+        $this->assertEquals('You must supply at most <span class="filter_mathjaxloader_equation">' .
                 '<span class="nolink">\( 4 \)</span></span> decimal places.', $state->errors);
     }
 
@@ -307,7 +307,7 @@ class stack_numerical_input_test extends qtype_stack_testcase {
         $el->set_parameter('options', 'minsf:4');
         $state = $el->validate_student_response(array('sans1' => '3.14'), $options, '10', new stack_cas_security(false, '', '', array('tans')));
         $this->assertEquals(stack_input::INVALID, $state->status);
-        $this->assertEquals(' You must supply at least <span class="filter_mathjaxloader_equation">' .
+        $this->assertEquals('You must supply at least <span class="filter_mathjaxloader_equation">' .
                 '<span class="nolink">\( 4 \)</span></span> significant figures.', $state->errors);
     }
 
@@ -326,7 +326,7 @@ class stack_numerical_input_test extends qtype_stack_testcase {
         $el->set_parameter('options', 'maxsf:4');
         $state = $el->validate_student_response(array('sans1' => '3.14159'), $options, '10', new stack_cas_security(false, '', '', array('tans')));
         $this->assertEquals(stack_input::INVALID, $state->status);
-        $this->assertEquals(' You must supply at most <span class="filter_mathjaxloader_equation">' .
+        $this->assertEquals('You must supply at most <span class="filter_mathjaxloader_equation">' .
                 '<span class="nolink">\( 4 \)</span></span> significant figures.', $state->errors);
     }
 
@@ -365,7 +365,7 @@ class stack_numerical_input_test extends qtype_stack_testcase {
         $el->set_parameter('options', 'minsf:3, maxsf:4');
         $state = $el->validate_student_response(array('sans1' => '10'), $options, '10', new stack_cas_security(false, '', '', array('tans')));
         $this->assertEquals(stack_input::INVALID, $state->status);
-        $this->assertEquals(' You must supply at least <span class="filter_mathjaxloader_equation">' .
+        $this->assertEquals('You must supply at least <span class="filter_mathjaxloader_equation">' .
                 '<span class="nolink">\( 3 \)</span></span> significant figures.', $state->errors);
     }
 
@@ -375,7 +375,7 @@ class stack_numerical_input_test extends qtype_stack_testcase {
         $el->set_parameter('options', 'minsf:3, maxsf:4');
         $state = $el->validate_student_response(array('sans1' => '3.14159'), $options, '10', new stack_cas_security(false, '', '', array('tans')));
         $this->assertEquals(stack_input::INVALID, $state->status);
-        $this->assertEquals(' You must supply at most <span class="filter_mathjaxloader_equation">' .
+        $this->assertEquals('You must supply at most <span class="filter_mathjaxloader_equation">' .
                 '<span class="nolink">\( 4 \)</span></span> significant figures.', $state->errors);
     }
 
@@ -416,7 +416,7 @@ class stack_numerical_input_test extends qtype_stack_testcase {
         $el->set_parameter('options', 'minsf:3, maxsf:3');
         $state = $el->validate_student_response(array('sans1' => '3.1'), $options, '10', new stack_cas_security(false, '', '', array('tans')));
         $this->assertEquals(stack_input::INVALID, $state->status);
-        $this->assertEquals(' You must supply exactly <span class="filter_mathjaxloader_equation">' .
+        $this->assertEquals('You must supply exactly <span class="filter_mathjaxloader_equation">' .
                 '<span class="nolink">\( 3 \)</span></span> significant figures.', $state->errors);
     }
 
@@ -426,7 +426,7 @@ class stack_numerical_input_test extends qtype_stack_testcase {
         $el->set_parameter('options', 'minsf:3, maxsf:3');
         $state = $el->validate_student_response(array('sans1' => '3.114'), $options, '10', new stack_cas_security(false, '', '', array('tans')));
         $this->assertEquals(stack_input::INVALID, $state->status);
-        $this->assertEquals(' You must supply exactly <span class="filter_mathjaxloader_equation">' .
+        $this->assertEquals('You must supply exactly <span class="filter_mathjaxloader_equation">' .
                 '<span class="nolink">\( 3 \)</span></span> significant figures.', $state->errors);
     }
 
@@ -454,7 +454,7 @@ class stack_numerical_input_test extends qtype_stack_testcase {
         $el->set_parameter('options', 'mindp:3, maxdp:3');
         $state = $el->validate_student_response(array('sans1' => '3.1'), $options, '10', new stack_cas_security(false, '', '', array('tans')));
         $this->assertEquals(stack_input::INVALID, $state->status);
-        $this->assertEquals(' You must supply exactly <span class="filter_mathjaxloader_equation">' .
+        $this->assertEquals('You must supply exactly <span class="filter_mathjaxloader_equation">' .
                 '<span class="nolink">\( 3 \)</span></span> decimal places.', $state->errors);
     }
 
@@ -464,7 +464,7 @@ class stack_numerical_input_test extends qtype_stack_testcase {
         $el->set_parameter('options', 'mindp:3, maxdp:3');
         $state = $el->validate_student_response(array('sans1' => '3.1416'), $options, '10', new stack_cas_security(false, '', '', array('tans')));
         $this->assertEquals(stack_input::INVALID, $state->status);
-        $this->assertEquals(' You must supply exactly <span class="filter_mathjaxloader_equation">' .
+        $this->assertEquals('You must supply exactly <span class="filter_mathjaxloader_equation">' .
                 '<span class="nolink">\( 3 \)</span></span> decimal places.', $state->errors);
     }
 

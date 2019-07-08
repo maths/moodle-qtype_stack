@@ -532,8 +532,8 @@ class stack_equiv_input_test extends qtype_stack_testcase {
                 '[x^2-5*x+6,stackeq((x-2)*(x-3))]', new stack_cas_security());
         $this->assertEquals(stack_input::INVALID, $state->status);
         $this->assertEquals('[x^2-5*x+6,"Factoring gives ",stackeq((x-2)*(x-3))]', $state->contentsmodified);
-        $this->assertEquals('You are not permitted to use comments in this input type.'.
-                'Please just work line by line. ', $state->errors);
+        $this->assertEquals('You are not permitted to use comments in this input type.  '.
+                'Please just work line by line.', $state->errors);
     }
 
     public function test_validate_student_response_valid_comments() {

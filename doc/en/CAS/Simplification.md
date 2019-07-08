@@ -46,9 +46,7 @@ This variable can be set at the question level using the [options](../Authoring/
 When this is `false`, no simplification is performed and Maxima is quite happy to deal with an expression such as \(1+4\) without actually performing the addition.
 This is most useful for dealing with very elementary expressions.
 
-## Selective simplification
-
-If you are using `simp:false` to evaluate an expression with simplification on you can use
+If you are using `simp:false` to evaluate an expression with simplification on, you can use
 
     ev(ex,simp)
 

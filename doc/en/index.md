@@ -26,8 +26,10 @@ Welcome to the official user documentation for the [STACK project](About/index.m
   * [Input instructions](Students/Answer_input.md).
   * [How answers are assessed](Students/Answer_assessment.md).
 * **Administrators**
+  
   * For [Installation instructions](Installation/index.md).
 * **[Developers](Developer/index.md)**
+  
   * [Developer docs](Developer/index.md)
 
 More about what we are trying to achieve can be found under [the philosophy of STACK](About/The_philosophy_of_STACK.md).

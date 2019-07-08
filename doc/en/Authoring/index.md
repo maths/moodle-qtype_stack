@@ -8,12 +8,16 @@ Computer-aided assessment of mathematics works in the following phases.
 4. [Adding questions to a quiz](Quiz.md) and use by students.
 5. [Reporting](Reporting.md) and statistical analysis.
 
-Those new to STACK would probably prefer the [Authoring quick start](Authoring_quick_start.md).
+Those new to STACK would probably prefer the [Authoring quick start](Authoring_quick_start.md). These include embedded screencast videos.
 
 * [Authoring quick start 1](Authoring_quick_start.md) A basic question.
-* [Authoring quick start 2](Authoring_quick_start_2.md) Multi-part mathematical questions.
-* [Authoring quick start 3](Authoring_quick_start_3.md) Turning simplification off.
-* [Authoring quick start 4](Authoring_quick_start_4.md) Equivalence reasoning inputs.
+* [Authoring quick start 2](Authoring_quick_start_2.md) Question variables.
+* [Authoring quick start 3](Authoring_quick_start_3.md) Improving feedback.
+* [Authoring quick start 4](Authoring_quick_start_4.md) Randomisation.
+* [Authoring quick start 5](Authoring_quick_start_5.md) Question Testing.
+* [Authoring quick start 6](Authoring_quick_start_6.md) Multi-part mathematical questions.
+* [Authoring quick start 7](Authoring_quick_start_7.md) Turning simplification off.
+* [Authoring quick start 8](Authoring_quick_start_8.md) Importing and Quizzes.
 
 There are also [Sample questions](Sample_questions.md).
 This page is a reference for all the fields in a question.

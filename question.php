@@ -321,7 +321,8 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         // If we have units we might as well include the units declaration in the session.
         // To simplify authors work and remove the need to call that long function.
         if ($units) {
-            $session->add_statement(stack_ast_container_silent::make_from_teacher_source('stack_unit_si_declare(true)', 'automatic unit declaration'));
+            $session->add_statement(stack_ast_container_silent::make_from_teacher_source('stack_unit_si_declare(true)',
+                    'automatic unit declaration'));
         }
 
         // Note that at this phase the security object has no "words".
@@ -335,7 +336,6 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         // and so on?
         $forbiddenkeys = isset($usage['write']) ? $usage['write'] : array();
         $this->security = new stack_cas_security($units, '', '', $forbiddenkeys);
-
 
         // The session to keep. Note we do not need to reinstantiate the teachers answers.
         $sessiontokeep = new stack_cas_session2($session->get_session(), $this->options, $this->seed);
@@ -1090,6 +1090,13 @@ class qtype_stack_question extends question_graded_automatically_with_countback
                         $errors[] = stack_string('stackversionmulerror');
                     }
                 }
+            }
+        }
+
+        // Look for RexExp answer test which is no longer supported.
+        foreach ($this->prts as $name => $prt) {
+            if (array_key_exists('RegExp', $prt->get_answertests())) {
+                $errors[] = stack_string('stackversionregexp');
             }
         }
 

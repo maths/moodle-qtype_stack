@@ -171,7 +171,6 @@ The chart below shows the answer test, whether it is defined in Maxima or PHP an
 | Int                 | ATInt                 | Maxima     | Variable
 | String              |                       | PHP        |
 | StringSloppy        |                       | PHP        |
-| RegExp              |                       | PHP        |
 
 If you just want to decide if two expressions are considered to be algebraically equivalent, then use
 

@@ -62,7 +62,6 @@ class stack_ans_test_controller {
               'Int'                  => 'stackOptions_AnsTest_values_Int',
               'String'               => 'stackOptions_AnsTest_values_String',
               'StringSloppy'         => 'stackOptions_AnsTest_values_StringSloppy',
-              'RegExp'               => 'stackOptions_AnsTest_values_RegExp',
               );
 
     /*
@@ -103,7 +102,6 @@ class stack_ans_test_controller {
         'Int'                  => array(true, true, false),
         'String'               => array(false, false, null),
         'StringSloppy'         => array(false, false, null),
-        'RegExp'               => array(true, false, null),
     );
 
     /**
@@ -213,8 +211,9 @@ class stack_ans_test_controller {
                 break;
 
             case 'RegExp':
-                require_once(__DIR__ . '/atregexp.class.php');
-                $this->at = new stack_anstest_atregexp($sans, $tans, $options, $casoption);
+                // Don't break everything until people have a chance to edit existing questions.
+                require_once(__DIR__ . '/atstring.class.php');
+                $this->at = new stack_anstest_atstring($sans, $tans, $options, $casoption);
                 break;
 
             default:

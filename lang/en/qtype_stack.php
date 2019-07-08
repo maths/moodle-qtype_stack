@@ -46,6 +46,7 @@ $string['stackversionnone']   = 'This question has not been edited since questio
 $string['stackversionerror'] = 'This question uses {$a->pat} in the {$a->qfield}, which changed in STACK version {$a->ver} and is no longer supported.';
 $string['stackversionerroralt'] = 'An alternative is {$a}.';
 $string['stackversionmulerror'] = 'This question has an input which uses the "mul" option, which is not suppored after STACK version 4.2.  Please edit this question.';
+$string['stackversionregexp'] = 'The RegExp answer test is not supported after STACK version 4.3.';
 
 // Strings used on the editing form.
 $string['addanothernode'] = 'Add another node';
@@ -738,7 +739,6 @@ $string['stackOptions_AnsTest_values_Diff']                = "Diff";
 $string['stackOptions_AnsTest_values_Int']                 = "Int";
 $string['stackOptions_AnsTest_values_String']              = "String";
 $string['stackOptions_AnsTest_values_StringSloppy']        = "StringSloppy";
-$string['stackOptions_AnsTest_values_RegExp']              = "RegExp";
 
 $string['AT_NOTIMPLEMENTED']        = 'This answer test has not been implemented. ';
 $string['TEST_FAILED']              = 'The answer test failed to execute correctly: please alert your teacher. {$a->errors}';

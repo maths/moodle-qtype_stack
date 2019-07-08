@@ -251,8 +251,7 @@ The following tests do not use Maxima, but instead rely on PHP.
 | -------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 | String         | This is a string match, ignoring leading and trailing white space which are stripped from all answers, using PHP's trim() function.
 | StringSloppy   | This function first converts both inputs to lower case, then removes all white space from the string and finally performs a strict string comparison.
-| RegExp         | A regular expression match, with the expression passed via the option. This regular expression match is performed with PHP's `preg_match()` function. For example, if you want to test if a string looks like a floating-point number then use the regular expression `{[0-9]*\.[0-9]*}`
-|                | **NOTE:** we plan to remove this test in STACK version 4.3.  Do not use this test.
+| (RegExp)       | **NOTE:** this test was removed in STACK version 4.3.
 
 # Scientific units #
 

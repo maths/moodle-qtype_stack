@@ -1606,10 +1606,6 @@ class stack_answertest_test_data {
         array('StringSloppy', '', 'hel lo', 'Hel*lo', 0, 'TEST_FAILED:Invalid SA.', ''),
         array('StringSloppy', '', 'hello', 'heloo', 0, '', ''),
 
-        array('RegExp', '', '3.1415927', '3.1415927', -1, 'ATRegEx_STACKERROR_Option.', ''),
-        array('RegExp', '{[0-9]*\.[0-9]*}', '3.1415927', '3.1415927', 1, 'Pattern matched: 3.1415927.', ''),
-        array('RegExp', '{[0-9]*\.[0-9]*}', 'cxcxcz', '3.1415927', 0, '', ''),
-
         array('LowestTerms', '', '1/0', '0', -1, 'ATLowestTerms_STACKERROR_SAns.', ''),
         array('LowestTerms', '', '0.5', '0', 1, '', 'Mix of floats and rational numbers'),
         array('LowestTerms', '', '0.33', '0', 1, '', ''),

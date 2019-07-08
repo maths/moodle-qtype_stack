@@ -349,4 +349,15 @@ class stack_potentialresponse_tree {
         }
         return false;
     }
+
+    /**
+     * @return array Returns the answer tests used by this PRT.
+     */
+    public function get_answertests(): array {
+        $tests = array();
+        foreach ($this->nodes as $node) {
+            $tests[$node->get_test()] = true;
+        }
+        return $tests;
+    }
 }

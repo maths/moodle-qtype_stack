@@ -375,7 +375,8 @@ class stack_ast_filter_998_security implements stack_cas_astfilter_parametric {
                 }
             }
             foreach (array_keys($keys) as $n) {
-                if (!$identifierrules->is_allowed_to_read($this->source, $n)) {
+                // We also allow function-identifiers that are allowed...
+                if (!$identifierrules->is_allowed_to_read($this->source, $n) && !$identifierrules->is_allowed_to_call($this->source, $n)) {
                     if ($this->source === 't') {
                         $errors[] = trim(stack_string('stackCas_forbiddenWord',
                             array('forbid' => stack_maxima_format_casstring($n))));

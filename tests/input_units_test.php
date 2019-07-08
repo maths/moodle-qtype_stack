@@ -712,9 +712,9 @@ class stack_units_input_test extends qtype_stack_testcase {
         $el->set_parameter('strictSyntax', true);
         $state = $el->validate_student_response(array('sans1' => '3.88e-4*1/s'), $options, '3.88e-4*1/s', new stack_cas_security(true));
         $this->assertEquals(stack_input::VALID, $state->status);
-        $this->assertEquals('3.88e-4*1/s', $state->contentsmodified);
+        $this->assertEqualsIgnoreSpacesAndE('3.88e-4*1/s', $state->contentsmodified);
         // This is a special display rule to highlight the multiplication with 1/unit.
-        $this->assertEquals('\[ 3.88e-4\times {1}/{\mathrm{s}} \]',
+        $this->assertEqualsIgnoreSpacesAndE('\[ 3.88e-4\times {1}/{\mathrm{s}} \]',
                 qtype_stack_testcase::prepare_actual_maths($state->contentsdisplayed));
         $this->assertEquals('\( \left[ \mathrm{s} \right]\) ', $state->lvars);
     }
@@ -727,8 +727,8 @@ class stack_units_input_test extends qtype_stack_testcase {
         $el->set_parameter('options', 'negpow');
         $state = $el->validate_student_response(array('sans1' => '3.88e-4*1/s'), $options, '3.88e-4*1/s', new stack_cas_security(true));
         $this->assertEquals(stack_input::VALID, $state->status);
-        $this->assertEquals('3.88e-4*1/s', $state->contentsmodified);
-        $this->assertEquals('\[ 3.88e-4\, \mathrm{s}^ {- 1 } \]',
+        $this->assertEqualsIgnoreSpacesAndE('3.88e-4*1/s', $state->contentsmodified);
+        $this->assertEqualsIgnoreSpacesAndE('\[ 3.88e-4\, \mathrm{s}^ {- 1 } \]',
                 qtype_stack_testcase::prepare_actual_maths($state->contentsdisplayed));
         $this->assertEquals('\( \left[ \mathrm{s} \right]\) ', $state->lvars);
     }
@@ -740,13 +740,13 @@ class stack_units_input_test extends qtype_stack_testcase {
         $el->set_parameter('strictSyntax', true);
         $state = $el->validate_student_response(array('sans1' => '3.88e-4*1/(M*s)'), $options, '3.88e-4*1/s', new stack_cas_security(true));
         $this->assertEquals(stack_input::VALID, $state->status);
-        $this->assertEquals('3.88e-4*1/(M*s)', $state->contentsmodified);
+        $this->assertEqualsIgnoreSpacesAndE('3.88e-4*1/(M*s)', $state->contentsmodified);
         if ($this->adapt_to_new_maxima('5.32.2')) {
-            $this->assertEquals('\[ 3.88e-4\times {1}/{\left(\mathrm{M}\, \mathrm{s}\right)} \]',
+            $this->assertEqualsIgnoreSpacesAndE('\[ 3.88e-4\times {1}/{\left(\mathrm{M}\, \mathrm{s}\right)} \]',
                 qtype_stack_testcase::prepare_actual_maths($state->contentsdisplayed));
             $this->assertEquals('\( \left[ \mathrm{M} , \mathrm{s} \right]\) ', $state->lvars);
         } else {
-            $this->assertEquals('\[ 3.88e-4\times {1}/{\left(\mathrm{s}\, \mathrm{M}\right)} \]',
+            $this->assertEqualsIgnoreSpacesAndE('\[ 3.88e-4\times {1}/{\left(\mathrm{s}\, \mathrm{M}\right)} \]',
                 qtype_stack_testcase::prepare_actual_maths($state->contentsdisplayed));
             $this->assertEquals('\( \left[ \mathrm{s} , \mathrm{M} \right]\) ', $state->lvars);
         }
@@ -781,7 +781,7 @@ class stack_units_input_test extends qtype_stack_testcase {
         $el->set_parameter('options', 'minsf:3, maxsf:3');
         $state = $el->validate_student_response(array('sans1' => '9.8*m/s^2'), $options, '9.81*m/s^2', new stack_cas_security(true, '', '', array('tans')));
         $this->assertEquals(stack_input::INVALID, $state->status);
-        $this->assertEquals(' You must supply exactly <span class="filter_mathjaxloader_equation">' .
+        $this->assertEquals('You must supply exactly <span class="filter_mathjaxloader_equation">' .
                 '<span class="nolink">\( 3 \)</span></span> significant figures.', $state->errors);
     }
 
@@ -791,7 +791,7 @@ class stack_units_input_test extends qtype_stack_testcase {
         $el->set_parameter('options', 'minsf:3, maxsf:3');
         $state = $el->validate_student_response(array('sans1' => '9.816*m/s^2'), $options, '9.81*m/s^2', new stack_cas_security(true, '', '', array('tans')));
         $this->assertEquals(stack_input::INVALID, $state->status);
-        $this->assertEquals(' You must supply exactly <span class="filter_mathjaxloader_equation">' .
+        $this->assertEquals('You must supply exactly <span class="filter_mathjaxloader_equation">' .
                 '<span class="nolink">\( 3 \)</span></span> significant figures.', $state->errors);
     }
 

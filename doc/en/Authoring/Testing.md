@@ -85,6 +85,29 @@ Just above the "Question tests" section of this page is a "Send to CAS" button. 
 A Moodle administrator can run all of the questions tests within a particular course, or across the whole site
 by following the links on the STACK admin page.
 
+## Maxima evaluation
+
+Note, that while we use `simp:false` Maxima must "evaluate" the expression prior to the result being used by an input as a test case.
+
+If the raw testcase expression cannot be sent to the CAS, e.g. a missing bracket, then this invalidity will be tested.
+
+However, some evaluations in Maxima do actually more than just replace existing variables with the values from the question variables.
+
+For example, in Maxima try
+
+    simp:false;
+    f:x*sin(1/x);
+    limit(f,x,0);
+
+Notice here, that while `simp:false` the limit is still evaluated.  This is not "simplification".  For the full story, please refer to the Maxima docs on the `ev` command.
+
+In this case, you can prevent evaluation of limit by using an apostrophie in the test case.
+
+    simp:false;
+    f:x*sin(1/x);
+    'limit(f,x,0);
+
+
 ## STACK-Maxima sandbox ##
 
 It is very useful to be able to use the desktop Maxima application to test questions.  To do this it is very helpful to load all the STACK libraries.  Details on how to do this are in the [STACK-Maxima sandbox](../CAS/STACK-Maxima_sandbox.md) page.

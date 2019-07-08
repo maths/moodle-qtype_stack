@@ -2320,17 +2320,6 @@ PartFracfun(sExpr, tExpr, wrt) := block([val, rawmk, ansnote, fb],
      )$
 
 /* ************************ATSingFracTest****************************** */
-/* requires:    Student Answer                                          */
-/*      List:   [Teachers Answer, variable with which partial           */
-/*              fraction occurs, whether Formative Feedback is required */
-/* returns:     [validity,rawmk,ansnote,fb]                             */
-/*     Cases:                                                           */
-/*              Returns True iff algebraic equivalence with TList[1]    */
-/*     and Division is the Top Operator.                                */
-/*              False if Division not the top operator                  */
-/*              False if different Variables are used                   */
-/*              True(0) otherwise                                       */
-/* ******************************************************************** */
 ATSingleFrac(SA, SB) := block(
     [simp:false, negdistrib, validity, rawmk, fb, fbn, ansnote, ret, SAA, SBB],
     negdistrib: false,
@@ -2360,11 +2349,11 @@ ATSingleFrac(SA, SB) := block(
 
     /* Check for single fraction */
     fbn:"",
-    if op(SAA) = "/" then block(
-        if (freeof("/", num(SAA)) and freeof("/", denom(SAA))) then block(
-            rawmk:true,
-            ansnote:"ATSingleFrac_true")
-        else block(
+    if safe_op(SAA) = "/" then block(
+        rawmk:true,
+        ansnote:"ATSingleFrac_true",
+        /* Look for bad devision in the numerator or denominator. */
+        if ATSingleFrac_helper(num(SAA)) or ATSingleFrac_helper(denom(SAA)) then block(
             rawmk:false,
             ansnote:"ATSingleFrac_div")
         )
@@ -2383,6 +2372,15 @@ ATSingleFrac(SA, SB) := block(
     return([validity,rawmk,ansnote,fb])
 )$
 
+/* Returns true if we have fractions within sums and products. */
+ATSingleFrac_helper(ex):=block(
+    if atom(ex) then return(false),
+    if safe_op(ex)="/" then return(true),
+    /* We are looking for division within sums, products and differences only. */
+    if safe_op(ex)="+" or safe_op(ex)="*" or safe_op(ex)="-" then
+     return(any_listp(ATSingleFrac_helper, args(ex))),
+    return(false)
+)$
 
 /*****************************************************************/
 /* Useful function for Partial Fractions                         */

@@ -151,28 +151,31 @@ Each of these might be considered to be factored.  **Establishing `ex` is factor
 
     factor(ex)
 
-Related tests establish that an expression is _expanded_ or in _partial_
+Related tests establish that an expression is _expanded_ or in _partial_ fraction form.
 
 | Expression        | Description
 | ----------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 | LowestTerms       | This test checks that all numbers written in the first expression are in lowest terms and that the denominator is clear of surds and complex numbers.  Notes
 |                   |     * if you want to check whether a rational polynomial is written in lowest terms, this is not the test to use.  Instead, apply the [predicate functions](../CAS/Predicate_functions.md)  `lowesttermsp` to the expression.
 |                   |     * the second argument to this function is ignored, i.e. this test does not confirm algebraic equivalence.  You might as well use 0 here.
+| SingleFrac        | This test checks that SAns written as a "single fraction". See below.
 | Expanded          | Confirms SAns is equal to `expand(SAns)`.  Note, the second argument to this answer test is not used (but must be non-empty).  Note with this test that an expression such as \(x^2-(a+b)x+ab\) is not considered to be expanded, and this test will return false.
 | FacForm           | This test checks (i) that SAns is algebraically equivalent to TAns , and (ii) that SAns is "factored" over the rational numbers. See below for more details.  The answer test expects the option to be the variable, which is needed to generate feedback. If the answer is incorrect, quite detailed feedback is provided.
-| SingleFrac        | This test checks (i) that SAns is algebraically equivalent to TAns , and (ii) that SAns is written as a single fraction. Notes
-|                   |     * if you also want this expression written in lowest terms, then this is quite a separate test.  You need to first confirm you have a single fraction then add a new potential response. One way is to use the [../CAS/Predicate functions](../CAS/Predicate_functions.md) `lowesttermsp(ex)` and compare the result with `true` with the AlgEquiv test.
-|                   |     * The algebraic equivalence check is for convenience.  If you only want to check an expression is a single fraction make \(SAns=TAns\), i.e. ATSingleFrac(ex,ex) will do.
 | PartFrac          | This test checks (i) that SAns is algebraically equivalent to TAns , and (ii) that SAns is in "partial fraction form". The option must be the variable.
 | CompletedSquare   | This test checks (i) that SAns is algebraically equivalent to TAns , and (ii) that SAns is in "completed square form". The option must be the variable.
 
-# Factorisation of polynomials {#FacPoly}
+## Single fractions {#SingleFrac}
 
-An expression is said to be factored if it is written as a
-product of powers of distinct irreducible factors.   Strictly
-speaking, in establishing that an expression is in factored
-form, we might not even care whether the terms in the product
-are fully simplified, as long as they are irreducible.
+This test checks (i) that SAns is algebraically equivalent to TAns , and (ii) that SAns is written as a single fraction. Notes
+
+* This test works at the top level, making sure the expression as a whole is a single fraction.
+* if you also want this expression written in lowest terms, then this is quite a separate test.  You need to first confirm you have a single fraction then add a new potential response. One way is to use the [../CAS/Predicate functions](../CAS/Predicate_functions.md) `lowesttermsp(ex)` and compare the result with `true` with the AlgEquiv test.
+* The algebraic equivalence check is for convenience.  If you only want to check an expression is a single fraction make \(SAns=TAns\), i.e. ATSingleFrac(ex,ex) will do.
+
+## Factorisation of polynomials {#FacPoly}
+
+An expression is said to be factored if it is written as a product of powers of distinct irreducible factors.
+Strictly speaking, in establishing that an expression is in factored form, we might not even care whether the terms in the product are fully simplified, as long as they are irreducible.
 
 Irreducibility on the other hand means we can't find further factors, but here we need some care.
 

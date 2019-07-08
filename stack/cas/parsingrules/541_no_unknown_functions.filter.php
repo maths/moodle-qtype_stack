@@ -26,7 +26,7 @@ class stack_ast_filter_541_no_unknown_functions implements stack_cas_astfilter_e
         $known = stack_cas_security::get_protected_identifiers('function', $identifierrules->get_units());
 
         $process = function($node) use (&$hasany, &$errors, $known) {
-            if ($node instanceof MP_FunctionCall) {
+            if ($node instanceof MP_FunctionCall && !isset($node->position['invalid'])) {
                 if ($node->name instanceof MP_Identifier &&
                     array_key_exists($node->name->value, $known)) {
                     return true;
@@ -43,7 +43,7 @@ class stack_ast_filter_541_no_unknown_functions implements stack_cas_astfilter_e
         };
 
         // @codingStandardsIgnoreStart
-        while ($ast->callbackRecurse($process, true) !== true) {
+        while ($ast->callbackRecurse($process, false) !== true) {
         }
         // @codingStandardsIgnoreEnd
         if ($hasany) {

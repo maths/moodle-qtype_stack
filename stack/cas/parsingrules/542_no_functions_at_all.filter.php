@@ -25,7 +25,7 @@ class stack_ast_filter_542_no_functions_at_all implements stack_cas_astfilter_ex
         $hasany = false;
 
         $process = function($node) use (&$hasany, &$errors) {
-            if ($node instanceof MP_FunctionCall) {
+            if ($node instanceof MP_FunctionCall && !isset($node->position['invalid'])) {
                 $hasany = true;
                 // Insert stars into the pattern.
                 // Probably not very sensible to end up with sin(x) -> sin*(x) but ho hum.
@@ -39,7 +39,7 @@ class stack_ast_filter_542_no_functions_at_all implements stack_cas_astfilter_ex
         };
 
         // @codingStandardsIgnoreStart
-        while ($ast->callbackRecurse($process, true) !== true) {
+        while ($ast->callbackRecurse($process, false) !== true) {
         }
         // @codingStandardsIgnoreEnd
         if ($hasany) {

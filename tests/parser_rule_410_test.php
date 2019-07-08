@@ -52,7 +52,7 @@ class stack_parser_rule_410_test extends qtype_stack_testcase {
 
         $filter->filter($ast, $errs, $note, $security);
         $this->assertEquals($errs, array());
-        $this->assertEquals($note, array());
+        $this->assertEquals($note, array('missing_stars'));
         $this->assertEquals($ast->toString(), $result);
     }
 
@@ -67,7 +67,7 @@ class stack_parser_rule_410_test extends qtype_stack_testcase {
 
         $filter->filter($ast, $errs, $note, $security);
         $this->assertEquals($errs, array());
-        $this->assertEquals($note, array());
+        $this->assertEquals($note, array('missing_stars'));
         $this->assertEquals($ast->toString(), $result);
     }
 }

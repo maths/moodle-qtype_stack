@@ -45,7 +45,7 @@ class stack_parser_rule_542_test extends qtype_stack_testcase {
 
     public function test_functions_0() {
         $teststring = '1+sin(x)^2/2!-x^3/3!;';
-        $result     = '1+sin*(x)^2/2!-x^3/3!;' . "\n";
+        $result     = '1+sin(x)^2/2!-x^3/3!;' . "\n";
         $ast = maxima_parser_utils::parse($teststring);
         $filter = new stack_ast_filter_542_no_functions_at_all();
         $errs = array();
@@ -62,7 +62,7 @@ class stack_parser_rule_542_test extends qtype_stack_testcase {
     public function test_functions_1() {
         // User defined function.
         $teststring = '1-2*f(x^2);';
-        $result     = '1-2*f*(x^2);' . "\n";
+        $result     = '1-2*f(x^2);' . "\n";
         $ast = maxima_parser_utils::parse($teststring);
         $filter = new stack_ast_filter_542_no_functions_at_all();
         $errs = array();
@@ -79,7 +79,7 @@ class stack_parser_rule_542_test extends qtype_stack_testcase {
     public function test_functions_2() {
         // User defined function.
         $teststring = '1-2*f(x^2-1)+sin(x)/7;';
-        $result     = '1-2*f*(x^2-1)+sin*(x)/7;' . "\n";
+        $result     = '1-2*f(x^2-1)+sin(x)/7;' . "\n";
         $ast = maxima_parser_utils::parse($teststring);
         $filter = new stack_ast_filter_542_no_functions_at_all();
         $errs = array();
@@ -98,7 +98,7 @@ class stack_parser_rule_542_test extends qtype_stack_testcase {
     public function test_functions_3() {
         // Nested user defined function.
         $teststring = '1+x(t(3)+1);';
-        $result     = '1+x*(t*(3)+1);' . "\n";
+        $result     = '1+x(t(3)+1);' . "\n";
         $ast = maxima_parser_utils::parse($teststring);
         $filter = new stack_ast_filter_542_no_functions_at_all();
         $errs = array();

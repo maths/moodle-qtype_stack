@@ -20,7 +20,6 @@ require_once(__DIR__ . '/../locallib.php');
 require_once(__DIR__ . '/fixtures/test_base.php');
 require_once(__DIR__ . '/../stack/cas/parsingrules/541_no_unknown_functions.filter.php');
 
-// TODO: update these tests to match the realisty of 041 => 441 & 541.
 
 /**
  * Unit tests for {@link stack_ast_filter_541_no_unknown_functions}.
@@ -61,7 +60,7 @@ class stack_parser_rule_541_test extends qtype_stack_testcase {
     public function test_functions_1() {
         // User defined function.
         $teststring = '1+2*f(x^2);';
-        $result     = '1+2*f*(x^2);' . "\n";
+        $result     = '1+2*f(x^2);' . "\n";
         $ast = maxima_parser_utils::parse($teststring);
         $filter = new stack_ast_filter_541_no_unknown_functions();
         $errs = array();
@@ -78,7 +77,7 @@ class stack_parser_rule_541_test extends qtype_stack_testcase {
     public function test_functions_2() {
         // User defined function, but sin is known.
         $teststring = '1-2*foo(x^2-1)+sin(x)/7;';
-        $result     = '1-2*foo*(x^2-1)+sin(x)/7;' . "\n";
+        $result     = '1-2*foo(x^2-1)+sin(x)/7;' . "\n";
         $ast = maxima_parser_utils::parse($teststring);
         $filter = new stack_ast_filter_541_no_unknown_functions();
         $errs = array();
@@ -95,7 +94,7 @@ class stack_parser_rule_541_test extends qtype_stack_testcase {
     public function test_functions_3() {
         // Nested user defined functions.
         $teststring = '1+x(t(3)+1);';
-        $result     = '1+x*(t*(3)+1);' . "\n";
+        $result     = '1+x(t(3)+1);' . "\n";
         $ast = maxima_parser_utils::parse($teststring);
         $filter = new stack_ast_filter_541_no_unknown_functions();
         $errs = array();

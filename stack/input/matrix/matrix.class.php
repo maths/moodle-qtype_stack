@@ -199,6 +199,19 @@ class stack_matrix_input extends stack_input {
         }
         // Construct one final "answer" as a single maxima object.
         // In the case of matrices (where $caslines are empty) create the object directly here.
+        // As this will create a matrix we need to check that 'matrix' is not a forbidden word.
+        // Should it be a forbidden word it gets still aplied to the cells.
+        if (isset(stack_cas_security::list_to_map($this->get_parameter('forbidWords', ''))['matrix'])) {
+            $modifiedforbid = str_replace('\,', 'COMMA_TAG', $this->get_parameter('forbidWords', ''));
+            $modifiedforbid = explode(',', $modifiedforbid);
+            array_map('trim', $modifiedforbid);
+            unset($modifiedforbid[array_search('matrix', $modifiedforbid)]);
+            $modifiedforbid = implode(',', $modifiedforbid);
+            $modifiedforbid = str_replace('COMMA_TAG', '\,', $modifiedforbid);
+            $secrules->set_forbiddenwords($modifiedforbid);
+            // Cumbersome, and cannot deal with matrix being within an alias...
+            // But first iteration and so on.
+        }
         $value = $this->contents_to_maxima($modifiedcontents);
         $answer = stack_ast_container::make_from_student_source($value, '', $secrules);
         $answer->get_valid();

@@ -36,18 +36,38 @@ class stack_ast_filter_998_security implements stack_cas_astfilter_parametric {
         // variable references and operations.
         $ofinterest = array();
 
+        // If this is a student sourced thing, it may include a teacher 
+        // identifier in the form of the assignment to input-variable.
+        // That assignement operation is also protected from forbidding 
+        // assignment operations.
+        $protected = false;
+        if ($this->source === 's') {
+            $root = $ast;
+            if ($root instanceof MP_Root) {
+                $root = $root->items[0];
+            }
+            if ($root instanceof MP_Statement) {
+                $root = $root->statement;
+            }
+            if ($root instanceof MP_Operation && $root->op === ':') {
+                $protected = $root;
+            }
+        }
+
+
         // For certain cases we want to know of commas. For this reason
         // certain structures need to be checked for them.
         $commas = false;
         $evflags = false;
-        $extraction = function($node) use (&$ofinterest, &$commas, &$evflags){
+        $extraction = function($node) use (&$ofinterest, &$commas, &$evflags, $protected){
             if ($node instanceof MP_Identifier ||
                 $node instanceof MP_FunctionCall ||
                 $node instanceof MP_Operation ||
                 $node instanceof MP_PrefixOp ||
                 $node instanceof MP_PostfixOp) {
-
-                $ofinterest[] = $node;
+                if ($protected === false || ($node !== $protected && ($node->parentnode !== $protected || $node->parentnode->lhs !== $node))) {
+                    $ofinterest[] = $node;
+                }
             }
             if (!$commas) {
                 if ($node instanceof MP_FunctionCall && count($node->arguments) > 1) {
@@ -328,8 +348,8 @@ class stack_ast_filter_998_security implements stack_cas_astfilter_parametric {
                 $valid = false;
                 continue;
             }
-
-            if ($identifierrules->get_units() === true) {
+            // For now apply only for students.
+            if ($this->source === 's' && $identifierrules->get_units() === true) {
                 // Check for unit synonyms. Ignore if specifically allowed.
                 list ($fndsynonym, $answernote, $synonymerr) = stack_cas_casstring_units::find_units_synonyms($name);
                 if ($this->source == 's' && $fndsynonym && !$identifierrules->is_allowed_word($name)) {

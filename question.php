@@ -342,7 +342,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
 
         // 2. correct answer for all inputs.
         foreach ($this->inputs as $name => $input) {
-            $cs = stack_ast_container::make_from_teacher_source($name . ':' . $input->get_teacher_answer(),
+            $cs = stack_ast_container::make_from_teacher_source($input->get_teacher_answer(),
                     '', $this->security);
             $this->tas[$name] = $cs;
             $session->add_statement($cs);

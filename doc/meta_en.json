@@ -1,0 +1,43 @@
+{
+    "en": [
+      {
+      "file":"index.md",
+      "title":"Overview - STACK Documentation",
+      "description":"Comprehensive documentation for the STACK question type."
+      },
+      {
+      "file":"Site_map.md",
+      "title":"Site Map - STACK Documentation",
+      "description":"A directory listing of all STACK documentation."
+      },
+      {
+      "About":[
+        {
+        "file":"Community.md",
+        "title":"STACK Community",
+        "description":"Information on the STACK community, including meetings, groups and how to contribute."
+        },
+        {
+        "file":"Credits.md",
+        "title":"Contributors",
+        "description":"Information on who has contributed to the STACK project."
+        },
+        {
+        "file":"Publications.md",
+        "title":"Publications about STACK",
+        "description":"STACK has been the subject of research, including published books and articles."
+        },
+        {
+        "file":"The_philosophy_of_STACK.md",
+        "title":"The Philosophy of STACK",
+        "description":"Comprehensive documentation for the STACK question type."
+        },
+        {
+        "file":"index.md",
+        "title":"About the STACK Project",
+        "description":"STACK is an assessment system for mathematics, science and related disciplines designed to enable students to answer questions with a mathematical expression."
+        }
+      ]
+      }
+    ]
+}

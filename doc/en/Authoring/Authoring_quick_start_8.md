@@ -103,6 +103,7 @@ This concludes the authoring quick start guide. The STACK documentation is compr
 - learn about more [answer tests](Answer_tests.md),
 - add [plots](Plots.md) to your [CASText](CASText.md) fields,
 - add support for [multiple languages](Languages.md),
-- learn about using [equivalence reasoning](Getting_started_with_equivalence_reasoning.md),
+- learn about using [equivalence reasoning](Equivalence_reasoning.md),
+- read about [Curve sketching](Curve_sketching.md).
 - look at more information on [Maxima](../CAS/index.md), particularly the Maxima documentation if you are not very familiar with Maxima's syntax and function names. A graphical Maxima interface like [wxMaxima](http://andrejv.github.com/wxmaxima/) can also be very helpful for finding the appropriate Maxima commands easily.
 

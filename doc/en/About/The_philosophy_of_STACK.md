@@ -12,6 +12,13 @@ The STACK system is a computer aided assessment package for mathematics.  In com
    >  In these questions the student's answer contains the content.
       It is not a selection. Examples of these are numeric questions.
 
+There are a number of limitations of teacher-provided answer questions. Some of these are:
+
+1. Only finite answers are possible. The teacher can put in "dummy responses" for common mistakes and give feedback based on those mistakes, but it is impossible to give mistakes on student errors outside the given examples.
+2. You can only assess "lower-order" skills. "Give an example of..." type questions are impossible.
+3. It encourages "strategic learning", i.e. instead of solving the problem, students will think about how to "trick the system" and find the right answer.
+4. Question distortion, especially problematic in mathematics. You may ask students to integrate a complicated function, and then give a list of potential answers. Differentiating the answers to get the original expression may be a much easier process, and not what we wanted the student to practice anyhow.
+
 STACK concentrates on student-provided answers which are mathematical expressions.
 For example, a student might respond to a question with a polynomial or matrix.
 Essentially STACK asks for mathematical expressions and evaluates these using computer algebra.

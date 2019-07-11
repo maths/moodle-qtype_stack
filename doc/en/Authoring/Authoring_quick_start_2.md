@@ -20,7 +20,7 @@ Let us focus on the problem of finding \(\int 3(x-1)^{-4} \mathrm{d}x\). Create 
 
 ### Using question variables
 
-The next steps would be to add question text, and then to add the teacher's answer `-1*(x-1)^(-3)+c` to the `model answer` field and the `potential response tree`.  However, the expression and model answer will normally be referred to more than once, so it is usually easiest to assign them to "question variables" using the optional [question variables](KeyVals.md#Question_variables) field.
+The next steps would be to add question text, and then to add the teacher's answer `-1*(x-1)^(-3)+c` to the `model answer` field and the `potential response tree`.  However, the expression and model answer will normally be referred to more than once, so it is usually easiest to assign them to "question variables" using the optional [question variables](Variables.md#Question_variables) field.
 
 Add the following to the question variables
 

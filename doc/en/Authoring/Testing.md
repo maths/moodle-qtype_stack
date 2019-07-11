@@ -52,7 +52,7 @@ Question variables can be included in the tests; indeed these are needed to defi
 Each test assigns values to
 
 1. any/all of the inputs.  These values may, naturally, depend on the
-   [question variables](KeyVals.md#Question_variables).
+   [question variables](Variables.md#Question_variables).
 2. values for the score and any penalty.
 3. [Answer notes](Potential_response_trees.md#Answer_note) from each of
    the [potential response trees](Potential_response_trees.md).

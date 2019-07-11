@@ -1,6 +1,6 @@
-# Authoring Quick Start 3: Improving Feedback
+# Authoring quick start 3: improving feedback
 
-Authoring Quick Start: [1 - First Question](Authoring_quick_start.md) | [2 - Question Variables](Authoring_quick_start_2.md) | <u>3 - Feedback</u> |[4 - Randomisation](Authoring_quick_start_4.md) | [5 - Question Tests](Authoring_quick_start_5.md) | [6 - Multiple-part Questions](Authoring_quick_start_6.md) | [7 - Simplification](Authoring_quick_start_7.md) | [8 - Quizzes](Authoring_quick_start_8.md)
+Authoring quick start: [1 - First question](Authoring_quick_start.md) | [2 - Question variables](Authoring_quick_start_2.md) | <u>3 - Feedback</u> |[4 - Randomisation](Authoring_quick_start_4.md) | [5 - Question tests](Authoring_quick_start_5.md) | [6 - Multipart questions](Authoring_quick_start_6.md) | [7 - Simplification](Authoring_quick_start_7.md) | [<u>8 - Quizzes</u>](Authoring_quick_start_8.md)
 
 
 

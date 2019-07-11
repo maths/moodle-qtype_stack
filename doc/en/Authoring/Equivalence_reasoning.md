@@ -1,4 +1,4 @@
-# Getting Started With Equivalence Reasoning
+# Getting started with equivalence reasoning
 
 
 This guide shows you how to write STACK questions using the line by line [equivalence reasoning](../CAS/Equivalence_reasoning.md) input type.

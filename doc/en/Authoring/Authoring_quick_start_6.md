@@ -1,10 +1,10 @@
-# Authoring Quick Start 6: Multi-part Questions
+# Authoring quick start 6: multipart questions
 
-Authoring Quick Start: [1 - First Question](Authoring_quick_start.md) | [2 - Question Variables](Authoring_quick_start_2.md) | [3 - Feedback](Authoring_quick_start_3.md) |[4 - Randomisation](Authoring_quick_start_4.md) | [5 - Question Tests](Authoring_quick_start_5.md) | <u>6 - Multiple-part Questions</u> | [7 - Simplification](Authoring_quick_start_7.md) | [8 - Quizzes](Authoring_quick_start_8.md)
+Authoring quick start: [1 - First question](Authoring_quick_start.md) | [2 - Question variables](Authoring_quick_start_2.md) | [3 - Feedback](Authoring_quick_start_3.md) |[4 - Randomisation](Authoring_quick_start_4.md) | [5 - Question tests](Authoring_quick_start_5.md) | <u>6 - Multipart questions</u> | [7 - Simplification](Authoring_quick_start_7.md) | [<u>8 - Quizzes</u>](Authoring_quick_start_8.md)
 
 
 
-This part of the Authoring Quick Start Guide deals with authoring multi-part questions. The following video explains the process:
+This part of the authoring quick start guide deals with authoring multi-part questions. The following video explains the process:
 
 EMBED VIDEO HERE
 

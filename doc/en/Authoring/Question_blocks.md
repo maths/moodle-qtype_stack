@@ -15,7 +15,7 @@ an input block based on student input, well not just by using an `[[if/]]`-block
 want. Such adaptation requires persistent modifiable question state and is not currently possible in STACK; however, there is work being done to create systems that would allow it.
 
 
-## General Syntax ##
+## General syntax ##
 
 The syntax is quite similar to XML but preserving the style ``[[ ... ]]`` used in the inputs and potential response tree declarations.
 

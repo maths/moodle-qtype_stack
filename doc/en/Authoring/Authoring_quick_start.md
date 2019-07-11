@@ -1,10 +1,10 @@
-# Authoring Quick Start 1: a Minimal Working Question
+# Authoring quick start 1: a minimal working question
 
-Authoring Quick Start: <u>1 - First Question</u> | [2 - Question Variables](Authoring_quick_start_2.md) | [3 - Feedback](Authoring_quick_start_3.md) |[4 - Randomisation](Authoring_quick_start_4.md) | [5 - Question Tests](Authoring_quick_start_5.md) | [6 - Multiple-part Questions](Authoring_quick_start_6.md) | [7 - Simplification](Authoring_quick_start_7.md) | [8 - Quizzes](Authoring_quick_start_8.md)
+Authoring quick start: <u>1 - First question</u> | [2 - Question variables](Authoring_quick_start_2.md) | [3 - Feedback](Authoring_quick_start_3.md) |[4 - Randomisation](Authoring_quick_start_4.md) | [5 - Question tests](Authoring_quick_start_5.md) | [6 - Multipart questions](Authoring_quick_start_6.md) | [7 - Simplification](Authoring_quick_start_7.md) | [<u>8 - Quizzes</u>](Authoring_quick_start_8.md)
 
 
 
-The author quick start guide shows you how to write STACK questions.  Part 1 gets a minimal question working. The following video explains the process:
+The authoring quick start guide shows you how to write STACK questions.  Part 1 gets a minimal question working. The following video explains the process:
 
 EMBED VIDEO HERE
 

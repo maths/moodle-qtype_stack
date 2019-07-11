@@ -6,7 +6,7 @@ Note, where the feature is listed as "(done)" means we have prototype code in th
 
 ## Features to add for STACK 4.3 or later ##
 
-### Units Inputs ###
+### Units inputs ###
 
 * Conversion from Celsius to Kelvin?  What units to choose for degrees Celsius which don't conflict with Coulomb?
 * Support for United States customary units?
@@ -96,15 +96,15 @@ Other (past ideas) were http://zaach.github.com/jison/ or https://github.com/haf
 The functionality we want to develop is a block in which the contents is revealed or hidden by JavaScript, depending on the value of a separate input.
 
     [[ reveal input="ans1" value="true" ]]
-
+    
     This will be shown if the value of "ans1" is true.
-
+    
     [[ else if value="false" ]]
-
+    
     [[ else ]]
-
+    
     This will be shown otherwise. (optional)  Perhaps?
-
+    
     [[/ reveal ]]
 
 This implements a JavaScript listener on input "ans1", which reveals or hides the appropriate content.

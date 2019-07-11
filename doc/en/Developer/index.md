@@ -1,8 +1,8 @@
-# Developer Docs
+# Developer docs
 
 The Developer docs provide documentation for development, as well as instructions for developers who want to contribute to STACK.
 
-### Advanced Topics
+### Advanced topics
 
 The following topics describe advanced topics for developers and site admins.
 
@@ -28,7 +28,7 @@ You could read about [Installing language pack and translating STACK](Language_p
 
 There is also information on [contributing to the documentation](Documentation.md).
 
-### Development History
+### Development history
 
 If you want to track the development of STACK or report bugs then you should visit [GitHub](https://github.com/maths/moodle-qtype_stack).
 

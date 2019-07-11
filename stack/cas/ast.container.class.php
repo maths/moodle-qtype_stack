@@ -32,7 +32,7 @@ require_once(__DIR__ . '/../maximaparser/corrective_parser.php');
 require_once(__DIR__ . '/../maximaparser/MP_classes.php');
 
 
-class stack_ast_container extends stack_ast_container_silent implements cas_latex_extractor, cas_value_extractor{
+class stack_ast_container extends stack_ast_container_silent implements cas_latex_extractor, cas_value_extractor, cas_display_value_extractor {
 
     /*
      * NOTES:
@@ -67,6 +67,11 @@ class stack_ast_container extends stack_ast_container_silent implements cas_late
      * LaTeX value coming back from CAS
      */
     private $latex;
+
+    /**
+     * CAS rendered displayvalue.
+     */
+    private $displayvalue;
 
     protected function __constructor($ast, string $source, string $context,
                                    stack_cas_security $securitymodel,
@@ -178,6 +183,10 @@ class stack_ast_container extends stack_ast_container_silent implements cas_late
         $this->evaluated = $ast;
     }
 
+    public function set_cas_display_value(string $displayvalue) {
+        $this->displayvalue = $displayvalue;
+    }
+
     public function set_cas_latex_value(string $latex) {
         $dispfix = array('QMCHAR' => '?', '!LEFTSQ!' => '\left[', '!LEFTR!' => '\left(',
             '!RIGHTSQ!' => '\right]', '!RIGHTR!' => '\right)');
@@ -242,11 +251,13 @@ class stack_ast_container extends stack_ast_container_silent implements cas_late
     }
 
     public function get_dispvalue() {
+        /* TODO: did we give up on this? Well we do now have means of getting the old form value from CAS...
         if ($this->evaluated) {
             return $this->evaluated->toString(array('nounify' => false, 'inputform' => true,
                 'qmchar' => true, 'nosemicolon' => true));
-        }
-        return '';
+        }*/
+
+        return $this->displayvalue;
     }
 
     public function get_display() {

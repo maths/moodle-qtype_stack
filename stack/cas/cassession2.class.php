@@ -184,6 +184,7 @@ class stack_cas_session2 {
         // can handle that if need be.
         $collectvalues = array();
         $collectlatex = array();
+        $collectdvs = array();
 
         foreach ($this->statements as $num => $statement) {
             if ($statement instanceof cas_value_extractor) {
@@ -200,6 +201,13 @@ class stack_cas_session2 {
                     $collectlatex[$statement->get_key()] = $statement;
                 }
             }
+            if ($statement instanceof cas_display_value_extractor) {
+                if ($statement->get_key() === '') {
+                    $collectdvs['__e_smt_' . $num] = $statement;
+                } else {
+                    $collectdvs[$statement->get_key()] = $statement;
+                }
+            }
         }
 
         // We will build the whole command here
@@ -213,6 +221,9 @@ class stack_cas_session2 {
         if (count($collectlatex) > 0) {
             $command .= ',_LATEX:["stack_map"]';
         }
+        if (count($collectdvs) > 0) {
+            $command .= ',_DVALUES:["stack_map"]';
+        }
 
         // Set some values.
         $command .= ',_VALUES:stackmap_set(_VALUES,"__stackmaximaversion",stackmaximaversion)';
@@ -223,7 +234,7 @@ class stack_cas_session2 {
             $ef = $statement->get_evaluationform();
             $line = ',_EC(errcatch(' . $ef . '),';
             $key = null;
-            if (($statement instanceof cas_value_extractor) || ($statement instanceof cas_latex_extractor)) {
+            if (($statement instanceof cas_value_extractor) || ($statement instanceof cas_latex_extractor) || ($statement instanceof cas_display_value_extractor)) {
                 // One of those that need to be collected later.
                 if (($key = $statement->get_key()) === '') {
                     $key = '__e_smt_' . $num;
@@ -252,12 +263,20 @@ class stack_cas_session2 {
             $command .= stack_utils::php_string_to_maxima_string($key);
             $command .= ',string(' . $key . '))';
         }
+        foreach ($collectdvs as $key => $statement) {
+            $command .= ',_DVALUES:stackmap_set(_DVALUES,';
+            $command .= stack_utils::php_string_to_maxima_string($key);
+            $command .= ',stack_dispvalue(' . $key . '))';
+        }
 
         // Pack values to the response.
         $command .= ',_RESPONSE:stackmap_set(_RESPONSE,"timeout",false)';
         $command .= ',_RESPONSE:stackmap_set(_RESPONSE,"values",_VALUES)';
         if (count($collectlatex) > 0) {
             $command .= ',_RESPONSE:stackmap_set(_RESPONSE,"presentation",_LATEX)';
+        }
+        if (count($collectdvs) > 0) {
+           $command .= ',_RESPONSE:stackmap_set(_RESPONSE,"display",_DVALUES)';
         }
         $command .= ',if length(%ERR)>1 then _RESPONSE:stackmap_set(_RESPONSE,"errors",%ERR)';
         $command .= ',if length(%NOTES)>1 then _RESPONSE:stackmap_set(_RESPONSE,"notes",%NOTES)';
@@ -276,6 +295,7 @@ class stack_cas_session2 {
         // Let's collect what we got.
         $asts = array();
         $latex = array();
+        $display = array();
         if ($results['timeout'] === true) {
             foreach ($this->statements as $num => $statement) {
                 $statement->set_cas_status(array("TIMEDOUT"), array(), array());
@@ -294,6 +314,13 @@ class stack_cas_session2 {
                 foreach ($results['presentation'] as $key => $value) {
                     if (is_string($value)) {
                         $latex[$key] = $value;
+                    }
+                }
+            }
+            if (array_key_exists('display', $results)) {
+                foreach ($results['display'] as $key => $value) {
+                    if (is_string($value)) {
+                        $display[$key] = $value;
                     }
                 }
             }
@@ -357,6 +384,9 @@ class stack_cas_session2 {
             }
             foreach ($collectlatex as $key => $statement) {
                 $statement->set_cas_latex_value($latex[$key]);
+            }
+            foreach ($collectdvs as $key => $statement) {
+                $statement->set_cas_display_value($display[$key]);
             }
             $this->instantiated = true;
         }

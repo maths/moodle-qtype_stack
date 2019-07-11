@@ -145,3 +145,49 @@ function stack_docs_render_markdown($page, $docscontent) {
     return $page;
 }
 
+/**
+ * @param string $url Docs page being considered.
+ * @return array Metadata content.
+ */
+function stack_docs_page_metadata($uri) {
+
+    $metafile = file_get_contents("meta_en.json");
+    $meta = json_decode($metafile, true);
+    if ($meta == array()) {
+        throw new stack_exception('STACK docs: the metadata json file is broken!');
+    }
+    // TODO: langauges.
+    $meta = $meta['en'];
+
+    // Sort out what we are looking for.
+    $file = explode('/', substr(trim($uri), 0));
+    $endfile = 'index.md';
+    $pathtofile = array();
+    foreach ($file as $f) {
+        $f = trim($f);
+        if ($f !== '') {
+            if (substr($f, -3) == '.md') {
+                $endfile = $f;
+            } else {
+                $pathtofile[] = $f;
+            }
+        }
+    }
+
+    foreach ($pathtofile as $key) {
+        foreach ($meta as $ml) {
+            if (array_key_exists($key, $ml)) {
+                // We are at the directory level, so go down the tree.
+                $meta = $ml[$key];
+            }
+        }
+    }
+
+    $metadata = array();
+    foreach ($meta as $dat) {
+        if (array_key_exists('file', $dat) && trim($dat['file']) == $endfile) {
+            $metadata = $dat;
+        }
+    }
+    return $metadata;
+}

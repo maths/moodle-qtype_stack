@@ -13,7 +13,7 @@ Computer-aided assessment of mathematics works in the following phases.
 STACK questions form part of the Moodle quiz.
 You may form quizzes with a mix of STACK questions and other Moodle question types.
 Please consult the [Moodle documentation](http://docs.moodle.org/en/Quiz_module) for details of how to create
-and use Moodle quizzes.
+and use Moodle quizzes. You may also find the [quiz part of the authoring quick start](Authoring_quick_start_8.md) helpful.
 
 ## Setting quiz options ##
 

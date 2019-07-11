@@ -59,7 +59,7 @@ As of 2015-9-17, STACK has been tested on the following versions of Maxima.
 * branch_5_35_base_87_g454731b = PASS (compiled from source)
 * 5.36.1 = PASS
 
-## Testing you questions when you upgrade
+## Testing your questions when you upgrade
 
 Whenever you upgrade to a new version of the STACK plugin, it is a really good idea to run all
 of the [question tests](../Authoring/Testing.md) to be sure that the behaviour of STACK has not

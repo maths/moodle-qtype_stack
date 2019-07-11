@@ -201,7 +201,7 @@ The first of these does not pull out a numerical denominator.  The second does.
 Some further examples are given elsewhere:
 
 * Matrix examples in [showing working](Matrix.md#Showing_working).
-* An example of a question with `simp:false` is discussed in [authoring quick start 3](../Authoring/Authoring_quick_start_3.md).
+* An example of a question with `simp:false` is discussed in [authoring quick start 7](../Authoring/Authoring_quick_start_7.md).
 * Generating [random algebraic expressions](Random.md) which need to be "gathered and sorted".
 
 Note also that [question tests](../Authoring/Testing.md#Simplification) do not simplify test inputs.

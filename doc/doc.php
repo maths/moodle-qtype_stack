@@ -99,6 +99,7 @@ $links = implode(' | ', $links);
 
 if ('Site_map' == $lastseg) {
     $body = stack_docs_site_map($links, $docsroot, $docsurl);
+    $meta = stack_docs_page_metadata('Site_map.md');
 } else {
     if ('' == $lastseg) {
         $file = $docsroot . $uri . 'index.md';
@@ -108,10 +109,15 @@ if ('Site_map' == $lastseg) {
 
     if (file_exists($file)) {
         $body = stack_docs_page($links, $file, $docscontent);
-
+        $meta = stack_docs_page_metadata($uri);
     } else {
         $body = stack_docs_no_found($links);
+        $meta = array();
     }
+}
+
+if (array_key_exists('title', $meta)) {
+    $PAGE->set_title($meta['title']);
 }
 
 /* Add the version number and logos to the front page.  */
@@ -134,7 +140,14 @@ $webpix  = $CFG->wwwroot . '/question/type/stack/pix/logo-sm.png';
 $pagetitle = '<img src="' . $webpix . '" style="margin-right: 15px;" />' .
         stack_string('stackDoc_docs');
 
-echo $OUTPUT->header();
-echo $OUTPUT->heading($pagetitle);
+$header = $OUTPUT->header() . $OUTPUT->heading($pagetitle);
+if (array_key_exists('description', $meta)) {
+    // Splice in the description at the end of the header.
+    $description = $meta['description'];
+    $description = '<meta name="description" content="' . $description . '"/>' . "\n";
+    $cut = strpos($header, '</head>');
+    $header = substr($header, 0, $cut) . $description . substr($header, $cut);
+}
+echo $header;
 echo $body;
 echo $OUTPUT->footer();

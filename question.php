@@ -749,6 +749,11 @@ class qtype_stack_question extends question_graded_automatically_with_countback
      * @return array the input required by that PRT.
      */
     protected function get_prt_input($index, $response, $acceptvalid) {
+        if (!array_key_exists($index, $this->prts)) {
+            $msg = '"' . $this->name . '" (' . $this->id . ') seed = ' .
+                $this->seed . ' and STACK version = ' . $this->stackversion;
+            throw new stack_exception ("get_prt_input called for PRT " . $index ." which does not exist in question " . $msg);
+        }
         $prt = $this->prts[$index];
         $prtinput = array();
         foreach ($prt->get_required_variables(array_keys($this->inputs)) as $name) {

@@ -64,7 +64,7 @@ But this question text causes no issues:
 
 ### Changing STACK's language
 
-If you have written a multilingual question, and a student wants to see it in a certain language, they have to change their preferred language. In Moodle, this is done by clicking on their profile, and then going to `Preferences`, ` Preferred language` and selecting the language. [Here](https://stack2.maths.ed.ac.uk/demo2018/user/language.php) is a direct link to this page. This will not only change the language of all question text (where multilingual blocks have been used), but also the language of the default Moodle and STACK interface (if this translation is available). The specific language pack has to be installed on your server by the server administrator to allow this. More information is available in the developer docs under [Translating STACK](../Developer/Language_packs.md).
+If you have written a multilingual question, and a student wants to see it in a certain language, they have to change their preferred language. In Moodle, this is done by clicking on their profile, and then going to `Preferences`, ` Preferred language` and selecting the language. This will not only change the language of all question text (where multilingual blocks have been used), but also the language of the default Moodle and STACK interface (if this translation is available). The specific language pack has to be installed on your server by the server administrator to allow this. More information is available in the developer docs under [Translating STACK](../Developer/Language_packs.md).
 
 ### Further reading
 

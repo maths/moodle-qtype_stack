@@ -32,7 +32,7 @@ Details of who translated STACK are given under [credits](../About/Credits.md). 
 
 To allow users of your server to see interface in a certain language, the language pack has to be installed on your server. In Moodle, to install a language pack on your server, goo to `Site adminstration`, `Language`, `Language pakcs`. Here you can see a list of installed language packs, as well as a list of available languages. This is a list of all translations of Moodle, but note only some of them correspond to translations of STACK as well (see list above). To install a language pack, click on it and click `Install selected language pack`. 
 
-Once a language pack is installed, a user can change the preferred language for Moodle and STACK by clicking on their profile, and then going to `Preferences`, ` Preferred language` and selecting the language. [Here](https://stack2.maths.ed.ac.uk/demo2018/user/language.php) is a direct link to this page.
+Once a language pack is installed, a user can change the preferred language for Moodle and STACK by clicking on their profile, and then going to `Preferences`, ` Preferred language` and selecting the language.
 
 ## How to translate STACK
 

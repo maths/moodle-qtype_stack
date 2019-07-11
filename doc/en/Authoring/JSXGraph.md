@@ -1,5 +1,7 @@
 # JSXGraph
 
+This page documents use of JSXGraph to display visuals. This is a somewhat advanced topic. For basic plots and visuals you may prefer to [use Maxima to plot graphs](../CAS/Plots.md). 
+
 STACK supports inclusion of dynamic graphs using JSXGraph: [http://jsxgraph.uni-bayreuth.de/wiki/](http://jsxgraph.uni-bayreuth.de/wiki/).
 
 Note, we strongly recommend you do not use an HTML-aware editor when using JSXGraph questions.  Instead turn off the editor within Moodle and edit the raw HTML.
@@ -99,27 +101,27 @@ as a JSON-encoded structure. For example like this, assuming the name of the Str
     [[jsxgraph input-ref-stateStore="stateRef"]]
       // Note that the input-ref-X attribute above will store the element identifier of the input X in 
       // a variable named in the attribute, you can have multiple references to multiple inputs.
-
+    
       // Create a normal board.
       var board = JXG.JSXGraph.initBoard(divid, {axis: true, showCopyright: false});
-
+    
       // State represented as a JS-object, first define default then try loading the stored values.
       var state = {'x':4, 'y':3};
       var stateInput = document.getElementById(stateRef);
       if (stateInput.value && stateInput.value != '') {
         state = JSON.parse(stateInput.value);
       }
-
+    
       // Then make the graph represent the state
       var p = board.create('point',[state['x'],state['y']]);
-
+    
       // And finally the most important thing, update the stored state when things change.
       p.on('drag', function() {
         var newState = {'x':p.X(), 'y':p.Y()};
         // Encode the state as JSON for storage and store it
         stateInput.value = JSON.stringify(newState);
       });
-
+    
       // As a side note, you typically do not want the state storing input to be directly visible to the user
       // although it may be handy during development to see what happens in it. You might hide it like this:
       stateInput.style.display = 'none';
@@ -155,13 +157,13 @@ The example in the previous section about moving the point around and storing th
     [[jsxgraph input-ref-stateStore="stateRef"]]
       // Create a board like normal.
       var board = JXG.JSXGraph.initBoard(divid, {axis: true, showCopyright: false});
-
+    
       // Create a point, its initial position will be the default position if no state is present.
       var p = board.create('point', [4, 3]);
-
+    
       // Bind it to the input and state stored in it.
       stack_jxg.bind_point(stateRef, p);
-
+    
       // As a side note, you typically do not want the state storing input to be directly visible to the user
       // although it may be handy during development to see what happens in it. You might hide it like this:
       stateInput.style.display = 'none';

@@ -123,7 +123,7 @@ Teachers can check the students answer is long enough or not too long by looking
 
 Teachers can check if specific expressions appear somewhere inside the student's answer.  To facilitate this search we provide the function `stack_equiv_find_step(ex, exl)`.  This looks for expression `ex` in the list `exl` using `ATEqualComAss`.  It returns the list of indices of the position.  If you just want to know if the expression is missing use the predicate `emptyp`.
 
-As an alternative you can check that the factored form exists somewhere in the student's answers using the following code in the [feedback variables](KeyVals.md).
+As an alternative you can check that the factored form exists somewhere in the student's answers using the following code in the [feedback variables](Variables.md).
 
     foundfac:sublist(ans1,lambda([ex], equationp(ex) and is(rhs(ex)=0)));
     foundfac:ev(any_listp(lambda([ex], second(ATFacForm(lhs(ex),lhs(ex),x))), foundfac), simp);

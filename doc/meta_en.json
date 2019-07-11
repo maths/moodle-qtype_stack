@@ -162,7 +162,7 @@
 		"description":"JSXGraph is a useful tool for creating graphs in your STACK questions."
 		},
 		{
-		"file":"KeyVals.md",
+		"file":"Question_variables.md",
 		"title":"Question and Answer Variables - STACK Documentation",
 		"description":"Information on defining and manipulating CAS variables in STACK."
 		},
@@ -172,12 +172,12 @@
 		"description":"Information on writing STACK questions for several languages."
 		},
 		{
-		"file":"MCQ.md",
+		"file":"Multiple_choice_questions.md",
 		"title":"Multiple Choice Questions - STACK Documentation",
 		"description":"Information on creating and manipulating multiple choice questions in STACk."
 		},
 		{
-		"file":"MoodleQuiz.md",
+		"file":"Question_bank.md",
 		"title":"Moodle Question Bank - STACK Documentation",
 		"description":"Information on finding the Moodle question bank."
 		},
@@ -394,7 +394,7 @@
 		"description":"A list of features planned to be implemented to STACK in the future."
 		},
 		{
-		"file":"Languages.md",
+		"file":"Language_packs.md",
 		"title":"Translations of STACK - STACK Documentation",
 		"description":"A list of languages STACK is translated to, as well as information on translating the STACK project."
 		},

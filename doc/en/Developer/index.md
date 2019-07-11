@@ -24,7 +24,7 @@ STACK is open source, and as such relies on users to make contributions. These d
 
 You may want to learn about [creating an input type](Creating_an_input_type.md).
 
-You could read about [how to translate STACK](Languages.md).
+You could read about [Installing language pack and translating STACK](Language_packs.md).
 
 There is also information on [contributing to the documentation](Documentation.md).
 

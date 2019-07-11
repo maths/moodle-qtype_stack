@@ -12,13 +12,13 @@ EMBED VIDEO HERE
 
 We assume you are familiar with the following:
 
-1. Adding questions to a Moodle quiz, via the [question bank](MoodleQuiz.md).
+1. Adding questions to a Moodle quiz, via the [question bank](Question_bank.md).
 2. Simple \(\LaTeX\) formatting for mathematics.  Some basic examples are provided at the end of the [CASText](CASText.md) documentation.  The full document preparation system is not needed or supported.
 3. Using a strict syntax for representing mathematical expressions, e.g. `1/2*sin(n*pi)`.  Knowing about the computer algebra system (CAS) [Maxima](%CONTENT/minimal-maxima.pdf) would be useful in the long term, but this introduction is self-contained.
 
 ## Creating a minimal STACK question
 
-Go to your Course, navigate to the [question bank](MoodleQuiz.md) and create a new question with the "STACK" question type.
+Go to your Course, navigate to the [question bank](Question_bank.md) and create a new question with the "STACK" question type.
 
 There are lots of fields, but only a few are compulsory:
 

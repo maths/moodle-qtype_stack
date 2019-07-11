@@ -94,7 +94,7 @@ If the teacher's correct answer should leave this blank (e.g. not answered at al
 
 #### Dropdown/Checkbox/Radio ####
 
-The dropdown, checkbox and radio input types enable teachers to create [multiple-choice](MCQ.md) questions.  See the separate documentation.
+The dropdown, checkbox and radio input types enable teachers to create [multiple-choice](Multiple_choice_questions.md) questions.  See the separate documentation.
 
 #### String input ####
 

@@ -123,7 +123,7 @@ if (array_key_exists('title', $meta)) {
 /* Add the version number and logos to the front page.  */
 if ($uri == '/') {
     $webpix1  = $CFG->wwwroot . '/question/type/stack/doc/content/logo.png';
-    $webpix2  = $CFG->wwwroot . '/question/type/stack/doc/content/CATE.jpg';
+    $webpix2  = $CFG->wwwroot . '/question/type/stack/doc/content/CATE.png';
     $body = $sitemapurl . '<br />'
         . '<img src="' . $webpix1 . '" width=200 />'
         . '<img src="' . $webpix2 . '" width=140 style="margin-left: 45px;"/>' . $body;

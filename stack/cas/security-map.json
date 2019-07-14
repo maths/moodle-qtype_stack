@@ -1762,12 +1762,6 @@
         "function": "s",
         "nounfunction": "noundiff"
     },
-    "partial": {
-        "function": "f"
-    },
-    "partialdiff": {
-        "function": "f"
-    },
     "digitcharp": {
         "function": "s"
     },
@@ -4513,6 +4507,18 @@
         "function": "f",
         "globalyforbiddenfunction": true
     },
+    "multiselqn": {
+        "function": "t",
+        "random": true
+    },
+    "multiselqnalpha": {
+        "function": "t",
+        "random": true
+    },
+    "multiselqndisplay": {
+        "function": "t",
+        "random": true
+    },
     "multsym": {
         "function": "f"
     },
@@ -4956,6 +4962,12 @@
     },
     "partfrac": {
         "function": "s"
+    },
+    "partial": {
+        "function": "f"
+    },
+    "partialdiff": {
+        "function": "f"
     },
     "partition": {
         "function": "s"
@@ -5743,118 +5755,172 @@
         "variable": "s"
     },
     "rand": {
-        "function": "s"
+        "function": "s",
+        "random": true
+    },
+    "rand_range": {
+        "function": "t",
+        "random": true
+    },
+    "rand_selection": {
+        "function": "t",
+        "random": true
+    },
+    "rand_with_phobib": {
+        "function": "t",
+        "random": true
+    },
+    "rand_with_step": {
+        "function": "t",
+        "random": true
     },
     "random": {
-        "function": "f"
+        "function": "f",
+        "random": true
     },
     "random_bernoulli": {
-        "function": "s"
+        "function": "s",
+        "random": true
     },
     "random_beta": {
-        "function": "s"
+        "function": "s",
+        "random": true
     },
     "random_binomial": {
-        "function": "s"
+        "function": "s",
+        "random": true
     },
     "random_bipartite_graph": {
-        "function": "?"
+        "function": "?",
+        "random": true
     },
     "random_cauchy": {
-        "function": "s"
+        "function": "s",
+        "random": true
     },
     "random_chi2": {
-        "function": "s"
+        "function": "s",
+        "random": true
     },
     "random_continuous_uniform": {
-        "function": "s"
+        "function": "s",
+        "random": true
     },
     "random_digraph": {
-        "function": "?"
+        "function": "?",
+        "random": true
     },
     "random_discrete_uniform": {
-        "function": "s"
+        "function": "s",
+        "random": true
     },
     "random_exp": {
-        "function": "s"
+        "function": "s",
+        "random": true
     },
     "random_f": {
-        "function": "s"
+        "function": "s",
+        "random": true
     },
     "random_gamma": {
-        "function": "s"
+        "function": "s",
+        "random": true
     },
     "random_general_finite_discrete": {
-        "function": "s"
+        "function": "s",
+        "random": true
     },
     "random_geometric": {
-        "function": "s"
+        "function": "s",
+        "random": true
     },
     "random_graph": {
-        "function": "?"
+        "function": "?",
+        "random": true
     },
     "random_graph1": {
-        "function": "?"
+        "function": "?",
+        "random": true
     },
     "random_gumbel": {
-        "function": "s"
+        "function": "s",
+        "random": true
     },
     "random_hypergeometric": {
-        "function": "s"
+        "function": "s",
+        "random": true
     },
     "random_laplace": {
-        "function": "s"
+        "function": "s",
+        "random": true
     },
     "random_logistic": {
-        "function": "s"
+        "function": "s",
+        "random": true
     },
     "random_lognormal": {
-        "function": "s"
+        "function": "s",
+        "random": true
     },
     "random_negative_binomial": {
-        "function": "s"
+        "function": "s",
+        "random": true
     },
     "random_network": {
-        "function": "?"
+        "function": "?",
+        "random": true
     },
     "random_noncentral_chi2": {
-        "function": "s"
+        "function": "s",
+        "random": true
     },
     "random_noncentral_student_t": {
-        "function": "s"
+        "function": "s",
+        "random": true
     },
     "random_normal": {
-        "function": "s"
+        "function": "s",
+        "random": true
     },
     "random_pareto": {
-        "function": "s"
+        "function": "s",
+        "random": true
     },
     "random_perm": {
-        "function": "?"
+        "function": "?",
+        "random": true
     },
     "random_permutation": {
-        "function": "?"
+        "function": "?",
+        "random": true
     },
     "random_poisson": {
-        "function": "s"
+        "function": "s",
+        "random": true
     },
     "random_rayleigh": {
-        "function": "s"
+        "function": "s",
+        "random": true
     },
     "random_regular_graph": {
-        "function": "?"
+        "function": "?",
+        "random": true
     },
     "random_student_t": {
-        "function": "s"
+        "function": "s",
+        "random": true
     },
     "random_tournament": {
-        "function": "?"
+        "function": "?",
+        "random": true
     },
     "random_tree": {
-        "function": "?"
+        "function": "?",
+        "random": true
     },
     "random_weibull": {
-        "function": "s"
+        "function": "s",
+        "random": true
     },
     "range": {
         "function": "?"

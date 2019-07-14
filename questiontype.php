@@ -1458,11 +1458,11 @@ class qtype_stack extends question_type {
         $errors['questionnote'] = array();
         if ('' == $fromform['questionnote']) {
             $foundrandom = false;
-            if (!(false === strpos($fromform['questionvariables'], 'rand'))) {
-                $foundrandom = true;
-            }
-            if (!(false === strpos($fromform['questionvariables'], 'multiselqn'))) {
-                $foundrandom = true;
+            foreach (stack_cas_security::get_all_with_feature('random') as $rndid) {
+                if (!(false === strpos($fromform['questionvariables'], $rndid))) {
+                    $foundrandom = true;
+                    break;
+                }
             }
             if ($foundrandom) {
                 $errors['questionnote'][] = stack_string('questionnotempty');

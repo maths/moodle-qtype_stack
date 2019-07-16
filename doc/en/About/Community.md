@@ -57,15 +57,12 @@ Groups of people who use STACK. You are welcome to join, ask questions and parti
 * [SIG Mathe+ILIAS](https://docu.ilias.de/goto.php?target=grp_5183)
 * [Arbeitskreis Digitale Mathematik-Aufgaben in der Hochschullehre](http://www.ak-mathe-digital.de)
 
-### Institutions
+# User list
 
-The following institutions made use of previous version of STACK.  If you are actively using STACK and would like to be listed below then please contact the developers.
+The following institutions made use of previous versions of STACK.  If you are actively using STACK and would like to be listed below then please contact the developers.
 
 School of Mathematics, The University of Edinburgh
 : The home of STACK. Contact [Chris Sangwin](mailto:c.j.sangwin@ed.ac.uk).
-
-The Open University
-: Contact [Tim Hunt](mailto:t.j.hunt@open.ac.uk) or Tim.Lowe.
 
 School of Science, Aalto University, Helsinki, Finland
 : Contact Matti Harjula and [Antti Rasila](http://math.tkk.fi/en/research/matta/)
@@ -76,20 +73,25 @@ School of Informatics and Sciences, Nagoya University, Japan
 Ja STACK Community
 : Contact [Ja STACK.org](http://ja-stack.org/)
 
-Loughborough University.
-: Contact [Ian Jones](mailto:I.Jones@lboro.ac.uk)
-
 Polytechnic Institute of Leiria, Leiria, Portugal
 : Contact [Rui Paiva](mailto:rui.paiva@estg.ipleiria.pt)
 
 School of Computing, Information and Mathematical Sciences, The University of the South Pacific
 : Contact [Dhiraj Bhartu](mailto:dhiraj.bhartu@usp.ac.fj)
 
-Gymnasium Himmelsthür, Hildesheim, Deutschland
-: Contact [Frank Schütte](mailto:fschuett@gymnasium-himmelsthuer.de)
+Gymnasium Himmelstherr, Hildesheim, Deutschland
+: Contact [Frank Schuette](mailto:fschuett@gymnasium-himmelsthuer.de)
 
 Universidad Michoacana de San Nicolas de Hidalgo
-: Contcat [Victor Hugo Huerta](mailto:v2hugo@gmail.com)
+: Contact [Victor Hugo Huerta](mailto:v2hugo@gmail.com)
 
 e-MAIO project, Coimbra Institute of Engineering, Portugal
 : Contact [e_MAIO@isec.pt](mailto:e_MAIO@isec.pt)
+
+School of Mathematics and Statistics, The Open University,
+
+: Contact [Tim Hunt](t.j.hunt@open.ac.uk) and [Tim Lowe](mailto:tim.lowe@open.ac.uk)
+
+Mathematics Education Centre, Loughborough University
+
+: Contact [Ian Jones](mailto:I.Jones@lboro.ac.uk)

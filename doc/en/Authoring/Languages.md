@@ -1,8 +1,17 @@
 # Producing multilingual content
 
-This site will deal with translating individual question text. It will not deal with translating the Moodle and STACK interface. See the page on [Language packs and translating STACK](../Developer/Language_packs.md).
+STACK questions can be easily localized for different languages using the multi-language content filter. [http://docs.moodle.org/en/Multi-language_content_filter](http://docs.moodle.org/en/Multi-language_content_filter).  That is to say, a single question can exist in multiple languages and the user can choose the language they use.
 
-The STACK assignments can be easily localized for different languages using the multi-language content filter. [http://docs.moodle.org/en/Multi-language_content_filter](http://docs.moodle.org/en/Multi-language_content_filter).  The filter works by searching the document for all multilang blocks and displaying the block that matches the selected language.
+This page deals with translating text within individual questions. It does not deal with translating the Moodle and STACK interface. See the page on [Language packs and translating STACK](../Developer/Language_packs.md).
+
+## Installation
+
+1. Your site administrator must enable the [Moodle multi-language content filter](http://docs.moodle.org/en/Multi-language_content_filter).
+2. The multi-language content filter must be applied before the MathJax filter, otherwise strange results will occur.
+
+## Authoring questions
+
+The filter works by searching the document for all multilang blocks and displaying the block that matches the selected language.
 
     <span lang="en" class="multilang">...Text in English...</span>
     <span lang="fi" class="multilang">...Text in Finnish...</span>

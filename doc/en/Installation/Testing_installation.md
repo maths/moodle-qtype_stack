@@ -2,6 +2,13 @@
 
 It is important to confirm that STACK has been installed correctly, and that it is connecting to the CAS.
 
+## Multi-language support
+
+STACK questions can be localised into [multiple languages](../Authoring/Languages.md).
+
+1. Your site administrator must enable the [Moodle multi-language content filter](http://docs.moodle.org/en/Multi-language_content_filter).
+2. The multi-language content filter must be applied before the MathJax filter, otherwise strange results will occur.
+
 ## STACK configuration page
 
 STACK provides a number of options.  To set these you must login as the Moodle site Administrator.  Navigate to 

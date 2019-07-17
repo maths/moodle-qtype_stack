@@ -32,6 +32,7 @@ require_once(__DIR__ . '/101_no_floats.filter.php');
 require_once(__DIR__ . '/102_no_strings.filter.php');
 require_once(__DIR__ . '/402_split_prefix_from_common_function_name.filter.php');
 require_once(__DIR__ . '/403_split_at_number_letter_boundary.filter.php');
+require_once(__DIR__ . '/404_split_at_number_letter_number_boundary.filter.php');
 require_once(__DIR__ . '/406_split_implied_variable_names.filter.php');
 require_once(__DIR__ . '/410_single_char_vars.filter.php');
 require_once(__DIR__ . '/441_split_unknown_functions.filter.php');
@@ -84,6 +85,8 @@ class stack_parsing_rule_factory {
                 return new stack_ast_filter_402_split_prefix_from_common_function_name();
             case '403_split_at_number_letter_boundary':
                 return new stack_ast_filter_403_split_at_number_letter_boundary();
+            case '404_split_at_number_letter_number_boundary':
+                return new stack_ast_filter_404_split_at_number_letter_number_boundary();
             case '406_split_implied_variable_names':
                 return new stack_ast_filter_406_split_implied_variable_names();
             case '410_single_char_vars':
@@ -122,6 +125,7 @@ class stack_parsing_rule_factory {
                            '101_no_floats', '102_no_strings',
                            '402_split_prefix_from_common_function_name',
                            '403_split_at_number_letter_boundary',
+                           '404_split_at_number_letter_number_boundary',
                            '406_split_implied_variable_names',
                            '410_single_char_vars', '441_split_unknown_functions',
                            '442_split_all_functions', '450_split_floats',

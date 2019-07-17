@@ -82,7 +82,7 @@ class maxima_corrective_parser {
         $starpatterns[] = "/([^0-9A-Za-z_][0-9]+)([A-DF-Za-df-z_]+|[eE][^\+\-0-9]+)/"; // +3z(, -2ee+ not *4e-2 or /1e3
         $starpatterns[] = "/^([\+\-]?[0-9]+)([A-DF-Za-df-z_]+|[eE][^\+\-0-9]+)/"; // Same but start of line.
         $starpatterns[] = "/([^0-9A-Za-z_][0-9]+)(\()/"; // Pattern such as -124().
-        $starpatterns[] = "/^([\+\-]?[0-9]+)(\()/"; // Same but start of line
+        $starpatterns[] = "/^([\+\-]?[0-9]+)(\()/"; // Same but start of line.
         $starpatterns[] = "/([^0-9A-Za-z_][0-9]+[\.]?[0-9]*[eE][\+\-]?[0-9]+)(\()/"; // Pattern such as -124.4e-3().
         $starpatterns[] = "/^([\+\-]?[0-9]+[\.]?[0-9]*[eE][\+\-]?[0-9]+)(\()/"; // Same but start of line.
 

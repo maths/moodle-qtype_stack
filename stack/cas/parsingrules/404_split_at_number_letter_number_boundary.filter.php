@@ -19,12 +19,14 @@ defined('MOODLE_INTERNAL') || die();
 require_once(__DIR__ . '/filter.interface.php');
 
 /**
- * AST filter that splits variables at number-letter boundaries not
- * at letter-number. e.g. a2b3c4 => a2*b3*c4.
+ * AST filter that splits variables at number-letter boundaries and
+ * at letter-number. e.g. ab3c4 => ab*3*c*4.
+ *
+ * We don't want to split up x_1 though.
  *
  * Tags the stars and adds 'missing_stars' answernote.
  */
-class stack_ast_filter_403_split_at_number_letter_boundary implements stack_cas_astfilter {
+class stack_ast_filter_404_split_at_number_letter_number_boundary implements stack_cas_astfilter {
 
     public function filter(MP_Node $ast, array &$errors, array &$answernotes, stack_cas_security $identifierrules): MP_Node {
 
@@ -32,16 +34,26 @@ class stack_ast_filter_403_split_at_number_letter_boundary implements stack_cas_
             if ($node instanceof MP_Identifier && !$node->is_function_name()) {
                 // First find the boundaries.
                 $splits = array();
-                $alpha = true;
+                // Type of previous character.
+                // This will be true if alpha, false if numeric and null otherwise, e.g. an underscore.
+                $alpha = false;
+                if (ctype_alpha(core_text::substr($node->value, 0, 1))) {
+                    $alpha = true;
+                }
                 $last = 0;
                 for ($i = 1; $i < core_text::strlen($node->value); $i++) {
-                    if ($alpha && ctype_digit(core_text::substr($node->value, $i, 1))) {
-                        $alpha = false;
-                    } else if (!$alpha && ctype_alpha(core_text::substr($node->value, $i, 1))) {
-                        $alpha = false;
+                    $now = null;
+                    if (ctype_alpha(core_text::substr($node->value, $i, 1))) {
+                        $now = true;
+                    }
+                    if (ctype_digit(core_text::substr($node->value, $i, 1))) {
+                        $now = false;
+                    }
+                    if (!($alpha === null) && !($now === null) && !($now === $alpha)) {
                         $splits[] = core_text::substr($node->value, $last, $i - $last);
                         $last = $i;
                     }
+                    $alpha = $now;
                 }
                 $splits[] = core_text::substr($node->value, $last);
                 // Then if we have more than one part split to parts.

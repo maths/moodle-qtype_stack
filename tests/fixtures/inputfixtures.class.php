@@ -37,7 +37,8 @@ class stack_inputvalidation_test_data {
 
     protected static $rawdata = array(
 
-        array('x', 'php_true', 'x', 'cas_true', 'x', '', "Whitespace"),
+        array('123', 'php_true', '123', 'cas_true', '123', '', ""),
+        array('x', 'php_true', 'x', 'cas_true', 'x', '', ""),
         array('xy', 'php_true', 'xy', 'cas_true', '{\it xy}', '', "This is a single variable name, not a product."),
         array('x+1', 'php_true', 'x+1', 'cas_true', 'x+1', '', ""),
         array('x+ 1', 'php_true', 'x+1', 'cas_true', 'x+1', '', ""),
@@ -45,6 +46,7 @@ class stack_inputvalidation_test_data {
         array('sin x', 'php_false', '', '', '', 'spaces | trigspace', "Maxima does not allow spaces to denote function application."),
         array('x y', 'php_false', '', '', '', 'spaces', "We don't allow spaces to denote implicit multiplication."),
         array('1 x', 'php_false', '', '', '', 'spaces', ""),
+
         array('1x', 'php_true', '1*x', 'cas_true', '1\cdot x', 'missing_stars', ""),
         array('x1', 'php_true', 'x*1', 'cas_true', 'x\cdot 1', 'missing_stars', ""),
         array('1', 'php_true', '1', 'cas_true', '1', '', "Numbers"),
@@ -79,9 +81,13 @@ class stack_inputvalidation_test_data {
         "Strings - generally discouraged in STACK.  Note, this is a string within a mathematical expression, not literally 1+1."),
         array('"Hello world"', 'php_true', '"Hello world"', 'cas_true', '\mbox{Hello world}', '', ''),
         array('x', 'php_true', 'x', 'cas_true', 'x', '', "Names for variables etc."),
+
         array('a1', 'php_true', 'a*1', 'cas_true', 'a\cdot 1', 'missing_stars', ""),
+        array('a12', 'php_true', 'a*12', 'cas_true', 'a\cdot 12', 'missing_stars', ""),
+        array('ab123', 'php_true', 'ab*123', 'cas_true', '{\it ab}\cdot 123', 'missing_stars', ""),
         array('a9b', 'php_true', 'a*9*b', 'cas_true', 'a\cdot 9\cdot b',
                 'missing_stars', "Note the subscripting and the implied multiplication."),
+        array('ab98cd', 'php_true', 'ab*98*cd', 'cas_true', '{\it ab}\cdot 98\cdot {\it cd}', 'missing_stars', ''),
         array("a'", 'php_false', '', '', '', 'apostrophe', ""),
         array('X', 'php_true', 'X', 'cas_true', 'X', '', ""),
         array('aXy1', 'php_false', 'aXy*1', 'cas_true', '{\it aXy}\cdot 1', 'missing_stars | forbiddenVariable', ""),
@@ -141,6 +147,7 @@ class stack_inputvalidation_test_data {
         array('x!', 'php_true', 'x!', 'cas_true', 'x!', '', ""),
         array('!x', 'php_false', '!x', 'cas_false', '', 'badpostfixop', ""),
         array('x_1', 'php_true', 'x_1', 'cas_true', '{x}_{1}', '', ""),
+        array('ab_12', 'php_true', 'ab_12', 'cas_true', '{{\it ab}}_{12}', '', ""),
         array('x_y', 'php_true', 'x_y', 'cas_true', '{x}_{y}', '', ""),
         array('x <= y', 'php_true', 'x<=y', 'cas_true', 'x\leq y', '',
         "Inequalities in various forms."),
@@ -436,7 +443,7 @@ class stack_inputvalidation_test_data {
         array('sum(k^n,n,0,3)', 'php_true', 'sum(k^n,n,0,3)', 'cas_true', '\sum_{n=0}^{3}{k^{n}}', '', "Sums and products"),
         array('product(cos(k*x),k,1,3)', 'php_true', 'product(cos(k*x),k,1,3)', 'cas_true',
             '\prod_{k=1}^{3}{\cos \left( k\cdot x \right)}', '', '')
-);
+    );
 
     public static function get_raw_test_data() {
         return self::$rawdata;
@@ -489,14 +496,14 @@ class stack_inputvalidation_test_data {
         // The common insert stars rules, that will be forced
         // and if you do not allow inserttion of stars then it is invalid.
         $filterstoapply[] = '402_split_prefix_from_common_function_name';
-        $filterstoapply[] = '403_split_at_number_letter_boundary';
+//        $filterstoapply[] = '403_split_at_number_letter_boundary';
+        $filterstoapply[] = '404_split_at_number_letter_number_boundary';
         $filterstoapply[] = '406_split_implied_variable_names';
 
         $filterstoapply[] = '520_no_equality_with_logic';
 
         // We want to apply this as our "insert stars" but not spaces...
         $filterstoapply[] = '990_no_fixing_spaces';
-
 
         $cs = stack_ast_container::make_from_student_source($test->rawstring, '', new stack_cas_security(), $filterstoapply);
         $cs->set_cas_validation_context('ans1', true, '', 'typeless', false);
@@ -533,9 +540,6 @@ class stack_inputvalidation_test_data {
 
             $session = new stack_cas_session2(array($cs), $options, 0);
             $session->instantiate();
-            // In cassession2 we already placed that in the correct place.
-            //$session = $session->get_session();
-            //$cs = $session[0];
             $caserrors = stack_maxima_translate($cs->get_errors());
             if ($cs->get_errors() === '') {
                 // If it has errors it could not be evaluated and you may

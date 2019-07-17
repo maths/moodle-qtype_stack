@@ -999,7 +999,7 @@ ATNumerical(SA, SB, SO, numtype) := block([simp:true, RawMark, FeedBack, AnswerN
     if is(SA = [STACKERROR]) then return(StackBasicReturn(false, false, "ATNumerical_STACKERROR_SAns")),
     SA:SA[1],
     SAN:copy(SA), /* Need this for when we have lists etc. */
-    SB:errcatch(ev(float(SB), simp, nouns, rat)),
+    SB:errcatch(ev(float(remove_displaydp(SB)), simp, nouns, rat)),
     if is(SB = [STACKERROR]) then return(StackBasicReturn(false, false, "ATNumerical_STACKERROR_TAns")),
     SB:SB[1],
     SO:errcatch(ev(float(SO), simp, nouns, rat)),
@@ -1150,6 +1150,8 @@ ATNumSigFigs(SA, SB, SO) := block([Validity, RawMark, FeedBack, AnswerNote, ret,
        else (nsf:ol, asf:ol),
     if not(integerp(nsf) and integerp(asf)) then
              (print("TEST_FAILED"),return([false, false, StackAddNote("", "ATNumSigFigs_STACKERROR_not_integer"), StackAddFeedback("", "TEST_FAILED_Q")])),
+    /* Remove ephemeral forms from teacher's answers. */
+    SB:remove_displaydp(SB),
     /* SA should be only a number. */
     SA:errcatch(ev(SA, simp, nouns)),
     if is(SA = [STACKERROR]) then return([false, false, StackAddNote("", "ATNumSigFigs_Error simplifying SAns"),""]),

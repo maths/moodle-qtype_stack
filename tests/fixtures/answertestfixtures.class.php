@@ -1327,6 +1327,7 @@ class stack_answertest_test_data {
         array('NumSigFigs', '6', '1.73205', 'sqrt(3)', 1, '', ''),
         array('NumSigFigs', '2', 'matrix([0.33,1],[1,1])', 'matrix([0.333,1],[1,1])', 0, 'ATNumSigFigs_NotDecimal.',
                 'No support for matrices!'),
+        array('NumSigFigs', '3', '1.50', 'dispsf(1.500,3)', 1, '', 'Teacher uses dispsf'),
 
         array('NumDecPlaces', '2', '1/0', '3', -1, 'ATNumDecPlaces_SA_Not_num.', 'Basic tests'),
         array('NumDecPlaces', '2', '0.1', '1/0', -1, 'ATNumDecPlaces_Wrong_DPs. ATNumDecPlaces_STACKERROR_TAns.', ''),
@@ -1357,6 +1358,8 @@ class stack_answertest_test_data {
             'Both wrong DPs and inaccurate.'),
         array('NumDecPlaces', '3', '4.000', '3.99999', 1, 'ATNumDecPlaces_Correct. ATNumDecPlaces_Equiv.',
             'Teacher needs to round their answer.'),
+        array('NumDecPlaces', '2', '0.10', 'displaydp(0.1,2)', 1, 'ATNumDecPlaces_Correct. ATNumDecPlaces_Equiv.',
+            'Teacher uses displaydp'),
 
         array('NumDecPlacesWrong', '2', '1/0', '3', -1, 'ATNumDecPlacesWrong_SA_Not_num.', 'Basic tests'),
         array('NumDecPlacesWrong', '2', '0.1', '1/0', -1, 'ATNumDecPlacesWrong_STACKERROR_TAns.', ''),
@@ -1381,6 +1384,8 @@ class stack_answertest_test_data {
         array('NumDecPlacesWrong', '3', '0.1001', '1.00', 1, 'ATNumDecPlacesWrong_Correct.', ''),
         array('NumDecPlacesWrong', '4', '0.100', '1.0', 1, 'ATNumDecPlacesWrong_Correct.', 'Condone lack of trailing zeros'),
         array('NumDecPlacesWrong', '4', '1', '1.00', 1, 'ATNumDecPlacesWrong_Correct.', ''),
+        array('NumDecPlacesWrong', '3', '0.101', 'displaydp(101,3)', 1, 'ATNumDecPlacesWrong_Correct.',
+                'Teacher uses displaydp'),
 
         array('SigFigsStrict', '', '3.141', 'null', -1, 'STACKERROR_OPTION.', 'Basic tests'),
         array('SigFigsStrict', 'x^2', '3.141', 'null', -1, 'STACKERROR_OPTION.', ''),

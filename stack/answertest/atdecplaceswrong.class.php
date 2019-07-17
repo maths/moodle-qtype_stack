@@ -70,7 +70,7 @@ class stack_anstest_atdecplaceswrong extends stack_anstest {
         // Check that the two numbers evaluate to the same value.
         $cascommands = array();
         $cascommands['caschat0'] = $this->sanskey->get_evaluationform();
-        $cascommands['caschat1'] = $this->tanskey->get_evaluationform();
+        $cascommands['caschat1'] = 'remove_displaydp('.$this->tanskey->get_evaluationform().')';
         $cascommands['caschat2'] = "ev({$atestops},simp)";
         $cascommands['caschat3'] = "numberp({$this->sanskey->get_evaluationform()})";
         $cascommands['caschat4'] = "numberp({$this->tanskey->get_evaluationform()})";

@@ -71,7 +71,7 @@ interface cas_value_extractor extends cas_evaluatable {
      * Receives the value that CAS returned when evaluating the session.
      * note that the value is the value of the key given at the end of
      * the session not the value at the point this cas_evaluatable was
-     * evaluated. If there is no key then collects the value at the point 
+     * evaluated. If there is no key then collects the value at the point
      * of evaluation.
      */
     public function set_cas_evaluated_value(MP_Node $ast);
@@ -82,10 +82,10 @@ interface cas_value_extractor extends cas_evaluatable {
 interface cas_latex_extractor extends cas_evaluatable {
 
     /**
-     * Receives the value of `stack_disp()` that CAS returned when 
-     * evaluating the session. Note that the value is the value of the key 
-     * given at the end of the session not the value at the point this 
-     * cas_evaluatable was evaluated. If there is no key then collects 
+     * Receives the value of `stack_disp()` that CAS returned when
+     * evaluating the session. Note that the value is the value of the key
+     * given at the end of the session not the value at the point this
+     * cas_evaluatable was evaluated. If there is no key then collects
      * the value at the point of evaluation.
      */
     public function set_cas_latex_value(string $latex);
@@ -96,10 +96,10 @@ interface cas_latex_extractor extends cas_evaluatable {
 interface cas_display_value_extractor extends cas_evaluatable {
 
     /**
-     * Receives the value of `stack_dispvalue()` that CAS returned when 
-     * evaluating the session. Note that the value is the value of the key 
-     * given at the end of the session not the value at the point this 
-     * cas_evaluatable was evaluated. If there is no key then collects 
+     * Receives the value of `stack_dispvalue()` that CAS returned when
+     * evaluating the session. Note that the value is the value of the key
+     * given at the end of the session not the value at the point this
+     * cas_evaluatable was evaluated. If there is no key then collects
      * the value at the point of evaluation.
      */
     public function set_cas_display_value(string $displayvalue);

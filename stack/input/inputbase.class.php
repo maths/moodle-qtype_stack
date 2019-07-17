@@ -539,10 +539,12 @@ abstract class stack_input {
      * @param array $response the student response to the question.
      * @param stack_options $options CAS options to use when validating.
      * @param string $teacheranswer the teachers answer as a string representation of the evaluated expression.
-     * @param stack_cas_security $basesecurity declares the forbidden keys used in the question as well as wether we are dealign with units.
+     * @param stack_cas_security $basesecurity declares the forbidden keys used in the question
+     *             as well as wether we are dealign with units.
      * @return stack_input_state represents the current state of the input.
      */
-    public function validate_student_response($response, $options, $teacheranswer, stack_cas_security $basesecurity, $ajaxinput = false) {
+    public function validate_student_response($response, $options, $teacheranswer, stack_cas_security $basesecurity,
+            $ajaxinput = false) {
         if (!is_a($options, 'stack_options')) {
             throw new stack_exception('stack_input: validate_student_response: options not of class stack_options');
         }
@@ -651,10 +653,10 @@ abstract class stack_input {
         $localoptions->set_option('simplify', false);
         $session = new stack_cas_session2($sessionvars, $localoptions, 0);
 
-        // If we are dealing with units in this question we apply units texput rules 
-        // everywhere.
+        // If we are dealing with units in this question we apply units texput rules everywhere.
         if ($basesecurity->get_units()) {
-            $session->add_statement(stack_ast_container_silent::make_from_teacher_source('stack_unit_si_declare(true)', 'automatic unit declaration'), false);
+            $session->add_statement(stack_ast_container_silent::make_from_teacher_source('stack_unit_si_declare(true)',
+                    'automatic unit declaration'), false);
         }
 
         $session->instantiate();
@@ -722,7 +724,7 @@ abstract class stack_input {
      * For example, Matrix types have two dimensional contents arrays to loop over.
      *
      * @param array $contents the content array of the student's input.
-     * @param stack_cas_security $basesecurity declares the variables which must not 
+     * @param stack_cas_security $basesecurity declares the variables which must not
      *                                         appear in the student's input.
      * @return array of the validity, errors strings, modified contents and caslines.
      */

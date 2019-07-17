@@ -625,7 +625,7 @@ class MP_Identifier extends MP_Atom {
                        $this->parentnode->name !== $this) {
                 // Assignment by reference.
                 $i = array_search($this, $this->parentnode->arguments);
-                $indices = stack_cas_security::get_feature($this->parentnode->name->toString(), 
+                $indices = stack_cas_security::get_feature($this->parentnode->name->toString(),
                     'writesto');
                 if ($indices !== null && array_search($i, $indices) !== false) {
                     return true;
@@ -675,12 +675,12 @@ class MP_Identifier extends MP_Atom {
 }
 
 class MP_Annotation extends MP_Node {
-    public $annotationType = null;
+    public $annotationtype = null;
     public $params         = null;
 
-    public function __constructor($annotationType, $params) {
+    public function __constructor($annotationtype, $params) {
         parent::__construct();
-        $this->annotationType = $annotationType;
+        $this->annotationtype = $annotationtype;
         $this->params         = $params;
     }
 
@@ -703,10 +703,10 @@ class MP_Annotation extends MP_Node {
         foreach ($this->params as $value) {
             $params[] = ' ' . $value->toString($params);
         }
-        if ($this->annotationType === 'function') {
+        if ($this->annotationtype === 'function') {
             return '@function' . $params[0] . ' =>' . $params[1] . ';';
         }
-        return '@' . $this->annotationType . implode('', $params) . ';';
+        return '@' . $this->annotationtype . implode('', $params) . ';';
     }
 }
 

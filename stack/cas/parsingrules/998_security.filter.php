@@ -36,9 +36,9 @@ class stack_ast_filter_998_security implements stack_cas_astfilter_parametric {
         // variable references and operations.
         $ofinterest = array();
 
-        // If this is a student sourced thing, it may include a teacher 
+        // If this is a student sourced thing, it may include a teacher
         // identifier in the form of the assignment to input-variable.
-        // That assignement operation is also protected from forbidding 
+        // That assignement operation is also protected from forbidding
         // assignment operations.
         $protected = false;
         if ($this->source === 's') {
@@ -54,7 +54,6 @@ class stack_ast_filter_998_security implements stack_cas_astfilter_parametric {
             }
         }
 
-
         // For certain cases we want to know of commas. For this reason
         // certain structures need to be checked for them.
         $commas = false;
@@ -65,7 +64,8 @@ class stack_ast_filter_998_security implements stack_cas_astfilter_parametric {
                 $node instanceof MP_Operation ||
                 $node instanceof MP_PrefixOp ||
                 $node instanceof MP_PostfixOp) {
-                if ($protected === false || ($node !== $protected && ($node->parentnode !== $protected || $node->parentnode->lhs !== $node))) {
+                if ($protected === false || ($node !== $protected && ($node->parentnode !== $protected ||
+                        $node->parentnode->lhs !== $node))) {
                     $ofinterest[] = $node;
                 }
             }
@@ -396,7 +396,8 @@ class stack_ast_filter_998_security implements stack_cas_astfilter_parametric {
             }
             foreach (array_keys($keys) as $n) {
                 // We also allow function-identifiers that are allowed...
-                if (!($identifierrules->is_allowed_to_read($this->source, $n) || ($name !== $n && $identifierrules->is_allowed_to_call($this->source, $n)))) {
+                if (!($identifierrules->is_allowed_to_read($this->source, $n) ||
+                        ($name !== $n && $identifierrules->is_allowed_to_call($this->source, $n)))) {
                     if ($this->source === 't') {
                         $errors[] = trim(stack_string('stackCas_forbiddenWord',
                             array('forbid' => stack_maxima_format_casstring($n))));

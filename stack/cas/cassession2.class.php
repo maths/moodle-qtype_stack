@@ -155,8 +155,8 @@ class stack_cas_session2 {
         $r = array();
         foreach ($this->errors as $statementerrors) {
             foreach ($statementerrors as $value) {
-                // [0] the list of errors.
-                // [1] the context information.
+                // Element [0] is the list of errors.
+                // Element [1] is the context information.
                 $r[] = implode(' ', $value[0]);
             }
         }
@@ -234,7 +234,8 @@ class stack_cas_session2 {
             $ef = $statement->get_evaluationform();
             $line = ',_EC(errcatch(' . $ef . '),';
             $key = null;
-            if (($statement instanceof cas_value_extractor) || ($statement instanceof cas_latex_extractor) || ($statement instanceof cas_display_value_extractor)) {
+            if (($statement instanceof cas_value_extractor) || ($statement instanceof cas_latex_extractor) ||
+                    ($statement instanceof cas_display_value_extractor)) {
                 // One of those that need to be collected later.
                 if (($key = $statement->get_key()) === '') {
                     $key = '__e_smt_' . $num;
@@ -276,7 +277,7 @@ class stack_cas_session2 {
             $command .= ',_RESPONSE:stackmap_set(_RESPONSE,"presentation",_LATEX)';
         }
         if (count($collectdvs) > 0) {
-           $command .= ',_RESPONSE:stackmap_set(_RESPONSE,"display",_DVALUES)';
+            $command .= ',_RESPONSE:stackmap_set(_RESPONSE,"display",_DVALUES)';
         }
         $command .= ',if length(%ERR)>1 then _RESPONSE:stackmap_set(_RESPONSE,"errors",%ERR)';
         $command .= ',if length(%NOTES)>1 then _RESPONSE:stackmap_set(_RESPONSE,"notes",%NOTES)';
@@ -327,8 +328,8 @@ class stack_cas_session2 {
             if (array_key_exists('errors', $results)) {
                 $this->errors = array();
                 foreach ($results['errors'] as $key => $value) {
-                    // [0] the list of errors.
-                    // [1] the context information.
+                    // Element [0] is the list of errors.
+                    // Element [1] is the context information.
                     $this->errors[$key] = $value;
                 }
             }

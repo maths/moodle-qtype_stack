@@ -55,11 +55,6 @@ class stack_ast_filter_auto_gen_410_single_char_vars_testcase extends qtype_stac
                       array('missing_stars'),
                       true, false);
 
-        $this->expect('a_b',
-                      'a*_*b',
-                      array('missing_stars'),
-                      true, false);
-
         $this->expect('cos^2(x)',
                       'c*o*s^2*(x)',
                       array('missing_stars'),
@@ -120,23 +115,13 @@ class stack_ast_filter_auto_gen_410_single_char_vars_testcase extends qtype_stac
                       array('missing_stars'),
                       true, false);
 
-        $this->expect('x_1',
-                      'x*_*1',
-                      array('missing_stars'),
-                      true, false);
-
-        $this->expect('x_y',
-                      'x*_*y',
-                      array('missing_stars'),
-                      true, false);
-
         $this->expect('xy_zw',
-                      'x*y*_*z*w',
+                      'x*y_zw',
                       array('missing_stars'),
                       true, false);
 
         $this->expect('xy_12',
-                      'x*y*_*12',
+                      'x*y_12',
                       array('missing_stars'),
                       true, false);
 
@@ -173,11 +158,6 @@ class stack_ast_filter_auto_gen_410_single_char_vars_testcase extends qtype_stac
 
         $this->expect('aXy1',
                       'a*X*y*1',
-                      array('missing_stars'),
-                      true, false);
-
-        $this->expect('a_b',
-                      'a*_*b',
                       array('missing_stars'),
                       true, false);
 
@@ -241,23 +221,13 @@ class stack_ast_filter_auto_gen_410_single_char_vars_testcase extends qtype_stac
                       array('missing_stars'),
                       true, false);
 
-        $this->expect('x_1',
-                      'x*_*1',
-                      array('missing_stars'),
-                      true, false);
-
-        $this->expect('x_y',
-                      'x*_*y',
-                      array('missing_stars'),
-                      true, false);
-
         $this->expect('xy_zw',
-                      'x*y*_*z*w',
+                      'x*y_zw',
                       array('missing_stars'),
                       true, false);
 
         $this->expect('xy_12',
-                      'x*y*_*12',
+                      'x*y_12',
                       array('missing_stars'),
                       true, false);
 
@@ -844,6 +814,11 @@ class stack_ast_filter_auto_gen_410_single_char_vars_testcase extends qtype_stac
 
         $this->expect('a^b',
                       'a^b',
+                      array(),
+                      true, false);
+
+        $this->expect('a_b',
+                      'a_b',
                       array(),
                       true, false);
 
@@ -1649,6 +1624,16 @@ class stack_ast_filter_auto_gen_410_single_char_vars_testcase extends qtype_stac
 
         $this->expect('x^y^z',
                       'x^y^z',
+                      array(),
+                      true, false);
+
+        $this->expect('x_1',
+                      'x_1',
+                      array(),
+                      true, false);
+
+        $this->expect('x_y',
+                      'x_y',
                       array(),
                       true, false);
 
@@ -2298,6 +2283,11 @@ class stack_ast_filter_auto_gen_410_single_char_vars_testcase extends qtype_stac
                       array(),
                       true, false);
 
+        $this->expect('a_b',
+                      'a_b',
+                      array(),
+                      true, false);
+
         $this->expect('abs(13)',
                       'abs(13)',
                       array(),
@@ -3100,6 +3090,16 @@ class stack_ast_filter_auto_gen_410_single_char_vars_testcase extends qtype_stac
 
         $this->expect('x^y^z',
                       'x^y^z',
+                      array(),
+                      true, false);
+
+        $this->expect('x_1',
+                      'x_1',
+                      array(),
+                      true, false);
+
+        $this->expect('x_y',
+                      'x_y',
                       array(),
                       true, false);
 

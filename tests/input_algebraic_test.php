@@ -325,7 +325,7 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         $el->set_parameter('sameType', true);
         $state = $el->validate_student_response(array('sans1' => 'y=m*x+c'), $options, 'm*x+c', new stack_cas_security(false, '', '', array('tans')));
         $this->assertEquals(stack_input::INVALID, $state->status);
-        $this->assertEquals("CASError: stack_trans('ATAlgEquiv_TA_not_equation');", $state->note);
+        $this->assertEquals("ATAlgEquiv_TA_not_equation", $state->note);
     }
 
     public function test_validate_student_response_sametype_false_3() {
@@ -354,7 +354,7 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('mu_0*(I_1-I_2)', $state->contentsmodified);
         $this->assertEquals('\[ {\mu}_{0}\cdot \left({I}_{1}-{I}_{2}\right) \]', $state->contentsdisplayed);
-        if ($this->adapt_to_new_maxima('5.32.2')) {
+        if ($this->adapt_to_new_maxima('5.34.2')) {
             // Why change the order here?
             $this->assertEquals('\( \left[ {I}_{1} , {I}_{2} , {\mu}_{0} \right]\) ', $state->lvars);
         } else {
@@ -372,7 +372,7 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         $this->assertEquals('{mu_0*(I_1-I_2)}', $state->contentsmodified);
         $this->assertEquals('\[ \left \{{\mu}_{0}\cdot \left({I}_{1}-{I}_{2}\right) \right \} \]',
             $state->contentsdisplayed);
-        if ($this->adapt_to_new_maxima('5.32.2')) {
+        if ($this->adapt_to_new_maxima('5.34.2')) {
             // Why change the order here?
             $this->assertEquals('\( \left[ {I}_{1} , {I}_{2} , {\mu}_{0} \right]\) ', $state->lvars);
         } else {
@@ -533,9 +533,9 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         $el->set_parameter('insertStars', 2);
         $state = $el->validate_student_response(array('sans1' => 'cos(ax)/(x(ln(x)))'), $options, 'cos(a*x)/(x*(ln(x)))',
                 new stack_cas_security(false, '', '', array('ta')));
-        $this->assertEquals(stack_input::INVALID, $state->status);
-        $this->assertEquals('cos(a*x)/(x(ln(x)))', $state->contentsmodified);
-        $this->assertEquals('\[ \frac{\cos \left( a\cdot x \right)}{x\left(\ln \left( x \right)\right)} \]',
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('cos(a*x)/(x*(ln(x)))', $state->contentsmodified);
+        $this->assertEquals('\[ \frac{\cos \left( a\cdot x \right)}{x\cdot \ln \left( x \right)} \]',
                 $state->contentsdisplayed);
     }
 
@@ -570,7 +570,7 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         $el->set_parameter('insertStars', 5);
         $state = $el->validate_student_response(array('sans1' => 'sin^2(ab)'), $options, 'sin(ab)^2',
                 new stack_cas_security(false, '', '', array('ta')));
-        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals(stack_input::INVALID, $state->status);
         $this->assertEquals('sin(a*b)^2', $state->contentsmodified);
         $this->assertEquals('\[ \sin ^2\left(a\cdot b\right) \]', $state->contentsdisplayed);
         $this->assertEquals('', $state->note);
@@ -582,7 +582,7 @@ class stack_algebra_input_test extends qtype_stack_testcase {
 
         $state = $el->validate_student_response(array('sans1' => 'a/(a(x+1)+2)'), $options, 'a/(a*(x+1)+2)', new stack_cas_security(false, '', '', array('ta')));
         $this->assertEquals(stack_input::INVALID, $state->status);
-        $this->assertEquals("Variable_function", $state->note);
+        $this->assertEquals("missing_stars | Variable_function", $state->note);
     }
 
     public function test_validate_student_response_simp_1() {

@@ -18,7 +18,7 @@ defined('MOODLE_INTERNAL') || die();
 require_once(__DIR__ . '/filter.interface.php');
 
 /**
- * AST filter that spots statements like 'x=1 or 2' and 'x=1 and 2'
+ * AST filter that spots statements like 'x=1 or 2' and 'x=1 and 2'.
  */
 class stack_ast_filter_520_no_equality_with_logic implements stack_cas_astfilter {
     public function filter(MP_Node $ast, array &$errors, array &$answernotes, stack_cas_security $identifierrules): MP_Node {

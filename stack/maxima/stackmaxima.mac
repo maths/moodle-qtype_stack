@@ -837,20 +837,6 @@ stack_strip_percent(ex,var) := block([lv1, lv2, subcount, indx,exs],
     return(exs)
 )$
 
-/* These functions convert all variables in an expression to products of single letter variable names. */
-stack_singlevar_make_helper(ex) := block([s],
-  s: maplist(eval_string, charlist(string(ex))),
-  apply("*", s)
-)$
-
-stack_singlevar_make(ex) := block([vars, subs],
-  vars: sublist(listofvars(ex), lambda([ex], if slength(string(ex))>1 then true else false)),
-  if emptyp(vars) then return(ex),
-  vars:maplist(lambda([ex], ex=stack_singlevar_make_helper(ex)), vars),
-  /* We only need to use associtativity of "*", not "+", but we have to do it over the whole expression. */
-  STACK_assoc(sublis(vars, ex), ["*"])
-)$
-
 /* Spot the very specific pattern x=1 nounor 2 instead of x=1 nounor x=2. */
 /* Returns a list: [pattern found, changed expression]. */
 stack_validate_missing_assignment(ex) := block([ret, ex2, v, exop],
@@ -1603,7 +1589,7 @@ ATMatrix(SA, SB) := block([RawMark, FeedBack, AnswerNote, str, ret, SAr, SAc, SB
 /* An answer test based on two sets for SA and SB. */
 ATSet(SA, SB) := block([RawMark, FeedBack, AnswerNote, str, SAl, SBl, ZM],
     RawMark:true, FeedBack:"", AnswerNote:"",
-    /* Get sizes of matrices */
+    /* Get sizes of sets. */
     SAl:cardinality(SA),
     SBl:cardinality(SB),
     FeedBack:StackAddFeedback("", "ATSet_wrongsz", stack_disp(SBl, "i"), stack_disp(SAl, "i")),

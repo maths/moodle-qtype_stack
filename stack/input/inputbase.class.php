@@ -659,7 +659,9 @@ abstract class stack_input {
                     'automatic unit declaration'), false);
         }
 
-        $session->instantiate();
+        if ($valid) {
+            $session->instantiate();
+        }
 
         // Since $lvars and $answer and the other casstrings are passed by reference, into the $session,
         // we don't need to extract updated values from the instantiated $session explicitly.
@@ -684,8 +686,16 @@ abstract class stack_input {
         }
 
         $note = $answer->get_answernote();
+
         if ($errors) {
             $errors = trim(implode(' ', $errors));
+        }
+
+        // Did the CAS throw any errors?  Any feedback will be an error message.
+        $feedback = $answer->get_feedback();
+        if ($feedback !== '') {
+            $errors .= $feedback;
+            $valid = false;
         }
 
         if (!$valid) {
@@ -754,9 +764,6 @@ abstract class stack_input {
         $filterstoapply[] = '402_split_prefix_from_common_function_name';
         $filterstoapply[] = '403_split_at_number_letter_boundary';
         $filterstoapply[] = '406_split_implied_variable_names';
-
-        // We do have some things that students are not supposed to do.
-        $filterstoapply[] = '520_no_equality_with_logic';
 
         // If stars = 0 then strict, ignore the other strict syntax.
         if ($stars === 0) {
@@ -1066,7 +1073,9 @@ abstract class stack_input {
         if ($cs->get_valid()) {
             $val = $cs->get_inputform();
         }
-        $feedback .= html_writer::tag('p', stack_string('studentValidation_yourLastAnswer', $val));
+        if (trim($val) !== '<span class="stacksyntaxexample"></span>') {
+            $feedback .= html_writer::tag('p', stack_string('studentValidation_yourLastAnswer', $val));
+        }
 
         if ($this->requires_validation() && '' !== $state->contents) {
             $feedback .= html_writer::empty_tag('input', array('type' => 'hidden',

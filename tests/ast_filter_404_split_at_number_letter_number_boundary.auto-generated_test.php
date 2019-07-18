@@ -22,75 +22,95 @@ require_once(__DIR__ . '/../tests/fixtures/ast_filter_test_base.php');
 /**
  * @group qtype_stack
  * @group qtype_stack_ast_filters
- */class stack_ast_filter_auto_gen_102_no_strings_testcase extends qtype_stack_ast_testcase {
+ */class stack_ast_filter_auto_gen_404_split_at_number_letter_number_boundary_testcase extends qtype_stack_ast_testcase {
     public function test_affected_no_units() {
         $this->security = new stack_cas_security(false);
-        $this->filter = stack_parsing_rule_factory::get_by_common_name('102_no_strings');
+        $this->filter = stack_parsing_rule_factory::get_by_common_name('404_split_at_number_letter_number_boundary');
 
-        $this->expect('"+"(a,b)',
-                      '"+"(a,b)',
-                      array('Illegal_strings'),
-                      false, true);
+        $this->expect('%e^x',
+                      '%*e^x',
+                      array('missing_stars'),
+                      true, false);
 
-        $this->expect('"1+1"',
-                      '"1+1"',
-                      array('Illegal_strings'),
-                      false, true);
+        $this->expect('a1',
+                      'a*1',
+                      array('missing_stars'),
+                      true, false);
 
-        $this->expect('"Hello world"',
-                      '"Hello world"',
-                      array('Illegal_strings'),
-                      false, true);
+        $this->expect('a9b',
+                      'a*9*b',
+                      array('missing_stars'),
+                      true, false);
 
-        $this->expect('["a"]',
-                      '["a"]',
-                      array('Illegal_strings'),
-                      false, true);
+        $this->expect('ab98cd',
+                      'ab*98*cd',
+                      array('missing_stars'),
+                      true, false);
 
-        $this->expect('[1,true,"a"]',
-                      '[1,true,"a"]',
-                      array('Illegal_strings'),
-                      false, true);
+        $this->expect('aXy1',
+                      'aXy*1',
+                      array('missing_stars'),
+                      true, false);
+
+        $this->expect('x1',
+                      'x*1',
+                      array('missing_stars'),
+                      true, false);
 
     }
 
     public function test_affected_units() {
         $this->security = new stack_cas_security(true);
-        $this->filter = stack_parsing_rule_factory::get_by_common_name('102_no_strings');
+        $this->filter = stack_parsing_rule_factory::get_by_common_name('404_split_at_number_letter_number_boundary');
 
-        $this->expect('"+"(a,b)',
-                      '"+"(a,b)',
-                      array('Illegal_strings'),
-                      false, true);
+        $this->expect('%e^x',
+                      '%*e^x',
+                      array('missing_stars'),
+                      true, false);
 
-        $this->expect('"1+1"',
-                      '"1+1"',
-                      array('Illegal_strings'),
-                      false, true);
+        $this->expect('a1',
+                      'a*1',
+                      array('missing_stars'),
+                      true, false);
 
-        $this->expect('"Hello world"',
-                      '"Hello world"',
-                      array('Illegal_strings'),
-                      false, true);
+        $this->expect('a9b',
+                      'a*9*b',
+                      array('missing_stars'),
+                      true, false);
 
-        $this->expect('["a"]',
-                      '["a"]',
-                      array('Illegal_strings'),
-                      false, true);
+        $this->expect('ab98cd',
+                      'ab*98*cd',
+                      array('missing_stars'),
+                      true, false);
 
-        $this->expect('[1,true,"a"]',
-                      '[1,true,"a"]',
-                      array('Illegal_strings'),
-                      false, true);
+        $this->expect('aXy1',
+                      'aXy*1',
+                      array('missing_stars'),
+                      true, false);
+
+        $this->expect('x1',
+                      'x*1',
+                      array('missing_stars'),
+                      true, false);
 
     }
 
     public function test_non_affected_units() {
         $this->security = new stack_cas_security(true);
-        $this->filter = stack_parsing_rule_factory::get_by_common_name('102_no_strings');
+        $this->filter = stack_parsing_rule_factory::get_by_common_name('404_split_at_number_letter_number_boundary');
 
-        $this->expect('%e^x',
-                      '%e^x',
+        $this->expect('"+"(a,b)',
+                      '"+"(a,b)',
+                      array(),
+                      true, false);
+
+        $this->expect('"1+1"',
+                      '"1+1"',
+                      array(),
+                      true, false);
+
+        $this->expect('"Hello world"',
+                      '"Hello world"',
                       array(),
                       true, false);
 
@@ -494,6 +514,11 @@ require_once(__DIR__ . '/../tests/fixtures/ast_filter_test_base.php');
                       array(),
                       true, false);
 
+        $this->expect('["a"]',
+                      '["a"]',
+                      array(),
+                      true, false);
+
         $this->expect('[+1,+2]',
                       '[+1,+2]',
                       array(),
@@ -521,6 +546,11 @@ require_once(__DIR__ . '/../tests/fixtures/ast_filter_test_base.php');
 
         $this->expect('[1,2,3.4]',
                       '[1,2,3.4]',
+                      array(),
+                      true, false);
+
+        $this->expect('[1,true,"a"]',
+                      '[1,true,"a"]',
                       array(),
                       true, false);
 
@@ -606,26 +636,6 @@ require_once(__DIR__ . '/../tests/fixtures/ast_filter_test_base.php');
 
         $this->expect('a/b/c',
                       'a/b/c',
-                      array(),
-                      true, false);
-
-        $this->expect('a1',
-                      'a1',
-                      array(),
-                      true, false);
-
-        $this->expect('a9b',
-                      'a9b',
-                      array(),
-                      true, false);
-
-        $this->expect('ab98cd',
-                      'ab98cd',
-                      array(),
-                      true, false);
-
-        $this->expect('aXy1',
-                      'aXy1',
                       array(),
                       true, false);
 
@@ -1426,11 +1436,6 @@ require_once(__DIR__ . '/../tests/fixtures/ast_filter_test_base.php');
 
         $this->expect('x/y/z',
                       'x/y/z',
-                      array(),
-                      true, false);
-
-        $this->expect('x1',
-                      'x1',
                       array(),
                       true, false);
 
@@ -1608,10 +1613,20 @@ require_once(__DIR__ . '/../tests/fixtures/ast_filter_test_base.php');
 
     public function test_non_affected_no_units() {
         $this->security = new stack_cas_security(false);
-        $this->filter = stack_parsing_rule_factory::get_by_common_name('102_no_strings');
+        $this->filter = stack_parsing_rule_factory::get_by_common_name('404_split_at_number_letter_number_boundary');
 
-        $this->expect('%e^x',
-                      '%e^x',
+        $this->expect('"+"(a,b)',
+                      '"+"(a,b)',
+                      array(),
+                      true, false);
+
+        $this->expect('"1+1"',
+                      '"1+1"',
+                      array(),
+                      true, false);
+
+        $this->expect('"Hello world"',
+                      '"Hello world"',
                       array(),
                       true, false);
 
@@ -2015,6 +2030,11 @@ require_once(__DIR__ . '/../tests/fixtures/ast_filter_test_base.php');
                       array(),
                       true, false);
 
+        $this->expect('["a"]',
+                      '["a"]',
+                      array(),
+                      true, false);
+
         $this->expect('[+1,+2]',
                       '[+1,+2]',
                       array(),
@@ -2042,6 +2062,11 @@ require_once(__DIR__ . '/../tests/fixtures/ast_filter_test_base.php');
 
         $this->expect('[1,2,3.4]',
                       '[1,2,3.4]',
+                      array(),
+                      true, false);
+
+        $this->expect('[1,true,"a"]',
+                      '[1,true,"a"]',
                       array(),
                       true, false);
 
@@ -2127,26 +2152,6 @@ require_once(__DIR__ . '/../tests/fixtures/ast_filter_test_base.php');
 
         $this->expect('a/b/c',
                       'a/b/c',
-                      array(),
-                      true, false);
-
-        $this->expect('a1',
-                      'a1',
-                      array(),
-                      true, false);
-
-        $this->expect('a9b',
-                      'a9b',
-                      array(),
-                      true, false);
-
-        $this->expect('ab98cd',
-                      'ab98cd',
-                      array(),
-                      true, false);
-
-        $this->expect('aXy1',
-                      'aXy1',
                       array(),
                       true, false);
 
@@ -2947,11 +2952,6 @@ require_once(__DIR__ . '/../tests/fixtures/ast_filter_test_base.php');
 
         $this->expect('x/y/z',
                       'x/y/z',
-                      array(),
-                      true, false);
-
-        $this->expect('x1',
-                      'x1',
                       array(),
                       true, false);
 

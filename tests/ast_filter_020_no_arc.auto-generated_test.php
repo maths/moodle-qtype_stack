@@ -224,6 +224,11 @@ require_once(__DIR__ . '/../tests/fixtures/ast_filter_test_base.php');
                       array(),
                       true, false);
 
+        $this->expect('-1234',
+                      '-1234',
+                      array(),
+                      true, false);
+
         $this->expect('-0.2',
                       '-0.2',
                       array(),
@@ -301,6 +306,11 @@ require_once(__DIR__ . '/../tests/fixtures/ast_filter_test_base.php');
 
         $this->expect('1',
                       '1',
+                      array(),
+                      true, false);
+
+        $this->expect('1234',
+                      '1234',
                       array(),
                       true, false);
 
@@ -591,6 +601,11 @@ require_once(__DIR__ . '/../tests/fixtures/ast_filter_test_base.php');
 
         $this->expect('a9b',
                       'a9b',
+                      array(),
+                      true, false);
+
+        $this->expect('ab98cd',
+                      'ab98cd',
                       array(),
                       true, false);
 
@@ -1486,6 +1501,16 @@ require_once(__DIR__ . '/../tests/fixtures/ast_filter_test_base.php');
 
         $this->expect('x_y',
                       'x_y',
+                      array(),
+                      true, false);
+
+        $this->expect('xy_zw',
+                      'xy_zw',
+                      array(),
+                      true, false);
+
+        $this->expect('xy_12',
+                      'xy_12',
                       array(),
                       true, false);
 
@@ -1740,6 +1765,11 @@ require_once(__DIR__ . '/../tests/fixtures/ast_filter_test_base.php');
                       array(),
                       true, false);
 
+        $this->expect('-1234',
+                      '-1234',
+                      array(),
+                      true, false);
+
         $this->expect('-0.2',
                       '-0.2',
                       array(),
@@ -1817,6 +1847,11 @@ require_once(__DIR__ . '/../tests/fixtures/ast_filter_test_base.php');
 
         $this->expect('1',
                       '1',
+                      array(),
+                      true, false);
+
+        $this->expect('1234',
+                      '1234',
                       array(),
                       true, false);
 
@@ -2107,6 +2142,11 @@ require_once(__DIR__ . '/../tests/fixtures/ast_filter_test_base.php');
 
         $this->expect('a9b',
                       'a9b',
+                      array(),
+                      true, false);
+
+        $this->expect('ab98cd',
+                      'ab98cd',
                       array(),
                       true, false);
 
@@ -3002,6 +3042,16 @@ require_once(__DIR__ . '/../tests/fixtures/ast_filter_test_base.php');
 
         $this->expect('x_y',
                       'x_y',
+                      array(),
+                      true, false);
+
+        $this->expect('xy_zw',
+                      'xy_zw',
+                      array(),
+                      true, false);
+
+        $this->expect('xy_12',
+                      'xy_12',
                       array(),
                       true, false);
 

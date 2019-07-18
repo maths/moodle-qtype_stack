@@ -50,8 +50,11 @@ class stack_ast_filter_404_split_at_number_letter_number_boundary implements sta
                         $now = false;
                     }
                     if (!($alpha === null) && !($now === null) && !($now === $alpha)) {
-                        $splits[] = core_text::substr($node->value, $last, $i - $last);
-                        $last = $i;
+                        // Don't split at % signs.
+                        if (!(core_text::substr($node->value, $last, 1) === "%")) {
+                            $splits[] = core_text::substr($node->value, $last, $i - $last);
+                            $last = $i;
+                        }
                     }
                     $alpha = $now;
                 }

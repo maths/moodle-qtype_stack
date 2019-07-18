@@ -195,6 +195,8 @@ require_once(__DIR__ . '/../tests/fixtures/ast_filter_test_base.php');
  * @group qtype_stack
  * @group qtype_stack_ast_filters
  */
+
+
 ESCAPE;
     $code .= "class stack_ast_filter_auto_gen_${key}_testcase extends qtype_stack_ast_testcase {" . $nl;
 
@@ -202,7 +204,7 @@ ESCAPE;
     $testactiveunits .= $indent2 . '$this->security = new stack_cas_security(true);' . $nl;
     $testpassiveunits = $indent . 'public function test_non_affected_units() {' . $nl;
     $testpassiveunits .= $indent2 . '$this->security = new stack_cas_security(true);' . $nl;
-    $testactivenounits = $indent . 'public function test_affected_no_units() {' . $nl;
+    $testactivenounits = $nl . $indent . 'public function test_affected_no_units() {' . $nl;
     $testactivenounits .= $indent2 . '$this->security = new stack_cas_security(false);' . $nl;
     $testpassivenounits = $indent . 'public function test_non_affected_no_units() {' . $nl;
     $testpassivenounits .= $indent2 . '$this->security = new stack_cas_security(false);' . $nl;

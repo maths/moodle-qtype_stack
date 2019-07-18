@@ -65,6 +65,13 @@ class stack_ast_filter_410_single_char_vars implements stack_cas_astfilter {
                     }
                 }
 
+                // Don't split up subscripts here.
+                if (core_text::substr($node->value, 0, 1) === '_' || core_text::substr($node->value, 1, 1) === '_') {
+                    return true;
+                }
+                // TODO: more subtle case of ab_cd -> a*b_c*d rather than a*b_cd.
+                // This is enough for now, and doesn't break Maxima.
+
                 // If it does not start with a known identifier split the first char.
                 $remainder = core_text::substr($node->value, 1);
                 if (ctype_digit($remainder)) {

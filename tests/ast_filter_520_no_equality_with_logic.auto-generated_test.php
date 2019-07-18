@@ -22,7 +22,10 @@ require_once(__DIR__ . '/../tests/fixtures/ast_filter_test_base.php');
 /**
  * @group qtype_stack
  * @group qtype_stack_ast_filters
- */class stack_ast_filter_auto_gen_520_no_equality_with_logic_testcase extends qtype_stack_ast_testcase {
+ */
+
+class stack_ast_filter_auto_gen_520_no_equality_with_logic_testcase extends qtype_stack_ast_testcase {
+
     public function test_affected_no_units() {
         $this->security = new stack_cas_security(false);
         $this->filter = stack_parsing_rule_factory::get_by_common_name('520_no_equality_with_logic');
@@ -76,6 +79,16 @@ require_once(__DIR__ . '/../tests/fixtures/ast_filter_test_base.php');
 
         $this->expect('%e^x',
                       '%e^x',
+                      array(),
+                      true, false);
+
+        $this->expect('2pi r^2',
+                      '2*pi*r^2',
+                      array(),
+                      true, false);
+
+        $this->expect('2pir^2',
+                      '2*pir^2',
                       array(),
                       true, false);
 
@@ -234,6 +247,11 @@ require_once(__DIR__ . '/../tests/fixtures/ast_filter_test_base.php');
                       array(),
                       true, false);
 
+        $this->expect('-1234',
+                      '-1234',
+                      array(),
+                      true, false);
+
         $this->expect('-0.2',
                       '-0.2',
                       array(),
@@ -311,6 +329,11 @@ require_once(__DIR__ . '/../tests/fixtures/ast_filter_test_base.php');
 
         $this->expect('1',
                       '1',
+                      array(),
+                      true, false);
+
+        $this->expect('1234',
+                      '1234',
                       array(),
                       true, false);
 
@@ -601,6 +624,11 @@ require_once(__DIR__ . '/../tests/fixtures/ast_filter_test_base.php');
 
         $this->expect('a9b',
                       'a9b',
+                      array(),
+                      true, false);
+
+        $this->expect('ab98cd',
+                      'ab98cd',
                       array(),
                       true, false);
 
@@ -1049,6 +1077,16 @@ require_once(__DIR__ . '/../tests/fixtures/ast_filter_test_base.php');
                       array(),
                       true, false);
 
+        $this->expect('plot(x^2,[x,-1,1])',
+                      'plot(x^2,[x,-1,1])',
+                      array(),
+                      true, false);
+
+        $this->expect('plot2d(x^2,[x,-1,1])',
+                      'plot2d(x^2,[x,-1,1])',
+                      array(),
+                      true, false);
+
         $this->expect('product(cos(k*x),k,1,3)',
                       'product(cos(k*x),k,1,3)',
                       array(),
@@ -1491,6 +1529,16 @@ require_once(__DIR__ . '/../tests/fixtures/ast_filter_test_base.php');
 
         $this->expect('x_y',
                       'x_y',
+                      array(),
+                      true, false);
+
+        $this->expect('xy_zw',
+                      'xy_zw',
+                      array(),
+                      true, false);
+
+        $this->expect('xy_12',
+                      'xy_12',
                       array(),
                       true, false);
 
@@ -1590,6 +1638,16 @@ require_once(__DIR__ . '/../tests/fixtures/ast_filter_test_base.php');
                       array(),
                       true, false);
 
+        $this->expect('2pi r^2',
+                      '2*pi*r^2',
+                      array(),
+                      true, false);
+
+        $this->expect('2pir^2',
+                      '2*pir^2',
+                      array(),
+                      true, false);
+
         $this->expect("'diff(x,y)",
                       "'diff(x,y)",
                       array(),
@@ -1745,6 +1803,11 @@ require_once(__DIR__ . '/../tests/fixtures/ast_filter_test_base.php');
                       array(),
                       true, false);
 
+        $this->expect('-1234',
+                      '-1234',
+                      array(),
+                      true, false);
+
         $this->expect('-0.2',
                       '-0.2',
                       array(),
@@ -1822,6 +1885,11 @@ require_once(__DIR__ . '/../tests/fixtures/ast_filter_test_base.php');
 
         $this->expect('1',
                       '1',
+                      array(),
+                      true, false);
+
+        $this->expect('1234',
+                      '1234',
                       array(),
                       true, false);
 
@@ -2112,6 +2180,11 @@ require_once(__DIR__ . '/../tests/fixtures/ast_filter_test_base.php');
 
         $this->expect('a9b',
                       'a9b',
+                      array(),
+                      true, false);
+
+        $this->expect('ab98cd',
+                      'ab98cd',
                       array(),
                       true, false);
 
@@ -2560,6 +2633,16 @@ require_once(__DIR__ . '/../tests/fixtures/ast_filter_test_base.php');
                       array(),
                       true, false);
 
+        $this->expect('plot(x^2,[x,-1,1])',
+                      'plot(x^2,[x,-1,1])',
+                      array(),
+                      true, false);
+
+        $this->expect('plot2d(x^2,[x,-1,1])',
+                      'plot2d(x^2,[x,-1,1])',
+                      array(),
+                      true, false);
+
         $this->expect('product(cos(k*x),k,1,3)',
                       'product(cos(k*x),k,1,3)',
                       array(),
@@ -3002,6 +3085,16 @@ require_once(__DIR__ . '/../tests/fixtures/ast_filter_test_base.php');
 
         $this->expect('x_y',
                       'x_y',
+                      array(),
+                      true, false);
+
+        $this->expect('xy_zw',
+                      'xy_zw',
+                      array(),
+                      true, false);
+
+        $this->expect('xy_12',
+                      'xy_12',
                       array(),
                       true, false);
 

@@ -467,12 +467,17 @@ _APPEND_NOTE(note) := if ev(stackmap_has_key(%NOTES, %stmt), simp)
  else
   %NOTES:stackmap_set(%NOTES,%stmt,[note])$
 
+_RESET_NOTE(note) := %NOTES:["stack_map"]$
+
 /* Function to attach a note to the current statement. */
 _APPEND_FEEDBACK(feedback) := if ev(stackmap_has_key(%FEEDBACK, %stmt), simp)
  then
   %FEEDBACK:stackmap_set(%FEEDBACK,%stmt,append(stackmap_get(%FEEDBACK,%stmt),[feedback]))
  else
   %FEEDBACK:stackmap_set(%FEEDBACK,%stmt,[feedback])$
+
+/* Reset any feedback. */
+_RESET_FEEDBACK(feedback) := %FEEDBACK:["stack_map"]$
 
 /* General error catching wrapper */
 _EC(errcatched, reference) := if errcatched = [] 
@@ -756,6 +761,10 @@ stack_validate(expr, LowestTerms, TAns) := block([simp:false, exs, SameType, fvs
   if exs=[] then return(false),
   if length(expr)#1 then print(StackAddFeedback("", "CommaError", string(expr), string(setify(expr)))),
   expr: first(expr),
+  /* Check if the student's answer is the same type as the Teacher's. */
+  SameType:ATSameTypefun(expr, TAns),
+  if ev(is(SameType[2]=false),simp) then print(SameType[4])
+    else (_RESET_NOTE(true),_RESET_FEEDBACK(true)),
   /* Check to see if a variable is also a function name. */
   fvs1: setify(listofvars(expr)),
   fvs2: get_ops(expr),
@@ -772,9 +781,6 @@ stack_validate(expr, LowestTerms, TAns) := block([simp:false, exs, SameType, fvs
   exs:stack_validate_missing_assignment(expr),
   if first(exs) then
     print(StackAddFeedback("", "Bad_assignment", stack_disp(second(exs), "i"))),
-  /* Check if the student's answer is the same type as the Teacher's. */
-  SameType:ATSameTypefun(expr, TAns),
-  if SameType[2]#true then print(SameType[4]),
   /* Now display the result. */
   simp: false,
   expr: detexcolor(expr),
@@ -1226,8 +1232,8 @@ ATAlgEquiv(SA,SB) := block([simp:true, ret, newret, SAN],
     return(ret)
 )$
 
-/* ATAlgEquivfun is a recursive "thing" comparing function.   It is designed to
-   cope with a variety of different objects, eg lists of inequalities etc.
+/* ATAlgEquivfun is a recursive "thing" comparing function.  It is designed to
+   cope with a variety of different objects, e.g. lists of inequalities etc.
 
    Returns [valid, RawMark, AnswerNote, FeedBack]
    where valid = true/false
@@ -1562,12 +1568,10 @@ ATMatrix(SA, SB) := block([RawMark, FeedBack, AnswerNote, str, ret, SAr, SAc, SB
     SAc:length(SA[1]),
     SBr:length(SB),
     SBc:length(SB[1]),
-    FeedBack:StackAddFeedback("", "ATMatrix_wrongsz", stack_disp(SBr, "i"), stack_disp(SBc, "i"), stack_disp(SAr, "i"), stack_disp(SAc, "i")),
     if (SAr#SBr) then
-        return([true, false, StackAddNote("", "ATMatrix_wrongsz_rows"), FeedBack]),
+        return([true, false, StackAddNote("", "ATMatrix_wrongsz_rows"), StackAddFeedback("", "ATMatrix_wrongsz", stack_disp(SBr, "i"), stack_disp(SBc, "i"), stack_disp(SAr, "i"), stack_disp(SAc, "i"))]),
     if (SAc#SBc) then
-        return([true, false, StackAddNote("", "ATMatrix_wrongsz_columns"), FeedBack]),
-    FeedBack:"",
+        return([true, false, StackAddNote("", "ATMatrix_wrongsz_columns"), StackAddFeedback("", "ATMatrix_wrongsz", stack_disp(SBr, "i"), stack_disp(SBc, "i"), stack_disp(SAr, "i"), stack_disp(SAc, "i"))]),
     /* Check they are equal */
     ret:[true, true, "", ""],
     AddFeedBack:false,
@@ -1590,12 +1594,10 @@ ATMatrix(SA, SB) := block([RawMark, FeedBack, AnswerNote, str, ret, SAr, SAc, SB
 ATSet(SA, SB) := block([RawMark, FeedBack, AnswerNote, str, SAl, SBl, ZM],
     RawMark:true, FeedBack:"", AnswerNote:"",
     /* Get sizes of sets. */
-    SAl:cardinality(SA),
-    SBl:cardinality(SB),
-    FeedBack:StackAddFeedback("", "ATSet_wrongsz", stack_disp(SBl, "i"), stack_disp(SAl, "i")),
+    SAl:ev(cardinality(SA), simp),
+    SBl:ev(cardinality(SB), simp),
     if (SAl#SBl) then
-        return([true, false, StackAddNote("", "ATSet_wrongsz"), FeedBack]),
-    FeedBack:"",
+        return([true, false, StackAddNote("", "ATSet_wrongsz"), StackAddFeedback("", "ATSet_wrongsz", stack_disp(SBl, "i"), stack_disp(SAl, "i"))]),
     /* Check they are equal */
     SA:map(ineqprepare, map(trigreduce, SA)),
     SB:map(ineqprepare, map(trigreduce, SB)),

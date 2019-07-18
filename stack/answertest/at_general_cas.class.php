@@ -230,8 +230,7 @@ class stack_answertest_general_cas extends stack_anstest {
             if (strrpos($res, '!NEWLINE!') === core_text::strlen($res) - 9) {
                 $res = trim(core_text::substr($res, 0, -9));
             }
-            $astc = new stack_ast_container();
-            $r['feedback'] = $astc->set_cas_latex_value(stack_maxima_translate($res));
+            $r['feedback'] = stack_maxima_translate($res);
         }
         return $r;
     }

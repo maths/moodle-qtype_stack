@@ -189,29 +189,7 @@ class stack_ast_container extends stack_ast_container_silent implements cas_late
     }
 
     public function set_cas_latex_value(string $latex) {
-        $dispfix = array('QMCHAR' => '?', '!LEFTSQ!' => '\left[', '!LEFTR!' => '\left(',
-            '!RIGHTSQ!' => '\right]', '!RIGHTR!' => '\right)');
-        // Need to add this in here also because strings may contain question mark characters.
-        foreach ($dispfix as $key => $fix) {
-            $latex = str_replace($key, $fix, $latex);
-        }
-        $loctags = array('ANDOR', 'SAMEROOTS', 'MISSINGVAR', 'ASSUMEPOSVARS', 'ASSUMEPOSREALVARS', 'LET',
-                'AND', 'OR', 'NOT');
-        foreach ($loctags as $tag) {
-            $latex = str_replace('!'.$tag.'!', stack_string('equiv_'.$tag), $latex);
-        }
-
-        // Also previously some spaces have been eliminated and line changes dropped.
-        // Apparently returning verbatim LaTeX was not a thing.
-        $latex = str_replace("\n ", '', $latex);
-        $latex = str_replace("\n", '', $latex);
-        // Just don't want to use regexp.
-        $latex = str_replace('    ', ' ', $latex);
-        $latex = str_replace('   ', ' ', $latex);
-        $latex = str_replace('  ', ' ', $latex);
-
-        $this->latex = $latex;
-        return $latex;
+        $this->latex = stack_maxima_latex_tidy($latex);
     }
 
     public function get_evaluated(): MP_Node {

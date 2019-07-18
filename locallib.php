@@ -51,11 +51,43 @@ function stack_string($key, $a = null) {
 }
 
 /**
+ * This function tidies up LaTeX from Maxima.
+ * @param string $rawfeedback
+ * @return string
+ */
+function stack_maxima_latex_tidy($latex) {
+    $dispfix = array('QMCHAR' => '?', '!LEFTSQ!' => '\left[', '!LEFTR!' => '\left(',
+            '!RIGHTSQ!' => '\right]', '!RIGHTR!' => '\right)');
+    // Need to add this in here also because strings may contain question mark characters.
+    foreach ($dispfix as $key => $fix) {
+        $latex = str_replace($key, $fix, $latex);
+    }
+    $loctags = array('ANDOR', 'SAMEROOTS', 'MISSINGVAR', 'ASSUMEPOSVARS', 'ASSUMEPOSREALVARS', 'LET',
+            'AND', 'OR', 'NOT');
+    foreach ($loctags as $tag) {
+        $latex = str_replace('!'.$tag.'!', stack_string('equiv_'.$tag), $latex);
+    }
+
+    // Also previously some spaces have been eliminated and line changes dropped.
+    // Apparently returning verbatim LaTeX was not a thing.
+    $latex = str_replace("\n ", '', $latex);
+    $latex = str_replace("\n", '', $latex);
+    // Just don't want to use regexp.
+    $latex = str_replace('    ', ' ', $latex);
+    $latex = str_replace('   ', ' ', $latex);
+    $latex = str_replace('  ', ' ', $latex);
+
+    return $latex;
+}
+
+/**
  * This function takes a feedback string from Maxima and unpacks and translates it.
  * @param string $rawfeedback
  * @return string
  */
 function stack_maxima_translate($rawfeedback) {
+
+    $rawfeedback = stack_maxima_latex_tidy($rawfeedback);
 
     if (strpos($rawfeedback, 'stack_trans') === false) {
         return trim($rawfeedback);

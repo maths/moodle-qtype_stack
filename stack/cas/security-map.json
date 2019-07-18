@@ -4129,7 +4129,8 @@
         "function": "s"
     },
     "makelist": {
-        "function": "s"
+        "function": "s",
+        "argumentmapstovariable": [1]
     },
     "makeset": {
         "function": "s"
@@ -7094,7 +7095,8 @@
         "variable": "s"
     },
     "sublist": {
-        "function": "s"
+        "function": "s",
+        "argumentasfunction": [1]
     },
     "sublist_indices": {
         "function": "s"

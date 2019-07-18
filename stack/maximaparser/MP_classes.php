@@ -582,6 +582,12 @@ class MP_Identifier extends MP_Atom {
                     'mapfunction') === true) {
                 return true;
             }
+            // Sublist case.
+            $indices = stack_cas_security::get_feature($this->parentnode->name->toString(),
+                    'argumentasfunction');
+            if ($indices !== null && array_search(array_search($this, $this->parentnode->arguments), $indices) !== false) {
+                return true;
+            }
         }
         return false;
     }
@@ -638,6 +644,7 @@ class MP_Identifier extends MP_Atom {
     public function is_global(): bool {
         // This is expensive as we need to travel the whole parent-chain and do some paraller checks.
         $i = $this->parentnode;
+        $prev = $this;
 
         while ($i != null) {
             if ($i instanceof MP_FunctionCall) {
@@ -656,6 +663,17 @@ class MP_Identifier extends MP_Atom {
                             }
                         }
                     }
+                } else if ($i->name->value === 'ev') {
+                    // Something like ev(foo,simp). Simp is not global there.
+                    if ($i->arguments[0] !== $prev) {
+                        return false;
+                    }
+                }
+                if (stack_cas_security::get_feature($i->name->value, 'argumentmapstovariable') !== null) {
+                    $indices = stack_cas_security::get_feature($i->name->value, 'argumentmapstovariable');
+                    if (array_search(array_search($prev, $i->arguments), $indices) !== false) {
+                        return false;
+                    }
                 }
             } else if ($i instanceof MP_Operation && ($i->op === ':=' || $i->op
                 === '::=')) {
@@ -669,6 +687,7 @@ class MP_Identifier extends MP_Atom {
                     }
                 }
             }
+            $prev = $i;
             $i = $i->parentnode;
         }
         return true;

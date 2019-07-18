@@ -132,6 +132,16 @@ class stack_ast_filter_auto_gen_402_split_prefix_from_common_function_name_testc
                       array(),
                       true, false);
 
+        $this->expect('2pi r^2',
+                      '2*pi*r^2',
+                      array(),
+                      true, false);
+
+        $this->expect('2pir^2',
+                      '2*pir^2',
+                      array(),
+                      true, false);
+
         $this->expect("'diff(x,y)",
                       "'diff(x,y)",
                       array(),
@@ -1650,6 +1660,16 @@ class stack_ast_filter_auto_gen_402_split_prefix_from_common_function_name_testc
 
         $this->expect('%e^x',
                       '%e^x',
+                      array(),
+                      true, false);
+
+        $this->expect('2pi r^2',
+                      '2*pi*r^2',
+                      array(),
+                      true, false);
+
+        $this->expect('2pir^2',
+                      '2*pir^2',
                       array(),
                       true, false);
 

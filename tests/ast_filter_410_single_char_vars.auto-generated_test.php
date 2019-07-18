@@ -30,6 +30,11 @@ class stack_ast_filter_auto_gen_410_single_char_vars_testcase extends qtype_stac
         $this->security = new stack_cas_security(false);
         $this->filter = stack_parsing_rule_factory::get_by_common_name('410_single_char_vars');
 
+        $this->expect('2pir^2',
+                      '2*pi*r^2',
+                      array('missing_stars'),
+                      true, false);
+
         $this->expect('a1',
                       'a*1',
                       array('missing_stars'),
@@ -145,6 +150,11 @@ class stack_ast_filter_auto_gen_410_single_char_vars_testcase extends qtype_stac
     public function test_affected_units() {
         $this->security = new stack_cas_security(true);
         $this->filter = stack_parsing_rule_factory::get_by_common_name('410_single_char_vars');
+
+        $this->expect('2pir^2',
+                      '2*pi*r^2',
+                      array('missing_stars'),
+                      true, false);
 
         $this->expect('a1',
                       'a*1',
@@ -279,6 +289,11 @@ class stack_ast_filter_auto_gen_410_single_char_vars_testcase extends qtype_stac
 
         $this->expect('%e^x',
                       '%e^x',
+                      array(),
+                      true, false);
+
+        $this->expect('2pi r^2',
+                      '2*pi*r^2',
                       array(),
                       true, false);
 
@@ -1725,6 +1740,11 @@ class stack_ast_filter_auto_gen_410_single_char_vars_testcase extends qtype_stac
 
         $this->expect('%e^x',
                       '%e^x',
+                      array(),
+                      true, false);
+
+        $this->expect('2pi r^2',
+                      '2*pi*r^2',
                       array(),
                       true, false);
 

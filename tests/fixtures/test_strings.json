@@ -3,6 +3,8 @@
     "\"1+1\"",
     "\"Hello world\"",
     "%e^x",
+    "2pi r^2",
+    "2pir^2",
     "2%e^x",
     "'diff(x,y)",
     "'int(x,y)",

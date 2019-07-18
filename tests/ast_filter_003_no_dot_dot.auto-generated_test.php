@@ -82,6 +82,16 @@ class stack_ast_filter_auto_gen_003_no_dot_dot_testcase extends qtype_stack_ast_
                       array(),
                       true, false);
 
+        $this->expect('2pi r^2',
+                      '2*pi*r^2',
+                      array(),
+                      true, false);
+
+        $this->expect('2pir^2',
+                      '2*pir^2',
+                      array(),
+                      true, false);
+
         $this->expect("'diff(x,y)",
                       "'diff(x,y)",
                       array(),
@@ -1625,6 +1635,16 @@ class stack_ast_filter_auto_gen_003_no_dot_dot_testcase extends qtype_stack_ast_
 
         $this->expect('%e^x',
                       '%e^x',
+                      array(),
+                      true, false);
+
+        $this->expect('2pi r^2',
+                      '2*pi*r^2',
+                      array(),
+                      true, false);
+
+        $this->expect('2pir^2',
+                      '2*pir^2',
                       array(),
                       true, false);
 

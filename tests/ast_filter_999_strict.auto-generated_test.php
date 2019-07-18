@@ -30,6 +30,16 @@ class stack_ast_filter_auto_gen_999_strict_testcase extends qtype_stack_ast_test
         $this->security = new stack_cas_security(false);
         $this->filter = stack_parsing_rule_factory::get_by_common_name('999_strict');
 
+        $this->expect('2pi r^2',
+                      '2*pi*r^2',
+                      array(),
+                      false, true);
+
+        $this->expect('2pir^2',
+                      '2*pir^2',
+                      array(),
+                      false, true);
+
         $this->expect('(()x)',
                       '(()*x)',
                       array(),
@@ -150,6 +160,16 @@ class stack_ast_filter_auto_gen_999_strict_testcase extends qtype_stack_ast_test
     public function test_affected_units() {
         $this->security = new stack_cas_security(true);
         $this->filter = stack_parsing_rule_factory::get_by_common_name('999_strict');
+
+        $this->expect('2pi r^2',
+                      '2*pi*r^2',
+                      array(),
+                      false, true);
+
+        $this->expect('2pir^2',
+                      '2*pir^2',
+                      array(),
+                      false, true);
 
         $this->expect('(()x)',
                       '(()*x)',

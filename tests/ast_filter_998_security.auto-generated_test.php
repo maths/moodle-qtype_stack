@@ -30,6 +30,11 @@ class stack_ast_filter_auto_gen_998_security_testcase extends qtype_stack_ast_te
         $this->security = new stack_cas_security(false);
         $this->filter = stack_parsing_rule_factory::get_by_common_name('998_security');
 
+        $this->expect('2pir^2',
+                      '2*pir^2',
+                      array('forbiddenVariable'),
+                      false, true);
+
         $this->expect("'diff(x,y)",
                       "'diff(x,y)",
                       array('apostrophe'),
@@ -269,6 +274,11 @@ class stack_ast_filter_auto_gen_998_security_testcase extends qtype_stack_ast_te
         $this->expect('"+"(a,b)',
                       '"+"(a,b)',
                       array('unknownUnitsCase'),
+                      false, true);
+
+        $this->expect('2pir^2',
+                      '2*pir^2',
+                      array('forbiddenVariable'),
                       false, true);
 
         $this->expect("'diff(x,y)",
@@ -649,6 +659,11 @@ class stack_ast_filter_auto_gen_998_security_testcase extends qtype_stack_ast_te
 
         $this->expect('%e^x',
                       '%e^x',
+                      array(),
+                      true, false);
+
+        $this->expect('2pi r^2',
+                      '2*pi*r^2',
                       array(),
                       true, false);
 
@@ -1845,6 +1860,11 @@ class stack_ast_filter_auto_gen_998_security_testcase extends qtype_stack_ast_te
 
         $this->expect('%e^x',
                       '%e^x',
+                      array(),
+                      true, false);
+
+        $this->expect('2pi r^2',
+                      '2*pi*r^2',
                       array(),
                       true, false);
 

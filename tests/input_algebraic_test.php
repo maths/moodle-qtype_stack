@@ -259,6 +259,17 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         $this->assertEquals(stack_input::VALID, $state->status);
     }
 
+    public function test_validate_student_response_trigexp_1() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('algebraic', 'sans1', 'sin(ab)^2');
+        $state = $el->validate_student_response(array('sans1' => 'sin^2(ab)'), $options, 'sin(ab)^2',
+                new stack_cas_security(false, '', '', array('ta')));
+        $this->assertEquals(stack_input::INVALID, $state->status);
+        $this->assertEquals('sin^2*(ab)', $state->contentsmodified);
+        $this->assertEquals('<span class="stacksyntaxexample">sin^2*(ab)</span>', $state->contentsdisplayed);
+        $this->assertEquals('missing_stars | trigexp', $state->note);
+    }
+
     public function test_validate_student_response_insertstars_true_1() {
         $options = new stack_options();
         $el = stack_input_factory::make('algebraic', 'sans1', '2*x');
@@ -571,9 +582,10 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         $state = $el->validate_student_response(array('sans1' => 'sin^2(ab)'), $options, 'sin(ab)^2',
                 new stack_cas_security(false, '', '', array('ta')));
         $this->assertEquals(stack_input::INVALID, $state->status);
-        $this->assertEquals('sin(a*b)^2', $state->contentsmodified);
-        $this->assertEquals('\[ \sin ^2\left(a\cdot b\right) \]', $state->contentsdisplayed);
-        $this->assertEquals('', $state->note);
+        $this->assertEquals('missing_stars | trigexp', $state->note);
+        $this->assertEquals('s*i*n^2*(a*b)', $state->contentsmodified);
+        $this->assertEquals('<span class="stacksyntaxexample">s*i*n^2*(a*b)</span>', $state->contentsdisplayed);
+        $this->assertEquals('missing_stars | trigexp', $state->note);
     }
 
     public function test_validate_student_response_functions_variable() {

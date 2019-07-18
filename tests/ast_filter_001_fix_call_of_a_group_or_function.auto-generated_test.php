@@ -22,7 +22,10 @@ require_once(__DIR__ . '/../tests/fixtures/ast_filter_test_base.php');
 /**
  * @group qtype_stack
  * @group qtype_stack_ast_filters
- */class stack_ast_filter_auto_gen_001_fix_call_of_a_group_or_function_testcase extends qtype_stack_ast_testcase {
+ */
+
+class stack_ast_filter_auto_gen_001_fix_call_of_a_group_or_function_testcase extends qtype_stack_ast_testcase {
+
     public function test_affected_no_units() {
         $this->security = new stack_cas_security(false);
         $this->filter = stack_parsing_rule_factory::get_by_common_name('001_fix_call_of_a_group_or_function');

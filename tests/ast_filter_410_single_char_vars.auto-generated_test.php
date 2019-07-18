@@ -1229,6 +1229,16 @@ require_once(__DIR__ . '/../tests/fixtures/ast_filter_test_base.php');
                       array(),
                       true, false);
 
+        $this->expect('plot(x^2,[x,-1,1])',
+                      'plot(x^2,[x,-1,1])',
+                      array(),
+                      true, false);
+
+        $this->expect('plot2d(x^2,[x,-1,1])',
+                      'plot2d(x^2,[x,-1,1])',
+                      array(),
+                      true, false);
+
         $this->expect('product(cos(k*x),k,1,3)',
                       'product(cos(k*x),k,1,3)',
                       array(),
@@ -2662,6 +2672,16 @@ require_once(__DIR__ . '/../tests/fixtures/ast_filter_test_base.php');
 
         $this->expect('pi*2',
                       'pi*2',
+                      array(),
+                      true, false);
+
+        $this->expect('plot(x^2,[x,-1,1])',
+                      'plot(x^2,[x,-1,1])',
+                      array(),
+                      true, false);
+
+        $this->expect('plot2d(x^2,[x,-1,1])',
+                      'plot2d(x^2,[x,-1,1])',
                       array(),
                       true, false);
 

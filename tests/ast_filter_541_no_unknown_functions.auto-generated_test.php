@@ -202,6 +202,11 @@ require_once(__DIR__ . '/../tests/fixtures/ast_filter_test_base.php');
                       array('unknownFunction'),
                       false, true);
 
+        $this->expect('plot2d(x^2,[x,-1,1])',
+                      'plot2d(x^2,[x,-1,1])',
+                      array('unknownFunction'),
+                      false, true);
+
         $this->expect('sgn(x)',
                       'sgn(x)',
                       array('unknownFunction'),
@@ -440,6 +445,11 @@ require_once(__DIR__ . '/../tests/fixtures/ast_filter_test_base.php');
 
         $this->expect('perm(x,y)',
                       'perm(x,y)',
+                      array('unknownFunction'),
+                      false, true);
+
+        $this->expect('plot2d(x^2,[x,-1,1])',
+                      'plot2d(x^2,[x,-1,1])',
                       array('unknownFunction'),
                       false, true);
 
@@ -1336,6 +1346,11 @@ require_once(__DIR__ . '/../tests/fixtures/ast_filter_test_base.php');
 
         $this->expect('pi*2',
                       'pi*2',
+                      array(),
+                      true, false);
+
+        $this->expect('plot(x^2,[x,-1,1])',
+                      'plot(x^2,[x,-1,1])',
                       array(),
                       true, false);
 
@@ -2647,6 +2662,11 @@ require_once(__DIR__ . '/../tests/fixtures/ast_filter_test_base.php');
 
         $this->expect('pi*2',
                       'pi*2',
+                      array(),
+                      true, false);
+
+        $this->expect('plot(x^2,[x,-1,1])',
+                      'plot(x^2,[x,-1,1])',
                       array(),
                       true, false);
 

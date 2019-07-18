@@ -167,6 +167,11 @@ require_once(__DIR__ . '/../tests/fixtures/ast_filter_test_base.php');
                       array('forbiddenFunction'),
                       false, true);
 
+        $this->expect('plot2d(x^2,[x,-1,1])',
+                      'plot2d(x^2,[x,-1,1])',
+                      array('forbiddenFunction'),
+                      false, true);
+
         $this->expect('set(x, y, z)',
                       'set(x,y,z)',
                       array('forbiddenFunction'),
@@ -500,6 +505,11 @@ require_once(__DIR__ . '/../tests/fixtures/ast_filter_test_base.php');
 
         $this->expect('perm(x,y)',
                       'perm(x,y)',
+                      array('forbiddenFunction'),
+                      false, true);
+
+        $this->expect('plot2d(x^2,[x,-1,1])',
+                      'plot2d(x^2,[x,-1,1])',
                       array('forbiddenFunction'),
                       false, true);
 
@@ -1381,6 +1391,11 @@ require_once(__DIR__ . '/../tests/fixtures/ast_filter_test_base.php');
 
         $this->expect('pi*2',
                       'pi*2',
+                      array(),
+                      true, false);
+
+        $this->expect('plot(x^2,[x,-1,1])',
+                      'plot(x^2,[x,-1,1])',
                       array(),
                       true, false);
 
@@ -2672,6 +2687,11 @@ require_once(__DIR__ . '/../tests/fixtures/ast_filter_test_base.php');
 
         $this->expect('pi*2',
                       'pi*2',
+                      array(),
+                      true, false);
+
+        $this->expect('plot(x^2,[x,-1,1])',
+                      'plot(x^2,[x,-1,1])',
                       array(),
                       true, false);
 

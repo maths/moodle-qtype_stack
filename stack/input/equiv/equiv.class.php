@@ -220,12 +220,13 @@ class stack_equiv_input extends stack_input {
         $secrules->set_allowedwords($this->get_parameter('allowWords', ''));
         $secrules->set_forbiddenwords($this->get_parameter('forbidWords', ''));
 
+        list ($secrules, $filterstoapply) = $this->validate_contents_filters($basesecurity);
+
         foreach ($contents as $index => $val) {
-            // TODO: add filters, strict and so on.
-            // TODO: add this cludge into the parser.
             $val = $this->equals_to_stackeq($val);
 
-            $answer = stack_ast_container::make_from_student_source($val, '', $secrules, array(), array(), 'Equivline');
+            $answer = stack_ast_container::make_from_student_source($val, '', $secrules, $filterstoapply,
+                    array(), 'Equivline');
 
             // Is the student permitted to include comments in their answer?
             if (!$this->extraoptions['comments'] && $answer->is_string()) {

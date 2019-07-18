@@ -726,26 +726,11 @@ abstract class stack_input {
         return $validationmethod;
     }
 
-    /**
-     * This is the basic validation of the student's "answer".
-     * This method is only called if the input is not blank.
-     *
-     * Only a few input methods need to modify this method.
-     * For example, Matrix types have two dimensional contents arrays to loop over.
-     *
-     * @param array $contents the content array of the student's input.
-     * @param stack_cas_security $basesecurity declares the variables which must not
-     *                                         appear in the student's input.
-     * @return array of the validity, errors strings, modified contents and caslines.
+    /*
+     * Sort out which filters to apply, based on options to the input.
+     * Should be mostly independent of input type.
      */
-    protected function validate_contents($contents, $basesecurity, $localoptions) {
-
-        $errors = $this->extra_validation($contents);
-        $valid = !$errors;
-        $caslines = array();
-        $errors = array();
-        $note = array();
-
+    protected function validate_contents_filters($basesecurity) {
         $secrules = clone $basesecurity;
         $secrules->set_allowedwords($this->get_parameter('allowWords', ''));
         $secrules->set_forbiddenwords($this->get_parameter('forbidWords', ''));
@@ -790,13 +775,36 @@ abstract class stack_input {
         if ($stars & (1 << 2)) {
             $filterstoapply[] = '410_single_char_vars';
         }
+        return array($secrules, $filterstoapply);
+    }
+
+    /**
+     * This is the basic validation of the student's "answer".
+     * This method is only called if the input is not blank.
+     *
+     * Only a few input methods need to modify this method.
+     * For example, Matrix types have two dimensional contents arrays to loop over.
+     *
+     * @param array $contents the content array of the student's input.
+     * @param stack_cas_security $basesecurity declares the variables which must not
+     *                                         appear in the student's input.
+     * @return array of the validity, errors strings, modified contents and caslines.
+     */
+    protected function validate_contents($contents, $basesecurity, $localoptions) {
+
+        $errors = $this->extra_validation($contents);
+        $valid = !$errors;
+        $caslines = array();
+        $errors = array();
+        $note = array();
+
+        list ($secrules, $filterstoapply) = $this->validate_contents_filters($basesecurity);
 
         foreach ($contents as $index => $val) {
             if ($val === null) {
                 // One of those things logic nouns hid.
                 $val = '';
             }
-            // TODO (!) use $this->get_parameter('insertStars', 0)....
             $answer = stack_ast_container::make_from_student_source($val, '', $secrules, $filterstoapply);
 
             $caslines[] = $answer;

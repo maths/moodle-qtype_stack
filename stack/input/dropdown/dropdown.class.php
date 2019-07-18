@@ -323,15 +323,13 @@ class stack_dropdown_input extends stack_input {
         $errors = $this->errors;
         $caslines = array();
 
-        $secrules = clone $basesecurity;
-        $secrules->set_allowedwords($this->get_parameter('allowWords', ''));
-        $secrules->set_forbiddenwords($this->get_parameter('forbidWords', ''));
+        list ($secrules, $filterstoapply) = $this->validate_contents_filters($basesecurity);
 
         // Construct one final "answer" as a single maxima object.
         // In the case of dropdown create the object directly here.
         $value = $this->contents_to_maxima($contents);
 
-        $answer = stack_ast_container::make_from_student_source($value, '', $secrules);
+        $answer = stack_ast_container::make_from_student_source($value, '', $secrules, $filterstoapply);
         $answer->get_valid();
 
         return array($valid, $errors, $answer, $caslines);

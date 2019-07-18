@@ -179,9 +179,7 @@ class stack_matrix_input extends stack_input {
         $errors = array();
         $valid = true;
 
-        $secrules = clone $basesecurity;
-        $secrules->set_allowedwords($this->get_parameter('allowWords', ''));
-        $secrules->set_forbiddenwords($this->get_parameter('forbidWords', ''));
+        list ($secrules, $filterstoapply) = $this->validate_contents_filters($basesecurity);
 
         // Now validate the input as CAS code.
         $modifiedcontents = array();
@@ -189,7 +187,7 @@ class stack_matrix_input extends stack_input {
             $modifiedrow = array();
             foreach ($row as $val) {
                 // TODO: insertstars filters... and such
-                $answer = stack_ast_container::make_from_student_source($val, '', $secrules);
+                $answer = stack_ast_container::make_from_student_source($val, '', $secrules, $filterstoapply);
 
                 $modifiedrow[] = $answer->get_inputform();
                 $valid = $valid && $answer->get_valid();

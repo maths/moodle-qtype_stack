@@ -29,6 +29,7 @@ if (function_exists('mb_ereg')) {
 }
 // Also needs stack_string().
 require_once(__DIR__ . '/../../locallib.php');
+require_once(__DIR__ . '/../utils.class.php');
 
 class maxima_parser_utils {
 

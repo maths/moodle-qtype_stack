@@ -647,7 +647,8 @@ class MP_Identifier extends MP_Atom {
                 } else if ($i->name->value === 'block' || $i->name->value ===
                     'lambda') {
                     // If this is wrapped to a block/lambda then we check the first arguments contents.
-                    if ($i->arguments[0] instanceof MP_List) {
+                    if ($i->arguments[0] instanceof MP_List || (
+                        $i->arguments[0] instanceof MP_FunctionCall && $i->arguments[0]->name->value === 'local')) {
 
                         foreach ($i->arguments[0]->getChildren() as $v) {
                             if ($v instanceof MP_Identifier && $v->value === $this->value) {

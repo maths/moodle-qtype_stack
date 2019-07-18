@@ -166,6 +166,15 @@ class stack_ast_filter_998_security implements stack_cas_astfilter_parametric {
                         }
                     }
 
+                    // The sublist case.
+                    if ($identifierrules->has_feature($node->name->value, 'argumentasfunction')) {
+                        foreach (stack_cas_security::get_feature($node->name->value, 'argumentasfunction') as $ind) {
+                            $virtualfunction = new MP_FunctionCall($node->arguments[$ind], array($node->arguments[0]));
+                            $virtualfunction->position['virtual'] = true;
+                            $ofinterest[] = $virtualfunction;
+                        }
+                    }
+
                 } else if ($node->name instanceof MP_FunctionCall) {
                     $outter = $node->name;
                     if (($outter->name instanceof MP_Identifier || $outter->name instanceof MP_String)

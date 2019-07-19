@@ -320,7 +320,13 @@
     "_APPEND_FEEDBACK": {
         "function": "f"
     },
+    "_RESET_FEEDBACK": {
+        "function": "f"
+    },
     "_APPEND_NOTE": {
+        "function": "f"
+    },
+    "_RESET_NOTES": {
         "function": "f"
     },
     "_EC": {

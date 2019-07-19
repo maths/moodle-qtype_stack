@@ -467,7 +467,7 @@ _APPEND_NOTE(note) := if ev(stackmap_has_key(%NOTES, %stmt), simp)
  else
   %NOTES:stackmap_set(%NOTES,%stmt,[note])$
 
-_RESET_NOTE(note) := %NOTES:["stack_map"]$
+_RESET_NOTES() := %NOTES:stackmap_unset(%NOTES,%stmt)$
 
 /* Function to attach a note to the current statement. */
 _APPEND_FEEDBACK(feedback) := if ev(stackmap_has_key(%FEEDBACK, %stmt), simp)
@@ -477,7 +477,7 @@ _APPEND_FEEDBACK(feedback) := if ev(stackmap_has_key(%FEEDBACK, %stmt), simp)
   %FEEDBACK:stackmap_set(%FEEDBACK,%stmt,[feedback])$
 
 /* Reset any feedback. */
-_RESET_FEEDBACK(feedback) := %FEEDBACK:["stack_map"]$
+_RESET_FEEDBACK() := %FEEDBACK:stackmap_unset(%FEEDBACK,%stmt)$
 
 /* General error catching wrapper */
 _EC(errcatched, reference) := if errcatched = [] 
@@ -764,7 +764,7 @@ stack_validate(expr, LowestTerms, TAns) := block([simp:false, exs, SameType, fvs
   /* Check if the student's answer is the same type as the Teacher's. */
   SameType:ATSameTypefun(expr, TAns),
   if ev(is(SameType[2]=false),simp) then print(SameType[4])
-    else (_RESET_NOTE(true),_RESET_FEEDBACK(true)),
+    else (_RESET_NOTES(),_RESET_FEEDBACK()),
   /* Check to see if a variable is also a function name. */
   fvs1: setify(listofvars(expr)),
   fvs2: get_ops(expr),

@@ -256,6 +256,7 @@ class stack_equiv_input extends stack_input {
      *      string if the input is valid - at least according to this test.
      */
     protected function validation_display($answer, $lvars, $caslines, $additionalvars, $valid, $errors) {
+
         if ($this->extraoptions['firstline']) {
             $foundfirstline = false;
             foreach ($additionalvars as $index => $cs) {
@@ -278,17 +279,22 @@ class stack_equiv_input extends stack_input {
         $errorfree = true;
         foreach ($caslines as $index => $cs) {
             $display .= '<tr>';
-            if ($cs->is_correctly_evaluated()) {
+            $fb = $cs->get_feedback();
+            if ($cs->is_correctly_evaluated() && $fb == '') {
                 $display .= '<td>\(\displaystyle ' . $cs->get_display() . ' \)</td>';
                 if ($errors[$index]) {
                     $errorfree = false;
                     $display .= '<td>' . stack_maxima_translate($errors[$index]) . '</td>';
                 }
             } else {
+                // Feedback here is always an error.
+                if ($fb !== '') {
+                    $errors[] = $fb;
+                }
                 $valid = false;
                 $errorfree = false;
                 $display .= '<td>' . stack_maxima_format_casstring($cs->get_inputform()) . '</td>';
-                $display .= '<td>' . stack_maxima_translate($errors[$index]) . '</td>';
+                $display .= '<td>' . stack_maxima_translate($cs->get_errors()) . ' ' . $fb . '</td>';
             }
             $display .= '</tr>';
         }

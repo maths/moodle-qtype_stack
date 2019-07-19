@@ -153,7 +153,9 @@ class stack_cas_keyval {
             $this->validate(null);
         }
         $cs = new stack_cas_session2($this->statements, $this->options, $this->seed);
-        $cs->instantiate();
+        if ($cs->get_valid()) {
+            $cs->instantiate();
+        }
     }
 
     public function get_session() {

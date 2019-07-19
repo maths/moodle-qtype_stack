@@ -632,6 +632,10 @@ abstract class stack_input {
                 $sessionvars[] = $cs;
             }
         }
+        // Equiv type checking is done in caslines.
+        if ($validationmethod == 'equiv') {
+            $validationmethod = 'typeless';
+        }
         if ($valid && $answer->get_valid()) {
             $answer->set_cas_validation_context($this->name, $this->get_parameter('lowestTerms', false),
                     $teacheranswer, $validationmethod,
@@ -687,15 +691,15 @@ abstract class stack_input {
 
         $note = $answer->get_answernote();
 
-        if ($errors) {
-            $errors = trim(implode(' ', $errors));
-        }
-
         // Did the CAS throw any errors?  Any feedback will be an error message.
         $feedback = $answer->get_feedback();
         if ($feedback !== '') {
-            $errors .= $feedback;
+            $errors[] = $feedback;
             $valid = false;
+        }
+
+        if ($errors) {
+            $errors = trim(implode(' ', $errors));
         }
 
         if (!$valid) {

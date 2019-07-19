@@ -71,8 +71,8 @@ foreach (glob("../stack/maxima/*.mac") as $filename) {
     	$contents = str_replace('ex:subst(lambda([ex1, ex2], ex1 noun* (UNARY_RECIP ex2)), "/", ex),', '"cencored",',$contents);
 		$contents = str_replace('define(UNARY_RECIP a, a noun^ (-1)),', '"cencored",', $contents);
 
-		$contents = str_replace('distrib_and(apply(?%and, append([apply(?%or, maplist(lambda([ex2], first(orlist2) %and ex2), args(orlist1)))], rest(orlist2))))', '"cencored"', $contents);
-
+		$contents = str_replace('distrib_and(apply(?%and, append([apply(?%or, maplist(lambda([ex2], first(orlist2) %and ex2), args(orlist1)))], rest(orlist2))))', 'distrib_and(apply(and, append([apply(or, maplist(lambda([ex2], first(orlist2) and ex2), args(orlist1)))], rest(orlist2))))', $contents);
+		$contents = str_replace('ret:ev(exc1 %or exc2, simp)', 'ret:ev(exc1 or exc2, simp)', $contents);
 	}
 
 	if (strpos($filename, 'stackmaxima.mac') !== false) {
@@ -80,12 +80,19 @@ foreach (glob("../stack/maxima/*.mac") as $filename) {
 		$contents = str_replace('?\*autoconf\-version\*', '"cencored"', $contents);
 	}
 
+	if (strpos($filename, 'intervals.mac') !== false) {
+		// Some parser breaking cases.
+		$contents = str_replace('single_variable_solver_real_rec(ex %and (v>=0), v)', 'single_variable_solver_real_rec(ex and (v>=0), v)', $contents);
+		$contents = str_replace('ex:realsetmake(v, rs1) %or apply("%or", rs2)', 'ex:realsetmake(v, rs1) or apply("%or", rs2)', $contents);
+		$contents = str_replace('return(sol1 %or sol2)', 'return(sol1 or sol2)', $contents);
+		$contents = str_replace('(second(args(ex))>0) %or (second(args(ex))<0)', '(second(args(ex))>0) or (second(args(ex))<0)', $contents);
+		$contents = str_replace('', '', $contents);
+		$contents = str_replace('', '', $contents);
+		$contents = str_replace('', '', $contents);
+	}
 	
 	// The parser does not deal with dollars.
 	$contents = str_replace('$', ';', $contents);
-	// Neither do these exist for it.
-	$contents = str_replace(' %and ', ' and ', $contents);
-	$contents = str_replace(' %or ', ' or ', $contents);
 
 	$filename = explode('/', $filename);
 	$filename = $filename[count($filename) - 1];
@@ -136,6 +143,12 @@ foreach (glob("../stack/maxima/*.mac") as $filename) {
 						} else {
 							$functionscalled[$node->name->toString()] = array($filename . ' ' . $node->position['start']);
 						}		
+					} else if ($node instanceof MP_Identifier && $node->is_function_name() && !($node->parentnode instanceof MP_FunctionCall && $node->parentnode->name === $node)) {
+						if (isset($functionscalled[$node->toString()])) {
+							$functionscalled[$node->toString()][] = $filename . ' ' . $node->position['start'];
+						} else {
+							$functionscalled[$node->toString()] = array($filename . ' ' . $node->position['start']);
+						}
 					}
 					return true;
 				};
@@ -224,7 +237,7 @@ foreach ($variablesdeclared as $name => $declarations) {
 }
 
 // Check for internal and external usage.
-$declared = $functionsdeclared;
+$declared = array() + $functionsdeclared;
 
 foreach ($functionscalled as $name => $calls) {
 	if (isset($declared[$name])) {

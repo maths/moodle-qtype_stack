@@ -11,7 +11,7 @@ Previous developers have included
 * Ben Holmes, Dan Williams, Simon Hammond, Jonathan Hart, Matti Pauna
 * Mikael Kurula, Maksim Kraev, Malthe Sporring
 
-STACK is an open source project and many others have made contributions of various degrees.
+STACK is an open source project and many others have made contributions of various sizes.
 
 # Translation of the STACK Project
 
@@ -46,3 +46,4 @@ This project received a lot of moral support from the ILIAS association and its 
 - Universität Freiburg
 - Universität Erlangen-Nürnberg
 - Universität zu Köln
+

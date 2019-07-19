@@ -95,3 +95,11 @@ School of Mathematics and Statistics, The Open University,
 Mathematics Education Centre, Loughborough University
 
 : Contact [Ian Jones](mailto:I.Jones@lboro.ac.uk)
+
+Maseno University, Kenya
+
+: Contact [Michael Oyengo](mailto:obiero@live.de)
+
+IDEMS International
+
+: Contact [Santiago Borio](mailto:smborio@idems.international)

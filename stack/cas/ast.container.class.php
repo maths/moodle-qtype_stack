@@ -60,12 +60,12 @@ class stack_ast_container extends stack_ast_container_silent implements cas_late
     private $testclean;
 
     /**
-     * AST value coming back from CAS
+     * AST value coming back from CAS.
      */
     private $evaluated;
 
     /**
-     * LaTeX value coming back from CAS
+     * LaTeX value coming back from CAS.
      */
     private $latex;
 

@@ -87,10 +87,8 @@ function stack_maxima_latex_tidy($latex) {
  */
 function stack_maxima_translate($rawfeedback) {
 
-    $rawfeedback = stack_maxima_latex_tidy($rawfeedback);
-
     if (strpos($rawfeedback, 'stack_trans') === false) {
-        return trim($rawfeedback);
+        return trim(stack_maxima_latex_tidy($rawfeedback));
     } else {
         $rawfeedback = str_replace('[[', '', $rawfeedback);
         $rawfeedback = str_replace(']]', '', $rawfeedback);
@@ -120,7 +118,7 @@ function stack_maxima_translate($rawfeedback) {
             }
         }
 
-        return implode(' ', $translated);
+        return stack_maxima_latex_tidy(implode(' ', $translated));
     }
 }
 

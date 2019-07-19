@@ -1710,13 +1710,16 @@ class qtype_stack extends question_type {
         // TODO: why clone when we never reuse the original...
         $inputsession = clone $session;
         $inputsession->add_statements($inputvalues);
-        $inputsession->instantiate();
+        if ($inputsession->get_valid()) {
+            $inputsession->instantiate();
+        }
 
         $getdebuginfo = false;
         foreach ($inputs as $inputname) {
             if ($inputsession->get_by_key($inputname)->get_errors() !== '') {
                 $errors[$inputname . 'modelans'][] = $inputsession->get_by_key($inputname)->get_errors();
-                if ('' == $inputsession->get_by_key($inputname)->get_value()) {
+                $in = $inputsession->get_by_key($inputname);
+                if (!$in->is_correctly_evaluated()) {
                     $getdebuginfo = true;
                 }
                 // TODO: Send the actual value to the input, and ask it to validate it.

@@ -1193,15 +1193,18 @@ class MP_PrefixOp extends MP_Node {
                 $indent = str_pad($indent, $params['pretty']);
             }
             $params['pretty'] = 0;
-            if ($this->op === 'not') {
-                return $indent . $this->op . ' ' . $this->rhs->toString($params
+            if ($this->op === 'not ') {
+                if ($this->rhs instanceof MP_Group) {
+                    return $indent . 'not' . $this->rhs->toString($params);
+                }
+                return $indent . $this->op . $this->rhs->toString($params
                 );
             }
             return $indent . $this->op . $this->rhs->toString($params);
         }
 
-        if ($this->op === 'not') {
-            return $this->op . ' ' . $this->rhs->toString($params);
+        if ($this->op === 'not ') {
+            return $this->op . $this->rhs->toString($params);
         }
         return $this->op . $this->rhs->toString($params);
     }
@@ -1841,7 +1844,7 @@ function opRBind($op) {
         case '<':
         case '<=':
             return 80;
-        case 'not':
+        case 'not ':
             return 70;
     }
     return 0;

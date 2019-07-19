@@ -36,16 +36,10 @@ $globalvariablesused = array();
 
 // Get the files ../stack/maxima/*.mac
 foreach (glob("../stack/maxima/*.mac") as $filename) {
-	if (strpos($filename, 'maximaidentifierclassification.mac') !== false) {
-		continue;
-	}
 	if (strpos($filename, 'rtest_') !== false) {
 		continue;
 	}
 	if (strpos($filename, 'unittests_load.mac') !== false) {
-		continue;
-	}
-	if (strpos($filename, 'maximaidentifierdump.mac') !== false) {
 		continue;
 	}
 
@@ -82,10 +76,8 @@ foreach (glob("../stack/maxima/*.mac") as $filename) {
 	}
 
 	if (strpos($filename, 'stackmaxima.mac') !== false) {
-		// Some parser breaking cases. Comments in the few places the parser does not handle.
+		// Some parser breaking cases.
 		$contents = str_replace('?\*autoconf\-version\*', '"cencored"', $contents);
-
-		// TODO: more...
 	}
 
 	
@@ -110,6 +102,9 @@ foreach (glob("../stack/maxima/*.mac") as $filename) {
 		foreach ($ast->items as $top) {
 			// All things are statements.
 			$top = $top->statement;
+			if ($top instanceof MP_PrefixOp && $top->op === '?') {
+				$top = $top->rhs;
+			}
 			if ($top instanceof MP_FunctionCall) {
 				if (isset($functionscalled[$top->name->toString()])) {
 					$functionscalled[$top->name->toString()][] = $filename . ' ' . $top->position['start'];
@@ -149,6 +144,20 @@ foreach (glob("../stack/maxima/*.mac") as $filename) {
 				if (count($vars) > 0) {
 					$globalvariablesused[$top->lhs->name->toString()] = $vars;
 				}
+			} else if ($top instanceof MP_If) {
+				$usagesearch = function($node) use (&$functionscalled, $filename) {
+					if ($node instanceof MP_FunctionCall) {
+						if (isset($functionscalled[$node->name->toString()])) {
+							$functionscalled[$node->name->toString()][] = $filename . ' ' . $node->position['start'];
+						} else {
+							$functionscalled[$node->name->toString()] = array($filename . ' ' . $node->position['start']);
+						}		
+					}
+					return true;
+				};
+				$top->callbackRecurse($usagesearch);
+			} else {
+				echo "\n something else @ " . $top->position['start'] ."\n " . $top->toString() . "\n";
 			}
 		}
 	}  catch (SyntaxError $e) {
@@ -178,6 +187,11 @@ foreach (glob("../stack/maxima/*.mac") as $filename) {
 
 
 // Process data.
+ksort($functionsdeclared);
+ksort($variablesdeclared);
+ksort($functionscalled);
+ksort($globalvariablesused);
+
 $raw = array('declared functions' => $functionsdeclared, 'declared values' => $variablesdeclared, 'called functions' => $functionscalled, 'global variables used in functions' => $globalvariablesused);
 
 $data = array('security-map' => array('undeclared functions' => array(), 'undeclared variables' => array()), 'declared functions not used internaly' => array(), 'external functions used' => array(), 'functions with undeclared global variables' => array(),'raw' => $raw);

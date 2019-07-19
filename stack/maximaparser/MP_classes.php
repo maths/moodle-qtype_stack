@@ -585,8 +585,12 @@ class MP_Identifier extends MP_Atom {
             // Sublist case.
             $indices = stack_cas_security::get_feature($this->parentnode->name->toString(),
                     'argumentasfunction');
-            if ($indices !== null && array_search(array_search($this, $this->parentnode->arguments), $indices) !== false) {
-                return true;
+            if ($indices !== null) {
+                foreach ($indices as $ind) {
+                    if (count($this->parentnode->arguments) > $ind && $this->parentnode->arguments[$ind] === $this) {
+                        return true;
+                    }
+                }
             }
         }
         return false;

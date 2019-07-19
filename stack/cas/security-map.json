@@ -4828,6 +4828,9 @@
     "op": {
         "function": "s"
     },
+    "op_usedp": {
+        "function": "t"
+    },
     "opena": {
         "function": "f",
         "globalyforbiddenfunction": true

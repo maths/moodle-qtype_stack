@@ -1,12 +1,12 @@
 # Authoring quick start 6: multipart questions
 
-Authoring quick start: [1 - First question](Authoring_quick_start.md) | [2 - Question variables](Authoring_quick_start_2.md) | [3 - Feedback](Authoring_quick_start_3.md) |[4 - Randomisation](Authoring_quick_start_4.md) | [5 - Question tests](Authoring_quick_start_5.md) | <u>6 - Multipart questions</u> | [7 - Simplification](Authoring_quick_start_7.md) | [<u>8 - Quizzes</u>](Authoring_quick_start_8.md)
+Authoring quick start: [1 - First question](Authoring_quick_start.md) | [2 - Question variables](Authoring_quick_start_2.md) | [3 - Feedback](Authoring_quick_start_3.md) |[4 - Randomisation](Authoring_quick_start_4.md) | [5 - Question tests](Authoring_quick_start_5.md) | 6 - Multipart questions | [7 - Simplification](Authoring_quick_start_7.md) | [8 - Quizzes](Authoring_quick_start_8.md)
 
 
 
 This part of the authoring quick start guide deals with authoring multi-part questions. The following video explains the process:
 
-EMBED VIDEO HERE
+<iframe width="560" height="315" src="https://www.youtube.com/embed/lQhDEnEYZQM" frameborder="0" allowfullscreen></iframe>
 
 
 
@@ -47,7 +47,7 @@ These two examples illustrate two extreme positions.
 
 Devising multi-part questions which satisfy these two extreme positions would be relatively straightforward. However, it is more common to have multi-part questions which are between these extremes, as in the case of our first example.
 
-### Response processing
+## Response processing
 
 Response processing is the means by which a student's answer is evaluated and feedback, of various forms, assigned. The crucial features in STACK is a complete separation between two important components:
 
@@ -56,7 +56,7 @@ Response processing is the means by which a student's answer is evaluated and fe
 
 We have looked at these before, however we will now provide a more in-depth overview.
 
-### [Inputs](Inputs.md)
+## [Inputs](Inputs.md)
 
 The [question text](CASText.md#question_text), i.e. the text actually displayed to the student, may have an arbitrary number of [inputs](Inputs.md). An element may be positioned anywhere within the question text, including within mathematical expressions, e.g. equations (_note_: MathJax currently does not support form elements within equations).
 Each input will be associated with a number of fields. For example:
@@ -68,7 +68,7 @@ Each input will be associated with a number of fields. For example:
    - True/False selection,
 3. The teacher's correct answer.
 
-### [Potential response trees](Potential_response_trees.md)
+## [Potential response trees](Potential_response_trees.md)
 
 A potential response tree (technically an acyclic directed graph) consists of an arbitrary number of linked nodes we call potential responses. In each node two expressions are compared using a specified Answer Test, and the result is either TRUE or FALSE. A corresponding branch of the tree has the opportunity to
 
@@ -87,7 +87,7 @@ Each question will have zero or more potential response trees. For each potentia
 
 To illustrate multi-part mathematical questions, we start by authoring an example.
 
-### Authoring a multi-part question
+## Authoring a multi-part question
 
 Start a new STACK question, and give the question a name, e.g. "Tangent lines".  This question will have three parts.  Start by copying the question variables and question text as follows.  Notice that we have not included any randomisation, but we have used variable names at the outset to facilitate this at a later stage.
 

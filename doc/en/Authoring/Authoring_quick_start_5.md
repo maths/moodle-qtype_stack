@@ -1,12 +1,12 @@
 # Authoring quick start 5: question tests
 
-Authoring quick start: [1 - First question](Authoring_quick_start.md) | [2 - Question variables](Authoring_quick_start_2.md) | [3 - Feedback](Authoring_quick_start_3.md) |[4 - Randomisation](Authoring_quick_start_4.md) | <u>5 - Question tests</u> | [6 - Multipart questions](Authoring_quick_start_6.md) | [7 - Simplification](Authoring_quick_start_7.md) | [<u>8 - Quizzes</u>](Authoring_quick_start_8.md)
+Authoring quick start: [1 - First question](Authoring_quick_start.md) | [2 - Question variables](Authoring_quick_start_2.md) | [3 - Feedback](Authoring_quick_start_3.md) |[4 - Randomisation](Authoring_quick_start_4.md) | 5 - Question tests | [6 - Multipart questions](Authoring_quick_start_6.md) | [7 - Simplification](Authoring_quick_start_7.md) | [8 - Quizzes](Authoring_quick_start_8.md)
 
 
 
 This part of the authoring quick start guide deals with using question tests. The following video explains the process:
 
-EMBED VIDEO HERE
+<iframe width="560" height="315" src="https://www.youtube.com/embed/wnvsc-v9svE" frameborder="0" allowfullscreen></iframe>
 
 ## Introduction
 
@@ -71,7 +71,7 @@ You will see that not all deployed versions pass all tests, and if you click on 
 
 Quality control is essential, and more information is given in the page on [testing](Testing.md).
 
-# Aside: forbidden words
+## Aside: forbidden words
 
 STACK allows students to use standard mathematical functions, such as `sin`, `cos`, etc. Perhaps surprisingly, it also allows students to use `int`. So in theory, students could input `int(...)+c`, and the system would mark it correct!
 

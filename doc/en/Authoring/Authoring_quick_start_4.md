@@ -1,12 +1,12 @@
 # Authoring quick start 4: randomisation
 
-Authoring quick start: [1 - First question](Authoring_quick_start.md) | [2 - Question variables](Authoring_quick_start_2.md) | [3 - Feedback](Authoring_quick_start_3.md) | <u>4 - Randomisation</u> | [5 - Question tests](Authoring_quick_start_5.md) | [6 - Multipart questions](Authoring_quick_start_6.md) | [7 - Simplification](Authoring_quick_start_7.md) | [<u>8 - Quizzes</u>](Authoring_quick_start_8.md)
+Authoring quick start: [1 - First question](Authoring_quick_start.md) | [2 - Question variables](Authoring_quick_start_2.md) | [3 - Feedback](Authoring_quick_start_3.md) | 4 - Randomisation | [5 - Question tests](Authoring_quick_start_5.md) | [6 - Multipart questions](Authoring_quick_start_6.md) | [7 - Simplification](Authoring_quick_start_7.md) | [8 - Quizzes](Authoring_quick_start_8.md)
 
 
 
 This part of the authoring quick start guide deals with randomisation. The following video explains the process:
 
-EMBED VIDEO HERE
+<iframe width="560" height="315" src="https://www.youtube.com/embed/8FTqZ1fTmgs" frameborder="0" allowfullscreen></iframe>
 
 ## Introduction
 
@@ -37,7 +37,7 @@ In this new question we are asking the student to find the anti-derivative of a 
 
 Remember that when generating random questions in STACK we talk about _random numbers_ when we really mean _pseudo-random numbers_. To keep track of which random numbers are generated for each user, there is a special `rand` command in STACK, which you should use instead of [Maxima](../CAS/Maxima.md)'s random command. The `rand` command is a general "random thing" generator, see the page on [random generation](../CAS/Random.md) for full details. `rand` can be used to generate random numbers and also to make selections from a list. `rand(n)` will select a random integer from 0 up to, **and not including**, `n`. So  `rand(3)` will select a random number from the list  `[0,1,2]` .
 
-### Question note
+## Question note
 
 Now that as our question contains random numbers, we need to record the actual question variant seen by a particular student. As soon as we use the `rand` function, STACK forces us to add a _Question note_. 
 Fill the question note in as
@@ -48,7 +48,7 @@ Fill the question note in as
 
 Two question variants are considered to be the same if and only if the question note is the same. It is the teacher's responsibility to create sensible notes.
 
-### Deploying random variants
+## Deploying random variants
 
 Before a student sees the questions, it is sensible to deploy random variants.  This controls exactly which variants are shown to a student and lets you check that the randomisation is sensible. Scroll to the top of your question and click on `Question tests & deployed variants`. 
 
@@ -56,7 +56,7 @@ To ask STACK to generate a number of question variants, you need `Attempt to aut
 
 You also have the option to remove any variants that you don't like. For example, you might not like the variants where nn=1, as these have answers involving logarithms. Hence, you could cross out all these variants. Perhaps a better solution is to return to your `Question variables` and change `nn` to `2+rand(4)`. When you save and go back to `Question tests & deployed variants`, you will see your variants changed. This illustrates a key use of deployed variants: checking for unintentional consequences of the randomisation.
 
-### Preview options
+## Preview options
 
 Try previewing your question. As previously mentioned, under `Attempt options`, you have the option to change the question behaviour. `Adaptive mode` is the most useful one for question testing, as it allows you to `check` questions repeatedly. We will discuss question behaviours in more detail later. 
 

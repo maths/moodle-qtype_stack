@@ -67,12 +67,7 @@ Overall, the potential response tree returns the current score minus total penal
 In this example, some colleagues would prefer to give partial credit for missing a constant of integration rather than zero marks and a penalty.  In a formative setting, where students have an opportunity to have another attempt, the penalty system has been found to be an effective way to encourage students to have another attempt and to read the feedback.  In an examination, where no feedback is available and so further attempts are not made, different choices need to be made and partial credit would be more appropriate than a zero mark.
 
 * The penalty is given a default value in the question.  This is a mandatory field; the default for STACK is 0.1.  
-* Penalties are cumulative, but the 
-student will be given the maximum possible mark.  I.e. while they accumulate penalties they are never worse off by repeatedly attempting the question.  
-In particular, if the student in the above example makes another attempt and scores \(0\) they will retain their mark of \(0.9\).  This is to encourage 
-students to have another go in a formative setting.  STACK generates a list of penalty adjusted scores for each attempt, and takes the maximum. 
-* The 
-penalty can be assigned a different value in the nodes of the potential response tree.  This means, e.g., the teacher can assign a cumulative penalty 
+* Penalties are cumulative, but the student will be given the maximum possible mark.  I.e. while they accumulate penalties they are never worse off by repeatedly attempting the question.  In particular, if the student in the above example makes another attempt and scores \(0\) they will retain their mark of \(0.9\).  This is to encourage students to have another go in a formative setting.  STACK generates a list of penalty adjusted scores for each attempt, and takes the maximum. 
+* The penalty can be assigned a different value in the nodes of the potential response tree. This means, e.g., the teacher can assign a cumulative penalty 
 for a particular answer. 
-* The penalties are also controlled at a quiz level by the "question behaviours" mechanism for the quiz.  Hence, if you set 
-the behaviour as "Adaptive mode (no penalties)" the penalty assigned will be ignored when the question is used by students in the quiz.
+* The penalties are also controlled at a quiz level by the "question behaviours" mechanism for the quiz.  Hence, if you set the behaviour as "Adaptive mode (no penalties)" the penalty assigned will be ignored when the question is used by students in the quiz.

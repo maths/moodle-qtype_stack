@@ -1,12 +1,6 @@
 # Testing, debugging and quality control
 
-Computer-aided assessment of mathematics works in the following phases.
-
-1. [Authoring](../Authoring/index.md),
-2. [Testing](Testing.md) and
-3. [Deploying](Deploying.md) questions.
-4. [Adding questions to a quiz](Quiz.md) and use by students.
-5. [Reporting](Reporting.md) and statistical analysis.
+This page deals with testing questions and quality control. This is largely done through the question test functionality.
 
 ## Question authoring checklist ##
 
@@ -69,7 +63,7 @@ In this way, the teacher can record, within the question itself, how they expect
 
 1. Author and save your question.
 2. From the Question bank, choose the _Preview_ option.
-3. The _Preview question_ window will open.  If you have authority to edit the question, then the top right of the question window will contain a link to _Run the question tests..._.  Follow this link.
+3. The _Preview question_ window will open.  If you have authority to edit the question, then the top right of the question window will contain a link to _question tests and deployed variants..._.  Follow this link.
 4. This page manages both question tests and deployed variants.  Initially you will have no tests or deployed variants.  At the bottom of this page choose _Add a test case..._
 5. Specify values for each input.  This may use the question variables.  The values of these variables will be used for any random variants.
 6. Specify the expected outcomes for each potential response tree.  This includes the score, penalty and answer note.  _Note_: currently only the last Answer Note, not the whole path through the potential response tree, is examined.  This is a limitation.
@@ -101,7 +95,7 @@ For example, in Maxima try
 
 Notice here, that while `simp:false` the limit is still evaluated.  This is not "simplification".  For the full story, please refer to the Maxima docs on the `ev` command.
 
-In this case, you can prevent evaluation of limit by using an apostrophie in the test case.
+In this case, you can prevent evaluation of limits by using an apostrophie in the test case.
 
     simp:false;
     f:x*sin(1/x);

@@ -4667,7 +4667,7 @@
     "nonzeroandfreeof": {
         "function": "f"
     },
-    "not": {
+    "not ": {
         "operator": "s"
     },
     "notequal": {

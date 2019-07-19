@@ -93,7 +93,7 @@
    case '<':
    case '<=':
     return 80;
-   case 'not':
+   case 'not ':
     return 70;
   }
   return 0;
@@ -546,7 +546,7 @@ PrefixOp
   / "+"
   / "''"
   / "'"
-  / "not"
+  / "not "
   / "?? "
   / "? "
   / "?"
@@ -604,6 +604,15 @@ UnaryOp
   var n = new MPPrefixOp(op, trg);
   n.position = location();
   return n;}
+  / "not" trg:Group {
+  /** <?php
+  $r = new MP_PrefixOp("not ", $trg);
+  $r->position = array('start'=>$this->peg_reportedPos, 'end'=>$this->peg_currPos);
+  return opBind($r);
+  ?> **/
+  var n = new MPPrefixOp("not ", trg);
+  n.position = location();
+  return n;}
   / trg:( Literal / Group / FunctionCall / Indexing / Identifier) _? op:PostfixOp {
   /** <?php
   $r = new MP_PostfixOp($op, $trg);
@@ -613,6 +622,7 @@ UnaryOp
   var n = new MPPostfixOp(op, trg);
   n.position = mergePosition(location(), trg.position);
   return opBind(n);}
+
 
 
 Operation

@@ -99,6 +99,12 @@ abstract class stack_input {
     protected $errors = array();
 
     /**
+     * Store any raw contents for use in error messages.
+     * @var array.
+     */
+    protected $rawcontents = array();
+
+    /**
      * Decide if the input is being used at run-time or just constructed elswhere.
      * @var bool.
      */
@@ -555,6 +561,7 @@ abstract class stack_input {
             $response = $this->ajax_to_response_array($response);
         }
         $contents = $this->response_to_contents($response);
+        $this->rawcontents = $contents;
 
         // The validation field should always come back through as a single RAW Maxima expression for each input.
         if (array_key_exists($this->name . '_val', $response)) {
@@ -905,11 +912,7 @@ abstract class stack_input {
      */
     protected function validation_display($answer, $lvars, $caslines, $additionalvars, $valid, $errors) {
 
-        // TODO: This is probably the only place where we truly need the raw value,
-        // let's find a way of handling it, but not so that we store it into every
-        // cas-evaluated item just for this one use.
-
-        $display = stack_maxima_format_casstring($answer->get_inputform());
+        $display = stack_maxima_format_casstring($this->rawcontents[0]);
         if ('' != $answer->get_errors()) {
             $valid = false;
             $errors = array(stack_maxima_translate($answer->get_errors()));

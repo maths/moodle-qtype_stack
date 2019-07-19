@@ -298,8 +298,8 @@ class stack_equiv_input extends stack_input {
                 }
                 $valid = false;
                 $errorfree = false;
-                $display .= '<td>' . stack_maxima_format_casstring($cs->get_inputform()) . '</td>';
-                $display .= '<td>' . stack_maxima_translate($cs->get_errors()) . ' ' . $fb . '</td>';
+                $display .= '<td>' . stack_maxima_format_casstring($this->rawcontents[$index]) . '</td>';
+                $display .= '<td>' . trim(stack_maxima_translate($cs->get_errors()) . ' ' . $fb) . '</td>';
             }
             $display .= '</tr>';
         }

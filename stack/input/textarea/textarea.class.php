@@ -103,9 +103,15 @@ class stack_textarea_input extends stack_input {
     protected function caslines_to_answer($caslines) {
         $vals = array();
         foreach ($caslines as $line) {
-            $vals[] = $line->get_inputform(true, true);
+            if ($line->get_valid()) {
+                $vals[] = $line->get_evaluationform();
+            } else {
+                // This is an empty place holder for an invalid expression.
+                $vals[] = 'EMPTYCHAR';
+            }
         }
-        return stack_ast_container::make_from_student_source('['.implode(',', $vals).']', '', $caslines[0]->get_securitymodel());
+        $s = '['.implode(',', $vals).']';
+        return stack_ast_container::make_from_student_source($s, '', $caslines[0]->get_securitymodel());
     }
 
     /**
@@ -172,13 +178,20 @@ class stack_textarea_input extends stack_input {
                    'border="0" cellpadding="4" cellspacing="0"><tbody>';
         foreach ($caslines as $index => $cs) {
             $display .= '<tr>';
-            if ($cs->is_correctly_evaluated()) {
+            $fb = $cs->get_feedback();
+            if ($cs->is_correctly_evaluated() && $fb == '') {
                 $display .= '<td>\(\displaystyle ' . $cs->get_display() . ' \)</td>';
+                if ($errors[$index]) {
+                    $display .= '<td>' . stack_maxima_translate($errors[$index]) . '</td>';
+                }
             } else {
+                // Feedback here is always an error.
+                if ($fb !== '') {
+                    $errors[] = $fb;
+                }
                 $valid = false;
-                $errors[$index] = ' ' . stack_maxima_translate($cs->get_errors());
-                $display .= '<td>' . stack_maxima_format_casstring($cs->get_inputform()) . '</td>';
-                $display .= '<td>' . stack_maxima_translate($errors[$index]). '</td></tr>';
+                $display .= '<td>' . stack_maxima_format_casstring($this->rawcontents[$index]) . '</td>';
+                $display .= '<td>' . trim(stack_maxima_translate($cs->get_errors()) . ' ' . $fb) . '</td>';
             }
             $display .= '</tr>';
         }

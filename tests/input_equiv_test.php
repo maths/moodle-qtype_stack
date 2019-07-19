@@ -559,7 +559,7 @@ class stack_equiv_input_test extends qtype_stack_testcase {
         $this->assertEquals('<center><table style="vertical-align: middle;" border="0" cellpadding="4" cellspacing="0"><tbody>'.
                 '<tr><td>\(\displaystyle x^2-1 \)</td></tr><tr><td>\(\displaystyle =\left(x-1\right)\,\left(x+1\right) \)</td>'.
                 '</tr><tr><td><span class="stacksyntaxexample">"Comments are forbidden normally"</span></td>'.
-                '<td>You are not permitted to use comments in this input type. Please just work line by line. </td></tr>'.
+                '<td>You are not permitted to use comments in this input type. Please just work line by line.</td></tr>'.
                 '<tr><td>\(\displaystyle x^2-1=0 \)</td></tr>'.
                 '<tr><td>\(\displaystyle \left(x-1\right)\,\left(x+1\right)=0 \)</td></tr></tbody></table></center>',
                 $state->contentsdisplayed);

@@ -148,7 +148,12 @@ class stack_equiv_input extends stack_input {
     protected function caslines_to_answer($caslines) {
         $vals = array();
         foreach ($caslines as $line) {
-            $vals[] = $line->get_inputform(true, true);
+            if ($line->get_valid()) {
+                $vals[] = $line->get_evaluationform();
+            } else {
+                // This is an empty place holder for an invalid expression.
+                $vals[] = 'EMPTYCHAR';
+            }
         }
         $s = '['.implode(',', $vals).']';
         return stack_ast_container::make_from_student_source($s, '', $caslines[0]->get_securitymodel());
@@ -370,12 +375,6 @@ class stack_equiv_input extends stack_input {
     /* Convert an expression starting with an = sign to one with stackeq. */
     private function equals_to_stackeq($val) {
         $val = trim($val);
-        if (substr($val, 0, 1) === "=") {
-            $trimmed = trim(substr($val, 1));
-            if ( $trimmed !== '') {
-                $val = 'stackeq(' . $trimmed . ')';
-            }
-        }
         // Safely wrap "let" statements.
         $langlet = strtolower(stack_string('equiv_LET'));
         if (strtolower(substr($val, 0, strlen($langlet))) === $langlet) {

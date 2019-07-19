@@ -475,10 +475,18 @@ class maxima_corrective_parser {
             $a['cmd']  = stack_maxima_format_casstring($string);
             $errors[] = stack_string('stackCas_finalChar', $a);
             $answernote[] = 'finalChar';
+        } else if (($foundchar === '}' || $foundchar === ']' || $foundchar === ')') &&
+                core_text::strpos($disallowedfinalchars, $previouschar) !== false) {
+            $a = array();
+            $a['char'] = $previouschar;
+            $a['cmd']  = stack_maxima_format_casstring($string);
+            $errors[] = stack_string('stackCas_finalChar', $a);
+            $answernote[] = 'finalChar';
         } else {
             $errors[] = $exception->getMessage();
             $answernote[] = 'ParseError';
         }
+
     }
 
     public static function strings_replace($stringles, $original) {

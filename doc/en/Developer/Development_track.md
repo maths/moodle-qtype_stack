@@ -36,7 +36,7 @@ TODO:
 2. Refactor answer tests to return "answer notes", "feedback" (and errors).
 3. Refactor numerical answer tests to make proper use of ast
   1. Functions on ast, such as "this is an integer".
-4. What to do about regex and string tests? (Need the raw values).
+4. Parse multiple plus minus operators.  "a+-b+-c" and "a+-b=c+-d"
 
 ## Other things to fix
 

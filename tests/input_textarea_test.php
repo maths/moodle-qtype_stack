@@ -123,8 +123,8 @@ class stack_textarea_input_test extends qtype_stack_testcase {
         $el->set_parameter('strictSyntax', false);
         $state = $el->validate_student_response(array('sans1' => "x^2=-7x\n[a=1,b=2"), $options, '[x^2=-7*x,[a=1,b=2]]', new stack_cas_security());
         $this->assertEquals(stack_input::INVALID, $state->status);
-        $this->assertEquals('You have a missing right bracket', substr($state->errors, 0, 34));
-        $this->assertEquals('missingRightBracket', $state->note);
+        $this->assertEquals('You have a missing right bracket', substr($state->errors, 0, 32));
+        $this->assertEquals('ParseError', $state->note);
         $this->assertEquals('<center><table style="vertical-align: middle;" border="0" cellpadding="4" cellspacing="0">' .
                 '<tbody><tr><td>\(\displaystyle x^2=-7\cdot x \)</td></tr><tr>' .
                 '<td><span class="stacksyntaxexample">[a=1,b=2</span></td>' .
@@ -163,7 +163,7 @@ class stack_textarea_input_test extends qtype_stack_testcase {
         $el->set_parameter('sameType', true);
         $state = $el->validate_student_response(array('sans1' => "x=1\n1"), $options, '[x=1,{1}]', new stack_cas_security());
         $this->assertEquals(stack_input::INVALID, $state->status);
-        $this->assertEquals('Your answer should be a set, but', substr($state->errors, 0, 34));
+        $this->assertEquals('Your answer should be a set, but', substr($state->errors, 0, 32));
     }
 
     public function test_validate_student_response_same_type_true_valid_1() {

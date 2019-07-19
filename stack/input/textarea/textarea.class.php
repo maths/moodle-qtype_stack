@@ -172,13 +172,13 @@ class stack_textarea_input extends stack_input {
                    'border="0" cellpadding="4" cellspacing="0"><tbody>';
         foreach ($caslines as $index => $cs) {
             $display .= '<tr>';
-            if ('' != $cs->get_errors()  || '' == $cs->get_value()) {
+            if ($cs->is_correctly_evaluated()) {
+                $display .= '<td>\(\displaystyle ' . $cs->get_display() . ' \)</td>';
+            } else {
                 $valid = false;
                 $errors[$index] = ' ' . stack_maxima_translate($cs->get_errors());
                 $display .= '<td>' . stack_maxima_format_casstring($cs->get_inputform()) . '</td>';
                 $display .= '<td>' . stack_maxima_translate($errors[$index]). '</td></tr>';
-            } else {
-                $display .= '<td>\(\displaystyle ' . $cs->get_display() . ' \)</td>';
             }
             $display .= '</tr>';
         }

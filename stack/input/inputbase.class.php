@@ -659,7 +659,7 @@ abstract class stack_input {
                     'automatic unit declaration'), false);
         }
 
-        if ($valid) {
+        if ($session->get_valid()) {
             $session->instantiate();
         }
 

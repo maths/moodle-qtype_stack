@@ -266,7 +266,7 @@ class stack_algebra_input_test extends qtype_stack_testcase {
                 new stack_cas_security(false, '', '', array('ta')));
         $this->assertEquals(stack_input::INVALID, $state->status);
         $this->assertEquals('sin^2*(ab)', $state->contentsmodified);
-        $this->assertEquals('<span class="stacksyntaxexample">sin^2*(ab)</span>', $state->contentsdisplayed);
+        $this->assertEquals('<span class="stacksyntaxexample">sin^2(ab)</span>', $state->contentsdisplayed);
         $this->assertEquals('missing_stars | trigexp', $state->note);
     }
 
@@ -584,7 +584,7 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         $this->assertEquals(stack_input::INVALID, $state->status);
         $this->assertEquals('missing_stars | trigexp', $state->note);
         $this->assertEquals('s*i*n^2*(a*b)', $state->contentsmodified);
-        $this->assertEquals('<span class="stacksyntaxexample">s*i*n^2*(a*b)</span>', $state->contentsdisplayed);
+        $this->assertEquals('<span class="stacksyntaxexample">sin^2(ab)</span>', $state->contentsdisplayed);
         $this->assertEquals('missing_stars | trigexp', $state->note);
     }
 

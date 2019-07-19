@@ -912,7 +912,7 @@ abstract class stack_input {
      */
     protected function validation_display($answer, $lvars, $caslines, $additionalvars, $valid, $errors) {
 
-        $display = stack_maxima_format_casstring($this->rawcontents[0]);
+        $display = stack_maxima_format_casstring($this->contents_to_maxima($this->rawcontents));
         if ('' != $answer->get_errors()) {
             $valid = false;
             $errors = array(stack_maxima_translate($answer->get_errors()));

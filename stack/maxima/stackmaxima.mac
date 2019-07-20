@@ -2850,7 +2850,7 @@ ATIntGetVar(ex):= block(
 /********************************************************************/
 ATDiff(sa, sb, so) :=
     block([old_simp, keepfloat, RawMark, FeedBack, AnswerNote, ret, str, da, db, dd, dc, var, cont, SAA, SBB, SOO],
-    old_simp:simp, simp:true, RawMark:false, FeedBack:"", AnswerNote:"",
+    old_simp:simp, simp:false, RawMark:false, FeedBack:"", AnswerNote:"",
     keepfloat:true,
 
     SAA:errcatch(ev(sa, simp, nouns)),
@@ -2877,7 +2877,7 @@ Difffun(SA,SB,v) := block([val,rawmk,ansnote,fb,ret,lSAv,lSBv,mSAv,mSBv],
     if algebraic_equivalence(SA,SB) then
         (rawmk:true, ansnote:StackAddNote("","ATDiff_true"))
     else
-        if algebraic_equivalence(diff(SA,v),int(SB,v)) then
+        if ev(algebraic_equivalence(diff(SA,v), int(SB,v)), simp) then
         (rawmk:false, ansnote:StackAddNote("","ATDiff_int"), fb:StackAddFeedback("","ATDiff_int"))
         else (
             lSAv:listofvars(SA),

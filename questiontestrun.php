@@ -287,7 +287,11 @@ if (!(empty($question->deployedseeds)) && $canedit) {
 }
 
 // Display the controls to add another question test.
-echo $OUTPUT->heading(stack_string('questiontestsfor', $seed), 2);
+$s = $seed;
+if ($s === null) {
+    $s = 0;
+}
+echo $OUTPUT->heading(stack_string('questiontestsfor', $s), 2);
 
 \core\session\manager::write_close();
 

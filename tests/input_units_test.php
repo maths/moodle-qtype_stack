@@ -241,7 +241,7 @@ class stack_units_input_test extends qtype_stack_testcase {
         $this->assertEquals(stack_input::INVALID, $state->status);
         $this->assertEquals("spaces", $state->note);
         $this->assertEquals('9.81*m/s^2', $state->contentsmodified);
-        $this->assertEquals('<span class="stacksyntaxexample">9.81*m/s^2</span>', $state->contentsdisplayed);
+        $this->assertEquals('<span class="stacksyntaxexample">9.81 m/s^2</span>', $state->contentsdisplayed);
     }
 
     public function test_validate_student_response_student_edgecase() {

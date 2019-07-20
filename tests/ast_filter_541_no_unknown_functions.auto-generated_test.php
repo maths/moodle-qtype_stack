@@ -135,11 +135,6 @@ class stack_ast_filter_auto_gen_541_no_unknown_functions_testcase extends qtype_
                       array('unknownFunction'),
                       false, true);
 
-        $this->expect('cosech(x)',
-                      'cosech(x)',
-                      array('unknownFunction'),
-                      false, true);
-
         $this->expect('dosomething(x,y,z)',
                       'dosomething(x,y,z)',
                       array('unknownFunction'),
@@ -378,11 +373,6 @@ class stack_ast_filter_auto_gen_541_no_unknown_functions_testcase extends qtype_
 
         $this->expect('cos(2x)(x+1)',
                       'cos(2*x)(x+1)',
-                      array('unknownFunction'),
-                      false, true);
-
-        $this->expect('cosech(x)',
-                      'cosech(x)',
                       array('unknownFunction'),
                       false, true);
 
@@ -1109,6 +1099,11 @@ class stack_ast_filter_auto_gen_541_no_unknown_functions_testcase extends qtype_
 
         $this->expect('cosec(x)',
                       'cosec(x)',
+                      array(),
+                      true, false);
+
+        $this->expect('cosech(x)',
+                      'cosech(x)',
                       array(),
                       true, false);
 
@@ -2435,6 +2430,11 @@ class stack_ast_filter_auto_gen_541_no_unknown_functions_testcase extends qtype_
 
         $this->expect('cosec(x)',
                       'cosec(x)',
+                      array(),
+                      true, false);
+
+        $this->expect('cosech(x)',
+                      'cosech(x)',
                       array(),
                       true, false);
 

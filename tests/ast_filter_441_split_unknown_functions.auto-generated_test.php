@@ -120,11 +120,6 @@ class stack_ast_filter_auto_gen_441_split_unknown_functions_testcase extends qty
                       array(),
                       true, false);
 
-        $this->expect('cosech(x)',
-                      'cosech*(x)',
-                      array(),
-                      true, false);
-
         $this->expect('dosomething(x,y,z)',
                       'dosomething*(x,y,z)',
                       array(),
@@ -348,11 +343,6 @@ class stack_ast_filter_auto_gen_441_split_unknown_functions_testcase extends qty
 
         $this->expect('comb(x,y)',
                       'comb*(x,y)',
-                      array(),
-                      true, false);
-
-        $this->expect('cosech(x)',
-                      'cosech*(x)',
                       array(),
                       true, false);
 
@@ -1094,6 +1084,11 @@ class stack_ast_filter_auto_gen_441_split_unknown_functions_testcase extends qty
 
         $this->expect('cosec(x)',
                       'cosec(x)',
+                      array(),
+                      true, false);
+
+        $this->expect('cosech(x)',
+                      'cosech(x)',
                       array(),
                       true, false);
 
@@ -2435,6 +2430,11 @@ class stack_ast_filter_auto_gen_441_split_unknown_functions_testcase extends qty
 
         $this->expect('cosec(x)',
                       'cosec(x)',
+                      array(),
+                      true, false);
+
+        $this->expect('cosech(x)',
+                      'cosech(x)',
                       array(),
                       true, false);
 

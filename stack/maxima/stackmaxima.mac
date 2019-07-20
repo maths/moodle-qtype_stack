@@ -74,6 +74,7 @@ stack_reset(true);
 
 alias(int,integrate);        /* Allows integrate to be called with int()    */
 alias(cosec,csc);            /* Corresponds to current student expectations */
+alias(cosech,csch);          /* Corresponds to current student expectations */
 
 simplify(ex) := ev(fullratsimp(ex), simp);      /* Allows simplify to be something. */
 degree(ex,v) := ev(hipow(expand(ex), v), simp); /* See notes on hipow.              */

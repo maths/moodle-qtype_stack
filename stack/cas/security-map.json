@@ -381,6 +381,10 @@
         "function": "s",
         "trigfun": true
     },
+    "cosech": {
+        "function": "s",
+        "trigfun": true
+    },
     "activate": {
         "function": "f"
     },

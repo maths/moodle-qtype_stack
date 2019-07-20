@@ -399,7 +399,7 @@ class stack_inputvalidation_test_data {
         array('sinh(x)', 'php_true', 'sinh(x)', 'cas_true', '\sinh \left( x \right)', '', ""),
         array('tanh(x)', 'php_true', 'tanh(x)', 'cas_true', '\tanh \left( x \right)', '', ""),
         array('coth(x)', 'php_true', 'coth(x)', 'cas_true', '\coth \left( x \right)', '', ""),
-        array('cosech(x)', 'php_false', 'cosech(x)', 'cas_true', '', 'forbiddenFunction', ""),
+        array('cosech(x)', 'php_true', 'cosech(x)', 'cas_true', '{\rm csch}\left( x \right)', '', ""),
         array('sech(x)', 'php_true', 'sech(x)', 'cas_true', '{\rm sech}\left( x \right)', '', ""),
         array('asinh(x)', 'php_true', 'asinh(x)', 'cas_true', '{\rm sinh}^{-1}\left( x \right)', '', "Etc..."),
         array('a^b', 'php_true', 'a^b', 'cas_true', 'a^{b}', '', "Exponentials and logarithms"),

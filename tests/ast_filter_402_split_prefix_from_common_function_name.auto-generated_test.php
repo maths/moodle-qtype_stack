@@ -45,11 +45,6 @@ class stack_ast_filter_auto_gen_402_split_prefix_from_common_function_name_testc
                       array('missing_stars'),
                       true, false);
 
-        $this->expect('cosech(x)',
-                      'co*sech(x)',
-                      array('missing_stars'),
-                      true, false);
-
         $this->expect('partialdiff(x,y,1)',
                       'partial*diff(x,y,1)',
                       array('missing_stars'),
@@ -83,11 +78,6 @@ class stack_ast_filter_auto_gen_402_split_prefix_from_common_function_name_testc
 
         $this->expect('bsin(t)',
                       'b*sin(t)',
-                      array('missing_stars'),
-                      true, false);
-
-        $this->expect('cosech(x)',
-                      'co*sech(x)',
                       array('missing_stars'),
                       true, false);
 
@@ -789,6 +779,11 @@ class stack_ast_filter_auto_gen_402_split_prefix_from_common_function_name_testc
 
         $this->expect('cosec(x)',
                       'cosec(x)',
+                      array(),
+                      true, false);
+
+        $this->expect('cosech(x)',
+                      'cosech(x)',
                       array(),
                       true, false);
 
@@ -2320,6 +2315,11 @@ class stack_ast_filter_auto_gen_402_split_prefix_from_common_function_name_testc
 
         $this->expect('cosec(x)',
                       'cosec(x)',
+                      array(),
+                      true, false);
+
+        $this->expect('cosech(x)',
+                      'cosech(x)',
                       array(),
                       true, false);
 

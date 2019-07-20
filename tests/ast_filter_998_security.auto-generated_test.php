@@ -120,11 +120,6 @@ class stack_ast_filter_auto_gen_998_security_testcase extends qtype_stack_ast_te
                       array('forbiddenVariable'),
                       false, true);
 
-        $this->expect('cosech(x)',
-                      'cosech(x)',
-                      array('forbiddenFunction'),
-                      false, true);
-
         $this->expect('dosomething(x,y,z)',
                       'dosomething(x,y,z)',
                       array('forbiddenFunction'),
@@ -449,11 +444,6 @@ class stack_ast_filter_auto_gen_998_security_testcase extends qtype_stack_ast_te
         $this->expect('cos^2(x)',
                       'cos^2*(x)',
                       array('forbiddenVariable'),
-                      false, true);
-
-        $this->expect('cosech(x)',
-                      'cosech(x)',
-                      array('forbiddenFunction'),
                       false, true);
 
         $this->expect('dosomething(x,y,z)',
@@ -1159,6 +1149,11 @@ class stack_ast_filter_auto_gen_998_security_testcase extends qtype_stack_ast_te
 
         $this->expect('cosec(x)',
                       'cosec(x)',
+                      array(),
+                      true, false);
+
+        $this->expect('cosech(x)',
+                      'cosech(x)',
                       array(),
                       true, false);
 
@@ -2445,6 +2440,11 @@ class stack_ast_filter_auto_gen_998_security_testcase extends qtype_stack_ast_te
 
         $this->expect('cosec(x)',
                       'cosec(x)',
+                      array(),
+                      true, false);
+
+        $this->expect('cosech(x)',
+                      'cosech(x)',
                       array(),
                       true, false);
 

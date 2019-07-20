@@ -42,9 +42,10 @@ class stack_algebraic_input extends stack_input {
             'name'  => $fieldname,
             'id'    => $fieldname,
             'size'  => $this->parameters['boxWidth'] * 1.1,
-            'style' => 'width: '.$size.'em'.'; direction: ltr;',
+            'style' => 'width: '.$size.'em',
             'autocapitalize' => 'none',
             'spellcheck'     => 'false',
+            'class' => 'algebraic',
         );
 
         $value = $this->contents_to_maxima($state->contents);

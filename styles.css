@@ -301,3 +301,29 @@ body.ie:not(.ie11) .stack_abstract_graph {
     right: -16px;
     cursor: pointer;
 }
+
+/* RTL support */
+
+/* Student answer form fields */
+.que.stack .algebraic,
+.que.stack .algebraic-units,
+.que.stack .numerical,
+.que.stack .maxima-string,
+.que.stack .maxima-list,
+.que.stack .equiv,
+/* Question authoring form */
+#page-question-type-stack textarea#id_questionvariables,
+#page-question-type-stack input#id_variantsselectionseed,
+#page-question-type-stack #id_questionnote,
+#page-question-type-stack #id_prt1feedbackvariables,
+#page-question-type-stack input#id_ans1modelans,
+#page-question-type-stack input#id_ans1allowwords,
+#page-question-type-stack input#id_ans1options {
+    display: inline-block;
+    /*rtl:ignore*/
+    direction: ltr;
+}
+/* Properly display inversetrig values, in RTL mode */
+#page-question-type-stack #id_inversetrig option {
+    unicode-bidi: plaintext;
+}

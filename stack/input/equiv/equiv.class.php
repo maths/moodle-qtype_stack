@@ -88,6 +88,7 @@ class stack_equiv_input extends stack_input {
             'cols' => min($boxwidth, 50),
             'autocapitalize' => 'none',
             'spellcheck'     => 'false',
+            'class'     => 'equiv',
         );
 
         if ($readonly) {

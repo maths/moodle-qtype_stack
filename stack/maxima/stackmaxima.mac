@@ -1085,8 +1085,9 @@ ATNumerical_set(SA, SB, numtype, tol) := block([SAl, SBl, cl, res, fbl, fb:"", a
     if (SAl#SBl) then
         return([true, false, StackAddNote("","ATNumerical_wronglen"), StackAddFeedback("", "ATSet_wrongsz", stack_disp(SBl, "i"), stack_disp(SAl, "i"))]),
 
-    SA:sort(float(listify(SA))),
-    SB:sort(float(listify(SB))),
+    /* Why on earth has listify stopped working...?! */
+    SA:sort(float(args(SA))),
+    SB:sort(float(args(SB))),
     fbl:num_compare_helper(SA, SB, [], [], tol, numtype),
     if emptyp(first(fbl)) and emptyp(second(fbl)) then res:true else res:false,
 

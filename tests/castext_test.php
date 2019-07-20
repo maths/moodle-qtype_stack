@@ -230,36 +230,37 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $this->assertEquals($realexample, $ct->get_display_castext());
     }
 
-/* TODO: we do still have access to those but do we need that? We have the better
-   logic of getting actual used identifiers if we need them.
-
     public function test_get_all_raw_casstrings() {
         $raw = 'Take {@x^2+2*x@} and then {@sin(z^2)@}.';
         $at1 = new stack_cas_text($raw, null, 0);
-        $val = array('x^2+2*x', 'sin(z^2)');
-        $this->assertEquals($val, $at1->get_all_raw_casstrings());
+        $kv = $at1->get_session()->get_keyval_representation();
+        $val = "x^2+2*x;\nsin(z^2);";
+        $this->assertEquals($val, $kv);
     }
 
     public function test_get_all_raw_casstrings_if() {
         $raw = 'Take {@x^2+2*x@} and then [[ if test="true"]]{@sin(z^2)@}[[/if]].';
         $at1 = new stack_cas_text($raw, null, 0);
-        $val = array('x^2+2*x', 'sin(z^2)', 'true');
-        $this->assertEquals($val, $at1->get_all_raw_casstrings());
+        $kv = $at1->get_session()->get_keyval_representation();
+        $val = "x^2+2*x;\ntrue;\nif (true) then (sin(z^2)) else false;";
+        $this->assertEquals($val, $kv);
     }
 
     public function test_get_all_raw_casstrings_foreach() {
         $raw = 'Take {@x^2+2*x@} and then [[ foreach t="[1,2,3]"]]{@t@}[[/foreach]].';
         $at1 = new stack_cas_text($raw, null, 0);
         // Here the list is iterated over and the t-variable appears multiple times.
-        $val = array('x^2+2*x', 't', 't:[1,2,3]');
-        $this->assertEquals($val, $at1->get_all_raw_casstrings());
+        $kv = $at1->get_session()->get_keyval_representation();
+        $val = "x^2+2*x;\n[1,2,3];\nt:1;\nt;\nt:2;\nt;\nt:3;\nt;";
+        $this->assertEquals($val, $kv);
     }
 
     public function test_get_all_raw_casstrings_empty() {
         $raw = 'Take some text without cas commands.';
         $at1 = new stack_cas_text($raw, null, 0);
-        $val = array();
-        $this->assertEquals($val, $at1->get_all_raw_casstrings());
+        $kv = $at1->get_session()->get_keyval_representation();
+        $val = '';
+        $this->assertEquals($val, $kv);
     }
 
     public function test_get_all_raw_casstrings_session() {
@@ -272,10 +273,12 @@ class stack_cas_text_test extends qtype_stack_testcase {
 
         $raw = 'Take {@ 1/(1+x^2) @} and then {@sin(z^2)@}.';
         $at1 = new stack_cas_text($raw, $cs1, 0);
-        $val = array('p:diff(sans)', 'q=int(tans)', '1/(1+x^2)', 'sin(z^2)');
-        $this->assertEquals($val, $at1->get_all_raw_casstrings());
+        $kv = $at1->get_session()->get_keyval_representation();
+        // Note the equation is missing from the keyval representation here.
+        $val = "p:diff(sans);\n1/(1+x^2);\nsin(z^2);";
+        $this->assertEquals($val, $kv);
     }
-*/
+
     public function test_redefine_variables() {
         // Notice this means that within a session the value of n has to be returned at every stage....
         $at1 = new stack_cas_text(
@@ -395,7 +398,7 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $at1->get_display_castext();
 
         $session = $at1->get_session();
-        $this->assertTrue(is_int(strpos($at1->get_errors(), "Plot error: the alt tag definition must be a string, but is not.")));
+        $this->assertTrue(is_int(strpos($at1->get_errors(), "Plot error: the alt tag definition must be a string, but it is not.")));
     }
 
     public function test_plot_small() {
@@ -968,10 +971,16 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $this->assertTrue($at1->get_valid());
         $at1->get_display_castext();
 
-        $this->assertEqualsIgnoreSpacesAndE('Standard: \({1234}\). ' .
+        $expected = 'Standard: \({1234}\). ' .
                 'Scientific notation: \({1.234E+3}\). With commas: \({1,234}\). ' .
                 'Ordinal rethoric: \({\mbox{one thousand two hundred thirty-fourth}}\). ' .
-                'Roman numerals: \({MCCXXXIV}\).',
-                $at1->get_display_castext());
+                'Roman numerals: \({MCCXXXIV}\).';
+        if ($this->adapt_to_new_maxima('5.38.2')) {
+            $expected = 'Standard: \({1234}\). ' .
+                'Scientific notation: \({1.234E+3}\). With commas: \({1,234}\). ' .
+                'Ordinal rethoric: \({\mbox{one thousand, two hundred thirty-fourth}}\). ' .
+                'Roman numerals: \({MCCXXXIV}\).';
+        }
+        $this->assertEqualsIgnoreSpacesAndE($expected, $at1->get_display_castext());
     }
 }

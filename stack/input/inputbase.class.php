@@ -556,6 +556,9 @@ abstract class stack_input {
         }
         $localoptions = clone $options;
         $localoptions->set_option('simplify', false);
+        if ($this->get_extra_option('simp')) {
+            $localoptions->set_option('simplify', true);
+        }
 
         if ($ajaxinput) {
             $response = $this->ajax_to_response_array($response);
@@ -613,6 +616,9 @@ abstract class stack_input {
         $note        = '';
         $sessionvars = array();
 
+        // Clone answer so we can get the displayed form without the set validation context function, which simplifies.
+        $answerd = clone $answer;
+
         // Validate each line separately, where required and when there is something from the teacher to match up to.
         foreach ($caslines as $index => $cs) {
             // Check the teacher actually has an answer in this slot.
@@ -647,7 +653,10 @@ abstract class stack_input {
             $answer->set_cas_validation_context($this->name, $this->get_parameter('lowestTerms', false),
                     $teacheranswer, $validationmethod,
                     $this->get_extra_option('simp', false));
+            // Evaluate both the answer, and the validation context separately.
+            // This allows us to display 1/0 type errors without actually evaluating them.
             $sessionvars[] = $answer;
+            $sessionvars[] = $answerd;
         }
 
         // Generate an expression from which we extract the list of variables in the student's answer.
@@ -661,7 +670,6 @@ abstract class stack_input {
                 $this->additional_session_variables($caslines, $teacheranswer));
         $sessionvars = array_merge($sessionvars, $additionalvars);
 
-        $localoptions->set_option('simplify', false);
         $session = new stack_cas_session2($sessionvars, $localoptions, 0);
 
         // If we are dealing with units in this question we apply units texput rules everywhere.
@@ -676,9 +684,10 @@ abstract class stack_input {
 
         // Since $lvars and $answer and the other casstrings are passed by reference, into the $session,
         // we don't need to extract updated values from the instantiated $session explicitly.
-        list($valid, $errors, $display) = $this->validation_display($answer, $lvars, $caslines, $additionalvars, $valid, $errors);
+        list($valid, $errors, $display) = $this->validation_display($answerd, $lvars, $caslines, $additionalvars, $valid, $errors);
 
         if (!$answer->get_valid()) {
+            $errors = array(stack_maxima_translate($answer->get_errors()));
             $valid = false;
         } else {
             if ($lvars->is_correctly_evaluated() && $lvars->get_value() !== '[]') {
@@ -688,8 +697,7 @@ abstract class stack_input {
 
         // Answers may not contain the ? character.  CAS-strings may, but answers may not.
         // It is very useful for teachers to be able to add in syntax hints.
-
-        $interpretedanswer = $answer->get_inputform(true, true);
+        $interpretedanswer = $answerd->get_inputform(true, true);
         // TODO: apply a filter to check the ast!
         if (!(strpos($interpretedanswer, '?') === false)) {
             $valid = false;
@@ -917,10 +925,6 @@ abstract class stack_input {
     protected function validation_display($answer, $lvars, $caslines, $additionalvars, $valid, $errors) {
 
         $display = stack_maxima_format_casstring($this->contents_to_maxima($this->rawcontents));
-        if ('' != $answer->get_errors()) {
-            $valid = false;
-            $errors = array(stack_maxima_translate($answer->get_errors()));
-        }
         if ($answer->is_correctly_evaluated()) {
             $display = '\[ ' . $answer->get_display() . ' \]';
         } else {

@@ -720,4 +720,14 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         $this->assertEquals('This input can be left blank.',
                 $el->get_teacher_answer_display($state->contentsmodified, $state->contentsdisplayed));
     }
+
+    public function test_validate_string_same_type_invalid_division_zero() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('algebraic', 'sans1', 'x^3');
+        $el->set_parameter('sameType', true);
+        $state = $el->validate_student_response(array('sans1' => 'x/0'), $options, 'x^3', new stack_cas_security());
+        $this->assertEquals(stack_input::INVALID, $state->status);
+        $this->assertEquals('x/0', $state->contentsmodified);
+        $this->assertEquals('\[ \frac{x}{0} \]', $state->contentsdisplayed);
+    }
 }

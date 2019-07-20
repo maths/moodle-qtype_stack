@@ -759,7 +759,10 @@ stack_validate_listofvars(ex) := block([lvars],
 stack_validate(expr, LowestTerms, TAns) := block([simp:false, exs, SameType, fvs, fvs1, fvs2],
   /* Try to simply the expression to catch CAS errors */
   exs: errcatch(ev(expr, simp)),
-  if exs=[] then return(false),
+  if exs = [] then (
+    _APPEND_ERR([errormsgtostring()], "stack_validate"),
+    return(false)
+  ),
   if length(expr)#1 then print(StackAddFeedback("", "CommaError", string(expr), string(setify(expr)))),
   expr: first(expr),
   /* Check if the student's answer is the same type as the Teacher's. */

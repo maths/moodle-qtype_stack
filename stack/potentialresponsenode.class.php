@@ -241,11 +241,11 @@ class stack_potentialresponse_node {
         foreach ($answers as $cskey => $val) {
             // Check whether the raw input to the node exactly matches one of the answer names.
             $cs = $this->sans;
-            if (trim($cs->get_inputform(true)) == trim($cskey)) {
+            if ($cs->get_valid() && trim($cs->get_inputform(true)) == trim($cskey)) {
                 $sans = $cascontext->get_by_key($cskey);
             }
             $cs = $this->tans;
-            if (trim($cs->get_inputform(true)) == trim($cskey)) {
+            if ($cs->get_valid() && trim($cs->get_inputform(true)) == trim($cskey)) {
                 $tans = $cascontext->get_by_key($cskey);
             }
         }

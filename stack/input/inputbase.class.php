@@ -586,7 +586,7 @@ abstract class stack_input {
         // This method actually validates any CAS strings etc.
         // Modified contents is already an array of things which become individually validated CAS statements.
         // At this sage, $valid records the PHP validation or other non-CAS issues.
-        list($valid, $errors, $answer, $caslines) = $this->validate_contents($contents, $basesecurity, $localoptions);
+        list($valid, $errors, $notes, $answer, $caslines) = $this->validate_contents($contents, $basesecurity, $localoptions);
 
         // Match up lines from the teacher's answer to lines in the student's answer.
         // Send as much of the string to the CAS as possible.
@@ -596,7 +596,7 @@ abstract class stack_input {
             $checktype = true;
             $tresponse = $this->maxima_to_response_array($teacheranswer);
             $tcontents = $this->response_to_contents($tresponse);
-            list($tvalid, $terrors, $tmodifiedcontents, $tcaslines)
+            list($tvalid, $terrors, $tnotes, $tmodifiedcontents, $tcaslines)
                 = $this->validate_contents($tcontents, $basesecurity, $localoptions);
         } else {
             $tcaslines = array();
@@ -696,7 +696,11 @@ abstract class stack_input {
             $errors[] = stack_string('qm_error');
         }
 
-        $note = $answer->get_answernote();
+        if ($notes === array()) {
+            $note = $answer->get_answernote();
+        } else {
+            $note = implode(' | ', array_keys($notes));
+        }
 
         // Did the CAS throw any errors?  Any feedback will be an error message.
         $feedback = $answer->get_feedback();
@@ -807,7 +811,7 @@ abstract class stack_input {
         $valid = !$errors;
         $caslines = array();
         $errors = array();
-        $note = array();
+        $notes = array();
 
         list ($secrules, $filterstoapply) = $this->validate_contents_filters($basesecurity);
 
@@ -826,7 +830,7 @@ abstract class stack_input {
         // Construct one final "answer" as a single maxima object.
         $answer = $this->caslines_to_answer($caslines);
 
-        return array($valid, $errors, $answer, $caslines);
+        return array($valid, $errors, $notes, $answer, $caslines);
     }
 
     /**

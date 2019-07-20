@@ -321,6 +321,7 @@ class stack_dropdown_input extends stack_input {
     protected function validate_contents($contents, $basesecurity, $localoptions) {
         $valid = true;
         $errors = $this->errors;
+        $notes = array();
         $caslines = array();
 
         list ($secrules, $filterstoapply) = $this->validate_contents_filters($basesecurity);
@@ -332,7 +333,7 @@ class stack_dropdown_input extends stack_input {
         $answer = stack_ast_container::make_from_student_source($value, '', $secrules, $filterstoapply);
         $answer->get_valid();
 
-        return array($valid, $errors, $answer, $caslines);
+        return array($valid, $errors, $notes, $answer, $caslines);
     }
 
     /**

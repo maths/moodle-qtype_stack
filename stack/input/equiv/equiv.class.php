@@ -218,6 +218,7 @@ class stack_equiv_input extends stack_input {
 
         // This input re-defines validate_condents, and so does not make use of extra_validation methods.
         $errors = array();
+        $notes = array();
         $valid = true;
         $caslines = array();
 
@@ -248,7 +249,7 @@ class stack_equiv_input extends stack_input {
         $answer = $this->caslines_to_answer($caslines);
         $answer->get_valid();
 
-        return array($valid, $errors, $answer, $caslines);
+        return array($valid, $errors, $notes, $answer, $caslines);
     }
 
     /**

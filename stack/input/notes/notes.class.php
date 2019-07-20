@@ -82,11 +82,12 @@ class stack_notes_input extends stack_input {
      */
     protected function validate_contents($contents, $basesecurity, $localoptions) {
         $errors   = null;
+        $notes   = array();
         $caslines = array();
         $valid    = true;
         $answer   = stack_ast_container::make_from_student_source('', '', $basesecurity);;
 
-        return array($valid, $errors, $answer, $caslines);
+        return array($valid, $errors, $notes, $answer, $caslines);
     }
 
     public function add_to_moodleform_testinput(MoodleQuickForm $mform) {

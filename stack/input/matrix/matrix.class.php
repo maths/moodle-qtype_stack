@@ -177,6 +177,7 @@ class stack_matrix_input extends stack_input {
     protected function validate_contents($contents, $basesecurity, $localoptions) {
 
         $errors = array();
+        $notes = array();
         $valid = true;
 
         list ($secrules, $filterstoapply) = $this->validate_contents_filters($basesecurity);
@@ -186,12 +187,20 @@ class stack_matrix_input extends stack_input {
         foreach ($contents as $row) {
             $modifiedrow = array();
             foreach ($row as $val) {
-                // TODO: insertstars filters... and such
                 $answer = stack_ast_container::make_from_student_source($val, '', $secrules, $filterstoapply);
-
-                $modifiedrow[] = $answer->get_inputform();
+                if ($answer->get_valid()) {
+                    $modifiedrow[] = $answer->get_inputform();
+                } else {
+                    $modifiedrow[] = 'EMPTYANSWER';
+                }
                 $valid = $valid && $answer->get_valid();
                 $errors[] = $answer->get_errors();
+                $note = $answer->get_answernote(true);
+                if ($note) {
+                    foreach ($note as $n) {
+                        $notes[$n] = true;
+                    }
+                }
             }
             $modifiedcontents[] = $modifiedrow;
         }
@@ -211,11 +220,12 @@ class stack_matrix_input extends stack_input {
             // But first iteration and so on.
         }
         $value = $this->contents_to_maxima($modifiedcontents);
-        $answer = stack_ast_container::make_from_student_source($value, '', $secrules);
+        // Sanitised above.
+        $answer = stack_ast_container::make_from_teacher_source($value, '', $secrules);
         $answer->get_valid();
 
         $caslines = array();
-        return array($valid, $errors, $answer, $caslines);
+        return array($valid, $errors, $notes, $answer, $caslines);
     }
 
     public function render(stack_input_state $state, $fieldname, $readonly, $tavalue) {

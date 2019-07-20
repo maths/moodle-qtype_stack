@@ -169,9 +169,57 @@ class stack_matrix_input_test extends qtype_stack_testcase {
         $state = $el->validate_student_response($inputvals, $options, 'matrix([1,2,3],[3,4,5])', new stack_cas_security());
         $this->assertEquals(stack_input::INVALID, $state->status);
         $this->assertEquals('missing_stars', $state->note);
-        $this->assertEquals('matrix([1,2x,3],[4,5,6])', $state->contentsmodified);
+        $this->assertEquals('matrix([1,EMPTYANSWER,3],[4,5,6])', $state->contentsmodified);
         $this->assertEquals('<span class="stacksyntaxexample">matrix([1,2x,3],[4,5,6])</span>',
                 $state->contentsdisplayed);
+        $this->assertEquals('', $state->lvars);
+    }
+
+    public function test_validate_student_response_invalid_bracket() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('matrix', 'ans1', 'M');
+        $el->adapt_to_model_answer('matrix([1,2,3],[3,4,5])');
+        $inputvals = array(
+            'ans1_sub_0_0' => '1',
+            'ans1_sub_0_1' => '2x)',
+            'ans1_sub_0_2' => '3',
+            'ans1_sub_1_0' => '4',
+            'ans1_sub_1_1' => '5',
+            'ans1_sub_1_2' => '6'
+        );
+        $state = $el->validate_student_response($inputvals, $options, 'matrix([1,2,3],[3,4,5])', new stack_cas_security());
+        $this->assertEquals(stack_input::INVALID, $state->status);
+        $this->assertEquals('missing_stars | missingLeftBracket', $state->note);
+        $this->assertEquals('matrix([1,EMPTYANSWER,3],[4,5,6])', $state->contentsmodified);
+        $this->assertEquals('<span class="stacksyntaxexample">matrix([1,2x),3],[4,5,6])</span>',
+                $state->contentsdisplayed);
+        $this->assertEquals('You have a missing left bracket <span class="stacksyntaxexample">(</span> in the expression: ' .
+                '<span class="stacksyntaxexample">2*x)</span>.', $state->errors);
+        $this->assertEquals('', $state->lvars);
+    }
+
+    public function test_validate_student_response_invalid_multiple() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('matrix', 'ans1', 'M');
+        $el->adapt_to_model_answer('matrix([1,2,3],[3,4,5])');
+        $inputvals = array(
+            'ans1_sub_0_0' => '1',
+            'ans1_sub_0_1' => '2x)',
+            'ans1_sub_0_2' => '3',
+            'ans1_sub_1_0' => '4',
+            'ans1_sub_1_1' => '5',
+            'ans1_sub_1_2' => '6a'
+        );
+        $state = $el->validate_student_response($inputvals, $options, 'matrix([1,2,3],[3,4,5])', new stack_cas_security());
+        $this->assertEquals(stack_input::INVALID, $state->status);
+        $this->assertEquals('missing_stars | missingLeftBracket', $state->note);
+        $this->assertEquals('matrix([1,EMPTYANSWER,3],[4,5,EMPTYANSWER])', $state->contentsmodified);
+        $this->assertEquals('<span class="stacksyntaxexample">matrix([1,2x),3],[4,5,6a])</span>',
+                $state->contentsdisplayed);
+        $this->assertEquals('You have a missing left bracket <span class="stacksyntaxexample">(</span> in the expression: ' .
+                '<span class="stacksyntaxexample">2*x)</span>.    ' .
+                'You seem to be missing * characters. Perhaps you meant to type ' .
+                '<span class="stacksyntaxexample">6<font color="red">*</font>a</span>.', $state->errors);
         $this->assertEquals('', $state->lvars);
     }
 

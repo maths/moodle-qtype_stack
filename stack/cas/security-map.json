@@ -86,7 +86,7 @@
     },
     "%pi": {
         "aliasvariables": [
-            "pi"
+            "pi", "π"
         ],
         "constant": "s"
     },
@@ -5176,6 +5176,10 @@
         "variable": "s"
     },
     "pi": {
+        "constant": "s",
+        "aliasvariable": "%pi"
+    },
+    "π": {
         "constant": "s",
         "aliasvariable": "%pi"
     },

@@ -90,5 +90,7 @@ lists should be left to tools that make sure they are correct.
 
 Aliases often do not match the logical aliases present in the CAS instead
 they tend to map things so that they point to the version that is 
-shorttest to minimise space usage, e.g. while some migt think 
+shortest to minimise space usage, e.g. while some might think 
 `int => integrate` here we rather have `integrate => int`.
+
+The base alias is sent to the CAS.  This enables support for some unicode, e.g. pi, which does not break the CAS.

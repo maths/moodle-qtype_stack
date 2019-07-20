@@ -29,7 +29,7 @@
  * 'fixspaces_as_red_spaces' Similar to above, but for spaces.
  * 'inputform'               Something a user (normally student) would expect to type.
  * 'nounify'                 If defined and true nounifies certain operators and functions. If false does the opposite.
- * 'dealias'                 If defined unpacks potenttial aliases.
+ * 'dealias'                 If defined unpacks potential aliases.
  * 'qmchar'                  If defined prints question marks directly if present as QMCHAR
  */
 
@@ -308,6 +308,16 @@ class MP_Operation extends MP_Node {
             }
         }
 
+        if ($params !== null && isset($params['dealias'])) {
+            $feat = null;
+            if ($params['dealias'] === true) {
+                $feat = stack_cas_security::get_feature($op, 'aliasvariable');
+            }
+            if ($feat !== null) {
+                $op = $feat;
+            }
+        }
+
         if ($params !== null && isset($params['pretty'])) {
             $indent = '';
             if (is_integer($params['pretty'])) {
@@ -460,6 +470,17 @@ class MP_Atom extends MP_Node {
     }
 
     public function toString($params = null): string {
+        $op = $this->value;
+        if ($params !== null && isset($params['dealias'])) {
+            $feat = null;
+            if ($params['dealias'] === true) {
+                $feat = stack_cas_security::get_feature($op, 'aliasvariable');
+            }
+            if ($feat !== null) {
+                $op = $feat;
+            }
+        }
+
         if ($params !== null && isset($params['pretty'])) {
             $indent = '';
             if (is_integer($params['pretty'])) {
@@ -467,7 +488,7 @@ class MP_Atom extends MP_Node {
             }
             return $indent . $this->value;
         }
-        return '' . $this->value;
+        return '' . $op;
     }
 }
 
@@ -602,6 +623,17 @@ class MP_Identifier extends MP_Atom {
 
     public function toString($params = null): string {
         $indent = '';
+        $op = $this->value;
+        if ($params !== null && isset($params['dealias'])) {
+            $feat = null;
+            if ($params['dealias'] === true) {
+                $feat = stack_cas_security::get_feature($op, 'aliasvariable');
+            }
+            if ($feat !== null) {
+                $op = $feat;
+            }
+        }
+
         if ($params !== null && isset($params['pretty'])) {
             if (is_integer($params['pretty'])) {
                 $indent = str_pad($indent, $params['pretty']);
@@ -609,10 +641,10 @@ class MP_Identifier extends MP_Atom {
         }
 
         if ($params !== null && isset($params['qmchar'])) {
-            return $indent . str_replace('QMCHAR', '?', $this->value);
+            return $indent . str_replace('QMCHAR', '?', $op);
         }
 
-        return $indent . $this->value;
+        return $indent . $op;
     }
 
     public function is_being_written_to(): bool {
@@ -813,6 +845,17 @@ class MP_FunctionCall extends MP_Node {
 
     public function toString($params = null): string {
         $n = $this->name->toString($params);
+
+        if ($params !== null && isset($params['dealias'])) {
+            $feat = null;
+            if ($params['dealias'] === true) {
+                $feat = stack_cas_security::get_feature($n, 'aliasvariable');
+            }
+            if ($feat !== null) {
+                $n = $feat;
+            }
+        }
+
         if ($params !== null && isset($params['nounify'])) {
             if ($this->name instanceof MP_Identifier || $this->name instanceof MP_String) {
                 $feat = stack_cas_security::get_feature($this->name->value, 'nounfunction');

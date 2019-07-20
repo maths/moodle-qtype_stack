@@ -545,7 +545,7 @@ class stack_cas_security {
                         }
                     }
                     if (($t = self::get_feature($item, 'aliasvariable')) !== null) {
-                        // If we are a alias for something, add that to the list.
+                        // If we are an alias for something, add that to the list.
                         $result[$t] = true;
                         // And if it has an alias add that also.
                         $t = self::get_feature($t, 'aliasvariables');

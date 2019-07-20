@@ -136,6 +136,10 @@ class maxima_corrective_parser {
 
         $ast = null;
 
+        if ($string === '') {
+            return null;
+        }
+
         if ($fixlet) {
             $string = $langlet . $string;
         }
@@ -307,6 +311,15 @@ class maxima_corrective_parser {
         static $disallowedfinalchars = '/+*^#~=,_&`;:$-.<>';
         // @codingStandardsIgnoreEnd
 
+        /**
+         * @var all the characters permitted in responses.
+         * Note, these are used in regular expression ranges, so - must be at the end, and ^ may not be first.
+         */
+        // @codingStandardsIgnoreStart
+        static $allowedchars =
+        '0123456789,./\%&{}[]()$@!"\'?`^~*_+qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM:=><|: -';
+        // @codingStandardsIgnoreEnd
+
         $foundchar = $exception->found;
         $previouschar = null;
         $nextchar = null;
@@ -323,6 +336,43 @@ class maxima_corrective_parser {
         $string = str_replace('*%%IS', '*', $string);
         $string = str_replace('*%%Is', '*', $string);
         $string = str_replace('QMCHAR', '?', $string);
+
+        // Only permit the following characters to be sent to the CAS.
+        $allowedcharsregex = '~[^' . preg_quote($allowedchars, '~') . ']~u';
+        // Check for permitted characters.
+        if (preg_match_all($allowedcharsregex, $string, $matches)) {
+            $invalidchars = array();
+            foreach ($matches as $match) {
+                $badchar = $match[0];
+                if (!array_key_exists($badchar, $invalidchars)) {
+                    switch ($badchar) {
+                        case "\n":
+                            $invalidchars[$badchar] = "\\n";
+                            break;
+                        case "\r":
+                            $invalidchars[$badchar] = "\\r";
+                            break;
+                        case "\t":
+                            $invalidchars[$badchar] = "\\t";
+                            break;
+                        case "\v":
+                            $invalidchars[$badchar] = "\\v";
+                            break;
+                        case "\e":
+                            $invalidchars[$badchar] = "\\e";
+                            break;
+                        case "\f":
+                            $invalidchars[$badchar] = "\\f";
+                            break;
+                        default:
+                            $invalidchars[$badchar] = $badchar;
+                    }
+                }
+            }
+            $errors[] = stack_string('stackCas_forbiddenChar', array( 'char' => implode(", ", array_unique($invalidchars))));
+            $answernote[] = 'forbiddenChar';
+            return;
+        }
 
         if ($foundchar === '(' || $foundchar === ')' || $previouschar === '(' || $previouschar === ')' || $foundchar === null) {
             $stringles = stack_utils::eliminate_strings($string);

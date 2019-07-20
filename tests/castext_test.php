@@ -398,7 +398,8 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $at1->get_display_castext();
 
         $session = $at1->get_session();
-        $this->assertTrue(is_int(strpos($at1->get_errors(), "Plot error: the alt tag definition must be a string, but it is not.")));
+        $this->assertTrue(is_int(strpos($at1->get_errors(),
+                "Plot error: the alt tag definition must be a string, but it is not.")));
     }
 
     public function test_plot_small() {

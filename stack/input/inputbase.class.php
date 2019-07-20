@@ -782,6 +782,7 @@ abstract class stack_input {
         if ($stars & 1) {
             // The rules are applied anyway, we just check the use of them.
             // If code-tidy issue just negate the test and cut this one out.
+            $donothing = true;
         } else if ($stars !== 0) {
             $filterstoapply[] = '991_no_fixing_stars';
         }
@@ -790,6 +791,7 @@ abstract class stack_input {
         if ($stars & (1 << 1)) {
             // The rules are applied anyway, we just check the use of them.
             // If code-tidy issue just negate the test and cut this one out.
+            $donothing = true;
         } else if ($stars !== 0) {
             $filterstoapply[] = '990_no_fixing_spaces';
         }

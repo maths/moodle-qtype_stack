@@ -81,7 +81,8 @@ class stack_textarea_input_test extends qtype_stack_testcase {
         $el = stack_input_factory::make('textArea', 'sans1', '[x^2=-7*x,a*b=2]');
         $el->set_parameter('insertStars', 2);
         $el->set_parameter('strictSyntax', false);
-        $state = $el->validate_student_response(array('sans1' => "x^2=-7*x\nab=2"), $options, '[x^2=-7*x,a*b=2]', new stack_cas_security());
+        $state = $el->validate_student_response(array('sans1' => "x^2=-7*x\nab=2"), $options, '[x^2=-7*x,a*b=2]',
+                new stack_cas_security());
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('[x^2=-7*x,a*b=2]', $state->contentsmodified);
         $this->assertEquals('<center><table style="vertical-align: middle;" border="0" cellpadding="4" cellspacing="0">' .
@@ -99,7 +100,8 @@ class stack_textarea_input_test extends qtype_stack_testcase {
         $el = stack_input_factory::make('textArea', 'sans1', '[x^2=-7*x,ab=2]');
         $el->set_parameter('insertStars', 1);
         $el->set_parameter('strictSyntax', false);
-        $state = $el->validate_student_response(array('sans1' => "x^2=-7x\nab=2"), $options, '[x^2=-7*x,ab=2]', new stack_cas_security());
+        $state = $el->validate_student_response(array('sans1' => "x^2=-7x\nab=2"), $options, '[x^2=-7*x,ab=2]',
+                new stack_cas_security());
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('[x^2=-7*x,ab=2]', $state->contentsmodified);
         $this->assertEquals('\( \left[ {\it ab} , x \right]\) ', $state->lvars);
@@ -110,7 +112,8 @@ class stack_textarea_input_test extends qtype_stack_testcase {
         $el = stack_input_factory::make('textArea', 'sans1', '[x^2=-7*x,ab=2]');
         $el->set_parameter('insertStars', 1);
         $el->set_parameter('strictSyntax', false);
-        $state = $el->validate_student_response(array('sans1' => "x^2=-7x\nab=2"), $options, '[x^2=-7*x,ab=2]', new stack_cas_security());
+        $state = $el->validate_student_response(array('sans1' => "x^2=-7x\nab=2"), $options, '[x^2=-7*x,ab=2]',
+                new stack_cas_security());
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('[x^2=-7*x,ab=2]', $state->contentsmodified);
         $this->assertEquals('\( \left[ {\it ab} , x \right]\) ', $state->lvars);
@@ -121,7 +124,8 @@ class stack_textarea_input_test extends qtype_stack_testcase {
         $el = stack_input_factory::make('textArea', 'sans1', '[x^2=-7*x,[a=1,b=2]]');
         $el->set_parameter('insertStars', 1);
         $el->set_parameter('strictSyntax', false);
-        $state = $el->validate_student_response(array('sans1' => "x^2=-7x\n[a=1,b=2"), $options, '[x^2=-7*x,[a=1,b=2]]', new stack_cas_security());
+        $state = $el->validate_student_response(array('sans1' => "x^2=-7x\n[a=1,b=2"), $options, '[x^2=-7*x,[a=1,b=2]]',
+                new stack_cas_security());
         $this->assertEquals(stack_input::INVALID, $state->status);
         $this->assertEquals('You have a missing right bracket', substr($state->errors, 0, 32));
         $this->assertEquals('ParseError', $state->note);
@@ -151,7 +155,8 @@ class stack_textarea_input_test extends qtype_stack_testcase {
         $el = stack_input_factory::make('textArea', 'sans1', '[x=1,{1}]');
         $el->set_parameter('sameType', false);
         // Student has more lines than the teacher, so extra lines are ignored.
-        $state = $el->validate_student_response(array('sans1' => "x=1\n1\nx=2"), $options, '[x=1,{1}]', new stack_cas_security());
+        $state = $el->validate_student_response(array('sans1' => "x=1\n1\nx=2"), $options, '[x=1,{1}]',
+                new stack_cas_security());
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('', $state->errors);
         $this->assertEquals('', $state->note);
@@ -180,7 +185,8 @@ class stack_textarea_input_test extends qtype_stack_testcase {
         $el = stack_input_factory::make('textArea', 'sans1', '[x=1,{1}]');
         $el->set_parameter('sameType', true);
         // Student has more lines than the teacher, so extra lines are ignored.
-        $state = $el->validate_student_response(array('sans1' => "x=1\n{1}\nx=2"), $options, '[x=1,{1}]', new stack_cas_security());
+        $state = $el->validate_student_response(array('sans1' => "x=1\n{1}\nx=2"), $options, '[x=1,{1}]',
+                new stack_cas_security());
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('', $state->errors);
     }

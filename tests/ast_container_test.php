@@ -30,7 +30,7 @@ require_once(__DIR__ . '/fixtures/test_base.php');
  * @group qtype_stack
  */
 class stack_astcontainer_test extends qtype_stack_testcase {
-
+/*
     public function test_types() {
         $matrix = stack_ast_container::make_from_teacher_source('foo:matrix([1,2],[3,4])', 'type test', new stack_cas_security());
         $this->assertTrue($matrix->is_matrix());
@@ -707,5 +707,35 @@ class stack_astcontainer_test extends qtype_stack_testcase {
             $this->assertEquals($r['decimalplaces'], $t[3]);
             $this->assertEquals($r['fltfmt'], $t[4]);
         }
+    }
+*/
+    public function test_spaces_1_brackets() {
+        $s = 'a (b c)';
+        $at1 = stack_ast_container::make_from_student_source($s, '', new stack_cas_security());
+        $this->assertTrue($at1->get_valid());
+        $this->assertEquals('a*(b*c)', $at1->get_inputform());
+        $err = '';
+        $this->assertEquals($err, $at1->get_errors());
+        $this->assertEquals('spaces', $at1->get_answernote());
+    }
+
+    public function test_spaces_1_bracket_brackets() {
+        $s = '(1+c) (x+1)';
+        $at1 = stack_ast_container::make_from_student_source($s, '', new stack_cas_security());
+        $this->assertTrue($at1->get_valid());
+        $this->assertEquals('(1+c)*(x+1)', $at1->get_inputform());
+        $err = '';
+        $this->assertEquals($err, $at1->get_errors());
+        $this->assertEquals('spaces', $at1->get_answernote());
+    }
+
+    public function test_spaces_1_logic() {
+        $s = 'a b and c';
+        $at1 = stack_ast_container::make_from_student_source($s, '', new stack_cas_security());
+        $this->assertTrue($at1->get_valid());
+        $this->assertEquals('a*b and c', $at1->get_inputform());
+        $err = '';
+        $this->assertEquals($err, $at1->get_errors());
+        $this->assertEquals('spaces', $at1->get_answernote());
     }
 }

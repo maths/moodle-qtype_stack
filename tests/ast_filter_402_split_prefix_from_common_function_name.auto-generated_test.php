@@ -427,6 +427,16 @@ class stack_ast_filter_auto_gen_402_split_prefix_from_common_function_name_testc
                       array(),
                       true, false);
 
+        $this->expect('1E3',
+                      '1E3',
+                      array(),
+                      true, false);
+
+        $this->expect('1 E 3',
+                      '1*E*3',
+                      array(),
+                      true, false);
+
         $this->expect('1x',
                       '1*x',
                       array(),
@@ -1960,6 +1970,16 @@ class stack_ast_filter_auto_gen_402_split_prefix_from_common_function_name_testc
 
         $this->expect('1E+3',
                       '1E+3',
+                      array(),
+                      true, false);
+
+        $this->expect('1E3',
+                      '1E3',
+                      array(),
+                      true, false);
+
+        $this->expect('1 E 3',
+                      '1*E*3',
                       array(),
                       true, false);
 

@@ -387,6 +387,16 @@ class stack_ast_filter_auto_gen_520_no_equality_with_logic_testcase extends qtyp
                       array(),
                       true, false);
 
+        $this->expect('1E3',
+                      '1E3',
+                      array(),
+                      true, false);
+
+        $this->expect('1 E 3',
+                      '1*E*3',
+                      array(),
+                      true, false);
+
         $this->expect('1x',
                       '1*x',
                       array(),
@@ -1940,6 +1950,16 @@ class stack_ast_filter_auto_gen_520_no_equality_with_logic_testcase extends qtyp
 
         $this->expect('1E+3',
                       '1E+3',
+                      array(),
+                      true, false);
+
+        $this->expect('1E3',
+                      '1E3',
+                      array(),
+                      true, false);
+
+        $this->expect('1 E 3',
+                      '1*E*3',
                       array(),
                       true, false);
 

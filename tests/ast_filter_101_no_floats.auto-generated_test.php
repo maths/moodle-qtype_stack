@@ -60,6 +60,11 @@ class stack_ast_filter_auto_gen_101_no_floats_testcase extends qtype_stack_ast_t
                       array('Illegal_floats'),
                       false, true);
 
+        $this->expect('1E3',
+                      '1E3',
+                      array('Illegal_floats'),
+                      false, true);
+
         $this->expect('3e-2',
                       '3E-2',
                       array('Illegal_floats'),
@@ -123,6 +128,11 @@ class stack_ast_filter_auto_gen_101_no_floats_testcase extends qtype_stack_ast_t
 
         $this->expect('1E+3',
                       '1E+3',
+                      array('Illegal_floats'),
+                      false, true);
+
+        $this->expect('1E3',
+                      '1E3',
                       array('Illegal_floats'),
                       false, true);
 
@@ -454,6 +464,11 @@ class stack_ast_filter_auto_gen_101_no_floats_testcase extends qtype_stack_ast_t
 
         $this->expect('1<x<3',
                       '1<x<3',
+                      array(),
+                      true, false);
+
+        $this->expect('1 E 3',
+                      '1*E*3',
                       array(),
                       true, false);
 
@@ -1960,6 +1975,11 @@ class stack_ast_filter_auto_gen_101_no_floats_testcase extends qtype_stack_ast_t
 
         $this->expect('1<x<3',
                       '1<x<3',
+                      array(),
+                      true, false);
+
+        $this->expect('1 E 3',
+                      '1*E*3',
                       array(),
                       true, false);
 

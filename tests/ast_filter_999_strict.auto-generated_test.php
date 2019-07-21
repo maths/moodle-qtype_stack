@@ -80,6 +80,11 @@ class stack_ast_filter_auto_gen_999_strict_testcase extends qtype_stack_ast_test
                       array(),
                       false, true);
 
+        $this->expect('1 E 3',
+                      '1*E*3',
+                      array(),
+                      false, true);
+
         $this->expect('1x',
                       '1*x',
                       array(),
@@ -208,6 +213,11 @@ class stack_ast_filter_auto_gen_999_strict_testcase extends qtype_stack_ast_test
 
         $this->expect('1+2i',
                       '1+2*i',
+                      array(),
+                      false, true);
+
+        $this->expect('1 E 3',
+                      '1*E*3',
                       array(),
                       false, true);
 
@@ -564,6 +574,11 @@ class stack_ast_filter_auto_gen_999_strict_testcase extends qtype_stack_ast_test
 
         $this->expect('1E+3',
                       '1E+3',
+                      array(),
+                      true, false);
+
+        $this->expect('1E3',
+                      '1E3',
                       array(),
                       true, false);
 
@@ -2005,6 +2020,11 @@ class stack_ast_filter_auto_gen_999_strict_testcase extends qtype_stack_ast_test
 
         $this->expect('1E+3',
                       '1E+3',
+                      array(),
+                      true, false);
+
+        $this->expect('1E3',
+                      '1E3',
                       array(),
                       true, false);
 

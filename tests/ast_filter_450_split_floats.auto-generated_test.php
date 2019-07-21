@@ -35,6 +35,11 @@ class stack_ast_filter_auto_gen_450_split_floats_testcase extends qtype_stack_as
                       array('missing_stars'),
                       true, false);
 
+        $this->expect('1E3',
+                      '1*E*3',
+                      array('missing_stars'),
+                      true, false);
+
         $this->expect('3e-2',
                       '3*e-2',
                       array('missing_stars'),
@@ -58,6 +63,11 @@ class stack_ast_filter_auto_gen_450_split_floats_testcase extends qtype_stack_as
 
         $this->expect('1E+3',
                       '1*E+3',
+                      array('missing_stars'),
+                      true, false);
+
+        $this->expect('1E3',
+                      '1*E*3',
                       array('missing_stars'),
                       true, false);
 
@@ -399,6 +409,11 @@ class stack_ast_filter_auto_gen_450_split_floats_testcase extends qtype_stack_as
 
         $this->expect('1<x<3',
                       '1<x<3',
+                      array(),
+                      true, false);
+
+        $this->expect('1 E 3',
+                      '1*E*3',
                       array(),
                       true, false);
 
@@ -1945,6 +1960,11 @@ class stack_ast_filter_auto_gen_450_split_floats_testcase extends qtype_stack_as
 
         $this->expect('1<x<3',
                       '1<x<3',
+                      array(),
+                      true, false);
+
+        $this->expect('1 E 3',
+                      '1*E*3',
                       array(),
                       true, false);
 

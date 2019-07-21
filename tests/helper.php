@@ -137,7 +137,8 @@ class qtype_stack_test_helper extends question_test_helper {
 
         // We don't explicitly set stackversion here because we test the default.
         $q->name = 'test-1';
-        $q->questionvariables = 'n : rand(5)+3; a : rand(5)+3; v : x; p : (v-a)^n; ta : (v-a)^(n+1)/(n+1); ta1 : ta';
+        // Fix the actual variable ta, to avoid differening rand values.
+        $q->questionvariables = 'n : rand(5)+3; a : rand(5)+3; v : x; p : (v-a)^n; ta : (x-7)^4/4; ta1 : ta';
         $q->questiontext = 'Find
                             \[ \int {@p@} d{@v@}\]
                             [[input:ans1]]

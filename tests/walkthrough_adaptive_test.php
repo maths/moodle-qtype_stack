@@ -187,11 +187,11 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
                 $this->get_no_hint_visible_expectation()
         );
 
-        // Process a validate request.
-        // Notice here we get away with including single letter question variables in the answer.
+        // Notice here we no longer get away with including single letter question variables in the answer.
+        // This is a very welcome side effect of the new parser and cassesion2 logic.
         $this->process_submission(array('ans1' => '(v-a)^(n+1)/(n+1)+c', '-submit' => 1));
 
-        $this->check_current_state(question_state::$todo);
+        $this->check_current_state(question_state::$invalid);
         $this->check_current_mark(null);
         $this->check_prt_score('PotResTree_1', null, null);
         $this->render();
@@ -200,15 +200,29 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->check_output_does_not_contain_prt_feedback();
         $this->check_output_does_not_contain_stray_placeholders();
 
+        // Now use the correct answer.
+        $ta = $q->get_correct_response();
+        $sa = $ta['ans1'];
+        $this->process_submission(array('ans1' => $sa, '-submit' => 1));
+
+        $this->check_current_state(question_state::$todo);
+        $this->check_current_mark(null);
+        $this->check_prt_score('PotResTree_1', null, null);
+        $this->render();
+        $this->check_output_contains_text_input('ans1', $sa);
+        $this->check_output_contains_input_validation('ans1');
+        $this->check_output_does_not_contain_prt_feedback();
+        $this->check_output_does_not_contain_stray_placeholders();
+
         // Process a submit of the correct answer.
-        $this->process_submission(array('ans1' => '(v-a)^(n+1)/(n+1)+c', 'ans1_val' => '(v-a)^(n+1)/(n+1)+c', '-submit' => 1));
+        $this->process_submission(array('ans1' => $sa, 'ans1_val' => $sa, '-submit' => 1));
 
         // Verify.
         $this->check_current_state(question_state::$complete);
         $this->check_current_mark(1);
         $this->check_prt_score('PotResTree_1', 1, 0);
         $this->render();
-        $this->check_output_contains_text_input('ans1', '(v-a)^(n+1)/(n+1)+c');
+        $this->check_output_contains_text_input('ans1', $sa);
         $this->check_output_contains_input_validation('ans1');
         $this->check_output_contains_prt_feedback('PotResTree_1');
         $this->check_output_does_not_contain_stray_placeholders();
@@ -234,35 +248,39 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         );
 
         // Process a validate request.
-        $this->process_submission(array('ans1' => '(v-a)^(n+1)/(n+1)', '-submit' => 1));
+        $ta = $q->get_correct_response();
+        // Remove the constant of integration.
+        $sa = substr($ta['ans1'], 0, strlen($ta['ans1']) - 2);
+
+        $this->process_submission(array('ans1' => $sa, '-submit' => 1));
 
         $this->check_current_mark(null);
         $this->check_prt_score('PotResTree_1', null, null);
         $this->render();
-        $this->check_output_contains_text_input('ans1', '(v-a)^(n+1)/(n+1)');
+        $this->check_output_contains_text_input('ans1', $sa);
         $this->check_output_contains_input_validation('ans1');
         $this->check_output_does_not_contain_prt_feedback();
         $this->check_output_does_not_contain_stray_placeholders();
 
         // Process a submit, but with a changed answer.
-        $this->process_submission(array('ans1' => '(v-a)^(n+1)/(n+1)+c', 'ans1_val' => '(v-a)^(n+1)/(n+1)', '-submit' => 1));
+        $this->process_submission(array('ans1' => $sa . '+c', 'ans1_val' => $sa, '-submit' => 1));
 
         $this->check_current_mark(null);
         $this->check_prt_score('PotResTree_1', null, null);
         $this->render();
-        $this->check_output_contains_text_input('ans1', '(v-a)^(n+1)/(n+1)+c');
+        $this->check_output_contains_text_input('ans1', $sa . '+c');
         $this->check_output_contains_input_validation('ans1');
         $this->check_output_does_not_contain_prt_feedback();
         $this->check_output_does_not_contain_stray_placeholders();
 
         // Process a submit with the correct answer.
-        $this->process_submission(array('ans1' => '(v-a)^(n+1)/(n+1)+c', 'ans1_val' => '(v-a)^(n+1)/(n+1)+c', '-submit' => 1));
+        $this->process_submission(array('ans1' => $sa . '+c', 'ans1_val' => $sa . '+c', '-submit' => 1));
 
         // Verify.
         $this->check_current_mark(1);
         $this->check_prt_score('PotResTree_1', 1, 0);
         $this->render();
-        $this->check_output_contains_text_input('ans1', '(v-a)^(n+1)/(n+1)+c');
+        $this->check_output_contains_text_input('ans1', $sa . '+c');
         $this->check_output_contains_input_validation('ans1');
         $this->check_output_contains_prt_feedback('PotResTree_1');
         $this->check_output_does_not_contain_stray_placeholders();
@@ -291,13 +309,14 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         );
 
         // Process a validate request.
-        // Invalid answer.
-        $this->process_submission(array('ans1' => 'n*(v-a)^(n-1', '-submit' => 1));
+        $ia = '((x-7)^4';
+
+        $this->process_submission(array('ans1' => $ia, '-submit' => 1));
 
         $this->check_current_mark(null);
         $this->check_prt_score('PotResTree_1', null, null);
         $this->render();
-        $this->check_output_contains_text_input('ans1', 'n*(v-a)^(n-1');
+        $this->check_output_contains_text_input('ans1', $ia);
         $this->check_output_contains_input_validation('ans1');
         $this->check_output_does_not_contain_prt_feedback();
         $this->check_output_does_not_contain_stray_placeholders();
@@ -305,24 +324,27 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
             new question_pattern_expectation('/missing right/')
         );
 
+        // Known incorrect answer.  Avoid relying on rand by giving explicit numbers in the question.
+        $sa = '3*(x-7)^2';
+
         // Valid answer.
-        $this->process_submission(array('ans1' => 'n*(v-a)^(n-1)', '-submit' => 1));
+        $this->process_submission(array('ans1' => $sa, '-submit' => 1));
 
         $this->check_current_mark(null);
         $this->check_prt_score('PotResTree_1', null, null);
         $this->render();
-        $this->check_output_contains_text_input('ans1', 'n*(v-a)^(n-1)');
+        $this->check_output_contains_text_input('ans1', $sa);
         $this->check_output_contains_input_validation('ans1');
         $this->check_output_does_not_contain_prt_feedback();
         $this->check_output_does_not_contain_stray_placeholders();
 
         // Submit known mistake - look for specific feedback.
-        $this->process_submission(array('ans1' => 'n*(v-a)^(n-1)', 'ans1_val' => 'n*(v-a)^(n-1)', '-submit' => 1));
+        $this->process_submission(array('ans1' => $sa, 'ans1_val' => $sa, '-submit' => 1));
 
         $this->check_current_mark(0);
         $this->check_prt_score('PotResTree_1', 0, 0.25);
         $this->render();
-        $this->check_output_contains_text_input('ans1', 'n*(v-a)^(n-1)');
+        $this->check_output_contains_text_input('ans1', $sa);
         $this->check_output_contains_input_validation('ans1');
         $this->check_output_contains_prt_feedback('PotResTree_1');
         $this->check_output_does_not_contain_stray_placeholders();
@@ -365,7 +387,7 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->check_output_does_not_contain_prt_feedback();
         $this->check_output_does_not_contain_stray_placeholders();
         $this->check_current_output(
-            new question_pattern_expectation('/is forbidden/')
+            new question_pattern_expectation('/Forbidden variable/')
         );
 
         $this->process_submission(array('ans1' => 'ta1', '-submit' => 1));
@@ -378,7 +400,7 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->check_output_does_not_contain_prt_feedback();
         $this->check_output_does_not_contain_stray_placeholders();
         $this->check_current_output(
-            new question_pattern_expectation('/is forbidden/')
+            new question_pattern_expectation('/Forbidden variable/')
         );
     }
 
@@ -416,9 +438,8 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->check_output_does_not_contain_prt_feedback();
         $this->check_output_does_not_contain_stray_placeholders();
         $this->check_current_output(
-            new question_pattern_expectation('/is forbidden/')
+            new question_pattern_expectation('/Forbidden function/')
         );
-
     }
 
     public function test_test1_invalid_student_uses_forbidden_words_fromlist() {
@@ -454,7 +475,7 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->check_output_does_not_contain_prt_feedback();
         $this->check_output_does_not_contain_stray_placeholders();
         $this->check_current_output(
-                new question_pattern_expectation('/is forbidden/')
+                new question_pattern_expectation('/Forbidden function/')
         );
 
     }
@@ -1510,7 +1531,6 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
 
         // Process a submit of the correct answer.
         $this->process_submission(array('ans1' => '3.14', 'ans1_val' => '3.14', '-submit' => 1));
-
         // Verify.
         $this->check_current_state(question_state::$complete);
         $this->check_current_mark(1);
@@ -1938,11 +1958,10 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         // Note from version 5.37.0 of Maxima the precise form of the error message changed.
 
         $this->check_current_output(
-                new question_pattern_expectation('/following error: algsys: /'),
+                new question_pattern_expectation('/algsys: Couldn\'t reduce system to a polynomial/'),
                 $this->get_does_not_contain_num_parts_correct(),
                 $this->get_no_hint_visible_expectation()
         );
-
     }
 
     public function test_test0_validate_then_submit_wrong_answer_default_penalty() {

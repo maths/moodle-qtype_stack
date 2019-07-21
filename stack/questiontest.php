@@ -149,7 +149,7 @@ class stack_question_test {
         $cascontext = new stack_cas_session2(array(), $localoptions, $question->seed);
         $question->add_question_vars_to_session($cascontext);
 
-        // Turn off simplification - we *always* need test cases to be unsimplified, even if the question option is true.
+        // Turn off simplification - we need test cases to be unsimplified, even if the question option is true.
         $vars = array();
         $cs = stack_ast_container::make_from_teacher_source('simp:false' , '', new stack_cas_security());
         $vars[] = $cs;
@@ -157,6 +157,13 @@ class stack_question_test {
         foreach ($inputs as $name => $value) {
             if ('' !== $value) {
                 $val = 'testresponse_' . $name . ':' . $value;
+                $input = $question->inputs[$name];
+                // Except if the input simplifies, then so should the generated testcase.
+                // The input will simplify again.
+                // We may need to create test cases which will generate errors, such as makelist.
+                if($input->get_extra_option('simp')) {
+                    $val = 'testresponse_' . $name . ':ev(' . $value .',simp)';
+                }
                 $cs = stack_ast_container::make_from_teacher_source($val , '', new stack_cas_security());
                 if ($cs->get_valid()) {
                     $vars[] = $cs;

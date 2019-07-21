@@ -295,6 +295,42 @@ class stack_ast_container_silent implements cas_evaluatable {
         return $this->ast_to_casstring($this->ast);
     }
 
+    // This returns the fully filtered AST as it should be inputted were it inputted perfectly.
+    public function get_inputform(bool $keyless = false, $nounify = null): string {
+        if ($this->ast) {
+            $params = array('inputform' => true, 'qmchar' => true, 'nosemicolon' => true);
+            if ($nounify !== null) {
+                $params['nounify'] = $nounify;
+            }
+    
+            if ($keyless === true && $this->get_key() !== '') {
+                $root = $this->ast;
+                if ($root instanceof MP_Root) {
+                    // Null items fail here.
+                    // Indeed but there should be no null items, so might as well fail?
+                    // It would be better to fail as it signals that somewhere higher
+                    // in the gode is a logic fail trying to build something on top of
+                    // empty values.
+                    if (array_key_exists(0, $root->items)) {
+                        $root = $root->items[0];
+                    } else {
+                        return '';
+                    }
+                }
+                if ($root instanceof MP_Statement) {
+                    $root = $root->statement;
+                }
+    
+                if ($root instanceof MP_Operation && $root->op === ':' &&
+                        $root->lhs instanceof MP_Identifier) {
+                            return $root->rhs->toString($params);
+                        }
+            }
+            return $this->ast->toString($params);
+        }
+        return '';
+    }
+
     /*
      * Avoid duplicate code with stack_ast_container::get_value.
      */
@@ -712,5 +748,92 @@ class stack_ast_container_silent implements cas_evaluatable {
             $root = $root->rhs;
         }
         return $root->items[$index];
+    }
+
+    /**
+     * Establish bounds on the number of significant decimal digits in a number.
+     */
+    public function get_decimal_digits() {
+
+        $ret = array('lowerbound' => 0, 'upperbound' => 0, 'decimalplaces' => 0, 'fltfmt' => '"~a"');
+
+        $leadingzeros = 0;
+        $indefinitezeros = 0;
+        $trailingzeros = 0;
+        $meaningfulldigits = 0;
+        $decimalplaces = 0;
+        $infrontofdecimaldeparator = true;
+        $scientificnotation = false;
+
+        // TODO: this should be a more sophisticated traverse of the tree to get the top numerical part.
+        $string = $this->get_inputform(true, true);
+
+        // Sometimes strings from Maxima have parentheses around them.
+        // This is hard to predict and is breaking things.  Strip them off here.
+        if (substr($string, 0, 1) == '(') {
+            $dels = stack_utils::substring_between($string, '(', ')');
+            $string = substr($dels[0], 1, -1);
+        }
+        $string = str_split($string);
+
+        foreach ($string as $i => $c) {
+            if (!$infrontofdecimaldeparator && ctype_digit($c)) {
+                $decimalplaces++;
+            }
+            if (strtolower($c) == 'e') {
+                $scientificnotation = true;
+            }
+            if ($c == '0') {
+                if ($meaningfulldigits == 0) {
+                    $leadingzeros++;
+                } else if ($infrontofdecimaldeparator) {
+                    $indefinitezeros++;
+                } else if ($meaningfulldigits > 0) {
+                    $meaningfulldigits += 1 + $indefinitezeros + $trailingzeros;
+                    $indefinitezeros = 0;
+                    $trailingzeros = 0;
+                } else {
+                    $trailingzeros++;
+                }
+            } else if (($c == '-' || $c == '+') && $meaningfulldigits == 0) {
+                continue;
+            } else if ($c == '.' && $infrontofdecimaldeparator) {
+                $infrontofdecimaldeparator = false;
+                // This case takes care of 100. (where we have a period at the end).
+                $meaningfulldigits += $indefinitezeros;
+                $indefinitezeros = 0;
+                $leadingzeros = 0;
+            } else if (ctype_digit($c)) {
+                $meaningfulldigits += $indefinitezeros + 1;
+                $indefinitezeros = 0;
+            } else {
+                break;
+            }
+        }
+        $ret['decimalplaces'] = $decimalplaces;
+
+        if ($meaningfulldigits == 0) {
+            // This is the case when we have only zeros in the number.
+            $ret['lowerbound'] = max(1, $leadingzeros);
+            $ret['upperbound'] = max(1, $leadingzeros);
+        } else if (!$infrontofdecimaldeparator) {
+            $ret['lowerbound'] = $ret['upperbound'] = $meaningfulldigits;
+        } else {
+            $ret['lowerbound'] = $meaningfulldigits;
+            $ret['upperbound'] = $meaningfulldigits + $indefinitezeros;
+        }
+
+        if ($decimalplaces > 0) {
+            $ret['fltfmt'] = '"~,' . $decimalplaces . 'f"';
+        }
+        if ($scientificnotation) {
+            $ret['fltfmt'] = '"~e"';
+            if ($ret['lowerbound'] > 1) {
+                $ret['fltfmt'] = '"~,' . ($ret['upperbound'] - 1) . 'e"';
+            }
+        }
+
+        return $ret;
+
     }
 }

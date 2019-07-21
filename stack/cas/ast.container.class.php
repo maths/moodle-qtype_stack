@@ -111,8 +111,11 @@ class stack_ast_container extends stack_ast_container_silent implements cas_late
             $starredanswer = 'ev(' . $starredanswer . ',simp)';
         }
 
-        $fltfmt = stack_utils::decimal_digits($starredanswer);
-        $fltfmt = $fltfmt['fltfmt'];
+        $fltfmt = '"~a"';
+        if ($this->ast !== null) {
+            $fltfmt = $this->get_decimal_digits();
+            $fltfmt = $fltfmt['fltfmt'];
+        }
 
         $tans = $this->validationcontext['tans'];
         $validationmethod = $this->validationcontext['validationmethod'];
@@ -141,43 +144,6 @@ class stack_ast_container extends stack_ast_container_silent implements cas_late
                     $lowestterms.', '.$tans.', "negpow", '.$fltfmt.'))';
         }
         return $this->validationcontext['vname'] . ':' . $vcmd;
-    }
-
-    // This returns the fully filttered AST as it should be inputted were
-    // it inputted perfectly.
-    public function get_inputform(bool $keyless = false, $nounify = null): string {
-        if ($this->ast) {
-            $params = array('inputform' => true, 'qmchar' => true, 'nosemicolon' => true);
-            if ($nounify !== null) {
-                $params['nounify'] = $nounify;
-            }
-
-            if ($keyless === true && $this->get_key() !== '') {
-                $root = $this->ast;
-                if ($root instanceof MP_Root) {
-                    // Null items fail here.
-                    // Indeed but there should be no null items, so might as well fail?
-                    // It would be better to fail as it signals that somewhere higher
-                    // in the gode is a logic fail trying to build something on top of
-                    // empty values.
-                    if (array_key_exists(0, $root->items)) {
-                        $root = $root->items[0];
-                    } else {
-                        return '';
-                    }
-                }
-                if ($root instanceof MP_Statement) {
-                    $root = $root->statement;
-                }
-
-                if ($root instanceof MP_Operation && $root->op === ':' &&
-                    $root->lhs instanceof MP_Identifier) {
-                    return $root->rhs->toString($params);
-                }
-            }
-            return $this->ast->toString($params);
-        }
-        return '';
     }
 
     public function set_cas_evaluated_value(MP_Node $ast) {

@@ -21,6 +21,7 @@ defined('MOODLE_INTERNAL') || die();
 // @copyright  2019 Aalto University
 // @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
 
+require_once(__DIR__ . '/fixtures/numbersfixtures.class.php');
 require_once(__DIR__ . '/../stack/cas/ast.container.class.php');
 require_once(__DIR__ . '/../stack/cas/cassession2.class.php');
 require_once(__DIR__ . '/fixtures/test_base.php');
@@ -677,5 +678,34 @@ class stack_astcontainer_test extends qtype_stack_testcase {
         $this->assertTrue($at1->get_valid());
         $this->assertEquals('f(x):=if x<0 then (if x<1 then 1 else 2) else 3', $at1->get_evaluationform());
         $this->assertEquals('', $at1->get_answernote());
+    }
+
+    public function test_decimal_digits() {
+
+        $tests = stack_numbers_test_data::get_raw_test_data();
+
+        foreach ($tests as $t) {
+            $ast = stack_ast_container::make_from_student_source($t[0], '', new stack_cas_security());
+            $r = $ast->get_decimal_digits();
+            $this->assertEquals($r['lowerbound'], $t[1]);
+            $this->assertEquals($r['upperbound'], $t[2]);
+            $this->assertEquals($r['decimalplaces'], $t[3]);
+            $this->assertEquals($r['fltfmt'], $t[4]);
+        }
+
+    }
+
+    public function test_decimal_digits_utils() {
+
+        $tests = stack_numbers_test_data::get_raw_test_data_utils();
+
+        foreach ($tests as $t) {
+            $ast = stack_ast_container::make_from_student_source($t[0], '', new stack_cas_security());
+            $r = $ast->get_decimal_digits();
+            $this->assertEquals($r['lowerbound'], $t[1]);
+            $this->assertEquals($r['upperbound'], $t[2]);
+            $this->assertEquals($r['decimalplaces'], $t[3]);
+            $this->assertEquals($r['fltfmt'], $t[4]);
+        }
     }
 }

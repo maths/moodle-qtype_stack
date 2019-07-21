@@ -105,7 +105,7 @@ class stack_anstest_atnumsigfigs extends stack_anstest {
 
         // Use PHP to establish that the range of significant figures from the student's expression
         // contains the number of significant figures specified by the teacher.
-        $r = stack_utils::decimal_digits($this->sanskey);
+        $r = $this->sanskey->get_decimal_digits();
 
         if ($strictsigfigs) {
             $this->atmark = 0;

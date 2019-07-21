@@ -17,7 +17,6 @@
 defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/fixtures/test_base.php');
-require_once(__DIR__ . '/fixtures/numbersfixtures.class.php');
 require_once(__DIR__ . '/../locallib.php');
 require_once(__DIR__ . '/../stack/utils.class.php');
 require_once(__DIR__ . '/../stack/cas/cassession2.class.php');
@@ -102,6 +101,7 @@ class stack_utils_test extends qtype_stack_testcase {
     /**
      * @expectedException stack_exception
      */
+
     public function test_replace_between() {
         $this->assertEquals('hello world!', stack_utils::replace_between('hello world!', '[', ']', array()));
         $this->assertEquals('[goodbye] world!', stack_utils::replace_between('[hello] world!', '[', ']', array('goodbye')));
@@ -210,33 +210,5 @@ class stack_utils_test extends qtype_stack_testcase {
         $this->assertEquals('stringa:"" and stringb:""', stack_utils::eliminate_strings("stringa:\"test\" and stringb:\"testb\""));
         $this->assertEquals('stringa:"" and stringb:""', stack_utils::eliminate_strings("stringa:\"\" and stringb:\"\\\"\""));
         $this->assertEquals('ssubst("","",x)', stack_utils::eliminate_strings('ssubst("times",",",x)'));
-    }
-
-    public function test_decimal_digits() {
-
-        $tests = stack_numbers_test_data::get_raw_test_data();
-
-        foreach ($tests as $t) {
-            $r = stack_utils::decimal_digits($t[0]);
-            $this->assertEquals($r['lowerbound'], $t[1]);
-            $this->assertEquals($r['upperbound'], $t[2]);
-            $this->assertEquals($r['decimalplaces'], $t[3]);
-            $this->assertEquals($r['fltfmt'], $t[4]);
-        }
-
-    }
-
-    public function test_decimal_digits_utils() {
-
-        $tests = stack_numbers_test_data::get_raw_test_data_utils();
-
-        foreach ($tests as $t) {
-            $r = stack_utils::decimal_digits($t[0]);
-            $this->assertEquals($r['lowerbound'], $t[1]);
-            $this->assertEquals($r['upperbound'], $t[2]);
-            $this->assertEquals($r['decimalplaces'], $t[3]);
-            $this->assertEquals($r['fltfmt'], $t[4]);
-        }
-
     }
 }

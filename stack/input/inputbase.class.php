@@ -1003,8 +1003,7 @@ abstract class stack_input {
         }
         // Do we need to check any numerical accuracy at validation stage?
         if ($mindp || $maxdp || $minsf || $maxsf) {
-            // TODO: we should do this on the AST.
-            $fltfmt = stack_utils::decimal_digits($answer->get_inputform());
+            $fltfmt = $answer->get_decimal_digits();
             $accuracychecked = false;
             if (!is_bool($mindp) && !is_bool($maxdp) && $mindp == $maxdp) {
                 $accuracychecked = true;

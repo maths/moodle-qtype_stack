@@ -67,7 +67,7 @@ class stack_anstest_atdecplaces extends stack_anstest {
 
         // Check that the first expression is a floating point number,
         // with the right number of decimal places.
-        $r = stack_utils::decimal_digits($this->sanskey->get_evaluationform());
+        $r = $this->sanskey->get_decimal_digits();
         if ($atestops != $r['decimalplaces'] ) {
             $this->atfeedback  .= stack_string('ATNumDecPlaces_Wrong_DPs');
             $anotes[]           = 'ATNumDecPlaces_Wrong_DPs';

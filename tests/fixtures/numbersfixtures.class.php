@@ -60,6 +60,7 @@ class stack_numbers_test_data {
 
     // array("string", lower, upper, decimal places).
     protected static $rawdatautils = array(
+
             // Scientific notation.
             array("4.320e-3", 4, 4, 3, '"~,3e"'), // After a digit, zeros after the decimal separator are always significant.
             // If no digits before a zero that zero is not significant even after the decimal separator.

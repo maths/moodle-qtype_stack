@@ -274,6 +274,9 @@
     "QMCHAR": {
         "variable": "s"
     },
+    "EMPTYCHAR": {
+        "variable": "s"
+    },
     "Rho": {
         "variable": "s"
     },

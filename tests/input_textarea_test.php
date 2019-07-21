@@ -128,12 +128,12 @@ class stack_textarea_input_test extends qtype_stack_testcase {
                 new stack_cas_security());
         $this->assertEquals(stack_input::INVALID, $state->status);
         $this->assertEquals('You have a missing right bracket', substr($state->errors, 0, 32));
-        $this->assertEquals('ParseError', $state->note);
+        $this->assertEquals('missing_stars | missingRightBracket', $state->note);
         $this->assertEquals('<center><table style="vertical-align: middle;" border="0" cellpadding="4" cellspacing="0">' .
                 '<tbody><tr><td>\(\displaystyle x^2=-7\cdot x \)</td></tr><tr>' .
                 '<td><span class="stacksyntaxexample">[a=1,b=2</span></td>' .
                 '<td>You have a missing right bracket <span class="stacksyntaxexample">]</span> ' .
-                'in the expression: <span class="stacksyntaxexample">[a=1,b=2</span>.</td></tr></tr>' .
+                'in the expression: <span class="stacksyntaxexample">[a=1,b=2</span>.</td></tr>' .
                 '</tbody></table></center>', $state->contentsdisplayed);
         $this->assertEquals('<textarea name="sans1" id="sans1" autocapitalize="none" spellcheck="false" rows="5" ' .
                 'cols="20">x^2=-7x'."\n".'[a=1,b=2</textarea><div class="clearfix"></div>',

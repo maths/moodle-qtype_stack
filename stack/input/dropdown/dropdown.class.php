@@ -333,6 +333,13 @@ class stack_dropdown_input extends stack_input {
         $answer = stack_ast_container::make_from_student_source($value, '', $secrules, $filterstoapply);
         $answer->get_valid();
 
+        $note = $answer->get_answernote(true);
+        if ($note) {
+            foreach ($note as $n) {
+                $notes[$n] = true;
+            }
+        }
+
         return array($valid, $errors, $notes, $answer, $caslines);
     }
 

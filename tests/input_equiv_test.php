@@ -110,6 +110,7 @@ class stack_equiv_input_test extends qtype_stack_testcase {
                 'answer were: <span class="filter_mathjaxloader_equation"><span class="nolink">\( \left[ x \right]\)' .
                 '</span></span> </p>',
                 $el->render_validation($state, 'q140:1_ans1'));
+        $this->assertEquals('', $state->note);
     }
 
     public function test_validate_student_response_2() {
@@ -118,6 +119,8 @@ class stack_equiv_input_test extends qtype_stack_testcase {
         $state = $el->validate_student_response(array('sans1' => "x^2-5*x+6=0\nx=2 or x=3"), $options, '[x^2-5*x+6=0]',
                 new stack_cas_security());
         $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('', $state->errors);
+        $this->assertEquals('', $state->note);
     }
 
     public function test_validate_student_response_3() {
@@ -127,6 +130,7 @@ class stack_equiv_input_test extends qtype_stack_testcase {
                 new stack_cas_security());
         $this->assertEquals(stack_input::INVALID, $state->status);
         $this->assertEquals('Sets are not allowed when reasoning by equivalence.', $state->errors);
+        $this->assertEquals('', $state->note);
     }
 
     public function test_validate_student_response_invalid_1() {
@@ -137,6 +141,7 @@ class stack_equiv_input_test extends qtype_stack_testcase {
         $this->assertEquals(stack_input::INVALID, $state->status);
         $this->assertEquals('You seem to be missing * characters. Perhaps you meant to type '.
                 '<span class="stacksyntaxexample">=(x-2)<font color="red">*</font>(x-3)</span>.', $state->errors);
+        $this->assertEquals('missing_stars', $state->note);
     }
 
     public function test_validate_student_response_invalid_2() {
@@ -147,6 +152,7 @@ class stack_equiv_input_test extends qtype_stack_testcase {
         $this->assertEquals(stack_input::INVALID, $state->status);
         $this->assertEquals('You seem to be missing * characters. Perhaps you meant to type '.
                 '<span class="stacksyntaxexample">(x-2)<font color="red">*</font>(x-3)=0</span>.', $state->errors);
+        $this->assertEquals('missing_stars', $state->note);
     }
 
     public function test_validate_student_response_invalid_3() {
@@ -157,6 +163,7 @@ class stack_equiv_input_test extends qtype_stack_testcase {
         $this->assertEquals(stack_input::INVALID, $state->status);
         $this->assertEquals('\'^\' is an invalid final character in <span class="stacksyntaxexample">=(x-2)*x^</span>',
                 $state->errors);
+        $this->assertEquals('finalChar', $state->note);
     }
 
     public function test_validate_student_response_invalid_4() {
@@ -173,6 +180,7 @@ class stack_equiv_input_test extends qtype_stack_testcase {
                 '<td>You have a missing left bracket <span class="stacksyntaxexample">(</span> in the expression: ' .
                 '<span class="stacksyntaxexample">x=2 or x=3)</span>.</td></tr></tbody></table></center>',
                 $state->contentsdisplayed);
+        $this->assertEquals('missingLeftBracket', $state->note);
     }
 
     public function test_validate_student_response_with_equiv() {
@@ -184,6 +192,7 @@ class stack_equiv_input_test extends qtype_stack_testcase {
         $this->assertEquals('[x^2-5*x+6=0,x=2 nounor x=3]', $state->contentsmodified);
         $this->assertEquals('\[ \begin{array}{lll} &x^2-5\cdot x+6=0& \cr'.
             ' \color{green}{\Leftrightarrow}&x=2\,{\mbox{ or }}\, x=3& \cr \end{array} \]', $state->contentsdisplayed);
+        $this->assertEquals('', $state->note);
     }
 
     public function test_validate_student_response_without_equiv() {
@@ -196,6 +205,7 @@ class stack_equiv_input_test extends qtype_stack_testcase {
         $this->assertEquals('[x^2-5*x+6=0,x=2 nounor x=3]', $state->contentsmodified);
         $this->assertEquals('\[ \begin{array}{lll}x^2-5\cdot x+6=0& \cr'.
                 ' x=2\,{\mbox{ or }}\, x=3& \cr \end{array} \]', $state->contentsdisplayed);
+        $this->assertEquals('', $state->note);
     }
 
     public function test_validate_student_response_without_domain() {
@@ -208,6 +218,7 @@ class stack_equiv_input_test extends qtype_stack_testcase {
         $this->assertEquals('[1/(x-1)+1/(x+1)=0,2*x/(x^2-1)=0]', $state->contentsmodified);
         $this->assertEquals('\[ \begin{array}{lll} &\frac{1}{x-1}+\frac{1}{x+1}=0& \cr ' .
                 '\color{green}{\Leftrightarrow}&\frac{2\cdot x}{x^2-1}=0& \cr \end{array} \]', $state->contentsdisplayed);
+        $this->assertEquals('', $state->note);
     }
 
     public function test_validate_student_response_without_assume_pos() {
@@ -219,6 +230,7 @@ class stack_equiv_input_test extends qtype_stack_testcase {
         $this->assertEquals('[x^2=4,x=2 nounor x=-2]', $state->contentsmodified);
         $this->assertEquals('\[ \begin{array}{lll} &x^2=4& \cr \color{green}{\Leftrightarrow}&x=2\,{\mbox{ or }}\, x=-2& \cr'.
                 ' \end{array} \]', $state->contentsdisplayed);
+        $this->assertEquals('', $state->note);
     }
 
     public function test_validate_student_response_without_assume_pos_wrong() {
@@ -231,6 +243,7 @@ class stack_equiv_input_test extends qtype_stack_testcase {
         // Note this is an implication, not equivalence.
         $this->assertEquals('\[ \begin{array}{lll} &x^2=4& \cr \color{red}{\Leftarrow}&x=2& \cr \end{array} \]',
                 $state->contentsdisplayed);
+        $this->assertEquals('', $state->note);
     }
 
     public function test_validate_student_response_with_assume_pos() {
@@ -245,6 +258,7 @@ class stack_equiv_input_test extends qtype_stack_testcase {
         $this->assertEquals('\[ \begin{array}{lll}\color{blue}{\mbox{Assume +ve vars}}&x^2=4& \cr '.
                 '\color{green}{\Leftrightarrow}&x=2& \cr \end{array} \]',
                 $state->contentsdisplayed);
+        $this->assertEquals('', $state->note);
     }
 
     public function test_validate_student_response_with_firstline() {
@@ -257,6 +271,7 @@ class stack_equiv_input_test extends qtype_stack_testcase {
         $this->assertEquals('[x^2=4,x=2 nounor x=-2]', $state->contentsmodified);
         $this->assertEquals('\[ \begin{array}{lll} &x^2=4& \cr \color{green}{\Leftrightarrow}&x=2\,{\mbox{ or }}\, x=-2& \cr'.
                 ' \end{array} \]', $state->contentsdisplayed);
+        $this->assertEquals('', $state->note);
     }
 
     public function test_validate_student_response_with_firstline_false() {
@@ -272,6 +287,7 @@ class stack_equiv_input_test extends qtype_stack_testcase {
                 'first line in your argument!</td></tr><tr><td>\(\displaystyle x=2 \)</td></tr>' .
                 '</tbody></table></center>',
                 $state->contentsdisplayed);
+        $this->assertEquals('', $state->note);
     }
 
     public function test_validate_student_response_insert_stars_0_true() {
@@ -290,6 +306,7 @@ class stack_equiv_input_test extends qtype_stack_testcase {
                 $state->contentsdisplayed);
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('', $state->errors);
+        $this->assertEquals('missing_stars', $state->note);
     }
 
     public function test_validate_student_response_insert_stars_0_false() {
@@ -304,6 +321,7 @@ class stack_equiv_input_test extends qtype_stack_testcase {
         $excont = array(0 => '(x-1)*(x+4)');
         $this->assertEquals('You seem to be missing * characters. Perhaps you meant to type '.
                 '<span class="stacksyntaxexample">(x-1)<font color="red">*</font>(x+4)</span>.', $state->errors);
+        $this->assertEquals('missing_stars', $state->note);
     }
 
     public function test_validate_student_response_equational_1() {
@@ -319,6 +337,7 @@ class stack_equiv_input_test extends qtype_stack_testcase {
                 $state->contentsdisplayed);
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('', $state->errors);
+        $this->assertEquals('', $state->note);
     }
 
     public function test_validate_student_response_equational_insert_stars_true() {
@@ -336,6 +355,7 @@ class stack_equiv_input_test extends qtype_stack_testcase {
                 ' \end{array} \]', $state->contentsdisplayed);
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('', $state->errors);
+        $this->assertEquals('missing_stars', $state->note);
     }
 
     public function test_validate_student_response_without_assume_real() {
@@ -348,6 +368,7 @@ class stack_equiv_input_test extends qtype_stack_testcase {
         $this->assertEquals('\[ \begin{array}{lll} &x^4=16& \cr \color{red}{\Leftarrow}&x=2\,{\mbox{ or }}\, '.
                 'x=-2& \cr \end{array} \]',
                 $state->contentsdisplayed);
+        $this->assertEquals('', $state->note);
     }
 
     public function test_validate_student_response_with_assume_real() {
@@ -360,6 +381,7 @@ class stack_equiv_input_test extends qtype_stack_testcase {
         $this->assertEquals('[x^4=16,x=2 nounor x=-2]', $state->contentsmodified);
         $this->assertEquals('\[ \begin{array}{lll}\color{blue}{(\mathbb{R})}&x^4=16& \cr \color{green}{\Leftrightarrow}\, '.
                 '\color{blue}{(\mathbb{R})}&x=2\,{\mbox{ or }}\, x=-2& \cr \end{array} \]', $state->contentsdisplayed);
+        $this->assertEquals('', $state->note);
     }
 
     public function test_validate_student_response_with_assume_wrong() {
@@ -372,6 +394,7 @@ class stack_equiv_input_test extends qtype_stack_testcase {
         $this->assertEquals('[x^4=16,x=1 nounor x=-1]', $state->contentsmodified);
         $this->assertEquals('\[ \begin{array}{lll}\color{blue}{(\mathbb{R})}&x^4=16& \cr '.
                 '\color{red}{?}&x=1\,{\mbox{ or }}\, x=-1& \cr \end{array} \]', $state->contentsdisplayed);
+        $this->assertEquals('', $state->note);
     }
 
     public function test_validate_student_response_with_assume_real_complex() {
@@ -386,6 +409,7 @@ class stack_equiv_input_test extends qtype_stack_testcase {
                 '\color{green}{\Leftrightarrow}&x=2\,{\mbox{ or }}\, '.
                 'x=-2\,{\mbox{ or }}\, x=2\cdot \mathrm{i}\,{\mbox{ or }}\, x=-2\cdot \mathrm{i}& \cr \end{array} \]',
                 $state->contentsdisplayed);
+        $this->assertEquals('', $state->note);
     }
 
     public function test_validate_student_response_with_hideequiv() {
@@ -398,6 +422,7 @@ class stack_equiv_input_test extends qtype_stack_testcase {
         $this->assertEquals('[x^4=16,x=1 nounor x=-1]', $state->contentsmodified);
         $this->assertEquals('\[ \begin{array}{lll}x^4=16& \cr x=1\,{\mbox{ or }}\, x=-1& \cr \end{array} \]',
                 $state->contentsdisplayed);
+        $this->assertEquals('', $state->note);
     }
 
     public function test_validate_student_response_with_natural_domain_sqrt() {
@@ -419,6 +444,7 @@ class stack_equiv_input_test extends qtype_stack_testcase {
             '&x^2-2\,x+1=4\,x+8& \cr \color{green}{\Leftrightarrow}&x^2-6\,x-7=0& \cr \color{green}{\Leftrightarrow}'.
             '&\left(x-7\right)\,\left(x+1\right)=0& \cr \color{green}{\Leftrightarrow}'.
             '&x=7\,{\mbox{ or }}\, x=-1& \cr \end{array} \]', $state->contentsdisplayed);
+        $this->assertEquals('', $state->note);
     }
 
     public function test_validate_student_response_with_natural_domain_rational() {
@@ -437,6 +463,7 @@ class stack_equiv_input_test extends qtype_stack_testcase {
                 '& \cr \color{green}{\Leftrightarrow}&\left(x-2\right)\,\left(3\,x+2\right)=0& \cr \color{green}{\Leftrightarrow}'.
                 '&x=2\,{\mbox{ or }}\, x=\frac{-2}{3}& \cr \end{array} \]',
                 $state->contentsdisplayed);
+        $this->assertEquals('', $state->note);
     }
 
     public function test_validate_student_response_with_natural_domain_logs() {
@@ -458,6 +485,7 @@ class stack_equiv_input_test extends qtype_stack_testcase {
                 '\color{green}{\Leftrightarrow}&x+17=18\,x'.
                 '& \cr \color{green}{\Leftrightarrow}&17\,x=17& \cr \color{green}{\Leftrightarrow}&x=1& \cr \end{array} \]',
                 $state->contentsdisplayed);
+        $this->assertEquals('', $state->note);
     }
 
     public function test_validate_student_response_with_equational_reasoning() {
@@ -473,6 +501,7 @@ class stack_equiv_input_test extends qtype_stack_testcase {
         $this->assertEquals('\[ \begin{array}{lll} &x^2+2\,a\,x& \cr \color{green}{\checkmark}&=x^2+2\,a\,x+a^2-a^2& '.
                 '\cr \color{green}{\checkmark}&=\left(x+a\right)^2-a^2& \cr \end{array} \]',
                 $state->contentsdisplayed);
+        $this->assertEquals('', $state->note);
     }
 
     public function test_validate_student_response_with_equational_nontrivial_difference() {
@@ -488,6 +517,7 @@ class stack_equiv_input_test extends qtype_stack_testcase {
         $this->assertEquals('\[ \begin{array}{lll} &\left| x-\frac{1}{2}\right| +\left| x+\frac{1}{2}\right| -2& \cr '.
                 '\color{red}{?}&=\left| x\right| -1& \cr \end{array} \]',
                 $state->contentsdisplayed);
+        $this->assertEquals('', $state->note);
     }
 
     public function test_validate_student_response_with_equation_then_equational() {
@@ -504,6 +534,7 @@ class stack_equiv_input_test extends qtype_stack_testcase {
                 '\left(x-1\right)^2=\left(x-1\right)\,\left(x-1\right)& \cr \color{green}{\checkmark}&=x^2-2\,x+1'.
                 '& \cr \end{array} \]',
                 $state->contentsdisplayed);
+        $this->assertEquals('', $state->note);
     }
 
     public function test_validate_student_response_with_equation_then_equational_1() {
@@ -519,6 +550,7 @@ class stack_equiv_input_test extends qtype_stack_testcase {
         $this->assertEquals('\[ \begin{array}{lll}\color{green}{\checkmark}&'.
                 '\left(x-1\right)^2=\left(x-1\right)\,\left(x-1\right)& \cr \color{red}{?}&=x^2-2\,x+2& \cr \end{array} \]',
                 $state->contentsdisplayed);
+        $this->assertEquals('', $state->note);
     }
 
     public function test_validate_student_response_with_equation_then_equational_2() {
@@ -534,6 +566,7 @@ class stack_equiv_input_test extends qtype_stack_testcase {
         $this->assertEquals('\[ \begin{array}{lll}\color{red}{?}&\left(x-2\right)^2=\left(x-1\right)\,\left(x-1\right)& \cr '.
                 '\color{green}{\checkmark}&=x^2-2\,x+1& \cr \end{array} \]',
                 $state->contentsdisplayed);
+        $this->assertEquals('', $state->note);
     }
 
     public function test_validate_student_response_invalid_comments() {
@@ -545,6 +578,7 @@ class stack_equiv_input_test extends qtype_stack_testcase {
         $this->assertEquals('[x^2-5*x+6,"Factoring gives ",stackeq((x-2)*(x-3))]', $state->contentsmodified);
         $this->assertEquals('You are not permitted to use comments in this input type.  '.
                 'Please just work line by line.', $state->errors);
+        $this->assertEquals('equivnocomments', $state->note);
     }
 
     public function test_validate_student_response_valid_comments() {
@@ -555,6 +589,7 @@ class stack_equiv_input_test extends qtype_stack_testcase {
                 '[x^2-5*x+6,stackeq((x-2)*(x-3))]', new stack_cas_security());
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('', $state->errors);
+        $this->assertEquals('', $state->note);
     }
 
     public function test_validate_student_response_forbid_comments() {
@@ -574,6 +609,7 @@ class stack_equiv_input_test extends qtype_stack_testcase {
                 '<tr><td>\(\displaystyle x^2-1=0 \)</td></tr>'.
                 '<tr><td>\(\displaystyle \left(x-1\right)\,\left(x+1\right)=0 \)</td></tr></tbody></table></center>',
                 $state->contentsdisplayed);
+        $this->assertEquals('equivnocomments', $state->note);
     }
 
     public function test_validate_student_response_with_comments() {
@@ -594,6 +630,7 @@ class stack_equiv_input_test extends qtype_stack_testcase {
                 '\,\left(x+1\right)=0& \cr &\mbox{Comment 2}& \cr &x^2-1& \cr \color{green}{\checkmark}'.
                 '&=\left(x-1\right)\,\left(x+1\right)& \cr \end{array} \]',
                 $state->contentsdisplayed);
+        $this->assertEquals('', $state->note);
     }
 
     public function test_validate_student_response_surds() {
@@ -609,5 +646,6 @@ class stack_equiv_input_test extends qtype_stack_testcase {
             '{\color{blue}{{x \in {\left[ 5,\, \infty \right) \cup \left( -\infty ,\, 3\right]}}}}\cr \color{red}{?}&' .
             '=\sqrt{x-3}\,\sqrt{x-5}&{\color{blue}{{x \in {\left[ 5,\, \infty \right)}}}}\cr \end{array} \]',
             $state->contentsdisplayed);
+        $this->assertEquals('', $state->note);
     }
 }

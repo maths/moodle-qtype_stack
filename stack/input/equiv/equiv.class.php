@@ -238,6 +238,14 @@ class stack_equiv_input extends stack_input {
             if (!$this->extraoptions['comments'] && $answer->is_string()) {
                 $valid = false;
                 $answer->add_errors(stack_string('equivnocomments'));
+                $notes['equivnocomments'] = true;
+            }
+
+            $note = $answer->get_answernote(true);
+            if ($note) {
+                foreach ($note as $n) {
+                    $notes[$n] = true;
+                }
             }
 
             $caslines[] = $answer;

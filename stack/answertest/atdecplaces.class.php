@@ -70,7 +70,7 @@ class stack_anstest_atdecplaces extends stack_anstest {
         $cascommands = array();
         $cascommands[] = "caschat2:ev({$this->atoption},simp)";
         $cascommands[] = "caschat0:ev(float(round(10^caschat2*{$this->sanskey})/10^caschat2),simp)";
-        $cascommands[] = "caschat1:ev(float(round(10^caschat2*{$this->tanskey})/10^caschat2),simp)";
+        $cascommands[] = "caschat1:ev(float(round(10^caschat2*remove_displaydp({$this->tanskey}))/10^caschat2),simp)";
         $cascommands[] = "caschat3:ev(second(ATAlgEquiv(caschat0,caschat1)),simp)";
         $cascommands[] = "caschat4:floatnump({$this->sanskey})";
 

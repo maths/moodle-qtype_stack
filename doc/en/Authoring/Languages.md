@@ -1,8 +1,17 @@
-# How to produce multilingual content?
+# Producing multilingual content
 
+STACK questions can be easily localized for different languages using the multi-language content filter. [http://docs.moodle.org/en/Multi-language_content_filter](http://docs.moodle.org/en/Multi-language_content_filter).  That is to say, a single question can exist in multiple languages and the user can choose the language they use.
 
+This page deals with translating text within individual questions. It does not deal with translating the Moodle and STACK interface. See the page on [Language packs and translating STACK](../Developer/Language_packs.md).
 
-The STACK assignments can be easily localized for different languages using the multi-language content filter. [http://docs.moodle.org/en/Multi-language_content_filter](http://docs.moodle.org/en/Multi-language_content_filter).  The filter works by searching the document for all multilang blocks and displaying the block that matches the selected language.
+## Installation
+
+1. Your site administrator must enable the [Moodle multi-language content filter](http://docs.moodle.org/en/Multi-language_content_filter).
+2. The multi-language content filter must be applied before the MathJax filter, otherwise strange results will occur.
+
+## Authoring questions
+
+The filter works by searching the document for all multilang blocks and displaying the block that matches the selected language.
 
     <span lang="en" class="multilang">...Text in English...</span>
     <span lang="fi" class="multilang">...Text in Finnish...</span>
@@ -27,7 +36,7 @@ STACK would not accept the following question text:
           [[validation:ans2]]
        </div>
     </span>
-
+    
     <span lang="fi" class="multilang">
        <p>
           Olkoon vektori \( {\bf a} = ({@a@}, {@b@}) \). Anna vektori \({\bf b}\neq {\bf 0}\) siten, että vektorit ovat kohtisuorassa toisiaan vastaan.
@@ -55,9 +64,17 @@ But this question text causes no issues:
           Olkoon vektori \( {\bf a} = ({@a@}, {@b@}) \). Anna vektori \({\bf b}\neq {\bf 0}\) siten, että vektorit ovat kohtisuorassa toisiaan vastaan.
        </p>
     </span>
-
+    
     <p>
        \({\bf b} = \Big(\)[[input:ans1]]\(,\) [[input:ans2]]\(\Big)\)
     </p>
     <div>[[validation:ans1]]</div>
     <div>[[validation:ans2]]</div>
+
+### Changing STACK's language
+
+If you have written a multilingual question, and a student wants to see it in a certain language, they have to change their preferred language. In Moodle, this is done by clicking on their profile, and then going to `Preferences`, ` Preferred language` and selecting the language. This will not only change the language of all question text (where multilingual blocks have been used), but also the language of the default Moodle and STACK interface (if this translation is available). The specific language pack has to be installed on your server by the server administrator to allow this. More information is available in the developer docs under [Translating STACK](../Developer/Language_packs.md).
+
+### Further reading
+
+The STACK project has been translated to many languages. Information on specific languages, installing language packs and how to contribute to translations can be found [here](../Developer/Language_packs.md).

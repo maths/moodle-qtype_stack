@@ -58,6 +58,30 @@ renders to
 
 ![STACK Logo](%CONTENT/logo.png)
 
+## Adding a link to video in the documentation
+
+To embed video into the documentation first find the unique video key, `VIDEO-KEY`, then then modify
+
+    [![IMAGE ALT TEXT](http://img.youtube.com/vi/VIDEO-KEY/0.jpg)](https://www.youtube.com/watch?v=VIDEO-KEY "Video title")
+
+For example, `cpwo-D6EUgA`, gives
+
+    [![IMAGE ALT TEXT](http://img.youtube.com/vi/cpwo-D6EUgA/0.jpg)](https://www.youtube.com/watch?v=cpwo-D6EUgA "Your First STACK Question")
+
+The following rendered markdown:
+
+[![IMAGE ALT TEXT](http://img.youtube.com/vi/cpwo-D6EUgA/0.jpg)](https://www.youtube.com/watch?v=cpwo-D6EUgA "Your First STACK Question")
+
+## Embed video in the documentation
+
+Using an iframe such as
+
+    <iframe width="560" height="315" src="https://www.youtube.com/embed/cpwo-D6EUgA" frameborder="0" allowfullscreen></iframe>
+
+Gives
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/cpwo-D6EUgA" frameborder="0" allowfullscreen></iframe>
+
 ## Mathematics
 
 For the purpose of rendering mathematical equations, an [extended version](https://github.com/drdrang/php-markdown-extra-math) of [PHP Markdown Extra](http://michelf.com/projects/php-markdown/extra/) is used.

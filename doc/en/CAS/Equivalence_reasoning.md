@@ -10,7 +10,7 @@ We currently provide support for
 
 There is no support for algebraic manipulations involving logarithms and trig functions although individual examples may work.
 
-Wider support is intended for future versions.
+Wider support is intended for future versions. A simple [getting started with equivalence reasoning guide](../Authoring/Equivalence_reasoning.md) can be found elsewhere.
 
 ##  What is reasoning by equivalence and this input type?
 

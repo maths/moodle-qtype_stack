@@ -192,6 +192,7 @@
     "log_2(a)",
     "log_a(b)*log_b(c)",
     "log_x(1\/(x+b))",
+    "log_x:log_x(a)",
     "matrix([a,b],[c,d])",
     "mod(x,y)",
     "mu",

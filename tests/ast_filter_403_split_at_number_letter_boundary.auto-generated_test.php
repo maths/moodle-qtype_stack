@@ -1012,6 +1012,11 @@ class stack_ast_filter_auto_gen_403_split_at_number_letter_boundary_testcase ext
                       array(),
                       true, false);
 
+        $this->expect('log_x:log_x(a)',
+                      'log_x:log_x(a)',
+                      array(),
+                      true, false);
+
         $this->expect('matrix([a,b],[c,d])',
                       'matrix([a,b],[c,d])',
                       array(),
@@ -2575,6 +2580,11 @@ class stack_ast_filter_auto_gen_403_split_at_number_letter_boundary_testcase ext
 
         $this->expect('log_x(1/(x+b))',
                       'log_x(1/(x+b))',
+                      array(),
+                      true, false);
+
+        $this->expect('log_x:log_x(a)',
+                      'log_x:log_x(a)',
                       array(),
                       true, false);
 

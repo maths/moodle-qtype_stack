@@ -60,6 +60,11 @@ class stack_ast_filter_auto_gen_002_log_candy_testcase extends qtype_stack_ast_t
                       array('logsubs'),
                       true, false);
 
+        $this->expect('log_x:log_x(a)',
+                      'log_x:lg(a,x)',
+                      array('logsubs'),
+                      true, false);
+
     }
 
     public function test_affected_units() {
@@ -93,6 +98,11 @@ class stack_ast_filter_auto_gen_002_log_candy_testcase extends qtype_stack_ast_t
 
         $this->expect('log_x(1/(x+b))',
                       'lg(1/(x+b),x)',
+                      array('logsubs'),
+                      true, false);
+
+        $this->expect('log_x:log_x(a)',
+                      'log_x:lg(a,x)',
                       array('logsubs'),
                       true, false);
 

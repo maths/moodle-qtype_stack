@@ -125,6 +125,11 @@ class stack_ast_filter_auto_gen_000_099_common_core_testcase extends qtype_stack
                       array('logsubs'),
                       true, false);
 
+        $this->expect('log_x:log_x(a)',
+                      'log_x:lg(a,x)',
+                      array('logsubs'),
+                      true, false);
+
         $this->expect('sin x',
                       'sin*x',
                       array('trigspace'),
@@ -238,6 +243,11 @@ class stack_ast_filter_auto_gen_000_099_common_core_testcase extends qtype_stack
 
         $this->expect('log_x(1/(x+b))',
                       'lg(1/(x+b),x)',
+                      array('logsubs'),
+                      true, false);
+
+        $this->expect('log_x:log_x(a)',
+                      'log_x:lg(a,x)',
                       array('logsubs'),
                       true, false);
 

@@ -190,6 +190,11 @@ class stack_ast_filter_auto_gen_541_no_unknown_functions_testcase extends qtype_
                       array('unknownFunction'),
                       false, true);
 
+        $this->expect('log_x:log_x(a)',
+                      'log_x:log_x(a)',
+                      array('unknownFunction'),
+                      false, true);
+
         $this->expect('partialdiff(x,y,1)',
                       'partialdiff(x,y,1)',
                       array('unknownFunction'),
@@ -428,6 +433,11 @@ class stack_ast_filter_auto_gen_541_no_unknown_functions_testcase extends qtype_
 
         $this->expect('log_x(1/(x+b))',
                       'log_x(1/(x+b))',
+                      array('unknownFunction'),
+                      false, true);
+
+        $this->expect('log_x:log_x(a)',
+                      'log_x:log_x(a)',
                       array('unknownFunction'),
                       false, true);
 

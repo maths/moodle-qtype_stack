@@ -65,6 +65,11 @@ class stack_ast_filter_auto_gen_410_single_char_vars_testcase extends qtype_stac
                       array('missing_stars'),
                       true, false);
 
+        $this->expect('log_x:log_x(a)',
+                      'l*o*g_x:log_x(a)',
+                      array('missing_stars'),
+                      true, false);
+
         $this->expect('sin',
                       's*i*n',
                       array('missing_stars'),
@@ -168,6 +173,11 @@ class stack_ast_filter_auto_gen_410_single_char_vars_testcase extends qtype_stac
 
         $this->expect('ln*x',
                       'l*n*x',
+                      array('missing_stars'),
+                      true, false);
+
+        $this->expect('log_x:log_x(a)',
+                      'l*o*g_x:log_x(a)',
                       array('missing_stars'),
                       true, false);
 

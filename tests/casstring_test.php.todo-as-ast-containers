@@ -30,27 +30,4 @@ require_once(__DIR__ . '/../stack/cas/casstring.class.php');
 class stack_cas_casstring_test extends basic_testcase {
 
 
-
-    public function test_units_amu() {
-        $s = '520*amu';
-        $at1 = new stack_cas_casstring($s);
-        $at1->set_context('units', true); // If we do not toggle units then amu if forbiddenly long.
-        $this->assertTrue($at1->get_valid('s', true, 0));
-    }
-
-    public function test_units_mamu() {
-        $s = '520*mamu';
-        $at1 = new stack_cas_casstring($s);
-        $at1->set_context('units', true); // If we do not toggle units then mamu if forbiddenly long.
-        $this->assertFalse($at1->get_valid('s', true, 0));
-    }
-
-
-    public function test_log_key_vals_1() {
-        $s = 'log_x:log_x(a)';
-        $at1 = new stack_cas_casstring($s);
-        $this->assertTrue($at1->get_valid('s', true, 0));
-        $this->assertEquals('lg(a,x)', $at1->get_casstring());
-        $this->assertEquals('log_x', $at1->get_key());
-        $this->assertEquals('logsubs', $at1->get_answernote());
-    }
+}

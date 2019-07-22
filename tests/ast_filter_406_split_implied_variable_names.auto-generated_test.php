@@ -65,6 +65,11 @@ class stack_ast_filter_auto_gen_406_split_implied_variable_names_testcase extend
                       array('missing_stars', 'Variable_function'),
                       true, false);
 
+        $this->expect('log_x:log_x(a)',
+                      'log_x:log_x*(a)',
+                      array('missing_stars', 'Variable_function'),
+                      true, false);
+
         $this->expect('x(x+1)',
                       'x*(x+1)',
                       array('missing_stars', 'Variable_function'),
@@ -108,6 +113,11 @@ class stack_ast_filter_auto_gen_406_split_implied_variable_names_testcase extend
 
         $this->expect('i(1+i)',
                       'i*(1+i)',
+                      array('missing_stars', 'Variable_function'),
+                      true, false);
+
+        $this->expect('log_x:log_x(a)',
+                      'log_x:log_x*(a)',
                       array('missing_stars', 'Variable_function'),
                       true, false);
 

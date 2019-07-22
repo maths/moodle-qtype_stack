@@ -365,6 +365,11 @@ class stack_ast_filter_auto_gen_542_no_functions_at_all_testcase extends qtype_s
                       array('noFunction'),
                       false, true);
 
+        $this->expect('log_x:log_x(a)',
+                      'log_x:log_x(a)',
+                      array('noFunction'),
+                      false, true);
+
         $this->expect('matrix([a,b],[c,d])',
                       'matrix([a,b],[c,d])',
                       array('noFunction'),
@@ -888,6 +893,11 @@ class stack_ast_filter_auto_gen_542_no_functions_at_all_testcase extends qtype_s
 
         $this->expect('log_x(1/(x+b))',
                       'log_x(1/(x+b))',
+                      array('noFunction'),
+                      false, true);
+
+        $this->expect('log_x:log_x(a)',
+                      'log_x:log_x(a)',
                       array('noFunction'),
                       false, true);
 

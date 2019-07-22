@@ -54,7 +54,7 @@ class stack_bulk_tester  {
      *              bool true if all the tests passed, else false.
      *              array of messages relating to the questions with failures.
      */
-    public function run_all_tests_for_context(context $context) {
+    public function run_all_tests_for_context(context $context, $outputmode = 'web') {
         global $DB, $OUTPUT;
 
         // Load the necessary data.
@@ -73,8 +73,11 @@ class stack_bulk_tester  {
         $failingupgrade = array();
 
         foreach ($categories as $key => $category) {
+            $qdotoutput = 0;
             list($categoryid) = explode(',', $key);
-            echo $OUTPUT->heading($category, 3);
+            if ($outputmode == 'web') {
+                echo $OUTPUT->heading($category, 3);
+            }
 
             $questionids = $DB->get_records_menu('question',
                     array('category' => $categoryid, 'qtype' => 'stack'), 'name', 'id,name');
@@ -82,63 +85,106 @@ class stack_bulk_tester  {
                 continue;
             }
 
-            echo html_writer::tag('p', stack_string('replacedollarscount', count($questionids)));
+            if ($outputmode == 'web') {
+                echo html_writer::tag('p', stack_string('replacedollarscount', count($questionids)));
+            } else {
+                echo "\n" . stack_string('replacedollarscount', count($questionids)) . "\n";
+            }
 
             foreach ($questionids as $questionid => $name) {
                 $question = question_bank::load_question($questionid);
-
-                $questionname = format_string($name);
+                if ($outputmode == 'web') {
+                    $questionname = format_string($name);
+                    $questionnamelink = html_writer::link(new moodle_url($questiontestsurl,
+                        array('questionid' => $questionid)), $name);
+                } else {
+                    $questionname = $questionid . ': ' . format_string($name);
+                    $questionnamelink = $questionname;
+                }
 
                 $upgradeerrors = $question->validate_against_stackversion();
                 if ($upgradeerrors != '') {
-                    $questionnamelink = html_writer::link(new moodle_url($questiontestsurl,
-                            array('questionid' => $questionid)), format_string($name));
-                    $failingupgrade[] = $upgradeerrors . ' ' . $questionnamelink;
-                    echo $OUTPUT->heading($questionnamelink, 4);
-                    echo html_writer::tag('p', $upgradeerrors, array('class' => 'fail'));
+                    if ($outputmode == 'web') {
+                        echo $OUTPUT->heading($questionnamelink, 4);
+                        echo html_writer::tag('p', $upgradeerrors, array('class' => 'fail'));
+                    }
+                    $failingupgrade[] = $questionnamelink . ' ' . $upgradeerrors;
                     $allpassed = false;
                     continue;
                 }
 
-                $questionnamelink = html_writer::link(new moodle_url($questiontestsurl,
-                        array('questionid' => $questionid)), format_string($name));
-
                 $questionproblems = array();
                 if (trim($question->generalfeedback) === '') {
                     $nogeneralfeedback[] = $questionnamelink;
-                    $questionproblems[] = html_writer::tag('li', stack_string('bulktestnogeneralfeedback'));
+                    if ($outputmode == 'web') {
+                        $questionproblems[] = html_writer::tag('li', stack_string('bulktestnogeneralfeedback'));
+                    } else {
+                        $questionproblems[] = stack_string('bulktestnogeneralfeedback');
+                    }
                 }
 
                 $tests = question_bank::get_qtype('stack')->load_question_tests($questionid);
                 if (!$tests) {
                     $notests[] = $questionnamelink;
-                    $questionproblems[] = html_writer::tag('li', stack_string('bulktestnotests'));
+                    if ($outputmode == 'web') {
+                        $questionproblems[] = html_writer::tag('li', stack_string('bulktestnotests'));
+                    } else {
+                        $questionproblems[] = stack_string('bulktestnotests');
+                    }
                 }
 
                 if ($questionproblems !== array()) {
-                    echo $OUTPUT->heading($questionnamelink, 4);
-                    echo html_writer::tag('ul', implode($questionproblems, "\n"));
-
+                    if ($outputmode == 'web') {
+                        echo $OUTPUT->heading($questionnamelink, 4);
+                        echo html_writer::tag('ul', implode($questionproblems, "\n"));
+                    }    
                 }
 
                 $previewurl = new moodle_url($questiontestsurl, array('questionid' => $questionid));
                 if (empty($question->deployedseeds)) {
+                    if ($outputmode == 'cli') {
+                        echo '.';
+                        $qdotoutput += 1;
+                        if ($qdotoutput > 50) {
+                            echo "\n";
+                            $qdotoutput = 0;
+                        }
+                    }
                     $this->qtype_stack_seed_cache($question, 0);
-                    $questionnamelink = html_writer::link($previewurl, $questionname);
-                    echo $OUTPUT->heading($questionnamelink, 4);
-                    list($ok, $message) = $this->qtype_stack_test_question($question, $tests);
+                    $questionnamelink = $questionname;
+                    if ($outputmode == 'web') {
+                        $questionnamelink = html_writer::link($previewurl, $questionname);
+                        echo $OUTPUT->heading($questionnamelink, 4);
+                    }
+                    list($ok, $message) = $this->qtype_stack_test_question($question, $tests, $outputmode);
                     if (!$ok) {
                         $allpassed = false;
                         $failingtests[] = $questionnamelink . ': ' . $message;
                     }
                 } else {
-                    echo $OUTPUT->heading(format_string($name), 4);
+                    if ($outputmode == 'web') {
+                        echo $OUTPUT->heading(format_string($name), 4);
+                    }
                     foreach ($question->deployedseeds as $seed) {
+                        if ($outputmode == 'cli') {
+                            echo '.';
+                            $qdotoutput += 1;
+                            if ($qdotoutput > 50) {
+                                echo "\n";
+                                $qdotoutput = 0;
+                            }
+                        }
                         $this->qtype_stack_seed_cache($question, $seed);
                         $previewurl->param('seed', $seed);
-                        $questionnamelink = html_writer::link($previewurl, stack_string('seedx', $seed));
-                        echo $OUTPUT->heading($questionnamelink, 4);
-                        list($ok, $message) = $this->qtype_stack_test_question($question, $tests, $seed);
+                        if ($outputmode == 'web') {
+                            $questionnamelink = html_writer::link($previewurl, stack_string('seedx', $seed));
+                        } else {
+                            $questionnamelink = stack_string('seedx', $seed);
+                        }
+                        if ($outputmode == 'web') {
+                            echo $OUTPUT->heading($questionnamelink, 4);
+                        }
+                        list($ok, $message) = $this->qtype_stack_test_question($question, $tests, $outputmode, $seed);
                         if (!$ok) {
                             $allpassed = false;
                             $failingtests[] = $context->get_context_name(false, true) .
@@ -166,7 +212,7 @@ class stack_bulk_tester  {
      *              bool true if the tests passed, else false.
      *              sring message summarising the number of passes and fails.
      */
-    public function qtype_stack_test_question($question, $tests, $seed = null, $quiet = false) {
+    public function qtype_stack_test_question($question, $tests, $outputmode, $seed = null, $quiet = false) {
         flush(); // Force output to prevent timeouts and to make progress clear.
         core_php_time_limit::raise(60); // Prevent PHP timeouts.
         gc_collect_cycles(); // Because PHP's default memory management is rubbish.
@@ -201,8 +247,11 @@ class stack_bulk_tester  {
 
         if (!empty($question->runtimeerrors)) {
             $ok = false;
-            $message .= html_writer::tag('br',
-                    stack_string('stackInstall_testsuite_errors')) . implode(' ', array_keys($question->runtimeerrors));
+            $s = stack_string('stackInstall_testsuite_errors') . implode(' ', array_keys($question->runtimeerrors));
+            if ($outputmode == 'web') {
+                $s .= html_writer::tag('br', $s);
+            }
+            $message .= $s;
         }
 
         $flag = '';
@@ -212,7 +261,7 @@ class stack_bulk_tester  {
             $class = 'pass';
             $flag = '* ';
         }
-        if (!$quiet) {
+        if (!$quiet && $outputmode == 'web') {
             echo html_writer::tag('p', $flag.$message, array('class' => $class));
         }
 

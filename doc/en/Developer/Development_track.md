@@ -7,15 +7,17 @@ How to report bugs and make suggestions is described on the [community](../About
 
 ## Version 4.3
 
+Version 4.3 represents a major internal re-engineering of STACK, with a new dedicated parser and an updated mechanism for connecting to Maxima.  This is a significant improvement, refactoring some of the oldest code and unblocking progress to a wide range of requested features.
+
 CHANGES:
 * In the forbidden words we now match whole words not substrings.
+* Removed the RegExp answer test.
 
 DONE:
 
 * Removed the Maxima MathML code (which wasn't connected or used).
 * Add in extra option `simp` to inputs.
 * Add in extra options in the input `allowempty` and `hideanswer`.
-* Removed the RegExp answer test.
 
 TODO:
 
@@ -32,11 +34,10 @@ TODO:
 
 ## Add in full parser, to address issue #324.
 
-1. Get errors back from the CAS.
-2. Refactor answer tests to return "answer notes", "feedback" (and errors).
-3. Refactor numerical answer tests to make proper use of ast
+1. Refactor numerical answer tests to make proper use of ast
   1. Functions on ast, such as "this is an integer".
-4. Parse multiple plus minus operators.  "a+-b+-c" and "a+-b=c+-d"
+2. Parse multiple plus minus operators.  "a+-b+-c" and "a+-b=c+-d"
+3. Move find_units_synonyms into the parser more fully?
 
 ## Other things to fix
 

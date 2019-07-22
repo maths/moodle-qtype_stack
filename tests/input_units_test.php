@@ -721,6 +721,10 @@ class stack_units_input_test extends qtype_stack_testcase {
                 $options, '9.81*mHz', new stack_cas_security(true, '', '', array('tans')));
         $this->assertEquals(stack_input::INVALID, $state->status);
         $this->assertEquals('unknownUnitsCase', $state->note);
+        $this->assertEquals('9.81*mhz', $state->contentsmodified);
+        $this->assertEquals('<span class="stacksyntaxexample">9.81*mhz</span>', $state->contentsdisplayed);
+        $this->assertEquals('Input of units is case sensitive:  <span class="stacksyntaxexample">mhz</span> is an unknown unit. ' .
+                'Did you mean one from the following list <span class="stacksyntaxexample">[mHz, MHz]</span>?', $state->errors);
     }
 
     public function test_student_response_units_hz() {
@@ -731,7 +735,10 @@ class stack_units_input_test extends qtype_stack_testcase {
         $this->assertEquals(stack_input::INVALID, $state->status);
         $this->assertEquals('9*hz', $state->contentsmodified);
         $this->assertEquals('unitssynonym', $state->note);
+        $this->assertEquals('9*hz', $state->contentsmodified);
         $this->assertEquals('<span class="stacksyntaxexample">9*hz</span>', $state->contentsdisplayed);
+        $this->assertEquals('You appear to have units <span class="stacksyntaxexample">hz</span>.  ' .
+                'Did you mean <span class="stacksyntaxexample">Hz</span>?', $state->errors);
     }
 
     public function test_validate_student_hours() {
@@ -743,6 +750,10 @@ class stack_units_input_test extends qtype_stack_testcase {
                 $options, '5*hr', new stack_cas_security(true, '', '', array('tans')));
         $this->assertEquals(stack_input::INVALID, $state->status);
         $this->assertEquals('unitssynonym', $state->note);
+        $this->assertEquals('5*hr', $state->contentsmodified);
+        $this->assertEquals('<span class="stacksyntaxexample">5*hr</span>', $state->contentsdisplayed);
+        $this->assertEquals('You appear to have units <span class="stacksyntaxexample">hr</span>.  ' .
+                'Did you mean <span class="stacksyntaxexample">h</span>?', $state->errors);
     }
 
     public function test_validate_student_response_display_recip() {
@@ -869,5 +880,77 @@ class stack_units_input_test extends qtype_stack_testcase {
         $this->assertEquals('',
                 qtype_stack_testcase::prepare_actual_maths($state->contentsdisplayed));
         $this->assertEquals('', $state->lvars);
+    }
+
+    public function test_validate_student_response_mol_1() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('units', 'sans1', '3.14*mol');
+        $el->set_parameter('insertStars', 1);
+        $el->set_parameter('strictSyntax', false);
+        $state = $el->validate_student_response(array('sans1' => '3.14*mol'), $options, '3.14*mol',
+                new stack_cas_security(true));
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('', $state->note);
+        $this->assertEquals('3.14*mol', $state->contentsmodified);
+        $this->assertEquals('\[ 3.14\, \mathrm{mol} \]', $state->contentsdisplayed);
+    }
+
+    public function test_validate_student_response_moles_1() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('units', 'sans1', '3.14*mol');
+        $el->set_parameter('insertStars', 1);
+        $el->set_parameter('strictSyntax', false);
+        $state = $el->validate_student_response(array('sans1' => '3.14*moles'), $options, '3.14*mol',
+                new stack_cas_security(true));
+        $this->assertEquals(stack_input::INVALID, $state->status);
+        $this->assertEquals('unitssynonym', $state->note);
+        $this->assertEquals('3.14*moles', $state->contentsmodified);
+        $this->assertEquals('<span class="stacksyntaxexample">3.14*moles</span>', $state->contentsdisplayed);
+        $this->assertEquals('You appear to have units <span class="stacksyntaxexample">moles</span>.  ' .
+                'Did you mean <span class="stacksyntaxexample">mol</span>?', $state->errors);
+    }
+
+    public function test_validate_student_response_moles_2() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('units', 'sans1', '3.14*mol');
+        $el->set_parameter('insertStars', 1);
+        $el->set_parameter('strictSyntax', false);
+        $state = $el->validate_student_response(array('sans1' => '3.14*Moles'), $options, '3.14*mol',
+                new stack_cas_security(true));
+        $this->assertEquals(stack_input::INVALID, $state->status);
+        $this->assertEquals('unitssynonym', $state->note);
+        $this->assertEquals('3.14*Moles', $state->contentsmodified);
+        $this->assertEquals('<span class="stacksyntaxexample">3.14*Moles</span>', $state->contentsdisplayed);
+        $this->assertEquals('You appear to have units <span class="stacksyntaxexample">Moles</span>.  ' .
+                'Did you mean <span class="stacksyntaxexample">mol</span>?', $state->errors);
+    }
+
+    public function test_validate_student_response_mmHg() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('units', 'sans1', '7*mmHg');
+        $el->set_parameter('insertStars', 1);
+        $el->set_parameter('strictSyntax', false);
+        $state = $el->validate_student_response(array('sans1' => '7*mmHg'), $options, '7*mmHg',
+                new stack_cas_security(true));
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('', $state->note);
+        $this->assertEquals('7*mmHg', $state->contentsmodified);
+        $this->assertEquals('\[ 7\, \mathrm{mmHg} \]', $state->contentsdisplayed);
+        $this->assertEquals('', $state->errors);
+    }
+
+    public function test_validate_student_response_mmhg_1() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('units', 'sans1', '7*mmHg');
+        $el->set_parameter('insertStars', 1);
+        $el->set_parameter('strictSyntax', false);
+        $state = $el->validate_student_response(array('sans1' => '7*mmhg'), $options, '7*mmHg',
+                new stack_cas_security(true));
+        $this->assertEquals(stack_input::INVALID, $state->status);
+        $this->assertEquals('unknownUnitsCase', $state->note);
+        $this->assertEquals('7*mmhg', $state->contentsmodified);
+        $this->assertEquals('<span class="stacksyntaxexample">7*mmhg</span>', $state->contentsdisplayed);
+        $this->assertEquals('Input of units is case sensitive:  <span class="stacksyntaxexample">mmhg</span> is an unknown unit. '
+                   . 'Did you mean one from the following list <span class="stacksyntaxexample">[mmHg]</span>?', $state->errors);
     }
 }

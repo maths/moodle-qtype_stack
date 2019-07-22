@@ -30,7 +30,7 @@ require_once(__DIR__ . '/fixtures/test_base.php');
  * @group qtype_stack
  */
 class stack_astcontainer_test extends qtype_stack_testcase {
-/*
+
     public function test_types() {
         $matrix = stack_ast_container::make_from_teacher_source('foo:matrix([1,2],[3,4])', 'type test', new stack_cas_security());
         $this->assertTrue($matrix->is_matrix());
@@ -708,7 +708,7 @@ class stack_astcontainer_test extends qtype_stack_testcase {
             $this->assertEquals($r['fltfmt'], $t[4]);
         }
     }
-*/
+
     public function test_spaces_1_brackets() {
         $s = 'a (b c)';
         $at1 = stack_ast_container::make_from_student_source($s, '', new stack_cas_security());

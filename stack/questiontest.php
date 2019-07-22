@@ -161,7 +161,7 @@ class stack_question_test {
                 // Except if the input simplifies, then so should the generated testcase.
                 // The input will simplify again.
                 // We may need to create test cases which will generate errors, such as makelist.
-                if($input->get_extra_option('simp')) {
+                if ($input->get_extra_option('simp')) {
                     $val = 'testresponse_' . $name . ':ev(' . $value .',simp)';
                 }
                 $cs = stack_ast_container::make_from_teacher_source($val , '', new stack_cas_security());

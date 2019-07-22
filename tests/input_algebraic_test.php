@@ -761,4 +761,70 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         $this->assertEquals('x/0', $state->contentsmodified);
         $this->assertEquals('\[ \frac{x}{0} \]', $state->contentsdisplayed);
     }
+
+    public function test_validate_student_response_star_space_1() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('algebraic', 'sans1', '3*sin(a*b)');
+        $el->set_parameter('insertStars', 1);
+        $state = $el->validate_student_response(array('sans1' => '3sin(a b)'), $options, '3sin(a b)',
+                new stack_cas_security(false, '', '', array('tans')));
+        $this->assertEquals(stack_input::INVALID, $state->status);
+        $this->assertEquals('missing_stars | spaces', $state->note);
+        $this->assertEquals('3*sin(a*b)', $state->contentsmodified);
+        $this->assertEquals('Illegal spaces found in expression <span class="stacksyntaxexample">' .
+                '3*sin(a<font color="red">_</font>b)</span>.', $state->errors);
+        $this->assertEquals('A correct answer is <span class="filter_mathjaxloader_equation">' .
+                '<span class="nolink">\( 3\, \sin(a \cdot b) \)</span></span>, ' .
+                'which can be typed in as follows: <code>3*sin(a*b)</code>',
+                $el->get_teacher_answer_display('3*sin(a*b)', '3\\, \\sin(a \cdot b)'));
+    }
+
+    public function test_validate_student_response_star_space_2() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('algebraic', 'sans1', '3*sin(a*b)');
+        $el->set_parameter('insertStars', 2);
+        $state = $el->validate_student_response(array('sans1' => '3sin(a b)'), $options, '3sin(a b)',
+                new stack_cas_security(false, '', '', array('tans')));
+        $this->assertEquals(stack_input::INVALID, $state->status);
+        $this->assertEquals('3*sin(a*b)', $state->contentsmodified);
+        $this->assertEquals('missing_stars | spaces', $state->note);
+        $this->assertEquals('Illegal spaces found in expression <span class="stacksyntaxexample">' .
+                '3*sin(a<font color="red">_</font>b)</span>.', $state->errors);
+    }
+
+    public function test_validate_student_response_star_space_3() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('algebraic', 'sans1', '3*sin(a*b)');
+        $el->set_parameter('insertStars', 3);
+        $state = $el->validate_student_response(array('sans1' => '3sin(a b)'), $options, '3*sin(a*b)',
+                new stack_cas_security(false, '', '', array('tans')));
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('3*sin(a*b)', $state->contentsmodified);
+        $this->assertEquals('missing_stars | spaces', $state->note);
+        $this->assertEquals('', $state->errors);
+    }
+
+    public function test_validate_student_response_star_space_4() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('algebraic', 'sans1', '3*sin(a*b)');
+        $el->set_parameter('insertStars', 4);
+        $state = $el->validate_student_response(array('sans1' => '3sin(a b)'), $options, '3*sin(a*b)',
+                new stack_cas_security(false, '', '', array('tans')));
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('3*sin(a*b)', $state->contentsmodified);
+        $this->assertEquals('missing_stars | spaces', $state->note);
+        $this->assertEquals('', $state->errors);
+    }
+
+    public function test_validate_student_response_star_space_5() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('algebraic', 'sans1', '3*sin(a*b)');
+        $el->set_parameter('insertStars', 5);
+        $state = $el->validate_student_response(array('sans1' => '3sin(a b)'), $options, '3*sin(a*b)',
+                new stack_cas_security(false, '', '', array('tans')));
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('3*sin(a*b)', $state->contentsmodified);
+        $this->assertEquals('missing_stars | spaces', $state->note);
+        $this->assertEquals('', $state->errors);
+    }
 }

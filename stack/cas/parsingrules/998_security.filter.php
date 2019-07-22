@@ -361,11 +361,11 @@ class stack_ast_filter_998_security implements stack_cas_astfilter_parametric {
             if ($this->source === 's' && $identifierrules->get_units() === true) {
                 // Check for unit synonyms. Ignore if specifically allowed.
                 list ($fndsynonym, $answernote, $synonymerr) = stack_cas_casstring_units::find_units_synonyms($name);
+                if ($answernote !== '' && array_search($answernote, $answernotes) === false) {
+                    $answernotes[] = $answernote;
+                }
                 if ($this->source == 's' && $fndsynonym && !$identifierrules->is_allowed_word($name)) {
                     $errors[] = trim($synonymerr);
-                    if (array_search($answernote, $answernotes) === false) {
-                        $answernotes[] = $answernote;
-                    }
                     $valid = false;
                     continue;
                 }

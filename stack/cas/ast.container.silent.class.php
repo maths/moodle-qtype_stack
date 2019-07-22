@@ -302,7 +302,7 @@ class stack_ast_container_silent implements cas_evaluatable {
             if ($nounify !== null) {
                 $params['nounify'] = $nounify;
             }
-    
+
             if ($keyless === true && $this->get_key() !== '') {
                 $root = $this->ast;
                 if ($root instanceof MP_Root) {
@@ -320,11 +320,11 @@ class stack_ast_container_silent implements cas_evaluatable {
                 if ($root instanceof MP_Statement) {
                     $root = $root->statement;
                 }
-    
+
                 if ($root instanceof MP_Operation && $root->op === ':' &&
                         $root->lhs instanceof MP_Identifier) {
                             return $root->rhs->toString($params);
-                        }
+                    }
             }
             return $this->ast->toString($params);
         }

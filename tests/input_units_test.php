@@ -953,4 +953,33 @@ class stack_units_input_test extends qtype_stack_testcase {
         $this->assertEquals('Input of units is case sensitive:  <span class="stacksyntaxexample">mmhg</span> is an unknown unit. '
                    . 'Did you mean one from the following list <span class="stacksyntaxexample">[mmHg]</span>?', $state->errors);
     }
+
+    public function test_validate_student_response_amu() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('units', 'sans1', '520*amu');
+        $el->set_parameter('insertStars', 1);
+        $el->set_parameter('strictSyntax', false);
+        $state = $el->validate_student_response(array('sans1' => '520*amu'), $options, '520*amu',
+                new stack_cas_security(true));
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('', $state->note);
+        $this->assertEquals('520*amu', $state->contentsmodified);
+        $this->assertEquals('\[ 520\, \mathrm{amu} \]', $state->contentsdisplayed);
+        $this->assertEquals('', $state->errors);
+    }
+
+    public function test_validate_student_response_mamu() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('units', 'sans1', '520*mamu');
+        $el->set_parameter('insertStars', 1);
+        $el->set_parameter('strictSyntax', false);
+        $state = $el->validate_student_response(array('sans1' => '520*mamu'), $options, '520*mamu',
+                new stack_cas_security(true));
+        // If we do not toggle units then mamu if forbiddenly long.
+        $this->assertEquals(stack_input::INVALID, $state->status);
+        $this->assertEquals('forbiddenVariable', $state->note);
+        $this->assertEquals('520*mamu', $state->contentsmodified);
+        $this->assertEquals('<span class="stacksyntaxexample">520*mamu</span>', $state->contentsdisplayed);
+        $this->assertEquals('Forbidden variable or constant: <span class="stacksyntaxexample">mamu</span>.', $state->errors);
+    }
 }

@@ -1491,6 +1491,8 @@ class stack_answertest_test_data {
         array('Units', '3', '-9.81*m/s', '-9.81*m/s^2', 0, 'ATUnits_incompatible_units. ATUnits_correct_numerical.', ''),
         // In the following test case the student uses brackets which are not needed, but broke the test.
         array('Units', '3', '(-9.81)*m/s^2', '-9.81*m/s^2', 1, 'ATUnits_units_match.', ''),
+        array('Units', '3', '520*amu', '520*amu', 1, 'ATUnits_WithinRange. ATUnits_units_match.', ''),
+        array('Units', '3', '520*amu', '521*amu', 0, 'ATUnits_WithinRange. ATNumSigFigs_Inaccurate. ATUnits_units_match.', ''),
         array('Units', '3', '(-9.81)', '-9.81*m/s^2', 0, 'ATUnits_SA_no_units.', 'Missing units'),
         array('Units', '3', '9.81*m/s', '-9.81*m/s^2', 0, 'ATNumSigFigs_WrongSign. ATUnits_incompatible_units.', ''),
         array('Units', '3', '8.81*m/s', '-9.81*m/s^2', 0,
@@ -1531,6 +1533,8 @@ class stack_answertest_test_data {
         array('Units', '4', '2650*ft', '0.5*mi', 0,
             'ATUnits_WithinRange. ATNumSigFigs_VeryInaccurate. ATUnits_compatible_units: in.', ''),
         array('Units', '4', '142.8*C', '415.9*K', -3, 'ATNumSigFigs_VeryInaccurate. ATUnits_incompatible_units.', 'TODO'),
+        // Atomic mass unit: numbers out of range.
+        array('Units', '3', '520*mamu', '520*mamu', -3, 'ATUnits_WithinRange. ATUnits_SB_no_units.', ''),
 
         array('UnitsStrict', '2', '25*g', '0.025*kg', 0, 'ATUnits_compatible_units: kg.', 'Differences from the Units test only'),
         array('UnitsStrict', '1', '1*Mg/10^6', '1*N*s^2/(km)', 0, 'ATUnits_compatible_units: kg.', ''),

@@ -1779,7 +1779,7 @@
         "function": "s"
     },
     "dim": {
-        "variable": "f"
+        "variable": "s"
     },
     "dimacs_export": {
         "function": "f",
@@ -2381,7 +2381,7 @@
         "function": "s"
     },
     "fb": {
-        "variable": "f"
+        "variable": "s"
     },
     "feature": {
         "property": "?"
@@ -2735,10 +2735,10 @@
         "function": "s"
     },
     "gd": {
-        "function": "f"
+        "function": "s"
     },
     "gdet": {
-        "variable": "f"
+        "variable": "s"
     },
     "gen_laguerre": {
         "function": "f"
@@ -3012,7 +3012,7 @@
         "function": "?"
     },
     "hav": {
-        "function": "f"
+        "function": "s"
     },
     "head_angle": {
         "variable": "f"
@@ -3141,22 +3141,22 @@
         "function": "s"
     },
     "ifb": {
-        "variable": "f"
+        "variable": "s"
     },
     "ifc1": {
-        "variable": "f"
+        "variable": "s"
     },
     "ifc2": {
-        "variable": "f"
+        "variable": "s"
     },
     "ifg": {
-        "variable": "f"
+        "variable": "s"
     },
     "ifgi": {
-        "variable": "f"
+        "variable": "s"
     },
     "ifr": {
-        "variable": "f"
+        "variable": "s"
     },
     "iframe_bracket_form": {
         "variable": "f"
@@ -3168,7 +3168,7 @@
         "variable": "f"
     },
     "ifs": {
-        "function": "f"
+        "function": "s"
     },
     "igcdex": {
         "function": "?"
@@ -3273,13 +3273,13 @@
         "function": "f"
     },
     "inm": {
-        "variable": "f"
+        "variable": "s"
     },
     "inmc1": {
-        "variable": "f"
+        "variable": "s"
     },
     "inmc2": {
-        "variable": "f"
+        "variable": "s"
     },
     "innerproduct": {
         "function": "s"
@@ -3484,7 +3484,7 @@
         "function": "?"
     },
     "itr": {
-        "variable": "f"
+        "variable": "s"
     },
     "jacobi": {
         "function": "s"
@@ -3589,7 +3589,7 @@
         "function": "s"
     },
     "kt": {
-        "variable": "f"
+        "variable": "s"
     },
     "kummer_m": {
         "function": "s"
@@ -4628,10 +4628,10 @@
         "function": "s"
     },
     "nm": {
-        "variable": "f"
+        "variable": "s"
     },
     "nmc": {
-        "variable": "f"
+        "variable": "s"
     },
     "noeval": {
         "evflag": "s",
@@ -4712,10 +4712,10 @@
         "spacesurroundedop": true
     },
     "np": {
-        "variable": "f"
+        "variable": "s"
     },
     "npi": {
-        "variable": "f"
+        "variable": "s"
     },
     "nptetrad": {
         "function": "f"
@@ -6328,13 +6328,13 @@
         "function": "s"
     },
     "ric": {
-        "variable": "f"
+        "variable": "s"
     },
     "ricci": {
         "function": "f"
     },
     "riem": {
-        "variable": "f"
+        "variable": "s"
     },
     "riemann": {
         "function": "f"

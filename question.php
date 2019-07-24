@@ -297,6 +297,12 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         // 1. question variables.
         $questionvars = new stack_cas_keyval($this->questionvariables, $this->options, $this->seed);
         $session = $questionvars->get_session();
+        if ($questionvars->get_errors()) {
+            $s = implode(' ', $questionvars->get_errors());
+            $s = stack_string('runtimefielderr',
+                array('field' => stack_string('questionvariables'), 'err' => $s));
+            $this->runtimeerrors[$s] = true;
+        }
 
         // Construct the security object.
         $units = false;
@@ -403,10 +409,14 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         $this->adapt_inputs();
         // TODO: style sheet entry for error.
         if ($this->runtimeerrors) {
-//            $this->questionnoteinstantiated .= implode('<br />', array_keys($this->runtimeerrors));
-            $this->questiontextinstantiated .= html_writer::start_tag('div', array('class' => 'error'));
-            $this->questiontextinstantiated .= stack_string('runtimeerror');
-            $this->questiontextinstantiated .= html_writer::end_tag('span');
+            // It is quite possible that questions will, legitimately, throw some kind of error.
+            // For example, if one of the question variables is 1/0.
+            // This should not be a show stopper.
+            if (trim($this->questiontext) !== '' && trim($this->questiontextinstantiated) === '') {
+                // Something has gone wrong here, and the student will be shown nothing.
+                $s = html_writer::tag('p', stack_string('runtimeerror'));
+                $this->questiontextinstantiated .= $s;
+            }
         }
     }
 

@@ -447,7 +447,7 @@ if ($canedit) {
 echo $renderquestion;
 
 if ($question->runtimeerrors) {
-    echo $OUTPUT->heading(stack_string('errors'), 3);
+    echo html_writer::tag('p', stack_string('errors'), array('class' => 'overallresult fail'));
     echo html_writer::tag('p', implode('<br />', array_keys($question->runtimeerrors)));
 }
 

@@ -854,4 +854,30 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         $this->assertEquals('', $state->errors);
         $this->assertEquals('\[ x= \pm b \]', $state->contentsdisplayed);
     }
+
+    public function test_validate_student_response_pm_expr() {
+        // This has an expression with more than one +- in the input.
+        $options = new stack_options();
+        $el = stack_input_factory::make('algebraic', 'sans1', 'a +- b +- c');
+        $state = $el->validate_student_response(array('sans1' => 'a +- b +- c'),
+            $options, 'a +- b +- c', new stack_cas_security(false, '', '', array('tans')));
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('a+-b+-c', $state->contentsmodified);
+        $this->assertEquals('', $state->note);
+        $this->assertEquals('', $state->errors);
+        $this->assertEquals('\[ a \pm b \pm c \]', $state->contentsdisplayed);
+    }
+
+    public function test_validate_student_response_pm_eq() {
+        // This has an expression with more than one +- in an equation in the input.
+        $options = new stack_options();
+        $el = stack_input_factory::make('algebraic', 'sans1', 'x +- a = y +- b');
+        $state = $el->validate_student_response(array('sans1' => 'x +- a = y +- b'),
+            $options, 'x +- a = y +- b', new stack_cas_security(false, '', '', array('tans')));
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('x +- a = y +- b', $state->contentsmodified);
+        $this->assertEquals('', $state->note);
+        $this->assertEquals('', $state->errors);
+        $this->assertEquals('\[ x \pm a = y \pm c \]', $state->contentsdisplayed);
+    }
 }

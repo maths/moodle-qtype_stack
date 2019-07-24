@@ -150,7 +150,9 @@ class stack_potentialresponse_tree {
             $cascontext->add_statements($node->get_context_variables($key));
         }
 
-        $cascontext->instantiate();
+        if ($cascontext->get_valid()) {
+            $cascontext->instantiate();
+        }
 
         return $cascontext;
     }

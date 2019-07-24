@@ -29,7 +29,7 @@ require_once(__DIR__ . '/fixtures/test_base.php');
  * @group qtype_stack
  */
 class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
-
+/*
     public function test_test0_validate_then_submit_right_first_time() {
 
         // Create the stack question 'test0'.
@@ -1086,7 +1086,7 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         // @codingStandardsIgnoreEnd
 
         // Create a stack question.
-
+/*
         $q = test_question_maker::make_question('stack', 'test3_penalty0_1');
         $this->start_attempt_at_question($q, 'adaptive', 4);
 
@@ -1963,7 +1963,45 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
                 $this->get_no_hint_visible_expectation()
         );
     }
+*/
+    public function test_runtime_error_session() {
 
+        $q = test_question_maker::make_question('stack', 'runtime_ses_err');
+        $this->start_attempt_at_question($q, 'adaptive', 1);
+        $this->render();
+
+        $session = $q->get_session();
+//        print_r($session);
+
+//        $this->check_output_contains_lang_string('runtimeerror');
+/*        $this->check_current_output(
+//            new question_pattern_expectation('/What is/'),
+            $this->get_does_not_contain_feedback_expectation(),
+            $this->get_does_not_contain_num_parts_correct(),
+            $this->get_no_hint_visible_expectation()
+        );
+*/
+    }
+
+    public function test_runtime_error_cas() {
+
+        $q = test_question_maker::make_question('stack', 'runtime_cas_err');
+        $this->start_attempt_at_question($q, 'adaptive', 1);
+        $this->render();
+
+        $session = $q->get_session();
+        print_r($session->get_errors());
+
+//        $this->check_output_contains_lang_string('runtimeerror');
+/*        $this->check_current_output(
+//            new question_pattern_expectation('/What is/'),
+            $this->get_does_not_contain_feedback_expectation(),
+            $this->get_does_not_contain_num_parts_correct(),
+            $this->get_no_hint_visible_expectation()
+        );
+*/
+    }
+/*
     public function test_test0_validate_then_submit_wrong_answer_default_penalty() {
         // Create the stack question based on 'test0'.
         $q = test_question_maker::make_question('stack', 'test0');
@@ -2031,7 +2069,7 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->check_output_contains_prt_feedback('firsttree');
         $this->check_output_does_not_contain_stray_placeholders();
     }
-
+/*
     public function test_test0_validate_then_submit_wrong_answer_explicit_penalty() {
 
         // Create the stack question 'test0'.
@@ -2621,4 +2659,5 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->check_output_does_not_contain_lang_string('gradingdetails', 'quiz', array('raw' => '0.00', 'max' => '1.00'));
         $this->check_output_does_not_contain_lang_string('gradingdetailspenalty', 'quiz', '0.30');
     }
+*/
 }

@@ -297,9 +297,6 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         // 1. question variables.
         $questionvars = new stack_cas_keyval($this->questionvariables, $this->options, $this->seed);
         $session = $questionvars->get_session();
-        if ($session->get_errors()) {
-            $this->runtimeerrors[$session->get_errors()] = true;
-        }
 
         // Construct the security object.
         $units = false;
@@ -363,25 +360,54 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         $prtincorrect        = $this->prepare_cas_text($this->prtincorrect, $session);
 
         // Now instantiate the session.
-        $session->instantiate();
+        if ($session->get_valid()) {
+            $session->instantiate();
+        }
         if ($session->get_errors()) {
             // In previous versions we threw an exception here.
             // Upgrade and import stops  errors being caught during validation when the question was edited or deployed.
             // This breaks bulk testing in a nasty way.
-            $this->runtimeerrors[$session->get_errors($this->user_can_edit())] = true;
+            $this->runtimeerrors[$session->get_errors(true)] = true;
         }
 
         // Finally, store only those values really needed for later.
         $this->questiontextinstantiated        = $questiontext->get_display_castext();
+        if ($questiontext->get_errors()) {
+            $s = stack_string('runtimefielderr',
+                array('field' => stack_string('questiontext'), 'err' => $questiontext->get_errors()));
+            $this->runtimeerrors[$s] = true;
+        }
         $this->specificfeedbackinstantiated    = $feedbacktext->get_display_castext();
+        if ($feedbacktext->get_errors()) {
+            $s = stack_string('runtimefielderr',
+                array('field' => stack_string('specificfeedback'), 'err' => $feedbacktext->get_errors()));
+            $this->runtimeerrors[$s] = true;
+        }
         $this->questionnoteinstantiated        = $notetext->get_display_castext();
+        if ($notetext->get_errors()) {
+            $s = stack_string('runtimefielderr',
+                array('field' => stack_string('questionnote'), 'err' => $notetext->get_errors()));
+            $this->runtimeerrors[$s] = true;
+        }
         $this->prtcorrectinstantiated          = $prtcorrect->get_display_castext();
         $this->prtpartiallycorrectinstantiated = $prtpartiallycorrect->get_display_castext();
         $this->prtincorrectinstantiated        = $prtincorrect->get_display_castext();
         $this->session = $sessiontokeep;
+        if ($sessiontokeep->get_errors()) {
+            $s = stack_string('runtimefielderr',
+                array('field' => stack_string('questionvariables'), 'err' => $sessiontokeep->get_errors(true)));
+            $this->runtimeerrors[$s] = true;
+        }
 
         // Allow inputs to update themselves based on the model answers.
         $this->adapt_inputs();
+        // TODO: style sheet entry for error.
+        if ($this->runtimeerrors) {
+//            $this->questionnoteinstantiated .= implode('<br />', array_keys($this->runtimeerrors));
+            $this->questiontextinstantiated .= html_writer::start_tag('div', array('class' => 'error'));
+            $this->questiontextinstantiated .= stack_string('runtimeerror');
+            $this->questiontextinstantiated .= html_writer::end_tag('span');
+        }
     }
 
     /**
@@ -410,7 +436,10 @@ class qtype_stack_question extends question_graded_automatically_with_countback
     protected function adapt_inputs() {
         foreach ($this->inputs as $name => $input) {
             // TODO: again should we give the whole thing to the input.
-            $teacheranswer = $this->tas[$name]->get_value();
+            $teacheranswer = '';
+            if ($this->tas[$name]->is_correctly_evaluated()) {
+                $teacheranswer = $this->tas[$name]->get_value();
+            }
             $input->adapt_to_model_answer($teacheranswer);
         }
     }
@@ -546,7 +575,10 @@ class qtype_stack_question extends question_graded_automatically_with_countback
 
         // TODO: we should probably give the whole ast_container to the input.
         // Direct access to LaTeX and the AST might be handy.
-        $teacheranswer = $this->tas[$name]->get_value();
+        $teacheranswer = '';
+        if ($this->tas[$name]->is_correctly_evaluated()) {
+            $teacheranswer = $this->tas[$name]->get_value();
+        }
         if (array_key_exists($name, $this->inputs)) {
             $this->inputstates[$name] = $this->inputs[$name]->validate_student_response(
                 $response, $this->options, $teacheranswer, $this->security, $rawinput);
@@ -983,7 +1015,10 @@ class qtype_stack_question extends question_graded_automatically_with_countback
      * @param vname variable name.
      */
     public function get_ta_for_input(string $vname): string {
-        return $this->tas[$vname]->get_value();
+        if ($this->tas[$vname]->is_correctly_evaluated()) {
+            return $this->tas[$vname]->get_value();
+        }
+        return '';
     }
 
     public function classify_response(array $response) {

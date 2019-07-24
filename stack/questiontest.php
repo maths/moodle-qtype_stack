@@ -171,13 +171,15 @@ class stack_question_test {
             }
         }
         $cascontext->add_statements($vars);
-        $cascontext->instantiate();
+        if ($cascontext->get_valid()) {
+            $cascontext->instantiate();
+        }
 
         $response = array();
         foreach ($inputs as $name => $notused) {
             $var = $cascontext->get_by_key('testresponse_' . $name, true);
             $computedinput = '';
-            if ($var !== null) {
+            if ($var !== null && $var->is_correctly_evaluated()) {
                 $computedinput = $var->get_value();
             }
             // In the case we start with an invalid input, and hence don't send it to the CAS.

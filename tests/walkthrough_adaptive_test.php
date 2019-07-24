@@ -1964,6 +1964,34 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         );
     }
 
+    public function test_runtime_error_session() {
+
+        $q = test_question_maker::make_question('stack', 'runtime_ses_err');
+        $this->start_attempt_at_question($q, 'adaptive', 1);
+        $this->render();
+
+        $rte = implode(' ', array_keys($q->runtimeerrors));
+        $err = 'The field ""Question variables"" generated the following error: Expected "\'", "\'\'", "(", "+", "-", "/' .
+            '*", "? ", "?", "?? ", "[", "do", "for", "from", "if", "in", "next", "not ", "not", "step", "thru", ' .
+            '"unless", "while", "{", "|", boolean, end of input, float, identifier, integer, string or whitespace but ' .
+            '")" found.';
+        $this->assertEquals($err, $rte);
+    }
+
+    public function test_runtime_error_cas() {
+
+        $q = test_question_maker::make_question('stack', 'runtime_cas_err');
+        $this->start_attempt_at_question($q, 'adaptive', 1);
+        $this->render();
+
+        $rte = implode(' ', array_keys($q->runtimeerrors));
+        $err = 'The field ""Question text"" generated the following error: <span class="error">CASText failed validation. ' .
+            '</span> Division by zero. The field ""Specific feedback"" generated the following error: ' .
+            '<span class="error">CASText failed validation. </span>Division by zero. The field ""Question note"" ' .
+            'generated the following error: <span class="error">CASText failed validation. </span>Division by zero.';
+        $this->assertEquals($err, $rte);
+    }
+
     public function test_test0_validate_then_submit_wrong_answer_default_penalty() {
         // Create the stack question based on 'test0'.
         $q = test_question_maker::make_question('stack', 'test0');

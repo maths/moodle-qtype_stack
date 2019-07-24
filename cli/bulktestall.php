@@ -62,7 +62,7 @@ foreach ($bulktester->get_stack_questions_by_context() as $contextid => $numstac
 
     $testcontext = context::instance_by_id($contextid);
 
-    echo "\n\n#  " . stack_string('bulktesttitle', $testcontext->get_context_name()) . " (" . $contextid . ")\n";
+    echo "\n\n# " . $contextid . ": " . stack_string('bulktesttitle', $testcontext->get_context_name());
 
     list($passed, $failing) = $bulktester->run_all_tests_for_context($testcontext, 'cli');
     $allpassed = $allpassed && $passed;

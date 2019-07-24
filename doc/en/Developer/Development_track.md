@@ -36,9 +36,7 @@ TODO:
 ## Add in full parser, to address issue #324.
 
 1. Refactor numerical answer tests to make proper use of ast
-  1. Functions on ast, such as "this is an integer".
-2. Parse multiple plus minus operators.  "a+-b+-c" and "a+-b=c+-d"
-3. Move find_units_synonyms into the parser more fully?
+2. Move find_units_synonyms into the parser more fully?
 
 ## Other things to fix
 

@@ -1204,7 +1204,7 @@ abstract class stack_input {
      * @param unknown_type $in
      */
     public function get_correct_response($value) {
-        if (trim($value) == 'EMPTYANSWER') {
+        if (trim($value) == 'EMPTYANSWER' || $value === null) {
             $value = '';
         }
         // TODO: refactor this ast creation away.

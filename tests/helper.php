@@ -52,6 +52,8 @@ class qtype_stack_test_helper extends question_test_helper {
             'survey',       // Inputs, but no PRTs.
             'single_char_vars',   // Tests the insertion of * symbols between letter names.
             'runtime_prt_err',    // This generates an error in the PRT at runtime.  With and without guard clause.
+            'runtime_ses_err',    // This generates an invalid session.
+            'runtime_cas_err',    // This generates a 1/0 in the CAS at run time.
             'units',              // This question has units inputs, and a numerical test.
             'equiv_quad',         // This question uses equivalence reasoning to solve a quadratic equation.
             'checkbox_all_empty', // Creates a checkbox input with none checked as the correct answer: edge case.
@@ -1091,6 +1093,68 @@ class qtype_stack_test_helper extends question_test_helper {
 
         $q->prts['Result'] = new stack_potentialresponse_tree('Result', '',
                 true, 1, $feedbackvars->get_session(), array($node0, $node1, $node2), 0);
+
+        return $q;
+    }
+
+    public static function make_stack_question_runtime_ses_err() {
+        $q = self::make_a_stack_question();
+
+        $q->stackversion = 20190724;
+        $q->name = 'runtime_ses_err';
+        $q->questionvariables = "p:1/1+x^2);ta:diff(p,x);";
+        $q->questiontext = '<p>Give an example of a system of equations with a unique solution.</p>' .
+            '<p>[[input:ans1]] [[validation:ans1]]</p>';
+
+        $q->specificfeedback = '[[feedback:Result]]';
+        $q->questionnote = '';
+
+        $q->inputs['ans1'] = stack_input_factory::make(
+                'algebraic', 'ans1', 'ta', null, array('boxWidth' => 25));
+
+        $feedbackvars = new stack_cas_keyval('');
+
+        $sans = stack_ast_container::make_from_teacher_source('ans1');
+        $sans->get_valid();
+        $tans = stack_ast_container::make_from_teacher_source('ta');
+        $tans->get_valid();
+        $node0 = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv', '', true);
+        $node0->add_branch(0, '=', 0, '', -1, 'Not quite..', FORMAT_HTML, 'Result-0-F');
+        $node0->add_branch(1, '=', 1, '', -1, 'Correct', FORMAT_HTML, 'Result-0-T');
+
+        $q->prts['Result'] = new stack_potentialresponse_tree('Result', '',
+                true, 1, $feedbackvars->get_session(), array($node0), 0);
+
+        return $q;
+    }
+
+    public static function make_stack_question_runtime_cas_err() {
+        $q = self::make_a_stack_question();
+
+        $q->stackversion = 20190724;
+        $q->name = 'runtime_cas`_err';
+        $q->questionvariables = "p:3;q:3;ta:1;";
+        $q->questiontext = '<p>Caculate {@1/(p-q)@}.</p>' .
+            '<p>[[input:ans1]] [[validation:ans1]]</p>';
+
+        $q->specificfeedback = '[[feedback:Result]]';
+        $q->questionnote = '';
+
+        $q->inputs['ans1'] = stack_input_factory::make(
+                'algebraic', 'ans1', 'ta', null, array('boxWidth' => 25));
+
+        $feedbackvars = new stack_cas_keyval('');
+
+        $sans = stack_ast_container::make_from_teacher_source('ans1');
+        $sans->get_valid();
+        $tans = stack_ast_container::make_from_teacher_source('ta');
+        $tans->get_valid();
+        $node0 = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv', '', true);
+        $node0->add_branch(0, '=', 0, '', -1, 'Not quite..', FORMAT_HTML, 'Result-0-F');
+        $node0->add_branch(1, '=', 1, '', -1, 'Correct', FORMAT_HTML, 'Result-0-T');
+
+        $q->prts['Result'] = new stack_potentialresponse_tree('Result', '',
+                true, 1, $feedbackvars->get_session(), array($node0), 0);
 
         return $q;
     }

@@ -137,7 +137,7 @@ class stack_bulk_tester  {
                     if ($outputmode == 'web') {
                         echo $OUTPUT->heading($questionnamelink, 4);
                         echo html_writer::tag('ul', implode($questionproblems, "\n"));
-                    }    
+                    }
                 }
 
                 $previewurl = new moodle_url($questiontestsurl, array('questionid' => $questionid));

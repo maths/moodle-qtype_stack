@@ -121,13 +121,14 @@ class stack_cas_session2 {
     }
 
     public function get_valid(): bool {
-        foreach ($this->statements as $statement) {
+        $valid = true;
+        foreach ($this->statements as $index => $statement) {
             if ($statement->get_valid() === false) {
-                return false;
+                $valid = false;
             }
         }
         // There is nothing wrong with an empty session.
-        return true;
+        return $valid;
     }
 
     /*
@@ -146,13 +147,22 @@ class stack_cas_session2 {
     }
 
     /**
-     * Returns all the errors related to evaluation. Naturally only call after instantiation.
+     * Returns all the errors related to the session.
+     * This includes errors validating castrings prior to instantiation.
      */
     public function get_errors($implode = true) {
-        if ($implode !== true) {
-            return $this->errors;
+        $errors = array();
+        foreach ($this->statements as $num => $statement) {
+            if ($statement->get_errors()) {
+                $errors[$num] = $statement->get_errors();
+            }
         }
-        $r = array();
+        if ($implode !== true) {
+            return $errors;
+        }
+        return implode(' ', $errors);
+
+        // Matti, I don't understand the context.  Can you provide examples or unit tests?
         foreach ($this->errors as $statementerrors) {
             foreach ($statementerrors as $value) {
                 // Element [0] is the list of errors.

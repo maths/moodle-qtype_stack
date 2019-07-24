@@ -446,6 +446,11 @@ if ($canedit) {
 
 echo $renderquestion;
 
+if ($question->runtimeerrors) {
+    echo html_writer::tag('p', stack_string('errors'), array('class' => 'overallresult fail'));
+    echo html_writer::tag('p', implode('<br />', array_keys($question->runtimeerrors)));
+}
+
 // Display the question note.
 echo $OUTPUT->heading(stack_string('questionnote'), 3);
 echo html_writer::tag('p', stack_ouput_castext($question->get_question_summary()),

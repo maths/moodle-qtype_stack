@@ -7587,13 +7587,13 @@
         "function": "f"
     },
     "ufg": {
-        "variable": "f"
+        "variable": "s"
     },
     "uforget": {
         "function": "f"
     },
     "ug": {
-        "variable": "?"
+        "variable": "s"
     },
     "ultraspherical": {
         "function": "f"
@@ -7667,7 +7667,7 @@
         "variable": "s"
     },
     "uric": {
-        "variable": "f"
+        "variable": "s"
     },
     "uricci": {
         "function": "f"

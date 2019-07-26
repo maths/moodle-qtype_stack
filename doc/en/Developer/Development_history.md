@@ -4,13 +4,13 @@ For current and future plans, see [Development track](Development_track.md) and 
 
 ## Version 4.2.1
 
-Released August 2018. 
+Released August 2018.
 
 * Add in privacy subsystem classes for GDPR compliance.
 
 ## Version 4.2
 
-Released July 2018. 
+Released July 2018.
 
 Note: newer versions of Maxima require that a variable has been initialised as a list/array before you can assign values to its indices.  For this reason some older questions may stop working when you upgrade to a new version of Maxima.  Please use the bulk test script after each upgrade!  See issue #343.
 
@@ -413,7 +413,7 @@ Released, September 2007.  Developed by Jonathan Hart and Chris Sangwin at the U
 Key features
 
 * Display of mathematics taken care of by JSMath.
-* Integrated into Moodle.
+* Integrated into the Moodle quiz using the ["remote question protocol"](https://docs.moodle.org/dev/Open_protocol_for_accessing_question_engines).  The RQP was designed with STACK, and similar systems, in mind.
 * Variety of interaction elements.
 * Multi-part questions.
 * Cache.

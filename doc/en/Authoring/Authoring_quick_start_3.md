@@ -1,13 +1,12 @@
 # Authoring quick start 3: improving feedback
 
-Authoring quick start: [1 - First question](Authoring_quick_start.md) | [2 - Question variables](Authoring_quick_start_2.md) | 3 - Feedback | [4 - Randomisation](Authoring_quick_start_4.md) | [5 - Question tests](Authoring_quick_start_5.md) | [6 - Multipart questions](Authoring_quick_start_6.md) | [7 - Simplification](Authoring_quick_start_7.md) | [8 - Quizzes](Authoring_quick_start_8.md)
+[1 - First question](Authoring_quick_start.md) | [2 - Question variables](Authoring_quick_start_2.md) | 3 - Feedback | [4 - Randomisation](Authoring_quick_start_4.md) | [5 - Question tests](Authoring_quick_start_5.md) | [6 - Multipart questions](Authoring_quick_start_6.md) | [7 - Simplification](Authoring_quick_start_7.md) | [8 - Quizzes](Authoring_quick_start_8.md)
 
 
 
 This part of the Authoring Quick Start Guide deals with improving feedback. The following video explains the process:
 
-<iframe width="560" height="315" src=https://www.youtube.com/embed/l6QAMmUA5Pk" frameborder="0" allowfullscreen></iframe>
-
+<iframe width="560" height="315" src="https://www.youtube.com/embed/l6QAMmUA5Pk" frameborder="0" allowfullscreen></iframe>
 ## Introduction
 
 In the last part we started working with question variables. Specifically, we defined the variable  `exp` for the expression to be integrated, and `ta` for the teacher's answer. Then we asked the student to find \(\int 3(x-1)^{-4}dx\).
@@ -70,4 +69,4 @@ You can continue to expand your potential response tree, checking for as many co
 
 You should now be able to create specific feedback in STACK.
 
-##### The next part of the authoring quick start guide looks at [randomisation](Authoring_quick_start_5.md).
+##### The next part of the authoring quick start guide looks at [randomisation](Authoring_quick_start_4.md).

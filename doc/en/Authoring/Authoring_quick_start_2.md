@@ -1,18 +1,17 @@
 # Authoring quick start 2: question variables
 
-Authoring quick start: [1 - First question](Authoring_quick_start.md) | 2 - Question variables | [3 - Feedback](Authoring_quick_start_3.md) | [4 - Randomisation](Authoring_quick_start_4.md) | [5 - Question tests](Authoring_quick_start_5.md) | [6 - Multipart questions](Authoring_quick_start_6.md) | [7 - Simplification](Authoring_quick_start_7.md) | [8 - Quizzes](Authoring_quick_start_8.md)
+[1 - First question](Authoring_quick_start.md) | 2 - Question variables | [3 - Feedback](Authoring_quick_start_3.md) | [4 - Randomisation](Authoring_quick_start_4.md) | [5 - Question tests](Authoring_quick_start_5.md) | [6 - Multipart questions](Authoring_quick_start_6.md) | [7 - Simplification](Authoring_quick_start_7.md) | [8 - Quizzes](Authoring_quick_start_8.md)
 
 
 
 This part of the authoring quick start guide deals with using question variables. The following video explains the process:
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/QZgvZZ_DWM8" frameborder="0" allowfullscreen></iframe>
-
 ## Example question
 
 For this example, we will be working with a simple integration problem. Below is a typical set of practice exercises.
 
-![Integration exercises](C:/Users/msporrin/Documents/Stack/Documentation/%25CONTENT/IntegrationExercises.jpg)
+![Integration exercises](%CONTENT/IntegrationExercises.jpg)
 
 (Reproduced with permission from _Advanced Mathematics for AS and A level 2_ (A-level mathematics), Haese Mathematics (2018) [978-1-925489-32-3](http://www.haesemathematics.com/books/advanced-mathematics-2-for-a-level))
 
@@ -39,6 +38,7 @@ Now it will be a lot faster to fill out the rest of the question. Add the follow
 Find \(\int{@exp@} \mathrm{d}x\)
 [[input:ans1]] [[validation:ans1]]
 </textarea>
+
 Notice that we have defined a local variable `exp`, and used the value of this in the Question text. There is a difference between mathematics enclosed between `\(..\)` symbols and `{@..@}` symbols. All the text-based fields in the question, including feedback, are [CAS text](CASText.md).  This is HTML into which mathematics can be inserted.  LaTeX is placed between `\(..\)`s, and CAS expressions (including your variables) between matching `{@..@}` symbols.  The CAS expressions are evaluated in the context of the question variables and displayed as LaTeX.
 
 Since we have used `{@exp@}` here, the user will not see a \(exp\) on the screen when the question is instantiated, but the _displayed value_ of `exp`: \(\frac{3}{(x-1)^{-4}}\)

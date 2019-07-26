@@ -1,6 +1,6 @@
-# Developer docs
+# Developers
 
-The Developer docs provide documentation for development, as well as instructions for developers who want to contribute to STACK.
+The Developer documentations give information on STACK development, as well as instructions for developers who want to contribute to STACK.
 
 ## Contributing to STACK
 

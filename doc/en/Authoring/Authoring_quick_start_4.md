@@ -1,13 +1,12 @@
 # Authoring quick start 4: randomisation
 
-Authoring quick start: [1 - First question](Authoring_quick_start.md) | [2 - Question variables](Authoring_quick_start_2.md) | [3 - Feedback](Authoring_quick_start_3.md) | 4 - Randomisation | [5 - Question tests](Authoring_quick_start_5.md) | [6 - Multipart questions](Authoring_quick_start_6.md) | [7 - Simplification](Authoring_quick_start_7.md) | [8 - Quizzes](Authoring_quick_start_8.md)
+[1 - First question](Authoring_quick_start.md) | [2 - Question variables](Authoring_quick_start_2.md) | [3 - Feedback](Authoring_quick_start_3.md) | 4 - Randomisation | [5 - Question tests](Authoring_quick_start_5.md) | [6 - Multipart questions](Authoring_quick_start_6.md) | [7 - Simplification](Authoring_quick_start_7.md) | [8 - Quizzes](Authoring_quick_start_8.md)
 
 
 
 This part of the authoring quick start guide deals with randomisation. The following video explains the process:
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/8FTqZ1fTmgs" frameborder="0" allowfullscreen></iframe>
-
 ## Introduction
 
 In the last part, we worked with a problem about integrating \(3(x-1)^{-4}\) with respect to x. However, we do not want every student to get the exact same question, as that would allow them to share answers! To solve this problem, we need to randomise the question.
@@ -66,4 +65,4 @@ However, notice also that you can choose which deployed `Question variant`  you 
 
 You should now be able to make and deploy random questions in STACK.
 
-##### The next part of the authoring quick start guide looks at [question tests](Authoring_quick_start_4.md).
+##### The next part of the authoring quick start guide looks at [question tests](Authoring_quick_start_5.md).

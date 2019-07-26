@@ -1,13 +1,12 @@
 # Authoring quick start 5: question tests
 
-Authoring quick start: [1 - First question](Authoring_quick_start.md) | [2 - Question variables](Authoring_quick_start_2.md) | [3 - Feedback](Authoring_quick_start_3.md) |[4 - Randomisation](Authoring_quick_start_4.md) | 5 - Question tests | [6 - Multipart questions](Authoring_quick_start_6.md) | [7 - Simplification](Authoring_quick_start_7.md) | [8 - Quizzes](Authoring_quick_start_8.md)
+[1 - First question](Authoring_quick_start.md) | [2 - Question variables](Authoring_quick_start_2.md) | [3 - Feedback](Authoring_quick_start_3.md) | [4 - Randomisation](Authoring_quick_start_4.md) | 5 - Question tests | [6 - Multipart questions](Authoring_quick_start_6.md) | [7 - Simplification](Authoring_quick_start_7.md) | [8 - Quizzes](Authoring_quick_start_8.md)
 
 
 
 This part of the authoring quick start guide deals with using question tests. The following video explains the process:
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/wnvsc-v9svE" frameborder="0" allowfullscreen></iframe>
-
 ## Introduction
 
 In the last couple of parts, we have been working with a simple integration question. Before you continue, confirm that your question variables are set up as follows:
@@ -83,4 +82,4 @@ This example nicely illustrates the way validity can be used to help students.  
 
 You should now be able to use question tests in STACK.
 
-##### The next part of the authoring quick start guide looks at [multi-part questions](Authoring_quick_start_6.md).
+##### The next part of the authoring quick start guide looks at [multipart questions](Authoring_quick_start_6.md).

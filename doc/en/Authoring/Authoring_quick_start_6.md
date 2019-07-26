@@ -1,15 +1,12 @@
 # Authoring quick start 6: multipart questions
 
-Authoring quick start: [1 - First question](Authoring_quick_start.md) | [2 - Question variables](Authoring_quick_start_2.md) | [3 - Feedback](Authoring_quick_start_3.md) |[4 - Randomisation](Authoring_quick_start_4.md) | [5 - Question tests](Authoring_quick_start_5.md) | 6 - Multipart questions | [7 - Simplification](Authoring_quick_start_7.md) | [8 - Quizzes](Authoring_quick_start_8.md)
+[1 - First question](Authoring_quick_start.md) | [2 - Question variables](Authoring_quick_start_2.md) | [3 - Feedback](Authoring_quick_start_3.md) | [4 - Randomisation](Authoring_quick_start_4.md) | [5 - Question tests](Authoring_quick_start_5.md) | 6 - Multipart questions | [7 - Simplification](Authoring_quick_start_7.md) | [8 - Quizzes](Authoring_quick_start_8.md)
 
 
 
-This part of the authoring quick start guide deals with authoring multi-part questions. The following video explains the process:
+This part of the authoring quick start guide deals with authoring multipart questions. The following video explains the process:
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/lQhDEnEYZQM" frameborder="0" allowfullscreen></iframe>
-
-
-
 Consider the following examples:
 
 ### Example 1
@@ -42,52 +39,12 @@ independent marking procedures.
 
 These two examples illustrate two extreme positions.
 
-1. All inputs within a single multi-part item can be assessed independently.
-2. All inputs within a single multi-part item must be completed before the item can be scored.
+1. All inputs within a single multipart item can be assessed independently.
+2. All inputs within a single multipart item must be completed before the item can be scored.
 
-Devising multi-part questions which satisfy these two extreme positions would be relatively straightforward. However, it is more common to have multi-part questions which are between these extremes, as in the case of our first example.
+Devising multipart questions which satisfy these two extreme positions would be relatively straightforward. However, it is more common to have multipart questions which are between these extremes, as in the case of our first example.
 
-## Response processing
-
-Response processing is the means by which a student's answer is evaluated and feedback, of various forms, assigned. The crucial features in STACK is a complete separation between two important components:
-
-1. a list of [inputs](Inputs.md);
-2. a list of [potential response trees](Potential_response_trees.md).
-
-We have looked at these before, however we will now provide a more in-depth overview.
-
-## [Inputs](Inputs.md)
-
-The [question text](CASText.md#question_text), i.e. the text actually displayed to the student, may have an arbitrary number of [inputs](Inputs.md). An element may be positioned anywhere within the question text, including within mathematical expressions, e.g. equations (_note_: MathJax currently does not support form elements within equations).
-Each input will be associated with a number of fields. For example:
-
-1. The name of a CAS variable to which the student's answer (if any) is assigned during response processing. This could be automatically assigned, e.g. in order `ans1`, `ans2`, etc. Each variable is known as an answer variable,
-2. The type of the input. Examples include:
-   - direct linear algebraic input, e.g. `2*e^x`,
-   - graphical input tool, e.g. a slider,
-   - True/False selection,
-3. The teacher's correct answer.
-
-## [Potential response trees](Potential_response_trees.md)
-
-A potential response tree (technically an acyclic directed graph) consists of an arbitrary number of linked nodes we call potential responses. In each node two expressions are compared using a specified Answer Test, and the result is either TRUE or FALSE. A corresponding branch of the tree has the opportunity to
-
-1. Adjust the score, (e.g. assign a value, add or subtract a value,
-2. Add written feedback specifically for the student,
-3. Generate an "Answer Note", used by the teacher for evaluative assessment,
-4. Nominate the next node, or end the process.
-
-Each question will have zero or more potential response trees. For each potential response tree there will be the following.
-
-1. A maximum number of marks available, i.e. score,
-2. A list of which answer variables are required for this response tree. Only when a student has
-   provided a **valid** response to all the elements in this list will the tree be traversed and outcomes assigned,
-3. A collection of potential response variables, which may depend on the relevant answer variables, question variables and so on. These are evaluated before the potential response tree is traversed,
-4. A nominated point in the question itself into which feedback is inserted. This is given by the [[feedback:prt1]] block, which by default is in the `Specific feedback` section. You can also choose to put these blocks in the `Question text` after each question part, however note Moodle will have less control over how it is displayed. This feedback will be the mark, and textual feedback generated by this tree.
-
-To illustrate multi-part mathematical questions, we start by authoring an example.
-
-## Authoring a multi-part question
+## Authoring a multipart question
 
 Start a new STACK question, and give the question a name, e.g. "Tangent lines".  This question will have three parts.  Start by copying the question variables and question text as follows.  Notice that we have not included any randomisation, but we have used variable names at the outset to facilitate this at a later stage.
 
@@ -114,11 +71,13 @@ Find the equation of the line tangent to {@exp@} at the point \(x={@pt@}\).
 
 Fill in the answer for `ans1` (which exists by default) and remove the `feedback` tag from the "specific feedback" section.  We choose to embed feedback within parts of this question, so that relevant feedback is shown directly underneath the relevant part. Notice there is one potential response tree for each "part".
 
+
+
 Update the form by saving your changes, and then ensure the Model Answers are filled in as `ta1`, `ta2` and `ta3`.
 
 STACK creates three potential response trees by detecting the feedback tags automatically.  Next we need to edit potential response trees.  These will establish the properties of the student's answers.
 
-### Stage 1: getting a working question
+### Stage 1: a working potential response tree
 
 The first stage is to include the simplest potential response trees.  These will simply ensure that answers are "correct".  In each potential response tree, make sure to test that \(\mbox{ans}_i\) is algebraically equivalent to \(\mbox{ta}_i\), for \(i=1,2,3\).  At this stage we have a working question.  Save it and preview the question.  For reference, the correct answers are
 
@@ -159,6 +118,6 @@ Your answer to this part is correct, however you have got part 1 wrong!  Please 
 </textarea>
 # Next step #
 
-You should now be able to make a multi-part question in STACK. If you have been following this quick-start guide, you should already know some steps you can take to improve this question. For example, you could add [more specific feedback](Authoring_quick_start_3.md), [randomise your question](Authoring_quick_start_4.md) and add [question tests](Authoring_quick_start_5.md).
+You should now be able to make a multipart question in STACK. If you have been following this quick-start guide, you should already know some steps you can take to improve this question. For example, you could add [more specific feedback](Authoring_quick_start_3.md), [randomise your question](Authoring_quick_start_4.md) and add [question tests](Authoring_quick_start_5.md).
 
 ##### **The next part of the authoring quick start guide looks at [turning simplification off](Authoring_quick_start_7.md).**

@@ -233,8 +233,6 @@ class stack_ast_container_silent implements cas_evaluatable {
         return $astc;
     }
 
-
-
     protected function __constructor($ast, string $source, string $context,
                                    stack_cas_security $securitymodel,
                                    array $errors, array $answernotes) {
@@ -324,7 +322,7 @@ class stack_ast_container_silent implements cas_evaluatable {
                 if ($root instanceof MP_Operation && $root->op === ':' &&
                         $root->lhs instanceof MP_Identifier) {
                             return $root->rhs->toString($params);
-                    }
+                }
             }
             return $this->ast->toString($params);
         }

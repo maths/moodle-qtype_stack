@@ -925,7 +925,7 @@ class stack_units_input_test extends qtype_stack_testcase {
                 'Did you mean <span class="stacksyntaxexample">mol</span>?', $state->errors);
     }
 
-    public function test_validate_student_response_mmHg() {
+    public function test_validate_student_response_mmhg() {
         $options = new stack_options();
         $el = stack_input_factory::make('units', 'sans1', '7*mmHg');
         $el->set_parameter('insertStars', 1);

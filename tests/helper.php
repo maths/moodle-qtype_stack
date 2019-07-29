@@ -1132,7 +1132,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $q = self::make_a_stack_question();
 
         $q->stackversion = 20190724;
-        $q->name = 'runtime_cas`_err';
+        $q->name = 'runtime_cas_err';
         $q->questionvariables = "p:3;q:3;ta:1;";
         $q->questiontext = '<p>Caculate {@1/(p-q)@}.</p>' .
             '<p>[[input:ans1]] [[validation:ans1]]</p>';

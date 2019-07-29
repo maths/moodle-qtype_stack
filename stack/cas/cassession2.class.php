@@ -428,6 +428,9 @@ class stack_cas_session2 {
                 if ($statement->get_valid()) {
                     $val = trim($statement->get_evaluationform());
                     $keyvals .= $val . ";\n";
+                } else {
+                    $keyvals .= "/* " . stack_string('stackInstall_testsuite_errors') . " */\n";
+                    $keyvals .= "/* " . trim($statement->get_errors()) . " */\n";
                 }
             }
         }

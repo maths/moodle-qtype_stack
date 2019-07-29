@@ -38,10 +38,9 @@ Documentation for question authors, including:
 
 Information on using the CAS Maxima for question authoring, including:
 
-*  [Inequalities](CAS/Inequalities.md).
-
+* [Inequalities](CAS/Inequalities.md).
 * [Randomisation](CAS/Random.md).
-*  [Plotting graphs](CAS/Plots.md).
+* [Plotting graphs](CAS/Plots.md).
 * [Simplification](CAS/Simplification.md).
 
 #### [**Students**](Students/index.md)

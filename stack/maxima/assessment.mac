@@ -610,6 +610,18 @@ make_displayscivalue(ex):= block([n, d, expo, ss],
    this kind of problem.
 */
 
+/* ********************************** */
+/* Modular arithmetic                 */
+/* ********************************** */
+
+/* Apply modular arithmetic to parts of a larger expression.
+   Note Maxima's polymod function only works for polynomials.
+*/
+recursemod(ex, n) := block(
+    if numberp(ex) then return(mod(ex, n)),
+    if atom(ex) then return(ex),
+    apply(op(ex), map(lambda([ex2], recursemod(ex2, n)), args(ex)))
+)$
 
 /* ********************************** */
 /* Equivalence                        */

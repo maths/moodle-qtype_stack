@@ -20,6 +20,9 @@ Optionally, depending on the question settings, you have
 
 Sometimes you need to use \(e\), or other constants, as an abstract symbol not a number.  The Maxima solution is to use the `kill()` command, but for security reasons users of STACK are not permitted to use this function. Instead use `stack_reset_vars(true)` in the question variables.  This resets all the special constants defined by STACK so the symbols can be redefined in an individual STACK question.
 
+## Modular arithmetic ##
+
+The function `recursemod(ex, n)` recurses over an expression tree, and applies the function `mod(?, n)` to any numbers as identified by `numberp`.  This works on any expression, whereas `polymod` only applies to polynomials.
 
 ## Internal representation of numbers ##
 

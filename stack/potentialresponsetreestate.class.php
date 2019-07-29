@@ -27,12 +27,12 @@ class stack_potentialresponse_tree_state {
     /**
      * @var string This holds errors needed for the user.
      */
-    public $_errors      = '';
+    public $_errors = '';
 
     /**
      * @var array of stack_prt_feedback_element.
      */
-    public $_feedback    = array();
+    public $_feedback = array();
 
     /**
      * @var array of answernote strings for the teacher.
@@ -47,17 +47,17 @@ class stack_potentialresponse_tree_state {
     /**
      * @var boolean Is this attempt valid?
      */
-    public $_valid       = true;
+    public $_valid = true;
 
     /**
      * @var float The raw score for this attempt.  Penalties are calculated later.
      */
-    public $_score       = 0;
+    public $_score = 0;
 
     /**
      * @var float Penalty attracted by this attempt.
      */
-    public $_penalty     = 0;
+    public $_penalty = 0;
 
     /**
      * @var float Weight of this PRT within the question.

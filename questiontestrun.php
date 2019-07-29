@@ -459,7 +459,7 @@ echo html_writer::tag('p', stack_ouput_castext($question->get_question_summary()
 // Display the question variables.
 echo $OUTPUT->heading(stack_string('questionvariablevalues'), 3);
 echo html_writer::start_tag('div', array('class' => 'questionvariables'));
-echo  html_writer::tag('pre', $question->get_question_session_keyval_representation());
+echo html_writer::tag('pre', $question->get_question_session_keyval_representation());
 echo html_writer::end_tag('div');
 
 // Display a representation of the PRT for offline use.

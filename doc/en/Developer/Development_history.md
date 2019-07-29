@@ -275,7 +275,7 @@ Key features
 * The STACK Maxima function `filter` has been removed.  It should be replaced by the internal Maxima function `sublist`.  Note, the order of the arguments is reversed!
 * STACK can now work with either MathJax, the Moodle TeX filter, or the OU's maths rendering filter.
 * The Maxima libraries `powers` and `format` have been removed.
-* We now strongly discourage the use of dollar symbols for denoting LaTeX mathematics environments.  See the pages on [MathJax](Mathjax.md#delimiters) for more information on this change.
+* We now strongly discourage the use of dollar symbols for denoting LaTeX mathematics environments.  See the pages on [MathJax](../Installation/Mathjax.md#delimiters) for more information on this change.
 * The expressions supplied by the question author as question tests are no longer simplified at all.  See the entry on [question tests](../Authoring/Testing.md#Simplification).
 
 ### Full development log

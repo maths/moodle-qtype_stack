@@ -26,7 +26,7 @@ The past development history is documented on [Development history](Development_
 
 The following topics describe advanced topics for developers and site admins.
 
-You can read about running [unit tests](Unit_tests).
+You can read about running [unit tests](Unit_tests.md).
 
 There is information on [clearing the cache](Question_state_caching.md).
 

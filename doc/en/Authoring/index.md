@@ -42,18 +42,18 @@ The authoring documentation also covers topics on:
   * [Actuarial notation,](Actuarial.md)
   * [Using JSXGraph](JSXGraph.md).
   
-* #### [Input types](Input.md)
+* #### [Input types](Inputs.md)
   
-  * [Numerical input](Numerical_input),
+  * [Numerical input](Numerical_input.md),
   * [Units in input](Units.md#Input_type),
   * [Equivalence reasoning](Equivalence_reasoning.md),
   * [Multiple choice questions](Multiple_choice_questions),
-  * [Curve sketching](Curve_sketching).
+  * [Curve sketching](Curve_sketching.md).
   
 * #### Giving feedback with [potential response trees](Potential_response_trees.md)
   
   * Information on [the types of feedback in STACK](Feedback.md),
-  * Using [Answer tests](Answer_test.md) and [numerical answer tests](Answer_tests_numerical.md),
+  * Using [Answer tests](Answer_tests.md) and [numerical answer tests](Answer_tests_numerical.md),
   * [Answer tests for units](Units.md#Answer_tests).
   
 * #### Testing and reporting
@@ -72,12 +72,12 @@ The authoring documentation also covers topics on:
 * #### Other
 
   * Creating [multilingual questions](Languages.md).
-  * Where to find [sample questions](/Sample_questions.md).
+  * Where to find [sample questions](Sample_questions.md).
   * [Frequently asked questions](Author_FAQ.md).
 
 ## See also
 
-If you cannot find documentation on the topic you are looking for, it may be located in the [CAS](/../CAS/index.md) section of the documentation. This includes documentation on working with Maxima in a question, and so covers topics like
+If you cannot find documentation on the topic you are looking for, it may be located in the [CAS](../CAS/index.md) section of the documentation. This includes documentation on working with Maxima in a question, and so covers topics like
 
 * [Inequalities](/CAS/Inequalities.md),
 * [Randomisation](/CAS/Random.md),

@@ -90,7 +90,7 @@ e-MAIO project, Coimbra Institute of Engineering, Portugal
 
 School of Mathematics and Statistics, The Open University,
 
-: Contact [Tim Hunt](t.j.hunt@open.ac.uk) and [Tim Lowe](mailto:tim.lowe@open.ac.uk)
+: Contact [Tim Hunt](mailto:t.j.hunt@open.ac.uk) and [Tim Lowe](mailto:tim.lowe@open.ac.uk)
 
 Mathematics Education Centre, Loughborough University
 

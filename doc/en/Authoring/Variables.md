@@ -64,7 +64,7 @@ This gives the opportunity to perform sophisticated mathematical operations.
 
 Before each answer test is applied the following list of variables is assembled and evaluated
 
-1. The values of the [question variables](KeyVals.md#Question_variables).
+1. The values of the question variables.
 2. The values of each [inputs](Inputs.md).
 3. The feedback variables.
 

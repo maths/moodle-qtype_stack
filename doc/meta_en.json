@@ -33,6 +33,11 @@
         "description":"Comprehensive documentation for the STACK question type."
         },
         {
+        "file":"Logo.md",
+        "title":"About the STACK logo",
+        "description":"Read about the mathematics behind the STACK logo."
+        },
+        {
         "file":"index.md",
         "title":"About the STACK Project",
         "description":"STACK is an assessment system for mathematics, science and related disciplines designed to enable students to answer questions with a mathematical expression."
@@ -44,7 +49,7 @@
 		{
 		"file":"index.md",
 		"title":"Authoring - STACK Documentation",
-		"description":"Documentation for question authors using the STACK question type. This includes an authoring quick start, and information on topics like testing, deploying and reporting."
+		"description":"Documentation for question authors using STACK, including a quick start guide and how to use common STACK features."
 		},
 		{
 		"file":"Actuarial.md",
@@ -162,7 +167,7 @@
 		"description":"JSXGraph is a useful tool for creating graphs in your STACK questions."
 		},
 		{
-		"file":"Question_variables.md",
+		"file":"Variables.md",
 		"title":"Question and Answer Variables - STACK Documentation",
 		"description":"Information on defining and manipulating CAS variables in STACK."
 		},
@@ -296,7 +301,7 @@
 		"description":"Information on displaying numbers in STACK using the CAS Maxima."
 		},
 		{
-		"file":"Optimising_maxima.md",
+		"file":"Optimising_Maxima.md",
 		"title":"Optimising Maxima - STACK Documentation",
 		"description":"There are several ways to reduce the access and execution time of this CAS which can prove useful for scaling. They have the potential to greatly speed up STACK, and are widely used."
 		},
@@ -323,7 +328,7 @@
 		{
 		"file":"STACK-Maxima_sandbox.md",
 		"title":"STACK-Maxima Sandbox - STACK Documentation",
-		"description":"It is very useful when authoring questions to be able to test out Maxima code in the same environment in which STACK uses Maxima. This document gives information on setting up a sandbox for this purpose."
+		"description":"It is very useful when authoring questions to be able to test out Maxima code in the same environment in which STACK uses Maxima."
 		},
 		{
 		"file":"Statistics.md",
@@ -421,7 +426,7 @@
 		{
 		"file":"Running_question_tests_other_site.md",
 		"title":"Running Question Tests for Questions on Other Sites - STACK Documentation",
-		"description":"When you upgrade to a new version of STACK, it would be reassuring to know beforehand whether there is any change in behaviour in STACK which will affect your existing questions. This document details instructions for acheving this."
+		"description":"Before upgrading to a new version of STACK, you may want to check if the new version will change any of your existing questions."
 		},
 		{
 		"file":"Unit_tests.md",
@@ -453,7 +458,7 @@
 		"description":"Information about answer input for students using STACK."
 		},
 		{
-		"file":"index.md",
+		"file":"Answer_assessment.md",
 		"title":"Answer Assessment for Students- STACK Documentation",
 		"description":"Information on how answers are assessed for students using STACK."
 		},
@@ -463,7 +468,7 @@
 		"description":"Information on using equivalence reasoning in STACK as a student."
 		},
 		{
-		"file":"Equivalence_reasoning.md",
+		"file":"Accessibility.md",
 		"title":"Accessibility - STACK Documentation",
 		"description":"Accessibility information for students using STACK."
 		}

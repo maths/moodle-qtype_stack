@@ -14,7 +14,7 @@ More about what we are trying to achieve can be found under [the philosophy of S
 
 A demonstration server is also available:  [https://stack.maths.ed.ac.uk/demo](https://stack.maths.ed.ac.uk/demo)
 
-## Main STACK Features
+# Main STACK Features
 
 STACK has many features. Here are some of the most important ones.
 
@@ -46,13 +46,19 @@ Here, STACK can check each condition separately on the student's answer and assi
 
 ### Multipart questions
 
-STACK supports multipart questions with intelligent marking. You can even have follow-through marking for situations where, for example, the student enters a wrong expression to part (a) of a question, but correctly substitutes in values into their expression in part (b). Here, STACK can recognise the work the student put into part (b), even though their answer is different from the "correct" answer.
+STACK supports multipart questions, like the following:
+
+(a) differentiate \(x^2+5*x\) with respect to x.
+
+(b) substitute \(x=5\) into your answer.
+
+You can have follow-through marking for situations where, for example, the student enters a wrong expression to part (a), but correctly substitutes in values into their expression in part (b). Here, STACK can recognise the work the student put into part (b), even though their answer is different from the "correct" answer.
 
 ### Support for many types of questions
 
-STACK has a large number of [inputs](../Authoring/Inputs.md) and [answer tests](../Authoring/Answer_tests.md) to support the diverse needs of users across mathematics and science. This includes support for questions about [numerical accuracy](../Authoring/Answer_tests_numerical.md), [significant figures](../Authoring/Answer_tests_numerical.md) and [scientific units](../Authoring/Units.md). You can also assess students' ability to reason line-by-line with [equivalence reasoning](../Authoring/Equivalence_reasoning.md). 
+STACK has a large number of [inputs](../Authoring/Inputs.md) and [answer tests](../Authoring/Answer_tests.md) to support the diverse needs of users across mathematics and science. This includes support for questions about [numerical accuracy](../Authoring/Answer_tests_numerical.md), [significant figures](../Authoring/Answer_tests_numerical.md#Significant_figure_testing) and [scientific units](../Authoring/Units.md). You can also assess students' ability to reason line-by-line with [equivalence reasoning](../Authoring/Equivalence_reasoning.md). 
 
-## Further information  ##
+# Further information
 
 * [The philosophy of STACK](The_philosophy_of_STACK.md).
 * A [demonstration server](https://stack.maths.ed.ac.uk/demo).

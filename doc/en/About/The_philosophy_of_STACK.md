@@ -32,7 +32,7 @@ else
   mark = 0.
 ```
 
-When designing STACK, it was important to give teachers the freedom to write their own questions, while reducing the barrier of entry. When assessing students' answers, STACK asks teachers to focus on the properties of students answers, such as "algebraically equivalent to the teacher's answer", "factorised", etc. Teachers can then pick suitable [answer tests](../Authoring/Answer_tests.md) in a [potential response tree](../Authoring/Potential_response_trees) and give marks and feedback accordingly.
+When designing STACK, it was important to give teachers the freedom to write their own questions, while reducing the barrier of entry. When assessing students' answers, STACK asks teachers to focus on the properties of students answers, such as "algebraically equivalent to the teacher's answer", "factorised", etc. Teachers can then pick suitable [answer tests](../Authoring/Answer_tests.md) in a [potential response tree](../Authoring/Potential_response_trees.md) and give marks and feedback accordingly.
 
 #### STACK should be open source
 

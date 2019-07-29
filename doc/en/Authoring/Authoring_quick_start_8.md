@@ -1,13 +1,12 @@
 # Authoring quick start 8: setting up a quiz
 
-Authoring quick start: [1 - First question](Authoring_quick_start.md) | [2 - Question variables](Authoring_quick_start_2.md) | [3 - Feedback](Authoring_quick_start_3.md) |[4 - Randomisation](Authoring_quick_start_4.md) | [5 - Question tests](Authoring_quick_start_5.md) | [6 - Multipart questions](Authoring_quick_start_6.md) | [7 - Simplification](Authoring_quick_start_7.md) | 8 - Quizzes
+[1 - First question](Authoring_quick_start.md) | [2 - Question variables](Authoring_quick_start_2.md) | [3 - Feedback](Authoring_quick_start_3.md) | [4 - Randomisation](Authoring_quick_start_4.md) | [5 - Question tests](Authoring_quick_start_5.md) | [6 - Multipart questions](Authoring_quick_start_6.md) | [7 - Simplification](Authoring_quick_start_7.md) | 8 - Quizzes
 
 
 
 This part of the authoring quick start guide deals with setting up a Moodle quiz. The following video explains the process:
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/P3bDdNVC6g0" frameborder="0" allowfullscreen></iframe>
-
 ### Introduction
 
 Once you have authored questions, you will want to include these in a quiz.  Alternatively, you might like to set up a quiz using the sample questions.  
@@ -101,9 +100,8 @@ This concludes the authoring quick start guide. The STACK documentation is compr
 
 - learn about more [input types](Inputs.md),
 - learn about more [answer tests](Answer_tests.md),
-- add [plots](Plots.md) to your [CASText](CASText.md) fields,
+- add [plots](../CAS/Plots.md) to your [CASText](CASText.md) fields,
 - add support for [multiple languages](Languages.md),
 - learn about using [equivalence reasoning](Equivalence_reasoning.md),
 - read about [Curve sketching](Curve_sketching.md).
 - look at more information on [Maxima](../CAS/index.md), particularly the Maxima documentation if you are not very familiar with Maxima's syntax and function names. A graphical Maxima interface like [wxMaxima](http://andrejv.github.com/wxmaxima/) can also be very helpful for finding the appropriate Maxima commands easily.
-

@@ -908,7 +908,6 @@ $string['stackDoc_docs']                = 'STACK Documentation';
 $string['stackDoc_docs_desc']           = '<a href="{$a->link}">Documentation for STACK</a>: a local static wiki.';
 $string['stackDoc_home']                = 'Documentation home';
 $string['stackDoc_index']               = 'Category index';
-$string['stackDoc_parent']              = 'Parent';
 $string['stackDoc_siteMap']             = 'Site map';
 $string['stackDoc_404message']          = 'File not found.';
 $string['stackDoc_directoryStructure']  = 'Directory structure';

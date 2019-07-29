@@ -85,7 +85,6 @@ if ($uri == '/') {
     $linkurls = array(
         $docsurl               => stack_string('stackDoc_home'),
         './'                   => stack_string('stackDoc_index'),
-        '../'                  => stack_string('stackDoc_parent'),
         $docsurl . '/Site_map' => stack_string('stackDoc_siteMap')
     );
 }

@@ -23,7 +23,7 @@ The CAS-debug option in the STACK settings will provide a very verbose output wh
 
 The healthcheck script checks the following. 
 
-* Check LaTeX is being converted correctly?  Check [MathJax](../Developer/Mathjax.md) or another LaTeX converter.
+* Check LaTeX is being converted correctly?  Check [MathJax](Mathjax.md) or another LaTeX converter.
 * Can PHP call external applications?  No, then change PHP settings. 
 * Can PHP call Maxima? No, then see below.
 * Graph plotting. Are auto-generated plots being created correctly?  There should be two different graphs.  If not, check the gnuplot settings, and directory permissions.

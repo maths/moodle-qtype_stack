@@ -19,13 +19,13 @@ We assume a certain amount of knowledge about Maxima when writing STACK question
 
 ## Tutorials for STACK users  {#tutorial}
 
-* Basic information on using [Maxima](Maxima.md) with STACK.
+* The documentation includes basic information on using [Maxima](Maxima.md) with STACK.
 
-A graphical Maxima interface like [wxMaxima](http://andrejv.github.com/wxmaxima/) can also be very helpful for learning Maxima syntax and function names.
+A graphical Maxima interface like [wxMaxima](http://andrejv.github.com/wxmaxima/) can be helpful for learning Maxima syntax and function names.
 
-## Reference material on Maxima in STACK   {#reference}
+## Documentation on using Maxima in STACK   {#reference}
 
-Information on specific mathematical topics are found below
+Information on specific mathematical topics are found below.
 
 * [Predicate functions](Predicate_functions.md), which are useful to test expressions.
 * [Numbers](Numbers.md), including floating point and complex numbers.

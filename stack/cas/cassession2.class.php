@@ -160,7 +160,11 @@ class stack_cas_session2 {
         if ($implode !== true) {
             return $errors;
         }
-        return implode(' ', $errors);
+        $unique = array();
+        foreach ($errors as $err) {
+            $unique[$err] = true;
+        }
+        return implode(' ', array_keys($unique));
 
         // Matti, I don't understand the context.  Can you provide examples or unit tests?
         foreach ($this->errors as $statementerrors) {

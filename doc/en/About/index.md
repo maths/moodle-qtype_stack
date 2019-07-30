@@ -8,31 +8,29 @@ Below is a typical STACK question. Note that the student's answer can be any alg
 
 STACK uses a [Computer Algebra System](../CAS/index.md) to power the assessment system. The built-in knowledge of mathematics that the computer algebra system provides opens up entirely new possibilities to computer-aided assessment.
 
-Primarily, STACK provides a question type for the Moodle quiz.  STACK has also been ported to the ILIAS learning environment, as an [ILIAS question type](https://github.com/ilifau/assStackQuestion/). STACK can be integrated into other systems using [LTI](../Installation/LTI.md).
-
-More about what we are trying to achieve can be found under [the philosophy of STACK](The_philosophy_of_STACK.md).
+Primarily, STACK provides a question type for the Moodle and [ILIAS](https://github.com/ilifau/assStackQuestion/) learning environments. STACK can be integrated into other systems using [LTI](../Installation/LTI.md).
 
 A demonstration server is also available:  [https://stack.maths.ed.ac.uk/demo](https://stack.maths.ed.ac.uk/demo)
 
 # Main STACK Features
 
-STACK has many features. Here are some of the most important ones.
+STACK has many features.
 
 ### Equivalent answers of the right form ###
 
-STACK can mark questions where the correct answer can be expressed in many different forms. In mathematics, this is the rule rather than the exception because of algebraic equivalence between expressions, for example \((x+1)^2 = x^2+2x+1\). STACK can identify these equivalences. STACK can also establish the form of an answer, for example if it is factorised. These two properties are independent.
+STACK can accept equivalent expressions, for example \((x+1)^2 = x^2+2x+1\). STACK can also establish the form of an answer, for example if it is factorised.  STACK is designed to let teachers specify independent properties required in an answer.
 
 ### Ask for examples ###
 
-The system can mark questions that ask the student to provide an example. Here is a simple example of such a question:
+The system can mark questions that ask the student to provide an example.
 
     Give an example of a function f(x) with a minimum at x=0 and a maximum at x=2.
 
-There are many such functions. Rather than comparing the student's answer to the teacher's answer, STACK checks that the answer has the required properties.  Giving examples is a higher-order skill that is impossible to assess with conventional Computer Aided Assessment (CAA) systems.
+Rather than comparing the student's answer to the teacher's answer, STACK checks that the answer has the required properties.  Giving examples is a higher-order skill that is impossible to assess with conventional Computer Aided Assessment (CAA) systems.
 
 ### Intelligent randomisation ###
 
-Randomising questions is invaluable in ensuring students do not share answers. STACK can randomise questions in such a way that the level of difficulty is kept constant. For example, if a question asks the student to 'diagonalize' a 2 by 2 matrix, then the system can randomise this problem in a way that guarantees that the answer only contains integers. The trick is to reverse-engineer the randomised question from a randomised answer. Computer algebra is invaluable to support this process.
+Randomising questions is invaluable in ensuring students can practice and reducing sharing of answers. The trick is to reverse-engineer the randomised question from a randomised answer. Computer algebra is invaluable to support this process.
 
 ### Give feedback and partial credit ###
 
@@ -48,7 +46,7 @@ Here, STACK can check each condition separately on the student's answer and assi
 
 STACK supports multipart questions, like the following:
 
-(a) differentiate \(x^2+5*x\) with respect to x.
+(a) differentiate \(x^2+5x\) with respect to x.
 
 (b) substitute \(x=5\) into your answer.
 
@@ -63,6 +61,6 @@ STACK has a large number of [inputs](../Authoring/Inputs.md) and [answer tests](
 * [The philosophy of STACK](The_philosophy_of_STACK.md).
 * A [demonstration server](https://stack.maths.ed.ac.uk/demo).
 * [Associated publications](Publications.md).
-* [STACK Community](Community.md).
+* [STACK Community](Community.md) and [Credits](Credits.md).
 * The mathematics behind [the STACK logo](Logo.md).
-* [Credits](Credits.md).
+

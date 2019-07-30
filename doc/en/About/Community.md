@@ -64,8 +64,14 @@ The following institutions made use of previous versions of STACK.  If you are a
 School of Mathematics, The University of Edinburgh
 : The home of STACK. Contact [Chris Sangwin](mailto:c.j.sangwin@ed.ac.uk).
 
+School of Mathematics and Statistics, The Open University,
+: Contact [Tim Hunt](mailto:t.j.hunt@open.ac.uk) and [Tim Lowe](mailto:tim.lowe@open.ac.uk)
+
 School of Science, Aalto University, Helsinki, Finland
 : Contact Matti Harjula and [Antti Rasila](http://math.tkk.fi/en/research/matta/)
+
+Mathematics Education Centre, Loughborough University
+: Contact [Ian Jones](mailto:I.Jones@lboro.ac.uk)
 
 School of Informatics and Sciences, Nagoya University, Japan
 : Contact [Yasuyuki Nakamura](mailto:nakamura@nagoya-u.jp)
@@ -79,8 +85,8 @@ Polytechnic Institute of Leiria, Leiria, Portugal
 School of Computing, Information and Mathematical Sciences, The University of the South Pacific
 : Contact [Dhiraj Bhartu](mailto:dhiraj.bhartu@usp.ac.fj)
 
-Gymnasium Himmelstherr, Hildesheim, Deutschland
-: Contact [Frank Schuette](mailto:fschuett@gymnasium-himmelsthuer.de)
+Gymnasium Himmelsthür, Hildesheim, Deutschland
+: Contact [Frank Schütte](mailto:fschuett@gymnasium-himmelsthuer.de)
 
 Universidad Michoacana de San Nicolas de Hidalgo
 : Contact [Victor Hugo Huerta](mailto:v2hugo@gmail.com)
@@ -88,18 +94,8 @@ Universidad Michoacana de San Nicolas de Hidalgo
 e-MAIO project, Coimbra Institute of Engineering, Portugal
 : Contact [e_MAIO@isec.pt](mailto:e_MAIO@isec.pt)
 
-School of Mathematics and Statistics, The Open University,
-
-: Contact [Tim Hunt](mailto:t.j.hunt@open.ac.uk) and [Tim Lowe](mailto:tim.lowe@open.ac.uk)
-
-Mathematics Education Centre, Loughborough University
-
-: Contact [Ian Jones](mailto:I.Jones@lboro.ac.uk)
-
 Maseno University, Kenya
-
 : Contact [Michael Oyengo](mailto:obiero@live.de)
 
 IDEMS International
-
 : Contact [Santiago Borio](mailto:smborio@idems.international)

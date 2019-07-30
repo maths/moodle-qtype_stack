@@ -34,7 +34,7 @@ opportunity to "fill in the blanks" in the following equation:
 (x+1)(x+2) = [?] x2 + [?] x + [?].
 ```
 
-We argue this is really "one question" with "three inputs". Furthermore, it is likely that the teacher will want the student to complete all boxes before any feedback is assigned, even if separate feedback is generated for each input (i.e. coefficient). This feedback should all be grouped in one place on the screen. Furthermore, in order to identify the possible causes of algebraic mistakes, an automatic marking procedure will require all coefficient simultaneously. It is not satisfactory to have three totally
+We argue this is really "one question" with "three inputs". Furthermore, it is likely that the teacher will want the student to complete all boxes before any feedback is assigned, even if separate feedback is generated for each input (i.e. coefficient). This feedback should all be grouped in one place on the screen. Furthermore, in order to identify the possible causes of algebraic mistakes, an automatic marking procedure will require all coefficients simultaneously. It is not satisfactory to have three totally
 independent marking procedures.
 
 These two examples illustrate two extreme positions.
@@ -109,13 +109,14 @@ TAns: ta1
 
 We now link the true branch of node 1 to node 2 (of `prt2`).  This gives us three outcomes.
 
-Node 1: did they evaluate the expression in part 1 correctly? If "yes", then go to node 2, else if "no", then exit with no marks.
+Node 1: did they evaluate their expression in part 1 correctly? If "yes", then go to node 2, else if "no", then exit with no marks.
 
 Node 2: did they get part 1 correct?  if "yes" then this is the ideal situation, full marks.  If "no" then choose marks as suit your taste in this situation, and add some feedback, such as the following:
 
 <textarea readonly="readonly" rows="2" cols="50">
-Your answer to this part is correct, however you have got part 1 wrong!  Please try both parts again!
+You have correctly evaluated your answer to part 1 at the given point, but your answer to part 1 is wrong. Please try both parts again.
 </textarea>
+
 # Next step #
 
 You should now be able to make a multipart question in STACK. If you have been following this quick-start guide, you should already know some steps you can take to improve this question. For example, you could add [more specific feedback](Authoring_quick_start_3.md), [randomise your question](Authoring_quick_start_4.md) and add [question tests](Authoring_quick_start_5.md).

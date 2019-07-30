@@ -52,7 +52,7 @@ Expand {@p@}, remembering to show your working.
 
 Under the `Input:ans1` header specify _Equivalence reasoning_ from the Input type drop-down and `ta` as the model answer.
 
-We want students to work through the expansion one line at a time, so let's include a hint. Copy the following into the Syntax hint box:
+We want students to work through the expansion one line at a time, so let's include a hint. Copy the following into the Syntax hint box, within the `Input:ans1` header::
 
     [(x+2)^3,stackeq(?)]
 
@@ -61,23 +61,23 @@ This is a list, and uses `stackeq`.
 For students in this context, it is probably sensible to "insert stars" and provide the most forgiving input syntax available, but that is optional.
 
 We need to tell STACK to compare the first line of the student's working to the first line of the question. This makes sure the student "answers the right question".
-Type `firstline` into the Extra options box.
+Type `firstline` into the Extra options box within the `Input:ans1` header.
 This ensures a student's response will be invalid if they don't have the correct first line.
 
 ### Setting the potential response tree ###
 
 As a minimal potential response tree have one node, with 
 
+    Answer test = EquivFirst
     SAns = ans1
     TAns = ta
-    answer test = EquivFirst
     Auto-simplify = no
 
 Note, the `Auto-simplify` field is not in the node of the PRT, but a PRT option.
 
 ### Setting the question options ###
 
-Set question level options
+Under the options section, turn off simplification by setting
 
     Auto-simplify = no
 

@@ -13,7 +13,7 @@ A [flyer about the STACK project](%CONTENT/2018-STACK.pdf) is available.
 
 # Overview #
 
-Welcome to the official user documentation for STACK. The documentation is split into six sections. Clicking on a section header will take you to an index page.
+Welcome to the official user documentation for STACK.
 
 #### [**About**](About/index.md)
 

@@ -29,4 +29,4 @@ Notes:
 
 ## Limitations ## 
 
-There is currently no way to loop tests systematically over all variants which have not been deployed yet.
+There is currently no way to loop systematically over all variants and deploy them all.

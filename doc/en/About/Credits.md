@@ -32,7 +32,6 @@ German documentation was added in Jan 2019 by Eva Mix and Mario Josupeit of Univ
 STACK has been ported to the plugin [assStackQuestion](github.com/ilifau/assStackQuestion) for the Learning Management System [ILIAS](https://www.ilias.de/)  by:
 
 - Jesus Copado
-
 - Fred Neumann
 
 This project received a lot of moral support from the ILIAS association and its product manager Matthias Kunkel, as well as funding from various institutions:

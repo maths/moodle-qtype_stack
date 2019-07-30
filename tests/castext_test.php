@@ -984,4 +984,17 @@ class stack_cas_text_test extends qtype_stack_testcase {
         }
         $this->assertEqualsIgnoreSpacesAndE($expected, $at1->get_display_castext());
     }
+
+    public function test_stack_disp_comma_separate() {
+        $st = '{@stack_disp_comma_separate([a,b,c])@} and {#stack_disp_comma_separate([a,b,c])#}.';
+
+        $s2 = array();
+        $cs2 = new stack_cas_session2($s2, null, 0);
+
+        $at2 = new stack_cas_text($st, $cs2, 0, 't');
+        $this->assertTrue($at2->get_valid());
+        $at2->get_display_castext();
+
+        $this->assertEquals('a, b, c and "a, b, c".', $at2->get_display_castext());
+    }
 }

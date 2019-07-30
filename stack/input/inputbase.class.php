@@ -576,7 +576,7 @@ abstract class stack_input {
         if (array() == $contents || (!$this->get_extra_option('allowempty') && $this->is_blank_response($contents))) {
             // Runtime errors may make it appear as if this response is blank, so we put any errors in here.
             $errors = $this->get_errors();
-            if ($errors) {
+            if ($errors || $errors == array()) {
                 $errors = implode(' ', $errors);
             }
             return new stack_input_state(self::BLANK, array(), '', '', $errors, '', '');
@@ -734,7 +734,7 @@ abstract class stack_input {
             $valid = false;
         }
 
-        if ($errors) {
+        if ($errors || $errors == array()) {
             $errors = trim(implode(' ', $errors));
         }
 
@@ -749,7 +749,7 @@ abstract class stack_input {
         // The EMPTYANSWER is not sufficiently robust to determine if we have an empty answer, e.g. matrix inputs.
         if ($this->get_extra_option('allowempty') && $this->is_blank_response($contents)
                 && (array_key_exists($this->name, $response) || array_key_exists($this->name.'_sub_0_0', $response))) {
-                    return new stack_input_state(self::SCORE, $contents, $interpretedanswer, '', array(), '', '');
+                    return new stack_input_state(self::SCORE, $contents, $interpretedanswer, '', '', '', '');
         }
 
         return new stack_input_state($status, $contents, $interpretedanswer, $display, $errors, $note, $lvarsdisp);

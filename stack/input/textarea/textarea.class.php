@@ -45,6 +45,7 @@ class stack_textarea_input extends stack_input {
             'id'   => $fieldname,
             'autocapitalize' => 'none',
             'spellcheck'     => 'false',
+            'class'     => 'maxima-list',
         );
 
         if ($this->is_blank_response($state->contents)) {

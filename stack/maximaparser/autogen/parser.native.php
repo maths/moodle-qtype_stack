@@ -3994,13 +3994,13 @@ class MP_Parser {
           $s2 = null;
         }
         if ($s2 !== $this->peg_FAILED) {
-          $s3 = $this->peg_parseLiteral();
+          $s3 = $this->peg_parseGroup();
           if ($s3 === $this->peg_FAILED) {
-            $s3 = $this->peg_parseGroup();
+            $s3 = $this->peg_parseFunctionCall();
             if ($s3 === $this->peg_FAILED) {
-              $s3 = $this->peg_parseFunctionCall();
+              $s3 = $this->peg_parseIndexing();
               if ($s3 === $this->peg_FAILED) {
-                $s3 = $this->peg_parseIndexing();
+                $s3 = $this->peg_parseLiteral();
                 if ($s3 === $this->peg_FAILED) {
                   $s3 = $this->peg_parseUnaryOp();
                   if ($s3 === $this->peg_FAILED) {
@@ -4050,13 +4050,13 @@ class MP_Parser {
             $s2 = null;
           }
           if ($s2 !== $this->peg_FAILED) {
-            $s3 = $this->peg_parseLiteral();
+            $s3 = $this->peg_parseGroup();
             if ($s3 === $this->peg_FAILED) {
-              $s3 = $this->peg_parseGroup();
+              $s3 = $this->peg_parseFunctionCall();
               if ($s3 === $this->peg_FAILED) {
-                $s3 = $this->peg_parseFunctionCall();
+                $s3 = $this->peg_parseIndexing();
                 if ($s3 === $this->peg_FAILED) {
-                  $s3 = $this->peg_parseIndexing();
+                  $s3 = $this->peg_parseLiteral();
                   if ($s3 === $this->peg_FAILED) {
                     $s3 = $this->peg_parseUnaryOp();
                     if ($s3 === $this->peg_FAILED) {

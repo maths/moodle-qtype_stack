@@ -580,7 +580,7 @@ InfixOp
   / "~"
 
 UnaryOp
-  = op:PrefixOp _? trg:(Literal / Group / FunctionCall / Indexing / UnaryOp / Identifier ) _? op2:PostfixOp {
+  = op:PrefixOp _? trg:(Group / FunctionCall / Indexing / Literal / UnaryOp / Identifier ) _? op2:PostfixOp {
   /** <?php
   $r = new MP_PostfixOp($op2,new MP_PrefixOp($op, $trg));
   if (opBind($op) > opLBind($op2)) {
@@ -595,7 +595,7 @@ UnaryOp
   }
   n.position = location();
   return opBind(n);}
-  / op:PrefixOp _? trg:( Literal / Group / FunctionCall / Indexing / UnaryOp / Identifier ) {
+  / op:PrefixOp _? trg:(Group / FunctionCall / Indexing / Literal / UnaryOp / Identifier ) {
   /** <?php
   $r = new MP_PrefixOp($op, $trg);
   $r->position = array('start'=>$this->peg_reportedPos, 'end'=>$this->peg_currPos);

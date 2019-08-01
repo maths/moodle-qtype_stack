@@ -1249,10 +1249,6 @@ class MP_PrefixOp extends MP_Node {
             }
             return $indent . $this->op . $this->rhs->toString($params);
         }
-
-        if ($this->op === 'not ') {
-            return $this->op . $this->rhs->toString($params);
-        }
         return $this->op . $this->rhs->toString($params);
     }
 

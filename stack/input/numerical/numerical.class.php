@@ -62,6 +62,7 @@ class stack_numerical_input extends stack_input {
             'style' => 'width: '.$size.'em',
             'autocapitalize' => 'none',
             'spellcheck'     => 'false',
+            'class'     => 'numerical',
         );
 
         $value = $this->contents_to_maxima($state->contents);

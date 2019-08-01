@@ -46,6 +46,7 @@ class stack_string_input extends stack_algebraic_input {
             'style' => 'width: '.$size.'em',
             'autocapitalize' => 'none',
             'spellcheck'     => 'false',
+            'class'     => 'maxima-string',
         );
 
         if ($this->is_blank_response($state->contents)) {

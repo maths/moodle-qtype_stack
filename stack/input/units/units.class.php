@@ -62,6 +62,7 @@ class stack_units_input extends stack_input {
             'style' => 'width: '.$size.'em',
             'autocapitalize' => 'none',
             'spellcheck'     => 'false',
+            'class'     => 'algebraic-units',
         );
 
         if ($state->contents == 'EMPTYANSWER') {

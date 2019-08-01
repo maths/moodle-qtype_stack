@@ -166,6 +166,17 @@ class stack_ast_container extends stack_ast_container_silent implements cas_late
         return $this->latex;
     }
 
+    public function is_correctly_evaluated(): bool {
+        /*
+         * In cases where a statement occurs many times, only the last values will be stored.
+         * Some of the previous values will therefore be null, creating an exception if we ask for the value.
+         */
+        if ($this->evaluated === null) {
+            return false;
+        }
+        return $this->isevaluated && $this->valid;
+    }
+
     // If we "CAS validate" this string, then we need to set various options.
     // If the teacher's answer is null then we use typeless validation, otherwise we check type.
     public function set_cas_validation_context($vname, $lowestterms, $tans, $validationmethod, $simp) {

@@ -218,7 +218,10 @@ class stack_answertest_general_cas extends stack_anstest {
         }
         if ($result instanceof MP_List) {
             $r['valid'] = $result->items[0]->value;
-            $r['result'] = $result->items[1]->value;
+            $r['result'] = '';
+            if (property_exists($result->items[1], 'value')) {
+                $r['result'] = $result->items[1]->value;
+            }
             if ($result->items[2] instanceof MP_String) {
                 $r['answernote'] = $result->items[2]->value;
             } else if ($result->items[2] instanceof MP_List) {

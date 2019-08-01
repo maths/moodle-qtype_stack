@@ -238,7 +238,7 @@ safe_setp(ex) := setp(ex) or safe_op(ex) = "{"$
 alias(ln, log);
 
 /* Legacy reasons */
-alias(lg,logbase);
+alias(lg, logbase);
 
 lgtex(ex) := block([n, b],
   b:10,

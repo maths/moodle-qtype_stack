@@ -576,7 +576,7 @@ abstract class stack_input {
         if (array() == $contents || (!$this->get_extra_option('allowempty') && $this->is_blank_response($contents))) {
             // Runtime errors may make it appear as if this response is blank, so we put any errors in here.
             $errors = $this->get_errors();
-            if ($errors || $errors == array()) {
+            if ($errors || $errors === array()) {
                 $errors = implode(' ', $errors);
             }
             return new stack_input_state(self::BLANK, array(), '', '', $errors, '', '');
@@ -734,7 +734,7 @@ abstract class stack_input {
             $valid = false;
         }
 
-        if ($errors || $errors == array()) {
+        if ($errors || $errors === array()) {
             $errors = trim(implode(' ', $errors));
         }
 

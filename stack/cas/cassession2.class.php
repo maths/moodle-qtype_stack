@@ -319,7 +319,12 @@ class stack_cas_session2 {
             if (array_key_exists('values', $results)) {
                 foreach ($results['values'] as $key => $value) {
                     if (is_string($value)) {
-                        $ast = maxima_parser_utils::parse($value);
+                        try {
+                            $ast = maxima_parser_utils::parse($value);
+                        } catch (Exception $e) {
+                            throw new stack_exception('stack_cas_session: tried to parse the value ' .
+                                    $value . ', but got the following exception ' . $e->getMessage());
+                        }
                         // Let's unpack the MP_Root immediately.
                         $asts[$key] = $ast->items[0];
                     }

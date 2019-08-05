@@ -63,9 +63,6 @@ class stack_secure_loader implements cas_evaluatable {
     }
 
     public function get_errors($raw = 'implode') {
-        if (null === $this->valid) {
-            $this->get_valid();
-        }
         if ($raw === 'implode') {
             return implode(' ', array_unique($this->errors));
         }

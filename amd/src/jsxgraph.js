@@ -47,8 +47,11 @@ define(["qtype_stack/jsxgraphcore-lazy"], function(JXG) {
                             theInput.value = tmp;
                             // As we set the inputs value programmatically no events
                             // will be fired. But for two way binding we want to fire them...
-                            var e = new Event('change');
-                            theInput.dispatchEvent(e);
+                            // However we do not need this in the preview where it annoys people.
+                            if (window.location.pathname.indexOf('preview.php') === -1) {
+                                var e = new Event('change');
+                                theInput.dispatchEvent(e);
+                            }
                         }
                     }
                 });
@@ -119,8 +122,11 @@ define(["qtype_stack/jsxgraphcore-lazy"], function(JXG) {
                             theInput.value = tmp;
                             // As we set the inputs value programmatically no events
                             // will be fired. But for two way binding we want to fire them...
-                            var e = new Event('change');
-                            theInput.dispatchEvent(e);
+                            // However we do not need this in the preview where it annoys people.
+                            if (window.location.pathname.indexOf('preview.php') === -1) {
+                                var e = new Event('change');
+                                theInput.dispatchEvent(e);
+                            }
                         }
                     }
                 });

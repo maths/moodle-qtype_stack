@@ -17,7 +17,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/filter.interface.php');
-require_once(__DIR__ . '/../../maximaparser/utils.php');
+require_once(__DIR__ . '/../../maximaparser/corrective_parser.php');
 
 /**
  * AST filter that handles the logarithm base syntax-extension.
@@ -64,7 +64,8 @@ class stack_ast_filter_002_log_candy implements stack_cas_astfilter {
                     $argument = core_text::substr($node->name->value, 4);
                     // This will unfortunately lose all the information about insertted stars
                     // but that is hardly an issue.
-                    $parsed = maxima_parser_utils::parse($argument, 'Root');
+                    $parsed = maxima_corrective_parser::parse($argument, $errors, $answernotes, array('startRule' => 'Root',
+                               'letToken' => stack_string('equiv_LET')));
                     // There will be only one statement and it is a statement.
                     $parsed = $parsed->items[0]->statement;
                     // Then we rewrite things.

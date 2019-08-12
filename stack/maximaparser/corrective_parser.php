@@ -532,7 +532,10 @@ class maxima_corrective_parser {
             $a['cmd']  = stack_maxima_format_casstring($string);
             $errors[] = stack_string('stackCas_finalChar', $a);
             $answernote[] = 'finalChar';
-        } else {
+        } else if ($previouschar === '"') {
+            $errors[] = stack_string('stackCas_MissingString');
+            $answernote[] = 'MissingString';
+        } else{
             $errors[] = $exception->getMessage();
             $answernote[] = 'ParseError';
         }

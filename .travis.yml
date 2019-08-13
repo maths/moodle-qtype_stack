@@ -124,6 +124,11 @@ script:
   - if [ "$TASK" = 'PHPUNIT' ];        then moodle-plugin-ci phpunit;     fi
 
   # Run all the Behat tests.
+
+  # The following line is a temporary work-around for https://tracker.moodle.org/browse/MDL-66378.
+  # Once that is fixed, this line can go.
+  - if [ "$TASK" = 'BEHAT' ];          then curl https://github.com/timhunt/php-webdriver/commit/7a0aa38f591b7395939df25d8cb6677bf99a481f.patch | git apply --directory moodle/vendor/instaclick/php-webdriver; fi
+
   - if [ "$TASK" = 'BEHAT' ];          then moodle-plugin-ci behat --profile chrome; fi
 
   # Run all the various code style tests - this subset should all pass.

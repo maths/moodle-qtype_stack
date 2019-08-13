@@ -118,7 +118,7 @@ class stack_numerical_input_test extends qtype_stack_testcase {
         $el->set_parameter('options', 'floatnum');
         $state = $el->validate_student_response(array('sans1' => "314e-5"), $options, '3.14', new stack_cas_security());
         $this->assertEquals(stack_input::VALID, $state->status);
-        $this->assertEquals('314e-5', $state->contentsmodified);
+        $this->assertEqualsIgnoreSpacesAndE('314e-5', $state->contentsmodified);
         $this->assertEquals('\[ 3.14E-3 \]', strtoupper($state->contentsdisplayed));
         $this->assertEquals('', $state->errors);
     }

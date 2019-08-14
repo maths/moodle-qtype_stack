@@ -88,7 +88,8 @@ class stack_bulk_tester  {
             if ($outputmode == 'web') {
                 echo html_writer::tag('p', stack_string('replacedollarscount', count($questionids)));
             } else {
-                echo "\n" . stack_string('replacedollarscount', count($questionids)) . "\n";
+                echo "\n\n## " . $category . "\n## ";
+                echo stack_string('replacedollarscount', count($questionids)) . ' ' . "\n";
             }
 
             foreach ($questionids as $questionid => $name) {
@@ -100,6 +101,8 @@ class stack_bulk_tester  {
                 } else {
                     $questionname = $questionid . ': ' . format_string($name);
                     $questionnamelink = $questionname;
+                    echo "\n" . $questionnamelink . " :";
+                    $qdotoutput = 0;
                 }
 
                 $upgradeerrors = $question->validate_against_stackversion();

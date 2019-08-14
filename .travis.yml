@@ -1,5 +1,6 @@
 language: php
 
+dist: bionic
 sudo: required
 
 services:

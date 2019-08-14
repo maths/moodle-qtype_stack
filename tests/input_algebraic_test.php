@@ -747,7 +747,7 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         $this->assertEquals(stack_input::SCORE, $state->status);
         $this->assertEquals('EMPTYANSWER', $state->contentsmodified);
         $this->assertEquals('', $state->contentsdisplayed);
-        $this->assertEquals(array(), $state->errors);
+        $this->assertEquals('', $state->errors);
         $this->assertEquals('This input can be left blank.',
                 $el->get_teacher_answer_display($state->contentsmodified, $state->contentsdisplayed));
     }
@@ -865,7 +865,7 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         $this->assertEquals('a+-b+-c', $state->contentsmodified);
         $this->assertEquals('', $state->note);
         $this->assertEquals('', $state->errors);
-        $this->assertEquals('\[ a \pm b \pm c \]', $state->contentsdisplayed);
+        $this->assertEquals('\[ {a \pm b \pm c} \]', $state->contentsdisplayed);
     }
 
     public function test_validate_student_response_pm_eq() {
@@ -875,9 +875,9 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         $state = $el->validate_student_response(array('sans1' => 'x +- a = y +- b'),
             $options, 'x +- a = y +- b', new stack_cas_security(false, '', '', array('tans')));
         $this->assertEquals(stack_input::VALID, $state->status);
-        $this->assertEquals('x +- a = y +- b', $state->contentsmodified);
+        $this->assertEquals('x+-a=y+-b', $state->contentsmodified);
         $this->assertEquals('', $state->note);
         $this->assertEquals('', $state->errors);
-        $this->assertEquals('\[ x \pm a = y \pm c \]', $state->contentsdisplayed);
+        $this->assertEquals('\[ {x \pm a}={y \pm b} \]', $state->contentsdisplayed);
     }
 }

@@ -728,7 +728,7 @@ numerical_not_alg_equiv(p1, p2):= block([pvars, pval, lv, sz, stack_mtell_quiet]
   /* We can't remove all these with stack_mtell_quiet, because some are division by zero
      which are errors, not warnings.                                                      */
   if is(pval = []) then (print("STACK: ignore previous error. (p1)"), return(false)),
-  pval:errcatch(ev(is(abs(first(pval)) > 1/10000), simp)), 
+  pval:errcatch(ev(is(abs(first(pval)) > 1/10000), simp)),
   if is(pval = []) then (print("STACK: ignore previous error. (p1)"), return(false)),
   if first(pval) then return(true),
   /* Evaluate the difference of the expressions at each variable as floats. */
@@ -907,7 +907,7 @@ flatten_recurse_nouns(ex) := block(
     if atom(ex) then return(ex),
     if op(ex)="noun+" or op(ex)="noun*" then
         return(flatten(apply(op(ex), maplist(flatten_recurse_nouns, args(ex))))),
-    if safe_op(ex)="nounset" then 
+    if safe_op(ex)="nounset" then
         return((apply(op(ex), maplist(flatten_recurse_nouns, sort(args(ex)))))),
     apply(op(ex), maplist(flatten_recurse_nouns, args(ex)))
 )$
@@ -1156,13 +1156,12 @@ nounlimit([ex]):=apply(nounify(limit), ex)$
 prefix("+-");
 nary("+-", 100);
 
-displaypmtex(ex):=block([al, a1, a2],
+displaypmtex(ex):=block([al],
   al:args(ex),
   if is(length(al)=1) then
         return(sconcat(" \\pm ", tex1(first(al)))),
-  a1:tex1(first(al)),
-  a2:tex1(second(al)),
-  sconcat("{", a1, " \\pm ", a2, "}")
+  al:maplist(tex1, al),
+  sconcat("{", simplode(al, " \\pm "), "}")
   );
 texput("+-", displaypmtex);
 

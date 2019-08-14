@@ -481,8 +481,8 @@ _APPEND_FEEDBACK(feedback) := if ev(stackmap_has_key(%FEEDBACK, %stmt), simp)
 _RESET_FEEDBACK() := %FEEDBACK:stackmap_unset(%FEEDBACK,%stmt)$
 
 /* General error catching wrapper */
-_EC(errcatched, reference) := if errcatched = [] 
- then 
+_EC(errcatched, reference) := if errcatched = []
+ then
   (_APPEND_ERR([errormsgtostring()], reference), false)
  else
   true$
@@ -778,9 +778,6 @@ stack_validate(expr, LowestTerms, TAns) := block([simp:false, exs, SameType, fvs
   /* Checks fractions are in lowest terms. */
   if LowestTerms and all_lowest_termsex(expr)=false then
     print(StackAddFeedback("", "Lowest_Terms")),
-  /* The +- operator may only appear once. */
-  if ev(count_op(expr, "+-"), simp)>1 then
-    print(StackAddFeedback("", "Too_many+-")),
   /* Check for x=1 or 2.  */
   exs:stack_validate_missing_assignment(expr),
   if first(exs) then
@@ -814,9 +811,6 @@ stack_validate_typeless(expr, LowestTerms, Equiv, fltfmt) := block([simp:false, 
   /* Checks fractions are in lowest terms */
   if LowestTerms and all_lowest_termsex(expr) = false then
     print(StackAddFeedback("", "Lowest_Terms")),
-  /* The +- operator may only appear once. */
-  if ev(count_op(expr, "+-"), simp)>1 then
-    print(StackAddFeedback("", "Too_many+-")),
   /* Check for x=1 or 2.  */
   exs: stack_validate_missing_assignment(expr),
   if first(exs) then
@@ -1220,10 +1214,10 @@ ATNumSigFigs(SA, SB, SO) := block([Validity, RawMark, FeedBack, AnswerNote, ret,
 */
 ATAlgEquiv(SA,SB) := block([simp:true, ret, newret, SAN],
     /* Turn on simplification and error catch */
-    if is(_EC(errcatch(SA:ev(SA, simp, nouns)), "") = false) then 
+    if is(_EC(errcatch(SA:ev(SA, simp, nouns)), "") = false) then
         return([false, false, StackAddNote("", "ATAlgEquiv_STACKERROR_SAns"), ""]),
     SAN:copy(SA), /* Need this for when we have lists etc. */
-    if is(_EC(errcatch(SB:ev(SB, simp, nouns, rat)), "") = false) then 
+    if is(_EC(errcatch(SB:ev(SB, simp, nouns, rat)), "") = false) then
         return([false, false, StackAddNote("", "ATAlgEquiv_STACKERROR_TAns"),""]),
     /* Start recursive process */
     ret:ATAlgEquivfun(SA, SB),

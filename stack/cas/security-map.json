@@ -1360,7 +1360,8 @@
     },
     "constant": {
         "keyword": "?",
-        "property": "?"
+        "property": "?",
+        "specialallowvariable": true
     },
     "constantp": {
         "function": "?"

@@ -10,19 +10,27 @@ How to report bugs and make suggestions is described on the [community](../About
 Version 4.3 represents a major internal re-engineering of STACK, with a new dedicated parser and an updated mechanism for connecting to Maxima.  This is a significant improvement, refactoring some of the oldest code and unblocking progress to a wide range of requested features.
 
 CHANGES:
+
 * In the forbidden words we now match whole words not substrings.
 * Removed the RegExp answer test.
 
 DONE:
 
+* Add in full parser, to address issue #324.
 * Removed the Maxima MathML code (which wasn't connected or used).
 * Add in metadata system to the documentation (Thanks to Malthe Sporring for this suggestion).
 * Add in extra option `simp` to inputs.
 * Add in extra options in the input `allowempty` and `hideanswer`.
 * Review and updated documentation (thanks to Malthe Sporring).
 
-TODO:
+## Other things to fix
 
+1. Matrix instant validation does not appear to work.
+
+
+## Version 4.4
+
+* Refactor DB of 'insterStars' and remove stack_input_factory::convert_legacy_insert_stars.  Really use new values throughout.  See [Future plans for syntax of answers and STACK](Syntax_Future.md)
 * 1st version of API.
 * Better install code (see #332).
 * Better CSS, including "tool tips".  May need to refactor JavaScript.  (See issue #380)
@@ -33,12 +41,7 @@ TODO:
 * Update MCQ to accept units.
 * Add a base N check to the numeric input.
 * Expand support for input validation options to matrices (e.g. floatnum, rationalize etc.)
+* Refactor numerical answer tests to make proper use of ast
+* Move find_units_synonyms into the parser more fully?
 
-## Add in full parser, to address issue #324.
 
-1. Refactor numerical answer tests to make proper use of ast
-2. Move find_units_synonyms into the parser more fully?
-
-## Other things to fix
-
-1. Matrix instant validation does not appear to work.

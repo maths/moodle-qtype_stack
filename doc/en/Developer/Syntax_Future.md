@@ -1,4 +1,4 @@
-# Syntax of answers and STACK.
+# Future plans for syntax of answers and STACK.
 
 __Problem we are trying to solve__: students don't use the correct syntax.  We want, as much as possible, to spot common problems and either (1) tell students what they have done wrong, or (2) just condone the problem and fix it quietly.
 

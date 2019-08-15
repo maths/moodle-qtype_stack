@@ -503,7 +503,7 @@ class qtype_stack extends question_type {
 
             $question->prts[$name] = new stack_potentialresponse_tree($name, '',
                     (bool) $prtdata->autosimplify, $prtdata->value / $totalvalue,
-                    $feedbackvariables, $nodes, $prtdata->firstnodename);
+                    $feedbackvariables, $nodes, (string) $prtdata->firstnodename);
         }
 
         $question->deployedseeds = array_values($questiondata->deployedseeds);
@@ -2169,7 +2169,7 @@ class qtype_stack extends question_type {
         }
         $feedbackvariables = new stack_cas_keyval($prt->feedbackvariables);
         $potentialresponsetree = new stack_potentialresponse_tree(
-                '', '', false, 0, $feedbackvariables->get_session(), $prtnodes, $prt->firstnodename);
+                '', '', false, 0, $feedbackvariables->get_session(), $prtnodes, (string) $prt->firstnodename);
         return $potentialresponsetree->get_required_variables($inputkeys);
     }
 }

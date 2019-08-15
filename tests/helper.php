@@ -105,7 +105,7 @@ class qtype_stack_test_helper extends question_test_helper {
     public static function make_stack_question_test0() {
         $q = self::make_a_stack_question();
 
-        $q->stackversion = 2018051000;
+        $q->stackversion = '2019072900';
         $q->name = 'test-0';
         $q->questionvariables = 'a:1+1;';
         $q->questiontext = 'What is {@a@}? [[input:ans1]]
@@ -127,7 +127,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $node->add_branch(0, '=', 0, $q->penalty, -1, '', FORMAT_HTML, 'firsttree-1-F');
         $node->add_branch(1, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'firsttree-1-T');
         // We have "simplify:true" in this prt so that we really check the arguments to EqualComAss are not simplified.
-        $q->prts['firsttree'] = new stack_potentialresponse_tree('firsttree', '', true, 1, null, array($node), 0);
+        $q->prts['firsttree'] = new stack_potentialresponse_tree('firsttree', '', true, 1, null, array($node), '0');
 
         return $q;
     }
@@ -172,7 +172,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $node = new stack_potentialresponse_node($sans, $tans, 'Int', 'x');
         $node->add_branch(0, '=', 0, $q->penalty, -1, '', FORMAT_HTML, 'PotResTree_1-0-0');
         $node->add_branch(1, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'PotResTree_1-0-1');
-        $q->prts['PotResTree_1'] = new stack_potentialresponse_tree('PotResTree_1', '', true, 1, null, array($node), 0);
+        $q->prts['PotResTree_1'] = new stack_potentialresponse_tree('PotResTree_1', '', true, 1, null, array($node), '0');
 
         return $q;
     }
@@ -183,7 +183,7 @@ class qtype_stack_test_helper extends question_test_helper {
     public static function make_stack_question_test2() {
         $q = self::make_a_stack_question();
 
-        $q->stackversion = 2018051000;
+        $q->stackversion = '2019072900';
         $q->name = 'test-2';
         $q->questionvariables = 'orderless(y,x); a:3; f(x):=x^2; b:f(a); ta:y+x';
         $q->questiontext = 'Expand
@@ -205,7 +205,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $node = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv', null);
         $node->add_branch(0, '=', 0, $q->penalty, -1, '', FORMAT_HTML, 'PotResTree_1-0-0');
         $node->add_branch(1, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'PotResTree_1-0-1');
-        $q->prts['PotResTree_1'] = new stack_potentialresponse_tree('PotResTree_1', '', true, 1, null, array($node), 0);
+        $q->prts['PotResTree_1'] = new stack_potentialresponse_tree('PotResTree_1', '', true, 1, null, array($node), '0');
 
         return $q;
     }
@@ -247,6 +247,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->inputs['ans4'] = stack_input_factory::make('boolean', 'ans4', 'true', $options);
 
         $feedbackvars = new stack_cas_keyval('sa:subst(x=-x,ans1)+ans1', null, null);
+
         $sans = stack_ast_container::make_from_teacher_source('sa');
         $sans->get_valid();
         $tans = stack_ast_container::make_from_teacher_source('0');
@@ -256,7 +257,7 @@ class qtype_stack_test_helper extends question_test_helper {
                 'Your answer is not an odd function. Look, \[ f(x)+f(-x)={@sa@} \neq 0.\]', FORMAT_HTML, 'odd-0-0');
         $node->add_branch(1, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'odd-0-1');
         $q->prts['odd']     = new stack_potentialresponse_tree('odd',
-                '', true, 0.25, $feedbackvars->get_session(), array($node), 0);
+                '', true, 0.25, $feedbackvars->get_session(), array($node), '0');
 
         $feedbackvars = new stack_cas_keyval('sa:subst(x=-x,ans2)-ans2', null, null);
         $sans = stack_ast_container::make_from_teacher_source('sa');
@@ -268,7 +269,7 @@ class qtype_stack_test_helper extends question_test_helper {
                 'Your answer is not an even function. Look, \[ f(x)-f(-x)={@sa@} \neq 0.\]', FORMAT_HTML, 'even-0-0');
         $node->add_branch(1, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'even-0-1');
         $q->prts['even'] = new stack_potentialresponse_tree('even',
-                '', true, 0.25, $feedbackvars->get_session(), array($node), 0);
+                '', true, 0.25, $feedbackvars->get_session(), array($node), '0');
 
         $feedbackvars = new stack_cas_keyval('sa1:ans3+subst(x=-x,ans3); sa2:ans3-subst(x=-x,ans3)');
 
@@ -291,7 +292,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $node1->add_branch(1, '+', 0.5, $q->penalty, -1, '', FORMAT_HTML, 'oddeven-1-1');
 
         $q->prts['oddeven'] = new stack_potentialresponse_tree('oddeven',
-                '', true, 0.25, $feedbackvars->get_session(), array($node0, $node1), 0);
+                '', true, 0.25, $feedbackvars->get_session(), array($node0, $node1), '0');
 
         $sans = stack_ast_container::make_from_teacher_source('ans4');
         $sans->get_valid();
@@ -301,7 +302,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $node->add_branch(0, '=', 0, 1, -1, '', FORMAT_HTML, 'unique-0-0');
         $node->add_branch(1, '=', 1, 1, -1, '', FORMAT_HTML, 'unique-0-1');
         $q->prts['unique']  = new stack_potentialresponse_tree('unique',
-                '', true, 0.25, null, array($node), 0);
+                '', true, 0.25, null, array($node), '0');
 
         $q->hints = array(
             new question_hint(1, 'Hint 1', FORMAT_HTML),
@@ -319,7 +320,7 @@ class qtype_stack_test_helper extends question_test_helper {
     public static function make_stack_question_test3_penalty0_1() {
         $q = self::make_a_stack_question();
 
-        $q->stackversion = 2018051000;
+        $q->stackversion = '2019072900';
         $q->name = 'test-3,penalty-0.1';
         $q->questiontext = '<p>1. Give an example of an odd function by typing
                                   an expression which represents it.
@@ -358,7 +359,7 @@ class qtype_stack_test_helper extends question_test_helper {
                 'Your answer is not an odd function. Look, \[ f(x)+f(-x)={@sa@} \neq 0.\]', FORMAT_HTML, 'odd-0-0');
         $node->add_branch(1, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'odd-0-1');
         $q->prts['odd']     = new stack_potentialresponse_tree('odd',
-                '', true, 0.25, $feedbackvars->get_session(), array($node), 0);
+                '', true, 0.25, $feedbackvars->get_session(), array($node), '0');
 
         $feedbackvars = new stack_cas_keyval('sa:subst(x=-x,ans2)-ans2', null, null);
         $sans = stack_ast_container::make_from_teacher_source('sa');
@@ -370,7 +371,7 @@ class qtype_stack_test_helper extends question_test_helper {
                 'Your answer is not an even function. Look, \[ f(x)-f(-x)={@sa@} \neq 0.\]', FORMAT_HTML, 'even-0-0');
         $node->add_branch(1, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'even-0-1');
         $q->prts['even']    = new stack_potentialresponse_tree('even',
-                '', true, 0.25, $feedbackvars->get_session(), array($node), 0);
+                '', true, 0.25, $feedbackvars->get_session(), array($node), '0');
 
         $feedbackvars = new stack_cas_keyval('sa1:ans3+subst(x=-x,ans3); sa2:ans3-subst(x=-x,ans3)');
 
@@ -393,7 +394,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $node1->add_branch(1, '+', 0.5, $q->penalty, -1, '', FORMAT_HTML, 'oddeven-1-1');
 
         $q->prts['oddeven'] = new stack_potentialresponse_tree('oddeven',
-                '', true, 0.25, $feedbackvars->get_session(), array($node0, $node1), 0);
+                '', true, 0.25, $feedbackvars->get_session(), array($node0, $node1), '0');
 
         $sans = stack_ast_container::make_from_teacher_source('ans4');
         $sans->get_valid();
@@ -403,7 +404,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $node->add_branch(0, '=', 0, $q->penalty, -1, '', FORMAT_HTML, 'unique-0-0');
         $node->add_branch(1, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'unique-0-1');
         $q->prts['unique']  = new stack_potentialresponse_tree('unique',
-                '', true, 0.25, null, array($node), 0);
+                '', true, 0.25, null, array($node), '0');
 
         return $q;
     }
@@ -414,7 +415,7 @@ class qtype_stack_test_helper extends question_test_helper {
     public static function make_stack_question_test4() {
         $q = self::make_a_stack_question();
 
-        $q->stackversion = 2018051000;
+        $q->stackversion = '2019072900';
         $q->name = 'test-4';
         $q->questionvariables = 'p : x^2';
         $q->questiontext = 'Below is a sketch of a graph. Find an algebraic expression which represents it.
@@ -438,7 +439,7 @@ class qtype_stack_test_helper extends question_test_helper {
                 FORMAT_HTML, 'plots-0-0');
         $node->add_branch(1, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'plots-0-1');
         $q->prts['plots'] = new stack_potentialresponse_tree('plots',
-                '', true, 1, null, array($node), 0);
+                '', true, 1, null, array($node), '0');
 
         return $q;
     }
@@ -449,6 +450,7 @@ class qtype_stack_test_helper extends question_test_helper {
     public static function make_stack_question_test5() {
         $q = self::make_a_stack_question();
 
+        $q->stackversion = '2019072900';
         $q->name = 'test-5';
         $q->questionvariables = 'rn : -1*(rand(4)+1); rp : 8+rand(6); ar : rn*rp; sg : rn+rp; ' .
                 'ta1 : x*(x+sg)=-ar; ta2 : x*(x-sg)=-ar; tas : setify(map(rhs,solve(ta1,x)))';
@@ -493,7 +495,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $node->add_branch(0, '=', 0, $q->penalty, -1, 'Not correct.', FORMAT_HTML, 'eq-0-0');
         $node->add_branch(1, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'eq-0-1');
         $q->prts['eq'] = new stack_potentialresponse_tree('eq',
-                    '', true, 0.3333333, null, array($node), 0);
+                    '', true, 0.3333333, null, array($node), '0');
 
         $feedbackvars = new stack_cas_keyval('v1 : first(listofvars(ans1)); ftm : setify(map(rhs,solve(ans1,v1)))');
 
@@ -533,7 +535,7 @@ class qtype_stack_test_helper extends question_test_helper {
 
         $q->prts['sol'] = new stack_potentialresponse_tree('sol',
                     '', true, 0.3333333, $feedbackvars->get_session(),
-                    array($node0, $node1, $node2, $node3), 0);
+                    array($node0, $node1, $node2, $node3), '0');
 
         $sans = stack_ast_container::make_from_teacher_source('ans3');
         $sans->get_valid();
@@ -543,7 +545,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $node->add_branch(0, '=', 0, $q->penalty, -1, 'Not correct.', FORMAT_HTML, 'short-0-0');
         $node->add_branch(1, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'short-0-1');
         $q->prts['short'] = new stack_potentialresponse_tree('short',
-                            '', true, 0.3333333, null, array($node), 0);
+                            '', true, 0.3333333, null, array($node), '0');
 
         return $q;
     }
@@ -554,7 +556,7 @@ class qtype_stack_test_helper extends question_test_helper {
     public static function make_stack_question_test_boolean() {
         $q = self::make_a_stack_question();
 
-        $q->stackversion = 2018051000;
+        $q->stackversion = '2019072900';
         $q->name = 'test-boolean';
         $q->questionvariables = 'ta:true;';
         $q->questiontext = 'What is {@ta@}? [[input:ans1]]
@@ -574,7 +576,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $node = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv', null);
         $node->add_branch(0, '=', 0, $q->penalty, -1, '', FORMAT_HTML, 'firsttree-1-F');
         $node->add_branch(1, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'firsttree-1-T');
-        $q->prts['firsttree'] = new stack_potentialresponse_tree('firsttree', '', true, 1, null, array($node), 0);
+        $q->prts['firsttree'] = new stack_potentialresponse_tree('firsttree', '', true, 1, null, array($node), '0');
 
         return $q;
     }
@@ -585,7 +587,7 @@ class qtype_stack_test_helper extends question_test_helper {
     public static function make_stack_question_test7() {
         $q = self::make_a_stack_question();
 
-        $q->stackversion = 2018051000;
+        $q->stackversion = '2019072900';
         $q->name = 'test-7';
         $q->questionvariables = "l1 : 1+(-1)^rand(1)*rand(6); " .
                                 "l2 : l1+(-1)^rand(1)*(1+rand(4)); " .
@@ -647,7 +649,7 @@ class qtype_stack_test_helper extends question_test_helper {
                 'Not two lin ind parts');
 
         $q->prts['Result'] = new stack_potentialresponse_tree('Result', '',
-                true, 1, $feedbackvars->get_session(), array($node0, $node1, $node2), 0);
+                true, 1, $feedbackvars->get_session(), array($node0, $node1, $node2), '0');
 
         return $q;
     }
@@ -659,7 +661,7 @@ class qtype_stack_test_helper extends question_test_helper {
     public static function make_stack_question_test8() {
         $q = self::make_a_stack_question();
 
-        $q->stackversion = 2018051000;
+        $q->stackversion = '2019072900';
         $q->name = 'test-8';
         $q->questionvariables = "n : rand(2)+3; " .
                                 "p : rand(3)+2; " .
@@ -709,7 +711,7 @@ class qtype_stack_test_helper extends question_test_helper {
                 'ans-2-T');
 
         $q->prts['ans'] = new stack_potentialresponse_tree('ans', '',
-                true, 1, null, array($node0, $node1, $node2), 0);
+                true, 1, null, array($node0, $node1, $node2), '0');
 
         return $q;
     }
@@ -720,7 +722,7 @@ class qtype_stack_test_helper extends question_test_helper {
     public static function make_stack_question_test9() {
         $q = self::make_a_stack_question();
 
-        $q->stackversion = 2018051000;
+        $q->stackversion = '2019072900';
         $q->name = 'test-9';
         $q->questionvariables = 'b : rand([-2,-3,-4,2,3,4]); ta1 : b; ta2 : rand([-2,-3,-4,2,3,4]); ' .
                 'a : b*ta2; p : a*x+b; f : lambda([x],if (x<0) then p else ta1*exp(ta2*x))';
@@ -775,7 +777,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $node->add_branch(0, '=', 0, $q->penalty, -1,
                 'Compare your answer with the correct one {@plot([f(x),g(x)],[x,-1,1])@}', FORMAT_HTML, 'prt1-1-F');
         $node->add_branch(1, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'prt1-1-T');
-        $q->prts['prt1'] = new stack_potentialresponse_tree('prt1', '', true, 1, null, array($node), 0);
+        $q->prts['prt1'] = new stack_potentialresponse_tree('prt1', '', true, 1, null, array($node), '0');
 
         return $q;
     }
@@ -786,7 +788,7 @@ class qtype_stack_test_helper extends question_test_helper {
     public static function make_stack_question_divide() {
         $q = self::make_a_stack_question();
 
-        $q->stackversion = 2018051000;
+        $q->stackversion = '2019072900';
         $q->name = 'divide';
         $q->questiontext = '<p>Give me \(x\) such that \[1/x = 2\]</p>
                             <p>\(x = \) [[input:ans1]]</p>
@@ -805,7 +807,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $node = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv', '3');
         $node->add_branch(0, '=', 0, $q->penalty, -1, '', FORMAT_HTML, 'prt1-1-F');
         $node->add_branch(1, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'prt1-1-T');
-        $q->prts['prt1'] = new stack_potentialresponse_tree('prt1', '', false, 1, null, array($node), 0);
+        $q->prts['prt1'] = new stack_potentialresponse_tree('prt1', '', false, 1, null, array($node), '0');
 
         return $q;
     }
@@ -816,7 +818,7 @@ class qtype_stack_test_helper extends question_test_helper {
     public static function make_stack_question_numsigfigs() {
         $q = self::make_a_stack_question();
 
-        $q->stackversion = 2018051000;
+        $q->stackversion = '2019072900';
         $q->name = 'test-numsigfigs';
         $q->questionvariables = '';
         $q->questiontext = 'Please round $\pi$ to three significant figures. [[input:ans1]]
@@ -837,7 +839,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $node = new stack_potentialresponse_node($sans, $tans, 'NumSigFigs', '3');
         $node->add_branch(0, '=', 0, $q->penalty, -1, '', FORMAT_HTML, 'firsttree-1-F');
         $node->add_branch(1, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'firsttree-1-T');
-        $q->prts['firsttree'] = new stack_potentialresponse_tree('firsttree', '', false, 1, null, array($node), 0);
+        $q->prts['firsttree'] = new stack_potentialresponse_tree('firsttree', '', false, 1, null, array($node), '0');
 
         return $q;
     }
@@ -848,7 +850,7 @@ class qtype_stack_test_helper extends question_test_helper {
     public static function make_stack_question_numsigfigszeros() {
         $q = self::make_a_stack_question();
 
-        $q->stackversion = 2018051000;
+        $q->stackversion = '2019072900';
         $q->name = 'test-numsigfigszeros';
         $q->questionvariables = '';
         $q->questiontext = 'Please type in four hundredths to three significant figures. [[input:ans1]]
@@ -869,7 +871,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $node = new stack_potentialresponse_node($sans, $tans, 'NumSigFigs', '2');
         $node->add_branch(0, '=', 0, $q->penalty, -1, '', FORMAT_HTML, 'firsttree-1-F');
         $node->add_branch(1, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'firsttree-1-T');
-        $q->prts['firsttree'] = new stack_potentialresponse_tree('firsttree', '', false, 1, null, array($node), 0);
+        $q->prts['firsttree'] = new stack_potentialresponse_tree('firsttree', '', false, 1, null, array($node), '0');
 
         return $q;
     }
@@ -880,7 +882,7 @@ class qtype_stack_test_helper extends question_test_helper {
     public static function make_stack_question_units() {
         $q = self::make_a_stack_question();
 
-        $q->stackversion = 2018051000;
+        $q->stackversion = '2019072900';
         $q->name = 'test-units';
         $q->questionvariables = '';
         $q->questiontext = 'Please round type in gravity to three significant figures. [[input:ans1]]
@@ -901,7 +903,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $node = new stack_potentialresponse_node($sans, $tans, 'Units', '3');
         $node->add_branch(0, '=', 0, $q->penalty, -1, '', FORMAT_HTML, 'firsttree-1-F');
         $node->add_branch(1, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'firsttree-1-T');
-        $q->prts['firsttree'] = new stack_potentialresponse_tree('firsttree', '', false, 1, null, array($node), 0);
+        $q->prts['firsttree'] = new stack_potentialresponse_tree('firsttree', '', false, 1, null, array($node), '0');
 
         return $q;
     }
@@ -912,7 +914,7 @@ class qtype_stack_test_helper extends question_test_helper {
     public static function make_stack_question_equiv_quad() {
         $q = self::make_a_stack_question();
 
-        $q->stackversion = 2018051000;
+        $q->stackversion = '2019072900';
         $q->name = 'test-equiv-quad';
         $q->questionvariables = 'ta:[x^2-3*x+2=0,(x-2)*(x-1)=0,x=2 or x=1]; p:first(ta)';
         $q->questiontext = 'Solve the following equation: {@p@}. [[input:ans1]]
@@ -933,7 +935,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $node = new stack_potentialresponse_node($sans, $tans, 'Equiv', '');
         $node->add_branch(0, '=', 0, $q->penalty, -1, '', FORMAT_HTML, 'firsttree-1-F');
         $node->add_branch(1, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'firsttree-1-T');
-        $q->prts['firsttree'] = new stack_potentialresponse_tree('firsttree', '', false, 1, null, array($node), 0);
+        $q->prts['firsttree'] = new stack_potentialresponse_tree('firsttree', '', false, 1, null, array($node), '0');
 
         return $q;
     }
@@ -944,7 +946,7 @@ class qtype_stack_test_helper extends question_test_helper {
     public static function make_stack_question_1input2prts() {
         $q = self::make_a_stack_question();
 
-        $q->stackversion = 2018051000;
+        $q->stackversion = '2019072900';
         $q->name = '1input2prts';
         $q->questionvariables = '';
         $q->questiontext = 'Enter a multiple of 6: [[input:ans1]]
@@ -964,7 +966,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $node = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv');
         $node->add_branch(0, '=', 0, $q->penalty, -1, 'Your answer is not even.', FORMAT_HTML, 'prt1-0-0');
         $node->add_branch(1, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'prt1-0-1');
-        $q->prts['prt1'] = new stack_potentialresponse_tree('prt1', '', true, 0.5, null, array($node), 0);
+        $q->prts['prt1'] = new stack_potentialresponse_tree('prt1', '', true, 0.5, null, array($node), '0');
 
         $sans = stack_ast_container::make_from_teacher_source('mod(ans1,3)');
         $sans->get_valid();
@@ -973,7 +975,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $node = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv');
         $node->add_branch(0, '=', 0, $q->penalty, -1, 'Your answer is not divisible by three.', FORMAT_HTML, 'prt2-0-0');
         $node->add_branch(1, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'prt2-0-1');
-        $q->prts['prt2'] = new stack_potentialresponse_tree('prt1', '', true, 0.5, null, array($node), 0);
+        $q->prts['prt2'] = new stack_potentialresponse_tree('prt1', '', true, 0.5, null, array($node), '0');
 
         return $q;
     }
@@ -984,7 +986,7 @@ class qtype_stack_test_helper extends question_test_helper {
     public static function make_stack_question_information() {
         $q = self::make_a_stack_question();
 
-        $q->stackversion = 2018051000;
+        $q->stackversion = '2019072900';
         $q->name = 'Information item';
         $q->questionvariables = 'a:7;';
         $q->questiontext = '\[a = {@a@}\].';
@@ -1003,7 +1005,7 @@ class qtype_stack_test_helper extends question_test_helper {
     public static function make_stack_question_survey() {
         $q = self::make_a_stack_question();
 
-        $q->stackversion = 2018051000;
+        $q->stackversion = '2019072900';
         $q->name = 'Survey';
         $q->questionvariables = '';
         $q->questiontext = 'What is your favourite equation? [[input:ans1]]
@@ -1024,7 +1026,7 @@ class qtype_stack_test_helper extends question_test_helper {
     public static function make_stack_question_single_char_vars() {
         $q = self::make_a_stack_question();
 
-        $q->stackversion = 2018051000;
+        $q->stackversion = '2019072900';
         $q->name = 'single_char_vars';
         $q->questionvariables = 'a:sin(x*y);';
         $q->questiontext = 'What is {@a@}? [[input:ans1]]
@@ -1045,7 +1047,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $node = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv');
         $node->add_branch(0, '=', 0, $q->penalty, -1, '', FORMAT_HTML, 'firsttree-1-F');
         $node->add_branch(1, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'firsttree-1-T');
-        $q->prts['firsttree'] = new stack_potentialresponse_tree('firsttree', '', false, 1, null, array($node), 0);
+        $q->prts['firsttree'] = new stack_potentialresponse_tree('firsttree', '', false, 1, null, array($node), '0');
 
         return $q;
     }
@@ -1053,7 +1055,7 @@ class qtype_stack_test_helper extends question_test_helper {
     public static function make_stack_question_runtime_prt_err() {
         $q = self::make_a_stack_question();
 
-        $q->stackversion = 2018051000;
+        $q->stackversion = '2019072900';
         $q->name = 'runtime_prt_err';
         $q->questionvariables = "";
         $q->questiontext = '<p>Give an example of a system of equations with a unique solution.</p>' .
@@ -1093,7 +1095,7 @@ class qtype_stack_test_helper extends question_test_helper {
                 'Good, you have one solution.', FORMAT_HTML, 'Result-2-T');
 
         $q->prts['Result'] = new stack_potentialresponse_tree('Result', '',
-                true, 1, $feedbackvars->get_session(), array($node0, $node1, $node2), 0);
+                true, 1, $feedbackvars->get_session(), array($node0, $node1, $node2), '0');
 
         return $q;
     }
@@ -1101,7 +1103,7 @@ class qtype_stack_test_helper extends question_test_helper {
     public static function make_stack_question_runtime_ses_err() {
         $q = self::make_a_stack_question();
 
-        $q->stackversion = 20190724;
+        $q->stackversion = '2019072900';
         $q->name = 'runtime_ses_err';
         $q->questionvariables = "p:1/1+x^2);ta:diff(p,x);";
         $q->questiontext = '<p>Give an example of a system of equations with a unique solution.</p>' .
@@ -1124,7 +1126,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $node0->add_branch(1, '=', 1, '', -1, 'Correct', FORMAT_HTML, 'Result-0-T');
 
         $q->prts['Result'] = new stack_potentialresponse_tree('Result', '',
-                true, 1, $feedbackvars->get_session(), array($node0), 0);
+                true, 1, $feedbackvars->get_session(), array($node0), '0');
 
         return $q;
     }
@@ -1132,7 +1134,7 @@ class qtype_stack_test_helper extends question_test_helper {
     public static function make_stack_question_runtime_cas_err() {
         $q = self::make_a_stack_question();
 
-        $q->stackversion = 20190724;
+        $q->stackversion = '2019072900';
         $q->name = 'runtime_cas_err';
         $q->questionvariables = "p:3;q:3;ta:1;";
         $q->questiontext = '<p>Caculate {@1/(p-q)@}.</p>' .
@@ -1155,7 +1157,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $node0->add_branch(1, '=', 1, '', -1, 'Correct', FORMAT_HTML, 'Result-0-T');
 
         $q->prts['Result'] = new stack_potentialresponse_tree('Result', '',
-                true, 1, $feedbackvars->get_session(), array($node0), 0);
+                true, 1, $feedbackvars->get_session(), array($node0), '0');
 
         return $q;
     }
@@ -1955,7 +1957,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $node = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv');
         $node->add_branch(0, '=', 0, $q->penalty, -1, '', FORMAT_HTML, 'firsttree-1-F');
         $node->add_branch(1, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'firsttree-1-T');
-        $q->prts['firsttree'] = new stack_potentialresponse_tree('firsttree', '', false, 1, null, array($node), 0);
+        $q->prts['firsttree'] = new stack_potentialresponse_tree('firsttree', '', false, 1, null, array($node), '0');
 
         return $q;
     }
@@ -1966,7 +1968,7 @@ class qtype_stack_test_helper extends question_test_helper {
     public static function make_stack_question_addrow() {
         $q = self::make_a_stack_question();
 
-        $q->stackversion = 2018051000;
+        $q->stackversion = '2019072900';
         $q->name = 'addrow';
         $q->questionvariables = 'm:matrix([1,2],[3,4]);m:addrow(m,1,1,1);v1:texdecorate("\\bf", v);';
         $q->questiontext = 'What is \({@m@}^2\)? [[input:ans1]]
@@ -1990,7 +1992,7 @@ class qtype_stack_test_helper extends question_test_helper {
         // This is to check the upgrade process spots addrow in the PRT feedback variables.
         $fv = new stack_cas_keyval('sa:addrow(ans1,2,1,1)');
         $q->prts['firsttree'] = new stack_potentialresponse_tree('firsttree', '', false, 1,
-                $fv->get_session(), array($node), 0);
+                $fv->get_session(), array($node), '0');
 
         return $q;
     }
@@ -2001,7 +2003,7 @@ class qtype_stack_test_helper extends question_test_helper {
     public static function make_stack_question_mul() {
         $q = self::make_a_stack_question();
 
-        $q->stackversion = 2018051000;
+        $q->stackversion = '2019072900';
         $q->name = 'mul';
         $q->questiontext = 'What is the force of gravity? [[input:ans1]]
                            [[validation:ans1]]';
@@ -2021,7 +2023,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $node = new stack_potentialresponse_node($sans, $tans, 'UnitsStrict');
         $node->add_branch(0, '=', 0, $q->penalty, -1, '', FORMAT_HTML, 'firsttree-1-F');
         $node->add_branch(1, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'firsttree-1-T');
-        $q->prts['firsttree'] = new stack_potentialresponse_tree('firsttree', '', false, 1, null, array($node), 0);
+        $q->prts['firsttree'] = new stack_potentialresponse_tree('firsttree', '', false, 1, null, array($node), '0');
 
         return $q;
     }

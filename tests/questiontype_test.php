@@ -109,6 +109,14 @@ class qtype_stack_test extends qtype_stack_walkthrough_test_base {
         $expectedq = test_question_maker::make_question('stack', 'test3');
         $expectedq->stamp = $q->stamp;
         $expectedq->version = $q->version;
+        $expectedq->timemodified = $q->timemodified;
+
+        $eprts = $expectedq->prts;
+        foreach($q->prts as $key => $prt) {
+            $this->assertEquals($eprts[$key]->get_maxima_representation(), $prt->get_maxima_representation());
+        }
+        $expectedq->prts = null;
+        $q->prts = null;
         $this->assertEquals($expectedq, $q);
     }
 
@@ -524,5 +532,4 @@ class qtype_stack_test extends qtype_stack_walkthrough_test_base {
         $this->assertEquals(array('prt1' => 2), $qtype->get_prt_names_from_question('[[feedback:prt1]]',
                 '[[feedback:prt1]]'));
     }
-
 }

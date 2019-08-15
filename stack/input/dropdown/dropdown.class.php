@@ -139,7 +139,7 @@ class stack_dropdown_input extends stack_input {
             $this->errors[] = stack_string('ddl_badanswer', $teacheranswer);
             $this->teacheranswervalue = '[ERR]';
             $this->teacheranswerdisplay = '<code>'.'[ERR]'.'</code>';
-            $this->ddlvalues = null;
+            $this->ddlvalues = array();
             return false;
         }
 
@@ -356,9 +356,6 @@ class stack_dropdown_input extends stack_input {
     /* This function always returns an array where the key is the key in the ddlvalues.
      */
     protected function get_choices() {
-        if (empty($this->ddlvalues)) {
-            return array();
-        }
 
         $values = $this->ddlvalues;
         if (empty($values)) {

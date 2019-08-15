@@ -119,9 +119,10 @@ class stack_potentialresponse_tree {
         } else {
             $simp = 'false';
         }
-        $cs = stack_ast_container::make_from_teacher_source('simp:'.$simp, '', new stack_cas_security(), array());
 
-        $cascontext->add_statement($cs);
+        // Do not simplify the answers.
+        $sf = stack_ast_container::make_from_teacher_source('simp:false', '', new stack_cas_security(), array());
+        $cascontext->add_statement($sf);
         // Add the student's responses, but only those needed by this prt.
         // Some irrelevant but invalid answers might break the CAS connection.
         foreach ($this->get_required_variables(array_keys($answers)) as $name) {
@@ -139,6 +140,10 @@ class stack_potentialresponse_tree {
             $cs->set_nounify(true);
             $cascontext->add_statement($cs);
         }
+
+        // Now respect the simplification of the question variables.
+        $cs = stack_ast_container::make_from_teacher_source('simp:'.$simp, '', new stack_cas_security(), array());
+        $cascontext->add_statement($cs);
 
         // Add the feedback variables.
         $this->feedbackvariables->append_to_session($cascontext);

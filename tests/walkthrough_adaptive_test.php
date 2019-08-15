@@ -151,7 +151,7 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->check_output_does_not_contain_prt_feedback();
         $this->check_output_does_not_contain_stray_placeholders();
 
-        // Process a submit of the correct answer.
+        // Process a submit of the correct but unsimplified answer.
         $this->process_submission(array('ans1' => '1+1', 'ans1_val' => '1+1', '-submit' => 1));
 
         // Verify.
@@ -1086,7 +1086,6 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         // @codingStandardsIgnoreEnd
 
         // Create a stack question.
-
         $q = test_question_maker::make_question('stack', 'test3_penalty0_1');
         $this->start_attempt_at_question($q, 'adaptive', 4);
 

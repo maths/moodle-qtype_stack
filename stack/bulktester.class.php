@@ -187,7 +187,13 @@ class stack_bulk_tester  {
                         if ($outputmode == 'web') {
                             echo $OUTPUT->heading($questionnamelink, 4);
                         }
-                        list($ok, $message) = $this->qtype_stack_test_question($question, $tests, $outputmode, $seed);
+                        // Make sure the bulk tester is able to continue.
+                        try {
+                            list($ok, $message) = $this->qtype_stack_test_question($question, $tests, $outputmode, $seed);
+                        } catch (stack_exception $e) {
+                            $ok = false;
+                            $message = stack_string('errors') . ' : ' . $e;
+                        }
                         if (!$ok) {
                             $allpassed = false;
                             $failingtests[] = $context->get_context_name(false, true) .

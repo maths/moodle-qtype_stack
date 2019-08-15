@@ -1957,7 +1957,8 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         // Note from version 5.37.0 of Maxima the precise form of the error message changed.
 
         $this->check_current_output(
-                new question_pattern_expectation('/algsys: Couldn\'t reduce system to a polynomial/'),
+                // Some inconsistencey in Maxima error messages, so shortening search string.
+                new question_pattern_expectation('/reduce system to a polynomial/'),
                 $this->get_does_not_contain_num_parts_correct(),
                 $this->get_no_hint_visible_expectation()
         );

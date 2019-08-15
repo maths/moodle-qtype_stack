@@ -159,7 +159,13 @@ class stack_bulk_tester  {
                         $questionnamelink = html_writer::link($previewurl, $questionname);
                         echo $OUTPUT->heading($questionnamelink, 4);
                     }
-                    list($ok, $message) = $this->qtype_stack_test_question($question, $tests, $outputmode);
+                    // Make sure the bulk tester is able to continue.
+                    try {
+                        list($ok, $message) = $this->qtype_stack_test_question($question, $tests, $outputmode);
+                    } catch (stack_exception $e) {
+                        $ok = false;
+                        $message = stack_string('errors') . ' : ' . $e;
+                    }
                     if (!$ok) {
                         $allpassed = false;
                         $failingtests[] = $questionnamelink . ': ' . $message;

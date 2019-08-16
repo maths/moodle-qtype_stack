@@ -145,6 +145,7 @@ class stack_ast_container_silent implements cas_evaluatable {
         if ($ast !== null) {
             $ast = $pipeline->filter($ast, $errors, $answernotes, $securitymodel);
         }
+
         // It is now ready to be created.
         $astc = new static;
         $astc->ast = $ast;
@@ -288,7 +289,7 @@ class stack_ast_container_silent implements cas_evaluatable {
 
     public function get_evaluationform(): string {
         if (false === $this->get_valid()) {
-            throw new stack_exception('stack_ast_container: tried to get the evalution form of an invalid casstring.');
+            throw new stack_exception('stack_ast_container: tried to get the evaluation form of an invalid casstring.');
         }
         return $this->ast_to_casstring($this->ast);
     }

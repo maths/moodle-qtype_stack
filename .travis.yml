@@ -23,12 +23,6 @@ cache:
     - $HOME/.npm
 
 matrix:
-  # I would like to run at least some of these with DB=mysqli, but that
-  # currently fails with dist: trusty which we need for Maxima.
-  # The error is ERROR 2002 (HY000): Can't connect to local MySQL server through socket '/var/run/mysqld/mysqld.sock' (2)
-  # The solution is to add --protocol=TCP in src/Installer/Database/MySQLDatabase.php
-  # in https://github.com/moodlerooms/moodle-plugin-ci, but I can't work out
-  # how to do that.
   include:
 
 #    - php: 7.0

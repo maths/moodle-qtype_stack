@@ -97,7 +97,13 @@ class stack_cas_keyval {
         $ast = maxima_parser_utils::parse_and_insert_missing_semicolons($str);
         if (!$ast instanceof MP_Root) {
             // If not then it is a SyntaxError.
-            $this->errors[] = $ast->getMessage();
+            $syntaxerror = $ast;
+            $error = $syntaxerror->getMessage();
+            if (isset($syntaxerror->grammarLine) && isset($syntaxerror->grammarColumn)) {
+                $error .= ' (' . stack_string('stackCas_errorpos',
+                        ['line' => $syntaxerror->grammarLine, 'col' => $syntaxerror->grammarColumn]) . ')';
+            }
+            $this->errors[] = $error;
             $this->valid = false;
             return false;
         }

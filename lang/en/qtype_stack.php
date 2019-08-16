@@ -674,6 +674,8 @@ $string['stackCas_MissingCloseHTML']        = 'Missing closing html tag. ';
 $string['stackCas_failedValidation']        = 'CASText failed validation. ';
 $string['stackCas_invalidCommand']          = 'CAS commands not valid. ';
 $string['stackCas_CASErrorCaused']          = 'caused the following error:';
+$string['stackCas_errorpos']                = 'At about line {$a->line} character {$a->col}.';
+
 
 // Used in blocks.
 $string['stackBlock_ifNeedsCondition']       = 'If-block needs a test attribute. ';

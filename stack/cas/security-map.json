@@ -1298,7 +1298,7 @@
         "property": "?"
     },
     "comp2pui": {
-        "function": "f"
+        "function": "t"
     },
     "compare": {
         "function": "s"
@@ -1373,7 +1373,7 @@
         "function": "f"
     },
     "cont2part": {
-        "function": "f"
+        "function": "t"
     },
     "content": {
         "function": "?"
@@ -1846,6 +1846,7 @@
     },
     "display2d": {
         "variable": "f"
+        "globalyforbiddenvariable": true,
     },
     "display_format_internal": {
         "variable": "f"
@@ -2017,13 +2018,13 @@
         "function": "f"
     },
     "ele2comp": {
-        "function": "f"
+        "function": "t"
     },
     "ele2polynome": {
-        "function": "f"
+        "function": "t"
     },
     "ele2pui": {
-        "function": "f"
+        "function": "t"
     },
     "elem": {
         "function": "f"
@@ -4480,7 +4481,7 @@
         "function": "s"
     },
     "mon2schur": {
-        "function": "f"
+        "function": "t"
     },
     "mono": {
         "function": "f"
@@ -5597,22 +5598,22 @@
         "function": "?"
     },
     "pui": {
-        "function": "f"
+        "function": "t"
     },
     "pui2comp": {
-        "function": "f"
+        "function": "t"
     },
     "pui2ele": {
-        "function": "f"
+        "function": "t"
     },
     "pui2polynome": {
-        "function": "f"
+        "function": "t"
     },
     "pui_direct": {
-        "function": "f"
+        "function": "t"
     },
     "puireduc": {
-        "function": "f"
+        "function": "t"
     },
     "push": {
         "function": "t",
@@ -6268,31 +6269,31 @@
         "function": "s"
     },
     "resolvante": {
-        "function": "f"
+        "function": "t"
     },
     "resolvante_alternee1": {
-        "function": "f"
+        "function": "t"
     },
     "resolvante_bipartite": {
-        "function": "f"
+        "function": "t"
     },
     "resolvante_diedrale": {
-        "function": "f"
+        "function": "t"
     },
     "resolvante_klein": {
-        "function": "f"
+        "function": "t"
     },
     "resolvante_klein3": {
-        "function": "f"
+        "function": "t"
     },
     "resolvante_produit_sym": {
-        "function": "f"
+        "function": "t"
     },
     "resolvante_unitaire": {
-        "function": "f"
+        "function": "t"
     },
     "resolvante_vierer": {
-        "function": "f"
+        "function": "t"
     },
     "rest": {
         "function": "s"
@@ -6856,19 +6857,19 @@
         "function": "s"
     },
     "spherical_bessel_j": {
-        "function": "f"
+        "function": "t"
     },
     "spherical_bessel_y": {
-        "function": "f"
+        "function": "t"
     },
     "spherical_hankel1": {
-        "function": "f"
+        "function": "t"
     },
     "spherical_hankel2": {
-        "function": "f"
+        "function": "t"
     },
     "spherical_harmonic": {
-        "function": "f"
+        "function": "t"
     },
     "spherical_to_xyz": {
         "function": "?"

@@ -4822,7 +4822,7 @@
         "function": "s"
     },
     "ode2": {
-        "function": "f"
+        "function": "t"
     },
     "ode_check": {
         "function": "f"
@@ -7064,10 +7064,10 @@
         "function": "f"
     },
     "stirling1": {
-        "function": "f"
+        "function": "t"
     },
     "stirling2": {
-        "function": "f"
+        "function": "t"
     },
     "strim": {
         "function": "?"

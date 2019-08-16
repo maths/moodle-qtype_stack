@@ -1,428 +1,142 @@
-# Author quick start 1: a minimal working question
+# Authoring quick start 1: a minimal working question
+
+1 - First question | [2 - Question variables](Authoring_quick_start_2.md) | [3 - Feedback](Authoring_quick_start_3.md) | [4 - Randomisation](Authoring_quick_start_4.md) | [5 - Question tests](Authoring_quick_start_5.md) | [6 - Multipart questions](Authoring_quick_start_6.md) | [7 - Simplification](Authoring_quick_start_7.md) | [8 - Quizzes](Authoring_quick_start_8.md)
 
 
-The author quick start guide shows you how to write STACK questions.  Part 1 gets a minimal question working.
 
-Consider students who are learning to symbolically integrate expressions of the form \( r(px+q)^n \). 
-Below is a typical set of practice exercises.
+The authoring quick start guide shows you how to write STACK questions.  Part 1 gets a minimal question working. The following video explains the process:
 
-![Integration exercises](%CONTENT/IntegrationExercises.jpg)
-
-(Reproduced with permission from _Advanced Mathematics for AS and A level 2_ (A-level mathematics), Haese Mathematics (2018) [978-1-925489-32-3](http://www.haesemathematics.com/books/advanced-mathematics-2-for-a-level))
-
-At the end of this guide you will be able to:
-
-- Create a new STACK question, ensuring mathematical notation is displayed correctly using \(\LaTeX\) notation.
-- Catch, and provide feedback on, common errors by building a *Potential Response Tree*. These include forgetting to include the constant of integration or accidentally differentiating instead of integrating.
-- Create random versions, and ensure the marking algorithms, feedback and worked solutions reflect the particular version.
-- Preview and test STACK questions.
-
+<iframe width="560" height="315" src="https://www.youtube.com/embed/cpwo-D6EUgA" frameborder="0" allowfullscreen></iframe>
 ## Before you begin
 
-We assume you are familiar with the following:
+We assume the following:
 
-1. Adding questions to a Moodle quiz, via the [question bank](MoodleQuiz.md).
-2. Simple \(\LaTeX\) formatting for mathematics.  Some basic examples are provided at the end of the [CASText](CASText.md) documentation.  The full document preparation system is not needed or supported.
-3. Using a strict syntax for representing mathematical expressions, e.g. `1/2*sin(n*pi)`.  Knowing about the computer algebra system (CAS) [Maxima](%CONTENT/minimal-maxima.pdf) would be useful in the longer term, but this introduction is self-contained.
+1. You have access to a course with STACK installed.
+2. You are familiar with simple \(\LaTeX\) formatting for mathematics.  Some basic examples are provided in the [CASText#Useful_LaTeX](CASText.md) documentation.
 
 ## Creating a minimal STACK question
 
-Navigate to the [question bank](MoodleQuiz.md) and create a new question.
+Go to your Course, navigate to the [question bank](Question_bank.md) and create a new question with the "STACK" question type.
 
-There are lots of fields, but only a few are compulsory.
+There are lots of fields, but only a few are compulsory:
 
-1. The "question name".
-2. The "question text", which is shown to the student.
-3. The teacher's "model answer", (inside "Input: ans1" on a default question).
+1. The "question name",
+2. The "question text", which is shown to the student,
+3. The teacher's "model answer" (inside "Input: ans1" on a default question),
 4. A test of "correctness".
 
 By default a new question automatically has one [input](Inputs.md), and one algorithm to test correctness of the answer.
 
 ### Question name ###
 
-You must give the question a name. Use something meaningful so that you can easily identify it later.  For example `question1`.
+You must give the question a name, for example `question1`.
 
 ### Question text ###
 
-Next we need to write the question text itself. Copy the following into the Question text box:
+Let's focus on the problem of differentiating \((x-1)^3\) with respect to \(x\). We need to write the question text itself. Copy the following into the Question text box:
 
-<textarea>
-Find \(\int 5(3x-2)^{-3} \mathrm{d}x\).
+<textarea readonly="readonly" rows="2" cols="50">
+Differentiate \((x-1)^3\) with respect to x.
 [[input:ans1]] [[validation:ans1]]
 </textarea>
 
 Notes:
 
-* Moodle has a wide choice for text editors, so the screenshots in this quick start guide might look slightly different to your version of Moodle.  Also the cut and paste may, or may not, include some of the formatting.
+* Moodle has a wide choice for text editors, so the screenshots in this quick start guide might look slightly different to your variant of Moodle.  Also, the cut and paste may or may not include some of the formatting.
 * The text contains LaTeX mathematics environments.  Do not use mathematics environments `$..$` and `$$..$$`.  Instead you must use `\(..\)` and `\[..\]` for inline and displayed mathematics respectively.  (There is an automatic bulk converter if you have a lot of legacy materials.)
 * Internally the student's answer will be assigned to a variable `ans1`.
 * The tag `[[input:ans1]]` denotes the position of the box into which the student puts their answer.
-* The tag `[[validation:ans1]]` will be replaced by any feedback related to the validity of the input `ans1`.  E.g. syntax errors caused by missing brackets.
-* The tags could be positioned anywhere in the question text: more on this later.
+* The tag `[[validation:ans1]]` will be replaced by any feedback related to the validity of the input `ans1`, e.g. syntax errors caused by missing brackets.
+* These tags could be positioned anywhere in the question text.
 
 ## Input: ans1
 
-Scroll down:  there will be an [inputs](Inputs.md) section of the editing form.  Click on the heading `Input: ans1` to reveal the relevant settings.
+Scroll down:  there will be an [inputs](Inputs.md) section of the editing form.  Click on the header `Input: ans1` to reveal the relevant settings.
 
-For a minimal question we must specify the _model answer_ field.
+For a minimal question, we must specify the _model answer_. Let this be
 
-    -5/(6*(3*x-2)^2)+c
-
-![Model answer](%CONTENT/model_answer.png)
+    3*(x-1)^2
 
 Notes
 
 1. The student's response is stored in the answer variable `ans1`.
-2. The model answer must be a syntactically valid expression in CAS (Maxima) syntax, not LaTeX.  E.g. `-5/(6*(3*x-2)^2)+c` not `\frac{-5}{6(3x-2)^2}+c`.
-3. [Inputs](Inputs.md) can have a variety of types selected by the  _Input type_ drop-down menu.  The _Algebraic input_ is default, and what we need here.
-4. A question can have many inputs for multiple parts.  These are discussed later in this guide.
+2. The model answer must be a syntactically valid expression in CAS (Maxima) syntax, not LaTeX. This means multiplication must be explicitly specified, using `*`.
+3. [Inputs](Inputs.md) can have a variety of types selected by the  _Input type_ drop-down menu.  The _Algebraic input_ is the default, and what we need here.
+4. A question can have many inputs for multiple parts.  These are discussed later in a later part.
 
 ## Assessing correctness of a response - the Potential Response Tree (PRT)
 
 Next we have to decide if the student's answer is correct.
 
-To grade the student's response we need to determine its mathematical properties using an algorithm known as a [potential response tree](Potential_response_trees.md).
+To grade the student's response, we need to determine its mathematical properties using an algorithm known as a [potential response tree](Potential_response_trees.md).
 
-By default, a new question contains one [potential response tree](Potential_response_trees.md) called `prt1`.  Feedback generated by the tree replaces the tag `[[feedback:prt1]]` at the appropriate time.  By default the tag `[[feedback:prt1]]` is placed in the "Specific feedback" field so that Moodle can control the timing of the feedback via the Moodle quiz settings. For a minimal question you don't need to edit or move this tag.
+By default, a new question contains one [potential response tree](Potential_response_trees.md) called `prt1`.  Feedback generated by the tree replaces the tag `[[feedback:prt1]]` at the appropriate time.
 
 ### Configuring a potential response node
 
-A potential response tree is a non-empty acyclic directed graph of _potential response nodes_.  By default we have one potential response node.
+A potential response tree is a non-empty acyclic directed graph of _potential response nodes_.  By default, we have one potential response node. At each node
 
-1. `SAns` is compared to `TAns` with the answer test, possibly with an option.
-2. If `true` then we execute the `true` branch.
-3. If `false` then we execute the `false` branch.
+1. `SAns` is compared to `TAns` with the answer test, possibly with an option,
+2. If `true`, then we execute the `true` branch,
+3. If `false`, then we execute the `false` branch.
 
 Each branch can then
 
-* Assign/update the score.
-* Assign formative [feedback](Feedback.md) to the student.
-* Leave an [answer note](Potential_response_trees.md#Answer_note) for statistical [reporting](Reporting.md) purposes.
-* Nominate the next potential response node, or end the process `[stop]`.
+* Assign/update the score,
+* Assign formative [feedback](Feedback.md) to the student,
+* Leave an [answer note](Potential_response_trees.md#Answer_note) for statistical [reporting](Reporting.md) purposes,
+* Continue to the next potential response node, or end the process with `[stop]`.
 
-Let us configure the first node to determine if the student has integrated correctly.
+Let us configure the first node to determine if the student has differentiated correctly.
 
 1. Specify the variable `ans1` in the `SAns` setting.
-2. Specify the correct answer in the `TAns` setting: `-5/(6*(3*x-2)^2)+c`
+2. Specify the correct answer in the `TAns` setting: `3*(x-1)^2`.
 3. Confirm we have `AlgEquiv` in the _Answer test_ drop-down menu (this is the default).
-
-The node should now be configured as follows:
-
-![Configured PRT node](%CONTENT/configured_node.png)
 
 ## Saving the question
 
-Now scroll to the bottom of the page and press the `[Save changes and continue editing]` button.  If the question fails to save check carefully for any errors, correct them and save again.
+Now scroll to the bottom of the page and press `[Save changes and continue editing]`.  If the question fails to save, check carefully for any errors, correct them and save again.
 
 __We now have a minimal question.__
 
-To recap we have
+To recap, we have
 
-1. The "question name".
-2. The "question text", which is shown to the student.
-3. The teacher's "model answer".
+1. The "question name",
+2. The "question text",
+3. The teacher's "model answer",
 4. A test of "correctness".
 
-Next we should try out our question, by pressing the `Preview` link at the bottom of the page:
+Next we should try out our question by pressing the `Preview` link at the bottom of the page.
 
 ![Preview button](%CONTENT/preview_button.png)
 
 ## Previewing the question
 
-To speed up the testing process, scroll down the preview window and under Attempt options, make sure you have "How questions behave" set to "Adaptive Mode". If necessary "Start again with these options". This will allow you to check your answers without having to _Submit_ and _Start again_ repeatedly.
+To speed up the testing process, scroll down on the preview window and under Attempt options make sure you have "How questions behave" set to "Adaptive Mode". If necessary, "Start again with these options". This will allow you to check your answers without having to _Submit_ and _Start again_ repeatedly.
 
-With the preview open, try typing in
+With the preview open, try typing
 
-    -5/6*(3*x-2)^-2 + c
+    3*(x-1)^2
 
-into the answer box. The system first establishes the syntactical validity of this answer.
+in the answer box. The system first establishes the syntactical validity of this answer.
 
 Press the `[Check]` button.
 
-The system executes the potential response tree and establishes whether your answer is equivalent
-to the model answer `-5/6*(3*x-2)^-2+c`.
+The system executes the potential response tree and establishes whether your answer is equivalent to the model answer `3*(x-1)^2`.
 
-Try `-5/(54*x^2-72*x+24)+c`.  The system should also accept this as correct.
+## Student validation
 
-Next type in `-5/6*(3*x-2)^-2 + C`.  Now, if we compare the teacher's `-5/6*(3*x-2)^-2+c` with `-5/6*(3*x-2)^-2 + C` using algebraic equivalence (recall we specified `AlgEquiv` in the potential response tree).  This will not be accepted as equivalent.  The reason is that `c` and `C` are different.  A reasonable teacher will probably not care which letter is used for the constant of integration.
+Notice that there is a two-step process for the student to enter their answer.
 
-We will need to edit the question now to use a different [answer test](Answer_tests.md#Int). Close the preview window and return to the page "Editing a STACK question". Find your potential response tree settings and click on the drop-down menu where we selected `AlgEquiv` and select `Int` from the list. Type `x` into the Test options setting. Now press the `[Save changes and continue editing]` button and once more click the preview button.  We have just selected a special [answer test](Answer_tests.md) for dealing with integration questions.
-
-Next, try getting the question wrong.  If your server does not have "instant validation" switched on (an administrator/installation option) you will need to submit each answer twice.
-Notice all your responses are stored in an attempts table.
-
-STACK establishes specific mathematical properties.  To demonstrate that it's the mathematical properties of the student's response that is being established type
-
-    -5/6*(3*x-2)^-2 + K
-
-into the answer box.  Since this includes a constant of integration this is considered as correct.
-
-Built into the _Int_ answer test is a check to ensure the response includes a constant of integration. Now type
-
-    -5/6*(3*x-2)^-2
-
-into the answer box.
-
-We also wanted to check that the student hadn't differentiated by mistake. Fortunately this is also handled by the _Int_ answer test. Finally, type
-
-    -45*(3*x-2)^-4
-
-See that built-in feedback is provided to the student - a warning that they have forgotten the constant of integration. 
-
-If you don't want students to see the automatic feedback select the _Quiet_ option in the potential response node. 
-
-
-## Using question variables
-
-The model answer will normally be referred to more than once, so it is usually easiest to assign the model answer to a "question variable" using the optional [question variables](KeyVals.md#Question_variables) field.
-
-Add the following to the question variables
-
-    p: 5*(3*x-2)^-3;
-    ta: int(p,x)+c;
-
-STACK uses Maxima's syntax for assignment, which is unusual.  In particular the colon `:` is used to assign a value to a variable.  So to assign the value of `5` to `n` we use the syntax `n:5`.
-
-Notice we are using the CAS to determine the model answer by calling the `int()` function to find the anti-derivative. When the CAS determines an anti-derivative it does not include a constant of integration so we have to add it ourselves.
-
-Now we need to update the rest of the question to use the variables. Replace the question text with
-
-<textarea readonly="readonly" rows="3" cols="100">
-Find \(\int{@p@}\mathrm{d}x\)
-[[input:ans1]] [[validation:ans1]]
-</textarea>
-
-Notice that now we have defined a local variable `p`, and used the value of this in the Question text.  The difference is between mathematics enclosed between `\(..\)` symbols and `{@..@}` symbols. All the text-based fields in the question, including feedback, are [CAS text](CASText.md).  This is HTML into which mathematics can be inserted.  LaTeX is placed between `\(..\)`s, and CAS expressions (including your variables) between matching `{@..@}` symbols.  The CAS expressions are evaluated in the context of the question variables and displayed as \(\LaTeX\).
-
-Since we have used `{@p@}` here, the user will not see a \(p\) on the screen when the question is instantiated, but the _displayed value_ of `p`.
-
-In the input `ans1` replace the _model answer_ with `ta`.
-
-In the potential response tree, node 1, replace the expression `TAns` with `ta`.
-
-These changes just propagate the new variables through out the question.  We should test the question again, but this can be done in an automatic way.
-
-## Student validation ##
-
-Notice in the above there is a two-step process for the student to enter their answer.
-
-First is "validation", and normally servers have "instant validation" enabled.  If the expression is valid STACK shows the student "Your last answer was interpreted as follows:" and displays their expression.  An invalid response creates an error message. 
+First is "validation", and normally servers have "instant validation" enabled.  If the expression is valid, STACK shows the student "Your last answer was interpreted as follows:" and displays their expression.  An invalid response creates an error message. 
 
 The second stage executes when a valid expression is entered, and this evaluates the potential response tree to assess the student's answer.
 
-This two-stage process is a unique and essential feature of STACK.  There are lots of options for validation to help the student.  For example, in the above all example expressions have a strict syntax.  Here we used expressions like `-5/6*(3*x-2)^-2+c` which has all the `*` symbols to denote multiplication.  STACK has lots of options, and you could choose to let students type in expressions like `-5/6(3x-2)^-2+c` and accept implied multiplication.  Documentation on these options is given in the [inputs](Inputs.md) section.
+This two-stage process is a unique and essential feature of STACK.  There are lots of options for validation to help the student.  For example, in the above, all example expressions have strict syntax.  Here we used expressions like `3*(x-1)^2`, with `*` symbols to denote multiplication.  You could choose to let students type in expressions like `3(x-1)^2` and accept implied multiplication. Note, however, that teacher input will always have to be strict to avoid ambiguity. Documentation on these options is given in the [inputs](Inputs.md) section.
 
-## Question tests ##
+# Next step #
 
-Testing questions is time consuming and tedious, but important to ensure questions work.  To help with this process STACK enables teachers to define "question tests".  The principle is the same as "unit testing" in software engineering.
+You should now be able to write a simple question in STACK.
 
-Scroll to the bottom of the page and press the `[Save changes and continue editing]` button. Press the `Preview` link.
+##### The next part of the authoring quick start guide looks at using [question variables](Authoring_quick_start_2.md).
 
-From the question preview window, click on `Question tests & deployed versions` link in the top right of the page.
-
-Click `Add a test case` to add a test to your question.  Fill in the following information
-
-    ans1 = ta
-    score = 1
-    penalty = 0
-    answernote = prt1-1-T
-
-The system will automatically evaluate `ta` to create the value taken to be the student's answer `ans1` and then assess the answer using this information.  It will match up the actual outcomes with those you specified.  This automates the testing process.
-
-You can add as many tests as you think is needed, and it is usually a sensible idea to add one for each case you anticipate.  Add in another test case for
-
-    ans1 = ev(int(p,x),simp)
-    score = 0
-    penalty = 0.1
-    answernote = prt1-1-F
-
-Here we create a test case without a constant of integration.  Note that test cases are not "simplified", so we need to use Maxima's command to `ev(int(p,x),simp` to "evaluate `int(p,x)` with simplification`.  For future reference, information in [simplification](../CAS/Simplification.md) is provided elsewhere.
-In this case STACK should fail to give students any marks, indicating the test passes! This can be verified by running the test case.
-
-Now try
-
-    ans1 = int(p,x)+c
-    score = 1
-    penalty = 0
-    answernote = prt1-1-T
-
-Notice the system evaluates the integral, but does not fully simplify the algebraic result.  You may not want students to use the CAS `int` command in this question!  There is no particular difference between the `int` function and the `*` function, and so we allow student to input answers with calculus operations in them.  Indeed, when a student needs to type in a differential equation they will need to use the `diff` command!  You can render this answer "invalid" by entering `int` into the "forbidden words" option of the `Input: ans1` part of the question editing form.
-
-This example nicely illustrates the way validity can be used to help students.  An answer `int(p,x)+c` is a correct response to the question, but it is invalid.  In this example we want them to perform integration, not to have the CAS do it!
-
-Quality control is essential, and more information is given in the page on [testing](Testing.md).
-
-
-## Back to the mathematics!
-
-So far we have authored question (i) from the text book, shown in the image above:
-\(
-\int \frac{5}{(3x - 2)^3} \mathrm{d}x
-\)
-
-Below is a student's written response, which demonstrates two common slips:
-
-![Student written response](%CONTENT/student_written_response.png)
-
-Notice that the student has:
-
-- Forgotten to include the constant of integration.
-- Differentiated the outer function, instead of integrating.
-
-These are things which students are likely to do with any integration question.  Indeed, through force of habit students have been known to differentiate by mistake and still add a constant of integration!  Also, there are mistakes students have made which are much more specific to this particular question:
-
-- Forgetting to use substitution and hence not dividing by \(p\), and effectively integrating \( \int r(px+q)^n \mathrm{d}x \rightarrow \frac{r}{n+1}(px+q)^{n+1}+c \).
-- Having difficulties in increasing a negative number (in this case \(-3\) by one).  In our example \( \int \frac{5}{(3x - 2)^3} \mathrm{d}x \rightarrow \frac{5}{3}\frac{1}{(3x - 2)^4}+c\).
-
-__The whole point of STACK is that the CAS enables teachers to check for these kinds of errors and provide students with meaningful feedback which helps them improve their performance, without using multiple choice options which give the game away!__
-
-When checking a student's answer with STACK a teacher needs to ask themselves _"What are the mathematical properties which makes a student's answer correct/incorrect?"_  In our case these questions include:
-
-- Is the student's answer a symbolic anti-derivative of the integrand?
-- Does the student have a constant of integration in an appropriate form?
-
-The built-in `int` answer test answers these questions, so a teacher does not have to write code to do so for every similar question.
-
-Next, a teacher needs to ask _"What might a student do incorrectly, and what will this give them as an answer?"_  This second question is more difficult. The answer might come through experience or from asking upfront diagnostic questions (again using STACK). It is often sensible to review students' responses to STACK questions after a year and build in better feedback in the light of experience with students. 
-
-## Enhancing the feedback
-
-There are two further common mistakes for students to make when finding the anti-derivative of simple functions-of-functions:
-
-1. Accidentally finding the derivative of the outer function (multiplying by the power and taking one off the power - i.e. following the wrong process). In this case effectively integrating \( \int r(px+q)^n \mathrm{d}x \rightarrow r \, n(px+q)^{n-1}+c \).
-2. Expanding brackets when they didn't need to - not remembering to leave their final answer in factored form. 
-
-Let us continue to enhance feedback by checking that the student has differentiated the outer function by mistake. We do this by adding another potential response node.
-
-Close the preview, scroll down to the Potential Response Tree and click `[Add another node]` button at the bottom of the list of nodes:
-
-![Adding a new node](%CONTENT/add_new_node.png)
-
-From the false branch of Node 1, change the "Next" field so it is set to `[Node 2]`.
-If the first test is false, we will then perform the test in Node 2.
-
-Update the form so that Node 2 has
-
-    SAns = diff(ans1, x)
-    TAns = 5*(-3)*(-4)*3*(3*x-2)^-5
-    Answer test = AlgEquiv
-
-Notice that we are using Maxima to differentiate the student's answer, which helps to remove a constant of integration. We then compare that result, algebraically, to an expression we would expect had the student responded in the way they have.  If the student has made this mistake they will end up with \(r\, n(px+q)^{n-1}+c\) so differentiating this we have the expression \(r\, n\, p\, (n-1)(px+q)^{n-2}\) from which we get `5*(-3)*(-4)*3*(3*x-2)^-5` in this example.  We might as well have the CAS calculate the value.
-
-This gives us the test, but what about the outcomes?
-
-1. On the true branch set the `score=0`
-2. On the true branch set the feedback to `It looks like you have subtracted one off the power of the outer function instead of adding one to the power!`
-
-Notice here that STACK also adds an "intelligent note to self" in the [answer note](Potential_response_trees.md#Answer_note) field:
-
-![Answer note](%CONTENT/answer_note.png)
-
-This is useful for statistical grouping of similar outcomes when the feedback depends on randomly generated questions,
-and different responses. You have something definite to group over.  This is discussed in [reporting](Reporting.md).
-
-Press the `[Save changes and continue editing]` button and preview the question.
-
-To test this feedback type the following response into the answer box:
-
-    -15*(3*x-2)^-4+c
-
-We are using Maxima to differentiate the student's response, so it does not matter whether or not the student includes a constant of integration in their answer. You can verify this by typing the above response but missing off the constant.
-
-### The Form of a Response: not leaving an answer in factored form
-
-Because we are using the mathematical properties of a student's response to judge its accuracy, we can even check to ensure that the student has responded in the correct form. For example, we expect a student answering this correctly to respond with \(-\frac{5}{6}(3x-2)^{-2} + c \) but they might equally well respond with \( -\frac{5}{54x^{2}-72x+24} + c\). This is, of course, mathematically correct but not in the factored form convention demands. The student is correct but we still should guide them towards not expanding brackets when they don't need to.
-
-We need to go back and `[Add another node]` to the Potential Response Tree. A third node is added.
-
-To use this potential response, edit Node 1, and now change the true branch to make the Next node point to the new Node 3.
-If we enter Node 3, we know the student has the correct answer and just need to establish if it is factored or not and provide the appropriate feedback. To establish this we need to use the [FacForm answer test](Answer_tests.md).
-
-Update the form so that Node 3 has
-
-    SAns = strip_int_const(ans1,x)
-    TAns = strip_int_const(ta,x)
-    Answer test = FacForm
-    Test options = x
-    Quiet = Yes.
-
-STACK provides a function `strip_int_const` to remove any constant of integration which a student may have used.
-We have both `SAns` and `TAns` the same here as the `FacForm` test also checks for algebraic equivalence, which is not relevant here.
-The FacForm answer test provides automatic feedback which would be inappropriate here, hence we choose the quiet option.
-
-We also need to assign outcomes in Node 3.
-
-1. On the true branch set the `score=1`, and `mod` to `=`
-2. On the false branch set the `score=1`, and `mod` to `=`
-3. On the false branch set the feedback to `Your answer is not factored. Well done for getting the correct answer but remember that there is no need to expand out the brackets.`
-
-Having developed our integration question to the point where we can provide some quite detailed guidance to students (based on the mathematical properties of their answer) we can now consider using this particular question as the basis for a whole set of random questions.
-
-You will need to review the test cases you created above.  These will now "fail" because the new node means that the last answer note no longer matches up with the actual outcomes.  If you have lots of tests, you will need to update them all.  However, updating the test outcomes and confirming they are working, is easier than testing and re-testing by hand...
-
-Before moving on you might consider saving the current question as a new question so you don't lose your work.
-
-# Random questions ##
-
-To generate random questions we again make use of the [question variables](KeyVals.md#Question_variables) field.
-
-Earlier in this guide we introduced the idea of question variables. Let's take a look again at the question variables we declared:
-
-    p:5*(3*x-2)^-3
-    ta: int(p,x)+c
-
-We defined two local variables `p` and `ta`, and used these values in other places such as the question text, input, potential response tree and question tests. 
-
-Notice also that in the variable `ta` used to define the model answer contains a CAS command to integrate the value of `p` with respect to `x`. It wasn't necessary for the CAS to work out the answer to our original question (we could have specified it ourselves) but it is certainly necessary in a random question.
-
-We are now in a position to generate a random question. To do this modify the [question variables](KeyVals.md#Question_variables) to be
-
-    a1 : 1+rand(6);
-    a2 : 1+rand(6);
-    n : -(2+rand(4));
-    p : a1*(x-a2)^n;
-    ta: int(p, x)+c;
-
-In this new question we are asking the student to find the anti-derivative of a question with a definite form \(\frac{a_1}{(x-a_2)^n}\).  `a1`, `a2` and `n` are all variables, which are assigned random numbers.  These are then used to define the variable `p`, used in the question itself. We also have the CAS integrate the expression `p` and store the result in the variable `ta`.
-
-Remember that when generating random questions in STACK then we talk about _random numbers_ when we really mean _pseudo-random numbers_. To keep track of which random numbers are generated for each user, there is a special `rand` command in STACK,
-which you should use instead of [Maxima](../CAS/Maxima.md)'s random command. The `rand` command is a general "random thing" generator, see the page on [random generation](../CAS/Random.md) for full details. `rand` can be used to generate random numbers and also to make selections from a list.
-
-### Question note ###
-
-Now that our question contains random numbers we need to record the actual question version seen by a particular student.
-As soon as we use the `rand` function STACK forces us to add a _Question note_. 
-Fill the question note in as
-
-    \[ \int {@p@}\mathrm{d}x = {@ta@}.\]
-
-Two question versions are considered to be the same if and only if the question note is the same. It is the teacher's responsibility to create sensible notes.
-
-### Handling random variables in the Potential Response Tree ###
-
-We also need to ensure the test answers, `TAns`, in each node of the potential response tree are updated accordingly. 
-If the student has differentiated the outer function by mistake then the derivative of their response will be of the form `a1*n*(n-1)*(x-a2)^(n-2)`.
-
-We will need to update `TAns` of node 2 of the potential response tree to add in this value.  It is sensible to create another question variable
-
-    taw1:a1*n*(n-1)*(x-a2)^(n-2)
-
-So this possible outcome can be used in the potential response tree, question tests and so on by referring to the variable `taw1`.
-
-Edit your trial question, save and preview it to get new random versions of the question.
-
-### Deploying random versions ###
-
-Before a student sees the questions it is sensible to deploy random versions.  See [deploying](Deploying.md) for more information on this process.
-
-# Next steps #
-
-STACK's question type is very flexible.
-
-* You can add a worked solution in the [General feedback](CASText.md#General_feedback).
-* You can change the behaviour of the question with the [options](Options.md).
-* You can add plots to all the [CASText](CASText.md) fields with the [`plot`](../CAS/Maxima.md#plot) command.
-* You can add support for [multiple languages](Languages.md).
-* You might like to look at Moodle's quiz settings, creating a simple quiz.  This is, strictly speaking, a completely Moodle issue and there is every reason to combine STACK questions with other Moodle question types.  Some very brief notes are included in the [quiz quick start guide](Authoring_quick_start_quiz.md).
-
-The next part of the authoring quick start guide looks at [multi-part mathematical questions](Authoring_quick_start_2.md).

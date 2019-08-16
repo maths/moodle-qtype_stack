@@ -42,7 +42,7 @@ __STACK 3 now uses Maxima's assignment rules.  This is a change from STACK 2.__ 
 
 ## Question variables {#Question_variables}
 
-The question variables are evaluated when a version of a question is created.   The displayed forms are available to all other [CASText](CASText.md) fields and the values to other parts of the question, e.g.
+The question variables are evaluated when a variant of a question is created.   The displayed forms are available to all other [CASText](CASText.md) fields and the values to other parts of the question, e.g.
 
 * Teacher's answers in [inputs](Inputs.md) are defined in terms of question variables.
 * [Question note](Question_note.md).
@@ -64,7 +64,7 @@ This gives the opportunity to perform sophisticated mathematical operations.
 
 Before each answer test is applied the following list of variables is assembled and evaluated
 
-1. The values of the [question variables](KeyVals.md#Question_variables).
+1. The values of the question variables.
 2. The values of each [inputs](Inputs.md).
 3. The feedback variables.
 

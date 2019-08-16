@@ -6,7 +6,7 @@ A demonstration server is available in Edinburgh:  [https://stack.maths.ed.ac.uk
 
 In 2017 the STACK project was awarded a Collaborative Award for Teaching Excellence.
 
-![CATE Logo](%CONTENT/CATE.jpg)
+![CATE Logo](%CONTENT/CATE.png)
 
 
 ### How can I contribute?
@@ -57,27 +57,27 @@ Groups of people who use STACK. You are welcome to join, ask questions and parti
 * [SIG Mathe+ILIAS](https://docu.ilias.de/goto.php?target=grp_5183)
 * [Arbeitskreis Digitale Mathematik-Aufgaben in der Hochschullehre](http://www.ak-mathe-digital.de)
 
-### Institutions
+# User list
 
-The following institutions made use of previous version of STACK.  If you are actively using STACK and would like to be listed below then please contact the developers.
+The following institutions made use of previous versions of STACK.  If you are actively using STACK and would like to be listed below then please contact the developers.
 
 School of Mathematics, The University of Edinburgh
 : The home of STACK. Contact [Chris Sangwin](mailto:c.j.sangwin@ed.ac.uk).
 
-The Open University
-: Contact [Tim Hunt](mailto:t.j.hunt@open.ac.uk) or Tim.Lowe.
+School of Mathematics and Statistics, The Open University,
+: Contact [Tim Hunt](mailto:t.j.hunt@open.ac.uk) and [Tim Lowe](mailto:tim.lowe@open.ac.uk)
 
 School of Science, Aalto University, Helsinki, Finland
 : Contact Matti Harjula and [Antti Rasila](http://math.tkk.fi/en/research/matta/)
+
+Mathematics Education Centre, Loughborough University
+: Contact [Ian Jones](mailto:I.Jones@lboro.ac.uk)
 
 School of Informatics and Sciences, Nagoya University, Japan
 : Contact [Yasuyuki Nakamura](mailto:nakamura@nagoya-u.jp)
 
 Ja STACK Community
 : Contact [Ja STACK.org](http://ja-stack.org/)
-
-Loughborough University.
-: Contact [Ian Jones](mailto:I.Jones@lboro.ac.uk)
 
 Polytechnic Institute of Leiria, Leiria, Portugal
 : Contact [Rui Paiva](mailto:rui.paiva@estg.ipleiria.pt)
@@ -89,7 +89,13 @@ Gymnasium Himmelsthür, Hildesheim, Deutschland
 : Contact [Frank Schütte](mailto:fschuett@gymnasium-himmelsthuer.de)
 
 Universidad Michoacana de San Nicolas de Hidalgo
-: Contcat [Victor Hugo Huerta](mailto:v2hugo@gmail.com)
+: Contact [Victor Hugo Huerta](mailto:v2hugo@gmail.com)
 
 e-MAIO project, Coimbra Institute of Engineering, Portugal
 : Contact [e_MAIO@isec.pt](mailto:e_MAIO@isec.pt)
+
+Maseno University, Kenya
+: Contact [Michael Oyengo](mailto:obiero@live.de)
+
+IDEMS International
+: Contact [Santiago Borio](mailto:smborio@idems.international)

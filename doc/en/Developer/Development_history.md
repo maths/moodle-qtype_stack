@@ -4,13 +4,13 @@ For current and future plans, see [Development track](Development_track.md) and 
 
 ## Version 4.2.1
 
-Released August 2018. 
+Released August 2018.
 
 * Add in privacy subsystem classes for GDPR compliance.
 
 ## Version 4.2
 
-Released July 2018. 
+Released July 2018.
 
 Note: newer versions of Maxima require that a variable has been initialised as a list/array before you can assign values to its indices.  For this reason some older questions may stop working when you upgrade to a new version of Maxima.  Please use the bulk test script after each upgrade!  See issue #343.
 
@@ -59,7 +59,7 @@ Released August 2017.
 This is a bug-fix release, mostly associated with the upgrade process from version 3.X to 4.X.
 
 * Fix a bug in the upgrade script.
-* Fix a bug in the testing procedure in the "question test" script, and improve the way deployed versions are tested.
+* Fix a bug in the testing procedure in the "question test" script, and improve the way deployed variants are tested.
 * Make SVG the default image format for pictures created by Maxima.  (Old .png code left in place in this release, but no user option to access this functionality.)
 
 ## STACK 4.0
@@ -136,7 +136,7 @@ Numerous minor bug fixes and improvements, particularly with numerical tests and
 
 Numerous minor bug fixes and improvements.
 
-1. Added an export mechanism for single stack questions through a link on the "Question tests & deployed versions" page.
+1. Added an export mechanism for single stack questions through a link on the "Question tests & deployed variant" page.
 2. Modify the text area input so that each line is validated separately.
 3. Support for plot2d "label" command.
 4. Added support for `grid2d` for plot in newer versions of Maxima only.
@@ -181,6 +181,7 @@ This contains numerous minor bug fixes and improvements.
  8.  Reinstate the STACK 2 feature called "Hints".  This has been done as a "Fact sheet" to avoid ambiguity with other Moodle features.  See [Fact sheet](../Authoring/Fact_sheets.md) documentation.  
  9.  Better install (auto OS detection), healthcheck and testing.
  10. When using the Maxima Pool servlet, it is now possible to use any type of HTTP authentication
+
     (e.g. basic or digest), and there is a separate configuration option, so that you don't need to put the username and password in the URL.
 
 
@@ -274,7 +275,7 @@ Key features
 * The STACK Maxima function `filter` has been removed.  It should be replaced by the internal Maxima function `sublist`.  Note, the order of the arguments is reversed!
 * STACK can now work with either MathJax, the Moodle TeX filter, or the OU's maths rendering filter.
 * The Maxima libraries `powers` and `format` have been removed.
-* We now strongly discourage the use of dollar symbols for denoting LaTeX mathematics environments.  See the pages on [MathJax](Mathjax.md#delimiters) for more information on this change.
+* We now strongly discourage the use of dollar symbols for denoting LaTeX mathematics environments.  See the pages on [MathJax](../Installation/Mathjax.md#delimiters) for more information on this change.
 * The expressions supplied by the question author as question tests are no longer simplified at all.  See the entry on [question tests](../Authoring/Testing.md#Simplification).
 
 ### Full development log
@@ -328,7 +329,7 @@ At this point STACK will be "ready" for use with students, although not all feat
  5. Immediate feedback with CBM - no unit tests, but if the others work, this one must.
 3.  Add sample_questions, and update question banks for STACK 3.0.
 4. Improve the way questions are deployed.
- 1. Only deploy new versions.
+ 1. Only deploy new variants.
 5. Editing form: a way to remove a given PRT node.
 6. Fix bug: penalties and other fields being changed from NULL to 0 when being stored in the database.
 7. Add back Matrix input type.
@@ -342,7 +343,7 @@ Once completed we are ready for the **Beta release!**
 2. Eliminate as many TODOs from the code as possible.
 3. Add back other translations from STACK 2.0, preserving as many of the existing strings as possible. NOTE: the new format of the language strings containing parameters.  In particular, strings {$a[0]} need to be changed to {$a->m0}, etc.
 4. Add back all questions from the diagnostic quiz project as further examples.
-5. Deploy many versions at once.
+5. Deploy many variants at once.
 
 #### Editing form
 
@@ -412,7 +413,7 @@ Released, September 2007.  Developed by Jonathan Hart and Chris Sangwin at the U
 Key features
 
 * Display of mathematics taken care of by JSMath.
-* Integrated into Moodle.
+* Integrated into the Moodle quiz using the ["remote question protocol"](https://docs.moodle.org/dev/Open_protocol_for_accessing_question_engines).  The RQP was designed with STACK, and similar systems, in mind.
 * Variety of interaction elements.
 * Multi-part questions.
 * Cache.

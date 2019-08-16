@@ -852,7 +852,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         }
 
         if (!empty($this->deployedseeds)) {
-            // Fixed number of deployed versions, declare that.
+            // Fixed number of deployed variants, declare that.
             return count($this->deployedseeds);
         }
 
@@ -912,7 +912,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
 
     /* Get the values of all variables which have a key.  So, function definitions
      * and assignments are ignored by this method.  Used to display the values of
-     * variables used in a question version.  Beware that some functions have side
+     * variables used in a question variant.  Beware that some functions have side
      * effects in Maxima, e.g. orderless.  If you use these values you may not get
      * the same results as if you recreate the whole session from $this->questionvariables.
      */

@@ -1,141 +1,72 @@
-# Authoring quick start 3: turning simplification off
+# Authoring quick start 3: improving feedback
 
-This is the third part of the [authoring quick start](Authoring_quick_start.md).  It assumes you have already worked through [authoring quick start 1](Authoring_quick_start.md) and [authoring quick start 2](Authoring_quick_start_2.md). The purpose is to discuss some common issues which arise when authoring particularly elementary questions where the CAS might do too much.
+[1 - First question](Authoring_quick_start.md) | [2 - Question variables](Authoring_quick_start_2.md) | 3 - Feedback | [4 - Randomisation](Authoring_quick_start_4.md) | [5 - Question tests](Authoring_quick_start_5.md) | [6 - Multipart questions](Authoring_quick_start_6.md) | [7 - Simplification](Authoring_quick_start_7.md) | [8 - Quizzes](Authoring_quick_start_8.md)
 
-### Example question ###
 
-Given a complex number \(z=ae^{ib}\) determine \(|z^{n}|\) and \(\arg(z^{n})\).
 
-Where \(a\), \(b\) and \(n\) are randomly generated numbers.
+This part of the Authoring Quick Start Guide deals with improving feedback. The following video explains the process:
 
-## Simplification off ##
+<iframe width="560" height="315" src="https://www.youtube.com/embed/l6QAMmUA5Pk" frameborder="0" allowfullscreen></iframe>
+## Introduction
 
-It is tempting when writing questions such as this to operate at the _level of display._  We could randomly generate \(a\), \(b\) and \(n\) and insert them into the question text.  For example:
+In the last part we started working with question variables. Specifically, we defined the variable  `exp` for the expression to be integrated, and `ta` for the teacher's answer. Then we asked the student to find \(\int 3(x-1)^{-4}dx\).
 
-     \(\right({@a@}e^{{@b@} i}\left)^{@n@}\)
+Try previewing this question and typing in  `-1*(x-1)^(-3)+c`. The system should accept this as correct.  Next type in `-1*(x-1)^(-3)+C`.  This will be compared to the teacher's answer `-1*(x-1)^(-3)+c` by algebraic equivalence (recall we specified `AlgEquiv` in the potential response tree), and will not be accepted as equivalent.  The reason is that `c` and `C` are different.  A reasonable teacher will probably not care which letter is used for the constant of integration. Let us fix this problem.
 
-What we are doing here is to treat every variable separately, not to create a single CAS object for the complex number.  This is ok, but causes problems and is difficult to read because it mixes CAS and LaTeX.
+## Answer test: Int
 
-The alternative is to switch simplification off and use the CAS to represent expressions more directly.  The following is a single Maxima expression.
+We will need to edit the potential response tree to use a better [answer test](Answer_tests.md#Int). Return to the page "Editing a STACK question". Find your potential response tree settings, click on the drop-down menu where we selected `AlgEquiv` and select `Int` from the list. Type `x` (the variable) into the Test options setting. Now press the `[Save changes and continue editing]` button and once more click the preview button.  We have just selected a special [answer test](Answer_tests.md) for dealing with integration questions.
 
-     {@(a*%e^(b*%i))^n@}
+The _Int_ answer test will accept any variable name for the constant of integration. For example, try typing in  `-(x-1)^(-3)+k`. The system should accept this as correct.  It will also give standard feedback if the student forgets a constant of integration or accidentally differentiates instead.  To try this, type `-12*(x-1)^(-5)`.  If you don't want students to see the automatic feedback, select the _Quiet_ option in the potential response node.
 
-Of course, we don't want Maxima to _actually calculate the power_ just to _represent it!_  To see the difference, you can copy the following into a Maxima desktop session.
+An outcome's  `Answer Note` is a name given for that specific outcome. STACK will automatically generate these with information on the potential response tree, the node number and the outcome of the node.
 
-    kill(all);
-    simp:true;
-    (3*%e^(%i*%pi/2))^4;
-    simp:false;
-    (3*%e^(%i*%pi/2))^4;
+## Considerations
 
-Solving problems at the level of the CAS, not at the level of the display, is often better.    To tell STACK to set `simp:false` throughout the question scroll towards the bottom of the form and under `Options` set `Question-level simplify` to be `No`.
+When checking a student's answer with STACK, a teacher needs to ask themselves _"What are the mathematical properties that make a student's answer correct/incorrect?"_  In our case, these questions include:
 
-This does have some drawbacks.  Having switched off all simplification, we now need to turn it back on selectively! To do this, we use Maxima commands such as the following.
+- Is the student's answer a symbolic anti-derivative of the integrand?
+- Does the student have a constant of integration in an appropriate form?
 
-    a : ev(2+rand(15),simp);
+The built-in `int` answer test answers these questions, so a teacher does not have to write code to do so for every integration question.
 
-In particular, we are going to define the question variables as follows.
+Next, a teacher needs to ask _"What might a student do incorrectly, and what will this give them as an answer?"_  This second question is more difficult. The answer might come through experience or from asking upfront diagnostic questions. It is often sensible to review students' responses to STACK questions after a year and build in better feedback in light of experiences. 
 
-    a : ev(2+rand(15),simp);
-    b : ev((-1)^rand(2)*((1+rand(10)))/(2+rand(15)),simp);
-    n : ev(3+rand(20),simp);
-    q : a*%e^(b*%i*%pi);
-    p : ev(mod(b*n,2),simp);
+## Enhancing the feedback further
 
-A useful alternative when many consecutive expressions need to be simplified is to use the following.
+For each mistake we think students might make, we can create an answer test. For example, we might expect students to leave their answer in expanded form. This would of course still be a correct answer, but we want to guide students away from unnecessarily expanding their answer. Let us create another node that tests if the student left their final answer in a factored form. We do this by adding another potential response node. 
 
-    simp : true;
-    a : 2+rand(15);
-    b : (-1)^rand(2)*((1+rand(10)))/(2+rand(15));
-    n : 3+rand(20);
-    simp : false;
-    q : a*%e^(b*%i*%pi);
-    p : ev(mod(b*n,2),simp);
+![Adding a new node](%CONTENT/add_new_node.png)
 
-The particular circumstances will dictate if it is better to have lots of variables and use the display, or whether to turn `simp:false` and work with this.  The difficulty is often with the unary minus.  Inserting numbers into expressions such as `y={@m@}x+{@c@}` if \(c<0\) is that it will be displayed as \(y=3x+-5\), for example.  While simplification is "off", the display routines in Maxima will (often) cope with the unary minus in a sensible way.
+Go to the potential response tree and click `[Add another node]` . Then under Node 1's  `True` branch change `Next` to `Node 2`. If we enter Node 2, we know the student has the correct answer and just need to establish if it is factored or not. To establish this we need to use the [FacForm answer test](Answer_tests.md). This tests both that SAns and TAns are equivalent, and that SAns is factored. In this case we already know that the student's answer is equivalent to the teacher's answer (using *Int*'s better tailored algorithm). Hence we can just test the student's answer against itself.
 
-## The importance of the question note ##
+Update the form so that Node 2 has
 
-Notice in defining `b` we have a quotient which might well "simplify" when fractions cancel.  Hence, there is not a one-one correspondence between the values of the random variables and actual question versions.  In some situations there may similarly not be a one-one correspondence between the values of specific variables and actual questions.  We cannot use the values of the question variables as a unique key to the question versions (although in this case it would be fine because all algebraic cancelling occurs within the definition of `b` and so we end up with a unique key).
+```
+Answer test = FacForm
+SAns = strip_int_const(ans1,x)
+TAns = strip_int_const(ans1,x)
+Test options = x
+```
 
-Hence the teacher must leave a meaningful question note.  Two versions of a question are _defined_ to be the same if and only if the question note is the same.
+STACK provides a function `strip_int_const` to remove any constant of integration which a student may have used. We again have to specify the variable in `Test options`. 
 
-The question note field is ["CAS text"](CASText.md), just like the question text.  We could write something like
+Make sure that the outcomes for both `True` and `False` do not change the score. By default they will be set to `+0` and `-0`, respectively. By not changing the score, we ensure that students are not penalised for giving their answer in expanded form.
 
-    {@[a,b,n]@}
+FacForm gives automatic feedback, but if you want to write your own you can set `Quiet` to `Yes` and type something like the following into `Node 2 false feedback`:
 
-Or we could leave something more meaningful:
+```
+Your answer is not factored. Well done for getting the correct answer, but remember that there is no need to expand out the brackets.
+```
 
-    {@q^n = a^n*(cos(p*%i*%pi)+%i*sin(p*%i*%pi))@}
+You can continue to expand your potential response tree, checking for as many common mistakes as you would like to. See the [documentation](Answer_tests.md) for information on more answer tests.
 
-Notice, we probably don't want to evaluate `a^n` here as it isn't likely to be "simpler".  It is up to the teacher, but putting the answer in the answer note helps if students come and ask you for the answer to their version of the question...
+## Adding general feedback
 
-## Multi-part question ##
+`General Feedback` is shown to every student, regardless of whether they got the question right or wrong. This is a good place to add a full worked solution.
 
-This question has two independent parts.  Hence, it probably needs two separate potential response trees to assess each part.
+# Next step
 
-The question text might look something like the following:
+You should now be able to create specific feedback in STACK.
 
-    Given a complex number \(\displaystyle z={@q@}\) determine
-    \( |z^{@n@}|= \) [[input:ans1]] [[validation:ans1]] [[feedback:prt1]]
-    and \( \arg(z^{@n@})= \) [[input:ans2]] [[validation:ans2]] [[feedback:prt2]]
-
-Remove the tag `[[feedback:prt1]]` from the Specific feedback field.  It is placed there by default, but can only occur once.
-
-Update the form.  Because there are two inputs and two potential response trees these will be automatically created.
-
-We need to supply model answers for each part.  In terms of our question variables,
-
-    ans1 : a^n
-    ans2 : p*%pi
-
-## Assessment of the answers ##
-
-It is unlikely that the purpose of this question is to decide if the student can work out powers of integers.  So we will assume it is acceptable to enter an answer such as \(a^b\) for the first part, rather than calculating this as an integer.  If the randomization was more conservative, this calculation might be an additional goal of the question.
-
-Hence, for `prt1` fill in the following information
-
-    SAns:ans1
-    TAns:a^n
-    answertest:AlgEquiv
-
-If you really want to test for the integer, you need to calculate `ev(a^n,simp)` and then use the `EqualComAss` test to establish the student has the right integer.
-
-For `prt2` we need to establish the student has the right argument.  Since this is modulo \(2\pi\) we can use the trigonometrical functions.  Fill in the following information
-
-    SAns:[cos(ans2),sin(ans2)]
-    TAns:[cos(n*b*%pi),sin(n*b*%pi)]
-    answertest:AlgEquiv
-    quiet:yes
-
-The `AlgEquiv` test is happy to compare lists, but it makes no sense to tell the student which list element is "incorrect". Indeed, to do so would be confusing so we have selected the `quiet` option to suppress the automatically generated answer test feedback.
-
-Again, if you want to enforce a test for the principle argument you will need to check the student's value also falls within the correct range using the `NUM-GTE` tests to establish "greater or equal to".  This can be done by adding an additional node.  It is probably a sensible idea to give feedback on both properties here.  The variable `p` in the question variables will help with this.
-
-## Question tests ##
-
-Please create some question tests!  This will save time in the long term, by enabling you to automatically test your question for each random version you wish to deploy.  You should create one test case for each outcome you expect. Here, we need
-
-    ans1:a^n
-    ans2:n*b*%pi
-
-as the two correct answers, and then incorrect answers to ensure these are being trapped.  If you have enforced the _form_ of the answer, i.e. _integer representation_ for `ans1` and _principal argument_ for `ans2`, you need to add tests to distinguish between these.  For the first part \(a^n\) and the integer it represents, i.e. `ev(a^n,simp)`.  For the second part between \(b\times n\) and the variable `q`.
-
-## General feedback ##
-
-The general feedback (previously known as the worked solution) can show some of the steps in working.  For example,
-
-    It makes sense that the index laws should still apply.  This is called De Moivre's theorem.
-    \[ {@q^n@} ={@a^n@} e^{@b*n*%i*%pi@}.\]
-    Recall that
-    \[ e^{i\theta} = \cos(\theta)+i\sin(\theta).\]
-    Working with the principle argument \( 0\leq \theta \leq 2\pi \) gives us
-    \[ {@q^n@} = {@a^n@} e^{@b*n*%i*%pi@} = {@a^n@} e^{@ev(b*n,simp)*%i*%pi@} = {@a^n@} e^{@p*%i*%pi@}.\]
-
-# Next steps #
-
-Further examples are give in the page on [matrices](../CAS/Matrix.md).
-
-The XML of this question is included with the [sample questions](Sample_questions.md).  Please look at the other [sample questions](Sample_questions.md) which are distributed with STACK for more examples.
-
-The next part of the authoring quick start guide looks at [equivalence reasoning](Authoring_quick_start_4.md).
+##### The next part of the authoring quick start guide looks at [randomisation](Authoring_quick_start_4.md).

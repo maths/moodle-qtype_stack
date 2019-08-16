@@ -40,7 +40,7 @@ Let us assume that the correct answer is `12.1*m/s^2`.
 4. STACK has answer tests which compare dimensional numbers. These tests use (share code with) one of the existing numerical answer tests, such as `NumSigFigs`.
 
 
-## Input type ##
+## Input type ## {#Input_type}
 
 Stack provides an input type to enable teachers to support students in entering answers with scientific units.
 

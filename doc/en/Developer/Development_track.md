@@ -10,8 +10,10 @@ How to report bugs and make suggestions is described on the [community](../About
 DONE:
 
 * Removed the Maxima MathML code (which wasn't connected or used).
+* Add in metadata system to the documentation (Thanks to Malthe Sporring for this suggestion).
 * Add in extra option `simp` to inputs.
 * Add in extra options in the input `allowempty` and `hideanswer`.
+* Review and updated documentation (thanks to Malthe Sporring).
 
 TODO:
 

@@ -1,24 +1,21 @@
 # Contributors to the STACK Project
 
-_This list is currently incomplete_.
-
 More details of our development history are given in the [development track](../Developer/Development_track.md).
 
 * [Chris Sangwin](http://www.maths.ed.ac.uk/~csangwin/) of the University of Edinburgh. STACK is the brainchild of Chris Sangwin.
-* [Tim Hunt](http://tjhunt.blogspot.co.uk/) and Time Lowe of the Open University.
+* [Tim Hunt](http://tjhunt.blogspot.co.uk/) and [Tim Lowe](mailto:tim.lowe@open.ac.uk) of the Open University.
 * Matti Harjula of Aalto University, Finland.
-* Matti Pauna of the University of Helsinki.
 
-Previous developers have included.
+Previous developers have included
 
-* Ben Holmes
-* Dan Williams
-* Simon Hammond
-* Jonathan Hart
+* Ben Holmes, Dan Williams, Simon Hammond, Jonathan Hart, Matti Pauna
+* Mikael Kurula, Maksim Kraev, Malthe Sporring
+
+STACK is an open source project and many others have made contributions of various sizes.
 
 # Translation of the STACK Project
 
-STACK is designed to support the straightforward addition of other language packs. If you have translated STACK into other languages - or would be interested in doing so - please let us know! Likewise, if you would really like to see STACK in another language please contact us.  Details of how to translate STACK, and forthcoming translations, are given on the [languages](../Developer/Languages.md) developer's page.
+STACK is designed to support the straightforward addition of other language packs. If you have translated STACK into other languages - or would be interested in doing so - please [let us know](mailto:C.J.Sangwin@ed.ac.uk)! Likewise, if you would really like to see STACK in another language please contact us.  Details of how to add language packs, translate STACK, and forthcoming translations, are given on the [Language packs](../Developer/Language_packs.md) developers page.
 
 STACK is released in many languages, using Moodle's ATOS language system.
 
@@ -28,42 +25,24 @@ STACK is released in many languages, using Moodle's ATOS language system.
   * ES: Spanish, by Victor Hugo Huerta 
   * JA: Japanese, by Yasuyuki Nakamura and Takahiro Nakahara  
 
-German documentation added in Jan 2019 by Eva Mix of University of Cologne, Germany and Mario Josupeit of University of Cologne, Germany.
+German documentation was added in Jan 2019 by Eva Mix and Mario Josupeit of University of Cologne, Germany.
 
 # Other implementations and projects
 
-STACK questions have also been included in the ILIAS project.
+STACK has been ported to the plugin [assStackQuestion](github.com/ilifau/assStackQuestion) for the Learning Management System [ILIAS](https://www.ilias.de/)  by:
 
-# User list
+- Jesus Copado
+- Fred Neumann
 
-The following institutions made use of previous versions of STACK.  If you are actively using STACK and would like to be listed below then please contact the developers.
+This project received a lot of moral support from the ILIAS association and its product manager Matthias Kunkel, as well as funding from various institutions:
 
-School of Mathematics, The University of Edinburgh
-: The home of STACK. Contact [Chris Sangwin](mailto:c.j.sangwin@ed.ac.uk).
+- Duale Hochschule Baden Württemberg
+- Hochschule Bremen
+- Helmut-Schmidt-Universität Hamburg
+- Fachhochschule Aachen
+- Hochschule Karlsruhe
+- Fachhochschule Münster
+- Universität Freiburg
+- Universität Erlangen-Nürnberg
+- Universität zu Köln
 
-School of Science, Aalto University, Helsinki, Finland
-: Contact Matti Harjula and [Antti Rasila](http://math.tkk.fi/en/research/matta/)
-
-School of Informatics and Sciences, Nagoya University, Japan
-: Contact [Yasuyuki Nakamura](mailto:nakamura@nagoya-u.jp)
-
-Ja STACK Community
-: Contact [Ja STACK.org](http://ja-stack.org/)
-
-Polytechnic Institute of Leiria, Leiria, Portugal
-: Contact [Rui Paiva](mailto:rui.paiva@estg.ipleiria.pt)
-
-School of Physics, The University of Birmingham
-: Contact Jon Watkins
-
-School of Computing, Information and Mathematical Sciences, The University of the South Pacific
-: Contact [Dhiraj Bhartu](mailto:dhiraj.bhartu@usp.ac.fj)
-
-Gymnasium Himmelstherr, Hildesheim, Deutschland
-: Contact [Frank Schuette](mailto:fschuett@gymnasium-himmelsthuer.de)
-
-Universidad Michoacana de San Nicolas de Hidalgo
-: Contcat [Victor Hugo Huerta](mailto:v2hugo@gmail.com)
-
-e-MAIO project, Coimbra Institute of Engineering, Portugal
-: Contact [e_MAIO@isec.pt](mailto:e_MAIO@isec.pt)

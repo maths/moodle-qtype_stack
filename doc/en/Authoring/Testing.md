@@ -1,12 +1,6 @@
 # Testing, debugging and quality control
 
-Computer-aided assessment of mathematics works in the following phases.
-
-1. [Authoring](../Authoring/index.md),
-2. [Testing](Testing.md) and
-3. [Deploying](Deploying.md) questions.
-4. [Adding questions to a quiz](Quiz.md) and use by students.
-5. [Reporting](Reporting.md) and statistical analysis.
+This page deals with testing questions and quality control. This is largely done through the question test functionality.
 
 ## Question authoring checklist ##
 
@@ -21,12 +15,12 @@ __Minimal requirements__
    * Can "validation" help, e.g. by telling students how many significant figures are expected? (See the "numbers" input type.)
 4. Use question variable stubs throughout, to enable efficient random generation.  (E.g. define the correct answer in question variables, rather than hard-wiring a specific expression).
 5. Always make sure the question marks the correct answer as correct!
-6. Add question tests for one correct and at least one incorrect version. (See below.)
+6. Add question tests for one correct and at least one incorrect variant. (See below.)
 7. Check all options in the question, inputs and PRTs.
 
 __Phase 1__
 
-1. Minimal random versions.
+1. Minimal random variants.
 2. Worked solution ("General feedback") reflecting the random variables.
 3. Consider likely mistakes, and add feedback to test for this.
 4. Add at least one question test to test for each eventuality identified above.
@@ -38,7 +32,7 @@ Use data obtained from one cycle of attempts by students.
 1. Did the question operate correctly?  E.g. were correct answers correctly marked, and incorrect answers rejected?
 2. What did students get wrong?  Is there a reason for these answers such as a common misconception?  If so, add nodes to the PRTs to test for this and improve feedback.
 3. Add further question tests to test each misconception.
-4. Is there any significant difference between random versions?
+4. Is there any significant difference between random variants?
 
 ## Testing for quality control  ##
 
@@ -52,7 +46,7 @@ Question variables can be included in the tests; indeed these are needed to defi
 Each test assigns values to
 
 1. any/all of the inputs.  These values may, naturally, depend on the
-   [question variables](KeyVals.md#Question_variables).
+   [question variables](Variables.md#Question_variables).
 2. values for the score and any penalty.
 3. [Answer notes](Potential_response_trees.md#Answer_note) from each of
    the [potential response trees](Potential_response_trees.md).
@@ -69,9 +63,9 @@ In this way, the teacher can record, within the question itself, how they expect
 
 1. Author and save your question.
 2. From the Question bank, choose the _Preview_ option.
-3. The _Preview question_ window will open.  If you have authority to edit the question, then the top right of the question window will contain a link to _Run the question tests..._.  Follow this link.
+3. The _Preview question_ window will open.  If you have authority to edit the question, then the top right of the question window will contain a link to _question tests and deployed variants..._.  Follow this link.
 4. This page manages both question tests and deployed variants.  Initially you will have no tests or deployed variants.  At the bottom of this page choose _Add a test case..._
-5. Specify values for each input.  This may use the question variables.  The values of these variables will be used for any random versions.
+5. Specify values for each input.  This may use the question variables.  The values of these variables will be used for any random variants.
 6. Specify the expected outcomes for each potential response tree.  This includes the score, penalty and answer note.  _Note_: currently only the last Answer Note, not the whole path through the potential response tree, is examined.  This is a limitation.
 7. Once you have added the test case, STACK will automatically validate and submit these responses and display the outcomes.
 8. You may add as many test cases are you need.  It is sensible to add in
@@ -101,7 +95,7 @@ For example, in Maxima try
 
 Notice here, that while `simp:false` the limit is still evaluated.  This is not "simplification".  For the full story, please refer to the Maxima docs on the `ev` command.
 
-In this case, you can prevent evaluation of limit by using an apostrophie in the test case.
+In this case, you can prevent evaluation of limits by using an apostrophie in the test case.
 
     simp:false;
     f:x*sin(1/x);

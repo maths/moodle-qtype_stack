@@ -61,6 +61,22 @@ function report($d) {
                             $a[] = array($fpath, 'W', "Large file ($fsize bytes)");
                         }
 
+                        $meta = stack_docs_page_metadata($fpath);
+                        if ($meta === array()) {
+                            $a[] = array($fpath, 'W', "No metadata");
+                        } else {
+                            if (array_key_exists('description', $meta)) {
+                                if (strlen($meta['description']) > 160) {
+                                    $a[] = array($fpath, 'W', "Metadata description is > 160 characters.");
+                                }
+                            } else {
+                                $a[] = array($fpath, 'W', "No metadata description");
+                            }
+                            if (!array_key_exists('title', $meta)) {
+                                $a[] = array($fpath, 'W', "No metadata title");
+                            }
+                        }
+
                         if ($fext != 'bak') {
                             if ($fext != 'md') {
                                 $a[] = array($fpath, 'W', "Not a markdown file ($fext)");

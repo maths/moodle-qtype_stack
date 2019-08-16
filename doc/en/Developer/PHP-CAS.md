@@ -6,9 +6,9 @@ This document describes the design of the PHP interface to the CAS.  While this 
 
 ## CAS text
 
-CAS text is literally "computer algebra active text".  This is documented [elsewhere](../Authoring/CASText.md).  It should be, in principle, possible to develop a "CASText filter" for Moodle.
+CAS text is literally "computer algebra active text".  This is documented [here](../Authoring/CASText.md).  It should be, in principle, possible to develop a "CASText filter" for Moodle.
 
-Note, that when constructing CAS text it must be able to take a CAS session as an argument to the constructor.  In this way we can use lists of variables, such as [question variables](../Authoring/KeyVals.md) to provide values.
+Note, that when constructing CAS text it must be able to take a CAS session as an argument to the constructor.  In this way we can use lists of variables, such as [question variables](../Authoring/Variables.md) to provide values.
 
 E.g. we might have :
 

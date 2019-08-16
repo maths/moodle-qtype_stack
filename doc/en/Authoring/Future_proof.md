@@ -6,7 +6,7 @@ In some parts of this document we mention "Abacus". The Abacus project is a STAC
 
 The most important things are listed here. More detail is below.
 
-1. Build questions so that it is possible to detect changes in the platform. All questions must have "question tests", which allow unit testing of each question version.
+1. Build questions so that it is possible to detect changes in the platform. All questions must have "question tests", which allow unit testing of each question variant.
 2. Use simple correct HTML with all closing tags, avoiding explicit style of your own.
 3. Use only simple core LaTeX Maths environments/commands, with only `\(...\)` and `\[...\]` as the maths delimiters.
 4. Avoid linking to externally hosted content, such as pictures and applets.

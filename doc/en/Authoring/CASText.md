@@ -10,16 +10,14 @@ Information about [Basic HTML](http://www.w3schools.com/html/) is available else
 
 Currently STACK does not process the LaTeX itself.  It is displayed on the user's browser in a variety of ways, such as using [MathJax](http://http://www.mathjax.org/).   If you do not know how to use LaTeX, some simple examples are given in the [author FAQ](Author_FAQ.md).
 
-The following things to remember about CASText:
-
-* Anything enclosed between `\( .... \)` symbols is treated as an _inline equation_, as is the case with normal LaTeX.  
-* Anything enclosed between matching `\[` and `\]` is treated as a _displayed equation_, in the centre of a new line. Again, this is the case with LaTeX.
-* We do not support the use of dollar symbols such as `$...$` and `$$...$$` for denoting LaTeX mathematics environments.  See the notes on [currency](CASText.md#currency) below and also the page on [MathJax](../Developer/Mathjax.md#delimiters) for more information. Dollar were supported in the past, but as of version 4. STACK no longer acknowledges `$` style LaTeX math environments when deciding whether to wrap output in math-mode.
+* Anything enclosed between `\( .... \)` symbols is treated as an _inline equation_, as is the case with normal LaTeX.
+* Anything enclosed between matching `\[` and `\]` is treated as a _displayed equation_, in the centre of a new line.
+* We do not support the use of dollar symbols such as `$...$` and `$$...$$` for denoting LaTeX mathematics environments.  See the notes on [currency](CASText.md#currency) below and also the page on [MathJax](../Installation/Mathjax.md#delimiters) for more information.
 * Don't use LaTeX text formatting features such as `\\`, instead use the HTML versions.
 * Anything enclosed between `{@` and `@}` delimiters is evaluated by the CAS and replaced by the LaTeX representing the result.  Some notes.
  * By default this is displayed as an _inline equation_.  This is analogous to using LaTeX symbols. Note however, that you don't need to use `\({@ stuff @}\)`, and that `{@ stuff @}` is sufficient.
  * To get a displayed equation centred on a line of its own, you must use `\[{@ stuff @}\]`, as in LaTeX.
- * The outer `{}` characters of `{@ stuff @}` will be left into the output to ensure that the potentially multiple characters long output value is considered as a single group by LaTeX.
+ * The outer `{}` characters of `{@ stuff @}` will be left in the output to ensure that the output is considered as a single group by LaTeX.
 * Anything enclosed between `{#` and `#}` delimiters is evaluated by the CAS and replaced by the Maxima representing the result. Basically, raw values usable in other tools or examples on how to input the value.
 * If the Maxima variable `x` is a string then `{@x@}` produces the string contents without quote marks or LaTeX environment, while `{#x#}` produces the string contents enclosed by quote marks.
 * If you want comma separated values without the list brackets then use `{@stack_disp_comma_separate( list )@}`.  This function turns a list into a string representation of its arguments, without braces.
@@ -34,10 +32,10 @@ Here is an example
 
 ## Variables ##   {#Variables}
 
-CASText may depend on variables previously defined in the [question variables](KeyVals.md#Question_variables) field.
+CASText may depend on variables previously defined in the [question variables](Variables.md#Question_variables) field.
 
 Where the CASText appears in the fields of a [potential response trees](Potential_response_trees.md),
-the variables in the [feedback variables](KeyVals.md#Feedback_variables) may also be included.
+the variables in the [feedback variables](Variables.md#Feedback_variables) may also be included.
 
 ## Question text {#question_text}
 
@@ -93,15 +91,15 @@ Use the `<br />` tag if you want a line break (a new line) without starting a ne
 Some formatting
 
     <em>This is emphasis</em>
-
+    
     <b>This text is bold</b>
-
+    
     <big>This text is big</big>
-
+    
     <i>This text is italic</i>
-
+    
     <code>This is computer output</code>
-
+    
     This is <sub>subscript</sub> and <sup>superscript</sup>
 
 ## Useful LaTeX ##

@@ -1,13 +1,5 @@
 # Reporting
 
-Computer-aided assessment of mathematics works in the following phases.
-
-1. [Authoring](../Authoring/index.md),
-2. [Testing](Testing.md) and
-3. [Deploying](Deploying.md) questions.
-4. [Adding questions to a quiz](Quiz.md) and use by students.
-5. [Reporting](Reporting.md) and statistical analysis.
-
 Reviewing students' answers closes the learning cycle for teachers by allowing them to understand what students are doing. Basic reporting is undertaken through the Moodle quiz.  For example, lists of scores, etc. are available there.  The Moodle quiz also calculates basic statistics based on the numerical information.
 
 To review work in more detail we need to use two important parts of the question. Please read the following two entries before continuing with this article.

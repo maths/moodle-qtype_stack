@@ -2,6 +2,13 @@
 
 It is important to confirm that STACK has been installed correctly, and that it is connecting to the CAS.
 
+## Multi-language support
+
+STACK questions can be localised into [multiple languages](../Authoring/Languages.md).
+
+1. Your site administrator must enable the [Moodle multi-language content filter](http://docs.moodle.org/en/Multi-language_content_filter).
+2. The multi-language content filter must be applied before the MathJax filter, otherwise strange results will occur.
+
 ## STACK configuration page
 
 STACK provides a number of options.  To set these you must login as the Moodle site Administrator.  Navigate to 
@@ -16,7 +23,7 @@ The CAS-debug option in the STACK settings will provide a very verbose output wh
 
 The healthcheck script checks the following. 
 
-* Check LaTeX is being converted correctly?  Check [MathJax](../Developer/Mathjax.md) or another LaTeX converter.
+* Check LaTeX is being converted correctly?  Check [MathJax](Mathjax.md) or another LaTeX converter.
 * Can PHP call external applications?  No, then change PHP settings. 
 * Can PHP call Maxima? No, then see below.
 * Graph plotting. Are auto-generated plots being created correctly?  There should be two different graphs.  If not, check the gnuplot settings, and directory permissions.
@@ -59,7 +66,7 @@ As of 2015-9-17, STACK has been tested on the following versions of Maxima.
 * branch_5_35_base_87_g454731b = PASS (compiled from source)
 * 5.36.1 = PASS
 
-## Testing you questions when you upgrade
+## Testing your questions when you upgrade
 
 Whenever you upgrade to a new version of the STACK plugin, it is a really good idea to run all
 of the [question tests](../Authoring/Testing.md) to be sure that the behaviour of STACK has not

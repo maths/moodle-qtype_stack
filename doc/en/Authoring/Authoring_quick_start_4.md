@@ -1,134 +1,68 @@
-# Author quick start 4: equivalence reasoning
+# Authoring quick start 4: randomisation
+
+[1 - First question](Authoring_quick_start.md) | [2 - Question variables](Authoring_quick_start_2.md) | [3 - Feedback](Authoring_quick_start_3.md) | 4 - Randomisation | [5 - Question tests](Authoring_quick_start_5.md) | [6 - Multipart questions](Authoring_quick_start_6.md) | [7 - Simplification](Authoring_quick_start_7.md) | [8 - Quizzes](Authoring_quick_start_8.md)
 
 
-This part of the author quick start guide shows you how to write STACK questions using the line by line [equivalence reasoning](../CAS/Equivalence_reasoning.md) input type.
 
-As an example, we want the students to expand the cubic \((x+2)^3\) showing their working in a stepwise fashion, line by line.
-The student's response to this question will allow us to test their knowledge and competency in the following:
+This part of the authoring quick start guide deals with randomisation. The following video explains the process:
 
-1. Expanding brackets
-2. Simplifying by collecting like terms
+<iframe width="560" height="315" src="https://www.youtube.com/embed/8FTqZ1fTmgs" frameborder="0" allowfullscreen></iframe>
+## Introduction
 
-Therefore we need them to show their working. 
+In the last part, we worked with a problem about integrating \(3(x-1)^{-4}\) with respect to x. However, we do not want every student to get the exact same question, as that would allow them to share answers! To solve this problem, we need to randomise the question.
 
-## Minimal working question ##
+## Random questions
 
-Create a new STACK question, give it a suitable name and then copy the following into the Question variables box:
+Let's take a look again at the question variables we declared:
 
+```
+exp: 3*(x-1)^(-4);
+ta: int(exp,x)+c;
+```
 
-	p:(x+2)^3;
-	taf:ev(expand(p),simp);
-	ta:[(x+2)^3,stackeq((x+2)*(x+2)^2),stackeq((x+2)*(x^2+4*x+4)),stackeq(x^3+4*x^2+4*x+2*x^2+8*x+8),stackeq(taf)];
+We defined two local variables `exp` and `ta`, and used these values in other places such as the question text, input and potential response tree. 
 
-The first variable, `p`, is the expression in the question. The variable `taf` is the final model answer.
-The variable `ta` is a list containing each step we are expecting our students to express as they work towards the final answer:
+We are now in a position to generate a random question. To do this, modify the [question variables](Variables.md#Question_variables) to be
 
-\((x+2)^{3}\)
+```
+a1 : 1+rand(6);
+a2 : 1+rand(6);
+nn : 1+rand(4);
+exp : a1*(x-a2)^(-nn);
+ta: int(exp, x)+c;
+```
 
-\(=(x+2)(x+2)^{2}\)
+In this new question we are asking the student to find the anti-derivative of a question with a definite form \(a_1(x-a_2)^-nn\). `a1`, `a2` and `nn` are all variables which are assigned random positive integers.  These are then used to define the variable `exp`, used in the question itself. We also have the CAS integrate the expression `exp` and store the result in the variable `ta`. It is good practice to use variables names with more than one character as single-character variables, like `x`, are meant for student input.
 
-\(=(x+2)(x^{2}+4x+4)\)
+Remember that when generating random questions in STACK we talk about _random numbers_ when we really mean _pseudo-random numbers_. To keep track of which random numbers are generated for each user, there is a special `rand` command in STACK, which you should use instead of [Maxima](../CAS/Maxima.md)'s random command. The `rand` command is a general "random thing" generator, see the page on [random generation](../CAS/Random.md) for full details. `rand` can be used to generate random numbers and also to make selections from a list. `rand(n)` will select a random integer from 0 up to, **and not including**, `n`. So  `rand(3)` will select a random number from the list  `[0,1,2]` .
 
-\(=x^{3}+4x^{2}+4x+2x^{2}+8x+8\)
+## Question note
 
-\(=x^{3}+6x^{2}+12x+8\)
+Now that as our question contains random numbers, we need to record the actual question variant seen by a particular student. As soon as we use the `rand` function, STACK forces us to add a _Question note_. 
+Fill the question note in as
 
+```
+\[ \int {@exp@} \mathrm{d}x = {@ta@}.\]
+```
 
-Notes:
+Two question variants are considered to be the same if and only if the question note is the same. It is the teacher's responsibility to create sensible notes.
 
-* We use the CAS functions `expand()` and `ev(...,simp)` to simply the output of `expand()`, to determine the model answer. 
-* The special function `stackeq` is replaced by unary equals.  Maxima expects equality to be an infix \(a=b\) not unary prefix \(=b\), so STACK needs this special operator.  Students using the input area can just start a line with \(=\), but teachers cannot!
+## Deploying random variants
 
-In this context the teacher's answer and the student's answer is a list.  The whole answer is a single object, which we assess.
+Before a student sees the questions, it is sensible to deploy random variants.  This controls exactly which variants are shown to a student and lets you check that the randomisation is sensible. Scroll to the top of your question and click on `Question tests & deployed variants`. 
 
-Copy the following text into the Question text box:
+To ask STACK to generate a number of question variants, you need `Attempt to automatically deploy the following number of variants:`. Select, for example, `10` and press `Go`.  You should then be able to see 10 random variants of the question. Now students will only be shown one of these.
 
-<textarea readonly="readonly" rows="2" cols="50">
-Expand {@p@}, remembering to show your working.
-[[input:ans1]] [[validation:ans1]]
-</textarea>
+You also have the option to remove any variants that you don't like. For example, you might not like the variants where nn=1, as these have answers involving logarithms. Hence, you could cross out all these variants. Perhaps a better solution is to return to your `Question variables` and change `nn` to `2+rand(4)`. When you save and go back to `Question tests & deployed variants`, you will see your variants changed. This illustrates a key use of deployed variants: checking for unintentional consequences of the randomisation.
 
-### Setting the input options ###
+## Preview options
 
-Under the `Input:ans1` header specify _Equivalence reasoning_ from the Input type drop-down and `ta` as the model answer.
+Try previewing your question. As previously mentioned, under `Attempt options`, you have the option to change the question behaviour. `Adaptive mode` is the most useful one for question testing, as it allows you to `check` questions repeatedly. We will discuss question behaviours in more detail later. 
 
-We want students to work through the expansion one line at a time, so let's include a hint. Copy the following into the Syntax hint box:
+However, notice also that you can choose which deployed `Question variant`  you are answering. This is useful if you want to test a specific variant.
 
-    [(x+2)^3,stackeq(?)]
+# Next step #
 
-This is a list, and uses `stackeq`.
+You should now be able to make and deploy random questions in STACK.
 
-For students in this context, it is probably sensible to "insert stars" and provide the most forgiving input syntax available, but that is optional.
-
-We need to tell STACK to compare the first line of the student's working to the first line of the question. This makes sure the student "answers the right question".
-Type `firstline` into the Extra options box.
-This ensures a student's response will be invalid if they don't have the correct first line.
-
-### Setting the potential response tree ###
-
-As a minimal potential response tree have one node, with 
-
-    SAns = ans1
-    TAns = ta
-    answer test = EquivFirst
-    Auto-simplify = no
-
-Note, the `Auto-simplify` field is not in the node of the PRT, but a PRT option.
-
-### Setting the question options ###
-
-Set question level options
-
-    Auto-simplify = no
-
-Save the question.  This should be a minimal working question, so preview it and add in at least one question test.
-
-## More specific feedback
-
-At this point the question only checks
-
-1. Has the student started from the right expression, specifically is the first line of their argument equivalent to the first line of `ta` using `EqualComAss` test (commutativity and associativity)?
-2. Are all the lines in the student's answer algebraically equivalent?
-
-Clearly, more is needed for a complete sensible question.
-
-At this point please read the [equivalence reasoning](../CAS/Equivalence_reasoning.md) input type documentation.
-
-## Getting to the right place ##
-
-We probably want the student to end up at the expression \(x^{3}+6x^{2}+12x+8\).
-
-To check is the student has reached this point, add another node to the PRT.  If node 1 is true (i.e. the student started in the correct place and didn't make a mistake) then connect to node 2.
-Node 2 should be set up as
-
-    SAns = last(ans1)
-    TAns = last(ta)
-    answer test = EqualComAss
-    Auto-simplify = no
-
-This node adds in feedback to check the student has reached the right place.
-
-Note, by using `EqualComAss` both \(x^{3}+6x^{2}+12x+8\) and \(x^{3}+x^{2}6+8+12x\) will be accepted.
-If you really want the term order as well, as in, \(x^{3}+6x^{2}+12x+8\) then you need to use `CasEqual` as the answer test instead.
-
-## What is a legitimate step?
-
-At this point, any expressions which are equivalent are considered to be a legitimate step.
-
-Clearly this is not entirely satisfactory.
-At this point in the development there is no concept of "a step" and indeed this appears to be very hard to define.
-In the future we will develop better tools for checking "step size", and any contributions in this direction are welcome.
-
-Teachers can check the students answer is long enough or not too long by looking at `length(ta)`.
-
-Teachers can check if specific expressions appear somewhere inside the student's answer.  To facilitate this search we provide the function `stack_equiv_find_step(ex, exl)`.  This looks for expression `ex` in the list `exl` using `ATEqualComAss`.  It returns the list of indices of the position.  If you just want to know if the expression is missing use the predicate `emptyp`.
-
-As an alternative you can check that the factored form exists somewhere in the student's answers using the following code in the [feedback variables](KeyVals.md).
-
-    foundfac:sublist(ans1,lambda([ex], equationp(ex) and is(rhs(ex)=0)));
-    foundfac:ev(any_listp(lambda([ex], second(ATFacForm(lhs(ex),lhs(ex),x))), foundfac), simp);
-
-At this stage there are few in-built features within STACK.  A lot is possible, but as the above example illustrates, this requires question authors to write more Maxima code than with other question types.
-
-This feature will be developed by use over the next few years.
-If you have experience, and views, on how this should work please contact the developers.
+##### The next part of the authoring quick start guide looks at [question tests](Authoring_quick_start_5.md).

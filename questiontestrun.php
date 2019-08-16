@@ -21,7 +21,7 @@
  * Users with moodle/question:view capability can use this script to view the
  * results of the tests.
  *
- * Users with moodle/question:edit can edit the test cases and deployed version,
+ * Users with moodle/question:edit can edit the test cases and deployed variant,
  * as well as just run them.
  *
  * The script takes one parameter id which is a questionid as a parameter.
@@ -182,12 +182,12 @@ if (empty($question->deployedseeds)) {
 
         $bulktestresults = array(false, '');
         if (optional_param('testall', null, PARAM_INT)) {
-            // Bulk test all versions.
+            // Bulk test all variants.
             $bulktester = new stack_bulk_tester();
             $bulktestresults = $bulktester->qtype_stack_test_question($qn, $testscases, $deployedseed, true);
         }
 
-        // Print out question notes of all deployed versions.
+        // Print out question notes of all deployed variants.
         $qn->seed = (int) $deployedseed;
         $cn = $qn->get_context();
         $qunote = question_engine::make_questions_usage_by_activity('qtype_stack', $cn);

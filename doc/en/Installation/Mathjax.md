@@ -77,5 +77,3 @@ If you really want to use dollars, MathJax can display them with the code
     inlineMath:  [['$',  '$' ], ['\\(', '\\)']],
 
 Before deciding to support the use of dollars for mathematics on your site, please see the notes on the use of dollars for [currency](../Authoring/CASText.md#currency).
-
-

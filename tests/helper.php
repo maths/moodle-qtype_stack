@@ -1968,7 +1968,8 @@ class qtype_stack_test_helper extends question_test_helper {
     public static function make_stack_question_addrow() {
         $q = self::make_a_stack_question();
 
-        $q->stackversion = '2019072900';
+        // This number needs to be old, to trigger the addrow error.
+        $q->stackversion = '2017072900';
         $q->name = 'addrow';
         $q->questionvariables = 'm:matrix([1,2],[3,4]);m:addrow(m,1,1,1);v1:texdecorate("\\bf", v);';
         $q->questiontext = 'What is \({@m@}^2\)? [[input:ans1]]

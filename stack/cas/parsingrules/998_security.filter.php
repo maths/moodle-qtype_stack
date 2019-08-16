@@ -181,6 +181,18 @@ class stack_ast_filter_998_security implements stack_cas_astfilter_parametric {
                         && $outter->name->value === 'lambda') {
                         // This is safe, but we will not go out of our way to identify the function from further.
                         $notsafe = false;
+                    } else if (($outter->name instanceof MP_Identifier || $outter->name instanceof MP_String)
+                            && $outter->name->value === 'rand'
+                            && count($outter->arguments) === 1
+                            && $outter->arguments[0] instanceof MP_List) {
+                        // Something like rand(["-","+"]) or rand(["cos","sin"]) applied to something.
+                        $notsafe = false;
+                        foreach ($outter->arguments[0]->items as $name) {
+                            // Name can be whatever the iteration will react to unsuitable things on the later loops.
+                            $virtualfunction = new MP_FunctionCall($name, $node->arguments);
+                            $virtualfunction->position['virtual'] = true;
+                            $ofinterest[] = $virtualfunction;
+                        }
                     } else {
                         // Calling the result of a function that is not lambda.
                         $errors[] = trim(stack_string('stackCas_callingasfunction',

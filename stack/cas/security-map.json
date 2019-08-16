@@ -1845,8 +1845,8 @@
         "function": "f"
     },
     "display2d": {
-        "variable": "f"
-        "globalyforbiddenvariable": true,
+        "variable": "f",
+        "globalyforbiddenvariable": true
     },
     "display_format_internal": {
         "variable": "f"

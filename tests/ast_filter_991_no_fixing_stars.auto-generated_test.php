@@ -30,11 +30,201 @@ class stack_ast_filter_auto_gen_991_no_fixing_stars_testcase extends qtype_stack
         $this->security = new stack_cas_security(false);
         $this->filter = stack_parsing_rule_factory::get_by_common_name('991_no_fixing_stars');
 
+        $this->expect('2pi r^2',
+                      '2*pi*r^2',
+                      array(),
+                      false, true);
+
+        $this->expect('2pir^2',
+                      '2*pir^2',
+                      array(),
+                      false, true);
+
+        $this->expect('(()x)',
+                      '(()*x)',
+                      array(),
+                      false, true);
+
+        $this->expect('()x',
+                      '()*x',
+                      array(),
+                      false, true);
+
+        $this->expect('(x+2)3',
+                      '(x+2)*3',
+                      array(),
+                      false, true);
+
+        $this->expect('(x+2)y',
+                      '(x+2)*y',
+                      array(),
+                      false, true);
+
+        $this->expect('-3(x+1)',
+                      '-3*(x+1)',
+                      array(),
+                      false, true);
+
+        $this->expect('-3x(1+x)',
+                      '-3*x(1+x)',
+                      array(),
+                      false, true);
+
+        $this->expect('1+2i',
+                      '1+2*i',
+                      array(),
+                      false, true);
+
+        $this->expect('1x',
+                      '1*x',
+                      array(),
+                      false, true);
+
+        $this->expect('2+3(x+1)',
+                      '2+3*(x+1)',
+                      array(),
+                      false, true);
+
+        $this->expect('3(x+1)',
+                      '3*(x+1)',
+                      array(),
+                      false, true);
+
+        $this->expect('3b+5/a(x)',
+                      '3*b+5/a(x)',
+                      array(),
+                      false, true);
+
+        $this->expect('3beta_47',
+                      '3*beta_47',
+                      array(),
+                      false, true);
+
+        $this->expect('7x(2+1)',
+                      '7*x(2+1)',
+                      array(),
+                      false, true);
+
+        $this->expect('cos(2x)(x+1)',
+                      'cos(2*x)(x+1)',
+                      array(),
+                      false, true);
+
+        $this->expect('cos^2(x)',
+                      'cos^2*(x)',
+                      array(),
+                      false, true);
+
+        $this->expect('log(2x)/x+1/2',
+                      'log(2*x)/x+1/2',
+                      array(),
+                      false, true);
+
+        $this->expect('sin^-1(x)',
+                      'sin^-1*(x)',
+                      array(),
+                      false, true);
+
     }
 
     public function test_affected_units() {
         $this->security = new stack_cas_security(true);
         $this->filter = stack_parsing_rule_factory::get_by_common_name('991_no_fixing_stars');
+
+        $this->expect('2pi r^2',
+                      '2*pi*r^2',
+                      array(),
+                      false, true);
+
+        $this->expect('2pir^2',
+                      '2*pir^2',
+                      array(),
+                      false, true);
+
+        $this->expect('(()x)',
+                      '(()*x)',
+                      array(),
+                      false, true);
+
+        $this->expect('()x',
+                      '()*x',
+                      array(),
+                      false, true);
+
+        $this->expect('(x+2)3',
+                      '(x+2)*3',
+                      array(),
+                      false, true);
+
+        $this->expect('(x+2)y',
+                      '(x+2)*y',
+                      array(),
+                      false, true);
+
+        $this->expect('-3(x+1)',
+                      '-3*(x+1)',
+                      array(),
+                      false, true);
+
+        $this->expect('-3x(1+x)',
+                      '-3*x(1+x)',
+                      array(),
+                      false, true);
+
+        $this->expect('1+2i',
+                      '1+2*i',
+                      array(),
+                      false, true);
+
+        $this->expect('1x',
+                      '1*x',
+                      array(),
+                      false, true);
+
+        $this->expect('2+3(x+1)',
+                      '2+3*(x+1)',
+                      array(),
+                      false, true);
+
+        $this->expect('3(x+1)',
+                      '3*(x+1)',
+                      array(),
+                      false, true);
+
+        $this->expect('3b+5/a(x)',
+                      '3*b+5/a(x)',
+                      array(),
+                      false, true);
+
+        $this->expect('3beta_47',
+                      '3*beta_47',
+                      array(),
+                      false, true);
+
+        $this->expect('7x(2+1)',
+                      '7*x(2+1)',
+                      array(),
+                      false, true);
+
+        $this->expect('cos(2x)(x+1)',
+                      'cos(2*x)(x+1)',
+                      array(),
+                      false, true);
+
+        $this->expect('cos^2(x)',
+                      'cos^2*(x)',
+                      array(),
+                      false, true);
+
+        $this->expect('log(2x)/x+1/2',
+                      'log(2*x)/x+1/2',
+                      array(),
+                      false, true);
+
+        $this->expect('sin^-1(x)',
+                      'sin^-1*(x)',
+                      array(),
+                      false, true);
 
     }
 
@@ -62,16 +252,6 @@ class stack_ast_filter_auto_gen_991_no_fixing_stars_testcase extends qtype_stack
                       array(),
                       true, false);
 
-        $this->expect('2pi r^2',
-                      '2*pi*r^2',
-                      array(),
-                      true, false);
-
-        $this->expect('2pir^2',
-                      '2*pir^2',
-                      array(),
-                      true, false);
-
         $this->expect("'diff(x,y)",
                       "'diff(x,y)",
                       array(),
@@ -82,18 +262,8 @@ class stack_ast_filter_auto_gen_991_no_fixing_stars_testcase extends qtype_stack
                       array(),
                       true, false);
 
-        $this->expect('(()x)',
-                      '(()*x)',
-                      array(),
-                      true, false);
-
         $this->expect('((x))',
                       '((x))',
-                      array(),
-                      true, false);
-
-        $this->expect('()x',
-                      '()*x',
                       array(),
                       true, false);
 
@@ -149,16 +319,6 @@ class stack_ast_filter_auto_gen_991_no_fixing_stars_testcase extends qtype_stack
 
         $this->expect('(x+2)(x+3)',
                       '(x+2)(x+3)',
-                      array(),
-                      true, false);
-
-        $this->expect('(x+2)3',
-                      '(x+2)*3',
-                      array(),
-                      true, false);
-
-        $this->expect('(x+2)y',
-                      '(x+2)*y',
                       array(),
                       true, false);
 
@@ -242,18 +402,8 @@ class stack_ast_filter_auto_gen_991_no_fixing_stars_testcase extends qtype_stack
                       array(),
                       true, false);
 
-        $this->expect('-3(x+1)',
-                      '-3*(x+1)',
-                      array(),
-                      true, false);
-
         $this->expect('-3+i',
                       '-3+i',
-                      array(),
-                      true, false);
-
-        $this->expect('-3x(1+x)',
-                      '-3*x(1+x)',
                       array(),
                       true, false);
 
@@ -322,11 +472,6 @@ class stack_ast_filter_auto_gen_991_no_fixing_stars_testcase extends qtype_stack
                       array(),
                       true, false);
 
-        $this->expect('1+2i',
-                      '1+2*i',
-                      array(),
-                      true, false);
-
         $this->expect('1+i',
                       '1+i',
                       array(),
@@ -377,11 +522,6 @@ class stack_ast_filter_auto_gen_991_no_fixing_stars_testcase extends qtype_stack
                       array(),
                       true, false);
 
-        $this->expect('1x',
-                      '1*x',
-                      array(),
-                      true, false);
-
         $this->expect('2*e',
                       '2*e',
                       array(),
@@ -402,11 +542,6 @@ class stack_ast_filter_auto_gen_991_no_fixing_stars_testcase extends qtype_stack
                       array(),
                       true, false);
 
-        $this->expect('2+3(x+1)',
-                      '2+3*(x+1)',
-                      array(),
-                      true, false);
-
         $this->expect('2+log_x(1/(x+b))*x^2',
                       '2+log_x(1/(x+b))*x^2',
                       array(),
@@ -422,23 +557,8 @@ class stack_ast_filter_auto_gen_991_no_fixing_stars_testcase extends qtype_stack
                       array(),
                       true, false);
 
-        $this->expect('3(x+1)',
-                      '3*(x+1)',
-                      array(),
-                      true, false);
-
         $this->expect('3-i',
                       '3-i',
-                      array(),
-                      true, false);
-
-        $this->expect('3b+5/a(x)',
-                      '3*b+5/a(x)',
-                      array(),
-                      true, false);
-
-        $this->expect('3beta_47',
-                      '3*beta_47',
                       array(),
                       true, false);
 
@@ -454,11 +574,6 @@ class stack_ast_filter_auto_gen_991_no_fixing_stars_testcase extends qtype_stack
 
         $this->expect('3E2',
                       '3E2',
-                      array(),
-                      true, false);
-
-        $this->expect('7x(2+1)',
-                      '7*x(2+1)',
                       array(),
                       true, false);
 
@@ -727,18 +842,8 @@ class stack_ast_filter_auto_gen_991_no_fixing_stars_testcase extends qtype_stack
                       array(),
                       true, false);
 
-        $this->expect('cos(2x)(x+1)',
-                      'cos(2*x)(x+1)',
-                      array(),
-                      true, false);
-
         $this->expect('cos(x)',
                       'cos(x)',
-                      array(),
-                      true, false);
-
-        $this->expect('cos^2(x)',
-                      'cos^2*(x)',
                       array(),
                       true, false);
 
@@ -967,11 +1072,6 @@ class stack_ast_filter_auto_gen_991_no_fixing_stars_testcase extends qtype_stack
                       array(),
                       true, false);
 
-        $this->expect('log(2x)/x+1/2',
-                      'log(2*x)/x+1/2',
-                      array(),
-                      true, false);
-
         $this->expect('log(x)',
                       'log(x)',
                       array(),
@@ -1174,11 +1274,6 @@ class stack_ast_filter_auto_gen_991_no_fixing_stars_testcase extends qtype_stack
 
         $this->expect('sin[2*x]',
                       'sin[2*x]',
-                      array(),
-                      true, false);
-
-        $this->expect('sin^-1(x)',
-                      'sin^-1*(x)',
                       array(),
                       true, false);
 
@@ -1643,16 +1738,6 @@ class stack_ast_filter_auto_gen_991_no_fixing_stars_testcase extends qtype_stack
                       array(),
                       true, false);
 
-        $this->expect('2pi r^2',
-                      '2*pi*r^2',
-                      array(),
-                      true, false);
-
-        $this->expect('2pir^2',
-                      '2*pir^2',
-                      array(),
-                      true, false);
-
         $this->expect("'diff(x,y)",
                       "'diff(x,y)",
                       array(),
@@ -1663,18 +1748,8 @@ class stack_ast_filter_auto_gen_991_no_fixing_stars_testcase extends qtype_stack
                       array(),
                       true, false);
 
-        $this->expect('(()x)',
-                      '(()*x)',
-                      array(),
-                      true, false);
-
         $this->expect('((x))',
                       '((x))',
-                      array(),
-                      true, false);
-
-        $this->expect('()x',
-                      '()*x',
                       array(),
                       true, false);
 
@@ -1730,16 +1805,6 @@ class stack_ast_filter_auto_gen_991_no_fixing_stars_testcase extends qtype_stack
 
         $this->expect('(x+2)(x+3)',
                       '(x+2)(x+3)',
-                      array(),
-                      true, false);
-
-        $this->expect('(x+2)3',
-                      '(x+2)*3',
-                      array(),
-                      true, false);
-
-        $this->expect('(x+2)y',
-                      '(x+2)*y',
                       array(),
                       true, false);
 
@@ -1823,18 +1888,8 @@ class stack_ast_filter_auto_gen_991_no_fixing_stars_testcase extends qtype_stack
                       array(),
                       true, false);
 
-        $this->expect('-3(x+1)',
-                      '-3*(x+1)',
-                      array(),
-                      true, false);
-
         $this->expect('-3+i',
                       '-3+i',
-                      array(),
-                      true, false);
-
-        $this->expect('-3x(1+x)',
-                      '-3*x(1+x)',
                       array(),
                       true, false);
 
@@ -1903,11 +1958,6 @@ class stack_ast_filter_auto_gen_991_no_fixing_stars_testcase extends qtype_stack
                       array(),
                       true, false);
 
-        $this->expect('1+2i',
-                      '1+2*i',
-                      array(),
-                      true, false);
-
         $this->expect('1+i',
                       '1+i',
                       array(),
@@ -1958,11 +2008,6 @@ class stack_ast_filter_auto_gen_991_no_fixing_stars_testcase extends qtype_stack
                       array(),
                       true, false);
 
-        $this->expect('1x',
-                      '1*x',
-                      array(),
-                      true, false);
-
         $this->expect('2*e',
                       '2*e',
                       array(),
@@ -1983,11 +2028,6 @@ class stack_ast_filter_auto_gen_991_no_fixing_stars_testcase extends qtype_stack
                       array(),
                       true, false);
 
-        $this->expect('2+3(x+1)',
-                      '2+3*(x+1)',
-                      array(),
-                      true, false);
-
         $this->expect('2+log_x(1/(x+b))*x^2',
                       '2+log_x(1/(x+b))*x^2',
                       array(),
@@ -2003,23 +2043,8 @@ class stack_ast_filter_auto_gen_991_no_fixing_stars_testcase extends qtype_stack
                       array(),
                       true, false);
 
-        $this->expect('3(x+1)',
-                      '3*(x+1)',
-                      array(),
-                      true, false);
-
         $this->expect('3-i',
                       '3-i',
-                      array(),
-                      true, false);
-
-        $this->expect('3b+5/a(x)',
-                      '3*b+5/a(x)',
-                      array(),
-                      true, false);
-
-        $this->expect('3beta_47',
-                      '3*beta_47',
                       array(),
                       true, false);
 
@@ -2035,11 +2060,6 @@ class stack_ast_filter_auto_gen_991_no_fixing_stars_testcase extends qtype_stack
 
         $this->expect('3E2',
                       '3E2',
-                      array(),
-                      true, false);
-
-        $this->expect('7x(2+1)',
-                      '7*x(2+1)',
                       array(),
                       true, false);
 
@@ -2308,18 +2328,8 @@ class stack_ast_filter_auto_gen_991_no_fixing_stars_testcase extends qtype_stack
                       array(),
                       true, false);
 
-        $this->expect('cos(2x)(x+1)',
-                      'cos(2*x)(x+1)',
-                      array(),
-                      true, false);
-
         $this->expect('cos(x)',
                       'cos(x)',
-                      array(),
-                      true, false);
-
-        $this->expect('cos^2(x)',
-                      'cos^2*(x)',
                       array(),
                       true, false);
 
@@ -2548,11 +2558,6 @@ class stack_ast_filter_auto_gen_991_no_fixing_stars_testcase extends qtype_stack
                       array(),
                       true, false);
 
-        $this->expect('log(2x)/x+1/2',
-                      'log(2*x)/x+1/2',
-                      array(),
-                      true, false);
-
         $this->expect('log(x)',
                       'log(x)',
                       array(),
@@ -2755,11 +2760,6 @@ class stack_ast_filter_auto_gen_991_no_fixing_stars_testcase extends qtype_stack
 
         $this->expect('sin[2*x]',
                       'sin[2*x]',
-                      array(),
-                      true, false);
-
-        $this->expect('sin^-1(x)',
-                      'sin^-1*(x)',
                       array(),
                       true, false);
 

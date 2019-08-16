@@ -624,10 +624,14 @@ class stack_astcontainer_test extends qtype_stack_testcase {
 
     public function test_log_sugar_3() {
         // Note that STACK spots there is a missing * here.
+        // Note that in the new 4.3 world we need to define a filter to note
+        // the star we do not want to be inserted.
         $s = 'log_5x(3)';
-        $at1 = stack_ast_container::make_from_student_source($s, '', new stack_cas_security());
+        $at1 = stack_ast_container::make_from_student_source($s, '', new stack_cas_security(), array('991_no_fixing_stars'));
         $this->assertFalse($at1->get_valid());
-        $this->assertEquals('lg(3,5*x)', $at1->get_casstring());
+        // There would be a star there but as it is now an invalid thing you cannot 
+        // see it.
+        // $this->assertEquals('lg(3,5*x)', $at1->get_evaluationform());
         $this->assertEquals('missing_stars | logsubs', $at1->get_answernote());
     }
 

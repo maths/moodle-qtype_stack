@@ -32,6 +32,7 @@ class stack_ast_filter_991_no_fixing_stars implements stack_cas_astfilter_exclus
                 $stars = true;
                 $node->position['invalid'] = true;
             }
+            return true;
         };
 
         $ast->callbackRecurse($check, false);

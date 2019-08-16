@@ -45,6 +45,16 @@ class stack_ast_filter_auto_gen_001_fix_call_of_a_group_or_function_testcase ext
                       array('missing_stars'),
                       true, false);
 
+        $this->expect('rand(["+","-"])(x,y)',
+                      'rand(["+","-"])*(x,y)',
+                      array('missing_stars'),
+                      true, false);
+
+        $this->expect('rand(["sin","cos","system"])(x)',
+                      'rand(["sin","cos","system"])*(x)',
+                      array('missing_stars'),
+                      true, false);
+
     }
 
     public function test_affected_units() {
@@ -63,6 +73,16 @@ class stack_ast_filter_auto_gen_001_fix_call_of_a_group_or_function_testcase ext
 
         $this->expect('f(x)(2)',
                       'f(x)*(2)',
+                      array('missing_stars'),
+                      true, false);
+
+        $this->expect('rand(["+","-"])(x,y)',
+                      'rand(["+","-"])*(x,y)',
+                      array('missing_stars'),
+                      true, false);
+
+        $this->expect('rand(["sin","cos","system"])(x)',
+                      'rand(["sin","cos","system"])*(x)',
                       array('missing_stars'),
                       true, false);
 

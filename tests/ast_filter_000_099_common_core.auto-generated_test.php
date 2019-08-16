@@ -145,6 +145,16 @@ class stack_ast_filter_auto_gen_000_099_common_core_testcase extends qtype_stack
                       array('trigexp'),
                       false, true);
 
+        $this->expect('rand(["+","-"])(x,y)',
+                      'rand(["+","-"])*(x,y)',
+                      array('missing_stars'),
+                      true, false);
+
+        $this->expect('rand(["sin","cos","system"])(x)',
+                      'rand(["sin","cos","system"])*(x)',
+                      array('missing_stars'),
+                      true, false);
+
     }
 
     public function test_affected_units() {
@@ -265,6 +275,16 @@ class stack_ast_filter_auto_gen_000_099_common_core_testcase extends qtype_stack
                       'sin^-1*(x)',
                       array('trigexp'),
                       false, true);
+
+        $this->expect('rand(["+","-"])(x,y)',
+                      'rand(["+","-"])*(x,y)',
+                      array('missing_stars'),
+                      true, false);
+
+        $this->expect('rand(["sin","cos","system"])(x)',
+                      'rand(["sin","cos","system"])*(x)',
+                      array('missing_stars'),
+                      true, false);
 
     }
 

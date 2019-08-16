@@ -265,6 +265,11 @@ class stack_ast_filter_auto_gen_998_security_testcase extends qtype_stack_ast_te
                       array('forbiddenFunction'),
                       false, true);
 
+        $this->expect('rand(["sin","cos","system"])(x)',
+                      'rand(["sin","cos","system"])(x)',
+                      array('forbiddenFunction'),
+                      false, true);
+
     }
 
     public function test_affected_units() {
@@ -638,6 +643,11 @@ class stack_ast_filter_auto_gen_998_security_testcase extends qtype_stack_ast_te
 
         $this->expect('ycos(2)',
                       'ycos(2)',
+                      array('forbiddenFunction'),
+                      false, true);
+
+        $this->expect('rand(["sin","cos","system"])(x)',
+                      'rand(["sin","cos","system"])(x)',
                       array('forbiddenFunction'),
                       false, true);
 
@@ -1849,6 +1859,11 @@ class stack_ast_filter_auto_gen_998_security_testcase extends qtype_stack_ast_te
 
         $this->expect('|x|',
                       'abs(x)',
+                      array(),
+                      true, false);
+
+        $this->expect('rand(["+","-"])(x,y)',
+                      'rand(["+","-"])(x,y)',
                       array(),
                       true, false);
 
@@ -3195,6 +3210,11 @@ class stack_ast_filter_auto_gen_998_security_testcase extends qtype_stack_ast_te
 
         $this->expect('|x|',
                       'abs(x)',
+                      array(),
+                      true, false);
+
+        $this->expect('rand(["+","-"])(x,y)',
+                      'rand(["+","-"])(x,y)',
                       array(),
                       true, false);
 

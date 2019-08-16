@@ -1632,6 +1632,16 @@ class stack_ast_filter_auto_gen_050_no_chained_inequalities_testcase extends qty
                       array(),
                       true, false);
 
+        $this->expect('rand(["+","-"])(x,y)',
+                      'rand(["+","-"])(x,y)',
+                      array(),
+                      true, false);
+
+        $this->expect('rand(["sin","cos","system"])(x)',
+                      'rand(["sin","cos","system"])(x)',
+                      array(),
+                      true, false);
+
     }
 
     public function test_non_affected_no_units() {
@@ -3195,6 +3205,16 @@ class stack_ast_filter_auto_gen_050_no_chained_inequalities_testcase extends qty
 
         $this->expect('|x|',
                       'abs(x)',
+                      array(),
+                      true, false);
+
+        $this->expect('rand(["+","-"])(x,y)',
+                      'rand(["+","-"])(x,y)',
+                      array(),
+                      true, false);
+
+        $this->expect('rand(["sin","cos","system"])(x)',
+                      'rand(["sin","cos","system"])(x)',
                       array(),
                       true, false);
 

@@ -270,6 +270,16 @@ class stack_ast_filter_auto_gen_541_no_unknown_functions_testcase extends qtype_
                       array('unknownFunction'),
                       false, true);
 
+        $this->expect('rand(["+","-"])(x,y)',
+                      'rand(["+","-"])(x,y)',
+                      array('unknownFunction'),
+                      false, true);
+
+        $this->expect('rand(["sin","cos","system"])(x)',
+                      'rand(["sin","cos","system"])(x)',
+                      array('unknownFunction'),
+                      false, true);
+
     }
 
     public function test_affected_units() {
@@ -513,6 +523,16 @@ class stack_ast_filter_auto_gen_541_no_unknown_functions_testcase extends qtype_
 
         $this->expect('ycos(2)',
                       'ycos(2)',
+                      array('unknownFunction'),
+                      false, true);
+
+        $this->expect('rand(["+","-"])(x,y)',
+                      'rand(["+","-"])(x,y)',
+                      array('unknownFunction'),
+                      false, true);
+
+        $this->expect('rand(["sin","cos","system"])(x)',
+                      'rand(["sin","cos","system"])(x)',
                       array('unknownFunction'),
                       false, true);
 

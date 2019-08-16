@@ -1627,6 +1627,16 @@ class stack_ast_filter_auto_gen_520_no_equality_with_logic_testcase extends qtyp
                       array(),
                       true, false);
 
+        $this->expect('rand(["+","-"])(x,y)',
+                      'rand(["+","-"])(x,y)',
+                      array(),
+                      true, false);
+
+        $this->expect('rand(["sin","cos","system"])(x)',
+                      'rand(["sin","cos","system"])(x)',
+                      array(),
+                      true, false);
+
     }
 
     public function test_non_affected_no_units() {
@@ -3195,6 +3205,16 @@ class stack_ast_filter_auto_gen_520_no_equality_with_logic_testcase extends qtyp
 
         $this->expect('|x|',
                       'abs(x)',
+                      array(),
+                      true, false);
+
+        $this->expect('rand(["+","-"])(x,y)',
+                      'rand(["+","-"])(x,y)',
+                      array(),
+                      true, false);
+
+        $this->expect('rand(["sin","cos","system"])(x)',
+                      'rand(["sin","cos","system"])(x)',
                       array(),
                       true, false);
 

@@ -545,6 +545,16 @@ class stack_ast_filter_auto_gen_442_split_all_functions_testcase extends qtype_s
                       array(),
                       true, false);
 
+        $this->expect('rand(["+","-"])(x,y)',
+                      'rand*(["+","-"])(x,y)',
+                      array(),
+                      true, false);
+
+        $this->expect('rand(["sin","cos","system"])(x)',
+                      'rand*(["sin","cos","system"])(x)',
+                      array(),
+                      true, false);
+
     }
 
     public function test_affected_units() {
@@ -1063,6 +1073,16 @@ class stack_ast_filter_auto_gen_442_split_all_functions_testcase extends qtype_s
 
         $this->expect('|x|',
                       'abs*(x)',
+                      array(),
+                      true, false);
+
+        $this->expect('rand(["+","-"])(x,y)',
+                      'rand*(["+","-"])(x,y)',
+                      array(),
+                      true, false);
+
+        $this->expect('rand(["sin","cos","system"])(x)',
+                      'rand*(["sin","cos","system"])(x)',
                       array(),
                       true, false);
 

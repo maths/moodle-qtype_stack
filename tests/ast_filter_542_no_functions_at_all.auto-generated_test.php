@@ -555,6 +555,16 @@ class stack_ast_filter_auto_gen_542_no_functions_at_all_testcase extends qtype_s
                       array('noFunction'),
                       false, true);
 
+        $this->expect('rand(["+","-"])(x,y)',
+                      'rand(["+","-"])(x,y)',
+                      array('noFunction'),
+                      false, true);
+
+        $this->expect('rand(["sin","cos","system"])(x)',
+                      'rand(["sin","cos","system"])(x)',
+                      array('noFunction'),
+                      false, true);
+
     }
 
     public function test_affected_units() {
@@ -1083,6 +1093,16 @@ class stack_ast_filter_auto_gen_542_no_functions_at_all_testcase extends qtype_s
 
         $this->expect('|x|',
                       'abs(x)',
+                      array('noFunction'),
+                      false, true);
+
+        $this->expect('rand(["+","-"])(x,y)',
+                      'rand(["+","-"])(x,y)',
+                      array('noFunction'),
+                      false, true);
+
+        $this->expect('rand(["sin","cos","system"])(x)',
+                      'rand(["sin","cos","system"])(x)',
                       array('noFunction'),
                       false, true);
 

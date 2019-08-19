@@ -297,7 +297,7 @@ class stack_matrix_input extends stack_input {
      * @return string
      */
     public function maxima_to_response_array($in) {
-
+        $response = array();
         $tc = $this->maxima_to_array($in);
 
         for ($i = 0; $i < $this->height; $i++) {

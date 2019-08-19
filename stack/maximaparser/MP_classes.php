@@ -131,7 +131,7 @@ class MP_Node {
             $line = str_pad($line, strlen($originalcode) + 1);
             if (is_a($node, 'MP_EvaluationFlag')) {
                 $line .= get_class($node);
-            } if (is_a($node, 'MP_Float') || is_a($node, 'MP_Integer')) {
+            } else if (is_a($node, 'MP_Float') || is_a($node, 'MP_Integer')) {
                 if ($node->raw !== null) {
                     $line .= get_class($node) . ' ' . $node->raw;
                 } else {

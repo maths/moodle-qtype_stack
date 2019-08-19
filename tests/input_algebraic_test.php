@@ -577,11 +577,23 @@ class stack_algebra_input_test extends qtype_stack_testcase {
                 $state->contentsdisplayed);
     }
 
+    public function test_validate_student_response_single_variable_xx() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('algebraic', 'sans1', 'x');
+        // Assuming single character variable names.
+        $el->set_parameter('insertStars', 2);
+        $state = $el->validate_student_response(array('sans1' => 'xx'), $options, 'x*x',
+                new stack_cas_security(false, '', '', array('ta')));
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('x*x', $state->contentsmodified);
+        $this->assertEquals('\[ x\cdot x \]', $state->contentsdisplayed);
+    }
+
     public function test_validate_student_response_single_variable_subscripts() {
         $options = new stack_options();
         $el = stack_input_factory::make('algebraic', 'sans1', 'a*b_c*d');
         // Assuming single character variable names.
-        $el->set_parameter('insertStars', 5);
+        $el->set_parameter('insertStars', 2);
         $state = $el->validate_student_response(array('sans1' => 'ab_cd'), $options, 'a*b_c*d',
                 new stack_cas_security(false, '', '', array('ta')));
         $this->assertEquals(stack_input::VALID, $state->status);
@@ -798,10 +810,11 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         $el->set_parameter('insertStars', 3);
         $state = $el->validate_student_response(array('sans1' => '3sin(a b)'), $options, '3*sin(a*b)',
                 new stack_cas_security(false, '', '', array('tans')));
-        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals(stack_input::INVALID, $state->status);
         $this->assertEquals('3*sin(a*b)', $state->contentsmodified);
         $this->assertEquals('missing_stars | spaces', $state->note);
-        $this->assertEquals('', $state->errors);
+        $this->assertEquals('You seem to be missing * characters. ' .
+                'Perhaps you meant to type <span class="stacksyntaxexample">3<font color="red">*</font>sin(a*b)</span>.', $state->errors);
     }
 
     public function test_validate_student_response_star_space_4() {

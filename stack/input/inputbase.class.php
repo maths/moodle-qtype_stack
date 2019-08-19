@@ -137,7 +137,9 @@ abstract class stack_input {
         $this->teacheranswer = $teacheranswer;
         $this->runtime = $runtime;
         $class = get_class($this);
-        $this->parameters = $class::get_parameters_defaults();
+        foreach ($class::get_parameters_defaults() as $name => $value) {
+            $this->set_parameter($name, $value);
+        }
 
         if (!(null === $options || is_a($options, 'stack_options'))) {
             throw new stack_exception('stack_input: $options must be stack_options.');
@@ -789,7 +791,7 @@ abstract class stack_input {
         }
 
         // The common insert stars rules, that will be forced
-        // and if you do not allow inserttion of stars then it is invalid.
+        // and if you do not allow insertion of stars then it is invalid.
         $filterstoapply[] = '402_split_prefix_from_common_function_name';
         $filterstoapply[] = '403_split_at_number_letter_boundary';
         $filterstoapply[] = '406_split_implied_variable_names';

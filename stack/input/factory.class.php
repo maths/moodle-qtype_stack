@@ -210,7 +210,7 @@ class stack_input_factory {
         $map = [
             0 => 0, // Don't insert stars.
             1 => stack_input::GRAMMAR_FIX_INSERT_STARS, // Insert stars for implied multiplication only.
-            2 => stack_input::GRAMMAR_FIX_SINGLE_CHAR, // Insert stars assuming single-character variable names.
+            2 => stack_input::GRAMMAR_FIX_INSERT_STARS | stack_input::GRAMMAR_FIX_SINGLE_CHAR, // Insert stars assuming single-character variable names.
             3 => stack_input::GRAMMAR_FIX_SPACES, // Insert stars for spaces only.
             4 => stack_input::GRAMMAR_FIX_INSERT_STARS | stack_input::GRAMMAR_FIX_SPACES, // Insert stars for implied multiplication and for spaces.
             5 => stack_input::GRAMMAR_FIX_INSERT_STARS | stack_input::GRAMMAR_FIX_SINGLE_CHAR | stack_input::GRAMMAR_FIX_SPACES, // Insert stars assuming single-character variables, implied and for spaces.

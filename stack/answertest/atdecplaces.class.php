@@ -46,7 +46,13 @@ class stack_anstest_atdecplaces extends stack_anstest {
             }
         }
 
+        // In real questions, these are evaluated but in test cases they may not be.
+        // The old "get value" obscured this distinction.
         $atestops = (int) $this->atoption->get_evaluationform();
+        if ($this->atoption->is_evaluated()) {
+            $atestops = (int) $this->atoption->get_value();
+        }
+
         if (!$this->atoption->is_int() or $atestops <= 0) {
             $this->aterror      = 'TEST_FAILED';
             $this->atfeedback   = stack_string('TEST_FAILED', array('errors' => ''));
@@ -76,14 +82,21 @@ class stack_anstest_atdecplaces extends stack_anstest {
             $anotes[]           = 'ATNumDecPlaces_Correct';
         }
 
+        $sans = $this->sanskey->get_inputform(true, true);
+        if ($this->sanskey->is_evaluated()) {
+            $sans = $this->sanskey->get_value();
+        }
+        $tans = $this->tanskey->get_inputform(true, true);
+        if ($this->tanskey->is_evaluated()) {
+            $tans = $this->tanskey->get_value();
+        }
         // Check that the two numbers evaluate to the same value.
         $cascommands = array();
-        $cascommands['caschat2'] = "ev({$this->atoption->get_evaluationform()},simp)";
-        $cascommands['caschat0'] = "ev(float(round(10^caschat2*{$this->sanskey->get_evaluationform()})/10^caschat2),simp)";
-        $cascommands['caschat1'] = "ev(float(round(10^caschat2*remove_displaydp({$this->tanskey->get_evaluationform()}))" .
-            "/10^caschat2),simp)";
+        $cascommands['caschat2'] = "ev({$atestops},simp)";
+        $cascommands['caschat0'] = "ev(float(round(10^caschat2*{$sans})/10^caschat2),simp)";
+        $cascommands['caschat1'] = "ev(float(round(10^caschat2*remove_displaydp({$tans}))/10^caschat2),simp)";
         $cascommands['caschat3'] = "ev(second(ATAlgEquiv(caschat0,caschat1)),simp)";
-        $cascommands['caschat4'] = "floatnump({$this->sanskey->get_evaluationform()})";
+        $cascommands['caschat4'] = "floatnump({$sans})";
 
         $cts = array();
         $strings = array();

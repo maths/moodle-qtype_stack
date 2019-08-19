@@ -49,6 +49,9 @@ class stack_anstest_atdecplaceswrong extends stack_anstest {
         }
 
         $atestops = (int) $this->atoption->get_evaluationform();
+        if ($this->atoption->is_evaluated()) {
+            $atestops = (int) $this->atoption->get_value();
+        }
         if (!$this->atoption->is_int() or $atestops <= 0) {
             $this->aterror      = 'TEST_FAILED';
             $this->atfeedback   = stack_string('TEST_FAILED', array('errors' => ''));
@@ -67,12 +70,20 @@ class stack_anstest_atdecplaceswrong extends stack_anstest {
             return null;
         }
 
+        $sans = $this->sanskey->get_inputform(true, true);
+        if ($this->sanskey->is_evaluated()) {
+            $sans = $this->sanskey->get_value();
+        }
+        $tans = $this->tanskey->get_inputform(true, true);
+        if ($this->tanskey->is_evaluated()) {
+            $tans = $this->tanskey->get_value();
+        }
         // Check that the two numbers evaluate to the same value.
         $cascommands = array();
-        $cascommands['caschat0'] = $this->sanskey->get_evaluationform();
-        $cascommands['caschat1'] = 'ev(remove_displaydp('.$this->tanskey->get_evaluationform().'),simp)';
+        $cascommands['caschat0'] = $sans;
+        $cascommands['caschat1'] = 'ev(remove_displaydp('.$tans.'),simp)';
         $cascommands['caschat2'] = "ev({$atestops},simp)";
-        $cascommands['caschat3'] = "numberp({$this->sanskey->get_evaluationform()})";
+        $cascommands['caschat3'] = "numberp({$sans})";
         $cascommands['caschat4'] = "numberp(caschat1)";
 
         $cts = array();

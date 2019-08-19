@@ -36,6 +36,10 @@ abstract class stack_input {
     const INVALID = 'invalid';
     const SCORE = 'score';
 
+    const GRAMMAR_FIX_INSERT_STARS = 1;
+    const GRAMMAR_FIX_SPACES = 2;
+    const GRAMMAR_FIX_SINGLE_CHAR = 4;
+
     /**
      * @var string the name of the input.
      * This name has two functions
@@ -382,7 +386,7 @@ abstract class stack_input {
 
         // Legacy values used up to this point.
         if ($parameter == 'insertStars') {
-            $this->parameters[$parameter] = stack_input_factory::convert_legacy_insert_stars($value);
+            $this->parameters['grammarAutofixes'] = stack_input_factory::convert_legacy_insert_stars($value);
         }
         $this->internal_contruct();
     }
@@ -775,7 +779,7 @@ abstract class stack_input {
         $secrules->set_allowedwords($this->get_parameter('allowWords', ''));
         $secrules->set_forbiddenwords($this->get_parameter('forbidWords', ''));
 
-        $stars = $this->get_parameter('insertStars', 0);
+        $grammarautofixes = $this->get_parameter('grammarAutofixes', 0);
         $strict = $this->get_parameter('strictSyntax', true);
 
         $filterstoapply = array();
@@ -791,32 +795,33 @@ abstract class stack_input {
         $filterstoapply[] = '406_split_implied_variable_names';
 
         // If stars = 0 then strict, ignore the other strict syntax.
-        if ($stars === 0) {
+        if ($grammarautofixes === 0) {
             $filterstoapply[] = '999_strict';
         }
 
         // Insert stars = 1.
-        if ($stars & 1) {
+        if ($grammarautofixes & self::GRAMMAR_FIX_INSERT_STARS) {
             // The rules are applied anyway, we just check the use of them.
             // If code-tidy issue just negate the test and cut this one out.
             $donothing = true;
-        } else if ($stars !== 0) {
+        } else if ($grammarautofixes !== 0) {
             $filterstoapply[] = '991_no_fixing_stars';
         }
 
         // Fix spaces = 2.
-        if ($stars & (1 << 1)) {
+        if ($grammarautofixes & self::GRAMMAR_FIX_SPACES) {
             // The rules are applied anyway, we just check the use of them.
             // If code-tidy issue just negate the test and cut this one out.
             $donothing = true;
-        } else if ($stars !== 0) {
+        } else if ($grammarautofixes !== 0) {
             $filterstoapply[] = '990_no_fixing_spaces';
         }
 
         // Assume single letter variable names = 4.
-        if ($stars & (1 << 2)) {
+        if ($grammarautofixes & self::GRAMMAR_FIX_SINGLE_CHAR) {
             $filterstoapply[] = '410_single_char_vars';
         }
+
         return array($secrules, $filterstoapply);
     }
 

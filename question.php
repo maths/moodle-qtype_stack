@@ -113,7 +113,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
     public $seed = null;
 
     /**
-     * @var array stack_cas_session STACK specific: session of variables.
+     * @var stack_cas_session2 STACK specific: session of variables.
      */
     protected $session;
 
@@ -1015,7 +1015,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
      * @param stack_cas_session $session the CAS session to add the question variables to.
      */
     public function add_question_vars_to_session(stack_cas_session2 $session) {
-        // Question vars will always get added to the begining of whatever session you give.
+        // Question vars will always get added to the beginning of whatever session you give.
         $this->session->prepend_to_session($session);
     }
 

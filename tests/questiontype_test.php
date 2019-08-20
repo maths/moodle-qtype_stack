@@ -145,6 +145,36 @@ class qtype_stack_test extends qtype_stack_walkthrough_test_base {
         }
     }
 
+    public function test_question_tests_can_use_input_name() {
+        // This unit test runs a question test, with an input name as
+        // the expected answer, which should work.
+        $qdata = test_question_maker::get_question_data('stack', 'test0');
+        $qtest = new stack_question_test(array('ans1' => 'ans1'));
+        $qtest->add_expected_result('firsttree', new stack_potentialresponse_tree_state(
+                1, true, 1, 0, '', array('firsttree-1-T')));
+        $qdata->testcases[1] = $qtest;
+
+        $question = question_bank::get_qtype('stack')->make_question($qdata);
+
+        // Create the question usage we will use.
+        $quba = question_engine::make_questions_usage_by_activity('qtype_stack', context_system::instance());
+        $quba->set_preferred_behaviour('adaptive');
+        $question->seed = 1;
+        $slot = $quba->add_question($question, $question->defaultmark);
+        $quba->start_question($slot, 1);
+
+        // Prepare the display options.
+        $options = new question_display_options();
+        $options->readonly = true;
+        $options->flags = question_display_options::HIDDEN;
+        $options->suppressruntestslink = true;
+
+        foreach ($qdata->testcases as $testcase) {
+            $result = $testcase->test_question($quba, $question, 1);
+            $this->assertTrue($result->passed());
+        }
+    }
+
     public function test_xml_export() {
         $qdata = test_question_maker::get_question_data('stack', 'test0');
 

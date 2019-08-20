@@ -149,6 +149,13 @@ class stack_question_test {
         $cascontext = new stack_cas_session2(array(), $localoptions, $question->seed);
         $question->add_question_vars_to_session($cascontext);
 
+        // Add the correct answer for all inputs.
+        foreach ($question->inputs as $name => $input) {
+            $cs = stack_ast_container::make_from_teacher_source($name . ':' . $input->get_teacher_answer(),
+                    '', new stack_cas_security());
+            $cascontext->add_statement($cs);
+        }
+
         // Turn off simplification - we need test cases to be unsimplified, even if the question option is true.
         $vars = array();
         $cs = stack_ast_container::make_from_teacher_source('simp:false' , '', new stack_cas_security());

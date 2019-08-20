@@ -33,7 +33,6 @@ require_once(__DIR__ . '/fixtures/test_base.php');
  * @group qtype_stack
  */
 class stack_textarea_input_test extends qtype_stack_testcase {
-
     public function test_render_blank() {
         $el = stack_input_factory::make('textArea', 'ans1', null);
         $this->assertEquals('<textarea name="st_ans1" id="st_ans1" autocapitalize="none" spellcheck="false" class="maxima-list" ' .
@@ -92,6 +91,12 @@ class stack_textarea_input_test extends qtype_stack_testcase {
         $this->assertEquals('<textarea name="sans1" id="sans1" autocapitalize="none" spellcheck="false" ' .
                 'class="maxima-list" rows="5" cols="20">x^2=-7*x'."\n".'ab=2</textarea><div class="clearfix"></div>',
                 $el->render($state, 'sans1', false, null));
+
+        $state = $el->validate_student_response(array('sans1' => "x^2=-7x\nab=2", 'sans1_val' => "[x^2=-7x,ab=2]"),
+                $options, '[x^2=-7*x,a*b=2]', new stack_cas_security());
+        $this->assertEquals(stack_input::SCORE, $state->status);
+        $this->assertEquals('[x^2=-7*x,a*b=2]', $state->contentsmodified);
+        $this->assertEquals('\( \left[ a , b , x \right]\) ', $state->lvars);
     }
 
     public function test_validate_student_response_single_var_chars_off() {
@@ -105,7 +110,13 @@ class stack_textarea_input_test extends qtype_stack_testcase {
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('[x^2=-7*x,ab=2]', $state->contentsmodified);
         $this->assertEquals('\( \left[ {\it ab} , x \right]\) ', $state->lvars);
-    }
+
+        $state = $el->validate_student_response(array('sans1' => "x^2=-7x\nab=2", 'sans1_val' => "[x^2=-7x,ab=2]"),
+                $options, '[x^2=-7*x,ab=2]', new stack_cas_security());
+        $this->assertEquals(stack_input::SCORE, $state->status);
+        $this->assertEquals('[x^2=-7*x,ab=2]', $state->contentsmodified);
+        $this->assertEquals('\( \left[ {\it ab} , x \right]\) ', $state->lvars);
+}
 
     public function test_validate_student_response_single_var_chars_raw() {
         $options = new stack_options();

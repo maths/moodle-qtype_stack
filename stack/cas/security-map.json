@@ -7406,7 +7406,8 @@
         "function": "f"
     },
     "tr": {
-        "variable": "f"
+        "_comment": "This is a predefined variable in the tensor package, which we don't use, so safe to allow.",
+        "variable": "s"
     },
     "tr_array_as_ref": {
         "variable": "f"

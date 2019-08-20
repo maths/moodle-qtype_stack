@@ -69532,6 +69532,7 @@
         ]
     },
     "tr": {
+        "_comment": "This is a predefined variable in the tensor package, which we don't use, so safe to allow in the security map.",
         "Variable": [
             "5.23.2",
             "5.23.2",

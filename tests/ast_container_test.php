@@ -629,8 +629,7 @@ class stack_astcontainer_test extends qtype_stack_testcase {
         $s = 'log_5x(3)';
         $at1 = stack_ast_container::make_from_student_source($s, '', new stack_cas_security(), array('991_no_fixing_stars'));
         $this->assertFalse($at1->get_valid());
-        // There would be a star there but as it is now an invalid thing you cannot 
-        // see it.
+        // There would be a star there but as it is now an invalid thing you cannot see it.
         // $this->assertEquals('lg(3,5*x)', $at1->get_evaluationform());
         $this->assertEquals('missing_stars | logsubs', $at1->get_answernote());
     }
@@ -680,7 +679,7 @@ class stack_astcontainer_test extends qtype_stack_testcase {
         $s = 'f(x) := if x < 0 then (if x < 1 then 1 else 2) else 3';
         $at1 = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security());
         $this->assertTrue($at1->get_valid());
-        $this->assertEquals('f(x):=if x<0 then (if x<1 then 1 else 2) else 3', $at1->get_evaluationform());
+        $this->assertEquals('f(x):=if x < 0 then (if x < 1 then 1 else 2) else 3', $at1->get_evaluationform());
         $this->assertEquals('', $at1->get_answernote());
     }
 

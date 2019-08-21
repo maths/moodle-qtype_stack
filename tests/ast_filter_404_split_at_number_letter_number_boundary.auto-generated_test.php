@@ -403,12 +403,12 @@ class stack_ast_filter_auto_gen_404_split_at_number_letter_number_boundary_testc
                       true, false);
 
         $this->expect('1<=x<y^2',
-                      '1<=x<y^2',
+                      '1 <= x < y^2',
                       array(),
                       true, false);
 
         $this->expect('1<x<3',
-                      '1<x<3',
+                      '1 < x < 3',
                       array(),
                       true, false);
 
@@ -548,7 +548,7 @@ class stack_ast_filter_auto_gen_404_split_at_number_letter_number_boundary_testc
                       true, false);
 
         $this->expect('[1 < x,y < 1 or y > 7]',
-                      '[1<x,y<1 or y>7]',
+                      '[1 < x,y < 1 or y > 7]',
                       array(),
                       true, false);
 
@@ -573,12 +573,12 @@ class stack_ast_filter_auto_gen_404_split_at_number_letter_number_boundary_testc
                       true, false);
 
         $this->expect('[1<x,1<y<3]',
-                      '[1<x,1<y<3]',
+                      '[1 < x,1 < y < 3]',
                       array(),
                       true, false);
 
         $this->expect('[1<x,x<3]',
-                      '[1<x,x<3]',
+                      '[1 < x,x < 3]',
                       array(),
                       true, false);
 
@@ -1073,7 +1073,7 @@ class stack_ast_filter_auto_gen_404_split_at_number_letter_number_boundary_testc
                       true, false);
 
         $this->expect('p=?*s',
-                      'p=QMCHAR*s',
+                      'p = QMCHAR*s',
                       array(),
                       true, false);
 
@@ -1308,27 +1308,27 @@ class stack_ast_filter_auto_gen_404_split_at_number_letter_number_boundary_testc
                       true, false);
 
         $this->expect('x < y',
-                      'x<y',
+                      'x < y',
                       array(),
                       true, false);
 
         $this->expect('x <= y',
-                      'x<=y',
+                      'x <= y',
                       array(),
                       true, false);
 
         $this->expect('x = y',
-                      'x=y',
+                      'x = y',
                       array(),
                       true, false);
 
         $this->expect('x > y',
-                      'x>y',
+                      'x > y',
                       array(),
                       true, false);
 
         $this->expect('x >= y',
-                      'x>=y',
+                      'x >= y',
                       array(),
                       true, false);
 
@@ -1473,32 +1473,32 @@ class stack_ast_filter_auto_gen_404_split_at_number_letter_number_boundary_testc
                       true, false);
 
         $this->expect('x<1 and x>1',
-                      'x<1 and x>1',
+                      'x < 1 and x > 1',
                       array(),
                       true, false);
 
         $this->expect('x=+-sqrt(2)',
-                      'x=+-sqrt(2)',
+                      'x = +-sqrt(2)',
                       array(),
                       true, false);
 
         $this->expect('x=1 or 2',
-                      'x=1 or 2',
+                      'x = 1 or 2',
                       array(),
                       true, false);
 
         $this->expect('x=1 or 2 or 3',
-                      'x=1 or 2 or 3',
+                      'x = 1 or 2 or 3',
                       array(),
                       true, false);
 
         $this->expect('x=1 or x=2',
-                      'x=1 or x=2',
+                      'x = 1 or x = 2',
                       array(),
                       true, false);
 
         $this->expect('x>1 or (x<1 and t<sin(x))',
-                      'x>1 or (x<1 and t<sin(x))',
+                      'x > 1 or (x < 1 and t < sin(x))',
                       array(),
                       true, false);
 
@@ -1969,12 +1969,12 @@ class stack_ast_filter_auto_gen_404_split_at_number_letter_number_boundary_testc
                       true, false);
 
         $this->expect('1<=x<y^2',
-                      '1<=x<y^2',
+                      '1 <= x < y^2',
                       array(),
                       true, false);
 
         $this->expect('1<x<3',
-                      '1<x<3',
+                      '1 < x < 3',
                       array(),
                       true, false);
 
@@ -2114,7 +2114,7 @@ class stack_ast_filter_auto_gen_404_split_at_number_letter_number_boundary_testc
                       true, false);
 
         $this->expect('[1 < x,y < 1 or y > 7]',
-                      '[1<x,y<1 or y>7]',
+                      '[1 < x,y < 1 or y > 7]',
                       array(),
                       true, false);
 
@@ -2139,12 +2139,12 @@ class stack_ast_filter_auto_gen_404_split_at_number_letter_number_boundary_testc
                       true, false);
 
         $this->expect('[1<x,1<y<3]',
-                      '[1<x,1<y<3]',
+                      '[1 < x,1 < y < 3]',
                       array(),
                       true, false);
 
         $this->expect('[1<x,x<3]',
-                      '[1<x,x<3]',
+                      '[1 < x,x < 3]',
                       array(),
                       true, false);
 
@@ -2639,7 +2639,7 @@ class stack_ast_filter_auto_gen_404_split_at_number_letter_number_boundary_testc
                       true, false);
 
         $this->expect('p=?*s',
-                      'p=QMCHAR*s',
+                      'p = QMCHAR*s',
                       array(),
                       true, false);
 
@@ -2874,27 +2874,27 @@ class stack_ast_filter_auto_gen_404_split_at_number_letter_number_boundary_testc
                       true, false);
 
         $this->expect('x < y',
-                      'x<y',
+                      'x < y',
                       array(),
                       true, false);
 
         $this->expect('x <= y',
-                      'x<=y',
+                      'x <= y',
                       array(),
                       true, false);
 
         $this->expect('x = y',
-                      'x=y',
+                      'x = y',
                       array(),
                       true, false);
 
         $this->expect('x > y',
-                      'x>y',
+                      'x > y',
                       array(),
                       true, false);
 
         $this->expect('x >= y',
-                      'x>=y',
+                      'x >= y',
                       array(),
                       true, false);
 
@@ -3039,32 +3039,32 @@ class stack_ast_filter_auto_gen_404_split_at_number_letter_number_boundary_testc
                       true, false);
 
         $this->expect('x<1 and x>1',
-                      'x<1 and x>1',
+                      'x < 1 and x > 1',
                       array(),
                       true, false);
 
         $this->expect('x=+-sqrt(2)',
-                      'x=+-sqrt(2)',
+                      'x = +-sqrt(2)',
                       array(),
                       true, false);
 
         $this->expect('x=1 or 2',
-                      'x=1 or 2',
+                      'x = 1 or 2',
                       array(),
                       true, false);
 
         $this->expect('x=1 or 2 or 3',
-                      'x=1 or 2 or 3',
+                      'x = 1 or 2 or 3',
                       array(),
                       true, false);
 
         $this->expect('x=1 or x=2',
-                      'x=1 or x=2',
+                      'x = 1 or x = 2',
                       array(),
                       true, false);
 
         $this->expect('x>1 or (x<1 and t<sin(x))',
-                      'x>1 or (x<1 and t<sin(x))',
+                      'x > 1 or (x < 1 and t < sin(x))',
                       array(),
                       true, false);
 

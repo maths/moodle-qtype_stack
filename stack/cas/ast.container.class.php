@@ -208,6 +208,10 @@ class stack_ast_container extends stack_ast_container_silent implements cas_late
 
     public function get_dispvalue() {
         /* TODO: did we give up on this? Well we do now have means of getting the old form value from CAS...
+         * Currently we need the code below to turn the "dispvalue" of stackeq into =.
+         * We need $this->displayvalue for the numerical test cases.
+         * 
+         *  Currently this is confused.
         if ($this->evaluated) {
             return $this->evaluated->toString(array('nounify' => false, 'inputform' => true,
                 'qmchar' => true, 'nosemicolon' => true));

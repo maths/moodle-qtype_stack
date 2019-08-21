@@ -217,11 +217,11 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         $state = $el->validate_student_response(array('sans1' => '1<x and x<7'), $options, '1<x nounand x<8',
             new stack_cas_security(false, '', '', array('tans')));
         $this->assertEquals(stack_input::VALID, $state->status);
-        $this->assertEquals('1<x nounand x<7', $state->contentsmodified);
+        $this->assertEquals('1 < x nounand x < 7', $state->contentsmodified);
         $this->assertEquals('\[ 1 < x\,{\mbox{ and }}\, x < 7 \]', $state->contentsdisplayed);
         $this->assertEquals('A correct answer is <span class="filter_mathjaxloader_equation">'
             . '<span class="nolink">\( 1<x \,{\mbox{and}}\,x<8 \)</span></span>, which can be typed in as follows: '
-            . '<code>1<x and x<8</code>', $el->get_teacher_answer_display('1<x nounand x<8', '1<x \,{\mbox{and}}\,x<8'));
+            . '<code>1 < x and x < 8</code>', $el->get_teacher_answer_display('1<x nounand x<8', '1<x \,{\mbox{and}}\,x<8'));
     }
 
     public function test_validate_student_lowest_terms_1() {
@@ -462,7 +462,7 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         $state = $el->validate_student_response(array('sans1' => 'noundiff(y/x^2,x,1)-(2*y)/x = x^3*sin(3*x)'),
                 $options, 'diff(y/x^2,x,1)-(2*y)/x = x^3*sin(3*x)', new stack_cas_security());
         $this->assertEquals(stack_input::VALID, $state->status);
-        $this->assertEquals('noundiff(y/x^2,x,1)-(2*y)/x=x^3*sin(3*x)', $state->contentsmodified);
+        $this->assertEquals('noundiff(y/x^2,x,1)-(2*y)/x = x^3*sin(3*x)', $state->contentsmodified);
         $this->assertEquals('\[ \left(\frac{\mathrm{d}}{\mathrm{d} x} \frac{y}{x^2}\right)-\frac{2\cdot y}{x}=x^3\cdot ' .
                 '\sin \left( 3\cdot x \right) \]', $state->contentsdisplayed);
     }
@@ -704,7 +704,7 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         $state = $el->validate_student_response(array('sans1' => 'x=1 or x=1'), $options, 'x=1 or x=1',
                 new stack_cas_security());
         $this->assertEquals(stack_input::VALID, $state->status);
-        $this->assertEquals('x=1 nounor x=1', $state->contentsmodified);
+        $this->assertEquals('x = 1 nounor x = 1', $state->contentsmodified);
         $this->assertEquals('\[ x=1\,{\mbox{ or }}\, x=1 \]', $state->contentsdisplayed);
     }
 
@@ -814,7 +814,8 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         $this->assertEquals('3*sin(a*b)', $state->contentsmodified);
         $this->assertEquals('missing_stars | spaces', $state->note);
         $this->assertEquals('You seem to be missing * characters. ' .
-                'Perhaps you meant to type <span class="stacksyntaxexample">3<font color="red">*</font>sin(a*b)</span>.', $state->errors);
+                'Perhaps you meant to type <span class="stacksyntaxexample">3<font color="red">*</font>sin(a*b)</span>.',
+                $state->errors);
     }
 
     public function test_validate_student_response_star_space_4() {
@@ -848,7 +849,7 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         $state = $el->validate_student_response(array('sans1' => 'x=(-q+-sqrt(q^2-p^3))^(1/3)+(-q+-sqrt(q^2-p^3))^(1/3)'),
             $options, 'x=-b+-sqrt(b*c^2-a)', new stack_cas_security(false, '', '', array('tans')));
         $this->assertEquals(stack_input::VALID, $state->status);
-        $this->assertEquals('x=(-q+-sqrt(q^2-p^3))^(1/3)+(-q+-sqrt(q^2-p^3))^(1/3)', $state->contentsmodified);
+        $this->assertEquals('x = (-q+-sqrt(q^2-p^3))^(1/3)+(-q+-sqrt(q^2-p^3))^(1/3)', $state->contentsmodified);
         $this->assertEquals('', $state->note);
         $this->assertEquals('', $state->errors);
         $this->assertEquals('\[ x=\left({-q \pm \sqrt{q^2-p^3}}\right)^{\frac{1}{3}}+' .
@@ -862,7 +863,7 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         $state = $el->validate_student_response(array('sans1' => 'x= +- b'),
             $options, 'x=+- b', new stack_cas_security(false, '', '', array('tans')));
         $this->assertEquals(stack_input::VALID, $state->status);
-        $this->assertEquals('x=+-b', $state->contentsmodified);
+        $this->assertEquals('x = +-b', $state->contentsmodified);
         $this->assertEquals('', $state->note);
         $this->assertEquals('', $state->errors);
         $this->assertEquals('\[ x= \pm b \]', $state->contentsdisplayed);
@@ -888,7 +889,7 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         $state = $el->validate_student_response(array('sans1' => 'x +- a = y +- b'),
             $options, 'x +- a = y +- b', new stack_cas_security(false, '', '', array('tans')));
         $this->assertEquals(stack_input::VALID, $state->status);
-        $this->assertEquals('x+-a=y+-b', $state->contentsmodified);
+        $this->assertEquals('x+-a = y+-b', $state->contentsmodified);
         $this->assertEquals('', $state->note);
         $this->assertEquals('', $state->errors);
         $this->assertEquals('\[ {x \pm a}={y \pm b} \]', $state->contentsdisplayed);

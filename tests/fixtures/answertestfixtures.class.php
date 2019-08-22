@@ -1664,6 +1664,7 @@ class stack_answertest_test_data {
 
     public static function get_raw_test_data() {
         $equiv = new stack_equiv_test_data();
+        return $equiv->get_answertestfixtures();
         return array_merge(self::$rawdata, $equiv->get_answertestfixtures());
     }
 

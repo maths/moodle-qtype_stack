@@ -151,6 +151,11 @@ class stack_ast_container extends stack_ast_container_silent implements cas_late
     }
 
     public function set_cas_display_value(string $displayvalue) {
+        // Maxima displays floats as sting with these tags.
+        // The last of the old mess left?
+        $displayvalue = str_replace('"!! ', '', $displayvalue);
+        $displayvalue = str_replace(' !!"', '', $displayvalue);
+
         $this->displayvalue = $displayvalue;
     }
 

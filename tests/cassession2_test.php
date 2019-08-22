@@ -23,6 +23,9 @@ require_once(__DIR__ . '/../stack/cas/cassession2.class.php');
 require_once(__DIR__ . '/../stack/cas/keyval.class.php');
 require_once(__DIR__ . '/../stack/cas/ast.container.class.php');
 
+/**
+ * @group qtype_stack
+ */
 class stack_cas_session2_test extends qtype_stack_testcase {
 
     public function test_internal_config() {
@@ -157,8 +160,7 @@ class stack_cas_session2_test extends qtype_stack_testcase {
         $session->instantiate();
         $this->assertTrue($session->is_instantiated());
 
-        // TODO: test the translated version...
-        $this->assertContains('Lowest_Terms', $validation->get_feedback());
+        $this->assertContains('lowest terms', $validation->get_feedback());
     }
 
 
@@ -448,7 +450,7 @@ class stack_cas_session2_test extends qtype_stack_testcase {
 
         $at1 = new stack_cas_session2($s1, null, 0);
         $at1->instantiate();
-        $this->assertEquals("a:x^2;\nb:1/(1+x^2);\nc:e^(i*pi);", $at1->get_keyval_representation());
+        $this->assertEquals("a:x^2;\nb:1/(1+x^2);\nc:e^(i*%pi);", $at1->get_keyval_representation());
     }
 
     public function test_keyval_representation_2() {
@@ -597,7 +599,7 @@ class stack_cas_session2_test extends qtype_stack_testcase {
         $csl = array('p:if a>b then setelmx(0,m[k],m[j],A)',
             'addto1(ex):=thru ex do x:0.5*(x+5.0/x)',
             'addto2(ex):=for a from -3 step 7 thru ex do a^2',
-            'addto3(ex):=for i from 2 while ex<=10 do s:s+i',
+            'addto3(ex):=for i from 2 while ex <= 10 do s:s+i',
             'addto4(ex):=block([l],l:ex,for f in [log,rho,atan] do l:append(l,[f]),l)',
             'l:addto4([sin,cos])');
 
@@ -612,7 +614,7 @@ class stack_cas_session2_test extends qtype_stack_testcase {
 
         $this->assertEquals(array(), $at1->get_errors(false));
 
-        $this->assertEquals('if a>b then setelmx(0,m[k],m[j],A)', $s1[0]->get_value());
+        $this->assertEquals('if a > b then setelmx(0,m[k],m[j],A)', $s1[0]->get_value());
         $this->assertEquals('\mathbf{if}\;a > b\;\mathbf{then}\;{\it setelmx}\left(0 , m_{k} , m_{j} , A\right)',
                 $s1[0]->get_display());
 
@@ -1008,13 +1010,13 @@ class stack_cas_session2_test extends qtype_stack_testcase {
         // @codingStandardsIgnoreEnd
 
         $tests = array(
-            array('3.14159', '2', '3.14', 'displaydp(3.14,2)'),
-            array('100', '1', '100.0', 'displaydp(100.0,1)'),
-            array('100', '2', '100.00', 'displaydp(100.0,2)'),
-            array('100', '3', '100.000', 'displaydp(100.0,3)'),
-            array('100', '4', '100.0000', 'displaydp(100.0,4)'),
-            array('100', '5', '100.00000', 'displaydp(100.0,5)'),
-            array('0.99', '1', '1.0', 'displaydp(1.0,1)'),
+            array('3.14159', '2', '3.14', '3.14', 'displaydp(3.14,2)'),
+            array('100', '1', '100.0', '100.0', 'displaydp(100.0,1)', ''),
+            array('100', '2', '100.00', '100.00', 'displaydp(100.0,2)'),
+            array('100', '3', '100.000', '100.000', 'displaydp(100.0,3)'),
+            array('100', '4', '100.0000', '100.0000', 'displaydp(100.0,4)'),
+            array('100', '5', '100.00000', '100.00000', 'displaydp(100.0,5)'),
+            array('0.99', '1', '1.0', '1.0', 'displaydp(1.0,1)'),
         );
 
         foreach ($tests as $key => $c) {
@@ -1029,9 +1031,8 @@ class stack_cas_session2_test extends qtype_stack_testcase {
         foreach ($tests as $key => $c) {
             $cs = $at1->get_by_key('p'.$key);
             $this->assertEquals($c[2], $cs->get_display());
-            // Now value and dispvalue are the same.
             $this->assertEquals($c[3], $cs->get_dispvalue());
-            $this->assertEquals($c[3], $cs->get_value());
+            $this->assertEquals($c[4], $cs->get_value());
         }
     }
 
@@ -1053,11 +1054,15 @@ class stack_cas_session2_test extends qtype_stack_testcase {
         // This is because of the precision specified in the "string" routine of Maxima, which sends "values" from Maxima to PHP.
         $expected = '[displaydp(.100000000001,13),displaydp(0.1,14),displaydp(0.1,15),displaydp(0.1,16),displaydp(0.1,17),'.
             'displaydp(0.1,18),displaydp(0.1,19),displaydp(0.1,20),displaydp(0.1,21)]';
+        $expectval = '[0.1000000000010,0.10000000000010,0.100000000000010,0.1000000000000010,0.10000000000000010,' .
+            '0.100000000000000000,0.1000000000000000000,0.10000000000000000000,0.100000000000000000000]';
         if ($this->adapt_to_new_maxima('5.32.2')) {
             $expected = '[displaydp(0.100000000001,13),displaydp(0.1,14),displaydp(0.1,15),displaydp(0.1,16),'.
                 'displaydp(0.1,17),displaydp(0.1,18),displaydp(0.1,19),displaydp(0.1,20),displaydp(0.1,21)]';
+            $expectval = '[0.1000000000010,0.10000000000010,0.100000000000010,0.1000000000000010,0.10000000000000010,' .
+                '0.100000000000000000,0.1000000000000000000,0.10000000000000000000,0.100000000000000000000]';
         }
-        $this->assertEquals($expected, $s1[0]->get_dispvalue());
+        $this->assertEquals($expectval, $s1[0]->get_dispvalue());
         $this->assertEquals($expected, $s1[0]->get_value());
     }
 
@@ -1080,13 +1085,17 @@ class stack_cas_session2_test extends qtype_stack_testcase {
         $expected = '[displaydp(0.100000000001,13),displaydp(0.1000000000001,14),displaydp(0.10000000000001,15),'.
             'displaydp(0.100000000000001,16),displaydp(.1000000000000001,17),'.
             'displaydp(0.1,18),displaydp(0.1,19),displaydp(0.1,20),displaydp(0.1,21)]';
+        $expectval = '[0.1000000000010,0.10000000000010,0.100000000000010,0.1000000000000010,0.10000000000000010,' .
+            '0.100000000000000000,0.1000000000000000000,0.10000000000000000000,0.100000000000000000000]';
         if ($this->adapt_to_new_maxima('5.32.2')) {
             $expected = '[displaydp(0.100000000001,13),displaydp(0.1000000000001,14),displaydp(0.10000000000001,15),'.
                 'displaydp(0.100000000000001,16),displaydp(0.1000000000000001,17),'.
                 // We get more decimal places preserved here that the above test cases.
                 'displaydp(0.1,18),displaydp(0.1,19),displaydp(0.1,20),displaydp(0.1,21)]';
+            $expectval = '[0.1000000000010,0.10000000000010,0.100000000000010,0.1000000000000010,0.10000000000000010,' .
+                '0.100000000000000000,0.1000000000000000000,0.10000000000000000000,0.100000000000000000000]';
         }
-        $this->assertEquals($expected, $s1[1]->get_dispvalue());
+        $this->assertEquals($expectval, $s1[1]->get_dispvalue());
         $this->assertEquals($expected, $s1[1]->get_value());
     }
 
@@ -1204,75 +1213,83 @@ class stack_cas_session2_test extends qtype_stack_testcase {
         // 2. Displayed form.
         // E.g. scientific_notation(314.159,2) -> 3.1\times 10^2.
         // 3. Dispvalue form, that is how it should be typed in.
-        // 4. Optional: what happens to the displayed form with simp:true.
-        // 5. Optional: what happens to the dispvalue form with simp:true.
+        // 4. Value.
+        // 5. Optional: what happens to the display with simp:true.
+        // 6. Optional: what happens to the dispvalue form with simp:true.
+        // 7. Optional: what happens to the value form with simp:true.
 
         // @codingStandardsIgnoreEnd
 
         $tests = array(
+            array('2.998e8', '2', '3.00 \times 10^{8}', '3.00E8', 'displaysci(3,2,8)'),
+            array('-2.998e8', '2', '-3.00 \times 10^{8}', '-3.00E8', 'displaysci(-3,2,8)'),
+            array('6.626e-34', '2', '6.63 \times 10^{-34}', '6.63E-34', 'displaysci(6.63,2,-34)'),
+            array('-6.626e-34', '2', '-6.63 \times 10^{-34}', '-6.63E-34', 'displaysci(-6.63,2,-34)'),
+            array('6.022e23', '2', '6.02 \times 10^{23}', '6.02E23', 'displaysci(6.02,2,23)'),
+            array('5.985e30', '2', '5.99 \times 10^{30}', '5.99E30', 'displaysci(5.99,2,30)'),
+            array('-5.985e30', '2', '-5.99 \times 10^{30}', '-5.99E30', 'displaysci(-5.99,2,30)'),
+            array('1.6726e-27', '2', '1.67 \times 10^{-27}', '1.67E-27', 'displaysci(1.67,2,-27)'),
+            array('1e5', '2', '1.00 \times 10^{5}', '1.00E5', 'displaysci(1,2,5)'),
+            array('1.9e5', '2', '1.90 \times 10^{5}', '1.90E5', 'displaysci(1.9,2,5)'),
+            array('1.0e9', '2', '1.00 \times 10^{9}', '1.00E9', 'displaysci(1,2,9)'),
+            array('100000', '2', '1.00 \times 10^{5}', '1.00E5', 'displaysci(1,2,5)'),
+            array('110000', '2', '1.10 \times 10^{5}', '1.10E5', 'displaysci(1.1,2,5)'),
+            array('54e3', '2', '5.40 \times 10^{4}', '5.40E4', 'displaysci(5.4,2,4)'),
+            array('0.00000000000067452', '2', '6.75 \times 10^{-13}', '6.75E-13', 'displaysci(6.75,2,-13)'),
+            array('-0.00000000000067452', '2', '-6.75 \times 10^{-13}', '-6.75E-13', 'displaysci(-6.75,2,-13)'),
+            array('-0.0000000000006', '2', '-6.00 \times 10^{-13}', '-6.00E-13', 'displaysci(-6,2,-13)'),
+            array('0.0000000000000000000005555', '2', '5.56 \times 10^{-22}', '5.56E-22', 'displaysci(5.56,2,-22)'),
+            array('0.00000000000000000000055', '2', '5.50 \times 10^{-22}', '5.50E-22', 'displaysci(5.5,2,-22)'),
+            array('-0.0000000000000000000005555', '2', '-5.56 \times 10^{-22}', '-5.56E-22', 'displaysci(-5.56,2,-22)'),
+            array('67260000000000000000000000', '2', '6.73 \times 10^{25}', '6.73E25', 'displaysci(6.73,2,25)'),
+            array('67000000000000000000000000', '2', '6.70 \times 10^{25}', '6.70E25', 'displaysci(6.7,2,25)'),
+            array('-67260000000000000000000000', '2', '-6.73 \times 10^{25}', '-6.73E25', 'displaysci(-6.73,2,25)'),
+            array('-67000000000000000000000000', '2', '-6.70 \times 10^{25}', '-6.70E25', 'displaysci(-6.7,2,25)'),
+            array('0.001', '2', '1.00 \times 10^{-3}', '1.00E-3', 'displaysci(1,2,-3)'),
+            array('-0.001', '2', '-1.00 \times 10^{-3}', '-1.00E-3', 'displaysci(-1,2,-3)'),
+            array('10', '2', '1.00 \times 10^{1}', '1.00E1', 'displaysci(1,2,1)'),
+            array('2', '0', '2 \times 10^{0}', '2E0', 'displaysci(2,0,0)'),
+            array('300', '0', '3 \times 10^{2}', '3E2', 'displaysci(3,0,2)'),
+            array('4321.768', '3', '4.322 \times 10^{3}', '4.322E3', 'displaysci(4.322,3,3)'),
+            array('-53000', '2', '-5.30 \times 10^{4}', '-5.30E4', 'displaysci(-5.3,2,4)'),
+            array('6720000000', '3', '6.720 \times 10^{9}', '6.720E9', 'displaysci(6.72,3,9)'),
+            array('6.0221409e23', '4', '6.0221 \times 10^{23}', '6.0221E23', 'displaysci(6.0221,4,23)'),
+            array('1.6022e-19', '4', '1.6022 \times 10^{-19}', '1.6022E-19', 'displaysci(1.6022,4,-19)'),
 
-            array('2.998e8', '2', '3.00 \times 10^{8}', '3.00E8'),
-            array('-2.998e8', '2', '-3.00 \times 10^{8}', '-3.00E8'),
-            array('6.626e-34', '2', '6.63 \times 10^{-34}', '6.63E-34'),
-            array('-6.626e-34', '2', '-6.63 \times 10^{-34}', '-6.63E-34'),
-            array('6.022e23', '2', '6.02 \times 10^{23}', '6.02E23'),
-            array('5.985e30', '2', '5.99 \times 10^{30}', '5.99E30'),
-            array('-5.985e30', '2', '-5.99 \times 10^{30}', '-5.99E30'),
-            array('1.6726e-27', '2', '1.67 \times 10^{-27}', '1.67E-27'),
-            array('1e5', '2', '1.00 \times 10^{5}', '1.00E5'),
-            array('1.9e5', '2', '1.90 \times 10^{5}', '1.90E5'),
-            array('1.0e9', '2', '1.00 \times 10^{9}', '1.00E9'),
-            array('100000', '2', '1.00 \times 10^{5}', '1.00E5'),
-            array('110000', '2', '1.10 \times 10^{5}', '1.10E5'),
-            array('54e3', '2', '5.40 \times 10^{4}', '5.40E4'),
-            array('0.00000000000067452', '2', '6.75 \times 10^{-13}', '6.75E-13'),
-            array('-0.00000000000067452', '2', '-6.75 \times 10^{-13}', '-6.75E-13'),
-            array('-0.0000000000006', '2', '-6.00 \times 10^{-13}', '-6.00E-13'),
-            array('0.0000000000000000000005555', '2', '5.56 \times 10^{-22}', '5.56E-22'),
-            array('0.00000000000000000000055', '2', '5.50 \times 10^{-22}', '5.50E-22'),
-            array('-0.0000000000000000000005555', '2', '-5.56 \times 10^{-22}', '-5.56E-22'),
-            array('67260000000000000000000000', '2', '6.73 \times 10^{25}', '6.73E25'),
-            array('67000000000000000000000000', '2', '6.70 \times 10^{25}', '6.70E25'),
-            array('-67260000000000000000000000', '2', '-6.73 \times 10^{25}', '-6.73E25'),
-            array('-67000000000000000000000000', '2', '-6.70 \times 10^{25}', '-6.70E25'),
-            array('0.001', '2', '1.00 \times 10^{-3}', '1.00E-3'),
-            array('-0.001', '2', '-1.00 \times 10^{-3}', '-1.00E-3'),
-            array('10', '2', '1.00 \times 10^{1}', '1.00E1'),
-            array('2', '0', '2 \times 10^{0}', '2E0'),
-            array('300', '0', '3 \times 10^{2}', '3E2'),
-            array('4321.768', '3', '4.322 \times 10^{3}', '4.322E3'),
-            array('-53000', '2', '-5.30 \times 10^{4}', '-5.30E4'),
-            array('6720000000', '3', '6.720 \times 10^{9}', '6.720E9'),
-            array('6.0221409e23', '4', '6.0221 \times 10^{23}', '6.0221E23'),
-            array('1.6022e-19', '4', '1.6022 \times 10^{-19}', '1.6022E-19'),
-            // The next two break with simp:true.
-            array('9000', '1', '9.0 \times 10^{3}', '9.0E3', '9.0 \times 10^{3}', '9000.0'),
-            array('9000', '0', '9 \times 10^{3}', '9E3', '9 \times 10^{3}', '9000.0'),
-            array('1.55E8', '2', '1.55 \times 10^{8}', '1.55E8'),
-            array('-0.01', '1', '-1.0 \times 10^{-2}', '-1.0E-2'),
-            array('-0.00000001', '3', '-1.000 \times 10^{-8}', '-1.000E-8'),
-            array('-0.00000001', '1', '-1.0 \times 10^{-8}', '-1.0E-8'),
-            array('-0.00000001', '0', '-1 \times 10^{-8}', '-1E-8'),
-            array('-1000', '2', '-1.00 \times 10^{3}', '-1.00E3'),
-            array('31415.927', '3', '3.142 \times 10^{4}', '3.142E4'),
-            array('-31415.927', '3', '-3.142 \times 10^{4}', '-3.142E4'),
-            array('155.5', '2', '1.56 \times 10^{2}', '1.56E2'),
-            array('15.55', '2', '1.56 \times 10^{1}', '1.56E1'),
-            array('777.7', '2', '7.78 \times 10^{2}', '7.78E2'),
-            array('775.5', '2', '7.76 \times 10^{2}', '7.76E2'),
-            array('775.55', '2', '7.76 \times 10^{2}', '7.76E2'),
-            array('0.5555', '2', '5.56 \times 10^{-1}', '5.56E-1'),
-            array('0.05555', '2', '5.56 \times 10^{-2}', '5.56E-2'),
-            array('cos(23*pi/180)', '3', '9.205 \times 10^{-1}', '9.205E-1'),
+            array('1.55E8', '2', '1.55 \times 10^{8}', '1.55E8', 'displaysci(1.55,2,8)'),
+            array('-0.01', '1', '-1.0 \times 10^{-2}', '-1.0E-2', 'displaysci(-1,1,-2)'),
+            array('-0.00000001', '3', '-1.000 \times 10^{-8}', '-1.000E-8', 'displaysci(-1,3,-8)'),
+            array('-0.00000001', '1', '-1.0 \times 10^{-8}', '-1.0E-8', 'displaysci(-1,1,-8)'),
+            array('-0.00000001', '0', '-1 \times 10^{-8}', '-1E-8', 'displaysci(-1,0,-8)'),
+            array('-1000', '2', '-1.00 \times 10^{3}', '-1.00E3', 'displaysci(-1,2,3)'),
+            array('31415.927', '3', '3.142 \times 10^{4}', '3.142E4', 'displaysci(3.142,3,4)'),
+            array('-31415.927', '3', '-3.142 \times 10^{4}', '-3.142E4', 'displaysci(-3.142,3,4)'),
+            array('155.5', '2', '1.56 \times 10^{2}', '1.56E2', 'displaysci(1.56,2,2)'),
+            array('15.55', '2', '1.56 \times 10^{1}', '1.56E1', 'displaysci(1.56,2,1)'),
+            array('777.7', '2', '7.78 \times 10^{2}', '7.78E2', 'displaysci(7.78,2,2)'),
+            array('775.5', '2', '7.76 \times 10^{2}', '7.76E2', 'displaysci(7.76,2,2)'),
+            array('775.55', '2', '7.76 \times 10^{2}', '7.76E2', 'displaysci(7.76,2,2)'),
+            array('0.5555', '2', '5.56 \times 10^{-1}', '5.56E-1', 'displaysci(5.56,2,-1)'),
+            array('0.05555', '2', '5.56 \times 10^{-2}', '5.56E-2', 'displaysci(5.56,2,-2)'),
+            array('cos(23*pi/180)', '3', '9.205 \times 10^{-1}', '9.205E-1', 'displaysci(9.205,3,-1)'),
+            array('9000', '1', '9.0 \times 10^{3}', '9.0E3', 'displaysci(9,1,3)'),
+            // This breaks with simp:true.
+            array('9000', '0', '9 \times 10^{3}', '9E3', 'displaysci(9,0,3)',
+                    '9 \times 10^{3}', '9.0E3'),
             // Edge case.  Want these ones to be 1*10^3, not 10.0*10^2.
-            array('1000', '2', '1.00 \times 10^{3}', '1.00E3'),
+            array('1000', '2', '1.00 \times 10^{3}', '1.00E3', 'displaysci(1,2,3)'),
             // If we don't supply a number of decimal places, then we return a value form.
             // This is entered as scientific_notation(x).
             // This is displayed normally (without a \times) and always returns a *float*.
-            array('9000', '', '9.0\cdot 10^3', '9.0*10^3', '9000.0', '9000.0'),
-            array('1000', '', '1.0\cdot 10^3', '1.0*10^3', '1000.0', '1000.0'),
-            array('-1000', '', '-1.0\cdot 10^3', '-1.0*10^3', '-1000.0', '-1000.0'),
-            array('1e50', '', '1.0\cdot 10^{50}', '1.0*10^50', '1.0E+50', '1.0E+50'),
+            // Notice this has different behaviour with simp:true.
+            array('7000', '', '7.0\cdot 10^3', '7.0*10^3', '7.0*10^3',
+                    '7000.0', '7000.0', '7000.0'),
+            array('1000', '', '1.0\cdot 10^3', '1.0*10^3', '1.0*10^3',
+                    '1000.0', '1000.0', '1000.0'),
+            array('-1000', '', '-1.0\cdot 10^3', '-1.0*10^3', '(-1.0)*10^3',
+                    '-1000.0', '-1000.0', '-1000.0'),
+            array('1e50', '', '1.0\cdot 10^{50}', '1.0*10^50', '1.0*10^50',
+                    '1.0E+50', '1.0E+50', '1.0E+50'),
             // @codingStandardsIgnoreStart
 
             // In some versions of Maxima this comes out as -\frac{1.0}{10^8} with simp:true.
@@ -1283,11 +1300,15 @@ class stack_cas_session2_test extends qtype_stack_testcase {
             // Fail: 37.0, 37.1, 37.2, 37.3.
 
             // @codingStandardsIgnoreEnd
-            array('-0.00000001', '', '-1.0\cdot 10^ {- 8 }', '-1.0*10^-8', '-1.0E-8', '-1.0E-8'),
-            array('-0.000000001', '', '-1.0\cdot 10^ {- 9 }', '-1.0*10^-9', '-1.0E-9', '-1.0E-9'),
-            array('-0.000000000001', '', '-1.0\cdot 10^ {- 12 }', '-1.0*10^-12', '-1.0E-12', '-1.0E-12'),
+            array('-0.00000001', '', '-1.0\cdot 10^ {- 8 }', '-1.0*10^-8', '(-1.0)*10^-8',
+                    '-1.0E-8', '-1.0E-8', '-1.0E-8'),
+            array('-0.000000001', '', '-1.0\cdot 10^ {- 9 }', '-1.0*10^-9', '(-1.0)*10^-9',
+                    '-1.0E-9', '-1.0E-9', '-1.0E-9'),
+            array('-0.000000000001', '', '-1.0\cdot 10^ {- 12 }', '-1.0*10^-12', '(-1.0)*10^-12',
+                    '-1.0E-12', '-1.0E-12', '-1.0E-12'),
         );
 
+        $s1 = array();
         foreach ($tests as $key => $c) {
             $s = "p{$key}:scientific_notation({$c[0]},{$c[1]})";
             if ($c[1] == '') {
@@ -1304,42 +1325,56 @@ class stack_cas_session2_test extends qtype_stack_testcase {
         // All these tests should work with simp:false.
         foreach ($tests as $key => $c) {
             $this->assertEquals($c[2], $s1[$key]->get_display());
-            $this->assertEquals($c[3], $s1[$key]->get_value());
+            $this->assertEquals($c[3], $s1[$key]->get_dispvalue());
+            $this->assertEquals($c[4], $s1[$key]->get_value());
         }
 
         // Does simp:true make any difference?
         // For some tests it does.
+
+        $s2 = array();
+        foreach ($tests as $key => $c) {
+            $s = "p{$key}:scientific_notation({$c[0]},{$c[1]})";
+            if ($c[1] == '') {
+                $s = "p{$key}:scientific_notation({$c[0]})";
+            }
+            $s2[] = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security(), array());
+        }
+
         $options = new stack_options();
         $options->set_option('simplify', true);
-        $at2 = new stack_cas_session2($s1, $options, 0);
+        $at2 = new stack_cas_session2($s2, $options, 0);
         $at2->instantiate();
 
         foreach ($tests as $key => $c) {
             $simpdisp = $c[2];
-            // Is the value simplified?
-            if (array_key_exists(4, $c)) {
-                $simpdisp = $c[4];
-            }
-            $simpval = $c[3];
-            // Is the value simplified?
             if (array_key_exists(5, $c)) {
-                $simpval = $c[5];
+                $simpdisp = $c[5];
             }
-            $this->assertEquals($c[2], $s1[$key]->get_display());
-            $this->assertEquals($c[3], $s1[$key]->get_value());
+            $dispval = $c[3];
+            if (array_key_exists(6, $c)) {
+                $dispval = $c[6];
+            }
+            $val = $c[4];
+            if (array_key_exists(7, $c)) {
+                $val = $c[7];
+            }
+            $this->assertEquals($simpdisp, $s2[$key]->get_display());
+            $this->assertEquals($dispval, $s2[$key]->get_dispvalue());
+            $this->assertEquals($val, $s2[$key]->get_value());
         }
     }
 
     public function test_pm_simp_false() {
         $cs = array('c0:a+-b',
-            'c1:x=(-b +- sqrt(b^2-4*a*c))/(2*a)',
+            'c1:x = (-b +- sqrt(b^2-4*a*c))/(2*a)',
             'c2:b+-a^2',
             'c3:(b+-a)^2',
             'c4:+-a',
             'c5:+-a^2',
             'c6:+-sqrt(1-x)',
             'c7:(a+-b)^2',
-            'c8:x=+-b',
+            'c8:x = +-b',
             'c9:sin(x+-a)^2');
 
         foreach ($cs as $s) {
@@ -1354,11 +1389,11 @@ class stack_cas_session2_test extends qtype_stack_testcase {
 
         $this->assertEquals('a+-b', $s1[0]->get_value());
         $this->assertEquals('{a \pm b}',  $s1[0]->get_display());
-        if ($this->adapt_to_new_maxima('5.32.2')) {
+        if ($this->adapt_to_new_maxima('5.34.2')) {
             // Why these extra brackets in the new version?
-            $this->assertEquals('x=((-b)+-sqrt(b^2-4*a*c))/(2*a)',  $s1[1]->get_value());
+            $this->assertEquals('x = ((-b)+-sqrt(b^2-4*a*c))/(2*a)',  $s1[1]->get_value());
         } else {
-            $this->assertEquals('x=(-b+-sqrt(b^2-4*a*c))/(2*a)',  $s1[1]->get_value());
+            $this->assertEquals('x = (-b+-sqrt(b^2-4*a*c))/(2*a)',  $s1[1]->get_value());
         }
         $this->assertEquals('x=\frac{{-b \pm \sqrt{b^2-4\cdot a\cdot c}}}{2\cdot a}', $s1[1]->get_display());
         $this->assertEquals('b+-a^2', $s1[2]->get_value());
@@ -1373,7 +1408,7 @@ class stack_cas_session2_test extends qtype_stack_testcase {
         $this->assertEquals('\pm \sqrt{1-x}', $s1[6]->get_display());
         $this->assertEquals('(a+-b)^2', $s1[7]->get_value());
         $this->assertEquals('\left({a \pm b}\right)^2', $s1[7]->get_display());
-        $this->assertEquals('x="+-"(b)', $s1[8]->get_value());
+        $this->assertEquals('x = "+-"(b)', $s1[8]->get_value());
         $this->assertEquals('x= \pm b', $s1[8]->get_display());
         $this->assertEquals('sin(x+-a)^2', $s1[9]->get_value());
         $this->assertEquals('\sin ^2\left({x \pm a}\right)', $s1[9]->get_display());
@@ -1403,11 +1438,11 @@ class stack_cas_session2_test extends qtype_stack_testcase {
 
         $this->assertEquals('a+-b', $s1[0]->get_value());
         $this->assertEquals('{a \pm b}', $s1[0]->get_display());
-        if ($this->adapt_to_new_maxima('5.32.2')) {
+        if ($this->adapt_to_new_maxima('5.34.2')) {
             // Why these extra brackets in the new version?
-            $this->assertEquals('x=((-b)+-sqrt(b^2-4*a*c))/(2*a)', $s1[1]->get_value());
+            $this->assertEquals('x = ((-b)+-sqrt(b^2-4*a*c))/(2*a)', $s1[1]->get_value());
         } else {
-            $this->assertEquals('x=(-b+-sqrt(b^2-4*a*c))/(2*a)', $s1[1]->get_value());
+            $this->assertEquals('x = (-b+-sqrt(b^2-4*a*c))/(2*a)', $s1[1]->get_value());
         }
         $this->assertEquals('x=\frac{{-b \pm \sqrt{b^2-4\cdot a\cdot c}}}{2\cdot a}', $s1[1]->get_display());
         $this->assertEquals('b+-a^2', $s1[2]->get_value());
@@ -1422,7 +1457,7 @@ class stack_cas_session2_test extends qtype_stack_testcase {
         $this->assertEquals('\pm \sqrt{1-x}', $s1[6]->get_display());
         $this->assertEquals('(a+-b)^2', $s1[7]->get_value());
         $this->assertEquals('\left({a \pm b}\right)^2', $s1[7]->get_display());
-        $this->assertEquals('x="+-"(b)', $s1[8]->get_value());
+        $this->assertEquals('x = "+-"(b)', $s1[8]->get_value());
         $this->assertEquals('x= \pm b', $s1[8]->get_display());
         $this->assertEquals('sin(x+-a)^2', $s1[9]->get_value());
         $this->assertEquals('\sin ^2\left({x \pm a}\right)', $s1[9]->get_display());
@@ -1442,9 +1477,9 @@ class stack_cas_session2_test extends qtype_stack_testcase {
         $at1->instantiate();
 
         $this->assertEquals('false', $s1[0]->get_value());
-        $this->assertEquals('x=1 nounor x=2', $s1[1]->get_value());
+        $this->assertEquals('x = 1 nounor x = 2', $s1[1]->get_value());
         // Note, that noun_logic_remove(p1) does not give an extra evaluation.
-        $this->assertEquals('x=1 or x=2', $s1[2]->get_value());
+        $this->assertEquals('x = 1 or x = 2', $s1[2]->get_value());
         // However, the display function does force an extra evaluation!
         $this->assertEquals('\mathbf{false}', $s1[2]->get_display());
         $this->assertEquals('false', $s1[3]->get_value());
@@ -1587,6 +1622,42 @@ class stack_cas_session2_test extends qtype_stack_testcase {
         foreach ($t1 as $t) {
             $this->assertEquals($t[1], $s1[$i]->get_value());
             $i++;
+        }
+    }
+
+    /*
+     * These are tests of test-case generation.
+     */
+    public function test_dispvalue() {
+
+        $tests = array(
+            array('x=dispdp(0.5,3)', 'x=0.500', 'x = 0.500', 'x = displaydp(0.5,3)'),
+            array('x=1 nounor x=3.75E3', 'x=1\,{\mbox{ or }}\, x=3750.0',
+                    'x = 1 or x = 3750.0', 'x = 1 nounor x = 3750.0'),
+            array('[x^2-1,stackeq((x-1)*(x+1))]', '\left[ x^2-1 , =\left(x-1\right)\cdot \left(x+1\right) \right]',
+                    '[x^2-1,= (x-1)*(x+1)]', '[x^2-1,stackeq((x-1)*(x+1))]'),
+            array('nounint(sin(pi*x),x)', '\int {\sin \left( \pi\cdot x \right)}{\;\mathrm{d}x}',
+                    '\'int(sin(%pi*x),x)', '\'int(sin(%pi*x),x)'),
+            // Teachers may now use 'int(...) in STACK 4.3.
+            // We should probably just get rid of "nounint" in the near future.
+            array('\'int(cos(x),x)', '\int {\cos \left( x \right)}{\;\mathrm{d}x}',
+                    '\'int(cos(x),x)', '\'int(cos(x),x)'),
+        );
+
+        foreach ($tests as $key => $c) {
+            $s1[] = stack_ast_container::make_from_teacher_source("p{$key}:{$c[0]}",
+                '', new stack_cas_security(), array());
+        }
+
+        $options = new stack_options();
+        $options->set_option('simplify', false);
+        $at1 = new stack_cas_session2($s1, $options, 0);
+        $at1->instantiate();
+        foreach ($tests as $key => $c) {
+            $cs = $at1->get_by_key('p'.$key);
+            $this->assertEquals($c[1], $cs->get_display());
+            $this->assertEquals($c[2], $cs->get_dispvalue());
+            $this->assertEquals($c[3], $cs->get_value());
         }
     }
 }

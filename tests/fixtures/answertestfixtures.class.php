@@ -261,6 +261,10 @@ class stack_answertest_test_data {
         array('AlgEquiv', '', '258552*x^7*(81*x^8+1)^398', 'x^3*(x^4+1)^399', 0, '', ''),
         array('AlgEquiv', '', 'Ia*(R1+R2+R3)-Ib*R3=0', '-Ia*(R1+R2+R3)+Ib*R3=0', 1, '', ''),
 
+        array('AlgEquiv', '', '1', 'stackeq(1)', 1, '', 'Unary Equations'),
+        array('AlgEquiv', '', 'stackeq(1)', '1', 1, '', ''),
+        array('AlgEquiv', '', 'stackeq(1)', '0', 0, '', ''),
+
         array('AlgEquiv', '', 'x=y', 'x^2=y^2', 0, 'ATEquation_default',
             'Equations: Loose/gain roots with nth powers of each side.'),
         array('AlgEquiv', '', '(x-y)*(x+y)=0', 'x^2=y^2', 1, 'ATEquation_ratio', ''),
@@ -563,6 +567,10 @@ class stack_answertest_test_data {
         array('EqualComAss', '', 'make_less_ineq(-6/5 > x)', 'x < -6/5', 1, '', ''),
         array('EqualComAss', '', 'make_less_ineq(1>x and -3<x)', '-3<x and x<1', 1, '', ''),
         array('EqualComAss', '', 'make_less_ineq(6/3 > x)', 'x < 2', 0, 'ATEqualComAss: (AlgEquiv:true).', ''),
+        array('EqualComAss', '', '1', 'stackeq(1)', 1, '', 'Unary Equations'),
+        array('EqualComAss', '', 'stackeq(1)', '1', 1, '', ''),
+        array('EqualComAss', '', 'stackeq(1+1)', '2', 0, 'ATEqualComAss: (AlgEquiv:true).', ''),
+        array('EqualComAss', '', 'stackeq(1)', '0', 0, 'ATEqualComAss: (AlgEquiv:false).', ''),
 
         array('CasEqual', '', '1/0', 'x^2-2*x+1', -1, 'ATCASEqual_STACKERROR_SAns.', ''),
         array('CasEqual', '', 'x', '1/0', -1, 'ATCASEqual_STACKERROR_TAns.', ''),

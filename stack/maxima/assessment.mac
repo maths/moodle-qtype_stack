@@ -649,6 +649,9 @@ algebraic_equivalence(SA, SB) :=
     if (safe_op(SA)=safe_op(SB) and (safe_op(SA)="sqrt" or safe_op(SA)="abs")) then
       (SA:first(args(SA)),
        SB:first(args(SB))),
+    /* Remove stackeq. */
+    SA:remove_stackeq(SA),
+    SB:remove_stackeq(SB),
     /* Remove scientific units and displaydp from expressions. */
     SA:ev(SA, stackunits="*"),
     SB:ev(SB, stackunits="*"),
@@ -965,6 +968,9 @@ ATEqualComAss(sa, sb) :=
     SBB:errcatch(ev(sb, simp, nouns)),
     if (is(SBB=[STACKERROR]) or is(SBB=[])) then
         return([false,false,StackAddNote("", "ATEqualComAss_STACKERROR_TAns"), ""]),
+
+    sa:remove_stackeq(sa),
+    sb:remove_stackeq(sb),
 
     /* We need to check things are of the same type */
     ret:ATSameTypefun(sa,sb),
@@ -1516,6 +1522,9 @@ stackeqtex(ex):=block(
   sconcat("=", tex1(first(args(ex))))
 );
 texput(stackeq, stackeqtex);
+
+/* Remove the stackeq operator. */
+remove_stackeq(ex) := if is(safe_op(ex)="stackeq") then first(args(ex)) else ex$
 
 /* stacklet is an inert "let" operator, e.g. let x=1. */
 stacklettex(ex):=block(

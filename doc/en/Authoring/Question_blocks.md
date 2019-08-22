@@ -118,6 +118,12 @@ Comment blocks allow you to put content into CASText which will not be seen by s
 
 Note that, in the current form the comment block requires that the contents are syntactically correct so no mismatched blocks are possible inside comments.  (We intend to change this in the future.)
 
+## The debug block ##
+
+The special "debug" block allows question authors to see all the values of variables created during a session in a table.  Do not leave this block in a live question!
+
+    [[ debug /]]
+
 ## Empty blocks ##
 
 Some blocks do not have content.  For example, the `[[ define x='1' /]]` block above does not include content.

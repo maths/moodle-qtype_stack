@@ -52,14 +52,15 @@ class stack_cas_castext_debug extends stack_cas_castext_block {
         $output .= "</pre>\n";
 
         $output .= "<h5>CAS session values:</h5>\n";
-        $output .= "<table><tr><th>key</th><th>casstring</th><th>value</th><th>dispvalue</th></tr>\n";
+        $output .= "<table><tr><th>key</th><th>casstring</th><th>value</th><th>dispvalue</th><th>LaTeX</th></tr>\n";
 
         foreach ($evaluatedcassession->get_session() as $cs) {
             $output .= "<tr>";
-            $output .= "<td>" . $cs->get_key() . "</td>";
-            $output .= "<td>" . $cs->get_inputform()() . "</td>";
-            $output .= "<td>" . $cs->get_value() . "</td>";
-            $output .= "<td>" . $cs->get_dispvalue() . "</td>";
+            $output .= "<td><code>" . $cs->get_key() . "</code></td>";
+            $output .= "<td><code>" . $cs->get_inputform() . "</code></td>";
+            $output .= "<td><code>" . $cs->get_value() . "</code></td>";
+            $output .= "<td><code>" . $cs->get_dispvalue() . "</code></td>";
+            $output .= "<td>\(\displaystyle " . $cs->get_display() . "\)</td>";
             $output .= "</tr>";
         }
 

@@ -1,4 +1,4 @@
-# STACK 4.3
+# STACK 4.3 (beta)
 
 [STACK](https://github.com/maths/moodle-qtype_stack/blob/master/doc/en/About/index.md) is an assessment system for mathematics, science and related disciplines.
 

@@ -997,4 +997,19 @@ class stack_cas_text_test extends qtype_stack_testcase {
 
         $this->assertEquals('a, b, c and "a, b, c".', $at2->get_display_castext());
     }
+
+    public function test_stack_jsxgraph_statestore() {
+        $st = '[[jsxgraph input-ref-stateStore="stateRef"]]' .
+              'var board = JXG.JSXGraph.initBoard(divid, {axis: true, showCopyright: false});' .
+              'var p = board.create(\'point\', [4, 3]);' .
+              'stack_jxg.bind_point(stateRef, p);' .
+              'stateInput.style.display = \'none\';' .
+              '[[/jsxgraph]]';
+
+        $s2 = array();
+        $cs2 = new stack_cas_session2($s2, null, 0);
+
+        $at2 = new stack_cas_text($st, $cs2, 0, 't');
+        $this->assertTrue($at2->get_valid());
+    }
 }

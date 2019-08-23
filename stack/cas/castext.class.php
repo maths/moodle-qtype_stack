@@ -302,6 +302,14 @@ class stack_cas_text {
      * This function actually evaluates the castext.
      */
     private function instantiate() {
+        if ($this->valid === null) {
+            $this->validate();
+        }
+
+        // If we fail to complete the instantiation now then it makes little sense 
+        // to try again.
+        $this->instantiated = false;
+
         if ($this->session == null) {
             $this->session = new stack_cas_session2(array(), null, $this->seed);
         }
@@ -316,14 +324,17 @@ class stack_cas_text {
             $this->first_pass_recursion($this->parsetreeroot, array());
         }
 
-        if (!$this->session->get_valid()) {
+        if ($this->valid && $this->session->get_valid()) {
+            $this->session->instantiate();
+        } else {
             $this->valid = false;
-        }
-
-        if (!$this->valid) {
+            foreach ($this->session->get_session() as $statement) {
+                if ($statement->get_valid() !== true) {
+                    $this->errors = array_merge($this->errors, $statement->get_errors(true));
+                }
+            }
             return false;
         }
-        $this->session->instantiate();
 
         // Handle blocks.
         $requiresrerun = false;
@@ -342,7 +353,17 @@ class stack_cas_text {
             $arrayform = stack_cas_castext_castextparser::block_conversion($arrayform);
             $this->parsetreeroot = stack_cas_castext_parsetreenode::build_from_nested($arrayform);
             $this->first_pass_recursion($this->parsetreeroot, array());
-            $this->session->instantiate();
+            if ($this->session->get_valid()) {
+                $this->session->instantiate();
+            } else {
+                $this->valid = false;
+                foreach ($this->session->get_session() as $statement) {
+                    if ($statement->get_valid() !== true) {
+                        $this->errors = array_merge($this->errors, $statement->get_errors(true));
+                    }
+                }
+                return false;
+            }
 
             $requiresrerun = false;
             foreach (array_reverse($this->blocks) as $block) {

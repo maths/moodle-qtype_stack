@@ -1634,12 +1634,11 @@ class qtype_stack extends question_type {
             return $errors;
         }
 
-        if ($session) {
-            $display = $castext->get_display_castext();
-            if ($castext->get_errors()) {
-                $errors[$fieldname][] = $castext->get_errors();
-                return $errors;
-            }
+        // Always check if we can actually instantiate i.e. do the values make sense.
+        $display = $castext->get_display_castext();
+        if ($castext->get_errors()) {
+            $errors[$fieldname][] = $castext->get_errors();
+            return $errors;
         }
 
         return $errors;
@@ -1683,7 +1682,9 @@ class qtype_stack extends question_type {
     protected function validate_question_cas_code($errors, $fromform, $fixingdollars) {
 
         $keyval = new stack_cas_keyval($fromform['questionvariables'], $this->options, $this->seed);
-        $keyval->instantiate();
+        if ($keyval->get_valid()) {
+            $keyval->instantiate();
+        }
         $session = $keyval->get_session();
         if ($session->get_errors()) {
             $errors['questionvariables'][] = $session->get_errors();

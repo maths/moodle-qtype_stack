@@ -164,15 +164,17 @@ class stack_cas_session2 {
         $errors = array();
         foreach ($this->statements as $num => $statement) {
             if ($statement->get_errors()) {
-                $errors[$num] = $statement->get_errors();
+                $errors[$num] = $statement->get_errors(false);
             }
         }
         if ($implode !== true) {
             return $errors;
         }
         $unique = array();
-        foreach ($errors as $err) {
-            $unique[$err] = true;
+        foreach ($errors as $errs) {
+            foreach ($errs as $err) {
+                $unique[$err] = true;
+            }
         }
         return implode(' ', array_keys($unique));
 

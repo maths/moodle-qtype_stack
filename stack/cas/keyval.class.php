@@ -131,6 +131,8 @@ class stack_cas_keyval {
                 }
             }
         }
+
+        return $this->valid;
     }
 
     /*

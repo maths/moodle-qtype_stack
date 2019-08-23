@@ -118,6 +118,10 @@ class stack_ast_container extends stack_ast_container_silent implements cas_late
         }
 
         $tans = $this->validationcontext['tans'];
+        if ($tans === null || $tans === '') {
+            // If we are here someone has forgotten something.
+            $tans = 'und';
+        }
         $validationmethod = $this->validationcontext['validationmethod'];
 
         $vcmd = 'stack_validate(['.$starredanswer.'], '.$lowestterms.','.$tans.')';

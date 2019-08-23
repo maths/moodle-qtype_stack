@@ -535,7 +535,7 @@ class maxima_corrective_parser {
         } else if ($previouschar === '"') {
             $errors[] = stack_string('stackCas_MissingString');
             $answernote[] = 'MissingString';
-        } else{
+        } else {
             $errors[] = $exception->getMessage();
             $answernote[] = 'ParseError';
         }

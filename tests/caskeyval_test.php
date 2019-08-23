@@ -93,9 +93,9 @@ class stack_cas_keyval_test extends qtype_stack_testcase {
         $at1->instantiate();
         $s = $at1->get_session();
         $s->instantiate();
-        $this->assertEquals($s->get_by_key('ta1')->get_evaluationform(), 'ta1:x=1');
-        $this->assertEquals($s->get_by_key('ta2')->get_evaluationform(), 'ta2:x^2-2*x=1');
-        $this->assertEquals($s->get_by_key('ta3')->get_evaluationform(), 'ta3:x=1 nounor x=2');
+        $this->assertEquals($s->get_by_key('ta1')->get_evaluationform(), 'ta1:x = 1');
+        $this->assertEquals($s->get_by_key('ta2')->get_evaluationform(), 'ta2:x^2-2*x = 1');
+        $this->assertEquals($s->get_by_key('ta3')->get_evaluationform(), 'ta3:x = 1 nounor x = 2');
     }
 
     public function test_keyval_session_keyval_0() {
@@ -116,7 +116,7 @@ class stack_cas_keyval_test extends qtype_stack_testcase {
 
     public function test_keyval_session_keyval_2() {
         // Equation and function.
-        $kvin = "ans1:x^2-2*x=1;\nf(x):=x^2;\nsin(x^3);";
+        $kvin = "ans1:x^2-2*x = 1;\nf(x):=x^2;\nsin(x^3);";
         $at1 = new stack_cas_keyval($kvin, null, 123);
         $session = $at1->get_session();
         $kvout = $session->get_keyval_representation();

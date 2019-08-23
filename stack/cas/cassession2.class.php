@@ -101,10 +101,20 @@ class stack_cas_session2 {
         $this->instantiated = false;
     }
 
+    /**
+     * Add all the statements from this session at the start of the target session.
+     *
+     * @param stack_cas_session2 $target
+     */
     public function prepend_to_session(stack_cas_session2 $target) {
         $target->statements = array_merge($this->statements, $target->statements);
     }
 
+    /**
+     * Add all the statements from this session at the end of the target session.
+     *
+     * @param stack_cas_session2 $target
+     */
     public function append_to_session(stack_cas_session2 $target) {
         $target->statements = array_merge($target->statements, $this->statements);
     }

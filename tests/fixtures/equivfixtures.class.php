@@ -1354,8 +1354,8 @@ class stack_equiv_test_data {
         $newarg = array();
         $newarg['title']     = "Indefinite integration";
         $newarg['narrative'] = "";
-        $newarg['casstring'] = '[nounint(x*e^x,x,-inf,0),nounlimit(nounint(x*e^x,x,t,0),t,-inf),'.
-            'nounlimit(e^t-t*e^t-1,t,-inf),nounlimit(e^t,t,-inf)+nounlimit(-t*e^t,t,-inf)+nounlimit(-1,t,-inf),-1]';
+        $newarg['casstring'] = '[\'int(x*e^x,x,-inf,0),\'limit(\'int(x*e^x,x,t,0),t,-inf),'.
+            '\'limit(e^t-t*e^t-1,t,-inf),\'limit(e^t,t,-inf)+\'limit(-t*e^t,t,-inf)+\'limit(-1,t,-inf),-1]';
         $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR]";
         $newarg['outcome']   = true;
         $samplearguments[] = $newarg;
@@ -1363,8 +1363,8 @@ class stack_equiv_test_data {
         $newarg = array();
         $newarg['title']     = "Calculus from first principles";
         $newarg['narrative'] = "";
-        $newarg['casstring'] = '[noundiff(x^2,x),stackeq(nounlimit(((x+h)^2-x^2)/h,h,0)),'.
-            'stackeq(nounlimit(2*x+h,h,0)),stackeq(2*x)]';
+        $newarg['casstring'] = '[\'diff(x^2,x),stackeq(\'limit(((x+h)^2-x^2)/h,h,0)),'.
+            'stackeq(\'limit(2*x+h,h,0)),stackeq(2*x)]';
         $newarg['debuglist'] = "[EMPTYCHAR,CHECKMARK,CHECKMARK,CHECKMARK]";
         $newarg['outcome']   = true;
         $samplearguments[] = $newarg;
@@ -1413,7 +1413,7 @@ class stack_equiv_test_data {
         $newarg = array();
         $newarg['title']     = "Explicit differentiation";
         $newarg['narrative'] = 'Calculus with an equals sign, are equivalent with noun operators.';
-        $newarg['casstring'] = "[noundiff(x^2*sin(x),x),stackeq(x^2*noundiff(sin(x),x)+noundiff(x^2,x)*sin(x))," .
+        $newarg['casstring'] = "[diff(x^2*sin(x),x),stackeq(x^2*diff(sin(x),x)+diff(x^2,x)*sin(x))," .
             "stackeq(x^2*cos(x)+2*x*sin(x))]";
         $newarg['debuglist'] = "[EMPTYCHAR,CHECKMARK,CHECKMARK]";
         $newarg['calculus']  = true;
@@ -1423,7 +1423,7 @@ class stack_equiv_test_data {
         $newarg = array();
         $newarg['title']     = "Implicit differentiation";
         $newarg['narrative'] = '';
-        $newarg['casstring'] = "[y(x)*cos(x)+y(x)^2 = 6*x,cos(x)*noundiff(y(x),x)+2*y(x)*noundiff(y(x),x)-y(x)*sin(x) = 6,(cos(x)+2*y(x))*noundiff(y(x),x) = y(x)*sin(x)+6,noundiff(y(x),x) = (y(x)*sin(x)+6)/(cos(x)+2*y(x))]";
+        $newarg['casstring'] = "[y(x)*cos(x)+y(x)^2 = 6*x,cos(x)*diff(y(x),x)+2*y(x)*diff(y(x),x)-y(x)*sin(x) = 6,(cos(x)+2*y(x))*diff(y(x),x) = y(x)*sin(x)+6,diff(y(x),x) = (y(x)*sin(x)+6)/(cos(x)+2*y(x))]";
         $newarg['debuglist'] = "[EMPTYCHAR,DIFFCHAR(x),EQUIVCHAR,EQUIVCHAR]";
         $newarg['calculus']  = true;
         $newarg['outcome']   = true;
@@ -1432,7 +1432,7 @@ class stack_equiv_test_data {
         $newarg = array();
         $newarg['title']     = "Logarithmic differentiation";
         $newarg['narrative'] = '';
-        $newarg['casstring'] = "[y=e^(5*x)/(7*x+1),ln(y)=5*x-ln(abs(7*x+1)),1/y*noundiff(y,x) = 5-7/(7*x+1),noundiff(y,x)=y*(5-7/(7*x+1)),noundiff(y,x)=e^(5*x)/(7*x+1)*(5-7/(7*x+1))]";
+        $newarg['casstring'] = "[y=e^(5*x)/(7*x+1),ln(y)=5*x-ln(abs(7*x+1)),1/y*\'diff(y,x) = 5-7/(7*x+1),diff(y,x)=y*(5-7/(7*x+1)),diff(y,x)=e^(5*x)/(7*x+1)*(5-7/(7*x+1))]";
         $newarg['debuglist'] = "[EMPTYCHAR,EQUIVLOG,DIFFCHAR(x),EQUIVCHAR,EQUIVCHAR]";
         $newarg['calculus']  = true;
         $newarg['outcome']   = 'unsupported';
@@ -1441,7 +1441,7 @@ class stack_equiv_test_data {
         $newarg = array();
         $newarg['title']     = "Explicit integation";
         $newarg['narrative'] = 'Calculus with an equals sign, are equivalent with noun operators.';
-        $newarg['casstring'] = "[nounint(s^2+1,s),stackeq(s^3/3+s+c)]";
+        $newarg['casstring'] = "[int(s^2+1,s),stackeq(s^3/3+s+c)]";
         $newarg['debuglist'] = "[EMPTYCHAR,INTCHAR(s)]";
         $newarg['calculus']  = true;
         $newarg['outcome']   = true;
@@ -1450,7 +1450,7 @@ class stack_equiv_test_data {
         $newarg = array();
         $newarg['title']     = "Integration by parts";
         $newarg['narrative'] = 'This has a missing constant of integration.';
-        $newarg['casstring'] = "[nounint(x^3*log(x),x),x^4/4*log(x)-1/4*nounint(x^3,x),x^4/4*log(x)-x^4/16]";
+        $newarg['casstring'] = "[int(x^3*log(x),x),x^4/4*log(x)-1/4*int(x^3,x),x^4/4*log(x)-x^4/16]";
         $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,PLUSC]";
         $newarg['calculus']  = true;
         $newarg['outcome']   = false;
@@ -1468,8 +1468,8 @@ class stack_equiv_test_data {
         $newarg = array();
         $newarg['title']     = "Integration by parts +c";
         $newarg['narrative'] = '';
-        $newarg['casstring'] = "[noundiff(y,x)-2/x*y=x^3*sin(3*x),1/x^2*noundiff(y,x)-2/x^3*y=x*sin(3*x),".
-            "noundiff(y/x^2,x)=x*sin(3*x),y/x^2 = nounint(x*sin(3*x),x),y/x^2=(sin(3*x)-3*x*cos(3*x))/9+c]";
+        $newarg['casstring'] = "[diff(y,x)-2/x*y=x^3*sin(3*x),1/x^2*diff(y,x)-2/x^3*y=x*sin(3*x),".
+            "diff(y/x^2,x)=x*sin(3*x),y/x^2 = int(x*sin(3*x),x),y/x^2=(sin(3*x)-3*x*cos(3*x))/9+c]";
         $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,INTCHAR(x),INTCHAR(x)]";
         $newarg['calculus']  = true;
         $newarg['outcome']   = true;
@@ -1478,8 +1478,8 @@ class stack_equiv_test_data {
         $newarg = array();
         $newarg['title']     = "";
         $newarg['narrative'] = 'This argument is aspirational.';
-        $newarg['casstring'] = '[y=nounint(1/(x^2+1),x),y=nounint(1/((1+%i*x)*(1-%i*x)),x),'.
-             'y=1/2*nounint(1/(1+%i*x)+1/(1-%i*x),x),"Perform the integral",'.
+        $newarg['casstring'] = '[y=int(1/(x^2+1),x),y=int(1/((1+%i*x)*(1-%i*x)),x),'.
+             'y=1/2*int(1/(1+%i*x)+1/(1-%i*x),x),"Perform the integral",'.
              'y=1/(2*%i)*(log(1+%i*x)-log(1-%i*x)),y=1/(2*%i)*log((1+%i*x)/(1-%i*x)),'.
              '2*%i*y=log((1+%i*x)/(1-%i*x)),(1+%i*x)/(1-%i*x)=e^(2*%i*y),'.
              '1+%i*x=e^(2*%i*y)*(1-%i*x),%i*x*(1+e^(2*%i*y))=e^(2*%i*y)-1,'.

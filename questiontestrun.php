@@ -105,6 +105,7 @@ $renderquestion = $quba->render_question($slot, $options);
 // Start output.
 echo $OUTPUT->header();
 $renderer = $PAGE->get_renderer('qtype_stack');
+echo $OUTPUT->heading($question->name, 2);
 flush();
 
 // Load the list of test cases.

@@ -176,6 +176,15 @@ class qtype_stack_question_test extends qtype_stack_testcase {
                 $q->grade_response(array('ans1' => '1/2')));
     }
 
+    public function test_grade_response_will_not_accept_input_name() {
+        $q = $this->get_test_stack_question('divide');
+        $this->assertEquals('', $q->validate_against_stackversion());
+        $q->start_attempt(new question_attempt_step(), 1);
+
+        $this->assertEquals(array(0, question_state::$gradedwrong),
+                $q->grade_response(['ans1' => 'ans1']));
+    }
+
     public function test_grade_parts_that_can_be_graded() {
         $q = $this->get_test_stack_question('test3');
         $this->assertEquals('', $q->validate_against_stackversion());

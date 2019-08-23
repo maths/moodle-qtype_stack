@@ -49,7 +49,7 @@ class maxima_corrective_parser_test_data {
                     array()),
             array("f'(x)+1", null, array(0 => 'apostrophe'),
                     array(0 => 'Apostrophes are not permitted in responses.')),
-            array('x>1 and x<4', 'x>1 and x<4', array(), array()),
+            array('x>1 and x<4', 'x > 1 and x < 4', array(), array()),
             array('x=>1 and x<4', null, array(0 => 'backward_inequalities'),
                     array(0 => 'Non-strict inequalities e.g. <span class="filter_mathjaxloader_equation">' .
                             '<span class="nolink">\( \leq \)</span></span> or ' .

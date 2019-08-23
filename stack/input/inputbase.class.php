@@ -751,7 +751,6 @@ abstract class stack_input {
         } else {
             $status = self::SCORE;
         }
-
         // The EMPTYANSWER is not sufficiently robust to determine if we have an empty answer, e.g. matrix inputs.
         if ($this->get_extra_option('allowempty') && $this->is_blank_response($contents)
                 && (array_key_exists($this->name, $response) || array_key_exists($this->name.'_sub_0_0', $response))) {

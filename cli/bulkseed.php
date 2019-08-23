@@ -15,7 +15,7 @@
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * This script seeds every question for seed 0. Which will cause 
+ * This script seeds every question for seed 0. Which will cause
  * the questions to be initialised and checked for common errors.
  *
  * For extra testing this will also try to render the model solutions
@@ -88,7 +88,7 @@ function cat_to_course($catid) {
     if ($context->contextlevel == 40) {
         // Could probably pick a course...
         $map[$catid] = 1;
-        return 1;   
+        return 1;
     }
 
     // Try going up on the context.
@@ -106,7 +106,7 @@ function cat_to_course($catid) {
         return $context->instanceid;
     }
     $map[$catid] = 1;
-    return 1;   
+    return 1;
 }
 
 foreach ($questions as $id) {
@@ -115,7 +115,7 @@ foreach ($questions as $id) {
     }
     $c++;
     $questiondata = question_bank::load_question_data($id->id);
-    $urlparams = array('qperpage' => 1000, 
+    $urlparams = array('qperpage' => 1000,
         'category' => $questiondata->category,
         'lastchanged' => $id->id,
         'courseid' => cat_to_course($questiondata->category));
@@ -137,14 +137,14 @@ foreach ($questions as $id) {
 
         $quba = question_engine::make_questions_usage_by_activity('qtype_stack', context_system::instance());
         $quba->set_preferred_behaviour('adaptive');
-        
+
         $slot = $quba->add_question($question, $question->defaultmark);
         try {
             $quba->start_question($slot);
-        } catch(\Exception $estart) {
+        } catch (\Exception $estart) {
             cli_writeln(' Start issues in ' . $id->id . ': ' . $question->name);
             $fails = true;
-        } catch(\Throwable $tstart) {
+        } catch (\Throwable $tstart) {
             cli_writeln(' Start issues in ' . $id->id . ': ' . $question->name);
             $fails = true;
         }
@@ -164,7 +164,7 @@ foreach ($questions as $id) {
         // This involves instantiation, which may fail.
         try {
             $renderquestion = $quba->render_question($slot, $options);
-        } catch(Exception $erender) {
+        } catch (Exception $erender) {
             cli_writeln(' Question render issues in ' . $id->id . ': ' . $question->name);
             $fails = true;
         }
@@ -179,7 +179,7 @@ foreach ($questions as $id) {
         }
         try {
             $questionote = $question->get_question_summary();
-        } catch(Exception $erendernote) {
+        } catch (Exception $erendernote) {
             cli_writeln(' Note render issues in ' . $id->id . ': ' . $question->name);
             $fails = true;
         }
@@ -190,7 +190,7 @@ foreach ($questions as $id) {
             $d = implode(' ', $question->summarise_response_data($response));
             if (mb_strpos($d, 'STACKERROR') !== false) {
                 cli_writeln(' Potenttial teachers answer issues in ' . $id->id . ': ' . $question->name);
-                $fails = true;    
+                $fails = true;
             }
         } catch(Exception $etestta) {
             cli_writeln(' Teachers answer issues in ' . $id->id . ': ' . $question->name);

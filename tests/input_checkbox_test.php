@@ -229,16 +229,16 @@ class stack_checkbox_input_test extends qtype_stack_walkthrough_test_base {
                 null, array('options' => 'casstring'));
         $el->adapt_to_model_answer('[[x=1 nounor x=2,true],[x=1 nounand x=2,false],[x=1 nounor x=3,false]]');
         $expected = '<div class="answer"><div class="option"><input type="checkbox" name="stack1__ans1_1" value="1" id="stack1__ans1_1" />'.
-                    '<label for="stack1__ans1_1"><code>x=1 or x=2</code></label></div><div class="option">'.
-                    '<input type="checkbox" name="stack1__ans1_2" value="2" id="stack1__ans1_2" /><label for="stack1__ans1_2"><code>x=1 and x=2</code>'.
+                    '<label for="stack1__ans1_1"><code>x = 1 or x = 2</code></label></div><div class="option">'.
+                    '<input type="checkbox" name="stack1__ans1_2" value="2" id="stack1__ans1_2" /><label for="stack1__ans1_2"><code>x = 1 and x = 2</code>'.
                     '</label></div><div class="option"><input type="checkbox" name="stack1__ans1_3" value="3" id="stack1__ans1_3" checked="checked" />'.
-                    '<label for="stack1__ans1_3"><code>x=1 or x=3</code></label></div></div>';
+                    '<label for="stack1__ans1_3"><code>x = 1 or x = 3</code></label></div></div>';
         $this->assertEquals($expected, $el->render(new stack_input_state(
                 stack_input::SCORE, array('3'), '', '', '', '', ''), 'stack1__ans1', false, null));
         $state = $el->validate_student_response(array('ans1_3' => '3'), $options, '2', new stack_cas_security());
         $this->assertEquals(stack_input::SCORE, $state->status);
         $this->assertEquals(array('3'), $state->contents);
-        $this->assertEquals('[x=1 nounor x=3]', $state->contentsmodified);
+        $this->assertEquals('[x = 1 nounor x = 3]', $state->contentsmodified);
     }
 
     public function test_logic_latex() {
@@ -256,7 +256,7 @@ class stack_checkbox_input_test extends qtype_stack_walkthrough_test_base {
         $state = $el->validate_student_response(array('ans1_3' => '3'), $options, '2', new stack_cas_security());
         $this->assertEquals(stack_input::SCORE, $state->status);
         $this->assertEquals(array('3'), $state->contents);
-        $this->assertEquals('[x=1 nounor x=3]', $state->contentsmodified);
+        $this->assertEquals('[x = 1 nounor x = 3]', $state->contentsmodified);
     }
 
     public function test_simp_false() {

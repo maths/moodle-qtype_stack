@@ -265,7 +265,7 @@ class stack_cas_text_test extends qtype_stack_testcase {
 
     public function test_get_all_raw_casstrings_session() {
 
-        $sa = array('p:diff(sans)', 'q=int(tans)');
+        $sa = array('p:diff(sans)', 'q = int(tans)');
         foreach ($sa as $s) {
             $s1[] = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security(), array());
         }
@@ -274,8 +274,8 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $raw = 'Take {@ 1/(1+x^2) @} and then {@sin(z^2)@}.';
         $at1 = new stack_cas_text($raw, $cs1, 0);
         $kv = $at1->get_session()->get_keyval_representation();
-        // Note the equation is missing from the keyval representation here.
-        $val = "p:diff(sans);\n1/(1+x^2);\nsin(z^2);";
+        // Note the equation is no longer missing from the keyval representation here.
+        $val = "p:diff(sans);\nq = int(tans);\n1/(1+x^2);\nsin(z^2);";
         $this->assertEquals($val, $kv);
     }
 

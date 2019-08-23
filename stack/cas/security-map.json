@@ -167,19 +167,24 @@
         "operator": "f"
     },
     "<": {
-        "operator": "s"
+        "operator": "s",
+        "spacesurroundedop": true
     },
     "<=": {
-        "operator": "s"
+        "operator": "s",
+        "spacesurroundedop": true
     },
     "=": {
-        "operator": "s"
+        "operator": "s",
+        "spacesurroundedop": true
     },
     ">": {
-        "operator": "s"
+        "operator": "s",
+        "spacesurroundedop": true
     },
     ">=": {
-        "operator": "s"
+        "operator": "s",
+        "spacesurroundedop": true
     },
     "?": {
         "operator": "f"
@@ -7406,7 +7411,7 @@
         "function": "f"
     },
     "tr": {
-        "variable": "f"
+        "variable": "s"
     },
     "tr_array_as_ref": {
         "variable": "f"

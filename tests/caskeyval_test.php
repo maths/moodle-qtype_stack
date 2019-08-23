@@ -168,4 +168,18 @@ class stack_cas_keyval_test extends qtype_stack_testcase {
             $this->assertEquals($expected[$key], $statement->get_value());
         }
     }
+
+    public function test_multiline_input() {
+        $tests = "n:3;\nif is(n=3) then (\nk1:1,\nk2:2\n) else (\nk1:3,\nk2:4\n);\na:k2^2;";
+
+        $kv = new stack_cas_keyval($tests);
+        $this->assertTrue($kv->get_valid());
+        $kv->instantiate();
+        $s = $kv->get_session();
+        $expected = "n:3;\nif is(n = 3) then (k1:1,k2:2) else (k1:3,k2:4);\na:k2^2;";
+        $this->assertEquals($expected, $s->get_keyval_representation());
+
+        $expected = "n:3;\na:4;";
+        $this->assertEquals($expected, $s->get_keyval_representation(true));
+    }
 }

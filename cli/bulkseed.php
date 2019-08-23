@@ -169,8 +169,10 @@ foreach ($questions as $id) {
             $fails = true;
         }
         try {
-            $workedsolution = $question->get_generalfeedback_castext();
-            $workedsolution->get_display_castext();
+            if (trim($question->generalfeedback) !== '') {
+                $workedsolution = $question->get_generalfeedback_castext();
+                $workedsolution->get_display_castext();
+            }
         } catch(Exception $erendersolution) {
             cli_writeln(' Solution render issues in ' . $id->id . ': ' . $question->name);
             $fails = true;
@@ -183,7 +185,13 @@ foreach ($questions as $id) {
         }
 
         try {
-            $quba->process_action($slot, $quba->get_correct_response($slot));
+            $response = $quba->get_correct_response($slot);
+            $quba->process_action($slot, $response);
+            $d = implode(' ', $question->summarise_response_data($response));
+            if (mb_strpos($d, 'STACKERROR') !== false) {
+                cli_writeln(' Potenttial teachers answer issues in ' . $id->id . ': ' . $question->name);
+                $fails = true;    
+            }
         } catch(Exception $etestta) {
             cli_writeln(' Teachers answer issues in ' . $id->id . ': ' . $question->name);
             $fails = true;

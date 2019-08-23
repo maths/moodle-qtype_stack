@@ -182,4 +182,18 @@ class stack_cas_keyval_test extends qtype_stack_testcase {
         $expected = "n:3;\na:4;";
         $this->assertEquals($expected, $s->get_keyval_representation(true));
     }
+
+    public function test_brackets_in_strings() {
+        $tests = "k1:4^2;\nprefix:\"[\";\nsuffix:\"]\";";
+
+        $kv = new stack_cas_keyval($tests);
+        $this->assertTrue($kv->get_valid());
+        $kv->instantiate();
+        $s = $kv->get_session();
+        $expected = "k1:4^2;\nprefix:\"[\";\nsuffix:\"]\";";
+        $this->assertEquals($expected, $s->get_keyval_representation());
+
+        $expected = "k1:16;\nprefix:\"[\";\nsuffix:\"]\";";
+        $this->assertEquals($expected, $s->get_keyval_representation(true));
+    }
 }

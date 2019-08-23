@@ -218,8 +218,18 @@ class stack_ast_container extends stack_ast_container_silent implements cas_late
          * (2) we don't want noun values (students do not type these in);
          * (3) we want ? characters, and no semicolons.
          */
-        $testval = stack_ast_container::make_from_teacher_source($this->displayvalue, '', new stack_cas_security());
-        $computedinput = $testval->ast->toString(array('nounify' => false, 'inputform' => true, 'qmchar' => true, 'nosemicolon' => true));
+
+        $dispval = $this->displayvalue;
+        /*
+         * This function is mostly used for testing.  In the case of an unevaluated expression we do not
+         * want to have an exception here, so we degrade from "null" to an empty string.
+         */
+        if ($dispval === null) {
+            $dispval = '';
+        }
+        $testval = stack_ast_container::make_from_teacher_source($dispval, '', new stack_cas_security());
+        $computedinput = $testval->ast->toString(array('nounify' => false, 'inputform' => true,
+                'qmchar' => true, 'nosemicolon' => true));
 
         return $computedinput;
     }

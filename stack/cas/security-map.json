@@ -1485,7 +1485,8 @@
         "function": "?"
     },
     "create_list": {
-        "function": "s"
+        "function": "s",
+        "argumentmapstovariable": [1]
     },
     "csc": {
         "function": "s",

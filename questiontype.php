@@ -1634,13 +1634,14 @@ class qtype_stack extends question_type {
             return $errors;
         }
 
-        // Always check if we can actually instantiate i.e. do the values make sense.
-        $display = $castext->get_display_castext();
-        if ($castext->get_errors()) {
-            $errors[$fieldname][] = $castext->get_errors();
-            return $errors;
+        if ($session !== null) {
+            $display = $castext->get_display_castext();
+            if ($castext->get_errors()) {
+                $errors[$fieldname][] = $castext->get_errors();
+                return $errors;
+            }
         }
-
+        
         return $errors;
     }
 

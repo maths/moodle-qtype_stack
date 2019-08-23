@@ -38,7 +38,6 @@ class stack_ast_filter_003_no_dot_dot implements stack_cas_astfilter {
                 // anyway. So lets forbid all matrix
                 // multiplications that have floats as scalars.
                 // also deal with the extra special '1..1'.
-                $node->position['invalid'] = true;
                 if (($node->rhs instanceof MP_Float &&
                     $node->rhs->raw !== null &&
                     substr($node->rhs->raw, 0, 1) === '.') ||
@@ -50,6 +49,7 @@ class stack_ast_filter_003_no_dot_dot implements stack_cas_astfilter {
                     if (array_search(stack_string('stackCas_spuriousop', $a), $errors) === false) {
                         $errors[] = stack_string('stackCas_spuriousop', $a);
                     }
+                    $node->position['invalid'] = true;
                     if (array_search('spuriousop', $answernotes) === false) {
                         $answernotes[] = 'spuriousop';
                     }
@@ -61,6 +61,7 @@ class stack_ast_filter_003_no_dot_dot implements stack_cas_astfilter {
                             $node->lhs->rhs instanceof MP_Float &&
                             $node->lhs->rhs->raw !== null &&
                             substr($node->lhs->rhs->raw, -1) === '.')) {
+                    $node->position['invalid'] = true;
                     $a = array();
                     $a['cmd']  = stack_maxima_format_casstring('..');
                     if (array_search(stack_string('stackCas_spuriousop', $a), $errors) === false) {
@@ -70,11 +71,22 @@ class stack_ast_filter_003_no_dot_dot implements stack_cas_astfilter {
                         $answernotes[] = 'spuriousop';
                     }
                 } else {
-                    if (!$node->is_invalid()) {
+                    // Check for spacing. "1.2. 3.4", "1.2 .3.4" and "1.2 . 3.4" are ok.
+                    $ok = true;
+                    if ($node->lhs instanceof MP_Float && $node->lhs->raw !== null &&
+                        $node->rhs instanceof MP_Float && $node->rhs->raw !== null) {
+                        if ($node->lhs->position['end'] + 1 >= $node->rhs->position['start']) {
+                            $ok = false;
+                        }
+                    }
+
+
+                    if (!$ok && !$node->is_invalid()) {
+                        $node->position['invalid'] = true;
                         // No need to warn about this if we are already invalid due to whatever reason.
                         $answernotes[] = 'MatrixMultWithFloat';
                         $errors[] = 'Due to syntactical reasons matrix multiplication "." with scalar floats is ' .
-                                'forbidden, use normal multiplication "*" instead for the same result.';
+                                'forbidden, use normal multiplication "*" instead for the same result. ' . $node->toString();
                     }
                 }
             }

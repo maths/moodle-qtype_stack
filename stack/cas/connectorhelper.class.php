@@ -139,6 +139,11 @@ abstract class stack_connection_helper {
      * @return bool whether the CAS timed out.
      */
     public static function did_cas_timeout($result) {
+        if (array_key_exists('timeout', $result)) {
+            // This is the CASSession2 way.
+            return $result['timeout'];
+        }
+
         foreach ($result as $res) {
             if (array_key_exists('error', $res)) {
                 if (!(false === strpos($res['error'], 'The CAS timed out'))) {

@@ -25,7 +25,7 @@ class castext_block_factory {
     /**
      * Creates a block of a given type. Or null if non existing type.
      */
-    public static function make($type, &$node, &$session=null, $seed=null) {
+    public static function make($type, $node, $session=null, $seed=null) {
         $class = self::class_for_type($type);
         if ($class === null) {
             return null;

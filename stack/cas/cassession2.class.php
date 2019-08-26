@@ -108,6 +108,7 @@ class stack_cas_session2 {
      */
     public function prepend_to_session(stack_cas_session2 $target) {
         $target->statements = array_merge($this->statements, $target->statements);
+        $this->instantiated = false;
     }
 
     /**
@@ -117,6 +118,7 @@ class stack_cas_session2 {
      */
     public function append_to_session(stack_cas_session2 $target) {
         $target->statements = array_merge($target->statements, $this->statements);
+        $this->instantiated = false;
     }
 
     public function get_variable_usage(array $updatearray = array()): array {
@@ -195,12 +197,12 @@ class stack_cas_session2 {
      * Returns true if everything went well.
      */
     public function instantiate(): bool {
+        if (!$this->get_valid()) {
+            throw new stack_exception('stack_cas_session: cannot instantiate invalid session');
+        }
         if (count($this->statements) === 0 || $this->instantiated === true) {
             $this->instantiated = true;
             return true;
-        }
-        if (!$this->get_valid()) {
-            throw new stack_exception('stack_cas_session: cannot instantiate invalid session');
         }
 
         // Let's simply build the expression here.
@@ -211,25 +213,36 @@ class stack_cas_session2 {
         $collectvalues = array();
         $collectlatex = array();
         $collectdvs = array();
+        $collectdvsandvalues = array();
 
         foreach ($this->statements as $num => $statement) {
+            $dvv = false;
             if ($statement instanceof cas_value_extractor) {
-                if ($statement->get_key() === '') {
-                    $collectvalues['__e_smt_' . $num] = $statement;
+                if ($statement instanceof cas_display_value_extractor) {
+                    $dvv = true;
+                    if ($statement->get_key() === '') {
+                        $collectdvsandvalues['__s' . $num] = $statement;
+                    } else {
+                        $collectdvsandvalues[$statement->get_key()] = $statement;
+                    }
                 } else {
-                    $collectvalues[$statement->get_key()] = $statement;
+                    if ($statement->get_key() === '') {
+                        $collectvalues['__s' . $num] = $statement;
+                    } else {
+                        $collectvalues[$statement->get_key()] = $statement;
+                    }
                 }
             }
             if ($statement instanceof cas_latex_extractor) {
                 if ($statement->get_key() === '') {
-                    $collectlatex['__e_smt_' . $num] = $statement;
+                    $collectlatex['__s' . $num] = $statement;
                 } else {
                     $collectlatex[$statement->get_key()] = $statement;
                 }
             }
-            if ($statement instanceof cas_display_value_extractor) {
+            if ($dvv === false && ($statement instanceof cas_display_value_extractor)) {
                 if ($statement->get_key() === '') {
-                    $collectdvs['__e_smt_' . $num] = $statement;
+                    $collectdvs['__s' . $num] = $statement;
                 } else {
                     $collectdvs[$statement->get_key()] = $statement;
                 }
@@ -247,12 +260,12 @@ class stack_cas_session2 {
         if (count($collectlatex) > 0) {
             $command .= ',_LATEX:["stack_map"]';
         }
-        if (count($collectdvs) > 0) {
+        if ((count($collectdvs) + count($collectdvsandvalues)) > 0) {
             $command .= ',_DVALUES:["stack_map"]';
         }
 
         // Set some values.
-        $command .= ',_VALUES:stackmap_set(_VALUES,"__stackmaximaversion",stackmaximaversion)';
+        $command .= ',_CS2v("__stackmaximaversion",stackmaximaversion)';
 
         // Evaluate statements.
         foreach ($this->statements as $num => $statement) {
@@ -264,8 +277,8 @@ class stack_cas_session2 {
                     ($statement instanceof cas_display_value_extractor)) {
                 // One of those that need to be collected later.
                 if (($key = $statement->get_key()) === '') {
-                    $key = '__e_smt_' . $num;
-                    $line = ',_EC(errcatch(__e_smt_' . $num . ':' . $ef . '),';
+                    $key = '__s' . $num;
+                    $line = ',_EC(errcatch(__s' . $num . ':' . $ef . '),';
                 }
             }
             $line .= stack_utils::php_string_to_maxima_string($statement->get_source_context());
@@ -277,23 +290,27 @@ class stack_cas_session2 {
             // Now while the settings are correct. Only the last statements.
             if ($statement instanceof cas_latex_extractor) {
                 if ($collectlatex[$key] === $statement) {
-                    $command .= ',_LATEX:stackmap_set(_LATEX,';
+                    $command .= ',_CS2l(';
                     $command .= stack_utils::php_string_to_maxima_string($key);
-                    $command .= ',stack_disp(' . $key . ',""))';
+                    $command .= ',' . $key . ')';
                 }
             }
         }
-
         // Collect values if required.
         foreach ($collectvalues as $key => $statement) {
-            $command .= ',_VALUES:stackmap_set(_VALUES,';
+            $command .= ',_CS2v(';
             $command .= stack_utils::php_string_to_maxima_string($key);
-            $command .= ',string(' . $key . '))';
+            $command .= ',' . $key . ')';
         }
         foreach ($collectdvs as $key => $statement) {
-            $command .= ',_DVALUES:stackmap_set(_DVALUES,';
+            $command .= ',_CS2dv(';
             $command .= stack_utils::php_string_to_maxima_string($key);
-            $command .= ',stack_dispvalue(' . $key . '))';
+            $command .= ',' . $key . ')';
+        }
+        foreach ($collectdvsandvalues as $key => $statement) {
+            $command .= ',_CS2dvv(';
+            $command .= stack_utils::php_string_to_maxima_string($key);
+            $command .= ',' . $key . ')';
         }
 
         // Pack values to the response.
@@ -302,7 +319,7 @@ class stack_cas_session2 {
         if (count($collectlatex) > 0) {
             $command .= ',_RESPONSE:stackmap_set(_RESPONSE,"presentation",_LATEX)';
         }
-        if (count($collectdvs) > 0) {
+        if ((count($collectdvs) + count($collectdvsandvalues)) > 0) {
             $command .= ',_RESPONSE:stackmap_set(_RESPONSE,"display",_DVALUES)';
         }
         $command .= ',if length(%ERR)>1 then _RESPONSE:stackmap_set(_RESPONSE,"errors",%ERR)';

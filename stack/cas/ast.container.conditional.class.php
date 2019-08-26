@@ -79,3 +79,193 @@ class stack_ast_container_conditional extends stack_ast_container {
         }
     }
 }
+
+class stack_ast_container_conditional_value extends stack_ast_container_silent implements cas_value_extractor {
+
+    private $conditions;
+    private $evaluated;
+
+    public function set_cas_evaluated_value(MP_Node $ast) {
+        $this->evaluated = $ast;
+    }
+
+    public function set_conditions(array $conditions) {
+        $this->conditions = $conditions;
+    }
+
+    public function get_valid(): bool {
+        $valid = parent::get_valid();
+        foreach ($this->conditions as $cond) {
+            $valid = $valid && $cond->get_valid();
+        }
+        return $valid;
+    }
+
+    public function get_evaluationform(): string {
+        if ($this->conditions === null || count($this->conditions) === 0) {
+            return parent::get_evaluationform();
+        }
+        $content = parent::get_evaluationform();
+        $conds = array();
+        foreach ($this->conditions as $cond) {
+            $conds[] = '(' . $cond->get_evaluationform() .')';
+        }
+        $r = 'if ' . implode(' and ', $conds) . ' then (' . $content . ') else ';
+        if ($this->get_key() !== '') {
+            $r .= $this->get_key() . ':false';
+        } else {
+            $r .= 'false';
+        }
+        return $r;
+    }
+
+    /**
+     * Cloning is complex when we have object references.
+     */
+    public function __clone() {
+        parent::__clone();
+        if ($this->conditions !== null && count($this->conditions) > 0) {
+            $i = 0;
+            for ($i = 0; $i < $this->conditions; $i++) {
+                $this->conditions[$i] = clone $this->conditions[$i];
+            }
+        }
+    }
+
+    public function get_evaluated(): MP_Node {
+        return $this->evaluated;
+    }
+
+    public function get_value() {
+        if (null === $this->evaluated) {
+            throw new stack_exception('stack_ast_container: tried to get the value from of an unevaluated casstring.');
+        }
+        return $this->ast_to_casstring($this->evaluated);
+    }
+}
+
+class stack_ast_container_conditional_latex_and_value extends stack_ast_container_silent implements cas_value_extractor, cas_latex_extractor {
+
+    private $conditions;
+    private $evaluated;
+    private $latex;
+
+    public function set_cas_evaluated_value(MP_Node $ast) {
+        $this->evaluated = $ast;
+    }
+
+    public function set_conditions(array $conditions) {
+        $this->conditions = $conditions;
+    }
+
+    public function get_valid(): bool {
+        $valid = parent::get_valid();
+        foreach ($this->conditions as $cond) {
+            $valid = $valid && $cond->get_valid();
+        }
+        return $valid;
+    }
+
+    public function get_evaluationform(): string {
+        if ($this->conditions === null || count($this->conditions) === 0) {
+            return parent::get_evaluationform();
+        }
+        $content = parent::get_evaluationform();
+        $conds = array();
+        foreach ($this->conditions as $cond) {
+            $conds[] = '(' . $cond->get_evaluationform() .')';
+        }
+        $r = 'if ' . implode(' and ', $conds) . ' then (' . $content . ') else ';
+        if ($this->get_key() !== '') {
+            $r .= $this->get_key() . ':false';
+        } else {
+            $r .= 'false';
+        }
+        return $r;
+    }
+
+    /**
+     * Cloning is complex when we have object references.
+     */
+    public function __clone() {
+        parent::__clone();
+        if ($this->conditions !== null && count($this->conditions) > 0) {
+            $i = 0;
+            for ($i = 0; $i < $this->conditions; $i++) {
+                $this->conditions[$i] = clone $this->conditions[$i];
+            }
+        }
+    }
+
+    public function get_evaluated(): MP_Node {
+        return $this->evaluated;
+    }
+
+    public function get_value() {
+        if (null === $this->evaluated) {
+            throw new stack_exception('stack_ast_container: tried to get the value from of an unevaluated casstring.');
+        }
+        return $this->ast_to_casstring($this->evaluated);
+    }
+
+    public function set_cas_latex_value(string $latex) {
+        $this->latex = stack_maxima_latex_tidy($latex);
+    }
+
+    public function get_display() {
+        if (!$this->is_correctly_evaluated()) {
+            throw new stack_exception('stack_ast_container: ' .
+                    'tried to get the LaTeX representation from of an unevaluated or invalid casstring.');
+        }
+        return trim($this->latex);
+    }
+}
+
+
+class stack_ast_container_conditional_silent extends stack_ast_container_silent {
+
+    private $conditions;
+
+    public function set_conditions(array $conditions) {
+        $this->conditions = $conditions;
+    }
+
+    public function get_valid(): bool {
+        $valid = parent::get_valid();
+        foreach ($this->conditions as $cond) {
+            $valid = $valid && $cond->get_valid();
+        }
+        return $valid;
+    }
+
+    public function get_evaluationform(): string {
+        if ($this->conditions === null || count($this->conditions) === 0) {
+            return parent::get_evaluationform();
+        }
+        $content = parent::get_evaluationform();
+        $conds = array();
+        foreach ($this->conditions as $cond) {
+            $conds[] = '(' . $cond->get_evaluationform() .')';
+        }
+        $r = 'if ' . implode(' and ', $conds) . ' then (' . $content . ') else ';
+        if ($this->get_key() !== '') {
+            $r .= $this->get_key() . ':false';
+        } else {
+            $r .= 'false';
+        }
+        return $r;
+    }
+
+    /**
+     * Cloning is complex when we have object references.
+     */
+    public function __clone() {
+        parent::__clone();
+        if ($this->conditions !== null && count($this->conditions) > 0) {
+            $i = 0;
+            for ($i = 0; $i < $this->conditions; $i++) {
+                $this->conditions[$i] = clone $this->conditions[$i];
+            }
+        }
+    }
+}

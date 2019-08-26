@@ -25,7 +25,7 @@ require_once("block.interface.php");
 
 class stack_cas_castext_debug extends stack_cas_castext_block {
 
-    public function extract_attributes(&$tobeevaluatedcassession, $conditionstack = null) {
+    public function extract_attributes($tobeevaluatedcassession, $conditionstack = null) {
         // The debug block does nothing but reads the data from the context and outputs details based on it.
         return;
     }

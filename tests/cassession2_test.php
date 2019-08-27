@@ -1694,4 +1694,26 @@ class stack_cas_session2_test extends qtype_stack_testcase {
             $this->assertEquals($c[3], $cs->get_value());
         }
     }
+
+    public function test_stack_strip_percent() {
+        $tests = array('assume(x>0)',
+                  'eq1:x^2*\'diff(y,x)+3*y*x=sin(x)/x',
+                  'sol1:ode2(eq1,y,x)',
+                  'sol2:stack_strip_percent(y=(%c-cos(x))/x^3,k)',
+                  'sol3:stack_strip_percent(y=(%c-cos(x))/x^3,[k])'
+                );
+
+        foreach ($tests as $key => $c) {
+            $s1[] = stack_ast_container::make_from_teacher_source($c,
+                    '', new stack_cas_security(), array());
+        }
+
+        $options = new stack_options();
+        $at1 = new stack_cas_session2($s1, $options, 0);
+        $at1->instantiate();
+
+        $this->assertEquals('y = (%c-cos(x))/x^3', $s1[2]->get_value());
+        $this->assertEquals('y = (k[1]-cos(x))/x^3', $s1[3]->get_value());
+        $this->assertEquals('y = (k-cos(x))/x^3', $s1[4]->get_value());
+    }
 }

@@ -57,16 +57,15 @@ It also provides many intermediate steps which are useful for a worked solution.
 
 Maxima functions such as solve and ode2 add arbitrary constants, such as constants of integration.  In Maxima these are indicated adding constants which begin with percentage characters.  For example,
 
+    assume(x>0);
     eq1:x^2*'diff(y,x) + 3*y*x = sin(x)/x;
     sol:ode2(eq1,y,x);
 
 results in
 
-    y = (%c-cos(x))/x^3
+    y = (%c-cos(x))/x^3;
 
-Notice the `%c` in this example.
-STACK forbids the use of the `%` character for security reasons: you can refer to previous sessions for example.
-Therefore, we need a function to strip out the variables starting with `%`.
+Notice the `%c` in this example. We need a function to strip out the variables starting with `%`, especially as these are sometimes numbered and we want to use a definite letter, or sequence for the constants.
 
 The function `stack_strip_percent(ex,var)` replaces all variable names  starting with `%` with those in `var`.
 There are two ways to use this.
@@ -313,4 +312,3 @@ Further examples are
 ## See also
 
 [Maxima reference topics](index.md#reference)
-

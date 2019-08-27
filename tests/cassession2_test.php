@@ -1256,6 +1256,7 @@ class stack_cas_session2_test extends qtype_stack_testcase {
             array('100000', '2', '1.00 \times 10^{5}', '1.00E5', 'displaysci(1,2,5)'),
             array('110000', '2', '1.10 \times 10^{5}', '1.10E5', 'displaysci(1.1,2,5)'),
             array('54e3', '2', '5.40 \times 10^{4}', '5.40E4', 'displaysci(5.4,2,4)'),
+
             array('0.00000000000067452', '2', '6.75 \times 10^{-13}', '6.75E-13', 'displaysci(6.75,2,-13)'),
             array('-0.00000000000067452', '2', '-6.75 \times 10^{-13}', '-6.75E-13', 'displaysci(-6.75,2,-13)'),
             array('-0.0000000000006', '2', '-6.00 \times 10^{-13}', '-6.00E-13', 'displaysci(-6,2,-13)'),
@@ -1276,7 +1277,6 @@ class stack_cas_session2_test extends qtype_stack_testcase {
             array('6720000000', '3', '6.720 \times 10^{9}', '6.720E9', 'displaysci(6.72,3,9)'),
             array('6.0221409e23', '4', '6.0221 \times 10^{23}', '6.0221E23', 'displaysci(6.0221,4,23)'),
             array('1.6022e-19', '4', '1.6022 \times 10^{-19}', '1.6022E-19', 'displaysci(1.6022,4,-19)'),
-
             array('1.55E8', '2', '1.55 \times 10^{8}', '1.55E8', 'displaysci(1.55,2,8)'),
             array('-0.01', '1', '-1.0 \times 10^{-2}', '-1.0E-2', 'displaysci(-1,1,-2)'),
             array('-0.00000001', '3', '-1.000 \times 10^{-8}', '-1.000E-8', 'displaysci(-1,3,-8)'),
@@ -1338,6 +1338,13 @@ class stack_cas_session2_test extends qtype_stack_testcase {
             $s1[] = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security(), array());
         }
 
+        foreach ($tests as $key => $c) {
+            if (!$s1[$key]->get_valid()) {
+                // Help output which test fails.
+                $this->assertTrue($c[0]);
+            }
+        }
+
         $options = new stack_options();
         $options->set_option('simplify', false);
         $at1 = new stack_cas_session2($s1, $options, 0);
@@ -1351,7 +1358,8 @@ class stack_cas_session2_test extends qtype_stack_testcase {
                 $this->assertEquals($c[4], $s1[$key]->get_value());
             } else {
                 // Help output which test fails.
-                $this->assertEquals(null, $c);
+
+                $this->assertEquals(null, $c[0]);
             }
         }
 

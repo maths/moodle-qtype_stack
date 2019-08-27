@@ -486,7 +486,8 @@ dispdp(ex, n) := decimalplacesfun(ex, n, true)$
 /* Write numbers in significant figures */
 /* Matti Pauna, Sun, 23 Oct 2011        */
 sigfigsfun(x, n, dispsigfigs) := block([fpprec:128, fpprintprec:16, simp:true, ex, ex1, ex2, dps],
-  if not(real_numberp(x)) then error("sigfigsfun(x,n,d) requires a real number as a first argument.  Received: ", string(x)),
+  if listp(x) then return(maplist(lambda([ex], sigfigsfun(ex, n, dispsigfigs)), x)),
+  if not(real_numberp(x)) then error("sigfigsfun(x,n,d) requires a real number, or a list of real numbers, as a first argument.  Received: ", string(x)),
   if not(integerp(n)) then error("sigfigsfun(x,n,d) requires an integer as a second argument. Received: ", string(n)),
   if not(is(dispsigfigs=true) or is(dispsigfigs=false)) then error("sigfigsfun(x,n,d) requires a boolean as the third argument."),
   if (is(x = 0) or is(x = 0.0)) then

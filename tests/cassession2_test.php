@@ -1150,7 +1150,8 @@ class stack_cas_session2_test extends qtype_stack_testcase {
         $tests = array(
             array('significantfigures(%pi/3,3)', '1.05', ''),
             array('significantfigures(%pi/blah,3)', 'p1',
-                'sigfigsfun(x,n,d) requires a real number as a first argument.  Received:  %pi/blah'),
+                'sigfigsfun(x,n,d) requires a real number, or a list of real numbers, ' .
+                'as a first argument.  Received:  %pi/blah'),
             array('significantfigures(%pi/3,n)', 'p2',
                 'sigfigsfun(x,n,d) requires an integer as a second argument. Received:  n'),
         );
@@ -1167,6 +1168,26 @@ class stack_cas_session2_test extends qtype_stack_testcase {
         foreach ($tests as $key => $c) {
             $this->assertEquals($c[1], $s1[$key]->get_value());
             $this->assertEquals($c[2], $s1[$key]->get_errors());
+        }
+    }
+
+    public function test_significantfigures_list() {
+        $tests = array(
+            array('significantfigures([0.2,0.4,0.5,0.6,0.7,0.8,1]*1.9,3)',
+                '[0.38,0.76,0.95,1.14,1.33,1.52,1.9]'),
+        );
+
+        foreach ($tests as $key => $c) {
+            $s1[] = stack_ast_container::make_from_teacher_source("p".$key.':'.$c[0],
+                    '', new stack_cas_security(), array());
+        }
+
+        $options = new stack_options();
+        $at1 = new stack_cas_session2($s1, $options, 0);
+        $at1->instantiate();
+
+        foreach ($tests as $key => $c) {
+            $this->assertEquals($c[1], $s1[$key]->get_value());
         }
     }
 
@@ -1324,9 +1345,14 @@ class stack_cas_session2_test extends qtype_stack_testcase {
 
         // All these tests should work with simp:false.
         foreach ($tests as $key => $c) {
-            $this->assertEquals($c[2], $s1[$key]->get_display());
-            $this->assertEquals($c[3], $s1[$key]->get_dispvalue());
-            $this->assertEquals($c[4], $s1[$key]->get_value());
+            if ($s1[$key]->is_correctly_evaluated()) {
+                $this->assertEquals($c[2], $s1[$key]->get_display());
+                $this->assertEquals($c[3], $s1[$key]->get_dispvalue());
+                $this->assertEquals($c[4], $s1[$key]->get_value());
+            } else {
+                // Help output which test fails.
+                $this->assertEquals(null, $c);
+            }
         }
 
         // Does simp:true make any difference?

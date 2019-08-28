@@ -75,27 +75,28 @@ There are two ways to use this.
 
 For example
 
-    stack_strip_percent(y = (%c-cos(x))/x^3,k)
+    stack_strip_percent(y = (%c-cos(x))/x^3,k);
 
 returns
 
-    y = (k[1]-cos(x))/x^3
+    y = (k[1]-cos(x))/x^3;
 
 This is displayed in STACK using subscripts, which is natural.
 The unevaluated list method also does not need to know how many % signs appear in the expression.
 The other usage is to provide explicit names for each variable, but the list must be longer than the number of constants in `ex`, e.g.
 
-    stack_strip_percent(y = (%c-cos(x))/x^3,[c1,c2])
+    stack_strip_percent(y = (%c-cos(x))/x^3,[c1,c2]);
 
 which returns
 
-    y = (c1-cos(x))/x^3
+    y = (c1-cos(x))/x^3;
 
 The following example question variables can be used within STACK.
 
-    ode = x^2*'diff(y,x) + 3*y*x = sin(x)/x
-    sol = stack_strip_percent(ode2(ode,y,x),[k])
-    ta = rhs(ev(sol,nouns))
+    assume(x>0);
+    ode = x^2*'diff(y,x) + 3*y*x = sin(x)/x;
+    sol = stack_strip_percent(ode2(ode,y,x),[k]);
+    ta = rhs(ev(sol,nouns));
 
 Note, you may need to use the Option "assume positive" to get ODE to evaluate the integrals formally and hence "solve correctly".
 

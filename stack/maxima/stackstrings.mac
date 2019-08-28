@@ -17,21 +17,16 @@ stackmap_get(m, k) := block([],
  return(assoc(k,rest(m,1),und))
 )$
 
-stackmap_set(m, k, v) := block([r],
- r: ["stack_map"],
+stackmap_set(m, k, v) := block([],
  /* If we are given anything else than a map as the map we make a new map. */
- if not is_stackmap(m) then return(append(r,[[k,v]])),
+ if not is_stackmap(m) then return(["stack_map",[k,v]]),
  /* Find all others. */
- r: append(r,sublist(rest(m,1), lambda([x],not is(x[1]=k)))),
- r: append(r,[[k,v]]),
- return(r)
+ return(append(["stack_map"],sublist(rest(m,1), lambda([x],is(x[1]#k))),[[k,v]]))
 )$
 
-stackmap_unset(m, k) := block([r],
- r: ["stack_map"],
+stackmap_unset(m, k) := block([],
  if not is_stackmap(m) then return(und),
- r: append(r,sublist(rest(m,1), lambda([x],not is(x[1]=k)))),
- return(r)
+ return(append(["stack_map"],sublist(rest(m,1), lambda([x],is(x[1]#k)))))
 )$
 
 stackmap_keys(m) := block([],
@@ -47,7 +42,7 @@ stackmap_values(m) := block([],
 stackmap_has_key(m, k) := block([tmp, found],
  found: false,
  if not is_stackmap(m) then return(false),
- for tmp in m do if not is(tmp="stack_map") then (if is(tmp[1]=k) then found:true),
+ for tmp in rest(m,1) do (if is(tmp[1]=k) then (found:true,break)),
  return(found)
 )$
 

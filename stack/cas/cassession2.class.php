@@ -437,6 +437,10 @@ class stack_cas_session2 {
             foreach ($collectdvs as $key => $statement) {
                 $statement->set_cas_display_value($display[$key]);
             }
+            foreach ($collectdvsandvalues as $key => $statement) {
+                $statement->set_cas_evaluated_value($asts[$key]);
+                $statement->set_cas_display_value($display[$key]);
+            }
             $this->instantiated = true;
         }
         return $this->instantiated;

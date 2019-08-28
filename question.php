@@ -325,7 +325,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         // To simplify authors work and remove the need to call that long function.
         if ($units) {
             $session->add_statement(stack_ast_container_silent::make_from_teacher_source('stack_unit_si_declare(true)',
-                    'automatic unit declaration'));
+                    'automatic unit declaration'), false);
         }
 
         // Note that at this phase the security object has no "words".

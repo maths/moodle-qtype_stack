@@ -57,10 +57,26 @@ class stack_cas_castext_debug extends stack_cas_castext_block {
         foreach ($evaluatedcassession->get_session() as $cs) {
             $output .= "<tr>";
             $output .= "<td><code>" . $cs->get_key() . "</code></td>";
-            $output .= "<td><code>" . $cs->get_inputform() . "</code></td>";
-            $output .= "<td><code>" . $cs->get_value() . "</code></td>";
-            $output .= "<td><code>" . $cs->get_dispvalue() . "</code></td>";
-            $output .= "<td>\(\displaystyle " . $cs->get_display() . "\)</td>";
+            if (method_exists($cs, 'get_value')) {
+                $output .= "<td><code>" . $cs->get_inputform() . "</code></td>";
+            } else {
+                $output .= "<td>&nbsp;</td>";
+            }
+            if (method_exists($cs, 'get_value')) {
+                $output .= "<td><code>" . $cs->get_value() . "</code></td>";
+            } else {
+                $output .= "<td>&nbsp;</td>";
+            }
+            if (method_exists($cs, 'get_dispvalue')) {
+                $output .= "<td><code>" . $cs->get_dispvalue() . "</code></td>";
+            } else {
+                $output .= "<td>&nbsp;</td>";
+            }
+            if (method_exists($cs, 'get_display')) {
+                $output .= "<td>\(\displaystyle " . $cs->get_display() . "\)</td>";
+            } else {
+                $output .= "<td>&nbsp;</td>";
+            }
             $output .= "</tr>";
         }
 

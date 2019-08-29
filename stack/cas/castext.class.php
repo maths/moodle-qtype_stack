@@ -265,7 +265,7 @@ class stack_cas_text {
             case 'block':
                 $block = null;
                 if (array_key_exists($node->get_content(), $types)) {
-                    $block = castext_block_factory::make($node->get_content(), $node, $session, $this->seed);
+                    $block = castext_block_factory::make($node->get_content(), $node, $this->session, $this->seed);
                 } else {
                     throw new stack_exception('stack_cas_text: UNKNOWN NODE '.$node->get_content());
                 }
@@ -286,12 +286,12 @@ class stack_cas_text {
                 }
                 break;
             case 'rawcasblock':
-                $block = castext_block_factory::make('raw', $node, $session, $this->seed);
+                $block = castext_block_factory::make('raw', $node, $this->session, $this->seed);
                 $block->extract_attributes($this->session, $conditionstack);
                 $this->blocks[] = $block;
                 break;
             case 'texcasblock':
-                $block = castext_block_factory::make('latex', $node, $session, $this->seed);
+                $block = castext_block_factory::make('latex', $node, $this->session, $this->seed);
                 $block->extract_attributes($this->session, $conditionstack);
                 $this->blocks[] = $block;
                 break;
@@ -313,6 +313,8 @@ class stack_cas_text {
         if ($this->session == null) {
             $this->session = new stack_cas_session2(array(), null, $this->seed);
         }
+
+        $freshsession = clone $this->session;
 
         // Initial pass.
         if (stack_cas_castext_castextparser::castext_parsing_required($this->trimmedcastext)) {
@@ -343,6 +345,7 @@ class stack_cas_text {
         }
 
         while ($requiresrerun) {
+            $this->session = clone $freshsession;
             $this->blocks = array();
 
             $this->trimmedcastext = $this->parsetreeroot->to_string();

@@ -487,6 +487,16 @@ _EC(errcatched, reference) := if errcatched = []
  else
   true$
 
+/* Shorthand for allowing even more to fit the buffer. */
+/* Note that stackmap_set is not very performance optimised and
+   as the CS2 context newer redefines values we can just append. 
+   If we were to use the set functionality we meet trouble at around 
+   250 keys. */
+_CS2v(_k,_v) := (_VALUES : append(_VALUES, [[_k, string(_v)]]),0)$
+_CS2l(_k,_v) := (_LATEX : append(_LATEX, [[_k, stack_disp(_v, "")]]),0)$
+_CS2dv(_k,_v) := (_DVALUES : append(_DVALUES, [[_k, stack_dispvalue(_v)]]),0)$
+_CS2dvv(_k,_v) := (_VALUES : append(_VALUES, [[_k, string(_v)]]), _DVALUES : append(_DVALUES, [[_k, stack_dispvalue(_v)]]),0)$
+
 /* ********************************** */
 /* Display                            */
 /* ********************************** */

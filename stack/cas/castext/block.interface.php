@@ -37,7 +37,7 @@ abstract class stack_cas_castext_block {
     protected $seed;
 
     // Returns the node this block is supposed to act on.
-    public function &get_node() {
+    public function get_node() {
         return $this->node;
     }
 
@@ -45,7 +45,7 @@ abstract class stack_cas_castext_block {
     /**
      * The functions here are listed in the order they will be called from the castext-processor.
      */
-    public function __construct(&$node, &$session=null, $seed=null) {
+    public function __construct($node, $session=null, $seed=null) {
         $this->node = $node;
 
         // These are for creating a new castext-parser if need be.
@@ -60,7 +60,7 @@ abstract class stack_cas_castext_block {
      * Meant for extracting CAS-commands that have not been encased in "raw"- or "latex"-blocks. As well
      * as things not present in code.
      */
-    abstract public function extract_attributes(&$tobeevaluatedcassession, $conditionstack = null);
+    abstract public function extract_attributes($tobeevaluatedcassession, $conditionstack = null);
 
     /**
      * Returns false if the contents of this block should not be processed by the castext-processor
@@ -100,7 +100,7 @@ abstract class stack_cas_castext_block {
         $valid = true;
         $first = true;
         foreach ($this->validate_extract_attributes() as $casstring) {
-            $v = $casstring->get_valid('t');
+            $v = $casstring->get_valid();
             if (!$v) {
                 if ($first) {
                     $first = false;

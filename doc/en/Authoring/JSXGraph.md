@@ -174,6 +174,8 @@ For sliders you use the function `stack_jxg.bind_slider(inputRef, slider)` and i
 
 You should check the sample questions about JSXGraph binding for examples of these functions in action.
 
+Starting from version 4.3 there are three functions for dealing with pairs of points. Basically, if you want to represent vectors, lines or circles or anything that can be defined with just two points. `stack_jxg.bind_point_dual(inputRef, point1, point2)` will store the positions of the points into a single input as a list of lists, `stack_jxg.bind_point_relative(inputRef, point1, point2)` will also generate a list but in it the second point is represented relative to the first, and finally `stack_jxg.bind_point_direction(inputRef, point1, point2)` will provide the first point as coordinates and the second point as an angle and distance from the first.
+
 ## Convenience tools for generating lists of values.
 
 If you want to output a list of values without Maxima's normal bracket symbols you can use

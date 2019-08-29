@@ -167,6 +167,7 @@ The example in the previous section about moving the point around and storing th
     
       // As a side note, you typically do not want the state storing input to be directly visible to the user
       // although it may be handy during development to see what happens in it. You might hide it like this:
+      var stateInput = document.getElementById(stateRef);
       stateInput.style.display = 'none';
     [[/jsxgraph]]
 

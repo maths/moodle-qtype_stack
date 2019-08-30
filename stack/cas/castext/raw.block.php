@@ -29,9 +29,9 @@ class stack_cas_castext_raw extends stack_cas_castext_block {
 
     private $string;
 
-    public function extract_attributes(&$tobeevaluatedcassession, $conditionstack = array()) {
+    public function extract_attributes($tobeevaluatedcassession, $conditionstack = array()) {
         $raw = trim($this->get_node()->get_content());
-        $cs = stack_ast_container_conditional::make_from_teacher_source($raw, '', new stack_cas_security());
+        $cs = stack_ast_container_conditional_value::make_from_teacher_source($raw, '', new stack_cas_security());
         $cs->set_conditions($conditionstack);
         $cs->set_keyless(true);
         $this->string = $cs;

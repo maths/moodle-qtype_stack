@@ -26,7 +26,7 @@ require_once("block.interface.php");
 
 class stack_cas_castext_comment extends stack_cas_castext_block {
 
-    public function extract_attributes(&$tobeevaluatedcassession, $conditionstack = null) {
+    public function extract_attributes($tobeevaluatedcassession, $conditionstack = null) {
         return;
     }
 

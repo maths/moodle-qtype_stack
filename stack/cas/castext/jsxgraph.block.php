@@ -33,7 +33,7 @@ class stack_cas_castext_jsxgraph extends stack_cas_castext_block {
 
     private static $countgraphs = 1;
 
-    public function extract_attributes(&$tobeevaluatedcassession, $conditionstack = null) {
+    public function extract_attributes($tobeevaluatedcassession, $conditionstack = null) {
         // There are currently no CAS evaluated attributes.
         // Only reasonable such would be dynamic size parameters.
     }

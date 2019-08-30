@@ -167,12 +167,15 @@ The example in the previous section about moving the point around and storing th
     
       // As a side note, you typically do not want the state storing input to be directly visible to the user
       // although it may be handy during development to see what happens in it. You might hide it like this:
+      var stateInput = document.getElementById(stateRef);
       stateInput.style.display = 'none';
     [[/jsxgraph]]
 
 For sliders you use the function `stack_jxg.bind_slider(inputRef, slider)` and it stores the sliders value as a raw float. Sliders will however require that you call `board.update()` after binding to them, otherwise the graph may not display the stored state after reload.
 
 You should check the sample questions about JSXGraph binding for examples of these functions in action.
+
+Starting from version 4.3 there are three functions for dealing with pairs of points. Basically, if you want to represent vectors, lines or circles or anything that can be defined with just two points. `stack_jxg.bind_point_dual(inputRef, point1, point2)` will store the positions of the points into a single input as a list of lists, `stack_jxg.bind_point_relative(inputRef, point1, point2)` will also generate a list but in it the second point is represented relative to the first, and finally `stack_jxg.bind_point_direction(inputRef, point1, point2)` will provide the first point as coordinates and the second point as an angle and distance from the first.
 
 ## Convenience tools for generating lists of values.
 

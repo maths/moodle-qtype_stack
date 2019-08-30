@@ -28,7 +28,7 @@ require_once(__DIR__ . '/../ast.container.conditional.class.php');
 
 class stack_cas_castext_define extends stack_cas_castext_block {
 
-    public function extract_attributes(&$tobeevaluatedcassession, $conditionstack = null) {
+    public function extract_attributes($tobeevaluatedcassession, $conditionstack = null) {
         $css = array();
 
         foreach ($this->get_node()->get_parameters() as $key => $value) {
@@ -36,7 +36,7 @@ class stack_cas_castext_define extends stack_cas_castext_block {
             // conditions may break, therefore we must force denounification here.
 
             $raw = "$key:$value";
-            $cs = stack_ast_container_conditional::make_from_teacher_source($raw, '', new stack_cas_security());
+            $cs = stack_ast_container_conditional_silent::make_from_teacher_source($raw, '', new stack_cas_security());
             $cs->set_conditions($conditionstack);
             $cs->set_keyless(true);
             $cs->set_nounify(false);

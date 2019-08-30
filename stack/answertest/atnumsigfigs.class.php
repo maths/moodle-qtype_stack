@@ -76,6 +76,19 @@ class stack_anstest_atnumsigfigs extends stack_anstest {
             $requiredsigfigs = trim($opts[0]);
             $requiredaccuracy = trim($opts[1]);
         }
+        // The evaluated values are better. And we need them.
+        if ($this->atoption->is_evaluated()) {
+            if ($this->atoption->is_int(true)) {
+                $requiredsigfigs = $this->atoption->get_value(true);
+                $requiredaccuracy = $this->atoption->get_value(true);
+                $atopt = $requiredsigfigs;
+            } else if ($this->atoption->is_list(true)) {
+                $requiredsigfigs = $this->atoption->get_list_element(0, true)->toString();
+                $requiredaccuracy = $this->atoption->get_list_element(1, true)->toString();
+                $atopt = "[$requiredsigfigs,$requiredaccuracy]";
+            }
+        }
+
         $strictsigfigs = false;
         $condoneextrasigfigs = false;
         $numaccuracy   = true;
@@ -175,8 +188,8 @@ class stack_anstest_atnumsigfigs extends stack_anstest {
         $result = stack_ast_container::make_from_teacher_source("result:{$this->casfunction}(STACKSA,STACKTA)", '',
         new stack_cas_security());
         if (stack_ans_test_controller::process_atoptions($this->atname)) {
-            $ops = clone $this->atoption;
-            $ops->set_key('STACKOP');
+            // We must not clone the original atoptions as it might not have variables evaluated.
+            $ops = stack_ast_container::make_from_teacher_source('STACKOP:' . $atopt, '', new stack_cas_security());
             $result = stack_ast_container::make_from_teacher_source("result:{$this->casfunction}(STACKSA,STACKTA,STACKOP)", '',
             new stack_cas_security());
         }

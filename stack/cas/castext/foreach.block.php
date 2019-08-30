@@ -43,9 +43,9 @@ class stack_cas_castext_foreach extends stack_cas_castext_block {
     // Remembers the strings.
     private $strings = array();
 
-    public function extract_attributes(&$tobeevaluatedcassession, $conditionstack = null) {
+    public function extract_attributes($tobeevaluatedcassession, $conditionstack = null) {
         foreach ($this->get_node()->get_parameters() as $key => $value) {
-            $cs = stack_ast_container_conditional::make_from_teacher_source($value, '', new stack_cas_security());
+            $cs = stack_ast_container_conditional_value::make_from_teacher_source($value, '', new stack_cas_security());
             $cs->set_conditions($conditionstack);
             $this->strings[$key] = $cs;
             $cs->set_keyless(true);

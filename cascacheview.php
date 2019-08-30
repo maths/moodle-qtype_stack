@@ -55,7 +55,8 @@ foreach ($data as $item) {
     echo '<h2>item ' . $i . '</h2>';
     echo '<pre>';
     // Ends with $ which is bad.
-    $ast = maxima_parser_utils::parse(core_text::substr($item->command, 0, -1));
+    // Now can contain $ signs elsewhere as well...
+    $ast = maxima_parser_utils::parse(str_replace('$', ';', $item->command));
     $str = $ast->toString(array('pretty' => true));
     $str = str_replace('&', '&amp;', $str);
     $str = str_replace('<', '&lt;', $str);

@@ -340,6 +340,18 @@
     "_EC": {
         "function": "f"
     },
+    "_CS2v": {
+        "function": "f"
+    },
+    "_CS2l": {
+        "function": "f"
+    },
+    "_CS2dv": {
+        "function": "f"
+    },
+    "_CS2dvv": {
+        "function": "f"
+    },
     "__": {
         "globalyforbiddenvariable": true,
         "variable": "f"

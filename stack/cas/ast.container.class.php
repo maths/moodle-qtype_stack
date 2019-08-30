@@ -82,7 +82,6 @@ class stack_ast_container extends stack_ast_container_silent implements cas_late
                             $errors, $answernotes);
     }
 
-
     public function add_errors($err) {
         if ('' == trim($err)) {
             return false;

@@ -1150,7 +1150,8 @@ class stack_cas_session2_test extends qtype_stack_testcase {
         $tests = array(
             array('significantfigures(%pi/3,3)', '1.05', ''),
             array('significantfigures(%pi/blah,3)', 'p1',
-                'sigfigsfun(x,n,d) requires a real number as a first argument.  Received:  %pi/blah'),
+                'sigfigsfun(x,n,d) requires a real number, or a list of real numbers, ' .
+                'as a first argument.  Received:  %pi/blah'),
             array('significantfigures(%pi/3,n)', 'p2',
                 'sigfigsfun(x,n,d) requires an integer as a second argument. Received:  n'),
         );
@@ -1167,6 +1168,26 @@ class stack_cas_session2_test extends qtype_stack_testcase {
         foreach ($tests as $key => $c) {
             $this->assertEquals($c[1], $s1[$key]->get_value());
             $this->assertEquals($c[2], $s1[$key]->get_errors());
+        }
+    }
+
+    public function test_significantfigures_list() {
+        $tests = array(
+            array('significantfigures([0.2,0.4,0.5,0.6,0.7,0.8,1]*1.9,3)',
+                '[0.38,0.76,0.95,1.14,1.33,1.52,1.9]'),
+        );
+
+        foreach ($tests as $key => $c) {
+            $s1[] = stack_ast_container::make_from_teacher_source("p".$key.':'.$c[0],
+                    '', new stack_cas_security(), array());
+        }
+
+        $options = new stack_options();
+        $at1 = new stack_cas_session2($s1, $options, 0);
+        $at1->instantiate();
+
+        foreach ($tests as $key => $c) {
+            $this->assertEquals($c[1], $s1[$key]->get_value());
         }
     }
 
@@ -1235,6 +1256,7 @@ class stack_cas_session2_test extends qtype_stack_testcase {
             array('100000', '2', '1.00 \times 10^{5}', '1.00E5', 'displaysci(1,2,5)'),
             array('110000', '2', '1.10 \times 10^{5}', '1.10E5', 'displaysci(1.1,2,5)'),
             array('54e3', '2', '5.40 \times 10^{4}', '5.40E4', 'displaysci(5.4,2,4)'),
+
             array('0.00000000000067452', '2', '6.75 \times 10^{-13}', '6.75E-13', 'displaysci(6.75,2,-13)'),
             array('-0.00000000000067452', '2', '-6.75 \times 10^{-13}', '-6.75E-13', 'displaysci(-6.75,2,-13)'),
             array('-0.0000000000006', '2', '-6.00 \times 10^{-13}', '-6.00E-13', 'displaysci(-6,2,-13)'),
@@ -1255,7 +1277,6 @@ class stack_cas_session2_test extends qtype_stack_testcase {
             array('6720000000', '3', '6.720 \times 10^{9}', '6.720E9', 'displaysci(6.72,3,9)'),
             array('6.0221409e23', '4', '6.0221 \times 10^{23}', '6.0221E23', 'displaysci(6.0221,4,23)'),
             array('1.6022e-19', '4', '1.6022 \times 10^{-19}', '1.6022E-19', 'displaysci(1.6022,4,-19)'),
-
             array('1.55E8', '2', '1.55 \times 10^{8}', '1.55E8', 'displaysci(1.55,2,8)'),
             array('-0.01', '1', '-1.0 \times 10^{-2}', '-1.0E-2', 'displaysci(-1,1,-2)'),
             array('-0.00000001', '3', '-1.000 \times 10^{-8}', '-1.000E-8', 'displaysci(-1,3,-8)'),
@@ -1317,6 +1338,13 @@ class stack_cas_session2_test extends qtype_stack_testcase {
             $s1[] = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security(), array());
         }
 
+        foreach ($tests as $key => $c) {
+            if (!$s1[$key]->get_valid()) {
+                // Help output which test fails.
+                $this->assertTrue($c[0]);
+            }
+        }
+
         $options = new stack_options();
         $options->set_option('simplify', false);
         $at1 = new stack_cas_session2($s1, $options, 0);
@@ -1324,9 +1352,15 @@ class stack_cas_session2_test extends qtype_stack_testcase {
 
         // All these tests should work with simp:false.
         foreach ($tests as $key => $c) {
-            $this->assertEquals($c[2], $s1[$key]->get_display());
-            $this->assertEquals($c[3], $s1[$key]->get_dispvalue());
-            $this->assertEquals($c[4], $s1[$key]->get_value());
+            if ($s1[$key]->is_correctly_evaluated()) {
+                $this->assertEquals($c[2], $s1[$key]->get_display());
+                $this->assertEquals($c[3], $s1[$key]->get_dispvalue());
+                $this->assertEquals($c[4], $s1[$key]->get_value());
+            } else {
+                // Help output which test fails.
+
+                $this->assertEquals(null, $c[0]);
+            }
         }
 
         // Does simp:true make any difference?
@@ -1659,5 +1693,27 @@ class stack_cas_session2_test extends qtype_stack_testcase {
             $this->assertEquals($c[2], $cs->get_dispvalue());
             $this->assertEquals($c[3], $cs->get_value());
         }
+    }
+
+    public function test_stack_strip_percent() {
+        $tests = array('assume(x>0)',
+                  'eq1:x^2*\'diff(y,x)+3*y*x=sin(x)/x',
+                  'sol1:ode2(eq1,y,x)',
+                  'sol2:stack_strip_percent(y=(%c-cos(x))/x^3,k)',
+                  'sol3:stack_strip_percent(y=(%c-cos(x))/x^3,[k])'
+                );
+
+        foreach ($tests as $key => $c) {
+            $s1[] = stack_ast_container::make_from_teacher_source($c,
+                    '', new stack_cas_security(), array());
+        }
+
+        $options = new stack_options();
+        $at1 = new stack_cas_session2($s1, $options, 0);
+        $at1->instantiate();
+
+        $this->assertEquals('y = (%c-cos(x))/x^3', $s1[2]->get_value());
+        $this->assertEquals('y = (k[1]-cos(x))/x^3', $s1[3]->get_value());
+        $this->assertEquals('y = (k-cos(x))/x^3', $s1[4]->get_value());
     }
 }

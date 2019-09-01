@@ -52,7 +52,7 @@ class stack_cas_castext_debug extends stack_cas_castext_block {
         $output .= "</pre>\n";
 
         $output .= "<h5>CAS session values:</h5>\n";
-        $output .= "<table><tr><th>key</th><th>casstring</th><th>value</th><th>dispvalue</th><th>LaTeX</th></tr>\n";
+        $output .= "<table><tr><th>key</th><th>casstring</th><th>value</th><th>dispvalue</th><th>LaTeX</th><th></th></tr>\n";
 
         foreach ($evaluatedcassession->get_session() as $cs) {
             $output .= "<tr>";
@@ -62,7 +62,7 @@ class stack_cas_castext_debug extends stack_cas_castext_block {
             } else {
                 $output .= "<td>&nbsp;</td>";
             }
-            if (method_exists($cs, 'get_value')) {
+            if (method_exists($cs, 'get_value') && $cs->is_correctly_evaluated()) {
                 $output .= "<td><code>" . $cs->get_value() . "</code></td>";
             } else {
                 $output .= "<td>&nbsp;</td>";
@@ -72,11 +72,12 @@ class stack_cas_castext_debug extends stack_cas_castext_block {
             } else {
                 $output .= "<td>&nbsp;</td>";
             }
-            if (method_exists($cs, 'get_display')) {
+            if (method_exists($cs, 'get_display') && $cs->is_correctly_evaluated()) {
                 $output .= "<td>\(\displaystyle " . $cs->get_display() . "\)</td>";
             } else {
                 $output .= "<td>&nbsp;</td>";
             }
+            $output .= "<td>" . $cs->get_errors() . "</td>";
             $output .= "</tr>";
         }
 

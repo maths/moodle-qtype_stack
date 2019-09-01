@@ -67,7 +67,7 @@ class stack_potentialresponse_tree_state {
     /**
      * @var stack_cas_session
      */
-    protected $casecontext;
+    protected $cascontext;
 
     /**
      * @var int

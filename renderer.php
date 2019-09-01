@@ -336,6 +336,7 @@ class qtype_stack_renderer extends qtype_renderer {
                     }
                 }
             }
+
             if (is_null($format)) {
                 $format = FORMAT_HTML;
             }

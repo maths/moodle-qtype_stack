@@ -75,6 +75,11 @@ class stack_potentialresponse_tree_state {
     protected $seed;
 
     /**
+     * @var boolean
+     */
+    protected $simplify;
+
+    /**
      * Constructor
      *
      * @param float $weight the value of this PRT within the question.
@@ -133,9 +138,10 @@ class stack_potentialresponse_tree_state {
      *      feedback variables, sans and tans for each node, etc.
      * @param int $seed the random seed used.
      */
-    public function set_cas_context(stack_cas_session2 $cascontext, $seed) {
+    public function set_cas_context(stack_cas_session2 $cascontext, $seed, $simp) {
         $this->cascontext = $cascontext;
         $this->seed = $seed;
+        $this->simplify = $simp;
     }
 
     /**
@@ -188,7 +194,17 @@ class stack_potentialresponse_tree_state {
                 $cleanvars[] = $var;
             }
         }
-        $cleansession = new stack_cas_session2($cleanvars, null, $this->seed);
+
+        $options = $this->cascontext->get_options();
+        // We also need to respect the actual value of simplification and set it explicitly again at the end of the list.
+        if ($this->simplify) {
+            $simp = 'true';
+        } else {
+            $simp = 'false';
+        }
+        $cleanvars[] = stack_ast_container::make_from_teacher_source('simp:'.$simp, '', new stack_cas_security(), array());
+
+        $cleansession = new stack_cas_session2($cleanvars, $options, $this->seed);
         $feedbackct = new stack_cas_text($feedback, $cleansession, $this->seed);
         $result = $feedbackct->get_display_castext();
         $this->_errors = trim($this->_errors . ' ' . $feedbackct->get_errors());

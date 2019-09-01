@@ -77,6 +77,10 @@ class stack_cas_session2 {
         return $this->statements;
     }
 
+    public function get_options(): stack_options {
+        return $this->options;
+    }
+
     public function add_statement(cas_evaluatable $statement, bool $append = true) {
         if ($append) {
             $this->statements[] = $statement;

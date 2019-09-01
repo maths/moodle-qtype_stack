@@ -112,13 +112,6 @@ class stack_potentialresponse_tree {
         // TODO: this clone needs to go, we need a way of pulling the setting and seed
         // from the questionvars to start up this thing.
         $cascontext = clone $questionvars;
-        // Set the value of simp from this point onwards.
-        // If the question has simp:true, but the prt simp:false, then this needs to be done here.
-        if ($this->simplify) {
-            $simp = 'true';
-        } else {
-            $simp = 'false';
-        }
 
         // Do not simplify the answers.
         $sf = stack_ast_container::make_from_teacher_source('simp:false', '', new stack_cas_security(), array());
@@ -141,12 +134,22 @@ class stack_potentialresponse_tree {
             $cascontext->add_statement($cs);
         }
 
-        // Now respect the simplification of the question variables.
+        // Set the value of simp for the feedback variables from this point onwards.
+        // If the question has simp:true, but the prt simp:false, then this needs to be done here.
+        if ($this->simplify) {
+            $simp = 'true';
+        } else {
+            $simp = 'false';
+        }
         $cs = stack_ast_container::make_from_teacher_source('simp:'.$simp, '', new stack_cas_security(), array());
         $cascontext->add_statement($cs);
 
         // Add the feedback variables.
         $this->feedbackvariables->append_to_session($cascontext);
+
+        // Do not simplify the expressions in the context variables.
+        $sf = stack_ast_container::make_from_teacher_source('simp:false', '', new stack_cas_security(), array());
+        $cascontext->add_statement($sf);
 
         // Add all the expressions from all the nodes.
         // Note this approach does not allow for effective guard clauses in the PRT.

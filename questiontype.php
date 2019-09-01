@@ -1641,7 +1641,7 @@ class qtype_stack extends question_type {
                 return $errors;
             }
         }
-        
+
         return $errors;
     }
 

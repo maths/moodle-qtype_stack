@@ -144,7 +144,8 @@ class stack_ast_container_conditional_value extends stack_ast_container_silent i
     }
 }
 
-class stack_ast_container_conditional_latex_and_value extends stack_ast_container_silent implements cas_value_extractor, cas_latex_extractor {
+class stack_ast_container_conditional_latex_and_value extends stack_ast_container_silent
+        implements cas_value_extractor, cas_latex_extractor {
 
     private $conditions;
     private $evaluated;

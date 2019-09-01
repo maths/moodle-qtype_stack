@@ -173,7 +173,7 @@ foreach ($questions as $id) {
                 $workedsolution = $question->get_generalfeedback_castext();
                 $workedsolution->get_display_castext();
             }
-        } catch(Exception $erendersolution) {
+        } catch (Exception $erendersolution) {
             cli_writeln(' Solution render issues in ' . $id->id . ': ' . $question->name);
             $fails = true;
         }
@@ -192,7 +192,7 @@ foreach ($questions as $id) {
                 cli_writeln(' Potenttial teachers answer issues in ' . $id->id . ': ' . $question->name);
                 $fails = true;
             }
-        } catch(Exception $etestta) {
+        } catch (Exception $etestta) {
             cli_writeln(' Teachers answer issues in ' . $id->id . ': ' . $question->name);
             $fails = true;
         }

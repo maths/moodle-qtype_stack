@@ -80,7 +80,6 @@ class stack_ast_filter_003_no_dot_dot implements stack_cas_astfilter {
                         }
                     }
 
-
                     if (!$ok && !$node->is_invalid()) {
                         $node->position['invalid'] = true;
                         // No need to warn about this if we are already invalid due to whatever reason.

@@ -306,7 +306,7 @@ class stack_cas_text {
             $this->validate();
         }
 
-        // If we fail to complete the instantiation now then it makes little sense 
+        // If we fail to complete the instantiation now then it makes little sense
         // to try again.
         $this->instantiated = false;
 

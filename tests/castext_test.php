@@ -247,12 +247,15 @@ class stack_cas_text_test extends qtype_stack_testcase {
     }
 
     public function test_get_all_raw_casstrings_foreach() {
-        $raw = 'Take {@x^2+2*x@} and then [[ foreach t="[1,2,3]"]]{@t@}[[/foreach]].';
+        $raw = 'Take {@x^2+2*x@} and then[[ foreach t="[1,2,3]"]] {@t@}[[/foreach]].';
         $at1 = new stack_cas_text($raw, null, 0);
         // Here the list is iterated over and the t-variable appears multiple times.
         $kv = $at1->get_session()->get_keyval_representation();
-        $val = "x^2+2*x;\n[1,2,3];\nt:1;\nt;\nt:2;\nt;\nt:3;\nt;";
+        $val = "t:1;\nt;\nt:2;\nt;\nt:3;\nt;";
         $this->assertEquals($val, $kv);
+
+        $text = 'Take \({x^2+2\cdot x}\) and then \({1}\) \({2}\) \({3}\).';
+        $this->assertEquals($text, $at1->get_display_castext());
     }
 
     public function test_get_all_raw_casstrings_empty() {
@@ -265,7 +268,7 @@ class stack_cas_text_test extends qtype_stack_testcase {
 
     public function test_get_all_raw_casstrings_session() {
 
-        $sa = array('p:diff(sans)', 'q = int(tans)');
+        $sa = array('p:diff(sans,x)', 'q = int(tans,x)');
         foreach ($sa as $s) {
             $s1[] = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security(), array());
         }
@@ -275,7 +278,7 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $at1 = new stack_cas_text($raw, $cs1, 0);
         $kv = $at1->get_session()->get_keyval_representation();
         // Note the equation is no longer missing from the keyval representation here.
-        $val = "p:diff(sans);\nq = int(tans);\n1/(1+x^2);\nsin(z^2);";
+        $val = "p:diff(sans,x);\nq = int(tans,x);\n1/(1+x^2);\nsin(z^2);";
         $this->assertEquals($val, $kv);
     }
 

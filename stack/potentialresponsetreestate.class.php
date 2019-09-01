@@ -176,9 +176,23 @@ class stack_potentialresponse_tree_state {
      * @return string the feedback with question variables substituted.
      */
     public function substitue_variables_in_feedback($feedback) {
-        $feedbackct = new stack_cas_text($feedback, $this->cascontext, $this->seed);
+        // In this case, we want to get as much castext as possible back to a student.
+        // Some variables might have created a run time error (e.g. division by zero).
+        // These errors render $this->cascontext invalid, so the castext will not evaluate.
+        // However, many (most?) of the variables will exist, and we can generate decent partial castext.
+        // We prune out any invalid variables at this stage.
+        $sessionvars = $this->cascontext->get_session();
+        $cleanvars = array();
+        foreach ($sessionvars as $var) {
+            if ($var->get_valid()) {
+                $cleanvars[] = $var;
+            }
+        }
+        $cleansession = new stack_cas_session2($cleanvars, null, $this->seed);
+        $feedbackct = new stack_cas_text($feedback, $cleansession, $this->seed);
         $result = $feedbackct->get_display_castext();
         $this->_errors = trim($this->_errors . ' ' . $feedbackct->get_errors());
+        $this->_errors = trim($this->_errors . ' ' . $this->cascontext->get_errors());
         return $result;
     }
 

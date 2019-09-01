@@ -158,6 +158,9 @@ class stack_potentialresponse_tree {
             $cascontext->add_statements($node->get_context_variables($key));
         }
 
+        // Reset simplification to the PRT setting for later castext evaluation.
+        $cascontext->add_statement($cs);
+
         if ($cascontext->get_valid()) {
             $cascontext->instantiate();
         }

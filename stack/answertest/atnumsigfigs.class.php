@@ -102,8 +102,6 @@ class stack_anstest_atnumsigfigs extends stack_anstest {
         if ('ATNumSigFigs' == $this->casfunction && $requiredaccuracy == -1) {
             $condoneextrasigfigs = true;
             $requiredaccuracy = $requiredsigfigs;
-            // Change the options going into the CAS.
-            $atopt = "[$requiredsigfigs,$requiredsigfigs]";
         }
 
         if (null == $atopt or '' == $atopt or 0 === $atopt or $requiredsigfigs <= 0

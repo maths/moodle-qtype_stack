@@ -1318,15 +1318,19 @@ class stack_answertest_test_data {
         array('NumSigFigs', '[4,-1]', '0.1429' ,'1/7', 1, '', ''),
         array('NumSigFigs', '[4,-1]', '0.1428' ,'1/7', 0, 'ATNumSigFigs_Inaccurate.', ''),
         array('NumSigFigs', '[4,-1]', '0.143' ,'1/7', 0, 'ATNumSigFigs_WrongDigits. ATNumSigFigs_Inaccurate.', ''),
+        // Too many sig figs, which is condoned.
+        array('NumSigFigs', '[4,-1]', '0.14284' ,'1/7', 0, 'ATNumSigFigs_Inaccurate.', ''),
         array('NumSigFigs', '[4,-1]', '0.14285' ,'1/7', 1, '', ''),
-        // Rounded correctly to 5 s.f.
         array('NumSigFigs', '[4,-1]', '0.14286' ,'1/7', 1, '', ''),
-        // Extra final digit, incorrectly rounded but condoned.
+        array('NumSigFigs', '[4,-1]', '0.14291' ,'1/7', 1, '', ''),
+        array('NumSigFigs', '[4,-1]', '0.14294' ,'1/7', 1, '', ''),
+        // Incorrectly rounded means to 4 s.f. this is too large.
+        array('NumSigFigs', '[4,-1]', '0.14295' ,'1/7', 0, 'ATNumSigFigs_Inaccurate.', ''),
         array('NumSigFigs', '[2,-1]', '0.142' ,'1/7', 1, '', ''),
-        array('NumSigFigs', '[2,-1]', '0.143' ,'1/7', 1, '', ''),
-        array('NumSigFigs', '[2,-1]', '0.144' ,'1/7', 1, '', ''),
         array('NumSigFigs', '[2,-1]', '0.14290907676' ,'1/7', 1, '', ''),
-        // While this rounds up to 2 sig figs, we mark is a right because is it basically close enough.
+        array('NumSigFigs', '[2,-1]', '0.143' ,'1/7', 1, '', ''),
+        array('NumSigFigs', '[2,-1]', '0.1433333' ,'1/7', 1, '', ''),
+        array('NumSigFigs', '[2,-1]', '0.144' ,'1/7', 1, '', ''),
         array('NumSigFigs', '[2,-1]', '0.145' ,'1/7', 1, '', ''),
         array('NumSigFigs', '[2,-1]', '0.146' ,'1/7', 0, 'ATNumSigFigs_Inaccurate.', ''),
         // Teacher does not give a float.

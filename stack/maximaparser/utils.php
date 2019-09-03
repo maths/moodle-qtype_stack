@@ -35,9 +35,18 @@ class maxima_parser_utils {
 
     // Parses a string of Maxima code to an AST tree for use elsewhere.
     public static function parse(string $code, string $parserule = 'Root'): MP_Node {
-            $parser = new MP_Parser();
-            return $parser->parse($code, array('startRule' => $parserule,
-                                               'letToken' => stack_string('equiv_LET')));
+        static $cache = array();
+        if ($parserule === 'Root' && isset($cache[$code])) {
+            return clone $cache[$code];
+        }
+
+        $parser = new MP_Parser();
+        $ast = $parser->parse($code, array('startRule' => $parserule,
+                                           'letToken' => stack_string('equiv_LET')));
+        if ($parserule === 'Root') {
+            $cache[$code] = clone $ast;
+        }
+        return $ast;
     }
 
     // Takes a raw tree and the matching source code and remaps the positions from char to line:linechar

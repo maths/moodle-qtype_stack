@@ -444,17 +444,31 @@ class stack_cas_security {
      * Returns all keys that we know of that are equal in case insensitive sense.
      */
     public function get_case_variants(string $identifier, string $type='variable'): array {
+        static $cache = null;
+        if ($cache === null) {
+            $cache = array();
+            foreach (self::$securitymap as $key => $duh) {
+                $k = strtolower($key);
+                if (isset($cache[$k])) {
+                    $cache[$k][] = $key;
+                } else {
+                    $cache[$k] = array($key);
+                }
+            }
+        }
+
         // TODO: should this be typed? i.e. return only function or variable
         // identifiers on demand? And should it drop forbidden items?
         $r = array();
         $l = strtolower($identifier);
-        foreach (self::$securitymap as $key => $duh) {
-            if (strtolower($key) === $l) {
-                if (isset($duh[$type])) {
+        if (isset($cache[$l])) {
+            foreach ($cache[$l] as $key) {
+                $data = self::$securitymap[$key];
+                if (isset($data[$type])) {
                     $r[] = $key;
-                } else if ($type === 'variable' && isset($duh['constant'])) {
+                } else if ($type === 'variable' && isset($data['constant'])) {
                     $r[] = $key;
-                } else if ($type === 'constant' && isset($duh['variable'])) {
+                } else if ($type === 'constant' && isset($data['variable'])) {
                     $r[] = $key;
                 }
             }

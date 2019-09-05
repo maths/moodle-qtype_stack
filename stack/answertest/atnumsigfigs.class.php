@@ -105,7 +105,7 @@ class stack_anstest_atnumsigfigs extends stack_anstest {
         }
 
         if (null == $atopt or '' == $atopt or 0 === $atopt or $requiredsigfigs <= 0
-                or $requiredaccuracy < 0 or !ctype_digit($requiredsigfigs) or !ctype_digit($requiredaccuracy)) {
+                or $requiredaccuracy < 0) {
             $this->aterror      = 'TEST_FAILED';
             $this->atfeedback   = stack_string('TEST_FAILED', array('errors' => stack_string("AT_MissingOptions")));
             $this->atansnote    = 'STACKERROR_OPTION.';
@@ -187,7 +187,7 @@ class stack_anstest_atnumsigfigs extends stack_anstest {
         new stack_cas_security());
         if (stack_ans_test_controller::process_atoptions($this->atname)) {
             // We must not clone the original atoptions as it might not have variables evaluated.
-            $ops = stack_ast_container::make_from_teacher_source('STACKOP:' . $atopt, '', new stack_cas_security());
+            $ops = stack_ast_container::make_from_teacher_source('STACKOP:' . $atopt . ',simp', '', new stack_cas_security());
             $result = stack_ast_container::make_from_teacher_source("result:{$this->casfunction}(STACKSA,STACKTA,STACKOP)", '',
             new stack_cas_security());
         }

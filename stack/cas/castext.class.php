@@ -357,7 +357,8 @@ class stack_cas_text {
         }
 
         // Deal with castext without any CAS variables.
-        if (null !== $this->session && count($this->session->get_session()) > 0) {
+        if (null !== $this->session && null !== $this->session->get_session()
+                && count($this->session->get_session()) > 0) {
             $this->session->instantiate();
         }
 

@@ -238,7 +238,7 @@ define(["qtype_stack/jsxgraphcore-lazy"], function(JXG) {
                 point1.board.on('update', function() {
                     // We do not want to set the input before the point actually moves.
                     if (initial1X !== point1.X() || initial1Y !== point1.Y()) {
-                        var tmp = JSON.stringify([[point1.X(), point1.Y()],[point2.X() - point1.X(), point2.Y() - point2.X()]]);
+                        var tmp = JSON.stringify([[point1.X(), point1.Y()],[point2.X() - point1.X(), point2.Y() - point1.Y()]]);
                         initial1X = false; // ignore these after initial change.
                         initial1Y = false;
                         if (theInput.value != tmp) {
@@ -263,7 +263,7 @@ define(["qtype_stack/jsxgraphcore-lazy"], function(JXG) {
                 point2.board.on('update', function() {
                     // We do not want to set the input before the point actually moves.
                     if (initial2X !== point2.X() || initial2Y !== point2.Y()) {
-                        var tmp = JSON.stringify([[point1.X(), point1.Y()],[point2.X() - point1.X(), point2.Y() - point2.X()]]);
+                        var tmp = JSON.stringify([[point1.X(), point1.Y()],[point2.X() - point1.X(), point2.Y() - point1.Y()]]);
                         initial2X = false; // ignore these after initial change.
                         initial2Y = false;
                         if (theInput.value != tmp) {
@@ -281,7 +281,7 @@ define(["qtype_stack/jsxgraphcore-lazy"], function(JXG) {
                     }
                 });
 
-                var lastValue = JSON.stringify([[point1.X(), point1.Y()],[point2.X() - point1.X(), point2.Y() - point2.X()]]);
+                var lastValue = JSON.stringify([[point1.X(), point1.Y()],[point2.X() - point1.X(), point2.Y() - point1.Y()]]);
 
                 // Then from input to graph. 'input' for live stuff and 'change' for other.
                 theInput.addEventListener('input', function(e) {

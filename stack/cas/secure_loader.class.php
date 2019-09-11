@@ -73,3 +73,15 @@ class stack_secure_loader implements cas_evaluatable {
         return '';
     }
 }
+
+class stack_secure_loader_value extends stack_secure_loader implements cas_value_extractor {
+    private $value;   
+
+    public function set_cas_evaluated_value(MP_Node $ast) {
+        $this->value = $ast;
+    }
+
+    public function get_value() {
+        return $this->ast;
+    }
+}

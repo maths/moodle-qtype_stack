@@ -23,15 +23,13 @@ Computer algebra systems each use a different syntax to denote the assignment of
 For example, Maple and Derive use `:=`. Mathematica uses `=` or `:=`, depending on when the assignment is to take place.
 Maxima uses the form `key:value`, which is unusual and not intuitive.
 Maxima reserves `:=` to denote function definition, e.g. `f(x):=x^2`.
-
-__STACK 3 now uses Maxima's assignment rules.  This is a change from STACK 2.__  Questions will be imported and quietly changed.
+STACK uses Maxima's assignment rules.
 
 ## Notes ##
 
 * Items are separated by either a newline or ;
-* Adding `;` at the end of each statement is optional, but makes it easier to cut and paste into a Maxima session.
-* If you type a string not in the form `key : value`, a variable name such as `dumvar3` will be
-    assigned automatically to keep track of the command in the list of question variables.
+* Adding `;` at the end of each statement is optional, but makes it easier to cut and paste into a Maxima session.  Please add these.
+* If you type a string not in the form `key : value`, a variable name such as `dumvar3` will be assigned automatically to keep track of the command in the list of question variables.
 * If a student uses a variable longer than one letter in length which has been assigned a value in the question variables then the attempt will be rejected as invalid.
     Hence, it is a sensible idea to use variable names which are not used as parameters.
     For example if you set an integration question then you should avoid using the variable `c`, otherwise students won't be able to write `+c` in the normal way to indicate a constant of integration.
@@ -75,4 +73,18 @@ You must use a new variable name.
 When an answer test is evaluated, if the SA or TA field is exactly the name of an input then the raw student's value is used, and not the value from the feedback variables. 
 This is because some of the answer tests require exactly what is typed (e.g. trailing zeros) and not the value through the CAS.  
 To avoid this problem authors must use new variable names to distinguish between the actual input typed by the student and any calculated value.
+
+## Creating variable names ##
+
+Teachers may not use the Maxima 'concat' command, so you cannot create variable names of your own using code of the following form.
+
+    vars:makelist(concat(x,k),k,1,5);
+
+Instead use
+
+    vars0:stack_var_makelist(k, 5);
+
+If you want to start numbering at 1 instead of 0, use
+
+    vars1:rest(stack_var_makelist(k, 6));
 

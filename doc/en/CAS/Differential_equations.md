@@ -57,15 +57,16 @@ It also provides many intermediate steps which are useful for a worked solution.
 
 Maxima functions such as solve and ode2 add arbitrary constants, such as constants of integration.  In Maxima these are indicated adding constants which begin with percentage characters.  For example,
 
-    assume(x>0);
     eq1:x^2*'diff(y,x) + 3*y*x = sin(x)/x;
     sol:ode2(eq1,y,x);
 
 results in
 
-    y = (%c-cos(x))/x^3;
+    y = (%c-cos(x))/x^3
 
-Notice the `%c` in this example. We need a function to strip out the variables starting with `%`, especially as these are sometimes numbered and we want to use a definite letter, or sequence for the constants.
+Notice the `%c` in this example.
+STACK forbids the use of the `%` character for security reasons: you can refer to previous sessions for example.
+Therefore, we need a function to strip out the variables starting with `%`.
 
 The function `stack_strip_percent(ex,var)` replaces all variable names  starting with `%` with those in `var`.
 There are two ways to use this.
@@ -75,28 +76,32 @@ There are two ways to use this.
 
 For example
 
-    stack_strip_percent(y = (%c-cos(x))/x^3,k);
+    stack_strip_percent(y = (%c-cos(x))/x^3,k)
 
 returns
 
-    y = (k[1]-cos(x))/x^3;
+    y = (k[1]-cos(x))/x^3
 
 This is displayed in STACK using subscripts, which is natural.
 The unevaluated list method also does not need to know how many % signs appear in the expression.
 The other usage is to provide explicit names for each variable, but the list must be longer than the number of constants in `ex`, e.g.
 
-    stack_strip_percent(y = (%c-cos(x))/x^3,[c1,c2]);
+    stack_strip_percent(y = (%c-cos(x))/x^3,[c1,c2])
 
 which returns
 
-    y = (c1-cos(x))/x^3;
+    y = (c1-cos(x))/x^3
+
+If you need to create a list of numbered variables use
+
+    vars0:stack_var_makelist(k, 5);
+    vars1:rest(stack_var_makelist(k, 6));
 
 The following example question variables can be used within STACK.
 
-    assume(x>0);
-    ode : x^2*'diff(y,x) + 3*y*x = sin(x)/x;
-    sol : stack_strip_percent(ode2(ode,y,x),[k]);
-    ta  : rhs(ev(sol,nouns));
+    ode = x^2*'diff(y,x) + 3*y*x = sin(x)/x
+    sol = stack_strip_percent(ode2(ode,y,x),[k])
+    ta = rhs(ev(sol,nouns))
 
 Note, you may need to use the Option "assume positive" to get ODE to evaluate the integrals formally and hence "solve correctly".
 

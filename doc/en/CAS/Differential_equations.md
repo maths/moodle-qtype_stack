@@ -92,6 +92,11 @@ which returns
 
     y = (c1-cos(x))/x^3
 
+If you need to create a list of numbered variables use
+
+    vars0:stack_var_makelist(k, 5);
+    vars1:rest(stack_var_makelist(k, 6));
+
 The following example question variables can be used within STACK.
 
     ode = x^2*'diff(y,x) + 3*y*x = sin(x)/x

@@ -1094,4 +1094,25 @@ class stack_cas_text_test extends qtype_stack_testcase {
 
         $this->assertEquals('a, b, c and "a, b, c".', $at2->get_display_castext());
     }
+
+    public function test_stack_var_makelist() {
+        $a2 = array('vars0:stack_var_makelist(k, 5)',
+            'vars1:rest(stack_var_makelist(k, 6))');
+        $s2 = array();
+        foreach ($a2 as $s) {
+            $cs = new stack_cas_casstring($s);
+            $cs->get_valid('t');
+            $this->assertTrue($cs->get_valid());
+            $s2[] = $cs;
+        }
+        $cs2 = new stack_cas_session($s2, null, 0);
+
+        $at1 = new stack_cas_text('{@vars0@} and {#vars1#}', $cs2, 0, 't');
+        $this->assertTrue($at1->get_valid());
+        $at1->get_display_castext();
+
+        $this->assertEquals('\({\left[ {\it k_0} , {\it k_1} , {\it k_2} , {\it k_3} , {\it k_4} , {\it k_5} \right]}\) ' .
+                'and [k1,k2,k3,k4,k5,k6]',
+            $at1->get_display_castext());
+    }
 }

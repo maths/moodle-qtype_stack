@@ -832,7 +832,7 @@ stack_singlevar_make(ex) := block([vars, subs],
 stack_var_makelist(ex, n1) := block(
     if not(atom(ex)) then error("stack_var_makelist: first argument must be an atom"),
     if not(integerp(n1)) or not(ev(is(n1>=0), simp)) then error("stack_var_makelist: second argument must be a non-negative integer"),
-    return(ev(makelist(concat(ex,k), k, 0, n1), simp))
+    return(ev(makelist(vconcat(ex,k), k, 0, n1), simp))
 )$
 
 /* Spot the very specific pattern x=1 nounor 2 instead of x=1 nounor x=2. */

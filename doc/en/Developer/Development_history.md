@@ -2,6 +2,16 @@
 
 For current and future plans, see [Development track](Development_track.md) and [Future plans](Future_plans.md).
 
+## Version 4.2.2
+
+Released September 2019.
+
+* Removed the Maxima MathML code (which wasn't connected or used).
+* Add in metadata system to the documentation (Thanks to Malthe Sporring for this suggestion).
+* Add in extra option `simp` to inputs.
+* Add in extra options in the input `allowempty` and `hideanswer`.
+* Review and updated documentation (thanks to Malthe Sporring).
+
 ## Version 4.2.1
 
 Released August 2018.

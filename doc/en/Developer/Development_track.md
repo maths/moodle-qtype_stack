@@ -17,16 +17,10 @@ CHANGES:
 DONE:
 
 * Add in full parser, to address issue #324.
-* Removed the Maxima MathML code (which wasn't connected or used).
-* Add in metadata system to the documentation (Thanks to Malthe Sporring for this suggestion).
-* Add in extra option `simp` to inputs.
-* Add in extra options in the input `allowempty` and `hideanswer`.
-* Review and updated documentation (thanks to Malthe Sporring).
 
 ## Other things to fix
 
 1. Matrix instant validation does not appear to work.
-
 
 ## Version 4.4
 

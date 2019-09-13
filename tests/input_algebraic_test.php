@@ -894,4 +894,22 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         $this->assertEquals('', $state->errors);
         $this->assertEquals('\[ {x \pm a}={y \pm b} \]', $state->contentsdisplayed);
     }
+
+    public function test_validate_student_response_with_align_right() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('algebraic', 'sans1', '1/2');
+        $el->set_parameter('options', 'align:right');
+        $state = $el->validate_student_response(array('sans1' => 'sin(x)'), $options, '3.14', new stack_cas_security());
+        // In this case empty responses jump straight to score.
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('sin(x)', $state->contentsmodified);
+        $this->assertEquals('\[ \sin \left( x \right) \]', $state->contentsdisplayed);
+        $this->assertEquals('', $state->errors);
+        $this->assertEquals('A correct answer is <span class="filter_mathjaxloader_equation"><span class="nolink">' .
+                '\[ \[ \sin \left( x \right) \]</span></span> \), which can be typed in as follows: <code>sin(x)</code>',
+                $el->get_teacher_answer_display($state->contentsmodified, $state->contentsdisplayed));
+        $this->assertEquals('<input type="text" name="stack1__ans1" id="stack1__ans1" size="16.5" ' .
+                'style="width: 13.6em" autocapitalize="none" spellcheck="false" class="algebraic-right" value="sin(x)" />',
+                $el->render($state, 'stack1__ans1', false, null));
+    }
 }

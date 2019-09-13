@@ -314,6 +314,12 @@ abstract class stack_input {
                     }
                     break;
 
+                case 'align':
+                    if ($arg !== 'left' && $arg !== 'right') {
+                        $this->errors[] = stack_string('inputopterr', array('opt' => $option, 'val' => $arg));
+                    }
+                    break;
+
                 default:
                     $this->errors[] = stack_string('inputoptionunknown', $option);
             }

@@ -23,6 +23,12 @@
 .que.stack input[type=text] {
     max-width: 100%;
 }
+.que.stack .numerical-right,
+.que.stack .algebraic-right,
+.que.stack .algebraic-units-right {
+    max-width: 100%;
+    text-align: right;
+}
 .que.stack .stackinputfeedback.empty {
     display: none;
 }

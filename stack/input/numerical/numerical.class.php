@@ -44,7 +44,8 @@ class stack_numerical_input extends stack_input {
         // Require min/max number of significant figures?
         'minsf' => false,
         'maxsf' => false,
-        'allowempty' => false
+        'allowempty' => false,
+        'align' => 'left'
     );
 
     public function render(stack_input_state $state, $fieldname, $readonly, $tavalue) {
@@ -64,6 +65,9 @@ class stack_numerical_input extends stack_input {
             'spellcheck'     => 'false',
             'class'     => 'numerical',
         );
+        if ($this->extraoptions['align'] === 'right') {
+            $attributes['class'] = 'numerical-right';
+        }
 
         $value = $this->contents_to_maxima($state->contents);
         if ($this->is_blank_response($state->contents)) {

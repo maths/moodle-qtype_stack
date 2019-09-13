@@ -38,7 +38,8 @@ class stack_units_input extends stack_input {
         // Require min/max number of significant figures?
         'minsf' => false,
         'maxsf' => false,
-        'allowempty' => false
+        'allowempty' => false,
+        'align' => 'left'
     );
 
 
@@ -59,6 +60,9 @@ class stack_units_input extends stack_input {
             'spellcheck'     => 'false',
             'class'     => 'algebraic-units',
         );
+        if ($this->extraoptions['align'] === 'right') {
+            $attributes['class'] = 'algebraic-units-right';
+        }
 
         if ($state->contents == 'EMPTYANSWER') {
             // Active empty choices don't result in a syntax hint again (with that option set).

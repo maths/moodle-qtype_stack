@@ -17,6 +17,7 @@ CHANGES:
 DONE:
 
 * Add in full parser, to address issue #324.
+* Add in input option 'align'.
 
 ## Other things to fix
 

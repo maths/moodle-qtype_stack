@@ -297,6 +297,10 @@ You may need to `ev(ans1,simp)` explicitly in any potential response tree.
 
 It makes no sense to simplify the equivalence reasoning input type, so this has been omitted.
 
+### Extra option: align ###
+
+Controls if the student's answer is aligned 'left' or 'right' within the input box.
+
 ## Extra options ##
 
 In the future we are likely to add additional functionality via the _extra options_ fields.  This is because the form-based support becomes ever more complex, intimidating and difficult to navigate.
@@ -348,6 +352,7 @@ min/max sf/dp     |  .  |  Y  |  Y    |   .    |   .   |   .   |   .  |  .  |   
 `allowempty`   |  Y  |  Y  |  Y    |   Y    |   .   |   .   |   .  |  Y  |    .     |   .   |   .    |   .  
 `hideanswer`   |  .  |  .  |  .    |   .    |   .   |   .   |   .  |  .  |    .     |   .   |   Y    |   .  
 `simp`            |  Y  |  Y  |  Y    |   Y    |   .   |   .   |   .  |  .  |    Y     |   .   |   .    |   .  
+`align`        |  Y  |  Y  |  Y    |   .    |   .   |   .   |   .  |  .  |    .     |   .   |   .    |   .  
 
 For documentation about the various options not documented on this page look at the pages for the specific inputs in which each option is used.
 

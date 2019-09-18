@@ -24,53 +24,23 @@ require_once(__DIR__ . '/../tests/fixtures/ast_filter_test_base.php');
  * @group qtype_stack_ast_filters
  */
 
-class stack_ast_filter_auto_gen_050_no_chained_inequalities_testcase extends qtype_stack_ast_testcase {
+class stack_ast_filter_auto_gen_090_special_forbidden_characters_testcase extends qtype_stack_ast_testcase {
 
     public function test_affected_no_units() {
         $this->security = new stack_cas_security(false);
-        $this->filter = stack_parsing_rule_factory::get_by_common_name('050_no_chained_inequalities');
-
-        $this->expect('1<=x<y^2',
-                      '1 <= x < y^2',
-                      array('chained_inequalities'),
-                      false, true);
-
-        $this->expect('1<x<3',
-                      '1 < x < 3',
-                      array('chained_inequalities'),
-                      false, true);
-
-        $this->expect('[1<x,1<y<3]',
-                      '[1 < x,1 < y < 3]',
-                      array('chained_inequalities'),
-                      false, true);
+        $this->filter = stack_parsing_rule_factory::get_by_common_name('090_special_forbidden_characters');
 
     }
 
     public function test_affected_units() {
         $this->security = new stack_cas_security(true);
-        $this->filter = stack_parsing_rule_factory::get_by_common_name('050_no_chained_inequalities');
-
-        $this->expect('1<=x<y^2',
-                      '1 <= x < y^2',
-                      array('chained_inequalities'),
-                      false, true);
-
-        $this->expect('1<x<3',
-                      '1 < x < 3',
-                      array('chained_inequalities'),
-                      false, true);
-
-        $this->expect('[1<x,1<y<3]',
-                      '[1 < x,1 < y < 3]',
-                      array('chained_inequalities'),
-                      false, true);
+        $this->filter = stack_parsing_rule_factory::get_by_common_name('090_special_forbidden_characters');
 
     }
 
     public function test_non_affected_units() {
         $this->security = new stack_cas_security(true);
-        $this->filter = stack_parsing_rule_factory::get_by_common_name('050_no_chained_inequalities');
+        $this->filter = stack_parsing_rule_factory::get_by_common_name('090_special_forbidden_characters');
 
         $this->expect('"+"(a,b)',
                       '"+"(a,b)',
@@ -382,6 +352,16 @@ class stack_ast_filter_auto_gen_050_no_chained_inequalities_testcase extends qty
                       array(),
                       true, false);
 
+        $this->expect('1<=x<y^2',
+                      '1 <= x < y^2',
+                      array(),
+                      true, false);
+
+        $this->expect('1<x<3',
+                      '1 < x < 3',
+                      array(),
+                      true, false);
+
         $this->expect('1E+3',
                       '1E+3',
                       array(),
@@ -539,6 +519,11 @@ class stack_ast_filter_auto_gen_050_no_chained_inequalities_testcase extends qty
 
         $this->expect('[1,true,"a"]',
                       '[1,true,"a"]',
+                      array(),
+                      true, false);
+
+        $this->expect('[1<x,1<y<3]',
+                      '[1 < x,1 < y < 3]',
                       array(),
                       true, false);
 
@@ -1651,7 +1636,7 @@ class stack_ast_filter_auto_gen_050_no_chained_inequalities_testcase extends qty
 
     public function test_non_affected_no_units() {
         $this->security = new stack_cas_security(false);
-        $this->filter = stack_parsing_rule_factory::get_by_common_name('050_no_chained_inequalities');
+        $this->filter = stack_parsing_rule_factory::get_by_common_name('090_special_forbidden_characters');
 
         $this->expect('"+"(a,b)',
                       '"+"(a,b)',
@@ -1963,6 +1948,16 @@ class stack_ast_filter_auto_gen_050_no_chained_inequalities_testcase extends qty
                       array(),
                       true, false);
 
+        $this->expect('1<=x<y^2',
+                      '1 <= x < y^2',
+                      array(),
+                      true, false);
+
+        $this->expect('1<x<3',
+                      '1 < x < 3',
+                      array(),
+                      true, false);
+
         $this->expect('1E+3',
                       '1E+3',
                       array(),
@@ -2120,6 +2115,11 @@ class stack_ast_filter_auto_gen_050_no_chained_inequalities_testcase extends qty
 
         $this->expect('[1,true,"a"]',
                       '[1,true,"a"]',
+                      array(),
+                      true, false);
+
+        $this->expect('[1<x,1<y<3]',
+                      '[1 < x,1 < y < 3]',
                       array(),
                       true, false);
 

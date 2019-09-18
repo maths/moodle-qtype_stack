@@ -1632,6 +1632,11 @@ class stack_ast_filter_auto_gen_031_no_trig_brackets_testcase extends qtype_stac
                       array(),
                       true, false);
 
+        $this->expect('1.2*m**2',
+                      '1.2*m**2',
+                      array(),
+                      true, false);
+
     }
 
     public function test_non_affected_no_units() {
@@ -3215,6 +3220,11 @@ class stack_ast_filter_auto_gen_031_no_trig_brackets_testcase extends qtype_stac
 
         $this->expect('rand(["sin","cos","system"])(x)',
                       'rand(["sin","cos","system"])(x)',
+                      array(),
+                      true, false);
+
+        $this->expect('1.2*m**2',
+                      '1.2*m**2',
                       array(),
                       true, false);
 

@@ -28,6 +28,7 @@ require_once(__DIR__ . '/025_no_trig_power.filter.php');
 require_once(__DIR__ . '/030_no_trig_space.filter.php');
 require_once(__DIR__ . '/031_no_trig_brackets.filter.php');
 require_once(__DIR__ . '/050_no_chained_inequalities.filter.php');
+require_once(__DIR__ . '/090_special_forbidden_characters.filter.php');
 require_once(__DIR__ . '/101_no_floats.filter.php');
 require_once(__DIR__ . '/102_no_strings.filter.php');
 require_once(__DIR__ . '/402_split_prefix_from_common_function_name.filter.php');
@@ -77,6 +78,8 @@ class stack_parsing_rule_factory {
                 return new stack_ast_filter_031_no_trig_brackets();
             case '050_no_chained_inequalities':
                 return new stack_ast_filter_050_no_chained_inequalities();
+            case '090_special_forbidden_characters':
+                return new stack_ast_filter_090_special_forbidden_characters();
             case '101_no_floats':
                 return new stack_ast_filter_101_no_floats();
             case '102_no_strings':
@@ -122,6 +125,7 @@ class stack_parsing_rule_factory {
                            '020_no_arc', '025_no_trig_power',
                            '030_no_trig_space', '031_no_trig_brackets',
                            '050_no_chained_inequalities',
+                           '090_special_forbidden_characters',
                            '101_no_floats', '102_no_strings',
                            '402_split_prefix_from_common_function_name',
                            '403_split_at_number_letter_boundary',

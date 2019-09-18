@@ -1652,6 +1652,11 @@ class stack_ast_filter_auto_gen_001_fix_call_of_a_group_or_function_testcase ext
                       array(),
                       true, false);
 
+        $this->expect('1.2*m**2',
+                      '1.2*m**2',
+                      array(),
+                      true, false);
+
     }
 
     public function test_non_affected_no_units() {
@@ -3215,6 +3220,11 @@ class stack_ast_filter_auto_gen_001_fix_call_of_a_group_or_function_testcase ext
 
         $this->expect('|x|',
                       'abs(x)',
+                      array(),
+                      true, false);
+
+        $this->expect('1.2*m**2',
+                      '1.2*m**2',
                       array(),
                       true, false);
 

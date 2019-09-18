@@ -75,6 +75,46 @@ class maxima_corrective_parser {
             }
         }
 
+        // Check for invalid chars at this point as they may prove to be difficutl to 
+        // handle latter, also strings are safe already.
+        $allowedcharsregex = '~[^' . preg_quote('0123456789,./\%&{}[]()$@!"\'?`^~*_+qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM:=><|: -', '~') . ']~u';
+        $matches = array();
+        // Check for permitted characters.
+        if (preg_match_all($allowedcharsregex, $stringles, $matches)) {
+            $invalidchars = array();
+            foreach ($matches as $match) {
+                $badchar = $match[0];
+                if (!array_key_exists($badchar, $invalidchars)) {
+                    switch ($badchar) {
+                        case "\n":
+                            $invalidchars[$badchar] = "\\n";
+                            break;
+                        case "\r":
+                            $invalidchars[$badchar] = "\\r";
+                            break;
+                        case "\t":
+                            $invalidchars[$badchar] = "\\t";
+                            break;
+                        case "\v":
+                            $invalidchars[$badchar] = "\\v";
+                            break;
+                        case "\e":
+                            $invalidchars[$badchar] = "\\e";
+                            break;
+                        case "\f":
+                            $invalidchars[$badchar] = "\\f";
+                            break;
+                        default:
+                            $invalidchars[$badchar] = $badchar;
+                    }
+                }
+            }
+            $errors[] = stack_string('stackCas_forbiddenChar', array( 'char' => implode(", ", array_unique($invalidchars))));
+            $answernote[] = 'forbiddenChar';
+            return null;
+        }
+
+
         // Missing stars patterns to fix.
         // NOTE: These patterns take into account floats, if the logic wants to
         // kill floats it can do it later after the parsing.

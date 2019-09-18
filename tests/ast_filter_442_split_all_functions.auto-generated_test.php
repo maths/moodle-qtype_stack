@@ -2152,6 +2152,11 @@ class stack_ast_filter_auto_gen_442_split_all_functions_testcase extends qtype_s
                       array(),
                       true, false);
 
+        $this->expect('1.2*m**2',
+                      '1.2*m**2',
+                      array(),
+                      true, false);
+
     }
 
     public function test_non_affected_no_units() {
@@ -3215,6 +3220,11 @@ class stack_ast_filter_auto_gen_442_split_all_functions_testcase extends qtype_s
 
         $this->expect('{}',
                       '{}',
+                      array(),
+                      true, false);
+
+        $this->expect('1.2*m**2',
+                      '1.2*m**2',
                       array(),
                       true, false);
 

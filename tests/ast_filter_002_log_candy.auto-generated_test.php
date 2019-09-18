@@ -1662,6 +1662,11 @@ class stack_ast_filter_auto_gen_002_log_candy_testcase extends qtype_stack_ast_t
                       array(),
                       true, false);
 
+        $this->expect('1.2*m**2',
+                      '1.2*m**2',
+                      array(),
+                      true, false);
+
     }
 
     public function test_non_affected_no_units() {
@@ -3215,6 +3220,11 @@ class stack_ast_filter_auto_gen_002_log_candy_testcase extends qtype_stack_ast_t
 
         $this->expect('rand(["sin","cos","system"])(x)',
                       'rand(["sin","cos","system"])(x)',
+                      array(),
+                      true, false);
+
+        $this->expect('1.2*m**2',
+                      '1.2*m**2',
                       array(),
                       true, false);
 

@@ -95,6 +95,11 @@ class stack_ast_filter_auto_gen_101_no_floats_testcase extends qtype_stack_ast_t
                       array('Illegal_floats'),
                       false, true);
 
+        $this->expect('1.2*m**2',
+                      '1.2*m**2',
+                      array('Illegal_floats'),
+                      false, true);
+
     }
 
     public function test_affected_units() {
@@ -163,6 +168,11 @@ class stack_ast_filter_auto_gen_101_no_floats_testcase extends qtype_stack_ast_t
 
         $this->expect('{1,2,3.4}',
                       '{1,2,3.4}',
+                      array('Illegal_floats'),
+                      false, true);
+
+        $this->expect('1.2*m**2',
+                      '1.2*m**2',
                       array('Illegal_floats'),
                       false, true);
 

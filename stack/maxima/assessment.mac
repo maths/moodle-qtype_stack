@@ -864,7 +864,7 @@ declare("noun=", commutative);
 declare("noun=", lassociative);
 declare("noun=", rassociative);
 
-verb_arith(ex) := block(
+verb_arith(ex) := block([a],
     ex:subst("=", "noun=", ex),
     ex:subst("+", "noun+", ex),
     ex:subst("*", "noun*", ex),
@@ -878,7 +878,7 @@ verb_arith(ex) := block(
 )$
 
 /* (4) */
-noun_arith(ex) := block(
+noun_arith(ex) := block([a],
     ex:subst("noun=", "=", ex),
     ex:subst("noun+", "+", ex),
     ex:subst("noun*", "*", ex),

@@ -119,7 +119,7 @@ class stack_cas_security {
         $this->units          = $units;
         $this->allowedwords   = $allowedwords;
         $this->forbiddenwords = $forbiddenwords;
-        $this->forbiddenkeys  = $forbiddenkeys;
+        $this->set_forbiddenkeys($forbiddenkeys);
 
         if (!is_bool($this->units)) {
             throw new stack_exception('stack_cas_security: units must be a bool.');

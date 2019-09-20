@@ -1,9 +1,9 @@
 /* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
-/* [ Created with wxMaxima version 19.08.1 ] */
+/* [ Created with wxMaxima version 13.04.2 ] */
+
 /* [wxMaxima: title   start ]
 STACK Sandbox
    [wxMaxima: title   end   ] */
-
 
 /* [wxMaxima: comment start ]
 This document loads the extra files needed for STACK.
@@ -16,7 +16,6 @@ See https://github.com/maths/moodle-qtype_stack
 
 Note, that plots *will not work* in this sandbox.
    [wxMaxima: comment end   ] */
-
 
 /* [wxMaxima: input   start ] */
 /* No trailing slash. */
@@ -75,17 +74,12 @@ load("descriptive")$
 print(sconcat("[ STACK-Maxima started, library version ", stackmaximaversion, " ]"))$
 /* [wxMaxima: input   end   ] */
 
-
 /* [wxMaxima: input   start ] */
-quantile_gamma(0.5,26896/81,81/164);
+/* Optional but useful. */
+display2d:true;
+simp:false;
+debug:true;
 /* [wxMaxima: input   end   ] */
 
-
-/* [wxMaxima: input   start ] */
-block([],stack_randseed(0), make_multsgn("dot"), make_complexJ("i"), make_arccos("cos-1"), OPT_NoFloats:true, sqrtdispflag:true, simp:true, assume_pos:false, assume_real:false, lmxchar:"[",_RESPONSE:["stack_map"],_VALUES:["stack_map"],_LATEX:["stack_map"],_DVALUES:["stack_map"],_CS2v("__stackmaximaversion",stackmaximaversion),%stmt:"s0",_EC(errcatch(p:quantile_gamma(0.5,26896/81,81/164)),""),_CS2l("p",p),_CS2dvv("p",p),_RESPONSE:stackmap_set(_RESPONSE,"timeout",false),_RESPONSE:stackmap_set(_RESPONSE,"values",_VALUES),_RESPONSE:stackmap_set(_RESPONSE,"presentation",_LATEX),_RESPONSE:stackmap_set(_RESPONSE,"display",_DVALUES),if length(%ERR)>1 then _RESPONSE:stackmap_set(_RESPONSE,"errors",%ERR),if length(%NOTES)>1 then _RESPONSE:stackmap_set(_RESPONSE,"notes",%NOTES),if length(%FEEDBACK)>1 then _RESPONSE:stackmap_set(_RESPONSE,"feedback",%FEEDBACK),print("STACK-OUTPUT-BEGINS>"),print(stackjson_stringify(_RESPONSE)),print("<STACK-OUTPUT-ENDS"))$
-/* [wxMaxima: input   end   ] */
-
-
-
-/* Old versions of Maxima abort on loading files that end in a comment. */
-"Created with wxMaxima 19.08.1"$
+/* Maxima can't load/batch files which end with a comment! */
+"Created with wxMaxima"$

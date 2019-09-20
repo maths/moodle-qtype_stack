@@ -1659,10 +1659,8 @@ class stack_cas_session2_test extends qtype_stack_testcase {
         }
     }
 
-    /*
-     * These are tests of test-case generation.
-     */
     public function test_dispvalue() {
+        // These are tests of test-case generation.
 
         $tests = array(
             array('x=dispdp(0.5,3)', 'x=0.500', 'x = 0.500', 'x = displaydp(0.5,3)'),
@@ -1716,4 +1714,21 @@ class stack_cas_session2_test extends qtype_stack_testcase {
         $this->assertEquals('y = (k[1]-cos(x))/x^3', $s1[3]->get_value());
         $this->assertEquals('y = (k-cos(x))/x^3', $s1[4]->get_value());
     }
+
+    public function test_stack_quantile_gamma() {
+        // This command has lisp throw an error.
+        $tests = array('p:quantile_gamma(0.5,26896/81,81/164)');
+
+        foreach ($tests as $key => $c) {
+            $s1[] = stack_ast_container::make_from_teacher_source($c,
+                    '', new stack_cas_security(), array());
+        }
+
+        $options = new stack_options();
+        $at1 = new stack_cas_session2($s1, $options, 0);
+        $at1->instantiate();
+
+        $this->assertEquals('163.835395267', $s1[0]->get_dispvalue());
+    }
+
 }

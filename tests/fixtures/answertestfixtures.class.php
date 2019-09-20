@@ -517,6 +517,7 @@ class stack_answertest_test_data {
         array('EqualComAss', '', '(k+8)/(k^2+4*k-12)', '(k+8)/((k-2)*(k+6))', 0, 'ATEqualComAss: (AlgEquiv:true).', ''),
         array('EqualComAss', '', '(k+7)/(k^2+4*k-12)', '(k+8)/(k^2+4*k-12)', 0, 'ATEqualComAss: (AlgEquiv:false).', ''),
         array('EqualComAss', '', '-(2*k+6)/(k^2+4*k-12)', '-(2*k+6)/(k^2+4*k-12)', 1, '', ''),
+        array('EqualComAss', '', '(a+b)/1', '(b+a)/1', 1, '', ''),
         array('EqualComAss', '', '1*x', 'x', 0, 'ATEqualComAss: (AlgEquiv:true).', 'No simplicifcation here'),
         array('EqualComAss', '', '23+0*x', '23', 0, 'ATEqualComAss: (AlgEquiv:true).', ''),
         array('EqualComAss', '', 'x+0', 'x', 0, 'ATEqualComAss: (AlgEquiv:true).', ''),

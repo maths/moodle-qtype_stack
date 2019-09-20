@@ -1840,30 +1840,33 @@ ATSysEquiv(SA,SB):=block([keepfloat,Validity, RawMark, FeedBack, AnswerNote, SAA
     if not listp(SA) then
         return(StackBasicReturn(false, false, "ATSysEquiv_SA_not_list")),
     if not listp(SB) then
-        return(StackBasicReturn(false,false,"ATSysEquiv_SB_not_list")),
+        return(StackBasicReturn(false, false, "ATSysEquiv_SB_not_list")),
 
     /* Are all list elements not atoms? */
-    if ev(all_listp(atom,SA),simp) then
+    if ev(all_listp(atom, SA), simp) then
         return(StackBasicReturn(false,false,"ATSysEquiv_SA_not_eq_list")),
-    if ev(all_listp(atom,SB),simp) then
+    if ev(all_listp(atom, SB), simp) then
         return(StackBasicReturn(false,false,"ATSysEquiv_SB_not_eq_list")),
 
     /* Are all list elements equations? */
     if ev(not all_listp(equationp, SA), simp) then
         return(StackBasicReturn(false, false, "ATSysEquiv_SA_not_eq_list")),
-    if ev(not all_listp(equationp,SB), simp) then
+    if ev(not all_listp(equationp, SB), simp) then
         return(StackBasicReturn(false, false, "ATSysEquiv_SB_not_eq_list")),
 
-    /* Turn our equations into expressions */
+    /* Turn our equations into expressions, and remove assignments. */
     S1: ev(maplist(stack_eqnprepare, stack_eval_assignments(SA)), simp),
     S2: ev(maplist(stack_eqnprepare, stack_eval_assignments(SB)), simp),
-
     /* Is S1 is empty?  This means we only had assignments in the answer,
        i.e. the answer was in a "solved" form, e.g. x=1. */
     if emptyp(S1) and ev(equal(setify(maplist(stack_eqnprepare, SA)), setify(maplist(stack_eqnprepare, flatten(solve(S2,listofvars(S2)))))),simp) then
             return([true,true,StackAddNote("","ATSysEquiv_SA_Completely_solved"),""]),
     if emptyp(S1) then
             return([true,false,StackAddNote("","ATSysEquiv_SA_Not_completely_solved"),""]),
+
+    /* Turn our equations into expressions, and keep assignments. */
+    S1: ev(maplist(stack_eqnprepare, SA), simp),
+    S2: ev(maplist(stack_eqnprepare, SB), simp),
 
     /* Is each expression a polynomial? */
     if not all_listp(polynomialpsimp, S1) then
@@ -1879,12 +1882,13 @@ ATSysEquiv(SA,SB):=block([keepfloat,Validity, RawMark, FeedBack, AnswerNote, SAA
     */
 
     varlist: listofvars(S2),
-    if not is(ev(setify(listofvars(S1)),simp)=ev(setify(varlist), simp)) then
+    if ev(not(is(setify(listofvars(S1))=setify(varlist))), simp) then
         return(ATSysEquivVars(S1,S2)),
 
     GA :ev(poly_buchberger(S1,varlist),simp),
     GB :ev(poly_buchberger(S2,varlist),simp),
     kill(S1,S2),
+
 
     /* Determine whether our two lists of polynomials have the same Grobner Bases */
     if poly_grobner_equal(GA, GB, varlist) then

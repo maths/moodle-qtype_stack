@@ -13,7 +13,7 @@ STACK requires PHP 5.6 or later.
 
 ## 2. Install gnuplot and Maxima
 
-Ensure gnuplot and [Maxima](http://maxima.sourceforge.net) are installed on your server.  Currently Maxima 5.34.1 to 5.36.1 then 5.38.0 to 5.42.2 are supported.  Please avoid versions 5.37.x which are known to have a minor bug which affects STACK.  STACK has been used with Maxima 5.25.1 to 5.36.1, but these older versions are not being actively tested. Please contact the developers to request support for other versions.
+Ensure gcc, gnuplot and [Maxima](http://maxima.sourceforge.net) are installed on your server.  Currently Maxima 5.34.1 to 5.36.1 then 5.38.0 to 5.42.2 are supported.  Please avoid versions 5.37.x which are known to have a minor bug which affects STACK.  STACK has been used with Maxima 5.25.1 to 5.36.1, but these older versions are not being actively tested. Please contact the developers to request support for other versions.
 
 We currently recommend that you use Maxima 5.38.1.
 

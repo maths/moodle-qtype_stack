@@ -498,6 +498,8 @@ class stack_answertest_test_data {
         array('EqualComAss', '', '1/(1+2*x)', '1/(2*x+1)', 1, '', ''),
         array('EqualComAss', '', '2/(4+2*x)', '1/(x+2)', 0, 'ATEqualComAss: (AlgEquiv:true).', ''),
         array('EqualComAss', '', '(a*b)/c', 'a*(b/c)', 1, '', ''),
+        // Non-trivial example of the above case.
+        array('EqualComAss', '', '((x+1)/(x*(x-1)))*(x-1)', '((x+1)*(x-1))/(x*(x-1))', 1, '', ''),
         array('EqualComAss', '', '(-x)/y', '-(x/y)', 1, '', ''),
         array('EqualComAss', '', 'x/(-y)', '-(x/y)', 0, 'ATEqualComAss: (AlgEquiv:true).', ''),
         array('EqualComAss', '', '-1/(1-x)', '1/(x-1)', 0, 'ATEqualComAss: (AlgEquiv:true).', ''),

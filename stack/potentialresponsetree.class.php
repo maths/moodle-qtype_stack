@@ -127,10 +127,12 @@ class stack_potentialresponse_tree {
             // Validating as teacher at this stage removes the problem of "allowWords" which
             // we don't have access to.  This effectively allows any words here.  But the
             // student's answer has already been through validation.
-            $cs = stack_ast_container::make_from_teacher_source($name . ':' . $ans, '',
+            $cs = stack_ast_container::make_from_teacher_source($ans, '',
                     new stack_cas_security(), array());
             // That all said, we then need to manually add in nouns to ensure these are protected.
             $cs->set_nounify(true);
+            $cs->set_key($name);
+            $cs->set_keyless(false);
             $cascontext->add_statement($cs);
         }
 

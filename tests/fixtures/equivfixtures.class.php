@@ -1346,6 +1346,16 @@ class stack_equiv_test_data {
         $newarg['outcome']   = true;
         $samplearguments[] = $newarg;
 
+        $newarg = array();
+        $newarg['title']     = "Definition chasing proof";
+        $newarg['narrative'] = "";
+        $newarg['casstring'] = '[conjugate(a)*conjugate(b),stacklet(a,x+i*y),stacklet(b,r+i*s),stackeq(conjugate(x+i*y)*conjugate(r+i*s)),'.
+            'stackeq((x-i*y)*(r-i*s)),stackeq((x*r-y*s)-i*(y*r+x*s)),stackeq(conjugate((x*r-y*s)+i*(y*r+x*s))),stackeq(conjugate((x+i*y)*(r+i*s))),'.
+            'stacklet(x+i*y,a),stacklet(r+i*s,b),stackeq(conjugate(a*b))]';
+        $newarg['debuglist'] = "[EMPTYCHAR,EMPTYCHAR,EMPTYCHAR,CHECKMARK,CHECKMARK,CHECKMARK,CHECKMARK,CHECKMARK,EMPTYCHAR,EMPTYCHAR,CHECKMARK]";
+        $newarg['outcome']   = true;
+        $samplearguments[] = $newarg;
+
         //******************************************************************************
         $newarg = array();
         $newarg['section'] = 'Limits';

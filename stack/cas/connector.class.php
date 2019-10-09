@@ -106,6 +106,9 @@ abstract class stack_cas_connection_base implements stack_cas_connection {
         $split = core_text::substr($split, 0, core_text::strpos($split, $endmark));
 
         $parsed = json_decode($split, true);
+        if ($parsed === null) {
+            $parsed = [];
+        }
         // @codingStandardsIgnoreStart
         $this->debug->log('Parsed result as', print_r($parsed, true));
         // @codingStandardsIgnoreEnd

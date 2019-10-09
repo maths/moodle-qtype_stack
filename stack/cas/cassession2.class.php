@@ -344,7 +344,7 @@ class stack_cas_session2 {
         $asts = array();
         $latex = array();
         $display = array();
-        if ($results['timeout'] === true) {
+        if (!isset($results['timeout']) || $results['timeout'] === true) {
             foreach ($this->statements as $num => $statement) {
                 $statement->set_cas_status(array("TIMEDOUT"), array(), array());
             }

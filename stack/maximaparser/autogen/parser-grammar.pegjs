@@ -41,6 +41,7 @@
    case '!!':
     return 160;
    case '^':
+   case '**':
     return 140;
    case '.':
     return 130;
@@ -76,6 +77,7 @@
    case '::=':
     return 20;
    case '^':
+   case '**':
     return 139;
    case '.':
     return 129;

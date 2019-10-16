@@ -38,12 +38,17 @@ require_once(__DIR__ . '/stack/bulktester.class.php');
 // in the middle. Useful if it crashes.
 $startfromcontextid = optional_param('startfromcontextid', 0, PARAM_INT);
 
+$skippreviouspasses = optional_param('skippreviouspasses', false, PARAM_BOOL);
+if ($skippreviouspasses) {
+    $urlparams['skippreviouspasses'] = 1;
+}
+
 // Login and check permissions.
 $context = context_system::instance();
 require_login();
 require_capability('moodle/site:config', $context);
 $PAGE->set_url('/question/type/stack/bulktestall.php',
-        array('startfromcontextid' => $startfromcontextid));
+        $urlparams + ['startfromcontextid' => $startfromcontextid]);
 $PAGE->set_context($context);
 $title = stack_string('bulktesttitle', $context->get_context_name());
 $PAGE->set_title($title);
@@ -74,10 +79,10 @@ foreach ($bulktester->get_stack_questions_by_context() as $contextid => $numstac
     echo $OUTPUT->heading(stack_string('bulktesttitle', $testcontext->get_context_name()));
     echo html_writer::tag('p', html_writer::link(
             new moodle_url('/question/type/stack/bulktestall.php',
-                array('startfromcontextid' => $testcontext->id)),
+                    $urlparams + ['startfromcontextid' => $testcontext->id]),
             stack_string('bulktestcontinuefromhere')));
 
-    list($passed, $failing) = $bulktester->run_all_tests_for_context($testcontext);
+    list($passed, $failing) = $bulktester->run_all_tests_for_context($testcontext, 'web', $skippreviouspasses);
     $allpassed = $allpassed && $passed;
     foreach ($failing as $key => $arrvals) {
         // Guard clause here to future proof any new fields from the bulk tester.

@@ -50,11 +50,15 @@ class stack_bulk_tester  {
      * Does output as we go along.
      *
      * @param context $context the context to run the tests for.
+     * @param string $outputmode 'web' or 'cli'. How to display results.
+     * @param bool $skippreviouspasses if true, don't re-run tests where the previous
+     *      result recorded in qtype_stack_qtest_results was a pass.
      * @return array with two elements:
      *              bool true if all the tests passed, else false.
      *              array of messages relating to the questions with failures.
      */
-    public function run_all_tests_for_context(context $context, $outputmode = 'web') {
+    public function run_all_tests_for_context(context $context, $outputmode = 'web',
+            $skippreviouspasses = false) {
         global $DB, $OUTPUT;
 
         // Load the necessary data.
@@ -79,8 +83,23 @@ class stack_bulk_tester  {
                 echo $OUTPUT->heading($category, 3);
             }
 
-            $questionids = $DB->get_records_menu('question',
-                    array('category' => $categoryid, 'qtype' => 'stack'), 'name', 'id,name');
+            if ($skippreviouspasses) {
+                // I think this is not strictly right. It will miss questions where
+                // you have run tests for some deployed seeds where all tests passed,
+                // but not yet run tests for some failing seeds. However, this
+                // is good enough for my needs now.
+                $questionids = $DB->get_records_sql_menu("
+                        SELECT q.id, q.name
+                          FROM {question} q
+                          LEFT JOIN {qtype_stack_qtest_results} res ON res.questionid = q.id
+                         WHERE q.category = ? AND q.qtype = ?
+                         GROUP BY q.id, q.name
+                        HAVING SUM(res.result) < COUNT(res.result) OR SUM(res.result) IS NULL
+                        ", [$categoryid, 'stack']);
+            } else {
+                $questionids = $DB->get_records_menu('question',
+                        ['category' => $categoryid, 'qtype' => 'stack'], 'name', 'id, name');
+            }
             if (!$questionids) {
                 continue;
             }

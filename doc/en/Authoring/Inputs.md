@@ -277,7 +277,15 @@ Our experience strongly suggests this option should only be used for edge cases,
 
 If you use this option when students navigate away from a page the system will "validate" the inputs, and hence any empty boxes will be considered an active empty choice by the student and will be assessed.  If you use this option there is no way to distinguish between an active empty answer choice, and a student who deletes their answer.  (The same problem occurs with radio buttons....)
 
-There are (unfortunately) some edge cases where it is useful to permit the execution of a PRT without all the inputs containing significant content.  If a teacher has three inputs `ans1`, `ans2`, `ans3`, then they can define a set in the feedback variables as follows
+There are (unfortunately) some edge cases where it is useful to permit the execution of a PRT without all the inputs containing significant content.  
+
+Assume you have three inputs `ans1`, `ans2`, `ans3` contributing to a PRT, all of which have the `allowempty` option set because you don't want to tell the student which might be empty.  Assume the correct answer has at least one entry non-empty.  Then, make the first node of the PRT check
+
+    ATAlgEquiv({ans1,ans2,ans3},{EMPTYANSWER})
+
+This checks if all inputs are empty, so if true set the score and the penalty to be zero and stop.  This prevents the student accruing a penalty if they navigate away with all the boxes empty, but the PRT will still execute an "attempt".
+
+If a teacher has three inputs `ans1`, `ans2`, `ans3`, then they can define a set in the feedback variables as follows
 
     sa:setdifference({ans1,ans2,ans3},{EMPTYANSWER})
 

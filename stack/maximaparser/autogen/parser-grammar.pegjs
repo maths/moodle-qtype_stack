@@ -185,34 +185,34 @@ Root
 
 Equivline
   = __? '=' __? exp:ExpOp {
-  /** <?php 
+  /** <?php
   $r = new MP_Prefixeq($exp);
   $r->position = array('start'=>$this->peg_reportedPos,'end'=>$this->peg_currPos);
-  return $r; 
-  ?> **/ 
+  return $r;
+  ?> **/
   return exp;
   }
   / __? 'let ' __? op:Operation __? {
-  /** <?php 
+  /** <?php
   $r = new MP_Let($op);
   $r->position = array('start'=>$this->peg_reportedPos,'end'=>$this->peg_currPos);
-  return $r; 
-  ?> **/ 
+  return $r;
+  ?> **/
   return op;
   }
   / __? let1:Identifier ' ' __? op:Operation __? & { /** return strtolower($let1->value) === strtolower($this->options['letToken']); ?> **/ return let1.value.toLowerCase() === options.letToken.toLowerCase(); } {
-  /** <?php 
+  /** <?php
   $r = new MP_Let($op);
   $r->position = array('start'=>$this->peg_reportedPos,'end'=>$this->peg_currPos);
-  return $r; 
-  ?> **/ 
+  return $r;
+  ?> **/
   return op;
   }
-  / __? exp:ExpOp __?  {/** <?php 
+  / __? exp:ExpOp __?  {/** <?php
   $r = new MP_Statement($exp,[]);
   $r->position = array('start'=>$this->peg_reportedPos,'end'=>$this->peg_currPos);
-  return $r; 
-  ?> **/ 
+  return $r;
+  ?> **/
   return exp;
   }
 
@@ -296,7 +296,7 @@ StringChars
   / '\\"' { return '"'; }
   / '\\' { return ''; } // Note that this is how Maxima does it. It throws away escapes it does not know and it only knows those two.
 
-Comment
+Comment "comment"
   = '/*' content:(Annotation / CommentChars)* '*/' {
   /** <?php
   $str = "";
@@ -326,12 +326,16 @@ Comment
   n.position = location();
   return n; }
 
-CommentChars
-  = !'*' c:. { /** <?php return $c; ?> **/ return c; }
-  / "*" a:[^/] { /** <?php return "*".$a; ?> **/ return "*" + a; }
+CommentChars "comment characters"
+  = "*" !"/" { /** <?php return "*"; ?> **/ return "*"; }
+  / "@" !AnnotationDetail { /** <?php return "@"; ?> **/ return "@"; }
+  / c:[^*@]+ { /** <?php return implode("", $c); ?> **/ return c.join(""); }
 
-Annotation
-  = '@ignore' identifiers:(_ Identifier)+ _? ';' {
+Annotation "annotation"
+  = "@" detail:AnnotationDetail { /** <?php return $detail; ?> **/ return detail; }
+
+AnnotationDetail
+  = 'ignore' identifiers:(_ Identifier)+ _? ';' {
   /** <?php
   $params = array();
   foreach ($identifiers as $el) {
@@ -345,7 +349,7 @@ Annotation
   var n = new MPAnnotation('ignore', params);
   n.position = location();
   return n; }
-  / '@function' _ func:FunctionCall _? '=>'_? result:String _?';' {
+  / 'function' _ func:FunctionCall _? '=>'_? result:String _?';' {
   /** <?php
   $params = array($func,$result);
   $r = new MP_Annotation('function', $params);
@@ -356,7 +360,7 @@ Annotation
   var n = new MPAnnotation('function', params);
   n.position = location();
   return n; }
-  / '@assume' _ variable:Identifier _? '='_? result:String _?';' {
+  / 'assume' _ variable:Identifier _? '='_? result:String _?';' {
   /** <?php
   $params = array($variable,$result);
   $r = new MP_Annotation('assume', $params);
@@ -367,7 +371,6 @@ Annotation
   var n = new MPAnnotation('assume', params);
   n.position = location();
   return n; }
-
 
 Identifier "identifier"
   = char:IdentifierStart morechars:IdentifierTail* {

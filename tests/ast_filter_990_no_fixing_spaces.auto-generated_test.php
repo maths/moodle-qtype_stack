@@ -1672,6 +1672,31 @@ class stack_ast_filter_auto_gen_990_no_fixing_spaces_testcase extends qtype_stac
                       array(),
                       true, false);
 
+        $this->expect('/* Comment */x+1',
+                      '/* Comment */x+1',
+                      array(),
+                      true, false);
+
+        $this->expect('/* Comment **/x+1',
+                      '/* Comment **/x+1',
+                      array(),
+                      true, false);
+
+        $this->expect('/** Comment */x+1',
+                      '/** Comment */x+1',
+                      array(),
+                      true, false);
+
+        $this->expect('/** Comment **/x+1',
+                      '/** Comment **/x+1',
+                      array(),
+                      true, false);
+
+        $this->expect('/*@ Comment @*/x+1',
+                      '/*@ Comment @*/x+1',
+                      array(),
+                      true, false);
+
     }
 
     public function test_non_affected_no_units() {
@@ -3225,6 +3250,31 @@ class stack_ast_filter_auto_gen_990_no_fixing_spaces_testcase extends qtype_stac
 
         $this->expect('1.2*m**2',
                       '1.2*m**2',
+                      array(),
+                      true, false);
+
+        $this->expect('/* Comment */x+1',
+                      '/* Comment */x+1',
+                      array(),
+                      true, false);
+
+        $this->expect('/* Comment **/x+1',
+                      '/* Comment **/x+1',
+                      array(),
+                      true, false);
+
+        $this->expect('/** Comment */x+1',
+                      '/** Comment */x+1',
+                      array(),
+                      true, false);
+
+        $this->expect('/** Comment **/x+1',
+                      '/** Comment **/x+1',
+                      array(),
+                      true, false);
+
+        $this->expect('/*@ Comment @*/x+1',
+                      '/*@ Comment @*/x+1',
                       array(),
                       true, false);
 

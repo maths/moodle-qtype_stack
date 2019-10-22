@@ -401,6 +401,8 @@ class MP_Parser {
     private $peg_c169;
     private $peg_c170;
     private $peg_c171;
+    private $peg_c172;
+    private $peg_c173;
 
     private function peg_f0($lines, $final) {
       $items = array();
@@ -413,26 +415,26 @@ class MP_Parser {
       $r->position = array('start'=>$this->peg_reportedPos,'end'=>$this->peg_currPos);
       return $r;
       }
-    private function peg_f1($exp) { 
+    private function peg_f1($exp) {
       $r = new MP_Prefixeq($exp);
       $r->position = array('start'=>$this->peg_reportedPos,'end'=>$this->peg_currPos);
-      return $r; 
+      return $r;
       }
-    private function peg_f2($op) { 
+    private function peg_f2($op) {
       $r = new MP_Let($op);
       $r->position = array('start'=>$this->peg_reportedPos,'end'=>$this->peg_currPos);
-      return $r; 
+      return $r;
       }
     private function peg_f3($let1, $op) { /** return strtolower($let1->value) === strtolower($this->options['letToken']); ?> **/ return let1.value.toLowerCase() === options.letToken.toLowerCase(); }
-    private function peg_f4($let1, $op) { 
+    private function peg_f4($let1, $op) {
       $r = new MP_Let($op);
       $r->position = array('start'=>$this->peg_reportedPos,'end'=>$this->peg_currPos);
-      return $r; 
+      return $r;
       }
-    private function peg_f5($exp) { 
+    private function peg_f5($exp) {
       $r = new MP_Statement($exp,[]);
       $r->position = array('start'=>$this->peg_reportedPos,'end'=>$this->peg_currPos);
-      return $r; 
+      return $r;
       }
     private function peg_f6($s) { return $s; }
     private function peg_f7($d) {
@@ -486,8 +488,11 @@ class MP_Parser {
       $r->position = array('start'=>$this->peg_reportedPos,'end'=>$this->peg_currPos);
       return $r;
       }
-    private function peg_f19($a) { return "*".$a; }
-    private function peg_f20($identifiers) {
+    private function peg_f19() { return "*"; }
+    private function peg_f20() { return "@"; }
+    private function peg_f21($c) { return implode("", $c); }
+    private function peg_f22($detail) { return $detail; }
+    private function peg_f23($identifiers) {
       $params = array();
       foreach ($identifiers as $el) {
        $params[] = $el[1];
@@ -496,24 +501,24 @@ class MP_Parser {
       $r->position = array('start'=>$this->peg_reportedPos,'end'=>$this->peg_currPos);
       return $r;
       }
-    private function peg_f21($func, $result) {
+    private function peg_f24($func, $result) {
       $params = array($func,$result);
       $r = new MP_Annotation('function', $params);
       $r->position = array('start'=>$this->peg_reportedPos,'end'=>$this->peg_currPos);
       return $r;
       }
-    private function peg_f22($variable, $result) {
+    private function peg_f25($variable, $result) {
       $params = array($variable,$result);
       $r = new MP_Annotation('assume', $params);
       $r->position = array('start'=>$this->peg_reportedPos,'end'=>$this->peg_currPos);
       return $r;
       }
-    private function peg_f23($char, $morechars) {
+    private function peg_f26($char, $morechars) {
       $r = new MP_Identifier($char.join("",$morechars));
       $r->position = array('start'=>$this->peg_reportedPos,'end'=>$this->peg_currPos);
       return $r;
       }
-    private function peg_f24($id, $val) {
+    private function peg_f27($id, $val) {
       $v = new MP_Boolean(true);
       if ($val)
        $v = $val[1];
@@ -521,12 +526,12 @@ class MP_Parser {
       $r->position = array('start'=>$this->peg_reportedPos,'end'=>$this->peg_currPos);
       return $r;
       }
-    private function peg_f25($exp, $flags) {
+    private function peg_f28($exp, $flags) {
       $r = new MP_Statement($exp,$flags);
       $r->position = array('start'=>$this->peg_reportedPos,'end'=>$this->peg_currPos);
       return $r;
       }
-    private function peg_f26($cond0, $branch0, $elifs, $branchn) {
+    private function peg_f29($cond0, $branch0, $elifs, $branchn) {
      $conds = array($cond0);
      $branches = array($branch0);
      foreach ($elifs as $el) {
@@ -538,7 +543,7 @@ class MP_Parser {
      $r->position = array('start'=>$this->peg_reportedPos,'end'=>$this->peg_currPos);
      return $r;
      }
-    private function peg_f27($cond0, $branch0, $elifs) {
+    private function peg_f30($cond0, $branch0, $elifs) {
      $conds = array($cond0);
      $branches = array($branch0);
      foreach ($elifs as $el) {
@@ -549,31 +554,31 @@ class MP_Parser {
      $r->position = array('start'=>$this->peg_reportedPos,'end'=>$this->peg_currPos);
      return $r;
      }
-    private function peg_f28($cond0, $branch0, $branch1) {
+    private function peg_f31($cond0, $branch0, $branch1) {
      $conds = array($cond0);
      $branches = array($branch0, $branch1);
      $r = new MP_If($conds,$branches);
      $r->position = array('start'=>$this->peg_reportedPos,'end'=>$this->peg_currPos);
      return $r;
      }
-    private function peg_f29($cond0, $branch0) {
+    private function peg_f32($cond0, $branch0) {
      $conds = array($cond0);
      $branches = array($branch0);
      $r = new MP_If($conds,$branches);
      $r->position = array('start'=>$this->peg_reportedPos,'end'=>$this->peg_currPos);
      return $r;
      }
-    private function peg_f30($conf, $body) {
+    private function peg_f33($conf, $body) {
      $r = new MP_Loop($body, $conf);
      $r->position = array('start'=>$this->peg_reportedPos,'end'=>$this->peg_currPos);
      return $r;
      }
-    private function peg_f31($mode, $modeparam) {
+    private function peg_f34($mode, $modeparam) {
      $r = new MP_LoopBit($mode, $modeparam);
      $r->position = array('start'=>$this->peg_reportedPos,'end'=>$this->peg_currPos);
      return $r;
      }
-    private function peg_f32($op, $trg, $op2) {
+    private function peg_f35($op, $trg, $op2) {
       $r = new MP_PostfixOp($op2,new MP_PrefixOp($op, $trg));
       if (opBind($op) > opLBind($op2)) {
        $r = new MP_PrefixOp($op,new MP_PostfixOp($op2, $trg));
@@ -581,32 +586,32 @@ class MP_Parser {
       $r->position = array('start'=>$this->peg_reportedPos, 'end'=>$this->peg_currPos);
       return opBind($r);
       }
-    private function peg_f33($op, $trg) {
+    private function peg_f36($op, $trg) {
       $r = new MP_PrefixOp($op, $trg);
       $r->position = array('start'=>$this->peg_reportedPos, 'end'=>$this->peg_currPos);
       return opBind($r);
       }
-    private function peg_f34($trg) {
+    private function peg_f37($trg) {
       $r = new MP_PrefixOp("not ", $trg);
       $r->position = array('start'=>$this->peg_reportedPos, 'end'=>$this->peg_currPos);
       return opBind($r);
       }
-    private function peg_f35($trg, $op) {
+    private function peg_f38($trg, $op) {
       $r = new MP_PostfixOp($op, $trg);
       $r->position = array('start'=>$this->peg_reportedPos, 'end'=>$this->peg_currPos);
       return opBind($r);
       }
-    private function peg_f36($lhs, $op, $rhs) {
+    private function peg_f39($lhs, $op, $rhs) {
       $r = new MP_Operation($op,$lhs,$rhs);
       $r->position = array('start'=>$this->peg_reportedPos,'end'=>$this->peg_currPos);
       return opBind($r);
       }
-    private function peg_f37($lhs, $rhs) {
+    private function peg_f40($lhs, $rhs) {
       $r = new MP_Operation('.',$lhs,$rhs);
       $r->position = array('start'=>$this->peg_reportedPos,'end'=>$this->peg_currPos);
       return opBind($r);
       }
-    private function peg_f38($exp, $tail) {
+    private function peg_f41($exp, $tail) {
       $items = array($exp);
       foreach ($tail as $el)
        $items[] = $el[3];
@@ -614,12 +619,12 @@ class MP_Parser {
       $r->position = array('start'=>$this->peg_reportedPos,'end'=>$this->peg_currPos);
       return $r;
       }
-    private function peg_f39() {
+    private function peg_f42() {
       $r = new MP_Group(array());
       $r->position = array('start'=>$this->peg_reportedPos,'end'=>$this->peg_currPos);
       return $r;
       }
-    private function peg_f40($fnc, $args, $indices) {
+    private function peg_f43($fnc, $args, $indices) {
       // So indexing the return value of a function call is possible and there are array functions.
       $inner = new MP_FunctionCall($fnc, $args[0][1]->items);
       $inner->position = mergePosition($fnc->position, $args[0][1]->position);
@@ -635,7 +640,7 @@ class MP_Parser {
       $r->position = array('start'=>$this->peg_reportedPos,'end'=>$this->peg_currPos);
       return $r;
       }
-    private function peg_f41($fnc, $args) {
+    private function peg_f44($fnc, $args) {
       // We might be calling the return value of a function...
       $inner = new MP_FunctionCall($fnc, $args[0][1]->items);
       $inner->position = mergePosition($fnc->position, $args[0][1]->position);
@@ -646,14 +651,14 @@ class MP_Parser {
       }
       return $inner;
       }
-    private function peg_f42($arg) {
+    private function peg_f45($arg) {
       // So the abs syntax candy is a very special thing that we don't actually map
       // to an object for logical use. Atleast yet.
       $f = new MP_FunctionCall(new MP_Identifier('abs'), array($arg));
       $f->position = array('start'=>$this->peg_reportedPos,'end'=>$this->peg_currPos);
       return $f;
       }
-    private function peg_f43($trg, $indices) {
+    private function peg_f46($trg, $indices) {
       $v = array();
       foreach ($indices as $ind)
        $v[] = $ind[1];
@@ -661,7 +666,7 @@ class MP_Parser {
       $r->position = array('start'=>$this->peg_reportedPos,'end'=>$this->peg_currPos);
       return $r;
       }
-    private function peg_f44($exp, $tail) {
+    private function peg_f47($exp, $tail) {
       $items = array($exp);
       foreach ($tail as $el)
        $items[] = $el[3];
@@ -669,12 +674,12 @@ class MP_Parser {
       $r->position = array('start'=>$this->peg_reportedPos,'end'=>$this->peg_currPos);
       return $r;
       }
-    private function peg_f45() {
+    private function peg_f48() {
       $r = new MP_List(array());
       $r->position = array('start'=>$this->peg_reportedPos,'end'=>$this->peg_currPos);
       return $r;
       }
-    private function peg_f46($exp, $tail) {
+    private function peg_f49($exp, $tail) {
       $items = array($exp);
       foreach ($tail as $el)
        $items[] = $el[3];
@@ -682,7 +687,7 @@ class MP_Parser {
       $r->position = array('start'=>$this->peg_reportedPos,'end'=>$this->peg_currPos);
       return $r;
       }
-    private function peg_f47() {
+    private function peg_f50() {
       $r = new MP_Set(array());
       $r->position = array('start'=>$this->peg_reportedPos,'end'=>$this->peg_currPos);
       return $r;
@@ -690,7 +695,7 @@ class MP_Parser {
 
     private function peg_parseRoot() {
 
-      $key    = $this->peg_currPos * 38 + 0;
+      $key    = $this->peg_currPos * 39 + 0;
           $cached = isset($this->peg_cache[$key]) ? $this->peg_cache[$key] : null;
 
       if ($cached) {
@@ -800,7 +805,7 @@ class MP_Parser {
 
     private function peg_parseEquivline() {
 
-      $key    = $this->peg_currPos * 38 + 1;
+      $key    = $this->peg_currPos * 39 + 1;
           $cached = isset($this->peg_cache[$key]) ? $this->peg_cache[$key] : null;
 
       if ($cached) {
@@ -1012,7 +1017,7 @@ class MP_Parser {
 
     private function peg_parseLine() {
 
-      $key    = $this->peg_currPos * 38 + 2;
+      $key    = $this->peg_currPos * 39 + 2;
           $cached = isset($this->peg_cache[$key]) ? $this->peg_cache[$key] : null;
 
       if ($cached) {
@@ -1073,7 +1078,7 @@ class MP_Parser {
 
     private function peg_parseInteger() {
 
-      $key    = $this->peg_currPos * 38 + 3;
+      $key    = $this->peg_currPos * 39 + 3;
           $cached = isset($this->peg_cache[$key]) ? $this->peg_cache[$key] : null;
 
       if ($cached) {
@@ -1129,7 +1134,7 @@ class MP_Parser {
 
     private function peg_parseFloat() {
 
-      $key    = $this->peg_currPos * 38 + 4;
+      $key    = $this->peg_currPos * 39 + 4;
           $cached = isset($this->peg_cache[$key]) ? $this->peg_cache[$key] : null;
 
       if ($cached) {
@@ -1337,7 +1342,7 @@ class MP_Parser {
 
     private function peg_parseFloatExp() {
 
-      $key    = $this->peg_currPos * 38 + 5;
+      $key    = $this->peg_currPos * 39 + 5;
           $cached = isset($this->peg_cache[$key]) ? $this->peg_cache[$key] : null;
 
       if ($cached) {
@@ -1430,7 +1435,7 @@ class MP_Parser {
 
     private function peg_parseBoolean() {
 
-      $key    = $this->peg_currPos * 38 + 6;
+      $key    = $this->peg_currPos * 39 + 6;
           $cached = isset($this->peg_cache[$key]) ? $this->peg_cache[$key] : null;
 
       if ($cached) {
@@ -1498,7 +1503,7 @@ class MP_Parser {
 
     private function peg_parseString() {
 
-      $key    = $this->peg_currPos * 38 + 7;
+      $key    = $this->peg_currPos * 39 + 7;
           $cached = isset($this->peg_cache[$key]) ? $this->peg_cache[$key] : null;
 
       if ($cached) {
@@ -1565,7 +1570,7 @@ class MP_Parser {
 
     private function peg_parseStringChars() {
 
-      $key    = $this->peg_currPos * 38 + 8;
+      $key    = $this->peg_currPos * 39 + 8;
           $cached = isset($this->peg_cache[$key]) ? $this->peg_cache[$key] : null;
 
       if ($cached) {
@@ -1684,7 +1689,7 @@ class MP_Parser {
 
     private function peg_parseComment() {
 
-      $key    = $this->peg_currPos * 38 + 9;
+      $key    = $this->peg_currPos * 39 + 9;
           $cached = isset($this->peg_cache[$key]) ? $this->peg_cache[$key] : null;
 
       if ($cached) {
@@ -1749,7 +1754,7 @@ class MP_Parser {
 
     private function peg_parseCommentChars() {
 
-      $key    = $this->peg_currPos * 38 + 10;
+      $key    = $this->peg_currPos * 39 + 10;
           $cached = isset($this->peg_cache[$key]) ? $this->peg_cache[$key] : null;
 
       if ($cached) {
@@ -1758,37 +1763,37 @@ class MP_Parser {
       }
 
       $s0 = $this->peg_currPos;
-      $s1 = $this->peg_currPos;
-      $this->peg_silentFails++;
       if ($this->input_substr($this->peg_currPos, 1) === $this->peg_c39) {
-        $s2 = $this->peg_c39;
+        $s1 = $this->peg_c39;
         $this->peg_currPos++;
       } else {
-        $s2 = $this->peg_FAILED;
+        $s1 = $this->peg_FAILED;
         if ($this->peg_silentFails === 0) {
             $this->peg_fail($this->peg_c40);
         }
       }
-      $this->peg_silentFails--;
-      if ($s2 === $this->peg_FAILED) {
-        $s1 = null;
-      } else {
-        $this->peg_currPos = $s1;
-        $s1 = $this->peg_FAILED;
-      }
       if ($s1 !== $this->peg_FAILED) {
-        if ($this->input_length > $this->peg_currPos) {
-          $s2 = $this->input_substr($this->peg_currPos, 1);
+        $s2 = $this->peg_currPos;
+        $this->peg_silentFails++;
+        if ($this->input_substr($this->peg_currPos, 1) === $this->peg_c41) {
+          $s3 = $this->peg_c41;
           $this->peg_currPos++;
         } else {
-          $s2 = $this->peg_FAILED;
+          $s3 = $this->peg_FAILED;
           if ($this->peg_silentFails === 0) {
-              $this->peg_fail($this->peg_c30);
+              $this->peg_fail($this->peg_c42);
           }
+        }
+        $this->peg_silentFails--;
+        if ($s3 === $this->peg_FAILED) {
+          $s2 = null;
+        } else {
+          $this->peg_currPos = $s2;
+          $s2 = $this->peg_FAILED;
         }
         if ($s2 !== $this->peg_FAILED) {
           $this->peg_reportedPos = $s0;
-          $s1 = $this->peg_f14($s2);
+          $s1 = $this->peg_f19();
           $s0 = $s1;
         } else {
           $this->peg_currPos = $s0;
@@ -1800,28 +1805,29 @@ class MP_Parser {
       }
       if ($s0 === $this->peg_FAILED) {
         $s0 = $this->peg_currPos;
-        if ($this->input_substr($this->peg_currPos, 1) === $this->peg_c39) {
-          $s1 = $this->peg_c39;
+        if ($this->input_substr($this->peg_currPos, 1) === $this->peg_c43) {
+          $s1 = $this->peg_c43;
           $this->peg_currPos++;
         } else {
           $s1 = $this->peg_FAILED;
           if ($this->peg_silentFails === 0) {
-              $this->peg_fail($this->peg_c40);
+              $this->peg_fail($this->peg_c44);
           }
         }
         if ($s1 !== $this->peg_FAILED) {
-          if (peg_char_class_test($this->peg_c41, $this->input_substr($this->peg_currPos, 1))) {
-            $s2 = $this->input_substr($this->peg_currPos, 1);
-            $this->peg_currPos++;
+          $s2 = $this->peg_currPos;
+          $this->peg_silentFails++;
+          $s3 = $this->peg_parseAnnotationDetail();
+          $this->peg_silentFails--;
+          if ($s3 === $this->peg_FAILED) {
+            $s2 = null;
           } else {
+            $this->peg_currPos = $s2;
             $s2 = $this->peg_FAILED;
-            if ($this->peg_silentFails === 0) {
-                $this->peg_fail($this->peg_c42);
-            }
           }
           if ($s2 !== $this->peg_FAILED) {
             $this->peg_reportedPos = $s0;
-            $s1 = $this->peg_f19($s2);
+            $s1 = $this->peg_f20();
             $s0 = $s1;
           } else {
             $this->peg_currPos = $s0;
@@ -1830,6 +1836,40 @@ class MP_Parser {
         } else {
           $this->peg_currPos = $s0;
           $s0 = $this->peg_FAILED;
+        }
+        if ($s0 === $this->peg_FAILED) {
+          $s0 = $this->peg_currPos;
+          $s1 = array();
+          if (peg_char_class_test($this->peg_c45, $this->input_substr($this->peg_currPos, 1))) {
+            $s2 = $this->input_substr($this->peg_currPos, 1);
+            $this->peg_currPos++;
+          } else {
+            $s2 = $this->peg_FAILED;
+            if ($this->peg_silentFails === 0) {
+                $this->peg_fail($this->peg_c46);
+            }
+          }
+          if ($s2 !== $this->peg_FAILED) {
+            while ($s2 !== $this->peg_FAILED) {
+              $s1[] = $s2;
+              if (peg_char_class_test($this->peg_c45, $this->input_substr($this->peg_currPos, 1))) {
+                $s2 = $this->input_substr($this->peg_currPos, 1);
+                $this->peg_currPos++;
+              } else {
+                $s2 = $this->peg_FAILED;
+                if ($this->peg_silentFails === 0) {
+                    $this->peg_fail($this->peg_c46);
+                }
+              }
+            }
+          } else {
+            $s1 = $this->peg_FAILED;
+          }
+          if ($s1 !== $this->peg_FAILED) {
+            $this->peg_reportedPos = $s0;
+            $s1 = $this->peg_f21($s1);
+          }
+          $s0 = $s1;
         }
       }
 
@@ -1840,7 +1880,7 @@ class MP_Parser {
 
     private function peg_parseAnnotation() {
 
-      $key    = $this->peg_currPos * 38 + 11;
+      $key    = $this->peg_currPos * 39 + 11;
           $cached = isset($this->peg_cache[$key]) ? $this->peg_cache[$key] : null;
 
       if ($cached) {
@@ -1849,13 +1889,53 @@ class MP_Parser {
       }
 
       $s0 = $this->peg_currPos;
-      if ($this->input_substr($this->peg_currPos, 7) === $this->peg_c43) {
+      if ($this->input_substr($this->peg_currPos, 1) === $this->peg_c43) {
         $s1 = $this->peg_c43;
-        $this->peg_currPos += 7;
+        $this->peg_currPos++;
       } else {
         $s1 = $this->peg_FAILED;
         if ($this->peg_silentFails === 0) {
             $this->peg_fail($this->peg_c44);
+        }
+      }
+      if ($s1 !== $this->peg_FAILED) {
+        $s2 = $this->peg_parseAnnotationDetail();
+        if ($s2 !== $this->peg_FAILED) {
+          $this->peg_reportedPos = $s0;
+          $s1 = $this->peg_f22($s2);
+          $s0 = $s1;
+        } else {
+          $this->peg_currPos = $s0;
+          $s0 = $this->peg_FAILED;
+        }
+      } else {
+        $this->peg_currPos = $s0;
+        $s0 = $this->peg_FAILED;
+      }
+
+      $this->peg_cache[$key] = array ("nextPos" => $this->peg_currPos, "result" => $s0 );
+
+      return $s0;
+    }
+
+    private function peg_parseAnnotationDetail() {
+
+      $key    = $this->peg_currPos * 39 + 12;
+          $cached = isset($this->peg_cache[$key]) ? $this->peg_cache[$key] : null;
+
+      if ($cached) {
+        $this->peg_currPos = $cached["nextPos"];
+        return $cached["result"];
+      }
+
+      $s0 = $this->peg_currPos;
+      if ($this->input_substr($this->peg_currPos, 6) === $this->peg_c47) {
+        $s1 = $this->peg_c47;
+        $this->peg_currPos += 6;
+      } else {
+        $s1 = $this->peg_FAILED;
+        if ($this->peg_silentFails === 0) {
+            $this->peg_fail($this->peg_c48);
         }
       }
       if ($s1 !== $this->peg_FAILED) {
@@ -1914,7 +1994,7 @@ class MP_Parser {
             }
             if ($s4 !== $this->peg_FAILED) {
               $this->peg_reportedPos = $s0;
-              $s1 = $this->peg_f20($s2);
+              $s1 = $this->peg_f23($s2);
               $s0 = $s1;
             } else {
               $this->peg_currPos = $s0;
@@ -1934,13 +2014,13 @@ class MP_Parser {
       }
       if ($s0 === $this->peg_FAILED) {
         $s0 = $this->peg_currPos;
-        if ($this->input_substr($this->peg_currPos, 9) === $this->peg_c45) {
-          $s1 = $this->peg_c45;
-          $this->peg_currPos += 9;
+        if ($this->input_substr($this->peg_currPos, 8) === $this->peg_c49) {
+          $s1 = $this->peg_c49;
+          $this->peg_currPos += 8;
         } else {
           $s1 = $this->peg_FAILED;
           if ($this->peg_silentFails === 0) {
-              $this->peg_fail($this->peg_c46);
+              $this->peg_fail($this->peg_c50);
           }
         }
         if ($s1 !== $this->peg_FAILED) {
@@ -1953,13 +2033,13 @@ class MP_Parser {
                 $s4 = null;
               }
               if ($s4 !== $this->peg_FAILED) {
-                if ($this->input_substr($this->peg_currPos, 2) === $this->peg_c47) {
-                  $s5 = $this->peg_c47;
+                if ($this->input_substr($this->peg_currPos, 2) === $this->peg_c51) {
+                  $s5 = $this->peg_c51;
                   $this->peg_currPos += 2;
                 } else {
                   $s5 = $this->peg_FAILED;
                   if ($this->peg_silentFails === 0) {
-                      $this->peg_fail($this->peg_c48);
+                      $this->peg_fail($this->peg_c52);
                   }
                 }
                 if ($s5 !== $this->peg_FAILED) {
@@ -1986,7 +2066,7 @@ class MP_Parser {
                         }
                         if ($s9 !== $this->peg_FAILED) {
                           $this->peg_reportedPos = $s0;
-                          $s1 = $this->peg_f21($s3, $s7);
+                          $s1 = $this->peg_f24($s3, $s7);
                           $s0 = $s1;
                         } else {
                           $this->peg_currPos = $s0;
@@ -2026,13 +2106,13 @@ class MP_Parser {
         }
         if ($s0 === $this->peg_FAILED) {
           $s0 = $this->peg_currPos;
-          if ($this->input_substr($this->peg_currPos, 7) === $this->peg_c49) {
-            $s1 = $this->peg_c49;
-            $this->peg_currPos += 7;
+          if ($this->input_substr($this->peg_currPos, 6) === $this->peg_c53) {
+            $s1 = $this->peg_c53;
+            $this->peg_currPos += 6;
           } else {
             $s1 = $this->peg_FAILED;
             if ($this->peg_silentFails === 0) {
-                $this->peg_fail($this->peg_c50);
+                $this->peg_fail($this->peg_c54);
             }
           }
           if ($s1 !== $this->peg_FAILED) {
@@ -2078,7 +2158,7 @@ class MP_Parser {
                           }
                           if ($s9 !== $this->peg_FAILED) {
                             $this->peg_reportedPos = $s0;
-                            $s1 = $this->peg_f22($s3, $s7);
+                            $s1 = $this->peg_f25($s3, $s7);
                             $s0 = $s1;
                           } else {
                             $this->peg_currPos = $s0;
@@ -2126,7 +2206,7 @@ class MP_Parser {
 
     private function peg_parseIdentifier() {
 
-      $key    = $this->peg_currPos * 38 + 12;
+      $key    = $this->peg_currPos * 39 + 13;
           $cached = isset($this->peg_cache[$key]) ? $this->peg_cache[$key] : null;
 
       if ($cached) {
@@ -2146,7 +2226,7 @@ class MP_Parser {
         }
         if ($s2 !== $this->peg_FAILED) {
           $this->peg_reportedPos = $s0;
-          $s1 = $this->peg_f23($s1, $s2);
+          $s1 = $this->peg_f26($s1, $s2);
           $s0 = $s1;
         } else {
           $this->peg_currPos = $s0;
@@ -2160,7 +2240,7 @@ class MP_Parser {
       if ($s0 === $this->peg_FAILED) {
         $s1 = $this->peg_FAILED;
         if ($this->peg_silentFails === 0) {
-            $this->peg_fail($this->peg_c51);
+            $this->peg_fail($this->peg_c55);
         }
       }
 
@@ -2171,7 +2251,7 @@ class MP_Parser {
 
     private function peg_parseIdentifierStart() {
 
-      $key    = $this->peg_currPos * 38 + 13;
+      $key    = $this->peg_currPos * 39 + 14;
           $cached = isset($this->peg_cache[$key]) ? $this->peg_cache[$key] : null;
 
       if ($cached) {
@@ -2179,33 +2259,33 @@ class MP_Parser {
         return $cached["result"];
       }
 
-      if (peg_char_class_test($this->peg_c52, $this->input_substr($this->peg_currPos, 1))) {
+      if (peg_char_class_test($this->peg_c56, $this->input_substr($this->peg_currPos, 1))) {
         $s0 = $this->input_substr($this->peg_currPos, 1);
         $this->peg_currPos++;
       } else {
         $s0 = $this->peg_FAILED;
         if ($this->peg_silentFails === 0) {
-            $this->peg_fail($this->peg_c53);
+            $this->peg_fail($this->peg_c57);
         }
       }
       if ($s0 === $this->peg_FAILED) {
-        if ($this->input_substr($this->peg_currPos, 1) === $this->peg_c54) {
-          $s0 = $this->peg_c54;
+        if ($this->input_substr($this->peg_currPos, 1) === $this->peg_c58) {
+          $s0 = $this->peg_c58;
           $this->peg_currPos++;
         } else {
           $s0 = $this->peg_FAILED;
           if ($this->peg_silentFails === 0) {
-              $this->peg_fail($this->peg_c55);
+              $this->peg_fail($this->peg_c59);
           }
         }
         if ($s0 === $this->peg_FAILED) {
-          if ($this->input_substr($this->peg_currPos, 1) === $this->peg_c56) {
-            $s0 = $this->peg_c56;
+          if ($this->input_substr($this->peg_currPos, 1) === $this->peg_c60) {
+            $s0 = $this->peg_c60;
             $this->peg_currPos++;
           } else {
             $s0 = $this->peg_FAILED;
             if ($this->peg_silentFails === 0) {
-                $this->peg_fail($this->peg_c57);
+                $this->peg_fail($this->peg_c61);
             }
           }
           if ($s0 === $this->peg_FAILED) {
@@ -2221,7 +2301,7 @@ class MP_Parser {
 
     private function peg_parseIdentifierTail() {
 
-      $key    = $this->peg_currPos * 38 + 14;
+      $key    = $this->peg_currPos * 39 + 15;
           $cached = isset($this->peg_cache[$key]) ? $this->peg_cache[$key] : null;
 
       if ($cached) {
@@ -2249,7 +2329,7 @@ class MP_Parser {
 
     private function peg_parseEvaluationFlag() {
 
-      $key    = $this->peg_currPos * 38 + 15;
+      $key    = $this->peg_currPos * 39 + 16;
           $cached = isset($this->peg_cache[$key]) ? $this->peg_cache[$key] : null;
 
       if ($cached) {
@@ -2263,13 +2343,13 @@ class MP_Parser {
         $s1 = null;
       }
       if ($s1 !== $this->peg_FAILED) {
-        if ($this->input_substr($this->peg_currPos, 1) === $this->peg_c58) {
-          $s2 = $this->peg_c58;
+        if ($this->input_substr($this->peg_currPos, 1) === $this->peg_c62) {
+          $s2 = $this->peg_c62;
           $this->peg_currPos++;
         } else {
           $s2 = $this->peg_FAILED;
           if ($this->peg_silentFails === 0) {
-              $this->peg_fail($this->peg_c59);
+              $this->peg_fail($this->peg_c63);
           }
         }
         if ($s2 !== $this->peg_FAILED) {
@@ -2291,13 +2371,13 @@ class MP_Parser {
                 }
               }
               if ($s6 === $this->peg_FAILED) {
-                if ($this->input_substr($this->peg_currPos, 1) === $this->peg_c60) {
-                  $s6 = $this->peg_c60;
+                if ($this->input_substr($this->peg_currPos, 1) === $this->peg_c64) {
+                  $s6 = $this->peg_c64;
                   $this->peg_currPos++;
                 } else {
                   $s6 = $this->peg_FAILED;
                   if ($this->peg_silentFails === 0) {
-                      $this->peg_fail($this->peg_c61);
+                      $this->peg_fail($this->peg_c65);
                   }
                 }
               }
@@ -2319,7 +2399,7 @@ class MP_Parser {
               }
               if ($s5 !== $this->peg_FAILED) {
                 $this->peg_reportedPos = $s0;
-                $s1 = $this->peg_f24($s4, $s5);
+                $s1 = $this->peg_f27($s4, $s5);
                 $s0 = $s1;
               } else {
                 $this->peg_currPos = $s0;
@@ -2349,7 +2429,7 @@ class MP_Parser {
 
     private function peg_parseStatement() {
 
-      $key    = $this->peg_currPos * 38 + 16;
+      $key    = $this->peg_currPos * 39 + 17;
           $cached = isset($this->peg_cache[$key]) ? $this->peg_cache[$key] : null;
 
       if ($cached) {
@@ -2373,7 +2453,7 @@ class MP_Parser {
           }
           if ($s3 !== $this->peg_FAILED) {
             $this->peg_reportedPos = $s0;
-            $s1 = $this->peg_f25($s2, $s3);
+            $s1 = $this->peg_f28($s2, $s3);
             $s0 = $s1;
           } else {
             $this->peg_currPos = $s0;
@@ -2395,7 +2475,7 @@ class MP_Parser {
 
     private function peg_parseExpOp() {
 
-      $key    = $this->peg_currPos * 38 + 17;
+      $key    = $this->peg_currPos * 39 + 18;
           $cached = isset($this->peg_cache[$key]) ? $this->peg_cache[$key] : null;
 
       if ($cached) {
@@ -2415,7 +2495,7 @@ class MP_Parser {
 
     private function peg_parseExpression() {
 
-      $key    = $this->peg_currPos * 38 + 18;
+      $key    = $this->peg_currPos * 39 + 19;
           $cached = isset($this->peg_cache[$key]) ? $this->peg_cache[$key] : null;
 
       if ($cached) {
@@ -2456,7 +2536,7 @@ class MP_Parser {
 
     private function peg_parseFlow() {
 
-      $key    = $this->peg_currPos * 38 + 19;
+      $key    = $this->peg_currPos * 39 + 20;
           $cached = isset($this->peg_cache[$key]) ? $this->peg_cache[$key] : null;
 
       if ($cached) {
@@ -2476,7 +2556,7 @@ class MP_Parser {
 
     private function peg_parseIf() {
 
-      $key    = $this->peg_currPos * 38 + 20;
+      $key    = $this->peg_currPos * 39 + 21;
           $cached = isset($this->peg_cache[$key]) ? $this->peg_cache[$key] : null;
 
       if ($cached) {
@@ -2485,13 +2565,13 @@ class MP_Parser {
       }
 
       $s0 = $this->peg_currPos;
-      if ($this->input_substr($this->peg_currPos, 2) === $this->peg_c62) {
-        $s1 = $this->peg_c62;
+      if ($this->input_substr($this->peg_currPos, 2) === $this->peg_c66) {
+        $s1 = $this->peg_c66;
         $this->peg_currPos += 2;
       } else {
         $s1 = $this->peg_FAILED;
         if ($this->peg_silentFails === 0) {
-            $this->peg_fail($this->peg_c63);
+            $this->peg_fail($this->peg_c67);
         }
       }
       if ($s1 !== $this->peg_FAILED) {
@@ -2507,13 +2587,13 @@ class MP_Parser {
               $s4 = null;
             }
             if ($s4 !== $this->peg_FAILED) {
-              if ($this->input_substr($this->peg_currPos, 4) === $this->peg_c64) {
-                $s5 = $this->peg_c64;
+              if ($this->input_substr($this->peg_currPos, 4) === $this->peg_c68) {
+                $s5 = $this->peg_c68;
                 $this->peg_currPos += 4;
               } else {
                 $s5 = $this->peg_FAILED;
                 if ($this->peg_silentFails === 0) {
-                    $this->peg_fail($this->peg_c65);
+                    $this->peg_fail($this->peg_c69);
                 }
               }
               if ($s5 !== $this->peg_FAILED) {
@@ -2531,13 +2611,13 @@ class MP_Parser {
                       $s10 = null;
                     }
                     if ($s10 !== $this->peg_FAILED) {
-                      if ($this->input_substr($this->peg_currPos, 6) === $this->peg_c66) {
-                        $s11 = $this->peg_c66;
+                      if ($this->input_substr($this->peg_currPos, 6) === $this->peg_c70) {
+                        $s11 = $this->peg_c70;
                         $this->peg_currPos += 6;
                       } else {
                         $s11 = $this->peg_FAILED;
                         if ($this->peg_silentFails === 0) {
-                            $this->peg_fail($this->peg_c67);
+                            $this->peg_fail($this->peg_c71);
                         }
                       }
                       if ($s11 !== $this->peg_FAILED) {
@@ -2553,13 +2633,13 @@ class MP_Parser {
                               $s14 = null;
                             }
                             if ($s14 !== $this->peg_FAILED) {
-                              if ($this->input_substr($this->peg_currPos, 4) === $this->peg_c64) {
-                                $s15 = $this->peg_c64;
+                              if ($this->input_substr($this->peg_currPos, 4) === $this->peg_c68) {
+                                $s15 = $this->peg_c68;
                                 $this->peg_currPos += 4;
                               } else {
                                 $s15 = $this->peg_FAILED;
                                 if ($this->peg_silentFails === 0) {
-                                    $this->peg_fail($this->peg_c65);
+                                    $this->peg_fail($this->peg_c69);
                                 }
                               }
                               if ($s15 !== $this->peg_FAILED) {
@@ -2613,13 +2693,13 @@ class MP_Parser {
                           $s10 = null;
                         }
                         if ($s10 !== $this->peg_FAILED) {
-                          if ($this->input_substr($this->peg_currPos, 6) === $this->peg_c66) {
-                            $s11 = $this->peg_c66;
+                          if ($this->input_substr($this->peg_currPos, 6) === $this->peg_c70) {
+                            $s11 = $this->peg_c70;
                             $this->peg_currPos += 6;
                           } else {
                             $s11 = $this->peg_FAILED;
                             if ($this->peg_silentFails === 0) {
-                                $this->peg_fail($this->peg_c67);
+                                $this->peg_fail($this->peg_c71);
                             }
                           }
                           if ($s11 !== $this->peg_FAILED) {
@@ -2635,13 +2715,13 @@ class MP_Parser {
                                   $s14 = null;
                                 }
                                 if ($s14 !== $this->peg_FAILED) {
-                                  if ($this->input_substr($this->peg_currPos, 4) === $this->peg_c64) {
-                                    $s15 = $this->peg_c64;
+                                  if ($this->input_substr($this->peg_currPos, 4) === $this->peg_c68) {
+                                    $s15 = $this->peg_c68;
                                     $this->peg_currPos += 4;
                                   } else {
                                     $s15 = $this->peg_FAILED;
                                     if ($this->peg_silentFails === 0) {
-                                        $this->peg_fail($this->peg_c65);
+                                        $this->peg_fail($this->peg_c69);
                                     }
                                   }
                                   if ($s15 !== $this->peg_FAILED) {
@@ -2696,13 +2776,13 @@ class MP_Parser {
                         $s9 = null;
                       }
                       if ($s9 !== $this->peg_FAILED) {
-                        if ($this->input_substr($this->peg_currPos, 4) === $this->peg_c68) {
-                          $s10 = $this->peg_c68;
+                        if ($this->input_substr($this->peg_currPos, 4) === $this->peg_c72) {
+                          $s10 = $this->peg_c72;
                           $this->peg_currPos += 4;
                         } else {
                           $s10 = $this->peg_FAILED;
                           if ($this->peg_silentFails === 0) {
-                              $this->peg_fail($this->peg_c69);
+                              $this->peg_fail($this->peg_c73);
                           }
                         }
                         if ($s10 !== $this->peg_FAILED) {
@@ -2714,7 +2794,7 @@ class MP_Parser {
                             $s12 = $this->peg_parseExpOp();
                             if ($s12 !== $this->peg_FAILED) {
                               $this->peg_reportedPos = $s0;
-                              $s1 = $this->peg_f26($s3, $s7, $s8, $s12);
+                              $s1 = $this->peg_f29($s3, $s7, $s8, $s12);
                               $s0 = $s1;
                             } else {
                               $this->peg_currPos = $s0;
@@ -2766,13 +2846,13 @@ class MP_Parser {
       }
       if ($s0 === $this->peg_FAILED) {
         $s0 = $this->peg_currPos;
-        if ($this->input_substr($this->peg_currPos, 2) === $this->peg_c62) {
-          $s1 = $this->peg_c62;
+        if ($this->input_substr($this->peg_currPos, 2) === $this->peg_c66) {
+          $s1 = $this->peg_c66;
           $this->peg_currPos += 2;
         } else {
           $s1 = $this->peg_FAILED;
           if ($this->peg_silentFails === 0) {
-              $this->peg_fail($this->peg_c63);
+              $this->peg_fail($this->peg_c67);
           }
         }
         if ($s1 !== $this->peg_FAILED) {
@@ -2788,13 +2868,13 @@ class MP_Parser {
                 $s4 = null;
               }
               if ($s4 !== $this->peg_FAILED) {
-                if ($this->input_substr($this->peg_currPos, 4) === $this->peg_c64) {
-                  $s5 = $this->peg_c64;
+                if ($this->input_substr($this->peg_currPos, 4) === $this->peg_c68) {
+                  $s5 = $this->peg_c68;
                   $this->peg_currPos += 4;
                 } else {
                   $s5 = $this->peg_FAILED;
                   if ($this->peg_silentFails === 0) {
-                      $this->peg_fail($this->peg_c65);
+                      $this->peg_fail($this->peg_c69);
                   }
                 }
                 if ($s5 !== $this->peg_FAILED) {
@@ -2812,13 +2892,13 @@ class MP_Parser {
                         $s10 = null;
                       }
                       if ($s10 !== $this->peg_FAILED) {
-                        if ($this->input_substr($this->peg_currPos, 6) === $this->peg_c66) {
-                          $s11 = $this->peg_c66;
+                        if ($this->input_substr($this->peg_currPos, 6) === $this->peg_c70) {
+                          $s11 = $this->peg_c70;
                           $this->peg_currPos += 6;
                         } else {
                           $s11 = $this->peg_FAILED;
                           if ($this->peg_silentFails === 0) {
-                              $this->peg_fail($this->peg_c67);
+                              $this->peg_fail($this->peg_c71);
                           }
                         }
                         if ($s11 !== $this->peg_FAILED) {
@@ -2834,13 +2914,13 @@ class MP_Parser {
                                 $s14 = null;
                               }
                               if ($s14 !== $this->peg_FAILED) {
-                                if ($this->input_substr($this->peg_currPos, 4) === $this->peg_c64) {
-                                  $s15 = $this->peg_c64;
+                                if ($this->input_substr($this->peg_currPos, 4) === $this->peg_c68) {
+                                  $s15 = $this->peg_c68;
                                   $this->peg_currPos += 4;
                                 } else {
                                   $s15 = $this->peg_FAILED;
                                   if ($this->peg_silentFails === 0) {
-                                      $this->peg_fail($this->peg_c65);
+                                      $this->peg_fail($this->peg_c69);
                                   }
                                 }
                                 if ($s15 !== $this->peg_FAILED) {
@@ -2894,13 +2974,13 @@ class MP_Parser {
                             $s10 = null;
                           }
                           if ($s10 !== $this->peg_FAILED) {
-                            if ($this->input_substr($this->peg_currPos, 6) === $this->peg_c66) {
-                              $s11 = $this->peg_c66;
+                            if ($this->input_substr($this->peg_currPos, 6) === $this->peg_c70) {
+                              $s11 = $this->peg_c70;
                               $this->peg_currPos += 6;
                             } else {
                               $s11 = $this->peg_FAILED;
                               if ($this->peg_silentFails === 0) {
-                                  $this->peg_fail($this->peg_c67);
+                                  $this->peg_fail($this->peg_c71);
                               }
                             }
                             if ($s11 !== $this->peg_FAILED) {
@@ -2916,13 +2996,13 @@ class MP_Parser {
                                     $s14 = null;
                                   }
                                   if ($s14 !== $this->peg_FAILED) {
-                                    if ($this->input_substr($this->peg_currPos, 4) === $this->peg_c64) {
-                                      $s15 = $this->peg_c64;
+                                    if ($this->input_substr($this->peg_currPos, 4) === $this->peg_c68) {
+                                      $s15 = $this->peg_c68;
                                       $this->peg_currPos += 4;
                                     } else {
                                       $s15 = $this->peg_FAILED;
                                       if ($this->peg_silentFails === 0) {
-                                          $this->peg_fail($this->peg_c65);
+                                          $this->peg_fail($this->peg_c69);
                                       }
                                     }
                                     if ($s15 !== $this->peg_FAILED) {
@@ -2973,7 +3053,7 @@ class MP_Parser {
                       }
                       if ($s8 !== $this->peg_FAILED) {
                         $this->peg_reportedPos = $s0;
-                        $s1 = $this->peg_f27($s3, $s7, $s8);
+                        $s1 = $this->peg_f30($s3, $s7, $s8);
                         $s0 = $s1;
                       } else {
                         $this->peg_currPos = $s0;
@@ -3009,13 +3089,13 @@ class MP_Parser {
         }
         if ($s0 === $this->peg_FAILED) {
           $s0 = $this->peg_currPos;
-          if ($this->input_substr($this->peg_currPos, 2) === $this->peg_c62) {
-            $s1 = $this->peg_c62;
+          if ($this->input_substr($this->peg_currPos, 2) === $this->peg_c66) {
+            $s1 = $this->peg_c66;
             $this->peg_currPos += 2;
           } else {
             $s1 = $this->peg_FAILED;
             if ($this->peg_silentFails === 0) {
-                $this->peg_fail($this->peg_c63);
+                $this->peg_fail($this->peg_c67);
             }
           }
           if ($s1 !== $this->peg_FAILED) {
@@ -3031,13 +3111,13 @@ class MP_Parser {
                   $s4 = null;
                 }
                 if ($s4 !== $this->peg_FAILED) {
-                  if ($this->input_substr($this->peg_currPos, 4) === $this->peg_c64) {
-                    $s5 = $this->peg_c64;
+                  if ($this->input_substr($this->peg_currPos, 4) === $this->peg_c68) {
+                    $s5 = $this->peg_c68;
                     $this->peg_currPos += 4;
                   } else {
                     $s5 = $this->peg_FAILED;
                     if ($this->peg_silentFails === 0) {
-                        $this->peg_fail($this->peg_c65);
+                        $this->peg_fail($this->peg_c69);
                     }
                   }
                   if ($s5 !== $this->peg_FAILED) {
@@ -3053,13 +3133,13 @@ class MP_Parser {
                           $s8 = null;
                         }
                         if ($s8 !== $this->peg_FAILED) {
-                          if ($this->input_substr($this->peg_currPos, 4) === $this->peg_c68) {
-                            $s9 = $this->peg_c68;
+                          if ($this->input_substr($this->peg_currPos, 4) === $this->peg_c72) {
+                            $s9 = $this->peg_c72;
                             $this->peg_currPos += 4;
                           } else {
                             $s9 = $this->peg_FAILED;
                             if ($this->peg_silentFails === 0) {
-                                $this->peg_fail($this->peg_c69);
+                                $this->peg_fail($this->peg_c73);
                             }
                           }
                           if ($s9 !== $this->peg_FAILED) {
@@ -3071,7 +3151,7 @@ class MP_Parser {
                               $s11 = $this->peg_parseExpOp();
                               if ($s11 !== $this->peg_FAILED) {
                                 $this->peg_reportedPos = $s0;
-                                $s1 = $this->peg_f28($s3, $s7, $s11);
+                                $s1 = $this->peg_f31($s3, $s7, $s11);
                                 $s0 = $s1;
                               } else {
                                 $this->peg_currPos = $s0;
@@ -3119,13 +3199,13 @@ class MP_Parser {
           }
           if ($s0 === $this->peg_FAILED) {
             $s0 = $this->peg_currPos;
-            if ($this->input_substr($this->peg_currPos, 2) === $this->peg_c62) {
-              $s1 = $this->peg_c62;
+            if ($this->input_substr($this->peg_currPos, 2) === $this->peg_c66) {
+              $s1 = $this->peg_c66;
               $this->peg_currPos += 2;
             } else {
               $s1 = $this->peg_FAILED;
               if ($this->peg_silentFails === 0) {
-                  $this->peg_fail($this->peg_c63);
+                  $this->peg_fail($this->peg_c67);
               }
             }
             if ($s1 !== $this->peg_FAILED) {
@@ -3141,13 +3221,13 @@ class MP_Parser {
                     $s4 = null;
                   }
                   if ($s4 !== $this->peg_FAILED) {
-                    if ($this->input_substr($this->peg_currPos, 4) === $this->peg_c64) {
-                      $s5 = $this->peg_c64;
+                    if ($this->input_substr($this->peg_currPos, 4) === $this->peg_c68) {
+                      $s5 = $this->peg_c68;
                       $this->peg_currPos += 4;
                     } else {
                       $s5 = $this->peg_FAILED;
                       if ($this->peg_silentFails === 0) {
-                          $this->peg_fail($this->peg_c65);
+                          $this->peg_fail($this->peg_c69);
                       }
                     }
                     if ($s5 !== $this->peg_FAILED) {
@@ -3159,7 +3239,7 @@ class MP_Parser {
                         $s7 = $this->peg_parseExpOp();
                         if ($s7 !== $this->peg_FAILED) {
                           $this->peg_reportedPos = $s0;
-                          $s1 = $this->peg_f29($s3, $s7);
+                          $s1 = $this->peg_f32($s3, $s7);
                           $s0 = $s1;
                         } else {
                           $this->peg_currPos = $s0;
@@ -3200,7 +3280,7 @@ class MP_Parser {
 
     private function peg_parseLoop() {
 
-      $key    = $this->peg_currPos * 38 + 21;
+      $key    = $this->peg_currPos * 39 + 22;
           $cached = isset($this->peg_cache[$key]) ? $this->peg_cache[$key] : null;
 
       if ($cached) {
@@ -3216,13 +3296,13 @@ class MP_Parser {
         $s2 = $this->peg_parseLoopBit();
       }
       if ($s1 !== $this->peg_FAILED) {
-        if ($this->input_substr($this->peg_currPos, 2) === $this->peg_c70) {
-          $s2 = $this->peg_c70;
+        if ($this->input_substr($this->peg_currPos, 2) === $this->peg_c74) {
+          $s2 = $this->peg_c74;
           $this->peg_currPos += 2;
         } else {
           $s2 = $this->peg_FAILED;
           if ($this->peg_silentFails === 0) {
-              $this->peg_fail($this->peg_c71);
+              $this->peg_fail($this->peg_c75);
           }
         }
         if ($s2 !== $this->peg_FAILED) {
@@ -3231,7 +3311,7 @@ class MP_Parser {
             $s4 = $this->peg_parseExpOp();
             if ($s4 !== $this->peg_FAILED) {
               $this->peg_reportedPos = $s0;
-              $s1 = $this->peg_f30($s1, $s4);
+              $s1 = $this->peg_f33($s1, $s4);
               $s0 = $s1;
             } else {
               $this->peg_currPos = $s0;
@@ -3258,20 +3338,20 @@ class MP_Parser {
           $s2 = $this->peg_parseLoopBit();
         }
         if ($s1 !== $this->peg_FAILED) {
-          if ($this->input_substr($this->peg_currPos, 2) === $this->peg_c70) {
-            $s2 = $this->peg_c70;
+          if ($this->input_substr($this->peg_currPos, 2) === $this->peg_c74) {
+            $s2 = $this->peg_c74;
             $this->peg_currPos += 2;
           } else {
             $s2 = $this->peg_FAILED;
             if ($this->peg_silentFails === 0) {
-                $this->peg_fail($this->peg_c71);
+                $this->peg_fail($this->peg_c75);
             }
           }
           if ($s2 !== $this->peg_FAILED) {
             $s3 = $this->peg_parseGroup();
             if ($s3 !== $this->peg_FAILED) {
               $this->peg_reportedPos = $s0;
-              $s1 = $this->peg_f30($s1, $s3);
+              $s1 = $this->peg_f33($s1, $s3);
               $s0 = $s1;
             } else {
               $this->peg_currPos = $s0;
@@ -3294,7 +3374,7 @@ class MP_Parser {
 
     private function peg_parseLoopBit() {
 
-      $key    = $this->peg_currPos * 38 + 22;
+      $key    = $this->peg_currPos * 39 + 23;
           $cached = isset($this->peg_cache[$key]) ? $this->peg_cache[$key] : null;
 
       if ($cached) {
@@ -3303,83 +3383,83 @@ class MP_Parser {
       }
 
       $s0 = $this->peg_currPos;
-      if ($this->input_substr($this->peg_currPos, 3) === $this->peg_c72) {
-        $s1 = $this->peg_c72;
+      if ($this->input_substr($this->peg_currPos, 3) === $this->peg_c76) {
+        $s1 = $this->peg_c76;
         $this->peg_currPos += 3;
       } else {
         $s1 = $this->peg_FAILED;
         if ($this->peg_silentFails === 0) {
-            $this->peg_fail($this->peg_c73);
+            $this->peg_fail($this->peg_c77);
         }
       }
       if ($s1 === $this->peg_FAILED) {
-        if ($this->input_substr($this->peg_currPos, 4) === $this->peg_c74) {
-          $s1 = $this->peg_c74;
+        if ($this->input_substr($this->peg_currPos, 4) === $this->peg_c78) {
+          $s1 = $this->peg_c78;
           $this->peg_currPos += 4;
         } else {
           $s1 = $this->peg_FAILED;
           if ($this->peg_silentFails === 0) {
-              $this->peg_fail($this->peg_c75);
+              $this->peg_fail($this->peg_c79);
           }
         }
         if ($s1 === $this->peg_FAILED) {
-          if ($this->input_substr($this->peg_currPos, 4) === $this->peg_c76) {
-            $s1 = $this->peg_c76;
+          if ($this->input_substr($this->peg_currPos, 4) === $this->peg_c80) {
+            $s1 = $this->peg_c80;
             $this->peg_currPos += 4;
           } else {
             $s1 = $this->peg_FAILED;
             if ($this->peg_silentFails === 0) {
-                $this->peg_fail($this->peg_c77);
+                $this->peg_fail($this->peg_c81);
             }
           }
           if ($s1 === $this->peg_FAILED) {
-            if ($this->input_substr($this->peg_currPos, 4) === $this->peg_c78) {
-              $s1 = $this->peg_c78;
+            if ($this->input_substr($this->peg_currPos, 4) === $this->peg_c82) {
+              $s1 = $this->peg_c82;
               $this->peg_currPos += 4;
             } else {
               $s1 = $this->peg_FAILED;
               if ($this->peg_silentFails === 0) {
-                  $this->peg_fail($this->peg_c79);
+                  $this->peg_fail($this->peg_c83);
               }
             }
             if ($s1 === $this->peg_FAILED) {
-              if ($this->input_substr($this->peg_currPos, 2) === $this->peg_c80) {
-                $s1 = $this->peg_c80;
+              if ($this->input_substr($this->peg_currPos, 2) === $this->peg_c84) {
+                $s1 = $this->peg_c84;
                 $this->peg_currPos += 2;
               } else {
                 $s1 = $this->peg_FAILED;
                 if ($this->peg_silentFails === 0) {
-                    $this->peg_fail($this->peg_c81);
+                    $this->peg_fail($this->peg_c85);
                 }
               }
               if ($s1 === $this->peg_FAILED) {
-                if ($this->input_substr($this->peg_currPos, 4) === $this->peg_c82) {
-                  $s1 = $this->peg_c82;
+                if ($this->input_substr($this->peg_currPos, 4) === $this->peg_c86) {
+                  $s1 = $this->peg_c86;
                   $this->peg_currPos += 4;
                 } else {
                   $s1 = $this->peg_FAILED;
                   if ($this->peg_silentFails === 0) {
-                      $this->peg_fail($this->peg_c83);
+                      $this->peg_fail($this->peg_c87);
                   }
                 }
                 if ($s1 === $this->peg_FAILED) {
-                  if ($this->input_substr($this->peg_currPos, 5) === $this->peg_c84) {
-                    $s1 = $this->peg_c84;
+                  if ($this->input_substr($this->peg_currPos, 5) === $this->peg_c88) {
+                    $s1 = $this->peg_c88;
                     $this->peg_currPos += 5;
                   } else {
                     $s1 = $this->peg_FAILED;
                     if ($this->peg_silentFails === 0) {
-                        $this->peg_fail($this->peg_c85);
+                        $this->peg_fail($this->peg_c89);
                     }
                   }
                   if ($s1 === $this->peg_FAILED) {
-                    if ($this->input_substr($this->peg_currPos, 6) === $this->peg_c86) {
-                      $s1 = $this->peg_c86;
+                    if ($this->input_substr($this->peg_currPos, 6) === $this->peg_c90) {
+                      $s1 = $this->peg_c90;
                       $this->peg_currPos += 6;
                     } else {
                       $s1 = $this->peg_FAILED;
                       if ($this->peg_silentFails === 0) {
-                          $this->peg_fail($this->peg_c87);
+                          $this->peg_fail($this->peg_c91);
                       }
                     }
                   }
@@ -3400,7 +3480,7 @@ class MP_Parser {
             }
             if ($s4 !== $this->peg_FAILED) {
               $this->peg_reportedPos = $s0;
-              $s1 = $this->peg_f31($s1, $s3);
+              $s1 = $this->peg_f34($s1, $s3);
               $s0 = $s1;
             } else {
               $this->peg_currPos = $s0;
@@ -3420,83 +3500,83 @@ class MP_Parser {
       }
       if ($s0 === $this->peg_FAILED) {
         $s0 = $this->peg_currPos;
-        if ($this->input_substr($this->peg_currPos, 3) === $this->peg_c72) {
-          $s1 = $this->peg_c72;
+        if ($this->input_substr($this->peg_currPos, 3) === $this->peg_c76) {
+          $s1 = $this->peg_c76;
           $this->peg_currPos += 3;
         } else {
           $s1 = $this->peg_FAILED;
           if ($this->peg_silentFails === 0) {
-              $this->peg_fail($this->peg_c73);
+              $this->peg_fail($this->peg_c77);
           }
         }
         if ($s1 === $this->peg_FAILED) {
-          if ($this->input_substr($this->peg_currPos, 4) === $this->peg_c74) {
-            $s1 = $this->peg_c74;
+          if ($this->input_substr($this->peg_currPos, 4) === $this->peg_c78) {
+            $s1 = $this->peg_c78;
             $this->peg_currPos += 4;
           } else {
             $s1 = $this->peg_FAILED;
             if ($this->peg_silentFails === 0) {
-                $this->peg_fail($this->peg_c75);
+                $this->peg_fail($this->peg_c79);
             }
           }
           if ($s1 === $this->peg_FAILED) {
-            if ($this->input_substr($this->peg_currPos, 4) === $this->peg_c76) {
-              $s1 = $this->peg_c76;
+            if ($this->input_substr($this->peg_currPos, 4) === $this->peg_c80) {
+              $s1 = $this->peg_c80;
               $this->peg_currPos += 4;
             } else {
               $s1 = $this->peg_FAILED;
               if ($this->peg_silentFails === 0) {
-                  $this->peg_fail($this->peg_c77);
+                  $this->peg_fail($this->peg_c81);
               }
             }
             if ($s1 === $this->peg_FAILED) {
-              if ($this->input_substr($this->peg_currPos, 4) === $this->peg_c78) {
-                $s1 = $this->peg_c78;
+              if ($this->input_substr($this->peg_currPos, 4) === $this->peg_c82) {
+                $s1 = $this->peg_c82;
                 $this->peg_currPos += 4;
               } else {
                 $s1 = $this->peg_FAILED;
                 if ($this->peg_silentFails === 0) {
-                    $this->peg_fail($this->peg_c79);
+                    $this->peg_fail($this->peg_c83);
                 }
               }
               if ($s1 === $this->peg_FAILED) {
-                if ($this->input_substr($this->peg_currPos, 2) === $this->peg_c80) {
-                  $s1 = $this->peg_c80;
+                if ($this->input_substr($this->peg_currPos, 2) === $this->peg_c84) {
+                  $s1 = $this->peg_c84;
                   $this->peg_currPos += 2;
                 } else {
                   $s1 = $this->peg_FAILED;
                   if ($this->peg_silentFails === 0) {
-                      $this->peg_fail($this->peg_c81);
+                      $this->peg_fail($this->peg_c85);
                   }
                 }
                 if ($s1 === $this->peg_FAILED) {
-                  if ($this->input_substr($this->peg_currPos, 4) === $this->peg_c82) {
-                    $s1 = $this->peg_c82;
+                  if ($this->input_substr($this->peg_currPos, 4) === $this->peg_c86) {
+                    $s1 = $this->peg_c86;
                     $this->peg_currPos += 4;
                   } else {
                     $s1 = $this->peg_FAILED;
                     if ($this->peg_silentFails === 0) {
-                        $this->peg_fail($this->peg_c83);
+                        $this->peg_fail($this->peg_c87);
                     }
                   }
                   if ($s1 === $this->peg_FAILED) {
-                    if ($this->input_substr($this->peg_currPos, 5) === $this->peg_c84) {
-                      $s1 = $this->peg_c84;
+                    if ($this->input_substr($this->peg_currPos, 5) === $this->peg_c88) {
+                      $s1 = $this->peg_c88;
                       $this->peg_currPos += 5;
                     } else {
                       $s1 = $this->peg_FAILED;
                       if ($this->peg_silentFails === 0) {
-                          $this->peg_fail($this->peg_c85);
+                          $this->peg_fail($this->peg_c89);
                       }
                     }
                     if ($s1 === $this->peg_FAILED) {
-                      if ($this->input_substr($this->peg_currPos, 6) === $this->peg_c86) {
-                        $s1 = $this->peg_c86;
+                      if ($this->input_substr($this->peg_currPos, 6) === $this->peg_c90) {
+                        $s1 = $this->peg_c90;
                         $this->peg_currPos += 6;
                       } else {
                         $s1 = $this->peg_FAILED;
                         if ($this->peg_silentFails === 0) {
-                            $this->peg_fail($this->peg_c87);
+                            $this->peg_fail($this->peg_c91);
                         }
                       }
                     }
@@ -3507,13 +3587,13 @@ class MP_Parser {
           }
         }
         if ($s1 !== $this->peg_FAILED) {
-          if ($this->input_substr($this->peg_currPos, 1) === $this->peg_c88) {
-            $s2 = $this->peg_c88;
+          if ($this->input_substr($this->peg_currPos, 1) === $this->peg_c92) {
+            $s2 = $this->peg_c92;
             $this->peg_currPos++;
           } else {
             $s2 = $this->peg_FAILED;
             if ($this->peg_silentFails === 0) {
-                $this->peg_fail($this->peg_c89);
+                $this->peg_fail($this->peg_c93);
             }
           }
           if ($s2 !== $this->peg_FAILED) {
@@ -3529,13 +3609,13 @@ class MP_Parser {
                   $s5 = null;
                 }
                 if ($s5 !== $this->peg_FAILED) {
-                  if ($this->input_substr($this->peg_currPos, 1) === $this->peg_c90) {
-                    $s6 = $this->peg_c90;
+                  if ($this->input_substr($this->peg_currPos, 1) === $this->peg_c94) {
+                    $s6 = $this->peg_c94;
                     $this->peg_currPos++;
                   } else {
                     $s6 = $this->peg_FAILED;
                     if ($this->peg_silentFails === 0) {
-                        $this->peg_fail($this->peg_c91);
+                        $this->peg_fail($this->peg_c95);
                     }
                   }
                   if ($s6 !== $this->peg_FAILED) {
@@ -3545,7 +3625,7 @@ class MP_Parser {
                     }
                     if ($s7 !== $this->peg_FAILED) {
                       $this->peg_reportedPos = $s0;
-                      $s1 = $this->peg_f31($s1, $s4);
+                      $s1 = $this->peg_f34($s1, $s4);
                       $s0 = $s1;
                     } else {
                       $this->peg_currPos = $s0;
@@ -3584,7 +3664,7 @@ class MP_Parser {
 
     private function peg_parsePrefixOp() {
 
-      $key    = $this->peg_currPos * 38 + 23;
+      $key    = $this->peg_currPos * 39 + 24;
           $cached = isset($this->peg_cache[$key]) ? $this->peg_cache[$key] : null;
 
       if ($cached) {
@@ -3592,83 +3672,83 @@ class MP_Parser {
         return $cached["result"];
       }
 
-      if ($this->input_substr($this->peg_currPos, 1) === $this->peg_c92) {
-        $s0 = $this->peg_c92;
+      if ($this->input_substr($this->peg_currPos, 1) === $this->peg_c96) {
+        $s0 = $this->peg_c96;
         $this->peg_currPos++;
       } else {
         $s0 = $this->peg_FAILED;
         if ($this->peg_silentFails === 0) {
-            $this->peg_fail($this->peg_c93);
+            $this->peg_fail($this->peg_c97);
         }
       }
       if ($s0 === $this->peg_FAILED) {
-        if ($this->input_substr($this->peg_currPos, 1) === $this->peg_c94) {
-          $s0 = $this->peg_c94;
+        if ($this->input_substr($this->peg_currPos, 1) === $this->peg_c98) {
+          $s0 = $this->peg_c98;
           $this->peg_currPos++;
         } else {
           $s0 = $this->peg_FAILED;
           if ($this->peg_silentFails === 0) {
-              $this->peg_fail($this->peg_c95);
+              $this->peg_fail($this->peg_c99);
           }
         }
         if ($s0 === $this->peg_FAILED) {
-          if ($this->input_substr($this->peg_currPos, 2) === $this->peg_c96) {
-            $s0 = $this->peg_c96;
+          if ($this->input_substr($this->peg_currPos, 2) === $this->peg_c100) {
+            $s0 = $this->peg_c100;
             $this->peg_currPos += 2;
           } else {
             $s0 = $this->peg_FAILED;
             if ($this->peg_silentFails === 0) {
-                $this->peg_fail($this->peg_c97);
+                $this->peg_fail($this->peg_c101);
             }
           }
           if ($s0 === $this->peg_FAILED) {
-            if ($this->input_substr($this->peg_currPos, 1) === $this->peg_c98) {
-              $s0 = $this->peg_c98;
+            if ($this->input_substr($this->peg_currPos, 1) === $this->peg_c102) {
+              $s0 = $this->peg_c102;
               $this->peg_currPos++;
             } else {
               $s0 = $this->peg_FAILED;
               if ($this->peg_silentFails === 0) {
-                  $this->peg_fail($this->peg_c99);
+                  $this->peg_fail($this->peg_c103);
               }
             }
             if ($s0 === $this->peg_FAILED) {
-              if ($this->input_substr($this->peg_currPos, 4) === $this->peg_c100) {
-                $s0 = $this->peg_c100;
+              if ($this->input_substr($this->peg_currPos, 4) === $this->peg_c104) {
+                $s0 = $this->peg_c104;
                 $this->peg_currPos += 4;
               } else {
                 $s0 = $this->peg_FAILED;
                 if ($this->peg_silentFails === 0) {
-                    $this->peg_fail($this->peg_c101);
+                    $this->peg_fail($this->peg_c105);
                 }
               }
               if ($s0 === $this->peg_FAILED) {
-                if ($this->input_substr($this->peg_currPos, 3) === $this->peg_c102) {
-                  $s0 = $this->peg_c102;
+                if ($this->input_substr($this->peg_currPos, 3) === $this->peg_c106) {
+                  $s0 = $this->peg_c106;
                   $this->peg_currPos += 3;
                 } else {
                   $s0 = $this->peg_FAILED;
                   if ($this->peg_silentFails === 0) {
-                      $this->peg_fail($this->peg_c103);
+                      $this->peg_fail($this->peg_c107);
                   }
                 }
                 if ($s0 === $this->peg_FAILED) {
-                  if ($this->input_substr($this->peg_currPos, 2) === $this->peg_c104) {
-                    $s0 = $this->peg_c104;
+                  if ($this->input_substr($this->peg_currPos, 2) === $this->peg_c108) {
+                    $s0 = $this->peg_c108;
                     $this->peg_currPos += 2;
                   } else {
                     $s0 = $this->peg_FAILED;
                     if ($this->peg_silentFails === 0) {
-                        $this->peg_fail($this->peg_c105);
+                        $this->peg_fail($this->peg_c109);
                     }
                   }
                   if ($s0 === $this->peg_FAILED) {
-                    if ($this->input_substr($this->peg_currPos, 1) === $this->peg_c106) {
-                      $s0 = $this->peg_c106;
+                    if ($this->input_substr($this->peg_currPos, 1) === $this->peg_c110) {
+                      $s0 = $this->peg_c110;
                       $this->peg_currPos++;
                     } else {
                       $s0 = $this->peg_FAILED;
                       if ($this->peg_silentFails === 0) {
-                          $this->peg_fail($this->peg_c107);
+                          $this->peg_fail($this->peg_c111);
                       }
                     }
                   }
@@ -3686,7 +3766,7 @@ class MP_Parser {
 
     private function peg_parsePostfixOp() {
 
-      $key    = $this->peg_currPos * 38 + 24;
+      $key    = $this->peg_currPos * 39 + 25;
           $cached = isset($this->peg_cache[$key]) ? $this->peg_cache[$key] : null;
 
       if ($cached) {
@@ -3694,23 +3774,23 @@ class MP_Parser {
         return $cached["result"];
       }
 
-      if ($this->input_substr($this->peg_currPos, 2) === $this->peg_c108) {
-        $s0 = $this->peg_c108;
+      if ($this->input_substr($this->peg_currPos, 2) === $this->peg_c112) {
+        $s0 = $this->peg_c112;
         $this->peg_currPos += 2;
       } else {
         $s0 = $this->peg_FAILED;
         if ($this->peg_silentFails === 0) {
-            $this->peg_fail($this->peg_c109);
+            $this->peg_fail($this->peg_c113);
         }
       }
       if ($s0 === $this->peg_FAILED) {
-        if ($this->input_substr($this->peg_currPos, 1) === $this->peg_c110) {
-          $s0 = $this->peg_c110;
+        if ($this->input_substr($this->peg_currPos, 1) === $this->peg_c114) {
+          $s0 = $this->peg_c114;
           $this->peg_currPos++;
         } else {
           $s0 = $this->peg_FAILED;
           if ($this->peg_silentFails === 0) {
-              $this->peg_fail($this->peg_c111);
+              $this->peg_fail($this->peg_c115);
           }
         }
       }
@@ -3722,7 +3802,7 @@ class MP_Parser {
 
     private function peg_parseInfixOp() {
 
-      $key    = $this->peg_currPos * 38 + 25;
+      $key    = $this->peg_currPos * 39 + 26;
           $cached = isset($this->peg_cache[$key]) ? $this->peg_cache[$key] : null;
 
       if ($cached) {
@@ -3730,43 +3810,43 @@ class MP_Parser {
         return $cached["result"];
       }
 
-      if ($this->input_substr($this->peg_currPos, 1) === $this->peg_c112) {
-        $s0 = $this->peg_c112;
+      if ($this->input_substr($this->peg_currPos, 1) === $this->peg_c116) {
+        $s0 = $this->peg_c116;
         $this->peg_currPos++;
       } else {
         $s0 = $this->peg_FAILED;
         if ($this->peg_silentFails === 0) {
-            $this->peg_fail($this->peg_c113);
+            $this->peg_fail($this->peg_c117);
         }
       }
       if ($s0 === $this->peg_FAILED) {
-        if ($this->input_substr($this->peg_currPos, 2) === $this->peg_c114) {
-          $s0 = $this->peg_c114;
+        if ($this->input_substr($this->peg_currPos, 2) === $this->peg_c118) {
+          $s0 = $this->peg_c118;
           $this->peg_currPos += 2;
         } else {
           $s0 = $this->peg_FAILED;
           if ($this->peg_silentFails === 0) {
-              $this->peg_fail($this->peg_c115);
+              $this->peg_fail($this->peg_c119);
           }
         }
         if ($s0 === $this->peg_FAILED) {
-          if ($this->input_substr($this->peg_currPos, 2) === $this->peg_c116) {
-            $s0 = $this->peg_c116;
+          if ($this->input_substr($this->peg_currPos, 2) === $this->peg_c120) {
+            $s0 = $this->peg_c120;
             $this->peg_currPos += 2;
           } else {
             $s0 = $this->peg_FAILED;
             if ($this->peg_silentFails === 0) {
-                $this->peg_fail($this->peg_c117);
+                $this->peg_fail($this->peg_c121);
             }
           }
           if ($s0 === $this->peg_FAILED) {
-            if ($this->input_substr($this->peg_currPos, 1) === $this->peg_c118) {
-              $s0 = $this->peg_c118;
+            if ($this->input_substr($this->peg_currPos, 1) === $this->peg_c122) {
+              $s0 = $this->peg_c122;
               $this->peg_currPos++;
             } else {
               $s0 = $this->peg_FAILED;
               if ($this->peg_silentFails === 0) {
-                  $this->peg_fail($this->peg_c119);
+                  $this->peg_fail($this->peg_c123);
               }
             }
             if ($s0 === $this->peg_FAILED) {
@@ -3780,153 +3860,153 @@ class MP_Parser {
                 }
               }
               if ($s0 === $this->peg_FAILED) {
-                if ($this->input_substr($this->peg_currPos, 1) === $this->peg_c120) {
-                  $s0 = $this->peg_c120;
+                if ($this->input_substr($this->peg_currPos, 1) === $this->peg_c41) {
+                  $s0 = $this->peg_c41;
                   $this->peg_currPos++;
                 } else {
                   $s0 = $this->peg_FAILED;
                   if ($this->peg_silentFails === 0) {
-                      $this->peg_fail($this->peg_c121);
+                      $this->peg_fail($this->peg_c42);
                   }
                 }
                 if ($s0 === $this->peg_FAILED) {
-                  if ($this->input_substr($this->peg_currPos, 1) === $this->peg_c92) {
-                    $s0 = $this->peg_c92;
+                  if ($this->input_substr($this->peg_currPos, 1) === $this->peg_c96) {
+                    $s0 = $this->peg_c96;
                     $this->peg_currPos++;
                   } else {
                     $s0 = $this->peg_FAILED;
                     if ($this->peg_silentFails === 0) {
-                        $this->peg_fail($this->peg_c93);
+                        $this->peg_fail($this->peg_c97);
                     }
                   }
                   if ($s0 === $this->peg_FAILED) {
-                    if ($this->input_substr($this->peg_currPos, 1) === $this->peg_c94) {
-                      $s0 = $this->peg_c94;
+                    if ($this->input_substr($this->peg_currPos, 1) === $this->peg_c98) {
+                      $s0 = $this->peg_c98;
                       $this->peg_currPos++;
                     } else {
                       $s0 = $this->peg_FAILED;
                       if ($this->peg_silentFails === 0) {
-                          $this->peg_fail($this->peg_c95);
+                          $this->peg_fail($this->peg_c99);
                       }
                     }
                     if ($s0 === $this->peg_FAILED) {
-                      if ($this->input_substr($this->peg_currPos, 3) === $this->peg_c122) {
-                        $s0 = $this->peg_c122;
+                      if ($this->input_substr($this->peg_currPos, 3) === $this->peg_c124) {
+                        $s0 = $this->peg_c124;
                         $this->peg_currPos += 3;
                       } else {
                         $s0 = $this->peg_FAILED;
                         if ($this->peg_silentFails === 0) {
-                            $this->peg_fail($this->peg_c123);
+                            $this->peg_fail($this->peg_c125);
                         }
                       }
                       if ($s0 === $this->peg_FAILED) {
-                        if ($this->input_substr($this->peg_currPos, 2) === $this->peg_c124) {
-                          $s0 = $this->peg_c124;
+                        if ($this->input_substr($this->peg_currPos, 2) === $this->peg_c126) {
+                          $s0 = $this->peg_c126;
                           $this->peg_currPos += 2;
                         } else {
                           $s0 = $this->peg_FAILED;
                           if ($this->peg_silentFails === 0) {
-                              $this->peg_fail($this->peg_c125);
+                              $this->peg_fail($this->peg_c127);
                           }
                         }
                         if ($s0 === $this->peg_FAILED) {
-                          if ($this->input_substr($this->peg_currPos, 7) === $this->peg_c126) {
-                            $s0 = $this->peg_c126;
+                          if ($this->input_substr($this->peg_currPos, 7) === $this->peg_c128) {
+                            $s0 = $this->peg_c128;
                             $this->peg_currPos += 7;
                           } else {
                             $s0 = $this->peg_FAILED;
                             if ($this->peg_silentFails === 0) {
-                                $this->peg_fail($this->peg_c127);
+                                $this->peg_fail($this->peg_c129);
                             }
                           }
                           if ($s0 === $this->peg_FAILED) {
-                            if ($this->input_substr($this->peg_currPos, 6) === $this->peg_c128) {
-                              $s0 = $this->peg_c128;
+                            if ($this->input_substr($this->peg_currPos, 6) === $this->peg_c130) {
+                              $s0 = $this->peg_c130;
                               $this->peg_currPos += 6;
                             } else {
                               $s0 = $this->peg_FAILED;
                               if ($this->peg_silentFails === 0) {
-                                  $this->peg_fail($this->peg_c129);
+                                  $this->peg_fail($this->peg_c131);
                               }
                             }
                             if ($s0 === $this->peg_FAILED) {
-                              if ($this->input_substr($this->peg_currPos, 3) === $this->peg_c130) {
-                                $s0 = $this->peg_c130;
+                              if ($this->input_substr($this->peg_currPos, 3) === $this->peg_c132) {
+                                $s0 = $this->peg_c132;
                                 $this->peg_currPos += 3;
                               } else {
                                 $s0 = $this->peg_FAILED;
                                 if ($this->peg_silentFails === 0) {
-                                    $this->peg_fail($this->peg_c131);
+                                    $this->peg_fail($this->peg_c133);
                                 }
                               }
                               if ($s0 === $this->peg_FAILED) {
-                                if ($this->input_substr($this->peg_currPos, 2) === $this->peg_c132) {
-                                  $s0 = $this->peg_c132;
+                                if ($this->input_substr($this->peg_currPos, 2) === $this->peg_c134) {
+                                  $s0 = $this->peg_c134;
                                   $this->peg_currPos += 2;
                                 } else {
                                   $s0 = $this->peg_FAILED;
                                   if ($this->peg_silentFails === 0) {
-                                      $this->peg_fail($this->peg_c133);
+                                      $this->peg_fail($this->peg_c135);
                                   }
                                 }
                                 if ($s0 === $this->peg_FAILED) {
-                                  if ($this->input_substr($this->peg_currPos, 2) === $this->peg_c134) {
-                                    $s0 = $this->peg_c134;
+                                  if ($this->input_substr($this->peg_currPos, 2) === $this->peg_c136) {
+                                    $s0 = $this->peg_c136;
                                     $this->peg_currPos += 2;
                                   } else {
                                     $s0 = $this->peg_FAILED;
                                     if ($this->peg_silentFails === 0) {
-                                        $this->peg_fail($this->peg_c135);
+                                        $this->peg_fail($this->peg_c137);
                                     }
                                   }
                                   if ($s0 === $this->peg_FAILED) {
-                                    if ($this->input_substr($this->peg_currPos, 1) === $this->peg_c60) {
-                                      $s0 = $this->peg_c60;
+                                    if ($this->input_substr($this->peg_currPos, 1) === $this->peg_c64) {
+                                      $s0 = $this->peg_c64;
                                       $this->peg_currPos++;
                                     } else {
                                       $s0 = $this->peg_FAILED;
                                       if ($this->peg_silentFails === 0) {
-                                          $this->peg_fail($this->peg_c61);
+                                          $this->peg_fail($this->peg_c65);
                                       }
                                     }
                                     if ($s0 === $this->peg_FAILED) {
-                                      if ($this->input_substr($this->peg_currPos, 2) === $this->peg_c136) {
-                                        $s0 = $this->peg_c136;
+                                      if ($this->input_substr($this->peg_currPos, 2) === $this->peg_c138) {
+                                        $s0 = $this->peg_c138;
                                         $this->peg_currPos += 2;
                                       } else {
                                         $s0 = $this->peg_FAILED;
                                         if ($this->peg_silentFails === 0) {
-                                            $this->peg_fail($this->peg_c137);
+                                            $this->peg_fail($this->peg_c139);
                                         }
                                       }
                                       if ($s0 === $this->peg_FAILED) {
-                                        if ($this->input_substr($this->peg_currPos, 1) === $this->peg_c138) {
-                                          $s0 = $this->peg_c138;
+                                        if ($this->input_substr($this->peg_currPos, 1) === $this->peg_c140) {
+                                          $s0 = $this->peg_c140;
                                           $this->peg_currPos++;
                                         } else {
                                           $s0 = $this->peg_FAILED;
                                           if ($this->peg_silentFails === 0) {
-                                              $this->peg_fail($this->peg_c139);
+                                              $this->peg_fail($this->peg_c141);
                                           }
                                         }
                                         if ($s0 === $this->peg_FAILED) {
-                                          if ($this->input_substr($this->peg_currPos, 2) === $this->peg_c140) {
-                                            $s0 = $this->peg_c140;
+                                          if ($this->input_substr($this->peg_currPos, 2) === $this->peg_c142) {
+                                            $s0 = $this->peg_c142;
                                             $this->peg_currPos += 2;
                                           } else {
                                             $s0 = $this->peg_FAILED;
                                             if ($this->peg_silentFails === 0) {
-                                                $this->peg_fail($this->peg_c141);
+                                                $this->peg_fail($this->peg_c143);
                                             }
                                           }
                                           if ($s0 === $this->peg_FAILED) {
-                                            if ($this->input_substr($this->peg_currPos, 1) === $this->peg_c142) {
-                                              $s0 = $this->peg_c142;
+                                            if ($this->input_substr($this->peg_currPos, 1) === $this->peg_c144) {
+                                              $s0 = $this->peg_c144;
                                               $this->peg_currPos++;
                                             } else {
                                               $s0 = $this->peg_FAILED;
                                               if ($this->peg_silentFails === 0) {
-                                                  $this->peg_fail($this->peg_c143);
+                                                  $this->peg_fail($this->peg_c145);
                                               }
                                             }
                                             if ($s0 === $this->peg_FAILED) {
@@ -3940,13 +4020,13 @@ class MP_Parser {
                                                 }
                                               }
                                               if ($s0 === $this->peg_FAILED) {
-                                                if ($this->input_substr($this->peg_currPos, 1) === $this->peg_c144) {
-                                                  $s0 = $this->peg_c144;
+                                                if ($this->input_substr($this->peg_currPos, 1) === $this->peg_c146) {
+                                                  $s0 = $this->peg_c146;
                                                   $this->peg_currPos++;
                                                 } else {
                                                   $s0 = $this->peg_FAILED;
                                                   if ($this->peg_silentFails === 0) {
-                                                      $this->peg_fail($this->peg_c145);
+                                                      $this->peg_fail($this->peg_c147);
                                                   }
                                                 }
                                               }
@@ -3978,7 +4058,7 @@ class MP_Parser {
 
     private function peg_parseUnaryOp() {
 
-      $key    = $this->peg_currPos * 38 + 26;
+      $key    = $this->peg_currPos * 39 + 27;
           $cached = isset($this->peg_cache[$key]) ? $this->peg_cache[$key] : null;
 
       if ($cached) {
@@ -4022,7 +4102,7 @@ class MP_Parser {
               $s5 = $this->peg_parsePostfixOp();
               if ($s5 !== $this->peg_FAILED) {
                 $this->peg_reportedPos = $s0;
-                $s1 = $this->peg_f32($s1, $s3, $s5);
+                $s1 = $this->peg_f35($s1, $s3, $s5);
                 $s0 = $s1;
               } else {
                 $this->peg_currPos = $s0;
@@ -4074,7 +4154,7 @@ class MP_Parser {
             }
             if ($s3 !== $this->peg_FAILED) {
               $this->peg_reportedPos = $s0;
-              $s1 = $this->peg_f33($s1, $s3);
+              $s1 = $this->peg_f36($s1, $s3);
               $s0 = $s1;
             } else {
               $this->peg_currPos = $s0;
@@ -4090,20 +4170,20 @@ class MP_Parser {
         }
         if ($s0 === $this->peg_FAILED) {
           $s0 = $this->peg_currPos;
-          if ($this->input_substr($this->peg_currPos, 3) === $this->peg_c146) {
-            $s1 = $this->peg_c146;
+          if ($this->input_substr($this->peg_currPos, 3) === $this->peg_c148) {
+            $s1 = $this->peg_c148;
             $this->peg_currPos += 3;
           } else {
             $s1 = $this->peg_FAILED;
             if ($this->peg_silentFails === 0) {
-                $this->peg_fail($this->peg_c147);
+                $this->peg_fail($this->peg_c149);
             }
           }
           if ($s1 !== $this->peg_FAILED) {
             $s2 = $this->peg_parseGroup();
             if ($s2 !== $this->peg_FAILED) {
               $this->peg_reportedPos = $s0;
-              $s1 = $this->peg_f34($s2);
+              $s1 = $this->peg_f37($s2);
               $s0 = $s1;
             } else {
               $this->peg_currPos = $s0;
@@ -4140,7 +4220,7 @@ class MP_Parser {
                 $s3 = $this->peg_parsePostfixOp();
                 if ($s3 !== $this->peg_FAILED) {
                   $this->peg_reportedPos = $s0;
-                  $s1 = $this->peg_f35($s1, $s3);
+                  $s1 = $this->peg_f38($s1, $s3);
                   $s0 = $s1;
                 } else {
                   $this->peg_currPos = $s0;
@@ -4165,7 +4245,7 @@ class MP_Parser {
 
     private function peg_parseOperation() {
 
-      $key    = $this->peg_currPos * 38 + 27;
+      $key    = $this->peg_currPos * 39 + 28;
           $cached = isset($this->peg_cache[$key]) ? $this->peg_cache[$key] : null;
 
       if ($cached) {
@@ -4196,7 +4276,7 @@ class MP_Parser {
                 $s5 = $this->peg_parseExpOp();
                 if ($s5 !== $this->peg_FAILED) {
                   $this->peg_reportedPos = $s0;
-                  $s1 = $this->peg_f36($s1, $s3, $s5);
+                  $s1 = $this->peg_f39($s1, $s3, $s5);
                   $s0 = $s1;
                 } else {
                   $this->peg_currPos = $s0;
@@ -4230,7 +4310,7 @@ class MP_Parser {
 
     private function peg_parseDotOp() {
 
-      $key    = $this->peg_currPos * 38 + 28;
+      $key    = $this->peg_currPos * 39 + 29;
           $cached = isset($this->peg_cache[$key]) ? $this->peg_cache[$key] : null;
 
       if ($cached) {
@@ -4264,7 +4344,7 @@ class MP_Parser {
               $s5 = $this->peg_parseExpOp();
               if ($s5 !== $this->peg_FAILED) {
                 $this->peg_reportedPos = $s0;
-                $s1 = $this->peg_f37($s1, $s5);
+                $s1 = $this->peg_f40($s1, $s5);
                 $s0 = $s1;
               } else {
                 $this->peg_currPos = $s0;
@@ -4294,7 +4374,7 @@ class MP_Parser {
 
     private function peg_parseGroup() {
 
-      $key    = $this->peg_currPos * 38 + 29;
+      $key    = $this->peg_currPos * 39 + 30;
           $cached = isset($this->peg_cache[$key]) ? $this->peg_cache[$key] : null;
 
       if ($cached) {
@@ -4303,13 +4383,13 @@ class MP_Parser {
       }
 
       $s0 = $this->peg_currPos;
-      if ($this->input_substr($this->peg_currPos, 1) === $this->peg_c88) {
-        $s1 = $this->peg_c88;
+      if ($this->input_substr($this->peg_currPos, 1) === $this->peg_c92) {
+        $s1 = $this->peg_c92;
         $this->peg_currPos++;
       } else {
         $s1 = $this->peg_FAILED;
         if ($this->peg_silentFails === 0) {
-            $this->peg_fail($this->peg_c89);
+            $this->peg_fail($this->peg_c93);
         }
       }
       if ($s1 !== $this->peg_FAILED) {
@@ -4327,13 +4407,13 @@ class MP_Parser {
               $s6 = null;
             }
             if ($s6 !== $this->peg_FAILED) {
-              if ($this->input_substr($this->peg_currPos, 1) === $this->peg_c58) {
-                $s7 = $this->peg_c58;
+              if ($this->input_substr($this->peg_currPos, 1) === $this->peg_c62) {
+                $s7 = $this->peg_c62;
                 $this->peg_currPos++;
               } else {
                 $s7 = $this->peg_FAILED;
                 if ($this->peg_silentFails === 0) {
-                    $this->peg_fail($this->peg_c59);
+                    $this->peg_fail($this->peg_c63);
                 }
               }
               if ($s7 !== $this->peg_FAILED) {
@@ -4370,13 +4450,13 @@ class MP_Parser {
                 $s6 = null;
               }
               if ($s6 !== $this->peg_FAILED) {
-                if ($this->input_substr($this->peg_currPos, 1) === $this->peg_c58) {
-                  $s7 = $this->peg_c58;
+                if ($this->input_substr($this->peg_currPos, 1) === $this->peg_c62) {
+                  $s7 = $this->peg_c62;
                   $this->peg_currPos++;
                 } else {
                   $s7 = $this->peg_FAILED;
                   if ($this->peg_silentFails === 0) {
-                      $this->peg_fail($this->peg_c59);
+                      $this->peg_fail($this->peg_c63);
                   }
                 }
                 if ($s7 !== $this->peg_FAILED) {
@@ -4412,18 +4492,18 @@ class MP_Parser {
                 $s5 = null;
               }
               if ($s5 !== $this->peg_FAILED) {
-                if ($this->input_substr($this->peg_currPos, 1) === $this->peg_c90) {
-                  $s6 = $this->peg_c90;
+                if ($this->input_substr($this->peg_currPos, 1) === $this->peg_c94) {
+                  $s6 = $this->peg_c94;
                   $this->peg_currPos++;
                 } else {
                   $s6 = $this->peg_FAILED;
                   if ($this->peg_silentFails === 0) {
-                      $this->peg_fail($this->peg_c91);
+                      $this->peg_fail($this->peg_c95);
                   }
                 }
                 if ($s6 !== $this->peg_FAILED) {
                   $this->peg_reportedPos = $s0;
-                  $s1 = $this->peg_f38($s3, $s4);
+                  $s1 = $this->peg_f41($s3, $s4);
                   $s0 = $s1;
                 } else {
                   $this->peg_currPos = $s0;
@@ -4451,13 +4531,13 @@ class MP_Parser {
       }
       if ($s0 === $this->peg_FAILED) {
         $s0 = $this->peg_currPos;
-        if ($this->input_substr($this->peg_currPos, 1) === $this->peg_c88) {
-          $s1 = $this->peg_c88;
+        if ($this->input_substr($this->peg_currPos, 1) === $this->peg_c92) {
+          $s1 = $this->peg_c92;
           $this->peg_currPos++;
         } else {
           $s1 = $this->peg_FAILED;
           if ($this->peg_silentFails === 0) {
-              $this->peg_fail($this->peg_c89);
+              $this->peg_fail($this->peg_c93);
           }
         }
         if ($s1 !== $this->peg_FAILED) {
@@ -4466,18 +4546,18 @@ class MP_Parser {
             $s2 = null;
           }
           if ($s2 !== $this->peg_FAILED) {
-            if ($this->input_substr($this->peg_currPos, 1) === $this->peg_c90) {
-              $s3 = $this->peg_c90;
+            if ($this->input_substr($this->peg_currPos, 1) === $this->peg_c94) {
+              $s3 = $this->peg_c94;
               $this->peg_currPos++;
             } else {
               $s3 = $this->peg_FAILED;
               if ($this->peg_silentFails === 0) {
-                  $this->peg_fail($this->peg_c91);
+                  $this->peg_fail($this->peg_c95);
               }
             }
             if ($s3 !== $this->peg_FAILED) {
               $this->peg_reportedPos = $s0;
-              $s1 = $this->peg_f39();
+              $s1 = $this->peg_f42();
               $s0 = $s1;
             } else {
               $this->peg_currPos = $s0;
@@ -4500,7 +4580,7 @@ class MP_Parser {
 
     private function peg_parseFunctionCall() {
 
-      $key    = $this->peg_currPos * 38 + 30;
+      $key    = $this->peg_currPos * 39 + 31;
           $cached = isset($this->peg_cache[$key]) ? $this->peg_cache[$key] : null;
 
       if ($cached) {
@@ -4611,7 +4691,7 @@ class MP_Parser {
           }
           if ($s3 !== $this->peg_FAILED) {
             $this->peg_reportedPos = $s0;
-            $s1 = $this->peg_f40($s1, $s2, $s3);
+            $s1 = $this->peg_f43($s1, $s2, $s3);
             $s0 = $s1;
           } else {
             $this->peg_currPos = $s0;
@@ -4684,7 +4764,7 @@ class MP_Parser {
           }
           if ($s2 !== $this->peg_FAILED) {
             $this->peg_reportedPos = $s0;
-            $s1 = $this->peg_f41($s1, $s2);
+            $s1 = $this->peg_f44($s1, $s2);
             $s0 = $s1;
           } else {
             $this->peg_currPos = $s0;
@@ -4696,13 +4776,13 @@ class MP_Parser {
         }
         if ($s0 === $this->peg_FAILED) {
           $s0 = $this->peg_currPos;
-          if ($this->input_substr($this->peg_currPos, 1) === $this->peg_c148) {
-            $s1 = $this->peg_c148;
+          if ($this->input_substr($this->peg_currPos, 1) === $this->peg_c150) {
+            $s1 = $this->peg_c150;
             $this->peg_currPos++;
           } else {
             $s1 = $this->peg_FAILED;
             if ($this->peg_silentFails === 0) {
-                $this->peg_fail($this->peg_c149);
+                $this->peg_fail($this->peg_c151);
             }
           }
           if ($s1 !== $this->peg_FAILED) {
@@ -4718,18 +4798,18 @@ class MP_Parser {
                   $s4 = null;
                 }
                 if ($s4 !== $this->peg_FAILED) {
-                  if ($this->input_substr($this->peg_currPos, 1) === $this->peg_c148) {
-                    $s5 = $this->peg_c148;
+                  if ($this->input_substr($this->peg_currPos, 1) === $this->peg_c150) {
+                    $s5 = $this->peg_c150;
                     $this->peg_currPos++;
                   } else {
                     $s5 = $this->peg_FAILED;
                     if ($this->peg_silentFails === 0) {
-                        $this->peg_fail($this->peg_c149);
+                        $this->peg_fail($this->peg_c151);
                     }
                   }
                   if ($s5 !== $this->peg_FAILED) {
                     $this->peg_reportedPos = $s0;
-                    $s1 = $this->peg_f42($s3);
+                    $s1 = $this->peg_f45($s3);
                     $s0 = $s1;
                   } else {
                     $this->peg_currPos = $s0;
@@ -4761,7 +4841,7 @@ class MP_Parser {
 
     private function peg_parseIndexing() {
 
-      $key    = $this->peg_currPos * 38 + 31;
+      $key    = $this->peg_currPos * 39 + 32;
           $cached = isset($this->peg_cache[$key]) ? $this->peg_cache[$key] : null;
 
       if ($cached) {
@@ -4824,7 +4904,7 @@ class MP_Parser {
         }
         if ($s2 !== $this->peg_FAILED) {
           $this->peg_reportedPos = $s0;
-          $s1 = $this->peg_f43($s1, $s2);
+          $s1 = $this->peg_f46($s1, $s2);
           $s0 = $s1;
         } else {
           $this->peg_currPos = $s0;
@@ -4842,7 +4922,7 @@ class MP_Parser {
 
     private function peg_parseList() {
 
-      $key    = $this->peg_currPos * 38 + 32;
+      $key    = $this->peg_currPos * 39 + 33;
           $cached = isset($this->peg_cache[$key]) ? $this->peg_cache[$key] : null;
 
       if ($cached) {
@@ -4851,13 +4931,13 @@ class MP_Parser {
       }
 
       $s0 = $this->peg_currPos;
-      if ($this->input_substr($this->peg_currPos, 1) === $this->peg_c150) {
-        $s1 = $this->peg_c150;
+      if ($this->input_substr($this->peg_currPos, 1) === $this->peg_c152) {
+        $s1 = $this->peg_c152;
         $this->peg_currPos++;
       } else {
         $s1 = $this->peg_FAILED;
         if ($this->peg_silentFails === 0) {
-            $this->peg_fail($this->peg_c151);
+            $this->peg_fail($this->peg_c153);
         }
       }
       if ($s1 !== $this->peg_FAILED) {
@@ -4875,13 +4955,13 @@ class MP_Parser {
               $s6 = null;
             }
             if ($s6 !== $this->peg_FAILED) {
-              if ($this->input_substr($this->peg_currPos, 1) === $this->peg_c58) {
-                $s7 = $this->peg_c58;
+              if ($this->input_substr($this->peg_currPos, 1) === $this->peg_c62) {
+                $s7 = $this->peg_c62;
                 $this->peg_currPos++;
               } else {
                 $s7 = $this->peg_FAILED;
                 if ($this->peg_silentFails === 0) {
-                    $this->peg_fail($this->peg_c59);
+                    $this->peg_fail($this->peg_c63);
                 }
               }
               if ($s7 !== $this->peg_FAILED) {
@@ -4918,13 +4998,13 @@ class MP_Parser {
                 $s6 = null;
               }
               if ($s6 !== $this->peg_FAILED) {
-                if ($this->input_substr($this->peg_currPos, 1) === $this->peg_c58) {
-                  $s7 = $this->peg_c58;
+                if ($this->input_substr($this->peg_currPos, 1) === $this->peg_c62) {
+                  $s7 = $this->peg_c62;
                   $this->peg_currPos++;
                 } else {
                   $s7 = $this->peg_FAILED;
                   if ($this->peg_silentFails === 0) {
-                      $this->peg_fail($this->peg_c59);
+                      $this->peg_fail($this->peg_c63);
                   }
                 }
                 if ($s7 !== $this->peg_FAILED) {
@@ -4960,18 +5040,18 @@ class MP_Parser {
                 $s5 = null;
               }
               if ($s5 !== $this->peg_FAILED) {
-                if ($this->input_substr($this->peg_currPos, 1) === $this->peg_c152) {
-                  $s6 = $this->peg_c152;
+                if ($this->input_substr($this->peg_currPos, 1) === $this->peg_c154) {
+                  $s6 = $this->peg_c154;
                   $this->peg_currPos++;
                 } else {
                   $s6 = $this->peg_FAILED;
                   if ($this->peg_silentFails === 0) {
-                      $this->peg_fail($this->peg_c153);
+                      $this->peg_fail($this->peg_c155);
                   }
                 }
                 if ($s6 !== $this->peg_FAILED) {
                   $this->peg_reportedPos = $s0;
-                  $s1 = $this->peg_f44($s3, $s4);
+                  $s1 = $this->peg_f47($s3, $s4);
                   $s0 = $s1;
                 } else {
                   $this->peg_currPos = $s0;
@@ -4999,13 +5079,13 @@ class MP_Parser {
       }
       if ($s0 === $this->peg_FAILED) {
         $s0 = $this->peg_currPos;
-        if ($this->input_substr($this->peg_currPos, 1) === $this->peg_c150) {
-          $s1 = $this->peg_c150;
+        if ($this->input_substr($this->peg_currPos, 1) === $this->peg_c152) {
+          $s1 = $this->peg_c152;
           $this->peg_currPos++;
         } else {
           $s1 = $this->peg_FAILED;
           if ($this->peg_silentFails === 0) {
-              $this->peg_fail($this->peg_c151);
+              $this->peg_fail($this->peg_c153);
           }
         }
         if ($s1 !== $this->peg_FAILED) {
@@ -5014,18 +5094,18 @@ class MP_Parser {
             $s2 = null;
           }
           if ($s2 !== $this->peg_FAILED) {
-            if ($this->input_substr($this->peg_currPos, 1) === $this->peg_c152) {
-              $s3 = $this->peg_c152;
+            if ($this->input_substr($this->peg_currPos, 1) === $this->peg_c154) {
+              $s3 = $this->peg_c154;
               $this->peg_currPos++;
             } else {
               $s3 = $this->peg_FAILED;
               if ($this->peg_silentFails === 0) {
-                  $this->peg_fail($this->peg_c153);
+                  $this->peg_fail($this->peg_c155);
               }
             }
             if ($s3 !== $this->peg_FAILED) {
               $this->peg_reportedPos = $s0;
-              $s1 = $this->peg_f45();
+              $s1 = $this->peg_f48();
               $s0 = $s1;
             } else {
               $this->peg_currPos = $s0;
@@ -5048,7 +5128,7 @@ class MP_Parser {
 
     private function peg_parseSet() {
 
-      $key    = $this->peg_currPos * 38 + 33;
+      $key    = $this->peg_currPos * 39 + 34;
           $cached = isset($this->peg_cache[$key]) ? $this->peg_cache[$key] : null;
 
       if ($cached) {
@@ -5057,13 +5137,13 @@ class MP_Parser {
       }
 
       $s0 = $this->peg_currPos;
-      if ($this->input_substr($this->peg_currPos, 1) === $this->peg_c154) {
-        $s1 = $this->peg_c154;
+      if ($this->input_substr($this->peg_currPos, 1) === $this->peg_c156) {
+        $s1 = $this->peg_c156;
         $this->peg_currPos++;
       } else {
         $s1 = $this->peg_FAILED;
         if ($this->peg_silentFails === 0) {
-            $this->peg_fail($this->peg_c155);
+            $this->peg_fail($this->peg_c157);
         }
       }
       if ($s1 !== $this->peg_FAILED) {
@@ -5081,13 +5161,13 @@ class MP_Parser {
               $s6 = null;
             }
             if ($s6 !== $this->peg_FAILED) {
-              if ($this->input_substr($this->peg_currPos, 1) === $this->peg_c58) {
-                $s7 = $this->peg_c58;
+              if ($this->input_substr($this->peg_currPos, 1) === $this->peg_c62) {
+                $s7 = $this->peg_c62;
                 $this->peg_currPos++;
               } else {
                 $s7 = $this->peg_FAILED;
                 if ($this->peg_silentFails === 0) {
-                    $this->peg_fail($this->peg_c59);
+                    $this->peg_fail($this->peg_c63);
                 }
               }
               if ($s7 !== $this->peg_FAILED) {
@@ -5124,13 +5204,13 @@ class MP_Parser {
                 $s6 = null;
               }
               if ($s6 !== $this->peg_FAILED) {
-                if ($this->input_substr($this->peg_currPos, 1) === $this->peg_c58) {
-                  $s7 = $this->peg_c58;
+                if ($this->input_substr($this->peg_currPos, 1) === $this->peg_c62) {
+                  $s7 = $this->peg_c62;
                   $this->peg_currPos++;
                 } else {
                   $s7 = $this->peg_FAILED;
                   if ($this->peg_silentFails === 0) {
-                      $this->peg_fail($this->peg_c59);
+                      $this->peg_fail($this->peg_c63);
                   }
                 }
                 if ($s7 !== $this->peg_FAILED) {
@@ -5166,18 +5246,18 @@ class MP_Parser {
                 $s5 = null;
               }
               if ($s5 !== $this->peg_FAILED) {
-                if ($this->input_substr($this->peg_currPos, 1) === $this->peg_c156) {
-                  $s6 = $this->peg_c156;
+                if ($this->input_substr($this->peg_currPos, 1) === $this->peg_c158) {
+                  $s6 = $this->peg_c158;
                   $this->peg_currPos++;
                 } else {
                   $s6 = $this->peg_FAILED;
                   if ($this->peg_silentFails === 0) {
-                      $this->peg_fail($this->peg_c157);
+                      $this->peg_fail($this->peg_c159);
                   }
                 }
                 if ($s6 !== $this->peg_FAILED) {
                   $this->peg_reportedPos = $s0;
-                  $s1 = $this->peg_f46($s3, $s4);
+                  $s1 = $this->peg_f49($s3, $s4);
                   $s0 = $s1;
                 } else {
                   $this->peg_currPos = $s0;
@@ -5205,13 +5285,13 @@ class MP_Parser {
       }
       if ($s0 === $this->peg_FAILED) {
         $s0 = $this->peg_currPos;
-        if ($this->input_substr($this->peg_currPos, 1) === $this->peg_c154) {
-          $s1 = $this->peg_c154;
+        if ($this->input_substr($this->peg_currPos, 1) === $this->peg_c156) {
+          $s1 = $this->peg_c156;
           $this->peg_currPos++;
         } else {
           $s1 = $this->peg_FAILED;
           if ($this->peg_silentFails === 0) {
-              $this->peg_fail($this->peg_c155);
+              $this->peg_fail($this->peg_c157);
           }
         }
         if ($s1 !== $this->peg_FAILED) {
@@ -5220,18 +5300,18 @@ class MP_Parser {
             $s2 = null;
           }
           if ($s2 !== $this->peg_FAILED) {
-            if ($this->input_substr($this->peg_currPos, 1) === $this->peg_c156) {
-              $s3 = $this->peg_c156;
+            if ($this->input_substr($this->peg_currPos, 1) === $this->peg_c158) {
+              $s3 = $this->peg_c158;
               $this->peg_currPos++;
             } else {
               $s3 = $this->peg_FAILED;
               if ($this->peg_silentFails === 0) {
-                  $this->peg_fail($this->peg_c157);
+                  $this->peg_fail($this->peg_c159);
               }
             }
             if ($s3 !== $this->peg_FAILED) {
               $this->peg_reportedPos = $s0;
-              $s1 = $this->peg_f47();
+              $s1 = $this->peg_f50();
               $s0 = $s1;
             } else {
               $this->peg_currPos = $s0;
@@ -5254,7 +5334,7 @@ class MP_Parser {
 
     private function peg_parseLiteral() {
 
-      $key    = $this->peg_currPos * 38 + 34;
+      $key    = $this->peg_currPos * 39 + 35;
           $cached = isset($this->peg_cache[$key]) ? $this->peg_cache[$key] : null;
 
       if ($cached) {
@@ -5280,7 +5360,7 @@ class MP_Parser {
 
     private function peg_parse_() {
 
-      $key    = $this->peg_currPos * 38 + 35;
+      $key    = $this->peg_currPos * 39 + 36;
           $cached = isset($this->peg_cache[$key]) ? $this->peg_cache[$key] : null;
 
       if ($cached) {
@@ -5291,24 +5371,24 @@ class MP_Parser {
       $this->peg_silentFails++;
       $s0 = $this->peg_currPos;
       $s1 = array();
-      if (peg_char_class_test($this->peg_c159, $this->input_substr($this->peg_currPos, 1))) {
+      if (peg_char_class_test($this->peg_c161, $this->input_substr($this->peg_currPos, 1))) {
         $s2 = $this->input_substr($this->peg_currPos, 1);
         $this->peg_currPos++;
       } else {
         $s2 = $this->peg_FAILED;
         if ($this->peg_silentFails === 0) {
-            $this->peg_fail($this->peg_c160);
+            $this->peg_fail($this->peg_c162);
         }
       }
       while ($s2 !== $this->peg_FAILED) {
         $s1[] = $s2;
-        if (peg_char_class_test($this->peg_c159, $this->input_substr($this->peg_currPos, 1))) {
+        if (peg_char_class_test($this->peg_c161, $this->input_substr($this->peg_currPos, 1))) {
           $s2 = $this->input_substr($this->peg_currPos, 1);
           $this->peg_currPos++;
         } else {
           $s2 = $this->peg_FAILED;
           if ($this->peg_silentFails === 0) {
-              $this->peg_fail($this->peg_c160);
+              $this->peg_fail($this->peg_c162);
           }
         }
       }
@@ -5318,24 +5398,24 @@ class MP_Parser {
         $s4 = $this->peg_parseComment();
         if ($s4 !== $this->peg_FAILED) {
           $s5 = array();
-          if (peg_char_class_test($this->peg_c159, $this->input_substr($this->peg_currPos, 1))) {
+          if (peg_char_class_test($this->peg_c161, $this->input_substr($this->peg_currPos, 1))) {
             $s6 = $this->input_substr($this->peg_currPos, 1);
             $this->peg_currPos++;
           } else {
             $s6 = $this->peg_FAILED;
             if ($this->peg_silentFails === 0) {
-                $this->peg_fail($this->peg_c160);
+                $this->peg_fail($this->peg_c162);
             }
           }
           while ($s6 !== $this->peg_FAILED) {
             $s5[] = $s6;
-            if (peg_char_class_test($this->peg_c159, $this->input_substr($this->peg_currPos, 1))) {
+            if (peg_char_class_test($this->peg_c161, $this->input_substr($this->peg_currPos, 1))) {
               $s6 = $this->input_substr($this->peg_currPos, 1);
               $this->peg_currPos++;
             } else {
               $s6 = $this->peg_FAILED;
               if ($this->peg_silentFails === 0) {
-                  $this->peg_fail($this->peg_c160);
+                  $this->peg_fail($this->peg_c162);
               }
             }
           }
@@ -5357,24 +5437,24 @@ class MP_Parser {
             $s4 = $this->peg_parseComment();
             if ($s4 !== $this->peg_FAILED) {
               $s5 = array();
-              if (peg_char_class_test($this->peg_c159, $this->input_substr($this->peg_currPos, 1))) {
+              if (peg_char_class_test($this->peg_c161, $this->input_substr($this->peg_currPos, 1))) {
                 $s6 = $this->input_substr($this->peg_currPos, 1);
                 $this->peg_currPos++;
               } else {
                 $s6 = $this->peg_FAILED;
                 if ($this->peg_silentFails === 0) {
-                    $this->peg_fail($this->peg_c160);
+                    $this->peg_fail($this->peg_c162);
                 }
               }
               while ($s6 !== $this->peg_FAILED) {
                 $s5[] = $s6;
-                if (peg_char_class_test($this->peg_c159, $this->input_substr($this->peg_currPos, 1))) {
+                if (peg_char_class_test($this->peg_c161, $this->input_substr($this->peg_currPos, 1))) {
                   $s6 = $this->input_substr($this->peg_currPos, 1);
                   $this->peg_currPos++;
                 } else {
                   $s6 = $this->peg_FAILED;
                   if ($this->peg_silentFails === 0) {
-                      $this->peg_fail($this->peg_c160);
+                      $this->peg_fail($this->peg_c162);
                   }
                 }
               }
@@ -5406,25 +5486,25 @@ class MP_Parser {
       }
       if ($s0 === $this->peg_FAILED) {
         $s0 = array();
-        if (peg_char_class_test($this->peg_c159, $this->input_substr($this->peg_currPos, 1))) {
+        if (peg_char_class_test($this->peg_c161, $this->input_substr($this->peg_currPos, 1))) {
           $s1 = $this->input_substr($this->peg_currPos, 1);
           $this->peg_currPos++;
         } else {
           $s1 = $this->peg_FAILED;
           if ($this->peg_silentFails === 0) {
-              $this->peg_fail($this->peg_c160);
+              $this->peg_fail($this->peg_c162);
           }
         }
         if ($s1 !== $this->peg_FAILED) {
           while ($s1 !== $this->peg_FAILED) {
             $s0[] = $s1;
-            if (peg_char_class_test($this->peg_c159, $this->input_substr($this->peg_currPos, 1))) {
+            if (peg_char_class_test($this->peg_c161, $this->input_substr($this->peg_currPos, 1))) {
               $s1 = $this->input_substr($this->peg_currPos, 1);
               $this->peg_currPos++;
             } else {
               $s1 = $this->peg_FAILED;
               if ($this->peg_silentFails === 0) {
-                  $this->peg_fail($this->peg_c160);
+                  $this->peg_fail($this->peg_c162);
               }
             }
           }
@@ -5436,7 +5516,7 @@ class MP_Parser {
       if ($s0 === $this->peg_FAILED) {
         $s1 = $this->peg_FAILED;
         if ($this->peg_silentFails === 0) {
-            $this->peg_fail($this->peg_c158);
+            $this->peg_fail($this->peg_c160);
         }
       }
 
@@ -5447,7 +5527,7 @@ class MP_Parser {
 
     private function peg_parse__() {
 
-      $key    = $this->peg_currPos * 38 + 36;
+      $key    = $this->peg_currPos * 39 + 37;
           $cached = isset($this->peg_cache[$key]) ? $this->peg_cache[$key] : null;
 
       if ($cached) {
@@ -5457,25 +5537,25 @@ class MP_Parser {
 
       $this->peg_silentFails++;
       $s0 = array();
-      if (peg_char_class_test($this->peg_c159, $this->input_substr($this->peg_currPos, 1))) {
+      if (peg_char_class_test($this->peg_c161, $this->input_substr($this->peg_currPos, 1))) {
         $s1 = $this->input_substr($this->peg_currPos, 1);
         $this->peg_currPos++;
       } else {
         $s1 = $this->peg_FAILED;
         if ($this->peg_silentFails === 0) {
-            $this->peg_fail($this->peg_c160);
+            $this->peg_fail($this->peg_c162);
         }
       }
       if ($s1 !== $this->peg_FAILED) {
         while ($s1 !== $this->peg_FAILED) {
           $s0[] = $s1;
-          if (peg_char_class_test($this->peg_c159, $this->input_substr($this->peg_currPos, 1))) {
+          if (peg_char_class_test($this->peg_c161, $this->input_substr($this->peg_currPos, 1))) {
             $s1 = $this->input_substr($this->peg_currPos, 1);
             $this->peg_currPos++;
           } else {
             $s1 = $this->peg_FAILED;
             if ($this->peg_silentFails === 0) {
-                $this->peg_fail($this->peg_c160);
+                $this->peg_fail($this->peg_c162);
             }
           }
         }
@@ -5486,7 +5566,7 @@ class MP_Parser {
       if ($s0 === $this->peg_FAILED) {
         $s1 = $this->peg_FAILED;
         if ($this->peg_silentFails === 0) {
-            $this->peg_fail($this->peg_c158);
+            $this->peg_fail($this->peg_c160);
         }
       }
 
@@ -5497,7 +5577,7 @@ class MP_Parser {
 
     private function peg_parseULetter() {
 
-      $key    = $this->peg_currPos * 38 + 37;
+      $key    = $this->peg_currPos * 39 + 38;
           $cached = isset($this->peg_cache[$key]) ? $this->peg_cache[$key] : null;
 
       if ($cached) {
@@ -5506,53 +5586,53 @@ class MP_Parser {
       }
 
       $this->peg_silentFails++;
-      if (peg_char_class_test($this->peg_c162, $this->input_substr($this->peg_currPos, 1))) {
+      if (peg_char_class_test($this->peg_c164, $this->input_substr($this->peg_currPos, 1))) {
         $s0 = $this->input_substr($this->peg_currPos, 1);
         $this->peg_currPos++;
       } else {
         $s0 = $this->peg_FAILED;
         if ($this->peg_silentFails === 0) {
-            $this->peg_fail($this->peg_c163);
+            $this->peg_fail($this->peg_c165);
         }
       }
       if ($s0 === $this->peg_FAILED) {
-        if (peg_char_class_test($this->peg_c164, $this->input_substr($this->peg_currPos, 1))) {
+        if (peg_char_class_test($this->peg_c166, $this->input_substr($this->peg_currPos, 1))) {
           $s0 = $this->input_substr($this->peg_currPos, 1);
           $this->peg_currPos++;
         } else {
           $s0 = $this->peg_FAILED;
           if ($this->peg_silentFails === 0) {
-              $this->peg_fail($this->peg_c165);
+              $this->peg_fail($this->peg_c167);
           }
         }
         if ($s0 === $this->peg_FAILED) {
-          if (peg_char_class_test($this->peg_c166, $this->input_substr($this->peg_currPos, 1))) {
+          if (peg_char_class_test($this->peg_c168, $this->input_substr($this->peg_currPos, 1))) {
             $s0 = $this->input_substr($this->peg_currPos, 1);
             $this->peg_currPos++;
           } else {
             $s0 = $this->peg_FAILED;
             if ($this->peg_silentFails === 0) {
-                $this->peg_fail($this->peg_c167);
+                $this->peg_fail($this->peg_c169);
             }
           }
           if ($s0 === $this->peg_FAILED) {
-            if (peg_char_class_test($this->peg_c168, $this->input_substr($this->peg_currPos, 1))) {
+            if (peg_char_class_test($this->peg_c170, $this->input_substr($this->peg_currPos, 1))) {
               $s0 = $this->input_substr($this->peg_currPos, 1);
               $this->peg_currPos++;
             } else {
               $s0 = $this->peg_FAILED;
               if ($this->peg_silentFails === 0) {
-                  $this->peg_fail($this->peg_c169);
+                  $this->peg_fail($this->peg_c171);
               }
             }
             if ($s0 === $this->peg_FAILED) {
-              if (peg_char_class_test($this->peg_c170, $this->input_substr($this->peg_currPos, 1))) {
+              if (peg_char_class_test($this->peg_c172, $this->input_substr($this->peg_currPos, 1))) {
                 $s0 = $this->input_substr($this->peg_currPos, 1);
                 $this->peg_currPos++;
               } else {
                 $s0 = $this->peg_FAILED;
                 if ($this->peg_silentFails === 0) {
-                    $this->peg_fail($this->peg_c171);
+                    $this->peg_fail($this->peg_c173);
                 }
               }
             }
@@ -5563,7 +5643,7 @@ class MP_Parser {
       if ($s0 === $this->peg_FAILED) {
         $s1 = $this->peg_FAILED;
         if ($this->peg_silentFails === 0) {
-            $this->peg_fail($this->peg_c161);
+            $this->peg_fail($this->peg_c163);
         }
       }
 
@@ -5627,137 +5707,139 @@ class MP_Parser {
     $this->peg_c38 = array( "type" => "literal", "value" => "*/", "description" => "\"*/\"" );
     $this->peg_c39 = "*";
     $this->peg_c40 = array( "type" => "literal", "value" => "*", "description" => "\"*\"" );
-    $this->peg_c41 = array(array(47,47));
-    $this->peg_c42 = array( "type" => "class", "value" => "[/]", "description" => "[/]" );
-    $this->peg_c43 = "@ignore";
-    $this->peg_c44 = array( "type" => "literal", "value" => "@ignore", "description" => "\"@ignore\"" );
-    $this->peg_c45 = "@function";
-    $this->peg_c46 = array( "type" => "literal", "value" => "@function", "description" => "\"@function\"" );
-    $this->peg_c47 = "=>";
-    $this->peg_c48 = array( "type" => "literal", "value" => "=>", "description" => "\"=>\"" );
-    $this->peg_c49 = "@assume";
-    $this->peg_c50 = array( "type" => "literal", "value" => "@assume", "description" => "\"@assume\"" );
-    $this->peg_c51 = array("type" => "other", "description" => "identifier" );
-    $this->peg_c52 = array(array(97,122), array(65,90));
-    $this->peg_c53 = array( "type" => "class", "value" => "[a-zA-Z]", "description" => "[a-zA-Z]" );
-    $this->peg_c54 = "_";
-    $this->peg_c55 = array( "type" => "literal", "value" => "_", "description" => "\"_\"" );
-    $this->peg_c56 = "%";
-    $this->peg_c57 = array( "type" => "literal", "value" => "%", "description" => "\"%\"" );
-    $this->peg_c58 = ",";
-    $this->peg_c59 = array( "type" => "literal", "value" => ",", "description" => "\",\"" );
-    $this->peg_c60 = ":";
-    $this->peg_c61 = array( "type" => "literal", "value" => ":", "description" => "\":\"" );
-    $this->peg_c62 = "if";
-    $this->peg_c63 = array( "type" => "literal", "value" => "if", "description" => "\"if\"" );
-    $this->peg_c64 = "then";
-    $this->peg_c65 = array( "type" => "literal", "value" => "then", "description" => "\"then\"" );
-    $this->peg_c66 = "elseif";
-    $this->peg_c67 = array( "type" => "literal", "value" => "elseif", "description" => "\"elseif\"" );
-    $this->peg_c68 = "else";
-    $this->peg_c69 = array( "type" => "literal", "value" => "else", "description" => "\"else\"" );
-    $this->peg_c70 = "do";
-    $this->peg_c71 = array( "type" => "literal", "value" => "do", "description" => "\"do\"" );
-    $this->peg_c72 = "for";
-    $this->peg_c73 = array( "type" => "literal", "value" => "for", "description" => "\"for\"" );
-    $this->peg_c74 = "from";
-    $this->peg_c75 = array( "type" => "literal", "value" => "from", "description" => "\"from\"" );
-    $this->peg_c76 = "step";
-    $this->peg_c77 = array( "type" => "literal", "value" => "step", "description" => "\"step\"" );
-    $this->peg_c78 = "next";
-    $this->peg_c79 = array( "type" => "literal", "value" => "next", "description" => "\"next\"" );
-    $this->peg_c80 = "in";
-    $this->peg_c81 = array( "type" => "literal", "value" => "in", "description" => "\"in\"" );
-    $this->peg_c82 = "thru";
-    $this->peg_c83 = array( "type" => "literal", "value" => "thru", "description" => "\"thru\"" );
-    $this->peg_c84 = "while";
-    $this->peg_c85 = array( "type" => "literal", "value" => "while", "description" => "\"while\"" );
-    $this->peg_c86 = "unless";
-    $this->peg_c87 = array( "type" => "literal", "value" => "unless", "description" => "\"unless\"" );
-    $this->peg_c88 = "(";
-    $this->peg_c89 = array( "type" => "literal", "value" => "(", "description" => "\"(\"" );
-    $this->peg_c90 = ")";
-    $this->peg_c91 = array( "type" => "literal", "value" => ")", "description" => "\")\"" );
-    $this->peg_c92 = "-";
-    $this->peg_c93 = array( "type" => "literal", "value" => "-", "description" => "\"-\"" );
-    $this->peg_c94 = "+";
-    $this->peg_c95 = array( "type" => "literal", "value" => "+", "description" => "\"+\"" );
-    $this->peg_c96 = "''";
-    $this->peg_c97 = array( "type" => "literal", "value" => "''", "description" => "\"''\"" );
-    $this->peg_c98 = "'";
-    $this->peg_c99 = array( "type" => "literal", "value" => "'", "description" => "\"'\"" );
-    $this->peg_c100 = "not ";
-    $this->peg_c101 = array( "type" => "literal", "value" => "not ", "description" => "\"not \"" );
-    $this->peg_c102 = "?? ";
-    $this->peg_c103 = array( "type" => "literal", "value" => "?? ", "description" => "\"?? \"" );
-    $this->peg_c104 = "? ";
-    $this->peg_c105 = array( "type" => "literal", "value" => "? ", "description" => "\"? \"" );
-    $this->peg_c106 = "?";
-    $this->peg_c107 = array( "type" => "literal", "value" => "?", "description" => "\"?\"" );
-    $this->peg_c108 = "!!";
-    $this->peg_c109 = array( "type" => "literal", "value" => "!!", "description" => "\"!!\"" );
-    $this->peg_c110 = "!";
-    $this->peg_c111 = array( "type" => "literal", "value" => "!", "description" => "\"!\"" );
-    $this->peg_c112 = "#";
-    $this->peg_c113 = array( "type" => "literal", "value" => "#", "description" => "\"#\"" );
-    $this->peg_c114 = "**";
-    $this->peg_c115 = array( "type" => "literal", "value" => "**", "description" => "\"**\"" );
-    $this->peg_c116 = "^^";
-    $this->peg_c117 = array( "type" => "literal", "value" => "^^", "description" => "\"^^\"" );
-    $this->peg_c118 = "^";
-    $this->peg_c119 = array( "type" => "literal", "value" => "^", "description" => "\"^\"" );
-    $this->peg_c120 = "/";
-    $this->peg_c121 = array( "type" => "literal", "value" => "/", "description" => "\"/\"" );
-    $this->peg_c122 = "and";
-    $this->peg_c123 = array( "type" => "literal", "value" => "and", "description" => "\"and\"" );
-    $this->peg_c124 = "or";
-    $this->peg_c125 = array( "type" => "literal", "value" => "or", "description" => "\"or\"" );
-    $this->peg_c126 = "nounand";
-    $this->peg_c127 = array( "type" => "literal", "value" => "nounand", "description" => "\"nounand\"" );
-    $this->peg_c128 = "nounor";
-    $this->peg_c129 = array( "type" => "literal", "value" => "nounor", "description" => "\"nounor\"" );
-    $this->peg_c130 = "::=";
-    $this->peg_c131 = array( "type" => "literal", "value" => "::=", "description" => "\"::=\"" );
-    $this->peg_c132 = ":=";
-    $this->peg_c133 = array( "type" => "literal", "value" => ":=", "description" => "\":=\"" );
-    $this->peg_c134 = "::";
-    $this->peg_c135 = array( "type" => "literal", "value" => "::", "description" => "\"::\"" );
-    $this->peg_c136 = "<=";
-    $this->peg_c137 = array( "type" => "literal", "value" => "<=", "description" => "\"<=\"" );
-    $this->peg_c138 = "<";
-    $this->peg_c139 = array( "type" => "literal", "value" => "<", "description" => "\"<\"" );
-    $this->peg_c140 = ">=";
-    $this->peg_c141 = array( "type" => "literal", "value" => ">=", "description" => "\">=\"" );
-    $this->peg_c142 = ">";
-    $this->peg_c143 = array( "type" => "literal", "value" => ">", "description" => "\">\"" );
-    $this->peg_c144 = "~";
-    $this->peg_c145 = array( "type" => "literal", "value" => "~", "description" => "\"~\"" );
-    $this->peg_c146 = "not";
-    $this->peg_c147 = array( "type" => "literal", "value" => "not", "description" => "\"not\"" );
-    $this->peg_c148 = "|";
-    $this->peg_c149 = array( "type" => "literal", "value" => "|", "description" => "\"|\"" );
-    $this->peg_c150 = "[";
-    $this->peg_c151 = array( "type" => "literal", "value" => "[", "description" => "\"[\"" );
-    $this->peg_c152 = "]";
-    $this->peg_c153 = array( "type" => "literal", "value" => "]", "description" => "\"]\"" );
-    $this->peg_c154 = "{";
-    $this->peg_c155 = array( "type" => "literal", "value" => "{", "description" => "\"{\"" );
-    $this->peg_c156 = "}";
-    $this->peg_c157 = array( "type" => "literal", "value" => "}", "description" => "\"}\"" );
-    $this->peg_c158 = array("type" => "other", "description" => "whitespace" );
-    $this->peg_c159 = array(array(32,32), array(9,9), array(10,10), array(13,13), array(11,11), array(12,12), array(160,160), array(65279,65279), array(32,32), array(160,160), array(5760,5760), array(8192,8202), array(8239,8239), array(8287,8287), array(12288,12288), array(10,13));
-    $this->peg_c160 = array( "type" => "class", "value" => "[ \t\n\r\x0B\f \x{FEFF}  \x{1680}\x{2000}-\x{200A}\x{202F}\x{205F}\x{3000}\n-\r]", "description" => "[ \t\n\r\x0B\f \x{FEFF}  \x{1680}\x{2000}-\x{200A}\x{202F}\x{205F}\x{3000}\n-\r]" );
-    $this->peg_c161 = array("type" => "other", "description" => "unicode letter character" );
-    $this->peg_c162 = array(array(97,122), array(181,181), array(223,246), array(248,255), array(257,257), array(259,259), array(261,261), array(263,263), array(265,265), array(267,267), array(269,269), array(271,271), array(273,273), array(275,275), array(277,277), array(279,279), array(281,281), array(283,283), array(285,285), array(287,287), array(289,289), array(291,291), array(293,293), array(295,295), array(297,297), array(299,299), array(301,301), array(303,303), array(305,305), array(307,307), array(309,309), array(311,312), array(314,314), array(316,316), array(318,318), array(320,320), array(322,322), array(324,324), array(326,326), array(328,329), array(331,331), array(333,333), array(335,335), array(337,337), array(339,339), array(341,341), array(343,343), array(345,345), array(347,347), array(349,349), array(351,351), array(353,353), array(355,355), array(357,357), array(359,359), array(361,361), array(363,363), array(365,365), array(367,367), array(369,369), array(371,371), array(373,373), array(375,375), array(378,378), array(380,380), array(382,384), array(387,387), array(389,389), array(392,392), array(396,397), array(402,402), array(405,405), array(409,411), array(414,414), array(417,417), array(419,419), array(421,421), array(424,424), array(426,427), array(429,429), array(432,432), array(436,436), array(438,438), array(441,442), array(445,447), array(454,454), array(457,457), array(460,460), array(462,462), array(464,464), array(466,466), array(468,468), array(470,470), array(472,472), array(474,474), array(476,477), array(479,479), array(481,481), array(483,483), array(485,485), array(487,487), array(489,489), array(491,491), array(493,493), array(495,496), array(499,499), array(501,501), array(505,505), array(507,507), array(509,509), array(511,511), array(513,513), array(515,515), array(517,517), array(519,519), array(521,521), array(523,523), array(525,525), array(527,527), array(529,529), array(531,531), array(533,533), array(535,535), array(537,537), array(539,539), array(541,541), array(543,543), array(545,545), array(547,547), array(549,549), array(551,551), array(553,553), array(555,555), array(557,557), array(559,559), array(561,561), array(563,569), array(572,572), array(575,576), array(578,578), array(583,583), array(585,585), array(587,587), array(589,589), array(591,659), array(661,687), array(881,881), array(883,883), array(887,887), array(891,893), array(912,912), array(940,974), array(976,977), array(981,983), array(985,985), array(987,987), array(989,989), array(991,991), array(993,993), array(995,995), array(997,997), array(999,999), array(1001,1001), array(1003,1003), array(1005,1005), array(1007,1011), array(1013,1013), array(1016,1016), array(1019,1020), array(1072,1119), array(1121,1121), array(1123,1123), array(1125,1125), array(1127,1127), array(1129,1129), array(1131,1131), array(1133,1133), array(1135,1135), array(1137,1137), array(1139,1139), array(1141,1141), array(1143,1143), array(1145,1145), array(1147,1147), array(1149,1149), array(1151,1151), array(1153,1153), array(1163,1163), array(1165,1165), array(1167,1167), array(1169,1169), array(1171,1171), array(1173,1173), array(1175,1175), array(1177,1177), array(1179,1179), array(1181,1181), array(1183,1183), array(1185,1185), array(1187,1187), array(1189,1189), array(1191,1191), array(1193,1193), array(1195,1195), array(1197,1197), array(1199,1199), array(1201,1201), array(1203,1203), array(1205,1205), array(1207,1207), array(1209,1209), array(1211,1211), array(1213,1213), array(1215,1215), array(1218,1218), array(1220,1220), array(1222,1222), array(1224,1224), array(1226,1226), array(1228,1228), array(1230,1231), array(1233,1233), array(1235,1235), array(1237,1237), array(1239,1239), array(1241,1241), array(1243,1243), array(1245,1245), array(1247,1247), array(1249,1249), array(1251,1251), array(1253,1253), array(1255,1255), array(1257,1257), array(1259,1259), array(1261,1261), array(1263,1263), array(1265,1265), array(1267,1267), array(1269,1269), array(1271,1271), array(1273,1273), array(1275,1275), array(1277,1277), array(1279,1279), array(1281,1281), array(1283,1283), array(1285,1285), array(1287,1287), array(1289,1289), array(1291,1291), array(1293,1293), array(1295,1295), array(1297,1297), array(1299,1299), array(1301,1301), array(1303,1303), array(1305,1305), array(1307,1307), array(1309,1309), array(1311,1311), array(1313,1313), array(1315,1315), array(1317,1317), array(1319,1319), array(1321,1321), array(1323,1323), array(1325,1325), array(1327,1327), array(1377,1415), array(5112,5117), array(7424,7467), array(7531,7543), array(7545,7578), array(7681,7681), array(7683,7683), array(7685,7685), array(7687,7687), array(7689,7689), array(7691,7691), array(7693,7693), array(7695,7695), array(7697,7697), array(7699,7699), array(7701,7701), array(7703,7703), array(7705,7705), array(7707,7707), array(7709,7709), array(7711,7711), array(7713,7713), array(7715,7715), array(7717,7717), array(7719,7719), array(7721,7721), array(7723,7723), array(7725,7725), array(7727,7727), array(7729,7729), array(7731,7731), array(7733,7733), array(7735,7735), array(7737,7737), array(7739,7739), array(7741,7741), array(7743,7743), array(7745,7745), array(7747,7747), array(7749,7749), array(7751,7751), array(7753,7753), array(7755,7755), array(7757,7757), array(7759,7759), array(7761,7761), array(7763,7763), array(7765,7765), array(7767,7767), array(7769,7769), array(7771,7771), array(7773,7773), array(7775,7775), array(7777,7777), array(7779,7779), array(7781,7781), array(7783,7783), array(7785,7785), array(7787,7787), array(7789,7789), array(7791,7791), array(7793,7793), array(7795,7795), array(7797,7797), array(7799,7799), array(7801,7801), array(7803,7803), array(7805,7805), array(7807,7807), array(7809,7809), array(7811,7811), array(7813,7813), array(7815,7815), array(7817,7817), array(7819,7819), array(7821,7821), array(7823,7823), array(7825,7825), array(7827,7827), array(7829,7837), array(7839,7839), array(7841,7841), array(7843,7843), array(7845,7845), array(7847,7847), array(7849,7849), array(7851,7851), array(7853,7853), array(7855,7855), array(7857,7857), array(7859,7859), array(7861,7861), array(7863,7863), array(7865,7865), array(7867,7867), array(7869,7869), array(7871,7871), array(7873,7873), array(7875,7875), array(7877,7877), array(7879,7879), array(7881,7881), array(7883,7883), array(7885,7885), array(7887,7887), array(7889,7889), array(7891,7891), array(7893,7893), array(7895,7895), array(7897,7897), array(7899,7899), array(7901,7901), array(7903,7903), array(7905,7905), array(7907,7907), array(7909,7909), array(7911,7911), array(7913,7913), array(7915,7915), array(7917,7917), array(7919,7919), array(7921,7921), array(7923,7923), array(7925,7925), array(7927,7927), array(7929,7929), array(7931,7931), array(7933,7933), array(7935,7943), array(7952,7957), array(7968,7975), array(7984,7991), array(8000,8005), array(8016,8023), array(8032,8039), array(8048,8061), array(8064,8071), array(8080,8087), array(8096,8103), array(8112,8116), array(8118,8119), array(8126,8126), array(8130,8132), array(8134,8135), array(8144,8147), array(8150,8151), array(8160,8167), array(8178,8180), array(8182,8183), array(8458,8458), array(8462,8463), array(8467,8467), array(8495,8495), array(8500,8500), array(8505,8505), array(8508,8509), array(8518,8521), array(8526,8526), array(8580,8580), array(11312,11358), array(11361,11361), array(11365,11366), array(11368,11368), array(11370,11370), array(11372,11372), array(11377,11377), array(11379,11380), array(11382,11387), array(11393,11393), array(11395,11395), array(11397,11397), array(11399,11399), array(11401,11401), array(11403,11403), array(11405,11405), array(11407,11407), array(11409,11409), array(11411,11411), array(11413,11413), array(11415,11415), array(11417,11417), array(11419,11419), array(11421,11421), array(11423,11423), array(11425,11425), array(11427,11427), array(11429,11429), array(11431,11431), array(11433,11433), array(11435,11435), array(11437,11437), array(11439,11439), array(11441,11441), array(11443,11443), array(11445,11445), array(11447,11447), array(11449,11449), array(11451,11451), array(11453,11453), array(11455,11455), array(11457,11457), array(11459,11459), array(11461,11461), array(11463,11463), array(11465,11465), array(11467,11467), array(11469,11469), array(11471,11471), array(11473,11473), array(11475,11475), array(11477,11477), array(11479,11479), array(11481,11481), array(11483,11483), array(11485,11485), array(11487,11487), array(11489,11489), array(11491,11492), array(11500,11500), array(11502,11502), array(11507,11507), array(11520,11557), array(11559,11559), array(11565,11565), array(42561,42561), array(42563,42563), array(42565,42565), array(42567,42567), array(42569,42569), array(42571,42571), array(42573,42573), array(42575,42575), array(42577,42577), array(42579,42579), array(42581,42581), array(42583,42583), array(42585,42585), array(42587,42587), array(42589,42589), array(42591,42591), array(42593,42593), array(42595,42595), array(42597,42597), array(42599,42599), array(42601,42601), array(42603,42603), array(42605,42605), array(42625,42625), array(42627,42627), array(42629,42629), array(42631,42631), array(42633,42633), array(42635,42635), array(42637,42637), array(42639,42639), array(42641,42641), array(42643,42643), array(42645,42645), array(42647,42647), array(42649,42649), array(42651,42651), array(42787,42787), array(42789,42789), array(42791,42791), array(42793,42793), array(42795,42795), array(42797,42797), array(42799,42801), array(42803,42803), array(42805,42805), array(42807,42807), array(42809,42809), array(42811,42811), array(42813,42813), array(42815,42815), array(42817,42817), array(42819,42819), array(42821,42821), array(42823,42823), array(42825,42825), array(42827,42827), array(42829,42829), array(42831,42831), array(42833,42833), array(42835,42835), array(42837,42837), array(42839,42839), array(42841,42841), array(42843,42843), array(42845,42845), array(42847,42847), array(42849,42849), array(42851,42851), array(42853,42853), array(42855,42855), array(42857,42857), array(42859,42859), array(42861,42861), array(42863,42863), array(42865,42872), array(42874,42874), array(42876,42876), array(42879,42879), array(42881,42881), array(42883,42883), array(42885,42885), array(42887,42887), array(42892,42892), array(42894,42894), array(42897,42897), array(42899,42901), array(42903,42903), array(42905,42905), array(42907,42907), array(42909,42909), array(42911,42911), array(42913,42913), array(42915,42915), array(42917,42917), array(42919,42919), array(42921,42921), array(42933,42933), array(42935,42935), array(43002,43002), array(43824,43866), array(43872,43877), array(43888,43967), array(64256,64262), array(64275,64279), array(65345,65370));
-    $this->peg_c163 = array( "type" => "class", "value" => "[a-zµß-öø-\x{00FF}\x{0101}\x{0103}\x{0105}\x{0107}\x{0109}\x{010B}\x{010D}\x{010F}\x{0111}\x{0113}\x{0115}\x{0117}\x{0119}\x{011B}\x{011D}\x{011F}\x{0121}\x{0123}\x{0125}\x{0127}\x{0129}\x{012B}\x{012D}\x{012F}\x{0131}\x{0133}\x{0135}\x{0137}-\x{0138}\x{013A}\x{013C}\x{013E}\x{0140}\x{0142}\x{0144}\x{0146}\x{0148}-\x{0149}\x{014B}\x{014D}\x{014F}\x{0151}\x{0153}\x{0155}\x{0157}\x{0159}\x{015B}\x{015D}\x{015F}\x{0161}\x{0163}\x{0165}\x{0167}\x{0169}\x{016B}\x{016D}\x{016F}\x{0171}\x{0173}\x{0175}\x{0177}\x{017A}\x{017C}\x{017E}-\x{0180}\x{0183}\x{0185}\x{0188}\x{018C}-\x{018D}\x{0192}\x{0195}\x{0199}-\x{019B}\x{019E}\x{01A1}\x{01A3}\x{01A5}\x{01A8}\x{01AA}-\x{01AB}\x{01AD}\x{01B0}\x{01B4}\x{01B6}\x{01B9}-\x{01BA}\x{01BD}-\x{01BF}\x{01C6}\x{01C9}\x{01CC}\x{01CE}\x{01D0}\x{01D2}\x{01D4}\x{01D6}\x{01D8}\x{01DA}\x{01DC}-\x{01DD}\x{01DF}\x{01E1}\x{01E3}\x{01E5}\x{01E7}\x{01E9}\x{01EB}\x{01ED}\x{01EF}-\x{01F0}\x{01F3}\x{01F5}\x{01F9}\x{01FB}\x{01FD}\x{01FF}\x{0201}\x{0203}\x{0205}\x{0207}\x{0209}\x{020B}\x{020D}\x{020F}\x{0211}\x{0213}\x{0215}\x{0217}\x{0219}\x{021B}\x{021D}\x{021F}\x{0221}\x{0223}\x{0225}\x{0227}\x{0229}\x{022B}\x{022D}\x{022F}\x{0231}\x{0233}-\x{0239}\x{023C}\x{023F}-\x{0240}\x{0242}\x{0247}\x{0249}\x{024B}\x{024D}\x{024F}-\x{0293}\x{0295}-\x{02AF}\x{0371}\x{0373}\x{0377}\x{037B}-\x{037D}\x{0390}\x{03AC}-\x{03CE}\x{03D0}-\x{03D1}\x{03D5}-\x{03D7}\x{03D9}\x{03DB}\x{03DD}\x{03DF}\x{03E1}\x{03E3}\x{03E5}\x{03E7}\x{03E9}\x{03EB}\x{03ED}\x{03EF}-\x{03F3}\x{03F5}\x{03F8}\x{03FB}-\x{03FC}\x{0430}-\x{045F}\x{0461}\x{0463}\x{0465}\x{0467}\x{0469}\x{046B}\x{046D}\x{046F}\x{0471}\x{0473}\x{0475}\x{0477}\x{0479}\x{047B}\x{047D}\x{047F}\x{0481}\x{048B}\x{048D}\x{048F}\x{0491}\x{0493}\x{0495}\x{0497}\x{0499}\x{049B}\x{049D}\x{049F}\x{04A1}\x{04A3}\x{04A5}\x{04A7}\x{04A9}\x{04AB}\x{04AD}\x{04AF}\x{04B1}\x{04B3}\x{04B5}\x{04B7}\x{04B9}\x{04BB}\x{04BD}\x{04BF}\x{04C2}\x{04C4}\x{04C6}\x{04C8}\x{04CA}\x{04CC}\x{04CE}-\x{04CF}\x{04D1}\x{04D3}\x{04D5}\x{04D7}\x{04D9}\x{04DB}\x{04DD}\x{04DF}\x{04E1}\x{04E3}\x{04E5}\x{04E7}\x{04E9}\x{04EB}\x{04ED}\x{04EF}\x{04F1}\x{04F3}\x{04F5}\x{04F7}\x{04F9}\x{04FB}\x{04FD}\x{04FF}\x{0501}\x{0503}\x{0505}\x{0507}\x{0509}\x{050B}\x{050D}\x{050F}\x{0511}\x{0513}\x{0515}\x{0517}\x{0519}\x{051B}\x{051D}\x{051F}\x{0521}\x{0523}\x{0525}\x{0527}\x{0529}\x{052B}\x{052D}\x{052F}\x{0561}-\x{0587}\x{13F8}-\x{13FD}\x{1D00}-\x{1D2B}\x{1D6B}-\x{1D77}\x{1D79}-\x{1D9A}\x{1E01}\x{1E03}\x{1E05}\x{1E07}\x{1E09}\x{1E0B}\x{1E0D}\x{1E0F}\x{1E11}\x{1E13}\x{1E15}\x{1E17}\x{1E19}\x{1E1B}\x{1E1D}\x{1E1F}\x{1E21}\x{1E23}\x{1E25}\x{1E27}\x{1E29}\x{1E2B}\x{1E2D}\x{1E2F}\x{1E31}\x{1E33}\x{1E35}\x{1E37}\x{1E39}\x{1E3B}\x{1E3D}\x{1E3F}\x{1E41}\x{1E43}\x{1E45}\x{1E47}\x{1E49}\x{1E4B}\x{1E4D}\x{1E4F}\x{1E51}\x{1E53}\x{1E55}\x{1E57}\x{1E59}\x{1E5B}\x{1E5D}\x{1E5F}\x{1E61}\x{1E63}\x{1E65}\x{1E67}\x{1E69}\x{1E6B}\x{1E6D}\x{1E6F}\x{1E71}\x{1E73}\x{1E75}\x{1E77}\x{1E79}\x{1E7B}\x{1E7D}\x{1E7F}\x{1E81}\x{1E83}\x{1E85}\x{1E87}\x{1E89}\x{1E8B}\x{1E8D}\x{1E8F}\x{1E91}\x{1E93}\x{1E95}-\x{1E9D}\x{1E9F}\x{1EA1}\x{1EA3}\x{1EA5}\x{1EA7}\x{1EA9}\x{1EAB}\x{1EAD}\x{1EAF}\x{1EB1}\x{1EB3}\x{1EB5}\x{1EB7}\x{1EB9}\x{1EBB}\x{1EBD}\x{1EBF}\x{1EC1}\x{1EC3}\x{1EC5}\x{1EC7}\x{1EC9}\x{1ECB}\x{1ECD}\x{1ECF}\x{1ED1}\x{1ED3}\x{1ED5}\x{1ED7}\x{1ED9}\x{1EDB}\x{1EDD}\x{1EDF}\x{1EE1}\x{1EE3}\x{1EE5}\x{1EE7}\x{1EE9}\x{1EEB}\x{1EED}\x{1EEF}\x{1EF1}\x{1EF3}\x{1EF5}\x{1EF7}\x{1EF9}\x{1EFB}\x{1EFD}\x{1EFF}-\x{1F07}\x{1F10}-\x{1F15}\x{1F20}-\x{1F27}\x{1F30}-\x{1F37}\x{1F40}-\x{1F45}\x{1F50}-\x{1F57}\x{1F60}-\x{1F67}\x{1F70}-\x{1F7D}\x{1F80}-\x{1F87}\x{1F90}-\x{1F97}\x{1FA0}-\x{1FA7}\x{1FB0}-\x{1FB4}\x{1FB6}-\x{1FB7}\x{1FBE}\x{1FC2}-\x{1FC4}\x{1FC6}-\x{1FC7}\x{1FD0}-\x{1FD3}\x{1FD6}-\x{1FD7}\x{1FE0}-\x{1FE7}\x{1FF2}-\x{1FF4}\x{1FF6}-\x{1FF7}\x{210A}\x{210E}-\x{210F}\x{2113}\x{212F}\x{2134}\x{2139}\x{213C}-\x{213D}\x{2146}-\x{2149}\x{214E}\x{2184}\x{2C30}-\x{2C5E}\x{2C61}\x{2C65}-\x{2C66}\x{2C68}\x{2C6A}\x{2C6C}\x{2C71}\x{2C73}-\x{2C74}\x{2C76}-\x{2C7B}\x{2C81}\x{2C83}\x{2C85}\x{2C87}\x{2C89}\x{2C8B}\x{2C8D}\x{2C8F}\x{2C91}\x{2C93}\x{2C95}\x{2C97}\x{2C99}\x{2C9B}\x{2C9D}\x{2C9F}\x{2CA1}\x{2CA3}\x{2CA5}\x{2CA7}\x{2CA9}\x{2CAB}\x{2CAD}\x{2CAF}\x{2CB1}\x{2CB3}\x{2CB5}\x{2CB7}\x{2CB9}\x{2CBB}\x{2CBD}\x{2CBF}\x{2CC1}\x{2CC3}\x{2CC5}\x{2CC7}\x{2CC9}\x{2CCB}\x{2CCD}\x{2CCF}\x{2CD1}\x{2CD3}\x{2CD5}\x{2CD7}\x{2CD9}\x{2CDB}\x{2CDD}\x{2CDF}\x{2CE1}\x{2CE3}-\x{2CE4}\x{2CEC}\x{2CEE}\x{2CF3}\x{2D00}-\x{2D25}\x{2D27}\x{2D2D}\x{A641}\x{A643}\x{A645}\x{A647}\x{A649}\x{A64B}\x{A64D}\x{A64F}\x{A651}\x{A653}\x{A655}\x{A657}\x{A659}\x{A65B}\x{A65D}\x{A65F}\x{A661}\x{A663}\x{A665}\x{A667}\x{A669}\x{A66B}\x{A66D}\x{A681}\x{A683}\x{A685}\x{A687}\x{A689}\x{A68B}\x{A68D}\x{A68F}\x{A691}\x{A693}\x{A695}\x{A697}\x{A699}\x{A69B}\x{A723}\x{A725}\x{A727}\x{A729}\x{A72B}\x{A72D}\x{A72F}-\x{A731}\x{A733}\x{A735}\x{A737}\x{A739}\x{A73B}\x{A73D}\x{A73F}\x{A741}\x{A743}\x{A745}\x{A747}\x{A749}\x{A74B}\x{A74D}\x{A74F}\x{A751}\x{A753}\x{A755}\x{A757}\x{A759}\x{A75B}\x{A75D}\x{A75F}\x{A761}\x{A763}\x{A765}\x{A767}\x{A769}\x{A76B}\x{A76D}\x{A76F}\x{A771}-\x{A778}\x{A77A}\x{A77C}\x{A77F}\x{A781}\x{A783}\x{A785}\x{A787}\x{A78C}\x{A78E}\x{A791}\x{A793}-\x{A795}\x{A797}\x{A799}\x{A79B}\x{A79D}\x{A79F}\x{A7A1}\x{A7A3}\x{A7A5}\x{A7A7}\x{A7A9}\x{A7B5}\x{A7B7}\x{A7FA}\x{AB30}-\x{AB5A}\x{AB60}-\x{AB65}\x{AB70}-\x{ABBF}\x{FB00}-\x{FB06}\x{FB13}-\x{FB17}\x{FF41}-\x{FF5A}]", "description" => "[a-zµß-öø-\x{00FF}\x{0101}\x{0103}\x{0105}\x{0107}\x{0109}\x{010B}\x{010D}\x{010F}\x{0111}\x{0113}\x{0115}\x{0117}\x{0119}\x{011B}\x{011D}\x{011F}\x{0121}\x{0123}\x{0125}\x{0127}\x{0129}\x{012B}\x{012D}\x{012F}\x{0131}\x{0133}\x{0135}\x{0137}-\x{0138}\x{013A}\x{013C}\x{013E}\x{0140}\x{0142}\x{0144}\x{0146}\x{0148}-\x{0149}\x{014B}\x{014D}\x{014F}\x{0151}\x{0153}\x{0155}\x{0157}\x{0159}\x{015B}\x{015D}\x{015F}\x{0161}\x{0163}\x{0165}\x{0167}\x{0169}\x{016B}\x{016D}\x{016F}\x{0171}\x{0173}\x{0175}\x{0177}\x{017A}\x{017C}\x{017E}-\x{0180}\x{0183}\x{0185}\x{0188}\x{018C}-\x{018D}\x{0192}\x{0195}\x{0199}-\x{019B}\x{019E}\x{01A1}\x{01A3}\x{01A5}\x{01A8}\x{01AA}-\x{01AB}\x{01AD}\x{01B0}\x{01B4}\x{01B6}\x{01B9}-\x{01BA}\x{01BD}-\x{01BF}\x{01C6}\x{01C9}\x{01CC}\x{01CE}\x{01D0}\x{01D2}\x{01D4}\x{01D6}\x{01D8}\x{01DA}\x{01DC}-\x{01DD}\x{01DF}\x{01E1}\x{01E3}\x{01E5}\x{01E7}\x{01E9}\x{01EB}\x{01ED}\x{01EF}-\x{01F0}\x{01F3}\x{01F5}\x{01F9}\x{01FB}\x{01FD}\x{01FF}\x{0201}\x{0203}\x{0205}\x{0207}\x{0209}\x{020B}\x{020D}\x{020F}\x{0211}\x{0213}\x{0215}\x{0217}\x{0219}\x{021B}\x{021D}\x{021F}\x{0221}\x{0223}\x{0225}\x{0227}\x{0229}\x{022B}\x{022D}\x{022F}\x{0231}\x{0233}-\x{0239}\x{023C}\x{023F}-\x{0240}\x{0242}\x{0247}\x{0249}\x{024B}\x{024D}\x{024F}-\x{0293}\x{0295}-\x{02AF}\x{0371}\x{0373}\x{0377}\x{037B}-\x{037D}\x{0390}\x{03AC}-\x{03CE}\x{03D0}-\x{03D1}\x{03D5}-\x{03D7}\x{03D9}\x{03DB}\x{03DD}\x{03DF}\x{03E1}\x{03E3}\x{03E5}\x{03E7}\x{03E9}\x{03EB}\x{03ED}\x{03EF}-\x{03F3}\x{03F5}\x{03F8}\x{03FB}-\x{03FC}\x{0430}-\x{045F}\x{0461}\x{0463}\x{0465}\x{0467}\x{0469}\x{046B}\x{046D}\x{046F}\x{0471}\x{0473}\x{0475}\x{0477}\x{0479}\x{047B}\x{047D}\x{047F}\x{0481}\x{048B}\x{048D}\x{048F}\x{0491}\x{0493}\x{0495}\x{0497}\x{0499}\x{049B}\x{049D}\x{049F}\x{04A1}\x{04A3}\x{04A5}\x{04A7}\x{04A9}\x{04AB}\x{04AD}\x{04AF}\x{04B1}\x{04B3}\x{04B5}\x{04B7}\x{04B9}\x{04BB}\x{04BD}\x{04BF}\x{04C2}\x{04C4}\x{04C6}\x{04C8}\x{04CA}\x{04CC}\x{04CE}-\x{04CF}\x{04D1}\x{04D3}\x{04D5}\x{04D7}\x{04D9}\x{04DB}\x{04DD}\x{04DF}\x{04E1}\x{04E3}\x{04E5}\x{04E7}\x{04E9}\x{04EB}\x{04ED}\x{04EF}\x{04F1}\x{04F3}\x{04F5}\x{04F7}\x{04F9}\x{04FB}\x{04FD}\x{04FF}\x{0501}\x{0503}\x{0505}\x{0507}\x{0509}\x{050B}\x{050D}\x{050F}\x{0511}\x{0513}\x{0515}\x{0517}\x{0519}\x{051B}\x{051D}\x{051F}\x{0521}\x{0523}\x{0525}\x{0527}\x{0529}\x{052B}\x{052D}\x{052F}\x{0561}-\x{0587}\x{13F8}-\x{13FD}\x{1D00}-\x{1D2B}\x{1D6B}-\x{1D77}\x{1D79}-\x{1D9A}\x{1E01}\x{1E03}\x{1E05}\x{1E07}\x{1E09}\x{1E0B}\x{1E0D}\x{1E0F}\x{1E11}\x{1E13}\x{1E15}\x{1E17}\x{1E19}\x{1E1B}\x{1E1D}\x{1E1F}\x{1E21}\x{1E23}\x{1E25}\x{1E27}\x{1E29}\x{1E2B}\x{1E2D}\x{1E2F}\x{1E31}\x{1E33}\x{1E35}\x{1E37}\x{1E39}\x{1E3B}\x{1E3D}\x{1E3F}\x{1E41}\x{1E43}\x{1E45}\x{1E47}\x{1E49}\x{1E4B}\x{1E4D}\x{1E4F}\x{1E51}\x{1E53}\x{1E55}\x{1E57}\x{1E59}\x{1E5B}\x{1E5D}\x{1E5F}\x{1E61}\x{1E63}\x{1E65}\x{1E67}\x{1E69}\x{1E6B}\x{1E6D}\x{1E6F}\x{1E71}\x{1E73}\x{1E75}\x{1E77}\x{1E79}\x{1E7B}\x{1E7D}\x{1E7F}\x{1E81}\x{1E83}\x{1E85}\x{1E87}\x{1E89}\x{1E8B}\x{1E8D}\x{1E8F}\x{1E91}\x{1E93}\x{1E95}-\x{1E9D}\x{1E9F}\x{1EA1}\x{1EA3}\x{1EA5}\x{1EA7}\x{1EA9}\x{1EAB}\x{1EAD}\x{1EAF}\x{1EB1}\x{1EB3}\x{1EB5}\x{1EB7}\x{1EB9}\x{1EBB}\x{1EBD}\x{1EBF}\x{1EC1}\x{1EC3}\x{1EC5}\x{1EC7}\x{1EC9}\x{1ECB}\x{1ECD}\x{1ECF}\x{1ED1}\x{1ED3}\x{1ED5}\x{1ED7}\x{1ED9}\x{1EDB}\x{1EDD}\x{1EDF}\x{1EE1}\x{1EE3}\x{1EE5}\x{1EE7}\x{1EE9}\x{1EEB}\x{1EED}\x{1EEF}\x{1EF1}\x{1EF3}\x{1EF5}\x{1EF7}\x{1EF9}\x{1EFB}\x{1EFD}\x{1EFF}-\x{1F07}\x{1F10}-\x{1F15}\x{1F20}-\x{1F27}\x{1F30}-\x{1F37}\x{1F40}-\x{1F45}\x{1F50}-\x{1F57}\x{1F60}-\x{1F67}\x{1F70}-\x{1F7D}\x{1F80}-\x{1F87}\x{1F90}-\x{1F97}\x{1FA0}-\x{1FA7}\x{1FB0}-\x{1FB4}\x{1FB6}-\x{1FB7}\x{1FBE}\x{1FC2}-\x{1FC4}\x{1FC6}-\x{1FC7}\x{1FD0}-\x{1FD3}\x{1FD6}-\x{1FD7}\x{1FE0}-\x{1FE7}\x{1FF2}-\x{1FF4}\x{1FF6}-\x{1FF7}\x{210A}\x{210E}-\x{210F}\x{2113}\x{212F}\x{2134}\x{2139}\x{213C}-\x{213D}\x{2146}-\x{2149}\x{214E}\x{2184}\x{2C30}-\x{2C5E}\x{2C61}\x{2C65}-\x{2C66}\x{2C68}\x{2C6A}\x{2C6C}\x{2C71}\x{2C73}-\x{2C74}\x{2C76}-\x{2C7B}\x{2C81}\x{2C83}\x{2C85}\x{2C87}\x{2C89}\x{2C8B}\x{2C8D}\x{2C8F}\x{2C91}\x{2C93}\x{2C95}\x{2C97}\x{2C99}\x{2C9B}\x{2C9D}\x{2C9F}\x{2CA1}\x{2CA3}\x{2CA5}\x{2CA7}\x{2CA9}\x{2CAB}\x{2CAD}\x{2CAF}\x{2CB1}\x{2CB3}\x{2CB5}\x{2CB7}\x{2CB9}\x{2CBB}\x{2CBD}\x{2CBF}\x{2CC1}\x{2CC3}\x{2CC5}\x{2CC7}\x{2CC9}\x{2CCB}\x{2CCD}\x{2CCF}\x{2CD1}\x{2CD3}\x{2CD5}\x{2CD7}\x{2CD9}\x{2CDB}\x{2CDD}\x{2CDF}\x{2CE1}\x{2CE3}-\x{2CE4}\x{2CEC}\x{2CEE}\x{2CF3}\x{2D00}-\x{2D25}\x{2D27}\x{2D2D}\x{A641}\x{A643}\x{A645}\x{A647}\x{A649}\x{A64B}\x{A64D}\x{A64F}\x{A651}\x{A653}\x{A655}\x{A657}\x{A659}\x{A65B}\x{A65D}\x{A65F}\x{A661}\x{A663}\x{A665}\x{A667}\x{A669}\x{A66B}\x{A66D}\x{A681}\x{A683}\x{A685}\x{A687}\x{A689}\x{A68B}\x{A68D}\x{A68F}\x{A691}\x{A693}\x{A695}\x{A697}\x{A699}\x{A69B}\x{A723}\x{A725}\x{A727}\x{A729}\x{A72B}\x{A72D}\x{A72F}-\x{A731}\x{A733}\x{A735}\x{A737}\x{A739}\x{A73B}\x{A73D}\x{A73F}\x{A741}\x{A743}\x{A745}\x{A747}\x{A749}\x{A74B}\x{A74D}\x{A74F}\x{A751}\x{A753}\x{A755}\x{A757}\x{A759}\x{A75B}\x{A75D}\x{A75F}\x{A761}\x{A763}\x{A765}\x{A767}\x{A769}\x{A76B}\x{A76D}\x{A76F}\x{A771}-\x{A778}\x{A77A}\x{A77C}\x{A77F}\x{A781}\x{A783}\x{A785}\x{A787}\x{A78C}\x{A78E}\x{A791}\x{A793}-\x{A795}\x{A797}\x{A799}\x{A79B}\x{A79D}\x{A79F}\x{A7A1}\x{A7A3}\x{A7A5}\x{A7A7}\x{A7A9}\x{A7B5}\x{A7B7}\x{A7FA}\x{AB30}-\x{AB5A}\x{AB60}-\x{AB65}\x{AB70}-\x{ABBF}\x{FB00}-\x{FB06}\x{FB13}-\x{FB17}\x{FF41}-\x{FF5A}]" );
-    $this->peg_c164 = array(array(688,705), array(710,721), array(736,740), array(748,748), array(750,750), array(884,884), array(890,890), array(1369,1369), array(1600,1600), array(1765,1766), array(2036,2037), array(2042,2042), array(2074,2074), array(2084,2084), array(2088,2088), array(2417,2417), array(3654,3654), array(3782,3782), array(4348,4348), array(6103,6103), array(6211,6211), array(6823,6823), array(7288,7293), array(7468,7530), array(7544,7544), array(7579,7615), array(8305,8305), array(8319,8319), array(8336,8348), array(11388,11389), array(11631,11631), array(11823,11823), array(12293,12293), array(12337,12341), array(12347,12347), array(12445,12446), array(12540,12542), array(40981,40981), array(42232,42237), array(42508,42508), array(42623,42623), array(42652,42653), array(42775,42783), array(42864,42864), array(42888,42888), array(43000,43001), array(43471,43471), array(43494,43494), array(43632,43632), array(43741,43741), array(43763,43764), array(43868,43871), array(65392,65392), array(65438,65439));
-    $this->peg_c165 = array( "type" => "class", "value" => "[\x{02B0}-\x{02C1}\x{02C6}-\x{02D1}\x{02E0}-\x{02E4}\x{02EC}\x{02EE}\x{0374}\x{037A}\x{0559}\x{0640}\x{06E5}-\x{06E6}\x{07F4}-\x{07F5}\x{07FA}\x{081A}\x{0824}\x{0828}\x{0971}\x{0E46}\x{0EC6}\x{10FC}\x{17D7}\x{1843}\x{1AA7}\x{1C78}-\x{1C7D}\x{1D2C}-\x{1D6A}\x{1D78}\x{1D9B}-\x{1DBF}\x{2071}\x{207F}\x{2090}-\x{209C}\x{2C7C}-\x{2C7D}\x{2D6F}\x{2E2F}\x{3005}\x{3031}-\x{3035}\x{303B}\x{309D}-\x{309E}\x{30FC}-\x{30FE}\x{A015}\x{A4F8}-\x{A4FD}\x{A60C}\x{A67F}\x{A69C}-\x{A69D}\x{A717}-\x{A71F}\x{A770}\x{A788}\x{A7F8}-\x{A7F9}\x{A9CF}\x{A9E6}\x{AA70}\x{AADD}\x{AAF3}-\x{AAF4}\x{AB5C}-\x{AB5F}\x{FF70}\x{FF9E}-\x{FF9F}]", "description" => "[\x{02B0}-\x{02C1}\x{02C6}-\x{02D1}\x{02E0}-\x{02E4}\x{02EC}\x{02EE}\x{0374}\x{037A}\x{0559}\x{0640}\x{06E5}-\x{06E6}\x{07F4}-\x{07F5}\x{07FA}\x{081A}\x{0824}\x{0828}\x{0971}\x{0E46}\x{0EC6}\x{10FC}\x{17D7}\x{1843}\x{1AA7}\x{1C78}-\x{1C7D}\x{1D2C}-\x{1D6A}\x{1D78}\x{1D9B}-\x{1DBF}\x{2071}\x{207F}\x{2090}-\x{209C}\x{2C7C}-\x{2C7D}\x{2D6F}\x{2E2F}\x{3005}\x{3031}-\x{3035}\x{303B}\x{309D}-\x{309E}\x{30FC}-\x{30FE}\x{A015}\x{A4F8}-\x{A4FD}\x{A60C}\x{A67F}\x{A69C}-\x{A69D}\x{A717}-\x{A71F}\x{A770}\x{A788}\x{A7F8}-\x{A7F9}\x{A9CF}\x{A9E6}\x{AA70}\x{AADD}\x{AAF3}-\x{AAF4}\x{AB5C}-\x{AB5F}\x{FF70}\x{FF9E}-\x{FF9F}]" );
-    $this->peg_c166 = array(array(170,170), array(186,186), array(443,443), array(448,451), array(660,660), array(1488,1514), array(1520,1522), array(1568,1599), array(1601,1610), array(1646,1647), array(1649,1747), array(1749,1749), array(1774,1775), array(1786,1788), array(1791,1791), array(1808,1808), array(1810,1839), array(1869,1957), array(1969,1969), array(1994,2026), array(2048,2069), array(2112,2136), array(2208,2228), array(2308,2361), array(2365,2365), array(2384,2384), array(2392,2401), array(2418,2432), array(2437,2444), array(2447,2448), array(2451,2472), array(2474,2480), array(2482,2482), array(2486,2489), array(2493,2493), array(2510,2510), array(2524,2525), array(2527,2529), array(2544,2545), array(2565,2570), array(2575,2576), array(2579,2600), array(2602,2608), array(2610,2611), array(2613,2614), array(2616,2617), array(2649,2652), array(2654,2654), array(2674,2676), array(2693,2701), array(2703,2705), array(2707,2728), array(2730,2736), array(2738,2739), array(2741,2745), array(2749,2749), array(2768,2768), array(2784,2785), array(2809,2809), array(2821,2828), array(2831,2832), array(2835,2856), array(2858,2864), array(2866,2867), array(2869,2873), array(2877,2877), array(2908,2909), array(2911,2913), array(2929,2929), array(2947,2947), array(2949,2954), array(2958,2960), array(2962,2965), array(2969,2970), array(2972,2972), array(2974,2975), array(2979,2980), array(2984,2986), array(2990,3001), array(3024,3024), array(3077,3084), array(3086,3088), array(3090,3112), array(3114,3129), array(3133,3133), array(3160,3162), array(3168,3169), array(3205,3212), array(3214,3216), array(3218,3240), array(3242,3251), array(3253,3257), array(3261,3261), array(3294,3294), array(3296,3297), array(3313,3314), array(3333,3340), array(3342,3344), array(3346,3386), array(3389,3389), array(3406,3406), array(3423,3425), array(3450,3455), array(3461,3478), array(3482,3505), array(3507,3515), array(3517,3517), array(3520,3526), array(3585,3632), array(3634,3635), array(3648,3653), array(3713,3714), array(3716,3716), array(3719,3720), array(3722,3722), array(3725,3725), array(3732,3735), array(3737,3743), array(3745,3747), array(3749,3749), array(3751,3751), array(3754,3755), array(3757,3760), array(3762,3763), array(3773,3773), array(3776,3780), array(3804,3807), array(3840,3840), array(3904,3911), array(3913,3948), array(3976,3980), array(4096,4138), array(4159,4159), array(4176,4181), array(4186,4189), array(4193,4193), array(4197,4198), array(4206,4208), array(4213,4225), array(4238,4238), array(4304,4346), array(4349,4680), array(4682,4685), array(4688,4694), array(4696,4696), array(4698,4701), array(4704,4744), array(4746,4749), array(4752,4784), array(4786,4789), array(4792,4798), array(4800,4800), array(4802,4805), array(4808,4822), array(4824,4880), array(4882,4885), array(4888,4954), array(4992,5007), array(5121,5740), array(5743,5759), array(5761,5786), array(5792,5866), array(5873,5880), array(5888,5900), array(5902,5905), array(5920,5937), array(5952,5969), array(5984,5996), array(5998,6000), array(6016,6067), array(6108,6108), array(6176,6210), array(6212,6263), array(6272,6312), array(6314,6314), array(6320,6389), array(6400,6430), array(6480,6509), array(6512,6516), array(6528,6571), array(6576,6601), array(6656,6678), array(6688,6740), array(6917,6963), array(6981,6987), array(7043,7072), array(7086,7087), array(7098,7141), array(7168,7203), array(7245,7247), array(7258,7287), array(7401,7404), array(7406,7409), array(7413,7414), array(8501,8504), array(11568,11623), array(11648,11670), array(11680,11686), array(11688,11694), array(11696,11702), array(11704,11710), array(11712,11718), array(11720,11726), array(11728,11734), array(11736,11742), array(12294,12294), array(12348,12348), array(12353,12438), array(12447,12447), array(12449,12538), array(12543,12543), array(12549,12589), array(12593,12686), array(12704,12730), array(12784,12799), array(13312,19893), array(19968,40917), array(40960,40980), array(40982,42124), array(42192,42231), array(42240,42507), array(42512,42527), array(42538,42539), array(42606,42606), array(42656,42725), array(42895,42895), array(42999,42999), array(43003,43009), array(43011,43013), array(43015,43018), array(43020,43042), array(43072,43123), array(43138,43187), array(43250,43255), array(43259,43259), array(43261,43261), array(43274,43301), array(43312,43334), array(43360,43388), array(43396,43442), array(43488,43492), array(43495,43503), array(43514,43518), array(43520,43560), array(43584,43586), array(43588,43595), array(43616,43631), array(43633,43638), array(43642,43642), array(43646,43695), array(43697,43697), array(43701,43702), array(43705,43709), array(43712,43712), array(43714,43714), array(43739,43740), array(43744,43754), array(43762,43762), array(43777,43782), array(43785,43790), array(43793,43798), array(43808,43814), array(43816,43822), array(43968,44002), array(44032,55203), array(55216,55238), array(55243,55291), array(63744,64109), array(64112,64217), array(64285,64285), array(64287,64296), array(64298,64310), array(64312,64316), array(64318,64318), array(64320,64321), array(64323,64324), array(64326,64433), array(64467,64829), array(64848,64911), array(64914,64967), array(65008,65019), array(65136,65140), array(65142,65276), array(65382,65391), array(65393,65437), array(65440,65470), array(65474,65479), array(65482,65487), array(65490,65495), array(65498,65500));
-    $this->peg_c167 = array( "type" => "class", "value" => "[ªº\x{01BB}\x{01C0}-\x{01C3}\x{0294}\x{05D0}-\x{05EA}\x{05F0}-\x{05F2}\x{0620}-\x{063F}\x{0641}-\x{064A}\x{066E}-\x{066F}\x{0671}-\x{06D3}\x{06D5}\x{06EE}-\x{06EF}\x{06FA}-\x{06FC}\x{06FF}\x{0710}\x{0712}-\x{072F}\x{074D}-\x{07A5}\x{07B1}\x{07CA}-\x{07EA}\x{0800}-\x{0815}\x{0840}-\x{0858}\x{08A0}-\x{08B4}\x{0904}-\x{0939}\x{093D}\x{0950}\x{0958}-\x{0961}\x{0972}-\x{0980}\x{0985}-\x{098C}\x{098F}-\x{0990}\x{0993}-\x{09A8}\x{09AA}-\x{09B0}\x{09B2}\x{09B6}-\x{09B9}\x{09BD}\x{09CE}\x{09DC}-\x{09DD}\x{09DF}-\x{09E1}\x{09F0}-\x{09F1}\x{0A05}-\x{0A0A}\x{0A0F}-\x{0A10}\x{0A13}-\x{0A28}\x{0A2A}-\x{0A30}\x{0A32}-\x{0A33}\x{0A35}-\x{0A36}\x{0A38}-\x{0A39}\x{0A59}-\x{0A5C}\x{0A5E}\x{0A72}-\x{0A74}\x{0A85}-\x{0A8D}\x{0A8F}-\x{0A91}\x{0A93}-\x{0AA8}\x{0AAA}-\x{0AB0}\x{0AB2}-\x{0AB3}\x{0AB5}-\x{0AB9}\x{0ABD}\x{0AD0}\x{0AE0}-\x{0AE1}\x{0AF9}\x{0B05}-\x{0B0C}\x{0B0F}-\x{0B10}\x{0B13}-\x{0B28}\x{0B2A}-\x{0B30}\x{0B32}-\x{0B33}\x{0B35}-\x{0B39}\x{0B3D}\x{0B5C}-\x{0B5D}\x{0B5F}-\x{0B61}\x{0B71}\x{0B83}\x{0B85}-\x{0B8A}\x{0B8E}-\x{0B90}\x{0B92}-\x{0B95}\x{0B99}-\x{0B9A}\x{0B9C}\x{0B9E}-\x{0B9F}\x{0BA3}-\x{0BA4}\x{0BA8}-\x{0BAA}\x{0BAE}-\x{0BB9}\x{0BD0}\x{0C05}-\x{0C0C}\x{0C0E}-\x{0C10}\x{0C12}-\x{0C28}\x{0C2A}-\x{0C39}\x{0C3D}\x{0C58}-\x{0C5A}\x{0C60}-\x{0C61}\x{0C85}-\x{0C8C}\x{0C8E}-\x{0C90}\x{0C92}-\x{0CA8}\x{0CAA}-\x{0CB3}\x{0CB5}-\x{0CB9}\x{0CBD}\x{0CDE}\x{0CE0}-\x{0CE1}\x{0CF1}-\x{0CF2}\x{0D05}-\x{0D0C}\x{0D0E}-\x{0D10}\x{0D12}-\x{0D3A}\x{0D3D}\x{0D4E}\x{0D5F}-\x{0D61}\x{0D7A}-\x{0D7F}\x{0D85}-\x{0D96}\x{0D9A}-\x{0DB1}\x{0DB3}-\x{0DBB}\x{0DBD}\x{0DC0}-\x{0DC6}\x{0E01}-\x{0E30}\x{0E32}-\x{0E33}\x{0E40}-\x{0E45}\x{0E81}-\x{0E82}\x{0E84}\x{0E87}-\x{0E88}\x{0E8A}\x{0E8D}\x{0E94}-\x{0E97}\x{0E99}-\x{0E9F}\x{0EA1}-\x{0EA3}\x{0EA5}\x{0EA7}\x{0EAA}-\x{0EAB}\x{0EAD}-\x{0EB0}\x{0EB2}-\x{0EB3}\x{0EBD}\x{0EC0}-\x{0EC4}\x{0EDC}-\x{0EDF}\x{0F00}\x{0F40}-\x{0F47}\x{0F49}-\x{0F6C}\x{0F88}-\x{0F8C}\x{1000}-\x{102A}\x{103F}\x{1050}-\x{1055}\x{105A}-\x{105D}\x{1061}\x{1065}-\x{1066}\x{106E}-\x{1070}\x{1075}-\x{1081}\x{108E}\x{10D0}-\x{10FA}\x{10FD}-\x{1248}\x{124A}-\x{124D}\x{1250}-\x{1256}\x{1258}\x{125A}-\x{125D}\x{1260}-\x{1288}\x{128A}-\x{128D}\x{1290}-\x{12B0}\x{12B2}-\x{12B5}\x{12B8}-\x{12BE}\x{12C0}\x{12C2}-\x{12C5}\x{12C8}-\x{12D6}\x{12D8}-\x{1310}\x{1312}-\x{1315}\x{1318}-\x{135A}\x{1380}-\x{138F}\x{1401}-\x{166C}\x{166F}-\x{167F}\x{1681}-\x{169A}\x{16A0}-\x{16EA}\x{16F1}-\x{16F8}\x{1700}-\x{170C}\x{170E}-\x{1711}\x{1720}-\x{1731}\x{1740}-\x{1751}\x{1760}-\x{176C}\x{176E}-\x{1770}\x{1780}-\x{17B3}\x{17DC}\x{1820}-\x{1842}\x{1844}-\x{1877}\x{1880}-\x{18A8}\x{18AA}\x{18B0}-\x{18F5}\x{1900}-\x{191E}\x{1950}-\x{196D}\x{1970}-\x{1974}\x{1980}-\x{19AB}\x{19B0}-\x{19C9}\x{1A00}-\x{1A16}\x{1A20}-\x{1A54}\x{1B05}-\x{1B33}\x{1B45}-\x{1B4B}\x{1B83}-\x{1BA0}\x{1BAE}-\x{1BAF}\x{1BBA}-\x{1BE5}\x{1C00}-\x{1C23}\x{1C4D}-\x{1C4F}\x{1C5A}-\x{1C77}\x{1CE9}-\x{1CEC}\x{1CEE}-\x{1CF1}\x{1CF5}-\x{1CF6}\x{2135}-\x{2138}\x{2D30}-\x{2D67}\x{2D80}-\x{2D96}\x{2DA0}-\x{2DA6}\x{2DA8}-\x{2DAE}\x{2DB0}-\x{2DB6}\x{2DB8}-\x{2DBE}\x{2DC0}-\x{2DC6}\x{2DC8}-\x{2DCE}\x{2DD0}-\x{2DD6}\x{2DD8}-\x{2DDE}\x{3006}\x{303C}\x{3041}-\x{3096}\x{309F}\x{30A1}-\x{30FA}\x{30FF}\x{3105}-\x{312D}\x{3131}-\x{318E}\x{31A0}-\x{31BA}\x{31F0}-\x{31FF}\x{3400}-\x{4DB5}\x{4E00}-\x{9FD5}\x{A000}-\x{A014}\x{A016}-\x{A48C}\x{A4D0}-\x{A4F7}\x{A500}-\x{A60B}\x{A610}-\x{A61F}\x{A62A}-\x{A62B}\x{A66E}\x{A6A0}-\x{A6E5}\x{A78F}\x{A7F7}\x{A7FB}-\x{A801}\x{A803}-\x{A805}\x{A807}-\x{A80A}\x{A80C}-\x{A822}\x{A840}-\x{A873}\x{A882}-\x{A8B3}\x{A8F2}-\x{A8F7}\x{A8FB}\x{A8FD}\x{A90A}-\x{A925}\x{A930}-\x{A946}\x{A960}-\x{A97C}\x{A984}-\x{A9B2}\x{A9E0}-\x{A9E4}\x{A9E7}-\x{A9EF}\x{A9FA}-\x{A9FE}\x{AA00}-\x{AA28}\x{AA40}-\x{AA42}\x{AA44}-\x{AA4B}\x{AA60}-\x{AA6F}\x{AA71}-\x{AA76}\x{AA7A}\x{AA7E}-\x{AAAF}\x{AAB1}\x{AAB5}-\x{AAB6}\x{AAB9}-\x{AABD}\x{AAC0}\x{AAC2}\x{AADB}-\x{AADC}\x{AAE0}-\x{AAEA}\x{AAF2}\x{AB01}-\x{AB06}\x{AB09}-\x{AB0E}\x{AB11}-\x{AB16}\x{AB20}-\x{AB26}\x{AB28}-\x{AB2E}\x{ABC0}-\x{ABE2}\x{AC00}-\x{D7A3}\x{D7B0}-\x{D7C6}\x{D7CB}-\x{D7FB}\x{F900}-\x{FA6D}\x{FA70}-\x{FAD9}\x{FB1D}\x{FB1F}-\x{FB28}\x{FB2A}-\x{FB36}\x{FB38}-\x{FB3C}\x{FB3E}\x{FB40}-\x{FB41}\x{FB43}-\x{FB44}\x{FB46}-\x{FBB1}\x{FBD3}-\x{FD3D}\x{FD50}-\x{FD8F}\x{FD92}-\x{FDC7}\x{FDF0}-\x{FDFB}\x{FE70}-\x{FE74}\x{FE76}-\x{FEFC}\x{FF66}-\x{FF6F}\x{FF71}-\x{FF9D}\x{FFA0}-\x{FFBE}\x{FFC2}-\x{FFC7}\x{FFCA}-\x{FFCF}\x{FFD2}-\x{FFD7}\x{FFDA}-\x{FFDC}]", "description" => "[ªº\x{01BB}\x{01C0}-\x{01C3}\x{0294}\x{05D0}-\x{05EA}\x{05F0}-\x{05F2}\x{0620}-\x{063F}\x{0641}-\x{064A}\x{066E}-\x{066F}\x{0671}-\x{06D3}\x{06D5}\x{06EE}-\x{06EF}\x{06FA}-\x{06FC}\x{06FF}\x{0710}\x{0712}-\x{072F}\x{074D}-\x{07A5}\x{07B1}\x{07CA}-\x{07EA}\x{0800}-\x{0815}\x{0840}-\x{0858}\x{08A0}-\x{08B4}\x{0904}-\x{0939}\x{093D}\x{0950}\x{0958}-\x{0961}\x{0972}-\x{0980}\x{0985}-\x{098C}\x{098F}-\x{0990}\x{0993}-\x{09A8}\x{09AA}-\x{09B0}\x{09B2}\x{09B6}-\x{09B9}\x{09BD}\x{09CE}\x{09DC}-\x{09DD}\x{09DF}-\x{09E1}\x{09F0}-\x{09F1}\x{0A05}-\x{0A0A}\x{0A0F}-\x{0A10}\x{0A13}-\x{0A28}\x{0A2A}-\x{0A30}\x{0A32}-\x{0A33}\x{0A35}-\x{0A36}\x{0A38}-\x{0A39}\x{0A59}-\x{0A5C}\x{0A5E}\x{0A72}-\x{0A74}\x{0A85}-\x{0A8D}\x{0A8F}-\x{0A91}\x{0A93}-\x{0AA8}\x{0AAA}-\x{0AB0}\x{0AB2}-\x{0AB3}\x{0AB5}-\x{0AB9}\x{0ABD}\x{0AD0}\x{0AE0}-\x{0AE1}\x{0AF9}\x{0B05}-\x{0B0C}\x{0B0F}-\x{0B10}\x{0B13}-\x{0B28}\x{0B2A}-\x{0B30}\x{0B32}-\x{0B33}\x{0B35}-\x{0B39}\x{0B3D}\x{0B5C}-\x{0B5D}\x{0B5F}-\x{0B61}\x{0B71}\x{0B83}\x{0B85}-\x{0B8A}\x{0B8E}-\x{0B90}\x{0B92}-\x{0B95}\x{0B99}-\x{0B9A}\x{0B9C}\x{0B9E}-\x{0B9F}\x{0BA3}-\x{0BA4}\x{0BA8}-\x{0BAA}\x{0BAE}-\x{0BB9}\x{0BD0}\x{0C05}-\x{0C0C}\x{0C0E}-\x{0C10}\x{0C12}-\x{0C28}\x{0C2A}-\x{0C39}\x{0C3D}\x{0C58}-\x{0C5A}\x{0C60}-\x{0C61}\x{0C85}-\x{0C8C}\x{0C8E}-\x{0C90}\x{0C92}-\x{0CA8}\x{0CAA}-\x{0CB3}\x{0CB5}-\x{0CB9}\x{0CBD}\x{0CDE}\x{0CE0}-\x{0CE1}\x{0CF1}-\x{0CF2}\x{0D05}-\x{0D0C}\x{0D0E}-\x{0D10}\x{0D12}-\x{0D3A}\x{0D3D}\x{0D4E}\x{0D5F}-\x{0D61}\x{0D7A}-\x{0D7F}\x{0D85}-\x{0D96}\x{0D9A}-\x{0DB1}\x{0DB3}-\x{0DBB}\x{0DBD}\x{0DC0}-\x{0DC6}\x{0E01}-\x{0E30}\x{0E32}-\x{0E33}\x{0E40}-\x{0E45}\x{0E81}-\x{0E82}\x{0E84}\x{0E87}-\x{0E88}\x{0E8A}\x{0E8D}\x{0E94}-\x{0E97}\x{0E99}-\x{0E9F}\x{0EA1}-\x{0EA3}\x{0EA5}\x{0EA7}\x{0EAA}-\x{0EAB}\x{0EAD}-\x{0EB0}\x{0EB2}-\x{0EB3}\x{0EBD}\x{0EC0}-\x{0EC4}\x{0EDC}-\x{0EDF}\x{0F00}\x{0F40}-\x{0F47}\x{0F49}-\x{0F6C}\x{0F88}-\x{0F8C}\x{1000}-\x{102A}\x{103F}\x{1050}-\x{1055}\x{105A}-\x{105D}\x{1061}\x{1065}-\x{1066}\x{106E}-\x{1070}\x{1075}-\x{1081}\x{108E}\x{10D0}-\x{10FA}\x{10FD}-\x{1248}\x{124A}-\x{124D}\x{1250}-\x{1256}\x{1258}\x{125A}-\x{125D}\x{1260}-\x{1288}\x{128A}-\x{128D}\x{1290}-\x{12B0}\x{12B2}-\x{12B5}\x{12B8}-\x{12BE}\x{12C0}\x{12C2}-\x{12C5}\x{12C8}-\x{12D6}\x{12D8}-\x{1310}\x{1312}-\x{1315}\x{1318}-\x{135A}\x{1380}-\x{138F}\x{1401}-\x{166C}\x{166F}-\x{167F}\x{1681}-\x{169A}\x{16A0}-\x{16EA}\x{16F1}-\x{16F8}\x{1700}-\x{170C}\x{170E}-\x{1711}\x{1720}-\x{1731}\x{1740}-\x{1751}\x{1760}-\x{176C}\x{176E}-\x{1770}\x{1780}-\x{17B3}\x{17DC}\x{1820}-\x{1842}\x{1844}-\x{1877}\x{1880}-\x{18A8}\x{18AA}\x{18B0}-\x{18F5}\x{1900}-\x{191E}\x{1950}-\x{196D}\x{1970}-\x{1974}\x{1980}-\x{19AB}\x{19B0}-\x{19C9}\x{1A00}-\x{1A16}\x{1A20}-\x{1A54}\x{1B05}-\x{1B33}\x{1B45}-\x{1B4B}\x{1B83}-\x{1BA0}\x{1BAE}-\x{1BAF}\x{1BBA}-\x{1BE5}\x{1C00}-\x{1C23}\x{1C4D}-\x{1C4F}\x{1C5A}-\x{1C77}\x{1CE9}-\x{1CEC}\x{1CEE}-\x{1CF1}\x{1CF5}-\x{1CF6}\x{2135}-\x{2138}\x{2D30}-\x{2D67}\x{2D80}-\x{2D96}\x{2DA0}-\x{2DA6}\x{2DA8}-\x{2DAE}\x{2DB0}-\x{2DB6}\x{2DB8}-\x{2DBE}\x{2DC0}-\x{2DC6}\x{2DC8}-\x{2DCE}\x{2DD0}-\x{2DD6}\x{2DD8}-\x{2DDE}\x{3006}\x{303C}\x{3041}-\x{3096}\x{309F}\x{30A1}-\x{30FA}\x{30FF}\x{3105}-\x{312D}\x{3131}-\x{318E}\x{31A0}-\x{31BA}\x{31F0}-\x{31FF}\x{3400}-\x{4DB5}\x{4E00}-\x{9FD5}\x{A000}-\x{A014}\x{A016}-\x{A48C}\x{A4D0}-\x{A4F7}\x{A500}-\x{A60B}\x{A610}-\x{A61F}\x{A62A}-\x{A62B}\x{A66E}\x{A6A0}-\x{A6E5}\x{A78F}\x{A7F7}\x{A7FB}-\x{A801}\x{A803}-\x{A805}\x{A807}-\x{A80A}\x{A80C}-\x{A822}\x{A840}-\x{A873}\x{A882}-\x{A8B3}\x{A8F2}-\x{A8F7}\x{A8FB}\x{A8FD}\x{A90A}-\x{A925}\x{A930}-\x{A946}\x{A960}-\x{A97C}\x{A984}-\x{A9B2}\x{A9E0}-\x{A9E4}\x{A9E7}-\x{A9EF}\x{A9FA}-\x{A9FE}\x{AA00}-\x{AA28}\x{AA40}-\x{AA42}\x{AA44}-\x{AA4B}\x{AA60}-\x{AA6F}\x{AA71}-\x{AA76}\x{AA7A}\x{AA7E}-\x{AAAF}\x{AAB1}\x{AAB5}-\x{AAB6}\x{AAB9}-\x{AABD}\x{AAC0}\x{AAC2}\x{AADB}-\x{AADC}\x{AAE0}-\x{AAEA}\x{AAF2}\x{AB01}-\x{AB06}\x{AB09}-\x{AB0E}\x{AB11}-\x{AB16}\x{AB20}-\x{AB26}\x{AB28}-\x{AB2E}\x{ABC0}-\x{ABE2}\x{AC00}-\x{D7A3}\x{D7B0}-\x{D7C6}\x{D7CB}-\x{D7FB}\x{F900}-\x{FA6D}\x{FA70}-\x{FAD9}\x{FB1D}\x{FB1F}-\x{FB28}\x{FB2A}-\x{FB36}\x{FB38}-\x{FB3C}\x{FB3E}\x{FB40}-\x{FB41}\x{FB43}-\x{FB44}\x{FB46}-\x{FBB1}\x{FBD3}-\x{FD3D}\x{FD50}-\x{FD8F}\x{FD92}-\x{FDC7}\x{FDF0}-\x{FDFB}\x{FE70}-\x{FE74}\x{FE76}-\x{FEFC}\x{FF66}-\x{FF6F}\x{FF71}-\x{FF9D}\x{FFA0}-\x{FFBE}\x{FFC2}-\x{FFC7}\x{FFCA}-\x{FFCF}\x{FFD2}-\x{FFD7}\x{FFDA}-\x{FFDC}]" );
-    $this->peg_c168 = array(array(453,453), array(456,456), array(459,459), array(498,498), array(8072,8079), array(8088,8095), array(8104,8111), array(8124,8124), array(8140,8140), array(8188,8188));
-    $this->peg_c169 = array( "type" => "class", "value" => "[\x{01C5}\x{01C8}\x{01CB}\x{01F2}\x{1F88}-\x{1F8F}\x{1F98}-\x{1F9F}\x{1FA8}-\x{1FAF}\x{1FBC}\x{1FCC}\x{1FFC}]", "description" => "[\x{01C5}\x{01C8}\x{01CB}\x{01F2}\x{1F88}-\x{1F8F}\x{1F98}-\x{1F9F}\x{1FA8}-\x{1FAF}\x{1FBC}\x{1FCC}\x{1FFC}]" );
-    $this->peg_c170 = array(array(65,90), array(192,214), array(216,222), array(256,256), array(258,258), array(260,260), array(262,262), array(264,264), array(266,266), array(268,268), array(270,270), array(272,272), array(274,274), array(276,276), array(278,278), array(280,280), array(282,282), array(284,284), array(286,286), array(288,288), array(290,290), array(292,292), array(294,294), array(296,296), array(298,298), array(300,300), array(302,302), array(304,304), array(306,306), array(308,308), array(310,310), array(313,313), array(315,315), array(317,317), array(319,319), array(321,321), array(323,323), array(325,325), array(327,327), array(330,330), array(332,332), array(334,334), array(336,336), array(338,338), array(340,340), array(342,342), array(344,344), array(346,346), array(348,348), array(350,350), array(352,352), array(354,354), array(356,356), array(358,358), array(360,360), array(362,362), array(364,364), array(366,366), array(368,368), array(370,370), array(372,372), array(374,374), array(376,377), array(379,379), array(381,381), array(385,386), array(388,388), array(390,391), array(393,395), array(398,401), array(403,404), array(406,408), array(412,413), array(415,416), array(418,418), array(420,420), array(422,423), array(425,425), array(428,428), array(430,431), array(433,435), array(437,437), array(439,440), array(444,444), array(452,452), array(455,455), array(458,458), array(461,461), array(463,463), array(465,465), array(467,467), array(469,469), array(471,471), array(473,473), array(475,475), array(478,478), array(480,480), array(482,482), array(484,484), array(486,486), array(488,488), array(490,490), array(492,492), array(494,494), array(497,497), array(500,500), array(502,504), array(506,506), array(508,508), array(510,510), array(512,512), array(514,514), array(516,516), array(518,518), array(520,520), array(522,522), array(524,524), array(526,526), array(528,528), array(530,530), array(532,532), array(534,534), array(536,536), array(538,538), array(540,540), array(542,542), array(544,544), array(546,546), array(548,548), array(550,550), array(552,552), array(554,554), array(556,556), array(558,558), array(560,560), array(562,562), array(570,571), array(573,574), array(577,577), array(579,582), array(584,584), array(586,586), array(588,588), array(590,590), array(880,880), array(882,882), array(886,886), array(895,895), array(902,902), array(904,906), array(908,908), array(910,911), array(913,929), array(931,939), array(975,975), array(978,980), array(984,984), array(986,986), array(988,988), array(990,990), array(992,992), array(994,994), array(996,996), array(998,998), array(1000,1000), array(1002,1002), array(1004,1004), array(1006,1006), array(1012,1012), array(1015,1015), array(1017,1018), array(1021,1071), array(1120,1120), array(1122,1122), array(1124,1124), array(1126,1126), array(1128,1128), array(1130,1130), array(1132,1132), array(1134,1134), array(1136,1136), array(1138,1138), array(1140,1140), array(1142,1142), array(1144,1144), array(1146,1146), array(1148,1148), array(1150,1150), array(1152,1152), array(1162,1162), array(1164,1164), array(1166,1166), array(1168,1168), array(1170,1170), array(1172,1172), array(1174,1174), array(1176,1176), array(1178,1178), array(1180,1180), array(1182,1182), array(1184,1184), array(1186,1186), array(1188,1188), array(1190,1190), array(1192,1192), array(1194,1194), array(1196,1196), array(1198,1198), array(1200,1200), array(1202,1202), array(1204,1204), array(1206,1206), array(1208,1208), array(1210,1210), array(1212,1212), array(1214,1214), array(1216,1217), array(1219,1219), array(1221,1221), array(1223,1223), array(1225,1225), array(1227,1227), array(1229,1229), array(1232,1232), array(1234,1234), array(1236,1236), array(1238,1238), array(1240,1240), array(1242,1242), array(1244,1244), array(1246,1246), array(1248,1248), array(1250,1250), array(1252,1252), array(1254,1254), array(1256,1256), array(1258,1258), array(1260,1260), array(1262,1262), array(1264,1264), array(1266,1266), array(1268,1268), array(1270,1270), array(1272,1272), array(1274,1274), array(1276,1276), array(1278,1278), array(1280,1280), array(1282,1282), array(1284,1284), array(1286,1286), array(1288,1288), array(1290,1290), array(1292,1292), array(1294,1294), array(1296,1296), array(1298,1298), array(1300,1300), array(1302,1302), array(1304,1304), array(1306,1306), array(1308,1308), array(1310,1310), array(1312,1312), array(1314,1314), array(1316,1316), array(1318,1318), array(1320,1320), array(1322,1322), array(1324,1324), array(1326,1326), array(1329,1366), array(4256,4293), array(4295,4295), array(4301,4301), array(5024,5109), array(7680,7680), array(7682,7682), array(7684,7684), array(7686,7686), array(7688,7688), array(7690,7690), array(7692,7692), array(7694,7694), array(7696,7696), array(7698,7698), array(7700,7700), array(7702,7702), array(7704,7704), array(7706,7706), array(7708,7708), array(7710,7710), array(7712,7712), array(7714,7714), array(7716,7716), array(7718,7718), array(7720,7720), array(7722,7722), array(7724,7724), array(7726,7726), array(7728,7728), array(7730,7730), array(7732,7732), array(7734,7734), array(7736,7736), array(7738,7738), array(7740,7740), array(7742,7742), array(7744,7744), array(7746,7746), array(7748,7748), array(7750,7750), array(7752,7752), array(7754,7754), array(7756,7756), array(7758,7758), array(7760,7760), array(7762,7762), array(7764,7764), array(7766,7766), array(7768,7768), array(7770,7770), array(7772,7772), array(7774,7774), array(7776,7776), array(7778,7778), array(7780,7780), array(7782,7782), array(7784,7784), array(7786,7786), array(7788,7788), array(7790,7790), array(7792,7792), array(7794,7794), array(7796,7796), array(7798,7798), array(7800,7800), array(7802,7802), array(7804,7804), array(7806,7806), array(7808,7808), array(7810,7810), array(7812,7812), array(7814,7814), array(7816,7816), array(7818,7818), array(7820,7820), array(7822,7822), array(7824,7824), array(7826,7826), array(7828,7828), array(7838,7838), array(7840,7840), array(7842,7842), array(7844,7844), array(7846,7846), array(7848,7848), array(7850,7850), array(7852,7852), array(7854,7854), array(7856,7856), array(7858,7858), array(7860,7860), array(7862,7862), array(7864,7864), array(7866,7866), array(7868,7868), array(7870,7870), array(7872,7872), array(7874,7874), array(7876,7876), array(7878,7878), array(7880,7880), array(7882,7882), array(7884,7884), array(7886,7886), array(7888,7888), array(7890,7890), array(7892,7892), array(7894,7894), array(7896,7896), array(7898,7898), array(7900,7900), array(7902,7902), array(7904,7904), array(7906,7906), array(7908,7908), array(7910,7910), array(7912,7912), array(7914,7914), array(7916,7916), array(7918,7918), array(7920,7920), array(7922,7922), array(7924,7924), array(7926,7926), array(7928,7928), array(7930,7930), array(7932,7932), array(7934,7934), array(7944,7951), array(7960,7965), array(7976,7983), array(7992,7999), array(8008,8013), array(8025,8025), array(8027,8027), array(8029,8029), array(8031,8031), array(8040,8047), array(8120,8123), array(8136,8139), array(8152,8155), array(8168,8172), array(8184,8187), array(8450,8450), array(8455,8455), array(8459,8461), array(8464,8466), array(8469,8469), array(8473,8477), array(8484,8484), array(8486,8486), array(8488,8488), array(8490,8493), array(8496,8499), array(8510,8511), array(8517,8517), array(8579,8579), array(11264,11310), array(11360,11360), array(11362,11364), array(11367,11367), array(11369,11369), array(11371,11371), array(11373,11376), array(11378,11378), array(11381,11381), array(11390,11392), array(11394,11394), array(11396,11396), array(11398,11398), array(11400,11400), array(11402,11402), array(11404,11404), array(11406,11406), array(11408,11408), array(11410,11410), array(11412,11412), array(11414,11414), array(11416,11416), array(11418,11418), array(11420,11420), array(11422,11422), array(11424,11424), array(11426,11426), array(11428,11428), array(11430,11430), array(11432,11432), array(11434,11434), array(11436,11436), array(11438,11438), array(11440,11440), array(11442,11442), array(11444,11444), array(11446,11446), array(11448,11448), array(11450,11450), array(11452,11452), array(11454,11454), array(11456,11456), array(11458,11458), array(11460,11460), array(11462,11462), array(11464,11464), array(11466,11466), array(11468,11468), array(11470,11470), array(11472,11472), array(11474,11474), array(11476,11476), array(11478,11478), array(11480,11480), array(11482,11482), array(11484,11484), array(11486,11486), array(11488,11488), array(11490,11490), array(11499,11499), array(11501,11501), array(11506,11506), array(42560,42560), array(42562,42562), array(42564,42564), array(42566,42566), array(42568,42568), array(42570,42570), array(42572,42572), array(42574,42574), array(42576,42576), array(42578,42578), array(42580,42580), array(42582,42582), array(42584,42584), array(42586,42586), array(42588,42588), array(42590,42590), array(42592,42592), array(42594,42594), array(42596,42596), array(42598,42598), array(42600,42600), array(42602,42602), array(42604,42604), array(42624,42624), array(42626,42626), array(42628,42628), array(42630,42630), array(42632,42632), array(42634,42634), array(42636,42636), array(42638,42638), array(42640,42640), array(42642,42642), array(42644,42644), array(42646,42646), array(42648,42648), array(42650,42650), array(42786,42786), array(42788,42788), array(42790,42790), array(42792,42792), array(42794,42794), array(42796,42796), array(42798,42798), array(42802,42802), array(42804,42804), array(42806,42806), array(42808,42808), array(42810,42810), array(42812,42812), array(42814,42814), array(42816,42816), array(42818,42818), array(42820,42820), array(42822,42822), array(42824,42824), array(42826,42826), array(42828,42828), array(42830,42830), array(42832,42832), array(42834,42834), array(42836,42836), array(42838,42838), array(42840,42840), array(42842,42842), array(42844,42844), array(42846,42846), array(42848,42848), array(42850,42850), array(42852,42852), array(42854,42854), array(42856,42856), array(42858,42858), array(42860,42860), array(42862,42862), array(42873,42873), array(42875,42875), array(42877,42878), array(42880,42880), array(42882,42882), array(42884,42884), array(42886,42886), array(42891,42891), array(42893,42893), array(42896,42896), array(42898,42898), array(42902,42902), array(42904,42904), array(42906,42906), array(42908,42908), array(42910,42910), array(42912,42912), array(42914,42914), array(42916,42916), array(42918,42918), array(42920,42920), array(42922,42925), array(42928,42932), array(42934,42934), array(65313,65338));
-    $this->peg_c171 = array( "type" => "class", "value" => "[A-ZÀ-ÖØ-Þ\x{0100}\x{0102}\x{0104}\x{0106}\x{0108}\x{010A}\x{010C}\x{010E}\x{0110}\x{0112}\x{0114}\x{0116}\x{0118}\x{011A}\x{011C}\x{011E}\x{0120}\x{0122}\x{0124}\x{0126}\x{0128}\x{012A}\x{012C}\x{012E}\x{0130}\x{0132}\x{0134}\x{0136}\x{0139}\x{013B}\x{013D}\x{013F}\x{0141}\x{0143}\x{0145}\x{0147}\x{014A}\x{014C}\x{014E}\x{0150}\x{0152}\x{0154}\x{0156}\x{0158}\x{015A}\x{015C}\x{015E}\x{0160}\x{0162}\x{0164}\x{0166}\x{0168}\x{016A}\x{016C}\x{016E}\x{0170}\x{0172}\x{0174}\x{0176}\x{0178}-\x{0179}\x{017B}\x{017D}\x{0181}-\x{0182}\x{0184}\x{0186}-\x{0187}\x{0189}-\x{018B}\x{018E}-\x{0191}\x{0193}-\x{0194}\x{0196}-\x{0198}\x{019C}-\x{019D}\x{019F}-\x{01A0}\x{01A2}\x{01A4}\x{01A6}-\x{01A7}\x{01A9}\x{01AC}\x{01AE}-\x{01AF}\x{01B1}-\x{01B3}\x{01B5}\x{01B7}-\x{01B8}\x{01BC}\x{01C4}\x{01C7}\x{01CA}\x{01CD}\x{01CF}\x{01D1}\x{01D3}\x{01D5}\x{01D7}\x{01D9}\x{01DB}\x{01DE}\x{01E0}\x{01E2}\x{01E4}\x{01E6}\x{01E8}\x{01EA}\x{01EC}\x{01EE}\x{01F1}\x{01F4}\x{01F6}-\x{01F8}\x{01FA}\x{01FC}\x{01FE}\x{0200}\x{0202}\x{0204}\x{0206}\x{0208}\x{020A}\x{020C}\x{020E}\x{0210}\x{0212}\x{0214}\x{0216}\x{0218}\x{021A}\x{021C}\x{021E}\x{0220}\x{0222}\x{0224}\x{0226}\x{0228}\x{022A}\x{022C}\x{022E}\x{0230}\x{0232}\x{023A}-\x{023B}\x{023D}-\x{023E}\x{0241}\x{0243}-\x{0246}\x{0248}\x{024A}\x{024C}\x{024E}\x{0370}\x{0372}\x{0376}\x{037F}\x{0386}\x{0388}-\x{038A}\x{038C}\x{038E}-\x{038F}\x{0391}-\x{03A1}\x{03A3}-\x{03AB}\x{03CF}\x{03D2}-\x{03D4}\x{03D8}\x{03DA}\x{03DC}\x{03DE}\x{03E0}\x{03E2}\x{03E4}\x{03E6}\x{03E8}\x{03EA}\x{03EC}\x{03EE}\x{03F4}\x{03F7}\x{03F9}-\x{03FA}\x{03FD}-\x{042F}\x{0460}\x{0462}\x{0464}\x{0466}\x{0468}\x{046A}\x{046C}\x{046E}\x{0470}\x{0472}\x{0474}\x{0476}\x{0478}\x{047A}\x{047C}\x{047E}\x{0480}\x{048A}\x{048C}\x{048E}\x{0490}\x{0492}\x{0494}\x{0496}\x{0498}\x{049A}\x{049C}\x{049E}\x{04A0}\x{04A2}\x{04A4}\x{04A6}\x{04A8}\x{04AA}\x{04AC}\x{04AE}\x{04B0}\x{04B2}\x{04B4}\x{04B6}\x{04B8}\x{04BA}\x{04BC}\x{04BE}\x{04C0}-\x{04C1}\x{04C3}\x{04C5}\x{04C7}\x{04C9}\x{04CB}\x{04CD}\x{04D0}\x{04D2}\x{04D4}\x{04D6}\x{04D8}\x{04DA}\x{04DC}\x{04DE}\x{04E0}\x{04E2}\x{04E4}\x{04E6}\x{04E8}\x{04EA}\x{04EC}\x{04EE}\x{04F0}\x{04F2}\x{04F4}\x{04F6}\x{04F8}\x{04FA}\x{04FC}\x{04FE}\x{0500}\x{0502}\x{0504}\x{0506}\x{0508}\x{050A}\x{050C}\x{050E}\x{0510}\x{0512}\x{0514}\x{0516}\x{0518}\x{051A}\x{051C}\x{051E}\x{0520}\x{0522}\x{0524}\x{0526}\x{0528}\x{052A}\x{052C}\x{052E}\x{0531}-\x{0556}\x{10A0}-\x{10C5}\x{10C7}\x{10CD}\x{13A0}-\x{13F5}\x{1E00}\x{1E02}\x{1E04}\x{1E06}\x{1E08}\x{1E0A}\x{1E0C}\x{1E0E}\x{1E10}\x{1E12}\x{1E14}\x{1E16}\x{1E18}\x{1E1A}\x{1E1C}\x{1E1E}\x{1E20}\x{1E22}\x{1E24}\x{1E26}\x{1E28}\x{1E2A}\x{1E2C}\x{1E2E}\x{1E30}\x{1E32}\x{1E34}\x{1E36}\x{1E38}\x{1E3A}\x{1E3C}\x{1E3E}\x{1E40}\x{1E42}\x{1E44}\x{1E46}\x{1E48}\x{1E4A}\x{1E4C}\x{1E4E}\x{1E50}\x{1E52}\x{1E54}\x{1E56}\x{1E58}\x{1E5A}\x{1E5C}\x{1E5E}\x{1E60}\x{1E62}\x{1E64}\x{1E66}\x{1E68}\x{1E6A}\x{1E6C}\x{1E6E}\x{1E70}\x{1E72}\x{1E74}\x{1E76}\x{1E78}\x{1E7A}\x{1E7C}\x{1E7E}\x{1E80}\x{1E82}\x{1E84}\x{1E86}\x{1E88}\x{1E8A}\x{1E8C}\x{1E8E}\x{1E90}\x{1E92}\x{1E94}\x{1E9E}\x{1EA0}\x{1EA2}\x{1EA4}\x{1EA6}\x{1EA8}\x{1EAA}\x{1EAC}\x{1EAE}\x{1EB0}\x{1EB2}\x{1EB4}\x{1EB6}\x{1EB8}\x{1EBA}\x{1EBC}\x{1EBE}\x{1EC0}\x{1EC2}\x{1EC4}\x{1EC6}\x{1EC8}\x{1ECA}\x{1ECC}\x{1ECE}\x{1ED0}\x{1ED2}\x{1ED4}\x{1ED6}\x{1ED8}\x{1EDA}\x{1EDC}\x{1EDE}\x{1EE0}\x{1EE2}\x{1EE4}\x{1EE6}\x{1EE8}\x{1EEA}\x{1EEC}\x{1EEE}\x{1EF0}\x{1EF2}\x{1EF4}\x{1EF6}\x{1EF8}\x{1EFA}\x{1EFC}\x{1EFE}\x{1F08}-\x{1F0F}\x{1F18}-\x{1F1D}\x{1F28}-\x{1F2F}\x{1F38}-\x{1F3F}\x{1F48}-\x{1F4D}\x{1F59}\x{1F5B}\x{1F5D}\x{1F5F}\x{1F68}-\x{1F6F}\x{1FB8}-\x{1FBB}\x{1FC8}-\x{1FCB}\x{1FD8}-\x{1FDB}\x{1FE8}-\x{1FEC}\x{1FF8}-\x{1FFB}\x{2102}\x{2107}\x{210B}-\x{210D}\x{2110}-\x{2112}\x{2115}\x{2119}-\x{211D}\x{2124}\x{2126}\x{2128}\x{212A}-\x{212D}\x{2130}-\x{2133}\x{213E}-\x{213F}\x{2145}\x{2183}\x{2C00}-\x{2C2E}\x{2C60}\x{2C62}-\x{2C64}\x{2C67}\x{2C69}\x{2C6B}\x{2C6D}-\x{2C70}\x{2C72}\x{2C75}\x{2C7E}-\x{2C80}\x{2C82}\x{2C84}\x{2C86}\x{2C88}\x{2C8A}\x{2C8C}\x{2C8E}\x{2C90}\x{2C92}\x{2C94}\x{2C96}\x{2C98}\x{2C9A}\x{2C9C}\x{2C9E}\x{2CA0}\x{2CA2}\x{2CA4}\x{2CA6}\x{2CA8}\x{2CAA}\x{2CAC}\x{2CAE}\x{2CB0}\x{2CB2}\x{2CB4}\x{2CB6}\x{2CB8}\x{2CBA}\x{2CBC}\x{2CBE}\x{2CC0}\x{2CC2}\x{2CC4}\x{2CC6}\x{2CC8}\x{2CCA}\x{2CCC}\x{2CCE}\x{2CD0}\x{2CD2}\x{2CD4}\x{2CD6}\x{2CD8}\x{2CDA}\x{2CDC}\x{2CDE}\x{2CE0}\x{2CE2}\x{2CEB}\x{2CED}\x{2CF2}\x{A640}\x{A642}\x{A644}\x{A646}\x{A648}\x{A64A}\x{A64C}\x{A64E}\x{A650}\x{A652}\x{A654}\x{A656}\x{A658}\x{A65A}\x{A65C}\x{A65E}\x{A660}\x{A662}\x{A664}\x{A666}\x{A668}\x{A66A}\x{A66C}\x{A680}\x{A682}\x{A684}\x{A686}\x{A688}\x{A68A}\x{A68C}\x{A68E}\x{A690}\x{A692}\x{A694}\x{A696}\x{A698}\x{A69A}\x{A722}\x{A724}\x{A726}\x{A728}\x{A72A}\x{A72C}\x{A72E}\x{A732}\x{A734}\x{A736}\x{A738}\x{A73A}\x{A73C}\x{A73E}\x{A740}\x{A742}\x{A744}\x{A746}\x{A748}\x{A74A}\x{A74C}\x{A74E}\x{A750}\x{A752}\x{A754}\x{A756}\x{A758}\x{A75A}\x{A75C}\x{A75E}\x{A760}\x{A762}\x{A764}\x{A766}\x{A768}\x{A76A}\x{A76C}\x{A76E}\x{A779}\x{A77B}\x{A77D}-\x{A77E}\x{A780}\x{A782}\x{A784}\x{A786}\x{A78B}\x{A78D}\x{A790}\x{A792}\x{A796}\x{A798}\x{A79A}\x{A79C}\x{A79E}\x{A7A0}\x{A7A2}\x{A7A4}\x{A7A6}\x{A7A8}\x{A7AA}-\x{A7AD}\x{A7B0}-\x{A7B4}\x{A7B6}\x{FF21}-\x{FF3A}]", "description" => "[A-ZÀ-ÖØ-Þ\x{0100}\x{0102}\x{0104}\x{0106}\x{0108}\x{010A}\x{010C}\x{010E}\x{0110}\x{0112}\x{0114}\x{0116}\x{0118}\x{011A}\x{011C}\x{011E}\x{0120}\x{0122}\x{0124}\x{0126}\x{0128}\x{012A}\x{012C}\x{012E}\x{0130}\x{0132}\x{0134}\x{0136}\x{0139}\x{013B}\x{013D}\x{013F}\x{0141}\x{0143}\x{0145}\x{0147}\x{014A}\x{014C}\x{014E}\x{0150}\x{0152}\x{0154}\x{0156}\x{0158}\x{015A}\x{015C}\x{015E}\x{0160}\x{0162}\x{0164}\x{0166}\x{0168}\x{016A}\x{016C}\x{016E}\x{0170}\x{0172}\x{0174}\x{0176}\x{0178}-\x{0179}\x{017B}\x{017D}\x{0181}-\x{0182}\x{0184}\x{0186}-\x{0187}\x{0189}-\x{018B}\x{018E}-\x{0191}\x{0193}-\x{0194}\x{0196}-\x{0198}\x{019C}-\x{019D}\x{019F}-\x{01A0}\x{01A2}\x{01A4}\x{01A6}-\x{01A7}\x{01A9}\x{01AC}\x{01AE}-\x{01AF}\x{01B1}-\x{01B3}\x{01B5}\x{01B7}-\x{01B8}\x{01BC}\x{01C4}\x{01C7}\x{01CA}\x{01CD}\x{01CF}\x{01D1}\x{01D3}\x{01D5}\x{01D7}\x{01D9}\x{01DB}\x{01DE}\x{01E0}\x{01E2}\x{01E4}\x{01E6}\x{01E8}\x{01EA}\x{01EC}\x{01EE}\x{01F1}\x{01F4}\x{01F6}-\x{01F8}\x{01FA}\x{01FC}\x{01FE}\x{0200}\x{0202}\x{0204}\x{0206}\x{0208}\x{020A}\x{020C}\x{020E}\x{0210}\x{0212}\x{0214}\x{0216}\x{0218}\x{021A}\x{021C}\x{021E}\x{0220}\x{0222}\x{0224}\x{0226}\x{0228}\x{022A}\x{022C}\x{022E}\x{0230}\x{0232}\x{023A}-\x{023B}\x{023D}-\x{023E}\x{0241}\x{0243}-\x{0246}\x{0248}\x{024A}\x{024C}\x{024E}\x{0370}\x{0372}\x{0376}\x{037F}\x{0386}\x{0388}-\x{038A}\x{038C}\x{038E}-\x{038F}\x{0391}-\x{03A1}\x{03A3}-\x{03AB}\x{03CF}\x{03D2}-\x{03D4}\x{03D8}\x{03DA}\x{03DC}\x{03DE}\x{03E0}\x{03E2}\x{03E4}\x{03E6}\x{03E8}\x{03EA}\x{03EC}\x{03EE}\x{03F4}\x{03F7}\x{03F9}-\x{03FA}\x{03FD}-\x{042F}\x{0460}\x{0462}\x{0464}\x{0466}\x{0468}\x{046A}\x{046C}\x{046E}\x{0470}\x{0472}\x{0474}\x{0476}\x{0478}\x{047A}\x{047C}\x{047E}\x{0480}\x{048A}\x{048C}\x{048E}\x{0490}\x{0492}\x{0494}\x{0496}\x{0498}\x{049A}\x{049C}\x{049E}\x{04A0}\x{04A2}\x{04A4}\x{04A6}\x{04A8}\x{04AA}\x{04AC}\x{04AE}\x{04B0}\x{04B2}\x{04B4}\x{04B6}\x{04B8}\x{04BA}\x{04BC}\x{04BE}\x{04C0}-\x{04C1}\x{04C3}\x{04C5}\x{04C7}\x{04C9}\x{04CB}\x{04CD}\x{04D0}\x{04D2}\x{04D4}\x{04D6}\x{04D8}\x{04DA}\x{04DC}\x{04DE}\x{04E0}\x{04E2}\x{04E4}\x{04E6}\x{04E8}\x{04EA}\x{04EC}\x{04EE}\x{04F0}\x{04F2}\x{04F4}\x{04F6}\x{04F8}\x{04FA}\x{04FC}\x{04FE}\x{0500}\x{0502}\x{0504}\x{0506}\x{0508}\x{050A}\x{050C}\x{050E}\x{0510}\x{0512}\x{0514}\x{0516}\x{0518}\x{051A}\x{051C}\x{051E}\x{0520}\x{0522}\x{0524}\x{0526}\x{0528}\x{052A}\x{052C}\x{052E}\x{0531}-\x{0556}\x{10A0}-\x{10C5}\x{10C7}\x{10CD}\x{13A0}-\x{13F5}\x{1E00}\x{1E02}\x{1E04}\x{1E06}\x{1E08}\x{1E0A}\x{1E0C}\x{1E0E}\x{1E10}\x{1E12}\x{1E14}\x{1E16}\x{1E18}\x{1E1A}\x{1E1C}\x{1E1E}\x{1E20}\x{1E22}\x{1E24}\x{1E26}\x{1E28}\x{1E2A}\x{1E2C}\x{1E2E}\x{1E30}\x{1E32}\x{1E34}\x{1E36}\x{1E38}\x{1E3A}\x{1E3C}\x{1E3E}\x{1E40}\x{1E42}\x{1E44}\x{1E46}\x{1E48}\x{1E4A}\x{1E4C}\x{1E4E}\x{1E50}\x{1E52}\x{1E54}\x{1E56}\x{1E58}\x{1E5A}\x{1E5C}\x{1E5E}\x{1E60}\x{1E62}\x{1E64}\x{1E66}\x{1E68}\x{1E6A}\x{1E6C}\x{1E6E}\x{1E70}\x{1E72}\x{1E74}\x{1E76}\x{1E78}\x{1E7A}\x{1E7C}\x{1E7E}\x{1E80}\x{1E82}\x{1E84}\x{1E86}\x{1E88}\x{1E8A}\x{1E8C}\x{1E8E}\x{1E90}\x{1E92}\x{1E94}\x{1E9E}\x{1EA0}\x{1EA2}\x{1EA4}\x{1EA6}\x{1EA8}\x{1EAA}\x{1EAC}\x{1EAE}\x{1EB0}\x{1EB2}\x{1EB4}\x{1EB6}\x{1EB8}\x{1EBA}\x{1EBC}\x{1EBE}\x{1EC0}\x{1EC2}\x{1EC4}\x{1EC6}\x{1EC8}\x{1ECA}\x{1ECC}\x{1ECE}\x{1ED0}\x{1ED2}\x{1ED4}\x{1ED6}\x{1ED8}\x{1EDA}\x{1EDC}\x{1EDE}\x{1EE0}\x{1EE2}\x{1EE4}\x{1EE6}\x{1EE8}\x{1EEA}\x{1EEC}\x{1EEE}\x{1EF0}\x{1EF2}\x{1EF4}\x{1EF6}\x{1EF8}\x{1EFA}\x{1EFC}\x{1EFE}\x{1F08}-\x{1F0F}\x{1F18}-\x{1F1D}\x{1F28}-\x{1F2F}\x{1F38}-\x{1F3F}\x{1F48}-\x{1F4D}\x{1F59}\x{1F5B}\x{1F5D}\x{1F5F}\x{1F68}-\x{1F6F}\x{1FB8}-\x{1FBB}\x{1FC8}-\x{1FCB}\x{1FD8}-\x{1FDB}\x{1FE8}-\x{1FEC}\x{1FF8}-\x{1FFB}\x{2102}\x{2107}\x{210B}-\x{210D}\x{2110}-\x{2112}\x{2115}\x{2119}-\x{211D}\x{2124}\x{2126}\x{2128}\x{212A}-\x{212D}\x{2130}-\x{2133}\x{213E}-\x{213F}\x{2145}\x{2183}\x{2C00}-\x{2C2E}\x{2C60}\x{2C62}-\x{2C64}\x{2C67}\x{2C69}\x{2C6B}\x{2C6D}-\x{2C70}\x{2C72}\x{2C75}\x{2C7E}-\x{2C80}\x{2C82}\x{2C84}\x{2C86}\x{2C88}\x{2C8A}\x{2C8C}\x{2C8E}\x{2C90}\x{2C92}\x{2C94}\x{2C96}\x{2C98}\x{2C9A}\x{2C9C}\x{2C9E}\x{2CA0}\x{2CA2}\x{2CA4}\x{2CA6}\x{2CA8}\x{2CAA}\x{2CAC}\x{2CAE}\x{2CB0}\x{2CB2}\x{2CB4}\x{2CB6}\x{2CB8}\x{2CBA}\x{2CBC}\x{2CBE}\x{2CC0}\x{2CC2}\x{2CC4}\x{2CC6}\x{2CC8}\x{2CCA}\x{2CCC}\x{2CCE}\x{2CD0}\x{2CD2}\x{2CD4}\x{2CD6}\x{2CD8}\x{2CDA}\x{2CDC}\x{2CDE}\x{2CE0}\x{2CE2}\x{2CEB}\x{2CED}\x{2CF2}\x{A640}\x{A642}\x{A644}\x{A646}\x{A648}\x{A64A}\x{A64C}\x{A64E}\x{A650}\x{A652}\x{A654}\x{A656}\x{A658}\x{A65A}\x{A65C}\x{A65E}\x{A660}\x{A662}\x{A664}\x{A666}\x{A668}\x{A66A}\x{A66C}\x{A680}\x{A682}\x{A684}\x{A686}\x{A688}\x{A68A}\x{A68C}\x{A68E}\x{A690}\x{A692}\x{A694}\x{A696}\x{A698}\x{A69A}\x{A722}\x{A724}\x{A726}\x{A728}\x{A72A}\x{A72C}\x{A72E}\x{A732}\x{A734}\x{A736}\x{A738}\x{A73A}\x{A73C}\x{A73E}\x{A740}\x{A742}\x{A744}\x{A746}\x{A748}\x{A74A}\x{A74C}\x{A74E}\x{A750}\x{A752}\x{A754}\x{A756}\x{A758}\x{A75A}\x{A75C}\x{A75E}\x{A760}\x{A762}\x{A764}\x{A766}\x{A768}\x{A76A}\x{A76C}\x{A76E}\x{A779}\x{A77B}\x{A77D}-\x{A77E}\x{A780}\x{A782}\x{A784}\x{A786}\x{A78B}\x{A78D}\x{A790}\x{A792}\x{A796}\x{A798}\x{A79A}\x{A79C}\x{A79E}\x{A7A0}\x{A7A2}\x{A7A4}\x{A7A6}\x{A7A8}\x{A7AA}-\x{A7AD}\x{A7B0}-\x{A7B4}\x{A7B6}\x{FF21}-\x{FF3A}]" );
+    $this->peg_c41 = "/";
+    $this->peg_c42 = array( "type" => "literal", "value" => "/", "description" => "\"/\"" );
+    $this->peg_c43 = "@";
+    $this->peg_c44 = array( "type" => "literal", "value" => "@", "description" => "\"@\"" );
+    $this->peg_c45 = array(array(42,42), array(64,64));
+    $this->peg_c46 = array( "type" => "class", "value" => "[*@]", "description" => "[*@]" );
+    $this->peg_c47 = "ignore";
+    $this->peg_c48 = array( "type" => "literal", "value" => "ignore", "description" => "\"ignore\"" );
+    $this->peg_c49 = "function";
+    $this->peg_c50 = array( "type" => "literal", "value" => "function", "description" => "\"function\"" );
+    $this->peg_c51 = "=>";
+    $this->peg_c52 = array( "type" => "literal", "value" => "=>", "description" => "\"=>\"" );
+    $this->peg_c53 = "assume";
+    $this->peg_c54 = array( "type" => "literal", "value" => "assume", "description" => "\"assume\"" );
+    $this->peg_c55 = array("type" => "other", "description" => "identifier" );
+    $this->peg_c56 = array(array(97,122), array(65,90));
+    $this->peg_c57 = array( "type" => "class", "value" => "[a-zA-Z]", "description" => "[a-zA-Z]" );
+    $this->peg_c58 = "_";
+    $this->peg_c59 = array( "type" => "literal", "value" => "_", "description" => "\"_\"" );
+    $this->peg_c60 = "%";
+    $this->peg_c61 = array( "type" => "literal", "value" => "%", "description" => "\"%\"" );
+    $this->peg_c62 = ",";
+    $this->peg_c63 = array( "type" => "literal", "value" => ",", "description" => "\",\"" );
+    $this->peg_c64 = ":";
+    $this->peg_c65 = array( "type" => "literal", "value" => ":", "description" => "\":\"" );
+    $this->peg_c66 = "if";
+    $this->peg_c67 = array( "type" => "literal", "value" => "if", "description" => "\"if\"" );
+    $this->peg_c68 = "then";
+    $this->peg_c69 = array( "type" => "literal", "value" => "then", "description" => "\"then\"" );
+    $this->peg_c70 = "elseif";
+    $this->peg_c71 = array( "type" => "literal", "value" => "elseif", "description" => "\"elseif\"" );
+    $this->peg_c72 = "else";
+    $this->peg_c73 = array( "type" => "literal", "value" => "else", "description" => "\"else\"" );
+    $this->peg_c74 = "do";
+    $this->peg_c75 = array( "type" => "literal", "value" => "do", "description" => "\"do\"" );
+    $this->peg_c76 = "for";
+    $this->peg_c77 = array( "type" => "literal", "value" => "for", "description" => "\"for\"" );
+    $this->peg_c78 = "from";
+    $this->peg_c79 = array( "type" => "literal", "value" => "from", "description" => "\"from\"" );
+    $this->peg_c80 = "step";
+    $this->peg_c81 = array( "type" => "literal", "value" => "step", "description" => "\"step\"" );
+    $this->peg_c82 = "next";
+    $this->peg_c83 = array( "type" => "literal", "value" => "next", "description" => "\"next\"" );
+    $this->peg_c84 = "in";
+    $this->peg_c85 = array( "type" => "literal", "value" => "in", "description" => "\"in\"" );
+    $this->peg_c86 = "thru";
+    $this->peg_c87 = array( "type" => "literal", "value" => "thru", "description" => "\"thru\"" );
+    $this->peg_c88 = "while";
+    $this->peg_c89 = array( "type" => "literal", "value" => "while", "description" => "\"while\"" );
+    $this->peg_c90 = "unless";
+    $this->peg_c91 = array( "type" => "literal", "value" => "unless", "description" => "\"unless\"" );
+    $this->peg_c92 = "(";
+    $this->peg_c93 = array( "type" => "literal", "value" => "(", "description" => "\"(\"" );
+    $this->peg_c94 = ")";
+    $this->peg_c95 = array( "type" => "literal", "value" => ")", "description" => "\")\"" );
+    $this->peg_c96 = "-";
+    $this->peg_c97 = array( "type" => "literal", "value" => "-", "description" => "\"-\"" );
+    $this->peg_c98 = "+";
+    $this->peg_c99 = array( "type" => "literal", "value" => "+", "description" => "\"+\"" );
+    $this->peg_c100 = "''";
+    $this->peg_c101 = array( "type" => "literal", "value" => "''", "description" => "\"''\"" );
+    $this->peg_c102 = "'";
+    $this->peg_c103 = array( "type" => "literal", "value" => "'", "description" => "\"'\"" );
+    $this->peg_c104 = "not ";
+    $this->peg_c105 = array( "type" => "literal", "value" => "not ", "description" => "\"not \"" );
+    $this->peg_c106 = "?? ";
+    $this->peg_c107 = array( "type" => "literal", "value" => "?? ", "description" => "\"?? \"" );
+    $this->peg_c108 = "? ";
+    $this->peg_c109 = array( "type" => "literal", "value" => "? ", "description" => "\"? \"" );
+    $this->peg_c110 = "?";
+    $this->peg_c111 = array( "type" => "literal", "value" => "?", "description" => "\"?\"" );
+    $this->peg_c112 = "!!";
+    $this->peg_c113 = array( "type" => "literal", "value" => "!!", "description" => "\"!!\"" );
+    $this->peg_c114 = "!";
+    $this->peg_c115 = array( "type" => "literal", "value" => "!", "description" => "\"!\"" );
+    $this->peg_c116 = "#";
+    $this->peg_c117 = array( "type" => "literal", "value" => "#", "description" => "\"#\"" );
+    $this->peg_c118 = "**";
+    $this->peg_c119 = array( "type" => "literal", "value" => "**", "description" => "\"**\"" );
+    $this->peg_c120 = "^^";
+    $this->peg_c121 = array( "type" => "literal", "value" => "^^", "description" => "\"^^\"" );
+    $this->peg_c122 = "^";
+    $this->peg_c123 = array( "type" => "literal", "value" => "^", "description" => "\"^\"" );
+    $this->peg_c124 = "and";
+    $this->peg_c125 = array( "type" => "literal", "value" => "and", "description" => "\"and\"" );
+    $this->peg_c126 = "or";
+    $this->peg_c127 = array( "type" => "literal", "value" => "or", "description" => "\"or\"" );
+    $this->peg_c128 = "nounand";
+    $this->peg_c129 = array( "type" => "literal", "value" => "nounand", "description" => "\"nounand\"" );
+    $this->peg_c130 = "nounor";
+    $this->peg_c131 = array( "type" => "literal", "value" => "nounor", "description" => "\"nounor\"" );
+    $this->peg_c132 = "::=";
+    $this->peg_c133 = array( "type" => "literal", "value" => "::=", "description" => "\"::=\"" );
+    $this->peg_c134 = ":=";
+    $this->peg_c135 = array( "type" => "literal", "value" => ":=", "description" => "\":=\"" );
+    $this->peg_c136 = "::";
+    $this->peg_c137 = array( "type" => "literal", "value" => "::", "description" => "\"::\"" );
+    $this->peg_c138 = "<=";
+    $this->peg_c139 = array( "type" => "literal", "value" => "<=", "description" => "\"<=\"" );
+    $this->peg_c140 = "<";
+    $this->peg_c141 = array( "type" => "literal", "value" => "<", "description" => "\"<\"" );
+    $this->peg_c142 = ">=";
+    $this->peg_c143 = array( "type" => "literal", "value" => ">=", "description" => "\">=\"" );
+    $this->peg_c144 = ">";
+    $this->peg_c145 = array( "type" => "literal", "value" => ">", "description" => "\">\"" );
+    $this->peg_c146 = "~";
+    $this->peg_c147 = array( "type" => "literal", "value" => "~", "description" => "\"~\"" );
+    $this->peg_c148 = "not";
+    $this->peg_c149 = array( "type" => "literal", "value" => "not", "description" => "\"not\"" );
+    $this->peg_c150 = "|";
+    $this->peg_c151 = array( "type" => "literal", "value" => "|", "description" => "\"|\"" );
+    $this->peg_c152 = "[";
+    $this->peg_c153 = array( "type" => "literal", "value" => "[", "description" => "\"[\"" );
+    $this->peg_c154 = "]";
+    $this->peg_c155 = array( "type" => "literal", "value" => "]", "description" => "\"]\"" );
+    $this->peg_c156 = "{";
+    $this->peg_c157 = array( "type" => "literal", "value" => "{", "description" => "\"{\"" );
+    $this->peg_c158 = "}";
+    $this->peg_c159 = array( "type" => "literal", "value" => "}", "description" => "\"}\"" );
+    $this->peg_c160 = array("type" => "other", "description" => "whitespace" );
+    $this->peg_c161 = array(array(32,32), array(9,9), array(10,10), array(13,13), array(11,11), array(12,12), array(160,160), array(65279,65279), array(32,32), array(160,160), array(5760,5760), array(8192,8202), array(8239,8239), array(8287,8287), array(12288,12288), array(10,13));
+    $this->peg_c162 = array( "type" => "class", "value" => "[ \t\n\r\x0B\f \x{FEFF}  \x{1680}\x{2000}-\x{200A}\x{202F}\x{205F}\x{3000}\n-\r]", "description" => "[ \t\n\r\x0B\f \x{FEFF}  \x{1680}\x{2000}-\x{200A}\x{202F}\x{205F}\x{3000}\n-\r]" );
+    $this->peg_c163 = array("type" => "other", "description" => "unicode letter character" );
+    $this->peg_c164 = array(array(97,122), array(181,181), array(223,246), array(248,255), array(257,257), array(259,259), array(261,261), array(263,263), array(265,265), array(267,267), array(269,269), array(271,271), array(273,273), array(275,275), array(277,277), array(279,279), array(281,281), array(283,283), array(285,285), array(287,287), array(289,289), array(291,291), array(293,293), array(295,295), array(297,297), array(299,299), array(301,301), array(303,303), array(305,305), array(307,307), array(309,309), array(311,312), array(314,314), array(316,316), array(318,318), array(320,320), array(322,322), array(324,324), array(326,326), array(328,329), array(331,331), array(333,333), array(335,335), array(337,337), array(339,339), array(341,341), array(343,343), array(345,345), array(347,347), array(349,349), array(351,351), array(353,353), array(355,355), array(357,357), array(359,359), array(361,361), array(363,363), array(365,365), array(367,367), array(369,369), array(371,371), array(373,373), array(375,375), array(378,378), array(380,380), array(382,384), array(387,387), array(389,389), array(392,392), array(396,397), array(402,402), array(405,405), array(409,411), array(414,414), array(417,417), array(419,419), array(421,421), array(424,424), array(426,427), array(429,429), array(432,432), array(436,436), array(438,438), array(441,442), array(445,447), array(454,454), array(457,457), array(460,460), array(462,462), array(464,464), array(466,466), array(468,468), array(470,470), array(472,472), array(474,474), array(476,477), array(479,479), array(481,481), array(483,483), array(485,485), array(487,487), array(489,489), array(491,491), array(493,493), array(495,496), array(499,499), array(501,501), array(505,505), array(507,507), array(509,509), array(511,511), array(513,513), array(515,515), array(517,517), array(519,519), array(521,521), array(523,523), array(525,525), array(527,527), array(529,529), array(531,531), array(533,533), array(535,535), array(537,537), array(539,539), array(541,541), array(543,543), array(545,545), array(547,547), array(549,549), array(551,551), array(553,553), array(555,555), array(557,557), array(559,559), array(561,561), array(563,569), array(572,572), array(575,576), array(578,578), array(583,583), array(585,585), array(587,587), array(589,589), array(591,659), array(661,687), array(881,881), array(883,883), array(887,887), array(891,893), array(912,912), array(940,974), array(976,977), array(981,983), array(985,985), array(987,987), array(989,989), array(991,991), array(993,993), array(995,995), array(997,997), array(999,999), array(1001,1001), array(1003,1003), array(1005,1005), array(1007,1011), array(1013,1013), array(1016,1016), array(1019,1020), array(1072,1119), array(1121,1121), array(1123,1123), array(1125,1125), array(1127,1127), array(1129,1129), array(1131,1131), array(1133,1133), array(1135,1135), array(1137,1137), array(1139,1139), array(1141,1141), array(1143,1143), array(1145,1145), array(1147,1147), array(1149,1149), array(1151,1151), array(1153,1153), array(1163,1163), array(1165,1165), array(1167,1167), array(1169,1169), array(1171,1171), array(1173,1173), array(1175,1175), array(1177,1177), array(1179,1179), array(1181,1181), array(1183,1183), array(1185,1185), array(1187,1187), array(1189,1189), array(1191,1191), array(1193,1193), array(1195,1195), array(1197,1197), array(1199,1199), array(1201,1201), array(1203,1203), array(1205,1205), array(1207,1207), array(1209,1209), array(1211,1211), array(1213,1213), array(1215,1215), array(1218,1218), array(1220,1220), array(1222,1222), array(1224,1224), array(1226,1226), array(1228,1228), array(1230,1231), array(1233,1233), array(1235,1235), array(1237,1237), array(1239,1239), array(1241,1241), array(1243,1243), array(1245,1245), array(1247,1247), array(1249,1249), array(1251,1251), array(1253,1253), array(1255,1255), array(1257,1257), array(1259,1259), array(1261,1261), array(1263,1263), array(1265,1265), array(1267,1267), array(1269,1269), array(1271,1271), array(1273,1273), array(1275,1275), array(1277,1277), array(1279,1279), array(1281,1281), array(1283,1283), array(1285,1285), array(1287,1287), array(1289,1289), array(1291,1291), array(1293,1293), array(1295,1295), array(1297,1297), array(1299,1299), array(1301,1301), array(1303,1303), array(1305,1305), array(1307,1307), array(1309,1309), array(1311,1311), array(1313,1313), array(1315,1315), array(1317,1317), array(1319,1319), array(1321,1321), array(1323,1323), array(1325,1325), array(1327,1327), array(1377,1415), array(5112,5117), array(7424,7467), array(7531,7543), array(7545,7578), array(7681,7681), array(7683,7683), array(7685,7685), array(7687,7687), array(7689,7689), array(7691,7691), array(7693,7693), array(7695,7695), array(7697,7697), array(7699,7699), array(7701,7701), array(7703,7703), array(7705,7705), array(7707,7707), array(7709,7709), array(7711,7711), array(7713,7713), array(7715,7715), array(7717,7717), array(7719,7719), array(7721,7721), array(7723,7723), array(7725,7725), array(7727,7727), array(7729,7729), array(7731,7731), array(7733,7733), array(7735,7735), array(7737,7737), array(7739,7739), array(7741,7741), array(7743,7743), array(7745,7745), array(7747,7747), array(7749,7749), array(7751,7751), array(7753,7753), array(7755,7755), array(7757,7757), array(7759,7759), array(7761,7761), array(7763,7763), array(7765,7765), array(7767,7767), array(7769,7769), array(7771,7771), array(7773,7773), array(7775,7775), array(7777,7777), array(7779,7779), array(7781,7781), array(7783,7783), array(7785,7785), array(7787,7787), array(7789,7789), array(7791,7791), array(7793,7793), array(7795,7795), array(7797,7797), array(7799,7799), array(7801,7801), array(7803,7803), array(7805,7805), array(7807,7807), array(7809,7809), array(7811,7811), array(7813,7813), array(7815,7815), array(7817,7817), array(7819,7819), array(7821,7821), array(7823,7823), array(7825,7825), array(7827,7827), array(7829,7837), array(7839,7839), array(7841,7841), array(7843,7843), array(7845,7845), array(7847,7847), array(7849,7849), array(7851,7851), array(7853,7853), array(7855,7855), array(7857,7857), array(7859,7859), array(7861,7861), array(7863,7863), array(7865,7865), array(7867,7867), array(7869,7869), array(7871,7871), array(7873,7873), array(7875,7875), array(7877,7877), array(7879,7879), array(7881,7881), array(7883,7883), array(7885,7885), array(7887,7887), array(7889,7889), array(7891,7891), array(7893,7893), array(7895,7895), array(7897,7897), array(7899,7899), array(7901,7901), array(7903,7903), array(7905,7905), array(7907,7907), array(7909,7909), array(7911,7911), array(7913,7913), array(7915,7915), array(7917,7917), array(7919,7919), array(7921,7921), array(7923,7923), array(7925,7925), array(7927,7927), array(7929,7929), array(7931,7931), array(7933,7933), array(7935,7943), array(7952,7957), array(7968,7975), array(7984,7991), array(8000,8005), array(8016,8023), array(8032,8039), array(8048,8061), array(8064,8071), array(8080,8087), array(8096,8103), array(8112,8116), array(8118,8119), array(8126,8126), array(8130,8132), array(8134,8135), array(8144,8147), array(8150,8151), array(8160,8167), array(8178,8180), array(8182,8183), array(8458,8458), array(8462,8463), array(8467,8467), array(8495,8495), array(8500,8500), array(8505,8505), array(8508,8509), array(8518,8521), array(8526,8526), array(8580,8580), array(11312,11358), array(11361,11361), array(11365,11366), array(11368,11368), array(11370,11370), array(11372,11372), array(11377,11377), array(11379,11380), array(11382,11387), array(11393,11393), array(11395,11395), array(11397,11397), array(11399,11399), array(11401,11401), array(11403,11403), array(11405,11405), array(11407,11407), array(11409,11409), array(11411,11411), array(11413,11413), array(11415,11415), array(11417,11417), array(11419,11419), array(11421,11421), array(11423,11423), array(11425,11425), array(11427,11427), array(11429,11429), array(11431,11431), array(11433,11433), array(11435,11435), array(11437,11437), array(11439,11439), array(11441,11441), array(11443,11443), array(11445,11445), array(11447,11447), array(11449,11449), array(11451,11451), array(11453,11453), array(11455,11455), array(11457,11457), array(11459,11459), array(11461,11461), array(11463,11463), array(11465,11465), array(11467,11467), array(11469,11469), array(11471,11471), array(11473,11473), array(11475,11475), array(11477,11477), array(11479,11479), array(11481,11481), array(11483,11483), array(11485,11485), array(11487,11487), array(11489,11489), array(11491,11492), array(11500,11500), array(11502,11502), array(11507,11507), array(11520,11557), array(11559,11559), array(11565,11565), array(42561,42561), array(42563,42563), array(42565,42565), array(42567,42567), array(42569,42569), array(42571,42571), array(42573,42573), array(42575,42575), array(42577,42577), array(42579,42579), array(42581,42581), array(42583,42583), array(42585,42585), array(42587,42587), array(42589,42589), array(42591,42591), array(42593,42593), array(42595,42595), array(42597,42597), array(42599,42599), array(42601,42601), array(42603,42603), array(42605,42605), array(42625,42625), array(42627,42627), array(42629,42629), array(42631,42631), array(42633,42633), array(42635,42635), array(42637,42637), array(42639,42639), array(42641,42641), array(42643,42643), array(42645,42645), array(42647,42647), array(42649,42649), array(42651,42651), array(42787,42787), array(42789,42789), array(42791,42791), array(42793,42793), array(42795,42795), array(42797,42797), array(42799,42801), array(42803,42803), array(42805,42805), array(42807,42807), array(42809,42809), array(42811,42811), array(42813,42813), array(42815,42815), array(42817,42817), array(42819,42819), array(42821,42821), array(42823,42823), array(42825,42825), array(42827,42827), array(42829,42829), array(42831,42831), array(42833,42833), array(42835,42835), array(42837,42837), array(42839,42839), array(42841,42841), array(42843,42843), array(42845,42845), array(42847,42847), array(42849,42849), array(42851,42851), array(42853,42853), array(42855,42855), array(42857,42857), array(42859,42859), array(42861,42861), array(42863,42863), array(42865,42872), array(42874,42874), array(42876,42876), array(42879,42879), array(42881,42881), array(42883,42883), array(42885,42885), array(42887,42887), array(42892,42892), array(42894,42894), array(42897,42897), array(42899,42901), array(42903,42903), array(42905,42905), array(42907,42907), array(42909,42909), array(42911,42911), array(42913,42913), array(42915,42915), array(42917,42917), array(42919,42919), array(42921,42921), array(42933,42933), array(42935,42935), array(43002,43002), array(43824,43866), array(43872,43877), array(43888,43967), array(64256,64262), array(64275,64279), array(65345,65370));
+    $this->peg_c165 = array( "type" => "class", "value" => "[a-zµß-öø-\x{00FF}\x{0101}\x{0103}\x{0105}\x{0107}\x{0109}\x{010B}\x{010D}\x{010F}\x{0111}\x{0113}\x{0115}\x{0117}\x{0119}\x{011B}\x{011D}\x{011F}\x{0121}\x{0123}\x{0125}\x{0127}\x{0129}\x{012B}\x{012D}\x{012F}\x{0131}\x{0133}\x{0135}\x{0137}-\x{0138}\x{013A}\x{013C}\x{013E}\x{0140}\x{0142}\x{0144}\x{0146}\x{0148}-\x{0149}\x{014B}\x{014D}\x{014F}\x{0151}\x{0153}\x{0155}\x{0157}\x{0159}\x{015B}\x{015D}\x{015F}\x{0161}\x{0163}\x{0165}\x{0167}\x{0169}\x{016B}\x{016D}\x{016F}\x{0171}\x{0173}\x{0175}\x{0177}\x{017A}\x{017C}\x{017E}-\x{0180}\x{0183}\x{0185}\x{0188}\x{018C}-\x{018D}\x{0192}\x{0195}\x{0199}-\x{019B}\x{019E}\x{01A1}\x{01A3}\x{01A5}\x{01A8}\x{01AA}-\x{01AB}\x{01AD}\x{01B0}\x{01B4}\x{01B6}\x{01B9}-\x{01BA}\x{01BD}-\x{01BF}\x{01C6}\x{01C9}\x{01CC}\x{01CE}\x{01D0}\x{01D2}\x{01D4}\x{01D6}\x{01D8}\x{01DA}\x{01DC}-\x{01DD}\x{01DF}\x{01E1}\x{01E3}\x{01E5}\x{01E7}\x{01E9}\x{01EB}\x{01ED}\x{01EF}-\x{01F0}\x{01F3}\x{01F5}\x{01F9}\x{01FB}\x{01FD}\x{01FF}\x{0201}\x{0203}\x{0205}\x{0207}\x{0209}\x{020B}\x{020D}\x{020F}\x{0211}\x{0213}\x{0215}\x{0217}\x{0219}\x{021B}\x{021D}\x{021F}\x{0221}\x{0223}\x{0225}\x{0227}\x{0229}\x{022B}\x{022D}\x{022F}\x{0231}\x{0233}-\x{0239}\x{023C}\x{023F}-\x{0240}\x{0242}\x{0247}\x{0249}\x{024B}\x{024D}\x{024F}-\x{0293}\x{0295}-\x{02AF}\x{0371}\x{0373}\x{0377}\x{037B}-\x{037D}\x{0390}\x{03AC}-\x{03CE}\x{03D0}-\x{03D1}\x{03D5}-\x{03D7}\x{03D9}\x{03DB}\x{03DD}\x{03DF}\x{03E1}\x{03E3}\x{03E5}\x{03E7}\x{03E9}\x{03EB}\x{03ED}\x{03EF}-\x{03F3}\x{03F5}\x{03F8}\x{03FB}-\x{03FC}\x{0430}-\x{045F}\x{0461}\x{0463}\x{0465}\x{0467}\x{0469}\x{046B}\x{046D}\x{046F}\x{0471}\x{0473}\x{0475}\x{0477}\x{0479}\x{047B}\x{047D}\x{047F}\x{0481}\x{048B}\x{048D}\x{048F}\x{0491}\x{0493}\x{0495}\x{0497}\x{0499}\x{049B}\x{049D}\x{049F}\x{04A1}\x{04A3}\x{04A5}\x{04A7}\x{04A9}\x{04AB}\x{04AD}\x{04AF}\x{04B1}\x{04B3}\x{04B5}\x{04B7}\x{04B9}\x{04BB}\x{04BD}\x{04BF}\x{04C2}\x{04C4}\x{04C6}\x{04C8}\x{04CA}\x{04CC}\x{04CE}-\x{04CF}\x{04D1}\x{04D3}\x{04D5}\x{04D7}\x{04D9}\x{04DB}\x{04DD}\x{04DF}\x{04E1}\x{04E3}\x{04E5}\x{04E7}\x{04E9}\x{04EB}\x{04ED}\x{04EF}\x{04F1}\x{04F3}\x{04F5}\x{04F7}\x{04F9}\x{04FB}\x{04FD}\x{04FF}\x{0501}\x{0503}\x{0505}\x{0507}\x{0509}\x{050B}\x{050D}\x{050F}\x{0511}\x{0513}\x{0515}\x{0517}\x{0519}\x{051B}\x{051D}\x{051F}\x{0521}\x{0523}\x{0525}\x{0527}\x{0529}\x{052B}\x{052D}\x{052F}\x{0561}-\x{0587}\x{13F8}-\x{13FD}\x{1D00}-\x{1D2B}\x{1D6B}-\x{1D77}\x{1D79}-\x{1D9A}\x{1E01}\x{1E03}\x{1E05}\x{1E07}\x{1E09}\x{1E0B}\x{1E0D}\x{1E0F}\x{1E11}\x{1E13}\x{1E15}\x{1E17}\x{1E19}\x{1E1B}\x{1E1D}\x{1E1F}\x{1E21}\x{1E23}\x{1E25}\x{1E27}\x{1E29}\x{1E2B}\x{1E2D}\x{1E2F}\x{1E31}\x{1E33}\x{1E35}\x{1E37}\x{1E39}\x{1E3B}\x{1E3D}\x{1E3F}\x{1E41}\x{1E43}\x{1E45}\x{1E47}\x{1E49}\x{1E4B}\x{1E4D}\x{1E4F}\x{1E51}\x{1E53}\x{1E55}\x{1E57}\x{1E59}\x{1E5B}\x{1E5D}\x{1E5F}\x{1E61}\x{1E63}\x{1E65}\x{1E67}\x{1E69}\x{1E6B}\x{1E6D}\x{1E6F}\x{1E71}\x{1E73}\x{1E75}\x{1E77}\x{1E79}\x{1E7B}\x{1E7D}\x{1E7F}\x{1E81}\x{1E83}\x{1E85}\x{1E87}\x{1E89}\x{1E8B}\x{1E8D}\x{1E8F}\x{1E91}\x{1E93}\x{1E95}-\x{1E9D}\x{1E9F}\x{1EA1}\x{1EA3}\x{1EA5}\x{1EA7}\x{1EA9}\x{1EAB}\x{1EAD}\x{1EAF}\x{1EB1}\x{1EB3}\x{1EB5}\x{1EB7}\x{1EB9}\x{1EBB}\x{1EBD}\x{1EBF}\x{1EC1}\x{1EC3}\x{1EC5}\x{1EC7}\x{1EC9}\x{1ECB}\x{1ECD}\x{1ECF}\x{1ED1}\x{1ED3}\x{1ED5}\x{1ED7}\x{1ED9}\x{1EDB}\x{1EDD}\x{1EDF}\x{1EE1}\x{1EE3}\x{1EE5}\x{1EE7}\x{1EE9}\x{1EEB}\x{1EED}\x{1EEF}\x{1EF1}\x{1EF3}\x{1EF5}\x{1EF7}\x{1EF9}\x{1EFB}\x{1EFD}\x{1EFF}-\x{1F07}\x{1F10}-\x{1F15}\x{1F20}-\x{1F27}\x{1F30}-\x{1F37}\x{1F40}-\x{1F45}\x{1F50}-\x{1F57}\x{1F60}-\x{1F67}\x{1F70}-\x{1F7D}\x{1F80}-\x{1F87}\x{1F90}-\x{1F97}\x{1FA0}-\x{1FA7}\x{1FB0}-\x{1FB4}\x{1FB6}-\x{1FB7}\x{1FBE}\x{1FC2}-\x{1FC4}\x{1FC6}-\x{1FC7}\x{1FD0}-\x{1FD3}\x{1FD6}-\x{1FD7}\x{1FE0}-\x{1FE7}\x{1FF2}-\x{1FF4}\x{1FF6}-\x{1FF7}\x{210A}\x{210E}-\x{210F}\x{2113}\x{212F}\x{2134}\x{2139}\x{213C}-\x{213D}\x{2146}-\x{2149}\x{214E}\x{2184}\x{2C30}-\x{2C5E}\x{2C61}\x{2C65}-\x{2C66}\x{2C68}\x{2C6A}\x{2C6C}\x{2C71}\x{2C73}-\x{2C74}\x{2C76}-\x{2C7B}\x{2C81}\x{2C83}\x{2C85}\x{2C87}\x{2C89}\x{2C8B}\x{2C8D}\x{2C8F}\x{2C91}\x{2C93}\x{2C95}\x{2C97}\x{2C99}\x{2C9B}\x{2C9D}\x{2C9F}\x{2CA1}\x{2CA3}\x{2CA5}\x{2CA7}\x{2CA9}\x{2CAB}\x{2CAD}\x{2CAF}\x{2CB1}\x{2CB3}\x{2CB5}\x{2CB7}\x{2CB9}\x{2CBB}\x{2CBD}\x{2CBF}\x{2CC1}\x{2CC3}\x{2CC5}\x{2CC7}\x{2CC9}\x{2CCB}\x{2CCD}\x{2CCF}\x{2CD1}\x{2CD3}\x{2CD5}\x{2CD7}\x{2CD9}\x{2CDB}\x{2CDD}\x{2CDF}\x{2CE1}\x{2CE3}-\x{2CE4}\x{2CEC}\x{2CEE}\x{2CF3}\x{2D00}-\x{2D25}\x{2D27}\x{2D2D}\x{A641}\x{A643}\x{A645}\x{A647}\x{A649}\x{A64B}\x{A64D}\x{A64F}\x{A651}\x{A653}\x{A655}\x{A657}\x{A659}\x{A65B}\x{A65D}\x{A65F}\x{A661}\x{A663}\x{A665}\x{A667}\x{A669}\x{A66B}\x{A66D}\x{A681}\x{A683}\x{A685}\x{A687}\x{A689}\x{A68B}\x{A68D}\x{A68F}\x{A691}\x{A693}\x{A695}\x{A697}\x{A699}\x{A69B}\x{A723}\x{A725}\x{A727}\x{A729}\x{A72B}\x{A72D}\x{A72F}-\x{A731}\x{A733}\x{A735}\x{A737}\x{A739}\x{A73B}\x{A73D}\x{A73F}\x{A741}\x{A743}\x{A745}\x{A747}\x{A749}\x{A74B}\x{A74D}\x{A74F}\x{A751}\x{A753}\x{A755}\x{A757}\x{A759}\x{A75B}\x{A75D}\x{A75F}\x{A761}\x{A763}\x{A765}\x{A767}\x{A769}\x{A76B}\x{A76D}\x{A76F}\x{A771}-\x{A778}\x{A77A}\x{A77C}\x{A77F}\x{A781}\x{A783}\x{A785}\x{A787}\x{A78C}\x{A78E}\x{A791}\x{A793}-\x{A795}\x{A797}\x{A799}\x{A79B}\x{A79D}\x{A79F}\x{A7A1}\x{A7A3}\x{A7A5}\x{A7A7}\x{A7A9}\x{A7B5}\x{A7B7}\x{A7FA}\x{AB30}-\x{AB5A}\x{AB60}-\x{AB65}\x{AB70}-\x{ABBF}\x{FB00}-\x{FB06}\x{FB13}-\x{FB17}\x{FF41}-\x{FF5A}]", "description" => "[a-zµß-öø-\x{00FF}\x{0101}\x{0103}\x{0105}\x{0107}\x{0109}\x{010B}\x{010D}\x{010F}\x{0111}\x{0113}\x{0115}\x{0117}\x{0119}\x{011B}\x{011D}\x{011F}\x{0121}\x{0123}\x{0125}\x{0127}\x{0129}\x{012B}\x{012D}\x{012F}\x{0131}\x{0133}\x{0135}\x{0137}-\x{0138}\x{013A}\x{013C}\x{013E}\x{0140}\x{0142}\x{0144}\x{0146}\x{0148}-\x{0149}\x{014B}\x{014D}\x{014F}\x{0151}\x{0153}\x{0155}\x{0157}\x{0159}\x{015B}\x{015D}\x{015F}\x{0161}\x{0163}\x{0165}\x{0167}\x{0169}\x{016B}\x{016D}\x{016F}\x{0171}\x{0173}\x{0175}\x{0177}\x{017A}\x{017C}\x{017E}-\x{0180}\x{0183}\x{0185}\x{0188}\x{018C}-\x{018D}\x{0192}\x{0195}\x{0199}-\x{019B}\x{019E}\x{01A1}\x{01A3}\x{01A5}\x{01A8}\x{01AA}-\x{01AB}\x{01AD}\x{01B0}\x{01B4}\x{01B6}\x{01B9}-\x{01BA}\x{01BD}-\x{01BF}\x{01C6}\x{01C9}\x{01CC}\x{01CE}\x{01D0}\x{01D2}\x{01D4}\x{01D6}\x{01D8}\x{01DA}\x{01DC}-\x{01DD}\x{01DF}\x{01E1}\x{01E3}\x{01E5}\x{01E7}\x{01E9}\x{01EB}\x{01ED}\x{01EF}-\x{01F0}\x{01F3}\x{01F5}\x{01F9}\x{01FB}\x{01FD}\x{01FF}\x{0201}\x{0203}\x{0205}\x{0207}\x{0209}\x{020B}\x{020D}\x{020F}\x{0211}\x{0213}\x{0215}\x{0217}\x{0219}\x{021B}\x{021D}\x{021F}\x{0221}\x{0223}\x{0225}\x{0227}\x{0229}\x{022B}\x{022D}\x{022F}\x{0231}\x{0233}-\x{0239}\x{023C}\x{023F}-\x{0240}\x{0242}\x{0247}\x{0249}\x{024B}\x{024D}\x{024F}-\x{0293}\x{0295}-\x{02AF}\x{0371}\x{0373}\x{0377}\x{037B}-\x{037D}\x{0390}\x{03AC}-\x{03CE}\x{03D0}-\x{03D1}\x{03D5}-\x{03D7}\x{03D9}\x{03DB}\x{03DD}\x{03DF}\x{03E1}\x{03E3}\x{03E5}\x{03E7}\x{03E9}\x{03EB}\x{03ED}\x{03EF}-\x{03F3}\x{03F5}\x{03F8}\x{03FB}-\x{03FC}\x{0430}-\x{045F}\x{0461}\x{0463}\x{0465}\x{0467}\x{0469}\x{046B}\x{046D}\x{046F}\x{0471}\x{0473}\x{0475}\x{0477}\x{0479}\x{047B}\x{047D}\x{047F}\x{0481}\x{048B}\x{048D}\x{048F}\x{0491}\x{0493}\x{0495}\x{0497}\x{0499}\x{049B}\x{049D}\x{049F}\x{04A1}\x{04A3}\x{04A5}\x{04A7}\x{04A9}\x{04AB}\x{04AD}\x{04AF}\x{04B1}\x{04B3}\x{04B5}\x{04B7}\x{04B9}\x{04BB}\x{04BD}\x{04BF}\x{04C2}\x{04C4}\x{04C6}\x{04C8}\x{04CA}\x{04CC}\x{04CE}-\x{04CF}\x{04D1}\x{04D3}\x{04D5}\x{04D7}\x{04D9}\x{04DB}\x{04DD}\x{04DF}\x{04E1}\x{04E3}\x{04E5}\x{04E7}\x{04E9}\x{04EB}\x{04ED}\x{04EF}\x{04F1}\x{04F3}\x{04F5}\x{04F7}\x{04F9}\x{04FB}\x{04FD}\x{04FF}\x{0501}\x{0503}\x{0505}\x{0507}\x{0509}\x{050B}\x{050D}\x{050F}\x{0511}\x{0513}\x{0515}\x{0517}\x{0519}\x{051B}\x{051D}\x{051F}\x{0521}\x{0523}\x{0525}\x{0527}\x{0529}\x{052B}\x{052D}\x{052F}\x{0561}-\x{0587}\x{13F8}-\x{13FD}\x{1D00}-\x{1D2B}\x{1D6B}-\x{1D77}\x{1D79}-\x{1D9A}\x{1E01}\x{1E03}\x{1E05}\x{1E07}\x{1E09}\x{1E0B}\x{1E0D}\x{1E0F}\x{1E11}\x{1E13}\x{1E15}\x{1E17}\x{1E19}\x{1E1B}\x{1E1D}\x{1E1F}\x{1E21}\x{1E23}\x{1E25}\x{1E27}\x{1E29}\x{1E2B}\x{1E2D}\x{1E2F}\x{1E31}\x{1E33}\x{1E35}\x{1E37}\x{1E39}\x{1E3B}\x{1E3D}\x{1E3F}\x{1E41}\x{1E43}\x{1E45}\x{1E47}\x{1E49}\x{1E4B}\x{1E4D}\x{1E4F}\x{1E51}\x{1E53}\x{1E55}\x{1E57}\x{1E59}\x{1E5B}\x{1E5D}\x{1E5F}\x{1E61}\x{1E63}\x{1E65}\x{1E67}\x{1E69}\x{1E6B}\x{1E6D}\x{1E6F}\x{1E71}\x{1E73}\x{1E75}\x{1E77}\x{1E79}\x{1E7B}\x{1E7D}\x{1E7F}\x{1E81}\x{1E83}\x{1E85}\x{1E87}\x{1E89}\x{1E8B}\x{1E8D}\x{1E8F}\x{1E91}\x{1E93}\x{1E95}-\x{1E9D}\x{1E9F}\x{1EA1}\x{1EA3}\x{1EA5}\x{1EA7}\x{1EA9}\x{1EAB}\x{1EAD}\x{1EAF}\x{1EB1}\x{1EB3}\x{1EB5}\x{1EB7}\x{1EB9}\x{1EBB}\x{1EBD}\x{1EBF}\x{1EC1}\x{1EC3}\x{1EC5}\x{1EC7}\x{1EC9}\x{1ECB}\x{1ECD}\x{1ECF}\x{1ED1}\x{1ED3}\x{1ED5}\x{1ED7}\x{1ED9}\x{1EDB}\x{1EDD}\x{1EDF}\x{1EE1}\x{1EE3}\x{1EE5}\x{1EE7}\x{1EE9}\x{1EEB}\x{1EED}\x{1EEF}\x{1EF1}\x{1EF3}\x{1EF5}\x{1EF7}\x{1EF9}\x{1EFB}\x{1EFD}\x{1EFF}-\x{1F07}\x{1F10}-\x{1F15}\x{1F20}-\x{1F27}\x{1F30}-\x{1F37}\x{1F40}-\x{1F45}\x{1F50}-\x{1F57}\x{1F60}-\x{1F67}\x{1F70}-\x{1F7D}\x{1F80}-\x{1F87}\x{1F90}-\x{1F97}\x{1FA0}-\x{1FA7}\x{1FB0}-\x{1FB4}\x{1FB6}-\x{1FB7}\x{1FBE}\x{1FC2}-\x{1FC4}\x{1FC6}-\x{1FC7}\x{1FD0}-\x{1FD3}\x{1FD6}-\x{1FD7}\x{1FE0}-\x{1FE7}\x{1FF2}-\x{1FF4}\x{1FF6}-\x{1FF7}\x{210A}\x{210E}-\x{210F}\x{2113}\x{212F}\x{2134}\x{2139}\x{213C}-\x{213D}\x{2146}-\x{2149}\x{214E}\x{2184}\x{2C30}-\x{2C5E}\x{2C61}\x{2C65}-\x{2C66}\x{2C68}\x{2C6A}\x{2C6C}\x{2C71}\x{2C73}-\x{2C74}\x{2C76}-\x{2C7B}\x{2C81}\x{2C83}\x{2C85}\x{2C87}\x{2C89}\x{2C8B}\x{2C8D}\x{2C8F}\x{2C91}\x{2C93}\x{2C95}\x{2C97}\x{2C99}\x{2C9B}\x{2C9D}\x{2C9F}\x{2CA1}\x{2CA3}\x{2CA5}\x{2CA7}\x{2CA9}\x{2CAB}\x{2CAD}\x{2CAF}\x{2CB1}\x{2CB3}\x{2CB5}\x{2CB7}\x{2CB9}\x{2CBB}\x{2CBD}\x{2CBF}\x{2CC1}\x{2CC3}\x{2CC5}\x{2CC7}\x{2CC9}\x{2CCB}\x{2CCD}\x{2CCF}\x{2CD1}\x{2CD3}\x{2CD5}\x{2CD7}\x{2CD9}\x{2CDB}\x{2CDD}\x{2CDF}\x{2CE1}\x{2CE3}-\x{2CE4}\x{2CEC}\x{2CEE}\x{2CF3}\x{2D00}-\x{2D25}\x{2D27}\x{2D2D}\x{A641}\x{A643}\x{A645}\x{A647}\x{A649}\x{A64B}\x{A64D}\x{A64F}\x{A651}\x{A653}\x{A655}\x{A657}\x{A659}\x{A65B}\x{A65D}\x{A65F}\x{A661}\x{A663}\x{A665}\x{A667}\x{A669}\x{A66B}\x{A66D}\x{A681}\x{A683}\x{A685}\x{A687}\x{A689}\x{A68B}\x{A68D}\x{A68F}\x{A691}\x{A693}\x{A695}\x{A697}\x{A699}\x{A69B}\x{A723}\x{A725}\x{A727}\x{A729}\x{A72B}\x{A72D}\x{A72F}-\x{A731}\x{A733}\x{A735}\x{A737}\x{A739}\x{A73B}\x{A73D}\x{A73F}\x{A741}\x{A743}\x{A745}\x{A747}\x{A749}\x{A74B}\x{A74D}\x{A74F}\x{A751}\x{A753}\x{A755}\x{A757}\x{A759}\x{A75B}\x{A75D}\x{A75F}\x{A761}\x{A763}\x{A765}\x{A767}\x{A769}\x{A76B}\x{A76D}\x{A76F}\x{A771}-\x{A778}\x{A77A}\x{A77C}\x{A77F}\x{A781}\x{A783}\x{A785}\x{A787}\x{A78C}\x{A78E}\x{A791}\x{A793}-\x{A795}\x{A797}\x{A799}\x{A79B}\x{A79D}\x{A79F}\x{A7A1}\x{A7A3}\x{A7A5}\x{A7A7}\x{A7A9}\x{A7B5}\x{A7B7}\x{A7FA}\x{AB30}-\x{AB5A}\x{AB60}-\x{AB65}\x{AB70}-\x{ABBF}\x{FB00}-\x{FB06}\x{FB13}-\x{FB17}\x{FF41}-\x{FF5A}]" );
+    $this->peg_c166 = array(array(688,705), array(710,721), array(736,740), array(748,748), array(750,750), array(884,884), array(890,890), array(1369,1369), array(1600,1600), array(1765,1766), array(2036,2037), array(2042,2042), array(2074,2074), array(2084,2084), array(2088,2088), array(2417,2417), array(3654,3654), array(3782,3782), array(4348,4348), array(6103,6103), array(6211,6211), array(6823,6823), array(7288,7293), array(7468,7530), array(7544,7544), array(7579,7615), array(8305,8305), array(8319,8319), array(8336,8348), array(11388,11389), array(11631,11631), array(11823,11823), array(12293,12293), array(12337,12341), array(12347,12347), array(12445,12446), array(12540,12542), array(40981,40981), array(42232,42237), array(42508,42508), array(42623,42623), array(42652,42653), array(42775,42783), array(42864,42864), array(42888,42888), array(43000,43001), array(43471,43471), array(43494,43494), array(43632,43632), array(43741,43741), array(43763,43764), array(43868,43871), array(65392,65392), array(65438,65439));
+    $this->peg_c167 = array( "type" => "class", "value" => "[\x{02B0}-\x{02C1}\x{02C6}-\x{02D1}\x{02E0}-\x{02E4}\x{02EC}\x{02EE}\x{0374}\x{037A}\x{0559}\x{0640}\x{06E5}-\x{06E6}\x{07F4}-\x{07F5}\x{07FA}\x{081A}\x{0824}\x{0828}\x{0971}\x{0E46}\x{0EC6}\x{10FC}\x{17D7}\x{1843}\x{1AA7}\x{1C78}-\x{1C7D}\x{1D2C}-\x{1D6A}\x{1D78}\x{1D9B}-\x{1DBF}\x{2071}\x{207F}\x{2090}-\x{209C}\x{2C7C}-\x{2C7D}\x{2D6F}\x{2E2F}\x{3005}\x{3031}-\x{3035}\x{303B}\x{309D}-\x{309E}\x{30FC}-\x{30FE}\x{A015}\x{A4F8}-\x{A4FD}\x{A60C}\x{A67F}\x{A69C}-\x{A69D}\x{A717}-\x{A71F}\x{A770}\x{A788}\x{A7F8}-\x{A7F9}\x{A9CF}\x{A9E6}\x{AA70}\x{AADD}\x{AAF3}-\x{AAF4}\x{AB5C}-\x{AB5F}\x{FF70}\x{FF9E}-\x{FF9F}]", "description" => "[\x{02B0}-\x{02C1}\x{02C6}-\x{02D1}\x{02E0}-\x{02E4}\x{02EC}\x{02EE}\x{0374}\x{037A}\x{0559}\x{0640}\x{06E5}-\x{06E6}\x{07F4}-\x{07F5}\x{07FA}\x{081A}\x{0824}\x{0828}\x{0971}\x{0E46}\x{0EC6}\x{10FC}\x{17D7}\x{1843}\x{1AA7}\x{1C78}-\x{1C7D}\x{1D2C}-\x{1D6A}\x{1D78}\x{1D9B}-\x{1DBF}\x{2071}\x{207F}\x{2090}-\x{209C}\x{2C7C}-\x{2C7D}\x{2D6F}\x{2E2F}\x{3005}\x{3031}-\x{3035}\x{303B}\x{309D}-\x{309E}\x{30FC}-\x{30FE}\x{A015}\x{A4F8}-\x{A4FD}\x{A60C}\x{A67F}\x{A69C}-\x{A69D}\x{A717}-\x{A71F}\x{A770}\x{A788}\x{A7F8}-\x{A7F9}\x{A9CF}\x{A9E6}\x{AA70}\x{AADD}\x{AAF3}-\x{AAF4}\x{AB5C}-\x{AB5F}\x{FF70}\x{FF9E}-\x{FF9F}]" );
+    $this->peg_c168 = array(array(170,170), array(186,186), array(443,443), array(448,451), array(660,660), array(1488,1514), array(1520,1522), array(1568,1599), array(1601,1610), array(1646,1647), array(1649,1747), array(1749,1749), array(1774,1775), array(1786,1788), array(1791,1791), array(1808,1808), array(1810,1839), array(1869,1957), array(1969,1969), array(1994,2026), array(2048,2069), array(2112,2136), array(2208,2228), array(2308,2361), array(2365,2365), array(2384,2384), array(2392,2401), array(2418,2432), array(2437,2444), array(2447,2448), array(2451,2472), array(2474,2480), array(2482,2482), array(2486,2489), array(2493,2493), array(2510,2510), array(2524,2525), array(2527,2529), array(2544,2545), array(2565,2570), array(2575,2576), array(2579,2600), array(2602,2608), array(2610,2611), array(2613,2614), array(2616,2617), array(2649,2652), array(2654,2654), array(2674,2676), array(2693,2701), array(2703,2705), array(2707,2728), array(2730,2736), array(2738,2739), array(2741,2745), array(2749,2749), array(2768,2768), array(2784,2785), array(2809,2809), array(2821,2828), array(2831,2832), array(2835,2856), array(2858,2864), array(2866,2867), array(2869,2873), array(2877,2877), array(2908,2909), array(2911,2913), array(2929,2929), array(2947,2947), array(2949,2954), array(2958,2960), array(2962,2965), array(2969,2970), array(2972,2972), array(2974,2975), array(2979,2980), array(2984,2986), array(2990,3001), array(3024,3024), array(3077,3084), array(3086,3088), array(3090,3112), array(3114,3129), array(3133,3133), array(3160,3162), array(3168,3169), array(3205,3212), array(3214,3216), array(3218,3240), array(3242,3251), array(3253,3257), array(3261,3261), array(3294,3294), array(3296,3297), array(3313,3314), array(3333,3340), array(3342,3344), array(3346,3386), array(3389,3389), array(3406,3406), array(3423,3425), array(3450,3455), array(3461,3478), array(3482,3505), array(3507,3515), array(3517,3517), array(3520,3526), array(3585,3632), array(3634,3635), array(3648,3653), array(3713,3714), array(3716,3716), array(3719,3720), array(3722,3722), array(3725,3725), array(3732,3735), array(3737,3743), array(3745,3747), array(3749,3749), array(3751,3751), array(3754,3755), array(3757,3760), array(3762,3763), array(3773,3773), array(3776,3780), array(3804,3807), array(3840,3840), array(3904,3911), array(3913,3948), array(3976,3980), array(4096,4138), array(4159,4159), array(4176,4181), array(4186,4189), array(4193,4193), array(4197,4198), array(4206,4208), array(4213,4225), array(4238,4238), array(4304,4346), array(4349,4680), array(4682,4685), array(4688,4694), array(4696,4696), array(4698,4701), array(4704,4744), array(4746,4749), array(4752,4784), array(4786,4789), array(4792,4798), array(4800,4800), array(4802,4805), array(4808,4822), array(4824,4880), array(4882,4885), array(4888,4954), array(4992,5007), array(5121,5740), array(5743,5759), array(5761,5786), array(5792,5866), array(5873,5880), array(5888,5900), array(5902,5905), array(5920,5937), array(5952,5969), array(5984,5996), array(5998,6000), array(6016,6067), array(6108,6108), array(6176,6210), array(6212,6263), array(6272,6312), array(6314,6314), array(6320,6389), array(6400,6430), array(6480,6509), array(6512,6516), array(6528,6571), array(6576,6601), array(6656,6678), array(6688,6740), array(6917,6963), array(6981,6987), array(7043,7072), array(7086,7087), array(7098,7141), array(7168,7203), array(7245,7247), array(7258,7287), array(7401,7404), array(7406,7409), array(7413,7414), array(8501,8504), array(11568,11623), array(11648,11670), array(11680,11686), array(11688,11694), array(11696,11702), array(11704,11710), array(11712,11718), array(11720,11726), array(11728,11734), array(11736,11742), array(12294,12294), array(12348,12348), array(12353,12438), array(12447,12447), array(12449,12538), array(12543,12543), array(12549,12589), array(12593,12686), array(12704,12730), array(12784,12799), array(13312,19893), array(19968,40917), array(40960,40980), array(40982,42124), array(42192,42231), array(42240,42507), array(42512,42527), array(42538,42539), array(42606,42606), array(42656,42725), array(42895,42895), array(42999,42999), array(43003,43009), array(43011,43013), array(43015,43018), array(43020,43042), array(43072,43123), array(43138,43187), array(43250,43255), array(43259,43259), array(43261,43261), array(43274,43301), array(43312,43334), array(43360,43388), array(43396,43442), array(43488,43492), array(43495,43503), array(43514,43518), array(43520,43560), array(43584,43586), array(43588,43595), array(43616,43631), array(43633,43638), array(43642,43642), array(43646,43695), array(43697,43697), array(43701,43702), array(43705,43709), array(43712,43712), array(43714,43714), array(43739,43740), array(43744,43754), array(43762,43762), array(43777,43782), array(43785,43790), array(43793,43798), array(43808,43814), array(43816,43822), array(43968,44002), array(44032,55203), array(55216,55238), array(55243,55291), array(63744,64109), array(64112,64217), array(64285,64285), array(64287,64296), array(64298,64310), array(64312,64316), array(64318,64318), array(64320,64321), array(64323,64324), array(64326,64433), array(64467,64829), array(64848,64911), array(64914,64967), array(65008,65019), array(65136,65140), array(65142,65276), array(65382,65391), array(65393,65437), array(65440,65470), array(65474,65479), array(65482,65487), array(65490,65495), array(65498,65500));
+    $this->peg_c169 = array( "type" => "class", "value" => "[ªº\x{01BB}\x{01C0}-\x{01C3}\x{0294}\x{05D0}-\x{05EA}\x{05F0}-\x{05F2}\x{0620}-\x{063F}\x{0641}-\x{064A}\x{066E}-\x{066F}\x{0671}-\x{06D3}\x{06D5}\x{06EE}-\x{06EF}\x{06FA}-\x{06FC}\x{06FF}\x{0710}\x{0712}-\x{072F}\x{074D}-\x{07A5}\x{07B1}\x{07CA}-\x{07EA}\x{0800}-\x{0815}\x{0840}-\x{0858}\x{08A0}-\x{08B4}\x{0904}-\x{0939}\x{093D}\x{0950}\x{0958}-\x{0961}\x{0972}-\x{0980}\x{0985}-\x{098C}\x{098F}-\x{0990}\x{0993}-\x{09A8}\x{09AA}-\x{09B0}\x{09B2}\x{09B6}-\x{09B9}\x{09BD}\x{09CE}\x{09DC}-\x{09DD}\x{09DF}-\x{09E1}\x{09F0}-\x{09F1}\x{0A05}-\x{0A0A}\x{0A0F}-\x{0A10}\x{0A13}-\x{0A28}\x{0A2A}-\x{0A30}\x{0A32}-\x{0A33}\x{0A35}-\x{0A36}\x{0A38}-\x{0A39}\x{0A59}-\x{0A5C}\x{0A5E}\x{0A72}-\x{0A74}\x{0A85}-\x{0A8D}\x{0A8F}-\x{0A91}\x{0A93}-\x{0AA8}\x{0AAA}-\x{0AB0}\x{0AB2}-\x{0AB3}\x{0AB5}-\x{0AB9}\x{0ABD}\x{0AD0}\x{0AE0}-\x{0AE1}\x{0AF9}\x{0B05}-\x{0B0C}\x{0B0F}-\x{0B10}\x{0B13}-\x{0B28}\x{0B2A}-\x{0B30}\x{0B32}-\x{0B33}\x{0B35}-\x{0B39}\x{0B3D}\x{0B5C}-\x{0B5D}\x{0B5F}-\x{0B61}\x{0B71}\x{0B83}\x{0B85}-\x{0B8A}\x{0B8E}-\x{0B90}\x{0B92}-\x{0B95}\x{0B99}-\x{0B9A}\x{0B9C}\x{0B9E}-\x{0B9F}\x{0BA3}-\x{0BA4}\x{0BA8}-\x{0BAA}\x{0BAE}-\x{0BB9}\x{0BD0}\x{0C05}-\x{0C0C}\x{0C0E}-\x{0C10}\x{0C12}-\x{0C28}\x{0C2A}-\x{0C39}\x{0C3D}\x{0C58}-\x{0C5A}\x{0C60}-\x{0C61}\x{0C85}-\x{0C8C}\x{0C8E}-\x{0C90}\x{0C92}-\x{0CA8}\x{0CAA}-\x{0CB3}\x{0CB5}-\x{0CB9}\x{0CBD}\x{0CDE}\x{0CE0}-\x{0CE1}\x{0CF1}-\x{0CF2}\x{0D05}-\x{0D0C}\x{0D0E}-\x{0D10}\x{0D12}-\x{0D3A}\x{0D3D}\x{0D4E}\x{0D5F}-\x{0D61}\x{0D7A}-\x{0D7F}\x{0D85}-\x{0D96}\x{0D9A}-\x{0DB1}\x{0DB3}-\x{0DBB}\x{0DBD}\x{0DC0}-\x{0DC6}\x{0E01}-\x{0E30}\x{0E32}-\x{0E33}\x{0E40}-\x{0E45}\x{0E81}-\x{0E82}\x{0E84}\x{0E87}-\x{0E88}\x{0E8A}\x{0E8D}\x{0E94}-\x{0E97}\x{0E99}-\x{0E9F}\x{0EA1}-\x{0EA3}\x{0EA5}\x{0EA7}\x{0EAA}-\x{0EAB}\x{0EAD}-\x{0EB0}\x{0EB2}-\x{0EB3}\x{0EBD}\x{0EC0}-\x{0EC4}\x{0EDC}-\x{0EDF}\x{0F00}\x{0F40}-\x{0F47}\x{0F49}-\x{0F6C}\x{0F88}-\x{0F8C}\x{1000}-\x{102A}\x{103F}\x{1050}-\x{1055}\x{105A}-\x{105D}\x{1061}\x{1065}-\x{1066}\x{106E}-\x{1070}\x{1075}-\x{1081}\x{108E}\x{10D0}-\x{10FA}\x{10FD}-\x{1248}\x{124A}-\x{124D}\x{1250}-\x{1256}\x{1258}\x{125A}-\x{125D}\x{1260}-\x{1288}\x{128A}-\x{128D}\x{1290}-\x{12B0}\x{12B2}-\x{12B5}\x{12B8}-\x{12BE}\x{12C0}\x{12C2}-\x{12C5}\x{12C8}-\x{12D6}\x{12D8}-\x{1310}\x{1312}-\x{1315}\x{1318}-\x{135A}\x{1380}-\x{138F}\x{1401}-\x{166C}\x{166F}-\x{167F}\x{1681}-\x{169A}\x{16A0}-\x{16EA}\x{16F1}-\x{16F8}\x{1700}-\x{170C}\x{170E}-\x{1711}\x{1720}-\x{1731}\x{1740}-\x{1751}\x{1760}-\x{176C}\x{176E}-\x{1770}\x{1780}-\x{17B3}\x{17DC}\x{1820}-\x{1842}\x{1844}-\x{1877}\x{1880}-\x{18A8}\x{18AA}\x{18B0}-\x{18F5}\x{1900}-\x{191E}\x{1950}-\x{196D}\x{1970}-\x{1974}\x{1980}-\x{19AB}\x{19B0}-\x{19C9}\x{1A00}-\x{1A16}\x{1A20}-\x{1A54}\x{1B05}-\x{1B33}\x{1B45}-\x{1B4B}\x{1B83}-\x{1BA0}\x{1BAE}-\x{1BAF}\x{1BBA}-\x{1BE5}\x{1C00}-\x{1C23}\x{1C4D}-\x{1C4F}\x{1C5A}-\x{1C77}\x{1CE9}-\x{1CEC}\x{1CEE}-\x{1CF1}\x{1CF5}-\x{1CF6}\x{2135}-\x{2138}\x{2D30}-\x{2D67}\x{2D80}-\x{2D96}\x{2DA0}-\x{2DA6}\x{2DA8}-\x{2DAE}\x{2DB0}-\x{2DB6}\x{2DB8}-\x{2DBE}\x{2DC0}-\x{2DC6}\x{2DC8}-\x{2DCE}\x{2DD0}-\x{2DD6}\x{2DD8}-\x{2DDE}\x{3006}\x{303C}\x{3041}-\x{3096}\x{309F}\x{30A1}-\x{30FA}\x{30FF}\x{3105}-\x{312D}\x{3131}-\x{318E}\x{31A0}-\x{31BA}\x{31F0}-\x{31FF}\x{3400}-\x{4DB5}\x{4E00}-\x{9FD5}\x{A000}-\x{A014}\x{A016}-\x{A48C}\x{A4D0}-\x{A4F7}\x{A500}-\x{A60B}\x{A610}-\x{A61F}\x{A62A}-\x{A62B}\x{A66E}\x{A6A0}-\x{A6E5}\x{A78F}\x{A7F7}\x{A7FB}-\x{A801}\x{A803}-\x{A805}\x{A807}-\x{A80A}\x{A80C}-\x{A822}\x{A840}-\x{A873}\x{A882}-\x{A8B3}\x{A8F2}-\x{A8F7}\x{A8FB}\x{A8FD}\x{A90A}-\x{A925}\x{A930}-\x{A946}\x{A960}-\x{A97C}\x{A984}-\x{A9B2}\x{A9E0}-\x{A9E4}\x{A9E7}-\x{A9EF}\x{A9FA}-\x{A9FE}\x{AA00}-\x{AA28}\x{AA40}-\x{AA42}\x{AA44}-\x{AA4B}\x{AA60}-\x{AA6F}\x{AA71}-\x{AA76}\x{AA7A}\x{AA7E}-\x{AAAF}\x{AAB1}\x{AAB5}-\x{AAB6}\x{AAB9}-\x{AABD}\x{AAC0}\x{AAC2}\x{AADB}-\x{AADC}\x{AAE0}-\x{AAEA}\x{AAF2}\x{AB01}-\x{AB06}\x{AB09}-\x{AB0E}\x{AB11}-\x{AB16}\x{AB20}-\x{AB26}\x{AB28}-\x{AB2E}\x{ABC0}-\x{ABE2}\x{AC00}-\x{D7A3}\x{D7B0}-\x{D7C6}\x{D7CB}-\x{D7FB}\x{F900}-\x{FA6D}\x{FA70}-\x{FAD9}\x{FB1D}\x{FB1F}-\x{FB28}\x{FB2A}-\x{FB36}\x{FB38}-\x{FB3C}\x{FB3E}\x{FB40}-\x{FB41}\x{FB43}-\x{FB44}\x{FB46}-\x{FBB1}\x{FBD3}-\x{FD3D}\x{FD50}-\x{FD8F}\x{FD92}-\x{FDC7}\x{FDF0}-\x{FDFB}\x{FE70}-\x{FE74}\x{FE76}-\x{FEFC}\x{FF66}-\x{FF6F}\x{FF71}-\x{FF9D}\x{FFA0}-\x{FFBE}\x{FFC2}-\x{FFC7}\x{FFCA}-\x{FFCF}\x{FFD2}-\x{FFD7}\x{FFDA}-\x{FFDC}]", "description" => "[ªº\x{01BB}\x{01C0}-\x{01C3}\x{0294}\x{05D0}-\x{05EA}\x{05F0}-\x{05F2}\x{0620}-\x{063F}\x{0641}-\x{064A}\x{066E}-\x{066F}\x{0671}-\x{06D3}\x{06D5}\x{06EE}-\x{06EF}\x{06FA}-\x{06FC}\x{06FF}\x{0710}\x{0712}-\x{072F}\x{074D}-\x{07A5}\x{07B1}\x{07CA}-\x{07EA}\x{0800}-\x{0815}\x{0840}-\x{0858}\x{08A0}-\x{08B4}\x{0904}-\x{0939}\x{093D}\x{0950}\x{0958}-\x{0961}\x{0972}-\x{0980}\x{0985}-\x{098C}\x{098F}-\x{0990}\x{0993}-\x{09A8}\x{09AA}-\x{09B0}\x{09B2}\x{09B6}-\x{09B9}\x{09BD}\x{09CE}\x{09DC}-\x{09DD}\x{09DF}-\x{09E1}\x{09F0}-\x{09F1}\x{0A05}-\x{0A0A}\x{0A0F}-\x{0A10}\x{0A13}-\x{0A28}\x{0A2A}-\x{0A30}\x{0A32}-\x{0A33}\x{0A35}-\x{0A36}\x{0A38}-\x{0A39}\x{0A59}-\x{0A5C}\x{0A5E}\x{0A72}-\x{0A74}\x{0A85}-\x{0A8D}\x{0A8F}-\x{0A91}\x{0A93}-\x{0AA8}\x{0AAA}-\x{0AB0}\x{0AB2}-\x{0AB3}\x{0AB5}-\x{0AB9}\x{0ABD}\x{0AD0}\x{0AE0}-\x{0AE1}\x{0AF9}\x{0B05}-\x{0B0C}\x{0B0F}-\x{0B10}\x{0B13}-\x{0B28}\x{0B2A}-\x{0B30}\x{0B32}-\x{0B33}\x{0B35}-\x{0B39}\x{0B3D}\x{0B5C}-\x{0B5D}\x{0B5F}-\x{0B61}\x{0B71}\x{0B83}\x{0B85}-\x{0B8A}\x{0B8E}-\x{0B90}\x{0B92}-\x{0B95}\x{0B99}-\x{0B9A}\x{0B9C}\x{0B9E}-\x{0B9F}\x{0BA3}-\x{0BA4}\x{0BA8}-\x{0BAA}\x{0BAE}-\x{0BB9}\x{0BD0}\x{0C05}-\x{0C0C}\x{0C0E}-\x{0C10}\x{0C12}-\x{0C28}\x{0C2A}-\x{0C39}\x{0C3D}\x{0C58}-\x{0C5A}\x{0C60}-\x{0C61}\x{0C85}-\x{0C8C}\x{0C8E}-\x{0C90}\x{0C92}-\x{0CA8}\x{0CAA}-\x{0CB3}\x{0CB5}-\x{0CB9}\x{0CBD}\x{0CDE}\x{0CE0}-\x{0CE1}\x{0CF1}-\x{0CF2}\x{0D05}-\x{0D0C}\x{0D0E}-\x{0D10}\x{0D12}-\x{0D3A}\x{0D3D}\x{0D4E}\x{0D5F}-\x{0D61}\x{0D7A}-\x{0D7F}\x{0D85}-\x{0D96}\x{0D9A}-\x{0DB1}\x{0DB3}-\x{0DBB}\x{0DBD}\x{0DC0}-\x{0DC6}\x{0E01}-\x{0E30}\x{0E32}-\x{0E33}\x{0E40}-\x{0E45}\x{0E81}-\x{0E82}\x{0E84}\x{0E87}-\x{0E88}\x{0E8A}\x{0E8D}\x{0E94}-\x{0E97}\x{0E99}-\x{0E9F}\x{0EA1}-\x{0EA3}\x{0EA5}\x{0EA7}\x{0EAA}-\x{0EAB}\x{0EAD}-\x{0EB0}\x{0EB2}-\x{0EB3}\x{0EBD}\x{0EC0}-\x{0EC4}\x{0EDC}-\x{0EDF}\x{0F00}\x{0F40}-\x{0F47}\x{0F49}-\x{0F6C}\x{0F88}-\x{0F8C}\x{1000}-\x{102A}\x{103F}\x{1050}-\x{1055}\x{105A}-\x{105D}\x{1061}\x{1065}-\x{1066}\x{106E}-\x{1070}\x{1075}-\x{1081}\x{108E}\x{10D0}-\x{10FA}\x{10FD}-\x{1248}\x{124A}-\x{124D}\x{1250}-\x{1256}\x{1258}\x{125A}-\x{125D}\x{1260}-\x{1288}\x{128A}-\x{128D}\x{1290}-\x{12B0}\x{12B2}-\x{12B5}\x{12B8}-\x{12BE}\x{12C0}\x{12C2}-\x{12C5}\x{12C8}-\x{12D6}\x{12D8}-\x{1310}\x{1312}-\x{1315}\x{1318}-\x{135A}\x{1380}-\x{138F}\x{1401}-\x{166C}\x{166F}-\x{167F}\x{1681}-\x{169A}\x{16A0}-\x{16EA}\x{16F1}-\x{16F8}\x{1700}-\x{170C}\x{170E}-\x{1711}\x{1720}-\x{1731}\x{1740}-\x{1751}\x{1760}-\x{176C}\x{176E}-\x{1770}\x{1780}-\x{17B3}\x{17DC}\x{1820}-\x{1842}\x{1844}-\x{1877}\x{1880}-\x{18A8}\x{18AA}\x{18B0}-\x{18F5}\x{1900}-\x{191E}\x{1950}-\x{196D}\x{1970}-\x{1974}\x{1980}-\x{19AB}\x{19B0}-\x{19C9}\x{1A00}-\x{1A16}\x{1A20}-\x{1A54}\x{1B05}-\x{1B33}\x{1B45}-\x{1B4B}\x{1B83}-\x{1BA0}\x{1BAE}-\x{1BAF}\x{1BBA}-\x{1BE5}\x{1C00}-\x{1C23}\x{1C4D}-\x{1C4F}\x{1C5A}-\x{1C77}\x{1CE9}-\x{1CEC}\x{1CEE}-\x{1CF1}\x{1CF5}-\x{1CF6}\x{2135}-\x{2138}\x{2D30}-\x{2D67}\x{2D80}-\x{2D96}\x{2DA0}-\x{2DA6}\x{2DA8}-\x{2DAE}\x{2DB0}-\x{2DB6}\x{2DB8}-\x{2DBE}\x{2DC0}-\x{2DC6}\x{2DC8}-\x{2DCE}\x{2DD0}-\x{2DD6}\x{2DD8}-\x{2DDE}\x{3006}\x{303C}\x{3041}-\x{3096}\x{309F}\x{30A1}-\x{30FA}\x{30FF}\x{3105}-\x{312D}\x{3131}-\x{318E}\x{31A0}-\x{31BA}\x{31F0}-\x{31FF}\x{3400}-\x{4DB5}\x{4E00}-\x{9FD5}\x{A000}-\x{A014}\x{A016}-\x{A48C}\x{A4D0}-\x{A4F7}\x{A500}-\x{A60B}\x{A610}-\x{A61F}\x{A62A}-\x{A62B}\x{A66E}\x{A6A0}-\x{A6E5}\x{A78F}\x{A7F7}\x{A7FB}-\x{A801}\x{A803}-\x{A805}\x{A807}-\x{A80A}\x{A80C}-\x{A822}\x{A840}-\x{A873}\x{A882}-\x{A8B3}\x{A8F2}-\x{A8F7}\x{A8FB}\x{A8FD}\x{A90A}-\x{A925}\x{A930}-\x{A946}\x{A960}-\x{A97C}\x{A984}-\x{A9B2}\x{A9E0}-\x{A9E4}\x{A9E7}-\x{A9EF}\x{A9FA}-\x{A9FE}\x{AA00}-\x{AA28}\x{AA40}-\x{AA42}\x{AA44}-\x{AA4B}\x{AA60}-\x{AA6F}\x{AA71}-\x{AA76}\x{AA7A}\x{AA7E}-\x{AAAF}\x{AAB1}\x{AAB5}-\x{AAB6}\x{AAB9}-\x{AABD}\x{AAC0}\x{AAC2}\x{AADB}-\x{AADC}\x{AAE0}-\x{AAEA}\x{AAF2}\x{AB01}-\x{AB06}\x{AB09}-\x{AB0E}\x{AB11}-\x{AB16}\x{AB20}-\x{AB26}\x{AB28}-\x{AB2E}\x{ABC0}-\x{ABE2}\x{AC00}-\x{D7A3}\x{D7B0}-\x{D7C6}\x{D7CB}-\x{D7FB}\x{F900}-\x{FA6D}\x{FA70}-\x{FAD9}\x{FB1D}\x{FB1F}-\x{FB28}\x{FB2A}-\x{FB36}\x{FB38}-\x{FB3C}\x{FB3E}\x{FB40}-\x{FB41}\x{FB43}-\x{FB44}\x{FB46}-\x{FBB1}\x{FBD3}-\x{FD3D}\x{FD50}-\x{FD8F}\x{FD92}-\x{FDC7}\x{FDF0}-\x{FDFB}\x{FE70}-\x{FE74}\x{FE76}-\x{FEFC}\x{FF66}-\x{FF6F}\x{FF71}-\x{FF9D}\x{FFA0}-\x{FFBE}\x{FFC2}-\x{FFC7}\x{FFCA}-\x{FFCF}\x{FFD2}-\x{FFD7}\x{FFDA}-\x{FFDC}]" );
+    $this->peg_c170 = array(array(453,453), array(456,456), array(459,459), array(498,498), array(8072,8079), array(8088,8095), array(8104,8111), array(8124,8124), array(8140,8140), array(8188,8188));
+    $this->peg_c171 = array( "type" => "class", "value" => "[\x{01C5}\x{01C8}\x{01CB}\x{01F2}\x{1F88}-\x{1F8F}\x{1F98}-\x{1F9F}\x{1FA8}-\x{1FAF}\x{1FBC}\x{1FCC}\x{1FFC}]", "description" => "[\x{01C5}\x{01C8}\x{01CB}\x{01F2}\x{1F88}-\x{1F8F}\x{1F98}-\x{1F9F}\x{1FA8}-\x{1FAF}\x{1FBC}\x{1FCC}\x{1FFC}]" );
+    $this->peg_c172 = array(array(65,90), array(192,214), array(216,222), array(256,256), array(258,258), array(260,260), array(262,262), array(264,264), array(266,266), array(268,268), array(270,270), array(272,272), array(274,274), array(276,276), array(278,278), array(280,280), array(282,282), array(284,284), array(286,286), array(288,288), array(290,290), array(292,292), array(294,294), array(296,296), array(298,298), array(300,300), array(302,302), array(304,304), array(306,306), array(308,308), array(310,310), array(313,313), array(315,315), array(317,317), array(319,319), array(321,321), array(323,323), array(325,325), array(327,327), array(330,330), array(332,332), array(334,334), array(336,336), array(338,338), array(340,340), array(342,342), array(344,344), array(346,346), array(348,348), array(350,350), array(352,352), array(354,354), array(356,356), array(358,358), array(360,360), array(362,362), array(364,364), array(366,366), array(368,368), array(370,370), array(372,372), array(374,374), array(376,377), array(379,379), array(381,381), array(385,386), array(388,388), array(390,391), array(393,395), array(398,401), array(403,404), array(406,408), array(412,413), array(415,416), array(418,418), array(420,420), array(422,423), array(425,425), array(428,428), array(430,431), array(433,435), array(437,437), array(439,440), array(444,444), array(452,452), array(455,455), array(458,458), array(461,461), array(463,463), array(465,465), array(467,467), array(469,469), array(471,471), array(473,473), array(475,475), array(478,478), array(480,480), array(482,482), array(484,484), array(486,486), array(488,488), array(490,490), array(492,492), array(494,494), array(497,497), array(500,500), array(502,504), array(506,506), array(508,508), array(510,510), array(512,512), array(514,514), array(516,516), array(518,518), array(520,520), array(522,522), array(524,524), array(526,526), array(528,528), array(530,530), array(532,532), array(534,534), array(536,536), array(538,538), array(540,540), array(542,542), array(544,544), array(546,546), array(548,548), array(550,550), array(552,552), array(554,554), array(556,556), array(558,558), array(560,560), array(562,562), array(570,571), array(573,574), array(577,577), array(579,582), array(584,584), array(586,586), array(588,588), array(590,590), array(880,880), array(882,882), array(886,886), array(895,895), array(902,902), array(904,906), array(908,908), array(910,911), array(913,929), array(931,939), array(975,975), array(978,980), array(984,984), array(986,986), array(988,988), array(990,990), array(992,992), array(994,994), array(996,996), array(998,998), array(1000,1000), array(1002,1002), array(1004,1004), array(1006,1006), array(1012,1012), array(1015,1015), array(1017,1018), array(1021,1071), array(1120,1120), array(1122,1122), array(1124,1124), array(1126,1126), array(1128,1128), array(1130,1130), array(1132,1132), array(1134,1134), array(1136,1136), array(1138,1138), array(1140,1140), array(1142,1142), array(1144,1144), array(1146,1146), array(1148,1148), array(1150,1150), array(1152,1152), array(1162,1162), array(1164,1164), array(1166,1166), array(1168,1168), array(1170,1170), array(1172,1172), array(1174,1174), array(1176,1176), array(1178,1178), array(1180,1180), array(1182,1182), array(1184,1184), array(1186,1186), array(1188,1188), array(1190,1190), array(1192,1192), array(1194,1194), array(1196,1196), array(1198,1198), array(1200,1200), array(1202,1202), array(1204,1204), array(1206,1206), array(1208,1208), array(1210,1210), array(1212,1212), array(1214,1214), array(1216,1217), array(1219,1219), array(1221,1221), array(1223,1223), array(1225,1225), array(1227,1227), array(1229,1229), array(1232,1232), array(1234,1234), array(1236,1236), array(1238,1238), array(1240,1240), array(1242,1242), array(1244,1244), array(1246,1246), array(1248,1248), array(1250,1250), array(1252,1252), array(1254,1254), array(1256,1256), array(1258,1258), array(1260,1260), array(1262,1262), array(1264,1264), array(1266,1266), array(1268,1268), array(1270,1270), array(1272,1272), array(1274,1274), array(1276,1276), array(1278,1278), array(1280,1280), array(1282,1282), array(1284,1284), array(1286,1286), array(1288,1288), array(1290,1290), array(1292,1292), array(1294,1294), array(1296,1296), array(1298,1298), array(1300,1300), array(1302,1302), array(1304,1304), array(1306,1306), array(1308,1308), array(1310,1310), array(1312,1312), array(1314,1314), array(1316,1316), array(1318,1318), array(1320,1320), array(1322,1322), array(1324,1324), array(1326,1326), array(1329,1366), array(4256,4293), array(4295,4295), array(4301,4301), array(5024,5109), array(7680,7680), array(7682,7682), array(7684,7684), array(7686,7686), array(7688,7688), array(7690,7690), array(7692,7692), array(7694,7694), array(7696,7696), array(7698,7698), array(7700,7700), array(7702,7702), array(7704,7704), array(7706,7706), array(7708,7708), array(7710,7710), array(7712,7712), array(7714,7714), array(7716,7716), array(7718,7718), array(7720,7720), array(7722,7722), array(7724,7724), array(7726,7726), array(7728,7728), array(7730,7730), array(7732,7732), array(7734,7734), array(7736,7736), array(7738,7738), array(7740,7740), array(7742,7742), array(7744,7744), array(7746,7746), array(7748,7748), array(7750,7750), array(7752,7752), array(7754,7754), array(7756,7756), array(7758,7758), array(7760,7760), array(7762,7762), array(7764,7764), array(7766,7766), array(7768,7768), array(7770,7770), array(7772,7772), array(7774,7774), array(7776,7776), array(7778,7778), array(7780,7780), array(7782,7782), array(7784,7784), array(7786,7786), array(7788,7788), array(7790,7790), array(7792,7792), array(7794,7794), array(7796,7796), array(7798,7798), array(7800,7800), array(7802,7802), array(7804,7804), array(7806,7806), array(7808,7808), array(7810,7810), array(7812,7812), array(7814,7814), array(7816,7816), array(7818,7818), array(7820,7820), array(7822,7822), array(7824,7824), array(7826,7826), array(7828,7828), array(7838,7838), array(7840,7840), array(7842,7842), array(7844,7844), array(7846,7846), array(7848,7848), array(7850,7850), array(7852,7852), array(7854,7854), array(7856,7856), array(7858,7858), array(7860,7860), array(7862,7862), array(7864,7864), array(7866,7866), array(7868,7868), array(7870,7870), array(7872,7872), array(7874,7874), array(7876,7876), array(7878,7878), array(7880,7880), array(7882,7882), array(7884,7884), array(7886,7886), array(7888,7888), array(7890,7890), array(7892,7892), array(7894,7894), array(7896,7896), array(7898,7898), array(7900,7900), array(7902,7902), array(7904,7904), array(7906,7906), array(7908,7908), array(7910,7910), array(7912,7912), array(7914,7914), array(7916,7916), array(7918,7918), array(7920,7920), array(7922,7922), array(7924,7924), array(7926,7926), array(7928,7928), array(7930,7930), array(7932,7932), array(7934,7934), array(7944,7951), array(7960,7965), array(7976,7983), array(7992,7999), array(8008,8013), array(8025,8025), array(8027,8027), array(8029,8029), array(8031,8031), array(8040,8047), array(8120,8123), array(8136,8139), array(8152,8155), array(8168,8172), array(8184,8187), array(8450,8450), array(8455,8455), array(8459,8461), array(8464,8466), array(8469,8469), array(8473,8477), array(8484,8484), array(8486,8486), array(8488,8488), array(8490,8493), array(8496,8499), array(8510,8511), array(8517,8517), array(8579,8579), array(11264,11310), array(11360,11360), array(11362,11364), array(11367,11367), array(11369,11369), array(11371,11371), array(11373,11376), array(11378,11378), array(11381,11381), array(11390,11392), array(11394,11394), array(11396,11396), array(11398,11398), array(11400,11400), array(11402,11402), array(11404,11404), array(11406,11406), array(11408,11408), array(11410,11410), array(11412,11412), array(11414,11414), array(11416,11416), array(11418,11418), array(11420,11420), array(11422,11422), array(11424,11424), array(11426,11426), array(11428,11428), array(11430,11430), array(11432,11432), array(11434,11434), array(11436,11436), array(11438,11438), array(11440,11440), array(11442,11442), array(11444,11444), array(11446,11446), array(11448,11448), array(11450,11450), array(11452,11452), array(11454,11454), array(11456,11456), array(11458,11458), array(11460,11460), array(11462,11462), array(11464,11464), array(11466,11466), array(11468,11468), array(11470,11470), array(11472,11472), array(11474,11474), array(11476,11476), array(11478,11478), array(11480,11480), array(11482,11482), array(11484,11484), array(11486,11486), array(11488,11488), array(11490,11490), array(11499,11499), array(11501,11501), array(11506,11506), array(42560,42560), array(42562,42562), array(42564,42564), array(42566,42566), array(42568,42568), array(42570,42570), array(42572,42572), array(42574,42574), array(42576,42576), array(42578,42578), array(42580,42580), array(42582,42582), array(42584,42584), array(42586,42586), array(42588,42588), array(42590,42590), array(42592,42592), array(42594,42594), array(42596,42596), array(42598,42598), array(42600,42600), array(42602,42602), array(42604,42604), array(42624,42624), array(42626,42626), array(42628,42628), array(42630,42630), array(42632,42632), array(42634,42634), array(42636,42636), array(42638,42638), array(42640,42640), array(42642,42642), array(42644,42644), array(42646,42646), array(42648,42648), array(42650,42650), array(42786,42786), array(42788,42788), array(42790,42790), array(42792,42792), array(42794,42794), array(42796,42796), array(42798,42798), array(42802,42802), array(42804,42804), array(42806,42806), array(42808,42808), array(42810,42810), array(42812,42812), array(42814,42814), array(42816,42816), array(42818,42818), array(42820,42820), array(42822,42822), array(42824,42824), array(42826,42826), array(42828,42828), array(42830,42830), array(42832,42832), array(42834,42834), array(42836,42836), array(42838,42838), array(42840,42840), array(42842,42842), array(42844,42844), array(42846,42846), array(42848,42848), array(42850,42850), array(42852,42852), array(42854,42854), array(42856,42856), array(42858,42858), array(42860,42860), array(42862,42862), array(42873,42873), array(42875,42875), array(42877,42878), array(42880,42880), array(42882,42882), array(42884,42884), array(42886,42886), array(42891,42891), array(42893,42893), array(42896,42896), array(42898,42898), array(42902,42902), array(42904,42904), array(42906,42906), array(42908,42908), array(42910,42910), array(42912,42912), array(42914,42914), array(42916,42916), array(42918,42918), array(42920,42920), array(42922,42925), array(42928,42932), array(42934,42934), array(65313,65338));
+    $this->peg_c173 = array( "type" => "class", "value" => "[A-ZÀ-ÖØ-Þ\x{0100}\x{0102}\x{0104}\x{0106}\x{0108}\x{010A}\x{010C}\x{010E}\x{0110}\x{0112}\x{0114}\x{0116}\x{0118}\x{011A}\x{011C}\x{011E}\x{0120}\x{0122}\x{0124}\x{0126}\x{0128}\x{012A}\x{012C}\x{012E}\x{0130}\x{0132}\x{0134}\x{0136}\x{0139}\x{013B}\x{013D}\x{013F}\x{0141}\x{0143}\x{0145}\x{0147}\x{014A}\x{014C}\x{014E}\x{0150}\x{0152}\x{0154}\x{0156}\x{0158}\x{015A}\x{015C}\x{015E}\x{0160}\x{0162}\x{0164}\x{0166}\x{0168}\x{016A}\x{016C}\x{016E}\x{0170}\x{0172}\x{0174}\x{0176}\x{0178}-\x{0179}\x{017B}\x{017D}\x{0181}-\x{0182}\x{0184}\x{0186}-\x{0187}\x{0189}-\x{018B}\x{018E}-\x{0191}\x{0193}-\x{0194}\x{0196}-\x{0198}\x{019C}-\x{019D}\x{019F}-\x{01A0}\x{01A2}\x{01A4}\x{01A6}-\x{01A7}\x{01A9}\x{01AC}\x{01AE}-\x{01AF}\x{01B1}-\x{01B3}\x{01B5}\x{01B7}-\x{01B8}\x{01BC}\x{01C4}\x{01C7}\x{01CA}\x{01CD}\x{01CF}\x{01D1}\x{01D3}\x{01D5}\x{01D7}\x{01D9}\x{01DB}\x{01DE}\x{01E0}\x{01E2}\x{01E4}\x{01E6}\x{01E8}\x{01EA}\x{01EC}\x{01EE}\x{01F1}\x{01F4}\x{01F6}-\x{01F8}\x{01FA}\x{01FC}\x{01FE}\x{0200}\x{0202}\x{0204}\x{0206}\x{0208}\x{020A}\x{020C}\x{020E}\x{0210}\x{0212}\x{0214}\x{0216}\x{0218}\x{021A}\x{021C}\x{021E}\x{0220}\x{0222}\x{0224}\x{0226}\x{0228}\x{022A}\x{022C}\x{022E}\x{0230}\x{0232}\x{023A}-\x{023B}\x{023D}-\x{023E}\x{0241}\x{0243}-\x{0246}\x{0248}\x{024A}\x{024C}\x{024E}\x{0370}\x{0372}\x{0376}\x{037F}\x{0386}\x{0388}-\x{038A}\x{038C}\x{038E}-\x{038F}\x{0391}-\x{03A1}\x{03A3}-\x{03AB}\x{03CF}\x{03D2}-\x{03D4}\x{03D8}\x{03DA}\x{03DC}\x{03DE}\x{03E0}\x{03E2}\x{03E4}\x{03E6}\x{03E8}\x{03EA}\x{03EC}\x{03EE}\x{03F4}\x{03F7}\x{03F9}-\x{03FA}\x{03FD}-\x{042F}\x{0460}\x{0462}\x{0464}\x{0466}\x{0468}\x{046A}\x{046C}\x{046E}\x{0470}\x{0472}\x{0474}\x{0476}\x{0478}\x{047A}\x{047C}\x{047E}\x{0480}\x{048A}\x{048C}\x{048E}\x{0490}\x{0492}\x{0494}\x{0496}\x{0498}\x{049A}\x{049C}\x{049E}\x{04A0}\x{04A2}\x{04A4}\x{04A6}\x{04A8}\x{04AA}\x{04AC}\x{04AE}\x{04B0}\x{04B2}\x{04B4}\x{04B6}\x{04B8}\x{04BA}\x{04BC}\x{04BE}\x{04C0}-\x{04C1}\x{04C3}\x{04C5}\x{04C7}\x{04C9}\x{04CB}\x{04CD}\x{04D0}\x{04D2}\x{04D4}\x{04D6}\x{04D8}\x{04DA}\x{04DC}\x{04DE}\x{04E0}\x{04E2}\x{04E4}\x{04E6}\x{04E8}\x{04EA}\x{04EC}\x{04EE}\x{04F0}\x{04F2}\x{04F4}\x{04F6}\x{04F8}\x{04FA}\x{04FC}\x{04FE}\x{0500}\x{0502}\x{0504}\x{0506}\x{0508}\x{050A}\x{050C}\x{050E}\x{0510}\x{0512}\x{0514}\x{0516}\x{0518}\x{051A}\x{051C}\x{051E}\x{0520}\x{0522}\x{0524}\x{0526}\x{0528}\x{052A}\x{052C}\x{052E}\x{0531}-\x{0556}\x{10A0}-\x{10C5}\x{10C7}\x{10CD}\x{13A0}-\x{13F5}\x{1E00}\x{1E02}\x{1E04}\x{1E06}\x{1E08}\x{1E0A}\x{1E0C}\x{1E0E}\x{1E10}\x{1E12}\x{1E14}\x{1E16}\x{1E18}\x{1E1A}\x{1E1C}\x{1E1E}\x{1E20}\x{1E22}\x{1E24}\x{1E26}\x{1E28}\x{1E2A}\x{1E2C}\x{1E2E}\x{1E30}\x{1E32}\x{1E34}\x{1E36}\x{1E38}\x{1E3A}\x{1E3C}\x{1E3E}\x{1E40}\x{1E42}\x{1E44}\x{1E46}\x{1E48}\x{1E4A}\x{1E4C}\x{1E4E}\x{1E50}\x{1E52}\x{1E54}\x{1E56}\x{1E58}\x{1E5A}\x{1E5C}\x{1E5E}\x{1E60}\x{1E62}\x{1E64}\x{1E66}\x{1E68}\x{1E6A}\x{1E6C}\x{1E6E}\x{1E70}\x{1E72}\x{1E74}\x{1E76}\x{1E78}\x{1E7A}\x{1E7C}\x{1E7E}\x{1E80}\x{1E82}\x{1E84}\x{1E86}\x{1E88}\x{1E8A}\x{1E8C}\x{1E8E}\x{1E90}\x{1E92}\x{1E94}\x{1E9E}\x{1EA0}\x{1EA2}\x{1EA4}\x{1EA6}\x{1EA8}\x{1EAA}\x{1EAC}\x{1EAE}\x{1EB0}\x{1EB2}\x{1EB4}\x{1EB6}\x{1EB8}\x{1EBA}\x{1EBC}\x{1EBE}\x{1EC0}\x{1EC2}\x{1EC4}\x{1EC6}\x{1EC8}\x{1ECA}\x{1ECC}\x{1ECE}\x{1ED0}\x{1ED2}\x{1ED4}\x{1ED6}\x{1ED8}\x{1EDA}\x{1EDC}\x{1EDE}\x{1EE0}\x{1EE2}\x{1EE4}\x{1EE6}\x{1EE8}\x{1EEA}\x{1EEC}\x{1EEE}\x{1EF0}\x{1EF2}\x{1EF4}\x{1EF6}\x{1EF8}\x{1EFA}\x{1EFC}\x{1EFE}\x{1F08}-\x{1F0F}\x{1F18}-\x{1F1D}\x{1F28}-\x{1F2F}\x{1F38}-\x{1F3F}\x{1F48}-\x{1F4D}\x{1F59}\x{1F5B}\x{1F5D}\x{1F5F}\x{1F68}-\x{1F6F}\x{1FB8}-\x{1FBB}\x{1FC8}-\x{1FCB}\x{1FD8}-\x{1FDB}\x{1FE8}-\x{1FEC}\x{1FF8}-\x{1FFB}\x{2102}\x{2107}\x{210B}-\x{210D}\x{2110}-\x{2112}\x{2115}\x{2119}-\x{211D}\x{2124}\x{2126}\x{2128}\x{212A}-\x{212D}\x{2130}-\x{2133}\x{213E}-\x{213F}\x{2145}\x{2183}\x{2C00}-\x{2C2E}\x{2C60}\x{2C62}-\x{2C64}\x{2C67}\x{2C69}\x{2C6B}\x{2C6D}-\x{2C70}\x{2C72}\x{2C75}\x{2C7E}-\x{2C80}\x{2C82}\x{2C84}\x{2C86}\x{2C88}\x{2C8A}\x{2C8C}\x{2C8E}\x{2C90}\x{2C92}\x{2C94}\x{2C96}\x{2C98}\x{2C9A}\x{2C9C}\x{2C9E}\x{2CA0}\x{2CA2}\x{2CA4}\x{2CA6}\x{2CA8}\x{2CAA}\x{2CAC}\x{2CAE}\x{2CB0}\x{2CB2}\x{2CB4}\x{2CB6}\x{2CB8}\x{2CBA}\x{2CBC}\x{2CBE}\x{2CC0}\x{2CC2}\x{2CC4}\x{2CC6}\x{2CC8}\x{2CCA}\x{2CCC}\x{2CCE}\x{2CD0}\x{2CD2}\x{2CD4}\x{2CD6}\x{2CD8}\x{2CDA}\x{2CDC}\x{2CDE}\x{2CE0}\x{2CE2}\x{2CEB}\x{2CED}\x{2CF2}\x{A640}\x{A642}\x{A644}\x{A646}\x{A648}\x{A64A}\x{A64C}\x{A64E}\x{A650}\x{A652}\x{A654}\x{A656}\x{A658}\x{A65A}\x{A65C}\x{A65E}\x{A660}\x{A662}\x{A664}\x{A666}\x{A668}\x{A66A}\x{A66C}\x{A680}\x{A682}\x{A684}\x{A686}\x{A688}\x{A68A}\x{A68C}\x{A68E}\x{A690}\x{A692}\x{A694}\x{A696}\x{A698}\x{A69A}\x{A722}\x{A724}\x{A726}\x{A728}\x{A72A}\x{A72C}\x{A72E}\x{A732}\x{A734}\x{A736}\x{A738}\x{A73A}\x{A73C}\x{A73E}\x{A740}\x{A742}\x{A744}\x{A746}\x{A748}\x{A74A}\x{A74C}\x{A74E}\x{A750}\x{A752}\x{A754}\x{A756}\x{A758}\x{A75A}\x{A75C}\x{A75E}\x{A760}\x{A762}\x{A764}\x{A766}\x{A768}\x{A76A}\x{A76C}\x{A76E}\x{A779}\x{A77B}\x{A77D}-\x{A77E}\x{A780}\x{A782}\x{A784}\x{A786}\x{A78B}\x{A78D}\x{A790}\x{A792}\x{A796}\x{A798}\x{A79A}\x{A79C}\x{A79E}\x{A7A0}\x{A7A2}\x{A7A4}\x{A7A6}\x{A7A8}\x{A7AA}-\x{A7AD}\x{A7B0}-\x{A7B4}\x{A7B6}\x{FF21}-\x{FF3A}]", "description" => "[A-ZÀ-ÖØ-Þ\x{0100}\x{0102}\x{0104}\x{0106}\x{0108}\x{010A}\x{010C}\x{010E}\x{0110}\x{0112}\x{0114}\x{0116}\x{0118}\x{011A}\x{011C}\x{011E}\x{0120}\x{0122}\x{0124}\x{0126}\x{0128}\x{012A}\x{012C}\x{012E}\x{0130}\x{0132}\x{0134}\x{0136}\x{0139}\x{013B}\x{013D}\x{013F}\x{0141}\x{0143}\x{0145}\x{0147}\x{014A}\x{014C}\x{014E}\x{0150}\x{0152}\x{0154}\x{0156}\x{0158}\x{015A}\x{015C}\x{015E}\x{0160}\x{0162}\x{0164}\x{0166}\x{0168}\x{016A}\x{016C}\x{016E}\x{0170}\x{0172}\x{0174}\x{0176}\x{0178}-\x{0179}\x{017B}\x{017D}\x{0181}-\x{0182}\x{0184}\x{0186}-\x{0187}\x{0189}-\x{018B}\x{018E}-\x{0191}\x{0193}-\x{0194}\x{0196}-\x{0198}\x{019C}-\x{019D}\x{019F}-\x{01A0}\x{01A2}\x{01A4}\x{01A6}-\x{01A7}\x{01A9}\x{01AC}\x{01AE}-\x{01AF}\x{01B1}-\x{01B3}\x{01B5}\x{01B7}-\x{01B8}\x{01BC}\x{01C4}\x{01C7}\x{01CA}\x{01CD}\x{01CF}\x{01D1}\x{01D3}\x{01D5}\x{01D7}\x{01D9}\x{01DB}\x{01DE}\x{01E0}\x{01E2}\x{01E4}\x{01E6}\x{01E8}\x{01EA}\x{01EC}\x{01EE}\x{01F1}\x{01F4}\x{01F6}-\x{01F8}\x{01FA}\x{01FC}\x{01FE}\x{0200}\x{0202}\x{0204}\x{0206}\x{0208}\x{020A}\x{020C}\x{020E}\x{0210}\x{0212}\x{0214}\x{0216}\x{0218}\x{021A}\x{021C}\x{021E}\x{0220}\x{0222}\x{0224}\x{0226}\x{0228}\x{022A}\x{022C}\x{022E}\x{0230}\x{0232}\x{023A}-\x{023B}\x{023D}-\x{023E}\x{0241}\x{0243}-\x{0246}\x{0248}\x{024A}\x{024C}\x{024E}\x{0370}\x{0372}\x{0376}\x{037F}\x{0386}\x{0388}-\x{038A}\x{038C}\x{038E}-\x{038F}\x{0391}-\x{03A1}\x{03A3}-\x{03AB}\x{03CF}\x{03D2}-\x{03D4}\x{03D8}\x{03DA}\x{03DC}\x{03DE}\x{03E0}\x{03E2}\x{03E4}\x{03E6}\x{03E8}\x{03EA}\x{03EC}\x{03EE}\x{03F4}\x{03F7}\x{03F9}-\x{03FA}\x{03FD}-\x{042F}\x{0460}\x{0462}\x{0464}\x{0466}\x{0468}\x{046A}\x{046C}\x{046E}\x{0470}\x{0472}\x{0474}\x{0476}\x{0478}\x{047A}\x{047C}\x{047E}\x{0480}\x{048A}\x{048C}\x{048E}\x{0490}\x{0492}\x{0494}\x{0496}\x{0498}\x{049A}\x{049C}\x{049E}\x{04A0}\x{04A2}\x{04A4}\x{04A6}\x{04A8}\x{04AA}\x{04AC}\x{04AE}\x{04B0}\x{04B2}\x{04B4}\x{04B6}\x{04B8}\x{04BA}\x{04BC}\x{04BE}\x{04C0}-\x{04C1}\x{04C3}\x{04C5}\x{04C7}\x{04C9}\x{04CB}\x{04CD}\x{04D0}\x{04D2}\x{04D4}\x{04D6}\x{04D8}\x{04DA}\x{04DC}\x{04DE}\x{04E0}\x{04E2}\x{04E4}\x{04E6}\x{04E8}\x{04EA}\x{04EC}\x{04EE}\x{04F0}\x{04F2}\x{04F4}\x{04F6}\x{04F8}\x{04FA}\x{04FC}\x{04FE}\x{0500}\x{0502}\x{0504}\x{0506}\x{0508}\x{050A}\x{050C}\x{050E}\x{0510}\x{0512}\x{0514}\x{0516}\x{0518}\x{051A}\x{051C}\x{051E}\x{0520}\x{0522}\x{0524}\x{0526}\x{0528}\x{052A}\x{052C}\x{052E}\x{0531}-\x{0556}\x{10A0}-\x{10C5}\x{10C7}\x{10CD}\x{13A0}-\x{13F5}\x{1E00}\x{1E02}\x{1E04}\x{1E06}\x{1E08}\x{1E0A}\x{1E0C}\x{1E0E}\x{1E10}\x{1E12}\x{1E14}\x{1E16}\x{1E18}\x{1E1A}\x{1E1C}\x{1E1E}\x{1E20}\x{1E22}\x{1E24}\x{1E26}\x{1E28}\x{1E2A}\x{1E2C}\x{1E2E}\x{1E30}\x{1E32}\x{1E34}\x{1E36}\x{1E38}\x{1E3A}\x{1E3C}\x{1E3E}\x{1E40}\x{1E42}\x{1E44}\x{1E46}\x{1E48}\x{1E4A}\x{1E4C}\x{1E4E}\x{1E50}\x{1E52}\x{1E54}\x{1E56}\x{1E58}\x{1E5A}\x{1E5C}\x{1E5E}\x{1E60}\x{1E62}\x{1E64}\x{1E66}\x{1E68}\x{1E6A}\x{1E6C}\x{1E6E}\x{1E70}\x{1E72}\x{1E74}\x{1E76}\x{1E78}\x{1E7A}\x{1E7C}\x{1E7E}\x{1E80}\x{1E82}\x{1E84}\x{1E86}\x{1E88}\x{1E8A}\x{1E8C}\x{1E8E}\x{1E90}\x{1E92}\x{1E94}\x{1E9E}\x{1EA0}\x{1EA2}\x{1EA4}\x{1EA6}\x{1EA8}\x{1EAA}\x{1EAC}\x{1EAE}\x{1EB0}\x{1EB2}\x{1EB4}\x{1EB6}\x{1EB8}\x{1EBA}\x{1EBC}\x{1EBE}\x{1EC0}\x{1EC2}\x{1EC4}\x{1EC6}\x{1EC8}\x{1ECA}\x{1ECC}\x{1ECE}\x{1ED0}\x{1ED2}\x{1ED4}\x{1ED6}\x{1ED8}\x{1EDA}\x{1EDC}\x{1EDE}\x{1EE0}\x{1EE2}\x{1EE4}\x{1EE6}\x{1EE8}\x{1EEA}\x{1EEC}\x{1EEE}\x{1EF0}\x{1EF2}\x{1EF4}\x{1EF6}\x{1EF8}\x{1EFA}\x{1EFC}\x{1EFE}\x{1F08}-\x{1F0F}\x{1F18}-\x{1F1D}\x{1F28}-\x{1F2F}\x{1F38}-\x{1F3F}\x{1F48}-\x{1F4D}\x{1F59}\x{1F5B}\x{1F5D}\x{1F5F}\x{1F68}-\x{1F6F}\x{1FB8}-\x{1FBB}\x{1FC8}-\x{1FCB}\x{1FD8}-\x{1FDB}\x{1FE8}-\x{1FEC}\x{1FF8}-\x{1FFB}\x{2102}\x{2107}\x{210B}-\x{210D}\x{2110}-\x{2112}\x{2115}\x{2119}-\x{211D}\x{2124}\x{2126}\x{2128}\x{212A}-\x{212D}\x{2130}-\x{2133}\x{213E}-\x{213F}\x{2145}\x{2183}\x{2C00}-\x{2C2E}\x{2C60}\x{2C62}-\x{2C64}\x{2C67}\x{2C69}\x{2C6B}\x{2C6D}-\x{2C70}\x{2C72}\x{2C75}\x{2C7E}-\x{2C80}\x{2C82}\x{2C84}\x{2C86}\x{2C88}\x{2C8A}\x{2C8C}\x{2C8E}\x{2C90}\x{2C92}\x{2C94}\x{2C96}\x{2C98}\x{2C9A}\x{2C9C}\x{2C9E}\x{2CA0}\x{2CA2}\x{2CA4}\x{2CA6}\x{2CA8}\x{2CAA}\x{2CAC}\x{2CAE}\x{2CB0}\x{2CB2}\x{2CB4}\x{2CB6}\x{2CB8}\x{2CBA}\x{2CBC}\x{2CBE}\x{2CC0}\x{2CC2}\x{2CC4}\x{2CC6}\x{2CC8}\x{2CCA}\x{2CCC}\x{2CCE}\x{2CD0}\x{2CD2}\x{2CD4}\x{2CD6}\x{2CD8}\x{2CDA}\x{2CDC}\x{2CDE}\x{2CE0}\x{2CE2}\x{2CEB}\x{2CED}\x{2CF2}\x{A640}\x{A642}\x{A644}\x{A646}\x{A648}\x{A64A}\x{A64C}\x{A64E}\x{A650}\x{A652}\x{A654}\x{A656}\x{A658}\x{A65A}\x{A65C}\x{A65E}\x{A660}\x{A662}\x{A664}\x{A666}\x{A668}\x{A66A}\x{A66C}\x{A680}\x{A682}\x{A684}\x{A686}\x{A688}\x{A68A}\x{A68C}\x{A68E}\x{A690}\x{A692}\x{A694}\x{A696}\x{A698}\x{A69A}\x{A722}\x{A724}\x{A726}\x{A728}\x{A72A}\x{A72C}\x{A72E}\x{A732}\x{A734}\x{A736}\x{A738}\x{A73A}\x{A73C}\x{A73E}\x{A740}\x{A742}\x{A744}\x{A746}\x{A748}\x{A74A}\x{A74C}\x{A74E}\x{A750}\x{A752}\x{A754}\x{A756}\x{A758}\x{A75A}\x{A75C}\x{A75E}\x{A760}\x{A762}\x{A764}\x{A766}\x{A768}\x{A76A}\x{A76C}\x{A76E}\x{A779}\x{A77B}\x{A77D}-\x{A77E}\x{A780}\x{A782}\x{A784}\x{A786}\x{A78B}\x{A78D}\x{A790}\x{A792}\x{A796}\x{A798}\x{A79A}\x{A79C}\x{A79E}\x{A7A0}\x{A7A2}\x{A7A4}\x{A7A6}\x{A7A8}\x{A7AA}-\x{A7AD}\x{A7B0}-\x{A7B4}\x{A7B6}\x{FF21}-\x{FF3A}]" );
 
     $peg_startRuleFunctions = array( 'Root' => array($this, "peg_parseRoot"), 'Equivline' => array($this, "peg_parseEquivline") );
     $peg_startRuleFunction  = array($this, "peg_parseRoot");

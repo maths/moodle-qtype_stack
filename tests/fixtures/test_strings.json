@@ -324,5 +324,13 @@
     "rand([\"+\",\"-\"])(x,y)",
     "rand([\"sin\",\"cos\",\"system\"])(x)",
     "1.2*m**2",
-    "1.2*mˆ2"
+    "1.2*mˆ2",
+    "/* Comment */x+1",
+    "/* Comment **/x+1",
+    "/** Comment */x+1",
+    "/** Comment **/x+1",
+    "/*@ Comment @*/x+1",
+    "/* @assume x = 1; */\nx+1",
+    "/* @ignore warn_scalar_matrix_mult; */\nx+1",
+    "/* @function f(x) => x; */\nx+1"
 ]

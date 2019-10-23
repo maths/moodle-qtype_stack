@@ -272,8 +272,8 @@ class MP_Node {
 
 class MP_Operation extends MP_Node {
     public $op  = '+';
-    public $rhs = null;
     public $lhs = null;
+    public $rhs = null;
 
     public function __construct($op, $lhs, $rhs) {
         parent::__construct();

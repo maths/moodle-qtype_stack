@@ -349,7 +349,12 @@ class stack_cas_session2 {
         $display = array();
         if (!isset($results['timeout']) || $results['timeout'] === true) {
             foreach ($this->statements as $num => $statement) {
-                $statement->set_cas_status(array("TIMEDOUT"), array(), array());
+                $errors = array('TIMEDOUT');
+                if (debugging(DEBUG_DEVELOPER) && isset($results['debug'])) {
+                    $errors = array('TIMEDOUT [' . $results['debug'] . ']');
+                }
+                print_object($results);
+                $statement->set_cas_status($errors, array(), array());
             }
         } else {
             if (array_key_exists('values', $results)) {

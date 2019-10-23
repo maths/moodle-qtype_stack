@@ -18,7 +18,7 @@ defined('MOODLE_INTERNAL') || die();
 require_once(__DIR__ . '/filter.interface.php');
 
 /**
- * AST filter that marks everything that has been fiexd by insertting stars
+ * AST filter that marks everything that has been fixed by inserting stars
  * or fixing spaces as invalid.
  */
 class stack_ast_filter_999_strict implements stack_cas_astfilter_exclusion {

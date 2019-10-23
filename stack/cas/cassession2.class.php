@@ -32,6 +32,9 @@ require_once(__DIR__ . '/evaluatable_object.interfaces.php');
 
 class stack_cas_session2 {
 
+    /**
+     * @var cas_evaluatable[]
+     */
     private $statements;
 
     private $instantiated;

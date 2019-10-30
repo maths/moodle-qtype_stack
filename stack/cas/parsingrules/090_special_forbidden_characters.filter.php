@@ -25,25 +25,25 @@ class stack_ast_filter_090_special_forbidden_characters implements stack_cas_ast
 
     public function filter(MP_Node $ast, array &$errors, array &$answernotes, stack_cas_security $identifierrules): MP_Node {
 
-    	$warned = array();
+        $warned = array();
         $process = function($node) use (&$warned) {
             if ($node instanceof MP_Identifier) {
-            	if (core_text::strpos($node->value, 'ˆ')) {
-            		$node->position['invalid'] = true;
-					$warned['ˆ'] = 'ˆ';
-            	}
+                if (core_text::strpos($node->value, 'ˆ')) {
+                    $node->position['invalid'] = true;
+                    $warned['ˆ'] = 'ˆ';
+                }
             }
-                
+
             return true;
         };
 
         $ast->callbackRecurse($process);
 
         if (count($warned) > 0) {
-        	$errors[] = stack_string('stackCas_forbiddenChar', array( 'char' => implode(", ", array_unique($warned))));
+            $errors[] = stack_string('stackCas_forbiddenChar', array( 'char' => implode(", ", array_unique($warned))));
             $answernotes[] = 'forbiddenChar';
         }
-        
+
         return $ast;
     }
 }

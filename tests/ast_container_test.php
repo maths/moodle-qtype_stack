@@ -103,8 +103,8 @@ class stack_astcontainer_test extends qtype_stack_testcase {
             array('%phi', true, true),
             // Use of % sign is a change here in STACK 4.3.
             array('%o1', true, true),
-            // Literal unicode character, instead of name.
-            array('π', true, true),
+            // Literal unicode character (pi) instead of name.
+            array(json_decode('"\u0370"'), true, true),
             // Non-matching brackets.
             array('(x+1', false, false),
             array('(y^2+1))', false, false),
@@ -150,7 +150,7 @@ class stack_astcontainer_test extends qtype_stack_testcase {
     }
 
     public function test_validation_alias() {
-        $casstring = stack_ast_container::make_from_student_source('π*r^2', '', new stack_cas_security());
+        $casstring = stack_ast_container::make_from_student_source(json_decode('"\u0370"').'*r^2', '', new stack_cas_security());
         $casstring->get_valid();
         $this->assertEquals($casstring->get_evaluationform(), '%pi*r^2');
         $this->assertEquals('', $casstring->get_errors());
@@ -158,9 +158,10 @@ class stack_astcontainer_test extends qtype_stack_testcase {
     }
 
     public function test_validation_error() {
-        $casstring = stack_ast_container::make_from_student_source('A ∪ B', '', new stack_cas_security());
+        // Consider A union B.
+        $casstring = stack_ast_container::make_from_student_source('A ' . json_decode('"\u2200"') . ' B', '', new stack_cas_security());
         $casstring->get_valid();
-        $this->assertEquals(stack_string('stackCas_forbiddenChar', array('char' => '∪')),
+        $this->assertEquals(stack_string('stackCas_forbiddenChar', array('char' => json_decode('"\u2200"'))),
                 $casstring->get_errors());
         $this->assertEquals('forbiddenChar', $casstring->get_answernote());
     }

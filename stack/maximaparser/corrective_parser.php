@@ -75,9 +75,11 @@ class maxima_corrective_parser {
             }
         }
 
-        // Check for invalid chars at this point as they may prove to be difficutl to 
+        // Check for invalid chars at this point as they may prove to be difficutl to
         // handle latter, also strings are safe already.
-        $allowedcharsregex = '~[^' . preg_quote('0123456789,./\%&{}[]()$@!"\'?`^~*_+qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM:=><|: -', '~') . ']~u';
+        $allowedcharsregex = '~[^' .
+            preg_quote('0123456789,./\%&{}[]()$@!"\'?`^~*_+qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM:=><|: -', '~') .
+            ']~u';
         $matches = array();
         // Check for permitted characters.
         if (preg_match_all($allowedcharsregex, $stringles, $matches)) {
@@ -113,7 +115,6 @@ class maxima_corrective_parser {
             $answernote[] = 'forbiddenChar';
             return null;
         }
-
 
         // Missing stars patterns to fix.
         // NOTE: These patterns take into account floats, if the logic wants to

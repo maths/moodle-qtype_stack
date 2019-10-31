@@ -82,7 +82,10 @@ class stack_subscripts_test_data {
         array('T_1/2', 'T_1/2', '!', '\frac{{T}_{1}}{2}', '!', 'Again, we need to use texsub.'),
         array('texsub(T,1/2)', 'texsub(T,1/2)', '!', '{T}_{\frac{1}{2}}', '!'),
         array('a_b_c', 'a_b_c', '!', '{{a}_{b}}_{c}', '!'),
-        array('(a_b)_c', '(a_b)_c', '', '', '!', 'Test associativity...'),
+        // The underscore can appear within atoms, but it cannot be used as an operator here.
+        // We might later create a student input context in which the underscore is an operator.
+        // In core Maxima we can't because this used in too many function names.
+        array('(a_b)_c', 'invalid', '', '', '!', 'Test associativity'),
         array('a_(b_c)', 'a_(b_c)', '!', '{\it a\_}\left({b}_{c}\right)', '!'),
         array('texsub(texsub(a,b),c)', 'texsub(texsub(a,b),c)', '!', '{{a}_{b}}_{c}', '!'),
         array('texsub(a,texsub(b,c))', 'texsub(a,texsub(b,c))', '!', '{a}_{{b}_{c}}', '!'),
@@ -141,7 +144,10 @@ class stack_subscripts_test_data {
         array('T_1/2', 'T_1/2', '!', '\frac{{T}_{1}}{2}', '!', 'Again, we need to use texsub'),
         array('texsub(T,1/2)', 'texsub(T,1/2)', '!', '{T}_{\frac{1}{2}}', '!'),
         array('a_b_c', 'a_b_c', '!', '{{a}_{b}}_{c}', '!'),
-        array('(a_b)_c', '(a_b)_c', '', '', '!', 'Test associativity...'),
+        // The underscore can appear within atoms, but it cannot be used as an operator here.
+        // We might later create a student input context in which the underscore is an operator.
+        // In core Maxima we can't because this used in too many function names.
+        array('(a_b)_c', 'invalid', '', '', '!', 'Test associativity'),
         array('a_(b_c)', 'a_(b_c)', '!', '{\it a\_}\left({b}_{c}\right)', '!'),
         array('texsub(texsub(a,b),c)', 'texsub(texsub(a,b),c)', '!', '{{a}_{b}}_{c}', '!'),
         array('texsub(a,texsub(b,c))', 'texsub(a,texsub(b,c))', '!', '{a}_{{b}_{c}}', '!'),
@@ -155,7 +161,6 @@ class stack_subscripts_test_data {
         // Changes in v4.3.
         array('a_1x', 'a_1x', '!', '{a}_{\mbox{1x}}', '!'),
         array('F_1x', 'F_1x', '!', '{F}_{\mbox{1x}}', '!'),
-
         );
 
     public static function get_raw_test_data() {

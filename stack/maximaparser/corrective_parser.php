@@ -120,7 +120,7 @@ class maxima_corrective_parser {
         // Missing stars patterns to fix.
         // NOTE: These patterns take into account floats, if the logic wants to
         // kill floats it can do it later after the parsing.
-        $starpatterns   = array("/(\))([0-9A-Za-z_])/");    // E.g. )a, or )3.
+        $starpatterns   = array("/(\))([0-9A-Za-z])/");    // E.g. )a, or )3. But not underscores )_.
         $starpatterns[] = "/([^0-9A-Za-z_][0-9]+)([A-DF-Za-df-z_]+|[eE][^\+\-0-9]+)/"; // +3z(, -2ee+ not *4e-2 or /1e3
         $starpatterns[] = "/^([\+\-]?[0-9]+)([A-DF-Za-df-z_]+|[eE][^\+\-0-9]+)/"; // Same but start of line.
         $starpatterns[] = "/([^0-9A-Za-z_][0-9]+)(\()/"; // Pattern such as -124().

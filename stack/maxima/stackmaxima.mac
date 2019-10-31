@@ -587,7 +587,8 @@ stack_disp_sub_script(ex) := block([s],
  if simp_numberp(ex) or stringp(ex) or ex or not(ex) then return(ex),
  s: string(ex),
  s: split(s, "_"),
- s: maplist(parse_string, s),
+ /* If we can't parse the string back, just use the string. */
+ s: maplist(lambda([ex], block([parsed], parsed:errcatch(parse_string(ex)), if emptyp(parsed) then ex else first(parsed))), s),
  stack_disp_sub_script_helper(s)
 )$
 
@@ -2970,4 +2971,4 @@ load(linearalgebra);
 
 /* Stack expects some output with the version number the output happens at */
 /* maximalocal.mac after additional library loading */
-stackmaximaversion:2019090200$
+stackmaximaversion:2019103100$

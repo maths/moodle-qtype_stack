@@ -50,10 +50,8 @@ class stack_subscripts_test_data {
         array('v_s', 'v_s', '!', '{v}_{s}', '!'),
         array('m_a', 'm_a', '!', '{m}_{a}', '!'),
         array('a_x', 'a_x', '!', '{a}_{x}', '!'),
-        array('a_1x', 'invalid', '', '', '!', '1x is not a valid Maxima atom.'),
         array('texsub(a,1*x)', 'texsub(a,1*x)', 'texsub(a,x)', '{a}_{1\,x}', '{a}_{x}'),
         array('a_cm', 'a_cm', '!', '{a}_{{\it cm}}', '!', 'Do we mind about Roman typeface here for units?'),
-        array('F_1x', 'invalid', '', '', ''),
         array('texsub(F,1*x)', 'texsub(F,1*x)', 'texsub(F,x)', '{F}_{1\,x}', '{F}_{x}'),
         array('F_1-2', 'F_1-2', '!', '{F}_{1}-2', '!',
                 'How do we bind into a single subscript?  We need a display function'),
@@ -95,6 +93,9 @@ class stack_subscripts_test_data {
         array('theta[1]', 'theta[1]', '!', '\theta_{1}', '!'),
         array('theta[a]', 'theta[a]', '!', '\theta_{a}', '!'),
         array('theta[n,m]', 'theta[n,m]', '!', '\theta_{n,m}', '!'),
+        // Changes in v4.3.
+        array('a_1x', 'a_1x', '!', '{a}_{\mbox{1x}}', '!'),
+        array('F_1x', 'F_1x', '!', '{F}_{\mbox{1x}}', '!'),
     );
 
     protected static $rawdatalegacy = array(
@@ -108,10 +109,8 @@ class stack_subscripts_test_data {
         array('v_s', 'v_s', '!', '{v}_{s}', '!'),
         array('m_a', 'm_a', '!', '{m}_{a}', '!'),
         array('a_x', 'a_x', '!', '{a}_{x}', '!'),
-        array('a_1x', 'invalid', '', '', '!', '1x is not a valid Maxima atom.'),
         array('texsub(a,1*x)', 'texsub(a,1*x)', 'texsub(a,x)', '{a}_{1\,x}', '{a}_{x}'),
         array('a_cm', 'a_cm', '!', '{a}_{{\it cm}}', '!', 'Do we mind about Roman typeface here for units?'),
-        array('F_1x', 'invalid', '', '', ''),
         array('texsub(F,1*x)', 'texsub(F,1*x)', 'texsub(F,x)', '{F}_{1\,x}', '{F}_{x}'),
         array('F_1-2', 'F_1-2', '!', '{F}_{1}-2', '!',
             'How do we bind into a single subscript?  We need a display function'),
@@ -153,7 +152,11 @@ class stack_subscripts_test_data {
         array('theta[1]', 'theta[1]', '!', '\theta_{1}', '!'),
         array('theta[a]', 'theta[a]', '!', '\theta_{a}', '!'),
         array('theta[n,m]', 'theta[n,m]', '!', '\theta_{n,m}', '!'),
-    );
+        // Changes in v4.3.
+        array('a_1x', 'a_1x', '!', '{a}_{\mbox{1x}}', '!'),
+        array('F_1x', 'F_1x', '!', '{F}_{\mbox{1x}}', '!'),
+
+        );
 
     public static function get_raw_test_data() {
         return self::$rawdata;

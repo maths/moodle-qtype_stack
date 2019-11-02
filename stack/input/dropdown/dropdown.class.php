@@ -254,7 +254,9 @@ class stack_dropdown_input extends stack_input {
         }
         $localoptions->set_option('simplify', false);
         $at1 = new stack_cas_session2($csvs, $localoptions, 0);
-        $at1->instantiate();
+        if ($at1->get_valid()) {
+            $at1->instantiate();
+        }
 
         if ('' != $at1->get_errors()) {
             $this->errors[] = $at1->get_errors();

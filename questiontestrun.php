@@ -343,19 +343,25 @@ foreach ($testresults as $key => $result) {
     );
     $inputstable->attributes['class'] = 'generaltable stacktestsuite';
 
+    $typeininputs = array();
     foreach ($result->get_input_states() as $inputname => $inputstate) {
-        $inputval = s($inputstate->input);
+        $inputval = $inputstate->input;
         if (false === $inputstate->input) {
             $inputval = '';
+        } else {
+            $typeininputs[] = $inputname . ':' . $inputval . ";\n";
         }
         $inputstable->data[] = array(
                 s($inputname),
                 s($inputstate->rawinput),
-                $inputval,
+                s($inputval),
                 stack_ouput_castext($inputstate->display),
                 stack_string('inputstatusname' . $inputstate->status),
                 $inputstate->errors,
         );
+    }
+    if ($typeininputs != array()) {
+        $typeininputs[] = "/* ------------------- */\n";
     }
 
     echo html_writer::table($inputstable);
@@ -404,7 +410,7 @@ foreach ($testresults as $key => $result) {
                 $expectedscore,
                 $state->penalty,
                 $expectedpenalty,
-                s($state->answernote) . html_writer::tag('pre', $state->trace),
+                s($state->answernote) . html_writer::tag('pre', implode('', $typeininputs) . $state->trace),
                 s($state->expectedanswernote),
                 format_text($state->feedback),
                 $passedcol,

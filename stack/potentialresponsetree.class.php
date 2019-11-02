@@ -190,7 +190,11 @@ class stack_potentialresponse_tree {
 
         $results = new stack_potentialresponse_tree_state($this->value, true, 0, 0);
         $fv = $this->feedbackvariables;
-        $results->add_trace($fv->get_keyval_representation());
+        $tr = $fv->get_keyval_representation();
+        if (trim($tr) != '') {
+            $tr .= "\n/* ------------------- */";
+            $results->add_trace($tr);
+        }
 
         // Traverse the tree.
         $nodekey = $this->firstnode;

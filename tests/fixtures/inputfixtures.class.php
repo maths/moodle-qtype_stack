@@ -90,7 +90,7 @@ class stack_inputvalidation_test_data {
         array('ab98cd', 'php_true', 'ab*98*cd', 'cas_true', '{\it ab}\cdot 98\cdot {\it cd}', 'missing_stars', ''),
         array("a'", 'php_false', '', '', '', 'apostrophe', ""),
         array('X', 'php_true', 'X', 'cas_true', 'X', '', ""),
-        array('aXy1', 'php_false', 'aXy*1', 'cas_true', '{\it aXy}\cdot 1', 'missing_stars | forbiddenVariable', ""),
+        array('aXy1', 'php_false', 'aXy*1', 'cas_true', '', 'missing_stars | forbiddenVariable', ""),
         // In STACK 4.3, the parser accepts these as functions. 
         array('f(x)', 'php_true', 'f(x)', 'cas_true', 'f\left(x\right)', '', "Functions"),
         array('a(x)', 'php_true', 'a(x)', 'cas_true', 'a\left(x\right)', '', ""),

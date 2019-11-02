@@ -104,6 +104,15 @@ class stack_anstest_atnumsigfigs extends stack_anstest {
             $requiredaccuracy = $requiredsigfigs;
         }
 
+        if (!(is_numeric($requiredaccuracy) && is_numeric($requiredsigfigs))) {
+            $this->aterror      = 'TEST_FAILED';
+            $this->atfeedback   = stack_string('TEST_FAILED', array('errors' => ''));
+            $this->atansnote    = 'STACKERROR_OPTION.';
+            $this->atmark       = 0;
+            $this->atvalid      = false;
+            return null;
+        }
+
         if (null == $atopt or '' == $atopt or 0 === $atopt or $requiredsigfigs <= 0
                 or $requiredaccuracy < 0) {
             $this->aterror      = 'TEST_FAILED';

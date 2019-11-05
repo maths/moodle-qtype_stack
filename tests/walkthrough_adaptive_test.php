@@ -187,6 +187,12 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
                 $this->get_no_hint_visible_expectation()
         );
 
+        // @codingStandardsIgnoreStart
+
+        /*
+         * This is something we should change in a future version, not in v4.3.
+         * 
+
         // Notice here we no longer get away with including single letter question variables in the answer.
         // This is a very welcome side effect of the new parser and cassesion2 logic.
         $this->process_submission(array('ans1' => '(v-a)^(n+1)/(n+1)+c', '-submit' => 1));
@@ -199,6 +205,9 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->check_output_contains_input_validation('ans1');
         $this->check_output_does_not_contain_prt_feedback();
         $this->check_output_does_not_contain_stray_placeholders();
+        */
+
+        // @codingStandardsIgnoreEnd
 
         // Now use the correct answer.
         $ta = $q->get_correct_response();

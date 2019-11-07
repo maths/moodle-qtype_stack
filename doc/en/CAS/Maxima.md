@@ -63,7 +63,7 @@ In particular,  `op(ex)` returns the main operator of the expression `ex`.  This
 
 To overcome these problems STACK has a command
 
-    stack_op(ex)
+    safe_op(ex)
 
 This always returns a string.  For an atom this is empty, i.e.
 `""`.  It also sorts out some unary minus problems.

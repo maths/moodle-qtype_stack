@@ -28,7 +28,8 @@ require_once(__DIR__ . '/../algebraic/algebraic.class.php');
 class stack_string_input extends stack_algebraic_input {
 
     protected $extraoptions = array(
-        'hideanswer' => false
+        'hideanswer' => false,
+        'allowempty' => false
     );
 
     public function render(stack_input_state $state, $fieldname, $readonly, $tavalue) {
@@ -87,7 +88,7 @@ class stack_string_input extends stack_algebraic_input {
     }
 
     /**
-     * @return string the teacher's answer, displayed to the student in the general feedback.
+     * @return string The teacher's answer, displayed to the student in the general feedback.
      */
     public function get_teacher_answer_display($value, $display) {
         if ($this->extraoptions['hideanswer']) {
@@ -104,7 +105,13 @@ class stack_string_input extends stack_algebraic_input {
      * @param unknown_type $in
      */
     public function get_correct_response($in) {
-        return $this->maxima_to_response_array($in);
+        $value = $in;
+        if (trim($value) == 'EMPTYANSWER' || $value === null) {
+            $value = '';
+        }
+
+        $value = stack_utils::maxima_string_to_php_string($value);
+        return $this->maxima_to_response_array($value);
     }
 
     /**

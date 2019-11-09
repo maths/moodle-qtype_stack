@@ -58,7 +58,8 @@ class qtype_stack_test_helper extends question_test_helper {
             'equiv_quad',         // This question uses equivalence reasoning to solve a quadratic equation.
             'checkbox_all_empty', // Creates a checkbox input with none checked as the correct answer: edge case.
             'addrow',             // This question has addrows, in an older version.
-            'mul'                 // This question has mul in the options which is no longer permitted.
+            'mul',                // This question has mul in the options which is no longer permitted.
+            'stringsloppy'        // Uses the StringSloppy answer test, and string input.
         );
     }
 
@@ -1963,7 +1964,7 @@ class qtype_stack_test_helper extends question_test_helper {
     }
 
     /**
-     * @return qtype_stack_question a question which tests checking for addrow in an older question..
+     * @return qtype_stack_question a question which tests checking for addrow in an older question.
      */
     public static function make_stack_question_addrow() {
         $q = self::make_a_stack_question();
@@ -1999,7 +2000,7 @@ class qtype_stack_test_helper extends question_test_helper {
     }
 
     /**
-     * @return qtype_stack_question a question which tests checking for addrow in an older question..
+     * @return qtype_stack_question a question which tests checking for addrow in an older question.
      */
     public static function make_stack_question_mul() {
         $q = self::make_a_stack_question();
@@ -2022,6 +2023,38 @@ class qtype_stack_test_helper extends question_test_helper {
         $tans = stack_ast_container::make_from_teacher_source('2');
         $tans->get_valid();
         $node = new stack_potentialresponse_node($sans, $tans, 'UnitsStrict');
+        $node->add_branch(0, '=', 0, $q->penalty, -1, '', FORMAT_HTML, 'firsttree-1-F');
+        $node->add_branch(1, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'firsttree-1-T');
+        $q->prts['firsttree'] = new stack_potentialresponse_tree('firsttree', '', false, 1, null, array($node), '0');
+
+        return $q;
+    }
+
+    /**
+     * @return qtype_stack_question a question which uses ATStringSloppy.
+     */
+    public static function make_stack_question_stringsloppy() {
+        $q = self::make_a_stack_question();
+
+        $q->stackversion = '2019110900';
+        $q->name = 'stringsloppy';
+        $q->questionvariables = 'ta1:"Pythagoras\' Theorem";';
+        $q->questiontext = 'What relates side lengths of a right angled plane triangle? [[input:ans1]]
+                           [[validation:ans1]]';
+
+        $q->specificfeedback = '[[feedback:firsttree]]';
+        $q->penalty = 0.4; // Non-zero and not the default.
+
+        $q->inputs['ans1'] = stack_input_factory::make(
+                'string', 'ans1', 'ta1', null, array('boxWidth' => 25));
+
+        $q->options->questionsimplify = 0;
+
+        $sans = stack_ast_container::make_from_teacher_source('ans1');
+        $sans->get_valid();
+        $tans = stack_ast_container::make_from_teacher_source('ta1');
+        $tans->get_valid();
+        $node = new stack_potentialresponse_node($sans, $tans, 'StringSloppy');
         $node->add_branch(0, '=', 0, $q->penalty, -1, '', FORMAT_HTML, 'firsttree-1-F');
         $node->add_branch(1, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'firsttree-1-T');
         $q->prts['firsttree'] = new stack_potentialresponse_tree('firsttree', '', false, 1, null, array($node), '0');

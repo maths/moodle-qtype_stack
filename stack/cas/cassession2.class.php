@@ -47,7 +47,7 @@ class stack_cas_session2 {
 
     /**
      * @var string
-     * 
+     *
      * In the event that we can't parse the outout this holds an error message which might help
      * a user track down what has gone wrong. Basically, this is as much raw output from Maxima as
      * we can manage to reasonably get back.
@@ -183,11 +183,18 @@ class stack_cas_session2 {
         $errors = array();
         $this->timeouterrmessage = trim($this->timeouterrmessage);
         foreach ($this->statements as $num => $statement) {
-            $err = $statement->get_errors(false);
-            if ($err === 'TIMEDOUT' && $this->timeouterrmessage !== '') {
-                $errors[$num] = $err;
+            $err = $statement->get_errors('implode');
+            if ($err) {
+                if ($err === 'TIMEDOUT' && $this->timeouterrmessage === '') {
+                    $errors[$num] = $statement->get_errors(false);
+                } elseif ($err !== 'TIMEDOUT') {
+                    // Regular error message.
+                    $errors[$num] = $statement->get_errors(false);
+                }
+                // If we have timeout and a nonempty timeout message do nothing.
             }
         }
+
         if ($implode !== true) {
             if ($this->timeouterrmessage !== '') {
                 $errors[] = $this->timeouterrmessage;

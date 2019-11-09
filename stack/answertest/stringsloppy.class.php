@@ -31,13 +31,21 @@ class stack_anstest_stringsloppy extends stack_anstest {
     public function do_test() {
         $sa = '';
         if ($this->sanskey->get_valid()) {
-            $sa = strtolower(trim($this->sanskey->get_inputform(true, true)));
+            $sa = $this->sanskey->get_inputform(true, true);
+            if ($this->sanskey->is_correctly_evaluated()) {
+                $sa = $this->sanskey->get_value();
+            }
+            $sa = strtolower(trim($sa));
         } else {
             $this->atansnote    = $this->casfunction.'TEST_FAILED:Invalid SA.';
         }
         $ta = '';
         if ($this->tanskey->get_valid()) {
-            $ta = strtolower(trim($this->tanskey->get_inputform(true, true)));
+            $ta = $this->tanskey->get_inputform(true, true);
+            if ($this->tanskey->is_correctly_evaluated()) {
+                $ta = $this->tanskey->get_value();
+            }
+            $ta = strtolower(trim($ta));
         } else {
             $this->atansnote    = $this->casfunction.'TEST_FAILED:Invalid TA.';
         }

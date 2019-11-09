@@ -191,7 +191,6 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
 
         /*
          * This is something we should change in a future version, not in v4.3.
-         * 
 
         // Notice here we no longer get away with including single letter question variables in the answer.
         // This is a very welcome side effect of the new parser and cassesion2 logic.
@@ -1994,10 +1993,9 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->render();
 
         $rte = implode(' ', array_keys($q->runtimeerrors));
-        $err = 'The field ""Question text"" generated the following error: <span class="error">CASText failed validation. ' .
-            '</span> Division by zero. The field ""Specific feedback"" generated the following error: ' .
-            '<span class="error">CASText failed validation. </span>Division by zero. The field ""Question note"" ' .
-            'generated the following error: <span class="error">CASText failed validation. </span>Division by zero.';
+        $err = 'The field ""Specific feedback"" generated the following error: <span class="error">CASText failed validation. ' .
+            '</span>Division by zero. The field ""Question note"" generated the following error: ' .
+            '<span class="error">CASText failed validation. </span>Division by zero.';
         $this->assertEquals($err, $rte);
     }
 
@@ -2657,5 +2655,85 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->check_output_does_not_contain_stray_placeholders();
         $this->check_output_does_not_contain_lang_string('gradingdetails', 'quiz', array('raw' => '0.00', 'max' => '1.00'));
         $this->check_output_does_not_contain_lang_string('gradingdetailspenalty', 'quiz', '0.30');
+    }
+
+    public function test_test_stringsloppy() {
+
+        // Create the stack question 'stringsloppy'.
+        $q = test_question_maker::make_question('stack', 'stringsloppy');
+        $this->start_attempt_at_question($q, 'adaptive', 1);
+
+        // Check the initial state.
+        $this->check_current_state(question_state::$todo);
+        $this->assertEquals('adaptivemultipart',
+                $this->quba->get_question_attempt($this->slot)->get_behaviour_name());
+        $this->render();
+        $this->check_output_contains_text_input('ans1');
+        $this->check_output_does_not_contain_input_validation();
+        $this->check_output_does_not_contain_prt_feedback();
+        $this->check_output_does_not_contain_stray_placeholders();
+        $this->check_current_output(
+                new question_pattern_expectation('/side lengths of a right angled/'),
+                $this->get_does_not_contain_feedback_expectation(),
+                $this->get_does_not_contain_num_parts_correct(),
+                $this->get_no_hint_visible_expectation()
+        );
+
+        // Process a validate request.
+        $this->process_submission(array('ans1' => 'Thales Theorem', '-submit' => 1));
+
+        $this->check_current_state(question_state::$todo);
+        $this->check_current_mark(null);
+        $this->check_prt_score('firsttree', null, null);
+        $this->render();
+        $this->check_output_contains_text_input('ans1', 'Thales Theorem');
+        $this->check_output_contains_input_validation('ans1');
+        // Since the answer is a number there are no variables.
+        $this->check_output_does_not_contain_lang_string('studentValidation_listofvariables',
+                'qtype_stack', '\( \left[ x \right]\)');
+        $this->check_output_does_not_contain_prt_feedback();
+        $this->check_output_does_not_contain_stray_placeholders();
+
+        // Process a submition of an incorrect answer.
+        $this->process_submission(array('ans1' => 'Thales Theorem', 'ans1_val' => '"Thales Theorem"', '-submit' => 1));
+        $this->check_current_state(question_state::$todo);
+        $this->check_current_mark(0);
+        $this->check_prt_score('firsttree', 0, 0.4);
+
+        // Process the correct answer.
+        $this->process_submission(array('ans1' => 'Pythagoras\' Theorem', '-submit' => 1));
+
+        $this->check_current_state(question_state::$todo);
+        $this->check_current_mark(0);
+        $this->check_prt_score('firsttree', null, null);
+        $this->render();
+        $this->check_output_contains_text_input('ans1', 'Pythagoras\' Theorem');
+        $this->check_output_contains_input_validation('ans1');
+        $this->check_output_does_not_contain_prt_feedback();
+        $this->check_output_does_not_contain_stray_placeholders();
+
+        $this->process_submission(array('ans1' => 'Pythagoras\' Theorem', 'ans1_val' => '"Pythagoras\' Theorem"',
+            '-submit' => 1));
+        $this->check_current_state(question_state::$complete);
+        $this->check_current_mark(0.6);
+        $this->check_prt_score('firsttree', 1, 0);
+
+        // Process the correct answer in lower case.
+        $this->process_submission(array('ans1' => 'pythagoras\' theorem', '-submit' => 1));
+
+        $this->check_current_state(question_state::$complete);
+        $this->check_current_mark(0.6);
+        $this->check_prt_score('firsttree', null, null);
+        $this->render();
+        $this->check_output_contains_text_input('ans1', 'pythagoras\' theorem');
+        $this->check_output_contains_input_validation('ans1');
+        $this->check_output_does_not_contain_prt_feedback();
+        $this->check_output_does_not_contain_stray_placeholders();
+
+        $this->process_submission(array('ans1' => 'pythagoras\' theorem', 'ans1_val' => '"pythagoras\' theorem"',
+            '-submit' => 1));
+        $this->check_current_state(question_state::$complete);
+        $this->check_current_mark(0.6);
+        $this->check_prt_score('firsttree', 1, 0);
     }
 }

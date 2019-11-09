@@ -46,6 +46,9 @@ class stack_string_input_test extends qtype_stack_testcase {
                 .'style="width: 13.6em" autocapitalize="none" spellcheck="false" class="maxima-string" value="0" />',
                 $el->render(new stack_input_state(stack_input::VALID, array('0'), '', '', '', '', ''),
                         'stack1__ans1', false, null));
+        $this->assertEquals('A correct answer is <span class="filter_mathjaxloader_equation"><span class="nolink">' .
+                '\( \\mbox{Hello world} \)</span></span>, which can be typed in as follows: <code>Hello world</code>',
+                $el->get_teacher_answer_display('"Hello world"', '\\mbox{Hello world}'));
     }
 
     public function test_validate_string_input() {

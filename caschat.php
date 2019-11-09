@@ -32,16 +32,15 @@ require_once(__DIR__ . '/stack/options.class.php');
 require_once(__DIR__ . '/stack/cas/castext.class.php');
 require_once(__DIR__ . '/stack/cas/keyval.class.php');
 
+require_login();
 
 // Get the parameters from the URL.
 $questionid = optional_param('questionid', null, PARAM_INT);
 
 if (!$questionid) {
-    require_login();
     $context = context_system::instance();
     require_capability('qtype/stack:usediagnostictools', $context);
     $urlparams = array();
-
 } else {
     // Load the necessary data.
     $questiondata = $DB->get_record('question', array('id' => $questionid), '*', MUST_EXIST);

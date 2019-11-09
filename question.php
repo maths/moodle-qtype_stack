@@ -371,7 +371,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         }
         if ($session->get_errors()) {
             // In previous versions we threw an exception here.
-            // Upgrade and import stops  errors being caught during validation when the question was edited or deployed.
+            // Upgrade and import stops errors being caught during validation when the question was edited or deployed.
             // This breaks bulk testing in a nasty way.
             $this->runtimeerrors[$session->get_errors(true)] = true;
         }
@@ -407,14 +407,18 @@ class qtype_stack_question extends question_graded_automatically_with_countback
 
         // Allow inputs to update themselves based on the model answers.
         $this->adapt_inputs();
-        // TODO: style sheet entry for error.
         if ($this->runtimeerrors) {
             // It is quite possible that questions will, legitimately, throw some kind of error.
             // For example, if one of the question variables is 1/0.
             // This should not be a show stopper.
             if (trim($this->questiontext) !== '' && trim($this->questiontextinstantiated) === '') {
                 // Something has gone wrong here, and the student will be shown nothing.
-                $s = html_writer::tag('p', stack_string('runtimeerror'));
+                $s = html_writer::tag('span', stack_string('runtimeerror'), array('class' => 'stackruntimeerrror'));
+                $errmsg = '';
+                foreach ($this->runtimeerrors as $key => $val) {
+                    $errmsg .= html_writer::tag('li', $key);
+                }
+                $s .= html_writer::tag('ul', $errmsg);
                 $this->questiontextinstantiated .= $s;
             }
         }

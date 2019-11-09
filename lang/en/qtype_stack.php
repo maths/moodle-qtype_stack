@@ -23,32 +23,32 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-$string['pluginname'] = 'STACK';
-$string['pluginname_help'] = 'STACK is an assessment system for mathematics.';
-$string['pluginnameadding'] = 'Adding a STACK question';
+$string['pluginname']        = 'STACK';
+$string['pluginname_help']   = 'STACK is an assessment system for mathematics.';
+$string['pluginnameadding']  = 'Adding a STACK question';
 $string['pluginnameediting'] = 'Editing a STACK question';
 $string['pluginnamesummary'] = 'STACK provides mathematical questions for the Moodle quiz.  These use a computer algebra system to establish the mathematical properties of the student\'s responses.';
 
-$string['privacy:metadata'] = 'The STACK question type plugin does not store any personal data.';
+$string['privacy:metadata']  = 'The STACK question type plugin does not store any personal data.';
 
 // General strings.
-$string['errors'] = 'Errors';
-$string['debuginfo'] = 'Debug info';
-$string['exceptionmessage'] = '{$a}';
-$string['runtimeerror']    = 'This question generated an unexpected internal error.  Please seek advice, e.g. from a teacher.';
-$string['runtimefielderr'] = 'The field ""{$a->field}"" generated the following error: {$a->err}';
+$string['errors']            = 'Errors';
+$string['debuginfo']         = 'Debug info';
+$string['exceptionmessage']  = '{$a}';
+$string['runtimeerror']      = 'This question generated an unexpected internal error.  Please seek advice, e.g. from a teacher.';
+$string['runtimefielderr']   = 'The field ""{$a->field}"" generated the following error: {$a->err}';
 
 // Capability names.
 $string['stack:usediagnostictools'] = 'Use the STACK tools';
 
 // Versions of STACK.
-$string['stackversionedited'] = 'This question was authored with STACK version {$a}.';
-$string['stackversionnow']    = 'The current version of STACK is {$a}.';
-$string['stackversionnone']   = 'This question has not been edited since question variant numbering was introduced in STACK 4.2.  Please review your question carefully.';
-$string['stackversionerror'] = 'This question uses {$a->pat} in the {$a->qfield}, which changed in STACK version {$a->ver} and is no longer supported.';
+$string['stackversionedited']   = 'This question was authored with STACK version {$a}.';
+$string['stackversionnow']      = 'The current version of STACK is {$a}.';
+$string['stackversionnone']     = 'This question has not been edited since question variant numbering was introduced in STACK 4.2.  Please review your question carefully.';
+$string['stackversionerror']    = 'This question uses {$a->pat} in the {$a->qfield}, which changed in STACK version {$a->ver} and is no longer supported.';
 $string['stackversionerroralt'] = 'An alternative is {$a}.';
 $string['stackversionmulerror'] = 'This question has an input which uses the "mul" option, which is not suppored after STACK version 4.2.  Please edit this question.';
-$string['stackversionregexp'] = 'The RegExp answer test is not supported after STACK version 4.3.';
+$string['stackversionregexp']   = 'The RegExp answer test is not supported after STACK version 4.3.';
 
 // Strings used on the editing form.
 $string['addanothernode'] = 'Add another node';
@@ -677,7 +677,6 @@ $string['stackCas_invalidCommand']          = 'CAS commands not valid. ';
 $string['stackCas_CASErrorCaused']          = 'caused the following error:';
 $string['stackCas_errorpos']                = 'At about line {$a->line} character {$a->col}.';
 
-
 // Used in blocks.
 $string['stackBlock_ifNeedsCondition']       = 'If-block needs a test attribute. ';
 $string['stackBlock_escapeNeedsValue']       = 'Escape-block needs a value attribute. ';
@@ -687,8 +686,8 @@ $string['stackBlock_else_out_of_an_if']      = '"else" cannot exist outside an i
 $string['stackBlock_elif_out_of_an_if']      = '"elif" cannot exist outside an if block.';
 $string['stackBlock_multiple_else']          = 'Multiple else branches in an if block.';
 $string['stackBlock_elif_after_else']        = '"elif" after an "else" in an if block.';
-$string['unrecognisedfactstags']            = 'The following facts tag(s) are not recognized: {$a->tags}.';
-$string['stackHintOld']                     = 'The CASText has old-style hint tags. These should now be in the form <pre>[[facts:tag]]</pre>';
+$string['unrecognisedfactstags']             = 'The following facts tag(s) are not recognized: {$a->tags}.';
+$string['stackHintOld']                      = 'The CASText has old-style hint tags. These should now be in the form <pre>[[facts:tag]]</pre>';
 
 $string['Maxima_DivisionZero']  = 'Division by zero.';
 $string['Maxima_Args']  = 'args: argument must be a non-atomic expression. ';

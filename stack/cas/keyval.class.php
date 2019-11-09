@@ -164,6 +164,8 @@ class stack_cas_keyval {
         if ($cs->get_valid()) {
             $cs->instantiate();
         }
+        // Return any runtime errors.
+        return $cs->get_errors(true);
     }
 
     public function get_session() {

@@ -45,6 +45,15 @@ class stack_cas_session2 {
 
     private $errors;
 
+    /**
+     * @var string
+     * 
+     * In the event that we can't parse the outout this holds an error message which might help
+     * a user track down what has gone wrong. Basically, this is as much raw output from Maxima as
+     * we can manage to reasonably get back.
+     */
+    private $timeouterrmessage;
+
     public function __construct(array $statements, $options = null, $seed = null) {
 
         $this->instantiated = false;
@@ -168,22 +177,32 @@ class stack_cas_session2 {
     /**
      * Returns all the errors related to the session.
      * This includes errors validating castrings prior to instantiation.
+     * And it includes any runtime errors, specifically if we get nothing back.
      */
     public function get_errors($implode = true) {
         $errors = array();
+        $this->timeouterrmessage = trim($this->timeouterrmessage);
         foreach ($this->statements as $num => $statement) {
-            if ($statement->get_errors()) {
-                $errors[$num] = $statement->get_errors(false);
+            $err = $statement->get_errors(false);
+            if ($err === 'TIMEDOUT' && $this->timeouterrmessage !== '') {
+                $errors[$num] = $err;
             }
         }
         if ($implode !== true) {
+            if ($this->timeouterrmessage !== '') {
+                $errors[] = $this->timeouterrmessage;
+            }
             return $errors;
         }
+
         $unique = array();
         foreach ($errors as $errs) {
             foreach ($errs as $err) {
                 $unique[$err] = true;
             }
+        }
+        if ($this->timeouterrmessage !== '') {
+            $unique[$this->timeouterrmessage] = true;
         }
         return implode(' ', array_keys($unique));
 
@@ -262,7 +281,7 @@ class stack_cas_session2 {
         // The options.
         $command .= $this->options->get_cas_commands()['commands'];
         // Some parts of logic storage.
-        $command .= ',_RESPONSE:["stack_map"]';
+        $command .= ",\n _RESPONSE:[\"stack_map\"]";
         $command .= ',_VALUES:["stack_map"]';
         if (count($collectlatex) > 0) {
             $command .= ',_LATEX:["stack_map"]';
@@ -272,13 +291,13 @@ class stack_cas_session2 {
         }
 
         // Set some values.
-        $command .= ',_CS2v("__stackmaximaversion",stackmaximaversion)';
+        $command .= ",\n   _CS2v(\"__stackmaximaversion\",stackmaximaversion)";
 
         // Evaluate statements.
         foreach ($this->statements as $num => $statement) {
-            $command .= ',%stmt:' . stack_utils::php_string_to_maxima_string('s' . $num);
+            $command .= ",\n %stmt:" . stack_utils::php_string_to_maxima_string('s' . $num);
             $ef = $statement->get_evaluationform();
-            $line = ',_EC(errcatch(' . $ef . '),';
+            $line = ",\n   _EC(errcatch(" . $ef . '),';
             $key = null;
             if (($statement instanceof cas_value_extractor) || ($statement instanceof cas_latex_extractor) ||
                     ($statement instanceof cas_display_value_extractor)) {
@@ -297,7 +316,7 @@ class stack_cas_session2 {
             // Now while the settings are correct. Only the last statements.
             if ($statement instanceof cas_latex_extractor) {
                 if ($collectlatex[$key] === $statement) {
-                    $command .= ',_CS2l(';
+                    $command .= ",\n   _CS2l(";
                     $command .= stack_utils::php_string_to_maxima_string($key);
                     $command .= ',' . $key . ')';
                 }
@@ -305,39 +324,39 @@ class stack_cas_session2 {
         }
         // Collect values if required.
         foreach ($collectvalues as $key => $statement) {
-            $command .= ',_CS2v(';
+            $command .= ",\n _CS2v(";
             $command .= stack_utils::php_string_to_maxima_string($key);
             $command .= ',' . $key . ')';
         }
         foreach ($collectdvs as $key => $statement) {
-            $command .= ',_CS2dv(';
+            $command .= ",\n _CS2dv(";
             $command .= stack_utils::php_string_to_maxima_string($key);
             $command .= ',' . $key . ')';
         }
         foreach ($collectdvsandvalues as $key => $statement) {
-            $command .= ',_CS2dvv(';
+            $command .= ",\n _CS2dvv(";
             $command .= stack_utils::php_string_to_maxima_string($key);
             $command .= ',' . $key . ')';
         }
 
         // Pack values to the response.
-        $command .= ',_RESPONSE:stackmap_set(_RESPONSE,"timeout",false)';
-        $command .= ',_RESPONSE:stackmap_set(_RESPONSE,"values",_VALUES)';
+        $command .= ",\n _RESPONSE:stackmap_set(_RESPONSE,\"timeout\",false)";
+        $command .= ",\n _RESPONSE:stackmap_set(_RESPONSE,\"values\",_VALUES)";
         if (count($collectlatex) > 0) {
-            $command .= ',_RESPONSE:stackmap_set(_RESPONSE,"presentation",_LATEX)';
+            $command .= ",\n _RESPONSE:stackmap_set(_RESPONSE,\"presentation\",_LATEX)";
         }
         if ((count($collectdvs) + count($collectdvsandvalues)) > 0) {
-            $command .= ',_RESPONSE:stackmap_set(_RESPONSE,"display",_DVALUES)';
+            $command .= ",\n _RESPONSE:stackmap_set(_RESPONSE,\"display\",_DVALUES)";
         }
-        $command .= ',if length(%ERR)>1 then _RESPONSE:stackmap_set(_RESPONSE,"errors",%ERR)';
-        $command .= ',if length(%NOTES)>1 then _RESPONSE:stackmap_set(_RESPONSE,"notes",%NOTES)';
-        $command .= ',if length(%FEEDBACK)>1 then _RESPONSE:stackmap_set(_RESPONSE,"feedback",%FEEDBACK)';
+        $command .= ",\n if length(%ERR)>1 then _RESPONSE:stackmap_set(_RESPONSE,\"errors\",%ERR)";
+        $command .= ",\n if length(%NOTES)>1 then _RESPONSE:stackmap_set(_RESPONSE,\"notes\",%NOTES)";
+        $command .= ",\n if length(%FEEDBACK)>1 then _RESPONSE:stackmap_set(_RESPONSE,\"feedback\",%FEEDBACK)";
 
         // Then output them.
-        $command .= ',print("STACK-OUTPUT-BEGINS>")';
-        $command .= ',print(stackjson_stringify(_RESPONSE))';
-        $command .= ',print("<STACK-OUTPUT-ENDS")';
-        $command .= ')$';
+        $command .= ",\n print(\"STACK-OUTPUT-BEGINS>\")";
+        $command .= ",\n print(stackjson_stringify(_RESPONSE))";
+        $command .= ",\n print(\"<STACK-OUTPUT-ENDS\")";
+        $command .= "\n)$\n";
 
         // Send it to CAS.
         $connection = stack_connection_helper::make();
@@ -347,7 +366,11 @@ class stack_cas_session2 {
         $asts = array();
         $latex = array();
         $display = array();
+
         if (!isset($results['timeout']) || $results['timeout'] === true) {
+            if (array_key_exists('timeouterrmessage', $results)) {
+                $this->timeouterrmessage = $results['timeouterrmessage'];
+            }
             foreach ($this->statements as $num => $statement) {
                 $errors = array('TIMEDOUT');
                 $statement->set_cas_status($errors, array(), array());
@@ -484,7 +507,10 @@ class stack_cas_session2 {
     }
 
     public function get_debuginfo() {
-        // TODO...
+        if (trim($this->timeouterrmessage) !== '') {
+            return $this->timeouterrmessage;
+        }
         return '';
     }
 }
+

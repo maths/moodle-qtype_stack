@@ -1,4 +1,9 @@
 /* Styles used when questions are being attempted. */
+.que.stack .stackruntimeerrror {
+    color: #c02200;
+    font-size: 100%;
+    font-weight: bold;
+}
 .que.stack .stacksyntaxexample {
     color: #1f536b;
     font-family: monospace;

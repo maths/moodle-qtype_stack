@@ -1684,11 +1684,14 @@ class qtype_stack extends question_type {
 
         $keyval = new stack_cas_keyval($fromform['questionvariables'], $this->options, $this->seed);
         if ($keyval->get_valid()) {
-            $keyval->instantiate();
+            $runtimeerrors = $keyval->instantiate();
+        }
+        if ($runtimeerrors) {
+            $errors['questionvariables'][] = $runtimeerrors;
         }
         $session = $keyval->get_session();
         if ($session->get_errors()) {
-            $errors['questionvariables'][] = $session->get_errors();
+            $errors['questionvariables'][] = $session->get_errors(true);
             return $errors;
         }
 

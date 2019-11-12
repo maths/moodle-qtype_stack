@@ -1595,6 +1595,28 @@ class stack_cas_session2_test extends qtype_stack_testcase {
         }
     }
 
+    public function test_stack_disp_innards_ntuple() {
+
+        // Cases should be in the form array('input', 'value', 'display').
+        $cases = array();
+        $cases[] = array('ntuple(a,b,c,dotdotdot)', 'ntuple(a,b,c,dotdotdot)', '\\left(a, b, c, \\ldots\\right)');
+        $cases[] = array('innards([a,b,c])', 'expressionsequence(a,b,c)', 'a, b, c');
+
+        foreach ($cases as $i => $case) {
+            $s = 'd'.$i.':'.$case[0];
+            $s1[] = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security(), array());
+        }
+
+        $options = new stack_options();
+        $at1 = new stack_cas_session2($s1, $options, 0);
+        $at1->instantiate();
+
+        foreach ($cases as $i => $case) {
+            $this->assertEquals($case[1], $s1[$i]->get_value());
+            $this->assertEquals($case[2], $s1[$i]->get_display());
+            $i++;
+        }
+}
     public function test_stack_stackintfmt() {
 
         // Cases should be in the form array('input', 'value', 'display').

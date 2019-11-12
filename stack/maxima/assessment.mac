@@ -190,6 +190,24 @@ degree(ex,v) := ev(hipow(expand(ex), v), simp);
 is_simp(ex) := ev(is(ex), simp)$
 
 /* ********************************** */
+/* Control the display of lists       */
+/* ********************************** */
+
+/* An expression sequence is displayed without square brackets. */
+texexpressionsequence (e) := simplode(maplist(tex1,args(e)), ", ")$
+texput(expressionsequence, texexpressionsequence)$
+ 
+/* An "ntuple" is displayed with round brackets. */
+texntuple(e) := concat("\\left(", simplode(maplist(tex1,args(e)), ", "), "\\right)")$
+texput(ntuple, texntuple)$
+ 
+/* An ellipsis */
+texput(dotdotdot, "\\ldots ")$
+
+/* A convenience function for creating expression sequences. */
+innards(ex):= apply(expressionsequence, args(ex))$
+
+/* ********************************** */
 /* Type predicates                    */
 /* ********************************** */
 

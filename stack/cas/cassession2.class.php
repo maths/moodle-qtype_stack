@@ -288,7 +288,7 @@ class stack_cas_session2 {
         // The options.
         $command .= $this->options->get_cas_commands()['commands'];
         // Some parts of logic storage.
-        $command .= ",\n _RESPONSE:[\"stack_map\"]";
+        $command .= ',_RESPONSE:["stack_map"]';
         $command .= ',_VALUES:["stack_map"]';
         if (count($collectlatex) > 0) {
             $command .= ',_LATEX:["stack_map"]';
@@ -298,13 +298,13 @@ class stack_cas_session2 {
         }
 
         // Set some values.
-        $command .= ",\n   _CS2v(\"__stackmaximaversion\",stackmaximaversion)";
+        $command .= ',_CS2v("__stackmaximaversion",stackmaximaversion)';
 
         // Evaluate statements.
         foreach ($this->statements as $num => $statement) {
-            $command .= ",\n %stmt:" . stack_utils::php_string_to_maxima_string('s' . $num);
+            $command .= ',%stmt:' . stack_utils::php_string_to_maxima_string('s' . $num);
             $ef = $statement->get_evaluationform();
-            $line = ",\n   _EC(errcatch(" . $ef . '),';
+            $line = ',_EC(errcatch(' . $ef . '),';
             $key = null;
             if (($statement instanceof cas_value_extractor) || ($statement instanceof cas_latex_extractor) ||
                     ($statement instanceof cas_display_value_extractor)) {
@@ -323,7 +323,7 @@ class stack_cas_session2 {
             // Now while the settings are correct. Only the last statements.
             if ($statement instanceof cas_latex_extractor) {
                 if ($collectlatex[$key] === $statement) {
-                    $command .= ",\n   _CS2l(";
+                    $command .= ',_CS2l(';
                     $command .= stack_utils::php_string_to_maxima_string($key);
                     $command .= ',' . $key . ')';
                 }
@@ -331,39 +331,39 @@ class stack_cas_session2 {
         }
         // Collect values if required.
         foreach ($collectvalues as $key => $statement) {
-            $command .= ",\n _CS2v(";
+            $command .= ',_CS2v(';
             $command .= stack_utils::php_string_to_maxima_string($key);
             $command .= ',' . $key . ')';
         }
         foreach ($collectdvs as $key => $statement) {
-            $command .= ",\n _CS2dv(";
+            $command .= ',_CS2dv(';
             $command .= stack_utils::php_string_to_maxima_string($key);
             $command .= ',' . $key . ')';
         }
         foreach ($collectdvsandvalues as $key => $statement) {
-            $command .= ",\n _CS2dvv(";
+            $command .= ',_CS2dvv(';
             $command .= stack_utils::php_string_to_maxima_string($key);
             $command .= ',' . $key . ')';
         }
 
         // Pack values to the response.
-        $command .= ",\n _RESPONSE:stackmap_set(_RESPONSE,\"timeout\",false)";
-        $command .= ",\n _RESPONSE:stackmap_set(_RESPONSE,\"values\",_VALUES)";
+        $command .= ',_RESPONSE:stackmap_set(_RESPONSE,"timeout",false)';
+        $command .= ',_RESPONSE:stackmap_set(_RESPONSE,"values",_VALUES)';
         if (count($collectlatex) > 0) {
-            $command .= ",\n _RESPONSE:stackmap_set(_RESPONSE,\"presentation\",_LATEX)";
+            $command .= ',_RESPONSE:stackmap_set(_RESPONSE,"presentation",_LATEX)';
         }
         if ((count($collectdvs) + count($collectdvsandvalues)) > 0) {
-            $command .= ",\n _RESPONSE:stackmap_set(_RESPONSE,\"display\",_DVALUES)";
+            $command .= ',_RESPONSE:stackmap_set(_RESPONSE,"display",_DVALUES)';
         }
-        $command .= ",\n if length(%ERR)>1 then _RESPONSE:stackmap_set(_RESPONSE,\"errors\",%ERR)";
-        $command .= ",\n if length(%NOTES)>1 then _RESPONSE:stackmap_set(_RESPONSE,\"notes\",%NOTES)";
-        $command .= ",\n if length(%FEEDBACK)>1 then _RESPONSE:stackmap_set(_RESPONSE,\"feedback\",%FEEDBACK)";
+        $command .= ',if length(%ERR)>1 then _RESPONSE:stackmap_set(_RESPONSE,"errors",%ERR)';
+        $command .= ',if length(%NOTES)>1 then _RESPONSE:stackmap_set(_RESPONSE,"notes",%NOTES)';
+        $command .= ',if length(%FEEDBACK)>1 then _RESPONSE:stackmap_set(_RESPONSE,"feedback",%FEEDBACK)';
 
         // Then output them.
-        $command .= ",\n print(\"STACK-OUTPUT-BEGINS>\")";
-        $command .= ",\n print(stackjson_stringify(_RESPONSE))";
-        $command .= ",\n print(\"<STACK-OUTPUT-ENDS\")";
-        $command .= "\n)$\n";
+        $command .= ',print("STACK-OUTPUT-BEGINS>")';
+        $command .= ',print(stackjson_stringify(_RESPONSE))';
+        $command .= ',print("<STACK-OUTPUT-ENDS")';
+        $command .= ')$'."\n";
 
         // Send it to CAS.
         $connection = stack_connection_helper::make();

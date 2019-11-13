@@ -1731,4 +1731,21 @@ class stack_cas_session2_test extends qtype_stack_testcase {
         $this->assertEquals('163.835395267', $s1[0]->get_dispvalue());
     }
 
+    public function test_stack_parse_inequalities() {
+        // This command has lisp throw an error.
+        $tests = array('f(x) := if x < 0 then (if x < 1 then 1 else 2) else 3;', 'v1:f(-5);', 'v2:f(4);');
+
+        foreach ($tests as $key => $c) {
+            $s1[] = stack_ast_container::make_from_teacher_source($c,
+                    '', new stack_cas_security(), array());
+        }
+
+        $options = new stack_options();
+        $at1 = new stack_cas_session2($s1, $options, 0);
+        $at1->instantiate();
+
+        $this->assertEquals('1', $s1[1]->get_dispvalue());
+        $this->assertEquals('3', $s1[2]->get_dispvalue());
+        $this->assertEquals('f(x):=if x < 0 then (if x < 1 then 1 else 2) else 3', $s1[0]->get_value());
+    }
 }

@@ -358,12 +358,22 @@ class stack_ast_filter_auto_gen_402_split_prefix_from_common_function_name_testc
                       true, false);
 
         $this->expect('0..1',
-                      '0..1',
+                      '0.. 1',
                       array(),
                       true, false);
 
         $this->expect('0.1..1.2',
-                      '0.1..1.2',
+                      '0.1..1. 2',
+                      array(),
+                      true, false);
+
+        $this->expect('0.1.1.2',
+                      '0.1. 1.2',
+                      array(),
+                      true, false);
+
+        $this->expect('0.1. 1.2',
+                      '0.1. 1.2',
                       array(),
                       true, false);
 
@@ -1949,12 +1959,22 @@ class stack_ast_filter_auto_gen_402_split_prefix_from_common_function_name_testc
                       true, false);
 
         $this->expect('0..1',
-                      '0..1',
+                      '0.. 1',
                       array(),
                       true, false);
 
         $this->expect('0.1..1.2',
-                      '0.1..1.2',
+                      '0.1..1. 2',
+                      array(),
+                      true, false);
+
+        $this->expect('0.1.1.2',
+                      '0.1. 1.2',
+                      array(),
+                      true, false);
+
+        $this->expect('0.1. 1.2',
+                      '0.1. 1.2',
                       array(),
                       true, false);
 

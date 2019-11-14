@@ -31,13 +31,18 @@ class stack_ast_filter_auto_gen_003_no_dot_dot_testcase extends qtype_stack_ast_
         $this->filter = stack_parsing_rule_factory::get_by_common_name('003_no_dot_dot');
 
         $this->expect('0..1',
-                      '0..1',
+                      '0.. 1',
                       array('spuriousop'),
                       false, true);
 
         $this->expect('0.1..1.2',
-                      '0.1..1.2',
+                      '0.1..1. 2',
                       array('spuriousop'),
+                      false, true);
+
+        $this->expect('0.1.1.2',
+                      '0.1. 1.2',
+                      array('MatrixMultWithFloat'),
                       false, true);
 
     }
@@ -47,13 +52,18 @@ class stack_ast_filter_auto_gen_003_no_dot_dot_testcase extends qtype_stack_ast_
         $this->filter = stack_parsing_rule_factory::get_by_common_name('003_no_dot_dot');
 
         $this->expect('0..1',
-                      '0..1',
+                      '0.. 1',
                       array('spuriousop'),
                       false, true);
 
         $this->expect('0.1..1.2',
-                      '0.1..1.2',
+                      '0.1..1. 2',
                       array('spuriousop'),
+                      false, true);
+
+        $this->expect('0.1.1.2',
+                      '0.1. 1.2',
+                      array('MatrixMultWithFloat'),
                       false, true);
 
     }
@@ -314,6 +324,11 @@ class stack_ast_filter_auto_gen_003_no_dot_dot_testcase extends qtype_stack_ast_
 
         $this->expect('.1',
                       '.1',
+                      array(),
+                      true, false);
+
+        $this->expect('0.1. 1.2',
+                      '0.1. 1.2',
                       array(),
                       true, false);
 
@@ -1925,6 +1940,11 @@ class stack_ast_filter_auto_gen_003_no_dot_dot_testcase extends qtype_stack_ast_
 
         $this->expect('.1',
                       '.1',
+                      array(),
+                      true, false);
+
+        $this->expect('0.1. 1.2',
+                      '0.1. 1.2',
                       array(),
                       true, false);
 

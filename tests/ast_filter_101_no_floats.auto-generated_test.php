@@ -46,12 +46,22 @@ class stack_ast_filter_auto_gen_101_no_floats_testcase extends qtype_stack_ast_t
                       false, true);
 
         $this->expect('0..1',
-                      '0..1',
+                      '0.. 1',
                       array('Illegal_floats'),
                       false, true);
 
         $this->expect('0.1..1.2',
-                      '0.1..1.2',
+                      '0.1..1. 2',
+                      array('Illegal_floats'),
+                      false, true);
+
+        $this->expect('0.1.1.2',
+                      '0.1. 1.2',
+                      array('Illegal_floats'),
+                      false, true);
+
+        $this->expect('0.1. 1.2',
+                      '0.1. 1.2',
                       array('Illegal_floats'),
                       false, true);
 
@@ -122,12 +132,22 @@ class stack_ast_filter_auto_gen_101_no_floats_testcase extends qtype_stack_ast_t
                       false, true);
 
         $this->expect('0..1',
-                      '0..1',
+                      '0.. 1',
                       array('Illegal_floats'),
                       false, true);
 
         $this->expect('0.1..1.2',
-                      '0.1..1.2',
+                      '0.1..1. 2',
+                      array('Illegal_floats'),
+                      false, true);
+
+        $this->expect('0.1.1.2',
+                      '0.1. 1.2',
+                      array('Illegal_floats'),
+                      false, true);
+
+        $this->expect('0.1. 1.2',
+                      '0.1. 1.2',
                       array('Illegal_floats'),
                       false, true);
 

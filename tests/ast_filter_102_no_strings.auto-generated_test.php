@@ -353,12 +353,22 @@ class stack_ast_filter_auto_gen_102_no_strings_testcase extends qtype_stack_ast_
                       true, false);
 
         $this->expect('0..1',
-                      '0..1',
+                      '0.. 1',
                       array(),
                       true, false);
 
         $this->expect('0.1..1.2',
-                      '0.1..1.2',
+                      '0.1..1. 2',
+                      array(),
+                      true, false);
+
+        $this->expect('0.1.1.2',
+                      '0.1. 1.2',
+                      array(),
+                      true, false);
+
+        $this->expect('0.1. 1.2',
+                      '0.1. 1.2',
                       array(),
                       true, false);
 
@@ -1939,12 +1949,22 @@ class stack_ast_filter_auto_gen_102_no_strings_testcase extends qtype_stack_ast_
                       true, false);
 
         $this->expect('0..1',
-                      '0..1',
+                      '0.. 1',
                       array(),
                       true, false);
 
         $this->expect('0.1..1.2',
-                      '0.1..1.2',
+                      '0.1..1. 2',
+                      array(),
+                      true, false);
+
+        $this->expect('0.1.1.2',
+                      '0.1. 1.2',
+                      array(),
+                      true, false);
+
+        $this->expect('0.1. 1.2',
+                      '0.1. 1.2',
                       array(),
                       true, false);
 

@@ -343,12 +343,22 @@ class stack_ast_filter_auto_gen_001_fix_call_of_a_group_or_function_testcase ext
                       true, false);
 
         $this->expect('0..1',
-                      '0..1',
+                      '0.. 1',
                       array(),
                       true, false);
 
         $this->expect('0.1..1.2',
-                      '0.1..1.2',
+                      '0.1..1. 2',
+                      array(),
+                      true, false);
+
+        $this->expect('0.1.1.2',
+                      '0.1. 1.2',
+                      array(),
+                      true, false);
+
+        $this->expect('0.1. 1.2',
+                      '0.1. 1.2',
                       array(),
                       true, false);
 
@@ -1939,12 +1949,22 @@ class stack_ast_filter_auto_gen_001_fix_call_of_a_group_or_function_testcase ext
                       true, false);
 
         $this->expect('0..1',
-                      '0..1',
+                      '0.. 1',
                       array(),
                       true, false);
 
         $this->expect('0.1..1.2',
-                      '0.1..1.2',
+                      '0.1..1. 2',
+                      array(),
+                      true, false);
+
+        $this->expect('0.1.1.2',
+                      '0.1. 1.2',
+                      array(),
+                      true, false);
+
+        $this->expect('0.1. 1.2',
+                      '0.1. 1.2',
                       array(),
                       true, false);
 

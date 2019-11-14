@@ -295,6 +295,12 @@ class MP_Operation extends MP_Node {
 
     public function toString($params = null): string {
         $op = $this->op;
+
+        // Related to the issue of 0.2 . 0.3.
+        if ($op === '.' && ($this->rhs instanceof MP_Float || $this->rhs instanceof MP_Integer)) {
+            $op = '. ';
+        }
+
         if ($params !== null && isset($params['nounify'])) {
             $feat = null;
             if ($params['nounify'] === true) {

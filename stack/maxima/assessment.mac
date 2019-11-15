@@ -194,18 +194,23 @@ is_simp(ex) := ev(is(ex), simp)$
 /* ********************************** */
 
 /* An expression sequence is displayed without square brackets. */
-texexpressionsequence (e) := simplode(maplist(tex1,args(e)), ", ")$
-texput(expressionsequence, texexpressionsequence)$
+texsequence (e) := simplode(maplist(tex1,args(e)), ", ")$
+texput(sequence, texsequence)$
  
+/* Convenience functions creating sequences. */
+sequenceify(ex):= apply(sequence, args(ex))$
+sequencep(ex):= if safe_op(ex)="sequence" then true else false$
+
 /* An "ntuple" is displayed with round brackets. */
 texntuple(e) := concat("\\left(", simplode(maplist(tex1,args(e)), ", "), "\\right)")$
 texput(ntuple, texntuple)$
  
+ntupleify(ex):= apply(ntuple, args(ex))$
+ntuplep(ex):= if safe_op(ex)="ntuple" then true else false$
+
 /* An ellipsis */
 texput(dotdotdot, "\\ldots ")$
 
-/* A convenience function for creating expression sequences. */
-innards(ex):= apply(expressionsequence, args(ex))$
 
 /* ********************************** */
 /* Type predicates                    */

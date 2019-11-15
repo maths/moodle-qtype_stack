@@ -171,13 +171,14 @@ It is very useful to be able to display expressions such as comma separated list
 Maxima has in-built functions for lists, which are displayed with square brackets \([1,2,3,4]\), and sets with curly braces \( \{1,2,3,4\} \).
 Maxima has no default functions for n-tuples or for sequences.
 
-STACK provides an inert function `expressionsequence`.  All this does is display its arguments without brackets.
-For example `expressionsequence(1,2,3,4)` is displayed \(1,2,3,4\).
+STACK provides an inert function `sequence`.  All this does is display its arguments without brackets.
+For example `sequence(1,2,3,4)` is displayed \(1,2,3,4\). STACK provides convenience functions.
 
-STACK provides a convenience function `innards`, which creates an expression sequence from the arguments of the expression.  This turns lists, sets etc. into an expression sequence.   
+* `sequenceify`, creates a sequence from the arguments of the expression.  This turns lists, sets etc. into a sequence.
+* `sequencep` is a predicate to decide if the expression is a sequence.
 
-STACK provides an inert function `ntuple`.  All this does is display its arguments without brackets.
-For example `ntuple(1,2,3,4)` is displayed \((1,2,3,4)\).
+STACK provides an inert function `ntuple`.  All this does is display its arguments with round brackets.
+For example `ntuple(1,2,3,4)` is displayed \((1,2,3,4)\).  `ntupleify` and `ntuplep` construct and test for ntuples.
 
 The atom `dotdotdot` is displayed using the tex `\ldots` which looks like \(\ldots\).  This atom cannot be entered by students.
 
@@ -186,20 +187,20 @@ If you want to use these functions, then you can create question variables as fo
     L1:[a,b,c,d];
     D1:apply(ntuple, L1);
     L2:args(D1);
-    D2:innards(L2);
+    D2:sequenceify(L2);
 
-Then `L1` is a list and is displayed with square brackets as normal. `D1` has operator `ntuple` and so is displayed with round brackets. `L2` has operator `list` and is displayed with square brackets.  Lastly, D2 is an `expressionsequence` and is displayed without brackets.
+Then `L1` is a list and is displayed with square brackets as normal. `D1` has operator `ntuple` and so is displayed with round brackets. `L2` has operator `list` and is displayed with square brackets.  Lastly, D2 is an `sequence` and is displayed without brackets.
 
 You can, of course, apply these functions directly.
 
     T1:ntuple(a,b,c);
-    S1:expressionsequence(a,b,c,dotdotdot);
+    S1:sequence(a,b,c,dotdotdot);
 
-If you want to use `expressionsequence` or `ntuple` in a PRT comparison, you probably want to turn them back into lists. E.g. `ntuple(1,2,3)` is not algebraically equivalent to `[1,2,3]`.  To do this use the `args` function.   We may, in the future, give more active meaning to the data types of `expressionsequence` and `ntuple`.
+If you want to use `sequence` or `ntuple` in a PRT comparison, you probably want to turn them back into lists. E.g. `ntuple(1,2,3)` is not algebraically equivalent to `[1,2,3]`.  To do this use the `args` function.   We may, in the future, give more active meaning to the data types of `sequence` and `ntuple`.
 
 Matrices have options to control the display of the braces.  Matrices are displayed without commas.
 
-If you are interacting with javascript do not use `innards`.  If you are interacting with javascript, such ss [JSXGraph](../Authoring/JSXGraph.md), then you may want to output a list of _values_ without all the LaTeX and without Maxima's normal bracket symbols. You can use
+If you are interacting with javascript do not use `sequenceify`.  If you are interacting with javascript, such ss [JSXGraph](../Authoring/JSXGraph.md), then you may want to output a list of _values_ without all the LaTeX and without Maxima's normal bracket symbols. You can use
 
     stack_disp_comma_separate([a,b,sin(pi)]);
 

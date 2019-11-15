@@ -897,8 +897,7 @@ class MP_FunctionCall extends MP_Node {
                 $r .= "\n" . $indent . ')';
                 return $r;
             } else {
-                $r                = $indent . ltrim($this->name->toString($params)) .
-                    '(';
+                $r = $indent . ltrim($this->name->toString($params)) . '(';
                 $ar = [];
 
                 foreach ($this->arguments as $value) {
@@ -1241,6 +1240,13 @@ class MP_PrefixOp extends MP_Node {
 
     public function toString($params = null): string {
         $indent = '';
+
+        // Apostophies are used to create general noun operators.
+        // We need to omit them.
+        if (isset($params['nounify']) && $params['nounify'] === false && $this->op === "'") {
+            return $this->rhs->toString($params);
+        }
+
         if ($params !== null && isset($params['pretty'])) {
             if (is_integer($params['pretty'])) {
                 $indent = str_pad($indent, $params['pretty']);

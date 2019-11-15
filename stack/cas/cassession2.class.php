@@ -187,7 +187,7 @@ class stack_cas_session2 {
             if ($err) {
                 if ($err === 'TIMEDOUT' && $this->timeouterrmessage === '') {
                     $errors[$num] = $statement->get_errors(false);
-                } elseif ($err !== 'TIMEDOUT') {
+                } else if ($err !== 'TIMEDOUT') {
                     // Regular error message.
                     $errors[$num] = $statement->get_errors(false);
                 }

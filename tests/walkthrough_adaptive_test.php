@@ -1993,7 +1993,9 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->render();
 
         $rte = implode(' ', array_keys($q->runtimeerrors));
-        $err = 'The field ""Specific feedback"" generated the following error: <span class="error">CASText failed validation. ' .
+        $err = 'The field ""Question text"" generated the following error: ' .
+            '<span class="error">CASText failed validation. </span> Division by zero. The field ' .
+            '""Specific feedback"" generated the following error: <span class="error">CASText failed validation. ' .
             '</span>Division by zero. The field ""Question note"" generated the following error: ' .
             '<span class="error">CASText failed validation. </span>Division by zero.';
         $this->assertEquals($err, $rte);

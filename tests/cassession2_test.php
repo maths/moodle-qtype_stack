@@ -1669,11 +1669,11 @@ class stack_cas_session2_test extends qtype_stack_testcase {
             array('[x^2-1,stackeq((x-1)*(x+1))]', '\left[ x^2-1 , =\left(x-1\right)\cdot \left(x+1\right) \right]',
                     '[x^2-1,= (x-1)*(x+1)]', '[x^2-1,stackeq((x-1)*(x+1))]'),
             array('nounint(sin(pi*x),x)', '\int {\sin \left( \pi\cdot x \right)}{\;\mathrm{d}x}',
-                    '\'int(sin(%pi*x),x)', '\'int(sin(%pi*x),x)'),
+                    'int(sin(%pi*x),x)', '\'int(sin(%pi*x),x)'),
             // Teachers may now use 'int(...) in STACK 4.3.
             // We should probably just get rid of "nounint" in the near future.
             array('\'int(cos(x),x)', '\int {\cos \left( x \right)}{\;\mathrm{d}x}',
-                    '\'int(cos(x),x)', '\'int(cos(x),x)'),
+                    'int(cos(x),x)', '\'int(cos(x),x)'),
         );
 
         foreach ($tests as $key => $c) {

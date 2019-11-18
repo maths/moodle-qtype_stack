@@ -82,6 +82,6 @@ class stack_secure_loader_value extends stack_secure_loader implements cas_value
     }
 
     public function get_value() {
-        return $this->ast;
+        return $this->value;
     }
 }

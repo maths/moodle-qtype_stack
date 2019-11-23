@@ -520,4 +520,3 @@ class stack_cas_session2 {
         return '';
     }
 }
-

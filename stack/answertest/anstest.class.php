@@ -192,7 +192,7 @@ class stack_anstest {
     public function get_trace($includeresult) {
 
         if ($this->tanskey) {
-            $ta = $this->tanskey->get_inputform(true, true);
+            $ta = $this->tanskey->get_inputform(true, null);
             if ($this->tanskey->is_correctly_evaluated()) {
                 $ta = $this->tanskey->get_value();
             }
@@ -200,7 +200,7 @@ class stack_anstest {
             return '';
         }
         if ($this->sanskey) {
-            $sa = $this->sanskey->get_inputform(true, true);
+            $sa = $this->sanskey->get_inputform(true, null);
             if ($this->sanskey->is_correctly_evaluated()) {
                 $sa = $this->sanskey->get_value();
             }

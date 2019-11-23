@@ -1035,4 +1035,50 @@ class stack_cas_text_test extends qtype_stack_testcase {
                 'and [k1,k2,k3,k4,k5,k6]',
             $at1->get_display_castext());
     }
+
+    public function test_stack_simp_false_true() {
+        $a2 = array('simp:false',
+            'p1:1+1',
+            'simp:true',
+            'p2:1+1');
+        $s2 = array();
+        foreach ($a2 as $s) {
+            $cs = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security(), array());
+            $this->assertTrue($cs->get_valid());
+            $s2[] = $cs;
+        }
+        $cs2 = new stack_cas_session2($s2, null, 0);
+
+        // Simp:true at the end so subsequent expressions are simplified.
+        $at1 = new stack_cas_text('{@p1@}, {@p2@}.', $cs2, 0, 't');
+        $this->assertTrue($at1->get_valid());
+        $at1->get_display_castext();
+
+        $this->assertEquals('\({2}\), \({2}\).',
+            $at1->get_display_castext());
+    }
+
+    public function test_stack_simp_false_true_false() {
+        /* In STACK v<4.3 authors often control simp within a session. */
+        $a2 = array('simp:false',
+                'p1:1+1',
+                'simp:true',
+                'p2:1+1',
+                'simp:false',
+                'p3:1+1');
+        $s2 = array();
+        foreach ($a2 as $s) {
+            $cs = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security(), array());
+            $this->assertTrue($cs->get_valid());
+            $s2[] = $cs;
+        }
+        $cs2 = new stack_cas_session2($s2, null, 0);
+
+        $at1 = new stack_cas_text('{@p1@}, {@p2@}, {@p3@}.', $cs2, 0, 't');
+        $this->assertTrue($at1->get_valid());
+        $at1->get_display_castext();
+
+        $this->assertEquals('\({1+1}\), \({2}\), \({1+1}\).',
+            $at1->get_display_castext());
+    }
 }

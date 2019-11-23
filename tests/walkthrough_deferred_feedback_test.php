@@ -496,7 +496,9 @@ class qtype_stack_walkthrough_deferred_feedback_test extends qtype_stack_walkthr
         $this->check_output_contains_input_validation('ans1');
         $this->check_output_contains_prt_feedback('prt1');
         $this->check_output_does_not_contain_stray_placeholders();
-        $this->check_output_contains_lang_string('TEST_FAILED_Q', 'qtype_stack');
+        $this->check_current_output(
+            new question_pattern_expectation('/Division by/')
+            );
     }
 
     public function test_1input2prts_specific_feedback_handling() {

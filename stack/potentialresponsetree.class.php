@@ -149,10 +149,6 @@ class stack_potentialresponse_tree {
         // Add the feedback variables.
         $this->feedbackvariables->append_to_session($cascontext);
 
-        // Do not simplify the expressions in the context variables.
-        $sf = stack_ast_container::make_from_teacher_source('simp:false', '', new stack_cas_security(), array());
-        $cascontext->add_statement($sf);
-
         // Add all the expressions from all the nodes.
         // Note this approach does not allow for effective guard clauses in the PRT.
         // All the inputs to answer tests are evaluated at the start.

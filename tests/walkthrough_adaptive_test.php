@@ -1474,7 +1474,9 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         // The error message on the next line in intentionally truncated, because
         // different versions of Maxima report this as 'Division by zero.' or
         // 'Division by 0'. Fortunately this check is good enough.
-        $this->check_output_contains_lang_string('TEST_FAILED', 'qtype_stack', array('errors' => 'Division by '));
+        $this->check_current_output(
+            new question_pattern_expectation('/Division by/')
+        );
 
         // Validate the response 1/2 (correct).
         $this->process_submission(array('ans1' => '1/2', 'ans1_val' => '0', '-submit' => 1));

@@ -318,12 +318,19 @@ class stack_potentialresponse_node {
     public function get_context_variables($key) {
         $variables = array();
 
-        // TODO: cloning here makes zero sense but we are moving these around
-        // and the primary thing here is the validation of the values.
-        $variables[] = clone $this->sans;
-        $variables[0]->set_key('PRSANS' . $key);
-        $variables[] = clone $this->tans;
-        $variables[1]->set_key('PRTANS' . $key);
+        // Do we simplify the expressions in the context variables?
+        $simp = 'false';
+        if (stack_ans_test_controller::simp($this->answertest)) {
+            $simp = 'true';
+        }
+        $sf = stack_ast_container::make_from_teacher_source('simp:' . $simp, '', new stack_cas_security(), array());
+        $variables[0] = $sf;
+
+        // We need to clone these, so we can set the key for evaluation.
+        $variables[1] = clone $this->sans;
+        $variables[1]->set_key('PRSANS' . $key);
+        $variables[2] = clone $this->tans;
+        $variables[2]->set_key('PRTANS' . $key);
 
         if (stack_ans_test_controller::process_atoptions($this->answertest) && trim($this->atoptions) != '') {
             $cs = stack_ast_container::make_from_teacher_source('PRATOPT' . $key . ':' . $this->atoptions,

@@ -29,6 +29,7 @@ require_once(__DIR__ . '/stack/cas/castext.class.php');
 require_once(__DIR__ . '/stack/cas/keyval.class.php');
 require_once(__DIR__ . '/stack/cas/installhelper.class.php');
 require_once(__DIR__ . '/stack/input/inputbase.class.php');
+require_once(__DIR__ . '/stack/input/factory.class.php');
 require_once(__DIR__ . '/stack/input/equiv/equiv.class.php');
 require_once(__DIR__ . '/tests/fixtures/equivfixtures.class.php');
 
@@ -231,7 +232,8 @@ foreach ($samplearguments as $argument) {
                 $teacheranswer = $cs1->get_inputform();
                 $input = new stack_equiv_input('ans1', $teacheranswer, $options, array('options' => 'comments'));
                 $response = $input->get_correct_response($teacheranswer);
-                $state = $input->validate_student_response($response, $options, $teacheranswer, null);
+                $security = new stack_cas_security();
+                $state = $input->validate_student_response($response, $options, $teacheranswer, $security);
                 echo $input->render($state, 'ans1', false, $teacheranswer);
             }
         }

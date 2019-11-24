@@ -251,7 +251,7 @@ class stack_textarea_input extends stack_input {
             if (trim($val) !== '' ) {
                 $cs = stack_ast_container::make_from_teacher_source($val);
                 $cs->get_valid();
-                $val = '<code>'.$cs->get_inputform().'</code>';
+                $val = '<code>'.$cs->get_inputform(true, false).'</code>';
             }
             $values[$key] = $val;
         }

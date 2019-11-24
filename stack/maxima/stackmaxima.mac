@@ -1240,7 +1240,7 @@ ATNumSigFigs(SA, SB, SO) := block([Validity, RawMark, FeedBack, AnswerNote, ret,
 */
 ATAlgEquiv(SA,SB) := block([simp:true, ret, newret, SAN],
     /* Turn on simplification and error catch */
-    if is(_EC(errcatch(SA:ev(SA, simp, nouns)), "") = false) then
+    if is(_EC(errcatch(SA:ev(SA, simp, nouns, rat)), "") = false) then
         return([false, false, StackAddNote("", "ATAlgEquiv_STACKERROR_SAns"), ""]),
     SAN:copy(SA), /* Need this for when we have lists etc. */
     if is(_EC(errcatch(SB:ev(SB, simp, nouns, rat)), "") = false) then

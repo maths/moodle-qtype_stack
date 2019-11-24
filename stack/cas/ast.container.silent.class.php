@@ -287,11 +287,14 @@ class stack_ast_container_silent implements cas_evaluatable {
         return $this->valid;
     }
 
+    /*
+     * This is the string which actually gets sent to Maxima.
+     */
     public function get_evaluationform(): string {
         if (false === $this->get_valid()) {
             throw new stack_exception('stack_ast_container: tried to get the evaluation form of an invalid casstring.');
         }
-        return $this->ast_to_casstring($this->ast);
+        return $this->ast_to_casstring($this->ast, true);
     }
 
     // This returns the fully filtered AST as it should be inputted were it inputted perfectly.
@@ -333,7 +336,7 @@ class stack_ast_container_silent implements cas_evaluatable {
     /*
      * Avoid duplicate code with stack_ast_container::get_value.
      */
-    protected function ast_to_casstring($root) : string {
+    protected function ast_to_casstring($root, $evaluationform = false) : string {
         if ($root instanceof MP_Root) {
             // Edge case in which we have created an ast from the '' input.
             if (array_key_exists(0, $root->items)) {
@@ -343,9 +346,11 @@ class stack_ast_container_silent implements cas_evaluatable {
             }
         }
         if ($this->source === 's') {
-            $casstring = $root->toString(array('keyless' => $this->keyless, 'nounify' => true, 'dealias' => true));
+            $casstring = $root->toString(array('nounify' => true,
+                'evaluationform' => $evaluationform, 'dealias' => true));
         } else {
-            $casstring = $root->toString(array('keyless' => $this->keyless, 'nounify' => $this->nounify, 'dealias' => true));
+            $casstring = $root->toString(array('nounify' => $this->nounify,
+                'evaluationform' => $evaluationform, 'dealias' => true));
             if ($root instanceof MP_Statement &&
                     $root->flags !== null && count($root->flags) > 0) {
                         // This makes it possible to write, when authoring, evaluation flags

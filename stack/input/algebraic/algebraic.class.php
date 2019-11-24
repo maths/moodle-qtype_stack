@@ -124,7 +124,7 @@ class stack_algebraic_input extends stack_input {
         }
         $cs = stack_ast_container::make_from_teacher_source($value, '', new stack_cas_security());
         $cs->set_nounify(false);
-        $value = $cs->get_evaluationform();
+        $value = $cs->get_inputform(true, false);
         return stack_string('teacheranswershow', array('value' => '<code>'.$value.'</code>', 'display' => $display));
     }
 }

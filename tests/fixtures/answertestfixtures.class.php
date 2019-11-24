@@ -407,7 +407,9 @@ class stack_answertest_test_data {
         array('AlgEquiv', '', 'atan(1/2)', '%pi/2-atan(2)', -3, '', 'This is only equivalent for x>=0...', ''),
         array('AlgEquiv', '', 'asinh(x)', 'ln(x+sqrt(x^2+1))', -3, '', 'This is true for all x...', ''),
 
-        array('AlgEquiv', '', 'A and B', 'B and A', 1, 'ATLogic_True.', 'Logical expressions'),
+        array('AlgEquiv', '', 'true and false', 'false', 1, 'ATLogic_True.', 'Logical expressions'),
+        array('AlgEquiv', '', 'true or false', 'false', 0, '', ''),
+        array('AlgEquiv', '', 'A and B', 'B and A', 1, 'ATLogic_True.', ''),
         array('AlgEquiv', '', 'A and B', 'C and A', 0, '', ''),
         array('AlgEquiv', '', 'A and B=C', 'C=B and A', 1, 'ATLogic_True.', ''),
         array('AlgEquiv', '', 'A and (B and C)', 'A and B and C', 1, 'ATLogic_True.', ''),

@@ -756,8 +756,13 @@ class stack_astcontainer_test extends qtype_stack_testcase {
                 $at1->get_evaluationform());
 
         $at1->set_nounify(false);
-        $this->assertEquals("[sum(k^2,k,1,n),product(k^2,k,1,n),a and b,diff(y,x)+y = 0]",
+        // We always have nounand in evaluation forms.
+        $this->assertEquals("[sum(k^2,k,1,n),product(k^2,k,1,n),a nounand b,diff(y,x)+y = 0]",
                 $at1->get_evaluationform());
+
+        // We have and rather than nounand in input form.
+        $this->assertEquals("[sum(k^2,k,1,n),product(k^2,k,1,n),a and b,diff(y,x)+y = 0]",
+            $at1->get_inputform(true, false));
 
         $s = "[sum(k^2,k,1,n),'product(k^2,k,1,n),a and b, diff(y,x)+y=0]";
         $at1 = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security());
@@ -765,7 +770,7 @@ class stack_astcontainer_test extends qtype_stack_testcase {
         $err = '';
         $this->assertEquals($err, $at1->get_errors());
 
-        $this->assertEquals("[sum(k^2,k,1,n),'product(k^2,k,1,n),a and b,diff(y,x)+y = 0]",
+        $this->assertEquals("[sum(k^2,k,1,n),'product(k^2,k,1,n),a nounand b,diff(y,x)+y = 0]",
                 $at1->get_evaluationform());
 
         $at1->set_nounify(true);

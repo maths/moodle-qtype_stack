@@ -87,10 +87,12 @@ class stack_cas_text_test extends qtype_stack_testcase {
                 . '[[ else ]]Delta[[/ if]]';
 
         $cases = array(
-                array('[[ if test="a" ]]ok1[[/ if ]]', $a1, true, "ok1"),
+                array('[[if test="a"]]ok1[[/ if]]', $a1, true, "ok1"),
+                array('[[ if test="a" ]]ok1s[[/ if ]]', $a1, true, "ok1s"),
                 array('[[ if test="b" ]]ok2[[/ if ]]', $a1, true, ""),
                 array('[[ if test="b" ]]ok3[[else]]OK3[[/ if ]]', $a1, true, "OK3"),
                 array('[[ if test="b" ]]ok4[[elif test="c"]]Ok4[[ else ]]OK4[[/ if ]]', $a1, true, "OK4"),
+                array('[[ if test="b" ]]ok4s[[ elif test="c" ]]Ok4s[[ else ]]OK4S[[/ if ]]', $a1, true, "OK4S"),
                 array('[[ if test="b" ]]ok5[[elif test="false"]]oK5[[elif test="a"]]Ok5[[else]]OK5[[/ if ]]', $a1, true, "Ok5"),
                 array('[[ if test="a" ]][[ if test="a" ]]ok6[[/ if ]][[/ if ]]', $a1, true, "ok6"),
                 array('[[ if test="a" ]][[ if test="b" ]]ok7[[/ if ]][[/ if ]]', $a1, true, ""),
@@ -1059,7 +1061,7 @@ class stack_cas_text_test extends qtype_stack_testcase {
     }
 
     public function test_stack_simp_false_true_false() {
-        /* In STACK v<4.3 authors often control simp within a session. */
+        // In STACK v<4.3 authors often control simp within a session.
         $a2 = array('simp:false',
                 'p1:1+1',
                 'simp:true',

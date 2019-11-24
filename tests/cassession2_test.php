@@ -27,7 +27,7 @@ require_once(__DIR__ . '/../stack/cas/ast.container.class.php');
  * @group qtype_stack
  */
 class stack_cas_session2_test extends qtype_stack_testcase {
-/*
+
     public function test_internal_config() {
         // This test checks if the version number returned by Maxima matches our internal config.
         $cs = array('m:MAXIMA_VERSION_NUM');
@@ -1224,7 +1224,7 @@ class stack_cas_session2_test extends qtype_stack_testcase {
             $this->assertEquals($c[2], $s1[$key]->get_display());
         }
     }
-*/
+
     public function test_scientific_notation() {
         // @codingStandardsIgnoreStart
 
@@ -1399,7 +1399,7 @@ class stack_cas_session2_test extends qtype_stack_testcase {
             $this->assertEquals($val, $s2[$key]->get_value());
         }
     }
-/*
+
     public function test_pm_simp_false() {
         $cs = array('c0:a+-b',
             'c1:x = (-b +- sqrt(b^2-4*a*c))/(2*a)',
@@ -1772,5 +1772,4 @@ class stack_cas_session2_test extends qtype_stack_testcase {
         $this->assertEquals('3', $s1[2]->get_dispvalue());
         $this->assertEquals('f(x):=if x < 0 then (if x < 1 then 1 else 2) else 3', $s1[0]->get_value());
     }
-*/
 }

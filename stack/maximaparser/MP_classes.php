@@ -324,6 +324,16 @@ class MP_Operation extends MP_Node {
             }
         }
 
+        if ($params !== null && isset($params['evaluationform'])) {
+            $feat = null;
+            if ($params['evaluationform'] === true) {
+                $feat = stack_cas_security::get_feature($op, 'evaluationoperator');
+            }
+            if ($feat !== null) {
+                $op = $feat;
+            }
+        }
+
         if ($params !== null && isset($params['pretty'])) {
             $indent = '';
             if (is_integer($params['pretty'])) {
@@ -871,6 +881,16 @@ class MP_FunctionCall extends MP_Node {
                 if ($feat !== null) {
                     $n = $feat;
                 }
+            }
+        }
+
+        if ($params !== null && isset($params['evaluationform'])) {
+            $feat = null;
+            if ($params['evaluationform'] === true) {
+                $feat = stack_cas_security::get_feature($n, 'evaluationoperator');
+            }
+            if ($feat !== null) {
+                $n = $feat;
             }
         }
 

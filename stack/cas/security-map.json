@@ -533,6 +533,7 @@
         "function": "?"
     },
     "and": {
+        "evaluationoperator": "nounand",
         "nounoperator": "nounand",
         "operator": "s",
         "spacesurroundedop": true
@@ -4908,6 +4909,7 @@
         "variable": "f"
     },
     "or": {
+        "evaluationoperator": "nounor",
         "nounoperator": "nounor",
         "operator": "s",
         "spacesurroundedop": true

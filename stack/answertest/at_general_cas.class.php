@@ -114,16 +114,16 @@ class stack_answertest_general_cas extends stack_anstest {
         } else {
             $sa = clone $this->sanskey;
         }
-        $sa->set_nounify(true);
         $sa->set_key('STACKSA');
+
         $ta = null;
         if ($this->tanskey->is_correctly_evaluated()) {
             $ta = stack_ast_container::make_from_teacher_source($this->tanskey->get_value());
         } else {
             $ta = clone $this->tanskey;
         }
-        $ta->set_nounify(true);
         $ta->set_key('STACKTA');
+
         $ops = stack_ast_container::make_from_teacher_source('STACKOP:true', '', new stack_cas_security());
         $result = stack_ast_container::make_from_teacher_source("result:{$this->casfunction}(STACKSA,STACKTA)", '',
             new stack_cas_security());

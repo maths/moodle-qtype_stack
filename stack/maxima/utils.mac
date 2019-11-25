@@ -73,7 +73,9 @@ date_list(yearA, monthA, dayA, yearB, monthB, dayB) := block([y, m, d, wd, S, R,
 )$
 
 /* Finds the number of significant digits in the first numeric part of a given string representation of an expression. Pretty much the same logic as the original PHP version stack_utils::decimal_digits. */
-sig_figs_from_str(strexp) := block([leadingzeros,indefinitezeros,trailingzeros,meaningfulldigits,decimalplaces,infrontofdecimaldeparator,scientificnotation,seennumbers,c,i,r],
+sig_figs_from_str(strexp) := block([leadingzeros,indefinitezeros,trailingzeros,meaningfulldigits,decimalplaces,infrontofdecimaldeparator,scientificnotation,seennumbers,c,i,r,simp],
+    /* Plenty of countters so needs simp */
+    simp: true,
     leadingzeros: 0,
     indefinitezeros: 0,
     trailingzeros: 0,

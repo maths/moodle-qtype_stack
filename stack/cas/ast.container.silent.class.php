@@ -294,49 +294,33 @@ class stack_ast_container_silent implements cas_evaluatable {
         if (false === $this->get_valid()) {
             throw new stack_exception('stack_ast_container: tried to get the evaluation form of an invalid casstring.');
         }
-        return $this->ast_to_casstring($this->ast, true);
+        return $this->ast_to_string($this->ast, array('evaluationform' => true));
     }
 
     // This returns the fully filtered AST as it should be inputted were it inputted perfectly.
     public function get_inputform(bool $keyless = false, $nounify = null): string {
-        if ($this->ast) {
-            $params = array('inputform' => true, 'qmchar' => true, 'nosemicolon' => true);
-            if ($nounify !== null) {
-                $params['nounify'] = $nounify;
-            }
-
-            if ($keyless === true && $this->get_key() !== '') {
-                $root = $this->ast;
-                if ($root instanceof MP_Root) {
-                    // Null items fail here.
-                    // Indeed but there should be no null items, so might as well fail?
-                    // It would be better to fail as it signals that somewhere higher
-                    // in the gode is a logic fail trying to build something on top of
-                    // empty values.
-                    if (array_key_exists(0, $root->items)) {
-                        $root = $root->items[0];
-                    } else {
-                        return '';
-                    }
-                }
-                if ($root instanceof MP_Statement) {
-                    $root = $root->statement;
-                }
-
-                if ($root instanceof MP_Operation && $root->op === ':' &&
-                        $root->lhs instanceof MP_Identifier) {
-                            return $root->rhs->toString($params);
-                }
-            }
-            return $this->ast->toString($params);
-        }
-        return '';
+        $params = array('inputform' => true,
+                'qmchar' => true,
+                'nosemicolon' => true,
+                'keyless' => $keyless,
+                'dealias' => false, // This is needed to stop pi->%pi etc.
+                'nounify' => $nounify
+                );
+        return $this->ast_to_string($this->ast, $params);
     }
 
     /*
-     * Avoid duplicate code with stack_ast_container::get_value.
+     * Top-level function for turning AST into a string representation.
      */
-    protected function ast_to_casstring($root, $evaluationform = false) : string {
+    public function ast_to_string($root = null, $parameters = array()) : string {
+
+        if ($root === null) {
+            $root = $this->ast;
+        }
+        if (!$root) {
+            return '';
+        }
+
         if ($root instanceof MP_Root) {
             // Edge case in which we have created an ast from the '' input.
             if (array_key_exists(0, $root->items)) {
@@ -345,19 +329,49 @@ class stack_ast_container_silent implements cas_evaluatable {
                 return '';
             }
         }
-        if ($this->source === 's') {
-            $casstring = $root->toString(array('nounify' => true,
-                'evaluationform' => $evaluationform, 'dealias' => true));
-        } else {
-            $casstring = $root->toString(array('nounify' => $this->nounify,
-                'evaluationform' => $evaluationform, 'dealias' => true));
-            if ($root instanceof MP_Statement &&
-                    $root->flags !== null && count($root->flags) > 0) {
-                        // This makes it possible to write, when authoring, evaluation flags
-                        // like in maxima without wrapping in ev() yourself.
-                        $casstring = 'ev(' . $casstring . ')';
-            }
+
+        // TODO: should we check parameters are legitimate and if not?
+        // Currently MP_classes just does an isset(?) to check if the parameter exists.
+        // There is no check on the legitimacy of those paraeters anywhere.  Should we
+        // throw new stack_exception('stack_ast_container::ast_to_string tried to set illegal parameter ' . $key);
+        // We should document available parameters.
+        // 'pretty', 'nosemicolon', 'keyless', 'qmchar'
+        $params = array('nounify' => $this->nounify,
+                        'dealias' => true,
+                        'evaluationform' => false,
+                        'inputform' => false);
+        foreach ($parameters as $key => $val) {
+            $params[$key] = $val;
         }
+
+        if ($params['nounify'] === null) {
+            unset($params['nounify']);
+        }
+
+        $keyless = false;
+        if (array_key_exists('keyless', $parameters)) {
+            $keyless = $parameters['keyless'];
+            unset($params['keyless']);
+        }
+        if ($keyless === true && $this->get_key() !== '') {
+            if ($root instanceof MP_Statement) {
+                $root = $root->statement;
+            }
+            if ($root instanceof MP_Operation && $root->op === ':' &&
+                $root->lhs instanceof MP_Identifier) {
+                    return $root->rhs->toString($params);
+                }
+        }
+
+        $casstring = $root->toString($params);
+
+        if ($root instanceof MP_Statement &&
+            $root->flags !== null && count($root->flags) > 0) {
+                // This makes it possible to write, when authoring, evaluation flags
+                // like in maxima without wrapping in ev() yourself.
+                $casstring = 'ev(' . $casstring . ')';
+        }
+
         return $casstring;
     }
 

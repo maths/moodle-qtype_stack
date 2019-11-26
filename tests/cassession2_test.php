@@ -1511,11 +1511,11 @@ class stack_cas_session2_test extends qtype_stack_testcase {
         $at1 = new stack_cas_session2($s1, $options, 0);
         $at1->instantiate();
 
-        $this->assertEquals('false', $s1[0]->get_value());
+        $this->assertEquals('x = 1 nounor x = 2', $s1[0]->get_value());
         $this->assertEquals('x = 1 nounor x = 2', $s1[1]->get_value());
-        // Note, that noun_logic_remove(p1) does not give an extra evaluation.
+        // No extra evaluation at this point, but nouns have been removed.
         $this->assertEquals('x = 1 or x = 2', $s1[2]->get_value());
-        // However, the display function does force an extra evaluation!
+        // However, display forces an evaluation, and hence the result.
         $this->assertEquals('\mathbf{false}', $s1[2]->get_display());
         $this->assertEquals('false', $s1[3]->get_value());
     }

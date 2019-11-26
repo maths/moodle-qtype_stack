@@ -37,7 +37,7 @@ class stack_anstest_atnumsigfigs extends stack_anstest {
     }
 
     public function do_test() {
-        if ('' == trim($this->sanskey->get_inputform(true))) {
+        if ('' == trim($this->sanskey->ast_to_string())) {
             $this->aterror      = stack_string('TEST_FAILED', array('errors' => stack_string("AT_EmptySA")));
             $this->atfeedback   = stack_string('TEST_FAILED', array('errors' => stack_string("AT_EmptySA")));
             $this->atansnote    = $this->casfunction.'TEST_FAILED:Empty SA.';
@@ -46,7 +46,7 @@ class stack_anstest_atnumsigfigs extends stack_anstest {
             return null;
         }
 
-        if ('' == trim($this->tanskey->get_inputform(true))) {
+        if ('' == trim($this->tanskey->ast_to_string())) {
             $this->aterror      = stack_string('TEST_FAILED', array('errors' => stack_string("AT_EmptyTA")));
             $this->atfeedback   = stack_string('TEST_FAILED', array('errors' => stack_string("AT_EmptyTA")));
             $this->atansnote    = $this->casfunction.'TEST_FAILED:Empty TA.';

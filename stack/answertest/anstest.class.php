@@ -192,7 +192,8 @@ class stack_anstest {
     public function get_trace($includeresult) {
 
         if ($this->tanskey && $this->tanskey->get_valid()) {
-            $ta = $this->tanskey->get_evaluationform();
+            $ta = $this->tanskey->ast_to_string(null,
+                array('evaluationform' => true, 'keyless' => true));
             if ($this->tanskey->is_correctly_evaluated()) {
                 $ta = $this->tanskey->get_value();
             }
@@ -200,7 +201,8 @@ class stack_anstest {
             return '';
         }
         if ($this->sanskey && $this->sanskey->get_valid()) {
-            $sa = $this->sanskey->get_evaluationform();
+            $sa = $this->sanskey->ast_to_string(null,
+                array('evaluationform' => true, 'keyless' => true));
             if ($this->sanskey->is_correctly_evaluated()) {
                 $sa = $this->sanskey->get_value();
             }
@@ -209,8 +211,10 @@ class stack_anstest {
         }
         $traceline = $this->get_casfunction() . '(' . $sa . ', ' . $ta . ')';
         if (stack_ans_test_controller::required_atoptions($this->atname)) {
+            $atopt = '';
             if ($this->atoption->get_valid()) {
-                $atopt = $this->atoption->get_evaluationform();
+                $atopt = $this->atoption->ast_to_string(null,
+                    array('evaluationform' => true, 'keyless' => true));
             }
             if ($this->atoption->is_correctly_evaluated()) {
                 $atopt = $this->atoption->get_value();

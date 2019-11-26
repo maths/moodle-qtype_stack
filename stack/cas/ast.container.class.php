@@ -211,7 +211,7 @@ class stack_ast_container extends stack_ast_container_silent implements cas_late
         if (null === $this->evaluated) {
             throw new stack_exception('stack_ast_container: tried to get the value from of an unevaluated casstring.');
         }
-        return $this->ast_to_casstring($this->evaluated);
+        return $this->ast_to_string($this->evaluated);
     }
 
     public function get_dispvalue() {

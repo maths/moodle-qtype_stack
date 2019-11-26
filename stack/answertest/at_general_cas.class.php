@@ -55,7 +55,7 @@ class stack_answertest_general_cas extends stack_anstest {
      */
     public function do_test() {
 
-        if ('' == trim($this->sanskey->get_inputform())) {
+        if ('' == trim($this->sanskey->ast_to_string())) {
             $this->aterror      = stack_string('TEST_FAILED', array('errors' => stack_string("AT_EmptySA")));
             $this->atfeedback   = stack_string('TEST_FAILED', array('errors' => stack_string("AT_EmptySA")));
             $this->atansnote    = $this->casfunction.'TEST_FAILED:Empty SA.';
@@ -64,7 +64,7 @@ class stack_answertest_general_cas extends stack_anstest {
             return null;
         }
 
-        if ('' == trim($this->tanskey->get_inputform())) {
+        if ('' == trim($this->tanskey->ast_to_string())) {
             $this->aterror      = stack_string('TEST_FAILED', array('errors' => stack_string("AT_EmptyTA")));
             $this->atfeedback   = stack_string('TEST_FAILED', array('errors' => stack_string("AT_EmptyTA")));
             $this->atansnote    = $this->casfunction.'TEST_FAILED:Empty TA.';
@@ -91,7 +91,7 @@ class stack_answertest_general_cas extends stack_anstest {
                 $this->atvalid      = false;
                 return null;
             }
-            if ('' == $this->atoption->get_evaluationform()) {
+            if ('' == $this->atoption->ast_to_string()) {
                 $this->aterror      = 'TEST_FAILED';
                 $this->atfeedback   = stack_string('TEST_FAILED', array('errors' => stack_string("AT_MissingOptions")));
                 $this->atansnote    = 'STACKERROR_OPTION.';

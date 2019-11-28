@@ -135,7 +135,7 @@ foreach ($samplearguments as $argument) {
             $cs1 = stack_ast_container::make_from_student_source($cskey . ':' . $argument['casstring'],
                     '', new stack_cas_security());
 
-            $casstrings[$cskey] = $cs1->get_inputform(false, true);
+            $casstrings[$cskey] = $cs1->get_inputform(false, 1);
             $casstrings['D'.$i] = $argument['debuglist'];
             if (array_key_exists('debuglist', $argument)) {
                 $val = "DL:" . $argument['debuglist'];

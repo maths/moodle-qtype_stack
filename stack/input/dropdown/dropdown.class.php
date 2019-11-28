@@ -221,7 +221,7 @@ class stack_dropdown_input extends stack_input {
                 } else {
                     $cs = stack_ast_container::make_from_teacher_source($display);
                     if ($cs->get_valid()) {
-                        $display = $cs->get_inputform(false, false);
+                        $display = $cs->get_inputform(false, 0);
                     }
                     $ddlvalues[$key]['display'] = '<code>'.$display.'</code>';
                 }

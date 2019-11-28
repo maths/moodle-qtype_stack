@@ -114,6 +114,7 @@ class stack_answertest_general_cas extends stack_anstest {
         } else {
             $sa = clone $this->sanskey;
         }
+        $sa->set_nounify(2);
         $sa->set_key('STACKSA');
 
         $ta = null;
@@ -122,6 +123,7 @@ class stack_answertest_general_cas extends stack_anstest {
         } else {
             $ta = clone $this->tanskey;
         }
+        $ta->set_nounify(2);
         $ta->set_key('STACKTA');
 
         $ops = stack_ast_container::make_from_teacher_source('STACKOP:true', '', new stack_cas_security());

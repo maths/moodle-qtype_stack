@@ -70,11 +70,11 @@ class stack_anstest_atdecplaceswrong extends stack_anstest {
             return null;
         }
 
-        $sans = $this->sanskey->get_inputform(true, true);
+        $sans = $this->sanskey->get_inputform(true, 1);
         if ($this->sanskey->is_evaluated()) {
             $sans = $this->sanskey->get_value();
         }
-        $tans = $this->tanskey->get_inputform(true, true);
+        $tans = $this->tanskey->get_inputform(true, 1);
         if ($this->tanskey->is_evaluated()) {
             $tans = $this->tanskey->get_value();
         }

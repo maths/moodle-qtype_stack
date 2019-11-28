@@ -193,7 +193,7 @@ class stack_anstest {
 
         if ($this->tanskey && $this->tanskey->get_valid()) {
             $ta = $this->tanskey->ast_to_string(null,
-                array('evaluationform' => true, 'keyless' => true));
+                array('logicnoun' => true, 'keyless' => true));
             if ($this->tanskey->is_correctly_evaluated()) {
                 $ta = $this->tanskey->get_value();
             }
@@ -202,7 +202,7 @@ class stack_anstest {
         }
         if ($this->sanskey && $this->sanskey->get_valid()) {
             $sa = $this->sanskey->ast_to_string(null,
-                array('evaluationform' => true, 'keyless' => true));
+                array('logicnoun' => true, 'keyless' => true));
             if ($this->sanskey->is_correctly_evaluated()) {
                 $sa = $this->sanskey->get_value();
             }
@@ -214,7 +214,7 @@ class stack_anstest {
             $atopt = '';
             if ($this->atoption->get_valid()) {
                 $atopt = $this->atoption->ast_to_string(null,
-                    array('evaluationform' => true, 'keyless' => true));
+                    array('logicnoun' => true, 'keyless' => true));
             }
             if ($this->atoption->is_correctly_evaluated()) {
                 $atopt = $this->atoption->get_value();

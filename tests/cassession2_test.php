@@ -1511,7 +1511,9 @@ class stack_cas_session2_test extends qtype_stack_testcase {
         $at1 = new stack_cas_session2($s1, $options, 0);
         $at1->instantiate();
 
-        $this->assertEquals('x = 1 nounor x = 2', $s1[0]->get_value());
+        // Teachers must use nouns if the mean it, otherwise things get evaluated.
+        $this->assertEquals('false', $s1[0]->get_value());
+        // Students always have nouns.
         $this->assertEquals('x = 1 nounor x = 2', $s1[1]->get_value());
         // No extra evaluation at this point, but nouns have been removed.
         $this->assertEquals('x = 1 or x = 2', $s1[2]->get_value());

@@ -39,7 +39,7 @@ class stack_cas_castext_define extends stack_cas_castext_block {
             $cs = stack_ast_container_conditional_silent::make_from_teacher_source($raw, '', new stack_cas_security());
             $cs->set_conditions($conditionstack);
             $cs->set_keyless(true);
-            $cs->set_nounify(false);
+            $cs->set_nounify(0);
 
             $tobeevaluatedcassession->add_statement($cs);
         }

@@ -726,7 +726,7 @@ abstract class stack_input {
 
         // Answers may not contain the ? character.  CAS-strings may, but answers may not.
         // It is very useful for teachers to be able to add in syntax hints.
-        $interpretedanswer = $answerd->get_inputform(true, true);
+        $interpretedanswer = $answerd->get_inputform(true, 1);
         // TODO: apply a filter to check the ast!
         if (!(strpos($interpretedanswer, '?') === false)) {
             $valid = false;
@@ -1221,7 +1221,7 @@ abstract class stack_input {
         }
         // TODO: refactor this ast creation away.
         $cs = stack_ast_container::make_from_teacher_source($value, '', new stack_cas_security(), array());
-        $cs->set_nounify(false);
+        $cs->set_nounify(0);
         $val = '';
         if ($cs->get_valid()) {
             $value = $cs->get_evaluationform();

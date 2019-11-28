@@ -28,9 +28,11 @@
  * 'insertstars_as_red'      All * operators created by insert stars logic will be marked with red.
  * 'fixspaces_as_red_spaces' Similar to above, but for spaces.
  * 'inputform'               Something a user (normally student) would expect to type.
- * 'nounify'                 If defined and true nounifies certain operators and functions. If false does the opposite.
+ * 'nounify'                 If 0 removes all nouns.
+ *                           If defined and 1 nounifies all operators and functions.
+ *                           If 2, adds logic nouns.
  * 'dealias'                 If defined unpacks potential aliases.
- * 'qmchar'                  If defined prints question marks directly if present as QMCHAR
+ * 'qmchar'                  If defined prints question marks directly if present as QMCHAR.
  */
 
 defined('MOODLE_INTERNAL') || die();
@@ -303,11 +305,14 @@ class MP_Operation extends MP_Node {
 
         if ($params !== null && isset($params['nounify'])) {
             $feat = null;
-            if ($params['nounify'] === true) {
+            if ($params['nounify'] === 0) {
+                $feat = stack_cas_security::get_feature($op, 'nounoperatorfor');
+            }
+            if ($params['nounify'] === 1) {
                 $feat = stack_cas_security::get_feature($op, 'nounoperator');
             }
-            if ($params['nounify'] === false) {
-                $feat = stack_cas_security::get_feature($op, 'nounoperatorfor');
+            if ($params['nounify'] === 2) {
+                $feat = stack_cas_security::get_feature($op, 'logicnoun');
             }
             if ($feat !== null) {
                 $op = $feat;
@@ -324,10 +329,10 @@ class MP_Operation extends MP_Node {
             }
         }
 
-        if ($params !== null && isset($params['evaluationform'])) {
+        if ($params !== null && isset($params['logicnoun'])) {
             $feat = null;
-            if ($params['evaluationform'] === true) {
-                $feat = stack_cas_security::get_feature($op, 'evaluationoperator');
+            if ($params['logicnoun'] === true) {
+                $feat = stack_cas_security::get_feature($op, 'logicnoun');
             }
             if ($feat !== null) {
                 $op = $feat;
@@ -874,9 +879,14 @@ class MP_FunctionCall extends MP_Node {
 
         if ($params !== null && isset($params['nounify'])) {
             if ($this->name instanceof MP_Identifier || $this->name instanceof MP_String) {
-                $feat = stack_cas_security::get_feature($this->name->value, 'nounfunction');
-                if ($params['nounify'] === false) {
-                    $feat = stack_cas_security::get_feature($this->name->value, 'nounfunctionfor');
+                if ($params['nounify'] === 0) {
+                    $feat = stack_cas_security::get_feature($n, 'nounfunctionfor');
+                }
+                if ($params['nounify'] === 1) {
+                    $feat = stack_cas_security::get_feature($n, 'nounfunction');
+                }
+                if ($params['nounify'] === 2) {
+                    $feat = stack_cas_security::get_feature($n, 'logicnoun');
                 }
                 if ($feat !== null) {
                     $n = $feat;
@@ -884,10 +894,10 @@ class MP_FunctionCall extends MP_Node {
             }
         }
 
-        if ($params !== null && isset($params['evaluationform'])) {
+        if ($params !== null && isset($params['logicnoun'])) {
             $feat = null;
-            if ($params['evaluationform'] === true) {
-                $feat = stack_cas_security::get_feature($n, 'evaluationoperator');
+            if ($params['logicnoun'] === true) {
+                $feat = stack_cas_security::get_feature($n, 'logicnoun');
             }
             if ($feat !== null) {
                 $n = $feat;
@@ -937,7 +947,7 @@ class MP_FunctionCall extends MP_Node {
         // We want the inputform with nouns, e.g. to store.
         // We want the input form without nouns, e.g. "the teacher's answer is..." situation.
         if (isset($params['inputform']) && $params['inputform'] === true &&
-                isset($params['nounify']) && $params['nounify'] === false) {
+                isset($params['nounify']) && $params['nounify'] === 0) {
             $prefix = stack_cas_security::get_feature($this->name->value, 'prefixinputform');
             if ('' != $prefix) {
                 // Hack for stacklet.
@@ -1263,7 +1273,7 @@ class MP_PrefixOp extends MP_Node {
 
         // Apostophies are used to create general noun operators.
         // We need to omit them.
-        if (isset($params['nounify']) && $params['nounify'] === false && $this->op === "'") {
+        if (isset($params['nounify']) && $params['nounify'] === 0 && $this->op === "'") {
             return $this->rhs->toString($params);
         }
 

@@ -77,7 +77,10 @@ class stack_ast_container_silent implements cas_evaluatable {
 
     /**
      * Do we nounify all operators in this expression?
-     * If true we do, if false we remove them, if null we leave well alone.
+     * If null we leave well alone.
+     * If 0 we remove all nouns.
+     * If 1 we add all nouns.
+     * If 2 we only add logic nouns such as nounand.
      */
     protected $nounify = null;
 
@@ -157,7 +160,7 @@ class stack_ast_container_silent implements cas_evaluatable {
         $astc->valid = null;
         $astc->feedback = array();
         // Always add nouns to student input.
-        $astc->nounify = true;
+        $astc->nounify = 1;
 
         return $astc;
     }
@@ -258,7 +261,7 @@ class stack_ast_container_silent implements cas_evaluatable {
     }
 
     /* TODO: a more coherent system for dealing with all options such as keyless, nounify. */
-    public function set_nounify(bool $key=true) {
+    public function set_nounify(int $key=1) {
         $this->nounify = $key;
     }
 
@@ -294,11 +297,14 @@ class stack_ast_container_silent implements cas_evaluatable {
         if (false === $this->get_valid()) {
             throw new stack_exception('stack_ast_container: tried to get the evaluation form of an invalid casstring.');
         }
-        return $this->ast_to_string($this->ast, array('evaluationform' => true));
+        return $this->ast_to_string($this->ast);
     }
 
     // This returns the fully filtered AST as it should be inputted were it inputted perfectly.
     public function get_inputform(bool $keyless = false, $nounify = null): string {
+        if (!($nounify === null || is_int($nounify))) {
+            throw new stack_exception('stack_ast_container: nounify must be null or an integer.');
+        }
         $params = array('inputform' => true,
                 'qmchar' => true,
                 'nosemicolon' => true,
@@ -334,11 +340,9 @@ class stack_ast_container_silent implements cas_evaluatable {
         // Currently MP_classes just does an isset(?) to check if the parameter exists.
         // There is no check on the legitimacy of those paraeters anywhere.  Should we
         // throw new stack_exception('stack_ast_container::ast_to_string tried to set illegal parameter ' . $key);
-        // We should document available parameters.
-        // 'pretty', 'nosemicolon', 'keyless', 'qmchar'
+        // We should document available parameters: 'pretty', 'nosemicolon', 'keyless', 'qmchar'.
         $params = array('nounify' => $this->nounify,
                         'dealias' => true,
-                        'evaluationform' => false,
                         'inputform' => false);
         foreach ($parameters as $key => $val) {
             $params[$key] = $val;
@@ -360,7 +364,7 @@ class stack_ast_container_silent implements cas_evaluatable {
             if ($root instanceof MP_Operation && $root->op === ':' &&
                 $root->lhs instanceof MP_Identifier) {
                     return $root->rhs->toString($params);
-                }
+            }
         }
 
         $casstring = $root->toString($params);
@@ -784,7 +788,7 @@ class stack_ast_container_silent implements cas_evaluatable {
         $scientificnotation = false;
 
         // TODO: this should be a more sophisticated traverse of the tree to get the top numerical part.
-        $string = $this->get_inputform(true, true);
+        $string = $this->get_inputform(true, 1);
 
         // Sometimes strings from Maxima have parentheses around them.
         // This is hard to predict and is breaking things.  Strip them off here.

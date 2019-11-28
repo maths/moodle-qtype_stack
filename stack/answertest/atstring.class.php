@@ -28,7 +28,7 @@ class stack_anstest_atstring extends stack_anstest {
 
     public function do_test() {
         $this->atvalid = true;
-        if (trim($this->sanskey->get_inputform(true, true)) == trim($this->tanskey->get_inputform(true, true))) {
+        if (trim($this->sanskey->get_inputform(true, 1)) == trim($this->tanskey->get_inputform(true, 1))) {
             $this->atmark = 1;
             return true;
 

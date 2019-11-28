@@ -130,7 +130,7 @@ class stack_potentialresponse_tree {
             $cs = stack_ast_container::make_from_teacher_source($ans, '',
                     new stack_cas_security(), array());
             // That all said, we then need to manually add in nouns to ensure these are protected.
-            $cs->set_nounify(true);
+            $cs->set_nounify(2);
             $cs->set_key($name);
             $cs->set_keyless(false);
             $cascontext->add_statement($cs);

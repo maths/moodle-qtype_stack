@@ -31,7 +31,7 @@ class stack_anstest_stringsloppy extends stack_anstest {
     public function do_test() {
         $sa = '';
         if ($this->sanskey->get_valid()) {
-            $sa = $this->sanskey->get_inputform(true, true);
+            $sa = $this->sanskey->get_inputform(true, 1);
             if ($this->sanskey->is_correctly_evaluated()) {
                 $sa = $this->sanskey->get_value();
             }
@@ -41,7 +41,7 @@ class stack_anstest_stringsloppy extends stack_anstest {
         }
         $ta = '';
         if ($this->tanskey->get_valid()) {
-            $ta = $this->tanskey->get_inputform(true, true);
+            $ta = $this->tanskey->get_inputform(true, 1);
             if ($this->tanskey->is_correctly_evaluated()) {
                 $ta = $this->tanskey->get_value();
             }

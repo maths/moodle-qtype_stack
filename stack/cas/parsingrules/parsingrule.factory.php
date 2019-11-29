@@ -31,6 +31,8 @@ require_once(__DIR__ . '/050_no_chained_inequalities.filter.php');
 require_once(__DIR__ . '/090_special_forbidden_characters.filter.php');
 require_once(__DIR__ . '/101_no_floats.filter.php');
 require_once(__DIR__ . '/102_no_strings.filter.php');
+require_once(__DIR__ . '/103_no_lists.filter.php');
+require_once(__DIR__ . '/104_no_sets.filter.php');
 require_once(__DIR__ . '/402_split_prefix_from_common_function_name.filter.php');
 require_once(__DIR__ . '/403_split_at_number_letter_boundary.filter.php');
 require_once(__DIR__ . '/404_split_at_number_letter_number_boundary.filter.php');
@@ -39,6 +41,7 @@ require_once(__DIR__ . '/410_single_char_vars.filter.php');
 require_once(__DIR__ . '/441_split_unknown_functions.filter.php');
 require_once(__DIR__ . '/442_split_all_functions.filter.php');
 require_once(__DIR__ . '/450_split_floats.filter.php');
+require_once(__DIR__ . '/505_no_groups.filter.php');
 require_once(__DIR__ . '/520_no_equality_with_logic.filter.php');
 require_once(__DIR__ . '/541_no_unknown_functions.filter.php');
 require_once(__DIR__ . '/542_no_functions_at_all.filter.php');
@@ -84,6 +87,10 @@ class stack_parsing_rule_factory {
                 return new stack_ast_filter_101_no_floats();
             case '102_no_strings':
                 return new stack_ast_filter_102_no_strings();
+            case '103_no_lists':
+                return new stack_ast_filter_103_no_lists();
+            case '104_no_sets':
+                return new stack_ast_filter_104_no_sets();
             case '402_split_prefix_from_common_function_name':
                 return new stack_ast_filter_402_split_prefix_from_common_function_name();
             case '403_split_at_number_letter_boundary':
@@ -100,6 +107,8 @@ class stack_parsing_rule_factory {
                 return new stack_ast_filter_442_split_all_functions();
             case '450_split_floats':
                 return new stack_ast_filter_450_split_floats();
+            case '505_no_groups':
+                return new stack_ast_filter_505_no_groups();
             case '520_no_equality_with_logic':
                 return new stack_ast_filter_520_no_equality_with_logic();
             case '541_no_unknown_functions':
@@ -127,13 +136,14 @@ class stack_parsing_rule_factory {
                            '050_no_chained_inequalities',
                            '090_special_forbidden_characters',
                            '101_no_floats', '102_no_strings',
+                           '103_no_lists', '104_no_sets',
                            '402_split_prefix_from_common_function_name',
                            '403_split_at_number_letter_boundary',
                            '404_split_at_number_letter_number_boundary',
                            '406_split_implied_variable_names',
                            '410_single_char_vars', '441_split_unknown_functions',
                            '442_split_all_functions', '450_split_floats',
-                           '520_no_equality_with_logic',
+                           '505_no_groups', '520_no_equality_with_logic',
                            '541_no_unknown_functions', '542_no_functions_at_all',
                            '990_no_fixing_spaces', '991_no_fixing_stars',
                            '998_security', '999_strict') as $name) {

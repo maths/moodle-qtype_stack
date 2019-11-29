@@ -603,6 +603,9 @@ class stack_answertest_test_data {
         array('EqualComAss', '', 'diff(y,x)', '\'diff(y,x)', 0, 'ATEqualComAss: (AlgEquiv:true).', ''),
         array('EqualComAss', '', 'noundiff(y,x)', '\'diff(y,x)', 1, '', ''),
         array('EqualComAss', '', '\'diff(y(x),x)', '\'diff(y(x),x,1)', 1, '', ''),
+        // Test case to illustrate why we need a new answer test.
+        // These equations are not the same up to commutativity and associativity, because the algebra needed.
+        array('EqualComAss', '', 'noundiff(y(x),x)=-x/4', '4*noundiff(y(x),x)+x=0', 0, 'ATEqualComAss: (AlgEquiv:true).', ''),
 
         array('CasEqual', '', '1/0', 'x^2-2*x+1', -1, 'ATCASEqual_STACKERROR_SAns.', ''),
         array('CasEqual', '', 'x', '1/0', -1, 'ATCASEqual_STACKERROR_TAns.', ''),

@@ -379,6 +379,14 @@ class stack_ast_container_silent implements cas_evaluatable {
         return $casstring;
     }
 
+    /**
+     * Allow unit testing of ast internals..
+     */
+    public function get_debug_print() {
+        $ast = $this->ast;
+        return $ast->debugPrint($ast->toString(array('nosemicolon' => true)));
+    }
+
     public function set_cas_status(array $errors, array $answernotes, array $feedback) {
         // Here we have a slightly difficult situation, as the new
         // session collects real errors through different means than

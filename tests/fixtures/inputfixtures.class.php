@@ -46,6 +46,9 @@ class stack_inputvalidation_test_data {
         array('sin x', 'php_false', '', '', '', 'spaces | trigspace', "Maxima does not allow spaces to denote function application."),
         array('x y', 'php_false', '', '', '', 'spaces', "We don't allow spaces to denote implicit multiplication."),
         array('1 x', 'php_false', '', '', '', 'spaces', ""),
+        array('12 3', 'php_false', '', '', '', 'spaces', ""),
+        array('12 3.7', 'php_false', '', '', '', 'spaces', ""),
+        array('12.5 3', 'php_false', '', '', '', 'spaces', ""),
 
         array('1x', 'php_true', '1*x', 'cas_true', '1\cdot x', 'missing_stars', ""),
         array('x1', 'php_true', 'x*1', 'cas_true', 'x\cdot 1', 'missing_stars', ""),

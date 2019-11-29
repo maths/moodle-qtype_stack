@@ -117,13 +117,13 @@ class stack_ast_filter_002_log_candy implements stack_cas_astfilter {
                         if ($node->op === '*' && (isset($node->position['fixspaces']) ||
                             isset($node->position['insertstars']))) {
                             // If there were starts insertted it was probably a function call
-                            // to begin with. Lets merge it back.
+                            // to begin with. Let's merge it back.
                             $rhs->parentnode->replace($rhs, new MP_Functioncall(new MP_Identifier($lhs->value), $rhs->items));
                             $lhs->parentnode->replace($lhs, $node->rhs);
                             $node->parentnode->replace($node, $node->lhs);
                             return false;
                         } else {
-                            // The stars were there from the start so lets eat it.
+                            // The stars were there from the start so let's eat it.
                             $newname = $newname . $rhs->toString();
                             $rhs->parentnode->replace($rhs, new MP_Identifier($newname));
                             $lhs->parentnode->replace($lhs, $node->rhs);

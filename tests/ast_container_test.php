@@ -786,4 +786,59 @@ class stack_astcontainer_test extends qtype_stack_testcase {
         $this->assertEquals("[sum(k^2,k,1,n),'product(k^2,k,1,n),a nounand b,diff(y,x)+y = 0]",
             $at1->get_evaluationform());
     }
+
+    public function test_spaces_12_3_parser() {
+
+        $s = '12*3';
+        $at1 = stack_ast_container::make_from_student_source($s, '', new stack_cas_security());
+        $this->assertTrue($at1->get_valid());
+        $this->assertEquals('12*3', $at1->get_inputform());
+        $err = '';
+        $this->assertEquals($err, $at1->get_errors());
+        $this->assertEquals('', $at1->get_answernote());
+
+        $prere = $at1->get_debug_print();
+        $preex = "12*3\n" .
+            "---- MP_Root\n" .
+            "---- MP_Statement\n" .
+            "---- MP_Operation *\n" .
+            "--   MP_Integer 12\n" .
+            "   - MP_Integer 3";
+        $this->assertEquals($preex, $prere);
+
+        $s = '12 3';
+        $at1 = stack_ast_container::make_from_student_source($s, '', new stack_cas_security());
+        $this->assertTrue($at1->get_valid());
+        $this->assertEquals('12*3', $at1->get_inputform());
+        $err = '';
+        $this->assertEquals($err, $at1->get_errors());
+        $this->assertEquals('spaces', $at1->get_answernote());
+
+        $prere = $at1->get_debug_print();
+        $preex = "12*3\n" .
+                "--------MP_Root\n" .
+                "--------MP_Statement\n" .
+                "--------MP_Operation * [fixspaces]\n" .
+                "--   MP_Integer 12\n" .
+                "-    MP_Integer 3";
+        $this->assertEquals($preex, $prere);
+
+        $s = '12 3.5';
+        $at1 = stack_ast_container::make_from_student_source($s, '', new stack_cas_security());
+        $this->assertTrue($at1->get_valid());
+        $this->assertEquals('12*3.5', $at1->get_inputform());
+        $err = '';
+        $this->assertEquals($err, $at1->get_errors());
+        $this->assertEquals('spaces', $at1->get_answernote());
+
+        $prere = $at1->get_debug_print();
+        $preex = "12*3.5\n" .
+            "--------MP_Root\n" .
+            "--------MP_Statement\n" .
+            "--------MP_Operation * [fixspaces]\n" .
+            "--   MP_Integer 12\n" .
+            "-    MP_Float 3.5";
+        $this->assertEquals($preex, $prere);
+    }
+
 }

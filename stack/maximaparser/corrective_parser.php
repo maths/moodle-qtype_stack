@@ -195,7 +195,7 @@ class maxima_corrective_parser {
 
         // Once parsed check if we added stars and tag them.
         $processmarkkers = function($node) {
-            // Map the insertted stars.
+            // Map the inserted stars.
             if ($node instanceof MP_Operation && $node->op === '*' && !(
                 isset($node->position['insertstars']) ||
                 isset($node->position['fixspaces']))) {
@@ -210,6 +210,21 @@ class maxima_corrective_parser {
                     core_text::substr($rhs->value, 0, 4) === '%%Is') {
                     $node->position['fixspaces'] = true;
                     $rhs->value = core_text::substr($rhs->value, 4);
+                    $parser = new MP_Parser();
+                    $root = $parser->parse($rhs->value, array());
+                    if ($root instanceof MP_Root) {
+                        if (array_key_exists(0, $root->items)) {
+                            $root = $root->items[0];
+                        }
+                    }
+                    if ($root instanceof MP_Statement) {
+                        if (count($root->flags) > 0) {
+                            // No matter what it is if there are flags its not pure anything.
+                            return false;
+                        }
+                        $root = $root->statement;
+                    }
+                    $node->replace($rhs, $root);
                     return false;
                 }
                 if ($rhs instanceof MP_FunctionCall && $rhs->name instanceof MP_Identifier &&

@@ -366,6 +366,8 @@ class stack_inputvalidation_test_data {
             '\frac{\mathrm{d}}{\mathrm{d} x} \sin \left( x \right)', '', ""),
         array('diff(sin(x))', 'php_true', 'diff(sin(x))', 'cas_false', '',
             'CASError: diff must have at least two arguments.', ""),
+        array('y\'+y', 'php_false', '', 'cas_true', '', 'apostrophe', ""),
+        array('y\'(x)+y(x)=0', 'php_false', '', 'cas_true', '', 'apostrophe', ""),
         array("'int(x,y)", 'php_false', '', 'cas_true', '', 'apostrophe',
             "Note the use of the apostrophe here to make an inert function."),
         array("'diff(x,y)", 'php_false', '', 'cas_true', '', 'apostrophe', "Not ideal...arises because we don't 'simplify'."),

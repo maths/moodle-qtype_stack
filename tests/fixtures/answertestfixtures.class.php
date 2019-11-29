@@ -419,6 +419,15 @@ class stack_answertest_test_data {
         array('AlgEquiv', '', 'not(A) and not(B)', 'not(A or B)', 1, 'ATLogic_True.', ''),
         array('AlgEquiv', '', 'not(A) and not(B)', 'not(A and B)', 0, '', ''),
 
+        // Algebraic equivalence evaluates nouns.
+        array('AlgEquiv', '', 'diff(x^2,x)', '2*x', 1, '', 'Differential equations'),
+        array('AlgEquiv', '', 'diff(x^2,x)', '\'diff(x^2,x)', 1, '', ''),
+        array('AlgEquiv', '', 'noundiff(x^2,x)', '2*x', 1, '', ''),
+        array('AlgEquiv', '', 'diff(y,x)', '0', 1, '', ''),
+        array('AlgEquiv', '', 'noundiff(y,x)', '0', 1, '', ''),
+        // Note evaluated functions.
+        array('AlgEquiv', '', 'diff(y(x),x)', '0', 0, '', ''),
+
         array('AlgEquiv', '', '"Hello"', '"Hello"', 1, 'ATAlgEquiv_String', 'Basic support for strings'),
         array('AlgEquiv', '', '"hello"', '"Hello"', 0, 'ATAlgEquiv_String', ''),
         array('AlgEquiv', '', 'W', '"Hello"', 0, 'ATAlgEquiv_SA_not_string.', ''),
@@ -585,6 +594,15 @@ class stack_answertest_test_data {
         array('EqualComAss', '', 'rationalized(1/sqrt(2)+1/sqrt(3))', '[sqrt(2),sqrt(3)]', 1, '', ''),
         array('EqualComAss', '', 'rationalized(1/(1+i))', '[i]', 1, '', ''),
         array('EqualComAss', '', 'rationalized(1/(1+1/root(3,2)))', '[root(3,2)]', 1, '', ''),
+
+        // Differential equations.
+        // Functions are evaluated with simp:false.
+        array('EqualComAss', '', 'diff(y,x)', '0', 1, '', 'Differential Equations'),
+        array('EqualComAss', '', 'diff(x^2,x)', '2*x', 1, '', ''),
+        array('EqualComAss', '', 'noundiff(x^2,x)', '2*x', 0, 'ATEqualComAss: (AlgEquiv:true).', ''),
+        array('EqualComAss', '', 'diff(y,x)', '\'diff(y,x)', 0, 'ATEqualComAss: (AlgEquiv:true).', ''),
+        array('EqualComAss', '', 'noundiff(y,x)', '\'diff(y,x)', 1, '', ''),
+        array('EqualComAss', '', '\'diff(y(x),x)', '\'diff(y(x),x,1)', 1, '', ''),
 
         array('CasEqual', '', '1/0', 'x^2-2*x+1', -1, 'ATCASEqual_STACKERROR_SAns.', ''),
         array('CasEqual', '', 'x', '1/0', -1, 'ATCASEqual_STACKERROR_TAns.', ''),

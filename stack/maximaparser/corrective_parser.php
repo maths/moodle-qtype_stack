@@ -194,7 +194,11 @@ class maxima_corrective_parser {
         }
 
         // Once parsed check if we added stars and tag them.
-        $processmarkkers = function($node) {
+        $processmarkers = function($node) {
+            // Deal with abandoned integers.
+            if ($node instanceof MP_Identifier && ctype_digit($node->value)) {
+                $node->parentnode->replace($node, new MP_Integer($node->value));
+            }
             // Map the inserted stars.
             if ($node instanceof MP_Operation && $node->op === '*' && !(
                 isset($node->position['insertstars']) ||
@@ -225,6 +229,15 @@ class maxima_corrective_parser {
                         $root = $root->statement;
                     }
                     $node->replace($rhs, $root);
+
+                    $checknode = reinstate_abandonded_float($node->rhs);
+                    if ($checknode) {
+                        $node->replace($node->rhs, $checknode);
+                    }
+                    $checknode = reinstate_abandonded_float($node->lhs);
+                    if ($checknode) {
+                        $node->replace($node->lhs, $checknode);
+                    }
                     return false;
                 }
                 if ($rhs instanceof MP_FunctionCall && $rhs->name instanceof MP_Identifier &&
@@ -355,7 +368,7 @@ class maxima_corrective_parser {
         };
 
         // @codingStandardsIgnoreStart
-        while ($ast->callbackRecurse($processmarkkers) !== true) {
+        while ($ast->callbackRecurse($processmarkers) !== true) {
         }
         // @codingStandardsIgnoreEnd
 
@@ -615,4 +628,43 @@ class maxima_corrective_parser {
         }
         return $stringles;
     }
+}
+
+/* 
+ * Turn ast fragments which look like abandonded floats into MP_Float.
+ * Used to tidy up after insert spaces has activated.
+ */
+function reinstate_abandonded_float($checknode) {
+
+    if (!($checknode instanceof MP_Operation && $checknode->op === '.')) {
+        return null;
+    }
+
+    $replace = false;
+    if ($checknode->lhs instanceof MP_Integer) {
+        $lhr = $checknode->lhs->value;
+    $replace = true;
+    } else if ($checknode->lhs instanceof MP_Identifier) {
+        $lhr = $checknode->lhs->value;
+        if (ctype_digit($lhr)) {
+            $replace = true;
+        }
+    }
+    if (!$replace) {
+        return null;
+    }
+    if ($checknode->rhs instanceof MP_Integer) {
+        $rhr = $checknode->rhs->value;
+        $replace = true;
+    } else if ($checknode->rhs instanceof MP_Identifier) {
+        $rhr = $checknode->rhs->value;
+        if (ctype_digit($rhr)) {
+            $replace = true;
+        }
+    }
+    if (!$replace) {
+        return null;
+    }
+    $fv = $lhr . '.' . $rhr;
+    return new MP_Float(floatval($fv), $fv);
 }

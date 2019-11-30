@@ -308,22 +308,22 @@ class stack_ast_filter_auto_gen_020_no_arc_testcase extends qtype_stack_ast_test
                       true, false);
 
         $this->expect('0..1',
-                      '0.. 1',
+                      '0. . 1',
                       array(),
                       true, false);
 
         $this->expect('0.1..1.2',
-                      '0.1..1. 2',
+                      '0.1 . .1 . 2',
                       array(),
                       true, false);
 
         $this->expect('0.1.1.2',
-                      '0.1. 1.2',
+                      '0.1 . 1.2',
                       array(),
                       true, false);
 
         $this->expect('0.1. 1.2',
-                      '0.1. 1.2',
+                      '0.1 . 1.2',
                       array(),
                       true, false);
 
@@ -449,6 +449,41 @@ class stack_ast_filter_auto_gen_020_no_arc_testcase extends qtype_stack_ast_test
 
         $this->expect('3-i',
                       '3-i',
+                      array(),
+                      true, false);
+
+        $this->expect('3 5',
+                      '3*5',
+                      array(),
+                      true, false);
+
+        $this->expect('3.14 5',
+                      '3.14*5',
+                      array(),
+                      true, false);
+
+        $this->expect('3 5.2789',
+                      '3*5.2789',
+                      array(),
+                      true, false);
+
+        $this->expect('3.14 5.2789',
+                      '3.14*5.2789',
+                      array(),
+                      true, false);
+
+        $this->expect('33 578 32',
+                      '33*578*32',
+                      array(),
+                      true, false);
+
+        $this->expect('9 8 7.6',
+                      '9*8*7.6',
+                      array(),
+                      true, false);
+
+        $this->expect('9 8.5 7.6',
+                      '9*8.5*7.6',
                       array(),
                       true, false);
 
@@ -1934,22 +1969,22 @@ class stack_ast_filter_auto_gen_020_no_arc_testcase extends qtype_stack_ast_test
                       true, false);
 
         $this->expect('0..1',
-                      '0.. 1',
+                      '0. . 1',
                       array(),
                       true, false);
 
         $this->expect('0.1..1.2',
-                      '0.1..1. 2',
+                      '0.1 . .1 . 2',
                       array(),
                       true, false);
 
         $this->expect('0.1.1.2',
-                      '0.1. 1.2',
+                      '0.1 . 1.2',
                       array(),
                       true, false);
 
         $this->expect('0.1. 1.2',
-                      '0.1. 1.2',
+                      '0.1 . 1.2',
                       array(),
                       true, false);
 
@@ -2075,6 +2110,41 @@ class stack_ast_filter_auto_gen_020_no_arc_testcase extends qtype_stack_ast_test
 
         $this->expect('3-i',
                       '3-i',
+                      array(),
+                      true, false);
+
+        $this->expect('3 5',
+                      '3*5',
+                      array(),
+                      true, false);
+
+        $this->expect('3.14 5',
+                      '3.14*5',
+                      array(),
+                      true, false);
+
+        $this->expect('3 5.2789',
+                      '3*5.2789',
+                      array(),
+                      true, false);
+
+        $this->expect('3.14 5.2789',
+                      '3.14*5.2789',
+                      array(),
+                      true, false);
+
+        $this->expect('33 578 32',
+                      '33*578*32',
+                      array(),
+                      true, false);
+
+        $this->expect('9 8 7.6',
+                      '9*8*7.6',
+                      array(),
+                      true, false);
+
+        $this->expect('9 8.5 7.6',
+                      '9*8.5*7.6',
                       array(),
                       true, false);
 

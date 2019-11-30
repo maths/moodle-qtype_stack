@@ -50,7 +50,7 @@ class maxima_parser_utils {
     }
 
     // Takes a raw tree and the matching source code and remaps the positions from char to line:linechar
-    // use when you need to have pretty printted position data.
+    // use when you need to have pretty printed position data.
     public static function position_remap(MP_Node $ast, string $code, array $limits = null) {
         if ($limits === null) {
             $limits = array();

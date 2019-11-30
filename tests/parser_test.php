@@ -475,6 +475,4 @@ class stack_cas_castext_parser_test extends qtype_stack_testcase {
             $this->assertEquals(implode($ending, $test_lines_post), $parsed['tree_form']->firstchild->nextsibling->nextsibling->get_content());
         }
     }
-
-
 }

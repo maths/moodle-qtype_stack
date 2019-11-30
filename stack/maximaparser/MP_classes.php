@@ -21,7 +21,7 @@
  * you can do some debugging with them.
  * end of the file contains functions the parser uses...
  *
- * function to_String should return something which is completely correct in Maxima.
+ * function toString should return something which is completely correct in Maxima.
  * Known parameter values for toString.
  *
  * 'pretty'                  Used for debug pretty-printing of the statement.
@@ -299,8 +299,11 @@ class MP_Operation extends MP_Node {
         $op = $this->op;
 
         // Related to the issue of 0.2 . 0.3.
-        if ($op === '.' && ($this->rhs instanceof MP_Float || $this->rhs instanceof MP_Integer)) {
-            $op = '. ';
+        // In Maxima, the dot operator is used for matrix (non-commutative) multiplication.
+        // If we change $op to ' . ' then 0.2.0.3 gets printed as 0.2 . 0.3, which Maxima accepts.
+        if ($op === '.') {
+            // && ($this->rhs instanceof MP_Float || $this->rhs instanceof MP_Integer)) {
+            $op = ' . ';
         }
 
         if ($params !== null && isset($params['nounify'])) {

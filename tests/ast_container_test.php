@@ -833,11 +833,49 @@ class stack_astcontainer_test extends qtype_stack_testcase {
 
         $prere = $at1->get_debug_print();
         $preex = "12*3.5\n" .
-            "--------MP_Root\n" .
-            "--------MP_Statement\n" .
-            "--------MP_Operation * [fixspaces]\n" .
-            "--   MP_Integer 12\n" .
-            "-    MP_Float 3.5";
+            "----------MP_Root\n" .
+            "----------MP_Statement\n" .
+            "----------MP_Operation * [fixspaces]\n" .
+            "--     MP_Integer 12\n" .
+            "??????????MP_Float 3.5";
+        $this->assertEquals($preex, $prere);
+
+        $s = '1 2.3 4';
+        $at1 = stack_ast_container::make_from_student_source($s, '', new stack_cas_security());
+        $this->assertTrue($at1->get_valid());
+        $this->assertEquals('1*2.3*4', $at1->get_inputform());
+        $err = '';
+        $this->assertEquals($err, $at1->get_errors());
+        $this->assertEquals('spaces', $at1->get_answernote());
+
+        $prere = $at1->get_debug_print();
+        $preex = "1*2.3*4\n" .
+                 "---------------MP_Root\n" .
+                 "---------------MP_Statement\n" .
+                 "---------------MP_Operation * [fixspaces]\n" .
+                 "-       MP_Integer 1\n" .
+                 "  -------------MP_Operation * [fixspaces]\n" .
+                 "  ?????????????MP_Float 2.3\n" .
+                 "-       MP_Integer 4";
+        $this->assertEquals($preex, $prere);
+
+        $s = '1 2 3.4';
+        $at1 = stack_ast_container::make_from_student_source($s, '', new stack_cas_security());
+        $this->assertTrue($at1->get_valid());
+        $this->assertEquals('1*2*3.4', $at1->get_inputform());
+        $err = '';
+        $this->assertEquals($err, $at1->get_errors());
+        $this->assertEquals('spaces', $at1->get_answernote());
+        
+        $prere = $at1->get_debug_print();
+        $preex = "1*2*3.4\n" .
+            "---------------MP_Root\n" .
+            "---------------MP_Statement\n" .
+            "---------------MP_Operation * [fixspaces]\n" .
+            "-       MP_Integer 1\n" .
+            "  -------------MP_Operation * [fixspaces]\n" .
+            "  ?????????????MP_Integer 2\n" .
+            "  ?????????????MP_Float 3.4";
         $this->assertEquals($preex, $prere);
     }
 

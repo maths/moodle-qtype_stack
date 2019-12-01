@@ -475,4 +475,123 @@ class stack_cas_castext_parser_test extends qtype_stack_testcase {
             $this->assertEquals(implode($ending, $test_lines_post), $parsed['tree_form']->firstchild->nextsibling->nextsibling->get_content());
         }
     }
+
+    public function test_spaces_12_3_parser() {
+
+        $s = '12*3';
+        $ast = null;
+        $errors = array();
+        $answernotes = array();
+        $ast = maxima_corrective_parser::parse($s, $errors, $answernotes,
+            array('startRule' => 'Root', 'letToken' => stack_string('equiv_LET')));
+        $expected = <<<STR
+12*3
+---- MP_Root
+---- MP_Statement
+---- MP_Operation *
+--   MP_Integer 12
+   - MP_Integer 3
+STR;
+        $this->assertEquals($expected, $ast->debugPrint($s));
+        $this->assertEquals($errors, array());
+        $this->assertEquals($answernotes, array());
+
+        $s = '12 3';
+        $ast = null;
+        $errors = array();
+        $answernotes = array();
+        $ast = maxima_corrective_parser::parse($s, $errors, $answernotes,
+            array('startRule' => 'Root', 'letToken' => stack_string('equiv_LET')));
+        $expected = <<<STR
+12 3
+--------MP_Root
+--------MP_Statement
+--------MP_Operation * [fixspaces]
+--   MP_Integer 12
+-    MP_Integer 3
+STR;
+
+        $this->assertEquals($expected, $ast->debugPrint($s));
+        $this->assertEquals($errors, array());
+        $this->assertEquals($answernotes, array('spaces'));
+
+        $s = '12 3.57';
+        $ast = null;
+        $errors = array();
+        $answernotes = array();
+        $ast = maxima_corrective_parser::parse($s, $errors, $answernotes,
+            array('startRule' => 'Root', 'letToken' => stack_string('equiv_LET')));
+        $expected = <<<STR
+12 3.57
+-----------MP_Root
+-----------MP_Statement
+-----------MP_Operation * [fixspaces]
+--      MP_Integer 12
+???????????MP_Float 3.57
+STR;
+        $this->assertEquals($expected, $ast->debugPrint($s));
+        $this->assertEquals($errors, array());
+        $this->assertEquals($answernotes, array('spaces'));
+
+        $s = '1 2.3 4';
+        $ast = null;
+        $errors = array();
+        $answernotes = array();
+        $ast = maxima_corrective_parser::parse($s, $errors, $answernotes,
+            array('startRule' => 'Root', 'letToken' => stack_string('equiv_LET')));
+        $expected = <<<STR
+1 2.3 4
+---------------MP_Root
+---------------MP_Statement
+---------------MP_Operation * [fixspaces]
+-       MP_Integer 1
+  -------------MP_Operation * [fixspaces]
+  ?????????????MP_Float 2.3
+-       MP_Integer 4
+STR;
+        $this->assertEquals($expected, $ast->debugPrint($s));
+        $this->assertEquals($errors, array());
+        $this->assertEquals($answernotes, array('spaces'));
+
+        $s = '1 2 3.4';
+        $ast = null;
+        $errors = array();
+        $answernotes = array();
+        $ast = maxima_corrective_parser::parse($s, $errors, $answernotes,
+            array('startRule' => 'Root', 'letToken' => stack_string('equiv_LET')));
+        $expected = <<<STR
+1 2 3.4
+---------------MP_Root
+---------------MP_Statement
+---------------MP_Operation * [fixspaces]
+-       MP_Integer 1
+  -------------MP_Operation * [fixspaces]
+  ?????????????MP_Integer 2
+  ?????????????MP_Float 3.4
+STR;
+        $this->assertEquals($expected, $ast->debugPrint($s));
+        $this->assertEquals($errors, array());
+        $this->assertEquals($answernotes, array('spaces'));
+    }
+
+    public function test_float_dot_float_parser() {
+
+        $s = '0.1.0.2';
+        $ast = null;
+        $errors = array();
+        $answernotes = array();
+        $ast = maxima_corrective_parser::parse($s, $errors, $answernotes,
+            array('startRule' => 'Root', 'letToken' => stack_string('equiv_LET')));
+        $expected = <<<STR
+0.1.0.2
+------- MP_Root
+------- MP_Statement
+------- MP_Operation .
+---     MP_Float 0.1
+    --- MP_Float 0.2
+STR;
+        $this->assertEquals($expected, $ast->debugPrint($s));
+        $this->assertEquals($errors, array());
+        $this->assertEquals($answernotes, array());
+    }
 }

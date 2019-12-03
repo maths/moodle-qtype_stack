@@ -250,7 +250,7 @@ class stack_cas_session2 {
 
         foreach ($this->statements as $num => $statement) {
             $dvv = false;
-            if ($statement instanceof cas_value_extractor) {
+            if ($statement instanceof cas_value_extractor || $statement instanceof cas_raw_value_extractor) {
                 if ($statement instanceof cas_display_value_extractor) {
                     $dvv = true;
                     if ($statement->get_key() === '') {
@@ -306,7 +306,7 @@ class stack_cas_session2 {
             $ef = $statement->get_evaluationform();
             $line = ',_EC(errcatch(' . $ef . '),';
             $key = null;
-            if (($statement instanceof cas_value_extractor) || ($statement instanceof cas_latex_extractor) ||
+            if (($statement instanceof cas_value_extractor || $statement instanceof cas_raw_value_extractor) || ($statement instanceof cas_latex_extractor) ||
                     ($statement instanceof cas_display_value_extractor)) {
                 // One of those that need to be collected later.
                 if (($key = $statement->get_key()) === '') {
@@ -387,13 +387,17 @@ class stack_cas_session2 {
                 foreach ($results['values'] as $key => $value) {
                     if (is_string($value)) {
                         try {
-                            $ast = maxima_parser_utils::parse($value);
+                            if (!isset($collectvalues[$key]) || $collectvalues[$key] instanceof cas_value_extractor) {
+                                $ast = maxima_parser_utils::parse($value);
+                                // Let's unpack the MP_Root immediately.
+                                $asts[$key] = $ast->items[0];
+                            } else {
+                                $asts[$key] = $value;
+                            }
                         } catch (Exception $e) {
                             throw new stack_exception('stack_cas_session: tried to parse the value ' .
                                     $value . ', but got the following exception ' . $e->getMessage());
-                        }
-                        // Let's unpack the MP_Root immediately.
-                        $asts[$key] = $ast->items[0];
+                        }                        
                     }
                 }
             }

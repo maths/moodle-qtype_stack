@@ -8155,5 +8155,30 @@
     },
     "~": {
         "operator": "s"
+    },
+    "(": {
+        "operator": "s",
+        "openingpairfor": ")"
+    },
+    ")": {
+        "operator": "s",
+        "closingpairfor": "("
+    },
+    "[": {
+        "operator": "s",
+        "openingpairfor": "]"
+    },
+    "]": {
+        "operator": "s",
+        "closingpairfor": "["
+    },
+    "{": {
+        "operator": "s",
+        "openingpairfor": "}"
+    },
+    "}": {
+        "operator": "s",
+        "closingpairfor": "{"
     }
+
 }

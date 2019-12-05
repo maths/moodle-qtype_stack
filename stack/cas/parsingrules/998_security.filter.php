@@ -57,8 +57,11 @@ class stack_ast_filter_998_security implements stack_cas_astfilter_parametric {
         // For certain cases we want to know of commas. For this reason
         // certain structures need to be checked for them.
         $commas = false;
+        $parenthesis = false;
+        $brackets = false;
+        $braces = false;
         $evflags = false;
-        $extraction = function($node) use (&$ofinterest, &$commas, &$evflags, $protected){
+        $extraction = function($node) use (&$ofinterest, &$commas, &$parenthesis, &$brackets, &$braces, &$evflags, $protected){
             if ($node instanceof MP_Identifier ||
                 $node instanceof MP_FunctionCall ||
                 $node instanceof MP_Operation ||
@@ -69,6 +72,16 @@ class stack_ast_filter_998_security implements stack_cas_astfilter_parametric {
                     $ofinterest[] = $node;
                 }
             }
+            if (!$parenthesis && ($node instanceof MP_FunctionCall || $node instanceof MP_Group)) {
+                $parenthesis = true;
+            }
+            if (!$braces && $node instanceof MP_Set) {
+                $braces = true;
+            }
+            if (!$brackets && $node instanceof MP_List) {
+                $brackets = true;
+            }
+
             if (!$commas) {
                 if ($node instanceof MP_FunctionCall && count($node->arguments) > 1) {
                     $commas = true;
@@ -106,6 +119,19 @@ class stack_ast_filter_998_security implements stack_cas_astfilter_parametric {
         // If we had commas in play add them to the operators.
         if ($commas) {
             $operators[','] = true;
+        }
+        // Same for the paired ones.
+        if ($parenthesis) {
+            $operators['('] = true;
+            $operators[')'] = true;
+        }
+        if ($brackets) {
+            $operators['['] = true;
+            $operators[']'] = true;
+        }
+        if ($braces) {
+            $operators['{'] = true;
+            $operators['}'] = true;
         }
 
         // Now loop over the initially found things of interest. Note that

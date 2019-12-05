@@ -22,7 +22,7 @@ require_once(__DIR__ . '/filter.interface.php');
  * `(x+y)` is ok but `(x,y)` is not. Happens later if someone does 
  * syntax manipulations for example for tuples.
  */
-class stack_ast_filter_505_no_groups implements stack_cas_astfilter {
+class stack_ast_filter_505_no_evaluation_groups implements stack_cas_astfilter {
     public function filter(MP_Node $ast, array &$errors, array &$answernotes, stack_cas_security $identifierrules): MP_Node {
         $checkfloats = function($node) use (&$answernotes, &$errors) {
             if ($node instanceof MP_Group && count($node->items) > 1) {

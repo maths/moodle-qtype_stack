@@ -298,6 +298,12 @@ class MP_Operation extends MP_Node {
     public function toString($params = null): string {
         $op = $this->op;
 
+        // The parmeter flattree is a flat lisp-like tree representation, without changes.
+        if ($params !== null && isset($params['flattree'])) {
+            return '([Op: ' . $op . '] ' .
+                $this->lhs->toString($params) . ', ' . $this->rhs->toString($params);
+        }
+
         if ($params !== null && isset($params['nounify'])) {
             $feat = null;
             if ($params['nounify'] === 0) {
@@ -487,6 +493,11 @@ class MP_Atom extends MP_Node {
 
     public function toString($params = null): string {
         $op = $this->value;
+
+        if ($params !== null && isset($params['flattree'])) {
+            return '([Atom] ' . $this->value . ')';
+        }
+
         if ($params !== null && isset($params['dealias'])) {
             $feat = null;
             if ($params['dealias'] === true) {
@@ -524,6 +535,11 @@ class MP_Integer extends MP_Atom {
     }
 
     public function toString($params = null): string {
+
+        if ($params !== null && isset($params['flattree'])) {
+            return '([Int] ' . $this->value . ')';
+        }
+
         if ($params !== null && isset($params['pretty'])) {
             $indent = '';
             if (is_integer($params['pretty'])) {
@@ -554,6 +570,11 @@ class MP_Float extends MP_Atom {
     }
 
     public function toString($params = null): string {
+
+        if ($params !== null && isset($params['flattree'])) {
+            return '([Float] ' . $this->value . ')';
+        }
+
         // For normalisation purposes we will always uppercase the e.
         if ($params !== null && isset($params['pretty'])) {
             $indent = '';
@@ -578,21 +599,32 @@ class MP_Float extends MP_Atom {
 class MP_String extends MP_Atom {
 
     public function toString($params = null): string {
+        $dispalue = '"' . str_replace('"', '\\"', str_replace('\\', '\\\\', $this->value)) . '"';
+
+        if ($params !== null && isset($params['flattree'])) {
+            return '([String] ' . $dispalue . ')';
+        }
+
         if ($params !== null && isset($params['pretty'])) {
             $indent = '';
             if (is_integer($params['pretty'])) {
                 $indent = str_pad($indent, $params['pretty']);
             }
-            return $indent . '"' . str_replace('"', '\\"', str_replace('\\', '\\\\', $this->value)) . '"';
+            return $indent . $dispalue;
         }
 
-        return '"' . str_replace('"', '\\"', str_replace('\\', '\\\\', $this->value)) . '"';
+        return $dispalue;
     }
 }
 
 class MP_Boolean extends MP_Atom {
 
     public function toString($params = null): string {
+
+        if ($params !== null && isset($params['flattree'])) {
+            return '([Bool] ' . $this->value . ')';
+        }
+
         if ($params !== null && isset($params['pretty'])) {
             $indent = '';
             if (is_integer($params['pretty'])) {
@@ -640,6 +672,11 @@ class MP_Identifier extends MP_Atom {
     public function toString($params = null): string {
         $indent = '';
         $op = $this->value;
+
+        if ($params !== null && isset($params['flattree'])) {
+            return '([Identifier] ' . $op . ')';
+        }
+
         if ($params !== null && isset($params['dealias'])) {
             $feat = null;
             if ($params['dealias'] === true) {
@@ -746,6 +783,7 @@ class MP_Identifier extends MP_Atom {
     }
 }
 
+// TODO: remove this?  Only one occurance in the search.
 class MP_Annotation extends MP_Node {
     public $annotationtype = null;
     public $params         = null;
@@ -769,8 +807,13 @@ class MP_Annotation extends MP_Node {
     public function getChildren() {
         return $this->params;
     }
+
     public function toString($params = null): string {
         $params = [];
+
+        if ($params !== null && isset($params['flattree'])) {
+            return '([Annoation] ' . $this->value . ')';
+        }
 
         foreach ($this->params as $value) {
             $params[] = ' ' . $value->toString($params);
@@ -813,11 +856,17 @@ class MP_Comment extends MP_Node {
             $annotations[] = $value->toString($params);
         }
 
-        if ($params !== null && isset($params['pretty'])) {
-            return "\n/*" . $this->value . implode("\n", $annotations) . "*/\n";
+        $dispvalue = $this->value . implode("\n", $annotations);
+
+        if ($params !== null && isset($params['flattree'])) {
+            return '([Comment] ' . $dispvalue . ')';
         }
 
-        return '/*' . $this->value . implode("\n", $annotations) . '*/';
+        if ($params !== null && isset($params['pretty'])) {
+            return "\n/*" . $dispvalue . "*/\n";
+        }
+
+        return '/*' . $this->value . $dispvalue . '*/';
     }
 }
 
@@ -938,6 +987,10 @@ class MP_FunctionCall extends MP_Node {
             $ar[] = $value->toString($params);
         }
 
+        if ($params !== null && isset($params['flattree'])) {
+            return '([FunctionCall: . $prefix] ' . implode(',', $ar) . ')';
+        }
+
         // Two cases we need to consider.
         // We want the inputform with nouns, e.g. to store.
         // We want the input form without nouns, e.g. "the teacher's answer is..." situation.
@@ -1034,6 +1087,12 @@ class MP_Group extends MP_Node {
             $ar[] = $value->toString($params);
         }
 
+        $dispvalue = '(' . implode(', ', $ar) . ')';
+
+        if ($params !== null && isset($params['flattree'])) {
+            return '([Group] ' . $dispvalue . ')';
+        }
+
         if ($params !== null && isset($params['pretty'])) {
             $t = strlen($this->toString()) + count($this->items);
 
@@ -1047,10 +1106,10 @@ class MP_Group extends MP_Node {
                 $ar[] = $value->toString($params);
             }
 
-            return $indent . '(' . implode(', ', $ar) . ')';
+            return $indent . $dispvalue;
         }
 
-        return '(' . implode(',', $ar) . ')';
+        return $dispvalue;
     }
 
     public function replace($node, $with) {
@@ -1116,6 +1175,10 @@ class MP_Set extends MP_Node {
 
         foreach ($this->items as $value) {
             $ar[] = $value->toString($params);
+        }
+
+        if ($params !== null && isset($params['flattree'])) {
+            return '([Set] ' . implode(", ", $ar) . ')';
         }
 
         if ($params !== null && isset($params['pretty'])) {
@@ -1202,6 +1265,10 @@ class MP_List extends MP_Node {
             $ar[] = $value->toString($params);
         }
 
+        if ($params !== null && isset($params['flattree'])) {
+            return '([List] ' . implode(", ", $ar) . ')';
+        }
+
         if ($params !== null && isset($params['pretty'])) {
             $t = strlen($this->toString()) + count($this->items);
 
@@ -1272,6 +1339,10 @@ class MP_PrefixOp extends MP_Node {
             return $this->rhs->toString($params);
         }
 
+        if ($params !== null && isset($params['flattree'])) {
+            return '([PrefixOp: ' . $this->op . '] ' . $this->rhs->toString($params) . ')';
+        }
+
         if ($params !== null && isset($params['pretty'])) {
             if (is_integer($params['pretty'])) {
                 $indent = str_pad($indent, $params['pretty']);
@@ -1331,6 +1402,10 @@ class MP_PostfixOp extends MP_Node {
             }
             $params['pretty'] = 0;
             return $indent . $this->lhs->toString($params) . $this->op;
+        }
+
+        if ($params !== null && isset($params['flattree'])) {
+            return '([PostfixOp: ' . $this->op . '] ' . $this->lhs->toString($params) . ')';
         }
 
         return $this->lhs->toString($params) . $this->op;
@@ -1836,6 +1911,15 @@ class MP_Root extends MP_Node {
 
     public function toString($params = null): string {
         $r = '';
+
+        if ($params !== null && isset($params['flattree'])) {
+            $items = array();
+            foreach ($this->items as $item) {
+                $items[] .= $item->toString($params);
+            }
+
+            return '([Root] ' . implode(', ', $items) . ')';
+        }
 
         foreach ($this->items as $item) {
             $r .= $item->toString($params);

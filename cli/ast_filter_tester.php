@@ -83,7 +83,9 @@ if ($parseable) {
     cli_writeln('The test-string was not directly parseable, some corrections required.');
     $ast->remap_position_data();
 }
+
 cli_writeln('The AST is like this before filters:');
+cli_writeln($ast->toString(array('flattree' => true)));
 cli_writeln($ast->debugPrint($ast->toString(array('nosemicolon' => true))));
 
 function check_filter($ast, $filter, $security, $filtername) {

@@ -46,6 +46,8 @@
    case '.':
     return 130;
    case '*':
+   case '@@IS@@':
+   case '@@Is@@':
    case '/':
     return 120;
    case '+':
@@ -82,6 +84,8 @@
    case '.':
     return 129;
    case '*':
+   case '@@IS@@':
+   case '@@Is@@':
    case '/':
     return 120;
    case '+':

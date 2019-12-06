@@ -801,6 +801,9 @@ abstract class stack_input {
         $filterstoapply[] = '403_split_at_number_letter_boundary';
         $filterstoapply[] = '406_split_implied_variable_names';
 
+        // Block use of evaluation groups.
+        $filterstoapply[] = '505_no_evaluation_groups';
+
         // If stars = 0 then strict, ignore the other strict syntax.
         if ($grammarautofixes === 0) {
             $filterstoapply[] = '999_strict';

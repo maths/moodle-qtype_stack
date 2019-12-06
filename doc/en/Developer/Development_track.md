@@ -21,8 +21,9 @@ DONE:
 
 TODO:
 
-* Sort out "nouns" and their use, especially in evaluating expressions passed into answer tests.
+* Resolve different versions of Maxima: `kg*m^2/s^2` vs `(kg*m^2)/s^2`.
 * Look carefully at failing numerical unit tests. Is this a LISP difference, and how should we address this?
+* `a*b_c*d` vs `a*b_cd`.
 
 ## Other things to fix
 

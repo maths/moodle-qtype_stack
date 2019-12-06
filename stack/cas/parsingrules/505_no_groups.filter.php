@@ -19,7 +19,7 @@ require_once(__DIR__ . '/filter.interface.php');
 
 /**
  * AST filter that prevents the use of any evaluation groups.
- * `(x+y)` is ok but `(x,y)` is not. Happens later if someone does 
+ * `(x+y)` is ok but `(x,y)` is not. Happens later if someone does
  * syntax manipulations for example for tuples.
  */
 class stack_ast_filter_505_no_groups implements stack_cas_astfilter {

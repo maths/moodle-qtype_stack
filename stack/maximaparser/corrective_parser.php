@@ -199,13 +199,13 @@ class maxima_corrective_parser {
         // Once parsed check if we added stars and tag them.
         $processmarkers = function($node) {
             // And @@IS@@ that is used for pre-parser fixed spaces.
-            if ($node instanceof MP_Operation && $node->op  === '@@IS@@') {
+            if ($node instanceof MP_Operation && $node->op === '@@IS@@') {
                  $node->position['insertstars'] = true;
                  $node->op = '*';
                 return false;
             }
             // And @@Is@@ that is used for pre-parser fixed spaces.
-            if ($node instanceof MP_Operation && $node->op  === '@@Is@@') {
+            if ($node instanceof MP_Operation && $node->op === '@@Is@@') {
                 $node->position['fixspaces'] = true;
                 $node->op = '*';
                 return false;

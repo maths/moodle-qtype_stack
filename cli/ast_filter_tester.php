@@ -88,8 +88,6 @@ cli_writeln('The AST is like this before filters:');
 cli_writeln($ast->toString(array('flattree' => true)));
 cli_writeln($ast->debugPrint($ast->toString(array('nosemicolon' => true))));
 
-die();
-
 function check_filter($ast, $filter, $security, $filtername) {
     $errors = array();
     $answernotes = array();

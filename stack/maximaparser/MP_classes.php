@@ -851,22 +851,16 @@ class MP_Comment extends MP_Node {
 
     public function toString($params = null): string {
         $annotations = [];
-
         foreach ($this->annotations as $value) {
             $annotations[] = $value->toString($params);
         }
-
-        $dispvalue = $this->value . implode("\n", $annotations);
-
         if ($params !== null && isset($params['flattree'])) {
             return '([Comment] ' . $dispvalue . ')';
         }
-
         if ($params !== null && isset($params['pretty'])) {
-            return "\n/*" . $dispvalue . "*/\n";
+            return "\n/*" . $this->value . implode("\n", $annotations) . "*/\n";
         }
-
-        return '/*' . $dispvalue . '*/';
+        return '/*' . $this->value . implode("\n", $annotations) . '*/';
     }
 }
 

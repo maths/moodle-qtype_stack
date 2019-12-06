@@ -1981,9 +1981,9 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->render();
 
         $rte = implode(' ', array_keys($q->runtimeerrors));
-        $err = 'The field ""Question variables"" generated the following error: Expected "\'", "\'\'", "(", "+", "-", "/' .
-            '*", "? ", "?", "?? ", "[", "do", "for", "from", "if", "in", "next", "not ", "not", "step", "thru", ' .
-            '"unless", "while", "{", "|", boolean, end of input, float, identifier, integer, string or whitespace but ' .
+        $err = 'The field ""Question variables"" generated the following error: Expected "\'", "\'\'", "(", "+", "-", ' .
+            '"? ", "?", "?? ", "[", "do", "for", "from", "if", "in", "next", "not ", "not", "step", "thru", ' .
+            '"unless", "while", "{", "|", boolean, comment, end of input, float, identifier, integer, string or whitespace but ' .
             '")" found. (At about line 1 character 11.)';
         $this->assertEquals($err, $rte);
     }

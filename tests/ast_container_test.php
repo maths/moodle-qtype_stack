@@ -520,17 +520,24 @@ class stack_astcontainer_test extends qtype_stack_testcase {
         $s = 'a:tan^-1(x)-1';
         $at1 = stack_ast_container::make_from_student_source($s, '', new stack_cas_security());
         $this->assertFalse($at1->get_valid());
-        $this->assertEquals('missing_stars | trigexp', $at1->get_answernote());
+        $this->assertEquals('missing_stars | forbiddenVariable', $at1->get_answernote());
     }
 
     public function test_trig_4() {
+        $s = 'a:sin^2(x)';
+        $at1 = stack_ast_container::make_from_student_source($s, '', new stack_cas_security());
+        $this->assertFalse($at1->get_valid());
+        $this->assertEquals('missing_stars | forbiddenVariable', $at1->get_answernote());
+    }
+
+    public function test_trig_5() {
         $s = 'a:Sim(x)-1';
         $at1 = stack_ast_container::make_from_student_source($s, '', new stack_cas_security());
         $this->assertFalse($at1->get_valid());
         $this->assertEquals('forbiddenFunction', $at1->get_answernote());
     }
 
-    public function test_trig_5() {
+    public function test_trig_6() {
         $s = 'a:Sin(x)-1';
         $at1 = stack_ast_container::make_from_student_source($s, '', new stack_cas_security());
         $this->assertFalse($at1->get_valid());

@@ -301,7 +301,7 @@ class MP_Operation extends MP_Node {
         // The parmeter flattree is a flat lisp-like tree representation, without changes.
         if ($params !== null && isset($params['flattree'])) {
             return '([Op: ' . $op . '] ' .
-                $this->lhs->toString($params) . ', ' . $this->rhs->toString($params);
+                $this->lhs->toString($params) . ', ' . $this->rhs->toString($params) . ')';
         }
 
         if ($params !== null && isset($params['nounify'])) {
@@ -674,7 +674,7 @@ class MP_Identifier extends MP_Atom {
         $op = $this->value;
 
         if ($params !== null && isset($params['flattree'])) {
-            return '([Identifier] ' . $op . ')';
+            return '([Id] ' . $op . ')';
         }
 
         if ($params !== null && isset($params['dealias'])) {
@@ -988,7 +988,7 @@ class MP_FunctionCall extends MP_Node {
         }
 
         if ($params !== null && isset($params['flattree'])) {
-            return '([FunctionCall: . $prefix] ' . implode(',', $ar) . ')';
+            return '([FunctionCall: ' . $n .'] ' . implode(',', $ar) . ')';
         }
 
         // Two cases we need to consider.
@@ -1081,16 +1081,13 @@ class MP_Group extends MP_Node {
             }
         }
 
-        $ar = [];
-
+        $ar = array();
         foreach ($this->items as $value) {
             $ar[] = $value->toString($params);
         }
 
-        $dispvalue = '(' . implode(',', $ar) . ')';
-
         if ($params !== null && isset($params['flattree'])) {
-            return '([Group] ' . $dispvalue . ')';
+            return '([Group] ' . implode(',', $ar) . ')';
         }
 
         if ($params !== null && isset($params['pretty'])) {
@@ -1100,16 +1097,16 @@ class MP_Group extends MP_Node {
                 return $indent . "(\n" . implode(", \n", $ar) . "\n$indent)";
             }
             $params['pretty'] = 0;
-            $ar               = [];
+            $ar = array();
 
             foreach ($this->items as $value) {
                 $ar[] = $value->toString($params);
             }
 
-            return $indent . $dispvalue;
+            return $indent . '(' . implode(', ', $ar) . ')';
         }
 
-        return $dispvalue;
+        return '(' . implode(',', $ar) . ')';
     }
 
     public function replace($node, $with) {

@@ -45,6 +45,18 @@ class stack_ast_filter_025_no_trig_power implements stack_cas_astfilter {
             //       --- MP_Group
             //        -  MP_Identifier x
 
+            // The case sin^-2(x) gives:
+            //sin^-2*(x)
+            //------------MP_Root
+            //---------- MP_Statement
+            //---------- MP_Operation * [insertstars]!
+            //------     MP_Operation ^!
+            //---        MP_Identifier sin!
+            //    --     MP_PrefixOp -!
+            //     -     MP_Integer 2!
+            //       --- MP_Group !
+            //        -  MP_Identifier x!
+
             // @codingStandardsIgnoreEnd
 
             if ($node instanceof MP_Operation &&

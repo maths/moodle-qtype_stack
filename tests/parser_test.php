@@ -484,7 +484,7 @@ class stack_cas_castext_parser_test extends qtype_stack_testcase {
         $answernotes = array();
         $ast = maxima_corrective_parser::parse($s, $errors, $answernotes,
             array('startRule' => 'Root', 'letToken' => stack_string('equiv_LET')));
-        $expected = '([Root] ([Op: *] ([Int] 12), ([Int] 3))';
+        $expected = '([Root] ([Op: *] ([Int] 12), ([Int] 3)))';
 
         $this->assertEquals($expected, $ast->toString(array('flattree' => true)));
         $this->assertEquals($errors, array());
@@ -497,7 +497,7 @@ class stack_cas_castext_parser_test extends qtype_stack_testcase {
         $ast = maxima_corrective_parser::parse($s, $errors, $answernotes,
             array('startRule' => 'Root', 'letToken' => stack_string('equiv_LET')));
 
-        $expected = '([Root] ([Op: *] ([Int] 12), ([Int] 3))';
+        $expected = '([Root] ([Op: *] ([Int] 12), ([Int] 3)))';
         $this->assertEquals($expected, $ast->toString(array('flattree' => true)));
 
         $this->assertEquals($errors, array());
@@ -509,7 +509,7 @@ class stack_cas_castext_parser_test extends qtype_stack_testcase {
         $answernotes = array();
         $ast = maxima_corrective_parser::parse($s, $errors, $answernotes,
             array('startRule' => 'Root', 'letToken' => stack_string('equiv_LET')));
-        $expected = '([Root] ([Op: *] ([Int] 12), ([Float] 3.57))';
+        $expected = '([Root] ([Op: *] ([Int] 12), ([Float] 3.57)))';
         $this->assertEquals($expected, $ast->toString(array('flattree' => true)));
         $this->assertEquals($errors, array());
         $this->assertEquals($answernotes, array('spaces'));
@@ -521,7 +521,7 @@ class stack_cas_castext_parser_test extends qtype_stack_testcase {
         $ast = maxima_corrective_parser::parse($s, $errors, $answernotes,
             array('startRule' => 'Root', 'letToken' => stack_string('equiv_LET')));
 
-        $expected = '([Root] ([Op: *] ([Int] 1), ([Op: *] ([Float] 2.3), ([Int] 4))';
+        $expected = '([Root] ([Op: *] ([Int] 1), ([Op: *] ([Float] 2.3), ([Int] 4))))';
         $this->assertEquals($expected, $ast->toString(array('flattree' => true)));
         $this->assertEquals($errors, array());
         $this->assertEquals($answernotes, array('spaces'));
@@ -533,7 +533,7 @@ class stack_cas_castext_parser_test extends qtype_stack_testcase {
         $ast = maxima_corrective_parser::parse($s, $errors, $answernotes,
             array('startRule' => 'Root', 'letToken' => stack_string('equiv_LET')));
 
-        $expected = '([Root] ([Op: *] ([Int] 1), ([Op: *] ([Int] 2), ([Float] 3.4))';
+        $expected = '([Root] ([Op: *] ([Int] 1), ([Op: *] ([Int] 2), ([Float] 3.4))))';
         $this->assertEquals($expected, $ast->toString(array('flattree' => true)));
         $this->assertEquals($errors, array());
         $this->assertEquals($answernotes, array('spaces'));
@@ -548,9 +548,45 @@ class stack_cas_castext_parser_test extends qtype_stack_testcase {
         $ast = maxima_corrective_parser::parse($s, $errors, $answernotes,
             array('startRule' => 'Root', 'letToken' => stack_string('equiv_LET')));
 
-        $expected = '([Root] ([Op: .] ([Float] 0.1), ([Float] 0.2))';
+        $expected = '([Root] ([Op: .] ([Float] 0.1), ([Float] 0.2)))';
         $this->assertEquals($expected, $ast->toString(array('flattree' => true)));
         $this->assertEquals($errors, array());
         $this->assertEquals($answernotes, array());
+    }
+
+    public function test_trig_parser() {
+
+        $s = 'sin(x)';
+        $ast = null;
+        $errors = array();
+        $answernotes = array();
+        $ast = maxima_corrective_parser::parse($s, $errors, $answernotes,
+            array('startRule' => 'Root', 'letToken' => stack_string('equiv_LET')));
+
+        $expected = '([Root] ([FunctionCall: ([Id] sin)] ([Id] x)))';
+        $this->assertEquals($expected, $ast->toString(array('flattree' => true)));
+        $this->assertEquals($errors, array());
+        $this->assertEquals($answernotes, array());
+
+        $s = 'sin^2(x)';
+        $ast = null;
+        $errors = array();
+        $answernotes = array();
+        $ast = maxima_corrective_parser::parse($s, $errors, $answernotes,
+            array('startRule' => 'Root', 'letToken' => stack_string('equiv_LET')));
+
+        $expected = '([Root] ([Op: *] ([Op: ^] ([Id] sin), ([Int] 2)), ([Group] ([Id] x))))';
+        $this->assertEquals($expected, $ast->toString(array('flattree' => true)));
+        $this->assertEquals($answernotes, array('missing_stars'));
+        $s = 'sin^-2(x)';
+        $ast = null;
+        $errors = array();
+        $answernotes = array();
+        $ast = maxima_corrective_parser::parse($s, $errors, $answernotes,
+            array('startRule' => 'Root', 'letToken' => stack_string('equiv_LET')));
+
+        $expected = '([Root] ([Op: *] ([Op: ^] ([Id] sin), ([PrefixOp: -] ([Int] 2))), ([Group] ([Id] x))))';
+        $this->assertEquals($expected, $ast->toString(array('flattree' => true)));
+        $this->assertEquals($answernotes, array('missing_stars'));
     }
 }

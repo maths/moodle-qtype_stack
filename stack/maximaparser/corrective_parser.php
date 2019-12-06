@@ -198,149 +198,6 @@ class maxima_corrective_parser {
 
         // Once parsed check if we added stars and tag them.
         $processmarkers = function($node) {
-            // Deal with abandoned integers.
-            if ($node instanceof MP_Identifier && ctype_digit($node->value)) {
-                $node->parentnode->replace($node, new MP_Integer($node->value));
-            }
-            if ($node instanceof MP_Operation && $node->op === '*' && !(
-                isset($node->position['insertstars']) ||
-                isset($node->position['fixspaces']))) {
-                $rhs = $node->leftmostofright();
-                if ($rhs instanceof MP_Identifier &&
-                    core_text::substr($rhs->value, 0, 4) === '%%IS') {
-                    $node->position['insertstars'] = true;
-                    $rhs->value = core_text::substr($rhs->value, 4);
-                    return false;
-                }
-                if ($rhs instanceof MP_Identifier &&
-                    core_text::substr($rhs->value, 0, 4) === '%%Is') {
-                    $node->position['fixspaces'] = true;
-                    $rhs->value = core_text::substr($rhs->value, 4);
-                    $parser = new MP_Parser();
-                    $root = $parser->parse($rhs->value, array());
-                    if ($root instanceof MP_Root) {
-                        if (array_key_exists(0, $root->items)) {
-                            $root = $root->items[0];
-                        }
-                    }
-                    if ($root instanceof MP_Statement) {
-                        if (count($root->flags) > 0) {
-                            // No matter what it is if there are flags its not pure anything.
-                            return false;
-                        }
-                        $root = $root->statement;
-                    }
-                    $node->replace($rhs, $root);
-
-                    $checknode = reinstate_abandonded_float($node->rhs);
-                    if ($checknode) {
-                        $node->replace($node->rhs, $checknode);
-                    }
-                    $checknode = reinstate_abandonded_float($node->lhs);
-                    if ($checknode) {
-                        $node->replace($node->lhs, $checknode);
-                    }
-                    return false;
-                }
-                if ($rhs instanceof MP_FunctionCall && $rhs->name instanceof MP_Identifier &&
-                    core_text::substr($rhs->name->value, 0, 4) === '%%IS') {
-                    $node->position['insertstars'] = true;
-                    $rhs->name->value = core_text::substr($rhs->name->value, 4);
-                    if ($rhs->name->value === '') {
-                        $node->replace($rhs, new MP_Group($rhs->arguments));
-                    }
-                    return false;
-                }
-                if ($rhs instanceof MP_FunctionCall && $rhs->name instanceof MP_Identifier &&
-                    core_text::substr($rhs->name->value, 0, 4) === '%%Is') {
-                    $node->position['fixspaces'] = true;
-                    $rhs->name->value = core_text::substr($rhs->name->value, 4);
-                    if ($rhs->name->value === '') {
-                        $node->replace($rhs, new MP_Group($rhs->arguments));
-                    }
-                    return false;
-                }
-                if ($rhs instanceof MP_Indexing && $rhs->target instanceof MP_Identifier &&
-                    core_text::substr($rhs->target->value, 0, 4) === '%%IS') {
-                    $node->position['insertstars'] = true;
-                    $rhs->target->value = core_text::substr($rhs->target->value, 4);
-                    return false;
-                }
-                if ($rhs instanceof MP_Indexing && $rhs->target instanceof MP_Identifier &&
-                    core_text::substr($rhs->target->value, 0, 4) === '%%Is') {
-                    $node->position['fixspaces'] = true;
-                    $rhs->target->value = core_text::substr($rhs->target->value, 4);
-                    return false;
-                }
-                // Then deep trees.
-                $rhs = $node->leftmostofright();
-                if ($rhs instanceof MP_Identifier &&
-                    core_text::substr($rhs->value, 0, 4) === '%%IS') {
-                    $node->position['insertstars'] = true;
-                    $rhs->value = core_text::substr($rhs->value, 4);
-                    return false;
-                }
-                if ($rhs instanceof MP_Identifier &&
-                    core_text::substr($rhs->value, 0, 4) === '%%Is') {
-                    $node->position['fixspaces'] = true;
-                    $rhs->value = core_text::substr($rhs->value, 4);
-                    return false;
-                }
-                if ($rhs instanceof MP_FunctionCall && $rhs->name instanceof MP_Identifier &&
-                    core_text::substr($rhs->name->value, 0, 4) === '%%IS') {
-                    $node->position['insertstars'] = true;
-                    $rhs->name->value = core_text::substr($rhs->name->value, 4);
-                    return false;
-                }
-                if ($rhs instanceof MP_FunctionCall && $rhs->name instanceof MP_Identifier &&
-                    core_text::substr($rhs->name->value, 0, 4) === '%%Is') {
-                    $node->position['fixspaces'] = true;
-                    $rhs->name->value = core_text::substr($rhs->name->value, 4);
-                    return false;
-                }
-                if ($rhs instanceof MP_Indexing && $rhs->target instanceof MP_Identifier &&
-                    core_text::substr($rhs->target->value, 0, 4) === '%%IS') {
-                    $node->position['insertstars'] = true;
-                    $rhs->target->value = core_text::substr($rhs->target->value, 4);
-                    return false;
-                }
-                if ($rhs instanceof MP_Indexing && $rhs->target instanceof MP_Identifier &&
-                    core_text::substr($rhs->target->value, 0, 4) === '%%Is') {
-                    $node->position['fixspaces'] = true;
-                    $rhs->target->value = core_text::substr($rhs->target->value, 4);
-                    return false;
-                }
-
-            }
-            if ($node instanceof MP_FunctionCall && $node->name instanceof MP_Identifier &&
-                $node->name->value === '') {
-                // The previous one may have caused trouble.
-                $node->parentnode->replace($node, new MP_Group($node->arguments));
-                return false;
-            }
-
-            // Note that %%IS is used in the pre-parser to mark implied multiplications.
-            if ($node instanceof MP_FunctionCall && $node->name instanceof MP_Identifier &&
-                    core_text::substr($node->name->value, 0, 4) === '%%IS') {
-                $node->name->value = core_text::substr($node->name->value, 4);
-                $node->parentnode->position['insertstars'] = true;
-                if ($node->name->value === '') {
-                    $node->parentnode->replace($node, new MP_Group($node->arguments));
-                } else if (ctype_digit($node->name->value)) {
-                    $newop = new MP_Operation('*', new MP_Integer(intval($node->name->value), new MP_Group($node->arguments)));
-                    $newop->position['insertstars'] = true;
-                    $node->parentnode->replace($node, $newop);
-                }
-                return false;
-            } else if ($node instanceof MP_Identifier && core_text::substr($node->value, 0, 4) === '%%IS') {
-                $node->value = core_text::substr($node->value, 4);
-                $node->parentnode->position['insertstars'] = true;
-                if (ctype_digit($node->value)) {
-                    $node->parentnode->replace($node, new MP_Integer(intval($node->value)));
-                }
-                return false;
-            }
-
             // And @@IS@@ that is used for pre-parser fixed spaces.
             if ($node instanceof MP_Operation && $node->op  === '@@IS@@') {
                  $node->position['insertstars'] = true;
@@ -392,8 +249,8 @@ class maxima_corrective_parser {
 
         // Some common output processing.
         $original = $string;
-        $string = str_replace('*%%IS', '*', $string);
-        $string = str_replace('*%%Is', '*', $string);
+        $string = str_replace('@@IS@@', '*', $string);
+        $string = str_replace('@@Is@@', '*', $string);
         $string = str_replace('QMCHAR', '?', $string);
 
         // Only permit the following characters to be sent to the CAS.
@@ -539,8 +396,8 @@ class maxima_corrective_parser {
             $cmds = trim(core_text::substr($original, 0, $exception->grammarOffset - 1));
             $cmds .= '<font color="red">_</font>';
             $cmds .= core_text::substr($original, $exception->grammarOffset);
-            $cmds = str_replace('*%%IS', '*', $cmds);
-            $cmds = str_replace('*%%Is', '<font color="red">_</font>', $cmds);
+            $cmds = str_replace('@@IS@@', '*', $cmds);
+            $cmds = str_replace('@@Is@@', '<font color="red">_</font>', $cmds);
             $answernote[] = 'spaces';
             $errors[] = stack_string('stackCas_spaces', array('expr' => stack_maxima_format_casstring($cmds)));
         } else if ($foundchar === ':' && (strpos($string, ':lisp') !== false)) {
@@ -617,43 +474,4 @@ class maxima_corrective_parser {
         }
         return $stringles;
     }
-}
-
-/* 
- * Turn ast fragments which look like abandonded floats into MP_Float.
- * Used to tidy up after insert spaces has activated.
- */
-function reinstate_abandonded_float($checknode) {
-
-    if (!($checknode instanceof MP_Operation && $checknode->op === '.')) {
-        return null;
-    }
-
-    $replace = false;
-    if ($checknode->lhs instanceof MP_Integer) {
-        $lhr = $checknode->lhs->value;
-    $replace = true;
-    } else if ($checknode->lhs instanceof MP_Identifier) {
-        $lhr = $checknode->lhs->value;
-        if (ctype_digit($lhr)) {
-            $replace = true;
-        }
-    }
-    if (!$replace) {
-        return null;
-    }
-    if ($checknode->rhs instanceof MP_Integer) {
-        $rhr = $checknode->rhs->value;
-        $replace = true;
-    } else if ($checknode->rhs instanceof MP_Identifier) {
-        $rhr = $checknode->rhs->value;
-        if (ctype_digit($rhr)) {
-            $replace = true;
-        }
-    }
-    if (!$replace) {
-        return null;
-    }
-    $fv = $lhr . '.' . $rhr;
-    return new MP_Float(floatval($fv), $fv);
 }

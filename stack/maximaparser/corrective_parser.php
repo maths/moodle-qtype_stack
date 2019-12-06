@@ -134,7 +134,10 @@ class maxima_corrective_parser {
         foreach ($starpatterns as $pat) {
             while (preg_match($pat, $stringles)) {
                 $missingstar = true;
-                $stringles = preg_replace($pat, "\${1}*%%IS\${2}", $stringles);
+                // This replacement token must not start with a * which is mistaken for a product.
+                // This replacement token must not end with a letter, which then creates an MP_Identifier.
+                // Multiplication is associative, so that comes out in the wash in the CAS.
+                $stringles = preg_replace($pat, "\${1}@@IS@@\${2}", $stringles);
             }
         }
 
@@ -161,7 +164,7 @@ class maxima_corrective_parser {
             $fixedspace = false;
             while (preg_match($pat, $stringles)) {
                 $fixedspace = true;
-                $stringles = preg_replace($pat, "\${1}*%%Is\${2}", $stringles);
+                $stringles = preg_replace($pat, "\${1}@@Is@@\${2}", $stringles);
             }
 
             // Reverse safe spaces.
@@ -199,7 +202,6 @@ class maxima_corrective_parser {
             if ($node instanceof MP_Identifier && ctype_digit($node->value)) {
                 $node->parentnode->replace($node, new MP_Integer($node->value));
             }
-            // Map the inserted stars.
             if ($node instanceof MP_Operation && $node->op === '*' && !(
                 isset($node->position['insertstars']) ||
                 isset($node->position['fixspaces']))) {
@@ -339,29 +341,16 @@ class maxima_corrective_parser {
                 return false;
             }
 
-            // And %%Is that is used for pre-parser fixed spaces.
-            if ($node instanceof MP_FunctionCall && $node->name instanceof MP_Identifier &&
-                    core_text::substr($node->name->value, 0, 4) === '%%Is') {
-                $node->name->value = core_text::substr($node->name->value, 4);
-                if ($node->name->value === '') {
-                    $node->parentnode->position['fixspaces'] = true;
-                    $node->parentnode->replace($node, new MP_Group($node->arguments));
-                } else if (ctype_digit($node->name->value)) {
-                    $newop = new MP_Operation('*', new MP_Integer(intval($node->name->value),
-                            new MP_Group($node->arguments)));
-                    // This one is tricky, as it is basically an insertstars in non insertstars context.
-                    // Might require a special case upstream and maybe set to invalid...
-                    $newop->position['fixspaces'] = true;
-                    $node->parentnode->position['fixspaces'] = true;
-                    $node->parentnode->replace($node, $newop);
-                }
+            // And @@IS@@ that is used for pre-parser fixed spaces.
+            if ($node instanceof MP_Operation && $node->op  === '@@IS@@') {
+                 $node->position['insertstars'] = true;
+                 $node->op = '*';
                 return false;
-            } else if ($node instanceof MP_Identifier && core_text::substr($node->value, 0, 4) === '%%Is') {
-                $node->value = core_text::substr($node->value, 4);
-                $node->parentnode->position['fixspaces'] = true;
-                if (ctype_digit($node->value)) {
-                    $node->parentnode->replace($node, new MP_Integer(intval($node->value)));
-                }
+            }
+            // And @@Is@@ that is used for pre-parser fixed spaces.
+            if ($node instanceof MP_Operation && $node->op  === '@@Is@@') {
+                $node->position['fixspaces'] = true;
+                $node->op = '*';
                 return false;
             }
             return true;

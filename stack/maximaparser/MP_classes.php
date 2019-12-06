@@ -866,7 +866,7 @@ class MP_Comment extends MP_Node {
             return "\n/*" . $dispvalue . "*/\n";
         }
 
-        return '/*' . $this->value . $dispvalue . '*/';
+        return '/*' . $dispvalue . '*/';
     }
 }
 
@@ -1087,7 +1087,7 @@ class MP_Group extends MP_Node {
             $ar[] = $value->toString($params);
         }
 
-        $dispvalue = '(' . implode(', ', $ar) . ')';
+        $dispvalue = '(' . implode(',', $ar) . ')';
 
         if ($params !== null && isset($params['flattree'])) {
             return '([Group] ' . $dispvalue . ')';

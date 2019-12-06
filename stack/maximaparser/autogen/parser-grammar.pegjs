@@ -583,6 +583,8 @@ InfixOp
   / ">"
   / "="
   / "~"
+  / "@@IS@@"
+  / "@@Is@@"
 
 UnaryOp
   = op:PrefixOp _? trg:(Group / List / FunctionCall / Indexing / Literal / UnaryOp / Identifier ) _? op2:PostfixOp {

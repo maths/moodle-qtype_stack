@@ -484,15 +484,9 @@ class stack_cas_castext_parser_test extends qtype_stack_testcase {
         $answernotes = array();
         $ast = maxima_corrective_parser::parse($s, $errors, $answernotes,
             array('startRule' => 'Root', 'letToken' => stack_string('equiv_LET')));
-        $expected = <<<STR
-12*3
----- MP_Root
----- MP_Statement
----- MP_Operation *
---   MP_Integer 12
-   - MP_Integer 3
-STR;
-        $this->assertEquals($expected, $ast->debugPrint($s));
+        $expected = '([Root] ([Op: *] ([Int] 12), ([Int] 3))';
+
+        $this->assertEquals($expected, $ast->toString(array('flattree' => true)));
         $this->assertEquals($errors, array());
         $this->assertEquals($answernotes, array());
 
@@ -502,16 +496,10 @@ STR;
         $answernotes = array();
         $ast = maxima_corrective_parser::parse($s, $errors, $answernotes,
             array('startRule' => 'Root', 'letToken' => stack_string('equiv_LET')));
-        $expected = <<<STR
-12 3
---------MP_Root
---------MP_Statement
---------MP_Operation * [fixspaces]
---   MP_Integer 12
--    MP_Integer 3
-STR;
 
-        $this->assertEquals($expected, $ast->debugPrint($s));
+        $expected = '([Root] ([Op: *] ([Int] 12), ([Int] 3))';
+        $this->assertEquals($expected, $ast->toString(array('flattree' => true)));
+
         $this->assertEquals($errors, array());
         $this->assertEquals($answernotes, array('spaces'));
 
@@ -521,15 +509,8 @@ STR;
         $answernotes = array();
         $ast = maxima_corrective_parser::parse($s, $errors, $answernotes,
             array('startRule' => 'Root', 'letToken' => stack_string('equiv_LET')));
-        $expected = <<<STR
-12 3.57
------------MP_Root
------------MP_Statement
------------MP_Operation * [fixspaces]
---      MP_Integer 12
-???????????MP_Float 3.57
-STR;
-        $this->assertEquals($expected, $ast->debugPrint($s));
+        $expected = '([Root] ([Op: *] ([Int] 12), ([Float] 3.57))';
+        $this->assertEquals($expected, $ast->toString(array('flattree' => true)));
         $this->assertEquals($errors, array());
         $this->assertEquals($answernotes, array('spaces'));
 
@@ -539,17 +520,9 @@ STR;
         $answernotes = array();
         $ast = maxima_corrective_parser::parse($s, $errors, $answernotes,
             array('startRule' => 'Root', 'letToken' => stack_string('equiv_LET')));
-        $expected = <<<STR
-1 2.3 4
----------------MP_Root
----------------MP_Statement
----------------MP_Operation * [fixspaces]
--       MP_Integer 1
-  -------------MP_Operation * [fixspaces]
-  ?????????????MP_Float 2.3
--       MP_Integer 4
-STR;
-        $this->assertEquals($expected, $ast->debugPrint($s));
+
+        $expected = '([Root] ([Op: *] ([Int] 1), ([Op: *] ([Float] 2.3), ([Int] 4))';
+        $this->assertEquals($expected, $ast->toString(array('flattree' => true)));
         $this->assertEquals($errors, array());
         $this->assertEquals($answernotes, array('spaces'));
 
@@ -559,17 +532,9 @@ STR;
         $answernotes = array();
         $ast = maxima_corrective_parser::parse($s, $errors, $answernotes,
             array('startRule' => 'Root', 'letToken' => stack_string('equiv_LET')));
-        $expected = <<<STR
-1 2 3.4
----------------MP_Root
----------------MP_Statement
----------------MP_Operation * [fixspaces]
--       MP_Integer 1
-  -------------MP_Operation * [fixspaces]
-  ?????????????MP_Integer 2
-  ?????????????MP_Float 3.4
-STR;
-        $this->assertEquals($expected, $ast->debugPrint($s));
+
+        $expected = '([Root] ([Op: *] ([Int] 1), ([Op: *] ([Int] 2), ([Float] 3.4))';
+        $this->assertEquals($expected, $ast->toString(array('flattree' => true)));
         $this->assertEquals($errors, array());
         $this->assertEquals($answernotes, array('spaces'));
     }
@@ -582,15 +547,9 @@ STR;
         $answernotes = array();
         $ast = maxima_corrective_parser::parse($s, $errors, $answernotes,
             array('startRule' => 'Root', 'letToken' => stack_string('equiv_LET')));
-        $expected = <<<STR
-0.1.0.2
-------- MP_Root
-------- MP_Statement
-------- MP_Operation .
----     MP_Float 0.1
-    --- MP_Float 0.2
-STR;
-        $this->assertEquals($expected, $ast->debugPrint($s));
+
+        $expected = '([Root] ([Op: .] ([Float] 0.1), ([Float] 0.2))';
+        $this->assertEquals($expected, $ast->toString(array('flattree' => true)));
         $this->assertEquals($errors, array());
         $this->assertEquals($answernotes, array());
     }

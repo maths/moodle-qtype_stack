@@ -2104,13 +2104,13 @@ stack_eval_arg(ex) := block([eqoutcome, eqoutsymb, eqoutnote, res, id, truthargu
 /* Try to find a representative of the solution set of the underlying system in a sensible form.
    Only support specific situations currently.
 */
-stack_eval_arg_solver(ex) := block([ex2],
+stack_eval_arg_solver(ex) := block([ex2, ex3, errc],
 
       ex:logic_to_poly(ex),
 
       if ev(is(equal(length(listofvars(ex)), 1)), simp) then
           return(ev(single_variable_solver_real(ex), simp)),
-
+      
       if safe_op(ex) = "%or" or safe_op(ex) = "nounor" or safe_op(ex) = "or" then
           return(ev(logical_normal(apply("%or", maplist(stack_eval_arg_solver, ex))), simp)),
 
@@ -2118,14 +2118,18 @@ stack_eval_arg_solver(ex) := block([ex2],
           /* Solve systems of polynomial equations. (Not inequalities) */
         ex2:maplist(logic_to_poly, args(ex)),
         if (all_listp(lambda([ex], equationp(ex) and polynomialpsimp(lhs(ex))), ex2)) then block(
-            ex2:ev(solve(ex2, sort(listofvars(ex2)))), simp),
-            if assume_real then
-                ex2:ev(sublist(ex2, lambda([m], freeof(%i, m))), simp),
-            if not(emptyp(ex2)) then (ex2:map(lambda([ex], apply("%and", ex)), ex2), ex:apply("%or", ex2))
-            ),
+            /* Algsys throws errors if we have too many variables, and in other situations. */
+            ex3:[],
+            errc:errcatch(ex3:ev(solve(ex2, sort(listofvars(ex2))), simp)),
+            if not(emptyp(ex3)) then block(
+                if assume_real then
+                    ex3:ev(sublist(ex3, lambda([m], freeof(%i, m))), simp),
+                if not(emptyp(ex3)) then (ex3:map(lambda([ex], apply("%and", ex)), ex3), ex:apply("%or", ex3))
+                )
+            )
+        ),
       return(ev(logical_normal(ex), simp))
 )$
-
 
 /* This modifies stack_eval_arg to create something which can be displayed. */
 stack_eval_equiv_arg(ex, showlogic, showdomain, equivdebug, debuglist) := block([A, k, ret, res, exnew, eqoutsymb, note],

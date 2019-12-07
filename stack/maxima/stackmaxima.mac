@@ -1266,7 +1266,7 @@ ATAlgEquiv(SA,SB) := block([simp:true, ret, newret, SAN],
    AnswerNote  = "string",
    FeedBack    = StackFeedback
 */
-ATAlgEquivfun(SA, SB) :=  block([keepfloat, RawMark, FeedBack, AnswerNote, ret],
+ATAlgEquivfun(SA, SB) :=  block([SApoly, SBpoly, keepfloat, RawMark, FeedBack, AnswerNote, ret],
     Validity:true, RawMark:false, FeedBack:"", AnswerNote:"",
     keepfloat:true,
     /* Are we dealing with strings? */
@@ -1299,19 +1299,23 @@ ATAlgEquivfun(SA, SB) :=  block([keepfloat, RawMark, FeedBack, AnswerNote, ret],
         return(StackBasicReturn(false, false, "ATAlgEquiv_SA_not_function"))
       else
         return(ATFunction(SA, SB)),
-    /* Are we dealing with an equation? */
-    /* Don't use logic_edgep(SB) here, as this include "true" and "false".  A teacher should use all/none if they mean equations. */
-    if (equationp(SB) or SB = all or SB = none) then
-      /* But the student can also use true/false here.  Note the concious asymetry. */
-      if (equationp(SA) or logic_edgep(SA)) then
-        return(ATEquation(SA, SB))
-      else if equationp(SB) and not equationp(SA) then
+    /* Are we dealing with a hidden equation? */
+    SApoly:SA,
+    if logicp(SA) and freeof("+-", SA) then SApoly:logic_to_poly(SA),
+    SBpoly:SB,
+    if logicp(SB) and freeof("+-", SA) then SBpoly:logic_to_poly(SB),
+    /* Don't use logic_edgep(SB) here, as this includes "true" and "false".  A teacher should use all/none if they mean equations. */
+    if (equationp(SBpoly) or SB = all or SB = none) then
+      /* But the student can also use true/false here.  Note the conscious asymmetry. */
+      if (equationp(SApoly) or logic_edgep(SA)) then
+        return(ATEquation(SApoly, SBpoly))
+      else if equationp(SB) and not (equationp(SA) or logicp(SA) or inequalityp(SA)) then
         return(StackBasicReturn(false, false, "ATAlgEquiv_SA_not_equation")),
     /* Did the student type in a simple equation, but the teacher did not? */
     if (equationp(SA) and not(op_usedp(SA, abs)) and not(op_usedp(SA, "+-"))) then return(StackBasicReturn(false, false, "ATAlgEquiv_TA_not_equation")),
     /* Are we dealing with an inequality? */
-    if inequalityp(SB) then
-      if inequalityp(SA)#true and logicp(SA)#true then
+    if inequalityp(SB) or equationp(SB) then
+      if inequalityp(SA)#true and equationp(SA)#true and logicp(SA)#true then
         return(StackBasicReturn(false, false, "ATAlgEquiv_SA_not_inequality"))
       else
         return(ATInequality(SA, SB)),

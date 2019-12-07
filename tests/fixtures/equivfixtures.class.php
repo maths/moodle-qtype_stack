@@ -1219,6 +1219,20 @@ class stack_equiv_test_data {
         $newarg['outcome']    = 'unknown';
         $samplearguments[]    = $newarg;
 
+        $newarg = array();
+        $newarg['title']      = "Cardano's solution of the cubic equation";
+        $newarg['narrative']  = 'Not the method in Cardano\'s work, but a better approach using complex numbers.';
+        $newarg['casstring']  = "[(x+a+b)*(x+w*a+w^2*b)*(x+w^2*a+w*b)=x^3-3*p*x+2*q, stacklet(w,(-1+i*sqrt(3))/2)," .
+                "x^3-3*a*b*x+(a^3+b^3)=x^3-3*p*x+2*q,3*a*b=3*p and a^3+b^3=2*q,a^3*b^3=p^3 and a^3+b^3=2*q," .
+                "a^3*b^3=p^3 and (a^3)^2+b^3=2*q*a^3,stacklet(a^3,u),u*b^3=p^3 and u^2-2*q*u+b^3=0," .
+                "u*b^3=p^3 and (u-q)^2-q^2+b^3=0,u*b^3=p^3 and u = q+-sqrt(q^2-b^3),stacklet(u,a^3)," .
+                "a^3*b^3=p^3 and a^3 = q+-sqrt(q^2-b^3),b^3= q-(+-sqrt(q^2-b^3)) and a^3 = q+-sqrt(q^2-b^3)," .
+                '"And so",' .
+                "x= (q-sqrt(q^2-b^3))^(1/3)+(q+sqrt(q^2-b^3))^(1/3)]";
+        $newarg['debuglist']  = "[EMPTYCHAR,EMPTYCHAR,EQUIVCHAR,EQUATECOEFFLOSS(x),EQUIVCHAR,EQUIVCHAR,EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EMPTYCHAR,EMPTYCHAR]";
+        $newarg['outcome']   = 'unsupported';
+        $samplearguments[]    = $newarg;
+
         //******************************************************************************
         $newarg = array();
         $newarg['section'] = 'Inequalities';

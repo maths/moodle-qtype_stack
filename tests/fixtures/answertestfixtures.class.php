@@ -255,6 +255,8 @@ class stack_answertest_test_data {
         array('AlgEquiv', '', 'x^6000-x^6001=x^5999', 'x^5999*(1-x+x^3)=0', 0, 'ATEquation_default', ''),
         array('AlgEquiv', '', '258552*x^7*(81*x^8+1)^398', 'x^3*(x^4+1)^399', 0, '', ''),
         array('AlgEquiv', '', 'Ia*(R1+R2+R3)-Ib*R3=0', '-Ia*(R1+R2+R3)+Ib*R3=0', 1, '', ''),
+        array('AlgEquiv', '', 'a=0 or b=0', 'a*b=0', 1, 'ATEquation_sides', ''),
+        array('AlgEquiv', '', 'a*b=0', 'a=0 or b=0', 1, 'ATEquation_sides', ''),
 
         array('AlgEquiv', '', '1', 'stackeq(1)', 1, '', 'Unary Equations'),
         array('AlgEquiv', '', 'stackeq(1)', '1', 1, '', ''),
@@ -262,6 +264,10 @@ class stack_answertest_test_data {
 
         array('AlgEquiv', '', 'x=y', 'x^2=y^2', 0, 'ATEquation_default',
             'Equations: Loose/gain roots with nth powers of each side.'),
+        // Note that algebraic equivalence does check multiplicity of roots so that:
+        array('AlgEquiv', '', '(x-2)^2=0', 'x=2', 0, 'ATEquation_default', ''),
+        array('AlgEquiv', '', 'a^3*b^3=0', 'a=0 or b=0', 0, 'ATEquation_default', ''),
+        array('AlgEquiv', '', 'a^3*b^3=0', 'a*b=0', 0, 'ATEquation_default', ''),
         array('AlgEquiv', '', '(x-y)*(x+y)=0', 'x^2=y^2', 1, 'ATEquation_ratio', ''),
         array('AlgEquiv', '', 'x=1', '(x-1)^3=0', 0, 'ATEquation_default', ''),
         array('AlgEquiv', '', 'sqrt(x)=sqrt(y)', 'x=y', 0, 'ATEquation_default', ''),
@@ -306,7 +312,7 @@ class stack_answertest_test_data {
         array('AlgEquiv', '', 'a*(2+%i)=b', 'a=b*(2-%i)/4', 0, 'ATEquation_default', ''),
 
         array('AlgEquiv', '', 'abs(x)=abs(y)', 'x=y', 0, 'ATEquation_default', 'Absolute value in equations'),
-        array('AlgEquiv', '', 'abs(x)=abs(y)', 'x=y or x=-y', 1, 'ATEquation_sides', ''),
+        array('AlgEquiv', '', 'abs(x)=abs(y)', 'x=y or x=-y', 1, '', ''),
         array('AlgEquiv', '', 'abs(x)=abs(y)', '(x-y)*(x+y)=0', 1, '', ''),
 
         array('AlgEquiv', '', 'f(x):=1/0', 'f(x):=x^2', -1, 'ATAlgEquiv_STACKERROR_SAns.', 'Functions'),
@@ -345,6 +351,7 @@ class stack_answertest_test_data {
 
         array('AlgEquiv', '', 'x>2 or -2>x', 'not (x<=2 and -2<=x)', 1, 'ATLogic_True.', ''),
         array('AlgEquiv', '', 'x>=1 or 1<=x', 'x>=1', 1, '', ''),
+        array('AlgEquiv', '', 'x>=1 and x<=1', 'x=1', 1, 'ATInequality_solver.', ''),
         array('AlgEquiv', '', '(x>4 and x<5) or (x<-4 and x>-5) or (x+5>0 and x<-4)',
             '(x>-5 and x<-4) or (x>4 and x<5)', 1, 'ATLogic_True.', ''),
         array('AlgEquiv', '', '(x>4 and x<5) or (x<-4 and x>-5) or (x+5>0 and x<-4)',

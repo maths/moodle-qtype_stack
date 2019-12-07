@@ -168,6 +168,9 @@ class stack_answertest_test_data {
         array('AlgEquiv', '', '1+lg(27,3)', '4', 1, '', ''),
         array('AlgEquiv', '', '1+lg(27,3)', '3', 0, '', ''),
         array('AlgEquiv', '', 'lg(1/8,2)', '-3', 1, '', ''),
+        array('AlgEquiv', '', 'lg(root(x,n))', 'lg(x,10)/n', 1, '', ''),
+        // The log(x) function is base e.
+        array('AlgEquiv', '', 'log(root(x,n))', 'lg(x,10)/n', 0, '', ''),
         array('AlgEquiv', '', 'x^log(y)', 'y^log(x)', 1, '', ''),
         array('AlgEquiv', '', 'e^1-e^(-1)', '2*sinh(1)', 1, '', 'Hyperbolic trig'),
         array('AlgEquiv', '', 'x', '[1,2,3]', 0, 'ATAlgEquiv_SA_not_list.', 'Lists'),
@@ -521,6 +524,7 @@ class stack_answertest_test_data {
         array('EqualComAss', '', '(1/2)*(a+b)', '(a+b)/2', 0, 'ATEqualComAss: (AlgEquiv:true).', ''),
         array('EqualComAss', '', '1/3*logbase(27,6)' ,'logbase(27,6)/3', 0, 'ATEqualComAss: (AlgEquiv:true).', ''),
         array('EqualComAss', '', '1/3*lg(27,6)' ,'lg(27,6)/3', 0, 'ATEqualComAss: (AlgEquiv:true).', ''),
+        array('EqualComAss', '', 'lg(root(x,n))', 'lg(x,10)/n', 0, 'ATEqualComAss: (AlgEquiv:true).', ''),
         array('EqualComAss', '', '1/3*i' ,'i/3', 0, 'ATEqualComAss: (AlgEquiv:true).', ''),
         array('EqualComAss', '', '%i', 'e^(i*pi/2)', 0, 'ATEqualComAss: (AlgEquiv:true).', 'Complex numbers'),
         array('EqualComAss', '', '(4*sqrt(3)*%i+4)^(1/5)', 'rectform((4*sqrt(3)*%i+4)^(1/5))', 0,

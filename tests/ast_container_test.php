@@ -520,14 +520,14 @@ class stack_astcontainer_test extends qtype_stack_testcase {
         $s = 'a:tan^-1(x)-1';
         $at1 = stack_ast_container::make_from_student_source($s, '', new stack_cas_security());
         $this->assertFalse($at1->get_valid());
-        $this->assertEquals('missing_stars | forbiddenVariable', $at1->get_answernote());
+        $this->assertEquals('missing_stars | trigexp', $at1->get_answernote());
     }
 
     public function test_trig_4() {
         $s = 'a:sin^2(x)';
         $at1 = stack_ast_container::make_from_student_source($s, '', new stack_cas_security());
         $this->assertFalse($at1->get_valid());
-        $this->assertEquals('missing_stars | forbiddenVariable', $at1->get_answernote());
+        $this->assertEquals('missing_stars | trigexp', $at1->get_answernote());
     }
 
     public function test_trig_5() {
@@ -792,5 +792,27 @@ class stack_astcontainer_test extends qtype_stack_testcase {
         // We only add apostophies to logic nouns.
         $this->assertEquals("[sum(k^2,k,1,n),'product(k^2,k,1,n),a nounand b,diff(y,x)+y = 0]",
             $at1->get_evaluationform());
+    }
+
+    public function test_stacklet() {
+        $s = 'stacklet(a,x*%i+y)';
+        // The parser does not cope with this. There is pre-parsing in the equiv input type.
+        // $s = 'let a=x*%i+y';
+        $at1 = stack_ast_container::make_from_student_source($s, '', new stack_cas_security());
+
+        $this->assertTrue($at1->get_valid());
+
+        $expected = '([FunctionCall: ([Id] stacklet)] ([Id] a),([Op: +] ([Op: *] ([Id] x), ([Id] %i)), ([Id] y)))';
+// I don't understand why stacklet() is not parsed into MP_Let.
+//        $expected = '([Let] ([Id] a),([Op: +] ([Op: *] ([Id] x), ([Id] %i)), ([Id] y)))';
+        $this->assertEquals($expected, $at1->ast_to_string(null, array('flattree' => true)));
+
+        $this->assertEquals('stacklet(a,x*%i+y)', $at1->get_evaluationform());
+        // Must have nounify=0 here to force into "let ...." style.
+        $this->assertEquals('let a=x*%i+y', $at1->get_inputform(true, 0));
+
+        $err = '';
+        $this->assertEquals($err, $at1->get_errors());
+        $this->assertEquals('', $at1->get_answernote());
     }
 }

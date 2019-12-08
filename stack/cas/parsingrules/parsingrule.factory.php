@@ -146,7 +146,7 @@ class stack_parsing_rule_factory {
                            '406_split_implied_variable_names',
                            '410_single_char_vars', '441_split_unknown_functions',
                            '442_split_all_functions', '450_split_floats',
-                           '505_no_evaluation_groups', 
+                           '505_no_evaluation_groups',
                            '520_no_equality_with_logic',
                            '541_no_unknown_functions', '542_no_functions_at_all',
                            '990_no_fixing_spaces', '991_no_fixing_stars',

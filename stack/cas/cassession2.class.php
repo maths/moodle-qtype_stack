@@ -306,7 +306,9 @@ class stack_cas_session2 {
             $ef = $statement->get_evaluationform();
             $line = ',_EC(errcatch(' . $ef . '),';
             $key = null;
-            if (($statement instanceof cas_value_extractor || $statement instanceof cas_raw_value_extractor) || ($statement instanceof cas_latex_extractor) ||
+            if (($statement instanceof cas_value_extractor ||
+                    $statement instanceof cas_raw_value_extractor) ||
+                    ($statement instanceof cas_latex_extractor) ||
                     ($statement instanceof cas_display_value_extractor)) {
                 // One of those that need to be collected later.
                 if (($key = $statement->get_key()) === '') {
@@ -397,7 +399,7 @@ class stack_cas_session2 {
                         } catch (Exception $e) {
                             throw new stack_exception('stack_cas_session: tried to parse the value ' .
                                     $value . ', but got the following exception ' . $e->getMessage());
-                        }                        
+                        }
                     }
                 }
             }

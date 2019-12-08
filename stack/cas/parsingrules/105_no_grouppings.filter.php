@@ -19,7 +19,7 @@ require_once(__DIR__ . '/filter.interface.php');
 
 /**
  * AST filter that prevents the use of parenthesis for wrapping expressions.
- * Basically, `2*(1+x)` has such a group while `sin(x)` is a function call 
+ * Basically, `2*(1+x)` has such a group while `sin(x)` is a function call
  * and groups nothing.
  *
  * This is a different thing than 505_no_evaluation_groups.

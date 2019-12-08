@@ -649,4 +649,32 @@ class stack_equiv_input_test extends qtype_stack_testcase {
             $state->contentsdisplayed);
         $this->assertEquals('', $state->note);
     }
+
+    public function test_validate_student_stacklet() {
+        $options = new stack_options();
+        $val = '[x^2=a,stacklet(a,4),x^2=4,x=2 nounor x=-2]';
+        $el = stack_input_factory::make('equiv', 'sans1', $val);
+        $state = $el->validate_student_response(array('sans1' => "x^2=a\nlet a=4\nx^2=4\nx=2 or x=-2"), $options,
+            $val, new stack_cas_security());
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('', $state->errors);
+        $this->assertEquals('', $state->note);
+        $this->assertEquals('[x^2 = a,stacklet(a,4),x^2 = 4,x = 2 nounor x = -2]',
+            $state->contentsmodified);
+        $this->assertEquals('\[ \begin{array}{lll} &x^2=a& \cr &\mbox{Let }a = 4& \cr ' .
+            '\color{green}{\Leftrightarrow}&x^2=4& \cr ' .
+            '\color{green}{\Leftrightarrow}&x=2\,{\mbox{ or }}\, x=-2& \cr \end{array} \]',
+            $state->contentsdisplayed);
+
+        $ta = $el->get_teacher_answer();
+        $this->assertEquals($ta, $val);
+
+        $cr = $el->get_correct_response($val);
+        $sans1 = "x^2 = a\nlet a=4\nx^2 = 4\nx = 2 or x = -2";
+        $sansv = '[x^2 = a,stacklet(a,4),x^2 = 4,x = 2 or x = -2]';
+
+        $this->assertEquals($cr['sans1'], $sans1);
+        $this->assertEquals($cr['sans1_val'], $sansv);
+
+    }
 }

@@ -994,8 +994,8 @@ class MP_FunctionCall extends MP_Node {
             if ('' != $prefix) {
                 // Hack for stacklet.
                 if ($n == 'stacklet') {
-                    // TODO: fix parsing of let
-                    // return $prefix .' '. implode('=', $ar);
+                    // TODO: fix parsing of let.
+                    return $prefix .' '. implode('=', $ar);
                 }
                 return $prefix .' '. implode(',', $ar);
             }
@@ -1845,8 +1845,13 @@ class MP_Let extends MP_Node {
 
     public function toString($params = null): string {
         $indent = '';
-        if (is_integer($params['pretty'])) {
+        if (isset($params['pretty']) && is_integer($params['pretty'])) {
             $indent = str_pad($indent, $params['pretty']);
+        }
+
+        if ($params !== null && isset($params['flattree'])) {
+            return '([Let] ' . $this->statement->lhs->toString($params) . ',' .
+                $this->statement->rhs->toString($params) . ')';
         }
 
         if (isset($params['inputform']) && $params['inputform'] === true) {

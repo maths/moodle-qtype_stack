@@ -64,11 +64,11 @@ interface cas_evaluatable {
     public function get_key(): string;
 }
 
-// Things that also come out. In the value form. Next two interfaces 
+// Things that also come out. In the value form. Next two interfaces
 // are mutually exclusive. The intention of the first is to parse the response
 // with the MaximaParser while the second one does not, the second one is meant
 // for cases where the full parser is overkill. For example CASText2 where
-// the response is just nested lists of strings which can be parsed much 
+// the response is just nested lists of strings which can be parsed much
 // cheaper using traditional means.
 interface cas_value_extractor extends cas_evaluatable {
 

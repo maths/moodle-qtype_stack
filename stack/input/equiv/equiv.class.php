@@ -190,6 +190,7 @@ class stack_equiv_input extends stack_input {
             }
             $values[$key] = $val;
         }
+
         return implode("\n", $values);
     }
 
@@ -385,6 +386,7 @@ class stack_equiv_input extends stack_input {
     /* Convert an expression starting with an = sign to one with stackeq. */
     private function equals_to_stackeq($val) {
         $val = trim($val);
+        return $val;
         // Safely wrap "let" statements.
         $langlet = strtolower(stack_string('equiv_LET'));
         if (strtolower(substr($val, 0, strlen($langlet))) === $langlet) {

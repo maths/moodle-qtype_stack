@@ -589,4 +589,18 @@ class stack_cas_castext_parser_test extends qtype_stack_testcase {
         $this->assertEquals($expected, $ast->toString(array('flattree' => true)));
         $this->assertEquals($answernotes, array('missing_stars'));
     }
+
+    public function test_let() {
+        $s = 'let x=1';
+        $ast = null;
+        $errors = array();
+        $answernotes = array();
+        $ast = maxima_corrective_parser::parse($s, $errors, $answernotes,
+            array('startRule' => 'Equivline', 'letToken' => stack_string('equiv_LET')));
+
+        $expected = '([Let] ([Id] x),([Int] 1))';
+        $this->assertEquals($expected, $ast->toString(array('flattree' => true)));
+        $this->assertEquals($errors, array());
+        $this->assertEquals($answernotes, array());
+    }
 }

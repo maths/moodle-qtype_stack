@@ -167,9 +167,6 @@ class stack_equiv_input extends stack_input {
      * @return string
      */
     public function contents_to_maxima($contents) {
-        foreach ($contents as $key => $val) {
-            $contents[$key] = $this->equals_to_stackeq($val);
-        }
         return '['.implode(',', $contents).']';
     }
 
@@ -231,8 +228,6 @@ class stack_equiv_input extends stack_input {
         list ($secrules, $filterstoapply) = $this->validate_contents_filters($basesecurity);
 
         foreach ($contents as $index => $val) {
-            $val = $this->equals_to_stackeq($val);
-
             $answer = stack_ast_container::make_from_student_source($val, '', $secrules, $filterstoapply,
                     array(), 'Equivline');
 
@@ -381,21 +376,6 @@ class stack_equiv_input extends stack_input {
 
     private function comment_tag($index) {
         return 'EQUIVCOMMENT'.$index;
-    }
-
-    /* Convert an expression starting with an = sign to one with stackeq. */
-    private function equals_to_stackeq($val) {
-        $val = trim($val);
-        return $val;
-        // Safely wrap "let" statements.
-        $langlet = strtolower(stack_string('equiv_LET'));
-        if (strtolower(substr($val, 0, strlen($langlet))) === $langlet) {
-            $nv = explode('=', substr($val, strlen($langlet) + 1));
-            if (count($nv) === 2) {
-                $val = 'stacklet('.trim($nv[0]).','.trim($nv[1]).')';
-            }
-        }
-        return $val;
     }
 
     /**

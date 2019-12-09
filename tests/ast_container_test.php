@@ -796,15 +796,12 @@ class stack_astcontainer_test extends qtype_stack_testcase {
 
     public function test_stacklet() {
         $s = 'stacklet(a,x*%i+y)';
-        // The parser does not cope with this. There is pre-parsing in the equiv input type.
-        // $s = 'let a=x*%i+y';
         $at1 = stack_ast_container::make_from_student_source($s, '', new stack_cas_security());
 
         $this->assertTrue($at1->get_valid());
 
+        // stacklet() is held as a function, and not parsed into MP_Let.
         $expected = '([FunctionCall: ([Id] stacklet)] ([Id] a),([Op: +] ([Op: *] ([Id] x), ([Id] %i)), ([Id] y)))';
-// I don't understand why stacklet() is not parsed into MP_Let.
-//        $expected = '([Let] ([Id] a),([Op: +] ([Op: *] ([Id] x), ([Id] %i)), ([Id] y)))';
         $this->assertEquals($expected, $at1->ast_to_string(null, array('flattree' => true)));
 
         $this->assertEquals('stacklet(a,x*%i+y)', $at1->get_evaluationform());

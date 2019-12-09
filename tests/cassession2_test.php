@@ -1602,7 +1602,7 @@ class stack_cas_session2_test extends qtype_stack_testcase {
 
         // Cases should be in the form array('input', 'value', 'display').
         $cases = array();
-        $cases[] = array('ntuple(a,b,c,dotdotdot)', 'ntuple(a,b,c,dotdotdot)', '\\left(a, b, c, \\ldots \\right)');
+        $cases[] = array('ntuple(a,b,c,dotdotdot)', 'ntuple(a,b,c,dotdotdot)', '\\left(a, b, c, \\ldots\\right)');
         $cases[] = array('sequenceify([a,b,c])', 'sequence(a,b,c)', 'a, b, c');
 
         foreach ($cases as $i => $case) {

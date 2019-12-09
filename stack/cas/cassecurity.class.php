@@ -425,7 +425,7 @@ class stack_cas_security {
      * when deciding whether it is ok to call.
      */
     public function has_feature(string $identifier, string $feature): bool {
-        if ($feature === 'constant' && $this->units) {
+        if (($feature === 'constant' && $feature === 'unit') && $this->units) {
             $units = stack_cas_casstring_units::get_permitted_units(0);
             if (isset($units[$identifier])) {
                 // In units mode unit identifiers are constants.

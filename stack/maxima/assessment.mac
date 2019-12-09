@@ -209,7 +209,7 @@ ntupleify(ex):= apply(ntuple, args(ex))$
 ntuplep(ex):= if safe_op(ex)="ntuple" then true else false$
 
 /* An ellipsis */
-texput(dotdotdot, "\\ldots ")$
+texput(dotdotdot, "\\ldots")$
 
 
 /* ********************************** */

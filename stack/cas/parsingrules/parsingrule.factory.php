@@ -46,6 +46,7 @@ require_once(__DIR__ . '/505_no_evaluation_groups.filter.php');
 require_once(__DIR__ . '/520_no_equality_with_logic.filter.php');
 require_once(__DIR__ . '/541_no_unknown_functions.filter.php');
 require_once(__DIR__ . '/542_no_functions_at_all.filter.php');
+require_once(__DIR__ . '/801_singleton_numeric.filter.php');
 require_once(__DIR__ . '/990_no_fixing_spaces.filter.php');
 require_once(__DIR__ . '/991_no_fixing_stars.filter.php');
 require_once(__DIR__ . '/998_security.filter.php');
@@ -94,6 +95,8 @@ class stack_parsing_rule_factory {
                 return new stack_ast_filter_104_no_sets();
             case '105_no_grouppings':
                 return new stack_ast_filter_105_no_grouppings();
+            case '801_singleton_numeric':
+                return new stack_ast_filter_801_singleton_numeric();
             case '402_split_prefix_from_common_function_name':
                 return new stack_ast_filter_402_split_prefix_from_common_function_name();
             case '403_split_at_number_letter_boundary':
@@ -149,6 +152,7 @@ class stack_parsing_rule_factory {
                            '505_no_evaluation_groups',
                            '520_no_equality_with_logic',
                            '541_no_unknown_functions', '542_no_functions_at_all',
+                           '801_singleton_numeric',
                            '990_no_fixing_spaces', '991_no_fixing_stars',
                            '998_security', '999_strict') as $name) {
                 self::$singletons[$name] = self::build_from_name($name);

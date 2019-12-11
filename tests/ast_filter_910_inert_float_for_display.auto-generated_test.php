@@ -24,43 +24,263 @@ require_once(__DIR__ . '/../tests/fixtures/ast_filter_test_base.php');
  * @group qtype_stack_ast_filters
  */
 
-class stack_ast_filter_auto_gen_025_no_trig_power_testcase extends qtype_stack_ast_testcase {
+class stack_ast_filter_auto_gen_910_inert_float_for_display_testcase extends qtype_stack_ast_testcase {
 
     public function test_affected_no_units() {
         $this->security = new stack_cas_security(false);
-        $this->filter = stack_parsing_rule_factory::get_by_common_name('025_no_trig_power');
+        $this->filter = stack_parsing_rule_factory::get_by_common_name('910_inert_float_for_display');
 
-        $this->expect('cos^2(x)',
-                      'cos^2*(x)',
-                      array('trigexp'),
-                      false, true);
+        $this->expect('+0.2',
+                      '+dispdp(0.2,1)',
+                      array(),
+                      true, false);
 
-        $this->expect('sin^-1(x)',
-                      'sin^-1*(x)',
-                      array('trigexp'),
-                      false, true);
+        $this->expect('-0.2',
+                      '-dispdp(0.2,1)',
+                      array(),
+                      true, false);
+
+        $this->expect('.1',
+                      'dispdp(.1,1)',
+                      array(),
+                      true, false);
+
+        $this->expect('-0.2433 + 0.1111',
+                      '-dispdp(0.2433,4)+dispdp(0.1111,4)',
+                      array(),
+                      true, false);
+
+        $this->expect('-0.2433e23 + 0.1111e-45 * 0.23e12 / -0.11e-11',
+                      '-displaysci(0.2433,4,23)+displaysci(0.1111,4,-45)*displaysci(0.23,2,12)/-displaysci(0.11,2,-11)',
+                      array(),
+                      true, false);
+
+        $this->expect('-35.3 * 10^23',
+                      '-dispdp(35.3,1)*10^23',
+                      array(),
+                      true, false);
+
+        $this->expect('0..1',
+                      'dispdp(0.,0) . 1',
+                      array(),
+                      true, false);
+
+        $this->expect('0.1..1.2',
+                      'dispdp(0.1,1) . dispdp(.1,1) . 2',
+                      array(),
+                      true, false);
+
+        $this->expect('0.1.1.2',
+                      'dispdp(0.1,1) . dispdp(1.2,1)',
+                      array(),
+                      true, false);
+
+        $this->expect('0.1. 1.2',
+                      'dispdp(0.1,1) . dispdp(1.2,1)',
+                      array(),
+                      true, false);
+
+        $this->expect('1E+3',
+                      'displaysci(1,0,3)',
+                      array(),
+                      true, false);
+
+        $this->expect('1E3',
+                      'displaysci(1,0,3)',
+                      array(),
+                      true, false);
+
+        $this->expect('3.14 5',
+                      'dispdp(3.14,2)*5',
+                      array(),
+                      true, false);
+
+        $this->expect('3 5.2789',
+                      '3*dispdp(5.2789,4)',
+                      array(),
+                      true, false);
+
+        $this->expect('3.14 5.2789',
+                      'dispdp(3.14,2)*dispdp(5.2789,4)',
+                      array(),
+                      true, false);
+
+        $this->expect('9 8 7.6',
+                      '9*8*dispdp(7.6,1)',
+                      array(),
+                      true, false);
+
+        $this->expect('9 8.5 7.6',
+                      '9*dispdp(8.5,1)*dispdp(7.6,1)',
+                      array(),
+                      true, false);
+
+        $this->expect('3e-2',
+                      'displaysci(3,0,-2)',
+                      array(),
+                      true, false);
+
+        $this->expect('3e2',
+                      'displaysci(3,0,2)',
+                      array(),
+                      true, false);
+
+        $this->expect('3E2',
+                      'displaysci(3,0,2)',
+                      array(),
+                      true, false);
+
+        $this->expect('[1,2,3.4]',
+                      '[1,2,dispdp(3.4,1)]',
+                      array(),
+                      true, false);
+
+        $this->expect('y^2-2*y-0.5',
+                      'y^2-2*y-dispdp(0.5,1)',
+                      array(),
+                      true, false);
+
+        $this->expect('{1,2,3.4}',
+                      '{1,2,dispdp(3.4,1)}',
+                      array(),
+                      true, false);
+
+        $this->expect('1.2*m**2',
+                      'dispdp(1.2,1)*m**2',
+                      array(),
+                      true, false);
 
     }
 
     public function test_affected_units() {
         $this->security = new stack_cas_security(true);
-        $this->filter = stack_parsing_rule_factory::get_by_common_name('025_no_trig_power');
+        $this->filter = stack_parsing_rule_factory::get_by_common_name('910_inert_float_for_display');
 
-        $this->expect('cos^2(x)',
-                      'cos^2*(x)',
-                      array('trigexp'),
-                      false, true);
+        $this->expect('+0.2',
+                      '+dispdp(0.2,1)',
+                      array(),
+                      true, false);
 
-        $this->expect('sin^-1(x)',
-                      'sin^-1*(x)',
-                      array('trigexp'),
-                      false, true);
+        $this->expect('-0.2',
+                      '-dispdp(0.2,1)',
+                      array(),
+                      true, false);
+
+        $this->expect('.1',
+                      'dispdp(.1,1)',
+                      array(),
+                      true, false);
+
+        $this->expect('-0.2433 + 0.1111',
+                      '-dispdp(0.2433,4)+dispdp(0.1111,4)',
+                      array(),
+                      true, false);
+
+        $this->expect('-0.2433e23 + 0.1111e-45 * 0.23e12 / -0.11e-11',
+                      '-displaysci(0.2433,4,23)+displaysci(0.1111,4,-45)*displaysci(0.23,2,12)/-displaysci(0.11,2,-11)',
+                      array(),
+                      true, false);
+
+        $this->expect('-35.3 * 10^23',
+                      '-dispdp(35.3,1)*10^23',
+                      array(),
+                      true, false);
+
+        $this->expect('0..1',
+                      'dispdp(0.,0) . 1',
+                      array(),
+                      true, false);
+
+        $this->expect('0.1..1.2',
+                      'dispdp(0.1,1) . dispdp(.1,1) . 2',
+                      array(),
+                      true, false);
+
+        $this->expect('0.1.1.2',
+                      'dispdp(0.1,1) . dispdp(1.2,1)',
+                      array(),
+                      true, false);
+
+        $this->expect('0.1. 1.2',
+                      'dispdp(0.1,1) . dispdp(1.2,1)',
+                      array(),
+                      true, false);
+
+        $this->expect('1E+3',
+                      'displaysci(1,0,3)',
+                      array(),
+                      true, false);
+
+        $this->expect('1E3',
+                      'displaysci(1,0,3)',
+                      array(),
+                      true, false);
+
+        $this->expect('3.14 5',
+                      'dispdp(3.14,2)*5',
+                      array(),
+                      true, false);
+
+        $this->expect('3 5.2789',
+                      '3*dispdp(5.2789,4)',
+                      array(),
+                      true, false);
+
+        $this->expect('3.14 5.2789',
+                      'dispdp(3.14,2)*dispdp(5.2789,4)',
+                      array(),
+                      true, false);
+
+        $this->expect('9 8 7.6',
+                      '9*8*dispdp(7.6,1)',
+                      array(),
+                      true, false);
+
+        $this->expect('9 8.5 7.6',
+                      '9*dispdp(8.5,1)*dispdp(7.6,1)',
+                      array(),
+                      true, false);
+
+        $this->expect('3e-2',
+                      'displaysci(3,0,-2)',
+                      array(),
+                      true, false);
+
+        $this->expect('3e2',
+                      'displaysci(3,0,2)',
+                      array(),
+                      true, false);
+
+        $this->expect('3E2',
+                      'displaysci(3,0,2)',
+                      array(),
+                      true, false);
+
+        $this->expect('[1,2,3.4]',
+                      '[1,2,dispdp(3.4,1)]',
+                      array(),
+                      true, false);
+
+        $this->expect('y^2-2*y-0.5',
+                      'y^2-2*y-dispdp(0.5,1)',
+                      array(),
+                      true, false);
+
+        $this->expect('{1,2,3.4}',
+                      '{1,2,dispdp(3.4,1)}',
+                      array(),
+                      true, false);
+
+        $this->expect('1.2*m**2',
+                      'dispdp(1.2,1)*m**2',
+                      array(),
+                      true, false);
 
     }
 
     public function test_non_affected_units() {
         $this->security = new stack_cas_security(true);
-        $this->filter = stack_parsing_rule_factory::get_by_common_name('025_no_trig_power');
+        $this->filter = stack_parsing_rule_factory::get_by_common_name('910_inert_float_for_display');
 
         $this->expect('"+"(a,b)',
                       '"+"(a,b)',
@@ -207,11 +427,6 @@ class stack_ast_filter_auto_gen_025_no_trig_power_testcase extends qtype_stack_a
                       array(),
                       true, false);
 
-        $this->expect('+0.2',
-                      '+0.2',
-                      array(),
-                      true, false);
-
         $this->expect('+1',
                       '+1',
                       array(),
@@ -249,11 +464,6 @@ class stack_ast_filter_auto_gen_025_no_trig_power_testcase extends qtype_stack_a
 
         $this->expect('-1234',
                       '-1234',
-                      array(),
-                      true, false);
-
-        $this->expect('-0.2',
-                      '-0.2',
                       array(),
                       true, false);
 
@@ -312,46 +522,6 @@ class stack_ast_filter_auto_gen_025_no_trig_power_testcase extends qtype_stack_a
                       array(),
                       true, false);
 
-        $this->expect('.1',
-                      '.1',
-                      array(),
-                      true, false);
-
-        $this->expect('-0.2433 + 0.1111',
-                      '-0.2433+0.1111',
-                      array(),
-                      true, false);
-
-        $this->expect('-0.2433e23 + 0.1111e-45 * 0.23e12 / -0.11e-11',
-                      '-0.2433E23+0.1111E-45*0.23E12/-0.11E-11',
-                      array(),
-                      true, false);
-
-        $this->expect('-35.3 * 10^23',
-                      '-35.3*10^23',
-                      array(),
-                      true, false);
-
-        $this->expect('0..1',
-                      '0. . 1',
-                      array(),
-                      true, false);
-
-        $this->expect('0.1..1.2',
-                      '0.1 . .1 . 2',
-                      array(),
-                      true, false);
-
-        $this->expect('0.1.1.2',
-                      '0.1 . 1.2',
-                      array(),
-                      true, false);
-
-        $this->expect('0.1. 1.2',
-                      '0.1 . 1.2',
-                      array(),
-                      true, false);
-
         $this->expect('1',
                       '1',
                       array(),
@@ -404,16 +574,6 @@ class stack_ast_filter_auto_gen_025_no_trig_power_testcase extends qtype_stack_a
 
         $this->expect('1<x<3',
                       '1 < x < 3',
-                      array(),
-                      true, false);
-
-        $this->expect('1E+3',
-                      '1E+3',
-                      array(),
-                      true, false);
-
-        $this->expect('1E3',
-                      '1E3',
                       array(),
                       true, false);
 
@@ -482,33 +642,8 @@ class stack_ast_filter_auto_gen_025_no_trig_power_testcase extends qtype_stack_a
                       array(),
                       true, false);
 
-        $this->expect('3.14 5',
-                      '3.14*5',
-                      array(),
-                      true, false);
-
-        $this->expect('3 5.2789',
-                      '3*5.2789',
-                      array(),
-                      true, false);
-
-        $this->expect('3.14 5.2789',
-                      '3.14*5.2789',
-                      array(),
-                      true, false);
-
         $this->expect('33 578 32',
                       '33*578*32',
-                      array(),
-                      true, false);
-
-        $this->expect('9 8 7.6',
-                      '9*8*7.6',
-                      array(),
-                      true, false);
-
-        $this->expect('9 8.5 7.6',
-                      '9*8.5*7.6',
                       array(),
                       true, false);
 
@@ -519,21 +654,6 @@ class stack_ast_filter_auto_gen_025_no_trig_power_testcase extends qtype_stack_a
 
         $this->expect('3beta_47',
                       '3*beta_47',
-                      array(),
-                      true, false);
-
-        $this->expect('3e-2',
-                      '3E-2',
-                      array(),
-                      true, false);
-
-        $this->expect('3e2',
-                      '3E2',
-                      array(),
-                      true, false);
-
-        $this->expect('3E2',
-                      '3E2',
                       array(),
                       true, false);
 
@@ -589,11 +709,6 @@ class stack_ast_filter_auto_gen_025_no_trig_power_testcase extends qtype_stack_a
 
         $this->expect('[1,-2]',
                       '[1,-2]',
-                      array(),
-                      true, false);
-
-        $this->expect('[1,2,3.4]',
-                      '[1,2,3.4]',
                       array(),
                       true, false);
 
@@ -814,6 +929,11 @@ class stack_ast_filter_auto_gen_025_no_trig_power_testcase extends qtype_stack_a
 
         $this->expect('cos(x)',
                       'cos(x)',
+                      array(),
+                      true, false);
+
+        $this->expect('cos^2(x)',
+                      'cos^2*(x)',
                       array(),
                       true, false);
 
@@ -1252,6 +1372,11 @@ class stack_ast_filter_auto_gen_025_no_trig_power_testcase extends qtype_stack_a
                       array(),
                       true, false);
 
+        $this->expect('sin^-1(x)',
+                      'sin^-1*(x)',
+                      array(),
+                      true, false);
+
         $this->expect('sinh(x)',
                       'sinh(x)',
                       array(),
@@ -1632,11 +1757,6 @@ class stack_ast_filter_auto_gen_025_no_trig_power_testcase extends qtype_stack_a
                       array(),
                       true, false);
 
-        $this->expect('y^2-2*y-0.5',
-                      'y^2-2*y-0.5',
-                      array(),
-                      true, false);
-
         $this->expect('y^2-2*y-8',
                       'y^2-2*y-8',
                       array(),
@@ -1659,11 +1779,6 @@ class stack_ast_filter_auto_gen_025_no_trig_power_testcase extends qtype_stack_a
 
         $this->expect('zeta',
                       'zeta',
-                      array(),
-                      true, false);
-
-        $this->expect('{1,2,3.4}',
-                      '{1,2,3.4}',
                       array(),
                       true, false);
 
@@ -1694,11 +1809,6 @@ class stack_ast_filter_auto_gen_025_no_trig_power_testcase extends qtype_stack_a
 
         $this->expect('rand(["sin","cos","system"])(x)',
                       'rand(["sin","cos","system"])(x)',
-                      array(),
-                      true, false);
-
-        $this->expect('1.2*m**2',
-                      '1.2*m**2',
                       array(),
                       true, false);
 
@@ -1731,7 +1841,7 @@ class stack_ast_filter_auto_gen_025_no_trig_power_testcase extends qtype_stack_a
 
     public function test_non_affected_no_units() {
         $this->security = new stack_cas_security(false);
-        $this->filter = stack_parsing_rule_factory::get_by_common_name('025_no_trig_power');
+        $this->filter = stack_parsing_rule_factory::get_by_common_name('910_inert_float_for_display');
 
         $this->expect('"+"(a,b)',
                       '"+"(a,b)',
@@ -1878,11 +1988,6 @@ class stack_ast_filter_auto_gen_025_no_trig_power_testcase extends qtype_stack_a
                       array(),
                       true, false);
 
-        $this->expect('+0.2',
-                      '+0.2',
-                      array(),
-                      true, false);
-
         $this->expect('+1',
                       '+1',
                       array(),
@@ -1920,11 +2025,6 @@ class stack_ast_filter_auto_gen_025_no_trig_power_testcase extends qtype_stack_a
 
         $this->expect('-1234',
                       '-1234',
-                      array(),
-                      true, false);
-
-        $this->expect('-0.2',
-                      '-0.2',
                       array(),
                       true, false);
 
@@ -1983,46 +2083,6 @@ class stack_ast_filter_auto_gen_025_no_trig_power_testcase extends qtype_stack_a
                       array(),
                       true, false);
 
-        $this->expect('.1',
-                      '.1',
-                      array(),
-                      true, false);
-
-        $this->expect('-0.2433 + 0.1111',
-                      '-0.2433+0.1111',
-                      array(),
-                      true, false);
-
-        $this->expect('-0.2433e23 + 0.1111e-45 * 0.23e12 / -0.11e-11',
-                      '-0.2433E23+0.1111E-45*0.23E12/-0.11E-11',
-                      array(),
-                      true, false);
-
-        $this->expect('-35.3 * 10^23',
-                      '-35.3*10^23',
-                      array(),
-                      true, false);
-
-        $this->expect('0..1',
-                      '0. . 1',
-                      array(),
-                      true, false);
-
-        $this->expect('0.1..1.2',
-                      '0.1 . .1 . 2',
-                      array(),
-                      true, false);
-
-        $this->expect('0.1.1.2',
-                      '0.1 . 1.2',
-                      array(),
-                      true, false);
-
-        $this->expect('0.1. 1.2',
-                      '0.1 . 1.2',
-                      array(),
-                      true, false);
-
         $this->expect('1',
                       '1',
                       array(),
@@ -2075,16 +2135,6 @@ class stack_ast_filter_auto_gen_025_no_trig_power_testcase extends qtype_stack_a
 
         $this->expect('1<x<3',
                       '1 < x < 3',
-                      array(),
-                      true, false);
-
-        $this->expect('1E+3',
-                      '1E+3',
-                      array(),
-                      true, false);
-
-        $this->expect('1E3',
-                      '1E3',
                       array(),
                       true, false);
 
@@ -2153,33 +2203,8 @@ class stack_ast_filter_auto_gen_025_no_trig_power_testcase extends qtype_stack_a
                       array(),
                       true, false);
 
-        $this->expect('3.14 5',
-                      '3.14*5',
-                      array(),
-                      true, false);
-
-        $this->expect('3 5.2789',
-                      '3*5.2789',
-                      array(),
-                      true, false);
-
-        $this->expect('3.14 5.2789',
-                      '3.14*5.2789',
-                      array(),
-                      true, false);
-
         $this->expect('33 578 32',
                       '33*578*32',
-                      array(),
-                      true, false);
-
-        $this->expect('9 8 7.6',
-                      '9*8*7.6',
-                      array(),
-                      true, false);
-
-        $this->expect('9 8.5 7.6',
-                      '9*8.5*7.6',
                       array(),
                       true, false);
 
@@ -2190,21 +2215,6 @@ class stack_ast_filter_auto_gen_025_no_trig_power_testcase extends qtype_stack_a
 
         $this->expect('3beta_47',
                       '3*beta_47',
-                      array(),
-                      true, false);
-
-        $this->expect('3e-2',
-                      '3E-2',
-                      array(),
-                      true, false);
-
-        $this->expect('3e2',
-                      '3E2',
-                      array(),
-                      true, false);
-
-        $this->expect('3E2',
-                      '3E2',
                       array(),
                       true, false);
 
@@ -2260,11 +2270,6 @@ class stack_ast_filter_auto_gen_025_no_trig_power_testcase extends qtype_stack_a
 
         $this->expect('[1,-2]',
                       '[1,-2]',
-                      array(),
-                      true, false);
-
-        $this->expect('[1,2,3.4]',
-                      '[1,2,3.4]',
                       array(),
                       true, false);
 
@@ -2485,6 +2490,11 @@ class stack_ast_filter_auto_gen_025_no_trig_power_testcase extends qtype_stack_a
 
         $this->expect('cos(x)',
                       'cos(x)',
+                      array(),
+                      true, false);
+
+        $this->expect('cos^2(x)',
+                      'cos^2*(x)',
                       array(),
                       true, false);
 
@@ -2923,6 +2933,11 @@ class stack_ast_filter_auto_gen_025_no_trig_power_testcase extends qtype_stack_a
                       array(),
                       true, false);
 
+        $this->expect('sin^-1(x)',
+                      'sin^-1*(x)',
+                      array(),
+                      true, false);
+
         $this->expect('sinh(x)',
                       'sinh(x)',
                       array(),
@@ -3303,11 +3318,6 @@ class stack_ast_filter_auto_gen_025_no_trig_power_testcase extends qtype_stack_a
                       array(),
                       true, false);
 
-        $this->expect('y^2-2*y-0.5',
-                      'y^2-2*y-0.5',
-                      array(),
-                      true, false);
-
         $this->expect('y^2-2*y-8',
                       'y^2-2*y-8',
                       array(),
@@ -3330,11 +3340,6 @@ class stack_ast_filter_auto_gen_025_no_trig_power_testcase extends qtype_stack_a
 
         $this->expect('zeta',
                       'zeta',
-                      array(),
-                      true, false);
-
-        $this->expect('{1,2,3.4}',
-                      '{1,2,3.4}',
                       array(),
                       true, false);
 
@@ -3365,11 +3370,6 @@ class stack_ast_filter_auto_gen_025_no_trig_power_testcase extends qtype_stack_a
 
         $this->expect('rand(["sin","cos","system"])(x)',
                       'rand(["sin","cos","system"])(x)',
-                      array(),
-                      true, false);
-
-        $this->expect('1.2*m**2',
-                      '1.2*m**2',
                       array(),
                       true, false);
 

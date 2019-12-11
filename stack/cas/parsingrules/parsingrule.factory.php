@@ -34,6 +34,8 @@ require_once(__DIR__ . '/102_no_strings.filter.php');
 require_once(__DIR__ . '/103_no_lists.filter.php');
 require_once(__DIR__ . '/104_no_sets.filter.php');
 require_once(__DIR__ . '/105_no_grouppings.filter.php');
+require_once(__DIR__ . '/201_sig_figs_validation.filter.php');
+require_once(__DIR__ . '/202_decimal_places_validation.filter.php');
 require_once(__DIR__ . '/402_split_prefix_from_common_function_name.filter.php');
 require_once(__DIR__ . '/403_split_at_number_letter_boundary.filter.php');
 require_once(__DIR__ . '/404_split_at_number_letter_number_boundary.filter.php');
@@ -96,8 +98,10 @@ class stack_parsing_rule_factory {
                 return new stack_ast_filter_104_no_sets();
             case '105_no_grouppings':
                 return new stack_ast_filter_105_no_grouppings();
-            case '801_singleton_numeric':
-                return new stack_ast_filter_801_singleton_numeric();
+            case '201_sig_figs_validation':
+                return new stack_ast_filter_201_sig_figs_validation();
+            case '202_decimal_places_validation':
+                return new stack_ast_filter_202_decimal_places_validation();
             case '402_split_prefix_from_common_function_name':
                 return new stack_ast_filter_402_split_prefix_from_common_function_name();
             case '403_split_at_number_letter_boundary':
@@ -122,6 +126,8 @@ class stack_parsing_rule_factory {
                 return new stack_ast_filter_541_no_unknown_functions();
             case '542_no_functions_at_all':
                 return new stack_ast_filter_542_no_functions_at_all();
+            case '801_singleton_numeric':
+                return new stack_ast_filter_801_singleton_numeric();
             case '910_inert_float_for_display':
                 return new stack_ast_filter_910_inert_float_for_display();
             case '990_no_fixing_spaces':
@@ -146,6 +152,8 @@ class stack_parsing_rule_factory {
                            '090_special_forbidden_characters',
                            '101_no_floats', '102_no_strings',
                            '103_no_lists', '104_no_sets', '105_no_grouppings',
+                           '201_sig_figs_validation', 
+                           '202_decimal_places_validation',
                            '402_split_prefix_from_common_function_name',
                            '403_split_at_number_letter_boundary',
                            '404_split_at_number_letter_number_boundary',

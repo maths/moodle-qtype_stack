@@ -27,21 +27,21 @@ require_once(__DIR__ . '/../stack/cas/parsingrules/201_sig_figs_validation.filte
  */
 class stack_parser_rule_201_test extends qtype_stack_testcase {
 
-	public function filter(string $input, int $min = -1, int $max = -1, bool $strict = false): array {
-		$ast = maxima_parser_utils::parse($input);
+    public function filter(string $input, int $min = -1, int $max = -1, bool $strict = false): array {
+        $ast = maxima_parser_utils::parse($input);
         $filter = new stack_ast_filter_201_sig_figs_validation();
         $filter->set_filter_parameters([
-        	'min' => $min,
-        	'max' => $max,
-        	'strict' => $strict
+            'min' => $min,
+            'max' => $max,
+            'strict' => $strict
         ]);
-		$errs = array();
+        $errs = array();
         $note = array();
         $security = new stack_cas_security();
-		
-		$ast = $filter->filter($ast, $errs, $note, $security);
 
-	    $hasinvalid = false;
+        $ast = $filter->filter($ast, $errs, $note, $security);
+
+        $hasinvalid = false;
         $findinvalid = function($node) use(&$hasinvalid) {
             if (isset($node->position['invalid']) && $node->position['invalid'] === true) {
                 $hasinvalid = true;
@@ -51,14 +51,14 @@ class stack_parser_rule_201_test extends qtype_stack_testcase {
         };
         $ast->callbackRecurse($findinvalid, false);
 
-		$r = [
-			'output' => $ast->toString(['nosemicolon' => true]),
-			'notes' => $note,
-			'errors' => $errs,
-			'valid' => !$hasinvalid
-		];
-		return $r;
-	}
+        $r = [
+            'output' => $ast->toString(['nosemicolon' => true]),
+            'notes' => $note,
+            'errors' => $errs,
+            'valid' => !$hasinvalid
+        ];
+        return $r;
+    }
 
     public function test_non_strict() {
         $test = '-0.001';

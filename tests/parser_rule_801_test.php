@@ -27,23 +27,23 @@ require_once(__DIR__ . '/../stack/cas/parsingrules/801_singleton_numeric.filter.
  */
 class stack_parser_rule_801_test extends qtype_stack_testcase {
 
-
-	public function filter(string $input, bool $floats = true, bool $ints = true, bool $power = true, string $convert = 'none'): array {
-		$ast = maxima_parser_utils::parse($input);
+    public function filter(string $input, bool $floats = true, bool $ints = true, bool $power = true,
+            string $convert = 'none'): array {
+        $ast = maxima_parser_utils::parse($input);
         $filter = new stack_ast_filter_801_singleton_numeric();
         $filter->set_filter_parameters([
-        	'integer' => $ints,
-        	'float' => $floats,
-        	'power' => $power,
-        	'convert' => $convert
+            'integer' => $ints,
+            'float' => $floats,
+            'power' => $power,
+            'convert' => $convert
         ]);
-		$errs = array();
+        $errs = array();
         $note = array();
         $security = new stack_cas_security();
-		
-		$ast = $filter->filter($ast, $errs, $note, $security);
 
-	    $hasinvalid = false;
+        $ast = $filter->filter($ast, $errs, $note, $security);
+
+        $hasinvalid = false;
         $findinvalid = function($node) use(&$hasinvalid) {
             if (isset($node->position['invalid']) && $node->position['invalid'] === true) {
                 $hasinvalid = true;
@@ -53,291 +53,317 @@ class stack_parser_rule_801_test extends qtype_stack_testcase {
         };
         $ast->callbackRecurse($findinvalid, false);
 
-		$r = [
-			'output' => $ast->toString(['nosemicolon' => true]),
-			'notes' => $note,
-			'errors' => $errs,
-			'valid' => !$hasinvalid
-		];
-		return $r;
-	}
-
-
+        $r = [
+            'output' => $ast->toString(['nosemicolon' => true]),
+            'notes' => $note,
+            'errors' => $errs,
+            'valid' => !$hasinvalid
+        ];
+        return $r;
+    }
 
     public function test_normal_no_convert() {
-    	$test = '1+2';
-    	$result = $this->filter($test);
-    	$this->assertFalse($result['valid']);
-		$test = '"1+2"';
-    	$result = $this->filter($test);
-    	$this->assertFalse($result['valid']);
-       	$test = '(1+2)';
-    	$result = $this->filter($test);
-    	$this->assertFalse($result['valid']);
+        $test = '1+2';
+        $result = $this->filter($test);
+        $this->assertFalse($result['valid']);
+
+        $test = '"1+2"';
+        $result = $this->filter($test);
+        $this->assertFalse($result['valid']);
+
+        $test = '(1+2)';
+        $result = $this->filter($test);
+        $this->assertFalse($result['valid']);
+
         $test = '1/2';
-    	$result = $this->filter($test);
-    	$this->assertFalse($result['valid']);
-    	$test = '1*4^23';
-    	$result = $this->filter($test);
-    	$this->assertFalse($result['valid']);
-    	$test = '1*10^23.3';
-    	$result = $this->filter($test);
-    	$this->assertFalse($result['valid']);
-    	$test = '1.23e3*10^3';
-    	$result = $this->filter($test);
-    	$this->assertFalse($result['valid']);
+        $result = $this->filter($test);
+        $this->assertFalse($result['valid']);
 
-    	$test = '2.3';
-    	$result = $this->filter($test);
-    	$this->assertTrue($result['valid']);
+        $test = '1*4^23';
+        $result = $this->filter($test);
+        $this->assertFalse($result['valid']);
 
-    	$test = '-2.3';
-    	$result = $this->filter($test);
-    	$this->assertTrue($result['valid']);
+        $test = '1*10^23.3';
+        $result = $this->filter($test);
+        $this->assertFalse($result['valid']);
 
-    	$test = '23';
-    	$result = $this->filter($test);
-    	$this->assertTrue($result['valid']);
+        $test = '1.23e3*10^3';
+        $result = $this->filter($test);
+        $this->assertFalse($result['valid']);
 
-    	$test = '+23';
-    	$result = $this->filter($test);
-    	$this->assertTrue($result['valid']);
+        $test = '2.3';
+        $result = $this->filter($test);
+        $this->assertTrue($result['valid']);
 
-    	$test = '-23';
-    	$result = $this->filter($test);
-    	$this->assertTrue($result['valid']);
+        $test = '-2.3';
+        $result = $this->filter($test);
+        $this->assertTrue($result['valid']);
 
-		$test = '2.3e3';
-    	$result = $this->filter($test);
-    	$this->assertTrue($result['valid']);
+        $test = '23';
+        $result = $this->filter($test);
+        $this->assertTrue($result['valid']);
 
-    	$test = '-2.3E-3';
-    	$result = $this->filter($test);
-    	$this->assertTrue($result['valid']);
+        $test = '+23';
+        $result = $this->filter($test);
+        $this->assertTrue($result['valid']);
 
-		$test = '2.3*10^3';
-    	$result = $this->filter($test);
-    	$this->assertTrue($result['valid']);
+        $test = '-23';
+        $result = $this->filter($test);
+        $this->assertTrue($result['valid']);
 
-    	$test = '-23*10^-4';
-    	$result = $this->filter($test);
-    	$this->assertTrue($result['valid']);
+        $test = '2.3e3';
+        $result = $this->filter($test);
+        $this->assertTrue($result['valid']);
+
+        $test = '-2.3E-3';
+        $result = $this->filter($test);
+        $this->assertTrue($result['valid']);
+
+        $test = '2.3*10^3';
+        $result = $this->filter($test);
+        $this->assertTrue($result['valid']);
+
+        $test = '-23*10^-4';
+        $result = $this->filter($test);
+        $this->assertTrue($result['valid']);
+
+        $test = '2.*10^-4';
+        $result = $this->filter($test);
+        $this->assertTrue($result['valid']);
     }
 
     public function test_no_floats() {
-    	$test = '1+2';
-    	$result = $this->filter($test, false);
-    	$this->assertFalse($result['valid']);
-		$test = '"1+2"';
-    	$result = $this->filter($test, false);
-    	$this->assertFalse($result['valid']);
-       	$test = '(1+2)';
-    	$result = $this->filter($test, false);
-    	$this->assertFalse($result['valid']);
+        $test = '1+2';
+        $result = $this->filter($test, false);
+        $this->assertFalse($result['valid']);
+
+        $test = '"1+2"';
+        $result = $this->filter($test, false);
+        $this->assertFalse($result['valid']);
+
+        $test = '(1+2)';
+        $result = $this->filter($test, false);
+        $this->assertFalse($result['valid']);
+
         $test = '1/2';
-    	$result = $this->filter($test, false);
-    	$this->assertFalse($result['valid']);
-    	$test = '1*4^23';
-    	$result = $this->filter($test, false);
-    	$this->assertFalse($result['valid']);
-    	$test = '1*10^23.3';
-    	$result = $this->filter($test, false);
-    	$this->assertFalse($result['valid']);
-		$test = '1.23e3*10^3';
-    	$result = $this->filter($test, false);
-    	$this->assertFalse($result['valid']);
+        $result = $this->filter($test, false);
+        $this->assertFalse($result['valid']);
 
-    	$test = '2.3';
-    	$result = $this->filter($test, false);
-    	$this->assertFalse($result['valid']);
+        $test = '1*4^23';
+        $result = $this->filter($test, false);
+        $this->assertFalse($result['valid']);
 
-    	$test = '-2.3';
-    	$result = $this->filter($test, false);
-    	$this->assertFalse($result['valid']);
+        $test = '1*10^23.3';
+        $result = $this->filter($test, false);
+        $this->assertFalse($result['valid']);
 
-    	$test = '23';
-    	$result = $this->filter($test, false);
-    	$this->assertTrue($result['valid']);
+        $test = '1.23e3*10^3';
+        $result = $this->filter($test, false);
+        $this->assertFalse($result['valid']);
 
-    	$test = '+23';
-    	$result = $this->filter($test, false);
-    	$this->assertTrue($result['valid']);
+        $test = '2.3';
+        $result = $this->filter($test, false);
+        $this->assertFalse($result['valid']);
 
-    	$test = '-23';
-    	$result = $this->filter($test, false);
-    	$this->assertTrue($result['valid']);
+        $test = '-2.3';
+        $result = $this->filter($test, false);
+        $this->assertFalse($result['valid']);
 
-		$test = '2.3e3';
-    	$result = $this->filter($test, false);
-    	$this->assertFalse($result['valid']);
+        $test = '23';
+        $result = $this->filter($test, false);
+        $this->assertTrue($result['valid']);
 
-    	$test = '-2.3E-3';
-    	$result = $this->filter($test, false);
-    	$this->assertFalse($result['valid']);
+        $test = '+23';
+        $result = $this->filter($test, false);
+        $this->assertTrue($result['valid']);
 
-		$test = '2.3*10^3';
-    	$result = $this->filter($test, false);
-    	$this->assertFalse($result['valid']);
+        $test = '-23';
+        $result = $this->filter($test, false);
+        $this->assertTrue($result['valid']);
 
-    	$test = '-23*10^-4';
-    	$result = $this->filter($test, false);
-    	$this->assertTrue($result['valid']);
+        $test = '2.3e3';
+        $result = $this->filter($test, false);
+        $this->assertFalse($result['valid']);
+
+        $test = '-2.3E-3';
+        $result = $this->filter($test, false);
+        $this->assertFalse($result['valid']);
+
+        $test = '2.3*10^3';
+        $result = $this->filter($test, false);
+        $this->assertFalse($result['valid']);
+
+        $test = '-23*10^-4';
+        $result = $this->filter($test, false);
+        $this->assertTrue($result['valid']);
     }
 
     public function test_no_integers() {
-    	$test = '1+2';
-    	$result = $this->filter($test, true, false);
-    	$this->assertFalse($result['valid']);
-		$test = '"1+2"';
-    	$result = $this->filter($test, true, false);
-    	$this->assertFalse($result['valid']);
-       	$test = '(1+2)';
-    	$result = $this->filter($test, true, false);
-    	$this->assertFalse($result['valid']);
+        $test = '1+2';
+        $result = $this->filter($test, true, false);
+        $this->assertFalse($result['valid']);
+
+        $test = '"1+2"';
+        $result = $this->filter($test, true, false);
+        $this->assertFalse($result['valid']);
+
+        $test = '(1+2)';
+        $result = $this->filter($test, true, false);
+        $this->assertFalse($result['valid']);
+
         $test = '1/2';
-    	$result = $this->filter($test, true, false);
-    	$this->assertFalse($result['valid']);
-    	$test = '1*4^23';
-    	$result = $this->filter($test, true, false);
-    	$this->assertFalse($result['valid']);
-    	$test = '1*10^23.3';
-    	$result = $this->filter($test, true, false);
-    	$this->assertFalse($result['valid']);
-		$test = '1.23e3*10^3';
-    	$result = $this->filter($test, true, false);
-    	$this->assertFalse($result['valid']);
+        $result = $this->filter($test, true, false);
+        $this->assertFalse($result['valid']);
 
-    	$test = '2.3';
-    	$result = $this->filter($test, true, false);
-    	$this->assertTrue($result['valid']);
+        $test = '1*4^23';
+        $result = $this->filter($test, true, false);
+        $this->assertFalse($result['valid']);
 
-    	$test = '-2.3';
-    	$result = $this->filter($test, true, false);
-    	$this->assertTrue($result['valid']);
+        $test = '1*10^23.3';
+        $result = $this->filter($test, true, false);
+        $this->assertFalse($result['valid']);
 
-    	$test = '23';
-    	$result = $this->filter($test, true, false);
-    	$this->assertFalse($result['valid']);
+        $test = '1.23e3*10^3';
+        $result = $this->filter($test, true, false);
+        $this->assertFalse($result['valid']);
 
-    	$test = '+23';
-    	$result = $this->filter($test, true, false);
-    	$this->assertFalse($result['valid']);
+        $test = '2.3';
+        $result = $this->filter($test, true, false);
+        $this->assertTrue($result['valid']);
 
-    	$test = '-23';
-    	$result = $this->filter($test, true, false);
-    	$this->assertFalse($result['valid']);
+        $test = '-2.3';
+        $result = $this->filter($test, true, false);
+        $this->assertTrue($result['valid']);
 
-		$test = '2.3e3';
-    	$result = $this->filter($test, true, false);
-    	$this->assertTrue($result['valid']);
+        $test = '23';
+        $result = $this->filter($test, true, false);
+        $this->assertFalse($result['valid']);
 
-    	$test = '-2.3E-3';
-    	$result = $this->filter($test, true, false);
-    	$this->assertTrue($result['valid']);
+        $test = '+23';
+        $result = $this->filter($test, true, false);
+        $this->assertFalse($result['valid']);
 
-		$test = '2.3*10^3';
-    	$result = $this->filter($test, true, false);
-    	$this->assertTrue($result['valid']);
+        $test = '-23';
+        $result = $this->filter($test, true, false);
+        $this->assertFalse($result['valid']);
 
-    	$test = '-23*10^-4';
-    	$result = $this->filter($test, true, false);
-    	$this->assertFalse($result['valid']);
+        $test = '2.3e3';
+        $result = $this->filter($test, true, false);
+        $this->assertTrue($result['valid']);
+
+        $test = '-2.3E-3';
+        $result = $this->filter($test, true, false);
+        $this->assertTrue($result['valid']);
+
+        $test = '2.3*10^3';
+        $result = $this->filter($test, true, false);
+        $this->assertTrue($result['valid']);
+
+        $test = '-23*10^-4';
+        $result = $this->filter($test, true, false);
+        $this->assertFalse($result['valid']);
     }
 
     public function test_no_powers() {
-    	$test = '1+2';
-    	$result = $this->filter($test, true, true, false);
-    	$this->assertFalse($result['valid']);
-		$test = '"1+2"';
-    	$result = $this->filter($test, true, true, false);
-    	$this->assertFalse($result['valid']);
-       	$test = '(1+2)';
-    	$result = $this->filter($test, true, true, false);
-    	$this->assertFalse($result['valid']);
+        $test = '1+2';
+        $result = $this->filter($test, true, true, false);
+        $this->assertFalse($result['valid']);
+
+        $test = '"1+2"';
+        $result = $this->filter($test, true, true, false);
+        $this->assertFalse($result['valid']);
+
+        $test = '(1+2)';
+        $result = $this->filter($test, true, true, false);
+        $this->assertFalse($result['valid']);
+
         $test = '1/2';
-    	$result = $this->filter($test, true, true, false);
-    	$this->assertFalse($result['valid']);
-    	$test = '1*4^23';
-    	$result = $this->filter($test, true, true, false);
-    	$this->assertFalse($result['valid']);
-    	$test = '1*10^23.3';
-    	$result = $this->filter($test, true, true, false);
-    	$this->assertFalse($result['valid']);
-		$test = '1.23e3*10^3';
-    	$result = $this->filter($test, true, true, false);
-    	$this->assertFalse($result['valid']);
+        $result = $this->filter($test, true, true, false);
+        $this->assertFalse($result['valid']);
 
-    	$test = '2.3';
-    	$result = $this->filter($test, true, true, false);
-    	$this->assertTrue($result['valid']);
+        $test = '1*4^23';
+        $result = $this->filter($test, true, true, false);
+        $this->assertFalse($result['valid']);
 
-    	$test = '-2.3';
-    	$result = $this->filter($test, true, true, false);
-    	$this->assertTrue($result['valid']);
+        $test = '1*10^23.3';
+        $result = $this->filter($test, true, true, false);
+        $this->assertFalse($result['valid']);
 
-    	$test = '23';
-    	$result = $this->filter($test, true, true, false);
-    	$this->assertTrue($result['valid']);
+        $test = '1.23e3*10^3';
+        $result = $this->filter($test, true, true, false);
+        $this->assertFalse($result['valid']);
 
-    	$test = '+23';
-    	$result = $this->filter($test, true, true, false);
-    	$this->assertTrue($result['valid']);
+        $test = '2.3';
+        $result = $this->filter($test, true, true, false);
+        $this->assertTrue($result['valid']);
 
-    	$test = '-23';
-    	$result = $this->filter($test, true, true, false);
-    	$this->assertTrue($result['valid']);
+        $test = '-2.3';
+        $result = $this->filter($test, true, true, false);
+        $this->assertTrue($result['valid']);
 
-		$test = '2.3e3';
-    	$result = $this->filter($test, true, true, false);
-    	$this->assertTrue($result['valid']);
+        $test = '23';
+        $result = $this->filter($test, true, true, false);
+        $this->assertTrue($result['valid']);
 
-    	$test = '-2.3E-3';
-    	$result = $this->filter($test, true, true, false);
-    	$this->assertTrue($result['valid']);
+        $test = '+23';
+        $result = $this->filter($test, true, true, false);
+        $this->assertTrue($result['valid']);
 
-		$test = '2.3*10^3';
-    	$result = $this->filter($test, true, true, false);
-    	$this->assertFalse($result['valid']);
+        $test = '-23';
+        $result = $this->filter($test, true, true, false);
+        $this->assertTrue($result['valid']);
 
-    	$test = '-23*10^-4';
-    	$result = $this->filter($test, true, true, false);
-    	$this->assertFalse($result['valid']);
+        $test = '2.3e3';
+        $result = $this->filter($test, true, true, false);
+        $this->assertTrue($result['valid']);
+
+        $test = '-2.3E-3';
+        $result = $this->filter($test, true, true, false);
+        $this->assertTrue($result['valid']);
+
+        $test = '2.3*10^3';
+        $result = $this->filter($test, true, true, false);
+        $this->assertFalse($result['valid']);
+
+        $test = '-23*10^-4';
+        $result = $this->filter($test, true, true, false);
+        $this->assertFalse($result['valid']);
     }
 
     public function test_no_convert() {
-    	$test = ['123', '123'];
-		$result = $this->filter($test[0], true, true, true, 'none');
-    	$this->assertEquals($test[1], $result['output']);
-    	
-    	$test = ['123.45', '123.45'];
-		$result = $this->filter($test[0], true, true, true, 'none');
-    	$this->assertEquals($test[1], $result['output']);
+        $test = ['123', '123'];
+        $result = $this->filter($test[0], true, true, true, 'none');
+        $this->assertEquals($test[1], $result['output']);
 
-    	$test = ['123.45e6', '123.45E6'];
-		$result = $this->filter($test[0], true, true, true, 'none');
-    	$this->assertEquals($test[1], $result['output']);
+        $test = ['123.45', '123.45'];
+        $result = $this->filter($test[0], true, true, true, 'none');
+        $this->assertEquals($test[1], $result['output']);
 
-    	$test = ['123.45*10^6', '123.45*10^6'];
-		$result = $this->filter($test[0], true, true, true, 'none');
-    	$this->assertEquals($test[1], $result['output']);
+        $test = ['123.45e6', '123.45E6'];
+        $result = $this->filter($test[0], true, true, true, 'none');
+        $this->assertEquals($test[1], $result['output']);
 
-    	$test = ['-123', '-123'];
-		$result = $this->filter($test[0], true, true, true, 'none');
-    	$this->assertEquals($test[1], $result['output']);
-    	
-    	$test = ['-123.45', '-123.45'];
-		$result = $this->filter($test[0], true, true, true, 'none');
-    	$this->assertEquals($test[1], $result['output']);
+        $test = ['123.45*10^6', '123.45*10^6'];
+        $result = $this->filter($test[0], true, true, true, 'none');
+        $this->assertEquals($test[1], $result['output']);
 
-    	$test = ['-123.45*10^6', '-123.45*10^6'];
-		$result = $this->filter($test[0], true, true, true, 'none');
-    	$this->assertEquals($test[1], $result['output']);
+        $test = ['-123', '-123'];
+        $result = $this->filter($test[0], true, true, true, 'none');
+        $this->assertEquals($test[1], $result['output']);
 
-    	$test = ['-123.45*10^-6', '-123.45*10^-6'];
-		$result = $this->filter($test[0], true, true, true, 'none');
-    	$this->assertEquals($test[1], $result['output']);
+        $test = ['-123.45', '-123.45'];
+        $result = $this->filter($test[0], true, true, true, 'none');
+        $this->assertEquals($test[1], $result['output']);
 
-        // With sufficient exponents will alway use the exact form
+        $test = ['-123.45*10^6', '-123.45*10^6'];
+        $result = $this->filter($test[0], true, true, true, 'none');
+        $this->assertEquals($test[1], $result['output']);
+
+        $test = ['-123.45*10^-6', '-123.45*10^-6'];
+        $result = $this->filter($test[0], true, true, true, 'none');
+        $this->assertEquals($test[1], $result['output']);
+
+        // With sufficient exponents will alway use the exact form.
         $test = ['-123.45*10^-333', '-123.45*10^-333'];
         $result = $this->filter($test[0], true, true, true, 'none');
         $this->assertEquals($test[1], $result['output']);
@@ -348,39 +374,39 @@ class stack_parser_rule_801_test extends qtype_stack_testcase {
     }
 
     public function test_convert_to_float() {
-    	$test = ['123', '123'];
-		$result = $this->filter($test[0], true, true, true, 'to float');
-    	$this->assertEquals($test[1], $result['output']);
-    	
-    	$test = ['123.45', '123.45'];
-		$result = $this->filter($test[0], true, true, true, 'to float');
-    	$this->assertEquals($test[1], $result['output']);
+        $test = ['123', '123'];
+        $result = $this->filter($test[0], true, true, true, 'to float');
+        $this->assertEquals($test[1], $result['output']);
 
-		$test = ['123.45e6', '123.45E6'];
-		$result = $this->filter($test[0], true, true, true, 'to float');
-    	$this->assertEquals($test[1], $result['output']);
+        $test = ['123.45', '123.45'];
+        $result = $this->filter($test[0], true, true, true, 'to float');
+        $this->assertEquals($test[1], $result['output']);
 
-    	$test = ['123.45*10^6', '123.45e6'];
-		$result = $this->filter($test[0], true, true, true, 'to float');
-    	$this->assertEquals($test[1], $result['output']);
+        $test = ['123.45e6', '123.45E6'];
+        $result = $this->filter($test[0], true, true, true, 'to float');
+        $this->assertEquals($test[1], $result['output']);
 
-    	$test = ['-123', '-123'];
-		$result = $this->filter($test[0], true, true, true, 'to float');
-    	$this->assertEquals($test[1], $result['output']);
-    	
-    	$test = ['-123.45', '-123.45'];
-		$result = $this->filter($test[0], true, true, true, 'to float');
-    	$this->assertEquals($test[1], $result['output']);
+        $test = ['123.45*10^6', '123.45e6'];
+        $result = $this->filter($test[0], true, true, true, 'to float');
+        $this->assertEquals($test[1], $result['output']);
 
-    	$test = ['-123.45*10^6', '-123.45e6'];
-		$result = $this->filter($test[0], true, true, true, 'to float');
-    	$this->assertEquals($test[1], $result['output']);
+        $test = ['-123', '-123'];
+        $result = $this->filter($test[0], true, true, true, 'to float');
+        $this->assertEquals($test[1], $result['output']);
 
-    	$test = ['-123.45*10^-6', '-123.45e-6'];
-		$result = $this->filter($test[0], true, true, true, 'to float');
-    	$this->assertEquals($test[1], $result['output']);
+        $test = ['-123.45', '-123.45'];
+        $result = $this->filter($test[0], true, true, true, 'to float');
+        $this->assertEquals($test[1], $result['output']);
 
-        // With sufficient exponents will alway use the exact form
+        $test = ['-123.45*10^6', '-123.45e6'];
+        $result = $this->filter($test[0], true, true, true, 'to float');
+        $this->assertEquals($test[1], $result['output']);
+
+        $test = ['-123.45*10^-6', '-123.45e-6'];
+        $result = $this->filter($test[0], true, true, true, 'to float');
+        $this->assertEquals($test[1], $result['output']);
+
+        // With sufficient exponents will alway use the exact form.
         $test = ['-123.45*10^-333', '-123.45*10^-333'];
         $result = $this->filter($test[0], true, true, true, 'to float');
         $this->assertEquals($test[1], $result['output']);
@@ -390,38 +416,37 @@ class stack_parser_rule_801_test extends qtype_stack_testcase {
         $this->assertEquals($test[1], $result['output']);
     }
 
-
     public function test_convert_to_power() {
-    	$test = ['123', '123'];
-		$result = $this->filter($test[0], true, true, true, 'to power');
-    	$this->assertEquals($test[1], $result['output']);
-    	
-    	$test = ['123.45', '12345*10^-2'];
-		$result = $this->filter($test[0], true, true, true, 'to power');
-    	$this->assertEquals($test[1], $result['output']);
+        $test = ['123', '123'];
+        $result = $this->filter($test[0], true, true, true, 'to power');
+        $this->assertEquals($test[1], $result['output']);
 
-		$test = ['123.45e6', '12345*10^4'];
-		$result = $this->filter($test[0], true, true, true, 'to power');
-    	$this->assertEquals($test[1], $result['output']);
+        $test = ['123.45', '12345*10^-2'];
+        $result = $this->filter($test[0], true, true, true, 'to power');
+        $this->assertEquals($test[1], $result['output']);
 
-    	$test = ['123.45*10^6', '123.45*10^6'];
-		$result = $this->filter($test[0], true, true, true, 'to power');
-    	$this->assertEquals($test[1], $result['output']);
+        $test = ['123.45e6', '12345*10^4'];
+        $result = $this->filter($test[0], true, true, true, 'to power');
+        $this->assertEquals($test[1], $result['output']);
 
-    	$test = ['-123', '-123'];
-		$result = $this->filter($test[0], true, true, true, 'to power');
-    	$this->assertEquals($test[1], $result['output']);
-    	
-    	$test = ['-123.45', '-12345*10^-2'];
-		$result = $this->filter($test[0], true, true, true, 'to power');
-    	$this->assertEquals($test[1], $result['output']);
+        $test = ['123.45*10^6', '123.45*10^6'];
+        $result = $this->filter($test[0], true, true, true, 'to power');
+        $this->assertEquals($test[1], $result['output']);
 
-    	$test = ['-123.45*10^6', '-123.45*10^6'];
-		$result = $this->filter($test[0], true, true, true, 'to power');
-    	$this->assertEquals($test[1], $result['output']);
+        $test = ['-123', '-123'];
+        $result = $this->filter($test[0], true, true, true, 'to power');
+        $this->assertEquals($test[1], $result['output']);
 
-    	$test = ['-123.45*10^-6', '-123.45*10^-6'];
-		$result = $this->filter($test[0], true, true, true, 'to power');
-    	$this->assertEquals($test[1], $result['output']);
+        $test = ['-123.45', '-12345*10^-2'];
+        $result = $this->filter($test[0], true, true, true, 'to power');
+        $this->assertEquals($test[1], $result['output']);
+
+        $test = ['-123.45*10^6', '-123.45*10^6'];
+        $result = $this->filter($test[0], true, true, true, 'to power');
+        $this->assertEquals($test[1], $result['output']);
+
+        $test = ['-123.45*10^-6', '-123.45*10^-6'];
+        $result = $this->filter($test[0], true, true, true, 'to power');
+        $this->assertEquals($test[1], $result['output']);
     }
 }

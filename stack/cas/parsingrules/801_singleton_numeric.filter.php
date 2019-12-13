@@ -19,15 +19,15 @@ require_once(__DIR__ . '/filter.interface.php');
 
 /**
  * AST filter that checks that the AST represents a singleton value
- * that is purely numeric. It can also be used to turn that value 
+ * that is purely numeric. It can also be used to turn that value
  * between certain representations.
  *
- * Note that conversion requires that you accept the form from which 
+ * Note that conversion requires that you accept the form from which
  * the conversion happens.
  */
 class stack_ast_filter_801_singleton_numeric implements stack_cas_astfilter_parametric {
 
-    // These two control the aceptable raw data types as well as 
+    // These two control the aceptable raw data types as well as
     // the mantissa allowed in the third option.
     private $integer = true;
     private $float = true;
@@ -38,7 +38,7 @@ class stack_ast_filter_801_singleton_numeric implements stack_cas_astfilter_para
 
     // Convert from power form to float or vice versa
     // Will not convert raw integers to floats.
-    private $convert = 'none'; // 'to float', 'to power'
+    private $convert = 'none'; // 'to float', 'to power'.
 
     public function set_filter_parameters(array $parameters) {
         $this->integer = $parameters['integer'];
@@ -61,7 +61,7 @@ class stack_ast_filter_801_singleton_numeric implements stack_cas_astfilter_para
             $node = $node->rhs;
         }
 
-        // Make sure that we have the full parentnode linkking.
+        // Make sure that we have the full parentnode linking.
         // Mainly relevant for test cases.
         $ast->callbackRecurse(null);
 
@@ -73,7 +73,7 @@ class stack_ast_filter_801_singleton_numeric implements stack_cas_astfilter_para
                 if (strpos($node->toString(), 'E') !== false) {
                     $p = intval(explode('E', $node->toString())[1]);
                 }
-                
+
                 if ($p < 0) {
                     $p = $p - strlen(explode('E', $node->toString())[0]);
                 } else {
@@ -118,7 +118,9 @@ class stack_ast_filter_801_singleton_numeric implements stack_cas_astfilter_para
                 $m = '1';
                 if ($node->rhs instanceof MP_Integer) {
                     $p = $node->rhs->value;
-                } else if (($node->rhs instanceof MP_PrefixOp) && ($node->rhs->op === '-' || $node->rhs->op === '+') && ($node->rhs->rhs instanceof MP_Integer)) {
+                } else if (($node->rhs instanceof MP_PrefixOp) &&
+                        ($node->rhs->op === '-' || $node->rhs->op === '+') &&
+                        ($node->rhs->rhs instanceof MP_Integer)) {
                     $p = $node->rhs->rhs->value;
                     if ($node->rhs->op === '-') {
                         $p = -$p;
@@ -127,7 +129,7 @@ class stack_ast_filter_801_singleton_numeric implements stack_cas_astfilter_para
                     $node->position['invalid'] = true;
                     $answernotes[] = 'Illegal_power';
                     $errors[] = stack_string('Illegal_singleton_power', ['forms' => $this->acceptable_forms()]);
-                    return $ast;    
+                    return $ast;
                 }
             } else {
                 $node->position['invalid'] = true;
@@ -137,7 +139,7 @@ class stack_ast_filter_801_singleton_numeric implements stack_cas_astfilter_para
             }
         }
         if ($node instanceof MP_Operation && $node->op === '*' && $node->rhs instanceof MP_Operation && $node->rhs->op === '^') {
-            // The power first
+            // The power first.
             if ($node->rhs->lhs instanceof MP_Integer && $node->rhs->lhs->value === 10) {
                 if ($node->rhs->rhs instanceof MP_Integer) {
                     $p = $node->rhs->rhs->value;
@@ -152,15 +154,15 @@ class stack_ast_filter_801_singleton_numeric implements stack_cas_astfilter_para
                     $node->position['invalid'] = true;
                     $answernotes[] = 'Illegal_power';
                     $errors[] = stack_string('Illegal_singleton_power', ['forms' => $this->acceptable_forms()]);
-                    return $ast;    
+                    return $ast;
                 }
             } else {
                 $node->position['invalid'] = true;
                 $answernotes[] = 'Illegal_power';
                 $errors[] = stack_string('Illegal_singleton_power', ['forms' => $this->acceptable_forms()]);
-                return $ast;    
+                return $ast;
             }
-            // Then the mantissa
+            // Then the mantissa.
             if ($node->lhs instanceof MP_Integer) {
                 $m = $node->lhs->raw;
                 if (!$this->integer) {
@@ -201,7 +203,7 @@ class stack_ast_filter_801_singleton_numeric implements stack_cas_astfilter_para
                     $node->position['invalid'] = true;
                     $answernotes[] = 'Illegal_power';
                     $errors[] = stack_string('Illegal_singleton_power', ['forms' => $this->acceptable_forms()]);
-                    return $ast;        
+                    return $ast;
                 }
             }
         }
@@ -214,7 +216,7 @@ class stack_ast_filter_801_singleton_numeric implements stack_cas_astfilter_para
             $node->position['invalid'] = true;
             $answernotes[] = 'Illegal_power';
             $errors[] = stack_string('Illegal_singleton_power', ['forms' => $this->acceptable_forms()]);
-            return $ast;        
+            return $ast;
         }
         // Only convert to float if safe to do so.
         if ($this->convert === 'to float' && (($p - strlen($m)) > -303 && ($p + strlen($m)) < 303)) {

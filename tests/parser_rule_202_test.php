@@ -27,20 +27,20 @@ require_once(__DIR__ . '/../stack/cas/parsingrules/202_decimal_places_validation
  */
 class stack_parser_rule_202_test extends qtype_stack_testcase {
 
-	public function filter(string $input, int $min = -1, int $max = -1): array {
-		$ast = maxima_parser_utils::parse($input);
+    public function filter(string $input, int $min = -1, int $max = -1): array {
+        $ast = maxima_parser_utils::parse($input);
         $filter = new stack_ast_filter_202_decimal_places_validation();
         $filter->set_filter_parameters([
-        	'min' => $min,
-        	'max' => $max
+            'min' => $min,
+            'max' => $max
         ]);
-		$errs = array();
+        $errs = array();
         $note = array();
         $security = new stack_cas_security();
-		
-		$ast = $filter->filter($ast, $errs, $note, $security);
 
-	    $hasinvalid = false;
+        $ast = $filter->filter($ast, $errs, $note, $security);
+
+        $hasinvalid = false;
         $findinvalid = function($node) use(&$hasinvalid) {
             if (isset($node->position['invalid']) && $node->position['invalid'] === true) {
                 $hasinvalid = true;
@@ -50,14 +50,14 @@ class stack_parser_rule_202_test extends qtype_stack_testcase {
         };
         $ast->callbackRecurse($findinvalid, false);
 
-		$r = [
-			'output' => $ast->toString(['nosemicolon' => true]),
-			'notes' => $note,
-			'errors' => $errs,
-			'valid' => !$hasinvalid
-		];
-		return $r;
-	}
+        $r = [
+            'output' => $ast->toString(['nosemicolon' => true]),
+            'notes' => $note,
+            'errors' => $errs,
+            'valid' => !$hasinvalid
+        ];
+        return $r;
+    }
 
     public function test_normal() {
         $test = '-0.001';

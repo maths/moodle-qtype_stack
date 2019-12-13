@@ -152,7 +152,7 @@ class stack_parsing_rule_factory {
                            '090_special_forbidden_characters',
                            '101_no_floats', '102_no_strings',
                            '103_no_lists', '104_no_sets', '105_no_grouppings',
-                           '201_sig_figs_validation', 
+                           '201_sig_figs_validation',
                            '202_decimal_places_validation',
                            '402_split_prefix_from_common_function_name',
                            '403_split_at_number_letter_boundary',

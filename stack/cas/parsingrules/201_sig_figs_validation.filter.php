@@ -25,152 +25,152 @@ require_once(__DIR__ . '/../../utils.class.php');
  * the so called strict form.
  */
 class stack_ast_filter_201_sig_figs_validation implements stack_cas_astfilter_parametric {
-	// Min and max are integer or null, null or values less than
-	// 1 signify that there is no limit in the given direction.
-	private $min = 3;
-	private $max = 3;
-	private $strict = false;
+    // Min and max are integer or null, null or values less than
+    // 1 signify that there is no limit in the given direction.
+    private $min = 3;
+    private $max = 3;
+    private $strict = false;
 
     public function set_filter_parameters(array $parameters) {
-    	$this->min = $parameters['min'];
-    	$this->max = $parameters['max'];
-    	$this->strict = $parameters['strict'];
+        $this->min = $parameters['min'];
+        $this->max = $parameters['max'];
+        $this->strict = $parameters['strict'];
     }
 
     public function filter(MP_Node $ast, array &$errors, array &$answernotes, stack_cas_security $identifierrules): MP_Node {
-    	$root = $ast;
-    	if ($root instanceof MP_Root) {
-    		$root = $root->items[0];
-    	}
-    	if ($root instanceof MP_Statement) {
-    		$root = $root->statement;
-    	}
-    	$node = self::get_leftmost_int_or_float($ast);
-    	if ($node === null) {
-    		$root->position['invalid'] = true;
-    		if ($this->min !== null && $this->min > 0) {
-    			$errors[] = stack_string('numericalinputminsf', $this->min);
-    		} else {
-    			$errors[] = stack_string('numericalinputmaxsf', $this->max);
-    		}
-    	} else {
-    		// Hmm. where did stack_utils::decimal_places go?
-    		// Well this is simpler to do like this.
-    		$raw = strtolower($node->toString());
-    		$raw = ltrim($raw, '-'); // Just in case.
-    		$raw = ltrim($raw, '+');
-    		$raw = explode('e', $raw)[0];
+        $root = $ast;
+        if ($root instanceof MP_Root) {
+            $root = $root->items[0];
+        }
+        if ($root instanceof MP_Statement) {
+            $root = $root->statement;
+        }
+        $node = self::get_leftmost_int_or_float($ast);
+        if ($node === null) {
+            $root->position['invalid'] = true;
+            if ($this->min !== null && $this->min > 0) {
+                $errors[] = stack_string('numericalinputminsf', $this->min);
+            } else {
+                $errors[] = stack_string('numericalinputmaxsf', $this->max);
+            }
+        } else {
+            // Hmm. where did stack_utils::decimal_places go?
+            // Well this is simpler to do like this.
+            $raw = strtolower($node->toString());
+            $raw = ltrim($raw, '-'); // Just in case.
+            $raw = ltrim($raw, '+');
+            $raw = explode('e', $raw)[0];
 
-    		$pre = explode('.', $raw)[0];
-    		$post = '';
-    		if (strpos($raw, '.') !== false) {
-    			$post = explode('.', $raw)[1];
-    		}
-    		$min = null;
-    		$max = null;
+            $pre = explode('.', $raw)[0];
+            $post = '';
+            if (strpos($raw, '.') !== false) {
+                $post = explode('.', $raw)[1];
+            }
+            $min = null;
+            $max = null;
 
-    		if (ltrim($pre, '0') === '') {
-    			if (ltrim($post, '0') === '') {
-    				// 0.000
-    				$min = 1;
-    				$max = 1 + strlen($post);
-    			} else {
-    				// 0.032
-    				$max = strlen(ltrim($post, '0'));
-    				$min = $max;
-    			}
-    		} else if ($post !== '') {
-    			// 12.0230
-    			$max = strlen(ltrim($pre, '0') . $post);
-    			$min = $max;
-    		} else {
-    			// 110
-    			$max = strlen(ltrim($pre, '0'));
-    			$min = strlen(trim($pre, '0'));
-    		}
-    		
-    		if ($this->min !== null && $this->min > 0) {
-				if ($max < $this->min) {
-					$node->position['invalid'] = true;
-					$errors[] = stack_string('numericalinputminsf', $this->min);
-				} else if ($this->strict && $min < $this->min) {
-					$node->position['invalid'] = true;
-					$errors[] = stack_string('numericalinputminsf', $this->min);
-				}
-			}
-			if ($this->max !== null && $this->max > 0) {
-				if ($min > $this->max) {
-					$node->position['invalid'] = true;
-					$errors[] = stack_string('numericalinputmaxsf', $this->max);
-				}
-			}
-    	}
-    	return $ast;
+            if (ltrim($pre, '0') === '') {
+                if (ltrim($post, '0') === '') {
+                    // 0.000.
+                    $min = 1;
+                    $max = 1 + strlen($post);
+                } else {
+                    // 0.032.
+                    $max = strlen(ltrim($post, '0'));
+                    $min = $max;
+                }
+            } else if ($post !== '') {
+                // 12.0230.
+                $max = strlen(ltrim($pre, '0') . $post);
+                $min = $max;
+            } else {
+                // 110.
+                $max = strlen(ltrim($pre, '0'));
+                $min = strlen(trim($pre, '0'));
+            }
+
+            if ($this->min !== null && $this->min > 0) {
+                if ($max < $this->min) {
+                    $node->position['invalid'] = true;
+                    $errors[] = stack_string('numericalinputminsf', $this->min);
+                } else if ($this->strict && $min < $this->min) {
+                    $node->position['invalid'] = true;
+                    $errors[] = stack_string('numericalinputminsf', $this->min);
+                }
+            }
+            if ($this->max !== null && $this->max > 0) {
+                if ($min > $this->max) {
+                    $node->position['invalid'] = true;
+                    $errors[] = stack_string('numericalinputmaxsf', $this->max);
+                }
+            }
+        }
+        return $ast;
     }
 
 
     public static function get_leftmost_int_or_float(MP_Node $tree): ?MP_Node {
-    	$nodes = [];
-    	$search = function($node) use(&$nodes) {
+        $nodes = [];
+        $search = function($node) use(&$nodes) {
             if ($node instanceof MP_Float || $node instanceof MP_Integer) {
-            	$nodes[] = $node;
+                $nodes[] = $node;
             }
             return true;
         };
         $tree->callbackRecurse($search);
 
         if (count($nodes) === 1) {
-        	return $nodes[0];
+            return $nodes[0];
         }
         if (count($nodes) < 1) {
-        	return null;
+            return null;
         }
         $leftmost = 9000;
         $filterednodes = [];
         foreach ($nodes as $node) {
-        	if (isset($node->position['start'])) {
-        		if ($node->position['start'] < $leftmost) {
-        			$leftmost = $node->position['start'];
-        			$filterednodes[] = $node;	
-        		}
-        	} else {
-        		$filterednodes[] = $node;
-        	}
+            if (isset($node->position['start'])) {
+                if ($node->position['start'] < $leftmost) {
+                    $leftmost = $node->position['start'];
+                    $filterednodes[] = $node;
+                }
+            } else {
+                $filterednodes[] = $node;
+            }
         }
         $nodes = $filterednodes;
-		if (count($nodes) === 1) {
-        	return $nodes[0];
+        if (count($nodes) === 1) {
+            return $nodes[0];
         }
 
         // We may still have more than one node, so lets filter again.
         $filterednodes = [];
         foreach ($nodes as $node) {
-        	if (isset($node->position['start'])) {
-        		if ($node->position['start'] < $leftmost) {
-        			$leftmost = $node->position['start'];
-        			$filterednodes[] = $node;	
-        		}
-        	} else {
-        		$filterednodes[] = $node;
-        	}
+            if (isset($node->position['start'])) {
+                if ($node->position['start'] < $leftmost) {
+                    $leftmost = $node->position['start'];
+                    $filterednodes[] = $node;
+                }
+            } else {
+                $filterednodes[] = $node;
+            }
         }
         $nodes = $filterednodes;
-		if (count($nodes) === 1) {
-        	return $nodes[0];
+        if (count($nodes) === 1) {
+            return $nodes[0];
         }
 
         // Ok we have acted on a tree that has no position data for
-        // the relevant nodes, so we need to reverse engineer the 
+        // the relevant nodes, so we need to reverse engineer the
         // positions.
         $raw = $tree->toString();
         $leftmost = 9000;
         $thenode = null;
         foreach ($nodes as $node) {
-        	$i = strpos($raw, $node->toString());
-        	if ($i < $leftmost) {
-        		$thenode = $node;
-        		$leftmost = $i;
-        	}
+            $i = strpos($raw, $node->toString());
+            if ($i < $leftmost) {
+                $thenode = $node;
+                $leftmost = $i;
+            }
         }
         return $thenode;
     }

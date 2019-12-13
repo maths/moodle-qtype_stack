@@ -1195,7 +1195,6 @@ or alternatively: \[\int_a^bf(x)g(x)\,{\rm d}x=\left[f(x)\,\int
 g(x){\rm d}x\right]_a^b -\int_a^b{{\rm d}f\over {\rm
 d}x}\left\{\int g(x){\rm d}x\right\}{\rm d}x.\]';
 
-
-$string['Illegal_singleton_power'] = 'This input requires a numeric value presentted in one of the following forms: <code>{$a->forms}</code>';
-$string['Illegal_singleton_floats'] = 'This input does not accept decimal numbers in the given form. This input requires a numeric value presentted in one of the following forms: <code>{$a->forms}</code>';
-$string['Illegal_singleton_integer'] = 'This input does not accept integer values. This input requires a numeric value presentted in one of the following forms: <code>{$a->forms}</code>';
+$string['Illegal_singleton_power'] = 'This input requires a numeric value presented in one of the following forms: <code>{$a->forms}</code>';
+$string['Illegal_singleton_floats'] = 'This input does not accept decimal numbers in the given form. This input requires a numeric value presented in one of the following forms: <code>{$a->forms}</code>';
+$string['Illegal_singleton_integer'] = 'This input does not accept integer values. This input requires a numeric value presented in one of the following forms: <code>{$a->forms}</code>';

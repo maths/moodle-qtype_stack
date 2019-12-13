@@ -19,18 +19,18 @@ require_once(__DIR__ . '/filter.interface.php');
 require_once(__DIR__ . '/../../utils.class.php');
 
 /**
- * AST filter that rewrites floats as displsy functions to ensure
+ * AST filter that rewrites floats as display functions to ensure
  * that the representation of them does not change when going through
- * Maxima. Essenttially this:
+ * Maxima. Essentially this:
  *
  *  1.32    => dispdp(1.32, 2)
  *  0.00001 => dispdp(0.00001, 5)
  *  0.04e7  => displaysci(0.04, 2, 7)
  *
- * This filter will eliminate the 'e' vs 'E' issue by making alla values 
+ * This filter will eliminate the 'e' vs 'E' issue by making all values
  * so inputted to be displayed as powers.
  *
- * Note that applying this filter on ASTs going for evaluation makes no 
+ * Note that applying this filter on ASTs going for evaluation makes no
  * sense. This is for representation.
  */
 class stack_ast_filter_910_inert_float_for_display implements stack_cas_astfilter {
@@ -38,7 +38,10 @@ class stack_ast_filter_910_inert_float_for_display implements stack_cas_astfilte
         $floats = function($node) use (&$answernotes, &$errors) {
             if ($node instanceof MP_Float) {
                 $raw = strtolower($node->raw);
-                if ($node->parentnode instanceof MP_FunctionCall && $node->parentnode->name instanceof MP_Identifier && ($node->parentnode->name->value === 'dispdp' || $node->parentnode->name->value === 'displaysci')) {
+                if ($node->parentnode instanceof MP_FunctionCall &&
+                        $node->parentnode->name instanceof MP_Identifier &&
+                        ($node->parentnode->name->value === 'dispdp' ||
+                        $node->parentnode->name->value === 'displaysci')) {
                     // Don't break things just fixed.
                     return true;
                 }
@@ -55,7 +58,7 @@ class stack_ast_filter_910_inert_float_for_display implements stack_cas_astfilte
                     if ($p < 0) {
                         $p = new MP_PrefixOp('-', new MP_Integer(-$p, '' . (-$p)));
                     } else {
-                        $p =new MP_Integer($p, '' . $p);
+                        $p = new MP_Integer($p, '' . $p);
                     }
                     $m = explode('e', $raw)[0];
                     if (strpos($m, '.') === false) {

@@ -25,58 +25,58 @@ require_once(__DIR__ . '/201_sig_figs_validation.filter.php');
  * Can be tuned to check for desired number of digits.
  */
 class stack_ast_filter_202_decimal_places_validation implements stack_cas_astfilter_parametric {
-	// Min and max are integer or null, null or values less than
-	// 1 signify that there is no limit in the given direction.
-	private $min = 3;
-	private $max = 3;
+    // Min and max are integer or null, null or values less than
+    // 1 signify that there is no limit in the given direction.
+    private $min = 3;
+    private $max = 3;
 
     public function set_filter_parameters(array $parameters) {
-    	$this->min = $parameters['min'];
-    	$this->max = $parameters['max'];
+        $this->min = $parameters['min'];
+        $this->max = $parameters['max'];
     }
 
     public function filter(MP_Node $ast, array &$errors, array &$answernotes, stack_cas_security $identifierrules): MP_Node {
-       	$root = $ast;
-    	if ($root instanceof MP_Root) {
-    		$root = $root->items[0];
-    	}
-    	if ($root instanceof MP_Statement) {
-    		$root = $root->statement;
-    	}
-    	$node = stack_ast_filter_201_sig_figs_validation::get_leftmost_int_or_float($ast);
-    	if ($node === null) {
-    		$root->position['invalid'] = true;
-    		if ($this->min !== null && $this->min > 0) {
-    			$errors[] = stack_string('numericalinputmindp', $this->min);
-    		} else {
-    			$errors[] = stack_string('numericalinputmaxdp', $this->max);
-    		}
-    	} else {
-    		// Hmm. where did stack_utils::decimal_places go?
-    		// Well this is simpler to do like this.
-    		$raw = strtolower($node->toString());
-    		$raw = ltrim($raw, '-'); // Just in case.
-    		$raw = ltrim($raw, '+');
-    		$raw = explode('e', $raw)[0];
+           $root = $ast;
+        if ($root instanceof MP_Root) {
+            $root = $root->items[0];
+        }
+        if ($root instanceof MP_Statement) {
+            $root = $root->statement;
+        }
+        $node = stack_ast_filter_201_sig_figs_validation::get_leftmost_int_or_float($ast);
+        if ($node === null) {
+            $root->position['invalid'] = true;
+            if ($this->min !== null && $this->min > 0) {
+                $errors[] = stack_string('numericalinputmindp', $this->min);
+            } else {
+                $errors[] = stack_string('numericalinputmaxdp', $this->max);
+            }
+        } else {
+            // Hmm. where did stack_utils::decimal_places go?
+            // Well this is simpler to do like this.
+            $raw = strtolower($node->toString());
+            $raw = ltrim($raw, '-'); // Just in case.
+            $raw = ltrim($raw, '+');
+            $raw = explode('e', $raw)[0];
 
-    		$post = '';
-    		if (strpos($raw, '.') !== false) {
-    			$post = explode('.', $raw)[1];
-    		}
-    		if ($this->min !== null && $this->min > 0) {
-    			if (strlen($post) < $this->min) {
-    				$node->position['invalid'] = true;
-    				$errors[] = stack_string('numericalinputmindp', $this->min);
-    			}	
-    		}
-			if ($this->max !== null && $this->max > 0) {
-    			if (strlen($post) > $this->max) {
-    				$node->position['invalid'] = true;
-    				$errors[] = stack_string('numericalinputmaxdp', $this->max);
-    			}	
-    		}
-    	}
-    	return $ast;
+            $post = '';
+            if (strpos($raw, '.') !== false) {
+                $post = explode('.', $raw)[1];
+            }
+            if ($this->min !== null && $this->min > 0) {
+                if (strlen($post) < $this->min) {
+                    $node->position['invalid'] = true;
+                    $errors[] = stack_string('numericalinputmindp', $this->min);
+                }
+            }
+            if ($this->max !== null && $this->max > 0) {
+                if (strlen($post) > $this->max) {
+                    $node->position['invalid'] = true;
+                    $errors[] = stack_string('numericalinputmaxdp', $this->max);
+                }
+            }
+        }
+        return $ast;
     }
 }
 

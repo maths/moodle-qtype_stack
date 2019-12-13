@@ -23,6 +23,7 @@ require_once(__DIR__ . '/../stack/cas/parsingrules/801_singleton_numeric.filter.
 /**
  * Unit tests for {@link stack_ast_filter_801_singleton_numeric}.
  * @group qtype_stack
+ * @group qtype_stack_ast_filters
  */
 class stack_parser_rule_801_test extends qtype_stack_testcase {
 
@@ -335,6 +336,15 @@ class stack_parser_rule_801_test extends qtype_stack_testcase {
     	$test = ['-123.45*10^-6', '-123.45*10^-6'];
 		$result = $this->filter($test[0], true, true, true, 'none');
     	$this->assertEquals($test[1], $result['output']);
+
+        // With sufficient exponents will alway use the exact form
+        $test = ['-123.45*10^-333', '-123.45*10^-333'];
+        $result = $this->filter($test[0], true, true, true, 'none');
+        $this->assertEquals($test[1], $result['output']);
+
+        $test = ['-123.45e-333', '-12345*10^-335'];
+        $result = $this->filter($test[0], true, true, true, 'none');
+        $this->assertEquals($test[1], $result['output']);
     }
 
     public function test_convert_to_float() {
@@ -369,6 +379,15 @@ class stack_parser_rule_801_test extends qtype_stack_testcase {
     	$test = ['-123.45*10^-6', '-123.45e-6'];
 		$result = $this->filter($test[0], true, true, true, 'to float');
     	$this->assertEquals($test[1], $result['output']);
+
+        // With sufficient exponents will alway use the exact form
+        $test = ['-123.45*10^-333', '-123.45*10^-333'];
+        $result = $this->filter($test[0], true, true, true, 'to float');
+        $this->assertEquals($test[1], $result['output']);
+
+        $test = ['-123.45e-333', '-12345*10^-335'];
+        $result = $this->filter($test[0], true, true, true, 'to float');
+        $this->assertEquals($test[1], $result['output']);
     }
 
 

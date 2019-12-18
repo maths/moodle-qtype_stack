@@ -49,6 +49,7 @@ require_once(__DIR__ . '/520_no_equality_with_logic.filter.php');
 require_once(__DIR__ . '/541_no_unknown_functions.filter.php');
 require_once(__DIR__ . '/542_no_functions_at_all.filter.php');
 require_once(__DIR__ . '/801_singleton_numeric.filter.php');
+require_once(__DIR__ . '/802_singleton_units.filter.php');
 require_once(__DIR__ . '/910_inert_float_for_display.filter.php');
 require_once(__DIR__ . '/990_no_fixing_spaces.filter.php');
 require_once(__DIR__ . '/991_no_fixing_stars.filter.php');
@@ -128,6 +129,8 @@ class stack_parsing_rule_factory {
                 return new stack_ast_filter_542_no_functions_at_all();
             case '801_singleton_numeric':
                 return new stack_ast_filter_801_singleton_numeric();
+            case '802_singleton_units':
+                return new stack_ast_filter_802_singleton_units();
             case '910_inert_float_for_display':
                 return new stack_ast_filter_910_inert_float_for_display();
             case '990_no_fixing_spaces':
@@ -163,7 +166,7 @@ class stack_parsing_rule_factory {
                            '505_no_evaluation_groups',
                            '520_no_equality_with_logic',
                            '541_no_unknown_functions', '542_no_functions_at_all',
-                           '801_singleton_numeric',
+                           '801_singleton_numeric', '802_singleton_units',
                            '910_inert_float_for_display',
                            '990_no_fixing_spaces', '991_no_fixing_stars',
                            '998_security', '999_strict') as $name) {

@@ -194,6 +194,15 @@ class stack_equiv_input_test extends qtype_stack_testcase {
         $this->assertEquals('\[ \begin{array}{lll} &x^2-5\cdot x+6=0& \cr'.
             ' \color{green}{\Leftrightarrow}&x=2\,{\mbox{ or }}\, x=3& \cr \end{array} \]', $state->contentsdisplayed);
         $this->assertEquals('', $state->note);
+        $this->assertEquals('<div class="equivreasoning"><textarea name="q140:1_ans1" id="q140:1_ans1" rows="3" cols="25" ' .
+                'autocapitalize="none" spellcheck="false" class="equiv">x^2-5*x+6=0' . "\n" . 'x=2 or x=3</textarea>' .
+                '<div class="stackinputfeedback" id="q140:1_ans1_val"><span class="filter_mathjaxloader_equation">' .
+                '<span class="nolink">\[ \begin{array}{lll} &x^2-5\cdot x+6=0& \cr' .
+                ' \color{green}{\Leftrightarrow}&x=2\,{\mbox{ or }}\, x=3& \cr \end{array} \]</span></span>' .
+                '<input type="hidden" name="q140:1_ans1_val" value="[x^2-5*x+6=0,x=2 or x=3]" />' .
+                '<p>The variables found in your answer were: <span class="filter_mathjaxloader_equation">' .
+                '<span class="nolink">\( \left[ x \right]\)</span></span> </p></div></div>',
+                $el->render($state, 'q140:1_ans1', false, null));
     }
 
     public function test_validate_student_response_without_equiv() {
@@ -677,4 +686,5 @@ class stack_equiv_input_test extends qtype_stack_testcase {
         $this->assertEquals($cr['sans1_val'], $sansv);
 
     }
+
 }

@@ -1267,6 +1267,7 @@ class stack_answertest_test_data {
         array('NumSigFigs', '4', '3.142', '-3.1415927', 0, 'ATNumSigFigs_WrongSign.', ''),
         array('NumSigFigs', '4', '-3.142', '3.1415927', 0, 'ATNumSigFigs_WrongSign.', ''),
         array('NumSigFigs', '4', '-3.149', '3.1415927', 0, 'ATNumSigFigs_WrongSign. ATNumSigFigs_VeryInaccurate.', ''),
+        array('NumSigFigs', '3', '2.15', '75701719/35227192', 1, '', ''),
         // Maxima's round() command uses Bankers' rounding, but STACK does not.
         // We actually round the teacher's answer to the specified number of SFs.
         array('NumSigFigs', '3', '0.0499', '0.04985', 1, '', 'Round teacher answer'),

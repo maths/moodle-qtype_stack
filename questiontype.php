@@ -509,6 +509,37 @@ class qtype_stack extends question_type {
         $question->deployedseeds = array_values($questiondata->deployedseeds);
     }
 
+    public function get_extra_question_bank_actions(stdClass $question): array {
+        $actions = parent::get_extra_question_bank_actions($question);
+
+        $linkparams = ['questionid' => $question->id];
+
+        $context = context::instance_by_id($question->contextid);
+        if ($context->contextlevel == CONTEXT_COURSE) {
+            $linkparams['courseid'] = $context->instanceid;
+        } if ($context->contextlevel == CONTEXT_MODULE) {
+            $linkparams['cmid'] = $context->instanceid;
+        }
+
+        // Directly link to question tests and deployed variants.
+        if (question_has_capability_on($question, 'view')) {
+            $actions[] = new \action_menu_link_secondary(
+                    new moodle_url('/question/type/stack/questiontestrun.php', $linkparams),
+                    new \pix_icon('t/approve', ''),
+                    get_string('runquestiontests', 'qtype_stack'));
+        }
+
+        // Directly link to tidy question script.
+        if (question_has_capability_on($question, 'view')) {
+            $actions[] = new \action_menu_link_secondary(
+                    new moodle_url('/question/type/stack/tidyquestiont.php', $linkparams),
+                    new \pix_icon('t/edit', ''),
+                    get_string('tidyquestion', 'qtype_stack'));
+        }
+
+        return $actions;
+    }
+
     public function delete_question($questionid, $contextid) {
         global $DB;
         $this->delete_question_tests($questionid);

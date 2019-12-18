@@ -2975,4 +2975,4 @@ load(linearalgebra);
 
 /* Stack expects some output with the version number the output happens at */
 /* maximalocal.mac after additional library loading */
-stackmaximaversion:2019103100$
+stackmaximaversion:2019121800$

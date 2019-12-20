@@ -140,7 +140,7 @@ class stack_ast_filter_802_singleton_units implements stack_cas_astfilter_parame
                 $node = $node->statement;
             }
             $node->position['invalid'] = true;
-            $errors[] = stack_string('Illegal_no_units_in_units', implode(', ', $warns));
+            $errors[] = stack_string('Illegal_no_units_in_units');
         }
     
 

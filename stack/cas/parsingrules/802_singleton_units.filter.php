@@ -49,7 +49,7 @@ class stack_ast_filter_802_singleton_units implements stack_cas_astfilter_parame
 
     // Invalid if no known unit found. This means that one can allow
     // this to function even if the "unit" is not one of the official ones
-    // it will stille require an identifier though.
+    // it will still require an identifier though.
     private $mandatoryunit = true;
 
 
@@ -107,25 +107,31 @@ class stack_ast_filter_802_singleton_units implements stack_cas_astfilter_parame
             if ($sec->has_feature($id->value, 'unit')) {
                 $hasunits = true;
             } else if ($sec->has_feature($id->value, 'constant')) {
+                $constants[$id->value] = $id->value;
                 if (!$this->allowconstants) {
-                    $constants[$id->value] = $id->value;
                     $id->position['invalid'] = true;    
                 }
             } else {
+                $vars[$id->value] = $id->value;
                 if (!$this->allowvariables) {
-                    $vars[$id->value] = $id->value;
                     $id->position['invalid'] = true;
                 }
             }
         }
         if (!$this->allowvariables || !$this->allowconstants) {
-            $keys = array_keys(array_merge($vars, $constants));
+            $keys = [];
+            if (!$this->allowvariables) {
+                $keys = $keys + array_keys($vars);
+            }
+            if (!$this->allowconstants) {
+                $keys = $keys + array_keys($constants);
+            }
             sort($keys);
-            if (count($keys) > 1) {
+            if (count($keys) > 0) {
                 $errors[] = stack_string('Illegal_identifiers_in_units', implode(', ', $keys));
             }
         }
-        if ((!$hasunits && $this->mandatoryunit) || ($this->mandatoryunit && (count($vars) + count($constants)) === 0)) {
+        if ((!$hasunits && $this->mandatoryunit) || (!$hasunits && !$this->mandatoryunit && (count($vars) + count($constants)) === 0)) {
             $node = $ast;
             if ($node instanceof MP_Root) {
                 $node = $node->items[0];

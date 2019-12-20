@@ -260,7 +260,7 @@ class stack_ast_filter_801_singleton_numeric implements stack_cas_astfilter_para
         return implode(', ', $r);
     }
 
-    private function float_to_power(MP_Float $float): MP_Node {
+    public function float_to_power(MP_Float $float): MP_Node {
         $raw = strtolower($float->raw);
         $p = 0;
         if (strpos($raw, 'e') !== false) {

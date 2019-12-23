@@ -424,7 +424,7 @@ class qtype_stack extends question_type {
         $question->options->set_option('assumereal',  (bool) $questiondata->options->assumereal);
 
         $requiredparams = stack_input_factory::get_parameters_used();
-        foreach (array_keys($this->get_input_names_from_question_text($question->questiontext)) as $name) {
+        foreach (stack_utils::extract_placeholders($question->questiontext, 'input') as $name) {
             $inputdata = $questiondata->inputs[$name];
             $allparameters = array(
                 'boxWidth'        => $inputdata->boxsize,

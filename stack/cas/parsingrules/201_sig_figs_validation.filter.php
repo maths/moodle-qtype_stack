@@ -108,8 +108,7 @@ class stack_ast_filter_201_sig_figs_validation implements stack_cas_astfilter_pa
         return $ast;
     }
 
-
-    public static function get_leftmost_int_or_float(MP_Node $tree): ?MP_Node {
+    public static function get_leftmost_int_or_float(MP_Node $tree): MP_Node {
         $nodes = [];
         $search = function($node) use(&$nodes) {
             if ($node instanceof MP_Float || $node instanceof MP_Integer) {

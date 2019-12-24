@@ -41,6 +41,27 @@ class qtype_stack_renderer extends qtype_renderer {
         // Replace inputs.
         $inputstovaldiate = array();
         $qaid = null;
+
+        // Get the list of placeholders before format_text.
+        $originalinputplaceholders = stack_utils::extract_placeholders($questiontext, 'input');
+        $originalfeedbackplaceholders = stack_utils::extract_placeholders($questiontext, 'feedback');
+
+        // Now format the questiontext.
+        $questiontext = $question->format_text(
+                stack_maths::process_display_castext($questiontext, $this),
+                $question->questiontextformat,
+                $qa, 'question', 'questiontext', $question->id);
+
+        // Get the list of placeholders after format_text.
+        $formatedinputplaceholders = stack_utils::extract_placeholders($questiontext, 'input');
+        $formatedfeedbackplaceholders = stack_utils::extract_placeholders($questiontext, 'feedback');
+
+        // We need to check that if the list has changed.
+        if ($formatedinputplaceholders !== $originalinputplaceholders ||
+                $formatedfeedbackplaceholders !== $originalfeedbackplaceholders) {
+            throw new coding_exception('Inconsistent placeholders.');
+        }
+
         foreach ($question->inputs as $name => $input) {
             // Get the actual value of the teacher's answer at this point.
             $tavalue = $question->get_session_variable($name);
@@ -76,12 +97,6 @@ class qtype_stack_renderer extends qtype_renderer {
             }
             $questiontext = str_replace("[[feedback:{$index}]]", $feedback, $questiontext);
         }
-
-        // Now format the questiontext.  This should be done after the subsitutions of inputs and PRTs.
-        $questiontext = $question->format_text(
-                stack_maths::process_display_castext($questiontext, $this),
-                $question->questiontextformat,
-                $qa, 'question', 'questiontext', $question->id);
 
         // Initialise automatic validation, if enabled.
         if ($qaid && stack_utils::get_config()->ajaxvalidation) {

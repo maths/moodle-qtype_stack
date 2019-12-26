@@ -110,12 +110,11 @@ cte(var, ex) := block([str],
 
 /* This function strips out functions to leave only things in the value which might be typed in. */
 stack_dispvalue(ex) := block(
-  ex: detexcolor(ex),
-  ex: make_displaydpvalue(ex),
-  ex: make_displayscivalue(ex),
-  if not(stack_disp_control_structurep(ex)) then
+  if not(stack_disp_control_structurep(ex)) then block(
+      ex: make_displaydpvalue(ex),
+      ex: make_displayscivalue(ex),
       ex: unary_minus_sort(opsubst("*", stackunits, ex)),
--      ex: destackvector(ex),
+      ex: destackvector(ex)),
   return(string(ex))
 )$
 

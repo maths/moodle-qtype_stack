@@ -800,7 +800,7 @@ class stack_astcontainer_test extends qtype_stack_testcase {
 
         $this->assertTrue($at1->get_valid());
 
-        // stacklet() is held as a function, and not parsed into MP_Let.
+        // Note that stacklet() is held as a function, and not parsed into MP_Let.
         $expected = '([FunctionCall: ([Id] stacklet)] ([Id] a),([Op: +] ([Op: *] ([Id] x), ([Id] %i)), ([Id] y)))';
         $this->assertEquals($expected, $at1->ast_to_string(null, array('flattree' => true)));
 

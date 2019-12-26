@@ -20,7 +20,7 @@ require_once(__DIR__ . '/801_singleton_numeric.filter.php');
 
 /**
  * AST filter that checks that the AST represents a singleton value
- * that consists of a numeric part and a part that describes a unit 
+ * that consists of a numeric part and a part that describes a unit
  * or combination of units.
  *
  * Essenttialy, this filter ensures that the answer does not include
@@ -30,7 +30,7 @@ require_once(__DIR__ . '/801_singleton_numeric.filter.php');
  *  - Sets, lists or any flow control operations
  *  - Function calls
  *
- * It may also be used to detect non 'unit' identifiers in 
+ * It may also be used to detect non 'unit' identifiers in
  * the expression and will automatically deal with the 1e-310 issue.
  *
  */
@@ -109,7 +109,7 @@ class stack_ast_filter_802_singleton_units implements stack_cas_astfilter_parame
             } else if ($sec->has_feature($id->value, 'constant')) {
                 $constants[$id->value] = $id->value;
                 if (!$this->allowconstants) {
-                    $id->position['invalid'] = true;    
+                    $id->position['invalid'] = true;
                 }
             } else {
                 $vars[$id->value] = $id->value;
@@ -131,7 +131,8 @@ class stack_ast_filter_802_singleton_units implements stack_cas_astfilter_parame
                 $errors[] = stack_string('Illegal_identifiers_in_units', implode(', ', $keys));
             }
         }
-        if ((!$hasunits && $this->mandatoryunit) || (!$hasunits && !$this->mandatoryunit && (count($vars) + count($constants)) === 0)) {
+        if ((!$hasunits && $this->mandatoryunit) ||
+            (!$hasunits && !$this->mandatoryunit && (count($vars) + count($constants)) === 0)) {
             $node = $ast;
             if ($node instanceof MP_Root) {
                 $node = $node->items[0];
@@ -142,16 +143,15 @@ class stack_ast_filter_802_singleton_units implements stack_cas_astfilter_parame
             $node->position['invalid'] = true;
             $errors[] = stack_string('Illegal_no_units_in_units');
         }
-    
 
         // Check the miscs
         foreach ($misc as $node) {
             if ($node instanceof MP_Set || $node instanceof MP_List) {
                 $node->position['invalid'] = true;
-                $errors[] = stack_string('Illegal_lists_sets_in_units');    
+                $errors[] = stack_string('Illegal_lists_sets_in_units');
             } else if ($node instanceof MP_If || $node instanceof MP_Loop || $node instanceof MP_LoopBit) {
                 $node->position['invalid'] = true;
-                $errors[] = stack_string('Illegal_control_flow_in_units');  
+                $errors[] = stack_string('Illegal_control_flow_in_units');
             } else if ($node instanceof MP_PrefixOp || $node instanceof MP_PostfixOp) {
                 $node->position['invalid'] = true;
                 $errors[] = stack_string('Illegal_illegal_operation_in_units', $node->op);
@@ -196,7 +196,6 @@ class stack_ast_filter_802_singleton_units implements stack_cas_astfilter_parame
             $errors[] = stack_string('Illegal_input_form_units');
         }
 
-
         // Check floats and fix if need be.
         foreach ($floats as $node) {
             if ((strpos($node->toString(), 'E') !== false || $this->floattopower) && $node->raw !== null) {
@@ -222,7 +221,6 @@ class stack_ast_filter_802_singleton_units implements stack_cas_astfilter_parame
                 }
             }
         }
-
 
         return $ast;
     }

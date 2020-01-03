@@ -177,6 +177,9 @@ class maxima_parser_utils {
         if (!array_key_exists('write', $output)) {
             $output['write'] = array();
         }
+        if (!array_key_exists('calls', $output)) {
+            $output['calls'] = array();
+        }
         $recursion = function($node) use(&$output) {
             // Feel free to expand this to track any other types of usages,
             // like functions and their definitions.
@@ -187,6 +190,8 @@ class maxima_parser_utils {
                     } else {
                         $output['read'][$node->value] = true;
                     }
+                } else if (!$node->parentnode->is_definition()) {
+                    $output['calls'][$node->value] = true;
                 }
             }
             return true;

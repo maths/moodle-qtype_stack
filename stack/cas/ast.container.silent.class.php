@@ -851,22 +851,6 @@ class stack_ast_container_silent implements cas_evaluatable {
         }
 
         $string = $this->ast_to_string($root);
-        /*
-        // OLD CODE: START.
-        $string = $this->get_inputform(true, 1);
-        if (substr($string, 0, 1) == '-') {
-            $string = substr($string, 1);
-        }
-
-        // Sometimes strings from Maxima have parentheses around them.
-        // This is hard to predict and is breaking things.  Strip them off here.
-        if (substr($string, 0, 1) == '(') {
-            $dels = stack_utils::substring_between($string, '(', ')');
-            $string = substr($dels[0], 1, -1);
-        }
-        // OLD CODE: END.
-        */
-
         $string = str_split($string);
 
         foreach ($string as $i => $c) {

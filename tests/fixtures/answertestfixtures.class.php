@@ -315,7 +315,7 @@ class stack_answertest_test_data {
         array('AlgEquiv', '', 'abs(x)=abs(y)', 'x=y or x=-y', 1, '', ''),
         array('AlgEquiv', '', 'abs(x)=abs(y)', '(x-y)*(x+y)=0', 1, '', ''),
 
-        array('AlgEquiv', '', 'f(x):=1/0', 'f(x):=x^2', -1, 'ATAlgEquiv_STACKERROR_SAns.', 'Functions'),
+        array('AlgEquiv', '', 'f(x):=1/0', 'f(x):=x^2', -1, 'TEST_FAILED', 'Functions'),
         array('AlgEquiv', '', '1', 'f(x):=x^2', 0, 'ATAlgEquiv_SA_not_function.', ''),
         array('AlgEquiv', '', 'f(x)=x^2', 'f(x):=x^2', 0, 'ATAlgEquiv_SA_not_function.', ''),
         array('AlgEquiv', '', 'f(x):=x^2', 'f(x,y):=x^2+y^2', 0, 'ATFunction_length_args. ATFunction_false.', ''),

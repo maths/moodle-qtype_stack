@@ -113,7 +113,9 @@ stack_dispvalue(ex) := block(
   if not(stack_disp_control_structurep(ex)) then block(
       ex: make_displaydpvalue(ex),
       ex: make_displayscivalue(ex),
-      ex: unary_minus_sort(opsubst("*", stackunits, ex)),
+      if not(ratp(ex)) then
+          ex:opsubst("*", stackunits, ex),
+      ex: unary_minus_sort(ex),
       ex: destackvector(ex)),
   return(string(ex))
 )$

@@ -55,7 +55,10 @@ class stack_numbers_test_data {
             array("-303.30003", 8, 8, 5, '"~,5f"', '-303.30003'),
             // Brackets should be stripped off.
             array("(-12.00)", 4, 4, 2, '"~,2f"', '-12.00'),
+            array("--(-12.00)", 4, 4, 2, '"~,2f"', '-12.00'),
             array("(00.00)", 2, 2, 2, '"~,2f"', '0.00'),
+            // Unary minus should be stripped off.
+            array("-(12.000)", 5, 5, 3, '"~,3f"', '-12.00'),
     );
 
     // array("string", lower, upper, decimal places).
@@ -73,6 +76,7 @@ class stack_numbers_test_data {
             // We insist the input only has one numerical multiplier that we act on and that is the first thing in the string.
             array("52435*mg", 5, 5, 0, '"~a"'),
             array("-12.00*m", 4, 4, 2, '"~,2f"'),
+            array("-(12.00*m)", 4, 4, 2, '"~,2f"'),
             // Here we know that there are 3 significant figures but can't be sure about that trailing zero.
             array("1030*m/s", 3, 4, 0, '"~a"'),
             array("1.23*4", 3, 3, 2, '"~,2f"'),

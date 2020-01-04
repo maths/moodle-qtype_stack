@@ -1252,6 +1252,7 @@ class stack_answertest_test_data {
         array('NumSigFigs', '2', '1E3', '999', 0, 'ATNumSigFigs_WrongDigits.', ''),
         array('NumSigFigs', '1', '-100', '-149', 1, '', ''),
         array('NumSigFigs', '1', '-0.05', '-0.0499', 1, '', ''),
+        array('NumSigFigs', '1', '-(0.05)', '-0.0499', 1, '', ''),
         array('NumSigFigs', '3', '1170', '1174.34', 1, '', ''),
         array('NumSigFigs', '3', '61300', '61250', 1, '', ''),
         array('NumSigFigs', '4', '0.1667', '0.1667', 1, '', 'Previous tricky case'),
@@ -1625,6 +1626,8 @@ class stack_answertest_test_data {
         array('UnitsStrict', '2', '(-36)*Kj/mol', '-36*Kj/mol', 1, 'ATUnits_units_match.', ''),
         array('UnitsStrict', '2', '(-36*Kj)/mol', '-36*Kj/mol', 1, 'ATUnits_units_match.', ''),
         array('UnitsStrict', '2', '-(36*Kj)/mol', '-36*Kj/mol', 1, 'ATUnits_units_match.', ''),
+        array('UnitsStrict', '2', '-(36.2*Kj)/mol', '-36.3*Kj/mol', 0,
+            'ATUnitsStrict_WrongDigits. ATUnits_units_match.', ''),
 
         array('UnitsRelative', '0.01', '12.3*m/s', '12.3*m/s', 1, 'ATUnits_units_match.', ''),
         array('UnitsRelative', '0.01', '12*m/s', '12.3*m/s', 0, 'ATUnits_units_match.', ''),
@@ -1649,6 +1652,7 @@ class stack_answertest_test_data {
         array('UnitsStrictRelative', '0.01', '0.0*km/s', '0.0*m/s', 0, 'ATUnits_compatible_units: m/s.', ''),
         array('UnitsStrictRelative', '0.01', '0.0*m', '0.0*m/s', 0, 'ATUnits_incompatible_units. ATUnits_correct_numerical.', ''),
         array('UnitsStrictRelative', '0.01', '0.0', '0.0*m/s', 0, 'ATUnits_SA_no_units.', ''),
+        array('UnitsStrictRelative', '0.01', '0*J', '0.0*J', 1, 'ATUnits_units_match.', ''),
 
         array('UnitsAbsolute', '0.01', '12.3*m/s', '12.3*m/s', 1, 'ATUnits_units_match.', ''),
         array('UnitsAbsolute', '0.01', '12*m/s', '12.3*m/s', 0, 'ATUnits_units_match.', ''),

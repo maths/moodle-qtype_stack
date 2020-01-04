@@ -800,8 +800,63 @@ class stack_ast_container_silent implements cas_evaluatable {
         $infrontofdecimaldeparator = true;
         $scientificnotation = false;
 
-        // TODO: this should be a more sophisticated traverse of the tree to get the top numerical part.
+
+        // Get a string reprsentation of the first numerical part.
+        $root = clone $this->ast;
+        // Do not use the evaluated form since this looses trailing zeros.
+        if ($root instanceof MP_Root) {
+            if (array_key_exists(0, $root->items)) {
+                $root = $root->items[0];
+            }
+        }
+        if ($root instanceof MP_Statement) {
+            $root = $root->statement;
+        }
+
+        $continue = true;
+        while ($continue) {
+            // Prevent infinite loops with a guard clause.
+            $continue = false;
+
+            if ($root instanceof MP_PrefixOp && ($root->op === '-' || $root->op === '+')) {
+                $root = $root->rhs;
+                $continue = true;
+            }
+
+            if ($root instanceof MP_Group) {
+                $root = array_pop($root->items);
+                $continue = true;
+            }
+
+            // When we have units, just take the first element in the product.
+            if ($root instanceof MP_Operation && $root->op === '*') {
+                $root = $root->lhs;
+                $continue = true;
+            }
+            // Take the numerator of any fraction.  TODO: What should we do about rational numbers?
+            if ($root instanceof MP_Operation && $root->op === '/') {
+                $root = $root->lhs;
+                $continue = true;
+            }
+
+            if ($root instanceof MP_Operation && $root->op === ':') {
+                $root = $root->rhs;
+                $continue = true;
+            }
+
+            if ($root instanceof MP_FunctionCall && $root->name->value === 'stackunits') {
+                $root = $root->arguments[0];
+                $continue = true;
+            }
+        }
+
+        $string = $this->ast_to_string($root);
+        /*
+        // OLD CODE: START.
         $string = $this->get_inputform(true, 1);
+        if (substr($string, 0, 1) == '-') {
+            $string = substr($string, 1);
+        }
 
         // Sometimes strings from Maxima have parentheses around them.
         // This is hard to predict and is breaking things.  Strip them off here.
@@ -809,6 +864,9 @@ class stack_ast_container_silent implements cas_evaluatable {
             $dels = stack_utils::substring_between($string, '(', ')');
             $string = substr($dels[0], 1, -1);
         }
+        // OLD CODE: END.
+        */
+
         $string = str_split($string);
 
         foreach ($string as $i => $c) {

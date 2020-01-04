@@ -336,11 +336,13 @@ class stack_ast_container_silent implements cas_evaluatable {
             }
         }
 
+        // @codingStandardsIgnoreStart
         // TODO: should we check parameters are legitimate and if not?
         // Currently MP_classes just does an isset(?) to check if the parameter exists.
         // There is no check on the legitimacy of those paraeters anywhere.  Should we
         // throw new stack_exception('stack_ast_container::ast_to_string tried to set illegal parameter ' . $key);
         // We should document available parameters: 'pretty', 'nosemicolon', 'keyless', 'qmchar'.
+        // @codingStandardsIgnoreEnd
         $params = array('nounify' => $this->nounify,
                         'dealias' => true,
                         'inputform' => false);

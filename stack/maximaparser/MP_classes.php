@@ -2022,6 +2022,7 @@ function opBind($op) {
     }
     // This one is not done with STACK.
 
+    // @codingStandardsIgnoreStart
     /*
     if ($op->op == '-') {
     $op->op='+';
@@ -2032,6 +2033,8 @@ function opBind($op) {
     $op->rhs->parentnode = $op;
     }
      */
+    // @codingStandardsIgnoreEnd
+
     $op->lhs = opBind($op->lhs);
     $op->rhs = opBind($op->rhs);
     if ($op->lhs instanceof MP_Operation && (opLBind($op->op) > opRBind($op->lhs->op))) {

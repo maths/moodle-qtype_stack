@@ -82,10 +82,12 @@ class stack_ast_filter_802_singleton_units implements stack_cas_astfilter_parame
                 $ids[] = $node;
             } else if ($node instanceof MP_PrefixOp && ($node->op === '-' || $node->op === '+')) {
                 // Ignore.
+                $null = true;
             } else if ($node instanceof MP_Float) {
                 $floats[] = $node;
             } else if ($node instanceof MP_Integer) {
                 // Ignore.
+                $null = true;
             } else {
                 $misc[] = $node;
             }
@@ -144,7 +146,7 @@ class stack_ast_filter_802_singleton_units implements stack_cas_astfilter_parame
             $errors[] = stack_string('Illegal_no_units_in_units');
         }
 
-        // Check the miscs
+        // Check the miscs.
         foreach ($misc as $node) {
             if ($node instanceof MP_Set || $node instanceof MP_List) {
                 $node->position['invalid'] = true;
@@ -172,6 +174,7 @@ class stack_ast_filter_802_singleton_units implements stack_cas_astfilter_parame
                 $opfail = true;
             } else if ($op->op === '/' || $op->op === '*') {
                 // Fine.
+                $null = true;
             } else if ($op->op === '^' || $op->op === '**') {
                 if ($op->lhs instanceof MP_Integer && $op->lhs->value === 10) {
                     $rhs = $op->rhs;

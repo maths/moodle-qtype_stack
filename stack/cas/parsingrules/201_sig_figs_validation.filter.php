@@ -71,20 +71,20 @@ class stack_ast_filter_201_sig_figs_validation implements stack_cas_astfilter_pa
 
             if (ltrim($pre, '0') === '') {
                 if (ltrim($post, '0') === '') {
-                    // 0.000.
+                    // For example 0.000.
                     $min = 1;
                     $max = 1 + strlen($post);
                 } else {
-                    // 0.032.
+                    // For example 0.032.
                     $max = strlen(ltrim($post, '0'));
                     $min = $max;
                 }
             } else if ($post !== '') {
-                // 12.0230.
+                // For example  12.0230.
                 $max = strlen(ltrim($pre, '0') . $post);
                 $min = $max;
             } else {
-                // 110.
+                // For example 110.
                 $max = strlen(ltrim($pre, '0'));
                 $min = strlen(trim($pre, '0'));
             }

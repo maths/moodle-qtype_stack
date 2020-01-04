@@ -211,7 +211,9 @@ class stack_ast_filter_998_security implements stack_cas_astfilter_parametric {
                             && $outter->name->value === 'rand'
                             && count($outter->arguments) === 1
                             && $outter->arguments[0] instanceof MP_List) {
+                        // @codingStandardsIgnoreStart
                         // Something like rand(["-","+"]) or rand(["cos","sin"]) applied to something.
+                        // @codingStandardsIgnoreEnd
                         $notsafe = false;
                         foreach ($outter->arguments[0]->items as $name) {
                             // Name can be whatever the iteration will react to unsuitable things on the later loops.

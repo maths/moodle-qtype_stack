@@ -54,12 +54,14 @@ ATNumSigFigs_CASSigFigsWrapper(sans,tans,options,rawsans) := block([allowextra,r
     /* Find the number of digits. */
     digits: sig_figs_from_str(rawsans),
 
-    if allowextra then (
+    if allowextra = true then (
         if requiredsigfigs > stackmap_get(digits, "upperbound") then (
             AnswerNote: StackAddNote(AnswerNote, "ATNumSigFigs_WrongDigits"),
             FeedBack: StackAddFeedback(FeedBack, "ATNumSigFigs_WrongDigits"),
             RawMark: false
-        )
+        ),
+        /* If excessive digits allowed and provided they better be correct. */
+        requiredaccuracy:stackmap_get(digits, "upperbound")
     ) else (
         if requiredsigfigs = stackmap_get(digits, "lowerbound") then (
             RawMark: true
@@ -75,7 +77,7 @@ ATNumSigFigs_CASSigFigsWrapper(sans,tans,options,rawsans) := block([allowextra,r
 
     /* Now that digits are clear continue to check the accuracy. Or not. */
     if requiredaccuracy # 0 then (
-        result: ATNumSigFigs(sans,tans,options),
+        result: ATNumSigFigs(sans,tans,requiredaccuracy),
         Validity: Validity and result[1],
         RawMark: RawMark and result[2],
         if result[3] # "" then (

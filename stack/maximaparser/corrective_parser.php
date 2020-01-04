@@ -79,7 +79,10 @@ class maxima_corrective_parser {
         // handle latter, also strings are safe already.
         // Special case to allow "pi" through here.  TODO: more systematic way to add in allowed characters.
         $allowedcharsregex = '~[^' . preg_quote(json_decode('"\u03C0"') .
+            // @codingStandardsIgnoreStart
+            // We do really want a backtick here.
             '0123456789,./\%&{}[]()$@!"\'?`^~*_+qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM:;=><|: -', '~'
+            // @codingStandardsIgnoreEnd
             ) . ']~u';
         $matches = array();
         // Check for permitted characters.

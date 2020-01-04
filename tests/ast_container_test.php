@@ -639,7 +639,7 @@ class stack_astcontainer_test extends qtype_stack_testcase {
         $at1 = stack_ast_container::make_from_student_source($s, '', new stack_cas_security(), array('991_no_fixing_stars'));
         $this->assertFalse($at1->get_valid());
         // There would be a star there but as it is now an invalid thing you cannot see it.
-        // $this->assertEquals('lg(3,5*x)', $at1->get_evaluationform());
+        // It is not lg(3,5*x), as it would have been in the past.
         $this->assertEquals('missing_stars | logsubs', $at1->get_answernote());
     }
 
@@ -800,7 +800,7 @@ class stack_astcontainer_test extends qtype_stack_testcase {
 
         $this->assertTrue($at1->get_valid());
 
-        // stacklet() is held as a function, and not parsed into MP_Let.
+        // Note that stacklet() is held as a function, and not parsed into MP_Let.
         $expected = '([FunctionCall: ([Id] stacklet)] ([Id] a),([Op: +] ([Op: *] ([Id] x), ([Id] %i)), ([Id] y)))';
         $this->assertEquals($expected, $at1->ast_to_string(null, array('flattree' => true)));
 

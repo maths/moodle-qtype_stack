@@ -32,13 +32,15 @@ class stack_ast_filter_801_singleton_numeric implements stack_cas_astfilter_para
     private $integer = true;
     private $float = true;
 
+    // @codingStandardsIgnoreStart
     // Accepts 0.123*10^45 or 123*10^45.
     // Will not accept 0.123e4*10^5 as that is mixed usage.
+    // @codingStandardsIgnoreEnd
     private $power = true;
 
     // Convert from power form to float or vice versa
     // Will not convert raw integers to floats.
-    private $convert = 'none'; // 'to float', 'to power'.
+    private $convert = 'none'; // Other options are 'to float', 'to power'.
 
     public function set_filter_parameters(array $parameters) {
         $this->integer = $parameters['integer'];
@@ -260,7 +262,7 @@ class stack_ast_filter_801_singleton_numeric implements stack_cas_astfilter_para
         return implode(', ', $r);
     }
 
-    private function float_to_power(MP_Float $float): MP_Node {
+    public function float_to_power(MP_Float $float): MP_Node {
         $raw = strtolower($float->raw);
         $p = 0;
         if (strpos($raw, 'e') !== false) {

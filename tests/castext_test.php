@@ -1083,4 +1083,27 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $this->assertEquals('\({1+1}\), \({2}\), \({1+1}\).',
             $at1->get_display_castext());
     }
+
+    public function test_stack_beta_function_arg() {
+        $a2 = array('n:1932;',
+                'f(alfa):=block(x:ifactors(alfa), y:makelist(0,length(x)), ' .
+                'for i from 1 thru length(x) do (y[i] : first(x[i])), return(y));',
+                'g(alfa,beta):=block(x:alfa*(1-1/beta[1]), ' .
+                'for i from 2 thru length(beta) do (x:x*(1-1/beta[i])), return(x));'
+            );
+        $s2 = array();
+        foreach ($a2 as $s) {
+            $cs = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security(), array());
+            $this->assertTrue($cs->get_valid());
+            $s2[] = $cs;
+        }
+        $cs2 = new stack_cas_session2($s2, null, 0);
+
+        $at1 = new stack_cas_text('{@f(n)@}, {@g(n,f(n))@}', $cs2, 0, 't');
+        $this->assertTrue($at1->get_valid());
+        $at1->get_display_castext();
+
+        $this->assertEquals('\({\left[ 2 , 3 , 7 , 23 \right]}\), \({528}\)',
+            $at1->get_display_castext());
+    }
 }

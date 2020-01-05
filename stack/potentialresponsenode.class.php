@@ -326,7 +326,7 @@ class stack_potentialresponse_node {
         $sf = stack_ast_container::make_from_teacher_source('simp:' . $simp, '', new stack_cas_security(), array());
         $variables[0] = $sf;
 
-        // We need to clone these, so we can set the key for evaluation.
+        // We need to clone these, so we can set the key for evaluation and the simplification context.
         $variables[1] = clone $this->sans;
         $variables[1]->set_key('PRSANS' . $key);
         $variables[2] = clone $this->tans;

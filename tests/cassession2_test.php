@@ -1774,4 +1774,21 @@ class stack_cas_session2_test extends qtype_stack_testcase {
         $this->assertEquals('3', $s1[2]->get_dispvalue());
         $this->assertEquals('f(x):=if x < 0 then (if x < 1 then 1 else 2) else 3', $s1[0]->get_value());
     }
+
+    public function test_stack_rat() {
+        $tests = array('s1 : 8.5*sin(rat(2*pi*((0.37/1.86440677966E-4)-(5.8/0.22))))', 's2:1');
+
+        foreach ($tests as $key => $c) {
+            $s1[] = stack_ast_container::make_from_teacher_source($c,
+                    '', new stack_cas_security(), array());
+        }
+
+        $options = new stack_options();
+        $options->set_option('simplify', false);
+        $at1 = new stack_cas_session2($s1, $options, 0);
+        $at1->instantiate();
+
+        $this->assertEquals('', $at1->get_errors());
+        $this->assertEquals('8.5*sin((66940295262037*%pi)/17092461650)', $s1[0]->get_dispvalue());
+    }
 }

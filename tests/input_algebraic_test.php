@@ -597,8 +597,20 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         $state = $el->validate_student_response(array('sans1' => 'ab_cd'), $options, 'a*b_c*d',
                 new stack_cas_security(false, '', '', array('ta')));
         $this->assertEquals(stack_input::VALID, $state->status);
-        $this->assertEquals('a*b_c*d', $state->contentsmodified);
-        $this->assertEquals('\[ a\cdot {b}_{c}\cdot d \]', $state->contentsdisplayed);
+        $this->assertEquals('a*b_cd', $state->contentsmodified);
+        $this->assertEquals('\[ a\cdot {b}_{{\it cd}} \]', $state->contentsdisplayed);
+    }
+
+    public function test_validate_student_response_single_variable_subscripts2() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('algebraic', 'sans1', 'a*v_max');
+        // Assuming single character variable names.
+        $el->set_parameter('insertStars', 2);
+        $state = $el->validate_student_response(array('sans1' => 'av_max'), $options, 'a*v_max',
+                new stack_cas_security(false, '', '', array('ta')));
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('a*v_max', $state->contentsmodified);
+        $this->assertEquals('\[ a\cdot {v}_{{\it max}} \]', $state->contentsdisplayed);
     }
 
     public function test_validate_student_response_single_variable_trigexp() {

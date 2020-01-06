@@ -24,6 +24,11 @@ defined('MOODLE_INTERNAL') || die();
  */
 class stack_singlechar_input extends stack_input {
 
+    protected $extraoptions = array(
+        'nounits' => true,
+        'allowempty' => false
+    );
+
     public function render(stack_input_state $state, $fieldname, $readonly, $tavalue) {
 
         if ($this->errors) {

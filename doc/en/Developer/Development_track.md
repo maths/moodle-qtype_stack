@@ -13,11 +13,13 @@ CHANGES:
 
 * In the forbidden words we now match whole words not substrings.
 * Removed the RegExp answer test.
+* Use of units is now reflected throughout a question.  This reduces the need to declare units in all contexts.
 
 DONE:
 
 * Add in full parser, to address issue #324.
 * Add in input option 'align'.
+* Add in input option 'nounits'.
 
 TODO:
 

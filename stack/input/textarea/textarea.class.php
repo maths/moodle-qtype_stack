@@ -29,6 +29,7 @@ require_once(__DIR__ . '/../../utils.class.php');
 class stack_textarea_input extends stack_input {
 
     protected $extraoptions = array(
+        'nounits' => true,
         'simp' => false
     );
 

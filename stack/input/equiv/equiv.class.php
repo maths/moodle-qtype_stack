@@ -35,6 +35,7 @@ class stack_equiv_input extends stack_input {
      * @var array
      */
     protected $extraoptions = array(
+        'nounits' => false,
         // Does a student see the equivalence signs at validation time?
         'hideequiv' => false,
         // Does a student see the natural domain at validation time?

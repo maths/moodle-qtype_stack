@@ -320,6 +320,12 @@ abstract class stack_input {
                     }
                     break;
 
+                case 'nounits':
+                    if (!(is_bool($arg))) {
+                        $this->errors[] = stack_string('numericalinputoptboolerr', array('opt' => $option, 'val' => $arg));
+                    }
+                    break;
+
                 default:
                     $this->errors[] = stack_string('inputoptionunknown', $option);
             }
@@ -597,11 +603,16 @@ abstract class stack_input {
         $secrules = clone $basesecurity;
         $secrules->set_allowedwords($this->get_parameter('allowWords', ''));
         $secrules->set_forbiddenwords($this->get_parameter('forbidWords', ''));
+        // Are we operating in a units context we should ignore?
+        if ($this->get_extra_option('nounits', false)) {
+            // Logic reversed: nounits means we don't have them.
+            $secrules->set_units(false);
+        }
 
         // This method actually validates any CAS strings etc.
         // Modified contents is already an array of things which become individually validated CAS statements.
         // At this sage, $valid records the PHP validation or other non-CAS issues.
-        list($valid, $errors, $notes, $answer, $caslines) = $this->validate_contents($contents, $basesecurity, $localoptions);
+        list($valid, $errors, $notes, $answer, $caslines) = $this->validate_contents($contents, $secrules, $localoptions);
 
         // Match up lines from the teacher's answer to lines in the student's answer.
         // Send as much of the string to the CAS as possible.
@@ -612,7 +623,7 @@ abstract class stack_input {
             $tresponse = $this->maxima_to_response_array($teacheranswer);
             $tcontents = $this->response_to_contents($tresponse);
             list($tvalid, $terrors, $tnotes, $tmodifiedcontents, $tcaslines)
-                = $this->validate_contents($tcontents, $basesecurity, $localoptions);
+                = $this->validate_contents($tcontents, $secrules, $localoptions);
         } else {
             $tcaslines = array();
         }

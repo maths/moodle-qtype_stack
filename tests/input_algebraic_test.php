@@ -912,4 +912,36 @@ class stack_algebra_input_test extends qtype_stack_testcase {
                 'style="width: 13.6em" autocapitalize="none" spellcheck="false" class="algebraic-right" value="sin(x)" />',
                 $el->render($state, 'stack1__ans1', false, null));
     }
+
+    public function test_validate_student_response_noununits() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('algebraic', 'sans1', '9.81*m/s');
+        $el->set_parameter('forbidFloats', false);
+
+        $secutity = new stack_cas_security();
+        // Set units (from another context).
+        $secutity->set_units(true);
+
+        $state = $el->validate_student_response(array('sans1' => '9.81*a*m/s'), $options, '3.14', $secutity);
+        $this->assertEquals(stack_input::INVALID, $state->status);
+        $this->assertEquals('9.81*a*m/s', $state->contentsmodified);
+        $this->assertEquals('<span class="stacksyntaxexample">9.81*a*m/s</span>', $state->contentsdisplayed);
+        $this->assertEquals('unknownUnitsCase', $state->note);
+
+        $el->set_parameter('options', 'nounits');
+        $state = $el->validate_student_response(array('sans1' => '9.81*a*m/s'), $options, '3.14', $secutity);
+
+        $state = $el->validate_student_response(array('sans1' => '9.81*a*m/s'), $options, '3.14', $secutity);
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('9.81*a*m/s', $state->contentsmodified);
+        $this->assertEquals('\[ \frac{9.81\cdot a\cdot \mathrm{m}}{\mathrm{s}} \]', $state->contentsdisplayed);
+        $this->assertEquals('', $state->note);
+        $this->assertEquals('', $state->errors);
+        // Note the unknown unit is not in roman here.
+        $this->assertEquals('\( \left[ a , \mathrm{m} , \mathrm{s} \right]\) ', $state->lvars);
+        $this->assertEquals('A correct answer is <span class="filter_mathjaxloader_equation"><span class="nolink">' .
+                '\[ \[ \frac{9.81\cdot a\cdot \mathrm{m}}{\mathrm{s}} \]</span></span> \), ' .
+                'which can be typed in as follows: <code>9.81*a*m/s</code>',
+                $el->get_teacher_answer_display($state->contentsmodified, $state->contentsdisplayed));
+    }
 }

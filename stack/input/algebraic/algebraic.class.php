@@ -28,6 +28,7 @@ class stack_algebraic_input extends stack_input {
         'simp' => false,
         'rationalized' => false,
         'allowempty' => false,
+        'nounits' => false,
         'align' => 'left'
     );
 

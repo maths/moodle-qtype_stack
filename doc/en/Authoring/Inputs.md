@@ -309,6 +309,10 @@ It makes no sense to simplify the equivalence reasoning input type, so this has 
 
 Controls if the student's answer is aligned 'left' or 'right' within the input box.
 
+### Extra option: nounits ###
+
+As of STACK 4.3, if units are declared in a question then the whole question will use a units context for parsing inputs.  For example, in a multi-part question you may use a matrix input.  If you do so, and use variable names, then these will be parsed expecting them to be usits.  To prevent this in a particular input, use the `nounits` option
+
 ## Extra options ##
 
 In the future we are likely to add additional functionality via the _extra options_ fields.  This is because the form-based support becomes ever more complex, intimidating and difficult to navigate.
@@ -361,6 +365,7 @@ min/max sf/dp     |  .  |  Y  |  Y    |   .    |   .   |   .   |   .  |  .  |   
 `hideanswer`   |  .  |  .  |  .    |   .    |   .   |   .   |   .  |  .  |    .     |   .   |   Y    |   .  
 `simp`            |  Y  |  Y  |  Y    |   Y    |   .   |   .   |   .  |  .  |    Y     |   .   |   .    |   .  
 `align`        |  Y  |  Y  |  Y    |   .    |   .   |   .   |   .  |  .  |    .     |   .   |   .    |   .  
+`nounits`      |  Y  |  Y  |  Y    |   Y    |   Y   |   Y   |   Y  |  .  |    .     |   Y   |   .    |   .  
 
 For documentation about the various options not documented on this page look at the pages for the specific inputs in which each option is used.
 

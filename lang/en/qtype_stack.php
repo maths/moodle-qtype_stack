@@ -359,7 +359,7 @@ $string['ddl_badanswer'] = 'The model answer field for this input is malformed: 
 $string['ddl_unknown'] = 'STACK received <code>{$a}</code> but this is not listed by the teacher as an option. ';
 
 $string['teacheranswershow']      = 'A correct answer is \( {$a->display} \), which can be typed in as follows: {$a->value}';
-$string['teacheranswershow_disp'] = 'A correct answer is {$a->display} .';
+$string['teacheranswershow_disp'] = 'A correct answer is {$a->display}.';
 $string['teacheranswershownotes'] = 'A correct answer is not provided for this input.';
 $string['teacheranswerempty']     = 'This input can be left blank.';
 

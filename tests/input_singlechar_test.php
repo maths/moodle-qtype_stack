@@ -63,6 +63,6 @@ class stack_singlechar_input_test extends qtype_stack_testcase {
         $state = $el->validate_student_response(array('sans1' => 'a'), $options, 'A', new stack_cas_security());
         $this->assertEquals(stack_input::SCORE, $state->status);
         $this->assertEquals('A correct answer is <span class="filter_mathjaxloader_equation">'
-                . '<span class="nolink">\( A \)</span></span> .', $el->get_teacher_answer_display('A', 'A'));
+                . '<span class="nolink">\( A \)</span></span>.', $el->get_teacher_answer_display('A', 'A'));
     }
 }

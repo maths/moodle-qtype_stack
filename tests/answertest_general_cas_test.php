@@ -146,6 +146,12 @@ class stack_answertest_general_cas_test extends qtype_stack_testcase {
         $this->assertEquals(0, $at->get_at_mark());
     }
 
+    public function test_is_true_for_interp_case() {
+        $at = $this->stack_answertest_general_cas_builder('integerp(-1)', 'true', 'CasEqual');
+        $this->assertFalse($at->do_test());
+        $this->assertEquals(1, $at->get_at_mark());
+    }
+
     public function test_is_true_sametype() {
         $at = $this->stack_answertest_general_cas_builder('x+1', 'x^3+x', 'SameType');
         $this->assertTrue($at->do_test());

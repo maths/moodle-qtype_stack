@@ -993,6 +993,11 @@ class stack_cas_session2_test extends qtype_stack_testcase {
 
         foreach ($tests as $key => $test) {
             $cs = $at1->get_by_key('p'.$key);
+            // Needed to identify failing test cases.
+            if ($test[5] !== $cs->get_display()) {
+                echo "\n\nFailed:\n";
+                print_r($test);
+            }
             $this->assertEquals($test[5], $cs->get_display());
         }
     }
@@ -1776,7 +1781,8 @@ class stack_cas_session2_test extends qtype_stack_testcase {
     }
 
     public function test_stack_rat() {
-        $tests = array('s1 : 8.5*sin(rat(2*pi*((0.37/1.86440677966E-4)-(5.8/0.22))))', 's2:1');
+        $tests = array('s1 : 8.5*sin(rat(2*pi*((0.37/1.86440677966E-4)-(5.8/0.22))))', 's2:1',
+                'm:MAXIMA_VERSION_NUM');
 
         foreach ($tests as $key => $c) {
             $s1[] = stack_ast_container::make_from_teacher_source($c,
@@ -1788,7 +1794,11 @@ class stack_cas_session2_test extends qtype_stack_testcase {
         $at1 = new stack_cas_session2($s1, $options, 0);
         $at1->instantiate();
 
-        $this->assertEquals('', $at1->get_errors());
-        $this->assertEquals('8.5*sin((66940295262037*%pi)/17092461650)', $s1[0]->get_dispvalue());
+        $maximaversion = $s1[2]->get_value();
+        if ($maximaversion == '34.1') {
+            $this->assertEquals('8.5*sin(66940295262037*%pi/17092461650)', $s1[0]->get_dispvalue());
+        } else {
+            $this->assertEquals('8.5*sin((66940295262037*%pi)/17092461650)', $s1[0]->get_dispvalue());
+        }
     }
 }

@@ -35,7 +35,7 @@ class stack_numbers_test_data {
             array("0.000", 3, 3, 3, '"~,3f"', '0.000'),
             array("0.0001", 1, 1, 4, '"~,4f"', '0.0001'), // Leading zeros are insignificant.
             array("0.0010", 2, 2, 4, '"~,4f"', '0.0010'),
-            array("100.0", 4, 4, 1, '"~,1f"', '100'), // Existence of a significant zero (or digit) changes.
+            array("100.0", 4, 4, 1, '"~,1f"', '100.0'), // Existence of a significant zero (or digit) changes.
             array("100.", 3, 3, 0, '"~a"', '100'),
             array("00120", 2, 3, 0, '"~a"', '120'),
             array("00.120", 3, 3, 3, '"~,3f"', '0.120'),
@@ -58,7 +58,7 @@ class stack_numbers_test_data {
             array("--(-12.00)", 4, 4, 2, '"~,2f"', '-12.00'),
             array("(00.00)", 2, 2, 2, '"~,2f"', '0.00'),
             // Unary minus should be stripped off.
-            array("-(12.000)", 5, 5, 3, '"~,3f"', '-12.00'),
+            array("-(12.000)", 5, 5, 3, '"~,3f"', '-12.000'),
     );
 
     // array("string", lower, upper, decimal places).

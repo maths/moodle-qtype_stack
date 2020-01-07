@@ -156,14 +156,8 @@ class stack_potentialresponse_tree {
             $cascontext->add_statements($node->get_context_variables($key));
         }
 
-        // Set the value of simp for the feedback variables from this point onwards again (may have been reset).
-        // If the question has simp:true, but the prt simp:false, then this needs to be done here.
-        if ($this->simplify) {
-            $simp = 'true';
-        } else {
-            $simp = 'false';
-        }
-        $cs = stack_ast_container::make_from_teacher_source('simp:'.$simp, '', new stack_cas_security(), array());
+        // Set the value of simp to be false from this point onwards again (may have been reset).
+        $cs = stack_ast_container::make_from_teacher_source('simp:false', '', new stack_cas_security(), array());
         $cascontext->add_statement($cs);
 
         if ($cascontext->get_valid()) {

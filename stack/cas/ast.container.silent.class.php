@@ -800,7 +800,6 @@ class stack_ast_container_silent implements cas_evaluatable {
         $infrontofdecimaldeparator = true;
         $scientificnotation = false;
 
-
         // Get a string reprsentation of the first numerical part.
         $root = clone $this->ast;
         // Do not use the evaluated form since this looses trailing zeros.

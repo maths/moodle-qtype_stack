@@ -644,9 +644,19 @@ class stack_cas_session2_test extends qtype_stack_testcase {
         $at1 = new stack_cas_session2($s1, $options, 0);
         $at1->instantiate();
 
-        // TODO: Matti, Why are the following two "unevaluated"?
-        //$this->assertEquals('3', $s1[0]->get_value());
-        //$this->assertEquals('3', $s1[0]->get_display());
+        // In the new logic we only return the value at the end of execution for
+        // statements that have keys, and in this case you have three statements
+        // with the same-key and only one will will receive that value. The session
+        // could bring that value to every one of them but there is very little
+        // need for that. This ties heavily to the concept of keys.
+        // Try setting with "set_keyless()" and the value is not collected by the key but
+        // instead by statement and it will then return you the values for each
+        // statement separately. Keyless behaviour is present in CASText but
+        // otherwise one does not really need it beyond some old unit-tests. Once
+        // CASText2 appears, keyless behaviour becomes pointless beyond some debug
+        // use-cases and unit-tests.
+        // So we don't ecpect $s1[0]->get_value()) to return a value.
+
         $this->assertEquals('36', $s1[2]->get_value());
         $this->assertEquals('36', $s1[2]->get_display());
     }
@@ -993,11 +1003,6 @@ class stack_cas_session2_test extends qtype_stack_testcase {
 
         foreach ($tests as $key => $test) {
             $cs = $at1->get_by_key('p'.$key);
-            // Needed to identify failing test cases.
-            if ($test[5] !== $cs->get_display()) {
-                echo "\n\nFailed:\n";
-                print_r($test);
-            }
             $this->assertEquals($test[5], $cs->get_display());
         }
     }

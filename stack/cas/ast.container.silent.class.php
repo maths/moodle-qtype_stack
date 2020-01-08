@@ -787,8 +787,12 @@ class stack_ast_container_silent implements cas_evaluatable {
 
     /**
      * Establish bounds on the number of significant decimal digits in a number.
+     *
+     * @param bool $evaluated whether to use the evaluated form. False by default.
+     *      Warning! using the evaluated form will lose trailing 0s.
+     * @return array with four elements. See definition at the top of the function.
      */
-    public function get_decimal_digits() {
+    public function get_decimal_digits(bool $evaluated = false) {
 
         $ret = array('lowerbound' => 0, 'upperbound' => 0, 'decimalplaces' => 0, 'fltfmt' => '"~a"');
 
@@ -802,7 +806,10 @@ class stack_ast_container_silent implements cas_evaluatable {
 
         // Get a string reprsentation of the first numerical part.
         $root = clone $this->ast;
-        // Do not use the evaluated form since this looses trailing zeros.
+        if ($evaluated) {
+            $root = $this->get_evaluated();
+        }
+
         if ($root instanceof MP_Root) {
             if (array_key_exists(0, $root->items)) {
                 $root = $root->items[0];

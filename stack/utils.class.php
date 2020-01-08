@@ -857,7 +857,7 @@ class stack_utils {
         while (!empty($nontrivialmap)) {
             // Extract the first cycle.
             reset($nontrivialmap);
-            $current = $cyclestart = key($nontrivialmap);
+            $current = $cyclestart = (string) key($nontrivialmap);
             $cycle = array();
             do {
                 $cycle[] = $current;

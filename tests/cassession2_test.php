@@ -1317,7 +1317,7 @@ class stack_cas_session2_test extends qtype_stack_testcase {
                     '7000.0', '7000.0', '7000.0'),
             array('1000', '', '1.0\cdot 10^3', '1.0*10^3', '1.0*10^3',
                     '1000.0', '1000.0', '1000.0'),
-            array('-1000', '', '-1.0\cdot 10^3', '-1.0*10^3', '(-1.0)*10^3',
+            array('-1000', '', '-1.0\cdot 10^3', '-(1.0*10^3)', '-1.0*10^3',
                     '-1000.0', '-1000.0', '-1000.0'),
             array('1e50', '', '1.0\cdot 10^{50}', '1.0*10^50', '1.0*10^50',
                     '1.0E+50', '1.0E+50', '1.0E+50'),
@@ -1331,11 +1331,11 @@ class stack_cas_session2_test extends qtype_stack_testcase {
             // Fail: 37.0, 37.1, 37.2, 37.3.
 
             // @codingStandardsIgnoreEnd
-            array('-0.00000001', '', '-1.0\cdot 10^ {- 8 }', '-1.0*10^-8', '(-1.0)*10^-8',
+            array('-0.00000001', '', '-1.0\cdot 10^ {- 8 }', '-(1.0*10^-8)', '-1.0*10^-8',
                     '-1.0E-8', '-1.0E-8', '-1.0E-8'),
-            array('-0.000000001', '', '-1.0\cdot 10^ {- 9 }', '-1.0*10^-9', '(-1.0)*10^-9',
+            array('-0.000000001', '', '-1.0\cdot 10^ {- 9 }', '-(1.0*10^-9)', '-1.0*10^-9',
                     '-1.0E-9', '-1.0E-9', '-1.0E-9'),
-            array('-0.000000000001', '', '-1.0\cdot 10^ {- 12 }', '-1.0*10^-12', '(-1.0)*10^-12',
+            array('-0.000000000001', '', '-1.0\cdot 10^ {- 12 }', '-(1.0*10^-12)', '-1.0*10^-12',
                     '-1.0E-12', '-1.0E-12', '-1.0E-12'),
         );
 
@@ -1434,12 +1434,7 @@ class stack_cas_session2_test extends qtype_stack_testcase {
 
         $this->assertEquals('a+-b', $s1[0]->get_value());
         $this->assertEquals('{a \pm b}',  $s1[0]->get_display());
-        if ($this->adapt_to_new_maxima('5.34.2')) {
-            // Why these extra brackets in the new version?
-            $this->assertEquals('x = ((-b)+-sqrt(b^2-4*a*c))/(2*a)',  $s1[1]->get_value());
-        } else {
-            $this->assertEquals('x = (-b+-sqrt(b^2-4*a*c))/(2*a)',  $s1[1]->get_value());
-        }
+        $this->assertEquals('x = (-b+-sqrt(b^2-4*a*c))/(2*a)',  $s1[1]->get_value());
         $this->assertEquals('x=\frac{{-b \pm \sqrt{b^2-4\cdot a\cdot c}}}{2\cdot a}', $s1[1]->get_display());
         $this->assertEquals('b+-a^2', $s1[2]->get_value());
         $this->assertEquals('{b \pm a^2}', $s1[2]->get_display());
@@ -1483,12 +1478,7 @@ class stack_cas_session2_test extends qtype_stack_testcase {
 
         $this->assertEquals('a+-b', $s1[0]->get_value());
         $this->assertEquals('{a \pm b}', $s1[0]->get_display());
-        if ($this->adapt_to_new_maxima('5.34.2')) {
-            // Why these extra brackets in the new version?
-            $this->assertEquals('x = ((-b)+-sqrt(b^2-4*a*c))/(2*a)', $s1[1]->get_value());
-        } else {
-            $this->assertEquals('x = (-b+-sqrt(b^2-4*a*c))/(2*a)', $s1[1]->get_value());
-        }
+        $this->assertEquals('x = (-b+-sqrt(b^2-4*a*c))/(2*a)', $s1[1]->get_value());
         $this->assertEquals('x=\frac{{-b \pm \sqrt{b^2-4\cdot a\cdot c}}}{2\cdot a}', $s1[1]->get_display());
         $this->assertEquals('b+-a^2', $s1[2]->get_value());
         $this->assertEquals('{b \pm a^2}', $s1[2]->get_display());

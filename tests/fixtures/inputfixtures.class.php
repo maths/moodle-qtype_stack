@@ -59,6 +59,8 @@ class stack_inputvalidation_test_data {
             "Rejecting this as 'invalid' not 'wrong' is a question option."),
         array('-10/-1', 'php_true', '-10/-1', 'cas_true', '\frac{-10}{-1}', 'Lowest_Terms', ""),
         array('1/0', 'php_true', '1/0', 'cas_false', '', 'CASError: Division by zero.', ""),
+        array('-a/b', 'php_true', '-a/b', 'cas_true', '\frac{-a}{b}', '', ""),
+        array('-(a/b)', 'php_true', '-(a/b)', 'cas_true', '-\frac{a}{b}', '', ""),
         array('pi', 'php_true', 'pi', 'cas_true', '\pi', '', ""),
         array('e', 'php_true', 'e', 'cas_true', 'e', '', "Cannot easily make \(e\) a variable name."),
         array('i', 'php_true', 'i', 'cas_true', '\mathrm{i}', '',

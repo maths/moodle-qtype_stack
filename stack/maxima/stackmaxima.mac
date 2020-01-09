@@ -51,6 +51,8 @@ stack_reset(not_used) := block(
   /* Sets up randomization, using Maxima's internal random command. */
   stack_randseed(10000),
 
+  mminusbp121(true),
+
   /*Reload local settings*/
   STACK_SETUP(true),
 
@@ -531,7 +533,9 @@ stack_disp(expr, exprm) := block([str:"", expru],
         if exprm = "i" then block(ld: "\\(", rd:"\\)"),
         if exprm = "id" then block(ld: "\\(\\displaystyle ", rd:"\\)"),
         if exprm = "d" then block(ld: "\\[", rd:"\\]"),
+        mminusbp100(true),
         expstr: tex(expru, false),
+        mminusbp121(true),
         expstr: concat(ld, stack_disp_strip_dollars(expstr), rd)
     ),
     /* String display */

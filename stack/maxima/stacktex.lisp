@@ -392,3 +392,28 @@
     (when (eql *parse-stream* *standard-input*)
       (read-line *parse-stream* nil nil))
     ($error message-string)))
+
+;; *************************************************************************************************
+;; Added 08 Jan 2020.
+;; Based src/grind.lisp
+
+;; Up the binding power of mminus, so that -(a/b) outputs exactly this way and not -a/b = (-a)/b.
+;; Subtle differences.
+
+;; We provide just two specific functions here, and do not allow users to set an arbitrary binding power.
+
+;; *************************************************************************************************
+
+(defmspec $mminusbp121 (x)
+  (setq x (car x))
+  (defprop mminus 121. rbp)
+  (defprop mminus 121. lbp)
+  '$done
+)
+
+(defmspec $mminusbp100 (x)
+  (setq x (car x))
+  (defprop mminus 100. rbp)
+  (defprop mminus 100. lbp)
+  '$done
+)

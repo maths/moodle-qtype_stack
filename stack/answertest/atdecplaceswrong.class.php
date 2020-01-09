@@ -16,7 +16,6 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-
 require_once(__DIR__ . '/../cas/cassession2.class.php');
 
 //
@@ -52,6 +51,7 @@ class stack_anstest_atdecplaceswrong extends stack_anstest {
         if ($this->atoption->is_evaluated()) {
             $atestops = (int) $this->atoption->get_value();
         }
+
         if (!$this->atoption->is_int() or $atestops <= 0) {
             $this->aterror      = 'TEST_FAILED';
             $this->atfeedback   = stack_string('TEST_FAILED', array('errors' => ''));
@@ -62,7 +62,18 @@ class stack_anstest_atdecplaceswrong extends stack_anstest {
             return null;
         }
 
-        if (!($this->sanskey->is_float() || $this->sanskey->is_int())) {
+        if ($this->sanskey->is_float() || $this->sanskey->is_int()) {
+            // All good.
+            $testevaluated = false;
+
+        } else if ($this->sanskey->is_float(true) || $this->sanskey->is_int(true)) {
+            // This is not great, but it happens when the answer test is applied
+            // to a feedback variable, rather than a raw input. E.g. if someone
+            // has done sansmin: min(sans1, sans2) in a quadratic question.
+            $testevaluated = true;
+            // TODO Should we set an answer note, or similar, in this situation?
+
+        } else {
             $this->atfeedback   = stack_string('ATNumDecPlaces_Float');
             $this->atansnote    = 'ATNumDecPlacesWrong_SA_Not_num.';
             $this->atmark       = 0;

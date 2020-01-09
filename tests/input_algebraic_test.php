@@ -956,4 +956,67 @@ class stack_algebra_input_test extends qtype_stack_testcase {
                 'which can be typed in as follows: <code>9.81*a*m/s</code>',
                 $el->get_teacher_answer_display($state->contentsmodified, $state->contentsdisplayed));
     }
+
+    public function test_validate_student_response_subtlesurds() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('algebraic', 'ans1', '((-1)+sqrt(11))/10');
+
+        $secutity = new stack_cas_security();
+
+        $state = $el->validate_student_response(array('ans1' => '((-1)+sqrt(11))/10'), $options,
+                '((-1)+sqrt(11))/10', $secutity);
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('((-1)+sqrt(11))/10', $state->contentsmodified);
+        $this->assertEquals('\[ \frac{-1+\sqrt{11}}{10} \]', $state->contentsdisplayed);
+        $this->assertEquals('', $state->note);
+
+        $state = $el->validate_student_response(array('ans1' => '(-(1-sqrt(11)))/10'), $options,
+                '((-1)+sqrt(11))/10', $secutity);
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('(-(1-sqrt(11)))/10', $state->contentsmodified);
+        $this->assertEquals('\[ \frac{-\left(1-\sqrt{11}\right)}{10} \]', $state->contentsdisplayed);
+        $this->assertEquals('', $state->note);
+
+        $state = $el->validate_student_response(array('ans1' => '-(1-sqrt(11))/10'), $options,
+                '((-1)+sqrt(11))/10', $secutity);
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('-(1-sqrt(11))/10', $state->contentsmodified);
+        $this->assertEquals('\[ \frac{-\left(1-\sqrt{11}\right)}{10} \]', $state->contentsdisplayed);
+        $this->assertEquals('', $state->note);
+
+        $state = $el->validate_student_response(array('ans1' => '-((1-sqrt(11))/10)'), $options,
+                '((-1)+sqrt(11))/10', $secutity);
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('\[ -\frac{1-\sqrt{11}}{10} \]', $state->contentsdisplayed);
+        $this->assertEquals('-((1-sqrt(11))/10)', $state->contentsmodified);
+        $this->assertEquals('', $state->note);
+    }
+
+    public function test_validate_student_response_subtlefrac() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('algebraic', 'ans1', '-a/b');
+
+        $secutity = new stack_cas_security();
+
+        $state = $el->validate_student_response(array('ans1' => '-a/b'), $options,
+                '-a/b', $secutity);
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('-a/b', $state->contentsmodified);
+        $this->assertEquals('\[ \frac{-a}{b} \]', $state->contentsdisplayed);
+        $this->assertEquals('', $state->note);
+
+        $state = $el->validate_student_response(array('ans1' => '(-a)/b'), $options,
+                '-a/b', $secutity);
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('(-a)/b', $state->contentsmodified);
+        $this->assertEquals('\[ \frac{-a}{b} \]', $state->contentsdisplayed);
+        $this->assertEquals('', $state->note);
+
+        $state = $el->validate_student_response(array('ans1' => '-(a/b)'), $options,
+                '-a/b', $secutity);
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('-(a/b)', $state->contentsmodified);
+        $this->assertEquals('\[ -\frac{a}{b} \]', $state->contentsdisplayed);
+        $this->assertEquals('', $state->note);
+    }
 }

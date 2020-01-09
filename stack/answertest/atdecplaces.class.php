@@ -17,6 +17,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/../cas/cassession2.class.php');
+
 //
 // Decimal places answer tests.
 //
@@ -63,7 +64,18 @@ class stack_anstest_atdecplaces extends stack_anstest {
             return null;
         }
 
-        if (!($this->sanskey->is_float() || $this->sanskey->is_int())) {
+        if ($this->sanskey->is_float() || $this->sanskey->is_int()) {
+            // All good.
+            $testevaluated = false;
+
+        } else if ($this->sanskey->is_float(true) || $this->sanskey->is_int(true)) {
+            // This is not great, but it happens when the answer test is applied
+            // to a feedback variable, rather than a raw input. E.g. if someone
+            // has done sansmin: min(sans1, sans2) in a quadratic question.
+            $testevaluated = true;
+            // TODO Should we set an answer note, or similar, in this situation?
+
+        } else {
             $this->atfeedback   = stack_string('ATNumDecPlaces_Float');
             $this->atansnote    = 'ATNumDecPlaces_SA_Not_num.';
             $this->atmark       = 0;
@@ -73,7 +85,7 @@ class stack_anstest_atdecplaces extends stack_anstest {
 
         // Check that the first expression is a floating point number,
         // with the right number of decimal places.
-        $r = $this->sanskey->get_decimal_digits();
+        $r = $this->sanskey->get_decimal_digits($testevaluated);
         if ($atestops != $r['decimalplaces'] ) {
             $this->atfeedback  .= stack_string('ATNumDecPlaces_Wrong_DPs');
             $anotes[]           = 'ATNumDecPlaces_Wrong_DPs';

@@ -132,40 +132,16 @@ class qtype_stack_renderer extends qtype_renderer {
 
         $urlparams = array('questionid' => $question->id);
 
-        // This is a bit of a hack to find the right thing to put in the URL.
-        $context = $question->get_context();
-        if (!empty($options->editquestionparams['cmid'])) {
-            $urlparams['cmid'] = $options->editquestionparams['cmid'];
-
-        } else if (!empty($options->editquestionparams['courseid'])) {
-            $urlparams['courseid'] = $options->editquestionparams['courseid'];
-
-        } else if ($cmid = optional_param('cmid', null, PARAM_INT)) {
-            $urlparams['cmid'] = $cmid;
-
-        } else if ($courseid = optional_param('courseid', null, PARAM_INT)) {
-            $urlparams['courseid'] = $courseid;
-
-        } else if ($context->contextlevel == CONTEXT_MODULE) {
-            $urlparams['cmid'] = $context->instanceid;
-
-        } else if ($context->contextlevel == CONTEXT_COURSE) {
-            $urlparams['courseid'] = $context->instanceid;
-
-        } else {
-            $urlparams['courseid'] = get_site()->id;
-        }
-
         $links = array();
         if ($question->user_can_edit()) {
-            $links[] = html_writer::link(new moodle_url(
-                    '/question/type/stack/tidyquestion.php', $urlparams),
+            $links[] = html_writer::link(
+                    $question->qtype->get_tidy_question_url($question),
                     stack_string('tidyquestion'));
         }
 
         $urlparams['seed'] = $question->seed;
-        $links[] = html_writer::link(new moodle_url(
-                '/question/type/stack/questiontestrun.php', $urlparams),
+        $links[] = html_writer::link(
+                $question->qtype->get_question_test_url($question),
                 stack_string('runquestiontests'));
 
         return html_writer::tag('div', implode(' | ', $links), array('class' => 'questiontestslink'));

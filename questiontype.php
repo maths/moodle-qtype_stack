@@ -509,17 +509,67 @@ class qtype_stack extends question_type {
         $question->deployedseeds = array_values($questiondata->deployedseeds);
     }
 
+    /**
+     * Get the URL params required for linking to associated scripts like
+     * questiontestrun.php.
+     *
+     * @param stdClass|qtype_stack_question $question question data, as from question_bank::load_question
+     *      or question_bank::load_question_data.
+     * @return array of URL params. Can be passed to moodle_url.
+     */
+    protected function get_question_url_params($question) {
+        $urlparams = ['questionid' => $question->id];
+
+        // This is a bit of a hack to find the right thing to put in the URL.
+        // If we are already on a URL that gives us a clue what to do, use that.
+        $context = context::instance_by_id($question->contextid);
+        if ($cmid = optional_param('cmid', null, PARAM_INT)) {
+            $urlparams['cmid'] = $cmid;
+
+        } else if ($courseid = optional_param('courseid', null, PARAM_INT)) {
+            $urlparams['courseid'] = $courseid;
+
+        } else if ($context->contextlevel == CONTEXT_MODULE) {
+            $urlparams['cmid'] = $context->instanceid;
+
+        } else if ($context->contextlevel == CONTEXT_COURSE) {
+            $urlparams['courseid'] = $context->instanceid;
+
+        } else {
+            $urlparams['courseid'] = get_site()->id;
+        }
+
+        return $urlparams;
+    }
+
+    /**
+     * Get the URL for questiontestrun.php for a question.
+     *
+     * @param stdClass|qtype_stack_question $question question data, as from question_bank::load_question
+     *      or question_bank::load_question_data.
+     * @return moodle_url the URL.
+     */
+    public function get_question_test_url($question) {
+        $linkparams = $this->get_question_url_params($question);
+        return new moodle_url('/question/type/stack/questiontestrun.php', $linkparams);
+    }
+
+    /**
+     * Get the URL for tidyquestion.php for a question.
+     *
+     * @param stdClass|qtype_stack_question $question question data, as from question_bank::load_question
+     *      or question_bank::load_question_data.
+     * @return moodle_url the URL.
+     */
+    public function get_tidy_question_url($question) {
+        $linkparams = $this->get_question_url_params($question);
+        return new moodle_url('/question/type/stack/tidyquestion.php', $linkparams);
+    }
+
     public function get_extra_question_bank_actions(stdClass $question): array {
         $actions = parent::get_extra_question_bank_actions($question);
 
-        $linkparams = ['questionid' => $question->id];
-
-        $context = context::instance_by_id($question->contextid);
-        if ($context->contextlevel == CONTEXT_COURSE) {
-            $linkparams['courseid'] = $context->instanceid;
-        } if ($context->contextlevel == CONTEXT_MODULE) {
-            $linkparams['cmid'] = $context->instanceid;
-        }
+        $linkparams = $this->get_question_url_params($question);
 
         // Directly link to question tests and deployed variants.
         if (question_has_capability_on($question, 'view')) {

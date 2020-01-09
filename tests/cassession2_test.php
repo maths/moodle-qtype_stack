@@ -163,7 +163,6 @@ class stack_cas_session2_test extends qtype_stack_testcase {
         $this->assertContains('lowest terms', $validation->get_feedback());
     }
 
-
     public function test_answertest_usage() {
         $qv = 'ta:diff(sin(x),x);';
         $qv = new stack_cas_keyval($qv, null, 123);
@@ -1361,6 +1360,7 @@ class stack_cas_session2_test extends qtype_stack_testcase {
         $this->assertTrue($at1->get_valid());
         $at1->instantiate();
 
+        $this->assertEquals('', $at1->get_errors());
         // All these tests should work with simp:false.
         foreach ($tests as $key => $c) {
             if ($s1[$key]->is_correctly_evaluated()) {
@@ -1391,6 +1391,7 @@ class stack_cas_session2_test extends qtype_stack_testcase {
         $at2 = new stack_cas_session2($s2, $options, 0);
         $at2->instantiate();
 
+        $this->assertEquals('', $at2->get_errors());
         foreach ($tests as $key => $c) {
             $simpdisp = $c[2];
             if (array_key_exists(5, $c)) {

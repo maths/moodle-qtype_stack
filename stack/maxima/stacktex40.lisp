@@ -61,31 +61,32 @@
     (append l r)))
 
 ;; *************************************************************************************************
-;; The following code does not affect TeX output, but rather are general functions needed for STACK.
+;; Added 2020-01-09
+;; Fix sconcat on versions of Maxima (GCL) prior to 5.41.0
+;; See https://sourceforge.net/p/maxima/code/ci/a7de72db1669deec775dfab6159eb8ca4357b998/
+
+;; $sconcat for lists
 ;;
+;;   optional: insert a user defined delimiter string
+;; 
+(defun $simplode (li &optional (ds ""))
+  (unless (listp li)
+    (gf-merror (intl:gettext "`simplode': first argument must be a list.")) )
+  (unless (stringp ds) 
+    (s-error1 "simplode" "optional second") )
+  (setq li (cdr li))
+  (cond 
+    ((null li)
+      ($sconcat) )
+    ((null (cdr li))
+      ($sconcat (car li)) )
+    ((string= ds "")
+      (reduce #'$sconcat li) )
+    (t
+      (do (acc) (())
+        (push ($sconcat (pop li)) acc)
+        (when (null li)
+          (return (reduce #'(lambda (s0 s1) (concatenate 'string s0 s1)) (nreverse acc) :initial-value "")))
+        (push ds acc) ))))
 
-;; Added 13 Nov 2016.  Try to better display trailing zeros.
-;; Based on the "grind function". See src/grind.lisp
 
-;; This function has grind (and hence "string") output the number according to the format template.
-;; floatgrind(number, template).
-;; DANGER: no error checking on the type of arguments.
-(defprop $floatgrind msz-floatgrind grind)
-(defun msz-floatgrind (x l r)
-  (msz (mapcar #'(lambda (l) (getcharn l 1)) (makestring (concatenate 'string "floatgrind(" (format nil (cadr (cdr x)) (cadr x)) ",\"" (cadr (cdr x)) "\")"))) l r)
-)
-
-;; This function has grind (and hence "string") output the number with the following number of decimal places.
-;; displaydp(number, ndps).
-;; DO NOT USE: no error checking on the types of the arguments.
-;;(defprop $dispdp msz-dispdp grind)
-;;(defun msz-dispdp (x l r)
-;;  (msz (mapcar #'(lambda (l) (getcharn l 1)) (makestring (concatenate 'string "dispdp(" (format nil (concatenate 'string "~," (format nil "~d" (cadr (cdr x))) "f" ) (cadr x)) "," (format nil "~d" (cadr (cdr x))) ")" ))) l r)
-;;)
-
-;; This function has grind (and hence "string") output the number with the following number of decimal places.
-;; displaydp(number, ndps).
-(defprop $dispdpvalue msz-dispdpvalue grind)
-(defun msz-dispdpvalue (x l r)
- (msz (mapcar #'(lambda (l) (getcharn l 1)) (makestring (format nil (concatenate 'string "~," (format nil "~d" (cadr (cdr x))) "f" ) (cadr x)) )) l r)
-)

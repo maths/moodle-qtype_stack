@@ -417,3 +417,33 @@
   (defprop mminus 100. lbp)
   '$done
 )
+
+;; *************************************************************************************************
+;; The following code does not affect TeX output, but rather are general functions needed for STACK.
+;;
+
+;; Added 13 Nov 2016.  Try to better display trailing zeros.
+;; Based on the "grind function". See src/grind.lisp
+
+;; This function has grind (and hence "string") output the number according to the format template.
+;; floatgrind(number, template).
+;; DANGER: no error checking on the type of arguments.
+(defprop $floatgrind msz-floatgrind grind)
+(defun msz-floatgrind (x l r)
+  (msz (mapcar #'(lambda (l) (getcharn l 1)) (makestring (concatenate 'string "floatgrind(" (format nil (cadr (cdr x)) (cadr x)) ",\"" (cadr (cdr x)) "\")"))) l r)
+)
+
+;; This function has grind (and hence "string") output the number with the following number of decimal places.
+;; displaydp(number, ndps).
+;; DO NOT USE: no error checking on the types of the arguments.
+;;(defprop $dispdp msz-dispdp grind)
+;;(defun msz-dispdp (x l r)
+;;  (msz (mapcar #'(lambda (l) (getcharn l 1)) (makestring (concatenate 'string "dispdp(" (format nil (concatenate 'string "~," (format nil "~d" (cadr (cdr x))) "f" ) (cadr x)) "," (format nil "~d" (cadr (cdr x))) ")" ))) l r)
+;;)
+
+;; This function has grind (and hence "string") output the number with the following number of decimal places.
+;; displaydp(number, ndps).
+(defprop $dispdpvalue msz-dispdpvalue grind)
+(defun msz-dispdpvalue (x l r)
+ (msz (mapcar #'(lambda (l) (getcharn l 1)) (makestring (format nil (concatenate 'string "~," (format nil "~d" (cadr (cdr x))) "f" ) (cadr x)) )) l r)
+)

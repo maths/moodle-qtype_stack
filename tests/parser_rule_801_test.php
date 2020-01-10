@@ -376,7 +376,7 @@ class stack_parser_rule_801_test extends qtype_stack_testcase {
     public function test_convert_to_float() {
         $test = ['123', '123'];
         $result = $this->filter($test[0], true, true, true, 'to float');
-        $this->assertEquals($test[1], $result['output']);
+        $this->assertEqualsIgnoreSpacesAndE($test[1], $result['output']);
 
         $test = ['123.45', '123.45'];
         $result = $this->filter($test[0], true, true, true, 'to float');
@@ -388,7 +388,8 @@ class stack_parser_rule_801_test extends qtype_stack_testcase {
 
         $test = ['123.45*10^6', '123.45e6'];
         $result = $this->filter($test[0], true, true, true, 'to float');
-        $this->assertEquals($test[1], $result['output']);
+        // Ignore e/E differences
+        $this->assertEquals($test[1], strtolower($result['output']));
 
         $test = ['-123', '-123'];
         $result = $this->filter($test[0], true, true, true, 'to float');
@@ -400,11 +401,11 @@ class stack_parser_rule_801_test extends qtype_stack_testcase {
 
         $test = ['-123.45*10^6', '-123.45e6'];
         $result = $this->filter($test[0], true, true, true, 'to float');
-        $this->assertEquals($test[1], $result['output']);
+        $this->assertEquals($test[1], strtolower($result['output']));
 
         $test = ['-123.45*10^-6', '-123.45e-6'];
         $result = $this->filter($test[0], true, true, true, 'to float');
-        $this->assertEquals($test[1], $result['output']);
+        $this->assertEquals($test[1], strtolower($result['output']));
 
         // With sufficient exponents will alway use the exact form.
         $test = ['-123.45*10^-333', '-123.45*10^-333'];

@@ -198,14 +198,14 @@ class stack_options {
 
                 if ('ex' == $opt['castype']) {
                     $names      .= ', '.$opt['caskey'];
-                    $commands   .= ', '.$opt['caskey'].':'.$value;
+                    $commands   .= stack_cas_session2::SEP . $opt['caskey'].':'.$value;
                 } else if ('exs' == $opt['castype']) {
                     $names      .= ', '.$opt['caskey'];
-                    $commands   .= ', '.$opt['caskey'].':"'.$value.'"';
+                    $commands   .= stack_cas_session2::SEP . $opt['caskey'].':"'.$value.'"';
                 } else if ('fun' == $opt['castype']) {
                     // Make sure these options are *strings*, otherwise they clash
                     // with Maxim names, particularly alias.
-                    $commands   .= ', '.$opt['caskey'].'("'.$value.'")';
+                    $commands   .= stack_cas_session2::SEP . $opt['caskey'].'("'.$value.'")';
                 }
             }
         }

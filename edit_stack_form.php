@@ -205,10 +205,8 @@ class qtype_stack_edit_form extends question_edit_form {
         $mform->insertElementBefore($qvars, 'questiontext');
         $mform->addHelpButton('questionvariables', 'questionvariables', 'qtype_stack');
 
-        if (array_key_exists('id', $this->question)) {
-            $urlparams = array('questionid' => $this->question->id, 'seed' => 0);
-            $qtestlink = html_writer::link(new moodle_url(
-                    '/question/type/stack/questiontestrun.php', $urlparams),
+        if (isset($this->question->id)) {
+            $qtestlink = html_writer::link($qtype->get_question_test_url($this->question),
                     stack_string('runquestiontests'), array('target' => '_blank'));
             $qtlink = $mform->createElement('static', 'qtestlink', '', $qtestlink);
             $mform->insertElementBefore($qtlink, 'questionvariables');

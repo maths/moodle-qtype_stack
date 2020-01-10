@@ -55,16 +55,16 @@ matrix:
 
 
     - php: 7.3
-      env: TASK=CODESTYLE      MOODLE_BRANCH=MOODLE_38_STABLE   DB=mysqli
+      env: TASK=CODESTYLE      MOODLE_BRANCH=MOODLE_37_STABLE   DB=mysqli
 
     - php: 7.3
-      env: TASK=CODEKNOWNFAILS MOODLE_BRANCH=MOODLE_38_STABLE   DB=mysqli
+      env: TASK=CODEKNOWNFAILS MOODLE_BRANCH=MOODLE_37_STABLE   DB=mysqli
 
   allow_failures:
     # This relates to the bit right at the end, where we run some of the coding style checks in this group.
     # We don't care if these checks fail, but we want to be able to see the results.
-    - php: 7.1
-      env: TASK=CODEKNOWNFAILS MOODLE_BRANCH=MOODLE_38_STABLE   DB=mysqli
+    - php: 7.3
+      env: TASK=CODEKNOWNFAILS MOODLE_BRANCH=MOODLE_37_STABLE   DB=mysqli
 
 before_install:
   - phpenv config-rm xdebug.ini

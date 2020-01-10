@@ -11,7 +11,7 @@ Feature: Test restoring the STACK demo course
     And I upload "question/type/stack/samplequestions/STACK-demo.mbz" file to "Files" filemanager
     And I press "Save changes"
 
-  @javascript
+  @javascript @_file_upload
   Scenario: Restore the STACK demo course.
     When I restore "STACK-demo.mbz" backup into a new course using this options:
     And I am on "Demonstrating STACK (v4.3)" course homepage

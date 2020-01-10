@@ -75,7 +75,7 @@ Feature: Create, preview, test, tidy and edit STACK questions
     When I follow "Preview"
 
     # Use the tidy question script.
-    And I follow "Tidy question"
+    And I follow "Tidy STACK question tool"
     And I set the following fields to these values:
       | New name for 'ans1' | ans |
       | New name for 'prt1' | prt |

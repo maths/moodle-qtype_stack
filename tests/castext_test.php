@@ -981,13 +981,12 @@ class stack_cas_text_test extends qtype_stack_testcase {
                 'Scientific notation: \({1.234E+3}\). With commas: \({1,234}\). ' .
                 'Ordinal rethoric: \({\mbox{one thousand two hundred thirty-fourth}}\). ' .
                 'Roman numerals: \({MCCXXXIV}\).';
-        if ($this->adapt_to_new_maxima('5.38.2')) {
-            $expected = 'Standard: \({1234}\). ' .
-                'Scientific notation: \({1.234E+3}\). With commas: \({1,234}\). ' .
-                'Ordinal rethoric: \({\mbox{one thousand, two hundred thirty-fourth}}\). ' .
-                'Roman numerals: \({MCCXXXIV}\).';
-        }
-        $this->assertEqualsIgnoreSpacesAndE($expected, $at1->get_display_castext());
+        $actual = $at1->get_display_castext();
+        // Some Maxima/Lisp combos output a comma. Other's don't.
+        // So, normalise before we compare.
+        $actual = str_replace('one thousand, two hundred',
+            'one thousand two hundred', $actual);
+        $this->assertEqualsIgnoreSpacesAndE($expected, $actual);
     }
 
     public function test_stack_disp_comma_separate() {

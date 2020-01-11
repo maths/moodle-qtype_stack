@@ -25,64 +25,45 @@ cache:
 matrix:
   include:
 
-#    - php: 7.0
-#      env: TASK=PHPUNIT        MOODLE_BRANCH=MOODLE_32_STABLE   DB=pgsql
-#
-#    - php: 5.6
-#      env: TASK=PHPUNIT        MOODLE_BRANCH=MOODLE_33_STABLE   DB=mysqli
-#
 #    # Would be good to run this next test in PHP 7.2, but STACK does not support that yet.
 #    - php: 7.0
-#      env: TASK=PHPUNIT        MOODLE_BRANCH=MOODLE_34_STABLE   DB=pgsql
+#      env: TASK=PHPUNIT        MOODLE_BRANCH=MOODLE_35_STABLE   DB=pgsql
 #
-#    - php: 7.1
-#      env: TASK=PHPUNIT        MOODLE_BRANCH=MOODLE_35_STABLE   DB=mysqli
-#
-#    - php: 7.1
-#      env: TASK=PHPUNIT        MOODLE_BRANCH=MOODLE_36_STABLE   DB=pgsql
-
     - php: 7.1
-      env: TASK=PHPUNIT        MOODLE_BRANCH=MOODLE_37_STABLE             DB=mysqli
+      env: TASK=PHPUNIT        MOODLE_BRANCH=MOODLE_37_STABLE   DB=mysqli
 
-#    # Master here will need to be changed to MOODLE_38_STABLE once Moodle 3.8 has been released.
+#    - php: 7.2
+#      env: TASK=PHPUNIT        MOODLE_BRANCH=MOODLE_38_STABLE   DB=pgsql
+#
+# Master here will need to be changed to MOODLE_39_STABLE once Moodle 3.9 has been released.
+#    - php: 7.3
+#      env: TASK=PHPUNIT        MOODLE_BRANCH=master             DB=mysqli
+
+
 #    - php: 7.1
-#      env: TASK=PHPUNIT        MOODLE_BRANCH=master             DB=pgsql
-
-
-#    - php: 5.6
-#      env: TASK=BEHAT          MOODLE_BRANCH=MOODLE_32_STABLE   DB=mysqli
+#      env: TASK=BEHAT          MOODLE_BRANCH=MOODLE_35_STABLE   DB=mysqli
 #
-#    - php: 7.0
-#      env: TASK=BEHAT          MOODLE_BRANCH=MOODLE_33_STABLE   DB=pgsql
-#
-#    - php: 7.1
-#      env: TASK=BEHAT          MOODLE_BRANCH=MOODLE_34_STABLE   DB=mysqli
-#
-#    # Would be good to run this next test in PHP 7.2, but STACK does not support that yet.
-#    - php: 7.0
-#      env: TASK=BEHAT          MOODLE_BRANCH=MOODLE_35_STABLE   DB=pgsql
-#
-#    - php: 7.1
-#      env: TASK=BEHAT          MOODLE_BRANCH=MOODLE_36_STABLE   DB=mysqli
-
-    - php: 7.1
+    - php: 7.2
       env: TASK=BEHAT          MOODLE_BRANCH=MOODLE_37_STABLE   DB=pgsql
 
-#    # Master here will need to be changed to MOODLE_38_STABLE once Moodle 3.8 has been released.
-#    - php: 7.1
-#      env: TASK=BEHAT          MOODLE_BRANCH=master             DB=mysqli
+#    - php: 7.3
+#      env: TASK=BEHAT          MOODLE_BRANCH=MOODLE_38_STABLE   DB=mysqli
+
+# Master here will need to be changed to MOODLE_39_STABLE once Moodle 3.9 has been released.
+#    - php: 7.2
+#      env: TASK=BEHAT          MOODLE_BRANCH=master             DB=pgsql
 
 
-    - php: 7.1
+    - php: 7.3
       env: TASK=CODESTYLE      MOODLE_BRANCH=MOODLE_37_STABLE   DB=mysqli
 
-    - php: 7.1
+    - php: 7.3
       env: TASK=CODEKNOWNFAILS MOODLE_BRANCH=MOODLE_37_STABLE   DB=mysqli
 
   allow_failures:
     # This relates to the bit right at the end, where we run some of the coding style checks in this group.
     # We don't care if these checks fail, but we want to be able to see the results.
-    - php: 7.1
+    - php: 7.3
       env: TASK=CODEKNOWNFAILS MOODLE_BRANCH=MOODLE_37_STABLE   DB=mysqli
 
 before_install:
@@ -119,11 +100,6 @@ script:
   - if [ "$TASK" = 'PHPUNIT' ];        then moodle-plugin-ci phpunit;     fi
 
   # Run all the Behat tests.
-
-  # The following line is a temporary work-around for https://tracker.moodle.org/browse/MDL-66378.
-  # Once that is fixed, this line can go.
-  - if [ "$TASK" = 'BEHAT' ];          then curl https://github.com/timhunt/php-webdriver/commit/7a0aa38f591b7395939df25d8cb6677bf99a481f.patch | git apply --directory moodle/vendor/instaclick/php-webdriver; fi
-
   - if [ "$TASK" = 'BEHAT' ];          then moodle-plugin-ci behat --profile chrome; fi
 
   # Run all the various code style tests - this subset should all pass.

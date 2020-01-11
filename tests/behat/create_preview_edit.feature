@@ -32,7 +32,7 @@ Feature: Create, preview, test, tidy and edit STACK questions
     Then I should see "Test STACK question"
 
     # Preview it.
-    When I click on "Preview" "link" in the "Test STACK question" "table_row"
+    When I choose "Preview" action for "Test STACK question" in the question bank
     And I switch to "questionpreview" window
     And I set the following fields to these values:
       | How questions behave | Adaptive          |
@@ -75,7 +75,7 @@ Feature: Create, preview, test, tidy and edit STACK questions
     When I follow "Preview"
 
     # Use the tidy question script.
-    And I follow "Tidy question"
+    And I follow "Tidy STACK question tool"
     And I set the following fields to these values:
       | New name for 'ans1' | ans |
       | New name for 'prt1' | prt |
@@ -87,7 +87,7 @@ Feature: Create, preview, test, tidy and edit STACK questions
     And I switch to the main window
 
     # Edit the question, verify the form field contents, then change some.
-    When I click on "Edit" "link" in the "Test STACK question" "table_row"
+    When I choose "Edit question" action for "Test STACK question" in the question bank
     Then the following fields match these values:
       | Question name      | Test STACK question                                                         |
       | Question variables | p : (x-1)^3;                                                                |

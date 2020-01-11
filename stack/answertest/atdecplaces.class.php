@@ -64,15 +64,18 @@ class stack_anstest_atdecplaces extends stack_anstest {
             return null;
         }
 
+        // Check that the first expression is a floating point number,
+        // with the right number of decimal places.
         if ($this->sanskey->is_float() || $this->sanskey->is_int()) {
             // All good.
-            $testevaluated = false;
+            $r = $this->sanskey->get_decimal_digits();
 
-        } else if ($this->sanskey->is_float(true) || $this->sanskey->is_int(true)) {
+        } else if ($this->sanskey->is_correctly_evaluated() &&
+                ($this->sanskey->is_float(true) || $this->sanskey->is_int(true))) {
             // This is not great, but it happens when the answer test is applied
             // to a feedback variable, rather than a raw input. E.g. if someone
             // has done sansmin: min(sans1, sans2) in a quadratic question.
-            $testevaluated = true;
+            $r = $this->sanskey->get_decimal_digits(true);
             // TODO Should we set an answer note, or similar, in this situation?
 
         } else {
@@ -83,9 +86,6 @@ class stack_anstest_atdecplaces extends stack_anstest {
             return null;
         }
 
-        // Check that the first expression is a floating point number,
-        // with the right number of decimal places.
-        $r = $this->sanskey->get_decimal_digits($testevaluated);
         if ($atestops != $r['decimalplaces'] ) {
             $this->atfeedback  .= stack_string('ATNumDecPlaces_Wrong_DPs');
             $anotes[]           = 'ATNumDecPlaces_Wrong_DPs';

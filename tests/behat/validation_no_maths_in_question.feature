@@ -31,7 +31,7 @@ Feature: STACK input vaidation works even if there is no maths in the question
     Then I should see "Test STACK question"
 
     # Preview it.
-    When I click on "Preview" "link" in the "Test STACK question" "table_row"
+    When I choose "Preview" action for "Test STACK question" in the question bank
     And I switch to "questionpreview" window
     And I set the following fields to these values:
       | How questions behave | Adaptive          |

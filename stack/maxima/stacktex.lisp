@@ -400,14 +400,17 @@
 ;; Up the binding power of mminus, so that -(a/b) outputs exactly this way and not -a/b = (-a)/b.
 ;; Subtle differences.
 
+;; In a maxima session type
+;; :lisp (defprop mminus 120. rbp);
+
 ;; We provide just two specific functions here, and do not allow users to set an arbitrary binding power.
 
 ;; *************************************************************************************************
 
-(defmspec $mminusbp121 (x)
+(defmspec $mminusbp120 (x)
   (setq x (car x))
-  (defprop mminus 121. rbp)
-  (defprop mminus 121. lbp)
+  (defprop mminus 120. rbp)
+  (defprop mminus 120. lbp)
   '$done
 )
 

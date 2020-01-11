@@ -1755,13 +1755,7 @@ class stack_cas_session2_test extends qtype_stack_testcase {
         $at1 = new stack_cas_session2($s1, $options, 0);
         $at1->instantiate();
 
-        $actual = $s1[0]->get_dispvalue();
-        if (strpos($actual, 'quantile_gamma(') !== false) {
-            // Seems that the distrib package is not available. Skip this test.
-            $this->markTestSkipped('Skipping because it seems the distrib package is not installed.');
-        }
-
-        $this->assertEquals('163.835395267', $actual);
+        $this->assertEquals('163.835395267', $s1[0]->get_dispvalue());
     }
 
     public function test_stack_parse_inequalities() {
@@ -1805,7 +1799,10 @@ class stack_cas_session2_test extends qtype_stack_testcase {
     }
 
     public function test_stack_pmpoly() {
-        $tests = array('s1 : -(4*x^7)+3*x^5-2*x^3+x');
+        $tests = array('s1:-(4*x^7)+3*x^5-2*x^3+x',
+                       'p1:-a/b', 'p2:(-a)/b', 'p3:-(a/b)',
+                       'pm1:a+-b'
+        );
 
         foreach ($tests as $key => $c) {
             $s1[] = stack_ast_container::make_from_teacher_source($c,
@@ -1817,8 +1814,24 @@ class stack_cas_session2_test extends qtype_stack_testcase {
         $at1 = new stack_cas_session2($s1, $options, 0);
         $at1->instantiate();
 
-        $this->assertEquals('-(4*x^7)+3*x^5-2*x^3+x', $s1[0]->get_value());
+        $this->assertEquals('-(4*x^7)+3*x^5+(-2)*x^3+x', $s1[0]->get_value());
         $this->assertEquals('-(4*x^7)+3*x^5-2*x^3+x', $s1[0]->get_dispvalue());
-        $this->assertEquals('', $s1[0]->get_display());
+        $this->assertEquals('-4\cdot x^7+3\cdot x^5-2\cdot x^3+x', $s1[0]->get_display());
+
+        $this->assertEquals('(-a)/b', $s1[1]->get_value());
+        $this->assertEquals('(-a)/b', $s1[1]->get_dispvalue());
+        $this->assertEquals('\frac{-a}{b}', $s1[1]->get_display());
+
+        $this->assertEquals('(-a)/b', $s1[2]->get_value());
+        $this->assertEquals('(-a)/b', $s1[2]->get_dispvalue());
+        $this->assertEquals('\frac{-a}{b}', $s1[2]->get_display());
+
+        $this->assertEquals('-(a/b)', $s1[3]->get_value());
+        $this->assertEquals('-(a/b)', $s1[3]->get_dispvalue());
+        $this->assertEquals('-\frac{a}{b}', $s1[3]->get_display());
+
+        $this->assertEquals('a+-b', $s1[4]->get_value());
+        $this->assertEquals('a+-b', $s1[4]->get_dispvalue());
+        $this->assertEquals('{a \pm b}', $s1[4]->get_display());
     }
 }

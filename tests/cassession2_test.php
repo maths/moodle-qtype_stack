@@ -1797,4 +1797,22 @@ class stack_cas_session2_test extends qtype_stack_testcase {
             $this->assertEquals('8.5*sin((66940295262037*%pi)/17092461650)', $s1[0]->get_dispvalue());
         }
     }
+
+    public function test_stack_pmpoly() {
+        $tests = array('s1 : -(4*x^7)+3*x^5-2*x^3+x');
+
+        foreach ($tests as $key => $c) {
+            $s1[] = stack_ast_container::make_from_teacher_source($c,
+                    '', new stack_cas_security(), array());
+        }
+
+        $options = new stack_options();
+        $options->set_option('simplify', false);
+        $at1 = new stack_cas_session2($s1, $options, 0);
+        $at1->instantiate();
+
+        $this->assertEquals('-(4*x^7)+3*x^5-2*x^3+x', $s1[0]->get_value());
+        $this->assertEquals('-(4*x^7)+3*x^5-2*x^3+x', $s1[0]->get_dispvalue());
+        $this->assertEquals('', $s1[0]->get_display());
+    }
 }

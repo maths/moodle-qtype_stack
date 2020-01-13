@@ -1755,7 +1755,12 @@ class stack_cas_session2_test extends qtype_stack_testcase {
         $at1 = new stack_cas_session2($s1, $options, 0);
         $at1->instantiate();
 
-        $this->assertEquals('163.835395267', $s1[0]->get_dispvalue());
+        $actual = $s1[0]->get_dispvalue();
+        if (strpos($actual, 'quantile_gamma(') !== false) {
+            // Seems that the distrib package is not available. Skip this test.
+            $this->markTestSkipped('Skipping because it seems the distrib package is not installed.');
+        }
+        $this->assertEquals('163.835395267', $actual);
     }
 
     public function test_stack_parse_inequalities() {

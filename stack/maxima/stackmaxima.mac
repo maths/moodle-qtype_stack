@@ -2655,6 +2655,9 @@ ATInt(sa, sb, so) := block([oldsimp, keepfloat, Validity, RawMark, FeedBack, Ans
     if (is(SOO=[STACKERROR]) or is(SOO=[])) then
         return([false, false, StackAddNote("", "ATInt_STACKERROR_Opt"), ""]),
 
+    /* We always simplify the teacher's answer. */
+    sb:first(SBB),
+
     var:so,
     /* Is the options field a variable or a list at this stage?
        If so, the teacher has provided options such as
@@ -2896,6 +2899,9 @@ ATDiff(sa, sb, so) :=
     if (is(SBB=[STACKERROR]) or is(SBB=[])) then return([false,false,StackAddNote("","ATDiff_STACKERROR_TAns"),""]),
     SOO:errcatch(ev(so, simp, nouns)),
     if (is(SOO=[STACKERROR]) or is(SOO=[])) then return([false,false,StackAddNote("","ATDiff_STACKERROR_Opt"),""]),
+
+    /* We always simplify the teacher's answer. */
+    sb:first(SBB),
 
     /* SA should be only an expression. */
     if expressionp(sa)=false then

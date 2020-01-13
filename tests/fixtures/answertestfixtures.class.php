@@ -1046,7 +1046,7 @@ class stack_answertest_test_data {
         array('Int', 'x', 'ln(k*abs(x))', 'ln(k*abs(x))', 1, 'ATInt_true_equiv.', ''),
         array('Int', 'x', 'ln(x)+ln(a)', 'ln(k*abs(x+a))', 0, 'ATInt_generic. ATInt_logabs.', 'Other logs'),
         array('Int', 'x', 'log(x)^2-2*log(c)*log(x)+k', 'ln(c/x)^2', 0, 'ATInt_EqFormalDiff.', ''),
-        array('Int', 'x', 'log(x)^2-2*log(c)*log(x)+k', 'ln(abs(c/x))^2', 0, 'ATInt_generic. ATInt_logabs.', ''),
+        array('Int', 'x', 'log(x)^2-2*log(c)*log(x)+k', 'ln(abs(c/x))^2', 0, 'ATInt_generic.', ''),
         array('Int', 'x', 'c-(log(2)-log(x))^2/2', '-1/2*log(2/x)^2', 1, 'ATInt_true_equiv.', ''),
         // In these examples there are two logarihtms.  The student should be *consistent*
         // in their use, or not, of absolute value.

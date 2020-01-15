@@ -388,7 +388,7 @@ class stack_parser_rule_801_test extends qtype_stack_testcase {
 
         $test = ['123.45*10^6', '123.45e6'];
         $result = $this->filter($test[0], true, true, true, 'to float');
-        // Ignore e/E differences
+        // Ignore e/E differences.
         $this->assertEquals($test[1], strtolower($result['output']));
 
         $test = ['-123', '-123'];

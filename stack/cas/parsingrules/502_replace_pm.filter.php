@@ -33,7 +33,7 @@ class stack_ast_filter_502_replace_pm implements stack_cas_astfilter {
             return true;
         };
 
-    $ast->callbackRecurse($process);
-    return $ast;
+        $ast->callbackRecurse($process);
+        return $ast;
     }
 }

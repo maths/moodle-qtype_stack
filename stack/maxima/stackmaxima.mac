@@ -1305,9 +1305,9 @@ ATAlgEquivfun(SA, SB) :=  block([SApoly, SBpoly, keepfloat, RawMark, FeedBack, A
         return(ATFunction(SA, SB)),
     /* Are we dealing with a hidden equation? */
     SApoly:SA,
-    if logicp(SA) and freeof("+-", SA) then SApoly:logic_to_poly(SA),
+    if logicp(SA) and freeof(STACKpmOPT, SA) then SApoly:logic_to_poly(SA),
     SBpoly:SB,
-    if logicp(SB) and freeof("+-", SA) then SBpoly:logic_to_poly(SB),
+    if logicp(SB) and freeof(STACKpmOPT, SA) then SBpoly:logic_to_poly(SB),
     /* Don't use logic_edgep(SB) here, as this includes "true" and "false".  A teacher should use all/none if they mean equations. */
     if (equationp(SBpoly) or SB = all or SB = none) then
       /* But the student can also use true/false here.  Note the conscious asymmetry. */
@@ -1316,7 +1316,7 @@ ATAlgEquivfun(SA, SB) :=  block([SApoly, SBpoly, keepfloat, RawMark, FeedBack, A
       else if equationp(SB) and not (equationp(SA) or logicp(SA) or inequalityp(SA)) then
         return(StackBasicReturn(false, false, "ATAlgEquiv_SA_not_equation")),
     /* Did the student type in a simple equation, but the teacher did not? */
-    if (equationp(SA) and not(op_usedp(SA, abs)) and not(op_usedp(SA, "+-"))) then return(StackBasicReturn(false, false, "ATAlgEquiv_TA_not_equation")),
+    if (equationp(SA) and not(op_usedp(SA, abs)) and not(op_usedp(SA, STACKpmOPT))) then return(StackBasicReturn(false, false, "ATAlgEquiv_TA_not_equation")),
     /* Are we dealing with an inequality? */
     if inequalityp(SB) or equationp(SB) then
       if inequalityp(SA)#true and equationp(SA)#true and logicp(SA)#true then
@@ -1774,8 +1774,8 @@ ATSubstEquiv(SA,SB) := block([simp:true, ret, SAc, SBc],
 ATLogic(SA, SB) := block([SAL, SBL, res],
     res:[true, false, "", ""],
     /* Write the statements in canonical form then compare. */
-    if ev(is(count_op(SA,"+-")=1), simp) then SA:pm_replace(SA),
-    if ev(is(count_op(SB,"+-")=1), simp) then SB:pm_replace(SB),
+    if ev(is(count_op(SA,STACKpmOPT)=1), simp) then SA:pm_replace(SA),
+    if ev(is(count_op(SB,STACKpmOPT)=1), simp) then SB:pm_replace(SB),
     SA:ev(logical_normal(SA), simp),
     SB:ev(logical_normal(SB), simp),
     /* Check for the empty set. */

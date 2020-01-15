@@ -467,7 +467,7 @@ class stack_cas_session2_test extends qtype_stack_testcase {
 
     public function test_get_display_unary_minus() {
 
-        $cs = array('p1:y^3-2*y^2-8*y', 'p2:y^2-2*y-8', 'p3:y^2-2*y-0.5', 'p4:x+-3+y', 'p5:x+(-5+y)');
+        $cs = array('p1:y^3-2*y^2-8*y', 'p2:y^2-2*y-8', 'p3:y^2-2*y-0.5', 'p4:x#pm#3+y', 'p5:x+(-5+y)');
         // Notice the subtle difference in p4 & p5.
         // Where extra brackets are put in they should stay.
         foreach ($cs as $s) {
@@ -1412,16 +1412,16 @@ class stack_cas_session2_test extends qtype_stack_testcase {
     }
 
     public function test_pm_simp_false() {
-        $cs = array('c0:a+-b',
-            'c1:x = (-b +- sqrt(b^2-4*a*c))/(2*a)',
-            'c2:b+-a^2',
-            'c3:(b+-a)^2',
-            'c4:+-a',
-            'c5:+-a^2',
-            'c6:+-sqrt(1-x)',
-            'c7:(a+-b)^2',
-            'c8:x = +-b',
-            'c9:sin(x+-a)^2');
+        $cs = array('c0:a#pm#b',
+            'c1:x = (-b #pm# sqrt(b^2-4*a*c))/(2*a)',
+            'c2:b#pm#a^2',
+            'c3:(b#pm#a)^2',
+            'c4:#pm#a',
+            'c5:#pm#a^2',
+            'c6:#pm#sqrt(1-x)',
+            'c7:(a#pm#b)^2',
+            'c8:x = #pm#b',
+            'c9:sin(x#pm#a)^2');
 
         foreach ($cs as $s) {
             $s1[] = stack_ast_container::make_from_student_source($s, '', new stack_cas_security(), array());
@@ -1433,39 +1433,39 @@ class stack_cas_session2_test extends qtype_stack_testcase {
         $at1 = new stack_cas_session2($s1, $options, 0);
         $at1->instantiate();
 
-        $this->assertEquals('a+-b', $s1[0]->get_value());
+        $this->assertEquals('a#pm#b', $s1[0]->get_value());
         $this->assertEquals('{a \pm b}',  $s1[0]->get_display());
-        $this->assertEquals('x = (-b+-sqrt(b^2-4*a*c))/(2*a)',  $s1[1]->get_value());
+        $this->assertEquals('x = (-b#pm#sqrt(b^2-4*a*c))/(2*a)',  $s1[1]->get_value());
         $this->assertEquals('x=\frac{{-b \pm \sqrt{b^2-4\cdot a\cdot c}}}{2\cdot a}', $s1[1]->get_display());
-        $this->assertEquals('b+-a^2', $s1[2]->get_value());
+        $this->assertEquals('b#pm#a^2', $s1[2]->get_value());
         $this->assertEquals('{b \pm a^2}', $s1[2]->get_display());
-        $this->assertEquals('(b+-a)^2', $s1[3]->get_value());
+        $this->assertEquals('(b#pm#a)^2', $s1[3]->get_value());
         $this->assertEquals('\left({b \pm a}\right)^2', $s1[3]->get_display());
-        $this->assertEquals('"+-"(a)', $s1[4]->get_value());
+        $this->assertEquals('"#pm#"(a)', $s1[4]->get_value());
         $this->assertEquals('\pm a', $s1[4]->get_display());
-        $this->assertEquals('"+-"(a^2)', $s1[5]->get_value());
+        $this->assertEquals('"#pm#"(a^2)', $s1[5]->get_value());
         $this->assertEquals('\pm a^2', $s1[5]->get_display());
-        $this->assertEquals('"+-"(sqrt(1-x))', $s1[6]->get_value());
+        $this->assertEquals('"#pm#"(sqrt(1-x))', $s1[6]->get_value());
         $this->assertEquals('\pm \sqrt{1-x}', $s1[6]->get_display());
-        $this->assertEquals('(a+-b)^2', $s1[7]->get_value());
+        $this->assertEquals('(a#pm#b)^2', $s1[7]->get_value());
         $this->assertEquals('\left({a \pm b}\right)^2', $s1[7]->get_display());
-        $this->assertEquals('x = "+-"(b)', $s1[8]->get_value());
+        $this->assertEquals('x = "#pm#"(b)', $s1[8]->get_value());
         $this->assertEquals('x= \pm b', $s1[8]->get_display());
-        $this->assertEquals('sin(x+-a)^2', $s1[9]->get_value());
+        $this->assertEquals('sin(x#pm#a)^2', $s1[9]->get_value());
         $this->assertEquals('\sin ^2\left({x \pm a}\right)', $s1[9]->get_display());
     }
 
     public function test_pm_simp_true() {
-        $cs = array('c1:a+-b',
-            'c2:x=(-b +- sqrt(b^2-4*a*c))/(2*a)',
-            'c3:b+-a^2',
-            'c4:(b+-a)^2',
-            'c5:+-a',
-            'c6:+-a^2',
-            'c7:+-sqrt(1-x)',
-            'c8:(a+-b)^2',
-            'c9:x=+-b',
-            'c10:sin(x+-a)^2');
+        $cs = array('c1:a#pm#b',
+            'c2:x=(-b #pm# sqrt(b^2-4*a*c))/(2*a)',
+            'c3:b#pm#a^2',
+            'c4:(b#pm#a)^2',
+            'c5:#pm#a',
+            'c6:#pm#a^2',
+            'c7:#pm#sqrt(1-x)',
+            'c8:(a#pm#b)^2',
+            'c9:x=#pm#b',
+            'c10:sin(x#pm#a)^2');
 
         foreach ($cs as $s) {
             $s1[] = stack_ast_container::make_from_student_source($s, '', new stack_cas_security(), array());
@@ -1477,25 +1477,25 @@ class stack_cas_session2_test extends qtype_stack_testcase {
         $at1 = new stack_cas_session2($s1, $options, 0);
         $at1->instantiate();
 
-        $this->assertEquals('a+-b', $s1[0]->get_value());
+        $this->assertEquals('a#pm#b', $s1[0]->get_value());
         $this->assertEquals('{a \pm b}', $s1[0]->get_display());
-        $this->assertEquals('x = (-b+-sqrt(b^2-4*a*c))/(2*a)', $s1[1]->get_value());
+        $this->assertEquals('x = (-b#pm#sqrt(b^2-4*a*c))/(2*a)', $s1[1]->get_value());
         $this->assertEquals('x=\frac{{-b \pm \sqrt{b^2-4\cdot a\cdot c}}}{2\cdot a}', $s1[1]->get_display());
-        $this->assertEquals('b+-a^2', $s1[2]->get_value());
+        $this->assertEquals('b#pm#a^2', $s1[2]->get_value());
         $this->assertEquals('{b \pm a^2}', $s1[2]->get_display());
-        $this->assertEquals('(b+-a)^2', $s1[3]->get_value());
+        $this->assertEquals('(b#pm#a)^2', $s1[3]->get_value());
         $this->assertEquals('\left({b \pm a}\right)^2', $s1[3]->get_display());
-        $this->assertEquals('"+-"(a)', $s1[4]->get_value());
+        $this->assertEquals('"#pm#"(a)', $s1[4]->get_value());
         $this->assertEquals('\pm a', $s1[4]->get_display());
-        $this->assertEquals('"+-"(a^2)', $s1[5]->get_value());
+        $this->assertEquals('"#pm#"(a^2)', $s1[5]->get_value());
         $this->assertEquals('\pm a^2', $s1[5]->get_display());
-        $this->assertEquals('"+-"(sqrt(1-x))', $s1[6]->get_value());
+        $this->assertEquals('"#pm#"(sqrt(1-x))', $s1[6]->get_value());
         $this->assertEquals('\pm \sqrt{1-x}', $s1[6]->get_display());
-        $this->assertEquals('(a+-b)^2', $s1[7]->get_value());
+        $this->assertEquals('(a#pm#b)^2', $s1[7]->get_value());
         $this->assertEquals('\left({a \pm b}\right)^2', $s1[7]->get_display());
-        $this->assertEquals('x = "+-"(b)', $s1[8]->get_value());
+        $this->assertEquals('x = "#pm#"(b)', $s1[8]->get_value());
         $this->assertEquals('x= \pm b', $s1[8]->get_display());
-        $this->assertEquals('sin(x+-a)^2', $s1[9]->get_value());
+        $this->assertEquals('sin(x#pm#a)^2', $s1[9]->get_value());
         $this->assertEquals('\sin ^2\left({x \pm a}\right)', $s1[9]->get_display());
     }
 
@@ -1806,7 +1806,7 @@ class stack_cas_session2_test extends qtype_stack_testcase {
     public function test_stack_pmpoly() {
         $tests = array('s1:-(4*x^7)+3*x^5-2*x^3+x',
                        'p1:-a/b', 'p2:(-a)/b', 'p3:-(a/b)',
-                       'pm1:a+-b'
+                       'pm1:a#pm#b'
         );
 
         foreach ($tests as $key => $c) {
@@ -1835,8 +1835,8 @@ class stack_cas_session2_test extends qtype_stack_testcase {
         $this->assertEquals('-(a/b)', $s1[3]->get_dispvalue());
         $this->assertEquals('-\frac{a}{b}', $s1[3]->get_display());
 
-        $this->assertEquals('a+-b', $s1[4]->get_value());
-        $this->assertEquals('a+-b', $s1[4]->get_dispvalue());
+        $this->assertEquals('a#pm#b', $s1[4]->get_value());
+        $this->assertEquals('a#pm#b', $s1[4]->get_dispvalue());
         $this->assertEquals('{a \pm b}', $s1[4]->get_display());
     }
 }

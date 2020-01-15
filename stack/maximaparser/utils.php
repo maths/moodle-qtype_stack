@@ -114,10 +114,10 @@ class maxima_parser_utils {
         try {
             $ast = self::parse($str);
             if ($lastfix !== -1) {
-                // If fixing has happened lets hide the fixed string to the result.
+                // If fixing has happened let's hide the fixed string to the result.
                 // Might be useful for the editor to have a way of placing those
                 // semicolons...
-                // Again lets abuse the position array.
+                // Again let's abuse the position array.
                 $ast->position['fixedsemicolons'] = $str;
             }
             return $ast;

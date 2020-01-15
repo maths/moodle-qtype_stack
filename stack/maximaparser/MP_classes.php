@@ -1963,6 +1963,8 @@ function opLBind($op) {
             return 120;
         case '+':
         case '-':
+        case '+-':
+        case '#pm#':
             return 100;
         case '=':
         case '*':
@@ -1999,6 +2001,8 @@ function opRBind($op) {
         case '@@Is@@':
         case '/':
             return 120;
+        case '+-':
+        case '#pm#':
         case '+':
             return 100;
         case '-':

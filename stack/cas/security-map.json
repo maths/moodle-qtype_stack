@@ -137,6 +137,14 @@
         "function": "s",
         "operator": "s"
     },
+    "#pm#": {
+        "function": "s",
+        "operator": "s"
+    },
+    "+-": {
+        "function": "s",
+        "operator": "s"
+    },
     ",": {
         "operator": "s"
     },

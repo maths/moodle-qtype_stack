@@ -9,7 +9,7 @@
  */
  /* compile > pegjs --format globals -e MaximaParser parser-grammar.pegjs
   *
-  * NOTE that the code contais both PHP and JS versions of the parser, remember
+  * NOTE that the code contains both PHP and JS versions of the parser, remember
   * to make your changes to both.
   */
  /*
@@ -50,6 +50,8 @@
    case '@@Is@@':
    case '/':
     return 120;
+   case '+-':
+   case '#pm#':
    case '+':
    case '-':
     return 100;
@@ -88,6 +90,8 @@
    case '@@Is@@':
    case '/':
     return 120;
+   case '#pm#':
+   case '+-':
    case '+':
     return 100;
    case '-':
@@ -551,7 +555,9 @@ LoopBit
  }
 
 PrefixOp
-  = "-"
+  = "#pm#"
+  / "+-"
+  / "-"
   / "+"
   / "''"
   / "'"
@@ -565,18 +571,20 @@ PostfixOp
   / "!"
 
 InfixOp
-  = "#"
-  / "**"
+  = "**"
   / "^^"
   / "^"
   / "*"
   / "/"
+  / "#pm#"
+  / "+-"
   / "-"
   / "+"
   / "and"
   / "or"
   / "nounand"
   / "nounor"
+  / "#"
   / "::="
   / ":="
   / "::"
@@ -633,8 +641,6 @@ UnaryOp
   var n = new MPPostfixOp(op, trg);
   n.position = mergePosition(location(), trg.position);
   return opBind(n);}
-
-
 
 Operation
   = DotOp

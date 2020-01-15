@@ -812,6 +812,8 @@ abstract class stack_input {
         $filterstoapply[] = '403_split_at_number_letter_boundary';
         $filterstoapply[] = '406_split_implied_variable_names';
 
+        $filterstoapply[] = '502_replace_pm';
+
         // Block use of evaluation groups.
         $filterstoapply[] = '505_no_evaluation_groups';
 

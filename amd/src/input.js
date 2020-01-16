@@ -21,7 +21,15 @@
  * @copyright  2018 The Open University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-define(['jquery', 'core/ajax', 'core/event'], function($, ajax, coreevent) {
+define([
+    'jquery',
+    'core/ajax',
+    'core/event'
+], function(
+    $,
+    Ajax,
+    CustomEvents
+) {
 
     "use strict";
 
@@ -35,7 +43,7 @@ define(['jquery', 'core/ajax', 'core/event'], function($, ajax, coreevent) {
      * @param {Object} input An object representing the input element for this input.
      * @param {Object} validationDiv jQuery representation of the validation div.
      */
-    var StackInput = function(name, qaid, input, validationDiv) {
+    function StackInput(name, qaid, input, validationDiv) {
         this.input = input;
         this.validationDiv = validationDiv;
         this.name = name;
@@ -44,7 +52,7 @@ define(['jquery', 'core/ajax', 'core/event'], function($, ajax, coreevent) {
         this.input.addEventHanders(this);
         this.lastValidatedValue = this.getIntputValue();
         this.validationResults = {};
-    };
+    }
 
     /**
      * @config TYPINGDELAY How long a pause in typing before we make an ajax validation request.
@@ -103,7 +111,7 @@ define(['jquery', 'core/ajax', 'core/event'], function($, ajax, coreevent) {
      */
     StackInput.prototype.validateInput = function() {
         var self = this;
-        ajax.call([{
+        Ajax.call([{
             methodname: 'qtype_stack_validate_input',
             args: {qaid: this.qaid, name: this.name, input: this.getIntputValue()},
             done: function(response) {
@@ -128,7 +136,7 @@ define(['jquery', 'core/ajax', 'core/event'], function($, ajax, coreevent) {
     /**
      * Update the validation div to show the results of the validation.
      *
-     * @param {String} response The data that came back from the ajax validation call.
+     * @param {Object} response The data that came back from the ajax validation call.
      */
     StackInput.prototype.validationReceived = function(response) {
         if (response.status === 'invalid') {
@@ -145,7 +153,7 @@ define(['jquery', 'core/ajax', 'core/event'], function($, ajax, coreevent) {
      * and run them later.
      *
      * @param {String} html HTML content
-     * @param {String} scriptcommands An array of script tags for later use.
+     * @param {Array} scriptcommands An array of script tags for later use.
      * @return {String} HTML with JS removed
      */
     StackInput.prototype.extractScripts = function(html, scriptcommands) {
@@ -159,9 +167,11 @@ define(['jquery', 'core/ajax', 'core/event'], function($, ajax, coreevent) {
 
     /**
      * Update the validation div to show the results of the validation.
+     *
+     * @return {boolean} true if we could show the validation. false we we are we don't have it.
      */
     StackInput.prototype.showValidationResults = function() {
-        /*eslint no-eval: "off"*/
+        /* eslint no-eval: "off" */
         var val = this.getIntputValue();
         if (!this.validationResults[val]) {
             this.showWaiting();
@@ -181,14 +191,14 @@ define(['jquery', 'core/ajax', 'core/event'], function($, ajax, coreevent) {
             this.validationDiv.addClass('empty');
         }
         // This fires the Maths filters for content in the validation div.
-        coreevent.notifyFilterContentUpdated(this.validationDiv[0]);
+        CustomEvents.notifyFilterContentUpdated(this.validationDiv[0]);
         return true;
     };
 
     /**
      * Update the validation div after an ajax validation call failed.
      *
-     * @param {String} response The data that came back from the ajax validation call.
+     * @param {Object} response The data that came back from the ajax validation call.
      */
     StackInput.prototype.showValidationFailure = function(response) {
         this.lastValidatedValue = '';
@@ -197,7 +207,7 @@ define(['jquery', 'core/ajax', 'core/event'], function($, ajax, coreevent) {
         this.removeAllClasses();
         this.validationDiv.addClass('error');
         // This fires the Maths filters for content in the validation div.
-        coreevent.notifyFilterContentUpdated(this.validationDiv[0]);
+        CustomEvents.notifyFilterContentUpdated(this.validationDiv[0]);
     };
 
     /**
@@ -290,16 +300,16 @@ define(['jquery', 'core/ajax', 'core/event'], function($, ajax, coreevent) {
     };
 
     /**
-     * Class constructor representing matrx inputs (one input).
+     * Class constructor representing matrix inputs (one input).
      *
      * @class StackMatrixInput
      * @constructor
-     * @param {String} idPrefix.
+     * @param {String} idPrefix input id, which is the start of the id of all the different text boxes.
      * @param {Object} container jQuery object wrapping a matrix of inputs.
      */
     var StackMatrixInput = function(idPrefix, container) {
         this.container = container;
-        this.idPrefix  = idPrefix;
+        this.idPrefix = idPrefix;
         var numcol = 0;
         var numrow = 0;
         this.container.find('input[type=text]').each(function(i, element) {
@@ -356,7 +366,8 @@ define(['jquery', 'core/ajax', 'core/event'], function($, ajax, coreevent) {
     var t = {
         initInputs: function(inputs, qaid, prefix) {
             var allok = true;
-            for (var i = 0; i < inputs.length; i++) {
+            var i;
+            for (i = 0; i < inputs.length; i++) {
                 var name = inputs[i];
                 allok = t.initInput(name, qaid, prefix) && allok;
             }

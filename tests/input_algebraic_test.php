@@ -879,6 +879,10 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         $this->assertEquals('', $state->note);
         $this->assertEquals('', $state->errors);
         $this->assertEquals('\[ x= \pm b \]', $state->contentsdisplayed);
+        // Internally the teacher's answer will be in the #pm# form, which is not what students type.
+        $this->assertEquals('A correct answer is <span class="filter_mathjaxloader_equation">'
+                . '<span class="nolink">\( x= \pm b \)</span></span>, which can be typed in as follows: '
+                . '<code>x= +- b)</code>', $el->get_teacher_answer_display('x= #pm# b', 'x= \pm b'));
     }
 
     public function test_validate_student_response_pm_expr() {
@@ -892,6 +896,9 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         $this->assertEquals('', $state->note);
         $this->assertEquals('', $state->errors);
         $this->assertEquals('\[ {a \pm b \pm c} \]', $state->contentsdisplayed);
+        $this->assertEquals('A correct answer is <span class="filter_mathjaxloader_equation">'
+                . '<span class="nolink">\( {a \pm b \pm c} \)</span></span>, which can be typed in as follows: '
+                . '<code>a +- b +- c</code>', $el->get_teacher_answer_display('a#pm#b#pm#c', '{a \pm b \pm c}'));
     }
 
     public function test_validate_student_response_pm_eq() {
@@ -905,6 +912,10 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         $this->assertEquals('', $state->note);
         $this->assertEquals('', $state->errors);
         $this->assertEquals('\[ {x \pm a}={y \pm b} \]', $state->contentsdisplayed);
+        $this->assertEquals('A correct answer is <span class="filter_mathjaxloader_equation">'
+                . '<span class="nolink">\( {x \pm a}={y \pm b} \)</span></span>, which can be typed in as follows: '
+                . '<code>x +- a = y +- b</code>',
+                $el->get_teacher_answer_display('x #pm# a = y #pm# b', '{x \pm a}={y \pm b}'));
     }
 
     public function test_validate_student_response_with_align_right() {

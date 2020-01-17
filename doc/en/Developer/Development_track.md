@@ -14,6 +14,7 @@ CHANGES:
 * In the forbidden words we now match whole words not substrings.
 * Removed the RegExp answer test.
 * Use of units is now reflected throughout a question.  This reduces the need to declare units in all contexts.
+* Internally, the "+-" operator has been replaced with a new infix operation "#pm#".  Instead of `a+-b` teachers now must type `a#pm#b`.  This change was necessary to deal with differences between versions of Maxima when dealing with expresions.
 
 DONE:
 

@@ -1104,7 +1104,8 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         $patterns = array(
              array('pat' => 'addrow', 'ver' => 2018060601, 'alt' => 'rowadd'),
              array('pat' => 'texdecorate', 'ver' => 2018080600),
-             array('pat' => 'logbase', 'ver' => 2019031300, 'alt' => 'lg')
+             array('pat' => 'logbase', 'ver' => 2019031300, 'alt' => 'lg'),
+             array('pat' => '+-', 'ver' => 2019121900, 'alt' => '#pm#')
         );
         foreach ($patterns as $checkpat) {
             if ($stackversion < $checkpat['ver']) {

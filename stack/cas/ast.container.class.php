@@ -220,6 +220,7 @@ class stack_ast_container extends stack_ast_container_silent implements cas_late
          * (1) we want actual numerical information, such as 0.5000 not displaydp(0.5,4);
          * (2) we don't want noun values (students do not type these in);
          * (3) we want ? characters, and no semicolons.
+         * (4) we want +- and not #pm#.
          */
 
         $dispval = $this->displayvalue;
@@ -232,7 +233,7 @@ class stack_ast_container extends stack_ast_container_silent implements cas_late
         }
         $testval = self::make_from_teacher_source($dispval, '', new stack_cas_security());
         $computedinput = $testval->ast->toString(array('nounify' => 0, 'inputform' => true,
-                'qmchar' => true, 'nosemicolon' => true));
+                'qmchar' => true, 'pmchar' => true, 'nosemicolon' => true));
 
         return $computedinput;
     }

@@ -139,7 +139,8 @@
     },
     "#pm#": {
         "function": "s",
-        "operator": "s"
+        "operator": "s",
+        "prefixinputform": "+-"
     },
     "+-": {
         "function": "s",

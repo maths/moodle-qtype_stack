@@ -33,6 +33,7 @@
  *                           If 2, adds logic nouns.
  * 'dealias'                 If defined unpacks potential aliases.
  * 'qmchar'                  If defined prints question marks directly if present as QMCHAR.
+ * 'pmchar'                  If defined prints +- marks directly if present as #pm#.
  */
 
 defined('MOODLE_INTERNAL') || die();
@@ -366,6 +367,10 @@ class MP_Operation extends MP_Node {
         if (stack_cas_security::get_feature($op, 'spacesurroundedop') !== null) {
             return $this->lhs->toString($params) . ' ' . $op . ' ' . $this->rhs->toString($params);
         }
+        if ($params !== null && isset($params['pmchar']) && $op === '#pm#') {
+            $op = '+-';
+        }
+
         return $this->lhs->toString($params) . $op . $this->rhs->toString($params);
     }
 
@@ -1348,6 +1353,11 @@ class MP_PrefixOp extends MP_Node {
             }
             return $indent . $this->op . $this->rhs->toString($params);
         }
+
+        if ($params !== null && isset($params['pmchar']) && ($this->op === '#pm#' || $this->op === '"#pm#"')) {
+            return '+-' . $this->rhs->toString($params);
+        }
+
         return $this->op . $this->rhs->toString($params);
     }
 

@@ -118,7 +118,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
     protected $session;
 
     /**
-     * @var stack_ast_container[] STACK specific: the teachers answers for each input
+     * @var stack_ast_container[] STACK specific: the teacher's answers for each input.
      */
     private $tas;
 

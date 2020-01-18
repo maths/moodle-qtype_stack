@@ -1836,7 +1836,7 @@ class stack_cas_session2_test extends qtype_stack_testcase {
         $this->assertEquals('-\frac{a}{b}', $s1[3]->get_display());
 
         $this->assertEquals('a#pm#b', $s1[4]->get_value());
-        $this->assertEquals('a#pm#b', $s1[4]->get_dispvalue());
+        $this->assertEquals('a+-b', $s1[4]->get_dispvalue());
         $this->assertEquals('{a \pm b}', $s1[4]->get_display());
     }
 }

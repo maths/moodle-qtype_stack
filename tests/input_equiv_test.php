@@ -51,7 +51,7 @@ class stack_equiv_input_test extends qtype_stack_testcase {
         $el = stack_input_factory::make('equiv', 'ans1', '[]');
         $this->assertEquals('<div class="equivreasoning"><textarea name="stack1__ans1" id="stack1__ans1" rows="3" cols="25" ' .
                 'autocapitalize="none" spellcheck="false" class="equiv"></textarea>' .
-                '<div class="stackinputfeedback" id="stack1__ans1_val">' .
+                '<div class="stackinputfeedback standard" id="stack1__ans1_val">' .
                 '<input type="hidden" name="stack1__ans1_val" value="[]" /></div></div>',
                 $el->render(new stack_input_state(stack_input::VALID, array(), '', '', '', '', ''),
                         'stack1__ans1', false, null));
@@ -65,7 +65,7 @@ class stack_equiv_input_test extends qtype_stack_testcase {
             "rows=\"8\" cols=\"50\" autocapitalize=\"none\" spellcheck=\"false\" class=\"equiv\">" .
             "r1 = 0\nr2 = 0\nr3 = 0\nr4 = 0\nr5 = 0\nr6 = 0\n" .
             "t*h*i*s+i*s+a+v*e*r*y+l*o*n*g+e*x*p*r*e*s*s*i*o*n = g*o*o*d+t*e*s*t!" .
-            "</textarea><div class=\"stackinputfeedback\" id=\"stack1__ans1_val\">" .
+            "</textarea><div class=\"stackinputfeedback standard\" id=\"stack1__ans1_val\">" .
             "<input type=\"hidden\" name=\"stack1__ans1_val\" value=\"[]\" /></div></div>",
                 $el->render(new stack_input_state(stack_input::VALID, array(), '', '', '', '', ''),
                     'stack1__ans1', false, null));
@@ -76,7 +76,7 @@ class stack_equiv_input_test extends qtype_stack_testcase {
         $el->set_parameter('syntaxHint', 'firstline');
         $this->assertEquals('<div class="equivreasoning"><textarea name="stack1__ans1" id="stack1__ans1" rows="3" cols="25" ' .
                 'autocapitalize="none" spellcheck="false" class="equiv">' .
-                'x^2 = 4</textarea><div class="stackinputfeedback" id="stack1__ans1_val">' .
+                'x^2 = 4</textarea><div class="stackinputfeedback standard" id="stack1__ans1_val">' .
                 '<input type="hidden" name="stack1__ans1_val" value="[]" /></div></div>',
                 $el->render(new stack_input_state(stack_input::VALID, array(), '', '', '', '', ''),
                         'stack1__ans1', false, '[x^2=4,x=2 or x=-2]'));
@@ -88,7 +88,7 @@ class stack_equiv_input_test extends qtype_stack_testcase {
         $el->set_parameter('syntaxHint', '[x^2=3]');
         $this->assertEquals('<div class="equivreasoning"><textarea name="stack1__ans1" id="stack1__ans1" rows="3" cols="25" ' .
                 'autocapitalize="none" spellcheck="false" class="equiv">x^2 = 3' .
-                '</textarea><div class="stackinputfeedback" id="stack1__ans1_val">' .
+                '</textarea><div class="stackinputfeedback standard" id="stack1__ans1_val">' .
                 '<input type="hidden" name="stack1__ans1_val" value="[]" /></div></div>',
                 $el->render(new stack_input_state(stack_input::VALID, array(), '', '', '', '', ''),
                         'stack1__ans1', false, '[x^2=4,x=2 or x=-2]'));
@@ -196,7 +196,8 @@ class stack_equiv_input_test extends qtype_stack_testcase {
         $this->assertEquals('', $state->note);
         $this->assertEquals('<div class="equivreasoning"><textarea name="q140:1_ans1" id="q140:1_ans1" rows="3" cols="25" ' .
                 'autocapitalize="none" spellcheck="false" class="equiv">x^2-5*x+6=0' . "\n" . 'x=2 or x=3</textarea>' .
-                '<div class="stackinputfeedback" id="q140:1_ans1_val"><span class="filter_mathjaxloader_equation">' .
+                '<div class="stackinputfeedback standard" id="q140:1_ans1_val">' .
+                '<span class="filter_mathjaxloader_equation">' .
                 '<span class="nolink">\[ \begin{array}{lll} &x^2-5\cdot x+6=0& \cr' .
                 ' \color{green}{\Leftrightarrow}&x=2\,{\mbox{ or }}\, x=3& \cr \end{array} \]</span></span>' .
                 '<input type="hidden" name="q140:1_ans1_val" value="[x^2-5*x+6=0,x=2 or x=3]" />' .

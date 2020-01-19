@@ -10,11 +10,37 @@
     font-size: 100%;
     font-weight: bold;
 }
-.que.stack .stackinputfeedback {
+.que.stack .stackinputfeedback.standard {
     border: 1px solid #fff;
     background-color: #fff;
     margin: 0.2em 3em 0.5em;
     padding: 0.5em 0.5em 0;
+}
+.que.stack .stackinputfeedback.compact {
+    margin: 3px 3px 3px;
+    padding: 0em 0em 0;
+}
+.que.stack .stackinputerror {
+    border: 1px solid #b94a48;;
+    background-color: #f2dede;
+    margin: 0.2em 0.5em 0.5em;
+    padding: 0.2em 0.2em 0;
+    white-space: normal;
+}
+.que.stack .stackinputfeedback.empty {
+    display: none;
+}
+.que.stack .stackinputfeedback.waiting,
+.que.stack .stackinputfeedback.loading {
+    color: #888;
+    min-height: 1em;
+}
+.que.stack .stackinputfeedback.loading {
+    background: #fff url([[pix:moodle|i/loading_small]]) no-repeat top right;
+}
+.que.stack .stackinputfeedback.waiting .stacksyntaxexample,
+.que.stack .stackinputfeedback.loading .stacksyntaxexample {
+    color: #84aec1;
 }
 .que.stack .equivreasoning .stackinputfeedback {
     display: inline-block;
@@ -33,21 +59,6 @@
 .que.stack .algebraic-units-right {
     max-width: 100%;
     text-align: right;
-}
-.que.stack .stackinputfeedback.empty {
-    display: none;
-}
-.que.stack .stackinputfeedback.waiting,
-.que.stack .stackinputfeedback.loading {
-    color: #888;
-    min-height: 1em;
-}
-.que.stack .stackinputfeedback.loading {
-    background: #fff url([[pix:moodle|i/loading_small]]) no-repeat top right;
-}
-.que.stack .stackinputfeedback.waiting .stacksyntaxexample,
-.que.stack .stackinputfeedback.loading .stacksyntaxexample {
-    color: #84aec1;
 }
 
 .que.stack .formulation .stackprtfeedback {

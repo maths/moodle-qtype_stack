@@ -20,6 +20,7 @@ DONE:
 * Add in full parser, to address issue #324.
 * Add in input option 'align'.
 * Add in input option 'nounits'.
+* Add in option 'compact' to input "Show the validation" parameter.
 
 ## Other things to fix
 

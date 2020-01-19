@@ -434,7 +434,7 @@ abstract class stack_input {
                 break;
 
             case 'showValidation':
-                $valid = is_numeric($value) && $value >= 0 && $value <= 2;
+                $valid = is_numeric($value) && $value >= 0 && $value <= 3;
                 break;
 
             case 'strictSyntax':
@@ -978,6 +978,9 @@ abstract class stack_input {
         $display = stack_maxima_format_casstring($this->contents_to_maxima($this->rawcontents));
         if ($answer->is_correctly_evaluated()) {
             $display = '\[ ' . $answer->get_display() . ' \]';
+            if ($this->get_parameter('showValidation', 1) == 3) {
+                $display = '\( ' . $answer->get_display() . ' \)';
+            }
         } else {
             $valid = false;
         }
@@ -1147,7 +1150,12 @@ abstract class stack_input {
             $val = $cs->get_inputform();
         }
         if (trim($val) !== '<span class="stacksyntaxexample"></span>') {
-            $feedback .= html_writer::tag('p', stack_string('studentValidation_yourLastAnswer', $val));
+            // Compact validation.
+            if ($this->get_parameter('showValidation', 1) == 3) {
+                $feedback .= stack_maths::process_lang_string($val);
+            } else {
+                $feedback .= html_writer::tag('p', stack_string('studentValidation_yourLastAnswer', $val));
+            }
         }
 
         if ($this->requires_validation() && '' !== $state->contents) {
@@ -1155,12 +1163,15 @@ abstract class stack_input {
                     'name' => $fieldname . '_val', 'value' => $this->contents_to_maxima($state->contents)));
         }
 
+        $feedbackerr = '';
         if (self::INVALID == $state->status) {
-            $feedback .= html_writer::tag('p', stack_string('studentValidation_invalidAnswer'));
+            $feedbackerr .= html_writer::tag('p', stack_string('studentValidation_invalidAnswer'));
         }
-
         if ($state->errors) {
-            $feedback .= html_writer::tag('p', $state->errors, array('class' => 'stack_errors'));
+            $feedbackerr .= html_writer::tag('p', $state->errors, array('class' => 'stack_errors'));
+        }
+        if ($feedbackerr != '') {
+            $feedback .= html_writer::tag('div', $feedbackerr, array('class' => 'stackinputerror'));
         }
 
         if ($this->get_parameter('showValidation', 1) == 1 && !($state->lvars === '' or $state->lvars === '[]')) {
@@ -1269,11 +1280,20 @@ abstract class stack_input {
         $name = $this->name;
         $feedback = $this->render_validation($state, $fieldname);
 
-        $class = "stackinputfeedback";
+        $class = "stackinputfeedback standard";
+        if ($this->get_parameter('showValidation', 1) == 3) {
+            $class = "stackinputfeedback compact";;
+        }
+
         if (!$feedback) {
             $class .= ' empty';
         }
-        $feedback = html_writer::tag('div', $feedback, array('class' => $class, 'id' => $fieldname.'_val'));
+
+        if ($this->get_parameter('showValidation', 1) == 3) {
+            $feedback = html_writer::tag('span', $feedback, array('class' => $class, 'id' => $fieldname.'_val'));
+        } else {
+            $feedback = html_writer::tag('div', $feedback, array('class' => $class, 'id' => $fieldname.'_val'));
+        }
         $response = str_replace("[[validation:{$name}]]", $feedback, $questiontext);
 
         return $response;

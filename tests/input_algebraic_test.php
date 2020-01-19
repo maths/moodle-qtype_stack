@@ -139,6 +139,27 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         $this->assertEquals('A correct answer is <span class="filter_mathjaxloader_equation">'
           . '<span class="nolink">\( \frac{x^2}{1+x^2} \)</span></span>, which can be typed in as follows: '
           . '<code>x^2/(1+x^2)</code>', $el->get_teacher_answer_display('x^2/(1+x^2)', '\frac{x^2}{1+x^2}'));
+
+        $el->set_parameter('showValidation', 1);
+        $vr = '<div class="stackinputfeedback standard" id="sans1_val"><p>Your last answer was interpreted as follows: ' .
+                '<span class="filter_mathjaxloader_equation"><span class="nolink">\[ x^2 \]</span></span></p>' .
+                '<input type="hidden" name="sans1_val" value="x^2" /><p>The variables found in your answer were: ' .
+                '<span class="filter_mathjaxloader_equation"><span class="nolink">\( \left[ x \right]\)</span></span> ' .
+                '</p></div>';
+        $this->assertEquals($vr, $el->replace_validation_tags($state, 'sans1', '[[validation:sans1]]'));
+
+        $el->set_parameter('showValidation', 2);
+        $vr = '<div class="stackinputfeedback standard" id="sans1_val"><p>Your last answer was interpreted as follows: ' .
+                '<span class="filter_mathjaxloader_equation"><span class="nolink">\[ x^2 \]</span></span></p>' .
+                '<input type="hidden" name="sans1_val" value="x^2" /></div>';
+        $this->assertEquals($vr, $el->replace_validation_tags($state, 'sans1', '[[validation:sans1]]'));
+
+        $el->set_parameter('showValidation', 3);
+        // We re-generate the state to get inline displayed equations.
+        $state = $el->validate_student_response(array('sans1' => 'x^2'), $options, 'x^2/(1+x^2)', new stack_cas_security());
+        $vr = '<span class="stackinputfeedback compact" id="sans1_val"><span class="filter_mathjaxloader_equation">' .
+                '<span class="nolink">\( x^2 \)</span></span><input type="hidden" name="sans1_val" value="x^2" /></span>';
+        $this->assertEquals($vr, $el->replace_validation_tags($state, 'sans1', '[[validation:sans1]]'));
     }
 
     public function test_validate_student_response_2() {
@@ -146,6 +167,15 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         $el = stack_input_factory::make('algebraic', 'sans1', 'x^2/(1+x^2)');
         $state = $el->validate_student_response(array('sans1' => '2x(1+x^2)'), $options, 'x^2/(1+x^2)', new stack_cas_security());
         $this->assertEquals(stack_input::INVALID, $state->status);
+
+        $el->set_parameter('showValidation', 1);
+        $vr = '<div class="stackinputfeedback standard" id="sans1_val"><p>Your last answer was interpreted as follows: ' .
+                '<span class="stacksyntaxexample">2x(1+x^2)</span></p>' .
+                '<input type="hidden" name="sans1_val" value="2x(1+x^2)" /><div class="stackinputerror">' .
+                '<p>This answer is invalid. </p><p class="stack_errors">You seem to be missing * characters. ' .
+                'Perhaps you meant to type <span class="stacksyntaxexample">2<font color="red">*</font>x' .
+                '<font color="red">*</font>(1+x^2)</span>.</p></div></div>';
+        $this->assertEquals($vr, $el->replace_validation_tags($state, 'sans1', '[[validation:sans1]]'));
     }
 
     public function test_validate_student_response_3() {

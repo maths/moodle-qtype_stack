@@ -254,10 +254,9 @@ Feedback to students is in two forms.
 * feedback tied to inputs, in particular if the answer is invalid.
 * feedback tied to each potential response tree.
 
-Setting this option displays any feedback from this input, including echoing back their expression in traditional two-dimensional notation.  
-Generally, feedback and verification are used in conjunction.  Errors will always be displayed.  
-In addition to simply displaying the student's expression, the teacher can display the list of variables which occurs in the expression.  
-From experience, this is helpful in letting students understand the idea of variable and to spot case insensitivity or wrong variable problems.
+Setting this option displays any feedback from this input, including echoing back their expression in traditional two-dimensional notation.  Generally, feedback and verification are used in conjunction.  Errors will always be displayed.  In addition to simply displaying the student's expression, the teacher can display the list of variables which occurs in the expression.  From experience, this is helpful in letting students understand the idea of variable and to spot case insensitivity or wrong variable problems.
+
+The "compact" version removes most of the styling.  This is needed when the answer is part of a table.
 
 ### Extra option: hideanswer ###
 

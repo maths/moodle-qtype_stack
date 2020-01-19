@@ -299,12 +299,12 @@ abstract class qtype_stack_walkthrough_test_base extends qbehaviour_walkthrough_
 
     protected function check_output_contains_input_validation($name) {
         $id = $this->quba->get_question_attempt($this->slot)->get_qt_field_name($name . '_val');
-        $this->assertRegExp('~<div (?=[^>]*\bclass="stackinputfeedback")(?=[^>]*\bid="' . $id . '")~', $this->currentoutput,
+        $this->assertRegExp('~<div (?=[^>]*\bclass="stackinputfeedback standard")(?=[^>]*\bid="' . $id . '")~', $this->currentoutput,
                 'Input validation for ' . $name . ' not found in ' . $this->currentoutput);
     }
 
     protected function check_output_does_not_contain_any_input_validation() {
-        $this->assertNotRegExp('~<div [^>]*\bclass="stackinputfeedback(?:(?! empty)[^"])*"~',
+        $this->assertNotRegExp('~<div [^>]*\bclass="stackinputfeedback standard(?:(?! empty)[^"])*"~',
                 $this->currentoutput, 'Input validation should not be present in ' . $this->currentoutput);
     }
 
@@ -314,7 +314,7 @@ abstract class qtype_stack_walkthrough_test_base extends qbehaviour_walkthrough_
             return;
         }
         $id = $this->quba->get_question_attempt($this->slot)->get_qt_field_name($name . '_val');
-        $this->assertNotRegExp('~<div (?=[^>]*\bclass="stackinputfeedback")(?=[^>]*\bid="' . $id . '")~', $this->currentoutput,
+        $this->assertNotRegExp('~<div (?=[^>]*\bclass="stackinputfeedback standard")(?=[^>]*\bid="' . $id . '")~', $this->currentoutput,
                 'Input validation for ' . $name . ' should not be present in ' . $this->currentoutput);
     }
 

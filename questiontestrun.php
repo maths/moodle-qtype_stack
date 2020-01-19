@@ -349,7 +349,9 @@ foreach ($testresults as $key => $result) {
         if (false === $inputstate->input) {
             $inputval = '';
         } else {
-            $typeininputs[] = $inputname . ':' . $inputval . ";\n";
+            if ($inputval !== '') {
+                $typeininputs[] = $inputname . ':' . $inputstate->modified . ";\n";
+            }
         }
         $inputstable->data[] = array(
                 s($inputname),

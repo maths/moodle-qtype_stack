@@ -1694,7 +1694,7 @@ class stack_cas_session2_test extends qtype_stack_testcase {
             array('x=1 nounor x=3.75E3', 'x=1\,{\mbox{ or }}\, x=3750.0',
                     'x = 1 or x = 3750.0', 'x = 1 nounor x = 3750.0'),
             array('[x^2-1,stackeq((x-1)*(x+1))]', '\left[ x^2-1 , =\left(x-1\right)\cdot \left(x+1\right) \right]',
-                    '[x^2-1,= (x-1)*(x+1)]', '[x^2-1,stackeq((x-1)*(x+1))]'),
+                    '[x^2-1,=(x-1)*(x+1)]', '[x^2-1,stackeq((x-1)*(x+1))]'),
             array('nounint(sin(pi*x),x)', '\int {\sin \left( \pi\cdot x \right)}{\;\mathrm{d}x}',
                     'int(sin(%pi*x),x)', '\'int(sin(%pi*x),x)'),
             // Teachers may now use 'int(...) in STACK 4.3.

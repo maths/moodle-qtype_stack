@@ -233,7 +233,7 @@ class stack_ast_container extends stack_ast_container_silent implements cas_late
         }
         $testval = self::make_from_teacher_source($dispval, '', new stack_cas_security());
         $computedinput = $testval->ast->toString(array('nounify' => 0, 'inputform' => true,
-                'qmchar' => true, 'pmchar' => true, 'nosemicolon' => true));
+                'qmchar' => true, 'pmchar' => 0, 'nosemicolon' => true));
 
         return $computedinput;
     }

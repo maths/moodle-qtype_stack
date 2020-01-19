@@ -705,7 +705,7 @@ class stack_equiv_input_test extends qtype_stack_testcase {
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('', $state->errors);
         $this->assertEquals('', $state->note);
-        $this->assertEquals('[(x-a)^2 = 4,x-a = +-2,x = a+-2]',
+        $this->assertEquals('[(x-a)^2 = 4,x-a = #pm#2,x = a#pm#2]',
                 $state->contentsmodified);
         $this->assertEquals( '\[ \begin{array}{lll} &\left(x-a\right)^2=4& \cr ' .
                 '\color{green}{\Leftrightarrow}&x-a= \pm 2& \cr ' .

@@ -301,9 +301,12 @@ class stack_ast_container_silent implements cas_evaluatable {
     }
 
     // This returns the fully filtered AST as it should be inputted were it inputted perfectly.
-    public function get_inputform(bool $keyless = false, $nounify = null, $pmchar = false): string {
+    public function get_inputform(bool $keyless = false, $nounify = null, $pmchar = null): string {
         if (!($nounify === null || is_int($nounify))) {
             throw new stack_exception('stack_ast_container: nounify must be null or an integer.');
+        }
+        if (!($pmchar === null || is_int($pmchar))) {
+            throw new stack_exception('stack_ast_container: pmchar must be null or an integer.');
         }
         $params = array('inputform' => true,
                 'qmchar' => true,

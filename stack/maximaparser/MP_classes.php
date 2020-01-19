@@ -367,8 +367,13 @@ class MP_Operation extends MP_Node {
         if (stack_cas_security::get_feature($op, 'spacesurroundedop') !== null) {
             return $this->lhs->toString($params) . ' ' . $op . ' ' . $this->rhs->toString($params);
         }
-        if ($params !== null && isset($params['pmchar']) && $op === '#pm#') {
-            $op = '+-';
+        if ($params !== null && isset($params['pmchar'])) {
+            if ($params['pmchar'] === 0 && $op === '#pm#') {
+                $op = '+-';
+            }
+            if ($params['pmchar'] === 1 && $op === '+-') {
+                $op = '#pm#';
+            }
         }
 
         return $this->lhs->toString($params) . $op . $this->rhs->toString($params);
@@ -1002,7 +1007,7 @@ class MP_FunctionCall extends MP_Node {
                     // TODO: fix parsing of let.
                     return $prefix .' '. implode('=', $ar);
                 }
-                return $prefix .' '. implode(',', $ar);
+                return $prefix . implode(',', $ar);
             }
         }
 
@@ -1354,10 +1359,14 @@ class MP_PrefixOp extends MP_Node {
             return $indent . $this->op . $this->rhs->toString($params);
         }
 
-        if ($params !== null && isset($params['pmchar']) && ($this->op === '#pm#' || $this->op === '"#pm#"')) {
-            return '+-' . $this->rhs->toString($params);
+        if ($params !== null && isset($params['pmchar'])) {
+            if ($params['pmchar'] === 0 && ($this->op === '#pm#' || $this->op === '"#pm#"')) {
+                return '+-' . $this->rhs->toString($params);
+            }
+            if ($params['pmchar'] === 1 && $this->op === '+-') {
+                return '#pm#' . $this->rhs->toString($params);
+            }
         }
-
         return $this->op . $this->rhs->toString($params);
     }
 

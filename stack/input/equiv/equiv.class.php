@@ -70,7 +70,7 @@ class stack_equiv_input extends stack_input {
             // Put the first line of the value of the teacher's answer in the input.
             if (trim($this->parameters['syntaxHint']) == 'firstline') {
                 $values = stack_utils::list_to_array($tavalue, false);
-                if (!is_null($values[0])) {
+                if (array_key_exists(0, $values) && !is_null($values[0])) {
                     $cs = stack_ast_container::make_from_teacher_source($values[0]);
                     $cs->get_valid();
                     $current = $cs->get_inputform();
@@ -185,7 +185,7 @@ class stack_equiv_input extends stack_input {
             if (trim($val) != '') {
                 $cs = stack_ast_container::make_from_teacher_source($val);
                 if ($cs->get_valid()) {
-                    $val = $cs->get_inputform(true, 0);
+                    $val = $cs->get_inputform(true, 0, 0);
                 }
             }
             $values[$key] = $val;
@@ -430,7 +430,7 @@ class stack_equiv_input extends stack_input {
             if (trim($val) !== '' ) {
                 $cs = stack_ast_container::make_from_teacher_source($val);
                 $cs->get_valid();
-                $val = '<code>'.$cs->get_inputform(true, 0, true).'</code>';
+                $val = '<code>'.$cs->get_inputform(true, 0, 0).'</code>';
             }
             $values[$key] = $val;
         }

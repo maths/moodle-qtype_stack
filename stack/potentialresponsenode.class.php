@@ -340,7 +340,9 @@ class stack_potentialresponse_node {
         $variables[2]->set_key('PRTANS' . $key);
 
         if (stack_ans_test_controller::process_atoptions($this->answertest) && trim($this->atoptions) != '') {
-            $cs = stack_ast_container::make_from_teacher_source('PRATOPT' . $key . ':' . $this->atoptions,
+            // We always simplify the options field.
+            $nodeoptions = 'ev(' . $this->atoptions . ',simp)';
+            $cs = stack_ast_container::make_from_teacher_source('PRATOPT' . $key . ':' . $nodeoptions,
                     '', new stack_cas_security());
             $variables[] = $cs;
         }

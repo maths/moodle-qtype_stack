@@ -67,6 +67,8 @@ class stack_ans_test_controller {
     /*
      * Does this test require options [0] and are these evaluated by the CAS [1] ?
      * In [2] we have the value of simp in the CAS session.
+     *
+     * Note, the options are currently always simplified in the node class.
      */
     protected static $pops = array(
         'AlgEquiv'             => array(false, false, true),
@@ -313,7 +315,7 @@ class stack_ans_test_controller {
     }
 
     /**
-     * Returns whether the session needs simplification
+     * Returns whether the session needs simplification.
      *
      * @return bool
      * @access public

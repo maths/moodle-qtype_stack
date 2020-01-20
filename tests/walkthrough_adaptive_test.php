@@ -2356,9 +2356,9 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->check_output_does_not_contain_stray_placeholders();
     }
 
-    public function test_units() {
+    public function test_unitsoptions() {
 
-        $q = test_question_maker::make_question('stack', 'units');
+        $q = test_question_maker::make_question('stack', 'unitsoptions');
         $this->start_attempt_at_question($q, 'adaptive', 1);
 
         // Check the initial state.

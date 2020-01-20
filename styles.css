@@ -18,14 +18,14 @@
 }
 .que.stack .stackinputfeedback.compact {
     margin: 3px 3px 3px;
-    padding: 0em 0em 0;
+    display: inline-block;
+    background-color: white;
+    display: inline-block;
+    border: 1px solid #ccc;
+    padding: 0.3em;
 }
 .que.stack .stackinputerror {
-    border: 1px solid #b94a48;;
-    background-color: #f2dede;
-    margin: 0.2em 0.5em 0.5em;
     padding: 0.2em 0.2em 0;
-    white-space: normal;
 }
 .que.stack .stackinputfeedback.empty {
     display: none;
@@ -92,6 +92,21 @@ body.pagelayout-embedded .que.stack .formulation .questiontestslink {
     border: 0 solid black;
 }
 
+/* Support for proof. */
+.proof, .proof-block {
+    text-align:left; 
+    background: rgba(255,255,255,0.3);
+    border: 1px solid #ddd;
+    border-radius: 4px; 
+    padding: 5px; 
+    margin: 3px;
+}
+.proof-block {
+    border: none;
+    border-left: 3px solid;
+    margin-top: 1em;
+    padding-left: 1em;
+}
 
 /* Styles for the editing form. */
 body#page-question-type-stack .fitem_fgroup .accesshide,

@@ -171,7 +171,7 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         $el->set_parameter('showValidation', 1);
         $vr = '<div class="stackinputfeedback standard" id="sans1_val"><p>Your last answer was interpreted as follows: ' .
                 '<span class="stacksyntaxexample">2x(1+x^2)</span></p>' .
-                '<input type="hidden" name="sans1_val" value="2x(1+x^2)" /><div class="stackinputerror">' .
+                '<input type="hidden" name="sans1_val" value="2x(1+x^2)" /><div class="alert alert-danger stackinputerror">' .
                 '<p>This answer is invalid. </p><p class="stack_errors">You seem to be missing * characters. ' .
                 'Perhaps you meant to type <span class="stacksyntaxexample">2<font color="red">*</font>x' .
                 '<font color="red">*</font>(1+x^2)</span>.</p></div></div>';

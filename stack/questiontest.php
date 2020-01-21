@@ -151,7 +151,7 @@ class stack_question_test {
 
         // Add the correct answer for all inputs.
         foreach ($question->inputs as $name => $input) {
-            $cs = stack_ast_container::make_from_teacher_source($name . ':' . $input->get_teacher_answer(true),
+            $cs = stack_ast_container::make_from_teacher_source($name . ':' . $input->get_teacher_answer(),
                     '', new stack_cas_security());
             $cascontext->add_statement($cs);
         }

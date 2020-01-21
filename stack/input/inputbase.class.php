@@ -53,7 +53,7 @@ abstract class stack_input {
 
     /**
      * @var string Every input must have a non-empty "teacher's answer".
-     * This is assumed to be a valid Maxima string.
+     * This is assumed to be a valid Maxima string in inputform.
      */
     protected $teacheranswer;
 

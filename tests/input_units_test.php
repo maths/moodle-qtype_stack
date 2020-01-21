@@ -227,7 +227,7 @@ class stack_units_input_test extends qtype_stack_testcase {
                 new stack_cas_security(true, '', '', array('tans')));
         $this->assertEquals(stack_input::INVALID, $state->status);
         $this->assertEquals("Units_SA_no_units", $state->note);
-        $this->assertEquals('pi*sin(2)', $state->contentsmodified);
+        $this->assertEquals('%pi*sin(2)', $state->contentsmodified);
         $this->assertEquals('\[ \pi\, \sin \left( 2 \right)\, \]', $state->contentsdisplayed);
     }
 
@@ -663,7 +663,7 @@ class stack_units_input_test extends qtype_stack_testcase {
         $state = $el->validate_student_response(array('sans1' => '?*m/s^2'), $options, '9.81*m/s^2',
                 new stack_cas_security(true));
         $this->assertEquals(stack_input::INVALID, $state->status);
-        $this->assertEquals('?*m/s^2', $state->contentsmodified);
+        $this->assertEquals('QMCHAR*m/s^2', $state->contentsmodified);
         $this->assertEquals('\[ \color{red}{?}\, \mathrm{m}\, \mathrm{s}^ {- 2 } \]', $state->contentsdisplayed);
     }
 

@@ -821,8 +821,8 @@ class stack_astcontainer_test extends qtype_stack_testcase {
         $expected = '([Op: +-] ([Id] a), ([Id] b))';
         $this->assertEquals($expected, $at1->ast_to_string(null, array('flattree' => true)));
 
-        $this->assertEquals('a+-b', $at1->get_evaluationform());
-        $this->assertEquals('a+-b', $at1->get_inputform(true, 0, 0));
+        $this->assertEquals('a#pm#b', $at1->get_evaluationform());
+        $this->assertEquals('a+-b', $at1->get_inputform(true, 0));
 
         $err = '';
         $this->assertEquals($err, $at1->get_errors());
@@ -836,8 +836,7 @@ class stack_astcontainer_test extends qtype_stack_testcase {
         $this->assertEquals($expected, $at1->ast_to_string(null, array('flattree' => true)));
 
         $this->assertEquals('a#pm#b', $at1->get_evaluationform());
-        $this->assertEquals('a+-b', $at1->get_inputform(true, 0, 0));
-        $this->assertEquals('a#pm#b', $at1->get_inputform(true, 0, 1));
+        $this->assertEquals('a+-b', $at1->get_inputform(true, 0));
 
         $err = '';
         $this->assertEquals($err, $at1->get_errors());
@@ -850,9 +849,8 @@ class stack_astcontainer_test extends qtype_stack_testcase {
         $expected = '([PrefixOp: +-] ([Id] a))';
         $this->assertEquals($expected, $at1->ast_to_string(null, array('flattree' => true)));
 
-        $this->assertEquals('+-a', $at1->get_evaluationform());
-        $this->assertEquals('+-a', $at1->get_inputform(true, 0, 0));
-        $this->assertEquals('#pm#a', $at1->get_inputform(true, 0, 1));
+        $this->assertEquals('#pm#a', $at1->get_evaluationform());
+        $this->assertEquals('+-a', $at1->get_inputform(true, 0));
 
         $err = '';
         $this->assertEquals($err, $at1->get_errors());
@@ -866,8 +864,7 @@ class stack_astcontainer_test extends qtype_stack_testcase {
         $this->assertEquals($expected, $at1->ast_to_string(null, array('flattree' => true)));
 
         $this->assertEquals('#pm#a', $at1->get_evaluationform());
-        $this->assertEquals('+-a', $at1->get_inputform(true, 0, 0));
-        $this->assertEquals('#pm#a', $at1->get_inputform(true, 0, 1));
+        $this->assertEquals('+-a', $at1->get_inputform(true, 0));
 
         $err = '';
         $this->assertEquals($err, $at1->get_errors());

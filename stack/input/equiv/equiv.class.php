@@ -185,7 +185,7 @@ class stack_equiv_input extends stack_input {
             if (trim($val) != '') {
                 $cs = stack_ast_container::make_from_teacher_source($val);
                 if ($cs->get_valid()) {
-                    $val = $cs->get_inputform(true, 0, 0);
+                    $val = $cs->get_inputform(true, 0);
                 }
             }
             $values[$key] = $val;
@@ -430,7 +430,7 @@ class stack_equiv_input extends stack_input {
             if (trim($val) !== '' ) {
                 $cs = stack_ast_container::make_from_teacher_source($val);
                 $cs->get_valid();
-                $val = '<code>'.$cs->get_inputform(true, 0, 0).'</code>';
+                $val = '<code>'.$cs->get_inputform(true, 0).'</code>';
             }
             $values[$key] = $val;
         }

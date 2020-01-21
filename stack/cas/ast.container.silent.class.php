@@ -297,20 +297,18 @@ class stack_ast_container_silent implements cas_evaluatable {
         if (false === $this->get_valid()) {
             throw new stack_exception('stack_ast_container: tried to get the evaluation form of an invalid casstring.');
         }
-        return $this->ast_to_string($this->ast);
+        $params = array('pmchar' => 1);
+        return $this->ast_to_string($this->ast, $params);
     }
 
     // This returns the fully filtered AST as it should be inputted were it inputted perfectly.
-    public function get_inputform(bool $keyless = false, $nounify = null, $pmchar = null): string {
+    public function get_inputform(bool $keyless = false, $nounify = null): string {
         if (!($nounify === null || is_int($nounify))) {
             throw new stack_exception('stack_ast_container: nounify must be null or an integer.');
         }
-        if (!($pmchar === null || is_int($pmchar))) {
-            throw new stack_exception('stack_ast_container: pmchar must be null or an integer.');
-        }
         $params = array('inputform' => true,
                 'qmchar' => true,
-                'pmchar' => $pmchar,
+                'pmchar' => 0,
                 'nosemicolon' => true,
                 'keyless' => $keyless,
                 'dealias' => false, // This is needed to stop pi->%pi etc.

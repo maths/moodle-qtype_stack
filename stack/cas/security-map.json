@@ -6962,6 +6962,9 @@
     "stackunits": {
         "function": "s"
     },
+    "stackunits_make": {
+        "function": "s"
+    },
     "stackvector": {
         "function": "s"
     },

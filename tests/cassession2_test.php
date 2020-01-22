@@ -1866,11 +1866,10 @@ class stack_cas_session2_test extends qtype_stack_testcase {
         $this->assertEquals('\frac{10}{3\cdot \left(x+3\right)}-\frac{8}{\left(x+3\right)^2}+\frac{-1}{3\cdot x}',
                 $s1[0]->get_display());
 
-        // This does not contain any +- operators.
-        $expected = '([Root] ([Op: :] ([Id] answer), ' .
-            '([Op: /] ([Int] 10), ([Op: /] ([Op: -] ([Group] ([Op: *] ([Int] 3), ([Group] ([Op: +] ([Id] x), ([Int] 3))))), ' .
-            '([Int] 8)), ([Op: /] ([Op: -] ([Op: ^] ([Group] ([Op: +] ([Id] x), ([Int] 3))), ([Int] 2)), ([Int] 1)), ' .
-            '([Group] ([Op: *] ([Int] 3), ([Id] x))))))))';
+        // The evaluated form contains the +- operator.
+        $expected = '([Op: +-] ([Op: /] ([Int] 10), ([Op: /] ([Op: -] ([Group] ([Op: *] ([Int] 3), ' .
+            '([Group] ([Op: +] ([Id] x), ([Int] 3))))), ([Int] 8)), ([Op: ^] ([Group] ([Op: +] ([Id] x), ' .
+            '([Int] 3))), ([Int] 2)))), ([Op: /] ([Int] 1), ([Group] ([Op: *] ([Int] 3), ([Id] x)))))';
         $this->assertEquals($expected, $s1[0]->get_ast_test());
     }
 }

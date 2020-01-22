@@ -98,6 +98,11 @@ class stack_ast_container_silent implements cas_evaluatable {
     protected $isevaluated = false;
 
     /**
+     * Should we use the previous value, or the original ast?
+     */
+    private $usevalue = false;
+
+    /**
      * These strings might occur as errors or notes and need to be tided up.
      */
     protected static $maximastrings = array('DivisionZero', 'CommaError', 'Illegal_floats', 'Lowest_Terms', 'SA_not_matrix',
@@ -263,6 +268,10 @@ class stack_ast_container_silent implements cas_evaluatable {
     /* TODO: a more coherent system for dealing with all options such as keyless, nounify. */
     public function set_nounify(int $key=1) {
         $this->nounify = $key;
+    }
+
+    public function set_usevalue(bool $key) {
+        $this->usevalue = $key;
     }
 
     // Functions required by cas_evaluatable.

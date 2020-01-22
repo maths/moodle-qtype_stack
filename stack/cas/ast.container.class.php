@@ -250,6 +250,9 @@ class stack_ast_container extends stack_ast_container_silent implements cas_late
      * Used to test the ast within the container.
      */
     public function get_ast_test() {
+        if ($this->is_correctly_evaluated()) {
+            return $this->evaluated->toString(array('flattree' => true));
+        }
         return $this->ast->toString(array('flattree' => true));
     }
 

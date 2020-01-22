@@ -246,6 +246,13 @@ class stack_ast_container extends stack_ast_container_silent implements cas_late
         return trim($this->latex);
     }
 
+    /*
+     * Used to test the ast within the container.
+     */
+    public function get_ast_test() {
+        return $this->ast->toString(array('flattree' => true));
+    }
+
     public function add_answernote($val) {
         $this->answernotes[] = $val;
     }

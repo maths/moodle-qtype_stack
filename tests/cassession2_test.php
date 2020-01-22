@@ -1848,6 +1848,12 @@ class stack_cas_session2_test extends qtype_stack_testcase {
                     '', new stack_cas_security(), array());
         }
 
+        $expected = '([Root] ([Op: :] ([Id] answer), ' .
+                '([Op: /] ([Int] 10), ([Op: /] ([Op: -] ([Group] ([Op: *] ([Int] 3), ([Group] ([Op: +] ([Id] x), ([Int] 3))))), ' .
+                '([Int] 8)), ([Op: /] ([Op: -] ([Op: ^] ([Group] ([Op: +] ([Id] x), ([Int] 3))), ([Int] 2)), ([Int] 1)), ' .
+                '([Group] ([Op: *] ([Int] 3), ([Id] x))))))))';
+        $this->assertEquals($expected, $s1[0]->get_ast_test());
+
         $options = new stack_options();
         $options->set_option('simplify', false);
         $at1 = new stack_cas_session2($s1, $options, 0);

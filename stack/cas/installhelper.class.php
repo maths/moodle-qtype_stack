@@ -403,11 +403,14 @@ END;
         $oldplatform = $config->platform;
         $oldmaximacommand = $config->maximacommand;
         set_config('platform', 'unix', 'qtype_stack');
-        set_config('maximacommand', '', 'qtype_stack');
-        stack_utils::get_config()->platform = 'unix';
-        stack_utils::get_config()->maximacommand = '';
-        self::get_instance()->settings->platform = 'unix';
-        self::get_instance()->settings->maximacommand = '';
+        if ($oldplatform == 'unix-optimised') {
+            // If we have explicitly set a path, or a --use-version = we should respect it here.
+            set_config('maximacommand', '', 'qtype_stack');
+            self::get_instance()->settings->maximacommand = '';
+            self::get_instance()->settings->platform = 'unix';
+            stack_utils::get_config()->maximacommand = '';
+            stack_utils::get_config()->platform = 'unix';
+        }
 
         // Try to make a new version of the maxima local file.
         self::create_maximalocal();
@@ -433,7 +436,6 @@ END;
 
             if (!$result) {
                 $errmsg = "Automake failed: $message\n\n$genuinedebug";
-
             } else {
                 set_config('platform', 'unix-optimised', 'qtype_stack');
                 set_config('maximacommand', $commandline, 'qtype_stack');

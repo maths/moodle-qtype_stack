@@ -97,6 +97,7 @@ class stack_ast_filter_802_singleton_units implements stack_cas_astfilter_parame
         $ast->callbackRecurse($collect, false);
 
         // First check the identifiers.
+        $formfail = false;
         $hasunits = false;
         $sec = $identifierrules;
         if (!$sec->get_units()) {
@@ -143,26 +144,26 @@ class stack_ast_filter_802_singleton_units implements stack_cas_astfilter_parame
                 $node = $node->statement;
             }
             $node->position['invalid'] = true;
-            $errors[] = stack_string('Illegal_no_units_in_units');
+            $formfail = true;
         }
 
         // Check the miscs.
         foreach ($misc as $node) {
             if ($node instanceof MP_Set || $node instanceof MP_List) {
                 $node->position['invalid'] = true;
-                $errors[] = stack_string('Illegal_lists_sets_in_units');
+                $formfail = true;
             } else if ($node instanceof MP_If || $node instanceof MP_Loop || $node instanceof MP_LoopBit) {
                 $node->position['invalid'] = true;
-                $errors[] = stack_string('Illegal_control_flow_in_units');
+                $formfail = true;
             } else if ($node instanceof MP_PrefixOp || $node instanceof MP_PostfixOp) {
                 $node->position['invalid'] = true;
                 $errors[] = stack_string('Illegal_illegal_operation_in_units', $node->op);
             } else if ($node instanceof MP_FunctionCall) {
                 $node->position['invalid'] = true;
-                $errors[] = stack_string('Illegal_illegal_function_call_in_units');
+                $formfail = true;
             } else if ($node instanceof MP_String) {
                 $node->position['invalid'] = true;
-                $errors[] = stack_string('Illegal_illegal_string_in_units');
+                $formfail = true;
             }
         }
 
@@ -183,7 +184,6 @@ class stack_ast_filter_802_singleton_units implements stack_cas_astfilter_parame
                     }
                     if (!($rhs instanceof MP_Integer)) {
                         $op->position['invalid'] = true;
-                        $opfail = true;
                         $errors[] = stack_string('Illegal_illegal_power_of_ten_in_units', $node->op);
                     }
                 } else if ($op->lhs instanceof MP_Integer || $op->lhs instanceof MP_Float) {
@@ -195,7 +195,7 @@ class stack_ast_filter_802_singleton_units implements stack_cas_astfilter_parame
                 $opfail = true;
             }
         }
-        if ($opfail) {
+        if ($opfail || $formfail) {
             $errors[] = stack_string('Illegal_input_form_units');
         }
 

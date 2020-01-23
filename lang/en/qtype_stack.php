@@ -710,14 +710,9 @@ $string['Equiv_Illegal_matrix']  = 'Matrices are not allowed when reasoning by e
 $string['CommaError']     = 'Your answer contains commas which are not part of a list, set or matrix.  <ul><li>If you meant to type in a list, please use <tt>{...}</tt>,</li><li>If you meant to type in a set, please use <tt>{...}</tt>.</li></ul>';
 $string['Bad_assignment']   = 'When listing the values of a variable you should do so in the following way: {$a->m0}.  Please modify your input.';
 $string['Illegal_identifiers_in_units']           = 'The input contains a variable name when just units were expected.';
-$string['Illegal_no_units_in_units']              = 'This input expects a unit declaration to follow a numerical value.';
-$string['Illegal_lists_sets_in_units']            = $string['Illegal_no_units_in_units'] . ' Lists and sets are not expected.';
-$string['Illegal_no_units_in_units']              = $string['Illegal_no_units_in_units'] . ' Control flow statements are not allowed.';
 $string['Illegal_illegal_operation_in_units']     = 'The operator <code>{$a}</code> is not allowed in this input.';
-$string['Illegal_illegal_function_call_in_units'] = 'This input does not allow function calls: provide a fully evaluated numerical value with units.';
-$string['Illegal_illegal_string_in_units']        = 'This input does not allow <code>"strings"</code>, provide a fully evaluated numerical value with an unit.';
 $string['Illegal_illegal_power_of_ten_in_units']  = 'The value may not contain non integer powers of ten.';
-$string['Illegal_input_form_units']               = 'The input contained unexpected operations.';
+$string['Illegal_input_form_units']               = 'This input expects a numerical value followed or multiplied by an expression defining an unit, e.g. <code>1.23*W/m^2</code>. Note that the unit required here may be something else.';
 
 $string['stackBlock_jsxgraph_width']       = 'The width of a JSXGraph must use a known CSS-length unit.';
 $string['stackBlock_jsxgraph_height']      = 'The height of a JSXGraph must use a known CSS-length unit.';

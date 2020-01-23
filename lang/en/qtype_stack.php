@@ -702,6 +702,7 @@ $string['Illegal_lists'] = 'Your answer contains lists "[a,b,c]" these are not a
 $string['Illegal_sets'] = 'Your answer contains sets "{a,b,c}" these are not allowed here.';
 $string['Illegal_groups'] = 'Your answer contains evaluation groups "(a,b,c)" these are not allowed here.';
 $string['Illegal_groupping'] = 'Your answer contains parenthesis used to group operations, these are forbidden here. You should probably manipulate the expression to eliminate them.';
+$string['Illegal_control_flow'] = 'Your answer contains control-flow statements like the <code>if</code>-conditional or the <code>do</code>-loop, these are forbidden here, you should probably provide the result of these statements as the answer.';
 $string['qm_error'] = 'Your answer contains question mark characters, ?, which are not permitted in answers.  You should replace these with a specific value.';
 $string['Equiv_Illegal_set']  = 'Sets are not allowed when reasoning by equivalence.';
 $string['Equiv_Illegal_list']  = 'Lists are not allowed when reasoning by equivalence.';

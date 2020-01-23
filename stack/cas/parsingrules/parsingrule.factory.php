@@ -34,6 +34,7 @@ require_once(__DIR__ . '/102_no_strings.filter.php');
 require_once(__DIR__ . '/103_no_lists.filter.php');
 require_once(__DIR__ . '/104_no_sets.filter.php');
 require_once(__DIR__ . '/105_no_grouppings.filter.php');
+require_once(__DIR__ . '/106_no_control_flow.filter.php');
 require_once(__DIR__ . '/201_sig_figs_validation.filter.php');
 require_once(__DIR__ . '/202_decimal_places_validation.filter.php');
 require_once(__DIR__ . '/402_split_prefix_from_common_function_name.filter.php');
@@ -99,6 +100,8 @@ class stack_parsing_rule_factory {
                 return new stack_ast_filter_104_no_sets();
             case '105_no_grouppings':
                 return new stack_ast_filter_105_no_grouppings();
+            case '106_no_control_flow':
+                return new stack_ast_filter_106_no_control_flow();
             case '201_sig_figs_validation':
                 return new stack_ast_filter_201_sig_figs_validation();
             case '202_decimal_places_validation':
@@ -154,7 +157,8 @@ class stack_parsing_rule_factory {
                            '050_no_chained_inequalities',
                            '090_special_forbidden_characters',
                            '101_no_floats', '102_no_strings',
-                           '103_no_lists', '104_no_sets', '105_no_grouppings',
+                           '103_no_lists', '104_no_sets', 
+                           '105_no_grouppings', '106_no_control_flow',
                            '201_sig_figs_validation',
                            '202_decimal_places_validation',
                            '402_split_prefix_from_common_function_name',

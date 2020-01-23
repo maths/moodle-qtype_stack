@@ -1841,17 +1841,15 @@ class stack_cas_session2_test extends qtype_stack_testcase {
     }
 
     public function test_stack_pm_maximaoutput() {
-        $tests = array('answer:10/(3*(x+3))-8/(x+3)^2-1/(3*x)');
+        $tests = array('a*b+c*d+-A*B');
 
         foreach ($tests as $key => $c) {
             $s1[] = stack_ast_container::make_from_teacher_source($c,
                     '', new stack_cas_security(), array());
         }
 
-        $expected = '([Root] ([Op: :] ([Id] answer), ' .
-                '([Op: /] ([Int] 10), ([Op: /] ([Op: -] ([Group] ([Op: *] ([Int] 3), ([Group] ([Op: +] ([Id] x), ([Int] 3))))), ' .
-                '([Int] 8)), ([Op: /] ([Op: -] ([Op: ^] ([Group] ([Op: +] ([Id] x), ([Int] 3))), ([Int] 2)), ([Int] 1)), ' .
-                '([Group] ([Op: *] ([Int] 3), ([Id] x))))))))';
+        $expected = '([Root] ([Op: +] ([Op: *] ([Id] a), ([Id] b)), ' .
+                '([Op: +-] ([Op: *] ([Id] c), ([Id] d)), ([Op: *] ([Id] A), ([Id] B)))))';
         $this->assertEquals($expected, $s1[0]->get_ast_test());
 
         $options = new stack_options();
@@ -1859,17 +1857,14 @@ class stack_cas_session2_test extends qtype_stack_testcase {
         $at1 = new stack_cas_session2($s1, $options, 0);
         $at1->instantiate();
 
-        // Note, the output below has +-1/ at the end.  This makes it difficult for PHP to parse.
-        // We want +- from Maxima to be +(-....) and not #pm#.
-        $this->assertEquals('10/(3*(x+3))-8/(x+3)^2+-1/(3*x)', $s1[0]->get_value());
-        $this->assertEquals('10/(3*(x+3))-8/(x+3)^2+-1/(3*x)', $s1[0]->get_dispvalue());
-        $this->assertEquals('\frac{10}{3\cdot \left(x+3\right)}-\frac{8}{\left(x+3\right)^2}+\frac{-1}{3\cdot x}',
+        $this->assertEquals('(a*b+c*d)#pm#A*B', $s1[0]->get_value());
+        $this->assertEquals('(a*b+c*d)+-A*B', $s1[0]->get_dispvalue());
+        $this->assertEquals('{a\cdot b+c\cdot d \pm A\cdot B}',
                 $s1[0]->get_display());
 
         // The evaluated form contains the +- operator.
-        $expected = '([Op: +-] ([Op: /] ([Int] 10), ([Op: /] ([Op: -] ([Group] ([Op: *] ([Int] 3), ' .
-            '([Group] ([Op: +] ([Id] x), ([Int] 3))))), ([Int] 8)), ([Op: ^] ([Group] ([Op: +] ([Id] x), ' .
-            '([Int] 3))), ([Int] 2)))), ([Op: /] ([Int] 1), ([Group] ([Op: *] ([Int] 3), ([Id] x)))))';
+        $expected = '([Op: #pm#] ([Group] ([Op: +] ([Op: *] ([Id] a), ([Id] b)), ' .
+                '([Op: *] ([Id] c), ([Id] d)))), ([Op: *] ([Id] A), ([Id] B)))';
         $this->assertEquals($expected, $s1[0]->get_ast_test());
     }
 }

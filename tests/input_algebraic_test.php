@@ -1030,4 +1030,19 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         $this->assertEquals('\[ -\frac{a}{b} \]', $state->contentsdisplayed);
         $this->assertEquals('', $state->note);
     }
+
+    public function test_validate_student_response_subtle_pm() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('algebraic', 'ans1', '-a/b');
+
+        $secutity = new stack_cas_security();
+
+        $state = $el->validate_student_response(array('ans1' => 'a*x+a*y-b*x-b*y'), $options,
+                'a*x+a*y-b*x-b*y', $secutity);
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('a*x+a*y-b*x-b*y', $state->contentsmodified);
+        $this->assertEquals('\[ a\cdot x+a\cdot y-b\cdot x-b\cdot y \]',
+                $state->contentsdisplayed);
+        $this->assertEquals('', $state->note);
+    }
 }

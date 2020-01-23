@@ -256,6 +256,18 @@ class stack_ast_container extends stack_ast_container_silent implements cas_late
         return $this->ast->toString(array('flattree' => true));
     }
 
+    public function get_ast_clone() {
+        if ($this->is_correctly_evaluated()) {
+            $ast = clone $this->evaluated;
+        } else {
+            $ast = clone $this->ast;
+        }
+        if ($ast instanceof MP_Root) {
+           $ast = $ast->items[0];
+        }
+        return $ast;
+    }
+
     public function add_answernote($val) {
         $this->answernotes[] = $val;
     }

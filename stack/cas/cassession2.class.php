@@ -378,7 +378,6 @@ class stack_cas_session2 {
         // Send it to CAS.
         $connection = stack_connection_helper::make();
         $results = $connection->json_compute($command);
-
         // Let's collect what we got.
         $asts = array();
         $latex = array();
@@ -395,6 +394,8 @@ class stack_cas_session2 {
         } else {
             if (array_key_exists('values', $results)) {
                 foreach ($results['values'] as $key => $value) {
+                    // TODO: replace the line below with a parser with options.  WIP to test this fix.
+                    $value = str_replace('+-', '-', $value);
                     if (is_string($value)) {
                         try {
                             if (!isset($collectvalues[$key]) || $collectvalues[$key] instanceof cas_value_extractor) {
@@ -420,6 +421,8 @@ class stack_cas_session2 {
             }
             if (array_key_exists('display', $results)) {
                 foreach ($results['display'] as $key => $value) {
+                    // TODO: replace the line below with a parser with options.  WIP to test this fix.
+                    $value = str_replace('+-', '-', $value);
                     if (is_string($value)) {
                         $display[$key] = $value;
                     }

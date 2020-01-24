@@ -16,6 +16,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 require_once(__DIR__ . '/filter.interface.php');
+require_once(__DIR__ . '/../../maximaparser/utils.php');
 
 /**
  * AST filter that checks that the AST represents a singleton value
@@ -109,6 +110,17 @@ class stack_ast_filter_801_singleton_numeric implements stack_cas_astfilter_para
             }
             return $ast;
         }
+
+        $usage = maxima_parser_utils::variable_usage_finder($ast);
+        if ((isset($usage['read']) && count($usage['read']) > 0) ||
+            (isset($usage['write']) && count($usage['write']) > 0) ||
+            (isset($usage['calls']) && count($usage['calls']) > 0)) {
+            $node->position['invalid'] = true;
+            $answernotes[] = 'Illegal_form';
+            $errors[] = stack_string('Illegal_singleton_power', ['forms' => $this->acceptable_forms()]);
+            return $ast;
+        }
+
 
         // The non trivial bit of identifying a power form representation.
         // 10^1 is also one, i.e. matissa being 1 and omitted is to be noted.

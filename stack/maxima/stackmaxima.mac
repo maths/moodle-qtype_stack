@@ -929,7 +929,7 @@ plot(ex, [ra]) :=  /*stack_web_plot*/
     afn: concat("'", IMAGE_DIR, filename, ".", PLOT_TERMINAL, "'"),
     if PLOT_TERMINAL="svg" then
         afn: concat(IMAGE_DIR, filename, ".", PLOT_TERMINAL),
-    ufn: concat("<img src='", URL_BASE, filename, ".", PLOT_TERMINAL, "' alt='", alttext, "' width='", string(plot_size[1]), "' />"),
+    ufn: concat("<img src='", URL_BASE, filename, ".", PLOT_TERMINAL, "' alt='", str_to_html(alttext), "' width='", string(plot_size[1]), "' />"),
     if plot_tags then
         ufn: concat("<div class='stack_plot'>", ufn, "</div>"),
     ufn: concat(" <html>", ufn, "</html> "),

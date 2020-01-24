@@ -2012,6 +2012,8 @@ class qtype_stack extends question_type {
                         $interror[$prtname.'nodewhen'.$branch.'['.$key.']'][] = stack_string('answernote_err');
                     }
                 }
+            } else if (strstr($answernote, ';') !== false || strstr($answernote, ':') !== false) {
+                $errors[$branchgroup][] = stack_string('answernote_err2');
             }
 
             $errors = $this->validate_cas_text($errors, $fromform[$prtname . $branch . 'feedback'][$nodekey]['text'],

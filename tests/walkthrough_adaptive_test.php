@@ -888,7 +888,8 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
                 $this->get_does_not_contain_num_parts_correct(),
                 $this->get_no_hint_visible_expectation()
         );
-        $this->assertEquals('ans1: x^3 [valid]; ans2: x^2 [valid]; ans3: x [valid]; odd: #; even: #; oddeven: #; unique: #',
+        $this->assertEquals('Seed: 1; ans1: x^3 [valid]; ans2: x^2 [valid]; ans3: x [valid]; ' .
+                'odd: #; even: #; oddeven: #; unique: #',
                 $this->quba->get_response_summary($this->slot));
     }
 
@@ -1190,7 +1191,7 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
                 $this->get_does_not_contain_num_parts_correct(),
                 $this->get_no_hint_visible_expectation()
         );
-        $this->assertEquals('ans1: x^3 [valid]; ans3: x [valid]; odd: #; even: #; oddeven: #; unique: #',
+        $this->assertEquals('Seed: 1; ans1: x^3 [valid]; ans3: x [valid]; odd: #; even: #; oddeven: #; unique: #',
                 $this->quba->get_response_summary($this->slot));
 
         // Step 2.
@@ -1218,7 +1219,7 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
                 $this->get_does_not_contain_num_parts_correct(),
                 $this->get_no_hint_visible_expectation()
         );
-        $this->assertEquals('ans1: x^3 [score]; ans3: x [score]; '
+        $this->assertEquals('Seed: 1; ans1: x^3 [score]; ans3: x [score]; '
                 . 'odd: odd-0-1; even: #; oddeven: oddeven-0-1 | oddeven-1-0; unique: #',
                 $this->quba->get_response_summary($this->slot));
 
@@ -1247,7 +1248,7 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
                 $this->get_does_not_contain_num_parts_correct(),
                 $this->get_no_hint_visible_expectation()
         );
-        $this->assertEquals('ans1: (x [invalid]; ans2: (x [invalid]; ans3: x+1 [valid]; ans4: false [score]; '
+        $this->assertEquals('Seed: 1; ans1: (x [invalid]; ans2: (x [invalid]; ans3: x+1 [valid]; ans4: false [score]; '
                 . 'odd: #; even: #; oddeven: #; unique: unique-0-0',
                 $this->quba->get_response_summary($this->slot));
 
@@ -1276,7 +1277,7 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
                 $this->get_does_not_contain_num_parts_correct(),
                 $this->get_no_hint_visible_expectation()
         );
-        $this->assertEquals('ans1: x) [invalid]; ans2: x^2 [valid]; ans3: x+1 [score]; '
+        $this->assertEquals('Seed: 1; ans1: x) [invalid]; ans2: x^2 [valid]; ans3: x+1 [score]; '
                 .'odd: #; even: #; oddeven: oddeven-0-0 | oddeven-1-0; unique: #',
                 $this->quba->get_response_summary($this->slot));
 
@@ -1305,7 +1306,7 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
                 $this->get_does_not_contain_num_parts_correct(),
                 $this->get_no_hint_visible_expectation()
         );
-        $this->assertEquals('ans1: x^2 [valid]; ans2: x [valid]; ans3: x^5 [valid]; '
+        $this->assertEquals('Seed: 1; ans1: x^2 [valid]; ans2: x [valid]; ans3: x^5 [valid]; '
                 . 'odd: #; even: #; oddeven: #; unique: #',
                 $this->quba->get_response_summary($this->slot));
 
@@ -1334,7 +1335,7 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
                 $this->get_does_not_contain_num_parts_correct(),
                 $this->get_no_hint_visible_expectation()
         );
-        $this->assertEquals('ans1: x^2 [score]; ans2: x^2 [valid]; ans3: x^5 [score]; ans4: true [score]; '
+        $this->assertEquals('Seed: 1; ans1: x^2 [score]; ans2: x^2 [valid]; ans3: x^5 [score]; ans4: true [score]; '
                 . 'odd: odd-0-0; even: #; oddeven: oddeven-0-1 | oddeven-1-0; unique: ATLogic_True. | unique-0-1',
                 $this->quba->get_response_summary($this->slot));
 
@@ -1363,7 +1364,7 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
                 $this->get_does_not_contain_num_parts_correct(),
                 $this->get_no_hint_visible_expectation()
         );
-        $this->assertEquals('ans1: x [valid]; ans2: x^2 [score]; ans3: x+3 [valid]; ans4: true [score]; '
+        $this->assertEquals('Seed: 1; ans1: x [valid]; ans2: x^2 [score]; ans3: x+3 [valid]; ans4: true [score]; '
                 . 'odd: #; even: even-0-1; oddeven: #; unique: ATLogic_True. | unique-0-1',
                 $this->quba->get_response_summary($this->slot));
 
@@ -1392,7 +1393,7 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
                 $this->get_does_not_contain_num_parts_correct(),
                 $this->get_no_hint_visible_expectation()
         );
-        $this->assertEquals('ans1: x [score]; ans3: x+3 [score]; ans4: true [score]; '
+        $this->assertEquals('Seed: 1; ans1: x [score]; ans3: x+3 [score]; ans4: true [score]; '
                 . 'odd: odd-0-1; even: #; oddeven: oddeven-0-0 | oddeven-1-0; unique: ATLogic_True. | unique-0-1',
                 $this->quba->get_response_summary($this->slot));
 
@@ -1421,7 +1422,7 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
                 $this->get_does_not_contain_num_parts_correct(),
                 $this->get_no_hint_visible_expectation()
         );
-        $this->assertEquals('ans1: x^3 [valid]; ans2: x^2 [valid]; ans3: 0 [valid]; ans4: true [score]; '
+        $this->assertEquals('Seed: 1; ans1: x^3 [valid]; ans2: x^2 [valid]; ans3: 0 [valid]; ans4: true [score]; '
                 . 'odd: #; even: #; oddeven: #; unique: ATLogic_True. | unique-0-1',
                 $this->quba->get_response_summary($this->slot));
 
@@ -1450,7 +1451,7 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
                 $this->get_does_not_contain_num_parts_correct(),
                 $this->get_no_hint_visible_expectation()
         );
-        $this->assertEquals('ans1: x^3 [score]; ans2: x^2 [score]; ans3: 0 [score]; ans4: true [score]; '
+        $this->assertEquals('Seed: 1; ans1: x^3 [score]; ans2: x^2 [score]; ans3: 0 [score]; ans4: true [score]; '
                 . 'odd: odd-0-1; even: even-0-1; oddeven: oddeven-0-1 | oddeven-1-1; unique: ATLogic_True. | unique-0-1',
                 $this->quba->get_response_summary($this->slot));
 
@@ -1477,7 +1478,7 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
                 $this->get_does_not_contain_num_parts_correct(),
                 $this->get_no_hint_visible_expectation()
         );
-        $this->assertEquals('ans1: x^3 [score]; ans2: x^2 [score]; ans3: 0 [score]; ans4: true [score]; '
+        $this->assertEquals('Seed: 1; ans1: x^3 [score]; ans2: x^2 [score]; ans3: 0 [score]; ans4: true [score]; '
                 . 'odd: odd-0-1; even: even-0-1; oddeven: oddeven-0-1 | oddeven-1-1; unique: ATLogic_True. | unique-0-1',
                 $this->quba->get_response_summary($this->slot));
     }
@@ -2098,7 +2099,7 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         // Verify.
         $this->check_current_state(question_state::$todo);
         $this->check_current_mark(0.5);
-        $this->check_answer_note('firsttree', 'ATEqualComAss: (AlgEquiv:false). | firsttree-1-F | firsttree-2-T');
+        $this->check_answer_note('firsttree', 'ATEqualComAss (AlgEquiv-false). | firsttree-1-F | firsttree-2-T');
         $this->check_prt_score('firsttree', 0.5, 0.3);
         $this->render();
         $this->check_output_contains_text_input('ans1', '3');
@@ -2229,7 +2230,7 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         // Verify.
         $this->check_current_state(question_state::$todo);
         $this->check_current_mark(0.5);
-        $this->check_answer_note('firsttree', 'ATEqualComAss: (AlgEquiv:false). | firsttree-1-F | firsttree-2-T');
+        $this->check_answer_note('firsttree', 'ATEqualComAss (AlgEquiv-false). | firsttree-1-F | firsttree-2-T');
         // This is the point of the test: we expect a zero penalty here in the 3rd argument.
         $this->check_prt_score('firsttree', 0.5, 0);
         $this->render();
@@ -2302,7 +2303,7 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->check_current_state(question_state::$todo);
         $this->check_current_mark(0);
         $this->check_answer_note('firsttree',
-                'ATEqualComAss: (AlgEquiv:false). | firsttree-1-F | ATEqualComAss: (AlgEquiv:false). | firsttree-2-F');
+                'ATEqualComAss (AlgEquiv-false). | firsttree-1-F | ATEqualComAss (AlgEquiv-false). | firsttree-2-F');
         $this->check_prt_score('firsttree', 0, 0.2);
         $this->render();
         $this->check_output_contains_text_input('ans1', '4');
@@ -2328,7 +2329,7 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         // Verify.
         $this->check_current_state(question_state::$todo);
         $this->check_current_mark(0.3);
-        $this->check_answer_note('firsttree', 'ATEqualComAss: (AlgEquiv:false). | firsttree-1-F | firsttree-2-T');
+        $this->check_answer_note('firsttree', 'ATEqualComAss (AlgEquiv-false). | firsttree-1-F | firsttree-2-T');
         // This is the point of the test: we expect a zero penalty here in the 3rd argument.
         $this->check_prt_score('firsttree', 0.5, 0);
         $this->render();

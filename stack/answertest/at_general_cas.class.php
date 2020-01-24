@@ -58,7 +58,7 @@ class stack_answertest_general_cas extends stack_anstest {
         if ('' == trim($this->sanskey->ast_to_string())) {
             $this->aterror      = stack_string('TEST_FAILED', array('errors' => stack_string("AT_EmptySA")));
             $this->atfeedback   = stack_string('TEST_FAILED', array('errors' => stack_string("AT_EmptySA")));
-            $this->atansnote    = $this->casfunction.'TEST_FAILED:Empty SA.';
+            $this->atansnote    = $this->casfunction.'TEST_FAILED-Empty SA.';
             $this->atmark       = 0;
             $this->atvalid      = false;
             return null;
@@ -67,7 +67,7 @@ class stack_answertest_general_cas extends stack_anstest {
         if ('' == trim($this->tanskey->ast_to_string())) {
             $this->aterror      = stack_string('TEST_FAILED', array('errors' => stack_string("AT_EmptyTA")));
             $this->atfeedback   = stack_string('TEST_FAILED', array('errors' => stack_string("AT_EmptyTA")));
-            $this->atansnote    = $this->casfunction.'TEST_FAILED:Empty TA.';
+            $this->atansnote    = $this->casfunction.'TEST_FAILED-Empty TA.';
             $this->atmark       = 0;
             $this->atvalid      = false;
             return null;

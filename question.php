@@ -521,7 +521,8 @@ class qtype_stack_question extends question_graded_automatically_with_countback
     }
 
     public function summarise_response(array $response) {
-        $bits = array();
+        // Provide seed information on student's version via the normal moodle quiz report.
+        $bits = array('Seed: ' . $this->seed);
         foreach ($this->inputs as $name => $input) {
             $state = $this->get_input_state($name, $response);
             if (stack_input::BLANK != $state->status) {

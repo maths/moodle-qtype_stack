@@ -547,7 +547,7 @@ ATUnitsFun(SA, SB, SO, strictp, numtest) := block([validity, rawmk, sb, ansnote,
     return([true, false, ansnote, fb]),
 
   /* We do have compatible units. */
-  ansnote:StackAddNote(ret2[3], sconcat("ATUnits_compatible_units: ", string(ev(stack_units_units(SBU), simp)))),
+  ansnote:StackAddNote(ret2[3], sconcat("ATUnits_compatible_units ", string(ev(stack_units_units(SBU), simp)))),
   fb:ret2[4],
 
   /* Is the numerical answer correct? */
@@ -562,7 +562,7 @@ ATUnitsFun(SA, SB, SO, strictp, numtest) := block([validity, rawmk, sb, ansnote,
   /* Despite getting the wrong units, was the original numerical value correct? */
   if ret1[2] then
     (
-    ansnote:StackAddNote("", sconcat("ATUnits_compatible_units: ", string(ev(stack_units_units(SBU), simp)))),
+    ansnote:StackAddNote("", sconcat("ATUnits_compatible_units ", string(ev(stack_units_units(SBU), simp)))),
     ansnote:StackAddNote(ansnote, "ATUnits_correct_numerical"),
     fb:StackAddFeedback("", "ATUnits_correct_numerical")
     ),

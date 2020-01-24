@@ -533,10 +533,13 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         foreach ($this->prts as $name => $prt) {
             $state = $this->get_prt_result($name, $response, false);
             $note = implode(' | ', $state->answernotes);
+            $score = '';
             if (trim($note) == '') {
-                $note = '#';
+                $note = '!';
+            } else {
+                $score = "# = " . $state->score . " | ";
             }
-            $bits[] = $name . ": " . $note;
+            $bits[] = $name . ": " . $score . $note;
         }
         return implode('; ', $bits);
     }

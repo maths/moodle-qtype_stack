@@ -20,7 +20,6 @@
     margin: 3px 3px 3px;
     display: inline-block;
     background-color: white;
-    display: inline-block;
     border: 1px solid #ccc;
     padding: 0.3em;
 }
@@ -93,12 +92,13 @@ body.pagelayout-embedded .que.stack .formulation .questiontestslink {
 }
 
 /* Support for proof. */
-.proof, .proof-block {
-    text-align:left; 
-    background: rgba(255,255,255,0.3);
+.proof,
+.proof-block {
+    text-align: left;
+    background: rgba(255, 255, 255, 0.3);
     border: 1px solid #ddd;
-    border-radius: 4px; 
-    padding: 5px; 
+    border-radius: 4px;
+    padding: 5px;
     margin: 3px;
 }
 .proof-block {
@@ -282,7 +282,7 @@ body.ie:not(.ie11) .stack_abstract_graph {
     stroke-linecap: round;
 }
 .stack_abstract_graph text {
-    font-family: Verdana;
+    font-family: Verdana, Sans-Serif;
 }
 .stack_abstract_graph text.nodelabel {
     font-size: 14px;

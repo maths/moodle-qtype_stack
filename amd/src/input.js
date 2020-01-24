@@ -243,7 +243,7 @@ define([
     }
 
     /**
-     * Object type for inputs that are a single input or select.
+     * Input type for inputs that are a single input or select.
      *
      * @constructor
      * @param {HTMLElement} input the HTML input that is this STACK input.
@@ -272,7 +272,7 @@ define([
     }
 
     /**
-     * Class constructor representing a textarea input.
+     * Input type for textarea inputs.
      *
      * @constructor
      * @param {Object} textarea The input element wrapped in jquery.
@@ -298,6 +298,65 @@ define([
             return raw.split(/\s*[\r\n]\s*/).join('<br>');
         };
     }
+
+    /**
+     * Input type for inputs that are a set of radio buttons.
+     *
+     * @constructor
+     * @param {HTMLElement} container container <div> of this input.
+     */
+    function StackRadioInput(container) {
+        /**
+         * Add the event handler to call when the user input changes.
+         *
+         * @param {Function} valueChanging the callback to call when we detect a value change.
+         */
+        this.addEventHandlers = function(valueChanging) {
+            // The input event fires on any change in value, even if pasted in or added by speech
+            // recognition to dictate text. Change only fires after loosing focus.
+            // Should also work on mobile.
+            container.addEventListener('input', valueChanging);
+        };
+
+        /**
+         * Get the current value of this input.
+         *
+         * @return {String}.
+         */
+        this.getValue = function() {
+            return container.querySelector(':checked').value;
+        };
+    }
+
+    // /**
+    //  * Input type for inputs that are a set of radio buttons.
+    //  *
+    //  * @constructor
+    //  * @param {HTMLElement} container container <div> of this input.
+    //  */
+    // function StackCheckboxInput(container) {
+    //     /**
+    //      * Add the event handler to call when the user input changes.
+    //      *
+    //      * @param {Function} valueChanging the callback to call when we detect a value change.
+    //      */
+    //     this.addEventHandlers = function(valueChanging) {
+    //         // The input event fires on any change in value, even if pasted in or added by speech
+    //         // recognition to dictate text. Change only fires after loosing focus.
+    //         // Should also work on mobile.
+    //         container.addEventListener('input', valueChanging);
+    //     };
+    //
+    //     /**
+    //      * Get the current value of this input.
+    //      *
+    //      * @return {String}.
+    //      */
+    //     this.getValue = function() {
+    //         var selected = container.querySelectorAll(':checked');
+    //         return 'TODO';
+    //     };
+    // }
 
     /**
      * Class constructor representing matrix inputs (one input).
@@ -373,7 +432,7 @@ define([
     }
 
     /**
-     * Initialse one input.
+     * Initialise one input.
      *
      * @param {HTMLElement} questionDiv outer <div> of this question.
      * @param {String} prefix prefix added to the input names for this question.
@@ -387,28 +446,52 @@ define([
             return false;
         }
 
+        var inputTypeHandler = getInputTypeHandler();
+        if (inputTypeHandler) {
+            new StackInput(validationDiv, prefix, qaid, name, inputTypeHandler);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * Get the input type handler for a named input.
+     *
+     * @param {HTMLElement} questionDiv outer <div> of this question.
+     * @param {String} prefix prefix added to the input names for this question.
+     * @param {String} name the input to initialise.
+     * @return {?Object} the input hander, if we can handle it, else null.
+     */
+    function getInputTypeHandler(questionDiv, prefix, name) {
         // See if it is an ordinary input.
         var input = questionDiv.querySelector('[name="' + prefix + name + '"]');
         if (input) {
             if (input.nodeName === 'TEXTAREA') {
-                new StackInput(validationDiv, prefix, qaid, name, new StackTextareaInput(input));
+                return new StackTextareaInput(input);
+            } else if (input.type === 'radio') {
+                return new StackRadioInput(input.closest('.answer'));
             } else {
-                new StackInput(validationDiv, prefix, qaid, name, new StackSimpleInput(input));
+                return new StackSimpleInput(input);
             }
-            return true;
         }
+
+        // // See if it is a checkbox input.
+        // input = questionDiv.querySelector('[name="' + prefix + name + '_1"]');
+        // if (input && input.type === 'checkbox') {
+        //     return new StackCheckboxInput(input.closest('.answer'));
+        // }
 
         // See if it is a matrix input.
         var matrix = document.getElementById(prefix + name + '_container');
         if (matrix) {
-            new StackInput(validationDiv, prefix, qaid, name, new StackMatrixInput(prefix + name, matrix));
-            return true;
+            return new StackMatrixInput(prefix + name, matrix);
         }
 
-        // Give up.
-        return false;
+        return null;
     }
 
+    /** Export our entry point. */
     return {
         /**
          * Initialise all the inputs in a STACK question.

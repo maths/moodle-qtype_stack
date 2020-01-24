@@ -33,6 +33,7 @@ defined('MOODLE_INTERNAL') || die();
 class qtype_stack_renderer extends qtype_renderer {
 
     public function formulation_and_controls(question_attempt $qa, question_display_options $options) {
+        /* @var qtype_stack_question $question */
         $question = $qa->get_question();
 
         $response = $qa->get_last_qt_data();
@@ -40,7 +41,6 @@ class qtype_stack_renderer extends qtype_renderer {
         $questiontext = $question->questiontextinstantiated;
         // Replace inputs.
         $inputstovaldiate = array();
-        $qaid = null;
 
         // Get the list of placeholders before format_text.
         $originalinputplaceholders = stack_utils::extract_placeholders($questiontext, 'input');
@@ -75,7 +75,6 @@ class qtype_stack_renderer extends qtype_renderer {
 
             $questiontext = $input->replace_validation_tags($state, $fieldname, $questiontext);
 
-            $qaid = $qa->get_database_id();
             if ($input->requires_validation()) {
                 $inputstovaldiate[] = $name;
             }
@@ -99,9 +98,10 @@ class qtype_stack_renderer extends qtype_renderer {
         }
 
         // Initialise automatic validation, if enabled.
-        if ($qaid && stack_utils::get_config()->ajaxvalidation) {
+        if (stack_utils::get_config()->ajaxvalidation) {
             $this->page->requires->js_call_amd('qtype_stack/input', 'initInputs',
-                    [$inputstovaldiate, $qaid, $qa->get_field_prefix()]);
+                    [$qa->get_outer_question_div_unique_id(), $qa->get_field_prefix(),
+                            $qa->get_database_id(), $inputstovaldiate]);
         }
 
         $result = '';

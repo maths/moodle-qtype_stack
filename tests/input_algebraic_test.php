@@ -1041,7 +1041,7 @@ class stack_algebra_input_test extends qtype_stack_testcase {
                 'a*x+a*y-b*x-b*y', $secutity);
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('a*x+a*y-b*x-b*y', $state->contentsmodified);
-        $this->assertEquals('\[ a\cdot x+a\cdot y-b\cdot x-b\cdot y \]',
+        $this->assertEquals('\[ a\cdot x+a\cdot y+\left(-b\right)\cdot x+\left(-b\right)\cdot y \]',
                 $state->contentsdisplayed);
         $this->assertEquals('', $state->note);
     }

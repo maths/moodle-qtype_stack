@@ -263,7 +263,7 @@ class stack_ast_container extends stack_ast_container_silent implements cas_late
             $ast = clone $this->ast;
         }
         if ($ast instanceof MP_Root) {
-           $ast = $ast->items[0];
+            $ast = $ast->items[0];
         }
         return $ast;
     }

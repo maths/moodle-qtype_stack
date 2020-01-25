@@ -559,10 +559,8 @@ LoopBit
  return n;
  }
 
-PrefixOp
-  = "#pm#"
-  / "+-"
-  / "-"
+PrefixBase
+  = "-"
   / "+"
   / "''"
   / "'"
@@ -570,6 +568,11 @@ PrefixOp
   / "?? "
   / "? "
   / "?"
+
+PrefixOp
+  = "#pm#"
+  / "+-" & { /** <?php return $this->options['allowPM']; ?> **/ return options.allowPM; }
+  / PrefixBase
 
 PostfixOp
   = "!!"
@@ -624,6 +627,7 @@ UnaryOp
   return opBind(n);}
   / op:PrefixOp _? trg:(Group / List / FunctionCall / Indexing / Literal / UnaryOp / Identifier ) {
   /** <?php
+  if (is_array($op)) {$op = $op[0];}
   $r = new MP_PrefixOp($op, $trg);
   $r->position = array('start'=>$this->peg_reportedPos, 'end'=>$this->peg_currPos);
   return opBind($r);

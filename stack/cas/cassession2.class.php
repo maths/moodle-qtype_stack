@@ -394,12 +394,10 @@ class stack_cas_session2 {
         } else {
             if (array_key_exists('values', $results)) {
                 foreach ($results['values'] as $key => $value) {
-                    // TODO: replace the line below with a parser with options.  WIP to test this fix.
-                    $value = str_replace('+-', '-', $value);
                     if (is_string($value)) {
                         try {
                             if (!isset($collectvalues[$key]) || $collectvalues[$key] instanceof cas_value_extractor) {
-                                $ast = maxima_parser_utils::parse($value);
+                                $ast = maxima_parser_utils::parse($value, 'Root', false);
                                 // Let's unpack the MP_Root immediately.
                                 $asts[$key] = $ast->items[0];
                             } else {
@@ -421,8 +419,6 @@ class stack_cas_session2 {
             }
             if (array_key_exists('display', $results)) {
                 foreach ($results['display'] as $key => $value) {
-                    // TODO: replace the line below with a parser with options.  WIP to test this fix.
-                    $value = str_replace('+-', '-', $value);
                     if (is_string($value)) {
                         $display[$key] = $value;
                     }

@@ -40,6 +40,8 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/../cas/cassecurity.class.php');
 
+// @codingStandardsIgnoreStart
+// We ignore coding in this file, because the library is used outside Moodle.
 class MP_Node {
     public $parentnode  = null;
     public $position    = null;
@@ -2058,6 +2060,7 @@ function opBind($op) {
      */
     // @codingStandardsIgnoreEnd
 
+    // @codingStandardsIgnoreStart
     $op->lhs = opBind($op->lhs);
     $op->rhs = opBind($op->rhs);
     if ($op->lhs instanceof MP_Operation && (opLBind($op->op) > opRBind($op->lhs->op))) {
@@ -2137,3 +2140,4 @@ function mergePosition($posa, $posb) {
 
     return $r;
 }
+// @codingStandardsIgnoreEnd

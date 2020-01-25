@@ -24,10 +24,16 @@
  if (!array_key_exists('letToken', $options)) {
    $options['letToken'] = 'let';
  }
+ if (!array_key_exists('allowPM', $options)) {
+   $options['allowPM'] = true;
+ }
  $this->options = $options;
  ?> **/
  if (!options.hasOwnProperty('letToken')) {
    options.letToken = 'let';
+ }
+ if (!options.hasOwnProperty('allowPM')) {
+   options.allowPM = true;
  }
 
  function opLBind(op) {
@@ -167,7 +173,6 @@
     return R;
  }
 }
-
 
 Root
   = lines:(__? Line __?)* __? final:Statement? __?{
@@ -570,14 +575,12 @@ PostfixOp
   = "!!"
   / "!"
 
-InfixOp
+InfixBase
   = "**"
   / "^^"
   / "^"
   / "*"
   / "/"
-  / "#pm#"
-  / "+-"
   / "-"
   / "+"
   / "and"
@@ -597,6 +600,11 @@ InfixOp
   / "~"
   / "@@IS@@"
   / "@@Is@@"
+
+InfixOp
+  = "#pm#"
+  / "+-" & { /** <?php return $this->options['allowPM']; ?> **/ return options.allowPM; }
+  / InfixBase
 
 UnaryOp
   = op:PrefixOp _? trg:(Group / List / FunctionCall / Indexing / Literal / UnaryOp / Identifier ) _? op2:PostfixOp {

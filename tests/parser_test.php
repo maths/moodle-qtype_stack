@@ -79,7 +79,7 @@ class stack_cas_castext_parser_test extends qtype_stack_testcase {
         }
         return $r;
     }
-
+/*
     public function test_rawcasblock() {
         $raw = 'Test string with maxima-code block {#sin(x/y)#}';
         $parsed = $this->basic_parse_and_actions($raw);
@@ -562,14 +562,23 @@ class stack_cas_castext_parser_test extends qtype_stack_testcase {
         $this->assertEquals($errors, array());
         $this->assertEquals($answernotes, array());
     }
-
+*/
     public function test_pm() {
         $s = 'a*b+c*d+-A*B';
         $ast = null;
         $errors = array();
         $answernotes = array();
-        $ast = maxima_corrective_parser::parse($s, $errors, $answernotes, array());
 
+        $ast = maxima_corrective_parser::parse($s, $errors, $answernotes, array('allowPM' => false));
+        $expected = '([Root] ([Op: +] ([Op: *] ([Id] a), ([Id] b)), ([Op: +] ([Op: *] ([Id] c), ([Id] d)), ' .
+            '([Op: *] ([PrefixOp: -] ([Id] A)), ([Id] B)))))';
+        $this->assertEquals($expected, $ast->toString(array('flattree' => true)));
+        $this->assertEquals($s, $ast->toString(array('nosemicolon' => true)));
+        $this->assertEquals($errors, array());
+        $this->assertEquals($answernotes, array());
+
+        $ast = maxima_corrective_parser::parse($s, $errors, $answernotes, array());
+        $this->assertEquals($s, $ast->toString(array('nosemicolon' => true)));
         $expected = '([Root] ([Op: +] ([Op: *] ([Id] a), ([Id] b)), ([Op: +-] ' .
                 '([Op: *] ([Id] c), ([Id] d)), ([Op: *] ([Id] A), ([Id] B)))))';
         $this->assertEquals($expected, $ast->toString(array('flattree' => true)));

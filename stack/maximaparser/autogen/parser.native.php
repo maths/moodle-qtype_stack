@@ -614,6 +614,9 @@ class MP_Parser {
       return opBind($r);
       }
     private function peg_f40($lhs, $op, $rhs) {
+      if (is_array($op)) {
+          $op = $op[0];
+      }
       $r = new MP_Operation($op,$lhs,$rhs);
       $r->position = array('start'=>$this->peg_reportedPos,'end'=>$this->peg_currPos);
       return opBind($r);

@@ -571,7 +571,7 @@ PrefixBase
 
 PrefixOp
   = "#pm#"
-  / "+-" & { /** <?php return $this->options['allowPM']; ?> **/ return options.allowPM; }
+  / "+-" & { /** <?php return $this->options['allowPM']; ?> **/ return options.allowPM; } {return '+-';}
   / PrefixBase
 
 PostfixOp
@@ -606,7 +606,7 @@ InfixBase
 
 InfixOp
   = "#pm#"
-  / "+-" & { /** <?php return $this->options['allowPM']; ?> **/ return options.allowPM; }
+  / "+-" & { /** <?php return $this->options['allowPM']; ?> **/ return options.allowPM; } {return '+-';}
   / InfixBase
 
 UnaryOp
@@ -627,7 +627,6 @@ UnaryOp
   return opBind(n);}
   / op:PrefixOp _? trg:(Group / List / FunctionCall / Indexing / Literal / UnaryOp / Identifier ) {
   /** <?php
-  if (is_array($op)) {$op = $op[0];}
   $r = new MP_PrefixOp($op, $trg);
   $r->position = array('start'=>$this->peg_reportedPos, 'end'=>$this->peg_currPos);
   return opBind($r);
@@ -658,7 +657,6 @@ Operation
   = DotOp
   / lhs:(Expression / DotOp) _? op:InfixOp _? rhs:ExpOp {
   /** <?php
-  if (is_array($op)) {$op = $op[0];}
   $r = new MP_Operation($op,$lhs,$rhs);
   $r->position = array('start'=>$this->peg_reportedPos,'end'=>$this->peg_currPos);
   return opBind($r);

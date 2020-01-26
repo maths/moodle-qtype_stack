@@ -800,7 +800,7 @@ class MP_Annotation extends MP_Node {
     public $annotationtype = null;
     public $params         = null;
 
-    public function __constructor($annotationtype, $params) {
+    public function __construct($annotationtype, $params) {
         parent::__construct();
         $this->annotationtype = $annotationtype;
         $this->params         = $params;

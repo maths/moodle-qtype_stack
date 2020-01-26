@@ -559,8 +559,10 @@ LoopBit
  return n;
  }
 
-PrefixBase
-  = "-"
+PrefixOp
+  = "#pm#"
+  / "+-" & { /** <?php return $this->options['allowPM']; ?> **/ return options.allowPM; } {return '+-';}
+  / "-"
   / "+"
   / "''"
   / "'"
@@ -569,21 +571,18 @@ PrefixBase
   / "? "
   / "?"
 
-PrefixOp
-  = "#pm#"
-  / "+-" & { /** <?php return $this->options['allowPM']; ?> **/ return options.allowPM; } {return '+-';}
-  / PrefixBase
-
 PostfixOp
   = "!!"
   / "!"
 
-InfixBase
+InfixOp
   = "**"
   / "^^"
   / "^"
   / "*"
   / "/"
+  / "#pm#"
+  / "+-" & { /** <?php return $this->options['allowPM']; ?> **/ return options.allowPM; } {return '+-';}
   / "-"
   / "+"
   / "and"
@@ -603,11 +602,6 @@ InfixBase
   / "~"
   / "@@IS@@"
   / "@@Is@@"
-
-InfixOp
-  = "#pm#"
-  / "+-" & { /** <?php return $this->options['allowPM']; ?> **/ return options.allowPM; } {return '+-';}
-  / InfixBase
 
 UnaryOp
   = op:PrefixOp _? trg:(Group / List / FunctionCall / Indexing / Literal / UnaryOp / Identifier ) _? op2:PostfixOp {

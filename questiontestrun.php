@@ -451,6 +451,11 @@ if ($canedit) {
             $OUTPUT->help_icon('exportthisquestion', 'qtype_stack'));
 }
 
+
+echo html_writer::tag('p',
+        html_writer::link(new moodle_url('/question/type/stack/questiontestreport.php', $urlparams),
+                stack_string('basicquestionreport')) . $OUTPUT->help_icon('basicquestionreport', 'qtype_stack'));
+
 echo $renderquestion;
 
 if ($question->runtimeerrors) {

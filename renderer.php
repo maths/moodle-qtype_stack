@@ -99,8 +99,13 @@ class qtype_stack_renderer extends qtype_renderer {
 
         // Initialise automatic validation, if enabled.
         if (stack_utils::get_config()->ajaxvalidation) {
+            if (method_exists($qa, 'get_outer_question_div_unique_id')) {
+                $questiondivid = $qa->get_outer_question_div_unique_id();
+            } else {
+                $questiondivid = 'q' . $qa->get_slot();
+            }
             $this->page->requires->js_call_amd('qtype_stack/input', 'initInputs',
-                    [$qa->get_outer_question_div_unique_id(), $qa->get_field_prefix(),
+                    [$questiondivid, $qa->get_field_prefix(),
                             $qa->get_database_id(), $inputstovaldiate]);
         }
 

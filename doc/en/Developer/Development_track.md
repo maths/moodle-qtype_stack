@@ -9,22 +9,20 @@ How to report bugs and make suggestions is described on the [community](../About
 
 Version 4.3 represents a major internal re-engineering of STACK, with a new dedicated parser and an updated mechanism for connecting to Maxima.  This is a significant improvement, refactoring some of the oldest code and unblocking progress to a wide range of requested features.
 
-CHANGES:
+There have been a number of changes:
 
 * In the forbidden words we now match whole words not substrings.
 * Removed the RegExp answer test.
 * Use of units is now reflected throughout a question.  This reduces the need to declare units in all contexts.
 * Internally, the "+-" operator has been replaced with a new infix operation "#pm#".  Instead of `a+-b` teachers now must type `a#pm#b`.  This change was necessary to deal with differences between versions of Maxima when dealing with expresions.
 
-DONE:
+New features in v4.3:
 
 * Add in full parser, to address issue #324.
 * Add in input option 'align'.
 * Add in input option 'nounits'.
 * Add in option 'compact' to input "Show the validation" parameter.
 * Add in a basic question use report page, linked from the question testing page.
-
-## Other things to fix
 
 ## Version 4.4
 

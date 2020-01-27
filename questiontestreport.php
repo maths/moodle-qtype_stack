@@ -87,8 +87,8 @@ LEFT JOIN {question_attempt_steps} qas_last ON qas_last.questionattemptid = qa.i
    using method from https://stackoverflow.com/a/28090544 */
 LEFT JOIN {question_attempt_steps} qas_prev
 ON qas_last.questionattemptid = qas_prev.questionattemptid
-AND (qas_last.timecreated < qas_prev.timecreated
-OR (qas_last.timecreated = qas_prev.timecreated
+AND (qas_last.sequencenumber < qas_prev.sequencenumber
+OR (qas_last.sequencenumber = qas_prev.sequencenumber
 AND qas_last.id < qas_prev.id))
 LEFT JOIN {user} u ON qas_last.userid = u.id
 WHERE
@@ -105,10 +105,13 @@ foreach ($result as $qattempt) {
     if (!array_key_exists($qattempt->variant, $summary)) {
         $summary[$qattempt->variant] = array();
     }
-    if (array_key_exists($qattempt->responsesummary, $summary[$qattempt->variant])) {
-        $summary[$qattempt->variant][$qattempt->responsesummary] += 1;
-    } else {
-        $summary[$qattempt->variant][$qattempt->responsesummary] = 1;
+    $rsummary = trim($qattempt->responsesummary);
+    if ($rsummary !== '') {
+        if (array_key_exists($rsummary, $summary[$qattempt->variant])) {
+            $summary[$qattempt->variant][$rsummary] += 1;
+        } else {
+            $summary[$qattempt->variant][$rsummary] = 1;
+        }
     }
 }
 
@@ -123,6 +126,7 @@ foreach ($qinputs as $key => $val) {
     $qinputs[$key] = array('score' => array(), 'valid' => array(), 'invalid' => array(), 'other' => array());
 }
 $inputreport = array();
+$inputtotals = array();
 
 $qprts = array_flip(array_keys($question->prts));
 foreach ($qprts as $key => $notused) {
@@ -156,6 +160,12 @@ foreach ($summary as $variant => $vdata) {
                         $inputreport[$variant][$input][$status][$datas] += (int) $num;
                     } else {
                         $inputreport[$variant][$input][$status][$datas] = $num;
+                    }
+                    // Count the total numbers in this array.
+                    if (array_key_exists($input, $inputtotals)) {
+                        $inputtotals[$input] += (int) $num;
+                    } else {
+                        $inputtotals[$input] = $num;
                     }
                 }
             }
@@ -196,18 +206,26 @@ foreach (array_keys($summary) as $variant) {
     $sumout = '';
     foreach ($inputreport[$variant] as $input => $idata) {
         $sumouti = '';
+        $tot = 0;
+        foreach ($idata as $key => $data) {
+            foreach ($data as $dat => $num) {
+                $tot += $num;
+            }
+        }
         foreach ($idata as $key => $data) {
             if ($data !== array()) {
                 $sumouti .= '### ' . $key . "\n";
                 $pad = max($data);
                 foreach ($data as $dat => $num) {
-                    $sumouti .= str_pad($num . ';', strlen((string) $pad) + 3) . $dat . "\n";
+                    $sumouti .= str_pad($num, strlen((string) $pad) + 1) . '(' .
+                        str_pad(number_format((float) 100 * $num / $tot, 2, '.', ''), 6, ' ', STR_PAD_LEFT) .
+                        '%); ' . $dat . "\n";
                 }
                 $sumouti .= "\n";
             }
         }
         if (trim($sumouti) !== '') {
-            $sumout .= '## ' . $input . "\n" . $sumouti;
+            $sumout .= '## ' . $input . ' ('. $tot . ")\n" . $sumouti;
         }
     }
     if (trim($sumout) !== '') {
@@ -217,12 +235,18 @@ foreach (array_keys($summary) as $variant) {
     $sumout = '';
     foreach ($prtreport[$variant] as $prt => $idata) {
         $pad = 0;
+        $tot = 0;
+        foreach ($idata as $dat => $num) {
+            $tot += $num;
+        }
         if ($idata !== array()) {
-            $sumout .= '## ' . $prt . "\n";
+            $sumout .= '## ' . $prt . ' ('. $tot . ")\n";
             $pad = max($idata);
         }
         foreach ($idata as $dat => $num) {
-            $sumout .= str_pad($num . ';', strlen((string) $pad) + 3) . $dat . "\n";
+            $sumout .= str_pad($num, strlen((string) $pad) + 1) . '(' .
+                    str_pad(number_format((float) 100 * $num / $tot, 2, '.', ''), 6, ' ', STR_PAD_LEFT) .
+                    '%); ' . $dat . "\n";
         }
         $sumout .= "\n";
     }
@@ -234,11 +258,18 @@ foreach (array_keys($summary) as $variant) {
 echo html_writer::tag('h2', stack_string('basicreportraw'));
 $sumout = '';
 foreach ($summary as $variant => $vdata) {
-    $pad = max($vdata);
-    $sumout .= "\n# " . $variant;
-    $sumout .= "\n";
-    foreach ($vdata as $dat => $num) {
-        $sumout .= str_pad($num . ';', strlen((string) $pad) + 3) . $dat . "\n";
+    if ($vdata !== array()) {
+        $tot = 0;
+        foreach ($vdata as $dat => $num) {
+            $tot += $num;
+        }
+        $pad = max($vdata);
+        $sumout .= "\n# " . $variant . ' ('. $tot . ")\n";
+        foreach ($vdata as $dat => $num) {
+            $sumout .= str_pad($num, strlen((string) $pad) + 1) . '(' .
+                    str_pad(number_format((float) 100 * $num / $tot, 2, '.', ''), 6, ' ', STR_PAD_LEFT) .
+                    '%); ' . $dat . "\n";
+        }
     }
 }
 echo html_writer::tag('pre', $sumout);

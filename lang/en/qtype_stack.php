@@ -499,6 +499,10 @@ $string['tidyquestionx'] = 'Rename the parts of question {$a}';
 $string['undeploy'] = 'Un-deploy';
 $string['variant'] = 'Variant';
 
+$string['basicquestionreport'] = 'Basic question use report';
+$string['basicquestionreport_help'] = 'Generates a very basic report on attempts at this question on the server. Useful for deciding which PRT test can be added to improve feedback in the light of what the student actually does.  (Most questions are only used in one place)';
+$string['basicreportraw'] = 'Raw data';
+
 // Equiv input specific string.
 $string['equivnocomments'] = 'You are not permitted to use comments in this input type.  Please just work line by line.';
 $string['equivfirstline'] = 'You have used the wrong first line in your argument!';

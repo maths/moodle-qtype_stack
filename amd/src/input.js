@@ -446,7 +446,7 @@ define([
             return false;
         }
 
-        var inputTypeHandler = getInputTypeHandler();
+        var inputTypeHandler = getInputTypeHandler(questionDiv, prefix, name);
         if (inputTypeHandler) {
             new StackInput(validationDiv, prefix, qaid, name, inputTypeHandler);
             return true;

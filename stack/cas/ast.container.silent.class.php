@@ -237,7 +237,8 @@ class stack_ast_container_silent implements cas_evaluatable {
         return $astc;
     }
 
-    protected function __construct() {}
+    protected function __construct() {
+    }
 
     public function set_keyless(bool $key=true) {
         $this->keyless = $key;

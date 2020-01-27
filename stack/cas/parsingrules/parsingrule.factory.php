@@ -160,7 +160,7 @@ class stack_parsing_rule_factory {
                            '050_no_chained_inequalities',
                            '090_special_forbidden_characters',
                            '101_no_floats', '102_no_strings',
-                           '103_no_lists', '104_no_sets', 
+                           '103_no_lists', '104_no_sets',
                            '105_no_grouppings', '106_no_control_flow',
                            '201_sig_figs_validation',
                            '202_decimal_places_validation',

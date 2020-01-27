@@ -121,7 +121,6 @@ class stack_ast_filter_801_singleton_numeric implements stack_cas_astfilter_para
             return $ast;
         }
 
-
         // The non trivial bit of identifying a power form representation.
         // 10^1 is also one, i.e. matissa being 1 and omitted is to be noted.
         $m = null;

@@ -1454,7 +1454,7 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
                 $this->get_no_hint_visible_expectation()
         );
         $this->assertEquals('Seed: 1; ans1: x^3 [score]; ans2: x^2 [score]; ans3: 0 [score]; ans4: true [score]; '
-                . 'odd: # = 1 | odd-0-1; even: # = 1 | even-0-1; oddeven: # = 1 | oddeven-0-1 | oddeven-1-1; ' 
+                . 'odd: # = 1 | odd-0-1; even: # = 1 | even-0-1; oddeven: # = 1 | oddeven-0-1 | oddeven-1-1; '
                 . 'unique: # = 1 | ATLogic_True. | unique-0-1',
                 $this->quba->get_response_summary($this->slot));
 
@@ -1482,7 +1482,7 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
                 $this->get_no_hint_visible_expectation()
         );
         $this->assertEquals('Seed: 1; ans1: x^3 [score]; ans2: x^2 [score]; ans3: 0 [score]; ans4: true [score]; '
-                . 'odd: # = 1 | odd-0-1; even: # = 1 | even-0-1; oddeven: # = 1 | oddeven-0-1 | oddeven-1-1; ' 
+                . 'odd: # = 1 | odd-0-1; even: # = 1 | even-0-1; oddeven: # = 1 | oddeven-0-1 | oddeven-1-1; '
                 . 'unique: # = 1 | ATLogic_True. | unique-0-1',
                 $this->quba->get_response_summary($this->slot));
     }

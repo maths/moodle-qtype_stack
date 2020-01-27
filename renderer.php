@@ -33,7 +33,7 @@ defined('MOODLE_INTERNAL') || die();
 class qtype_stack_renderer extends qtype_renderer {
 
     public function formulation_and_controls(question_attempt $qa, question_display_options $options) {
-        /* @var qtype_stack_question $question */
+        /* Return type should be @var qtype_stack_question $question. */
         $question = $qa->get_question();
 
         $response = $qa->get_last_qt_data();
@@ -99,9 +99,8 @@ class qtype_stack_renderer extends qtype_renderer {
 
         // Initialise automatic validation, if enabled.
         if (stack_utils::get_config()->ajaxvalidation) {
-            // Once we cen rely on everyone being on a Moodle version that
-            // includes the fix for MDL-65029 (3.5.6+, 3.6.4+, 3.7+)
-            // we can remove this if and just call the method.
+            // Once we cen rely on everyone being on a Moodle version that includes the fix for
+            // MDL-65029 (3.5.6+, 3.6.4+, 3.7+) we can remove this if and just call the method.
             if (method_exists($qa, 'get_outer_question_div_unique_id')) {
                 $questiondivid = $qa->get_outer_question_div_unique_id();
             } else {

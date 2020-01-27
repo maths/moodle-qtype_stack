@@ -74,7 +74,8 @@ class stack_ast_container extends stack_ast_container_silent implements cas_late
      */
     private $displayvalue;
 
-    protected function __construct() {}
+    protected function __construct() {
+    }
 
     public function add_errors($err) {
         if ('' == trim($err)) {

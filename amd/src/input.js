@@ -324,39 +324,52 @@ define([
          * @return {String}.
          */
         this.getValue = function() {
-            return container.querySelector(':checked').value;
+            var selected = container.querySelector(':checked');
+            if (selected) {
+                return selected.value;
+            } else {
+                return '';
+            }
         };
     }
 
-    // /**
-    //  * Input type for inputs that are a set of radio buttons.
-    //  *
-    //  * @constructor
-    //  * @param {HTMLElement} container container <div> of this input.
-    //  */
-    // function StackCheckboxInput(container) {
-    //     /**
-    //      * Add the event handler to call when the user input changes.
-    //      *
-    //      * @param {Function} valueChanging the callback to call when we detect a value change.
-    //      */
-    //     this.addEventHandlers = function(valueChanging) {
-    //         // The input event fires on any change in value, even if pasted in or added by speech
-    //         // recognition to dictate text. Change only fires after loosing focus.
-    //         // Should also work on mobile.
-    //         container.addEventListener('input', valueChanging);
-    //     };
-    //
-    //     /**
-    //      * Get the current value of this input.
-    //      *
-    //      * @return {String}.
-    //      */
-    //     this.getValue = function() {
-    //         var selected = container.querySelectorAll(':checked');
-    //         return 'TODO';
-    //     };
-    // }
+    /**
+     * Input type for inputs that are a set of checkboxes.
+     *
+     * @constructor
+     * @param {HTMLElement} container container <div> of this input.
+     */
+    function StackCheckboxInput(container) {
+        /**
+         * Add the event handler to call when the user input changes.
+         *
+         * @param {Function} valueChanging the callback to call when we detect a value change.
+         */
+        this.addEventHandlers = function(valueChanging) {
+            // The input event fires on any change in value, even if pasted in or added by speech
+            // recognition to dictate text. Change only fires after loosing focus.
+            // Should also work on mobile.
+            container.addEventListener('input', valueChanging);
+        };
+
+        /**
+         * Get the current value of this input.
+         *
+         * @return {String}.
+         */
+        this.getValue = function() {
+            var selected = container.querySelectorAll(':checked');
+            var result = [];
+            for (var i = 0; i < selected.length; i++) {
+                result[i] = selected[i].value;
+            }
+            if (result.length > 0) {
+                return result.join(',');
+            } else {
+                return '';
+            }
+        };
+    }
 
     /**
      * Class constructor representing matrix inputs (one input).
@@ -476,11 +489,11 @@ define([
             }
         }
 
-        // // See if it is a checkbox input.
-        // input = questionDiv.querySelector('[name="' + prefix + name + '_1"]');
-        // if (input && input.type === 'checkbox') {
-        //     return new StackCheckboxInput(input.closest('.answer'));
-        // }
+        // See if it is a checkbox input.
+        input = questionDiv.querySelector('[name="' + prefix + name + '_1"]');
+        if (input && input.type === 'checkbox') {
+            return new StackCheckboxInput(input.closest('.answer'));
+        }
 
         // See if it is a matrix input.
         var matrix = document.getElementById(prefix + name + '_container');

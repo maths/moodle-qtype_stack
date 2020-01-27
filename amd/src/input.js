@@ -211,7 +211,7 @@ define([
             removeAllClasses();
             validationDiv.classList.add('error');
             // This fires the Maths filters for content in the validation div.
-            CustomEvents.notifyFilterContentUpdated(validationDiv[0]);
+            CustomEvents.notifyFilterContentUpdated(validationDiv);
         }
 
         /**

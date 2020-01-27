@@ -378,7 +378,6 @@ class stack_cas_session2 {
         // Send it to CAS.
         $connection = stack_connection_helper::make();
         $results = $connection->json_compute($command);
-
         // Let's collect what we got.
         $asts = array();
         $latex = array();
@@ -398,7 +397,7 @@ class stack_cas_session2 {
                     if (is_string($value)) {
                         try {
                             if (!isset($collectvalues[$key]) || $collectvalues[$key] instanceof cas_value_extractor) {
-                                $ast = maxima_parser_utils::parse($value);
+                                $ast = maxima_parser_utils::parse($value, 'Root', false);
                                 // Let's unpack the MP_Root immediately.
                                 $asts[$key] = $ast->items[0];
                             } else {

@@ -504,6 +504,8 @@ class stack_inputvalidation_test_data {
         $filterstoapply[] = '404_split_at_number_letter_number_boundary';
         $filterstoapply[] = '406_split_implied_variable_names';
 
+        $filterstoapply[] = '502_replace_pm';
+
         // We want to apply this as our "insert stars" but not spaces...
         $filterstoapply[] = '990_no_fixing_spaces';
 

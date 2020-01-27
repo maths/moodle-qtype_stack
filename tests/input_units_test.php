@@ -227,7 +227,7 @@ class stack_units_input_test extends qtype_stack_testcase {
                 new stack_cas_security(true, '', '', array('tans')));
         $this->assertEquals(stack_input::INVALID, $state->status);
         $this->assertEquals("Units_SA_no_units", $state->note);
-        $this->assertEquals('pi*sin(2)', $state->contentsmodified);
+        $this->assertEquals('%pi*sin(2)', $state->contentsmodified);
         $this->assertEquals('\[ \pi\, \sin \left( 2 \right)\, \]', $state->contentsdisplayed);
     }
 
@@ -663,7 +663,7 @@ class stack_units_input_test extends qtype_stack_testcase {
         $state = $el->validate_student_response(array('sans1' => '?*m/s^2'), $options, '9.81*m/s^2',
                 new stack_cas_security(true));
         $this->assertEquals(stack_input::INVALID, $state->status);
-        $this->assertEquals('?*m/s^2', $state->contentsmodified);
+        $this->assertEquals('QMCHAR*m/s^2', $state->contentsmodified);
         $this->assertEquals('\[ \color{red}{?}\, \mathrm{m}\, \mathrm{s}^ {- 2 } \]', $state->contentsdisplayed);
     }
 
@@ -816,7 +816,7 @@ class stack_units_input_test extends qtype_stack_testcase {
                 new stack_cas_security(true));
         $this->assertEquals(stack_input::INVALID, $state->status);
         $this->assertEquals('missing_stars | Units_SA_errorbounds_invalid', $state->note);
-        $this->assertEquals('9.81+-0.01*m/s^2', $state->contentsmodified);
+        $this->assertEquals('9.81#pm#0.01*m/s^2', $state->contentsmodified);
         $this->assertEquals('\[ 9.81\pm 0.01\, {\mathrm{m}}/{\mathrm{s}^2} \]',
                 qtype_stack_testcase::prepare_actual_maths($state->contentsdisplayed));
         $this->assertEquals('\( \left[ \mathrm{m} , \mathrm{s} \right]\) ', $state->lvars);

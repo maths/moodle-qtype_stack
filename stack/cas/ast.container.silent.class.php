@@ -237,24 +237,7 @@ class stack_ast_container_silent implements cas_evaluatable {
         return $astc;
     }
 
-    protected function __constructor($ast, string $source, string $context,
-                                   stack_cas_security $securitymodel,
-                                   array $errors, array $answernotes) {
-
-        $this->ast = $ast;
-        $this->source = $source;
-        $this->context = $context;
-        $this->securitymodel = $securitymodel;
-        $this->errors = $errors;
-        $this->answernotes = $answernotes;
-        $this->valid = null;
-        $this->feedback = array();
-        $this->keyless = false;
-
-        if (!('s' === $source || 't' === $source)) {
-            throw new stack_exception('stack_ast_container: source, must be "s" or "t" only.');
-        }
-    }
+    protected function __construct() {}
 
     public function set_keyless(bool $key=true) {
         $this->keyless = $key;
@@ -297,7 +280,8 @@ class stack_ast_container_silent implements cas_evaluatable {
         if (false === $this->get_valid()) {
             throw new stack_exception('stack_ast_container: tried to get the evaluation form of an invalid casstring.');
         }
-        return $this->ast_to_string($this->ast);
+        $params = array('pmchar' => 1);
+        return $this->ast_to_string($this->ast, $params);
     }
 
     // This returns the fully filtered AST as it should be inputted were it inputted perfectly.
@@ -307,6 +291,7 @@ class stack_ast_container_silent implements cas_evaluatable {
         }
         $params = array('inputform' => true,
                 'qmchar' => true,
+                'pmchar' => 0,
                 'nosemicolon' => true,
                 'keyless' => $keyless,
                 'dealias' => false, // This is needed to stop pi->%pi etc.

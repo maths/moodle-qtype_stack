@@ -147,7 +147,7 @@ class stack_matrix_input_test extends qtype_stack_testcase {
         $state = $el->validate_student_response($inputvals, $options, 'matrix([1,2,3],[3,4,5])', new stack_cas_security());
         $this->assertEquals(stack_input::INVALID, $state->status);
         $this->assertEquals('', $state->note);
-        $this->assertEquals('matrix([1,2,3],[?,5,6])', $state->contentsmodified);
+        $this->assertEquals('matrix([1,2,3],[QMCHAR,5,6])', $state->contentsmodified);
         $this->assertEquals('\[ \left[\begin{array}{ccc} 1 & 2 & 3 \\\\ \color{red}{?} & 5 & 6 \end{array}\right] \]',
                 $state->contentsdisplayed);
         // Note that QMCHAR does not appear in the list of variables any more.
@@ -327,7 +327,7 @@ class stack_matrix_input_test extends qtype_stack_testcase {
                 'matrix([null,null],[null,null])', new stack_cas_security());
         $this->assertEquals(stack_input::INVALID, $state->status);
         $this->assertEquals('', $state->note);
-        $this->assertEquals('matrix([1,2],[x,?])', $state->contentsmodified);
+        $this->assertEquals('matrix([1,2],[x,QMCHAR])', $state->contentsmodified);
         $this->assertEquals('\[ \left[\begin{array}{cc} 1 & 2 \\\\ x & \color{red}{?} \end{array}\right] \]',
                 $state->contentsdisplayed);
         $this->assertEquals('\( \left[ x \right]\) ', $state->lvars);

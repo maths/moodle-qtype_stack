@@ -88,7 +88,7 @@ class stack_question_test {
             } else if (array_key_exists($inputname.'_val', $response)) {
                 $inputresponse = $response[$inputname.'_val'];
             }
-            $results->set_input_state($inputname, $inputresponse,
+            $results->set_input_state($inputname, $inputresponse, $inputstate->contentsmodified,
                     $inputstate->contentsdisplayed, $inputstate->status, $inputstate->errors);
         }
         foreach ($this->expectedresults as $prtname => $expectedresult) {
@@ -201,8 +201,7 @@ class stack_question_test {
             if (array_key_exists($name, $question->inputs)) {
                 // Remove things like apostrophies in test case inputs so we don't create an invalid student input.
                 // 4.3. changes this.
-                $value = $computedinput;
-                $response = array_merge($response, $question->inputs[$name]->maxima_to_response_array($value));
+                $response = array_merge($response, $question->inputs[$name]->maxima_to_response_array($computedinput));
             }
         }
         return $response;

@@ -1045,13 +1045,13 @@ logicp(ex) := block(
   if safe_op(ex) = "and" then return(true),
   if safe_op(ex) = "or" then return(true),
   if safe_op(ex) = "not" then return(true),
-  if op_usedp(ex, "+-") then return(true),
+  if op_usedp(ex, STACKpmOPT) then return(true),
   return(false)
 )$
 
 free_of_logicp(ex) := block([logicops, logiconsts, res, k],
    if is(ex=all) or is(ex=none) then return(false),
-   logicops:["nounand", "nounor", "and", "or", "%and", "%or", "not", "%not", "+-", "<", ">", "<=", ">=", "=", "[", "{"],
+   logicops:["nounand", "nounor", "and", "or", "%and", "%or", "not", "%not", STACKpmOPT, "<", ">", "<=", ">=", "=", "[", "{"],
    res:true,
    for k: 1 thru length(logicops) do
        if ev(not(is(count_op(ex, logicops[k])=0)),simp) then res:false,
@@ -1183,8 +1183,10 @@ nounlimit([ex]):=apply(nounify(limit), ex)$
 /* ********************************** */
 
 /* We have to define +- to be both a prefix and an nary operator in this order. */
-prefix("+-");
-nary("+-", 100);
+/* Note we need to add this into (defun tex-mexpt (x l r) in stacktex.lisp.     */
+STACKpmOPT:"#pm#";
+prefix(STACKpmOPT);
+nary(STACKpmOPT, 100);
 
 displaypmtex(ex):=block([al],
   al:args(ex),
@@ -1193,7 +1195,7 @@ displaypmtex(ex):=block([al],
   al:maplist(tex1, al),
   sconcat("{", simplode(al, " \\pm "), "}")
   );
-texput("+-", displaypmtex);
+texput(STACKpmOPT, displaypmtex);
 
 /* Count the occurance of an operator. */
 count_op(ex, ops):= block([count],
@@ -1209,7 +1211,7 @@ count_op(ex, ops):= block([count],
    Do we mean both + then both -, or all 4 combinations?
 */
 pm_replace(ex):= block(
-  if ev(is(count_op(ex, "+-")=1), simp) then return(opsubst("+", "+-", ex) nounor opsubst("-", "+-", ex)),
+  if ev(is(count_op(ex, STACKpmOPT)=1), simp) then return(opsubst("+", STACKpmOPT, ex) nounor opsubst("-", STACKpmOPT, ex)),
   return(ex)
 )$
 
@@ -1590,7 +1592,7 @@ stack_eval_arg(ex) := block([eqoutcome, eqoutsymb, eqoutnote, res, id, truthargu
       SA:exmod[ev(id, simp)],
       if stack_eval_arg_equivzerop(ex) then SA:SA=0,
       if is(safe_op(SA)="stackeq") then SA:first(args(SA)),
-      if ev(is(count_op(SA,"+-")=1), simp) then SA:pm_replace(SA),
+      if ev(is(count_op(SA,STACKpmOPT)=1), simp) then SA:pm_replace(SA),
 
       /* Reduce the range of options. Avoid sets, since Maxima 5.38.1 has a bug.         */
       /* As far as resoning by equivalence is concerned, {}=[]=false=none and true=all.  */

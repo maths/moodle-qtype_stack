@@ -9,7 +9,7 @@
  */
  /* compile > pegjs --format globals -e MaximaParser parser-grammar.pegjs
   *
-  * NOTE that the code contais both PHP and JS versions of the parser, remember
+  * NOTE that the code contains both PHP and JS versions of the parser, remember
   * to make your changes to both.
   */
  /*
@@ -24,10 +24,16 @@
  if (!array_key_exists('letToken', $options)) {
    $options['letToken'] = 'let';
  }
+ if (!array_key_exists('allowPM', $options)) {
+   $options['allowPM'] = true;
+ }
  $this->options = $options;
  ?> **/
  if (!options.hasOwnProperty('letToken')) {
    options.letToken = 'let';
+ }
+ if (!options.hasOwnProperty('allowPM')) {
+   options.allowPM = true;
  }
 
  function opLBind(op) {
@@ -50,6 +56,8 @@
    case '@@Is@@':
    case '/':
     return 120;
+   case '+-':
+   case '#pm#':
    case '+':
    case '-':
     return 100;
@@ -88,6 +96,8 @@
    case '@@Is@@':
    case '/':
     return 120;
+   case '#pm#':
+   case '+-':
    case '+':
     return 100;
    case '-':
@@ -163,7 +173,6 @@
     return R;
  }
 }
-
 
 Root
   = lines:(__? Line __?)* __? final:Statement? __?{
@@ -551,7 +560,9 @@ LoopBit
  }
 
 PrefixOp
-  = "-"
+  = "#pm#"
+  / "+-" & { /** <?php return $this->options['allowPM']; ?> **/ return options.allowPM; } {return '+-';}
+  / "-"
   / "+"
   / "''"
   / "'"
@@ -565,18 +576,20 @@ PostfixOp
   / "!"
 
 InfixOp
-  = "#"
-  / "**"
+  = "**"
   / "^^"
   / "^"
   / "*"
   / "/"
+  / "#pm#"
+  / "+-" & { /** <?php return $this->options['allowPM']; ?> **/ return options.allowPM; } {return '+-';}
   / "-"
   / "+"
   / "and"
   / "or"
   / "nounand"
   / "nounor"
+  / "#"
   / "::="
   / ":="
   / "::"
@@ -633,8 +646,6 @@ UnaryOp
   var n = new MPPostfixOp(op, trg);
   n.position = mergePosition(location(), trg.position);
   return opBind(n);}
-
-
 
 Operation
   = DotOp

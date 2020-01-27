@@ -33,12 +33,15 @@
  *                           If 2, adds logic nouns.
  * 'dealias'                 If defined unpacks potential aliases.
  * 'qmchar'                  If defined prints question marks directly if present as QMCHAR.
+ * 'pmchar'                  If defined prints +- marks directly if present as #pm#.
  */
 
 defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/../cas/cassecurity.class.php');
 
+// @codingStandardsIgnoreStart
+// We ignore coding in this file, because the library is used outside Moodle.
 class MP_Node {
     public $parentnode  = null;
     public $position    = null;
@@ -366,6 +369,15 @@ class MP_Operation extends MP_Node {
         if (stack_cas_security::get_feature($op, 'spacesurroundedop') !== null) {
             return $this->lhs->toString($params) . ' ' . $op . ' ' . $this->rhs->toString($params);
         }
+        if ($params !== null && isset($params['pmchar'])) {
+            if ($params['pmchar'] === 0 && $op === '#pm#') {
+                $op = '+-';
+            }
+            if ($params['pmchar'] === 1 && $op === '+-') {
+                $op = '#pm#';
+            }
+        }
+
         return $this->lhs->toString($params) . $op . $this->rhs->toString($params);
     }
 
@@ -788,7 +800,7 @@ class MP_Annotation extends MP_Node {
     public $annotationtype = null;
     public $params         = null;
 
-    public function __constructor($annotationtype, $params) {
+    public function __construct($annotationtype, $params) {
         parent::__construct();
         $this->annotationtype = $annotationtype;
         $this->params         = $params;
@@ -997,7 +1009,7 @@ class MP_FunctionCall extends MP_Node {
                     // TODO: fix parsing of let.
                     return $prefix .' '. implode('=', $ar);
                 }
-                return $prefix .' '. implode(',', $ar);
+                return $prefix . implode(',', $ar);
             }
         }
 
@@ -1347,6 +1359,15 @@ class MP_PrefixOp extends MP_Node {
                 );
             }
             return $indent . $this->op . $this->rhs->toString($params);
+        }
+
+        if ($params !== null && isset($params['pmchar'])) {
+            if ($params['pmchar'] === 0 && ($this->op === '#pm#' || $this->op === '"#pm#"')) {
+                return '+-' . $this->rhs->toString($params);
+            }
+            if ($params['pmchar'] === 1 && $this->op === '+-') {
+                return '#pm#' . $this->rhs->toString($params);
+            }
         }
         return $this->op . $this->rhs->toString($params);
     }
@@ -1963,6 +1984,8 @@ function opLBind($op) {
             return 120;
         case '+':
         case '-':
+        case '+-':
+        case '#pm#':
             return 100;
         case '=':
         case '*':
@@ -1999,6 +2022,8 @@ function opRBind($op) {
         case '@@Is@@':
         case '/':
             return 120;
+        case '+-':
+        case '#pm#':
         case '+':
             return 100;
         case '-':
@@ -2035,6 +2060,7 @@ function opBind($op) {
      */
     // @codingStandardsIgnoreEnd
 
+    // @codingStandardsIgnoreStart
     $op->lhs = opBind($op->lhs);
     $op->rhs = opBind($op->rhs);
     if ($op->lhs instanceof MP_Operation && (opLBind($op->op) > opRBind($op->lhs->op))) {
@@ -2114,3 +2140,4 @@ function mergePosition($posa, $posb) {
 
     return $r;
 }
+// @codingStandardsIgnoreEnd

@@ -64,13 +64,14 @@ class stack_anstest_atdecplaceswrong extends stack_anstest {
 
         if ($this->sanskey->is_float() || $this->sanskey->is_int()) {
             // All good.
+            $notused = true;
 
         } else if ($this->sanskey->is_correctly_evaluated() &&
                 ($this->sanskey->is_float(true) || $this->sanskey->is_int())) {
             // This is not great, but it happens when the answer test is applied
             // to a feedback variable, rather than a raw input. E.g. if someone
             // has done sansmin: min(sans1, sans2) in a quadratic question.
-            // TODO Should we set an answer note, or similar, in this situation?
+            $this->atansnote    = 'ATNumDecPlacesWrong_SA_variable.';
 
         } else {
             $this->atfeedback   = stack_string('ATNumDecPlaces_Float');

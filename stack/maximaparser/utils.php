@@ -34,7 +34,7 @@ require_once(__DIR__ . '/../utils.class.php');
 class maxima_parser_utils {
 
     // Parses a string of Maxima code to an AST tree for use elsewhere.
-    public static function parse(string $code, string $parserule = 'Root'): MP_Node {
+    public static function parse(string $code, string $parserule = 'Root', $allowpm = true): MP_Node {
         static $cache = array();
         if ($parserule === 'Root' && isset($cache[$code])) {
             return clone $cache[$code];
@@ -42,7 +42,8 @@ class maxima_parser_utils {
 
         $parser = new MP_Parser();
         $ast = $parser->parse($code, array('startRule' => $parserule,
-                                           'letToken' => stack_string('equiv_LET')));
+                                           'letToken' => stack_string('equiv_LET'),
+                                           'allowPM' => $allowpm));
         if ($parserule === 'Root') {
             $cache[$code] = clone $ast;
         }
@@ -114,10 +115,10 @@ class maxima_parser_utils {
         try {
             $ast = self::parse($str);
             if ($lastfix !== -1) {
-                // If fixing has happened lets hide the fixed string to the result.
+                // If fixing has happened let's hide the fixed string to the result.
                 // Might be useful for the editor to have a way of placing those
                 // semicolons...
-                // Again lets abuse the position array.
+                // Again let's abuse the position array.
                 $ast->position['fixedsemicolons'] = $str;
             }
             return $ast;

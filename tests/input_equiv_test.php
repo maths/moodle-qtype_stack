@@ -186,8 +186,9 @@ class stack_equiv_input_test extends qtype_stack_testcase {
 
     public function test_validate_student_response_with_equiv() {
         $options = new stack_options();
-        $el = stack_input_factory::make('equiv', 'sans1', '[x^2-5*x+6=0]');
-        $state = $el->validate_student_response(array('sans1' => "x^2-5*x+6=0\nx=2 or x=3"), $options, '[x^2-5*x+6=0]',
+        $val = '[x^2-5*x+6=0, x = 2 nounor x = 3]';
+        $el = stack_input_factory::make('equiv', 'sans1', $val);
+        $state = $el->validate_student_response(array('sans1' => "x^2-5*x+6=0\nx=2 or x=3"), $options, $val,
                 new stack_cas_security());
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('[x^2-5*x+6 = 0,x = 2 nounor x = 3]', $state->contentsmodified);
@@ -204,6 +205,13 @@ class stack_equiv_input_test extends qtype_stack_testcase {
                 '<p>The variables found in your answer were: <span class="filter_mathjaxloader_equation">' .
                 '<span class="nolink">\( \left[ x \right]\)</span></span> </p></div></div>',
                 $el->render($state, 'q140:1_ans1', false, null));
+
+        // The test below does not use the LaTeX of the teacher's answer.
+        // The test just confirms nounor in $val get converted to something the student should type in.
+        $this->assertEquals('A correct answer is <span class="filter_mathjaxloader_equation">' .
+                '<span class="nolink">\( ### \)</span></span>, which can be typed in as follows: <br/>' .
+                '<code>x^2-5*x+6 = 0</code><br/><code>x = 2 or x = 3</code>',
+                $el->get_teacher_answer_display($val, '###'));
     }
 
     public function test_validate_student_response_without_equiv() {
@@ -685,7 +693,41 @@ class stack_equiv_input_test extends qtype_stack_testcase {
 
         $this->assertEquals($cr['sans1'], $sans1);
         $this->assertEquals($cr['sans1_val'], $sansv);
-
     }
 
+    public function test_validate_student_pm() {
+        $options = new stack_options();
+        // This contains infix and prefix +- operations.
+        $val = '[(x-a)^2=4,x-a= #pm#2,x=a#pm#2]';
+        $el = stack_input_factory::make('equiv', 'sans1', $val);
+        $state = $el->validate_student_response(array('sans1' => "(x-a)^2=4\nx-a= +-2\nx=a+-2"), $options,
+                $val, new stack_cas_security());
+
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('', $state->errors);
+        $this->assertEquals('', $state->note);
+        $this->assertEquals('[(x-a)^2 = 4,x-a = #pm#2,x = a#pm#2]',
+                $state->contentsmodified);
+        $this->assertEquals( '\[ \begin{array}{lll} &\left(x-a\right)^2=4& \cr ' .
+                '\color{green}{\Leftrightarrow}&x-a= \pm 2& \cr ' .
+                '\color{green}{\Leftrightarrow}&x={a \pm 2}& \cr \end{array} \]',
+                $state->contentsdisplayed);
+
+        $ta = $el->get_teacher_answer();
+        $this->assertEquals($ta, $val);
+
+        $cr = $el->get_correct_response($val);
+        $sans1 = "(x-a)^2 = 4\nx-a = +-2\nx = a+-2";
+        $sansv = '[(x-a)^2 = 4,x-a = #pm#2,x = a#pm#2]';
+
+        $this->assertEquals($cr['sans1'], $sans1);
+        $this->assertEquals($cr['sans1_val'], $sansv);
+
+        // The test below does not use the LaTeX of the teacher's answer.
+        // The test just confirms #pm# in $val get converted to something the student should type in.
+        $this->assertEquals('A correct answer is <span class="filter_mathjaxloader_equation">' .
+                '<span class="nolink">\( ### \)</span></span>, which can be typed in as follows: <br/>' .
+                '<code>(x-a)^2 = 4</code><br/><code>x-a = +-2</code><br/><code>x = a+-2</code>',
+                $el->get_teacher_answer_display($val, '###'));
+    }
 }

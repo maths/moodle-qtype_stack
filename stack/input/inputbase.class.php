@@ -53,7 +53,7 @@ abstract class stack_input {
 
     /**
      * @var string Every input must have a non-empty "teacher's answer".
-     * This is assumed to be a valid Maxima string.
+     * This is assumed to be a valid Maxima string in inputform.
      */
     protected $teacheranswer;
 
@@ -737,9 +737,15 @@ abstract class stack_input {
 
         // Answers may not contain the ? character.  CAS-strings may, but answers may not.
         // It is very useful for teachers to be able to add in syntax hints.
-        $interpretedanswer = $answerd->get_inputform(true, 1);
+        // We make sure +- -> #pm# here so that +- can be interpreted at +(-....).
+        if ($valid) {
+            $interpretedanswer = $answerd->get_evaluationform();
+        } else {
+            $interpretedanswer = $answerd->get_inputform(true, 1);
+        }
         // TODO: apply a filter to check the ast!
-        if (!(strpos($interpretedanswer, '?') === false)) {
+        if (!(strpos($interpretedanswer, '?') === false) ||
+            !(strpos($interpretedanswer, 'QMCHAR') === false)) {
             $valid = false;
             $errors[] = stack_string('qm_error');
         }
@@ -811,6 +817,8 @@ abstract class stack_input {
         $filterstoapply[] = '402_split_prefix_from_common_function_name';
         $filterstoapply[] = '403_split_at_number_letter_boundary';
         $filterstoapply[] = '406_split_implied_variable_names';
+
+        $filterstoapply[] = '502_replace_pm';
 
         // Block use of evaluation groups.
         $filterstoapply[] = '505_no_evaluation_groups';

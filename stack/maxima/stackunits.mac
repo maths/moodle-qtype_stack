@@ -179,7 +179,7 @@ stackunits_make(ex) := block([oldsimp, exn, exu, exl],
     return(stackunits(NULLNUM, ex)),
   if safe_op(ex)="stackunits" then
       return(ex),
-  if is_simp(op(ex)="+-") then return(block([numa,numb],
+  if is_simp(op(ex)=STACKpmOPT) then return(block([numa,numb],
       if length(args(ex))=1 then
         (
           numa:NULLNUM,
@@ -349,7 +349,7 @@ stack_validate_units(expr, LowestTerms, TAns, fracdisp, fltfmt) := block( [simp:
   if LowestTerms and not(all_lowest_termsex(expr)) then
     print(StackAddFeedback("", "Lowest_Terms")),
   /* SA should be only an expression. */
-  if not(expressionp(expr) or is(safe_op(expr)="+-")) then
+  if not(expressionp(expr) or is(safe_op(expr)=STACKpmOPT)) then
     (print(StackAddFeedback("", "ATUnits_SA_not_expression")), return(expr)),
 
   /* Check if the student has correctly used units.*/

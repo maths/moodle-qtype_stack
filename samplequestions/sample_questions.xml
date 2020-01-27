@@ -1851,7 +1851,7 @@ foundfac2:ev(any_listp(lambda([ex], second(ATFacForm(lhs(ex),lhs(ex),x))), found
       <testcase>4</testcase>
       <testinput>
         <name>ans1</name>
-        <value>[p=0,(x-(n1+n2)/2)^2-ev((n1+n2)^2/4-n1*n2,simp)=0,(x-(n1+n2)/2)^2=ev((n1+n2)^2/4-n1*n2,simp),(x-(n1+n2)/2)=+-ev(sqrt((n1+n2)^2/4-n1*n2),simp),x=ev((n1+n2)/2+sqrt((n1+n2)^2/4-n1*n2),simp) nounor x=ev((n1+n2)/2-sqrt((n1+n2)^2/4-n1*n2),simp)]  </value>
+        <value>[p=0,(x-(n1+n2)/2)^2-ev((n1+n2)^2/4-n1*n2,simp)=0,(x-(n1+n2)/2)^2=ev((n1+n2)^2/4-n1*n2,simp),(x-(n1+n2)/2)=#pm#ev(sqrt((n1+n2)^2/4-n1*n2),simp),x=ev((n1+n2)/2+sqrt((n1+n2)^2/4-n1*n2),simp) nounor x=ev((n1+n2)/2-sqrt((n1+n2)^2/4-n1*n2),simp)]  </value>
       </testinput>
       <expected>
         <name>prt1</name>

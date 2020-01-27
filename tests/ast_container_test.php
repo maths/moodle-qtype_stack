@@ -812,4 +812,62 @@ class stack_astcontainer_test extends qtype_stack_testcase {
         $this->assertEquals($err, $at1->get_errors());
         $this->assertEquals('', $at1->get_answernote());
     }
+
+    public function test_pm() {
+        $s = 'a+-b';
+        $at1 = stack_ast_container::make_from_student_source($s, '', new stack_cas_security());
+        $this->assertTrue($at1->get_valid());
+
+        $expected = '([Op: +-] ([Id] a), ([Id] b))';
+        $this->assertEquals($expected, $at1->ast_to_string(null, array('flattree' => true)));
+
+        $this->assertEquals('a#pm#b', $at1->get_evaluationform());
+        $this->assertEquals('a+-b', $at1->get_inputform(true, 0));
+
+        $err = '';
+        $this->assertEquals($err, $at1->get_errors());
+        $this->assertEquals('', $at1->get_answernote());
+
+        $s = 'a#pm#b';
+        $at1 = stack_ast_container::make_from_student_source($s, '', new stack_cas_security());
+        $this->assertTrue($at1->get_valid());
+
+        $expected = '([Op: #pm#] ([Id] a), ([Id] b))';
+        $this->assertEquals($expected, $at1->ast_to_string(null, array('flattree' => true)));
+
+        $this->assertEquals('a#pm#b', $at1->get_evaluationform());
+        $this->assertEquals('a+-b', $at1->get_inputform(true, 0));
+
+        $err = '';
+        $this->assertEquals($err, $at1->get_errors());
+        $this->assertEquals('', $at1->get_answernote());
+
+        $s = '+-a';
+        $at1 = stack_ast_container::make_from_student_source($s, '', new stack_cas_security());
+        $this->assertTrue($at1->get_valid());
+
+        $expected = '([PrefixOp: +-] ([Id] a))';
+        $this->assertEquals($expected, $at1->ast_to_string(null, array('flattree' => true)));
+
+        $this->assertEquals('#pm#a', $at1->get_evaluationform());
+        $this->assertEquals('+-a', $at1->get_inputform(true, 0));
+
+        $err = '';
+        $this->assertEquals($err, $at1->get_errors());
+        $this->assertEquals('', $at1->get_answernote());
+
+        $s = '#pm#a';
+        $at1 = stack_ast_container::make_from_student_source($s, '', new stack_cas_security());
+        $this->assertTrue($at1->get_valid());
+
+        $expected = '([PrefixOp: #pm#] ([Id] a))';
+        $this->assertEquals($expected, $at1->ast_to_string(null, array('flattree' => true)));
+
+        $this->assertEquals('#pm#a', $at1->get_evaluationform());
+        $this->assertEquals('+-a', $at1->get_inputform(true, 0));
+
+        $err = '';
+        $this->assertEquals($err, $at1->get_errors());
+        $this->assertEquals('', $at1->get_answernote());
+    }
 }

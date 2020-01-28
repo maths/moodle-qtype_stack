@@ -132,8 +132,9 @@ class stack_cas_session2_test extends qtype_stack_testcase {
         $simpon = stack_ast_container::make_from_teacher_source('simp:true', 'test_error()', new stack_cas_security());
         $divzero = stack_ast_container::make_from_teacher_source('1/0', 'test_error()', new stack_cas_security());
         $foo = stack_ast_container::make_from_teacher_source('sconcat("f","o","o")', 'test_error()', new stack_cas_security());
+        $bar = stack_ast_container::make_from_teacher_source('simplode(["f","o","o"], "-");', '', new stack_cas_security());
 
-        $session = new stack_cas_session2([$simpon, $divzero, $foo]);
+        $session = new stack_cas_session2([$simpon, $divzero, $foo, $bar]);
 
         $this->assertTrue($session->get_valid());
         $this->assertFalse($session->is_instantiated());
@@ -143,6 +144,7 @@ class stack_cas_session2_test extends qtype_stack_testcase {
         $this->assertEquals('', $simpon->get_errors());
         $this->assertEquals('', $foo->get_errors());
         $this->assertEquals('"foo"', $foo->get_value());
+        $this->assertEquals('"f-o-o"', $bar->get_value());
         $this->assertTrue(count($divzero->get_errors(true)) > 0);
         $this->assertContains('Division by zero.', $divzero->get_errors(true));
     }

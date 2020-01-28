@@ -765,7 +765,8 @@ numerical_not_alg_equiv(p1, p2):= block([pvars, pval, lv, sz, stack_mtell_quiet]
   if is(p1 = []) then (print("STACK: ignore previous error. (p1)"), return(false)),
   p2:errcatch(ev(float(p2), lv, numer_pbranch:true, simp)),
   if is(p2 = []) then (print("STACK: ignore previous error. (p2)"), return(false)),
-  sz:errcatch(ev(abs(float(first(p1)-first(p2))), simp)),
+  /* Make the error here relative, and don't divide by zero. */
+  sz:errcatch(ev(abs(float(first(p1)-first(p2))/max(min(abs(first(p1)),abs(first(p2))),1)), simp)),
   /* print([p1,p2,sz]), */
   if is(sz = []) then (print("STACK: ignore previous error."), return(false)),
   if first(sz) > 0.0001 then true else false)$

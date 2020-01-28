@@ -185,7 +185,7 @@ if (empty($question->deployedseeds)) {
         if (optional_param('testall', null, PARAM_INT)) {
             // Bulk test all variants.
             $bulktester = new stack_bulk_tester();
-            $bulktestresults = $bulktester->qtype_stack_test_question($qn, $testscases, $deployedseed, true);
+            $bulktestresults = $bulktester->qtype_stack_test_question($qn, $testscases, 'web', $deployedseed, true);
         }
 
         // Print out question notes of all deployed variants.

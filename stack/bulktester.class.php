@@ -262,6 +262,7 @@ class stack_bulk_tester  {
         // Execute the tests.
         $passes = 0;
         $fails = 0;
+
         foreach ($tests as $key => $testcase) {
             $testresults[$key] = $testcase->test_question($quba, $question, $seed);
             if ($testresults[$key]->passed()) {
@@ -283,7 +284,7 @@ class stack_bulk_tester  {
             $ok = false;
             $s = stack_string('stackInstall_testsuite_errors') . implode(' ', array_keys($question->runtimeerrors));
             if ($outputmode == 'web') {
-                $s .= html_writer::tag('br', $s);
+                $s = html_writer::tag('br', $s);
             }
             $message .= $s;
         }

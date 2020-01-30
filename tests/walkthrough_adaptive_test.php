@@ -2762,6 +2762,7 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->check_current_state(question_state::$todo);
         $this->check_current_mark(0);
         $this->check_prt_score('firsttree', 0, 0.4);
+        $this->check_answer_note('firsttree', 'firsttree-1-F | firsttree-2-F');
 
         // Process the correct answer.
         $this->process_submission(array('ans1' => 'Pythagoras\' Theorem', '-submit' => 1));
@@ -2780,6 +2781,7 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->check_current_state(question_state::$complete);
         $this->check_current_mark(0.6);
         $this->check_prt_score('firsttree', 1, 0);
+        $this->check_answer_note('firsttree', 'firsttree-1-T');
 
         // Process the correct answer in lower case.
         $this->process_submission(array('ans1' => 'pythagoras\' theorem', '-submit' => 1));
@@ -2797,6 +2799,7 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
             '-submit' => 1));
         $this->check_current_state(question_state::$complete);
         $this->check_current_mark(0.6);
-        $this->check_prt_score('firsttree', 1, 0);
+        $this->check_prt_score('firsttree', 0.75, 0.4);
+        $this->check_answer_note('firsttree', 'firsttree-1-F | firsttree-2-T');
     }
 }

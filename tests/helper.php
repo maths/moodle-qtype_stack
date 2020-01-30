@@ -2087,10 +2087,20 @@ class qtype_stack_test_helper extends question_test_helper {
         $sans->get_valid();
         $tans = stack_ast_container::make_from_teacher_source('ta1');
         $tans->get_valid();
-        $node = new stack_potentialresponse_node($sans, $tans, 'StringSloppy');
-        $node->add_branch(0, '=', 0, $q->penalty, -1, '', FORMAT_HTML, 'firsttree-1-F');
-        $node->add_branch(1, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'firsttree-1-T');
-        $q->prts['firsttree'] = new stack_potentialresponse_tree('firsttree', '', false, 1, null, array($node), '0');
+        $node1 = new stack_potentialresponse_node($sans, $tans, 'String');
+        $node1->add_branch(0, '=', 0, $q->penalty, 1, '', FORMAT_HTML, 'firsttree-1-F');
+        $node1->add_branch(1, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'firsttree-1-T');
+
+        $sans = stack_ast_container::make_from_teacher_source('ans1');
+        $sans->get_valid();
+        $tans = stack_ast_container::make_from_teacher_source('ta1');
+        $tans->get_valid();
+        $node2 = new stack_potentialresponse_node($sans, $tans, 'StringSloppy');
+        $node2->add_branch(0, '=', 0, $q->penalty, -1, '', FORMAT_HTML, 'firsttree-2-F');
+        $node2->add_branch(1, '=', 0.75, $q->penalty, -1, '', FORMAT_HTML, 'firsttree-2-T');
+
+        $q->prts['firsttree'] = new stack_potentialresponse_tree('firsttree', '', false, 1,
+                null, array($node1, $node2), '0');
 
         return $q;
     }

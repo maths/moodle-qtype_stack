@@ -899,7 +899,7 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $at1->get_display_castext();
 
         $expected = '\({{v}_{2\cdot \alpha}}\), \({{v}_{{m}_{n}}}\), '.
-            '\({{\it beta_{47}}}\), \({{\beta}_{47}}\)';
+            '\({\beta_{47}}\), \({{\beta}_{47}}\)';
         $this->assertEquals($expected, $at1->get_display_castext());
     }
 
@@ -1040,7 +1040,7 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $this->assertTrue($at1->get_valid());
         $at1->get_display_castext();
 
-        $this->assertEquals('\({\left[ {\it k_0} , {\it k_1} , {\it k_2} , {\it k_3} , {\it k_4} , {\it k_5} \right]}\) ' .
+        $this->assertEquals('\({\left[ k_{0} , k_{1} , k_{2} , k_{3} , k_{4} , k_{5} \right]}\) ' .
                 'and [k1,k2,k3,k4,k5,k6]',
             $at1->get_display_castext());
     }

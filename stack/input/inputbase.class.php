@@ -1289,19 +1289,22 @@ abstract class stack_input {
         $feedback = $this->render_validation($state, $fieldname);
 
         $class = "stackinputfeedback standard";
+        $divspan = 'div';
+        // Equiv inputs don't have validation divs.
+        if ($this->get_validation_method() == 'equiv') {
+            $class = "stackinputfeedback equiv";
+            $divspan = 'span';
+        }
         if ($this->get_parameter('showValidation', 1) == 3) {
-            $class = "stackinputfeedback compact";;
+            $class = "stackinputfeedback compact";
+            $divspan = 'span';
         }
 
         if (!$feedback) {
             $class .= ' empty';
         }
 
-        if ($this->get_parameter('showValidation', 1) == 3) {
-            $feedback = html_writer::tag('span', $feedback, array('class' => $class, 'id' => $fieldname.'_val'));
-        } else {
-            $feedback = html_writer::tag('div', $feedback, array('class' => $class, 'id' => $fieldname.'_val'));
-        }
+        $feedback = html_writer::tag($divspan, $feedback, array('class' => $class, 'id' => $fieldname.'_val'));
         $response = str_replace("[[validation:{$name}]]", $feedback, $questiontext);
 
         return $response;

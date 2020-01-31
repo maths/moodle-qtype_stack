@@ -97,25 +97,13 @@ class stack_equiv_input extends stack_input {
             'cols' => min($boxwidth, 50),
             'autocapitalize' => 'none',
             'spellcheck'     => 'false',
-            'class'     => 'equiv',
         );
 
         if ($readonly) {
             $attributes['readonly'] = 'readonly';
         }
 
-        // This class shows the validation next to the input box in a table, and disregards to the position of the
-        // [[validation:name]] tag.
-        $rendervalidation = $this->render_validation($state, $fieldname);
-        $class = "stackinputfeedback standard";
-        if (!$rendervalidation) {
-            $class .= ' empty';
-        }
-        $rendervalidation = html_writer::tag('div', $rendervalidation, array('class' => $class, 'id' => $fieldname.'_val'));
-
         $output = html_writer::tag('textarea', htmlspecialchars($current), $attributes);
-        $output .= $rendervalidation;
-        $output = html_writer::tag('div', $output, array('class' => 'equivreasoning'));
 
         return $output;
     }
@@ -288,17 +276,16 @@ class stack_equiv_input extends stack_input {
             }
         }
 
-        $display = '<center><table style="vertical-align: middle;" ' .
-                'border="0" cellpadding="4" cellspacing="0"><tbody>';
         $errorfree = true;
+        $rows = array();
         foreach ($caslines as $index => $cs) {
-            $display .= '<tr>';
+            $row = array();
             $fb = $cs->get_feedback();
             if ($cs->is_correctly_evaluated() && $fb == '') {
-                $display .= '<td>\(\displaystyle ' . $cs->get_display() . ' \)</td>';
+                $row[] = '\(\displaystyle ' . $cs->get_display() . ' \)';
                 if ($errors[$index]) {
                     $errorfree = false;
-                    $display .= '<td>' . stack_maxima_translate($errors[$index]) . '</td>';
+                    $row[] = stack_maxima_translate($errors[$index]);
                 }
             } else {
                 // Feedback here is always an error.
@@ -306,13 +293,32 @@ class stack_equiv_input extends stack_input {
                     $errors[] = $fb;
                 }
                 $valid = false;
-                $errorfree = false;
-                $display .= '<td>' . stack_maxima_format_casstring($this->rawcontents[$index]) . '</td>';
-                $display .= '<td>' . trim(stack_maxima_translate($cs->get_errors()) . ' ' . $fb) . '</td>';
+                $row[] = stack_maxima_format_casstring($this->rawcontents[$index]);
+                $row[] = trim(stack_maxima_translate($cs->get_errors()) . ' ' . $fb);
             }
-            $display .= '</tr>';
+            $rows[] = $row;
         }
-        $display .= '</tbody></table></center>';
+
+        // Do not use tables for compact validation.
+        $display = '';
+        if ($this->get_parameter('showValidation', 1) == 3) {
+            foreach ($rows as $row) {
+                $display .= implode(' ', $row);
+                $display .= '<br/>';
+            }
+        } else {
+            $display = '<table style="vertical-align: middle;" ' .
+                    'border="0" cellpadding="2" cellspacing="0" align="center"><tbody>';
+            foreach ($rows as $row) {
+                $display .= '<tr>';
+                foreach ($row as $cell) {
+                    $display .= '<td>' . $cell . '</td>';
+                }
+                $display .= '</tr>';
+            }
+            $display .= '</tbody></table>';
+        }
+
         if (array_key_exists('equivdisplay', $additionalvars)) {
             $equiv = $additionalvars['equivdisplay'];
             if ($equiv->is_correctly_evaluated() && $errorfree) {
@@ -468,21 +474,10 @@ class stack_equiv_input extends stack_input {
         }
 
         if ($this->get_parameter('showValidation', 1) == 1 && !($state->lvars === '' or $state->lvars === '[]')) {
-            $feedback .= html_writer::tag('p', stack_string('studentValidation_listofvariables', $state->lvars));
+            $feedback .= $this->tag_listofvariables($state->lvars);
         }
 
         return $feedback;
-    }
-
-    /**
-     * This input type overrides this function to place validation feedback next to the input box.
-     */
-    public function replace_validation_tags($state, $fieldname, $questiontext) {
-
-        $name = $this->name;
-        $response = str_replace("[[validation:{$name}]]", '', $questiontext);
-
-        return $response;
     }
 
     protected function ajax_to_response_array($in) {

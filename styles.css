@@ -16,6 +16,13 @@
     margin: 0.2em 3em 0.5em;
     padding: 0.5em 0.5em 0;
 }
+.que.stack .stackinputfeedback.equiv {
+    vertical-align: top;
+    display: inline-block;
+    background-color: #fff;
+    margin: 0px;
+    padding: 0.2em;
+}
 .que.stack .stackinputfeedback.compact {
     margin: 3px 3px 3px;
     display: inline-block;
@@ -41,14 +48,11 @@
 .que.stack .stackinputfeedback.loading .stacksyntaxexample {
     color: #84aec1;
 }
-.que.stack .equivreasoning .stackinputfeedback {
-    display: inline-block;
-    margin-left: 0.5em;
-    margin-right: 0;
-}
 .que.stack textarea {
-    float: left;
+    vertical-align: top;
+    display: inline-block;
     max-width: 100%;
+    resize: both;
 }
 .que.stack input[type=text] {
     max-width: 100%;

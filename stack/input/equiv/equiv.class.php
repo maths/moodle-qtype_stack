@@ -275,7 +275,6 @@ class stack_equiv_input extends stack_input {
                 throw new stack_exception("ERROR: expected 'firstline' in the additional variables, but it is missing.");
             }
         }
-
         $errorfree = true;
         $rows = array();
         foreach ($caslines as $index => $cs) {
@@ -291,6 +290,7 @@ class stack_equiv_input extends stack_input {
                 // Feedback here is always an error.
                 if ($fb !== '') {
                     $errors[] = $fb;
+                    $errorfree = false;
                 }
                 $valid = false;
                 $row[] = stack_maxima_format_casstring($this->rawcontents[$index]);
@@ -299,24 +299,11 @@ class stack_equiv_input extends stack_input {
             $rows[] = $row;
         }
 
-        // Do not use tables for compact validation.
+        // Do not use tables.
         $display = '';
-        if ($this->get_parameter('showValidation', 1) == 3) {
-            foreach ($rows as $row) {
-                $display .= implode(' ', $row);
-                $display .= '<br/>';
-            }
-        } else {
-            $display = '<table style="vertical-align: middle;" ' .
-                    'border="0" cellpadding="2" cellspacing="0" align="center"><tbody>';
-            foreach ($rows as $row) {
-                $display .= '<tr>';
-                foreach ($row as $cell) {
-                    $display .= '<td>' . $cell . '</td>';
-                }
-                $display .= '</tr>';
-            }
-            $display .= '</tbody></table>';
+        foreach ($rows as $row) {
+            $display .= implode(' ', $row);
+            $display .= '<br/>';
         }
 
         if (array_key_exists('equivdisplay', $additionalvars)) {
@@ -470,7 +457,8 @@ class stack_equiv_input extends stack_input {
         }
 
         if (self::INVALID == $state->status) {
-            $feedback .= html_writer::tag('p', stack_string('studentValidation_invalidAnswer'));
+            $feedback .= html_writer::tag('span', stack_string('studentValidation_invalidAnswer'),
+                    array('class' => 'alert alert-danger stackinputerror'));
         }
 
         if ($this->get_parameter('showValidation', 1) == 1 && !($state->lvars === '' or $state->lvars === '[]')) {

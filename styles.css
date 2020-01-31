@@ -31,7 +31,8 @@
     padding: 0.3em;
 }
 .que.stack .stackinputerror {
-    padding: 0.2em 0.2em 0;
+    padding: 0.2em 0.2em 0.2em;
+    margin: 3px 3px 3px;
 }
 .que.stack .stackinputfeedback.empty {
     display: none;

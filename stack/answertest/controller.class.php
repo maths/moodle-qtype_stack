@@ -62,7 +62,8 @@ class stack_ans_test_controller {
               'Int'                  => 'stackOptions_AnsTest_values_Int',
               'String'               => 'stackOptions_AnsTest_values_String',
               'StringSloppy'         => 'stackOptions_AnsTest_values_StringSloppy',
-              );
+              'SRegExp'              => 'stackOptions_AnsTest_values_SRegExp',
+    );
 
     /*
      * Does this test require options [0] and are these evaluated by the CAS [1] ?
@@ -104,6 +105,7 @@ class stack_ans_test_controller {
         'Int'                  => array(true, true, false),
         'String'               => array(false, false, null),
         'StringSloppy'         => array(false, false, null),
+        'SRegExp'              => array(false, false, true),
     );
 
     /**
@@ -148,6 +150,7 @@ class stack_ans_test_controller {
             case 'UnitsStrictRelative':
             case 'LowestTerms':
             case 'SysEquiv':
+            case 'SRegExp':
                 $this->at = new stack_answertest_general_cas($sans, $tans, $anstest, $casoption, $options);
                 break;
 

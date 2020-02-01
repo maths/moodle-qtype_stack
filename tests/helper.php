@@ -60,7 +60,8 @@ class qtype_stack_test_helper extends question_test_helper {
             'checkbox_all_empty', // Creates a checkbox input with none checked as the correct answer: edge case.
             'addrow',             // This question has addrows, in an older version.
             'mul',                // This question has mul in the options which is no longer permitted.
-            'stringsloppy'        // Uses the StringSloppy answer test, and string input.
+            'stringsloppy',       // Uses the StringSloppy answer test, and string input.
+            'sregexp'             // Uses the SRegExp answer test, and string input.
         );
     }
 
@@ -2101,6 +2102,43 @@ class qtype_stack_test_helper extends question_test_helper {
 
         $q->prts['firsttree'] = new stack_potentialresponse_tree('firsttree', '', false, 1,
                 null, array($node1, $node2), '0');
+
+        return $q;
+    }
+
+    /**
+     * @return qtype_stack_question a question which uses ATSRegExp.
+     */
+    public static function make_stack_question_sregexp() {
+        $q = self::make_a_stack_question();
+
+        $q->stackversion = '2019110900';
+        $q->name = 'sregexp';
+        $q->questionvariables = "ta:\"cccggf\";\ntregex:\"(ccc)*b\";";
+        $q->questiontext = '<p>Input a word of the language decribed by the regular expression {@tregex@}.</p>' .
+                '<p>[[input:ans1]] [[validation:ans1]]</p>' .
+                '[[feedback:firsttree]]';
+
+        $q->specificfeedback = '';
+        $q->penalty = 0.4; // Non-zero and not the default.
+
+        $q->inputs['ans1'] = stack_input_factory::make(
+                'string', 'ans1', 'ta', null, array('boxWidth' => 25));
+
+        $q->options->questionsimplify = 0;
+
+        $sans = stack_ast_container::make_from_teacher_source('ans1');
+        $sans->get_valid();
+        $tans = stack_ast_container::make_from_teacher_source('tregex');
+        $tans->get_valid();
+        $node1 = new stack_potentialresponse_node($sans, $tans, 'SRegExp');
+        $fb = '<p>The word {@ans1@} is&nbsp; an element&nbsp; of the language described by {@regex@}<br></p>';
+        $node1->add_branch(0, '=', 0, $q->penalty, -1, $fb, FORMAT_HTML, 'firsttree-1-F');
+        $fb = '<p>The word {@ans1@} is not an element of the language described by {@regex@}</p>';
+        $node1->add_branch(1, '=', 1, $q->penalty, -1, $fb, FORMAT_HTML, 'firsttree-1-T');
+
+        $q->prts['firsttree'] = new stack_potentialresponse_tree('firsttree', '', false, 1,
+                null, array($node1), '0');
 
         return $q;
     }

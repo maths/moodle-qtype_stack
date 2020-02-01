@@ -153,6 +153,14 @@ The test simplifies both sets, and does a comparison based on the simplified ver
 
 These answer tests are used with [equivalence reasoning](../CAS/Equivalence_reasoning.md).  See the separate documentation.
 
+### SRegExp ###
+
+This test uses Maxima's `regex_match` function.
+
+* Both arguments to the test must be Maxima strings.  If you have a general expression, turn it into a string in the feedback variables with Maxima's `string` function.
+* The first argument should be the string, and the second argument should be the pattern to match.
+* Don't forget to protect within strings as needed.
+
 # Form {#Form}
 
 Often, we wish to establish if the student's expression has the correct _form_.

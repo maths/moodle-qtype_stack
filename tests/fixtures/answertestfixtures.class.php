@@ -1692,6 +1692,14 @@ class stack_answertest_test_data {
         array('StringSloppy', '', 'hel lo', 'Hel*lo', 0, 'TEST_FAILED:Invalid SA.', ''),
         array('StringSloppy', '', 'hello', 'heloo', 0, '', ''),
 
+        array('SRegExp', '', '1/0', '"hello"', -1, 'ATSRegExp_STACKERROR_SAns.', ''),
+        array('SRegExp', '', '"1/0"', '1/0', -1, 'ATSRegExp_STACKERROR_TAns.', ''),
+        array('SRegExp', '', 'Hello', 'hello', -1, 'ATSRegExp_SB_not_string.', ''),
+        array('SRegExp', '', 'Hello', '"hello"', -1, 'ATSRegExp_SA_not_string.', ''),
+        array('SRegExp', '', '"aaaaabbb"', '"(aaa)*b"', 1, 'ATSRegExp: ["aaab","aaa"].', ''),
+        array('SRegExp', '', '"aab"', '"(aaa)*b"', 1, 'ATSRegExp: ["b",false].', ''),
+        array('SRegExp', '', '"aaac"', '"(aaa)*b"', 0, '', ''),
+
         array('LowestTerms', '', '1/0', '0', -1, 'ATLowestTerms_STACKERROR_SAns.', ''),
         array('LowestTerms', '', '0.5', '0', 1, '', 'Mix of floats and rational numbers'),
         array('LowestTerms', '', '0.33', '0', 1, '', ''),

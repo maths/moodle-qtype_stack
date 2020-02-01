@@ -1680,6 +1680,26 @@ ATSets(SA, SB) := block([RawMark, FeedBack, AnswerNote, SAsimp, SBsimp],
     return([true, false, AnswerNote, FeedBack])
 )$
 
+/* Maxima regular expressions. */
+ATSRegExp(SA, SB) := block([RawMark, FeedBack, AnswerNote, SAsimp, SBsimp, patmatched],
+    RawMark:true, FeedBack:"", AnswerNote:"",
+    /* Turn on simplification and error catch */
+    if (is(_EC(errcatch(SAsimp:ev(SA, simp, nouns)), "") = false)) then
+        return([false,false,StackAddNote("","ATSRegExp_STACKERROR_SAns"),""]),
+    if (is(_EC(errcatch(SBsimp:ev(SB, simp, nouns)), "") = false)) then
+        return([false,false,StackAddNote("","ATSRegExp_STACKERROR_TAns"),""]),
+    if not(stringp(SB)) then
+        return(StackBasicReturn(false, false, "ATSRegExp_SB_not_string")),
+    if not(stringp(SA)) then
+        return(StackBasicReturn(false, false, "ATSRegExp_SA_not_string")),
+
+    patmatched:regex_match(SBsimp, SAsimp),
+
+    if listp(patmatched) then
+        return([true, true, StackAddNote("", sconcat("ATSRegExp: ", string(patmatched))), FeedBack]),
+
+    return([true, false, AnswerNote, FeedBack])
+)$
 /* A wrapper for an all purpose answer test which checks things are of the
    same "type".   Based upon the results of AtAlgEquivfun(SA,SB)
 */

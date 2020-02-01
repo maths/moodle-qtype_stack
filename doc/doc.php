@@ -43,11 +43,12 @@ if (substr($_SERVER['REQUEST_URI'], -7) == 'doc.php') {
 }
 
 $docsroot = $CFG->dirroot . '/question/type/stack/doc/' . current_language();
+
 // Default to English when docs are missing.
+$docsrooten = $CFG->dirroot . '/question/type/stack/doc/en';
 if (!file_exists($docsroot.'/index.md')) {
     $docsroot = $CFG->dirroot . '/question/type/stack/doc/en';
 }
-
 
 $docsurl = $CFG->wwwroot . '/question/type/stack/doc/doc.php';
 
@@ -87,8 +88,10 @@ if ($uri == '/') {
         './'                   => stack_string('stackDoc_index'),
         $docsurl . '/Site_map' => stack_string('stackDoc_siteMap')
     );
+    if (current_language() != 'en') {
+        $linkurls[$docsurl . '/Site_map_en'] = stack_string('stackDoc_siteMap_en');
+    }
 }
-
 
 $links = array();
 foreach ($linkurls as $url => $link) {
@@ -99,15 +102,24 @@ $links = implode(' | ', $links);
 if ('Site_map' == $lastseg) {
     $body = stack_docs_site_map($links, $docsroot, $docsurl);
     $meta = stack_docs_page_metadata('Site_map.md');
+} else if ('Site_map_en' == $lastseg) {
+        $body = stack_docs_site_map($links, $docsrooten, $docsurl);
+        $meta = stack_docs_page_metadata('Site_map.md');
 } else {
     if ('' == $lastseg) {
         $file = $docsroot . $uri . 'index.md';
+        $fileen = $docsrooten . $uri . 'index.md';
     } else {
         $file = $docsroot . $uri;
+        $fileen = $docsrooten . $uri;
     }
 
     if (file_exists($file)) {
         $body = stack_docs_page($links, $file, $docscontent);
+        $meta = stack_docs_page_metadata($uri);
+    } else if (file_exists($fileen)) {
+        // Default to English.
+        $body = stack_docs_page($links, $fileen, $docscontent);
         $meta = stack_docs_page_metadata($uri);
     } else {
         $body = stack_docs_no_found($links);

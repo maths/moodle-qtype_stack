@@ -35,17 +35,9 @@ rand_recurse(ex) := block(
 poly_truncate(pa,d) := apply("+",maplist(lambda([ex],if hipow(ex,x)>d then 0 else ex), args(expand(pa))));
 
 /****************************************************************/
-/*  Inequality functions for STACK                              */
-/*                                                              */
-/*  Chris Sangwin, <chris@sangwin.com>                          */
-/*  V0.2 July 2013                                              */
-/*                                                              */
-/****************************************************************/
-
-/****************************************************************/
 /*  Reporting support functions for STACK                       */
 /*                                                              */
-/*  Chris Sangwin, <chris@sangwin.com>                          */
+/*  Chris Sangwin, <C.J.Sangwin@ed.ac.uk>                       */
 /*  V0.1 January 2013                                           */
 /*                                                              */
 /****************************************************************/
@@ -55,9 +47,9 @@ poly_truncate(pa,d) := apply("+",maplist(lambda([ex],if hipow(ex,x)>d then 0 els
 /* Evaluate a single node safely. */
 node_no(prt,num,inputs) := block([res,err],
     /* Type checking */
-    if not(listp(prt)) then (print("STACK exception: node_no expects its first argument to be a list."), return(false)),
-    if not(integerp(num)) then (print("STACK exception: node_no expects its second argument to be an integer."), return(false)),
-    if is(length(prt)<num) then (print("STACK exception: node_no expects its second argument to less than the length of the first."), return(false)),
+    if not(listp(prt)) then error("node_no expects its first argument to be a list."),
+    if not(integerp(num)) then error("node_no expects its second argument to be an integer."),
+    if is(length(prt)<num) then error("node_no expects its second argument to less than the length of the first."),
     /* Do computation */
     res:errcatch(ev(prt[num],inputs,nouns)),
     if is([] = res) then 
@@ -72,8 +64,8 @@ node_no(prt,num,inputs) := block([res,err],
 /* Inputs should be in the form of equations such as [ans1=x^2] */
 traverse_prt(inputs) := block(
     /* Type checking */
-    if not(listp(inputs)) then (print("STACK exception: traverse_prt expects its argument to be a list."), return(false)),
-    if not(alllistp(equationp,inputs)) then (print("STACK exception: traverse_prt expects its argument to be a list of equations."), return(false)),
+    if not(listp(inputs)) then error("traverse_prt expects its argument to be a list."),
+    if not(alllistp(equationp,inputs)) then error("traverse_prt expects its argument to be a list of equations."),
     /* Setup PRT */
     simp:false,
     PRTtests:[
@@ -116,7 +108,7 @@ print("[ STACK-reports started. ]")$
 /****************************************************************/
 /*  Unary minus functions for STACK                             */
 /*                                                              */
-/*  Chris Sangwin, <chris@sangwin.com>                          */
+/*  Chris Sangwin, <C.J.Sangwin@ed.ac.uk>                       */
 /*  V0.1 March 2014                                             */
 /*                                                              */
 /****************************************************************/

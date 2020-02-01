@@ -28,7 +28,8 @@ require_once(__DIR__ . '/../algebraic/algebraic.class.php');
 class stack_string_input extends stack_algebraic_input {
 
     protected $extraoptions = array(
-        'hideanswer' => false
+        'hideanswer' => false,
+        'allowempty' => false
     );
 
     public function render(stack_input_state $state, $fieldname, $readonly, $tavalue) {
@@ -54,10 +55,10 @@ class stack_string_input extends stack_algebraic_input {
             if ($this->parameters['syntaxAttribute'] == '1') {
                 $field = 'placeholder';
             }
-            $attributes[$field] = $this->strip_string(stack_utils::logic_nouns_sort($this->parameters['syntaxHint'], 'remove'));
+            $attributes[$field] = $this->parameters['syntaxHint'];
         } else {
             $value = stack_utils::maxima_string_to_php_string($this->contents_to_maxima($state->contents));
-            $attributes['value'] = $in = $this->strip_string($value);
+            $attributes['value'] = $value;
         }
 
         if ($readonly) {
@@ -87,7 +88,7 @@ class stack_string_input extends stack_algebraic_input {
     }
 
     /**
-     * @return string the teacher's answer, displayed to the student in the general feedback.
+     * @return string The teacher's answer, displayed to the student in the general feedback.
      */
     public function get_teacher_answer_display($value, $display) {
         if ($this->extraoptions['hideanswer']) {
@@ -95,18 +96,22 @@ class stack_string_input extends stack_algebraic_input {
         }
 
         $value = stack_utils::maxima_string_to_php_string($value);
-        $value = $this->strip_string($value);
         return stack_string('teacheranswershow', array('value' => '<code>'.$value.'</code>', 'display' => $display));
     }
 
     /**
      * This is used by the question to get the teacher's correct response.
      * The dropdown type needs to intercept this to filter the correct answers.
-     * @param unknown_type $in
+     *
+     * @param array|string $in
+     * @return array response to submit for this input.
      */
     public function get_correct_response($in) {
-        $value = stack_utils::logic_nouns_sort($in, 'remove');
-        $value = $this->strip_string($value);
+        $value = $in;
+        if (trim($value) == 'EMPTYANSWER' || $value === null) {
+            $value = '';
+        }
+
         return $this->maxima_to_response_array($value);
     }
 
@@ -117,10 +122,15 @@ class stack_string_input extends stack_algebraic_input {
      * it into expected inputs.
      *
      * @param array|string $in
-     * @return string
+     * @return array how response $in is submitted.
      */
     public function maxima_to_response_array($in) {
-        $response[$this->name] = $this->strip_string($in);
+        if ($in === '') {
+            return [$this->name => ''];
+        }
+
+        $value = stack_utils::maxima_string_to_php_string($in);
+        $response[$this->name] = $value;
         if ($this->requires_validation()) {
             // Do not strip strings from the _val, to enable test inputs to work.
             $response[$this->name . '_val'] = $in;
@@ -141,14 +151,6 @@ class stack_string_input extends stack_algebraic_input {
         } else {
             return '';
         }
-    }
-
-    private function strip_string($ex) {
-        $ex = trim($ex);
-        if (substr($ex, 0, 1) === '"') {
-            $ex = substr($ex, 1, -1);
-        }
-        return $ex;
     }
 
     private function ensure_string($ex) {

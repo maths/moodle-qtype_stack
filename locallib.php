@@ -51,6 +51,36 @@ function stack_string($key, $a = null) {
 }
 
 /**
+ * This function tidies up LaTeX from Maxima.
+ * @param string $rawfeedback
+ * @return string
+ */
+function stack_maxima_latex_tidy($latex) {
+    $dispfix = array('QMCHAR' => '?', '!LEFTSQ!' => '\left[', '!LEFTR!' => '\left(',
+            '!RIGHTSQ!' => '\right]', '!RIGHTR!' => '\right)');
+    // Need to add this in here also because strings may contain question mark characters.
+    foreach ($dispfix as $key => $fix) {
+        $latex = str_replace($key, $fix, $latex);
+    }
+    $loctags = array('ANDOR', 'SAMEROOTS', 'MISSINGVAR', 'ASSUMEPOSVARS', 'ASSUMEPOSREALVARS', 'LET',
+            'AND', 'OR', 'NOT');
+    foreach ($loctags as $tag) {
+        $latex = str_replace('!'.$tag.'!', stack_string('equiv_'.$tag), $latex);
+    }
+
+    // Also previously some spaces have been eliminated and line changes dropped.
+    // Apparently returning verbatim LaTeX was not a thing.
+    $latex = str_replace("\n ", '', $latex);
+    $latex = str_replace("\n", '', $latex);
+    // Just don't want to use regexp.
+    $latex = str_replace('    ', ' ', $latex);
+    $latex = str_replace('   ', ' ', $latex);
+    $latex = str_replace('  ', ' ', $latex);
+
+    return $latex;
+}
+
+/**
  * This function takes a feedback string from Maxima and unpacks and translates it.
  * @param string $rawfeedback
  * @return string
@@ -58,15 +88,15 @@ function stack_string($key, $a = null) {
 function stack_maxima_translate($rawfeedback) {
 
     if (strpos($rawfeedback, 'stack_trans') === false) {
-        return trim($rawfeedback);
+        return trim(stack_maxima_latex_tidy($rawfeedback));
     } else {
         $rawfeedback = str_replace('[[', '', $rawfeedback);
         $rawfeedback = str_replace(']]', '', $rawfeedback);
+        $rawfeedback = str_replace("\n", '', $rawfeedback);
         $rawfeedback = str_replace('\n', '', $rawfeedback);
         $rawfeedback = str_replace('!quot!', '"', $rawfeedback);
 
         $translated = array();
-
         preg_match_all('/stack_trans\(.*?\);/', $rawfeedback, $matches);
         $feedback = $matches[0];
         foreach ($feedback as $fb) {
@@ -88,12 +118,11 @@ function stack_maxima_translate($rawfeedback) {
             }
         }
 
-        return implode(' ', $translated);
+        return stack_maxima_latex_tidy(implode(' ', $translated));
     }
 }
 
 function stack_maxima_format_casstring($str) {
-    $str = stack_utils::logic_nouns_sort($str, 'remove');
     return html_writer::tag('span', $str, array('class' => 'stacksyntaxexample'));
 }
 

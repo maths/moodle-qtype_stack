@@ -179,7 +179,7 @@ stackunits_make(ex) := block([oldsimp, exn, exu, exl],
     return(stackunits(NULLNUM, ex)),
   if safe_op(ex)="stackunits" then
       return(ex),
-  if is_simp(op(ex)="+-") then return(block([numa,numb],
+  if is_simp(op(ex)=STACKpmOPT) then return(block([numa,numb],
       if length(args(ex))=1 then
         (
           numa:NULLNUM,
@@ -330,7 +330,7 @@ stack_units_errp(ex) := block(
 stack_validate_units(expr, LowestTerms, TAns, fracdisp, fltfmt) := block( [simp:false, exs, SAU, SBU],
   /* Check the display option. */
   if not(fracdisp = "inline" or fracdisp = "negpow") then block(
-    print("fracdisp argument to stack_validate_units must be either inline or negpow only.")
+    error("stack_validate_units: fracdisp argument must be either inline or negpow only.")
   ),
   /* Try to simply the expression to catch CAS errors. */
   exs:errcatch(ev(expr, simp)),
@@ -349,7 +349,7 @@ stack_validate_units(expr, LowestTerms, TAns, fracdisp, fltfmt) := block( [simp:
   if LowestTerms and not(all_lowest_termsex(expr)) then
     print(StackAddFeedback("", "Lowest_Terms")),
   /* SA should be only an expression. */
-  if not(expressionp(expr) or is(safe_op(expr)="+-")) then
+  if not(expressionp(expr) or is(safe_op(expr)=STACKpmOPT)) then
     (print(StackAddFeedback("", "ATUnits_SA_not_expression")), return(expr)),
 
   /* Check if the student has correctly used units.*/
@@ -418,7 +418,9 @@ texput(NULLUNITS, "");
 texput(NULLNUM, "");
 
 /* Units answer tests. */
+ATUnits(SA, SB, SO) := ATUnitsFun(SA, SB, SO, false, "SigFigs")$
 ATUnitsSigFigs(SA, SB, SO) := ATUnitsFun(SA, SB, SO, false, "SigFigs")$
+ATUnitsStrict(SA, SB, SO) := ATUnitsFun(SA, SB, SO, true, "SigFigs")$
 ATUnitsStrictSigFigs(SA, SB, SO) := ATUnitsFun(SA, SB, SO, true, "SigFigs")$
 ATUnitsRelative(SA, SB, SO) := ATUnitsFun(SA, SB, SO, false, "Relative")$
 ATUnitsStrictRelative(SA, SB, SO) := ATUnitsFun(SA, SB, SO, true, "Relative")$
@@ -431,14 +433,11 @@ ATUnitsStrictAbsolute(SA, SB, SO) := ATUnitsFun(SA, SB, SO, true, "Absolute")$
 */
 ATUnitsFun(SA, SB, SO, strictp, numtest) := block([validity, rawmk, sb, ansnote, SAU, SBU, SAU1, SBU1, ol, ret, ret1, ret2],
   validity:true, rawmk:true, fb:"", ansnote:"",
-  SAA:errcatch(ev(SA, simp, nouns)),
-  if (is_simp(SAA = [STACKERROR]) or is_simp(SAA = [])) then
+  if (is(_EC(errcatch(SAA:ev(SA, simp, nouns)), "") = false)) then
     return([false, false, StackAddNote("", "ATUnits_STACKERROR_SAns"), ""]),
-  SBB:errcatch(ev(SB, simp, nouns)),
-  if (is_simp(SBB = [STACKERROR]) or is_simp(SBB = [])) then
+  if (is(_EC(errcatch(SBB:ev(SB, simp, nouns)), "") = false)) then
     return([false, false, StackAddNote("", "ATUnits_STACKERROR_TAns"), ""]),
-  SOO:errcatch(ev(SO, simp, nouns)),
-  if (is_simp(SOO = [STACKERROR]) or is_simp(SOO = [])) then
+  if (is(_EC(errcatch(SOO:ev(SO, simp, nouns)), "") = false)) then
     return([false, false, StackAddNote("", "ATUnits_STACKERROR_Opt"), ""]),
 
   ol:SO,
@@ -548,7 +547,7 @@ ATUnitsFun(SA, SB, SO, strictp, numtest) := block([validity, rawmk, sb, ansnote,
     return([true, false, ansnote, fb]),
 
   /* We do have compatible units. */
-  ansnote:StackAddNote(ret2[3], sconcat("ATUnits_compatible_units: ", string(ev(stack_units_units(SBU), simp)))),
+  ansnote:StackAddNote(ret2[3], sconcat("ATUnits_compatible_units ", string(ev(stack_units_units(SBU), simp)))),
   fb:ret2[4],
 
   /* Is the numerical answer correct? */
@@ -563,7 +562,7 @@ ATUnitsFun(SA, SB, SO, strictp, numtest) := block([validity, rawmk, sb, ansnote,
   /* Despite getting the wrong units, was the original numerical value correct? */
   if ret1[2] then
     (
-    ansnote:StackAddNote("", sconcat("ATUnits_compatible_units: ", string(ev(stack_units_units(SBU), simp)))),
+    ansnote:StackAddNote("", sconcat("ATUnits_compatible_units ", string(ev(stack_units_units(SBU), simp)))),
     ansnote:StackAddNote(ansnote, "ATUnits_correct_numerical"),
     fb:StackAddFeedback("", "ATUnits_correct_numerical")
     ),

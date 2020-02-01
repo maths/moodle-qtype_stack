@@ -139,7 +139,7 @@ class stack_dropdown_input extends stack_input {
             $this->errors[] = stack_string('ddl_badanswer', $teacheranswer);
             $this->teacheranswervalue = '[ERR]';
             $this->teacheranswerdisplay = '<code>'.'[ERR]'.'</code>';
-            $this->ddlvalues = null;
+            $this->ddlvalues = array();
             return false;
         }
 
@@ -219,7 +219,10 @@ class stack_dropdown_input extends stack_input {
                 if (substr($display, 0, 1) == '"' && substr($display, 0, 1) == '"') {
                     $ddlvalues[$key]['display'] = substr($display, 1, strlen($display) - 2);
                 } else {
-                    $display = stack_utils::logic_nouns_sort($display, 'remove');
+                    $cs = stack_ast_container::make_from_teacher_source($display);
+                    if ($cs->get_valid()) {
+                        $display = $cs->get_inputform(false, 0);
+                    }
                     $ddlvalues[$key]['display'] = '<code>'.$display.'</code>';
                 }
             }
@@ -228,16 +231,14 @@ class stack_dropdown_input extends stack_input {
         }
 
         // If we are displaying LaTeX we need to connect to the CAS to generate LaTeX from the displayed values.
-        $csvs = array(0 => new stack_cas_casstring('[]'));
+        $csvs = array();
         // Create a displayed form of the teacher's answer.
-        $csv = new stack_cas_casstring('teachans:'.$this->teacheranswervalue);
-        $csv->get_valid('t');
+        $csv = stack_ast_container::make_from_teacher_source('teachans:'.$this->teacheranswervalue);
         $csvs[] = $csv;
         foreach ($ddlvalues as $key => $value) {
             // We use the display term here because it might differ explicitly from the above "value".
             // So, we send the display form to LaTeX, and then replace it with the LaTeX below.
-            $csv = new stack_cas_casstring('val'.$key.':'.$value['display']);
-            $csv->get_valid('t');
+            $csv = stack_ast_container::make_from_teacher_source('val'.$key.':'.$value['display']);
             $csvs[] = $csv;
         }
 
@@ -252,8 +253,10 @@ class stack_dropdown_input extends stack_input {
             $localoptions = clone $this->options;
         }
         $localoptions->set_option('simplify', false);
-        $at1 = new stack_cas_session($csvs, $localoptions, 0);
-        $at1->instantiate();
+        $at1 = new stack_cas_session2($csvs, $localoptions, 0);
+        if ($at1->get_valid()) {
+            $at1->instantiate();
+        }
 
         if ('' != $at1->get_errors()) {
             $this->errors[] = $at1->get_errors();
@@ -261,7 +264,7 @@ class stack_dropdown_input extends stack_input {
         }
 
         // This sets display form in $this->ddlvalues.
-        $this->teacheranswerdisplay = '\('.$at1->get_display_key('teachans').'\)';
+        $this->teacheranswerdisplay = '\('.$at1->get_by_key('teachans')->get_latex().'\)';
         foreach ($ddlvalues as $key => $value) {
             // Was the original expression a string?  If so, don't use the LaTeX version.
             $display = trim($ddlvalues[$key]['display']);
@@ -269,7 +272,7 @@ class stack_dropdown_input extends stack_input {
                 $ddlvalues[$key]['display'] = substr($display, 1, strlen($display) - 2);
             } else {
                 // Note, we've chosen to add LaTeX maths environments here.
-                $disp = $at1->get_display_key('val'.$key);
+                $disp = $at1->get_by_key('val'.$key)->get_latex();
                 switch ($this->ddldisplay) {
                     case 'LaTeX':
                         $ddlvalues[$key]['display'] = '\('.$disp.'\)';
@@ -317,13 +320,29 @@ class stack_dropdown_input extends stack_input {
         return '';
     }
 
-    protected function validate_contents($contents, $forbiddenkeys, $localoptions) {
+    protected function validate_contents($contents, $basesecurity, $localoptions) {
         $valid = true;
         $errors = $this->errors;
-        $modifiedcontents = $contents;
+        $notes = array();
         $caslines = array();
 
-        return array($valid, $errors, $modifiedcontents, $caslines);
+        list ($secrules, $filterstoapply) = $this->validate_contents_filters($basesecurity);
+
+        // Construct one final "answer" as a single maxima object.
+        // In the case of dropdown create the object directly here.
+        $value = $this->contents_to_maxima($contents);
+
+        $answer = stack_ast_container::make_from_student_source($value, '', $secrules, $filterstoapply);
+        $answer->get_valid();
+
+        $note = $answer->get_answernote(true);
+        if ($note) {
+            foreach ($note as $n) {
+                $notes[$n] = true;
+            }
+        }
+
+        return array($valid, $errors, $notes, $answer, $caslines);
     }
 
     /**
@@ -339,9 +358,6 @@ class stack_dropdown_input extends stack_input {
     /* This function always returns an array where the key is the key in the ddlvalues.
      */
     protected function get_choices() {
-        if (empty($this->ddlvalues)) {
-            return array();
-        }
 
         $values = $this->ddlvalues;
         if (empty($values)) {

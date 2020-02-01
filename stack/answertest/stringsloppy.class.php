@@ -26,12 +26,35 @@ defined('MOODLE_INTERNAL') || die();
  */
 class stack_anstest_stringsloppy extends stack_anstest {
 
+    protected $atname = 'StringSloppy';
+
     public function do_test() {
-        $sa = str_replace(' ', '', strtolower(trim($this->sanskey)));
+        $sa = '';
+        if ($this->sanskey->get_valid()) {
+            $sa = $this->sanskey->get_inputform(true, 1);
+            if ($this->sanskey->is_correctly_evaluated()) {
+                $sa = $this->sanskey->get_value();
+            }
+            $sa = strtolower(trim($sa));
+        } else {
+            $this->atansnote    = $this->casfunction.'TEST_FAILED:Invalid SA.';
+        }
+        $ta = '';
+        if ($this->tanskey->get_valid()) {
+            $ta = $this->tanskey->get_inputform(true, 1);
+            if ($this->tanskey->is_correctly_evaluated()) {
+                $ta = $this->tanskey->get_value();
+            }
+            $ta = strtolower(trim($ta));
+        } else {
+            $this->atansnote    = $this->casfunction.'TEST_FAILED:Invalid TA.';
+        }
+
+        $sa = str_replace(' ', '', $sa);
         $sa = str_replace("\n", '', $sa);
         $sa = str_replace("\t", '', $sa);
 
-        $ta = str_replace(' ', '', strtolower(trim($this->tanskey)));
+        $ta = str_replace(' ', '', $ta);
         $ta = str_replace("\n", '', $ta);
         $ta = str_replace("\t", '', $ta);
 
@@ -42,10 +65,6 @@ class stack_anstest_stringsloppy extends stack_anstest {
             $this->atmark = 0;
             return false;
         }
-    }
-
-    public function process_atoptions() {
-        return false;
     }
 
     public function validate_atoptions($opt) {

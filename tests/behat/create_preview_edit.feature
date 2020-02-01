@@ -32,7 +32,7 @@ Feature: Create, preview, test, tidy and edit STACK questions
     Then I should see "Test STACK question"
 
     # Preview it.
-    When I click on "Preview" "link" in the "Test STACK question" "table_row"
+    When I choose "Preview" action for "Test STACK question" in the question bank
     And I switch to "questionpreview" window
     And I set the following fields to these values:
       | How questions behave | Adaptive          |
@@ -58,7 +58,7 @@ Feature: Create, preview, test, tidy and edit STACK questions
     And I should see "Marks for this submission: 1.00/1.00. Accounting for previous tries, this gives 0.90/1.00."
 
     # Create a question test.
-    When I follow "Question tests & deployed version"
+    When I follow "Question tests & deployed variants"
     Then I should see "This question does not use randomisation."
     When I press "Add a test case..."
     And I set the following fields to these values:
@@ -75,19 +75,19 @@ Feature: Create, preview, test, tidy and edit STACK questions
     When I follow "Preview"
 
     # Use the tidy question script.
-    And I follow "Tidy question"
+    And I follow "Tidy STACK question tool"
     And I set the following fields to these values:
       | New name for 'ans1' | ans |
       | New name for 'prt1' | prt |
       | New name for '1'    | 2   |
     And I press "Rename parts of the question"
-    And I follow "Question tests & deployed version"
+    And I follow "Question tests & deployed variants"
     Then I should see "All tests passed!"
     When I follow "Preview"
     And I switch to the main window
 
     # Edit the question, verify the form field contents, then change some.
-    When I click on "Edit" "link" in the "Test STACK question" "table_row"
+    When I choose "Edit question" action for "Test STACK question" in the question bank
     Then the following fields match these values:
       | Question name      | Test STACK question                                                         |
       | Question variables | p : (x-1)^3;                                                                |

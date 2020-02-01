@@ -389,14 +389,14 @@ class qtype_stack_walkthrough_deferred_feedback_test extends qtype_stack_walkthr
         // @codingStandardsIgnoreEnd
 
         // Dropdowns always return a list, so adapt the PRT to take the first element of ans1.
-        $sans = new stack_cas_casstring('ans1');
-        $sans->get_valid('t');
-        $tans = new stack_cas_casstring('2');
-        $tans->get_valid('t');
+        $sans = stack_ast_container::make_from_teacher_source('ans1');
+        $sans->get_valid();
+        $tans = stack_ast_container::make_from_teacher_source('2');
+        $tans->get_valid();
         $node = new stack_potentialresponse_node($sans, $tans, 'EqualComAss');
         $node->add_branch(0, '=', 0, $q->penalty, -1, '', FORMAT_HTML, 'firsttree-1-F');
         $node->add_branch(1, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'firsttree-1-T');
-        $q->prts['firsttree'] = new stack_potentialresponse_tree('firsttree', '', false, 1, null, array($node), 0);
+        $q->prts['firsttree'] = new stack_potentialresponse_tree('firsttree', '', false, 1, null, array($node), '0');
 
         $this->start_attempt_at_question($q, 'deferredfeedback', 1);
 
@@ -496,7 +496,9 @@ class qtype_stack_walkthrough_deferred_feedback_test extends qtype_stack_walkthr
         $this->check_output_contains_input_validation('ans1');
         $this->check_output_contains_prt_feedback('prt1');
         $this->check_output_does_not_contain_stray_placeholders();
-        $this->check_output_contains_lang_string('TEST_FAILED_Q', 'qtype_stack');
+        $this->check_current_output(
+            new question_pattern_expectation('/Division by/')
+            );
     }
 
     public function test_1input2prts_specific_feedback_handling() {

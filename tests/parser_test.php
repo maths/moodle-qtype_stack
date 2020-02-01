@@ -1,5 +1,5 @@
 <?php
-// This file is part of Stack - http://stack.bham.ac.uk/
+// This file is part of Stack - https://stack.maths.ed.ac.uk
 //
 // Stack is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -80,9 +80,6 @@ class stack_cas_castext_parser_test extends qtype_stack_testcase {
         return $r;
     }
 
-    /**
-     * Internal functionality testing. Actual use through the tree-form.
-     */
     public function test_rawcasblock() {
         $raw = 'Test string with maxima-code block {#sin(x/y)#}';
         $parsed = $this->basic_parse_and_actions($raw);
@@ -96,9 +93,6 @@ class stack_cas_castext_parser_test extends qtype_stack_testcase {
         $this->assertEquals("sin(x/y)", $parsed['usable_parse_tree']['item'][1]['cascontent']['text']);
     }
 
-    /**
-     * Internal functionality testing. Actual use through the tree-form.
-     */
     public function test_texcasblock() {
         $raw = 'Test string with tex-code block {@sin(x/y)@}';
         $parsed = $this->basic_parse_and_actions($raw);
@@ -112,9 +106,6 @@ class stack_cas_castext_parser_test extends qtype_stack_testcase {
         $this->assertEquals("sin(x/y)", $parsed['usable_parse_tree']['item'][1]['cascontent']['text']);
     }
 
-    /**
-     * Internal functionality testing. Actual use through the tree-form.
-     */
     public function test_multi_casblock() {
         $raw = 'Test string with casblock {@sin(x/y)@} and another {#cos(x/y)#}';
         $parsed = $this->basic_parse_and_actions($raw);
@@ -132,9 +123,6 @@ class stack_cas_castext_parser_test extends qtype_stack_testcase {
         $this->assertEquals(" and another ", $parsed['usable_parse_tree']['item'][2]['text']);
     }
 
-    /**
-     * Internal functionality testing. Actual use through the tree-form.
-     */
     public function test_block_single() {
         $raw = 'Test string with an block [[ block ]] test content [[/block]]';
         $parsed = $this->basic_parse_and_actions($raw);
@@ -148,9 +136,6 @@ class stack_cas_castext_parser_test extends qtype_stack_testcase {
         $this->assertEquals(" test content ", $parsed['usable_parse_tree']['item'][1]['item'][0]['text']);
     }
 
-    /**
-     * Internal functionality testing. Actual use through the tree-form.
-     */
     public function test_block_multi() {
         $raw = 'Test string with an block [[ block ]] test content [[/block]][[ if test="false" ]][[/ if ]]';
         $parsed = $this->basic_parse_and_actions($raw);
@@ -167,9 +152,6 @@ class stack_cas_castext_parser_test extends qtype_stack_testcase {
         $this->assertEquals("false", $parsed['usable_parse_tree']['item'][4]['params']['test']);
     }
 
-    /**
-     * Internal functionality testing. Actual use through the tree-form.
-     */
     public function test_block_nested() {
         $raw = 'Test string with an block [[ block ]] test content [[ if test="false" ]][[/ if ]][[/block]]';
         $parsed = $this->basic_parse_and_actions($raw);
@@ -186,9 +168,6 @@ class stack_cas_castext_parser_test extends qtype_stack_testcase {
         $this->assertEquals("false", $parsed['usable_parse_tree']['item'][1]['item'][1]['params']['test']);
     }
 
-    /**
-     * Internal functionality testing. Actual use through the tree-form.
-     */
     public function test_block_invalid_nested() {
         // The post-processor block_conversion() should ignore those overlapping ones but spot that empty one.
         // The ignored ones will be left as nodes in the parse_tree but in the tree_form they will be joined to text-nodes.
@@ -211,9 +190,6 @@ class stack_cas_castext_parser_test extends qtype_stack_testcase {
                 $parsed['tree_form']->firstchild->nextsibling->nextsibling->get_content());
     }
 
-    /**
-     * Actual functionality tests. For maxima evaluation related tests check ../../tests/castext..
-     */
     public function test_conversion_to_text() {
         $raw = 'Test string {#sin(x)#} is {@sin(x)@}';
         $parsed = $this->basic_parse_and_actions($raw);
@@ -269,10 +245,8 @@ class stack_cas_castext_parser_test extends qtype_stack_testcase {
         $this->assertEquals('block', $parsed['tree_form']->firstchild->type);
     }
 
-    /**
-     * Does it mark blocks that are inside math-mode?
-     */
     public function test_mathmode() {
+        // Does it mark blocks that are inside math-mode?
         $raw = "\\[{@x@}\\] {@x@} \\({@x@}\\)";
         $parsed = $this->basic_parse_and_actions($raw);
         $this->assertEquals(true, $parsed['tree_form']->firstchild->nextsibling->get_mathmode());
@@ -281,10 +255,8 @@ class stack_cas_castext_parser_test extends qtype_stack_testcase {
                 $parsed['tree_form']->firstchild->nextsibling->nextsibling->nextsibling->nextsibling->nextsibling->get_mathmode());
     }
 
-    /**
-     * Does it mark blocks that are inside math-mode?
-     */
     public function test_mathmode_env() {
+        // Does it mark blocks that are inside math-mode?
         $raw = "\\begin{blaah} \\[{@x@}\\] \\begin{equation*}{@x@}\\end{equation*} \\end{blaah}";
         $parsed = $this->basic_parse_and_actions($raw);
         $this->assertEquals($raw, $parsed['to_string']);
@@ -294,10 +266,8 @@ class stack_cas_castext_parser_test extends qtype_stack_testcase {
         $this->assertEquals(true, $parsed['tree_form']->firstchild->nextsibling->nextsibling->nextsibling->get_mathmode());
     }
 
-    /**
-     * Quotes does it handle them, in attributes?
-     */
     public function test_quotes_and_attributes() {
+        // Quotes does it handle them, in attributes?
         $raw = '[[ quotes a="a" '."b='b' c='\"c\"'".' ]]blaah[[/quotes]]';
         $parsed = $this->basic_parse_and_actions($raw);
         // String check against parser->to_string.
@@ -306,10 +276,8 @@ class stack_cas_castext_parser_test extends qtype_stack_testcase {
         $this->assertEquals('[[ quotes '."a=\"a\" b=\"b\" c='\"c\"'".' ]]blaah[[/ quotes ]]', $parsed['tree_form']->to_string());
     }
 
-    /**
-     * Special pseudoblocks 'else' and 'elif', does the tree transformation work?
-     */
     public function test_fix_pseudoblocks_1() {
+        // Special pseudoblocks 'else' and 'elif', does the tree transformation work?
         $raw = '[[ if test="a" ]]1[[ else ]][[ if test="c"]]2[[else]]3[[/if]][[/ if ]]';
         $parsed = $this->basic_parse_and_actions($raw);
         // String check against parser->to_string. The missing spaces should appear in the closing 'if'.
@@ -343,11 +311,8 @@ class stack_cas_castext_parser_test extends qtype_stack_testcase {
         $this->assertEquals($testpattern, $parsed['tree_form']->to_string());
     }
 
-
-    /**
-     * Special pseudoblocks 'else' and 'elif', does the tree transformation work?
-     */
     public function test_fix_pseudoblocks_2() {
+        // Special pseudoblocks 'else' and 'elif', does the tree transformation work?
         $raw = '[[ if test="a" ]]1[[ elif test="b" ]]2[[ else ]][[ if test="c"]]3[[else]]4[[/if]][[/ if ]]';
         $parsed = $this->basic_parse_and_actions($raw);
         // String check against parser->to_string. The missing spaces should appear in the closing 'if'.
@@ -391,10 +356,8 @@ class stack_cas_castext_parser_test extends qtype_stack_testcase {
         $this->assertEquals($testpattern, $parsed['tree_form']->to_string());
     }
 
-    /**
-     * Special pseudoblocks 'else' and 'elif', does the tree transformation work? In odd case?
-     */
     public function test_fix_pseudoblocks_err() {
+        // Special pseudoblocks 'else' and 'elif', does the tree transformation work? In odd case?
         $raw = '[[ fi test="a" ]]1[[ elif test="b" ]]2[[ else ]][[ if test="c"]]3[[else]]4[[/if]][[/ fi ]]';
         $parsed = $this->basic_parse_and_actions($raw);
         // String check against parser->to_string. The missing spaces should appear in the closing 'if'.
@@ -417,6 +380,228 @@ class stack_cas_castext_parser_test extends qtype_stack_testcase {
         $this->assertEquals($testpattern, $parsed['tree_form']->to_string());
     }
 
+    public function test_line_endings() {
+        // Do we break line endings? We do when exotic ones appear between parameters in block openings...
+        $test_lines_pre = array('A', 'b ', ' c ');
+        $block_open = '[[ jsxgraph ]]';
+        $test_lines_content = array('d ', ' e', 'f ');
+        $block_close = '[[/ jsxgraph ]]';
+        $test_lines_post = array(' g', 'h ', ' i');
 
+        // The simple endings where we assume PHP might do magic.
+        $line_ends = array("\n", "\r\n", "\r" , "\n\r");
 
+        // Add some raw ones and repeat previous ones just in case.
+        $line_ends[] = chr(10);
+        $line_ends[] = chr(13) . chr(10);
+        $line_ends[] = chr(13);
+        $line_ends[] = chr(10) . chr(13);
+        $line_ends[] = chr(30);
+        $line_ends[] = chr(21);
+        $line_ends[] = chr(11);
+        $line_ends[] = chr(12);
+
+        // Some extras. But as we still support 5.something lets not break that.
+        if (version_compare(phpversion(), '7.0.0', '>')) {
+            $line_ends[] = "\u{0085}";
+            $line_ends[] = "\u{2028}";
+            $line_ends[] = "\u{2029}";
+        }
+
+        foreach ($line_ends as $ending) {
+            $teststring = implode($ending, $test_lines_pre);
+            $teststring .= $block_open;
+            $teststring .= implode($ending, $test_lines_content);
+            $teststring .= $block_close;
+            $teststring .= implode($ending, $test_lines_post);
+            $parsed = $this->basic_parse_and_actions($teststring);
+
+            // Test reproduction fidelity.
+            $this->assertEquals($teststring, $parsed['to_string']);
+
+            // Test structure.
+            $this->assertEquals(3, $parsed['counts']['text']);
+            $this->assertEquals(1, $parsed['counts']['block']);
+
+            $this->assertEquals('text', $parsed['tree_form']->firstchild->type);
+            $this->assertEquals('block', $parsed['tree_form']->firstchild->nextsibling->type);
+            $this->assertEquals('text', $parsed['tree_form']->firstchild->nextsibling->firstchild->type);
+            $this->assertEquals('text', $parsed['tree_form']->firstchild->nextsibling->nextsibling->type);
+
+            // Check text values.
+            $this->assertEquals(implode($ending, $test_lines_pre), $parsed['tree_form']->firstchild->get_content());
+            $this->assertEquals(implode($ending, $test_lines_content), $parsed['tree_form']->firstchild->nextsibling->firstchild->get_content());
+            $this->assertEquals(implode($ending, $test_lines_post), $parsed['tree_form']->firstchild->nextsibling->nextsibling->get_content());
+        }
+    }
+
+    public function test_spaces_12_3_parser() {
+
+        $s = '12*3';
+        $ast = null;
+        $errors = array();
+        $answernotes = array();
+        $ast = maxima_corrective_parser::parse($s, $errors, $answernotes,
+            array('startRule' => 'Root', 'letToken' => stack_string('equiv_LET')));
+        $expected = '([Root] ([Op: *] ([Int] 12), ([Int] 3)))';
+
+        $this->assertEquals($expected, $ast->toString(array('flattree' => true)));
+        $this->assertEquals($errors, array());
+        $this->assertEquals($answernotes, array());
+
+        $s = '12 3';
+        $ast = null;
+        $errors = array();
+        $answernotes = array();
+        $ast = maxima_corrective_parser::parse($s, $errors, $answernotes,
+            array('startRule' => 'Root', 'letToken' => stack_string('equiv_LET')));
+
+        $expected = '([Root] ([Op: *] ([Int] 12), ([Int] 3)))';
+        $this->assertEquals($expected, $ast->toString(array('flattree' => true)));
+
+        $this->assertEquals($errors, array());
+        $this->assertEquals($answernotes, array('spaces'));
+
+        $s = '12 3.57';
+        $ast = null;
+        $errors = array();
+        $answernotes = array();
+        $ast = maxima_corrective_parser::parse($s, $errors, $answernotes,
+            array('startRule' => 'Root', 'letToken' => stack_string('equiv_LET')));
+        $expected = '([Root] ([Op: *] ([Int] 12), ([Float] 3.57)))';
+        $this->assertEquals($expected, $ast->toString(array('flattree' => true)));
+        $this->assertEquals($errors, array());
+        $this->assertEquals($answernotes, array('spaces'));
+
+        $s = '1 2.3 4';
+        $ast = null;
+        $errors = array();
+        $answernotes = array();
+        $ast = maxima_corrective_parser::parse($s, $errors, $answernotes,
+            array('startRule' => 'Root', 'letToken' => stack_string('equiv_LET')));
+
+        $expected = '([Root] ([Op: *] ([Int] 1), ([Op: *] ([Float] 2.3), ([Int] 4))))';
+        $this->assertEquals($expected, $ast->toString(array('flattree' => true)));
+        $this->assertEquals($errors, array());
+        $this->assertEquals($answernotes, array('spaces'));
+
+        $s = '1 2 3.4';
+        $ast = null;
+        $errors = array();
+        $answernotes = array();
+        $ast = maxima_corrective_parser::parse($s, $errors, $answernotes,
+            array('startRule' => 'Root', 'letToken' => stack_string('equiv_LET')));
+
+        $expected = '([Root] ([Op: *] ([Int] 1), ([Op: *] ([Int] 2), ([Float] 3.4))))';
+        $this->assertEquals($expected, $ast->toString(array('flattree' => true)));
+        $this->assertEquals($errors, array());
+        $this->assertEquals($answernotes, array('spaces'));
+    }
+
+    public function test_float_dot_float_parser() {
+
+        $s = '0.1.0.2';
+        $ast = null;
+        $errors = array();
+        $answernotes = array();
+        $ast = maxima_corrective_parser::parse($s, $errors, $answernotes,
+            array('startRule' => 'Root', 'letToken' => stack_string('equiv_LET')));
+
+        $expected = '([Root] ([Op: .] ([Float] 0.1), ([Float] 0.2)))';
+        $this->assertEquals($expected, $ast->toString(array('flattree' => true)));
+        $this->assertEquals($errors, array());
+        $this->assertEquals($answernotes, array());
+    }
+
+    public function test_trig_parser() {
+
+        $s = 'sin(x)';
+        $ast = null;
+        $errors = array();
+        $answernotes = array();
+        $ast = maxima_corrective_parser::parse($s, $errors, $answernotes,
+            array('startRule' => 'Root', 'letToken' => stack_string('equiv_LET')));
+
+        $expected = '([Root] ([FunctionCall: ([Id] sin)] ([Id] x)))';
+        $this->assertEquals($expected, $ast->toString(array('flattree' => true)));
+        $this->assertEquals($errors, array());
+        $this->assertEquals($answernotes, array());
+
+        $s = 'sin^2(x)';
+        $ast = null;
+        $errors = array();
+        $answernotes = array();
+        $ast = maxima_corrective_parser::parse($s, $errors, $answernotes,
+            array('startRule' => 'Root', 'letToken' => stack_string('equiv_LET')));
+
+        $expected = '([Root] ([Op: *] ([Op: ^] ([Id] sin), ([Int] 2)), ([Group] ([Id] x))))';
+        $this->assertEquals($expected, $ast->toString(array('flattree' => true)));
+        $this->assertEquals($answernotes, array('missing_stars'));
+        $s = 'sin^-2(x)';
+        $ast = null;
+        $errors = array();
+        $answernotes = array();
+        $ast = maxima_corrective_parser::parse($s, $errors, $answernotes,
+            array('startRule' => 'Root', 'letToken' => stack_string('equiv_LET')));
+
+        $expected = '([Root] ([Op: *] ([Op: ^] ([Id] sin), ([PrefixOp: -] ([Int] 2))), ([Group] ([Id] x))))';
+        $this->assertEquals($expected, $ast->toString(array('flattree' => true)));
+        $this->assertEquals($answernotes, array('missing_stars'));
+    }
+
+    public function test_let() {
+        $s = 'let x=1';
+        $ast = null;
+        $errors = array();
+        $answernotes = array();
+        $ast = maxima_corrective_parser::parse($s, $errors, $answernotes,
+            array('startRule' => 'Equivline', 'letToken' => stack_string('equiv_LET')));
+
+        $expected = '([Let] ([Id] x),([Int] 1))';
+        $this->assertEquals($expected, $ast->toString(array('flattree' => true)));
+        $this->assertEquals($errors, array());
+        $this->assertEquals($answernotes, array());
+    }
+
+    public function test_pm() {
+        $s = 'a*b+c*d+-A*B';
+        $ast = null;
+        $errors = array();
+        $answernotes = array();
+
+        $ast = maxima_corrective_parser::parse($s, $errors, $answernotes, array('allowPM' => false));
+        $expected = '([Root] ([Op: +] ([Op: *] ([Id] a), ([Id] b)), ([Op: +] ([Op: *] ([Id] c), ([Id] d)), ' .
+            '([Op: *] ([PrefixOp: -] ([Id] A)), ([Id] B)))))';
+        $this->assertEquals($expected, $ast->toString(array('flattree' => true)));
+        $this->assertEquals($s, $ast->toString(array('nosemicolon' => true)));
+        $this->assertEquals($errors, array());
+        $this->assertEquals($answernotes, array());
+
+        $ast = maxima_corrective_parser::parse($s, $errors, $answernotes, array());
+        $this->assertEquals($s, $ast->toString(array('nosemicolon' => true)));
+        $expected = '([Root] ([Op: +] ([Op: *] ([Id] a), ([Id] b)), ([Op: +-] ' .
+                '([Op: *] ([Id] c), ([Id] d)), ([Op: *] ([Id] A), ([Id] B)))))';
+        $this->assertEquals($expected, $ast->toString(array('flattree' => true)));
+        $this->assertEquals($errors, array());
+        $this->assertEquals($answernotes, array());
+
+        $s = 'x = +-A*B';
+        $ast = null;
+        $errors = array();
+        $answernotes = array();
+
+        $ast = maxima_corrective_parser::parse($s, $errors, $answernotes, array('allowPM' => false));
+        $this->assertEquals($s, $ast->toString(array('nosemicolon' => true)));
+        $expected = '([Root] ([Op: =] ([Id] x), ([PrefixOp: +] ([Op: *] ([PrefixOp: -] ([Id] A)), ([Id] B)))))';
+        $this->assertEquals($expected, $ast->toString(array('flattree' => true)));
+        $this->assertEquals($errors, array());
+        $this->assertEquals($answernotes, array());
+
+        $ast = maxima_corrective_parser::parse($s, $errors, $answernotes, array());
+        $this->assertEquals($s, $ast->toString(array('nosemicolon' => true)));
+        $expected = '([Root] ([Op: =] ([Id] x), ([PrefixOp: +-] ([Op: *] ([Id] A), ([Id] B)))))';
+        $this->assertEquals($expected, $ast->toString(array('flattree' => true)));
+        $this->assertEquals($errors, array());
+        $this->assertEquals($answernotes, array());
+    }
 }

@@ -25,7 +25,7 @@ require_once("block.interface.php");
 
 class stack_cas_castext_debug extends stack_cas_castext_block {
 
-    public function extract_attributes(&$tobeevaluatedcassession, $conditionstack = null) {
+    public function extract_attributes($tobeevaluatedcassession, $conditionstack = null) {
         // The debug block does nothing but reads the data from the context and outputs details based on it.
         return;
     }
@@ -52,15 +52,32 @@ class stack_cas_castext_debug extends stack_cas_castext_block {
         $output .= "</pre>\n";
 
         $output .= "<h5>CAS session values:</h5>\n";
-        $output .= "<table><tr><th>key</th><th>casstring</th><th>rawcasstring</th><th>value</th><th>dispvalue</th></tr>\n";
+        $output .= "<table><tr><th>key</th><th>casstring</th><th>value</th><th>dispvalue</th><th>LaTeX</th><th></th></tr>\n";
 
         foreach ($evaluatedcassession->get_session() as $cs) {
             $output .= "<tr>";
-            $output .= "<td>" . $cs->get_key() . "</td>";
-            $output .= "<td>" . $cs->get_casstring() . "</td>";
-            $output .= "<td>" . $cs->get_raw_casstring() . "</td>";
-            $output .= "<td>" . $cs->get_value() . "</td>";
-            $output .= "<td>" . $cs->get_dispvalue() . "</td>";
+            $output .= "<td><code>" . $cs->get_key() . "</code></td>";
+            if (method_exists($cs, 'get_value')) {
+                $output .= "<td><code>" . $cs->get_inputform() . "</code></td>";
+            } else {
+                $output .= "<td>&nbsp;</td>";
+            }
+            if (method_exists($cs, 'get_value') && $cs->is_correctly_evaluated()) {
+                $output .= "<td><code>" . $cs->get_value() . "</code></td>";
+            } else {
+                $output .= "<td>&nbsp;</td>";
+            }
+            if (method_exists($cs, 'get_dispvalue')) {
+                $output .= "<td><code>" . $cs->get_dispvalue() . "</code></td>";
+            } else {
+                $output .= "<td>&nbsp;</td>";
+            }
+            if (method_exists($cs, 'get_display') && $cs->is_correctly_evaluated()) {
+                $output .= "<td>\(\displaystyle " . $cs->get_display() . "\)</td>";
+            } else {
+                $output .= "<td>&nbsp;</td>";
+            }
+            $output .= "<td>" . $cs->get_errors() . "</td>";
             $output .= "</tr>";
         }
 

@@ -9,7 +9,13 @@ STACK is designed to be used on a Linux-based server.  The Windows/MS option exi
 * Please ensure you have [installed Moodle](http://docs.moodle.org/en/Main_page).  You must use Moodle 2.7.0 or later, [e.g. here.](https://github.com/moodle/moodle)  We recommend using Moodle 3.5, and STACK 4.2 is untested on versions before Moodle 3.0.
 * Please ensure LaTeX can be displayed.  We currently support [MathJax](Mathjax.md) through the Moodle MathJax filter.
 
-STACK requires PHP 5.6 or later.
+Consider updating the MathJax settings to [wrap long equations](http://docs.mathjax.org/en/latest/output.html?highlight=automatic%20line%20breaking#automatic-line-breaking). In particular, add
+
+    CommonHTML: { linebreaks: { automatic: true } },
+    "HTML-CSS": { linebreaks: { automatic: true } },
+    SVG: { linebreaks: { automatic: true } }
+
+to `filter_mathjaxloader | mathjaxconfig` in the filter settings: Dashboard > Site administration > Plugins > Filters > MathJax
 
 ## 2. Install gnuplot and Maxima
 

@@ -72,6 +72,120 @@ date_list(yearA, monthA, dayA, yearB, monthB, dayB) := block([y, m, d, wd, S, R,
     return(R)
 )$
 
+/* Finds the number of significant digits in the first numeric part of a given string representation of an expression. Pretty much the same logic as the original PHP version stack_utils::decimal_digits. */
+sig_figs_from_str(strexp) := block([leadingzeros,indefinitezeros,trailingzeros,meaningfulldigits,decimalplaces,infrontofdecimaldeparator,scientificnotation,seennumbers,c,i,r,simp],
+    /* Plenty of countters so needs simp */
+    simp: true,
+    leadingzeros: 0,
+    indefinitezeros: 0,
+    trailingzeros: 0,
+    meaningfulldigits: 0,
+    decimalplaces: 0,
+    infrontofdecimaldeparator: true,
+    scientificnotation: false,
+    seennumbers: false,
+
+    /* If this is an empty string one probably has trouble. */
+    if (slength(strim(" ",strexp)) = 0) then
+        return(["stack_map",
+                ["lowerbound", 0],
+                ["upperbound", 0],
+                ["decimalplaces", 0],
+                ["fltfmt", "~a"]]),
+
+
+    i: 1,
+    /* First eat the stuff in front of of the number if it exists */
+    while i <= slength(strexp) do (
+        c: charat(strexp, i),
+
+        if c = "." then (
+            infrontofdecimaldeparator: false,
+            meaningfulldigits: meaningfulldigits + indefinitezeros,
+            indefinitezeros: 0,
+            leadingzeros: 0,
+            seennumbers: true
+        ) else if c = "0" then (
+            leadingzeros: 1,
+            seennumbers: true
+        ) else if member(c,["1","2","3","4","5","6","7","8","9"]) then (
+            meaningfulldigits: meaningfulldigits + indefinitezeros + 1,
+            indefinitezeros: 0,
+            seennumbers: true
+        ),
+        i: i + 1,
+
+        if seennumbers then return(0)
+    ),
+
+    /* Now we are safely in the number hopefully there is a number... */
+    while i <= slength(strexp) do (
+        c: charat(strexp, i),
+
+        if infrontofdecimaldeparator = false and member(c,["0","1","2","3","4","5","6","7","8","9"]) then (
+            decimalplaces: decimalplaces + 1
+        ),
+        if c = "e" or c = "E" then (
+            scientificnotation: true
+        ),
+
+        if c = "0" then (
+            if meaningfulldigits = 0 then (
+                leadingzeros: leadingzeros + 1
+            ) else if infrontofdecimaldeparator then (
+                indefinitezeros: indefinitezeros + 1
+            ) else if meaningfulldigits > 0 then (
+                meaningfulldigits: meaningfulldigits + 1 + indefinitezeros + trailingzeros,
+                trailingzeros: 0,
+                indefinitezeros: 0
+            ) else (
+                trailingzeros: trailingzeros + 1
+            )
+        ) else if c = "." and infrontofdecimaldeparator then (
+            infrontofdecimaldeparator: false,
+            meaningfulldigits: meaningfulldigits + indefinitezeros,
+            indefinitezeros: 0,
+            leadingzeros: 0
+        ) else if member(c,["1","2","3","4","5","6","7","8","9"]) then (
+            meaningfulldigits: meaningfulldigits + indefinitezeros + 1,
+            indefinitezeros: 0
+        ) else (
+            return(0)
+        ),
+        i: i + 1
+    ),
+
+    r: ["stack_map",
+        ["lowerbound", 0],
+        ["upperbound", 0],
+        ["decimalplaces", decimalplaces],
+        ["fltfmt", "~a"]],
+
+    if is(meaningfulldigits = 0) then (
+        r: stackmap_set(r, "lowerbound", max(1, leadingzeros)),
+        r: stackmap_set(r, "upperbound", max(1, leadingzeros))
+    ) else if is(infrontofdecimaldeparator=false) then (
+        r: stackmap_set(r, "lowerbound", meaningfulldigits),
+        r: stackmap_set(r, "upperbound", meaningfulldigits)
+    ) else (
+        r: stackmap_set(r, "lowerbound", meaningfulldigits),
+        r: stackmap_set(r, "upperbound", meaningfulldigits + indefinitezeros)
+    ),
+
+    if is(decimalplaces > 0) then (
+        r: stackmap_set(r, "fltfmt", sconcat("~,", decimalplaces, "f"))
+    ),
+    if is(scientificnotation = true) then (
+        if is(stackmap_get(r, "lowerbound") > 1) then (
+            r: stackmap_set(r, "fltfmt", sconcat("~.", stackmap_get(r, "upperbound"), "e"))
+        ) else (
+            r: stackmap_set(r, "fltfmt", "~e")
+        )
+    ),
+    return(r)
+)$
+
+
 
 FORBIDDEN_SYMBOLS_SET: {"%th", "adapth_depth", "alias", "aliases", "alphabetic", "appendfile",
   "apropos", "assume_external_byte_order", "backtrace", "batch", "barsplot", "batchload",

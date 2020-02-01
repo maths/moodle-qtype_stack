@@ -20,7 +20,7 @@ stack_equiv_classes(l):=block(
 
 /* This need to be implemented in the future.  */
 stack_analysis(ex):=block(
-  print("stack_analysis: this function has not yet been implemented.  Please see the maxima code directly for examples of how to analyse data."),
+  error("stack_analysis: this function has not yet been implemented.  Please see the maxima code directly for examples of how to analyse data."),
   false
 )$
 

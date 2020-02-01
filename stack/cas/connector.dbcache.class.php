@@ -65,6 +65,30 @@ class stack_cas_connection_db_cache implements stack_cas_connection {
         return $result;
     }
 
+    public function json_compute($command): array {
+        $cached = $this->get_cached_result($command);
+        if ($cached->result) {
+            $this->debug->log('Maxima command', $command);
+            // @codingStandardsIgnoreStart
+            $this->debug->log('Unpacked result found in the DB cache', print_r($cached->result, true));
+            // @codingStandardsIgnoreEnd
+            return $cached->result;
+        }
+        $this->debug->log('Maxima command not found in the cache. Using the raw connection.');
+        $this->debug->log('Maxima command', $command);
+        $parsed = $this->rawconnection->json_compute($command);
+
+        // Only add to the cache if we didn't timeout!
+        if (!stack_connection_helper::did_cas_timeout($parsed)) {
+            $this->add_to_cache($command, $parsed, $cached->key);
+        }
+        // @codingStandardsIgnoreStart
+        $this->debug->log('Parsed result as', print_r($parsed, true));
+        // @codingStandardsIgnoreEnd
+
+        return $parsed;
+    }
+
     public function get_debuginfo() {
         return $this->debug->get_log();
     }

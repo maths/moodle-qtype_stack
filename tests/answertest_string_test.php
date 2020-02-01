@@ -16,9 +16,8 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once(__DIR__ . '/../stack/answertest/anstest.class.php');
-require_once(__DIR__ . '/../stack/answertest/atstring.class.php');
-
+require_once(__DIR__ . '/fixtures/test_base.php');
+require_once(__DIR__ . '/../stack/answertest/controller.class.php');
 
 // Unit tests for stack_anstest_atstring.
 //
@@ -31,19 +30,28 @@ require_once(__DIR__ . '/../stack/answertest/atstring.class.php');
 class stack_anstest_atstring_test extends basic_testcase {
 
     public function test_is_true_for_equal_strings() {
-        $at = new stack_anstest_atstring('hello', 'hello');
+        $at = new stack_ans_test_controller('String',
+                stack_ast_container::make_from_teacher_source('"hello"'),
+                stack_ast_container::make_from_teacher_source('"hello"'),
+                null);
         $this->assertTrue($at->do_test());
         $this->assertEquals(1, $at->get_at_mark());
     }
 
     public function test_is_false_for_unequal_strings() {
-        $at = new stack_anstest_atstring('hello', 'heloo');
+        $at = new stack_ans_test_controller('String',
+                stack_ast_container::make_from_teacher_source('"hello"'),
+                stack_ast_container::make_from_teacher_source('"heloo"'),
+                null);
         $this->assertFalse($at->do_test());
         $this->assertEquals(0, $at->get_at_mark());
     }
 
     public function test_is_false_for_strings_with_different_case() {
-        $at = new stack_anstest_atstring('Hello', 'hello');
+        $at = new stack_ans_test_controller('String',
+                stack_ast_container::make_from_teacher_source('"Hello"'),
+                stack_ast_container::make_from_teacher_source('"hello"'),
+                null);
         $this->assertFalse($at->do_test());
         $this->assertEquals(0, $at->get_at_mark());
     }

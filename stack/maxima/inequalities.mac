@@ -183,7 +183,7 @@ single_linear_ineq_reduce(ex, exo):=block([exg,exl],
 */
 single_linear_ineq_reduce_h(exl, exo, odr):=block([m1,m2,m3,exg],
     if exl=[] then return([]),
-    if not(is(exo = max) or is(exo = min)) then print("ERROR: single_linear_ineq_reduce_h expects second argument to be max or min."),
+    if not(is(exo = max) or is(exo = min)) then error("single_linear_ineq_reduce_h expects second argument to be max or min."),
     exg:maplist(lambda([ex2],[rhs(first(solve(lhs(ex2)))), op(ex2)]), exl),
     m1:apply(exo, maplist(first,exg)),
     m2:sublist(exg,lambda([ex2],is(m1=first(ex2)))),

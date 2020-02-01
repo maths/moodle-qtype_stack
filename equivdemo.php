@@ -1,5 +1,5 @@
 <?php
-// This file is part of Stack - http://stack.bham.ac.uk/
+// This file is part of Stack - https://www.ed.ac.uk/maths/stack/
 //
 // Stack is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -26,11 +26,10 @@ require_once(__DIR__ . '/locallib.php');
 require_once(__DIR__ . '/stack/utils.class.php');
 require_once(__DIR__ . '/stack/options.class.php');
 require_once(__DIR__ . '/stack/cas/castext.class.php');
-require_once(__DIR__ . '/stack/cas/casstring.class.php');
-require_once(__DIR__ . '/stack/cas/cassession.class.php');
 require_once(__DIR__ . '/stack/cas/keyval.class.php');
 require_once(__DIR__ . '/stack/cas/installhelper.class.php');
 require_once(__DIR__ . '/stack/input/inputbase.class.php');
+require_once(__DIR__ . '/stack/input/factory.class.php');
 require_once(__DIR__ . '/stack/input/equiv/equiv.class.php');
 require_once(__DIR__ . '/tests/fixtures/equivfixtures.class.php');
 
@@ -115,51 +114,48 @@ foreach ($samplearguments as $argument) {
         if (false === $onlyarg || $i == $onlyarg) {
             $cskey = 'A'.$i;
 
-            $ap = new stack_cas_casstring('assume_pos:false');
+            $val = 'false';
             if (array_key_exists('assumepos', $argument)) {
-                $ap = new stack_cas_casstring('assume_pos:true');
+                $val = 'true';
             }
-            $ap->get_valid('t');
+            $ap = stack_ast_container::make_from_teacher_source('assume_pos:' . $val, '', new stack_cas_security());
 
-            $ar = new stack_cas_casstring('assume_real:false');
+            $val = 'false';
             if (array_key_exists('assumereal', $argument)) {
-                $ar = new stack_cas_casstring('assume_real:true');
+                $val = 'true';
             }
-            $ar->get_valid('t');
+            $ar = stack_ast_container::make_from_teacher_source('assume_real:' . $val, '', new stack_cas_security());
 
-            $ac = new stack_cas_casstring('stack_calculus:false');
+            $val = 'false';
             if (array_key_exists('calculus', $argument)) {
-                $ac = new stack_cas_casstring('stack_calculus:true');
+                $val = 'true';
             }
-            $ac->get_valid('t');
+            $ac = stack_ast_container::make_from_teacher_source('stack_calculus:' . $val, '', new stack_cas_security());
 
-            $arg = stack_utils::logic_nouns_sort($argument['casstring'], 'add');
-            $cs1 = new stack_cas_casstring($arg);
-            $cs1->get_valid('s');
-            // This step is needed because validate replaces `or` with `nounor` etc.
-            $casstrings[$cskey] = $cs1->get_casstring();
+            $cs1 = stack_ast_container::make_from_student_source($cskey . ':' . $argument['casstring'],
+                    '', new stack_cas_security());
+
+            $casstrings[$cskey] = $cs1->get_inputform(false, 1);
             $casstrings['D'.$i] = $argument['debuglist'];
-            $cs1->set_key($cskey);
             if (array_key_exists('debuglist', $argument)) {
-                $cs2 = new stack_cas_casstring("DL:" . $argument['debuglist']);
-                $cs2->get_valid('t');
+                $val = "DL:" . $argument['debuglist'];
+                $cs2 = stack_ast_container::make_from_teacher_source($val, '', new stack_cas_security());
             } else {
-                $cs2 = new stack_cas_casstring("DL:false");
-                $cs2->get_valid('t');
+                $val = "DL:false";
+                $cs2 = stack_ast_container::make_from_teacher_source($val, '', new stack_cas_security());
             }
             if ($debug) {
                 // Print debug information and show logical connectives on this page.
-                $cs3 = new stack_cas_casstring("S1:stack_eval_equiv_arg(" . $cskey. ", true, true, true, DL)");
+                $val = "S1:stack_eval_equiv_arg(" . $cskey. ", true, true, true, DL)";
             } else {
                 // Print only logical connectives on this page.
-                $cs3 = new stack_cas_casstring("S1:stack_eval_equiv_arg(" . $cskey. ", true, true, false, DL)");
+                $val = "S1:stack_eval_equiv_arg(" . $cskey. ", true, true, false, DL)";
             }
-            $cs3->get_valid('t');
+            $cs3 = stack_ast_container::make_from_teacher_source($val, '', new stack_cas_security());
 
-            $cs4 = new stack_cas_casstring("R1:first(S1)");
-            $cs4->get_valid('t');
+            $cs4 = stack_ast_container::make_from_teacher_source("R1:first(S1)", '', new stack_cas_security());
 
-            $session = new stack_cas_session(array($ap, $ar, $ac, $cs1, $cs2, $cs3, $cs4), $options);
+            $session = new stack_cas_session2(array($ap, $ar, $ac, $cs1, $cs2, $cs3, $cs4), $options);
             $expected = $argument['outcome'];
             if (true === $argument['outcome']) {
                 $expected = 'true';
@@ -167,15 +163,19 @@ foreach ($samplearguments as $argument) {
                 $expected = 'false';
             }
             $string       = "\[{@second(S1)@}\]";
-            $ct           = new stack_cas_text($string, $session, 0, 't');
+            $ct           = new stack_cas_text($string, $session, 0);
 
             $start = microtime(true);
             $displaytext  = $ct->get_display_castext();
             $took = (microtime(true) - $start);
             $rtook = round($took, 5);
 
-            $argumentvalue = trim($session->get_value_key("R1"));
-            $overall = "Overall the argument is {$argumentvalue}.";
+            $argumentvalue = '';
+            $overall = "<font color='red'>".'No value returned.'."</font>";
+            if ($cs4->is_correctly_evaluated()) {
+                $argumentvalue = $cs4->get_value();
+                $overall = "Overall the argument is {$argumentvalue}.";
+            }
             if ('unsupported' !== $argument['outcome']) {
                 $overall .= "  We expected the argument to be {$expected}.";
                 if ($argumentvalue != $expected) {
@@ -221,7 +221,7 @@ foreach ($samplearguments as $argument) {
                 }
                 echo html_writer::tag('p', stack_ouput_castext($displaytext));
                 if ($debug) {
-                    echo html_writer::tag('pre', $cskey . ": ". htmlspecialchars($cs1->get_casstring()) .
+                    echo html_writer::tag('pre', $cskey . ": ". htmlspecialchars($cs1->get_inputform()) .
                             ";\nDL:" . htmlspecialchars($argument['debuglist']) . ";").
                         html_writer::tag('p', $errs);
                 }
@@ -229,10 +229,11 @@ foreach ($samplearguments as $argument) {
             }
             /* Use the real validation code, and also create something which can be pasted into a live input box. */
             if ($onlyarg) {
-                $teacheranswer = $cs1->get_casstring();
+                $teacheranswer = $cs1->get_inputform();
                 $input = new stack_equiv_input('ans1', $teacheranswer, $options, array('options' => 'comments'));
                 $response = $input->get_correct_response($teacheranswer);
-                $state = $input->validate_student_response($response, $options, $teacheranswer, null);
+                $security = new stack_cas_security();
+                $state = $input->validate_student_response($response, $options, $teacheranswer, $security);
                 echo $input->render($state, 'ans1', false, $teacheranswer);
             }
         }
@@ -300,15 +301,15 @@ if ($string) {
     $options->set_site_defaults();
     $options->set_option('simplify', $simp);
 
-    $session = new stack_cas_session(null, $options);
+    $session = new stack_cas_session2(null, $options);
     if ($vars) {
-        $keyvals = new stack_cas_keyval($vars, $options, 0, 't');
+        $keyvals = new stack_cas_keyval($vars, $options, 0);
         $session = $keyvals->get_session();
         $varerrs = $keyvals->get_errors();
     }
 
     if (!$varerrs) {
-        $ct           = new stack_cas_text($string, $session, 0, 't');
+        $ct           = new stack_cas_text($string, $session, 0);
         $displaytext  = $ct->get_display_castext();
         $errs         = $ct->get_errors();
         $debuginfo    = $ct->get_debuginfo();

@@ -1,5 +1,5 @@
 <?php
-// This file is part of Stack - http://stack.bham.ac.uk/
+// This file is part of Stack - https://stack.maths.ed.ac.uk
 //
 // Stack is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -34,28 +34,23 @@ defined('MOODLE_INTERNAL') || die();
 // @copyright  2012 University of Birmingham
 // @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
 
-require_once(__DIR__ . '/../casstring.class.php');
 require_once("block.interface.php");
+require_once(__DIR__ . '/../ast.container.conditional.class.php');
+
 
 class stack_cas_castext_foreach extends stack_cas_castext_block {
 
-    // Remembers the number for this instance.
-    private $numbers = array();
+    // Remembers the strings.
+    private $strings = array();
 
-    public function extract_attributes(&$tobeevaluatedcassession, $conditionstack = null) {
-        $sessionkeys = $tobeevaluatedcassession->get_all_keys();
-        $i = 0;
+    public function extract_attributes($tobeevaluatedcassession, $conditionstack = null) {
         foreach ($this->get_node()->get_parameters() as $key => $value) {
-            $cs = null;
-            $caskey = '';
-            do { // Make sure names are not already in use.
-                $caskey = 'caschat'.$i;
-                $i++;
-            } while (in_array($caskey, $sessionkeys));
-            $this->numbers[$key] = $i - 1;
-            $cs = new stack_cas_casstring("$caskey:$value", $conditionstack);
-            $cs->get_valid($this->security, $this->syntax, $this->insertstars);
-            $tobeevaluatedcassession->add_vars(array($cs));
+            $cs = stack_ast_container_conditional_value::make_from_teacher_source($value, '', new stack_cas_security());
+            $cs->set_conditions($conditionstack);
+            $this->strings[$key] = $cs;
+            $cs->set_keyless(true);
+
+            $tobeevaluatedcassession->add_statement($cs);
         }
     }
 
@@ -68,8 +63,13 @@ class stack_cas_castext_foreach extends stack_cas_castext_block {
         // Extract the lists.
         $lists = array();
         $maxlength = -1;
-        foreach ($this->numbers as $key => $id) {
-            $lists[$key] = stack_utils::list_to_array($evaluatedcassession->get_value_key("caschat".$id), false);
+        foreach ($this->strings as $key => $value) {
+            $errors = $value->get_errors();
+            if ('' !== $errors && null != $errors) {
+                return false;
+            }
+
+            $lists[$key] = stack_utils::list_to_array($value->get_value(), false);
             if ($maxlength == -1 || $maxlength > count($lists[$key])) {
                 $maxlength = count($lists[$key]);
             }
@@ -109,7 +109,7 @@ class stack_cas_castext_foreach extends stack_cas_castext_block {
     public function validate_extract_attributes() {
         $r = array();
         foreach ($this->get_node()->get_parameters() as $key => $value) {
-            $cs = new stack_cas_casstring($key . ':' . $value);
+            $cs = stack_ast_container::make_from_teacher_source($key . ':' . $value, '', new stack_cas_security());
             $r[] = $cs;
         }
         return $r;

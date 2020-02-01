@@ -32,9 +32,9 @@ require_once(__DIR__ . '/fixtures/test_base.php');
 class stack_potentialresponse_node_test extends qtype_stack_testcase {
 
     public function test_constructor() {
-        $sans = new stack_cas_casstring('x^2+2*x+1');
-        $tans = new stack_cas_casstring('(x+1)^2');
-        $tans->get_valid('t');
+        $sans = stack_ast_container::make_from_teacher_source('x^2+2*x+1');
+        $tans = stack_ast_container::make_from_teacher_source('(x+1)^2');
+        $tans->get_valid();
         $options = new stack_options();
         $node = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv', '', false);
         $node->add_branch(0, '=', 0, '', -1, '', FORMAT_HTML, '1-0-0');
@@ -45,16 +45,16 @@ class stack_potentialresponse_node_test extends qtype_stack_testcase {
     }
 
     public function test_do_test_pass() {
-        $sans = new stack_cas_casstring('x^2+2*x+1');
-        $tans = new stack_cas_casstring('(x+1)^2');
-        $tans->get_valid('t');
+        $sans = stack_ast_container::make_from_teacher_source('x^2+2*x+1');
+        $tans = stack_ast_container::make_from_teacher_source('(x+1)^2');
+        $tans->get_valid();
         $node = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv', '', false);
         $node->add_branch(0, '=', 0, '', -1, 'Boo!', FORMAT_HTML, '1-0-0');
         $node->add_branch(1, '=', 2, '', 3, 'Yeah!', FORMAT_HTML, '1-0-1');
 
         $options = new stack_options();
         $result = new stack_potentialresponse_tree_state(1);
-        $nextnode = $node->do_test('x^2+2*x+1', '(x+1)^2', '', $options, $result);
+        $nextnode = $node->do_test($sans, $tans, '', $options, $result);
 
         $this->assertEquals(true, $result->valid);
         $this->assertEquals('', $result->errors);
@@ -64,16 +64,16 @@ class stack_potentialresponse_node_test extends qtype_stack_testcase {
     }
 
     public function test_do_test_fail() {
-        $sans = new stack_cas_casstring('x^2+2*x-1');
-        $tans = new stack_cas_casstring('(x+1)^2');
-        $tans->get_valid('t');
+        $sans = stack_ast_container::make_from_teacher_source('x^2+2*x-1');
+        $tans = stack_ast_container::make_from_teacher_source('(x+1)^2');
+        $tans->get_valid();
         $node = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv', '', false);
         $node->add_branch(0, '=', 0, '', -1, 'Boo!', FORMAT_HTML, '1-0-0');
         $node->add_branch(1, '=', 2, '', 3, 'Yeah!', FORMAT_HTML, '1-0-1');
 
         $options = new stack_options();
         $result = new stack_potentialresponse_tree_state(1);
-        $nextnode = $node->do_test('x^2+2*x-1', '(x+1)^2', '', $options, $result);
+        $nextnode = $node->do_test($sans, $tans, '', $options, $result);
 
         $this->assertEquals(true, $result->valid);
         $this->assertEquals('', $result->errors);
@@ -83,16 +83,17 @@ class stack_potentialresponse_node_test extends qtype_stack_testcase {
     }
 
     public function test_do_test_cas_error() {
-        $sans = new stack_cas_casstring('x^2+2*x-1');
-        $tans = new stack_cas_casstring('(x+1)^2');
-        $tans->get_valid('t');
+        $foo  = stack_ast_container::make_from_teacher_source('1/0');
+        $sans = stack_ast_container::make_from_teacher_source('x^2+2*x-1');
+        $tans = stack_ast_container::make_from_teacher_source('(x+1)^2');
+        $tans->get_valid();
         $node = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv', '', false);
         $node->add_branch(0, '=', 0, '', -1, 'Boo!', FORMAT_HTML, '1-0-0');
         $node->add_branch(1, '=', 2, '', 3, 'Yeah!', FORMAT_HTML, '1-0-1');
 
         $options = new stack_options();
         $result = new stack_potentialresponse_tree_state(1);
-        $nextnode = $node->do_test('1/0', '(x+1)^2', '', $options, $result);
+        $nextnode = $node->do_test($foo, $tans, '', $options, $result);
 
         $this->assertEquals(false, $result->valid);
         $this->assertNotEquals('', $result->errors);
@@ -105,16 +106,17 @@ class stack_potentialresponse_node_test extends qtype_stack_testcase {
     }
 
     public function test_do_test_pass_atoption() {
-        $sans = new stack_cas_casstring('(x+1)^2');
-        $tans = new stack_cas_casstring('(x+1)^2');
-        $tans->get_valid('t');
-        $node = new stack_potentialresponse_node($sans, $tans, 'FacForm', 'x', false);
+        $sans = stack_ast_container::make_from_teacher_source('(x+1)^2');
+        $tans = stack_ast_container::make_from_teacher_source('(x+1)^2');
+        $tans->get_valid();
+        $opt  = stack_ast_container::make_from_teacher_source('x');
+        $node = new stack_potentialresponse_node($sans, $tans, 'FacForm', $opt, false);
         $node->add_branch(0, '=', 0, '', -1, 'Boo!', FORMAT_HTML, '1-0-0');
         $node->add_branch(1, '=', 2, '', 3, 'Yeah!', FORMAT_HTML, '1-0-1');
 
         $options = new stack_options();
         $result = new stack_potentialresponse_tree_state(1);
-        $nextnode = $node->do_test('(x+1)^2', '(x+1)^2', 'x', $options, $result);
+        $nextnode = $node->do_test($sans, $tans, $opt, $options, $result);
 
         $this->assertEquals(true, $result->valid);
         $this->assertEquals('', $result->errors);
@@ -124,16 +126,18 @@ class stack_potentialresponse_node_test extends qtype_stack_testcase {
     }
 
     public function test_do_test_fail_atoption() {
-        $sans = new stack_cas_casstring('ans1');
-        $tans = new stack_cas_casstring('3*(x+2)');
-        $tans->get_valid('t');
-        $node = new stack_potentialresponse_node($sans, $tans, 'FacForm', 'x', false);
+        $foo  = stack_ast_container::make_from_teacher_source('3*x+6');
+        $sans = stack_ast_container::make_from_teacher_source('ans1');
+        $tans = stack_ast_container::make_from_teacher_source('3*(x+2)');
+        $opt  = stack_ast_container::make_from_teacher_source('x');
+        $tans->get_valid();
+        $node = new stack_potentialresponse_node($sans, $tans, 'FacForm', $opt, false);
         $node->add_branch(0, '=', 0, '', -1, 'Boo!', FORMAT_HTML, '1-0-0');
         $node->add_branch(1, '=', 2, '', 3, 'Yeah!', FORMAT_HTML, '1-0-1');
 
         $options = new stack_options();
         $result = new stack_potentialresponse_tree_state(1);
-        $nextnode = $node->do_test('3*x+6', '3*(x+2)', 'x', $options, $result);
+        $nextnode = $node->do_test($foo, $tans, $opt, $options, $result);
 
         $this->assertEquals(true, $result->valid);
         $this->assertEquals('', $result->errors);
@@ -145,25 +149,24 @@ class stack_potentialresponse_node_test extends qtype_stack_testcase {
     }
 
     public function test_do_test_fail_quiet() {
-        $sans = new stack_cas_casstring('ans1');
-        $tans = new stack_cas_casstring('3*(x+2)');
-        $tans->get_valid('t');
-        $node = new stack_potentialresponse_node($sans, $tans, 'FacForm', 'x', true);
+        $foo  = stack_ast_container::make_from_teacher_source('3*x+6');
+        $sans = stack_ast_container::make_from_teacher_source('ans1');
+        $tans = stack_ast_container::make_from_teacher_source('3*(x+2)');
+        $tans->get_valid();
+        $opt  = stack_ast_container::make_from_teacher_source('x');
+        $node = new stack_potentialresponse_node($sans, $tans, 'FacForm', $opt, true);
         $node->add_branch(0, '+', 0.5, '', -1, 'Boo! Your answer should be in factored form, i.e. {@factor(ans1)@}.',
                 FORMAT_HTML, '1-0-0');
         $node->add_branch(1, '=', 2, '', 3, 'Yeah!', FORMAT_HTML, '1-0-1');
 
         $options = new stack_options();
         $result = new stack_potentialresponse_tree_state(1, true, 1);
-        $nextnode = $node->do_test('3*x+6', '3*(x+2)', 'x', $options, $result);
+        $nextnode = $node->do_test($foo, $tans, $opt, $options, $result);
 
         $this->assertEquals(1, count($result->feedback));
         $this->assertEquals('Boo! Your answer should be in factored form, i.e. {@factor(ans1)@}.',
                 $result->feedback[0]->feedback);
 
         $this->assertEquals(1.5, $result->score);
-
-        $data = array('factor(ans1)', 'ans1', '3*(x+2)', 'x');
-        $this->assertEquals($data, $node->get_required_cas_strings());
     }
 }

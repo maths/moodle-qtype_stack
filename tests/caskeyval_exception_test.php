@@ -18,7 +18,7 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/../locallib.php');
 require_once(__DIR__ . '/fixtures/test_base.php');
-require_once(__DIR__ . '/../stack/cas/cassession.class.php');
+require_once(__DIR__ . '/../stack/cas/cassession2.class.php');
 require_once(__DIR__ . '/../stack/cas/keyval.class.php');
 
 // Unit tests for {@link stack_cas_keyval} involving exceptions.
@@ -31,48 +31,41 @@ class stack_cas_keyval_exception_test extends basic_testcase {
      * @expectedException stack_exception
      */
     public function test_exception_1() {
-        $at1 = new stack_cas_keyval(array(), false, false, 0);
+        $at1 = new stack_cas_keyval(array(), false, false);
     }
 
     /**
      * @expectedException stack_exception
      */
     public function test_exception_2() {
-        $at1 = new stack_cas_keyval(1, false, false, 0);
+        $at1 = new stack_cas_keyval(1, false, false);
     }
 
     /**
      * @expectedException stack_exception
      */
     public function test_exception_3() {
-        $at1 = new stack_cas_keyval('x=1', false, false, 0);
+        $at1 = new stack_cas_keyval('x=1', false, false);
     }
 
     /**
      * @expectedException stack_exception
      */
     public function test_exception_4() {
-        $at1 = new stack_cas_keyval('x=1', null, false, 0);
+        $at1 = new stack_cas_keyval('x=1', null, false);
     }
 
     /**
      * @expectedException stack_exception
      */
     public function test_exception_5() {
-        $at1 = new stack_cas_keyval('x=1', 'z', false, 0);
-    }
-
-    /**
-     * @expectedException stack_exception
-     */
-    public function test_exception_6() {
-        $at1 = new stack_cas_keyval('x=1', 't', 1, 0);
+        $at1 = new stack_cas_keyval('x=1', 'z', false);
     }
 
     /**
      * @expectedException stack_exception
      */
     public function test_exception_7() {
-        $at1 = new stack_cas_keyval('x=1', 't', false, true);
+        $at1 = new stack_cas_keyval('x=1', 't', false);
     }
 }

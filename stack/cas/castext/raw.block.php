@@ -1,5 +1,5 @@
 <?php
-// This file is part of Stack - http://stack.bham.ac.uk/
+// This file is part of Stack - https://stack.maths.ed.ac.uk
 //
 // Stack is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -23,28 +23,20 @@ defined('MOODLE_INTERNAL') || die();
 // @copyright  2012 University of Birmingham
 // @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
 
-require_once(__DIR__ . '/../casstring.class.php');
 require_once("block.interface.php");
 
 class stack_cas_castext_raw extends stack_cas_castext_block {
 
-    // Remembers the number for this instance.
-    private $number;
+    private $string;
 
-    public function extract_attributes(&$tobeevaluatedcassession, $conditionstack = null) {
-        $cs = new stack_cas_casstring(trim($this->get_node()->get_content()), $conditionstack);
-        $sessionkeys = $tobeevaluatedcassession->get_all_keys();
-        $i = 0;
-        do { // Make sure names are not already in use.
-            $key = 'caschat'.$i;
-            $i++;
-        } while (in_array($key, $sessionkeys));
-        $this->number = $i - 1;
+    public function extract_attributes($tobeevaluatedcassession, $conditionstack = array()) {
+        $raw = trim($this->get_node()->get_content());
+        $cs = stack_ast_container_conditional_value::make_from_teacher_source($raw, '', new stack_cas_security());
+        $cs->set_conditions($conditionstack);
+        $cs->set_keyless(true);
+        $this->string = $cs;
 
-        $cs->get_valid($this->security, $this->syntax, $this->insertstars);
-        $cs->set_key($key, true);
-
-        $tobeevaluatedcassession->add_vars(array($cs));
+        $tobeevaluatedcassession->add_statement($cs);
     }
 
     public function content_evaluation_context($conditionstack = array()) {
@@ -53,14 +45,22 @@ class stack_cas_castext_raw extends stack_cas_castext_block {
     }
 
     public function process_content($evaluatedcassession, $conditionstack = null) {
-        $thenewone = $evaluatedcassession->get_value_key("caschat".$this->number);
+
+        $errors = $this->string->get_errors();
+        if ('' !== $errors && null != $errors) {
+            $this->get_node()->convert_to_text($this->get_node()->get_content());
+            return false;
+        }
+
+        $thenewone = $this->string->get_value();
         $this->get_node()->convert_to_text($thenewone);
 
         return false;
     }
 
     public function validate_extract_attributes() {
-        $r = array(new stack_cas_casstring(trim($this->get_node()->get_content())));
+        $condition = trim($this->get_node()->get_content());
+        $r = array(stack_ast_container::make_from_teacher_source($condition, '', new stack_cas_security(), array()));
         return $r;
     }
 }

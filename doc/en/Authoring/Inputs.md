@@ -99,7 +99,7 @@ The dropdown, checkbox and radio input types enable teachers to create [multiple
 #### String input ####
 
 This is a normal input into which students may type whatever they choose.  It is always converted into a Maxima string internally.
-Note that there is no way whatsoever to parse the student's string into a Maxima expression.  If you accept a string, then it will always remain a string! You can't later check for algebraic equivalence. The only tests available will be simple string matches, regular expressions, etc.
+Note that there is no way whatsoever to parse the student's string into a Maxima expression.  If you accept a string, then it will always remain a string! You can't later check for algebraic equivalence. The only tests available will be simple string matches, etc.
 
 #### Notes input ####
 
@@ -199,7 +199,7 @@ There are groups of common keywords which you can forbid simply as
 * `[[BASIC-CALCULUS]]` common calculus operations such as `int`, `diff`, `taylor`, etc.
 * `[[BASIC-MATRIX]]` common matrix operations such as `transpose`, `invert`, `charpoly`, etc.
 
-These lists are in the casstring class. If you have suggestions for more lists, or additional operations which should be added to the existing lists, please contact the developers.
+If you have suggestions for more lists, or additional operations which should be added to the existing lists, please contact the developers.
 
 
 ### Allowed words ### {#Allowed_Words}
@@ -254,10 +254,9 @@ Feedback to students is in two forms.
 * feedback tied to inputs, in particular if the answer is invalid.
 * feedback tied to each potential response tree.
 
-Setting this option displays any feedback from this input, including echoing back their expression in traditional two-dimensional notation.  
-Generally, feedback and verification are used in conjunction.  Errors will always be displayed.  
-In addition to simply displaying the student's expression, the teacher can display the list of variables which occurs in the expression.  
-From experience, this is helpful in letting students understand the idea of variable and to spot case insensitivity or wrong variable problems.
+Setting this option displays any feedback from this input, including echoing back their expression in traditional two-dimensional notation.  Generally, feedback and verification are used in conjunction.  Errors will always be displayed.  In addition to simply displaying the student's expression, the teacher can display the list of variables which occurs in the expression.  From experience, this is helpful in letting students understand the idea of variable and to spot case insensitivity or wrong variable problems.
+
+The "compact" version removes most of the styling.  This is needed when the answer is part of a table.
 
 ### Extra option: hideanswer ###
 
@@ -277,7 +276,15 @@ Our experience strongly suggests this option should only be used for edge cases,
 
 If you use this option when students navigate away from a page the system will "validate" the inputs, and hence any empty boxes will be considered an active empty choice by the student and will be assessed.  If you use this option there is no way to distinguish between an active empty answer choice, and a student who deletes their answer.  (The same problem occurs with radio buttons....)
 
-There are (unfortunately) some edge cases where it is useful to permit the execution of a PRT without all the inputs containing significant content.  If a teacher has three inputs `ans1`, `ans2`, `ans3`, then they can define a set in the feedback variables as follows
+There are (unfortunately) some edge cases where it is useful to permit the execution of a PRT without all the inputs containing significant content.  
+
+Assume you have three inputs `ans1`, `ans2`, `ans3` contributing to a PRT, all of which have the `allowempty` option set because you don't want to tell the student which might be empty.  Assume the correct answer has at least one entry non-empty.  Then, make the first node of the PRT check
+
+    ATAlgEquiv({ans1,ans2,ans3},{EMPTYANSWER})
+
+This checks if all inputs are empty, so if true set the score and the penalty to be zero and stop.  This prevents the student accruing a penalty if they navigate away with all the boxes empty, but the PRT will still execute an "attempt".
+
+If a teacher has three inputs `ans1`, `ans2`, `ans3`, then they can define a set in the feedback variables as follows
 
     sa:setdifference({ans1,ans2,ans3},{EMPTYANSWER})
 
@@ -296,6 +303,14 @@ If teacher's want this kind of thing, then a syntax hint is probably in order as
 You may need to `ev(ans1,simp)` explicitly in any potential response tree.
 
 It makes no sense to simplify the equivalence reasoning input type, so this has been omitted.
+
+### Extra option: align ###
+
+Controls if the student's answer is aligned 'left' or 'right' within the input box.
+
+### Extra option: nounits ###
+
+As of STACK 4.3, if units are declared in a question then the whole question will use a units context for parsing inputs.  For example, in a multi-part question you may use a matrix input.  If you do so, and use variable names, then these will be parsed expecting them to be usits.  To prevent this in a particular input, use the `nounits` option
 
 ## Extra options ##
 
@@ -345,9 +360,11 @@ min/max sf/dp     |  .  |  Y  |  Y    |   .    |   .   |   .   |   .  |  .  |   
 `floatnum`      |  .  |  Y  |  .    |   .    |   .   |   .   |   .  |  .  |    .     |   .   |   .    |   .  
 `rationalnum`   |  .  |  Y  |  .    |   .    |   .   |   .   |   .  |  .  |    .     |   .   |   .    |   .  
 `negpow`        |  .  |  .  |  Y    |   .    |   .   |   .   |   .  |  .  |    .     |   .   |   .    |   .  
-`allowempty`   |  Y  |  Y  |  Y    |   Y    |   .   |   .   |   .  |  Y  |    .     |   .   |   .    |   .  
+`allowempty`   |  Y  |  Y  |  Y    |   Y    |   .   |   .   |   .  |  Y  |    .     |   .   |   Y    |   .  
 `hideanswer`   |  .  |  .  |  .    |   .    |   .   |   .   |   .  |  .  |    .     |   .   |   Y    |   .  
 `simp`            |  Y  |  Y  |  Y    |   Y    |   .   |   .   |   .  |  .  |    Y     |   .   |   .    |   .  
+`align`        |  Y  |  Y  |  Y    |   .    |   .   |   .   |   .  |  .  |    .     |   .   |   .    |   .  
+`nounits`      |  Y  |  Y  |  Y    |   Y    |   Y   |   Y   |   Y  |  .  |    .     |   Y   |   .    |   .  
 
 For documentation about the various options not documented on this page look at the pages for the specific inputs in which each option is used.
 

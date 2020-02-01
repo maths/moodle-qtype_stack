@@ -202,4 +202,25 @@ class stack_input_factory {
         }
         return $value;
     }
+
+    /**
+     * Convert the old value of "insert stars" (version<
+     */
+    public static function convert_legacy_insert_stars($value) {
+        $map = [
+            // Don't insert stars.
+            0 => 0,
+            // Insert stars for implied multiplication only.
+            1 => stack_input::GRAMMAR_FIX_INSERT_STARS,
+            // Insert stars assuming single-character variable names.
+            2 => stack_input::GRAMMAR_FIX_INSERT_STARS | stack_input::GRAMMAR_FIX_SINGLE_CHAR,
+            // Insert stars for spaces only.
+            3 => stack_input::GRAMMAR_FIX_SPACES,
+            // Insert stars for implied multiplication and for spaces.
+            4 => stack_input::GRAMMAR_FIX_INSERT_STARS | stack_input::GRAMMAR_FIX_SPACES,
+            // Insert stars assuming single-character variables, implied and for spaces.
+            5 => stack_input::GRAMMAR_FIX_INSERT_STARS | stack_input::GRAMMAR_FIX_SINGLE_CHAR | stack_input::GRAMMAR_FIX_SPACES
+        ];
+        return $map[$value];
+    }
 }

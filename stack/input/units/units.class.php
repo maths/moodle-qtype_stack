@@ -38,14 +38,10 @@ class stack_units_input extends stack_input {
         // Require min/max number of significant figures?
         'minsf' => false,
         'maxsf' => false,
-        'allowempty' => false
+        'allowempty' => false,
+        'align' => 'left'
     );
 
-    /**
-     * Decide if the student's expression should have units.
-     * @var bool.
-     */
-    protected $units = true;
 
     public function render(stack_input_state $state, $fieldname, $readonly, $tavalue) {
 
@@ -64,12 +60,15 @@ class stack_units_input extends stack_input {
             'spellcheck'     => 'false',
             'class'     => 'algebraic-units',
         );
+        if ($this->extraoptions['align'] === 'right') {
+            $attributes['class'] = 'algebraic-units-right';
+        }
 
         if ($state->contents == 'EMPTYANSWER') {
             // Active empty choices don't result in a syntax hint again (with that option set).
             $attributes['value'] = '';
         } else if ($this->is_blank_response($state->contents)) {
-            $attributes['value'] = stack_utils::logic_nouns_sort($this->parameters['syntaxHint'], 'remove');
+            $attributes['value'] = $this->parameters['syntaxHint'];
         } else {
             $attributes['value'] = $this->contents_to_maxima($state->contents);
         }
@@ -122,6 +121,10 @@ class stack_units_input extends stack_input {
         // We always want strict syntax for this input type.
         if ($parameter == 'strictSyntax') {
             return true;
+        }
+        // We always allow floats in units. Repeat pre 4.3 behaviour.
+        if ($parameter == 'forbidFloats') {
+            return false;
         }
         if (array_key_exists($parameter, $this->parameters)) {
             return $this->parameters[$parameter];

@@ -74,26 +74,12 @@ load("descriptive")$
 print(sconcat("[ STACK-Maxima started, library version ", stackmaximaversion, " ]"))$
 /* [wxMaxima: input   end   ] */
 
-/* [wxMaxima: comment start ]
-To time code, and spot inefficiencies.
-
-timer(all)$
-
-We need some lisp to turn the atom $SEC into 1, (%SEC is a function....)
-:lisp (msetq $SEC 1)
-
-[Execute some code...]
-
-This returns the list of functions actually called.
-l:sublist(args(timer_info()), lambda([ex], is(third(ex)>0)));
-
-Sort according to function called most often
-sort(l,lambda([a,b], is(third(a)>third(b))));
-
-Sort according to time per call
-sort(l,lambda([a,b], is(second(a)>second(b))));
-
-   [wxMaxima: comment end   ] */
+/* [wxMaxima: input   start ] */
+/* Optional but useful. */
+display2d:true;
+simp:false;
+debug:true;
+/* [wxMaxima: input   end   ] */
 
 /* Maxima can't load/batch files which end with a comment! */
 "Created with wxMaxima"$

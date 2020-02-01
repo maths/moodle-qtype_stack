@@ -46,7 +46,7 @@ class stack_dropdown_input_exception_test extends basic_testcase {
     public function test_validate_student_response_error() {
         $options = new stack_options();
         $el = $this->make_dropdown();
-        $state = $el->validate_student_response(array('ans1' => '4'), $options, '1', null);
+        $state = $el->validate_student_response(array('ans1' => '4'), $options, '1', new stack_cas_security());
     }
 
     /**

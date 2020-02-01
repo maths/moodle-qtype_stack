@@ -37,12 +37,18 @@ raise_memory_limit(MEMORY_HUGE);
 
 // Get the parameters from the URL.
 $contextid = required_param('contextid', PARAM_INT);
+$context = context::instance_by_id($contextid);
+
+$skippreviouspasses = optional_param('skippreviouspasses', false, PARAM_BOOL);
+$urlparams = ['contextid' => $context->id];
+if ($skippreviouspasses) {
+    $urlparams['skippreviouspasses'] = 1;
+}
 
 // Login and check permissions.
-$context = context::instance_by_id($contextid);
 require_login();
 require_capability('qtype/stack:usediagnostictools', $context);
-$PAGE->set_url('/question/type/stack/bulktest.php', array('contextid' => $context->id));
+$PAGE->set_url('/question/type/stack/bulktest.php', $urlparams);
 $PAGE->set_context($context);
 $title = stack_string('bulktesttitle', $context->get_context_name());
 $PAGE->set_title($title);
@@ -65,13 +71,14 @@ echo $OUTPUT->header();
 echo $OUTPUT->heading($title);
 
 // Run the tests.
-list($allpassed, $failing) = $bulktester->run_all_tests_for_context($context);
+list($allpassed, $failing) = $bulktester->run_all_tests_for_context(
+        $context, 'web', $skippreviouspasses);
 
 // Display the final summary.
 $bulktester->print_overall_result($allpassed, $failing);
 
-$config = stack_utils::get_config();
-if ('db' == $config->casresultscache) {
+// If we used the cache, report state.
+if (class_exists('stack_cas_connection_db_cache')) {
     echo html_writer::tag('p', stack_string('healthcheckcachestatus',
             stack_cas_connection_db_cache::entries_count($DB)));
 }

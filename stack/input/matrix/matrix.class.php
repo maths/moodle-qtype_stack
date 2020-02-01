@@ -27,6 +27,7 @@ class stack_matrix_input extends stack_input {
     protected $height;
 
     protected $extraoptions = array(
+        'nounits' => false,
         'simp' => false,
         'allowempty' => false
     );
@@ -34,9 +35,9 @@ class stack_matrix_input extends stack_input {
     public function adapt_to_model_answer($teacheranswer) {
 
         // Work out how big the matrix should be from the INSTANTIATED VALUE of the teacher's answer.
-        $cs = new stack_cas_casstring('ta:matrix_size(' . $teacheranswer . ')');
-        $cs->get_valid('t');
-        $at1 = new stack_cas_session(array($cs), null, 0);
+        $cs = stack_ast_container::make_from_teacher_source('matrix_size(' . $teacheranswer . ')');
+        $cs->get_valid();
+        $at1 = new stack_cas_session2(array($cs), null, 0);
         $at1->instantiate();
 
         if ('' != $at1->get_errors()) {
@@ -44,11 +45,9 @@ class stack_matrix_input extends stack_input {
             return;
         }
 
-        $size = $at1->get_value_key('ta');
-        $dimensions = explode(',', $size);
-
-        $this->height = trim($dimensions[0], '[]');
-        $this->width = trim($dimensions[1], '[]');
+        // These are ints...
+        $this->height = $cs->get_list_element(0, true)->value;
+        $this->width = $cs->get_list_element(1, true)->value;
     }
 
     public function get_expected_data() {
@@ -96,7 +95,6 @@ class stack_matrix_input extends stack_input {
      * @access public
      */
     public function response_to_contents($response) {
-
         // At the start of an attempt we will have a completely blank matrix.
         // This must be spotted and a blank attempt returned.
         $allblank = true;
@@ -177,48 +175,58 @@ class stack_matrix_input extends stack_input {
      * @param array $contents the content array of the student's input.
      * @return array of the validity, errors strings and modified contents.
      */
-    protected function validate_contents($contents, $forbiddenkeys, $localoptions) {
+    protected function validate_contents($contents, $basesecurity, $localoptions) {
 
         $errors = array();
+        $notes = array();
         $valid = true;
+
+        list ($secrules, $filterstoapply) = $this->validate_contents_filters($basesecurity);
 
         // Now validate the input as CAS code.
         $modifiedcontents = array();
         foreach ($contents as $row) {
             $modifiedrow = array();
             foreach ($row as $val) {
-                // Process single character variable names in PHP.
-                // Note, this does potentially call the CAS for each element of the matrix.
-                // To reduce this load, stack_utils::make_single_char_vars only calls the CAS when we have letters.
-                if (2 == $this->get_parameter('insertStars', 0) || 5 == $this->get_parameter('insertStars', 0)) {
-                    $val = stack_utils::make_single_char_vars($val, $localoptions,
-                            $this->get_parameter('strictSyntax', true), $this->get_parameter('insertStars', 0),
-                            $this->get_parameter('allowWords', ''));
+                $answer = stack_ast_container::make_from_student_source($val, '', $secrules, $filterstoapply);
+                if ($answer->get_valid()) {
+                    $modifiedrow[] = $answer->get_inputform();
+                } else {
+                    $modifiedrow[] = 'EMPTYANSWER';
                 }
-
-                $answer = new stack_cas_casstring($val);
-                $answer->get_valid('s', $this->get_parameter('strictSyntax', true),
-                        $this->get_parameter('insertStars', 0),  $this->get_parameter('allowwords', ''));
-
-                // Ensure student hasn't used a variable name used by the teacher.
-                if ($forbiddenkeys) {
-                    $answer->check_external_forbidden_words($forbiddenkeys);
-                }
-
-                $forbiddenwords = $this->get_parameter('forbidWords', '');
-                if ($forbiddenwords) {
-                    $answer->check_external_forbidden_words(explode(',', $forbiddenwords));
-                }
-
-                $modifiedrow[] = $answer->get_casstring();
                 $valid = $valid && $answer->get_valid();
                 $errors[] = $answer->get_errors();
+                $note = $answer->get_answernote(true);
+                if ($note) {
+                    foreach ($note as $n) {
+                        $notes[$n] = true;
+                    }
+                }
             }
             $modifiedcontents[] = $modifiedrow;
         }
+        // Construct one final "answer" as a single maxima object.
+        // In the case of matrices (where $caslines are empty) create the object directly here.
+        // As this will create a matrix we need to check that 'matrix' is not a forbidden word.
+        // Should it be a forbidden word it gets still aplied to the cells.
+        if (isset(stack_cas_security::list_to_map($this->get_parameter('forbidWords', ''))['matrix'])) {
+            $modifiedforbid = str_replace('\,', 'COMMA_TAG', $this->get_parameter('forbidWords', ''));
+            $modifiedforbid = explode(',', $modifiedforbid);
+            array_map('trim', $modifiedforbid);
+            unset($modifiedforbid[array_search('matrix', $modifiedforbid)]);
+            $modifiedforbid = implode(',', $modifiedforbid);
+            $modifiedforbid = str_replace('COMMA_TAG', '\,', $modifiedforbid);
+            $secrules->set_forbiddenwords($modifiedforbid);
+            // Cumbersome, and cannot deal with matrix being within an alias...
+            // But first iteration and so on.
+        }
+        $value = $this->contents_to_maxima($modifiedcontents);
+        // Sanitised above.
+        $answer = stack_ast_container::make_from_teacher_source($value, '', $secrules);
+        $answer->get_valid();
 
         $caslines = array();
-        return array($valid, $errors, $modifiedcontents, $caslines);
+        return array($valid, $errors, $notes, $answer, $caslines);
     }
 
     public function render(stack_input_state $state, $fieldname, $readonly, $tavalue) {
@@ -230,7 +238,7 @@ class stack_matrix_input extends stack_input {
         $tc = $state->contents;
         $blank = $this->is_blank_response($state->contents);
         if ($blank) {
-            $syntaxhint = stack_utils::logic_nouns_sort($this->parameters['syntaxHint'], 'remove');
+            $syntaxhint = $this->parameters['syntaxHint'];
             if (trim($syntaxhint) != '') {
                 $tc = $this->maxima_to_array($syntaxhint);
                 $blank = false;
@@ -290,7 +298,7 @@ class stack_matrix_input extends stack_input {
      * @return string
      */
     public function maxima_to_response_array($in) {
-
+        $response = array();
         $tc = $this->maxima_to_array($in);
 
         for ($i = 0; $i < $this->height; $i++) {

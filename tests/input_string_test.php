@@ -46,13 +46,17 @@ class stack_string_input_test extends qtype_stack_testcase {
                 .'style="width: 13.6em" autocapitalize="none" spellcheck="false" class="maxima-string" value="0" />',
                 $el->render(new stack_input_state(stack_input::VALID, array('0'), '', '', '', '', ''),
                         'stack1__ans1', false, null));
+        $this->assertEquals('A correct answer is <span class="filter_mathjaxloader_equation"><span class="nolink">' .
+                '\( \\mbox{Hello world} \)</span></span>, which can be typed in as follows: <code>Hello world</code>',
+                $el->get_teacher_answer_display('"Hello world"', '\\mbox{Hello world}'));
     }
 
     public function test_validate_string_input() {
         $options = new stack_options();
         $el = stack_input_factory::make('string', 'sans1', '"A random string"');
         $el->set_parameter('sameType', true);
-        $state = $el->validate_student_response(array('sans1' => 'Hello world'), $options, '"A random string"', null);
+        $state = $el->validate_student_response(array('sans1' => 'Hello world'), $options, '"A random string"',
+                new stack_cas_security());
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('"Hello world"', $state->contentsmodified);
         $this->assertEquals('\[ \mbox{Hello world} \]', $state->contentsdisplayed);
@@ -67,9 +71,10 @@ class stack_string_input_test extends qtype_stack_testcase {
         $el = stack_input_factory::make('string', 'sans1', '"A random string"');
         $el->set_parameter('sameType', true);
         // Note here the student has used string quotes which are respected.
-        $state = $el->validate_student_response(array('sans1' => '"Hello world"'), $options, '"A random string"', null);
+        $state = $el->validate_student_response(array('sans1' => '"Hello world"'), $options, '"A random string"',
+                new stack_cas_security());
         $this->assertEquals(stack_input::VALID, $state->status);
-        $this->assertEquals('"\"Hello world\""', $state->contentsmodified);
+        $this->assertEquals('"\\"Hello world\\""', $state->contentsmodified);
         $this->assertEquals('\[ \mbox{"Hello world"} \]', $state->contentsdisplayed);
     }
 
@@ -77,8 +82,9 @@ class stack_string_input_test extends qtype_stack_testcase {
         $options = new stack_options();
         $el = stack_input_factory::make('string', 'sans1', '"A random string"');
         $el->set_parameter('sameType', true);
-        // Note here the student has used string quotes which are respected.
-        $state = $el->validate_student_response(array('sans1' => '\'Hello world\''), $options, '"A random string"', null);
+        // Note here the student has used string quotes which are no longer respected.
+        $state = $el->validate_student_response(array('sans1' => '\'Hello world\''), $options, '"A random string"',
+                new stack_cas_security());
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('"\'Hello world\'"', $state->contentsmodified);
         $this->assertEquals('\[ \mbox{\'Hello world\'} \]', $state->contentsdisplayed);
@@ -90,7 +96,7 @@ class stack_string_input_test extends qtype_stack_testcase {
         $el->set_parameter('sameType', true);
         // Note here the student has used string quotes which are ignored.
         $state = $el->validate_student_response(array('sans1' => 'I said "Hello world" to fred'),
-                $options, '"A random string"', null);
+                $options, '"A random string"', new stack_cas_security());
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('"I said \"Hello world\" to fred"', $state->contentsmodified);
         $this->assertEquals('\[ \mbox{I said "Hello world" to fred} \]', $state->contentsdisplayed);
@@ -100,7 +106,8 @@ class stack_string_input_test extends qtype_stack_testcase {
         $options = new stack_options();
         $el = stack_input_factory::make('string', 'sans1', '"A random string"');
         $el->set_parameter('sameType', true);
-        $state = $el->validate_student_response(array('sans1' => '".'), $options, '"A random string"', null);
+        $state = $el->validate_student_response(array('sans1' => '".'), $options, '"A random string"',
+                new stack_cas_security());
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('"\"."', $state->contentsmodified);
         $this->assertEquals('\[ \mbox{".} \]', $state->contentsdisplayed);
@@ -110,17 +117,19 @@ class stack_string_input_test extends qtype_stack_testcase {
         $options = new stack_options();
         $el = stack_input_factory::make('string', 'sans1', '"A random string"');
         $el->set_parameter('sameType', true);
-        $state = $el->validate_student_response(array('sans1' => ' Some whitespace  '), $options, '"A random string"', null);
+        $state = $el->validate_student_response(array('sans1' => ' Some whitespace  '), $options, '"A random string"',
+                new stack_cas_security());
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('" Some whitespace  "', $state->contentsmodified);
-        $this->assertEquals('\[ \mbox{ Some whitespace  } \]', $state->contentsdisplayed);
+        $this->assertEquals('\[ \mbox{ Some whitespace } \]', $state->contentsdisplayed);
     }
 
     public function test_validate_string_hideanswer() {
         $options = new stack_options();
         $el = stack_input_factory::make('string', 'state', '"[SOME JSON]"');
         $el->set_parameter('options', 'hideanswer');
-        $state = $el->validate_student_response(array('state' => '[SOME MORE JSON]'), $options, '"[SOME JSON]"', null);
+        $state = $el->validate_student_response(array('state' => '[SOME MORE JSON]'), $options, '"[SOME JSON]"',
+                new stack_cas_security());
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('"[SOME MORE JSON]"', $state->contentsmodified);
         $this->assertEquals('\[ \mbox{[SOME MORE JSON]} \]', $state->contentsdisplayed);

@@ -37,6 +37,7 @@ Other options for the platform are `unix` and `unix-optimised`.
     define('QTYPE_STACK_TEST_CONFIG_MAXIMAVERSION',   '5.42.0');
     define('QTYPE_STACK_TEST_CONFIG_MAXIMACOMMAND',   'maxima --use-version=5.42.0');
     define('QTYPE_STACK_TEST_CONFIG_CASTIMEOUT',      '1');
+    define('QTYPE_STACK_TEST_CONFIG_MAXIMALIBRARIES', 'stats, distrib, descriptive, simplex');
     define('QTYPE_STACK_TEST_CONFIG_CASDEBUGGING',    '0');
     define('QTYPE_STACK_TEST_CONFIG_PLOTCOMMAND',     '');
 
@@ -147,3 +148,9 @@ Sort by the time/call
 You need to output values to the file system, as the display can't manage this.  For example,
 
     file_put_contents("/tmp/log.txt", print_r($result, true));
+
+# Testing the updated parser in STACK 4.3
+
+In the STACK directory
+
+    php cli/casstringtester.php --string="0..1"

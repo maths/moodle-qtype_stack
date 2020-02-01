@@ -82,7 +82,7 @@ In STACK a very useful test is equivalence up to [associativity and commutativit
 
 ## How can I change which Maxima functions STACK allows? ##
 
-This is a job for a developer.  Details of this are in the code with the casstring class.  [See the latest code on github](https://github.com/maths/moodle-qtype_stack/blob/master/stack/cas/casstring.class.php).  
+This is a job for a developer.  Please contact us.
 
 ## Why doesn't Maxima give `int(1/x,x)=log(abs(x))`?
 

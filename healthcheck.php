@@ -33,8 +33,6 @@ require_once(__DIR__ . '/locallib.php');
 require_once(__DIR__ . '/stack/utils.class.php');
 require_once(__DIR__ . '/stack/options.class.php');
 require_once(__DIR__ . '/stack/cas/castext.class.php');
-require_once(__DIR__ . '/stack/cas/casstring.class.php');
-require_once(__DIR__ . '/stack/cas/cassession.class.php');
 require_once(__DIR__ . '/stack/cas/connector.dbcache.class.php');
 require_once(__DIR__ . '/stack/cas/installhelper.class.php');
 
@@ -238,7 +236,7 @@ function output_cas_text($title, $intro, $castext) {
     echo html_writer::tag('p', $intro);
     echo html_writer::tag('pre', s($castext));
 
-    $ct = new stack_cas_text($castext, null, 0, 't');
+    $ct = new stack_cas_text($castext, null, 0);
 
     echo html_writer::tag('p', stack_ouput_castext($ct->get_display_castext()));
     echo output_debug(stack_string('errors'), $ct->get_errors());

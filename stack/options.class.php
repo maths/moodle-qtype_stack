@@ -119,10 +119,10 @@ class stack_options {
 
         // Overright them from any input.
         foreach ($settings as $key => $val) {
-            if (!array_key_exists($key, $this->settings)) {
+            if (!array_key_exists($key, $this->options)) {
                 throw new stack_exception('stack_options construct: $key '.$key.' is not a valid option name.');
             } else {
-                $this->options[$key] = $val;
+                $this->options[$key]['value'] = $val;
             }
         }
     }
@@ -198,14 +198,14 @@ class stack_options {
 
                 if ('ex' == $opt['castype']) {
                     $names      .= ', '.$opt['caskey'];
-                    $commands   .= ', '.$opt['caskey'].':'.$value;
+                    $commands   .= stack_cas_session2::SEP . $opt['caskey'].':'.$value;
                 } else if ('exs' == $opt['castype']) {
                     $names      .= ', '.$opt['caskey'];
-                    $commands   .= ', '.$opt['caskey'].':"'.$value.'"';
+                    $commands   .= stack_cas_session2::SEP . $opt['caskey'].':"'.$value.'"';
                 } else if ('fun' == $opt['castype']) {
                     // Make sure these options are *strings*, otherwise they clash
                     // with Maxim names, particularly alias.
-                    $commands   .= ', '.$opt['caskey'].'("'.$value.'")';
+                    $commands   .= stack_cas_session2::SEP . $opt['caskey'].'("'.$value.'")';
                 }
             }
         }
@@ -302,6 +302,7 @@ class stack_options {
             '0' => get_string('showvalidationno', 'qtype_stack'),
             '1' => get_string('showvalidationyes', 'qtype_stack'),
             '2' => get_string('showvalidationyesnovars', 'qtype_stack'),
+            '3' => get_string('showvalidationcompact', 'qtype_stack'),
         );
     }
 }

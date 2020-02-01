@@ -973,7 +973,7 @@ equation_to_intervals(ex, v):=block([sol0, sol1, sol2],
   sol1:sublist(sol0, lambda([ex2], is(lhs(ex2)=v) and freeof(v, rhs(ex2)))),
   sol2:sublist(sol0, lambda([ex2], not(is(lhs(ex2)=v) and freeof(v, rhs(ex2))))),
   sol1:maplist(rhs,sol1),
-  sol1:setify(sol1),
+  sol1:flatten(setify(sol1)),
   if is(length(sol2)=1) then
     sol2:first(sol2)
   else
@@ -981,7 +981,7 @@ equation_to_intervals(ex, v):=block([sol0, sol1, sol2],
   if emptyp(sol1) then
     return(sol2),
   return(sol1 %or sol2)
-);
+)$
 
 /* Calculate the natural domain of a single-variable term.  */
 natural_domain(ex):=block([v, ex2],

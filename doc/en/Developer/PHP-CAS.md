@@ -84,10 +84,6 @@ STACK "trusts" the teacher.  Therefore there are three levels of Maxima function
 2. Teacher.  Teacher's answers cannot contain these, but they are not a security risk.  Usually these have side effects within the Maxima code, e.g. setting a global variable which might cause problems later/elsewhere.
 3. Student.  Student's expressions can only contain these.
 
-Each Maxima command is tagged in 
-
-    /stack/stack/cas/casstring.class.php
-
 ### Stability
 
 It is important to try to prevent generating Maxima errors, particularly syntax errors.  These cause havoc, because we don't have a proper API to Maxima.

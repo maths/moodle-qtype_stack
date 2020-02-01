@@ -109,6 +109,14 @@ class qtype_stack_test extends qtype_stack_walkthrough_test_base {
         $expectedq = test_question_maker::make_question('stack', 'test3');
         $expectedq->stamp = $q->stamp;
         $expectedq->version = $q->version;
+        $expectedq->timemodified = $q->timemodified;
+
+        $eprts = $expectedq->prts;
+        foreach ($q->prts as $key => $prt) {
+            $this->assertEquals($eprts[$key]->get_maxima_representation(), $prt->get_maxima_representation());
+        }
+        $expectedq->prts = null;
+        $q->prts = null;
         $this->assertEquals($expectedq, $q);
     }
 
@@ -116,6 +124,36 @@ class qtype_stack_test extends qtype_stack_walkthrough_test_base {
         // This unit test runs a question test, really just to verify that
         // there are no errors.
         $qdata = test_question_maker::get_question_data('stack', 'test0');
+        $question = question_bank::get_qtype('stack')->make_question($qdata);
+
+        // Create the question usage we will use.
+        $quba = question_engine::make_questions_usage_by_activity('qtype_stack', context_system::instance());
+        $quba->set_preferred_behaviour('adaptive');
+        $question->seed = 1;
+        $slot = $quba->add_question($question, $question->defaultmark);
+        $quba->start_question($slot, 1);
+
+        // Prepare the display options.
+        $options = new question_display_options();
+        $options->readonly = true;
+        $options->flags = question_display_options::HIDDEN;
+        $options->suppressruntestslink = true;
+
+        foreach ($qdata->testcases as $testcase) {
+            $result = $testcase->test_question($quba, $question, 1);
+            $this->assertTrue($result->passed());
+        }
+    }
+
+    public function test_question_tests_can_use_input_name() {
+        // This unit test runs a question test, with an input name as
+        // the expected answer, which should work.
+        $qdata = test_question_maker::get_question_data('stack', 'test0');
+        $qtest = new stack_question_test(array('ans1' => 'ans1'));
+        $qtest->add_expected_result('firsttree', new stack_potentialresponse_tree_state(
+                1, true, 1, 0, '', array('firsttree-1-T')));
+        $qdata->testcases[1] = $qtest;
+
         $question = question_bank::get_qtype('stack')->make_question($qdata);
 
         // Create the question usage we will use.
@@ -524,5 +562,4 @@ class qtype_stack_test extends qtype_stack_walkthrough_test_base {
         $this->assertEquals(array('prt1' => 2), $qtype->get_prt_names_from_question('[[feedback:prt1]]',
                 '[[feedback:prt1]]'));
     }
-
 }

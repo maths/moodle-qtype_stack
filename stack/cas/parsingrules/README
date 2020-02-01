@@ -1,0 +1,37 @@
+The filters are named with numeric prefixes defining the order they are normally
+be applied.  Most tools in the code-base enforce that order, so you do not need
+to worry about it. Unless you are creating a new filter, in that case:
+
+ 000-099 are the so-called core filters that every parsed string goes through.
+   These include various syntactical modifications and forced splitting of
+   some constructs. Creation of a filter at this level is a big deal to think
+   through.
+
+ 100-199 are low level structural checks and actions, e.g. things that forbid 
+   specific types of objects, like floats or string, fit this level quite well.
+   Typically, this range does not do much modification as it is intended for
+   small scale feature detection.
+
+ 200-299 are high level structure detection tools meant for detecting larger
+   patterns. Again not much of rewriting, but mainly checks for complex patterns 
+   like `sin^2*(x)`.
+
+ 300-399 is a placeholder for any filters that need to act before the bulk of
+   syntax modification task rewrites the AST. Basically, large sub-tree
+   modifications if need be.
+
+ 400-499 is the general position for all things dealing with adding 
+   multiplication stars into expressions.
+
+ 500-599 is a placeholder for checks that happen after general insertion of
+   stars
+
+ 600-699 is a placeholder for other modification steps...
+
+ 700-799 is a placeholder for checks after those...
+
+ 800-899 is a placeholder for final changes to the AST.
+
+ 900-999 are the absolutely no modification style filters that check 
+   the result of all earlier ones and decide whether the final AST is valid or 
+   invalid, and generate errors if need be.

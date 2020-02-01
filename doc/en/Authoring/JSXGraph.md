@@ -18,8 +18,8 @@ This example is based on the documentation for [curve](http://jsxgraph.uni-bayre
 
 To include a basic dynamically-generated sketch into a STACK question, first define the expression of the graph to be plotted in the question variables.  For example
 
-    a:rand(6)-3
-    fx:sin(x)+a
+    a:rand(6)-3;
+    fx:sin(x)+a;
 
 Then include the following question text, which includes a simple `[[jsxgraph]]` [block](Question_blocks.md).  In particular note the lack of `<script>` tags which you might expect to include.
 
@@ -40,7 +40,7 @@ To make a working question, you will then need to add in `fx` as the model answe
 
 In this example define the question variables as
 
-    fx:int(expand((x-1)*(x+1)*(x-2)),x)
+    fx:int(expand((x-1)*(x+1)*(x-2)),x);
 
 This question contains an interactive sliding element.
 
@@ -88,14 +88,14 @@ The basic structure of such graph logic is as follows:
 
 The simplest solution for storing state is to add a `string` type input field to the question. 
 
- 1. That input field should not be connected to any PRTs.
- 2. You should turn off the validation and verification of the field. 
- 3. You should use the extra option `hideanswer` to make sure the teacher's answer is not shown to students.
- 4. You can hide this input with CSS, e.g. `<p style="display:none">[[input:state]] [[validation:state]]</p>` (but probably not while you develop the question!)
- 4. You can even use the syntax hint feature to pass in a default value but only if that is not parametric (currently the syntax hint is not CASText: see the todo list).
+ 1. Create and hide an input with CSS, e.g. `<p style="display:none">[[input:stateStore]] [[validation:stateStore]]</p>` (but probably not while you develop the question!)
+ 2. Make the input a "string" type.
+ 3. Turn off the validation and verification of the field. 
+ 4. Use the extra option `hideanswer` to make sure the teacher's answer is not shown to students.
+ 5. That input field should not be connected to any PRTs.
+ 6. You can use the syntax hint feature to pass in a default value but only if that is not parametric (currently the syntax hint is not CASText: see the todo list).
 
-You can use that input field to store the state of the graph as a string, for example 
-as a JSON-encoded structure. For example like this, assuming the name of the String input is named "stateStore":
+You can use that input field to store the state of the graph as a string, for example as a JSON-encoded structure. For example, assuming the name of the String input is named `stateStore`, we can store the position of a point as follows:
 
 
     [[jsxgraph input-ref-stateStore="stateRef"]]
@@ -127,6 +127,7 @@ as a JSON-encoded structure. For example like this, assuming the name of the Str
       stateInput.style.display = 'none';
     [[/jsxgraph]]
 
+Note, in the above example in `[[jsxgraph input-ref-stateStore="stateRef"]]` the `stateStore` part of this tag directly relates to, and must match, the name of the input.
 
 In that trivial example you only have one point that you can drag around but the position of that point will be stored and it will be where 
 you left it when you return to the page. However, the position has been stored in a String encoded in JSON format and cannot directly be 
@@ -166,12 +167,15 @@ The example in the previous section about moving the point around and storing th
     
       // As a side note, you typically do not want the state storing input to be directly visible to the user
       // although it may be handy during development to see what happens in it. You might hide it like this:
+      var stateInput = document.getElementById(stateRef);
       stateInput.style.display = 'none';
     [[/jsxgraph]]
 
 For sliders you use the function `stack_jxg.bind_slider(inputRef, slider)` and it stores the sliders value as a raw float. Sliders will however require that you call `board.update()` after binding to them, otherwise the graph may not display the stored state after reload.
 
 You should check the sample questions about JSXGraph binding for examples of these functions in action.
+
+Starting from version 4.3 there are three functions for dealing with pairs of points. Basically, if you want to represent vectors, lines or circles or anything that can be defined with just two points. `stack_jxg.bind_point_dual(inputRef, point1, point2)` will store the positions of the points into a single input as a list of lists, `stack_jxg.bind_point_relative(inputRef, point1, point2)` will also generate a list but in it the second point is represented relative to the first, and finally `stack_jxg.bind_point_direction(inputRef, point1, point2)` will provide the first point as coordinates and the second point as an angle and distance from the first.
 
 ## Convenience tools for generating lists of values.
 

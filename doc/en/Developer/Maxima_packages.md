@@ -18,7 +18,7 @@ Adding in support for additional Maxima packages needs to be done by a developer
 
 3. Just because the package is loaded into Maxima does not mean that STACK users will be permitted to use the function names in questions.
    * STACK only allows student users to input a certain restricted list of commands.
-   * STACK allows teachers to use a much wider list of commands, and to define functions of their own.  However unless a function has been checked, it is likely the teacher will _not_ be permitted to use this.  We periodically work through all the function names in all maxima packages and add these to the variable `private static $teachernotallow`, defined in `stack/cas/casstring.class.php`.
+   * STACK allows teachers to use a much wider list of commands, and to define functions of their own.  However unless a function has been checked, it is likely the teacher will _not_ be permitted to use this.  We periodically work through all the function names in all maxima packages and add these to the variable `security-map.json`.
 
 Some notes.
 

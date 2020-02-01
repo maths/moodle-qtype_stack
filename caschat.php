@@ -30,20 +30,17 @@ require_once(__DIR__ . '/locallib.php');
 require_once(__DIR__ . '/stack/utils.class.php');
 require_once(__DIR__ . '/stack/options.class.php');
 require_once(__DIR__ . '/stack/cas/castext.class.php');
-require_once(__DIR__ . '/stack/cas/casstring.class.php');
-require_once(__DIR__ . '/stack/cas/cassession.class.php');
 require_once(__DIR__ . '/stack/cas/keyval.class.php');
 
+require_login();
 
 // Get the parameters from the URL.
 $questionid = optional_param('questionid', null, PARAM_INT);
 
 if (!$questionid) {
-    require_login();
     $context = context_system::instance();
     require_capability('qtype/stack:usediagnostictools', $context);
     $urlparams = array();
-
 } else {
     // Load the necessary data.
     $questiondata = $DB->get_record('question', array('id' => $questionid), '*', MUST_EXIST);
@@ -65,7 +62,7 @@ $PAGE->set_title($title);
 
 $debuginfo = '';
 $errs = '';
-$varerrs = '';
+$varerrs = array();
 
 $vars   = optional_param('vars', '', PARAM_RAW);
 $string = optional_param('cas', '', PARAM_RAW);
@@ -86,23 +83,20 @@ if (!$vars and !$string) {
     $simp = true;
 }
 
-// Set a value for the "insert stars" flag.  Useful for testing, but should be set to zero normally.
-$stars = 0;
-
 if ($string) {
     $options = new stack_options();
     $options->set_site_defaults();
     $options->set_option('simplify', $simp);
 
-    $session = new stack_cas_session(null, $options);
+    $session = new stack_cas_session2(array(), $options);
     if ($vars) {
-        $keyvals = new stack_cas_keyval($vars, $options, 0, 't', true, $stars);
+        $keyvals = new stack_cas_keyval($vars, $options, 0);
         $session = $keyvals->get_session();
         $varerrs = $keyvals->get_errors();
     }
 
     if (!$varerrs) {
-        $ct           = new stack_cas_text($string, $session, 0, 't', true, $stars);
+        $ct           = new stack_cas_text($string, $session, 0);
         $displaytext  = $ct->get_display_castext();
         $errs         = $ct->get_errors();
         $debuginfo    = $ct->get_debuginfo();
@@ -137,7 +131,7 @@ $stringlen = max(substr_count($string, "\n") + 3, 8);
 
 echo html_writer::tag('form',
             html_writer::tag('h2', stack_string('questionvariables')) .
-            html_writer::tag('p', $varerrs) .
+            html_writer::tag('p', implode($varerrs)) .
             html_writer::tag('p', html_writer::tag('textarea', $vars,
                     array('cols' => 100, 'rows' => $varlen, 'name' => 'vars'))) .
             html_writer::tag('p', $simp) .
@@ -150,15 +144,9 @@ echo html_writer::tag('form',
         array('action' => $PAGE->url, 'method' => 'post'));
 
 if ($string) {
-    // Display the question variables.
     echo $OUTPUT->heading(stack_string('questionvariablevalues'), 3);
     echo html_writer::start_tag('div', array('class' => 'questionvariables'));
-    $variables = $session->get_keyval_representation();
-    $variables = implode(";\n", explode('; ', $variables));
-    if (trim($variables) == '') {
-        $variables .= get_string('none');
-    }
-    echo  html_writer::tag('pre', $variables);
+    echo html_writer::tag('pre', $session->get_keyval_representation(true));
     echo html_writer::end_tag('div');
 }
 

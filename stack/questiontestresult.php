@@ -33,6 +33,11 @@ class stack_question_test_result {
     public $inputvalues;
 
     /**
+     * @var array input name => modified value of this input.
+     */
+    public $inputvaluesmodified;
+
+    /**
      * @var array input name => the displayed value of that input.
      */
     public $inputdisplayed;
@@ -72,11 +77,12 @@ class stack_question_test_result {
      * @param string $displayvalue the displayed version of the value that was input.
      * @param string $status one of the stack_input::STATUS_... constants.
      */
-    public function set_input_state($inputname, $inputvalue, $displayvalue, $status, $error) {
-        $this->inputvalues[$inputname]    = $inputvalue;
-        $this->inputdisplayed[$inputname] = $displayvalue;
-        $this->inputstatuses[$inputname]  = $status;
-        $this->inputerrors[$inputname]    = $error;
+    public function set_input_state($inputname, $inputvalue, $inputmodified, $displayvalue, $status, $error) {
+        $this->inputvalues[$inputname]         = $inputvalue;
+        $this->inputvaluesmodified[$inputname] = $inputmodified;
+        $this->inputdisplayed[$inputname]      = $displayvalue;
+        $this->inputstatuses[$inputname]       = $status;
+        $this->inputerrors[$inputname]         = $error;
     }
 
     public function set_prt_result($prtname, stack_potentialresponse_tree_state $actualresult) {
@@ -93,6 +99,7 @@ class stack_question_test_result {
             $state = new stdClass();
             $state->rawinput = $this->testcase->get_input($inputname);
             $state->input = $inputvalue;
+            $state->modified = $this->inputvaluesmodified[$inputname];
             $state->display = $this->inputdisplayed[$inputname];
             $state->status = $this->inputstatuses[$inputname];
             $state->errors = $this->inputerrors[$inputname];
@@ -124,11 +131,7 @@ class stack_question_test_result {
                 $state->penalty = $actualresult->penalty;
                 $state->answernote = implode(' | ', $actualresult->answernotes);
                 $state->trace = implode("\n", $actualresult->trace);
-                $feedback = array();
-                foreach ($actualresult->feedback as $fb) {
-                    $feedback[] = $fb->feedback;
-                }
-                $state->feedback = implode(' ', $feedback);
+                $state->feedback = $actualresult->feedback;
                 $state->debuginfo = $actualresult->debuginfo;
             } else {
                 $state->score = '';

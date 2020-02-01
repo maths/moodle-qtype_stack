@@ -88,12 +88,42 @@ class stack_question_test {
             } else if (array_key_exists($inputname.'_val', $response)) {
                 $inputresponse = $response[$inputname.'_val'];
             }
-            $results->set_input_state($inputname, $inputresponse,
+            $results->set_input_state($inputname, $inputresponse, $inputstate->contentsmodified,
                     $inputstate->contentsdisplayed, $inputstate->status, $inputstate->errors);
         }
+
         foreach ($this->expectedresults as $prtname => $expectedresult) {
             $result = $question->get_prt_result($prtname, $response, false);
+            // Adapted from renderer.php prt_feedback_display.
+            $feedback = '';
+            $feedbackbits = $result->get_feedback();
+            if ($feedbackbits) {
+                $feedback = array();
+                $format = null;
+                foreach ($feedbackbits as $bit) {
+                    // Removed $qa->rewrite_pluginfile_urls which will break some links in questions here.
+                    $feedback[] = $bit->feedback;
+                    if (!is_null($bit->format)) {
+                        if (is_null($format)) {
+                            $format = $bit->format;
+                        }
+                        if ($bit->format != $format) {
+                            throw new coding_exception('Inconsistent feedback formats found in PRT ' . $name);
+                        }
+                    }
+                }
+                if (is_null($format)) {
+                    $format = FORMAT_HTML;
+                }
+
+                $feedback = $result->substitue_variables_in_feedback(implode(' ', $feedback));
+                $feedback = format_text(stack_maths::process_display_castext($feedback),
+                    $format, array('noclean' => true, 'para' => false));
+            }
+
+            $result->feedback = $feedback;
             $results->set_prt_result($prtname, $result);
+
         }
 
         if ($this->testcase) {
@@ -111,44 +141,66 @@ class stack_question_test {
      */
     public static function compute_response(qtype_stack_question $question, $inputs) {
         // If the question has simp:false, then the local options should reflect this.
-        // In this case, test constructors (question authors) will need to explicitly simplify their test case constructions.
+        // In this case, question authors will need to explicitly simplify their test case constructions.
         $localoptions = clone $question->options;
 
         // Start with the question variables (note that order matters here).
-        $cascontext = new stack_cas_session(null, $localoptions, $question->seed);
+        $cascontext = new stack_cas_session2(array(), $localoptions, $question->seed);
         $question->add_question_vars_to_session($cascontext);
 
-        // Turn off simplification - we *always* need test cases to be unsimplified, even if the question option is true.
+        // Add the correct answer for all inputs.
+        foreach ($question->inputs as $name => $input) {
+            $cs = stack_ast_container::make_from_teacher_source($name . ':' . $input->get_teacher_answer(),
+                    '', new stack_cas_security());
+            $cascontext->add_statement($cs);
+        }
+
+        // Turn off simplification - we need test cases to be unsimplified, even if the question option is true.
         $vars = array();
-        $cs = new stack_cas_casstring('false');
-        $cs->set_key('simp');
+        $cs = stack_ast_container::make_from_teacher_source('simp:false' , '', new stack_cas_security());
         $vars[] = $cs;
         // Now add the expressions we want evaluated.
         foreach ($inputs as $name => $value) {
             if ('' !== $value) {
-                $cs = new stack_cas_casstring($value);
-                if ($cs->get_valid('t')) {
-                    $cs->set_key('testresponse_' . $name);
+                $val = 'testresponse_' . $name . ':' . $value;
+                $input = $question->inputs[$name];
+                // Except if the input simplifies, then so should the generated testcase.
+                // The input will simplify again.
+                // We may need to create test cases which will generate errors, such as makelist.
+                if ($input->get_extra_option('simp')) {
+                    $val = 'testresponse_' . $name . ':ev(' . $value .',simp)';
+                }
+                $cs = stack_ast_container::make_from_teacher_source($val , '', new stack_cas_security());
+                if ($cs->get_valid()) {
                     $vars[] = $cs;
                 }
             }
         }
-        $cascontext->add_vars($vars);
-        $cascontext->instantiate();
+        $cascontext->add_statements($vars);
+        if ($cascontext->get_valid()) {
+            $cascontext->instantiate();
+        }
 
         $response = array();
         foreach ($inputs as $name => $notused) {
-            $computedinput = $cascontext->get_value_key('testresponse_' . $name, true);
+            $var = $cascontext->get_by_key('testresponse_' . $name, true);
+            $computedinput = '';
+            if ($var !== null && $var->is_correctly_evaluated()) {
+                $computedinput = $var->get_value();
+            }
             // In the case we start with an invalid input, and hence don't send it to the CAS.
             // We want the response to constitute the raw invalid input.
             // This permits invalid expressions in the inputs, and to compute with valid expressions.
             if ('' == $computedinput) {
                 $computedinput = $inputs[$name];
+            } else {
+                // 4.3. means the logic_nouns_sort is done through parse trees.
+                $computedinput = $cascontext->get_by_key('testresponse_' . $name)->get_dispvalue();
             }
             if (array_key_exists($name, $question->inputs)) {
                 // Remove things like apostrophies in test case inputs so we don't create an invalid student input.
-                $value = stack_utils::logic_nouns_sort($computedinput, 'remove');
-                $response = array_merge($response, $question->inputs[$name]->maxima_to_response_array($value));
+                // 4.3. changes this.
+                $response = array_merge($response, $question->inputs[$name]->maxima_to_response_array($computedinput));
             }
         }
         return $response;

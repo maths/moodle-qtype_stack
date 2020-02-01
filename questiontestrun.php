@@ -287,12 +287,10 @@ if (!(empty($question->deployedseeds)) && $canedit) {
     echo html_writer::end_tag('form');
 }
 
-// Display the controls to add another question test.
-$s = $seed;
-if ($s === null) {
-    $s = 0;
+if ($seed === null) {
+    $seed = 0;
 }
-echo $OUTPUT->heading(stack_string('questiontestsfor', $s), 2);
+echo $OUTPUT->heading(stack_string('questiontestsfor', $seed), 2);
 
 \core\session\manager::write_close();
 
@@ -303,9 +301,9 @@ foreach ($testscases as $key => $testcase) {
     // Create a completely clean version of the question usage we will use.
     // Evaluated state is stored in question variables etc.
     $question = question_bank::load_question($questionid);
+    $question->seed = $seed;
     $quba = question_engine::make_questions_usage_by_activity('qtype_stack', $context);
     $quba->set_preferred_behaviour('adaptive');
-    $question->seed = $seed;
     $slot = $quba->add_question($question, $question->defaultmark);
     $quba->start_question($slot);
 

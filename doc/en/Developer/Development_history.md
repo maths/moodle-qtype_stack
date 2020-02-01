@@ -2,6 +2,10 @@
 
 For current and future plans, see [Development track](Development_track.md) and [Future plans](Future_plans.md).
 
+## Version 4.2.3
+
+Released January 2020.  This release is a marker before the release of STACK v4.3.
+
 ## Version 4.2.2
 
 Released September 2019.

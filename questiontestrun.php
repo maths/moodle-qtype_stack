@@ -300,6 +300,15 @@ echo $OUTPUT->heading(stack_string('questiontestsfor', $s), 2);
 $testresults = array();
 $allpassed = true;
 foreach ($testscases as $key => $testcase) {
+    // Create a completely clean version of the question usage we will use.
+    // Evaluated state is stored in question variables etc.
+    $question = question_bank::load_question($questionid);
+    $quba = question_engine::make_questions_usage_by_activity('qtype_stack', $context);
+    $quba->set_preferred_behaviour('adaptive');
+    $question->seed = $seed;
+    $slot = $quba->add_question($question, $question->defaultmark);
+    $quba->start_question($slot);
+
     $testresults[$key] = $testcase->test_question($quba, $question, $seed);
     if (!$testresults[$key]->passed()) {
         $allpassed = false;

@@ -1305,9 +1305,7 @@ class stack_cas_session2_test extends qtype_stack_testcase {
             array('0.05555', '2', '5.56 \times 10^{-2}', '5.56E-2', 'displaysci(5.56,2,-2)'),
             array('cos(23*pi/180)', '3', '9.205 \times 10^{-1}', '9.205E-1', 'displaysci(9.205,3,-1)'),
             array('9000', '1', '9.0 \times 10^{3}', '9.0E3', 'displaysci(9,1,3)'),
-            // This breaks with simp:true.
-            array('8000', '0', '8 \times 10^{3}', '8E3', 'displaysci(8,0,3)',
-                    '8 \times 10^{3}'),
+            array('8000', '0', '8 \times 10^{3}', '8E3', 'displaysci(8,0,3)'),
             // Edge case.  Want these ones to be 1*10^3, not 10.0*10^2.
             array('1000', '2', '1.00 \times 10^{3}', '1.00E3', 'displaysci(1,2,3)'),
             // If we don't supply a number of decimal places, then we return a value form.

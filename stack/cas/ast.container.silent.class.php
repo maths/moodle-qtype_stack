@@ -792,7 +792,7 @@ class stack_ast_container_silent implements cas_evaluatable {
 
         // Get a string reprsentation of the first numerical part.
         $root = clone $this->ast;
-        if ($evaluated) {
+        if ($evaluated && $this->is_correctly_evaluated()) {
             $root = $this->get_evaluated();
         }
 

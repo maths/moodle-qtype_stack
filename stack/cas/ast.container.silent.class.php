@@ -792,8 +792,8 @@ class stack_ast_container_silent implements cas_evaluatable {
 
         // Get a string reprsentation of the first numerical part.
         $root = clone $this->ast;
-        if ($evaluated && $this->is_correctly_evaluated()) {
-            $root = $this->get_evaluated();
+        if ($evaluated) {
+            $root = clone $this->get_evaluated();
         }
 
         if ($root instanceof MP_Root) {

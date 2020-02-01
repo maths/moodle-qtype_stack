@@ -91,10 +91,9 @@ class stack_question_test {
             $results->set_input_state($inputname, $inputresponse, $inputstate->contentsmodified,
                     $inputstate->contentsdisplayed, $inputstate->status, $inputstate->errors);
         }
+
         foreach ($this->expectedresults as $prtname => $expectedresult) {
-
             $result = $question->get_prt_result($prtname, $response, false);
-
             // Adapted from renderer.php prt_feedback_display.
             $feedback = '';
             $feedbackbits = $result->get_feedback();

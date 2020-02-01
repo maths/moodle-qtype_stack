@@ -162,6 +162,7 @@ load("intervals.mac");
 load("stackunits.mac");
 load("stacktex.lisp");
 load("stackstrings.mac");
+load("sregex");
 /* Ensure back compatability with versions before 5.41.0. */
 if is(MAXIMA_VERSION_NUM<40.1) then load("stacktex40.lisp");
 load("utils.mac");

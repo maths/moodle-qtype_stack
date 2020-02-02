@@ -181,16 +181,16 @@ if (empty($question->deployedseeds)) {
                     new pix_icon('t/delete', stack_string('undeploy')));
         }
 
-        $qn = question_bank::load_question($questionid);
-
         $bulktestresults = array(false, '');
         if (optional_param('testall', null, PARAM_INT)) {
             // Bulk test all variants.
             $bulktester = new stack_bulk_tester();
-            $bulktestresults = $bulktester->qtype_stack_test_question($qn, $testscases, 'web', $deployedseed, true);
+            $bulktestresults = $bulktester->qtype_stack_test_question($context, $questionid,
+                    $testscases, 'web', $deployedseed, true);
         }
 
         // Print out question notes of all deployed variants.
+        $qn = question_bank::load_question($questionid);
         $qn->seed = (int) $deployedseed;
         $cn = $qn->get_context();
         $qunote = question_engine::make_questions_usage_by_activity('qtype_stack', $cn);
@@ -297,16 +297,7 @@ echo $OUTPUT->heading(stack_string('questiontestsfor', $seed), 2);
 $testresults = array();
 $allpassed = true;
 foreach ($testscases as $key => $testcase) {
-    // Create a completely clean version of the question usage we will use.
-    // Evaluated state is stored in question variables etc.
-    $question = question_bank::load_question($questionid);
-    $question->seed = $seed;
-    $quba = question_engine::make_questions_usage_by_activity('qtype_stack', $context);
-    $quba->set_preferred_behaviour('adaptive');
-    $slot = $quba->add_question($question, $question->defaultmark);
-    $quba->start_question($slot);
-
-    $testresults[$key] = $testcase->test_question($quba, $question, $seed);
+    $testresults[$key] = $testcase->test_question($questionid, $seed, $context);
     if (!$testresults[$key]->passed()) {
         $allpassed = false;
     }

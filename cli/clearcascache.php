@@ -27,7 +27,7 @@ define('CLI_SCRIPT', true);
 
 require(__DIR__ . '/../../../../config.php');
 require_once($CFG->libdir.'/clilib.php');
-require_once($CFG->dirroot . '/question/type/stack/stack/cas/cassession.class.php');
+require_once($CFG->dirroot . '/question/type/stack/stack/cas/cassession2.class.php');
 require_once($CFG->dirroot . '/question/type/stack/stack/cas/connector.dbcache.class.php');
 
 // Get cli options.

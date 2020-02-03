@@ -1,5 +1,5 @@
 <?php
-// This file is part of Stateful
+// This file is part of Stateful.
 //
 // Stateful is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -17,35 +17,31 @@
 defined('MOODLE_INTERNAL') || die();
 
 // Unit tests to check that the requirements of a related software
-// are still present, ant that the interface does not change
-// unexpectedly.
+// are still present, and that the interface does not change unexpectedly.
 //
-// @copyright  2019 Aalto University
+// @copyright  2020 Aalto University
 // @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
 
-
-
-// These are all the imports Stateful does, one test is to check that 
-// these exist.
+// These are all the imports Stateful does, one test is to check that these exist.
 // Even the test_base is one of them.
-require_once __DIR__ . '/fixtures/test_base.php';
-require_once __DIR__ . '/../locallib.php';
-require_once __DIR__ . '/../stack/options.class.php';
-require_once __DIR__ . '/../stack/utils.class.php';
-require_once __DIR__ . '/../stack/input/inputbase.class.php';
-require_once __DIR__ . '/../stack/input/factory.class.php';
-require_once __DIR__ . '/../stack/cas/casstring.units.class.php';
-require_once __DIR__ . '/../stack/mathsoutput/mathsoutput.class.php';
-require_once __DIR__ . '/../stack/maximaparser/utils.php';
-require_once __DIR__ . '/../stack/input/inputstate.class.php';
-require_once __DIR__ . '/../stack/cas/ast.container.class.php';
-require_once __DIR__ . '/../stack/cas/ast.container.silent.class.php';
-require_once __DIR__ . '/../stack/cas/secure_loader.class.php';
-require_once __DIR__ . '/../stack/cas/keyval.class.php';
-require_once __DIR__ . '/../stack/cas/cassession2.class.php';
-require_once __DIR__ . '/../renderer.php';
-require_once __DIR__ . '/../stack/cas/parsingrules/parsingrule.factory.php';
-require_once __DIR__ . '/../stack/cas/evaluatable_object.interfaces.php';
+require_once(__DIR__ . '/fixtures/test_base.php');
+require_once(__DIR__ . '/../locallib.php');
+require_once(__DIR__ . '/../stack/options.class.php');
+require_once(__DIR__ . '/../stack/utils.class.php');
+require_once(__DIR__ . '/../stack/input/inputbase.class.php');
+require_once(__DIR__ . '/../stack/input/factory.class.php');
+require_once(__DIR__ . '/../stack/cas/casstring.units.class.php');
+require_once(__DIR__ . '/../stack/mathsoutput/mathsoutput.class.php');
+require_once(__DIR__ . '/../stack/maximaparser/utils.php');
+require_once(__DIR__ . '/../stack/input/inputstate.class.php');
+require_once(__DIR__ . '/../stack/cas/ast.container.class.php');
+require_once(__DIR__ . '/../stack/cas/ast.container.silent.class.php');
+require_once(__DIR__ . '/../stack/cas/secure_loader.class.php');
+require_once(__DIR__ . '/../stack/cas/keyval.class.php');
+require_once(__DIR__ . '/../stack/cas/cassession2.class.php');
+require_once(__DIR__ . '/../renderer.php');
+require_once(__DIR__ . '/../stack/cas/parsingrules/parsingrule.factory.php');
+require_once(__DIR__ . '/../stack/cas/evaluatable_object.interfaces.php');
 
 
 /**
@@ -129,7 +125,6 @@ class stack_api_compatibility_stateful_test extends qtype_stack_testcase {
         $this->assertTrue(method_exists('stack_ast_container_silent', 'get_valid'));
         $this->assertTrue(method_exists('stack_ast_container_silent', 'make_from_student_source'));
         $this->assertTrue(method_exists('stack_ast_container_silent', 'make_from_teacher_source'));
-
     }
 
     public function test_stack_cas_security() {
@@ -167,7 +162,7 @@ class stack_api_compatibility_stateful_test extends qtype_stack_testcase {
     }
 
     public function test_stack_secure_loader_value() {
-        $this->assertTrue(method_exists('stack_secure_loader_value', 'get_value'));    
+        $this->assertTrue(method_exists('stack_secure_loader_value', 'get_value'));
     }
 
     public function test_globals() {

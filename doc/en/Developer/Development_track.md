@@ -12,7 +12,7 @@ Version 4.3 represents a major internal re-engineering of STACK, with a new dedi
 There have been a number of changes:
 
 * In the forbidden words we now match whole words not substrings.
-* Removed the RegExp answer test.
+* Removed the RegExp answer test.  Added the SRegExp answer test using Maxima's `regex_match` function.
 * Use of units is now reflected throughout a question.  This reduces the need to declare units in all contexts.
 * Internally, the "+-" operator has been replaced with a new infix operation "#pm#".  Instead of `a+-b` teachers now must type `a#pm#b`.  This change was necessary to deal with differences between versions of Maxima when dealing with expresions.
 

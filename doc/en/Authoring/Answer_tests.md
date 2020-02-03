@@ -159,7 +159,8 @@ This test uses Maxima's `regex_match` function.
 
 * Both arguments to the test must be Maxima strings.  If you have a general expression, turn it into a string in the feedback variables with Maxima's `string` function.
 * The first argument should be the string, and the second argument should be the pattern to match.
-* Don't forget to protect within strings as needed.
+* Don't forget to escape within the pattern strings as needed. Note that there is a function `string_to_regex()` that will handle escaping of characters that would otherwise have meaning in the pattern. Also remember that you need to escape the backslashes like normal in Maxima-strings.
+* One can read more about the patterns posible from [here](http://ds26gte.github.io/pregexp/index.html). Case-insensitivity may be something worth noting there.
 
 # Form {#Form}
 

@@ -1,7 +1,7 @@
 ****************************
 Adding answer tests to STACK
 
-Changelog: Version 1st Feb October 2020 - Chris Sangwin
+Changelog: Version 1st February 2020 - Chris Sangwin
 
 ****************************
 

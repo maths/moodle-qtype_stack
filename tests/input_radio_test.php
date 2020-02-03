@@ -316,7 +316,7 @@ class stack_radio_input_test extends qtype_stack_walkthrough_test_base {
         // @codingStandardsIgnoreEnd
         $render = $el->render(new stack_input_state(
                 stack_input::SCORE, array('2'), '', '', '', '', ''), 'stack1__ans1', false, null);
-        $this->assertTrue(is_int(strpos($render, "<img src='!ploturl!stackplot-")));
+        $this->assertTrue(is_int(strpos($render, "<img src='https://www.example.com/moodle/question/type/stack/plot.php")));
         $this->assertTrue(is_int(strpos($render,
                 "alt='STACK auto-generated plot of x with parameters [[x,-2,2],[y,-3,3]]'")));
         $this->assertTrue(is_int(strpos($render,

@@ -54,7 +54,7 @@ class stack_anstest_atdecplaces extends stack_anstest {
             $atestops = (int) $this->atoption->get_value();
         }
 
-        if (!$this->atoption->is_int() or $atestops <= 0) {
+        if (!$atestops || $atestops < 0) {
             $this->aterror      = 'TEST_FAILED';
             $this->atfeedback   = stack_string('TEST_FAILED', array('errors' => ''));
             $this->atfeedback  .= stack_string('ATNumDecPlaces_OptNotInt', array('opt' => $atestops));
@@ -183,10 +183,6 @@ class stack_anstest_atdecplaces extends stack_anstest {
      */
     public function validate_atoptions($opt) {
         if ($opt == '') {
-            return array(false, stack_string('ATNumDecPlaces_OptNotInt', array('opt' => $opt)));
-        }
-        $atestops = (int) $opt;
-        if (!is_int($atestops) or $atestops <= 0) {
             return array(false, stack_string('ATNumDecPlaces_OptNotInt', array('opt' => $opt)));
         }
         return array(true, '');

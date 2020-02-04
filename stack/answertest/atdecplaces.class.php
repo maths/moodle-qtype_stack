@@ -49,12 +49,12 @@ class stack_anstest_atdecplaces extends stack_anstest {
 
         // In real questions, these are evaluated but in test cases they may not be.
         // The old "get value" obscured this distinction.
-        $atestops = (int) $this->atoption->get_evaluationform();
+        $atestops = $this->atoption->get_evaluationform();
         if ($this->atoption->is_evaluated()) {
-            $atestops = (int) $this->atoption->get_value();
+            $atestops = $this->atoption->get_value();
         }
 
-        if (!$atestops || $atestops < 0) {
+        if (!$this->atoption->get_valid() || !ctype_digit($atestops) || $atestops <= 0) {
             $this->aterror      = 'TEST_FAILED';
             $this->atfeedback   = stack_string('TEST_FAILED', array('errors' => ''));
             $this->atfeedback  .= stack_string('ATNumDecPlaces_OptNotInt', array('opt' => $atestops));
@@ -146,7 +146,7 @@ class stack_anstest_atdecplaces extends stack_anstest {
             $this->aterror      = 'TEST_FAILED';
             $this->atfeedback   = stack_string('TEST_FAILED', array('errors' => ''));
             $this->atfeedback  .= stack_string('AT_InvalidOptions', array('errors' => $strings['caschat2']->get_errors()));
-            $anotes[]           = 'ATNumDecPlaces_STACKERROR_Options.';
+            $anotes[]           = 'ATNumDecPlaces_STACKERROR_Options';
             $this->atansnote    = implode('. ', $anotes).'.';
             $this->atmark       = 0;
             $this->atvalid      = false;

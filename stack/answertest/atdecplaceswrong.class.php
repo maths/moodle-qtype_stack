@@ -47,12 +47,12 @@ class stack_anstest_atdecplaceswrong extends stack_anstest {
             }
         }
 
-        $atestops = (int) $this->atoption->get_evaluationform();
+        $atestops = $this->atoption->get_evaluationform();
         if ($this->atoption->is_evaluated()) {
-            $atestops = (int) $this->atoption->get_value();
+            $atestops = $this->atoption->get_value();
         }
 
-        if (!$atestops || $atestops < 0) {
+        if (!$this->atoption->get_valid() || !ctype_digit($atestops) || $atestops <= 0) {
             $this->aterror      = 'TEST_FAILED';
             $this->atfeedback   = stack_string('TEST_FAILED', array('errors' => ''));
             $this->atfeedback  .= stack_string('ATNumDecPlaces_OptNotInt', array('opt' => $atestops));

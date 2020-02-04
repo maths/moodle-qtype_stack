@@ -145,6 +145,16 @@ class stack_bulk_tester  {
                     }
                 }
 
+                if (empty($question->deployedseeds)) {
+                    if ($question->has_random_variants()) {
+                        if ($outputmode == 'web') {
+                            $questionproblems[] = html_writer::tag('li', stack_string('bulktestnodeployedseeds'));
+                        } else {
+                            $questionproblems[] = stack_string('bulktestnodeployedseeds');
+                        }
+                    }
+                }
+
                 $tests = question_bank::get_qtype('stack')->load_question_tests($questionid);
                 if (!$tests) {
                     $notests[] = $questionnamelink;

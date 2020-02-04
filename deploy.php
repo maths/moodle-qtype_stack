@@ -149,7 +149,7 @@ if (!is_null($deploy)) {
             $testresults = array();
             $allpassed = true;
             foreach ($testscases as $key => $testcase) {
-                $testresults[$key] = $testcase->test_question($quba, $question, $seed);
+                $testresults[$key] = $testcase->test_question($questionid, $seed, $context);
                 if (!$testresults[$key]->passed()) {
                     $nexturl->param('seed', $seed);
                     $nexturl->param('deployfeedback', stack_string('deploymanysuccess', array('no' => $numberdeployed)));

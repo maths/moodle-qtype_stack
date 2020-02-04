@@ -428,6 +428,7 @@ $string['bulktestindexintro'] = 'Clicking on any of the links will run all the q
 $string['bulktestindextitle'] = 'Run the question tests in bulk';
 $string['bulktestnotests'] = 'This question does not have any tests.';
 $string['bulktestnogeneralfeedback'] = 'This question does not have any general feedback.';
+$string['bulktestnodeployedseeds'] = 'This question does have random variants, but has no deployed seeds.';
 $string['bulktestrun'] = 'Run all the question tests for all the questions in the system (slow, admin only)';
 $string['bulktesttitle'] = 'Running all the question tests in {$a}';
 $string['overallresult'] = 'Overall result';

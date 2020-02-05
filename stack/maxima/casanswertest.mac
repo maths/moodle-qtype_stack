@@ -40,7 +40,7 @@ ATNumSigFigs_CASSigFigsWrapper(sans,tans,options,rawsans) := block([allowextra,r
         requiredaccuracy: options
     ),
 
-    if requiredaccuracy = -1 then (
+    if ev(is(requiredaccuracy = -1),simp) then (
         allowextra: true,
         requiredaccuracy: requiredsigfigs
     ),

@@ -134,6 +134,9 @@ foreach ($qprts as $key => $notused) {
 }
 $prtreport = array();
 
+// Create a summary of the data without different variants.
+$prtreportsummary = array();
+
 foreach ($summary as $variant => $vdata) {
     $inputreport[$variant] = $qinputs;
     $prtreport[$variant] = $qprts;
@@ -177,6 +180,14 @@ foreach ($summary as $variant => $vdata) {
                     } else {
                         $prtreport[$variant][$prt][$datas] = $num;
                     }
+                    if (!array_key_exists($prt, $prtreportsummary)) {
+                        $prtreportsummary[$prt] = array();
+                    }
+                    if (array_key_exists($datas, $prtreportsummary[$prt])) {
+                        $prtreportsummary[$prt][$datas] += (int) $num;
+                    } else {
+                        $prtreportsummary[$prt][$datas] = $num;
+                    }
                 }
             }
         }
@@ -192,6 +203,7 @@ foreach ($inputreport as $variant => $vdata) {
         }
     }
 }
+
 foreach ($prtreport as $variant => $vdata) {
     foreach ($vdata as $prt => $tdata) {
         arsort($tdata);
@@ -199,10 +211,83 @@ foreach ($prtreport as $variant => $vdata) {
     }
 }
 
+$notesummary = array();
+foreach ($prtreportsummary as $prt => $tdata) {
+    ksort($tdata);
+    $prtreportsummary[$prt] = $tdata;
+    if (!array_key_exists($prt, $notesummary)) {
+        $notesummary[$prt] = array();
+    }
+    foreach ($tdata as $rawnote => $num) {
+        $notes = explode('|',$rawnote);
+        foreach ($notes as $note) {
+            $note = trim($note);
+            if (array_key_exists($note, $notesummary[$prt])) {
+                $notesummary[$prt][$note] += (int) $num;
+            } else {
+                $notesummary[$prt][$note] = $num;
+            }
+            
+        }
+    }
+}
+
+foreach ($notesummary as $prt => $tdata) {
+    ksort($tdata);
+    $notesummary[$prt] = $tdata;
+}
+
+$sumout = '';
+foreach ($prtreportsummary as $prt => $data) {
+    $sumouti = '';
+    $tot = 0;
+    $pad = max($data);
+    foreach ($data as $key => $val) {
+        $tot += $val;
+    }
+    if ($data !== array()) {
+        foreach ($data as $dat => $num) {
+            $sumouti .= str_pad($num, strlen((string) $pad) + 1) . '(' .
+                    str_pad(number_format((float) 100 * $num / $tot, 2, '.', ''), 6, ' ', STR_PAD_LEFT) .
+                    '%); ' . $dat . "\n";
+        }
+    }
+    if (trim($sumouti) !== '') {
+        $sumout .= '## ' . $prt . ' ('. $tot . ")\n" . $sumouti . "\n";;
+    }
+}
+if (trim($sumout) !== '') {
+    echo html_writer::tag('h3', stack_string('basicreportnotes'));
+    echo html_writer::tag('pre', trim($sumout));
+}
+
+$sumout = '';
+foreach ($notesummary as $prt => $data) {
+    $sumouti = '';
+    if ($data !== array()) {
+        foreach ($data as $dat => $num) {
+            // Use the old $tot, to give meaningful percentages of which individual notes occur overall.
+            $sumouti .= str_pad($num, strlen((string) $pad) + 1) . '(' .
+                    str_pad(number_format((float) 100 * $num / $tot, 2, '.', ''), 6, ' ', STR_PAD_LEFT) .
+                    '%); ' . $dat . "\n";
+        }
+    }
+    if (trim($sumouti) !== '') {
+        $sumout .= '## ' . $prt . ' ('. $tot . ")\n" . $sumouti . "\n";;
+    }
+}
+if (trim($sumout) !== '') {
+    echo html_writer::tag('h3', stack_string('basicreportnotessplit'));
+    echo html_writer::tag('pre', trim($sumout));
+}
+
 // Output a report.
+if (array_keys($summary) !== array()) {
+    echo html_writer::tag('h2', stack_string('basicreportvariants'));
+}
 foreach (array_keys($summary) as $variant) {
     // TODO: how do we go from a variant to a seed (if there is one....)?
-    echo html_writer::tag('h2', $variant);
+    echo html_writer::tag('h3', $variant);
     $sumout = '';
     foreach ($inputreport[$variant] as $input => $idata) {
         $sumouti = '';

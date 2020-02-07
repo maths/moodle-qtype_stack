@@ -114,6 +114,11 @@ $settings->add(new admin_setting_configcheckbox('qtype_stack/casdebugging',
         get_string('settingcasdebugging_desc', 'qtype_stack'), 0));
 
 
+$settings->add(new admin_setting_configtext('qtype_stack/parsercacheinputlength',
+        get_string('settingparsercacheinputlength', 'qtype_stack'),
+        get_string('settingparsercacheinputlength_desc', 'qtype_stack'), 50, PARAM_INT, 3));
+
+
 // Options for maths display.
 $settings->add(new admin_setting_heading('mathsdisplayheading',
         get_string('settingsmathsdisplayheading', 'qtype_stack'), ''));

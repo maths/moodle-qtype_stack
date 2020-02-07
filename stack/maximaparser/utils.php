@@ -33,22 +33,71 @@ require_once(__DIR__ . '/../utils.class.php');
 
 class maxima_parser_utils {
 
-    // Parses a string of Maxima code to an AST tree for use elsewhere.
-    public static function parse(string $code, string $parserule = 'Root', $allowpm = true): MP_Node {
-        static $cache = array();
-        if ($parserule === 'Root' && isset($cache[$code])) {
-            return clone $cache[$code];
+    /**
+     * Parses a string of Maxima code to an AST tree for use elsewhere.
+     *
+     * @param string $code the Maxima code to parse.
+     * @param string $parserule the parse rule to start with.
+     * @param bool $allowpm whether to parse +-.
+     * @return MP_Node the AST.
+     */
+    public static function parse(string $code, string $parserule = 'Root', bool $allowpm = true): MP_Node {
+        /** @var MP_Node[] $cache cache of parsed expressions, with keys as below. */
+        static $cache = [];
+
+        $parseoptions = [
+            'startRule' => $parserule,
+            'letToken' => stack_string('equiv_LET'),
+            'allowPM' => $allowpm
+        ];
+        if ($parserule === 'Root') {
+            $cachekey = ($allowpm ? '|PM|' : '|noPM|') . $parseoptions['letToken'] . '|' . $code;
+        } else {
+            $cachekey = '';
+        }
+
+        if ($cachekey && isset($cache[$cachekey])) {
+            return clone $cache[$cachekey];
+        }
+
+        $ast = self::do_parse($code, $parseoptions, $cachekey);
+
+        if ($cachekey) {
+            $cache[$cachekey] = clone $ast;
+        }
+
+        return $ast;
+    }
+
+    /**
+     * Helper used by the previous method.
+     *
+     * @param string $code the Maxima code to parse.
+     * @param array $parseoptions the parse rule to start with.
+     * @param bool $allowpm whether to parse +-.
+     * @return MP_Node the AST.
+     */
+    protected static function do_parse(string $code, array $parseoptions, string $cachekey): MP_Node {
+        $muccachelimit = get_config('qtype_stack', 'parsercacheinputlength');
+
+        $cache = null;
+        if ($cachekey && $muccachelimit && strlen($code) >= $muccachelimit) {
+            $cache = cache::make('qtype_stack', 'parsercache');
+            $ast = $cache->get($cachekey);
+            if ($ast) {
+                return $ast;
+            }
         }
 
         $parser = new MP_Parser();
-        $ast = $parser->parse($code, array('startRule' => $parserule,
-                                           'letToken' => stack_string('equiv_LET'),
-                                           'allowPM' => $allowpm));
-        if ($parserule === 'Root') {
-            $cache[$code] = clone $ast;
+        $ast = $parser->parse($code, $parseoptions);
+
+        if ($cache) {
+            $cache->set($cachekey, $ast);
         }
         return $ast;
     }
+
 
     // Takes a raw tree and the matching source code and remaps the positions from char to line:linechar
     // use when you need to have pretty printed position data.

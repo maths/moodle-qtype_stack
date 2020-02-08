@@ -11,6 +11,11 @@
     "#": {
         "operator": "s"
     },
+    "#pm#": {
+        "function": "s",
+        "operator": "s",
+        "prefixinputform": "+-"
+    },
     "$": {
         "operator": "f"
     },
@@ -86,7 +91,8 @@
     },
     "%pi": {
         "aliasvariables": [
-            "pi", "π"
+            "pi",
+            "\u03c0"
         ],
         "constant": "s"
     },
@@ -126,6 +132,14 @@
     "''": {
         "operator": "t"
     },
+    "(": {
+        "operator": "s",
+        "openingpairfor": ")"
+    },
+    ")": {
+        "operator": "s",
+        "closingpairfor": "("
+    },
     "*": {
         "function": "s",
         "operator": "s"
@@ -136,11 +150,6 @@
     "+": {
         "function": "s",
         "operator": "s"
-    },
-    "#pm#": {
-        "function": "s",
-        "operator": "s",
-        "prefixinputform": "+-"
     },
     "+-": {
         "function": "s",
@@ -220,6 +229,9 @@
     "Delta": {
         "variable": "s"
     },
+    "EMPTYCHAR": {
+        "variable": "s"
+    },
     "Epsilon": {
         "variable": "s"
     },
@@ -289,9 +301,6 @@
     "QMCHAR": {
         "variable": "s"
     },
-    "EMPTYCHAR": {
-        "variable": "s"
-    },
     "Rho": {
         "variable": "s"
     },
@@ -317,9 +326,11 @@
         "variable": "s"
     },
     "[": {
+        "openingpairfor": "]",
         "operator": "s"
     },
     "]": {
+        "closingpairfor": "[",
         "operator": "s"
     },
     "^": {
@@ -338,28 +349,28 @@
     "_APPEND_FEEDBACK": {
         "function": "f"
     },
-    "_RESET_FEEDBACK": {
-        "function": "f"
-    },
     "_APPEND_NOTE": {
-        "function": "f"
-    },
-    "_RESET_NOTES": {
-        "function": "f"
-    },
-    "_EC": {
-        "function": "f"
-    },
-    "_CS2v": {
-        "function": "f"
-    },
-    "_CS2l": {
         "function": "f"
     },
     "_CS2dv": {
         "function": "f"
     },
     "_CS2dvv": {
+        "function": "f"
+    },
+    "_CS2l": {
+        "function": "f"
+    },
+    "_CS2v": {
+        "function": "f"
+    },
+    "_EC": {
+        "function": "f"
+    },
+    "_RESET_FEEDBACK": {
+        "function": "f"
+    },
+    "_RESET_NOTES": {
         "function": "f"
     },
     "__": {
@@ -408,10 +419,6 @@
         "trigfun": true
     },
     "acsch": {
-        "function": "s",
-        "trigfun": true
-    },
-    "cosech": {
         "function": "s",
         "trigfun": true
     },
@@ -1030,6 +1037,9 @@
     "cartesian_product": {
         "function": "s"
     },
+    "cartesian_product_list": {
+        "function": "?"
+    },
     "catch": {
         "function": "f",
         "globalyforbiddenfunction": true
@@ -1471,6 +1481,10 @@
         "function": "s",
         "trigfun": true
     },
+    "cosech": {
+        "function": "s",
+        "trigfun": true
+    },
     "cosh": {
         "function": "s",
         "trigfun": true
@@ -1508,8 +1522,10 @@
         "function": "?"
     },
     "create_list": {
-        "function": "s",
-        "argumentmapstovariable": [1]
+        "argumentmapstovariable": [
+            1
+        ],
+        "function": "s"
     },
     "csc": {
         "function": "s",
@@ -1874,8 +1890,8 @@
         "function": "f"
     },
     "display2d": {
-        "variable": "f",
-        "globalyforbiddenvariable": true
+        "globalyforbiddenvariable": true,
+        "variable": "f"
     },
     "display_format_internal": {
         "variable": "f"
@@ -1911,6 +1927,12 @@
         "function": "s"
     },
     "dlange": {
+        "function": "?"
+    },
+    "dlsode_init": {
+        "function": "?"
+    },
+    "dlsode_step": {
         "function": "?"
     },
     "do": {
@@ -2737,6 +2759,9 @@
     },
     "gammalim": {
         "variable": "?"
+    },
+    "garbage_collect": {
+        "function": "?"
     },
     "gauss_a": {
         "function": "s"
@@ -3853,6 +3878,9 @@
     "limsubst": {
         "variable": "?"
     },
+    "linalg_rank": {
+        "function": "?"
+    },
     "line_graph": {
         "function": "?"
     },
@@ -4173,8 +4201,10 @@
         "function": "s"
     },
     "makelist": {
-        "function": "s",
-        "argumentmapstovariable": [1]
+        "argumentmapstovariable": [
+            1
+        ],
+        "function": "s"
     },
     "makeset": {
         "function": "s"
@@ -4693,6 +4723,9 @@
     "nonmetricity": {
         "function": "f"
     },
+    "nonnegative_lp": {
+        "variable": "?"
+    },
     "nonnegintegerp": {
         "function": "s"
     },
@@ -4704,6 +4737,9 @@
     },
     "nonzeroandfreeof": {
         "function": "f"
+    },
+    "not": {
+        "operator": "?"
     },
     "not ": {
         "operator": "s"
@@ -5211,10 +5247,6 @@
         "variable": "s"
     },
     "pi": {
-        "constant": "s",
-        "aliasvariable": "%pi"
-    },
-    "π": {
         "constant": "s",
         "aliasvariable": "%pi"
     },
@@ -7150,8 +7182,10 @@
         "variable": "s"
     },
     "sublist": {
-        "function": "s",
-        "argumentasfunction": [1]
+        "argumentasfunction": [
+            1
+        ],
+        "function": "s"
     },
     "sublist_indices": {
         "function": "s"
@@ -8162,35 +8196,22 @@
     "ztics_rotate": {
         "variable": "f"
     },
-    "|": {
-        "operator": "s"
-    },
-    "~": {
-        "operator": "s"
-    },
-    "(": {
-        "operator": "s",
-        "openingpairfor": ")"
-    },
-    ")": {
-        "operator": "s",
-        "closingpairfor": "("
-    },
-    "[": {
-        "operator": "s",
-        "openingpairfor": "]"
-    },
-    "]": {
-        "operator": "s",
-        "closingpairfor": "["
-    },
     "{": {
         "operator": "s",
         "openingpairfor": "}"
     },
+    "|": {
+        "operator": "s"
+    },
     "}": {
         "operator": "s",
         "closingpairfor": "{"
+    },
+    "~": {
+        "operator": "s"
+    },
+    "\u03c0": {
+        "constant": "s",
+        "aliasvariable": "%pi"
     }
-
 }

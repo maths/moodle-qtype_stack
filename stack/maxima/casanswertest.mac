@@ -132,3 +132,56 @@ ATUnitsSigFigs_CASSigFigsWrapper(sans,tans,options,rawsans,strict) :=  block([tm
     /* Merge*/
     return([tmp1[1] and tmp2[1], tmp1[2] and tmp2[2], sconcat(tmp1[3],tmp2[3]), sconcat(tmp1[4],tmp2[4])])
 )$
+
+ATNumDecPlaces_CASDecPlacesWrapper(sans,tans,options,rawsans) := block([digits,Validity,RawMark,FeedBack,AnswerNote,required,val],
+    Validity: true,
+    RawMark: true,
+    FeedBack: "",
+    AnswerNote: "",
+
+    /* First check if the students answer is a float. */
+    if not ev(floatnump(sans),simp) then (
+        AnswerNote: StackAddNote(AnswerNote, "ATNumDecPlaces_SA_Not_num"),
+        FeedBack: StackAddFeedback(FeedBack, "ATNumDecPlaces_Float"),
+        RawMark: false,
+        Validity: false
+    ),
+
+    /* Now many digits needed? */
+    required: ev(options,numer,simp),
+
+    if not integerp(required) or is(required<1) then (
+        AnswerNote: StackAddNote(AnswerNote, "ATNumDecPlaces_STACKERROR_Option"),
+        FeedBack: StackAddFeedback(FeedBack, "ATNumDecPlaces_OptNotInt"),
+        RawMark: false,
+        Validity: false
+    ),
+
+    if Validity then (
+        /* Find the number of digits. */
+        digits: sig_figs_from_str(rawsans),
+
+        /* Does it match the number of digits? */
+        if is(stackmap_get(digits, "decimalplaces")=required) then (
+            AnswerNote: StackAddNote(AnswerNote, "ATNumDecPlaces_Correct")
+        ) else (
+            AnswerNote: StackAddNote(AnswerNote, "ATNumDecPlaces_Wrong_DPs"),
+            FeedBack: StackAddFeedback(FeedBack, "ATNumDecPlaces_Wrong_DPs"),
+            RawMark: false
+        ),
+
+        /* Then the actual value. Simply round to required and
+           then check the difference. */
+        val: ev(float(round(sans*10^required)),simp),
+        val: ev(val - ev(float(round(tans*10^required)),simp),simp),
+        val: ev(abs(val),simp),
+        if is(val < 0.1) then (
+            AnswerNote: StackAddNote(AnswerNote, "ATNumDecPlaces_Equiv")
+        ) else (
+            AnswerNote: StackAddNote(AnswerNote, "ATNumDecPlaces_Not_equiv"),
+            RawMark: false
+        )
+    ),
+
+    return([Validity, RawMark, AnswerNote, FeedBack])
+)$

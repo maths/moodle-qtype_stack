@@ -1342,4 +1342,12 @@ abstract class stack_input {
         }
         return array_keys($errors);
     }
+
+    /*
+     * Provide a summary of the student's response for the Moodle reporting.
+     * Notes do something different here.
+     */
+    public function summarise_response($name, $state, $response) {
+        return $name . ': ' . $this->contents_to_maxima($state->contents) . ' [' . $state->status . ']';
+    }
 }

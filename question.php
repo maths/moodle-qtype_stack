@@ -526,7 +526,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         foreach ($this->inputs as $name => $input) {
             $state = $this->get_input_state($name, $response);
             if (stack_input::BLANK != $state->status) {
-                $bits[] = $name . ': ' . $input->contents_to_maxima($state->contents) . ' [' . $state->status . ']';
+                $bits[] = $input->summarise_response($name, $state, $response);
             }
         }
         // Add in the answer note for this response.

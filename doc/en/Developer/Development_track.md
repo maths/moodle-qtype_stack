@@ -24,7 +24,18 @@ New features in v4.3:
 * Add in option 'compact' to input "Show the validation" parameter.
 * Add in a basic question use report page, linked from the question testing page.
 
+TODO:
+
+* Fix issue [#556](https://github.com/maths/moodle-qtype_stack/issues/556)
+* Add cache to help reduce parsing overhead.
+* Profile code, and as far as possible implement "easy hits".
+
 ## Version 4.4
+
+## Maxima side PRTs.
+
+* Move all functions to Maxima.
+
 
 ## For "inputs 2"?
 

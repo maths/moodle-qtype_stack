@@ -63,7 +63,7 @@ class MP_Node {
         return '[NO TOSTRING FOR ' . get_class($this) . ']';
     }
 
-    // Calls a function for all this nodes children.
+    // Calls a function for all this node's children.
     // Callback needs to take a node and return true if it changes nothing or does no structural changes.
     // If it does structural changes it must return false so that the recursion may be repeated on
     // the changed structure.

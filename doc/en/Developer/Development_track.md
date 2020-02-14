@@ -27,7 +27,7 @@ New features in v4.3:
 TODO:
 
 * Fix issue [#556](https://github.com/maths/moodle-qtype_stack/issues/556)
-* Add cache to help reduce parsing overhead.
+* DONE Add cache to help reduce parsing overhead.
 * Profile code, and as far as possible implement "easy hits".
 
 ## Version 4.4

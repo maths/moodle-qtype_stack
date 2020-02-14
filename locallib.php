@@ -56,9 +56,12 @@ function stack_string($key, $a = null) {
  * @return array search => replace strings.
  */
 function get_stack_maxima_latex_replacements() {
-    static $replacements = null;
-    if ($replacements === null) {
-        $replacements = [
+    // This is an array language code => replacements array.
+    static $replacements = [];
+
+    $lang = current_language();
+    if (!isset($replacements[$lang])) {
+        $replacements[$lang] = [
                 'QMCHAR' => '?',
                 '!LEFTSQ!' => '\left[',
                 '!LEFTR!' => '\left(',
@@ -75,7 +78,7 @@ function get_stack_maxima_latex_replacements() {
                 '!NOT!' => stack_string('equiv_NOT'),
         ];
     }
-    return $replacements;
+    return $replacements[$lang];
 }
 
 /**

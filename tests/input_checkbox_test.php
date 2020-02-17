@@ -70,6 +70,9 @@ class stack_checkbox_input_test extends qtype_stack_walkthrough_test_base {
                 '<span class="nolink">\(2+y\)</span></span></label></div></div>';
         $this->assertEquals($expected, $el->render(new stack_input_state(
                 stack_input::SCORE, array(''), '', '', '', '', ''), 'stack1__ans1', false, null));
+        $expected = 'A correct answer is: <ul><li><span class="filter_mathjaxloader_equation">' .
+                '<span class="nolink">\(1+x\)</span></span></li></ul>';
+        $this->assertEquals($expected, $el->get_teacher_answer_display(false, false));
     }
 
     public function test_simple_casstring_checkbox() {
@@ -165,6 +168,9 @@ class stack_checkbox_input_test extends qtype_stack_walkthrough_test_base {
                 '<span class="nolink">\(\sin \left( \pi\cdot n \right)\)</span></span></label></div></div>';
         $this->assertEquals($expected, $el->render(new stack_input_state(
                         stack_input::SCORE, array('3'), '', '', '', '', ''), 'stack1__ans1', false, null));
+        $expected = 'A correct answer is: <ul><li><span class="filter_mathjaxloader_equation">' .
+                '<span class="nolink">\(x+1\)</span></span></li></ul>';
+        $this->assertEquals($expected, $el->get_teacher_answer_display(false, false));
     }
 
     public function test_render_latexdisplay() {
@@ -180,6 +186,9 @@ class stack_checkbox_input_test extends qtype_stack_walkthrough_test_base {
                 '<span class="nolink">\[\sin \left( \pi\cdot n \right)\]</span></span></label></div></div>';
         $this->assertEquals($expected, $el->render(new stack_input_state(
                         stack_input::SCORE, array('3'), '', '', '', '', ''), 'stack1__ans1', false, null));
+        $expected = 'A correct answer is: <ul><li><span class="filter_mathjaxloader_equation">' .
+                '<span class="nolink">\[x+1\]</span></span></li></ul>';
+        $this->assertEquals($expected, $el->get_teacher_answer_display(false, false));
     }
 
     public function test_render_latexdisplaystyle() {
@@ -240,6 +249,8 @@ class stack_checkbox_input_test extends qtype_stack_walkthrough_test_base {
         $this->assertEquals(stack_input::SCORE, $state->status);
         $this->assertEquals(array('3'), $state->contents);
         $this->assertEquals('[{}]', $state->contentsmodified);
+        $expected = 'A correct answer is: <code>[1+x]</code>';
+        $this->assertEquals($expected, $el->get_teacher_answer_display(false, false));
     }
 
     public function test_logic_casstring() {
@@ -258,6 +269,8 @@ class stack_checkbox_input_test extends qtype_stack_walkthrough_test_base {
         $this->assertEquals(stack_input::SCORE, $state->status);
         $this->assertEquals(array('3'), $state->contents);
         $this->assertEquals('[x = 1 nounor x = 3]', $state->contentsmodified);
+        $expected = 'A correct answer is: <code>[x = 1 or x = 2]</code>';
+        $this->assertEquals($expected, $el->get_teacher_answer_display(false, false));
     }
 
     public function test_logic_latex() {
@@ -282,7 +295,8 @@ class stack_checkbox_input_test extends qtype_stack_walkthrough_test_base {
         $this->assertEquals('[x = 1 nounor x = 3]', $state->contentsmodified);
     }
 
-    public function test_simp_false() {
+    public function test_simp_false() {        
+
         $options = new stack_options();
         $el = stack_input_factory::make('checkbox', 'ans1', '[[abs(x-5)=abs(5-x),true],[1+1,false],[x=3 nounor x=1,false]]',
                 null, array('options' => 'latex'));
@@ -325,5 +339,44 @@ class stack_checkbox_input_test extends qtype_stack_walkthrough_test_base {
         $this->assertEquals(stack_input::SCORE, $state->status);
         $this->assertEquals(array('2'), $state->contents);
         $this->assertEquals('[stackunits(9.81,m/s)]', $state->contentsmodified);
+        $expected = 'A correct answer is: <ul><li><span class="filter_mathjaxloader_equation">' .
+                '<span class="nolink">\(9.81\, \frac{m}{s^2}\)</span></span></li></ul>';
+        $this->assertEquals($expected, $el->get_teacher_answer_display(false, false));
+    }
+
+    public function test_show_teacher_answer() {
+        $options = new stack_options();
+        $ta = '[[A, true, "Integration by parts"],[B, true, "Integration by substitution"],' .
+                '[C, true, "Apply a trig formula to remove product"],' .
+                '[D, true, "Remove trig with complex exponentials, then integrate"],' .
+                '[X, false, "None of the other options"]]';
+        $el = stack_input_factory::make('checkbox', 'ans1', $ta, null, array('options' => ''));
+        $expected = '<div class="answer"><div class="option">' .
+                '<input type="checkbox" name="stack1__ans1_1" value="1" id="stack1__ans1_1" />' .
+                '<label for="stack1__ans1_1">Integration by parts</label></div><div class="option">' .
+                '<input type="checkbox" name="stack1__ans1_2" value="2" id="stack1__ans1_2" checked="checked" />' .
+                '<label for="stack1__ans1_2">Integration by substitution</label></div><div class="option">' .
+                '<input type="checkbox" name="stack1__ans1_3" value="3" id="stack1__ans1_3" />' .
+                '<label for="stack1__ans1_3">Apply a trig formula to remove product</label></div>' .
+                '<div class="option"><input type="checkbox" name="stack1__ans1_4" value="4" id="stack1__ans1_4" />' .
+                '<label for="stack1__ans1_4">Remove trig with complex exponentials, then integrate</label></div>' .
+                '<div class="option"><input type="checkbox" name="stack1__ans1_5" value="5" id="stack1__ans1_5" />' .
+                '<label for="stack1__ans1_5">None of the other options</label></div></div>';
+        $this->assertEquals($expected, $el->render(new stack_input_state(
+                stack_input::SCORE, array('2'), '', '', '', '', ''), 'stack1__ans1', false, array()));
+        $state = $el->validate_student_response(array('ans1_2' => '2', 'ans1_3' => '3'),
+                $options, $ta, new stack_cas_security());
+        $this->assertEquals(stack_input::SCORE, $state->status);
+        $this->assertEquals(array('2', '3'), $state->contents);
+        $this->assertEquals('[B,C]', $state->contentsmodified);
+
+        $this->assertEquals($ta, $el->get_teacher_answer());
+        $el->adapt_to_model_answer($ta);
+        $expected = 'A correct answer is: <ul><li>Integration by parts</li><li>Integration by substitution</li>' .
+                '<li>Apply a trig formula to remove product</li>' .
+                '<li>Remove trig with complex exponentials, then integrate</li></ul>';
+        // This input type ignores the inputs to the function.
+        $this->assertEquals($expected, $el->get_teacher_answer_display(false, false));
+
     }
 }

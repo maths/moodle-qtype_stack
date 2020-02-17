@@ -219,7 +219,7 @@ foreach ($prtreportsummary as $prt => $tdata) {
         $notesummary[$prt] = array();
     }
     foreach ($tdata as $rawnote => $num) {
-        $notes = explode('|',$rawnote);
+        $notes = explode('|', $rawnote);
         foreach ($notes as $note) {
             $note = trim($note);
             if (array_key_exists($note, $notesummary[$prt])) {
@@ -227,7 +227,6 @@ foreach ($prtreportsummary as $prt => $tdata) {
             } else {
                 $notesummary[$prt][$note] = $num;
             }
-            
         }
     }
 }

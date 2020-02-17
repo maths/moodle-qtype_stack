@@ -11,6 +11,8 @@ STACK is the world-leading open-source (GPL) automatic assessment system for mat
 
 A [case studies](%CONTENT/2019-cate-case-studies.pdf) and a [flyer about the STACK project](%CONTENT/2018-STACK.pdf) are available.
 
+In 2019 we produced a self-contained "Getting started with STACK" [guide](%CONTENT/2019-STACK-Guide.pdf) to authoring STACK questions.
+
 # Overview #
 
 Welcome to the official user documentation for STACK.
@@ -28,7 +30,7 @@ General information about STACK, including:
 
 Documentation for question authors, including:
 
-* An [authoring quick start guide](Authoring/Authoring_quick_start.md).
+* An [authoring quick start guide](Authoring/Authoring_quick_start.md), which can be used in conjunction with the "Getting started with STACK" [guide](%CONTENT/2019-STACK-Guide.pdf).
 * Information on various [authoring topics](Authoring/index.md), such as [answer tests](Authoring/Answer_tests.md), [inputs](/Authoring/Inputs.md), [potential response trees](Authoring/Potential_response_trees.md) and [translations](Authoring/Languages.md).
 * [Frequently asked questions](Authoring/Author_FAQ.md).
 * Information on using the [CAS Maxima](CAS/index.md) for question authoring, including [randomisation](CAS/Random.md), [plotting graphs](CAS/Plots.md), and expression [simplification](CAS/Simplification.md).

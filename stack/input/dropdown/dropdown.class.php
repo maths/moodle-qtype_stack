@@ -264,7 +264,7 @@ class stack_dropdown_input extends stack_input {
         }
 
         // This sets display form in $this->ddlvalues.
-        $this->teacheranswerdisplay = '\('.$at1->get_by_key('teachans')->get_latex().'\)';
+        // $this->teacheranswerdisplay = '\('.$at1->get_by_key('teachans')->get_latex().'\)';
         foreach ($ddlvalues as $key => $value) {
             // Was the original expression a string?  If so, don't use the LaTeX version.
             $display = trim($ddlvalues[$key]['display']);

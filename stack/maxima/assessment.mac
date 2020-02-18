@@ -1272,11 +1272,13 @@ expandp(expandparg):= block([simp:true], if expandparg=ev(expand(expandparg),exp
 
 /* factorp(p) is true if p equals its factored form */
 factorp(argfac) := block([a],
+    if safe_op(argfac)="-" then 
+       argfac:part(argfac,1),
     if ev(argfac=factor(argfac), simp) then
         return(true),
     if mapatom(argfac) then
-        return(false),
-    /* Note, in Maxima factor((1-x)) = -(x-1), so we need to fix this, for learning and teaching! */
+        return(true),
+    /* Note, in Maxima factor((1-x)) = -(x-1), so we need to fix this. */
     if ev(-1*factor(argfac) = expand(-1*argfac), simp) then
         return(true),
     if op(argfac)="^" and mapatom(part(argfac, 1))

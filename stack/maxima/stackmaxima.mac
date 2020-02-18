@@ -2124,17 +2124,20 @@ FacForm_UnPick(SA, SO) := block([negdistrib, PARTSWITCH, fb, kloop, irred, res],
   partswitch:true,
   fb:"",
   res:true,
-  if atom(SA) then return([true, ""]) else
-    if op(SA) = "+" then return(irred_Q(SA, SO)) else
-      if op(SA) = "^" then return(irred_Q(part(SA, 1), SO)),
+  if atom(SA) then return([true, ""]),
+  if safe_op(SA) = "-" then SA:part(SA,1),
+  if op(SA) = "+" then return(irred_Q(SA, SO)) else
+    if op(SA) = "^" then return(irred_Q(part(SA, 1), SO)),
   /* So we have a *, or a / */
   for kloop:1 step 1 while ev(part(SA, kloop),simp)#end do block(
     /* We just need to go one level down! */
-    irred:block([SB], SB:part(SA, ev(kloop, simp)),
-    if atom(SB) then return([true,""]) else
-      if op(SB) = "+" then return(irred_Q(SB, SO)) else
-        if op(SB) = "^" then return(irred_Q(part(SB, 1), SO)) else return([false, ""])
-      ),
+    irred:block([SB],
+      SB:part(SA, ev(kloop, simp)),
+      if atom(SB) then return([true,""]),
+      if safe_op(SB) = "-" then SA:part(SB,1),
+      if op(SB) = "+" then return(irred_Q(SB, SO)),
+      if op(SB) = "^" then return(irred_Q(part(SB, 1), SO)) else return([false, ""])
+    ),
     res:res and irred[1],
     if irred[1] = false then block(
       fb:StackAddFeedback(fb, "FacForm_UnPick_morework",stack_disp(part(SA, ev(kloop, simp)), "i")),
@@ -2209,7 +2212,7 @@ FacFormfun(SA, SB, SO) := block([val, rawmk, ansnote, fb, ret, deg, aequiv, up, 
                fb:concat(fb, up[2])
                )
             else
-               ( ansnote:StackAddNote(ansnote,"ATFacForm_default_true") ),
+               (ansnote:StackAddNote(ansnote,"ATFacForm_default_true") ),
             /* Check for algebraic equivalence */
             if (true#aequiv) then (
               rawmk:false,
@@ -3006,4 +3009,4 @@ load(linearalgebra);
 
 /* Stack expects some output with the version number the output happens at */
 /* maximalocal.mac after additional library loading */
-stackmaximaversion:2020020300$
+stackmaximaversion:2020021800$

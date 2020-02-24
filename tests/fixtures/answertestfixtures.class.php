@@ -425,6 +425,9 @@ class stack_answertest_test_data {
         array('AlgEquiv', '', 'a*(1+sqrt(2))=b', 'a=b*(sqrt(2)-1)/3', -3, 'ATEquation_default', ''),
         array('AlgEquiv', '', 'atan(1/2)', '%pi/2-atan(2)', -3, '', 'This is only equivalent for x>=0...', ''),
         array('AlgEquiv', '', 'asinh(x)', 'ln(x+sqrt(x^2+1))', -3, '', 'This is true for all x...', ''),
+        // An example due to Gauss.  Just for fun!
+        array('AlgEquiv', '', 'cos(2*%pi/17)', '(-1+sqrt(17)+sqrt(34-2*sqrt(17)))/16+' .
+            '(2*sqrt(17+3*sqrt(17)-sqrt(34-2*sqrt(17))-2*sqrt(34+2*sqrt(17))))/16', -3, '', '', ''),
 
         array('AlgEquiv', '', 'true and false', 'false', 1, 'ATLogic_True.', 'Logical expressions'),
         array('AlgEquiv', '', 'true or false', 'false', 0, '', ''),

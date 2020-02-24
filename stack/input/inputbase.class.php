@@ -1007,7 +1007,7 @@ abstract class stack_input {
 
         // The "novars" option is only used by the numerical input type.
         if (array_key_exists('novars', $this->extraoptions)) {
-            if ($lvars->get_value() != '[]') {
+            if ($lvars->is_correctly_evaluated() &&  $lvars->get_value() != '[]') {
                 $valid = false;
                 $errors[] = stack_string('numericalinputvarsforbidden');
                 $this->set_parameter('showValidation', 1);

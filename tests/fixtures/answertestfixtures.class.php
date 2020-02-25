@@ -425,6 +425,9 @@ class stack_answertest_test_data {
         array('AlgEquiv', '', 'a*(1+sqrt(2))=b', 'a=b*(sqrt(2)-1)/3', -3, 'ATEquation_default', ''),
         array('AlgEquiv', '', 'atan(1/2)', '%pi/2-atan(2)', -3, '', 'This is only equivalent for x>=0...', ''),
         array('AlgEquiv', '', 'asinh(x)', 'ln(x+sqrt(x^2+1))', -3, '', 'This is true for all x...', ''),
+        // An example due to Gauss.  Just for fun!
+        array('AlgEquiv', '', 'cos(2*%pi/17)', '(-1+sqrt(17)+sqrt(34-2*sqrt(17)))/16+' .
+            '(2*sqrt(17+3*sqrt(17)-sqrt(34-2*sqrt(17))-2*sqrt(34+2*sqrt(17))))/16', -3, '', '', ''),
 
         array('AlgEquiv', '', 'true and false', 'false', 1, 'ATLogic_True.', 'Logical expressions'),
         array('AlgEquiv', '', 'true or false', 'false', 0, '', ''),
@@ -774,9 +777,12 @@ class stack_answertest_test_data {
         array('FacForm', 'v', 'v^2+1', 'v^2+1', 1, 'ATFacForm_true.', ''),
         array('FacForm', 'v', 'v^2-1', 'v^2-1', 0, 'ATFacForm_notfactored.', ''),
         array('FacForm', 'v', '-(3*w-4*v+9*u)*(3*w+4*v-u)', '-(3*w-4*v+9*u)*(3*w+4*v-u)', 1, 'ATFacForm_true.', ''),
+        array('FacForm', 'k', '-(6*k*(4*b-k-1))', '6*k*(1+k-4*b)', 1, 'ATFacForm_true.', ''),
+        array('FacForm', 'a', '-(6*a*(4*b-a-1))', '6*a*(1+a-4*b)', 1, 'ATFacForm_true.', ''),
+        array('FacForm', 'a', '-(6*a*(4*b-a-1))', '6*a*(-(4*b)+a+1)', 1, 'ATFacForm_true.', ''),
         array('FacForm', 'x', '(2-x)*(3-x)', '(x-2)*(x-3)', 1, 'ATFacForm_true.', 'These are delicate cases!'),
         array('FacForm', 'x', '(1-x)^2', '(x-1)^2', 1, 'ATFacForm_true.', ''),
-        array('FacForm', 'x', '-(1-x)^2', '-(x-1)^2', 1, 'ATFacForm_default_true.', ''),
+        array('FacForm', 'x', '-(1-x)^2', '-(x-1)^2', 1, 'ATFacForm_true.', ''),
         array('FacForm', 'x', '4*(1-x/2)^2', '(x-2)^2', 1, 'ATFacForm_default_true.', ''),
         array('FacForm', 'x', '(x-1)*(x^2+x+1)', 'x^3-1', 1, 'ATFacForm_true.', 'Cubics'),
         array('FacForm', 'x', 'x^3-x+1', 'x^3-x+1', 1, 'ATFacForm_true.', ''),

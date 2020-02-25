@@ -71,6 +71,9 @@ class stack_radio_input_test extends qtype_stack_walkthrough_test_base {
                 '<span class="nolink">\(2+y\)</span></span></label></div></div>';
         $this->assertEquals($expected, $el->render(new stack_input_state(
                 stack_input::SCORE, array('2'), '', '', '', '', ''), 'stack1__ans1', false, null));
+        $expected = 'A correct answer is: <ul><li><span class="filter_mathjaxloader_equation">' .
+                '<span class="nolink">\(1+x\)</span></span></li></ul>';
+        $this->assertEquals($expected, $el->get_teacher_answer_display(false, false));
     }
 
     public function test_simple_casstring_radio() {
@@ -177,6 +180,9 @@ class stack_radio_input_test extends qtype_stack_walkthrough_test_base {
                 '<span class="nolink">\(\sin \left( \pi\cdot n \right)\)</span></span></label></div></div>';
         $this->assertEquals($expected, $el->render(new stack_input_state(
                         stack_input::SCORE, array('3'), '', '', '', '', ''), 'stack1__ans1', false, null));
+        $expected = 'A correct answer is: <ul><li><span class="filter_mathjaxloader_equation">' .
+                '<span class="nolink">\(x+1\)</span></span></li></ul>';
+        $this->assertEquals($expected, $el->get_teacher_answer_display(false, false));
     }
 
     public function test_render_casstring() {
@@ -192,6 +198,8 @@ class stack_radio_input_test extends qtype_stack_walkthrough_test_base {
             . '</div></div>';
         $this->assertEquals($expected, $el->render(new stack_input_state(
                         stack_input::SCORE, array('3'), '', '', '', '', ''), 'stack1__ans1', false, null));
+        $expected = 'A correct answer is: <code>x+1</code>';
+        $this->assertEquals($expected, $el->get_teacher_answer_display(false, false));
     }
 
     public function test_render_latex() {
@@ -210,6 +218,9 @@ class stack_radio_input_test extends qtype_stack_walkthrough_test_base {
                 '<span class="nolink">\(\sin \left( \pi\cdot n \right)\)</span></span></label></div></div>';
         $this->assertEquals($expected, $el->render(new stack_input_state(
                         stack_input::SCORE, array('3'), '', '', '', '', ''), 'stack1__ans1', false, null));
+        $expected = 'A correct answer is: <ul><li><span class="filter_mathjaxloader_equation">' .
+                '<span class="nolink">\(x+1\)</span></span></li></ul>';
+        $this->assertEquals($expected, $el->get_teacher_answer_display(false, false));
     }
 
     public function test_render_latexdisplay() {
@@ -228,6 +239,9 @@ class stack_radio_input_test extends qtype_stack_walkthrough_test_base {
                 '<span class="nolink">\[\sin \left( \pi\cdot n \right)\]</span></span></label></div></div>';
         $this->assertEquals($expected, $el->render(new stack_input_state(
                         stack_input::SCORE, array('3'), '', '', '', '', ''), 'stack1__ans1', false, null));
+        $expected = 'A correct answer is: <ul><li><span class="filter_mathjaxloader_equation">' .
+                '<span class="nolink">\[x+1\]</span></span></li></ul>';
+        $this->assertEquals($expected, $el->get_teacher_answer_display(false, false));
     }
 
     public function test_render_latexdisplaystyle() {
@@ -247,6 +261,9 @@ class stack_radio_input_test extends qtype_stack_walkthrough_test_base {
                 '</span></label></div></div>';
         $this->assertEquals($expected, $el->render(new stack_input_state(
                 stack_input::SCORE, array('3'), '', '', '', '', ''), 'stack1__ans1', false, null));
+        $expected = 'A correct answer is: <ul><li><span class="filter_mathjaxloader_equation">' .
+                '<span class="nolink">\(\displaystyle x+1\)</span></span></li></ul>';
+        $this->assertEquals($expected, $el->get_teacher_answer_display(false, false));
     }
 
     public function test_render_no_not_answered() {

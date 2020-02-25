@@ -51,22 +51,44 @@ function stack_string($key, $a = null) {
 }
 
 /**
+ * Private helper used by the next function.
+ *
+ * @return array search => replace strings.
+ */
+function get_stack_maxima_latex_replacements() {
+    // This is an array language code => replacements array.
+    static $replacements = [];
+
+    $lang = current_language();
+    if (!isset($replacements[$lang])) {
+        $replacements[$lang] = [
+                'QMCHAR' => '?',
+                '!LEFTSQ!' => '\left[',
+                '!LEFTR!' => '\left(',
+                '!RIGHTSQ!' => '\right]',
+                '!RIGHTR!' => '\right)',
+                '!ANDOR!' => stack_string('equiv_ANDOR'),
+                '!SAMEROOTS!' => stack_string('equiv_SAMEROOTS'),
+                '!MISSINGVAR!' => stack_string('equiv_MISSINGVAR'),
+                '!ASSUMEPOSVARS!' => stack_string('equiv_ASSUMEPOSVARS'),
+                '!ASSUMEPOSREALVARS!' => stack_string('equiv_ASSUMEPOSREALVARS'),
+                '!LET!' => stack_string('equiv_LET'),
+                '!AND!' => stack_string('equiv_AND'),
+                '!OR!' => stack_string('equiv_OR'),
+                '!NOT!' => stack_string('equiv_NOT'),
+        ];
+    }
+    return $replacements[$lang];
+}
+
+/**
  * This function tidies up LaTeX from Maxima.
  * @param string $rawfeedback
  * @return string
  */
 function stack_maxima_latex_tidy($latex) {
-    $dispfix = array('QMCHAR' => '?', '!LEFTSQ!' => '\left[', '!LEFTR!' => '\left(',
-            '!RIGHTSQ!' => '\right]', '!RIGHTR!' => '\right)');
-    // Need to add this in here also because strings may contain question mark characters.
-    foreach ($dispfix as $key => $fix) {
-        $latex = str_replace($key, $fix, $latex);
-    }
-    $loctags = array('ANDOR', 'SAMEROOTS', 'MISSINGVAR', 'ASSUMEPOSVARS', 'ASSUMEPOSREALVARS', 'LET',
-            'AND', 'OR', 'NOT');
-    foreach ($loctags as $tag) {
-        $latex = str_replace('!'.$tag.'!', stack_string('equiv_'.$tag), $latex);
-    }
+    $replacements = get_stack_maxima_latex_replacements();
+    $latex = str_replace(array_keys($replacements), array_values($replacements), $latex);
 
     // Also previously some spaces have been eliminated and line changes dropped.
     // Apparently returning verbatim LaTeX was not a thing.

@@ -171,7 +171,7 @@ class stack_dropdown_input extends stack_input {
                     if (array_key_exists(2, $value)) {
                         $ddlvalue['display'] = $value[2];
                     }
-                    if ($value[1] == 'true') {
+                    if (trim($value[1]) == 'true') {
                         $ddlvalue['correct'] = true;
                     } else {
                         $ddlvalue['correct'] = false;
@@ -188,31 +188,13 @@ class stack_dropdown_input extends stack_input {
             }
         }
 
-        /*
-         * The dropdown input is very unusual in that the "teacher's answer" contains a mix
-         * of correct and incorrect responses.  The teacher may be happy with a subset
-         * of the correct responses.  So, we create $this->teacheranswervalue to be a Maxima
-         * list of the values of those things the teacher said are correct.
-         */
         if ($this->ddltype != 'checkbox' && $numbercorrect === 0) {
             $this->errors[] = stack_string('ddl_nocorrectanswersupplied');
             return;
         }
-        if ($this->ddltype == 'checkbox') {
-            $this->teacheranswervalue = '['.implode(',', $correctanswer).']';
-            $this->teacheranswerdisplay = '<code>'.'['.implode(',', $correctanswerdisplay).']'.'</code>';
-        } else {
-            // As a correct answer we only take the first element.  If we create a list then when we seek the teacher's
-            // answer later we throw an exception that the correct answer can't be found.
-            $this->teacheranswervalue = $correctanswer[0];
-            $this->teacheranswerdisplay = '<code>'.implode(', ', $correctanswerdisplay).'</code>';
-        }
-
-        if (empty($ddlvalues)) {
-            return;
-        }
 
         if ($this->ddldisplay === 'casstring') {
+            $correctanswerdisplay = array();
             // By default, we wrap displayed values in <code> tags.
             foreach ($ddlvalues as $key => $value) {
                 $display = trim($ddlvalues[$key]['display']);
@@ -225,16 +207,39 @@ class stack_dropdown_input extends stack_input {
                     }
                     $ddlvalues[$key]['display'] = '<code>'.$display.'</code>';
                 }
+                if ($ddlvalues[$key]['correct']) {
+                    $correctanswerdisplay[] = $display;
+                }
             }
             $this->ddlvalues = $this->key_order($ddlvalues);
+        }
+
+        /*
+         * The dropdown input is very unusual in that the "teacher's answer" contains a mix
+         * of correct and incorrect responses.  The teacher may be happy with a subset
+         * of the correct responses.  So, we create $this->teacheranswervalue to be a Maxima
+         * list of the values of those things the teacher said are correct.
+         */
+
+        if ($this->ddltype == 'checkbox') {
+            $this->teacheranswervalue = '['.implode(',', $correctanswer).']';
+            $this->teacheranswerdisplay = '<code>'.'['.implode(',', $correctanswerdisplay).']'.'</code>';
+        } else {
+            // As a correct answer we only take the first element.  If we create a list then when we seek the teacher's
+            // answer later we throw an exception that the correct answer can't be found.
+            $this->teacheranswervalue = $correctanswer[0];
+            $this->teacheranswerdisplay = '<code>'.implode(', ', $correctanswerdisplay).'</code>';
+        }
+
+        if ($this->ddldisplay === 'casstring') {
+            return;
+        }
+        if (empty($ddlvalues)) {
             return;
         }
 
         // If we are displaying LaTeX we need to connect to the CAS to generate LaTeX from the displayed values.
         $csvs = array();
-        // Create a displayed form of the teacher's answer.
-        $csv = stack_ast_container::make_from_teacher_source('teachans:'.$this->teacheranswervalue);
-        $csvs[] = $csv;
         foreach ($ddlvalues as $key => $value) {
             // We use the display term here because it might differ explicitly from the above "value".
             // So, we send the display form to LaTeX, and then replace it with the LaTeX below.
@@ -263,8 +268,8 @@ class stack_dropdown_input extends stack_input {
             return;
         }
 
+        $teacheranswerdisplay = array();
         // This sets display form in $this->ddlvalues.
-        // $this->teacheranswerdisplay = '\('.$at1->get_by_key('teachans')->get_latex().'\)';
         foreach ($ddlvalues as $key => $value) {
             // Was the original expression a string?  If so, don't use the LaTeX version.
             $display = trim($ddlvalues[$key]['display']);
@@ -287,7 +292,11 @@ class stack_dropdown_input extends stack_input {
                         $ddlvalues[$key]['display'] = '\(\displaystyle '.$disp.'\)';
                 }
             }
+            if ($ddlvalues[$key]['correct']) {
+                $teacheranswerdisplay[] = html_writer::tag('li', $ddlvalues[$key]['display']);
+            }
         }
+        $this->teacheranswerdisplay = html_writer::tag('ul', implode('', $teacheranswerdisplay));
 
         $this->ddlvalues = $this->key_order($ddlvalues);
         return;
@@ -476,7 +485,7 @@ class stack_dropdown_input extends stack_input {
      */
     public function get_teacher_answer_display($value, $display) {
         // Can we really ignore the $value and $display inputs here and rely on the internal state?
-        return stack_string('teacheranswershow_disp', array('display' => $this->teacheranswerdisplay));
+        return stack_string('teacheranswershow_mcq', array('display' => $this->teacheranswerdisplay));
     }
 
     /**

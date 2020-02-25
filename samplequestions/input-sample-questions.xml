@@ -5,12 +5,13 @@
     <category>
       <text>top/Default for Scratch/Input Samples</text>
     </category>
-    <info format="html">
+    <info format="moodle_auto_format">
       <text></text>
     </info>
+    <idnumber></idnumber>
   </question>
 
-<!-- question: 19535  -->
+<!-- question: 2795  -->
   <question type="stack">
     <name>
       <text>Algebraic input</text>
@@ -134,7 +135,7 @@
     </qtest>
   </question>
 
-<!-- question: 19536  -->
+<!-- question: 2796  -->
   <question type="stack">
     <name>
       <text>Algebraic input (align to the right)</text>
@@ -271,7 +272,7 @@
     </qtest>
   </question>
 
-<!-- question: 19537  -->
+<!-- question: 2797  -->
   <question type="stack">
     <name>
       <text>Algebraic input (answer box sizes test)</text>
@@ -557,7 +558,7 @@
     </qtest>
   </question>
 
-<!-- question: 19538  -->
+<!-- question: 2798  -->
   <question type="stack">
     <name>
       <text>Algebraic input (compact)</text>
@@ -681,7 +682,7 @@
     </qtest>
   </question>
 
-<!-- question: 19539  -->
+<!-- question: 2799  -->
   <question type="stack">
     <name>
       <text>Algebraic input (empty answer permitted)</text>
@@ -880,7 +881,7 @@
     </qtest>
   </question>
 
-<!-- question: 19540  -->
+<!-- question: 2800  -->
   <question type="stack">
     <name>
       <text>Algebraic input (with simplification)</text>
@@ -1018,7 +1019,7 @@
     </qtest>
   </question>
 
-<!-- question: 19541  -->
+<!-- question: 2801  -->
   <question type="stack">
     <name>
       <text>Checkbox</text>
@@ -1148,7 +1149,7 @@ ta:append(ta,[tao]);]]></text>
     </qtest>
   </question>
 
-<!-- question: 19542  -->
+<!-- question: 2802  -->
   <question type="stack">
     <name>
       <text>Checkbox (no body LaTeX)</text>
@@ -1164,7 +1165,7 @@ ta:append(ta,[tao]);]]></text>
     <hidden>0</hidden>
     <idnumber></idnumber>
     <stackversion>
-      <text>2019121800</text>
+      <text>2020020301</text>
     </stackversion>
     <questionvariables>
       <text><![CDATA[/* Create a list of potential answers. */
@@ -1172,15 +1173,14 @@ p:sin(2*x);
 ta:[[diff(p,x),true],[p,false],[int(p,x),false],[cos(2*x)+c,false]];
 /* The actual correct answer.    */
 tac:diff(p,x)
-/* Add in a "None of these" to the end of the list.  The Maxima value is the atom null. */
-tao:[null, false, "None of these"];
+tao:[null, true, "Something random"];
 ta:append(ta,[tao]);]]></text>
     </questionvariables>
     <specificfeedback format="html">
       <text>[[feedback:prt1]]</text>
     </specificfeedback>
     <questionnote>
-      <text></text>
+      <text>{@ta@}</text>
     </questionnote>
     <questionsimplify>1</questionsimplify>
     <assumepositive>0</assumepositive>
@@ -1223,13 +1223,13 @@ ta:append(ta,[tao]);]]></text>
       <value>1.0000000</value>
       <autosimplify>1</autosimplify>
       <feedbackvariables>
-        <text><![CDATA[ansmod:apply("and",maplist(lambda([ex],second(ATDiff(ex,diff(p,x),x))),ans1));]]></text>
+        <text></text>
       </feedbackvariables>
       <node>
         <name>0</name>
         <answertest>AlgEquiv</answertest>
-        <sans>ansmod</sans>
-        <tans>true</tans>
+        <sans>ans1</sans>
+        <tans>[diff(p,x),null]</tans>
         <testoptions></testoptions>
         <quiet>0</quiet>
         <truescoremode>=</truescoremode>
@@ -1254,7 +1254,7 @@ ta:append(ta,[tao]);]]></text>
       <testcase>1</testcase>
       <testinput>
         <name>ans1</name>
-        <value>[2*cos(2*x)]</value>
+        <value>[2*cos(2*x),null]</value>
       </testinput>
       <expected>
         <name>prt1</name>
@@ -1278,7 +1278,7 @@ ta:append(ta,[tao]);]]></text>
     </qtest>
   </question>
 
-<!-- question: 19556  -->
+<!-- question: 2803  -->
   <question type="stack">
     <name>
       <text>Checkbox (plots in options)</text>
@@ -1496,7 +1496,137 @@ incorr1:mcq_incorrect(ta1);]]></text>
     </tags>
   </question>
 
-<!-- question: 19543  -->
+<!-- question: 2817  -->
+  <question type="stack">
+    <name>
+      <text>Checkbox (Show teacher's answer)</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>Which method would you use to find \(\int\sin(x)\cos(x)\mathrm{d} x\)?</p>
+<p>[[input:ans1]][[validation:ans1]]</p> 
+<p>(The purpose of this question is to test the "teacher's answer" display is the string shown, not the value returned to Maxima).</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p>Indeed, all four methods can be readily used on this integration problem!</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.1000000</penalty>
+    <hidden>0</hidden>
+    <idnumber></idnumber>
+    <stackversion>
+      <text>2020020301</text>
+    </stackversion>
+    <questionvariables>
+      <text><![CDATA[ta1:[A, true, "Integration by parts"];
+ta2:[B, true, "Integration by substitution"];
+ta3:[C, true, "Apply a trig formula to remove product"];
+ta4:[D, true, "Remove trig with complex exponentials, then integrate"];
+ta0:[X, false, "None of the other options"];
+ta:[ta1,ta2,ta3,ta4,ta0]; ]]></text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text>[[feedback:prt1]]</text>
+    </specificfeedback>
+    <questionnote>
+      <text></text>
+    </questionnote>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <matrixparens>[</matrixparens>
+    <variantsselectionseed></variantsselectionseed>
+    <input>
+      <name>ans1</name>
+      <type>checkbox</type>
+      <tans>ta</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint></syntaxhint>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords></forbidwords>
+      <allowwords></allowwords>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>0</mustverify>
+      <showvalidation>0</showvalidation>
+      <options></options>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackvariables>
+        <text></text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>[A,B,C,D]</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <qtest>
+      <testcase>1</testcase>
+      <testinput>
+        <name>ans1</name>
+        <value>[2*cos(2*x)]</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <testinput>
+        <name>ans1</name>
+        <value>[first(ta[1]),first(ta[3])]</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt1-1-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+
+<!-- question: 2804  -->
   <question type="stack">
     <name>
       <text>Dropdown (shuffle)</text>
@@ -1641,7 +1771,7 @@ ta:append(ta,[tao]);]]></text>
     </qtest>
   </question>
 
-<!-- question: 19544  -->
+<!-- question: 2805  -->
   <question type="stack">
     <name>
       <text>Equiv input test (compact)</text>
@@ -1753,7 +1883,7 @@ ta:[p,x=(4-7)/3,x=-1]</text>
     </qtest>
   </question>
 
-<!-- question: 19545  -->
+<!-- question: 2806  -->
   <question type="stack">
     <name>
       <text>Equiv input test (let, or +-)</text>
@@ -1890,7 +2020,7 @@ p:first(tal);</text>
     </qtest>
   </question>
 
-<!-- question: 19546  -->
+<!-- question: 2807  -->
   <question type="stack">
     <name>
       <text>Matrix</text>
@@ -2013,7 +2143,7 @@ p:first(tal);</text>
     </qtest>
   </question>
 
-<!-- question: 19547  -->
+<!-- question: 2808  -->
   <question type="stack">
     <name>
       <text>Notes</text>
@@ -2123,7 +2253,7 @@ p:first(tal);</text>
     </qtest>
   </question>
 
-<!-- question: 19548  -->
+<!-- question: 2809  -->
   <question type="stack">
     <name>
       <text>Numerical input (min sf)</text>
@@ -2246,7 +2376,7 @@ p:first(tal);</text>
     </qtest>
   </question>
 
-<!-- question: 19549  -->
+<!-- question: 2810  -->
   <question type="stack">
     <name>
       <text>Radio</text>
@@ -2363,7 +2493,7 @@ ta:append(ta,[tao]);]]></text>
     </qtest>
   </question>
 
-<!-- question: 19550  -->
+<!-- question: 2811  -->
   <question type="stack">
     <name>
       <text>Single char</text>
@@ -2486,7 +2616,7 @@ ta:append(ta,[tao]);]]></text>
     </qtest>
   </question>
 
-<!-- question: 19551  -->
+<!-- question: 2812  -->
   <question type="stack">
     <name>
       <text>String input</text>
@@ -2621,7 +2751,7 @@ This input is not, perhaps it is used to store JSXGraph state?
     </qtest>
   </question>
 
-<!-- question: 19552  -->
+<!-- question: 2813  -->
   <question type="stack">
     <name>
       <text>Textarea test</text>
@@ -2731,7 +2861,7 @@ This input is not, perhaps it is used to store JSXGraph state?
     </qtest>
   </question>
 
-<!-- question: 19553  -->
+<!-- question: 2814  -->
   <question type="stack">
     <name>
       <text>Textarea test (compact)</text>
@@ -2841,7 +2971,7 @@ This input is not, perhaps it is used to store JSXGraph state?
     </qtest>
   </question>
 
-<!-- question: 19554  -->
+<!-- question: 2815  -->
   <question type="stack">
     <name>
       <text>True/false</text>
@@ -2964,7 +3094,7 @@ This input is not, perhaps it is used to store JSXGraph state?
     </qtest>
   </question>
 
-<!-- question: 19555  -->
+<!-- question: 2816  -->
   <question type="stack">
     <name>
       <text>Units</text>

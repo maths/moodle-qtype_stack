@@ -1867,4 +1867,34 @@ class stack_cas_session2_test extends qtype_stack_testcase {
                 '([Op: *] ([Id] c), ([Id] d)))), ([Op: *] ([Id] A), ([Id] B)))';
         $this->assertEquals($expected, $s1[0]->get_ast_test());
     }
+
+    public function test_stack_pm_taylor() {
+        $tests = array('ta:ev(taylor(10*cos(2*x),x,%pi/4,2),simp)');
+
+        foreach ($tests as $key => $c) {
+            $s1[] = stack_ast_container::make_from_teacher_source($c,
+                    '', new stack_cas_security(), array());
+        }
+
+        $expected = '([Root] ([Op: :] ([Id] ta), ([FunctionCall: ([Id] ev)] ' .
+            '([FunctionCall: ([Id] taylor)] ([Op: *] ([Int] 10), ' .
+            '([FunctionCall: ([Id] cos)] ([Op: *] ([Int] 2), ([Id] x)))),([Id] x),([Op: /] ' .
+            '([Id] %pi), ([Int] 4)),([Int] 2)),([Id] simp))))';
+        $this->assertEquals($expected, $s1[0]->get_ast_test());
+
+        $options = new stack_options();
+        $options->set_option('simplify', false);
+        $at1 = new stack_cas_session2($s1, $options, 0);
+        $at1->instantiate();
+
+        $this->assertEquals('+-(20*(x-%pi/4))', $s1[0]->get_value());
+        $this->assertEquals('+-(20*(x-%pi/4))', $s1[0]->get_dispvalue());
+        $this->assertEquals('+\left(-20\cdot \left(x-\frac{\pi}{4}\right)\right)+\cdots',
+                $s1[0]->get_display());
+
+        // The evaluated form does not contain the explicit +- operator.
+        $expected = '([PrefixOp: +] ([PrefixOp: -] ([Group] ([Op: *] ([Int] 20), ([Group] ([Op: /] ' .
+            '([Op: -] ([Id] x), ([Id] %pi)), ([Int] 4)))))))';
+        $this->assertEquals($expected, $s1[0]->get_ast_test());
+    }
 }

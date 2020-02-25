@@ -84,6 +84,16 @@ class stack_units_input_test extends qtype_stack_testcase {
                         'stack1__sans1', false, null));
     }
 
+    public function test_render_placeholder() {
+        $el = stack_input_factory::make('units', 'sans1', '9.81*m/s^2');
+        $el->set_parameter('syntaxHint', 'Remove me');
+        $el->set_parameter('syntaxAttribute', 1);
+        $this->assertEquals('<input type="text" name="stack1__sans1" id="stack1__sans1" size="16.5" style="width: 13.6em" '
+                .'autocapitalize="none" spellcheck="false" class="algebraic-units" placeholder="Remove me" />',
+                $el->render(new stack_input_state(stack_input::BLANK, array(), '', '', '', '', ''),
+                        'stack1__sans1', false, null));
+    }
+
     public function test_validate_student_response_1() {
         $options = new stack_options();
         $el = stack_input_factory::make('units', 'sans1', '9.81*m/s^2');

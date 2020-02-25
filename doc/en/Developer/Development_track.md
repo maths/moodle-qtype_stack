@@ -23,8 +23,18 @@ New features in v4.3:
 * Add in input option 'nounits'.
 * Add in option 'compact' to input "Show the validation" parameter.
 * Add in a basic question use report page, linked from the question testing page.
+* Add cache to help reduce parsing overhead.
+
+TODO:
+
+* Profile code, and as far as possible implement "easy hits".
 
 ## Version 4.4
+
+## Maxima side PRTs.
+
+* Move all functions to Maxima.
+
 
 ## For "inputs 2"?
 

@@ -655,16 +655,17 @@ recursemod(ex, n) := block(
    Takes two objects and returns true if they are equal, and false otherwise
    This is a "bash as hard as possible" function
 
-   26/9/12.  Avoid fullratsimp after exponentialize.  This results in a non-terminating process.
-
+   26/09/12.  Avoid fullratsimp after exponentialize.  This results in a non-terminating process.
    24/11/13.  Avoid fullratsimp.  This expands out exprsssions such as (x+a)^6000, which results in an overflow.
-
    04/01/19.  Avoid trigexpand too soon, i.e. before trying to factor.
+   24/02/20.  Using a lambda expression is causing an infinite loop.  Use a named function: algebraic_equivalence_zero.
 */
+
+algebraic_equivalence_zero(ex) := algebraic_equivalence(ex, 0)$
+
 algebraic_equivalence(SA, SB) :=
     block([keepfloat, trigexpand, logexpand, ex, vi],
     /* Reject obviously different expressions.  These can be very time consuming in the tests below. */
-    /* The code below is actually making the situation worse: needs reconsidering. */
     if numerical_not_alg_equiv(SA, SB) then return(false),
     trigexpand:false,
     logexpand:super,
@@ -716,8 +717,8 @@ algebraic_equivalence(SA, SB) :=
     /* Try to return a negative result without expanding anything! */
     if safe_op(ex)="-" then
        ex:first(args(ex)),
-    if (safe_op(ex)="*" or safe_op(ex)="^") then
-       if not(any_listp(lambda([ex2], algebraic_equivalence(ex2, 0)), args(ex))) then return(false),
+    if (safe_op(ex)="*" or safe_op(ex)="^") then 
+       if not(any_listp(algebraic_equivalence_zero, args(ex))) then return(false),
     ex:errcatch(ratsimp(ex)),
     if ex=[] then error("algebraic_equivalence: evaluating the difference of two expressions threw an error."),
     ex:ex[1],
@@ -1272,11 +1273,13 @@ expandp(expandparg):= block([simp:true], if expandparg=ev(expand(expandparg),exp
 
 /* factorp(p) is true if p equals its factored form */
 factorp(argfac) := block([a],
+    if safe_op(argfac)="-" then 
+       argfac:part(argfac,1),
     if ev(argfac=factor(argfac), simp) then
         return(true),
     if mapatom(argfac) then
-        return(false),
-    /* Note, in Maxima factor((1-x)) = -(x-1), so we need to fix this, for learning and teaching! */
+        return(true),
+    /* Note, in Maxima factor((1-x)) = -(x-1), so we need to fix this. */
     if ev(-1*factor(argfac) = expand(-1*argfac), simp) then
         return(true),
     if op(argfac)="^" and mapatom(part(argfac, 1))

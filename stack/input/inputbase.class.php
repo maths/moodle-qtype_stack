@@ -1007,7 +1007,7 @@ abstract class stack_input {
 
         // The "novars" option is only used by the numerical input type.
         if (array_key_exists('novars', $this->extraoptions)) {
-            if ($lvars->get_value() != '[]') {
+            if ($lvars->is_correctly_evaluated() &&  $lvars->get_value() != '[]') {
                 $valid = false;
                 $errors[] = stack_string('numericalinputvarsforbidden');
                 $this->set_parameter('showValidation', 1);
@@ -1341,5 +1341,13 @@ abstract class stack_input {
             $errors[$err] = true;
         }
         return array_keys($errors);
+    }
+
+    /*
+     * Provide a summary of the student's response for the Moodle reporting.
+     * Notes do something different here.
+     */
+    public function summarise_response($name, $state, $response) {
+        return $name . ': ' . $this->contents_to_maxima($state->contents) . ' [' . $state->status . ']';
     }
 }

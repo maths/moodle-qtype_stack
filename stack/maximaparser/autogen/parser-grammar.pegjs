@@ -69,9 +69,11 @@
    case '<':
    case '<=':
     return 80;
+   case '%and':
    case 'and':
    case 'nounand':
     return 65;
+   case '%or':
    case 'or':
    case 'nounor':
     return 60;
@@ -567,6 +569,7 @@ PrefixOp
   / "''"
   / "'"
   / "not "
+  / "%not "
   / "?? "
   / "? "
   / "?"
@@ -585,6 +588,8 @@ InfixOp
   / "+-" & { /** <?php return $this->options['allowPM']; ?> **/ return options.allowPM; } {return '+-';}
   / "-"
   / "+"
+  / "%and"
+  / "%or"
   / "and"
   / "or"
   / "nounand"

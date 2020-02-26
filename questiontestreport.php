@@ -125,7 +125,11 @@ $qinputs = array_flip(array_keys($question->inputs));
 foreach ($qinputs as $key => $val) {
     $qinputs[$key] = array('score' => array(), 'valid' => array(), 'invalid' => array(), 'other' => array());
 }
+
 $inputreport = array();
+// The inputreportsummary is used to store inputs, regardless of variant.
+// Multi-part questions may have inputs which are not subject to randomisation.
+$inputreportsummary = $qinputs;
 $inputtotals = array();
 
 $qprts = array_flip(array_keys($question->prts));
@@ -164,6 +168,11 @@ foreach ($summary as $variant => $vdata) {
                     } else {
                         $inputreport[$variant][$input][$status][$datas] = $num;
                     }
+                    if (array_key_exists($datas, $inputreportsummary[$input][$status])) {
+                        $inputreportsummary[$input][$status][$datas] += (int) $num;
+                    } else {
+                        $inputreportsummary[$input][$status][$datas] = $num;
+                    }
                     // Count the total numbers in this array.
                     if (array_key_exists($input, $inputtotals)) {
                         $inputtotals[$input] += (int) $num;
@@ -201,6 +210,13 @@ foreach ($inputreport as $variant => $vdata) {
             arsort($value);
             $inputreport[$variant][$input][$key] = $value;
         }
+    }
+}
+
+foreach ($inputreportsummary as $input => $idata) {
+    foreach ($idata as $key => $value) {
+        arsort($value);
+        $inputreportsummary[$input][$key] = $value;
     }
 }
 
@@ -278,6 +294,36 @@ foreach ($notesummary as $prt => $data) {
 if (trim($sumout) !== '') {
     echo html_writer::tag('h3', stack_string('basicreportnotessplit'));
     echo html_writer::tag('pre', trim($sumout));
+}
+
+$sumout = '';
+foreach ($inputreportsummary as $input => $idata) {
+    $sumouti = '';
+    $tot = 0;
+    foreach ($idata as $key => $data) {
+        foreach ($data as $dat => $num) {
+            $tot += $num;
+        }
+    }
+    foreach ($idata as $key => $data) {
+        if ($data !== array()) {
+            $sumouti .= '### ' . $key . "\n";
+            $pad = max($data);
+            foreach ($data as $dat => $num) {
+                $sumouti .= str_pad($num, strlen((string) $pad) + 1) . '(' .
+                        str_pad(number_format((float) 100 * $num / $tot, 2, '.', ''), 6, ' ', STR_PAD_LEFT) .
+                        '%); ' . $dat . "\n";
+            }
+            $sumouti .= "\n";
+        }
+    }
+    if (trim($sumouti) !== '') {
+        $sumout .= '## ' . $input . ' ('. $tot . ")\n" . $sumouti;
+    }
+}
+if (trim($sumout) !== '') {
+    echo html_writer::tag('h3', stack_string('basicreportinputsummary'));
+    echo html_writer::tag('pre', $sumout);
 }
 
 // Output a report.

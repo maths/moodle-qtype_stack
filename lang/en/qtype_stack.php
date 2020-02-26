@@ -510,6 +510,7 @@ $string['basicreportraw'] = 'Raw data';
 $string['basicreportnotes'] = 'Frequency of answer notes, for each PRT, regardless of which variant was used.';
 $string['basicreportnotessplit'] = 'Frequency of answer notes, for each PRT, split by |, regardless of which variant was used.';
 $string['basicreportvariants'] = 'Raw inputs and PRT answer notes by variant.';
+$string['basicreportinputsummary'] = 'Raw inputs, regardless of which variant was used.';
 
 // Equiv input specific string.
 $string['equivnocomments'] = 'You are not permitted to use comments in this input type.  Please just work line by line.';

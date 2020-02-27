@@ -81,7 +81,21 @@ It is essential to confirm that the PHP scripts are connecting to the CAS.
 
 We have special scripts which provide confirmation and trouble-shooting data to [test the installation](Testing_installation.md).
 
-## 6. Optional: Add the STACK quiz report {#Report}
+## 6. Fix DB case sensitivity issue
+
+Using a database with a case insensitive collation can cause issues; for example MySQL with utf8mb4_unicode_ci. This is a general problem of Moodle, not specific to this plugin. See [Database collation issue](https://docs.moodle.org/dev/Database_collation_issue).
+
+If your DB uses case insensitive collations you must change them to case sensitive ones for the following columns:
+
+* qtype_stacks_inputs -> name
+
+Example command for MySQL 8.0:
+
+```sql
+ALTER TABLE mdl_qtype_stack_inputs CHANGE name name VARCHAR(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT '';
+```
+
+## 7. Optional: Add the STACK quiz report {#Report}
 
 The reports are still in a beta development stage and you can skip this step.   If you wish to take advantage of bespoke reports on attempts at an individual STACK question you will need to install the STACK quiz report format separately.  This is distributed as `quiz_stack`.  
 
@@ -92,7 +106,7 @@ The reports are still in a beta development stage and you can skip this step.   
         git clone git://github.com/maths/quiz_stack.git mod/quiz/report/stack
 2. Login to Moodle as the admin user and click on Notifications in the Site Administration panel.
 
-## 7. Optional: Add the LTI provider plugin
+## 8. Optional: Add the LTI provider plugin
 
 This optional step is for people who wish to use STACK through another interface than Moodle (or ILIAS).  Details are in the [LTI](LTI.md) page.
 

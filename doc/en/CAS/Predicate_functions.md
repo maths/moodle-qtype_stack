@@ -30,19 +30,20 @@ The following are a core part of Maxima, but there are many others.  Notice, pre
 
 The following type predicates are defined by STACK.
 
-| Function                  | Predicate
-| ------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-| `equationp(ex)`           | Determines if \(ex\) is an equation.
-| `functionp(ex)`           | Determines if \(ex\) is a function definition, using the operator `:=`.
-| `inequalityp(ex)`         | Determines if \(ex\) is an inequality.
-| `expressionp(ex)`         | Determines if \(ex\) is _not_ a matrix, list, set, equation, function or inequality.
-| `polynomialsimpp(ex)`     | Determines if \(ex\) is a polynomial in its own variables.
-| `simp_numberp(ex)`        | Determines if \(ex\) is a number when `simp:false`.
-| `simp_integerp(ex)`       | Determines if \(ex\) is an integer when `simp:false`.
-| `real_numberp(ex)`        | Determines if \(ex\) is a real number.
-| `rational_numberp(ex)`    | Determines if \(ex\) is a rational number.
-| `lowesttermsp(ex)`        | Determines if a fraction \(ex\) is in lowest terms.
-
+| Function                   | Predicate
+| -------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+| `equationp(ex)`            | Determines if \(ex\) is an equation.
+| `functionp(ex)`            | Determines if \(ex\) is a function definition, using the operator `:=`.
+| `inequalityp(ex)`          | Determines if \(ex\) is an inequality.
+| `expressionp(ex)`          | Determines if \(ex\) is _not_ a matrix, list, set, equation, function or inequality.
+| `polynomialsimpp(ex)`      | Determines if \(ex\) is a polynomial in its own variables.
+| `simp_numberp(ex)`         | Determines if \(ex\) is a number when `simp:false`.
+| `simp_integerp(ex)`        | Determines if \(ex\) is an integer when `simp:false`.
+| `real_numberp(ex)`         | Determines if \(ex\) is a real number.
+| `rational_numberp(ex)`     | Determines if \(ex\) is a rational number.
+| `lowesttermsp(ex)`         | Determines if a fraction \(ex\) is in lowest terms.
+| `complex_exponentialp(ex)` | Determines if \(ex\) is written in complex exponential form, \(r e^{i\theta} \).  Needs `simp:false`.
+| `imag_numberp(ex)`         | Determines if \(ex\) is a purely imaginary number.
 
 # STACK general predicates #
 

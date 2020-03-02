@@ -992,4 +992,19 @@ class stack_units_input_test extends qtype_stack_testcase {
         $this->assertEquals('<span class="stacksyntaxexample">520*mamu</span>', $state->contentsdisplayed);
         $this->assertEquals('Forbidden variable or constant: <span class="stacksyntaxexample">mamu</span>.', $state->errors);
     }
+
+    public function test_validate_student_response_brackets() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('units', 'sans1', '(1+1/sqrt(2)+3)*N
+                ');
+        $el->set_parameter('insertStars', 1);
+        $el->set_parameter('strictSyntax', false);
+        $state = $el->validate_student_response(array('sans1' => '(1+1/sqrt(2)+3)*N'), $options, '(1+1/sqrt(2)+3)*N',
+                new stack_cas_security(true));
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('', $state->note);
+        $this->assertEquals('(1+1/sqrt(2)+3)*N', $state->contentsmodified);
+        $this->assertEquals('\[ \left( 1+1\, \sqrt{2}^ {- 1 }+3\right)\, \mathrm{N} \]', $state->contentsdisplayed);
+        $this->assertEquals('', $state->errors);
+    }
 }

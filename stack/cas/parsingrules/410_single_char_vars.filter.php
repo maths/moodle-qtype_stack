@@ -44,9 +44,11 @@ class stack_ast_filter_410_single_char_vars implements stack_cas_astfilter {
                 }
 
                 // If it starts with any know identifier split after that.
-                foreach ($protected as $safe) {
-                    if (core_text::strpos($node->value, $safe) === 0) {
-                        $remainder = core_text::substr($node->value, core_text::strlen($safe));
+                for ($l=core_text::strlen($node->value); $l > 0 ; $l--) {
+                    $prefix = core_text::substr($node->value, 0, $l);
+                    if (array_key_exists($prefix, $protected)) {
+                        // It is the longest prefix, lets split.
+                        $remainder = core_text::substr($node->value,$l);
                         if (core_text::substr($remainder, 0, 1) === '_') {
                             return true;
                         }
@@ -55,7 +57,7 @@ class stack_ast_filter_410_single_char_vars implements stack_cas_astfilter {
                         } else {
                             $remainder = new MP_Identifier($remainder);
                         }
-                        $replacement = new MP_Operation('*', new MP_Identifier($safe), $remainder);
+                        $replacement = new MP_Operation('*', new MP_Identifier($prefix), $remainder);
                         $replacement->position['insertstars'] = true;
                         $node->parentnode->replace($node, $replacement);
                         if (array_search('missing_stars', $answernotes) === false) {

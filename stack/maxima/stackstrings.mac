@@ -291,6 +291,6 @@ castext_simplify(ct2) := block([_r,_i,_t,_redo],
 castext_concat(a, b) := block([_tmp,_a,_b],
  _a: castext_simplify(a),
  _b: castext_simplify(b),
- if stringp(_a) and stringp(b) then return(sconcat(_a,_b)),
+ if stringp(_a) and stringp(_b) then return(sconcat(_a,_b)),
  return(castext_simplify(["%root", _a, _b]))
 )$

@@ -398,7 +398,7 @@ class stack_ast_filter_998_security implements stack_cas_astfilter_parametric {
                 continue;
             }
             // For now apply only for students.
-            if ($this->source === 's' && $identifierrules->get_units() === true) {
+            if ($this->source === 's' && $identifierrules->get_units() === true && !$identifierrules->is_allowed_word($name, 'variable')) {
                 // Check for unit synonyms. Ignore if specifically allowed.
                 list ($fndsynonym, $answernote, $synonymerr) = stack_cas_casstring_units::find_units_synonyms($name);
                 if ($answernote !== '' && array_search($answernote, $answernotes) === false) {

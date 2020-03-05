@@ -615,7 +615,8 @@ class stack_cas_security {
     }
 
     // The so called alpha-map, of all known identifiers that should be protected from
-    // insert-stars. Ordered with the longest first and indexed with the identifiers.
+    // insert-stars. Indexed with the identifiers.
+    // NOT ordered by length anymore.
     public static function get_protected_identifiers(string $type = 'variable', bool $units = false): array {
         static $variablewithoutunits = null;
         static $variablewithunits = null;
@@ -633,12 +634,6 @@ class stack_cas_security {
             }
             $workmap = array_merge(self::get_all_with_feature('variable', $units),
                                    self::get_all_with_feature('constant', $units));
-            uksort($workmap, function (
-                string $a,
-                string $b
-            ) {
-                return strlen($a) < strlen($b);
-            });
             if ($units === true) {
                 $variablewithunits = $workmap;
                 return $variablewithunits;
@@ -650,14 +645,7 @@ class stack_cas_security {
             if ($functions !== null) {
                 return $functions;
             }
-            $workmap = self::get_all_with_feature('function');
-            uksort($workmap, function (
-                string $a,
-                string $b
-            ) {
-                return strlen($a) < strlen($b);
-            });
-            $functions = $workmap;
+            $functions = self::get_all_with_feature('function');
             return $functions;
         }
     }

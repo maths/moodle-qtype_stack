@@ -6,7 +6,7 @@ STACK is designed to be used on a Linux-based server.  The Windows/MS option exi
 
 ## 1. Set up Moodle.
 
-* Please ensure you have [installed Moodle](http://docs.moodle.org/en/Main_page).  You must use Moodle 2.7.0 or later, [e.g. here.](https://github.com/moodle/moodle)  We recommend using Moodle 3.5, and STACK 4.2 is untested on versions before Moodle 3.0.
+* Please ensure you have [installed Moodle](http://docs.moodle.org/en/Main_page).  We intend to support STACK within the normal Moodle [release cycle](https://docs.moodle.org/dev/Releases).  STACK 4.3 has been tested on Moodle 3.5, 3.6, 3.7 and 3.8.  STACK is untested on versions before Moodle 3.4.  We intend to support all future Moodle releases. If your version of Moodle is not listed here please contact the developers: we probably simply have not done the testing of future versions yet.  For longer support of older versions of Moodle please contact us, otherwise will will drop them from out list.
 * Please ensure LaTeX can be displayed.  We currently support [MathJax](Mathjax.md) through the Moodle MathJax filter.
 
 Consider updating the MathJax settings to [wrap long equations](http://docs.mathjax.org/en/latest/output.html?highlight=automatic%20line%20breaking#automatic-line-breaking). In particular, add

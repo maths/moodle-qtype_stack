@@ -5038,7 +5038,10 @@ class MP_Parser {
       if ($s1 === $this->peg_FAILED) {
         $s1 = $this->peg_parseList();
         if ($s1 === $this->peg_FAILED) {
-          $s1 = $this->peg_parseGroup();
+          $s1 = $this->peg_parseSet();
+          if ($s1 === $this->peg_FAILED) {
+            $s1 = $this->peg_parseGroup();
+          }
         }
       }
       if ($s1 !== $this->peg_FAILED) {

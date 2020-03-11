@@ -5,6 +5,12 @@ past development history is documented on [Development history](Development_hist
 
 How to report bugs and make suggestions is described on the [community](../About/Community.md) page.
 
+## Version 4.4
+
+TODO:
+
+* require mbstring:  this will be required from Moodle 3.9.  We require it now.  (tbc?)
+
 ## Version 4.3
 
 Version 4.3 represents a major internal re-engineering of STACK, with a new dedicated parser and an updated mechanism for connecting to Maxima.  This is a significant improvement, refactoring some of the oldest code and unblocking progress to a wide range of requested features.

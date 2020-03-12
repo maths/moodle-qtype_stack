@@ -44,18 +44,18 @@ STACK requires these.
 
     Alternatively, get the code using git by running the following command in the top level folder of your Moodle install: 
 
-        git clone git://github.com/maths/moodle-qbehaviour_dfexplicitvaildate.git question/behaviour/dfexplicitvaildate
+        git clone https://github.com/maths/moodle-qbehaviour_dfexplicitvaildate.git question/behaviour/dfexplicitvaildate
 
 2. Obtain Deferred feedback with CBM and explicit validation behaviour code. You can [download the zip file](https://github.com/maths/moodle-qbehaviour_dfcbmexplicitvaildate/zipball/master), unzip it, and place it in the directory `moodle/question/behaviour/dfcbmexplicitvaildate`. (You will need to rename the directory `moodle-qbehaviour_dfcbmexplicitvaildate -> dfcbmexplicitvaildate`.) 
 
     Alternatively, get the code using git by running the following command in the top level folder of your Moodle install: 
     
-        git clone git://github.com/maths/moodle-qbehaviour_dfcbmexplicitvaildate.git question/behaviour/dfcbmexplicitvaildate
+        git clone https://github.com/maths/moodle-qbehaviour_dfcbmexplicitvaildate.git question/behaviour/dfcbmexplicitvaildate
 2. Obtain adaptivemutlipart behaviour code. You can [download the zip file](https://github.com/maths/moodle-qbehaviour_adaptivemultipart/zipball/master), unzip it, and place it in the directory `moodle/question/behaviour/adaptivemultipart`. (You will need to rename the directory `moodle-qbehaviour_adaptivemultipart  -> adaptivemultipart`.) 
 
     Alternatively, get the code using git by running the following command in the top level folder of your Moodle install: 
     
-        git clone git://github.com/maths/moodle-qbehaviour_adaptivemultipart.git question/behaviour/adaptivemultipart
+        git clone https://github.com/maths/moodle-qbehaviour_adaptivemultipart.git question/behaviour/adaptivemultipart
 3. Login to Moodle as the admin user and click on Notifications in the Site Administration panel.
 
 ## 4. Add the STACK question type
@@ -66,7 +66,7 @@ STACK is a question type for the Moodle quiz.
 
     Alternatively, get the code using git by running the following command in the top level folder of your Moodle install: 
     
-        git clone git://github.com/maths/moodle-qtype_stack.git question/type/stack
+        git clone https://github.com/maths/moodle-qtype_stack.git question/type/stack
 2. Login to Moodle as the admin user and click on Notifications in the Site Administration panel.
 3. As the admin user, navigate to `Home > Site administration > Plugins > Question types > STACK`.  Please choose and save the appropriate options.
 4. On the same page, click on the link to the healthcheck script.  This writes local configuration files and then helps you verify that all aspects of STACK are working properly.
@@ -89,7 +89,7 @@ The reports are still in a beta development stage and you can skip this step.   
 
     Alternatively, get the code using git by running the following command in the top level folder of your Moodle install: 
     
-        git clone git://github.com/maths/quiz_stack.git mod/quiz/report/stack
+        git clone https://github.com/maths/quiz_stack.git mod/quiz/report/stack
 2. Login to Moodle as the admin user and click on Notifications in the Site Administration panel.
 
 ## 7. Optional: Add the LTI provider plugin
@@ -117,7 +117,7 @@ If you wish to import STACK 2 questions into STACK 3 you will need to install th
 
     Alternatively, get the code using git by running the following command in the top level folder of your Moodle install: 
     
-        git clone git://github.com/maths/moodle-qformat_stack.git question/format/stack
+        git clone https://github.com/maths/moodle-qformat_stack.git question/format/stack
 2. Login to Moodle as the admin user and click on Notifications in the Site Administration panel.
 
 There have been a number of changes between STACK 2 and STACK 3.  Please read the [notes on the importer](../Authoring/ImportExport.md) before using it.

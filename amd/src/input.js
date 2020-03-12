@@ -438,7 +438,7 @@ define([
         }
 
         // With JS With instant validation, we don't need the Check button, so hide it.
-        if (!allok && (questionDiv.classList.contains('dfexplicitvaildate') ||
+        if (allok && (questionDiv.classList.contains('dfexplicitvaildate') ||
                 questionDiv.classList.contains('dfcbmexplicitvaildate'))) {
             questionDiv.querySelector('.im-controls input.submit').remove();
         }

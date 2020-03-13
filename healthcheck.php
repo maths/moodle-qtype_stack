@@ -86,6 +86,12 @@ echo $OUTPUT->heading($title);
 $summary = array();
 $summary[] = array('', $config->platform );
 
+// Mbstring.
+if (!extension_loaded('mbstring')) {
+    echo $OUTPUT->heading(stack_string('healthchecknombstring'), 3);
+    $summary[] = array(false, stack_string('healthchecknombstring'));
+}
+
 // LaTeX.
 echo $OUTPUT->heading(stack_string('healthchecklatex'), 3);
 echo html_writer::tag('p', stack_string('healthcheckmathsdisplaymethod',

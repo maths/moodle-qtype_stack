@@ -14,8 +14,6 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * This script runs the student input tests and verifies the results.
  *
@@ -24,6 +22,8 @@ defined('MOODLE_INTERNAL') || die();
  * @copyright  2012 University of Birmingham
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+
+defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/../../stack/cas/cassession2.class.php');
 
@@ -99,7 +99,7 @@ class stack_inputvalidation_test_data {
         array("a'", 'php_false', '', '', '', 'apostrophe', ""),
         array('X', 'php_true', 'X', 'cas_true', 'X', '', ""),
         array('aXy1', 'php_false', 'aXy*1', 'cas_true', '', 'missing_stars | forbiddenVariable', ""),
-        // In STACK 4.3, the parser accepts these as functions. 
+        // In STACK 4.3, the parser accepts these as functions.
         array('f(x)', 'php_true', 'f(x)', 'cas_true', 'f\left(x\right)', '', "Functions"),
         array('a(x)', 'php_true', 'a(x)', 'cas_true', 'a\left(x\right)', '', ""),
         array('x(t+1)', 'php_true', 'x(t+1)', 'cas_true', 'x\left(t+1\right)', '', ""),
@@ -126,7 +126,8 @@ class stack_inputvalidation_test_data {
         array('{1,2,3.4}', 'php_true', '{1,2,3.4}', 'cas_true', '\left \{1 , 2 , 3.4 \right \}', '', ""),
         array('{x, y, z }', 'php_true', '{x,y,z}', 'cas_true', '\left \{x , y , z \right \}', '', ""),
         array('set(x, y, z)', 'php_false', '', '', '', 'forbiddenFunction', ""),
-        array('matrix([a,b],[c,d])', 'php_true', 'matrix([a,b],[c,d])', 'cas_true', '\left[\begin{array}{cc} a & b \\\\ c & d \end{array}\right]', '', 'Matrices'),
+        array('matrix([a,b],[c,d])', 'php_true', 'matrix([a,b],[c,d])', 'cas_true',
+            '\left[\begin{array}{cc} a & b \\\\ c & d \end{array}\right]', '', 'Matrices'),
         array('stackvector(a)', 'php_true', 'stackvector(a)', 'cas_true', '{\bf a}', '', 'Vectors'),
         array('a[2]', 'php_true', 'a[2]', 'cas_true', 'a_{2}', '', "Maxima arrays"),
         array('a[n+1]', 'php_true', 'a[n+1]', 'cas_true', 'a_{n+1}', '', ""),
@@ -395,7 +396,7 @@ class stack_inputvalidation_test_data {
         array('cot(x)', 'php_true', 'cot(x)', 'cas_true', '\cot \left( x \right)', '', ""),
         array('csc(x)', 'php_true', 'csc(x)', 'cas_true', '\csc \left( x \right)', '', ""),
         // This is now a Maxima alias.
-        array('cosec(x)', 'php_true', 'cosec(x)', 'cas_true', '\csc \left( x \right)', '', ""), 
+        array('cosec(x)', 'php_true', 'cosec(x)', 'cas_true', '\csc \left( x \right)', '', ""),
         array('csc(6*x)^2*(7*sin(6*x)*cos(7*x)-6*cos(6*x)*sin(7*x))', 'php_true',
                 'csc(6*x)^2*(7*sin(6*x)*cos(7*x)-6*cos(6*x)*sin(7*x))', 'cas_true',
                 '\csc ^2\left(6\cdot x\right)\cdot \left(7\cdot \sin ' .

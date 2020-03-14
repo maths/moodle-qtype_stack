@@ -14,8 +14,6 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * This script runs the answers tests and verifies the results.
  *
@@ -26,6 +24,8 @@ defined('MOODLE_INTERNAL') || die();
  * @copyright  2012 University of Birmingham
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+
+defined('MOODLE_INTERNAL') || die();
 
 require_once('equivfixtures.class.php');
 
@@ -544,10 +544,10 @@ class stack_answertest_test_data {
         array('EqualComAss', '', 'x+0', 'x', 0, 'ATEqualComAss (AlgEquiv-true).', ''),
         array('EqualComAss', '', 'x^1', 'x', 0, 'ATEqualComAss (AlgEquiv-true).', ''),
         array('EqualComAss', '', '(1/2)*(a+b)', '(a+b)/2', 0, 'ATEqualComAss (AlgEquiv-true).', ''),
-        array('EqualComAss', '', '1/3*logbase(27,6)' ,'logbase(27,6)/3', 0, 'ATEqualComAss (AlgEquiv-true).', ''),
-        array('EqualComAss', '', '1/3*lg(27, 6)' ,'lg(27, 6)/3', 0, 'ATEqualComAss (AlgEquiv-true).', ''),
+        array('EqualComAss', '', '1/3*logbase(27,6)', 'logbase(27,6)/3', 0, 'ATEqualComAss (AlgEquiv-true).', ''),
+        array('EqualComAss', '', '1/3*lg(27,6)', 'lg(27,6)/3', 0, 'ATEqualComAss (AlgEquiv-true).', ''),
         array('EqualComAss', '', 'lg(root(x, n))', 'lg(x, 10)/n', 0, 'ATEqualComAss (AlgEquiv-true).', ''),
-        array('EqualComAss', '', '1/3*i' ,'i/3', 0, 'ATEqualComAss (AlgEquiv-true).', ''),
+        array('EqualComAss', '', '1/3*i', 'i/3', 0, 'ATEqualComAss (AlgEquiv-true).', ''),
         array('EqualComAss', '', '%i', 'e^(i*pi/2)', 0, 'ATEqualComAss (AlgEquiv-true).', 'Complex numbers'),
         array('EqualComAss', '', '(4*sqrt(3)*%i+4)^(1/5)', 'rectform((4*sqrt(3)*%i+4)^(1/5))', 0,
             'ATEqualComAss (AlgEquiv-true).', ''),
@@ -1712,16 +1712,21 @@ class stack_answertest_test_data {
         array('SRegExp', '', '"aaaaabbb"', '"(aaa)*b"', 1, 'ATSRegExp: ["aaab","aaa"].', ''),
         array('SRegExp', '', '"aab"', '"(aaa)*b"', 1, 'ATSRegExp: ["b",false].', ''),
         array('SRegExp', '', '"aaac"', '"(aaa)*b"', 0, '', ''),
-        array('SRegExp', '', '"aab"', '"^[aA]*b$"', 1, 'ATSRegExp: ["aab"].', 'Anchor pattern to the start and the end of the string'),
+        array('SRegExp', '', '"aab"', '"^[aA]*b$"', 1, 'ATSRegExp: ["aab"].',
+            'Anchor pattern to the start and the end of the string'),
         array('SRegExp', '', '"aab"', '"^(aaa)*b$"', 0, '', ''),
         array('SRegExp', '', '"aAb"', '"^[aA]*b$"', 1, 'ATSRegExp: ["aAb"].', ''),
         array('SRegExp', '', '" aAb"', '"^[aA]*b$"', 0, '', ''),
         array('SRegExp', '', '"caAb"', '"(?i:a*b)"', 1, 'ATSRegExp: ["aAb"].', 'Case insensitive'),
-        array('SRegExp', '', '"Alice went to the market"', '"(Alice|Bob) went to the (bank|market)"', 1, 'ATSRegExp: ["Alice went to the market","Alice","market"].', 'Options'),
+        array('SRegExp', '', '"Alice went to the market"', '"(Alice|Bob) went to the (bank|market)"', 1,
+            'ATSRegExp: ["Alice went to the market","Alice","market"].', 'Options'),
         array('SRegExp', '', '"Malice went to the shop"', '"(Alice|Bob) went to the (bank|market)"', 0, '', ''),
-        array('SRegExp', '', '"Alice   went  to      the market"', '"(Alice|Bob)\\\\s+went\\\\s+to\\\\s+the\\\\s+(bank|market)"', 1, 'ATSRegExp: ["Alice   went  to      the market","Alice","market"].', 'Whitespace, note test rendering issue, the test string has additional spaces and tabs as does the result'),
+        array('SRegExp', '', '"Alice   went  to      the market"', '"(Alice|Bob)\\\\s+went\\\\s+to\\\\s+the\\\\s+(bank|market)"',
+            1, 'ATSRegExp: ["Alice   went  to      the market","Alice","market"].', 'Whitespace, ' .
+            'note test rendering issue, the test string has additional spaces and tabs as does the result'),
         array('SRegExp', '', '"Alice   went  to      themarket"', '"(Alice|Bob)\\\\s+went\\\\s+to\\\\s+the\\\\s+(bank|market)"', 0, '', ''),
-        array('SRegExp', '', '"x^2.2"', '"x\\\\^2\\\\.2"', 1, 'ATSRegExp: ["x^2.2"].', 'Escaping patterns, note the function that does it'),
+        array('SRegExp', '', '"x^2.2"', '"x\\\\^2\\\\.2"', 1, 'ATSRegExp: ["x^2.2"].',
+            'Escaping patterns, note the function that does it'),
         array('SRegExp', '', '"x^2+sin(x)"', 'sconcat(string_to_regex("sin(x)"),"$")', 1, 'ATSRegExp: ["sin(x)"].', ''),
         array('SRegExp', '', '"sin(x)+x^2"', 'sconcat(string_to_regex("sin(x)"),"$")', 0, '', ''),
 
@@ -1869,8 +1874,8 @@ class stack_answertest_test_data {
                 default:
                     $passed = false;
                     $anomalynote[] = '[General failure.]';
-                }
             }
+        }
 
         if (!($ansnote === $test->ansnote)) {
             $passed = false;

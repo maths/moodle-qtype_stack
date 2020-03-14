@@ -170,8 +170,8 @@ abstract class qtype_stack_testcase extends advanced_testcase {
     }
 
     /**
-     * Compares two strings for equality. Ignoring multiplied whitespace e.g. 
-     * '\t\n ' ~ ' ' but '' != ' ' and E-surrounded by numeric characters is 
+     * Compares two strings for equality. Ignoring multiplied whitespace e.g.
+     * '\t\n ' ~ ' ' but '' != ' ' and E-surrounded by numeric characters is
      * assumed to be a float an thus case insensitive.
      */
     public function assertEqualsIgnoreSpacesAndE(string $expected, string $actual) {

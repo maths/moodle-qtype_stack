@@ -32,6 +32,9 @@ $string['pluginnamesummary'] = 'STACK provides mathematical questions for the Mo
 $string['privacy:metadata']  = 'The STACK question type plugin does not store any personal data.';
 $string['cachedef_parsercache'] = 'STACK parsed Maxima expressions';
 
+$string['mbstringrequired'] = 'Installing the MBSTRING library is required for STACK.';
+$string['yamlrecommended']  = 'Installing the YAML library is recommended for STACK.';
+
 // General strings.
 $string['errors']            = 'Errors';
 $string['debuginfo']         = 'Debug info';

@@ -171,7 +171,7 @@ class stack_cas_security {
                 foreach (self::$keywordlists[strtolower($key)] as $k => $v) {
                     $real[$k] = $v;
                 }
-            } else if (core_text::strlen($key) > 1) {
+            } else if (mb_strlen($key) > 1) {
                 $real[$key] = true;
             }
         }
@@ -240,7 +240,7 @@ class stack_cas_security {
         }
 
         // If the identifer is less than three char then students have permissions.
-        if ($security === 's' && core_text::strlen($identifier) <= 2) {
+        if ($security === 's' && mb_strlen($identifier) <= 2) {
             return true;
         }
 
@@ -316,13 +316,13 @@ class stack_cas_security {
         }
 
         // If the identifer is less than three char then students have permissions.
-        if ($security === 's' && core_text::strlen($identifier) <= 2) {
+        if ($security === 's' && mb_strlen($identifier) <= 2) {
             return true;
         }
 
         // The special case is identifiers that end with numbers...
         // The block system uses this hole extensively.
-        if ($security === 's' && ctype_digit(core_text::substr($identifier, -1))) {
+        if ($security === 's' && ctype_digit(mb_substr($identifier, -1))) {
             return true;
         }
 
@@ -494,7 +494,7 @@ class stack_cas_security {
         if ($this->units && ($type === 'variable' || $type === 'constant')) {
             // This has a separate implementation in caastring_units but Lets
             // do things just a bit differently.
-            $units = stack_cas_casstring_units::get_permitted_units(core_text::strlen($identifier));
+            $units = stack_cas_casstring_units::get_permitted_units(mb_strlen($identifier));
             foreach ($units as $key) {
                 if (strtolower($key) === $l) {
                     $r[] = $key;

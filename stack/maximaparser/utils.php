@@ -21,12 +21,7 @@ defined('MOODLE_INTERNAL') || die();
  @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
 */
 
-// We select the implementation of the parser, depending on mbstring.
-if (function_exists('mb_ereg')) {
-    require_once(__DIR__ . '/autogen/parser.mbstring.php');
-} else {
-    require_once(__DIR__ . '/autogen/parser.native.php');
-}
+require_once(__DIR__ . '/autogen/parser.mbstring.php');
 // Also needs stack_string().
 require_once(__DIR__ . '/../../locallib.php');
 require_once(__DIR__ . '/../utils.class.php');
@@ -195,13 +190,13 @@ class maxima_parser_utils {
     // Function to find suitable place to inject a semicolon to i.e. place into start of whitespace.
     private static function previous_non_whitespace($code, $pos) {
         $i = $pos;
-        if (core_text::substr($code, $i - 1, 2) === '/*') {
+        if (mb_substr($code, $i - 1, 2) === '/*') {
             $i--;
         }
-        while ($i > 1 && self::is_whitespace(core_text::substr($code, $i - 1, 1))) {
+        while ($i > 1 && self::is_whitespace(mb_substr($code, $i - 1, 1))) {
             $i--;
         }
-        return core_text::substr($code, 0, $i) . ';' . core_text::substr($code, $i);
+        return mb_substr($code, 0, $i) . ';' . mb_substr($code, $i);
     }
 
     // Custom rules on what is an is not whitespace.

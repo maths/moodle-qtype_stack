@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<COMPATIBILITY_MATRIX>
+     <PLUGIN name="qtype_stack">
+         <PHP_EXTENSIONS>
+             <PHP_EXTENSION name="mbstring" level="required">
+                 <FEEDBACK>
+                     <ON_ERROR message="mbstringrequired" plugin="qtype_stack" />
+                 </FEEDBACK>
+             </PHP_EXTENSION>
+             <PHP_EXTENSION name="yaml" level="optional">
+                 <FEEDBACK>
+                     <ON_CHECK message="yamlrecommended" plugin="qtype_stack" />
+                 </FEEDBACK>
+             </PHP_EXTENSION>
+         </PHP>
+     </PLUGIN>
+</COMPATIBILITY_MATRIX>

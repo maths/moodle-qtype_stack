@@ -168,7 +168,7 @@ class MP_Node {
     public function remap_position_data(int $offset=0) {
         $total = $this->toString();
         $this->position['start'] = $offset;
-        $this->position['end'] = $offset + core_text::strlen($total);
+        $this->position['end'] = $offset + mb_strlen($total);
         // For recursion this needs more. But this works for the general case.
     }
 
@@ -390,9 +390,9 @@ class MP_Operation extends MP_Node {
             $op = ' ' . $op . '';
         }
         $this->position['start'] = $start;
-        $this->position['end'] = $start + core_text::strlen($lhs) + core_text::strlen($op) + core_text::strlen($rhs);
+        $this->position['end'] = $start + mb_strlen($lhs) + mb_strlen($op) + mb_strlen($rhs);
         $this->lhs->remap_position_data($start);
-        $this->rhs->remap_position_data($start + core_text::strlen($lhs) + core_text::strlen($op));
+        $this->rhs->remap_position_data($start + mb_strlen($lhs) + mb_strlen($op));
     }
 
     // Replace a child of this now with other...
@@ -500,7 +500,7 @@ class MP_Atom extends MP_Node {
     public function remap_position_data(int $offset=0) {
         $value = $this->toString();
         $this->position['start'] = $offset;
-        $this->position['end'] = $offset + core_text::strlen($value);
+        $this->position['end'] = $offset + mb_strlen($value);
     }
 
     public function toString($params = null): string {
@@ -905,11 +905,11 @@ class MP_FunctionCall extends MP_Node {
     public function remap_position_data(int $offset=0) {
         $total = $this->toString();
         $this->position['start'] = $offset;
-        $this->position['end'] = $offset + core_text::strlen($total);
-        $itemoffset = $offset + core_text::strlen($this->name->toString()) + 1;
+        $this->position['end'] = $offset + mb_strlen($total);
+        $itemoffset = $offset + mb_strlen($this->name->toString()) + 1;
         foreach ($this->arguments as $arg) {
             $arg->remap_position_data($itemoffset);
-            $itemoffset = $itemoffset + core_text::strlen($arg->toString()) + 1;
+            $itemoffset = $itemoffset + mb_strlen($arg->toString()) + 1;
         }
         $this->name->remap_position_data($offset);
     }
@@ -1068,11 +1068,11 @@ class MP_Group extends MP_Node {
     public function remap_position_data(int $offset=0) {
         $total = $this->toString();
         $this->position['start'] = $offset;
-        $this->position['end'] = $offset + core_text::strlen($total);
+        $this->position['end'] = $offset + mb_strlen($total);
         $itemoffset = $offset + 1;
         foreach ($this->items as $item) {
             $item->remap_position_data($itemoffset);
-            $itemoffset = $itemoffset + core_text::strlen($item->toString()) + 1;
+            $itemoffset = $itemoffset + mb_strlen($item->toString()) + 1;
         }
     }
 
@@ -1155,11 +1155,11 @@ class MP_Set extends MP_Node {
     public function remap_position_data(int $offset=0) {
         $total = $this->toString();
         $this->position['start'] = $offset;
-        $this->position['end'] = $offset + core_text::strlen($total);
+        $this->position['end'] = $offset + mb_strlen($total);
         $itemoffset = $offset + 1;
         foreach ($this->items as $item) {
             $item->remap_position_data($itemoffset);
-            $itemoffset = $itemoffset + core_text::strlen($item->toString()) + 1;
+            $itemoffset = $itemoffset + mb_strlen($item->toString()) + 1;
         }
     }
 
@@ -1243,11 +1243,11 @@ class MP_List extends MP_Node {
     public function remap_position_data(int $offset=0) {
         $total = $this->toString();
         $this->position['start'] = $offset;
-        $this->position['end'] = $offset + core_text::strlen($total);
+        $this->position['end'] = $offset + mb_strlen($total);
         $itemoffset = $offset + 1;
         foreach ($this->items as $item) {
             $item->remap_position_data($itemoffset);
-            $itemoffset = $itemoffset + core_text::strlen($item->toString()) + 1;
+            $itemoffset = $itemoffset + mb_strlen($item->toString()) + 1;
         }
     }
 
@@ -1329,8 +1329,8 @@ class MP_PrefixOp extends MP_Node {
     public function remap_position_data(int $offset=0) {
         $total = $this->toString();
         $this->position['start'] = $offset;
-        $this->position['end'] = $offset + core_text::strlen($total);
-        $this->rhs->remap_position_data($offset + core_text::strlen($this->op));
+        $this->position['end'] = $offset + mb_strlen($total);
+        $this->rhs->remap_position_data($offset + mb_strlen($this->op));
     }
 
     public function toString($params = null): string {
@@ -1401,7 +1401,7 @@ class MP_PostfixOp extends MP_Node {
     public function remap_position_data(int $offset=0) {
         $total = $this->toString();
         $this->position['start'] = $offset;
-        $this->position['end'] = $offset + core_text::strlen($total);
+        $this->position['end'] = $offset + mb_strlen($total);
         $this->lhs->remap_position_data($offset);
     }
 
@@ -1460,12 +1460,12 @@ class MP_Indexing extends MP_Node {
     public function remap_position_data(int $offset=0) {
         $total = $this->toString();
         $this->position['start'] = $offset;
-        $this->position['end'] = $offset + core_text::strlen($total);
+        $this->position['end'] = $offset + mb_strlen($total);
         $this->target->remap_position_data($offset);
-        $itemoffset = $offset + core_text::strlen($this->target->toString());
+        $itemoffset = $offset + mb_strlen($this->target->toString());
         foreach ($this->indices as $ind) {
             $ind->remap_position_data($itemoffset);
-            $itemoffset = $itemoffset + core_text::strlen($ind->toString());
+            $itemoffset = $itemoffset + mb_strlen($ind->toString());
         }
     }
 
@@ -1527,7 +1527,7 @@ class MP_If extends MP_Node {
     public function remap_position_data(int $offset=0) {
         $total = $this->toString();
         $this->position['start'] = $offset;
-        $this->position['end'] = $offset + core_text::strlen($total);
+        $this->position['end'] = $offset + mb_strlen($total);
         // TODO: fill in this.
     }
 
@@ -1622,7 +1622,7 @@ class MP_Loop extends MP_Node {
     public function remap_position_data(int $offset=0) {
         $total = $this->toString();
         $this->position['start'] = $offset;
-        $this->position['end'] = $offset + core_text::strlen($total);
+        $this->position['end'] = $offset + mb_strlen($total);
         // TODO: fill in this.
     }
 
@@ -1686,8 +1686,8 @@ class MP_LoopBit extends MP_Node {
     public function remap_position_data(int $offset=0) {
         $total = $this->toString();
         $this->position['start'] = $offset;
-        $this->position['end'] = $offset + core_text::strlen($total);
-        $this->param->remap_position_data($offset + core_text::strlen($this->mode) + 1);
+        $this->position['end'] = $offset + mb_strlen($total);
+        $this->param->remap_position_data($offset + mb_strlen($this->mode) + 1);
     }
 
 
@@ -1729,9 +1729,9 @@ class MP_EvaluationFlag extends MP_Node {
     public function remap_position_data(int $offset=0) {
         $total = $this->toString();
         $this->position['start'] = $offset;
-        $this->position['end'] = $offset + core_text::strlen($total);
+        $this->position['end'] = $offset + mb_strlen($total);
         $this->name->remap_position_data($offset + 1);
-        $this->value->remap_position_data($offset + 2 + core_text::strlen($this->name->toString()));
+        $this->value->remap_position_data($offset + 2 + mb_strlen($this->name->toString()));
     }
 
     public function toString($params = null): string {
@@ -1776,12 +1776,12 @@ class MP_Statement extends MP_Node {
     public function remap_position_data(int $offset=0) {
         $total = $this->toString();
         $this->position['start'] = $offset;
-        $this->position['end'] = $offset + core_text::strlen($total);
+        $this->position['end'] = $offset + mb_strlen($total);
         $this->statement->remap_position_data($offset);
-        $itemoffset = $offset + core_text::strlen($this->statement->toString());
+        $itemoffset = $offset + mb_strlen($this->statement->toString());
         foreach ($this->flags as $flag) {
             $flag->remap_position_data($itemoffset);
-            $itemoffset = $itemoffset + core_text::strlen($flag->toString());
+            $itemoffset = $itemoffset + mb_strlen($flag->toString());
         }
     }
 
@@ -1918,11 +1918,11 @@ class MP_Root extends MP_Node {
     public function remap_position_data(int $offset=0) {
         $total = $this->toString();
         $this->position['start'] = $offset;
-        $this->position['end'] = $offset + core_text::strlen($total);
+        $this->position['end'] = $offset + mb_strlen($total);
         $itemoffset = $offset;
         foreach ($this->items as $item) {
             $item->remap_position_data($itemoffset);
-            $itemoffset = $itemoffset + core_text::strlen($item->toString());
+            $itemoffset = $itemoffset + mb_strlen($item->toString());
         }
     }
 

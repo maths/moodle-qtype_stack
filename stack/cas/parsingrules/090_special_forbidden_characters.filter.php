@@ -28,7 +28,7 @@ class stack_ast_filter_090_special_forbidden_characters implements stack_cas_ast
         $warned = array();
         $process = function($node) use (&$warned) {
             if ($node instanceof MP_Identifier) {
-                if (core_text::strpos($node->value, 'ˆ')) {
+                if (mb_strpos($node->value, 'ˆ')) {
                     $node->position['invalid'] = true;
                     $warned['ˆ'] = 'ˆ';
                 }

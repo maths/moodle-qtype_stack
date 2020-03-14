@@ -225,8 +225,8 @@ class stack_answertest_general_cas extends stack_anstest {
             }
             // Sort out and tidy up any feedback.
             $res = $result->items[3]->value;
-            if (strrpos($res, '!NEWLINE!') === core_text::strlen($res) - 9) {
-                $res = trim(core_text::substr($res, 0, -9));
+            if (strrpos($res, '!NEWLINE!') === mb_strlen($res) - 9) {
+                $res = trim(mb_substr($res, 0, -9));
             }
             $r['feedback'] = stack_maxima_translate($res);
         }

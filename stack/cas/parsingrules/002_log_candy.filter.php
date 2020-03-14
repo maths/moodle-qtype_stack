@@ -57,11 +57,11 @@ class stack_ast_filter_002_log_candy implements stack_cas_astfilter {
                     // expression not before.
                     return false;
                 }
-                if (core_text::substr($node->name->value, 0, 4) === 'log_') {
+                if (mb_substr($node->name->value, 0, 4) === 'log_') {
                     // Now we have something of the form 'log_xyz(y)' we will simply turn it
                     // to 'lg(y,xyz)' by parsing 'xyz'. We do not need to care about any rules
                     // when parsing it as it will be a pure statement and will be parseable.
-                    $argument = core_text::substr($node->name->value, 4);
+                    $argument = mb_substr($node->name->value, 4);
                     // This will unfortunately lose all the information about insertted stars
                     // but that is hardly an issue.
                     $parsed = maxima_corrective_parser::parse($argument, $errors, $answernotes, array('startRule' => 'Root',
@@ -88,7 +88,7 @@ class stack_ast_filter_002_log_candy implements stack_cas_astfilter {
 
             if ($node instanceof MP_Operation && !($node->op === ':' || $node->op === '=')) {
                 $lhs = $node->rightmostofleft();
-                if ($lhs instanceof MP_Identifier && core_text::substr($lhs->value, 0, 4) === 'log_') {
+                if ($lhs instanceof MP_Identifier && mb_substr($lhs->value, 0, 4) === 'log_') {
                     $rhs = $node->leftmostofright();
                     // There is an operation between an identifier and something else
                     // We eat that op and either merge to the other thing or eat it as well.
@@ -156,7 +156,7 @@ class stack_ast_filter_002_log_candy implements stack_cas_astfilter {
             }
 
             if ($node instanceof MP_Identifier && !$node->is_function_name()) {
-                if (core_text::substr($node->value, 0, 4) === 'log_' && (
+                if (mb_substr($node->value, 0, 4) === 'log_' && (
                     $node->parentnode instanceof MP_List ||
                     $node->parentnode instanceof MP_Set ||
                     $node->parentnode instanceof MP_Group ||

@@ -14,6 +14,8 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
+defined('MOODLE_INTERNAL') || die();
+
 /**
  * This script runs the answers tests and verifies the results.
  *
@@ -209,7 +211,8 @@ class stack_answertest_test_data {
         array('AlgEquiv', '', '{[-sqrt(2)/sqrt(3),0],[2/sqrt(6),0]}', '{[2/sqrt(6),0],[-2/sqrt(6),0]}', -3,
             'ATSet_wrongentries.', ''),
         array('AlgEquiv', '', 'ev(radcan({-sqrt(2)/sqrt(3)}),simp)', 'ev(radcan({-2/sqrt(6)}),simp)', 1, '', ''),
-        array('AlgEquiv', '', 'ev(radcan(ratsimp({(-sqrt(10)/2)-2,sqrt(10)/2-2},algebraic:true)),simp)', 'ev(radcan(ratsimp({(-sqrt(5)/sqrt(2))-2,sqrt(5)/sqrt(2)-2},algebraic:true)),simp)', 1, '', ''),
+        array('AlgEquiv', '', 'ev(radcan(ratsimp({(-sqrt(10)/2)-2,sqrt(10)/2-2},algebraic:true)),simp)',
+            'ev(radcan(ratsimp({(-sqrt(5)/sqrt(2))-2,sqrt(5)/sqrt(2)-2},algebraic:true)),simp)', 1, '', ''),
         array('AlgEquiv', '', '{(2-2^(5/2))/2,(2^(5/2)+2)/2}', '{1-2^(3/2),2^(3/2)+1}', 0, 'ATSet_wrongentries.', ''),
         array('AlgEquiv', '', 'ev(radcan({(2-2^(5/2))/2,(2^(5/2)+2)/2}),simp)', '{1-2^(3/2),2^(3/2)+1}', 1, '', ''),
         array('AlgEquiv', '', '{(x-a)^6000}', '{(a-x)^6000}', -3, 'ATSet_wrongentries.', ''),
@@ -264,7 +267,7 @@ class stack_answertest_test_data {
 
         array('AlgEquiv', '', 'x=y', 'x^2=y^2', 0, 'ATEquation_default',
             'Equations: Loose/gain roots with nth powers of each side.'),
-        // Note that algebraic equivalence does check multiplicity of roots so that:
+        // Note that algebraic equivalence does check multiplicity of roots.
         array('AlgEquiv', '', '(x-2)^2=0', 'x=2', 0, 'ATEquation_default', ''),
         array('AlgEquiv', '', 'a^3*b^3=0', 'a=0 or b=0', 0, 'ATEquation_default', ''),
         array('AlgEquiv', '', 'a^3*b^3=0', 'a*b=0', 0, 'ATEquation_default', ''),
@@ -542,8 +545,8 @@ class stack_answertest_test_data {
         array('EqualComAss', '', 'x^1', 'x', 0, 'ATEqualComAss (AlgEquiv-true).', ''),
         array('EqualComAss', '', '(1/2)*(a+b)', '(a+b)/2', 0, 'ATEqualComAss (AlgEquiv-true).', ''),
         array('EqualComAss', '', '1/3*logbase(27,6)' ,'logbase(27,6)/3', 0, 'ATEqualComAss (AlgEquiv-true).', ''),
-        array('EqualComAss', '', '1/3*lg(27,6)' ,'lg(27,6)/3', 0, 'ATEqualComAss (AlgEquiv-true).', ''),
-        array('EqualComAss', '', 'lg(root(x,n))', 'lg(x,10)/n', 0, 'ATEqualComAss (AlgEquiv-true).', ''),
+        array('EqualComAss', '', '1/3*lg(27, 6)' ,'lg(27, 6)/3', 0, 'ATEqualComAss (AlgEquiv-true).', ''),
+        array('EqualComAss', '', 'lg(root(x, n))', 'lg(x, 10)/n', 0, 'ATEqualComAss (AlgEquiv-true).', ''),
         array('EqualComAss', '', '1/3*i' ,'i/3', 0, 'ATEqualComAss (AlgEquiv-true).', ''),
         array('EqualComAss', '', '%i', 'e^(i*pi/2)', 0, 'ATEqualComAss (AlgEquiv-true).', 'Complex numbers'),
         array('EqualComAss', '', '(4*sqrt(3)*%i+4)^(1/5)', 'rectform((4*sqrt(3)*%i+4)^(1/5))', 0,
@@ -1316,7 +1319,8 @@ class stack_answertest_test_data {
         // In this test case there are 5 sig figs, which is the wrong number.
         array('NumSigFigs', '[4,3]', '3.1416', '3.1415927', 0, 'ATNumSigFigs_WrongDigits.', ''),
         array('NumSigFigs', '[4,3]', '0.1666', '0.1667', 1, '', ''),
-        array('NumSigFigs', '[3,1]', '180', '178.35', 1, 'ATNumSigFigs_WithinRange.', ''), // Range of sigfigs of 180 contains 3, accurate to 1!
+        // Range of sigfigs of 180 contains 3, accurate to 1!
+        array('NumSigFigs', '[3,1]', '180', '178.35', 1, 'ATNumSigFigs_WithinRange.', ''),
         array('NumSigFigs', '[3,1]', '33', '33.1558', 0, 'ATNumSigFigs_WrongDigits.', ''), // Too few sigfigs.
         array('NumSigFigs', '[3,1]', '1.500', '1.5', 0, 'ATNumSigFigs_WrongDigits.', ''), // Too many sigfigs.
         array('NumSigFigs', '[3,1]', '245.0', '245', 0, 'ATNumSigFigs_WrongDigits.', ''), // Too many sigfigs.
@@ -1361,33 +1365,33 @@ class stack_answertest_test_data {
         array('NumSigFigs', '[3,0]', '0.00', '0', 0, 'ATNumSigFigs_WrongDigits.', ''),
         array('NumSigFigs', '[4,0]', '0.00', '0', 0, 'ATNumSigFigs_WrongDigits.', ''),
         // Condone too many significant figures.
-        array('NumSigFigs', '[4,-1]', '8.250' ,'8.250', 1, '', 'Condone too many sfs.'),
-        array('NumSigFigs', '[4,-1]', '8.25' ,'8.250', 0, 'ATNumSigFigs_WrongDigits.', ''),
-        array('NumSigFigs', '[4,-1]', '8.250000' ,'8.250', 1, '', ''),
-        array('NumSigFigs', '[4,-1]', '8.250434' ,'8.250', 1, '', ''),
-        array('NumSigFigs', '[2,-1]', '82.4' ,'82', 1, '', ''),
-        array('NumSigFigs', '[2,-1]', '82.5' ,'82', 0, 'ATNumSigFigs_Inaccurate.', ''),
-        array('NumSigFigs', '[2,-1]', '83' ,'82', 0, 'ATNumSigFigs_Inaccurate.', ''),
+        array('NumSigFigs', '[4,-1]', '8.250', '8.250', 1, '', 'Condone too many sfs.'),
+        array('NumSigFigs', '[4,-1]', '8.25', '8.250', 0, 'ATNumSigFigs_WrongDigits.', ''),
+        array('NumSigFigs', '[4,-1]', '8.250000', '8.250', 1, '', ''),
+        array('NumSigFigs', '[4,-1]', '8.250434', '8.250', 1, '', ''),
+        array('NumSigFigs', '[2,-1]', '82.4', '82', 1, '', ''),
+        array('NumSigFigs', '[2,-1]', '82.5', '82', 0, 'ATNumSigFigs_Inaccurate.', ''),
+        array('NumSigFigs', '[2,-1]', '83', '82', 0, 'ATNumSigFigs_Inaccurate.', ''),
         // 1/7 = 0.142857142857...
-        array('NumSigFigs', '[4,-1]', '0.1430' ,'1/7', 0, 'ATNumSigFigs_Inaccurate.', '1/7 = 0.142857142857...'),
-        array('NumSigFigs', '[4,-1]', '0.1429' ,'1/7', 1, '', ''),
-        array('NumSigFigs', '[4,-1]', '0.1428' ,'1/7', 0, 'ATNumSigFigs_Inaccurate.', ''),
-        array('NumSigFigs', '[4,-1]', '0.143' ,'1/7', 0, 'ATNumSigFigs_WrongDigits. ATNumSigFigs_Inaccurate.', ''),
+        array('NumSigFigs', '[4,-1]', '0.1430', '1/7', 0, 'ATNumSigFigs_Inaccurate.', '1/7 = 0.142857142857...'),
+        array('NumSigFigs', '[4,-1]', '0.1429', '1/7', 1, '', ''),
+        array('NumSigFigs', '[4,-1]', '0.1428', '1/7', 0, 'ATNumSigFigs_Inaccurate.', ''),
+        array('NumSigFigs', '[4,-1]', '0.143', '1/7', 0, 'ATNumSigFigs_WrongDigits. ATNumSigFigs_Inaccurate.', ''),
         // Too many sig figs, which is condoned.
-        array('NumSigFigs', '[4,-1]', '0.14284' ,'1/7', 0, 'ATNumSigFigs_Inaccurate.', ''),
-        array('NumSigFigs', '[4,-1]', '0.14285' ,'1/7', 1, '', ''),
-        array('NumSigFigs', '[4,-1]', '0.14286' ,'1/7', 1, '', ''),
-        array('NumSigFigs', '[4,-1]', '0.14291' ,'1/7', 1, '', ''),
-        array('NumSigFigs', '[4,-1]', '0.14294' ,'1/7', 1, '', ''),
+        array('NumSigFigs', '[4,-1]', '0.14284', '1/7', 0, 'ATNumSigFigs_Inaccurate.', ''),
+        array('NumSigFigs', '[4,-1]', '0.14285', '1/7', 1, '', ''),
+        array('NumSigFigs', '[4,-1]', '0.14286', '1/7', 1, '', ''),
+        array('NumSigFigs', '[4,-1]', '0.14291', '1/7', 1, '', ''),
+        array('NumSigFigs', '[4,-1]', '0.14294', '1/7', 1, '', ''),
         // Incorrectly rounded means to 4 s.f. this is too large.
-        array('NumSigFigs', '[4,-1]', '0.14295' ,'1/7', 0, 'ATNumSigFigs_Inaccurate.', ''),
-        array('NumSigFigs', '[2,-1]', '0.142' ,'1/7', 1, '', ''),
-        array('NumSigFigs', '[2,-1]', '0.14290907676' ,'1/7', 1, '', ''),
-        array('NumSigFigs', '[2,-1]', '0.143' ,'1/7', 1, '', ''),
-        array('NumSigFigs', '[2,-1]', '0.1433333' ,'1/7', 1, '', ''),
-        array('NumSigFigs', '[2,-1]', '0.144' ,'1/7', 1, '', ''),
-        array('NumSigFigs', '[2,-1]', '0.145' ,'1/7', 1, '', ''),
-        array('NumSigFigs', '[2,-1]', '0.146' ,'1/7', 0, 'ATNumSigFigs_Inaccurate.', ''),
+        array('NumSigFigs', '[4,-1]', '0.14295', '1/7', 0, 'ATNumSigFigs_Inaccurate.', ''),
+        array('NumSigFigs', '[2,-1]', '0.142', '1/7', 1, '', ''),
+        array('NumSigFigs', '[2,-1]', '0.14290907676', '1/7', 1, '', ''),
+        array('NumSigFigs', '[2,-1]', '0.143', '1/7', 1, '', ''),
+        array('NumSigFigs', '[2,-1]', '0.1433333', '1/7', 1, '', ''),
+        array('NumSigFigs', '[2,-1]', '0.144', '1/7', 1, '', ''),
+        array('NumSigFigs', '[2,-1]', '0.145', '1/7', 1, '', ''),
+        array('NumSigFigs', '[2,-1]', '0.146', '1/7', 0, 'ATNumSigFigs_Inaccurate.', ''),
         // Teacher does not give a float.
         array('NumSigFigs', '4', '1.279', 'ev(lg(19),lg=logbasesimp)', 1, '', 'Logarithms, numbers and surds'),
         array('NumSigFigs', '3', '3.14', 'pi', 1, '', ''),
@@ -1500,10 +1504,10 @@ class stack_answertest_test_data {
         // 0.0 has exactly 1 significant digits.
         array('SigFigsStrict', '1', '0.0', 'null', 1, '', ''),
         array('SigFigsStrict', '2', '0.0', 'null', 0, '', ''),
-        // .0 has exactly 1 significant digits.
+        // Accept that .0 has exactly 1 significant digits.
         array('SigFigsStrict', '1', '.0', 'null', 1, '', ''),
         array('SigFigsStrict', '2', '.0', 'null', 0, '', ''),
-        // .001030 has exactly 4 significant digits.
+        // Accept that .001030 has exactly 4 significant digits.
         array('SigFigsStrict', '4', '.001030', 'null', 1, '', ''),
         // 0.00 has exactly 2 significant digits.
         array('SigFigsStrict', '1', '0.00', 'null', 0, '', ''),
@@ -1543,9 +1547,12 @@ class stack_answertest_test_data {
         array('Units', '[3,2]', '12.45*m/s', '12.3*m/s', 0, 'ATUnits_WrongDigits. ATUnits_units_match.', ''),
         array('Units', '[3,2]', '13.45*m/s', '12.3*m/s', 0,
             'ATUnits_WrongDigits. ATNumSigFigs_Inaccurate. ATUnits_units_match.', ''),
-        array('Units', '[3,2]', '7.54E-5*(s*M)^-1', '5.625E-5*s^-1', 0, 'ATNumSigFigs_VeryInaccurate. ATUnits_incompatible_units.', ''),
-        array('Units', '[3,2]', '7.54E-5*(s*M)^-1', 'stackunits(5.625E-5,1/s)', 0, 'ATNumSigFigs_VeryInaccurate. ATUnits_incompatible_units.', ''),
-        array('Units', '3', '12*m/s', '12.3*m/s', 0, 'ATUnits_WrongDigits. ATNumSigFigs_Inaccurate. ATUnits_units_match.', ''),
+        array('Units', '[3,2]', '7.54E-5*(s*M)^-1', '5.625E-5*s^-1', 0,
+            'ATNumSigFigs_VeryInaccurate. ATUnits_incompatible_units.', ''),
+        array('Units', '[3,2]', '7.54E-5*(s*M)^-1', 'stackunits(5.625E-5,1/s)', 0,
+            'ATNumSigFigs_VeryInaccurate. ATUnits_incompatible_units.', ''),
+        array('Units', '3', '12*m/s', '12.3*m/s', 0,
+            'ATUnits_WrongDigits. ATNumSigFigs_Inaccurate. ATUnits_units_match.', ''),
         array('Units', '3', '-9.81*m/s^2', '-9.81*m/s^2', 1, 'ATUnits_units_match.', ''),
         array('Units', '3', '-9.82*m/s^2', '-9.815*m/s^2', 1, 'ATUnits_units_match.', ''),
         array('Units', '3', '-9.81*m/s^2', '-9.815*m/s^2', 0, 'ATNumSigFigs_Inaccurate. ATUnits_units_match.', ''),
@@ -1863,7 +1870,7 @@ class stack_answertest_test_data {
                     $passed = false;
                     $anomalynote[] = '[General failure.]';
                 }
-        }
+            }
 
         if (!($ansnote === $test->ansnote)) {
             $passed = false;

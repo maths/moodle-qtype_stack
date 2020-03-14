@@ -283,7 +283,8 @@ abstract class qtype_stack_walkthrough_test_base extends qbehaviour_walkthrough_
         }
         $matcher = $this->get_tag_matcher('textarea', $attributes);
         $this->assertTag($matcher, $this->currentoutput,
-                'Looking for a textarea with attributes ' . html_writer::attributes($attributes) . ' in ' . $this->currentoutput);
+                'Looking for a textarea with attributes ' . html_writer::attributes($attributes) . ' in ' .
+                $this->currentoutput);
 
         if ($content) {
             $this->assertRegExp('/' . preg_quote(s($content), '/') . '/', $this->currentoutput);
@@ -299,7 +300,8 @@ abstract class qtype_stack_walkthrough_test_base extends qbehaviour_walkthrough_
 
     protected function check_output_contains_input_validation($name) {
         $id = $this->quba->get_question_attempt($this->slot)->get_qt_field_name($name . '_val');
-        $this->assertRegExp('~<div (?=[^>]*\bclass="stackinputfeedback standard")(?=[^>]*\bid="' . $id . '")~', $this->currentoutput,
+        $this->assertRegExp('~<div (?=[^>]*\bclass="stackinputfeedback standard")(?=[^>]*\bid="' . $id . '")~',
+                $this->currentoutput,
                 'Input validation for ' . $name . ' not found in ' . $this->currentoutput);
     }
 
@@ -314,7 +316,8 @@ abstract class qtype_stack_walkthrough_test_base extends qbehaviour_walkthrough_
             return;
         }
         $id = $this->quba->get_question_attempt($this->slot)->get_qt_field_name($name . '_val');
-        $this->assertNotRegExp('~<div (?=[^>]*\bclass="stackinputfeedback standard")(?=[^>]*\bid="' . $id . '")~', $this->currentoutput,
+        $this->assertNotRegExp('~<div (?=[^>]*\bclass="stackinputfeedback standard")(?=[^>]*\bid="' . $id . '")~',
+                $this->currentoutput,
                 'Input validation for ' . $name . ' should not be present in ' . $this->currentoutput);
     }
 

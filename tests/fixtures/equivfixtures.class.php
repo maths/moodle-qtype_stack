@@ -14,6 +14,8 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
+defined('MOODLE_INTERNAL') || die();
+
 /**
  * @copyright  2017 University of Edinburgh
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -154,7 +156,7 @@ class stack_equiv_test_data {
         $newarg['outcome']   = true;
         $samplearguments[] = $newarg;
 
-        //******************************************************************************
+        /* ....................................... */
 
         $newarg = array();
         $newarg['section'] = 'Numerical arguments.';
@@ -208,7 +210,7 @@ class stack_equiv_test_data {
         $newarg['outcome']   = true;
         $samplearguments[] = $newarg;
 
-        //******************************************************************************
+        /* ....................................... */
 
         $newarg = array();
         $newarg['section'] = 'Things students will get wrong.';
@@ -238,7 +240,7 @@ class stack_equiv_test_data {
         $newarg['outcome']   = false;
         $samplearguments[] = $newarg;
 
-        //******************************************************************************
+        /* ....................................... */
 
         $newarg = array();
         $newarg['section'] = 'Roots, powers and absolute value';
@@ -341,7 +343,8 @@ class stack_equiv_test_data {
         $newarg['outcome']   = true;
         $samplearguments[] = $newarg;
 
-        //******************************************************************************
+        /* ....................................... */
+
         $newarg = array();
         $newarg['section'] = 'Assume positive values, to condone squaring.';
         $samplearguments[] = $newarg;
@@ -448,16 +451,16 @@ class stack_equiv_test_data {
 
         $newarg = array();
         $newarg['title']     = "Solving quadratic equations (pm) and assume pos";
-        $newarg['narrative']  = 'The assume_pos flay *ignores* negative solutions (if they exist), so this is still considered to be equivalent.';
+        $newarg['narrative'] = 'The assume_pos flay *ignores* negative solutions (if they exist), so this is still considered to be equivalent.';
         $newarg['casstring'] = "[x^2=9,x=#pm#3,x=3 or x=-3,x=3]";
         $newarg['debuglist'] = "[ASSUMEPOSVARS,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR]";
         $newarg['outcome']   = true;
         $newarg['assumepos'] = true;
-        $samplearguments[] = $newarg;
+        $samplearguments[]   = $newarg;
 
         $newarg = array();
         $newarg['title']     = "Solving quadratic equations with assume pos";
-        $newarg['narrative']  = '';
+        $newarg['narrative'] = '';
         $newarg['casstring'] = "[x^2=9,x=3]";
         $newarg['debuglist'] = "[ASSUMEPOSVARS,EQUIVCHAR]";
         $newarg['outcome']   = true;
@@ -466,7 +469,8 @@ class stack_equiv_test_data {
 
         $newarg = array();
         $newarg['title']     = "Solving quadratic equations (pm) and assume pos";
-        $newarg['narrative']  = 'If we assume positive variables, then we just ignore the negtaive solution, so this is true.  If you don not want this as a final answer, then you have to check a separate property at the end of the argument.';
+        $newarg['narrative'] = 'If we assume positive variables, then we just ignore the negtaive solution, so this is true.  If you don not want this as a final answer, ' .
+            'then you have to check a separate property at the end of the argument.';
         $newarg['casstring'] = "[x^2=2,x=#pm#sqrt(2),x=sqrt(2) or x=-sqrt(2)]";
         $newarg['debuglist'] = "[ASSUMEPOSVARS,EQUIVCHAR,EQUIVCHAR]";
         $newarg['outcome']   = true;
@@ -475,7 +479,7 @@ class stack_equiv_test_data {
 
         $newarg = array();
         $newarg['title']     = "Solving quadratic equations with assume pos";
-        $newarg['narrative']  = '';
+        $newarg['narrative'] = '';
         $newarg['casstring'] = "[x^2=2,x=sqrt(2)]";
         $newarg['debuglist'] = "[ASSUMEPOSVARS,EQUIVCHAR]";
         $newarg['outcome']   = true;
@@ -484,14 +488,15 @@ class stack_equiv_test_data {
 
         $newarg = array();
         $newarg['title']     = "Root both sides";
-        $newarg['narrative']  = 'In this context, we should be able to "take the square root" of both sides.';
+        $newarg['narrative'] = 'In this context, we should be able to "take the square root" of both sides.';
         $newarg['casstring'] = "[x^2 = a^2-b,x = sqrt(a^2-b)]";
         $newarg['debuglist'] = "[ASSUMEPOSVARS,EQUIVCHAR]";
         $newarg['outcome']   = true;
         $newarg['assumepos'] = true;
         $samplearguments[] = $newarg;
 
-        //******************************************************************************
+        /* ....................................... */
+
         $newarg = array();
         $newarg['section'] = 'Solving simple equations';
         $samplearguments[] = $newarg;
@@ -564,7 +569,7 @@ class stack_equiv_test_data {
 
         $newarg = array();
         $newarg['title']     = "Solving quadratic equations 2 (pm)";
-        $newarg['narrative']  = '';
+        $newarg['narrative'] = '';
         $newarg['casstring'] = "[x^2=2,x=#pm#sqrt(2),x=sqrt(2) or x=-sqrt(2)]";
         $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR]";
         $newarg['outcome']   = true;
@@ -702,7 +707,8 @@ class stack_equiv_test_data {
         $newarg['outcome']   = false;
         $samplearguments[] = $newarg;
 
-        //******************************************************************************
+        /* ....................................... */
+
         $newarg = array();
         $newarg['section'] = 'Multiplicities of roots';
         $samplearguments[] = $newarg;
@@ -739,7 +745,7 @@ class stack_equiv_test_data {
         $newarg['outcome']   = true;
         $samplearguments[] = $newarg;
 
-        //******************************************************************************
+        /* ....................................... */
 
         $newarg = array();
         $newarg['section'] = 'Exponential and logarithmic equations';
@@ -777,7 +783,8 @@ class stack_equiv_test_data {
         $newarg['outcome']   = 'unspported';
         $samplearguments[] = $newarg;
 
-        //******************************************************************************
+        /* ....................................... */
+
         $newarg = array();
         $newarg['section'] = 'Working over the real numbers';
         $samplearguments[] = $newarg;
@@ -809,7 +816,8 @@ class stack_equiv_test_data {
         $newarg['outcome']   = true;
         $samplearguments[] = $newarg;
 
-        //******************************************************************************
+        /* ....................................... */
+
         $newarg = array();
         $newarg['section'] = 'Difficult cases and nonsense arguments';
         $samplearguments[] = $newarg;
@@ -869,7 +877,8 @@ class stack_equiv_test_data {
         $newarg['outcome']   = true;
         $samplearguments[] = $newarg;
 
-        //******************************************************************************
+        /* ....................................... */
+
         $newarg = array();
         $newarg['section'] = 'Rational expressions';
         $samplearguments[] = $newarg;
@@ -929,7 +938,8 @@ class stack_equiv_test_data {
         $newarg['outcome']   = true;
         $samplearguments[] = $newarg;
 
-        //******************************************************************************
+        /* ....................................... */
+
         $newarg = array();
         $newarg['section'] = 'Equate coefficients';
         $samplearguments[] = $newarg;
@@ -950,7 +960,8 @@ class stack_equiv_test_data {
         $newarg['outcome']   = true;
         $samplearguments[] = $newarg;
 
-        //******************************************************************************
+        /* ....................................... */
+
         $newarg = array();
         $newarg['section'] = 'Equational reasoning';
         $samplearguments[] = $newarg;
@@ -1042,8 +1053,10 @@ class stack_equiv_test_data {
         $newarg = array();
         $newarg['title']     = "";
         $newarg['narrative'] = 'Squaring both sides introduces an extra root into an interesting example.';
-        $newarg['casstring'] = "[11*sqrt(abs(x)+1)=25-x,11^2*(abs(x)+1)=(25-x)^2,11^2*abs(x)=(25-x)^2-11^2,11^4*x^2=((25-x)^2-11^2)^2, " .
-            "((25-x)^2-11^2)^2-11^4*x^2=0,((25-x)^2-11^2-11^2*x)*((25-x)^2-11^2+11^2*x)=0,(x^2-50*x+504-121*x)*(x^2-50*x+504+121*x)=0, " .
+        $newarg['casstring'] = "[11*sqrt(abs(x)+1)=25-x,11^2*(abs(x)+1)=(25-x)^2," .
+            "11^2*abs(x)=(25-x)^2-11^2,11^4*x^2=((25-x)^2-11^2)^2, " .
+            "((25-x)^2-11^2)^2-11^4*x^2=0,((25-x)^2-11^2-11^2*x)*((25-x)^2-11^2+11^2*x)=0," .
+            "(x^2-50*x+504-121*x)*(x^2-50*x+504+121*x)=0, " .
             "(x-168)*(x-3)*(x+8)*(x+63)=0]";
         $newarg['debuglist'] = "[EMPTYCHAR,QMCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR]";
         $newarg['outcome']   = false;
@@ -1095,7 +1108,8 @@ class stack_equiv_test_data {
         $newarg['outcome']   = true;
         $samplearguments[]   = $newarg;
 
-        //******************************************************************************
+        /* ....................................... */
+
         $newarg = array();
         $newarg['section'] = 'Mix of equations and expressions';
         $samplearguments[] = $newarg;
@@ -1132,7 +1146,8 @@ class stack_equiv_test_data {
         $newarg['outcome']   = true;
         $samplearguments[] = $newarg;
 
-        //******************************************************************************
+        /* ....................................... */
+
         $newarg = array();
         $newarg['section'] = 'Simultaneous equations and substitution';
         $samplearguments[] = $newarg;
@@ -1233,7 +1248,8 @@ class stack_equiv_test_data {
         $newarg['outcome']   = 'unsupported';
         $samplearguments[]    = $newarg;
 
-        //******************************************************************************
+        /* ....................................... */
+
         $newarg = array();
         $newarg['section'] = 'Inequalities';
         $samplearguments[] = $newarg;
@@ -1333,7 +1349,8 @@ class stack_equiv_test_data {
         $newarg['outcome']   = 'unsupported';
         $samplearguments[] = $newarg;
 
-        //******************************************************************************
+        /* ....................................... */
+
         $newarg = array();
         $newarg['section'] = 'Induction steps';
         $samplearguments[] = $newarg;
@@ -1346,7 +1363,8 @@ class stack_equiv_test_data {
                 '"So P(1) holds.  Now assume P(n) is true.",sum(k^2,k,1,n) = n*(n+1)*(2*n+1)/6,'.
                 'sum(k^2,k,1,n) +(n+1)^2= n*(n+1)*(2*n+1)/6 +(n+1)^2,sum(k^2,k,1,n+1)= (n+1)*(n*(2*n+1) +6*(n+1))/6,'.
                 'sum(k^2,k,1,n+1)= (n+1)*(2*n^2+7*n+6)/6,sum(k^2,k,1,n+1)= (n+1)*(n+1+1)*(2*(n+1)+1)/6]';
-        $newarg['debuglist'] = "[EMPTYCHAR,EMPTYCHAR,EMPTYCHAR,EMPTYCHAR,EQUIVCHAR,EMPTYCHAR,EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR]";
+        $newarg['debuglist'] = "[EMPTYCHAR,EMPTYCHAR,EMPTYCHAR,EMPTYCHAR,EQUIVCHAR,EMPTYCHAR,EMPTYCHAR," .
+                "EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR]";
         $newarg['outcome']   = 'unknown';
         $samplearguments[] = $newarg;
 
@@ -1370,7 +1388,8 @@ class stack_equiv_test_data {
         $newarg['outcome']   = true;
         $samplearguments[] = $newarg;
 
-        //******************************************************************************
+        /* ....................................... */
+
         $newarg = array();
         $newarg['section'] = 'Limits';
         $samplearguments[] = $newarg;
@@ -1393,7 +1412,8 @@ class stack_equiv_test_data {
         $newarg['outcome']   = true;
         $samplearguments[] = $newarg;
 
-        //******************************************************************************
+        /* ....................................... */
+
         $newarg = array();
         $newarg['section'] = 'Calculus';
         $samplearguments[] = $newarg;
@@ -1515,7 +1535,8 @@ class stack_equiv_test_data {
         $newarg['outcome']   = 'unsupported';
         $samplearguments[]   = $newarg;
 
-        //******************************************************************************
+        /* ....................................... */
+
         $newarg = array();
         $newarg['section'] = 'Other cases';
         $samplearguments[] = $newarg;

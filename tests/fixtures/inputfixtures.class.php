@@ -14,6 +14,8 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
+defined('MOODLE_INTERNAL') || die();
+
 /**
  * This script runs the student input tests and verifies the results.
  *
@@ -43,7 +45,8 @@ class stack_inputvalidation_test_data {
         array('x+1', 'php_true', 'x+1', 'cas_true', 'x+1', '', ""),
         array('x+ 1', 'php_true', 'x+1', 'cas_true', 'x+1', '', ""),
         array('x + 1', 'php_true', 'x+1', 'cas_true', 'x+1', '', "Ok to have some spaces between these operators."),
-        array('sin x', 'php_false', '', '', '', 'spaces | trigspace', "Maxima does not allow spaces to denote function application."),
+        array('sin x', 'php_false', '', '', '', 'spaces | trigspace',
+            "Maxima does not allow spaces to denote function application."),
         array('x y', 'php_false', '', '', '', 'spaces', "We don't allow spaces to denote implicit multiplication."),
         array('1 x', 'php_false', '', '', '', 'spaces', ""),
         array('12 3', 'php_false', '', '', '', 'spaces', ""),
@@ -105,7 +108,8 @@ class stack_inputvalidation_test_data {
         array('x(sin(t)+1)', 'php_true', 'x(sin(t)+1)', 'cas_true', 'x\left(\sin \left( t \right)+1\right)', '', ""),
         array('b/a(x)', 'php_true', 'b/a(x)', 'cas_true', '\frac{b}{a\left(x\right)}', '', ""),
         array('3b+5/a(x)', 'php_true', '3*b+5/a(x)', 'cas_true', '3\cdot b+\frac{5}{a\left(x\right)}', 'missing_stars', ""),
-        array('a/(a(x+1)+2)', 'php_true', 'a/(a*(x+1)+2)', 'cas_true', '\frac{a}{a\cdot \left(x+1\right)+2}', 'missing_stars | Variable_function', ""),
+        array('a/(a(x+1)+2)', 'php_true', 'a/(a*(x+1)+2)', 'cas_true', '\frac{a}{a\cdot \left(x+1\right)+2}',
+            'missing_stars | Variable_function', ""),
         array("f''(x)", 'php_false', '' , '', '', 'apostrophe', "Apostrophies again..."),
         array('dosomething(x,y,z)', 'php_false', '', '', '', 'forbiddenFunction',
         "Students have a restricted list of function names.  Teachers are less restricted."),
@@ -258,10 +262,14 @@ class stack_inputvalidation_test_data {
         array('cos(2x)(x+1)', 'php_true', 'cos(2*x)*(x+1)', 'cas_true', '\cos \left( 2\cdot x \right)\cdot \left(x+1\right)',
                 'missing_stars', ""),
         array('b(b+1)', 'php_true', 'b*(b+1)', 'cas_true', 'b\cdot \left(b+1\right)', 'missing_stars | Variable_function', ""),
-        array('-b(5-b)', 'php_true', '-b*(5-b)', 'cas_true', '\left(-b\right)\cdot \left(5-b\right)', 'missing_stars | Variable_function', ""),
-        array('-x(1+x)', 'php_true', '-x*(1+x)', 'cas_true', '\left(-x\right)\cdot \left(1+x\right)', 'missing_stars | Variable_function', ""),
-        array('1-x(1+x)', 'php_true', '1-x*(1+x)', 'cas_true', '1-x\cdot \left(1+x\right)', 'missing_stars | Variable_function', ""),
-        array('-3x(1+x)', 'php_true', '-3*x*(1+x)', 'cas_true', '-3\cdot x\cdot \left(1+x\right)', 'missing_stars | Variable_function', ""),
+        array('-b(5-b)', 'php_true', '-b*(5-b)', 'cas_true', '\left(-b\right)\cdot \left(5-b\right)',
+            'missing_stars | Variable_function', ""),
+        array('-x(1+x)', 'php_true', '-x*(1+x)', 'cas_true', '\left(-x\right)\cdot \left(1+x\right)',
+            'missing_stars | Variable_function', ""),
+        array('1-x(1+x)', 'php_true', '1-x*(1+x)', 'cas_true', '1-x\cdot \left(1+x\right)',
+            'missing_stars | Variable_function', ""),
+        array('-3x(1+x)', 'php_true', '-3*x*(1+x)', 'cas_true', '-3\cdot x\cdot \left(1+x\right)',
+            'missing_stars | Variable_function', ""),
         array('i(1+i)', 'php_true', 'i*(1+i)', 'cas_true', '\mathrm{i}\cdot \left(1+\mathrm{i}\right)', 'missing_stars', ""),
         array('i(4)', 'php_true', 'i*(4)', 'cas_true', '\mathrm{i}\cdot 4', 'missing_stars', ""),
         // The next case is important: please don't call the result of a function f(x), with an argument (2).
@@ -390,11 +398,13 @@ class stack_inputvalidation_test_data {
         array('cosec(x)', 'php_true', 'cosec(x)', 'cas_true', '\csc \left( x \right)', '', ""), 
         array('csc(6*x)^2*(7*sin(6*x)*cos(7*x)-6*cos(6*x)*sin(7*x))', 'php_true',
                 'csc(6*x)^2*(7*sin(6*x)*cos(7*x)-6*cos(6*x)*sin(7*x))', 'cas_true',
-                '\csc ^2\left(6\cdot x\right)\cdot \left(7\cdot \sin \left( 6\cdot x \right)\cdot \cos \left( 7\cdot x \right)-6\cdot ' .
+                '\csc ^2\left(6\cdot x\right)\cdot \left(7\cdot \sin ' .
+                '\left( 6\cdot x \right)\cdot \cos \left( 7\cdot x \right)-6\cdot ' .
                 '\cos \left( 6\cdot x \right)\cdot \sin \left( 7\cdot x \right)\right)', '', ""),
         array('Sin(x)', 'php_false', '', '', '', 'unknownFunctionCase', ""),
         array('sim(x)', 'php_false', '', '', '', 'forbiddenFunction', ""),
-        array('asin(x)', 'php_true', 'asin(x)', 'cas_true', '\sin^{-1}\left( x \right)', '', "Maxima uses the asin pattern"),
+        array('asin(x)', 'php_true', 'asin(x)', 'cas_true', '\sin^{-1}\left( x \right)', '',
+            "Maxima uses the asin pattern"),
         array('arcsin(x)', 'php_false', 'arcsin(x)', 'cas_true', '', 'triginv', "Not the arcsin"),
         array('sin^-1(x)', 'php_false', 'sin^-1(x)', 'cas_false', '', 'missing_stars | trigexp', ""),
         array('cos^2(x)', 'php_false', 'cos^2(x)', 'cas_false', '', 'missing_stars | trigexp', ""),
@@ -422,8 +432,10 @@ class stack_inputvalidation_test_data {
         array('log_10(x)', 'php_true', 'lg(x,10)', 'cas_true', '\log_{10}\left(x\right)', 'logsubs', ""),
         array('log_2(a)', 'php_true', 'lg(a,2)', 'cas_true', '\log_{2}\left(a\right)', 'logsubs', ""),
         array('log_x(1/(x+b))', 'php_true', 'lg(1/(x+b),x)', 'cas_true', '\log_{x}\left(\frac{1}{x+b}\right)', 'logsubs', ""),
-        array('2+log_x(1/(x+b))*x^2', 'php_true', '2+lg(1/(x+b),x)*x^2', 'cas_true', '2+\log_{x}\left(\frac{1}{x+b}\right)\cdot x^2', 'logsubs', ""),
-        array('log_a(b)*log_b(c)', 'php_true', 'lg(b,a)*lg(c,b)', 'cas_true', '\log_{a}\left(b\right)\cdot \log_{b}\left(c\right)', 'logsubs', ""),
+        array('2+log_x(1/(x+b))*x^2', 'php_true', '2+lg(1/(x+b),x)*x^2', 'cas_true',
+            '2+\log_{x}\left(\frac{1}{x+b}\right)\cdot x^2', 'logsubs', ""),
+        array('log_a(b)*log_b(c)', 'php_true', 'lg(b,a)*lg(c,b)', 'cas_true',
+            '\log_{a}\left(b\right)\cdot \log_{b}\left(c\right)', 'logsubs', ""),
         array('lg(x)', 'php_true', 'lg(x)', 'cas_true', '\log_{10}\left(x\right)', '', "Logarithm to the base \(10\)."),
         array('lg(10^3)', 'php_true', 'lg(10^3)', 'cas_true', '\log_{10}\left(10^3\right)', '', ""),
         array('lg(x,a)', 'php_true', 'lg(x,a)', 'cas_true', '\log_{a}\left(x\right)', '', ""),

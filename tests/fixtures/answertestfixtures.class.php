@@ -149,6 +149,7 @@ class stack_answertest_test_data {
             '-(sin(4*t)^2-2*sin(4*t)+cos(4*t)^2-1)*(sin(4*t)^2+2*sin(4*t)+cos(4*t)^2-1)/(sin(4*t)^2+cos(4*t)^2+2*cos(4*t)+1)^2',
             1, '', ''),
         array('AlgEquiv', '', '1+cosec(3*x)', '1+csc(3*x)', 1, '', ''),
+        array('AlgEquiv', '', '1/(1+exp(-2*x))', 'tanh(x)/2+1/2', 1, '', ''),
         array('AlgEquiv', '', '1+cosech(3*x)', '1+csch(3*x)', 1, '', ''),
         array('AlgEquiv', '', '-4*sec(4*z)^2*sin(6*z)-6*tan(4*z)*cos(6*z)',
             '-4*sec(4*z)^2*sin(6*z)-6*tan(4*z)*cos(6*z)', 1, '', ''),

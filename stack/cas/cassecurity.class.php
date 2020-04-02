@@ -171,7 +171,7 @@ class stack_cas_security {
                 foreach (self::$keywordlists[strtolower($key)] as $k => $v) {
                     $real[$k] = $v;
                 }
-            } else if (core_text::strlen($key) > 1) {
+            } else if (mb_strlen($key) > 1) {
                 $real[$key] = true;
             }
         }
@@ -240,7 +240,7 @@ class stack_cas_security {
         }
 
         // If the identifer is less than three char then students have permissions.
-        if ($security === 's' && core_text::strlen($identifier) <= 2) {
+        if ($security === 's' && mb_strlen($identifier) <= 2) {
             return true;
         }
 
@@ -316,13 +316,13 @@ class stack_cas_security {
         }
 
         // If the identifer is less than three char then students have permissions.
-        if ($security === 's' && core_text::strlen($identifier) <= 2) {
+        if ($security === 's' && mb_strlen($identifier) <= 2) {
             return true;
         }
 
         // The special case is identifiers that end with numbers...
         // The block system uses this hole extensively.
-        if ($security === 's' && ctype_digit(core_text::substr($identifier, -1))) {
+        if ($security === 's' && ctype_digit(mb_substr($identifier, -1))) {
             return true;
         }
 
@@ -494,7 +494,7 @@ class stack_cas_security {
         if ($this->units && ($type === 'variable' || $type === 'constant')) {
             // This has a separate implementation in caastring_units but Lets
             // do things just a bit differently.
-            $units = stack_cas_casstring_units::get_permitted_units(core_text::strlen($identifier));
+            $units = stack_cas_casstring_units::get_permitted_units(mb_strlen($identifier));
             foreach ($units as $key) {
                 if (strtolower($key) === $l) {
                     $r[] = $key;
@@ -585,10 +585,10 @@ class stack_cas_security {
     // Returns all identifiers with a given feature as long as the feature is not valued 'f'.
     public static function get_all_with_feature(string $feature, bool $units = false): array {
         static $cache = array();
-        if (!array_key_exists($units ? 'true' : 'false', $cache)) {
+        if (!isset($cache[$units ? 'true' : 'false'])) {
             $cache[$units ? 'true' : 'false'] = array();
         }
-        if (array_key_exists($feature, $cache[$units ? 'true' : 'false'])) {
+        if (isset($cache[$units ? 'true' : 'false'][$feature])) {
             return $cache[$units ? 'true' : 'false'][$feature];
         }
 
@@ -604,7 +604,7 @@ class stack_cas_security {
             }
         }
         foreach (self::$securitymap as $key => $features) {
-            if (array_key_exists($feature, $features) && $features[$feature] !== 'f') {
+            if (isset($features[$feature]) && $features[$feature] !== 'f') {
                 $r[$key] = $key;
             }
         }
@@ -615,7 +615,8 @@ class stack_cas_security {
     }
 
     // The so called alpha-map, of all known identifiers that should be protected from
-    // insert-stars. Ordered with the longest first and indexed with the identifiers.
+    // insert-stars. Indexed with the identifiers.
+    // NOT ordered by length anymore.
     public static function get_protected_identifiers(string $type = 'variable', bool $units = false): array {
         static $variablewithoutunits = null;
         static $variablewithunits = null;
@@ -633,12 +634,6 @@ class stack_cas_security {
             }
             $workmap = array_merge(self::get_all_with_feature('variable', $units),
                                    self::get_all_with_feature('constant', $units));
-            uksort($workmap, function (
-                string $a,
-                string $b
-            ) {
-                return strlen($a) < strlen($b);
-            });
             if ($units === true) {
                 $variablewithunits = $workmap;
                 return $variablewithunits;
@@ -650,14 +645,7 @@ class stack_cas_security {
             if ($functions !== null) {
                 return $functions;
             }
-            $workmap = self::get_all_with_feature('function');
-            uksort($workmap, function (
-                string $a,
-                string $b
-            ) {
-                return strlen($a) < strlen($b);
-            });
-            $functions = $workmap;
+            $functions = self::get_all_with_feature('function');
             return $functions;
         }
     }

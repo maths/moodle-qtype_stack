@@ -14,6 +14,8 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
+defined('MOODLE_INTERNAL') || die();
+
 /**
  * This script provides test cases for the numerical rounding tests.
  *
@@ -61,7 +63,7 @@ class stack_numbers_test_data {
             array("-(12.000)", 5, 5, 3, '"~,3f"', '-12.000'),
     );
 
-    // array("string", lower, upper, decimal places).
+    // Use the format array("string", lower, upper, decimal places).
     protected static $rawdatautils = array(
 
             // Scientific notation.

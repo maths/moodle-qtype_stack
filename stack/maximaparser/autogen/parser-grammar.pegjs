@@ -763,7 +763,7 @@ FunctionCall
   }
 
 Indexing
-  = trg:(Identifier / List / Group) indices:(_? List)+ {
+  = trg:(Identifier / List / Set / Group) indices:(_? List)+ {
   /** <?php
   $v = array();
   foreach ($indices as $ind)

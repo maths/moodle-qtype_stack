@@ -16,12 +16,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-// We select the implementation of the parser, depending on mbstring.
-if (function_exists('mb_ereg')) {
-    require_once(__DIR__ . '/autogen/parser.mbstring.php');
-} else {
-    require_once(__DIR__ . '/autogen/parser.native.php');
-}
+require_once(__DIR__ . '/autogen/parser.mbstring.php');
 // Also needs stack_string().
 require_once(__DIR__ . '/../../locallib.php');
 require_once(__DIR__ . '/../utils.class.php');
@@ -244,10 +239,10 @@ class maxima_corrective_parser {
         $nextchar = null;
 
         if ($exception->grammarOffset >= 1) {
-            $previouschar = core_text::substr($string, $exception->grammarOffset - 1, 1);
+            $previouschar = mb_substr($string, $exception->grammarOffset - 1, 1);
         }
-        if ($exception->grammarOffset < (core_text::strlen($string) - 1)) {
-            $nextchar = core_text::substr($string, $exception->grammarOffset + 1, 1);
+        if ($exception->grammarOffset < (mb_strlen($string) - 1)) {
+            $nextchar = mb_substr($string, $exception->grammarOffset + 1, 1);
         }
 
         // Some common output processing.
@@ -386,8 +381,8 @@ class maxima_corrective_parser {
             $answernote[] = 'spuriousop';
 
         } else if (ctype_alpha($foundchar) && ctype_digit($previouschar)) {
-            $a = array('cmd' => stack_maxima_format_casstring(core_text::substr($string, 0, $exception->grammarOffset) .
-                    '<font color="red">*</font>' . core_text::substr($string, $exception->grammarOffset)));
+            $a = array('cmd' => stack_maxima_format_casstring(mb_substr($string, 0, $exception->grammarOffset) .
+                    '<font color="red">*</font>' . mb_substr($string, $exception->grammarOffset)));
             $answernote[] = 'missing_stars';
         } else if ($foundchar === ',' || (ctype_digit($foundchar) && $previouschar === ',')) {
             $errors[] = stack_string('stackCas_unencpsulated_comma');
@@ -396,9 +391,9 @@ class maxima_corrective_parser {
             $errors[] = stack_string('illegalcaschars');
             $answernote[] = 'illegalcaschars';
         } else if ($previouschar === ' ') {
-            $cmds = trim(core_text::substr($original, 0, $exception->grammarOffset - 1));
+            $cmds = trim(mb_substr($original, 0, $exception->grammarOffset - 1));
             $cmds .= '<font color="red">_</font>';
-            $cmds .= core_text::substr($original, $exception->grammarOffset);
+            $cmds .= mb_substr($original, $exception->grammarOffset);
             $cmds = str_replace('@@IS@@', '*', $cmds);
             $cmds = str_replace('@@Is@@', '<font color="red">_</font>', $cmds);
             $answernote[] = 'spaces';
@@ -419,14 +414,14 @@ class maxima_corrective_parser {
             // flag but not find the assingment of flag value...
             $errors[] = stack_string('stackCas_unencpsulated_comma');
             $answernote[] = 'unencapsulated_comma';
-        } else if ($nextchar === null && ($foundchar !== null && core_text::strpos($disallowedfinalchars, $foundchar) !== false)) {
+        } else if ($nextchar === null && ($foundchar !== null && mb_strpos($disallowedfinalchars, $foundchar) !== false)) {
             $a = array();
             $a['char'] = $foundchar;
             $a['cmd']  = stack_maxima_format_casstring($string);
             $errors[] = stack_string('stackCas_finalChar', $a);
             $answernote[] = 'finalChar';
         } else if ($foundchar === null && ($previouschar !== null &&
-                core_text::strpos($disallowedfinalchars, $previouschar) !== false)) {
+                mb_strpos($disallowedfinalchars, $previouschar) !== false)) {
             $a = array();
             $a['char'] = $previouschar;
             $a['cmd']  = stack_maxima_format_casstring($string);
@@ -438,14 +433,14 @@ class maxima_corrective_parser {
             $a = array('op' => stack_maxima_format_casstring('!'));
             $errors[] = stack_string('stackCas_badpostfixop', $a);
             $answernote[] = 'badpostfixop';
-        } else if (core_text::strpos($disallowedfinalchars, core_text::substr(trim($string), -1)) !== false) {
+        } else if (mb_strpos($disallowedfinalchars, mb_substr(trim($string), -1)) !== false) {
             $a = array();
-            $a['char'] = core_text::substr(trim($original), -1);
+            $a['char'] = mb_substr(trim($original), -1);
             $a['cmd']  = stack_maxima_format_casstring($string);
             $errors[] = stack_string('stackCas_finalChar', $a);
             $answernote[] = 'finalChar';
         } else if (($foundchar === '}' || $foundchar === ']' || $foundchar === ')') &&
-                core_text::strpos($disallowedfinalchars, $previouschar) !== false) {
+                mb_strpos($disallowedfinalchars, $previouschar) !== false) {
             $a = array();
             $a['char'] = $previouschar;
             $a['cmd']  = stack_maxima_format_casstring($string);

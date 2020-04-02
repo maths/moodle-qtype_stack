@@ -34,7 +34,7 @@ class stack_ast_filter_410_single_char_vars implements stack_cas_astfilter {
         $process = function($node) use (&$valid, &$errors, &$answernotes, $protected) {
             if ($node instanceof MP_Identifier && !$node->is_function_name()) {
                 // Cannot split further.
-                if (core_text::strlen($node->value) === 1) {
+                if (mb_strlen($node->value) === 1) {
                     return true;
                 }
 
@@ -44,10 +44,12 @@ class stack_ast_filter_410_single_char_vars implements stack_cas_astfilter {
                 }
 
                 // If it starts with any know identifier split after that.
-                foreach ($protected as $safe) {
-                    if (core_text::strpos($node->value, $safe) === 0) {
-                        $remainder = core_text::substr($node->value, core_text::strlen($safe));
-                        if (core_text::substr($remainder, 0, 1) === '_') {
+                for ($l = mb_strlen($node->value); $l > 0; $l--) {
+                    $prefix = mb_substr($node->value, 0, $l);
+                    if (array_key_exists($prefix, $protected)) {
+                        // It is the longest prefix, lets split.
+                        $remainder = mb_substr($node->value, $l);
+                        if (mb_substr($remainder, 0, 1) === '_') {
                             return true;
                         }
                         if (ctype_digit($remainder)) {
@@ -55,7 +57,7 @@ class stack_ast_filter_410_single_char_vars implements stack_cas_astfilter {
                         } else {
                             $remainder = new MP_Identifier($remainder);
                         }
-                        $replacement = new MP_Operation('*', new MP_Identifier($safe), $remainder);
+                        $replacement = new MP_Operation('*', new MP_Identifier($prefix), $remainder);
                         $replacement->position['insertstars'] = true;
                         $node->parentnode->replace($node, $replacement);
                         if (array_search('missing_stars', $answernotes) === false) {
@@ -66,20 +68,20 @@ class stack_ast_filter_410_single_char_vars implements stack_cas_astfilter {
                 }
 
                 // Don't split up subscripts here.
-                if (core_text::substr($node->value, 0, 1) === '_' || core_text::substr($node->value, 1, 1) === '_') {
+                if (mb_substr($node->value, 0, 1) === '_' || mb_substr($node->value, 1, 1) === '_') {
                     return true;
                 }
                 // TODO: more subtle case of ab_cd -> a*b_c*d rather than a*b_cd.
                 // This is enough for now, and doesn't break Maxima.
 
                 // If it does not start with a known identifier split the first char.
-                $remainder = core_text::substr($node->value, 1);
+                $remainder = mb_substr($node->value, 1);
                 if (ctype_digit($remainder)) {
                     $remainder = new MP_Integer($remainder);
                 } else {
                     $remainder = new MP_Identifier($remainder);
                 }
-                $firstchar = core_text::substr($node->value, 0, 1);
+                $firstchar = mb_substr($node->value, 0, 1);
                 if (ctype_digit($firstchar)) {
                     $firstchar = new MP_Integer($firstchar);
                 } else {

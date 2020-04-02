@@ -405,6 +405,8 @@ stackunitstex(ex) := block ([a, b, c, astr],
   a:first(args(ex)),
   b:second(args(ex)),
   astr:tex1(a),
+  if not(atom(a)) and safe_op(a)="+" and not(is(b=NULLUNITS)) then 
+    astr:sconcat("\\left( ", astr, "\\right)"),
   if length(args(ex))=3 then
     astr:sconcat(astr, "\\pm ", third(args(ex))),
   /* Fine tune the edge cases. */

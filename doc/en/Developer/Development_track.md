@@ -7,6 +7,10 @@ How to report bugs and make suggestions is described on the [community](../About
 
 ## Version 4.3
 
+Version 4.3 requires the PHP package `mbstring` (which will be required from Moodle 3.9 anyway).  Do not attempt to upgrade without checking you have `mbstring` on your server.  Navigate to this page on Moodle to confirm.
+
+    /admin/environment.php
+
 Version 4.3 represents a major internal re-engineering of STACK, with a new dedicated parser and an updated mechanism for connecting to Maxima.  This is a significant improvement, refactoring some of the oldest code and unblocking progress to a wide range of requested features.
 
 There have been a number of changes:
@@ -23,6 +27,7 @@ New features in v4.3:
 * Add in input option 'nounits'.
 * Add in option 'compact' to input "Show the validation" parameter.
 * Add in a basic question use report page, linked from the question testing page.
+* Add in house styles to help typeset [proof](../Authoring/Proof.md).
 * Add cache to help reduce parsing overhead.
 
 TODO:

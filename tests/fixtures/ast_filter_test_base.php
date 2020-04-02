@@ -14,6 +14,8 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
+defined('MOODLE_INTERNAL') || die();
+
 require_once(__DIR__ . '/../../locallib.php');
 require_once(__DIR__ . '/../../stack/maximaparser/corrective_parser.php');
 require_once(__DIR__ . '/../../stack/cas/parsingrules/parsingrule.factory.php');

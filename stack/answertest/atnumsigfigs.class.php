@@ -292,8 +292,8 @@ class stack_anstest_atnumsigfigs extends stack_anstest {
                 $r['answernote'] = $result->items[2]->toString();
             }
             $r['feedback'] = stack_maxima_translate($result->items[3]->value);
-            if (strrpos($r['feedback'], '!NEWLINE!') === core_text::strlen($r['feedback']) - 9) {
-                $r['feedback'] = trim(core_text::substr($r['feedback'], 0, -9));
+            if (strrpos($r['feedback'], '!NEWLINE!') === mb_strlen($r['feedback']) - 9) {
+                $r['feedback'] = trim(mb_substr($r['feedback'], 0, -9));
             }
         }
         return $r;

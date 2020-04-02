@@ -96,7 +96,7 @@ abstract class stack_cas_connection_base implements stack_cas_connection {
 
         // Always do what we can to return some kind of useful message starting at the actual output of our command.
         $errmsg = $raw;
-        $errmsg = core_text::substr($errmsg, core_text::strpos($errmsg, $starterr) + core_text::strlen($starterr));
+        $errmsg = mb_substr($errmsg, mb_strpos($errmsg, $starterr) + mb_strlen($starterr));
         // Tidy Maxima error message to avoid confusion.
         $errmsg = str_replace('To debug this try: debugmode(true);', '', $errmsg);
 
@@ -104,17 +104,17 @@ abstract class stack_cas_connection_base implements stack_cas_connection {
         $endmark = '<STACK-OUTPUT-ENDS';
 
         $split = $raw;
-        if (core_text::strpos($split, $startmark) === false) {
+        if (mb_strpos($split, $startmark) === false) {
             $this->debug->log('Timedout', true);
             return array('timeout' => true, 'debug' => $split, 'timeouterrmessage' => $errmsg);
         }
-        $split = core_text::substr($split, core_text::strpos($split, $startmark) + core_text::strlen($startmark));
+        $split = mb_substr($split, mb_strpos($split, $startmark) + mb_strlen($startmark));
 
-        if (core_text::strpos($split, $endmark) === false) {
+        if (mb_strpos($split, $endmark) === false) {
             $this->debug->log('Timedout', 'in the middle of output');
             return array('timeout' => true, 'debug' => $split, 'timeouterrmessage' => $errmsg);
         }
-        $split = core_text::substr($split, 0, core_text::strpos($split, $endmark));
+        $split = mb_substr($split, 0, mb_strpos($split, $endmark));
 
         $parsed = json_decode($split, true);
         if ($parsed === null) {

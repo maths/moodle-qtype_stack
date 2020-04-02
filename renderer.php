@@ -43,8 +43,10 @@ class qtype_stack_renderer extends qtype_renderer {
         $inputstovaldiate = array();
 
         // Get the list of placeholders before format_text.
-        $originalinputplaceholders = stack_utils::extract_placeholders($questiontext, 'input');
-        $originalfeedbackplaceholders = stack_utils::extract_placeholders($questiontext, 'feedback');
+        $originalinputplaceholders = array_unique(stack_utils::extract_placeholders($questiontext, 'input'));
+        sort($originalinputplaceholders);
+        $originalfeedbackplaceholders = array_unique(stack_utils::extract_placeholders($questiontext, 'feedback'));
+        sort($originalfeedbackplaceholders);
 
         // Now format the questiontext.
         $questiontext = $question->format_text(
@@ -54,12 +56,17 @@ class qtype_stack_renderer extends qtype_renderer {
 
         // Get the list of placeholders after format_text.
         $formatedinputplaceholders = stack_utils::extract_placeholders($questiontext, 'input');
+        sort($formatedinputplaceholders);
         $formatedfeedbackplaceholders = stack_utils::extract_placeholders($questiontext, 'feedback');
+        sort($formatedfeedbackplaceholders);
 
         // We need to check that if the list has changed.
+        // Have we lost some of the placeholders entirely?
+        // Duplicates may have been removed by multi-lang,
+        // No duplicates should remain.
         if ($formatedinputplaceholders !== $originalinputplaceholders ||
                 $formatedfeedbackplaceholders !== $originalfeedbackplaceholders) {
-            throw new coding_exception('Inconsistent placeholders.');
+            throw new coding_exception('Inconsistent placeholders. Possibly due to multi-lang filtter not being active.');
         }
 
         foreach ($question->inputs as $name => $input) {

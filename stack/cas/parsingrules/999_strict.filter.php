@@ -48,7 +48,7 @@ class stack_ast_filter_999_strict implements stack_cas_astfilter_exclusion {
             $missingstring = $ast->toString(
                     array('fixspaces_as_red_spaces' => true, 'qmchar' => true, 'inputform' => true));
             if ($ast instanceof MP_Root) {
-                $missingstring = core_text::substr($missingstring, 0, -2);
+                $missingstring = mb_substr($missingstring, 0, -2);
             }
             $a = array();
             $a['expr']  = stack_maxima_format_casstring($missingstring);
@@ -59,7 +59,7 @@ class stack_ast_filter_999_strict implements stack_cas_astfilter_exclusion {
             $missingstring = $ast->toString(array('insertstars_as_red' => true, 'qmchar' => true, 'inputform' => true));
             if ($ast instanceof MP_Root) {
                 // If MP_Root then it ads ";\n" to the string after statement.
-                $missingstring = core_text::substr($missingstring, 0, -2);
+                $missingstring = mb_substr($missingstring, 0, -2);
             }
             $a = array();
             $a['cmd']  = stack_maxima_format_casstring($missingstring);

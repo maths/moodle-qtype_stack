@@ -34,7 +34,7 @@ class stack_ast_filter_402_split_prefix_from_common_function_name implements sta
 
         $process = function($node) use (&$answernotes, $known) {
             if ($node instanceof MP_Functioncall && $node->name instanceof MP_Identifier &&
-                core_text::strlen($node->name->value) > 1) {
+                mb_strlen($node->name->value) > 1) {
                 // Is it known?
                 if (array_key_exists($node->name->value, $known)) {
                     return true;
@@ -43,8 +43,8 @@ class stack_ast_filter_402_split_prefix_from_common_function_name implements sta
                 // Find if there are any suffixes.
                 $longest = false;
                 $value = $node->name->value;
-                for ($i = core_text::strlen($value) - 1; $i > 0; $i--) {
-                    $suffix = core_text::substr($value, -$i);
+                for ($i = mb_strlen($value) - 1; $i > 0; $i--) {
+                    $suffix = mb_substr($value, -$i);
                     if (array_key_exists($suffix, $known)) {
                         $longest = $suffix;
                         break;
@@ -53,7 +53,7 @@ class stack_ast_filter_402_split_prefix_from_common_function_name implements sta
 
                 // Split.
                 if ($longest !== false) {
-                    $prefix = core_text::substr($value, 0, -core_text::strlen($longest));
+                    $prefix = mb_substr($value, 0, -mb_strlen($longest));
                     $node->name->value = $longest;
                     $nop = new MP_Operation('*', new MP_Identifier($prefix), $node);
                     $nop->position['insertstars'] = true;

@@ -42,7 +42,7 @@ class stack_ast_filter_990_no_fixing_spaces implements stack_cas_astfilter_exclu
             $missingstring = $ast->toString(
                     array('fixspaces_as_red_spaces' => true, 'qmchar' => true, 'inputform' => true));
             if ($ast instanceof MP_Root) {
-                $missingstring = core_text::substr($missingstring, 0, -2);
+                $missingstring = mb_substr($missingstring, 0, -2);
             }
             $a = array();
             $a['expr']  = stack_maxima_format_casstring($missingstring);

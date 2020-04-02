@@ -27,6 +27,7 @@ New features in v4.3:
 * Add in input option 'nounits'.
 * Add in option 'compact' to input "Show the validation" parameter.
 * Add in a basic question use report page, linked from the question testing page.
+* Add in house styles to help typeset [proof](../Authoring/Proof.md).
 * Add cache to help reduce parsing overhead.
 
 TODO:

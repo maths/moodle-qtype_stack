@@ -42,12 +42,13 @@ The potential response tree itself is expected to return a numerical raw score b
 
 The answer note is a tag which is key for reporting purposes. It is designed to record the outcome of each answer test and the unique path through the tree. This is automatically generated, but can be changed to something meaningful. When looking for identical paths through the tree we have to do so, regardless of which random numbers were selected in this variant of the question given to a particular student.  Hence, this string may not depend on any of the variables.
 
-The answer note is the concatenation of each answer note from the [answer tests](Answer_tests.md) and then the corresponding true/false branch.  This 
-note provides a record of the result of applying each test and the route taken through the tree.
+The answer note is the concatenation of each answer note from the [answer tests](Answer_tests.md) and then the corresponding true/false branch.  This note provides a record of the result of applying each test and the route taken through the tree.
 
 This field is given a default value automatically and is used for [reporting](Reporting.md) students' work.
 
 This field may not be empty and for each node in a tree the string must be unique.
+
+Do not use `;`, `|` charaters in your answer note.  These characters are used to split the response summary in the reporting scripts.
 
 ## Scores and penalties ##
 

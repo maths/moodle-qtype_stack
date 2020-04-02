@@ -1800,7 +1800,8 @@ class qtype_stack extends question_type {
 
         $getdebuginfo = false;
         foreach ($inputs as $inputname) {
-            if ($inputsession->get_by_key($inputname)->get_errors() !== '') {
+            if ($inputsession->get_by_key($inputname) !== null &&
+                    $inputsession->get_by_key($inputname)->get_errors() !== '') {
                 $errors[$inputname . 'modelans'][] = $inputsession->get_by_key($inputname)->get_errors();
                 $in = $inputsession->get_by_key($inputname);
                 if (!$in->is_correctly_evaluated()) {

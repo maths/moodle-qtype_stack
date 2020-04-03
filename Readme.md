@@ -20,4 +20,4 @@ The [documentation is here](https://github.com/maths/moodle-qtype_stack/blob/mas
 
 ## License
 
-Stack is Licensed under the [GNU General Public, License Version 3](https://github.com/maths/moodle-qtype_stack/blob/master/COPYING.txt).
+STACK is Licensed under the [GNU General Public, License Version 3](https://github.com/maths/moodle-qtype_stack/blob/master/COPYING.txt).

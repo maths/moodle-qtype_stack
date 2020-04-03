@@ -19,11 +19,11 @@ Check
 * version.php
  * check both the Moodle versions, and the required number. (https://docs.moodle.org/dev/Releases)
 * Check version numbers on stackmaxima.mac.
-* Commit all changes to git, e.g. "Update version number for the 4.0 release."
+* Run unit tests.
+* Run code checker.
+* Commit all changes to git, e.g. "Update version number for the 4.3 release."
 
-## 2. Run all unit tests
-
-## 3. Create new tag with version name
+## 2. Create new tag with version name
 
 E.g. "v4.3".
 
@@ -33,7 +33,7 @@ E.g. "v4.3".
  * Unix: `git tag -a v4.3 -m "Update version number for the 4.3 release."`
  * Unix: `git push --tags`
 
-## Moodle plugins database entry for the plugin
+## 3. Moodle plugins database entry for the plugin
 
 Add a new version to the Moodle plugins database entry for the plugin.
 

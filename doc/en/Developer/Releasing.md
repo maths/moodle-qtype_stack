@@ -18,6 +18,7 @@ Check
  * Execute `doc/maintenance.php` to search for broken links etc.
 * version.php
  * check both the Moodle versions, and the required number. (https://docs.moodle.org/dev/Releases)
+ * `MATURITY_STABLE`?
 * Check version numbers on stackmaxima.mac.
 * Run unit tests.
 * Run code checker.

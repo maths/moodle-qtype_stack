@@ -1,4 +1,4 @@
-# Assessment of proof.
+# Assessment of proof
 
 In STACK the basic assumption is that a student's answer will be a mathematical expression, e.g. a polynomial or an equation.  The facilities for assessing a student's free-form proof is limited.
 

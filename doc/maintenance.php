@@ -35,6 +35,10 @@ require_once(__DIR__ . '/docslib.php');
 
 require_login();
 
+function contains($haystack, $needle) {
+    return mb_strpos($haystack, $needle) !== false;
+}
+
 function report($d) {
     global $CFG;
     $dirroot = stack_utils::convert_slash_paths($CFG->dirroot.'/question/type/stack/doc/en');
@@ -88,9 +92,9 @@ function report($d) {
                             // The array $found[0] will have the full a tags, found[1] contains their href properties.
                             // Step two, visit these links and check for 404s.
                             foreach ($found[1] as $i => $link) {
-                                if (strpos($link, 'mailto:') === false
-                                    and strpos($link, 'maintenance.php') === false
-                                    and (strpos($link, 'http') !== 0)) {
+                                if (!contains($link, 'mailto:') and !contains(html_entity_decode($link), 'mailto:')
+                                    and !contains($link, 'maintenance.php') and (mb_strpos($link, 'http') !== 0)) {
+                                    // Who knew '&#109;&#x61;&#x69;&#108;&#116;&#x6f;&#58;' = 'mailto:'?
                                     // Don't check mailto:, this file (ARGH!)
                                     // Also if ?ext not true then better not be an external link.
                                     if (strpos($link, 'http') !== 0) {
@@ -134,10 +138,8 @@ function report($d) {
             closedir($dh);
         }
     }
-
     return $a;
 }
-
 
 $context = context_system::instance();
 $PAGE->set_context($context);

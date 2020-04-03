@@ -44,435 +44,480 @@
         }
       ]
       },
-	  {
-	  "Authoring":[
-		{
-		"file":"index.md",
-		"title":"Authoring - STACK Documentation",
-		"description":"Documentation for question authors using STACK, including a quick start guide and how to use common STACK features."
-		},
-		{
-		"file":"Actuarial.md",
-		"title":"Actuarial Notation - STACK Documentation",
-		"description":"An overview of using actuarial notation in STACK."
-		},
-		{
-		"file":"Author_FAQ.md",
-		"title":"Author's FAQ - STACK Documentation",
-		"description":"Answers to questions frequently asked by question authors using STACK."
-		},
-		{
-		"file":"Authoring_quick_start.md",
-		"title":"Authoring Quick Start - STACK Documentation",
-		"description":"The authoring quick start is a great place to start learning about using STACK. This step-by-step guide will teach you to create a basic question in STACK."
-		},
-		{
-		"file":"Authoring_quick_start_2.md",
-		"title":"Authoring Quick Start 2 - STACK Documentation",
-		"description":"The second part of the STACK authoring quick start deals with question variables, including a simple integration problem."
-		},
-		{
-		"file":"Authoring_quick_start_3.md",
-		"title":"Authoring Quick Start 3 - STACK Documentation",
-		"description":"The third part of the STACK authoring quick start deals with improving feedback, including the Int and FacForm answer tests."
-		},
-		{
-		"file":"Authoring_quick_start_4.md",
-		"title":"Authoring Quick Start 4 - STACK Documentation",
-		"description":"The second part of the STACK authoring quick start deals with randomisation and deploying variants."
-		},
-		{
-		"file":"Authoring_quick_start_5.md",
-		"title":"Authoring Quick Start 5 - STACK Documentation",
-		"description":"The second part of the STACK authoring quick start deals with question tests."
-		},
-		{
-		"file":"Authoring_quick_start_6.md",
-		"title":"Authoring Quick Start 6 - STACK Documentation",
-		"description":"The second part of the STACK authoring quick start deals with multipart questions."
-		},
-		{
-		"file":"Authoring_quick_start_7.md",
-		"title":"Authoring Quick Start 7 - STACK Documentation",
-		"description":"The second part of the STACK authoring quick start deals with turning simplification off."
-		},
-		{
-		"file":"Authoring_quick_start_8.md",
-		"title":"Authoring Quick Start 8 - STACK Documentation",
-		"description":"The second part of the STACK authoring quick start shows you how to import and export questions, as well as how to create a Moodle quiz."
-		},
-		{
-		"file":"CASText.md",
-		"title":"CAS Text - STACK Documentation",
-		"description":"Information on writing CAS Text in STACK, including useful LaTex and html code."
-		},
-		{
-		"file":"Curve_sketching.md",
-		"title":"Curve Sketching - STACK Documentation",
-		"description":"This document discusses curve sketching in STACK, including attempts to assess this skill and alternatives."
-		},
-		{
-		"file":"Sample_questions.md",
-		"title":"STACK Sample Questions",
-		"description":"Sample questions for the STACK question type."
-		},
-		{
-		"file":"Sample_questions.md",
-		"title":"STACK Sample Questions",
-		"description":"Sample questions for the STACK question type."
-		},
-		{
-		"file":"Answer_tests.md",
-		"title":"Answer Tests - STACK Documentation",
-		"description":"Information about the different answer tests supported in the STACK online assessment system."
-		},
-		{
-		"file":"Deploying.md",
-		"title":"Deploying - STACK Documentation",
-		"description":"Information about deploying random variants in the STACK online assessment system."
-		},
-		{
-		"file":"Feedback.md",
-		"title":"Feedback - STACK Documentation",
-		"description":"Information about creating feedback for students in the STACK online assessment system."
-		},
-		{
-		"file":"Equivalence_reasoning.md",
-		"title":"Answer Tests - STACK Documentation",
-		"description":"An introduction to using equivalence reasoning in the STACK online assessment system."
-		},
-		{
-		"file":"Fact_sheets.md",
-		"title":"Fact Sheets - STACK Documentation",
-		"description":"STACK lets question authors easily embed standard fact sheets into their questions."
-		},
-		{
-		"file":"Future_proof.md",
-		"title":"Ensuring a Question Works in the Future - STACK Documentation",
-		"description":"This document provides guidelines for making sure a question will work in future updates of STACK or Moodle."
-		},
-		{
-		"file":"ImportExport.md",
-		"title":"Importing and Exporting - STACK Documentation",
-		"description":"Information on importing and exporting questions in STACK."
-		},
-		{
-		"file":"Inputs.md",
-		"title":"Inputs - STACK Documentation",
-		"description":"STACK supports many different types of student input, including algebraic input, numerical input and multi-line input."
-		},
-		{
-		"file":"JSXGraph.md",
-		"title":"JSXGraph - STACK Documentation",
-		"description":"JSXGraph is a useful tool for creating graphs in your STACK questions."
-		},
-		{
-		"file":"Variables.md",
-		"title":"Question and Answer Variables - STACK Documentation",
-		"description":"Information on defining and manipulating CAS variables in STACK."
-		},
-		{
-		"file":"Languages.md",
-		"title":"Multilingual Content - STACK Documentation",
-		"description":"Information on writing STACK questions for several languages."
-		},
-		{
-		"file":"Multiple_choice_questions.md",
-		"title":"Multiple Choice Questions - STACK Documentation",
-		"description":"Information on creating and manipulating multiple choice questions in STACk."
-		},
-		{
-		"file":"Question_bank.md",
-		"title":"Moodle Question Bank - STACK Documentation",
-		"description":"Information on finding the Moodle question bank."
-		},
-		{
-		"file":"Options.md",
-		"title":"Options - STACK Documentation",
-		"description":"Documentation for the Option section in a STACK question."
-		},
-		{
-		"file":"Potential_response_trees.md",
-		"title":"Potential Response Trees - STACK Documentation",
-		"description":"Information on using potential response trees in the STACK online assessment system."
-		},
-		{
-		"file":"Question_blocks.md",
-		"title":"Question Blocks - STACK Documentation",
-		"description":"Information on using question blocks in STACK."
-		},
-		{
-		"file":"Question_note.md",
-		"title":"Question Notes - STACK Documentation",
-		"description":"Information on creating effective question notes for random questions in STACK."
-		},
-		{
-		"file":"Quiz.md",
-		"title":"Adding Questions to a Quiz - STACK Documentation",
-		"description":"Information on adding questions to a quiz in STACK."
-		},
-		{
-		"file":"Reporting.md",
-		"title":"Reporting - STACK Documentation",
-		"description":"You can generate detailed reports for quizzes using STACK to assess how successful they are."
-		},
-		{
-		"file":"Testing.md",
-		"title":"Testing - STACK Documentation",
-		"description":"Information on testing a STACK question."
-		},
-		{
-		"file":"Units.md",
-		"title":"Scientific Units - STACK Documentation",
-		"description":"STACK supports the use of scientific units in its questions. This is particularly useful in physics questions."
-		},
-		{
-		"file":"Numerical_input.md",
-		"title":"Numerical Input - STACK Documentation",
-		"description":"Information on STACK's numerical input type."
-		},
-		{
-		"file":"Answer_tests_numerical.md",
-		"title":"Numerical Answer Tests - STACK Documentation",
-		"description":"STACK can test numerical properties of a students' answer, including its numerical precision and significant figures."
-		}
-	  ]
-	  },
-	  {
-	  "CAS":[
-		{
-		"file":"index.md",
-		"title":"CAS - STACK Documentation",
-		"description":"STACK uses the computer algebra system (CAS) Maxima. This documentation deals with Maxima syntax for many topics commonly used in STACK."
-		},
-		{
-		"file":"Buggy_rules.md",
-		"title":"Buggy Rules - STACK Documentation",
-		"description":"In order to establish that the student has done something particular but wrong, it is useful for us to be able to apply wrong or buggy rules to expressions."
-		},
-		{
-		"file":"CAS.md",
-		"title":"About Computer Algebra Systems - STACK Documentation",
-		"description":"Information about Computer Algebra Systems for use with online assessment."
-		},
-		{
-		"file":"Differential_equations.md",
-		"title":"Differential Equations - STACK Documentation",
-		"description":"Information on representing, displaying and manipulating ODEs in STACK."
-		},
-		{
-		"file":"Equations.md",
-		"title":"Asking Students to Solve Equations - STACK Documentation",
-		"description":"It is quite common to ask students to solve an algebraic equation. This document contains information on doing so effectively in STACK."
-		},
-		{
-		"file":"Equivalence_reasoning.md",
-		"title":"Reasoning by Equivalence - STACK Documentation",
-		"description":"Comprehensive information on the equivalence reasoning answer type in STACK."
-		},
-		{
-		"file":"Greek.md",
-		"title":"The Greek Alphabet - STACK Documentation",
-		"description":"Information on displaying greek letters in STACK."
-		},
-		{
-		"file":"Inequalities.md",
-		"title":"Inequalities - STACK Documentation",
-		"description":"Information on displaying inequalities, as well as functions that support inequalities."
-		},
-		{
-		"file":"Linear_algebra.md",
-		"title":"Linear Algebra - STACK Documentation",
-		"description":"Information on working with linear algebra in a STACK question."
-		},
-		{
-		"file":"Matrix.md",
-		"title":"Matrices - STACK Documentation",
-		"description":"Information on using matrices and vectors in the STACK online assessment system."
-		},
-		{
-		"file":"Maxima.md",
-		"title":"Introduction to Maxima - STACK Documentation",
-		"description":"An introduction to STACK's CAS system, Maxima."
-		},
-		{
-		"file":"Numbers.md",
-		"title":"Numbers in STACK - STACK Documentation",
-		"description":"Information on displaying numbers in STACK using the CAS Maxima."
-		},
-		{
-		"file":"Optimising_Maxima.md",
-		"title":"Optimising Maxima - STACK Documentation",
-		"description":"There are several ways to reduce the access and execution time of this CAS which can prove useful for scaling. They have the potential to greatly speed up STACK, and are widely used."
-		},
-		{
-		"file":"Plots.md",
-		"title":"Plots - STACK Documentation",
-		"description":"Information on plotting graphs in STACK."
-		},
-		{
-		"file":"Predicate_functions.md",
-		"title":"Predicate Functions - STACK Documentation",
-		"description":"Predicate functions are thos ethat return Boolean values true or false. These are often useful when authoring STACK questions."
-		},
-		{
-		"file":"Random.md",
-		"title":"Random Objects - STACK Documentation",
-		"description":"Information on using different functions in STACK to generate random values."
-		},
-		{
-		"file":"Simplification.md",
-		"title":"Simplification - STACK Documentation",
-		"description":"Information on using simplification in STACK. "
-		},
-		{
-		"file":"STACK-Maxima_sandbox.md",
-		"title":"STACK-Maxima Sandbox - STACK Documentation",
-		"description":"It is very useful when authoring questions to be able to test out Maxima code in the same environment in which STACK uses Maxima."
-		},
-		{
-		"file":"Statistics.md",
-		"title":"Statistics - STACK Documentation",
-		"description":"Information on support for statistics in STACK. "
-		}
-	  ]
-	  },
-	  {
-	  "Installation":[
-		{
-		"file":"index.md",
-		"title":"Installation Instructions - STACK Documentation",
-		"description":"*Information on installing STACK on your server."
-		},
-		{
-		"file":"LTI.md",
-		"title":"LTI - STACK Documentation",
-		"description":"Information on using LTI to provide STACK quizzes to learning systems where STACK is not installed."
-		},
-		{
-		"file":"Mathjax.md",
-		"title":"Installing Mathjax - STACK Documentation",
-		"description":"Information on installing MathJax, the filter STACK uses to convert LaTeX code into display."
-		},
-		{
-		"file":"Maxima.md",
-		"title":"Installing Maxima - STACK Documentation",
-		"description":"Instructions on downloading and compiling Maxima, the CAS used for STACK."
-		},
-		{
-		"file":"Testing_installation.md",
-		"title":"Testing Installation - STACK Documentation",
-		"description":"It is important to confirm that STACK has been installed correctly. This page provides instructions for confirming this."
-		}
-	  ]
-	  },
-	  {
-	  "Developer":[
-		{
-		"file":"index.md",
-		"title":"Developer Information - STACK Documentation",
-		"description":"Information on STACK for developers, including how to get involved, future releases and development history."
-		},
-		{
-		"file":"Development_history.md",
-		"title":"STACK Development History",
-		"description":"A history of changes and additions to STACK."
-		},
-		{
-		"file":"Creating_an_input_type.md",
-		"title":"Creating an Input Type - STACK Documentation",
-		"description":"Information on creating a new input type in the STACK online assessment system."
-		},
-		{
-		"file":"Development_track.md",
-		"title":"STACK Development Track",
-		"description":"Progress on feature additions for STACK."
-		},
-		{
-		"file":"Documentation.md",
-		"title":"Adding to Documentation - STACK Documentation",
-		"description":"Information on STACK's documentation system and how to contribute to the STACK documentation."
-		},
-		{
-		"file":"Future_plans.md",
-		"title":"STACK Future Plans",
-		"description":"A list of features planned to be implemented to STACK in the future."
-		},
-		{
-		"file":"Language_packs.md",
-		"title":"Translations of STACK - STACK Documentation",
-		"description":"A list of languages STACK is translated to, as well as information on translating the STACK project."
-		},
-		{
-		"file":"Maxima_packages.md",
-		"title":"Adding Support for Maxima Packages - STACK Documentation",
-		"description":"Maxima has a very wide range of optional packages. Read about options for adding more Maxima packages to your installation of STACK."
-		},
-		{
-		"file":"PHP-CAS.md",
-		"title":"PHP Interface with the CAS - STACK Documentation",
-		"description":"This document describes the design of the PHP interface to the CAS."
-		},
-		{
-		"file":"Question_state_caching.md",
-		"title":"Question State Caching - STACK Documentation",
-		"description":"Instructions on clearing the Moodle cache."
-		},
-		{
-		"file":"Releasing.md",
-		"title":"Releasing - STACK Documentation",
-		"description":"Notes documenting the process for releasing a new version of STACK."
-		},
-		{
-		"file":"Running_question_tests_other_site.md",
-		"title":"Running Question Tests for Questions on Other Sites - STACK Documentation",
-		"description":"Before upgrading to a new version of STACK, you may want to check if the new version will change any of your existing questions."
-		},
-		{
-		"file":"Unit_tests.md",
-		"title":"Unit Tests - STACK Documentation",
-		"description":"Information on the three types of unit tests supported by STACK; PHP Unit tests, Maxima unit tests and tests scripts exposed to the question author."
-		},
-		{
-		"file":"UpgradeDefaults.md",
-		"title":"Upgrading Question Details - STACK Documentation",
-		"description":"Information on upgrading question defaults. This may be necessary if you have recently upgraded from an old version of STACK."
-		}
-	  ]
-	  },
-	  {
-	  "Students":[
-		{
-		"file":"index.md",
-		"title":"Information for Students - STACK Documentation",
-		"description":"Information regarding STACK for students, including information on input, assessment and frequently asked questions."
-		},
-		{
-		"file":"FAQ.md",
-		"title":"Students' FAQ - STACK Documentation",
-		"description":"Answers to frequently asked questions aimed at students using STACK."
-		},
-		{
-		"file":"Answer_input.md",
-		"title":"Answer Input for Students- STACK Documentation",
-		"description":"Information about answer input for students using STACK."
-		},
-		{
-		"file":"Answer_assessment.md",
-		"title":"Answer Assessment for Students- STACK Documentation",
-		"description":"Information on how answers are assessed for students using STACK."
-		},
-		{
-		"file":"Equivalence_reasoning.md",
-		"title":"Equivalence Reasoning for Students - STACK Documentation",
-		"description":"Information on using equivalence reasoning in STACK as a student."
-		},
-		{
-		"file":"Accessibility.md",
-		"title":"Accessibility - STACK Documentation",
-		"description":"Accessibility information for students using STACK."
-		}
-	  ]
-	  }
-	]
+      {
+      "Authoring":[
+        {
+        "file":"index.md",
+        "title":"Authoring - STACK Documentation",
+        "description":"Documentation for question authors using STACK, including a quick start guide and how to use common STACK features."
+        },
+        {
+        "file":"Actuarial.md",
+        "title":"Actuarial Notation - STACK Documentation",
+        "description":"An overview of using actuarial notation in STACK."
+        },
+        {
+        "file":"Author_FAQ.md",
+        "title":"Author's FAQ - STACK Documentation",
+        "description":"Answers to questions frequently asked by question authors using STACK."
+        },
+        {
+        "file":"Authoring_quick_start.md",
+        "title":"Authoring Quick Start - STACK Documentation",
+        "description":"The authoring quick start is a great place to start learning about using STACK. This step-by-step guide will teach you to create a basic question in STACK."
+        },
+        {
+        "file":"Authoring_quick_start_2.md",
+        "title":"Authoring Quick Start 2 - STACK Documentation",
+        "description":"The second part of the STACK authoring quick start deals with question variables, including a simple integration problem."
+        },
+        {
+        "file":"Authoring_quick_start_3.md",
+        "title":"Authoring Quick Start 3 - STACK Documentation",
+        "description":"The third part of the STACK authoring quick start deals with improving feedback, including the Int and FacForm answer tests."
+        },
+        {
+        "file":"Authoring_quick_start_4.md",
+        "title":"Authoring Quick Start 4 - STACK Documentation",
+        "description":"The second part of the STACK authoring quick start deals with randomisation and deploying variants."
+        },
+        {
+        "file":"Authoring_quick_start_5.md",
+        "title":"Authoring Quick Start 5 - STACK Documentation",
+        "description":"The second part of the STACK authoring quick start deals with question tests."
+        },
+        {
+        "file":"Authoring_quick_start_6.md",
+        "title":"Authoring Quick Start 6 - STACK Documentation",
+        "description":"The second part of the STACK authoring quick start deals with multipart questions."
+        },
+        {
+        "file":"Authoring_quick_start_7.md",
+        "title":"Authoring Quick Start 7 - STACK Documentation",
+        "description":"The second part of the STACK authoring quick start deals with turning simplification off."
+        },
+        {
+        "file":"Authoring_quick_start_8.md",
+        "title":"Authoring Quick Start 8 - STACK Documentation",
+        "description":"The second part of the STACK authoring quick start shows you how to import and export questions, as well as how to create a Moodle quiz."
+        },
+        {
+        "file":"CASText.md",
+        "title":"CAS Text - STACK Documentation",
+        "description":"Information on writing CAS Text in STACK, including useful LaTex and html code."
+        },
+        {
+        "file":"Curve_sketching.md",
+        "title":"Curve Sketching - STACK Documentation",
+        "description":"This document discusses curve sketching in STACK, including attempts to assess this skill and alternatives."
+        },
+        {
+        "file":"Sample_questions.md",
+        "title":"STACK Sample Questions",
+        "description":"Sample questions for the STACK question type."
+        },
+        {
+        "file":"Sample_questions.md",
+        "title":"STACK Sample Questions",
+        "description":"Sample questions for the STACK question type."
+        },
+        {
+        "file":"Answer_tests.md",
+        "title":"Answer Tests - STACK Documentation",
+        "description":"Information about the different answer tests supported in the STACK online assessment system."
+        },
+        {
+        "file":"Deploying.md",
+        "title":"Deploying - STACK Documentation",
+        "description":"Information about deploying random variants in the STACK online assessment system."
+        },
+        {
+        "file":"Feedback.md",
+        "title":"Feedback - STACK Documentation",
+        "description":"Information about creating feedback for students in the STACK online assessment system."
+        },
+        {
+        "file":"Fixing_broken_questions.md",
+        "title":"I have a misbehaving STACK question in a live Moodle quiz.  What should I do?",
+        "description":"Advice on dealing with errors in STACK questions during a live quiz."
+        },
+        {
+        "file":"Equivalence_reasoning.md",
+        "title":"Answer Tests - STACK Documentation",
+        "description":"An introduction to using equivalence reasoning in the STACK online assessment system."
+        },
+        {
+        "file":"Fact_sheets.md",
+        "title":"Fact Sheets - STACK Documentation",
+        "description":"STACK lets question authors easily embed standard fact sheets into their questions."
+        },
+        {
+        "file":"Future_proof.md",
+        "title":"Ensuring a Question Works in the Future - STACK Documentation",
+        "description":"This document provides guidelines for making sure a question will work in future updates of STACK or Moodle."
+        },
+        {
+        "file":"ImportExport.md",
+        "title":"Importing and Exporting - STACK Documentation",
+        "description":"Information on importing and exporting questions in STACK."
+        },
+        {
+        "file":"Inputs.md",
+        "title":"Inputs - STACK Documentation",
+        "description":"STACK supports many different types of student input, including algebraic input, numerical input and multi-line input."
+        },
+        {
+        "file":"JSXGraph.md",
+        "title":"JSXGraph - STACK Documentation",
+        "description":"JSXGraph is a useful tool for creating graphs in your STACK questions."
+        },
+        {
+        "file":"Proof.md",
+        "title":"Assessment of proof",
+        "description":"This file contains advice on assessing mathematical proof."
+        },
+        {
+        "file":"Variables.md",
+        "title":"Question and Answer Variables - STACK Documentation",
+        "description":"Information on defining and manipulating CAS variables in STACK."
+        },
+        {
+        "file":"Languages.md",
+        "title":"Multilingual Content - STACK Documentation",
+        "description":"Information on writing STACK questions for several languages."
+        },
+        {
+        "file":"Multiple_choice_questions.md",
+        "title":"Multiple Choice Questions - STACK Documentation",
+        "description":"Information on creating and manipulating multiple choice questions in STACk."
+        },
+        {
+        "file":"Question_bank.md",
+        "title":"Moodle Question Bank - STACK Documentation",
+        "description":"Information on finding the Moodle question bank."
+        },
+        {
+        "file":"Options.md",
+        "title":"Options - STACK Documentation",
+        "description":"Documentation for the Option section in a STACK question."
+        },
+        {
+        "file":"Potential_response_trees.md",
+        "title":"Potential Response Trees - STACK Documentation",
+        "description":"Information on using potential response trees in the STACK online assessment system."
+        },
+        {
+        "file":"Question_blocks.md",
+        "title":"Question Blocks - STACK Documentation",
+        "description":"Information on using question blocks in STACK."
+        },
+        {
+        "file":"Question_note.md",
+        "title":"Question Notes - STACK Documentation",
+        "description":"Information on creating effective question notes for random questions in STACK."
+        },
+        {
+        "file":"Quiz.md",
+        "title":"Adding Questions to a Quiz - STACK Documentation",
+        "description":"Information on adding questions to a quiz in STACK."
+        },
+        {
+        "file":"Reporting.md",
+        "title":"Reporting - STACK Documentation",
+        "description":"You can generate detailed reports for quizzes using STACK to assess how successful they are."
+        },
+        {
+        "file":"Testing.md",
+        "title":"Testing - STACK Documentation",
+        "description":"Information on testing a STACK question."
+        },
+        {
+        "file":"Units.md",
+        "title":"Scientific Units - STACK Documentation",
+        "description":"STACK supports the use of scientific units in its questions. This is particularly useful in physics questions."
+        },
+        {
+        "file":"Numerical_input.md",
+        "title":"Numerical Input - STACK Documentation",
+        "description":"Information on STACK's numerical input type."
+        },
+        {
+        "file":"Answer_tests_numerical.md",
+        "title":"Numerical Answer Tests - STACK Documentation",
+        "description":"STACK can test numerical properties of a students' answer, including its numerical precision and significant figures."
+        }
+      ]
+      },
+      {
+      "CAS":[
+        {
+        "file":"index.md",
+        "title":"CAS - STACK Documentation",
+        "description":"STACK uses the computer algebra system (CAS) Maxima. This documentation deals with Maxima syntax for many topics commonly used in STACK."
+        },
+        {
+        "file":"Buggy_rules.md",
+        "title":"Buggy Rules - STACK Documentation",
+        "description":"In order to establish that the student has done something particular but wrong, it is useful for us to be able to apply wrong or buggy rules to expressions."
+        },
+        {
+        "file":"CAS.md",
+        "title":"About Computer Algebra Systems - STACK Documentation",
+        "description":"Information about Computer Algebra Systems for use with online assessment."
+        },
+        {
+        "file":"Differential_equations.md",
+        "title":"Differential Equations - STACK Documentation",
+        "description":"Information on representing, displaying and manipulating ODEs in STACK."
+        },
+        {
+        "file":"Equations.md",
+        "title":"Asking Students to Solve Equations - STACK Documentation",
+        "description":"It is quite common to ask students to solve an algebraic equation. This document contains information on doing so effectively in STACK."
+        },
+        {
+        "file":"Equivalence_reasoning.md",
+        "title":"Reasoning by Equivalence - STACK Documentation",
+        "description":"Comprehensive information on the equivalence reasoning answer type in STACK."
+        },
+        {
+        "file":"Greek.md",
+        "title":"The Greek Alphabet - STACK Documentation",
+        "description":"Information on displaying greek letters in STACK."
+        },
+        {
+        "file":"Inequalities.md",
+        "title":"Inequalities - STACK Documentation",
+        "description":"Information on displaying inequalities, as well as functions that support inequalities."
+        },
+        {
+        "file":"Linear_algebra.md",
+        "title":"Linear Algebra - STACK Documentation",
+        "description":"Information on working with linear algebra in a STACK question."
+        },
+        {
+        "file":"Matrix.md",
+        "title":"Matrices - STACK Documentation",
+        "description":"Information on using matrices and vectors in the STACK online assessment system."
+        },
+        {
+        "file":"Maxima.md",
+        "title":"Introduction to Maxima - STACK Documentation",
+        "description":"An introduction to STACK's CAS system, Maxima."
+        },
+        {
+        "file":"Numbers.md",
+        "title":"Numbers in STACK - STACK Documentation",
+        "description":"Information on displaying numbers in STACK using the CAS Maxima."
+        },
+        {
+        "file":"Optimising_Maxima.md",
+        "title":"Optimising Maxima - STACK Documentation",
+        "description":"Maxima is a slow interpreted language.  This file details several ways to reduce time needed by Maxima."
+        },
+        {
+        "file":"Permutations.md",
+        "title":"Writing a permutation as a product of disjoint cycles",
+        "description":"Information on authoring questions involving permutation as a product of disjoint cycles."
+        },
+        {
+        "file":"Plots.md",
+        "title":"Plots - STACK Documentation",
+        "description":"Information on plotting graphs in STACK."
+        },
+        {
+        "file":"Predicate_functions.md",
+        "title":"Predicate Functions - STACK Documentation",
+        "description":"Predicate functions are thos ethat return Boolean values true or false. These are often useful when authoring STACK questions."
+        },
+        {
+        "file":"Random.md",
+        "title":"Random Objects - STACK Documentation",
+        "description":"Information on using different functions in STACK to generate random values."
+        },
+        {
+        "file":"Simplification.md",
+        "title":"Simplification - STACK Documentation",
+        "description":"Information on using simplification in STACK. "
+        },
+        {
+        "file":"STACK-Maxima_sandbox.md",
+        "title":"STACK-Maxima Sandbox - STACK Documentation",
+        "description":"It is very useful when authoring questions to be able to test out Maxima code in the same environment in which STACK uses Maxima."
+        },
+        {
+        "file":"Statistics.md",
+        "title":"Statistics - STACK Documentation",
+        "description":"Information on support for statistics in STACK. "
+        }
+      ]
+      },
+      {
+      "Installation":[
+        {
+        "file":"index.md",
+        "title":"Installation Instructions - STACK Documentation",
+        "description":"*Information on installing STACK on your server."
+        },
+        {
+        "file":"LTI.md",
+        "title":"LTI - STACK Documentation",
+        "description":"Information on using LTI to provide STACK quizzes to learning systems where STACK is not installed."
+        },
+        {
+        "file":"Mathjax.md",
+        "title":"Installing Mathjax - STACK Documentation",
+        "description":"Information on installing MathJax, the filter STACK uses to convert LaTeX code into display."
+        },
+        {
+        "file":"Maxima.md",
+        "title":"Installing Maxima - STACK Documentation",
+        "description":"Instructions on downloading and compiling Maxima, the CAS used for STACK."
+        },
+        {
+        "file":"Testing_installation.md",
+        "title":"Testing Installation - STACK Documentation",
+        "description":"It is important to confirm that STACK has been installed correctly. This page provides instructions for confirming this."
+        }
+      ]
+      },
+      {
+      "Developer":[
+        {
+        "file":"index.md",
+        "title":"Developer Information - STACK Documentation",
+        "description":"Information on STACK for developers, including how to get involved, future releases and development history."
+        },
+        {
+        "file":"CAS_evaluatable.md",
+        "title":"The family tree of cas_evaluatables.",
+        "description":"This page documents the design of cas_evaluatables."
+        },
+        {
+        "file":"Census.md",
+        "title":"Maxima identifier census",
+        "description":"Explains how to conduct the maxima identifier census."
+        },
+        {
+        "file":"Development_history.md",
+        "title":"STACK Development History",
+        "description":"A history of changes and additions to STACK."
+        },
+        {
+        "file":"Creating_an_input_type.md",
+        "title":"Creating an Input Type - STACK Documentation",
+        "description":"Information on creating a new input type in the STACK online assessment system."
+        },
+        {
+        "file":"Development_track.md",
+        "title":"STACK Development Track",
+        "description":"Progress on feature additions for STACK."
+        },
+        {
+        "file":"Documentation.md",
+        "title":"Adding to Documentation - STACK Documentation",
+        "description":"Information on STACK's documentation system and how to contribute to the STACK documentation."
+        },
+        {
+        "file":"Future_input_processing.md",
+        "title":"Description of one possible future input processing pipeline",
+        "description":"Suggestions for re-designing the input processing."
+        },
+        {
+        "file":"Future_plans.md",
+        "title":"STACK Future Plans",
+        "description":"A list of features planned to be implemented to STACK in the future."
+        },
+        {
+        "file":"Language_packs.md",
+        "title":"Translations of STACK - STACK Documentation",
+        "description":"A list of languages STACK is translated to, as well as information on translating the STACK project."
+        },
+        {
+        "file":"Maxima_packages.md",
+        "title":"Adding Support for Maxima Packages - STACK Documentation",
+        "description":"Maxima has a very wide range of optional packages. Read about options for adding more Maxima packages to your installation of STACK."
+        },
+        {
+        "file":"Parser.md",
+        "title":"Building the parser",
+        "description":"This document describes the design of the parser for dealing with students' answers and Maxima statements."
+        },
+        {
+        "file":"PHP-CAS.md",
+        "title":"PHP Interface with the CAS - STACK Documentation",
+        "description":"This document describes the design of the PHP interface to the CAS."
+        },
+        {
+        "file":"Question_state_caching.md",
+        "title":"Question State Caching - STACK Documentation",
+        "description":"Instructions on clearing the Moodle cache."
+        },
+        {
+        "file":"Releasing.md",
+        "title":"Releasing - STACK Documentation",
+        "description":"Notes documenting the process for releasing a new version of STACK."
+        },
+        {
+        "file":"Running_question_tests_other_site.md",
+        "title":"Running Question Tests for Questions on Other Sites - STACK Documentation",
+        "description":"Before upgrading to a new version of STACK, you may want to check if the new version will change any of your existing questions."
+        },
+        {
+        "file":"Security_map.md",
+        "title":"Security-map",
+        "description":"This document explains how the Maxima statement parser infrastruture works."
+        },
+        {
+        "file":"Syntax_Future.md",
+        "title":"Future plans for syntax of answers and STACK.",
+        "description":"Discussion of future plans for dealing with syntax of answers and STACK."
+        },
+        {
+        "file":"Unit_tests.md",
+        "title":"Unit Tests - STACK Documentation",
+        "description":"Information on the three types of unit tests supported by STACK; PHP Unit tests, Maxima unit tests and tests scripts exposed to the question author."
+        },
+        {
+        "file":"UpgradeDefaults.md",
+        "title":"Upgrading Question Details - STACK Documentation",
+        "description":"Information on upgrading question defaults. This may be necessary if you have recently upgraded from an old version of STACK."
+        }
+      ]
+      },
+      {
+      "Students":[
+        {
+        "file":"index.md",
+        "title":"Information for Students - STACK Documentation",
+        "description":"Information regarding STACK for students, including information on input, assessment and frequently asked questions."
+        },
+        {
+        "file":"FAQ.md",
+        "title":"Students' FAQ - STACK Documentation",
+        "description":"Answers to frequently asked questions aimed at students using STACK."
+        },
+        {
+        "file":"Answer_input.md",
+        "title":"Answer Input for Students- STACK Documentation",
+        "description":"Information about answer input for students using STACK."
+        },
+        {
+        "file":"Answer_assessment.md",
+        "title":"Answer Assessment for Students- STACK Documentation",
+        "description":"Information on how answers are assessed for students using STACK."
+        },
+        {
+        "file":"Equivalence_reasoning.md",
+        "title":"Equivalence Reasoning for Students - STACK Documentation",
+        "description":"Information on using equivalence reasoning in STACK as a student."
+        },
+        {
+        "file":"Accessibility.md",
+        "title":"Accessibility - STACK Documentation",
+        "description":"Accessibility information for students using STACK."
+        }
+      ]
+      }
+    ]
 }

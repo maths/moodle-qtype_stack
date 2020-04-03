@@ -1,7 +1,7 @@
 # The family tree of cas_evaluatables.
 
 As of 4.3 the CAS evaluation engine has been replaced by a more modular
-version. Basically the old "casseission" class was replaced with a version
+version. Basically the old "cassession" class was replaced with a version
 that takes in objects that implement the cas_evaluatable interface, and 
 evaluates them. However, it does not extract values from the CAS unless
 those objects implement additional interfaces that receive those values.

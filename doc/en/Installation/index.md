@@ -97,7 +97,7 @@ It is essential to confirm that the PHP scripts are connecting to the CAS.
 
 We have special scripts which provide confirmation and trouble-shooting data to [test the installation](Testing_installation.md).
 
-## 6. Fix DB case sensitivity issue
+## 6. Optional (but recommended): Fix DB case sensitivity issue.
 
 Using a database with a case insensitive collation can cause issues; for example MySQL with utf8mb4_unicode_ci. This is a general problem of Moodle, not specific to this plugin. See [Database collation issue](https://docs.moodle.org/dev/Database_collation_issue).
 
@@ -111,20 +111,7 @@ Example command for MySQL 8.0:
 ALTER TABLE mdl_qtype_stack_inputs CHANGE name name VARCHAR(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT '';
 ```
 
-## 7. Optional: Add the STACK quiz report {#Report}
-
-The reports are still in a beta development stage and you can skip this step.   If you wish to take advantage of bespoke reports on attempts at an individual STACK question you will need to install the STACK quiz report format separately.  This is distributed as `quiz_stack`.  
-
-1. Obtain the code. You can [download the zip file](https://github.com/maths/quiz_stack/zipball/master), unzip it, and place it in the directory `moodle/mod/quiz/report/stack`. (You will need to rename the directory `quiz_stack -> stack`.) 
-
-    Alternatively, get the code using git by running the following command in the top level folder of your Moodle install: 
-    
-        git clone https://github.com/maths/quiz_stack.git mod/quiz/report/stack
-2. Login to Moodle as the admin user and click on Notifications in the Site Administration panel.
-
-## 8. Optional: Add the LTI provider plugin
-
-This optional step is for people who wish to use STACK through another interface than Moodle (or ILIAS).  Details are in the [LTI](LTI.md) page.
+STACK will work without this fix, but input names will not be case sensitive (!) as far as Moodle's database is concerned.  This will throw errors for some questions.
 
 # Migration from STACK 3.X to STACK 4.0
 
@@ -150,4 +137,4 @@ If you wish to import STACK 2 questions into STACK 3 you will need to install th
         git clone https://github.com/maths/moodle-qformat_stack.git question/format/stack
 2. Login to Moodle as the admin user and click on Notifications in the Site Administration panel.
 
-There have been a number of changes between STACK 2 and STACK 3.  Please read the [notes on the importer](../Authoring/ImportExport.md) before using it.
+There have been a number of changes between STACK 2 and STACK 3.  This feature has not been tested since STACK 4.0.  If you need to use this please contact the developers.  Also, see the [notes on the importer](../Authoring/ImportExport.md) before using it.  

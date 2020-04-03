@@ -13,10 +13,12 @@ Release needs to be done for the whole "set".  Do we increment the numbers of al
 Check 
 
 * Readme.md
+* Check docs 
+ * development history/track.
+ * Execute `doc/maintenance.php` to search for broken links etc.
 * version.php
  * check both the Moodle versions, and the required number. (https://docs.moodle.org/dev/Releases)
 * Check version numbers on stackmaxima.mac.
-* Check docs (including development history/track).
 * Commit all changes to git, e.g. "Update version number for the 4.0 release."
 
 ## 2. Run all unit tests

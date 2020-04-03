@@ -8,6 +8,7 @@ The default (and prototype) is an HTML input box into which a student is expecte
 * A question may have as many inputs as needed.
 * Inputs can be positioned anywhere within the [question text](CASText.md#question_text). MathJax does not currently support the inclusion of inputs within equations.
 * All inputs return a Maxima expression.  This might be just the student's answer (in the case of an algebraic input).  MCQ inputs also return a valid Maxima expression.
+* In a multi-part question avoid having inputs which differ only by case sensitivity.  E.g. do not have `[[input:a]]` and `[[input:A]]` in the same question.  (Some database defaults have case insensitive unique keys (!) and in that case this will cause a database error.  See the [installation instructions](../Installation/index.md)).
 
 The position of an input in the [question text](CASText.md#question_text) is denoted by
 

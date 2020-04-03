@@ -46,7 +46,7 @@ The authoring documentation also covers topics on:
 * [Numerical input](Numerical_input.md),
 * [Units in input](Units.md#Input_type),
 * [Equivalence reasoning](Equivalence_reasoning.md),
-* [Multiple choice questions](Multiple_choice_questions),
+* [Multiple choice questions](Multiple_choice_questions.md),
 * [Curve sketching](Curve_sketching.md).
   
 #### Giving feedback with [potential response trees](Potential_response_trees.md)

@@ -143,9 +143,9 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         $el->set_parameter('showValidation', 1);
         $vr = '<div class="stackinputfeedback standard" id="sans1_val"><p>Your last answer was interpreted as follows: ' .
                 '<span class="filter_mathjaxloader_equation"><span class="nolink">\[ x^2 \]</span></span></p>' .
-                '<input type="hidden" name="sans1_val" value="x^2" /><p>The variables found in your answer were: ' .
+                '<input type="hidden" name="sans1_val" value="x^2" />The variables found in your answer were: ' .
                 '<span class="filter_mathjaxloader_equation"><span class="nolink">\( \left[ x \right]\)</span></span> ' .
-                '</p></div>';
+                '</div>';
         $this->assertEquals($vr, $el->replace_validation_tags($state, 'sans1', '[[validation:sans1]]'));
 
         $el->set_parameter('showValidation', 2);

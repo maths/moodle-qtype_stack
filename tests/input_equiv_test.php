@@ -100,9 +100,9 @@ class stack_equiv_input_test extends qtype_stack_testcase {
         $this->assertEquals('', $state->errors);
         $this->assertEquals('<span class="filter_mathjaxloader_equation"><span class="nolink">' .
                 '\[ \begin{array}{lll} &x^2-2\cdot x+1=0& \cr \end{array} \]</span></span>' .
-                '<input type="hidden" name="q140:1_ans1_val" value="[x^2-2*x+1=0]" /><p>The variables found in your ' .
+                '<input type="hidden" name="q140:1_ans1_val" value="[x^2-2*x+1=0]" />The variables found in your ' .
                 'answer were: <span class="filter_mathjaxloader_equation"><span class="nolink">\( \left[ x \right]\)' .
-                '</span></span> </p>',
+                '</span></span> ',
                 $el->render_validation($state, 'q140:1_ans1'));
         $this->assertEquals('', $state->note);
     }
@@ -211,8 +211,8 @@ class stack_equiv_input_test extends qtype_stack_testcase {
                 '<span class="nolink">\[ \begin{array}{lll} &x^2-5\cdot x+6=0& \cr' .
                 ' \color{green}{\Leftrightarrow}&x=2\,{\mbox{ or }}\, x=3& \cr \end{array} \]</span></span>' .
                 '<input type="hidden" name="q140:1_ans1_val" value="[x^2-5*x+6=0,x=2 or x=3]" />' .
-                '<p>The variables found in your answer were: <span class="filter_mathjaxloader_equation">' .
-                '<span class="nolink">\( \left[ x \right]\)</span></span> </p>',
+                'The variables found in your answer were: <span class="filter_mathjaxloader_equation">' .
+                '<span class="nolink">\( \left[ x \right]\)</span></span> ',
                 $el->render_validation($state, 'q140:1_ans1'));
 
         // The test below does not use the LaTeX of the teacher's answer.

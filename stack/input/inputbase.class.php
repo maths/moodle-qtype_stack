@@ -1192,7 +1192,7 @@ abstract class stack_input {
      * Used by the units input type.
      */
     protected function tag_listofvariables($vars) {
-        return html_writer::tag('p', stack_string('studentValidation_listofvariables', $vars));
+        return stack_string('studentValidation_listofvariables', $vars);
     }
 
     /**

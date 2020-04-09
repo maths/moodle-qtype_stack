@@ -1,6 +1,6 @@
 # Installation instructions.
 
-STACK is being used live at a number of institutions, including the University of Edinburgh, the UK Open University, Aalto, Loughborough University, and the University of Birmingham in the UK.  
+STACK is being used live at a number of institutions, including the University of Edinburgh, the UK Open University, Aalto, Loughborough University, and the University of Birmingham in the UK.
 
 STACK is designed to be used on a Linux-based server.  The Windows/MS option exists to help teachers author questions offline, and for demonstration and development.  However, for demonstration, development and offline use we strongly recommend using VirtualBox instead of the Windows port.  Note also that support for the optimized Maxima image is not available on Windows platforms, which is a substantial performance improvement.
 
@@ -12,20 +12,20 @@ On an existing Moodle site navigate to
 
     /admin/environment.php
 
-to confirm before adding this plugin.
+to confirm before adding this plug-in.
 
-On some linux distros, you simply need to
+On some Linux distros, you simply need to
 
     apt-get install php-mbstring
 
-and then re-start the webserver.
+and then re-start the web server.
 
 ## 1. Set up Moodle.
 
-* Please ensure you have [installed Moodle](http://docs.moodle.org/en/Main_page).  We intend to support STACK within the normal Moodle [release cycle](https://docs.moodle.org/dev/Releases).  STACK 4.3 has been tested on Moodle 3.5, 3.6, 3.7 and 3.8.  STACK is untested on versions before Moodle 3.4.  We intend to support all future Moodle releases. If your version of Moodle is not listed here please contact the developers: we probably simply have not done the testing of future versions yet.  For longer support of older versions of Moodle please contact us, otherwise will will drop them from out list.
+* Please ensure you have [installed Moodle](http://docs.moodle.org/en/Main_page).  We intend to support STACK within the normal Moodle [release cycle](https://docs.moodle.org/dev/Releases).  STACK 4.3 has been tested on Moodle 3.5, 3.6, 3.7 and 3.8.  STACK is untested on versions before Moodle 3.4.  We intend to support all future Moodle releases. If your version of Moodle is not listed here please contact the developers: we probably simply have not done the testing of future versions yet.  For longer support of older versions of Moodle please contact us, otherwise will will drop them from our list.
 * Please ensure LaTeX can be displayed.  We currently support [MathJax](Mathjax.md) through the Moodle MathJax filter.
 
-Consider updating the MathJax settings to [wrap long equations](http://docs.mathjax.org/en/latest/output.html?highlight=automatic%20line%20breaking#automatic-line-breaking). In particular, add
+Consider updating the MathJax settings to wrap long equations. In particular, add
 
     CommonHTML: { linebreaks: { automatic: true } },
     "HTML-CSS": { linebreaks: { automatic: true } },
@@ -93,7 +93,7 @@ You should now have a question type available to the Moodle quiz.
 
 ## 5. Post-install confirmation.
 
-It is essential to confirm that the PHP scripts are connecting to the CAS.  
+It is essential to confirm that the PHP scripts are connecting to the CAS.
 
 We have special scripts which provide confirmation and trouble-shooting data to [test the installation](Testing_installation.md).
 
@@ -137,4 +137,4 @@ If you wish to import STACK 2 questions into STACK 3 you will need to install th
         git clone https://github.com/maths/moodle-qformat_stack.git question/format/stack
 2. Login to Moodle as the admin user and click on Notifications in the Site Administration panel.
 
-There have been a number of changes between STACK 2 and STACK 3.  This feature has not been tested since STACK 4.0.  If you need to use this please contact the developers.  Also, see the [notes on the importer](../Authoring/ImportExport.md) before using it.  
+There have been a number of changes between STACK 2 and STACK 3.  This feature has not been tested since STACK 4.0.  If you need to use this please contact the developers.  Also, see the [notes on the importer](../Authoring/ImportExport.md) before using it.

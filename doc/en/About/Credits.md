@@ -8,8 +8,15 @@ More details of our development history are given in the [development track](../
 
 Previous developers have included
 
-* Ben Holmes, Dan Williams, Simon Hammond, Jonathan Hart, Matti Pauna
-* Mikael Kurula, Maksim Kraev, Malthe Sporring
+* John Beedell
+* Simon Hammond
+* Jonathan Hart
+* Ben Holmes
+* Maksim Kraev
+* Mikael Kurula
+* Matti Pauna
+* Malthe Sporring
+* Dan Williams
 
 STACK is an open source project and many others have made contributions of various sizes.
 

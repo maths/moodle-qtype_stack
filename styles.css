@@ -148,6 +148,14 @@ body.pagelayout-embedded .que.stack .formulation .questiontestslink {
 .proof-column-2 {
     background: rgba(255, 255, 255, 0.7);
 }
+@media screen and (max-width: 900px) {
+  .proof-column {
+    width: 100%;
+  }
+  .proof-column-2 {
+    width: 100%;
+  }
+}
 
 /* Styles for the editing form. */
 body#page-question-type-stack .fitem_fgroup .accesshide,

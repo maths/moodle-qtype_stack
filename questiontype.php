@@ -452,9 +452,22 @@ class qtype_stack extends question_type {
                     $inputdata->type, $inputdata->name, $inputdata->tans, $question->options, $parameters);
         }
 
+        // CJS: fix this with DB column...
+        foreach ($questiondata->prts as $name => $prtdata) {
+            // Add in the field here.
+            $questiondata->prts[$name]->feedbackstyle = 1;
+            if ($prtdata->value > 5) {
+                // And fude the value for testing.
+                $questiondata->prts[$name]->feedbackstyle = 0;
+            }
+        }
+
         $totalvalue = 0;
         foreach ($questiondata->prts as $name => $prtdata) {
-            $totalvalue += $prtdata->value;
+            // At this point we do not have the PRT method is_formative() available to us.
+            if ($prtdata->feedbackstyle > 0) {
+                $totalvalue += $prtdata->value;
+            }
         }
         if ($questiondata->prts && $totalvalue < 0.0000001) {
             throw new coding_exception('There is an error authoring your question. ' .
@@ -503,7 +516,7 @@ class qtype_stack extends question_type {
 
             $question->prts[$name] = new stack_potentialresponse_tree($name, '',
                     (bool) $prtdata->autosimplify, $prtdata->value / $totalvalue,
-                    $feedbackvariables, $nodes, (string) $prtdata->firstnodename);
+                    $feedbackvariables, $nodes, (string) $prtdata->firstnodename, $prtdata->feedbackstyle);
         }
 
         $question->deployedseeds = array_values($questiondata->deployedseeds);
@@ -2256,7 +2269,7 @@ class qtype_stack extends question_type {
         }
         $feedbackvariables = new stack_cas_keyval($prt->feedbackvariables);
         $potentialresponsetree = new stack_potentialresponse_tree(
-                '', '', false, 0, $feedbackvariables->get_session(), $prtnodes, (string) $prt->firstnodename);
+                '', '', false, 0, $feedbackvariables->get_session(), $prtnodes, (string) $prt->firstnodename, 1);
         return $potentialresponsetree->get_required_variables($inputkeys);
     }
 }

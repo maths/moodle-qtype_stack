@@ -29,9 +29,9 @@ note](Potential_response_trees.md#Answer_note)", used by the teacher for evaluat
 
 The outcomes are
 
-1. The raw score 
-2. The penalty for this attempt 
-3. [Feedback](Feedback.md) to the student 
+1. The raw score
+2. The penalty for this attempt
+3. [Feedback](Feedback.md) to the student
 4. An answer note
 
 ### Question Value {#Question_value}
@@ -72,3 +72,18 @@ In this example, some colleagues would prefer to give partial credit for missing
 * The penalty can be assigned a different value in the nodes of the potential response tree. This means, e.g., the teacher can assign a cumulative penalty 
 for a particular answer. 
 * The penalties are also controlled at a quiz level by the "question behaviours" mechanism for the quiz.  Hence, if you set the behaviour as "Adaptive mode (no penalties)" the penalty assigned will be ignored when the question is used by students in the quiz.
+
+## Formative potential response trees.
+
+The outcomes of score, penalty, feedback and note are always produced.  Normally, whether this information should be shown to a student is a function of the quiz, and in Moodle the question behaviour.  It should not be set at the level of an individual question.
+
+There are rare, but important, situations where we need a purely formative PRT.
+
+E.g. Imagine a questions with inputs A, and B.
+
+1. Input A has a dedicated PRT to establish if it is correct.
+2. Input B has a dedicated PRT to establish if it is correct.
+3. There is an additional PRT which depends on both A & B.  This gives formative feedback to the student, e.g. "try a more interesting combination of answers next time!" but is of no consequence to the correctness of A & B.
+
+With a formative potential response tree, there is no general feedback such as "Correct answer well done".  There is never a mark (and marks for this PRT do not contribute to the question, or completeness of an answer).
+

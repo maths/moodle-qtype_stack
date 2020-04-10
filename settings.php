@@ -213,15 +213,18 @@ $settings->add(new admin_setting_configselect('qtype_stack/assumereal',
 
 $settings->add(new admin_setting_configtextarea('qtype_stack/prtcorrect',
         get_string('prtcorrectfeedback', 'qtype_stack'), '',
-        get_string('defaultprtcorrectfeedback', 'qtype_stack'), PARAM_RAW, 60, 3));
+        get_string('symbolicprtcorrectfeedback', 'qtype_stack') . ' ' .
+            get_string('defaultprtcorrectfeedback', 'qtype_stack'), PARAM_RAW, 60, 3));
 
 $settings->add(new admin_setting_configtextarea('qtype_stack/prtpartiallycorrect',
         get_string('prtpartiallycorrectfeedback', 'qtype_stack'), '',
-        get_string('defaultprtpartiallycorrectfeedback', 'qtype_stack'), PARAM_RAW, 60, 3));
+        get_string('symbolicprtpartiallycorrectfeedback', 'qtype_stack') . ' ' .
+            get_string('defaultprtpartiallycorrectfeedback', 'qtype_stack'), PARAM_RAW, 60, 3));
 
 $settings->add(new admin_setting_configtextarea('qtype_stack/prtincorrect',
         get_string('prtincorrectfeedback', 'qtype_stack'), '',
-        get_string('defaultprtincorrectfeedback', 'qtype_stack'), PARAM_RAW, 60, 3));
+        get_string('symbolicprtincorrectfeedback', 'qtype_stack') . ' ' .
+            get_string('defaultprtincorrectfeedback', 'qtype_stack'), PARAM_RAW, 60, 3));
 
 $settings->add(new admin_setting_configselect('qtype_stack/multiplicationsign',
         get_string('multiplicationsign', 'qtype_stack'),

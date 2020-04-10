@@ -130,7 +130,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $node->add_branch(0, '=', 0, $q->penalty, -1, '', FORMAT_HTML, 'firsttree-1-F');
         $node->add_branch(1, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'firsttree-1-T');
         // We have "simplify:true" in this prt so that we really check the arguments to EqualComAss are not simplified.
-        $q->prts['firsttree'] = new stack_potentialresponse_tree('firsttree', '', true, 1, null, array($node), '0');
+        $q->prts['firsttree'] = new stack_potentialresponse_tree('firsttree', '', true, 1, null, array($node), '0', 1);
 
         return $q;
     }
@@ -175,7 +175,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $node = new stack_potentialresponse_node($sans, $tans, 'Int', 'x');
         $node->add_branch(0, '=', 0, $q->penalty, -1, '', FORMAT_HTML, 'PotResTree_1-0-0');
         $node->add_branch(1, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'PotResTree_1-0-1');
-        $q->prts['PotResTree_1'] = new stack_potentialresponse_tree('PotResTree_1', '', true, 1, null, array($node), '0');
+        $q->prts['PotResTree_1'] = new stack_potentialresponse_tree('PotResTree_1', '', true, 1, null, array($node), '0', 1);
 
         return $q;
     }
@@ -208,7 +208,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $node = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv', null);
         $node->add_branch(0, '=', 0, $q->penalty, -1, '', FORMAT_HTML, 'PotResTree_1-0-0');
         $node->add_branch(1, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'PotResTree_1-0-1');
-        $q->prts['PotResTree_1'] = new stack_potentialresponse_tree('PotResTree_1', '', true, 1, null, array($node), '0');
+        $q->prts['PotResTree_1'] = new stack_potentialresponse_tree('PotResTree_1', '', true, 1, null, array($node), '0', 1);
 
         return $q;
     }
@@ -260,7 +260,7 @@ class qtype_stack_test_helper extends question_test_helper {
                 'Your answer is not an odd function. Look, \[ f(x)+f(-x)={@sa@} \neq 0.\]', FORMAT_HTML, 'odd-0-0');
         $node->add_branch(1, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'odd-0-1');
         $q->prts['odd']     = new stack_potentialresponse_tree('odd',
-                '', true, 0.25, $feedbackvars->get_session(), array($node), '0');
+                '', true, 0.25, $feedbackvars->get_session(), array($node), '0', 1);
 
         $feedbackvars = new stack_cas_keyval('sa:subst(x=-x,ans2)-ans2', null, null);
         $sans = stack_ast_container::make_from_teacher_source('sa');
@@ -272,7 +272,7 @@ class qtype_stack_test_helper extends question_test_helper {
                 'Your answer is not an even function. Look, \[ f(x)-f(-x)={@sa@} \neq 0.\]', FORMAT_HTML, 'even-0-0');
         $node->add_branch(1, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'even-0-1');
         $q->prts['even'] = new stack_potentialresponse_tree('even',
-                '', true, 0.25, $feedbackvars->get_session(), array($node), '0');
+                '', true, 0.25, $feedbackvars->get_session(), array($node), '0', 1);
 
         $feedbackvars = new stack_cas_keyval('sa1:ans3+subst(x=-x,ans3); sa2:ans3-subst(x=-x,ans3)');
 
@@ -295,7 +295,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $node1->add_branch(1, '+', 0.5, $q->penalty, -1, '', FORMAT_HTML, 'oddeven-1-1');
 
         $q->prts['oddeven'] = new stack_potentialresponse_tree('oddeven',
-                '', true, 0.25, $feedbackvars->get_session(), array($node0, $node1), '0');
+                '', true, 0.25, $feedbackvars->get_session(), array($node0, $node1), '0', 1);
 
         $sans = stack_ast_container::make_from_teacher_source('ans4');
         $sans->get_valid();
@@ -305,7 +305,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $node->add_branch(0, '=', 0, 1, -1, '', FORMAT_HTML, 'unique-0-0');
         $node->add_branch(1, '=', 1, 1, -1, '', FORMAT_HTML, 'unique-0-1');
         $q->prts['unique']  = new stack_potentialresponse_tree('unique',
-                '', true, 0.25, null, array($node), '0');
+                '', true, 0.25, null, array($node), '0', 1);
 
         $q->hints = array(
             new question_hint(1, 'Hint 1', FORMAT_HTML),
@@ -362,7 +362,7 @@ class qtype_stack_test_helper extends question_test_helper {
                 'Your answer is not an odd function. Look, \[ f(x)+f(-x)={@sa@} \neq 0.\]', FORMAT_HTML, 'odd-0-0');
         $node->add_branch(1, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'odd-0-1');
         $q->prts['odd']     = new stack_potentialresponse_tree('odd',
-                '', true, 0.25, $feedbackvars->get_session(), array($node), '0');
+                '', true, 0.25, $feedbackvars->get_session(), array($node), '0', 1);
 
         $feedbackvars = new stack_cas_keyval('sa:subst(x=-x,ans2)-ans2', null, null);
         $sans = stack_ast_container::make_from_teacher_source('sa');
@@ -374,7 +374,7 @@ class qtype_stack_test_helper extends question_test_helper {
                 'Your answer is not an even function. Look, \[ f(x)-f(-x)={@sa@} \neq 0.\]', FORMAT_HTML, 'even-0-0');
         $node->add_branch(1, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'even-0-1');
         $q->prts['even']    = new stack_potentialresponse_tree('even',
-                '', true, 0.25, $feedbackvars->get_session(), array($node), '0');
+                '', true, 0.25, $feedbackvars->get_session(), array($node), '0', 1);
 
         $feedbackvars = new stack_cas_keyval('sa1:ans3+subst(x=-x,ans3); sa2:ans3-subst(x=-x,ans3)');
 
@@ -397,7 +397,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $node1->add_branch(1, '+', 0.5, $q->penalty, -1, '', FORMAT_HTML, 'oddeven-1-1');
 
         $q->prts['oddeven'] = new stack_potentialresponse_tree('oddeven',
-                '', true, 0.25, $feedbackvars->get_session(), array($node0, $node1), '0');
+                '', true, 0.25, $feedbackvars->get_session(), array($node0, $node1), '0', 1);
 
         $sans = stack_ast_container::make_from_teacher_source('ans4');
         $sans->get_valid();
@@ -407,7 +407,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $node->add_branch(0, '=', 0, $q->penalty, -1, '', FORMAT_HTML, 'unique-0-0');
         $node->add_branch(1, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'unique-0-1');
         $q->prts['unique']  = new stack_potentialresponse_tree('unique',
-                '', true, 0.25, null, array($node), '0');
+                '', true, 0.25, null, array($node), '0', 1);
 
         return $q;
     }
@@ -442,7 +442,7 @@ class qtype_stack_test_helper extends question_test_helper {
                 FORMAT_HTML, 'plots-0-0');
         $node->add_branch(1, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'plots-0-1');
         $q->prts['plots'] = new stack_potentialresponse_tree('plots',
-                '', true, 1, null, array($node), '0');
+                '', true, 1, null, array($node), '0', 1);
 
         return $q;
     }
@@ -498,7 +498,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $node->add_branch(0, '=', 0, $q->penalty, -1, 'Not correct.', FORMAT_HTML, 'eq-0-0');
         $node->add_branch(1, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'eq-0-1');
         $q->prts['eq'] = new stack_potentialresponse_tree('eq',
-                    '', true, 0.3333333, null, array($node), '0');
+                    '', true, 0.3333333, null, array($node), '0', 1);
 
         $feedbackvars = new stack_cas_keyval('v1 : first(listofvars(ans1)); ftm : setify(map(rhs,solve(ans1,v1)))');
 
@@ -538,7 +538,7 @@ class qtype_stack_test_helper extends question_test_helper {
 
         $q->prts['sol'] = new stack_potentialresponse_tree('sol',
                     '', true, 0.3333333, $feedbackvars->get_session(),
-                    array($node0, $node1, $node2, $node3), '0');
+                    array($node0, $node1, $node2, $node3), '0', 1);
 
         $sans = stack_ast_container::make_from_teacher_source('ans3');
         $sans->get_valid();
@@ -548,7 +548,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $node->add_branch(0, '=', 0, $q->penalty, -1, 'Not correct.', FORMAT_HTML, 'short-0-0');
         $node->add_branch(1, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'short-0-1');
         $q->prts['short'] = new stack_potentialresponse_tree('short',
-                            '', true, 0.3333333, null, array($node), '0');
+                            '', true, 0.3333333, null, array($node), '0', 1);
 
         return $q;
     }
@@ -579,7 +579,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $node = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv', null);
         $node->add_branch(0, '=', 0, $q->penalty, -1, '', FORMAT_HTML, 'firsttree-1-F');
         $node->add_branch(1, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'firsttree-1-T');
-        $q->prts['firsttree'] = new stack_potentialresponse_tree('firsttree', '', true, 1, null, array($node), '0');
+        $q->prts['firsttree'] = new stack_potentialresponse_tree('firsttree', '', true, 1, null, array($node), '0', 1);
 
         return $q;
     }
@@ -652,7 +652,7 @@ class qtype_stack_test_helper extends question_test_helper {
                 'Not two lin ind parts');
 
         $q->prts['Result'] = new stack_potentialresponse_tree('Result', '',
-                true, 1, $feedbackvars->get_session(), array($node0, $node1, $node2), '0');
+                true, 1, $feedbackvars->get_session(), array($node0, $node1, $node2), '0', 1);
 
         return $q;
     }
@@ -714,7 +714,7 @@ class qtype_stack_test_helper extends question_test_helper {
                 'ans-2-T');
 
         $q->prts['ans'] = new stack_potentialresponse_tree('ans', '',
-                true, 1, null, array($node0, $node1, $node2), '0');
+                true, 1, null, array($node0, $node1, $node2), '0', 1);
 
         return $q;
     }
@@ -780,7 +780,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $node->add_branch(0, '=', 0, $q->penalty, -1,
                 'Compare your answer with the correct one {@plot([f(x),g(x)],[x,-1,1])@}', FORMAT_HTML, 'prt1-1-F');
         $node->add_branch(1, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'prt1-1-T');
-        $q->prts['prt1'] = new stack_potentialresponse_tree('prt1', '', true, 1, null, array($node), '0');
+        $q->prts['prt1'] = new stack_potentialresponse_tree('prt1', '', true, 1, null, array($node), '0', 1);
 
         return $q;
     }
@@ -810,7 +810,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $node = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv', '3');
         $node->add_branch(0, '=', 0, $q->penalty, -1, '', FORMAT_HTML, 'prt1-1-F');
         $node->add_branch(1, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'prt1-1-T');
-        $q->prts['prt1'] = new stack_potentialresponse_tree('prt1', '', false, 1, null, array($node), '0');
+        $q->prts['prt1'] = new stack_potentialresponse_tree('prt1', '', false, 1, null, array($node), '0', 1);
 
         return $q;
     }
@@ -842,7 +842,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $node = new stack_potentialresponse_node($sans, $tans, 'NumSigFigs', '3');
         $node->add_branch(0, '=', 0, $q->penalty, -1, '', FORMAT_HTML, 'firsttree-1-F');
         $node->add_branch(1, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'firsttree-1-T');
-        $q->prts['firsttree'] = new stack_potentialresponse_tree('firsttree', '', false, 1, null, array($node), '0');
+        $q->prts['firsttree'] = new stack_potentialresponse_tree('firsttree', '', false, 1, null, array($node), '0', 1);
 
         return $q;
     }
@@ -874,7 +874,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $node = new stack_potentialresponse_node($sans, $tans, 'NumSigFigs', '2');
         $node->add_branch(0, '=', 0, $q->penalty, -1, '', FORMAT_HTML, 'firsttree-1-F');
         $node->add_branch(1, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'firsttree-1-T');
-        $q->prts['firsttree'] = new stack_potentialresponse_tree('firsttree', '', false, 1, null, array($node), '0');
+        $q->prts['firsttree'] = new stack_potentialresponse_tree('firsttree', '', false, 1, null, array($node), '0', 1);
 
         return $q;
     }
@@ -906,7 +906,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $node = new stack_potentialresponse_node($sans, $tans, 'Units', '3');
         $node->add_branch(0, '=', 0, $q->penalty, -1, '', FORMAT_HTML, 'firsttree-1-F');
         $node->add_branch(1, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'firsttree-1-T');
-        $q->prts['firsttree'] = new stack_potentialresponse_tree('firsttree', '', false, 1, null, array($node), '0');
+        $q->prts['firsttree'] = new stack_potentialresponse_tree('firsttree', '', false, 1, null, array($node), '0', 1);
 
         return $q;
     }
@@ -938,7 +938,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $node = new stack_potentialresponse_node($sans, $tans, 'Units', '[n0,n0-1]');
         $node->add_branch(0, '=', 0, $q->penalty, -1, '', FORMAT_HTML, 'firsttree-1-F');
         $node->add_branch(1, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'firsttree-1-T');
-        $q->prts['firsttree'] = new stack_potentialresponse_tree('firsttree', '', false, 1, null, array($node), '0');
+        $q->prts['firsttree'] = new stack_potentialresponse_tree('firsttree', '', false, 1, null, array($node), '0', 1);
 
         return $q;
     }
@@ -970,7 +970,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $node = new stack_potentialresponse_node($sans, $tans, 'Equiv', '');
         $node->add_branch(0, '=', 0, $q->penalty, -1, '', FORMAT_HTML, 'firsttree-1-F');
         $node->add_branch(1, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'firsttree-1-T');
-        $q->prts['firsttree'] = new stack_potentialresponse_tree('firsttree', '', false, 1, null, array($node), '0');
+        $q->prts['firsttree'] = new stack_potentialresponse_tree('firsttree', '', false, 1, null, array($node), '0', 1);
 
         return $q;
     }
@@ -1001,7 +1001,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $node = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv');
         $node->add_branch(0, '=', 0, $q->penalty, -1, 'Your answer is not even.', FORMAT_HTML, 'prt1-0-0');
         $node->add_branch(1, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'prt1-0-1');
-        $q->prts['prt1'] = new stack_potentialresponse_tree('prt1', '', true, 0.5, null, array($node), '0');
+        $q->prts['prt1'] = new stack_potentialresponse_tree('prt1', '', true, 0.5, null, array($node), '0', 1);
 
         $sans = stack_ast_container::make_from_teacher_source('mod(ans1,3)');
         $sans->get_valid();
@@ -1010,7 +1010,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $node = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv');
         $node->add_branch(0, '=', 0, $q->penalty, -1, 'Your answer is not divisible by three.', FORMAT_HTML, 'prt2-0-0');
         $node->add_branch(1, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'prt2-0-1');
-        $q->prts['prt2'] = new stack_potentialresponse_tree('prt1', '', true, 0.5, null, array($node), '0');
+        $q->prts['prt2'] = new stack_potentialresponse_tree('prt1', '', true, 0.5, null, array($node), '0', 1);
 
         return $q;
     }
@@ -1082,7 +1082,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $node = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv');
         $node->add_branch(0, '=', 0, $q->penalty, -1, '', FORMAT_HTML, 'firsttree-1-F');
         $node->add_branch(1, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'firsttree-1-T');
-        $q->prts['firsttree'] = new stack_potentialresponse_tree('firsttree', '', false, 1, null, array($node), '0');
+        $q->prts['firsttree'] = new stack_potentialresponse_tree('firsttree', '', false, 1, null, array($node), '0', 1);
 
         return $q;
     }
@@ -1130,7 +1130,7 @@ class qtype_stack_test_helper extends question_test_helper {
                 'Good, you have one solution.', FORMAT_HTML, 'Result-2-T');
 
         $q->prts['Result'] = new stack_potentialresponse_tree('Result', '',
-                true, 1, $feedbackvars->get_session(), array($node0, $node1, $node2), '0');
+                true, 1, $feedbackvars->get_session(), array($node0, $node1, $node2), '0', 1);
 
         return $q;
     }
@@ -1161,7 +1161,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $node0->add_branch(1, '=', 1, '', -1, 'Correct', FORMAT_HTML, 'Result-0-T');
 
         $q->prts['Result'] = new stack_potentialresponse_tree('Result', '',
-                true, 1, $feedbackvars->get_session(), array($node0), '0');
+                true, 1, $feedbackvars->get_session(), array($node0), '0', 1);
 
         return $q;
     }
@@ -1192,7 +1192,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $node0->add_branch(1, '=', 1, '', -1, 'Correct', FORMAT_HTML, 'Result-0-T');
 
         $q->prts['Result'] = new stack_potentialresponse_tree('Result', '',
-                true, 1, $feedbackvars->get_session(), array($node0), '0');
+                true, 1, $feedbackvars->get_session(), array($node0), '0', 1);
 
         return $q;
     }
@@ -1992,7 +1992,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $node = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv');
         $node->add_branch(0, '=', 0, $q->penalty, -1, '', FORMAT_HTML, 'firsttree-1-F');
         $node->add_branch(1, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'firsttree-1-T');
-        $q->prts['firsttree'] = new stack_potentialresponse_tree('firsttree', '', false, 1, null, array($node), '0');
+        $q->prts['firsttree'] = new stack_potentialresponse_tree('firsttree', '', false, 1, null, array($node), '0', 1);
 
         return $q;
     }
@@ -2028,7 +2028,7 @@ class qtype_stack_test_helper extends question_test_helper {
         // This is to check the upgrade process spots addrow in the PRT feedback variables.
         $fv = new stack_cas_keyval('sa:addrow(ans1,2,1,1)');
         $q->prts['firsttree'] = new stack_potentialresponse_tree('firsttree', '', false, 1,
-                $fv->get_session(), array($node), '0');
+                $fv->get_session(), array($node), '0', 1);
 
         return $q;
     }
@@ -2059,7 +2059,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $node = new stack_potentialresponse_node($sans, $tans, 'UnitsStrict');
         $node->add_branch(0, '=', 0, $q->penalty, -1, '', FORMAT_HTML, 'firsttree-1-F');
         $node->add_branch(1, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'firsttree-1-T');
-        $q->prts['firsttree'] = new stack_potentialresponse_tree('firsttree', '', false, 1, null, array($node), '0');
+        $q->prts['firsttree'] = new stack_potentialresponse_tree('firsttree', '', false, 1, null, array($node), '0', 1);
 
         return $q;
     }
@@ -2101,7 +2101,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $node2->add_branch(1, '=', 0.75, $q->penalty, -1, '', FORMAT_HTML, 'firsttree-2-T');
 
         $q->prts['firsttree'] = new stack_potentialresponse_tree('firsttree', '', false, 1,
-                null, array($node1, $node2), '0');
+                null, array($node1, $node2), '0', 1);
 
         return $q;
     }
@@ -2138,7 +2138,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $node1->add_branch(1, '=', 1, $q->penalty, -1, $fb, FORMAT_HTML, 'firsttree-1-T');
 
         $q->prts['firsttree'] = new stack_potentialresponse_tree('firsttree', '', false, 1,
-                null, array($node1), '0');
+                null, array($node1), '0', 1);
 
         return $q;
     }

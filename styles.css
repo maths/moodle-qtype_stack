@@ -103,14 +103,50 @@ body.pagelayout-embedded .que.stack .formulation .questiontestslink {
     background: rgba(255, 255, 255, 0.3);
     border: 1px solid #ddd;
     border-radius: 4px;
-    padding: 5px;
-    margin: 3px;
+    padding: 3px;
+    margin-top: 2px;
+    margin-bottom: 2px;
+    margin-right: 4px;
+    margin-left: 4px;
 }
 .proof-block {
     border: none;
     border-left: 3px solid;
     margin-top: 1em;
     padding-left: 1em;
+}
+
+/* Proofs have lines, containing columns.  Clear floats after the columns. */
+.proof-line {
+    width: 100%;
+    content: "";
+    display: table;
+    clear: both;
+}
+/* Create columns that floats next to each other. */
+.proof-num {
+    float: left;
+    width: 25px;
+    padding: 1px;
+}
+.proof-comment {
+    background: rgba(255, 255, 255, 0.7);
+    float: right;
+    border-radius: 3px;
+    border: 1px solid #ddd;
+    padding: 2px;
+    margin: 2px;
+}
+.proof-step, .proof-column, .proof-column-2  {
+    float: left;
+    padding: 1px;
+}
+/* Proof columns have a fixed width.  Comments and steps do not.  */
+.proof-column, .proof-column-2 {
+    width: 48%;
+}
+.proof-column-2 {
+    background: rgba(255, 255, 255, 0.7);
 }
 
 /* Styles for the editing form. */

@@ -547,7 +547,7 @@ class qtype_stack_walkthrough_deferred_feedback_test extends qtype_stack_walkthr
         $this->render();
         $this->check_output_contains_text_input('ans1', '12', false);
         $this->check_output_contains_input_validation('ans1');
-        $this->check_output_does_not_contain_prt_feedback(); // Since there is no feedback for right.
+        $this->check_output_contains_prt_feedback(); // Since there is no feedback for right.
         $this->check_output_does_not_contain_stray_placeholders();
         $this->assertRegExp('~' . preg_quote($q->prtcorrect, '~') . '~', $this->currentoutput);
         $this->check_current_output(

@@ -240,7 +240,7 @@ class qtype_stack_renderer extends qtype_renderer {
         // Replace any PRT feedback.
         $allempty = true;
         foreach ($question->prts as $index => $prt) {
-            $feedback = $this->prt_feedback($index, $response, $qa, $options, $prt->get_get_feedbackstyle());
+            $feedback = $this->prt_feedback($index, $response, $qa, $options, $prt->get_feedbackstyle());
             $allempty = $allempty && !$feedback;
             $feedbacktext = str_replace("[[feedback:{$index}]]",
                     stack_maths::process_display_castext($feedback, $this), $feedbacktext);
@@ -362,12 +362,30 @@ class qtype_stack_renderer extends qtype_renderer {
 
         $standardfeedback = $this->standard_prt_feedback($qa, $question, $result, $prtfeedbackstyle);
 
-        $fb = $standardfeedback . $err . $feedback . $gradingdetails;
-        // Formative PRT.
-        if ($prtfeedbackstyle === 0) {
-            $fb = $err . $feedback;
+        $tag = 'div';
+        switch ($prtfeedbackstyle) {
+            case 0:
+                // Formative PRT.
+                $fb = $err . $feedback;
+                break;
+            case 1:
+                $fb = $standardfeedback . $err . $feedback . $gradingdetails;
+                break;
+            case 2:
+                // Compact.
+                $fb = $standardfeedback . $err . $feedback;
+                $tag = 'span';
+                break;
+            case 3:
+                // Symbolic.
+                $fb = $standardfeedback . $err;
+                $tag = 'span';
+                break;
+            default:
+                echo "i is not equal to 0, 1 or 2";
         }
-        return html_writer::nonempty_tag('div', $fb, array('class' => 'stackprtfeedback stackprtfeedback-' . $name));
+
+        return html_writer::nonempty_tag($tag, $fb, array('class' => 'stackprtfeedback stackprtfeedback-' . $name));
     }
 
     /**
@@ -382,15 +400,12 @@ class qtype_stack_renderer extends qtype_renderer {
         if ($result->errors) {
             return '';
         }
-        if ($prtfeedbackstyle === 0) {
-            return '';
-        }
 
         $state = question_state::graded_state_for_fraction($result->score);
         $class = $state->get_feedback_class();
 
-        // Symbolic only.
-        if ($prtfeedbackstyle === 2) {
+        // Compact and symbolic only.
+        if ($prtfeedbackstyle === 2 || $prtfeedbackstyle === 3) {
             $s = get_string('symbolicprt' . $class . 'feedback', 'qtype_stack');
             return html_writer::tag('span', $s, array('class' => $class));
         }

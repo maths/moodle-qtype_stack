@@ -61,7 +61,8 @@ class qtype_stack_test_helper extends question_test_helper {
             'addrow',             // This question has addrows, in an older version.
             'mul',                // This question has mul in the options which is no longer permitted.
             'stringsloppy',       // Uses the StringSloppy answer test, and string input.
-            'sregexp'             // Uses the SRegExp answer test, and string input.
+            'sregexp',            // Uses the SRegExp answer test, and string input.
+            'feedbackstyle'       // Test the various feedbackstyle options.
         );
     }
 
@@ -2139,6 +2140,74 @@ class qtype_stack_test_helper extends question_test_helper {
 
         $q->prts['firsttree'] = new stack_potentialresponse_tree('firsttree', '', false, 1,
                 null, array($node1), '0', 1);
+
+        return $q;
+    }
+
+    /**
+     * @return qtype_stack_question a question which uses ATSRegExp.
+     */
+    public static function make_stack_question_feedbackstyle() {
+        $q = self::make_a_stack_question();
+
+        $q->stackversion = '2020041100';
+        $q->name = 'feedbackstyle';
+        $q->questionvariables = "";
+        $q->questiontext = '<p>Give two examples of odd functions.</p>' .
+                '<p>[[input:ans1]] [[validation:ans1]] [[feedback:prt1]]</p>' .
+                '<p>[[input:ans2]] [[validation:ans2]] [[feedback:prt2]]</p>' .
+                '<p>[[feedback:prt3]]</p>';
+
+        $q->specificfeedback = '';
+        $q->penalty = 0.4; // Non-zero and not the default.
+
+        $q->inputs['ans1'] = stack_input_factory::make(
+                'algebraic', 'ans1', 'x^3', null, array('boxWidth' => 10, 'showValidation' => 3));
+        $q->inputs['ans2'] = stack_input_factory::make(
+                'algebraic', 'ans2', 'sin(x)', null, array('boxWidth' => 10, 'showValidation' => 3));
+
+        $q->options->questionsimplify = 1;
+
+        $feedbackvars = new stack_cas_keyval('sa:ev(ans1,x=-x)+ans1;');
+        $sans = stack_ast_container::make_from_teacher_source('sa');
+        $sans->get_valid();
+        $tans = stack_ast_container::make_from_teacher_source('0');
+        $tans->get_valid();
+        $node1 = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv');
+        $fb = 'Your first function is not odd:  \[ f(x)+f(-x)={@sa@} \neq 0\]';
+        $node1->add_branch(0, '=', 0, $q->penalty, -1, $fb, FORMAT_HTML, 'prt1-1-F');
+        $fb = '';
+        $node1->add_branch(1, '=', 1, $q->penalty, -1, $fb, FORMAT_HTML, 'prt1-1-T');
+        // Set feedbackstyle=2 to test compact feedback.
+        $q->prts['prt1'] = new stack_potentialresponse_tree('prt1', '', true, 2,
+               $feedbackvars->get_session(), array($node1), '0', 2);
+
+        $feedbackvars = new stack_cas_keyval('sa:ev(ans2,x=-x)+ans2;');
+        $sans = stack_ast_container::make_from_teacher_source('sa');
+        $sans->get_valid();
+        $tans = stack_ast_container::make_from_teacher_source('0');
+        $tans->get_valid();
+        $node1 = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv');
+        $fb = 'Your second function is not odd:  \[ f(x)+f(-x)={@sa@} \neq 0\]';
+        $node1->add_branch(0, '=', 0, $q->penalty, -1, $fb, FORMAT_HTML, 'prt2-1-F');
+        $fb = '';
+        $node1->add_branch(1, '=', 1, $q->penalty, -1, $fb, FORMAT_HTML, 'prt2-1-T');
+        // Set feedbackstyle=3 to test symbolic feedback.
+        $q->prts['prt2'] = new stack_potentialresponse_tree('prt2', '', true, 2,
+               $feedbackvars->get_session(), array($node1), '0', 3);
+
+        $sans = stack_ast_container::make_from_teacher_source('all_listp(polynomialpsimp,[ans1,ans2])');
+        $sans->get_valid();
+        $tans = stack_ast_container::make_from_teacher_source('true');
+        $tans->get_valid();
+        $node1 = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv');
+        $fb = 'Try to think of something more imaginative than just polynomials!';
+        $node1->add_branch(1, '=', 0.5, 0.2, -1, $fb, FORMAT_HTML, 'prt3-1-T');
+        $fb = 'Non-polynomials included.';
+        $node1->add_branch(0, '=', 0.4, 0.2, -1, $fb, FORMAT_HTML, 'prt3-1-F');
+        // Set feedbackstyle=0 to test formative potential response trees.
+        $q->prts['prt3'] = new stack_potentialresponse_tree('prt3', '', true, 1,
+               $feedbackvars->get_session(), array($node1), '0', 0);
 
         return $q;
     }

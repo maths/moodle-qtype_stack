@@ -457,7 +457,7 @@ class qtype_stack extends question_type {
             // Add in the field here.
             $questiondata->prts[$name]->feedbackstyle = 1;
             if ($prtdata->value > 5) {
-                // And fude the value for testing.
+                // And fudge the value for testing.
                 $questiondata->prts[$name]->feedbackstyle = 0;
             }
         }

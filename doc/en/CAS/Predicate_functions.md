@@ -36,7 +36,7 @@ The following type predicates are defined by STACK.
 | `functionp(ex)`            | Determines if \(ex\) is a function definition, using the operator `:=`.
 | `inequalityp(ex)`          | Determines if \(ex\) is an inequality.
 | `expressionp(ex)`          | Determines if \(ex\) is _not_ a matrix, list, set, equation, function or inequality.
-| `polynomialsimpp(ex)`      | Determines if \(ex\) is a polynomial in its own variables.
+| `polynomialpsimp(ex)`      | Determines if \(ex\) is a polynomial in its own variables.
 | `simp_numberp(ex)`         | Determines if \(ex\) is a number when `simp:false`.
 | `simp_integerp(ex)`        | Determines if \(ex\) is an integer when `simp:false`.
 | `real_numberp(ex)`         | Determines if \(ex\) is a real number.

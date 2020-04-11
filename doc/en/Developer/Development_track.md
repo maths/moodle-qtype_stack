@@ -7,6 +7,11 @@ How to report bugs and make suggestions is described on the [community](../About
 
 ## Version 4.4
 
+Done:
+
+* Formative potential response trees.
+* Add in option `feedbackstyle` to potential response trees.
+
 ## Maxima side PRTs.
 
 * Move all functions to Maxima.

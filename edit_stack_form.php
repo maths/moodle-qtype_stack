@@ -302,6 +302,11 @@ class qtype_stack_edit_form extends question_edit_form {
         $mform->setDefault('inversetrig', $this->stackconfig->inversetrig);
         $mform->addHelpButton('inversetrig', 'inversetrig', 'qtype_stack');
 
+        $mform->addElement('select', 'logicsymbol',
+                stack_string('logicsymbol'), stack_options::get_logic_options());
+        $mform->setDefault('logicsymbol', $this->stackconfig->logicsymbol);
+        $mform->addHelpButton('logicsymbol', 'logicsymbol', 'qtype_stack');
+
         $mform->addElement('select', 'matrixparens',
                 stack_string('matrixparens'), stack_options::get_matrix_parens_options());
         $mform->setDefault('matrixparens', $this->stackconfig->matrixparens);
@@ -592,6 +597,7 @@ class qtype_stack_edit_form extends question_edit_form {
         $question->multiplicationsign    = $opt->multiplicationsign;
         $question->complexno             = $opt->complexno;
         $question->inversetrig           = $opt->inversetrig;
+        $question->logicsymbol           = $opt->logicsymbol;
         $question->matrixparens          = $opt->matrixparens;
         $question->sqrtsign              = $opt->sqrtsign;
         $question->questionsimplify      = $opt->questionsimplify;

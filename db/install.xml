@@ -26,6 +26,7 @@
         <FIELD NAME="sqrtsign" TYPE="int" LENGTH="4" NOTNULL="true" DEFAULT="1" SEQUENCE="false" COMMENT="Whether to display square roots as surds."/>
         <FIELD NAME="complexno" TYPE="char" LENGTH="8" NOTNULL="true" DEFAULT="i" SEQUENCE="false" COMMENT="How complex numbers should be displayed and represented."/>
         <FIELD NAME="inversetrig" TYPE="char" LENGTH="8" NOTNULL="true" DEFAULT="cos-1" SEQUENCE="false" COMMENT="How the inverse trigonometric function should be displayed. The valid values are cos-1, acos or arccos."/>
+        <FIELD NAME="logicsymbol" TYPE="char" LENGTH="8" NOTNULL="true" DEFAULT="lang" SEQUENCE="false" COMMENT="How logical symbols should be displayed. The valid values are lang or symbol."/>
         <FIELD NAME="matrixparens" TYPE="char" LENGTH="8" NOTNULL="true" DEFAULT="[" SEQUENCE="false" COMMENT="The parentheses used to surround matrices."/>
         <FIELD NAME="variantsselectionseed" TYPE="char" LENGTH="255" NOTNULL="false" SEQUENCE="false" COMMENT="If set, used to control the random seed in a deterministic way, so different questions in the quiz can use the same random variable values."/>
       </FIELDS>

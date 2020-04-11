@@ -7,6 +7,8 @@ How to report bugs and make suggestions is described on the [community](../About
 
 ## Version 4.4
 
+* Add in STACK option "logicsymbol" to control how logical symbols are displayed.
+
 ## Maxima side PRTs.
 
 * Move all functions to Maxima.

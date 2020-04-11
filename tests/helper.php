@@ -1231,6 +1231,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $qdata->options->sqrtsign                  = 1;
         $qdata->options->complexno                 = 'i';
         $qdata->options->inversetrig               = 'cos-1';
+        $qdata->options->logicsymbol               = 'lang';
         $qdata->options->matrixparens              = '[';
         $qdata->options->variantsselectionseed     = '';
 
@@ -1353,6 +1354,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $qdata->options->sqrtsign                  = 1;
         $qdata->options->complexno                 = 'i';
         $qdata->options->inversetrig               = 'cos-1';
+        $qdata->options->logicsymbol               = 'lang';
         $qdata->options->matrixparens              = '[';
         $qdata->options->variantsselectionseed     = '';
 
@@ -1950,6 +1952,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $formform->sqrtsign = '1';
         $formform->complexno = 'i';
         $formform->inversetrig = 'cos-1';
+        $formform->logicsymbol = 'lang';
         $formform->matrixparens = '[';
         $formform->numhints = 2;
         $formform->hint = array(

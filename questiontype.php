@@ -1587,6 +1587,10 @@ class qtype_stack extends question_type {
                 $errors['questiontext'][] = stack_string('inputnamelength', $inputname);
             }
 
+            if (!preg_match('/^[a-zA-Z]+[0-9]*$/', $inputname) && !isset($fromform[$inputname . 'deleteconfirm'])) {
+                $errors['questiontext'][] = stack_string('inputnameform', $inputname);
+            }
+
             if ($fromform[$inputname . 'mustverify'] and $fromform[$inputname . 'showvalidation'] == 0) {
                 $errors[$inputname . 'mustverify'][] = stack_string('mustverifyshowvalidation');
             }

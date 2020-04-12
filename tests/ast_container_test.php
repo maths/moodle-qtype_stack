@@ -105,6 +105,7 @@ class stack_astcontainer_test extends qtype_stack_testcase {
             array('%o1', true, true),
             // Literal unicode character (pi) instead of name.
             array(json_decode('"\u03C0"'), true, true),
+            array(json_decode('"\u2205"'), false, false),
             // Non-matching brackets.
             array('(x+1', false, false),
             array('(y^2+1))', false, false),
@@ -155,6 +156,15 @@ class stack_astcontainer_test extends qtype_stack_testcase {
         $this->assertEquals($casstring->get_evaluationform(), '%pi*r^2');
         $this->assertEquals('', $casstring->get_errors());
         $this->assertEquals('', $casstring->get_answernote());
+    }
+
+    public function test_validation_unicode() {
+        $casstring = stack_ast_container::make_from_student_source(json_decode('"\u212F"').'*^x', '', new stack_cas_security());
+        $casstring->get_valid();
+        $this->assertEquals(stack_string('stackCas_forbiddenChar', array('char' => json_decode('"\u212F"'))) . ' ' .
+                stack_string('stackCas_useinsteadChar', array('bad' => json_decode('"\u212F"'), 'char' => 'e')),
+            $casstring->get_errors());
+        $this->assertEquals('unicodeChar', $casstring->get_answernote());
     }
 
     public function test_validation_error() {

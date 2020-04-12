@@ -638,6 +638,7 @@ $string['stackCas_qmarkoperators']          = 'Question marks are not permitted 
 $string['stackCas_apostrophe']              = 'Apostrophes are not permitted in responses.';
 $string['stackCas_newline']                 = 'Newline characters are not permitted in responses.';
 $string['stackCas_forbiddenChar']           = 'CAS commands may not contain the following characters: {$a->char}.';
+$string['stackCas_useinsteadChar']          = 'Please replace <span class="stacksyntaxexample">{$a->bad}</span> with \'<span class="stacksyntaxexample">{$a->char}</span>\'.';
 $string['stackCas_finalChar']               = '\'{$a->char}\' is an invalid final character in {$a->cmd}';
 $string['stackCas_MissingStars']            = 'You seem to be missing * characters. Perhaps you meant to type {$a->cmd}.';
 $string['stackCas_unknownFunction']         = 'Unknown function: {$a->forbid} in the term {$a->term}.';

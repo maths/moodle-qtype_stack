@@ -30,20 +30,18 @@ class stack_units_input extends stack_input {
      * @var array
      */
     protected $extraoptions = array(
+        'simp' => false,
         'negpow' => false,
         // Require min/max number of decimal places?
         'mindp' => false,
         'maxdp' => false,
         // Require min/max number of significant figures?
         'minsf' => false,
-        'maxsf' => false
+        'maxsf' => false,
+        'allowempty' => false,
+        'align' => 'left'
     );
 
-    /**
-     * Decide if the student's expression should have units.
-     * @var bool.
-     */
-    protected $units = true;
 
     public function render(stack_input_state $state, $fieldname, $readonly, $tavalue) {
 
@@ -60,10 +58,21 @@ class stack_units_input extends stack_input {
             'style' => 'width: '.$size.'em',
             'autocapitalize' => 'none',
             'spellcheck'     => 'false',
+            'class'     => 'algebraic-units',
         );
+        if ($this->extraoptions['align'] === 'right') {
+            $attributes['class'] = 'algebraic-units-right';
+        }
 
-        if ($this->is_blank_response($state->contents)) {
-            $attributes['value'] = stack_utils::logic_nouns_sort($this->parameters['syntaxHint'], 'remove');
+        if ($state->contents == 'EMPTYANSWER') {
+            // Active empty choices don't result in a syntax hint again (with that option set).
+            $attributes['value'] = '';
+        } else if ($this->is_blank_response($state->contents)) {
+            $field = 'value';
+            if ($this->parameters['syntaxAttribute'] == '1') {
+                $field = 'placeholder';
+            }
+            $attributes[$field] = $this->parameters['syntaxHint'];
         } else {
             $attributes['value'] = $this->contents_to_maxima($state->contents);
         }
@@ -87,23 +96,24 @@ class stack_units_input extends stack_input {
      */
     public static function get_parameters_defaults() {
         return array(
-            'mustVerify'     => true,
-            'showValidation' => 1,
-            'boxWidth'       => 15,
-            'strictSyntax'   => true,
-            'insertStars'    => 0,
-            'syntaxHint'     => '',
-            'forbidWords'    => '',
-            'allowWords'     => '',
+            'mustVerify'      => true,
+            'showValidation'  => 1,
+            'boxWidth'        => 15,
+            'strictSyntax'    => true,
+            'insertStars'     => 0,
+            'syntaxHint'      => '',
+            'syntaxAttribute' => 0,
+            'forbidWords'     => '',
+            'allowWords'      => '',
             // The forbidFloats option is ignored by this input type.
             // The Maxima code does not check for floats.
-            'forbidFloats'   => false,
-            'lowestTerms'    => true,
+            'forbidFloats'    => false,
+            'lowestTerms'     => true,
             // The sameType option is ignored by this input type.
             // The answer is essantially required to be a number and units, other types are rejected.
-            'sameType'           => false,
+            'sameType'        => false,
             // Currently this can only be "negpow", or "mul".
-            'options'            => '',
+            'options'         => '',
         );
     }
 
@@ -116,6 +126,10 @@ class stack_units_input extends stack_input {
         // We always want strict syntax for this input type.
         if ($parameter == 'strictSyntax') {
             return true;
+        }
+        // We always allow floats in units. Repeat pre 4.3 behaviour.
+        if ($parameter == 'forbidFloats') {
+            return false;
         }
         if (array_key_exists($parameter, $this->parameters)) {
             return $this->parameters[$parameter];
@@ -142,6 +156,9 @@ class stack_units_input extends stack_input {
      * @return string the teacher's answer, displayed to the student in the general feedback.
      */
     public function get_teacher_answer_display($value, $display) {
+        if (trim($value) == 'EMPTYANSWER') {
+            return stack_string('teacheranswerempty');
+        }
         return stack_string('teacheranswershow', array('value' => '<code>'.$value.'</code>', 'display' => $display));
     }
 

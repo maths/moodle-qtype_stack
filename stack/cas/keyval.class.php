@@ -16,8 +16,12 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+require_once(__DIR__ . '/../maximaparser/utils.php');
+require_once(__DIR__ . '/../maximaparser/MP_classes.php');
+require_once(__DIR__ . '/cassession2.class.php');
+
 /**
- * "key=value" class to parse user-entered data into CAS sessions.
+ * Class to parse user-entered data into CAS sessions.
  *
  * @copyright  2012 University of Birmingham
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -27,53 +31,42 @@ class stack_cas_keyval {
     /** @var Holds the raw text as entered by a question author. */
     private $raw;
 
-    /** @var stack_cas_session */
-    private $session;
+    /** @var array of stack_ast_container_silent */
+    private $statements;
 
     /** @var bool */
     private $valid;
 
-    /** @var bool has this been sent to the CAS yet? */
-    private $instantiated;
-
-    /** @var string HTML error message that can be displayed to the user. */
+    /** @var array of error messages that can be displayed to the user. */
     private $errors;
 
-    /** @var string 's' or 't' for student or teacher security level. */
-    private $security;
+    // For those using keyvals as a generator for sessions.
+    private $options;
+    private $seed;
 
-    /** @var bool whether to insert *s where there are implied multipliations. */
-    private $insertstars;
-
-    /** @var bool if true, apply strict syntax checks. */
-    private $syntax;
-
-    public function __construct($raw, $options = null, $seed=null, $security='s', $syntax=true, $insertstars=0) {
+    public function __construct($raw, $options = null, $seed=null) {
         $this->raw          = $raw;
-        $this->security     = $security;
-        $this->syntax       = $syntax;
-        $this->insertstars  = $insertstars;
-
-        $this->session      = new stack_cas_session(null, $options, $seed);
+        $this->statements   = array();
+        $this->errors       = array();
+        $this->options      = $options;
+        $this->seed         = $seed;
 
         if (!is_string($raw)) {
             throw new stack_exception('stack_cas_keyval: raw must be a string.');
         }
 
-        if (!('s' === $security || 't' === $security)) {
-            throw new stack_exception('stack_cas_keyval: 2nd argument, security level, must be "s" or "t" only.');
+        if (!is_null($options) && !is_a($options, 'stack_options')) {
+            throw new stack_exception('stack_cas_keyval: options must be null or stack_options.');
         }
 
-        if (!is_bool($syntax)) {
-            throw new stack_exception('stack_cas_keyval: 5th argument, syntax, must be boolean.');
+        if (!is_null($seed) && !is_int($seed)) {
+            throw new stack_exception('stack_cas_keyval: seed must be a null or an integer.');
         }
 
-        if (!is_int($insertstars)) {
-            throw new stack_exception('stack_cas_keyval: 6th argument, stars, must be an integer.');
-        }
     }
 
     private function validate($inputs) {
+
         if (empty($this->raw) or '' == trim($this->raw)) {
             $this->valid = true;
             return true;
@@ -81,55 +74,65 @@ class stack_cas_keyval {
 
         // CAS keyval may not contain @ or $.
         if (strpos($this->raw, '@') !== false || strpos($this->raw, '$') !== false) {
-            $this->errors = stack_string('illegalcaschars');
+            $this->errors[] = stack_string('illegalcaschars');
             $this->valid = false;
             return false;
         }
 
-        // Subtle one: must protect things inside strings before we explode.
+        // Subtle one: must protect things inside strings before we do QMCHAR tricks.
         $str = $this->raw;
         $strings = stack_utils::all_substring_strings($str);
         foreach ($strings as $key => $string) {
             $str = str_replace('"'.$string.'"', '[STR:'.$key.']', $str);
         }
 
-        $str = str_replace("\n", ';', $str);
-        $str = stack_utils::remove_comments($str);
-        $str = str_replace(';', "\n", $str);
+        $str = str_replace('?', 'QMCHAR', $str);
 
-        $kvarray = explode("\n", $str);
         foreach ($strings as $key => $string) {
-            foreach ($kvarray as $kkey => $kstr) {
-                $kvarray[$kkey] = str_replace('[STR:'.$key.']', '"'.$string.'"', $kstr);
-            }
+            $str = str_replace('[STR:'.$key.']', '"' .$string . '"', $str);
         }
 
-        // 23/4/12 - significant changes to the way keyvals are interpreted.  Use Maxima assignmentsm i.e. x:2.
-        $errors  = '';
-        $valid   = true;
-        $vars = array();
-        foreach ($kvarray as $kvs) {
-            $kvs = trim($kvs);
-            if ('' != $kvs) {
-                $cs = new stack_cas_casstring($kvs);
-                $cs->get_valid($this->security, $this->syntax, $this->insertstars);
-                $vars[] = $cs;
+        // 6/10/18 No longer split by line change, split by statement.
+        // Allow writing of loops and other long statements onto multiple lines.
+        $ast = maxima_parser_utils::parse_and_insert_missing_semicolons($str);
+        if (!$ast instanceof MP_Root) {
+            // If not then it is a SyntaxError.
+            $syntaxerror = $ast;
+            $error = $syntaxerror->getMessage();
+            if (isset($syntaxerror->grammarLine) && isset($syntaxerror->grammarColumn)) {
+                $error .= ' (' . stack_string('stackCas_errorpos',
+                        ['line' => $syntaxerror->grammarLine, 'col' => $syntaxerror->grammarColumn]) . ')';
             }
+            $this->errors[] = $error;
+            $this->valid = false;
+            return false;
         }
 
-        $this->session->add_vars($vars);
-        $this->valid       = $this->session->get_valid();
-        $this->errors      = $this->session->get_errors();
-        // Prevent reference to inputs in the values of the question variables.
+        $ast = maxima_parser_utils::strip_comments($ast);
+
+        $this->valid   = true;
+        $this->statements   = array();
+        foreach ($ast->items as $item) {
+            $cs = stack_ast_container::make_from_teacher_ast($item, '',
+                    new stack_cas_security());
+            $this->valid = $this->valid && $cs->get_valid();
+            $this->errors = array_merge($this->errors, $cs->get_errors(true));
+            $this->statements[] = $cs;
+        }
+
+        // Allow reference to inputs in the values of the question variables (otherwise we can't use them)!
+        // Prevent reference to inputs in the keys.
         if (is_array($inputs)) {
-            $keys = $this->session->get_all_keys();
-            foreach ($keys as $key) {
+            $usage = $this->get_variable_usage();
+            foreach ($usage['write'] as $key => $used) {
                 if (in_array($key, $inputs)) {
                     $this->valid = false;
-                    $this->errors .= stack_string('stackCas_inputsdefined', $key);
+                    $this->errors[] = stack_string('stackCas_inputsdefined', $key);
                 }
             }
         }
+
+        return $this->valid;
     }
 
     /*
@@ -143,12 +146,12 @@ class stack_cas_keyval {
         return $this->valid;
     }
 
-    public function get_errors($casdebug=false) {
+    public function get_errors($casdebug = false) {
         if (null === $this->valid) {
             $this->validate(null);
         }
         if ($casdebug) {
-            return $this->errors.$this->session->get_debuginfo();
+            $this->errors[] = $this->session->get_debuginfo();
         }
         return $this->errors;
     }
@@ -157,18 +160,39 @@ class stack_cas_keyval {
         if (null === $this->valid) {
             $this->validate(null);
         }
-        if (!$this->valid) {
-            return false;
+        $cs = new stack_cas_session2($this->statements, $this->options, $this->seed);
+        if ($cs->get_valid()) {
+            $cs->instantiate();
         }
-        $this->session->instantiate();
-        $this->instantiated = true;
+        // Return any runtime errors.
+        return $cs->get_errors(true);
     }
 
     public function get_session() {
         if (null === $this->valid) {
             $this->validate(null);
         }
-        return $this->session;
+        return new stack_cas_session2($this->statements, $this->options, $this->seed);
     }
 
+    public function get_variable_usage(array $updatearray = array()): array {
+        if (!array_key_exists('read', $updatearray)) {
+            $updatearray['read'] = array();
+        }
+        if (!array_key_exists('write', $updatearray)) {
+            $updatearray['write'] = array();
+        }
+        foreach ($this->statements as $statement) {
+            $updatearray = $statement->get_variable_usage($updatearray);
+        }
+        return $updatearray;
+    }
+
+    /**
+     * Remove the ast, and other clutter from casstrings, so we can test equality cleanly and dump values.
+     */
+    public function test_clean() {
+        $this->session->test_clean();
+        return true;
+    }
 }

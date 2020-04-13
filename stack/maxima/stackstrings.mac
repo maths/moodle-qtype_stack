@@ -5,55 +5,44 @@
 
 /* A map is a list of key value pairs with the first element being the string "stack_map" */
 /* We intentionally skip the use of structs to allow people to directly process the "map" */
-/* from withing STACK question code as structs were still forbidden there at the time. */
+/* from within STACK question code as structs were still forbidden there at the time. */
 /* Also avoiding certain list convenience functions as they are quite recent additions */
 /* to Maxima, so do not wonder why things are done at quite a low level. */
-is_stackmap(x) := listp(x) and is(length(x)>0) and is(x[1]="stack_map")$
+is_stackmap(x) := ev(listp(x) and is(length(x)>0) and is(x[1]="stack_map"), simp)$
 /* might as we be called stackmapp() but that sounds odd. */
 stackmapp(x) := is_stackmap(x)$
 
-stackmap_get(m, k) := block([tmp, val],
- val:und,
+stackmap_get(m, k) := block([],
  if not is_stackmap(m) then return(und),
- for tmp in m do if (not is(tmp="stack_map")) and is(tmp[1]=k) then (val:tmp[2],return(tmp[2])),
- return(val)
+ return(assoc(k,rest(m,1),und))
 )$
 
-stackmap_set(m, k, v) := block([tmp, found, r],
- found: false,
- r: ["stack_map"],
+stackmap_set(m, k, v) := block([],
  /* If we are given anything else than a map as the map we make a new map. */
- if not is_stackmap(m) then return(append(r,[[k,v]])),
- for tmp in m do if not is(tmp="stack_map") then (if is(tmp[1]=k) then (r:append(r,[[k,v]]),found:true) else r:append(r,[tmp])),
- if not found then r:append(r,[[k,v]]),
- return(r)
+ if not is_stackmap(m) then return(["stack_map",[k,v]]),
+ /* Find all others. */
+ return(append(["stack_map"],sublist(rest(m,1), lambda([x],is(x[1]#k))),[[k,v]]))
 )$
 
-stackmap_unset(m, k) := block([tmp, r],
- r: ["stack_map"],
+stackmap_unset(m, k) := block([],
  if not is_stackmap(m) then return(und),
- for tmp in m do if not is(tmp="stack_map") then (if not is(tmp[1]=k) then r:append(r,[tmp])),
- return(r)
+ return(append(["stack_map"],sublist(rest(m,1), lambda([x],is(x[1]#k)))))
 )$
 
-stackmap_keys(m) := block([tmp, r],
- r: [], /* Might as well be a set but then we would lose the direct match to the values list... */
+stackmap_keys(m) := block([],
  if not is_stackmap(m) then return(und),
- for tmp in m do if not is(tmp="stack_map") then r:append(r,[tmp[1]]),
- return(r)
+ return(map(lambda([x], x[1]), rest(m,1)))
 )$
 
-stackmap_values(m) := block([tmp, r],
- r: [],
+stackmap_values(m) := block([],
  if not is_stackmap(m) then return(und),
- for tmp in m do if not is(tmp="stack_map") then r:append(r,[tmp[2]]),
- return(r)
+ return(map(lambda([x], x[2]), rest(m,1)))
 )$
 
 stackmap_has_key(m, k) := block([tmp, found],
  found: false,
  if not is_stackmap(m) then return(false),
- for tmp in m do if not is(tmp="stack_map") then (if is(tmp[1]=k) then found:true),
+ for tmp in rest(m,1) do (if is(tmp[1]=k) then (found:true,break)),
  return(found)
 )$
 
@@ -223,14 +212,85 @@ stackjson_stringify(obj) := block([tmp,r,l],
   tmp:ssubst("\\n",ascii(10),tmp),
   tmp:ssubst("\\f",ascii(12),tmp),
   tmp:ssubst("\\r",ascii(13),tmp),
-  r:sconcat("\\\"",tmp,"\\\"")
+  r:sconcat("\"",tmp,"\"")
  ) else if is_stackmap(obj) then (
   l:[],
   for tmp in stackmap_keys(obj) do l:append(l,[sconcat(stackjson_stringify(tmp),":",stackjson_stringify(stackmap_get(obj,tmp)))]), 
   r:sconcat("{",simplode(l,","),"}")
- ) else if listp(obj) then r:sconcat("[",simplode(makelist(stackjson_stringify(x),x,obj),","),"]")
+ ) else if listp(obj) and length(obj) > 0 then r:sconcat("[",simplode(makelist(stackjson_stringify(x),x,obj),","),"]")
+ else if listp(obj) then r:"[]"
  else if integerp(obj) then r:string(obj)
  else if numberp(obj) then r:string(float(obj))
  else r:stackjson_stringify(string(obj)),
  return(r)
+)$
+
+
+/**
+ * Special tools for dealing with CASText2, absolutely no use
+ * if you are not running a system with CASText2.
+ *
+ * Even if you have CASText2 enabled system these tools are very
+ * advanced and probably not for a novice author. Essenttially,
+ * these are useful if one generates CASText2 values inside
+ * keyval-fields and/or stores them into the state in Stateful.
+ * The only real use for a raw CASText2 value is to be outputted
+ * by the castext-block within castext itself.
+ *
+ * Note that while it is possible to manually construct a CASText2
+ * value the preferred way is to use the compiler logic and just
+ * write normal, although escaped, CASText inside a Maxima-string
+ * and let the compiler deal with it.
+ */
+/**
+ * Condenses the result of a CASText2 expression. Speeds PHP-side
+ * parsing and lessens the transferred bytes.
+ */
+castext_simplify(ct2) := block([_r,_i,_t,_redo],
+ if stringp(ct2) then return(ct2),
+ if listp(ct2) then (
+  _i:0,
+  _redo:false,
+  _r:[ct2[1], castext_simplify(ct2[2])],
+  if is(ct2[1]="%root") then _i:2,
+  /* We especially want to try to simplify jsxgraph-block content. 
+   * It is likely to be highly fragmented with plenty of injections.
+   */
+  if is(ct2[1]="jsxgraph") then (_i:3, _r: append(_r,[castext_simplify(ct2[3])])),
+  if is(_i>0) then (
+    if listp(last(_r)) and is(last(_r)[1]="%root") then (
+      _redo: true,
+      _r : append(firstn(_r, ev(length(_r) - 1, simp)), rest(last(_r)))
+    ),
+    while _i < length(ct2) do (
+      _i: ev(_i + 1, simp),
+      _t: castext_simplify(ct2[_i]),
+      if stringp(_t) and stringp(last(_r)) then (
+        _r[length(_r)] : sconcat(last(_r), _t)
+      ) else if listp(_t) and is(_t[1]="%root") then (
+        /* If we do this we may skip simplification of terms. */
+        _redo: true,
+        _r : append(_r, rest(_t))
+      ) else (
+        _r : append(_r, [_t])
+      )
+    ),
+    if is(_r[1]="%root") and is(length(_r)=2) and stringp(_r[2]) then (
+      return(_r[2])
+    ),
+    if _redo then return(castext_simplify(_r)),
+    return(_r)
+  )
+ ),
+ return(ct2)
+)$
+
+/**
+ * A concat for castext2. If you need to concat more terms lreduce...
+ */
+castext_concat(a, b) := block([_tmp,_a,_b],
+ _a: castext_simplify(a),
+ _b: castext_simplify(b),
+ if stringp(_a) and stringp(_b) then return(sconcat(_a,_b)),
+ return(castext_simplify(["%root", _a, _b]))
 )$

@@ -100,6 +100,7 @@ class stack_cas_casstring_units {
         array('kat', 'mol/s', 'kat', 'katal'),
         array('rad', 'rad', 'rad', 'radian'),
         array('K', 'K', 'K', 'Kelvin'),
+        array('VA', '(kg*m^2)/(s^3)', 'VA', 'volt-ampere'),
         // @codingStandardsIgnoreStart
         // Celsius conflicts with Coulomb.
         // Add in 'C', 'C', '{}^{o}C', 'Celsius'.
@@ -110,7 +111,7 @@ class stack_cas_casstring_units {
      * Entries in this array are supported units which are used without any prefix.
      * Entries below are in the form of array(label, base, TeX, fullname).
      */
-    private static $nonpreficunits = array(
+    private static $nonprefixunits = array(
         array('min', 's*60', 'min', 'minutes'),
         array('amu', 'amu', 'amu', 'Atomic mass units'),
         array('u', 'amu', 'u', ''),
@@ -148,12 +149,7 @@ class stack_cas_casstring_units {
         'day' => array('days')
     );
 
-    /* This array keeps a list of substitutions which are made when we deal with units.
-     */
-    private static $unitsubstitutions = array(
-        'Torr' => 'torr',
-        'kgm/s' => 'kg*m/s'
-    );
+
 
     /**
      * Static class. You cannot create instances.
@@ -195,7 +191,7 @@ class stack_cas_casstring_units {
         $code = array();
         $conversions = array();
         $tex = array();
-        foreach (self::$nonpreficunits as $unit) {
+        foreach (self::$nonprefixunits as $unit) {
             $code[] = $unit[0];
             $conversions[] = $unit[1];
             $tex[] = self::maximalocal_units_tex($unit[2]);
@@ -228,7 +224,7 @@ class stack_cas_casstring_units {
             return $cache[$len];
         }
         $units = array();
-        foreach (self::$nonpreficunits as $unit) {
+        foreach (self::$nonprefixunits as $unit) {
             if (strlen($unit[0]) > $len) {
                 $units[$unit[0]] = true;
             }
@@ -248,15 +244,35 @@ class stack_cas_casstring_units {
         return($units);
     }
 
-    /* Make substitutions in an expression.
-     * @param string $val is student's raw casstring.
-     */
-    public static function make_units_substitutions($val) {
-        foreach (self::$unitsubstitutions as $in => $out) {
-            $val = str_replace($in, $out, $val);
-        }
 
-        return $val;
+    /* This array keeps a list of substitutions which are made when we deal with units.
+     */
+    private static $unitsubstitutions = array(
+        'Torr' => 'torr',
+        'kgm/s' => 'kg*m/s'
+    );
+
+    /* Make substitutions in an expression.
+     * @param MP_Identifier any identifier in the parse tree.
+     */
+    public static function make_units_substitutions($identifiernode) {
+        if ($identifiernode->value == 'Torr') {
+            $identifiernode->value = 'torr';
+        } else if ($identifiernode->value == 'kgm') {
+            // TODO: Do we actually care if there is that '/s' or is that some regexp thing?
+            if ($identifiernode->parent instanceof MP_Operation &&
+                (($identifiernode->parent->op === '/' &&
+                  $identifiernode->parent->lhs === $identifiernode &&
+                  $identifiernode->parent->rhs instanceof MP_Identifier &&
+                  $identifiernode->parent->rhs->value === 's')) ||
+                 ($identifiernode->parent->rhs === $identifiernode &&
+                  $identifiernode->parent->operationOnRight() === '/' &&
+                  $identifiernode->parent->operandOnRight() instanceof MP_Identifier &&
+                  $identifiernode->parent->operandOnRight()->value === 's')) {
+                $identifiernode->value = 'kg';
+                $identifiernode->parent->replace($identifiernode, new MP_Operation('*', $identifiernode, new MP_Identifier('s')));
+            }
+        }
     }
 
     /* Check to see if the student looks like they have used a synonym instead of a correct unit.
@@ -299,7 +315,7 @@ class stack_cas_casstring_units {
             $valid = array();
             $invalid = array();
 
-            foreach (self::$nonpreficunits as $unit) {
+            foreach (self::$nonprefixunits as $unit) {
                 $valid[$unit[0]] = true;
             }
             foreach (self::$supportedunits as $unit) {

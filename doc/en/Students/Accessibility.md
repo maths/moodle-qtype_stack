@@ -12,7 +12,7 @@ The fonts which STACK uses should be able to scale.  Use the normal options on t
 
 As part of Moodle, we are able to take advantage of the work done by that community, detailed [here](http://docs.moodle.org/dev/Accessibility).
 
-The preferred route to displaying mathematics in STACK is to use MathJAX.  Details of what accessibility features this support are given [here](http://www.mathjax.org/resources/articles-and-presentations/accessible-pages-with-mathjax/).
+The preferred route to displaying mathematics in STACK is to use MathJax.  Details of what accessibility features this support are given [here](http://www.mathjax.org/resources/articles-and-presentations/accessible-pages-with-mathjax/).
 
 STACK itself uses very simple CSS and HTML form fields, which present very low barriers to accessibility software.
 

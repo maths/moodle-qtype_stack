@@ -1,5 +1,5 @@
 <?php
-// This file is part of Stack - http://stack.ed.ac.uk/
+// This file is part of Stack - https://stack.maths.ed.ac.uk
 //
 // Stack is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -13,6 +13,8 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
+
+defined('MOODLE_INTERNAL') || die();
 
 /**
  * This script runs the answers tests and verifies the results.
@@ -50,10 +52,8 @@ class stack_subscripts_test_data {
         array('v_s', 'v_s', '!', '{v}_{s}', '!'),
         array('m_a', 'm_a', '!', '{m}_{a}', '!'),
         array('a_x', 'a_x', '!', '{a}_{x}', '!'),
-        array('a_1x', 'invalid', '', '', '!', '1x is not a valid Maxima atom.'),
         array('texsub(a,1*x)', 'texsub(a,1*x)', 'texsub(a,x)', '{a}_{1\,x}', '{a}_{x}'),
         array('a_cm', 'a_cm', '!', '{a}_{{\it cm}}', '!', 'Do we mind about Roman typeface here for units?'),
-        array('F_1x', 'invalid', '', '', ''),
         array('texsub(F,1*x)', 'texsub(F,1*x)', 'texsub(F,x)', '{F}_{1\,x}', '{F}_{x}'),
         array('F_1-2', 'F_1-2', '!', '{F}_{1}-2', '!',
                 'How do we bind into a single subscript?  We need a display function'),
@@ -84,8 +84,11 @@ class stack_subscripts_test_data {
         array('T_1/2', 'T_1/2', '!', '\frac{{T}_{1}}{2}', '!', 'Again, we need to use texsub.'),
         array('texsub(T,1/2)', 'texsub(T,1/2)', '!', '{T}_{\frac{1}{2}}', '!'),
         array('a_b_c', 'a_b_c', '!', '{{a}_{b}}_{c}', '!'),
-        array('(a_b)_c', 'invalid', '', '', '!', 'Test associativity...'),
-        array('a_(b_c)', 'invalid', '', '', ''),
+        // The underscore can appear within atoms, but it cannot be used as an operator here.
+        // We might later create a student input context in which the underscore is an operator.
+        // In core Maxima we can't because this used in too many function names.
+        array('(a_b)_c', 'invalid', '', '', '!', 'Test associativity'),
+        array('a_(b_c)', 'a_(b_c)', '!', '{\it a\_}\left({b}_{c}\right)', '!'),
         array('texsub(texsub(a,b),c)', 'texsub(texsub(a,b),c)', '!', '{{a}_{b}}_{c}', '!'),
         array('texsub(a,texsub(b,c))', 'texsub(a,texsub(b,c))', '!', '{a}_{{b}_{c}}', '!'),
         array('a_theta1', 'a_theta1', '!', '{a}_{\theta_{1}}', '!'),
@@ -95,6 +98,9 @@ class stack_subscripts_test_data {
         array('theta[1]', 'theta[1]', '!', '\theta_{1}', '!'),
         array('theta[a]', 'theta[a]', '!', '\theta_{a}', '!'),
         array('theta[n,m]', 'theta[n,m]', '!', '\theta_{n,m}', '!'),
+        // Changes in v4.3.
+        array('a_1x', 'a_1x', '!', '{a}_{\mbox{1x}}', '!'),
+        array('F_1x', 'F_1x', '!', '{F}_{\mbox{1x}}', '!'),
     );
 
     protected static $rawdatalegacy = array(
@@ -108,10 +114,8 @@ class stack_subscripts_test_data {
         array('v_s', 'v_s', '!', '{v}_{s}', '!'),
         array('m_a', 'm_a', '!', '{m}_{a}', '!'),
         array('a_x', 'a_x', '!', '{a}_{x}', '!'),
-        array('a_1x', 'invalid', '', '', '!', '1x is not a valid Maxima atom.'),
         array('texsub(a,1*x)', 'texsub(a,1*x)', 'texsub(a,x)', '{a}_{1\,x}', '{a}_{x}'),
         array('a_cm', 'a_cm', '!', '{a}_{{\it cm}}', '!', 'Do we mind about Roman typeface here for units?'),
-        array('F_1x', 'invalid', '', '', ''),
         array('texsub(F,1*x)', 'texsub(F,1*x)', 'texsub(F,x)', '{F}_{1\,x}', '{F}_{x}'),
         array('F_1-2', 'F_1-2', '!', '{F}_{1}-2', '!',
             'How do we bind into a single subscript?  We need a display function'),
@@ -142,8 +146,11 @@ class stack_subscripts_test_data {
         array('T_1/2', 'T_1/2', '!', '\frac{{T}_{1}}{2}', '!', 'Again, we need to use texsub'),
         array('texsub(T,1/2)', 'texsub(T,1/2)', '!', '{T}_{\frac{1}{2}}', '!'),
         array('a_b_c', 'a_b_c', '!', '{{a}_{b}}_{c}', '!'),
-        array('(a_b)_c', 'invalid', '', '', '!', 'Test associativity...'),
-        array('a_(b_c)', 'invalid', '', '', ''),
+        // The underscore can appear within atoms, but it cannot be used as an operator here.
+        // We might later create a student input context in which the underscore is an operator.
+        // In core Maxima we can't because this used in too many function names.
+        array('(a_b)_c', 'invalid', '', '', '!', 'Test associativity'),
+        array('a_(b_c)', 'a_(b_c)', '!', '{\it a\_}\left({b}_{c}\right)', '!'),
         array('texsub(texsub(a,b),c)', 'texsub(texsub(a,b),c)', '!', '{{a}_{b}}_{c}', '!'),
         array('texsub(a,texsub(b,c))', 'texsub(a,texsub(b,c))', '!', '{a}_{{b}_{c}}', '!'),
         array('a_theta1', 'a_theta1', '!', '{a}_{{\it theta_1}}', '!'),
@@ -153,7 +160,10 @@ class stack_subscripts_test_data {
         array('theta[1]', 'theta[1]', '!', '\theta_{1}', '!'),
         array('theta[a]', 'theta[a]', '!', '\theta_{a}', '!'),
         array('theta[n,m]', 'theta[n,m]', '!', '\theta_{n,m}', '!'),
-    );
+        // Changes in v4.3.
+        array('a_1x', 'a_1x', '!', '{a}_{\mbox{1x}}', '!'),
+        array('F_1x', 'F_1x', '!', '{F}_{\mbox{1x}}', '!'),
+        );
 
     public static function get_raw_test_data() {
         return self::$rawdata;
@@ -182,25 +192,31 @@ class stack_subscripts_test_data {
     }
 
     public static function run_test($test, $simp) {
+        $sec = new stack_cas_security();
 
         $cs = array('p:'.$test->rawinput);
         foreach ($cs as $s) {
-            $cs = new stack_cas_casstring($s);
-            $cs->get_valid('s', true, 0);
+            $cs = stack_ast_container::make_from_student_source($s, 'subscripts_fixtures', $sec);
+            $cs->get_valid();
             $s1[] = $cs;
         }
         $options = new stack_options();
         $options->set_option('simplify', $simp);
         $options->set_option('multiplicationsign', 'none');
 
-        $at1 = new stack_cas_session($s1, $options, 0);
-        $at1->instantiate();
+        $at1 = new stack_cas_session2($s1, $options, 0);
+        if ($at1->get_valid()) {
+            $at1->instantiate();
+        }
 
-        $cs = $at1->get_session();
-        $cs = $cs[0];
+        $cs = $s1[0];
         $test->valid = $cs->get_valid();
-        $test->value = $cs->get_value();
-        $test->display = $cs->get_display();
+        $test->value = '';
+        $test->display = '';
+        if ($cs->is_correctly_evaluated()) {
+            $test->value = $cs->get_value();
+            $test->display = $cs->get_display();
+        }
         $test->errors = $cs->get_errors();
         return($test);
     }

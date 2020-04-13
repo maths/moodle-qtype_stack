@@ -1,27 +1,38 @@
 /* Styles used when questions are being attempted. */
+.que.stack .stackruntimeerrror {
+    color: #c02200;
+    font-size: 100%;
+    font-weight: bold;
+}
 .que.stack .stacksyntaxexample {
     color: #1f536b;
     font-family: monospace;
     font-size: 100%;
     font-weight: bold;
 }
-.que.stack .stackinputfeedback {
+.que.stack .stackinputfeedback.standard {
     border: 1px solid #fff;
     background-color: #fff;
     margin: 0.2em 3em 0.5em;
     padding: 0.5em 0.5em 0;
 }
-.que.stack .equivreasoning .stackinputfeedback {
+.que.stack .stackinputfeedback.equiv {
+    vertical-align: top;
     display: inline-block;
-    margin-left: 0.5em;
-    margin-right: 0;
+    background-color: #fff;
+    margin: 0px;
+    padding: 0.2em;
 }
-.que.stack textarea {
-    float: left;
-    max-width: 100%;
+.que.stack .stackinputfeedback.compact {
+    margin: 3px 3px 3px;
+    display: inline-block;
+    background-color: white;
+    border: 1px solid #ccc;
+    padding: 0.3em;
 }
-.que.stack input[type=text] {
-    max-width: 100%;
+.que.stack .stackinputerror {
+    padding: 0.2em 0.2em 0.2em;
+    margin: 3px 3px 3px;
 }
 .que.stack .stackinputfeedback.empty {
     display: none;
@@ -37,6 +48,21 @@
 .que.stack .stackinputfeedback.waiting .stacksyntaxexample,
 .que.stack .stackinputfeedback.loading .stacksyntaxexample {
     color: #84aec1;
+}
+.que.stack textarea {
+    vertical-align: top;
+    display: inline-block;
+    max-width: 100%;
+    resize: both;
+}
+.que.stack input[type=text] {
+    max-width: 100%;
+}
+.que.stack .numerical-right,
+.que.stack .algebraic-right,
+.que.stack .algebraic-units-right {
+    max-width: 100%;
+    text-align: right;
 }
 
 .que.stack .formulation .stackprtfeedback {
@@ -70,6 +96,66 @@ body.pagelayout-embedded .que.stack .formulation .questiontestslink {
     border: 0 solid black;
 }
 
+/* Support for proof. */
+.proof,
+.proof-block {
+    text-align: left;
+    background: rgba(255, 255, 255, 0.3);
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 3px;
+    margin-top: 2px;
+    margin-bottom: 2px;
+    margin-right: 4px;
+    margin-left: 4px;
+}
+.proof-block {
+    border: none;
+    border-left: 3px solid;
+    margin-top: 1em;
+    padding-left: 1em;
+}
+
+/* Proofs have lines, containing columns.  Clear floats after the columns. */
+.proof-line {
+    width: 100%;
+    content: "";
+    display: table;
+    clear: both;
+}
+/* Create columns that floats next to each other. */
+.proof-num {
+    float: left;
+    width: 25px;
+    padding: 1px;
+}
+.proof-comment {
+    background: rgba(255, 255, 255, 0.7);
+    float: right;
+    border-radius: 3px;
+    border: 1px solid #ddd;
+    padding: 2px;
+    margin: 2px;
+}
+.proof-step, .proof-column, .proof-column-2  {
+    float: left;
+    padding: 1px;
+}
+/* Proof columns have a fixed width.  Comments and steps do not.  */
+.proof-column, .proof-column-2 {
+    width: 48%;
+}
+.proof-column-2 {
+    background: rgba(255, 255, 255, 0.7);
+}
+@media screen and (max-width: 900px) {
+  .proof-column {
+    width: 100%;
+  }
+  .proof-column-2 {
+    width: 100%;
+  }
+}
 
 /* Styles for the editing form. */
 body#page-question-type-stack .fitem_fgroup .accesshide,
@@ -245,7 +331,7 @@ body.ie:not(.ie11) .stack_abstract_graph {
     stroke-linecap: round;
 }
 .stack_abstract_graph text {
-    font-family: Verdana;
+    font-family: Verdana, Sans-Serif;
 }
 .stack_abstract_graph text.nodelabel {
     font-size: 14px;
@@ -300,4 +386,30 @@ body.ie:not(.ie11) .stack_abstract_graph {
     top: -15px;
     right: -16px;
     cursor: pointer;
+}
+
+/* RTL support */
+
+/* Student answer form fields */
+.que.stack .algebraic,
+.que.stack .algebraic-units,
+.que.stack .numerical,
+.que.stack .maxima-string,
+.que.stack .maxima-list,
+.que.stack .equiv,
+/* Question authoring form */
+#page-question-type-stack textarea#id_questionvariables,
+#page-question-type-stack input#id_variantsselectionseed,
+#page-question-type-stack #id_questionnote,
+#page-question-type-stack #id_prt1feedbackvariables,
+#page-question-type-stack input#id_ans1modelans,
+#page-question-type-stack input#id_ans1allowwords,
+#page-question-type-stack input#id_ans1options {
+    display: inline-block;
+    /*rtl:ignore*/
+    direction: ltr;
+}
+/* Properly display inversetrig values, in RTL mode */
+#page-question-type-stack #id_inversetrig option {
+    unicode-bidi: plaintext;
 }

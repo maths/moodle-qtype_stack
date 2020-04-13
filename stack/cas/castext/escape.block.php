@@ -1,5 +1,5 @@
 <?php
-// This file is part of Stack - http://stack.bham.ac.uk/
+// This file is part of Stack - https://stack.maths.ed.ac.uk
 //
 // Stack is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -22,12 +22,11 @@ defined('MOODLE_INTERNAL') || die();
 // @copyright  2012 University of Birmingham
 // @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
 
-require_once(__DIR__ . '/../casstring.class.php');
 require_once("block.interface.php");
 
 class stack_cas_castext_escape extends stack_cas_castext_block {
 
-    public function extract_attributes(&$tobeevaluatedcassession, $conditionstack = null) {
+    public function extract_attributes($tobeevaluatedcassession, $conditionstack = null) {
         // Nothing is done.
     }
 

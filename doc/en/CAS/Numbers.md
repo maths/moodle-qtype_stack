@@ -20,6 +20,9 @@ Optionally, depending on the question settings, you have
 
 Sometimes you need to use \(e\), or other constants, as an abstract symbol not a number.  The Maxima solution is to use the `kill()` command, but for security reasons users of STACK are not permitted to use this function. Instead use `stack_reset_vars(true)` in the question variables.  This resets all the special constants defined by STACK so the symbols can be redefined in an individual STACK question.
 
+## Modular arithmetic ##
+
+The function `recursemod(ex, n)` recurses over an expression tree, and applies the function `mod(?, n)` to any numbers as identified by `numberp`.  This works on any expression, whereas `polymod` only applies to polynomials.
 
 ## Internal representation of numbers ##
 
@@ -129,8 +132,8 @@ The following commands generate displayed forms of numbers.  These will not be m
 | `dispdp(x,n)`                   | Truncate \(x\) to \(n\) decimal places and display with trailing digits.  Note, this always prints as a float (or integer), and not in scientific notation.
 | `dispsf(x,n)`                   | Truncate \(x\) to \(n\) significant figures and display with trailing digits.  Note, this always prints as a float, and not in scientific notation.
 | `scientific_notation(x,n)`      | Write \(x\) in the form \(m10^e\).   Only works reliably with `simp:false` (e.g. try 9000).  The optional second argument applies `displaysci(m,n)` to the mantissa to control the display of trailing zeros.
-| `displaydp(x,n)`                | An intert internal function to record that \(x\) should be displayed to \(n\) decimal places with trailing digits.  This function does no rounding.
-| `displaysci(x,n,expo)`          | An intert internal function to record that \(x\) should be displayed to \(n\) decimal places with trailing digits, in scientific notation.  E.g. \(x\times 10^{expo}\).
+| `displaydp(x,n)`                | An inert internal function to record that \(x\) should be displayed to \(n\) decimal places with trailing digits.  This function does no rounding.
+| `displaysci(x,n,expo)`          | An inert internal function to record that \(x\) should be displayed to \(n\) decimal places with trailing digits, in scientific notation.  E.g. \(x\times 10^{expo}\).
 
 
 | Function                  | Predicate

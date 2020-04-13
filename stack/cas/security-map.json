@@ -1,0 +1,8217 @@
+{
+    "!": {
+        "operator": "s"
+    },
+    "!!": {
+        "operator": "s"
+    },
+    "\"": {
+        "operator": "s"
+    },
+    "#": {
+        "operator": "s"
+    },
+    "#pm#": {
+        "function": "s",
+        "operator": "s",
+        "prefixinputform": "+-"
+    },
+    "$": {
+        "operator": "f"
+    },
+    "%": {
+        "globalyforbiddenvariable": true,
+        "variable": "f"
+    },
+    "%%": {
+        "globalyforbiddenvariable": true,
+        "variable": "f"
+    },
+    "%ERR": {
+        "variable": "f"
+    },
+    "%FEEDBACK": {
+        "variable": "f"
+    },
+    "%NOTES": {
+        "variable": "f"
+    },
+    "%and": {
+        "operator": "s"
+    },
+    "%c": {
+        "variable": "s"
+    },
+    "%e": {
+        "constant": "s"
+    },
+    "%e_to_numlog": {
+        "variable": "?"
+    },
+    "%edispflag": {
+        "variable": "?"
+    },
+    "%emode": {
+        "evflag": "?",
+        "variable": "?"
+    },
+    "%enumer": {
+        "evflag": "?",
+        "variable": "?"
+    },
+    "%f": {
+        "function": "?"
+    },
+    "%gamma": {
+        "constant": "s"
+    },
+    "%i": {
+        "constant": "s"
+    },
+    "%iargs": {
+        "variable": "?"
+    },
+    "%if": {
+        "operator": "s"
+    },
+    "%k1": {
+        "variable": "s"
+    },
+    "%k2": {
+        "variable": "s"
+    },
+    "%m": {
+        "function": "?"
+    },
+    "%or": {
+        "operator": "s"
+    },
+    "%phi": {
+        "constant": "s"
+    },
+    "%pi": {
+        "aliasvariables": [
+            "pi",
+            "\u03c0"
+        ],
+        "constant": "s"
+    },
+    "%piargs": {
+        "variable": "?"
+    },
+    "%rnum": {
+        "variable": "?"
+    },
+    "%rnum_list": {
+        "variable": "?"
+    },
+    "%s": {
+        "function": "?"
+    },
+    "%stmt": {
+        "variable": "f"
+    },
+    "%th": {
+        "function": "f",
+        "globalyforbiddenfunction": true,
+        "globalyforbiddenvariable": true,
+        "variable": "f"
+    },
+    "%union": {
+        "operator": "s"
+    },
+    "%unitexpand": {
+        "variable": "f"
+    },
+    "%w": {
+        "function": "?"
+    },
+    "'": {
+        "operator": "t"
+    },
+    "''": {
+        "operator": "t"
+    },
+    "(": {
+        "operator": "s",
+        "openingpairfor": ")"
+    },
+    ")": {
+        "operator": "s",
+        "closingpairfor": "("
+    },
+    "*": {
+        "function": "s",
+        "operator": "s"
+    },
+    "**": {
+        "operator": "s"
+    },
+    "+": {
+        "function": "s",
+        "operator": "s"
+    },
+    "+-": {
+        "function": "s",
+        "operator": "s"
+    },
+    ",": {
+        "operator": "s"
+    },
+    "-": {
+        "function": "s",
+        "operator": "s"
+    },
+    ".": {
+        "operator": "s",
+        "spacesurroundedop": true
+    },
+    "\/": {
+        "function": "s",
+        "operator": "s"
+    },
+    ":": {
+        "operator": "s"
+    },
+    "::": {
+        "operator": "s"
+    },
+    "::=": {
+        "operator": "s"
+    },
+    ":=": {
+        "operator": "s"
+    },
+    ";": {
+        "operator": "f"
+    },
+    "<": {
+        "operator": "s",
+        "spacesurroundedop": true
+    },
+    "<=": {
+        "operator": "s",
+        "spacesurroundedop": true
+    },
+    "=": {
+        "operator": "s",
+        "spacesurroundedop": true
+    },
+    ">": {
+        "operator": "s",
+        "spacesurroundedop": true
+    },
+    ">=": {
+        "operator": "s",
+        "spacesurroundedop": true
+    },
+    "?": {
+        "operator": "f"
+    },
+    "? ": {
+        "operator": "f"
+    },
+    "@": {
+        "operator": "f"
+    },
+    "Alpha": {
+        "variable": "s"
+    },
+    "AntiDifference": {
+        "function": "f"
+    },
+    "Beta": {
+        "variable": "s"
+    },
+    "Chi": {
+        "variable": "s"
+    },
+    "Delta": {
+        "variable": "s"
+    },
+    "EMPTYCHAR": {
+        "variable": "s"
+    },
+    "Epsilon": {
+        "variable": "s"
+    },
+    "Eta": {
+        "variable": "s"
+    },
+    "GGFCFMAX": {
+        "variable": "f"
+    },
+    "GGFINFINITY": {
+        "variable": "f"
+    },
+    "Gamma": {
+        "variable": "s"
+    },
+    "Gosper": {
+        "function": "f"
+    },
+    "GosperSum": {
+        "function": "f"
+    },
+    "Gosper_in_Zeilberger": {
+        "variable": "f"
+    },
+    "Iota": {
+        "variable": "s"
+    },
+    "JF": {
+        "function": "f"
+    },
+    "Kappa": {
+        "variable": "s"
+    },
+    "Lambda": {
+        "variable": "s"
+    },
+    "Lindstedt": {
+        "function": "f"
+    },
+    "MAX_ORD": {
+        "variable": "f"
+    },
+    "ModeMatrix": {
+        "function": "f"
+    },
+    "Mu": {
+        "variable": "s"
+    },
+    "Nu": {
+        "variable": "s"
+    },
+    "Omega": {
+        "variable": "s"
+    },
+    "Omicron": {
+        "variable": "s"
+    },
+    "Phi": {
+        "variable": "s"
+    },
+    "Pi": {
+        "variable": "s"
+    },
+    "Psi": {
+        "variable": "s"
+    },
+    "QMCHAR": {
+        "variable": "s"
+    },
+    "Rho": {
+        "variable": "s"
+    },
+    "Sigma": {
+        "variable": "s"
+    },
+    "Tau": {
+        "variable": "s"
+    },
+    "Theta": {
+        "variable": "s"
+    },
+    "Upsilon": {
+        "variable": "s"
+    },
+    "Xi": {
+        "variable": "s"
+    },
+    "Zeilberger": {
+        "function": "f"
+    },
+    "Zeta": {
+        "variable": "s"
+    },
+    "[": {
+        "openingpairfor": "]",
+        "operator": "s"
+    },
+    "]": {
+        "closingpairfor": "[",
+        "operator": "s"
+    },
+    "^": {
+        "operator": "s"
+    },
+    "^^": {
+        "operator": "s"
+    },
+    "_": {
+        "globalyforbiddenvariable": true,
+        "variable": "f"
+    },
+    "_APPEND_ERR": {
+        "function": "f"
+    },
+    "_APPEND_FEEDBACK": {
+        "function": "f"
+    },
+    "_APPEND_NOTE": {
+        "function": "f"
+    },
+    "_CS2dv": {
+        "function": "f"
+    },
+    "_CS2dvv": {
+        "function": "f"
+    },
+    "_CS2l": {
+        "function": "f"
+    },
+    "_CS2v": {
+        "function": "f"
+    },
+    "_EC": {
+        "function": "f"
+    },
+    "_RESET_FEEDBACK": {
+        "function": "f"
+    },
+    "_RESET_NOTES": {
+        "function": "f"
+    },
+    "__": {
+        "globalyforbiddenvariable": true,
+        "variable": "f"
+    },
+    "`": {
+        "operator": "f"
+    },
+    "``": {
+        "operator": "f"
+    },
+    "abasep": {
+        "function": "f"
+    },
+    "abs": {
+        "function": "s"
+    },
+    "absboxchar": {
+        "variable": "f"
+    },
+    "absint": {
+        "function": "s"
+    },
+    "absolute_real_time": {
+        "function": "f"
+    },
+    "acos": {
+        "function": "s",
+        "trigfun": true
+    },
+    "acosh": {
+        "function": "s",
+        "trigfun": true
+    },
+    "acot": {
+        "function": "s",
+        "trigfun": true
+    },
+    "acoth": {
+        "function": "s",
+        "trigfun": true
+    },
+    "acsc": {
+        "function": "s",
+        "trigfun": true
+    },
+    "acsch": {
+        "function": "s",
+        "trigfun": true
+    },
+    "activate": {
+        "function": "f"
+    },
+    "activecontexts": {
+        "variable": "f"
+    },
+    "adapth_depth": {
+        "globalyforbiddenvariable": true,
+        "variable": "f"
+    },
+    "add_edge": {
+        "function": "?"
+    },
+    "add_edges": {
+        "function": "?"
+    },
+    "add_vertex": {
+        "function": "?"
+    },
+    "add_vertices": {
+        "function": "?"
+    },
+    "addcol": {
+        "function": "?"
+    },
+    "additive": {
+        "keyword": "f",
+        "property": "f"
+    },
+    "addmatrices": {
+        "function": "s"
+    },
+    "addrow": {
+        "function": "?"
+    },
+    "adim": {
+        "variable": "f"
+    },
+    "adjacency_matrix": {
+        "function": "?"
+    },
+    "adjoin": {
+        "function": "s"
+    },
+    "adjoint": {
+        "function": "?"
+    },
+    "adjust_external_format": {
+        "function": "?"
+    },
+    "af": {
+        "function": "f"
+    },
+    "aform": {
+        "variable": "f"
+    },
+    "agd": {
+        "function": "f"
+    },
+    "airy_ai": {
+        "function": "?"
+    },
+    "airy_bi": {
+        "function": "?"
+    },
+    "airy_dai": {
+        "function": "?"
+    },
+    "airy_dbi": {
+        "function": "?"
+    },
+    "alg_type": {
+        "function": "f"
+    },
+    "algebraic": {
+        "evflag": "?",
+        "variable": "?"
+    },
+    "algepsilon": {
+        "variable": "?"
+    },
+    "algexact": {
+        "variable": "?"
+    },
+    "algsys": {
+        "function": "?"
+    },
+    "alias": {
+        "function": "f",
+        "globalyforbiddenfunction": true
+    },
+    "aliases": {
+        "globalyforbiddenvariable": true,
+        "variable": "f"
+    },
+    "all": {
+        "constant": "s"
+    },
+    "all_dotsimp_denoms": {
+        "variable": "f"
+    },
+    "allbut": {
+        "keyword": "?"
+    },
+    "allroots": {
+        "function": "?"
+    },
+    "allsym": {
+        "variable": "f"
+    },
+    "alpha": {
+        "variable": "s"
+    },
+    "alphabetic": {
+        "globalyforbiddenvariable": true,
+        "property": "?",
+        "variable": "f"
+    },
+    "alphacharp": {
+        "function": "?"
+    },
+    "alphanumericp": {
+        "function": "?"
+    },
+    "amortization": {
+        "function": "?"
+    },
+    "and": {
+        "logicnoun": "nounand",
+        "nounoperator": "nounand",
+        "operator": "s",
+        "spacesurroundedop": true
+    },
+    "annuity_fv": {
+        "function": "?"
+    },
+    "annuity_pv": {
+        "function": "?"
+    },
+    "antid": {
+        "function": "f"
+    },
+    "antidiff": {
+        "function": "f"
+    },
+    "antisymmetric": {
+        "property": "f"
+    },
+    "anyfloat": {
+        "function": "s"
+    },
+    "anyfloatex": {
+        "function": "s"
+    },
+    "append": {
+        "function": "?"
+    },
+    "appendfile": {
+        "function": "f",
+        "globalyforbiddenfunction": true
+    },
+    "apply": {
+        "function": "?",
+        "mapfunction": true
+    },
+    "apply1": {
+        "function": "?"
+    },
+    "apply2": {
+        "function": "?"
+    },
+    "apply_cycles": {
+        "function": "?"
+    },
+    "applyb1": {
+        "function": "?"
+    },
+    "apropos": {
+        "function": "f",
+        "globalyforbiddenfunction": true
+    },
+    "args": {
+        "function": "?"
+    },
+    "arit_amortization": {
+        "function": "?"
+    },
+    "arithmetic": {
+        "function": "f"
+    },
+    "arithsum": {
+        "function": "f"
+    },
+    "array": {
+        "function": "f"
+    },
+    "arrayapply": {
+        "function": "f"
+    },
+    "arrayinfo": {
+        "function": "f"
+    },
+    "arraymake": {
+        "function": "f"
+    },
+    "arrays": {
+        "variable": "f"
+    },
+    "arraysetapply": {
+        "function": "?"
+    },
+    "ascii": {
+        "function": "s"
+    },
+    "asec": {
+        "function": "s",
+        "trigfun": true
+    },
+    "asech": {
+        "function": "s",
+        "trigfun": true
+    },
+    "asin": {
+        "function": "s",
+        "trigfun": true
+    },
+    "asinh": {
+        "function": "s",
+        "trigfun": true
+    },
+    "askexp": {
+        "variable": "?"
+    },
+    "askinteger": {
+        "function": "?"
+    },
+    "asksign": {
+        "function": "?"
+    },
+    "assoc": {
+        "function": "?"
+    },
+    "assoc_legendre_p": {
+        "function": "f"
+    },
+    "assoc_legendre_q": {
+        "function": "f"
+    },
+    "assume": {
+        "function": "?"
+    },
+    "assume_external_byte_order": {
+        "function": "f",
+        "globalyforbiddenfunction": true
+    },
+    "assume_pos": {
+        "variable": "?"
+    },
+    "assume_pos_pred": {
+        "variable": "?"
+    },
+    "assumescalar": {
+        "variable": "?"
+    },
+    "asymbol": {
+        "variable": "f"
+    },
+    "asympa": {
+        "function": "?"
+    },
+    "at": {
+        "function": "?"
+    },
+    "atan": {
+        "function": "s",
+        "trigfun": true
+    },
+    "atan2": {
+        "function": "s"
+    },
+    "atanh": {
+        "function": "s",
+        "trigfun": true
+    },
+    "atensimp": {
+        "function": "f"
+    },
+    "atom": {
+        "function": "?"
+    },
+    "atomgrad": {
+        "property": "f"
+    },
+    "atvalue": {
+        "function": "f"
+    },
+    "augcoefmatrix": {
+        "function": "s"
+    },
+    "augmented_lagrangian_method": {
+        "function": "f"
+    },
+    "av": {
+        "function": "f"
+    },
+    "average_degree": {
+        "function": "?"
+    },
+    "axes": {
+        "variable": "s"
+    },
+    "axis_3d": {
+        "variable": "f"
+    },
+    "axis_bottom": {
+        "variable": "f"
+    },
+    "axis_left": {
+        "variable": "f"
+    },
+    "axis_right": {
+        "variable": "f"
+    },
+    "axis_top": {
+        "variable": "f"
+    },
+    "azimuth": {
+        "variable": "f"
+    },
+    "backsubst": {
+        "variable": "f"
+    },
+    "backtrace": {
+        "function": "f",
+        "globalyforbiddenfunction": true
+    },
+    "bars": {
+        "function": "f"
+    },
+    "barsplot": {
+        "function": "f",
+        "globalyforbiddenfunction": true
+    },
+    "barsplot_description": {
+        "function": "?"
+    },
+    "base64": {
+        "function": "?"
+    },
+    "base64_decode": {
+        "function": "?"
+    },
+    "bashindices": {
+        "function": "f"
+    },
+    "batch": {
+        "function": "f",
+        "globalyforbiddenfunction": true
+    },
+    "batchload": {
+        "function": "f",
+        "globalyforbiddenfunction": true
+    },
+    "bc2": {
+        "function": "?"
+    },
+    "bdvac": {
+        "function": "f"
+    },
+    "belln": {
+        "function": "s"
+    },
+    "benefit_cost": {
+        "function": "?"
+    },
+    "berlefact": {
+        "variable": "f"
+    },
+    "bern": {
+        "function": "?"
+    },
+    "bernpoly": {
+        "function": "?"
+    },
+    "bernstein_approx": {
+        "function": "?"
+    },
+    "bernstein_expand": {
+        "function": "?"
+    },
+    "bernstein_explicit": {
+        "variable": "?"
+    },
+    "bernstein_poly": {
+        "function": "?"
+    },
+    "bessel_i": {
+        "function": "s"
+    },
+    "bessel_j": {
+        "function": "s"
+    },
+    "bessel_k": {
+        "function": "s"
+    },
+    "bessel_simplify": {
+        "function": "?"
+    },
+    "bessel_y": {
+        "function": "s"
+    },
+    "besselexpand": {
+        "variable": "s"
+    },
+    "beta": {
+        "function": "s",
+        "variable": "s"
+    },
+    "beta_args_sum_to_integer": {
+        "variable": "?"
+    },
+    "beta_expand": {
+        "variable": "?"
+    },
+    "beta_incomplete": {
+        "function": "?"
+    },
+    "beta_incomplete_generalized": {
+        "function": "?"
+    },
+    "beta_incomplete_regularized": {
+        "function": "?"
+    },
+    "bezout": {
+        "function": "s"
+    },
+    "bf_fft": {
+        "function": "?"
+    },
+    "bf_find_root": {
+        "function": "?"
+    },
+    "bf_fmin_cobyla": {
+        "function": "?"
+    },
+    "bf_inverse_fft": {
+        "function": "?"
+    },
+    "bf_inverse_real_fft": {
+        "function": "?"
+    },
+    "bf_real_fft": {
+        "function": "?"
+    },
+    "bfallroots": {
+        "function": "?"
+    },
+    "bffac": {
+        "function": "s"
+    },
+    "bfhzeta": {
+        "function": "s"
+    },
+    "bfloat": {
+        "evfun": "s",
+        "function": "s"
+    },
+    "bfloatp": {
+        "function": "s"
+    },
+    "bfpsi": {
+        "function": "f"
+    },
+    "bfpsi0": {
+        "function": "f"
+    },
+    "bftorat": {
+        "variable": "?"
+    },
+    "bftrunc": {
+        "variable": "?"
+    },
+    "bfzeta": {
+        "function": "?"
+    },
+    "biconnected_components": {
+        "function": "?"
+    },
+    "bimetric": {
+        "function": "f"
+    },
+    "bindtest": {
+        "property": "?"
+    },
+    "binomial": {
+        "function": "s"
+    },
+    "bipartition": {
+        "function": "?"
+    },
+    "bit_and": {
+        "function": "?"
+    },
+    "bit_length": {
+        "function": "?"
+    },
+    "bit_lsh": {
+        "function": "?"
+    },
+    "bit_not": {
+        "function": "?"
+    },
+    "bit_onep": {
+        "function": "?"
+    },
+    "bit_or": {
+        "function": "?"
+    },
+    "bit_rsh": {
+        "function": "?"
+    },
+    "bit_xor": {
+        "function": "?"
+    },
+    "black": {
+        "variable": "s"
+    },
+    "block": {
+        "function": "?"
+    },
+    "blockmatrixp": {
+        "function": "s"
+    },
+    "blue": {
+        "variable": "s"
+    },
+    "bode_gain": {
+        "function": "f"
+    },
+    "bode_phase": {
+        "function": "f"
+    },
+    "border": {
+        "variable": "f"
+    },
+    "bothcoef": {
+        "function": "?"
+    },
+    "boundaries_array": {
+        "variable": "f"
+    },
+    "box": {
+        "function": "s"
+    },
+    "boxchar": {
+        "globalyforbiddenvariable": true,
+        "variable": "f"
+    },
+    "boxplot": {
+        "function": "f",
+        "globalyforbiddenfunction": true
+    },
+    "boxplot_description": {
+        "function": "?"
+    },
+    "break": {
+        "function": "?"
+    },
+    "breakup": {
+        "variable": "?"
+    },
+    "btu": {
+        "variable": "s"
+    },
+    "bug_report": {
+        "function": "f",
+        "globalyforbiddenfunction": true
+    },
+    "build_info": {
+        "function": "f",
+        "globalyforbiddenfunction": true
+    },
+    "build_sample": {
+        "function": "?"
+    },
+    "buildq": {
+        "function": "?"
+    },
+    "burn": {
+        "function": "s"
+    },
+    "cabs": {
+        "function": "s"
+    },
+    "cal": {
+        "variable": "s"
+    },
+    "canform": {
+        "function": "f"
+    },
+    "canten": {
+        "function": "f"
+    },
+    "cardinality": {
+        "function": "s"
+    },
+    "carg": {
+        "function": "s"
+    },
+    "cartan": {
+        "function": "s"
+    },
+    "cartesian_product": {
+        "function": "s"
+    },
+    "cartesian_product_list": {
+        "function": "?"
+    },
+    "catch": {
+        "function": "f",
+        "globalyforbiddenfunction": true
+    },
+    "cauchy_matrix": {
+        "function": "?"
+    },
+    "cauchysum": {
+        "evflag": "?",
+        "variable": "?"
+    },
+    "cbffac": {
+        "function": "f"
+    },
+    "cbrange": {
+        "variable": "f"
+    },
+    "cbtics": {
+        "variable": "f"
+    },
+    "cdf_bernoulli": {
+        "function": "s"
+    },
+    "cdf_beta": {
+        "function": "s"
+    },
+    "cdf_binomial": {
+        "function": "s"
+    },
+    "cdf_cauchy": {
+        "function": "s"
+    },
+    "cdf_chi2": {
+        "function": "s"
+    },
+    "cdf_continuous_uniform": {
+        "function": "s"
+    },
+    "cdf_discrete_uniform": {
+        "function": "s"
+    },
+    "cdf_empirical": {
+        "function": "?"
+    },
+    "cdf_exp": {
+        "function": "s"
+    },
+    "cdf_f": {
+        "function": "s"
+    },
+    "cdf_gamma": {
+        "function": "s"
+    },
+    "cdf_general_finite_discrete": {
+        "function": "s"
+    },
+    "cdf_geometric": {
+        "function": "s"
+    },
+    "cdf_gumbel": {
+        "function": "s"
+    },
+    "cdf_hypergeometric": {
+        "function": "s"
+    },
+    "cdf_laplace": {
+        "function": "s"
+    },
+    "cdf_logistic": {
+        "function": "s"
+    },
+    "cdf_lognormal": {
+        "function": "s"
+    },
+    "cdf_negative_binomial": {
+        "function": "s"
+    },
+    "cdf_noncentral_chi2": {
+        "function": "s"
+    },
+    "cdf_noncentral_student_t": {
+        "function": "s"
+    },
+    "cdf_normal": {
+        "function": "s"
+    },
+    "cdf_pareto": {
+        "function": "s"
+    },
+    "cdf_poisson": {
+        "function": "s"
+    },
+    "cdf_rank_sum": {
+        "function": "?"
+    },
+    "cdf_rayleigh": {
+        "function": "s"
+    },
+    "cdf_signed_rank": {
+        "function": "?"
+    },
+    "cdf_student_t": {
+        "function": "s"
+    },
+    "cdf_weibull": {
+        "function": "s"
+    },
+    "cdisplay": {
+        "function": "f"
+    },
+    "ceiling": {
+        "function": "s"
+    },
+    "central_moment": {
+        "function": "?"
+    },
+    "cequal": {
+        "function": "s"
+    },
+    "cequalignore": {
+        "function": "s"
+    },
+    "cf": {
+        "function": "s"
+    },
+    "cfdisrep": {
+        "function": "s"
+    },
+    "cfexpand": {
+        "function": "s"
+    },
+    "cflength": {
+        "variable": "s"
+    },
+    "cframe_flag": {
+        "variable": "f"
+    },
+    "cgeodesic": {
+        "function": "f"
+    },
+    "cgreaterp": {
+        "function": "s"
+    },
+    "cgreaterpignore": {
+        "function": "s"
+    },
+    "changename": {
+        "function": "f"
+    },
+    "changevar": {
+        "function": "?"
+    },
+    "chaosgame": {
+        "function": "f"
+    },
+    "charat": {
+        "function": "s"
+    },
+    "charfun": {
+        "function": "s"
+    },
+    "charfun2": {
+        "function": "s"
+    },
+    "charlist": {
+        "function": "s"
+    },
+    "charp": {
+        "function": "s"
+    },
+    "charpoly": {
+        "function": "s"
+    },
+    "chdir": {
+        "function": "?"
+    },
+    "chebyshev_t": {
+        "function": "f"
+    },
+    "chebyshev_u": {
+        "function": "f"
+    },
+    "check_overlaps": {
+        "function": "f"
+    },
+    "checkdiv": {
+        "function": "f"
+    },
+    "chi": {
+        "variable": "s"
+    },
+    "chinese": {
+        "function": "?"
+    },
+    "cholesky": {
+        "function": "?"
+    },
+    "christof": {
+        "function": "f"
+    },
+    "chromatic_index": {
+        "function": "?"
+    },
+    "chromatic_number": {
+        "function": "?"
+    },
+    "cint": {
+        "function": "s"
+    },
+    "circulant_graph": {
+        "function": "?"
+    },
+    "clear_edge_weight": {
+        "function": "?"
+    },
+    "clear_rules": {
+        "function": "f"
+    },
+    "clear_vertex_label": {
+        "function": "?"
+    },
+    "clebsch_gordan": {
+        "function": "?"
+    },
+    "clebsch_graph": {
+        "function": "?"
+    },
+    "clessp": {
+        "function": "s"
+    },
+    "clesspignore": {
+        "function": "s"
+    },
+    "close": {
+        "function": "f",
+        "globalyforbiddenfunction": true
+    },
+    "closefile": {
+        "function": "f",
+        "globalyforbiddenfunction": true
+    },
+    "cmetric": {
+        "function": "f"
+    },
+    "cnonmet_flag": {
+        "variable": "f"
+    },
+    "coeff": {
+        "function": "s"
+    },
+    "coefmatrix": {
+        "function": "s"
+    },
+    "cograd": {
+        "function": "f"
+    },
+    "col": {
+        "function": "s"
+    },
+    "collapse": {
+        "function": "f"
+    },
+    "collectterms": {
+        "function": "?"
+    },
+    "color": {
+        "variable": "s"
+    },
+    "colorbox": {
+        "variable": "f"
+    },
+    "columnop": {
+        "function": "s"
+    },
+    "columns": {
+        "variable": "f"
+    },
+    "columnspace": {
+        "function": "s"
+    },
+    "columnswap": {
+        "function": "s"
+    },
+    "columnvector": {
+        "function": "?"
+    },
+    "combination": {
+        "function": "f"
+    },
+    "combine": {
+        "function": "s"
+    },
+    "commutative": {
+        "property": "?"
+    },
+    "comp2pui": {
+        "function": "t"
+    },
+    "compare": {
+        "function": "s"
+    },
+    "compfile": {
+        "function": "f",
+        "globalyforbiddenfunction": true
+    },
+    "compile": {
+        "function": "f",
+        "globalyforbiddenfunction": true
+    },
+    "compile_file": {
+        "function": "f",
+        "globalyforbiddenfunction": true
+    },
+    "complement_graph": {
+        "function": "?"
+    },
+    "complete_bipartite_graph": {
+        "function": "?"
+    },
+    "complete_graph": {
+        "function": "?"
+    },
+    "complex": {
+        "property": "?"
+    },
+    "complex_number_p": {
+        "function": "?"
+    },
+    "components": {
+        "function": "f"
+    },
+    "compose_functions": {
+        "function": "?"
+    },
+    "concan": {
+        "function": "f"
+    },
+    "concat": {
+        "function": "f",
+        "globalyforbiddenfunction": true
+    },
+    "conjugate": {
+        "function": "s"
+    },
+    "conmetderiv": {
+        "function": "f"
+    },
+    "connect_vertices": {
+        "function": "?"
+    },
+    "connected_components": {
+        "function": "?"
+    },
+    "cons": {
+        "function": "s"
+    },
+    "constant": {
+        "keyword": "?",
+        "property": "?",
+        "specialallowvariable": true
+    },
+    "constantp": {
+        "function": "?"
+    },
+    "constituent": {
+        "function": "s"
+    },
+    "constvalue": {
+        "function": "f"
+    },
+    "cont2part": {
+        "function": "t"
+    },
+    "content": {
+        "function": "?"
+    },
+    "context": {
+        "variable": "f"
+    },
+    "contexts": {
+        "variable": "f"
+    },
+    "continuous_freq": {
+        "function": "?"
+    },
+    "contortion": {
+        "function": "f"
+    },
+    "contour": {
+        "variable": "f"
+    },
+    "contour_levels": {
+        "variable": "f"
+    },
+    "contour_plot": {
+        "function": "f"
+    },
+    "contract": {
+        "function": "?"
+    },
+    "contract_edge": {
+        "function": "f"
+    },
+    "contragrad": {
+        "function": "f"
+    },
+    "contrib_ode": {
+        "function": "f"
+    },
+    "convert": {
+        "function": "f"
+    },
+    "coord": {
+        "function": "f"
+    },
+    "copy": {
+        "function": "s"
+    },
+    "copy_file": {
+        "function": "?"
+    },
+    "copy_graph": {
+        "function": "f"
+    },
+    "copylist": {
+        "function": "?"
+    },
+    "copymatrix": {
+        "function": "?"
+    },
+    "cor": {
+        "function": "?"
+    },
+    "cos": {
+        "function": "s",
+        "trigfun": true
+    },
+    "cosec": {
+        "function": "s",
+        "trigfun": true
+    },
+    "cosech": {
+        "function": "s",
+        "trigfun": true
+    },
+    "cosh": {
+        "function": "s",
+        "trigfun": true
+    },
+    "cosnpiflag": {
+        "variable": "?"
+    },
+    "cot": {
+        "function": "s",
+        "trigfun": true
+    },
+    "coth": {
+        "function": "s",
+        "trigfun": true
+    },
+    "cov": {
+        "function": "?"
+    },
+    "cov1": {
+        "function": "?"
+    },
+    "covdiff": {
+        "function": "f"
+    },
+    "covect": {
+        "function": "s"
+    },
+    "covers": {
+        "function": "f"
+    },
+    "crc24sum": {
+        "function": "?"
+    },
+    "create_graph": {
+        "function": "?"
+    },
+    "create_list": {
+        "argumentmapstovariable": [
+            1
+        ],
+        "function": "s"
+    },
+    "csc": {
+        "function": "s",
+        "trigfun": true
+    },
+    "csch": {
+        "function": "s",
+        "trigfun": true
+    },
+    "csetup": {
+        "function": "f"
+    },
+    "cspline": {
+        "function": "s"
+    },
+    "ct_coords": {
+        "variable": "f"
+    },
+    "ct_coordsys": {
+        "function": "f"
+    },
+    "ctaylor": {
+        "function": "f"
+    },
+    "ctaypov": {
+        "variable": "f"
+    },
+    "ctaypt": {
+        "variable": "f"
+    },
+    "ctayswitch": {
+        "variable": "f"
+    },
+    "ctayvar": {
+        "variable": "f"
+    },
+    "ctorsion_flag": {
+        "variable": "f"
+    },
+    "ctransform": {
+        "function": "f"
+    },
+    "ctranspose": {
+        "function": "s"
+    },
+    "ctrgsimp": {
+        "variable": "f"
+    },
+    "cube_graph": {
+        "function": "?"
+    },
+    "cuboctahedron_graph": {
+        "function": "?"
+    },
+    "cunlisp": {
+        "function": "f"
+    },
+    "current_let_rule_package": {
+        "globalyforbiddenvariable": true,
+        "variable": "f"
+    },
+    "cv": {
+        "function": "?"
+    },
+    "cyan": {
+        "variable": "s"
+    },
+    "cycle_digraph": {
+        "function": "?"
+    },
+    "cycle_graph": {
+        "function": "?"
+    },
+    "cyclep": {
+        "function": "?"
+    },
+    "data_file_name": {
+        "globalyforbiddenvariable": true,
+        "variable": "f"
+    },
+    "day": {
+        "variable": "s"
+    },
+    "days360": {
+        "function": "?"
+    },
+    "dblint": {
+        "function": "s"
+    },
+    "deactivate": {
+        "function": "f",
+        "globalyforbiddenfunction": true
+    },
+    "debugmode": {
+        "globalyforbiddenvariable": true,
+        "variable": "f"
+    },
+    "decimalplaces": {
+        "function": "s"
+    },
+    "declare": {
+        "function": "?"
+    },
+    "declare_constvalue": {
+        "function": "f"
+    },
+    "declare_dimensions": {
+        "function": "f"
+    },
+    "declare_fundamental_dimensions": {
+        "function": "f"
+    },
+    "declare_fundamental_units": {
+        "function": "f"
+    },
+    "declare_qty": {
+        "function": "f"
+    },
+    "declare_translated": {
+        "function": "f"
+    },
+    "declare_unit_conversion": {
+        "function": "f"
+    },
+    "declare_units": {
+        "function": "f"
+    },
+    "declare_weights": {
+        "function": "f"
+    },
+    "decode_time": {
+        "function": "?"
+    },
+    "decreasing": {
+        "property": "?"
+    },
+    "decsym": {
+        "function": "f"
+    },
+    "default_let_rule_package": {
+        "variable": "f"
+    },
+    "defcon": {
+        "function": "f"
+    },
+    "define": {
+        "function": "f",
+        "globalyforbiddenfunction": true
+    },
+    "define_alt_display": {
+        "function": "?"
+    },
+    "define_opproperty": {
+        "function": "?"
+    },
+    "define_variable": {
+        "function": "f",
+        "globalyforbiddenfunction": true
+    },
+    "defint": {
+        "function": "s"
+    },
+    "defmatch": {
+        "function": "f"
+    },
+    "defrule": {
+        "function": "f"
+    },
+    "defstruct": {
+        "function": "?"
+    },
+    "deftaylor": {
+        "function": "?"
+    },
+    "deg": {
+        "variable": "s"
+    },
+    "degree_sequence": {
+        "function": "?"
+    },
+    "del": {
+        "function": "s"
+    },
+    "del_cmd": {
+        "variable": "f",
+        "globalyforbiddenvariable": true
+    },
+    "delay": {
+        "variable": "f"
+    },
+    "delete": {
+        "function": "s"
+    },
+    "delete_file": {
+        "function": "?"
+    },
+    "deleten": {
+        "function": "f"
+    },
+    "delta": {
+        "function": "s",
+        "variable": "s"
+    },
+    "demo": {
+        "function": "f",
+        "globalyforbiddenfunction": true
+    },
+    "demoivre": {
+        "evflag": "?",
+        "function": "?",
+        "variable": "?"
+    },
+    "denom": {
+        "function": "s"
+    },
+    "dependencies": {
+        "function": "f",
+        "globalyforbiddenfunction": true,
+        "globalyforbiddenvariable": true,
+        "variable": "f"
+    },
+    "depends": {
+        "function": "?"
+    },
+    "derivabbrev": {
+        "variable": "?"
+    },
+    "derivdegree": {
+        "function": "?"
+    },
+    "derivlist": {
+        "function": "?"
+    },
+    "derivsubst": {
+        "variable": "?"
+    },
+    "describe": {
+        "function": "f",
+        "globalyforbiddenfunction": true
+    },
+    "desolve": {
+        "function": "s"
+    },
+    "determinant": {
+        "function": "s"
+    },
+    "detout": {
+        "variable": "s"
+    },
+    "dfloat": {
+        "function": "?"
+    },
+    "dgauss_a": {
+        "function": "s"
+    },
+    "dgauss_b": {
+        "function": "s"
+    },
+    "dgeev": {
+        "function": "?"
+    },
+    "dgemm": {
+        "function": "?"
+    },
+    "dgeqrf": {
+        "function": "?"
+    },
+    "dgesv": {
+        "function": "?"
+    },
+    "dgesvd": {
+        "function": "?"
+    },
+    "diag": {
+        "function": "f"
+    },
+    "diag_matrix": {
+        "function": "s"
+    },
+    "diagmatrix": {
+        "function": "s"
+    },
+    "diagmatrixp": {
+        "function": "f"
+    },
+    "diagmetric": {
+        "variable": "f"
+    },
+    "diameter": {
+        "function": "?"
+    },
+    "diff": {
+        "function": "s",
+        "nounfunction": "noundiff"
+    },
+    "digitcharp": {
+        "function": "s"
+    },
+    "dim": {
+        "variable": "s"
+    },
+    "dimacs_export": {
+        "function": "f",
+        "globalyforbiddenfunction": true
+    },
+    "dimacs_import": {
+        "function": "f",
+        "globalyforbiddenfunction": true
+    },
+    "dimension": {
+        "function": "f"
+    },
+    "dimensionless": {
+        "function": "f"
+    },
+    "dimensions": {
+        "function": "f"
+    },
+    "dimensions_as_list": {
+        "function": "f"
+    },
+    "direct": {
+        "function": "f"
+    },
+    "directory": {
+        "function": "?"
+    },
+    "discrete": {
+        "variable": "s"
+    },
+    "discrete_freq": {
+        "function": "?"
+    },
+    "disjoin": {
+        "function": "s"
+    },
+    "disjointp": {
+        "function": "s"
+    },
+    "disolate": {
+        "function": "s"
+    },
+    "disp": {
+        "function": "?"
+    },
+    "dispJordan": {
+        "function": "f"
+    },
+    "dispcon": {
+        "function": "f"
+    },
+    "dispflag": {
+        "variable": "f"
+    },
+    "dispform": {
+        "function": "s"
+    },
+    "dispfun": {
+        "function": "f"
+    },
+    "display": {
+        "function": "f"
+    },
+    "display2d": {
+        "globalyforbiddenvariable": true,
+        "variable": "f"
+    },
+    "display_format_internal": {
+        "variable": "f"
+    },
+    "disprule": {
+        "function": "f"
+    },
+    "dispterms": {
+        "function": "f"
+    },
+    "distrib": {
+        "function": "f"
+    },
+    "distribute_over": {
+        "variable": "?"
+    },
+    "divide": {
+        "function": "s"
+    },
+    "divisors": {
+        "function": "s"
+    },
+    "divsum": {
+        "function": "s"
+    },
+    "divthru": {
+        "function": "s"
+    },
+    "dkummer_m": {
+        "function": "s"
+    },
+    "dkummer_u": {
+        "function": "s"
+    },
+    "dlange": {
+        "function": "?"
+    },
+    "dlsode_init": {
+        "function": "?"
+    },
+    "dlsode_step": {
+        "function": "?"
+    },
+    "do": {
+        "keyword": "?"
+    },
+    "doallmxops": {
+        "variable": "?"
+    },
+    "dodecahedron_graph": {
+        "function": "?"
+    },
+    "domain": {
+        "variable": "?"
+    },
+    "domxexpt": {
+        "variable": "f"
+    },
+    "domxmxops": {
+        "variable": "f"
+    },
+    "domxnctimes": {
+        "variable": "f"
+    },
+    "dontfactor": {
+        "variable": "?"
+    },
+    "doscmxops": {
+        "variable": "?"
+    },
+    "doscmxplus": {
+        "variable": "?"
+    },
+    "dot0nscsimp": {
+        "variable": "?"
+    },
+    "dot0simp": {
+        "variable": "?"
+    },
+    "dot1simp": {
+        "variable": "?"
+    },
+    "dotassoc": {
+        "variable": "?"
+    },
+    "dotconstrules": {
+        "variable": "?"
+    },
+    "dotdistrib": {
+        "variable": "?"
+    },
+    "dotexptsimp": {
+        "variable": "?"
+    },
+    "dotident": {
+        "variable": "?"
+    },
+    "dotproduct": {
+        "function": "s"
+    },
+    "dotscrules": {
+        "evflag": "?",
+        "variable": "?"
+    },
+    "dotsimp": {
+        "function": "f"
+    },
+    "dpart": {
+        "function": "?"
+    },
+    "draw": {
+        "function": "f"
+    },
+    "draw2d": {
+        "function": "f"
+    },
+    "draw3d": {
+        "function": "f"
+    },
+    "draw_file": {
+        "function": "f"
+    },
+    "draw_graph": {
+        "function": "f"
+    },
+    "draw_graph_program": {
+        "variable": "f"
+    },
+    "drawdf": {
+        "function": "?"
+    },
+    "dscalar": {
+        "function": "f"
+    },
+    "e": {
+        "variable": "s"
+    },
+    "echelon": {
+        "function": "s"
+    },
+    "edge_coloring": {
+        "function": "?"
+    },
+    "edge_connectivity": {
+        "function": "?"
+    },
+    "edges": {
+        "function": "?"
+    },
+    "eigens_by_jacobi": {
+        "function": "?"
+    },
+    "eigenvalues": {
+        "function": "s"
+    },
+    "eigenvectors": {
+        "function": "s"
+    },
+    "eighth": {
+        "function": "s"
+    },
+    "einstein": {
+        "function": "f"
+    },
+    "eivals": {
+        "function": "s"
+    },
+    "eivects": {
+        "function": "s"
+    },
+    "elapsed_real_time": {
+        "function": "f"
+    },
+    "elapsed_run_time": {
+        "function": "f"
+    },
+    "ele2comp": {
+        "function": "t"
+    },
+    "ele2polynome": {
+        "function": "t"
+    },
+    "ele2pui": {
+        "function": "t"
+    },
+    "elem": {
+        "function": "f"
+    },
+    "elementp": {
+        "function": "s"
+    },
+    "elevation": {
+        "variable": "f"
+    },
+    "elim": {
+        "function": "?"
+    },
+    "elim_allbut": {
+        "function": "?"
+    },
+    "eliminate": {
+        "function": "s"
+    },
+    "eliminate_using": {
+        "function": "?"
+    },
+    "ellipse": {
+        "function": "f"
+    },
+    "elliptic_e": {
+        "function": "s"
+    },
+    "elliptic_ec": {
+        "function": "s"
+    },
+    "elliptic_eu": {
+        "function": "s"
+    },
+    "elliptic_f": {
+        "function": "s"
+    },
+    "elliptic_kc": {
+        "function": "s"
+    },
+    "elliptic_pi": {
+        "function": "s"
+    },
+    "ematrix": {
+        "function": "s"
+    },
+    "empty_graph": {
+        "function": "?"
+    },
+    "emptyp": {
+        "function": "s"
+    },
+    "encode_time": {
+        "function": "?"
+    },
+    "endcons": {
+        "function": "s"
+    },
+    "engineering_format_floats": {
+        "variable": "?"
+    },
+    "engineering_format_max": {
+        "variable": "?"
+    },
+    "engineering_format_min": {
+        "variable": "?"
+    },
+    "enhanced3d": {
+        "variable": "f"
+    },
+    "entermatrix": {
+        "function": "f"
+    },
+    "entertensor": {
+        "function": "f"
+    },
+    "entier": {
+        "function": "f"
+    },
+    "epsilon": {
+        "variable": "s"
+    },
+    "epsilon_lp": {
+        "variable": "?"
+    },
+    "equal": {
+        "function": "s"
+    },
+    "equalp": {
+        "function": "s"
+    },
+    "equiv_classes": {
+        "function": "s"
+    },
+    "erf": {
+        "function": "s"
+    },
+    "erf_generalized": {
+        "function": "?"
+    },
+    "erf_representation": {
+        "variable": "?"
+    },
+    "erfc": {
+        "function": "?"
+    },
+    "erfflag": {
+        "variable": "?"
+    },
+    "erfi": {
+        "function": "?"
+    },
+    "errcatch": {
+        "function": "f",
+        "globalyforbiddenfunction": true
+    },
+    "error": {
+        "function": "f",
+        "globalyforbiddenfunction": true,
+        "globalyforbiddenvariable": true,
+        "variable": "f"
+    },
+    "error_size": {
+        "globalyforbiddenvariable": true,
+        "variable": "f"
+    },
+    "error_syms": {
+        "globalyforbiddenvariable": true,
+        "variable": "f"
+    },
+    "errormsg": {
+        "function": "f",
+        "globalyforbiddenfunction": true,
+        "globalyforbiddenvariable": true,
+        "variable": "f"
+    },
+    "eta": {
+        "variable": "s"
+    },
+    "euler": {
+        "function": "s"
+    },
+    "ev": {
+        "function": "s"
+    },
+    "ev_point": {
+        "variable": "f"
+    },
+    "eval": {
+        "evflag": "s",
+        "variable": "s"
+    },
+    "eval_string": {
+        "function": "f",
+        "globalyforbiddenfunction": true
+    },
+    "even": {
+        "property": "?"
+    },
+    "evenfun": {
+        "property": "?"
+    },
+    "evenp": {
+        "function": "s"
+    },
+    "every": {
+        "function": "s"
+    },
+    "evflag": {
+        "property": "f"
+    },
+    "evfun": {
+        "property": "f"
+    },
+    "evolution": {
+        "function": "f"
+    },
+    "evolution2d": {
+        "function": "f"
+    },
+    "evundiff": {
+        "function": "f"
+    },
+    "example": {
+        "function": "f",
+        "globalyforbiddenfunction": true
+    },
+    "exp": {
+        "function": "s"
+    },
+    "expand": {
+        "function": "s"
+    },
+    "expandp": {
+        "function": "s"
+    },
+    "expandwrt": {
+        "function": "s"
+    },
+    "expandwrt_denom": {
+        "variable": "s"
+    },
+    "expandwrt_factored": {
+        "function": "s"
+    },
+    "expintegral_chi": {
+        "function": "?"
+    },
+    "expintegral_ci": {
+        "function": "?"
+    },
+    "expintegral_e": {
+        "function": "?"
+    },
+    "expintegral_e1": {
+        "function": "?"
+    },
+    "expintegral_e_simplify": {
+        "function": "?"
+    },
+    "expintegral_ei": {
+        "function": "?"
+    },
+    "expintegral_li": {
+        "function": "?"
+    },
+    "expintegral_shi": {
+        "function": "?"
+    },
+    "expintegral_si": {
+        "function": "?"
+    },
+    "expintexpand": {
+        "variable": "?"
+    },
+    "expintrep": {
+        "variable": "?"
+    },
+    "explicit": {
+        "function": "f"
+    },
+    "explose": {
+        "function": "f"
+    },
+    "expon": {
+        "variable": "f"
+    },
+    "exponentialize": {
+        "evflag": "?",
+        "function": "?",
+        "variable": "?"
+    },
+    "expop": {
+        "variable": "f"
+    },
+    "express": {
+        "function": "s"
+    },
+    "expt": {
+        "function": "f"
+    },
+    "exptdispflag": {
+        "variable": "?"
+    },
+    "exptisolate": {
+        "evflag": "?",
+        "variable": "?"
+    },
+    "exptsubst": {
+        "variable": "?"
+    },
+    "exsec": {
+        "function": "f"
+    },
+    "extdiff": {
+        "function": "f"
+    },
+    "extract_linear_equations": {
+        "function": "f"
+    },
+    "extremal_subset": {
+        "function": "s"
+    },
+    "ezgcd": {
+        "function": "s"
+    },
+    "f90": {
+        "function": "f"
+    },
+    "f90_output_line_length_max": {
+        "variable": "?"
+    },
+    "facexpand": {
+        "variable": "?"
+    },
+    "facsum": {
+        "function": "s"
+    },
+    "facsum_combine": {
+        "variable": "s"
+    },
+    "factcomb": {
+        "function": "s"
+    },
+    "factlim": {
+        "variable": "s"
+    },
+    "factor": {
+        "evfun": "s",
+        "function": "s"
+    },
+    "factor_max_degree": {
+        "variable": "?"
+    },
+    "factor_max_degree_print_warning": {
+        "variable": "?"
+    },
+    "factorfacsum": {
+        "function": "s"
+    },
+    "factorflag": {
+        "evflag": "?",
+        "variable": "?"
+    },
+    "factorial": {
+        "function": "s"
+    },
+    "factorial_expand": {
+        "variable": "?"
+    },
+    "factorout": {
+        "function": "s"
+    },
+    "factorp": {
+        "function": "s"
+    },
+    "factors_only": {
+        "variable": "?"
+    },
+    "factorsum": {
+        "function": "s"
+    },
+    "facts": {
+        "function": "f"
+    },
+    "false": {
+        "constant": "s"
+    },
+    "fast_central_elements": {
+        "function": "f"
+    },
+    "fast_linsolve": {
+        "function": "f"
+    },
+    "fasttimes": {
+        "function": "s"
+    },
+    "fb": {
+        "variable": "s"
+    },
+    "feature": {
+        "property": "?"
+    },
+    "featurep": {
+        "function": "f",
+        "globalyforbiddenfunction": true
+    },
+    "features": {
+        "function": "f",
+        "globalyforbiddenfunction": true,
+        "property": "?"
+    },
+    "fernfale": {
+        "function": "?"
+    },
+    "fft": {
+        "function": "s"
+    },
+    "fib": {
+        "function": "s"
+    },
+    "fibtophi": {
+        "function": "s"
+    },
+    "fifth": {
+        "function": "s"
+    },
+    "file_name": {
+        "globalyforbiddenvariable": true,
+        "variable": "f"
+    },
+    "file_output_append": {
+        "globalyforbiddenvariable": true,
+        "variable": "f"
+    },
+    "file_search": {
+        "function": "f",
+        "globalyforbiddenfunction": true,
+        "globalyforbiddenvariable": true,
+        "variable": "f"
+    },
+    "file_search_demo": {
+        "globalyforbiddenvariable": true,
+        "variable": "f"
+    },
+    "file_search_lisp": {
+        "globalyforbiddenvariable": true,
+        "variable": "f"
+    },
+    "file_search_maxima": {
+        "globalyforbiddenvariable": true,
+        "variable": "f"
+    },
+    "file_search_tests": {
+        "globalyforbiddenvariable": true,
+        "variable": "f"
+    },
+    "file_search_usage": {
+        "globalyforbiddenvariable": true,
+        "variable": "f"
+    },
+    "file_type": {
+        "function": "f",
+        "globalyforbiddenfunction": true
+    },
+    "file_type_lisp": {
+        "globalyforbiddenvariable": true,
+        "variable": "f"
+    },
+    "file_type_maxima": {
+        "globalyforbiddenvariable": true,
+        "variable": "f"
+    },
+    "filename_merge": {
+        "function": "f",
+        "globalyforbiddenfunction": true
+    },
+    "fill_color": {
+        "variable": "f"
+    },
+    "fill_density": {
+        "variable": "f"
+    },
+    "fillarray": {
+        "function": "f"
+    },
+    "filled_func": {
+        "variable": "f"
+    },
+    "find_root": {
+        "function": "s"
+    },
+    "find_root_abs": {
+        "variable": "s"
+    },
+    "find_root_error": {
+        "variable": "s"
+    },
+    "find_root_rel": {
+        "variable": "s"
+    },
+    "findde": {
+        "function": "f"
+    },
+    "first": {
+        "function": "s"
+    },
+    "firstn": {
+        "function": "?"
+    },
+    "fix": {
+        "function": "f"
+    },
+    "flatten": {
+        "function": "s"
+    },
+    "flength": {
+        "function": "f",
+        "globalyforbiddenfunction": true
+    },
+    "flipflag": {
+        "variable": "f"
+    },
+    "float": {
+        "evflag": "?",
+        "function": "s",
+        "variable": "?"
+    },
+    "float2bf": {
+        "variable": "s"
+    },
+    "floatnump": {
+        "function": "?"
+    },
+    "floor": {
+        "function": "s"
+    },
+    "flower_snark": {
+        "function": "?"
+    },
+    "flush": {
+        "function": "f"
+    },
+    "flush1deriv": {
+        "function": "f"
+    },
+    "flush_output": {
+        "function": "?"
+    },
+    "flushd": {
+        "function": "f"
+    },
+    "flushnd": {
+        "function": "f"
+    },
+    "fmin_cobyla": {
+        "function": "?"
+    },
+    "font": {
+        "variable": "f"
+    },
+    "font_size": {
+        "variable": "f"
+    },
+    "for": {
+        "keyword": "?"
+    },
+    "forget": {
+        "function": "f"
+    },
+    "fortindent": {
+        "globalyforbiddenvariable": true,
+        "variable": "f"
+    },
+    "fortran": {
+        "function": "f",
+        "globalyforbiddenfunction": true
+    },
+    "fortspaces": {
+        "globalyforbiddenvariable": true,
+        "variable": "f"
+    },
+    "fourcos": {
+        "function": "s"
+    },
+    "fourexpand": {
+        "function": "s"
+    },
+    "fourier": {
+        "function": "s"
+    },
+    "fourier_elim": {
+        "function": "?"
+    },
+    "fourint": {
+        "function": "s"
+    },
+    "fourintcos": {
+        "function": "s"
+    },
+    "fourintsin": {
+        "function": "s"
+    },
+    "foursimp": {
+        "function": "s"
+    },
+    "foursin": {
+        "function": "s"
+    },
+    "fourth": {
+        "function": "s"
+    },
+    "fposition": {
+        "function": "f",
+        "globalyforbiddenfunction": true
+    },
+    "fpprec": {
+        "variable": "?"
+    },
+    "fpprintprec": {
+        "variable": "?"
+    },
+    "frame_bracket": {
+        "function": "f"
+    },
+    "freeof": {
+        "function": "s"
+    },
+    "freshline": {
+        "function": "f",
+        "globalyforbiddenfunction": true
+    },
+    "fresnel_c": {
+        "function": "?"
+    },
+    "fresnel_s": {
+        "function": "?"
+    },
+    "from": {
+        "keyword": "?"
+    },
+    "from_adjacency_matrix": {
+        "function": "?"
+    },
+    "frucht_graph": {
+        "function": "?"
+    },
+    "full_listify": {
+        "function": "s"
+    },
+    "fullmap": {
+        "function": "s",
+        "mapfunction": true
+    },
+    "fullmapl": {
+        "function": "s",
+        "mapfunction": true
+    },
+    "fullratsimp": {
+        "evfun": "s",
+        "function": "s"
+    },
+    "fullratsubst": {
+        "function": "s"
+    },
+    "fullsetify": {
+        "function": "s"
+    },
+    "funcsolve": {
+        "function": "s"
+    },
+    "functions": {
+        "globalyforbiddenvariable": true,
+        "variable": "f"
+    },
+    "fundamental_dimensions": {
+        "variable": "f"
+    },
+    "fundamental_units": {
+        "function": "f"
+    },
+    "fundef": {
+        "function": "f",
+        "globalyforbiddenfunction": true
+    },
+    "funmake": {
+        "function": "f",
+        "globalyforbiddenfunction": true,
+        "mapfunction": true
+    },
+    "funp": {
+        "function": "s"
+    },
+    "fv": {
+        "function": "?"
+    },
+    "gal": {
+        "variable": "s"
+    },
+    "gamma": {
+        "function": "s",
+        "variable": "s"
+    },
+    "gamma_expand": {
+        "variable": "?"
+    },
+    "gamma_greek": {
+        "function": "?"
+    },
+    "gamma_incomplete": {
+        "function": "s"
+    },
+    "gamma_incomplete_generalized": {
+        "function": "s"
+    },
+    "gamma_incomplete_lower": {
+        "function": "?"
+    },
+    "gamma_incomplete_regularized": {
+        "function": "s"
+    },
+    "gammalim": {
+        "variable": "?"
+    },
+    "garbage_collect": {
+        "function": "?"
+    },
+    "gauss_a": {
+        "function": "s"
+    },
+    "gauss_b": {
+        "function": "s"
+    },
+    "gaussprob": {
+        "function": "f"
+    },
+    "gcd": {
+        "function": "s"
+    },
+    "gcdex": {
+        "function": "s"
+    },
+    "gcdivide": {
+        "function": "f"
+    },
+    "gcf": {
+        "function": "s"
+    },
+    "gcfac": {
+        "function": "f"
+    },
+    "gcfactor": {
+        "function": "s"
+    },
+    "gd": {
+        "function": "s"
+    },
+    "gdet": {
+        "variable": "s"
+    },
+    "gen_laguerre": {
+        "function": "f"
+    },
+    "generalized_lambert_w": {
+        "function": "?"
+    },
+    "genfact": {
+        "function": "?"
+    },
+    "genindex": {
+        "variable": "?"
+    },
+    "genmatrix": {
+        "function": "s"
+    },
+    "gensumnum": {
+        "variable": "f"
+    },
+    "gensym": {
+        "function": "?"
+    },
+    "geo_amortization": {
+        "function": "?"
+    },
+    "geo_annuity_fv": {
+        "function": "?"
+    },
+    "geo_annuity_pv": {
+        "function": "?"
+    },
+    "geomap": {
+        "function": "f"
+    },
+    "geometric": {
+        "function": "f"
+    },
+    "geometric_mean": {
+        "function": "?"
+    },
+    "geomview_command": {
+        "variable": "?"
+    },
+    "geosum": {
+        "function": "f"
+    },
+    "get": {
+        "function": "f"
+    },
+    "get_edge_weight": {
+        "function": "?"
+    },
+    "get_lu_factors": {
+        "function": "s"
+    },
+    "get_output_stream_string": {
+        "function": "?"
+    },
+    "get_pixel": {
+        "function": "f"
+    },
+    "get_plot_option": {
+        "function": "f"
+    },
+    "get_tex_environment": {
+        "function": "f"
+    },
+    "get_tex_environment_default": {
+        "function": "f"
+    },
+    "get_vertex_label": {
+        "function": "?"
+    },
+    "getcurrentdirectory": {
+        "function": "?"
+    },
+    "getenv": {
+        "function": "?"
+    },
+    "gfactor": {
+        "function": "s"
+    },
+    "gfactorsum": {
+        "function": "s"
+    },
+    "ggf": {
+        "function": "f"
+    },
+    "girth": {
+        "function": "?"
+    },
+    "global_variances": {
+        "function": "?"
+    },
+    "globalsolve": {
+        "variable": "f"
+    },
+    "gnuplot_close": {
+        "function": "f"
+    },
+    "gnuplot_cmd": {
+        "variable": "f",
+        "globalyforbiddenvariable": true
+    },
+    "gnuplot_command": {
+        "variable": "?"
+    },
+    "gnuplot_curve_styles": {
+        "variable": "f"
+    },
+    "gnuplot_curve_titles": {
+        "variable": "f"
+    },
+    "gnuplot_default_term_command": {
+        "variable": "f"
+    },
+    "gnuplot_dumb_term_command": {
+        "variable": "f"
+    },
+    "gnuplot_file_args": {
+        "variable": "?"
+    },
+    "gnuplot_file_name": {
+        "globalyforbiddenvariable": true,
+        "variable": "f"
+    },
+    "gnuplot_out_file": {
+        "globalyforbiddenvariable": true,
+        "variable": "f"
+    },
+    "gnuplot_pm3d": {
+        "variable": "f"
+    },
+    "gnuplot_preamble": {
+        "globalyforbiddenvariable": true,
+        "variable": "f"
+    },
+    "gnuplot_ps_term_command": {
+        "globalyforbiddenvariable": true,
+        "variable": "f"
+    },
+    "gnuplot_replot": {
+        "function": "f"
+    },
+    "gnuplot_reset": {
+        "function": "f"
+    },
+    "gnuplot_restart": {
+        "function": "f"
+    },
+    "gnuplot_start": {
+        "function": "f"
+    },
+    "gnuplot_term": {
+        "globalyforbiddenvariable": true,
+        "variable": "f"
+    },
+    "gnuplot_view_args": {
+        "variable": "?"
+    },
+    "go": {
+        "function": "?"
+    },
+    "gr2d": {
+        "function": "f"
+    },
+    "gr3d": {
+        "function": "f"
+    },
+    "gradef": {
+        "function": "f"
+    },
+    "gradefs": {
+        "variable": "f"
+    },
+    "gramschmidt": {
+        "function": "s"
+    },
+    "graph6_decode": {
+        "function": "f"
+    },
+    "graph6_encode": {
+        "function": "f"
+    },
+    "graph6_export": {
+        "function": "f"
+    },
+    "graph6_import": {
+        "function": "f"
+    },
+    "graph_center": {
+        "function": "?"
+    },
+    "graph_charpoly": {
+        "function": "?"
+    },
+    "graph_eigenvalues": {
+        "function": "?"
+    },
+    "graph_flow": {
+        "function": "?"
+    },
+    "graph_order": {
+        "function": "?"
+    },
+    "graph_periphery": {
+        "function": "?"
+    },
+    "graph_product": {
+        "function": "?"
+    },
+    "graph_size": {
+        "function": "?"
+    },
+    "graph_union": {
+        "function": "?"
+    },
+    "great_rhombicosidodecahedron_graph": {
+        "function": "?"
+    },
+    "great_rhombicuboctahedron_graph": {
+        "function": "?"
+    },
+    "green": {
+        "variable": "s"
+    },
+    "grid": {
+        "variable": "f"
+    },
+    "grid2d": {
+        "variable": "s"
+    },
+    "grid_graph": {
+        "function": "?"
+    },
+    "grind": {
+        "function": "f",
+        "globalyforbiddenfunction": true,
+        "globalyforbiddenvariable": true,
+        "variable": "f"
+    },
+    "grobner_basis": {
+        "function": "f"
+    },
+    "grotzch_graph": {
+        "function": "?"
+    },
+    "halfangles": {
+        "evflag": "?",
+        "variable": "?"
+    },
+    "hamilton_cycle": {
+        "function": "?"
+    },
+    "hamilton_path": {
+        "function": "?"
+    },
+    "hankel": {
+        "function": "s"
+    },
+    "hankel_1": {
+        "function": "?"
+    },
+    "hankel_2": {
+        "function": "?"
+    },
+    "harmonic": {
+        "function": "f"
+    },
+    "harmonic_mean": {
+        "function": "?"
+    },
+    "hav": {
+        "function": "s"
+    },
+    "head_angle": {
+        "variable": "f"
+    },
+    "head_both": {
+        "variable": "f"
+    },
+    "head_length": {
+        "variable": "f"
+    },
+    "head_type": {
+        "variable": "f"
+    },
+    "heawood_graph": {
+        "function": "?"
+    },
+    "hermite": {
+        "function": "f"
+    },
+    "hessian": {
+        "function": "s"
+    },
+    "hgfred": {
+        "function": "s"
+    },
+    "hilbert_matrix": {
+        "function": "s"
+    },
+    "hilbertmap": {
+        "function": "?"
+    },
+    "hipow": {
+        "function": "s"
+    },
+    "histogram": {
+        "function": "f"
+    },
+    "histogram_description": {
+        "function": "?"
+    },
+    "hodge": {
+        "function": "f"
+    },
+    "horner": {
+        "function": "s"
+    },
+    "hypergeometric": {
+        "function": "s"
+    },
+    "hypergeometric_representation": {
+        "variable": "s"
+    },
+    "hypergeometric_simp": {
+        "function": "?"
+    },
+    "i": {
+        "variable": "s"
+    },
+    "ibase": {
+        "variable": "?"
+    },
+    "ic1": {
+        "function": "?"
+    },
+    "ic2": {
+        "function": "?"
+    },
+    "ic_convert": {
+        "function": "f"
+    },
+    "icc1": {
+        "variable": "f"
+    },
+    "icc2": {
+        "variable": "f"
+    },
+    "ichr1": {
+        "function": "f"
+    },
+    "ichr2": {
+        "function": "f"
+    },
+    "icosahedron_graph": {
+        "function": "?"
+    },
+    "icosidodecahedron_graph": {
+        "function": "?"
+    },
+    "icounter": {
+        "variable": "f"
+    },
+    "icurvature": {
+        "function": "f"
+    },
+    "ident": {
+        "function": "s"
+    },
+    "identfor": {
+        "function": "s"
+    },
+    "identity": {
+        "function": "s"
+    },
+    "idiff": {
+        "function": "f"
+    },
+    "idim": {
+        "function": "f"
+    },
+    "idummy": {
+        "function": "f"
+    },
+    "idummyx": {
+        "variable": "f"
+    },
+    "ieqn": {
+        "function": "f"
+    },
+    "ieqnprint": {
+        "variable": "f"
+    },
+    "if": {
+        "keyword": "?"
+    },
+    "ifactors": {
+        "function": "s"
+    },
+    "ifb": {
+        "variable": "s"
+    },
+    "ifc1": {
+        "variable": "s"
+    },
+    "ifc2": {
+        "variable": "s"
+    },
+    "ifg": {
+        "variable": "s"
+    },
+    "ifgi": {
+        "variable": "s"
+    },
+    "ifr": {
+        "variable": "s"
+    },
+    "iframe_bracket_form": {
+        "variable": "f"
+    },
+    "iframes": {
+        "function": "f"
+    },
+    "ifri": {
+        "variable": "f"
+    },
+    "ifs": {
+        "function": "s"
+    },
+    "igcdex": {
+        "function": "?"
+    },
+    "igeodesic_coords": {
+        "function": "f"
+    },
+    "igeowedge_flag": {
+        "variable": "f"
+    },
+    "ikt1": {
+        "variable": "f"
+    },
+    "ikt2": {
+        "variable": "f"
+    },
+    "ilt": {
+        "function": "?"
+    },
+    "image": {
+        "function": "f"
+    },
+    "imaginary": {
+        "property": "?"
+    },
+    "imagpart": {
+        "function": "s"
+    },
+    "imetric": {
+        "function": "f",
+        "variable": "f"
+    },
+    "implicit": {
+        "function": "f"
+    },
+    "implicit_derivative": {
+        "function": "f"
+    },
+    "implicit_plot": {
+        "function": "f"
+    },
+    "in": {
+        "keyword": "?",
+        "specialallowvariable": true
+    },
+    "in_neighbors": {
+        "function": "?"
+    },
+    "inchar": {
+        "globalyforbiddenvariable": true,
+        "variable": "f"
+    },
+    "increasing": {
+        "property": "?"
+    },
+    "ind": {
+        "constant": "s"
+    },
+    "indexed_tensor": {
+        "function": "f"
+    },
+    "indices": {
+        "function": "f"
+    },
+    "induced_subgraph": {
+        "function": "?"
+    },
+    "inf": {
+        "constant": "s"
+    },
+    "inference_result": {
+        "function": "?"
+    },
+    "inferencep": {
+        "function": "?"
+    },
+    "infeval": {
+        "evflag": "f",
+        "globalyforbiddenvariable": true,
+        "variable": "f"
+    },
+    "infinity": {
+        "constant": "s"
+    },
+    "infix": {
+        "function": "f"
+    },
+    "inflag": {
+        "variable": "?"
+    },
+    "info_display": {
+        "function": "?"
+    },
+    "infolists": {
+        "globalyforbiddenvariable": true,
+        "variable": "f"
+    },
+    "init_atensor": {
+        "function": "f"
+    },
+    "init_ctensor": {
+        "function": "f"
+    },
+    "inm": {
+        "variable": "s"
+    },
+    "inmc1": {
+        "variable": "s"
+    },
+    "inmc2": {
+        "variable": "s"
+    },
+    "innerproduct": {
+        "function": "s"
+    },
+    "inpart": {
+        "function": "?"
+    },
+    "inprod": {
+        "function": "f"
+    },
+    "inrt": {
+        "function": "s"
+    },
+    "int": {
+        "function": "s",
+        "nounfunction": "nounint",
+        "aliasfunctions": [
+            "integrate"
+        ]
+    },
+    "intanalysis": {
+        "variable": "?"
+    },
+    "integer": {
+        "property": "?"
+    },
+    "integer_partitions": {
+        "function": "s"
+    },
+    "integerp": {
+        "function": "?"
+    },
+    "integervalued": {
+        "property": "?"
+    },
+    "integrate": {
+        "aliasfunction": "int",
+        "function": "s",
+        "nounfunction": "nounint"
+    },
+    "integrate_use_rootsof": {
+        "variable": "?"
+    },
+    "integration_constant": {
+        "variable": "?"
+    },
+    "integration_constant_counter": {
+        "variable": "?"
+    },
+    "intersect": {
+        "function": "s"
+    },
+    "intersection": {
+        "function": "s"
+    },
+    "intervalp": {
+        "function": "f"
+    },
+    "intfaclim": {
+        "variable": "?"
+    },
+    "intopois": {
+        "function": "f"
+    },
+    "intosum": {
+        "function": "s"
+    },
+    "inv_mod": {
+        "function": "s"
+    },
+    "invariant1": {
+        "function": "f"
+    },
+    "invariant2": {
+        "function": "f"
+    },
+    "inverse_fft": {
+        "function": "?"
+    },
+    "inverse_jacobi_cd": {
+        "function": "s"
+    },
+    "inverse_jacobi_cn": {
+        "function": "s"
+    },
+    "inverse_jacobi_cs": {
+        "function": "s"
+    },
+    "inverse_jacobi_dc": {
+        "function": "s"
+    },
+    "inverse_jacobi_dn": {
+        "function": "s"
+    },
+    "inverse_jacobi_ds": {
+        "function": "s"
+    },
+    "inverse_jacobi_nc": {
+        "function": "s"
+    },
+    "inverse_jacobi_nd": {
+        "function": "s"
+    },
+    "inverse_jacobi_ns": {
+        "function": "s"
+    },
+    "inverse_jacobi_sc": {
+        "function": "s"
+    },
+    "inverse_jacobi_sd": {
+        "function": "s"
+    },
+    "inverse_jacobi_sn": {
+        "function": "s"
+    },
+    "inverse_real_fft": {
+        "function": "?"
+    },
+    "invert": {
+        "function": "s"
+    },
+    "invert_by_adjoint": {
+        "function": "?"
+    },
+    "invert_by_lu": {
+        "function": "f"
+    },
+    "iota": {
+        "variable": "s"
+    },
+    "ip_grid": {
+        "variable": "f"
+    },
+    "ip_grid_in": {
+        "variable": "f"
+    },
+    "irr": {
+        "function": "?"
+    },
+    "irrational": {
+        "property": "?"
+    },
+    "is": {
+        "function": "?"
+    },
+    "is_biconnected": {
+        "function": "?"
+    },
+    "is_bipartite": {
+        "function": "?"
+    },
+    "is_connected": {
+        "function": "?"
+    },
+    "is_digraph": {
+        "function": "?"
+    },
+    "is_edge_in_graph": {
+        "function": "?"
+    },
+    "is_graph": {
+        "function": "?"
+    },
+    "is_graph_or_digraph": {
+        "function": "?"
+    },
+    "is_isomorphic": {
+        "function": "?"
+    },
+    "is_planar": {
+        "function": "?"
+    },
+    "is_sconnected": {
+        "function": "?"
+    },
+    "is_tree": {
+        "function": "?"
+    },
+    "is_vertex_in_graph": {
+        "function": "?"
+    },
+    "ishow": {
+        "function": "f"
+    },
+    "isolate": {
+        "function": "f"
+    },
+    "isolate_wrt_times": {
+        "evflag": "f",
+        "variable": "f"
+    },
+    "isomorphism": {
+        "function": "?"
+    },
+    "isqrt": {
+        "function": "s"
+    },
+    "isreal_p": {
+        "function": "?"
+    },
+    "items_inference": {
+        "function": "?"
+    },
+    "itr": {
+        "variable": "s"
+    },
+    "jacobi": {
+        "function": "s"
+    },
+    "jacobi_cd": {
+        "function": "s"
+    },
+    "jacobi_cn": {
+        "function": "s"
+    },
+    "jacobi_cs": {
+        "function": "s"
+    },
+    "jacobi_dc": {
+        "function": "s"
+    },
+    "jacobi_dn": {
+        "function": "s"
+    },
+    "jacobi_ds": {
+        "function": "s"
+    },
+    "jacobi_nc": {
+        "function": "s"
+    },
+    "jacobi_nd": {
+        "function": "s"
+    },
+    "jacobi_ns": {
+        "function": "s"
+    },
+    "jacobi_p": {
+        "function": "f"
+    },
+    "jacobi_sc": {
+        "function": "s"
+    },
+    "jacobi_sd": {
+        "function": "s"
+    },
+    "jacobi_sn": {
+        "function": "s"
+    },
+    "jacobian": {
+        "function": "s"
+    },
+    "join": {
+        "function": "s"
+    },
+    "jordan": {
+        "function": "f"
+    },
+    "julia": {
+        "function": "f"
+    },
+    "julia_parameter": {
+        "variable": "?"
+    },
+    "julia_set": {
+        "function": "?"
+    },
+    "julia_sin": {
+        "function": "?"
+    },
+    "kappa": {
+        "variable": "s"
+    },
+    "kdels": {
+        "function": "f"
+    },
+    "kdelta": {
+        "function": "f"
+    },
+    "keepfloat": {
+        "evflag": "?",
+        "variable": "?"
+    },
+    "key": {
+        "variable": "f"
+    },
+    "kill": {
+        "function": "f",
+        "globalyforbiddenfunction": true
+    },
+    "killcontext": {
+        "function": "f",
+        "globalyforbiddenfunction": true
+    },
+    "kinvariant": {
+        "variable": "f"
+    },
+    "km": {
+        "function": "?"
+    },
+    "kostka": {
+        "function": "f"
+    },
+    "kron_delta": {
+        "function": "s"
+    },
+    "kronecker_product": {
+        "function": "s"
+    },
+    "kt": {
+        "variable": "s"
+    },
+    "kummer_m": {
+        "function": "s"
+    },
+    "kummer_u": {
+        "function": "s"
+    },
+    "kurtosis": {
+        "function": "?"
+    },
+    "kurtosis_bernoulli": {
+        "function": "s"
+    },
+    "kurtosis_beta": {
+        "function": "s"
+    },
+    "kurtosis_binomial": {
+        "function": "s"
+    },
+    "kurtosis_chi2": {
+        "function": "s"
+    },
+    "kurtosis_continuous_uniform": {
+        "function": "s"
+    },
+    "kurtosis_discrete_uniform": {
+        "function": "s"
+    },
+    "kurtosis_exp": {
+        "function": "s"
+    },
+    "kurtosis_f": {
+        "function": "s"
+    },
+    "kurtosis_gamma": {
+        "function": "s"
+    },
+    "kurtosis_general_finite_discrete": {
+        "function": "s"
+    },
+    "kurtosis_geometric": {
+        "function": "s"
+    },
+    "kurtosis_gumbel": {
+        "function": "s"
+    },
+    "kurtosis_hypergeometric": {
+        "function": "s"
+    },
+    "kurtosis_laplace": {
+        "function": "s"
+    },
+    "kurtosis_logistic": {
+        "function": "s"
+    },
+    "kurtosis_lognormal": {
+        "function": "s"
+    },
+    "kurtosis_negative_binomial": {
+        "function": "s"
+    },
+    "kurtosis_noncentral_chi2": {
+        "function": "s"
+    },
+    "kurtosis_noncentral_student_t": {
+        "function": "s"
+    },
+    "kurtosis_normal": {
+        "function": "s"
+    },
+    "kurtosis_pareto": {
+        "function": "s"
+    },
+    "kurtosis_poisson": {
+        "function": "s"
+    },
+    "kurtosis_rayleigh": {
+        "function": "s"
+    },
+    "kurtosis_student_t": {
+        "function": "s"
+    },
+    "kurtosis_weibull": {
+        "function": "s"
+    },
+    "label": {
+        "function": "s"
+    },
+    "label_alignment": {
+        "variable": "f"
+    },
+    "label_orientation": {
+        "variable": "f"
+    },
+    "labels": {
+        "function": "f",
+        "globalyforbiddenfunction": true,
+        "variable": "?"
+    },
+    "lagrange": {
+        "function": "s"
+    },
+    "laguerre": {
+        "function": "f"
+    },
+    "lambda": {
+        "function": "s",
+        "variable": "s"
+    },
+    "lambert_w": {
+        "function": "s"
+    },
+    "laplace": {
+        "function": "s"
+    },
+    "laplacian_matrix": {
+        "function": "?"
+    },
+    "lassociative": {
+        "property": "f"
+    },
+    "last": {
+        "function": "s"
+    },
+    "lastn": {
+        "function": "?"
+    },
+    "lbfgs": {
+        "function": "f"
+    },
+    "lbfgs_ncorrections": {
+        "variable": "f"
+    },
+    "lbfgs_nfeval_max": {
+        "variable": "f"
+    },
+    "lc2kdt": {
+        "function": "f"
+    },
+    "lc_l": {
+        "function": "f"
+    },
+    "lc_u": {
+        "function": "f"
+    },
+    "lcharp": {
+        "function": "f"
+    },
+    "lcm": {
+        "function": "s"
+    },
+    "ldefint": {
+        "function": "s"
+    },
+    "ldisp": {
+        "function": "f",
+        "globalyforbiddenfunction": true
+    },
+    "ldisplay": {
+        "function": "f",
+        "globalyforbiddenfunction": true
+    },
+    "leftjust": {
+        "globalyforbiddenvariable": true,
+        "variable": "f"
+    },
+    "legend": {
+        "variable": "s"
+    },
+    "legendre_p": {
+        "function": "f"
+    },
+    "legendre_q": {
+        "function": "f"
+    },
+    "leinstein": {
+        "function": "f"
+    },
+    "length": {
+        "function": "s"
+    },
+    "let": {
+        "function": "f"
+    },
+    "let_rule_packages": {
+        "variable": "f"
+    },
+    "letrat": {
+        "evflag": "f",
+        "variable": "f"
+    },
+    "letrules": {
+        "function": "f"
+    },
+    "letsimp": {
+        "function": "f"
+    },
+    "levi_civita": {
+        "function": "f"
+    },
+    "lfg": {
+        "variable": "f"
+    },
+    "lfreeof": {
+        "function": "?"
+    },
+    "lg": {
+        "function": "s",
+        "variable": "t"
+    },
+    "lgtreillis": {
+        "function": "f"
+    },
+    "lhospitallim": {
+        "variable": "?"
+    },
+    "lhs": {
+        "function": "s"
+    },
+    "li": {
+        "function": "f"
+    },
+    "liediff": {
+        "function": "f"
+    },
+    "limit": {
+        "function": "s",
+        "nounfunction": "nounlimit"
+    },
+    "limsubst": {
+        "variable": "?"
+    },
+    "linalg_rank": {
+        "function": "?"
+    },
+    "line_graph": {
+        "function": "?"
+    },
+    "line_type": {
+        "variable": "f"
+    },
+    "line_width": {
+        "variable": "f"
+    },
+    "linear": {
+        "function": "f",
+        "property": "f"
+    },
+    "linear_program": {
+        "function": "?"
+    },
+    "linear_regression": {
+        "function": "?"
+    },
+    "linear_solver": {
+        "variable": "f"
+    },
+    "linearinterpol": {
+        "function": "s"
+    },
+    "linechar": {
+        "globalyforbiddenvariable": true,
+        "variable": "f"
+    },
+    "linel": {
+        "globalyforbiddenvariable": true,
+        "variable": "f"
+    },
+    "linenum": {
+        "globalyforbiddenvariable": true,
+        "variable": "f"
+    },
+    "linsolve": {
+        "function": "s"
+    },
+    "linsolve_params": {
+        "variable": "s"
+    },
+    "linsolvewarn": {
+        "globalyforbiddenvariable": true,
+        "variable": "f"
+    },
+    "lisp": {
+        "function": "f",
+        "globalyforbiddenfunction": true,
+        "variable": "f",
+        "globalyforbiddenvariable": true
+    },
+    "lispdisp": {
+        "variable": "f"
+    },
+    "list_correlations": {
+        "function": "?"
+    },
+    "list_matrix_entries": {
+        "function": "?"
+    },
+    "list_nc_monomials": {
+        "function": "f"
+    },
+    "listarith": {
+        "evflag": "?",
+        "variable": "?"
+    },
+    "listarray": {
+        "function": "f"
+    },
+    "listconstvars": {
+        "variable": "?"
+    },
+    "listdummyvars": {
+        "variable": "?"
+    },
+    "listify": {
+        "function": "s"
+    },
+    "listoftens": {
+        "function": "f"
+    },
+    "listofvars": {
+        "function": "?"
+    },
+    "listp": {
+        "function": "?"
+    },
+    "lmax": {
+        "function": "s"
+    },
+    "lmin": {
+        "function": "s"
+    },
+    "lmxchar": {
+        "variable": "?"
+    },
+    "ln": {
+        "function": "s"
+    },
+    "load": {
+        "function": "f",
+        "globalyforbiddenfunction": true
+    },
+    "load_pathname": {
+        "globalyforbiddenvariable": true,
+        "variable": "f"
+    },
+    "loadfile": {
+        "function": "f",
+        "globalyforbiddenfunction": true
+    },
+    "loadprint": {
+        "globalyforbiddenvariable": true,
+        "variable": "f"
+    },
+    "local": {
+        "function": "?"
+    },
+    "locate_matrix_entry": {
+        "function": "s"
+    },
+    "log": {
+        "function": "s"
+    },
+    "log10": {
+        "function": "s"
+    },
+    "log_gamma": {
+        "function": "s"
+    },
+    "logabs": {
+        "evflag": "s",
+        "variable": "s"
+    },
+    "logand": {
+        "function": "f"
+    },
+    "logarc": {
+        "evflag": "s",
+        "function": "s",
+        "variable": "s"
+    },
+    "logbase": {
+        "function": "s"
+    },
+    "logbasesimp": {
+        "function": "s",
+        "variable": "s"
+    },
+    "logcb": {
+        "variable": "f"
+    },
+    "logconcoeffp": {
+        "variable": "?"
+    },
+    "logcontract": {
+        "evfun": "s",
+        "function": "s"
+    },
+    "logexpand": {
+        "evflag": "s",
+        "variable": "s"
+    },
+    "lognegint": {
+        "evflag": "s",
+        "variable": "s"
+    },
+    "lognumer": {
+        "variable": "s"
+    },
+    "logor": {
+        "function": "f"
+    },
+    "logsimp": {
+        "variable": "s"
+    },
+    "logx": {
+        "variable": "s"
+    },
+    "logxor": {
+        "function": "f"
+    },
+    "logy": {
+        "variable": "s"
+    },
+    "logz": {
+        "variable": "f"
+    },
+    "lopow": {
+        "function": "s"
+    },
+    "lorentz_gauge": {
+        "function": "f"
+    },
+    "lowercasep": {
+        "function": "s"
+    },
+    "lpart": {
+        "function": "f"
+    },
+    "lratsubst": {
+        "function": "s"
+    },
+    "lreduce": {
+        "function": "s"
+    },
+    "lriem": {
+        "variable": "f"
+    },
+    "lriemann": {
+        "function": "f"
+    },
+    "lsquares_estimates": {
+        "function": "f"
+    },
+    "lsquares_estimates_approximate": {
+        "function": "f"
+    },
+    "lsquares_estimates_exact": {
+        "function": "f"
+    },
+    "lsquares_mse": {
+        "function": "f"
+    },
+    "lsquares_residual_mse": {
+        "function": "f"
+    },
+    "lsquares_residuals": {
+        "function": "f"
+    },
+    "lsum": {
+        "function": "s"
+    },
+    "ltreillis": {
+        "function": "f"
+    },
+    "lu_backsub": {
+        "function": "s"
+    },
+    "lu_factor": {
+        "function": "s"
+    },
+    "lucas": {
+        "function": "?"
+    },
+    "m1pbranch": {
+        "evflag": "f",
+        "variable": "f"
+    },
+    "macroexpand": {
+        "function": "f",
+        "globalyforbiddenfunction": true
+    },
+    "macroexpand1": {
+        "function": "f",
+        "globalyforbiddenfunction": true
+    },
+    "macroexpansion": {
+        "globalyforbiddenvariable": true,
+        "variable": "f"
+    },
+    "macros": {
+        "globalyforbiddenvariable": true,
+        "variable": "f"
+    },
+    "magenta": {
+        "variable": "s"
+    },
+    "mainvar": {
+        "property": "f"
+    },
+    "makeOrders": {
+        "function": "?"
+    },
+    "make_array": {
+        "function": "f"
+    },
+    "make_graph": {
+        "function": "?"
+    },
+    "make_level_picture": {
+        "function": "f"
+    },
+    "make_poly_continent": {
+        "function": "f"
+    },
+    "make_poly_country": {
+        "function": "f"
+    },
+    "make_polygon": {
+        "function": "f"
+    },
+    "make_random_state": {
+        "function": "f"
+    },
+    "make_rgb_picture": {
+        "function": "f"
+    },
+    "make_string_input_stream": {
+        "function": "?"
+    },
+    "make_string_output_stream": {
+        "function": "?"
+    },
+    "make_transform": {
+        "function": "s"
+    },
+    "makebox": {
+        "function": "f"
+    },
+    "makefact": {
+        "function": "s"
+    },
+    "makegamma": {
+        "function": "s"
+    },
+    "makelist": {
+        "argumentmapstovariable": [
+            1
+        ],
+        "function": "s"
+    },
+    "makeset": {
+        "function": "s"
+    },
+    "mandelbrot": {
+        "function": "f"
+    },
+    "mandelbrot_set": {
+        "function": "?"
+    },
+    "manual_demo": {
+        "globalyforbiddenvariable": true,
+        "variable": "f"
+    },
+    "map": {
+        "function": "s",
+        "mapfunction": true
+    },
+    "mapatom": {
+        "function": "s"
+    },
+    "maperror": {
+        "variable": "f"
+    },
+    "maplist": {
+        "function": "s",
+        "mapfunction": true
+    },
+    "mapprint": {
+        "variable": "?"
+    },
+    "mat_cond": {
+        "function": "s"
+    },
+    "mat_fullunblocker": {
+        "function": "s"
+    },
+    "mat_function": {
+        "function": "f"
+    },
+    "mat_norm": {
+        "function": "s"
+    },
+    "mat_trace": {
+        "function": "s"
+    },
+    "mat_unblocker": {
+        "function": "s"
+    },
+    "matchdeclare": {
+        "function": "?"
+    },
+    "matchfix": {
+        "function": "?"
+    },
+    "mathml_display": {
+        "function": "?"
+    },
+    "matrix": {
+        "function": "s"
+    },
+    "matrix_element_add": {
+        "variable": "s"
+    },
+    "matrix_element_mult": {
+        "variable": "s"
+    },
+    "matrix_element_transpose": {
+        "variable": "s"
+    },
+    "matrix_size": {
+        "function": "s"
+    },
+    "matrixexp": {
+        "function": "?"
+    },
+    "matrixmap": {
+        "function": "s",
+        "mapfunction": true
+    },
+    "matrixp": {
+        "function": "s"
+    },
+    "mattrace": {
+        "function": "s"
+    },
+    "max": {
+        "function": "s"
+    },
+    "max_clique": {
+        "function": "?"
+    },
+    "max_degree": {
+        "function": "?"
+    },
+    "max_flow": {
+        "function": "?"
+    },
+    "max_independent_set": {
+        "function": "?"
+    },
+    "max_matching": {
+        "function": "?"
+    },
+    "maxapplydepth": {
+        "variable": "f"
+    },
+    "maxapplyheight": {
+        "variable": "f"
+    },
+    "maxima_tempdir": {
+        "globalyforbiddenvariable": true,
+        "variable": "f"
+    },
+    "maxima_userdir": {
+        "globalyforbiddenvariable": true,
+        "variable": "f"
+    },
+    "maximize_lp": {
+        "function": "?"
+    },
+    "maxnegex": {
+        "variable": "f"
+    },
+    "maxposex": {
+        "variable": "f"
+    },
+    "maxpsifracdenom": {
+        "variable": "f"
+    },
+    "maxpsifracnum": {
+        "variable": "f"
+    },
+    "maxpsinegint": {
+        "variable": "f"
+    },
+    "maxpsiposint": {
+        "variable": "f"
+    },
+    "maxtayorder": {
+        "variable": "f"
+    },
+    "maybe": {
+        "function": "f"
+    },
+    "md5sum": {
+        "function": "?"
+    },
+    "mean": {
+        "function": "?"
+    },
+    "mean_bernoulli": {
+        "function": "s"
+    },
+    "mean_beta": {
+        "function": "s"
+    },
+    "mean_binomial": {
+        "function": "s"
+    },
+    "mean_chi2": {
+        "function": "s"
+    },
+    "mean_continuous_uniform": {
+        "function": "s"
+    },
+    "mean_deviation": {
+        "function": "?"
+    },
+    "mean_discrete_uniform": {
+        "function": "s"
+    },
+    "mean_exp": {
+        "function": "s"
+    },
+    "mean_f": {
+        "function": "s"
+    },
+    "mean_gamma": {
+        "function": "s"
+    },
+    "mean_general_finite_discrete": {
+        "function": "s"
+    },
+    "mean_geometric": {
+        "function": "s"
+    },
+    "mean_gumbel": {
+        "function": "s"
+    },
+    "mean_hypergeometric": {
+        "function": "s"
+    },
+    "mean_laplace": {
+        "function": "s"
+    },
+    "mean_logistic": {
+        "function": "s"
+    },
+    "mean_lognormal": {
+        "function": "s"
+    },
+    "mean_negative_binomial": {
+        "function": "s"
+    },
+    "mean_noncentral_chi2": {
+        "function": "s"
+    },
+    "mean_noncentral_student_t": {
+        "function": "s"
+    },
+    "mean_normal": {
+        "function": "s"
+    },
+    "mean_pareto": {
+        "function": "s"
+    },
+    "mean_poisson": {
+        "function": "s"
+    },
+    "mean_rayleigh": {
+        "function": "s"
+    },
+    "mean_student_t": {
+        "function": "s"
+    },
+    "mean_weibull": {
+        "function": "s"
+    },
+    "median": {
+        "function": "?"
+    },
+    "median_deviation": {
+        "function": "?"
+    },
+    "member": {
+        "function": "s"
+    },
+    "mesh": {
+        "function": "f"
+    },
+    "mesh_lines_color": {
+        "variable": "f"
+    },
+    "method": {
+        "variable": "?"
+    },
+    "metricexpandall": {
+        "function": "f"
+    },
+    "mgf1_sha1": {
+        "function": "?"
+    },
+    "min": {
+        "function": "s"
+    },
+    "min_degree": {
+        "function": "?"
+    },
+    "min_edge_cut": {
+        "function": "?"
+    },
+    "min_vertex_cover": {
+        "function": "?"
+    },
+    "min_vertex_cut": {
+        "function": "?"
+    },
+    "minf": {
+        "constant": "s"
+    },
+    "minfactorial": {
+        "function": "s"
+    },
+    "minimalPoly": {
+        "function": "f"
+    },
+    "minimize_lp": {
+        "function": "?"
+    },
+    "minimum_spanning_tree": {
+        "function": "?"
+    },
+    "minor": {
+        "function": "f"
+    },
+    "minpack_lsquares": {
+        "function": "?"
+    },
+    "minpack_solve": {
+        "function": "?"
+    },
+    "mkdir": {
+        "function": "?"
+    },
+    "mnewton": {
+        "function": "f"
+    },
+    "mod": {
+        "function": "s"
+    },
+    "mod_big_prime": {
+        "variable": "f"
+    },
+    "mod_test": {
+        "variable": "f"
+    },
+    "mod_threshold": {
+        "variable": "f"
+    },
+    "mode_check_errorp": {
+        "variable": "f"
+    },
+    "mode_check_warnp": {
+        "variable": "f"
+    },
+    "mode_checkp": {
+        "variable": "f"
+    },
+    "mode_declare": {
+        "function": "f"
+    },
+    "mode_identity": {
+        "function": "f"
+    },
+    "modular_linear_solver": {
+        "variable": "f"
+    },
+    "modulus": {
+        "variable": "?"
+    },
+    "moebius": {
+        "function": "s"
+    },
+    "mon2schur": {
+        "function": "t"
+    },
+    "mono": {
+        "function": "f"
+    },
+    "monomial_dimensions": {
+        "function": "f"
+    },
+    "mu": {
+        "variable": "s"
+    },
+    "multi_display_for_texinfo": {
+        "function": "?"
+    },
+    "multi_elem": {
+        "function": "f"
+    },
+    "multi_orbit": {
+        "function": "f"
+    },
+    "multi_pui": {
+        "function": "f"
+    },
+    "multibernstein_poly": {
+        "function": "?"
+    },
+    "multinomial": {
+        "function": "f"
+    },
+    "multinomial_coeff": {
+        "function": "s"
+    },
+    "multiplicative": {
+        "property": "?"
+    },
+    "multiplicities": {
+        "variable": "?"
+    },
+    "multiplot_mode": {
+        "function": "f",
+        "globalyforbiddenfunction": true
+    },
+    "multiselqn": {
+        "function": "t",
+        "random": true
+    },
+    "multiselqnalpha": {
+        "function": "t",
+        "random": true
+    },
+    "multiselqndisplay": {
+        "function": "t",
+        "random": true
+    },
+    "multsym": {
+        "function": "f"
+    },
+    "multthru": {
+        "function": "s"
+    },
+    "mycielski_graph": {
+        "function": "?"
+    },
+    "myoptions": {
+        "globalyforbiddenvariable": true,
+        "variable": "f"
+    },
+    "nary": {
+        "function": "?",
+        "property": "?"
+    },
+    "natural_unit": {
+        "function": "f"
+    },
+    "nc_degree": {
+        "function": "f"
+    },
+    "ncexpt": {
+        "function": "s"
+    },
+    "ncharpoly": {
+        "function": "s"
+    },
+    "negative_picture": {
+        "function": "f"
+    },
+    "negdistrib": {
+        "variable": "?"
+    },
+    "negsumdispflag": {
+        "variable": "?"
+    },
+    "neighbors": {
+        "function": "?"
+    },
+    "net": {
+        "variable": "s"
+    },
+    "new": {
+        "function": "?"
+    },
+    "new_graph": {
+        "function": "?"
+    },
+    "new_variable": {
+        "function": "?"
+    },
+    "newcontext": {
+        "function": "f"
+    },
+    "newdet": {
+        "function": "s"
+    },
+    "newline": {
+        "function": "f",
+        "globalyforbiddenfunction": true,
+        "variable": "?"
+    },
+    "newton": {
+        "function": "f"
+    },
+    "newtonepsilon": {
+        "variable": "f"
+    },
+    "newtonmaxiter": {
+        "variable": "f"
+    },
+    "next": {
+        "keyword": "?"
+    },
+    "next_prime": {
+        "function": "?"
+    },
+    "nextlayerfactor": {
+        "variable": "f"
+    },
+    "nicedummies": {
+        "function": "?"
+    },
+    "niceindices": {
+        "function": "f"
+    },
+    "niceindicespref": {
+        "variable": "f"
+    },
+    "ninth": {
+        "function": "s"
+    },
+    "nm": {
+        "variable": "s"
+    },
+    "nmc": {
+        "variable": "s"
+    },
+    "noeval": {
+        "evflag": "s",
+        "variable": "s"
+    },
+    "nofix": {
+        "function": "?"
+    },
+    "nolabels": {
+        "globalyforbiddenvariable": true,
+        "variable": "f"
+    },
+    "nonarray": {
+        "property": "?"
+    },
+    "noncentral_moment": {
+        "function": "?"
+    },
+    "none": {
+        "constant": "s"
+    },
+    "nonegative_lp": {
+        "variable": "?"
+    },
+    "noninteger": {
+        "property": "?"
+    },
+    "nonmetricity": {
+        "function": "f"
+    },
+    "nonnegative_lp": {
+        "variable": "?"
+    },
+    "nonnegintegerp": {
+        "function": "s"
+    },
+    "nonscalar": {
+        "property": "?"
+    },
+    "nonscalarp": {
+        "function": "?"
+    },
+    "nonzeroandfreeof": {
+        "function": "f"
+    },
+    "not": {
+        "operator": "?"
+    },
+    "not ": {
+        "operator": "s"
+    },
+    "notequal": {
+        "function": "s"
+    },
+    "noun": {
+        "property": "?"
+    },
+    "nounand": {
+        "nounoperatorfor": "and",
+        "operator": "s",
+        "spacesurroundedop": true
+    },
+    "noundiff": {
+        "function": "s",
+        "nounfunctionfor": "diff"
+    },
+    "noundisp": {
+        "variable": "f"
+    },
+    "nounify": {
+        "function": "?"
+    },
+    "nounint": {
+        "function": "s",
+        "nounfunctionfor": "int"
+    },
+    "nounlimit": {
+        "function": "s",
+        "nounfunctionfor": "limit"
+    },
+    "nounor": {
+        "nounoperatorfor": "or",
+        "operator": "s",
+        "spacesurroundedop": true
+    },
+    "np": {
+        "variable": "s"
+    },
+    "npi": {
+        "variable": "s"
+    },
+    "nptetrad": {
+        "function": "f"
+    },
+    "npv": {
+        "function": "?"
+    },
+    "nroots": {
+        "function": "s"
+    },
+    "nterms": {
+        "function": "s"
+    },
+    "ntermst": {
+        "function": "f"
+    },
+    "nthroot": {
+        "function": "s"
+    },
+    "nticks": {
+        "variable": "s"
+    },
+    "ntics": {
+        "variable": "s"
+    },
+    "nu": {
+        "variable": "s"
+    },
+    "null": {
+        "variable": "s"
+    },
+    "nullity": {
+        "function": "s"
+    },
+    "nullspace": {
+        "function": "s"
+    },
+    "num": {
+        "function": "s"
+    },
+    "num_distinct_partitions": {
+        "function": "s"
+    },
+    "num_partitions": {
+        "function": "s"
+    },
+    "number_to_octets": {
+        "function": "?"
+    },
+    "numbered_boundaries": {
+        "function": "f"
+    },
+    "numberp": {
+        "function": "s"
+    },
+    "numer": {
+        "variable": "s"
+    },
+    "numer_pbranch": {
+        "evflag": "?",
+        "variable": "?"
+    },
+    "numerval": {
+        "function": "s"
+    },
+    "numfactor": {
+        "function": "s"
+    },
+    "nusum": {
+        "function": "s"
+    },
+    "nzeta": {
+        "function": "s"
+    },
+    "nzetai": {
+        "function": "s"
+    },
+    "nzetar": {
+        "function": "s"
+    },
+    "obase": {
+        "variable": "?"
+    },
+    "octets_to_number": {
+        "function": "?"
+    },
+    "octets_to_oid": {
+        "function": "?"
+    },
+    "octets_to_string": {
+        "function": "?"
+    },
+    "odd": {
+        "property": "?"
+    },
+    "odd_girth": {
+        "function": "?"
+    },
+    "oddfun": {
+        "property": "?"
+    },
+    "oddp": {
+        "function": "s"
+    },
+    "ode2": {
+        "function": "t"
+    },
+    "ode_check": {
+        "function": "f"
+    },
+    "odelin": {
+        "function": "f"
+    },
+    "oid_to_octets": {
+        "function": "?"
+    },
+    "omega": {
+        "variable": "s"
+    },
+    "omicron": {
+        "variable": "s"
+    },
+    "op": {
+        "function": "s"
+    },
+    "op_usedp": {
+        "function": "t"
+    },
+    "opena": {
+        "function": "f",
+        "globalyforbiddenfunction": true
+    },
+    "opena_binary": {
+        "function": "f",
+        "globalyforbiddenfunction": true
+    },
+    "openr": {
+        "function": "f",
+        "globalyforbiddenfunction": true
+    },
+    "openr_binary": {
+        "function": "f",
+        "globalyforbiddenfunction": true
+    },
+    "openw": {
+        "function": "f",
+        "globalyforbiddenfunction": true
+    },
+    "openw_binary": {
+        "function": "f",
+        "globalyforbiddenfunction": true
+    },
+    "operatorp": {
+        "function": "s"
+    },
+    "opproperties": {
+        "variable": "?"
+    },
+    "opsubst": {
+        "function": "?",
+        "variable": "?"
+    },
+    "optimize": {
+        "function": "f"
+    },
+    "optimprefix": {
+        "variable": "f"
+    },
+    "optionset": {
+        "variable": "f"
+    },
+    "or": {
+        "logicnoun": "nounor",
+        "nounoperator": "nounor",
+        "operator": "s",
+        "spacesurroundedop": true
+    },
+    "orbit": {
+        "function": "f"
+    },
+    "orbits": {
+        "function": "f"
+    },
+    "ordergreat": {
+        "function": "s"
+    },
+    "ordergreatp": {
+        "function": "s"
+    },
+    "orderless": {
+        "function": "s"
+    },
+    "orderlessp": {
+        "function": "s"
+    },
+    "orthogonal_complement": {
+        "function": "s"
+    },
+    "orthopoly_recur": {
+        "function": "f"
+    },
+    "orthopoly_returns_intervals": {
+        "variable": "f"
+    },
+    "orthopoly_weight": {
+        "function": "f"
+    },
+    "out_neighbors": {
+        "function": "?"
+    },
+    "outative": {
+        "property": "?"
+    },
+    "outchar": {
+        "globalyforbiddenvariable": true,
+        "variable": "f"
+    },
+    "outermap": {
+        "function": "s",
+        "mapfunction": true
+    },
+    "outofpois": {
+        "function": "f"
+    },
+    "packagefile": {
+        "globalyforbiddenvariable": true,
+        "variable": "f"
+    },
+    "pade": {
+        "function": "s"
+    },
+    "palette": {
+        "variable": "f"
+    },
+    "parGosper": {
+        "function": "f"
+    },
+    "parabolic_cylinder_d": {
+        "function": "s"
+    },
+    "parametric": {
+        "function": "s"
+    },
+    "parametric_surface": {
+        "function": "f"
+    },
+    "parg": {
+        "function": "?"
+    },
+    "parse_string": {
+        "function": "f",
+        "globalyforbiddenfunction": true
+    },
+    "parse_timedate": {
+        "function": "?"
+    },
+    "part": {
+        "function": "s"
+    },
+    "part2cont": {
+        "function": "s"
+    },
+    "partfrac": {
+        "function": "s"
+    },
+    "partial": {
+        "function": "f"
+    },
+    "partialdiff": {
+        "function": "f"
+    },
+    "partition": {
+        "function": "s"
+    },
+    "partition_set": {
+        "function": "s"
+    },
+    "partpol": {
+        "function": "f"
+    },
+    "partswitch": {
+        "variable": "?"
+    },
+    "path_digraph": {
+        "function": "?"
+    },
+    "path_graph": {
+        "function": "?"
+    },
+    "pathname_directory": {
+        "function": "f",
+        "globalyforbiddenfunction": true
+    },
+    "pathname_name": {
+        "function": "f",
+        "globalyforbiddenfunction": true
+    },
+    "pathname_type": {
+        "function": "f",
+        "globalyforbiddenfunction": true
+    },
+    "pdf_bernoulli": {
+        "function": "s"
+    },
+    "pdf_beta": {
+        "function": "s"
+    },
+    "pdf_binomial": {
+        "function": "s"
+    },
+    "pdf_cauchy": {
+        "function": "s"
+    },
+    "pdf_chi2": {
+        "function": "s"
+    },
+    "pdf_continuous_uniform": {
+        "function": "s"
+    },
+    "pdf_discrete_uniform": {
+        "function": "s"
+    },
+    "pdf_exp": {
+        "function": "s"
+    },
+    "pdf_f": {
+        "function": "s"
+    },
+    "pdf_gamma": {
+        "function": "s"
+    },
+    "pdf_general_finite_discrete": {
+        "function": "s"
+    },
+    "pdf_geometric": {
+        "function": "s"
+    },
+    "pdf_gumbel": {
+        "function": "s"
+    },
+    "pdf_hypergeometric": {
+        "function": "s"
+    },
+    "pdf_laplace": {
+        "function": "s"
+    },
+    "pdf_logistic": {
+        "function": "s"
+    },
+    "pdf_lognormal": {
+        "function": "s"
+    },
+    "pdf_negative_binomial": {
+        "function": "s"
+    },
+    "pdf_noncentral_chi2": {
+        "function": "s"
+    },
+    "pdf_noncentral_student_t": {
+        "function": "s"
+    },
+    "pdf_normal": {
+        "function": "s"
+    },
+    "pdf_pareto": {
+        "function": "s"
+    },
+    "pdf_poisson": {
+        "function": "s"
+    },
+    "pdf_rank_sum": {
+        "function": "?"
+    },
+    "pdf_rayleigh": {
+        "function": "s"
+    },
+    "pdf_signed_rank": {
+        "function": "?"
+    },
+    "pdf_student_t": {
+        "function": "s"
+    },
+    "pdf_weibull": {
+        "function": "s"
+    },
+    "pearson_skewness": {
+        "function": "?"
+    },
+    "perm_cycles": {
+        "function": "?"
+    },
+    "perm_decomp": {
+        "function": "?"
+    },
+    "perm_inverse": {
+        "function": "?"
+    },
+    "perm_length": {
+        "function": "?"
+    },
+    "perm_lex_next": {
+        "function": "?"
+    },
+    "perm_lex_rank": {
+        "function": "?"
+    },
+    "perm_lex_unrank": {
+        "function": "?"
+    },
+    "perm_next": {
+        "function": "?"
+    },
+    "perm_parity": {
+        "function": "?"
+    },
+    "perm_rank": {
+        "function": "?"
+    },
+    "perm_undecomp": {
+        "function": "?"
+    },
+    "perm_unrank": {
+        "function": "?"
+    },
+    "permanent": {
+        "function": "s"
+    },
+    "permp": {
+        "function": "?"
+    },
+    "perms": {
+        "function": "?"
+    },
+    "perms_lex": {
+        "function": "?"
+    },
+    "permult": {
+        "function": "?"
+    },
+    "permut": {
+        "function": "f"
+    },
+    "permutation": {
+        "function": "?"
+    },
+    "permutations": {
+        "function": "s"
+    },
+    "permute": {
+        "function": "?"
+    },
+    "petersen_graph": {
+        "function": "?"
+    },
+    "petrov": {
+        "function": "f"
+    },
+    "pfeformat": {
+        "variable": "?"
+    },
+    "phi": {
+        "variable": "s"
+    },
+    "pi": {
+        "constant": "s",
+        "aliasvariable": "%pi"
+    },
+    "pickapart": {
+        "function": "f",
+        "globalyforbiddenfunction": true
+    },
+    "picture_equalp": {
+        "function": "f"
+    },
+    "picturep": {
+        "function": "f"
+    },
+    "piece": {
+        "globalyforbiddenvariable": true,
+        "variable": "f"
+    },
+    "piechart": {
+        "function": "f"
+    },
+    "piechart_description": {
+        "function": "?"
+    },
+    "pivot_count_sx": {
+        "variable": "?"
+    },
+    "pivot_max_sx": {
+        "variable": "?"
+    },
+    "planar_embedding": {
+        "function": "?"
+    },
+    "playback": {
+        "function": "f",
+        "globalyforbiddenfunction": true
+    },
+    "plog": {
+        "function": "s"
+    },
+    "plot": {
+        "function": "s"
+    },
+    "plot2d": {
+        "function": "f"
+    },
+    "plot3d": {
+        "function": "f"
+    },
+    "plot_format": {
+        "variable": "f"
+    },
+    "plot_options": {
+        "variable": "f"
+    },
+    "plot_realpart": {
+        "variable": "f"
+    },
+    "plot_term": {
+        "variable": "f",
+        "globalyforbiddenvariable": true
+    },
+    "plot_terminal": {
+        "variable": "f",
+        "globalyforbiddenvariable": true
+    },
+    "plotdf": {
+        "function": "f",
+        "globalyforbiddenfunction": true
+    },
+    "ploteq": {
+        "function": "f"
+    },
+    "plsquares": {
+        "function": "f"
+    },
+    "pochhammer": {
+        "function": "f"
+    },
+    "pochhammer_max_index": {
+        "variable": "f"
+    },
+    "point_size": {
+        "variable": "s"
+    },
+    "point_type": {
+        "variable": "s"
+    },
+    "points": {
+        "function": "s"
+    },
+    "points_joined": {
+        "variable": "f"
+    },
+    "poisdiff": {
+        "function": "s"
+    },
+    "poisexpt": {
+        "function": "s"
+    },
+    "poisint": {
+        "function": "s"
+    },
+    "poislim": {
+        "variable": "s"
+    },
+    "poismap": {
+        "function": "s"
+    },
+    "poisplus": {
+        "function": "s"
+    },
+    "poissimp": {
+        "function": "s"
+    },
+    "poisson": {
+        "variable": "s"
+    },
+    "poissubst": {
+        "function": "s"
+    },
+    "poistimes": {
+        "function": "s"
+    },
+    "poistrim": {
+        "function": "s"
+    },
+    "polar": {
+        "function": "f"
+    },
+    "polar_to_xy": {
+        "function": "f"
+    },
+    "polarform": {
+        "evfun": "s",
+        "function": "s"
+    },
+    "polartorect": {
+        "function": "s"
+    },
+    "poly_add": {
+        "function": "?"
+    },
+    "poly_buchberger": {
+        "function": "?"
+    },
+    "poly_buchberger_criterion": {
+        "function": "?"
+    },
+    "poly_coefficient_ring": {
+        "variable": "?"
+    },
+    "poly_colon_ideal": {
+        "function": "?"
+    },
+    "poly_content": {
+        "function": "?"
+    },
+    "poly_depends_p": {
+        "function": "?"
+    },
+    "poly_elimination_ideal": {
+        "function": "?"
+    },
+    "poly_elimination_order": {
+        "variable": "?"
+    },
+    "poly_exact_divide": {
+        "function": "?"
+    },
+    "poly_expand": {
+        "function": "?"
+    },
+    "poly_expt": {
+        "function": "?"
+    },
+    "poly_gcd": {
+        "function": "?"
+    },
+    "poly_grobner": {
+        "function": "?"
+    },
+    "poly_grobner_algorithm": {
+        "variable": "?"
+    },
+    "poly_grobner_debug": {
+        "variable": "?"
+    },
+    "poly_grobner_equal": {
+        "function": "?"
+    },
+    "poly_grobner_member": {
+        "function": "?"
+    },
+    "poly_grobner_subsetp": {
+        "function": "?"
+    },
+    "poly_ideal_intersection": {
+        "function": "?"
+    },
+    "poly_ideal_polysaturation": {
+        "function": "?"
+    },
+    "poly_ideal_polysaturation1": {
+        "function": "?"
+    },
+    "poly_ideal_saturation": {
+        "function": "?"
+    },
+    "poly_ideal_saturation1": {
+        "function": "?"
+    },
+    "poly_lcm": {
+        "function": "?"
+    },
+    "poly_minimization": {
+        "function": "?"
+    },
+    "poly_monomial_order": {
+        "variable": "?"
+    },
+    "poly_multiply": {
+        "function": "?"
+    },
+    "poly_normal_form": {
+        "function": "?"
+    },
+    "poly_normalize": {
+        "function": "?"
+    },
+    "poly_normalize_list": {
+        "function": "?"
+    },
+    "poly_polysaturation_extension": {
+        "function": "?"
+    },
+    "poly_primary_elimination_order": {
+        "variable": "?"
+    },
+    "poly_primitive_part": {
+        "function": "?"
+    },
+    "poly_pseudo_divide": {
+        "function": "?"
+    },
+    "poly_reduced_grobner": {
+        "function": "?"
+    },
+    "poly_reduction": {
+        "function": "?"
+    },
+    "poly_return_term_list": {
+        "variable": "?"
+    },
+    "poly_s_polynomial": {
+        "function": "?"
+    },
+    "poly_saturation_extension": {
+        "function": "?"
+    },
+    "poly_secondary_elimination_order": {
+        "variable": "?"
+    },
+    "poly_subtract": {
+        "function": "?"
+    },
+    "poly_top_reduction_only": {
+        "variable": "?"
+    },
+    "polydecomp": {
+        "function": "?"
+    },
+    "polyfactor": {
+        "variable": "?"
+    },
+    "polygon": {
+        "function": "f"
+    },
+    "polymod": {
+        "function": "s"
+    },
+    "polynome2ele": {
+        "function": "s"
+    },
+    "polynomialp": {
+        "function": "s"
+    },
+    "polytocompanion": {
+        "function": "s"
+    },
+    "pop": {
+        "function": "?"
+    },
+    "posfun": {
+        "property": "s"
+    },
+    "postfix": {
+        "function": "?"
+    },
+    "potential": {
+        "function": "s"
+    },
+    "power_mod": {
+        "function": "s"
+    },
+    "powerdisp": {
+        "variable": "s"
+    },
+    "powers": {
+        "function": "s"
+    },
+    "powerseries": {
+        "function": "s"
+    },
+    "powerset": {
+        "function": "s"
+    },
+    "prederror": {
+        "variable": "f"
+    },
+    "prefix": {
+        "function": "?"
+    },
+    "prev_prime": {
+        "function": "?"
+    },
+    "primep": {
+        "function": "s"
+    },
+    "primep_number_of_tests": {
+        "variable": "f"
+    },
+    "primes": {
+        "function": "?"
+    },
+    "principal_components": {
+        "function": "?"
+    },
+    "print": {
+        "function": "f",
+        "globalyforbiddenfunction": true
+    },
+    "print_graph": {
+        "function": "f",
+        "globalyforbiddenfunction": true
+    },
+    "printf": {
+        "function": "f",
+        "globalyforbiddenfunction": true
+    },
+    "printfile": {
+        "function": "f",
+        "globalyforbiddenfunction": true
+    },
+    "printpois": {
+        "function": "s"
+    },
+    "printprops": {
+        "function": "f"
+    },
+    "prodrac": {
+        "function": "f"
+    },
+    "product": {
+        "function": "s"
+    },
+    "product_use_gamma": {
+        "variable": "f"
+    },
+    "programmode": {
+        "evflag": "f",
+        "variable": "f"
+    },
+    "promote_float_to_bigfloat": {
+        "variable": "?"
+    },
+    "prompt": {
+        "globalyforbiddenvariable": true,
+        "variable": "f"
+    },
+    "properties": {
+        "function": "?"
+    },
+    "proportional_axes": {
+        "variable": "f"
+    },
+    "props": {
+        "variable": "f"
+    },
+    "propvars": {
+        "function": "f"
+    },
+    "ps_file": {
+        "globalyforbiddenvariable": true,
+        "variable": "f"
+    },
+    "psexpand": {
+        "variable": "f"
+    },
+    "psfile": {
+        "globalyforbiddenvariable": true,
+        "variable": "f"
+    },
+    "psi": {
+        "function": "s",
+        "variable": "s"
+    },
+    "psubst": {
+        "function": "?"
+    },
+    "ptriangularize": {
+        "function": "?"
+    },
+    "pui": {
+        "function": "t"
+    },
+    "pui2comp": {
+        "function": "t"
+    },
+    "pui2ele": {
+        "function": "t"
+    },
+    "pui2polynome": {
+        "function": "t"
+    },
+    "pui_direct": {
+        "function": "t"
+    },
+    "puireduc": {
+        "function": "t"
+    },
+    "push": {
+        "function": "t",
+        "writesto": [
+            1
+        ]
+    },
+    "put": {
+        "function": "?"
+    },
+    "pv": {
+        "function": "?"
+    },
+    "qput": {
+        "function": "?"
+    },
+    "qrange": {
+        "function": "?"
+    },
+    "qty": {
+        "function": "f"
+    },
+    "quad_control": {
+        "function": "?"
+    },
+    "quad_qag": {
+        "function": "s"
+    },
+    "quad_qagi": {
+        "function": "s"
+    },
+    "quad_qagp": {
+        "function": "?"
+    },
+    "quad_qags": {
+        "function": "s"
+    },
+    "quad_qawc": {
+        "function": "s"
+    },
+    "quad_qawf": {
+        "function": "s"
+    },
+    "quad_qawo": {
+        "function": "s"
+    },
+    "quad_qaws": {
+        "function": "s"
+    },
+    "quantile": {
+        "function": "?"
+    },
+    "quantile_bernoulli": {
+        "function": "s"
+    },
+    "quantile_beta": {
+        "function": "s"
+    },
+    "quantile_binomial": {
+        "function": "s"
+    },
+    "quantile_cauchy": {
+        "function": "s"
+    },
+    "quantile_chi2": {
+        "function": "s"
+    },
+    "quantile_continuous_uniform": {
+        "function": "s"
+    },
+    "quantile_discrete_uniform": {
+        "function": "s"
+    },
+    "quantile_exp": {
+        "function": "s"
+    },
+    "quantile_f": {
+        "function": "s"
+    },
+    "quantile_gamma": {
+        "function": "s"
+    },
+    "quantile_general_finite_discrete": {
+        "function": "s"
+    },
+    "quantile_geometric": {
+        "function": "s"
+    },
+    "quantile_gumbel": {
+        "function": "s"
+    },
+    "quantile_hypergeometric": {
+        "function": "s"
+    },
+    "quantile_laplace": {
+        "function": "s"
+    },
+    "quantile_logistic": {
+        "function": "s"
+    },
+    "quantile_lognormal": {
+        "function": "s"
+    },
+    "quantile_negative_binomial": {
+        "function": "s"
+    },
+    "quantile_noncentral_chi2": {
+        "function": "s"
+    },
+    "quantile_noncentral_student_t": {
+        "function": "s"
+    },
+    "quantile_normal": {
+        "function": "s"
+    },
+    "quantile_pareto": {
+        "function": "s"
+    },
+    "quantile_poisson": {
+        "function": "s"
+    },
+    "quantile_rayleigh": {
+        "function": "s"
+    },
+    "quantile_student_t": {
+        "function": "s"
+    },
+    "quantile_weibull": {
+        "function": "s"
+    },
+    "quartile_skewness": {
+        "function": "?"
+    },
+    "quit": {
+        "function": "f",
+        "globalyforbiddenfunction": true
+    },
+    "qunit": {
+        "function": "s"
+    },
+    "quotient": {
+        "function": "s"
+    },
+    "racah_v": {
+        "function": "?"
+    },
+    "racah_w": {
+        "function": "?"
+    },
+    "radcan": {
+        "evfun": "s",
+        "function": "s"
+    },
+    "radexpand": {
+        "evflag": "s",
+        "variable": "s"
+    },
+    "radius": {
+        "function": "?"
+    },
+    "radsubstflag": {
+        "variable": "s"
+    },
+    "rand": {
+        "function": "s",
+        "random": true
+    },
+    "rand_range": {
+        "function": "t",
+        "random": true
+    },
+    "rand_selection": {
+        "function": "t",
+        "random": true
+    },
+    "rand_with_phobib": {
+        "function": "t",
+        "random": true
+    },
+    "rand_with_step": {
+        "function": "t",
+        "random": true
+    },
+    "random": {
+        "function": "f",
+        "random": true
+    },
+    "random_bernoulli": {
+        "function": "s",
+        "random": true
+    },
+    "random_beta": {
+        "function": "s",
+        "random": true
+    },
+    "random_binomial": {
+        "function": "s",
+        "random": true
+    },
+    "random_bipartite_graph": {
+        "function": "?",
+        "random": true
+    },
+    "random_cauchy": {
+        "function": "s",
+        "random": true
+    },
+    "random_chi2": {
+        "function": "s",
+        "random": true
+    },
+    "random_continuous_uniform": {
+        "function": "s",
+        "random": true
+    },
+    "random_digraph": {
+        "function": "?",
+        "random": true
+    },
+    "random_discrete_uniform": {
+        "function": "s",
+        "random": true
+    },
+    "random_exp": {
+        "function": "s",
+        "random": true
+    },
+    "random_f": {
+        "function": "s",
+        "random": true
+    },
+    "random_gamma": {
+        "function": "s",
+        "random": true
+    },
+    "random_general_finite_discrete": {
+        "function": "s",
+        "random": true
+    },
+    "random_geometric": {
+        "function": "s",
+        "random": true
+    },
+    "random_graph": {
+        "function": "?",
+        "random": true
+    },
+    "random_graph1": {
+        "function": "?",
+        "random": true
+    },
+    "random_gumbel": {
+        "function": "s",
+        "random": true
+    },
+    "random_hypergeometric": {
+        "function": "s",
+        "random": true
+    },
+    "random_laplace": {
+        "function": "s",
+        "random": true
+    },
+    "random_logistic": {
+        "function": "s",
+        "random": true
+    },
+    "random_lognormal": {
+        "function": "s",
+        "random": true
+    },
+    "random_negative_binomial": {
+        "function": "s",
+        "random": true
+    },
+    "random_network": {
+        "function": "?",
+        "random": true
+    },
+    "random_noncentral_chi2": {
+        "function": "s",
+        "random": true
+    },
+    "random_noncentral_student_t": {
+        "function": "s",
+        "random": true
+    },
+    "random_normal": {
+        "function": "s",
+        "random": true
+    },
+    "random_pareto": {
+        "function": "s",
+        "random": true
+    },
+    "random_perm": {
+        "function": "?",
+        "random": true
+    },
+    "random_permutation": {
+        "function": "?",
+        "random": true
+    },
+    "random_poisson": {
+        "function": "s",
+        "random": true
+    },
+    "random_rayleigh": {
+        "function": "s",
+        "random": true
+    },
+    "random_regular_graph": {
+        "function": "?",
+        "random": true
+    },
+    "random_student_t": {
+        "function": "s",
+        "random": true
+    },
+    "random_tournament": {
+        "function": "?",
+        "random": true
+    },
+    "random_tree": {
+        "function": "?",
+        "random": true
+    },
+    "random_weibull": {
+        "function": "s",
+        "random": true
+    },
+    "range": {
+        "function": "?"
+    },
+    "rank": {
+        "function": "s"
+    },
+    "rassociative": {
+        "property": "s"
+    },
+    "rat": {
+        "function": "s"
+    },
+    "ratalgdenom": {
+        "evflag": "s",
+        "variable": "s"
+    },
+    "ratchristof": {
+        "variable": "f"
+    },
+    "ratcoef": {
+        "function": "s"
+    },
+    "ratdenom": {
+        "function": "s"
+    },
+    "ratdenomdivide": {
+        "variable": "s"
+    },
+    "ratdiff": {
+        "function": "s"
+    },
+    "ratdisrep": {
+        "function": "s"
+    },
+    "rateinstein": {
+        "variable": "f"
+    },
+    "ratepsilon": {
+        "variable": "s"
+    },
+    "ratexpand": {
+        "evfun": "s",
+        "function": "s",
+        "variable": "s"
+    },
+    "ratfac": {
+        "evflag": "s",
+        "variable": "s"
+    },
+    "ratinterpol": {
+        "function": "?"
+    },
+    "rational": {
+        "function": "f",
+        "property": "f"
+    },
+    "rationalize": {
+        "function": "s"
+    },
+    "ratmx": {
+        "evflag": "s",
+        "variable": "s"
+    },
+    "ratnumer": {
+        "function": "s"
+    },
+    "ratnump": {
+        "function": "s"
+    },
+    "ratp": {
+        "function": "s"
+    },
+    "ratp_coeffs": {
+        "function": "?"
+    },
+    "ratp_dense_coeffs": {
+        "function": "?"
+    },
+    "ratp_hipow": {
+        "function": "?"
+    },
+    "ratp_lopow": {
+        "function": "?"
+    },
+    "ratprint": {
+        "variable": "f"
+    },
+    "ratriemann": {
+        "variable": "f"
+    },
+    "ratsimp": {
+        "evfun": "s",
+        "function": "s"
+    },
+    "ratsimpexpons": {
+        "evflag": "s",
+        "variable": "s"
+    },
+    "ratsubst": {
+        "function": "s"
+    },
+    "ratvars": {
+        "function": "s",
+        "variable": "s"
+    },
+    "ratvarswitch": {
+        "variable": "?"
+    },
+    "ratweight": {
+        "function": "s"
+    },
+    "ratweights": {
+        "variable": "s"
+    },
+    "ratweyl": {
+        "variable": "f"
+    },
+    "ratwtlvl": {
+        "variable": "f"
+    },
+    "read": {
+        "function": "f",
+        "globalyforbiddenfunction": true
+    },
+    "read_array": {
+        "function": "f",
+        "globalyforbiddenfunction": true
+    },
+    "read_binary_array": {
+        "function": "f",
+        "globalyforbiddenfunction": true
+    },
+    "read_binary_list": {
+        "function": "f",
+        "globalyforbiddenfunction": true
+    },
+    "read_binary_matrix": {
+        "function": "f",
+        "globalyforbiddenfunction": true
+    },
+    "read_hash_table": {
+        "function": "?"
+    },
+    "read_hashed_array": {
+        "function": "f",
+        "globalyforbiddenfunction": true
+    },
+    "read_list": {
+        "function": "f",
+        "globalyforbiddenfunction": true
+    },
+    "read_matrix": {
+        "function": "f",
+        "globalyforbiddenfunction": true
+    },
+    "read_nested_list": {
+        "function": "f",
+        "globalyforbiddenfunction": true
+    },
+    "read_xpm": {
+        "function": "f",
+        "globalyforbiddenfunction": true
+    },
+    "readbyte": {
+        "function": "f",
+        "globalyforbiddenfunction": true
+    },
+    "readchar": {
+        "function": "f",
+        "globalyforbiddenfunction": true
+    },
+    "readline": {
+        "function": "f",
+        "globalyforbiddenfunction": true
+    },
+    "readonly": {
+        "function": "f",
+        "globalyforbiddenfunction": true
+    },
+    "real": {
+        "property": "?"
+    },
+    "real_fft": {
+        "function": "?"
+    },
+    "real_imagpart_to_conjugate": {
+        "function": "?"
+    },
+    "realonly": {
+        "variable": "s"
+    },
+    "realpart": {
+        "function": "s"
+    },
+    "realroots": {
+        "function": "s"
+    },
+    "rearray": {
+        "function": "f"
+    },
+    "rectangle": {
+        "function": "f"
+    },
+    "rectform": {
+        "evfun": "s",
+        "function": "s"
+    },
+    "rectform_log_if_constant": {
+        "function": "?"
+    },
+    "recttopolar": {
+        "function": "s"
+    },
+    "red": {
+        "variable": "s"
+    },
+    "rediff": {
+        "function": "f"
+    },
+    "redraw": {
+        "variable": "f"
+    },
+    "reduce_consts": {
+        "function": "f"
+    },
+    "reduce_order": {
+        "function": "f"
+    },
+    "refcheck": {
+        "globalyforbiddenvariable": true,
+        "variable": "f"
+    },
+    "region_boundaries": {
+        "function": "f"
+    },
+    "region_boundaries_plus": {
+        "function": "f"
+    },
+    "rem": {
+        "function": "s"
+    },
+    "remainder": {
+        "function": "s"
+    },
+    "remarray": {
+        "function": "f"
+    },
+    "rembox": {
+        "function": "f",
+        "globalyforbiddenfunction": true
+    },
+    "remcomps": {
+        "function": "f"
+    },
+    "remcon": {
+        "function": "f"
+    },
+    "remcoord": {
+        "function": "f"
+    },
+    "remfun": {
+        "function": "s"
+    },
+    "remfunction": {
+        "function": "f",
+        "globalyforbiddenfunction": true
+    },
+    "remlet": {
+        "function": "f"
+    },
+    "remove": {
+        "function": "?"
+    },
+    "remove_constvalue": {
+        "function": "?"
+    },
+    "remove_dimensions": {
+        "function": "f"
+    },
+    "remove_edge": {
+        "function": "?"
+    },
+    "remove_fundamental_dimensions": {
+        "function": "f"
+    },
+    "remove_fundamental_units": {
+        "function": "f"
+    },
+    "remove_plot_option": {
+        "function": "?"
+    },
+    "remove_vertex": {
+        "function": "?"
+    },
+    "rempart": {
+        "function": "f"
+    },
+    "remrule": {
+        "function": "?"
+    },
+    "remsym": {
+        "function": "f"
+    },
+    "remvalue": {
+        "function": "f",
+        "globalyforbiddenfunction": true
+    },
+    "rename": {
+        "function": "f"
+    },
+    "rename_file": {
+        "function": "?"
+    },
+    "reset": {
+        "function": "f",
+        "globalyforbiddenfunction": true
+    },
+    "reset_displays": {
+        "function": "?"
+    },
+    "residue": {
+        "function": "s"
+    },
+    "resolvante": {
+        "function": "t"
+    },
+    "resolvante_alternee1": {
+        "function": "t"
+    },
+    "resolvante_bipartite": {
+        "function": "t"
+    },
+    "resolvante_diedrale": {
+        "function": "t"
+    },
+    "resolvante_klein": {
+        "function": "t"
+    },
+    "resolvante_klein3": {
+        "function": "t"
+    },
+    "resolvante_produit_sym": {
+        "function": "t"
+    },
+    "resolvante_unitaire": {
+        "function": "t"
+    },
+    "resolvante_vierer": {
+        "function": "t"
+    },
+    "rest": {
+        "function": "s"
+    },
+    "resultant": {
+        "function": "s",
+        "variable": "s"
+    },
+    "return": {
+        "function": "?"
+    },
+    "rev": {
+        "variable": "s"
+    },
+    "reveal": {
+        "function": "?"
+    },
+    "reverse": {
+        "function": "s"
+    },
+    "revert": {
+        "function": "f"
+    },
+    "revert2": {
+        "function": "f"
+    },
+    "rgb2level": {
+        "function": "f"
+    },
+    "rho": {
+        "variable": "s"
+    },
+    "rhs": {
+        "function": "s"
+    },
+    "ric": {
+        "variable": "s"
+    },
+    "ricci": {
+        "function": "f"
+    },
+    "riem": {
+        "variable": "s"
+    },
+    "riemann": {
+        "function": "f"
+    },
+    "rinvariant": {
+        "function": "f"
+    },
+    "risch": {
+        "function": "s"
+    },
+    "rk": {
+        "function": "f"
+    },
+    "rmdir": {
+        "function": "?"
+    },
+    "rmxchar": {
+        "globalyforbiddenvariable": true,
+        "variable": "f"
+    },
+    "rncombine": {
+        "function": "s"
+    },
+    "romberg": {
+        "function": "s"
+    },
+    "rombergabs": {
+        "variable": "s"
+    },
+    "rombergit": {
+        "variable": "s"
+    },
+    "rombergmin": {
+        "variable": "s"
+    },
+    "rombergtol": {
+        "variable": "s"
+    },
+    "room": {
+        "function": "f",
+        "globalyforbiddenfunction": true
+    },
+    "root": {
+        "function": "s"
+    },
+    "rootsconmode": {
+        "variable": "s"
+    },
+    "rootscontract": {
+        "evfun": "s",
+        "function": "s"
+    },
+    "rootsepsilon": {
+        "variable": "s"
+    },
+    "round": {
+        "function": "s"
+    },
+    "row": {
+        "function": "s"
+    },
+    "rowop": {
+        "function": "s"
+    },
+    "rowswap": {
+        "function": "s"
+    },
+    "rpm": {
+        "variable": "s"
+    },
+    "rreduce": {
+        "function": "s"
+    },
+    "run_testsuite": {
+        "function": "f",
+        "globalyforbiddenfunction": true
+    },
+    "run_viewer": {
+        "globalyforbiddenvariable": true,
+        "variable": "f"
+    },
+    "save": {
+        "function": "f",
+        "globalyforbiddenfunction": true
+    },
+    "savedef": {
+        "globalyforbiddenvariable": true,
+        "variable": "f"
+    },
+    "savefactors": {
+        "variable": "f"
+    },
+    "saving": {
+        "function": "?"
+    },
+    "scalar": {
+        "property": "?"
+    },
+    "scalarmatrixp": {
+        "variable": "s"
+    },
+    "scalarp": {
+        "function": "s"
+    },
+    "scale_lp": {
+        "variable": "?"
+    },
+    "scaled_bessel_i": {
+        "function": "s"
+    },
+    "scaled_bessel_i0": {
+        "function": "s"
+    },
+    "scaled_bessel_i1": {
+        "function": "s"
+    },
+    "scalefactors": {
+        "function": "s"
+    },
+    "scanmap": {
+        "function": "s",
+        "mapfunction": true
+    },
+    "scatterplot": {
+        "function": "f",
+        "globalyforbiddenfunction": true
+    },
+    "scatterplot_description": {
+        "function": "?"
+    },
+    "scene": {
+        "function": "?"
+    },
+    "schur2comp": {
+        "function": "s"
+    },
+    "sconcat": {
+        "function": "?"
+    },
+    "scopy": {
+        "function": "?"
+    },
+    "scsimp": {
+        "function": "s"
+    },
+    "scurvature": {
+        "function": "f"
+    },
+    "sdowncase": {
+        "function": "?"
+    },
+    "sec": {
+        "function": "s",
+        "trigfun": true
+    },
+    "sech": {
+        "function": "s",
+        "trigfun": true
+    },
+    "second": {
+        "function": "s"
+    },
+    "sequal": {
+        "function": "s"
+    },
+    "sequalignore": {
+        "function": "s"
+    },
+    "set": {
+        "function": "?"
+    },
+    "set_alt_display": {
+        "function": "?"
+    },
+    "set_draw_defaults": {
+        "function": "f"
+    },
+    "set_edge_weight": {
+        "function": "?"
+    },
+    "set_partitions": {
+        "function": "s"
+    },
+    "set_plot_option": {
+        "function": "f",
+        "globalyforbiddenfunction": true
+    },
+    "set_prompt": {
+        "function": "?"
+    },
+    "set_random_state": {
+        "function": "f"
+    },
+    "set_tex_environment": {
+        "function": "f"
+    },
+    "set_tex_environment_default": {
+        "function": "f"
+    },
+    "set_up_dot_simplifications": {
+        "function": "f"
+    },
+    "set_vertex_label": {
+        "function": "?"
+    },
+    "setcheck": {
+        "globalyforbiddenvariable": true,
+        "variable": "f"
+    },
+    "setcheckbreak": {
+        "globalyforbiddenvariable": true,
+        "variable": "f"
+    },
+    "setdifference": {
+        "function": "s"
+    },
+    "setelmx": {
+        "function": "?"
+    },
+    "setequalp": {
+        "function": "s"
+    },
+    "setify": {
+        "function": "s"
+    },
+    "setp": {
+        "function": "s"
+    },
+    "setunits": {
+        "function": "f"
+    },
+    "setup_autoload": {
+        "function": "f"
+    },
+    "setval": {
+        "globalyforbiddenvariable": true,
+        "variable": "f"
+    },
+    "seventh": {
+        "function": "s"
+    },
+    "sexplode": {
+        "function": "?"
+    },
+    "sf": {
+        "function": "f"
+    },
+    "sha1sum": {
+        "function": "?"
+    },
+    "sha256sum": {
+        "function": "?"
+    },
+    "share_testsuite_files": {
+        "variable": "?"
+    },
+    "shortest_path": {
+        "function": "?"
+    },
+    "shortest_weighted_path": {
+        "function": "?"
+    },
+    "show": {
+        "function": "?"
+    },
+    "showcomps": {
+        "function": "f"
+    },
+    "showratvars": {
+        "function": "?"
+    },
+    "showtime": {
+        "globalyforbiddenvariable": true,
+        "variable": "f"
+    },
+    "sierpinskiale": {
+        "function": "?"
+    },
+    "sierpinskimap": {
+        "function": "?"
+    },
+    "sigma": {
+        "variable": "s"
+    },
+    "sign": {
+        "function": "s"
+    },
+    "signum": {
+        "function": "s"
+    },
+    "similaritytransform": {
+        "function": "f"
+    },
+    "simp": {
+        "evflag": "?",
+        "variable": "?"
+    },
+    "simp_inequality": {
+        "function": "?"
+    },
+    "simple_linear_regression": {
+        "function": "?"
+    },
+    "simplified_output": {
+        "variable": "f"
+    },
+    "simplify": {
+        "function": "s"
+    },
+    "simplify_products": {
+        "variable": "f"
+    },
+    "simplify_sum": {
+        "function": "f"
+    },
+    "simplode": {
+        "function": "?"
+    },
+    "simpmetderiv": {
+        "function": "f"
+    },
+    "simpproduct": {
+        "evflag": "?",
+        "variable": "?"
+    },
+    "simpsum": {
+        "evflag": "s",
+        "variable": "s"
+    },
+    "simtran": {
+        "function": "f"
+    },
+    "sin": {
+        "function": "s",
+        "trigfun": true
+    },
+    "sinh": {
+        "function": "s",
+        "trigfun": true
+    },
+    "sinnpiflag": {
+        "variable": "s"
+    },
+    "sinsert": {
+        "function": "s"
+    },
+    "sinvertcase": {
+        "function": "s"
+    },
+    "sixth": {
+        "function": "s"
+    },
+    "skewness": {
+        "function": "?"
+    },
+    "skewness_bernoulli": {
+        "function": "s"
+    },
+    "skewness_beta": {
+        "function": "s"
+    },
+    "skewness_binomial": {
+        "function": "s"
+    },
+    "skewness_chi2": {
+        "function": "s"
+    },
+    "skewness_continuous_uniform": {
+        "function": "s"
+    },
+    "skewness_discrete_uniform": {
+        "function": "s"
+    },
+    "skewness_exp": {
+        "function": "s"
+    },
+    "skewness_f": {
+        "function": "s"
+    },
+    "skewness_gamma": {
+        "function": "s"
+    },
+    "skewness_general_finite_discrete": {
+        "function": "s"
+    },
+    "skewness_geometric": {
+        "function": "s"
+    },
+    "skewness_gumbel": {
+        "function": "s"
+    },
+    "skewness_hypergeometric": {
+        "function": "s"
+    },
+    "skewness_laplace": {
+        "function": "s"
+    },
+    "skewness_logistic": {
+        "function": "s"
+    },
+    "skewness_lognormal": {
+        "function": "s"
+    },
+    "skewness_negative_binomial": {
+        "function": "s"
+    },
+    "skewness_noncentral_chi2": {
+        "function": "s"
+    },
+    "skewness_noncentral_student_t": {
+        "function": "s"
+    },
+    "skewness_normal": {
+        "function": "s"
+    },
+    "skewness_pareto": {
+        "function": "s"
+    },
+    "skewness_poisson": {
+        "function": "s"
+    },
+    "skewness_rayleigh": {
+        "function": "s"
+    },
+    "skewness_student_t": {
+        "function": "s"
+    },
+    "skewness_weibull": {
+        "function": "s"
+    },
+    "slength": {
+        "function": "s"
+    },
+    "smake": {
+        "function": "s"
+    },
+    "small_rhombicosidodecahedron_graph": {
+        "function": "?"
+    },
+    "small_rhombicuboctahedron_graph": {
+        "function": "?"
+    },
+    "smax": {
+        "function": "?"
+    },
+    "smin": {
+        "function": "?"
+    },
+    "smismatch": {
+        "function": "?"
+    },
+    "snowmap": {
+        "function": "?"
+    },
+    "snub_cube_graph": {
+        "function": "?"
+    },
+    "snub_dodecahedron_graph": {
+        "function": "?"
+    },
+    "solve": {
+        "function": "s"
+    },
+    "solve_rec": {
+        "function": "f"
+    },
+    "solve_rec_rat": {
+        "function": "f"
+    },
+    "solvedecomposes": {
+        "variable": "s"
+    },
+    "solveexplicit": {
+        "variable": "s"
+    },
+    "solvefactors": {
+        "variable": "s"
+    },
+    "solvenullwarn": {
+        "variable": "s"
+    },
+    "solveradcan": {
+        "variable": "s"
+    },
+    "solvetrigwarn": {
+        "variable": "s"
+    },
+    "some": {
+        "function": "s"
+    },
+    "somrac": {
+        "function": "f"
+    },
+    "sort": {
+        "function": "s"
+    },
+    "space": {
+        "variable": "s"
+    },
+    "sparse": {
+        "variable": "s"
+    },
+    "sparse6_decode": {
+        "function": "f"
+    },
+    "sparse6_encode": {
+        "function": "f"
+    },
+    "sparse6_export": {
+        "function": "f",
+        "globalyforbiddenfunction": true
+    },
+    "sparse6_import": {
+        "function": "f",
+        "globalyforbiddenfunction": true
+    },
+    "specint": {
+        "function": "s"
+    },
+    "spherical_bessel_j": {
+        "function": "t"
+    },
+    "spherical_bessel_y": {
+        "function": "t"
+    },
+    "spherical_hankel1": {
+        "function": "t"
+    },
+    "spherical_hankel2": {
+        "function": "t"
+    },
+    "spherical_harmonic": {
+        "function": "t"
+    },
+    "spherical_to_xyz": {
+        "function": "?"
+    },
+    "splice": {
+        "function": "f",
+        "globalyforbiddenfunction": true
+    },
+    "split": {
+        "function": "?"
+    },
+    "sposition": {
+        "function": "s"
+    },
+    "sprint": {
+        "function": "f",
+        "globalyforbiddenfunction": true
+    },
+    "sqfr": {
+        "function": "s"
+    },
+    "sqrt": {
+        "function": "s"
+    },
+    "sqrtdenest": {
+        "function": "f"
+    },
+    "sqrtdispflag": {
+        "variable": "?"
+    },
+    "sremove": {
+        "function": "?"
+    },
+    "sremovefirst": {
+        "function": "?"
+    },
+    "sreverse": {
+        "function": "?"
+    },
+    "ssearch": {
+        "function": "?"
+    },
+    "ssort": {
+        "function": "?"
+    },
+    "sstatus": {
+        "function": "f"
+    },
+    "ssubst": {
+        "function": "?"
+    },
+    "ssubstfirst": {
+        "function": "?"
+    },
+    "stack_validate": {
+        "function": "s"
+    },
+    "stack_validate_typeless": {
+        "function": "s"
+    },
+    "stackeq": {
+        "function": "s",
+        "prefixinputform": "="
+    },
+    "stacklet": {
+        "function": "s",
+        "prefixinputform": "let"
+    },
+    "stackunits": {
+        "function": "s"
+    },
+    "stackunits_make": {
+        "function": "s"
+    },
+    "stackvector": {
+        "function": "s"
+    },
+    "staircase": {
+        "function": "f"
+    },
+    "stanckeq": {
+        "function": "s"
+    },
+    "standardize": {
+        "function": "?"
+    },
+    "standardize_inverse_trig": {
+        "function": "?"
+    },
+    "stardisp": {
+        "variable": "f"
+    },
+    "starplot": {
+        "function": "f",
+        "globalyforbiddenfunction": true
+    },
+    "starplot_description": {
+        "function": "?"
+    },
+    "stats_numer": {
+        "variable": "?"
+    },
+    "status": {
+        "function": "f",
+        "globalyforbiddenfunction": true
+    },
+    "std": {
+        "function": "?"
+    },
+    "std1": {
+        "function": "?"
+    },
+    "std_bernoulli": {
+        "function": "s"
+    },
+    "std_beta": {
+        "function": "s"
+    },
+    "std_binomial": {
+        "function": "s"
+    },
+    "std_chi2": {
+        "function": "s"
+    },
+    "std_continuous_uniform": {
+        "function": "s"
+    },
+    "std_discrete_uniform": {
+        "function": "s"
+    },
+    "std_exp": {
+        "function": "s"
+    },
+    "std_f": {
+        "function": "s"
+    },
+    "std_gamma": {
+        "function": "s"
+    },
+    "std_general_finite_discrete": {
+        "function": "s"
+    },
+    "std_geometric": {
+        "function": "s"
+    },
+    "std_gumbel": {
+        "function": "s"
+    },
+    "std_hypergeometric": {
+        "function": "s"
+    },
+    "std_laplace": {
+        "function": "s"
+    },
+    "std_logistic": {
+        "function": "s"
+    },
+    "std_lognormal": {
+        "function": "s"
+    },
+    "std_negative_binomial": {
+        "function": "s"
+    },
+    "std_noncentral_chi2": {
+        "function": "s"
+    },
+    "std_noncentral_student_t": {
+        "function": "s"
+    },
+    "std_normal": {
+        "function": "s"
+    },
+    "std_pareto": {
+        "function": "s"
+    },
+    "std_poisson": {
+        "function": "s"
+    },
+    "std_rayleigh": {
+        "function": "s"
+    },
+    "std_student_t": {
+        "function": "s"
+    },
+    "std_weibull": {
+        "function": "s"
+    },
+    "stemplot": {
+        "function": "f",
+        "globalyforbiddenfunction": true
+    },
+    "step": {
+        "keyword": "?"
+    },
+    "stirling": {
+        "function": "f"
+    },
+    "stirling1": {
+        "function": "t"
+    },
+    "stirling2": {
+        "function": "t"
+    },
+    "strim": {
+        "function": "?"
+    },
+    "striml": {
+        "function": "?"
+    },
+    "strimr": {
+        "function": "?"
+    },
+    "string": {
+        "function": "?"
+    },
+    "string_to_octets": {
+        "function": "?"
+    },
+    "stringdisp": {
+        "variable": "f"
+    },
+    "stringout": {
+        "function": "f",
+        "globalyforbiddenfunction": true
+    },
+    "stringp": {
+        "function": "?"
+    },
+    "strong_components": {
+        "function": "?"
+    },
+    "structures": {
+        "variable": "?"
+    },
+    "struve_h": {
+        "function": "s"
+    },
+    "struve_l": {
+        "function": "s"
+    },
+    "style": {
+        "variable": "s"
+    },
+    "sublis": {
+        "function": "s"
+    },
+    "sublis_apply_lambda": {
+        "variable": "s"
+    },
+    "sublist": {
+        "argumentasfunction": [
+            1
+        ],
+        "function": "s"
+    },
+    "sublist_indices": {
+        "function": "s"
+    },
+    "submatrix": {
+        "function": "s"
+    },
+    "subnumsimp": {
+        "variable": "?"
+    },
+    "subsample": {
+        "function": "?"
+    },
+    "subset": {
+        "function": "s"
+    },
+    "subsetp": {
+        "function": "s"
+    },
+    "subst": {
+        "function": "s"
+    },
+    "subst_parallel": {
+        "function": "?"
+    },
+    "substinpart": {
+        "function": "s"
+    },
+    "substpart": {
+        "function": "s"
+    },
+    "substring": {
+        "function": "s"
+    },
+    "subvar": {
+        "function": "?"
+    },
+    "subvarp": {
+        "function": "s"
+    },
+    "sum": {
+        "function": "s"
+    },
+    "sumcontract": {
+        "function": "s"
+    },
+    "sumexpand": {
+        "evflag": "s",
+        "variable": "s"
+    },
+    "summand_to_rec": {
+        "function": "f"
+    },
+    "sumsplitfact": {
+        "variable": "?"
+    },
+    "supcase": {
+        "function": "s"
+    },
+    "supcontext": {
+        "function": "f",
+        "globalyforbiddenfunction": true
+    },
+    "surface_hide": {
+        "variable": "f"
+    },
+    "symbolp": {
+        "function": "s"
+    },
+    "symmdifference": {
+        "function": "s"
+    },
+    "symmetric": {
+        "property": "?"
+    },
+    "symmetricp": {
+        "function": "f"
+    },
+    "system": {
+        "function": "f",
+        "globalyforbiddenfunction": true
+    },
+    "tab": {
+        "variable": "f"
+    },
+    "take_channel": {
+        "function": "f"
+    },
+    "take_inference": {
+        "function": "?"
+    },
+    "tan": {
+        "function": "s",
+        "trigfun": true
+    },
+    "tanh": {
+        "function": "s",
+        "trigfun": true
+    },
+    "tau": {
+        "variable": "s"
+    },
+    "taylor": {
+        "function": "s"
+    },
+    "taylor_logexpand": {
+        "variable": "s"
+    },
+    "taylor_order_coefficients": {
+        "variable": "s"
+    },
+    "taylor_simplifier": {
+        "function": "s"
+    },
+    "taylor_truncate_polynomials": {
+        "variable": "s"
+    },
+    "taylordepth": {
+        "variable": "s"
+    },
+    "taylorinfo": {
+        "function": "s"
+    },
+    "taylorp": {
+        "function": "s"
+    },
+    "taytorat": {
+        "function": "s"
+    },
+    "tcl_output": {
+        "function": "f",
+        "globalyforbiddenfunction": true
+    },
+    "tcontract": {
+        "function": "f"
+    },
+    "tellrat": {
+        "function": "?"
+    },
+    "tellsimp": {
+        "function": "s"
+    },
+    "tellsimpafter": {
+        "function": "s"
+    },
+    "tensorkill": {
+        "variable": "f"
+    },
+    "tentex": {
+        "function": "f"
+    },
+    "tenth": {
+        "function": "s"
+    },
+    "terminal": {
+        "globalyforbiddenvariable": true,
+        "variable": "f"
+    },
+    "test_mean": {
+        "function": "?"
+    },
+    "test_means_difference": {
+        "function": "?"
+    },
+    "test_normality": {
+        "function": "?"
+    },
+    "test_proportion": {
+        "function": "?"
+    },
+    "test_proportions_difference": {
+        "function": "?"
+    },
+    "test_rank_sum": {
+        "function": "?"
+    },
+    "test_sign": {
+        "function": "?"
+    },
+    "test_signed_rank": {
+        "function": "?"
+    },
+    "test_variance": {
+        "function": "?"
+    },
+    "test_variance_ratio": {
+        "function": "?"
+    },
+    "testsuite_files": {
+        "globalyforbiddenvariable": true,
+        "variable": "f"
+    },
+    "tex": {
+        "function": "f",
+        "globalyforbiddenfunction": true
+    },
+    "tex1": {
+        "function": "?"
+    },
+    "tex_display": {
+        "function": "?"
+    },
+    "texput": {
+        "function": "?"
+    },
+    "texsub": {
+        "function": "s"
+    },
+    "theta": {
+        "variable": "s"
+    },
+    "third": {
+        "function": "s"
+    },
+    "throw": {
+        "function": "f",
+        "globalyforbiddenfunction": true
+    },
+    "thru": {
+        "keyword": "?"
+    },
+    "time": {
+        "function": "f",
+        "globalyforbiddenfunction": true
+    },
+    "timedate": {
+        "function": "f"
+    },
+    "timer": {
+        "function": "f",
+        "globalyforbiddenfunction": true
+    },
+    "timer_devalue": {
+        "globalyforbiddenvariable": true,
+        "variable": "f"
+    },
+    "timer_info": {
+        "function": "f",
+        "globalyforbiddenfunction": true
+    },
+    "title": {
+        "variable": "f"
+    },
+    "tldefint": {
+        "function": "?"
+    },
+    "tlimit": {
+        "function": "s"
+    },
+    "tlimswitch": {
+        "variable": "s"
+    },
+    "to_lisp": {
+        "function": "f",
+        "globalyforbiddenfunction": true
+    },
+    "to_poly": {
+        "function": "?"
+    },
+    "to_poly_solve": {
+        "function": "?"
+    },
+    "todd_coxeter": {
+        "function": "s"
+    },
+    "toeplitz": {
+        "function": "s"
+    },
+    "tokens": {
+        "function": "?"
+    },
+    "topological_sort": {
+        "function": "?"
+    },
+    "totaldisrep": {
+        "function": "f"
+    },
+    "totalfourier": {
+        "function": "?"
+    },
+    "totient": {
+        "function": "s"
+    },
+    "tpartpol": {
+        "function": "f"
+    },
+    "tr": {
+        "variable": "s"
+    },
+    "tr_array_as_ref": {
+        "variable": "f"
+    },
+    "tr_bound_function_applyp": {
+        "variable": "f"
+    },
+    "tr_file_tty_messagesp": {
+        "variable": "f"
+    },
+    "tr_float_can_branch_complex": {
+        "variable": "f"
+    },
+    "tr_function_call_default": {
+        "variable": "f"
+    },
+    "tr_numer": {
+        "variable": "f"
+    },
+    "tr_optimize_max_loop": {
+        "variable": "f"
+    },
+    "tr_semicompile": {
+        "variable": "f"
+    },
+    "tr_state_vars": {
+        "variable": "f"
+    },
+    "tr_warn_bad_function_calls": {
+        "variable": "f"
+    },
+    "tr_warn_fexpr": {
+        "variable": "f"
+    },
+    "tr_warn_meval": {
+        "variable": "f"
+    },
+    "tr_warn_mode": {
+        "variable": "f"
+    },
+    "tr_warn_undeclared": {
+        "variable": "f"
+    },
+    "tr_warn_undefined_variable": {
+        "variable": "f"
+    },
+    "tr_warnings_get": {
+        "function": "f"
+    },
+    "tr_windy": {
+        "variable": "f"
+    },
+    "trace": {
+        "function": "f",
+        "globalyforbiddenfunction": true
+    },
+    "trace_options": {
+        "function": "f",
+        "globalyforbiddenfunction": true
+    },
+    "tracematrix": {
+        "function": "f"
+    },
+    "tranform_sample": {
+        "function": "?"
+    },
+    "transcompile": {
+        "function": "f",
+        "globalyforbiddenfunction": true,
+        "variable": "?"
+    },
+    "transform_sample": {
+        "function": "?"
+    },
+    "transform_xy": {
+        "variable": "f"
+    },
+    "translate": {
+        "function": "f",
+        "globalyforbiddenfunction": true
+    },
+    "translate_fast_arrays": {
+        "variable": "?"
+    },
+    "translate_file": {
+        "function": "f",
+        "globalyforbiddenfunction": true
+    },
+    "transparent": {
+        "variable": "f"
+    },
+    "transpose": {
+        "function": "s"
+    },
+    "transrun": {
+        "globalyforbiddenvariable": true,
+        "variable": "f"
+    },
+    "tree_reduce": {
+        "function": "s"
+    },
+    "treefale": {
+        "function": "?"
+    },
+    "treillis": {
+        "function": "f"
+    },
+    "treinat": {
+        "function": "f"
+    },
+    "triangularize": {
+        "function": "s"
+    },
+    "trigexpand": {
+        "evflag": "?",
+        "evfun": "s",
+        "function": "s",
+        "variable": "?"
+    },
+    "trigexpandplus": {
+        "variable": "s"
+    },
+    "trigexpandtimes": {
+        "variable": "s"
+    },
+    "triginverses": {
+        "variable": "s"
+    },
+    "trigrat": {
+        "function": "s"
+    },
+    "trigreduce": {
+        "evfun": "s",
+        "function": "s"
+    },
+    "trigsign": {
+        "variable": "s"
+    },
+    "trigsimp": {
+        "function": "s"
+    },
+    "trivial_solutions": {
+        "variable": "f"
+    },
+    "true": {
+        "constant": "s"
+    },
+    "trunc": {
+        "function": "s"
+    },
+    "truncate": {
+        "function": "s"
+    },
+    "truncated_cube_graph": {
+        "function": "?"
+    },
+    "truncated_dodecahedron_graph": {
+        "function": "?"
+    },
+    "truncated_icosahedron_graph": {
+        "function": "?"
+    },
+    "truncated_tetrahedron_graph": {
+        "function": "?"
+    },
+    "ttyoff": {
+        "globalyforbiddenvariable": true,
+        "variable": "f"
+    },
+    "tube": {
+        "function": "f"
+    },
+    "tube_extremes": {
+        "variable": "f"
+    },
+    "tutte_graph": {
+        "function": "f"
+    },
+    "ueivects": {
+        "function": "f"
+    },
+    "ufg": {
+        "variable": "s"
+    },
+    "uforget": {
+        "function": "f"
+    },
+    "ug": {
+        "variable": "s"
+    },
+    "ultraspherical": {
+        "function": "f"
+    },
+    "und": {
+        "constant": "s"
+    },
+    "underlying_graph": {
+        "function": "?"
+    },
+    "undiff": {
+        "function": "f"
+    },
+    "unicode": {
+        "function": "?"
+    },
+    "unicode_to_utf8": {
+        "function": "?"
+    },
+    "union": {
+        "function": "s"
+    },
+    "unique": {
+        "function": "s"
+    },
+    "unit_step": {
+        "function": "f"
+    },
+    "unit_vectors": {
+        "variable": "f"
+    },
+    "uniteigenvectors": {
+        "function": "f"
+    },
+    "unitp": {
+        "function": "?"
+    },
+    "units": {
+        "function": "?"
+    },
+    "unitvector": {
+        "function": "f"
+    },
+    "unknown": {
+        "function": "?"
+    },
+    "unless": {
+        "keyword": "?"
+    },
+    "unorder": {
+        "function": "f"
+    },
+    "unsum": {
+        "function": "s"
+    },
+    "untellrat": {
+        "function": "s"
+    },
+    "untimer": {
+        "function": "f",
+        "globalyforbiddenfunction": true
+    },
+    "untrace": {
+        "function": "f",
+        "globalyforbiddenfunction": true
+    },
+    "uppercasep": {
+        "function": "f"
+    },
+    "upsilon": {
+        "variable": "s"
+    },
+    "uric": {
+        "variable": "s"
+    },
+    "uricci": {
+        "function": "f"
+    },
+    "uriem": {
+        "variable": "f"
+    },
+    "uriemann": {
+        "function": "f"
+    },
+    "us_ascii_only": {
+        "variable": "?"
+    },
+    "use_fast_arrays": {
+        "variable": "?"
+    },
+    "user_preamble": {
+        "globalyforbiddenvariable": true,
+        "variable": "f"
+    },
+    "usersetunits": {
+        "variable": "f"
+    },
+    "utf8_to_unicode": {
+        "function": "?"
+    },
+    "uvect": {
+        "function": "f"
+    },
+    "values": {
+        "globalyforbiddenvariable": true,
+        "variable": "f"
+    },
+    "vandermonde_matrix": {
+        "function": "s"
+    },
+    "var": {
+        "function": "?"
+    },
+    "var1": {
+        "function": "?"
+    },
+    "var_bernoulli": {
+        "function": "s"
+    },
+    "var_beta": {
+        "function": "s"
+    },
+    "var_binomial": {
+        "function": "s"
+    },
+    "var_chi2": {
+        "function": "s"
+    },
+    "var_continuous_uniform": {
+        "function": "s"
+    },
+    "var_discrete_uniform": {
+        "function": "s"
+    },
+    "var_exp": {
+        "function": "s"
+    },
+    "var_f": {
+        "function": "s"
+    },
+    "var_gamma": {
+        "function": "s"
+    },
+    "var_general_finite_discrete": {
+        "function": "s"
+    },
+    "var_geometric": {
+        "function": "s"
+    },
+    "var_gumbel": {
+        "function": "s"
+    },
+    "var_hypergeometric": {
+        "function": "s"
+    },
+    "var_laplace": {
+        "function": "s"
+    },
+    "var_logistic": {
+        "function": "s"
+    },
+    "var_lognormal": {
+        "function": "s"
+    },
+    "var_negative_binomial": {
+        "function": "s"
+    },
+    "var_noncentral_chi2": {
+        "function": "s"
+    },
+    "var_noncentral_student_t": {
+        "function": "s"
+    },
+    "var_normal": {
+        "function": "s"
+    },
+    "var_pareto": {
+        "function": "s"
+    },
+    "var_poisson": {
+        "function": "s"
+    },
+    "var_rayleigh": {
+        "function": "s"
+    },
+    "var_student_t": {
+        "function": "s"
+    },
+    "var_weibull": {
+        "function": "s"
+    },
+    "vect_cross": {
+        "variable": "s"
+    },
+    "vector": {
+        "function": "f"
+    },
+    "vectorpotential": {
+        "function": "s"
+    },
+    "vectorsimp": {
+        "function": "s"
+    },
+    "verbify": {
+        "function": "?"
+    },
+    "verbose": {
+        "variable": "f"
+    },
+    "vers": {
+        "function": "f"
+    },
+    "vertex_coloring": {
+        "function": "?"
+    },
+    "vertex_connectivity": {
+        "function": "?"
+    },
+    "vertex_degree": {
+        "function": "?"
+    },
+    "vertex_distance": {
+        "function": "?"
+    },
+    "vertex_eccentricity": {
+        "function": "?"
+    },
+    "vertex_in_degree": {
+        "function": "?"
+    },
+    "vertex_out_degree": {
+        "function": "?"
+    },
+    "vertices": {
+        "function": "?"
+    },
+    "vertices_to_cycle": {
+        "function": "?"
+    },
+    "vertices_to_path": {
+        "function": "?"
+    },
+    "warning": {
+        "function": "?"
+    },
+    "warnings": {
+        "variable": "f"
+    },
+    "wc_inputvalueranges": {
+        "function": "?"
+    },
+    "wc_mintypmax": {
+        "function": "?"
+    },
+    "wc_mintypmax2tol": {
+        "function": "?"
+    },
+    "wc_montecarlo": {
+        "function": "?"
+    },
+    "wc_systematic": {
+        "function": "?"
+    },
+    "wc_tolappend": {
+        "function": "?"
+    },
+    "wc_typicalvalues": {
+        "function": "?"
+    },
+    "weyl": {
+        "function": "f",
+        "variable": "f"
+    },
+    "wheel_graph": {
+        "function": "?"
+    },
+    "while": {
+        "keyword": "?"
+    },
+    "wiener_index": {
+        "function": "?"
+    },
+    "wigner_3j": {
+        "function": "?"
+    },
+    "wigner_6j": {
+        "function": "?"
+    },
+    "wigner_9j": {
+        "function": "?"
+    },
+    "with_stdout": {
+        "function": "f",
+        "globalyforbiddenfunction": true
+    },
+    "write_binary_data": {
+        "function": "f",
+        "globalyforbiddenfunction": true
+    },
+    "write_data": {
+        "function": "f",
+        "globalyforbiddenfunction": true
+    },
+    "writebyte": {
+        "function": "?"
+    },
+    "writefile": {
+        "function": "f",
+        "globalyforbiddenfunction": true
+    },
+    "wronskian": {
+        "function": "f"
+    },
+    "x_voxel": {
+        "variable": "f"
+    },
+    "xaxis": {
+        "variable": "f"
+    },
+    "xaxis_color": {
+        "variable": "f"
+    },
+    "xaxis_secondary": {
+        "variable": "f"
+    },
+    "xaxis_type": {
+        "variable": "f"
+    },
+    "xaxis_width": {
+        "variable": "f"
+    },
+    "xi": {
+        "variable": "s"
+    },
+    "xlabel": {
+        "variable": "s"
+    },
+    "xrange": {
+        "variable": "f"
+    },
+    "xrange_secondary": {
+        "variable": "f"
+    },
+    "xreduce": {
+        "function": "s"
+    },
+    "xthru": {
+        "function": "s"
+    },
+    "xtics_axis": {
+        "variable": "f"
+    },
+    "xtics_rotate": {
+        "variable": "f"
+    },
+    "xtics_rotate_secondary": {
+        "variable": "f"
+    },
+    "xtics_secondary": {
+        "variable": "f"
+    },
+    "xtics_secondary_axis": {
+        "variable": "f"
+    },
+    "xu_grid": {
+        "variable": "f"
+    },
+    "xy_file": {
+        "variable": "f"
+    },
+    "xyplane": {
+        "variable": "f"
+    },
+    "y_voxel": {
+        "variable": "f"
+    },
+    "yaxis": {
+        "variable": "f"
+    },
+    "yaxis_color": {
+        "variable": "f"
+    },
+    "yaxis_secondary": {
+        "variable": "f"
+    },
+    "yaxis_type": {
+        "variable": "f"
+    },
+    "yaxis_width": {
+        "variable": "f"
+    },
+    "year": {
+        "variable": "s"
+    },
+    "ylabel": {
+        "variable": "s"
+    },
+    "yrange": {
+        "variable": "f"
+    },
+    "yrange_secondary": {
+        "variable": "f"
+    },
+    "ytics_axis": {
+        "variable": "f"
+    },
+    "ytics_rotate": {
+        "variable": "f"
+    },
+    "ytics_rotate_secondary": {
+        "variable": "f"
+    },
+    "ytics_secondary": {
+        "variable": "f"
+    },
+    "ytics_secondary_axis": {
+        "variable": "f"
+    },
+    "yv_grid": {
+        "variable": "f"
+    },
+    "z_voxel": {
+        "variable": "f"
+    },
+    "zaxis": {
+        "variable": "f"
+    },
+    "zaxis_color": {
+        "variable": "f"
+    },
+    "zaxis_type": {
+        "variable": "f"
+    },
+    "zaxis_width": {
+        "variable": "f"
+    },
+    "zeroa": {
+        "constant": "f"
+    },
+    "zerob": {
+        "constant": "f"
+    },
+    "zerobern": {
+        "variable": "s"
+    },
+    "zeroequiv": {
+        "function": "s"
+    },
+    "zerofor": {
+        "function": "s"
+    },
+    "zeromatrix": {
+        "function": "s"
+    },
+    "zeromatrixp": {
+        "function": "s"
+    },
+    "zeta": {
+        "function": "s",
+        "variable": "s"
+    },
+    "zeta%pi": {
+        "variable": "?"
+    },
+    "zgeev": {
+        "function": "?"
+    },
+    "zheev": {
+        "function": "?"
+    },
+    "zlabel": {
+        "variable": "f"
+    },
+    "zlange": {
+        "function": "f"
+    },
+    "zn_add_table": {
+        "function": "?"
+    },
+    "zn_carmichael_lambda": {
+        "function": "?"
+    },
+    "zn_characteristic_factors": {
+        "function": "?"
+    },
+    "zn_determinant": {
+        "function": "?"
+    },
+    "zn_factor_generators": {
+        "function": "?"
+    },
+    "zn_invert_by_lu": {
+        "function": "?"
+    },
+    "zn_log": {
+        "function": "?"
+    },
+    "zn_mult_table": {
+        "function": "?"
+    },
+    "zn_nth_root": {
+        "function": "?"
+    },
+    "zn_order": {
+        "function": "?"
+    },
+    "zn_power_table": {
+        "function": "?"
+    },
+    "zn_primroot": {
+        "function": "?"
+    },
+    "zn_primroot_limit": {
+        "variable": "?"
+    },
+    "zn_primroot_p": {
+        "function": "?"
+    },
+    "zn_primroot_pretest": {
+        "variable": "?"
+    },
+    "zn_primroot_verbose": {
+        "variable": "?"
+    },
+    "zrange": {
+        "variable": "f"
+    },
+    "ztics_axis": {
+        "variable": "f"
+    },
+    "ztics_rotate": {
+        "variable": "f"
+    },
+    "{": {
+        "operator": "s",
+        "openingpairfor": "}"
+    },
+    "|": {
+        "operator": "s"
+    },
+    "}": {
+        "operator": "s",
+        "closingpairfor": "{"
+    },
+    "~": {
+        "operator": "s"
+    },
+    "\u03c0": {
+        "constant": "s",
+        "aliasvariable": "%pi"
+    }
+}

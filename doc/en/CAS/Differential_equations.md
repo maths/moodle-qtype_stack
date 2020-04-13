@@ -5,7 +5,7 @@ in [Maxima](Maxima.md) when writing STACK questions.
 
 ## Representing ODEs
 
-In a Maxima session (rather than STACK question variables) we can represent an ODE as
+In a Maxima session we can represent an ODE as
 
     ODE: x^2*'diff(y,x) + 3*y*x = sin(x)/x;
 
@@ -20,7 +20,7 @@ If `derivabbrev:false` then`'diff(y,x)` is displayed in STACK as \( \frac{\mathr
 
 If `derivabbrev:true` then `'diff(y,x)` is displayed in STACK and Maxima as \( y_x \).  
 
-* Extra brackets are sometime produces around the differential.
+* Extra brackets are sometimes produced around the differential.
 * You must have `simp:true` otherwise the display routines will not work.
 
 ## Manipulating ODEs in Maxima
@@ -55,18 +55,17 @@ It also provides many intermediate steps which are useful for a worked solution.
 
 ### % characters from solve and ode2 {#Solve_and_ode2}
 
-Maxima functions such as solve and ode2 add arbitrary constants, such as constants of integration.  In Maxima these are indicated adding constants which begin with percentage characters.  For example,
+Maxima functions such as `solve` and `ode2` add arbitrary constants, such as constants of integration.  In Maxima these are indicated adding constants which begin with percentage characters.  For example,
 
+    assume(x>0);
     eq1:x^2*'diff(y,x) + 3*y*x = sin(x)/x;
     sol:ode2(eq1,y,x);
 
 results in
 
-    y = (%c-cos(x))/x^3
+    y = (%c-cos(x))/x^3;
 
-Notice the `%c` in this example.
-STACK forbids the use of the `%` character for security reasons: you can refer to previous sessions for example.
-Therefore, we need a function to strip out the variables starting with `%`.
+Notice the `%c` in this example. We need a function to strip out the variables starting with `%`, especially as these are sometimes numbered and we want to use a definite letter, or sequence for the constants.
 
 The function `stack_strip_percent(ex,var)` replaces all variable names  starting with `%` with those in `var`.
 There are two ways to use this.
@@ -76,29 +75,35 @@ There are two ways to use this.
 
 For example
 
-    stack_strip_percent(y = (%c-cos(x))/x^3,k)
+    stack_strip_percent(y = (%c-cos(x))/x^3,k);
 
 returns
 
-    y = (k[1]-cos(x))/x^3
+    y = (k[1]-cos(x))/x^3;
 
 This is displayed in STACK using subscripts, which is natural.
 The unevaluated list method also does not need to know how many % signs appear in the expression.
 The other usage is to provide explicit names for each variable, but the list must be longer than the number of constants in `ex`, e.g.
 
-    stack_strip_percent(y = (%c-cos(x))/x^3,[c1,c2])
+    stack_strip_percent(y = (%c-cos(x))/x^3,[c1,c2]);
 
 which returns
 
-    y = (c1-cos(x))/x^3
+    y = (c1-cos(x))/x^3;
 
 The following example question variables can be used within STACK.
 
-    ode = x^2*'diff(y,x) + 3*y*x = sin(x)/x
-    sol = stack_strip_percent(ode2(ode,y,x),[k])
-    ta = rhs(ev(sol,nouns))
+    assume(x>0);
+    ode : x^2*'diff(y,x) + 3*y*x = sin(x)/x;
+    sol : stack_strip_percent(ode2(ode,y,x),[k]);
+    ta  : rhs(ev(sol,nouns));
 
 Note, you may need to use the Option "assume positive" to get ODE to evaluate the integrals formally and hence "solve correctly".
+
+If you need to create a list of numbered variables use
+
+    vars0:stack_var_makelist(k, 5);
+    vars1:rest(stack_var_makelist(k, 6));
 
 ## Assessing answers ##
 
@@ -126,18 +131,17 @@ E.g. in Maxima code
     sa2:ev(sa1,nouns);
     sa3:fullratsimp(expand(sa2));
 
-sa1, sa2 and sa2 can be used as part of the feedback when a student doesn't get the right answer.
-This is shown below with the values of these three variables displayed in the feedback.
-[ODE feedback example](http://web.mat.bham.ac.uk/C.J.Sangwin/stack/odescreen.jpg)
+`sa1`, `sa2` and `sa2` can be used as part of the feedback when a student doesn't get the right answer.
 
 ### Satisfying any initial/boundary conditions ###
 
-If the student's answer is `ans` then we can check initial/boundary conditions at a point `x=x0` simply by
+If the student's answer is `ans` then we can check initial/boundary conditions at a point `x=x0` simply by using
+
     ev(ans,x=x0);
     block([ds],ds:diff(ans,x),ev(ds,x=x0));
 
 Notice in the second example the need to calculate the derivative of the student's answer before it is evaluated at the point `x=x0`.
-These values can be compare with answer tests in the usual way.
+These values can be compared with answer tests in the usual way.
 
 ### Arbitrary constants ###
 
@@ -166,6 +170,7 @@ A [sample question](../Authoring/Sample_questions.md) of this type is provided b
     sa3 : fullratsimp(expand(sa2));
     l   : delete(t,listofvars(ans1));
     lv  : length(l);
+
     b1  : ev(ans1,t=0,fullratsimp);
     b2  : ev(ans1,t=1,fullratsimp);
     m   : float(if b2#0 then fullratsimp(b1/b2) else 0);
@@ -173,7 +178,7 @@ A [sample question](../Authoring/Sample_questions.md) of this type is provided b
 1. Here `sa1`, `sa2` and `sa3` are used to ensure the answer satisfies the ODE and if not to provide feedback.
 2. To ensure we have two constants we count the number of variables using `listofvars`, not including `t`. We are looking for two constants.
 3. To ensure the solution is suitably general, we confirm \(y(1)\neq 0\) and calculate \(y(0)/y(1)\).
-    If this simplifies to a number then the constants have canceled out and we don't have a general solution consisting of two linearly independent parts.
+    If this simplifies to a number then the constants have cancelled out and we don't have a general solution consisting of two linearly independent parts.
 
 These are the properties a correct answer should have.  If the teacher has a preference for the form, then a separate test is required to enforce it.
 For example, you might like the top operation to be a \(+\), i.e. sum.   This can be confirmed by
@@ -197,6 +202,24 @@ We potentially have quite a variety of solutions.
 \[ y=Ae^{(-1+2i)t}+Be^{(-1-2i)t}\]
 
 The advantage is that the same code correctly assesses all these forms of the answer.
+
+### Separating the general from particular solution.
+
+Consider the differential equation \[ \ddot{y}+4\dot{y}=8\tan(t) \] with corresponding general solution
+
+    ode:'diff(y,t,2)+4*y-8*tan(t);
+    ans1:-2*sin(2*t)-4*t*cos(2*t)+4*log(cos(t))*sin(2*t)+c_1*cos(2*t)+c_2*sin(2*t);
+
+The solution of such an equation consists of the sum \(y(t) = c_1\ y_1(t)+c_2\ y_2(t)+y_p(t)\).   The _general solution_ is the term \(c_1\ y_1(t)+c_2\ y_2(t)\) and the particular solution is the part \(y_p(t)\).  It is useful to separate these.  Run the above code, which should work.  Then we execute the following, which checks the general solution part is made up of two linearly independent parts.
+
+    /* Calculate the "Particular integral", (by setting both constants to zero) and then separate out the "general solution".*/
+    ansPI:ev(ans1,maplist(lambda([ex],ex=0), l));
+    ansGS:ans1-ansPI;
+    g1  : ev(ansGS,t=0,fullratsimp);
+    g2  : ev(ansGS,t=1,fullratsimp);
+    m   : float(if g2#0 then fullratsimp(g1/g2) else 0);
+
+Notice to calculate \(y_p(t)\) we set the constants \(c_1=c_2=0\), but using the variables in the list `l` which is defined above as the list of constants without \(t\).
 
 ## First order exact differential equations ##
 
@@ -312,5 +335,4 @@ Further examples are
 
 ## See also
 
-[Maxima reference topics](index.md#reference).
-
+[Maxima reference topics](index.md#reference)

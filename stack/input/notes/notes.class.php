@@ -1,5 +1,5 @@
 <?php
-// This file is part of Stack - http://stack.bham.ac.uk/
+// This file is part of Stack - https://stack.maths.ed.ac.uk
 //
 // Stack is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -80,13 +80,14 @@ class stack_notes_input extends stack_input {
      * @param array $contents the content array of the student's input.
      * @return array of the validity, errors strings and modified contents.
      */
-    protected function validate_contents($contents, $forbiddenkeys, $localoptions) {
+    protected function validate_contents($contents, $basesecurity, $localoptions) {
         $errors   = null;
+        $notes    = array();
         $caslines = array();
         $valid    = true;
-        $modifiedcontents[] = '';
+        $answer   = stack_ast_container::make_from_student_source('', '', $basesecurity);;
 
-        return array($valid, $errors, $modifiedcontents, $caslines);
+        return array($valid, $errors, $notes, $answer, $caslines);
     }
 
     public function add_to_moodleform_testinput(MoodleQuickForm $mform) {
@@ -172,6 +173,15 @@ class stack_notes_input extends stack_input {
         }
 
         return html_writer::tag('p', stack_string('studentValidation_notes'));
+    }
+
+    public function summarise_response($name, $state, $response) {
+        // Output the value for reporting.
+        $val = '';
+        if (array_key_exists($name, $response)) {
+            $val = '"' . addslashes($response[$name]) . '"';
+        }
+        return $name . ': ' . $val . ' [' . $state->status . ']';
     }
 
 }

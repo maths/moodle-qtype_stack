@@ -103,6 +103,20 @@ abstract class qtype_stack_testcase extends advanced_testcase {
     }
 
     /**
+     * Helper that returns true if we have default, or newer versions of Maxima.
+     * Used to update the expected value of a test case.
+     *
+     * @param string $version e.g. '5.23.2'. True if the maxima version is default or > this.
+     */
+    public function adapt_to_new_maxima($version) {
+        $versionused = get_config('qtype_stack', 'maximaversion');
+        if ($versionused == 'default' || !(version_compare($versionused, $version) < 0)) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
      * Verify that some content, containing maths, that is due to be output, is as expected.
      *
      * The purpose of this method is to hide the details of what the maths display system does.
@@ -110,7 +124,7 @@ abstract class qtype_stack_testcase extends advanced_testcase {
      * @param string $expected with plain maths delimiters. E.g. '<p>\(x + 1\)</p>'.
      * @param string $actual the actual output, as processed by the default Maths filter that STACK uses.
      */
-    protected function assertContentWithMathsEquals($expected, $actual) {
+    protected function assert_content_with_maths_equals($expected, $actual) {
         $this->assertEquals($expected, self::prepare_actual_maths($actual));
     }
 
@@ -122,7 +136,7 @@ abstract class qtype_stack_testcase extends advanced_testcase {
      * @param string $expected with plain maths delimiters. E.g. '<p>\(x + 1\)</p>'.
      * @param string $actual the actual output, as processed by the default Maths filter that STACK uses.
      */
-    protected function assertContentWithMathsContains($expected, $actual) {
+    protected function assert_content_with_maths_contains($expected, $actual) {
         $this->assertContains($expected, self::prepare_actual_maths($actual));
     }
 
@@ -153,6 +167,20 @@ abstract class qtype_stack_testcase extends advanced_testcase {
         $content = preg_replace('~((?<!\.)\b-?\d+)\.?(e[-+]?\d+\b)~', '$1.0$2', $content);
 
         return $content;
+    }
+
+    /**
+     * Compares two strings for equality. Ignoring multiplied whitespace e.g.
+     * '\t\n ' ~ ' ' but '' != ' ' and E-surrounded by numeric characters is
+     * assumed to be a float an thus case insensitive.
+     */
+    public function assertEqualsIgnoreSpacesAndE(string $expected, string $actual) {
+        $e = trim(preg_replace('/[\t\n\r\s]+/', ' ', $expected));
+        $a = trim(preg_replace('/[\t\n\r\s]+/', ' ', $actual));
+        $e = preg_replace('/([\d.])e([+\-\d])/', '$1E$2', $e);
+        $a = preg_replace('/([\d.])e([+\-\d])/', '$1E$2', $a);
+
+        $this->assertEquals($e, $a);
     }
 }
 
@@ -255,7 +283,8 @@ abstract class qtype_stack_walkthrough_test_base extends qbehaviour_walkthrough_
         }
         $matcher = $this->get_tag_matcher('textarea', $attributes);
         $this->assertTag($matcher, $this->currentoutput,
-                'Looking for a textarea with attributes ' . html_writer::attributes($attributes) . ' in ' . $this->currentoutput);
+                'Looking for a textarea with attributes ' . html_writer::attributes($attributes) . ' in ' .
+                $this->currentoutput);
 
         if ($content) {
             $this->assertRegExp('/' . preg_quote(s($content), '/') . '/', $this->currentoutput);
@@ -271,12 +300,13 @@ abstract class qtype_stack_walkthrough_test_base extends qbehaviour_walkthrough_
 
     protected function check_output_contains_input_validation($name) {
         $id = $this->quba->get_question_attempt($this->slot)->get_qt_field_name($name . '_val');
-        $this->assertRegExp('~<div (?=[^>]*\bclass="stackinputfeedback")(?=[^>]*\bid="' . $id . '")~', $this->currentoutput,
+        $this->assertRegExp('~<div (?=[^>]*\bclass="stackinputfeedback standard")(?=[^>]*\bid="' . $id . '")~',
+                $this->currentoutput,
                 'Input validation for ' . $name . ' not found in ' . $this->currentoutput);
     }
 
     protected function check_output_does_not_contain_any_input_validation() {
-        $this->assertNotRegExp('~<div [^>]*\bclass="stackinputfeedback(?:(?! empty)[^"])*"~',
+        $this->assertNotRegExp('~<div [^>]*\bclass="stackinputfeedback standard(?:(?! empty)[^"])*"~',
                 $this->currentoutput, 'Input validation should not be present in ' . $this->currentoutput);
     }
 
@@ -286,7 +316,8 @@ abstract class qtype_stack_walkthrough_test_base extends qbehaviour_walkthrough_
             return;
         }
         $id = $this->quba->get_question_attempt($this->slot)->get_qt_field_name($name . '_val');
-        $this->assertNotRegExp('~<div (?=[^>]*\bclass="stackinputfeedback")(?=[^>]*\bid="' . $id . '")~', $this->currentoutput,
+        $this->assertNotRegExp('~<div (?=[^>]*\bclass="stackinputfeedback standard")(?=[^>]*\bid="' . $id . '")~',
+                $this->currentoutput,
                 'Input validation for ' . $name . ' should not be present in ' . $this->currentoutput);
     }
 
@@ -332,7 +363,7 @@ abstract class qtype_stack_walkthrough_test_base extends qbehaviour_walkthrough_
      * @param string $expected with plain maths delimiters. E.g. '<p>\(x + 1\)</p>'.
      * @param string $actual the actual output, as processed by the default Maths filter that STACK uses.
      */
-    protected function assertContentWithMathsEquals($expected, $actual) {
+    protected function assert_content_with_maths_equals($expected, $actual) {
         $this->assertEquals($expected, qtype_stack_testcase::prepare_actual_maths($actual));
     }
 
@@ -344,7 +375,7 @@ abstract class qtype_stack_walkthrough_test_base extends qbehaviour_walkthrough_
      * @param string $expected with plain maths delimiters. E.g. '<p>\(x + 1\)</p>'.
      * @param string $actual the actual output, as processed by the default Maths filter that STACK uses.
      */
-    protected function assertContentWithMathsContains($expected, $actual) {
+    protected function assert_content_with_maths_contains($expected, $actual) {
         $this->assertContains($expected, qtype_stack_testcase::prepare_actual_maths($actual));
     }
 

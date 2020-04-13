@@ -24,6 +24,11 @@ defined('MOODLE_INTERNAL') || die();
  */
 class stack_anstest {
 
+    /**
+     * The name of the answer test.
+     * @var string
+     */
+    protected $atname;
 
     /**
      * Every answer test must have something sensible here for the tracing.
@@ -32,24 +37,24 @@ class stack_anstest {
     protected $casfunction;
 
     /**
-     * @var    string
+     * @var    stack_ast_container
      */
     protected $sanskey;
 
     /**
-     * @var    string
+     * @var    stack_ast_container
      */
     protected $tanskey;
+
+    /**
+     * @var    stack_ast_container
+     */
+    protected $atoption = null;
 
     /**
      * @var    string
      */
     protected $options;
-
-    /**
-     * @var    CasString
-     */
-    protected $atoption = null;
 
     /**
      * @var    float
@@ -87,12 +92,12 @@ class stack_anstest {
      * @param  string $sanskey
      * @param  string $tanskey
      */
-    public function __construct($sans, $tans, $options = null, $atoption = null) {
+    public function __construct(stack_ast_container $sans, stack_ast_container $tans, $options = null, $atoption = null) {
         $this->sanskey = $sans;
         $this->tanskey = $tans;
 
         if (!(null === $options || is_a($options, 'stack_options'))) {
-            throw new stack_exception('stack_anstest_atnumsigfigs: options must be stack_options or null.');
+            throw new stack_exception('stack_anstest: options must be stack_options or null.');
         }
 
         if ($options != null) {
@@ -159,25 +164,6 @@ class stack_anstest {
     }
 
     /**
-     * Returns whether the testops should be processed by the CAS for this AnswerTest
-     *
-     * @return bool
-     */
-    public function process_atoptions() {
-        return false;
-    }
-
-    /**
-     * Returns whether the testops are required for this test.
-     *
-     * @return bool
-     * @access public
-     */
-    public function required_atoptions() {
-        return false;
-    }
-
-    /**
      * Returns some sensible debug information for testing questions.
      *
      * @return string
@@ -205,11 +191,35 @@ class stack_anstest {
      */
     public function get_trace($includeresult) {
 
-        $ta   = $this->tanskey;
-        $atopt = $this->atoption;
-        $traceline = $this->get_casfunction() . '(' . $this->sanskey . ', ' . $ta . ')';
-        if ('' != trim($atopt)) {
-            $traceline = $this->get_casfunction() . '(' . $this->sanskey . ', ' . $ta . ', '. trim($atopt) .')';
+        if ($this->tanskey && $this->tanskey->get_valid()) {
+            $ta = $this->tanskey->ast_to_string(null,
+                array('logicnoun' => true, 'keyless' => true));
+            if ($this->tanskey->is_correctly_evaluated()) {
+                $ta = $this->tanskey->get_value();
+            }
+        } else {
+            return '';
+        }
+        if ($this->sanskey && $this->sanskey->get_valid()) {
+            $sa = $this->sanskey->ast_to_string(null,
+                array('logicnoun' => true, 'keyless' => true));
+            if ($this->sanskey->is_correctly_evaluated()) {
+                $sa = $this->sanskey->get_value();
+            }
+        } else {
+            return '';
+        }
+        $traceline = $this->get_casfunction() . '(' . $sa . ', ' . $ta . ')';
+        if (stack_ans_test_controller::required_atoptions($this->atname)) {
+            $atopt = '';
+            if ($this->atoption->get_valid()) {
+                $atopt = $this->atoption->ast_to_string(null,
+                    array('logicnoun' => true, 'keyless' => true));
+            }
+            if ($this->atoption->is_correctly_evaluated()) {
+                $atopt = $this->atoption->get_value();
+            }
+            $traceline = $this->get_casfunction() . '(' . $sa . ', ' . $ta . ', '. $atopt .')';
         }
         if ($includeresult) {
             $traceline .= ' = ['.$this->atmark. ', "' . $this->atansnote .'"];';

@@ -1,5 +1,5 @@
 <?php
-// This file is part of Stack - http://stack.bham.ac.uk/
+// This file is part of Stack - https://stack.maths.ed.ac.uk
 //
 // Stack is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -22,36 +22,29 @@ defined('MOODLE_INTERNAL') || die();
 // @copyright  2012 University of Birmingham
 // @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
 
-require_once(__DIR__ . '/../casstring.class.php');
 require_once("block.interface.php");
+require_once(__DIR__ . '/../ast.container.conditional.class.php');
 
 class stack_cas_castext_if extends stack_cas_castext_block {
 
-    // Remembers the number for this instance.
-    private $number;
+    // Remembers the casstring.
+    private $string;
 
     private $condition;
 
-    public function extract_attributes(&$tobeevaluatedcassession, $conditionstack = null) {
+    public function extract_attributes($tobeevaluatedcassession, $conditionstack = null) {
         $condition = $this->get_node()->get_parameter("test", "false");
 
-        $key = false;
-        $sessionkeys = $tobeevaluatedcassession->get_all_keys();
-        $i = 0;
-        do { // Make sure names are not already in use.
-            $key = 'caschat'.$i;
-            $i++;
-        } while (in_array($key, $sessionkeys));
-        $this->number = $i - 1;
+        $cs = stack_ast_container_conditional_value::make_from_teacher_source($condition, '', new stack_cas_security());
+        $cs->set_conditions($conditionstack);
 
-        $cs = null;
-        $cs = new stack_cas_casstring("$key:$condition", $conditionstack);
+        // Let's provide condition free version for deepper use.
+        $this->condition = stack_ast_container::make_from_teacher_source($condition, '', new stack_cas_security());
 
-        $this->condition = $cs;
+        $this->string = $cs;
+        $cs->set_keyless(true);
 
-        $cs->get_valid($this->security, $this->syntax, $this->insertstars);
-
-        $tobeevaluatedcassession->add_vars(array($cs));
+        $tobeevaluatedcassession->add_statement($cs);
     }
 
     public function content_evaluation_context($conditionstack = array()) {
@@ -60,7 +53,12 @@ class stack_cas_castext_if extends stack_cas_castext_block {
     }
 
     public function process_content($evaluatedcassession, $conditionstack = null) {
-        $evaluated = $evaluatedcassession->get_value_key("caschat".$this->number);
+        $errors = $this->string->get_errors();
+        if ('' !== $errors && null != $errors) {
+            return false;
+        }
+
+        $evaluated = $this->string->get_value();
 
         // If so then move childs up.
         if ($evaluated == 'true') {
@@ -74,7 +72,7 @@ class stack_cas_castext_if extends stack_cas_castext_block {
 
     public function validate_extract_attributes() {
         $condition = $this->get_node()->get_parameter('test', 'false');
-        $r = array(new stack_cas_casstring($condition));
+        $r = array(stack_ast_container::make_from_teacher_source($condition, '', new stack_cas_security(), array()));
         return $r;
     }
 

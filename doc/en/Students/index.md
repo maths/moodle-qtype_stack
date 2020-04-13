@@ -10,4 +10,7 @@ Then you _submit_ your answer and it is [assessed](Answer_assessment.md).
 * Multiple attempts at a question are usually encouraged.
 * You will often be given randomly generated questions, so you may be able to practice similar questions.
 
-There is a page for frequently asked questions, [FAQ](FAQ.md).
+You can also read about [accessibility features](Accessibility.md) and how to use the [equivalence reasoning](Equivalence_reasoning.md) input.
+
+There is also page for frequently asked questions, [FAQ](FAQ.md).
+

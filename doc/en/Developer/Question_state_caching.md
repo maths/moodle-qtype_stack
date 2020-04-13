@@ -10,9 +10,9 @@ This can be done through Moodle.
 
 Navigate to
 
-     Home > Site administration > Plugins > Question types > Stack
+     Home > Site administration > Plugins > Question types > STACK
 
-Choose to view the Healthcheck page.  At the bottom of this is a button to clear the cache.
+Choose to view the healthcheck page.  At the bottom of this is a button to clear the cache.
 
 
 

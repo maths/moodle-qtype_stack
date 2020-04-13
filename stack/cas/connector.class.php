@@ -84,6 +84,49 @@ abstract class stack_cas_connection_base implements stack_cas_connection {
         return $unpackedresult;
     }
 
+    public function json_compute($command): array {
+        $this->debug->log('Maxima command', $command);
+
+        $starterr = 'STACK-ERR-OUTPUT-BEGINS>';
+        // Write a starting tag so in the event of a total failure we can report something useful back.
+        $command = "print(\"" . $starterr . "\")$\n" . $command;
+
+        $raw = $this->call_maxima($command);
+        $this->debug->log('CAS result', $raw);
+
+        // Always do what we can to return some kind of useful message starting at the actual output of our command.
+        $errmsg = $raw;
+        $errmsg = mb_substr($errmsg, mb_strpos($errmsg, $starterr) + mb_strlen($starterr));
+        // Tidy Maxima error message to avoid confusion.
+        $errmsg = str_replace('To debug this try: debugmode(true);', '', $errmsg);
+
+        $startmark = 'STACK-OUTPUT-BEGINS>';
+        $endmark = '<STACK-OUTPUT-ENDS';
+
+        $split = $raw;
+        if (mb_strpos($split, $startmark) === false) {
+            $this->debug->log('Timedout', true);
+            return array('timeout' => true, 'debug' => $split, 'timeouterrmessage' => $errmsg);
+        }
+        $split = mb_substr($split, mb_strpos($split, $startmark) + mb_strlen($startmark));
+
+        if (mb_strpos($split, $endmark) === false) {
+            $this->debug->log('Timedout', 'in the middle of output');
+            return array('timeout' => true, 'debug' => $split, 'timeouterrmessage' => $errmsg);
+        }
+        $split = mb_substr($split, 0, mb_strpos($split, $endmark));
+
+        $parsed = json_decode($split, true);
+        if ($parsed === null) {
+            $parsed = [];
+        }
+        // @codingStandardsIgnoreStart
+        $this->debug->log('Parsed result as', print_r($parsed, true));
+        // @codingStandardsIgnoreEnd
+
+        return $parsed;
+    }
+
     // @codingStandardsIgnoreStart
     /* @see stack_cas_connection::get_debuginfo() */
     // @codingStandardsIgnoreEnd

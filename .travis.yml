@@ -1,14 +1,18 @@
 language: php
 
+dist: bionic
 sudo: required
+
+services:
+  mysql
 
 addons:
   firefox: "47.0.1"
   postgresql: "9.6"
   apt:
     packages:
-      - oracle-java8-installer
-      - oracle-java8-set-default
+      - openjdk-8-jre-headless
+      - chromium-chromedriver
       - maxima
       - maxima-share
       - texinfo
@@ -19,74 +23,55 @@ cache:
     - $HOME/.npm
 
 matrix:
-  # I would like to run at least some of these with DB=mysqli, but that
-  # currently fails with dist: trusty which we need for Maxima.
-  # The error is ERROR 2002 (HY000): Can't connect to local MySQL server through socket '/var/run/mysqld/mysqld.sock' (2)
-  # The solution is to add --protocol=TCP in src/Installer/Database/MySQLDatabase.php
-  # in https://github.com/moodlerooms/moodle-plugin-ci, but I can't work out
-  # how to do that.
   include:
 
-    - php: 7.0
-      env: TASK=PHPUNIT        MOODLE_BRANCH=MOODLE_32_STABLE   DB=pgsql
-
-    - php: 5.6
-      env: TASK=PHPUNIT        MOODLE_BRANCH=MOODLE_33_STABLE   DB=mysqli
-
-    # Would be good to run this next test in PHP 7.2, but STACK does not support that yet.
-    - php: 7.0
-      env: TASK=PHPUNIT        MOODLE_BRANCH=MOODLE_34_STABLE   DB=pgsql
-
+#    # Would be good to run this next test in PHP 7.2, but STACK does not support that yet.
+#    - php: 7.0
+#      env: TASK=PHPUNIT        MOODLE_BRANCH=MOODLE_35_STABLE   DB=pgsql
+#
     - php: 7.1
-      env: TASK=PHPUNIT        MOODLE_BRANCH=MOODLE_35_STABLE   DB=mysqli
+      env: TASK=PHPUNIT        MOODLE_BRANCH=MOODLE_37_STABLE   DB=mysqli
 
-    - php: 7.1
-      env: TASK=PHPUNIT        MOODLE_BRANCH=MOODLE_36_STABLE   DB=pgsql
-
-    # Master here will need to be changed to MOODLE_37_STABLE once Moodle 3.7 has been released.
-    - php: 7.1
-      env: TASK=PHPUNIT        MOODLE_BRANCH=master             DB=mysqli
-
-
-    - php: 5.6
-      env: TASK=BEHAT          MOODLE_BRANCH=MOODLE_32_STABLE   DB=mysqli
-
-    - php: 7.0
-      env: TASK=BEHAT          MOODLE_BRANCH=MOODLE_33_STABLE   DB=pgsql
-
-    - php: 7.1
-      env: TASK=BEHAT          MOODLE_BRANCH=MOODLE_34_STABLE   DB=mysqli
-
-    # Would be good to run this next test in PHP 7.2, but STACK does not support that yet.
-    - php: 7.0
-      env: TASK=BEHAT          MOODLE_BRANCH=MOODLE_35_STABLE   DB=pgsql
-
-    - php: 7.1
-      env: TASK=BEHAT          MOODLE_BRANCH=MOODLE_36_STABLE   DB=mysqli
-
-    # Master here will need to be changed to MOODLE_36_STABLE once Moodle 3.7 has been released.
-    - php: 7.1
-      env: TASK=BEHAT          MOODLE_BRANCH=master             DB=pgsql
+#    - php: 7.2
+#      env: TASK=PHPUNIT        MOODLE_BRANCH=MOODLE_38_STABLE   DB=pgsql
+#
+# Master here will need to be changed to MOODLE_39_STABLE once Moodle 3.9 has been released.
+#    - php: 7.3
+#      env: TASK=PHPUNIT        MOODLE_BRANCH=master             DB=mysqli
 
 
-    - php: 7.1
-      env: TASK=CODESTYLE      MOODLE_BRANCH=MOODLE_35_STABLE   DB=mysqli
+#    - php: 7.1
+#      env: TASK=BEHAT          MOODLE_BRANCH=MOODLE_35_STABLE   DB=mysqli
+#
+    - php: 7.2
+      env: TASK=BEHAT          MOODLE_BRANCH=MOODLE_37_STABLE   DB=pgsql
 
-    - php: 7.1
-      env: TASK=CODEKNOWNFAILS MOODLE_BRANCH=MOODLE_35_STABLE   DB=mysqli
+#    - php: 7.3
+#      env: TASK=BEHAT          MOODLE_BRANCH=MOODLE_38_STABLE   DB=mysqli
+
+# Master here will need to be changed to MOODLE_39_STABLE once Moodle 3.9 has been released.
+#    - php: 7.2
+#      env: TASK=BEHAT          MOODLE_BRANCH=master             DB=pgsql
+
+
+    - php: 7.3
+      env: TASK=CODESTYLE      MOODLE_BRANCH=MOODLE_37_STABLE   DB=mysqli
+
+    - php: 7.3
+      env: TASK=CODEKNOWNFAILS MOODLE_BRANCH=MOODLE_37_STABLE   DB=mysqli
 
   allow_failures:
     # This relates to the bit right at the end, where we run some of the coding style checks in this group.
     # We don't care if these checks fail, but we want to be able to see the results.
-    - php: 7.1
-      env: TASK=CODEKNOWNFAILS MOODLE_BRANCH=MOODLE_35_STABLE   DB=mysqli
+    - php: 7.3
+      env: TASK=CODEKNOWNFAILS MOODLE_BRANCH=MOODLE_37_STABLE   DB=mysqli
 
 before_install:
   - phpenv config-rm xdebug.ini
   - nvm install 8.9
   - nvm use 8.9
   - cd ../..
-  - composer create-project -n --no-dev --prefer-dist moodlerooms/moodle-plugin-ci ci ^2
+  - composer create-project -n --no-dev --prefer-dist blackboard-open-source/moodle-plugin-ci ci ^2
   - export PATH="$(cd ci/bin; pwd):$(cd ci/vendor/bin; pwd):$PATH"
 
 install:
@@ -100,6 +85,7 @@ install:
   - moodle-plugin-ci add-config 'define("QTYPE_STACK_TEST_CONFIG_CASRESULTSCACHE", "db");'
   - moodle-plugin-ci add-config 'define("QTYPE_STACK_TEST_CONFIG_MAXIMACOMMAND",   "timeout --kill-after=10s 10s /home/travis/build/maxima_opt_auto -eval '\''(cl-user::run)'\''");'
   - moodle-plugin-ci add-config 'define("QTYPE_STACK_TEST_CONFIG_PLOTCOMMAND",     "gnuplot");'
+  - moodle-plugin-ci add-config 'define("QTYPE_STACK_TEST_CONFIG_MAXIMALIBRARIES", "stats, distrib, descriptive, simplex");'
   - moodle-plugin-ci add-config 'define("QTYPE_STACK_TEST_CONFIG_CASDEBUGGING",    "0");'
   - cp /home/travis/build/moodledata/phpu_moodledata/stack/maxima_opt_auto /home/travis/build/maxima_opt_auto
 
@@ -114,7 +100,7 @@ script:
   - if [ "$TASK" = 'PHPUNIT' ];        then moodle-plugin-ci phpunit;     fi
 
   # Run all the Behat tests.
-  - if [ "$TASK" = 'BEHAT' ];          then moodle-plugin-ci behat;       fi
+  - if [ "$TASK" = 'BEHAT' ];          then moodle-plugin-ci behat --profile chrome; fi
 
   # Run all the various code style tests - this subset should all pass.
   - if [ "$TASK" = 'CODESTYLE' ];      then moodle-plugin-ci phplint;     fi

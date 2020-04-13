@@ -25,8 +25,11 @@ defined('MOODLE_INTERNAL') || die();
 class stack_algebraic_input extends stack_input {
 
     protected $extraoptions = array(
+        'simp' => false,
         'rationalized' => false,
-        'allowempty' => false
+        'allowempty' => false,
+        'nounits' => false,
+        'align' => 'left'
     );
 
     public function render(stack_input_state $state, $fieldname, $readonly, $tavalue) {
@@ -44,18 +47,22 @@ class stack_algebraic_input extends stack_input {
             'style' => 'width: '.$size.'em',
             'autocapitalize' => 'none',
             'spellcheck'     => 'false',
+            'class' => 'algebraic',
         );
+        if ($this->extraoptions['align'] === 'right') {
+            $attributes['class'] = 'algebraic-right';
+        }
 
         $value = $this->contents_to_maxima($state->contents);
-        if ($this->is_blank_response($state->contents)) {
+        if ($value == 'EMPTYANSWER') {
+            // Active empty choices don't result in a syntax hint again (with that option set).
+            $attributes['value'] = '';
+        } else if ($this->is_blank_response($state->contents)) {
             $field = 'value';
             if ($this->parameters['syntaxAttribute'] == '1') {
                 $field = 'placeholder';
             }
-            $attributes[$field] = stack_utils::logic_nouns_sort($this->parameters['syntaxHint'], 'remove');
-        } else if ($value == 'EMPTYANSWER') {
-            // Active empty choices don't result in a syntax hint again (with that option set).
-            $attributes['value'] = '';
+            $attributes[$field] = $this->parameters['syntaxHint'];
         } else {
             $attributes['value'] = $value;
         }
@@ -113,10 +120,12 @@ class stack_algebraic_input extends stack_input {
      * @return string the teacher's answer, displayed to the student in the general feedback.
      */
     public function get_teacher_answer_display($value, $display) {
-        $value = stack_utils::logic_nouns_sort($value, 'remove');
         if (trim($value) == 'EMPTYANSWER') {
             return stack_string('teacheranswerempty');
         }
+        $cs = stack_ast_container::make_from_teacher_source($value, '', new stack_cas_security());
+        $cs->set_nounify(0);
+        $value = $cs->get_inputform(true, 0, 0);
         return stack_string('teacheranswershow', array('value' => '<code>'.$value.'</code>', 'display' => $display));
     }
 }

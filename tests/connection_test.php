@@ -43,8 +43,8 @@ class stack_cas_connection_base_test extends qtype_stack_testcase {
         $strin = 'cab:block([],print("[STACKSTART Locals= [ 0=[ error= ["), cte("p",errcatch(dispdp(1,3))),'
         .' print("] ]"), return(true));';
         $return = $connection->compute($strin);
-        $expected = array( 0 => array('key' => 'p', 'value' => 'displaydp(1.0,3)', 'dispvalue' => '1.00', 'display' => '1.00',
-                'error' => ''));
+        $expected = array( 0 => array('key' => 'p', 'value' => 'displaydp(1.0,3)', 'dispvalue' => '1.000',
+                'display' => '1.000', 'error' => ''));
         $this->assertEquals($expected, $return);
     }
 

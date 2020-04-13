@@ -28,7 +28,7 @@ require_once($CFG->libdir .'/filelib.php');
 require_once($CFG->libdir .'/tablelib.php');
 
 require_once(__DIR__ . '/locallib.php');
-require_once(__DIR__ . '/stack/cas/cassession.class.php');
+require_once(__DIR__ . '/stack/cas/cassession2.class.php');
 require_once(__DIR__ . '/stack/input/factory.class.php');
 require_once(__DIR__ . '/tests/fixtures/inputfixtures.class.php');
 
@@ -125,7 +125,7 @@ foreach ($tests as $test) {
         'casvalid'           => s($casvalid),
         'casvalue'           => $casvalue,
         'casdisplay'         => format_text(stack_maths::process_lang_string(s($display))) .
-                html_writer::tag('pre', s($casdisplay)),
+                html_writer::tag('pre', s($casdisplay)) . "\n",
         'caserrors'          => $caserrors,
     );
     $table->add_data_keyed($row, $class);

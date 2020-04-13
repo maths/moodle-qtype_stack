@@ -22,7 +22,7 @@
 /****************************************************************/
 
 MAXIMA_VERSION:map(parse_string, tokens(?\*autoconf\-version\*, 'digitcharp))$
-MAXIMA_VERSION_NUM:float(MAXIMA_VERSION[2]+(if is(length(MAXIMA_VERSION)>2) 
+MAXIMA_VERSION_NUM:float(MAXIMA_VERSION[2]+(if is(length(MAXIMA_VERSION)>2)
   then (if is(MAXIMA_VERSION[3]<10) then MAXIMA_VERSION[3]/10 else 0) else 0))$
 
 /* ********************************** */
@@ -45,6 +45,9 @@ if not(?functionp('rempart)) then load(functs);
 /* op(ex) is unsafe on atoms: this is a fix. */
 /* This function always returns a string.    */
 safe_op(ex) := block([st],
+    /* Subtle changes in mapatom, in Maxima 5.42.2, with simp:false. */
+    if atom(ex) then return(""),
+    if op(ex) = "-" then return("-"),
     if mapatom(ex) then return(""),
     if stringp(op(ex)) then return(op(ex)),
     st:string(op(ex)),
@@ -187,6 +190,29 @@ degree(ex,v) := ev(hipow(expand(ex), v), simp);
 is_simp(ex) := ev(is(ex), simp)$
 
 /* ********************************** */
+/* Control the display of lists       */
+/* ********************************** */
+
+/* An expression sequence is displayed without square brackets. */
+texsequence (e) := simplode(maplist(tex1,args(e)), ", ")$
+texput(sequence, texsequence)$
+ 
+/* Convenience functions creating sequences. */
+sequenceify(ex):= apply(sequence, args(ex))$
+sequencep(ex):= if safe_op(ex)="sequence" then true else false$
+
+/* An "ntuple" is displayed with round brackets. */
+texntuple(e) := concat("\\left(", simplode(maplist(tex1,args(e)), ", "), "\\right)")$
+texput(ntuple, texntuple)$
+ 
+ntupleify(ex):= apply(ntuple, args(ex))$
+ntuplep(ex):= if safe_op(ex)="ntuple" then true else false$
+
+/* An ellipsis */
+texput(dotdotdot, "\\ldots")$
+
+
+/* ********************************** */
 /* Type predicates                    */
 /* ********************************** */
 
@@ -212,8 +238,9 @@ inequalityp(ex) := block(
    return(false)
 )$
 
+/* Determines if ex looks like a basic mathematical expression. */
 expressionp(ex) := block(
- if matrixp(ex) or listp(ex) or equationp(ex) or inequalityp(ex) or safe_setp(ex) or functionp(ex) or logicp(ex) then
+ if matrixp(ex) or listp(ex) or equationp(ex) or inequalityp(ex) or safe_setp(ex) or functionp(ex) or logicp(ex) or stringp(ex) then
     return (false),
  return(true)
 );
@@ -233,22 +260,24 @@ safe_setp(ex) := setp(ex) or safe_op(ex) = "{"$
 /* ********************************** */
 alias(ln, log);
 
-/* Add in support for logarithms to an arbirary base. */
-lg([ex]) := block(
-  if length(ex) = 1 then return(logbase(first(ex), 10)),
-  if length(ex) = 2 then return(logbase(first(ex), second(ex))),
-  error("STACK function 'lg' must have one or two arguments only.")
-)$
+/* Legacy reasons */
+alias(lg, logbase);
 
-logbasetex(ex) := block([n, b],
-  [n, b]:args(ex),
+lgtex(ex) := block([n, b],
+  b:10,
+  if length(args(ex)) = 1 then n:first(args(ex)),
+  if length(args(ex)) = 2 then (n:first(args(ex)), b:second(args(ex))),
   oldsimp:simp,
   return(concat("\\log_{", stack_disp_strip_dollars(tex(b, false)), "}\\left(", stack_disp_strip_dollars(tex(n, false)), "\\right)"))
 )$
-texput(logbase, logbasetex);
+texput(lg, lgtex);
 
 /* Use of radcan to give canonical form. */
-logbasesimp(n,b) := radcan(log(n)/log(b));
+logbasesimp([ex]) := block(
+  if length(ex) = 1 then return(radcan(log(first(ex))/log(10))),
+  if length(ex) = 2 then return(radcan(log(first(ex))/log(second(ex)))),
+  error("STACK function 'lg' must have one or two arguments only.")
+)$
 
 /* Add in a flexible "nth" roots function. */
 root([ex]) := block(
@@ -321,7 +350,7 @@ real_numberp(ex):=
     trigexpand:true,
     logexpand:super,
     keepfloat:true,
-    ex:errcatch(ev(fullratsimp(ex), logbase=logbasesimp, simp)),
+    ex:errcatch(ev(fullratsimp(ex), lg=logbasesimp, simp)),
     if ex=[] then return(false),
     ex:ev(float(ex[1]),simp),
     if listofvars(ex)#[] then return(false),
@@ -342,12 +371,12 @@ complex_exponentialp(ex):=block([ex2],
     if safe_op(ex)="*" then
         if not(is(real_numberp(first(args(ex))))) then
             return(false)
-        else 
+        else
             ex2:second(args(ex)),
     if safe_op(ex)="/" then
         if not(is(real_numberp(second(args(ex))))) then
             return(false)
-        else 
+        else
             ex2:first(args(ex)),
     /* Case of r=1, which is not written, or stripped off by the above code. */
     if safe_op(ex2)="^" then
@@ -470,7 +499,7 @@ remove_displaydp(ex):= block(
 
 /* Write the number ex in n decimal places */
 decimalplacesfun(ex, n, dispdps) := block([ex2],
-    ex2:ev(float(round(10^n*float(ex))/(10^n)), logbase=logbasesimp, simp),
+    ex2:ev(float(round(10^n*float(ex))/(10^n)), lg=logbasesimp, simp),
     if dispdps then ex2:displaydp(ex2, n),
     return(ex2)
     )$
@@ -480,7 +509,8 @@ dispdp(ex, n) := decimalplacesfun(ex, n, true)$
 /* Write numbers in significant figures */
 /* Matti Pauna, Sun, 23 Oct 2011        */
 sigfigsfun(x, n, dispsigfigs) := block([fpprec:128, fpprintprec:16, simp:true, ex, ex1, ex2, dps],
-  if not(real_numberp(x)) then error("sigfigsfun(x,n,d) requires a real number as a first argument.  Received: ", string(x)),
+  if listp(x) then return(maplist(lambda([ex], sigfigsfun(ex, n, dispsigfigs)), x)),
+  if not(real_numberp(x)) then error("sigfigsfun(x,n,d) requires a real number, or a list of real numbers, as a first argument.  Received: ", string(x)),
   if not(integerp(n)) then error("sigfigsfun(x,n,d) requires an integer as a second argument. Received: ", string(n)),
   if not(is(dispsigfigs=true) or is(dispsigfigs=false)) then error("sigfigsfun(x,n,d) requires a boolean as the third argument."),
   if (is(x = 0) or is(x = 0.0)) then
@@ -489,7 +519,7 @@ sigfigsfun(x, n, dispsigfigs) := block([fpprec:128, fpprintprec:16, simp:true, e
         else return(0),
   sign_of_x:signum(x),
   /* Evaluate logarithms to an arbitrary base. */
-  x:ev(bfloat(x), logbase=logbasesimp, simp),
+  x:ev(bfloat(x), lg=logbasesimp, simp),
   /* Check again for a zero.  E.g. cases like cos(0.5*pi). */
   if (is(x = 0) or is(x = 0.0)) then
     if (is(n <= 1)) then return(0)
@@ -523,7 +553,7 @@ dispsf(x, n) := sigfigsfun(x, n, true);
   Evaluate x as a float (with full simplification), and display this in scientific notation
   e*10^k
   displaying the results to n significant figures.
-  
+
   If x is not a real number, then return x without a warning.
 */
 scientific_notation([a]) := block([oldsimp, x, ex, ex2, ex3, exn],
@@ -532,7 +562,7 @@ scientific_notation([a]) := block([oldsimp, x, ex, ex2, ex3, exn],
   if ev(is(length(a)=1), simp) then (x:first(a), exn:false)
   else if ev(is(length(a)=2), simp) then (x:first(a), exn:second(a))
   else error("scientific_notation takes only one or two arguments"),
-  x:ev(float(x), logbase=logbasesimp, simp),
+  x:ev(float(x), lg=logbasesimp, simp),
   if real_numberp(x) then (
       ex:ev(floor(float(log(abs(x))/log(10))), simp),
       ex2:ev(float(x/10^ex), simp),
@@ -604,6 +634,18 @@ make_displayscivalue(ex):= block([n, d, expo, ss],
    this kind of problem.
 */
 
+/* ********************************** */
+/* Modular arithmetic                 */
+/* ********************************** */
+
+/* Apply modular arithmetic to parts of a larger expression.
+   Note Maxima's polymod function only works for polynomials.
+*/
+recursemod(ex, n) := block(
+    if numberp(ex) then return(mod(ex, n)),
+    if atom(ex) then return(ex),
+    apply(op(ex), map(lambda([ex2], recursemod(ex2, n)), args(ex)))
+)$
 
 /* ********************************** */
 /* Equivalence                        */
@@ -613,16 +655,17 @@ make_displayscivalue(ex):= block([n, d, expo, ss],
    Takes two objects and returns true if they are equal, and false otherwise
    This is a "bash as hard as possible" function
 
-   26/9/12.  Avoid fullratsimp after exponentialize.  This results in a non-terminating process.
-
+   26/09/12.  Avoid fullratsimp after exponentialize.  This results in a non-terminating process.
    24/11/13.  Avoid fullratsimp.  This expands out exprsssions such as (x+a)^6000, which results in an overflow.
-
    04/01/19.  Avoid trigexpand too soon, i.e. before trying to factor.
+   24/02/20.  Using a lambda expression is causing an infinite loop.  Use a named function: algebraic_equivalence_zero.
 */
+
+algebraic_equivalence_zero(ex) := algebraic_equivalence(ex, 0)$
+
 algebraic_equivalence(SA, SB) :=
     block([keepfloat, trigexpand, logexpand, ex, vi],
     /* Reject obviously different expressions.  These can be very time consuming in the tests below. */
-    /* The code below is actually making the situation worse: needs reconsidering. */
     if numerical_not_alg_equiv(SA, SB) then return(false),
     trigexpand:false,
     logexpand:super,
@@ -631,6 +674,9 @@ algebraic_equivalence(SA, SB) :=
     if (safe_op(SA)=safe_op(SB) and (safe_op(SA)="sqrt" or safe_op(SA)="abs")) then
       (SA:first(args(SA)),
        SB:first(args(SB))),
+    /* Remove stackeq. */
+    SA:remove_stackeq(SA),
+    SB:remove_stackeq(SB),
     /* Remove scientific units and displaydp from expressions. */
     SA:ev(SA, stackunits="*"),
     SB:ev(SB, stackunits="*"),
@@ -642,21 +688,21 @@ algebraic_equivalence(SA, SB) :=
     if not(freeof(displaydp, SB)) then
       SA:remove_displaydp(SB),
     /* Remove logarithms to other bases from expressions. */
-    if not(freeof(logbase, SA)) then
-        SA:ev(SA, logbase=logbasesimp),
-    if not(freeof(logbase, SB)) then
-        SB:ev(SB, logbase=logbasesimp),
+    if not(freeof(lg, SA)) then
+        SA:ev(SA, lg=logbasesimp),
+    if not(freeof(lg, SB)) then
+        SB:ev(SB, lg=logbasesimp),
     /* Try not to expand out: pure numbers. */
     ex:errcatch(ev(SA-SB, simp)),
-    if ex=[] then (print("algebraic_equivalence: evaluating the difference of two expressions threw an error."), return(false)),
+    if ex=[] then error("algebraic_equivalence: evaluating the difference of two expressions threw an error."),
     ex:ex[1],
     ex:append([ex], listofvars([ex])),
     /* Do our best to collect like terms, and transform numbers to cannonical forms without expanding out. */
     ex:errcatch(ev(apply(collectterms, ex), simp)),
-    if ex=[] then (print("algebraic_equivalence: evaluating collectterms threw an error."), return(false)),
+    if ex=[] then error("algebraic_equivalence: evaluating collectterms threw an error."),
     ex:ex[1],
     ex:errcatch(ev(radcan_num(ex), simp)),
-    if ex=[] then (print("algebraic_equivalence: evaluating radcan_num an error."), return(false)),
+    if ex=[] then error("algebraic_equivalence: evaluating radcan_num threw an error."),
     ex:ex[1],
     if numberp(ex) then
       if rat(ex)=0 then return(true)
@@ -666,20 +712,20 @@ algebraic_equivalence(SA, SB) :=
        ex:errcatch(ev(factor(SA-SB), simp))
     else
        ex:[ex],
-    if ex=[] then (print("algebraic_equivalence: factoring the difference of two expressions threw an error."), return(false)),
+    if ex=[] then error("algebraic_equivalence: factoring the difference of two expressions threw an error."),
     ex:ex[1],
     /* Try to return a negative result without expanding anything! */
     if safe_op(ex)="-" then
        ex:first(args(ex)),
-    if (safe_op(ex)="*" or safe_op(ex)="^") then
-       if not(any_listp(lambda([ex2], algebraic_equivalence(ex2, 0)), args(ex))) then return(false),
+    if (safe_op(ex)="*" or safe_op(ex)="^") then 
+       if not(any_listp(algebraic_equivalence_zero, args(ex))) then return(false),
     ex:errcatch(ratsimp(ex)),
-    if ex=[] then (print("algebraic_equivalence: evaluating the difference of two expressions threw an error."), return(false)),
+    if ex=[] then error("algebraic_equivalence: evaluating the difference of two expressions threw an error."),
     ex:ex[1],
     if ex=0 then return(true),
     /* Next we expand out the difference. */
     ex:errcatch(ev(fullratsimp(SA-SB), simp)),
-    if ex=[] then (print("algebraic_equivalence: evaluating the difference of two expressions threw an error."), return(false)),
+    if ex=[] then error("algebraic_equivalence: evaluating the difference of two expressions threw an error."),
     ex:ex[1],
     if floatnump(ex) then return(false),
     ex:num(ex),  /* after a fullratsimp, we have a ratio.  We should only need to consider the top */
@@ -706,10 +752,13 @@ numerical_not_alg_equiv(p1, p2):= block([pvars, pval, lv, sz, stack_mtell_quiet]
   /* Evaluate as integers to start with and avoid floats.  This is safer, and works in many cases.*/
   lv:zip_with("=", pvars, makelist(ev(k+1,simp), k, length(pvars))),
   pval:errcatch(ev(p1-p2, lv, simp)),
+  if debug then print(lv, pval),
   /* We can't remove all these with stack_mtell_quiet, because some are division by zero
      which are errors, not warnings.                                                      */
   if is(pval = []) then (print("STACK: ignore previous error. (p1)"), return(false)),
-  if abs(first(pval)) > 1/10000 then return(true),
+  pval:errcatch(ev(is(abs(first(pval)) > 1/10000), simp)),
+  if is(pval = []) then (print("STACK: ignore previous error. (p1)"), return(false)),
+  if first(pval) then return(true),
   /* Evaluate the difference of the expressions at each variable as floats. */
   lv:zip_with("=", pvars, makelist(float((sqrt(2)^k+k*%pi)/4), k, length(pvars))),
   /* Now we evaluate the difference of the expressions at each variable. */
@@ -717,7 +766,8 @@ numerical_not_alg_equiv(p1, p2):= block([pvars, pval, lv, sz, stack_mtell_quiet]
   if is(p1 = []) then (print("STACK: ignore previous error. (p1)"), return(false)),
   p2:errcatch(ev(float(p2), lv, numer_pbranch:true, simp)),
   if is(p2 = []) then (print("STACK: ignore previous error. (p2)"), return(false)),
-  sz:errcatch(ev(abs(float(first(p1)-first(p2))), simp)),
+  /* Make the error here relative, and don't divide by zero. */
+  sz:errcatch(ev(abs(float(first(p1)-first(p2))/max(min(abs(first(p1)),abs(first(p2))),1)), simp)),
   /* print([p1,p2,sz]), */
   if is(sz = []) then (print("STACK: ignore previous error."), return(false)),
   if first(sz) > 0.0001 then true else false)$
@@ -839,7 +889,7 @@ declare("noun=", commutative);
 declare("noun=", lassociative);
 declare("noun=", rassociative);
 
-verb_arith(ex) := block(
+verb_arith(ex) := block([a],
     ex:subst("=", "noun=", ex),
     ex:subst("+", "noun+", ex),
     ex:subst("*", "noun*", ex),
@@ -853,7 +903,7 @@ verb_arith(ex) := block(
 )$
 
 /* (4) */
-noun_arith(ex) := block(
+noun_arith(ex) := block([a],
     ex:subst("noun=", "=", ex),
     ex:subst("noun+", "+", ex),
     ex:subst("noun*", "*", ex),
@@ -886,7 +936,17 @@ flatten_recurse_nouns(ex) := block(
     if atom(ex) then return(ex),
     if op(ex)="noun+" or op(ex)="noun*" then
         return(flatten(apply(op(ex), maplist(flatten_recurse_nouns, args(ex))))),
+    if safe_op(ex)="nounset" then
+        return((apply(op(ex), maplist(flatten_recurse_nouns, sort(args(ex)))))),
     apply(op(ex), maplist(flatten_recurse_nouns, args(ex)))
+)$
+
+sort_nouns(ex) := block([exl],
+    if atom(ex) then return(ex),
+    exl:maplist(sort_nouns, args(ex)),
+    if safe_op(ex)="noun=" or safe_op(ex)="nounand" or safe_op(ex)="nounor" or safe_op(ex)="nounset" or op(ex)="noun+" or op(ex)="noun*" then
+        exl:sort(exl),
+    apply(op(ex), exl)
 )$
 
 /* Rule which takes (a^n)^-1 when n is an integer to a^-n */
@@ -906,17 +966,21 @@ unary_minus_remove(ex):= block(
 
 /*  (7)  */
 /* Returns true iff ex1 and ex2 are equal up to commutativity and associativity. */
-equals_commute_associate(ex1, ex2) := block([oldsimp, ex1n, ex2n, ret],
+equals_commute_associate(ex1, ex2) := block([oldsimp, ret, ex1n, ex2n],
     oldsimp:simp,
     simp:false,
-    ex1n:noun_arith(ex1),
-    ex2n:noun_arith(ex2),
-    simp:true,
-    ex1n:ev(flatten_recurse_nouns(ex1n), simp),
-    ex2n:ev(flatten_recurse_nouns(ex2n), simp),
-    if ex1n=ex2n then ret:true else ret:false,
+    ret:false,
+    ex1n:subst(nounset,set,ex1),
+    ex2n:subst(nounset,set,ex2),
+    ex1n:noun_arith(ex1n),
+    ex2n:noun_arith(ex2n),
+    ex1n:flatten_recurse_nouns(ex1n),
+    ex2n:flatten_recurse_nouns(ex2n),
+    ex1n:sort_nouns(ex1n),
+    ex2n:sort_nouns(ex2n),
+    if is(ex1n=ex2n) then ret:true,
     simp:oldsimp,
-    ret
+    return(ret)
 )$
 
 /* An answer test in the context of commutative+associative addition and multiplication. */
@@ -931,18 +995,21 @@ ATEqualComAss(sa, sb) :=
     if (is(SBB=[STACKERROR]) or is(SBB=[])) then
         return([false,false,StackAddNote("", "ATEqualComAss_STACKERROR_TAns"), ""]),
 
+    sa:remove_stackeq(sa),
+    sb:remove_stackeq(sb),
+
     /* We need to check things are of the same type */
     ret:ATSameTypefun(sa,sb),
     if ret[2]=false then
-        (ret[3]:StackAddNote("ATEqualComAss: ", StackTrimNote(ret[3])), return([false, ret[2], ret[3], ret[4]]) ),
+        (ret[3]:StackAddNote("ATEqualComAss ", StackTrimNote(ret[3])), return([false, ret[2], ret[3], ret[4]]) ),
     ret:block([simp:true, ret], ATAlgEquiv(sa, sb)),
     if ret[2]=false then
-        (ret[3]:StackAddNote("ATEqualComAss: (AlgEquiv:false)", StackTrimNote(ret[3])), return([false, ret[2], ret[3], ""])),
+        (ret[3]:StackAddNote("ATEqualComAss (AlgEquiv-false)", StackTrimNote(ret[3])), return([false, ret[2], ret[3], ""])),
     /* Now actually apply this test */
     if equals_commute_associate(sa, sb) then
         (RawMark:true, AnswerNote:"")
     else
-        (RawMark:false, AnswerNote:StackAddNote("","ATEqualComAss: (AlgEquiv:true)")),
+        (RawMark:false, AnswerNote:StackAddNote("","ATEqualComAss (AlgEquiv-true)")),
     return([Validity, RawMark, AnswerNote, FeedBack])
 )$
 
@@ -980,13 +1047,13 @@ logicp(ex) := block(
   if safe_op(ex) = "and" then return(true),
   if safe_op(ex) = "or" then return(true),
   if safe_op(ex) = "not" then return(true),
-  if op_usedp(ex, "+-") then return(true),
+  if op_usedp(ex, STACKpmOPT) then return(true),
   return(false)
 )$
 
 free_of_logicp(ex) := block([logicops, logiconsts, res, k],
    if is(ex=all) or is(ex=none) then return(false),
-   logicops:["nounand", "nounor", "and", "or", "%and", "%or", "not", "%not", "+-", "<", ">", "<=", ">=", "=", "[", "{"],
+   logicops:["nounand", "nounor", "and", "or", "%and", "%or", "not", "%not", STACKpmOPT, "<", ">", "<=", ">=", "=", "[", "{"],
    res:true,
    for k: 1 thru length(logicops) do
        if ev(not(is(count_op(ex, logicops[k])=0)),simp) then res:false,
@@ -1107,26 +1174,30 @@ noun_logic_remove(ex) := block([rex],
 /*  Define noun versions of other functions                     */
 /****************************************************************/
 
-nounint([ex]):=apply(nounify(integrate), ex)$
-noundiff([ex]):=apply(nounify(diff), ex)$
+/* Maxima does not require more than one argument to diff, e.g. diff(sin(x)) is ok in maxima.
+   But, for student input we should require the variable! */
+nounint([ex]):= if ev(is(length(ex)>1),simp) then apply(nounify(integrate), ex) else error("int must have at least two arguments.")$
+noundiff([ex]):= if ev(is(length(ex)>1),simp) then apply(nounify(diff), ex) else error("diff must have at least two arguments.")$
+nounlimit([ex]):=apply(nounify(limit), ex)$
 
 /* ********************************** */
 /* Add in a +- operator               */
 /* ********************************** */
 
 /* We have to define +- to be both a prefix and an nary operator in this order. */
-prefix("+-");
-nary("+-", 100);
+/* Note we need to add this into (defun tex-mexpt (x l r) in stacktex.lisp.     */
+STACKpmOPT:"#pm#";
+prefix(STACKpmOPT);
+nary(STACKpmOPT, 100);
 
-displaypmtex(ex):=block([al, a1, a2],
+displaypmtex(ex):=block([al],
   al:args(ex),
   if is(length(al)=1) then
         return(sconcat(" \\pm ", tex1(first(al)))),
-  a1:tex1(first(al)),
-  a2:tex1(second(al)),
-  sconcat("{", a1, " \\pm ", a2, "}")
+  al:maplist(tex1, al),
+  sconcat("{", simplode(al, " \\pm "), "}")
   );
-texput("+-", displaypmtex);
+texput(STACKpmOPT, displaypmtex);
 
 /* Count the occurance of an operator. */
 count_op(ex, ops):= block([count],
@@ -1142,7 +1213,7 @@ count_op(ex, ops):= block([count],
    Do we mean both + then both -, or all 4 combinations?
 */
 pm_replace(ex):= block(
-  if ev(is(count_op(ex, "+-")=1), simp) then return(opsubst("+", "+-", ex) nounor opsubst("-", "+-", ex)),
+  if ev(is(count_op(ex, STACKpmOPT)=1), simp) then return(opsubst("+", STACKpmOPT, ex) nounor opsubst("-", STACKpmOPT, ex)),
   return(ex)
 )$
 
@@ -1202,11 +1273,13 @@ expandp(expandparg):= block([simp:true], if expandparg=ev(expand(expandparg),exp
 
 /* factorp(p) is true if p equals its factored form */
 factorp(argfac) := block([a],
+    if safe_op(argfac)="-" then 
+       argfac:part(argfac,1),
     if ev(argfac=factor(argfac), simp) then
         return(true),
     if mapatom(argfac) then
-        return(false),
-    /* Note, in Maxima factor((1-x)) = -(x-1), so we need to fix this, for learning and teaching! */
+        return(true),
+    /* Note, in Maxima factor((1-x)) = -(x-1), so we need to fix this. */
     if ev(-1*factor(argfac) = expand(-1*argfac), simp) then
         return(true),
     if op(argfac)="^" and mapatom(part(argfac, 1))
@@ -1221,16 +1294,16 @@ factorp(argfac) := block([a],
 /*  Write the polynomial in completed square form */
 comp_square(ex,var) := block([vc],
     if not(atom(var)) or numberp(var) then (
-        print("comp_square: var should be an atom but not a number.  "),
+        error("comp_square: var should be an atom but not a number.  "),
         return(ex)
     ),
     ex:ratsimp(expand(ex)),
     if not(polynomialp(ex, [var])) then (
-        print("comp_square: ex should be a polynomial in var.  "),
+        error("comp_square: ex should be a polynomial in var.  "),
         return(ex)
     ),
     if hipow(ex, var)#2 then (
-        print("comp_square: ex should be a quadratic.  "),
+        error("comp_square: ex should be a quadratic.  "),
         return(ex)
     ),
     delta:(coeff(ex, var, 1)^2-4*coeff(ex, var, 2)*coeff(ex, var, 0))/(4*coeff(ex, var, 2)^2),
@@ -1244,7 +1317,7 @@ factor_bag(ex) := block(
   if not(polynomialp(ex, listofvars(ex))) then return([ex]),
   ex:ev(factor(ex), simp),
   /* If we have division here, by a numerical constant being pulled out, we ignore the constant. */
-  if safe_op(ex) = "/" then 
+  if safe_op(ex) = "/" then
       if ev(is(listofvars(second(args(ex)))=[]), simp) then ex:first(args(ex)),
   if safe_op(ex) = "^" then return([first(args(ex))]),
   if safe_op(ex) = "*" then ex:args(ex) else ex:[ex],
@@ -1432,6 +1505,7 @@ mediant(ex1,ex2) := (num(ex1)+num(ex2))/(denom(ex1)+denom(ex2));
 
 texput(EMPTYCHAR, " ");
 texput(EQUIVCHAR, "\\color{green}{\\Leftrightarrow}");
+texput(EQUIVLOG, "\\color{green}{\\log(?)}");
 texput(EQUIVCHARREAL, "\\color{green}{\\Leftrightarrow}\\, \\color{blue}{(\\mathbb{R})}");
 texput(CHECKMARK, "\\color{green}{\\checkmark}");
 texput(IMPLIESCHAR, "\\color{red}{\\Rightarrow}");
@@ -1479,6 +1553,9 @@ stackeqtex(ex):=block(
 );
 texput(stackeq, stackeqtex);
 
+/* Remove the stackeq operator. */
+remove_stackeq(ex) := if is(safe_op(ex)="stackeq") then first(args(ex)) else ex$
+
 /* stacklet is an inert "let" operator, e.g. let x=1. */
 stacklettex(ex):=block(
   sconcat("\\mbox{!LET! }", tex1(first(args(ex))), " = ", tex1(second(args(ex))))
@@ -1496,7 +1573,7 @@ texput(stacklet, stacklettex);
 /* Expr: expression, is the line of the argument.                                              */
 /* String: note is some deugging information.                                                  */
 stack_eval_arg(ex) := block([eqoutcome, eqoutsymb, eqoutnote, res, id, truthargument, tempnote, exmod, exmodpoly, exmodsolve, exnatdomain, SA, SAL, SB, SBL, malrulecont],
-  if not(listp(ex)) then (print("stack_disp_arg expects to receive a list."), return(false)),
+  if not(listp(ex)) then error("stack_arg expects to receive a list."),
   if emptyp(ex) then return(matrix([true, EMPTYCHAR, [], EMPTYCHAR, ""])),
   if length(ex)=1 then return(matrix([true, EMPTYCHAR, first(ex), EMPTYCHAR, ""])),
   /* Set up empty rows to hold the answer. */
@@ -1519,7 +1596,7 @@ stack_eval_arg(ex) := block([eqoutcome, eqoutsymb, eqoutnote, res, id, truthargu
       SA:exmod[ev(id, simp)],
       if stack_eval_arg_equivzerop(ex) then SA:SA=0,
       if is(safe_op(SA)="stackeq") then SA:first(args(SA)),
-      if ev(is(count_op(SA,"+-")=1), simp) then SA:pm_replace(SA),
+      if ev(is(count_op(SA,STACKpmOPT)=1), simp) then SA:pm_replace(SA),
 
       /* Reduce the range of options. Avoid sets, since Maxima 5.38.1 has a bug.         */
       /* As far as resoning by equivalence is concerned, {}=[]=false=none and true=all.  */
@@ -1527,7 +1604,7 @@ stack_eval_arg(ex) := block([eqoutcome, eqoutsymb, eqoutnote, res, id, truthargu
       if is(SA=true) then SA:all,
 
       SA:abs_replace_eq(SA),
-      SA:ev(SA, logbase=logbasesimp),
+      SA:ev(SA, lg=logbasesimp),
       exmod[ev(id, simp)]:SA,
       exmodsolve[ev(id, simp)]:stack_eval_arg_solver(SA),
 
@@ -1800,7 +1877,7 @@ stack_eval_arg(ex) := block([eqoutcome, eqoutsymb, eqoutnote, res, id, truthargu
                   print("** Checking for common mistakes **"),
                   print(SA),
                   print(SB)
-              ) else 
+              ) else
                   print("** Not actually checking for common mistakes ... **")
           ),
 
@@ -1966,6 +2043,23 @@ stack_eval_arg(ex) := block([eqoutcome, eqoutsymb, eqoutnote, res, id, truthargu
                       tempnote:sconcat(tempnote, " | SquaredSecond | ", third(ATres))
                   )
               )
+          ),
+
+          if malrulecont then block([FBB, ATres],
+              /* (4) Log second. */
+              /* Errcatch to avoid log(0) errors.... */
+              FBB:errcatch(ev(log(SB),simp)),
+              if is(FBB = []) then (print("STACK: ignore previous error. (EQUIVLOG)")),
+              if not(emptyp(FBB)) then block(
+                  ATres:ev(ATAlgEquiv(SA, first(FBB)), simp),
+                  if (debug) then print(ATres),
+                  if second(ATres) then block(
+                      malrulecont:false,
+                      eqoutcome[ev(id, simp)]:true,
+                      eqoutsymb[ev(id, simp)]:EQUIVLOG,
+                      tempnote:sconcat(tempnote, " | LogSecondEquiv | ", third(ATres))
+                  )
+              )
           )
       ),
       eqoutnote[ev(id, simp)]:tempnote,
@@ -2016,13 +2110,13 @@ stack_eval_arg(ex) := block([eqoutcome, eqoutsymb, eqoutnote, res, id, truthargu
 /* Try to find a representative of the solution set of the underlying system in a sensible form.
    Only support specific situations currently.
 */
-stack_eval_arg_solver(ex) := block([ex2],
+stack_eval_arg_solver(ex) := block([ex2, ex3, errc],
 
       ex:logic_to_poly(ex),
 
       if ev(is(equal(length(listofvars(ex)), 1)), simp) then
           return(ev(single_variable_solver_real(ex), simp)),
-
+      
       if safe_op(ex) = "%or" or safe_op(ex) = "nounor" or safe_op(ex) = "or" then
           return(ev(logical_normal(apply("%or", maplist(stack_eval_arg_solver, ex))), simp)),
 
@@ -2030,14 +2124,18 @@ stack_eval_arg_solver(ex) := block([ex2],
           /* Solve systems of polynomial equations. (Not inequalities) */
         ex2:maplist(logic_to_poly, args(ex)),
         if (all_listp(lambda([ex], equationp(ex) and polynomialpsimp(lhs(ex))), ex2)) then block(
-            ex2:ev(solve(ex2, sort(listofvars(ex2)))), simp),
-            if assume_real then
-                ex2:ev(sublist(ex2, lambda([m], freeof(%i, m))), simp),
-            if not(emptyp(ex2)) then (ex2:map(lambda([ex], apply("%and", ex)), ex2), ex:apply("%or", ex2))
-            ),
+            /* Algsys throws errors if we have too many variables, and in other situations. */
+            ex3:[],
+            errc:errcatch(ex3:ev(solve(ex2, sort(listofvars(ex2))), simp)),
+            if not(emptyp(ex3)) then block(
+                if assume_real then
+                    ex3:ev(sublist(ex3, lambda([m], freeof(%i, m))), simp),
+                if not(emptyp(ex3)) then (ex3:map(lambda([ex], apply("%and", ex)), ex3), ex:apply("%or", ex3))
+                )
+            )
+        ),
       return(ev(logical_normal(ex), simp))
 )$
-
 
 /* This modifies stack_eval_arg to create something which can be displayed. */
 stack_eval_equiv_arg(ex, showlogic, showdomain, equivdebug, debuglist) := block([A, k, ret, res, exnew, eqoutsymb, note],
@@ -2048,7 +2146,8 @@ stack_eval_equiv_arg(ex, showlogic, showdomain, equivdebug, debuglist) := block(
     /* Remove first entry when this has not been set. */
     if first(res)=null then res:rest(res),
     if elementp(unknown, setify(res)) then
-        res:unknown
+        /* For now, "unknown" is triggered by strings/comments.  So this argument is not true. */
+        res:false
     else
         res:apply("and", res),
     /* If in debug mode check if we have what we expect. */
@@ -2068,7 +2167,7 @@ stack_eval_equiv_arg(ex, showlogic, showdomain, equivdebug, debuglist) := block(
                     )
             )
         ) else (
-            print("ERROR, disp_stack_eval_arg: length of debuglist is ", string(length(debuglist)), ", but the length of the argument is ", string(length(eqoutsymb)), ".")
+            error("disp_stack_eval_arg: length of debuglist is ", string(length(debuglist)), ", but the length of the argument is ", string(length(eqoutsymb)), ".")
         )
     ),
     /* Only add in EQUIVZERO when we don't have equational reasoning and when we do have more than one line. */
@@ -2115,6 +2214,20 @@ disp_stack_eval_arg(ex, showlogic, showdomain, equivdebug, debuglist) := block([
     return(second(A))
 )$
 
+/* Find the indices of where ex appears in exl.
+   Notes:
+   (1) Uses ATEqualComAss,
+   (2) Ignores completely if "stackeq" is the first operator.
+   Returns a list of indices.
+   Use emptyp to create a predicate.
+*/
+stack_equiv_find_step(ex, exl) := block(
+  if not(listp(exl)) then error("STACK function stack_equiv_find_step expects its second argument to be a list."),
+  if safe_op(ex)="stackeq" then ex:first(args(ex)),
+  exl:maplist(lambda([ex2], if safe_op(ex2)="stackeq" then first(args(ex2)) else ex2), exl),
+  sublist_indices(exl, lambda([ex2], second(ATEqualComAss(ex, ex2))))
+)$
+
 /* This modifies stack_eval_arg to create something which can be displayed. */
 stack_disp_arg([exs]) := block([A],
     ex:first(exs),
@@ -2134,7 +2247,7 @@ check_stack_eval_arg(ex) := block([ret],
 )$
 
 /* An answer test based on equivalence reasoning. */
-ATEquiv(SA, SB, SO) := block([SAA, SAB, SOO, opts, ret, A, AnswerNote, FeedBack],
+ATEquiv(SA, SB, SO) := block([SAA, SAB, SOO, opts, ret, A, AnswerNote, FeedBack, assume_pos:false],
 
     /* Turn on simplification and error catch. */
     SAA:errcatch(ev(SA, simp, nouns)),
@@ -2168,7 +2281,7 @@ ATEquiv(SA, SB, SO) := block([SAA, SAB, SOO, opts, ret, A, AnswerNote, FeedBack]
 )$
 
 /* An answer test based on equivalence reasoning. */
-ATEquivFirst(SA, SB, SO) := block([SAA, SAB, SOO, opts, ret, A, AnswerNote, FeedBack, assume_pos],
+ATEquivFirst(SA, SB, SO) := block([SAA, SAB, SOO, opts, ret, A, AnswerNote, FeedBack, assume_pos:false],
 
     /* Turn on simplification and error catch. */
     SAA:errcatch(ev(SA, simp, nouns)),
@@ -2184,6 +2297,7 @@ ATEquivFirst(SA, SB, SO) := block([SAA, SAB, SOO, opts, ret, A, AnswerNote, Feed
     if listp(SO) then opts:setify(SO) else opts:{SO},
     if elementp(assumepos, opts) then assume_pos:true,
     if elementp(assumereal, opts) then assume_real:true,
+    if elementp(calculus, opts) then stack_calculus:true,
 
     /* Is the first argument a list? */
     if not listp(SA) then

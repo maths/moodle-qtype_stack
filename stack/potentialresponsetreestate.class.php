@@ -27,12 +27,12 @@ class stack_potentialresponse_tree_state {
     /**
      * @var string This holds errors needed for the user.
      */
-    public $_errors      = '';
+    public $_errors = '';
 
     /**
      * @var array of stack_prt_feedback_element.
      */
-    public $_feedback    = array();
+    public $_feedback = array();
 
     /**
      * @var array of answernote strings for the teacher.
@@ -47,17 +47,17 @@ class stack_potentialresponse_tree_state {
     /**
      * @var boolean Is this attempt valid?
      */
-    public $_valid       = true;
+    public $_valid = true;
 
     /**
      * @var float The raw score for this attempt.  Penalties are calculated later.
      */
-    public $_score       = 0;
+    public $_score = 0;
 
     /**
      * @var float Penalty attracted by this attempt.
      */
-    public $_penalty     = 0;
+    public $_penalty = 0;
 
     /**
      * @var float Weight of this PRT within the question.
@@ -65,14 +65,24 @@ class stack_potentialresponse_tree_state {
     public $_weight;
 
     /**
-     * @var stack_cas_session
+     * @var array
      */
-    protected $casecontext;
+    public $_debuginfo;
+
+    /**
+     * @var stack_cas_session2
+     */
+    protected $cascontext;
 
     /**
      * @var int
      */
     protected $seed;
+
+    /**
+     * @var boolean
+     */
+    protected $simplify;
 
     /**
      * Constructor
@@ -84,6 +94,7 @@ class stack_potentialresponse_tree_state {
      * @param string $errors any error messages.
      * @param array $answernotes the answer notes from the evaluation.
      * @param array $feedback the current contents of this input.
+     * @param array $debuginfo debug info.
      */
     public function __construct($weight, $valid = true, $score = null, $penalty = null,
             $errors = '', $answernotes = array(), $feedback = array(), $debuginfo = null) {
@@ -129,13 +140,15 @@ class stack_potentialresponse_tree_state {
     /**
      * Store the CAS context, so we can use it later if we want to output the
      * feedback.
-     * @param stack_cas_session $cascontext the case context containing the
+     * @param stack_cas_session2 $cascontext the case context containing the
      *      feedback variables, sans and tans for each node, etc.
      * @param int $seed the random seed used.
+     * @param bool $simp
      */
-    public function set_cas_context(stack_cas_session $cascontext, $seed) {
+    public function set_cas_context(stack_cas_session2 $cascontext, $seed, $simp) {
         $this->cascontext = $cascontext;
         $this->seed = $seed;
+        $this->simplify = $simp;
     }
 
     /**
@@ -156,7 +169,11 @@ class stack_potentialresponse_tree_state {
 
     /**
      * Add another bit of feedback.
+     *
      * @param string $feedback the next bit of feedback.
+     * @param int $format one of Moodle's FORMAT_... constants.
+     * @param string $filearea feedback file area name.
+     * @param int $nodeid node id (used as the file area item id).
      */
     public function add_feedback($feedback, $format = null, $filearea = null, $nodeid = null) {
         $this->_feedback[] = new stack_prt_feedback_element($feedback, $format, $filearea, $nodeid);
@@ -176,15 +193,39 @@ class stack_potentialresponse_tree_state {
      * @return string the feedback with question variables substituted.
      */
     public function substitue_variables_in_feedback($feedback) {
-        $feedbackct = new stack_cas_text($feedback, $this->cascontext, $this->seed, 't', false, 0);
+        // In this case, we want to get as much castext as possible back to a student.
+        // Some variables might have created a run time error (e.g. division by zero).
+        // These errors render $this->cascontext invalid, so the castext will not evaluate.
+        // However, many (most?) of the variables will exist, and we can generate decent partial castext.
+        // We prune out any invalid variables at this stage.
+        $sessionvars = $this->cascontext->get_session();
+        $cleanvars = array();
+        foreach ($sessionvars as $var) {
+            if ($var->get_valid()) {
+                $cleanvars[] = $var;
+            }
+        }
+
+        $options = $this->cascontext->get_options();
+        // We also need to respect the actual value of simplification and set it explicitly again at the end of the list.
+        if ($this->simplify) {
+            $simp = 'true';
+        } else {
+            $simp = 'false';
+        }
+        $cleanvars[] = stack_ast_container::make_from_teacher_source('simp:' . $simp, '', new stack_cas_security());
+
+        $cleansession = new stack_cas_session2($cleanvars, $options, $this->seed);
+        $feedbackct = new stack_cas_text($feedback, $cleansession, $this->seed);
         $result = $feedbackct->get_display_castext();
         $this->_errors = trim($this->_errors . ' ' . $feedbackct->get_errors());
+        $this->_errors = trim($this->_errors . ' ' . $this->cascontext->get_errors());
         return $result;
     }
 
     /**
      * Add another answer trace to the list.
-     * @param array $trace the line in the trace.
+     * @param string $trace the line in the trace.
      */
     public function add_trace($trace) {
         $this->_trace[] = $trace;
@@ -205,7 +246,7 @@ class stack_prt_feedback_element {
     /** @var string feedback file area name. */
     public $filearea;
 
-    /** @var int node id (used as the file area item id. */
+    /** @var int node id (used as the file area item id). */
     public $itemid;
 
     public function __construct($feedback, $format, $filearea, $itemid) {

@@ -1,4 +1,4 @@
-# Running question tests for questions on other site
+# Running question tests for questions on other sites
 
 When you upgrade to a new version of STACK, it would be reassuring to know beforehand
 whether there is any change in behaviour in STACK which will affect your existing questions.

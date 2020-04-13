@@ -16,6 +16,8 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+require_once(__DIR__ . '/../cas/cassession2.class.php');
+
 //
 // Decimal places answer tests.
 //
@@ -24,30 +26,20 @@ defined('MOODLE_INTERNAL') || die();
 //
 class stack_anstest_atdecplaces extends stack_anstest {
 
+    protected $atname = 'NumDecPlaces';
+
+    protected $casfunction = 'ATDecimalPlaces';
+
     public function do_test() {
         $this->atmark = 1;
         $anotes = array();
 
-        // Note that in casting to an integer we are lucky here.
-        // Non-integer strings get cast to zero, which is invalid anyway....
-        $atestops = (int) $this->atoption;
-        if (!is_int($atestops) or $atestops <= 0) {
-            $this->aterror      = 'TEST_FAILED';
-            $this->atfeedback   = stack_string('TEST_FAILED', array('errors' => ''));
-            $this->atfeedback  .= stack_string('ATNumDecPlaces_OptNotInt', array('opt' => $this->atoption));
-            $this->atansnote    = 'ATNumDecPlaces_STACKERROR_Option.';
-            $this->atmark       = 0;
-            $this->atvalid      = false;
-            return null;
-        }
-
-        $commands = array($this->sanskey, $this->tanskey, (string) $this->atoption);
+        $commands = array($this->sanskey, $this->tanskey, $this->atoption);
         foreach ($commands as $com) {
-            $cs = new stack_cas_casstring($com);
-            if (!$cs->get_valid('t', true, 0)) {
+            if (!$com->get_valid()) {
                 $this->aterror      = 'TEST_FAILED';
                 $this->atfeedback   = stack_string('TEST_FAILED', array('errors' => ''));
-                $this->atfeedback  .= stack_string('AT_InvalidOptions', array('errors' => $cs->get_errors()));
+                $this->atfeedback  .= stack_string('AT_InvalidOptions', array('errors' => $com->get_errors()));
                 $this->atansnote    = 'ATNumDecPlaces_STACKERROR_Option.';
                 $this->atmark       = 0;
                 $this->atvalid      = false;
@@ -55,9 +47,45 @@ class stack_anstest_atdecplaces extends stack_anstest {
             }
         }
 
+        // In real questions, these are evaluated but in test cases they may not be.
+        // The old "get value" obscured this distinction.
+        $atestops = $this->atoption->get_evaluationform();
+        if ($this->atoption->is_evaluated()) {
+            $atestops = $this->atoption->get_value();
+        }
+
+        if (!$this->atoption->get_valid() || !ctype_digit($atestops) || $atestops <= 0) {
+            $this->aterror      = 'TEST_FAILED';
+            $this->atfeedback   = stack_string('TEST_FAILED', array('errors' => ''));
+            $this->atfeedback  .= stack_string('ATNumDecPlaces_OptNotInt', array('opt' => $atestops));
+            $this->atansnote    = 'ATNumDecPlaces_STACKERROR_Option.';
+            $this->atmark       = 0;
+            $this->atvalid      = false;
+            return null;
+        }
+
         // Check that the first expression is a floating point number,
         // with the right number of decimal places.
-        $r = stack_utils::decimal_digits($this->sanskey);
+        if ($this->sanskey->is_float() || $this->sanskey->is_int()) {
+            // All good.
+            $r = $this->sanskey->get_decimal_digits();
+
+        } else if ($this->sanskey->is_correctly_evaluated() &&
+                ($this->sanskey->is_float(true) || $this->sanskey->is_int(true))) {
+            // This is not great, but it happens when the answer test is applied
+            // to a feedback variable, rather than a raw input. E.g. if someone
+            // has done sansmin: min(sans1, sans2) in a quadratic question.
+            $r = $this->sanskey->get_decimal_digits(true);
+            // TODO Should we set an answer note, or similar, in this situation?
+
+        } else {
+            $this->atfeedback   = stack_string('ATNumDecPlaces_Float');
+            $this->atansnote    = 'ATNumDecPlaces_SA_Not_num.';
+            $this->atmark       = 0;
+            $this->atvalid      = false;
+            return null;
+        }
+
         if ($atestops != $r['decimalplaces'] ) {
             $this->atfeedback  .= stack_string('ATNumDecPlaces_Wrong_DPs');
             $anotes[]           = 'ATNumDecPlaces_Wrong_DPs';
@@ -66,26 +94,37 @@ class stack_anstest_atdecplaces extends stack_anstest {
             $anotes[]           = 'ATNumDecPlaces_Correct';
         }
 
+        $sans = $this->sanskey->get_inputform(true, 1);
+        if ($this->sanskey->is_evaluated()) {
+            $sans = $this->sanskey->get_value();
+        }
+        $tans = $this->tanskey->get_inputform(true, 1);
+        if ($this->tanskey->is_evaluated()) {
+            $tans = $this->tanskey->get_value();
+        }
         // Check that the two numbers evaluate to the same value.
         $cascommands = array();
-        $cascommands[] = "caschat2:ev({$this->atoption},simp)";
-        $cascommands[] = "caschat0:ev(float(round(10^caschat2*{$this->sanskey})/10^caschat2),simp)";
-        $cascommands[] = "caschat1:ev(float(round(10^caschat2*{$this->tanskey})/10^caschat2),simp)";
-        $cascommands[] = "caschat3:ev(second(ATAlgEquiv(caschat0,caschat1)),simp)";
-        $cascommands[] = "caschat4:floatnump({$this->sanskey})";
+        $cascommands['caschat2'] = "ev({$atestops},simp)";
+        $cascommands['caschat0'] = "ev(float(round(10^caschat2*{$sans})/10^caschat2),simp)";
+        $cascommands['caschat1'] = "ev(float(round(10^caschat2*remove_displaydp({$tans}))/10^caschat2),simp)";
+        $cascommands['caschat3'] = "ev(second(ATAlgEquiv(caschat0,caschat1)),simp)";
+        $cascommands['caschat4'] = "floatnump({$sans})";
 
         $cts = array();
-        foreach ($cascommands as $com) {
-            $cs    = new stack_cas_casstring($com);
-            $cs->get_valid('t', true, 0);
+        $strings = array();
+        foreach ($cascommands as $key => $com) {
+            $cs = stack_ast_container::make_from_teacher_source($key . ':' . $com, '', new stack_cas_security());
             $cts[] = $cs;
+            $strings[$key] = $cs;
         }
-        $session = new stack_cas_session($cts, null, 0);
-        $session->instantiate();
+        $session = new stack_cas_session2($cts, null, 0);
+        if ($session->get_valid()) {
+            $session->instantiate();
+        }
 
-        if ('' != $session->get_errors_key('caschat0')) {
+        if ('' != $strings['caschat0']->get_errors()) {
             $this->aterror      = 'TEST_FAILED';
-            $this->atfeedback   = stack_string('TEST_FAILED', array('errors' => $session->get_errors_key('caschat0')));
+            $this->atfeedback   = stack_string('TEST_FAILED', array('errors' => $strings['caschat0']->get_errors()));
             $anotes[]           = 'ATNumDecPlaces_STACKERROR_SAns';
             $this->atansnote    = implode('. ', $anotes).'.';
             $this->atmark       = 0;
@@ -93,9 +132,9 @@ class stack_anstest_atdecplaces extends stack_anstest {
             return null;
         }
 
-        if ('' != $session->get_errors_key('caschat1')) {
+        if ('' != $strings['caschat1']->get_errors()) {
             $this->aterror      = 'TEST_FAILED';
-            $this->atfeedback   = stack_string('TEST_FAILED', array('errors' => $session->get_errors_key('caschat1')));
+            $this->atfeedback   = stack_string('TEST_FAILED', array('errors' => $strings['caschat1']->get_errors()));
             $anotes[]           = 'ATNumDecPlaces_STACKERROR_TAns';
             $this->atansnote    = implode('. ', $anotes).'.';
             $this->atmark       = 0;
@@ -103,18 +142,18 @@ class stack_anstest_atdecplaces extends stack_anstest {
             return null;
         }
 
-        if ('' != $session->get_errors_key('caschat2')) {
+        if ('' != $strings['caschat2']->get_errors()) {
             $this->aterror      = 'TEST_FAILED';
             $this->atfeedback   = stack_string('TEST_FAILED', array('errors' => ''));
-            $this->atfeedback  .= stack_string('AT_InvalidOptions', array('errors' => $session->get_errors_key('caschat2')));
-            $anotes[]           = 'ATNumDecPlaces_STACKERROR_Options.';
+            $this->atfeedback  .= stack_string('AT_InvalidOptions', array('errors' => $strings['caschat2']->get_errors()));
+            $anotes[]           = 'ATNumDecPlaces_STACKERROR_Options';
             $this->atansnote    = implode('. ', $anotes).'.';
             $this->atmark       = 0;
             $this->atvalid      = false;
             return null;
         }
 
-        if ($session->get_value_key('caschat3') == 'true') {
+        if ($strings['caschat3']->get_value() == 'true') {
             // Note, we only want the mark to *stay* at 1.
             $this->atmark *= 1;
             $anotes[]      = 'ATNumDecPlaces_Equiv';
@@ -123,10 +162,10 @@ class stack_anstest_atdecplaces extends stack_anstest {
             $anotes[]     = 'ATNumDecPlaces_Not_equiv';
         }
 
-        if ($session->get_value_key('caschat4') == 'false') {
+        if ($strings['caschat4']->get_errors() == 'false') {
             $this->atmark = 0;
             $this->atfeedback  = stack_string('ATNumDecPlaces_NoDP');
-            $anotes             = array('ATNumDecPlaces_NoDP');
+            $anotes            = array('ATNumDecPlaces_NoDP');
         }
 
         $this->atansnote = implode('. ', $anotes).'.';
@@ -136,18 +175,6 @@ class stack_anstest_atdecplaces extends stack_anstest {
         return false;
     }
 
-    public function process_atoptions() {
-        return true;
-    }
-
-    public function required_atoptions() {
-        return true;
-    }
-
-    protected function get_casfunction() {
-        return 'ATDecimalPlaces';
-    }
-
     /**
      * Validates the options, when needed.
      *
@@ -155,8 +182,7 @@ class stack_anstest_atdecplaces extends stack_anstest {
      * @access public
      */
     public function validate_atoptions($opt) {
-        $atestops = (int) $opt;
-        if (!is_int($atestops) or $atestops <= 0) {
+        if ($opt == '') {
             return array(false, stack_string('ATNumDecPlaces_OptNotInt', array('opt' => $opt)));
         }
         return array(true, '');

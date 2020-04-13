@@ -163,7 +163,7 @@
         <FIELD NAME="testcase" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Foreign key reference to qtype_stack_qtests.testcase."/>
         <FIELD NAME="prtname" TYPE="char" LENGTH="32" NOTNULL="true" SEQUENCE="false" COMMENT="The name of the PRT for which these are the expected outcomes."/>
         <FIELD NAME="expectedscore" TYPE="number" LENGTH="12" NOTNULL="false" SEQUENCE="false" DECIMALS="7" COMMENT="The expected score."/>
-        <FIELD NAME="expectedpenalty" TYPE="number" LENGTH="12" NOTNULL="false" SEQUENCE="false" DECIMALS="7" COMMENT="The expected penalty"/>
+        <FIELD NAME="expectedpenalty" TYPE="number" LENGTH="12" NOTNULL="false" SEQUENCE="false" DECIMALS="7" COMMENT="The expected penalty."/>
         <FIELD NAME="expectedanswernote" TYPE="char" LENGTH="255" NOTNULL="true" SEQUENCE="false" COMMENT="The expected answer note."/>
       </FIELDS>
       <KEYS>
@@ -194,7 +194,7 @@
     <TABLE NAME="qtype_stack_deployed_seeds" COMMENT="Holds the seeds for the variants of each question that have been deployed.">
       <FIELDS>
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
-        <FIELD NAME="questionid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Foreign key link to question.id"/>
+        <FIELD NAME="questionid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Foreign key link to question.id."/>
         <FIELD NAME="seed" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The seed that has been deployed."/>
       </FIELDS>
       <KEYS>

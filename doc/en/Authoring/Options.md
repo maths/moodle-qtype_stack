@@ -100,6 +100,6 @@ The function `stack_disp_fractions(ex)` can be used to control the display.
 * `stack_disp_fractions("i")` switches display to inline.
 * `stack_disp_fractions("d")` switches display to display.
 
-Note, for CAStext the display is controlled by the prevailing setting at the moment the text is displayed, not when a variable is defined in the question variables. Hence, if you would like a single inline fraction within a castext you will need to use
+Note, for CASText the display is controlled by the prevailing setting at the moment the text is displayed, not when a variable is defined in the question variables. Hence, if you would like a single inline fraction within a CASText you will need to use
 
     Normally fractions are displayed {@1/x@}. This switches to inline {@(stack_disp_fractions("i"), 1/x)@}, which persists {@1/a@}.  Switch explicitly back to displayed {@(stack_disp_fractions("d"),1/x)@}.  

@@ -72,6 +72,7 @@ abstract class qtype_stack_test_config {
         set_config('casresultscache', QTYPE_STACK_TEST_CONFIG_CASRESULTSCACHE, 'qtype_stack');
         set_config('maximacommand',   QTYPE_STACK_TEST_CONFIG_MAXIMACOMMAND,   'qtype_stack');
         set_config('plotcommand',     QTYPE_STACK_TEST_CONFIG_PLOTCOMMAND,     'qtype_stack');
+        set_config('maximalibraries', QTYPE_STACK_TEST_CONFIG_MAXIMALIBRARIES, 'qtype_stack');
         set_config('casdebugging',    QTYPE_STACK_TEST_CONFIG_CASDEBUGGING,    'qtype_stack');
         set_config('mathsdisplay',    'mathjax',                               'qtype_stack');
         set_config('replacedollars',  0,                                       'qtype_stack');

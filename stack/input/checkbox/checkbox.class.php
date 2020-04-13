@@ -89,7 +89,7 @@ class stack_checkbox_input extends stack_dropdown_input {
 
         $result .= html_writer::start_tag('div', array('class' => 'answer'));
         foreach ($radiobuttons as $key => $radio) {
-            $result .= html_writer::tag('div', $radio, array('class' => 'option'));
+            $result .= html_writer::tag('div', stack_maths::process_lang_string($radio), array('class' => 'option'));
         }
         $result .= html_writer::end_tag('div');
 
@@ -118,7 +118,7 @@ class stack_checkbox_input extends stack_dropdown_input {
      * Transforms a Maxima expression into an array of raw inputs which are part of a response.
      * Most inputs are very simple, but textarea and matrix need more here.
      * @param array|string $in
-     * @return string
+     * @return array
      */
     public function maxima_to_response_array($in) {
         if ('' === $in || '[]' === $in) {
@@ -138,6 +138,18 @@ class stack_checkbox_input extends stack_dropdown_input {
             $response[$this->name . '_val'] = $in;
         }
         return $response;
+    }
+
+    protected function ajax_to_response_array($in) {
+        if (((string) $in) === '') {
+            return array();
+        }
+        $selected = explode(',', $in);
+        $result = array();
+        foreach ($selected as $choice) {
+            $result[$this->name . '_' . $choice] = $choice;
+        }
+        return $result;
     }
 
     /**

@@ -16,8 +16,8 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once(__DIR__ . '/../stack/answertest/anstest.class.php');
-require_once(__DIR__ . '/../stack/answertest/stringsloppy.class.php');
+require_once(__DIR__ . '/fixtures/test_base.php');
+require_once(__DIR__ . '/../stack/answertest/controller.class.php');
 
 // Unit tests for stack_anstest_stringsloppy.
 //
@@ -27,28 +27,40 @@ require_once(__DIR__ . '/../stack/answertest/stringsloppy.class.php');
 /**
  * @group qtype_stack
  */
-class stack_anstest_stringsloppy_test extends basic_testcase {
+class stack_anstest_atstringsloppy_test extends basic_testcase {
 
     public function test_is_true_for_equal_strings() {
-        $at = new stack_anstest_stringsloppy('hello', 'hello');
+        $at = new stack_ans_test_controller('StringSloppy',
+                stack_ast_container::make_from_teacher_source('"hello"'),
+                stack_ast_container::make_from_teacher_source('"hello"'),
+                null);
         $this->assertTrue($at->do_test());
         $this->assertEquals(1, $at->get_at_mark());
     }
 
     public function test_is_false_for_unequal_strings() {
-        $at = new stack_anstest_stringsloppy('hello', 'heloo');
+        $at = new stack_ans_test_controller('StringSloppy',
+                stack_ast_container::make_from_teacher_source('"hello"'),
+                stack_ast_container::make_from_teacher_source('"heloo"'),
+                null);
         $this->assertFalse($at->do_test());
         $this->assertEquals(0, $at->get_at_mark());
     }
 
     public function test_is_true_for_strings_with_different_case() {
-        $at = new stack_anstest_stringsloppy('Hello', 'hello');
+        $at = new stack_ans_test_controller('StringSloppy',
+                stack_ast_container::make_from_teacher_source('"Hello"'),
+                stack_ast_container::make_from_teacher_source('"hello"'),
+                null);
         $this->assertTrue($at->do_test());
         $this->assertEquals(1, $at->get_at_mark());
     }
 
     public function test_is_true_for_nearly_equal_strings() {
-        $at = new stack_anstest_stringsloppy('hel lo', 'Hello');
+        $at = new stack_ans_test_controller('StringSloppy',
+                stack_ast_container::make_from_teacher_source('"hel lo"'),
+                stack_ast_container::make_from_teacher_source('"Hello"'),
+                null);
         $this->assertTrue($at->do_test());
         $this->assertEquals(1, $at->get_at_mark());
     }

@@ -146,16 +146,12 @@ echo $quba->render_question($slot, $options);
 // Display the question variables.
 echo $OUTPUT->heading(stack_string('questionvariables'), 3);
 echo html_writer::start_tag('div', array('class' => 'questionvariables'));
-echo  html_writer::tag('pre', $question->questionvariables);
+echo html_writer::tag('pre', $question->questionvariables);
 echo html_writer::end_tag('div');
 
 echo $OUTPUT->heading(stack_string('questionvariablevalues'), 3);
-$qvv = '';
-foreach ($question->get_question_var_values() as $key => $value) {
-    $qvv .= s($key) . ':' . s($value) .";\n";
-}
 echo html_writer::start_tag('div', array('class' => 'questionvariables'));
-echo  html_writer::tag('pre', $qvv);
+echo html_writer::tag('pre', $question->get_question_session_keyval_representation());
 echo html_writer::end_tag('div');
 
 // Display the question text.

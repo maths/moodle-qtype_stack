@@ -1,5 +1,5 @@
 <?php
-// This file is part of Stack - http://stack.bham.ac.uk/
+// This file is part of Stack - https://stack.maths.ed.ac.uk
 //
 // Stack is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -958,7 +958,7 @@ class stack_cas_castext_parsetreenode {
                         $iterator = $iterator->nextsibling;
                     }
                     break;
-                case "pseudoblock": // This branch should newer be called, unless you skip certain steps.
+                case "pseudoblock": // This branch should never be called, unless you skip certain steps.
                     $r .= "\n$indent" . "[[ " . $this->content;
                     if (count($this->params) > 0) {
                         foreach ($this->params as $key => $value) {

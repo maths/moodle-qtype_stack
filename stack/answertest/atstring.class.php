@@ -24,9 +24,30 @@ defined('MOODLE_INTERNAL') || die();
  */
 class stack_anstest_atstring extends stack_anstest {
 
+    protected $atname = 'String';
+
     public function do_test() {
         $this->atvalid = true;
-        if (trim($this->sanskey) == trim($this->tanskey)) {
+        $sa = '';
+        if ($this->sanskey->get_valid()) {
+            $sa = $this->sanskey->get_inputform(true, 1);
+            if ($this->sanskey->is_correctly_evaluated()) {
+                $sa = $this->sanskey->get_value();
+            }
+        } else {
+            $this->atansnote    = $this->casfunction.'TEST_FAILED:Invalid SA.';
+        }
+        $ta = '';
+        if ($this->tanskey->get_valid()) {
+            $ta = $this->tanskey->get_inputform(true, 1);
+            if ($this->tanskey->is_correctly_evaluated()) {
+                $ta = $this->tanskey->get_value();
+            }
+        } else {
+            $this->atansnote    = $this->casfunction.'TEST_FAILED:Invalid TA.';
+        }
+
+        if (trim($sa) == trim($ta)) {
             $this->atmark = 1;
             return true;
 
@@ -34,10 +55,6 @@ class stack_anstest_atstring extends stack_anstest {
             $this->atmark = 0;
             return false;
         }
-    }
-
-    public function process_atoptions() {
-        return false;
     }
 
     public function validate_atoptions($opt) {

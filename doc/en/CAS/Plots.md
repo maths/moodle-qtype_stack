@@ -1,6 +1,6 @@
 # Plots and graphics in STACK questions.
 
-Plots and graphics can be placed into any of the [CAStext](../Authoring/CASText.md) fields.
+Plots and graphics can be placed into any of the [CASText](../Authoring/CASText.md) fields.
 
 The main way to create plots with the core STACK commands is using Maxima.  As of version 4.0, the tags `{#...#}` provide the possibility to interact with 3rd party scripts.  If you have examples of this, please contact the developers.  This page is about core supported functionality.
 
@@ -84,13 +84,13 @@ If you would like an expression as part of this then try
 
 ## A catalogue of plots
 
-The following CAStext gives representative examples of the plot2d features supported by STACK's plot command.  Cut and paste it into the caschat script.  Beware that these are likely to cause a timeout on the CAS if you try them all at once.
+The following CASText gives representative examples of the plot2d features supported by STACK's plot command.  Cut and paste it into the CASchat script.  Beware that these are likely to cause a timeout on the CAS if you try them all at once.
 
     <h3>Basic plot</h3>
     {@plot(x^2,[x,-2,2])@}
     The following plot tests the option to explicitly test the alt-text.
     {@plot(x^3,[x,-3,3], [alt,"What is this function?"])@}
-    <h3>Mutiple graphs, clips the \(y\) values</h3>
+    <h3>Multiple graphs, clips the \(y\) values</h3>
     {@plot([x^3,exp(x)],[x,-2,2],[y,-4,4])@}
     <h3>With and without a grid</h3>
     {@plot([x^2/(1+x^2),2*x/(1+x^2)^2], [x, -2, 2], [y,-2.1,2.1], grid2d)@}
@@ -152,6 +152,99 @@ Now use the CASText:
 
     {@plot([pg1, [discrete,[ [x0,ev(f0,x=x0)], [x0,ev(f1,x=x0)]]], [discrete,[ [x0,ev((f0+f1)/2,x=x0)]]] ], [x,(x0-5),(x0+5)], [y,-10,10], ps, pt, pc)@}
 
+
+## Graph theory
+
+It is possible to plot simple discrete graphs directly using STACK's `plot` command by building a combination of discrete and line plots.  If you want to do this, we _strongly_ recommend you work offline first in Maxima using `plot2d` to ensure your Maxima code works.
+
+In general it is better to (1) separate connections of points from the coordinates of points, and (2) deal with lists of coordinates.  That way we can pass a connection, or the coordinates of a point into a function more easily.  Create a list of coordinates, where each coordinate is a point [x,y].
+
+    nk:5;
+    /* Position nk coordinates evenly round the unit circle. */
+    pc1:float(makelist([cos(%pi/(2*nk)+2*k*%pi/nk), sin(%pi/(2*nk)+2*k*%pi/nk)], k, 0, nk));
+    /* Extract individual coordinates. */
+    x1:maplist(first, pc1); 
+    y1:maplist(second, pc1); 
+    p1:[discrete,x1,y1];
+
+Plot must have floating point numbers to deal with.
+
+Now use the CASText:
+
+    {@plot([p1,p1],[x,-1,1],[y,-1,1],[style,points,lines],[box,false],[axes,false])@}
+
+Notice we plot a list, containing `p1` twice, once with style `points` and once with `lines`.
+
+The following takes a list of edge connections, `[a,b]`, and a list of co-ordinate points of the form `[x,y]` and produces the discrete plots of the edge connections. 
+Note the two stage process.
+
+1. Turn the list of edge connections (`edgel`) into lists of points to connect. (The inner `maplist`)
+2. Turn two points to connect into a discrete plot of the form `[discrete [x1, x2], [y1, y2]]`.
+
+The following code could be combined, but two separate `maplist` applications separate out the processes with more clarity.
+
+    pedges(edgel, pts):= maplist(lambda([ex], [discrete, maplist(first, ex), maplist(second, ex)]), maplist(lambda([ex], [pts[first(ex)], pts[second(ex)]]), edgel));
+
+As an example we will create a simple (disconnected) graph as follows.
+
+    g1:[[2,3], [3,4], [4,2], [1,5]];
+    /* Plot this graph, using points in positions pc1. */
+    p2:pedges(g1, pc1);
+
+    /* Set colours. */
+    pcols2:makelist(red, k, 1, length(p2));
+
+    /* Set Style */
+    pstyle2:makelist(lines, k, 1, length(p2));
+
+    /* Add in points, as before. */
+    p2:append([p1], p2);
+    pstyle2:append([points], pstyle2);
+    pcols2:append([blue], pcols2);
+
+    /* Create a single plot. */
+    pcols2:append([color], pcols2);
+    pstyle2:append([style], pstyle2);
+
+And add in the castext
+
+    {@plot(p2,[x,-1,1],[y,-1,1], pstyle2, pcols2, [box,false], [axes,false])@}
+
+
+To create a complete graph, we need code to create every pair of edges [a,b], as follows.
+
+    /* Return a list of edge pairs n1 to a list of points. */
+    pedgesto(n1, nl) := maplist(lambda([ex], [n1, ex]), nl);
+    /* Return every pair of points in nl. */
+    palledges(nl) := if is(length(nl)=1) then [] else append(pedgesto(first(nl), rest(nl)), palledges(rest(nl)));
+
+    /* The complete graph on nk edges. */
+    knk:palledges(makelist(k,k,1,nk));
+
+    /* Plot this graph, using points in positions pc1. */
+    p3:pedges(knk, pc1);
+
+    /* Set colours. */
+    pcols3:makelist(red, k, 1, length(p3));
+
+    /* Set Style */
+    pstyle3:makelist(lines, k, 1, length(p3));
+
+    /* Add in points, as before. */
+    p3:append([p1], p3);
+    pstyle3:append([points], pstyle3);
+    pcols3:append([blue], pcols3);
+
+    /* Create a single plot. */
+    pcols3:append([color], pcols3);
+    pstyle3:append([style], pstyle3);
+
+And add in the castext
+
+    {@plot(p3,[x,-1,1],[y,-1,1], pstyle3, pcols3, [box,false], [axes,false])@}
+
+In the above code I have tried to separate out all the issues into individual steps.  Clearly there is significant scope here for utility/convenience functions.
+
 ## implicit_plot()  {#implicit}
 
 In Maxima
@@ -198,4 +291,4 @@ This should look like the following, with in this case \(a=33\), \(b=65\), \(a\c
 
 ## See also
 
-[Maxima reference topics](index.md#reference).
+[Maxima reference topics](index.md#reference)

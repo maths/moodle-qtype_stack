@@ -34,19 +34,19 @@ class stack_potentialresponsetree_test extends qtype_stack_testcase {
 
     public function test_do_test_pass() {
 
-        $sans = new stack_cas_casstring('sans');
-        $sans->get_valid('t');
-        $tans = new stack_cas_casstring('(x+1)^3/3+c');
-        $tans->get_valid('t');
+        $sans = stack_ast_container::make_from_teacher_source('sans');
+        $sans->get_valid();
+        $tans = stack_ast_container::make_from_teacher_source('(x+1)^3/3+c');
+        $tans->get_valid();
         $node = new stack_potentialresponse_node($sans, $tans, 'Int', 'x', false);
         $node->add_branch(0, '=', 0, '', -1, 'Boo!', FORMAT_HTML, '1-0-0');
         $node->add_branch(1, '=', 1, '', -1, 'Yeah!', FORMAT_HTML, '1-0-1');
 
         $potentialresponses[] = $node;
 
-        $tree = new stack_potentialresponse_tree('', '', true, 5, null, $potentialresponses, 0);
+        $tree = new stack_potentialresponse_tree('', '', true, 5, null, $potentialresponses, '0');
 
-        $questionvars = new stack_cas_session(array());
+        $questionvars = new stack_cas_session2(array());
         $options = new stack_options();
         $answers = array('sans' => '(x+1)^3/3+c');
         $seed = 12345;
@@ -64,29 +64,29 @@ class stack_potentialresponsetree_test extends qtype_stack_testcase {
 
     public function test_do_test_2() {
 
-        $sans = new stack_cas_casstring('sans');
-        $sans->get_valid('t');
-        $tans = new stack_cas_casstring('ta');
-        $tans->get_valid('t');
+        $sans = stack_ast_container::make_from_teacher_source('sans');
+        $sans->get_valid();
+        $tans = stack_ast_container::make_from_teacher_source('ta');
+        $tans->get_valid();
         $node = new stack_potentialresponse_node($sans, $tans, 'Diff', 'x', false);
         $node->add_branch(0, '=', 0, '', -1, 'Can not diff!', FORMAT_HTML, '1-0-0');
         $node->add_branch(1, '=', 1, '', 1, 'Ok, you can diff. ', FORMAT_HTML, '1-0-1');
         $potentialresponses[] = $node;
 
-        $sans = new stack_cas_casstring('sans');
-        $sans->get_valid('t');
-        $tans = new stack_cas_casstring('ta');
-        $tans->get_valid('t');
+        $sans = stack_ast_container::make_from_teacher_source('sans');
+        $sans->get_valid();
+        $tans = stack_ast_container::make_from_teacher_source('ta');
+        $tans->get_valid();
         $node = new stack_potentialresponse_node($sans, $tans, 'FacForm', 'x', true);
         $node->add_branch(0, '+', 0, '', -1, 'Do not expand!', FORMAT_HTML, '1-1-0');
         $node->add_branch(1, '+', 0, '', -1, 'Yeah!', FORMAT_HTML, '1-1-1');
         $potentialresponses[] = $node;
 
-        $tree = new stack_potentialresponse_tree('', '', true, 5, null, $potentialresponses, 0);
+        $tree = new stack_potentialresponse_tree('', '', true, 5, null, $potentialresponses, '0');
 
         $seed = 12345;
         $options = new stack_options();
-        $questionvars = new stack_cas_keyval('n:3; p:(x+1)^n; ta:diff(p,x);', $options, $seed, 't');
+        $questionvars = new stack_cas_keyval('n:3; p:(x+1)^n; ta:diff(p,x);', $options, $seed);
         $questionvars->instantiate();
 
         $answers = array('sans' => '3*x^2+6*x+3');
@@ -126,38 +126,38 @@ class stack_potentialresponsetree_test extends qtype_stack_testcase {
         $options = new stack_options();
         $seed = 12345;
 
-        $questionvars = new stack_cas_keyval('n:3; p:(x+1)^n; ta:p;', $options, $seed, 't');
+        $questionvars = new stack_cas_keyval('n:3; p:(x+1)^n; ta:p;', $options, $seed);
 
         // Feeback variables.
         $cstrings = array('sa1:sans', 'sa2:expand(sans)');
         foreach ($cstrings as $s) {
-            $cs = new stack_cas_casstring($s);
-            $cs->get_valid('t');
+            $cs = stack_ast_container::make_from_teacher_source($s);
+            $cs->get_valid();
             $s1[] = $cs;
         }
-        $feedbackvars = new stack_cas_session($s1, $options, $seed);
+        $feedbackvars = new stack_cas_session2($s1, $options, $seed);
         $feedbackvars->get_valid();
 
         // Define the tree itself.
-        $sans = new stack_cas_casstring('sa1');
-        $sans->get_valid('t');
-        $tans = new stack_cas_casstring('ta');
-        $tans->get_valid('t');
+        $sans = stack_ast_container::make_from_teacher_source('sa1');
+        $sans->get_valid();
+        $tans = stack_ast_container::make_from_teacher_source('ta');
+        $tans->get_valid();
         $node = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv', '', true);
         $node->add_branch(0, '=', 0, '', -1, 'Test 1 false. Look: \[{@(sa1)^2@} \neq {@(sa2)^2@}\]', FORMAT_HTML, '1-0-0');
         $node->add_branch(1, '=', 1, '', 1, 'Test 1 true. ', FORMAT_HTML, '1-0-1');
         $potentialresponses[] = $node;
 
-        $sans = new stack_cas_casstring('sa2');
-        $sans->get_valid('t');
-        $tans = new stack_cas_casstring('ta');
-        $tans->get_valid('t');
+        $sans = stack_ast_container::make_from_teacher_source('sa2');
+        $sans->get_valid();
+        $tans = stack_ast_container::make_from_teacher_source('ta');
+        $tans->get_valid();
         $node = new stack_potentialresponse_node($sans, $tans, 'FacForm', 'x', true);
         $node->add_branch(0, '-', 0.7, '', 0, 'Test 2 false.', FORMAT_HTML, '1-1-0');
         $node->add_branch(1, '+', 1, '', 3, 'Test 2 true', FORMAT_HTML, '1-1-1');
         $potentialresponses[] = $node;
 
-        $tree = new stack_potentialresponse_tree('', '', true, 5, $feedbackvars, $potentialresponses, 0);
+        $tree = new stack_potentialresponse_tree('', '', true, 5, $feedbackvars, $potentialresponses, '0');
 
         // Some data from students.
         $answers = array('sans' => '(x+1)^3');

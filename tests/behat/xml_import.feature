@@ -17,7 +17,7 @@ Feature: Test importing STACK questions from Moodle XML files.
     And I log in as "teacher"
     And I am on "Course 1" course homepage
 
-  @javascript
+  @javascript @_file_upload
   Scenario: import a STACK question from a Moodle XML file
     When I navigate to "Question bank > Import" in current page administration
     And I set the field "id_format_xml" to "1"

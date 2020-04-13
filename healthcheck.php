@@ -33,8 +33,6 @@ require_once(__DIR__ . '/locallib.php');
 require_once(__DIR__ . '/stack/utils.class.php');
 require_once(__DIR__ . '/stack/options.class.php');
 require_once(__DIR__ . '/stack/cas/castext.class.php');
-require_once(__DIR__ . '/stack/cas/casstring.class.php');
-require_once(__DIR__ . '/stack/cas/cassession.class.php');
 require_once(__DIR__ . '/stack/cas/connector.dbcache.class.php');
 require_once(__DIR__ . '/stack/cas/installhelper.class.php');
 
@@ -50,10 +48,26 @@ $PAGE->set_url('/question/type/stack/healthcheck.php');
 $title = stack_string('healthcheck');
 $PAGE->set_title($title);
 
+// Start output.
+echo $OUTPUT->header();
+echo $OUTPUT->heading($title);
+
+$config = stack_utils::get_config();
+
+// This array holds summary info, for a table at the end of the pager.
+$summary = array();
+$summary[] = array('', $config->platform );
+
+// Mbstring.
+if (!extension_loaded('mbstring')) {
+    echo $OUTPUT->heading(stack_string('healthchecknombstring'), 3);
+    echo $OUTPUT->footer();
+    exit;
+}
+
 // Clear the cache if requested.
 if (data_submitted() && optional_param('clearcache', false, PARAM_BOOL)) {
     require_sesskey();
-    echo $OUTPUT->header();
     stack_cas_connection_db_cache::clear_cache($DB);
     \core\notification::success(stack_string('clearedthecache'));
     echo $OUTPUT->continue_button($PAGE->url);
@@ -64,7 +78,6 @@ if (data_submitted() && optional_param('clearcache', false, PARAM_BOOL)) {
 // Create and store Maxima image if requested.
 if (data_submitted() && optional_param('createmaximaimage', false, PARAM_BOOL)) {
     require_sesskey();
-    echo $OUTPUT->header();
     echo $OUTPUT->heading(stack_string('healthautomaxopt'));
     stack_cas_connection_db_cache::clear_cache($DB);
     list($ok, $errmsg) = stack_cas_configuration::create_auto_maxima_image();
@@ -77,16 +90,6 @@ if (data_submitted() && optional_param('createmaximaimage', false, PARAM_BOOL)) 
     echo $OUTPUT->footer();
     exit;
 }
-
-$config = stack_utils::get_config();
-
-// Start output.
-echo $OUTPUT->header();
-echo $OUTPUT->heading($title);
-
-// This array holds summary info, for a table at the end of the pager.
-$summary = array();
-$summary[] = array('', $config->platform );
 
 // LaTeX.
 echo $OUTPUT->heading(stack_string('healthchecklatex'), 3);
@@ -184,6 +187,7 @@ if ($config->platform === 'unix' and $genuinecascall) {
 echo $OUTPUT->heading(stack_string('healthchecksstackmaximaversion'), 3);
 list($message, $details, $result) = stack_connection_helper::stackmaxima_version_healthcheck();
 $summary[] = array($result, stack_string($message, $details));
+$summary[] = array(null, stack_string('settingmaximalibraries') . ' ' . $config->maximalibraries);
 echo html_writer::tag('p', stack_string($message, $details));
 
 // Test plots.
@@ -237,7 +241,7 @@ function output_cas_text($title, $intro, $castext) {
     echo html_writer::tag('p', $intro);
     echo html_writer::tag('pre', s($castext));
 
-    $ct = new stack_cas_text($castext, null, 0, 't');
+    $ct = new stack_cas_text($castext, null, 0);
 
     echo html_writer::tag('p', stack_ouput_castext($ct->get_display_castext()));
     echo output_debug(stack_string('errors'), $ct->get_errors());

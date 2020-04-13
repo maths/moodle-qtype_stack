@@ -1,4 +1,4 @@
-# Matrices and vectors in STACK.
+# Matrices and vectors in STACK
 
 Please see also the file on [linear algebra](Linear_algebra.md) and STACK questions.
 
@@ -121,7 +121,7 @@ If you turn the option "Multiplication sign" to none, this should display as
 \[-7\,{\bf{i}}+2\,{\bf{j}}-3\,{\bf{k}}\]
 Notice the use of the function `ordergreat`.  `ordergreat` can only be used once at the beginning of the question.
 
-The vector `stackvector(a)` and the atom `a` are different, and are not considered algebraically equivalent.  While students may type in `stackvector(a)` as an answer, they are likely to type in `a`.  The teacher can either (1) add in `stackvector` ephemeral forms to the student's answer in the feedbackvariables using `texboldatoms` or 92) remove all `stackvector` forms from the teacher's answer by using the `destackvector(ex)` function on their answer.  In the future we may have an option in the input to apply texboldatoms to student's expressions.
+The vector `stackvector(a)` and the atom `a` are different, and are not considered algebraically equivalent.  While students may type in `stackvector(a)` as an answer, they are likely to type in `a`.  The teacher can either (1) add in `stackvector` ephemeral forms to the student's answer in the feedback variables using `texboldatoms` or 92) remove all `stackvector` forms from the teacher's answer by using the `destackvector(ex)` function on their answer.  In the future we may have an option in the input to apply texboldatoms to student's expressions.
 
 The display of the ephemeral form of `stackvector` is controlled by the function `stackvectortex`, e.g. you can display vectors differently using the following examples.
 
@@ -161,4 +161,4 @@ Once converted into Matrices, the student's answer will be evaluated by PRTs as 
 
 ## See also
 
-[Maxima reference topics](index.md#reference).
+[Maxima reference topics](index.md#reference)

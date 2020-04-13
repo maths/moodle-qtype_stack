@@ -33,11 +33,11 @@ class stack_maths_mathjax_test extends qtype_stack_testcase {
     public function test_maths_output_mathsjax() {
 
         // MathJax output is the default.
-        $this->assertContentWithMathsEquals('Your answer needs to be a single fraction of the form \( {a}\over{b} \). ',
+        $this->assert_content_with_maths_equals('Your answer needs to be a single fraction of the form \( {a}\over{b} \). ',
                 stack_string('ATSingleFrac_part'));
 
         // @codingStandardsIgnoreStart
-        $this->assertContentWithMathsEquals("<p><code>\\(x^2\\)</code> gives \\(x^2\\).</p>\n",
+        $this->assert_content_with_maths_equals("<p><code>\\(x^2\\)</code> gives \\(x^2\\).</p>\n",
                 stack_docs_render_markdown('`\(x^2\)` gives \(x^2\).', '.../doc/content'));
         // @codingStandardsIgnoreEnd
 

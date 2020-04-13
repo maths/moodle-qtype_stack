@@ -27,7 +27,6 @@ defined('MOODLE_INTERNAL') || die();
 require_once(__DIR__ . '/settingslib.php');
 require_once(__DIR__ . '/stack/options.class.php');
 
-
 // Useful links.
 $links = array(
     get_string('stackDoc_docs_desc', 'qtype_stack',
@@ -48,7 +47,6 @@ $links = array(
 $settings->add(new admin_setting_heading('docs',
         get_string('settingusefullinks', 'qtype_stack'),
         '* ' . implode("\n* ", $links)));
-
 
 // Options for connection to Maxima.
 // Note that any settings here where we try to set the default
@@ -77,7 +75,8 @@ $settings->add(new admin_setting_configselect('qtype_stack/maximaversion',
                       '5.35.1.2' => '3.35.1.2', '5.36.0' => '5.36.0', '5.36.1' => '5.36.1',
                       '5.37.3' => '5.37.3', // Recently compiled GCL version for Windows is much faster.
                       '5.38.0' => '5.38.0', '5.38.1' => '5.38.1', '5.39.0' => '5.39.0',
-                      '5.40.0' => '5.40.0', '5.41.0' => '5.41.0',
+                      '5.40.0' => '5.40.0', '5.41.0' => '5.41.0', '5.42.0' => '5.42.0',
+                      '5.42.1' => '5.42.1', '5.42.2' => '5.42.2',
                       'default' => 'default')));
 
 $settings->add(new admin_setting_configtext('qtype_stack/castimeout',
@@ -112,6 +111,17 @@ $settings->add(new admin_setting_configcheckbox('qtype_stack/casdebugging',
         get_string('settingcasdebugging', 'qtype_stack'),
         get_string('settingcasdebugging_desc', 'qtype_stack'), 0));
 
+// @codingStandardsIgnoreStart
+// ILIAS: will need to replicate this cache.
+// The Moodle cache API is quite simple, so to replicate it we need only implement
+//   $cache = cache::make('qtype_stack', 'parsercache');
+//   $ast = $cache->get($cachekey); // Returns null/false or something if key not present.
+//   $cache->set($cachekey, $ast);
+// Or, it is already possible to disable this, because there is a config variable that can be set to 0 to disable.
+// @codingStandardsIgnoreEnd
+$settings->add(new admin_setting_configtext('qtype_stack/parsercacheinputlength',
+        get_string('settingparsercacheinputlength', 'qtype_stack'),
+        get_string('settingparsercacheinputlength_desc', 'qtype_stack'), 50, PARAM_INT, 3));
 
 // Options for maths display.
 $settings->add(new admin_setting_heading('mathsdisplayheading',
@@ -128,7 +138,6 @@ $settings->add(new qtype_stack_admin_setting_maths_display_method('qtype_stack/m
 $settings->add(new admin_setting_configcheckbox('qtype_stack/replacedollars',
         get_string('settingreplacedollars', 'qtype_stack'),
         get_string('settingreplacedollars_desc', 'qtype_stack'), false));
-
 
 // Options for new inputs.
 $settings->add(new admin_setting_heading('inputoptionsheading',
@@ -181,7 +190,6 @@ $settings->add(new admin_setting_configselect('qtype_stack/inputshowvalidation',
         get_string('showvalidation', 'qtype_stack'),
         get_string('showvalidation_help', 'qtype_stack'), '1',
         stack_options::get_showvalidation_options()));
-
 
 // Options for new questions.
 $settings->add(new admin_setting_heading('questionoptionsheading',

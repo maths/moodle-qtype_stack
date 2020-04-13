@@ -14,6 +14,8 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
+defined('MOODLE_INTERNAL') || die();
+
 /**
  * This script provides test cases for the numerical rounding tests.
  *
@@ -35,7 +37,7 @@ class stack_numbers_test_data {
             array("0.000", 3, 3, 3, '"~,3f"', '0.000'),
             array("0.0001", 1, 1, 4, '"~,4f"', '0.0001'), // Leading zeros are insignificant.
             array("0.0010", 2, 2, 4, '"~,4f"', '0.0010'),
-            array("100.0", 4, 4, 1, '"~,1f"', '100'), // Existence of a significant zero (or digit) changes.
+            array("100.0", 4, 4, 1, '"~,1f"', '100.0'), // Existence of a significant zero (or digit) changes.
             array("100.", 3, 3, 0, '"~a"', '100'),
             array("00120", 2, 3, 0, '"~a"', '120'),
             array("00.120", 3, 3, 3, '"~,3f"', '0.120'),
@@ -55,11 +57,15 @@ class stack_numbers_test_data {
             array("-303.30003", 8, 8, 5, '"~,5f"', '-303.30003'),
             // Brackets should be stripped off.
             array("(-12.00)", 4, 4, 2, '"~,2f"', '-12.00'),
+            array("--(-12.00)", 4, 4, 2, '"~,2f"', '-12.00'),
             array("(00.00)", 2, 2, 2, '"~,2f"', '0.00'),
+            // Unary minus should be stripped off.
+            array("-(12.000)", 5, 5, 3, '"~,3f"', '-12.000'),
     );
 
-    // array("string", lower, upper, decimal places).
+    // Use the format array("string", lower, upper, decimal places).
     protected static $rawdatautils = array(
+
             // Scientific notation.
             array("4.320e-3", 4, 4, 3, '"~,3e"'), // After a digit, zeros after the decimal separator are always significant.
             // If no digits before a zero that zero is not significant even after the decimal separator.
@@ -72,6 +78,7 @@ class stack_numbers_test_data {
             // We insist the input only has one numerical multiplier that we act on and that is the first thing in the string.
             array("52435*mg", 5, 5, 0, '"~a"'),
             array("-12.00*m", 4, 4, 2, '"~,2f"'),
+            array("-(12.00*m)", 4, 4, 2, '"~,2f"'),
             // Here we know that there are 3 significant figures but can't be sure about that trailing zero.
             array("1030*m/s", 3, 4, 0, '"~a"'),
             array("1.23*4", 3, 3, 2, '"~,2f"'),

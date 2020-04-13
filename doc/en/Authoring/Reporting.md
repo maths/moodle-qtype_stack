@@ -67,3 +67,7 @@ The report splits this information into the following, text-based, reports.
 This feature is new in STACK 4.3.  Comments and suggestions for improvements are very welcome.
 
 Note, the question summary is stored in a database and will not be updated if you subsequently edit the question.  If you wish to improve your question you will need to do a quiz "regrade" to update the basic question use report.
+
+## Site-wide usage ##
+
+Moodle Admins can get stats on [site-wide STACK usage](../Developer/Local_Usage.md).

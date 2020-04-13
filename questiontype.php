@@ -1587,7 +1587,8 @@ class qtype_stack extends question_type {
                 $errors['questiontext'][] = stack_string('inputnamelength', $inputname);
             }
 
-            if (!preg_match('/^[a-zA-Z]+[0-9]*$/', $inputname) && !isset($fromform[$inputname . 'deleteconfirm'])) {
+            if (!preg_match('/^([a-zA-Z]+|[a-zA-Z]+[0-9a-zA-Z_]*[0-9a-zA-Z]+)$/', $inputname) &&
+                    !isset($fromform[$inputname . 'deleteconfirm'])) {
                 $errors['questiontext'][] = stack_string('inputnameform', $inputname);
             }
 

@@ -267,6 +267,20 @@ class stack_units_input_test extends qtype_stack_testcase {
         $this->assertEquals('<span class="stacksyntaxexample">9.81 m/s^2</span>', $state->contentsdisplayed);
     }
 
+    public function test_validate_student_response_student_spaces() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('units', 'sans1', '5*10^2*kg');
+        $el->set_parameter('insertStars', 3);
+        $el->set_parameter('strictSyntax', true);
+        // In prior versions the string replace added extra *s to give 5***10^2, which was silly.
+        $state = $el->validate_student_response(array('sans1' => '5 * 10^2 kg'), $options, '5*10^2*kg',
+                new stack_cas_security(true, '', '', array('tans')));
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals("spaces", $state->note);
+        $this->assertEquals('5*10^2*kg', $state->contentsmodified);
+        $this->assertEquals('\[ 5\, 10^2\, \mathrm{k}\mathrm{g} \]', $state->contentsdisplayed);
+    }
+
     public function test_validate_student_response_student_edgecase() {
         $options = new stack_options();
         $el = stack_input_factory::make('units', 'sans1', '9.81');

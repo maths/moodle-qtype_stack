@@ -1302,8 +1302,6 @@ abstract class stack_input {
 
         if (!$feedback) {
             $class .= ' empty';
-            // Don't create a block-level div for empty answers.
-            $divspan = 'span';
         }
 
         $feedback = html_writer::tag($divspan, $feedback, array('class' => $class, 'id' => $fieldname.'_val'));

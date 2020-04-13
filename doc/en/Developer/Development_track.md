@@ -10,6 +10,7 @@ How to report bugs and make suggestions is described on the [community](../About
 ## Maxima side PRTs.
 
 * Move all functions to Maxima.
+* Change behaviour of UnitsAbsolute in response to discussion of issue #448.
 
 
 ## For "inputs 2"?

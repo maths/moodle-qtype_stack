@@ -887,6 +887,7 @@ $string['ATUnits_SA_excess_units']        = 'Your answer has used units (or vari
 $string['ATUnits_SA_only_units']          = 'Your answer needs to be a number together with units. Your answer only has units. ';
 $string['ATUnits_SA_bad_units']           = 'Your answer must have units, and you must use multiplication to attach the units to a value, e.g. <code>3.2*m/s</code>. ';
 $string['ATUnits_SA_errorbounds_invalid'] = 'Your answer has error bounds.  In this case do not indicate error bounds, instead use just the quantity and units. ';
+$string['ATUnits_SO_wrong_units']         = 'The units specified for the numerical tolerance must match the units used for the teacher\'s answer.  This is an internal error with the test.  Please ask your teacher about this. ';
 $string['ATUnits_incompatible_units']     = 'Your units are incompatible with those used by the teacher. ';
 $string['ATUnits_compatible_units']       = 'Your units are different from those used by the teacher, but are compatible with them.  Numerical values are being converted to SI base units for comparison. ';
 $string['ATUnits_correct_numerical']      = 'Please check your units carefully. ';

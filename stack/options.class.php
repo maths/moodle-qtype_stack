@@ -63,6 +63,14 @@ class stack_options {
                 'caskey'     => 'make_arccos',
                 'castype'    => 'fun',
             ),
+            'logicsymbol'   => array(
+                'type'       => 'list',
+                'value'      => 'lang',
+                'strict'     => true,
+                'values'     => array('lang', 'symbol'),
+                'caskey'     => 'make_logic',
+                'castype'    => 'fun',
+            ),
             'floats'   => array(
                 'type'       => 'boolean',
                 'value'      => 1,
@@ -133,6 +141,7 @@ class stack_options {
         $this->set_option('multiplicationsign', $stackconfig->multiplicationsign);
         $this->set_option('complexno', $stackconfig->complexno);
         $this->set_option('inversetrig', $stackconfig->inversetrig);
+        $this->set_option('logicsymbol', $stackconfig->logicsymbol);
         $this->set_option('matrixparens', $stackconfig->matrixparens);
         $this->set_option('floats', (bool) $stackconfig->inputforbidfloat);
         $this->set_option('sqrtsign', (bool) $stackconfig->sqrtsign);
@@ -278,6 +287,16 @@ class stack_options {
             'cos-1'  => "cos\xe2\x81\xbb\xc2\xb9(x)",
             'acos'   => 'acos(x)',
             'arccos' => 'arccos(x)',
+        );
+    }
+
+    /**
+     * @return array of choices for the inverse trig select menu.
+     */
+    public static function get_logic_options() {
+        return array(
+            'lang'   => get_string('logicsymbollang', 'qtype_stack'),
+            'symbol' => get_string('logicsymbolsymbol', 'qtype_stack'),
         );
     }
 

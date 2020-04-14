@@ -246,6 +246,11 @@ $settings->add(new admin_setting_configselect('qtype_stack/inversetrig',
         get_string('inversetrig_help', 'qtype_stack'), 'cos-1',
         stack_options::get_inverse_trig_options()));
 
+$settings->add(new admin_setting_configselect('qtype_stack/logicsymbol',
+        get_string('logicsymbol', 'qtype_stack'),
+        get_string('logicsymbol_help', 'qtype_stack'), 'lang',
+        stack_options::get_logic_options()));
+
 $settings->add(new admin_setting_configselect('qtype_stack/matrixparens',
         get_string('matrixparens', 'qtype_stack'),
         get_string('matrixparens_help', 'qtype_stack'), '[',

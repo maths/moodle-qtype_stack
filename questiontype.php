@@ -143,6 +143,7 @@ class qtype_stack extends question_type {
         $options->sqrtsign                  = $fromform->sqrtsign;
         $options->complexno                 = $fromform->complexno;
         $options->inversetrig               = $fromform->inversetrig;
+        $options->logicsymbol               = $fromform->logicsymbol;
         $options->matrixparens              = $fromform->matrixparens;
         $options->variantsselectionseed     = $fromform->variantsselectionseed;
         $DB->update_record('qtype_stack_options', $options);
@@ -417,6 +418,7 @@ class qtype_stack extends question_type {
         $question->options->set_option('multiplicationsign', $questiondata->options->multiplicationsign);
         $question->options->set_option('complexno',          $questiondata->options->complexno);
         $question->options->set_option('inversetrig',        $questiondata->options->inversetrig);
+        $question->options->set_option('logicsymbol',        $questiondata->options->logicsymbol);
         $question->options->set_option('matrixparens',       $questiondata->options->matrixparens);
         $question->options->set_option('sqrtsign',    (bool) $questiondata->options->sqrtsign);
         $question->options->set_option('simplify',    (bool) $questiondata->options->questionsimplify);
@@ -1106,6 +1108,7 @@ class qtype_stack extends question_type {
         $output .= "    <sqrtsign>{$options->sqrtsign}</sqrtsign>\n";
         $output .= "    <complexno>{$options->complexno}</complexno>\n";
         $output .= "    <inversetrig>{$options->inversetrig}</inversetrig>\n";
+        $output .= "    <logicsymbol>{$options->logicsymbol}</logicsymbol>\n";
         $output .= "    <matrixparens>{$options->matrixparens}</matrixparens>\n";
         $output .= "    <variantsselectionseed>{$format->xml_escape($options->variantsselectionseed)}</variantsselectionseed>\n";
 
@@ -1222,6 +1225,7 @@ class qtype_stack extends question_type {
         $fromform->sqrtsign              = $format->getpath($xml, array('#', 'sqrtsign', 0, '#'), 1);
         $fromform->complexno             = $format->getpath($xml, array('#', 'complexno', 0, '#'), 'i');
         $fromform->inversetrig           = $format->getpath($xml, array('#', 'inversetrig', 0, '#'), 'cos-1');
+        $fromform->logicsymbol           = $format->getpath($xml, array('#', 'logicsymbol', 0, '#'), 'lang');
         $fromform->matrixparens          = $format->getpath($xml, array('#', 'matrixparens', 0, '#'), '[');
         $fromform->variantsselectionseed = $format->getpath($xml, array('#', 'variantsselectionseed', 0, '#'), 'i');
 
@@ -1416,6 +1420,7 @@ class qtype_stack extends question_type {
         $this->options->set_option('multiplicationsign', $fromform['multiplicationsign']);
         $this->options->set_option('complexno',          $fromform['complexno']);
         $this->options->set_option('inversetrig',        $fromform['inversetrig']);
+        $this->options->set_option('logicsymbol',        $fromform['logicsymbol']);
         $this->options->set_option('matrixparens',       $fromform['matrixparens']);
         $this->options->set_option('sqrtsign',    (bool) $fromform['sqrtsign']);
         $this->options->set_option('simplify',    (bool) $fromform['questionsimplify']);

@@ -209,6 +209,7 @@ class qtype_stack_test extends qtype_stack_walkthrough_test_base {
     <sqrtsign>1</sqrtsign>
     <complexno>i</complexno>
     <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
     <matrixparens>[</matrixparens>
     <variantsselectionseed></variantsselectionseed>
     <input>
@@ -326,6 +327,7 @@ class qtype_stack_test extends qtype_stack_walkthrough_test_base {
     <sqrtsign>1</sqrtsign>
     <complexno>i</complexno>
     <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
     <matrixparens>[</matrixparens>
     <variantsselectionseed></variantsselectionseed>
     <input>
@@ -427,6 +429,7 @@ class qtype_stack_test extends qtype_stack_walkthrough_test_base {
         $expectedq->sqrtsign              = 1;
         $expectedq->complexno             = 'i';
         $expectedq->inversetrig           = 'cos-1';
+        $expectedq->logicsymbol           = 'lang';
         $expectedq->matrixparens          = '[';
         $expectedq->variantsselectionseed = '';
 

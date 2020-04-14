@@ -386,6 +386,25 @@ complex_exponentialp(ex):=block([ex2],
     return(false)
 )$
 
+/* Decides if an expression is precicely of the form a*10^n, where a is an integer, or a float, and n is an integer. */
+scientific_notationp(ex) := block([tn],
+  if not(safe_op(ex)="*") then return(false),
+  if not(length(args(ex))=2) then return(false),
+  tn:first(args(ex)),
+  if safe_op(tn)="-" then tn:first(args(tn)), 
+  if not(integerp(tn) or floatnump(tn)) then return(false),
+  tn:second(args(ex)),
+  /* Special edge case: 3*10 = 3*10^1. */
+  if tn=10 then return(true),
+  if not(safe_op(tn)="^") then return(false),
+  if not(first(args(tn))=10) then return(false),
+  /* Of course, unary minus bites us here. */
+  tn:second(args(tn)),
+  if safe_op(tn)="-" then tn:first(args(tn)), 
+  if integerp(tn) then return(true),
+  return(false)
+)$
+
 /* commonfaclist(l) returns the gcd of a list of numbers. */
 commonfaclist(l) := block([i, a, ret],
  if listp(l) then

@@ -1172,7 +1172,8 @@ num_compare_helper(sal, tal, missing, excessive, tol, type) := block([sa, ta, f1
   return(num_compare_helper(sal, rest(tal), append([ta], missing), excessive, tol, type))
 )$
 
-ATNumSigFigs(SA, SB, SO) := block([Validity, RawMark, FeedBack, AnswerNote, ret, ol, nsf, asf, c0, c1, c2, SAA, SBB, SOO],
+ATNumSigFigs(SA, SB, SO) := block([simp, Validity, RawMark, FeedBack, AnswerNote, ret, ol, nsf, asf, c0, c1, c2, SAA, SBB, SOO],
+    simp:false,
     Validity:true, RawMark:true, FeedBack:"", AnswerNote:"",
 
     SAA:errcatch(ev(SA, simp, nouns)),
@@ -1194,9 +1195,10 @@ ATNumSigFigs(SA, SB, SO) := block([Validity, RawMark, FeedBack, AnswerNote, ret,
     /* Remove ephemeral forms from teacher's answers. */
     SB:remove_displaydp(SB),
     /* SA should be only a number. */
-    if is(_EC(errcatch(SA:ev(SA, simp, nouns)), "") = false) then return([false, false, StackAddNote("", "ATNumSigFigs_Error simplifying SAns"),""]),
-    if (not(floatnump(SA)) and not(integerp(SA))) then
+    if (not(ATNumSigFigs_numberp(SA))) then
         return([false, false, StackAddNote("", "ATNumSigFigs_NotDecimal"), StackAddFeedback("", "ATNumSigFigs_NotDecimal")]),
+    /* Don't simplify until now. */
+    if is(_EC(errcatch(SA:ev(SA, simp, nouns)), "") = false) then return([false, false, StackAddNote("", "ATNumSigFigs_Error simplifying SAns"),""]),
     /* In the case of teacher's options [n,0] we ignore the question of numerical accuracy. */
     if ev(is(asf = 0), simp) then
         return([Validity, RawMark, AnswerNote, FeedBack]),
@@ -1235,6 +1237,13 @@ ATNumSigFigs(SA, SB, SO) := block([Validity, RawMark, FeedBack, AnswerNote, ret,
     ret: [Validity, RawMark, AnswerNote, FeedBack],
     return(ret)
 )$
+
+ATNumSigFigs_numberp(ex) := block([ts],
+  ts:ex,
+  if safe_op(ts)="-" then ts:first(args(ts)),
+  if floatnump(ts) or integerp(ts) or scientific_notationp(ts) then return(true),
+  return(false)
+  )$
 
 /* ********************************** */
 /* Algebraic tests                    */

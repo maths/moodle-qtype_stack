@@ -91,7 +91,7 @@ class stack_ans_test_controller {
         'SigFigsStrict'        => array(true, true, true),
         'NumAbsolute'          => array(true, true, true),
         'NumRelative'          => array(true, true, true),
-        'NumSigFigs'           => array(true, true, true),
+        'NumSigFigs'           => array(true, true, false),
         'NumDecPlaces'         => array(true, true, null),
         'NumDecPlacesWrong'    => array(true, true, null),
         'Units'                => array(true, true, false),

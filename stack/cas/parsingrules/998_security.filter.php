@@ -176,7 +176,11 @@ class stack_ast_filter_998_security implements stack_cas_astfilter_parametric {
                                 // written out as multiplce calls. And are
                                 // therefore still unsafe atleast untill we do
                                 // the writing out...
-                                $virtualfunction = new MP_FunctionCall($node->arguments[0], array_slice($node->arguments, 1));
+                                $fname = $node->arguments[0];
+                                if ($fname instanceof MP_PrefixOp && $fname->op === "'") {
+                                    $fname = $fname->rhs;
+                                }
+                                $virtualfunction = new MP_FunctionCall($fname, array_slice($node->arguments, 1));
                                 $virtualfunction->position['virtual'] = true;
                                 $ofinterest[] = $virtualfunction;
                                 break;

@@ -244,6 +244,7 @@ class qtype_stack extends question_type {
 
             $prt->value             = $fromform->{$prtname . 'value'};
             $prt->autosimplify      = $fromform->{$prtname . 'autosimplify'};
+            $prt->feedbackstyle     = $fromform->{$prtname . 'feedbackstyle'};
             $prt->feedbackvariables = $fromform->{$prtname . 'feedbackvariables'};
             $prt->firstnodename     = $firstnode;
             $DB->update_record('qtype_stack_prts', $prt);
@@ -379,7 +380,7 @@ class qtype_stack extends question_type {
 
         $question->prts = $DB->get_records('qtype_stack_prts',
                 array('questionid' => $question->id), 'name',
-                'name, id, questionid, value, autosimplify, feedbackvariables, firstnodename');
+                'name, id, questionid, value, autosimplify, feedbackstyle, feedbackvariables, firstnodename');
 
         $noders = $DB->get_recordset('qtype_stack_prt_nodes',
                 array('questionid' => $question->id),
@@ -454,16 +455,6 @@ class qtype_stack extends question_type {
                     $inputdata->type, $inputdata->name, $inputdata->tans, $question->options, $parameters);
         }
 
-        // CJS: fix this with DB column...
-        foreach ($questiondata->prts as $name => $prtdata) {
-            // Add in the field here.
-            $questiondata->prts[$name]->feedbackstyle = 1;
-            if ($prtdata->value > 5) {
-                // And fudge the value for testing.
-                $questiondata->prts[$name]->feedbackstyle = 0;
-            }
-        }
-
         $totalvalue = 0;
         foreach ($questiondata->prts as $name => $prtdata) {
             // At this point we do not have the PRT method is_formative() available to us.
@@ -518,7 +509,7 @@ class qtype_stack extends question_type {
 
             $question->prts[$name] = new stack_potentialresponse_tree($name, '',
                     (bool) $prtdata->autosimplify, $prtdata->value / $totalvalue,
-                    $feedbackvariables, $nodes, (string) $prtdata->firstnodename, $prtdata->feedbackstyle);
+                    $feedbackvariables, $nodes, (string) $prtdata->firstnodename, (int) $prtdata->feedbackstyle);
         }
 
         $question->deployedseeds = array_values($questiondata->deployedseeds);
@@ -1138,6 +1129,7 @@ class qtype_stack extends question_type {
             $output .= "      <name>{$prt->name}</name>\n";
             $output .= "      <value>{$prt->value}</value>\n";
             $output .= "      <autosimplify>{$prt->autosimplify}</autosimplify>\n";
+            $output .= "      <feedbackstyle>{$prt->feedbackstyle}</feedbackstyle>\n";
             $output .= "      <feedbackvariables>\n";
             $output .= "        " . $format->writetext($prt->feedbackvariables, 0);
             $output .= "      </feedbackvariables>\n";
@@ -1323,6 +1315,7 @@ class qtype_stack extends question_type {
 
         $fromform->{$name . 'value'}             = $format->getpath($xml, array('#', 'value', 0, '#'), 1);
         $fromform->{$name . 'autosimplify'}      = $format->getpath($xml, array('#', 'autosimplify', 0, '#'), 1);
+        $fromform->{$name . 'feedbackstyle'}     = $format->getpath($xml, array('#', 'feedbackstyle', 0, '#'), 1);
         $fromform->{$name . 'feedbackvariables'} = $format->getpath($xml,
                             array('#', 'feedbackvariables', 0, '#', 'text', 0, '#'), '', true);
 

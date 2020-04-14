@@ -260,7 +260,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $node->add_branch(0, '=', 0, $q->penalty, -1,
                 'Your answer is not an odd function. Look, \[ f(x)+f(-x)={@sa@} \neq 0.\]', FORMAT_HTML, 'odd-0-0');
         $node->add_branch(1, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'odd-0-1');
-        $q->prts['odd']     = new stack_potentialresponse_tree('odd',
+        $q->prts['odd'] = new stack_potentialresponse_tree('odd',
                 '', true, 0.25, $feedbackvars->get_session(), array($node), '0', 1);
 
         $feedbackvars = new stack_cas_keyval('sa:subst(x=-x,ans2)-ans2', null, null);
@@ -1263,6 +1263,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $prt->questionid        = '0';
         $prt->value             = 1;
         $prt->autosimplify      = 1;
+        $prt->feedbackstyle     = 1;
         $prt->feedbackvariables = '';
         $prt->firstnodename     = '0';
 
@@ -1449,6 +1450,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $prt->questionid        = '0';
         $prt->value             = 1;
         $prt->autosimplify      = 1;
+        $prt->feedbackstyle     = 1;
         $prt->feedbackvariables = 'sa:subst(x=-x,ans1)+ans1';
         $prt->firstnodename     = '0';
 
@@ -1485,6 +1487,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $prt->questionid        = '0';
         $prt->value             = 1;
         $prt->autosimplify      = 1;
+        $prt->feedbackstyle     = 1;
         $prt->feedbackvariables = 'sa:subst(x=-x,ans2)-ans2';
         $prt->firstnodename     = '0';
 
@@ -1521,6 +1524,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $prt->questionid        = '0';
         $prt->value             = 1;
         $prt->autosimplify      = 1;
+        $prt->feedbackstyle     = 1;
         $prt->feedbackvariables = 'sa1:ans3+subst(x=-x,ans3); sa2:ans3-subst(x=-x,ans3)';
         $prt->firstnodename     = '0';
 
@@ -1583,6 +1587,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $prt->questionid        = '0';
         $prt->value             = 1;
         $prt->autosimplify      = 1;
+        $prt->feedbackstyle     = 1;
         $prt->feedbackvariables = null;
         $prt->firstnodename     = '0';
 
@@ -1732,6 +1737,7 @@ class qtype_stack_test_helper extends question_test_helper {
 
         $formform->oddvalue = 1;
         $formform->oddautosimplify = '1';
+        $formform->oddfeedbackstyle     = 1;
         $formform->oddfeedbackvariables = 'sa:subst(x=-x,ans1)+ans1';
         $formform->oddanswertest = array(
                 0 => 'AlgEquiv');
@@ -1778,6 +1784,7 @@ class qtype_stack_test_helper extends question_test_helper {
 
         $formform->evenvalue = 1;
         $formform->evenautosimplify = '1';
+        $formform->evenfeedbackstyle     = 1;
         $formform->evenfeedbackvariables = 'sa:subst(x=-x,ans2)-ans2';
         $formform->evenanswertest = array(
                 0 => 'AlgEquiv');
@@ -1824,6 +1831,7 @@ class qtype_stack_test_helper extends question_test_helper {
 
         $formform->oddevenvalue = 1;
         $formform->oddevenautosimplify = '1';
+        $formform->oddevenfeedbackstyle     = 1;
         $formform->oddevenfeedbackvariables = 'sa1:ans3+subst(x=-x,ans3); sa2:ans3-subst(x=-x,ans3)';
         $formform->oddevenanswertest = array(
                 0 => 'AlgEquiv',
@@ -1891,6 +1899,7 @@ class qtype_stack_test_helper extends question_test_helper {
 
         $formform->uniquevalue = 1;
         $formform->uniqueautosimplify = '1';
+        $formform->uniquefeedbackstyle     = 1;
         $formform->uniquefeedbackvariables = '';
         $formform->uniqueanswertest = array(
                 0 => 'AlgEquiv');

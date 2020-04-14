@@ -287,12 +287,12 @@ class qtype_stack_renderer extends qtype_renderer {
      * @param array $response the most recent student response.
      * @param question_attempt $qa the question attempt to display.
      * @param question_display_options $options controls what should and should not be displayed.
-     * @param int prtfeedbackstyle whether and how to include the standard
+     * @param int feedbackstyle whether and how to include the standard.
      *      'Your answer is partially correct' bit at the start of the feedback.
      * @return string nicely formatted feedback, for display.
      */
     protected function prt_feedback($name, $response, question_attempt $qa,
-            question_display_options $options, int $prtfeedbackstyle) {
+            question_display_options $options, int $feedbackstyle) {
         $question = $qa->get_question();
 
         $relevantresponse = $this->get_applicable_response_for_prt($name, $response, $qa);
@@ -304,7 +304,7 @@ class qtype_stack_renderer extends qtype_renderer {
         if (is_null($result->valid)) {
             return '';
         }
-        return $this->prt_feedback_display($name, $qa, $question, $result, $options, $prtfeedbackstyle);
+        return $this->prt_feedback_display($name, $qa, $question, $result, $options, $feedbackstyle);
     }
 
     /**
@@ -314,12 +314,12 @@ class qtype_stack_renderer extends qtype_renderer {
      * @param question_definition $question the question being displayed.
      * @param stack_potentialresponse_tree_state $result the results to display.
      * @param question_display_options $options controls what should and should not be displayed.
-     * @param prtfeedbackstyle styles the type of feedback.
+     * @param feedbackstyle styles the type of feedback.
      * @return string nicely formatted feedback, for display.
      */
     protected function prt_feedback_display($name, question_attempt $qa,
             question_definition $question, stack_potentialresponse_tree_state $result,
-            question_display_options $options, $prtfeedbackstyle) {
+            question_display_options $options, $feedbackstyle) {
         $err = '';
         if ($result->errors) {
             $err = $result->errors;
@@ -360,10 +360,10 @@ class qtype_stack_renderer extends qtype_renderer {
                 $qa->get_behaviour()->get_part_mark_details($name), $options);
         }
 
-        $standardfeedback = $this->standard_prt_feedback($qa, $question, $result, $prtfeedbackstyle);
+        $standardfeedback = $this->standard_prt_feedback($qa, $question, $result, $feedbackstyle);
 
         $tag = 'div';
-        switch ($prtfeedbackstyle) {
+        switch ($feedbackstyle) {
             case 0:
                 // Formative PRT.
                 $fb = $err . $feedback;
@@ -393,10 +393,10 @@ class qtype_stack_renderer extends qtype_renderer {
      * @param question_attempt $qa the question attempt to display.
      * @param question_definition $question the question being displayed.
      * @param stack_potentialresponse_tree_state $result the results to display.
-     * @param prtfeedbackstyle styles the type of feedback.
+     * @param feedbackstyle styles the type of feedback.
      * @return string nicely standard feedback, for display.
      */
-    protected function standard_prt_feedback($qa, $question, $result, $prtfeedbackstyle) {
+    protected function standard_prt_feedback($qa, $question, $result, $feedbackstyle) {
         if ($result->errors) {
             return '';
         }
@@ -405,7 +405,7 @@ class qtype_stack_renderer extends qtype_renderer {
         $class = $state->get_feedback_class();
 
         // Compact and symbolic only.
-        if ($prtfeedbackstyle === 2 || $prtfeedbackstyle === 3) {
+        if ($feedbackstyle === 2 || $feedbackstyle === 3) {
             $s = get_string('symbolicprt' . $class . 'feedback', 'qtype_stack');
             return html_writer::tag('span', $s, array('class' => $class));
         }
@@ -451,7 +451,7 @@ class qtype_stack_renderer extends qtype_renderer {
         }
 
         $result = new stack_potentialresponse_tree_state(1, true, $fraction);
-        // This is overall, so we fix the prtfeedbackstyle style = 1 to get the default type of feedback.
+        // This is overall, so we fix the PRT feedbackstyle style = 1 to get the default type of feedback.
         return $this->standard_prt_feedback($qa, $qa->get_question(), $result, 1);
     }
 

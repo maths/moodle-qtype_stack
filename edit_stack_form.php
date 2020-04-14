@@ -446,6 +446,11 @@ class qtype_stack_edit_form extends question_edit_form {
         $mform->setDefault($prtname . 'autosimplify', true);
         $mform->addHelpButton($prtname . 'autosimplify', 'autosimplifyprt', 'qtype_stack');
 
+        $mform->addElement('select', $prtname . 'feedbackstyle',
+                stack_string('feedbackstyle'), stack_potentialresponse_tree::get_feedbackstyle_options());
+        $mform->setDefault($prtname . 'feedbackstyle', $this->stackconfig->feedbackstyle);
+        $mform->addHelpButton($prtname . 'feedbackstyle', 'feedbackstyle', 'qtype_stack');
+
         $mform->addElement('textarea', $prtname . 'feedbackvariables',
                 stack_string('feedbackvariables'), array('rows' => 3, 'cols' => 80));
         $mform->addHelpButton($prtname . 'feedbackvariables', 'feedbackvariables', 'qtype_stack');
@@ -651,6 +656,7 @@ class qtype_stack_edit_form extends question_edit_form {
         foreach ($question->prts as $prtname => $prt) {
             $question->{$prtname . 'value'}             = 0 + $prt->value; // Remove excess decimals.
             $question->{$prtname . 'autosimplify'}      = $prt->autosimplify;
+            $question->{$prtname . 'feedbackstyle'}     = (int) $prt->feedbackstyle;
             $question->{$prtname . 'feedbackvariables'} = $prt->feedbackvariables;
 
             foreach ($prt->nodes as $node) {

@@ -62,6 +62,7 @@ Hence, we need quite a number of different answer tests to establish equality in
 | CasEqual                                          | Are the parse trees of the two expressions equal?  
 | [EqualComAss](Answer_tests.md#EqualComAss)        | Are they equal up to commutativity and associativity of addition and multiplication, together with their inverses minus and division? 
 | [AlgEquiv](Answer_tests.md#AlgEquiv)              | Are they _algebraically equivalent_?
+| AlgEquivNouns                                     | Are they _algebraically equivalent_, preserving noun forms of operators, e.g. `diff`?
 | SubstEquiv                                        | Can we find a substitution of the variables of \(ex_2\) into \(ex_1\) which renders \(ex_1\) algebraically equivalent to \(ex_2\)?
 | SameType                                          | Are the two expressions of the same [types_of_object](../CAS/Maxima.md#Types_of_object)?  Note that this test works recursively over the entire expression.
 | SysEquiv                                          | Do two systems of polynomial equations have the same solutions? 
@@ -100,6 +101,12 @@ There are also some cases which Maxima can't establish as being equivalent.  For
     (sqrt(108)+10)^(1/3)-(sqrt(108)-10)^(1/3)
 
 This is Cardano's example from Ars Magna, but currently the AlgEquiv test cannot establish these are equivalent.  There are some other examples in the test suite which fail for mathematical reasons.  In cases like this, where you know you have a number, you may need to supplement the AlgEquiv test with another numerical test.
+
+### AlgEquivNouns ###
+
+Algebraic equivalence evaluates as much as possible, to try to establish equivalence.  This means, e.g. that `diff(y,x)` is always evaluated to \(0\).  If you use AlgEquivNouns then noun forms of operators are not evaluated, so `diff(y,x)` will be evaluated but `'diff(y,x)` and `noundiff(y,x)` will not.
+
+Note, however that logic nouns such as `nounand` are still evaluated by this test!  Sorry, but logical noun functions are dealt with internally in a very different way than Maxima noun functions such as `'diff(y,x)` and the parallel `noundiff`.  Use a different test, such as `EqualComAss`.
 
 ### EqualComAss: Equality up to Associativity and Commutativity ### {#EqualComAss}
 

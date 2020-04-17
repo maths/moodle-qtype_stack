@@ -1271,6 +1271,27 @@ ATAlgEquiv(SA,SB) := block([simp:true, ret, newret, SAN],
     return(ret)
 )$
 
+/* An algebraic equivalence test which does not evaluate noun forms, but does other simplifications.
+*/
+ATAlgEquivNouns(SA,SB) := block([simp:true, ret, newret, SAN],
+    /* Turn on simplification and error catch */
+    if is(_EC(errcatch(SA:ev(SA, simp, rat)), "") = false) then
+        return([false, false, StackAddNote("", "ATAlgEquivNouns_STACKERROR_SAns"), ""]),
+    SAN:copy(SA), /* Need this for when we have lists etc. */
+    if is(_EC(errcatch(SB:ev(SB, simp, rat)), "") = false) then
+        return([false, false, StackAddNote("", "ATAlgEquivNouns_STACKERROR_TAns"),""]),
+    /* Start recursive process */
+    ret:ATAlgEquivfun(SA, SB),
+    /* Can we find a permutation of the variables? */
+    if ret[2]=0 then block([p1],
+        p1:subst_equiv(SAN, SB),
+        /* Actually, at this point 2008/7/7, we don't want to give this feedback.  Just leave an answer note. */
+        /* if p1#[] and p1#false then ret:[ret[1], ret[2], StackAddNote(ret[3], concat("ATAlgEquiv_Subst ", string(p1))), StackAddFeedback(ret[4], "Subst", stack_disp(p1, "d"))] */
+        if p1#[] and p1#false then ret:[ret[1], ret[2], StackAddNote(ret[3], concat("ATAlgEquiv_Subst ", string(p1))), ret[4]]
+    ),
+    return(ret)
+)$
+
 /* ATAlgEquivfun is a recursive "thing" comparing function.  It is designed to
    cope with a variety of different objects, e.g. lists of inequalities etc.
 

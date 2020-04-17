@@ -11,8 +11,8 @@
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
 //
-// You should have received a copy of the GNU General Public License
-// along with Stack.  If not, see <http://www.gnu.org/licenses/>.
+// You should have received a copy of the GNU General Public License with Stack.
+// If not, see <http://www.gnu.org/licenses/>.
 
 
 /**
@@ -742,6 +742,7 @@ $string['stackBlock_jsxgraph_param']       = 'The jsxgraph-block supports only t
 
 // Answer tests.
 $string['stackOptions_AnsTest_values_AlgEquiv']            = "AlgEquiv";
+$string['stackOptions_AnsTest_values_AlgEquivNouns']       = "AlgEquivNouns";
 $string['stackOptions_AnsTest_values_EqualComAss']         = "EqualComAss";
 $string['stackOptions_AnsTest_values_CasEqual']            = "CasEqual";
 $string['stackOptions_AnsTest_values_SameType']            = "SameType";

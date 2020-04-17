@@ -7,6 +7,8 @@ How to report bugs and make suggestions is described on the [community](../About
 
 ## Version 4.4
 
+* Add in a new answer test AlgEquivNouns.
+
 ## Maxima side PRTs.
 
 * Move all functions to Maxima.

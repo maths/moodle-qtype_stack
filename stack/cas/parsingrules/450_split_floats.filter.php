@@ -41,9 +41,9 @@ class stack_ast_filter_450_split_floats implements stack_cas_astfilter_exclusion
                                 new MP_Operation('*', new MP_Identifier('e'), new MP_Integer(intval($parts[1]))));
                     }
                     $replacement->position['insertstars'] = true;
-                    if ($parts[1]{0} === '-' || $parts[1]{0} === '+') {
+                    if ($parts[1][0] === '-' || $parts[1][0] === '+') {
                         // Forms such as 1e+1...
-                        $op = $parts[1]{0};
+                        $op = $parts[1][0];
                         $val = abs(intval($parts[1]));
                         $replacement = new MP_Operation($op, new MP_Operation('*', $replacement->lhs,
                                 new MP_Identifier('e')), new MP_Integer($val));
@@ -59,9 +59,9 @@ class stack_ast_filter_450_split_floats implements stack_cas_astfilter_exclusion
                                 new MP_Operation('*', new MP_Identifier('E'), new MP_Integer(intval($parts[1]))));
                     }
                     $replacement->position['insertstars'] = true;
-                    if ($parts[1]{0} === '-' || $parts[1]{0} === '+') {
+                    if ($parts[1][0] === '-' || $parts[1][0] === '+') {
                         // Forms such as 1.2E-1...
-                        $op = $parts[1]{0};
+                        $op = $parts[1][0];
                         $val = abs(intval($parts[1]));
                         $replacement = new MP_Operation($op, new MP_Operation('*', $replacement->lhs,
                                 new MP_Identifier('E')), new MP_Integer($val));

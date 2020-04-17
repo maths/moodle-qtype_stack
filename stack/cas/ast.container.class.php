@@ -74,12 +74,7 @@ class stack_ast_container extends stack_ast_container_silent implements cas_late
      */
     private $displayvalue;
 
-    protected function __constructor($ast, string $source, string $context,
-                                   stack_cas_security $securitymodel,
-                                   array $errors, array $answernotes) {
-
-        parent::__construct($ast, $source, $context, $securitymodel,
-                            $errors, $answernotes);
+    protected function __construct() {
     }
 
     public function add_errors($err) {
@@ -220,6 +215,7 @@ class stack_ast_container extends stack_ast_container_silent implements cas_late
          * (1) we want actual numerical information, such as 0.5000 not displaydp(0.5,4);
          * (2) we don't want noun values (students do not type these in);
          * (3) we want ? characters, and no semicolons.
+         * (4) we want +- and not #pm#.
          */
 
         $dispval = $this->displayvalue;
@@ -230,9 +226,9 @@ class stack_ast_container extends stack_ast_container_silent implements cas_late
         if ($dispval === null) {
             $dispval = '';
         }
-        $testval = stack_ast_container::make_from_teacher_source($dispval, '', new stack_cas_security());
+        $testval = self::make_from_teacher_source($dispval, '', new stack_cas_security());
         $computedinput = $testval->ast->toString(array('nounify' => 0, 'inputform' => true,
-                'qmchar' => true, 'nosemicolon' => true));
+                'qmchar' => true, 'pmchar' => 0, 'nosemicolon' => true));
 
         return $computedinput;
     }
@@ -243,6 +239,28 @@ class stack_ast_container extends stack_ast_container_silent implements cas_late
                     'tried to get the LaTeX representation from of an unevaluated or invalid casstring.');
         }
         return trim($this->latex);
+    }
+
+    /*
+     * Used to test the ast within the container.
+     */
+    public function get_ast_test() {
+        if ($this->is_correctly_evaluated()) {
+            return $this->evaluated->toString(array('flattree' => true));
+        }
+        return $this->ast->toString(array('flattree' => true));
+    }
+
+    public function get_ast_clone() {
+        if ($this->is_correctly_evaluated()) {
+            $ast = clone $this->evaluated;
+        } else {
+            $ast = clone $this->ast;
+        }
+        if ($ast instanceof MP_Root) {
+            $ast = $ast->items[0];
+        }
+        return $ast;
     }
 
     public function add_answernote($val) {

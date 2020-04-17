@@ -40,7 +40,7 @@ ATNumSigFigs_CASSigFigsWrapper(sans,tans,options,rawsans) := block([allowextra,r
         requiredaccuracy: options
     ),
 
-    if requiredaccuracy = -1 then (
+    if ev(is(requiredaccuracy = -1),simp) then (
         allowextra: true,
         requiredaccuracy: requiredsigfigs
     ),
@@ -54,12 +54,14 @@ ATNumSigFigs_CASSigFigsWrapper(sans,tans,options,rawsans) := block([allowextra,r
     /* Find the number of digits. */
     digits: sig_figs_from_str(rawsans),
 
-    if allowextra then (
+    if allowextra = true then (
         if requiredsigfigs > stackmap_get(digits, "upperbound") then (
             AnswerNote: StackAddNote(AnswerNote, "ATNumSigFigs_WrongDigits"),
             FeedBack: StackAddFeedback(FeedBack, "ATNumSigFigs_WrongDigits"),
             RawMark: false
-        )
+        ),
+        /* If excessive digits allowed and provided they better be correct. */
+        requiredaccuracy:stackmap_get(digits, "upperbound")
     ) else (
         if requiredsigfigs = stackmap_get(digits, "lowerbound") then (
             RawMark: true
@@ -75,7 +77,7 @@ ATNumSigFigs_CASSigFigsWrapper(sans,tans,options,rawsans) := block([allowextra,r
 
     /* Now that digits are clear continue to check the accuracy. Or not. */
     if requiredaccuracy # 0 then (
-        result: ATNumSigFigs(sans,tans,options),
+        result: ATNumSigFigs(sans,tans,requiredaccuracy),
         Validity: Validity and result[1],
         RawMark: RawMark and result[2],
         if result[3] # "" then (
@@ -129,4 +131,124 @@ ATUnitsSigFigs_CASSigFigsWrapper(sans,tans,options,rawsans,strict) :=  block([tm
     
     /* Merge*/
     return([tmp1[1] and tmp2[1], tmp1[2] and tmp2[2], sconcat(tmp1[3],tmp2[3]), sconcat(tmp1[4],tmp2[4])])
+)$
+
+ATNumDecPlaces_CASDecPlacesWrapper(sans,tans,options,rawsans) := block([digits,Validity,RawMark,FeedBack,AnswerNote,required,val],
+    Validity: true,
+    RawMark: true,
+    FeedBack: "",
+    AnswerNote: "",
+
+    /* First check if the students answer is a float. */
+    if not ev(floatnump(sans),simp) then (
+        AnswerNote: StackAddNote(AnswerNote, "ATNumDecPlaces_SA_Not_num"),
+        FeedBack: StackAddFeedback(FeedBack, "ATNumDecPlaces_Float"),
+        RawMark: false,
+        Validity: false
+    ),
+
+    /* Now many digits needed? */
+    required: ev(options,numer,simp),
+
+    if not integerp(required) or is(required<1) then (
+        AnswerNote: StackAddNote(AnswerNote, "ATNumDecPlaces_STACKERROR_Option"),
+        FeedBack: StackAddFeedback(FeedBack, "ATNumDecPlaces_OptNotInt"),
+        RawMark: false,
+        Validity: false
+    ),
+
+    if Validity then (
+        /* Find the number of digits. */
+        digits: sig_figs_from_str(rawsans),
+
+        /* Does it match the number of digits? */
+        if is(stackmap_get(digits, "decimalplaces")=required) then (
+            AnswerNote: StackAddNote(AnswerNote, "ATNumDecPlaces_Correct")
+        ) else (
+            AnswerNote: StackAddNote(AnswerNote, "ATNumDecPlaces_Wrong_DPs"),
+            FeedBack: StackAddFeedback(FeedBack, "ATNumDecPlaces_Wrong_DPs"),
+            RawMark: false
+        ),
+
+        /* Then the actual value. Simply round to required and
+           then check the difference. */
+        val: ev(float(round(sans*10^required)),simp),
+        val: ev(val - ev(float(round(remove_displaydp(tans)*10^required)),simp),simp),
+        val: ev(abs(val),simp),
+        if is(val < 0.1) then (
+            AnswerNote: StackAddNote(AnswerNote, "ATNumDecPlaces_Equiv")
+        ) else (
+            AnswerNote: StackAddNote(AnswerNote, "ATNumDecPlaces_Not_equiv"),
+            RawMark: false
+        )
+    ),
+
+    return([Validity, RawMark, AnswerNote, FeedBack])
+)$
+
+
+ATDecimalPlacesWrong(sans,tans,options) := block([Validity,RawMark,FeedBack,AnswerNote,_sans,_tans,required],
+    Validity: true,
+    RawMark: true,
+    FeedBack: "",
+    AnswerNote: "",
+
+    /* First check if the students answer is a number. */
+    if not ev(numberp(sans),simp) then (
+        AnswerNote: StackAddNote(AnswerNote, "ATNumDecPlacesWrong_SA_Not_num"),
+        FeedBack: StackAddFeedback(FeedBack, "ATNumDecPlaces_Float"),
+        RawMark: false,
+        Validity: false
+    ),
+    /* Also teachers answer. */
+    if not ev(numberp(remove_displaydp(tans)),simp) then (
+        AnswerNote: StackAddNote(AnswerNote, "ATNumDecPlacesWrong_Tans_Not_Num"),
+        RawMark: false,
+        Validity: false
+    ),
+
+    /* Now many digits needs to match? */
+    required: ev(options,numer,simp),
+
+    if not integerp(required) or is(required<1) then (
+        AnswerNote: StackAddNote(AnswerNote, "ATNumDecPlacesWrong_STACKERROR_Option"),
+        FeedBack: StackAddFeedback(FeedBack, "ATNumDecPlaces_OptNotInt"),
+        RawMark: false,
+        Validity: false
+    ),
+
+    if Validity then (
+        /* Shift the values to same range and cut to the required
+           match length. */
+        _sans:ev(sans,numer),
+        _tans:ev(remove_displaydp(tans),numer),
+
+        /* Special case, if either one is 0. */
+        if is(_sans=0) or is(_sans=0.0) or is(_tans=0) or is(_tans=0.0) then (
+            RawMark: ev(is(_sans-_tans < 10^-required),numer,simp),
+            if RawMark then (
+                AnswerNote: StackAddNote(AnswerNote, "ATNumDecPlacesWrong_Correct")
+            ) else (
+                AnswerNote: StackAddNote(AnswerNote, "ATNumDecPlacesWrong_Wrong")
+            ),
+            return([Validity, RawMark, AnswerNote, FeedBack])
+        ),
+
+        /* Now that log(0) has been handled shift the numbers */
+        _sans:ev(_sans*10^floor(-log(abs(_sans))/log(10)+required),numer,simp),
+        _tans:ev(_tans*10^floor(-log(abs(_tans))/log(10)+required),numer,simp),
+
+        /* Truncate extras. */
+        _sans:floor(_sans),
+        _tans:floor(_tans),
+
+        RawMark: ev(is(abs(_sans-_tans) < 0.1),numer,simp),
+        if RawMark then (
+            AnswerNote: StackAddNote(AnswerNote, "ATNumDecPlacesWrong_Correct")
+        ) else (
+            AnswerNote: StackAddNote(AnswerNote, "ATNumDecPlacesWrong_Wrong")
+        )
+    ),
+
+    return([Validity, RawMark, AnswerNote, FeedBack])
 )$

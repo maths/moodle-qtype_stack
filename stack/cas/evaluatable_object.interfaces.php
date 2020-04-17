@@ -64,7 +64,12 @@ interface cas_evaluatable {
     public function get_key(): string;
 }
 
-// Things that also come out. In the value form.
+// Things that also come out. In the value form. Next two interfaces
+// are mutually exclusive. The intention of the first is to parse the response
+// with the MaximaParser while the second one does not, the second one is meant
+// for cases where the full parser is overkill. For example CASText2 where
+// the response is just nested lists of strings which can be parsed much
+// cheaper using traditional means.
 interface cas_value_extractor extends cas_evaluatable {
 
     /**
@@ -75,6 +80,19 @@ interface cas_value_extractor extends cas_evaluatable {
      * of evaluation.
      */
     public function set_cas_evaluated_value(MP_Node $ast);
+
+}
+
+interface cas_raw_value_extractor extends cas_evaluatable {
+
+    /**
+     * Receives the value that CAS returned when evaluating the session.
+     * note that the value is the value of the key given at the end of
+     * the session not the value at the point this cas_evaluatable was
+     * evaluated. If there is no key then collects the value at the point
+     * of evaluation.
+     */
+    public function set_cas_evaluated_value(string $value);
 
 }
 
@@ -92,7 +110,7 @@ interface cas_latex_extractor extends cas_evaluatable {
 
 }
 
-// Things that also come out. In the latex form.
+// Things that also come out. In the old display form.
 interface cas_display_value_extractor extends cas_evaluatable {
 
     /**

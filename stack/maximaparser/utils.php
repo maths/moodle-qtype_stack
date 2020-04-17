@@ -21,70 +21,117 @@ defined('MOODLE_INTERNAL') || die();
  @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
 */
 
-// We select the implementation of the parser, depending on mbstring.
-if (function_exists('mb_ereg')) {
-    require_once(__DIR__ . '/autogen/parser.mbstring.php');
-} else {
-    require_once(__DIR__ . '/autogen/parser.native.php');
-}
+require_once(__DIR__ . '/autogen/parser.mbstring.php');
 // Also needs stack_string().
 require_once(__DIR__ . '/../../locallib.php');
 require_once(__DIR__ . '/../utils.class.php');
 
 class maxima_parser_utils {
 
-    // Parses a string of Maxima code to an AST tree for use elsewhere.
-    public static function parse(string $code, string $parserule = 'Root'): MP_Node {
-        static $cache = array();
-        if ($parserule === 'Root' && isset($cache[$code])) {
-            return clone $cache[$code];
+    /**
+     * Parses a string of Maxima code to an AST tree for use elsewhere.
+     *
+     * @param string $code the Maxima code to parse.
+     * @param string $parserule the parse rule to start with.
+     * @param bool $allowpm whether to parse +-.
+     * @return MP_Node the AST.
+     */
+    public static function parse(string $code, string $parserule = 'Root', bool $allowpm = true): MP_Node {
+        /** @var MP_Node[] $cache cache of parsed expressions, with keys as below. */
+        static $cache = [];
+
+        $parseoptions = [
+            'startRule' => $parserule,
+            'letToken' => stack_string('equiv_LET'),
+            'allowPM' => $allowpm
+        ];
+        if ($parserule === 'Root') {
+            $cachekey = ($allowpm ? '|PM|' : '|noPM|') . $parseoptions['letToken'] . '|' . $code;
+        } else {
+            $cachekey = '';
+        }
+
+        if ($cachekey && isset($cache[$cachekey])) {
+            return clone $cache[$cachekey];
+        }
+
+        $ast = self::do_parse($code, $parseoptions, $cachekey);
+
+        if ($cachekey) {
+            $cache[$cachekey] = clone $ast;
+        }
+
+        return $ast;
+    }
+
+    /**
+     * Helper used by the previous method.
+     *
+     * @param string $code the Maxima code to parse.
+     * @param array $parseoptions the parse rule to start with.
+     * @param bool $allowpm whether to parse +-.
+     * @return MP_Node the AST.
+     */
+    protected static function do_parse(string $code, array $parseoptions, string $cachekey): MP_Node {
+        $muccachelimit = get_config('qtype_stack', 'parsercacheinputlength');
+
+        $cache = null;
+        if ($cachekey && $muccachelimit && strlen($code) >= $muccachelimit) {
+            $cache = cache::make('qtype_stack', 'parsercache');
+            $ast = $cache->get($cachekey);
+            if ($ast) {
+                return $ast;
+            }
         }
 
         $parser = new MP_Parser();
-        $ast = $parser->parse($code, array('startRule' => $parserule,
-                                           'letToken' => stack_string('equiv_LET')));
-        if ($parserule === 'Root') {
-            $cache[$code] = clone $ast;
+        $ast = $parser->parse($code, $parseoptions);
+
+        if ($cache) {
+            $cache->set($cachekey, $ast);
         }
         return $ast;
     }
 
-    // Takes a raw tree and the matching source code and remaps the positions from char to line:linechar
-    // use when you need to have pretty printted position data.
-    public static function position_remap(MP_Node $ast, string $code, array $limits = null) {
-        if ($limits === null) {
-            $limits = array();
-            foreach (explode("\n", $code) as $line) {
-                $limits[] = strlen($line) + 1;
-            }
-        }
 
-        $c = $ast->position['start'];
-        $l = 1;
-        foreach ($limits as $ll) {
-            if ($c < $ll) {
-                break;
-            } else {
-                $c -= $ll;
-                $l += 1;
+    // Takes a raw tree and the matching source code and remaps the positions from char to line:linechar
+    // use when you need to have pretty printed position data.
+    public static function position_remap(MP_Node $ast, string $code, array $limits = null) {
+        if ($ast instanceof MP_Statement) {
+            if ($limits === null) {
+                $limits = array();
+                foreach (explode("\n", $code) as $line) {
+                    $limits[] = strlen($line) + 1;
+                }
             }
-        }
-        $c += 1;
-        $ast->position['start'] = "$l:$c";
-        $c = $ast->position['end'];
-        $l = 1;
-        foreach ($limits as $ll) {
-            if ($c < $ll) {
-                break;
-            } else {
-                $c -= $ll;
-                $l += 1;
+
+            $c = $ast->position['start'];
+            $l = 1;
+            foreach ($limits as $ll) {
+                if ($c < $ll) {
+                    break;
+                } else {
+                    $c -= $ll;
+                    $l += 1;
+                }
             }
-        }
-        $c += 1;
-        $ast->position['end'] = "$l:$c";
-        foreach ($ast->getChildren() as $node) {
-            self::position_remap($node, $code, $limits);
+            $c += 1;
+            $ast->position['start'] = "$l:$c";
+            $c = $ast->position['end'];
+            $l = 1;
+            foreach ($limits as $ll) {
+                if ($c < $ll) {
+                    break;
+                } else {
+                    $c -= $ll;
+                    $l += 1;
+                }
+            }
+            $c += 1;
+            $ast->position['end'] = "$l:$c";
+            foreach ($ast->getChildren() as $node) {
+                self::position_remap($node, $code, $limits);
+            }
         }
 
         return $ast;
@@ -114,10 +161,10 @@ class maxima_parser_utils {
         try {
             $ast = self::parse($str);
             if ($lastfix !== -1) {
-                // If fixing has happened lets hide the fixed string to the result.
+                // If fixing has happened let's hide the fixed string to the result.
                 // Might be useful for the editor to have a way of placing those
                 // semicolons...
-                // Again lets abuse the position array.
+                // Again let's abuse the position array.
                 $ast->position['fixedsemicolons'] = $str;
             }
             return $ast;
@@ -143,13 +190,13 @@ class maxima_parser_utils {
     // Function to find suitable place to inject a semicolon to i.e. place into start of whitespace.
     private static function previous_non_whitespace($code, $pos) {
         $i = $pos;
-        if (core_text::substr($code, $i - 1, 2) === '/*') {
+        if (mb_substr($code, $i - 1, 2) === '/*') {
             $i--;
         }
-        while ($i > 1 && self::is_whitespace(core_text::substr($code, $i - 1, 1))) {
+        while ($i > 1 && self::is_whitespace(mb_substr($code, $i - 1, 1))) {
             $i--;
         }
-        return core_text::substr($code, 0, $i) . ';' . core_text::substr($code, $i);
+        return mb_substr($code, 0, $i) . ';' . mb_substr($code, $i);
     }
 
     // Custom rules on what is an is not whitespace.
@@ -177,6 +224,9 @@ class maxima_parser_utils {
         if (!array_key_exists('write', $output)) {
             $output['write'] = array();
         }
+        if (!array_key_exists('calls', $output)) {
+            $output['calls'] = array();
+        }
         $recursion = function($node) use(&$output) {
             // Feel free to expand this to track any other types of usages,
             // like functions and their definitions.
@@ -187,6 +237,8 @@ class maxima_parser_utils {
                     } else {
                         $output['read'][$node->value] = true;
                     }
+                } else if (!$node->parentnode->is_definition()) {
+                    $output['calls'][$node->value] = true;
                 }
             }
             return true;

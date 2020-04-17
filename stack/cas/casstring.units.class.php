@@ -100,6 +100,7 @@ class stack_cas_casstring_units {
         array('kat', 'mol/s', 'kat', 'katal'),
         array('rad', 'rad', 'rad', 'radian'),
         array('K', 'K', 'K', 'Kelvin'),
+        array('VA', '(kg*m^2)/(s^3)', 'VA', 'volt-ampere'),
         // @codingStandardsIgnoreStart
         // Celsius conflicts with Coulomb.
         // Add in 'C', 'C', '{}^{o}C', 'Celsius'.

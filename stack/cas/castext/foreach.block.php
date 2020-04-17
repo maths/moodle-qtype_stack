@@ -64,6 +64,11 @@ class stack_cas_castext_foreach extends stack_cas_castext_block {
         $lists = array();
         $maxlength = -1;
         foreach ($this->strings as $key => $value) {
+            $errors = $value->get_errors();
+            if ('' !== $errors && null != $errors) {
+                return false;
+            }
+
             $lists[$key] = stack_utils::list_to_array($value->get_value(), false);
             if ($maxlength == -1 || $maxlength > count($lists[$key])) {
                 $maxlength = count($lists[$key]);

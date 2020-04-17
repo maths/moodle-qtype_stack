@@ -82,7 +82,7 @@ class stack_notes_input extends stack_input {
      */
     protected function validate_contents($contents, $basesecurity, $localoptions) {
         $errors   = null;
-        $notes   = array();
+        $notes    = array();
         $caslines = array();
         $valid    = true;
         $answer   = stack_ast_container::make_from_student_source('', '', $basesecurity);;
@@ -173,6 +173,15 @@ class stack_notes_input extends stack_input {
         }
 
         return html_writer::tag('p', stack_string('studentValidation_notes'));
+    }
+
+    public function summarise_response($name, $state, $response) {
+        // Output the value for reporting.
+        $val = '';
+        if (array_key_exists($name, $response)) {
+            $val = '"' . addslashes($response[$name]) . '"';
+        }
+        return $name . ': ' . $val . ' [' . $state->status . ']';
     }
 
 }

@@ -32,19 +32,19 @@ class stack_potentialresponse_tree {
     /** @var string Description of the PRT. */
     private $description;
 
-    /** @var boolean Should this PRT simplify when its arguments are evaluated? */
+    /** @var bool Should this PRT simplify when its arguments are evaluated? */
     private $simplify;
 
     /** @var float total amount of fraction available from this PRT. */
     private $value;
 
-    /** @var stack_cas_cassession Feeback variables. */
+    /** @var stack_cas_session2 Feeback variables. */
     private $feedbackvariables;
 
     /** @var string index of the first node. */
     private $firstnode;
 
-    /** @var array of stack_potentialresponse_node. */
+    /** @var stack_potentialresponse_node[] the nodes of the tree. */
     private $nodes;
 
     public function __construct($name, $description, $simplify, $value, $feedbackvariables, $nodes, $firstnode) {
@@ -100,11 +100,11 @@ class stack_potentialresponse_tree {
      * all the question variables, student responses, feedback variables, and all
      * the sans, tans and atoptions expressions from all the nodes.
      *
-     * @param stack_cas_session $questionvars the question varaibles.
+     * @param stack_cas_session2 $questionvars the question variables.
      * @param stack_options $options
      * @param array $answers name => value the student response.
      * @param int $seed the random number seed.
-     * @return stack_cas_session initialised with all the expressions this PRT will need.
+     * @return stack_cas_session2 initialised with all the expressions this PRT will need.
      */
     protected function create_cas_context_for_evaluation($questionvars, $options, $answers, $seed) {
 
@@ -114,7 +114,7 @@ class stack_potentialresponse_tree {
         $cascontext = clone $questionvars;
 
         // Do not simplify the answers.
-        $sf = stack_ast_container::make_from_teacher_source('simp:false', '', new stack_cas_security(), array());
+        $sf = stack_ast_container::make_from_teacher_source('simp:false', '', new stack_cas_security());
         $cascontext->add_statement($sf);
         // Add the student's responses, but only those needed by this prt.
         // Some irrelevant but invalid answers might break the CAS connection.
@@ -127,8 +127,7 @@ class stack_potentialresponse_tree {
             // Validating as teacher at this stage removes the problem of "allowWords" which
             // we don't have access to.  This effectively allows any words here.  But the
             // student's answer has already been through validation.
-            $cs = stack_ast_container::make_from_teacher_source($ans, '',
-                    new stack_cas_security(), array());
+            $cs = stack_ast_container::make_from_teacher_source($ans, '', new stack_cas_security());
             // That all said, we then need to manually add in nouns to ensure these are protected.
             $cs->set_nounify(2);
             $cs->set_key($name);
@@ -143,7 +142,7 @@ class stack_potentialresponse_tree {
         } else {
             $simp = 'false';
         }
-        $cs = stack_ast_container::make_from_teacher_source('simp:'.$simp, '', new stack_cas_security(), array());
+        $cs = stack_ast_container::make_from_teacher_source('simp:' . $simp, '', new stack_cas_security());
         $cascontext->add_statement($cs);
 
         // Add the feedback variables.
@@ -156,6 +155,10 @@ class stack_potentialresponse_tree {
             $cascontext->add_statements($node->get_context_variables($key));
         }
 
+        // Set the value of simp to be false from this point onwards again (may have been reset).
+        $cs = stack_ast_container::make_from_teacher_source('simp:false', '', new stack_cas_security());
+        $cascontext->add_statement($cs);
+
         if ($cascontext->get_valid()) {
             $cascontext->instantiate();
         }
@@ -166,7 +169,7 @@ class stack_potentialresponse_tree {
     /**
      * This function actually traverses the tree and generates outcomes.
      *
-     * @param stack_cas_session $questionvars the question varaibles.
+     * @param stack_cas_session2 $questionvars the question variables.
      * @param stack_options $options
      * @param array $answers name => value the student response.
      * @param int $seed the random number seed.
@@ -246,7 +249,7 @@ class stack_potentialresponse_tree {
     }
 
     /**
-     * Take an array of input names, or equivalently response varaibles, (for
+     * Take an array of input names, or equivalently response variables, (for
      * example sans1, a) and return those that are used by this potential response tree.
      *
      * @param array of string variable names.
@@ -270,17 +273,6 @@ class stack_potentialresponse_tree {
             }
         }
         return $requirednames;
-    }
-
-    /**
-     * Looks for occurances of $variable in $string as whole words only.
-     * @param string $variable a variable name.
-     * @param string $string a cas string.
-     * @return bool whether the string refers to the variable.
-     */
-    private function string_contains_variable($variable, $string) {
-        $regex = '~\b' . preg_quote(strtolower($variable), '~') . '\b~';
-        return preg_match($regex, strtolower($string));
     }
 
     /**

@@ -105,6 +105,7 @@ class stack_astcontainer_test extends qtype_stack_testcase {
             array('%o1', true, true),
             // Literal unicode character (pi) instead of name.
             array(json_decode('"\u03C0"'), true, true),
+            array(json_decode('"\u2205"'), false, false),
             // Non-matching brackets.
             array('(x+1', false, false),
             array('(y^2+1))', false, false),
@@ -155,6 +156,15 @@ class stack_astcontainer_test extends qtype_stack_testcase {
         $this->assertEquals($casstring->get_evaluationform(), '%pi*r^2');
         $this->assertEquals('', $casstring->get_errors());
         $this->assertEquals('', $casstring->get_answernote());
+    }
+
+    public function test_validation_unicode() {
+        $casstring = stack_ast_container::make_from_student_source(json_decode('"\u212F"').'*^x', '', new stack_cas_security());
+        $casstring->get_valid();
+        $this->assertEquals(stack_string('stackCas_forbiddenChar', array('char' => json_decode('"\u212F"'))) . ' ' .
+                stack_string('stackCas_useinsteadChar', array('bad' => json_decode('"\u212F"'), 'char' => 'e')),
+            $casstring->get_errors());
+        $this->assertEquals('unicodeChar', $casstring->get_answernote());
     }
 
     public function test_validation_error() {
@@ -524,13 +534,20 @@ class stack_astcontainer_test extends qtype_stack_testcase {
     }
 
     public function test_trig_4() {
+        $s = 'a:sin^2(x)';
+        $at1 = stack_ast_container::make_from_student_source($s, '', new stack_cas_security());
+        $this->assertFalse($at1->get_valid());
+        $this->assertEquals('missing_stars | trigexp', $at1->get_answernote());
+    }
+
+    public function test_trig_5() {
         $s = 'a:Sim(x)-1';
         $at1 = stack_ast_container::make_from_student_source($s, '', new stack_cas_security());
         $this->assertFalse($at1->get_valid());
         $this->assertEquals('forbiddenFunction', $at1->get_answernote());
     }
 
-    public function test_trig_5() {
+    public function test_trig_6() {
         $s = 'a:Sin(x)-1';
         $at1 = stack_ast_container::make_from_student_source($s, '', new stack_cas_security());
         $this->assertFalse($at1->get_valid());
@@ -632,7 +649,7 @@ class stack_astcontainer_test extends qtype_stack_testcase {
         $at1 = stack_ast_container::make_from_student_source($s, '', new stack_cas_security(), array('991_no_fixing_stars'));
         $this->assertFalse($at1->get_valid());
         // There would be a star there but as it is now an invalid thing you cannot see it.
-        // $this->assertEquals('lg(3,5*x)', $at1->get_evaluationform());
+        // It is not lg(3,5*x), as it would have been in the past.
         $this->assertEquals('missing_stars | logsubs', $at1->get_answernote());
     }
 
@@ -785,5 +802,82 @@ class stack_astcontainer_test extends qtype_stack_testcase {
         // We only add apostophies to logic nouns.
         $this->assertEquals("[sum(k^2,k,1,n),'product(k^2,k,1,n),a nounand b,diff(y,x)+y = 0]",
             $at1->get_evaluationform());
+    }
+
+    public function test_stacklet() {
+        $s = 'stacklet(a,x*%i+y)';
+        $at1 = stack_ast_container::make_from_student_source($s, '', new stack_cas_security());
+
+        $this->assertTrue($at1->get_valid());
+
+        // Note that stacklet() is held as a function, and not parsed into MP_Let.
+        $expected = '([FunctionCall: ([Id] stacklet)] ([Id] a),([Op: +] ([Op: *] ([Id] x), ([Id] %i)), ([Id] y)))';
+        $this->assertEquals($expected, $at1->ast_to_string(null, array('flattree' => true)));
+
+        $this->assertEquals('stacklet(a,x*%i+y)', $at1->get_evaluationform());
+        // Must have nounify=0 here to force into "let ...." style.
+        $this->assertEquals('let a=x*%i+y', $at1->get_inputform(true, 0));
+
+        $err = '';
+        $this->assertEquals($err, $at1->get_errors());
+        $this->assertEquals('', $at1->get_answernote());
+    }
+
+    public function test_pm() {
+        $s = 'a+-b';
+        $at1 = stack_ast_container::make_from_student_source($s, '', new stack_cas_security());
+        $this->assertTrue($at1->get_valid());
+
+        $expected = '([Op: +-] ([Id] a), ([Id] b))';
+        $this->assertEquals($expected, $at1->ast_to_string(null, array('flattree' => true)));
+
+        $this->assertEquals('a#pm#b', $at1->get_evaluationform());
+        $this->assertEquals('a+-b', $at1->get_inputform(true, 0));
+
+        $err = '';
+        $this->assertEquals($err, $at1->get_errors());
+        $this->assertEquals('', $at1->get_answernote());
+
+        $s = 'a#pm#b';
+        $at1 = stack_ast_container::make_from_student_source($s, '', new stack_cas_security());
+        $this->assertTrue($at1->get_valid());
+
+        $expected = '([Op: #pm#] ([Id] a), ([Id] b))';
+        $this->assertEquals($expected, $at1->ast_to_string(null, array('flattree' => true)));
+
+        $this->assertEquals('a#pm#b', $at1->get_evaluationform());
+        $this->assertEquals('a+-b', $at1->get_inputform(true, 0));
+
+        $err = '';
+        $this->assertEquals($err, $at1->get_errors());
+        $this->assertEquals('', $at1->get_answernote());
+
+        $s = '+-a';
+        $at1 = stack_ast_container::make_from_student_source($s, '', new stack_cas_security());
+        $this->assertTrue($at1->get_valid());
+
+        $expected = '([PrefixOp: +-] ([Id] a))';
+        $this->assertEquals($expected, $at1->ast_to_string(null, array('flattree' => true)));
+
+        $this->assertEquals('#pm#a', $at1->get_evaluationform());
+        $this->assertEquals('+-a', $at1->get_inputform(true, 0));
+
+        $err = '';
+        $this->assertEquals($err, $at1->get_errors());
+        $this->assertEquals('', $at1->get_answernote());
+
+        $s = '#pm#a';
+        $at1 = stack_ast_container::make_from_student_source($s, '', new stack_cas_security());
+        $this->assertTrue($at1->get_valid());
+
+        $expected = '([PrefixOp: #pm#] ([Id] a))';
+        $this->assertEquals($expected, $at1->ast_to_string(null, array('flattree' => true)));
+
+        $this->assertEquals('#pm#a', $at1->get_evaluationform());
+        $this->assertEquals('+-a', $at1->get_inputform(true, 0));
+
+        $err = '';
+        $this->assertEquals($err, $at1->get_errors());
+        $this->assertEquals('', $at1->get_answernote());
     }
 }

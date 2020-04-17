@@ -424,7 +424,7 @@ class qtype_stack extends question_type {
         $question->options->set_option('assumereal',  (bool) $questiondata->options->assumereal);
 
         $requiredparams = stack_input_factory::get_parameters_used();
-        foreach (array_keys($this->get_input_names_from_question_text($question->questiontext)) as $name) {
+        foreach (stack_utils::extract_placeholders($question->questiontext, 'input') as $name) {
             $inputdata = $questiondata->inputs[$name];
             $allparameters = array(
                 'boxWidth'        => $inputdata->boxsize,
@@ -507,6 +507,87 @@ class qtype_stack extends question_type {
         }
 
         $question->deployedseeds = array_values($questiondata->deployedseeds);
+    }
+
+    /**
+     * Get the URL params required for linking to associated scripts like
+     * questiontestrun.php.
+     *
+     * @param stdClass|qtype_stack_question $question question data, as from question_bank::load_question
+     *      or question_bank::load_question_data.
+     * @return array of URL params. Can be passed to moodle_url.
+     */
+    protected function get_question_url_params($question) {
+        $urlparams = ['questionid' => $question->id];
+
+        // This is a bit of a hack to find the right thing to put in the URL.
+        // If we are already on a URL that gives us a clue what to do, use that.
+        $context = context::instance_by_id($question->contextid);
+        if ($cmid = optional_param('cmid', null, PARAM_INT)) {
+            $urlparams['cmid'] = $cmid;
+
+        } else if ($courseid = optional_param('courseid', null, PARAM_INT)) {
+            $urlparams['courseid'] = $courseid;
+
+        } else if ($context->contextlevel == CONTEXT_MODULE) {
+            $urlparams['cmid'] = $context->instanceid;
+
+        } else if ($context->contextlevel == CONTEXT_COURSE) {
+            $urlparams['courseid'] = $context->instanceid;
+
+        } else {
+            $urlparams['courseid'] = get_site()->id;
+        }
+
+        return $urlparams;
+    }
+
+    /**
+     * Get the URL for questiontestrun.php for a question.
+     *
+     * @param stdClass|qtype_stack_question $question question data, as from question_bank::load_question
+     *      or question_bank::load_question_data.
+     * @return moodle_url the URL.
+     */
+    public function get_question_test_url($question) {
+        $linkparams = $this->get_question_url_params($question);
+        return new moodle_url('/question/type/stack/questiontestrun.php', $linkparams);
+    }
+
+    /**
+     * Get the URL for tidyquestion.php for a question.
+     *
+     * @param stdClass|qtype_stack_question $question question data, as from question_bank::load_question
+     *      or question_bank::load_question_data.
+     * @return moodle_url the URL.
+     */
+    public function get_tidy_question_url($question) {
+        $linkparams = $this->get_question_url_params($question);
+        return new moodle_url('/question/type/stack/tidyquestion.php', $linkparams);
+    }
+
+    public function get_extra_question_bank_actions(stdClass $question): array {
+        $actions = parent::get_extra_question_bank_actions($question);
+
+        $linkparams = $this->get_question_url_params($question);
+
+        // Directly link to question tests and deployed variants.
+        if (question_has_capability_on($question, 'view')) {
+            $actions[] = new \action_menu_link_secondary(
+                    new moodle_url('/question/type/stack/questiontestrun.php', $linkparams),
+                    new \pix_icon('t/approve', ''),
+                    get_string('runquestiontests', 'qtype_stack'));
+        }
+
+        // Directly link to tidy question script.
+        if (question_has_capability_on($question, 'view')) {
+            $actions[] = new \action_menu_link_secondary(
+                    new moodle_url('/question/type/stack/tidyquestiont.php', $linkparams),
+                    new \pix_icon('t/edit', ''),
+                    get_string('tidyquestion', 'qtype_stack'));
+        }
+
+        return $actions;
     }
 
     public function delete_question($questionid, $contextid) {
@@ -1719,7 +1800,8 @@ class qtype_stack extends question_type {
 
         $getdebuginfo = false;
         foreach ($inputs as $inputname) {
-            if ($inputsession->get_by_key($inputname)->get_errors() !== '') {
+            if ($inputsession->get_by_key($inputname) !== null &&
+                    $inputsession->get_by_key($inputname)->get_errors() !== '') {
                 $errors[$inputname . 'modelans'][] = $inputsession->get_by_key($inputname)->get_errors();
                 $in = $inputsession->get_by_key($inputname);
                 if (!$in->is_correctly_evaluated()) {
@@ -1931,6 +2013,8 @@ class qtype_stack extends question_type {
                         $interror[$prtname.'nodewhen'.$branch.'['.$key.']'][] = stack_string('answernote_err');
                     }
                 }
+            } else if (strstr($answernote, ';') !== false || strstr($answernote, ':') !== false) {
+                $errors[$branchgroup][] = stack_string('answernote_err2');
             }
 
             $errors = $this->validate_cas_text($errors, $fromform[$prtname . $branch . 'feedback'][$nodekey]['text'],

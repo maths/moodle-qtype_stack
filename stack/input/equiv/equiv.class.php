@@ -35,6 +35,7 @@ class stack_equiv_input extends stack_input {
      * @var array
      */
     protected $extraoptions = array(
+        'nounits' => false,
         // Does a student see the equivalence signs at validation time?
         'hideequiv' => false,
         // Does a student see the natural domain at validation time?
@@ -69,9 +70,11 @@ class stack_equiv_input extends stack_input {
             // Put the first line of the value of the teacher's answer in the input.
             if (trim($this->parameters['syntaxHint']) == 'firstline') {
                 $values = stack_utils::list_to_array($tavalue, false);
-                $cs = stack_ast_container::make_from_teacher_source($values[0]);
-                $cs->get_valid();
-                $current = $cs->get_inputform();
+                if (array_key_exists(0, $values) && !is_null($values[0])) {
+                    $cs = stack_ast_container::make_from_teacher_source($values[0]);
+                    $cs->get_valid();
+                    $current = $cs->get_inputform();
+                }
             }
             // Remove % characters, e.g. %pi should be printed just as "pi".
             $current = str_replace('%', '', $current);
@@ -94,25 +97,13 @@ class stack_equiv_input extends stack_input {
             'cols' => min($boxwidth, 50),
             'autocapitalize' => 'none',
             'spellcheck'     => 'false',
-            'class'     => 'equiv',
         );
 
         if ($readonly) {
             $attributes['readonly'] = 'readonly';
         }
 
-        // This class shows the validation next to the input box in a table, and disregards to the position of the
-        // [[validation:name]] tag.
-        $rendervalidation = $this->render_validation($state, $fieldname);
-        $class = "stackinputfeedback";
-        if (!$rendervalidation) {
-            $class .= ' empty';
-        }
-        $rendervalidation = html_writer::tag('div', $rendervalidation, array('class' => $class, 'id' => $fieldname.'_val'));
-
         $output = html_writer::tag('textarea', htmlspecialchars($current), $attributes);
-        $output .= $rendervalidation;
-        $output = html_writer::tag('div', $output, array('class' => 'equivreasoning'));
 
         return $output;
     }
@@ -167,9 +158,6 @@ class stack_equiv_input extends stack_input {
      * @return string
      */
     public function contents_to_maxima($contents) {
-        foreach ($contents as $key => $val) {
-            $contents[$key] = $this->equals_to_stackeq($val);
-        }
         return '['.implode(',', $contents).']';
     }
 
@@ -190,6 +178,7 @@ class stack_equiv_input extends stack_input {
             }
             $values[$key] = $val;
         }
+
         return implode("\n", $values);
     }
 
@@ -230,8 +219,6 @@ class stack_equiv_input extends stack_input {
         list ($secrules, $filterstoapply) = $this->validate_contents_filters($basesecurity);
 
         foreach ($contents as $index => $val) {
-            $val = $this->equals_to_stackeq($val);
-
             $answer = stack_ast_container::make_from_student_source($val, '', $secrules, $filterstoapply,
                     array(), 'Equivline');
 
@@ -288,32 +275,37 @@ class stack_equiv_input extends stack_input {
                 throw new stack_exception("ERROR: expected 'firstline' in the additional variables, but it is missing.");
             }
         }
-
-        $display = '<center><table style="vertical-align: middle;" ' .
-                'border="0" cellpadding="4" cellspacing="0"><tbody>';
         $errorfree = true;
+        $rows = array();
         foreach ($caslines as $index => $cs) {
-            $display .= '<tr>';
+            $row = array();
             $fb = $cs->get_feedback();
             if ($cs->is_correctly_evaluated() && $fb == '') {
-                $display .= '<td>\(\displaystyle ' . $cs->get_display() . ' \)</td>';
+                $row[] = '\(\displaystyle ' . $cs->get_display() . ' \)';
                 if ($errors[$index]) {
                     $errorfree = false;
-                    $display .= '<td>' . stack_maxima_translate($errors[$index]) . '</td>';
+                    $row[] = stack_maxima_translate($errors[$index]);
                 }
             } else {
                 // Feedback here is always an error.
                 if ($fb !== '') {
                     $errors[] = $fb;
+                    $errorfree = false;
                 }
                 $valid = false;
-                $errorfree = false;
-                $display .= '<td>' . stack_maxima_format_casstring($this->rawcontents[$index]) . '</td>';
-                $display .= '<td>' . trim(stack_maxima_translate($cs->get_errors()) . ' ' . $fb) . '</td>';
+                $row[] = stack_maxima_format_casstring($this->rawcontents[$index]);
+                $row[] = trim(stack_maxima_translate($cs->get_errors()) . ' ' . $fb);
             }
-            $display .= '</tr>';
+            $rows[] = $row;
         }
-        $display .= '</tbody></table></center>';
+
+        // Do not use tables.
+        $display = '';
+        foreach ($rows as $row) {
+            $display .= implode(' ', $row);
+            $display .= '<br/>';
+        }
+
         if (array_key_exists('equivdisplay', $additionalvars)) {
             $equiv = $additionalvars['equivdisplay'];
             if ($equiv->is_correctly_evaluated() && $errorfree) {
@@ -380,20 +372,6 @@ class stack_equiv_input extends stack_input {
 
     private function comment_tag($index) {
         return 'EQUIVCOMMENT'.$index;
-    }
-
-    /* Convert an expression starting with an = sign to one with stackeq. */
-    private function equals_to_stackeq($val) {
-        $val = trim($val);
-        // Safely wrap "let" statements.
-        $langlet = strtolower(stack_string('equiv_LET'));
-        if (strtolower(substr($val, 0, strlen($langlet))) === $langlet) {
-            $nv = explode('=', substr($val, strlen($langlet) + 1));
-            if (count($nv) === 2) {
-                $val = 'stacklet('.trim($nv[0]).','.trim($nv[1]).')';
-            }
-        }
-        return $val;
     }
 
     /**
@@ -479,25 +457,15 @@ class stack_equiv_input extends stack_input {
         }
 
         if (self::INVALID == $state->status) {
-            $feedback .= html_writer::tag('p', stack_string('studentValidation_invalidAnswer'));
+            $feedback .= html_writer::tag('span', stack_string('studentValidation_invalidAnswer'),
+                    array('class' => 'alert alert-danger stackinputerror'));
         }
 
         if ($this->get_parameter('showValidation', 1) == 1 && !($state->lvars === '' or $state->lvars === '[]')) {
-            $feedback .= html_writer::tag('p', stack_string('studentValidation_listofvariables', $state->lvars));
+            $feedback .= $this->tag_listofvariables($state->lvars);
         }
 
         return $feedback;
-    }
-
-    /**
-     * This input type overrides this function to place validation feedback next to the input box.
-     */
-    public function replace_validation_tags($state, $fieldname, $questiontext) {
-
-        $name = $this->name;
-        $response = str_replace("[[validation:{$name}]]", '', $questiontext);
-
-        return $response;
     }
 
     protected function ajax_to_response_array($in) {

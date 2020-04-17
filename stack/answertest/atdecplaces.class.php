@@ -17,6 +17,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/../cas/cassession2.class.php');
+
 //
 // Decimal places answer tests.
 //
@@ -48,12 +49,12 @@ class stack_anstest_atdecplaces extends stack_anstest {
 
         // In real questions, these are evaluated but in test cases they may not be.
         // The old "get value" obscured this distinction.
-        $atestops = (int) $this->atoption->get_evaluationform();
+        $atestops = $this->atoption->get_evaluationform();
         if ($this->atoption->is_evaluated()) {
-            $atestops = (int) $this->atoption->get_value();
+            $atestops = $this->atoption->get_value();
         }
 
-        if (!$this->atoption->is_int() or $atestops <= 0) {
+        if (!$this->atoption->get_valid() || !ctype_digit($atestops) || $atestops <= 0) {
             $this->aterror      = 'TEST_FAILED';
             $this->atfeedback   = stack_string('TEST_FAILED', array('errors' => ''));
             $this->atfeedback  .= stack_string('ATNumDecPlaces_OptNotInt', array('opt' => $atestops));
@@ -63,7 +64,21 @@ class stack_anstest_atdecplaces extends stack_anstest {
             return null;
         }
 
-        if (!($this->sanskey->is_float() || $this->sanskey->is_int())) {
+        // Check that the first expression is a floating point number,
+        // with the right number of decimal places.
+        if ($this->sanskey->is_float() || $this->sanskey->is_int()) {
+            // All good.
+            $r = $this->sanskey->get_decimal_digits();
+
+        } else if ($this->sanskey->is_correctly_evaluated() &&
+                ($this->sanskey->is_float(true) || $this->sanskey->is_int(true))) {
+            // This is not great, but it happens when the answer test is applied
+            // to a feedback variable, rather than a raw input. E.g. if someone
+            // has done sansmin: min(sans1, sans2) in a quadratic question.
+            $r = $this->sanskey->get_decimal_digits(true);
+            // TODO Should we set an answer note, or similar, in this situation?
+
+        } else {
             $this->atfeedback   = stack_string('ATNumDecPlaces_Float');
             $this->atansnote    = 'ATNumDecPlaces_SA_Not_num.';
             $this->atmark       = 0;
@@ -71,9 +86,6 @@ class stack_anstest_atdecplaces extends stack_anstest {
             return null;
         }
 
-        // Check that the first expression is a floating point number,
-        // with the right number of decimal places.
-        $r = $this->sanskey->get_decimal_digits();
         if ($atestops != $r['decimalplaces'] ) {
             $this->atfeedback  .= stack_string('ATNumDecPlaces_Wrong_DPs');
             $anotes[]           = 'ATNumDecPlaces_Wrong_DPs';
@@ -134,7 +146,7 @@ class stack_anstest_atdecplaces extends stack_anstest {
             $this->aterror      = 'TEST_FAILED';
             $this->atfeedback   = stack_string('TEST_FAILED', array('errors' => ''));
             $this->atfeedback  .= stack_string('AT_InvalidOptions', array('errors' => $strings['caschat2']->get_errors()));
-            $anotes[]           = 'ATNumDecPlaces_STACKERROR_Options.';
+            $anotes[]           = 'ATNumDecPlaces_STACKERROR_Options';
             $this->atansnote    = implode('. ', $anotes).'.';
             $this->atmark       = 0;
             $this->atvalid      = false;
@@ -171,10 +183,6 @@ class stack_anstest_atdecplaces extends stack_anstest {
      */
     public function validate_atoptions($opt) {
         if ($opt == '') {
-            return array(false, stack_string('ATNumDecPlaces_OptNotInt', array('opt' => $opt)));
-        }
-        $atestops = (int) $opt;
-        if (!is_int($atestops) or $atestops <= 0) {
             return array(false, stack_string('ATNumDecPlaces_OptNotInt', array('opt' => $opt)));
         }
         return array(true, '');

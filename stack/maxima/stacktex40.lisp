@@ -30,7 +30,7 @@
                         (member (getcharn f 1) '(#\% #\$)) ;; insist it is a % or $ function
                         (not (member 'array (cdar fx) :test #'eq)) ; fix for x[i]^2
                         (not (member f '(%sum %product %derivative %integrate %at $texsub
-                                         %lsum %limit $pderivop $+-) :test #'eq)) ;; what else? what a hack...
+                                         %lsum %limit $pderivop $#pm#) :test #'eq)) ;; what else? what a hack...
                         (or (and (atom expon) (not (numberp expon))) ; f(x)^y is ok
                             (and (atom expon) (numberp expon) (> expon 0))))))
                                         ; f(x)^3 is ok, but not f(x)^-1, which could
@@ -61,8 +61,38 @@
     (append l r)))
 
 ;; *************************************************************************************************
+;; Added 2020-01-09
+;; Fix sconcat on versions of Maxima (GCL) prior to 5.41.0
+;; See https://sourceforge.net/p/maxima/code/ci/a7de72db1669deec775dfab6159eb8ca4357b998/
+
+;; $sconcat for lists
+;;
+;;   optional: insert a user defined delimiter string
+;; 
+(defun $simplode (li &optional (ds ""))
+  (unless (listp li)
+    (gf-merror (intl:gettext "`simplode': first argument must be a list.")) )
+  (unless (stringp ds) 
+    (s-error1 "simplode" "optional second") )
+  (setq li (cdr li))
+  (cond 
+    ((null li)
+      ($sconcat) )
+    ((null (cdr li))
+      ($sconcat (car li)) )
+    ((string= ds "")
+      (reduce #'$sconcat li) )
+    (t
+      (do (acc) (())
+        (push ($sconcat (pop li)) acc)
+        (when (null li)
+          (return (reduce #'(lambda (s0 s1) (concatenate 'string s0 s1)) (nreverse acc) :initial-value "")))
+        (push ds acc) ))))
+
+;; *************************************************************************************************
 ;; The following code does not affect TeX output, but rather are general functions needed for STACK.
 ;;
+;; This only works for maxima < 5.41.?
 
 ;; Added 13 Nov 2016.  Try to better display trailing zeros.
 ;; Based on the "grind function". See src/grind.lisp

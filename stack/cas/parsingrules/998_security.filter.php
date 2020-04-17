@@ -57,8 +57,11 @@ class stack_ast_filter_998_security implements stack_cas_astfilter_parametric {
         // For certain cases we want to know of commas. For this reason
         // certain structures need to be checked for them.
         $commas = false;
+        $parenthesis = false;
+        $brackets = false;
+        $braces = false;
         $evflags = false;
-        $extraction = function($node) use (&$ofinterest, &$commas, &$evflags, $protected){
+        $extraction = function($node) use (&$ofinterest, &$commas, &$parenthesis, &$brackets, &$braces, &$evflags, $protected){
             if ($node instanceof MP_Identifier ||
                 $node instanceof MP_FunctionCall ||
                 $node instanceof MP_Operation ||
@@ -69,6 +72,16 @@ class stack_ast_filter_998_security implements stack_cas_astfilter_parametric {
                     $ofinterest[] = $node;
                 }
             }
+            if (!$parenthesis && ($node instanceof MP_FunctionCall || $node instanceof MP_Group)) {
+                $parenthesis = true;
+            }
+            if (!$braces && $node instanceof MP_Set) {
+                $braces = true;
+            }
+            if (!$brackets && $node instanceof MP_List) {
+                $brackets = true;
+            }
+
             if (!$commas) {
                 if ($node instanceof MP_FunctionCall && count($node->arguments) > 1) {
                     $commas = true;
@@ -106,6 +119,19 @@ class stack_ast_filter_998_security implements stack_cas_astfilter_parametric {
         // If we had commas in play add them to the operators.
         if ($commas) {
             $operators[','] = true;
+        }
+        // Same for the paired ones.
+        if ($parenthesis) {
+            $operators['('] = true;
+            $operators[')'] = true;
+        }
+        if ($brackets) {
+            $operators['['] = true;
+            $operators[']'] = true;
+        }
+        if ($braces) {
+            $operators['{'] = true;
+            $operators['}'] = true;
         }
 
         // Now loop over the initially found things of interest. Note that
@@ -150,7 +176,11 @@ class stack_ast_filter_998_security implements stack_cas_astfilter_parametric {
                                 // written out as multiplce calls. And are
                                 // therefore still unsafe atleast untill we do
                                 // the writing out...
-                                $virtualfunction = new MP_FunctionCall($node->arguments[0], array_slice($node->arguments, 1));
+                                $fname = $node->arguments[0];
+                                if ($fname instanceof MP_PrefixOp && $fname->op === "'") {
+                                    $fname = $fname->rhs;
+                                }
+                                $virtualfunction = new MP_FunctionCall($fname, array_slice($node->arguments, 1));
                                 $virtualfunction->position['virtual'] = true;
                                 $ofinterest[] = $virtualfunction;
                                 break;
@@ -185,7 +215,9 @@ class stack_ast_filter_998_security implements stack_cas_astfilter_parametric {
                             && $outter->name->value === 'rand'
                             && count($outter->arguments) === 1
                             && $outter->arguments[0] instanceof MP_List) {
+                        // @codingStandardsIgnoreStart
                         // Something like rand(["-","+"]) or rand(["cos","sin"]) applied to something.
+                        // @codingStandardsIgnoreEnd
                         $notsafe = false;
                         foreach ($outter->arguments[0]->items as $name) {
                             // Name can be whatever the iteration will react to unsuitable things on the later loops.
@@ -370,7 +402,8 @@ class stack_ast_filter_998_security implements stack_cas_astfilter_parametric {
                 continue;
             }
             // For now apply only for students.
-            if ($this->source === 's' && $identifierrules->get_units() === true) {
+            if ($this->source === 's' && $identifierrules->get_units() === true &&
+                    !$identifierrules->is_allowed_word($name, 'variable')) {
                 // Check for unit synonyms. Ignore if specifically allowed.
                 list ($fndsynonym, $answernote, $synonymerr) = stack_cas_casstring_units::find_units_synonyms($name);
                 if ($answernote !== '' && array_search($answernote, $answernotes) === false) {

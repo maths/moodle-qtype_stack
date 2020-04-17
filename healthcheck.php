@@ -48,10 +48,26 @@ $PAGE->set_url('/question/type/stack/healthcheck.php');
 $title = stack_string('healthcheck');
 $PAGE->set_title($title);
 
+// Start output.
+echo $OUTPUT->header();
+echo $OUTPUT->heading($title);
+
+$config = stack_utils::get_config();
+
+// This array holds summary info, for a table at the end of the pager.
+$summary = array();
+$summary[] = array('', $config->platform );
+
+// Mbstring.
+if (!extension_loaded('mbstring')) {
+    echo $OUTPUT->heading(stack_string('healthchecknombstring'), 3);
+    echo $OUTPUT->footer();
+    exit;
+}
+
 // Clear the cache if requested.
 if (data_submitted() && optional_param('clearcache', false, PARAM_BOOL)) {
     require_sesskey();
-    echo $OUTPUT->header();
     stack_cas_connection_db_cache::clear_cache($DB);
     \core\notification::success(stack_string('clearedthecache'));
     echo $OUTPUT->continue_button($PAGE->url);
@@ -62,7 +78,6 @@ if (data_submitted() && optional_param('clearcache', false, PARAM_BOOL)) {
 // Create and store Maxima image if requested.
 if (data_submitted() && optional_param('createmaximaimage', false, PARAM_BOOL)) {
     require_sesskey();
-    echo $OUTPUT->header();
     echo $OUTPUT->heading(stack_string('healthautomaxopt'));
     stack_cas_connection_db_cache::clear_cache($DB);
     list($ok, $errmsg) = stack_cas_configuration::create_auto_maxima_image();
@@ -75,16 +90,6 @@ if (data_submitted() && optional_param('createmaximaimage', false, PARAM_BOOL)) 
     echo $OUTPUT->footer();
     exit;
 }
-
-$config = stack_utils::get_config();
-
-// Start output.
-echo $OUTPUT->header();
-echo $OUTPUT->heading($title);
-
-// This array holds summary info, for a table at the end of the pager.
-$summary = array();
-$summary[] = array('', $config->platform );
 
 // LaTeX.
 echo $OUTPUT->heading(stack_string('healthchecklatex'), 3);

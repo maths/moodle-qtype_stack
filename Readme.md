@@ -1,8 +1,8 @@
-# STACK 4.3 (beta)
+# STACK 4.3 [![Build Status](https://api.travis-ci.org/maths/moodle-qtype_stack.svg?branch=master)](https://travis-ci.org/github/maths/moodle-qtype_stack/)
 
-[STACK](https://github.com/maths/moodle-qtype_stack/blob/master/doc/en/About/index.md) is an assessment system for mathematics, science and related disciplines.
+STACK is an assessment system for mathematics, science and related disciplines.  STACK is a question type for the Moodle learning management system, and also the ILIAS learning management system.
 
-STACK was created by [Chris Sangwin](http://www.maths.ed.ac.uk/~csangwin/) of the University of Edinburgh, and includes the work of many [other contributors](https://github.com/maths/moodle-qtype_stack/blob/master/doc/en/About/Credits.md). A demonstration server is available in Edinburgh:  [https://stack.maths.ed.ac.uk/demo](https://stack.maths.ed.ac.uk/demo).
+STACK was created by [Chris Sangwin](http://www.maths.ed.ac.uk/~csangwin/) of the University of Edinburgh, and includes the work of many [other contributors](https://github.com/maths/moodle-qtype_stack/blob/master/doc/en/About/Credits.md). A demonstration server is available at the University of Edinburgh:  [https://stack.maths.ed.ac.uk/](https://stack.maths.ed.ac.uk/).
 
 STACK is based on continuing research and use at the University of Edinburgh, the Open University, Aalto, Loughborough University, the University of Birmingham and others.
 
@@ -20,4 +20,4 @@ The [documentation is here](https://github.com/maths/moodle-qtype_stack/blob/mas
 
 ## License
 
-Stack is Licensed under the [GNU General Public, License Version 3](https://github.com/maths/moodle-qtype_stack/blob/master/COPYING.txt).
+STACK is Licensed under the [GNU General Public, License Version 3](https://github.com/maths/moodle-qtype_stack/blob/master/COPYING.txt).

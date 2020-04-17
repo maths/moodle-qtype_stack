@@ -33,6 +33,7 @@ defined('MOODLE_INTERNAL') || die();
 class qtype_stack_renderer extends qtype_renderer {
 
     public function formulation_and_controls(question_attempt $qa, question_display_options $options) {
+        /* Return type should be @var qtype_stack_question $question. */
         $question = $qa->get_question();
 
         $response = $qa->get_last_qt_data();
@@ -40,7 +41,34 @@ class qtype_stack_renderer extends qtype_renderer {
         $questiontext = $question->questiontextinstantiated;
         // Replace inputs.
         $inputstovaldiate = array();
-        $qaid = null;
+
+        // Get the list of placeholders before format_text.
+        $originalinputplaceholders = array_unique(stack_utils::extract_placeholders($questiontext, 'input'));
+        sort($originalinputplaceholders);
+        $originalfeedbackplaceholders = array_unique(stack_utils::extract_placeholders($questiontext, 'feedback'));
+        sort($originalfeedbackplaceholders);
+
+        // Now format the questiontext.
+        $questiontext = $question->format_text(
+                stack_maths::process_display_castext($questiontext, $this),
+                $question->questiontextformat,
+                $qa, 'question', 'questiontext', $question->id);
+
+        // Get the list of placeholders after format_text.
+        $formatedinputplaceholders = stack_utils::extract_placeholders($questiontext, 'input');
+        sort($formatedinputplaceholders);
+        $formatedfeedbackplaceholders = stack_utils::extract_placeholders($questiontext, 'feedback');
+        sort($formatedfeedbackplaceholders);
+
+        // We need to check that if the list has changed.
+        // Have we lost some of the placeholders entirely?
+        // Duplicates may have been removed by multi-lang,
+        // No duplicates should remain.
+        if ($formatedinputplaceholders !== $originalinputplaceholders ||
+                $formatedfeedbackplaceholders !== $originalfeedbackplaceholders) {
+            throw new coding_exception('Inconsistent placeholders. Possibly due to multi-lang filtter not being active.');
+        }
+
         foreach ($question->inputs as $name => $input) {
             // Get the actual value of the teacher's answer at this point.
             $tavalue = $question->get_ta_for_input($name);
@@ -54,7 +82,6 @@ class qtype_stack_renderer extends qtype_renderer {
 
             $questiontext = $input->replace_validation_tags($state, $fieldname, $questiontext);
 
-            $qaid = $qa->get_database_id();
             if ($input->requires_validation()) {
                 $inputstovaldiate[] = $name;
             }
@@ -77,16 +104,18 @@ class qtype_stack_renderer extends qtype_renderer {
             $questiontext = str_replace("[[feedback:{$index}]]", $feedback, $questiontext);
         }
 
-        // Now format the questiontext.  This should be done after the subsitutions of inputs and PRTs.
-        $questiontext = $question->format_text(
-                stack_maths::process_display_castext($questiontext, $this),
-                $question->questiontextformat,
-                $qa, 'question', 'questiontext', $question->id);
-
         // Initialise automatic validation, if enabled.
-        if ($qaid && stack_utils::get_config()->ajaxvalidation) {
+        if (stack_utils::get_config()->ajaxvalidation) {
+            // Once we cen rely on everyone being on a Moodle version that includes the fix for
+            // MDL-65029 (3.5.6+, 3.6.4+, 3.7+) we can remove this if and just call the method.
+            if (method_exists($qa, 'get_outer_question_div_unique_id')) {
+                $questiondivid = $qa->get_outer_question_div_unique_id();
+            } else {
+                $questiondivid = 'q' . $qa->get_slot();
+            }
             $this->page->requires->js_call_amd('qtype_stack/input', 'initInputs',
-                    [$inputstovaldiate, $qaid, $qa->get_field_prefix()]);
+                    [$questiondivid, $qa->get_field_prefix(),
+                            $qa->get_database_id(), $inputstovaldiate]);
         }
 
         $result = '';
@@ -117,40 +146,16 @@ class qtype_stack_renderer extends qtype_renderer {
 
         $urlparams = array('questionid' => $question->id);
 
-        // This is a bit of a hack to find the right thing to put in the URL.
-        $context = $question->get_context();
-        if (!empty($options->editquestionparams['cmid'])) {
-            $urlparams['cmid'] = $options->editquestionparams['cmid'];
-
-        } else if (!empty($options->editquestionparams['courseid'])) {
-            $urlparams['courseid'] = $options->editquestionparams['courseid'];
-
-        } else if ($cmid = optional_param('cmid', null, PARAM_INT)) {
-            $urlparams['cmid'] = $cmid;
-
-        } else if ($courseid = optional_param('courseid', null, PARAM_INT)) {
-            $urlparams['courseid'] = $courseid;
-
-        } else if ($context->contextlevel == CONTEXT_MODULE) {
-            $urlparams['cmid'] = $context->instanceid;
-
-        } else if ($context->contextlevel == CONTEXT_COURSE) {
-            $urlparams['courseid'] = $context->instanceid;
-
-        } else {
-            $urlparams['courseid'] = get_site()->id;
-        }
-
         $links = array();
         if ($question->user_can_edit()) {
-            $links[] = html_writer::link(new moodle_url(
-                    '/question/type/stack/tidyquestion.php', $urlparams),
+            $links[] = html_writer::link(
+                    $question->qtype->get_tidy_question_url($question),
                     stack_string('tidyquestion'));
         }
 
         $urlparams['seed'] = $question->seed;
-        $links[] = html_writer::link(new moodle_url(
-                '/question/type/stack/questiontestrun.php', $urlparams),
+        $links[] = html_writer::link(
+                $question->qtype->get_question_test_url($question),
                 stack_string('runquestiontests'));
 
         return html_writer::tag('div', implode(' | ', $links), array('class' => 'questiontestslink'));

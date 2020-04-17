@@ -45,6 +45,13 @@ class stack_cas_castext_raw extends stack_cas_castext_block {
     }
 
     public function process_content($evaluatedcassession, $conditionstack = null) {
+
+        $errors = $this->string->get_errors();
+        if ('' !== $errors && null != $errors) {
+            $this->get_node()->convert_to_text($this->get_node()->get_content());
+            return false;
+        }
+
         $thenewone = $this->string->get_value();
         $this->get_node()->convert_to_text($thenewone);
 

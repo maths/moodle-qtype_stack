@@ -31,6 +31,12 @@ require_once(__DIR__ . '/050_no_chained_inequalities.filter.php');
 require_once(__DIR__ . '/090_special_forbidden_characters.filter.php');
 require_once(__DIR__ . '/101_no_floats.filter.php');
 require_once(__DIR__ . '/102_no_strings.filter.php');
+require_once(__DIR__ . '/103_no_lists.filter.php');
+require_once(__DIR__ . '/104_no_sets.filter.php');
+require_once(__DIR__ . '/105_no_grouppings.filter.php');
+require_once(__DIR__ . '/106_no_control_flow.filter.php');
+require_once(__DIR__ . '/201_sig_figs_validation.filter.php');
+require_once(__DIR__ . '/202_decimal_places_validation.filter.php');
 require_once(__DIR__ . '/402_split_prefix_from_common_function_name.filter.php');
 require_once(__DIR__ . '/403_split_at_number_letter_boundary.filter.php');
 require_once(__DIR__ . '/404_split_at_number_letter_number_boundary.filter.php');
@@ -39,9 +45,14 @@ require_once(__DIR__ . '/410_single_char_vars.filter.php');
 require_once(__DIR__ . '/441_split_unknown_functions.filter.php');
 require_once(__DIR__ . '/442_split_all_functions.filter.php');
 require_once(__DIR__ . '/450_split_floats.filter.php');
+require_once(__DIR__ . '/502_replace_pm.filter.php');
+require_once(__DIR__ . '/505_no_evaluation_groups.filter.php');
 require_once(__DIR__ . '/520_no_equality_with_logic.filter.php');
 require_once(__DIR__ . '/541_no_unknown_functions.filter.php');
 require_once(__DIR__ . '/542_no_functions_at_all.filter.php');
+require_once(__DIR__ . '/801_singleton_numeric.filter.php');
+require_once(__DIR__ . '/802_singleton_units.filter.php');
+require_once(__DIR__ . '/910_inert_float_for_display.filter.php');
 require_once(__DIR__ . '/990_no_fixing_spaces.filter.php');
 require_once(__DIR__ . '/991_no_fixing_stars.filter.php');
 require_once(__DIR__ . '/998_security.filter.php');
@@ -84,6 +95,18 @@ class stack_parsing_rule_factory {
                 return new stack_ast_filter_101_no_floats();
             case '102_no_strings':
                 return new stack_ast_filter_102_no_strings();
+            case '103_no_lists':
+                return new stack_ast_filter_103_no_lists();
+            case '104_no_sets':
+                return new stack_ast_filter_104_no_sets();
+            case '105_no_grouppings':
+                return new stack_ast_filter_105_no_grouppings();
+            case '106_no_control_flow':
+                return new stack_ast_filter_106_no_control_flow();
+            case '201_sig_figs_validation':
+                return new stack_ast_filter_201_sig_figs_validation();
+            case '202_decimal_places_validation':
+                return new stack_ast_filter_202_decimal_places_validation();
             case '402_split_prefix_from_common_function_name':
                 return new stack_ast_filter_402_split_prefix_from_common_function_name();
             case '403_split_at_number_letter_boundary':
@@ -100,12 +123,22 @@ class stack_parsing_rule_factory {
                 return new stack_ast_filter_442_split_all_functions();
             case '450_split_floats':
                 return new stack_ast_filter_450_split_floats();
+            case '502_replace_pm':
+                return new stack_ast_filter_502_replace_pm();
+            case '505_no_evaluation_groups':
+                return new stack_ast_filter_505_no_evaluation_groups();
             case '520_no_equality_with_logic':
                 return new stack_ast_filter_520_no_equality_with_logic();
             case '541_no_unknown_functions':
                 return new stack_ast_filter_541_no_unknown_functions();
             case '542_no_functions_at_all':
                 return new stack_ast_filter_542_no_functions_at_all();
+            case '801_singleton_numeric':
+                return new stack_ast_filter_801_singleton_numeric();
+            case '802_singleton_units':
+                return new stack_ast_filter_802_singleton_units();
+            case '910_inert_float_for_display':
+                return new stack_ast_filter_910_inert_float_for_display();
             case '990_no_fixing_spaces':
                 return new stack_ast_filter_990_no_fixing_spaces();
             case '991_no_fixing_stars':
@@ -127,14 +160,22 @@ class stack_parsing_rule_factory {
                            '050_no_chained_inequalities',
                            '090_special_forbidden_characters',
                            '101_no_floats', '102_no_strings',
+                           '103_no_lists', '104_no_sets',
+                           '105_no_grouppings', '106_no_control_flow',
+                           '201_sig_figs_validation',
+                           '202_decimal_places_validation',
                            '402_split_prefix_from_common_function_name',
                            '403_split_at_number_letter_boundary',
                            '404_split_at_number_letter_number_boundary',
                            '406_split_implied_variable_names',
                            '410_single_char_vars', '441_split_unknown_functions',
                            '442_split_all_functions', '450_split_floats',
+                           '502_replace_pm',
+                           '505_no_evaluation_groups',
                            '520_no_equality_with_logic',
                            '541_no_unknown_functions', '542_no_functions_at_all',
+                           '801_singleton_numeric', '802_singleton_units',
+                           '910_inert_float_for_display',
                            '990_no_fixing_spaces', '991_no_fixing_stars',
                            '998_security', '999_strict') as $name) {
                 self::$singletons[$name] = self::build_from_name($name);

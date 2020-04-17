@@ -98,7 +98,8 @@ $aliases = array(
     'Graphic option' => null,
     'Graphic object' => null, // Object constructors.
     'Plot option' => null,
-    'draw_graph option' => null
+    'draw_graph option' => null,
+    '_comment' => null // For our own comments.
 );
 
 foreach ($identifierdata as $identifier => $types) {

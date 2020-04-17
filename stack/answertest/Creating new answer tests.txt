@@ -1,71 +1,12 @@
 ****************************
 Adding answer tests to STACK
 
-Changelog: Version 15th October 2016 - Chris Sangwin
+Changelog: Version 1st February 2020 - Chris Sangwin
 
 ****************************
 
-There are 3 types of answer tests:
-    A) Those which use a Answertest built into Maxima (E.g. in assessment.mac).
-    B) Those which use standard CasText to perform a calculation and derive an answer.
-    C) Those which use PHP to perform some calculation or comparison.
-
-Common Background Information
------------------------------
-Each answertest is potentially stored as a individual object,
-in a individual file in the answertest directory. In most
-cases, (A), we have just one class which does all the work.
-This prevents duplication of code.
-
-Normally, just three methods are needed, the constructor which
-calls the super class's constructor, a do_test() method which
-does the work and a helper function process_atoptions() which
-decides if the options need to be evaluated by the CAS in the
-context of this question before the test is allowed. For
-example, you might ask students for a random number of
-significant figures. No other public methods are allowed.
-
-The do_test() method should return true or false depending on
-the result. If an error occurs the do_test() should return
-null.
-
-A) Maxima Answertests
----------------------
-Open assessment.mac and add or link to the Maxima code to
-perform the answertest.
-
-The Maxima function must return information in the correct
-[Validity, RawMark, AnswerNote, FeedBack]
-
-Validity must be true/false
-RawMark must be true/false
-AnswerNote is a string.
-FeedBack is a string - later translated by STACK.
-
-To turn this Maxima list into something which the PHP interface can deal with,
-STACK calls the Maxima function StackReturn() defined in stackmaxima.mac
-
-The prototype is ATAlgEquiv, but a simpler test is
-ATCasEqual.
-
-B) CAStext Answertests
-----------------------
-
-CAStext answer tests are the most complex to create. Here we
-can create a bespoke CAS session with the required commands and
-mix some maxima with some PHP logic.
-
-See atdecplaces.class.php for an example.
-
-C) PHP Answertests
-------------------
-For an example see stack_anstest_stringsloppy.
-
-
-Adding the new Answertest to STACK
----------------------------------
-
-Open controller.class.php, passes information onto the correct answertest class. There are plenty of examples here.
+From this point we only want answer tests which are part of Maxima.
+This will enable us to migrate the whole PRT as a single Maxima call.
 
 Unit testing a new Answertest
 ---------------------------------

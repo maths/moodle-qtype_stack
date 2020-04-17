@@ -4,7 +4,9 @@ STACK is a very popular online assessment system, used by many groups in a varie
 
 ### Publicity materials.
 
-We have a PDF flyer about the [STACK project](%CONTENT/2018-STACK.pdf).
+We have a booklet of [case studies](%CONTENT/2019-cate-case-studies.pdf), and a PDF flyer about the [STACK project](%CONTENT/2018-STACK.pdf).
+
+We have a "Getting started with STACK" [guide](%CONTENT/2019-STACK-Guide.pdf).
 
 ### Computer aided assessment of mathematics
 

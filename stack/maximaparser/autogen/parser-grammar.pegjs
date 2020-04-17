@@ -9,7 +9,7 @@
  */
  /* compile > pegjs --format globals -e MaximaParser parser-grammar.pegjs
   *
-  * NOTE that the code contais both PHP and JS versions of the parser, remember
+  * NOTE that the code contains both PHP and JS versions of the parser, remember
   * to make your changes to both.
   */
  /*
@@ -24,10 +24,16 @@
  if (!array_key_exists('letToken', $options)) {
    $options['letToken'] = 'let';
  }
+ if (!array_key_exists('allowPM', $options)) {
+   $options['allowPM'] = true;
+ }
  $this->options = $options;
  ?> **/
  if (!options.hasOwnProperty('letToken')) {
    options.letToken = 'let';
+ }
+ if (!options.hasOwnProperty('allowPM')) {
+   options.allowPM = true;
  }
 
  function opLBind(op) {
@@ -46,8 +52,12 @@
    case '.':
     return 130;
    case '*':
+   case '@@IS@@':
+   case '@@Is@@':
    case '/':
     return 120;
+   case '+-':
+   case '#pm#':
    case '+':
    case '-':
     return 100;
@@ -59,9 +69,11 @@
    case '<':
    case '<=':
     return 80;
+   case '%and':
    case 'and':
    case 'nounand':
     return 65;
+   case '%or':
    case 'or':
    case 'nounor':
     return 60;
@@ -82,8 +94,12 @@
    case '.':
     return 129;
    case '*':
+   case '@@IS@@':
+   case '@@Is@@':
    case '/':
     return 120;
+   case '#pm#':
+   case '+-':
    case '+':
     return 100;
    case '-':
@@ -159,7 +175,6 @@
     return R;
  }
 }
-
 
 Root
   = lines:(__? Line __?)* __? final:Statement? __?{
@@ -547,11 +562,14 @@ LoopBit
  }
 
 PrefixOp
-  = "-"
+  = "#pm#"
+  / "+-" & { /** <?php return $this->options['allowPM']; ?> **/ return options.allowPM; } {return '+-';}
+  / "-"
   / "+"
   / "''"
   / "'"
   / "not "
+  / "%not "
   / "?? "
   / "? "
   / "?"
@@ -561,18 +579,22 @@ PostfixOp
   / "!"
 
 InfixOp
-  = "#"
-  / "**"
+  = "**"
   / "^^"
   / "^"
   / "*"
   / "/"
+  / "#pm#"
+  / "+-" & { /** <?php return $this->options['allowPM']; ?> **/ return options.allowPM; } {return '+-';}
   / "-"
   / "+"
+  / "%and"
+  / "%or"
   / "and"
   / "or"
   / "nounand"
   / "nounor"
+  / "#"
   / "::="
   / ":="
   / "::"
@@ -583,6 +605,8 @@ InfixOp
   / ">"
   / "="
   / "~"
+  / "@@IS@@"
+  / "@@Is@@"
 
 UnaryOp
   = op:PrefixOp _? trg:(Group / List / FunctionCall / Indexing / Literal / UnaryOp / Identifier ) _? op2:PostfixOp {
@@ -627,8 +651,6 @@ UnaryOp
   var n = new MPPostfixOp(op, trg);
   n.position = mergePosition(location(), trg.position);
   return opBind(n);}
-
-
 
 Operation
   = DotOp
@@ -741,7 +763,7 @@ FunctionCall
   }
 
 Indexing
-  = trg:(Identifier / List / Group) indices:(_? List)+ {
+  = trg:(Identifier / List / Set / Group) indices:(_? List)+ {
   /** <?php
   $v = array();
   foreach ($indices as $ind)

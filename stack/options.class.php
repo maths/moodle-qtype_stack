@@ -198,14 +198,14 @@ class stack_options {
 
                 if ('ex' == $opt['castype']) {
                     $names      .= ', '.$opt['caskey'];
-                    $commands   .= ', '.$opt['caskey'].':'.$value;
+                    $commands   .= stack_cas_session2::SEP . $opt['caskey'].':'.$value;
                 } else if ('exs' == $opt['castype']) {
                     $names      .= ', '.$opt['caskey'];
-                    $commands   .= ', '.$opt['caskey'].':"'.$value.'"';
+                    $commands   .= stack_cas_session2::SEP . $opt['caskey'].':"'.$value.'"';
                 } else if ('fun' == $opt['castype']) {
                     // Make sure these options are *strings*, otherwise they clash
                     // with Maxim names, particularly alias.
-                    $commands   .= ', '.$opt['caskey'].'("'.$value.'")';
+                    $commands   .= stack_cas_session2::SEP . $opt['caskey'].'("'.$value.'")';
                 }
             }
         }
@@ -302,6 +302,7 @@ class stack_options {
             '0' => get_string('showvalidationno', 'qtype_stack'),
             '1' => get_string('showvalidationyes', 'qtype_stack'),
             '2' => get_string('showvalidationyesnovars', 'qtype_stack'),
+            '3' => get_string('showvalidationcompact', 'qtype_stack'),
         );
     }
 }

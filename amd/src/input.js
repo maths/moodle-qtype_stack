@@ -17,385 +17,503 @@
  * A javascript module to handle the real-time validation of the input the student types
  * into STACK questions.
  *
+ * The overall way this works is as follows:
+ *
+ *  - right at the end of this file are the init methods, which set things up.
+ *  - The work common to all input types is done by StackInput.
+ *     - Sending the Ajax request.
+ *     - Updating the validation display.
+ *  - The work specific to different input types (getting the content of the inputs) is done by
+ *    the classes like
+ *     - StackSimpleInput
+ *     - StackTextareaInput
+ *     - StackMatrixInput
+ *    objects of these types need to implement the two methods addEventHandlers and getValue().
+ *
  * @package    qtype_stack
  * @copyright  2018 The Open University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-define(['jquery', 'core/ajax', 'core/event'], function($, ajax, coreevent) {
+define([
+    'core/ajax',
+    'core/event'
+], function(
+    Ajax,
+    CustomEvents
+) {
 
     "use strict";
 
     /**
      * Class constructor representing an input in a Stack question.
      *
-     * @class StackInput
      * @constructor
-     * @param {String} name The input name, for example ans1.
-     * @param {Number} qaid The question-attempt id.
+     * @param {HTMLElement} validationDiv The div to display the validation in.
+     * @param {String} prefix prefix added to the input name to get HTML ids.
+     * @param {String} qaid id of the question_attempt.
+     * @param {String} name the name of the input we are validating.
      * @param {Object} input An object representing the input element for this input.
-     * @param {Object} validationDiv jQuery representation of the validation div.
      */
-    var StackInput = function(name, qaid, input, validationDiv) {
-        this.input = input;
-        this.validationDiv = validationDiv;
-        this.name = name;
-        this.qaid = qaid;
-        this.delayTimeoutHandle = null;
-        this.input.addEventHanders(this);
-        this.lastValidatedValue = this.getIntputValue();
-        this.validationResults = {};
-    };
+    function StackInput(validationDiv, prefix, qaid, name, input) {
+        /** @type {number} delay between the user stopping typing, and the ajax request being sent. */
+        var TYPING_DELAY = 1000;
 
-    /**
-     * @config TYPINGDELAY How long a pause in typing before we make an ajax validation request.
-     */
-    StackInput.prototype.TYPINGDELAY = 1000;
+        /** @type {?int} if not null, the id of the timer for the typing delay. */
+        var delayTimeoutHandle = null;
 
-    /**
-     * Cancel any typing pause timer.
-     */
-    StackInput.prototype.cancelTypingDelay = function() {
-        if (this.delayTimeoutHandle) {
-            clearTimeout(this.delayTimeoutHandle);
-        }
-        this.delayTimeoutHandle = null;
-    };
+        /** @type {Object} cache of validation results we have already received. */
+        var validationResults = {};
 
-    /**
-     * Event handler that is fired when the input contents changes. Will do a
-     * validation after TYPINGDELAY if nothing else happens.
-     */
-    StackInput.prototype.valueChanging = function() {
-        this.cancelTypingDelay();
-        var self = this;
-        this.showWaiting();
-        this.delayTimeoutHandle = setTimeout(function() {
-            self.valueChanged();
-        }, this.TYPINGDELAY);
-        setTimeout(function() {
-            self.checkNoChange();
-        }, 0);
-    };
+        /** @type {String} the last value that we sent to be validated. */
+        var lastValidatedValue = getInputValue();
 
-    /**
-     * After a small delay, detect the case where the user has got the input back
-     * to where they started, so not validation is necessary.
-     */
-    StackInput.prototype.checkNoChange = function() {
-        if (this.getIntputValue() === this.lastValidatedValue) {
-            this.cancelTypingDelay();
-            this.validationDiv.removeClass('waiting');
-        }
-    };
-
-    /**
-     * Event handler that is fired when the input contents should be validated immediately.
-     */
-    StackInput.prototype.valueChanged = function() {
-        this.cancelTypingDelay();
-        if (!this.showValidationResults()) {
-            this.validateInput();
-        }
-    };
-
-    /**
-     * Make an ajax call to validate the input.
-     */
-    StackInput.prototype.validateInput = function() {
-        var self = this;
-        ajax.call([{
-            methodname: 'qtype_stack_validate_input',
-            args: {qaid: this.qaid, name: this.name, input: this.getIntputValue()},
-            done: function(response) {
-                self.validationReceived(response);
-            },
-            fail: function(response) {
-                self.showValidationFailure(response);
+        /**
+         * Cancel any typing pause timer.
+         */
+        function cancelTypingDelay() {
+            if (delayTimeoutHandle) {
+                clearTimeout(delayTimeoutHandle);
             }
-        }]);
-        this.showLoading();
-    };
-
-    /**
-     * Returns the current value of the input.
-     *
-     * @return {String}.
-     */
-    StackInput.prototype.getIntputValue = function() {
-        return this.input.getValue();
-    };
-
-    /**
-     * Update the validation div to show the results of the validation.
-     *
-     * @param {String} response The data that came back from the ajax validation call.
-     */
-    StackInput.prototype.validationReceived = function(response) {
-        if (response.status === 'invalid') {
-            this.showValidationFailure(response);
-            return;
+            delayTimeoutHandle = null;
         }
-        this.validationResults[response.input] = response;
-        this.showValidationResults();
-    };
+
+        input.addEventHandlers(valueChanging);
+
+        /**
+         * Called when the input contents changes. Will validate after TYPING_DELAY if nothing else happens.
+         */
+        function valueChanging() {
+            cancelTypingDelay();
+            showWaiting();
+            delayTimeoutHandle = setTimeout(valueChanged, TYPING_DELAY);
+            setTimeout(function() {
+                checkNoChange();
+            }, 0);
+        }
+
+        /**
+         * After a small delay, detect the case where the user has got the input back
+         * to where they started, so not validation is necessary.
+         */
+        function checkNoChange() {
+            if (getInputValue() === lastValidatedValue) {
+                cancelTypingDelay();
+                validationDiv.classList.remove('waiting');
+            }
+        }
+
+        /**
+         * Called to actually validate the input now.
+         */
+        function valueChanged() {
+            cancelTypingDelay();
+            if (!showValidationResults()) {
+                validateInput();
+            }
+        }
+
+        /**
+         * Make an ajax call to validate the input.
+         */
+        function validateInput() {
+            Ajax.call([{
+                methodname: 'qtype_stack_validate_input',
+                args: {qaid: qaid, name: name, input: getInputValue()},
+                done: function(response) {
+                    validationReceived(response);
+                },
+                fail: function(response) {
+                    showValidationFailure(response);
+                }
+            }]);
+            showLoading();
+        }
+
+        /**
+         * Returns the current value of the input.
+         *
+         * @return {String}.
+         */
+        function getInputValue() {
+            return input.getValue();
+        }
+
+        /**
+         * Update the validation div to show the results of the validation.
+         *
+         * @param {Object} response The data that came back from the ajax validation call.
+         */
+        function validationReceived(response) {
+            if (response.status === 'invalid') {
+                showValidationFailure(response);
+                return;
+            }
+            validationResults[response.input] = response;
+            showValidationResults();
+        }
+
+        /**
+         * Some browsers cannot execute JavaScript just by inserting script tags.
+         * To avoid that problem, remove all script tags from the given content,
+         * and run them later.
+         *
+         * @param {String} html HTML content
+         * @param {Array} scriptCommands An array of script tags for later use.
+         * @return {String} HTML with JS removed
+         */
+        function extractScripts(html, scriptCommands) {
+            var scriptregexp = /<script[^>]*>([\s\S]*?)<\/script>/g;
+            var result;
+            while ((result = scriptregexp.exec(html)) !== null) {
+                scriptCommands.push(result[1]);
+            }
+            return html.replace(scriptregexp, '');
+        }
+
+        /**
+         * Update the validation div to show the results of the validation.
+         *
+         * @return {boolean} true if we could show the validation. false we we are we don't have it.
+         */
+        function showValidationResults() {
+            /* eslint no-eval: "off" */
+            var val = getInputValue();
+            if (!validationResults[val]) {
+                showWaiting();
+                return false;
+            }
+            var results = validationResults[val];
+            lastValidatedValue = val;
+            var scriptCommands = [];
+            validationDiv.innerHTML = extractScripts(results.message, scriptCommands);
+            // Run script commands.
+            for (var i = 0; i < scriptCommands.length; i++) {
+                eval(scriptCommands[i]);
+            }
+            removeAllClasses();
+            if (!results.message) {
+                validationDiv.classList.add('empty');
+            }
+            // This fires the Maths filters for content in the validation div.
+            CustomEvents.notifyFilterContentUpdated(validationDiv);
+            return true;
+        }
+
+        /**
+         * Update the validation div after an ajax validation call failed.
+         *
+         * @param {Object} response The data that came back from the ajax validation call.
+         */
+        function showValidationFailure(response) {
+            lastValidatedValue = '';
+            // Reponse usually contains backtrace, debuginfo, errorcode, link, message and moreinfourl.
+            validationDiv.innerHTML = response.message;
+            removeAllClasses();
+            validationDiv.classList.add('error');
+            // This fires the Maths filters for content in the validation div.
+            CustomEvents.notifyFilterContentUpdated(validationDiv);
+        }
+
+        /**
+         * Display the loader icon.
+         */
+        function showLoading() {
+            removeAllClasses();
+            validationDiv.classList.add('loading');
+        }
+
+        /**
+         * Update the validation div to show that the input contents have changed,
+         * so the validation results are no longer relevant.
+         */
+        function showWaiting() {
+            removeAllClasses();
+            validationDiv.classList.add('waiting');
+        }
+
+        /**
+         * Strip all our class names from the validation div.
+         */
+        function removeAllClasses() {
+            validationDiv.classList.remove('empty');
+            validationDiv.classList.remove('error');
+            validationDiv.classList.remove('loading');
+            validationDiv.classList.remove('waiting');
+        }
+    }
 
     /**
-     * Some browsers cannot execute JavaScript just by inserting script tags.
-     * To avoid that problem, remove all script tags from the given content,
-     * and run them later.
+     * Input type for inputs that are a single input or select.
      *
-     * @param {String} html HTML content
-     * @param {String} scriptcommands An array of script tags for later use.
-     * @return {String} HTML with JS removed
-     */
-    StackInput.prototype.extractScripts = function(html, scriptcommands) {
-        var scriptregexp = /<script[^>]*>([\s\S]*?)<\/script>/g;
-        var result;
-        while ((result = scriptregexp.exec(html)) !== null) {
-            scriptcommands.push(result[1]);
-        }
-        return html.replace(scriptregexp, '');
-    };
-
-    /**
-     * Update the validation div to show the results of the validation.
-     */
-    StackInput.prototype.showValidationResults = function() {
-        /*eslint no-eval: "off"*/
-        var val = this.getIntputValue();
-        if (!this.validationResults[val]) {
-            this.showWaiting();
-            return false;
-        }
-        var results = this.validationResults[val];
-        this.lastValidatedValue = val;
-        var scriptcommands = [];
-        var html = this.extractScripts(results.message, scriptcommands);
-        this.validationDiv.html(html);
-        // Run script commands.
-        for (var i = 0; i < scriptcommands.length; i++) {
-            eval(scriptcommands[i]);
-        }
-        this.removeAllClasses();
-        if (!results.message) {
-            this.validationDiv.addClass('empty');
-        }
-        // This fires the Maths filters for content in the validation div.
-        coreevent.notifyFilterContentUpdated(this.validationDiv[0]);
-        return true;
-    };
-
-    /**
-     * Update the validation div after an ajax validation call failed.
-     *
-     * @param {String} response The data that came back from the ajax validation call.
-     */
-    StackInput.prototype.showValidationFailure = function(response) {
-        this.lastValidatedValue = '';
-        // Reponse usually contains backtrace, debuginfo, errorcode, link, message and moreinfourl.
-        this.validationDiv.html(response.message);
-        this.removeAllClasses();
-        this.validationDiv.addClass('error');
-        // This fires the Maths filters for content in the validation div.
-        coreevent.notifyFilterContentUpdated(this.validationDiv[0]);
-    };
-
-    /**
-     * Display the loader icon.
-     */
-    StackInput.prototype.showLoading = function() {
-        this.removeAllClasses();
-        this.validationDiv.addClass('loading');
-    };
-
-    /**
-     * Update the validation div to show that the input contents have changed,
-     * so the validation results are no longer relevant.
-     */
-    StackInput.prototype.showWaiting = function() {
-        this.removeAllClasses();
-        this.validationDiv.addClass('waiting');
-    };
-
-    /**
-     * Strip all our class names from the validation div.
-     */
-    StackInput.prototype.removeAllClasses = function() {
-        this.validationDiv.removeClass('empty');
-        this.validationDiv.removeClass('error');
-        this.validationDiv.removeClass('loading');
-        this.validationDiv.removeClass('waiting');
-    };
-
-    /**
-     * Class constructor representing a simple input in a Stack question.
-     *
-     * @class StackSimpleInput
      * @constructor
-     * @param {Object} input The input element wrapped in jquery.
+     * @param {HTMLElement} input the HTML input that is this STACK input.
      */
-    var StackSimpleInput = function(input) {
-        this.input = input;
-    };
+    function StackSimpleInput(input) {
+        /**
+         * Add the event handler to call when the user input changes.
+         *
+         * @param {Function} valueChanging the callback to call when we detect a value change.
+         */
+        this.addEventHandlers = function(valueChanging) {
+            // The input event fires on any change in value, even if pasted in or added by speech
+            // recognition to dictate text. Change only fires after loosing focus.
+            // Should also work on mobile.
+            input.addEventListener('input', valueChanging);
+        };
+
+        /**
+         * Get the current value of this input.
+         *
+         * @return {String}.
+         */
+        this.getValue = function() {
+            return input.value.replace(/^\s+|\s+$/g, '');
+        };
+    }
 
     /**
-     * Add the event handler to call when the user input changes.
+     * Input type for textarea inputs.
      *
-     * @param {Object} validator A StackInput object
-     */
-    StackSimpleInput.prototype.addEventHanders = function(validator) {
-        // The input event fires on any change in value, even if pasted in or added by speech
-        // recognition to dictate text. Change only fires after loosing focus.
-        // Should also work on mobile.
-        this.input.on('input', null, null, validator.valueChanging.bind(validator));
-    };
-
-    /**
-     * Get the current value of this input.
-     *
-     * @return {String}.
-     */
-    StackSimpleInput.prototype.getValue = function() {
-        return this.input.val().replace(/^\s+|\s+$/g, '');
-    };
-
-    /**
-     * Class constructor representing a textarea input.
-     *
-     * @class StackTextareaInput
      * @constructor
      * @param {Object} textarea The input element wrapped in jquery.
      */
-    var StackTextareaInput = function(textarea) {
-        this.textarea = textarea;
-    };
+    function StackTextareaInput(textarea) {
+        /**
+         * Add the event handler to call when the user input changes.
+         *
+         * @param {Function} valueChanging the callback to call when we detect a value change.
+         */
+        this.addEventHandlers = function(valueChanging) {
+            textarea.addEventListener('input', valueChanging);
+        };
+
+        /**
+         * Get the current value of this input.
+         *
+         * @return {String}.
+         */
+        this.getValue = function() {
+            var raw = textarea.value.replace(/^\s+|\s+$/g, '');
+            // Using <br> here is weird, but it gets sorted out at the PHP end.
+            return raw.split(/\s*[\r\n]\s*/).join('<br>');
+        };
+    }
 
     /**
-     * Add the event handler to call when the user input changes.
+     * Input type for inputs that are a set of radio buttons.
      *
-     * @param {Object} validator A StackInput object
-     */
-    StackTextareaInput.prototype.addEventHanders = function(validator) {
-        this.textarea.on('input', null, null, validator.valueChanging.bind(validator));
-    };
-
-    /**
-     * Get the current value of this input.
-     *
-     * @return {String}.
-     */
-    StackTextareaInput.prototype.getValue = function() {
-        var raw = this.textarea.val().replace(/^\s+|\s+$/g, '');
-        return raw.split(/\s*[\r\n]\s*/).join('<br>');
-    };
-
-    /**
-     * Class constructor representing matrx inputs (one input).
-     *
-     * @class StackMatrixInput
      * @constructor
-     * @param {String} idPrefix.
-     * @param {Object} container jQuery object wrapping a matrix of inputs.
+     * @param {HTMLElement} container container <div> of this input.
+     */
+    function StackRadioInput(container) {
+        /**
+         * Add the event handler to call when the user input changes.
+         *
+         * @param {Function} valueChanging the callback to call when we detect a value change.
+         */
+        this.addEventHandlers = function(valueChanging) {
+            // The input event fires on any change in value, even if pasted in or added by speech
+            // recognition to dictate text. Change only fires after loosing focus.
+            // Should also work on mobile.
+            container.addEventListener('input', valueChanging);
+        };
+
+        /**
+         * Get the current value of this input.
+         *
+         * @return {String}.
+         */
+        this.getValue = function() {
+            var selected = container.querySelector(':checked');
+            if (selected) {
+                return selected.value;
+            } else {
+                return '';
+            }
+        };
+    }
+
+    /**
+     * Input type for inputs that are a set of checkboxes.
+     *
+     * @constructor
+     * @param {HTMLElement} container container <div> of this input.
+     */
+    function StackCheckboxInput(container) {
+        /**
+         * Add the event handler to call when the user input changes.
+         *
+         * @param {Function} valueChanging the callback to call when we detect a value change.
+         */
+        this.addEventHandlers = function(valueChanging) {
+            // The input event fires on any change in value, even if pasted in or added by speech
+            // recognition to dictate text. Change only fires after loosing focus.
+            // Should also work on mobile.
+            container.addEventListener('input', valueChanging);
+        };
+
+        /**
+         * Get the current value of this input.
+         *
+         * @return {String}.
+         */
+        this.getValue = function() {
+            var selected = container.querySelectorAll(':checked');
+            var result = [];
+            for (var i = 0; i < selected.length; i++) {
+                result[i] = selected[i].value;
+            }
+            if (result.length > 0) {
+                return result.join(',');
+            } else {
+                return '';
+            }
+        };
+    }
+
+    /**
+     * Class constructor representing matrix inputs (one input).
+     *
+     * @constructor
+     * @param {String} idPrefix input id, which is the start of the id of all the different text boxes.
+     * @param {HTMLElement} container <div> of this input.
      */
     var StackMatrixInput = function(idPrefix, container) {
-        this.container = container;
-        this.idPrefix  = idPrefix;
         var numcol = 0;
         var numrow = 0;
-        this.container.find('input[type=text]').each(function(i, element) {
-            var name = $(element).attr('name');
-            if (name.slice(0, idPrefix.length + 5) !== idPrefix + '_sub_') {
+        container.querySelectorAll('input[type=text]').forEach(function(element) {
+            if (element.name.slice(0, idPrefix.length + 5) !== idPrefix + '_sub_') {
                 return;
             }
-            var bits = name.substring(idPrefix.length + 5).split('_');
+            var bits = element.name.substring(idPrefix.length + 5).split('_');
             numrow = Math.max(numrow, parseInt(bits[0], 10) + 1);
             numcol = Math.max(numcol, parseInt(bits[1], 10) + 1);
         });
-        this.numcol = numcol;
-        this.numrow = numrow;
+
+        /**
+         * Add the event handler to call when the user input changes.
+         *
+         * @param {Function} valueChanging the callback to call when we detect a value change.
+         */
+        StackMatrixInput.prototype.addEventHandlers = function(valueChanging) {
+            container.addEventListener('input', valueChanging);
+        };
+
+        /**
+         * Get the current value of this input.
+         *
+         * @return {String}.
+         */
+        StackMatrixInput.prototype.getValue = function() {
+            var values = new Array(numrow);
+            for (var i = 0; i < numrow; i++) {
+                values[i] = new Array(numcol);
+            }
+            container.querySelectorAll('input[type=text]').forEach(function(element) {
+                if (element.name.slice(0, idPrefix.length + 5) !== idPrefix + '_sub_') {
+                    return;
+                }
+                var bits = element.name.substring(idPrefix.length + 5).split('_');
+                values[bits[0]][bits[1]] = element.value.replace(/^\s+|\s+$/g, '');
+            });
+            return 'matrix([' + values.join('],[') + '])';
+        };
     };
 
     /**
-     * Add the event handler to call when the user input changes.
+     * Initialise all the inputs in a STACK question.
      *
-     * @param {Object} validator A StackInput object
+     * @param {String} questionDivId id of the outer dic of the question.
+     * @param {String} prefix prefix added to the input names for this question.
+     * @param {String} qaid Moodle question_attempt id.
+     * @param {String[]} inputs names of all the inputs that should have instant validation.
      */
-    StackMatrixInput.prototype.addEventHanders = function(validator) {
-        this.container.delegate('input', 'input[type=text]', null, validator.valueChanging.bind(validator));
-    };
+    function initInputs(questionDivId, prefix, qaid, inputs) {
+        var questionDiv = document.getElementById(questionDivId);
 
-    /**
-     * Get the current value of this input.
-     *
-     * @return {String}.
-     */
-    StackMatrixInput.prototype.getValue = function() {
-        var numcol = this.numcol;
-        var numrow = this.numrow;
-        var idPrefix = this.idPrefix;
-        var values = new Array(numrow);
-        for (var i = 0; i < numrow; i++) {
-            values[i] = new Array(numcol);
+        // Initialise all inputs.
+        var allok = true;
+        for (var i = 0; i < inputs.length; i++) {
+            allok = initInput(questionDiv, prefix, qaid, inputs[i]) && allok;
         }
-        this.container.find('input[type=text]').each(function(i, element) {
-            var name = $(element).attr('name');
-            if (name.slice(0, idPrefix.length + 5) !== idPrefix + '_sub_') {
-                return;
-            }
-            var bits = name.substring(idPrefix.length + 5).split('_');
-            values[bits[0]][bits[1]] = $(element).val().replace(/^\s+|\s+$/g, '');
-        });
-        return 'matrix([' + values.join('],[') + '])';
-    };
+
+        // With JS With instant validation, we don't need the Check button, so hide it.
+        if (allok && (questionDiv.classList.contains('dfexplicitvaildate') ||
+                questionDiv.classList.contains('dfcbmexplicitvaildate'))) {
+            questionDiv.querySelector('.im-controls input.submit').remove();
+        }
+    }
 
     /**
-     * The Stack question init return object.
+     * Initialise one input.
      *
-     * @alias qtype_stack/input
+     * @param {HTMLElement} questionDiv outer <div> of this question.
+     * @param {String} prefix prefix added to the input names for this question.
+     * @param {String} qaid Moodle question_attempt id.
+     * @param {String} name the input to initialise.
+     * @return {boolean} true if this input was successfully initialised, else false.
      */
-    var t = {
-        initInputs: function(inputs, qaid, prefix) {
-            var allok = true;
-            for (var i = 0; i < inputs.length; i++) {
-                var name = inputs[i];
-                allok = t.initInput(name, qaid, prefix) && allok;
-            }
-            var outerdiv = $('input[name="' + prefix + ':sequencecheck"]').parents('div.que.stack');
-            if (allok && outerdiv && (outerdiv.hasClass('dfexplicitvaildate') || outerdiv.hasClass('dfcbmexplicitvaildate'))) {
-                // With instant validation, we don't need the Check button, so hide it.
-                var button = outerdiv.find('.im-controls input.submit');
-                if (button.attr('id') === prefix + '-submit') {
-                    button.hide();
-                }
-                t.initInput(inputs[i], qaid, prefix);
-            }
-        },
-
-        initInput: function(name, qaid, prefix) {
-            var valinput = $(document.getElementById(prefix + name + '_val')); // $('#' + prefix + name + '_val') does not work!
-            if (!valinput) {
-                return false;
-            }
-            // See if it is an ordinary input.
-            var input = $(document.getElementById(prefix + name));
-            if (input.length) {
-                if (input[0].nodeName === 'TEXTAREA') {
-                    new StackInput(name, qaid, new StackTextareaInput(input), valinput);
-                } else {
-                    // A new StackInput object is required.
-                    new StackInput(name, qaid, new StackSimpleInput(input), valinput);
-                }
-                return true;
-            }
-            // See if it is a matrix input.
-            var matrix = $(document.getElementById(prefix + name + '_container'));
-            if (matrix.length) {
-                new StackInput(name, qaid, new StackMatrixInput(prefix + name, matrix), valinput);
-                return true;
-            }
-            // Give up.
+    function initInput(questionDiv, prefix, qaid, name) {
+        var validationDiv = document.getElementById(prefix + name + '_val');
+        if (!validationDiv) {
             return false;
         }
+
+        var inputTypeHandler = getInputTypeHandler(questionDiv, prefix, name);
+        if (inputTypeHandler) {
+            new StackInput(validationDiv, prefix, qaid, name, inputTypeHandler);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * Get the input type handler for a named input.
+     *
+     * @param {HTMLElement} questionDiv outer <div> of this question.
+     * @param {String} prefix prefix added to the input names for this question.
+     * @param {String} name the input to initialise.
+     * @return {?Object} the input hander, if we can handle it, else null.
+     */
+    function getInputTypeHandler(questionDiv, prefix, name) {
+        // See if it is an ordinary input.
+        var input = questionDiv.querySelector('[name="' + prefix + name + '"]');
+        if (input) {
+            if (input.nodeName === 'TEXTAREA') {
+                return new StackTextareaInput(input);
+            } else if (input.type === 'radio') {
+                return new StackRadioInput(input.closest('.answer'));
+            } else {
+                return new StackSimpleInput(input);
+            }
+        }
+
+        // See if it is a checkbox input.
+        input = questionDiv.querySelector('[name="' + prefix + name + '_1"]');
+        if (input && input.type === 'checkbox') {
+            return new StackCheckboxInput(input.closest('.answer'));
+        }
+
+        // See if it is a matrix input.
+        var matrix = document.getElementById(prefix + name + '_container');
+        if (matrix) {
+            return new StackMatrixInput(prefix + name, matrix);
+        }
+
+        return null;
+    }
+
+    /** Export our entry point. */
+    return {
+        /**
+         * Initialise all the inputs in a STACK question.
+         *
+         * @param {String} questionDivId id of the outer dic of the question.
+         * @param {String} prefix prefix added to the input names for this question.
+         * @param {String} qaid Moodle question_attempt id.
+         * @param {String[]} inputs names of all the inputs that should have instant validation.
+         */
+        initInputs: initInputs
     };
-    return t;
 });

@@ -34,16 +34,16 @@ class stack_ast_filter_403_split_at_number_letter_boundary implements stack_cas_
                 $splits = array();
                 $alpha = true;
                 $last = 0;
-                for ($i = 1; $i < core_text::strlen($node->value); $i++) {
-                    if ($alpha && ctype_digit(core_text::substr($node->value, $i, 1))) {
+                for ($i = 1; $i < mb_strlen($node->value); $i++) {
+                    if ($alpha && ctype_digit(mb_substr($node->value, $i, 1))) {
                         $alpha = false;
-                    } else if (!$alpha && ctype_alpha(core_text::substr($node->value, $i, 1))) {
+                    } else if (!$alpha && ctype_alpha(mb_substr($node->value, $i, 1))) {
                         $alpha = false;
-                        $splits[] = core_text::substr($node->value, $last, $i - $last);
+                        $splits[] = mb_substr($node->value, $last, $i - $last);
                         $last = $i;
                     }
                 }
-                $splits[] = core_text::substr($node->value, $last);
+                $splits[] = mb_substr($node->value, $last);
                 // Then if we have more than one part split to parts.
                 if (count($splits) > 1) {
                     if (array_search('missing_stars', $answernotes) === false) {

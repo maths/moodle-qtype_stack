@@ -30,6 +30,7 @@ class stack_numerical_input extends stack_input {
      * @var array
      */
     protected $extraoptions = array(
+        'nounits' => false,
         'simp' => false,
         // Forbid variables.  Always true for numerical inputs.
         'novars' => true,

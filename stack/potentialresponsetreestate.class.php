@@ -65,7 +65,12 @@ class stack_potentialresponse_tree_state {
     public $_weight;
 
     /**
-     * @var stack_cas_session
+     * @var array
+     */
+    public $_debuginfo;
+
+    /**
+     * @var stack_cas_session2
      */
     protected $cascontext;
 
@@ -89,6 +94,7 @@ class stack_potentialresponse_tree_state {
      * @param string $errors any error messages.
      * @param array $answernotes the answer notes from the evaluation.
      * @param array $feedback the current contents of this input.
+     * @param array $debuginfo debug info.
      */
     public function __construct($weight, $valid = true, $score = null, $penalty = null,
             $errors = '', $answernotes = array(), $feedback = array(), $debuginfo = null) {
@@ -134,9 +140,10 @@ class stack_potentialresponse_tree_state {
     /**
      * Store the CAS context, so we can use it later if we want to output the
      * feedback.
-     * @param stack_cas_session $cascontext the case context containing the
+     * @param stack_cas_session2 $cascontext the case context containing the
      *      feedback variables, sans and tans for each node, etc.
      * @param int $seed the random seed used.
+     * @param bool $simp
      */
     public function set_cas_context(stack_cas_session2 $cascontext, $seed, $simp) {
         $this->cascontext = $cascontext;
@@ -162,7 +169,11 @@ class stack_potentialresponse_tree_state {
 
     /**
      * Add another bit of feedback.
+     *
      * @param string $feedback the next bit of feedback.
+     * @param int $format one of Moodle's FORMAT_... constants.
+     * @param string $filearea feedback file area name.
+     * @param int $nodeid node id (used as the file area item id).
      */
     public function add_feedback($feedback, $format = null, $filearea = null, $nodeid = null) {
         $this->_feedback[] = new stack_prt_feedback_element($feedback, $format, $filearea, $nodeid);
@@ -202,7 +213,7 @@ class stack_potentialresponse_tree_state {
         } else {
             $simp = 'false';
         }
-        $cleanvars[] = stack_ast_container::make_from_teacher_source('simp:'.$simp, '', new stack_cas_security(), array());
+        $cleanvars[] = stack_ast_container::make_from_teacher_source('simp:' . $simp, '', new stack_cas_security());
 
         $cleansession = new stack_cas_session2($cleanvars, $options, $this->seed);
         $feedbackct = new stack_cas_text($feedback, $cleansession, $this->seed);
@@ -214,7 +225,7 @@ class stack_potentialresponse_tree_state {
 
     /**
      * Add another answer trace to the list.
-     * @param array $trace the line in the trace.
+     * @param string $trace the line in the trace.
      */
     public function add_trace($trace) {
         $this->_trace[] = $trace;
@@ -235,7 +246,7 @@ class stack_prt_feedback_element {
     /** @var string feedback file area name. */
     public $filearea;
 
-    /** @var int node id (used as the file area item id. */
+    /** @var int node id (used as the file area item id). */
     public $itemid;
 
     public function __construct($feedback, $format, $filearea, $itemid) {

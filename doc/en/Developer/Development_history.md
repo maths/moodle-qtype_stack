@@ -2,6 +2,38 @@
 
 For current and future plans, see [Development track](Development_track.md) and [Future plans](Future_plans.md).
 
+## Version 4.3
+
+Released April 2020.  This has been tested successfully during the spring semester, at three insitutions with large groups.  STACK 4.3 is, because of the new parser, slightly slower than previous releases.
+
+Version 4.3 requires the PHP package `mbstring` (which will be required from Moodle 3.9 anyway).  Do not attempt to upgrade without checking you have `mbstring` on your server.  Navigate to this page on Moodle to confirm.
+
+    /admin/environment.php
+
+Version 4.3 represents a major internal re-engineering of STACK, with a new dedicated parser and an updated mechanism for connecting to Maxima.  This is a significant improvement, refactoring some of the oldest code and unblocking progress to a wide range of requested features.
+
+There have been a number of changes:
+
+* In the forbidden words we now match whole words not substrings.
+* Removed the RegExp answer test.  Added the SRegExp answer test using Maxima's `regex_match` function.
+* Use of units is now reflected throughout a question.  This reduces the need to declare units in all contexts.
+* Internally, the "+-" operator has been replaced with a new infix operation "#pm#".  Instead of `a+-b` teachers now must type `a#pm#b`.  This change was necessary to deal with differences between versions of Maxima when dealing with expresions.
+
+New features in v4.3:
+
+* Add in full parser, to address issue #324.
+* Add in input option 'align'.
+* Add in input option 'nounits'.
+* Add in input option 'compact' to input "Show the validation" parameter.
+* Add in a [basic question use report](../Authoring/Reporting.md) page, linked from the question testing page.
+* Add in house styles to help typeset [proof](../Authoring/Proof.md).
+* Add cache to help reduce parsing overhead.
+
+
+## Version 4.2.3
+
+Released January 2020.  This release is a marker before the release of STACK v4.3.
+
 ## Version 4.2.2
 
 Released September 2019.

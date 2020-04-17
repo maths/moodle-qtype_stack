@@ -30,6 +30,10 @@ $string['pluginnameediting'] = 'Editing a STACK question';
 $string['pluginnamesummary'] = 'STACK provides mathematical questions for the Moodle quiz.  These use a computer algebra system to establish the mathematical properties of the student\'s responses.';
 
 $string['privacy:metadata']  = 'The STACK question type plugin does not store any personal data.';
+$string['cachedef_parsercache'] = 'STACK parsed Maxima expressions';
+
+$string['mbstringrequired'] = 'Installing the MBSTRING library is required for STACK.';
+$string['yamlrecommended']  = 'Installing the YAML library is recommended for STACK.';
 
 // General strings.
 $string['errors']            = 'Errors';
@@ -48,13 +52,14 @@ $string['stackversionnone']     = 'This question has not been edited since quest
 $string['stackversionerror']    = 'This question uses {$a->pat} in the {$a->qfield}, which changed in STACK version {$a->ver} and is no longer supported.';
 $string['stackversionerroralt'] = 'An alternative is {$a}.';
 $string['stackversionmulerror'] = 'This question has an input which uses the "mul" option, which is not suppored after STACK version 4.2.  Please edit this question.';
-$string['stackversionregexp']   = 'The RegExp answer test is not supported after STACK version 4.3.';
+$string['stackversionregexp']   = 'The RegExp answer test is not supported after STACK version 4.3.  Please use the new SRegExp instead.';
 
 // Strings used on the editing form.
 $string['addanothernode'] = 'Add another node';
 $string['allnodefeedbackmustusethesameformat'] = 'All the feedback for all the nodes in a PRT must use the same text format.';
 $string['answernote'] = 'Answer note';
 $string['answernote_err'] = 'Answer notes may not contain the character |.  This character is inserted by STACK and is later used to split answer notes automatically.';
+$string['answernote_err2'] = 'Answer notes may not contain ; or : characters.  These characters are used to split question attempt summary strings in offline reporting tools.';
 $string['answernote_help'] = 'This is a tag which is key for reporting purposes.  It is designed to record the unique path through the tree, and the outcome of each answer test.  This is automatically generated, but can be changed to something meaningful.';
 $string['answernote_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/Authoring/Potential_response_trees.md#Answer_note';
 $string['answernotedefaultfalse'] = '{$a->prtname}-{$a->nodename}-F';
@@ -71,7 +76,7 @@ $string['autosimplify'] = 'Auto-simplify';
 $string['autosimplify_help'] = 'Sets the variable "simp" within Maxima for this question.  E.g. question variables, question text etc.  The value set in each potential response tree will over ride this for any expressions subsequently defined within the tree.';
 $string['autosimplify_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/CAS/Maxima.md#Simplification';
 $string['autosimplifyprt'] = 'Auto-simplify';
-$string['autosimplifyprt_help'] = 'Sets the variable "simp" within Maxima for the feedback variables defined in this potential response tree, and while evaluating this PRT.  This will over ride any value set in the question for any expressions defined within the tree..';
+$string['autosimplifyprt_help'] = 'Sets the variable "simp" within Maxima for the feedback variables defined in this potential response tree. Note that whether expressions in PRT notes are simplified before use depends on the answer test. For example, arguments to AlgEquiv are simplified, while those for EqualComAss are not.';
 $string['autosimplifyprt_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/CAS/Maxima.md#Simplification';
 $string['boxsize'] = 'Input box size';
 $string['boxsize_help'] = 'Width of the html formfield.';
@@ -138,6 +143,8 @@ $string['showvalidation_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/Au
 $string['showvalidationno'] = 'No';
 $string['showvalidationyes'] = 'Yes, with variable list';
 $string['showvalidationyesnovars'] = 'Yes, without variable list';
+$string['showvalidationcompact'] = 'Yes, compact';
+$string['inputinvalidparamater'] = 'Invalid parameter';
 $string['mustverifyshowvalidation'] = 'You cannot choose to require two step validation but not show the results of validation to the student after the first step.  This puts the student in an impossible position.';
 $string['htmlfragment'] = 'You appear to have some HTML elements in your expression.';
 $string['illegalcaschars'] = 'The characters @, $ and \\ are not allowed in CAS input.';
@@ -359,7 +366,8 @@ $string['ddl_badanswer'] = 'The model answer field for this input is malformed: 
 $string['ddl_unknown'] = 'STACK received <code>{$a}</code> but this is not listed by the teacher as an option. ';
 
 $string['teacheranswershow']      = 'A correct answer is \( {$a->display} \), which can be typed in as follows: {$a->value}';
-$string['teacheranswershow_disp'] = 'A correct answer is {$a->display} .';
+$string['teacheranswershow_disp'] = 'A correct answer is {$a->display}.';
+$string['teacheranswershow_mcq']  = 'A correct answer is: {$a->display}';
 $string['teacheranswershownotes'] = 'A correct answer is not provided for this input.';
 $string['teacheranswerempty']     = 'This input can be left blank.';
 
@@ -389,6 +397,8 @@ $string['settingmathsdisplay_oumaths'] = 'New OU maths filter';
 $string['settingmathsdisplay_desc'] = 'The method used to display maths. If you select MathJax, then you will need to follow the instructions on the Healthcheck page to set it up. If you select a filter, then you must ensure that filter is enabled on the Manage filters configuration page.';
 $string['settingsmathsdisplayheading'] = 'Maths display options';
 $string['settingsmaximasettings'] = 'Connecting to Maxima';
+$string['settingparsercacheinputlength'] = 'Cache parsed expressions longer than';
+$string['settingparsercacheinputlength_desc'] = 'The expression parser gets quite slow on long expressions (for example complicated question variables). Therefore we cache the result of parsing expressions longer than a this limit. Ideally, this setting should be set to a value where doign the cache lookup takes about as long as doing the parsing. 50 characters is an educated guess at this. If set to 0, the cache is disabled.';
 $string['settingplatformtype'] = 'Platform type';
 $string['settingplatformtype_desc'] = 'STACK needs to know what sort of operating system it is running on. The "Server" option gives better performance at the cost of having to set up an additional server. The option "Linux (optimised)" is explained on the Optimising Maxima page in the documentation.';
 $string['settingplatformtypeunix'] = 'Linux';
@@ -425,6 +435,7 @@ $string['bulktestindexintro'] = 'Clicking on any of the links will run all the q
 $string['bulktestindextitle'] = 'Run the question tests in bulk';
 $string['bulktestnotests'] = 'This question does not have any tests.';
 $string['bulktestnogeneralfeedback'] = 'This question does not have any general feedback.';
+$string['bulktestnodeployedseeds'] = 'This question does have random variants, but has no deployed seeds.';
 $string['bulktestrun'] = 'Run all the question tests for all the questions in the system (slow, admin only)';
 $string['bulktesttitle'] = 'Running all the question tests in {$a}';
 $string['overallresult'] = 'Overall result';
@@ -491,10 +502,18 @@ $string['testingquestionvariants'] = 'Preparing question variants';
 $string['testinputs'] = 'Test inputs';
 $string['testinputsimpwarning'] = 'Please note that test inputs are always <em>unsimplified</em> regardless of the question or PRT option setting.  Please use <tt>ev(...,simp)</tt> to simplify part or all of the test input expressions.';
 $string['testthisvariant'] = 'Switch to test this variant';
-$string['tidyquestion'] = 'Tidy question';
+$string['tidyquestion'] = 'Tidy STACK question tool';
 $string['tidyquestionx'] = 'Rename the parts of question {$a}';
 $string['undeploy'] = 'Un-deploy';
 $string['variant'] = 'Variant';
+
+$string['basicquestionreport'] = 'Basic question use report';
+$string['basicquestionreport_help'] = 'Generates a very basic report on attempts at this question on the server. Useful for deciding which PRT test can be added to improve feedback in the light of what the student actually does.  (Most questions are only used in one place)';
+$string['basicreportraw'] = 'Raw data';
+$string['basicreportnotes'] = 'Frequency of answer notes, for each PRT, regardless of which variant was used.';
+$string['basicreportnotessplit'] = 'Frequency of answer notes, for each PRT, split by |, regardless of which variant was used.';
+$string['basicreportvariants'] = 'Raw inputs and PRT answer notes by variant.';
+$string['basicreportinputsummary'] = 'Raw inputs, regardless of which variant was used.';
 
 // Equiv input specific string.
 $string['equivnocomments'] = 'You are not permitted to use comments in this input type.  Please just work line by line.';
@@ -523,13 +542,14 @@ $string['healthcheckconfigintro2'] = 'Trying to automatically write the Maxima c
 $string['healthcheckconnect'] = 'Trying to connect to the CAS';
 $string['healthcheckconnectintro'] = 'We are trying to evaluate the following CAS text:';
 $string['healthcheckfilters'] = 'Please ensure that the {$a->filter} is enabled on the <a href="{$a->url}">Manage filters</a> page.';
+$string['healthchecknombstring'] = 'STACK v4.3 and later requires the PHP module mbstring, which is missing.  Please read the installation docs.';
 $string['healthchecklatex'] = 'Check LaTeX is being converted correctly';
 $string['healthchecklatexintro'] = 'STACK generates LaTeX on the fly, and enables teachers to write LaTeX in questions. It assumes that LaTeX will be converted by a moodle filter.  Below are samples of displayed and inline expressions in LaTeX which should be appear correctly in your browser.  Problems here indicate incorrect moodle filter settings, not faults with STACK itself. STACK only uses the single and double dollar notation itself, but some question authors may be relying on the other forms.';
 $string['healthchecklatexmathjax'] = 'STACK relies on the Moodle MathJax filter.  An alternative is to add javascript code to Moodle\'s additional HTML.  See the STACK installation docs for more details of this option.';
 $string['healthcheckmathsdisplaymethod'] = 'Maths display method being used: {$a}.';
 $string['healthcheckmaximabat'] = 'The maxima.bat file is missing';
 $string['healthcheckmaximabatinfo'] = 'This script tried to automatically copy the maxima.bat script from inside "C:\Program files\Maxima-1.xx.y\bin" into "{$a}\stack". However, this seems not to have worked. Please copy this file manually.';
-$string['healthchecksamplecas'] = 'The derivative of {@ x^4/(1+x^4) @} is \[ \frac{d}{dx} \frac{x^4}{1+x^4} = {@ diff(x^4/(1+x^4),x) @}. \]';
+$string['healthchecksamplecas'] = 'The derivative of {@ x^4/(1+x^4) @} is \[ \frac{d}{dx} \frac{x^4}{1+x^4} = {@ diff(x^4/(1+x^4),x) @}. \]  Confirm if unicode is supported: \(\forall\) should be displayed {@unicode(2200)@}.';
 $string['healthchecksampledisplaytex'] = '\[\sum_{n=1}^\infty \frac{1}{n^2} = \frac{\pi^2}{6}.\]';
 $string['healthchecksampleinlinetex'] = '\(\sum_{n=1}^\infty \frac{1}{n^2} = \frac{\pi^2}{6}\).';
 $string['healthcheckplots'] = 'Graph plotting';
@@ -614,9 +634,11 @@ $string['stackCas_underscores']             = 'The following use of underscore c
 $string['stackCas_percent']                 = '&#037; found in expression {$a->expr}.';
 $string['stackCas_missingLeftBracket']      = 'You have a missing left bracket <span class="stacksyntaxexample">{$a->bracket}</span> in the expression: {$a->cmd}.';
 $string['stackCas_missingRightBracket']     = 'You have a missing right bracket <span class="stacksyntaxexample">{$a->bracket}</span> in the expression: {$a->cmd}.';
+$string['stackCas_qmarkoperators']          = 'Question marks are not permitted in responses.';
 $string['stackCas_apostrophe']              = 'Apostrophes are not permitted in responses.';
 $string['stackCas_newline']                 = 'Newline characters are not permitted in responses.';
 $string['stackCas_forbiddenChar']           = 'CAS commands may not contain the following characters: {$a->char}.';
+$string['stackCas_useinsteadChar']          = 'Please replace <span class="stacksyntaxexample">{$a->bad}</span> with \'<span class="stacksyntaxexample">{$a->char}</span>\'.';
 $string['stackCas_finalChar']               = '\'{$a->char}\' is an invalid final character in {$a->cmd}';
 $string['stackCas_MissingStars']            = 'You seem to be missing * characters. Perhaps you meant to type {$a->cmd}.';
 $string['stackCas_unknownFunction']         = 'Unknown function: {$a->forbid} in the term {$a->term}.';
@@ -638,7 +660,7 @@ $string['stackCas_backward_inequalities']   = 'Non-strict inequalities e.g. \( \
 $string['stackCas_unencpsulated_comma']     = 'A comma in your expression appears in a strange way.  Commas are used to separate items in lists, sets etc.  You need to use a decimal point, not a comma, in floating point numbers.';
 $string['stackCas_trigspace']               = 'To apply a trig function to its arguments you must use brackets, not spaces.  For example use {$a->trig} instead.';
 $string['stackCas_trigop']                  = 'You must apply {$a->trig} to an argument.  You seem to have {$a->forbid}, which looks like you have tried to use {$a->trig} as a variable name.';
-$string['stackCas_trigexp']                 = 'You cannot take a power of a trig function by writing {$a->forbid}. The square of the value of \(\sin(x)\) is typed in as \(\sin(x)^2\).  The inverse of \(\sin(x)\) is written <tt>asin(x)</tt> and not \(\sin^{-1}(x)\) .';
+$string['stackCas_trigexp']                 = 'You cannot take a power of a trig function by writing {$a->forbid}. The square of the value of \(\{$a->identifier}(x)\) is typed in as <tt>{$a->identifier}(x)^2</tt>.  The inverse of \(\{$a->identifier}(x)\) is written <tt>a{$a->identifier}(x)</tt> and not \(\{$a->identifier}^{-1}(x)\) .';
 $string['stackCas_trigparens']              = 'When you apply a trig function to its arguments you must use round parentheses not square brackets.  E.g {$a->forbid}.';
 $string['stackCas_triginv']                 = 'Inverse trig functions are written {$a->goodinv} not {$a->badinv}.';
 $string['stackCas_badLogIn']                = 'You have typed in the expression <tt>In</tt>.  The natural logarithm is entered as <tt>ln</tt> in lower case.  ("Lima November" not "India November")';
@@ -695,12 +717,21 @@ $string['Variable_function']   = 'The following appear in your expression as bot
 $string['Lowest_Terms']   = 'Your answer contains fractions that are not written in lowest terms.  Please cancel factors and try again.';
 $string['Illegal_floats'] = 'Your answer contains floating point numbers, that are not allowed here.  You need to type in numbers as fractions.  For example, you should type 1/3 not 0.3333, which is after all only an approximation to one third.';
 $string['Illegal_strings'] = 'Your answer contains "strings" these are not allowed here.';
+$string['Illegal_lists'] = 'Your answer contains lists "[a,b,c]" these are not allowed here.';
+$string['Illegal_sets'] = 'Your answer contains sets "{a,b,c}" these are not allowed here.';
+$string['Illegal_groups'] = 'Your answer contains evaluation groups "(a,b,c)" these are not allowed here.';
+$string['Illegal_groupping'] = 'Your answer contains parenthesis used to group operations, these are forbidden here. You should probably manipulate the expression to eliminate them.';
+$string['Illegal_control_flow'] = 'Your answer contains control-flow statements like the <code>if</code>-conditional or the <code>do</code>-loop, these are forbidden here, you should probably provide the result of these statements as the answer.';
 $string['qm_error'] = 'Your answer contains question mark characters, ?, which are not permitted in answers.  You should replace these with a specific value.';
 $string['Equiv_Illegal_set']  = 'Sets are not allowed when reasoning by equivalence.';
 $string['Equiv_Illegal_list']  = 'Lists are not allowed when reasoning by equivalence.';
 $string['Equiv_Illegal_matrix']  = 'Matrices are not allowed when reasoning by equivalence.';
 $string['CommaError']     = 'Your answer contains commas which are not part of a list, set or matrix.  <ul><li>If you meant to type in a list, please use <tt>{...}</tt>,</li><li>If you meant to type in a set, please use <tt>{...}</tt>.</li></ul>';
 $string['Bad_assignment']   = 'When listing the values of a variable you should do so in the following way: {$a->m0}.  Please modify your input.';
+$string['Illegal_identifiers_in_units']           = 'The input contains a variable name when just units were expected.';
+$string['Illegal_illegal_operation_in_units']     = 'The operator <code>{$a}</code> is not allowed in this input.';
+$string['Illegal_illegal_power_of_ten_in_units']  = 'The value may not contain non integer powers of ten.';
+$string['Illegal_input_form_units']               = 'This input expects a numerical value followed or multiplied by an expression defining an unit, e.g. <code>1.23*W/m^2</code>. Note that the unit required here may be something else.';
 
 $string['stackBlock_jsxgraph_width']       = 'The width of a JSXGraph must use a known CSS-length unit.';
 $string['stackBlock_jsxgraph_height']      = 'The height of a JSXGraph must use a known CSS-length unit.';
@@ -743,6 +774,7 @@ $string['stackOptions_AnsTest_values_Diff']                = "Diff";
 $string['stackOptions_AnsTest_values_Int']                 = "Int";
 $string['stackOptions_AnsTest_values_String']              = "String";
 $string['stackOptions_AnsTest_values_StringSloppy']        = "StringSloppy";
+$string['stackOptions_AnsTest_values_SRegExp']             = "SRegExp";
 
 $string['AT_NOTIMPLEMENTED']        = 'This answer test has not been implemented. ';
 $string['TEST_FAILED']              = 'The answer test failed to execute correctly: please alert your teacher. {$a->errors}';
@@ -855,6 +887,7 @@ $string['ATUnits_SA_excess_units']        = 'Your answer has used units (or vari
 $string['ATUnits_SA_only_units']          = 'Your answer needs to be a number together with units. Your answer only has units. ';
 $string['ATUnits_SA_bad_units']           = 'Your answer must have units, and you must use multiplication to attach the units to a value, e.g. <code>3.2*m/s</code>. ';
 $string['ATUnits_SA_errorbounds_invalid'] = 'Your answer has error bounds.  In this case do not indicate error bounds, instead use just the quantity and units. ';
+$string['ATUnits_SO_wrong_units']         = 'The units specified for the numerical tolerance must match the units used for the teacher\'s answer.  This is an internal error with the test.  Please ask your teacher about this. ';
 $string['ATUnits_incompatible_units']     = 'Your units are incompatible with those used by the teacher. ';
 $string['ATUnits_compatible_units']       = 'Your units are different from those used by the teacher, but are compatible with them.  Numerical values are being converted to SI base units for comparison. ';
 $string['ATUnits_correct_numerical']      = 'Please check your units carefully. ';
@@ -879,6 +912,10 @@ $string['ATSysEquiv_SA_system_underdetermined'] = 'The equations in your system 
 $string['ATSysEquiv_SA_system_overdetermined']  = 'The entries underlined in red below are those that are incorrect. {$a->m0} ';
 
 $string['ATRegEx_missing_option']               = 'Missing regular expression in CAS Option field.';
+
+
+$string['ATSRegExp_SB_not_string']              = 'The second argument to the SRegExp answer test must be a string. The test failed. Please contact your teacher.';
+$string['ATSRegExp_SA_not_string']              = 'The first argument to the SRegExp answer test must be a string. The test failed. Please contact your teacher.';
 
 $string['ATEquiv_SA_not_list']               = 'The first argument to the Equiv answer test should be a list, but the test failed. Please contact your teacher.';
 $string['ATEquiv_SB_not_list']               = 'The second argument to the Equiv answer test should be a list, but the test failed. Please contact your teacher.';
@@ -912,6 +949,7 @@ $string['stackDoc_docs_desc']           = '<a href="{$a->link}">Documentation fo
 $string['stackDoc_home']                = 'Documentation home';
 $string['stackDoc_index']               = 'Category index';
 $string['stackDoc_siteMap']             = 'Site map';
+$string['stackDoc_siteMap_en']          = 'English site map';
 $string['stackDoc_404message']          = 'File not found.';
 $string['stackDoc_directoryStructure']  = 'Directory structure';
 $string['stackDoc_version']             = 'Your site is running STACK version {$a}.';
@@ -1189,3 +1227,7 @@ $string['calc_int_methods_parts_fact'] = '\[
 or alternatively: \[\int_a^bf(x)g(x)\,{\rm d}x=\left[f(x)\,\int
 g(x){\rm d}x\right]_a^b -\int_a^b{{\rm d}f\over {\rm
 d}x}\left\{\int g(x){\rm d}x\right\}{\rm d}x.\]';
+
+$string['Illegal_singleton_power'] = 'This input requires a numeric value presented in one of the following forms: <code>{$a->forms}</code>';
+$string['Illegal_singleton_floats'] = 'This input does not accept decimal numbers in the given form. This input requires a numeric value presented in one of the following forms: <code>{$a->forms}</code>';
+$string['Illegal_singleton_integer'] = 'This input does not accept integer values. This input requires a numeric value presented in one of the following forms: <code>{$a->forms}</code>';

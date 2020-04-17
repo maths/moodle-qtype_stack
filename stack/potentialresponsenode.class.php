@@ -37,42 +37,42 @@ class stack_potentialresponse_node {
      */
     public $nodeid;
 
-    /*
+    /**
      * @var stack_ast_container Holds nominal "student's answer".
      */
     public $sans;
 
-    /*
+    /**
      * @var stack_ast_container Holds nominal "teacher's answer".
      */
     public $tans;
 
-    /*
+    /**
      * @var string Name of answer test to be used here.
      */
     private $answertest;
 
-    /*
-     * @var Options taken by the answer test.
+    /**
+     * @var array Options taken by the answer test.
      */
     private $atoptions;
 
-    /*
-    * @var boolean Suppress any feedback from the answer test itself?
+    /**
+     * @var bool Suppress any feedback from the answer test itself?
      */
     private $quiet;
 
-    /*
+    /**
      * @var string Private notes/memos about this potential response.
      */
     private $notes;
 
-    /*
+    /**
      * @var array Holds the information for each branch.
      */
     private $branches;
 
-    public function __construct($sans, $tans, $answertest, $atoptions = null, $quiet=false, $notes='', $nodeid = 0) {
+    public function __construct($sans, $tans, $answertest, $atoptions = null, $quiet = false, $notes = '', $nodeid = 0) {
         if (is_a($sans, 'stack_ast_container')) {
             $this->sans        = $sans;
         } else {
@@ -116,6 +116,7 @@ class stack_potentialresponse_node {
      * @param float $penalty penalty for this branch.
      * @param int $nextnode index of the node to process next on this branch.
      * @param string $feedback feedback for this branch.
+     * @param int $feedbackformat one of Moodle's FORMAT_... constants.
      * @param string $answernote answer note for this branch.
      */
     public function add_branch($trueorfalse, $mod, $score, $penalty, $nextnode, $feedback, $feedbackformat, $answernote) {
@@ -136,6 +137,13 @@ class stack_potentialresponse_node {
 
     /**
      * Actually execute the test for this node.
+     *
+     * @param $nsans
+     * @param $ntans
+     * @param $ncasopts
+     * @param $options
+     * @param stack_potentialresponse_tree_state $results
+     * @return int the next node to evaluate (or -1 to stop).
      */
     public function do_test($nsans, $ntans, $ncasopts, $options,
             stack_potentialresponse_tree_state $results) {
@@ -203,9 +211,10 @@ class stack_potentialresponse_node {
      *
      * @param stack_potentialresponse_tree_state $results to be updated.
      * @param int $key the index of this node.
-     * @param stack_cas_session $cascontext the CAS context that holds all the relevant variables.
+     * @param stack_cas_session2 $cascontext the CAS context that holds all the relevant variables.
+     * @param array $answers
      * @param stack_options $options
-     * @return array with two elements, the updated $results and the index of the next node.
+     * @return int the next node to evaluate, or -1 to stop.
      */
     public function traverse($results, $key, $cascontext, $answers, $options) {
 
@@ -257,9 +266,7 @@ class stack_potentialresponse_node {
             $atopts = null;
         }
 
-        $nextnode = $this->do_test($sans, $tans, $atopts, $options, $results);
-
-        return $nextnode;
+        return $this->do_test($sans, $tans, $atopts, $options, $results);
     }
 
     /*
@@ -323,17 +330,19 @@ class stack_potentialresponse_node {
         if (stack_ans_test_controller::simp($this->answertest)) {
             $simp = 'true';
         }
-        $sf = stack_ast_container::make_from_teacher_source('simp:' . $simp, '', new stack_cas_security(), array());
+        $sf = stack_ast_container::make_from_teacher_source('simp:' . $simp, '', new stack_cas_security());
         $variables[0] = $sf;
 
-        // We need to clone these, so we can set the key for evaluation.
+        // We need to clone these, so we can set the key for evaluation and the simplification context.
         $variables[1] = clone $this->sans;
         $variables[1]->set_key('PRSANS' . $key);
         $variables[2] = clone $this->tans;
         $variables[2]->set_key('PRTANS' . $key);
 
         if (stack_ans_test_controller::process_atoptions($this->answertest) && trim($this->atoptions) != '') {
-            $cs = stack_ast_container::make_from_teacher_source('PRATOPT' . $key . ':' . $this->atoptions,
+            // We always simplify the options field.
+            $nodeoptions = 'ev(' . $this->atoptions . ',simp)';
+            $cs = stack_ast_container::make_from_teacher_source('PRATOPT' . $key . ':' . $nodeoptions,
                     '', new stack_cas_security());
             $variables[] = $cs;
         }

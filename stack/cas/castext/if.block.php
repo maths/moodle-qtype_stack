@@ -53,6 +53,11 @@ class stack_cas_castext_if extends stack_cas_castext_block {
     }
 
     public function process_content($evaluatedcassession, $conditionstack = null) {
+        $errors = $this->string->get_errors();
+        if ('' !== $errors && null != $errors) {
+            return false;
+        }
+
         $evaluated = $this->string->get_value();
 
         // If so then move childs up.

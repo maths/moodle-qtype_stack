@@ -145,6 +145,16 @@ class stack_bulk_tester  {
                     }
                 }
 
+                if (empty($question->deployedseeds)) {
+                    if ($question->has_random_variants()) {
+                        if ($outputmode == 'web') {
+                            $questionproblems[] = html_writer::tag('li', stack_string('bulktestnodeployedseeds'));
+                        } else {
+                            $questionproblems[] = stack_string('bulktestnodeployedseeds');
+                        }
+                    }
+                }
+
                 $tests = question_bank::get_qtype('stack')->load_question_tests($questionid);
                 if (!$tests) {
                     $notests[] = $questionnamelink;
@@ -180,7 +190,7 @@ class stack_bulk_tester  {
                     }
                     // Make sure the bulk tester is able to continue.
                     try {
-                        list($ok, $message) = $this->qtype_stack_test_question($question, $tests, $outputmode);
+                        list($ok, $message) = $this->qtype_stack_test_question($context, $questionid, $tests, $outputmode);
                     } catch (stack_exception $e) {
                         $ok = false;
                         $message = stack_string('errors') . ' : ' . $e;
@@ -214,7 +224,8 @@ class stack_bulk_tester  {
                         }
                         // Make sure the bulk tester is able to continue.
                         try {
-                            list($ok, $message) = $this->qtype_stack_test_question($question, $tests, $outputmode, $seed);
+                            list($ok, $message) = $this->qtype_stack_test_question($context, $questionid, $tests,
+                                    $outputmode, $seed);
                         } catch (stack_exception $e) {
                             $ok = false;
                             $message = stack_string('errors') . ' : ' . $e;
@@ -246,24 +257,25 @@ class stack_bulk_tester  {
      *              bool true if the tests passed, else false.
      *              sring message summarising the number of passes and fails.
      */
-    public function qtype_stack_test_question($question, $tests, $outputmode, $seed = null, $quiet = false) {
+    public function qtype_stack_test_question($context, $qid, $tests, $outputmode, $seed = null, $quiet = false) {
         flush(); // Force output to prevent timeouts and to make progress clear.
         core_php_time_limit::raise(60); // Prevent PHP timeouts.
         gc_collect_cycles(); // Because PHP's default memory management is rubbish.
 
-        // Prepare the question and a usage.
-        $question = clone($question);
+        $question = question_bank::load_question($qid);
         if (!is_null($seed)) {
             $question->seed = (int) $seed;
         }
-        $quba = question_engine::make_questions_usage_by_activity('qtype_stack', context_system::instance());
+
+        $quba = question_engine::make_questions_usage_by_activity('qtype_stack', $context);
         $quba->set_preferred_behaviour('adaptive');
 
         // Execute the tests.
         $passes = 0;
         $fails = 0;
+
         foreach ($tests as $key => $testcase) {
-            $testresults[$key] = $testcase->test_question($quba, $question, $seed);
+            $testresults[$key] = $testcase->test_question($qid, $seed, $context);
             if ($testresults[$key]->passed()) {
                 $passes += 1;
             } else {
@@ -283,7 +295,7 @@ class stack_bulk_tester  {
             $ok = false;
             $s = stack_string('stackInstall_testsuite_errors') . implode(' ', array_keys($question->runtimeerrors));
             if ($outputmode == 'web') {
-                $s .= html_writer::tag('br', $s);
+                $s = html_writer::tag('br', $s);
             }
             $message .= $s;
         }
@@ -305,7 +317,7 @@ class stack_bulk_tester  {
     }
 
     /**
-     * Instantial the question to seed the cache.
+     * Instantiate the question to seed the cache.
      *
      * @param qtype_stack_question $question the question to test.
      * @param int|null $seed if we want to force a particular version.

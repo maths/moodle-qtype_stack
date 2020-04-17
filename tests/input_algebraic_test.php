@@ -139,6 +139,27 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         $this->assertEquals('A correct answer is <span class="filter_mathjaxloader_equation">'
           . '<span class="nolink">\( \frac{x^2}{1+x^2} \)</span></span>, which can be typed in as follows: '
           . '<code>x^2/(1+x^2)</code>', $el->get_teacher_answer_display('x^2/(1+x^2)', '\frac{x^2}{1+x^2}'));
+
+        $el->set_parameter('showValidation', 1);
+        $vr = '<div class="stackinputfeedback standard" id="sans1_val"><p>Your last answer was interpreted as follows: ' .
+                '<span class="filter_mathjaxloader_equation"><span class="nolink">\[ x^2 \]</span></span></p>' .
+                '<input type="hidden" name="sans1_val" value="x^2" />The variables found in your answer were: ' .
+                '<span class="filter_mathjaxloader_equation"><span class="nolink">\( \left[ x \right]\)</span></span> ' .
+                '</div>';
+        $this->assertEquals($vr, $el->replace_validation_tags($state, 'sans1', '[[validation:sans1]]'));
+
+        $el->set_parameter('showValidation', 2);
+        $vr = '<div class="stackinputfeedback standard" id="sans1_val"><p>Your last answer was interpreted as follows: ' .
+                '<span class="filter_mathjaxloader_equation"><span class="nolink">\[ x^2 \]</span></span></p>' .
+                '<input type="hidden" name="sans1_val" value="x^2" /></div>';
+        $this->assertEquals($vr, $el->replace_validation_tags($state, 'sans1', '[[validation:sans1]]'));
+
+        $el->set_parameter('showValidation', 3);
+        // We re-generate the state to get inline displayed equations.
+        $state = $el->validate_student_response(array('sans1' => 'x^2'), $options, 'x^2/(1+x^2)', new stack_cas_security());
+        $vr = '<span class="stackinputfeedback compact" id="sans1_val"><span class="filter_mathjaxloader_equation">' .
+                '<span class="nolink">\( x^2 \)</span></span><input type="hidden" name="sans1_val" value="x^2" /></span>';
+        $this->assertEquals($vr, $el->replace_validation_tags($state, 'sans1', '[[validation:sans1]]'));
     }
 
     public function test_validate_student_response_2() {
@@ -146,6 +167,15 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         $el = stack_input_factory::make('algebraic', 'sans1', 'x^2/(1+x^2)');
         $state = $el->validate_student_response(array('sans1' => '2x(1+x^2)'), $options, 'x^2/(1+x^2)', new stack_cas_security());
         $this->assertEquals(stack_input::INVALID, $state->status);
+
+        $el->set_parameter('showValidation', 1);
+        $vr = '<div class="stackinputfeedback standard" id="sans1_val"><p>Your last answer was interpreted as follows: ' .
+                '<span class="stacksyntaxexample">2x(1+x^2)</span></p>' .
+                '<input type="hidden" name="sans1_val" value="2x(1+x^2)" /><span class="alert alert-danger stackinputerror">' .
+                'This answer is invalid. You seem to be missing * characters. ' .
+                'Perhaps you meant to type <span class="stacksyntaxexample">2<font color="red">*</font>x' .
+                '<font color="red">*</font>(1+x^2)</span>.</span></div>';
+        $this->assertEquals($vr, $el->replace_validation_tags($state, 'sans1', '[[validation:sans1]]'));
     }
 
     public function test_validate_student_response_3() {
@@ -597,8 +627,20 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         $state = $el->validate_student_response(array('sans1' => 'ab_cd'), $options, 'a*b_c*d',
                 new stack_cas_security(false, '', '', array('ta')));
         $this->assertEquals(stack_input::VALID, $state->status);
-        $this->assertEquals('a*b_c*d', $state->contentsmodified);
-        $this->assertEquals('\[ a\cdot {b}_{c}\cdot d \]', $state->contentsdisplayed);
+        $this->assertEquals('a*b_cd', $state->contentsmodified);
+        $this->assertEquals('\[ a\cdot {b}_{{\it cd}} \]', $state->contentsdisplayed);
+    }
+
+    public function test_validate_student_response_single_variable_subscripts2() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('algebraic', 'sans1', 'a*v_max');
+        // Assuming single character variable names.
+        $el->set_parameter('insertStars', 2);
+        $state = $el->validate_student_response(array('sans1' => 'av_max'), $options, 'a*v_max',
+                new stack_cas_security(false, '', '', array('ta')));
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('a*v_max', $state->contentsmodified);
+        $this->assertEquals('\[ a\cdot {v}_{{\it max}} \]', $state->contentsdisplayed);
     }
 
     public function test_validate_student_response_single_variable_trigexp() {
@@ -847,9 +889,9 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         $options = new stack_options();
         $el = stack_input_factory::make('algebraic', 'sans1', 'x=-b+-sqrt(b*c^2-a)');
         $state = $el->validate_student_response(array('sans1' => 'x=(-q+-sqrt(q^2-p^3))^(1/3)+(-q+-sqrt(q^2-p^3))^(1/3)'),
-            $options, 'x=-b+-sqrt(b*c^2-a)', new stack_cas_security(false, '', '', array('tans')));
+            $options, 'x=-b#pm#sqrt(b*c^2-a)', new stack_cas_security(false, '', '', array('tans')));
         $this->assertEquals(stack_input::VALID, $state->status);
-        $this->assertEquals('x = (-q+-sqrt(q^2-p^3))^(1/3)+(-q+-sqrt(q^2-p^3))^(1/3)', $state->contentsmodified);
+        $this->assertEquals('x = (-q#pm#sqrt(q^2-p^3))^(1/3)+(-q#pm#sqrt(q^2-p^3))^(1/3)', $state->contentsmodified);
         $this->assertEquals('', $state->note);
         $this->assertEquals('', $state->errors);
         $this->assertEquals('\[ x=\left({-q \pm \sqrt{q^2-p^3}}\right)^{\frac{1}{3}}+' .
@@ -861,12 +903,16 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         $options = new stack_options();
         $el = stack_input_factory::make('algebraic', 'sans1', 'x= +- b');
         $state = $el->validate_student_response(array('sans1' => 'x= +- b'),
-            $options, 'x=+- b', new stack_cas_security(false, '', '', array('tans')));
+            $options, 'x= #pm# b', new stack_cas_security(false, '', '', array('tans')));
         $this->assertEquals(stack_input::VALID, $state->status);
-        $this->assertEquals('x = +-b', $state->contentsmodified);
+        $this->assertEquals('x = #pm#b', $state->contentsmodified);
         $this->assertEquals('', $state->note);
         $this->assertEquals('', $state->errors);
         $this->assertEquals('\[ x= \pm b \]', $state->contentsdisplayed);
+        // Internally the teacher's answer will be in the #pm# form, which is not what students type.
+        $this->assertEquals('A correct answer is <span class="filter_mathjaxloader_equation">'
+                . '<span class="nolink">\( x= \pm b \)</span></span>, which can be typed in as follows: '
+                . '<code>x = +-b</code>', $el->get_teacher_answer_display('x= #pm# b', 'x= \pm b'));
     }
 
     public function test_validate_student_response_pm_expr() {
@@ -874,12 +920,15 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         $options = new stack_options();
         $el = stack_input_factory::make('algebraic', 'sans1', 'a +- b +- c');
         $state = $el->validate_student_response(array('sans1' => 'a +- b +- c'),
-            $options, 'a +- b +- c', new stack_cas_security(false, '', '', array('tans')));
+            $options, 'a#pm#b#pm#c', new stack_cas_security(false, '', '', array('tans')));
         $this->assertEquals(stack_input::VALID, $state->status);
-        $this->assertEquals('a+-b+-c', $state->contentsmodified);
+        $this->assertEquals('a#pm#b#pm#c', $state->contentsmodified);
         $this->assertEquals('', $state->note);
         $this->assertEquals('', $state->errors);
         $this->assertEquals('\[ {a \pm b \pm c} \]', $state->contentsdisplayed);
+        $this->assertEquals('A correct answer is <span class="filter_mathjaxloader_equation">'
+                . '<span class="nolink">\( {a \pm b \pm c} \)</span></span>, which can be typed in as follows: '
+                . '<code>a+-b+-c</code>', $el->get_teacher_answer_display('a#pm#b#pm#c', '{a \pm b \pm c}'));
     }
 
     public function test_validate_student_response_pm_eq() {
@@ -887,12 +936,16 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         $options = new stack_options();
         $el = stack_input_factory::make('algebraic', 'sans1', 'x +- a = y +- b');
         $state = $el->validate_student_response(array('sans1' => 'x +- a = y +- b'),
-            $options, 'x +- a = y +- b', new stack_cas_security(false, '', '', array('tans')));
+            $options, 'x #pm# a = y #pm# b', new stack_cas_security(false, '', '', array('tans')));
         $this->assertEquals(stack_input::VALID, $state->status);
-        $this->assertEquals('x+-a = y+-b', $state->contentsmodified);
+        $this->assertEquals('x#pm#a = y#pm#b', $state->contentsmodified);
         $this->assertEquals('', $state->note);
         $this->assertEquals('', $state->errors);
         $this->assertEquals('\[ {x \pm a}={y \pm b} \]', $state->contentsdisplayed);
+        $this->assertEquals('A correct answer is <span class="filter_mathjaxloader_equation">'
+                . '<span class="nolink">\( {x \pm a}={y \pm b} \)</span></span>, which can be typed in as follows: '
+                . '<code>x+-a = y+-b</code>',
+                $el->get_teacher_answer_display('x #pm# a = y #pm# b', '{x \pm a}={y \pm b}'));
     }
 
     public function test_validate_student_response_with_align_right() {
@@ -911,5 +964,115 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         $this->assertEquals('<input type="text" name="stack1__ans1" id="stack1__ans1" size="16.5" ' .
                 'style="width: 13.6em" autocapitalize="none" spellcheck="false" class="algebraic-right" value="sin(x)" />',
                 $el->render($state, 'stack1__ans1', false, null));
+    }
+
+    public function test_validate_student_response_noununits() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('algebraic', 'sans1', '9.81*m/s');
+        $el->set_parameter('forbidFloats', false);
+
+        $secutity = new stack_cas_security();
+        // Set units (from another context).
+        $secutity->set_units(true);
+
+        $state = $el->validate_student_response(array('sans1' => '9.81*a*m/s'), $options, '3.14', $secutity);
+        $this->assertEquals(stack_input::INVALID, $state->status);
+        $this->assertEquals('9.81*a*m/s', $state->contentsmodified);
+        $this->assertEquals('<span class="stacksyntaxexample">9.81*a*m/s</span>', $state->contentsdisplayed);
+        $this->assertEquals('unknownUnitsCase', $state->note);
+
+        $el->set_parameter('options', 'nounits');
+        $state = $el->validate_student_response(array('sans1' => '9.81*a*m/s'), $options, '3.14', $secutity);
+
+        $state = $el->validate_student_response(array('sans1' => '9.81*a*m/s'), $options, '3.14', $secutity);
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('9.81*a*m/s', $state->contentsmodified);
+        $this->assertEquals('\[ \frac{9.81\cdot a\cdot \mathrm{m}}{\mathrm{s}} \]', $state->contentsdisplayed);
+        $this->assertEquals('', $state->note);
+        $this->assertEquals('', $state->errors);
+        // Note the unknown unit is not in roman here.
+        $this->assertEquals('\( \left[ a , \mathrm{m} , \mathrm{s} \right]\) ', $state->lvars);
+        $this->assertEquals('A correct answer is <span class="filter_mathjaxloader_equation"><span class="nolink">' .
+                '\[ \[ \frac{9.81\cdot a\cdot \mathrm{m}}{\mathrm{s}} \]</span></span> \), ' .
+                'which can be typed in as follows: <code>9.81*a*m/s</code>',
+                $el->get_teacher_answer_display($state->contentsmodified, $state->contentsdisplayed));
+    }
+
+    public function test_validate_student_response_subtlesurds() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('algebraic', 'ans1', '((-1)+sqrt(11))/10');
+
+        $secutity = new stack_cas_security();
+
+        $state = $el->validate_student_response(array('ans1' => '((-1)+sqrt(11))/10'), $options,
+                '((-1)+sqrt(11))/10', $secutity);
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('((-1)+sqrt(11))/10', $state->contentsmodified);
+        $this->assertEquals('\[ \frac{-1+\sqrt{11}}{10} \]', $state->contentsdisplayed);
+        $this->assertEquals('', $state->note);
+
+        $state = $el->validate_student_response(array('ans1' => '(-(1-sqrt(11)))/10'), $options,
+                '((-1)+sqrt(11))/10', $secutity);
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('(-(1-sqrt(11)))/10', $state->contentsmodified);
+        $this->assertEquals('\[ \frac{-\left(1-\sqrt{11}\right)}{10} \]', $state->contentsdisplayed);
+        $this->assertEquals('', $state->note);
+
+        $state = $el->validate_student_response(array('ans1' => '-(1-sqrt(11))/10'), $options,
+                '((-1)+sqrt(11))/10', $secutity);
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('-(1-sqrt(11))/10', $state->contentsmodified);
+        $this->assertEquals('\[ \frac{-\left(1-\sqrt{11}\right)}{10} \]', $state->contentsdisplayed);
+        $this->assertEquals('', $state->note);
+
+        $state = $el->validate_student_response(array('ans1' => '-((1-sqrt(11))/10)'), $options,
+                '((-1)+sqrt(11))/10', $secutity);
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('\[ -\frac{1-\sqrt{11}}{10} \]', $state->contentsdisplayed);
+        $this->assertEquals('-((1-sqrt(11))/10)', $state->contentsmodified);
+        $this->assertEquals('', $state->note);
+    }
+
+    public function test_validate_student_response_subtlefrac() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('algebraic', 'ans1', '-a/b');
+
+        $secutity = new stack_cas_security();
+
+        $state = $el->validate_student_response(array('ans1' => '-a/b'), $options,
+                '-a/b', $secutity);
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('-a/b', $state->contentsmodified);
+        $this->assertEquals('\[ \frac{-a}{b} \]', $state->contentsdisplayed);
+        $this->assertEquals('', $state->note);
+
+        $state = $el->validate_student_response(array('ans1' => '(-a)/b'), $options,
+                '-a/b', $secutity);
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('(-a)/b', $state->contentsmodified);
+        $this->assertEquals('\[ \frac{-a}{b} \]', $state->contentsdisplayed);
+        $this->assertEquals('', $state->note);
+
+        $state = $el->validate_student_response(array('ans1' => '-(a/b)'), $options,
+                '-a/b', $secutity);
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('-(a/b)', $state->contentsmodified);
+        $this->assertEquals('\[ -\frac{a}{b} \]', $state->contentsdisplayed);
+        $this->assertEquals('', $state->note);
+    }
+
+    public function test_validate_student_response_subtle_pm() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('algebraic', 'ans1', '-a/b');
+
+        $secutity = new stack_cas_security();
+
+        $state = $el->validate_student_response(array('ans1' => 'a*x+a*y-b*x-b*y'), $options,
+                'a*x+a*y-b*x-b*y', $secutity);
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('a*x+a*y-b*x-b*y', $state->contentsmodified);
+        $this->assertEquals('\[ a\cdot x+a\cdot y+\left(-b\right)\cdot x+\left(-b\right)\cdot y \]',
+                $state->contentsdisplayed);
+        $this->assertEquals('', $state->note);
     }
 }

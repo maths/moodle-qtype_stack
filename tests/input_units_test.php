@@ -84,6 +84,16 @@ class stack_units_input_test extends qtype_stack_testcase {
                         'stack1__sans1', false, null));
     }
 
+    public function test_render_placeholder() {
+        $el = stack_input_factory::make('units', 'sans1', '9.81*m/s^2');
+        $el->set_parameter('syntaxHint', 'Remove me');
+        $el->set_parameter('syntaxAttribute', 1);
+        $this->assertEquals('<input type="text" name="stack1__sans1" id="stack1__sans1" size="16.5" style="width: 13.6em" '
+                .'autocapitalize="none" spellcheck="false" class="algebraic-units" placeholder="Remove me" />',
+                $el->render(new stack_input_state(stack_input::BLANK, array(), '', '', '', '', ''),
+                        'stack1__sans1', false, null));
+    }
+
     public function test_validate_student_response_1() {
         $options = new stack_options();
         $el = stack_input_factory::make('units', 'sans1', '9.81*m/s^2');
@@ -227,7 +237,7 @@ class stack_units_input_test extends qtype_stack_testcase {
                 new stack_cas_security(true, '', '', array('tans')));
         $this->assertEquals(stack_input::INVALID, $state->status);
         $this->assertEquals("Units_SA_no_units", $state->note);
-        $this->assertEquals('pi*sin(2)', $state->contentsmodified);
+        $this->assertEquals('%pi*sin(2)', $state->contentsmodified);
         $this->assertEquals('\[ \pi\, \sin \left( 2 \right)\, \]', $state->contentsdisplayed);
     }
 
@@ -255,6 +265,20 @@ class stack_units_input_test extends qtype_stack_testcase {
         $this->assertEquals("spaces", $state->note);
         $this->assertEquals('9.81*m/s^2', $state->contentsmodified);
         $this->assertEquals('<span class="stacksyntaxexample">9.81 m/s^2</span>', $state->contentsdisplayed);
+    }
+
+    public function test_validate_student_response_student_spaces() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('units', 'sans1', '5*10^2*kg');
+        $el->set_parameter('insertStars', 3);
+        $el->set_parameter('strictSyntax', true);
+        // In prior versions the string replace added extra *s to give 5***10^2, which was silly.
+        $state = $el->validate_student_response(array('sans1' => '5 * 10^2 kg'), $options, '5*10^2*kg',
+                new stack_cas_security(true, '', '', array('tans')));
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals("spaces", $state->note);
+        $this->assertEquals('5*10^2*kg', $state->contentsmodified);
+        $this->assertEquals('\[ 5\, 10^2\, \mathrm{k}\mathrm{g} \]', $state->contentsdisplayed);
     }
 
     public function test_validate_student_response_student_edgecase() {
@@ -663,7 +687,7 @@ class stack_units_input_test extends qtype_stack_testcase {
         $state = $el->validate_student_response(array('sans1' => '?*m/s^2'), $options, '9.81*m/s^2',
                 new stack_cas_security(true));
         $this->assertEquals(stack_input::INVALID, $state->status);
-        $this->assertEquals('?*m/s^2', $state->contentsmodified);
+        $this->assertEquals('QMCHAR*m/s^2', $state->contentsmodified);
         $this->assertEquals('\[ \color{red}{?}\, \mathrm{m}\, \mathrm{s}^ {- 2 } \]', $state->contentsdisplayed);
     }
 
@@ -816,7 +840,7 @@ class stack_units_input_test extends qtype_stack_testcase {
                 new stack_cas_security(true));
         $this->assertEquals(stack_input::INVALID, $state->status);
         $this->assertEquals('missing_stars | Units_SA_errorbounds_invalid', $state->note);
-        $this->assertEquals('9.81+-0.01*m/s^2', $state->contentsmodified);
+        $this->assertEquals('9.81#pm#0.01*m/s^2', $state->contentsmodified);
         $this->assertEquals('\[ 9.81\pm 0.01\, {\mathrm{m}}/{\mathrm{s}^2} \]',
                 qtype_stack_testcase::prepare_actual_maths($state->contentsdisplayed));
         $this->assertEquals('\( \left[ \mathrm{m} , \mathrm{s} \right]\) ', $state->lvars);
@@ -981,5 +1005,20 @@ class stack_units_input_test extends qtype_stack_testcase {
         $this->assertEquals('520*mamu', $state->contentsmodified);
         $this->assertEquals('<span class="stacksyntaxexample">520*mamu</span>', $state->contentsdisplayed);
         $this->assertEquals('Forbidden variable or constant: <span class="stacksyntaxexample">mamu</span>.', $state->errors);
+    }
+
+    public function test_validate_student_response_brackets() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('units', 'sans1', '(1+1/sqrt(2)+3)*N
+                ');
+        $el->set_parameter('insertStars', 1);
+        $el->set_parameter('strictSyntax', false);
+        $state = $el->validate_student_response(array('sans1' => '(1+1/sqrt(2)+3)*N'), $options, '(1+1/sqrt(2)+3)*N',
+                new stack_cas_security(true));
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('', $state->note);
+        $this->assertEquals('(1+1/sqrt(2)+3)*N', $state->contentsmodified);
+        $this->assertEquals('\[ \left( 1+1\, \sqrt{2}^ {- 1 }+3\right)\, \mathrm{N} \]', $state->contentsdisplayed);
+        $this->assertEquals('', $state->errors);
     }
 }

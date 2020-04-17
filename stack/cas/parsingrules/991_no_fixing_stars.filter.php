@@ -42,7 +42,7 @@ class stack_ast_filter_991_no_fixing_stars implements stack_cas_astfilter_exclus
             $missingstring = $ast->toString(array('insertstars_as_red' => true, 'qmchar' => true, 'inputform' => true));
             if ($ast instanceof MP_Root) {
                 // If MP_Root then it ads ";\n" to the string after statement.
-                $missingstring = core_text::substr($missingstring, 0, -2);
+                $missingstring = mb_substr($missingstring, 0, -2);
             }
             $a = array();
             $a['cmd']  = stack_maxima_format_casstring($missingstring);

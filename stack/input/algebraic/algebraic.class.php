@@ -28,6 +28,7 @@ class stack_algebraic_input extends stack_input {
         'simp' => false,
         'rationalized' => false,
         'allowempty' => false,
+        'nounits' => false,
         'align' => 'left'
     );
 
@@ -124,7 +125,7 @@ class stack_algebraic_input extends stack_input {
         }
         $cs = stack_ast_container::make_from_teacher_source($value, '', new stack_cas_security());
         $cs->set_nounify(0);
-        $value = $cs->get_inputform(true, 0);
+        $value = $cs->get_inputform(true, 0, 0);
         return stack_string('teacheranswershow', array('value' => '<code>'.$value.'</code>', 'display' => $display));
     }
 }

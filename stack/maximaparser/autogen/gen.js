@@ -20,16 +20,6 @@ var parserCode = fs.readFile('./parser-grammar.pegjs','utf8',function
 
    fs.writeFile('parser.mbstring.php',PHPparser,'utf8',(err) => {console.log(err);});
 
-   PHPparser = pegjs.generate(data, {
-       plugins: [phpegjs],
-       cache: true,
-       allowedStartRules: ["Root", "Equivline"],
-       phpegjs: {parserNamespace: '', parserClassName: 'MP_Parser',
-mbstringAllowed: false}
-   });
-
-   fs.writeFile('parser.native.php',PHPparser,'utf8',(err) => {console.log(err);});
-
    let TSparser = pegjs.generate(data, {
        output: 'source',
        cache: true,

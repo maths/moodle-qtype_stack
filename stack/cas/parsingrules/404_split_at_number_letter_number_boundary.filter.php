@@ -37,28 +37,28 @@ class stack_ast_filter_404_split_at_number_letter_number_boundary implements sta
                 // Type of previous character.
                 // This will be true if alpha, false if numeric and null otherwise, e.g. an underscore.
                 $alpha = false;
-                if (ctype_alpha(core_text::substr($node->value, 0, 1))) {
+                if (ctype_alpha(mb_substr($node->value, 0, 1))) {
                     $alpha = true;
                 }
                 $last = 0;
-                for ($i = 1; $i < core_text::strlen($node->value); $i++) {
+                for ($i = 1; $i < mb_strlen($node->value); $i++) {
                     $now = null;
-                    if (ctype_alpha(core_text::substr($node->value, $i, 1))) {
+                    if (ctype_alpha(mb_substr($node->value, $i, 1))) {
                         $now = true;
                     }
-                    if (ctype_digit(core_text::substr($node->value, $i, 1))) {
+                    if (ctype_digit(mb_substr($node->value, $i, 1))) {
                         $now = false;
                     }
                     if (!($alpha === null) && !($now === null) && !($now === $alpha)) {
                         // Don't split at % signs.
-                        if (!(core_text::substr($node->value, $last, 1) === "%")) {
-                            $splits[] = core_text::substr($node->value, $last, $i - $last);
+                        if (!(mb_substr($node->value, $last, 1) === "%")) {
+                            $splits[] = mb_substr($node->value, $last, $i - $last);
                             $last = $i;
                         }
                     }
                     $alpha = $now;
                 }
-                $splits[] = core_text::substr($node->value, $last);
+                $splits[] = mb_substr($node->value, $last);
                 // Then if we have more than one part split to parts.
                 if (count($splits) > 1) {
                     if (array_search('missing_stars', $answernotes) === false) {

@@ -40,7 +40,7 @@ class stack_anstest_atnumsigfigs extends stack_anstest {
         if ('' == trim($this->sanskey->ast_to_string())) {
             $this->aterror      = stack_string('TEST_FAILED', array('errors' => stack_string("AT_EmptySA")));
             $this->atfeedback   = stack_string('TEST_FAILED', array('errors' => stack_string("AT_EmptySA")));
-            $this->atansnote    = $this->casfunction.'TEST_FAILED:Empty SA.';
+            $this->atansnote    = $this->casfunction.'TEST_FAILED-Empty SA.';
             $this->atmark       = 0;
             $this->atvalid      = false;
             return null;
@@ -49,7 +49,7 @@ class stack_anstest_atnumsigfigs extends stack_anstest {
         if ('' == trim($this->tanskey->ast_to_string())) {
             $this->aterror      = stack_string('TEST_FAILED', array('errors' => stack_string("AT_EmptyTA")));
             $this->atfeedback   = stack_string('TEST_FAILED', array('errors' => stack_string("AT_EmptyTA")));
-            $this->atansnote    = $this->casfunction.'TEST_FAILED:Empty TA.';
+            $this->atansnote    = $this->casfunction.'TEST_FAILED-Empty TA.';
             $this->atmark       = 0;
             $this->atvalid      = false;
             return null;
@@ -125,7 +125,7 @@ class stack_anstest_atnumsigfigs extends stack_anstest {
 
         // Use PHP to establish that the range of significant figures from the student's expression
         // contains the number of significant figures specified by the teacher.
-        $r = $this->sanskey->get_decimal_digits();
+        $r = $this->sanskey->get_decimal_digits(false);
 
         if ($strictsigfigs) {
             $this->atmark = 0;
@@ -258,7 +258,8 @@ class stack_anstest_atnumsigfigs extends stack_anstest {
         $this->atvalid     = $unpacked['valid'];
         $this->atansnote  .= str_replace("\n", '', trim($unpacked['answernote']));
         $this->atfeedback .= $unpacked['feedback'];
-        $caserrormsgs = array('ATNumSigFigs_NotDecimal.', 'ATUnits_SA_not_expression.',
+        $caserrormsgs = array('ATNumSigFigs_STACKERROR_SAns.', 'ATNumSigFigs_STACKERROR_TAns.', 
+            'ATNumSigFigs_STACKERROR_opt.', 'ATNumSigFigs_NotDecimal.', 'ATUnits_SA_not_expression.',
             'ATUnits_SA_no_units.', 'ATUnits_SA_only_units.');
         if (in_array(trim($unpacked['answernote']), $caserrormsgs)) {
             $this->atansnote  = trim($unpacked['answernote']);
@@ -292,8 +293,8 @@ class stack_anstest_atnumsigfigs extends stack_anstest {
                 $r['answernote'] = $result->items[2]->toString();
             }
             $r['feedback'] = stack_maxima_translate($result->items[3]->value);
-            if (strrpos($r['feedback'], '!NEWLINE!') === core_text::strlen($r['feedback']) - 9) {
-                $r['feedback'] = trim(core_text::substr($r['feedback'], 0, -9));
+            if (strrpos($r['feedback'], '!NEWLINE!') === mb_strlen($r['feedback']) - 9) {
+                $r['feedback'] = trim(mb_substr($r['feedback'], 0, -9));
             }
         }
         return $r;

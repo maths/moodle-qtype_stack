@@ -100,6 +100,41 @@ class stack_ast_filter_auto_gen_999_strict_testcase extends qtype_stack_ast_test
                       array(),
                       false, true);
 
+        $this->expect('3 5',
+                      '3*5',
+                      array(),
+                      false, true);
+
+        $this->expect('3.14 5',
+                      '3.14*5',
+                      array(),
+                      false, true);
+
+        $this->expect('3 5.2789',
+                      '3*5.2789',
+                      array(),
+                      false, true);
+
+        $this->expect('3.14 5.2789',
+                      '3.14*5.2789',
+                      array(),
+                      false, true);
+
+        $this->expect('33 578 32',
+                      '33*578*32',
+                      array(),
+                      false, true);
+
+        $this->expect('9 8 7.6',
+                      '9*8*7.6',
+                      array(),
+                      false, true);
+
+        $this->expect('9 8.5 7.6',
+                      '9*8.5*7.6',
+                      array(),
+                      false, true);
+
         $this->expect('3b+5/a(x)',
                       '3*b+5/a(x)',
                       array(),
@@ -233,6 +268,41 @@ class stack_ast_filter_auto_gen_999_strict_testcase extends qtype_stack_ast_test
 
         $this->expect('3(x+1)',
                       '3*(x+1)',
+                      array(),
+                      false, true);
+
+        $this->expect('3 5',
+                      '3*5',
+                      array(),
+                      false, true);
+
+        $this->expect('3.14 5',
+                      '3.14*5',
+                      array(),
+                      false, true);
+
+        $this->expect('3 5.2789',
+                      '3*5.2789',
+                      array(),
+                      false, true);
+
+        $this->expect('3.14 5.2789',
+                      '3.14*5.2789',
+                      array(),
+                      false, true);
+
+        $this->expect('33 578 32',
+                      '33*578*32',
+                      array(),
+                      false, true);
+
+        $this->expect('9 8 7.6',
+                      '9*8*7.6',
+                      array(),
+                      false, true);
+
+        $this->expect('9 8.5 7.6',
+                      '9*8.5*7.6',
                       array(),
                       false, true);
 
@@ -517,23 +587,38 @@ class stack_ast_filter_auto_gen_999_strict_testcase extends qtype_stack_ast_test
                       array(),
                       true, false);
 
+        $this->expect('-0.2433 + 0.1111',
+                      '-0.2433+0.1111',
+                      array(),
+                      true, false);
+
+        $this->expect('-0.2433e23 + 0.1111e-45 * 0.23e12 / -0.11e-11',
+                      '-0.2433E23+0.1111E-45*0.23E12/-0.11E-11',
+                      array(),
+                      true, false);
+
+        $this->expect('-35.3 * 10^23',
+                      '-35.3*10^23',
+                      array(),
+                      true, false);
+
         $this->expect('0..1',
-                      '0.. 1',
+                      '0. . 1',
                       array(),
                       true, false);
 
         $this->expect('0.1..1.2',
-                      '0.1..1. 2',
+                      '0.1 . .1 . 2',
                       array(),
                       true, false);
 
         $this->expect('0.1.1.2',
-                      '0.1. 1.2',
+                      '0.1 . 1.2',
                       array(),
                       true, false);
 
         $this->expect('0.1. 1.2',
-                      '0.1. 1.2',
+                      '0.1 . 1.2',
                       array(),
                       true, false);
 
@@ -2018,23 +2103,38 @@ class stack_ast_filter_auto_gen_999_strict_testcase extends qtype_stack_ast_test
                       array(),
                       true, false);
 
+        $this->expect('-0.2433 + 0.1111',
+                      '-0.2433+0.1111',
+                      array(),
+                      true, false);
+
+        $this->expect('-0.2433e23 + 0.1111e-45 * 0.23e12 / -0.11e-11',
+                      '-0.2433E23+0.1111E-45*0.23E12/-0.11E-11',
+                      array(),
+                      true, false);
+
+        $this->expect('-35.3 * 10^23',
+                      '-35.3*10^23',
+                      array(),
+                      true, false);
+
         $this->expect('0..1',
-                      '0.. 1',
+                      '0. . 1',
                       array(),
                       true, false);
 
         $this->expect('0.1..1.2',
-                      '0.1..1. 2',
+                      '0.1 . .1 . 2',
                       array(),
                       true, false);
 
         $this->expect('0.1.1.2',
-                      '0.1. 1.2',
+                      '0.1 . 1.2',
                       array(),
                       true, false);
 
         $this->expect('0.1. 1.2',
-                      '0.1. 1.2',
+                      '0.1 . 1.2',
                       array(),
                       true, false);
 

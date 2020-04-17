@@ -258,7 +258,7 @@
                         (member (get-first-char f) '(#\% #\$)) ;; insist it is a % or $ function
                         (not (member 'array (cdar fx) :test #'eq)) ; fix for x[i]^2
                         (not (member f '(%sum %product %derivative %integrate %at $texsub
-                                         %lsum %limit $pderivop $+-) :test #'eq)) ;; what else? what a hack...
+                                         %lsum %limit $pderivop $#pm#) :test #'eq)) ;; what else? what a hack...
                         (or (and (atom expon) (not (numberp expon))) ; f(x)^y is ok
                             (and (atom expon) (numberp expon) (> expon 0))))))
                                         ; f(x)^3 is ok, but not f(x)^-1, which could
@@ -392,3 +392,32 @@
     (when (eql *parse-stream* *standard-input*)
       (read-line *parse-stream* nil nil))
     ($error message-string)))
+
+;; *************************************************************************************************
+;; Added 08 Jan 2020.
+;; Based src/grind.lisp
+
+;; Up the binding power of mminus, so that -(a/b) outputs exactly this way and not -a/b = (-a)/b.
+;; Subtle differences.
+
+;; In a maxima session type
+;; :lisp (defprop mminus 120. rbp);
+
+;; We provide just two specific functions here, and do not allow users to set an arbitrary binding power.
+
+;; *************************************************************************************************
+
+(defmspec $mminusbp120 (x)
+  (setq x (car x))
+  (defprop mminus 120. rbp)
+  (defprop mminus 120. lbp)
+  '$done
+)
+
+(defmspec $mminusbp100 (x)
+  (setq x (car x))
+  (defprop mminus 100. rbp)
+  (defprop mminus 100. lbp)
+  '$done
+)
+

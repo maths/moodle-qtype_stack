@@ -62,13 +62,21 @@ class stack_question_test {
 
     /**
      * Run this test against a particular question.
-     * @param question_usage_by_activity $quba the useage to use when running the test.
-     * @param qtype_stack_question $question the question to test.
+     * @param int $questionid The database id of the question to test.
      * @param int $seed the random seed to use.
+     * @param context_course $context The course in which this question takes place.
      * @return stack_question_test_result the test results.
      */
-    public function test_question(question_usage_by_activity $quba, qtype_stack_question $question, $seed) {
+    public function test_question($questionid, $seed, $context) {
 
+        // Create a completely clean version of the question usage we will use.
+        // Evaluated state is stored in question variables etc.
+        $question = question_bank::load_question($questionid);
+        if (!is_null($seed)) {
+            $question->seed = (int) $seed;
+        }
+        $quba = question_engine::make_questions_usage_by_activity('qtype_stack', $context);
+        $quba->set_preferred_behaviour('adaptive');
         $slot = $quba->add_question($question, $question->defaultmark);
         $quba->start_question($slot, $seed);
 
@@ -88,13 +96,12 @@ class stack_question_test {
             } else if (array_key_exists($inputname.'_val', $response)) {
                 $inputresponse = $response[$inputname.'_val'];
             }
-            $results->set_input_state($inputname, $inputresponse,
+            $results->set_input_state($inputname, $inputresponse, $inputstate->contentsmodified,
                     $inputstate->contentsdisplayed, $inputstate->status, $inputstate->errors);
         }
+
         foreach ($this->expectedresults as $prtname => $expectedresult) {
-
             $result = $question->get_prt_result($prtname, $response, false);
-
             // Adapted from renderer.php prt_feedback_display.
             $feedback = '';
             $feedbackbits = $result->get_feedback();
@@ -201,8 +208,7 @@ class stack_question_test {
             if (array_key_exists($name, $question->inputs)) {
                 // Remove things like apostrophies in test case inputs so we don't create an invalid student input.
                 // 4.3. changes this.
-                $value = $computedinput;
-                $response = array_merge($response, $question->inputs[$name]->maxima_to_response_array($value));
+                $response = array_merge($response, $question->inputs[$name]->maxima_to_response_array($computedinput));
             }
         }
         return $response;

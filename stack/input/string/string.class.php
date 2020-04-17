@@ -102,7 +102,9 @@ class stack_string_input extends stack_algebraic_input {
     /**
      * This is used by the question to get the teacher's correct response.
      * The dropdown type needs to intercept this to filter the correct answers.
-     * @param unknown_type $in
+     *
+     * @param array|string $in
+     * @return array response to submit for this input.
      */
     public function get_correct_response($in) {
         $value = $in;
@@ -110,7 +112,6 @@ class stack_string_input extends stack_algebraic_input {
             $value = '';
         }
 
-        $value = stack_utils::maxima_string_to_php_string($value);
         return $this->maxima_to_response_array($value);
     }
 
@@ -121,10 +122,15 @@ class stack_string_input extends stack_algebraic_input {
      * it into expected inputs.
      *
      * @param array|string $in
-     * @return string
+     * @return array how response $in is submitted.
      */
     public function maxima_to_response_array($in) {
-        $response[$this->name] = $in;
+        if ($in === '') {
+            return [$this->name => ''];
+        }
+
+        $value = stack_utils::maxima_string_to_php_string($in);
+        $response[$this->name] = $value;
         if ($this->requires_validation()) {
             // Do not strip strings from the _val, to enable test inputs to work.
             $response[$this->name . '_val'] = $in;

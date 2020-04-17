@@ -21,7 +21,7 @@
  * you can do some debugging with them.
  * end of the file contains functions the parser uses...
  *
- * function to_String should return something which is completely correct in Maxima.
+ * function toString should return something which is completely correct in Maxima.
  * Known parameter values for toString.
  *
  * 'pretty'                  Used for debug pretty-printing of the statement.
@@ -33,12 +33,15 @@
  *                           If 2, adds logic nouns.
  * 'dealias'                 If defined unpacks potential aliases.
  * 'qmchar'                  If defined prints question marks directly if present as QMCHAR.
+ * 'pmchar'                  If defined prints +- marks directly if present as #pm#.
  */
 
 defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/../cas/cassecurity.class.php');
 
+// @codingStandardsIgnoreStart
+// We ignore coding in this file, because the library is used outside Moodle.
 class MP_Node {
     public $parentnode  = null;
     public $position    = null;
@@ -60,7 +63,7 @@ class MP_Node {
         return '[NO TOSTRING FOR ' . get_class($this) . ']';
     }
 
-    // Calls a function for all this nodes children.
+    // Calls a function for all this node's children.
     // Callback needs to take a node and return true if it changes nothing or does no structural changes.
     // If it does structural changes it must return false so that the recursion may be repeated on
     // the changed structure.
@@ -165,7 +168,7 @@ class MP_Node {
     public function remap_position_data(int $offset=0) {
         $total = $this->toString();
         $this->position['start'] = $offset;
-        $this->position['end'] = $offset + core_text::strlen($total);
+        $this->position['end'] = $offset + mb_strlen($total);
         // For recursion this needs more. But this works for the general case.
     }
 
@@ -298,9 +301,10 @@ class MP_Operation extends MP_Node {
     public function toString($params = null): string {
         $op = $this->op;
 
-        // Related to the issue of 0.2 . 0.3.
-        if ($op === '.' && ($this->rhs instanceof MP_Float || $this->rhs instanceof MP_Integer)) {
-            $op = '. ';
+        // The parmeter flattree is a flat lisp-like tree representation, without changes.
+        if ($params !== null && isset($params['flattree'])) {
+            return '([Op: ' . $op . '] ' .
+                $this->lhs->toString($params) . ', ' . $this->rhs->toString($params) . ')';
         }
 
         if ($params !== null && isset($params['nounify'])) {
@@ -365,6 +369,15 @@ class MP_Operation extends MP_Node {
         if (stack_cas_security::get_feature($op, 'spacesurroundedop') !== null) {
             return $this->lhs->toString($params) . ' ' . $op . ' ' . $this->rhs->toString($params);
         }
+        if ($params !== null && isset($params['pmchar'])) {
+            if ($params['pmchar'] === 0 && $op === '#pm#') {
+                $op = '+-';
+            }
+            if ($params['pmchar'] === 1 && $op === '+-') {
+                $op = '#pm#';
+            }
+        }
+
         return $this->lhs->toString($params) . $op . $this->rhs->toString($params);
     }
 
@@ -377,9 +390,9 @@ class MP_Operation extends MP_Node {
             $op = ' ' . $op . '';
         }
         $this->position['start'] = $start;
-        $this->position['end'] = $start + core_text::strlen($lhs) + core_text::strlen($op) + core_text::strlen($rhs);
+        $this->position['end'] = $start + mb_strlen($lhs) + mb_strlen($op) + mb_strlen($rhs);
         $this->lhs->remap_position_data($start);
-        $this->rhs->remap_position_data($start + core_text::strlen($lhs) + core_text::strlen($op));
+        $this->rhs->remap_position_data($start + mb_strlen($lhs) + mb_strlen($op));
     }
 
     // Replace a child of this now with other...
@@ -487,11 +500,16 @@ class MP_Atom extends MP_Node {
     public function remap_position_data(int $offset=0) {
         $value = $this->toString();
         $this->position['start'] = $offset;
-        $this->position['end'] = $offset + core_text::strlen($value);
+        $this->position['end'] = $offset + mb_strlen($value);
     }
 
     public function toString($params = null): string {
         $op = $this->value;
+
+        if ($params !== null && isset($params['flattree'])) {
+            return '([Atom] ' . $this->value . ')';
+        }
+
         if ($params !== null && isset($params['dealias'])) {
             $feat = null;
             if ($params['dealias'] === true) {
@@ -529,6 +547,11 @@ class MP_Integer extends MP_Atom {
     }
 
     public function toString($params = null): string {
+
+        if ($params !== null && isset($params['flattree'])) {
+            return '([Int] ' . $this->value . ')';
+        }
+
         if ($params !== null && isset($params['pretty'])) {
             $indent = '';
             if (is_integer($params['pretty'])) {
@@ -559,6 +582,11 @@ class MP_Float extends MP_Atom {
     }
 
     public function toString($params = null): string {
+
+        if ($params !== null && isset($params['flattree'])) {
+            return '([Float] ' . $this->value . ')';
+        }
+
         // For normalisation purposes we will always uppercase the e.
         if ($params !== null && isset($params['pretty'])) {
             $indent = '';
@@ -583,21 +611,32 @@ class MP_Float extends MP_Atom {
 class MP_String extends MP_Atom {
 
     public function toString($params = null): string {
+        $dispalue = '"' . str_replace('"', '\\"', str_replace('\\', '\\\\', $this->value)) . '"';
+
+        if ($params !== null && isset($params['flattree'])) {
+            return '([String] ' . $dispalue . ')';
+        }
+
         if ($params !== null && isset($params['pretty'])) {
             $indent = '';
             if (is_integer($params['pretty'])) {
                 $indent = str_pad($indent, $params['pretty']);
             }
-            return $indent . '"' . str_replace('"', '\\"', str_replace('\\', '\\\\', $this->value)) . '"';
+            return $indent . $dispalue;
         }
 
-        return '"' . str_replace('"', '\\"', str_replace('\\', '\\\\', $this->value)) . '"';
+        return $dispalue;
     }
 }
 
 class MP_Boolean extends MP_Atom {
 
     public function toString($params = null): string {
+
+        if ($params !== null && isset($params['flattree'])) {
+            return '([Bool] ' . $this->value . ')';
+        }
+
         if ($params !== null && isset($params['pretty'])) {
             $indent = '';
             if (is_integer($params['pretty'])) {
@@ -645,6 +684,11 @@ class MP_Identifier extends MP_Atom {
     public function toString($params = null): string {
         $indent = '';
         $op = $this->value;
+
+        if ($params !== null && isset($params['flattree'])) {
+            return '([Id] ' . $op . ')';
+        }
+
         if ($params !== null && isset($params['dealias'])) {
             $feat = null;
             if ($params['dealias'] === true) {
@@ -751,11 +795,12 @@ class MP_Identifier extends MP_Atom {
     }
 }
 
+// TODO: remove this?  Only one occurance in the search.
 class MP_Annotation extends MP_Node {
     public $annotationtype = null;
     public $params         = null;
 
-    public function __constructor($annotationtype, $params) {
+    public function __construct($annotationtype, $params) {
         parent::__construct();
         $this->annotationtype = $annotationtype;
         $this->params         = $params;
@@ -774,8 +819,13 @@ class MP_Annotation extends MP_Node {
     public function getChildren() {
         return $this->params;
     }
+
     public function toString($params = null): string {
         $params = [];
+
+        if ($params !== null && isset($params['flattree'])) {
+            return '([Annoation] ' . $this->value . ')';
+        }
 
         foreach ($this->params as $value) {
             $params[] = ' ' . $value->toString($params);
@@ -813,15 +863,15 @@ class MP_Comment extends MP_Node {
 
     public function toString($params = null): string {
         $annotations = [];
-
         foreach ($this->annotations as $value) {
             $annotations[] = $value->toString($params);
         }
-
+        if ($params !== null && isset($params['flattree'])) {
+            return '([Comment] ' . $dispvalue . ')';
+        }
         if ($params !== null && isset($params['pretty'])) {
             return "\n/*" . $this->value . implode("\n", $annotations) . "*/\n";
         }
-
         return '/*' . $this->value . implode("\n", $annotations) . '*/';
     }
 }
@@ -855,11 +905,11 @@ class MP_FunctionCall extends MP_Node {
     public function remap_position_data(int $offset=0) {
         $total = $this->toString();
         $this->position['start'] = $offset;
-        $this->position['end'] = $offset + core_text::strlen($total);
-        $itemoffset = $offset + core_text::strlen($this->name->toString()) + 1;
+        $this->position['end'] = $offset + mb_strlen($total);
+        $itemoffset = $offset + mb_strlen($this->name->toString()) + 1;
         foreach ($this->arguments as $arg) {
             $arg->remap_position_data($itemoffset);
-            $itemoffset = $itemoffset + core_text::strlen($arg->toString()) + 1;
+            $itemoffset = $itemoffset + mb_strlen($arg->toString()) + 1;
         }
         $this->name->remap_position_data($offset);
     }
@@ -867,8 +917,8 @@ class MP_FunctionCall extends MP_Node {
     public function toString($params = null): string {
         $n = $this->name->toString($params);
 
+        $feat = null;
         if ($params !== null && isset($params['dealias'])) {
-            $feat = null;
             if ($params['dealias'] === true) {
                 $feat = stack_cas_security::get_feature($n, 'aliasvariable');
             }
@@ -943,6 +993,10 @@ class MP_FunctionCall extends MP_Node {
             $ar[] = $value->toString($params);
         }
 
+        if ($params !== null && isset($params['flattree'])) {
+            return '([FunctionCall: ' . $n .'] ' . implode(',', $ar) . ')';
+        }
+
         // Two cases we need to consider.
         // We want the inputform with nouns, e.g. to store.
         // We want the input form without nouns, e.g. "the teacher's answer is..." situation.
@@ -952,10 +1006,10 @@ class MP_FunctionCall extends MP_Node {
             if ('' != $prefix) {
                 // Hack for stacklet.
                 if ($n == 'stacklet') {
-                    // TODO: fix parsing of let
-                    // return $prefix .' '. implode('=', $ar);
+                    // TODO: fix parsing of let.
+                    return $prefix .' '. implode('=', $ar);
                 }
-                return $prefix .' '. implode(',', $ar);
+                return $prefix . implode(',', $ar);
             }
         }
 
@@ -1014,11 +1068,11 @@ class MP_Group extends MP_Node {
     public function remap_position_data(int $offset=0) {
         $total = $this->toString();
         $this->position['start'] = $offset;
-        $this->position['end'] = $offset + core_text::strlen($total);
+        $this->position['end'] = $offset + mb_strlen($total);
         $itemoffset = $offset + 1;
         foreach ($this->items as $item) {
             $item->remap_position_data($itemoffset);
-            $itemoffset = $itemoffset + core_text::strlen($item->toString()) + 1;
+            $itemoffset = $itemoffset + mb_strlen($item->toString()) + 1;
         }
     }
 
@@ -1033,10 +1087,13 @@ class MP_Group extends MP_Node {
             }
         }
 
-        $ar = [];
-
+        $ar = array();
         foreach ($this->items as $value) {
             $ar[] = $value->toString($params);
+        }
+
+        if ($params !== null && isset($params['flattree'])) {
+            return '([Group] ' . implode(',', $ar) . ')';
         }
 
         if ($params !== null && isset($params['pretty'])) {
@@ -1046,7 +1103,7 @@ class MP_Group extends MP_Node {
                 return $indent . "(\n" . implode(", \n", $ar) . "\n$indent)";
             }
             $params['pretty'] = 0;
-            $ar               = [];
+            $ar = array();
 
             foreach ($this->items as $value) {
                 $ar[] = $value->toString($params);
@@ -1098,11 +1155,11 @@ class MP_Set extends MP_Node {
     public function remap_position_data(int $offset=0) {
         $total = $this->toString();
         $this->position['start'] = $offset;
-        $this->position['end'] = $offset + core_text::strlen($total);
+        $this->position['end'] = $offset + mb_strlen($total);
         $itemoffset = $offset + 1;
         foreach ($this->items as $item) {
             $item->remap_position_data($itemoffset);
-            $itemoffset = $itemoffset + core_text::strlen($item->toString()) + 1;
+            $itemoffset = $itemoffset + mb_strlen($item->toString()) + 1;
         }
     }
 
@@ -1121,6 +1178,10 @@ class MP_Set extends MP_Node {
 
         foreach ($this->items as $value) {
             $ar[] = $value->toString($params);
+        }
+
+        if ($params !== null && isset($params['flattree'])) {
+            return '([Set] ' . implode(", ", $ar) . ')';
         }
 
         if ($params !== null && isset($params['pretty'])) {
@@ -1182,11 +1243,11 @@ class MP_List extends MP_Node {
     public function remap_position_data(int $offset=0) {
         $total = $this->toString();
         $this->position['start'] = $offset;
-        $this->position['end'] = $offset + core_text::strlen($total);
+        $this->position['end'] = $offset + mb_strlen($total);
         $itemoffset = $offset + 1;
         foreach ($this->items as $item) {
             $item->remap_position_data($itemoffset);
-            $itemoffset = $itemoffset + core_text::strlen($item->toString()) + 1;
+            $itemoffset = $itemoffset + mb_strlen($item->toString()) + 1;
         }
     }
 
@@ -1205,6 +1266,10 @@ class MP_List extends MP_Node {
 
         foreach ($this->items as $value) {
             $ar[] = $value->toString($params);
+        }
+
+        if ($params !== null && isset($params['flattree'])) {
+            return '([List] ' . implode(", ", $ar) . ')';
         }
 
         if ($params !== null && isset($params['pretty'])) {
@@ -1264,8 +1329,8 @@ class MP_PrefixOp extends MP_Node {
     public function remap_position_data(int $offset=0) {
         $total = $this->toString();
         $this->position['start'] = $offset;
-        $this->position['end'] = $offset + core_text::strlen($total);
-        $this->rhs->remap_position_data($offset + core_text::strlen($this->op));
+        $this->position['end'] = $offset + mb_strlen($total);
+        $this->rhs->remap_position_data($offset + mb_strlen($this->op));
     }
 
     public function toString($params = null): string {
@@ -1275,6 +1340,10 @@ class MP_PrefixOp extends MP_Node {
         // We need to omit them.
         if (isset($params['nounify']) && $params['nounify'] === 0 && $this->op === "'") {
             return $this->rhs->toString($params);
+        }
+
+        if ($params !== null && isset($params['flattree'])) {
+            return '([PrefixOp: ' . $this->op . '] ' . $this->rhs->toString($params) . ')';
         }
 
         if ($params !== null && isset($params['pretty'])) {
@@ -1290,6 +1359,15 @@ class MP_PrefixOp extends MP_Node {
                 );
             }
             return $indent . $this->op . $this->rhs->toString($params);
+        }
+
+        if ($params !== null && isset($params['pmchar'])) {
+            if ($params['pmchar'] === 0 && ($this->op === '#pm#' || $this->op === '"#pm#"')) {
+                return '+-' . $this->rhs->toString($params);
+            }
+            if ($params['pmchar'] === 1 && $this->op === '+-') {
+                return '#pm#' . $this->rhs->toString($params);
+            }
         }
         return $this->op . $this->rhs->toString($params);
     }
@@ -1323,7 +1401,7 @@ class MP_PostfixOp extends MP_Node {
     public function remap_position_data(int $offset=0) {
         $total = $this->toString();
         $this->position['start'] = $offset;
-        $this->position['end'] = $offset + core_text::strlen($total);
+        $this->position['end'] = $offset + mb_strlen($total);
         $this->lhs->remap_position_data($offset);
     }
 
@@ -1336,6 +1414,10 @@ class MP_PostfixOp extends MP_Node {
             }
             $params['pretty'] = 0;
             return $indent . $this->lhs->toString($params) . $this->op;
+        }
+
+        if ($params !== null && isset($params['flattree'])) {
+            return '([PostfixOp: ' . $this->op . '] ' . $this->lhs->toString($params) . ')';
         }
 
         return $this->lhs->toString($params) . $this->op;
@@ -1378,12 +1460,12 @@ class MP_Indexing extends MP_Node {
     public function remap_position_data(int $offset=0) {
         $total = $this->toString();
         $this->position['start'] = $offset;
-        $this->position['end'] = $offset + core_text::strlen($total);
+        $this->position['end'] = $offset + mb_strlen($total);
         $this->target->remap_position_data($offset);
-        $itemoffset = $offset + core_text::strlen($this->target->toString());
+        $itemoffset = $offset + mb_strlen($this->target->toString());
         foreach ($this->indices as $ind) {
             $ind->remap_position_data($itemoffset);
-            $itemoffset = $itemoffset + core_text::strlen($ind->toString());
+            $itemoffset = $itemoffset + mb_strlen($ind->toString());
         }
     }
 
@@ -1445,7 +1527,7 @@ class MP_If extends MP_Node {
     public function remap_position_data(int $offset=0) {
         $total = $this->toString();
         $this->position['start'] = $offset;
-        $this->position['end'] = $offset + core_text::strlen($total);
+        $this->position['end'] = $offset + mb_strlen($total);
         // TODO: fill in this.
     }
 
@@ -1540,7 +1622,7 @@ class MP_Loop extends MP_Node {
     public function remap_position_data(int $offset=0) {
         $total = $this->toString();
         $this->position['start'] = $offset;
-        $this->position['end'] = $offset + core_text::strlen($total);
+        $this->position['end'] = $offset + mb_strlen($total);
         // TODO: fill in this.
     }
 
@@ -1604,8 +1686,8 @@ class MP_LoopBit extends MP_Node {
     public function remap_position_data(int $offset=0) {
         $total = $this->toString();
         $this->position['start'] = $offset;
-        $this->position['end'] = $offset + core_text::strlen($total);
-        $this->param->remap_position_data($offset + core_text::strlen($this->mode) + 1);
+        $this->position['end'] = $offset + mb_strlen($total);
+        $this->param->remap_position_data($offset + mb_strlen($this->mode) + 1);
     }
 
 
@@ -1647,9 +1729,9 @@ class MP_EvaluationFlag extends MP_Node {
     public function remap_position_data(int $offset=0) {
         $total = $this->toString();
         $this->position['start'] = $offset;
-        $this->position['end'] = $offset + core_text::strlen($total);
+        $this->position['end'] = $offset + mb_strlen($total);
         $this->name->remap_position_data($offset + 1);
-        $this->value->remap_position_data($offset + 2 + core_text::strlen($this->name->toString()));
+        $this->value->remap_position_data($offset + 2 + mb_strlen($this->name->toString()));
     }
 
     public function toString($params = null): string {
@@ -1694,12 +1776,12 @@ class MP_Statement extends MP_Node {
     public function remap_position_data(int $offset=0) {
         $total = $this->toString();
         $this->position['start'] = $offset;
-        $this->position['end'] = $offset + core_text::strlen($total);
+        $this->position['end'] = $offset + mb_strlen($total);
         $this->statement->remap_position_data($offset);
-        $itemoffset = $offset + core_text::strlen($this->statement->toString());
+        $itemoffset = $offset + mb_strlen($this->statement->toString());
         foreach ($this->flags as $flag) {
             $flag->remap_position_data($itemoffset);
-            $itemoffset = $itemoffset + core_text::strlen($flag->toString());
+            $itemoffset = $itemoffset + mb_strlen($flag->toString());
         }
     }
 
@@ -1784,8 +1866,13 @@ class MP_Let extends MP_Node {
 
     public function toString($params = null): string {
         $indent = '';
-        if (is_integer($params['pretty'])) {
+        if (isset($params['pretty']) && is_integer($params['pretty'])) {
             $indent = str_pad($indent, $params['pretty']);
+        }
+
+        if ($params !== null && isset($params['flattree'])) {
+            return '([Let] ' . $this->statement->lhs->toString($params) . ',' .
+                $this->statement->rhs->toString($params) . ')';
         }
 
         if (isset($params['inputform']) && $params['inputform'] === true) {
@@ -1831,16 +1918,25 @@ class MP_Root extends MP_Node {
     public function remap_position_data(int $offset=0) {
         $total = $this->toString();
         $this->position['start'] = $offset;
-        $this->position['end'] = $offset + core_text::strlen($total);
+        $this->position['end'] = $offset + mb_strlen($total);
         $itemoffset = $offset;
         foreach ($this->items as $item) {
             $item->remap_position_data($itemoffset);
-            $itemoffset = $itemoffset + core_text::strlen($item->toString());
+            $itemoffset = $itemoffset + mb_strlen($item->toString());
         }
     }
 
     public function toString($params = null): string {
         $r = '';
+
+        if ($params !== null && isset($params['flattree'])) {
+            $items = array();
+            foreach ($this->items as $item) {
+                $items[] .= $item->toString($params);
+            }
+
+            return '([Root] ' . implode(', ', $items) . ')';
+        }
 
         foreach ($this->items as $item) {
             $r .= $item->toString($params);
@@ -1882,10 +1978,14 @@ function opLBind($op) {
         case '.':
             return 130;
         case '*':
+        case '@@IS@@':
+        case '@@Is@@':
         case '/':
             return 120;
         case '+':
         case '-':
+        case '+-':
+        case '#pm#':
             return 100;
         case '=':
         case '*':
@@ -1918,8 +2018,12 @@ function opRBind($op) {
         case '.':
             return 129;
         case '*':
+        case '@@IS@@':
+        case '@@Is@@':
         case '/':
             return 120;
+        case '+-':
+        case '#pm#':
         case '+':
             return 100;
         case '-':
@@ -1943,6 +2047,7 @@ function opBind($op) {
     }
     // This one is not done with STACK.
 
+    // @codingStandardsIgnoreStart
     /*
     if ($op->op == '-') {
     $op->op='+';
@@ -1953,6 +2058,9 @@ function opBind($op) {
     $op->rhs->parentnode = $op;
     }
      */
+    // @codingStandardsIgnoreEnd
+
+    // @codingStandardsIgnoreStart
     $op->lhs = opBind($op->lhs);
     $op->rhs = opBind($op->rhs);
     if ($op->lhs instanceof MP_Operation && (opLBind($op->op) > opRBind($op->lhs->op))) {
@@ -2032,3 +2140,4 @@ function mergePosition($posa, $posb) {
 
     return $r;
 }
+// @codingStandardsIgnoreEnd

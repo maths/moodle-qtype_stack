@@ -271,6 +271,12 @@ The quotation marks will be removed from strings, and the strings will not be wr
 
 Question authors should consider using the Moodle MCQ question type in addition to these facilities for purely text-based answers.
 
+You must protect characters within strings.  E.g. in
+
+    [A, true, "A. There exists \\(M\\) such that \\( |a_n| &lt; M \\)."]
+
+We have protected the backslash, and the inequality.
+
 ## Dealing with plots in MCQ ##
 
 It is possible to use plots as the options in a STACK MCQ.  

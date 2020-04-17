@@ -34,8 +34,8 @@ require_once(__DIR__ . '/../stack/maximaparser/corrective_parser.php');
 require_once(__DIR__ . '/../stack/utils.class.php');
 
 // Now get cli options.
-list($options, $unrecognized) = cli_get_params(array('help' => false, 'string' => '1+2x'),
-    array('h' => 'help'));
+list($options, $unrecognized) = cli_get_params(array('help' => false,
+    'string' => '1+2x', 'ast' => false), array('h' => 'help'));
 if ($unrecognized) {
     $unrecognized = implode("\n  ", $unrecognized);
     cli_error(get_string('cliunknowoption', 'admin', $unrecognized));
@@ -56,7 +56,12 @@ if (isset($options['string'])) {
     $teststring = $options['string'];
 }
 
-cli_heading('= testing = ' . $teststring . '=');
+$astonly = false;
+if (isset($options['ast'])) {
+    $astonly = $options['ast'];
+}
+
+cli_heading('= testing = ' . $teststring . ' =');
 
 $parseable = true;
 $ast = null;
@@ -83,8 +88,14 @@ if ($parseable) {
     cli_writeln('The test-string was not directly parseable, some corrections required.');
     $ast->remap_position_data();
 }
+
 cli_writeln('The AST is like this before filters:');
+cli_writeln($ast->toString(array('flattree' => true)));
 cli_writeln($ast->debugPrint($ast->toString(array('nosemicolon' => true))));
+
+if ($astonly) {
+    die();
+}
 
 function check_filter($ast, $filter, $security, $filtername) {
     $errors = array();

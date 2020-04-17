@@ -27,7 +27,6 @@ defined('MOODLE_INTERNAL') || die();
 require_once(__DIR__ . '/settingslib.php');
 require_once(__DIR__ . '/stack/options.class.php');
 
-
 // Useful links.
 $links = array(
     get_string('stackDoc_docs_desc', 'qtype_stack',
@@ -49,7 +48,6 @@ $settings->add(new admin_setting_heading('docs',
         get_string('settingusefullinks', 'qtype_stack'),
         '* ' . implode("\n* ", $links)));
 
-
 // Options for connection to Maxima.
 // Note that any settings here where we try to set the default
 // intelligently in install.php, the default here must be null.
@@ -69,14 +67,7 @@ $settings->add(new admin_setting_configselect('qtype_stack/platform',
 $settings->add(new admin_setting_configselect('qtype_stack/maximaversion',
         get_string('settingcasmaximaversion', 'qtype_stack'),
         get_string('settingcasmaximaversion_desc', 'qtype_stack'), null,
-                array('5.23.2' => '5.23.2', '5.25.1' => '5.25.1', '5.26.0' => '5.26.0',
-                      '5.27.0' => '5.27.0', '5.28.0' => '5.28.0', '5.30.0' => '5.30.0',
-                      '5.31.1' => '5.31.1', '5.31.2' => '5.31.2', '5.31.3' => '5.31.3',
-                      '5.32.0' => '5.32.0', '5.32.1' => '5.32.1', '5.33.0' => '5.33.0',
-                      '5.34.0' => '5.34.0', '5.34.1' => '5.34.1', '5.35.1' => '5.35.1',
-                      '5.35.1.2' => '3.35.1.2', '5.36.0' => '5.36.0', '5.36.1' => '5.36.1',
-                      '5.37.3' => '5.37.3', // Recently compiled GCL version for Windows is much faster.
-                      '5.38.0' => '5.38.0', '5.38.1' => '5.38.1', '5.39.0' => '5.39.0',
+                array('5.38.1' => '5.38.1', '5.39.0' => '5.39.0',
                       '5.40.0' => '5.40.0', '5.41.0' => '5.41.0', '5.42.0' => '5.42.0',
                       '5.42.1' => '5.42.1', '5.42.2' => '5.42.2',
                       'default' => 'default')));
@@ -113,6 +104,17 @@ $settings->add(new admin_setting_configcheckbox('qtype_stack/casdebugging',
         get_string('settingcasdebugging', 'qtype_stack'),
         get_string('settingcasdebugging_desc', 'qtype_stack'), 0));
 
+// @codingStandardsIgnoreStart
+// ILIAS: will need to replicate this cache.
+// The Moodle cache API is quite simple, so to replicate it we need only implement
+//   $cache = cache::make('qtype_stack', 'parsercache');
+//   $ast = $cache->get($cachekey); // Returns null/false or something if key not present.
+//   $cache->set($cachekey, $ast);
+// Or, it is already possible to disable this, because there is a config variable that can be set to 0 to disable.
+// @codingStandardsIgnoreEnd
+$settings->add(new admin_setting_configtext('qtype_stack/parsercacheinputlength',
+        get_string('settingparsercacheinputlength', 'qtype_stack'),
+        get_string('settingparsercacheinputlength_desc', 'qtype_stack'), 50, PARAM_INT, 3));
 
 // Options for maths display.
 $settings->add(new admin_setting_heading('mathsdisplayheading',
@@ -129,7 +131,6 @@ $settings->add(new qtype_stack_admin_setting_maths_display_method('qtype_stack/m
 $settings->add(new admin_setting_configcheckbox('qtype_stack/replacedollars',
         get_string('settingreplacedollars', 'qtype_stack'),
         get_string('settingreplacedollars_desc', 'qtype_stack'), false));
-
 
 // Options for new inputs.
 $settings->add(new admin_setting_heading('inputoptionsheading',
@@ -182,7 +183,6 @@ $settings->add(new admin_setting_configselect('qtype_stack/inputshowvalidation',
         get_string('showvalidation', 'qtype_stack'),
         get_string('showvalidation_help', 'qtype_stack'), '1',
         stack_options::get_showvalidation_options()));
-
 
 // Options for new questions.
 $settings->add(new admin_setting_heading('questionoptionsheading',

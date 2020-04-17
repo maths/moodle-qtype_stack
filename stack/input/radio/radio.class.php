@@ -75,7 +75,7 @@ class stack_radio_input extends stack_dropdown_input {
 
         $result .= html_writer::start_tag('div', array('class' => 'answer'));
         foreach ($radiobuttons as $key => $radio) {
-            $result .= html_writer::tag('div', $radio, array('class' => 'option'));
+            $result .= html_writer::tag('div', stack_maths::process_lang_string($radio), array('class' => 'option'));
         }
         $result .= html_writer::end_tag('div');
 

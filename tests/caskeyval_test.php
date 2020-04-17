@@ -196,4 +196,29 @@ class stack_cas_keyval_test extends qtype_stack_testcase {
         $expected = "k1:16;\nprefix:\"[\";\nsuffix:\"]\";";
         $this->assertEquals($expected, $s->get_keyval_representation(true));
     }
+
+    public function test_needs_mbstring() {
+
+        $tests = "x : rand([1,2,3])\ny : rand([2,3,4])\nA : matrix([x,2,1],[3,4,2],[1,y,5])\n" .
+                 "R : get_lu_factors(lu_factor(A))\nL : R[2]\nU : R[3]\n\n/* Help for worked solutions */\n" .
+                 "a11 : A[1,1]\na12 : A[1,2]\na13 : A[1,3]\na21 : A[2,1]\na22 : A[2,2]\na23 : A[2,3]\na31 : A[3,1]" .
+                 "a32 : A[3,2]\na33 : A[3,3]\nB :\nmatrix([a11,a12,a13],[a21-a21/a11*a11,a22-a21/a11*a12," .
+                 "a23-a21/a11*a13],[a31-a31/a11*a11,a32-a31/a11*a12,a33-a31/a11*a13])\n".
+                 "C : B-matrix([0,0,0],[0,0,0],[0,B[3,2]/B[2,2]*B[2,2], B[3,2]/B[2,2]*B[2,3]])\n".
+                 "coef1 : a21/a11\ncoef2 : a31/a11\ncoef3 : B[3,2]/B[2,2]";
+
+        $kv = new stack_cas_keyval($tests);
+        $this->assertTrue($kv->get_valid());
+        $kv->instantiate();
+        $s = $kv->get_session();
+        $expected = "x:rand([1,2,3]);\ny:rand([2,3,4]);\nA:matrix([x,2,1],[3,4,2],[1,y,5]);\n" .
+                    "R:get_lu_factors(lu_factor(A));\nL:R[2];\nU:R[3];\na11:A[1,1];\na12:A[1,2];\n" .
+                    "a13:A[1,3];\na21:A[2,1];\na22:A[2,2];\na23:A[2,3];\na31:A[3,1];\na32:A[3,2];\n" .
+                    "a33:A[3,3];\n" .
+                    "B:matrix([a11,a12,a13],[a21-a21/a11*a11,a22-a21/a11*a12,a23-a21/a11*a13]," .
+                    "[a31-a31/a11*a11,a32-a31/a11*a12,a33-a31/a11*a13]);\n" .
+                    "C:B-matrix([0,0,0],[0,0,0],[0,B[3,2]/B[2,2]*B[2,2],B[3,2]/B[2,2]*B[2,3]]);\n" .
+                    "coef1:a21/a11;\ncoef2:a31/a11;\ncoef3:B[3,2]/B[2,2];";
+        $this->assertEquals($expected, $s->get_keyval_representation());
+    }
 }

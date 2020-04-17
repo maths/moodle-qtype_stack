@@ -31,6 +31,10 @@ require_once(__DIR__ . '/../utils.class.php');
 require_once(__DIR__ . '/evaluatable_object.interfaces.php');
 
 class stack_cas_session2 {
+    /**
+     * @var string separator used between successive CAS commands inside the block.
+     */
+    const SEP = ",\n  ";
 
     /**
      * @var cas_evaluatable[]
@@ -39,6 +43,9 @@ class stack_cas_session2 {
 
     private $instantiated;
 
+    /**
+     * @var stack_options
+     */
     private $options;
 
     private $seed;
@@ -250,7 +257,7 @@ class stack_cas_session2 {
 
         foreach ($this->statements as $num => $statement) {
             $dvv = false;
-            if ($statement instanceof cas_value_extractor) {
+            if ($statement instanceof cas_value_extractor || $statement instanceof cas_raw_value_extractor) {
                 if ($statement instanceof cas_display_value_extractor) {
                     $dvv = true;
                     if ($statement->get_key() === '') {
@@ -284,34 +291,37 @@ class stack_cas_session2 {
 
         // We will build the whole command here
         // No protection in the block.
-        $command = 'block([],stack_randseed(' . $this->seed . ')';
+        $command = 'block([]' .
+                self::SEP . 'stack_randseed(' . $this->seed . ')';
         // The options.
         $command .= $this->options->get_cas_commands()['commands'];
         // Some parts of logic storage.
-        $command .= ',_RESPONSE:["stack_map"]';
-        $command .= ',_VALUES:["stack_map"]';
+        $command .= self::SEP . '_RESPONSE:["stack_map"]';
+        $command .= self::SEP . '_VALUES:["stack_map"]';
         if (count($collectlatex) > 0) {
-            $command .= ',_LATEX:["stack_map"]';
+            $command .= self::SEP . '_LATEX:["stack_map"]';
         }
         if ((count($collectdvs) + count($collectdvsandvalues)) > 0) {
-            $command .= ',_DVALUES:["stack_map"]';
+            $command .= self::SEP . '_DVALUES:["stack_map"]';
         }
 
         // Set some values.
-        $command .= ',_CS2v("__stackmaximaversion",stackmaximaversion)';
+        $command .= self::SEP . '_CS2v("__stackmaximaversion",stackmaximaversion)';
 
         // Evaluate statements.
         foreach ($this->statements as $num => $statement) {
-            $command .= ',%stmt:' . stack_utils::php_string_to_maxima_string('s' . $num);
+            $command .= self::SEP . '%stmt:' . stack_utils::php_string_to_maxima_string('s' . $num);
             $ef = $statement->get_evaluationform();
-            $line = ',_EC(errcatch(' . $ef . '),';
+            $line = self::SEP . '_EC(errcatch(' . $ef . '),';
             $key = null;
-            if (($statement instanceof cas_value_extractor) || ($statement instanceof cas_latex_extractor) ||
+            if (($statement instanceof cas_value_extractor ||
+                    $statement instanceof cas_raw_value_extractor) ||
+                    ($statement instanceof cas_latex_extractor) ||
                     ($statement instanceof cas_display_value_extractor)) {
                 // One of those that need to be collected later.
                 if (($key = $statement->get_key()) === '') {
                     $key = '__s' . $num;
-                    $line = ',_EC(errcatch(__s' . $num . ':' . $ef . '),';
+                    $line = self::SEP . '_EC(errcatch(__s' . $num . ':' . $ef . '),';
                 }
             }
             $line .= stack_utils::php_string_to_maxima_string($statement->get_source_context());
@@ -323,7 +333,7 @@ class stack_cas_session2 {
             // Now while the settings are correct. Only the last statements.
             if ($statement instanceof cas_latex_extractor) {
                 if ($collectlatex[$key] === $statement) {
-                    $command .= ',_CS2l(';
+                    $command .= self::SEP . '_CS2l(';
                     $command .= stack_utils::php_string_to_maxima_string($key);
                     $command .= ',' . $key . ')';
                 }
@@ -331,44 +341,43 @@ class stack_cas_session2 {
         }
         // Collect values if required.
         foreach ($collectvalues as $key => $statement) {
-            $command .= ',_CS2v(';
+            $command .= self::SEP . '_CS2v(';
             $command .= stack_utils::php_string_to_maxima_string($key);
             $command .= ',' . $key . ')';
         }
         foreach ($collectdvs as $key => $statement) {
-            $command .= ',_CS2dv(';
+            $command .= self::SEP . '_CS2dv(';
             $command .= stack_utils::php_string_to_maxima_string($key);
             $command .= ',' . $key . ')';
         }
         foreach ($collectdvsandvalues as $key => $statement) {
-            $command .= ',_CS2dvv(';
+            $command .= self::SEP . '_CS2dvv(';
             $command .= stack_utils::php_string_to_maxima_string($key);
             $command .= ',' . $key . ')';
         }
 
         // Pack values to the response.
-        $command .= ',_RESPONSE:stackmap_set(_RESPONSE,"timeout",false)';
-        $command .= ',_RESPONSE:stackmap_set(_RESPONSE,"values",_VALUES)';
+        $command .= self::SEP . '_RESPONSE:stackmap_set(_RESPONSE,"timeout",false)';
+        $command .= self::SEP . '_RESPONSE:stackmap_set(_RESPONSE,"values",_VALUES)';
         if (count($collectlatex) > 0) {
-            $command .= ',_RESPONSE:stackmap_set(_RESPONSE,"presentation",_LATEX)';
+            $command .= self::SEP . '_RESPONSE:stackmap_set(_RESPONSE,"presentation",_LATEX)';
         }
         if ((count($collectdvs) + count($collectdvsandvalues)) > 0) {
-            $command .= ',_RESPONSE:stackmap_set(_RESPONSE,"display",_DVALUES)';
+            $command .= self::SEP . '_RESPONSE:stackmap_set(_RESPONSE,"display",_DVALUES)';
         }
-        $command .= ',if length(%ERR)>1 then _RESPONSE:stackmap_set(_RESPONSE,"errors",%ERR)';
-        $command .= ',if length(%NOTES)>1 then _RESPONSE:stackmap_set(_RESPONSE,"notes",%NOTES)';
-        $command .= ',if length(%FEEDBACK)>1 then _RESPONSE:stackmap_set(_RESPONSE,"feedback",%FEEDBACK)';
+        $command .= self::SEP . 'if length(%ERR)>1 then _RESPONSE:stackmap_set(_RESPONSE,"errors",%ERR)';
+        $command .= self::SEP . 'if length(%NOTES)>1 then _RESPONSE:stackmap_set(_RESPONSE,"notes",%NOTES)';
+        $command .= self::SEP . 'if length(%FEEDBACK)>1 then _RESPONSE:stackmap_set(_RESPONSE,"feedback",%FEEDBACK)';
 
         // Then output them.
-        $command .= ',print("STACK-OUTPUT-BEGINS>")';
-        $command .= ',print(stackjson_stringify(_RESPONSE))';
-        $command .= ',print("<STACK-OUTPUT-ENDS")';
-        $command .= ')$'."\n";
+        $command .= self::SEP . 'print("STACK-OUTPUT-BEGINS>")';
+        $command .= self::SEP . 'print(stackjson_stringify(_RESPONSE))';
+        $command .= self::SEP . 'print("<STACK-OUTPUT-ENDS")';
+        $command .= "\n)$\n";
 
         // Send it to CAS.
         $connection = stack_connection_helper::make();
         $results = $connection->json_compute($command);
-
         // Let's collect what we got.
         $asts = array();
         $latex = array();
@@ -387,13 +396,17 @@ class stack_cas_session2 {
                 foreach ($results['values'] as $key => $value) {
                     if (is_string($value)) {
                         try {
-                            $ast = maxima_parser_utils::parse($value);
+                            if (!isset($collectvalues[$key]) || $collectvalues[$key] instanceof cas_value_extractor) {
+                                $ast = maxima_parser_utils::parse($value, 'Root', false);
+                                // Let's unpack the MP_Root immediately.
+                                $asts[$key] = $ast->items[0];
+                            } else {
+                                $asts[$key] = $value;
+                            }
                         } catch (Exception $e) {
                             throw new stack_exception('stack_cas_session: tried to parse the value ' .
                                     $value . ', but got the following exception ' . $e->getMessage());
                         }
-                        // Let's unpack the MP_Root immediately.
-                        $asts[$key] = $ast->items[0];
                     }
                 }
             }

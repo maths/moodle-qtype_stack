@@ -16,6 +16,10 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+global $CFG;
+require_once($CFG->libdir . '/questionlib.php');
+require_once(__DIR__ . '/fixtures/test_base.php');
+
 require_once(__DIR__ . '/../stack/input/factory.class.php');
 
 // Unit tests for stack_singlechar_input.
@@ -26,7 +30,7 @@ require_once(__DIR__ . '/../stack/input/factory.class.php');
 /**
  * @group qtype_stack
  */
-class stack_singlechar_input_test extends basic_testcase {
+class stack_singlechar_input_test extends qtype_stack_testcase {
 
     public function test_render_blank() {
         $el = stack_input_factory::make('singleChar', 'ans1', null);
@@ -51,5 +55,14 @@ class stack_singlechar_input_test extends basic_testcase {
         $this->assertEquals($expected,
                 $el->render(new stack_input_state(stack_input::VALID, array('a'), '', '', '', '', ''),
                         'question__stack1', true, null));
+    }
+
+    public function test_validate_student_response_1() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('singleChar', 'sans1', 'A');
+        $state = $el->validate_student_response(array('sans1' => 'a'), $options, 'A', new stack_cas_security());
+        $this->assertEquals(stack_input::SCORE, $state->status);
+        $this->assertEquals('A correct answer is <span class="filter_mathjaxloader_equation">'
+                . '<span class="nolink">\( A \)</span></span>.', $el->get_teacher_answer_display('A', 'A'));
     }
 }

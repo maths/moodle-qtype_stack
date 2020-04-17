@@ -209,7 +209,7 @@ ntupleify(ex):= apply(ntuple, args(ex))$
 ntuplep(ex):= if safe_op(ex)="ntuple" then true else false$
 
 /* An ellipsis */
-texput(dotdotdot, "\\ldots ")$
+texput(dotdotdot, "\\ldots")$
 
 
 /* ********************************** */
@@ -384,6 +384,25 @@ complex_exponentialp(ex):=block([ex2],
             return(true),
     if safe_op(ex2)="exp" and is(imag_numberp(first(args(ex2)))) then return(true),
     return(false)
+)$
+
+/* Decides if an expression is precicely of the form a*10^n, where a is an integer, or a float, and n is an integer. */
+scientific_notationp(ex) := block([tn],
+  if not(safe_op(ex)="*") then return(false),
+  if not(length(args(ex))=2) then return(false),
+  tn:first(args(ex)),
+  if safe_op(tn)="-" then tn:first(args(tn)), 
+  if not(integerp(tn) or floatnump(tn)) then return(false),
+  tn:second(args(ex)),
+  /* Special edge case: 3*10 = 3*10^1. */
+  if tn=10 then return(true),
+  if not(safe_op(tn)="^") then return(false),
+  if not(first(args(tn))=10) then return(false),
+  /* Of course, unary minus bites us here. */
+  tn:second(args(tn)),
+  if safe_op(tn)="-" then tn:first(args(tn)), 
+  if integerp(tn) then return(true),
+  return(false)
 )$
 
 /* commonfaclist(l) returns the gcd of a list of numbers. */
@@ -655,16 +674,17 @@ recursemod(ex, n) := block(
    Takes two objects and returns true if they are equal, and false otherwise
    This is a "bash as hard as possible" function
 
-   26/9/12.  Avoid fullratsimp after exponentialize.  This results in a non-terminating process.
-
+   26/09/12.  Avoid fullratsimp after exponentialize.  This results in a non-terminating process.
    24/11/13.  Avoid fullratsimp.  This expands out exprsssions such as (x+a)^6000, which results in an overflow.
-
    04/01/19.  Avoid trigexpand too soon, i.e. before trying to factor.
+   24/02/20.  Using a lambda expression is causing an infinite loop.  Use a named function: algebraic_equivalence_zero.
 */
+
+algebraic_equivalence_zero(ex) := algebraic_equivalence(ex, 0)$
+
 algebraic_equivalence(SA, SB) :=
     block([keepfloat, trigexpand, logexpand, ex, vi],
     /* Reject obviously different expressions.  These can be very time consuming in the tests below. */
-    /* The code below is actually making the situation worse: needs reconsidering. */
     if numerical_not_alg_equiv(SA, SB) then return(false),
     trigexpand:false,
     logexpand:super,
@@ -716,8 +736,8 @@ algebraic_equivalence(SA, SB) :=
     /* Try to return a negative result without expanding anything! */
     if safe_op(ex)="-" then
        ex:first(args(ex)),
-    if (safe_op(ex)="*" or safe_op(ex)="^") then
-       if not(any_listp(lambda([ex2], algebraic_equivalence(ex2, 0)), args(ex))) then return(false),
+    if (safe_op(ex)="*" or safe_op(ex)="^") then 
+       if not(any_listp(algebraic_equivalence_zero, args(ex))) then return(false),
     ex:errcatch(ratsimp(ex)),
     if ex=[] then error("algebraic_equivalence: evaluating the difference of two expressions threw an error."),
     ex:ex[1],
@@ -765,7 +785,8 @@ numerical_not_alg_equiv(p1, p2):= block([pvars, pval, lv, sz, stack_mtell_quiet]
   if is(p1 = []) then (print("STACK: ignore previous error. (p1)"), return(false)),
   p2:errcatch(ev(float(p2), lv, numer_pbranch:true, simp)),
   if is(p2 = []) then (print("STACK: ignore previous error. (p2)"), return(false)),
-  sz:errcatch(ev(abs(float(first(p1)-first(p2))), simp)),
+  /* Make the error here relative, and don't divide by zero. */
+  sz:errcatch(ev(abs(float(first(p1)-first(p2))/max(min(abs(first(p1)),abs(first(p2))),1)), simp)),
   /* print([p1,p2,sz]), */
   if is(sz = []) then (print("STACK: ignore previous error."), return(false)),
   if first(sz) > 0.0001 then true else false)$
@@ -999,15 +1020,15 @@ ATEqualComAss(sa, sb) :=
     /* We need to check things are of the same type */
     ret:ATSameTypefun(sa,sb),
     if ret[2]=false then
-        (ret[3]:StackAddNote("ATEqualComAss: ", StackTrimNote(ret[3])), return([false, ret[2], ret[3], ret[4]]) ),
+        (ret[3]:StackAddNote("ATEqualComAss ", StackTrimNote(ret[3])), return([false, ret[2], ret[3], ret[4]]) ),
     ret:block([simp:true, ret], ATAlgEquiv(sa, sb)),
     if ret[2]=false then
-        (ret[3]:StackAddNote("ATEqualComAss: (AlgEquiv:false)", StackTrimNote(ret[3])), return([false, ret[2], ret[3], ""])),
+        (ret[3]:StackAddNote("ATEqualComAss (AlgEquiv-false)", StackTrimNote(ret[3])), return([false, ret[2], ret[3], ""])),
     /* Now actually apply this test */
     if equals_commute_associate(sa, sb) then
         (RawMark:true, AnswerNote:"")
     else
-        (RawMark:false, AnswerNote:StackAddNote("","ATEqualComAss: (AlgEquiv:true)")),
+        (RawMark:false, AnswerNote:StackAddNote("","ATEqualComAss (AlgEquiv-true)")),
     return([Validity, RawMark, AnswerNote, FeedBack])
 )$
 
@@ -1045,13 +1066,13 @@ logicp(ex) := block(
   if safe_op(ex) = "and" then return(true),
   if safe_op(ex) = "or" then return(true),
   if safe_op(ex) = "not" then return(true),
-  if op_usedp(ex, "+-") then return(true),
+  if op_usedp(ex, STACKpmOPT) then return(true),
   return(false)
 )$
 
 free_of_logicp(ex) := block([logicops, logiconsts, res, k],
    if is(ex=all) or is(ex=none) then return(false),
-   logicops:["nounand", "nounor", "and", "or", "%and", "%or", "not", "%not", "+-", "<", ">", "<=", ">=", "=", "[", "{"],
+   logicops:["nounand", "nounor", "and", "or", "%and", "%or", "not", "%not", STACKpmOPT, "<", ">", "<=", ">=", "=", "[", "{"],
    res:true,
    for k: 1 thru length(logicops) do
        if ev(not(is(count_op(ex, logicops[k])=0)),simp) then res:false,
@@ -1183,8 +1204,10 @@ nounlimit([ex]):=apply(nounify(limit), ex)$
 /* ********************************** */
 
 /* We have to define +- to be both a prefix and an nary operator in this order. */
-prefix("+-");
-nary("+-", 100);
+/* Note we need to add this into (defun tex-mexpt (x l r) in stacktex.lisp.     */
+STACKpmOPT:"#pm#";
+prefix(STACKpmOPT);
+nary(STACKpmOPT, 100);
 
 displaypmtex(ex):=block([al],
   al:args(ex),
@@ -1193,7 +1216,7 @@ displaypmtex(ex):=block([al],
   al:maplist(tex1, al),
   sconcat("{", simplode(al, " \\pm "), "}")
   );
-texput("+-", displaypmtex);
+texput(STACKpmOPT, displaypmtex);
 
 /* Count the occurance of an operator. */
 count_op(ex, ops):= block([count],
@@ -1209,7 +1232,7 @@ count_op(ex, ops):= block([count],
    Do we mean both + then both -, or all 4 combinations?
 */
 pm_replace(ex):= block(
-  if ev(is(count_op(ex, "+-")=1), simp) then return(opsubst("+", "+-", ex) nounor opsubst("-", "+-", ex)),
+  if ev(is(count_op(ex, STACKpmOPT)=1), simp) then return(opsubst("+", STACKpmOPT, ex) nounor opsubst("-", STACKpmOPT, ex)),
   return(ex)
 )$
 
@@ -1269,11 +1292,13 @@ expandp(expandparg):= block([simp:true], if expandparg=ev(expand(expandparg),exp
 
 /* factorp(p) is true if p equals its factored form */
 factorp(argfac) := block([a],
+    if safe_op(argfac)="-" then 
+       argfac:part(argfac,1),
     if ev(argfac=factor(argfac), simp) then
         return(true),
     if mapatom(argfac) then
-        return(false),
-    /* Note, in Maxima factor((1-x)) = -(x-1), so we need to fix this, for learning and teaching! */
+        return(true),
+    /* Note, in Maxima factor((1-x)) = -(x-1), so we need to fix this. */
     if ev(-1*factor(argfac) = expand(-1*argfac), simp) then
         return(true),
     if op(argfac)="^" and mapatom(part(argfac, 1))
@@ -1590,7 +1615,7 @@ stack_eval_arg(ex) := block([eqoutcome, eqoutsymb, eqoutnote, res, id, truthargu
       SA:exmod[ev(id, simp)],
       if stack_eval_arg_equivzerop(ex) then SA:SA=0,
       if is(safe_op(SA)="stackeq") then SA:first(args(SA)),
-      if ev(is(count_op(SA,"+-")=1), simp) then SA:pm_replace(SA),
+      if ev(is(count_op(SA,STACKpmOPT)=1), simp) then SA:pm_replace(SA),
 
       /* Reduce the range of options. Avoid sets, since Maxima 5.38.1 has a bug.         */
       /* As far as resoning by equivalence is concerned, {}=[]=false=none and true=all.  */
@@ -2104,13 +2129,13 @@ stack_eval_arg(ex) := block([eqoutcome, eqoutsymb, eqoutnote, res, id, truthargu
 /* Try to find a representative of the solution set of the underlying system in a sensible form.
    Only support specific situations currently.
 */
-stack_eval_arg_solver(ex) := block([ex2],
+stack_eval_arg_solver(ex) := block([ex2, ex3, errc],
 
       ex:logic_to_poly(ex),
 
       if ev(is(equal(length(listofvars(ex)), 1)), simp) then
           return(ev(single_variable_solver_real(ex), simp)),
-
+      
       if safe_op(ex) = "%or" or safe_op(ex) = "nounor" or safe_op(ex) = "or" then
           return(ev(logical_normal(apply("%or", maplist(stack_eval_arg_solver, ex))), simp)),
 
@@ -2118,14 +2143,18 @@ stack_eval_arg_solver(ex) := block([ex2],
           /* Solve systems of polynomial equations. (Not inequalities) */
         ex2:maplist(logic_to_poly, args(ex)),
         if (all_listp(lambda([ex], equationp(ex) and polynomialpsimp(lhs(ex))), ex2)) then block(
-            ex2:ev(solve(ex2, sort(listofvars(ex2)))), simp),
-            if assume_real then
-                ex2:ev(sublist(ex2, lambda([m], freeof(%i, m))), simp),
-            if not(emptyp(ex2)) then (ex2:map(lambda([ex], apply("%and", ex)), ex2), ex:apply("%or", ex2))
-            ),
+            /* Algsys throws errors if we have too many variables, and in other situations. */
+            ex3:[],
+            errc:errcatch(ex3:ev(solve(ex2, sort(listofvars(ex2))), simp)),
+            if not(emptyp(ex3)) then block(
+                if assume_real then
+                    ex3:ev(sublist(ex3, lambda([m], freeof(%i, m))), simp),
+                if not(emptyp(ex3)) then (ex3:map(lambda([ex], apply("%and", ex)), ex3), ex:apply("%or", ex3))
+                )
+            )
+        ),
       return(ev(logical_normal(ex), simp))
 )$
-
 
 /* This modifies stack_eval_arg to create something which can be displayed. */
 stack_eval_equiv_arg(ex, showlogic, showdomain, equivdebug, debuglist) := block([A, k, ret, res, exnew, eqoutsymb, note],

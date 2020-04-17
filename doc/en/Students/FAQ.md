@@ -20,7 +20,7 @@ Different quizzes can have different [question behaviours](https://docs.moodle.o
 
 ## How do I change the language?
 
-Click on your profile, and go to `Preferences`, ` Preferred language` and then select the language. [Here](https://stack2.maths.ed.ac.uk/demo2018/user/language.php) is a direct link to this page (for sites using Moodle). If your language is not available, contact your site administrator - it is likely that they have not installed the relevant language package. Currently, only some languages are supported by STACK. See [Language packages](../Developers/Language_packs.md) for a full list. If the interface is translated, but the question text and feedback is not, it is because your teacher has not added support for [multilingual questions](../Authoring/Languages.md) when authoring the question.
+Click on your profile, and go to `Preferences`, ` Preferred language` and then select the language. [Here](https://stack2.maths.ed.ac.uk/demo2018/user/language.php) is a direct link to this page (for sites using Moodle). If your language is not available, contact your site administrator - it is likely that they have not installed the relevant language package. Currently, only some languages are supported by STACK. See [Language packages](../Developer/Language_packs.md) for a full list. If the interface is translated, but the question text and feedback is not, it is because your teacher has not added support for [multilingual questions](../Authoring/Languages.md) when authoring the question.
 
 ## Where can I report bugs?
 

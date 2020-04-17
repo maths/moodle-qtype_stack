@@ -231,7 +231,7 @@ class stack_dropdown_input_test extends qtype_stack_walkthrough_test_base {
         $this->assertEquals($correctresponse,
                 $el->get_correct_response('[[1+x,false],[2+x^2,true],[{},false,"None of these"]]'));
 
-        $correctresponse = 'A correct answer is <code>2+x^2</code> .';
+        $correctresponse = 'A correct answer is: <code>2+x^2</code>';
         $this->assertEquals($correctresponse,
                 $el->get_teacher_answer_display(null, null));
     }
@@ -244,7 +244,8 @@ class stack_dropdown_input_test extends qtype_stack_walkthrough_test_base {
         $this->assertEquals($correctresponse,
                 $el->get_correct_response('[[1+x,false],[2+x^2,false],[{},true,"None of these"]]'));
 
-        $correctresponse = 'A correct answer is <code>"None of these"</code> .';
+        $el->adapt_to_model_answer('[[1+x,false],[2+x^2,false],[{},true,"None of these"]]');
+        $correctresponse = 'A correct answer is: <code>"None of these"</code>';
         $this->assertEquals($correctresponse,
                 $el->get_teacher_answer_display(null, null));
     }

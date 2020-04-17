@@ -58,14 +58,6 @@ Maxima is the rate-determining step in performance to STACK. Once you have the S
 
 At any stage you can evaluate a fragment of CASText by using the CASChat script.  There is a link from the STACK configuration page. 
 
-# Test results
-
-As of 2015-9-17, STACK has been tested on the following versions of Maxima.
-
-* 5.31.3 = PASS
-* branch_5_35_base_87_g454731b = PASS (compiled from source)
-* 5.36.1 = PASS
-
 ## Testing your questions when you upgrade
 
 Whenever you upgrade to a new version of the STACK plugin, it is a really good idea to run all

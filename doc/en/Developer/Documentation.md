@@ -24,6 +24,7 @@ STACK stores all documentation within language subdirectories.  For example, Eng
   Note `index.md` will never be displayed in a directory listing, it can be accessed by navigating to the directory itself.
 * Directories may be nested.
 * A directory listing will be appended to the site map when rendered.
+* Metadata about the files is stored in `meta_en.json`.  Every page should have metadata.
 
 ## How relative links work in STACK's documentation##
 

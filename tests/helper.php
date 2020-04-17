@@ -55,11 +55,13 @@ class qtype_stack_test_helper extends question_test_helper {
             'runtime_ses_err',    // This generates an invalid session.
             'runtime_cas_err',    // This generates a 1/0 in the CAS at run time.
             'units',              // This question has units inputs, and a numerical test.
+            'unitsoptions',       // This question has units inputs, and a numerical test with the accuracy in a variable.
             'equiv_quad',         // This question uses equivalence reasoning to solve a quadratic equation.
             'checkbox_all_empty', // Creates a checkbox input with none checked as the correct answer: edge case.
             'addrow',             // This question has addrows, in an older version.
             'mul',                // This question has mul in the options which is no longer permitted.
-            'stringsloppy'        // Uses the StringSloppy answer test, and string input.
+            'stringsloppy',       // Uses the StringSloppy answer test, and string input.
+            'sregexp'             // Uses the SRegExp answer test, and string input.
         );
     }
 
@@ -902,6 +904,38 @@ class qtype_stack_test_helper extends question_test_helper {
         $tans = stack_ast_container::make_from_teacher_source('9.81*m/s^2');
         $tans->get_valid();
         $node = new stack_potentialresponse_node($sans, $tans, 'Units', '3');
+        $node->add_branch(0, '=', 0, $q->penalty, -1, '', FORMAT_HTML, 'firsttree-1-F');
+        $node->add_branch(1, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'firsttree-1-T');
+        $q->prts['firsttree'] = new stack_potentialresponse_tree('firsttree', '', false, 1, null, array($node), '0');
+
+        return $q;
+    }
+
+    /**
+     * @return qtype_stack_question a question using a numerical precision answertest.
+     */
+    public static function make_stack_question_unitsoptions() {
+        $q = self::make_a_stack_question();
+
+        $q->stackversion = '2019072900';
+        $q->name = 'test-units-options';
+        $q->questionvariables = 'n0:3';
+        $q->questiontext = 'Please round type in gravity to {@n0@} significant figures. [[input:ans1]]
+        [[validation:ans1]]';
+
+        $q->specificfeedback = '[[feedback:firsttree]]';
+        $q->penalty = 0.2; // Non-zero and not the default.
+
+        $q->inputs['ans1'] = stack_input_factory::make(
+                'units', 'ans1', '9.81*m/s^2', null, array('boxWidth' => 5, 'forbidFloats' => false));
+
+        $q->options->questionsimplify = 0;
+
+        $sans = stack_ast_container::make_from_teacher_source('ans1');
+        $sans->get_valid();
+        $tans = stack_ast_container::make_from_teacher_source('9.81*m/s^2');
+        $tans->get_valid();
+        $node = new stack_potentialresponse_node($sans, $tans, 'Units', '[n0,n0-1]');
         $node->add_branch(0, '=', 0, $q->penalty, -1, '', FORMAT_HTML, 'firsttree-1-F');
         $node->add_branch(1, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'firsttree-1-T');
         $q->prts['firsttree'] = new stack_potentialresponse_tree('firsttree', '', false, 1, null, array($node), '0');
@@ -2054,10 +2088,57 @@ class qtype_stack_test_helper extends question_test_helper {
         $sans->get_valid();
         $tans = stack_ast_container::make_from_teacher_source('ta1');
         $tans->get_valid();
-        $node = new stack_potentialresponse_node($sans, $tans, 'StringSloppy');
-        $node->add_branch(0, '=', 0, $q->penalty, -1, '', FORMAT_HTML, 'firsttree-1-F');
-        $node->add_branch(1, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'firsttree-1-T');
-        $q->prts['firsttree'] = new stack_potentialresponse_tree('firsttree', '', false, 1, null, array($node), '0');
+        $node1 = new stack_potentialresponse_node($sans, $tans, 'String');
+        $node1->add_branch(0, '=', 0, $q->penalty, 1, '', FORMAT_HTML, 'firsttree-1-F');
+        $node1->add_branch(1, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'firsttree-1-T');
+
+        $sans = stack_ast_container::make_from_teacher_source('ans1');
+        $sans->get_valid();
+        $tans = stack_ast_container::make_from_teacher_source('ta1');
+        $tans->get_valid();
+        $node2 = new stack_potentialresponse_node($sans, $tans, 'StringSloppy');
+        $node2->add_branch(0, '=', 0, $q->penalty, -1, '', FORMAT_HTML, 'firsttree-2-F');
+        $node2->add_branch(1, '=', 0.75, $q->penalty, -1, '', FORMAT_HTML, 'firsttree-2-T');
+
+        $q->prts['firsttree'] = new stack_potentialresponse_tree('firsttree', '', false, 1,
+                null, array($node1, $node2), '0');
+
+        return $q;
+    }
+
+    /**
+     * @return qtype_stack_question a question which uses ATSRegExp.
+     */
+    public static function make_stack_question_sregexp() {
+        $q = self::make_a_stack_question();
+
+        $q->stackversion = '2019110900';
+        $q->name = 'sregexp';
+        $q->questionvariables = "ta:\"cccggf\";\ntregex:\"(ccc)*b\";";
+        $q->questiontext = '<p>Input a word of the language decribed by the regular expression {@tregex@}.</p>' .
+                '<p>[[input:ans1]] [[validation:ans1]]</p>' .
+                '[[feedback:firsttree]]';
+
+        $q->specificfeedback = '';
+        $q->penalty = 0.4; // Non-zero and not the default.
+
+        $q->inputs['ans1'] = stack_input_factory::make(
+                'string', 'ans1', 'ta', null, array('boxWidth' => 25));
+
+        $q->options->questionsimplify = 0;
+
+        $sans = stack_ast_container::make_from_teacher_source('ans1');
+        $sans->get_valid();
+        $tans = stack_ast_container::make_from_teacher_source('tregex');
+        $tans->get_valid();
+        $node1 = new stack_potentialresponse_node($sans, $tans, 'SRegExp');
+        $fb = '<p>The word {@ans1@} is&nbsp; an element&nbsp; of the language described by {@regex@}<br></p>';
+        $node1->add_branch(0, '=', 0, $q->penalty, -1, $fb, FORMAT_HTML, 'firsttree-1-F');
+        $fb = '<p>The word {@ans1@} is not an element of the language described by {@regex@}</p>';
+        $node1->add_branch(1, '=', 1, $q->penalty, -1, $fb, FORMAT_HTML, 'firsttree-1-T');
+
+        $q->prts['firsttree'] = new stack_potentialresponse_tree('firsttree', '', false, 1,
+                null, array($node1), '0');
 
         return $q;
     }

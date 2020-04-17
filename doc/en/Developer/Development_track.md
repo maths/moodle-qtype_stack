@@ -7,6 +7,10 @@ How to report bugs and make suggestions is described on the [community](../About
 
 ## Version 4.4
 
+* Add in STACK option "logicsymbol" to control how logical symbols are displayed.
+* Add in formative potential response trees.
+* Add in option `feedbackstyle` to potential response trees.
+
 ## Maxima side PRTs.
 
 * Move all functions to Maxima.

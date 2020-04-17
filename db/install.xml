@@ -26,6 +26,7 @@
         <FIELD NAME="sqrtsign" TYPE="int" LENGTH="4" NOTNULL="true" DEFAULT="1" SEQUENCE="false" COMMENT="Whether to display square roots as surds."/>
         <FIELD NAME="complexno" TYPE="char" LENGTH="8" NOTNULL="true" DEFAULT="i" SEQUENCE="false" COMMENT="How complex numbers should be displayed and represented."/>
         <FIELD NAME="inversetrig" TYPE="char" LENGTH="8" NOTNULL="true" DEFAULT="cos-1" SEQUENCE="false" COMMENT="How the inverse trigonometric function should be displayed. The valid values are cos-1, acos or arccos."/>
+        <FIELD NAME="logicsymbol" TYPE="char" LENGTH="8" NOTNULL="true" DEFAULT="lang" SEQUENCE="false" COMMENT="How logical symbols should be displayed. The valid values are lang or symbol."/>
         <FIELD NAME="matrixparens" TYPE="char" LENGTH="8" NOTNULL="true" DEFAULT="[" SEQUENCE="false" COMMENT="The parentheses used to surround matrices."/>
         <FIELD NAME="variantsselectionseed" TYPE="char" LENGTH="255" NOTNULL="false" SEQUENCE="false" COMMENT="If set, used to control the random seed in a deterministic way, so different questions in the quiz can use the same random variable values."/>
       </FIELDS>
@@ -70,6 +71,7 @@
         <FIELD NAME="name" TYPE="char" LENGTH="32" NOTNULL="true" SEQUENCE="false" COMMENT="The name used to identify this PRT."/>
         <FIELD NAME="value" TYPE="number" LENGTH="12" NOTNULL="true" DEFAULT="1" SEQUENCE="false" DECIMALS="7" COMMENT="The maximum score this PRT can contribute to the question."/>
         <FIELD NAME="autosimplify" TYPE="int" LENGTH="4" NOTNULL="true" DEFAULT="1" SEQUENCE="false" COMMENT="Whether to automatically simplify the variables used in this tree."/>
+        <FIELD NAME="feedbackstyle" TYPE="int" LENGTH="4" NOTNULL="true" DEFAULT="1" SEQUENCE="false" COMMENT="Controls how PRT feedback is displayed."/>
         <FIELD NAME="feedbackvariables" TYPE="text" NOTNULL="true" SEQUENCE="false" COMMENT="Additional expressions that should be computed before evaluating this tree."/>
         <FIELD NAME="firstnodename" TYPE="char" LENGTH="8" NOTNULL="true" SEQUENCE="false" COMMENT="Refers to qtype_stack_prt_nodes.nodename of the first node in the tree."/>
       </FIELDS>

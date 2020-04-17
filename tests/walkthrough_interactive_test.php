@@ -461,7 +461,7 @@ class qtype_stack_walkthrough_interactive_testcase extends qtype_stack_walkthrou
         $this->render();
         $this->check_output_contains_text_input('ans1', '0');
         $this->check_output_contains_input_validation('ans1');
-        $this->check_output_contains_prt_feedback('prt1');
+        $this->check_output_does_not_contain_prt_feedback('prt1');
         $this->check_output_does_not_contain_stray_placeholders();
 
         // Validate the response 1/2 (correct).

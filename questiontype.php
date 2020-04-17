@@ -143,6 +143,7 @@ class qtype_stack extends question_type {
         $options->sqrtsign                  = $fromform->sqrtsign;
         $options->complexno                 = $fromform->complexno;
         $options->inversetrig               = $fromform->inversetrig;
+        $options->logicsymbol               = $fromform->logicsymbol;
         $options->matrixparens              = $fromform->matrixparens;
         $options->variantsselectionseed     = $fromform->variantsselectionseed;
         $DB->update_record('qtype_stack_options', $options);
@@ -243,6 +244,7 @@ class qtype_stack extends question_type {
 
             $prt->value             = $fromform->{$prtname . 'value'};
             $prt->autosimplify      = $fromform->{$prtname . 'autosimplify'};
+            $prt->feedbackstyle     = $fromform->{$prtname . 'feedbackstyle'};
             $prt->feedbackvariables = $fromform->{$prtname . 'feedbackvariables'};
             $prt->firstnodename     = $firstnode;
             $DB->update_record('qtype_stack_prts', $prt);
@@ -378,7 +380,7 @@ class qtype_stack extends question_type {
 
         $question->prts = $DB->get_records('qtype_stack_prts',
                 array('questionid' => $question->id), 'name',
-                'name, id, questionid, value, autosimplify, feedbackvariables, firstnodename');
+                'name, id, questionid, value, autosimplify, feedbackstyle, feedbackvariables, firstnodename');
 
         $noders = $DB->get_recordset('qtype_stack_prt_nodes',
                 array('questionid' => $question->id),
@@ -417,6 +419,7 @@ class qtype_stack extends question_type {
         $question->options->set_option('multiplicationsign', $questiondata->options->multiplicationsign);
         $question->options->set_option('complexno',          $questiondata->options->complexno);
         $question->options->set_option('inversetrig',        $questiondata->options->inversetrig);
+        $question->options->set_option('logicsymbol',        $questiondata->options->logicsymbol);
         $question->options->set_option('matrixparens',       $questiondata->options->matrixparens);
         $question->options->set_option('sqrtsign',    (bool) $questiondata->options->sqrtsign);
         $question->options->set_option('simplify',    (bool) $questiondata->options->questionsimplify);
@@ -454,7 +457,10 @@ class qtype_stack extends question_type {
 
         $totalvalue = 0;
         foreach ($questiondata->prts as $name => $prtdata) {
-            $totalvalue += $prtdata->value;
+            // At this point we do not have the PRT method is_formative() available to us.
+            if ($prtdata->feedbackstyle > 0) {
+                $totalvalue += $prtdata->value;
+            }
         }
         if ($questiondata->prts && $totalvalue < 0.0000001) {
             throw new coding_exception('There is an error authoring your question. ' .
@@ -503,7 +509,7 @@ class qtype_stack extends question_type {
 
             $question->prts[$name] = new stack_potentialresponse_tree($name, '',
                     (bool) $prtdata->autosimplify, $prtdata->value / $totalvalue,
-                    $feedbackvariables, $nodes, (string) $prtdata->firstnodename);
+                    $feedbackvariables, $nodes, (string) $prtdata->firstnodename, (int) $prtdata->feedbackstyle);
         }
 
         $question->deployedseeds = array_values($questiondata->deployedseeds);
@@ -1093,6 +1099,7 @@ class qtype_stack extends question_type {
         $output .= "    <sqrtsign>{$options->sqrtsign}</sqrtsign>\n";
         $output .= "    <complexno>{$options->complexno}</complexno>\n";
         $output .= "    <inversetrig>{$options->inversetrig}</inversetrig>\n";
+        $output .= "    <logicsymbol>{$options->logicsymbol}</logicsymbol>\n";
         $output .= "    <matrixparens>{$options->matrixparens}</matrixparens>\n";
         $output .= "    <variantsselectionseed>{$format->xml_escape($options->variantsselectionseed)}</variantsselectionseed>\n";
 
@@ -1122,6 +1129,7 @@ class qtype_stack extends question_type {
             $output .= "      <name>{$prt->name}</name>\n";
             $output .= "      <value>{$prt->value}</value>\n";
             $output .= "      <autosimplify>{$prt->autosimplify}</autosimplify>\n";
+            $output .= "      <feedbackstyle>{$prt->feedbackstyle}</feedbackstyle>\n";
             $output .= "      <feedbackvariables>\n";
             $output .= "        " . $format->writetext($prt->feedbackvariables, 0);
             $output .= "      </feedbackvariables>\n";
@@ -1209,6 +1217,7 @@ class qtype_stack extends question_type {
         $fromform->sqrtsign              = $format->getpath($xml, array('#', 'sqrtsign', 0, '#'), 1);
         $fromform->complexno             = $format->getpath($xml, array('#', 'complexno', 0, '#'), 'i');
         $fromform->inversetrig           = $format->getpath($xml, array('#', 'inversetrig', 0, '#'), 'cos-1');
+        $fromform->logicsymbol           = $format->getpath($xml, array('#', 'logicsymbol', 0, '#'), 'lang');
         $fromform->matrixparens          = $format->getpath($xml, array('#', 'matrixparens', 0, '#'), '[');
         $fromform->variantsselectionseed = $format->getpath($xml, array('#', 'variantsselectionseed', 0, '#'), 'i');
 
@@ -1306,6 +1315,7 @@ class qtype_stack extends question_type {
 
         $fromform->{$name . 'value'}             = $format->getpath($xml, array('#', 'value', 0, '#'), 1);
         $fromform->{$name . 'autosimplify'}      = $format->getpath($xml, array('#', 'autosimplify', 0, '#'), 1);
+        $fromform->{$name . 'feedbackstyle'}     = $format->getpath($xml, array('#', 'feedbackstyle', 0, '#'), 1);
         $fromform->{$name . 'feedbackvariables'} = $format->getpath($xml,
                             array('#', 'feedbackvariables', 0, '#', 'text', 0, '#'), '', true);
 
@@ -1403,6 +1413,7 @@ class qtype_stack extends question_type {
         $this->options->set_option('multiplicationsign', $fromform['multiplicationsign']);
         $this->options->set_option('complexno',          $fromform['complexno']);
         $this->options->set_option('inversetrig',        $fromform['inversetrig']);
+        $this->options->set_option('logicsymbol',        $fromform['logicsymbol']);
         $this->options->set_option('matrixparens',       $fromform['matrixparens']);
         $this->options->set_option('sqrtsign',    (bool) $fromform['sqrtsign']);
         $this->options->set_option('simplify',    (bool) $fromform['questionsimplify']);
@@ -2256,7 +2267,7 @@ class qtype_stack extends question_type {
         }
         $feedbackvariables = new stack_cas_keyval($prt->feedbackvariables);
         $potentialresponsetree = new stack_potentialresponse_tree(
-                '', '', false, 0, $feedbackvariables->get_session(), $prtnodes, (string) $prt->firstnodename);
+                '', '', false, 0, $feedbackvariables->get_session(), $prtnodes, (string) $prt->firstnodename, 1);
         return $potentialresponsetree->get_required_variables($inputkeys);
     }
 }

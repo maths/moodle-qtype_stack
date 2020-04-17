@@ -46,6 +46,10 @@ In practice it is very helpful to have some kind of multiplication sign displaye
 \[ xe^x \mbox{ and } x\,e^x\]
 is very subtle.  Notice the spacing?  The first means `xe^x=(xe)^x` the second is `x*e^x`.  Could be quite confusing to students if there is no multiplication sign.  Using \(x\dot e^x\) neatly solves this problem.
 
+### Logic symbols ### {#logicsymbol}
+
+How logical symbols should be displayed. The values are language, e.g. \(A \mbox{ and } B\) or symbol, e.g. \(A\land B\).
+
 ### Surd for Square Root ### {#surd}
 
 This option sets the value of [Maxima](../CAS/Maxima.md)'s

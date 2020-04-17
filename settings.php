@@ -26,6 +26,7 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/settingslib.php');
 require_once(__DIR__ . '/stack/options.class.php');
+require_once(__DIR__ . '/stack/potentialresponsetree.class.php');
 
 // Useful links.
 $links = array(
@@ -204,17 +205,25 @@ $settings->add(new admin_setting_configselect('qtype_stack/assumereal',
         get_string('assumereal_help', 'qtype_stack'), '0',
         stack_options::get_yes_no_options()));
 
+$settings->add(new admin_setting_configselect('qtype_stack/feedbackstyle',
+        get_string('feedbackstyle', 'qtype_stack'),
+        get_string('feedbackstyle', 'qtype_stack'), '1',
+        stack_potentialresponse_tree::get_feedbackstyle_options()));
+
 $settings->add(new admin_setting_configtextarea('qtype_stack/prtcorrect',
         get_string('prtcorrectfeedback', 'qtype_stack'), '',
-        get_string('defaultprtcorrectfeedback', 'qtype_stack'), PARAM_RAW, 60, 3));
+        get_string('symbolicprtcorrectfeedback', 'qtype_stack') . ' ' .
+            get_string('defaultprtcorrectfeedback', 'qtype_stack'), PARAM_RAW, 60, 3));
 
 $settings->add(new admin_setting_configtextarea('qtype_stack/prtpartiallycorrect',
         get_string('prtpartiallycorrectfeedback', 'qtype_stack'), '',
-        get_string('defaultprtpartiallycorrectfeedback', 'qtype_stack'), PARAM_RAW, 60, 3));
+        get_string('symbolicprtpartiallycorrectfeedback', 'qtype_stack') . ' ' .
+            get_string('defaultprtpartiallycorrectfeedback', 'qtype_stack'), PARAM_RAW, 60, 3));
 
 $settings->add(new admin_setting_configtextarea('qtype_stack/prtincorrect',
         get_string('prtincorrectfeedback', 'qtype_stack'), '',
-        get_string('defaultprtincorrectfeedback', 'qtype_stack'), PARAM_RAW, 60, 3));
+        get_string('symbolicprtincorrectfeedback', 'qtype_stack') . ' ' .
+            get_string('defaultprtincorrectfeedback', 'qtype_stack'), PARAM_RAW, 60, 3));
 
 $settings->add(new admin_setting_configselect('qtype_stack/multiplicationsign',
         get_string('multiplicationsign', 'qtype_stack'),
@@ -235,6 +244,11 @@ $settings->add(new admin_setting_configselect('qtype_stack/inversetrig',
         get_string('inversetrig', 'qtype_stack'),
         get_string('inversetrig_help', 'qtype_stack'), 'cos-1',
         stack_options::get_inverse_trig_options()));
+
+$settings->add(new admin_setting_configselect('qtype_stack/logicsymbol',
+        get_string('logicsymbol', 'qtype_stack'),
+        get_string('logicsymbol_help', 'qtype_stack'), 'lang',
+        stack_options::get_logic_options()));
 
 $settings->add(new admin_setting_configselect('qtype_stack/matrixparens',
         get_string('matrixparens', 'qtype_stack'),

@@ -442,6 +442,42 @@ class stack_cas_session2_test extends qtype_stack_testcase {
         $this->assertEquals('{\rm arcsinh}\left( x \right)', $s1[2]->get_display());
     }
 
+    public function test_logicsymbol_option_lang() {
+
+        $cs = array('a:A and B', 'b:A nounand B', 'c:A and (B or C)', 'd:A nounand (B nounor C)');
+        foreach ($cs as $s) {
+            $s1[] = stack_ast_container::make_from_student_source($s, '', new stack_cas_security(), array());
+        }
+
+        $options = new stack_options();
+        $options->set_option('logicsymbol', 'lang');
+
+        $at1 = new stack_cas_session2($s1, $options, 0);
+        $at1->instantiate();
+        $this->assertEquals('A\,{\mbox{ and }}\, B', $s1[0]->get_display());
+        $this->assertEquals('A\,{\mbox{ and }}\, B', $s1[1]->get_display());
+        $this->assertEquals('A\,{\mbox{ and }}\, \left(B\,{\mbox{ or }}\, C\right)', $s1[2]->get_display());
+        $this->assertEquals('A\,{\mbox{ and }}\, \left(B\,{\mbox{ or }}\, C\right)', $s1[3]->get_display());
+    }
+
+    public function test_logicsymbol_option_symbol() {
+
+        $cs = array('a:A and B', 'b:A nounand B', 'c:A and (B or C)', 'd:A nounand (B nounor C)');
+        foreach ($cs as $s) {
+            $s1[] = stack_ast_container::make_from_student_source($s, '', new stack_cas_security(), array());
+        }
+
+        $options = new stack_options();
+        $options->set_option('logicsymbol', 'symbol');
+
+        $at1 = new stack_cas_session2($s1, $options, 0);
+        $at1->instantiate();
+        $this->assertEquals('A\land B', $s1[0]->get_display());
+        $this->assertEquals('A\land B', $s1[1]->get_display());
+        $this->assertEquals('A\land \left(B\lor C\right)', $s1[2]->get_display());
+        $this->assertEquals('A\land \left(B\lor C\right)', $s1[3]->get_display());
+    }
+
     public function test_keyval_representation_1() {
 
         $cs = array('a:x^2', 'b:1/(1+x^2)', 'c:e^(i*pi)');

@@ -2080,7 +2080,7 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $node2->add_branch(0, '=', 0, 0.3, -1, '', FORMAT_HTML, 'firsttree-2-F');
         // This is the point of the test: we explicitly set a zero penalty here.
         $node2->add_branch(1, '=', 0.5, 0.3, -1, '', FORMAT_HTML, 'firsttree-2-T');
-        $q->prts['firsttree'] = new stack_potentialresponse_tree('firsttree', '', false, 1, null, array($node1, $node2), '0');
+        $q->prts['firsttree'] = new stack_potentialresponse_tree('firsttree', '', false, 1, null, array($node1, $node2), '0', 1);
         $this->start_attempt_at_question($q, 'adaptive', 1);
 
         $this->render();
@@ -2142,7 +2142,7 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $node = new stack_potentialresponse_node($sans, $tans, 'EqualComAss');
         $node->add_branch(0, '=', 0, 0.1, -1, '', FORMAT_HTML, 'firsttree-1-F');
         $node->add_branch(1, '=', 1, 0.1, -1, '', FORMAT_HTML, 'firsttree-1-T');
-        $q->prts['firsttree'] = new stack_potentialresponse_tree('firsttree', '', false, 1, null, array($node), '0');
+        $q->prts['firsttree'] = new stack_potentialresponse_tree('firsttree', '', false, 1, null, array($node), '0', 1);
         $this->start_attempt_at_question($q, 'adaptive', 1);
 
         $this->render();
@@ -2211,7 +2211,7 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $node2->add_branch(0, '=', 0, 0.2, -1, '', FORMAT_HTML, 'firsttree-2-F');
         // This is the point of the test: we explicitly set a zero penalty here.
         $node2->add_branch(1, '=', 0.5, 0, -1, '', FORMAT_HTML, 'firsttree-2-T');
-        $q->prts['firsttree'] = new stack_potentialresponse_tree('firsttree', '', false, 1, null, array($node1, $node2), '0');
+        $q->prts['firsttree'] = new stack_potentialresponse_tree('firsttree', '', false, 1, null, array($node1, $node2), '0', 1);
         $this->start_attempt_at_question($q, 'adaptive', 1);
 
         $this->render();
@@ -2283,7 +2283,7 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $node2->add_branch(0, '=', 0, 0.2, -1, '', FORMAT_HTML, 'firsttree-2-F');
         // This is the point of the test: we explicitly set a zero penalty here.
         $node2->add_branch(1, '=', 0.5, 0, -1, '', FORMAT_HTML, 'firsttree-2-T');
-        $q->prts['firsttree'] = new stack_potentialresponse_tree('firsttree', '', false, 1, null, array($node1, $node2), '0');
+        $q->prts['firsttree'] = new stack_potentialresponse_tree('firsttree', '', false, 1, null, array($node1, $node2), '0', 1);
         $this->start_attempt_at_question($q, 'adaptive', 1);
 
         $this->render();
@@ -2862,5 +2862,99 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->check_current_mark(0.6);
         $this->check_prt_score('firsttree', 1, 0);
         $this->check_answer_note('firsttree', 'ATSRegExp: ["cccb","ccc"]. | firsttree-1-T');
+    }
+
+    public function test_test_feedbackstyle() {
+
+        // Create the stack question 'feedbackstyle'.
+        $q = test_question_maker::make_question('stack', 'feedbackstyle');
+        $this->start_attempt_at_question($q, 'adaptive', 1);
+
+        // Check the initial state.
+        $this->check_current_state(question_state::$todo);
+        $this->assertEquals('adaptivemultipart',
+                $this->quba->get_question_attempt($this->slot)->get_behaviour_name());
+        $this->render();
+        $this->check_output_contains_text_input('ans1');
+        $this->check_output_contains_text_input('ans2');
+        $this->check_output_does_not_contain_input_validation();
+        $this->check_output_does_not_contain_prt_feedback();
+        $this->check_output_does_not_contain_stray_placeholders();
+        $this->check_current_output(
+                new question_pattern_expectation('/Give two examples of odd functions./'),
+                $this->get_does_not_contain_feedback_expectation(),
+                $this->get_does_not_contain_num_parts_correct(),
+                $this->get_no_hint_visible_expectation()
+                );
+
+        // Process a validate request, with two wrong answers.
+        $this->process_submission(array('ans1' => 'x^2', 'ans2' => 'x^4', '-submit' => 1));
+
+        $this->check_current_state(question_state::$todo);
+        $this->check_current_mark(null);
+        $this->check_prt_score('prt1', null, null);
+        $this->check_prt_score('prt2', null, null);
+        $this->check_prt_score('prt3', null, null);
+        $this->render();
+        $this->check_output_contains_text_input('ans1', 'x^2');
+        $this->check_output_contains_text_input('ans2', 'x^4');
+        $this->check_output_contains_input_validation_compact('ans1');
+        $this->check_output_contains_input_validation_compact('ans2');
+        $this->check_output_does_not_contain_lang_string('studentValidation_listofvariables',
+                'qtype_stack', '\( \left[ x \right]\)');
+        $this->check_output_does_not_contain_prt_feedback();
+        $this->check_output_does_not_contain_stray_placeholders();
+        $this->check_current_output(
+                new question_pattern_expectation('/Give two examples of odd functions./'),
+                $this->get_does_not_contain_feedback_expectation(),
+                $this->get_does_not_contain_num_parts_correct(),
+                $this->get_no_hint_visible_expectation()
+                );
+
+        // Process a submition of an incorrect answer.
+        $this->process_submission(array('ans1' => 'x^2', 'ans1_val' => 'x^2',
+            'ans2' => 'x^4', 'ans2_val' => 'x^4', '-submit' => 1));
+        $this->check_current_state(question_state::$todo);
+        $this->check_current_mark(0);
+        $this->check_prt_score('prt1', 0, 0.4);
+        $this->check_answer_note('prt1', 'prt1-1-F');
+        $this->check_prt_score('prt2', 0, 0.4);
+        $this->check_answer_note('prt2', 'prt2-1-F');
+        $this->check_prt_score('prt3', 0.5, 0.2);
+        $this->check_answer_note('prt3', 'ATLogic_True. | prt3-1-T');
+        $this->render();
+        $this->check_current_output(
+                new question_pattern_expectation('/Give two examples of odd functions./'),
+                // The first PRT is "Compact", so the feedback is there.
+                new question_pattern_expectation('/Your first function is not odd/'),
+                // The second  PRT is "Symbolic", so the feedback is not there, but the symbol is.
+                new question_pattern_expectation('/stackprtfeedback stackprtfeedback-prt2/'),
+                new question_pattern_expectation('/Try to think of something more imaginative than just polynomials/'),
+                $this->get_no_hint_visible_expectation()
+                );
+
+        // Process the correct answer (without a validation step).
+        $this->process_submission(array('ans1' => 'x^3', 'ans1_val' => 'x^3',
+            'ans2' => 'sin(x)', 'ans2_val' => 'sin(x)', '-submit' => 1));
+
+        $this->check_current_state(question_state::$complete);
+        $this->check_current_mark(0.6);
+        $this->check_prt_score('prt1', 1, 0);
+        $this->check_answer_note('prt1', 'prt1-1-T');
+        $this->check_prt_score('prt2', 1, 0);
+        $this->check_answer_note('prt2', 'prt2-1-T');
+        $this->check_prt_score('prt3', 0.4, 0.2);
+        $this->check_answer_note('prt3', 'prt3-1-F');
+        $this->render();
+        $this->check_output_contains_text_input('ans1', 'x^3');
+        $this->check_output_contains_text_input('ans2', 'sin(x)');
+        $this->check_output_contains_input_validation_compact('ans1');
+        $this->check_output_contains_input_validation_compact('ans2');
+        $this->check_output_does_not_contain_stray_placeholders();
+        $this->check_current_output(
+                new question_pattern_expectation('/Give two examples of odd functions./'),
+                new question_pattern_expectation('/Non-polynomials included./'),
+                $this->get_no_hint_visible_expectation()
+                );
     }
 }

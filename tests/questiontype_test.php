@@ -120,7 +120,7 @@ class qtype_stack_test extends qtype_stack_walkthrough_test_base {
         $this->assertEquals($expectedq, $q);
     }
 
-    public function test_question_tests_test0() {
+    public function test_question_tests_test3() {
         // This unit test runs a question test, really just to verify that
         // there are no errors.
         global $DB;
@@ -209,6 +209,7 @@ class qtype_stack_test extends qtype_stack_walkthrough_test_base {
     <sqrtsign>1</sqrtsign>
     <complexno>i</complexno>
     <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
     <matrixparens>[</matrixparens>
     <variantsselectionseed></variantsselectionseed>
     <input>
@@ -233,6 +234,7 @@ class qtype_stack_test extends qtype_stack_walkthrough_test_base {
       <name>firsttree</name>
       <value>1</value>
       <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
       <feedbackvariables>
         <text></text>
       </feedbackvariables>
@@ -326,6 +328,7 @@ class qtype_stack_test extends qtype_stack_walkthrough_test_base {
     <sqrtsign>1</sqrtsign>
     <complexno>i</complexno>
     <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
     <matrixparens>[</matrixparens>
     <variantsselectionseed></variantsselectionseed>
     <input>
@@ -427,6 +430,7 @@ class qtype_stack_test extends qtype_stack_walkthrough_test_base {
         $expectedq->sqrtsign              = 1;
         $expectedq->complexno             = 'i';
         $expectedq->inversetrig           = 'cos-1';
+        $expectedq->logicsymbol           = 'lang';
         $expectedq->matrixparens          = '[';
         $expectedq->variantsselectionseed = '';
 
@@ -448,6 +452,7 @@ class qtype_stack_test extends qtype_stack_walkthrough_test_base {
 
         $expectedq->firsttreevalue              = 1;
         $expectedq->firsttreeautosimplify       = 1;
+        $expectedq->firsttreefeedbackstyle      = 1;
         $expectedq->firsttreefeedbackvariables  = '';
         $expectedq->firsttreeanswertest[0]      = 'EqualComAss';
         $expectedq->firsttreesans[0]            = 'ans1';

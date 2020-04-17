@@ -47,7 +47,17 @@ class stack_potentialresponse_tree {
     /** @var stack_potentialresponse_node[] the nodes of the tree. */
     private $nodes;
 
-    public function __construct($name, $description, $simplify, $value, $feedbackvariables, $nodes, $firstnode) {
+    /** @var int The feedback style of this PRT.
+     *  0. Formative PRT: Errors and PRT feedback only.
+     *     Does not contribute to the attempt grade, no grade displayed ever, no standard feedback.
+     *  1. Standard PRT.
+     *  Making this an integer now, and not a Boolean, will allow future options (such as "compact" or "symbol only")
+     *  without further DB upgrades.
+     **/
+    private $feedbackstyle;
+
+    public function __construct($name, $description, $simplify, $value,
+            $feedbackvariables, $nodes, $firstnode, $feedbackstyle) {
 
         $this->name        = $name;
         $this->description = $description;
@@ -56,6 +66,12 @@ class stack_potentialresponse_tree {
             throw new stack_exception('stack_potentialresponse_tree: __construct: simplify must be a boolean.');
         } else {
             $this->simplify = $simplify;
+        }
+
+        if (!is_int($feedbackstyle)) {
+            throw new stack_exception('stack_potentialresponse_tree: __construct: feedbackstyle must be an integer.');
+        } else {
+            $this->feedbackstyle = $feedbackstyle;
         }
 
         $this->value = $value;
@@ -318,6 +334,13 @@ class stack_potentialresponse_tree {
     }
 
     /**
+     * @return int.
+     */
+    public function get_feedbackstyle() {
+        return $this->feedbackstyle;
+    }
+
+    /**
      * @return string Representation of the PRT for Maxima offline use.
      */
     public function get_maxima_representation() {
@@ -364,5 +387,30 @@ class stack_potentialresponse_tree {
             $tests[$node->get_test()] = true;
         }
         return $tests;
+    }
+
+    /**
+     * A "formative" PRT is a PRT which does not contribute marks to the question.
+     * This affected whether a response is "complete", and how marks are shown for feedback.
+     * @return boolean
+     */
+    public function is_formative() {
+        // Note, some of this logic is duplicated in renderer.php before we have instantiated this class.
+        if ($this->feedbackstyle === 0) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * @return array of choices for the show validation select menu.
+     */
+    public static function get_feedbackstyle_options() {
+        return array(
+            '0' => get_string('feedbackstyle0', 'qtype_stack'),
+            '1' => get_string('feedbackstyle1', 'qtype_stack'),
+            '2' => get_string('feedbackstyle2', 'qtype_stack'),
+            '3' => get_string('feedbackstyle3', 'qtype_stack'),
+        );
     }
 }

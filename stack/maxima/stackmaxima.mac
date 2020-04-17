@@ -194,6 +194,24 @@ make_multsgn(OPT_MULTSGN) := block(
     if OPT_MULTSGN = "blank" then texput("*", "\\, ", nary)
 );
 
+make_logic(OPT_LOGIC) := block(
+    if OPT_LOGIC = "lang" then block(
+        texput("and", "\\,{\\mbox{ !AND! }}\\, ", nary),
+        texput("nounand", "\\,{\\mbox{ !AND! }}\\, ", nary),
+        texput("or", "\\,{\\mbox{ !OR! }}\\, ", nary),
+        texput("nounor", "\\,{\\mbox{ !OR! }}\\, ", nary),
+        texput("not", "{\\rm !NOT!}", prefix)
+    ),
+    if OPT_LOGIC = "symbol" then block(
+        texput("and", "\\land ", nary),
+        texput("nounand", "\\land ", nary),
+        texput("or", "\\lor ", nary),
+        texput("nounor", "\\lor ", nary),
+        texput("not", "\\neg ", prefix)
+    ),
+    return(true)
+)$
+
 /* Options for cos^(-1), acos or arccos. */
 make_arccos(OPT_ACOS) := block(
     if OPT_ACOS = "cos-1" then block(
@@ -3018,4 +3036,4 @@ load(linearalgebra);
 
 /* Stack expects some output with the version number the output happens at */
 /* maximalocal.mac after additional library loading */
-stackmaximaversion:2020040300$
+stackmaximaversion:2020041400$

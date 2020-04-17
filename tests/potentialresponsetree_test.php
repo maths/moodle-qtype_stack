@@ -44,7 +44,7 @@ class stack_potentialresponsetree_test extends qtype_stack_testcase {
 
         $potentialresponses[] = $node;
 
-        $tree = new stack_potentialresponse_tree('', '', true, 5, null, $potentialresponses, '0');
+        $tree = new stack_potentialresponse_tree('', '', true, 5, null, $potentialresponses, '0', 1);
 
         $questionvars = new stack_cas_session2(array());
         $options = new stack_options();
@@ -82,7 +82,7 @@ class stack_potentialresponsetree_test extends qtype_stack_testcase {
         $node->add_branch(1, '+', 0, '', -1, 'Yeah!', FORMAT_HTML, '1-1-1');
         $potentialresponses[] = $node;
 
-        $tree = new stack_potentialresponse_tree('', '', true, 5, null, $potentialresponses, '0');
+        $tree = new stack_potentialresponse_tree('', '', true, 5, null, $potentialresponses, '0', 1);
 
         $seed = 12345;
         $options = new stack_options();
@@ -157,7 +157,7 @@ class stack_potentialresponsetree_test extends qtype_stack_testcase {
         $node->add_branch(1, '+', 1, '', 3, 'Test 2 true', FORMAT_HTML, '1-1-1');
         $potentialresponses[] = $node;
 
-        $tree = new stack_potentialresponse_tree('', '', true, 5, $feedbackvars, $potentialresponses, '0');
+        $tree = new stack_potentialresponse_tree('', '', true, 5, $feedbackvars, $potentialresponses, '0', 1);
 
         // Some data from students.
         $answers = array('sans' => '(x+1)^3');

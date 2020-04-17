@@ -396,7 +396,7 @@ class qtype_stack_walkthrough_deferred_feedback_test extends qtype_stack_walkthr
         $node = new stack_potentialresponse_node($sans, $tans, 'EqualComAss');
         $node->add_branch(0, '=', 0, $q->penalty, -1, '', FORMAT_HTML, 'firsttree-1-F');
         $node->add_branch(1, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'firsttree-1-T');
-        $q->prts['firsttree'] = new stack_potentialresponse_tree('firsttree', '', false, 1, null, array($node), '0');
+        $q->prts['firsttree'] = new stack_potentialresponse_tree('firsttree', '', false, 1, null, array($node), '0', 1);
 
         $this->start_attempt_at_question($q, 'deferredfeedback', 1);
 
@@ -547,7 +547,7 @@ class qtype_stack_walkthrough_deferred_feedback_test extends qtype_stack_walkthr
         $this->render();
         $this->check_output_contains_text_input('ans1', '12', false);
         $this->check_output_contains_input_validation('ans1');
-        $this->check_output_does_not_contain_prt_feedback(); // Since there is no feedback for right.
+        $this->check_output_contains_prt_feedback(); // Since there is no feedback for right.
         $this->check_output_does_not_contain_stray_placeholders();
         $this->assertRegExp('~' . preg_quote($q->prtcorrect, '~') . '~', $this->currentoutput);
         $this->check_current_output(

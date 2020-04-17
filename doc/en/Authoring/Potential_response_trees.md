@@ -29,9 +29,9 @@ note](Potential_response_trees.md#Answer_note)", used by the teacher for evaluat
 
 The outcomes are
 
-1. The raw score 
-2. The penalty for this attempt 
-3. [Feedback](Feedback.md) to the student 
+1. The raw score
+2. The penalty for this attempt
+3. [Feedback](Feedback.md) to the student (see below for full details)
 4. An answer note
 
 ### Question Value {#Question_value}
@@ -72,3 +72,39 @@ In this example, some colleagues would prefer to give partial credit for missing
 * The penalty can be assigned a different value in the nodes of the potential response tree. This means, e.g., the teacher can assign a cumulative penalty 
 for a particular answer. 
 * The penalties are also controlled at a quiz level by the "question behaviours" mechanism for the quiz.  Hence, if you set the behaviour as "Adaptive mode (no penalties)" the penalty assigned will be ignored when the question is used by students in the quiz.
+
+## Formative potential response trees ##
+
+The outcomes of score, penalty, feedback and note are always produced.  Normally, whether this information should be shown to a student is a function of the quiz, and in Moodle the question behaviour.  It should not be set at the level of an individual question.
+
+There are rare, but important, situations where we need a purely formative PRT.
+
+E.g. Imagine a questions with inputs A, and B.
+
+1. Input A has a dedicated PRT to establish if it is correct.
+2. Input B has a dedicated PRT to establish if it is correct.
+3. There is an additional PRT which depends on both A & B.  This gives formative feedback to the student, e.g. "try a more interesting combination of answers next time!" but is of no consequence to the correctness of A & B.
+
+With a formative potential response tree, there is no general feedback such as "Correct answer well done".  There is never a mark (and marks for this PRT do not contribute to the question, or completeness of an answer).
+
+## Response tree feedback: feedbackstyle ##
+
+The feedback created by PRTs has the following parts concatinated together.
+
+    [Generic feedback] [Runtime errors] [PRT generated feedback] [Score ?]
+
+The `[Generic feedback]` is a question level option, e.g. "Standard feedback for correct", to provide consistency accross a question. By default the `[Generic feedback]` contains both an initial symbol, and a language sentence.  The current "correct" default is
+
+<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.
+
+How PRT feedback is displayed is controlled by the PRT option `feedbackstyle` as follows.  Note the Generic feedback might include the symbol, if you retain the default.
+
+Value | Options      | Symbol | Generic feedback | Errors | PRT feedback | Score ? 
+---------------------|--------|------------------|--------|--------------|------------------------------------------
+  0   | Formative    |  No    |  No              |  Yes   |  Yes         | No (PRT does not contribute to score)
+  1   | Standard     |  No    |  Yes             |  Yes   |  Yes         | Respects quiz setting
+  2   | Compact      |  Yes   |  No              |  Yes   |  Yes         | No
+  3   | Symbol only  |  Yes   |  No              |  Yes   |  No          | No
+
+Note that the "Compact" PRT feedback uses `<span>` tags and not `<div>`.  This allows inclusion inline, without new paragraphs settings.  However, `<span>` tags cannot contain a block level element, such as a `<div>` or `<p>`. So, if you include a block level element in your PRT feedback then the browser may "spit this out" and misplace the feedback. Also, MathJax may not display mathematics correctly on the page when there is an HTML errror such as this.  If you use the "Compact" feedback, please author only minimal PRT feedback with no block level HTML elements.
+

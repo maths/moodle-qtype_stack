@@ -258,7 +258,7 @@ class stack_anstest_atnumsigfigs extends stack_anstest {
         $this->atvalid     = $unpacked['valid'];
         $this->atansnote  .= str_replace("\n", '', trim($unpacked['answernote']));
         $this->atfeedback .= $unpacked['feedback'];
-        $caserrormsgs = array('ATNumSigFigs_STACKERROR_SAns.', 'ATNumSigFigs_STACKERROR_TAns.', 
+        $caserrormsgs = array('ATNumSigFigs_STACKERROR_SAns.', 'ATNumSigFigs_STACKERROR_TAns.',
             'ATNumSigFigs_STACKERROR_opt.', 'ATNumSigFigs_NotDecimal.', 'ATUnits_SA_not_expression.',
             'ATUnits_SA_no_units.', 'ATUnits_SA_only_units.');
         if (in_array(trim($unpacked['answernote']), $caserrormsgs)) {

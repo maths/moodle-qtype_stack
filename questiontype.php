@@ -2179,7 +2179,7 @@ class qtype_stack extends question_type {
 
             if (optional_param($prtname . 'nodeadd', false, PARAM_BOOL)) {
                 $graph->add_node($lastkey + 2, null, null, '+0', '-0',
-                        '#fgroup_id_' . $prtname . 'node_' . $lastkey + 1);
+                        '#fgroup_id_' . $prtname . 'node_' . ($lastkey + 1));
             }
 
             if (!is_null($deletednode)) {

@@ -70,7 +70,7 @@ foreach ($bulktester->get_stack_questions_by_context() as $contextid => $numstac
     foreach ($failing as $key => $arrvals) {
         if ($arrvals !== array()) {
             echo "\n* " . stack_string('stackInstall_testsuite_' . $key) . "\n";
-            echo implode($arrvals, "\n");
+            echo implode("\n", $arrvals);
         }
     }
 }

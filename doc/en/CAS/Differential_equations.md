@@ -9,12 +9,11 @@ In a Maxima session we can represent an ODE as
 
     ODE: x^2*'diff(y,x) + 3*y*x = sin(x)/x;
 
-Notice the use of the `'` character in front of the `diff` function to [prevent evaluation](http://maxima.sourceforge.net/docs/manual/en/maxima_4.html#SEC10). Applied to a function call, such as `diff`, the single quote prevents evaluation of the function call, although the arguments of the function are still evaluated (if evaluation is not otherwise prevented). The result is the noun form of the function call.
+Notice the use of the `'` character in front of the `diff` function to prevent evaluation. Applied to a function call, such as `diff`, the single quote prevents evaluation of the function call, although the arguments of the function are still evaluated (if evaluation is not otherwise prevented). The result is the noun form of the function call.
 
 ## Displaying ODEs
 
-Maxima has two notations to display ODEs.  
-
+Maxima has two notations to display ODEs.
 
 If `derivabbrev:false` then`'diff(y,x)` is displayed in STACK as \( \frac{\mathrm{d}y}{\mathrm{d}x}\).   Note this differs from Maxima's normal notation of \( \frac{\mathrm{d}}{\mathrm{d}x}y\).
 
@@ -332,6 +331,30 @@ Further examples are
     ODE:sin(x)*cosh(y)-'diff(y,x)*cos(x)*sinh(y)=0$
     ODE:(3*x^2*cos(3*y)+2*y)*'diff(y,x)=-2*x*sin(3*y)$
     ODE:x*'diff(y,x)+y+4$
+
+# Modelling with differential equations.
+
+It is sometimes necessary for the student's answer to be a differential equation.
+
+Student's answers are always automatically converted to noun forms.  That is a student's answer `diff(y,x)` is converted internally to `noundiff(y,x)` to prevent evaluation to zero.
+
+However, the `AlgEquiv` answer test does evaluate all nouns!  So, a student's answer `diff(y,x)` will be found algebraically equivalent to `0`.
+
+In Maxima `diff(y(x),x)` is not evaluated further.  Getting students to type `diff(y(x),x)` and not `diff(y,x)` will be a challange.  Hence, if you want to condone the difference, it is probably best to evaluate the student's answer in the feedback variables as follows to ensure all occurances of `y` become `y(x)`.
+
+    ans1:'diff(y(x),x)+1 = 0;
+    ansyx:subst(y,y(x),ans1);
+
+Trying to substitute `y(x)` for `y` will throw an error.  Don't use the following, as if the student has used `y(x)` then it will become `y(x)(x)`! 
+
+    ans1:'diff(y,x)+1 = 0;
+    ansyx:ev(ans1,y=y(x));
+
+The `ATEqualComAss` also evaluates its arguments but does not "simplify" them.  So, counter-intuatively perhaps, we currently do have `ATEqualComAss(diff(x^2,x), 2*x);` as true.
+
+Student's answers always have noun forms added to `diff`, so if a student types in (literally) `diff(y,x,1)+1 = 0` this will end up being sent to answer test as `'diff(y,x,1)+1 = 0`.  Note the spostrophie at the start protects the student's `diff` from evaluation.
+
+Note that postfix apostrophies are not supported, i.e. `y'(x)` or `y'` is not currently permitted as input syntax.
 
 ## See also
 

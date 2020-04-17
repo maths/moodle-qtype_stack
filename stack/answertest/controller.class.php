@@ -30,6 +30,7 @@ require_once(__DIR__ . '/../cas/ast.container.class.php');
 class stack_ans_test_controller {
     protected static $types = array(
               'AlgEquiv'             => 'stackOptions_AnsTest_values_AlgEquiv',
+              'AlgEquivNouns'        => 'stackOptions_AnsTest_values_AlgEquivNouns',
               'EqualComAss'          => 'stackOptions_AnsTest_values_EqualComAss',
               'CasEqual'             => 'stackOptions_AnsTest_values_CasEqual',
               'SameType'             => 'stackOptions_AnsTest_values_SameType',
@@ -73,6 +74,7 @@ class stack_ans_test_controller {
      */
     protected static $pops = array(
         'AlgEquiv'             => array(false, false, true),
+        'AlgEquivNouns'        => array(false, false, false),
         'EqualComAss'          => array(false, false, false),
         'CasEqual'             => array(false, false, false),
         'SameType'             => array(false, false, true),
@@ -130,6 +132,7 @@ class stack_ans_test_controller {
 
         switch($anstest) {
             case 'AlgEquiv':
+            case 'AlgEquivNouns':
             case 'EqualComAss':
             case 'CasEqual':
             case 'SameType':

@@ -1154,6 +1154,11 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         // Mul is no longer supported.
         // We don't need to include a date check here because it is not a change in behaviour.
         foreach ($this->inputs as $inputname => $input) {
+
+            if (!preg_match('/^([a-zA-Z]+|[a-zA-Z]+[0-9a-zA-Z_]*[0-9a-zA-Z]+)$/', $inputname)) {
+                $errors[] = stack_string('inputnameform', $inputname);
+            }
+
             $options = $input->get_parameter('options');
             if (trim($options) !== '') {
                 $options = explode(',', $options);

@@ -1021,4 +1021,69 @@ class stack_units_input_test extends qtype_stack_testcase {
         $this->assertEquals('\[ \left( 1+1\, \sqrt{2}^ {- 1 }+3\right)\, \mathrm{N} \]', $state->contentsdisplayed);
         $this->assertEquals('', $state->errors);
     }
+
+    public function test_validate_student_response_10x() {
+
+        $options = new stack_options();
+        $el = stack_input_factory::make('units', 'sans1', '23.2*10^2*m');
+        $el->set_parameter('insertStars', 1);
+        $el->set_parameter('strictSyntax', false);
+        $state = $el->validate_student_response(array('sans1' => '523.2x10^2m'), $options, '23.2*10^2*m',
+                new stack_cas_security(true));
+        $this->assertEquals(stack_input::INVALID, $state->status);
+        $this->assertEquals('missing_stars | Illegal_x10', $state->note);
+        $this->assertEquals('523.2*x10^2*m', $state->contentsmodified);
+        $this->assertEquals('Your answer appears to use the character "x" as a multiplication sign.  ' .
+                'Please use <code>*</code> for multiplication.', $state->errors);
+
+        $options = new stack_options();
+        $el = stack_input_factory::make('units', 'sans1', '23.2*10^2*m');
+        $el->set_parameter('insertStars', 5);
+        $el->set_parameter('strictSyntax', false);
+        $state = $el->validate_student_response(array('sans1' => '9.34x10^3.4'), $options, '23.2*10^2*m',
+                new stack_cas_security(true));
+        $this->assertEquals(stack_input::INVALID, $state->status);
+        $this->assertEquals('missing_stars | Illegal_x10 | Units_SA_bad_units', $state->note);
+        $this->assertEquals('9.34*x*10^3.4', $state->contentsmodified);
+        $this->assertEquals('Your answer appears to use the character "x" as a multiplication sign.  ' .
+                'Please use <code>*</code> for multiplication. Your answer must have units, ' .
+                'and you must use multiplication to attach the units to a value, e.g. <code>3.2*m/s</code>.',
+                $state->errors);
+
+        $options = new stack_options();
+        $el = stack_input_factory::make('units', 'sans1', '23.2*10^2*m');
+        $el->set_parameter('insertStars', 5);
+        $el->set_parameter('strictSyntax', false);
+        $state = $el->validate_student_response(array('sans1' => '523.2 x 10^2 N*m'), $options, '23.2*10^2*m',
+                new stack_cas_security(true));
+        $this->assertEquals(stack_input::INVALID, $state->status);
+        $this->assertEquals('spaces | Illegal_x10', $state->note);
+        $this->assertEquals('523.2*x*10^2*N*m', $state->contentsmodified);
+        $this->assertEquals('Your answer appears to use the character "x" as a multiplication sign.  ' .
+                'Please use <code>*</code> for multiplication.', $state->errors);
+
+        $options = new stack_options();
+        $el = stack_input_factory::make('units', 'sans1', '23.2*10^2*m');
+        $el->set_parameter('insertStars', 5);
+        $el->set_parameter('strictSyntax', false);
+        $state = $el->validate_student_response(array('sans1' => '523.2 x 10^2m/s'), $options, '23.2*10^2*m',
+                new stack_cas_security(true));
+        $this->assertEquals(stack_input::INVALID, $state->status);
+        $this->assertEquals('missing_stars | spaces | Illegal_x10', $state->note);
+        $this->assertEquals('523.2*x*10^2*m/s', $state->contentsmodified);
+        $this->assertEquals('Your answer appears to use the character "x" as a multiplication sign.  ' .
+                'Please use <code>*</code> for multiplication.', $state->errors);
+
+        $options = new stack_options();
+        $el = stack_input_factory::make('units', 'sans1', '23.2*10^2*m');
+        $el->set_parameter('insertStars', 5);
+        $el->set_parameter('strictSyntax', false);
+        $state = $el->validate_student_response(array('sans1' => '9.81 x 10^3/s'), $options, '23.2*10^2*m',
+                new stack_cas_security(true));
+        $this->assertEquals(stack_input::INVALID, $state->status);
+        $this->assertEquals('spaces | Illegal_x10', $state->note);
+        $this->assertEquals('9.81*x*10^3/s', $state->contentsmodified);
+        $this->assertEquals('Your answer appears to use the character "x" as a multiplication sign.  ' .
+                'Please use <code>*</code> for multiplication.', $state->errors);
+    }
 }

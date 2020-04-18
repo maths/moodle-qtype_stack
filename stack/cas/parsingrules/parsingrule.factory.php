@@ -37,6 +37,7 @@ require_once(__DIR__ . '/105_no_grouppings.filter.php');
 require_once(__DIR__ . '/106_no_control_flow.filter.php');
 require_once(__DIR__ . '/201_sig_figs_validation.filter.php');
 require_once(__DIR__ . '/202_decimal_places_validation.filter.php');
+require_once(__DIR__ . '/210_x_used_as_multiplication.filter.php');
 require_once(__DIR__ . '/402_split_prefix_from_common_function_name.filter.php');
 require_once(__DIR__ . '/403_split_at_number_letter_boundary.filter.php');
 require_once(__DIR__ . '/404_split_at_number_letter_number_boundary.filter.php');
@@ -107,6 +108,8 @@ class stack_parsing_rule_factory {
                 return new stack_ast_filter_201_sig_figs_validation();
             case '202_decimal_places_validation':
                 return new stack_ast_filter_202_decimal_places_validation();
+            case '210_x_used_as_multiplication':
+                return new stack_ast_filter_210_x_used_as_multiplication();
             case '402_split_prefix_from_common_function_name':
                 return new stack_ast_filter_402_split_prefix_from_common_function_name();
             case '403_split_at_number_letter_boundary':
@@ -164,6 +167,7 @@ class stack_parsing_rule_factory {
                            '105_no_grouppings', '106_no_control_flow',
                            '201_sig_figs_validation',
                            '202_decimal_places_validation',
+                           '210_x_used_as_multiplication',
                            '402_split_prefix_from_common_function_name',
                            '403_split_at_number_letter_boundary',
                            '404_split_at_number_letter_number_boundary',

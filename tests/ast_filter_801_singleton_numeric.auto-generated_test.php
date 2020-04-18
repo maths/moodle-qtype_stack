@@ -335,6 +335,41 @@ class stack_ast_filter_auto_gen_801_singleton_numeric_testcase extends qtype_sta
                       array('Illegal_form'),
                       false, true);
 
+        $this->expect('23.2*x*10^5',
+                      '23.2*x*10^5',
+                      array('Illegal_form'),
+                      false, true);
+
+        $this->expect('23.2 x 10^5',
+                      '23.2*x*10^5',
+                      array('Illegal_form'),
+                      false, true);
+
+        $this->expect('23.2x10^5',
+                      '23.2*x10^5',
+                      array('Illegal_form'),
+                      false, true);
+
+        $this->expect('23.2x 10^5',
+                      '23.2*x*10^5',
+                      array('Illegal_form'),
+                      false, true);
+
+        $this->expect('23.2 x10^5',
+                      '23.2*x10^5',
+                      array('Illegal_form'),
+                      false, true);
+
+        $this->expect('9.81x10^2*m/s',
+                      '9.81*x10^2*m/s',
+                      array('Illegal_form'),
+                      false, true);
+
+        $this->expect('9.81x*10^2*m/s',
+                      '9.81*x*10^2*m/s',
+                      array('Illegal_form'),
+                      false, true);
+
         $this->expect('1x',
                       '1*x',
                       array('Illegal_form'),
@@ -1943,6 +1978,41 @@ class stack_ast_filter_auto_gen_801_singleton_numeric_testcase extends qtype_sta
 
         $this->expect('1 E 3',
                       '1*E*3',
+                      array('Illegal_form'),
+                      false, true);
+
+        $this->expect('23.2*x*10^5',
+                      '23.2*x*10^5',
+                      array('Illegal_form'),
+                      false, true);
+
+        $this->expect('23.2 x 10^5',
+                      '23.2*x*10^5',
+                      array('Illegal_form'),
+                      false, true);
+
+        $this->expect('23.2x10^5',
+                      '23.2*x10^5',
+                      array('Illegal_form'),
+                      false, true);
+
+        $this->expect('23.2x 10^5',
+                      '23.2*x*10^5',
+                      array('Illegal_form'),
+                      false, true);
+
+        $this->expect('23.2 x10^5',
+                      '23.2*x10^5',
+                      array('Illegal_form'),
+                      false, true);
+
+        $this->expect('9.81x10^2*m/s',
+                      '9.81*x10^2*m/s',
+                      array('Illegal_form'),
+                      false, true);
+
+        $this->expect('9.81x*10^2*m/s',
+                      '9.81*x*10^2*m/s',
                       array('Illegal_form'),
                       false, true);
 

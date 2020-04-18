@@ -812,6 +812,10 @@ abstract class stack_input {
             $filterstoapply[] = '101_no_floats';
         }
 
+        if (get_class($this) === 'stack_units_input' || get_class($this) === 'stack_numerical_input') {
+            $filterstoapply[] = '210_x_used_as_multiplication';
+        }
+
         // The common insert stars rules, that will be forced
         // and if you do not allow insertion of stars then it is invalid.
         $filterstoapply[] = '402_split_prefix_from_common_function_name';

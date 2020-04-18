@@ -30,6 +30,21 @@ class stack_ast_filter_auto_gen_404_split_at_number_letter_number_boundary_testc
         $this->security = new stack_cas_security(false);
         $this->filter = stack_parsing_rule_factory::get_by_common_name('404_split_at_number_letter_number_boundary');
 
+        $this->expect('23.2x10^5',
+                      '23.2*x*10^5',
+                      array('missing_stars'),
+                      true, false);
+
+        $this->expect('23.2 x10^5',
+                      '23.2*x*10^5',
+                      array('missing_stars'),
+                      true, false);
+
+        $this->expect('9.81x10^2*m/s',
+                      '9.81*x*10^2*m/s',
+                      array('missing_stars'),
+                      true, false);
+
         $this->expect('a1',
                       'a*1',
                       array('missing_stars'),
@@ -60,6 +75,21 @@ class stack_ast_filter_auto_gen_404_split_at_number_letter_number_boundary_testc
     public function test_affected_units() {
         $this->security = new stack_cas_security(true);
         $this->filter = stack_parsing_rule_factory::get_by_common_name('404_split_at_number_letter_number_boundary');
+
+        $this->expect('23.2x10^5',
+                      '23.2*x*10^5',
+                      array('missing_stars'),
+                      true, false);
+
+        $this->expect('23.2 x10^5',
+                      '23.2*x*10^5',
+                      array('missing_stars'),
+                      true, false);
+
+        $this->expect('9.81x10^2*m/s',
+                      '9.81*x*10^2*m/s',
+                      array('missing_stars'),
+                      true, false);
 
         $this->expect('a1',
                       'a*1',
@@ -449,6 +479,26 @@ class stack_ast_filter_auto_gen_404_split_at_number_letter_number_boundary_testc
 
         $this->expect('1 E 3',
                       '1*E*3',
+                      array(),
+                      true, false);
+
+        $this->expect('23.2*x*10^5',
+                      '23.2*x*10^5',
+                      array(),
+                      true, false);
+
+        $this->expect('23.2 x 10^5',
+                      '23.2*x*10^5',
+                      array(),
+                      true, false);
+
+        $this->expect('23.2x 10^5',
+                      '23.2*x*10^5',
+                      array(),
+                      true, false);
+
+        $this->expect('9.81x*10^2*m/s',
+                      '9.81*x*10^2*m/s',
                       array(),
                       true, false);
 
@@ -2105,6 +2155,26 @@ class stack_ast_filter_auto_gen_404_split_at_number_letter_number_boundary_testc
 
         $this->expect('1 E 3',
                       '1*E*3',
+                      array(),
+                      true, false);
+
+        $this->expect('23.2*x*10^5',
+                      '23.2*x*10^5',
+                      array(),
+                      true, false);
+
+        $this->expect('23.2 x 10^5',
+                      '23.2*x*10^5',
+                      array(),
+                      true, false);
+
+        $this->expect('23.2x 10^5',
+                      '23.2*x*10^5',
+                      array(),
+                      true, false);
+
+        $this->expect('9.81x*10^2*m/s',
+                      '9.81*x*10^2*m/s',
                       array(),
                       true, false);
 

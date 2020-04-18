@@ -24,93 +24,93 @@ require_once(__DIR__ . '/../tests/fixtures/ast_filter_test_base.php');
  * @group qtype_stack_ast_filters
  */
 
-class stack_ast_filter_auto_gen_002_log_candy_testcase extends qtype_stack_ast_testcase {
+class stack_ast_filter_auto_gen_210_x_used_as_multiplication_testcase extends qtype_stack_ast_testcase {
 
     public function test_affected_no_units() {
         $this->security = new stack_cas_security(false);
-        $this->filter = stack_parsing_rule_factory::get_by_common_name('002_log_candy');
+        $this->filter = stack_parsing_rule_factory::get_by_common_name('210_x_used_as_multiplication');
 
-        $this->expect('2+log_x(1/(x+b))*x^2',
-                      '2+lg(1/(x+b),x)*x^2',
-                      array('logsubs'),
-                      true, false);
+        $this->expect('23.2*x*10^5',
+                      '23.2*x*10^5',
+                      array('Illegal_x10'),
+                      false, true);
 
-        $this->expect('log10(x)',
-                      'lg(x,10)',
-                      array('logsubs'),
-                      true, false);
+        $this->expect('23.2 x 10^5',
+                      '23.2*x*10^5',
+                      array('Illegal_x10'),
+                      false, true);
 
-        $this->expect('log_10(x)',
-                      'lg(x,10)',
-                      array('logsubs'),
-                      true, false);
+        $this->expect('23.2x10^5',
+                      '23.2*x10^5',
+                      array('Illegal_x10'),
+                      false, true);
 
-        $this->expect('log_2(a)',
-                      'lg(a,2)',
-                      array('logsubs'),
-                      true, false);
+        $this->expect('23.2x 10^5',
+                      '23.2*x*10^5',
+                      array('Illegal_x10'),
+                      false, true);
 
-        $this->expect('log_a(b)*log_b(c)',
-                      'lg(b,a)*lg(c,b)',
-                      array('logsubs'),
-                      true, false);
+        $this->expect('23.2 x10^5',
+                      '23.2*x10^5',
+                      array('Illegal_x10'),
+                      false, true);
 
-        $this->expect('log_x(1/(x+b))',
-                      'lg(1/(x+b),x)',
-                      array('logsubs'),
-                      true, false);
+        $this->expect('9.81x10^2*m/s',
+                      '9.81*x10^2*m/s',
+                      array('Illegal_x10'),
+                      false, true);
 
-        $this->expect('log_x:log_x(a)',
-                      'log_x:lg(a,x)',
-                      array('logsubs'),
-                      true, false);
+        $this->expect('9.81x*10^2*m/s',
+                      '9.81*x*10^2*m/s',
+                      array('Illegal_x10'),
+                      false, true);
 
     }
 
     public function test_affected_units() {
         $this->security = new stack_cas_security(true);
-        $this->filter = stack_parsing_rule_factory::get_by_common_name('002_log_candy');
+        $this->filter = stack_parsing_rule_factory::get_by_common_name('210_x_used_as_multiplication');
 
-        $this->expect('2+log_x(1/(x+b))*x^2',
-                      '2+lg(1/(x+b),x)*x^2',
-                      array('logsubs'),
-                      true, false);
+        $this->expect('23.2*x*10^5',
+                      '23.2*x*10^5',
+                      array('Illegal_x10'),
+                      false, true);
 
-        $this->expect('log10(x)',
-                      'lg(x,10)',
-                      array('logsubs'),
-                      true, false);
+        $this->expect('23.2 x 10^5',
+                      '23.2*x*10^5',
+                      array('Illegal_x10'),
+                      false, true);
 
-        $this->expect('log_10(x)',
-                      'lg(x,10)',
-                      array('logsubs'),
-                      true, false);
+        $this->expect('23.2x10^5',
+                      '23.2*x10^5',
+                      array('Illegal_x10'),
+                      false, true);
 
-        $this->expect('log_2(a)',
-                      'lg(a,2)',
-                      array('logsubs'),
-                      true, false);
+        $this->expect('23.2x 10^5',
+                      '23.2*x*10^5',
+                      array('Illegal_x10'),
+                      false, true);
 
-        $this->expect('log_a(b)*log_b(c)',
-                      'lg(b,a)*lg(c,b)',
-                      array('logsubs'),
-                      true, false);
+        $this->expect('23.2 x10^5',
+                      '23.2*x10^5',
+                      array('Illegal_x10'),
+                      false, true);
 
-        $this->expect('log_x(1/(x+b))',
-                      'lg(1/(x+b),x)',
-                      array('logsubs'),
-                      true, false);
+        $this->expect('9.81x10^2*m/s',
+                      '9.81*x10^2*m/s',
+                      array('Illegal_x10'),
+                      false, true);
 
-        $this->expect('log_x:log_x(a)',
-                      'log_x:lg(a,x)',
-                      array('logsubs'),
-                      true, false);
+        $this->expect('9.81x*10^2*m/s',
+                      '9.81*x*10^2*m/s',
+                      array('Illegal_x10'),
+                      false, true);
 
     }
 
     public function test_non_affected_units() {
         $this->security = new stack_cas_security(true);
-        $this->filter = stack_parsing_rule_factory::get_by_common_name('002_log_candy');
+        $this->filter = stack_parsing_rule_factory::get_by_common_name('210_x_used_as_multiplication');
 
         $this->expect('"+"(a,b)',
                       '"+"(a,b)',
@@ -472,41 +472,6 @@ class stack_ast_filter_auto_gen_002_log_candy_testcase extends qtype_stack_ast_t
                       array(),
                       true, false);
 
-        $this->expect('23.2*x*10^5',
-                      '23.2*x*10^5',
-                      array(),
-                      true, false);
-
-        $this->expect('23.2 x 10^5',
-                      '23.2*x*10^5',
-                      array(),
-                      true, false);
-
-        $this->expect('23.2x10^5',
-                      '23.2*x10^5',
-                      array(),
-                      true, false);
-
-        $this->expect('23.2x 10^5',
-                      '23.2*x*10^5',
-                      array(),
-                      true, false);
-
-        $this->expect('23.2 x10^5',
-                      '23.2*x10^5',
-                      array(),
-                      true, false);
-
-        $this->expect('9.81x10^2*m/s',
-                      '9.81*x10^2*m/s',
-                      array(),
-                      true, false);
-
-        $this->expect('9.81x*10^2*m/s',
-                      '9.81*x*10^2*m/s',
-                      array(),
-                      true, false);
-
         $this->expect('1x',
                       '1*x',
                       array(),
@@ -534,6 +499,11 @@ class stack_ast_filter_auto_gen_002_log_candy_testcase extends qtype_stack_ast_t
 
         $this->expect('2+3(x+1)',
                       '2+3*(x+1)',
+                      array(),
+                      true, false);
+
+        $this->expect('2+log_x(1/(x+b))*x^2',
+                      '2+log_x(1/(x+b))*x^2',
                       array(),
                       true, false);
 
@@ -1134,6 +1104,36 @@ class stack_ast_filter_auto_gen_002_log_candy_testcase extends qtype_stack_ast_t
 
         $this->expect('log(x)',
                       'log(x)',
+                      array(),
+                      true, false);
+
+        $this->expect('log10(x)',
+                      'log10(x)',
+                      array(),
+                      true, false);
+
+        $this->expect('log_10(x)',
+                      'log_10(x)',
+                      array(),
+                      true, false);
+
+        $this->expect('log_2(a)',
+                      'log_2(a)',
+                      array(),
+                      true, false);
+
+        $this->expect('log_a(b)*log_b(c)',
+                      'log_a(b)*log_b(c)',
+                      array(),
+                      true, false);
+
+        $this->expect('log_x(1/(x+b))',
+                      'log_x(1/(x+b))',
+                      array(),
+                      true, false);
+
+        $this->expect('log_x:log_x(a)',
+                      'log_x:log_x(a)',
                       array(),
                       true, false);
 
@@ -1791,7 +1791,7 @@ class stack_ast_filter_auto_gen_002_log_candy_testcase extends qtype_stack_ast_t
 
     public function test_non_affected_no_units() {
         $this->security = new stack_cas_security(false);
-        $this->filter = stack_parsing_rule_factory::get_by_common_name('002_log_candy');
+        $this->filter = stack_parsing_rule_factory::get_by_common_name('210_x_used_as_multiplication');
 
         $this->expect('"+"(a,b)',
                       '"+"(a,b)',
@@ -2153,41 +2153,6 @@ class stack_ast_filter_auto_gen_002_log_candy_testcase extends qtype_stack_ast_t
                       array(),
                       true, false);
 
-        $this->expect('23.2*x*10^5',
-                      '23.2*x*10^5',
-                      array(),
-                      true, false);
-
-        $this->expect('23.2 x 10^5',
-                      '23.2*x*10^5',
-                      array(),
-                      true, false);
-
-        $this->expect('23.2x10^5',
-                      '23.2*x10^5',
-                      array(),
-                      true, false);
-
-        $this->expect('23.2x 10^5',
-                      '23.2*x*10^5',
-                      array(),
-                      true, false);
-
-        $this->expect('23.2 x10^5',
-                      '23.2*x10^5',
-                      array(),
-                      true, false);
-
-        $this->expect('9.81x10^2*m/s',
-                      '9.81*x10^2*m/s',
-                      array(),
-                      true, false);
-
-        $this->expect('9.81x*10^2*m/s',
-                      '9.81*x*10^2*m/s',
-                      array(),
-                      true, false);
-
         $this->expect('1x',
                       '1*x',
                       array(),
@@ -2215,6 +2180,11 @@ class stack_ast_filter_auto_gen_002_log_candy_testcase extends qtype_stack_ast_t
 
         $this->expect('2+3(x+1)',
                       '2+3*(x+1)',
+                      array(),
+                      true, false);
+
+        $this->expect('2+log_x(1/(x+b))*x^2',
+                      '2+log_x(1/(x+b))*x^2',
                       array(),
                       true, false);
 
@@ -2815,6 +2785,36 @@ class stack_ast_filter_auto_gen_002_log_candy_testcase extends qtype_stack_ast_t
 
         $this->expect('log(x)',
                       'log(x)',
+                      array(),
+                      true, false);
+
+        $this->expect('log10(x)',
+                      'log10(x)',
+                      array(),
+                      true, false);
+
+        $this->expect('log_10(x)',
+                      'log_10(x)',
+                      array(),
+                      true, false);
+
+        $this->expect('log_2(a)',
+                      'log_2(a)',
+                      array(),
+                      true, false);
+
+        $this->expect('log_a(b)*log_b(c)',
+                      'log_a(b)*log_b(c)',
+                      array(),
+                      true, false);
+
+        $this->expect('log_x(1/(x+b))',
+                      'log_x(1/(x+b))',
+                      array(),
+                      true, false);
+
+        $this->expect('log_x:log_x(a)',
+                      'log_x:log_x(a)',
                       array(),
                       true, false);
 

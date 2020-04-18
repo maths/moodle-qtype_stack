@@ -35,6 +35,21 @@ class stack_ast_filter_auto_gen_410_single_char_vars_testcase extends qtype_stac
                       array('missing_stars'),
                       true, false);
 
+        $this->expect('23.2x10^5',
+                      '23.2*x*10^5',
+                      array('missing_stars'),
+                      true, false);
+
+        $this->expect('23.2 x10^5',
+                      '23.2*x*10^5',
+                      array('missing_stars'),
+                      true, false);
+
+        $this->expect('9.81x10^2*m/s',
+                      '9.81*x*10^2*m/s',
+                      array('missing_stars'),
+                      true, false);
+
         $this->expect('a1',
                       'a*1',
                       array('missing_stars'),
@@ -143,6 +158,21 @@ class stack_ast_filter_auto_gen_410_single_char_vars_testcase extends qtype_stac
 
         $this->expect('2pir^2',
                       '2*pi*r^2',
+                      array('missing_stars'),
+                      true, false);
+
+        $this->expect('23.2x10^5',
+                      '23.2*x*10^5',
+                      array('missing_stars'),
+                      true, false);
+
+        $this->expect('23.2 x10^5',
+                      '23.2*x*10^5',
+                      array('missing_stars'),
+                      true, false);
+
+        $this->expect('9.81x10^2*m/s',
+                      '9.81*x*10^2*m/s',
                       array('missing_stars'),
                       true, false);
 
@@ -604,6 +634,26 @@ class stack_ast_filter_auto_gen_410_single_char_vars_testcase extends qtype_stac
 
         $this->expect('1 E 3',
                       '1*E*3',
+                      array(),
+                      true, false);
+
+        $this->expect('23.2*x*10^5',
+                      '23.2*x*10^5',
+                      array(),
+                      true, false);
+
+        $this->expect('23.2 x 10^5',
+                      '23.2*x*10^5',
+                      array(),
+                      true, false);
+
+        $this->expect('23.2x 10^5',
+                      '23.2*x*10^5',
+                      array(),
+                      true, false);
+
+        $this->expect('9.81x*10^2*m/s',
+                      '9.81*x*10^2*m/s',
                       array(),
                       true, false);
 
@@ -2180,6 +2230,26 @@ class stack_ast_filter_auto_gen_410_single_char_vars_testcase extends qtype_stac
 
         $this->expect('1 E 3',
                       '1*E*3',
+                      array(),
+                      true, false);
+
+        $this->expect('23.2*x*10^5',
+                      '23.2*x*10^5',
+                      array(),
+                      true, false);
+
+        $this->expect('23.2 x 10^5',
+                      '23.2*x*10^5',
+                      array(),
+                      true, false);
+
+        $this->expect('23.2x 10^5',
+                      '23.2*x*10^5',
+                      array(),
+                      true, false);
+
+        $this->expect('9.81x*10^2*m/s',
+                      '9.81*x*10^2*m/s',
                       array(),
                       true, false);
 

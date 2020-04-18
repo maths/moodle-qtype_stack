@@ -77,6 +77,7 @@ class stack_inputvalidation_test_data {
         array('3E2', 'php_true', '3E2', 'cas_true', '3.0E+2', '', ""),
         array('3e2', 'php_true', '3e2', 'cas_true', '3.0E+2', '', ""),
         array('3e-2', 'php_true', '3e-2', 'cas_true', '3.0E-2', '', ""),
+        array('3.67x10^2', 'php_true', '3.67*x*10^2', 'cas_true', '3.67\cdot x\cdot 10^2', 'missing_stars', ""),
         array('1+i', 'php_true', '1+i', 'cas_true', '1+\mathrm{i}', '', ""),
         array('3-i', 'php_true', '3-i', 'cas_true', '3-\mathrm{i}', '', ""),
         array('-3+i', 'php_true', '-3+i', 'cas_true', '-3+\mathrm{i}', '', ""),

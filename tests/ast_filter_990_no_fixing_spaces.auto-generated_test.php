@@ -45,6 +45,21 @@ class stack_ast_filter_auto_gen_990_no_fixing_spaces_testcase extends qtype_stac
                       array(),
                       false, true);
 
+        $this->expect('23.2 x 10^5',
+                      '23.2*x*10^5',
+                      array(),
+                      false, true);
+
+        $this->expect('23.2x 10^5',
+                      '23.2*x*10^5',
+                      array(),
+                      false, true);
+
+        $this->expect('23.2 x10^5',
+                      '23.2*x10^5',
+                      array(),
+                      false, true);
+
         $this->expect('3 5',
                       '3*5',
                       array(),
@@ -123,6 +138,21 @@ class stack_ast_filter_auto_gen_990_no_fixing_spaces_testcase extends qtype_stac
 
         $this->expect('1 E 3',
                       '1*E*3',
+                      array(),
+                      false, true);
+
+        $this->expect('23.2 x 10^5',
+                      '23.2*x*10^5',
+                      array(),
+                      false, true);
+
+        $this->expect('23.2x 10^5',
+                      '23.2*x*10^5',
+                      array(),
+                      false, true);
+
+        $this->expect('23.2 x10^5',
+                      '23.2*x10^5',
                       array(),
                       false, true);
 
@@ -534,6 +564,26 @@ class stack_ast_filter_auto_gen_990_no_fixing_spaces_testcase extends qtype_stac
 
         $this->expect('1E3',
                       '1E3',
+                      array(),
+                      true, false);
+
+        $this->expect('23.2*x*10^5',
+                      '23.2*x*10^5',
+                      array(),
+                      true, false);
+
+        $this->expect('23.2x10^5',
+                      '23.2*x10^5',
+                      array(),
+                      true, false);
+
+        $this->expect('9.81x10^2*m/s',
+                      '9.81*x10^2*m/s',
+                      array(),
+                      true, false);
+
+        $this->expect('9.81x*10^2*m/s',
+                      '9.81*x*10^2*m/s',
                       array(),
                       true, false);
 
@@ -2140,6 +2190,26 @@ class stack_ast_filter_auto_gen_990_no_fixing_spaces_testcase extends qtype_stac
 
         $this->expect('1E3',
                       '1E3',
+                      array(),
+                      true, false);
+
+        $this->expect('23.2*x*10^5',
+                      '23.2*x*10^5',
+                      array(),
+                      true, false);
+
+        $this->expect('23.2x10^5',
+                      '23.2*x10^5',
+                      array(),
+                      true, false);
+
+        $this->expect('9.81x10^2*m/s',
+                      '9.81*x10^2*m/s',
+                      array(),
+                      true, false);
+
+        $this->expect('9.81x*10^2*m/s',
+                      '9.81*x*10^2*m/s',
                       array(),
                       true, false);
 

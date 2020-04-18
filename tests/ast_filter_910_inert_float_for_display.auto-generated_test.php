@@ -90,6 +90,41 @@ class stack_ast_filter_auto_gen_910_inert_float_for_display_testcase extends qty
                       array(),
                       true, false);
 
+        $this->expect('23.2*x*10^5',
+                      'dispdp(23.2,1)*x*10^5',
+                      array(),
+                      true, false);
+
+        $this->expect('23.2 x 10^5',
+                      'dispdp(23.2,1)*x*10^5',
+                      array(),
+                      true, false);
+
+        $this->expect('23.2x10^5',
+                      'dispdp(23.2,1)*x10^5',
+                      array(),
+                      true, false);
+
+        $this->expect('23.2x 10^5',
+                      'dispdp(23.2,1)*x*10^5',
+                      array(),
+                      true, false);
+
+        $this->expect('23.2 x10^5',
+                      'dispdp(23.2,1)*x10^5',
+                      array(),
+                      true, false);
+
+        $this->expect('9.81x10^2*m/s',
+                      'dispdp(9.81,2)*x10^2*m/s',
+                      array(),
+                      true, false);
+
+        $this->expect('9.81x*10^2*m/s',
+                      'dispdp(9.81,2)*x*10^2*m/s',
+                      array(),
+                      true, false);
+
         $this->expect('3.14 5',
                       'dispdp(3.14,2)*5',
                       array(),
@@ -213,6 +248,41 @@ class stack_ast_filter_auto_gen_910_inert_float_for_display_testcase extends qty
 
         $this->expect('1E3',
                       'displaysci(1,0,3)',
+                      array(),
+                      true, false);
+
+        $this->expect('23.2*x*10^5',
+                      'dispdp(23.2,1)*x*10^5',
+                      array(),
+                      true, false);
+
+        $this->expect('23.2 x 10^5',
+                      'dispdp(23.2,1)*x*10^5',
+                      array(),
+                      true, false);
+
+        $this->expect('23.2x10^5',
+                      'dispdp(23.2,1)*x10^5',
+                      array(),
+                      true, false);
+
+        $this->expect('23.2x 10^5',
+                      'dispdp(23.2,1)*x*10^5',
+                      array(),
+                      true, false);
+
+        $this->expect('23.2 x10^5',
+                      'dispdp(23.2,1)*x10^5',
+                      array(),
+                      true, false);
+
+        $this->expect('9.81x10^2*m/s',
+                      'dispdp(9.81,2)*x10^2*m/s',
+                      array(),
+                      true, false);
+
+        $this->expect('9.81x*10^2*m/s',
+                      'dispdp(9.81,2)*x*10^2*m/s',
                       array(),
                       true, false);
 

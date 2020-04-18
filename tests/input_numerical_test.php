@@ -516,4 +516,19 @@ class stack_numerical_input_test extends qtype_stack_testcase {
                 'This input expects a number.',
             $state->errors);
     }
+
+    public function test_validate_student_response_10x() {
+
+        $options = new stack_options();
+        $el = stack_input_factory::make('units', 'sans1', '23.2*10^2');
+        $el->set_parameter('insertStars', 1);
+        $el->set_parameter('strictSyntax', false);
+        $state = $el->validate_student_response(array('sans1' => '23.2x10^2'), $options, '23.2*10^2',
+                new stack_cas_security(true));
+        $this->assertEquals(stack_input::INVALID, $state->status);
+        $this->assertEquals('missing_stars | Illegal_x10', $state->note);
+        $this->assertEquals('23.2*x10^2', $state->contentsmodified);
+        $this->assertEquals('Your answer appears to use the character "x" as a multiplication sign.  ' .
+                'Please use <code>*</code> for multiplication.', $state->errors);
+    }
 }

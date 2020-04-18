@@ -28,7 +28,7 @@ $plugin->version   = 2020041700;
 $plugin->requires  = 2018051700;
 $plugin->cron      = 0;
 $plugin->component = 'qtype_stack';
-$plugin->maturity  = MATURITY_ALPHA;
+$plugin->maturity  = MATURITY_RC;
 $plugin->release   = '4.3.1 for Moodle 3.5+';
 
 $plugin->dependencies = array(

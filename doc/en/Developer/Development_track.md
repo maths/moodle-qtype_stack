@@ -5,20 +5,13 @@ past development history is documented on [Development history](Development_hist
 
 How to report bugs and make suggestions is described on the [community](../About/Community.md) page.
 
-## Version 4.3.1
-
-* Add in STACK option "logicsymbol" to control how logical symbols are displayed.
-* Add in formative potential response trees.
-* Add in option `feedbackstyle` to potential response trees.
-* Add in a new answer test AlgEquivNouns.
-
 ## Version 4.4
 
 ## Maxima side PRTs.
 
 * Move all functions to Maxima.
 * Change behaviour of UnitsAbsolute in response to discussion of issue #448.
-
+* Make use of the Maxima function `sig_figs_from_str(strexp)` in utils.mac which returns the number of decimal places/significant figures in a variable (useful when providing feedback).  Needed for the refactoring.
 
 ## For "inputs 2"?
 
@@ -34,8 +27,8 @@ How to report bugs and make suggestions is described on the [community](../About
 ## Other
 
 * Better install code (see #332).
-* Make use of the Maxima function `sig_figs_from_str(strexp)` in utils.mac which returns the number of decimal places/significant figures in a variable (useful when providing feedback).  Needed for the refactoring.
 * Move find_units_synonyms into the parser more fully?
 * 1st version of API.
 * Enable individual questions to load Maxima libraries.  (See issue #305)
+* Markdown support?
 

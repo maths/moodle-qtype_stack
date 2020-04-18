@@ -2,6 +2,16 @@
 
 For current and future plans, see [Development track](Development_track.md) and [Future plans](Future_plans.md).
 
+
+## Version 4.3.1
+
+Released April 2020.  Bug fixes and features which require DB changes.
+
+* Add in STACK option "logicsymbol" to control how logical symbols are displayed.
+* Add in formative potential response trees.
+* Add in option `feedbackstyle` to potential response trees.
+* Add in a new answer test AlgEquivNouns.
+
 ## Version 4.3
 
 Released April 2020.  This has been tested successfully during the spring semester, at three insitutions with large groups.  STACK 4.3 is, because of the new parser, slightly slower than previous releases.

@@ -1,17 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <quiz>
-<!-- question: 0  -->
-  <question type="category">
-    <category>
-      <text>top/Default for Scratch/Input Samples</text>
-    </category>
-    <info format="moodle_auto_format">
-      <text></text>
-    </info>
-    <idnumber></idnumber>
-  </question>
-
-<!-- question: 2795  -->
+<!-- question: 1424  -->
   <question type="stack">
     <name>
       <text>Algebraic input</text>
@@ -55,6 +44,7 @@
     <sqrtsign>1</sqrtsign>
     <complexno>i</complexno>
     <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
     <matrixparens>[</matrixparens>
     <variantsselectionseed></variantsselectionseed>
     <input>
@@ -79,6 +69,7 @@
       <name>prt1</name>
       <value>1.0000000</value>
       <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
       <feedbackvariables>
         <text></text>
       </feedbackvariables>
@@ -135,7 +126,7 @@
     </qtest>
   </question>
 
-<!-- question: 2796  -->
+<!-- question: 1425  -->
   <question type="stack">
     <name>
       <text>Algebraic input (align to the right)</text>
@@ -179,6 +170,7 @@
     <sqrtsign>1</sqrtsign>
     <complexno>i</complexno>
     <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
     <matrixparens>[</matrixparens>
     <variantsselectionseed></variantsselectionseed>
     <input>
@@ -203,6 +195,7 @@
       <name>prt1</name>
       <value>1.0000000</value>
       <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
       <feedbackvariables>
         <text></text>
       </feedbackvariables>
@@ -272,13 +265,22 @@
     </qtest>
   </question>
 
-<!-- question: 2797  -->
+<!-- question: 1426  -->
   <question type="stack">
     <name>
       <text>Algebraic input (answer box sizes test)</text>
     </name>
     <questiontext format="html">
-      <text><![CDATA[<p>This question just tests answer boxes of multiple sizes.</p><p>[[input:ans1]] [[validation:ans1]]</p><p>[[input:ans2]] [[validation:ans2]]</p><p>[[input:ans3]] [[validation:ans3]]</p><p>[[input:ans4]] [[validation:ans4]]</p><p>[[input:ans5]] [[validation:ans5]]</p><p>[[input:ans7]] [[validation:ans7]]</p><p>[[input:ans10]] [[validation:ans10]]</p><p>[[input:ans15]] [[validation:ans15]]</p><p>[[input:ans20]] [[validation:ans20]]</p><p><br></p><p><br></p><p><br></p><p><br></p><p><br></p><p><br></p><p><br></p>]]></text>
+      <text><![CDATA[<p>This question just tests answer boxes of multiple sizes, and styles of input.</p>
+<p>Standard: [[input:ans1]] [[validation:ans1]]</p>
+<p>No variable list: [[input:ans2]] [[validation:ans2]]</p>
+<p>Compact [[input:ans3]] [[validation:ans3]] (all following are compact)</p>
+<p>[[input:ans4]] [[validation:ans4]]</p>
+<p>[[input:ans5]] [[validation:ans5]]</p>
+<p>[[input:ans7]] [[validation:ans7]]</p>
+<p>[[input:ans10]] [[validation:ans10]]</p>
+<p>[[input:ans15]] [[validation:ans15]]</p>
+<p>[[input:ans20]] [[validation:ans20]]</p>]]></text>
     </questiontext>
     <generalfeedback format="html">
       <text></text>
@@ -288,7 +290,7 @@
     <hidden>0</hidden>
     <idnumber></idnumber>
     <stackversion>
-      <text></text>
+      <text>2020041700</text>
     </stackversion>
     <questionvariables>
       <text></text>
@@ -315,16 +317,17 @@
     <sqrtsign>1</sqrtsign>
     <complexno>i</complexno>
     <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
     <matrixparens>[</matrixparens>
     <variantsselectionseed></variantsselectionseed>
     <input>
       <name>ans1</name>
       <type>algebraic</type>
-      <tans>2</tans>
+      <tans>a</tans>
       <boxsize>1</boxsize>
       <strictsyntax>1</strictsyntax>
       <insertstars>0</insertstars>
-      <syntaxhint>2</syntaxhint>
+      <syntaxhint>a</syntaxhint>
       <syntaxattribute>0</syntaxattribute>
       <forbidwords></forbidwords>
       <allowwords></allowwords>
@@ -350,7 +353,7 @@
       <requirelowestterms>0</requirelowestterms>
       <checkanswertype>0</checkanswertype>
       <mustverify>1</mustverify>
-      <showvalidation>1</showvalidation>
+      <showvalidation>3</showvalidation>
       <options></options>
     </input>
     <input>
@@ -368,17 +371,17 @@
       <requirelowestterms>0</requirelowestterms>
       <checkanswertype>0</checkanswertype>
       <mustverify>1</mustverify>
-      <showvalidation>1</showvalidation>
+      <showvalidation>3</showvalidation>
       <options></options>
     </input>
     <input>
       <name>ans2</name>
       <type>algebraic</type>
-      <tans>2</tans>
+      <tans>2*x</tans>
       <boxsize>2</boxsize>
       <strictsyntax>1</strictsyntax>
       <insertstars>0</insertstars>
-      <syntaxhint>22</syntaxhint>
+      <syntaxhint>2*x</syntaxhint>
       <syntaxattribute>0</syntaxattribute>
       <forbidwords></forbidwords>
       <allowwords></allowwords>
@@ -386,7 +389,7 @@
       <requirelowestterms>0</requirelowestterms>
       <checkanswertype>0</checkanswertype>
       <mustverify>1</mustverify>
-      <showvalidation>1</showvalidation>
+      <showvalidation>2</showvalidation>
       <options></options>
     </input>
     <input>
@@ -404,17 +407,17 @@
       <requirelowestterms>0</requirelowestterms>
       <checkanswertype>0</checkanswertype>
       <mustverify>1</mustverify>
-      <showvalidation>1</showvalidation>
+      <showvalidation>3</showvalidation>
       <options></options>
     </input>
     <input>
       <name>ans3</name>
       <type>algebraic</type>
-      <tans>2</tans>
+      <tans>x^2</tans>
       <boxsize>3</boxsize>
       <strictsyntax>1</strictsyntax>
       <insertstars>0</insertstars>
-      <syntaxhint>222</syntaxhint>
+      <syntaxhint>x^2</syntaxhint>
       <syntaxattribute>0</syntaxattribute>
       <forbidwords></forbidwords>
       <allowwords></allowwords>
@@ -422,7 +425,7 @@
       <requirelowestterms>0</requirelowestterms>
       <checkanswertype>0</checkanswertype>
       <mustverify>1</mustverify>
-      <showvalidation>1</showvalidation>
+      <showvalidation>3</showvalidation>
       <options></options>
     </input>
     <input>
@@ -440,7 +443,7 @@
       <requirelowestterms>0</requirelowestterms>
       <checkanswertype>0</checkanswertype>
       <mustverify>1</mustverify>
-      <showvalidation>1</showvalidation>
+      <showvalidation>3</showvalidation>
       <options></options>
     </input>
     <input>
@@ -458,14 +461,14 @@
       <requirelowestterms>0</requirelowestterms>
       <checkanswertype>0</checkanswertype>
       <mustverify>1</mustverify>
-      <showvalidation>1</showvalidation>
+      <showvalidation>3</showvalidation>
       <options></options>
     </input>
     <input>
       <name>ans7</name>
       <type>algebraic</type>
       <tans>2</tans>
-      <boxsize>5</boxsize>
+      <boxsize>7</boxsize>
       <strictsyntax>1</strictsyntax>
       <insertstars>0</insertstars>
       <syntaxhint>2222222</syntaxhint>
@@ -476,13 +479,14 @@
       <requirelowestterms>0</requirelowestterms>
       <checkanswertype>0</checkanswertype>
       <mustverify>1</mustverify>
-      <showvalidation>1</showvalidation>
+      <showvalidation>3</showvalidation>
       <options></options>
     </input>
     <prt>
       <name>prt1</name>
       <value>1.0000000</value>
       <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
       <feedbackvariables>
         <text></text>
       </feedbackvariables>
@@ -490,7 +494,7 @@
         <name>0</name>
         <answertest>AlgEquiv</answertest>
         <sans>ans1</sans>
-        <tans>2</tans>
+        <tans>a</tans>
         <testoptions></testoptions>
         <quiet>0</quiet>
         <truescoremode>=</truescoremode>
@@ -515,7 +519,7 @@
       <testcase>1</testcase>
       <testinput>
         <name>ans1</name>
-        <value>2</value>
+        <value>a</value>
       </testinput>
       <testinput>
         <name>ans10</name>
@@ -558,14 +562,14 @@
     </qtest>
   </question>
 
-<!-- question: 2798  -->
+<!-- question: 1427  -->
   <question type="stack">
     <name>
       <text>Algebraic input (compact)</text>
     </name>
     <questiontext format="html">
-      <text><![CDATA[<p>What is \(\sum_{k=1}^n k = \) [[validation:ans1]] [[input:ans1]] </p>
-<p>(Note, this input has compact validation.)</p>]]></text>
+      <text><![CDATA[<p>What is \(\sum_{k=1}^n k = \) [[validation:ans1]] [[input:ans1]] [[feedback:prt1]]</p>
+<p>(Note, this input has compact validation and PRT.)</p>]]></text>
     </questiontext>
     <generalfeedback format="html">
       <text></text>
@@ -575,13 +579,13 @@
     <hidden>0</hidden>
     <idnumber></idnumber>
     <stackversion>
-      <text>2019121800</text>
+      <text>2020041700</text>
     </stackversion>
     <questionvariables>
       <text>ta:n*(n+1)/2</text>
     </questionvariables>
     <specificfeedback format="html">
-      <text>[[feedback:prt1]]</text>
+      <text></text>
     </specificfeedback>
     <questionnote>
       <text></text>
@@ -602,6 +606,7 @@
     <sqrtsign>1</sqrtsign>
     <complexno>i</complexno>
     <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
     <matrixparens>[</matrixparens>
     <variantsselectionseed></variantsselectionseed>
     <input>
@@ -626,6 +631,7 @@
       <name>prt1</name>
       <value>1.0000000</value>
       <autosimplify>1</autosimplify>
+      <feedbackstyle>2</feedbackstyle>
       <feedbackvariables>
         <text></text>
       </feedbackvariables>
@@ -682,7 +688,7 @@
     </qtest>
   </question>
 
-<!-- question: 2799  -->
+<!-- question: 1428  -->
   <question type="stack">
     <name>
       <text>Algebraic input (empty answer permitted)</text>
@@ -728,6 +734,7 @@
     <sqrtsign>1</sqrtsign>
     <complexno>i</complexno>
     <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
     <matrixparens>[</matrixparens>
     <variantsselectionseed></variantsselectionseed>
     <input>
@@ -788,6 +795,7 @@
       <name>prt1</name>
       <value>1.0000000</value>
       <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
       <feedbackvariables>
         <text>sa:setdifference({ans1,ans2,ans3},{EMPTYANSWER})</text>
       </feedbackvariables>
@@ -881,7 +889,7 @@
     </qtest>
   </question>
 
-<!-- question: 2800  -->
+<!-- question: 1429  -->
   <question type="stack">
     <name>
       <text>Algebraic input (with simplification)</text>
@@ -899,7 +907,7 @@
     <hidden>0</hidden>
     <idnumber></idnumber>
     <stackversion>
-      <text>2018120500</text>
+      <text>2020041700</text>
     </stackversion>
     <questionvariables>
       <text>ta:makelist(k^2,k,1,8)</text>
@@ -926,6 +934,7 @@
     <sqrtsign>1</sqrtsign>
     <complexno>i</complexno>
     <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
     <matrixparens>[</matrixparens>
     <variantsselectionseed></variantsselectionseed>
     <input>
@@ -950,13 +959,14 @@
       <name>prt1</name>
       <value>1.0000000</value>
       <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
       <feedbackvariables>
-        <text></text>
+        <text>sa:ev(ans1,simp);</text>
       </feedbackvariables>
       <node>
         <name>0</name>
         <answertest>AlgEquiv</answertest>
-        <sans>ev(ans1,simp)</sans>
+        <sans>sa</sans>
         <tans>ta</tans>
         <testoptions></testoptions>
         <quiet>0</quiet>
@@ -1019,7 +1029,7 @@
     </qtest>
   </question>
 
-<!-- question: 2801  -->
+<!-- question: 1430  -->
   <question type="stack">
     <name>
       <text>Checkbox</text>
@@ -1069,6 +1079,7 @@ ta:append(ta,[tao]);]]></text>
     <sqrtsign>1</sqrtsign>
     <complexno>i</complexno>
     <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
     <matrixparens>[</matrixparens>
     <variantsselectionseed></variantsselectionseed>
     <input>
@@ -1093,6 +1104,7 @@ ta:append(ta,[tao]);]]></text>
       <name>prt1</name>
       <value>1.0000000</value>
       <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
       <feedbackvariables>
         <text><![CDATA[ansmod:apply("and",maplist(lambda([ex],second(ATDiff(ex,diff(p,x),x))),ans1));]]></text>
       </feedbackvariables>
@@ -1149,7 +1161,7 @@ ta:append(ta,[tao]);]]></text>
     </qtest>
   </question>
 
-<!-- question: 2802  -->
+<!-- question: 1431  -->
   <question type="stack">
     <name>
       <text>Checkbox (no body LaTeX)</text>
@@ -1198,6 +1210,7 @@ ta:append(ta,[tao]);]]></text>
     <sqrtsign>1</sqrtsign>
     <complexno>i</complexno>
     <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
     <matrixparens>[</matrixparens>
     <variantsselectionseed></variantsselectionseed>
     <input>
@@ -1222,6 +1235,7 @@ ta:append(ta,[tao]);]]></text>
       <name>prt1</name>
       <value>1.0000000</value>
       <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
       <feedbackvariables>
         <text></text>
       </feedbackvariables>
@@ -1278,7 +1292,7 @@ ta:append(ta,[tao]);]]></text>
     </qtest>
   </question>
 
-<!-- question: 2803  -->
+<!-- question: 1432  -->
   <question type="stack">
     <name>
       <text>Checkbox (plots in options)</text>
@@ -1351,6 +1365,7 @@ incorr1:mcq_incorrect(ta1);]]></text>
     <sqrtsign>1</sqrtsign>
     <complexno>i</complexno>
     <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
     <matrixparens>[</matrixparens>
     <variantsselectionseed></variantsselectionseed>
     <input>
@@ -1375,6 +1390,7 @@ incorr1:mcq_incorrect(ta1);]]></text>
       <name>prt1</name>
       <value>1.0000000</value>
       <autosimplify>0</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
       <feedbackvariables>
         <text></text>
       </feedbackvariables>
@@ -1496,7 +1512,7 @@ incorr1:mcq_incorrect(ta1);]]></text>
     </tags>
   </question>
 
-<!-- question: 2817  -->
+<!-- question: 1433  -->
   <question type="stack">
     <name>
       <text>Checkbox (Show teacher's answer)</text>
@@ -1522,7 +1538,7 @@ ta2:[B, true, "Integration by substitution"];
 ta3:[C, true, "Apply a trig formula to remove product"];
 ta4:[D, true, "Remove trig with complex exponentials, then integrate"];
 ta0:[X, false, "None of the other options"];
-ta:[ta1,ta2,ta3,ta4,ta0]; ]]></text>
+ta:[ta1,ta2,ta3,ta4,ta0];]]></text>
     </questionvariables>
     <specificfeedback format="html">
       <text>[[feedback:prt1]]</text>
@@ -1546,6 +1562,7 @@ ta:[ta1,ta2,ta3,ta4,ta0]; ]]></text>
     <sqrtsign>1</sqrtsign>
     <complexno>i</complexno>
     <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
     <matrixparens>[</matrixparens>
     <variantsselectionseed></variantsselectionseed>
     <input>
@@ -1570,6 +1587,7 @@ ta:[ta1,ta2,ta3,ta4,ta0]; ]]></text>
       <name>prt1</name>
       <value>1.0000000</value>
       <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
       <feedbackvariables>
         <text></text>
       </feedbackvariables>
@@ -1626,7 +1644,7 @@ ta:[ta1,ta2,ta3,ta4,ta0]; ]]></text>
     </qtest>
   </question>
 
-<!-- question: 2804  -->
+<!-- question: 1434  -->
   <question type="stack">
     <name>
       <text>Dropdown (shuffle)</text>
@@ -1678,6 +1696,7 @@ ta:append(ta,[tao]);]]></text>
     <sqrtsign>1</sqrtsign>
     <complexno>i</complexno>
     <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
     <matrixparens>[</matrixparens>
     <variantsselectionseed></variantsselectionseed>
     <input>
@@ -1702,6 +1721,7 @@ ta:append(ta,[tao]);]]></text>
       <name>prt1</name>
       <value>1.0000000</value>
       <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
       <feedbackvariables>
         <text></text>
       </feedbackvariables>
@@ -1771,7 +1791,7 @@ ta:append(ta,[tao]);]]></text>
     </qtest>
   </question>
 
-<!-- question: 2805  -->
+<!-- question: 1435  -->
   <question type="stack">
     <name>
       <text>Equiv input test (compact)</text>
@@ -1816,6 +1836,7 @@ ta:[p,x=(4-7)/3,x=-1]</text>
     <sqrtsign>1</sqrtsign>
     <complexno>i</complexno>
     <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
     <matrixparens>[</matrixparens>
     <variantsselectionseed></variantsselectionseed>
     <input>
@@ -1840,6 +1861,7 @@ ta:[p,x=(4-7)/3,x=-1]</text>
       <name>prt1</name>
       <value>1.0000000</value>
       <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
       <feedbackvariables>
         <text></text>
       </feedbackvariables>
@@ -1883,7 +1905,7 @@ ta:[p,x=(4-7)/3,x=-1]</text>
     </qtest>
   </question>
 
-<!-- question: 2806  -->
+<!-- question: 1436  -->
   <question type="stack">
     <name>
       <text>Equiv input test (let, or +-)</text>
@@ -1929,6 +1951,7 @@ p:first(tal);</text>
     <sqrtsign>1</sqrtsign>
     <complexno>i</complexno>
     <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
     <matrixparens>[</matrixparens>
     <variantsselectionseed></variantsselectionseed>
     <input>
@@ -1953,6 +1976,7 @@ p:first(tal);</text>
       <name>prt1</name>
       <value>1.0000000</value>
       <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
       <feedbackvariables>
         <text></text>
       </feedbackvariables>
@@ -2020,7 +2044,7 @@ p:first(tal);</text>
     </qtest>
   </question>
 
-<!-- question: 2807  -->
+<!-- question: 1437  -->
   <question type="stack">
     <name>
       <text>Matrix</text>
@@ -2063,6 +2087,7 @@ p:first(tal);</text>
     <sqrtsign>1</sqrtsign>
     <complexno>i</complexno>
     <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
     <matrixparens>[</matrixparens>
     <variantsselectionseed></variantsselectionseed>
     <input>
@@ -2087,6 +2112,7 @@ p:first(tal);</text>
       <name>prt1</name>
       <value>1.0000000</value>
       <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
       <feedbackvariables>
         <text></text>
       </feedbackvariables>
@@ -2143,7 +2169,7 @@ p:first(tal);</text>
     </qtest>
   </question>
 
-<!-- question: 2808  -->
+<!-- question: 1438  -->
   <question type="stack">
     <name>
       <text>Notes</text>
@@ -2186,6 +2212,7 @@ p:first(tal);</text>
     <sqrtsign>1</sqrtsign>
     <complexno>i</complexno>
     <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
     <matrixparens>[</matrixparens>
     <variantsselectionseed></variantsselectionseed>
     <input>
@@ -2210,6 +2237,7 @@ p:first(tal);</text>
       <name>prt1</name>
       <value>1.0000000</value>
       <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
       <feedbackvariables>
         <text></text>
       </feedbackvariables>
@@ -2253,7 +2281,7 @@ p:first(tal);</text>
     </qtest>
   </question>
 
-<!-- question: 2809  -->
+<!-- question: 1439  -->
   <question type="stack">
     <name>
       <text>Numerical input (min sf)</text>
@@ -2296,6 +2324,7 @@ p:first(tal);</text>
     <sqrtsign>1</sqrtsign>
     <complexno>i</complexno>
     <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
     <matrixparens>[</matrixparens>
     <variantsselectionseed></variantsselectionseed>
     <input>
@@ -2320,6 +2349,7 @@ p:first(tal);</text>
       <name>prt1</name>
       <value>1.0000000</value>
       <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
       <feedbackvariables>
         <text></text>
       </feedbackvariables>
@@ -2376,7 +2406,7 @@ p:first(tal);</text>
     </qtest>
   </question>
 
-<!-- question: 2810  -->
+<!-- question: 1440  -->
   <question type="stack">
     <name>
       <text>Radio</text>
@@ -2426,6 +2456,7 @@ ta:append(ta,[tao]);]]></text>
     <sqrtsign>1</sqrtsign>
     <complexno>i</complexno>
     <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
     <matrixparens>[</matrixparens>
     <variantsselectionseed></variantsselectionseed>
     <input>
@@ -2450,6 +2481,7 @@ ta:append(ta,[tao]);]]></text>
       <name>prt1</name>
       <value>1.0000000</value>
       <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
       <feedbackvariables>
         <text></text>
       </feedbackvariables>
@@ -2493,7 +2525,126 @@ ta:append(ta,[tao]);]]></text>
     </qtest>
   </question>
 
-<!-- question: 2811  -->
+<!-- question: 1447  -->
+  <question type="stack">
+    <name>
+      <text>Radio (compact)</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>Differentiate {@p@} with respect to \(x\).</p><p>[[input:ans1]]</p><div>[[validation:ans1]]</div>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text></text>
+    </generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.1000000</penalty>
+    <hidden>0</hidden>
+    <idnumber></idnumber>
+    <stackversion>
+      <text>2020041700</text>
+    </stackversion>
+    <questionvariables>
+      <text><![CDATA[/* Create a list of potential answers. */
+p:sin(2*x);
+ta:[[diff(p,x),true],[p,false],[int(p,x),false],[cos(2*x)+c,false]];
+/* The actual correct answer.    */
+tac:diff(p,x)
+/* Add in a "None of these" to the end of the list.  The Maxima value is the atom null. */
+tao:[null, false, "None of these"];
+ta:append(ta,[tao]);]]></text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text>[[feedback:prt1]]</text>
+    </specificfeedback>
+    <questionnote>
+      <text></text>
+    </questionnote>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <variantsselectionseed></variantsselectionseed>
+    <input>
+      <name>ans1</name>
+      <type>radio</type>
+      <tans>ta</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint></syntaxhint>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords></forbidwords>
+      <allowwords></allowwords>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options></options>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text></text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <answertest>Diff</answertest>
+        <sans>ans1</sans>
+        <tans>diff(p,x)</tans>
+        <testoptions>x</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <qtest>
+      <testcase>1</testcase>
+      <testinput>
+        <name>ans1</name>
+        <value>tac</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+
+<!-- question: 1441  -->
   <question type="stack">
     <name>
       <text>Single char</text>
@@ -2536,6 +2687,7 @@ ta:append(ta,[tao]);]]></text>
     <sqrtsign>1</sqrtsign>
     <complexno>i</complexno>
     <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
     <matrixparens>[</matrixparens>
     <variantsselectionseed></variantsselectionseed>
     <input>
@@ -2560,6 +2712,7 @@ ta:append(ta,[tao]);]]></text>
       <name>prt1</name>
       <value>1.0000000</value>
       <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
       <feedbackvariables>
         <text></text>
       </feedbackvariables>
@@ -2616,7 +2769,7 @@ ta:append(ta,[tao]);]]></text>
     </qtest>
   </question>
 
-<!-- question: 2812  -->
+<!-- question: 1442  -->
   <question type="stack">
     <name>
       <text>String input</text>
@@ -2662,6 +2815,7 @@ This input is not, perhaps it is used to store JSXGraph state?
     <sqrtsign>1</sqrtsign>
     <complexno>i</complexno>
     <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
     <matrixparens>[</matrixparens>
     <variantsselectionseed></variantsselectionseed>
     <input>
@@ -2704,6 +2858,7 @@ This input is not, perhaps it is used to store JSXGraph state?
       <name>prt1</name>
       <value>1.0000000</value>
       <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
       <feedbackvariables>
         <text></text>
       </feedbackvariables>
@@ -2751,7 +2906,7 @@ This input is not, perhaps it is used to store JSXGraph state?
     </qtest>
   </question>
 
-<!-- question: 2813  -->
+<!-- question: 1443  -->
   <question type="stack">
     <name>
       <text>Textarea test</text>
@@ -2794,6 +2949,7 @@ This input is not, perhaps it is used to store JSXGraph state?
     <sqrtsign>1</sqrtsign>
     <complexno>i</complexno>
     <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
     <matrixparens>[</matrixparens>
     <variantsselectionseed></variantsselectionseed>
     <input>
@@ -2818,6 +2974,7 @@ This input is not, perhaps it is used to store JSXGraph state?
       <name>prt1</name>
       <value>1.0000000</value>
       <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
       <feedbackvariables>
         <text></text>
       </feedbackvariables>
@@ -2861,7 +3018,7 @@ This input is not, perhaps it is used to store JSXGraph state?
     </qtest>
   </question>
 
-<!-- question: 2814  -->
+<!-- question: 1444  -->
   <question type="stack">
     <name>
       <text>Textarea test (compact)</text>
@@ -2904,6 +3061,7 @@ This input is not, perhaps it is used to store JSXGraph state?
     <sqrtsign>1</sqrtsign>
     <complexno>i</complexno>
     <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
     <matrixparens>[</matrixparens>
     <variantsselectionseed></variantsselectionseed>
     <input>
@@ -2928,6 +3086,7 @@ This input is not, perhaps it is used to store JSXGraph state?
       <name>prt1</name>
       <value>1.0000000</value>
       <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
       <feedbackvariables>
         <text></text>
       </feedbackvariables>
@@ -2971,7 +3130,7 @@ This input is not, perhaps it is used to store JSXGraph state?
     </qtest>
   </question>
 
-<!-- question: 2815  -->
+<!-- question: 1445  -->
   <question type="stack">
     <name>
       <text>True/false</text>
@@ -3014,6 +3173,7 @@ This input is not, perhaps it is used to store JSXGraph state?
     <sqrtsign>1</sqrtsign>
     <complexno>i</complexno>
     <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
     <matrixparens>[</matrixparens>
     <variantsselectionseed></variantsselectionseed>
     <input>
@@ -3038,6 +3198,7 @@ This input is not, perhaps it is used to store JSXGraph state?
       <name>prt1</name>
       <value>1.0000000</value>
       <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
       <feedbackvariables>
         <text></text>
       </feedbackvariables>
@@ -3094,7 +3255,7 @@ This input is not, perhaps it is used to store JSXGraph state?
     </qtest>
   </question>
 
-<!-- question: 2816  -->
+<!-- question: 1446  -->
   <question type="stack">
     <name>
       <text>Units</text>
@@ -3137,6 +3298,7 @@ This input is not, perhaps it is used to store JSXGraph state?
     <sqrtsign>1</sqrtsign>
     <complexno>i</complexno>
     <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
     <matrixparens>[</matrixparens>
     <variantsselectionseed></variantsselectionseed>
     <input>
@@ -3161,6 +3323,7 @@ This input is not, perhaps it is used to store JSXGraph state?
       <name>prt1</name>
       <value>1.0000000</value>
       <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
       <feedbackvariables>
         <text></text>
       </feedbackvariables>

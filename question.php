@@ -866,7 +866,11 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         foreach ($prt->get_required_variables(array_keys($this->inputs)) as $name) {
             $state = $this->get_input_state($name, $response);
             if (stack_input::SCORE == $state->status || ($acceptvalid && stack_input::VALID == $state->status)) {
-                $prtinput[$name] = $state->contentsmodified;
+                $val = $state->contentsmodified;
+                if ($state->simp) {
+                    $val =  'ev(' . $val . ',simp)';
+                }
+                $prtinput[$name] = $val;
             }
         }
 

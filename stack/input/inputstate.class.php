@@ -78,8 +78,10 @@ class stack_input_state {
      * @param string $contentsdisplayed The displayed form of the current contents of this input.
      * @param string $status one of the constants stack_input::EMPTY, stack_input::INVALID, ...
      * @param string $feedback the feedback for the current contents.
+     * @param bool   $simp Should the student's expression be simplified?
      */
-    public function __construct($status, $contents, $contentsmodified, $contentsdisplayed, $errors, $note, $lvars) {
+    public function __construct($status, $contents, $contentsmodified, $contentsdisplayed, $errors, $note, $lvars,
+            $simp = false) {
         if (!is_array($contents)) {
             throw new stack_exception('stack_input_state: contents field of constructor must be an array.');
         }
@@ -90,6 +92,7 @@ class stack_input_state {
         $this->_errors              = $errors;
         $this->_note                = $note;
         $this->_lvars               = $lvars;
+        $this->_simp                = $simp;
     }
 
     public function __get($field) {
@@ -108,6 +111,8 @@ class stack_input_state {
                 return $this->_note;
             case 'lvars':
                 return $this->_lvars;
+            case 'simp':
+                return $this->_simp;
             default:
                 throw new stack_exception('stack_input_state: unrecognised property name ' . $field);
         }

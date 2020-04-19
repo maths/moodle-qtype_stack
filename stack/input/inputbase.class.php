@@ -779,8 +779,12 @@ abstract class stack_input {
                 && (array_key_exists($this->name, $response) || array_key_exists($this->name.'_sub_0_0', $response))) {
                     return new stack_input_state(self::SCORE, $contents, $interpretedanswer, '', '', '', '');
         }
+        $simp = false;
+        if ($this->get_extra_option('simp')) {
+            $simp = true;
+        }
 
-        return new stack_input_state($status, $contents, $interpretedanswer, $display, $errors, $note, $lvarsdisp);
+        return new stack_input_state($status, $contents, $interpretedanswer, $display, $errors, $note, $lvarsdisp, true);
     }
 
     /* Allow different input types to change the CAS method used.

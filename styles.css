@@ -20,7 +20,7 @@
     vertical-align: top;
     display: inline-block;
     background-color: #fff;
-    margin: 0px;
+    margin: 0;
     padding: 0.2em;
 }
 .que.stack .stackinputfeedback.compact {
@@ -153,12 +153,12 @@ body.pagelayout-embedded .que.stack .formulation .questiontestslink {
 }
 
 @media screen and (max-width: 900px) {
-     .proof-column {
-         width: 100%;
-     }
-     .proof-column-2 {
-         width: 100%;
-     }
+    .proof-column {
+        width: 100%;
+    }
+    .proof-column-2 {
+        width: 100%;
+    }
 }
 
 /* Styles for the editing form. */

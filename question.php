@@ -868,7 +868,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
             if (stack_input::SCORE == $state->status || ($acceptvalid && stack_input::VALID == $state->status)) {
                 $val = $state->contentsmodified;
                 if ($state->simp === true) {
-                    $val =  'ev(' . $val . ',simp)';
+                    $val = 'ev(' . $val . ',simp)';
                 }
                 $prtinput[$name] = $val;
             }

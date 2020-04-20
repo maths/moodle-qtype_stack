@@ -93,7 +93,7 @@ AND qas_last.id < qas_prev.id))
 LEFT JOIN {user} u ON qas_last.userid = u.id
 WHERE
 qas_prev.timecreated IS NULL
-AND qa.`questionid` = ' . $questionid . '
+AND qa.questionid = ' . $questionid . '
 ORDER BY u.username, qas_last.timecreated';
 
 global $DB;

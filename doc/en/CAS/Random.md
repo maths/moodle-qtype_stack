@@ -2,10 +2,9 @@
 
 STACK can generate structured random objects.  STACK provides a [Maxima](Maxima.md) function `rand()` which can be used in the question and answer variables.
 
-**Note:** it is important not to use Maxima's own `random()` function.
 STACK creates pseudo-random numbers from a definite seed.
 This ensures that when a particular student returns they see the same variant of the question.
-Hence, STACK provides its own function `rand()`.
+(Note to site maintainers: if you upgrade your Maxima version mid-way through an academic cycle, then there is no gurantee that the random numbers will remain the same.  It is unlikley Maxima will change its random number generation between versions, but if it important to you please check first!)
 
 For the purposes of learning and teaching, we do not need an algorithm which is statistically perfect.
 We are much more interested in simplicity, efficiency and reproducibility across platforms.
@@ -13,6 +12,8 @@ Hence, we adopt a linear recurrence method of generating pseudo-random numbers.
 
 
 ## rand() {#rand}
+
+STACK provides its own function `rand()`.
 
 * `rand(n)` generates an integer between \(0\) and \(n-1\).
 * `rand(n.0)` generates a floating point number between \(0\) and \(n\).  It is probably more useful to use something like a=float(rand(1000)/1000)

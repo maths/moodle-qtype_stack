@@ -432,6 +432,9 @@ class stack_answertest_test_data {
         // An example due to Gauss.  Just for fun!
         array('AlgEquiv', '', 'cos(2*%pi/17)', '(-1+sqrt(17)+sqrt(34-2*sqrt(17)))/16+' .
             '(2*sqrt(17+3*sqrt(17)-sqrt(34-2*sqrt(17))-2*sqrt(34+2*sqrt(17))))/16', -3, '', '', ''),
+        // According to Twitter!  Not sure this is even true, but just for fun!
+        array('AlgEquiv', '', 'cot(%pi/20)+cot(%pi/24)-cot(%pi/10)', 'sqrt(1)+sqrt(2)+sqrt(3)+sqrt(4)+sqrt(5)+sqrt(6)',
+            -3, '', '', ''),
 
         array('AlgEquiv', '', 'true and false', 'false', 1, 'ATLogic_True.', 'Logical expressions'),
         array('AlgEquiv', '', 'true or false', 'false', 0, '', ''),

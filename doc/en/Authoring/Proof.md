@@ -62,7 +62,7 @@ Consider the following proof by induction. \(P(n)\)
 <div class="proof-line">
  <div class="proof-num">1.</div>
  <div class="proof-step">Let \(P(n)\) be the statement</div>
- <div class="proof-comment">The first block of an induction proof must be a clear stement of the "induction hypothesis".</div>
+ <div class="proof-comment">The first block of an induction proof must be a clear statement of the "induction hypothesis".</div>
 </div>
 <div class="proof-line">
  <div class="proof-num">2.</div>

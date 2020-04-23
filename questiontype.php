@@ -1989,7 +1989,7 @@ class qtype_stack extends question_type {
             if ('' === trim($opt)) {
                 $errors[$nodegroup][] = stack_string('testoptionsrequired');
 
-            } else if (strlen($opt > 255)) {
+            } else if (strlen($opt) > 255) {
                 $errors[$nodegroup][] = stack_string('testoptionsinvalid',
                         stack_string('strlengtherror'));
 

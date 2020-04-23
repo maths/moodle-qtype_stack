@@ -171,7 +171,11 @@ class stack_cas_security {
                 foreach (self::$keywordlists[strtolower($key)] as $k => $v) {
                     $real[$k] = $v;
                 }
-            } else if (mb_strlen($key) > 1) {
+            } else {
+                // In v4.3 we checked here whether the string length was greater than 1 before adding the key.
+                // If the teacher has defined single letter variable names in the question then we should forbid them.
+                // There is too much pre-existing STACK material where teachers have used single letter varibles.
+                // If we decide to change this, we need an auto-upgrade for questions.
                 $real[$key] = true;
             }
         }

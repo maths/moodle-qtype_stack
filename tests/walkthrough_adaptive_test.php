@@ -505,6 +505,50 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
                 );
     }
 
+    public function test_test0_invalid_student_uses_single_letter_question_variables_permitted() {
+
+        // Create a stack question.
+        $q = test_question_maker::make_question('stack', 'test0');
+        // Allow the question variable "a".
+        $q->inputs['ans1']->set_parameter('allowWords', 'a');
+        $this->start_attempt_at_question($q, 'adaptive', 1);
+
+        // Check the initial state.
+        $this->check_current_state(question_state::$todo);
+        $this->check_current_mark(null);
+        $this->check_prt_score('firsttree', null, null);
+        $this->render();
+        $this->check_output_contains_text_input('ans1');
+        $this->check_output_does_not_contain_input_validation();
+        $this->check_output_does_not_contain_prt_feedback();
+        $this->check_output_does_not_contain_stray_placeholders();
+        $this->check_current_output(
+                new question_pattern_expectation('/What is/'),
+                $this->get_does_not_contain_feedback_expectation(),
+                $this->get_does_not_contain_num_parts_correct(),
+                $this->get_no_hint_visible_expectation()
+                );
+
+        // Process a validate request.
+        // We have allowed the question variable "a", to this is not invalid.
+        $this->process_submission(array('ans1' => 'a', '-submit' => 1));
+
+        $this->check_current_state(question_state::$todo);
+        $this->check_current_mark(null);
+        $this->check_prt_score('firsttree', null, null);
+        $this->render();
+        $this->check_output_contains_text_input('ans1', 'a');
+        $this->check_output_contains_input_validation('ans1');
+        $this->check_output_does_not_contain_prt_feedback();
+        $this->check_output_does_not_contain_stray_placeholders();
+        $this->check_current_output(
+                new question_pattern_expectation('/What is/'),
+                $this->get_does_not_contain_feedback_expectation(),
+                $this->get_does_not_contain_num_parts_correct(),
+                $this->get_no_hint_visible_expectation()
+                );
+    }
+
     public function test_test1_invalid_student_uses_forbidden_words() {
 
         // Create a stack question.

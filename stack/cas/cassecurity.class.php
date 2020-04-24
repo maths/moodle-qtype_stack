@@ -278,6 +278,22 @@ class stack_cas_security {
             return false;
         }
 
+        // We check for "allowed words" before forbidden words to enable a teacher to allow
+        // question variables, which are automatically forbidden by default.
+        // Try promoting to security 's'.
+        if ($this->allowedwordsasmap == null) {
+            $this->allowedwordsasmap = self::list_to_map($this->allowedwords);
+        }
+        if (isset($this->allowedwordsasmap[$identifier])) {
+            // Allow words might be typed.
+            if (is_array($this->allowedwordsasmap[$identifier])) {
+                return isset($this->allowedwordsasmap[$identifier]['variable']) ||
+                    isset($this->allowedwordsasmap[$identifier]['constant']);
+            } else {
+                return true;
+            }
+        }
+
         // Check for forbidden words.
         if ($this->forbiddenwordsasmap == null) {
             $this->forbiddenwordsasmap = self::list_to_map($this->forbiddenwords);
@@ -303,20 +319,6 @@ class stack_cas_security {
         // Forbidden author used ones.
         if ($security === 's' && isset($this->forbiddenkeys[$identifier])) {
             return false;
-        }
-
-        // Try promoting to security 's'.
-        if ($this->allowedwordsasmap == null) {
-            $this->allowedwordsasmap = self::list_to_map($this->allowedwords);
-        }
-        if (isset($this->allowedwordsasmap[$identifier])) {
-            // Allow words might be typed.
-            if (is_array($this->allowedwordsasmap[$identifier])) {
-                return isset($this->allowedwordsasmap[$identifier]['variable']) ||
-                    isset($this->allowedwordsasmap[$identifier]['constant']);
-            } else {
-                return true;
-            }
         }
 
         // If the identifer is less than three char then students have permissions.

@@ -181,14 +181,9 @@ The ? may also be used to give partial credit. Of course it could also be used f
 
 ### Forbidden words ### {#Forbidden_Words}
 
-This is a comma-separated list of text strings which are forbidden in a student's answer.  If one of these strings is present then the student's attempt will be considered invalid, and no penalties will be given.  
-This is an unsophisticated string match.
+This is a comma-separated list of text strings which are forbidden in a student's answer.  If one of these strings is present then the student's attempt will be considered invalid, and no penalties will be given. This is an unsophisticated string match.
 
-Note, any variable names longer than one letter in length used in the question variables are automatically forbidden (otherwise the student could potentially use the variable name you have defined, which might be the correct answer).
-If the teacher uses a variable name which is two characters or longer, then students will not be able to use this variable name in their input.  
-Input from students with two-character variable names which appear in the question variables will be rejected as invalid.  
-Students can always use single letter variable names.  
-Teachers are therefore advised to avoid single letter variable names.
+Note, any question variable names used in the question variables are automatically forbidden (otherwise the student could potentially use the variable name you have defined, which might be the correct answer).  If you want to allow question variables, you must explicitly use the allowed words field, see below.
 
 Note that the string `*` is literally taken as `*` and is not a wild card.  Teachers may ask a student to calculate `2*3` and hence need to forbid multiplication in an answer.
 

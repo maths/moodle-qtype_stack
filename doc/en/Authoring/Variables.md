@@ -1,18 +1,18 @@
-# KeyVals
+# Defining variables
 
 There are two fields which allow you to define and manipulate computer algebra system variables.
 These are called the Question Variables and Answer Variables.
 
 The field is a string which contains a list of assignments of the form
 
-    key : value
+    key : value;
 
 for example
 
-    p : (x-1)^3
+    p : (x-1)^3;
 
 Each `key` is the name of a variable local to the question, and `value` is an expression in [Maxima's](../CAS/Maxima.md) language.
-When evaluated this list is passed to the CAS, and evaluated in order. The value obtained for each key will be stored and used later, for example in the question marking routines.
+When evaluated, this list is passed to the CAS, and evaluated in order. The value obtained for each key will be stored and used later, for example in the question marking routines.
 The keys need not be unique, although only the last value will be available for use later.
 
 These fields are known as _KeyVal_ fields.
@@ -27,16 +27,15 @@ STACK uses Maxima's assignment rules.
 
 ## Notes ##
 
-* Items are separated by either a newline or ;
+* Items are separated by either a newline or `;`.
 * Adding `;` at the end of each statement is optional, but makes it easier to cut and paste into a Maxima session.  Please add these.
 * If you type a string not in the form `key : value`, a variable name such as `dumvar3` will be assigned automatically to keep track of the command in the list of question variables.
-* If a student uses a variable longer than one letter in length which has been assigned a value in the question variables then the attempt will be rejected as invalid.
-    Hence, it is a sensible idea to use variable names which are not used as parameters.
-    For example if you set an integration question then you should avoid using the variable `c`, otherwise students won't be able to write `+c` in the normal way to indicate a constant of integration.
+* The `key` must be a simple variable name.  It must start with letters, and can contain numbers and underscore characters.
+* If a student uses a variable which has been assigned a value in the question variables then the attempt will be rejected as invalid.  You can use the "allowed words" to enable students' expressions with question variables to be considered valid.
+    Hence, it is a sensible idea to use variable names which are not used as parameters in the question, or likely to occur in the student's answer. For example if you set an integration question then you should avoid using the variable `c`, otherwise students won't be able to write `+c` in the normal way to indicate a constant of integration.
 * You can include C-style block comments for increased clarity, and these may appear on separate lines
-    e.g. `dice : rand(6) + 1 /* roll it! */`
-* Avoid using variable names with a single letter, otherwise a student might type this in and it will not automatically be forbidden.  You can always forbid them explicitly in the input "forbid" options.
-* Do not define a feedback variable with the same name as an input.  For example, if your input is `ans1` then do not define a feedback variable `ans1:exdowncase(ans1)`.
+    e.g. `dice : rand(6) + 1; /* roll it! */`
+* Do not define a feedback variable with the same name as an input.  For example, if your input is `ans1` then you cannot define a feedback variable `ans1:exdowncase(ans1)`.  Choose something different, e.g. `ansmod1:exdowncase(ans1)`
 
 ## Question variables {#Question_variables}
 
@@ -46,11 +45,6 @@ The question variables are evaluated when a variant of a question is created.   
 * [Question note](Question_note.md).
 * All fields in each of the [potential response tree](Potential_response_trees.md).
 * Each input when testing the item.
-
-If the teacher uses a variable name which is two characters or longer, then students will not be able to use this variable name in their input.  
-Input from students with two-character variable names which appear in the question variables will be rejected as invalid.  
-Students can always use single letter variable names.  
-Teachers are therefore advised to avoid single letter variable names.
 
 ## Feedback variables {#Feedback_variables}
 

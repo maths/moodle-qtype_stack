@@ -100,6 +100,8 @@ The following CASText gives representative examples of the plot2d features suppo
     {@plot([discrete,[[0,0],[1,1],[0,2]]])@}
     Combination of discrete plots with normal plots.
     {@plot([x^2, [discrete,[ [0,0], [1,1], [0,2]]]],[x,-2,2])@}
+    {@plot([[discrete,[[30,7]]], -0.4*x+19],[x,0,60],[y,0,20],[style, points, lines], [color, red, blue],[point_type, asterisk])@}
+    {@plot([[discrete,[[10, 0.6], [20, 0.9], [30, 1.1], [40, 1.3], [50, 1.4]]], 2*%pi*sqrt(l/980)], [l,0,50],[style, points, lines], [color, red, blue],[point_type, asterisk])@}
     Using different point styles.
     {@plot([[discrete, [[10, .6], [20, .9], [30, 1.1],[40, 1.3], [50, 1.4]]],[discrete, [[11, .5], [15, .9], [25, 1.2],[40, 1.3], [50, 1.4]]]],[style, points],[point_type,circle,square],[color,black,green])@}
     <h3>Parametric plots</h3>
@@ -155,95 +157,7 @@ Now use the CASText:
 
 ## Graph theory
 
-It is possible to plot simple discrete graphs directly using STACK's `plot` command by building a combination of discrete and line plots.  If you want to do this, we _strongly_ recommend you work offline first in Maxima using `plot2d` to ensure your Maxima code works.
-
-In general it is better to (1) separate connections of points from the coordinates of points, and (2) deal with lists of coordinates.  That way we can pass a connection, or the coordinates of a point into a function more easily.  Create a list of coordinates, where each coordinate is a point [x,y].
-
-    nk:5;
-    /* Position nk coordinates evenly round the unit circle. */
-    pc1:float(makelist([cos(%pi/(2*nk)+2*k*%pi/nk), sin(%pi/(2*nk)+2*k*%pi/nk)], k, 0, nk));
-    /* Extract individual coordinates. */
-    x1:maplist(first, pc1); 
-    y1:maplist(second, pc1); 
-    p1:[discrete,x1,y1];
-
-Plot must have floating point numbers to deal with.
-
-Now use the CASText:
-
-    {@plot([p1,p1],[x,-1,1],[y,-1,1],[style,points,lines],[box,false],[axes,false])@}
-
-Notice we plot a list, containing `p1` twice, once with style `points` and once with `lines`.
-
-The following takes a list of edge connections, `[a,b]`, and a list of co-ordinate points of the form `[x,y]` and produces the discrete plots of the edge connections. 
-Note the two stage process.
-
-1. Turn the list of edge connections (`edgel`) into lists of points to connect. (The inner `maplist`)
-2. Turn two points to connect into a discrete plot of the form `[discrete [x1, x2], [y1, y2]]`.
-
-The following code could be combined, but two separate `maplist` applications separate out the processes with more clarity.
-
-    pedges(edgel, pts):= maplist(lambda([ex], [discrete, maplist(first, ex), maplist(second, ex)]), maplist(lambda([ex], [pts[first(ex)], pts[second(ex)]]), edgel));
-
-As an example we will create a simple (disconnected) graph as follows.
-
-    g1:[[2,3], [3,4], [4,2], [1,5]];
-    /* Plot this graph, using points in positions pc1. */
-    p2:pedges(g1, pc1);
-
-    /* Set colours. */
-    pcols2:makelist(red, k, 1, length(p2));
-
-    /* Set Style */
-    pstyle2:makelist(lines, k, 1, length(p2));
-
-    /* Add in points, as before. */
-    p2:append([p1], p2);
-    pstyle2:append([points], pstyle2);
-    pcols2:append([blue], pcols2);
-
-    /* Create a single plot. */
-    pcols2:append([color], pcols2);
-    pstyle2:append([style], pstyle2);
-
-And add in the castext
-
-    {@plot(p2,[x,-1,1],[y,-1,1], pstyle2, pcols2, [box,false], [axes,false])@}
-
-
-To create a complete graph, we need code to create every pair of edges [a,b], as follows.
-
-    /* Return a list of edge pairs n1 to a list of points. */
-    pedgesto(n1, nl) := maplist(lambda([ex], [n1, ex]), nl);
-    /* Return every pair of points in nl. */
-    palledges(nl) := if is(length(nl)=1) then [] else append(pedgesto(first(nl), rest(nl)), palledges(rest(nl)));
-
-    /* The complete graph on nk edges. */
-    knk:palledges(makelist(k,k,1,nk));
-
-    /* Plot this graph, using points in positions pc1. */
-    p3:pedges(knk, pc1);
-
-    /* Set colours. */
-    pcols3:makelist(red, k, 1, length(p3));
-
-    /* Set Style */
-    pstyle3:makelist(lines, k, 1, length(p3));
-
-    /* Add in points, as before. */
-    p3:append([p1], p3);
-    pstyle3:append([points], pstyle3);
-    pcols3:append([blue], pcols3);
-
-    /* Create a single plot. */
-    pcols3:append([color], pcols3);
-    pstyle3:append([style], pstyle3);
-
-And add in the castext
-
-    {@plot(p3,[x,-1,1],[y,-1,1], pstyle3, pcols3, [box,false], [axes,false])@}
-
-In the above code I have tried to separate out all the issues into individual steps.  Clearly there is significant scope here for utility/convenience functions.
+It is possible to plot simple [discrete graphs](Discrete_mathematics.md) directly using STACK's `plot` command by building a combination of discrete and line plots.
 
 ## implicit_plot()  {#implicit}
 

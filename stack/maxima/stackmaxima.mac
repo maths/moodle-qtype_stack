@@ -415,7 +415,8 @@ multiselqnalpha([exs]):=block([corbase, numcor, wrongbase, numwrong, dispflag, t
   ta3: random_permutation(append(ta1, ta2)),
   /* Add in a slightly different display here. */
   talab: ev(makelist(sconcat("(",ascii(96+i),")"), i, 1, length(ta3)), simp),
-  ta:zip_with(lambda([ex1, ex2], [ex1, ex2[2], sconcat("<b>", ex1, "</b> ", stack_disp(ex2[1], dispflag))]), talab, ta3),
+  ta:zip_with(lambda([ex1, ex2], [ex1, ex2[2], sconcat("<b>", ex1, "</b> ",
+    if stringp(ex2[1]) then ex2[1] else stack_disp(ex2[1], dispflag))]), talab, ta3),
   version: map(first, ta3),
   return([ta, version])
 )$

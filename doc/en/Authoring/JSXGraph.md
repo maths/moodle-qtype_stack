@@ -36,6 +36,12 @@ Note the code `board.jc.snippet('{#fx#}', true, 'x', true);` which turns a reaso
 
 To make a working question, you will then need to add in `fx` as the model answer to input `ans1`, a question note (e.g. `\({@fx@}\)`) and an appropriate potential response tree.
 
+## Block options
+
+You can control the size of the JSXGraph board with the `width` and `height` options.  E.g. 
+
+    [[jsxgraph width="200px" height="200px"]]
+
 ## Interactive elements
 
 In this example define the question variables as

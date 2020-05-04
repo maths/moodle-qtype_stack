@@ -127,6 +127,8 @@ class stack_inputvalidation_test_data {
         array('{1,2,3.4}', 'php_true', '{1,2,3.4}', 'cas_true', '\left \{1 , 2 , 3.4 \right \}', '', ""),
         array('{x, y, z }', 'php_true', '{x,y,z}', 'cas_true', '\left \{x , y , z \right \}', '', ""),
         array('set(x, y, z)', 'php_false', '', '', '', 'forbiddenFunction', ""),
+        array('union(oo(2,3),oo(4,inf))', 'php_true', 'union(oo(2,3),oo(4,inf))', 'cas_true',
+            '\left( 2,\, 3\right) \cup \left( 4,\, \infty \right)', '', ""),
         array('matrix([a,b],[c,d])', 'php_true', 'matrix([a,b],[c,d])', 'cas_true',
             '\left[\begin{array}{cc} a & b \\\\ c & d \end{array}\right]', '', 'Matrices'),
         array('stackvector(a)', 'php_true', 'stackvector(a)', 'cas_true', '{\bf a}', '', 'Vectors'),

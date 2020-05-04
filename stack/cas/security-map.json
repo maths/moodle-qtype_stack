@@ -118,7 +118,8 @@
         "variable": "f"
     },
     "%union": {
-        "operator": "s"
+        "operator": "t",
+        "nounfunctionfor": "union"
     },
     "%unitexpand": {
         "variable": "f"
@@ -7683,7 +7684,8 @@
         "function": "?"
     },
     "union": {
-        "function": "s"
+        "function": "s",
+        "nounfunction": "%union"
     },
     "unique": {
         "function": "s"

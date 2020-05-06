@@ -1,3 +1,18 @@
+trivialintervalp(oo(1,1));
+true$
+
+trivialintervalp(oo(1,2));
+false$
+
+inintervalp(3,oo(-1,4));
+true$
+
+realsetp({1,2});
+true$
+
+realsetp({1,a});
+false$
+
 natural_domain(x+y);
 unknown$
 
@@ -58,6 +73,9 @@ realset(x,%union(co(7,8),oo(8,inf)))$
 natural_domain((9*sqrt(x))/2+2/x^2);
 realset(x,oo(0,inf))$
 
+natural_domain(log(x)/(x-1));
+realset(x,%union(oo(0,1),oo(1,inf)))$
+
 single_variable_solver_real(x^2-4>0);
 realset(x,%union(oo(2,inf),oo(-inf,-2)))$
 
@@ -67,11 +85,47 @@ single_variable_solver_real(2*x/abs(x-1)<1);
 single_variable_solver_real(x>1 or x<2);
 all$
 
-Intersection(%union(oo(0,1),oo(1,inf),oo(-inf,0)),%union(oo(2,inf),oo(-inf,2)));
+interval_disjointp(oo(2,inf),oo(-inf,1));
+true$
+
+interval_sort(%union(oo(2,3),oo(-2,1)));
+[oo(-2,1),oo(2,3)]$
+
+interval_tidy([%union(oo(1,4),cc(5,6)),oo(-100,10)]);
+oo(-100,10)$
+
+interval_complement(oo(1,2));
+%union(oc(-inf,1),co(2,inf))$
+
+interval_complement(X);
+oo(-inf,inf)$
+
+interval_complement({1,2});
+%union(oo(1,2),oo(2,inf),oo(-inf,1))$
+
+interval_complement(%union(oo(1,2),oo(2,inf),oo(-inf,1)));
+{1,2}$
+
+interval_simple_intersect({1,2,3},{2,3,4});
+{2,3}$
+
+interval_simple_intersect(oo(-5,3.5),{2,3,4});
+{2,3}$
+
+interval_intersect_list([oo(minf,4),oo(-1,10)]);
+oo(-1,4)$
+
+interval_intersect(%union(oo(0,1),oo(1,inf),oo(-inf,0)),%union(oo(2,inf),oo(-inf,2)));
 %union(oo(0,1),oo(1,2), oo(2,inf),oo(-inf,0))$
 
-ListIntersect([%union(oo(0,inf),oo(-inf,0)),%union(oo(1,inf),oo(-inf,1)),%union(oo(2,inf),oo(-inf,2)),all]);
+interval_intersect_list([%union(oo(minf,4),cc(5,6)),oo(-1,10)]);
+%union(oo(-1,4),cc(5,6))$
+
+interval_intersect_list([%union(oo(0,inf),oo(-inf,0)),%union(oo(1,inf),oo(-inf,1)),%union(oo(2,inf),oo(-inf,2)),all]);
 %union(oo(0,1),oo(1,2), oo(2,inf),oo(-inf,0))$
 
-Complement(%union(oo(0,1),oo(2,3),oo(3,inf)));
+interval_complement(%union(oo(0,1),oo(2,3),oo(3,inf)));
 %union(cc(1,2),{3},oc(-inf,0))$
+
+interval_tidy(%union(oo(minf,0),oo(0,3),%union(cc(3,4),oo(-3,-2))));
+%union(oo(minf,0),oc(0,4))$

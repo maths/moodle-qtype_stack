@@ -44,9 +44,10 @@ Note, where the feature is listed as "(done)" means we have prototype code in th
 * (Parser can do this) Implement "CommaError" checking for CAS strings.  Make comma an option for the decimal separator.
 * (Parser can do this) Implement "BracketError" option for inputs.  This allows the student's answer to have only those types of parentheses which occur in the teacher's answer.  Types are `(`,`[` and `{`.  So, if a teacher's answer doesn't have any `{` then a student's answer with any `{` or `}` will be invalid.
 * It would be very useful to have finer control over the validation feedback. For example, if we have a polynomial with answer boxes for the coefficients, then we should be able to echo back "Your last answer was..." with the whole polynomial, not just the numbers.
-* (Done in Stateful) Make the mark and penalty fields accept arbitrary maxima statements.
 * Decimal separator, both input and output.
 * Check CAS/maxima literature on -inf=minf.
+
+* (Done in Stateful) Make the mark and penalty fields accept arbitrary maxima statements.
 * (Done in Stateful) Introduce a variable so the maxima code "knows the attempt number". [Note to self: check how this changes reporting].  This is now being done with the "state" code in the abacus branch.
 * (Done in Stateful) Make the PRT Score element CAS, so that a value calculated in the "Feedback variables" could be included here.
 
@@ -117,7 +118,6 @@ In this example, we have only revealed the first level, which should be linked t
 
 ## Improvements to the "equiv" input type
 
-* Add an option to display and/or using language strings not '\wedge', '\vee'.
 * Improve spacing of comments, e.g. \intertext{...}?
 * Auto identify what the student has done in a particular step.
 

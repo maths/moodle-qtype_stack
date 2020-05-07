@@ -14,11 +14,13 @@ As arguments, the `%union` command can take both simple intervals and sets of di
 
 Predicate functions
 
-1. `intervalp(ex)` returns true if `ex` is a single simple interval.
+1. `intervalp(ex)` returns true if `ex` is a single simple interval.  Does not check `ex` is variable free, so `oo(a,b)` is a simple interval.
 2. `inintervalp(p, A)`  returns true if `p` is an element of `A` and false.
 3. `trivialintervalp(ex)` returns true if `ex` is a trivial interval such as \( (a,a)\).
-4. `realsetp(ex)` return true if `ex` is a set of real numbers, e.g. a union of intervals.
-5. `interval_disjointp(A, B)` establishes if two simple intervals are disjoint.
+4. `unionp(ex)` is the operator a union?
+5. `realsetp(ex)` return true if `ex` represents a set of real numbers, e.g. a union of intervals.
+6. `interval_disjointp(A, B)` establishes if two simple intervals are disjoint.
+7. `interval_subsetp(ex, EX)` is the simple interval `ex` a contained within the real set `EX`?
 
 Basic manipulation of intervals.
 

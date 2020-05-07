@@ -4,7 +4,13 @@ true$
 trivialintervalp(oo(1,2));
 false$
 
+intervalp(oc(a,b));
+true$
+
 inintervalp(3,oo(-1,4));
+true$
+
+interval_subsetp(oo(1,2), %union(oo(1,2),cc(4,5)));
 true$
 
 realsetp({1,2});

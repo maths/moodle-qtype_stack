@@ -110,6 +110,8 @@ realset_tex(ex) := block([a, b, c],
 )$
 texput(realset, realset_tex)$
 
+unionp(ex) := if safe_op(ex)="%union" or safe_op(ex)="union" then true else false;
+
 /* Returns True if p is an element of A. False, otherwise: */
 
 inintervalp(p, A) := block ([Ans, Args, x, y, Atemp, cc:cc(0,1), oo:oo(0,1), co:co(0,1), oc:oc(0,1), i:1, j:1, n],
@@ -179,7 +181,7 @@ realsetp(ex) := block(
     if atom(ex) then return(false),
     if setp(ex) then return(all_listp(real_numberp, args(ex))),
     if intervalp(ex) then return(true),
-    if op(ex)=%union then return(all_listp(intervalp, args(ex))),
+    if op(ex)=%union then return(all_listp(realsetp, args(ex))),
     return(false)
 )$
 
@@ -437,6 +439,12 @@ interval_simple_intersect(X,Y) := block([A:X, B:Y, Ans, x1, x2, y1, y2, Args1, A
 
 interval_disjointp(A, B) := if interval_simple_intersect(A, B)={} then true else false$
 
+/* Is the simple interval ex a contained within the real set EX? */ 
+interval_subsetp(ex, EX) := block(
+    if not(intervalp(ex)) then error("interval_subsetp expects its first argument to be a simple interval."),
+    if not(realsetp(EX)) then error("interval_subsetp expects its second argument to be a real set."),
+    if interval_intersect(ex, EX) = ex then true else false
+)$
 
 /* Top level intersection function which takes real sets, such as %unions. */
 interval_intersect(X,Y) := block([A, B, Ans:[], temp, m, n, i:1, j:1],

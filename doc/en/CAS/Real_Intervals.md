@@ -20,7 +20,8 @@ Predicate functions
 4. `unionp(ex)` is the operator a union?
 5. `realsetp(ex)` return true if `ex` represents a set of real numbers, e.g. a union of intervals.
 6. `interval_disjointp(A, B)` establishes if two simple intervals are disjoint.
-7. `interval_subsetp(ex, EX)` is the simple interval `ex` a contained within the real set `EX`?
+7. `interval_subsetp(ex1, ex2)` is the real set `ex1` contained within the real set `ex2`?
+8. `interval_containsp(ex, EX)` is the simple interval `ex` an explicit sub-interval within the real set `EX`?  No proper subsets here, but this is useful for checking which intervals a student has.
 
 Basic manipulation of intervals.
 
@@ -46,3 +47,11 @@ The inert function `realset` allows a variable to be passed with a set of number
     realset(x,%union(oo(0,inf),oo(-inf,0)));
 
 is displayed as \(x \not\in\{0\}\).
+
+## Validation of students' answers
+
+Validation of students' answer has a very loose sense of "type".  When we are checking the "type" of answer, if the teacher's answer is a "set" then the student's answer should also be a "set" (see `setp`).  If the teacher's answer is acually a set in the context where an interval should be considered valid, then the teacher's answer should be the inert function `%union`, e.g. `%union({1,2,3})`, to bump the type of the teacher's answer away from set and into `realset`.
+
+## Assessment of students' answers
+
+The algebraic equivalence answer test will apply `interval_tidy` as needed and compare the results. Currently the feedback in this situation provided by this answer test is minimal.

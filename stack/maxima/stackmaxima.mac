@@ -113,6 +113,8 @@ cte(var, ex) := block([str],
 /* This function strips out functions to leave only things in the value which might be typed in. */
 stack_dispvalue(ex) := block(
   if not(stack_disp_control_structurep(ex)) then block(
+      if safe_op(ex)="%union" and is(length(args(ex))=1) then
+         ex: first(args(ex)),
       ex: make_displaydpvalue(ex),
       ex: make_displayscivalue(ex),
       ex: subst("*", stackunits, ex),
@@ -1347,6 +1349,11 @@ ATAlgEquivfun(SA, SB) :=  block([SApoly, SBpoly, keepfloat, RawMark, FeedBack, A
         return(StackBasicReturn(false, false, "ATAlgEquiv_SA_not_set"))
       else
         return(ATSet(SA, SB)),
+    /* Are we dealing with non-trivial sets? */
+    if realsetp(SB) and not(trivialintervalp(SB)) then
+      if not(realsetp(SA)) then
+        return(StackBasicReturn(false, false, "ATAlgEquiv_SA_not_realset")),
+        /* No specific function here, as "all" and "none" can show up with equations. */
     /* Are we dealing with a function? */
     if functionp(SB) then
       if functionp(SA)#true then
@@ -1378,6 +1385,8 @@ ATAlgEquivfun(SA, SB) :=  block([SApoly, SBpoly, keepfloat, RawMark, FeedBack, A
         return(StackBasicReturn(false, false, "ATAlgEquiv_SA_not_logic"))
       else
         return(ATLogic(SA, SB)),
+    if realsetp(SA) and realsetp(SB) then
+       return(ATRealSet(SA, SB)),
     /* Has the student typed in the wrong type?*/
     if expressionp(SA)=false then
         return(StackBasicReturn(false, false, "ATAlgEquiv_SA_not_expression")),
@@ -1426,6 +1435,17 @@ ATList(SA,SB) := block([AddFeedBack, SAN, SAl, SBl, ret, retnew, kloop, AnsNotes
         ret[4]:concat(StackAddFeedback("", "ATList_wrongentries", stack_disp(SAN, "d")), ret[4])
     ),
     return(ret)
+)$
+
+/* An answer test based on two sets of real numbers */
+ATRealSet(SA, SB) := block(
+    /* Tidy up intervals as much as possible. */
+    SA:interval_tidy(SA),
+    SB:interval_tidy(SB),
+
+    if is(SA=SB) then
+        return([true, true, StackAddNote("", "ATRealSet_true"), ""]),
+    return([true, false, StackAddNote("", "ATRealSet_false"), ""])
 )$
 
 /* Equations */

@@ -1075,4 +1075,45 @@ class stack_algebra_input_test extends qtype_stack_testcase {
                 $state->contentsdisplayed);
         $this->assertEquals('', $state->note);
     }
+
+    public function test_validate_student_response_realsets_sametype_1() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('algebraic', 'sans1', '%union(oo(1,2),(3,4))');
+        $el->set_parameter('sameType', true);
+        $state = $el->validate_student_response(array('sans1' => 'oo(1,2)'), $options, '%union(oo(1,2),oo(3,4))',
+                new stack_cas_security(false, '', '', array('ta')));
+        $this->assertEquals($state->status, stack_input::VALID);
+        $this->assertEquals($state->contentsmodified, 'oo(1,2)');
+        $this->assertEquals($state->contentsdisplayed,
+                '\[ \left( 1,\, 2\right) \]');
+        $this->assertEquals('', $state->note);
+
+        $state = $el->validate_student_response(array('sans1' => '{1,2,3}'), $options, '%union(oo(1,2),oo(3,4))',
+                new stack_cas_security(false, '', '', array('ta')));
+        $this->assertEquals($state->status, stack_input::VALID);
+        $this->assertEquals('', $state->note);
+    }
+
+    public function test_validate_student_response_realsets_sametype_2() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('algebraic', 'sans1', '{3,4,5}');
+        $el->set_parameter('sameType', true);
+        // In this case the student's answer is not a set.
+        $state = $el->validate_student_response(array('sans1' => 'oc(-1,2)'), $options, '{3,4,5}',
+                new stack_cas_security(false, '', '', array('ta')));
+        $this->assertEquals($state->status, stack_input::INVALID);
+        $this->assertEquals('SA_not_set', $state->note);
+        $this->assertEquals($state->contentsmodified, 'oc(-1,2)');
+        $this->assertEquals($state->contentsdisplayed,
+                '\[ \left( -1,\, 2\right] \]');
+
+        // Bump the status of the teacher's answer to a real set, not just a "set" set.
+        $state = $el->validate_student_response(array('sans1' => 'co(3,4)'), $options, '%union({3,4,5})',
+                new stack_cas_security(false, '', '', array('ta')));
+        $this->assertEquals($state->status, stack_input::VALID);
+        $this->assertEquals('', $state->note);
+        $this->assertEquals($state->contentsmodified, 'co(3,4)');
+        $this->assertEquals($state->contentsdisplayed,
+                '\[ \left[ 3,\, 4\right) \]');
+    }
 }

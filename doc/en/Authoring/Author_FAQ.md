@@ -39,6 +39,10 @@ Some libraries are optional and may not be included by your local installation.
 You should also be aware that there are also a number of functions defined by STACK which are not standard Maxima functions.
 The command you need may well not be enabled since you should use one STACK provides instead.
 
+## How can I change which Maxima functions STACK allows? ##
+
+This is a job for a developer.  Please contact us.
+
 ## How can I use subscripts in STACK ##
 
 Note that normally a maxima atom `theta2` is displayed by Maxima as `{\it theta_2}`. This is problematic as the Greek letter is not rendered as LaTeX `\theta`, and the subscript is in italic which is wrong.
@@ -79,10 +83,6 @@ Simplify is often taken implicitly to mean "the shortest equivalent expression",
 To avoid these problems, STACK expects teachers to specify the properties they want.  For example, if you want the factored form you should test for this, not describe it as "simplified".
 
 In STACK a very useful test is equivalence up to [associativity and commutativity](Answer_tests.md#EqualComAss) of the basic arithmetic operations of addition and multiplication.  This is often what teachers need in this case.
-
-## How can I change which Maxima functions STACK allows? ##
-
-This is a job for a developer.  Please contact us.
 
 ## Why doesn't Maxima give `int(1/x,x)=log(abs(x))`?
 

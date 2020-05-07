@@ -421,3 +421,19 @@
   '$done
 )
 
+;; *************************************************************************************************
+;; Added 08 Jan 2020.
+;; Needed for %union, etc, where we don't display unions of just one item as unions.
+
+(defprop $%union tex-nary2 tex)
+(defprop $%union (" \\cup ") texsym)
+
+(defun tex-nary2 (x l r)
+  (let* ((op (caar x)) (sym (texsym op)) (y (cdr x)) (ext-lop lop) (ext-rop rop))
+    (cond ((null y)       (tex-function x l r t)) ; this should not happen
+          ((null (cdr y)) (tex (car y) l r lop rop)) ; Single elements in the argument.
+          (t (do ((nl) (lop ext-lop op) (rop op (if (null (cdr y)) ext-rop op)))
+                 ((null (cdr y)) (setq nl (append nl (tex (car y)  l r lop rop))) nl)
+           (setq nl (append nl (tex (car y) l sym lop rop))
+             y (cdr y)
+             l nil))))))

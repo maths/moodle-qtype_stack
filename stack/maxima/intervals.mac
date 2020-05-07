@@ -23,6 +23,12 @@
 /*                                                                  */
 /********************************************************************/
 
+/* Deal with unions. */
+
+unionp(ex) := if safe_op(ex)="%union" or safe_op(ex)="union" then true else false;
+
+/* Define simple intervals. */
+
 /* Defines the check functions for when intervals are entered: */
 cc_num(x,y) := block([Ans],
     Ans: 'cc(x,y),                                  /* Makes Ans equal to the original interval. Note the ' to stop evaluation or else it would create an infinite loop. */
@@ -103,14 +109,12 @@ realset_tex(ex) := block([a, b, c],
     a:first(args(ex)),
     b:second(args(ex)),
     c:ev(interval_complement(b), simp),
-    if setp(c) then
+    if safe_setp(c) then
         concat("{", tex1(a), " \\not\\in {",tex1(c), "}}")
     else
         concat("{", tex1(a), " \\in {",tex1(b), "}}")
 )$
 texput(realset, realset_tex)$
-
-unionp(ex) := if safe_op(ex)="%union" or safe_op(ex)="union" then true else false;
 
 /* Returns True if p is an element of A. False, otherwise: */
 
@@ -179,7 +183,7 @@ realsetp(ex) := block(
     if is(ex=all) then return(true),
     if is(ex=none) then return(true),
     if atom(ex) then return(false),
-    if setp(ex) then return(all_listp(real_numberp, args(ex))),
+    if safe_setp(ex) then return(all_listp(real_numberp, args(ex))),
     if intervalp(ex) then return(true),
     if op(ex)=%union then return(all_listp(realsetp, args(ex))),
     return(false)
@@ -199,8 +203,9 @@ realsetmake(v, ex) := block(
 
 /* Predicate to remove trivial cases like oo(a,a) and co(-inf, -inf). */
 trivialintervalp(ex) := block(
-    if atom(ex) then return(false),
-    if setp(ex) and ex={} then return(true),
+    if is(ex=all) or is(ex=none) then return(true),
+    if safe_setp(ex) and ex={} then return(true),
+    if not(intervalp(ex)) then return(false),
     if safe_op(ex)="oo" and first(ex)=second(ex) then return(true),
     if first(ex)=inf then return(true),
     if second(ex)=-inf then return(true),
@@ -214,8 +219,8 @@ interval_simple_union(X,Y) := block([A:X, B:Y, Ans, x1, x2, y1, y2, Args1, Args2
             Ans:B
         elseif atom(B) then
             Ans:A
-        elseif setp(A) then (
-            if setp(B) then
+        elseif safe_setp(A) then (
+            if safe_setp(B) then
                 Ans:union(A,B)
             else (
                 Args1:args(B),
@@ -239,7 +244,7 @@ interval_simple_union(X,Y) := block([A:X, B:Y, Ans, x1, x2, y1, y2, Args1, Args2
                 if length(setAns)>0 then (setAns:setify(setAns), Ans: [B,setAns] ) else Ans:B
                 )
             )
-            elseif setp(B) then (
+            elseif safe_setp(B) then (
                 Args1:args(A),
                 x1:first(Args1), y1:last(Args1),
                 Aset:listify(B),
@@ -264,7 +269,7 @@ interval_simple_union(X,Y) := block([A:X, B:Y, Ans, x1, x2, y1, y2, Args1, Args2
             Args1:args(A),
             Args2:args(B),
 
-            if not(atom(A) or setp(A) or atom(B) or setp(B)) then (
+            if not(atom(A) or safe_setp(A) or atom(B) or safe_setp(B)) then (
                 if first(Args1)<first(Args2) then
                     swap:false,
                 if first(Args1)=first(Args2) then (
@@ -343,13 +348,13 @@ interval_simple_intersect(X,Y) := block([A:X, B:Y, Ans, x1, x2, y1, y2, Args1, A
 
         if atom(A) then return({}),
         if atom(B) then return({}),
-        if setp(A) and setp(B) then return(intersect(A,B)),
+        if safe_setp(A) and safe_setp(B) then return(intersect(A,B)),
         /* A & B are not both sets. */
-        if setp(B) then (
+        if safe_setp(B) then (
             A:Y,
             B:X
         ),
-        if setp(A) then (
+        if safe_setp(A) then (
             Args1:args(B),
             x1:first(Args1), y1:last(Args1),
             Aset:listify(A),
@@ -439,11 +444,21 @@ interval_simple_intersect(X,Y) := block([A:X, B:Y, Ans, x1, x2, y1, y2, Args1, A
 
 interval_disjointp(A, B) := if interval_simple_intersect(A, B)={} then true else false$
 
-/* Is the simple interval ex a contained within the real set EX? */ 
-interval_subsetp(ex, EX) := block(
-    if not(intervalp(ex)) then error("interval_subsetp expects its first argument to be a simple interval."),
-    if not(realsetp(EX)) then error("interval_subsetp expects its second argument to be a real set."),
-    if interval_intersect(ex, EX) = ex then true else false
+/* Is the ex1 contained within the real set ex2? */ 
+interval_subsetp(ex1, ex2) := block(
+    if not(realsetp(ex1)) then error("interval_subsetp expects its first argument to be a real set."),
+    if not(realsetp(ex2)) then error("interval_subsetp expects its second argument to be a real set."),
+    if interval_intersect(ex1, ex2) = ex1 then true else false
+)$
+
+/* Is the simple interval ex a explicitly a subinterval of EX? */ 
+interval_containsp(ex, EX) := block(
+    if not(intervalp(ex)) then error("interval_containsp expects its first argument to be a simple interval."),
+    if not(realsetp(EX)) then error("interval_containsp expects its second argument to be a real set."),
+    if is(ex=EX) then return(true),
+    if not(safe_op(EX)="%union") then return(false),
+    if elementp(ex,setify(args(EX))) then return(true),
+    return(false)
 )$
 
 /* Top level intersection function which takes real sets, such as %unions. */
@@ -570,7 +585,7 @@ interval_tidy(X) := block([A, Ans:[], n, setpart:{}, x, y, i:1],
         n:length(A),
         while i<ev(n+1, simp) do (
             i:ev(i,simp),
-            if setp(A[i]) then (
+            if safe_setp(A[i]) then (
                 setpart:union(setpart, A[i] ),
                 A:delete( A[i], A, 1 ),
                 i:ev(i-1, simp),
@@ -596,7 +611,7 @@ interval_tidy(X) := block([A, Ans:[], n, setpart:{}, x, y, i:1],
 interval_complement_order_points(X):=
     block( [A:X, Ans:[], setpart, n, i:1],
         A:interval_tidy(A),
-        if setp(last(A)) then (
+        if safe_setp(last(A)) then (
             setpart:listify(last(A)),
             A:delete(last(A), A, 1),
             n:length(A) + length(setpart),
@@ -637,7 +652,7 @@ interval_complement(X):= block([A:X, Ans:[], x, y, cc:cc(0,1), oo:oo(0,1), co:co
 
     if atom(A) then return(oo(-inf,inf)),
     if not (op(A) = "[" or op(A)=%union) then (
-        if setp(A) then Ans:interval_set_complement(A)
+        if safe_setp(A) then Ans:interval_set_complement(A)
         elseif intervalp(A) then (
             if op(A)=co then
                 (

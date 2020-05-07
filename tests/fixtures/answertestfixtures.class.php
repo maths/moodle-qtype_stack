@@ -198,6 +198,7 @@ class stack_answertest_test_data {
         array('AlgEquiv', '', '[3,3.1,3.14,3.142,3.1416,3.14159,3.141593,3.1415927]',
             'makelist(significantfigures(%pi,i),i,8)', 1, '', ''),
         array('AlgEquiv', '', 'x', '{1,2,3}', 0, 'ATAlgEquiv_SA_not_set.', 'Sets'),
+        array('AlgEquiv', '', 'co(1,2)', '{1,2,3}', 0, 'ATAlgEquiv_SA_not_set.', ''),
         array('AlgEquiv', '', '{1,2}', '{1,2,3}', 0, 'ATSet_wrongsz.', ''),
         array('AlgEquiv', '', '{2/4, 1/3}', '{1/2, 1/3}', 1, '', ''),
         array('AlgEquiv', '', '{A[1],A[2],A[4]}', '{A[1],A[2],A[3]}', 0, 'ATSet_wrongentries.', ''),
@@ -307,6 +308,14 @@ class stack_answertest_test_data {
         array('AlgEquiv', '', '{}', '1=2', 0, 'ATAlgEquiv_SA_not_equation.', ''),
         array('AlgEquiv', '', '[]', '1=2', 0, 'ATAlgEquiv_SA_not_equation.', ''),
         array('AlgEquiv', '', '{}', 'none', 0, 'ATAlgEquiv_SA_not_logic.', ''),
+
+        array('AlgEquiv', '', 'x^2', 'cc(1,3)', 0, 'ATAlgEquiv_SA_not_realset.', 'Sets of real numbers'),
+        array('AlgEquiv', '', '%union(oo(1,2),oo(3,4))', '%union(oo(1,2),oo(3,4))', 1, 'ATRealSet_true.', ''),
+        array('AlgEquiv', '', '%union(oc(1,2),co(2,3))', 'oo(1,3)', 1, 'ATRealSet_true.', ''),
+        array('AlgEquiv', '', '%union(oc(1,2),co(2,3))', 'cc(1,3)', 0, 'ATRealSet_false.', ''),
+        // Because we have bumped the "type" of the teacher's answer to realset, this test goes to ATRealSet, not sets.
+        array('AlgEquiv', '', '{-1,1}', '%union({-1,1})', 1, 'ATRealSet_true.', ''),
+        array('AlgEquiv', '', '{1,3}', 'cc(1,3)', 0, 'ATRealSet_false.', ''),
 
         array('AlgEquiv', '', 'a=b/%i', '%i*a=b', 1, 'ATEquation_num_i', 'Complex numbers'),
         array('AlgEquiv', '', 'b/%i=a', '%i*a=b', 1, 'ATEquation_num_i', ''),

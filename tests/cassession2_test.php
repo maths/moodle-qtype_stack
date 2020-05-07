@@ -1590,11 +1590,12 @@ class stack_cas_session2_test extends qtype_stack_testcase {
 
     public function test_union_tex() {
 
-        // Cases should be in the form array('input=value', 'display').
+        // Cases should be in the form array('input value', 'display').
         $cases[] = array('%union(a,b,c)', 'a \cup b \cup c');
         $cases[] = array('%union(oo(1,2),oo(3,4),oo(4,5))',
             '\left( 1,\, 2\right) \cup \left( 3,\, 4\right) \cup \left( 4,\, 5\right)');
         $cases[] = array('%union(a,b+1,d)', 'a \cup \left(b+1\right) \cup d');
+        $cases[] = array('%union({5,6})', '\left \{5 , 6 \right \}');
 
         foreach ($cases as $i => $case) {
             $s = 'd'.$i.':'.$case[0];

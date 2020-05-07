@@ -13,6 +13,18 @@ true$
 interval_subsetp(oo(1,2), %union(oo(1,2),cc(4,5)));
 true$
 
+interval_subsetp(%union(oo(1,2),cc(4,5)),%union(oo(1,2),cc(4,5),oc(-5,-2)));
+true$
+
+interval_containsp(oo(1,2), oo(1,2));
+true$
+
+interval_containsp(oo(1,2), %union(oo(-1,2),cc(1,2)));
+false$
+
+interval_containsp(oo(1,2), %union(oo(-1,2),oo(1,2)));
+true$
+
 realsetp({1,2});
 true$
 

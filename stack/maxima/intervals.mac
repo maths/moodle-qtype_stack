@@ -27,6 +27,8 @@
 
 unionp(ex) := if safe_op(ex)="%union" or safe_op(ex)="union" then true else false;
 
+intersectionp(ex) := if safe_op(ex)="%intersection" then true else false;
+
 /* Define simple intervals. */
 
 /* Defines the check functions for when intervals are entered: */
@@ -99,6 +101,7 @@ interval_validate_realset(ex) := block(
     if setp(ex) then return(""),
     if intervalp(ex) then return(interval_validate_single_interval(ex)),
     if safe_op(ex)="%union" then return(apply(sconcat, maplist(interval_validate_realset, args(ex)))),
+    if safe_op(ex)="%intersection" then return(apply(sconcat, maplist(interval_validate_realset, args(ex)))),
     return(StackAddFeedback("", "Interval_illegal_entries", stack_disp(ex, "i")))
 )$
 
@@ -214,6 +217,7 @@ realsetp(ex) := block(
     if safe_setp(ex) then return(all_listp(real_numberp, args(ex))),
     if intervalp(ex) then return(true),
     if op(ex)=%union then return(all_listp(realsetp, args(ex))),
+    if op(ex)=%intersection then return(all_listp(realsetp, args(ex))),
     return(false)
 )$
 
@@ -225,6 +229,7 @@ realset_soft_p(ex) := block(
     if safe_setp(ex) then return(true),
     if intervalp(ex) then return(true),
     if op(ex)=%union then return(true),
+    if op(ex)=%intersection then return(true),
     return(false)
 )$
 
@@ -233,6 +238,7 @@ realsetmake(v, ex) := block(
     if is(ex=false) then return(none),
     if is(ex={}) then return(none),
     if is(ex=%union()) then return(none),
+    if is(ex=%intersection()) then return(none),
     if is(ex=true) then return(all),
     if is(ex=all) or is(ex=none) or is(ex=unknown) then return(ex),
     if atom(ex) then return(ex),
@@ -505,7 +511,7 @@ interval_containsp(ex, EX) := block(
     if not(intervalp(ex)) then error("interval_containsp expects its first argument to be a simple interval."),
     if not(realsetp(EX)) then error("interval_containsp expects its second argument to be a real set."),
     if is(ex=EX) then return(true),
-    if not(safe_op(EX)="%union") then return(false),
+    if not(safe_op(EX)="%union" or safe_op(EX)="%intersection") then return(false),
     if elementp(ex,setify(args(EX))) then return(true),
     return(false)
 )$
@@ -514,6 +520,9 @@ interval_containsp(ex, EX) := block(
 interval_intersect(X,Y) := block([A, B, Ans:[], temp, m, n, i:1, j:1],
     A:X,
     B:Y,
+
+    if safe_op(A)="%intersection" then A:interval_intersect_list(args(A)),
+    if safe_op(B)="%intersection" then B:interval_intersect_list(args(B)),
 
     if is(A=all) then return(B),
     if is(B=all) then return(A),
@@ -571,6 +580,8 @@ interval_intersect_list(X) :=
         Ans
         );
 
+interval_intersect_nary([X]) := interval_intersect_list(X)$
+
 /* Given intervals, returns the same intervals but in ascending order of the first element in the interval. */
 interval_sort(X) := block([A:X, Ans:[], x, n, i],
     if safe_op(X) = "%union" then A:args(X),
@@ -625,6 +636,7 @@ interval_connect(X) := block([Ans, n, x, y, i:1],
 interval_tidy(X) := block([A, Ans:[], n, setpart:{}, x, y, i:1],
     if atom(X) then return(Ans:phi),
     if listp(X) then X:apply(%union, X),
+    X:ev(X, %intersection=interval_intersect_nary),
 
     if not(op(X)=%union or listp(X)) then (
         Ans:X
@@ -650,7 +662,9 @@ interval_tidy(X) := block([A, Ans:[], n, setpart:{}, x, y, i:1],
             if is(length(A)>1) then
                 A:interval_connect(A),
             if length(setpart)>0 then A:append( args(A), [setpart] ),
-            if is(length(A)=1) then
+            if is(A=[]) then
+                A:{}
+            elseif is(length(A)=1) then
                 A:first(A),
             Ans:A
         ),

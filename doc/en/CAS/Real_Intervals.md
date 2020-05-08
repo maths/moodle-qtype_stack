@@ -12,16 +12,19 @@ As arguments, the `%union` command can take both simple intervals and sets of di
 
     %union(oo(-inf,0),{1},oo(2,3));
 
+Similarly, STACK provides `%intersection` to represent an intersection of intervals (which the package `to_poly_solve` does not have). 
+
 Predicate functions
 
 1. `intervalp(ex)` returns true if `ex` is a single simple interval.  Does not check `ex` is variable free, so `oo(a,b)` is a simple interval.
 2. `inintervalp(p, A)`  returns true if `p` is an element of `A` and false.
 3. `trivialintervalp(ex)` returns true if `ex` is a trivial interval such as \( (a,a)\).
 4. `unionp(ex)` is the operator a union?
-5. `realsetp(ex)` return true if `ex` represents a set of real numbers, e.g. a union of intervals.
-6. `interval_disjointp(A, B)` establishes if two simple intervals are disjoint.
-7. `interval_subsetp(ex1, ex2)` is the real set `ex1` contained within the real set `ex2`?
-8. `interval_containsp(ex, EX)` is the simple interval `ex` an explicit sub-interval within the real set `EX`?  No proper subsets here, but this is useful for checking which intervals a student has.
+5. `intersectionp(ex)` is the operator an intersection?
+6. `realsetp(ex)` return true if `ex` represents a set of real numbers, e.g. a union of intervals.
+7. `interval_disjointp(A, B)` establishes if two simple intervals are disjoint.
+8. `interval_subsetp(ex1, ex2)` is the real set `ex1` contained within the real set `ex2`?
+9. `interval_containsp(ex, EX)` is the simple interval `ex` an explicit sub-interval within the real set `EX`?  No proper subsets here, but this is useful for checking which intervals a student has.
 
 Basic manipulation of intervals.
 
@@ -33,7 +36,7 @@ Basic manipulation of intervals.
 6. `interval_intersect_list(I)` intersect a list of real sets.
 7. `interval_complement(X)` take a `%union` of intervals and return its complement.
 8. `interval_set_complement(X)` Take a set of real numbers, and return the `%union` of intervals not containing these numbers.
-9. `interval_count_components(X)` Take a set of real numbers, and return the number of separate connected components in the whole expression.  Simple intervals count as one, and sets count as number number of distinct points in the set.  Trivial intervals, such as the empty set, count for 0.
+9. `interval_count_components(X)` Take a set of real numbers, and return the number of separate connected components in the whole expression.  Simple intervals count as one, and sets count as number number of distinct points in the set.  Trivial intervals, such as the empty set, count for 0.  No simplification is done, so you might need to use `interval_tidy(X)` first if you don't want to count just the representation.
 
 ## Natural domains, and real sets with a variable.
 
@@ -49,7 +52,11 @@ is displayed as \(x \not\in\{0\}\).
 
 ## Validation of students' answers
 
+Students must simply type `union` (not `%union`) etc.
+
 Validation of students' answer has a very loose sense of "type".  When we are checking the "type" of answer, if the teacher's answer is a "set" then the student's answer should also be a "set" (see `setp`).  If the teacher's answer is acually a set in the context where an interval should be considered valid, then the teacher's answer should be the inert function `%union`, e.g. `%union({1,2,3})`, to bump the type of the teacher's answer away from set and into `realset`.
+
+Validation does some simple checks, so that mal-formed intervals such as `oo(1)` and `oo(4,3)` are rejected as invalid.
 
 ## Assessment of students' answers
 

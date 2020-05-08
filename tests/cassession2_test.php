@@ -1597,6 +1597,18 @@ class stack_cas_session2_test extends qtype_stack_testcase {
         $cases[] = array('%union(a,b+1,d)', 'a \cup \left(b+1\right) \cup d');
         $cases[] = array('%union({5,6})', '\left \{5 , 6 \right \}');
 
+        $cases[] = array('%intersection(a,b,c)', 'a \cap b \cap c');
+        $cases[] = array('%intersection(oo(1,2),oo(3,4),oo(4,5))',
+            '\left( 1,\, 2\right) \cap \left( 3,\, 4\right) \cap \left( 4,\, 5\right)');
+        $cases[] = array('%intersection(a,b+1,d)', 'a \cap \left(b+1\right) \cap d');
+        $cases[] = array('%intersection({5,6})', '\left \{5 , 6 \right \}');
+
+        // Add brackets.  Even when not strictly needed.
+        $cases[] = array('%union({1,2},A,B,%intersection(C,D,E))',
+            '\left \{1 , 2 \right \} \cup A \cup B \cup \left(C \cap D \cap E\right)');
+        $cases[] = array('%intersection({1,2},A,B,%union(C,D,E))',
+            '\left \{1 , 2 \right \} \cap A \cap B \cap \left(C \cup D \cup E\right)');
+
         foreach ($cases as $i => $case) {
             $s = 'd'.$i.':'.$case[0];
             $s1[] = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security(), array());

@@ -340,11 +340,6 @@
 ;; Define an "arrayp" function to check if we have a Maxima array.
 (defmfun $arrayp (x) (and (not (atom x)) (cond ((member 'array (car x) :test #'eq) $true) (T $false))))
 
-;; Sort out binding power of %union to display correctly.
-;; tex-support is defined in to_poly_solve_extra.lisp.
-(defprop $%union 115. tex-rbp)
-
-
 ;; *************************************************************************************************
 ;; Added 19 Dec 2018.
 ;; Based src/mformat.lisp
@@ -427,6 +422,16 @@
 
 (defprop $%union tex-nary2 tex)
 (defprop $%union (" \\cup ") texsym)
+;; Sort out binding power of %union to display correctly.
+;; tex-support is defined in to_poly_solve_extra.lisp.
+(defprop $%union 114. tex-rbp)
+(defprop $%union 115. tex-lbp)
+
+(defprop $%intersection tex-nary2 tex)
+(defprop $%intersection (" \\cap ") texsym)
+(defprop $%intersection 114. tex-lbp)
+(defprop $%intersection 115. tex-rbp)
+
 
 (defun tex-nary2 (x l r)
   (let* ((op (caar x)) (sym (texsym op)) (y (cdr x)) (ext-lop lop) (ext-rop rop))

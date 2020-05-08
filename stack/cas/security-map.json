@@ -3387,10 +3387,16 @@
         "variable": "?"
     },
     "intersect": {
-        "function": "s"
+        "function": "s",
+        "nounfunction": "%intersection"
+    },
+    "%intersection": {
+        "function": "t",
+        "nounfunctionfor": "intersection"
     },
     "intersection": {
-        "function": "s"
+        "function": "s",
+        "nounfunction": "%intersection"
     },
     "intervalp": {
         "function": "f"

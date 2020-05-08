@@ -133,6 +133,8 @@ class stack_inputvalidation_test_data {
             '\left( 2,\, 3\right] \cup \left[ 4,\, \infty \right) \cup \left[ -1,\, 1\right]', '', ""),
         array('union({3,7})', 'php_true', 'union({3,7})', 'cas_true',
             '\left \{3 , 7 \right \}', '', ""),
+        array('intersection(oo(2,3),oo(4,inf))', 'php_true', 'intersection(oo(2,3),oo(4,inf))', 'cas_true',
+            '\left( 2,\, 3\right) \cap \left( 4,\, \infty \right)', '', ""),
         array('matrix([a,b],[c,d])', 'php_true', 'matrix([a,b],[c,d])', 'cas_true',
             '\left[\begin{array}{cc} a & b \\\\ c & d \end{array}\right]', '', 'Matrices'),
         array('stackvector(a)', 'php_true', 'stackvector(a)', 'cas_true', '{\bf a}', '', 'Vectors'),

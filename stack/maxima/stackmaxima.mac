@@ -815,10 +815,10 @@ stack_validate(expr, LowestTerms, TAns) := block([simp:false, exs, SameType, fvs
   if ev(is(SameType[2]=false),simp) then print(SameType[4])
     else (_RESET_NOTES(),_RESET_FEEDBACK()),
   /* Check for malformed real sets. */
-  if realset_soft_p(expr) then block([ret],
+  if realset_surface_p(expr) then block([ret],
     ret:interval_validate_realset(expr), 
     if not(is(ret="")) then print(ret)
-    ),
+  ),
   /* Check to see if a variable is also a function name. */
   fvs1: setify(listofvars(expr)),
   fvs2: get_ops(expr),
@@ -851,6 +851,11 @@ stack_validate_typeless(expr, LowestTerms, Equiv, fltfmt) := block([simp:false, 
   ),
   if length(expr)#1 then print(StackAddFeedback("", "CommaError", string(expr), string(setify(expr)))),
   expr: first(expr),
+  /* Check for malformed real sets. */
+  if realset_surface_p(expr) then block([ret],
+    ret:interval_validate_realset(expr), 
+    if not(is(ret="")) then print(ret)
+  ),
   /* Check to see if a variable is also a function name. */
   fvs1: setify(listofvars(expr)),
   fvs2: get_ops(expr),
@@ -1355,8 +1360,8 @@ ATAlgEquivfun(SA, SB) :=  block([SApoly, SBpoly, keepfloat, RawMark, FeedBack, A
       else
         return(ATSet(SA, SB)),
     /* Are we dealing with non-trivial sets? */
-    if realsetp(SB) and not(trivialintervalp(SB)) then
-      if not(realsetp(SA)) then
+    if realset_soft_p(SB) and not(trivialintervalp(SB)) then
+      if not(realset_soft_p(SA)) then
         return(StackBasicReturn(false, false, "ATAlgEquiv_SA_not_realset")),
         /* No specific function here, as "all" and "none" can show up with equations. */
     /* Are we dealing with a function? */
@@ -1390,7 +1395,7 @@ ATAlgEquivfun(SA, SB) :=  block([SApoly, SBpoly, keepfloat, RawMark, FeedBack, A
         return(StackBasicReturn(false, false, "ATAlgEquiv_SA_not_logic"))
       else
         return(ATLogic(SA, SB)),
-    if realsetp(SA) and realsetp(SB) then
+    if realset_soft_p(SA) and realset_soft_p(SB) then
        return(ATRealSet(SA, SB)),
     /* Has the student typed in the wrong type?*/
     if expressionp(SA)=false then
@@ -1444,7 +1449,7 @@ ATList(SA,SB) := block([AddFeedBack, SAN, SAl, SBl, ret, retnew, kloop, AnsNotes
 
 /* An answer test based on two sets of real numbers */
 ATRealSet(SA, SB) := block(
-    /* Tidy up intervals as much as possible. */
+    /* Tidy up intervals as much as possible. Some tidying might be possible even with realset_soft_p rather than realsets.*/
     SA:interval_tidy(SA),
     SB:interval_tidy(SB),
 

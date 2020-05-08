@@ -1183,6 +1183,22 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         // Note, the tex function only prints out two of the arguments!
         $this->assertEquals($state->contentsdisplayed,
                 '\[ \left( -\infty ,\, -4\right) \cup x^2 \]');
+
+        $options = new stack_options();
+        $el = stack_input_factory::make('algebraic', 'sans1', '%union({3,4,5})');
+        $el->set_parameter('sameType', false);
+
+        $state = $el->validate_student_response(array('sans1' => 'union(oo(minf,-4),x^2)'), $options, '%union({3,4,5})',
+                new stack_cas_security(false, '', '', array('ta')));
+        $this->assertEquals($state->status, stack_input::INVALID);
+        $this->assertEquals('', $state->note);
+        $this->assertEquals('The following should not appear during construction of real sets: ' .
+                '<span class="filter_mathjaxloader_equation"><span class="nolink">\(x^2\)</span></span>',
+                $state->errors);
+        $this->assertEquals($state->contentsmodified, '%union(oo(minf,-4),x^2)');
+        // Note, the tex function only prints out two of the arguments!
+        $this->assertEquals($state->contentsdisplayed,
+                '\[ \left( -\infty ,\, -4\right) \cup x^2 \]');
     }
 
     public function test_validate_student_response_realsets_sametype_ok() {

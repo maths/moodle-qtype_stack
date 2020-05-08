@@ -4,7 +4,7 @@ STACK has a simple system for representing and dealing with real intervals and s
 
 Simple real intervals may be represented by the inert functions `oo(a,b)`, `oc(a,b)`, `co(a,b)`, and `cc(a,b)`.  Here the character `o` stands for open end point, and `c` for a closed end point.  So `oc(-1,3)` is the interval \( \{ x\in\mathbb{R} | -1 < x \mbox{ and } x\leq 3.\} \), and is displayed as \( (-1,3] \) with mismatching brackets in the tradition of UK mathematics.
 
-The Maxima function `union` requires its arguments to be sets, and intervals are not sets.  You must use the `%union` function (from the package `to_poly_solve`) to join simple interval and combine them with discrete sets. E.g. `%union(oo(-2,-1),oo(1,2))`
+The Maxima function `union` requires its arguments to be sets, and intervals are not sets.  You must use the `%union` function (from the package `to_poly_solve`) to join simple intervals and combine them with discrete sets. E.g. `%union(oo(-2,-1),oo(1,2))`
 
 Note that the `%union` function sorts its arguments (unless you have `simp:false`), and sort puts simple intervals of the form `oo(-inf,a)` out of order at the right hand end. So, some sorting functions return lists of intervals, not `%union` as you might expect, to preserve the order.
 
@@ -17,26 +17,26 @@ Similarly, STACK provides `%intersection` to represent an intersection of interv
 Predicate functions
 
 1. `intervalp(ex)` returns true if `ex` is a single simple interval.  Does not check `ex` is variable free, so `oo(a,b)` is a simple interval.
-2. `inintervalp(p, A)`  returns true if `p` is an element of `A` and false.
+2. `inintervalp(x, I)`  returns true if `x` is an element of `I` and false otherwise.
 3. `trivialintervalp(ex)` returns true if `ex` is a trivial interval such as \( (a,a)\).
 4. `unionp(ex)` is the operator a union?
 5. `intersectionp(ex)` is the operator an intersection?
-6. `realsetp(ex)` return true if `ex` represents a set of real numbers, e.g. a union of intervals.
-7. `interval_disjointp(A, B)` establishes if two simple intervals are disjoint.
-8. `interval_subsetp(ex1, ex2)` is the real set `ex1` contained within the real set `ex2`?
-9. `interval_containsp(ex, EX)` is the simple interval `ex` an explicit sub-interval within the real set `EX`?  No proper subsets here, but this is useful for checking which intervals a student has.
+6. `realsetp(ex)` return true if `ex` represents a definite set of real numbers, e.g. a union of intervals.  All end points and set elements must be real numbers, so `oo(a,b)` is not a `realset`.  If you want to permit variables in sets and as endpoints use `realset_soft_p` instead.
+7. `interval_disjointp(I1, I2)` establishes if two simple intervals are disjoint.
+8. `interval_subsetp(S1, S2)` is the real set `S1` contained within the real set `S2`?
+9. `interval_containsp(I1, S2)` is the simple interval `I1` an explicit sub-interval within the real set `S2`?  No proper subsets here, but this is useful for checking which intervals a student has.
 
 Basic manipulation of intervals.
 
-1. `interval_simple_union(A, B)` join two simple intervals.
-2. `interval_sort(X)` takes a list of intervals and sorts them into ascending order by their left hand ends.  Returns a list.
-3. `interval_connect(X)` Given a `%union` of intervals, checks whether any intervals are connected, and if so, joins them up and returns the ammended union.
-4. `interval_tidy(X)`  Given a union of sets, returns the "canonical form" of this union.
-5. `interval_intersect(A, B)` intersect two two simple intervals or two real sets, e.g. `%union` sets.
-6. `interval_intersect_list(I)` intersect a list of real sets.
-7. `interval_complement(X)` take a `%union` of intervals and return its complement.
-8. `interval_set_complement(X)` Take a set of real numbers, and return the `%union` of intervals not containing these numbers.
-9. `interval_count_components(X)` Take a set of real numbers, and return the number of separate connected components in the whole expression.  Simple intervals count as one, and sets count as number number of distinct points in the set.  Trivial intervals, such as the empty set, count for 0.  No simplification is done, so you might need to use `interval_tidy(X)` first if you don't want to count just the representation.
+1. `interval_simple_union(I1, I2)` join two simple intervals.
+2. `interval_sort(I)` takes a list of intervals and sorts them into ascending order by their left hand ends.  Returns a list.
+3. `interval_connect(S)` Given a `%union` of intervals, checks whether any intervals are connected, and if so, joins them up and returns the ammended union.
+4. `interval_tidy(S)`  Given a union of sets, returns the "canonical form" of this union.
+5. `interval_intersect(S1, S2)` intersect two two simple intervals or two real sets, e.g. `%union` sets.
+6. `interval_intersect_list(ex)` intersect a list of real sets.
+7. `interval_complement(ex)` take a `%union` of intervals and return its complement.
+8. `interval_set_complement(ex)` Take a set of real numbers, and return the `%union` of intervals not containing these numbers.
+9. `interval_count_components(ex)` Take a set of real numbers, and return the number of separate connected components in the whole expression.  Simple intervals count as one, and sets count as number number of distinct points in the set.  Trivial intervals, such as the empty set, count for 0.  No simplification is done, so you might need to use `interval_tidy(ex)` first if you don't want to count just the representation.
 
 ## Natural domains, and real sets with a variable.
 

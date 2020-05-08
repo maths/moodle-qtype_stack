@@ -215,14 +215,26 @@ realsetp(ex) := block(
     if is(ex=none) then return(true),
     if atom(ex) then return(false),
     if safe_setp(ex) then return(all_listp(real_numberp, args(ex))),
-    if intervalp(ex) then return(true),
+    if intervalp(ex) then return(all_listp(real_numberp, args(ex))),
     if op(ex)=%union then return(all_listp(realsetp, args(ex))),
     if op(ex)=%intersection then return(all_listp(realsetp, args(ex))),
     return(false)
 )$
 
-/* Only looks at the surface level (for student validation). */
+/* Does not require all numbers to be actual real numbers. */
 realset_soft_p(ex) := block(
+    if is(ex=all) then return(true),
+    if is(ex=none) then return(true),
+    if atom(ex) then return(false),
+    if safe_setp(ex) then return(true),
+    if intervalp(ex) then return(true),
+    if op(ex)=%union then return(all_listp(realset_soft_p, args(ex))),
+    if op(ex)=%intersection then return(all_listp(realset_soft_p, args(ex))),
+    return(false)
+)$
+
+/* Only looks at the very top level, used for validation */
+realset_surface_p(ex) := block(
     if is(ex=all) then return(true),
     if is(ex=none) then return(true),
     if atom(ex) then return(false),
@@ -816,8 +828,8 @@ single_variable_solver_real(ex) := block([v, rs1, rs2],
     rs2:false,
     if safe_op(ex)="%or" then block
         (
-        rs1:ev(sublist(args(ex), realsetp), simp),
-        rs2:ev(sublist(args(ex), lambda([ex2], not realsetp(ex2))), simp),
+        rs1:ev(sublist(args(ex), realset_soft_p), simp),
+        rs2:ev(sublist(args(ex), lambda([ex2], not realset_soft_p(ex2))), simp),
         if is(length(rs1)=1) then rs1:first(rs1),
         rs1:realsetmake(v, rs1),
         if is(rs1=none) then
@@ -845,8 +857,8 @@ single_variable_solver_real_rec(ex, v) := block([r0, r1, r2],
 
     if safe_op(ex)="%or" or safe_op(ex)="%and" then block(
         r0:maplist(lambda([ex2], single_variable_solver_real_rec(ex2, v)), args(ex)),
-        r1:ev(sublist(r0, realsetp), simp),
-        r2:ev(sublist(r0, lambda([ex2], not(realsetp(ex2)))), simp)
+        r1:ev(sublist(r0, realset_soft_p), simp),
+        r2:ev(sublist(r0, lambda([ex2], not(realset_soft_p(ex2)))), simp)
         ),
     if safe_op(ex)="%or" then return(ev(apply("%or", append([interval_tidy(r1)], r2)), simp)),
     if safe_op(ex)="%and" then return(ev(apply("%and", append([interval_intersect_list(r1)], r2)), simp)),
@@ -908,7 +920,7 @@ natural_domain_rec(ex) := block([v, ex2],
     /* We have to strip of the realset bit before intersecting. */
     ex2:map(lambda([ex3], if is(safe_op(ex3)="realset") then second(ex3) else ex3), ex2),
     /* Only return a define value if we really have one. */
-    if any_listp(lambda([ex3], is(ex3=unknown) or not(realsetp(ex3) or is(ex3=true) or is(ex3=false))), ex2) then
+    if any_listp(lambda([ex3], is(ex3=unknown) or not(realset_soft_p(ex3) or is(ex3=true) or is(ex3=false))), ex2) then
         ex2:unknown
     else
         ex2:interval_intersect_list(ex2),

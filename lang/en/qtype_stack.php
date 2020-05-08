@@ -961,6 +961,11 @@ $string['studentValidation_invalidAnswer']      = 'This answer is invalid. ';
 $string['studentValidation_notes']              = 'This input is not assessed automatically by STACK.  You can use it to record working, or comments for the teacher.';
 $string['stackQuestion_noQuestionParts']        = 'This item has no question parts for you to answer.';
 
+$string['Interval_notinterval']                 = 'An interval was expected, but instead we have {$a->m0}.';
+$string['Interval_wrongnumargs']                = 'Interval construction must have exactly two arguments, so this must be an error: {$a->m0}.';
+$string['Interval_backwards']                   = 'When constructing a real interval the end points must be ordered. {$a->m0} should be {$a->m1}.';
+$string['Interval_illegal_entries']             = 'The following should not appear during construction of real sets: {$a->m0}';
+
 // Documentation strings.
 $string['stackDoc_404']                 = 'Error 404';
 $string['stackDoc_docs']                = 'STACK Documentation';

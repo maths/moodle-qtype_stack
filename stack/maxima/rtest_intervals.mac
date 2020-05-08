@@ -31,6 +31,18 @@ true$
 realsetp({1,a});
 false$
 
+interval_count_components({});
+0$
+
+interval_count_components(oo(-1,1));
+1$
+
+interval_count_components(%union(oo(-1,1),oo(3,5)));
+2$
+
+interval_count_components(%union(oo(-1,1),oo(3,5),%union({1,2,3},cc[-6,6])));
+6$
+
 natural_domain(x+y);
 unknown$
 

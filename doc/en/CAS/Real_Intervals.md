@@ -29,12 +29,11 @@ Basic manipulation of intervals.
 2. `interval_sort(X)` takes a list of intervals and sorts them into ascending order by their left hand ends.  Returns a list.
 3. `interval_connect(X)` Given a `%union` of intervals, checks whether any intervals are connected, and if so, joins them up and returns the ammended union.
 4. `interval_tidy(X)`  Given a union of sets, returns the "canonical form" of this union.
-5. `interval_simple_intersect(A, B)` intersect two simple intervals.
-6. `inverval_intersect(A, B)` intersect two real sets, e.g. `%union` sets.
-7. `inverval_intersect_list(I)` intersect a list of real sets.
-8. `interval_complement(X)` take a `%union` of intervals and return its complement.
-9. `interval_set_complement(X)` Take a set of real numbers, and return the `%union` of intervals not containing these numbers.
-
+5. `interval_intersect(A, B)` intersect two two simple intervals or two real sets, e.g. `%union` sets.
+6. `interval_intersect_list(I)` intersect a list of real sets.
+7. `interval_complement(X)` take a `%union` of intervals and return its complement.
+8. `interval_set_complement(X)` Take a set of real numbers, and return the `%union` of intervals not containing these numbers.
+9. `interval_count_components(X)` Take a set of real numbers, and return the number of separate connected components in the whole expression.  Simple intervals count as one, and sets count as number number of distinct points in the set.  Trivial intervals, such as the empty set, count for 0.
 
 ## Natural domains, and real sets with a variable.
 

@@ -814,6 +814,11 @@ stack_validate(expr, LowestTerms, TAns) := block([simp:false, exs, SameType, fvs
   SameType:ATSameTypefun(expr, TAns),
   if ev(is(SameType[2]=false),simp) then print(SameType[4])
     else (_RESET_NOTES(),_RESET_FEEDBACK()),
+  /* Check for malformed real sets. */
+  if realset_soft_p(expr) then block([ret],
+    ret:interval_validate_realset(expr), 
+    if not(is(ret="")) then print(ret)
+    ),
   /* Check to see if a variable is also a function name. */
   fvs1: setify(listofvars(expr)),
   fvs2: get_ops(expr),
@@ -3078,4 +3083,4 @@ load(linearalgebra);
 
 /* Stack expects some output with the version number the output happens at */
 /* maximalocal.mac after additional library loading */
-stackmaximaversion:2020050600$
+stackmaximaversion:2020050800$

@@ -242,7 +242,7 @@ class stack_ast_filter_auto_gen_998_security_testcase extends qtype_stack_ast_te
 
         $this->expect('x xor y',
                       'x*xor*y',
-                      array('forbiddenVariable'),
+                      array('operatorPlacement'),
                       false, true);
 
         $this->expect('x()',
@@ -608,7 +608,7 @@ class stack_ast_filter_auto_gen_998_security_testcase extends qtype_stack_ast_te
 
         $this->expect('x xor y',
                       'x*xor*y',
-                      array('forbiddenVariable'),
+                      array('operatorPlacement'),
                       false, true);
 
         $this->expect('x()',

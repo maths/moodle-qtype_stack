@@ -121,6 +121,7 @@
    case '<=':
     return 80;
    case 'not ':
+   case 'nounnot ':
     return 70;
   }
   return 0;
@@ -578,6 +579,7 @@ PrefixOp
   / "''"
   / "'"
   / "not "
+  / "nounnot "
   / "%not "
   / "?? "
   / "? "

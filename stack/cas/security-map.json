@@ -4758,6 +4758,12 @@
         "operator": "?"
     },
     "not ": {
+        "operator": "s",
+        "nounoperator": "nounnot ",
+        "logicnoun": "nounnot "
+    },
+    "nounnot ": {
+        "nounoperatorfor": "not ",
         "operator": "s"
     },
     "notequal": {

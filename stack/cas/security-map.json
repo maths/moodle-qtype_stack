@@ -2162,6 +2162,9 @@
     "epsilon_lp": {
         "variable": "?"
     },
+    "eq": {
+        "operator": "s"
+    },
     "equal": {
         "function": "s"
     },
@@ -3266,6 +3269,9 @@
     },
     "implicit_plot": {
         "function": "f"
+    },
+    "implies": {
+        "operator": "s"
     },
     "in": {
         "keyword": "?",
@@ -4614,6 +4620,9 @@
         "globalyforbiddenvariable": true,
         "variable": "f"
     },
+    "nand": {
+        "operator": "s"
+    },
     "nary": {
         "function": "?",
         "property": "?"
@@ -4784,6 +4793,9 @@
         "nounoperatorfor": "or",
         "operator": "s",
         "spacesurroundedop": true
+    },
+    "nor": {
+        "operator": "s"
     },
     "np": {
         "variable": "s"
@@ -8007,6 +8019,9 @@
     },
     "xlabel": {
         "variable": "s"
+    },
+    "xor": {
+        "operator": "s"
     },
     "xrange": {
         "variable": "f"

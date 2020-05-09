@@ -76,6 +76,11 @@ function get_stack_maxima_latex_replacements() {
                 '!AND!' => stack_string('equiv_AND'),
                 '!OR!' => stack_string('equiv_OR'),
                 '!NOT!' => stack_string('equiv_NOT'),
+                '!NAND!' => stack_string('equiv_NAND'),
+                '!NOR!' => stack_string('equiv_NOR'),
+                '!XOR!' => stack_string('equiv_XOR'),
+                '!IMPLIES!' => stack_string('equiv_IMPLIES'),
+                '!EQ!' => stack_string('equiv_EQ'),
         ];
     }
     return $replacements[$lang];

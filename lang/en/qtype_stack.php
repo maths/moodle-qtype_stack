@@ -953,6 +953,11 @@ $string['equiv_LET']                     = 'Let';
 $string['equiv_AND']                     = 'and';
 $string['equiv_OR']                      = 'or';
 $string['equiv_NOT']                     = 'not';
+$string['equiv_NAND']                    = 'nand';
+$string['equiv_NOR']                     = 'nor';
+$string['equiv_XOR']                     = 'xor';
+$string['equiv_IMPLIES']                 = 'implies';
+$string['equiv_EQ']                      = 'eq';
 
 $string['studentValidation_yourLastAnswer']     = 'Your last answer was interpreted as follows: {$a}';
 $string['studentValidation_listofvariables']    = 'The variables found in your answer were: {$a}';

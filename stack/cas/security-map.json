@@ -2163,7 +2163,8 @@
         "variable": "?"
     },
     "eq": {
-        "operator": "s"
+        "operator": "s",
+        "spacesurroundedop": true
     },
     "equal": {
         "function": "s"
@@ -3271,7 +3272,8 @@
         "function": "f"
     },
     "implies": {
-        "operator": "s"
+        "operator": "s",
+        "spacesurroundedop": true
     },
     "in": {
         "keyword": "?",
@@ -4621,7 +4623,8 @@
         "variable": "f"
     },
     "nand": {
-        "operator": "s"
+        "operator": "s",
+        "spacesurroundedop": true
     },
     "nary": {
         "function": "?",
@@ -4795,7 +4798,8 @@
         "spacesurroundedop": true
     },
     "nor": {
-        "operator": "s"
+        "operator": "s",
+        "spacesurroundedop": true
     },
     "np": {
         "variable": "s"
@@ -8021,7 +8025,8 @@
         "variable": "s"
     },
     "xor": {
-        "operator": "s"
+        "operator": "s",
+        "spacesurroundedop": true
     },
     "xrange": {
         "variable": "f"

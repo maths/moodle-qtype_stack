@@ -32,3 +32,21 @@ Note, the answer tests do *not* convert noun forms to the Maxima forms.
 Otherwise both `x=1 or x=2` and `x=1 or x=3` would be evaluated to `false` and a teacher could not tell that they are different!  
 To replace all `nounand` (etc) operators and replace them with the Maxima equivalent, use `noun_logic_remove(ex)`.
 
+## Operators and notes
+
+1. `and` This is a lisp function.  Teachers should use `nounand` to prevent evaluation of `x=1 and x=0` to `false` even without simplification.  Students type `and` and this is always converted internally to `nounand`.
+2. `or` This is a lisp function.  Teachers should use `nounor` to prevent evaluation of `x=1 or x=0` to `false` even without simplification.  Students type `or` and this is always converted internally to `nounor`.
+3. `not` This is a lisp function.  Teachers should use `nounnot` to prevent evaluation.  Students type `not` and this is always converted internally to `nounnot`.
+4. `nand` is provided by the logic package, which respects the value of `simp`.
+5. `nor` is provided by the logic package, which respects the value of `simp`.
+6. `xor` is provided by the logic package, which respects the value of `simp`.
+7. `eq` is provided by the logic package, which respects the value of `simp`.
+8. `implies` is provided by the logic package, which respects the value of `simp`.
+
+Notes
+
+* There is no support for symbolic logic symbol input currently and students cannot type `&`, `*` for `and`, and similarly `+`  students cannot type for `or`.
+* There is no existential operator (not that this is propositional logic, but for the record) or an interpretation of '?' as there exits, and there is no universal operator (which some people type in as `!`).
+
+The function `verb_logic(ex)` will remove the noun forms such as `nounand` and subsitute in the lisp versions, this will enable evaluation of expressions.  The function `noun_logic(ex)` will replace any remaining lisp but beware that any evaluation (even with `simp:false`) will evaluate lisp logical expressions.  It is best to use noun forms at the outset, e.g. in the question variables, and only use the lisp forms when calculating, e.g. to evaluate in the PRT.
+

@@ -203,14 +203,26 @@ make_logic(OPT_LOGIC) := block(
         texput("nounand", "\\,{\\mbox{ !AND! }}\\, ", nary),
         texput("or", "\\,{\\mbox{ !OR! }}\\, ", nary),
         texput("nounor", "\\,{\\mbox{ !OR! }}\\, ", nary),
-        texput("not", "{\\rm !NOT!}", prefix)
+        texput("nand", "\\,{\\mbox{ !NAND! }}\\, ", nary),
+        texput("nor", "\\,{\\mbox{ !NOR! }}\\, ", nary),
+        texput("xor", "\\,{\\mbox{ !XOR! }}\\, ", nary),
+        texput("implies", "\\,{\\mbox{ !IMPLIES! }}\\, ", nary),
+        texput("eq", "\\,{\\mbox{ !EQ! }}\\, ", nary),
+        texput("not", "{\\rm !NOT!}", prefix),
+        texput("nounnot", "{\\rm !NOT!}", prefix)
     ),
     if OPT_LOGIC = "symbol" then block(
         texput("and", "\\land ", nary),
         texput("nounand", "\\land ", nary),
         texput("or", "\\lor ", nary),
         texput("nounor", "\\lor ", nary),
-        texput("not", "\\neg ", prefix)
+        texput("nand", "\\overline{\\land}", nary),
+        texput("nor", "\\underline{\\lor}", nary),
+        texput("xor", "\\oplus ", nary),
+        texput("implies", "\\rightarrow ", nary),
+        texput("eq", "\\sim  ", nary),
+        texput("not", "\\neg ", prefix),
+        texput("nounnot", "\\neg ", prefix)
     ),
     return(true)
 )$

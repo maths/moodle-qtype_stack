@@ -908,6 +908,20 @@ declare("noun=", commutative);
 declare("noun=", lassociative);
 declare("noun=", rassociative);
 
+verb_logic(ex) := block([a],
+    ex:subst("and", "nounand", ex),
+    ex:subst("or", "nounor", ex),
+    ex:subst("not", "nounnot", ex),
+    ex
+)$
+
+noun_logic(ex) := block([a],
+    ex:subst("nounand", "and", ex),
+    ex:subst("nounor", "or", ex),
+    ex:subst("nounnot", "not", ex),
+    ex
+)$
+
 verb_arith(ex) := block([a],
     ex:subst("=", "noun=", ex),
     ex:subst("+", "noun+", ex),
@@ -963,7 +977,7 @@ flatten_recurse_nouns(ex) := block(
 sort_nouns(ex) := block([exl],
     if atom(ex) then return(ex),
     exl:maplist(sort_nouns, args(ex)),
-    if safe_op(ex)="noun=" or safe_op(ex)="nounand" or safe_op(ex)="nounor" or safe_op(ex)="nounset" or op(ex)="noun+" or op(ex)="noun*" then
+    if safe_op(ex)="noun=" or safe_op(ex)="nounand" or safe_op(ex)="nounor" or safe_op(ex)="nounnot" or safe_op(ex)="nounset" or op(ex)="noun+" or op(ex)="noun*" then
         exl:sort(exl),
     apply(op(ex), exl)
 )$
@@ -1041,6 +1055,7 @@ alias(ATEqual_com_ass, ATEqualComAss)$
 
 nary("nounand", 65)$
 nary("nounor", 61)$
+prefix("nounnot", 70)$
 
 declare("nounand", commutative)$
 declare("nounand", lassociative)$
@@ -1063,6 +1078,7 @@ logicp(ex) := block(
   if logic_edgep(ex) then return(true),
   if safe_op(ex) = "nounand" then return(true),
   if safe_op(ex) = "nounor" then return(true),
+  if safe_op(ex) = "nounnot" then return(true),
   if safe_op(ex) = "and" then return(true),
   if safe_op(ex) = "or" then return(true),
   if safe_op(ex) = "not" then return(true),
@@ -1072,7 +1088,7 @@ logicp(ex) := block(
 
 free_of_logicp(ex) := block([logicops, logiconsts, res, k],
    if is(ex=all) or is(ex=none) then return(false),
-   logicops:["nounand", "nounor", "and", "or", "%and", "%or", "not", "%not", STACKpmOPT, "<", ">", "<=", ">=", "=", "[", "{"],
+   logicops:["nounand", "nounor", "nounnot", "and", "or", "%and", "%or", "not", "%not", STACKpmOPT, "<", ">", "<=", ">=", "=", "[", "{"],
    res:true,
    for k: 1 thru length(logicops) do
        if ev(not(is(count_op(ex, logicops[k])=0)),simp) then res:false,
@@ -1186,6 +1202,7 @@ logic_to_poly_helper(ex, v) := block(
 noun_logic_remove(ex) := block([rex],
     rex:opsubst("and", "nounand", ex),
     rex:opsubst("or", "nounor", rex),
+    rex:opsubst("not", "nounnot", rex),
     return(rex)
 )$
 

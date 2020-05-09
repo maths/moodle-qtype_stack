@@ -128,6 +128,7 @@ stack_dispvalue(ex) := block(
 /* ********************************** */
 
 load("functs");
+load("logic");
 /* Not yet testsed: load("vect"); */
 
 /* We don't want to allow people to put boxes round things. */

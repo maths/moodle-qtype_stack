@@ -73,10 +73,19 @@
    case 'and':
    case 'nounand':
     return 65;
+   case 'nand':
+    return 62;
+   case 'nor':
+    return 61;
    case '%or':
    case 'or':
    case 'nounor':
     return 60;
+   case 'implies':
+    return 59;
+   case 'eq':
+   case 'xor':
+    return 58;
   }
   return 0;
  }
@@ -594,6 +603,11 @@ InfixOp
   / "or"
   / "nounand"
   / "nounor"
+  / "nand"
+  / "nor"
+  / "implies"
+  / "eq"
+  / "xor"
   / "#"
   / "::="
   / ":="

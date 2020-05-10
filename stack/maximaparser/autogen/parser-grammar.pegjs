@@ -647,6 +647,15 @@ UnaryOp
   var n = new MPPrefixOp(op, trg);
   n.position = location();
   return n;}
+  / "nounnot" trg:Group {
+  /** <?php
+  $r = new MP_PrefixOp("nounnot ", $trg);
+  $r->position = array('start'=>$this->peg_reportedPos, 'end'=>$this->peg_currPos);
+  return opBind($r);
+  ?> **/
+  var n = new MPPrefixOp("nounnot ", trg);
+  n.position = location();
+  return n;}
   / "not" trg:Group {
   /** <?php
   $r = new MP_PrefixOp("not ", $trg);

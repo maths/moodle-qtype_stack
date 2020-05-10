@@ -42,6 +42,7 @@ class stack_ans_test_controller {
               'SingleFrac'           => 'stackOptions_AnsTest_values_SingleFrac',
               'PartFrac'             => 'stackOptions_AnsTest_values_PartFrac',
               'CompSquare'           => 'stackOptions_AnsTest_values_CompSquare',
+              'PropLogic'            => 'stackOptions_AnsTest_values_PropLogic',
               'Equiv'                => 'stackOptions_AnsTest_values_Equiv',
               'EquivFirst'           => 'stackOptions_AnsTest_values_EquivFirst',
               'GT'                   => 'stackOptions_AnsTest_values_GT',
@@ -86,6 +87,7 @@ class stack_ans_test_controller {
         'SingleFrac'           => array(false, false, false),
         'PartFrac'             => array(true, true, true),
         'CompSquare'           => array(true, true, true),
+        'PropLogic'            => array(false, false, true),
         'Equiv'                => array(false, true, false),
         'EquivFirst'           => array(false, true, false),
         'GT'                   => array(false, false, true),
@@ -143,6 +145,7 @@ class stack_ans_test_controller {
             case 'SingleFrac':
             case 'PartFrac':
             case 'CompSquare':
+            case 'PropLogic':
             case 'Diff':
             case 'Int':
             case 'GT':

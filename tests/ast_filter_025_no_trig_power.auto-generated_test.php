@@ -1433,7 +1433,7 @@ class stack_ast_filter_auto_gen_025_no_trig_power_testcase extends qtype_stack_a
                       true, false);
 
         $this->expect('x xor y',
-                      'x*xor*y',
+                      'x xor y',
                       array(),
                       true, false);
 
@@ -3139,7 +3139,7 @@ class stack_ast_filter_auto_gen_025_no_trig_power_testcase extends qtype_stack_a
                       true, false);
 
         $this->expect('x xor y',
-                      'x*xor*y',
+                      'x xor y',
                       array(),
                       true, false);
 

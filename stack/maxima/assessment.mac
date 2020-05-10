@@ -908,18 +908,18 @@ declare("noun=", commutative);
 declare("noun=", lassociative);
 declare("noun=", rassociative);
 
-verb_logic(ex) := block([a],
-    ex:subst("and", "nounand", ex),
-    ex:subst("or", "nounor", ex),
-    ex:subst("not", "nounnot", ex),
-    ex
+noun_logic_remove(ex) := block([rex],
+    rex:opsubst("and", "nounand", ex),
+    rex:opsubst("or", "nounor", rex),
+    rex:opsubst("not", "nounnot", rex),
+    return(rex)
 )$
 
-noun_logic(ex) := block([a],
-    ex:subst("nounand", "and", ex),
-    ex:subst("nounor", "or", ex),
-    ex:subst("nounnot", "not", ex),
-    ex
+noun_logic(ex) := block([rex],
+    rex:subst("nounand", "and", ex),
+    rex:subst("nounor", "or", rex),
+    rex:subst("nounnot", "not", rex),
+    rex
 )$
 
 verb_arith(ex) := block([a],
@@ -1082,6 +1082,10 @@ logicp(ex) := block(
   if safe_op(ex) = "and" then return(true),
   if safe_op(ex) = "or" then return(true),
   if safe_op(ex) = "not" then return(true),
+  if safe_op(ex) = "nor" then return(true),
+  if safe_op(ex) = "nand" then return(true),
+  if safe_op(ex) = "xor" then return(true),
+  if safe_op(ex) = "implies" then return(true),
   if op_usedp(ex, STACKpmOPT) then return(true),
   return(false)
 )$
@@ -1127,10 +1131,12 @@ distrib_and(ex):=block([orlisti, orlist1, orlist2],
 logical_normal(ex):=block(
     /* Change the noun logical operators into associative indenpotent ones. */
     ex:abs_replace_eq(ex),
+    ex:boolean_form(ex),
     ex:subst("%and", "nounand", ex),
     ex:subst("%or", "nounor", ex),
     /* %not is not an infix operator... */
     ex:subst(%not, "not", ex),
+    ex:subst(%not, "nounnot", ex),
     ex:subst("%and", "and", ex),
     ex:subst("%or", "or", ex),
     ex:de_morgan(ex),
@@ -1197,13 +1203,6 @@ logic_to_poly_helper(ex, v) := block(
     if not(listp(ex)) then return(false),
     if ex=[] or length(ex)=1 then return(ex),
     logic_to_poly_helper(append([poly_gcd(first(ex), second(ex), v)], rest(rest(ex))), v)
-)$
-
-noun_logic_remove(ex) := block([rex],
-    rex:opsubst("and", "nounand", ex),
-    rex:opsubst("or", "nounor", rex),
-    rex:opsubst("not", "nounnot", rex),
-    return(rex)
 )$
 
 /****************************************************************/

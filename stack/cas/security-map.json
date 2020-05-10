@@ -4759,6 +4759,7 @@
         "logicnoun": "nounnot"
     },
     "nounnot": {
+        "operator": "s",
         "nounoperatorfor": "not",
         "operator": "s"
     },

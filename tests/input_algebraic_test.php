@@ -254,6 +254,18 @@ class stack_algebra_input_test extends qtype_stack_testcase {
             . '<code>1 < x and x < 8</code>', $el->get_teacher_answer_display('1<x nounand x<8', '1<x \,{\mbox{and}}\,x<8'));
     }
 
+    public function test_validate_student_response_10() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('algebraic', 'sans1', 'not false xor not(false)');
+        $state = $el->validate_student_response(array('sans1' => 'not false xor not(false)'), $options,
+                'not false xor not(false)',
+                new stack_cas_security(false, '', '', array('tans')));
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('nounnot false xor nounnot(false)', $state->contentsmodified);
+        $this->assertEquals('\[ {\rm not}\left( \mathbf{false} \right)\,{\mbox{ xor }}\, ' .
+                '{\rm not}\left( \mathbf{false} \right) \]', $state->contentsdisplayed);
+    }
+
     public function test_validate_student_lowest_terms_1() {
         $options = new stack_options();
         $el = stack_input_factory::make('algebraic', 'sans1', '12/4');

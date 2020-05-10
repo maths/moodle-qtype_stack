@@ -215,11 +215,6 @@ class stack_ast_filter_auto_gen_999_strict_testcase extends qtype_stack_ast_test
                       array(),
                       false, true);
 
-        $this->expect('x xor y',
-                      'x*xor*y',
-                      array(),
-                      false, true);
-
         $this->expect('x y',
                       'x*y',
                       array(),
@@ -413,11 +408,6 @@ class stack_ast_filter_auto_gen_999_strict_testcase extends qtype_stack_ast_test
 
         $this->expect('x divides y',
                       'x*divides*y',
-                      array(),
-                      false, true);
-
-        $this->expect('x xor y',
-                      'x*xor*y',
                       array(),
                       false, true);
 
@@ -1624,6 +1614,11 @@ class stack_ast_filter_auto_gen_999_strict_testcase extends qtype_stack_ast_test
 
         $this->expect('x or y',
                       'x or y',
+                      array(),
+                      true, false);
+
+        $this->expect('x xor y',
+                      'x xor y',
                       array(),
                       true, false);
 
@@ -3145,6 +3140,11 @@ class stack_ast_filter_auto_gen_999_strict_testcase extends qtype_stack_ast_test
 
         $this->expect('x or y',
                       'x or y',
+                      array(),
+                      true, false);
+
+        $this->expect('x xor y',
+                      'x xor y',
                       array(),
                       true, false);
 

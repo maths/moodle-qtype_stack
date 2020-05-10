@@ -66,6 +66,7 @@ Hence, we need quite a number of different answer tests to establish equality in
 | SubstEquiv                                        | Can we find a substitution of the variables of \(ex_2\) into \(ex_1\) which renders \(ex_1\) algebraically equivalent to \(ex_2\)?
 | SameType                                          | Are the two expressions of the same [types_of_object](../CAS/Maxima.md#Types_of_object)?  Note that this test works recursively over the entire expression.
 | SysEquiv                                          | Do two systems of polynomial equations have the same solutions? 
+| PropLogic                                         | An answer test designed to deal with [propositional logic](../CAS/Propositional_Logic.md). 
 
 ### AlgEquiv {#AlgEquiv}
 

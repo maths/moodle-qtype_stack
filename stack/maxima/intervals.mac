@@ -804,6 +804,7 @@ single_variable_solver_real(ex) := block([v, rs1, rs2],
     ex:subst("%or", "nounor", ex),
     /* %not is not an infix operator... */
     ex:subst(%not, "not", ex),
+    ex:subst(%not, "nounnot", ex),
     ex:subst("%and", "and", ex),
     ex:subst("%or", "or", ex),
 

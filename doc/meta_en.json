@@ -271,6 +271,11 @@
         "description":"Information on representing, displaying and manipulating ODEs in STACK."
         },
         {
+        "file":"Discrete_mathematics.md",
+        "title":"Discrete mathematics and graph theory - STACK Documentation",
+        "description":"Information on representing, displaying and manipulating graphs, as in graph theory rather than graph sketching."
+        },
+        {
         "file":"Equations.md",
         "title":"Asking Students to Solve Equations - STACK Documentation",
         "description":"It is quite common to ask students to solve an algebraic equation. This document contains information on doing so effectively in STACK."
@@ -326,14 +331,24 @@
         "description":"Information on plotting graphs in STACK."
         },
         {
+        "file":"Propositional_Logic.md",
+        "title":"Propositional Logic - STACK Documentation",
+        "description":"Support for propositional logic, using Maxima's logic package."
+        },
+        {
         "file":"Predicate_functions.md",
         "title":"Predicate Functions - STACK Documentation",
-        "description":"Predicate functions are thos ethat return Boolean values true or false. These are often useful when authoring STACK questions."
+        "description":"Predicate functions are those that return Boolean values true or false. These are often useful when authoring STACK questions."
         },
         {
         "file":"Random.md",
         "title":"Random Objects - STACK Documentation",
         "description":"Information on using different functions in STACK to generate random values."
+        },
+        {
+        "file":"Real_Intervals.md",
+        "title":"Real intervals - STACK Documentation",
+        "description":"Information on representing, displaying and manipulating intervals in the real line."
         },
         {
         "file":"Simplification.md",
@@ -432,6 +447,11 @@
         "file":"Language_packs.md",
         "title":"Translations of STACK - STACK Documentation",
         "description":"A list of languages STACK is translated to, as well as information on translating the STACK project."
+        },
+        {
+        "file":"Local_Usage.md",
+        "title":" Local Usage - STACK Documentation",
+        "description":"Records direct database queries useful in Moodle to deal with establishing local use of STACK questions."
         },
         {
         "file":"Maxima_packages.md",

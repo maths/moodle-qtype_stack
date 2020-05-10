@@ -1411,7 +1411,7 @@ class stack_ast_filter_auto_gen_802_singleton_units_testcase extends qtype_stack
                       false, true);
 
         $this->expect('x xor y',
-                      'x*xor*y',
+                      'x xor y',
                       array(),
                       false, true);
 
@@ -3122,7 +3122,7 @@ class stack_ast_filter_auto_gen_802_singleton_units_testcase extends qtype_stack
                       false, true);
 
         $this->expect('x xor y',
-                      'x*xor*y',
+                      'x xor y',
                       array(),
                       false, true);
 

@@ -120,11 +120,6 @@ class stack_ast_filter_auto_gen_410_single_char_vars_testcase extends qtype_stac
                       array('missing_stars'),
                       true, false);
 
-        $this->expect('x xor y',
-                      'x*x*o*r*y',
-                      array('missing_stars'),
-                      true, false);
-
         $this->expect('x*divides*y',
                       'x*d*i*v*i*d*e*s*y',
                       array('missing_stars'),
@@ -243,11 +238,6 @@ class stack_ast_filter_auto_gen_410_single_char_vars_testcase extends qtype_stac
 
         $this->expect('x divides y',
                       'x*d*i*v*i*d*e*s*y',
-                      array('missing_stars'),
-                      true, false);
-
-        $this->expect('x xor y',
-                      'x*x*o*r*y',
                       array('missing_stars'),
                       true, false);
 
@@ -1569,6 +1559,11 @@ class stack_ast_filter_auto_gen_410_single_char_vars_testcase extends qtype_stac
 
         $this->expect('x or y',
                       'x or y',
+                      array(),
+                      true, false);
+
+        $this->expect('x xor y',
+                      'x xor y',
                       array(),
                       true, false);
 
@@ -3165,6 +3160,11 @@ class stack_ast_filter_auto_gen_410_single_char_vars_testcase extends qtype_stac
 
         $this->expect('x or y',
                       'x or y',
+                      array(),
+                      true, false);
+
+        $this->expect('x xor y',
+                      'x xor y',
                       array(),
                       true, false);
 

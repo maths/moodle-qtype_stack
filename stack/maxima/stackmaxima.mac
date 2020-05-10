@@ -1718,7 +1718,7 @@ ATMatrix(SA, SB) := block([RawMark, FeedBack, AnswerNote, str, ret, SAr, SAc, SB
     )$
 
 /* An answer test based on two sets for SA and SB. */
-ATSet(SA, SB) := block([RawMark, FeedBack, AnswerNote, str, SAl, SBl, ZM],
+ATSet(SA, SB) := block([RawMark, FeedBack, AnswerNote, SAl, SBl, ZM],
     RawMark:true, FeedBack:"", AnswerNote:"",
     /* Get sizes of sets. */
     SAl:ev(cardinality(SA), simp),
@@ -1726,12 +1726,16 @@ ATSet(SA, SB) := block([RawMark, FeedBack, AnswerNote, str, SAl, SBl, ZM],
     if (SAl#SBl) then
         return([true, false, StackAddNote("", "ATSet_wrongsz"), StackAddFeedback("", "ATSet_wrongsz", stack_disp(SBl, "i"), stack_disp(SAl, "i"))]),
     /* Check they are equal */
-    SA:map(ineqprepare, map(trigreduce, SA)),
-    SB:map(ineqprepare, map(trigreduce, SB)),
+
+    SA:ATSets_prepare(SA),
+    SB:ATSets_prepare(SB),
+
     if (subsetp(SA, SB) and subsetp(SB, SA)) then
         return([true, true, AnswerNote, FeedBack]),
     /* Can we give feedback on which are wrong ? */
-    FeedBack:StackAddFeedback("", "ATSet_wrongentries", stack_disp(setdifference(SA, SB), "d")),
+    ZM:setdifference(SA, SB),
+    if not(emptyp(ZM)) then
+      FeedBack:StackAddFeedback("", "ATSet_wrongentries", stack_disp(ZM, "d")),
     return([true, false, StackAddNote("","ATSet_wrongentries"), FeedBack])
 )$
 
@@ -1749,6 +1753,9 @@ ATSets(SA, SB) := block([RawMark, FeedBack, AnswerNote, SAsimp, SBsimp],
         return(StackBasicReturn(false, false, "ATSets_SB_not_set")),
     if not(safe_setp(SA)) then
         return(StackBasicReturn(false, false, "ATSets_SA_not_set")),
+
+    SAsimp:ATSets_prepare(SAsimp),
+    SBsimp:ATSets_prepare(SBsimp),
 
     /* Look for duplicate entries. */
     if is(length(SAsimp)<length(SA)) then block(
@@ -1772,6 +1779,10 @@ ATSets(SA, SB) := block([RawMark, FeedBack, AnswerNote, SAsimp, SBsimp],
 
     return([true, false, AnswerNote, FeedBack])
 )$
+
+/* We don't put in boolean_form, or noun_logic_remove here because that breaks (pre-existing) inequalities and equations. */
+ATSets_prepare(S) := ev(map(lambda([ex], ineqprepare(trigreduce(ex)) ), S), simp)$
+
 
 /* Maxima regular expressions. */
 ATSRegExp(SA, SB) := block([RawMark, FeedBack, AnswerNote, SAsimp, SBsimp, patmatched],
@@ -1913,6 +1924,24 @@ ATLogic(SA, SB) := block([SAL, SBL, res],
     return(res)
 )$
 
+ATPropLogic(SA,SB) := block([simp:true, ret, SAc, SBc],
+    /* Turn on simplification and error catch */
+    SA:errcatch(ev(SA, simp, nouns)),
+    if is(SA=[STACKERROR]) then return([false, false, StackAddNote("", "ATPropLogic_STACKERROR_SAns"), ""]),
+    SA:SA[1],
+    SB:errcatch(ev(SB, simp, nouns)),
+    if is(SB=[STACKERROR]) then return([false, false, StackAddNote("", "ATPropLogic_STACKERROR_TAns"), ""]),
+    SB:SB[1],
+    /* We don't want noun forms getting in the way here. */
+    SA:noun_logic_remove(SA),
+    SB:noun_logic_remove(SB),
+    /* Can we find a permutation of the variables? */
+    if logic_equiv(SA, SB) then
+        return([true, true, "", ""]
+    ),
+    /* Send back result */
+    return([true, false, "", ""])
+)$
 
 /**********************************************/
 /*                                            */

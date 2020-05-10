@@ -49,3 +49,12 @@ Notes
 * There is no existential operator (not that this is propositional logic, but for the record) or an interpretation of '?' as there exits, and there is no universal operator (which some people type in as `!`).
 
 The function `verb_logic(ex)` will remove the noun forms such as `nounand` and subsitute in the lisp versions, this will enable evaluation of expressions.  The function `noun_logic(ex)` will replace any remaining lisp but beware that any evaluation (even with `simp:false`) will evaluate lisp logical expressions.  It is best to use noun forms at the outset, e.g. in the question variables, and only use the lisp forms when calculating, e.g. to evaluate in the PRT.
+
+## Answer tests
+
+The answer tests protect the logical operators.  This behaviour is to prevent evaluation of expressions such as `x=1` as a boolean predicate fuction.  I.e. the default behaviour is to give priority to the assumption an arbitary expression is an algebraic expression, or a set of equations, inequalities etc.  The other answer tests (e.g. algebraic equivalence) will do there best.
+
+The answer test `PropLogic` replaces all noun logical expressions with the Maxima versions, and then tests two expressions using the function `logic_equiv` from Maxima's logic package.  This answer test does not support sets, lists, etc.
+
+The value of the student's answer will always have `nounand` etc. inserted.  Before you manipulate the student's answer, e.g. with the logic package functions, you will need to apply `noun_logic_remove(ex)`.
+

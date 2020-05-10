@@ -1458,7 +1458,7 @@ class stack_ast_filter_auto_gen_001_fix_call_of_a_group_or_function_testcase ext
                       true, false);
 
         $this->expect('x xor y',
-                      'x*xor*y',
+                      'x xor y',
                       array(),
                       true, false);
 
@@ -3149,7 +3149,7 @@ class stack_ast_filter_auto_gen_001_fix_call_of_a_group_or_function_testcase ext
                       true, false);
 
         $this->expect('x xor y',
-                      'x*xor*y',
+                      'x xor y',
                       array(),
                       true, false);
 

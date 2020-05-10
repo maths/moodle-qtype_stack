@@ -240,11 +240,6 @@ class stack_ast_filter_auto_gen_998_security_testcase extends qtype_stack_ast_te
                       array('forbiddenVariable'),
                       false, true);
 
-        $this->expect('x xor y',
-                      'x*xor*y',
-                      array('operatorPlacement'),
-                      false, true);
-
         $this->expect('x()',
                       'x()',
                       array('emptyParens'),
@@ -604,11 +599,6 @@ class stack_ast_filter_auto_gen_998_security_testcase extends qtype_stack_ast_te
         $this->expect('x divides y',
                       'x*divides*y',
                       array('forbiddenVariable'),
-                      false, true);
-
-        $this->expect('x xor y',
-                      'x*xor*y',
-                      array('operatorPlacement'),
                       false, true);
 
         $this->expect('x()',
@@ -1704,6 +1694,11 @@ class stack_ast_filter_auto_gen_998_security_testcase extends qtype_stack_ast_te
 
         $this->expect('x or y',
                       'x or y',
+                      array(),
+                      true, false);
+
+        $this->expect('x xor y',
+                      'x xor y',
                       array(),
                       true, false);
 
@@ -3165,6 +3160,11 @@ class stack_ast_filter_auto_gen_998_security_testcase extends qtype_stack_ast_te
 
         $this->expect('x or y',
                       'x or y',
+                      array(),
+                      true, false);
+
+        $this->expect('x xor y',
+                      'x xor y',
                       array(),
                       true, false);
 

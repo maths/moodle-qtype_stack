@@ -1463,7 +1463,7 @@ class stack_ast_filter_auto_gen_402_split_prefix_from_common_function_name_testc
                       true, false);
 
         $this->expect('x xor y',
-                      'x*xor*y',
+                      'x xor y',
                       array(),
                       true, false);
 
@@ -3149,7 +3149,7 @@ class stack_ast_filter_auto_gen_402_split_prefix_from_common_function_name_testc
                       true, false);
 
         $this->expect('x xor y',
-                      'x*xor*y',
+                      'x xor y',
                       array(),
                       true, false);
 

@@ -2023,7 +2023,7 @@ class stack_ast_filter_auto_gen_542_no_functions_at_all_testcase extends qtype_s
                       true, false);
 
         $this->expect('x xor y',
-                      'x*xor*y',
+                      'x xor y',
                       array(),
                       true, false);
 
@@ -3204,7 +3204,7 @@ class stack_ast_filter_auto_gen_542_no_functions_at_all_testcase extends qtype_s
                       true, false);
 
         $this->expect('x xor y',
-                      'x*xor*y',
+                      'x xor y',
                       array(),
                       true, false);
 

@@ -1377,18 +1377,17 @@ class MP_PrefixOp extends MP_Node {
             }
         }
 
+        if ($op === 'not ' || $op === 'nounnot ') {
+            if ($this->rhs instanceof MP_Group) {
+                $op = trim($op);
+            }
+        }
+
         if ($params !== null && isset($params['pretty'])) {
             if (is_integer($params['pretty'])) {
                 $indent = str_pad($indent, $params['pretty']);
             }
             $params['pretty'] = 0;
-            if ($op === 'not ' || $op === 'nounnot ') {
-                if ($this->rhs instanceof MP_Group) {
-                    return $indent . trim($op) . $this->rhs->toString($params);
-                }
-                return $indent . $op . $this->rhs->toString($params
-                );
-            }
             return $indent . $op . $this->rhs->toString($params);
         }
 

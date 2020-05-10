@@ -29,6 +29,7 @@
 ineqprepare(ex) := block([op2, ex2],
     if mapatom(ex) then return(ex),
     if safe_op(ex)="%not" then ex:not_ineq(first(args(ex))),
+    if mapatom(ex) then return(ex),
     if op(ex)="="  then return(make_monic_eq(ev(part(ex,1) - part(ex,2), simp, trigreduce)) = 0),
     if op(ex)=">"  then return(make_monic(ev(part(ex,1) - part(ex,2), simp, trigreduce)) > 0),
     if op(ex)=">=" then return(make_monic(ev(part(ex,1) - part(ex,2), simp, trigreduce)) >= 0),

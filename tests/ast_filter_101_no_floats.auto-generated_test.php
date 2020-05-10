@@ -1593,7 +1593,7 @@ class stack_ast_filter_auto_gen_101_no_floats_testcase extends qtype_stack_ast_t
                       true, false);
 
         $this->expect('x xor y',
-                      'x*xor*y',
+                      'x xor y',
                       array(),
                       true, false);
 
@@ -3154,7 +3154,7 @@ class stack_ast_filter_auto_gen_101_no_floats_testcase extends qtype_stack_ast_t
                       true, false);
 
         $this->expect('x xor y',
-                      'x*xor*y',
+                      'x xor y',
                       array(),
                       true, false);
 

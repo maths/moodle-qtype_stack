@@ -110,11 +110,6 @@ class stack_ast_filter_auto_gen_990_no_fixing_spaces_testcase extends qtype_stac
                       array(),
                       false, true);
 
-        $this->expect('x xor y',
-                      'x*xor*y',
-                      array(),
-                      false, true);
-
         $this->expect('x y',
                       'x*y',
                       array(),
@@ -203,11 +198,6 @@ class stack_ast_filter_auto_gen_990_no_fixing_spaces_testcase extends qtype_stac
 
         $this->expect('x divides y',
                       'x*divides*y',
-                      array(),
-                      false, true);
-
-        $this->expect('x xor y',
-                      'x*xor*y',
                       array(),
                       false, true);
 
@@ -1519,6 +1509,11 @@ class stack_ast_filter_auto_gen_990_no_fixing_spaces_testcase extends qtype_stac
 
         $this->expect('x or y',
                       'x or y',
+                      array(),
+                      true, false);
+
+        $this->expect('x xor y',
+                      'x xor y',
                       array(),
                       true, false);
 
@@ -3145,6 +3140,11 @@ class stack_ast_filter_auto_gen_990_no_fixing_spaces_testcase extends qtype_stac
 
         $this->expect('x or y',
                       'x or y',
+                      array(),
+                      true, false);
+
+        $this->expect('x xor y',
+                      'x xor y',
                       array(),
                       true, false);
 

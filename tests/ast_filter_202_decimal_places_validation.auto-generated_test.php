@@ -1411,7 +1411,7 @@ class stack_ast_filter_auto_gen_202_decimal_places_validation_testcase extends q
                       false, true);
 
         $this->expect('x xor y',
-                      'x*xor*y',
+                      'x xor y',
                       array(),
                       false, true);
 
@@ -3127,7 +3127,7 @@ class stack_ast_filter_auto_gen_202_decimal_places_validation_testcase extends q
                       false, true);
 
         $this->expect('x xor y',
-                      'x*xor*y',
+                      'x xor y',
                       array(),
                       false, true);
 

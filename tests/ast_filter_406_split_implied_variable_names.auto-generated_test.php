@@ -1473,7 +1473,7 @@ class stack_ast_filter_auto_gen_406_split_implied_variable_names_testcase extend
                       true, false);
 
         $this->expect('x xor y',
-                      'x*xor*y',
+                      'x xor y',
                       array(),
                       true, false);
 
@@ -3144,7 +3144,7 @@ class stack_ast_filter_auto_gen_406_split_implied_variable_names_testcase extend
                       true, false);
 
         $this->expect('x xor y',
-                      'x*xor*y',
+                      'x xor y',
                       array(),
                       true, false);
 

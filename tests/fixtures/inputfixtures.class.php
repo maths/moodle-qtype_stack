@@ -154,6 +154,7 @@ class stack_inputvalidation_test_data {
         array('x xor y', 'php_true', 'x xor y', 'cas_true', 'x\,{\mbox{ xor }}\, y', '', ""),
         array('x nor y', 'php_true', 'x nor y', 'cas_true', 'x\,{\mbox{ nor }}\, y', '', ""),
         array('x nand y', 'php_true', 'x nand y', 'cas_true', 'x\,{\mbox{ nand }}\, y', '', ""),
+        array('x implies y', 'php_true', 'x implies y', 'cas_true', 'x\,{\mbox{ implies }}\, y', '', ""),
         array('not false', 'php_true', 'not false', 'cas_true', '{\rm not}\left( \mathbf{false} \right)', '', ""),
         array('not(false)', 'php_true', 'not(false)', 'cas_true', '{\rm not}\left( \mathbf{false} \right)', '', ""),
         array('x isa "number"', 'php_false', '', '', '', 'spaces', ""),

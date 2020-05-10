@@ -1593,7 +1593,7 @@ class stack_ast_filter_auto_gen_910_inert_float_for_display_testcase extends qty
                       true, false);
 
         $this->expect('x xor y',
-                      'x*xor*y',
+                      'x xor y',
                       array(),
                       true, false);
 
@@ -3154,7 +3154,7 @@ class stack_ast_filter_auto_gen_910_inert_float_for_display_testcase extends qty
                       true, false);
 
         $this->expect('x xor y',
-                      'x*xor*y',
+                      'x xor y',
                       array(),
                       true, false);
 

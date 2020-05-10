@@ -10,6 +10,7 @@ How to report bugs and make suggestions is described on the [community](../About
 Done
 
 * Document and support for simple manipulation of [real intervals](../CAS/Real_Intervals.md) which Maxima does not have a library for.
+* Document and support for simple manipulation of [propositional logic](../CAS/Propositional_Logic.md) based on Maxima's logic package.
 
 ## Maxima side PRTs.
 

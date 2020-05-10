@@ -1341,7 +1341,7 @@ class stack_ast_filter_auto_gen_801_singleton_numeric_testcase extends qtype_sta
                       false, true);
 
         $this->expect('x xor y',
-                      'x*xor*y',
+                      'x xor y',
                       array('Illegal_form'),
                       false, true);
 
@@ -2987,7 +2987,7 @@ class stack_ast_filter_auto_gen_801_singleton_numeric_testcase extends qtype_sta
                       false, true);
 
         $this->expect('x xor y',
-                      'x*xor*y',
+                      'x xor y',
                       array('Illegal_form'),
                       false, true);
 

@@ -604,4 +604,54 @@ class stack_cas_castext_parser_test extends qtype_stack_testcase {
         $this->assertEquals($errors, array());
         $this->assertEquals($answernotes, array());
     }
+
+    public function test_not() {
+        $s = 'not false';
+        $ast = null;
+        $errors = array();
+        $answernotes = array();
+
+        $ast = maxima_corrective_parser::parse($s, $errors, $answernotes, array());
+        $this->assertEquals($s, $ast->toString(array('nosemicolon' => true)));
+        $expected = '([Root] ([PrefixOp: not ] ([Bool] false)))';
+        $this->assertEquals($expected, $ast->toString(array('flattree' => true)));
+        $this->assertEquals($errors, array());
+        $this->assertEquals($answernotes, array());
+
+        $s = 'not(false)';
+        $ast = null;
+        $errors = array();
+        $answernotes = array();
+
+        $ast = maxima_corrective_parser::parse($s, $errors, $answernotes, array());
+        //$this->assertEquals($s, $ast->toString(array('nosemicolon' => true)));
+        $expected = '([Root] ([PrefixOp: not ] ([Group] ([Bool] false))))';
+        $this->assertEquals($expected, $ast->toString(array('flattree' => true)));
+        $this->assertEquals($errors, array());
+        $this->assertEquals($answernotes, array());
+
+        $s = 'nounnot false';
+        $ast = null;
+        $errors = array();
+        $answernotes = array();
+
+        $ast = maxima_corrective_parser::parse($s, $errors, $answernotes, array());
+        $this->assertEquals($s, $ast->toString(array('nosemicolon' => true)));
+        $expected = '([Root] ([PrefixOp: nounnot ] ([Bool] false)))';
+        $this->assertEquals($expected, $ast->toString(array('flattree' => true)));
+        $this->assertEquals($errors, array());
+        $this->assertEquals($answernotes, array());
+
+        $s = 'nounnot(false)';
+        $ast = null;
+        $errors = array();
+        $answernotes = array();
+
+        $ast = maxima_corrective_parser::parse($s, $errors, $answernotes, array());
+        //$this->assertEquals($s, $ast->toString(array('nosemicolon' => true)));
+        $expected = '([Root] ([PrefixOp: nounnot ] ([Group] ([Bool] false))))';
+        $this->assertEquals($expected, $ast->toString(array('flattree' => true)));
+        $this->assertEquals($errors, array());
+        $this->assertEquals($answernotes, array());
+    }
 }

@@ -20,6 +20,14 @@ To compile the parser
 
 This should return `null null null` and create new parsers for STACK.
 
+## Adding rules to the parser
+
+Identical changes need to be made in both
+
+1. `stack/maximaparser/MP_classes.php`
+2. `stack/maximaparser/autogen/parser-grammar.pegjs`
+
+
 ## Naming parser rules
 
 We give each parser rule a name, numbered in the approximate appropriate order in which they need to be applied.

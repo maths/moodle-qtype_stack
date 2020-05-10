@@ -634,7 +634,11 @@ class MP_Boolean extends MP_Atom {
     public function toString($params = null): string {
 
         if ($params !== null && isset($params['flattree'])) {
-            return '([Bool] ' . $this->value . ')';
+            $value = 'false';
+            if ($this->value) {
+                $value = 'true';
+            }
+            return '([Bool] ' . $value . ')';
         }
 
         if ($params !== null && isset($params['pretty'])) {
@@ -1335,6 +1339,7 @@ class MP_PrefixOp extends MP_Node {
 
     public function toString($params = null): string {
         $indent = '';
+        $op = $this->op;
 
         // Apostophies are used to create general noun operators.
         // We need to omit them.
@@ -1346,30 +1351,56 @@ class MP_PrefixOp extends MP_Node {
             return '([PrefixOp: ' . $this->op . '] ' . $this->rhs->toString($params) . ')';
         }
 
+        if ($params !== null && isset($params['nounify'])) {
+            $feat = null;
+            if ($params['nounify'] === 0) {
+                $feat = stack_cas_security::get_feature($op, 'nounoperatorfor');
+            }
+            if ($params['nounify'] === 1) {
+                $feat = stack_cas_security::get_feature($op, 'nounoperator');
+            }
+            if ($params['nounify'] === 2) {
+                $feat = stack_cas_security::get_feature($op, 'logicnoun');
+            }
+            if ($feat !== null) {
+                $op = $feat;
+            }
+        }
+
+        if ($params !== null && isset($params['logicnoun'])) {
+            $feat = null;
+            if ($params['logicnoun'] === true) {
+                $feat = stack_cas_security::get_feature($op, 'logicnoun');
+            }
+            if ($feat !== null) {
+                $op = $feat;
+            }
+        }
+
         if ($params !== null && isset($params['pretty'])) {
             if (is_integer($params['pretty'])) {
                 $indent = str_pad($indent, $params['pretty']);
             }
             $params['pretty'] = 0;
-            if ($this->op === 'not ') {
+            if ($op === 'not ' || $op === 'nounnot ') {
                 if ($this->rhs instanceof MP_Group) {
-                    return $indent . 'not' . $this->rhs->toString($params);
+                    return $indent . trim($op) . $this->rhs->toString($params);
                 }
-                return $indent . $this->op . $this->rhs->toString($params
+                return $indent . $op . $this->rhs->toString($params
                 );
             }
-            return $indent . $this->op . $this->rhs->toString($params);
+            return $indent . $op . $this->rhs->toString($params);
         }
 
         if ($params !== null && isset($params['pmchar'])) {
-            if ($params['pmchar'] === 0 && ($this->op === '#pm#' || $this->op === '"#pm#"')) {
+            if ($params['pmchar'] === 0 && ($op === '#pm#' || $op === '"#pm#"')) {
                 return '+-' . $this->rhs->toString($params);
             }
-            if ($params['pmchar'] === 1 && $this->op === '+-') {
+            if ($params['pmchar'] === 1 && $op === '+-') {
                 return '#pm#' . $this->rhs->toString($params);
             }
         }
-        return $this->op . $this->rhs->toString($params);
+        return $op . $this->rhs->toString($params);
     }
 
     public function replace($node, $with) {
@@ -1998,12 +2029,22 @@ function opLBind($op) {
         case 'and':
         case 'nounand':
             return 65;
+        case 'nand':
+            return 62;
+        case 'nor':
+            return 65;
         case 'or':
         case 'nounor':
             return 60;
+        case 'implies':
+            return 59;
+        case 'xor':
+            return 58;
     }
     return 0;
 }
+
+
 
 function opRBind($op) {
     switch ($op) {
@@ -2036,6 +2077,7 @@ function opRBind($op) {
         case '<=':
             return 80;
         case 'not ':
+        case 'nounnot ':
             return 70;
     }
     return 0;

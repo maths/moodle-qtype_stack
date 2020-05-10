@@ -4754,7 +4754,13 @@
         "function": "f"
     },
     "not": {
-        "operator": "?"
+        "operator": "s",
+        "nounoperator": "nounnot",
+        "logicnoun": "nounnot"
+    },
+    "nounnot": {
+        "nounoperatorfor": "not",
+        "operator": "s"
     },
     "not ": {
         "operator": "s",
@@ -4762,6 +4768,7 @@
         "logicnoun": "nounnot "
     },
     "nounnot ": {
+        "operator": "s",
         "nounoperatorfor": "not ",
         "operator": "s"
     },

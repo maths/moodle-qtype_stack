@@ -2162,10 +2162,6 @@
     "epsilon_lp": {
         "variable": "?"
     },
-    "eq": {
-        "operator": "s",
-        "spacesurroundedop": true
-    },
     "equal": {
         "function": "s"
     },

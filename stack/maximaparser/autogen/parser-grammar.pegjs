@@ -83,7 +83,6 @@
     return 60;
    case 'implies':
     return 59;
-   case 'eq':
    case 'xor':
     return 58;
   }
@@ -608,7 +607,6 @@ InfixOp
   / "nand"
   / "nor"
   / "implies"
-  / "eq"
   / "xor"
   / "#"
   / "::="

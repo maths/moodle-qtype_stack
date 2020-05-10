@@ -16,7 +16,7 @@ The results respectively (of the second two) are
     true;
     false;
 
-Note, there is no mechanism in Maxima to represent a list of assignments such as `x=1 or x=2`, 
+Note, there is no mechanism in Maxima to represent a list of assignments such as `x=1 or x=2`,
 which would be a natural way to express the solution to a quadratic equation.
 
 To solve this problem STACK has introduced `nounand` and `nounor` which are commutative and associative operators.
@@ -40,7 +40,7 @@ To replace all `nounand` (etc) operators and replace them with the Maxima equiva
 4. `nand` is provided by the logic package, which respects the value of `simp`.
 5. `nor` is provided by the logic package, which respects the value of `simp`.
 6. `xor` is provided by the logic package, which respects the value of `simp`.
-7. `eq` is provided by the logic package, which respects the value of `simp`.
+7. `eq` is provided by the logic package, but is not supported in STACK.  Defining this as an infix operator causes too many conficts with existing notation.
 8. `implies` is provided by the logic package, which respects the value of `simp`.
 
 Notes
@@ -49,4 +49,3 @@ Notes
 * There is no existential operator (not that this is propositional logic, but for the record) or an interpretation of '?' as there exits, and there is no universal operator (which some people type in as `!`).
 
 The function `verb_logic(ex)` will remove the noun forms such as `nounand` and subsitute in the lisp versions, this will enable evaluation of expressions.  The function `noun_logic(ex)` will replace any remaining lisp but beware that any evaluation (even with `simp:false`) will evaluate lisp logical expressions.  It is best to use noun forms at the outset, e.g. in the question variables, and only use the lisp forms when calculating, e.g. to evaluate in the PRT.
-

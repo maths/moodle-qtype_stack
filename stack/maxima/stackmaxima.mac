@@ -128,8 +128,11 @@ stack_dispvalue(ex) := block(
 /* ********************************** */
 
 load("functs");
-load("logic");
 /* Not yet testsed: load("vect"); */
+
+/* Load the logic package, but remove the "eq" infix operator which conflicts with too many existing things. */
+load("logic");
+kill("eq");
 
 /* We don't want to allow people to put boxes round things. */
 box(ex) := ex;
@@ -207,7 +210,6 @@ make_logic(OPT_LOGIC) := block(
         texput("nor", "\\,{\\mbox{ !NOR! }}\\, ", nary),
         texput("xor", "\\,{\\mbox{ !XOR! }}\\, ", nary),
         texput("implies", "\\,{\\mbox{ !IMPLIES! }}\\, ", nary),
-        texput("eq", "\\,{\\mbox{ !EQ! }}\\, ", nary),
         texput("not", "{\\rm !NOT!}", prefix),
         texput("nounnot", "{\\rm !NOT!}", prefix)
     ),
@@ -220,7 +222,6 @@ make_logic(OPT_LOGIC) := block(
         texput("nor", "\\underline{\\lor}", nary),
         texput("xor", "\\oplus ", nary),
         texput("implies", "\\rightarrow ", nary),
-        texput("eq", "\\sim  ", nary),
         texput("not", "\\neg ", prefix),
         texput("nounnot", "\\neg ", prefix)
     ),
@@ -522,10 +523,10 @@ _EC(errcatched, reference) := if errcatched = []
 
 /* Shorthand for allowing even more to fit into the buffer. */
 /* Note that stackmap_set is not very performance optimised and
-   as the CS2 context newer redefines values we can just append. 
-   If we were to use the set functionality we meet trouble at around 
+   as the CS2 context newer redefines values we can just append.
+   If we were to use the set functionality we meet trouble at around
    250 keys. */
-/* Catch to %_tmp before placement to list to check if the value is 
+/* Catch to %_tmp before placement to list to check if the value is
    a list just in case there is an error of some sort, if it is not
    a list then that append would do bad things. */
 _CS2v(_k,_v) := block([%_tmp],
@@ -829,7 +830,7 @@ stack_validate(expr, LowestTerms, TAns) := block([simp:false, exs, SameType, fvs
     else (_RESET_NOTES(),_RESET_FEEDBACK()),
   /* Check for malformed real sets. */
   if realset_surface_p(expr) then block([ret],
-    ret:interval_validate_realset(expr), 
+    ret:interval_validate_realset(expr),
     if not(is(ret="")) then print(ret)
   ),
   /* Check to see if a variable is also a function name. */
@@ -866,7 +867,7 @@ stack_validate_typeless(expr, LowestTerms, Equiv, fltfmt) := block([simp:false, 
   expr: first(expr),
   /* Check for malformed real sets. */
   if realset_surface_p(expr) then block([ret],
-    ret:interval_validate_realset(expr), 
+    ret:interval_validate_realset(expr),
     if not(is(ret="")) then print(ret)
   ),
   /* Check to see if a variable is also a function name. */

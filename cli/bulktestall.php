@@ -65,6 +65,15 @@ foreach ($bulktester->get_stack_questions_by_context() as $contextid => $numstac
     echo "\n\n# " . $contextid . ": " . stack_string('bulktesttitle', $testcontext->get_context_name());
 
     list($passed, $failing) = $bulktester->run_all_tests_for_context($testcontext, 'cli');
+
+    echo "\n";
+    if ($allpassed) {
+        echo "** " . stack_string('stackInstall_testsuite_pass');
+    } else {
+        echo "** " . stack_string('stackInstall_testsuite_fail');
+    }
+    echo "\n";
+
     $allpassed = $allpassed && $passed;
     echo "\n";
     foreach ($failing as $key => $arrvals) {

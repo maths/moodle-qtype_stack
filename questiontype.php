@@ -588,7 +588,7 @@ class qtype_stack extends question_type {
         // Directly link to tidy question script.
         if (question_has_capability_on($question, 'view')) {
             $actions[] = new \action_menu_link_secondary(
-                    new moodle_url('/question/type/stack/tidyquestiont.php', $linkparams),
+                    new moodle_url('/question/type/stack/tidyquestion.php', $linkparams),
                     new \pix_icon('t/edit', ''),
                     get_string('tidyquestion', 'qtype_stack'));
         }

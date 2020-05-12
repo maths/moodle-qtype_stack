@@ -131,8 +131,8 @@ load("functs");
 /* Not yet testsed: load("vect"); */
 
 /* Load the logic package, but remove the "eq" infix operator which conflicts with too many existing things. */
-load("logic");
-kill("eq");
+/* We've edited the logic package which over writes the eq operator as xnor.                                 */
+load("stack_logic.lisp");
 
 /* We don't want to allow people to put boxes round things. */
 box(ex) := ex;
@@ -209,6 +209,7 @@ make_logic(OPT_LOGIC) := block(
         texput("nand", "\\,{\\mbox{ !NAND! }}\\, ", nary),
         texput("nor", "\\,{\\mbox{ !NOR! }}\\, ", nary),
         texput("xor", "\\,{\\mbox{ !XOR! }}\\, ", nary),
+        texput("xnor", "\\,{\\mbox{ !XNOR! }}\\, ", nary),
         texput("implies", "\\,{\\mbox{ !IMPLIES! }}\\, ", nary),
         texput("not", "{\\rm !NOT!}", prefix),
         texput("nounnot", "{\\rm !NOT!}", prefix)
@@ -221,6 +222,7 @@ make_logic(OPT_LOGIC) := block(
         texput("nand", "\\overline{\\land}", nary),
         texput("nor", "\\underline{\\lor}", nary),
         texput("xor", "\\oplus ", nary),
+        texput("xnor", "\\leftrightarrow ", nary),
         texput("implies", "\\rightarrow ", nary),
         texput("not", "\\neg ", prefix),
         texput("nounnot", "\\neg ", prefix)

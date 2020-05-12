@@ -957,6 +957,7 @@ $string['equiv_NOT']                     = 'not';
 $string['equiv_NAND']                    = 'nand';
 $string['equiv_NOR']                     = 'nor';
 $string['equiv_XOR']                     = 'xor';
+$string['equiv_XNOR']                    = 'xnor';
 $string['equiv_IMPLIES']                 = 'implies';
 
 $string['studentValidation_yourLastAnswer']     = 'Your last answer was interpreted as follows: {$a}';

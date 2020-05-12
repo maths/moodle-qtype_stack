@@ -40,7 +40,7 @@ To replace all `nounand` (etc) operators and replace them with the Maxima equiva
 4. `nand` is provided by the logic package, which respects the value of `simp`.
 5. `nor` is provided by the logic package, which respects the value of `simp`.
 6. `xor` is provided by the logic package, which respects the value of `simp`.
-7. `eq` is provided by the logic package, but is not supported in STACK.  Defining this as an infix operator causes too many conficts with existing notation.
+7. `eq` is provided by the logic package, but this input syntax is not supported in STACK.  Instead we provide an `xnor` function.
 8. `implies` is provided by the logic package, which respects the value of `simp`.
 
 Notes
@@ -57,4 +57,3 @@ The answer tests protect the logical operators.  This behaviour is to prevent ev
 The answer test `PropLogic` replaces all noun logical expressions with the Maxima versions, and then tests two expressions using the function `logic_equiv` from Maxima's logic package.  This answer test does not support sets, lists, etc.
 
 The value of the student's answer will always have `nounand` etc. inserted.  Before you manipulate the student's answer, e.g. with the logic package functions, you will need to apply `noun_logic_remove(ex)`.
-

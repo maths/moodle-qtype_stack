@@ -196,7 +196,7 @@ is_simp(ex) := ev(is(ex), simp)$
 /* An expression sequence is displayed without square brackets. */
 texsequence (e) := simplode(maplist(tex1,args(e)), ", ")$
 texput(sequence, texsequence)$
- 
+
 /* Convenience functions creating sequences. */
 sequenceify(ex):= apply(sequence, args(ex))$
 sequencep(ex):= if safe_op(ex)="sequence" then true else false$
@@ -204,7 +204,7 @@ sequencep(ex):= if safe_op(ex)="sequence" then true else false$
 /* An "ntuple" is displayed with round brackets. */
 texntuple(e) := concat("\\left(", simplode(maplist(tex1,args(e)), ", "), "\\right)")$
 texput(ntuple, texntuple)$
- 
+
 ntupleify(ex):= apply(ntuple, args(ex))$
 ntuplep(ex):= if safe_op(ex)="ntuple" then true else false$
 
@@ -391,7 +391,7 @@ scientific_notationp(ex) := block([tn],
   if not(safe_op(ex)="*") then return(false),
   if not(length(args(ex))=2) then return(false),
   tn:first(args(ex)),
-  if safe_op(tn)="-" then tn:first(args(tn)), 
+  if safe_op(tn)="-" then tn:first(args(tn)),
   if not(integerp(tn) or floatnump(tn)) then return(false),
   tn:second(args(ex)),
   /* Special edge case: 3*10 = 3*10^1. */
@@ -400,7 +400,7 @@ scientific_notationp(ex) := block([tn],
   if not(first(args(tn))=10) then return(false),
   /* Of course, unary minus bites us here. */
   tn:second(args(tn)),
-  if safe_op(tn)="-" then tn:first(args(tn)), 
+  if safe_op(tn)="-" then tn:first(args(tn)),
   if integerp(tn) then return(true),
   return(false)
 )$
@@ -736,7 +736,7 @@ algebraic_equivalence(SA, SB) :=
     /* Try to return a negative result without expanding anything! */
     if safe_op(ex)="-" then
        ex:first(args(ex)),
-    if (safe_op(ex)="*" or safe_op(ex)="^") then 
+    if (safe_op(ex)="*" or safe_op(ex)="^") then
        if not(any_listp(algebraic_equivalence_zero, args(ex))) then return(false),
     ex:errcatch(ratsimp(ex)),
     if ex=[] then error("algebraic_equivalence: evaluating the difference of two expressions threw an error."),
@@ -1085,6 +1085,7 @@ logicp(ex) := block(
   if safe_op(ex) = "nor" then return(true),
   if safe_op(ex) = "nand" then return(true),
   if safe_op(ex) = "xor" then return(true),
+  if safe_op(ex) = "xnor" then return(true),
   if safe_op(ex) = "implies" then return(true),
   if op_usedp(ex, STACKpmOPT) then return(true),
   return(false)
@@ -1308,7 +1309,7 @@ expandp(expandparg):= block([simp:true], if expandparg=ev(expand(expandparg),exp
 
 /* factorp(p) is true if p equals its factored form */
 factorp(argfac) := block([a],
-    if safe_op(argfac)="-" then 
+    if safe_op(argfac)="-" then
        argfac:part(argfac,1),
     if ev(argfac=factor(argfac), simp) then
         return(true),
@@ -2151,7 +2152,7 @@ stack_eval_arg_solver(ex) := block([ex2, ex3, errc],
 
       if ev(is(equal(length(listofvars(ex)), 1)), simp) then
           return(ev(single_variable_solver_real(ex), simp)),
-      
+
       if safe_op(ex) = "%or" or safe_op(ex) = "nounor" or safe_op(ex) = "or" then
           return(ev(logical_normal(apply("%or", maplist(stack_eval_arg_solver, ex))), simp)),
 

@@ -8038,6 +8038,10 @@
         "operator": "s",
         "spacesurroundedop": true
     },
+    "xnor": {
+        "operator": "s",
+        "spacesurroundedop": true
+    },
     "xrange": {
         "variable": "f"
     },

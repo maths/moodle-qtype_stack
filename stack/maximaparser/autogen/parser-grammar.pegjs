@@ -84,6 +84,7 @@
    case 'implies':
     return 59;
    case 'xor':
+   case 'xnor':
     return 58;
   }
   return 0;
@@ -608,6 +609,7 @@ InfixOp
   / "nor"
   / "implies"
   / "xor"
+  / "xnor"
   / "#"
   / "::="
   / ":="

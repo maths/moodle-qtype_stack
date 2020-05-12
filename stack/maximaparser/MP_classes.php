@@ -2038,6 +2038,7 @@ function opLBind($op) {
         case 'implies':
             return 59;
         case 'xor':
+        case 'xnor':
             return 58;
     }
     return 0;

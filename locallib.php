@@ -79,6 +79,7 @@ function get_stack_maxima_latex_replacements() {
                 '!NAND!' => stack_string('equiv_NAND'),
                 '!NOR!' => stack_string('equiv_NOR'),
                 '!XOR!' => stack_string('equiv_XOR'),
+                '!XNOR!' => stack_string('equiv_XNOR'),
                 '!IMPLIES!' => stack_string('equiv_IMPLIES'),
         ];
     }

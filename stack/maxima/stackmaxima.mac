@@ -3128,6 +3128,55 @@ assess(ex1,ex2):=block([ret],
     return("")
 )$
 
+/* ****************************************************** */
+/*                                                        */
+/*  Tables                                                */
+/*                                                        */
+/* ****************************************************** */
+
+/* A function to create a truth table of an expression ex. */
+truth_table(ex) := block([exs, vars, tab, tt],
+    vars: ev(sort(listofvars(ex)),simp),
+    if length(vars) > 5 then error("truth_table will only print with fewer than 6 variables."),
+    /* Store this variable to prevent 2^n re-evaluations of this function. */
+    exs: noun_logic_remove(ex),
+    tab: maplist(lambda([ex2], zip_with("=", vars, ex2)), truth_table_allvars(vars)),
+    tab: maplist(lambda([ex2], append(maplist(rhs, ex2), [ev(logic_simp(exs), ex2)])), tab),
+    tab: append([append(vars, [ex])], tab),
+    apply(table, tab)
+)$
+
+truth_table_allvars(l) := block(
+   if emptyp(l) then return([[]]),
+   return(append( maplist(lambda([ex], append([false], ex)), truth_table_allvars(rest(l))),
+           maplist(lambda([ex], append([true], ex)), truth_table_allvars(rest(l)))))
+)$
+
+/* This variable controls whether boolean true/false are abbreviated to T/F respectivley when printing tables. */
+table_bool_abbreviate:true$
+table_bool_abbreviate_fn(ex):= block(
+    if safe_op(ex) = "texcolor" then return(sconcat("\\color{", first(args(ex)), "}{\\underline{", table_bool_abbreviate_fn(second(args(ex))), "}}")),
+    if table_bool_abbreviate=true then 
+        return(if ex=true then "\\mathbf{T} " else if ex=false then "\\mathbf{F} " else stack_disp(ex, ""))
+    else stack_disp(ex, "")
+)$
+
+table_tex(ex):= block([ret, astart],
+    /* Make a header. */
+    astart: ev(makelist("c", k, length(first(ex))), simp),
+    astart: sconcat("\\begin{array}{", simplode(astart, "|"), "} "),
+    ret: matrixmap(table_bool_abbreviate_fn, apply(matrix, args(ex))),
+    ret: maplist(lambda([ex2], simplode(ex2, " & ")), args(ret)),
+    rest:sconcat(astart, first(ret), "\\\\ \\hline ", simplode(rest(ret), " \\\\ "), "\\end{array} ")
+)$
+texput(table, table_tex)$
+
+table_zip_with(fn, T1, T2) := block(
+  apply(table, zip_with(lambda([ex1,ex2], zip_with(fn,ex1,ex2)), args(T1), args(T2)))
+)$
+
+table_difference(T1, T2) := table_zip_with(lambda([ex1,ex2], if ex1=ex2 then ex1 else texcolor("red", ex1)), T1, T2)$
+
 /* Slight hack to compile these functions and hence suppress warnings. */
 load(linearalgebra);
 

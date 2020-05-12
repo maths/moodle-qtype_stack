@@ -227,6 +227,11 @@
         "description":"You can generate detailed reports for quizzes using STACK to assess how successful they are."
         },
         {
+        "file":"Tables.md",
+        "title":"Tables - STACK Documentation",
+        "description":"Functions for typesetting mathematical tables, such a truth tables."
+        },
+        {
         "file":"Testing.md",
         "title":"Testing - STACK Documentation",
         "description":"Information on testing a STACK question."

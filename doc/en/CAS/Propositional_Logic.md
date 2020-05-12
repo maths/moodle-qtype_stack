@@ -57,3 +57,9 @@ The answer tests protect the logical operators.  This behaviour is to prevent ev
 The answer test `PropLogic` replaces all noun logical expressions with the Maxima versions, and then tests two expressions using the function `logic_equiv` from Maxima's logic package.  This answer test does not support sets, lists, etc.
 
 The value of the student's answer will always have `nounand` etc. inserted.  Before you manipulate the student's answer, e.g. with the logic package functions, you will need to apply `noun_logic_remove(ex)`.
+
+## Truth tables
+
+STACK provides various functions for creating and dealing with [tables](../Authoring/Tables.md).
+
+`truth_table(ex)` returns the true table of the expression `ex`.  The function will throw an error if the number of variables exceeds 5.  The first row of the table is the headings, consisting of a list of variables, and the expression itself.  See the documentation on [tables](../Authoring/Tables.md) for more functionality.

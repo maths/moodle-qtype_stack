@@ -61,18 +61,24 @@ matrix:
       env: TASK=CODEKNOWNFAILS MOODLE_BRANCH=MOODLE_37_STABLE   DB=mysqli
 
   allow_failures:
+    # Behat currently broken with a spurious error. See https://github.com/maths/moodle-qtype_stack/issues/580
+    # For now prevent this from failing the build.
+    - php: 7.2
+      env: TASK=BEHAT          MOODLE_BRANCH=MOODLE_37_STABLE   DB=pgsql
+
     # This relates to the bit right at the end, where we run some of the coding style checks in this group.
     # We don't care if these checks fail, but we want to be able to see the results.
     - php: 7.3
       env: TASK=CODEKNOWNFAILS MOODLE_BRANCH=MOODLE_37_STABLE   DB=mysqli
 
 before_install:
-  - phpenv config-rm xdebug.ini
-  - nvm install 8.9
-  - nvm use 8.9
-  - cd ../..
-  - composer create-project -n --no-dev --prefer-dist blackboard-open-source/moodle-plugin-ci ci ^2
-  - export PATH="$(cd ci/bin; pwd):$(cd ci/vendor/bin; pwd):$PATH"
+    - phpenv config-rm xdebug.ini
+    - nvm install 14.2.0
+    - nvm use 14.2.0
+    - cd ../..
+    - composer create-project -n --no-dev --prefer-dist blackboard-open-source/moodle-plugin-ci ci ^2
+    - export PATH="$(cd ci/bin; pwd):$(cd ci/vendor/bin; pwd):$PATH"
+    - PATH=$(echo "$PATH" | sed -e 's/:\/usr\/local\/lib\/jvm\/openjdk11\/bin//') JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-amd64
 
 install:
   - moodle-plugin-ci add-plugin maths/moodle-qbehaviour_dfexplicitvaildate
@@ -90,7 +96,6 @@ install:
   - cp /home/travis/build/moodledata/phpu_moodledata/stack/maxima_opt_auto /home/travis/build/maxima_opt_auto
 
   # Output some diagnostic about how the install went.
-  # Travis seems to be using Maxima version 5.32.1, lisp gcl, which is very old!
   - maxima --list-avail
   - cat ./moodle/config.php
   - echo 'ATAlgEquiv(x^2-1,(x-1)*(x+1));quit();' | timeout --kill-after=10s 10s /home/travis/build/maxima_opt_auto -eval '(cl-user::run)'

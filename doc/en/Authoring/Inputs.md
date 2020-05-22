@@ -111,7 +111,7 @@ This input type can be used for
 1. surveys;
 2. answers which are not automatically marked, contributing to [semi-automatic marking](Semi-automatic_Marking.md).
 
-The notes input has a special extra option 'manualgraded', and the default option value is 'manualgraded:false'.  If you specify 'manualgraded:true' in the notes input then the _whole STACK quesion_ will require manual grading!
+The notes input has a special extra option `manualgraded`, and the default option value is `manualgraded:false`.  If you specify `manualgraded:true` then the _whole STACK quesion_ will require manual grading!
 
 #### Single Character ####
 

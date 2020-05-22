@@ -13,6 +13,6 @@ STACK provides the "notes" [input type](Inputs.md).  There are some advantages t
 
 ## Manual grading.
 
-The notes input has a special extra option 'manualgraded', and the default option value is 'manualgraded:false'.  If you specify 'manualgraded:true' then the _whole STACK quesion_ will require manual grading!
+The notes input has a special extra option `manualgraded`, and the default option value is `manualgraded:false`.  If you specify `manualgraded:true` then the _whole STACK quesion_ will require manual grading!
 
 There really is no way to mix automatic and manually graded parts of a question. Therefore, if you want automatic and manual marking you must have separate questions.

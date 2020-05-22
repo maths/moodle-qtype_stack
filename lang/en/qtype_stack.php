@@ -964,7 +964,7 @@ $string['studentValidation_yourLastAnswer']     = 'Your last answer was interpre
 $string['studentValidation_listofvariables']    = 'The variables found in your answer were: {$a}';
 $string['studentValidation_listofunits']        = 'The units found in your answer were: {$a}';
 $string['studentValidation_invalidAnswer']      = 'This answer is invalid. ';
-$string['studentValidation_notes']              = 'This input is not assessed automatically by STACK.  You can use it to record working, or comments for the teacher.';
+$string['studentValidation_notes']              = '(This input is not assessed automatically by STACK.)';
 $string['stackQuestion_noQuestionParts']        = 'This item has no question parts for you to answer.';
 
 $string['Interval_notinterval']                 = 'An interval was expected, but instead we have {$a->m0}.';

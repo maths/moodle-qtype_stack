@@ -122,6 +122,11 @@
         "description":"Sample questions for the STACK question type."
         },
         {
+        "file":"Semi-automatic_Marking.md",
+        "title":"Semi-automatic Marking",
+        "description":"Practical advice for combining STACK automatic marking with human-marked items."
+        },
+        {
         "file":"Answer_tests.md",
         "title":"Answer Tests - STACK Documentation",
         "description":"Information about the different answer tests supported in the STACK online assessment system."

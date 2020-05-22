@@ -12,6 +12,7 @@ Done
 * Document and support for simple manipulation of [real intervals](../CAS/Real_Intervals.md) which Maxima does not have a library for.
 * Document and support for simple manipulation of [propositional logic](../CAS/Propositional_Logic.md) based on Maxima's logic package.
 * Document and support for simple manipulation of [tables](../Authoring/Tables.md) mainly to support easy display of truth tables in logic..
+* Better support for [semi-automatic marking](../Authoring/Semi-automatic_Marking.md).
 
 ## Maxima side PRTs.
 

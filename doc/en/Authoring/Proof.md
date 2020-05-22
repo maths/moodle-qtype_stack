@@ -2,6 +2,8 @@
 
 In STACK the basic assumption is that a student's answer will be a mathematical expression, e.g. a polynomial or an equation.  The facilities for assessing a student's free-form proof is limited.
 
+Colleagues assessing proof might also consider [semi-automatic marking](Semi-automatic_Marking.md).
+
 ## Styles
 
 From STACK 4.3 we support the following CSS styles to enable consistent display of mathematical proof, and arguments in general.

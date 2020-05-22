@@ -27,6 +27,10 @@ require_once(__DIR__ . '/../../utils.class.php');
  */
 class stack_notes_input extends stack_input {
 
+    protected $extraoptions = array(
+        'manualgraded' => false,
+    );
+
     public function render(stack_input_state $state, $fieldname, $readonly, $tavalue) {
 
         if ($this->errors) {
@@ -62,13 +66,6 @@ class stack_notes_input extends stack_input {
 
         return html_writer::tag('textarea', htmlspecialchars($current), $attributes) .
             html_writer::tag('div', "", array('class' => 'clearfix'));
-    }
-
-    /*
-     * The notes class is ignored by Maxima and hence is never validated.
-     */
-    public function requires_validation() {
-        return false;
     }
 
     /**
@@ -115,6 +112,7 @@ class stack_notes_input extends stack_input {
     public static function get_parameters_defaults() {
         return array(
             'mustVerify'     => false,
+            'showValidation' => 1,
             'boxWidth'       => 50,
             'strictSyntax'   => false,
             'insertStars'    => 0,
@@ -168,11 +166,24 @@ class stack_notes_input extends stack_input {
      * @return string HTML for the validation results for this input.
      */
     public function render_validation(stack_input_state $state, $fieldname) {
+
         if (self::BLANK == $state->status) {
             return '';
         }
+        if ($this->get_extra_option('allowempty') && $this->is_blank_response($state->contents)) {
+            return '';
+        }
+        if ($this->get_parameter('showValidation', 1) == 0) {
+            return '';
+        }
 
-        return html_writer::tag('p', stack_string('studentValidation_notes'));
+        $contents = $state->contents;
+        $render = '';
+        if (array_key_exists(0, $contents)) {
+            $render .= html_writer::tag('p', $contents[0]);
+        }
+        $render .= html_writer::tag('p', stack_string('studentValidation_notes'), array('class' => 'stackinputnotice'));
+        return format_text(stack_maths::process_display_castext($render));
     }
 
     public function summarise_response($name, $state, $response) {

@@ -104,8 +104,14 @@ Note that there is no way whatsoever to parse the student's string into a Maxima
 
 #### Notes input ####
 
-This input is a text area into which students may type whatever they choose.  It can be used to gather their notes or "working".  However, this input always returns a Boolean `true` value to the CAS, so that the contents are never assessed. 
-Note that any potential response tree which relies on this input will never get evaluated!
+This input is a text area into which students may type whatever they choose.  It can be used to gather their notes or "working".  However, this input is always considered as "invalid", so that any potential response tree which relies on this input will never get evaluated!
+
+This input type can be used for
+
+1. surveys;
+2. answers which are not automatically marked, contributing to [semi-automatic marking](Semi-automatic_Marking.md).
+
+The notes input has a special extra option 'manualgraded', and the default option value is 'manualgraded:false'.  If you specify 'manualgraded:true' in the notes input then the _whole STACK quesion_ will require manual grading!
 
 #### Single Character ####
 

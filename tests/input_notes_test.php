@@ -38,4 +38,31 @@ class stack_notes_input_test extends qtype_stack_testcase {
                         'ans1', false, null));
     }
 
+    public function test_validate_student_response_1() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('notes', 'sans1', 'true');
+        $ans1 = 'This input gives an instant rendering of LaTeX e.g. \[ \sum_{n=1}^\infty \frac{1}{n^2}=\frac{\pi^2}{6}.\]';
+        $state = $el->validate_student_response(array('sans1' => $ans1), $options, 'true', new stack_cas_security());
+        $this->assertEquals(stack_input::INVALID, $state->status);
+        $this->assertEquals('', $state->note);
+        $this->assertEquals('', $state->contentsmodified);
+
+        $el->set_parameter('showValidation', 0);
+        $vr = '<div class="stackinputfeedback standard empty" id="sans1_val"></div>';
+        $this->assertEquals($vr, $el->replace_validation_tags($state, 'sans1', '[[validation:sans1]]'));
+
+        $el->set_parameter('showValidation', 1);
+        $vr = '<div class="stackinputfeedback standard" id="sans1_val"><span class="filter_mathjaxloader_equation">' .
+                '<div class="text_to_html"><p>This input gives an instant rendering of LaTeX e.g. ' .
+                '<span class="nolink">\[ \sum_{n=1}^\infty \frac{1}{n^2}=\frac{\pi^2}{6}.\]</span></p>' .
+                '<p class="stackinputnotice">(This input is not assessed automatically by STACK.)</p></div></span></div>';
+        $this->assertEquals($vr, $el->replace_validation_tags($state, 'sans1', '[[validation:sans1]]'));
+
+        $el->set_parameter('showValidation', 2);
+        $vr = '<div class="stackinputfeedback standard" id="sans1_val"><span class="filter_mathjaxloader_equation">' .
+                '<div class="text_to_html"><p>This input gives an instant rendering of LaTeX e.g. ' .
+                '<span class="nolink">\[ \sum_{n=1}^\infty \frac{1}{n^2}=\frac{\pi^2}{6}.\]</span></p>' .
+                '<p class="stackinputnotice">(This input is not assessed automatically by STACK.)</p></div></span></div>';
+        $this->assertEquals($vr, $el->replace_validation_tags($state, 'sans1', '[[validation:sans1]]'));
+    }
 }

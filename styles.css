@@ -34,6 +34,10 @@
     padding: 0.2em 0.2em 0.2em;
     margin: 3px 3px 3px;
 }
+.que.stack .stackinputnotice {
+    font-size: x-small;
+    color: #888;
+}
 .que.stack .stackinputfeedback.empty {
     display: none;
 }

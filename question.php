@@ -251,6 +251,14 @@ class qtype_stack_question extends question_graded_automatically_with_countback
             return question_engine::make_behaviour('manualgraded', $qa, $preferredbehaviour);
         }
 
+        if (!empty($this->inputs)) {
+            foreach ($this->inputs as $input) {
+                if ($input->get_extra_option('manualgraded')) {
+                    return question_engine::make_behaviour('manualgraded', $qa, $preferredbehaviour);
+                }
+            }
+        }
+
         if ($preferredbehaviour == 'adaptive' || $preferredbehaviour == 'adaptivenopenalty') {
             return question_engine::make_behaviour('adaptivemultipart', $qa, $preferredbehaviour);
         }

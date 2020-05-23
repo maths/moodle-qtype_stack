@@ -378,7 +378,7 @@ define([
      * @param {String} idPrefix input id, which is the start of the id of all the different text boxes.
      * @param {HTMLElement} container <div> of this input.
      */
-    var StackMatrixInput = function(idPrefix, container) {
+    function StackMatrixInput(idPrefix, container) {
         var numcol = 0;
         var numrow = 0;
         container.querySelectorAll('input[type=text]').forEach(function(element) {
@@ -395,7 +395,7 @@ define([
          *
          * @param {Function} valueChanging the callback to call when we detect a value change.
          */
-        StackMatrixInput.prototype.addEventHandlers = function(valueChanging) {
+        this.addEventHandlers = function(valueChanging) {
             container.addEventListener('input', valueChanging);
         };
 
@@ -404,12 +404,12 @@ define([
          *
          * @return {String}.
          */
-        StackMatrixInput.prototype.getValue = function() {
+        this.getValue = function() {
             var values = new Array(numrow);
             for (var i = 0; i < numrow; i++) {
                 values[i] = new Array(numcol);
             }
-            container.querySelectorAll('input[type=text]').forEach(function(element) {
+	     container.querySelectorAll('input[type=text]').forEach(function(element) {
                 if (element.name.slice(0, idPrefix.length + 5) !== idPrefix + '_sub_') {
                     return;
                 }

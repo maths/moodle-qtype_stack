@@ -250,17 +250,28 @@ class stack_matrix_input extends stack_input {
             $attr .= ' readonly="readonly"';
         }
 
+        // Read matrix bracket style from options.
+        $matrixbrackets = 'matrixroundbrackets';
+        $matrixparens = $this->options->get_option('matrixparens');
+        if ($matrixparens == '[') {
+            $matrixbrackets = 'matrixsquarebrackets';
+        } elseif ($matrixparens == '|') {
+            $matrixbrackets = 'matrixbarbrackets';
+        } elseif ($matrixparens == '') {
+            $matrixbrackets = 'matrixnobrackets';
+        }
         // Build the html table to contain these values.
-        $xhtml = '<table class="matrixtable" id="' . $fieldname . '_container" style="display:inline; vertical-align: middle;" ' .
-                'border="0" cellpadding="1" cellspacing="0"><tbody>';
+        $xhtml = '<div class="' . $matrixbrackets . '"><table class="matrixtable" id="' . $fieldname .
+                '_container" style="display:inline; vertical-align: middle;" ' .
+                'cellpadding="1" cellspacing="0"><tbody>';
         for ($i = 0; $i < $this->height; $i++) {
             $xhtml .= '<tr>';
             if ($i == 0) {
-                $xhtml .= '<td style="border-width: 2px 0px 0px 2px; padding-top: 0.5em">&nbsp;</td>';
+                $xhtml .= '<td style="padding-top: 0.5em">&nbsp;</td>';
             } else if ($i == ($this->height - 1)) {
-                $xhtml .= '<td style="border-width: 0px 0px 2px 2px;">&nbsp;</td>';
+                $xhtml .= '<td>&nbsp;</td>';
             } else {
-                $xhtml .= '<td style="border-width: 0px 0px 0px 2px;">&nbsp;</td>';
+                $xhtml .= '<td>&nbsp;</td>';
             }
 
             for ($j = 0; $j < $this->width; $j++) {
@@ -277,15 +288,15 @@ class stack_matrix_input extends stack_input {
             }
 
             if ($i == 0) {
-                $xhtml .= '<td style="border-width: 2px 2px 0px 0px; padding-top: 0.5em">&nbsp;</td>';
+                $xhtml .= '<td style="padding-top: 0.5em">&nbsp;</td>';
             } else if ($i == ($this->height - 1)) {
-                $xhtml .= '<td style="border-width: 0px 2px 2px 0px; padding-bottom: 0.5em">&nbsp;</td>';
+                $xhtml .= '<td style="padding-bottom: 0.5em">&nbsp;</td>';
             } else {
-                $xhtml .= '<td style="border-width: 0px 2px 0px 0px;">&nbsp;</td>';
+                $xhtml .= '<td>&nbsp;</td>';
             }
             $xhtml .= '</tr>';
         }
-        $xhtml .= '</tbody></table>';
+        $xhtml .= '</tbody></table></div>';
 
         return $xhtml;
     }

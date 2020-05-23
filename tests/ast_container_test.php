@@ -883,4 +883,29 @@ class stack_astcontainer_test extends qtype_stack_testcase {
         $this->assertEquals($err, $at1->get_errors());
         $this->assertEquals('', $at1->get_answernote());
     }
+
+    public function test_input_varmatix() {
+        $s = 'matrix([a,b],[c,d])';
+        $at1 = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security());
+        $expected = '([FunctionCall: ([Id] matrix)] ([List] ([Id] a), ([Id] b)),([List] ([Id] c), ([Id] d)))';
+        $this->assertEquals($expected, $at1->ast_to_string(null, array('flattree' => true)));
+        $this->assertTrue($at1->get_valid());
+        $this->assertEquals("a b\nc d", $at1->ast_to_string(null, array('varmatrix' => true)));
+
+        $s = 'matrix([{1,2},[a,b]])';
+        $at1 = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security());
+        $expected = '([FunctionCall: ([Id] matrix)] ([List] ([Set] ([Int] 1), ([Int] 2)), ([List] ([Id] a), ([Id] b))))';
+        $this->assertEquals($expected, $at1->ast_to_string(null, array('flattree' => true)));
+        $this->assertTrue($at1->get_valid());
+        $this->assertEquals("{1,2} [a,b]", $at1->ast_to_string(null, array('varmatrix' => true)));
+
+        // This is a crazy example because the rows are different lengths.  So what?
+        $s = 'matrix([matrix([a,b])],[a,b])';
+        $at1 = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security());
+        $expected = '([FunctionCall: ([Id] matrix)] ([List] ([FunctionCall: ([Id] matrix)] ' .
+                '([List] ([Id] a), ([Id] b)))),([List] ([Id] a), ([Id] b)))';
+        $this->assertEquals($expected, $at1->ast_to_string(null, array('flattree' => true)));
+        $this->assertTrue($at1->get_valid());
+        $this->assertEquals("matrix([a,b])\na b", $at1->ast_to_string(null, array('varmatrix' => true)));
+    }
 }

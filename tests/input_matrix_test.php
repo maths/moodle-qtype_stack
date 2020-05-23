@@ -30,20 +30,20 @@ require_once(__DIR__ . '/../stack/input/factory.class.php');
 class stack_matrix_input_test extends qtype_stack_testcase {
 
     public function test_render_blank() {
-        $el = stack_input_factory::make('matrix', 'ans1', 'M');
+        $options = new stack_options();
+        $el = stack_input_factory::make('matrix', 'ans1', 'M', $options);
         $el->adapt_to_model_answer('matrix([1,2,3],[3,4,5])');
-        $this->assertEquals('<table class="matrixtable" id="ans1_container" ' .
-                'style="display:inline; vertical-align: middle;" border="0" cellpadding="1" cellspacing="0">' .
-                '<tbody><tr><td style="border-width: 2px 0px 0px 2px; padding-top: 0.5em">&nbsp;</td>' .
+        $this->assertEquals('<div class="matrixsquarebrackets"><table class="matrixtable" id="ans1_container" ' .
+                'style="display:inline; vertical-align: middle;" cellpadding="1" cellspacing="0"><tbody>' .
+                '<tr><td style="padding-top: 0.5em">&nbsp;</td>' .
                 '<td><input type="text" name="ans1_sub_0_0" value="" size="5" autocapitalize="none" spellcheck="false"></td>' .
                 '<td><input type="text" name="ans1_sub_0_1" value="" size="5" autocapitalize="none" spellcheck="false"></td>' .
                 '<td><input type="text" name="ans1_sub_0_2" value="" size="5" autocapitalize="none" spellcheck="false"></td>' .
-                '<td style="border-width: 2px 2px 0px 0px; padding-top: 0.5em">&nbsp;</td></tr>' .
-                '<tr><td style="border-width: 0px 0px 2px 2px;">&nbsp;</td>' .
+                '<td style="padding-top: 0.5em">&nbsp;</td></tr><tr><td>&nbsp;</td>' .
                 '<td><input type="text" name="ans1_sub_1_0" value="" size="5" autocapitalize="none" spellcheck="false"></td>' .
                 '<td><input type="text" name="ans1_sub_1_1" value="" size="5" autocapitalize="none" spellcheck="false"></td>' .
                 '<td><input type="text" name="ans1_sub_1_2" value="" size="5" autocapitalize="none" spellcheck="false"></td>' .
-                '<td style="border-width: 0px 2px 2px 0px; padding-bottom: 0.5em">&nbsp;</td></tr></tbody></table>',
+                '<td style="padding-bottom: 0.5em">&nbsp;</td></tr></tbody></table></div>',
                 $el->render(new stack_input_state(stack_input::BLANK, array(), '', '', '', '', ''),
                         'ans1', false, null));
     }
@@ -51,7 +51,8 @@ class stack_matrix_input_test extends qtype_stack_testcase {
     public function test_render_no_errors_if_garbled() {
         // If the teacher does not know the right syntax for a matrix, we should
         // not give PHP errors.
-        $el = stack_input_factory::make('matrix', 'ans1', 'M');
+        $options = new stack_options();
+        $el = stack_input_factory::make('matrix', 'ans1', 'M', $options);
         $el->adapt_to_model_answer('[[1,0],[0,1]]');
 
         $versionused = get_config('qtype_stack', 'maximaversion');
@@ -68,43 +69,43 @@ class stack_matrix_input_test extends qtype_stack_testcase {
     }
 
     public function test_render_syntax_hint() {
-        $el = stack_input_factory::make('matrix', 'ans1', 'M');
+        $options = new stack_options();
+        $el = stack_input_factory::make('matrix', 'ans1', 'M', $options);
         $el->set_parameter('syntaxHint', 'matrix([a,b],[?,d])');
         $el->adapt_to_model_answer('matrix([1,0],[0,1])');
-        $this->assertEquals('<table class="matrixtable" id="ans1_container" style="display:inline; vertical-align: middle;" '.
-                'border="0" cellpadding="1" cellspacing="0">' .
-                '<tbody><tr><td style="border-width: 2px 0px 0px 2px; padding-top: 0.5em">&nbsp;</td>' .
+        $this->assertEquals('<div class="matrixsquarebrackets"><table class="matrixtable" id="ans1_container" ' .
+                'style="display:inline; vertical-align: middle;" cellpadding="1" cellspacing="0"><tbody><tr>' .
+                '<td style="padding-top: 0.5em">&nbsp;</td>' .
                 '<td><input type="text" name="ans1_sub_0_0" value="a" size="5" autocapitalize="none" spellcheck="false"></td>' .
                 '<td><input type="text" name="ans1_sub_0_1" value="b" size="5" autocapitalize="none" spellcheck="false"></td>' .
-                '<td style="border-width: 2px 2px 0px 0px; padding-top: 0.5em">&nbsp;</td></tr>' .
-                '<tr><td style="border-width: 0px 0px 2px 2px;">&nbsp;</td>' .
+                '<td style="padding-top: 0.5em">&nbsp;</td></tr><tr><td>&nbsp;</td>' .
                 '<td><input type="text" name="ans1_sub_1_0" value="?" size="5" autocapitalize="none" spellcheck="false"></td>' .
-                '<td><input type="text" name="ans1_sub_1_1" value="d" size="5" autocapitalize="none" spellcheck="false"></td>'.
-                '<td style="border-width: 0px 2px 2px 0px; padding-bottom: 0.5em">&nbsp;</td></tr></tbody></table>',
+                '<td><input type="text" name="ans1_sub_1_1" value="d" size="5" autocapitalize="none" spellcheck="false"></td>' .
+                '<td style="padding-bottom: 0.5em">&nbsp;</td></tr></tbody></table></div>',
                 $el->render(new stack_input_state(stack_input::VALID, array(), '', '', '', '', ''),
                         'ans1', false, null));
     }
 
     public function test_render_null_ta() {
-        $el = stack_input_factory::make('matrix', 'ans1', 'M');
+        $options = new stack_options();
+        $el = stack_input_factory::make('matrix', 'ans1', 'M', $options);
         $el->adapt_to_model_answer('matrix([null,null],[null,null])');
-        $this->assertEquals('<table class="matrixtable" id="ans1_container" style="display:inline; vertical-align: middle;" '.
-                'border="0" cellpadding="1" cellspacing="0">' .
-                '<tbody><tr><td style="border-width: 2px 0px 0px 2px; padding-top: 0.5em">&nbsp;</td>' .
+        $this->assertEquals('<div class="matrixsquarebrackets"><table class="matrixtable" id="ans1_container" ' .
+                'style="display:inline; vertical-align: middle;" cellpadding="1" cellspacing="0"><tbody><tr>' .
+                '<td style="padding-top: 0.5em">&nbsp;</td>' .
                 '<td><input type="text" name="ans1_sub_0_0" value="" size="5" autocapitalize="none" spellcheck="false"></td>' .
                 '<td><input type="text" name="ans1_sub_0_1" value="" size="5" autocapitalize="none" spellcheck="false"></td>' .
-                '<td style="border-width: 2px 2px 0px 0px; padding-top: 0.5em">&nbsp;</td></tr>' .
-                '<tr><td style="border-width: 0px 0px 2px 2px;">&nbsp;</td>' .
+                '<td style="padding-top: 0.5em">&nbsp;</td></tr><tr><td>&nbsp;</td>' .
                 '<td><input type="text" name="ans1_sub_1_0" value="" size="5" autocapitalize="none" spellcheck="false"></td>' .
-                '<td><input type="text" name="ans1_sub_1_1" value="" size="5" autocapitalize="none" spellcheck="false"></td>'.
-                '<td style="border-width: 0px 2px 2px 0px; padding-bottom: 0.5em">&nbsp;</td></tr></tbody></table>',
+                '<td><input type="text" name="ans1_sub_1_1" value="" size="5" autocapitalize="none" spellcheck="false"></td>' .
+                '<td style="padding-bottom: 0.5em">&nbsp;</td></tr></tbody></table></div>',
                 $el->render(new stack_input_state(stack_input::BLANK, array(), '', '', '', '', ''),
                         'ans1', false, null));
     }
 
     public function test_validate_student_response_na() {
         $options = new stack_options();
-        $el = stack_input_factory::make('matrix', 'ans1', 'M');
+        $el = stack_input_factory::make('matrix', 'ans1', 'M', $options);
         $el->adapt_to_model_answer('matrix([1,2,3],[3,4,5])');
         $state = $el->validate_student_response(array(), $options, 'matrix([1,2,3],[3,4,5])', new stack_cas_security());
         $this->assertEquals(stack_input::BLANK, $state->status);
@@ -114,7 +115,7 @@ class stack_matrix_input_test extends qtype_stack_testcase {
 
     public function test_validate_student_response_valid() {
         $options = new stack_options();
-        $el = stack_input_factory::make('matrix', 'ans1', 'M');
+        $el = stack_input_factory::make('matrix', 'ans1', 'M', $options);
         $el->adapt_to_model_answer('matrix([1,2,3],[3,4,5])');
         $inputvals = array(
             'ans1_sub_0_0' => '1',
@@ -132,9 +133,69 @@ class stack_matrix_input_test extends qtype_stack_testcase {
         $this->assertEquals('\( \left[ a , b \right]\) ', $state->lvars);
     }
 
+    public function test_validate_student_response_valid_round() {
+        $options = new stack_options();
+        $options->set_option('matrixparens', '(');
+        $el = stack_input_factory::make('matrix', 'ans1', 'M', $options);
+        $el->adapt_to_model_answer('matrix([1,2],[3,4])');
+        $inputvals = array(
+            'ans1_sub_0_0' => '1',
+            'ans1_sub_0_1' => '2',
+            'ans1_sub_1_0' => '4',
+            'ans1_sub_1_1' => '5',
+        );
+        $state = $el->validate_student_response($inputvals, $options, 'matrix([1,2],[3,4])', new stack_cas_security());
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('', $state->note);
+        $this->assertEquals('matrix([1,2],[4,5])', $state->contentsmodified);
+        $this->assertEquals('\[ \left(\begin{array}{cc} 1 & 2 \\\\ 4 & 5 \end{array}\right) \]',
+                $state->contentsdisplayed);
+        $this->assertEquals('', $state->lvars);
+        $this->assertEquals('<div class="matrixroundbrackets"><table class="matrixtable" id="ans1_container" ' .
+                'style="display:inline; vertical-align: middle;" cellpadding="1" cellspacing="0"><tbody><tr>' .
+                '<td style="padding-top: 0.5em">&nbsp;</td>' .
+                '<td><input type="text" name="ans1_sub_0_0" value="1" size="5" autocapitalize="none" spellcheck="false"></td>' .
+                '<td><input type="text" name="ans1_sub_0_1" value="2" size="5" autocapitalize="none" spellcheck="false"></td>' .
+                '<td style="padding-top: 0.5em">&nbsp;</td></tr><tr><td>&nbsp;</td>' .
+                '<td><input type="text" name="ans1_sub_1_0" value="4" size="5" autocapitalize="none" spellcheck="false"></td>' .
+                '<td><input type="text" name="ans1_sub_1_1" value="5" size="5" autocapitalize="none" spellcheck="false"></td>' .
+                '<td style="padding-bottom: 0.5em">&nbsp;</td></tr></tbody></table></div>',
+                $el->render($state, 'ans1', false, null));
+    }
+
+    public function test_validate_student_response_valid_square() {
+        $options = new stack_options();
+        $options->set_option('matrixparens', '[');
+        $el = stack_input_factory::make('matrix', 'ans1', 'M', $options);
+        $el->adapt_to_model_answer('matrix([1,2],[3,4])');
+        $inputvals = array(
+            'ans1_sub_0_0' => '1',
+            'ans1_sub_0_1' => '2',
+            'ans1_sub_1_0' => '4',
+            'ans1_sub_1_1' => '5',
+        );
+        $state = $el->validate_student_response($inputvals, $options, 'matrix([1,2],[3,4])', new stack_cas_security());
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('', $state->note);
+        $this->assertEquals('matrix([1,2],[4,5])', $state->contentsmodified);
+        $this->assertEquals('\[ \left[\begin{array}{cc} 1 & 2 \\\\ 4 & 5 \end{array}\right] \]',
+                $state->contentsdisplayed);
+        $this->assertEquals('', $state->lvars);
+        $this->assertEquals('<div class="matrixsquarebrackets"><table class="matrixtable" id="ans1_container" ' .
+                'style="display:inline; vertical-align: middle;" cellpadding="1" cellspacing="0"><tbody><tr>' .
+                '<td style="padding-top: 0.5em">&nbsp;</td>' .
+                '<td><input type="text" name="ans1_sub_0_0" value="1" size="5" autocapitalize="none" spellcheck="false"></td>' .
+                '<td><input type="text" name="ans1_sub_0_1" value="2" size="5" autocapitalize="none" spellcheck="false"></td>' .
+                '<td style="padding-top: 0.5em">&nbsp;</td></tr><tr><td>&nbsp;</td>' .
+                '<td><input type="text" name="ans1_sub_1_0" value="4" size="5" autocapitalize="none" spellcheck="false"></td>' .
+                '<td><input type="text" name="ans1_sub_1_1" value="5" size="5" autocapitalize="none" spellcheck="false"></td>' .
+                '<td style="padding-bottom: 0.5em">&nbsp;</td></tr></tbody></table></div>',
+                $el->render($state, 'ans1', false, null));
+    }
+
     public function test_validate_student_response_invalid_one_blank() {
         $options = new stack_options();
-        $el = stack_input_factory::make('matrix', 'ans1', 'M');
+        $el = stack_input_factory::make('matrix', 'ans1', 'M', $options);
         $el->adapt_to_model_answer('matrix([1,2,3],[3,4,5])');
         $inputvals = array(
             'ans1_sub_0_0' => '1',
@@ -156,7 +217,7 @@ class stack_matrix_input_test extends qtype_stack_testcase {
 
     public function test_validate_student_response_invalid() {
         $options = new stack_options();
-        $el = stack_input_factory::make('matrix', 'ans1', 'M');
+        $el = stack_input_factory::make('matrix', 'ans1', 'M', $options);
         $el->adapt_to_model_answer('matrix([1,2,3],[3,4,5])');
         $inputvals = array(
             'ans1_sub_0_0' => '1',
@@ -177,7 +238,7 @@ class stack_matrix_input_test extends qtype_stack_testcase {
 
     public function test_validate_student_response_invalid_bracket() {
         $options = new stack_options();
-        $el = stack_input_factory::make('matrix', 'ans1', 'M');
+        $el = stack_input_factory::make('matrix', 'ans1', 'M', $options);
         $el->adapt_to_model_answer('matrix([1,2,3],[3,4,5])');
         $inputvals = array(
             'ans1_sub_0_0' => '1',
@@ -200,7 +261,7 @@ class stack_matrix_input_test extends qtype_stack_testcase {
 
     public function test_validate_student_response_invalid_multiple() {
         $options = new stack_options();
-        $el = stack_input_factory::make('matrix', 'ans1', 'M');
+        $el = stack_input_factory::make('matrix', 'ans1', 'M', $options);
         $el->adapt_to_model_answer('matrix([1,2,3],[3,4,5])');
         $inputvals = array(
             'ans1_sub_0_0' => '1',
@@ -265,17 +326,18 @@ class stack_matrix_input_test extends qtype_stack_testcase {
 
     public function test_render_blank_allowempty() {
         $options = new stack_options();
-        $el = stack_input_factory::make('matrix', 'ans1', 'x^2');
+        $el = stack_input_factory::make('matrix', 'ans1', 'x^2', $options);
         $el->set_parameter('options', 'allowempty');
-        $this->assertEquals('<table class="matrixtable" id="stack1__ans1_container" style="display:inline; ' .
-                'vertical-align: middle;" border="0" cellpadding="1" cellspacing="0"><tbody></tbody></table>',
+        $this->assertEquals('<div class="matrixsquarebrackets"><table class="matrixtable" id="stack1__ans1_container" ' .
+                'style="display:inline; vertical-align: middle;" cellpadding="1" cellspacing="0"><tbody></tbody>' .
+                '</table></div>',
                 $el->render(new stack_input_state(stack_input::VALID, array(), '', '', '', '', ''),
                         'stack1__ans1', false, null));
     }
 
     public function test_validate_student_response_blank_allowempty() {
         $options = new stack_options();
-        $el = stack_input_factory::make('matrix', 'ans1', 'M');
+        $el = stack_input_factory::make('matrix', 'ans1', 'M', $options);
         $el->set_parameter('options', 'allowempty');
         $el->adapt_to_model_answer('matrix([null,null],[null,null])');
         $inputvals = array(
@@ -296,7 +358,7 @@ class stack_matrix_input_test extends qtype_stack_testcase {
 
     public function test_validate_student_response_blank() {
         $options = new stack_options();
-        $el = stack_input_factory::make('matrix', 'ans1', 'M');
+        $el = stack_input_factory::make('matrix', 'ans1', 'M', $options);
         $el->adapt_to_model_answer('matrix([null,null],[null,null])');
         $inputvals = array(
             'ans1_sub_0_0' => '',
@@ -315,7 +377,7 @@ class stack_matrix_input_test extends qtype_stack_testcase {
 
     public function test_validate_student_response_blank_part() {
         $options = new stack_options();
-        $el = stack_input_factory::make('matrix', 'ans1', 'M');
+        $el = stack_input_factory::make('matrix', 'ans1', 'M', $options);
         $el->adapt_to_model_answer('matrix([null,null],[null,null])');
         $inputvals = array(
             'ans1_sub_0_0' => '1',

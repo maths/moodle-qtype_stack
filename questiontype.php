@@ -1600,8 +1600,11 @@ class qtype_stack extends question_type {
             }
 
             $inputtype = $fromform[$inputname . 'type'];
-            $stackinput = $stackinputfactory->make($inputtype, $inputname,
-                    $fromform[$inputname . 'modelans'], null, null, false);
+            $modelans = '';
+            if (array_key_exists($inputname . 'modelans', $fromform)) {
+                $modelans = $fromform[$inputname . 'modelans'];
+            }
+            $stackinput = $stackinputfactory->make($inputtype, $inputname, $modelans, null, null, false);
             $parameters = array();
             foreach ($stackinputfactory->get_parameters_fromform_mapping($inputtype) as $key => $param) {
                 $paramvalue = $stackinputfactory->convert_parameter_fromform($key, $fromform[$inputname .$param]);

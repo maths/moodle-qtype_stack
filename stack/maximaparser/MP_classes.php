@@ -997,6 +997,10 @@ class MP_FunctionCall extends MP_Node {
             $ar[] = $value->toString($params);
         }
 
+        if ($params !== null && isset($params['varmatrix']) && $params['varmatrix']) {
+            return implode($ar, "\n");
+        }
+
         if ($params !== null && isset($params['flattree'])) {
             return '([FunctionCall: ' . $n .'] ' . implode(',', $ar) . ')';
         }
@@ -1266,10 +1270,20 @@ class MP_List extends MP_Node {
             }
         }
 
-        $ar = [];
+        // We should only flatten one level of lists and retain lists in matrix entries, etc.
+        $varmatrix = false;
+        if ($params !== null && isset($params['varmatrix']) && $params['varmatrix']) {
+            $varmatrix = true;
+            $params['varmatrix'] = false;
+        }
 
+        $ar = [];
         foreach ($this->items as $value) {
             $ar[] = $value->toString($params);
+        }
+
+        if ($varmatrix) {
+            return implode($ar, " ");
         }
 
         if ($params !== null && isset($params['flattree'])) {

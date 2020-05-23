@@ -13,6 +13,7 @@ Done
 * Document and support for simple manipulation of [propositional logic](../CAS/Propositional_Logic.md) based on Maxima's logic package.
 * Document and support for simple manipulation of [tables](../Authoring/Tables.md) mainly to support easy display of truth tables in logic..
 * Better support for [semi-automatic marking](../Authoring/Semi-automatic_Marking.md).
+* Add in the resizable matrix input type (varmatrix).
 
 ## Maxima side PRTs.
 
@@ -23,7 +24,6 @@ Done
 ## For "inputs 2"?
 
 * Better CSS, including "tool tips".  May need to refactor JavaScript.  (See issue #380)
-* Re-sizable matrix input.  See Aalto/NUMBAS examples here, with Javascript.
 * Add support for matrices with floating point entries, and testing numerical accuracy.
 * Expand support for input validation options to matrices (e.g. floatnum, rationalize etc.)
 * Update MCQ to accept units.

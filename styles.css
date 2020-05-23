@@ -117,7 +117,7 @@ body.pagelayout-embedded .que.stack .formulation .questiontestslink {
 
 .que.stack div.matrixbarbrackets {
     display: inline-block;
-    border: x;
+    border: 0;
     border-left: 2px solid #000;
     border-right: 2px solid #000;
     padding: 0.5em;
@@ -129,11 +129,9 @@ body.pagelayout-embedded .que.stack .formulation .questiontestslink {
         linear-gradient(#000, #000),
         linear-gradient(#000, #000),
         linear-gradient(#000, #000);
-
     background-repeat: no-repeat;
     background-size: 8px 2px;
     background-position: top left, top right, bottom left, bottom right;
-
     border: solid #000;
     border-width: 0 2px;
     padding: 0.5em;
@@ -635,9 +633,7 @@ body.ie:not(.ie11) .stack_abstract_graph {
 .ui-widget-content .ui-state-default,
 .ui-widget-header .ui-state-default,
 .ui-button,
-
-/* We use html here because we need a greater specificity to make sure disabled
-works properly when clicked or hovered */
+/* We use html here because we need a greater specificity to make sure disabled works properly when clicked or hovered */
 html .ui-button.ui-state-disabled:hover,
 html .ui-button.ui-state-disabled:active {
     border: 1px solid #c5c5c5;
@@ -739,13 +735,13 @@ a.ui-button:active,
 
 /* Overlays */
 .ui-widget-overlay {
-    background: #aaaaaa;
+    background: #aaa;
     opacity: .3;
     filter: alpha(Opacity=30); /* support: IE8 */
 }
 .ui-widget-shadow {
     -webkit-box-shadow: 0 0 5px #666;
-    box-shadow: 0 0 5 #666;
+    box-shadow: 0 0 5px #666;
 }
 
 /* Styles for varmatrix_input */

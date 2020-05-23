@@ -84,6 +84,7 @@ class stack_question_test {
         $quba->process_action($slot, $response);
 
         $results = new stack_question_test_result($this);
+        $results->set_questionpenalty($question->penalty);
         foreach ($this->inputs as $inputname => $notused) {
             $inputstate = $question->get_input_state($inputname, $response);
             // The _val below is a hack.  Not all inputnames exist explicitly in

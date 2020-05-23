@@ -398,7 +398,7 @@ foreach ($testresults as $key => $result) {
             $expectedscore = $state->expectedscore + 0;
         }
         if (is_null($state->expectedpenalty) || '' === $state->expectedpenalty) {
-            $expectedpenalty = '';
+            $expectedpenalty = stack_string('questiontestsdefault');
         } else {
             $expectedpenalty = $state->expectedpenalty + 0;
         }

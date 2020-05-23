@@ -508,6 +508,7 @@ $string['questionpreview'] = 'Question preview';
 $string['questiontests'] = 'Question tests';
 $string['questiontestsfor'] = 'Question tests for seed {$a}';
 $string['questiontestspass'] = 'All question tests passed.';
+$string['questiontestsdefault'] = '(Default)';
 $string['runquestiontests'] = 'Question tests & deployed variants';
 $string['seethisquestioninthequestionbank'] = 'See this question in the question bank';
 $string['showingundeployedvariant'] = 'Showing undeployed variant: {$a}';

@@ -63,6 +63,11 @@ class stack_question_test_result {
     public $debuginfo;
 
     /**
+     * @var float Store the question penalty to check defaults.
+     */
+    public $questionpenalty;
+
+    /**
      * Constructor
      * @param stack_question_test $testcase the testcase this is the results for.
      */
@@ -87,6 +92,10 @@ class stack_question_test_result {
 
     public function set_prt_result($prtname, stack_potentialresponse_tree_state $actualresult) {
         $this->actualresults[$prtname] = $actualresult;
+    }
+
+    public function set_questionpenalty($penalty) {
+        $this->questionpenalty = $penalty;
     }
 
     /**
@@ -148,8 +157,13 @@ class stack_question_test_result {
                 $state->testoutcome = false;
                 $reason[] = stack_string('score');
             }
-            if (is_null($state->expectedpenalty) != is_null($state->penalty) ||
-                    abs($state->expectedpenalty - $state->penalty) > 10E-6) {
+            // If the expected penalty is null, then we use the question default penalty.
+            $penalty = $state->expectedpenalty;
+            if (is_null($state->expectedpenalty)) {
+                $penalty = $this->questionpenalty;
+            }
+            if (is_null($state->penalty) ||
+                    abs($penalty - $state->penalty) > 10E-6) {
                 $state->testoutcome = false;
                 $reason[] = stack_string('penalty');
             }

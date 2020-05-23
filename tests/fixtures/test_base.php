@@ -174,7 +174,7 @@ abstract class qtype_stack_testcase extends advanced_testcase {
      * '\t\n ' ~ ' ' but '' != ' ' and E-surrounded by numeric characters is
      * assumed to be a float an thus case insensitive.
      */
-    public function assertEqualsIgnoreSpacesAndE(string $expected, string $actual) {
+    public function assert_equals_ignore_spaces_and_e(string $expected, string $actual) {
         $e = trim(preg_replace('/[\t\n\r\s]+/', ' ', $expected));
         $a = trim(preg_replace('/[\t\n\r\s]+/', ' ', $actual));
         $e = preg_replace('/([\d.])e([+\-\d])/', '$1E$2', $e);
@@ -396,7 +396,7 @@ abstract class qtype_stack_walkthrough_test_base extends qbehaviour_walkthrough_
      * @param string $expected expected HTML
      * @param string $actual actual HTML
      */
-    protected function assertSameSelectHtml($expected, $actual) {
+    protected function assert_same_select_html($expected, $actual) {
         $actual = str_replace('class="select custom-select', 'class="select', $actual);
         $this->assertEquals($expected, $actual);
     }

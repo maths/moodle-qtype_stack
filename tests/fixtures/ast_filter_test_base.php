@@ -76,9 +76,9 @@ abstract class qtype_stack_ast_testcase extends basic_testcase {
 
         // If it is supposed to become invalid.
         if ($valid === true) {
-            $this->assertNotMarkedInvalid($filtered);
+            $this->assert_not_marked_invalid($filtered);
         } else {
-            $this->assertMarkedInvalid($filtered);
+            $this->assert_marked_invalid($filtered);
         }
 
         // If we expect errors to be generated.
@@ -95,7 +95,7 @@ abstract class qtype_stack_ast_testcase extends basic_testcase {
     /**
      * @param MP_Node $ast
      */
-    public function assertMarkedInvalid($ast) {
+    public function assert_marked_invalid($ast) {
         $hasinvalid = false;
         $findinvalid = function($node) use(&$hasinvalid) {
             if (isset($node->position['invalid']) && $node->position['invalid'] === true) {
@@ -112,7 +112,7 @@ abstract class qtype_stack_ast_testcase extends basic_testcase {
     /**
      * @param MP_Node $ast
      */
-    public function assertNotMarkedInvalid($ast) {
+    public function assert_not_marked_invalid($ast) {
         $hasinvalid = false;
         $findinvalid = function($node) use(&$hasinvalid) {
             if (isset($node->position['invalid']) && $node->position['invalid'] === true) {

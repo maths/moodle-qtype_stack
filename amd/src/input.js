@@ -93,7 +93,7 @@ define([
 
         /**
          * After a small delay, detect the case where the user has got the input back
-         * to where they started, so not validation is necessary.
+         * to where they started, so no validation is necessary.
          */
         function checkNoChange() {
             if (getInputValue() === lastValidatedValue) {

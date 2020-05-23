@@ -1453,7 +1453,7 @@ class stack_answertest_test_data {
         array('NumSigFigs', '[2,-1]', '82.4', '82', 1, '', ''),
         array('NumSigFigs', '[2,-1]', '82.5', '82', 0, 'ATNumSigFigs_Inaccurate.', ''),
         array('NumSigFigs', '[2,-1]', '83', '82', 0, 'ATNumSigFigs_Inaccurate.', ''),
-        // 1/7 = 0.142857142857...
+        // Check where teacher uses a rational number 1/7 = 0.142857142857...
         array('NumSigFigs', '[4,-1]', '0.1430', '1/7', 0, 'ATNumSigFigs_Inaccurate.', '1/7 = 0.142857142857...'),
         array('NumSigFigs', '[4,-1]', '0.1429', '1/7', 1, '', ''),
         array('NumSigFigs', '[4,-1]', '0.1428', '1/7', 0, 'ATNumSigFigs_Inaccurate.', ''),
@@ -1812,7 +1812,8 @@ class stack_answertest_test_data {
         array('SRegExp', '', '"Alice   went  to      the market"', '"(Alice|Bob)\\\\s+went\\\\s+to\\\\s+the\\\\s+(bank|market)"',
             1, 'ATSRegExp: ["Alice   went  to      the market","Alice","market"].', 'Whitespace, ' .
             'note test rendering issue, the test string has additional spaces and tabs as does the result'),
-        array('SRegExp', '', '"Alice   went  to      themarket"', '"(Alice|Bob)\\\\s+went\\\\s+to\\\\s+the\\\\s+(bank|market)"', 0, '', ''),
+        array('SRegExp', '', '"Alice   went  to      themarket"',
+            '"(Alice|Bob)\\\\s+went\\\\s+to\\\\s+the\\\\s+(bank|market)"', 0, '', ''),
         array('SRegExp', '', '"x^2.2"', '"x\\\\^2\\\\.2"', 1, 'ATSRegExp: ["x^2.2"].',
             'Escaping patterns, note the function that does it'),
         array('SRegExp', '', '"x^2+sin(x)"', 'sconcat(string_to_regex("sin(x)"),"$")', 1, 'ATSRegExp: ["sin(x)"].', ''),

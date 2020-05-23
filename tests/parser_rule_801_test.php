@@ -376,7 +376,7 @@ class stack_parser_rule_801_test extends qtype_stack_testcase {
     public function test_convert_to_float() {
         $test = ['123', '123'];
         $result = $this->filter($test[0], true, true, true, 'to float');
-        $this->assertEqualsIgnoreSpacesAndE($test[1], $result['output']);
+        $this->assert_equals_ignore_spaces_and_e($test[1], $result['output']);
 
         $test = ['123.45', '123.45'];
         $result = $this->filter($test[0], true, true, true, 'to float');

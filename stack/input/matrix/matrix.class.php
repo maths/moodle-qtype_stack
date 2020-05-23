@@ -255,9 +255,9 @@ class stack_matrix_input extends stack_input {
         $matrixparens = $this->options->get_option('matrixparens');
         if ($matrixparens == '[') {
             $matrixbrackets = 'matrixsquarebrackets';
-        } elseif ($matrixparens == '|') {
+        } else if ($matrixparens == '|') {
             $matrixbrackets = 'matrixbarbrackets';
-        } elseif ($matrixparens == '') {
+        } else if ($matrixparens == '') {
             $matrixbrackets = 'matrixnobrackets';
         }
         // Build the html table to contain these values.

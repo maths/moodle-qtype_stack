@@ -789,9 +789,9 @@ class stack_units_input_test extends qtype_stack_testcase {
         $state = $el->validate_student_response(array('sans1' => '3.88e-4*1/s'), $options, '3.88e-4*1/s',
                 new stack_cas_security(true));
         $this->assertEquals(stack_input::VALID, $state->status);
-        $this->assertEqualsIgnoreSpacesAndE('3.88e-4*1/s', $state->contentsmodified);
+        $this->assert_equals_ignore_spaces_and_e('3.88e-4*1/s', $state->contentsmodified);
         // This is a special display rule to highlight the multiplication with 1/unit.
-        $this->assertEqualsIgnoreSpacesAndE('\[ 3.88e-4\times {1}/{\mathrm{s}} \]',
+        $this->assert_equals_ignore_spaces_and_e('\[ 3.88e-4\times {1}/{\mathrm{s}} \]',
                 qtype_stack_testcase::prepare_actual_maths($state->contentsdisplayed));
         $this->assertEquals('\( \left[ \mathrm{s} \right]\) ', $state->lvars);
     }
@@ -805,8 +805,8 @@ class stack_units_input_test extends qtype_stack_testcase {
         $state = $el->validate_student_response(array('sans1' => '3.88e-4*1/s'), $options, '3.88e-4*1/s',
                 new stack_cas_security(true));
         $this->assertEquals(stack_input::VALID, $state->status);
-        $this->assertEqualsIgnoreSpacesAndE('3.88e-4*1/s', $state->contentsmodified);
-        $this->assertEqualsIgnoreSpacesAndE('\[ 3.88e-4\, \mathrm{s}^ {- 1 } \]',
+        $this->assert_equals_ignore_spaces_and_e('3.88e-4*1/s', $state->contentsmodified);
+        $this->assert_equals_ignore_spaces_and_e('\[ 3.88e-4\, \mathrm{s}^ {- 1 } \]',
                 qtype_stack_testcase::prepare_actual_maths($state->contentsdisplayed));
         $this->assertEquals('\( \left[ \mathrm{s} \right]\) ', $state->lvars);
     }
@@ -819,13 +819,13 @@ class stack_units_input_test extends qtype_stack_testcase {
         $state = $el->validate_student_response(array('sans1' => '3.88e-4*1/(M*s)'), $options, '3.88e-4*1/s',
                 new stack_cas_security(true));
         $this->assertEquals(stack_input::VALID, $state->status);
-        $this->assertEqualsIgnoreSpacesAndE('3.88e-4*1/(M*s)', $state->contentsmodified);
+        $this->assert_equals_ignore_spaces_and_e('3.88e-4*1/(M*s)', $state->contentsmodified);
         if ($this->adapt_to_new_maxima('5.34.2')) {
-            $this->assertEqualsIgnoreSpacesAndE('\[ 3.88e-4\times {1}/{\left(\mathrm{M}\, \mathrm{s}\right)} \]',
+            $this->assert_equals_ignore_spaces_and_e('\[ 3.88e-4\times {1}/{\left(\mathrm{M}\, \mathrm{s}\right)} \]',
                 qtype_stack_testcase::prepare_actual_maths($state->contentsdisplayed));
             $this->assertEquals('\( \left[ \mathrm{M} , \mathrm{s} \right]\) ', $state->lvars);
         } else {
-            $this->assertEqualsIgnoreSpacesAndE('\[ 3.88e-4\times {1}/{\left(\mathrm{s}\, \mathrm{M}\right)} \]',
+            $this->assert_equals_ignore_spaces_and_e('\[ 3.88e-4\times {1}/{\left(\mathrm{s}\, \mathrm{M}\right)} \]',
                 qtype_stack_testcase::prepare_actual_maths($state->contentsdisplayed));
             $this->assertEquals('\( \left[ \mathrm{s} , \mathrm{M} \right]\) ', $state->lvars);
         }

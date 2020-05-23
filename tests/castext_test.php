@@ -956,7 +956,7 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $this->assertTrue($at1->get_valid());
         $at1->get_display_castext();
 
-        $this->assertEqualsIgnoreSpacesAndE('\({\lambda\left(\left[ x , n \right]  , ' .
+        $this->assert_equals_ignore_spaces_and_e('\({\lambda\left(\left[ x , n \right]  , ' .
                 '{\it significantfigures}\left(x , n\right)\right)}\), \({3}\)',
             $at1->get_display_castext());
     }
@@ -994,7 +994,7 @@ class stack_cas_text_test extends qtype_stack_testcase {
         // So, normalise before we compare.
         $actual = str_replace('one thousand, two hundred',
             'one thousand two hundred', $actual);
-        $this->assertEqualsIgnoreSpacesAndE($expected, $actual);
+        $this->assert_equals_ignore_spaces_and_e($expected, $actual);
     }
 
     public function test_stack_disp_comma_separate() {

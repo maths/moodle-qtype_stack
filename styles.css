@@ -125,7 +125,8 @@ body.pagelayout-embedded .que.stack .formulation .questiontestslink {
 
 .que.stack div.matrixsquarebrackets {
     display: inline-block;
-    background-image: linear-gradient(#000, #000),
+    background-image:
+        linear-gradient(#000, #000),
         linear-gradient(#000, #000),
         linear-gradient(#000, #000),
         linear-gradient(#000, #000);

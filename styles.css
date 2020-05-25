@@ -160,6 +160,7 @@ body.pagelayout-embedded .que.stack .formulation .questiontestslink {
     margin-bottom: 2px;
     margin-right: 4px;
     margin-left: 4px;
+    overflow: hidden;
 }
 .proof-block {
     border: none;

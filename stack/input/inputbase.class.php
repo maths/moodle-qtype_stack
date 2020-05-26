@@ -1297,7 +1297,7 @@ abstract class stack_input {
      * This function is responsible for removing the validation tags from the question stem and replacing
      * them with the validation feedback.  Only the equiv input type currently does anything different here.
      */
-    public function replace_validation_tags($state, $fieldname, $questiontext) {
+    public function replace_validation_tags($state, $fieldname, $questiontext, $rightanswer = false) {
 
         $name = $this->name;
         $feedback = $this->render_validation($state, $fieldname);
@@ -1318,6 +1318,10 @@ abstract class stack_input {
             $class .= ' empty';
         }
 
+        if ($rightanswer) {
+            $feedback .= html_writer::tag('div', $this->get_teacher_answer_display($rightanswer[0], $rightanswer[1]),
+                    array('class' => 'rightanswer'));
+        }
         $feedback = html_writer::tag($divspan, $feedback, array('class' => $class, 'id' => $fieldname.'_val'));
         $response = str_replace("[[validation:{$name}]]", $feedback, $questiontext);
 

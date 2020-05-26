@@ -1056,11 +1056,8 @@ class qtype_stack_question extends question_graded_automatically_with_countback
      * TODO: should we give the whole thing?
      * @param string $vname variable name.
      */
-    public function get_ta_for_input(string $vname): string {
-        if ($this->tas[$vname]->is_correctly_evaluated()) {
-            return $this->tas[$vname]->get_value();
-        }
-        return '';
+    public function get_ta_for_input(string $vname) {
+        return $this->tas[$vname];
     }
 
     public function classify_response(array $response) {

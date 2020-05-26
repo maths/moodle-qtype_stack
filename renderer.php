@@ -71,7 +71,13 @@ class qtype_stack_renderer extends qtype_renderer {
 
         foreach ($question->inputs as $name => $input) {
             // Get the actual value of the teacher's answer at this point.
-            $tavalue = $question->get_ta_for_input($name);
+            $ta = $question->get_ta_for_input($name);
+            $tavalue = '';
+            $talatex = '';
+            if ($ta->is_correctly_evaluated()) {
+                $tavalue = $ta->get_value();
+                $talatex = $ta->get_latex();
+            }
 
             $fieldname = $qa->get_qt_field_name($name);
             $state = $question->get_input_state($name, $response);
@@ -80,7 +86,11 @@ class qtype_stack_renderer extends qtype_renderer {
                     $input->render($state, $fieldname, $options->readonly, $tavalue),
                     $questiontext);
 
-            $questiontext = $input->replace_validation_tags($state, $fieldname, $questiontext);
+            $rightanswer = false;
+            if ($options->rightanswer && $ta->is_correctly_evaluated()) {
+                $rightanswer = array($tavalue, $talatex);
+            }
+            $questiontext = $input->replace_validation_tags($state, $fieldname, $questiontext, $rightanswer);
 
             if ($input->requires_validation()) {
                 $inputstovaldiate[] = $name;

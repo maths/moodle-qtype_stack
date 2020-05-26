@@ -3,6 +3,17 @@
 For current and future plans, see [Development track](Development_track.md) and [Future plans](Future_plans.md).
 
 
+## Version 4.3.2
+
+Released May 2020.
+
+* Document and support for simple manipulation of [real intervals](../CAS/Real_Intervals.md) which Maxima does not have a library for.
+* Document and support for simple manipulation of [propositional logic](../CAS/Propositional_Logic.md) based on Maxima's logic package.
+* Document and support for simple manipulation of [tables](../Authoring/Tables.md) mainly to support easy display of truth tables in logic..
+* Better support for [semi-automatic marking](../Authoring/Semi-automatic_Marking.md).
+* Add in the resizable matrix input type (varmatrix).
+* Fixed bug with javascript on pages with more than one matrix.
+
 ## Version 4.3.1
 
 Released April 2020.  Bug fixes and features which require DB changes.

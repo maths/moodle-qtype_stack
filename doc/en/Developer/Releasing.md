@@ -14,7 +14,7 @@ Check
 
 * Readme.md
 * Check docs 
- * development history/track.
+ * development `history/track`.
  * Execute `doc/maintenance.php` to search for broken links etc.
 * version.php
  * check both the Moodle versions, and the required number. (https://docs.moodle.org/dev/Releases)
@@ -22,16 +22,16 @@ Check
 * Check version numbers on stackmaxima.mac.
 * Run unit tests.
 * Run code checker.
-* Commit all changes to git, e.g. "Update version number for the 4.3 release."
+* Commit all changes to git, e.g. "Update version number for the 4.3.2 release."
 
 ## 2. Create new tag with version name
 
-E.g. "v4.3".
+E.g. "v4.3.2".
 
 * Push to GitHub.
 * Push tags to GitHub 
  * Tortoise git: pulldown from push
- * Unix: `git tag -a v4.3 -m "Update version number for the 4.3 release."`
+ * Unix: `git tag -a v4.3.2 -m "Update version number for the 4.3.2 release."`
  * Unix: `git push --tags`
 
 ## 3. Moodle plugins database entry for the plugin

@@ -77,7 +77,7 @@ class stack_cas_castext_jsxgraph extends stack_cas_castext_block {
         }
 
         // Prefix the code with the id of the div.
-        $code = "var divid = '$divid';\n$code";
+        $code = "var divid = '$divid';\nvar BOARDID = divid;\n$code";
 
         // We restrict the actions of the block code a bit by stopping it from
         // rewriting some things in the surrounding scopes.

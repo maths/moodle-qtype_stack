@@ -42,6 +42,10 @@ You can control the size of the JSXGraph board with the `width` and `height` opt
 
     [[jsxgraph width="200px" height="200px"]]
 
+## Automatic identifier for the div-element
+
+As initialisation of the JSXGraph board requires you to give it a reference to the div-element that will contain the graph you will need to know what that id is. With the JSXGraph-block that identifier is present in a variable named `divid`. Since, 4.3.3 we also provide that same identifier in a variable named `BOARDID` to match the behaviour of the JSXGraph Moodle filter. We generate that identifier automatically to allow one to have multiple plots even multiple copies of the same question on the same page without anyone having to worry about accidental identifier clashing.
+
 ## Interactive elements
 
 In this example define the question variables as

@@ -581,6 +581,7 @@ class stack_answertest_test_data {
         array('EqualComAss', '', 'x*(-y)', '-(x*y)', 1, '', ''),
         array('EqualComAss', '', '(-x)*(-x)', 'x*x', 0, 'ATEqualComAss (AlgEquiv-true).', ''),
         array('EqualComAss', '', '(-x)*(-x)', 'x^2', 0, 'ATEqualComAss (AlgEquiv-true).', ''),
+        array('EqualComAss', '', '-1/4*%pi*i', '-(%i*%pi)/4', 0, 'ATEqualComAss (AlgEquiv-true).', ''),
         array('EqualComAss', '', '1/2', '3/6', 0, 'ATEqualComAss (AlgEquiv-true).', 'Rational expressions'),
         array('EqualComAss', '', '1/(1+2*x)', '1/(2*x+1)', 1, '', ''),
         array('EqualComAss', '', '2/(4+2*x)', '1/(x+2)', 0, 'ATEqualComAss (AlgEquiv-true).', ''),

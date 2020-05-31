@@ -109,6 +109,8 @@ class stack_answertest_test_data {
         array('AlgEquiv', '', 'a^b*a^c', 'a^(b+c)', 1, '', ''),
         array('AlgEquiv', '', '(4*sqrt(3)*%i+4)^(1/5)', '6^(1/5)*cos(%pi/15)-6^(1/5)*%i*sin(%pi/15)', 0, '', ''),
         array('AlgEquiv', '', '2+2*sqrt(3+x)', '2+sqrt(12+4*x)', 1, '', ''),
+        array('AlgEquiv', '', '6*e^(6*(y^2+x^2))+72*x^2*e^(6*(y^2+x^2))',
+            '(72*x^2+6)*e^(6*(y^2+x^2))', 1, '', '', ''),
         array('AlgEquiv', '', 'rho*z*V/(4*pi*epsilon[0]*(R^2+z^2)^(3/2))', 'rho*z*V/(4*pi*epsilon[0]*(R^2+z^2)^(3/2))', 1, '',
             'Expressions with subscripts'),
         array('AlgEquiv', '', 'rho*z*V/(4*pi*epsilon[1]*(R^2+z^2)^(3/2))', 'rho*z*V/(4*pi*epsilon[0]*(R^2+z^2)^(3/2))', 0, '', ''),

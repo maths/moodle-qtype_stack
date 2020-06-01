@@ -32,7 +32,6 @@ class stack_notes_input extends stack_input {
     );
 
     public function render(stack_input_state $state, $fieldname, $readonly, $tavalue) {
-
         if ($this->errors) {
             return $this->render_error($this->errors);
         }
@@ -121,7 +120,9 @@ class stack_notes_input extends stack_input {
             'allowWords'     => '',
             'forbidFloats'   => true,
             'lowestTerms'    => true,
-            'sameType'       => true);
+            'sameType'       => true,
+            'options'        => '',
+        );
     }
 
     /**

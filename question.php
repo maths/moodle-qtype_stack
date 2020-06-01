@@ -604,8 +604,10 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         // TODO: we should probably give the whole ast_container to the input.
         // Direct access to LaTeX and the AST might be handy.
         $teacheranswer = '';
-        if ($this->tas[$name]->is_correctly_evaluated()) {
-            $teacheranswer = $this->tas[$name]->get_value();
+        if (array_key_exists($name, $this->tas)) {
+            if ($this->tas[$name]->is_correctly_evaluated()) {
+                $teacheranswer = $this->tas[$name]->get_value();
+            }
         }
         if (array_key_exists($name, $this->inputs)) {
             $this->inputstates[$name] = $this->inputs[$name]->validate_student_response(
@@ -670,6 +672,14 @@ class qtype_stack_question extends question_graded_automatically_with_countback
     }
 
     public function is_gradable_response(array $response) {
+        // Manually graded answers are always gradable.
+        if (!empty($this->inputs)) {
+            foreach ($this->inputs as $input) {
+                if ($input->get_extra_option('manualgraded')) {
+                    return true;
+                }
+            }
+        }
         // If any PRT is gradable, then we can grade the question.
         $noprts = true;
         foreach ($this->prts as $index => $prt) {
@@ -708,6 +718,14 @@ class qtype_stack_question extends question_graded_automatically_with_countback
     public function grade_response(array $response) {
         $fraction = 0;
 
+        // If we have one or more notes input which needs manual grading, then mark it as needs grading.
+        if (!empty($this->inputs)) {
+            foreach ($this->inputs as $input) {
+                if ($input->get_extra_option('manualgraded')) {
+                    return question_state::$needsgrading;
+                }
+            }
+        }
         foreach ($this->prts as $index => $prt) {
             if (!$prt->is_formative()) {
                 $results = $this->get_prt_result($index, $response, true);

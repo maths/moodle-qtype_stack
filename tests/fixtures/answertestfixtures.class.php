@@ -320,6 +320,9 @@ class stack_answertest_test_data {
         array('AlgEquiv', '', '{-1,1}', '%union({-1,1})', 1, 'ATRealSet_true.', ''),
         array('AlgEquiv', '', '{1,3}', 'cc(1,3)', 0, 'ATRealSet_false.', ''),
         array('AlgEquiv', '', '%intersection(oc(-1,1),co(1,2))', '%union({1})', 1, 'ATRealSet_true.', ''),
+        array('AlgEquiv', '', 'oo(-inf,1)', 'oo(-inf,1)', 1, 'ATRealSet_true.', ''),
+        array('AlgEquiv', '', 'oo(-1,inf)', 'oo(0,inf)', 0, 'ATRealSet_false.', ''),
+        array('AlgEquiv', '', '%union(oc(-inf,0),oo(-1,4))', 'oo(-inf,4)', 1, 'ATRealSet_true.', ''),
 
         array('AlgEquiv', '', 'a=b/%i', '%i*a=b', 1, 'ATEquation_num_i', 'Complex numbers'),
         array('AlgEquiv', '', 'b/%i=a', '%i*a=b', 1, 'ATEquation_num_i', ''),

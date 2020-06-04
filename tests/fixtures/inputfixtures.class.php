@@ -243,6 +243,7 @@ class stack_inputvalidation_test_data {
         array('{x', 'php_false', '', '', '', 'missingRightBracket', ""),
         array('alpha', 'php_true', 'alpha', 'cas_true', '\alpha', '',
         "Greek letters - quite a few have meanings in Maxima already."),
+        array('alpha(x)', 'php_true', 'alpha(x)', 'cas_true', '\alpha\left(x\right)', '', ""),
         array('beta', 'php_true', 'beta', 'cas_true', '\beta', '',
         "The beta function is defined as \(\gamma(a) \gamma(b)/\gamma(a+b)\)."),
         array('gamma', 'php_true', 'gamma', 'cas_true', '\gamma', '', "This is the gamma function."),
@@ -251,6 +252,7 @@ class stack_inputvalidation_test_data {
         array('zeta', 'php_true', 'zeta', 'cas_true', '\zeta', '', "This is the Riemann zeta function."),
         array('eta', 'php_true', 'eta', 'cas_true', '\eta', '', ""),
         array('theta', 'php_true', 'theta', 'cas_true', '\theta', '', ""),
+        array('theta(s)', 'php_true', 'theta(s)', 'cas_true', '\theta\left(s\right)', '', ""),
         array('iota', 'php_true', 'iota', 'cas_true', '\iota', '', ""),
         array('kappa', 'php_true', 'kappa', 'cas_true', '\kappa', '', ""),
         array('lambda', 'php_true', 'lambda', 'cas_true', '\lambda', '', "Defines and returns a lambda expression."),
@@ -512,6 +514,10 @@ class stack_inputvalidation_test_data {
 
     public static function get_raw_test_data() {
         return self::$rawdata;
+    }
+
+    public static function get_raw_test_data_units() {
+        return self::$rawdata_units;
     }
 
     public static function test_from_raw($data, $validationmethod) {

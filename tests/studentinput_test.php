@@ -37,7 +37,19 @@ class stack_studentinput_testcase extends qtype_stack_testcase {
      * @dataProvider stack_inputvalidation_test_data::get_raw_test_data
      */
     public function test_studentinput() {
-        $test = stack_inputvalidation_test_data::test_from_raw(func_get_args());
+        $test = stack_inputvalidation_test_data::test_from_raw(func_get_args(), 'typeless');
+        $result = stack_inputvalidation_test_data::run_test($test);
+
+        $this->assert_equals_ignore_spaces_and_e($result->display, $result->casdisplay);
+        $this->assertEquals($result->ansnotes, $result->casnotes);
+        $this->assertTrue($result->passed);
+    }
+
+    /**
+     * @dataProvider stack_inputvalidation_test_data::get_raw_test_data_units
+     */
+    public function test_studentinput_units() {
+        $test = stack_inputvalidation_test_data::test_from_raw(func_get_args(), 'units');
         $result = stack_inputvalidation_test_data::run_test($test);
 
         $this->assert_equals_ignore_spaces_and_e($result->display, $result->casdisplay);

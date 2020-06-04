@@ -534,6 +534,7 @@
         "variable": "f"
     },
     "alpha": {
+        "function": "s",
         "variable": "s"
     },
     "alphabetic": {
@@ -1230,6 +1231,7 @@
         "function": "f"
     },
     "chi": {
+        "function": "s",
         "variable": "s"
     },
     "chinese": {
@@ -2157,6 +2159,7 @@
         "function": "f"
     },
     "epsilon": {
+        "function": "s",
         "variable": "s"
     },
     "epsilon_lp": {
@@ -2214,6 +2217,7 @@
         "variable": "f"
     },
     "eta": {
+        "function": "s",
         "variable": "s"
     },
     "euler": {
@@ -3475,6 +3479,7 @@
         "function": "f"
     },
     "iota": {
+        "function": "s",
         "variable": "s"
     },
     "ip_grid": {
@@ -3617,6 +3622,7 @@
         "function": "?"
     },
     "kappa": {
+        "function": "s",
         "variable": "s"
     },
     "kdels": {
@@ -4560,6 +4566,7 @@
         "function": "f"
     },
     "mu": {
+        "function": "s",
         "variable": "s"
     },
     "multi_display_for_texinfo": {
@@ -4842,6 +4849,7 @@
         "variable": "s"
     },
     "nu": {
+        "function": "s",
         "variable": "s"
     },
     "null": {
@@ -4933,9 +4941,11 @@
         "function": "?"
     },
     "omega": {
+        "function": "s",
         "variable": "s"
     },
     "omicron": {
+        "function": "s",
         "variable": "s"
     },
     "op": {
@@ -5277,6 +5287,7 @@
         "variable": "?"
     },
     "phi": {
+        "function": "s",
         "variable": "s"
     },
     "pi": {
@@ -6419,6 +6430,7 @@
         "function": "f"
     },
     "rho": {
+        "function": "s",
         "variable": "s"
     },
     "rhs": {
@@ -6714,6 +6726,7 @@
         "function": "?"
     },
     "sigma": {
+        "function": "s",
         "variable": "s"
     },
     "sign": {
@@ -7319,6 +7332,7 @@
         "trigfun": true
     },
     "tau": {
+        "function": "s",
         "variable": "s"
     },
     "taylor": {
@@ -7428,6 +7442,7 @@
         "function": "s"
     },
     "theta": {
+        "function": "s",
         "variable": "s"
     },
     "third": {
@@ -7767,6 +7782,7 @@
         "function": "f"
     },
     "upsilon": {
+        "function": "s",
         "variable": "s"
     },
     "uric": {
@@ -8029,6 +8045,7 @@
         "variable": "f"
     },
     "xi": {
+        "function": "s",
         "variable": "s"
     },
     "xlabel": {

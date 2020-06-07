@@ -1,80 +1,64 @@
 # Multiple choice questions
 
-The whole point of STACK is not to use multiple-choice questions, but instead to have the student enter an algebraic expression!  
-That said there are occasions where it is very useful, if not necessary, to use multiple-choice questions in their various forms.  
-STACK's use of a CAS is then very helpful to generate random variants of multiple-choice questions based on the mathematical values.
+The whole point of STACK is not to use multiple-choice questions, but instead to have the student enter an algebraic expression!  That said there are occasions where it is very useful, if not necessary, to use multiple-choice questions in their various forms.  STACK's use of a CAS is then very helpful to generate random variants of multiple-choice questions based on the mathematical values.
 
-This can also be one input in a multi-part randomly generated question. 
-E.g. you might say "which method do you need to integrate \( \sin(x)\cos(x) \)?" and give students the choice of (i) trig functions first, 
-(ii) parts, (iii) substitution, (iv) replace with complex exponentials.  (Yes, this is a joke: all these methods can be made to work here!)  
-Another algebraic input can then be used for the answer.
+This can also be one input in a multi-part randomly generated question. E.g. you might say "which method do you need to integrate \( \sin(x)\cos(x) \)?" and give students the choice of (i) trig functions first, 
+(ii) parts, (iii) substitution, (iv) replace with complex exponentials.  (Yes, this is a joke: all these methods can be made to work here!)  Another algebraic input can then be used for the answer.
 
-Please read the section on [inputs](Inputs.md) first.  If you are new to STACK please note that in STACK MCQs are *not* the place to 
-start learning how to author questions.  Please look at the [authoring quick-start guide](Authoring_quick_start.md).  
-Multiple choice input types return a CAS object which is then assessed by the potential response tree.  
-For this reason, these inputs do not provide "feedback" fields for each possible answer, as does the Moodle multiple choice input type.
+Please read the section on [inputs](Inputs.md) first.  If you are new to STACK please note that in STACK MCQs are *not* the place to start learning how to author questions.  Please look at the [authoring quick-start guide](Authoring_quick_start.md).
 
-The goal of these input types is to provide *modest* facilities for MCQ.  
-An early design decision was to restrict each of the possible answers to be a CAS expression.  
-In particular, we decided *NOT* to make each possible answer [CASText](CASText.md).  
-Adopting CASText would have provided more flexibility but would have significantly increased the complexity of the internal code. 
-If these features are extensively used we will consider modifying the functionality.  Please contact the developers with comments.
+Multiple choice input types return a CAS object which is then assessed by the potential response tree.  For this reason, these inputs do not provide "feedback" fields for each possible answer, as does the Moodle multiple choice input type.
+
+The goal of these input types is to provide *modest* facilities for MCQ.  An early design decision was to restrict each of the possible answers to be a CAS expression.  In particular, we decided *NOT* to make each possible answer [CASText](CASText.md).  Adopting CASText would have provided more flexibility but would have significantly increased the complexity of the internal code. If these features are extensively used we will consider a different input type.
 
 ## Model answer ##
 
 This input type uses the "model answer" both to input the teacher's answer and the other options. 
-In this respect, this input type is unique, and the "model answer" field does *not* contain just the teacher's model answer.  
-Constructing a correctly formed model answer is complex, and so this input type should be considered "advanced".  
-New users are advised to gain confidence writing questions with algebraic inputs first, and gain experience in using Maxima lists.
+In this respect, this input type is unique, and the "model answer" field does *not* contain just the teacher's model answer.  Constructing a correctly formed model answer is complex, and so this input type should be considered "advanced".  New users are advised to gain confidence writing questions with algebraic inputs first, and gain experience in using Maxima lists.
 
 The "model answer" must be supplied in a particular form as a list of lists `[[value, correct(, display)], ... ]`.
 
-* `value` is the value of the teacher's answer
+* `value` is the value of the teacher's answer.
 * `correct` must be either `true` or `false`.  If it is not `true` then it will be considered to be `false`!
-* (optional) `display` is another CAS expression to be displayed in place of `value`.  Be cautious!  
-This can be a string value here, but it will be passed through the CAS if you choose the LaTeX display option below.  
-`display` is only used in constructing the question.  STACK will take `value` as the student's answer internally, regardless of what is set here.
+* (optional) `display` is another CAS expression to be displayed in place of `value`.  This can be a string value here, but it will be passed through the CAS if you choose the LaTeX display option below.  `display` is only used in constructing the question.  STACK will take `value` as the student's answer internally, regardless of what is set here.
 
 For example
 
      ta:[[diff(p,x),true],[p,false],[int(p,x),false]]
 
-At least one of the choices must be considered `correct`.  However, the `true` and `false` values are only used to construct the "teacher's correct answer".  
-You must still use a [potential response tree](Potential_response_trees.md) to assess the student's answer as normal.
+At least one of the choices must be considered `correct`.  However, the `true` and `false` values are only used to construct the "teacher's correct answer".   You must still use a [potential response tree](Potential_response_trees.md) to assess the student's answer as normal.
 
 STACK provides some helper functions
 
 1. `mcq_correct(ta)` takes the "model answer" list and returns a list of values for which `correct` is true.
 2. `mcq_incorrect(ta)` takes the "model answer" list and returns a list of values for which `correct` is false.
 
-Note, that the optional `display` field is *only* used when constructing the choices seen by the student when displaying the question.  
-The student's answer will be the `value`, and this value is normally displayed to the student using the validation feedback, 
-i.e. "Your last answer was interpreted as...".  
-A fundamental design principal of STACK is that the student's answer should be a mathematical expression, and this input type is no exception.  
-In situations where there is a significant difference between the optional `display` and the `value` which would be confusing, 
-the only current option is to turn off validation feedback.  After all, this should not be needed anyway with this input type.  
-In the example above when a student is asked to choose the right method the `value` could be an integer and the display is some kind of string.  
-In this example the validation feedback would be confusing, since an integer (which might be shuffled) has no correspondence to the choices selected.  
-*This behaviour is a design decision and not a bug! 
-It may change in the future if there is sufficient demand, but it requires a significant change in STACK's internals to have parallel 
-"real answer" and "indicated answer".   Such a change might have other unintended and confusing consequences.*
+Note, that the optional `display` field is *only* used when constructing the choices seen by the student when displaying the question.  The student's answer will be the `value`, and this value is normally displayed to the student using the validation feedback, i.e. "Your last answer was interpreted as...". A fundamental design principal of STACK is that the student's answer should be a mathematical expression, and this input type is no exception.  
 
-Normally we don't permit duplicate values in the values of the teacher's answer.  
-If the input type receives duplicate values STACK will throw an error.  This probably arises from poor randomization.  
-However it may be needed.  If duplicate entries are permitted use the display option to create unique value keys with the same display. 
-*This behaviour is a design decision may change in the future.*
+In situations where there is a significant difference between the optional `display` and the `value` which would be confusing, the only current option is to turn off validation feedback.  After all, this should not be needed anyway with this input type.  In the example above when a student is asked to choose the right method the `value` could be an integer and the display is some kind of string.  
 
-When STACK displays the "teacher's answer", e.g. after a quiz is due, 
-this will be constructed from the `display` fields corresponding to those elements for which `correct` is `true`.  
-I.e. the "teacher's answer" will be a list of things which the student could actually select.  
-Whether the student is able to select more than one, or if more than one is actually included, is not checked.   
-The teacher must indicate at least one choice as `true`.  
+An example which includes the `display` option is
 
-If you need "none of these" you must include this as an explicit option, and not rely on the student not checking any boxes in the checkbox type.  
-Indeed, it would be impossible to distinguish the active selection of "none of these" from a passive failure to respond to the question.
+    tacp:[[A, false, "A. Direct proof"],  [B, false, "B. Definition-chasing"], [C, false, "C. If and only if"], [D, false, "D. Exhaustive cases"], [E, false, "E. Induction"], [F, false, "F. Contrapositive"], [G, true, "G. Contradiction"]];
 
-If one of the responses is \(x=1 \mbox{ or } x=2\) then it is probably best to use `nounor` which is commutative and associative.  
-Do not use `or` which always simplifies its arguments.  In this example `x=1 or x=2` evaluates to `false`.
+Note in this example the `value` of the student's answer will be a letter which is literally a Maxima variable name.  In this situation you can't really randomize the letters used easily.  (Not impossible with some cunning code, but a lot of work....)
+
+If you choose to use an integer, and randomly suffle the answers then the validation feedback would be confusing, since an integer (which might be shuffled) has no correspondence to the choices selected.  *This behaviour is a design decision and not a bug! It may change in the future if there is sufficient demand, but it requires a significant change in STACK's internals to have parallel "real answer" and "indicated answer". Such a change might have other unintended and confusing consequences.*
+
+Normally we don't permit duplicate values in the values of the teacher's answer.  If the input type receives duplicate values STACK will throw an error.  This probably arises from poor randomization.  However it may be needed.  If duplicate entries are permitted use the display option to create unique value keys with the same display. *This behaviour is a design decision may change in the future.*
+
+When STACK displays the "teacher's answer", e.g. after a quiz is due, this will be constructed from the `display` fields corresponding to those elements for which `correct` is `true`.  I.e. the "teacher's answer" will be a list of things which the student could actually select.  Whether the student is able to select more than one, or if more than one is actually included, is not checked.  The teacher must indicate at least one choice as `true`.  
+
+If you need "none of these" you must include this as an explicit option, and not rely on the student not checking any boxes in the checkbox type.  Indeed, it would be impossible to distinguish the active selection of "none of these" from a passive failure to respond to the question.
+
+If one of the responses is \(x=1 \mbox{ or } x=2\) then it is probably best to use `nounor` which is commutative and associative.  Do not use `or` which always simplifies its arguments.  In this example `x=1 or x=2` evaluates to `false`.
+
+HTML dropdowns cannot display LaTeX within the options.  This is a restriction of HTML/MathJax (not of STACK).  You can use HTML-entities within a string field.  For example 
+
+    ta1:[[0,false,"n/a"],[1,true,"&ge;"],[2,false,"&le;"],[3,false,"="],[4,false,"?"]];
+
+Note here that an integer will returned internally.
+
 
 ## Internals ##
 

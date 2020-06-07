@@ -250,4 +250,23 @@ class stack_dropdown_input_test extends qtype_stack_walkthrough_test_base {
                 $el->get_teacher_answer_display(null, null));
     }
 
+    public function test_teacher_answer_html_entities() {
+        $options = new stack_options();
+        $ta = '[[A,false,"n/a"],[B,true,"&ge;"],[C,false,"&le;"],[D,false,"="],[E,false,"?"]]';
+        $el = stack_input_factory::make('dropdown', 'ans1', $ta, null, array());
+        $el->adapt_to_model_answer($ta);
+
+        $expected = '<select id="menustack1__ans1" class="select menustack1__ans1" name="stack1__ans1">' .
+                '<option value="">(No answer given)</option><option selected="selected" value="1">n/a</option>' .
+                '<option value="2">&ge;</option><option value="3">&le;</option><option value="4">=</option>' .
+                '<option value="5">?</option></select>';
+        $this->assert_same_select_html($expected, $el->render(new stack_input_state(
+                stack_input::SCORE, array('1'), '', '', '', '', ''), 'stack1__ans1', false, null));
+        $state = $el->validate_student_response(array('ans1' => '1'), $options, '1', new stack_cas_security());
+        $this->assertEquals(stack_input::SCORE, $state->status);
+        $this->assertEquals(array('1'), $state->contents);
+        $this->assertEquals('A', $state->contentsmodified);
+        $correctresponse = array('ans1' => 2);
+        $this->assertEquals($correctresponse, $el->get_correct_response($ta));
+    }
 }

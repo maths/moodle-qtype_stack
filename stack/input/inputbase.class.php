@@ -838,6 +838,9 @@ abstract class stack_input {
         // Block use of evaluation groups.
         $filterstoapply[] = '505_no_evaluation_groups';
 
+        // Remove scripts and other related things from string-values.
+        $filterstoapply[] = '997_string_security';
+
         // If stars = 0 then strict, ignore the other strict syntax.
         if ($grammarautofixes === 0) {
             $filterstoapply[] = '999_strict';

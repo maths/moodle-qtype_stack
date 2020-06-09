@@ -10,6 +10,9 @@
     font-size: 100%;
     font-weight: bold;
 }
+.que.stack .stacksyntaxexamplehighlight {
+    color: #f00;
+}
 .que.stack .stackinputfeedback.standard {
     border: 1px solid #fff;
     background-color: #fff;

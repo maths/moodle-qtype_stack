@@ -150,6 +150,11 @@ function stack_maxima_translate($rawfeedback) {
 }
 
 function stack_maxima_format_casstring($str) {
+    // Santise the output, E.g. '>' -> '&gt;'.
+    $str = s($str);
+    $str = str_replace('[[syntaxexamplehighlight]', '<span class="stacksyntaxexamplehighlight">', $str);
+    $str = str_replace('[syntaxexamplehighlight]]', '</span>', $str);
+
     return html_writer::tag('span', $str, array('class' => 'stacksyntaxexample'));
 }
 

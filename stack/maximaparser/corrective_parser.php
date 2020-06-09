@@ -415,7 +415,8 @@ class maxima_corrective_parser {
 
         } else if (ctype_alpha($foundchar) && ctype_digit($previouschar)) {
             $a = array('cmd' => stack_maxima_format_casstring(mb_substr($string, 0, $exception->grammarOffset) .
-                    '<font color="red">*</font>' . mb_substr($string, $exception->grammarOffset)));
+                    '[[syntaxexamplehighlight]*[syntaxexamplehighlight]]' .
+                    mb_substr($string, $exception->grammarOffset)));
             $answernote[] = 'missing_stars';
         } else if ($foundchar === ',' || (ctype_digit($foundchar) && $previouschar === ',')) {
             $errors[] = stack_string('stackCas_unencpsulated_comma');
@@ -425,10 +426,10 @@ class maxima_corrective_parser {
             $answernote[] = 'illegalcaschars';
         } else if ($previouschar === ' ') {
             $cmds = trim(mb_substr($original, 0, $exception->grammarOffset - 1));
-            $cmds .= '<font color="red">_</font>';
+            $cmds .= '[[syntaxexamplehighlight]_[syntaxexamplehighlight]]';
             $cmds .= mb_substr($original, $exception->grammarOffset);
             $cmds = str_replace('@@IS@@', '*', $cmds);
-            $cmds = str_replace('@@Is@@', '<font color="red">_</font>', $cmds);
+            $cmds = str_replace('@@Is@@', '[[syntaxexamplehighlight]_[syntaxexamplehighlight]]', $cmds);
             $answernote[] = 'spaces';
             $errors[] = stack_string('stackCas_spaces', array('expr' => stack_maxima_format_casstring($cmds)));
         } else if ($foundchar === ':' && (strpos($string, ':lisp') !== false)) {

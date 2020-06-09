@@ -356,14 +356,14 @@ class MP_Operation extends MP_Node {
                 && isset($this->position['insertstars'])) {
             // This is a special rendering rule that colors all multiplications as red if they have no position.
             // i.e. if they have been added after parsing...
-            return $this->lhs->toString($params) . '<font color="red">' . $op . '</font>' .
+            return $this->lhs->toString($params) . '[[syntaxexamplehighlight]' . $op . '[syntaxexamplehighlight]]' .
                 $this->rhs->toString($params);
         }
         if ($params !== null && isset($params['fixspaces_as_red_spaces']) &&
             $this->op === '*' && isset($this->position['fixspaces'])) {
             // This is a special rendering rule that colors all multiplications as red if they have no position.
             // i.e. if they have been added after parsing...
-            return $this->lhs->toString($params) . '<font color="red">_</font>'
+            return $this->lhs->toString($params) . '[[syntaxexamplehighlight]_[syntaxexamplehighlight]]'
             . $this->rhs->toString($params);
         }
         if (stack_cas_security::get_feature($op, 'spacesurroundedop') !== null) {

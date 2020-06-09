@@ -821,6 +821,7 @@ abstract class stack_input {
         if ($this->get_parameter('forbidFloats', false)) {
             $filterstoapply[] = '101_no_floats';
         }
+        $filterstoapply[] = '110_protect_strings';
 
         if (get_class($this) === 'stack_units_input' || get_class($this) === 'stack_numerical_input') {
             $filterstoapply[] = '210_x_used_as_multiplication';
@@ -1170,23 +1171,6 @@ abstract class stack_input {
                 '', new stack_cas_security(), array());
         if ($cs->get_valid()) {
             $val = $cs->get_inputform();
-        } else {
-            $wrapped = strpos($val, '<span class="stacksyntaxexample">') === 0;
-            if ($wrapped) {
-                $val = mb_substr($val, strlen('<span class="stacksyntaxexample">'));
-                $val = mb_substr($val, 0, -7);
-            }
-            $val = str_replace('$', '&#36;&#8203;', $val);
-            // For inputs trying to use MathJax as an unescaper.
-            if (strpos($state->contents, '\\[') !== false ||
-                strpos($state->contents, '\\(') !== false) {
-                $val = str_replace('\\', '&#92;&#8203;', $val);    
-            }
-            $val = str_replace('>', '&gt;', $val);
-            $val = str_replace('<', '&lt;', $val);
-            if ($wrapped) {
-                $val = '<span class="stacksyntaxexample">' . $val . '</span>';
-            }
         }
         if (trim($val) !== '<span class="stacksyntaxexample"></span>') {
             // Compact validation.

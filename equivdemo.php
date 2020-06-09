@@ -171,7 +171,7 @@ foreach ($samplearguments as $argument) {
             $rtook = round($took, 5);
 
             $argumentvalue = '';
-            $overall = "<font color='red'>".'No value returned.'."</font>";
+            $overall = html_writer::tag('span', 'No value returned.', array('class' => 'stacksyntaxexamplehighlight'));
             if ($cs4->is_correctly_evaluated()) {
                 $argumentvalue = $cs4->get_value();
                 $overall = "Overall the argument is {$argumentvalue}.";
@@ -179,7 +179,7 @@ foreach ($samplearguments as $argument) {
             if ('unsupported' !== $argument['outcome']) {
                 $overall .= "  We expected the argument to be {$expected}.";
                 if ($argumentvalue != $expected) {
-                    $overall = "<font color='red'>".$overall."</font>";
+                    $overall = html_writer::tag('span', $overall, array('class' => 'stacksyntaxexamplehighlight'));
                 }
             }
             if ($argumentvalue === 'fail') {
@@ -191,7 +191,7 @@ foreach ($samplearguments as $argument) {
             }
             $errs = '';
             if ($ct->get_errors() != '') {
-                $errs = "<font color='red'>".$ct->get_errors()."</font>";
+                $errs = html_writer::tag('span', $ct->get_errors(), array('class' => 'stacksyntaxexamplehighlight'));
                 $errs .= $ct->get_debuginfo();
             }
             $debuginfo = $ct->get_debuginfo();

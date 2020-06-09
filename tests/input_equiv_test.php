@@ -134,7 +134,7 @@ class stack_equiv_input_test extends qtype_stack_testcase {
                 '[x^2-5*x+6,stackeq((x-2)*(x-3))]', new stack_cas_security());
         $this->assertEquals(stack_input::INVALID, $state->status);
         $this->assertEquals('You seem to be missing * characters. Perhaps you meant to type '.
-                '<span class="stacksyntaxexample">=(x-2)<font color="red">*</font>(x-3)</span>.', $state->errors);
+                '<span class="stacksyntaxexample">=(x-2)<span class="stacksyntaxexamplehighlight">*</span>(x-3)</span>.', $state->errors);
         $this->assertEquals('missing_stars', $state->note);
     }
 
@@ -145,7 +145,8 @@ class stack_equiv_input_test extends qtype_stack_testcase {
                 '[x^2-5*x+6,stackeq((x-2)*(x-3))]', new stack_cas_security());
         $this->assertEquals(stack_input::INVALID, $state->status);
         $this->assertEquals('You seem to be missing * characters. Perhaps you meant to type '.
-                '<span class="stacksyntaxexample">(x-2)<font color="red">*</font>(x-3) = 0</span>.', $state->errors);
+                '<span class="stacksyntaxexample">(x-2)<span class="stacksyntaxexamplehighlight">*</span>(x-3) = 0</span>.',
+                $state->errors);
         $this->assertEquals('missing_stars', $state->note);
     }
 
@@ -346,7 +347,7 @@ class stack_equiv_input_test extends qtype_stack_testcase {
         $this->assertEquals(stack_input::INVALID, $state->status);
         $excont = array(0 => '(x-1)*(x+4)');
         $this->assertEquals('You seem to be missing * characters. Perhaps you meant to type '.
-                '<span class="stacksyntaxexample">(x-1)<font color="red">*</font>(x+4)</span>.', $state->errors);
+                '<span class="stacksyntaxexample">(x-1)<span class="stacksyntaxexamplehighlight">*</span>(x+4)</span>.', $state->errors);
         $this->assertEquals('missing_stars', $state->note);
     }
 
@@ -629,7 +630,7 @@ class stack_equiv_input_test extends qtype_stack_testcase {
         $this->assertEquals('[x^2-1,stackeq((x-1)*(x+1)),"Comments are forbidden normally",x^2-1 = 0,(x-1)*(x+1) = 0]',
                 $state->contentsmodified);
         $this->assertEquals('\(\displaystyle x^2-1 \)<br/>\(\displaystyle =\left(x-1\right)\,\left(x+1\right) \)<br/>' .
-                '<span class="stacksyntaxexample">"Comments are forbidden normally"</span> ' .
+                '<span class="stacksyntaxexample">&quot;Comments are forbidden normally&quot;</span> ' .
                 'You are not permitted to use comments in this input type. ' .
                 'Please just work line by line.<br/>\(\displaystyle x^2-1=0 \)<br/>' .
                 '\(\displaystyle \left(x-1\right)\,\left(x+1\right)=0 \)<br/>',

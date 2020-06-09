@@ -173,8 +173,9 @@ class stack_algebra_input_test extends qtype_stack_testcase {
                 '<span class="stacksyntaxexample">2x(1+x^2)</span></p>' .
                 '<input type="hidden" name="sans1_val" value="2x(1+x^2)" /><span class="alert alert-danger stackinputerror">' .
                 'This answer is invalid. You seem to be missing * characters. ' .
-                'Perhaps you meant to type <span class="stacksyntaxexample">2<font color="red">*</font>x' .
-                '<font color="red">*</font>(1+x^2)</span>.</span></div>';
+                'Perhaps you meant to type <span class="stacksyntaxexample">2' .
+                '<span class="stacksyntaxexamplehighlight">*</span>x' .
+                '<span class="stacksyntaxexamplehighlight">*</span>(1+x^2)</span>.</span></div>';
         $this->assertEquals($vr, $el->replace_validation_tags($state, 'sans1', '[[validation:sans1]]'));
     }
 
@@ -838,7 +839,7 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         $this->assertEquals('missing_stars | spaces', $state->note);
         $this->assertEquals('3*sin(a*b)', $state->contentsmodified);
         $this->assertEquals('Illegal spaces found in expression <span class="stacksyntaxexample">' .
-                '3*sin(a<font color="red">_</font>b)</span>.', $state->errors);
+                '3*sin(a<span class="stacksyntaxexamplehighlight">_</span>b)</span>.', $state->errors);
         $this->assertEquals('A correct answer is <span class="filter_mathjaxloader_equation">' .
                 '<span class="nolink">\( 3\, \sin(a \cdot b) \)</span></span>, ' .
                 'which can be typed in as follows: <code>3*sin(a*b)</code>',
@@ -855,7 +856,7 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         $this->assertEquals('3*sin(a*b)', $state->contentsmodified);
         $this->assertEquals('missing_stars | spaces', $state->note);
         $this->assertEquals('Illegal spaces found in expression <span class="stacksyntaxexample">' .
-                '3*sin(a<font color="red">_</font>b)</span>.', $state->errors);
+                '3*sin(a<span class="stacksyntaxexamplehighlight">_</span>b)</span>.', $state->errors);
     }
 
     public function test_validate_student_response_star_space_3() {
@@ -868,7 +869,8 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         $this->assertEquals('3*sin(a*b)', $state->contentsmodified);
         $this->assertEquals('missing_stars | spaces', $state->note);
         $this->assertEquals('You seem to be missing * characters. ' .
-                'Perhaps you meant to type <span class="stacksyntaxexample">3<font color="red">*</font>sin(a*b)</span>.',
+                'Perhaps you meant to type <span class="stacksyntaxexample">3' .
+                '<span class="stacksyntaxexamplehighlight">*</span>sin(a*b)</span>.',
                 $state->errors);
     }
 
@@ -1227,5 +1229,32 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         $this->assertEquals($state->contentsmodified, 'oc(a,b)');
         $this->assertEquals($state->contentsdisplayed,
                 '\[ \left( a,\, b\right] \]');
+    }
+
+    public function test_validate_student_response_xss() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('algebraic', 'sans1', '%union({3,4,5})');
+        $el->set_parameter('sameType', true);
+
+        $sa = '$$ \unicode{<script>eval(atob("ZG9jdW1lbnQuZ2V0RWxlbWVudHNCeVRhZ05hbWUoInAiKVswXS5pbm5lckhU' .
+                'TUwgPSAiQSIucmVwZWF0KDY2Nik"))</script><iframe src="https://www.youtube.com/embed/IB3d1Ut' .
+                'hDrk?autoplay=1&amp;loop=1;controls=0"<https://www.youtube.com/embed/IB3d1UthDrk?autoplay' .
+                '=1&amp;loop=1;controls=0> allow="accelerometer; autoplay; encrypted-media; gyroscope; ' .
+                'picture-in-picture" allowfullscreen="" width="0" height="0" frameborder="0"></iframe>}$$';
+        $ta = '<span class="stacksyntaxexample">$$ \unicode{&lt;script&gt;eval(atob(&quot;ZG9jdW1lbnQuZ2V0R' .
+                'WxlbWVudHNCeVRhZ05hbWUoInAiKVswXS5pbm5lckhUTUwgPSAiQSIucmVwZWF0KDY2Nik&quot;))&lt;/script&' .
+                'gt;&lt;iframe src=&quot;https://www.youtube.com/embed/IB3d1UthDrk?autoplay=1&amp;amp;loop=' . 
+                '1;controls=0&quot;&lt;https://www.youtube.com/embed/IB3d1UthDrk?autoplay=1&amp;amp;loop=1;' .
+                'controls=0&gt; allow=&quot;accelerometer; autoplay; encrypted-media; gyroscope; picture-in' .
+                '-picture&quot; allowfullscreen=&quot;&quot; width=&quot;0&quot; height=&quot;0&quot; frame' .
+                'border=&quot;0&quot;&gt;&lt;/iframe&gt;}$$</span>';
+        // We don't require intervals to have real numbers in them.
+        $state = $el->validate_student_response(array('sans1' => $sa), $options, '%union({3,4,5})',
+                new stack_cas_security(false, '', '', array('ta')));
+        $this->assertEquals($state->status, stack_input::INVALID);
+        $this->assertEquals('spaces | forbiddenChar', $state->note);
+        $this->assertEquals('CAS commands may not contain the following characters: ;.', $state->errors);
+        $this->assertEquals('', $state->contentsmodified);
+        $this->assertEquals($ta, $state->contentsdisplayed);
     }
 }

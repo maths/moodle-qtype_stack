@@ -291,8 +291,8 @@ class stack_answertest_general_cas_test extends qtype_stack_testcase {
 
         list ($valid, $err) = $at->validate_atoptions('2x');
         $this->assertFalse($valid);
-        $this->assertEquals("You seem to be missing * characters. Perhaps you meant to type " .
-                "<span class=\"stacksyntaxexample\">2<font color=\"red\">*</font>x</span>.", $err);
+        $this->assertEquals('You seem to be missing * characters. Perhaps you meant to type ' .
+                '<span class="stacksyntaxexample">2<span class="stacksyntaxexamplehighlight">*</span>x</span>.', $err);
     }
 
     public function test_is_true_numabsolute() {

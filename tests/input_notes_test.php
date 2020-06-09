@@ -65,4 +65,30 @@ class stack_notes_input_test extends qtype_stack_testcase {
                 '<p class="stackinputnotice">(This input is not assessed automatically by STACK.)</p></div></span></div>';
         $this->assertEquals($vr, $el->replace_validation_tags($state, 'sans1', '[[validation:sans1]]'));
     }
+
+    public function test_validate_student_response_xss() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('notes', 'sans1', 'Hello');
+        $el->set_parameter('sameType', true);
+
+        $sa = '$$ \unicode{<script>eval(atob("ZG9jdW1lbnQuZ2V0RWxlbWVudHNCeVRhZ05hbWUoInAiKVswXS5pbm5lckhU' .
+                'TUwgPSAiQSIucmVwZWF0KDY2Nik"))</script><iframe src="https://www.youtube.com/embed/IB3d1Ut' .
+                'hDrk?autoplay=1&amp;loop=1;controls=0"<https://www.youtube.com/embed/IB3d1UthDrk?autoplay' .
+                '=1&amp;loop=1;controls=0> allow="accelerometer; autoplay; encrypted-media; gyroscope; ' .
+                'picture-in-picture" allowfullscreen="" width="0" height="0" frameborder="0"></iframe>}$$';
+        $ta = '<div class="stackinputfeedback standard" id="sans1_val"><span class="filter_mathjaxloader_' .
+                'equation"><div class="text_to_html"><p><span class="nolink">$$ \unicode{ allow="accelerometer; ' .
+                'autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="" width="0" height="0' .
+                '" frameborder="0"&gt;}$$</span></p><p class="stackinputnotice">(This input is not assessed autom' .
+                'atically by STACK.)</p></div></span></div>';
+        // We don't require intervals to have real numbers in them.
+        $state = $el->validate_student_response(array('sans1' => $sa), $options, '%union({3,4,5})',
+                new stack_cas_security(false, '', '', array('ta')));
+        $this->assertEquals($state->status, stack_input::INVALID);
+        $this->assertEquals('', $state->note);
+        $this->assertEquals('', $state->errors);
+        $this->assertEquals('', $state->contentsmodified);
+        $this->assertEquals('<span class="stacksyntaxexample">true</span>', $state->contentsdisplayed);
+        $this->assertEquals($ta, $el->replace_validation_tags($state, 'sans1', '[[validation:sans1]]'));
+    }
 }

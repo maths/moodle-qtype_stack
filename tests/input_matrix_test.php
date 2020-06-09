@@ -280,7 +280,7 @@ class stack_matrix_input_test extends qtype_stack_testcase {
         $this->assertEquals('You have a missing left bracket <span class="stacksyntaxexample">(</span> in the expression: ' .
                 '<span class="stacksyntaxexample">2*x)</span>.    ' .
                 'You seem to be missing * characters. Perhaps you meant to type ' .
-                '<span class="stacksyntaxexample">6<font color="red">*</font>a</span>.', $state->errors);
+                '<span class="stacksyntaxexample">6<span class="stacksyntaxexamplehighlight">*</span>a</span>.', $state->errors);
         $this->assertEquals('', $state->lvars);
     }
 

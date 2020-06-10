@@ -22,7 +22,7 @@ require_once(__DIR__ . '/filter.interface.php');
  * certain chars that would allow script injection.
  *
  * Will not warn about changes, will just break stuff to keep it safe.
- * 
+ *
  * Not to be used with author sourced content.
  */
 class stack_ast_filter_997_string_security implements stack_cas_astfilter {
@@ -31,19 +31,7 @@ class stack_ast_filter_997_string_security implements stack_cas_astfilter {
 
         $process = function($node) {
             if ($node instanceof MP_String) {
-                // Students may not input strings containing specific LaTeX
-                // i.e. no math-modes due to us being unable to decide if
-                // it is safe.
-                $node->value = str_replace('\\[', '\\&#8203;[', $node->value);
-                $node->value = str_replace('\\]', '\\&#8203;]', $node->value);
-                $node->value = str_replace('\\(', '\\&#8203;(', $node->value);
-                $node->value = str_replace('\\)', '\\&#8203;)', $node->value);
-                $node->value = str_replace('$$', '$&#8203;$', $node->value);
-                // Also any script tags need to be disabled.
-                $node->value = str_ireplace('<script', '&lt;&#8203;script', $node->value);
-                $node->value = str_ireplace('</script>', '&lt;&#8203;/script&gt;', $node->value);
-                $node->value = str_ireplace('<iframe', '&lt;&#8203;iframe', $node->value);
-                $node->value = str_ireplace('</iframe>', '&lt;&#8203;/iframe&gt;', $node->value);
+                $node->value = stack_string_sanitise($node->value);
             }
             return true;
         };

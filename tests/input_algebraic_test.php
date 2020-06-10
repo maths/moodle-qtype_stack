@@ -1231,23 +1231,37 @@ class stack_algebra_input_test extends qtype_stack_testcase {
                 '\[ \left( a,\, b\right] \]');
     }
 
-    public function test_validate_student_response_xss() {
+    public function test_validate_student_response_tex() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('algebraic', 'sans1', '{}');
+
+        $state = $el->validate_student_response(array('sans1' => '\[x^2\]'), $options, '{}',
+                new stack_cas_security(false, '', '', array('ta')));
+        $this->assertEquals($state->status, stack_input::INVALID);
+        $this->assertEquals('illegalcaschars', $state->note);
+        $this->assertEquals('The characters @, $ and \ are not allowed in CAS input.', $state->errors);
+        $this->assertEquals($state->contentsmodified, '');
+        // This appears to the student to display correctly, since the TeX is picked up by MathJax.
+        $this->assertEquals($state->contentsdisplayed,
+                '<span class="stacksyntaxexample">\&#8203;[x^2\&#8203;]</span>');
+    }
+
+    public function test_validate_student_response_xss_1() {
         $options = new stack_options();
         $el = stack_input_factory::make('algebraic', 'sans1', '%union({3,4,5})');
-        $el->set_parameter('sameType', true);
 
         $sa = '$$ \unicode{<script>eval(atob("ZG9jdW1lbnQuZ2V0RWxlbWVudHNCeVRhZ05hbWUoInAiKVswXS5pbm5lckhU' .
                 'TUwgPSAiQSIucmVwZWF0KDY2Nik"))</script><iframe src="https://www.youtube.com/embed/IB3d1Ut' .
                 'hDrk?autoplay=1&amp;loop=1;controls=0"<https://www.youtube.com/embed/IB3d1UthDrk?autoplay' .
                 '=1&amp;loop=1;controls=0> allow="accelerometer; autoplay; encrypted-media; gyroscope; ' .
                 'picture-in-picture" allowfullscreen="" width="0" height="0" frameborder="0"></iframe>}$$';
-        $ta = '<span class="stacksyntaxexample">$$ \unicode{&lt;script&gt;eval(atob(&quot;ZG9jdW1lbnQuZ2V0R' .
-                'WxlbWVudHNCeVRhZ05hbWUoInAiKVswXS5pbm5lckhUTUwgPSAiQSIucmVwZWF0KDY2Nik&quot;))&lt;/script&' .
-                'gt;&lt;iframe src=&quot;https://www.youtube.com/embed/IB3d1UthDrk?autoplay=1&amp;amp;loop=' . 
-                '1;controls=0&quot;&lt;https://www.youtube.com/embed/IB3d1UthDrk?autoplay=1&amp;amp;loop=1;' .
-                'controls=0&gt; allow=&quot;accelerometer; autoplay; encrypted-media; gyroscope; picture-in' .
-                '-picture&quot; allowfullscreen=&quot;&quot; width=&quot;0&quot; height=&quot;0&quot; frame' .
-                'border=&quot;0&quot;&gt;&lt;/iframe&gt;}$$</span>';
+        $ta = '<span class="stacksyntaxexample">$&#8203;$ \unicode{&lt;&#8203;script>eval(atob("ZG9jdW1lb' .
+                'nQuZ2V0RWxlbWVudHNCeVRhZ05hbWUoInAiKVswXS5pbm5lckhUTUwgPSAiQSIucmVwZWF0KDY2Nik"))&lt;&#8' .
+                '203;/script&gt;&lt;&#8203;iframe src="https://www.youtube.com/embed/IB3d1UthDrk?autoplay' .
+                '=1&amp;loop=1;controls=0"<https://www.youtube.com/embed/IB3d1UthDrk?autoplay=1&amp;loop=' .
+                '1;controls=0> allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-pic' .
+                'ture" allowfullscreen="" width="0" height="0" frameborder="0">&lt;&#8203;/iframe&gt;}$&#' .
+                '8203;$</span>';
         // We don't require intervals to have real numbers in them.
         $state = $el->validate_student_response(array('sans1' => $sa), $options, '%union({3,4,5})',
                 new stack_cas_security(false, '', '', array('ta')));
@@ -1256,5 +1270,56 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         $this->assertEquals('CAS commands may not contain the following characters: ;.', $state->errors);
         $this->assertEquals('', $state->contentsmodified);
         $this->assertEquals($ta, $state->contentsdisplayed);
+    }
+
+    public function test_validate_student_response_xss_2() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('algebraic', 'sans1', '%union({3,4,5})');
+
+        $sa = '1+"\\unicode{<script>eval(atob(\"ZG9jdW1lbnQuZ2V0RWxlbWVudHNCeVRhZ05hbWUoInAiKVswXS5pbm5lckhU' .
+                'TUwgPSAiQSIucmVwZWF0KDY2Nik\"))</script><iframe src=\"https://www.youtube.com/embed/IB3d1Ut' .
+                'hDrk?autoplay=1\" allow=\"autoplay\" allowfullscreen=\"\" width=\"0\" height=\"0\" framebor' .
+                'der=\"0\"></iframe>}"';
+        $ta = '1+"unicode{&lt;&#8203;script>eval(atob(\"ZG9jdW1lbnQuZ2V0RWxlbWVudHNCeVRhZ05hbWUoInAiKVswXS5p' .
+                'bm5lckhUTUwgPSAiQSIucmVwZWF0KDY2Nik\"))&lt;&#8203;/script&gt;&lt;&#8203;iframe src=\"https:' .
+                '//www.youtube.com/embed/IB3d1UthDrk?autoplay=1\" allow=\"autoplay\" allowfullscreen=\"\" wi' .
+                'dth=\"0\" height=\"0\" frameborder=\"0\">&lt;&#8203;/iframe&gt;}"';
+        $ua = '\[ 1+\mbox{unicode{\&lt;\&#8203;script>eval(atob("ZG9jdW1lbnQuZ2V0RWxlbWVudHNCeVRhZ05hbWUoInA' .
+                'iKVswXS5pbm5lckhUTUwgPSAiQSIucmVwZWF0KDY2Nik"))\&lt;\&#8203;/script\&gt;\&lt;\&#8203;iframe' .
+                ' src="https://www.youtube.com/embed/IB3d1UthDrk?autoplay=1" allow="autoplay" allowfullscreen' .
+                '="" width="0" height="0" frameborder="0">\&lt;\&#8203;/iframe\&gt;}} \]';
+        $state = $el->validate_student_response(array('sans1' => $sa), $options, '1+x^2',
+                new stack_cas_security(false, '', '', array('ta')));
+        $this->assertEquals($state->status, stack_input::INVALID);
+        $this->assertEquals('', $state->note);
+        $this->assertEquals('Your answer contains question mark characters, ?, which are not permitted in answers.  ' .
+                'You should replace these with a specific value.', $state->errors);
+        $this->assertEquals($ta, $state->contentsmodified);
+        $this->assertEquals($ua, $state->contentsdisplayed);
+    }
+
+    public function test_validate_student_response_xss_3() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('algebraic', 'sans1', '%union({3,4,5})');
+
+        $sa = '1+"\\unicode{<script>eval(atob(\"ZG9jdW1lbnQuZ2V0RWxlbWVudHNCeVRhZ05hbWUoInAiKVswXS5pbm5lckhUT' .
+                'UwgPSAiQSIucmVwZWF0KDY2Nik\"))</script><iframesrc=\"https://www.youtube.com/embed/IB3d1UthDr' .
+                'k&quest;autoplay=1\"allow=\"autoplay\" allowfullscreen=\"\" width=\"0\" height=\"0\" framebo' .
+                'rder=\"0\"></iframe>}"';
+        $ta = '1+"unicode{&lt;&#8203;script>eval(atob(\"ZG9jdW1lbnQuZ2V0RWxlbWVudHNCeVRhZ05hbWUoInAiKVswXS5pb' .
+                'm5lckhUTUwgPSAiQSIucmVwZWF0KDY2Nik\"))&lt;&#8203;/script&gt;&lt;&#8203;iframesrc=\"https://w' .
+                'ww.youtube.com/embed/IB3d1UthDrk&quest;autoplay=1\"allow=\"autoplay\" allowfullscreen=\"\" w' .
+                'idth=\"0\" height=\"0\" frameborder=\"0\">&lt;&#8203;/iframe&gt;}"';
+        $ua = '\[ 1+\mbox{unicode{\&lt;\&#8203;script>eval(atob("ZG9jdW1lbnQuZ2V0RWxlbWVudHNCeVRhZ05hbWUoInAi' .
+                'KVswXS5pbm5lckhUTUwgPSAiQSIucmVwZWF0KDY2Nik"))\&lt;\&#8203;/script\&gt;\&lt;\&#8203;iframesr' .
+                'c="https://www.youtube.com/embed/IB3d1UthDrk\&quest;autoplay=1"allow="autoplay" allowfullscr' .
+                'een="" width="0" height="0" frameborder="0">\&lt;\&#8203;/iframe\&gt;}} \]';
+        $state = $el->validate_student_response(array('sans1' => $sa), $options, '1+x^2',
+                new stack_cas_security(false, '', '', array('ta')));
+        $this->assertEquals($state->status, stack_input::VALID);
+        $this->assertEquals('', $state->note);
+        $this->assertEquals('', $state->errors);
+        $this->assertEquals($ta, $state->contentsmodified);
+        $this->assertEquals($ua, $state->contentsdisplayed);
     }
 }

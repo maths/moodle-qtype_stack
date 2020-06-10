@@ -56,10 +56,10 @@ class maxima_corrective_parser_test_data {
                     array(0 => 'Non-strict inequalities e.g. <span class="filter_mathjaxloader_equation">' .
                             '<span class="nolink">\( \leq \)</span></span> or ' .
                             '<span class="filter_mathjaxloader_equation"><span class="nolink">\( \geq \)</span></span>' .
-                            ' must be entered as <= or >=.  You have <span class="stacksyntaxexample">=&gt;</span> ' .
+                            ' must be entered as <= or >=.  You have <span class="stacksyntaxexample">=></span> ' .
                             'in your expression, which is backwards.')),
             array('x>1 and x<>4', null, array(0 => 'spuriousop'),
-                    array(0 => 'Unknown operator: <span class="stacksyntaxexample">&lt;&gt;</span>.')),
+                    array(0 => 'Unknown operator: <span class="stacksyntaxexample"><></span>.')),
             array('x^2+2*x==1', null, array(0 => 'spuriousop'),
                     array(0 => 'Unknown operator: <span class="stacksyntaxexample">==</span>.')),
             array('x|y', null, array(0 => 'spuriousop'),

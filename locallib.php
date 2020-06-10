@@ -151,11 +151,30 @@ function stack_maxima_translate($rawfeedback) {
 
 function stack_maxima_format_casstring($str) {
     // Santise the output, E.g. '>' -> '&gt;'.
-    $str = s($str);
+    $str = stack_string_sanitise($str);
     $str = str_replace('[[syntaxexamplehighlight]', '<span class="stacksyntaxexamplehighlight">', $str);
     $str = str_replace('[syntaxexamplehighlight]]', '</span>', $str);
 
     return html_writer::tag('span', $str, array('class' => 'stacksyntaxexample'));
+}
+
+function stack_string_sanitise($str) {
+    // Students may not input strings containing specific LaTeX
+    // i.e. no math-modes due to us being unable to decide if
+    // it is safe.
+    $str = str_replace('\\[', '\\&#8203;[', $str);
+    $str = str_replace('\\]', '\\&#8203;]', $str);
+    $str = str_replace('\\(', '\\&#8203;(', $str);
+    $str = str_replace('\\)', '\\&#8203;)', $str);
+    $str = str_replace('$$', '$&#8203;$', $str);
+    // Also any script tags need to be disabled.
+    $str = str_ireplace('<script', '&lt;&#8203;script', $str);
+    $str = str_ireplace('</script>', '&lt;&#8203;/script&gt;', $str);
+    $str = str_ireplace('<iframe', '&lt;&#8203;iframe', $str);
+    $str = str_ireplace('</iframe>', '&lt;&#8203;/iframe&gt;', $str);
+    $str = str_ireplace('<style', '&lt;&#8203;style', $str);
+    $str = str_ireplace('</style>', '&lt;&#8203;/style&gt;', $str);
+    return $str;
 }
 
 /**

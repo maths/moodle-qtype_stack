@@ -181,6 +181,95 @@ class qtype_stack_test_helper extends question_test_helper {
         return $q;
     }
 
+    public function get_stack_question_form_data_test1() {
+        $formform = new stdClass();
+
+        $formform->name = 'test-1';
+        $formform->stackversion = get_config('qtype_stack', 'version');
+        $formform->questionvariables = 'n : rand(5)+3; a : rand(5)+3; v : x; p : (v-a)^n; ta : (x-7)^4/4; ta1 : ta';
+        $formform->variantsselectionseed = '';
+        $formform->questiontext = array(
+            'text' => 'Find
+                       \[ \int {@p@} d{@v@}\]
+                       [[input:ans1]]
+                       [[validation:ans1]]',
+            'format' => '1',
+            'itemid' => 0);
+        $formform->defaultmark = 4;
+        $formform->specificfeedback = array(
+            'text' => '[[feedback:PotResTree_1]]',
+            'format' => '1',
+            'itemid' => 0);
+        $formform->penalty = 0.40000000000000002;
+        $formform->generalfeedback = array(
+            'text' => 'We can either do this question by inspection (i.e. spot the answer)
+                               or in a more formal manner by using the substitution
+                               \[ u = ({@v@}-{@a@}).\]
+                               Then, since $\frac{d}{d{@v@}}u=1$ we have
+                               \[ \int {@p@} d{@v@} = \int u^{@n@} du = \frac{u^{@n+1@}}{@n+1@}+c = {@ta@}+c.\]',
+            'format' => '1',
+            'itemid' => 0);
+        $formform->questionnote = '{@p@}, {@ta@}.';
+
+        $formform->ans1type = 'algebraic';
+        $formform->ans1modelans = 'ta+c';
+        $formform->ans1boxsize = 20;
+        $formform->ans1strictsyntax = '1';
+        $formform->ans1insertstars = '0';
+        $formform->ans1syntaxhint = '';
+        $formform->ans1syntaxattribute = '0';
+        $formform->ans1forbidwords = 'int, [[BASIC-ALGEBRA]]';
+        $formform->ans1allowwords = 'popup, boo, Sin';
+        $formform->ans1forbidfloat = '1';
+        $formform->ans1requirelowestterms = '0';
+        $formform->ans1checkanswertype = '0';
+        $formform->ans1mustverify = '1';
+        $formform->ans1showvalidation = '1';
+        $formform->ans1options = '';
+
+        $formform->PotResTree_1value = 1;
+        $formform->PotResTree_1autosimplify = '1';
+        $formform->PotResTree_1feedbackstyle     = 1;
+        $formform->PotResTree_1feedbackvariables = 'sa:subst(x=-x,ans1)+ans1';
+        $formform->PotResTree_1answertest = array(0 => 'Int');
+        $formform->PotResTree_1sans = array(0 => 'ans1+0');
+        $formform->PotResTree_1tans = array(0 => 'ta');
+        $formform->PotResTree_1testoptions = array(0 => 'x');
+        $formform->PotResTree_1quiet = array(0 => '0');
+        $formform->PotResTree_1truescoremode = array(0 => '=');
+        $formform->PotResTree_1truescore = array(0 => '1');
+        $formform->PotResTree_1truepenalty = array(0 => '');
+        $formform->PotResTree_1truenextnode = array(0 => '-1');
+        $formform->PotResTree_1trueanswernote = array(0 => 'PotResTree_1-1-T');
+        $formform->PotResTree_1truefeedback = array(0 => array('text' => '', 'format' => '1', 'itemid' => 0));
+        $formform->PotResTree_1falsescoremode = array(0 => '=');
+        $formform->PotResTree_1falsescore = array(0 => '0');
+        $formform->PotResTree_1falsepenalty = array(0 => '');
+        $formform->PotResTree_1falsenextnode = array(0 => '-1');
+        $formform->PotResTree_1falseanswernote = array(0 => 'PotResTree_1-1-F');
+        $formform->PotResTree_1falsefeedback = array(0 => array('text' => '', 'format' => '1', 'itemid' => 0));
+
+        $formform->questionsimplify = '1';
+        $formform->assumepositive = '0';
+        $formform->assumereal = '0';
+        $formform->prtcorrect = array('text' => 'Correct answer, well done!', 'format' => '1', 'itemid' => 0);
+        $formform->prtpartiallycorrect = array('text' => 'Your answer is partially correct!', 'format' => '1', 'itemid' => 0);
+        $formform->prtincorrect = array('text' => 'Incorrect answer :-(', 'format' => '1', 'itemid' => 0);
+        $formform->multiplicationsign = 'dot';
+        $formform->sqrtsign = '1';
+        $formform->complexno = 'i';
+        $formform->inversetrig = 'cos-1';
+        $formform->logicsymbol = 'lang';
+        $formform->matrixparens = '[';
+        $formform->numhints = 2;
+        $formform->hint = array(
+            0 => array('text' => 'Hint 1<br>', 'format' => '1', 'itemid' => '0'),
+            1 => array('text' => '<p>Hint 2<br></p>', 'format' => '1', 'itemid' => '0'));
+        $formform->qtype = 'stack';
+
+        return $formform;
+    }
+
     /**
      * @return qtype_stack_question the question from the test2.xml file.
      */
@@ -1199,7 +1288,7 @@ class qtype_stack_test_helper extends question_test_helper {
     }
 
     /**
-     * @return qtype_stack_question the question from the test0.xml file.
+     * @return stdClass the question from the test0.xml file.
      */
     public static function get_stack_question_data_test0() {
         question_bank::load_question_definition_classes('stack');
@@ -1305,7 +1394,7 @@ class qtype_stack_test_helper extends question_test_helper {
     }
 
     /**
-     * @return qtype_stack_question the question from the test3.xml file.
+     * @return stdClass the question from the test3.xml file.
      */
     public static function get_stack_question_data_test3() {
         question_bank::load_question_definition_classes('stack');

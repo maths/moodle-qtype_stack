@@ -100,3 +100,22 @@ Feature: Create, preview, test, tidy and edit STACK questions
       | Question name | Edited question name |
     And I press "id_submitbutton"
     Then I should see "Edited question name"
+
+  @javascript
+  Scenario: Test duplicating a STACK question keeps the deployed variants and question tests
+    Given the following "questions" exist:
+      | questioncategory | qtype | name             | template |
+      | Default for C1   | stack | Question to copy | test1    |
+    And the following "qtype_stack > Deployed variants" exist:
+      | question         | seed |
+      | Question to copy | 42   |
+    And the following "qtype_stack > Question tests" exist:
+      | question         | ans1 | PotResTree_1 score | PotResTree_1 penalty | PotResTree_1 note |
+      | Question to copy | ta+C | 1                  | 0                    | PotResTree_1-1-T  |
+    And I reload the page
+    When I choose "Duplicate" action for "Question to copy" in the question bank
+    And I press "id_submitbutton"
+    And I choose "Question tests & deployed variants" action for "Question to copy (copy)" in the question bank
+    Then I should see "Deployed variants (1)"
+    And I should see "42"
+    And I should see "Test case 1 Pass"

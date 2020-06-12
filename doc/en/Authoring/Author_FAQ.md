@@ -1,5 +1,9 @@
 # Author FAQ
 
+## How can I improve the documentation? ##
+
+Please either edit the docs on github, or send us a pull request. Your contributions are very welcome.
+
 ## How can I report a bug or make a suggestion? ##
 
 Please read this page first!  Contributions are very welcome.  Please see the [community](../About/Community.md) page for more specific details.

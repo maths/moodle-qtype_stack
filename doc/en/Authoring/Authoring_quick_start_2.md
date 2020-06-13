@@ -6,7 +6,7 @@
 
 This part of the authoring quick start guide deals with using question variables. The following video explains the process:
 
-<iframe width="560" height="315" src="https://www.youtube.com/watch?v=SFo3MBkyWVQ" frameborder="0" allowfullscreen></iframe>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/SFo3MBkyWVQ" frameborder="0" allowfullscreen></iframe>
 
 ## Example question
 

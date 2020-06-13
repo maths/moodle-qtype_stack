@@ -323,6 +323,20 @@ class qtype_stack extends question_type {
 
         $this->save_hints($fromform);
 
+        // This is a bit of a hack. If doing 'Duplicate' in the question bank
+        // then when saving the editing form, then detect that here, and try to
+        // copy the deployed variants from the original question.
+        if (!isset($fromform->deployedseeds) && !empty($fromform->makecopy)) {
+            $oldquestionid = optional_param('id', 0, PARAM_INT);
+            if ($oldquestionid) {
+                $fromform->deployedseeds = $DB->get_fieldset_sql('
+                        SELECT seed
+                          FROM {qtype_stack_deployed_seeds}
+                         WHERE questionid = ?
+                      ORDER BY id', [$oldquestionid]);;
+            }
+        }
+
         if (isset($fromform->deployedseeds)) {
             $DB->delete_records('qtype_stack_deployed_seeds', array('questionid' => $fromform->id));
             foreach ($fromform->deployedseeds as $deployedseed) {
@@ -333,9 +347,9 @@ class qtype_stack extends question_type {
             }
         }
 
-        // This is a bit of a hack. If doing 'Make a copy' when saving the
-        // editing form, then detect that here, and try to copy the question
-        // tests from the original question.
+        // This is a bit of a hack. If doing 'Duplicate' in the question bank
+        // then when saving the editing form, then detect that here, and try to
+        // copy the question tests from the original question.
         if (!isset($fromform->testcases) && !empty($fromform->makecopy)) {
             $oldquestionid = optional_param('id', 0, PARAM_INT);
             if ($oldquestionid) {

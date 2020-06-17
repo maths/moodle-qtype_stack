@@ -157,15 +157,18 @@ class stack_question_test_result {
                 $state->testoutcome = false;
                 $reason[] = stack_string('score');
             }
-            // If the expected penalty is null, then we use the question default penalty.
+            // If the expected penalty is null then we use the question default penalty.
             $penalty = $state->expectedpenalty;
             if (is_null($state->expectedpenalty)) {
                 $penalty = $this->questionpenalty;
             }
-            if (is_null($state->penalty) ||
-                    abs($penalty - $state->penalty) > 10E-6) {
-                $state->testoutcome = false;
-                $reason[] = stack_string('penalty');
+            // If we have a "NULL" expected answer note we just ignore what happens to penalties here.
+            if ('NULL' !== $state->expectedanswernote) {
+                if (is_null($state->penalty) ||
+                        abs($penalty - $state->penalty) > 10E-6) {
+                    $state->testoutcome = false;
+                    $reason[] = stack_string('penalty');
+                }
             }
             if (!$this->test_answer_note($state->expectedanswernote, $actualresult->answernotes)) {
                 $state->testoutcome = false;

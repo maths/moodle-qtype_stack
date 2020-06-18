@@ -1788,6 +1788,8 @@ class stack_answertest_test_data {
         array('UnitsAbsolute', '0.01', '0.0*km/s', '0.0*m/s', 1, 'ATUnits_compatible_units m/s.', ''),
         array('UnitsAbsolute', '0.01', '0.0*m', '0.0*m/s', 0, 'ATUnits_incompatible_units. ATUnits_correct_numerical.', ''),
         array('UnitsAbsolute', '0.01', '0.0', '0.0*m/s', 0, 'ATUnits_SA_no_units.', ''),
+        // The teacher's answer here is likely to be the result of internal simplification.
+        array('UnitsAbsolute', '0.01', '1.0*m/s', 'm/s', 1, 'ATUnits_units_match.', ''),
         array('UnitsAbsolute', '0.01', '15/pi*kN/mm^2', '15/pi*kN/mm^2', 1, 'ATUnits_units_match.', ''),
         array('UnitsAbsolute', '0.01', '(15*kN)/(pi*mm^2)', '(15*kN)/(pi*mm^2)', 1, 'ATUnits_units_match.', ''),
         array('UnitsAbsolute', '0.01', '(15/pi)*(kN/mm^2)', '(15/pi)*(kN/mm^2)', 1, 'ATUnits_units_match.', ''),

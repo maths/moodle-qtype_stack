@@ -464,6 +464,10 @@ ATUnitsFun(SA, SB, SO, strictp, numtest) := block([validity, rawmk, sb, ansnote,
   if (debug) then (print("ATUnitsFun: raw input: "), print(SA), print(SB)),
   SAU:stackunits_make(SA),
   SBU:stackunits_make(SB),
+  /* If the teacher has not supplied numerical information then it is assumed to be 1.0.
+     The teacher's answer could well be the result of a calculation in which 1.0*units -> units. */
+  if stack_units_nums(SBU) = NULLNUM then
+    SBU:stackunits_make(1.0*SB),
   SOU:stackunits_make(SO),
 
   /* If the teacher uses units in the option then they must be identical to the units in the teacher's answer. */
@@ -471,7 +475,7 @@ ATUnitsFun(SA, SB, SO, strictp, numtest) := block([validity, rawmk, sb, ansnote,
     (print("TEST_FAILED"), return(StackBasicReturn(false, false, "ATUnits_SO_wrong_units"))),
 
   if (debug) then (print("ATUnitsFun: Initial stackunits_make gives: "), print(SAU), print(SBU), print(SOU)),
-  
+
   /* The teacher must supply some units, otherwise the test will fail. */
   if is_simp(stack_units_units(SBU) = NULLUNITS) then
     (print("TEST_FAILED"), return([false, false, StackAddNote("", "ATUnits_SB_no_units"), StackAddFeedback("", "TEST_FAILED_Q")])),

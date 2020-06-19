@@ -186,6 +186,7 @@ $string['inputtypenumerical'] = 'Numerical';
 $string['numericalinputmustnumber'] = 'This input expects a number.';
 $string['numericalinputvarsforbidden'] = 'This input expects a number, and so may not contain variables.';
 $string['numericalinputmustfloat'] = 'This input expects a floating point number.';
+$string['numericalinputmustint'] = 'This input expects an explicit integer.';
 $string['numericalinputmustrational'] = 'This input expects a fraction or rational number.';
 $string['numericalinputdp'] = 'You must supply exactly \( {$a} \) decimal places.';
 $string['numericalinputsf'] = 'You must supply exactly \( {$a} \) significant figures.';

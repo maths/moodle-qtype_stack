@@ -36,7 +36,9 @@ class stack_numerical_input extends stack_input {
         'novars' => true,
         // Is a student required to type in a float?
         'floatnum' => false,
-         // Is the demoninator of any fractions in the student's answer to be free of surds?
+        // Is a student required to type in an explicit integer?
+        'intnum' => false,
+        // Is the demoninator of any fractions in the student's answer to be free of surds?
         'rationalnum' => false,
         'rationalized' => false,
         // Require min/max number of decimal places?

@@ -1985,7 +1985,7 @@ class stack_answertest_test_data {
             $anomalynote[] = '[NOTE expected: ' . $test->ansnote . ']';
         }
 
-        $anomalynote = implode($anomalynote, ' | ');
+        $anomalynote = implode(' | ', $anomalynote);
         return array($passed, $errors, $rawmark, $feedback, $ansnote, $anomalynote, $trace);
     }
 }

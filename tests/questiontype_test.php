@@ -151,7 +151,6 @@ class qtype_stack_test extends qtype_stack_walkthrough_test_base {
         $qtest = new stack_question_test(array('ans2' => 'ans2'));
         $qtest->add_expected_result('even', new stack_potentialresponse_tree_state(
                 1, true, 1, 0, '', array('even-1-T')));
-        $qdata->testcases[] = $qtest;
 
         foreach ($testcases as $testcase) {
             $result = $testcase->test_question($questionid, $seed, context_system::instance());

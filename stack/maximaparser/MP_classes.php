@@ -998,7 +998,7 @@ class MP_FunctionCall extends MP_Node {
         }
 
         if ($params !== null && isset($params['varmatrix']) && $params['varmatrix']) {
-            return implode($ar, "\n");
+            return implode("\n", $ar);
         }
 
         if ($params !== null && isset($params['flattree'])) {
@@ -1283,7 +1283,7 @@ class MP_List extends MP_Node {
         }
 
         if ($varmatrix) {
-            return implode($ar, " ");
+            return implode(" ", $ar);
         }
 
         if ($params !== null && isset($params['flattree'])) {

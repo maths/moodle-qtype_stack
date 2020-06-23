@@ -231,51 +231,12 @@ make_logic(OPT_LOGIC) := block(
 )$
 
 /* Options for cos^(-1), acos or arccos. */
+/* There is a bug in texput which prevents us from avoiding a "load" here. */
 make_arccos(OPT_ACOS) := block(
-    if OPT_ACOS = "cos-1" then block(
-       texput(asin, "\\sin^{-1}", prefix),
-       texput(acos, "\\cos^{-1}", prefix),
-       texput(atan, "\\tan^{-1}", prefix),
-       texput(asec, "{\\rm sec}^{-1}", prefix),
-       texput(acsc, "{\\rm csc}^{-1}", prefix),
-       texput(acot, "{\\rm cot}^{-1}", prefix),
-       texput(asinh, "{\\rm sinh}^{-1}", prefix),
-       texput(acosh, "{\\rm cosh}^{-1}", prefix),
-       texput(atanh, "{\\rm tanh}^{-1}", prefix),
-       texput(asech, "{\\rm sech}^{-1}", prefix),
-       texput(acsch, "{\\rm csch}^{-1}", prefix),
-       texput(acoth, "{\\rm coth}^{-1}", prefix)
-    ),
-    if OPT_ACOS = "arccos" then block(
-       texput(asin, "\\arcsin ", prefix),
-       texput(acos, "\\arccos ", prefix),
-       texput(atan, "\\arctan ", prefix),
-       texput(asec, "{\\rm arcsec}", prefix),
-       texput(acsc, "{\\rm arccsc}", prefix),
-       texput(acot, "{\\rm arccot}", prefix),
-       texput(asinh, "{\\rm arcsinh}", prefix),
-       texput(acosh, "{\\rm arccosh}", prefix),
-       texput(atanh, "{\\rm arctanh}", prefix),
-       texput(asech, "{\\rm arcsech}", prefix),
-       texput(acsch, "{\\rm arccsch}", prefix),
-       texput(acoth, "{\\rm arccoth}", prefix)
-    ),
-    if OPT_ACOS = "acos" then block(
-       texput(asin, "{\\rm asin}", prefix),
-       texput(acos, "{\\rm acos}", prefix),
-       texput(atan, "{\\rm atan}", prefix),
-       texput(asec, "{\\rm asec}", prefix),
-       texput(acsc, "{\\rm acsc}", prefix),
-       texput(acot, "{\\rm acot}", prefix),
-       texput(asinh, "{\\rm asinh}", prefix),
-       texput(acosh, "{\\rm acosh}", prefix),
-       texput(atanh, "{\\rm atanh}", prefix),
-       texput(asech, "{\\rm asech}", prefix),
-       texput(acsch, "{\\rm acsch}", prefix),
-       texput(acoth, "{\\rm acoth}", prefix)
-    )
+    if OPT_ACOS = "cos-1" then load("cos-1.lisp"),
+    if OPT_ACOS = "arccos" then load("arccos.lisp"),
+    if OPT_ACOS = "acos" then load("acos.lisp")
 );
-
 
 /* Fine tune the display of fractions between inline and displayed. */
 stackfractionsinline(e) := block ([a, b],

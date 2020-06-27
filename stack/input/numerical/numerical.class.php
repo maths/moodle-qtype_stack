@@ -30,6 +30,7 @@ class stack_numerical_input extends stack_input {
      * @var array
      */
     protected $extraoptions = array(
+        'hideanswer' => false,
         'nounits' => false,
         'simp' => false,
         // Forbid variables.  Always true for numerical inputs.
@@ -157,6 +158,9 @@ class stack_numerical_input extends stack_input {
      * @return string the teacher's answer, displayed to the student in the general feedback.
      */
     public function get_teacher_answer_display($value, $display) {
+        if ($this->extraoptions['hideanswer']) {
+            return '';
+        }
         if (trim($value) == 'EMPTYANSWER') {
             return stack_string('teacheranswerempty');
         }

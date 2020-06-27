@@ -597,4 +597,16 @@ class stack_numerical_input_test extends qtype_stack_testcase {
         $this->assertEquals('\[ \sin \left( \frac{\pi}{2} \right) \]', $state->contentsdisplayed);
         $this->assertEquals('This input expects an explicit integer.', $state->errors);
     }
+
+    public function test_validate_hideanswer() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('numerical', 'state', '123');
+        $el->set_parameter('options', 'hideanswer');
+        $state = $el->validate_student_response(array('state' => '124'), $options, '123',
+                new stack_cas_security());
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('124', $state->contentsmodified);
+        $this->assertEquals('\[ 124 \]', $state->contentsdisplayed);
+        $this->assertEquals('', $el->get_teacher_answer_display("[SOME JSON]", "\[ \mbox{[SOME MORE JSON]} \]"));
+    }
 }

@@ -1322,4 +1322,16 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         $this->assertEquals($ta, $state->contentsmodified);
         $this->assertEquals($ua, $state->contentsdisplayed);
     }
+
+    public function test_validate_hideanswer() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('algebraic', 'state', '[x^2]');
+        $el->set_parameter('options', 'hideanswer');
+        $state = $el->validate_student_response(array('state' => '[x^3]'), $options, '[x^2]',
+                new stack_cas_security());
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('[x^3]', $state->contentsmodified);
+        $this->assertEquals('\[ \left[ x^3 \right] \]', $state->contentsdisplayed);
+        $this->assertEquals('', $el->get_teacher_answer_display("[SOME JSON]", "\[ \mbox{[SOME MORE JSON]} \]"));
+    }
 }

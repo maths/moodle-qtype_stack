@@ -263,8 +263,8 @@ class stack_algebra_input_test extends qtype_stack_testcase {
                 new stack_cas_security(false, '', '', array('tans')));
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('nounnot false xor nounnot(false)', $state->contentsmodified);
-        $this->assertEquals('\[ {\rm not}\left( \mathbf{false} \right)\,{\mbox{ xor }}\, ' .
-                '{\rm not}\left( \mathbf{false} \right) \]', $state->contentsdisplayed);
+        $this->assertEquals('\[ {\rm not}\left( \mathbf{False} \right)\,{\mbox{ xor }}\, ' .
+                '{\rm not}\left( \mathbf{False} \right) \]', $state->contentsdisplayed);
     }
 
     public function test_validate_student_lowest_terms_1() {

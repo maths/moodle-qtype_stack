@@ -1561,7 +1561,7 @@ class stack_cas_session2_test extends qtype_stack_testcase {
         // No extra evaluation at this point, but nouns have been removed.
         $this->assertEquals('x = 1 or x = 2', $s1[2]->get_value());
         // However, display forces an evaluation, and hence the result.
-        $this->assertEquals('\mathbf{false}', $s1[2]->get_display());
+        $this->assertEquals('\mathbf{False}', $s1[2]->get_display());
         $this->assertEquals('false', $s1[3]->get_value());
     }
 

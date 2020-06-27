@@ -372,9 +372,9 @@ $string['pleaseananswerallparts'] = 'Please answer all parts of the question.';
 $string['pleasecheckyourinputs'] = 'Please verify that what you entered was interpreted as expected.';
 $string['singlechargotmorethanone'] = 'You can only enter a single character here.';
 
+$string['true'] = 'True';
 $string['false'] = 'False';
 $string['notanswered'] = '(No answer given)';
-$string['true'] = 'True';
 $string['ddl_runtime'] = 'The input has generated the following runtime error which prevents you from answering. Please contact your teacher.';
 $string['ddl_empty'] = 'No choices were provided for this drop-down.';
 $string['ddl_nocorrectanswersupplied'] = 'The teacher did not indicate at least one correct answer. ';

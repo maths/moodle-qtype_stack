@@ -1228,10 +1228,10 @@ class stack_cas_text_test extends qtype_stack_testcase {
                 $at1->get_session(), 0);
         $this->assertTrue($at2->get_valid());
         $at2->get_display_castext();
-        $this->assertEquals('\({\begin{array}{c|c|c} a & b & a\,{\mbox{ xnor }}\, b\\\\ \hline \mathbf{false} ' .
-                '& \mathbf{false} & \mathbf{true} \\\\ \mathbf{false} & \mathbf{true} & \mathbf{false} \\\\ ' .
-                '\mathbf{true} & \mathbf{false} & \mathbf{false} \\\\ \mathbf{true} & \mathbf{true} & ' .
-                '\mathbf{true}\end{array}}\)', $at2->get_display_castext());
+        $this->assertEquals('\({\begin{array}{c|c|c} a & b & a\,{\mbox{ xnor }}\, b\\\\ \hline \mathbf{False} ' .
+                '& \mathbf{False} & \mathbf{True} \\\\ \mathbf{False} & \mathbf{True} & \mathbf{False} \\\\ ' .
+                '\mathbf{True} & \mathbf{False} & \mathbf{False} \\\\ \mathbf{True} & \mathbf{True} & ' .
+                '\mathbf{True}\end{array}}\)', $at2->get_display_castext());
 
         $vars = '';
         $at1 = new stack_cas_keyval($vars, null, 123);

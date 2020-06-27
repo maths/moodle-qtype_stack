@@ -71,16 +71,4 @@ class stack_boolean_input_rendering_test extends question_testcase {
                         stack_input::BLANK, array(), '', '', '', '', ''),
                         'stack1__ans1', true, null));
     }
-
-    public function test_validate_hideanswer() {
-        $options = new stack_options();
-        $el = stack_input_factory::make('boolean', 'state', 'false');
-        $el->set_parameter('options', 'hideanswer');
-        $state = $el->validate_student_response(array('state' => 'true'), $options, 'false',
-                new stack_cas_security());
-        $this->assertEquals(stack_input::VALID, $state->status);
-        $this->assertEquals('true', $state->contentsmodified);
-        $this->assertEquals('\[ true \]', $state->contentsdisplayed);
-        $this->assertEquals('', $el->get_teacher_answer_display("[SOME JSON]", "\[ \mbox{[SOME MORE JSON]} \]"));
-    }
 }

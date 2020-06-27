@@ -545,7 +545,7 @@ abstract class stack_input {
      * @return string the teacher's answer, displayed to the student in the general feedback.
      */
     public function get_teacher_answer_display($value, $display) {
-        if ($this->extraoptions['hideanswer']) {
+        if ($this->get_extra_option('hideanswer')) {
             return '';
         }
         // By default, we don't show how to "type this in".  This is only done for some, e.g. algebraic and textarea.

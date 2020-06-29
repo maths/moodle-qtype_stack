@@ -1,7 +1,7 @@
 site_name: STACK Documentation
 
 #Set the path of the docs
-edit_uri: root/path/doc/en/
+docs_dir: doc/en/
 
 #Set the theme of the page
 theme: readthedocs

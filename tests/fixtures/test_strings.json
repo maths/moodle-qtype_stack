@@ -106,6 +106,7 @@
     "Bgcd(3,2)",
     "In(x)",
     "Sin(x)",
+    "3.75*Btu",
     "X",
     "[\"a\"]",
     "[+1,+2]",
@@ -351,5 +352,7 @@
     "/*@ Comment @*/x+1",
     "/* @assume x = 1; */\nx+1",
     "/* @ignore warn_scalar_matrix_mult; */\nx+1",
-    "/* @function f(x) => x; */\nx+1"
+    "/* @function f(x) => x; */\nx+1",
+    "/* Comment: -a<f(x)<a. */\nx^2",
+    "\"A string that needs sanitising <script>bad stuff</script>.\""
 ]

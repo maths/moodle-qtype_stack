@@ -68,6 +68,7 @@ class stack_cas_casstring_units {
         // People have asked for this duplication, and L is in the SI system as legitimate.
         array('L', 'm^3/1000', 'L', 'litre'),
         array('g', 'kg/1000', 'g', 'gram'),
+        array('t', '1000*kg', 't', 'tonne'),
         array('s', 's', 's', 'second'),
         array('h', 's*3600', 'h', 'hour'),
         array('Hz', '1/s', 'Hz', 'Hertz'),
@@ -95,12 +96,15 @@ class stack_cas_casstring_units {
         array('rem', '0.01*Sv', 'rem', 'Roentgen equivalent'),
         array('Sv', 'm^2/s^2', 'Sv', 'sievert'),
         array('lx', 'cd/m^2', 'lx', 'lux'),
+        array('lm', 'cd', 'lm', 'lumen'),
         array('mol', 'mol', 'mol', 'moles'),
         array('M', 'mol/(m^3/1000)', 'M', 'Molar'),
         array('kat', 'mol/s', 'kat', 'katal'),
         array('rad', 'rad', 'rad', 'radian'),
+        array('sr', 'sr', 'sr', 'steradian'),
         array('K', 'K', 'K', 'Kelvin'),
         array('VA', '(kg*m^2)/(s^3)', 'VA', 'volt-ampere'),
+        array('eV', '1.602176634E-19*J', 'eV', 'electronvolt'),
         // @codingStandardsIgnoreStart
         // Celsius conflicts with Coulomb.
         // Add in 'C', 'C', '{}^{o}C', 'Celsius'.
@@ -110,6 +114,7 @@ class stack_cas_casstring_units {
     /*
      * Entries in this array are supported units which are used without any prefix.
      * Entries below are in the form of array(label, base, TeX, fullname).
+     * Remember to add any with three or more letters to security-map.json.
      */
     private static $nonprefixunits = array(
         array('min', 's*60', 'min', 'minutes'),
@@ -117,6 +122,7 @@ class stack_cas_casstring_units {
         array('u', 'amu', 'u', ''),
         array('mmHg', '133.322387415*Pa', 'mmHg', 'Millimeters of mercury'),
         array('bar', '10^5*Pa', 'bar', 'bar'),
+        array('ha', '10^4*m^2', 'ha', 'hectare'),
         array('cc', 'm^3*10^(-6)', 'cc', 'cubic centimetre'),
         array('gal', '3.785*l', 'gal', 'US gallon'),
         array('mbar', '10^2*Pa', 'mbar', 'millibar'),
@@ -125,12 +131,20 @@ class stack_cas_casstring_units {
         array('rev', '2*pi*rad', 'rev', 'revolutions'),
         array('deg', 'pi*rad/180', '{}^{o}', 'degrees'),
         array('rpm', 'pi*rad/(30*s)', 'rpm', 'revolutions per minute'),
+        array('au', '149597870700*m', 'au', 'astronomical unit'),
+        array('Da', '1.660539040E-27*kg', 'Da', 'Dalton'),
+        // Logarithmic ratio quantities.
+        array('Np', 'Np', 'Np', 'neper'),
+        array('B', 'B', 'B', 'bel'),
+        array('dB', 'dB', 'dB', 'decibel'),
         // We know these two are not really correct, but there we are.
         array('day', '86400*s', 'day', 'day'),
         array('year', '3.156e7*s', 'year', 'year'),
         // Some countries are only inching towards the metric system.  Added by user request.
+        array('hp', 'hp', 'hp', 'horsepower'),
         array('in', 'in', 'in', 'inch'),
         array('ft', '12*in', 'ft', 'foot'),
+        array('yd', '36*in', 'yd', 'yard'),
         array('mi', '5280*12*in', 'mi', 'mile'),
         array('lb', 'lb', 'lb', 'pound'),
     );
@@ -149,8 +163,6 @@ class stack_cas_casstring_units {
         'h' => array('hr', 'hours'),
         'day' => array('days')
     );
-
-
 
     /**
      * Static class. You cannot create instances.

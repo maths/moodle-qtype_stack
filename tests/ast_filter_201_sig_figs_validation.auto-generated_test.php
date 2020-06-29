@@ -1690,6 +1690,11 @@ class stack_ast_filter_auto_gen_201_sig_figs_validation_testcase extends qtype_s
                       array(),
                       false, true);
 
+        $this->expect('"A string that needs sanitising <script>bad stuff</script>."',
+                      '"A string that needs sanitising <script>bad stuff</script>."',
+                      array(),
+                      false, true);
+
     }
 
     public function test_affected_units() {
@@ -3356,6 +3361,11 @@ class stack_ast_filter_auto_gen_201_sig_figs_validation_testcase extends qtype_s
                       array(),
                       false, true);
 
+        $this->expect('"A string that needs sanitising <script>bad stuff</script>."',
+                      '"A string that needs sanitising <script>bad stuff</script>."',
+                      array(),
+                      false, true);
+
     }
 
     public function test_non_affected_units() {
@@ -3412,6 +3422,11 @@ class stack_ast_filter_auto_gen_201_sig_figs_validation_testcase extends qtype_s
                       array(),
                       true, false);
 
+        $this->expect('3.75*Btu',
+                      '3.75*Btu',
+                      array(),
+                      true, false);
+
     }
 
     public function test_non_affected_no_units() {
@@ -3465,6 +3480,11 @@ class stack_ast_filter_auto_gen_201_sig_figs_validation_testcase extends qtype_s
 
         $this->expect('3.14 5.2789',
                       '3.14*5.2789',
+                      array(),
+                      true, false);
+
+        $this->expect('3.75*Btu',
+                      '3.75*Btu',
                       array(),
                       true, false);
 

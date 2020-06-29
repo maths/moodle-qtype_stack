@@ -1735,6 +1735,11 @@ class stack_ast_filter_auto_gen_802_singleton_units_testcase extends qtype_stack
                       array(),
                       false, true);
 
+        $this->expect('"A string that needs sanitising <script>bad stuff</script>."',
+                      '"A string that needs sanitising <script>bad stuff</script>."',
+                      array(),
+                      false, true);
+
     }
 
     public function test_affected_units() {
@@ -3446,11 +3451,21 @@ class stack_ast_filter_auto_gen_802_singleton_units_testcase extends qtype_stack
                       array(),
                       false, true);
 
+        $this->expect('"A string that needs sanitising <script>bad stuff</script>."',
+                      '"A string that needs sanitising <script>bad stuff</script>."',
+                      array(),
+                      false, true);
+
     }
 
     public function test_non_affected_units() {
         $this->security = new stack_cas_security(true);
         $this->filter = stack_parsing_rule_factory::get_by_common_name('802_singleton_units');
+
+        $this->expect('3.75*Btu',
+                      '3.75*Btu',
+                      array(),
+                      true, false);
 
         $this->expect('1.2*m**2',
                       '1.2*m**2',
@@ -3462,6 +3477,11 @@ class stack_ast_filter_auto_gen_802_singleton_units_testcase extends qtype_stack
     public function test_non_affected_no_units() {
         $this->security = new stack_cas_security(false);
         $this->filter = stack_parsing_rule_factory::get_by_common_name('802_singleton_units');
+
+        $this->expect('3.75*Btu',
+                      '3.75*Btu',
+                      array(),
+                      true, false);
 
         $this->expect('1.2*m**2',
                       '1.2*m**2',

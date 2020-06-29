@@ -1086,4 +1086,18 @@ class stack_units_input_test extends qtype_stack_testcase {
         $this->assertEquals('Your answer appears to use the character "x" as a multiplication sign.  ' .
                 'Please use <code>*</code> for multiplication.', $state->errors);
     }
+
+    public function test_validate_student_response_btu() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('units', 'sans1', '520*Btu');
+        $el->set_parameter('insertStars', 1);
+        $el->set_parameter('forbidFloats', false);
+        $state = $el->validate_student_response(array('sans1' => '520*Btu'), $options, '520*Btu',
+                new stack_cas_security(true));
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('', $state->note);
+        $this->assertEquals('520*Btu', $state->contentsmodified);
+        $this->assertEquals('\[ 520\, \mathrm{Btu} \]', $state->contentsdisplayed);
+        $this->assertEquals('', $state->errors);
+    }
 }

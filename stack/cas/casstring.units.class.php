@@ -132,6 +132,7 @@ class stack_cas_casstring_units {
         array('in', 'in', 'in', 'inch'),
         array('ft', '12*in', 'ft', 'foot'),
         array('mi', '5280*12*in', 'mi', 'mile'),
+        array('lb', 'lb', 'lb', 'pound'),
     );
 
     /* This array keeps a list of synoymns which students are likely to use.

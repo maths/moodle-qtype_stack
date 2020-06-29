@@ -156,7 +156,7 @@ if (empty($question->deployedseeds)) {
         stack_string('variant'),
         stack_string('questionnote'),
     );
-    $prtstable->attributes['class'] = 'generaltable stacktestsuite';
+    $notestable->attributes['class'] = 'generaltable stacktestsuite';
 
     $a = ['total' => count($question->deployedseeds), 'done' => 0];
     $progressevery = (int) min(max(1, count($question->deployedseeds) / 500), 100);

@@ -494,7 +494,6 @@ body.ie:not(.ie11) .stack_abstract_graph {
     left: 0;
     position: absolute;
     opacity: 0;
-    filter: alpha(Opacity=0); /* support: IE8 */
 }
 
 .ui-front {
@@ -742,7 +741,6 @@ a.ui-button:active,
 .ui-widget-overlay {
     background: #aaa;
     opacity: .3;
-    filter: alpha(Opacity=30); /* support: IE8 */
 }
 .ui-widget-shadow {
     -webkit-box-shadow: 0 0 5px #666;

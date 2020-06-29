@@ -1,9 +1,14 @@
-site_name: Malthe's docs
+site_name: STACK Documentation
+
+#Set the path of the docs
+edit_uri: root/path/doc/en/
+
+#Set the theme of the page
+theme: readthedocs
+
+#Support MathJax
 extra_javascript: 
     - https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML
-edit_uri: root/path/doc/en/
-#theme: readthedocs
-
 markdown_extensions:
     - mdx_math
 

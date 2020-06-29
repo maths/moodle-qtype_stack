@@ -1,0 +1,9 @@
+site_name: Malthe's docs
+extra_javascript: 
+    - https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML
+edit_uri: root/path/doc/en/
+#theme: readthedocs
+
+markdown_extensions:
+    - mdx_math
+

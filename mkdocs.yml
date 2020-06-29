@@ -4,7 +4,7 @@ site_name: STACK Documentation
 docs_dir: doc/en/
 
 #Set the theme of the page
-theme: readthedocs
+theme: slate
 
 #Support MathJax
 extra_javascript: 

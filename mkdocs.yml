@@ -4,7 +4,8 @@ site_name: STACK Documentation
 docs_dir: doc/en/
 
 #Set the theme of the page
-theme: slate
+theme:
+    name: simplex
 
 #Support MathJax
 extra_javascript: 

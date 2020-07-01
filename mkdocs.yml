@@ -1,4 +1,4 @@
-site_name: STACK
+site_name: STACK Documentation
 extra_javascript: 
     - https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML
 theme:
@@ -7,23 +7,3 @@ theme:
     logo: img/logo_large.svg
 markdown_extensions:
     - mdx_math
-nav:
-    - Home: 'index.md'
-    - About: 'About.md'
-    - Training and Events: 'Training_and_events.md'
-    - Case Studies:
-        - 2019:
-            - 'CaseStudies/2019/index.md'
-            - 'CaseStudies/2019/FAC.md'
-            - 'CaseStudies/2019/PhysicsCurriculum.md'
-            - 'CaseStudies/2019/Adaptive.md'
-            - 'CaseStudies/2019/FlickInterface.md'
-            - 'CaseStudies/2019/Maseno.md'
-            - 'CaseStudies/2019/optes.md'
-            - 'CaseStudies/2019/ILIAS.md'
-            - 'CaseStudies/2019/StackAtScale.md'
-            - 'CaseStudies/2019/ABACUS.md'
-            - 'CaseStudies/2019/Loughborough.md'
-            - 'CaseStudies/2019/Edinburgh.md'
-    - FAQ: 'FAQ.md'
-    - Docs: 'https://stack-test.readthedocs.io/en/latest/'

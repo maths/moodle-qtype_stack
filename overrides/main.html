@@ -1,0 +1,87 @@
+<!-- Ensures this only extends, not overrides, the theme. -->
+{% extends "base.html" %}
+
+<!-- Removes the sidebar. -->
+{% block content %}
+    <div class="col-md-12" role="main">{% include "content.html" %}</div>
+{% endblock %}
+
+<!-- Adds logo to navigation bar. -->
+{% block site_name %}
+	<a class="navbar-brand" href="malthesrepo.readthedocs.org"><img style="vertical-align:baseline" src="/img/logo_large.png" alt="STACK logo" height="20">STACK</a>
+{% endblock %}
+
+<!-- Specifies styles for columns and rows. -->
+{% block extrahead %}
+<style>
+div.footerColumn {
+  max-width:350px;
+  margin: auto;
+  text-align:left;
+  vertical-align:top;
+}
+
+div.bodyColumn {
+  max-width:300px;
+  margin: auto;
+  text-align:left;
+  vertical-align:top;
+}
+
+div.row {
+  max-width:1000px;
+  margin: auto;
+  vertical-align:top;
+}
+<!--Set table settings-->
+table {
+  table-layout: fixed;
+  width: 1000px;
+}
+
+th,
+td {
+  width: 300px;
+  overflow: hidden;
+}
+
+</style>
+{% endblock %}
+
+<!-- Sets footer of pages. -->
+{% block footer %}
+<hr>
+
+<div class="row ">
+  <div class="footerColumn">
+  <h5>About STACK</h5>
+  <p>STACK is the world-leading open-source automatic assessment system for mathematics and STEM. It is available for Moodle, ILIAS and other systems through LTI.
+  <br>
+  <br><a href="%CONTENT/2018-STACK.pdf">A flyer about the STACK project</a>
+  <br><a href="%CONTENT/2019-cate-case-studies.pdf">A collection of case studies</a> 
+  <br>A self-contained <a href="%CONTENT/2019-STACK-Guide.pdf">"Getting started with STACK" guide</a>
+  </p>
+  </div>
+  <div class="footerColumn">
+  <h5>Contact Us</h5>
+  <p>
+  We welcome questions and discussion about the STACK project. Please contact Prof Chris Sangwin, <a href="mailto:C.J.Sangwin@ed.ac.uk">C.J.Sangwin@ed.ac.uk</a>.
+  </p>
+  <p><a href="../FAQ">STACK FAQ</a>
+  <br><a href="https://github.com/maths/moodle-qtype_stack">STACK git repository</a>
+  <br><a href="https://moodle.org/mod/forum/view.php?id=752">Moodle's "Mathematics tools" forum</a>
+  <br><a href ="https://www.wiki.ed.ac.uk/display/STACK/">UoE STACK wiki</a> (for University of Edinburgh STACK users and collaborators)
+  </p>
+  </div>
+  <div class="footerColumn">
+  <img src="/img/logo_large.png" alt="STACK logo" height="60">&emsp; <img src="/img/ILIAS_web.png" alt="ILIAS logo" height="60">
+  <br>
+  <br>
+  <br><img src="/img/moodle_white.png" alt="Moodle logo" height="40">
+  <br>
+  <br>
+  <br>Legal notice | Data privacy
+  </div>
+</div>
+{% endblock %}
+

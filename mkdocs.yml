@@ -5,5 +5,6 @@ theme:
     name: bootstrap
     custom_dir: overrides
     logo: img/logo_large.svg
+docs_dir: 'doc/en'
 markdown_extensions:
     - mdx_math

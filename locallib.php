@@ -81,6 +81,8 @@ function get_stack_maxima_latex_replacements() {
                 '!XOR!' => stack_string('equiv_XOR'),
                 '!XNOR!' => stack_string('equiv_XNOR'),
                 '!IMPLIES!' => stack_string('equiv_IMPLIES'),
+                '!BOOLTRUE!' => stack_string('true'),
+                '!BOOLFALSE!' => stack_string('false'),
         ];
     }
     return $replacements[$lang];

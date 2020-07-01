@@ -538,7 +538,10 @@ class qtype_stack extends question_type {
      * @return array of URL params. Can be passed to moodle_url.
      */
     protected function get_question_url_params($question) {
-        $urlparams = ['questionid' => $question->id];
+        $urlparams = array('questionid' => $question->id);
+        if (property_exists($question, 'seed')) {
+            $urlparams['seed'] = $question->seed;
+        }
 
         // This is a bit of a hack to find the right thing to put in the URL.
         // If we are already on a URL that gives us a clue what to do, use that.

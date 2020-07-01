@@ -321,9 +321,19 @@ class stack_ast_filter_auto_gen_998_security_testcase extends qtype_stack_ast_te
                       array('forbiddenWord'),
                       false, true);
 
+        $this->expect('-b(5-b)',
+                      '-b(5-b)',
+                      array('unknownUnitsCase'),
+                      false, true);
+
         $this->expect('2+log_x(1/(x+b))*x^2',
                       '2+log_x(1/(x+b))*x^2',
-                      array('forbiddenFunction'),
+                      array('forbiddenFunction', 'unknownUnitsCase'),
+                      false, true);
+
+        $this->expect('3b+5/a(x)',
+                      '3*b+5/a(x)',
+                      array('unknownUnitsCase'),
                       false, true);
 
         $this->expect('Bgcd(3,2)',
@@ -431,9 +441,19 @@ class stack_ast_filter_auto_gen_998_security_testcase extends qtype_stack_ast_te
                       array('forbiddenFunction'),
                       false, true);
 
+        $this->expect('b(b+1)',
+                      'b(b+1)',
+                      array('unknownUnitsCase'),
+                      false, true);
+
+        $this->expect('b/a(x)',
+                      'b/a(x)',
+                      array('unknownUnitsCase'),
+                      false, true);
+
         $this->expect('bsin(t)',
                       'bsin(t)',
-                      array('forbiddenFunction', 'unknownUnitsCase'),
+                      array('forbiddenFunction'),
                       false, true);
 
         $this->expect('comb(x,y)',
@@ -498,7 +518,7 @@ class stack_ast_filter_auto_gen_998_security_testcase extends qtype_stack_ast_te
 
         $this->expect('log_x(1/(x+b))',
                       'log_x(1/(x+b))',
-                      array('forbiddenFunction'),
+                      array('forbiddenFunction', 'unknownUnitsCase'),
                       false, true);
 
         $this->expect('log_x:log_x(a)',
@@ -606,24 +626,9 @@ class stack_ast_filter_auto_gen_998_security_testcase extends qtype_stack_ast_te
                       array('emptyParens'),
                       false, true);
 
-        $this->expect('x(sin(t)+1)',
-                      'x(sin(t)+1)',
-                      array('unknownUnitsCase'),
-                      false, true);
-
-        $this->expect('x(t+1)',
-                      'x(t+1)',
-                      array('unknownUnitsCase'),
-                      false, true);
-
         $this->expect('x*divides*y',
                       'x*divides*y',
                       array('forbiddenVariable'),
-                      false, true);
-
-        $this->expect('x>1 or (x<1 and t<sin(x))',
-                      'x > 1 or (x < 1 and t < sin(x))',
-                      array('unknownUnitsCase'),
                       false, true);
 
         $this->expect('xsin(1)',
@@ -809,11 +814,6 @@ class stack_ast_filter_auto_gen_998_security_testcase extends qtype_stack_ast_te
 
         $this->expect('-3x(1+x)',
                       '-3*x(1+x)',
-                      array(),
-                      true, false);
-
-        $this->expect('-b(5-b)',
-                      '-b(5-b)',
                       array(),
                       true, false);
 
@@ -1077,11 +1077,6 @@ class stack_ast_filter_auto_gen_998_security_testcase extends qtype_stack_ast_te
                       array(),
                       true, false);
 
-        $this->expect('3b+5/a(x)',
-                      '3*b+5/a(x)',
-                      array(),
-                      true, false);
-
         $this->expect('3beta_47',
                       '3*beta_47',
                       array(),
@@ -1104,6 +1099,11 @@ class stack_ast_filter_auto_gen_998_security_testcase extends qtype_stack_ast_te
 
         $this->expect('7x(2+1)',
                       '7*x(2+1)',
+                      array(),
+                      true, false);
+
+        $this->expect('3.75*Btu',
+                      '3.75*Btu',
                       array(),
                       true, false);
 
@@ -1224,16 +1224,6 @@ class stack_ast_filter_auto_gen_998_security_testcase extends qtype_stack_ast_te
 
         $this->expect('asinh(x)',
                       'asinh(x)',
-                      array(),
-                      true, false);
-
-        $this->expect('b(b+1)',
-                      'b(b+1)',
-                      array(),
-                      true, false);
-
-        $this->expect('b/a(x)',
-                      'b/a(x)',
                       array(),
                       true, false);
 
@@ -1717,6 +1707,16 @@ class stack_ast_filter_auto_gen_998_security_testcase extends qtype_stack_ast_te
                       array(),
                       true, false);
 
+        $this->expect('x(sin(t)+1)',
+                      'x(sin(t)+1)',
+                      array(),
+                      true, false);
+
+        $this->expect('x(t+1)',
+                      'x(t+1)',
+                      array(),
+                      true, false);
+
         $this->expect('x(x+1)',
                       'x(x+1)',
                       array(),
@@ -1819,6 +1819,11 @@ class stack_ast_filter_auto_gen_998_security_testcase extends qtype_stack_ast_te
 
         $this->expect('x=1 or x=2',
                       'x = 1 or x = 2',
+                      array(),
+                      true, false);
+
+        $this->expect('x>1 or (x<1 and t<sin(x))',
+                      'x > 1 or (x < 1 and t < sin(x))',
                       array(),
                       true, false);
 
@@ -1984,6 +1989,11 @@ class stack_ast_filter_auto_gen_998_security_testcase extends qtype_stack_ast_te
 
         $this->expect('/*@ Comment @*/x+1',
                       '/*@ Comment @*/x+1',
+                      array(),
+                      true, false);
+
+        $this->expect('"A string that needs sanitising <script>bad stuff</script>."',
+                      '"A string that needs sanitising <script>bad stuff</script>."',
                       array(),
                       true, false);
 
@@ -2473,6 +2483,11 @@ class stack_ast_filter_auto_gen_998_security_testcase extends qtype_stack_ast_te
                       array(),
                       true, false);
 
+        $this->expect('3.75*Btu',
+                      '3.75*Btu',
+                      array(),
+                      true, false);
+
         $this->expect('X',
                       'X',
                       array(),
@@ -3465,6 +3480,11 @@ class stack_ast_filter_auto_gen_998_security_testcase extends qtype_stack_ast_te
 
         $this->expect('/*@ Comment @*/x+1',
                       '/*@ Comment @*/x+1',
+                      array(),
+                      true, false);
+
+        $this->expect('"A string that needs sanitising <script>bad stuff</script>."',
+                      '"A string that needs sanitising <script>bad stuff</script>."',
                       array(),
                       true, false);
 

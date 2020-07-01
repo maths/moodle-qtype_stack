@@ -919,6 +919,11 @@ class qtype_stack_question extends question_graded_automatically_with_countback
             return $this->prtresults[$index];
         }
 
+        // We can end up with a null prt at this point if we have question tests for a deleted PRT.
+        if (!array_key_exists($index, $this->prts)) {
+            // Bail here with an empty state to avoid a later exception which prevents question test editing.
+            return new stack_potentialresponse_tree_state(null, null, null, null);
+        }
         $prt = $this->prts[$index];
 
         if (!$this->has_necessary_prt_inputs($prt, $response, $acceptvalid)) {

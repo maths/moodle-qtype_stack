@@ -165,6 +165,11 @@ class stack_ast_filter_auto_gen_101_no_floats_testcase extends qtype_stack_ast_t
                       array('Illegal_floats'),
                       false, true);
 
+        $this->expect('3.75*Btu',
+                      '3.75*Btu',
+                      array('Illegal_floats'),
+                      false, true);
+
         $this->expect('[1,2,3.4]',
                       '[1,2,3.4]',
                       array('Illegal_floats'),
@@ -323,6 +328,11 @@ class stack_ast_filter_auto_gen_101_no_floats_testcase extends qtype_stack_ast_t
 
         $this->expect('3E2',
                       '3E2',
+                      array('Illegal_floats'),
+                      false, true);
+
+        $this->expect('3.75*Btu',
+                      '3.75*Btu',
                       array('Illegal_floats'),
                       false, true);
 
@@ -1907,6 +1917,11 @@ class stack_ast_filter_auto_gen_101_no_floats_testcase extends qtype_stack_ast_t
                       array(),
                       true, false);
 
+        $this->expect('"A string that needs sanitising <script>bad stuff</script>."',
+                      '"A string that needs sanitising <script>bad stuff</script>."',
+                      array(),
+                      true, false);
+
     }
 
     public function test_non_affected_no_units() {
@@ -3465,6 +3480,11 @@ class stack_ast_filter_auto_gen_101_no_floats_testcase extends qtype_stack_ast_t
 
         $this->expect('/*@ Comment @*/x+1',
                       '/*@ Comment @*/x+1',
+                      array(),
+                      true, false);
+
+        $this->expect('"A string that needs sanitising <script>bad stuff</script>."',
+                      '"A string that needs sanitising <script>bad stuff</script>."',
                       array(),
                       true, false);
 

@@ -602,6 +602,11 @@ class stack_ast_filter_auto_gen_450_split_floats_testcase extends qtype_stack_as
                       array(),
                       true, false);
 
+        $this->expect('3.75*Btu',
+                      '3.75*Btu',
+                      array(),
+                      true, false);
+
         $this->expect('X',
                       'X',
                       array(),
@@ -1779,6 +1784,11 @@ class stack_ast_filter_auto_gen_450_split_floats_testcase extends qtype_stack_as
 
         $this->expect('/*@ Comment @*/x+1',
                       '/*@ Comment @*/x+1',
+                      array(),
+                      true, false);
+
+        $this->expect('"A string that needs sanitising <script>bad stuff</script>."',
+                      '"A string that needs sanitising <script>bad stuff</script>."',
                       array(),
                       true, false);
 
@@ -2288,6 +2298,11 @@ class stack_ast_filter_auto_gen_450_split_floats_testcase extends qtype_stack_as
                       array(),
                       true, false);
 
+        $this->expect('3.75*Btu',
+                      '3.75*Btu',
+                      array(),
+                      true, false);
+
         $this->expect('X',
                       'X',
                       array(),
@@ -3465,6 +3480,11 @@ class stack_ast_filter_auto_gen_450_split_floats_testcase extends qtype_stack_as
 
         $this->expect('/*@ Comment @*/x+1',
                       '/*@ Comment @*/x+1',
+                      array(),
+                      true, false);
+
+        $this->expect('"A string that needs sanitising <script>bad stuff</script>."',
+                      '"A string that needs sanitising <script>bad stuff</script>."',
                       array(),
                       true, false);
 

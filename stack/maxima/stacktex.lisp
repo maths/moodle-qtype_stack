@@ -442,3 +442,10 @@
            (setq nl (append nl (tex (car y) l sym lop rop))
              y (cdr y)
              l nil))))))
+
+;; *************************************************************************************************
+;; Added 27 June 2020.
+;; Localise some Maxmia-generated strings
+
+(defprop $true  "\\mathbf{!BOOLTRUE!}"  texword)
+(defprop $false "\\mathbf{!BOOLFALSE!}" texword)

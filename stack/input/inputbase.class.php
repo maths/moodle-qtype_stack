@@ -220,6 +220,12 @@ abstract class stack_input {
                     }
                     break;
 
+                case 'intnum':
+                    if (!(is_bool($arg))) {
+                        $this->errors[] = stack_string('numericalinputoptboolerr', array('opt' => $option, 'val' => $arg));
+                    }
+                    break;
+
                 case 'rationalnum':
                     if (!(is_bool($arg))) {
                         $this->errors[] = stack_string('numericalinputoptboolerr', array('opt' => $option, 'val' => $arg));
@@ -539,6 +545,9 @@ abstract class stack_input {
      * @return string the teacher's answer, displayed to the student in the general feedback.
      */
     public function get_teacher_answer_display($value, $display) {
+        if ($this->get_extra_option('hideanswer')) {
+            return '';
+        }
         // By default, we don't show how to "type this in".  This is only done for some, e.g. algebraic and textarea.
         if (trim($value) == 'EMPTYANSWER') {
             return stack_string('teacheranswerempty');
@@ -1037,6 +1046,11 @@ abstract class stack_input {
                 $valid = false;
                 $errors[] = stack_string('numericalinputmustfloat');
             }
+        }
+
+        if ($this->get_extra_option('intnum') && !$answer->is_int()) {
+            $valid = false;
+            $errors[] = stack_string('numericalinputmustint');
         }
 
         $mindp = false;

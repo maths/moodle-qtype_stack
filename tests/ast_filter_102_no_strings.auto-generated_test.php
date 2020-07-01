@@ -65,6 +65,11 @@ class stack_ast_filter_auto_gen_102_no_strings_testcase extends qtype_stack_ast_
                       array('Illegal_strings'),
                       false, true);
 
+        $this->expect('"A string that needs sanitising <script>bad stuff</script>."',
+                      '"A string that needs sanitising <script>bad stuff</script>."',
+                      array('Illegal_strings'),
+                      false, true);
+
     }
 
     public function test_affected_units() {
@@ -103,6 +108,11 @@ class stack_ast_filter_auto_gen_102_no_strings_testcase extends qtype_stack_ast_
 
         $this->expect('rand(["sin","cos","system"])(x)',
                       'rand(["sin","cos","system"])(x)',
+                      array('Illegal_strings'),
+                      false, true);
+
+        $this->expect('"A string that needs sanitising <script>bad stuff</script>."',
+                      '"A string that needs sanitising <script>bad stuff</script>."',
                       array('Illegal_strings'),
                       false, true);
 
@@ -624,6 +634,11 @@ class stack_ast_filter_auto_gen_102_no_strings_testcase extends qtype_stack_ast_
 
         $this->expect('Sin(x)',
                       'Sin(x)',
+                      array(),
+                      true, false);
+
+        $this->expect('3.75*Btu',
+                      '3.75*Btu',
                       array(),
                       true, false);
 
@@ -2305,6 +2320,11 @@ class stack_ast_filter_auto_gen_102_no_strings_testcase extends qtype_stack_ast_
 
         $this->expect('Sin(x)',
                       'Sin(x)',
+                      array(),
+                      true, false);
+
+        $this->expect('3.75*Btu',
+                      '3.75*Btu',
                       array(),
                       true, false);
 

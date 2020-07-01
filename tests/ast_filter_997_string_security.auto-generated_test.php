@@ -24,169 +24,14 @@ require_once(__DIR__ . '/../tests/fixtures/ast_filter_test_base.php');
  * @group qtype_stack_ast_filters
  */
 
-class stack_ast_filter_auto_gen_910_inert_float_for_display_testcase extends qtype_stack_ast_testcase {
+class stack_ast_filter_auto_gen_997_string_security_testcase extends qtype_stack_ast_testcase {
 
     public function test_affected_no_units() {
         $this->security = new stack_cas_security(false);
-        $this->filter = stack_parsing_rule_factory::get_by_common_name('910_inert_float_for_display');
+        $this->filter = stack_parsing_rule_factory::get_by_common_name('997_string_security');
 
-        $this->expect('+0.2',
-                      '+dispdp(0.2,1)',
-                      array(),
-                      true, false);
-
-        $this->expect('-0.2',
-                      '-dispdp(0.2,1)',
-                      array(),
-                      true, false);
-
-        $this->expect('.1',
-                      'dispdp(.1,1)',
-                      array(),
-                      true, false);
-
-        $this->expect('-0.2433 + 0.1111',
-                      '-dispdp(0.2433,4)+dispdp(0.1111,4)',
-                      array(),
-                      true, false);
-
-        $this->expect('-0.2433e23 + 0.1111e-45 * 0.23e12 / -0.11e-11',
-                      '-displaysci(0.2433,4,23)+displaysci(0.1111,4,-45)*displaysci(0.23,2,12)/-displaysci(0.11,2,-11)',
-                      array(),
-                      true, false);
-
-        $this->expect('-35.3 * 10^23',
-                      '-dispdp(35.3,1)*10^23',
-                      array(),
-                      true, false);
-
-        $this->expect('0..1',
-                      'dispdp(0.,0) . 1',
-                      array(),
-                      true, false);
-
-        $this->expect('0.1..1.2',
-                      'dispdp(0.1,1) . dispdp(.1,1) . 2',
-                      array(),
-                      true, false);
-
-        $this->expect('0.1.1.2',
-                      'dispdp(0.1,1) . dispdp(1.2,1)',
-                      array(),
-                      true, false);
-
-        $this->expect('0.1. 1.2',
-                      'dispdp(0.1,1) . dispdp(1.2,1)',
-                      array(),
-                      true, false);
-
-        $this->expect('1E+3',
-                      'displaysci(1,0,3)',
-                      array(),
-                      true, false);
-
-        $this->expect('1E3',
-                      'displaysci(1,0,3)',
-                      array(),
-                      true, false);
-
-        $this->expect('23.2*x*10^5',
-                      'dispdp(23.2,1)*x*10^5',
-                      array(),
-                      true, false);
-
-        $this->expect('23.2 x 10^5',
-                      'dispdp(23.2,1)*x*10^5',
-                      array(),
-                      true, false);
-
-        $this->expect('23.2x10^5',
-                      'dispdp(23.2,1)*x10^5',
-                      array(),
-                      true, false);
-
-        $this->expect('23.2x 10^5',
-                      'dispdp(23.2,1)*x*10^5',
-                      array(),
-                      true, false);
-
-        $this->expect('23.2 x10^5',
-                      'dispdp(23.2,1)*x10^5',
-                      array(),
-                      true, false);
-
-        $this->expect('9.81x10^2*m/s',
-                      'dispdp(9.81,2)*x10^2*m/s',
-                      array(),
-                      true, false);
-
-        $this->expect('9.81x*10^2*m/s',
-                      'dispdp(9.81,2)*x*10^2*m/s',
-                      array(),
-                      true, false);
-
-        $this->expect('3.14 5',
-                      'dispdp(3.14,2)*5',
-                      array(),
-                      true, false);
-
-        $this->expect('3 5.2789',
-                      '3*dispdp(5.2789,4)',
-                      array(),
-                      true, false);
-
-        $this->expect('3.14 5.2789',
-                      'dispdp(3.14,2)*dispdp(5.2789,4)',
-                      array(),
-                      true, false);
-
-        $this->expect('9 8 7.6',
-                      '9*8*dispdp(7.6,1)',
-                      array(),
-                      true, false);
-
-        $this->expect('9 8.5 7.6',
-                      '9*dispdp(8.5,1)*dispdp(7.6,1)',
-                      array(),
-                      true, false);
-
-        $this->expect('3e-2',
-                      'displaysci(3,0,-2)',
-                      array(),
-                      true, false);
-
-        $this->expect('3e2',
-                      'displaysci(3,0,2)',
-                      array(),
-                      true, false);
-
-        $this->expect('3E2',
-                      'displaysci(3,0,2)',
-                      array(),
-                      true, false);
-
-        $this->expect('3.75*Btu',
-                      'dispdp(3.75,2)*Btu',
-                      array(),
-                      true, false);
-
-        $this->expect('[1,2,3.4]',
-                      '[1,2,dispdp(3.4,1)]',
-                      array(),
-                      true, false);
-
-        $this->expect('y^2-2*y-0.5',
-                      'y^2-2*y-dispdp(0.5,1)',
-                      array(),
-                      true, false);
-
-        $this->expect('{1,2,3.4}',
-                      '{1,2,dispdp(3.4,1)}',
-                      array(),
-                      true, false);
-
-        $this->expect('1.2*m**2',
-                      'dispdp(1.2,1)*m**2',
+        $this->expect('"A string that needs sanitising <script>bad stuff</script>."',
+                      '"A string that needs sanitising &lt;&#8203;script>bad stuff&lt;&#8203;/script&gt;."',
                       array(),
                       true, false);
 
@@ -194,165 +39,10 @@ class stack_ast_filter_auto_gen_910_inert_float_for_display_testcase extends qty
 
     public function test_affected_units() {
         $this->security = new stack_cas_security(true);
-        $this->filter = stack_parsing_rule_factory::get_by_common_name('910_inert_float_for_display');
+        $this->filter = stack_parsing_rule_factory::get_by_common_name('997_string_security');
 
-        $this->expect('+0.2',
-                      '+dispdp(0.2,1)',
-                      array(),
-                      true, false);
-
-        $this->expect('-0.2',
-                      '-dispdp(0.2,1)',
-                      array(),
-                      true, false);
-
-        $this->expect('.1',
-                      'dispdp(.1,1)',
-                      array(),
-                      true, false);
-
-        $this->expect('-0.2433 + 0.1111',
-                      '-dispdp(0.2433,4)+dispdp(0.1111,4)',
-                      array(),
-                      true, false);
-
-        $this->expect('-0.2433e23 + 0.1111e-45 * 0.23e12 / -0.11e-11',
-                      '-displaysci(0.2433,4,23)+displaysci(0.1111,4,-45)*displaysci(0.23,2,12)/-displaysci(0.11,2,-11)',
-                      array(),
-                      true, false);
-
-        $this->expect('-35.3 * 10^23',
-                      '-dispdp(35.3,1)*10^23',
-                      array(),
-                      true, false);
-
-        $this->expect('0..1',
-                      'dispdp(0.,0) . 1',
-                      array(),
-                      true, false);
-
-        $this->expect('0.1..1.2',
-                      'dispdp(0.1,1) . dispdp(.1,1) . 2',
-                      array(),
-                      true, false);
-
-        $this->expect('0.1.1.2',
-                      'dispdp(0.1,1) . dispdp(1.2,1)',
-                      array(),
-                      true, false);
-
-        $this->expect('0.1. 1.2',
-                      'dispdp(0.1,1) . dispdp(1.2,1)',
-                      array(),
-                      true, false);
-
-        $this->expect('1E+3',
-                      'displaysci(1,0,3)',
-                      array(),
-                      true, false);
-
-        $this->expect('1E3',
-                      'displaysci(1,0,3)',
-                      array(),
-                      true, false);
-
-        $this->expect('23.2*x*10^5',
-                      'dispdp(23.2,1)*x*10^5',
-                      array(),
-                      true, false);
-
-        $this->expect('23.2 x 10^5',
-                      'dispdp(23.2,1)*x*10^5',
-                      array(),
-                      true, false);
-
-        $this->expect('23.2x10^5',
-                      'dispdp(23.2,1)*x10^5',
-                      array(),
-                      true, false);
-
-        $this->expect('23.2x 10^5',
-                      'dispdp(23.2,1)*x*10^5',
-                      array(),
-                      true, false);
-
-        $this->expect('23.2 x10^5',
-                      'dispdp(23.2,1)*x10^5',
-                      array(),
-                      true, false);
-
-        $this->expect('9.81x10^2*m/s',
-                      'dispdp(9.81,2)*x10^2*m/s',
-                      array(),
-                      true, false);
-
-        $this->expect('9.81x*10^2*m/s',
-                      'dispdp(9.81,2)*x*10^2*m/s',
-                      array(),
-                      true, false);
-
-        $this->expect('3.14 5',
-                      'dispdp(3.14,2)*5',
-                      array(),
-                      true, false);
-
-        $this->expect('3 5.2789',
-                      '3*dispdp(5.2789,4)',
-                      array(),
-                      true, false);
-
-        $this->expect('3.14 5.2789',
-                      'dispdp(3.14,2)*dispdp(5.2789,4)',
-                      array(),
-                      true, false);
-
-        $this->expect('9 8 7.6',
-                      '9*8*dispdp(7.6,1)',
-                      array(),
-                      true, false);
-
-        $this->expect('9 8.5 7.6',
-                      '9*dispdp(8.5,1)*dispdp(7.6,1)',
-                      array(),
-                      true, false);
-
-        $this->expect('3e-2',
-                      'displaysci(3,0,-2)',
-                      array(),
-                      true, false);
-
-        $this->expect('3e2',
-                      'displaysci(3,0,2)',
-                      array(),
-                      true, false);
-
-        $this->expect('3E2',
-                      'displaysci(3,0,2)',
-                      array(),
-                      true, false);
-
-        $this->expect('3.75*Btu',
-                      'dispdp(3.75,2)*Btu',
-                      array(),
-                      true, false);
-
-        $this->expect('[1,2,3.4]',
-                      '[1,2,dispdp(3.4,1)]',
-                      array(),
-                      true, false);
-
-        $this->expect('y^2-2*y-0.5',
-                      'y^2-2*y-dispdp(0.5,1)',
-                      array(),
-                      true, false);
-
-        $this->expect('{1,2,3.4}',
-                      '{1,2,dispdp(3.4,1)}',
-                      array(),
-                      true, false);
-
-        $this->expect('1.2*m**2',
-                      'dispdp(1.2,1)*m**2',
+        $this->expect('"A string that needs sanitising <script>bad stuff</script>."',
+                      '"A string that needs sanitising &lt;&#8203;script>bad stuff&lt;&#8203;/script&gt;."',
                       array(),
                       true, false);
 
@@ -360,7 +50,7 @@ class stack_ast_filter_auto_gen_910_inert_float_for_display_testcase extends qty
 
     public function test_non_affected_units() {
         $this->security = new stack_cas_security(true);
-        $this->filter = stack_parsing_rule_factory::get_by_common_name('910_inert_float_for_display');
+        $this->filter = stack_parsing_rule_factory::get_by_common_name('997_string_security');
 
         $this->expect('"+"(a,b)',
                       '"+"(a,b)',
@@ -507,6 +197,11 @@ class stack_ast_filter_auto_gen_910_inert_float_for_display_testcase extends qty
                       array(),
                       true, false);
 
+        $this->expect('+0.2',
+                      '+0.2',
+                      array(),
+                      true, false);
+
         $this->expect('+1',
                       '+1',
                       array(),
@@ -544,6 +239,11 @@ class stack_ast_filter_auto_gen_910_inert_float_for_display_testcase extends qty
 
         $this->expect('-1234',
                       '-1234',
+                      array(),
+                      true, false);
+
+        $this->expect('-0.2',
+                      '-0.2',
                       array(),
                       true, false);
 
@@ -602,6 +302,46 @@ class stack_ast_filter_auto_gen_910_inert_float_for_display_testcase extends qty
                       array(),
                       true, false);
 
+        $this->expect('.1',
+                      '.1',
+                      array(),
+                      true, false);
+
+        $this->expect('-0.2433 + 0.1111',
+                      '-0.2433+0.1111',
+                      array(),
+                      true, false);
+
+        $this->expect('-0.2433e23 + 0.1111e-45 * 0.23e12 / -0.11e-11',
+                      '-0.2433E23+0.1111E-45*0.23E12/-0.11E-11',
+                      array(),
+                      true, false);
+
+        $this->expect('-35.3 * 10^23',
+                      '-35.3*10^23',
+                      array(),
+                      true, false);
+
+        $this->expect('0..1',
+                      '0. . 1',
+                      array(),
+                      true, false);
+
+        $this->expect('0.1..1.2',
+                      '0.1 . .1 . 2',
+                      array(),
+                      true, false);
+
+        $this->expect('0.1.1.2',
+                      '0.1 . 1.2',
+                      array(),
+                      true, false);
+
+        $this->expect('0.1. 1.2',
+                      '0.1 . 1.2',
+                      array(),
+                      true, false);
+
         $this->expect('1',
                       '1',
                       array(),
@@ -657,8 +397,53 @@ class stack_ast_filter_auto_gen_910_inert_float_for_display_testcase extends qty
                       array(),
                       true, false);
 
+        $this->expect('1E+3',
+                      '1E+3',
+                      array(),
+                      true, false);
+
+        $this->expect('1E3',
+                      '1E3',
+                      array(),
+                      true, false);
+
         $this->expect('1 E 3',
                       '1*E*3',
+                      array(),
+                      true, false);
+
+        $this->expect('23.2*x*10^5',
+                      '23.2*x*10^5',
+                      array(),
+                      true, false);
+
+        $this->expect('23.2 x 10^5',
+                      '23.2*x*10^5',
+                      array(),
+                      true, false);
+
+        $this->expect('23.2x10^5',
+                      '23.2*x10^5',
+                      array(),
+                      true, false);
+
+        $this->expect('23.2x 10^5',
+                      '23.2*x*10^5',
+                      array(),
+                      true, false);
+
+        $this->expect('23.2 x10^5',
+                      '23.2*x10^5',
+                      array(),
+                      true, false);
+
+        $this->expect('9.81x10^2*m/s',
+                      '9.81*x10^2*m/s',
+                      array(),
+                      true, false);
+
+        $this->expect('9.81x*10^2*m/s',
+                      '9.81*x*10^2*m/s',
                       array(),
                       true, false);
 
@@ -722,8 +507,33 @@ class stack_ast_filter_auto_gen_910_inert_float_for_display_testcase extends qty
                       array(),
                       true, false);
 
+        $this->expect('3.14 5',
+                      '3.14*5',
+                      array(),
+                      true, false);
+
+        $this->expect('3 5.2789',
+                      '3*5.2789',
+                      array(),
+                      true, false);
+
+        $this->expect('3.14 5.2789',
+                      '3.14*5.2789',
+                      array(),
+                      true, false);
+
         $this->expect('33 578 32',
                       '33*578*32',
+                      array(),
+                      true, false);
+
+        $this->expect('9 8 7.6',
+                      '9*8*7.6',
+                      array(),
+                      true, false);
+
+        $this->expect('9 8.5 7.6',
+                      '9*8.5*7.6',
                       array(),
                       true, false);
 
@@ -734,6 +544,21 @@ class stack_ast_filter_auto_gen_910_inert_float_for_display_testcase extends qty
 
         $this->expect('3beta_47',
                       '3*beta_47',
+                      array(),
+                      true, false);
+
+        $this->expect('3e-2',
+                      '3E-2',
+                      array(),
+                      true, false);
+
+        $this->expect('3e2',
+                      '3E2',
+                      array(),
+                      true, false);
+
+        $this->expect('3E2',
+                      '3E2',
                       array(),
                       true, false);
 
@@ -754,6 +579,11 @@ class stack_ast_filter_auto_gen_910_inert_float_for_display_testcase extends qty
 
         $this->expect('Sin(x)',
                       'Sin(x)',
+                      array(),
+                      true, false);
+
+        $this->expect('3.75*Btu',
+                      '3.75*Btu',
                       array(),
                       true, false);
 
@@ -789,6 +619,11 @@ class stack_ast_filter_auto_gen_910_inert_float_for_display_testcase extends qty
 
         $this->expect('[1,-2]',
                       '[1,-2]',
+                      array(),
+                      true, false);
+
+        $this->expect('[1,2,3.4]',
+                      '[1,2,3.4]',
                       array(),
                       true, false);
 
@@ -1837,6 +1672,11 @@ class stack_ast_filter_auto_gen_910_inert_float_for_display_testcase extends qty
                       array(),
                       true, false);
 
+        $this->expect('y^2-2*y-0.5',
+                      'y^2-2*y-0.5',
+                      array(),
+                      true, false);
+
         $this->expect('y^2-2*y-8',
                       'y^2-2*y-8',
                       array(),
@@ -1859,6 +1699,11 @@ class stack_ast_filter_auto_gen_910_inert_float_for_display_testcase extends qty
 
         $this->expect('zeta',
                       'zeta',
+                      array(),
+                      true, false);
+
+        $this->expect('{1,2,3.4}',
+                      '{1,2,3.4}',
                       array(),
                       true, false);
 
@@ -1892,6 +1737,11 @@ class stack_ast_filter_auto_gen_910_inert_float_for_display_testcase extends qty
                       array(),
                       true, false);
 
+        $this->expect('1.2*m**2',
+                      '1.2*m**2',
+                      array(),
+                      true, false);
+
         $this->expect('/* Comment */x+1',
                       '/* Comment */x+1',
                       array(),
@@ -1914,11 +1764,6 @@ class stack_ast_filter_auto_gen_910_inert_float_for_display_testcase extends qty
 
         $this->expect('/*@ Comment @*/x+1',
                       '/*@ Comment @*/x+1',
-                      array(),
-                      true, false);
-
-        $this->expect('"A string that needs sanitising <script>bad stuff</script>."',
-                      '"A string that needs sanitising <script>bad stuff</script>."',
                       array(),
                       true, false);
 
@@ -1926,7 +1771,7 @@ class stack_ast_filter_auto_gen_910_inert_float_for_display_testcase extends qty
 
     public function test_non_affected_no_units() {
         $this->security = new stack_cas_security(false);
-        $this->filter = stack_parsing_rule_factory::get_by_common_name('910_inert_float_for_display');
+        $this->filter = stack_parsing_rule_factory::get_by_common_name('997_string_security');
 
         $this->expect('"+"(a,b)',
                       '"+"(a,b)',
@@ -2073,6 +1918,11 @@ class stack_ast_filter_auto_gen_910_inert_float_for_display_testcase extends qty
                       array(),
                       true, false);
 
+        $this->expect('+0.2',
+                      '+0.2',
+                      array(),
+                      true, false);
+
         $this->expect('+1',
                       '+1',
                       array(),
@@ -2110,6 +1960,11 @@ class stack_ast_filter_auto_gen_910_inert_float_for_display_testcase extends qty
 
         $this->expect('-1234',
                       '-1234',
+                      array(),
+                      true, false);
+
+        $this->expect('-0.2',
+                      '-0.2',
                       array(),
                       true, false);
 
@@ -2168,6 +2023,46 @@ class stack_ast_filter_auto_gen_910_inert_float_for_display_testcase extends qty
                       array(),
                       true, false);
 
+        $this->expect('.1',
+                      '.1',
+                      array(),
+                      true, false);
+
+        $this->expect('-0.2433 + 0.1111',
+                      '-0.2433+0.1111',
+                      array(),
+                      true, false);
+
+        $this->expect('-0.2433e23 + 0.1111e-45 * 0.23e12 / -0.11e-11',
+                      '-0.2433E23+0.1111E-45*0.23E12/-0.11E-11',
+                      array(),
+                      true, false);
+
+        $this->expect('-35.3 * 10^23',
+                      '-35.3*10^23',
+                      array(),
+                      true, false);
+
+        $this->expect('0..1',
+                      '0. . 1',
+                      array(),
+                      true, false);
+
+        $this->expect('0.1..1.2',
+                      '0.1 . .1 . 2',
+                      array(),
+                      true, false);
+
+        $this->expect('0.1.1.2',
+                      '0.1 . 1.2',
+                      array(),
+                      true, false);
+
+        $this->expect('0.1. 1.2',
+                      '0.1 . 1.2',
+                      array(),
+                      true, false);
+
         $this->expect('1',
                       '1',
                       array(),
@@ -2223,8 +2118,53 @@ class stack_ast_filter_auto_gen_910_inert_float_for_display_testcase extends qty
                       array(),
                       true, false);
 
+        $this->expect('1E+3',
+                      '1E+3',
+                      array(),
+                      true, false);
+
+        $this->expect('1E3',
+                      '1E3',
+                      array(),
+                      true, false);
+
         $this->expect('1 E 3',
                       '1*E*3',
+                      array(),
+                      true, false);
+
+        $this->expect('23.2*x*10^5',
+                      '23.2*x*10^5',
+                      array(),
+                      true, false);
+
+        $this->expect('23.2 x 10^5',
+                      '23.2*x*10^5',
+                      array(),
+                      true, false);
+
+        $this->expect('23.2x10^5',
+                      '23.2*x10^5',
+                      array(),
+                      true, false);
+
+        $this->expect('23.2x 10^5',
+                      '23.2*x*10^5',
+                      array(),
+                      true, false);
+
+        $this->expect('23.2 x10^5',
+                      '23.2*x10^5',
+                      array(),
+                      true, false);
+
+        $this->expect('9.81x10^2*m/s',
+                      '9.81*x10^2*m/s',
+                      array(),
+                      true, false);
+
+        $this->expect('9.81x*10^2*m/s',
+                      '9.81*x*10^2*m/s',
                       array(),
                       true, false);
 
@@ -2288,8 +2228,33 @@ class stack_ast_filter_auto_gen_910_inert_float_for_display_testcase extends qty
                       array(),
                       true, false);
 
+        $this->expect('3.14 5',
+                      '3.14*5',
+                      array(),
+                      true, false);
+
+        $this->expect('3 5.2789',
+                      '3*5.2789',
+                      array(),
+                      true, false);
+
+        $this->expect('3.14 5.2789',
+                      '3.14*5.2789',
+                      array(),
+                      true, false);
+
         $this->expect('33 578 32',
                       '33*578*32',
+                      array(),
+                      true, false);
+
+        $this->expect('9 8 7.6',
+                      '9*8*7.6',
+                      array(),
+                      true, false);
+
+        $this->expect('9 8.5 7.6',
+                      '9*8.5*7.6',
                       array(),
                       true, false);
 
@@ -2300,6 +2265,21 @@ class stack_ast_filter_auto_gen_910_inert_float_for_display_testcase extends qty
 
         $this->expect('3beta_47',
                       '3*beta_47',
+                      array(),
+                      true, false);
+
+        $this->expect('3e-2',
+                      '3E-2',
+                      array(),
+                      true, false);
+
+        $this->expect('3e2',
+                      '3E2',
+                      array(),
+                      true, false);
+
+        $this->expect('3E2',
+                      '3E2',
                       array(),
                       true, false);
 
@@ -2320,6 +2300,11 @@ class stack_ast_filter_auto_gen_910_inert_float_for_display_testcase extends qty
 
         $this->expect('Sin(x)',
                       'Sin(x)',
+                      array(),
+                      true, false);
+
+        $this->expect('3.75*Btu',
+                      '3.75*Btu',
                       array(),
                       true, false);
 
@@ -2355,6 +2340,11 @@ class stack_ast_filter_auto_gen_910_inert_float_for_display_testcase extends qty
 
         $this->expect('[1,-2]',
                       '[1,-2]',
+                      array(),
+                      true, false);
+
+        $this->expect('[1,2,3.4]',
+                      '[1,2,3.4]',
                       array(),
                       true, false);
 
@@ -3403,6 +3393,11 @@ class stack_ast_filter_auto_gen_910_inert_float_for_display_testcase extends qty
                       array(),
                       true, false);
 
+        $this->expect('y^2-2*y-0.5',
+                      'y^2-2*y-0.5',
+                      array(),
+                      true, false);
+
         $this->expect('y^2-2*y-8',
                       'y^2-2*y-8',
                       array(),
@@ -3425,6 +3420,11 @@ class stack_ast_filter_auto_gen_910_inert_float_for_display_testcase extends qty
 
         $this->expect('zeta',
                       'zeta',
+                      array(),
+                      true, false);
+
+        $this->expect('{1,2,3.4}',
+                      '{1,2,3.4}',
                       array(),
                       true, false);
 
@@ -3458,6 +3458,11 @@ class stack_ast_filter_auto_gen_910_inert_float_for_display_testcase extends qty
                       array(),
                       true, false);
 
+        $this->expect('1.2*m**2',
+                      '1.2*m**2',
+                      array(),
+                      true, false);
+
         $this->expect('/* Comment */x+1',
                       '/* Comment */x+1',
                       array(),
@@ -3480,11 +3485,6 @@ class stack_ast_filter_auto_gen_910_inert_float_for_display_testcase extends qty
 
         $this->expect('/*@ Comment @*/x+1',
                       '/*@ Comment @*/x+1',
-                      array(),
-                      true, false);
-
-        $this->expect('"A string that needs sanitising <script>bad stuff</script>."',
-                      '"A string that needs sanitising <script>bad stuff</script>."',
                       array(),
                       true, false);
 

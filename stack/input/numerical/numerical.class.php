@@ -30,13 +30,16 @@ class stack_numerical_input extends stack_input {
      * @var array
      */
     protected $extraoptions = array(
+        'hideanswer' => false,
         'nounits' => false,
         'simp' => false,
         // Forbid variables.  Always true for numerical inputs.
         'novars' => true,
         // Is a student required to type in a float?
         'floatnum' => false,
-         // Is the demoninator of any fractions in the student's answer to be free of surds?
+        // Is a student required to type in an explicit integer?
+        'intnum' => false,
+        // Is the demoninator of any fractions in the student's answer to be free of surds?
         'rationalnum' => false,
         'rationalized' => false,
         // Require min/max number of decimal places?
@@ -155,6 +158,9 @@ class stack_numerical_input extends stack_input {
      * @return string the teacher's answer, displayed to the student in the general feedback.
      */
     public function get_teacher_answer_display($value, $display) {
+        if ($this->extraoptions['hideanswer']) {
+            return '';
+        }
         if (trim($value) == 'EMPTYANSWER') {
             return stack_string('teacheranswerempty');
         }

@@ -995,7 +995,7 @@
     "breakup": {
         "variable": "?"
     },
-    "btu": {
+    "Btu": {
         "variable": "s"
     },
     "bug_report": {
@@ -1017,6 +1017,9 @@
     },
     "cabs": {
         "function": "s"
+    },
+    "Cal": {
+        "variable": "s"
     },
     "cal": {
         "variable": "s"
@@ -4516,6 +4519,9 @@
     },
     "mkdir": {
         "function": "?"
+    },
+    "mmHg": {
+        "variable": "s"
     },
     "mnewton": {
         "function": "f"

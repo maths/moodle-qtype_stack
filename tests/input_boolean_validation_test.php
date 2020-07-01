@@ -36,7 +36,7 @@ class stack_boolean_input_validation_test extends qtype_stack_testcase {
         $state = $el->validate_student_response(array('sans1' => 'true'), $options, 'true', new stack_cas_security());
         $this->assertEquals(stack_input::SCORE, $state->status);
         $this->assertEquals('true', $state->contentsmodified);
-        $this->assertEquals('\[ \mathbf{true} \]', $state->contentsdisplayed);
+        $this->assertEquals('\[ \mathbf{True} \]', $state->contentsdisplayed);
     }
 
     public function test_validate_student_response_false() {
@@ -45,7 +45,7 @@ class stack_boolean_input_validation_test extends qtype_stack_testcase {
         $state = $el->validate_student_response(array('sans1' => 'false'), $options, 'true', new stack_cas_security());
         $this->assertEquals(stack_input::SCORE, $state->status);
         $this->assertEquals('false', $state->contentsmodified);
-        $this->assertEquals('\[ \mathbf{false} \]', $state->contentsdisplayed);
+        $this->assertEquals('\[ \mathbf{False} \]', $state->contentsdisplayed);
     }
 
     public function test_validate_student_response_na() {
@@ -72,7 +72,7 @@ class stack_boolean_input_validation_test extends qtype_stack_testcase {
         $state = $el->validate_student_response(array('sans1' => 'true'), $options, 'true', new stack_cas_security());
         $this->assertEquals(stack_input::SCORE, $state->status);
         $this->assertEquals('true', $state->contentsmodified);
-        $this->assertEquals('\[ \mathbf{true} \]', $state->contentsdisplayed);
+        $this->assertEquals('\[ \mathbf{True} \]', $state->contentsdisplayed);
     }
 
     public function test_validate_student_response_emptyanswer_option_sa() {
@@ -91,5 +91,16 @@ class stack_boolean_input_validation_test extends qtype_stack_testcase {
         $state = $el->validate_student_response(array('sans1' => ''), $options, 'true', new stack_cas_security());
         $this->assertEquals(stack_input::SCORE, $state->status);
         $this->assertEquals('EMPTYANSWER', $state->contentsmodified);
+    }
+
+    public function test_validate_hideanswer() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('boolean', 'state', 'false');
+        $el->set_parameter('options', 'hideanswer');
+        $state = $el->validate_student_response(array('state' => 'true'), $options, 'false',
+                new stack_cas_security());
+        $this->assertEquals(stack_input::SCORE, $state->status);
+        $this->assertEquals('true', $state->contentsmodified);
+        $this->assertEquals('', $el->get_teacher_answer_display("[SOME JSON]", "\[ \mbox{[SOME MORE JSON]} \]"));
     }
 }

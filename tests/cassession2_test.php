@@ -393,7 +393,7 @@ class stack_cas_session2_test extends qtype_stack_testcase {
 
     public function test_acos_option_cosmone() {
 
-        $cs = array('a:acos(x)', 'b:asin(x)', 'c:asinh(x)');
+        $cs = array('a:acos(x)', 'b:asin(x)', 'c:asinh(x)', 'd:asin(x)^3', 'e:asin(x^2+1)^30');
         foreach ($cs as $s) {
             $s1[] = stack_ast_container::make_from_student_source($s, '', new stack_cas_security(), array());
         }
@@ -406,11 +406,13 @@ class stack_cas_session2_test extends qtype_stack_testcase {
         $this->assertEquals('\cos^{-1}\left( x \right)', $s1[0]->get_display());
         $this->assertEquals('\sin^{-1}\left( x \right)', $s1[1]->get_display());
         $this->assertEquals('{\rm sinh}^{-1}\left( x \right)', $s1[2]->get_display());
+        $this->assertEquals('\sin^{-1}^3x', $s1[3]->get_display());
+        $this->assertEquals('\sin^{-1}^{30}\left(x^2+1\right)', $s1[4]->get_display());
     }
 
     public function test_acos_option_acos() {
 
-        $cs = array('a:acos(x)', 'b:asin(x)', 'c:asinh(x)');
+        $cs = array('a:acos(x)', 'b:asin(x)', 'c:asinh(x)', 'd:asin(x)^3', 'e:asin(x^2+1)^30');
         foreach ($cs as $s) {
             $s1[] = stack_ast_container::make_from_student_source($s, '', new stack_cas_security(), array());
         }
@@ -423,11 +425,13 @@ class stack_cas_session2_test extends qtype_stack_testcase {
         $this->assertEquals('{\rm acos}\left( x \right)', $s1[0]->get_display());
         $this->assertEquals('{\rm asin}\left( x \right)', $s1[1]->get_display());
         $this->assertEquals('{\rm asinh}\left( x \right)', $s1[2]->get_display());
+        $this->assertEquals('{\rm asin}^3x', $s1[3]->get_display());
+        $this->assertEquals('{\rm asin}^{30}\left(x^2+1\right)', $s1[4]->get_display());
     }
 
     public function test_acos_option_arccos() {
 
-        $cs = array('a:acos(x)', 'b:asin(x)', 'c:asinh(x)');
+        $cs = array('a:acos(x)', 'b:asin(x)', 'c:asinh(x)', 'd:asin(x)^3', 'e:asin(x^2+1)^30');
         foreach ($cs as $s) {
             $s1[] = stack_ast_container::make_from_student_source($s, '', new stack_cas_security(), array());
         }
@@ -440,6 +444,8 @@ class stack_cas_session2_test extends qtype_stack_testcase {
         $this->assertEquals('\arccos \left( x \right)', $s1[0]->get_display());
         $this->assertEquals('\arcsin \left( x \right)', $s1[1]->get_display());
         $this->assertEquals('{\rm arcsinh}\left( x \right)', $s1[2]->get_display());
+        $this->assertEquals('\arcsin ^3x', $s1[3]->get_display());
+        $this->assertEquals('\arcsin ^{30}\left(x^2+1\right)', $s1[4]->get_display());
     }
 
     public function test_logicsymbol_option_lang() {
@@ -1555,7 +1561,7 @@ class stack_cas_session2_test extends qtype_stack_testcase {
         // No extra evaluation at this point, but nouns have been removed.
         $this->assertEquals('x = 1 or x = 2', $s1[2]->get_value());
         // However, display forces an evaluation, and hence the result.
-        $this->assertEquals('\mathbf{false}', $s1[2]->get_display());
+        $this->assertEquals('\mathbf{False}', $s1[2]->get_display());
         $this->assertEquals('false', $s1[3]->get_value());
     }
 

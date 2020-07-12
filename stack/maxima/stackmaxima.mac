@@ -348,6 +348,21 @@ list_remove(ex, n) := block([k, l],
     makelist(ex[k], k, l)
 )$
 
+/********************************************/
+/***********  Random set generation *********/
+/********************************************/
+/* Could be implemented with rand_selection but would require two conversions
+ * between sets and lists*/
+random_subset(u):=
+  disjoin(false, map(lambda([x], if rand(2)=0 then x), u)); 
+
+random_subset_n(u,n) := 
+  setify(rand_selection(listify(u),n));
+
+/* random non-empty subset */
+random_ne_subset(u) := random_subset_n(u, rand(cardinality(u))+1);
+
+
 /* Create a number in a random range. */
 rand_range([ex]) := block(
   if (length(ex)<2 or length(ex)>3) then error("rand_range must have 2 or 3 arguments."),

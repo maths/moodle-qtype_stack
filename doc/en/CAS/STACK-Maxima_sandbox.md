@@ -131,28 +131,30 @@ The values returned are actually in the form
 
 Feedback is returned in the form of a language tag which is translated later. For example,
 
-    (%i1) ATInt(x^2,[x*(x+1),x]);
+    (%i1) ATInt(x^2,x*(x+1),x);
     (%o1) [true,false,"ATInt_generic. ",
            "stack_trans('ATInt_generic' , !quot!\\[2\\,x+1\\]!quot!  , !quot!\\(x\\)!quot!  , !quot!\\[2\\,x\\]!quot! ); "]
-
-Please note that the options are passed into STACK functions as a *list* containing the answer and the option.  In the above example this is `[x*(x+1),x]`.  (This is legacy behaviour from a point where we needed all answer tests to accept precisely 2 arguments.  It should probably be re-factored.)
 
 The chart below shows the answer test, whether it is defined in Maxima or PHP and the options it expects.  Some of the tests are called "hybrid".  These require both significant Maxima and PHP code and cannot be easily reproduced in the sandbox.
 
 | Answer test         | Maxima command name   | Maxima/PHP | Option ?
 | ------------------- | --------------------- | ---------- | -------------
 | AlgEquiv            | ATAlgEquiv            | Maxima     |
+| AlgEquivNouns       | ATAlgEquivNouns       | Maxima     |
 | EqualComAss         | ATEqualComAss         | Maxima     |
 | CasEqual            | ATCasEqual            | Maxima     |
 | SameType            | ATSameType            | Maxima     |
 | SubstEquiv          | ATSubstEquiv          | Maxima     |
 | SysEquiv            | ATSysEquiv            | Maxima     |
+| Sets                | ATSets                | Maxima     |
 | Expanded            | ATExpanded            | Maxima     |
 | FacForm             | ATFacForm             | Maxima     | Variable
 | SingleFrac          | ATSingleFrac          | Maxima     |
-| Sets                | ATSets                | Maxima     |
 | PartFrac            | ATPartFrac            | Maxima     | Variable
 | CompSquare          | ATCompSquare          | Maxima     | Variable
+| PopLogic            | ATPopLogic            | Maxima     |
+| Equiv               | ATEquiv               | Maxima     |
+| EquivFirst          | ATEquivFirst          | Maxima     |
 | Num-GT              | ATGT                  | Maxima     |
 | Num-GTE             | ATGTE                 | Maxima     |
 | NumSigFigs          | ATNumSigFigs          | Maxima     | Number sig figs
@@ -171,6 +173,8 @@ The chart below shows the answer test, whether it is defined in Maxima or PHP an
 | Int                 | ATInt                 | Maxima     | Variable
 | String              |                       | PHP        |
 | StringSloppy        |                       | PHP        |
+| SRegExp             | ATSRegExp             | Maxima     |
+
 
 If you just want to decide if two expressions are considered to be algebraically equivalent, then use
 

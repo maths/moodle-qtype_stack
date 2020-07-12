@@ -44,7 +44,15 @@ The following options affect how mathematics is displayed.
 
 In practice it is very helpful to have some kind of multiplication sign displayed to the student.  The difference between
 \[ xe^x \mbox{ and } x\,e^x\]
-is very subtle.  Notice the spacing?  The first means `xe^x=(xe)^x` the second is `x*e^x`.  Could be quite confusing to students if there is no multiplication sign.  Using \(x\dot e^x\) neatly solves this problem.
+is very subtle.  Notice the spacing?  The first means `xe^x=(xe)^x` the second is `x*e^x`.  Could be quite confusing to students if there is no multiplication sign.  Using \(x\cdot e^x\) neatly solves this problem.
+
+Internally the display of multiplication signs is controlled by the STACK function `make_multsgn(ex)`, where the argument can be one of the strings `"cross"`, `"dot"` or `"blank"`.  This can be switched part-way through a session. E.g. consider the following castext.
+
+    Default: {@a*b@}.
+    Switch to cross: {@(make_multsgn("cross"), a*b)@}.
+    Cross remains: {@a*b@}.
+
+The expression `(make_multsgn("cross"), a*b)` uses parentheses as an abbreviation for Maxima's `block` command.  So, the first expression `make_multsgn("cross")` is evaluated which changes the display option to a cross.  Then the second expression is evaluated and displayed as \(a\times b\).  The new option persists in the next expression.
 
 ### Logic symbols ### {#logicsymbol}
 

@@ -29,6 +29,7 @@ STACK is released in many languages, using Moodle's ATOS language system.
   * EN: English (British), by Chris Sangwin (and others)
   * FI: Finnish, by Matti Pauna
   * SV: Swedish, by Mikael Kurula
+  * DA: Danish, by Malthe Sporring
   * ES: Spanish, by Victor Hugo Huerta 
   * JA: Japanese, by Yasuyuki Nakamura and Takahiro Nakahara  
 

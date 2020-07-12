@@ -2,6 +2,12 @@
 
 For current and future plans, see [Development track](Development_track.md) and [Future plans](Future_plans.md).
 
+## Version 4.3.4
+
+Released June 2020.
+
+Bug fixes and minor improvements to units.
+
 ## Version 4.3.3
 
 Released May 2020.

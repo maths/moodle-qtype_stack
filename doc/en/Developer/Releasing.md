@@ -26,12 +26,13 @@ Check
 
 ## 2. Create new tag with version name
 
-E.g. "v4.3.3".
+E.g. "v4.3.4".
 
 * Push to GitHub.
 * Push tags to GitHub 
  * Tortoise git: pulldown from push
- * Unix: `git tag -a v4.3.3 -m "Update version number for the 4.3.3 release."`
+ * Unix: `git tag -a v4.3.4 -m "Update version number for the 4.3.4 release."`
+ * Unix: `git push`
  * Unix: `git push --tags`
 
 ## 3. Moodle plugins database entry for the plugin

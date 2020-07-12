@@ -590,6 +590,24 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $this->assertEquals('\({x\times y}\)', $at1->get_display_castext());
     }
 
+    public function test_disp_mult_switch() {
+        $a2 = array('make_multsgn("dot")');
+        $s2 = array();
+        foreach ($a2 as $s) {
+            $s2[] = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security(), array());
+        }
+        $cs2 = new stack_cas_session2($s2, null, 0);
+        $this->assertTrue($cs2->get_valid());
+
+        $at1 = new stack_cas_text('Default: {@a*b@}. Switch: {@(make_multsgn("cross"), a*b)@}. ' .
+                'Cross remains: {@a*b@}.', $cs2, 0);
+        $this->assertTrue($at1->get_valid());
+        $at1->get_display_castext();
+
+        $this->assertEquals('Default: \({a\cdot b}\). Switch: \({a\times b}\). Cross remains: \({a\times b}\).',
+                $at1->get_display_castext());
+    }
+
     public function test_disp_equiv_natural_domain() {
         $a2 = array('ta:[1/(x-1)+1/(x+1),2*x/(x^2-1)]');
         $s2 = array();

@@ -123,10 +123,6 @@ class stack_units_input extends stack_input {
      * @param mixed $default the default to return if this parameter is not set.
      */
     public function get_parameter($parameter, $default = null) {
-        // We always want strict syntax for this input type.
-        if ($parameter == 'strictSyntax') {
-            return true;
-        }
         // We always allow floats in units. Repeat pre 4.3 behaviour.
         if ($parameter == 'forbidFloats') {
             return false;

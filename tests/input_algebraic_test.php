@@ -183,7 +183,6 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         $options = new stack_options();
         $el = stack_input_factory::make('algebraic', 'sans1', 'x^2/(1+x^2)');
         $el->set_parameter('insertStars', 1);
-        $el->set_parameter('strictSyntax', false);
         $state = $el->validate_student_response(array('sans1' => '2x', 'sans1_val' => '2x'), $options, 'x^2/(1+x^2)',
                 new stack_cas_security());
         $this->assertEquals(stack_input::SCORE, $state->status);
@@ -193,7 +192,6 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         $options = new stack_options();
         $el = stack_input_factory::make('algebraic', 'sans1', 'x^2/(1+x^2)');
         $el->set_parameter('insertStars', 1);
-        $el->set_parameter('strictSyntax', false);
         $state = $el->validate_student_response(array('sans1' => '2x(1+x^2)'), $options, 'x^2/(1+x^2)',
                 new stack_cas_security(false, '', '', array('ta')));
         $this->assertEquals(stack_input::VALID, $state->status);
@@ -203,7 +201,6 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         $options = new stack_options();
         $el = stack_input_factory::make('algebraic', 'sans1', 'x^2/(1+x^2)');
         $el->set_parameter('insertStars', 1);
-        $el->set_parameter('strictSyntax', false);
         $state = $el->validate_student_response(array('sans1' => '2x(1+x^2)+tans'), $options, 'x^2/(1+x^2)',
                 new stack_cas_security(false, '', '', array('tans')));
         $this->assertEquals(stack_input::INVALID, $state->status);
@@ -214,7 +211,6 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         $options = new stack_options();
         $el = stack_input_factory::make('algebraic', 'sans1', 'x^2/(1+x^2)');
         $el->set_parameter('insertStars', 1);
-        $el->set_parameter('strictSyntax', false);
         $state = $el->validate_student_response(array('sans1' => '2*x/(1+x^2)+sillyname(x)'),
                 $options, 'x^2/(1+x^2)', new stack_cas_security(false, '', '', array('tans')));
         $this->assertEquals(stack_input::INVALID, $state->status);
@@ -225,7 +221,6 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         $options = new stack_options();
         $el = stack_input_factory::make('algebraic', 'sans1', 'x^2/(1+x^2)');
         $el->set_parameter('insertStars', 0);
-        $el->set_parameter('strictSyntax', true);
         $state = $el->validate_student_response(array('sans1' => '2x(1+x^2)+tans'), $options, 'x^2/(1+x^2)',
                 new stack_cas_security(false, '', '', array('tans')));
         $this->assertEquals(stack_input::INVALID, $state->status);
@@ -324,7 +319,6 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         $options = new stack_options();
         $el = stack_input_factory::make('algebraic', 'sans1', '2*x');
         $el->set_parameter('insertStars', 1);
-        $el->set_parameter('strictSyntax', false);
         $state = $el->validate_student_response(array('sans1' => '2x'), $options, '2*x',
                 new stack_cas_security(false, '', '', array('ta')));
         $this->assertEquals(stack_input::VALID, $state->status);
@@ -334,7 +328,6 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         $options = new stack_options();
         $el = stack_input_factory::make('algebraic', 'sans1', '2*x');
         $el->set_parameter('insertStars', 0);
-        $el->set_parameter('strictSyntax', true);
         $state = $el->validate_student_response(array('sans1' => '2x'), $options, '2*x',
                 new stack_cas_security(false, '', '', array('ta')));
         $this->assertEquals(stack_input::INVALID, $state->status);
@@ -345,7 +338,6 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         $options = new stack_options();
         $el = stack_input_factory::make('algebraic', 'sans1', '2*sqrt(2)/3');
         $el->set_parameter('insertStars', 1);
-        $el->set_parameter('strictSyntax', false);
         $state = $el->validate_student_response(array('sans1' => '2*sqrt(+2)/3'), $options, '2*sqrt(2)/3',
                 new stack_cas_security(false, '', '', array('ta')));
         $this->assertEquals(stack_input::VALID, $state->status);
@@ -456,7 +448,6 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         $options = new stack_options();
         $el = stack_input_factory::make('algebraic', 'sans1', '-3*x^2-4');
         $el->set_parameter('insertStars', 1);
-        $el->set_parameter('strictSyntax', false);
         $state = $el->validate_student_response(array('sans1' => '-3x^2-4'), $options, '-3*x^2-4', new stack_cas_security());
         $this->assertEquals(stack_input::VALID, $state->status);
         // Hack to accomodate Maxima version 5.37.0 onwards.
@@ -472,7 +463,6 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         $options = new stack_options();
         $el = stack_input_factory::make('algebraic', 'sans1', '(3*x+1)*(x+ab)');
         $el->set_parameter('insertStars', 1);
-        $el->set_parameter('strictSyntax', false);
         $state = $el->validate_student_response(array('sans1' => '(3x+1)(x+ab)'), $options, '(3*x+1)*(x+ab)',
                 new stack_cas_security());
         $this->assertEquals(stack_input::VALID, $state->status);
@@ -484,7 +474,6 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         $options = new stack_options();
         $el = stack_input_factory::make('algebraic', 'sans1', 's^(24*r)');
         $el->set_parameter('insertStars', 1);
-        $el->set_parameter('strictSyntax', false);
         // For this test, if sameType is true, old versions of Maxima blow up with
         // Heap exhausted during allocation: 8481509376 bytes available, 35303692080 requested.
         $el->set_parameter('sameType', false);
@@ -498,7 +487,6 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         $options = new stack_options();
         $el = stack_input_factory::make('algebraic', 'sans1', 'noundiff(y/x^2,x,1)-(2*y)/x = x^3*sin(3*x)');
         $el->set_parameter('insertStars', 1);
-        $el->set_parameter('strictSyntax', false);
         // For this test, if sameType is true, old versions of Maxima blow up with
         // Heap exhausted during allocation: 8481509376 bytes available, 35303692080 requested.
         $el->set_parameter('sameType', false);
@@ -515,7 +503,6 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         $options = new stack_options();
         $el = stack_input_factory::make('algebraic', 'sans1', '(3*x+1)*(x+ab)');
         $el->set_parameter('insertStars', 2);
-        $el->set_parameter('strictSyntax', false);
         $state = $el->validate_student_response(array('sans1' => '(3x+1)(x+ab)'), $options, '(3*x+1)*(x+ab)',
                 new stack_cas_security());
         $this->assertEquals(stack_input::VALID, $state->status);
@@ -529,7 +516,6 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         $options = new stack_options();
         $el = stack_input_factory::make('algebraic', 'sans1', '(3x+1)*(x+ab)');
         $el->set_parameter('insertStars', 1);
-        $el->set_parameter('strictSyntax', false);
         $state = $el->validate_student_response(array('sans1' => '(3x+1)(x+ab)'), $options, '(3*x+1)*(x+ab)',
                 new stack_cas_security());
         $this->assertEquals(stack_input::VALID, $state->status);

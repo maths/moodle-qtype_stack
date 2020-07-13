@@ -68,8 +68,6 @@ class stack_numerical_input_test extends qtype_stack_testcase {
     public function test_validate_student_response_scientific() {
         $options = new stack_options();
         $el = stack_input_factory::make('numerical', 'sans1', '3.14');
-        // This input type should ignore the strictSyntax option.
-        $el->set_parameter('strictSyntax', false);
         $state = $el->validate_student_response(array('sans1' => '2.34e6'), $options, '3.14', new stack_cas_security());
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('\[ 2.34E+6 \]', strtoupper($state->contentsdisplayed));
@@ -522,7 +520,6 @@ class stack_numerical_input_test extends qtype_stack_testcase {
         $options = new stack_options();
         $el = stack_input_factory::make('units', 'sans1', '23.2*10^2');
         $el->set_parameter('insertStars', 1);
-        $el->set_parameter('strictSyntax', false);
         $state = $el->validate_student_response(array('sans1' => '23.2x10^2'), $options, '23.2*10^2',
                 new stack_cas_security(true));
         $this->assertEquals(stack_input::INVALID, $state->status);

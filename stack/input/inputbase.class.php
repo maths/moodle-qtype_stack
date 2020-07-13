@@ -823,7 +823,6 @@ abstract class stack_input {
         $secrules->set_forbiddenwords($this->get_parameter('forbidWords', ''));
 
         $grammarautofixes = $this->get_parameter('grammarAutofixes', 0);
-        $strict = $this->get_parameter('strictSyntax', true);
 
         $filterstoapply = array();
 

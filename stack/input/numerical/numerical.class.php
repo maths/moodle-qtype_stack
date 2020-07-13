@@ -110,7 +110,6 @@ class stack_numerical_input extends stack_input {
             'mustVerify'         => true,
             'showValidation'     => 1,
             'boxWidth'           => 15,
-            // The option strictSyntax as true means we don't insert *s into 192.3e3 etc.
             'strictSyntax'       => true,
             'insertStars'        => 0,
             'syntaxHint'         => '',

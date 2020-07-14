@@ -91,7 +91,6 @@ class stack_algebraic_input extends stack_input {
             'mustVerify'         => true,
             'showValidation'     => 1,
             'boxWidth'           => 15,
-            'strictSyntax'       => false,
             'insertStars'        => 0,
             'syntaxHint'         => '',
             'syntaxAttribute'    => 0,

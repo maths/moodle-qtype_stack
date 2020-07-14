@@ -167,7 +167,8 @@ class qtype_stack extends question_type {
             $input->type               = $fromform->{$inputname . 'type'};
             $input->tans               = $fromform->{$inputname . 'modelans'};
             $input->boxsize            = $fromform->{$inputname . 'boxsize'};
-            $input->strictsyntax       = $fromform->{$inputname . 'strictsyntax'};
+            // TODO: remove this when we remove strictsyntax from the DB.
+            $input->strictsyntax       = true;
             $input->insertstars        = $fromform->{$inputname . 'insertstars'};
             $input->syntaxhint         = $fromform->{$inputname . 'syntaxhint'};
             $input->syntaxattribute    = $fromform->{$inputname . 'syntaxattribute'};
@@ -445,7 +446,7 @@ class qtype_stack extends question_type {
             $inputdata = $questiondata->inputs[$name];
             $allparameters = array(
                 'boxWidth'        => $inputdata->boxsize,
-                'strictSyntax'    => (bool) $inputdata->strictsyntax,
+                'strictSyntax'    => true,
                 'insertStars'     => (int) $inputdata->insertstars,
                 'syntaxHint'      => $inputdata->syntaxhint,
                 'syntaxAttribute' => $inputdata->syntaxattribute,

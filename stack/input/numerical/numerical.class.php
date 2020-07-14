@@ -110,7 +110,6 @@ class stack_numerical_input extends stack_input {
             'mustVerify'         => true,
             'showValidation'     => 1,
             'boxWidth'           => 15,
-            'strictSyntax'       => true,
             'insertStars'        => 0,
             'syntaxHint'         => '',
             'syntaxAttribute'    => 0,
@@ -120,23 +119,6 @@ class stack_numerical_input extends stack_input {
             'lowestTerms'        => true,
             'sameType'           => true,
             'options'            => '');
-    }
-
-    /**
-     * Get the value of one of the parameters.
-     * @param string $parameter the parameter name
-     * @param mixed $default the default to return if this parameter is not set.
-     */
-    public function get_parameter($parameter, $default = null) {
-        // We always want strict syntax for this input type.
-        if ($parameter == 'strictSyntax') {
-            return true;
-        }
-        if (array_key_exists($parameter, $this->parameters)) {
-            return $this->parameters[$parameter];
-        } else {
-            return $default;
-        }
     }
 
     /**

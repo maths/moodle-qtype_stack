@@ -999,7 +999,6 @@ class stack_units_input_test extends qtype_stack_testcase {
         $options = new stack_options();
         $el = stack_input_factory::make('units', 'sans1', '23.2*10^2*m');
         $el->set_parameter('insertStars', 5);
-        $el->set_parameter('strictSyntax', false);
         $state = $el->validate_student_response(array('sans1' => '523.2 x 10^2m/s'), $options, '23.2*10^2*m',
                 new stack_cas_security(true));
         $this->assertEquals(stack_input::INVALID, $state->status);

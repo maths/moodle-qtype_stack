@@ -384,7 +384,6 @@ class stack_equiv_input extends stack_input {
             'mustVerify'     => true,
             'showValidation' => 1,
             'boxWidth'       => 25,
-            'strictSyntax'   => true,
             'insertStars'    => 0,
             'syntaxHint'     => '',
             'forbidWords'    => '',

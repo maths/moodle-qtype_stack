@@ -123,10 +123,6 @@ A single letter can be entered.  This is useful for creating multiple-choice que
 
 The width of the input box.
 
-### Strict Syntax ### {#Strict_Syntax}
-
-This option is no longer used.
-
 ### Insert Stars ### {#Insert_Stars}
 
 Insert Stars affect the way STACK treats the validation of CAS strings.

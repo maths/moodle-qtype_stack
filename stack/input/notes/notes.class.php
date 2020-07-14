@@ -114,7 +114,6 @@ class stack_notes_input extends stack_input {
             'mustVerify'     => false,
             'showValidation' => 1,
             'boxWidth'       => 50,
-            'strictSyntax'   => false,
             'insertStars'    => 0,
             'syntaxHint'     => '',
             'forbidWords'    => '',

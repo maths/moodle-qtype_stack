@@ -344,7 +344,6 @@ class stack_matrix_input extends stack_input {
             'mustVerify'         => true,
             'showValidation'     => 1,
             'boxWidth'           => 5,
-            'strictSyntax'       => false,
             'insertStars'        => 0,
             'syntaxHint'         => '',
             'syntaxAttribute'    => 0,

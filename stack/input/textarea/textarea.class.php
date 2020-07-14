@@ -229,7 +229,6 @@ class stack_textarea_input extends stack_input {
             'mustVerify'         => true,
             'showValidation'     => 1,
             'boxWidth'           => 20,
-            'strictSyntax'       => true,
             'insertStars'        => 0,
             'syntaxHint'         => '',
             'syntaxAttribute'    => 0,

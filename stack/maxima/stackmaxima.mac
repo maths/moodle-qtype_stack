@@ -230,13 +230,50 @@ make_logic(OPT_LOGIC) := block(
     return(true)
 )$
 
-/* Options for cos^(-1), acos or arccos. */
-/* There is a bug in texput which prevents us from avoiding a "load" here. */
 make_arccos(OPT_ACOS) := block(
-    if OPT_ACOS = "cos-1" then load("cos-1.lisp"),
-    if OPT_ACOS = "arccos" then load("arccos.lisp"),
-    if OPT_ACOS = "acos" then load("acos.lisp")
-);
+    if OPT_ACOS = "cos-1" then block(
+       ?tex\-setup(?cdr([?%asin, "\\sin^{-1}"])),
+       ?tex\-setup(?cdr([?%acos, "\\cos^{-1}"])),
+       ?tex\-setup(?cdr([?%atan, "{\\tan^{-1}}"])),
+       ?tex\-setup(?cdr([?%asec, "{\\rm sec}^{-1}"])),
+       ?tex\-setup(?cdr([?%acsc, "{\\rm csc}^{-1}"])),
+       ?tex\-setup(?cdr([?%acot, "{\\rm cot}^{-1}"])),
+       ?tex\-setup(?cdr([?%asinh, "{\\rm sinh}^{-1}"])),
+       ?tex\-setup(?cdr([?%acosh, "{\\rm cosh}^{-1}"])),
+       ?tex\-setup(?cdr([?%atanh, "{\\rm tanh}^{-1}"])),
+       ?tex\-setup(?cdr([?%asech, "{\\rm sech}^{-1}"])),
+       ?tex\-setup(?cdr([?%acsch, "{\\rm csch}^{-1}"])),
+       ?tex\-setup(?cdr([?%acoth, "{\\rm coth}^{-1}"]))
+    ),
+    if OPT_ACOS = "arccos" then block(
+       ?tex\-setup(?cdr([?%asin, "\\arcsin "])),
+       ?tex\-setup(?cdr([?%acos, "\\arccos "])),
+       ?tex\-setup(?cdr([?%atan, "\\arctan "])),
+       ?tex\-setup(?cdr([?%asec, "{\\rm arcsec}"])),
+       ?tex\-setup(?cdr([?%acsc, "{\\rm arccsc}"])),
+       ?tex\-setup(?cdr([?%acot, "{\\rm arccot}"])),
+       ?tex\-setup(?cdr([?%asinh, "{\\rm arcsinh}"])),
+       ?tex\-setup(?cdr([?%acosh, "{\\rm arccosh}"])),
+       ?tex\-setup(?cdr([?%atanh, "{\\rm arctanh}"])),
+       ?tex\-setup(?cdr([?%asech, "{\\rm arcsech}"])),
+       ?tex\-setup(?cdr([?%acsch, "{\\rm arccsch}"])),
+       ?tex\-setup(?cdr([?%acoth, "{\\rm arccoth}"]))
+    ),
+    if OPT_ACOS = "acos" then block(
+       ?tex\-setup(?cdr([?%asin, "{\\rm asin}"])),
+       ?tex\-setup(?cdr([?%acos, "{\\rm acos}"])),
+       ?tex\-setup(?cdr([?%atan, "{\\rm atan}"])),
+       ?tex\-setup(?cdr([?%asec, "{\\rm asec}"])),
+       ?tex\-setup(?cdr([?%acsc, "{\\rm acsc}"])),
+       ?tex\-setup(?cdr([?%acot, "{\\rm acot}"])),
+       ?tex\-setup(?cdr([?%asinh, "{\\rm asinh}"])),
+       ?tex\-setup(?cdr([?%acosh, "{\\rm acosh}"])),
+       ?tex\-setup(?cdr([?%atanh, "{\\rm atanh}"])),
+       ?tex\-setup(?cdr([?%asech, "{\\rm asech}"])),
+       ?tex\-setup(?cdr([?%acsch, "{\\rm acsch}"])),
+       ?tex\-setup(?cdr([?%acoth, "{\\rm acoth}"]))
+    )
+)$
 
 /* Fine tune the display of fractions between inline and displayed. */
 stackfractionsinline(e) := block ([a, b],

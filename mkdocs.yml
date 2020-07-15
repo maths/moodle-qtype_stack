@@ -3,8 +3,12 @@ extra_javascript:
     - https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML
 theme:
     name: bootstrap
+    #name: readthedocs
     custom_dir: overrides
     logo: img/logo_large.svg
+    nav_style: light
 docs_dir: 'doc/en'
+#extra_css:
+#    - custom.css
 markdown_extensions:
     - mdx_math

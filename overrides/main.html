@@ -8,11 +8,17 @@
 
 <!-- Adds logo to navigation bar. -->
 {% block site_name %}
-	<a class="navbar-brand" href="https://malthesrepo.readthedocs.io/en/latest/"><img style="vertical-align:baseline" src="/img/logo_large.png" alt="STACK logo" height="20">STACK</a>
+<a class="navbar-brand" href="/../"><img style="vertical-align:baseline" src="/img/logo_large.png" alt="STACK logo" height="20"><b>STACK</b></a><b> <a class="navbar-brand">></a> </b> <a class="navbar-brand" href="/"><b>Documentation</b></a>
+
+{% endblock %}
+
+{% block next_prev %}
+
 {% endblock %}
 
 <!-- Specifies styles for columns and rows. -->
 {% block extrahead %}
+
 <style>
 div.footerColumn {
   max-width:350px;

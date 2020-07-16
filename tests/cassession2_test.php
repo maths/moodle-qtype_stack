@@ -2012,4 +2012,26 @@ class stack_cas_session2_test extends qtype_stack_testcase {
             $this->assertEquals('false', $test->get_value());
         }
     }
+
+    public function test_stack_regex_match_exactp() {
+
+        $t1 = array();
+        $t1[] = array('regex_match_exactp("(aaa)*(b|d)c", "aaaaaabc")', 'true');
+        $t1[] = array('regex_match_exactp("(aaa)*(b|d)c", "dc")', 'true');
+        $t1[] = array('regex_match_exactp("(aaa)*(b|d)c", "aaaaaaabc")', 'false');
+        $t1[] = array('regex_match_exactp("(aaa)*(b|d)c", "aaaaaaabc")', 'false');
+
+        foreach ($t1 as $i => $case) {
+            $s = 'n' . $i . ':' . $case[0];
+            $s1[] = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security(), array());
+        }
+
+        $options = new stack_options();
+        $s = new stack_cas_session2($s1, $options, 0);
+        $s->instantiate();
+
+        foreach ($t1 as $i => $t) {
+            $this->assertEquals($t[1], $s1[$i]->get_value());
+        }
+    }
 }

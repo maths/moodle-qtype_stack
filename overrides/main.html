@@ -6,15 +6,64 @@
     <div class="col-md-12" role="main">{% include "content.html" %}</div>
 {% endblock %}
 
-<!-- Adds logo to navigation bar. -->
-{% block site_name %}
-<a class="navbar-brand" href="/../"><img style="vertical-align:baseline" src="/img/logo_large.png" alt="STACK logo" height="20"><b>STACK</b></a><b> <a class="navbar-brand">></a> </b> <a class="navbar-brand" href="/"><b>Documentation</b></a>
-
-{% endblock %}
 
 {% block next_prev %}
 
 {% endblock %}
+
+{%block site_nav%}
+<!--Actual navigation bar-->
+        <div class="navbar fixed-top navbar-expand-lg navbar-{% if config.theme.nav_style == "light" %}light{% else %}dark{% endif %} bg-{{ config.theme.nav_style }}" style="position:fixed;top:55px;">
+            <div class="container">
+				
+				<!-- Adds logo to navigation bar. -->
+				{% block site_name %}
+				<a class="navbar-brand" href="/../"><img style="vertical-align:baseline" src="/img/logo_large.png" alt="STACK logo" height="20"><b>STACK</b></a><b> <a class="navbar-brand">></a> </b> <a class="navbar-brand" href="/"><b>Documentation</b></a>
+
+				{% endblock %}
+
+                {%- if nav|length>1 or (page and (page.next_page or page.previous_page)) or config.repo_url %}
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-collapse">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                {%- endif %}				
+
+                    {%- if nav|length>1 %}
+                        <!-- Main navigation -->
+						<div class="navbar-collapse collapse">
+                        <ul class="nav navbar-nav">
+                        {%- for nav_item in nav %}
+                        {%- if nav_item.children %}
+                            <li class="dropdown{% if nav_item.active %} active{% endif %}">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">{{ nav_item.title }} <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                {%- for nav_item in nav_item.children %}
+                                    {% include "nav-sub.html" %}
+                                {%- endfor %}
+                                </ul>
+                            </li>
+                        {%- else %}
+                            <li class="navitem{% if nav_item.active %} active{% endif %}">
+                                <a href="{{ nav_item.url|url }}" class="nav-link">{{ nav_item.title }}</a>
+                            </li>
+                        {%- endif %}
+                        {%- endfor %}
+                        </ul></div>
+                    {%- endif %}
+					
+					                    <ul class="nav navbar-nav ml-auto">
+                      {%- block search_button %}
+                        {%- if 'search' in config['plugins'] %}
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-toggle="modal" data-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                        {%- endif %}
+                      {%- endblock %}
+</div></div>
+{%endblock%}
 
 <!-- Specifies styles for columns and rows. -->
 {% block extrahead %}

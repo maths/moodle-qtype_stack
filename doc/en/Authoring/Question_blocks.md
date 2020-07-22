@@ -31,6 +31,7 @@ Notes
 2. White space is tolerated in block definitions and after the `/` in the closing block, but is not necessary.
 3. The parameters have the following syntax:  `param1="value1"`.  Blocks define what are valid identifiers and parameters.  The identifiers must not be in quotes (and so cannot contain spaces).  The parameters must be in quotes, and either `param1="value1"` or `param1='value1'` is accepted.
 4. Typically `param1` will be a valid Maxima identifier, e.g. a variable name and the value would be a valid Maxima expression.
+5. The parameter value must be surrounded by quotes, and both `"value"` and `'value'` are accepted.
 
 ## Conditional blocks ##
 

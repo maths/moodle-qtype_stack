@@ -59,6 +59,20 @@ HTML dropdowns cannot display LaTeX within the options.  This is a restriction o
 
 Note here that an integer will returned internally.
 
+Similarly, you can include logical symbols.
+
+    ta1:[[0, false, "&#8658;"], [1, true, "&#8656;"], [2, false, "&#8660;"]];
+
+This will give a choice, e.g. a dropdown, from &#8658;, &#8656; and &#8660; and an integer will returned internally.
+
+    ta1:[[0, false, "&#8704;"], [1, true, "&#8707;"]];
+
+This will give a choice, e.g. a dropdown, from &#8704; and &#8707;.
+
+    ta1:[[0, true, "c &#8712;"], [1, false, "c &#8713;"]];
+
+This will give a choice, e.g. a dropdown, from "c &#8712;" and "c &#8713;".
+
 
 ## Internals ##
 

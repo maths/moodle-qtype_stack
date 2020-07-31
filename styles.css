@@ -245,7 +245,7 @@ ol.proof-steps > li:before {
     width: 1.5em;
     height: 1.5em;
     margin-right: .2em;
-    margin-top: 0em;
+    margin-top: 0;
     border-style: none;
     border-radius: 50%;
     line-height: 1.4em;
@@ -266,20 +266,20 @@ ol.proof-steps > li:after {
     content: "";
     height: 100%;
     width: 0;
-    border-left: 3px solid #00339933;
+    border-left: 3px solid #0393;
     z-index: 1;
 }
 ol.proof-steps > li:last-of-type:after {
     border: none;
 }
 ol.proof-steps > li:before {
-    content: counter(li,decimal) !important;
+    content: counter(li, decimal);
 }
 ol.proof-steps ol.proof-steps > li:before {
-    content: counter(li,lower-latin) !important;
+    content: counter(li, lower-latin);
 }
 ol.proof-steps ol.proof-steps ol.proof-steps > li:before {
-    content: counter(li,lower-roman) !important;
+    content: counter(li, lower-roman);
 }
 
 /* Styles for the editing form. */

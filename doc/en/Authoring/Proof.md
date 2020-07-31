@@ -15,7 +15,7 @@ This class is a general high level container.
 <div style="color: #2f6473; background-color: #def2f8; border-color: #d1edf6;">
 This is typical question style, from the Moodle theme, containing the following proof.
 <div class="proof">
-<p>Let P(n) be the statement [...] </p>
+<p>Let \(P(n)\) be the statement [...] </p>
 <p>From which we see that.</p>
 </div>
 Back to the typical Moodle style.
@@ -136,44 +136,48 @@ Additionally, `proof-column-2` has a different visual style for emphasis.
 
 <div style="color: #2f6473; background-color: #def2f8; border-color: #d1edf6;">
 Here is a proof of the great and wonderful theorem.
-<div class="proof">
-The proof has two cases.
-<div class="proof-block">
-<div class="proof-line">
- <div class="proof-num">1.</div>
- <div class="proof-column">The proof itself is in the first column.</div>
- <div class="proof-column-2">The second column can contain comments, here in <code>proof-column-2</code> style. </div>
+ <div class="proof">
+  The proof has two cases.
+  <div class="proof-block">
+   <div class="proof-line">
+    <div class="proof-num">1.</div>
+    <div class="proof-column">The proof itself is in the first column.</div>
+    <div class="proof-column-2">The second column can contain comments, here in <code>proof-column-2</code> style. </div>
+   </div>
+   <div class="proof-line">
+    <div class="proof-num">2.</div>
+    <div class="proof-column">The proof continues.</div>
+    <div class="proof-column-2">With further comments.</div>
+   </div>
+  </div>
+  <div class="proof-block">
+   <div class="proof-line">
+    <div class="proof-num">3.</div>
+    <div class="proof-column">The second case of the proof.</div>
+    <div class="proof-column">The second column can contain comments, here in <code>proof-column</code> style. </div>
+   </div>
+   <div class="proof-line">
+    <div class="proof-num">4.</div>
+    <div class="proof-column">The proof continues.</div>
+    <div class="proof-column">With further comments.</div>
+   </div>
+   <div class="proof-block">
+    <div class="proof-line">
+     <div class="proof-num">5.</div>
+     <div class="proof-column">The proof continues.</div>
+     <div class="proof-column">With further comments.</div>
+    </div>
+    <div class="proof-line">
+     <div class="proof-num">6.</div>
+     <div class="proof-column">The proof continues, without comment.</div>
+    </div>
+   </div>
+  </div>
+ </div>
 </div>
-<div class="proof-line">
- <div class="proof-num">2.</div>
- <div class="proof-column">The proof continues.</div>
- <div class="proof-column-2">With further comments.</div>
-</div>
-</div>
-<div class="proof-block">
-<div class="proof-line">
- <div class="proof-num">3.</div>
- <div class="proof-column">The second case of the proof.</div>
- <div class="proof-column">The second column can contain comments, here in <code>proof-column</code> style. </div>
-</div>
-<div class="proof-line">
- <div class="proof-num">4.</div>
- <div class="proof-column">The proof continues.</div>
- <div class="proof-column">With further comments.</div>
-</div>
-<div class="proof-block">
-<div class="proof-line">
- <div class="proof-num">5.</div>
- <div class="proof-column">The proof continues.</div>
- <div class="proof-column">With further comments.</div>
-</div>
-<div class="proof-line">
- <div class="proof-num">6.</div>
- <div class="proof-column">The proof continues, without comment.</div>
-</div>
-</div>
-</div>
-</div>
+
+### `<div class="proof-column">`
+
 <div class="proof-line">
  <div class="proof-column">Lines don't need to have <code>proof-num</code> or <code>proof-block</code></div>
  <div class="proof-column">With further comments.</div>
@@ -260,3 +264,28 @@ Consider the following proof by induction. \(P(n)\)
 </div>
 </div>
 </div>
+
+
+### `<ol class="proof-steps">`
+
+This class enables ordered lists to have connected numbered statements.
+
+<ol class="proof-steps">
+<li>Let \(A\) be an \(n \times n\) matrix and let \(R\) be the reduced row echelon form of \(A\).</li>
+<li>We will show first that \(\mbox{det}(A) \not= 0\) if and only if \(\mbox{det}(R) \not=0\).</li>
+<li>Let <ol>
+<li>\(E_1\),</li>
+<li>\(E_2\),</li>
+</ol>\(\dots, E_r\) be the elementary matrices corresponding to the elementary row operations that reduce \(A\) to \(R\).</li>
+<li>Then \(E_r \cdots E_1 A =\) [[input:ans1]]]</li>
+<li>Taking determinants of both sides, we obtain:\[\mbox{det}(E_r) \cdots \mbox{det}(E_1) \mbox{det}(A) = \mbox{det}(R).\]</li>
+<li>The determinants of all the elementary matrices are all [[input:ansdropdown]]]</li>
+<li>We conclude that \(\mbox{det}(A) \not= 0\) if and only if \(\mbox{det}(R) \not= 0\).</li>
+<li>Now suppose that \(A\) is invertible.
+ <ol class="proof-steps">
+ <li>Then \(R = \) [[input:ans4]]</li>
+ <li>Thus, \(\mbox{det}(R) =\) [[input:ans3]] and hence \(\mbox{det}(A) \not= 0\).</li>
+ </ol></li>
+<li>Conversely, if \(\mbox{det}(A) \not= 0\) then \(\mbox{det}(R) \not= 0\), so \(R\) cannot have a zero row.</li>
+<li>Thus \(R = I_n\) and \(A\) is invertible as required. </li>
+</ol>

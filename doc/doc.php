@@ -52,10 +52,6 @@ if (!file_exists($docsroot.'/index.md')) {
 
 $docsurl = $CFG->wwwroot . '/question/type/stack/doc/doc.php';
 
-// The URL to the directory for static content to be served by the docs
-// access this string in the docs with %CONTENT.
-$docscontent = $CFG->wwwroot . '/question/type/stack/doc/content';
-
 $context = context_system::instance();
 $PAGE->set_context($context);
 $PAGE->set_url('/question/type/stack/doc/doc.php');
@@ -115,11 +111,11 @@ if ('Site_map' == $lastseg) {
     }
 
     if (file_exists($file)) {
-        $body = stack_docs_page($links, $file, $docscontent);
+        $body = stack_docs_page($links, $file);
         $meta = stack_docs_page_metadata($uri);
     } else if (file_exists($fileen)) {
         // Default to English.
-        $body = stack_docs_page($links, $fileen, $docscontent);
+        $body = stack_docs_page($links, $fileen);
         $meta = stack_docs_page_metadata($uri);
     } else {
         $body = stack_docs_no_found($links);

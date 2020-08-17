@@ -113,14 +113,13 @@ function stack_docs_no_found($links) {
  * Generate a page of the documentation from the source in a file.
  * @param string $links menu of links to show.
  * @param string $file path to the file to display.
- * @param string $docscontent base URL for linking to images etc.
  * @return string HTML page body.
  */
-function stack_docs_page($links, $file, $docscontent) {
+function stack_docs_page($links, $file) {
     $body = '';
     $body .= $links;
     $body .= "\n<hr/>\n";
-    $body .= stack_docs_render_markdown(file_get_contents($file), $docscontent);
+    $body .= stack_docs_render_markdown(file_get_contents($file));
     $body .= "\n<hr/>\n";
     $body .= $links;
     return $body;
@@ -131,11 +130,9 @@ function stack_docs_page($links, $file, $docscontent) {
  * @param string $docscontent base URL for linking to images etc.
  * @return string HTML content.
  */
-function stack_docs_render_markdown($page, $docscontent) {
+function stack_docs_render_markdown($page) {
 
     // Put in links to images etc.
-    $page = preg_replace('~(?<!\\\\)%CONTENT~', $docscontent, $page);
-    $page = str_replace('\%CONTENT', '%CONTENT', $page);
     $page = stack_maths::pre_process_docs_page($page);
     if (strpos($page, '[[ALL_FACTS]]') > 0) {
         $page = str_replace('[[ALL_FACTS]]', stack_fact_sheets::generate_docs(), $page);

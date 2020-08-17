@@ -87,7 +87,7 @@ function report($d) {
                             }
 
                             // Let's do some link checking, step one: scrape the links off the document's web page.
-                            $links = stack_docs_render_markdown((file_get_contents($fpath)), "");
+                            $links = stack_docs_render_markdown((file_get_contents($fpath)));
                             preg_match_all("/<a(?:[^>]*)href=\"([^\"]*)\"(?:[^>]*)>(?:[^<]*)<\/a>/is", $links, $found);
                             // The array $found[0] will have the full a tags, found[1] contains their href properties.
                             // Step two, visit these links and check for 404s.

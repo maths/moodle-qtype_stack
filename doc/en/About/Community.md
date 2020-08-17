@@ -6,7 +6,7 @@ A demonstration server is available in Edinburgh:  [https://stack.maths.ed.ac.uk
 
 In 2017 the STACK project was awarded a Collaborative Award for Teaching Excellence.
 
-![CATE Logo](%CONTENT/CATE.png)
+![CATE Logo](../../content/CATE.png)
 
 
 ### How can I contribute?

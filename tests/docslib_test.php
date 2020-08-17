@@ -65,17 +65,11 @@ class stack_docslib_test extends qtype_stack_testcase {
     public function test_stack_docs_render_markdown() {
 
         $this->assertEquals("<p>Test</p>\n",
-                stack_docs_render_markdown('Test', '.../doc/content'));
-
-        $this->assertEquals('<p><a href=".../doc/content/readme.txt">Readme</a></p>' . "\n",
-                stack_docs_render_markdown('[Readme](%CONTENT/readme.txt)', '.../doc/content'));
-
-        $this->assertEquals("<p>Literal %CONTENT</p>\n",
-                stack_docs_render_markdown('Literal \%CONTENT', '.../doc/content'));
+                stack_docs_render_markdown('Test'));
 
         // @codingStandardsIgnoreStart
         $this->assert_content_with_maths_equals("<p><code>\\(x^2\\)</code> gives \\(x^2\\).</p>\n",
-                stack_docs_render_markdown('`\(x^2\)` gives \(x^2\).', '.../doc/content'));
+                stack_docs_render_markdown('`\(x^2\)` gives \(x^2\).'));
         // @codingStandardsIgnoreEnd
     }
 }

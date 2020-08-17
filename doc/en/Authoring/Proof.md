@@ -15,7 +15,7 @@ This class is a general high level container.
 <div style="color: #2f6473; background-color: #def2f8; border-color: #d1edf6;">
 This is typical question style, from the Moodle theme, containing the following proof.
 <div class="proof">
-<p>Let \(P(n)\) be the statement [...] </p>
+<p>Let P(n) be the statement [...] </p>
 <p>From which we see that.</p>
 </div>
 Back to the typical Moodle style.
@@ -63,12 +63,12 @@ Consider the following proof by induction. \(P(n)\)
 <div class="proof-block">
 <div class="proof-line">
  <div class="proof-num">1.</div>
- <div class="proof-step">Let \(P(n)\) be the statement</div>
+ <div class="proof-step">Let P(n) be the statement</div>
  <div class="proof-comment">The first block of an induction proof must be a clear statement of the "induction hypothesis".</div>
 </div>
 <div class="proof-line">
  <div class="proof-num">2.</div>
- <div class="proof-step">\({\sum_{k=1}^{n}{k^2}=\frac{n\cdot \left(n+1\right)\cdot \left(2\cdot n+1\right)}{6}}\)</div>
+ <div class="proof-step">.... some maths ....</div>
  <div class="proof-comment">Notice, in this case, we have a purely algebraic induction hypothesis.</div>
 </div>
 </div>
@@ -80,48 +80,48 @@ Consider the following proof by induction. \(P(n)\)
 </div>
 <div class="proof-line">
  <div class="proof-num">4.</div>
- <div class="proof-step">\( {1^2} = {1}\)</span> and \( {\frac{1\cdot \left(1+1\right)\cdot \left(2\cdot 1+1\right)}{6}} = {1} \)</div>
+ <div class="proof-step">Something profound and something else</div>
 </div>
 <div class="proof-line">
  <div class="proof-num">5.</div>
- <div class="proof-step">it follows that \(P(1)\) is true.</div>
+ <div class="proof-step">it follows that P(1) is true.</div>
 </div>
 </div>
 <div class="proof-block">
 <div class="proof-line">
  <div class="proof-num">6.</div>
- <div class="proof-step">Assume that \(P(n)\) is true.</div>
+ <div class="proof-step">Assume that P(n) is true.</div>
  <div class="proof-comment">This block is known as the "induction step".</div>
 </div>
 <div class="proof-line">
  <div class="proof-num">7.</div>
- <div class="proof-step">\({\sum_{k=1}^{n+1}{k^2}} = {\sum_{k=1}^{n}{k^2}} + {\left(n+1\right)^2}\)</div>
- <div class="proof-comment">We just consider the sum which occurs in \(P(n+1)\) and start to rearrange this.</div>
+ <div class="proof-step">.... lots of complex working ....</div>
+ <div class="proof-comment">We just consider the sum which occurs in P(n+1) and start to rearrange this.</div>
 </div>
 <div class="proof-line">
  <div class="proof-num">8.</div>
- <div class="proof-step">\(= {\frac{n\cdot \left(n+1\right)\cdot \left(2\cdot n+1\right)}{6}} + {\left(n+1\right)^2}\)</div>
- <div class="proof-comment">We are assuming \(P(n)\) is true, and here we use this fact.</div>
+ <div class="proof-step">More working</div>
+ <div class="proof-comment">We are assuming P(n) is true, and here we use this fact.</div>
 </div>
 <div class="proof-line">
  <div class="proof-num">9.</div>
- <div class="proof-step">\(= {\frac{\left(n+2\right)\cdot \left(2\cdot n+3\right)\cdot \left(n+1\right)}{6}}\)</div>
+ <div class="proof-step">More working.</div>
 </div>
 <div class="proof-line">
  <div class="proof-num">10.</div>
- <div class="proof-step">\(= {\frac{\left(n+1\right)\cdot \left(n+1+1\right)\cdot \left(2\cdot \left(n+1\right)+1\right)}{6}}\)</div>
- <div class="proof-comment">Notice we have rearranged the algebra to give us the right hand side of \(P(n+1)\).</div>
+ <div class="proof-step">Which gives us what we want</div>
+ <div class="proof-comment">Notice we have rearranged the algebra to give us the right hand side of P(n+1).</div>
 </div>
 <div class="proof-line">
  <div class="proof-num">11.</div>
- <div class="proof-step">Hence \(P(n+1)\) is true.</div>
+ <div class="proof-step">Hence P(n+1) is true.</div>
  <div class="proof-comment">This block is the conclusion of the proof.</div>
 </div>
 </div>
 <div class="proof-block">
 <div class="proof-line">
  <div class="proof-num">12.</div>
- <div class="proof-step">Since \(P(1)\)</span> and \(P(n)\Rightarrow P(n+1)\) it follows that \(P(n)\) is true for all \(n\in\mathbb{N}\) by the principal of mathematical induction.</div>
+ <div class="proof-step">Since P(1) and P(n) implies P(n+1) it follows that P(n) is true for all n by the principal of mathematical induction.</div>
 </div>
 </div>
 </div>
@@ -201,12 +201,12 @@ Consider the following proof by induction. \(P(n)\)
 <div class="proof-block">
 <div class="proof-line">
  <div class="proof-num">1.</div>
- <div class="proof-column">Let \(P(n)\) be the statement</div>
- <div class="proof-column-2">The first block of an induction proof must be a clear stement of the "induction hypothesis".</div>
+ <div class="proof-column">Let P(n) be the statement</div>
+ <div class="proof-column-2">The first block of an induction proof must be a clear statement of the "induction hypothesis".</div>
 </div>
 <div class="proof-line">
  <div class="proof-num">2.</div>
- <div class="proof-column">\({\sum_{k=1}^{n}{k^2}=\frac{n\cdot \left(n+1\right)\cdot \left(2\cdot n+1\right)}{6}}\)</div>
+ <div class="proof-column">.... some maths ....</div>
  <div class="proof-column-2">Notice, in this case, we have a purely algebraic induction hypothesis.</div>
 </div>
 </div>
@@ -218,48 +218,48 @@ Consider the following proof by induction. \(P(n)\)
 </div>
 <div class="proof-line">
  <div class="proof-num">4.</div>
- <div class="proof-column">\( {1^2} = {1}\)</span> and \( {\frac{1\cdot \left(1+1\right)\cdot \left(2\cdot 1+1\right)}{6}} = {1} \)</div>
+ <div class="proof-column">Something profound and something else</div>
 </div>
 <div class="proof-line">
  <div class="proof-num">5.</div>
- <div class="proof-column">it follows that \(P(1)\) is true.</div>
+ <div class="proof-column">it follows that P(1) is true.</div>
 </div>
 </div>
 <div class="proof-block">
 <div class="proof-line">
  <div class="proof-num">6.</div>
- <div class="proof-column">Assume that \(P(n)\) is true.</div>
+ <div class="proof-column">Assume that P(n) is true.</div>
  <div class="proof-column-2">This block is known as the "induction step".</div>
 </div>
 <div class="proof-line">
  <div class="proof-num">7.</div>
- <div class="proof-column">\({\sum_{k=1}^{n+1}{k^2}} = {\sum_{k=1}^{n}{k^2}} + {\left(n+1\right)^2}\)</div>
- <div class="proof-column-2">We just consider the sum which occurs in \(P(n+1)\) and start to rearrange this.</div>
+ <div class="proof-column">.... lots of complex working ....</div>
+ <div class="proof-column-2">We just consider the sum which occurs in P(n+1) and start to rearrange this.</div>
 </div>
 <div class="proof-line">
  <div class="proof-num">8.</div>
- <div class="proof-column">\(= {\frac{n\cdot \left(n+1\right)\cdot \left(2\cdot n+1\right)}{6}} + {\left(n+1\right)^2}\)</div>
- <div class="proof-column-2">We are assuming \(P(n)\) is true, and here we use this fact.</div>
+ <div class="proof-column">More working</div>
+ <div class="proof-column-2">We are assuming P(n) is true, and here we use this fact.</div>
 </div>
 <div class="proof-line">
  <div class="proof-num">9.</div>
- <div class="proof-column">\(= {\frac{\left(n+2\right)\cdot \left(2\cdot n+3\right)\cdot \left(n+1\right)}{6}}\)</div>
+ <div class="proof-column">More working.</div>
 </div>
 <div class="proof-line">
  <div class="proof-num">10.</div>
- <div class="proof-column">\(= {\frac{\left(n+1\right)\cdot \left(n+1+1\right)\cdot \left(2\cdot \left(n+1\right)+1\right)}{6}}\)</div>
- <div class="proof-column-2">Notice we have rearranged the algebra to give us the right hand side of \(P(n+1)\).</div>
+ <div class="proof-column">Which gives us what we want</div>
+ <div class="proof-column-2">Notice we have rearranged the algebra to give us the right hand side of P(n+1).</div>
 </div>
 <div class="proof-line">
  <div class="proof-num">11.</div>
- <div class="proof-column">Hence \(P(n+1)\) is true.</div>
+ <div class="proof-column">Hence P(n+1) is true.</div>
  <div class="proof-column-2">This block is the conclusion of the proof.</div>
 </div>
 </div>
 <div class="proof-block">
 <div class="proof-line">
  <div class="proof-num">12.</div>
- <div class="proof-column">Since \(P(1)\)</span> and \(P(n)\Rightarrow P(n+1)\) it follows that \(P(n)\) is true for all \(n\in\mathbb{N}\) by the principal of mathematical induction.</div>
+ <div class="proof-column">Since P(1) and P(n) implies P(n+1) it follows that P(n) is true for all n by the principal of mathematical induction.</div>
 </div>
 </div>
 </div>
@@ -271,21 +271,21 @@ Consider the following proof by induction. \(P(n)\)
 This class enables ordered lists to have connected numbered statements.
 
 <ol class="proof-steps">
-<li>Let \(A\) be an \(n \times n\) matrix and let \(R\) be the reduced row echelon form of \(A\).</li>
-<li>We will show first that \(\mbox{det}(A) \not= 0\) if and only if \(\mbox{det}(R) \not=0\).</li>
+<li>Let A be an n by n matrix and let R be the reduced row echelon form of A.</li>
+<li>We will show first that det(A) is not zero if and only if det(R) is not zero.</li>
 <li>Let <ol>
-<li>\(E_1\),</li>
-<li>\(E_2\),</li>
-</ol>\(\dots, E_r\) be the elementary matrices corresponding to the elementary row operations that reduce \(A\) to \(R\).</li>
-<li>Then \(E_r \cdots E_1 A =\) [[input:ans1]]]</li>
-<li>Taking determinants of both sides, we obtain:\[\mbox{det}(E_r) \cdots \mbox{det}(E_1) \mbox{det}(A) = \mbox{det}(R).\]</li>
+<li>E1,</li>
+<li>E2,</li>
+</ol> ... Er be the elementary matrices corresponding to the elementary row operations that reduce A to R.</li>
+<li>Then Er ... E1 A = [[input:ans1]]]</li>
+<li>Taking determinants of both sides, we obtain: det(Er) ... det(E_1) det(A) = det(R).</li>
 <li>The determinants of all the elementary matrices are all [[input:ansdropdown]]]</li>
-<li>We conclude that \(\mbox{det}(A) \not= 0\) if and only if \(\mbox{det}(R) \not= 0\).</li>
-<li>Now suppose that \(A\) is invertible.
+<li>We conclude that det(A) is not zero if and only if det(R) is not zero.</li>
+<li>Now suppose that A is invertible.
  <ol class="proof-steps">
- <li>Then \(R = \) [[input:ans4]]</li>
- <li>Thus, \(\mbox{det}(R) =\) [[input:ans3]] and hence \(\mbox{det}(A) \not= 0\).</li>
+ <li>Then R =  [[input:ans4]]</li>
+ <li>Thus, det(R) = [[input:ans3]] and hence det(A) is not zero.</li>
  </ol></li>
-<li>Conversely, if \(\mbox{det}(A) \not= 0\) then \(\mbox{det}(R) \not= 0\), so \(R\) cannot have a zero row.</li>
-<li>Thus \(R = I_n\) and \(A\) is invertible as required. </li>
+<li>Conversely, if det(A) is not zero then det(R) is not zero, so R cannot have a zero row.</li>
+<li>Thus R = I and A is invertible as required. </li>
 </ol>

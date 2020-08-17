@@ -2034,4 +2034,24 @@ class stack_cas_session2_test extends qtype_stack_testcase {
             $this->assertEquals($t[1], $s1[$i]->get_value());
         }
     }
+
+    public function test_stack_at_units_sigfigs_wrapper() {
+
+        $t1 = array();
+        $t1[] = array('simp:false', 'false');
+        $t1[] = array('node_result:ATUnitsSigFigs_CASSigFigsWrapper(1*kg,1000*g,[1,3],"1 kg",false)',
+            '[true,true,"ATUnits_compatible_units kg. ",""]');
+
+        foreach ($t1 as $i => $case) {
+            $s1[] = stack_ast_container::make_from_teacher_source($case[0], '', new stack_cas_security(), array());
+        }
+
+        $options = new stack_options();
+        $s = new stack_cas_session2($s1, $options, 0);
+        $s->instantiate();
+
+        foreach ($t1 as $i => $t) {
+            $this->assertEquals($t[1], $s1[$i]->get_value());
+        }
+    }
 }

@@ -7,9 +7,6 @@ How to report bugs and make suggestions is described on the [community](../About
 
 ## Version 4.4
 
-* Remove all strictSyntax functionality (DB, import/export functions remain).
-* Add in further styles for proof with numbered lists.
-
 ## Maxima side PRTs.
 
 * Move all functions to Maxima.

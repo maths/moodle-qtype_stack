@@ -266,7 +266,7 @@ ol.proof-steps > li:after {
     content: "";
     height: 100%;
     width: 0;
-    border-left: 3px solid #0393;
+    border-left: 3px solid #039;
     z-index: 1;
 }
 ol.proof-steps > li:last-of-type:after {

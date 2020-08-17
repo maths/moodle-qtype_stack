@@ -79,12 +79,9 @@ jobs:
 
 before_install:
   - phpenv config-rm xdebug.ini
-  - nvm install 14.2.0
-  - nvm use 14.2.0
   - cd ../..
-  - composer create-project -n --no-dev --prefer-dist blackboard-open-source/moodle-plugin-ci ci ^2
+  - composer create-project -n --no-dev --prefer-dist moodlehq/moodle-plugin-ci ci ^3
   - export PATH="$(cd ci/bin; pwd):$(cd ci/vendor/bin; pwd):$PATH"
-  - google-chrome-stable --headless --disable-gpu --remote-debugging-port=9222 http://localhost &
 
 install:
   - moodle-plugin-ci add-plugin maths/moodle-qbehaviour_dfexplicitvaildate
@@ -106,12 +103,6 @@ install:
   - cat ./moodle/config.php
   - echo 'ATAlgEquiv(x^2-1,(x-1)*(x+1));quit();' | timeout --kill-after=10s 10s /home/travis/build/maxima_opt_auto -eval '(cl-user::run)'
 
-  # Work-around to get Behat/Chrome to work, thanks to https://travis-ci.org/github/kabalin/moodle-qtype_stack/jobs/661027012/config
-  - export MOODLE_START_BEHAT_SERVERS=NO
-  - docker run -d -p 4444:4444 --net=host -v /dev/shm:/dev/shm -v $HOME/build/moodle:$HOME/build/moodle selenium/standalone-chrome:3
-  - php -S localhost:8000 -t $HOME/build/moodle > /dev/null 2>&1 &
-  - if [ "$TASK" = 'BEHAT' ]; then sleep 10; fi # Give it time to start up, but we only need to wait if we are running Behat..
-
 script:
   # Run all the PHP unit tests.
   - if [ "$TASK" = 'PHPUNIT' ];        then moodle-plugin-ci phpunit;     fi
@@ -128,6 +119,7 @@ script:
 
   # Run all the various code style tests - these ones are konwn to fail.
   # Once we get them passing, move them to the CODESTYLE section above.
+  - if [ "$TASK" = 'CODEKNOWNFAILS' ]; then moodle-plugin-ci codechecker; fi
+  - if [ "$TASK" = 'CODEKNOWNFAILS' ]; then moodle-plugin-ci phpdoc;      fi
   - if [ "$TASK" = 'CODEKNOWNFAILS' ]; then moodle-plugin-ci phpmd;       fi
   - if [ "$TASK" = 'CODEKNOWNFAILS' ]; then moodle-plugin-ci phpcpd;      fi
-  - if [ "$TASK" = 'CODEKNOWNFAILS' ]; then moodle-plugin-ci codechecker; fi

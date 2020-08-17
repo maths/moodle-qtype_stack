@@ -38,7 +38,7 @@ class stack_maths_mathjax_test extends qtype_stack_testcase {
 
         // @codingStandardsIgnoreStart
         $this->assert_content_with_maths_equals("<p><code>\\(x^2\\)</code> gives \\(x^2\\).</p>\n",
-                stack_docs_render_markdown('`\(x^2\)` gives \(x^2\).', '.../doc/content'));
+                stack_docs_render_markdown('`\(x^2\)` gives \(x^2\).'));
         // @codingStandardsIgnoreEnd
 
         $this->assertEquals('What is \(x^2\)?', stack_maths::process_display_castext('What is \(x^2\)?'));

@@ -12,7 +12,7 @@ This part of the authoring quick start guide deals with using question variables
 
 For this example, we will be working with a simple integration problem. Below is a typical set of practice exercises.
 
-![Integration exercises](%CONTENT/IntegrationExercises.jpg)
+![Integration exercises](../../content/IntegrationExercises.jpg)
 
 (Reproduced with permission from _Advanced Mathematics for AS and A level 2_ (A-level mathematics), Haese Mathematics (2018) [978-1-925489-32-3](http://www.haesemathematics.com/books/advanced-mathematics-2-for-a-level))
 

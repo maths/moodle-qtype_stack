@@ -4,7 +4,7 @@ STACK is an assessment system for mathematics, science and related disciplines, 
 
 Below is a typical STACK question. Note that the student's answer can be any algebraic expression, and that their answer is interpreted by the system before it is marked. This allows the student to confirm the answer is what they intended before being marked. Notice also the automatically generated feedback.
 
-![STACK screenshot](%CONTENT/STACK-screenshot.png)
+![STACK screenshot](../../content/STACK-screenshot.png)
 
 STACK uses a [Computer Algebra System](../CAS/index.md) to power the assessment system. The built-in knowledge of mathematics that the computer algebra system provides opens up entirely new possibilities to computer-aided assessment.
 

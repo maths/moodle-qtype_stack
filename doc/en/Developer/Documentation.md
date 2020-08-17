@@ -47,17 +47,13 @@ Markdown does not have *categories* in the way that MediaWiki does.  Instead, we
 The directory `/doc/content/` is for static content which is served by the documentation.
 If you want to serve content from the docs please place it in this directory.
 
-When writing links the shortcut '\%CONTENT' can be used.  This string is automatically assigned to the following value:
+When writing links use direct relative links to
 
     $CFG->wwwroot . "/question/type/stack/doc/content";
 
-Currently `\%CONTENT` is converted to `%CONTENT`. E.g.
+E.g. in `About/Logo.md` use
 
-    ![STACK Logo](\%CONTENT/logo.png)
-
-renders to
-
-![STACK Logo](%CONTENT/logo.png)
+    ![STACK Logo](../../content/logo.png)
 
 ## Adding a link to video in the documentation
 

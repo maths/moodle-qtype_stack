@@ -104,7 +104,7 @@ To recap, we have
 
 Next we should try out our question by pressing the `Preview` link at the bottom of the page.
 
-![Preview button](%CONTENT/preview_button.png)
+![Preview button](../../content/preview_button.png)
 
 ## Previewing the question
 

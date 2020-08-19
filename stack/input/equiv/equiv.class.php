@@ -456,7 +456,7 @@ class stack_equiv_input extends stack_input {
         }
 
         if (self::INVALID == $state->status) {
-            $feedback .= html_writer::tag('span', stack_string('studentValidation_invalidAnswer'),
+            $feedback .= html_writer::tag('div', stack_string('studentValidation_invalidAnswer'),
                     array('class' => 'alert alert-danger stackinputerror'));
         }
 

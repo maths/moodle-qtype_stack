@@ -1209,7 +1209,7 @@ abstract class stack_input {
             $feedbackerr .= $state->errors;
         }
         if ($feedbackerr != '') {
-            $feedback .= html_writer::tag('span', $feedbackerr, array('class' => 'alert alert-danger stackinputerror'));
+            $feedback .= html_writer::tag('div', $feedbackerr, array('class' => 'alert alert-danger stackinputerror'));
         }
 
         if ($this->get_parameter('showValidation', 1) == 1 && !($state->lvars === '' or $state->lvars === '[]')) {

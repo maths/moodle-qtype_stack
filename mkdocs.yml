@@ -25,4 +25,4 @@ plugins:
             - en/sitemap.md
     - redirects:
         redirect_maps:
-            'index.md': 'moodle-qtype_stack/en/index.md'
+            'index.md': 'https://malthefogsporring.github.io/moodle-qtype_stack/en/'

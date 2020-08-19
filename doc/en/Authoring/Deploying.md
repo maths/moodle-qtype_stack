@@ -27,6 +27,6 @@ Notes:
 2. When you deploy new variants STACK will run all the question tests.  If a test fails, the generation process will stop with an error message, showing the failing test.
 
 
-## Limitations ## 
+## Limitations ##
 
 There is currently no way to loop systematically over all variants and deploy them all.

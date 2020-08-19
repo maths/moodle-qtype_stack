@@ -1,4 +1,4 @@
-# Random objects #
+# Random objects
 
 STACK can generate structured random objects.  STACK provides a [Maxima](Maxima.md) function `rand()` which can be used in the question and answer variables.
 

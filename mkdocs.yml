@@ -7,7 +7,7 @@ theme:
     name: material
     logo: content/logo_large.png
     favicon: ../content/logo_sm.png
-    custom_dir: site_overrides
+    custom_dir: overrides
     highlightjs: false
     palette:
         primary: white
@@ -25,4 +25,4 @@ plugins:
             - en/Site_map.md
     - redirects:
         redirect_maps:
-            'index.md': 'https://malthefogsporring.github.io/moodle-qtype_stack/en/'
+            'index.md': 'en/index.md'

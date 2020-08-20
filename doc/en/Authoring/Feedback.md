@@ -1,4 +1,4 @@
-# Feedback #
+# Feedback
 
 The purpose of STACK is to assess students' answers to mathematical questions,
 and on the basis of the properties we establish to assign _feedback_.

@@ -112,7 +112,7 @@ Use the underscore character to denote a subscript.  For example, \(a_b\) should
 * **Modulus function**: The modulus function, sometimes called the absolute value of _x_,
   is written as |_x_| in traditional notation. This must be entered as `abs(x)`.
 
-### **Trigonometrical functions**  ###
+### Trigonometrical functions  ###
 
 Things to remember:
 
@@ -126,7 +126,7 @@ Things to remember:
   This traditional notation is really rather unfortunate and is not used by the CAS; instead,
   \(\sin^{-1}(x)\) should be entered as `asin(x)`. Similarly, \(\tan^{-1}(x)\) should be entered as `atan(x)` and so on.
 
-### **Exponentials** and **Logarithms** ###
+### Exponentials and Logarithms ###
 
 * To enter the exponential function type `exp(x)`. Typing `e^x` should work in STACK, but gets you into bad habits when using a CAS later!
 * Type `ln(x)` or `log(x)` to enter the _natural logarithm_ of \(x\) with base \(e\approx 2.71\cdots\). Note that both of these start with a lower case l for logarithm, not a capital I (`i`).

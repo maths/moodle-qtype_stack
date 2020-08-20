@@ -1,6 +1,6 @@
 # Writing a permutation as a product of disjoint cycles
 
-Let \(f= \left(\begin{matrix} 1 & 2 & 3 & 4 & 5 & 6 & 7 \\ 3 & 1 & 5 & 7 & 2 & 6 & 4 \end{matrix}\right)\)
+Let \[f= \left( \begin{array}{ccccccc} 1 & 2 & 3 & 4 & 5 & 6 & 7 \\ 3 & 1 & 5 & 7 & 2 & 6 & 4 \end{array}\right)\]
  
 In pure mathematics we might ask students to write a permutation such as this as a product of disjoint cycles.
 

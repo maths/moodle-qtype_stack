@@ -62,12 +62,10 @@ __Question text__
 
 Copy the following text into the editor.
 
-<textarea readonly="readonly" rows="5" cols="120">
-Find the equation of the line tangent to {@exp@} at the point \(x={@pt@}\).
-1. Differentiate {@exp@} with respect to \(x\). [[input:ans1]] [[validation:ans1]] [[feedback:prt1]]
-2. Evaluate your derivative at \(x={@pt@}\). [[input:ans2]] [[validation:ans2]] [[feedback:prt2]]
-3. Hence, find the equation of the tangent line. \(y=\)[[input:ans3]] [[validation:ans3]] [[feedback:prt3]]
-</textarea>
+	Find the equation of the line tangent to {@exp@} at the point \(x={@pt@}\).
+	1. Differentiate {@exp@} with respect to \(x\). [[input:ans1]] [[validation:ans1]] [[feedback:prt1]]
+	2. Evaluate your derivative at \(x={@pt@}\). [[input:ans2]] [[validation:ans2]] [[feedback:prt2]]
+	3. Hence, find the equation of the tangent line. \(y=\)[[input:ans3]] [[validation:ans3]] [[feedback:prt3]]
 
 Fill in the answer for `ans1` (which exists by default) and remove the `feedback` tag from the "specific feedback" section.  We choose to embed feedback within parts of this question, so that relevant feedback is shown directly underneath the relevant part. Notice there is one potential response tree for each "part".
 
@@ -113,9 +111,7 @@ Node 1: did they evaluate their expression in part 1 correctly? If "yes", then g
 
 Node 2: did they get part 1 correct?  if "yes" then this is the ideal situation, full marks.  If "no" then choose marks as suit your taste in this situation, and add some feedback, such as the following:
 
-<textarea readonly="readonly" rows="2" cols="50">
-You have correctly evaluated your answer to part 1 at the given point, but your answer to part 1 is wrong. Please try both parts again.
-</textarea>
+	You have correctly evaluated your answer to part 1 at the given point, but your answer to part 1 is wrong. Please try both parts again.
 
 # Next step #
 

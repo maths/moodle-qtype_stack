@@ -22,7 +22,7 @@ plugins:
     - exclude:
         glob:
             - de/*
-            - en/sitemap.md
+            - en/Site_map.md
     - redirects:
         redirect_maps:
             'index.md': 'https://malthefogsporring.github.io/moodle-qtype_stack/en/'

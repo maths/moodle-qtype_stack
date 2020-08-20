@@ -332,11 +332,11 @@ class qtype_stack_test_helper extends question_test_helper {
 
         $options = new stack_options();
         $q->inputs['ans1'] = stack_input_factory::make('algebraic', 'ans1', 'x^3', $options,
-                        array('boxWidth' => 15, 'strictSyntax' => true, 'lowestTerms' => false, 'sameType' => false));
+                        array('boxWidth' => 15, 'lowestTerms' => false, 'sameType' => false));
         $q->inputs['ans2'] = stack_input_factory::make('algebraic', 'ans2', 'x^4', $options,
-                        array('boxWidth' => 15, 'strictSyntax' => true, 'lowestTerms' => false, 'sameType' => false));
+                        array('boxWidth' => 15, 'lowestTerms' => false, 'sameType' => false));
         $q->inputs['ans3'] = stack_input_factory::make('algebraic', 'ans3', '0', $options,
-                        array('boxWidth' => 15, 'strictSyntax' => true, 'lowestTerms' => false, 'sameType' => false));
+                        array('boxWidth' => 15, 'lowestTerms' => false, 'sameType' => false));
         $q->inputs['ans4'] = stack_input_factory::make('boolean', 'ans4', 'true', $options);
 
         $feedbackvars = new stack_cas_keyval('sa:subst(x=-x,ans1)+ans1', null, null);
@@ -1161,7 +1161,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->penalty = 0.3; // Non-zero and not the default.
 
         $q->inputs['ans1'] = stack_input_factory::make(
-                    'algebraic', 'ans1', '2', null, array('boxWidth' => 5, 'insertStars' => 2, 'strictSyntax' => false));
+                    'algebraic', 'ans1', '2', null, array('boxWidth' => 5, 'insertStars' => 2));
 
         $q->options->questionsimplify = 0;
 

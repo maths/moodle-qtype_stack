@@ -36,7 +36,7 @@ require_once(__DIR__ . '/../stack/utils.class.php');
 require_once(__DIR__ . '/../stack/bulktester.class.php');
 
 // Get cli options.
-list($options, $unrecognized) = cli_get_params(['help' => false], ['h' => 'help']);
+list($options, $unrecognized) = cli_get_params(array('help' => false, 'id' => false), array('h' => 'help'));
 
 if ($unrecognized) {
     $unrecognized = implode("\n  ", $unrecognized);
@@ -46,7 +46,8 @@ if ($unrecognized) {
 if ($options['help']) {
     echo "This script runs all the quesion tests for all deployed versions of all
 questions in all contexts in the Moodle site. This is intended for regression
-testing, before you release a new version of STACK to your site.";
+testing, before you release a new version of STACK to your site.\n
+Use with --id=n to start generation from question id is n.\n";
     exit(0);
 }
 
@@ -58,13 +59,44 @@ $allfailing = array();
 
 // Run the tests.
 $testno = 0;
-foreach ($bulktester->get_stack_questions_by_context() as $contextid => $numstackquestions) {
+$contexts = $bulktester->get_stack_questions_by_context();
+
+// Take only the contexts from the one containing the question id.
+$partialcontext = false;
+if ($options['id']) {
+    $usecontexts = array();
+    $found = false;
+    foreach ($contexts as $contextid => $numstackquestions) {
+        $testcontext = context::instance_by_id($contextid);
+
+        $categories = question_category_options(array($testcontext));
+        $categories = reset($categories);
+        foreach ($categories as $key => $category) {
+            list($categoryid) = explode(',', $key);
+            $questions = $bulktester->get_stack_questions($categoryid);
+            if (array_key_exists($options['id'], $questions)) {
+                $found = true;
+                $partialcontext = $contextid;
+            }
+        }
+        if ($found) {
+            $usecontexts[$contextid] = $numstackquestions;
+        }
+    }
+    $contexts = $usecontexts;
+}
+
+foreach ($contexts as $contextid => $numstackquestions) {
 
     $testcontext = context::instance_by_id($contextid);
 
     echo "\n\n# " . $contextid . ": " . stack_string('bulktesttitle', $testcontext->get_context_name());
 
-    list($passed, $failing) = $bulktester->run_all_tests_for_context($testcontext, 'cli');
+    if ($partialcontext === $contextid) {
+        list($passed, $failing) = $bulktester->run_all_tests_for_context($testcontext, 'cli', (int) $options['id']);
+    } else {
+        list($passed, $failing) = $bulktester->run_all_tests_for_context($testcontext, 'cli', false);
+    }
 
     echo "\n";
     if ($allpassed) {

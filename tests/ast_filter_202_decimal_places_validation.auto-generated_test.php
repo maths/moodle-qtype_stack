@@ -560,6 +560,11 @@ class stack_ast_filter_auto_gen_202_decimal_places_validation_testcase extends q
                       array(),
                       false, true);
 
+        $this->expect('3.75*Btu',
+                      '3.75*Btu',
+                      array(),
+                      false, true);
+
         $this->expect('X',
                       'X',
                       array(),
@@ -1737,6 +1742,11 @@ class stack_ast_filter_auto_gen_202_decimal_places_validation_testcase extends q
 
         $this->expect('/*@ Comment @*/x+1',
                       '/*@ Comment @*/x+1',
+                      array(),
+                      false, true);
+
+        $this->expect('"A string that needs sanitising <script>bad stuff</script>."',
+                      '"A string that needs sanitising <script>bad stuff</script>."',
                       array(),
                       false, true);
 
@@ -2276,6 +2286,11 @@ class stack_ast_filter_auto_gen_202_decimal_places_validation_testcase extends q
                       array(),
                       false, true);
 
+        $this->expect('3.75*Btu',
+                      '3.75*Btu',
+                      array(),
+                      false, true);
+
         $this->expect('X',
                       'X',
                       array(),
@@ -3453,6 +3468,11 @@ class stack_ast_filter_auto_gen_202_decimal_places_validation_testcase extends q
 
         $this->expect('/*@ Comment @*/x+1',
                       '/*@ Comment @*/x+1',
+                      array(),
+                      false, true);
+
+        $this->expect('"A string that needs sanitising <script>bad stuff</script>."',
+                      '"A string that needs sanitising <script>bad stuff</script>."',
                       array(),
                       false, true);
 

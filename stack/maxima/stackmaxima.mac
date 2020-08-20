@@ -230,52 +230,50 @@ make_logic(OPT_LOGIC) := block(
     return(true)
 )$
 
-/* Options for cos^(-1), acos or arccos. */
 make_arccos(OPT_ACOS) := block(
     if OPT_ACOS = "cos-1" then block(
-       texput(asin, "\\sin^{-1}", prefix),
-       texput(acos, "\\cos^{-1}", prefix),
-       texput(atan, "\\tan^{-1}", prefix),
-       texput(asec, "{\\rm sec}^{-1}", prefix),
-       texput(acsc, "{\\rm csc}^{-1}", prefix),
-       texput(acot, "{\\rm cot}^{-1}", prefix),
-       texput(asinh, "{\\rm sinh}^{-1}", prefix),
-       texput(acosh, "{\\rm cosh}^{-1}", prefix),
-       texput(atanh, "{\\rm tanh}^{-1}", prefix),
-       texput(asech, "{\\rm sech}^{-1}", prefix),
-       texput(acsch, "{\\rm csch}^{-1}", prefix),
-       texput(acoth, "{\\rm coth}^{-1}", prefix)
+       ?tex\-setup(?cdr([?%asin, "\\sin^{-1}"])),
+       ?tex\-setup(?cdr([?%acos, "\\cos^{-1}"])),
+       ?tex\-setup(?cdr([?%atan, "{\\tan^{-1}}"])),
+       ?tex\-setup(?cdr([?%asec, "{\\rm sec}^{-1}"])),
+       ?tex\-setup(?cdr([?%acsc, "{\\rm csc}^{-1}"])),
+       ?tex\-setup(?cdr([?%acot, "{\\rm cot}^{-1}"])),
+       ?tex\-setup(?cdr([?%asinh, "{\\rm sinh}^{-1}"])),
+       ?tex\-setup(?cdr([?%acosh, "{\\rm cosh}^{-1}"])),
+       ?tex\-setup(?cdr([?%atanh, "{\\rm tanh}^{-1}"])),
+       ?tex\-setup(?cdr([?%asech, "{\\rm sech}^{-1}"])),
+       ?tex\-setup(?cdr([?%acsch, "{\\rm csch}^{-1}"])),
+       ?tex\-setup(?cdr([?%acoth, "{\\rm coth}^{-1}"]))
     ),
     if OPT_ACOS = "arccos" then block(
-       texput(asin, "\\arcsin ", prefix),
-       texput(acos, "\\arccos ", prefix),
-       texput(atan, "\\arctan ", prefix),
-       texput(asec, "{\\rm arcsec}", prefix),
-       texput(acsc, "{\\rm arccsc}", prefix),
-       texput(acot, "{\\rm arccot}", prefix),
-       texput(asinh, "{\\rm arcsinh}", prefix),
-       texput(acosh, "{\\rm arccosh}", prefix),
-       texput(atanh, "{\\rm arctanh}", prefix),
-       texput(asech, "{\\rm arcsech}", prefix),
-       texput(acsch, "{\\rm arccsch}", prefix),
-       texput(acoth, "{\\rm arccoth}", prefix)
+       ?tex\-setup(?cdr([?%asin, "\\arcsin "])),
+       ?tex\-setup(?cdr([?%acos, "\\arccos "])),
+       ?tex\-setup(?cdr([?%atan, "\\arctan "])),
+       ?tex\-setup(?cdr([?%asec, "{\\rm arcsec}"])),
+       ?tex\-setup(?cdr([?%acsc, "{\\rm arccsc}"])),
+       ?tex\-setup(?cdr([?%acot, "{\\rm arccot}"])),
+       ?tex\-setup(?cdr([?%asinh, "{\\rm arcsinh}"])),
+       ?tex\-setup(?cdr([?%acosh, "{\\rm arccosh}"])),
+       ?tex\-setup(?cdr([?%atanh, "{\\rm arctanh}"])),
+       ?tex\-setup(?cdr([?%asech, "{\\rm arcsech}"])),
+       ?tex\-setup(?cdr([?%acsch, "{\\rm arccsch}"])),
+       ?tex\-setup(?cdr([?%acoth, "{\\rm arccoth}"]))
     ),
     if OPT_ACOS = "acos" then block(
-       texput(asin, "{\\rm asin}", prefix),
-       texput(acos, "{\\rm acos}", prefix),
-       texput(atan, "{\\rm atan}", prefix),
-       texput(asec, "{\\rm asec}", prefix),
-       texput(acsc, "{\\rm acsc}", prefix),
-       texput(acot, "{\\rm acot}", prefix),
-       texput(asinh, "{\\rm asinh}", prefix),
-       texput(acosh, "{\\rm acosh}", prefix),
-       texput(atanh, "{\\rm atanh}", prefix),
-       texput(asech, "{\\rm asech}", prefix),
-       texput(acsch, "{\\rm acsch}", prefix),
-       texput(acoth, "{\\rm acoth}", prefix)
+       ?tex\-setup(?cdr([?%asin, "{\\rm asin}"])),
+       ?tex\-setup(?cdr([?%acos, "{\\rm acos}"])),
+       ?tex\-setup(?cdr([?%atan, "{\\rm atan}"])),
+       ?tex\-setup(?cdr([?%asec, "{\\rm asec}"])),
+       ?tex\-setup(?cdr([?%acsc, "{\\rm acsc}"])),
+       ?tex\-setup(?cdr([?%acot, "{\\rm acot}"])),
+       ?tex\-setup(?cdr([?%asinh, "{\\rm asinh}"])),
+       ?tex\-setup(?cdr([?%acosh, "{\\rm acosh}"])),
+       ?tex\-setup(?cdr([?%atanh, "{\\rm atanh}"])),
+       ?tex\-setup(?cdr([?%asech, "{\\rm asech}"])),
+       ?tex\-setup(?cdr([?%acsch, "{\\rm acsch}"])),
+       ?tex\-setup(?cdr([?%acoth, "{\\rm acoth}"]))
     )
-);
-
+)$
 
 /* Fine tune the display of fractions between inline and displayed. */
 stackfractionsinline(e) := block ([a, b],
@@ -386,6 +384,21 @@ list_remove(ex, n) := block([k, l],
     l: ev(append(makelist(k, k, 1, n-1), makelist(k, k, n+1, length(ex))), simp),
     makelist(ex[k], k, l)
 )$
+
+/********************************************/
+/***********  Random set generation *********/
+/********************************************/
+/* Could be implemented with rand_selection but would require two conversions
+ * between sets and lists*/
+random_subset(u):=
+  disjoin(false, map(lambda([x], if rand(2)=0 then x), u)); 
+
+random_subset_n(u,n) := 
+  setify(rand_selection(listify(u),n));
+
+/* random non-empty subset */
+random_ne_subset(u) := random_subset_n(u, rand(cardinality(u))+1);
+
 
 /* Create a number in a random range. */
 rand_range([ex]) := block(
@@ -3182,4 +3195,4 @@ load(linearalgebra);
 
 /* Stack expects some output with the version number the output happens at */
 /* maximalocal.mac after additional library loading */
-stackmaximaversion:2020061000$
+stackmaximaversion:2020081700$

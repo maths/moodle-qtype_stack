@@ -117,17 +117,21 @@ ATSigFigsStrict_CASSigFigsWrapper(requiredsigfigs,rawsans) := block([digits,Vali
     return([Validity, RawMark, AnswerNote, FeedBack])
 )$
 
-ATUnitsSigFigs_CASSigFigsWrapper(sans,tans,options,rawsans,strict) :=  block([tmp1, tmp2],
+ATUnitsSigFigs_CASSigFigsWrapper(sans,tans,options,rawsans,strict) :=  block([tmp1, tmp2, tmp3, tmp4],
     /* First the units and value */
     tmp1: ATUnitsFun(sans, tans, options, strict, "SigFigs"),
 
     /* If we do not have valid stuff for units tests we better drop out now. */
     if is(tmp1[1] = false) then return(tmp1),
 
+    /* We need to convert the numbers into the same base. Also must be very careful when to simplify. */
+    tmp3:float(stack_units_nums(stack_unit_si_to_si_base(sans))),
+    tmp4:float(stack_units_nums(stack_unit_si_to_si_base(tans))),
+    tmp3:ev(tmp3,simp),
+    tmp4:ev(tmp4,simp),
+
     /* Then check the figures */
-    tmp2: ATNumSigFigs_CASSigFigsWrapper(
-        float(stack_units_nums(stack_unit_si_to_si_base(sans))),
-        float(stack_units_nums(stack_unit_si_to_si_base(tans))),options,rawsans),
+    tmp2: ATNumSigFigs_CASSigFigsWrapper(tmp3,tmp4,options,rawsans),
     
     /* Merge*/
     return([tmp1[1] and tmp2[1], tmp1[2] and tmp2[2], sconcat(tmp1[3],tmp2[3]), sconcat(tmp1[4],tmp2[4])])

@@ -30,13 +30,16 @@ class stack_numerical_input extends stack_input {
      * @var array
      */
     protected $extraoptions = array(
+        'hideanswer' => false,
         'nounits' => false,
         'simp' => false,
         // Forbid variables.  Always true for numerical inputs.
         'novars' => true,
         // Is a student required to type in a float?
         'floatnum' => false,
-         // Is the demoninator of any fractions in the student's answer to be free of surds?
+        // Is a student required to type in an explicit integer?
+        'intnum' => false,
+        // Is the demoninator of any fractions in the student's answer to be free of surds?
         'rationalnum' => false,
         'rationalized' => false,
         // Require min/max number of decimal places?
@@ -107,8 +110,6 @@ class stack_numerical_input extends stack_input {
             'mustVerify'         => true,
             'showValidation'     => 1,
             'boxWidth'           => 15,
-            // The option strictSyntax as true means we don't insert *s into 192.3e3 etc.
-            'strictSyntax'       => true,
             'insertStars'        => 0,
             'syntaxHint'         => '',
             'syntaxAttribute'    => 0,
@@ -118,23 +119,6 @@ class stack_numerical_input extends stack_input {
             'lowestTerms'        => true,
             'sameType'           => true,
             'options'            => '');
-    }
-
-    /**
-     * Get the value of one of the parameters.
-     * @param string $parameter the parameter name
-     * @param mixed $default the default to return if this parameter is not set.
-     */
-    public function get_parameter($parameter, $default = null) {
-        // We always want strict syntax for this input type.
-        if ($parameter == 'strictSyntax') {
-            return true;
-        }
-        if (array_key_exists($parameter, $this->parameters)) {
-            return $this->parameters[$parameter];
-        } else {
-            return $default;
-        }
     }
 
     /**
@@ -155,6 +139,9 @@ class stack_numerical_input extends stack_input {
      * @return string the teacher's answer, displayed to the student in the general feedback.
      */
     public function get_teacher_answer_display($value, $display) {
+        if ($this->extraoptions['hideanswer']) {
+            return '';
+        }
         if (trim($value) == 'EMPTYANSWER') {
             return stack_string('teacheranswerempty');
         }

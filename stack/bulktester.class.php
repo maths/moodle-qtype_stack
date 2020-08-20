@@ -44,6 +44,18 @@ class stack_bulk_tester  {
     }
 
     /**
+     * Get all the STACK questions in a particular context.
+     *
+     * @return array id of STACK questions.
+     */
+    public function get_stack_questions($categoryid) {
+        global $DB;
+
+        return $DB->get_records_menu('question',
+                ['category' => $categoryid, 'qtype' => 'stack'], 'name', 'id, name');
+    }
+
+    /**
      * Run all the question tests for all variants of all questions belonging to
      * a given context.
      *
@@ -57,7 +69,7 @@ class stack_bulk_tester  {
      *              bool true if all the tests passed, else false.
      *              array of messages relating to the questions with failures.
      */
-    public function run_all_tests_for_context(context $context, $outputmode = 'web',
+    public function run_all_tests_for_context(context $context, $outputmode = 'web', $qidstart = null,
             $skippreviouspasses = false) {
         global $DB, $OUTPUT;
 
@@ -75,6 +87,11 @@ class stack_bulk_tester  {
         $notests = array();
         $nogeneralfeedback = array();
         $failingupgrade = array();
+
+        $readytostart = true;
+        if ($qidstart) {
+            $readytostart = false;
+        }
 
         foreach ($categories as $key => $category) {
             $qdotoutput = 0;
@@ -97,10 +114,20 @@ class stack_bulk_tester  {
                         HAVING SUM(res.result) < COUNT(res.result) OR SUM(res.result) IS NULL
                         ", [$categoryid, 'stack']);
             } else {
-                $questionids = $DB->get_records_menu('question',
-                        ['category' => $categoryid, 'qtype' => 'stack'], 'name', 'id, name');
+                $questionids = $this->get_stack_questions($categoryid);
             }
             if (!$questionids) {
+                continue;
+            }
+
+            // Do we start from a particular question id?
+            if ($qidstart && array_key_exists($qidstart, $questionids)) {
+                $readytostart = true;
+                $qids = array_keys($questionids);
+                $offset = array_search($qidstart, $qids) + 0;
+                $questionids = array_slice ($questionids, $offset, null, true);
+            }
+            if (!$readytostart) {
                 continue;
             }
 

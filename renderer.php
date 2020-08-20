@@ -282,7 +282,7 @@ class qtype_stack_renderer extends qtype_renderer {
     }
 
     /**
-     * Slighly complex rules for what feedback to display.
+     * Slightly complex rules for what feedback to display.
      * @param string $name the PRT name.
      * @param array $response the most recent student response.
      * @param question_attempt $qa the question attempt to display.
@@ -389,7 +389,7 @@ class qtype_stack_renderer extends qtype_renderer {
     }
 
     /**
-     * Generate the standard PRT feedback for a pearticular score.
+     * Generate the standard PRT feedback for a particular score.
      * @param question_attempt $qa the question attempt to display.
      * @param question_definition $question the question being displayed.
      * @param stack_potentialresponse_tree_state $result the results to display.

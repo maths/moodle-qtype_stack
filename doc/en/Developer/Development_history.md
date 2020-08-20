@@ -2,6 +2,21 @@
 
 For current and future plans, see [Development track](Development_track.md) and [Future plans](Future_plans.md).
 
+## Version 4.3.5
+
+Released August 2020.
+
+Bug fixes and minor improvements.
+
+* Remove all strictSyntax functionality (DB, import/export functions remain).
+* Add in further styles for proof with numbered lists.
+
+## Version 4.3.4
+
+Released June 2020.
+
+Bug fixes and minor improvements to units.
+
 ## Version 4.3.3
 
 Released May 2020.

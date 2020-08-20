@@ -167,7 +167,8 @@ class qtype_stack extends question_type {
             $input->type               = $fromform->{$inputname . 'type'};
             $input->tans               = $fromform->{$inputname . 'modelans'};
             $input->boxsize            = $fromform->{$inputname . 'boxsize'};
-            $input->strictsyntax       = $fromform->{$inputname . 'strictsyntax'};
+            // TODO: remove this when we remove strictsyntax from the DB.
+            $input->strictsyntax       = true;
             $input->insertstars        = $fromform->{$inputname . 'insertstars'};
             $input->syntaxhint         = $fromform->{$inputname . 'syntaxhint'};
             $input->syntaxattribute    = $fromform->{$inputname . 'syntaxattribute'};
@@ -445,7 +446,7 @@ class qtype_stack extends question_type {
             $inputdata = $questiondata->inputs[$name];
             $allparameters = array(
                 'boxWidth'        => $inputdata->boxsize,
-                'strictSyntax'    => (bool) $inputdata->strictsyntax,
+                'strictSyntax'    => true,
                 'insertStars'     => (int) $inputdata->insertstars,
                 'syntaxHint'      => $inputdata->syntaxhint,
                 'syntaxAttribute' => $inputdata->syntaxattribute,
@@ -538,7 +539,10 @@ class qtype_stack extends question_type {
      * @return array of URL params. Can be passed to moodle_url.
      */
     protected function get_question_url_params($question) {
-        $urlparams = ['questionid' => $question->id];
+        $urlparams = array('questionid' => $question->id);
+        if (property_exists($question, 'seed')) {
+            $urlparams['seed'] = $question->seed;
+        }
 
         // This is a bit of a hack to find the right thing to put in the URL.
         // If we are already on a URL that gives us a clue what to do, use that.

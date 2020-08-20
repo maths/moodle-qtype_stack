@@ -91,4 +91,16 @@ class stack_notes_input_test extends qtype_stack_testcase {
         $this->assertEquals('<span class="stacksyntaxexample">true</span>', $state->contentsdisplayed);
         $this->assertEquals($ta, $el->replace_validation_tags($state, 'sans1', '[[validation:sans1]]'));
     }
+
+    public function test_validate_hideanswer() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('notes', 'state', 'Euler');
+        $el->set_parameter('options', 'hideanswer');
+        $state = $el->validate_student_response(array('state' => 'Blah Blah Blah'), $options, 'Euler',
+                new stack_cas_security());
+        $this->assertEquals(stack_input::INVALID, $state->status);
+        $this->assertEquals('', $state->contentsmodified);
+        $this->assertEquals('<span class="stacksyntaxexample">true</span>', $state->contentsdisplayed);
+        $this->assertEquals('', $el->get_teacher_answer_display("[SOME JSON]", "\[ \mbox{[SOME MORE JSON]} \]"));
+    }
 }

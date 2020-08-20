@@ -322,7 +322,6 @@ class stack_equiv_input_test extends qtype_stack_testcase {
         $options = new stack_options();
         $el = stack_input_factory::make('equiv', 'sans1', '[(x-1)*(x+4), stackeq(x^2-x+4*x-4),stackeq(x^2+3*x-4)]');
         $el->set_parameter('insertStars', 1);
-        $el->set_parameter('strictSyntax', false);
 
         $state = $el->validate_student_response(array('sans1' => "(x-1)(x+4)\n=x^2-x+4x-4\n=x^2+3x-4"), $options,
                 '[(x-1)*(x+4), stackeq(x^2-x+4*x-4),stackeq(x^2+3*x-4)]', new stack_cas_security());
@@ -341,7 +340,6 @@ class stack_equiv_input_test extends qtype_stack_testcase {
         $options = new stack_options();
         $el = stack_input_factory::make('equiv', 'sans1', '[(x-1)*(x+4), stackeq(x^2-x+4*x-4),stackeq(x^2+3*x-4)]');
         $el->set_parameter('insertStars', 0);
-        $el->set_parameter('strictSyntax', true);
 
         $state = $el->validate_student_response(array('sans1' => "(x-1)(x+4)"), $options,
                 '[(x-1)*(x+4), stackeq(x^2-x+4*x-4),stackeq(x^2+3*x-4)]', new stack_cas_security());
@@ -373,7 +371,6 @@ class stack_equiv_input_test extends qtype_stack_testcase {
         $options = new stack_options();
         $el = stack_input_factory::make('equiv', 'sans1', '[a^2-a*b, stackeq(a*(a-b))]');
         $el->set_parameter('insertStars', 2);
-        $el->set_parameter('strictSyntax', false);
 
         $state = $el->validate_student_response(array('sans1' => "a^2-ab\n=a*(a-b)"), $options,
                 '[a^2-a*b,stackeq(a*(a-b))]', new stack_cas_security());

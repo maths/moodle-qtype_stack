@@ -17,6 +17,8 @@ The "Extra options" field on the input must be a comma separated list of the fol
 
 `floatnum`:  requires the student's answer to be a floating-point number, as judged by Maxima's `floatnump` predicate.  E.g. to use this and other Boolean options type `floatnum:true` etc. as a comma separated list in the extra options field.
 
+`intnum`:  requires the student's answer to be an explicit integer.  E.g. `6` is valid, but `2*3`, `12/2` etc. are invalid.
+
 `rationalnum`:  requires the student's answer to be a rational number (i.e. a fraction), as judged by STACK's `rational_numberp` predicate.  Integers are excluded here!
 
 `rationalized`:  requires the denominator of any fractions in the student's answer to be free of surds and \(i\), as judged by STACK's `rationalized` function.

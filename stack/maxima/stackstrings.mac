@@ -294,3 +294,15 @@ castext_concat(a, b) := block([_tmp,_a,_b],
  if stringp(_a) and stringp(_b) then return(sconcat(_a,_b)),
  return(castext_simplify(["%root", _a, _b]))
 )$
+
+/**
+ * For now we include this as a predicate function not a full answer test.
+ */
+regex_match_exactp(regex, str) := block([l1, bool1],
+  l1:regex_match(regex, str),
+  bool1:listp(l1), 
+  if bool1 then block([strmatch],
+    strmatch:first(l1),
+    bool1:sequal(str, strmatch)
+  ),
+return(bool1))$

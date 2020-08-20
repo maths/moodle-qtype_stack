@@ -68,8 +68,6 @@ class stack_numerical_input_test extends qtype_stack_testcase {
     public function test_validate_student_response_scientific() {
         $options = new stack_options();
         $el = stack_input_factory::make('numerical', 'sans1', '3.14');
-        // This input type should ignore the strictSyntax option.
-        $el->set_parameter('strictSyntax', false);
         $state = $el->validate_student_response(array('sans1' => '2.34e6'), $options, '3.14', new stack_cas_security());
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('\[ 2.34E+6 \]', strtoupper($state->contentsdisplayed));
@@ -522,7 +520,6 @@ class stack_numerical_input_test extends qtype_stack_testcase {
         $options = new stack_options();
         $el = stack_input_factory::make('units', 'sans1', '23.2*10^2');
         $el->set_parameter('insertStars', 1);
-        $el->set_parameter('strictSyntax', false);
         $state = $el->validate_student_response(array('sans1' => '23.2x10^2'), $options, '23.2*10^2',
                 new stack_cas_security(true));
         $this->assertEquals(stack_input::INVALID, $state->status);
@@ -530,5 +527,83 @@ class stack_numerical_input_test extends qtype_stack_testcase {
         $this->assertEquals('23.2*x10^2', $state->contentsmodified);
         $this->assertEquals('Your answer appears to use the character "x" as a multiplication sign.  ' .
                 'Please use <code>*</code> for multiplication.', $state->errors);
+    }
+
+    public function test_validate_student_response_with_intnum_1() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('numerical', 'sans1', '1729');
+        $el->set_parameter('options', 'intnum');
+        $state = $el->validate_student_response(array('sans1' => "6"), $options, '1729', new stack_cas_security());
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assert_equals_ignore_spaces_and_e('6', $state->contentsmodified);
+        $this->assertEquals('\[ 6 \]', $state->contentsdisplayed);
+        $this->assertEquals('', $state->errors);
+    }
+
+    public function test_validate_student_response_with_intnum_2() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('numerical', 'sans1', '1729');
+        $el->set_parameter('options', 'intnum');
+        $state = $el->validate_student_response(array('sans1' => "-26"), $options, '1729', new stack_cas_security());
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assert_equals_ignore_spaces_and_e('-26', $state->contentsmodified);
+        $this->assertEquals('\[ -26 \]', $state->contentsdisplayed);
+        $this->assertEquals('', $state->errors);
+    }
+
+    public function test_validate_student_response_with_intnum_3() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('numerical', 'sans1', '1729');
+        $el->set_parameter('options', 'intnum');
+        $state = $el->validate_student_response(array('sans1' => "1-26"), $options, '1729', new stack_cas_security());
+        $this->assertEquals(stack_input::INVALID, $state->status);
+        $this->assert_equals_ignore_spaces_and_e('1-26', $state->contentsmodified);
+        $this->assertEquals('\[ 1-26 \]', $state->contentsdisplayed);
+        $this->assertEquals('This input expects an explicit integer.', $state->errors);
+    }
+
+    public function test_validate_student_response_with_intnum_4() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('numerical', 'sans1', '1729');
+        $el->set_parameter('options', 'intnum');
+        $state = $el->validate_student_response(array('sans1' => "2+3"), $options, '1729', new stack_cas_security());
+        $this->assertEquals(stack_input::INVALID, $state->status);
+        $this->assert_equals_ignore_spaces_and_e('2+3', $state->contentsmodified);
+        $this->assertEquals('\[ 2+3 \]', $state->contentsdisplayed);
+        $this->assertEquals('This input expects an explicit integer.', $state->errors);
+    }
+
+    public function test_validate_student_response_with_intnum_5() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('numerical', 'sans1', '1729');
+        $el->set_parameter('options', 'intnum');
+        $state = $el->validate_student_response(array('sans1' => "sqrt(16)"), $options, '1729', new stack_cas_security());
+        $this->assertEquals(stack_input::INVALID, $state->status);
+        $this->assert_equals_ignore_spaces_and_e('sqrt(16)', $state->contentsmodified);
+        $this->assertEquals('\[ \sqrt{16} \]', $state->contentsdisplayed);
+        $this->assertEquals('This input expects an explicit integer.', $state->errors);
+    }
+
+    public function test_validate_student_response_with_intnum_6() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('numerical', 'sans1', '1729');
+        $el->set_parameter('options', 'intnum');
+        $state = $el->validate_student_response(array('sans1' => "sin(pi/2)"), $options, '1729', new stack_cas_security());
+        $this->assertEquals(stack_input::INVALID, $state->status);
+        $this->assert_equals_ignore_spaces_and_e('sin(pi/2)', $state->contentsmodified);
+        $this->assertEquals('\[ \sin \left( \frac{\pi}{2} \right) \]', $state->contentsdisplayed);
+        $this->assertEquals('This input expects an explicit integer.', $state->errors);
+    }
+
+    public function test_validate_hideanswer() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('numerical', 'state', '123');
+        $el->set_parameter('options', 'hideanswer');
+        $state = $el->validate_student_response(array('state' => '124'), $options, '123',
+                new stack_cas_security());
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('124', $state->contentsmodified);
+        $this->assertEquals('\[ 124 \]', $state->contentsdisplayed);
+        $this->assertEquals('', $el->get_teacher_answer_display("[SOME JSON]", "\[ \mbox{[SOME MORE JSON]} \]"));
     }
 }

@@ -1,18 +1,16 @@
 language: php
 
+os: linux
 dist: bionic
-sudo: required
 
 services:
-  mysql
+  - mysql
+  - postgresql
+  - docker
 
 addons:
-  firefox: "47.0.1"
-  postgresql: "9.6"
   apt:
     packages:
-      - openjdk-8-jre-headless
-      - chromium-chromedriver
       - maxima
       - maxima-share
       - texinfo
@@ -22,63 +20,68 @@ cache:
     - $HOME/.composer/cache
     - $HOME/.npm
 
-matrix:
+jobs:
   include:
+    # Travis tends to run the jobs in order, and runs up to 5 jobs in
+    # parallel. Therefore, our scheme of jobs is:
+    #
+    # 1. & 2. PHPUnit on our newest and oldest supported Moodle versions.
+    #         These are our most detailed tests, so we want the results first.
+    #
+    # 3.      Behat on our newest supported Moodle version.
+    #
+    # 4. & 5. Code style checks, expected passes and fails.
+    #         Moodle version here needs to match the one we are using to
+    #         run grunt to compile the JavaScript.
+    #
+    # 6. - 8. PHPUnit on other supported moodle versions & latest master.
+    #
+    # Ideally, we'd also test Behat in oldest supported version, but currently
+    # one test does something that only works in Moodle 3.8 or later.
+    #
+    # We try to distribute tests across PHP versions and DB types.
+    # Where we test PHPunit and Behat with the same Moodle version, we
+    # ensure PHP and DB are different. We don't bother to run Behat on all branches.
+    # Moodle 3.5 should support PHP 7.0, but we can't test this on Bionic, which we
+    # need to get a decent Maxima version.
+    #
+    # Ideally we would also run the tests with different Maxima versions.
+    - php: 7.3
+      env: TASK=PHPUNIT        MOODLE_BRANCH=MOODLE_39_STABLE   DB=mysqli
 
-#    # Would be good to run this next test in PHP 7.2, but STACK does not support that yet.
-#    - php: 7.0
-#      env: TASK=PHPUNIT        MOODLE_BRANCH=MOODLE_35_STABLE   DB=pgsql
-#
+    - php: 7.1
+      env: TASK=PHPUNIT        MOODLE_BRANCH=MOODLE_35_STABLE   DB=pgsql
+
+    - php: 7.4
+      env: TASK=BEHAT          MOODLE_BRANCH=MOODLE_39_STABLE   DB=pgsql
+
+    - php: 7.3
+      env: TASK=CODESTYLE      MOODLE_BRANCH=MOODLE_38_STABLE   DB=mysqli
+
+    - php: 7.3
+      env: TASK=CODEKNOWNFAILS MOODLE_BRANCH=MOODLE_38_STABLE   DB=mysqli
+
+    - php: 7.4
+      env: TASK=PHPUNIT        MOODLE_BRANCH=master             DB=pgsql
+
+    - php: 7.2
+      env: TASK=PHPUNIT        MOODLE_BRANCH=MOODLE_38_STABLE   DB=pgsql
+
     - php: 7.1
       env: TASK=PHPUNIT        MOODLE_BRANCH=MOODLE_37_STABLE   DB=mysqli
 
-#    - php: 7.2
-#      env: TASK=PHPUNIT        MOODLE_BRANCH=MOODLE_38_STABLE   DB=pgsql
-#
-# Master here will need to be changed to MOODLE_39_STABLE once Moodle 3.9 has been released.
-#    - php: 7.3
-#      env: TASK=PHPUNIT        MOODLE_BRANCH=master             DB=mysqli
-
-
-#    - php: 7.1
-#      env: TASK=BEHAT          MOODLE_BRANCH=MOODLE_35_STABLE   DB=mysqli
-#
-    - php: 7.2
-      env: TASK=BEHAT          MOODLE_BRANCH=MOODLE_37_STABLE   DB=pgsql
-
-#    - php: 7.3
-#      env: TASK=BEHAT          MOODLE_BRANCH=MOODLE_38_STABLE   DB=mysqli
-
-# Master here will need to be changed to MOODLE_39_STABLE once Moodle 3.9 has been released.
-#    - php: 7.2
-#      env: TASK=BEHAT          MOODLE_BRANCH=master             DB=pgsql
-
-
-    - php: 7.3
-      env: TASK=CODESTYLE      MOODLE_BRANCH=MOODLE_37_STABLE   DB=mysqli
-
-    - php: 7.3
-      env: TASK=CODEKNOWNFAILS MOODLE_BRANCH=MOODLE_37_STABLE   DB=mysqli
-
   allow_failures:
-    # Behat currently broken with a spurious error. See https://github.com/maths/moodle-qtype_stack/issues/580
-    # For now prevent this from failing the build.
-    - php: 7.2
-      env: TASK=BEHAT          MOODLE_BRANCH=MOODLE_37_STABLE   DB=pgsql
-
     # This relates to the bit right at the end, where we run some of the coding style checks in this group.
     # We don't care if these checks fail, but we want to be able to see the results.
     - php: 7.3
-      env: TASK=CODEKNOWNFAILS MOODLE_BRANCH=MOODLE_37_STABLE   DB=mysqli
+      env: TASK=CODEKNOWNFAILS MOODLE_BRANCH=MOODLE_38_STABLE   DB=mysqli
+
 
 before_install:
-    - phpenv config-rm xdebug.ini
-    - nvm install 14.2.0
-    - nvm use 14.2.0
-    - cd ../..
-    - composer create-project -n --no-dev --prefer-dist blackboard-open-source/moodle-plugin-ci ci ^2
-    - export PATH="$(cd ci/bin; pwd):$(cd ci/vendor/bin; pwd):$PATH"
-    - PATH=$(echo "$PATH" | sed -e 's/:\/usr\/local\/lib\/jvm\/openjdk11\/bin//') JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-amd64
+  - phpenv config-rm xdebug.ini
+  - cd ../..
+  - composer create-project -n --no-dev --prefer-dist moodlehq/moodle-plugin-ci ci ^3
+  - export PATH="$(cd ci/bin; pwd):$(cd ci/vendor/bin; pwd):$PATH"
 
 install:
   - moodle-plugin-ci add-plugin maths/moodle-qbehaviour_dfexplicitvaildate
@@ -116,6 +119,7 @@ script:
 
   # Run all the various code style tests - these ones are konwn to fail.
   # Once we get them passing, move them to the CODESTYLE section above.
+  - if [ "$TASK" = 'CODEKNOWNFAILS' ]; then moodle-plugin-ci codechecker; fi
+  - if [ "$TASK" = 'CODEKNOWNFAILS' ]; then moodle-plugin-ci phpdoc;      fi
   - if [ "$TASK" = 'CODEKNOWNFAILS' ]; then moodle-plugin-ci phpmd;       fi
   - if [ "$TASK" = 'CODEKNOWNFAILS' ]; then moodle-plugin-ci phpcpd;      fi
-  - if [ "$TASK" = 'CODEKNOWNFAILS' ]; then moodle-plugin-ci codechecker; fi

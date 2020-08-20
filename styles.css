@@ -217,6 +217,71 @@ body.pagelayout-embedded .que.stack .formulation .questiontestslink {
     }
 }
 
+/* Style some proofs as numbered steps. */
+ol.proof-steps {
+    counter-reset: li;
+    margin-left: 0;
+    padding-left: 0;
+    margin-top: 0;
+}
+ol.proof-steps > li {
+    position: relative;
+    margin-left: 2em;
+    padding: 0.5em;
+    list-style: none;
+    line-height: 1.5em;
+}
+ol.proof-steps > li > p {
+    margin: 0;
+}
+ol.proof-steps > li:before {
+    content: counter(li);
+    counter-increment: li;
+    position: absolute;
+    top: 7px;
+    left: -2em;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 1.5em;
+    height: 1.5em;
+    margin-right: .2em;
+    margin-top: 0;
+    border-style: none;
+    border-radius: 50%;
+    line-height: 1.4em;
+    text-align: center;
+    z-index: 2;
+    background-color: #039;
+    color: white;
+    font-size: 14px;
+    font-weight: 600;
+    vertical-align: middle;
+    padding-top: 1px;
+}
+
+ol.proof-steps > li:after {
+    position: absolute;
+    left: -19px;
+    top: 10px;
+    content: "";
+    height: 100%;
+    width: 0;
+    border-left: 3px solid #039;
+    z-index: 1;
+}
+ol.proof-steps > li:last-of-type:after {
+    border: none;
+}
+ol.proof-steps > li:before {
+    content: counter(li, decimal);
+}
+ol.proof-steps ol.proof-steps > li:before {
+    content: counter(li, lower-latin);
+}
+ol.proof-steps ol.proof-steps ol.proof-steps > li:before {
+    content: counter(li, lower-roman);
+}
+
 /* Styles for the editing form. */
 body#page-question-type-stack .fitem_fgroup .accesshide,
 body#page-question-type-stack-questiontestedit .fitem_fgroup .accesshide {
@@ -494,7 +559,6 @@ body.ie:not(.ie11) .stack_abstract_graph {
     left: 0;
     position: absolute;
     opacity: 0;
-    filter: alpha(Opacity=0); /* support: IE8 */
 }
 
 .ui-front {
@@ -742,7 +806,6 @@ a.ui-button:active,
 .ui-widget-overlay {
     background: #aaa;
     opacity: .3;
-    filter: alpha(Opacity=30); /* support: IE8 */
 }
 .ui-widget-shadow {
     -webkit-box-shadow: 0 0 5px #666;

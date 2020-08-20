@@ -34,6 +34,17 @@ For example, if you want a matrix with integer elements in the range -5..5 you n
 
 There are also Maxima's random functions.  For example, to create a random list use `random_permutation`.
 
+### Sets ###
+
+STACK provides the following functions for random generation of sets.
+
+`random_subset(u)` returns a random subset of `u`.
+
+`random_subset_n(u,n)` returns a random subset of `u` with `n` elements (if possible).
+
+`random_ne_subset(u)` returns a non-empty random subset of `u`.
+
+
 ### rand_with_step(lower,upper,step) ###
 
 Returns a random number from the set `{lower, lower+step, lower+2*step, ... , final}`. The examples below explain behaviour the best.

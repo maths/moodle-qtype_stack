@@ -995,7 +995,7 @@
     "breakup": {
         "variable": "?"
     },
-    "btu": {
+    "Btu": {
         "variable": "s"
     },
     "bug_report": {
@@ -1017,6 +1017,9 @@
     },
     "cabs": {
         "function": "s"
+    },
+    "Cal": {
+        "variable": "s"
     },
     "cal": {
         "variable": "s"
@@ -4517,6 +4520,9 @@
     "mkdir": {
         "function": "?"
     },
+    "mmHg": {
+        "variable": "s"
+    },
     "mnewton": {
         "function": "f"
     },
@@ -5904,6 +5910,18 @@
         "random": true
     },
     "random": {
+        "function": "f",
+        "random": true
+    },
+    "random_subset": {
+        "function": "f",
+        "random": true
+    },
+    "random_subset_n": {
+        "function": "f",
+        "random": true
+    },
+    "random_ne_subset": {
         "function": "f",
         "random": true
     },

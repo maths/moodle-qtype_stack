@@ -72,7 +72,7 @@ echo $OUTPUT->heading($title);
 
 // Run the tests.
 list($allpassed, $failing) = $bulktester->run_all_tests_for_context(
-        $context, 'web', $skippreviouspasses);
+        $context, 'web', false, $skippreviouspasses);
 
 // Display the final summary.
 $bulktester->print_overall_result($allpassed, $failing);

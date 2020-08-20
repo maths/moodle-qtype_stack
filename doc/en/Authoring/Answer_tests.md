@@ -171,6 +171,16 @@ This test uses Maxima's `regex_match` function.
 * Don't forget to escape within the pattern strings as needed. Note that there is a function `string_to_regex()` that will handle escaping of characters that would otherwise have meaning in the pattern. Also remember that you need to escape the backslashes like normal in Maxima-strings.
 * One can read more about the patterns posible from [here](http://ds26gte.github.io/pregexp/index.html). Case-insensitivity may be something worth noting there.
 
+STACK also provides a helper function `regex_match_exactp(regex, str)` to check if the string equals the pattern matched by the regular expression.
+
+    Regex           String      Result
+    (aaa)*(b|d)c    aaaaaabc    true
+    (aaa)*(b|d)c    dc          true
+    (aaa)*(b|d)c    aaaaaaabc   false
+    (aaa)*(b|d)c    cca         false
+
+Currently this is not provided as a separate answer test so you will need to use this predicate in the question variables and check the result against the expected value, or supply the predicate as an argument to an answer test.
+
 # Form {#Form}
 
 Often, we wish to establish if the student's expression has the correct _form_.

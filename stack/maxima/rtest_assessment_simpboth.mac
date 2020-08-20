@@ -312,7 +312,7 @@ stack_disp(a+1, "i");
 stack_disp(1, "i");
 "\\(1\\)"$
 stack_disp(false, "i");
-"\\(\\mathbf{false}\\)"$
+"\\(\\mathbf{False}\\)"$
 stack_disp(ab0, "i");
 "\\({{\\it ab}}_{0}\\)"$
 stack_disp(epsilon0345, "i");

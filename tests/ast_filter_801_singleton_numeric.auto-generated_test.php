@@ -490,6 +490,11 @@ class stack_ast_filter_auto_gen_801_singleton_numeric_testcase extends qtype_sta
                       array('Illegal_form'),
                       false, true);
 
+        $this->expect('3.75*Btu',
+                      '3.75*Btu',
+                      array('Illegal_form'),
+                      false, true);
+
         $this->expect('X',
                       'X',
                       array('Illegal_form'),
@@ -1668,6 +1673,11 @@ class stack_ast_filter_auto_gen_801_singleton_numeric_testcase extends qtype_sta
         $this->expect('/*@ Comment @*/x+1',
                       '/*@ Comment @*/x+1',
                       array('Illegal_form'),
+                      false, true);
+
+        $this->expect('"A string that needs sanitising <script>bad stuff</script>."',
+                      '"A string that needs sanitising <script>bad stuff</script>."',
+                      array('Illegal_power'),
                       false, true);
 
     }
@@ -2136,6 +2146,11 @@ class stack_ast_filter_auto_gen_801_singleton_numeric_testcase extends qtype_sta
                       array('Illegal_form'),
                       false, true);
 
+        $this->expect('3.75*Btu',
+                      '3.75*Btu',
+                      array('Illegal_form'),
+                      false, true);
+
         $this->expect('X',
                       'X',
                       array('Illegal_form'),
@@ -3314,6 +3329,11 @@ class stack_ast_filter_auto_gen_801_singleton_numeric_testcase extends qtype_sta
         $this->expect('/*@ Comment @*/x+1',
                       '/*@ Comment @*/x+1',
                       array('Illegal_form'),
+                      false, true);
+
+        $this->expect('"A string that needs sanitising <script>bad stuff</script>."',
+                      '"A string that needs sanitising <script>bad stuff</script>."',
+                      array('Illegal_power'),
                       false, true);
 
     }

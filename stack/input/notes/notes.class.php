@@ -28,6 +28,7 @@ require_once(__DIR__ . '/../../utils.class.php');
 class stack_notes_input extends stack_input {
 
     protected $extraoptions = array(
+        'hideanswer' => false,
         'manualgraded' => false,
     );
 
@@ -113,7 +114,6 @@ class stack_notes_input extends stack_input {
             'mustVerify'     => false,
             'showValidation' => 1,
             'boxWidth'       => 50,
-            'strictSyntax'   => false,
             'insertStars'    => 0,
             'syntaxHint'     => '',
             'forbidWords'    => '',
@@ -157,6 +157,9 @@ class stack_notes_input extends stack_input {
      * @return string the teacher's answer, displayed to the student in the general feedback.
      */
     public function get_teacher_answer_display($value, $display) {
+        if ($this->extraoptions['hideanswer']) {
+            return '';
+        }
         return stack_string('teacheranswershownotes');
     }
 

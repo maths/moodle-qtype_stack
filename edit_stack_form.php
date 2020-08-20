@@ -361,11 +361,6 @@ class qtype_stack_edit_form extends question_edit_form {
         $mform->setType($inputname . 'boxsize', PARAM_INT);
         $mform->addHelpButton($inputname . 'boxsize', 'boxsize', 'qtype_stack');
 
-        $mform->addElement('selectyesno', $inputname . 'strictsyntax',
-                stack_string('strictsyntax'));
-        $mform->setDefault($inputname . 'strictsyntax', $this->stackconfig->inputstrictsyntax);
-        $mform->addHelpButton($inputname . 'strictsyntax', 'strictsyntax', 'qtype_stack');
-
         $mform->addElement('select', $inputname . 'insertstars',
                 stack_string('insertstars'), stack_options::get_insert_star_options());
         $mform->setDefault($inputname . 'insertstars', $this->stackconfig->inputinsertstars);
@@ -626,7 +621,8 @@ class qtype_stack_edit_form extends question_edit_form {
             $question->{$inputname . 'type'}               = $input->type;
             $question->{$inputname . 'modelans'}           = $input->tans;
             $question->{$inputname . 'boxsize'}            = $input->boxsize;
-            $question->{$inputname . 'strictsyntax'}       = $input->strictsyntax;
+            // TODO: remove this when we delete it from the DB.
+            $question->{$inputname . 'strictsyntax'}       = true;
             $question->{$inputname . 'insertstars'}        = $input->insertstars;
             $question->{$inputname . 'syntaxhint'}         = $input->syntaxhint;
             $question->{$inputname . 'syntaxattribute'}    = $input->syntaxattribute;

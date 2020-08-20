@@ -210,9 +210,5 @@ foreach ($questions as $id) {
     }
 }
 
-
-
-
-
 echo "\n\n";
 exit(0);

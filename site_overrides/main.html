@@ -12,6 +12,7 @@
   </script>
 {% endblock %}
 
+<!--Override basic header-->
 {% block header %}
 <header class="md-header" data-md-component="header">
   <nav class="md-header-nav md-grid" aria-label="{{ lang.t('header.title') }}">
@@ -43,16 +44,20 @@
 
 {% endblock %}
 
+
+<!--Override basic footer-->
 {% block footer %}
 <footer class="md-footer">
 <div class ="md-main__inner md-grid">
+<!--Copy of primary sidebar, which collapses-->
 <div class="md-sidebar md-sidebar--primary_footer">
 
 </div>
-
+<!--Copy of secondary sidebar, which collapses-->
 <div class ="md-sidebar md-sidebar--secondary">
 </div>
 
+<!--Footer-->
 <div class="md-content">
 <div class="md-content__inner md-typeset">
     <div class="row">

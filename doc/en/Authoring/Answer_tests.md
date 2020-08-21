@@ -5,7 +5,7 @@ establish whether they satisfy some mathematical criteria. The
 prototype test is to establish if they are the _same_.  That is
 to say, _algebraically equivalent_.
 
-The exact behaviour of each answer test can be seen from STACK's [test suite for STACK Answer tests](../../../answertests.php).
+We expose the exact behaviour of each answer test by giving registered users access to STACK's test suite for STACK Answer tests.  This can be found on a live server at [https://stack-demo.maths.ed.ac.uk/demo/question/type/stack/answertests.php](https://stack-demo.maths.ed.ac.uk/demo/question/type/stack/answertests.php)
 
 This compares pairs of expressions and displays the outcomes
 from each test. Mainly used to ensure STACK is working, it is

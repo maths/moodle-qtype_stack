@@ -14,7 +14,7 @@
           {% set level = level + 1 %}
           {% include "partials/nav-item.html"  %}
         {% endfor %}
-
+<!--Keep the rest the same-->
 {% elif nav_item.children %}
   <li class="{{ class }} md-nav__item--nested">
     {% if nav_item.active %}

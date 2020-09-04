@@ -77,7 +77,7 @@ ATNumSigFigs_CASSigFigsWrapper(sans,tans,options,rawsans) := block([allowextra,r
 
     /* Now that digits are clear continue to check the accuracy. Or not. */
     if requiredaccuracy # 0 then (
-        result: ATNumSigFigs(sans,tans,requiredaccuracy),
+        result: ATNumSigFigs(sans,tans,options),
         Validity: Validity and result[1],
         RawMark: RawMark and result[2],
         if result[3] # "" then (

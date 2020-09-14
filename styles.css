@@ -864,6 +864,148 @@ a.ui-button:active,
     height: 1px;
 }
 
+/*****************************************
+                   HELM
+*****************************************/
+.HELM_exercise {
+    font-weight: bold;
+    font-size: 110%;
+}
+.HELM_exercise:before {
+    font-family: "FontAwesome";
+    content: "\f040";
+    padding-right: 0.5rem;
+    font-size: 120%;
+    display: inline-block;
+}
+h4.HELM_example, .HELM_example {
+font-size: 95%;
+    background: #1e92cc;
+    color: #fff;
+    text-shadow: none;
+    padding: 0.5em;
+    display: inline-block;
+    margin: -0.5em -0.5em 0.5em 0em;
+    border-radius: 0.2em;
+}
+h4.HELM_example:before, .HELM_example:before {
+    font-family: "FontAwesome";
+    content: "\f046";
+    display: inline-block;
+    padding-right: 0.5em;
+    vertical-align: middle;
+    font-weight: 500;
+    font-size: 120%;
+}
+.HELM_solution {
+    font-size: 95%;
+    color: #1e92cc;
+}
+.HELM_part {
+    background: #1e92cc;
+    color: #fff;
+    text-shadow: none;
+    border-radius: 0.2em;
+    padding: 0.3rem;
+    margin-left: 1em;
+}
+ol.HELM_parts {
+    list-style: none;
+    counter-reset: helm-parts;
+    float: left;
+    width: 100%;
+ }
+ol.HELM_parts li {
+    counter-increment: helm-parts;
+    margin-bottom: 1.5rem;
+}
+
+ol.HELM_parts li:before {
+    content: "(" counter(helm-parts, lower-alpha) ")";
+    margin-left: -2.2rem;
+    margin-top: -0.3rem;
+    background: #1e92cc;
+    border-radius: 0.2rem;
+    color: white;
+    text-shadow: none;
+    padding: 0.3rem;
+    text-align: center;
+    display: inline-block;
+    box-sizing: border-box;
+    float: left;
+    clear: left;
+ }
+
+ol.HELM_parts_inline {
+    list-style: none;
+    padding: 0;
+    counter-reset: helm-parts;
+    float: left;
+    width: 100%;
+}
+ol.HELM_parts_inline > li {
+    counter-increment: helm-parts;
+    display: inline;
+    margin-left: -2.2rem;
+}
+ol.HELM_parts_inline > li::before {
+    content: "(" counter(helm-parts, lower-alpha) ")";
+    margin-right: 1ex;
+    margin-top: -0d.3rem;
+    background: #1e92cc;
+    border-radius: 0.2rem;
+    color: white;
+    text-shadow: none;
+    padding: 0.3rem;
+    text-align: center;
+    display: inline-block;
+    box-sizing: border-box;
+}
+ol.HELM_parts_inline > li:not(:last-child)::after {
+    content: "";
+    margin-right: 4rem;
+}
+/* Make ordered lists within ordered lists display in lower-roman (i) style. */
+ol.HELM_parts > li > ol.HELM_parts > li:before {
+    content: "(" counter(helm-parts, lower-roman) ")";
+}
+
+div.HELM_keypoint {
+    border: 1px solid #1e92cc;
+    border-left-width: 3px;
+    padding: 0.2rem 1rem;
+}
+.HELM_keypoint h4 {
+    font-size: 110%;
+    color: #1e92cc;
+}
+.HELM_keypoint h4:before {
+    font-family: "FontAwesome";
+    content: "\f0a9";
+    padding-right: 0.5rem;
+    font-size: 120%;
+    display: inline-block;
+}
+
+/* Define HELM table styling. */
+table.HELM_table{
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+table.HELM_table th{
+    border-bottom: 1pt solid black;
+}
+table.HELM_table td, table.HELM_table th{
+    padding: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-right: 1px solid black;
+}
+table.HELM_table td:last-child,table.HELM_table th:last-child{
+    border-right: 0;
+}
+
 /* RTL support */
 
 /* Student answer form fields */

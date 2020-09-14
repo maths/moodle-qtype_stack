@@ -4,6 +4,10 @@ For current and future plans, see [Development track](Development_track.md) and 
 
 ## Version 4.3.5
 
+* Add in the [HELM](../Authoring/HELM.md) styles.
+
+## Version 4.3.5
+
 Released August 2020.
 
 Bug fixes and minor improvements.

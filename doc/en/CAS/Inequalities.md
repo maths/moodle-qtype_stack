@@ -1,4 +1,4 @@
-# Inequalities #
+# Inequalities
 
 The non-strict inequalities \(\geq\) and \(\leq\) are created as infix operators with the respective syntax
 

@@ -21,11 +21,11 @@ To ease parsing of CASText you should ensure that you are writing valid (X)HTML 
 
 To ensure consistent presentation you should avoid using inline CSS styles in your CASText, as the styles of the surrounding system may change and cause conflicts. In general all styles are bad with the sole exception being `text-align` in the context of table cells. Otherwise:
 
-* If at all possible remove all styles and the `<span>` tags related to them from the CASText. Most WYSIWYG editors have some **clear formatting** feature to do just that.
+* If at all possible remove all styles and the `<span>` tags related to them from the CASText. Most WYSIWYG editors have some **clear formatting** feature to do just that. You cannot have block level HTML elements inside a span tag, which is an inline element.
 * You should not define `font-size` anywhere. If you need a heading with big text then use the `<hX>...</hX>` tags, but not with too small or large values of X. *In Abacus `<h3>` and `<h4>` are recommended especially in model solutions.*
 * Likewise all other font stylings should be left to the surrounding system but feel free to use `<i>`, `<b>`, `<em>`, and `<strong>` if you need and assume that the surrounding system handles them correctly.
 * You can use the `<code>` tag to explain how to type in answers.
-* Paragraphs are your friends use `<p>...</p>` tags and do not leave your content as raw text. The top level of your CASText document should consist of `<p>`, `<table>`, `<div>`, or CASText block elements not of raw text.
+* The top level of your CASText document should consist of `<p>`, `<table>`, `<div>`, or CASText block elements not of raw text. For the PRT be careful about using `<p>` tags (which editors hide).  If you use the compact PRT style then STACK then puts this into span tags, and you cannot have block level HTML elements such as `<p>` inside a span tag.
 * In the case of tables and images you may use a bit of styling, e.g. borders, paddings, margins, and sizes, but you should always use relative units when describing those sizes. Scale to match the current font-size or maybe to the width of the viewport or even to the maximum dimension of the display not to pixels as pixels have very different actual sizes on different screens and we cannot assume that the software displaying things will make the same scaling assumptions for them in the future.
 * STACK now uses SVG, and this is preferred if you can embed this within the CASText.
 * Only use supported JavaScript libraries, like JSXGraph.

@@ -9,7 +9,7 @@ STACK is the world-leading open-source (GPL) automatic assessment system for mat
 * Support for multipart questions.
 * Support for scientific units and significant figures.
 
-A [case studies](../content/2019-cate-case-studies.pdf) and a [flyer about the STACK project](../content/2018-STACK.pdf) are available.
+A [case studies collection](../content/2019-cate-case-studies.pdf) and a [flyer about the STACK project](../content/2018-STACK.pdf) are available.
 
 In 2019 we produced a self-contained "Getting started with STACK" [guide](../content/2019-STACK-Guide.pdf) to authoring STACK questions.
 

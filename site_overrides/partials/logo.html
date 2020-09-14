@@ -1,0 +1,7 @@
+<!--Set the logo-->
+{% if config.theme.logo %}
+  <img src="{{ config.theme.logo | url }}" alt="logo" style="width:2rem;height:0.95rem;">
+{% else %}
+  {% set icon = config.theme.icon.logo or "material/library" %}
+  {% include ".icons/" ~ icon ~ ".svg" %}
+{% endif %}

@@ -43,10 +43,8 @@ In this context the teacher's answer and the student's answer is a list.  The wh
 
 Copy the following text into the Question text box:
 
-<textarea readonly="readonly" rows="2" cols="50">
-Expand {@p@}, remembering to show your working.
-[[input:ans1]] [[validation:ans1]]
-</textarea>
+	Expand {@p@}, remembering to show your working.
+	[[input:ans1]] [[validation:ans1]]
 
 ### Setting the input options ###
 

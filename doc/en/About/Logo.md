@@ -1,4 +1,4 @@
-# The mathematics of the STACK logo #
+# The mathematics of the STACK logo
 
 The STACK logo is based on the following problem.
 

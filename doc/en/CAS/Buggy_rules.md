@@ -1,4 +1,4 @@
-# Buggy rules #
+# Buggy rules
 
 In order to establish that the student has done something
 particular but wrong, it is useful for us to be able to apply

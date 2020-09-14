@@ -2,8 +2,6 @@
 
 1 - First question | [2 - Question variables](Authoring_quick_start_2.md) | [3 - Feedback](Authoring_quick_start_3.md) | [4 - Randomisation](Authoring_quick_start_4.md) | [5 - Question tests](Authoring_quick_start_5.md) | [6 - Multipart questions](Authoring_quick_start_6.md) | [7 - Simplification](Authoring_quick_start_7.md) | [8 - Quizzes](Authoring_quick_start_8.md)
 
-
-
 The authoring quick start guide shows you how to write STACK questions.  Part 1 gets a minimal question working. The following video explains the process:
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/cpwo-D6EUgA" frameborder="0" allowfullscreen></iframe>
@@ -35,10 +33,8 @@ You must give the question a name, for example `question1`.
 
 Let's focus on the problem of differentiating \((x-1)^3\) with respect to \(x\). We need to write the question text itself. Copy the following into the Question text box:
 
-<textarea readonly="readonly" rows="2" cols="50">
-Differentiate \((x-1)^3\) with respect to x.
-[[input:ans1]] [[validation:ans1]]
-</textarea>
+	Differentiate \((x-1)^3\) with respect to x.
+	[[input:ans1]] [[validation:ans1]]
 
 Notes:
 

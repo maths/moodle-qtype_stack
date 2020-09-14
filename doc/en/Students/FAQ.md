@@ -1,4 +1,4 @@
-# Frequently asked questions #
+# Frequently asked questions
 
 This page is designed to help student users of STACK, rather than question authors.
 

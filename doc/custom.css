@@ -1,7 +1,8 @@
 /* Container for footer. */
-.container-flexible { 
+.container-flexible {
     display: grid;
-    width: min(700px, 100%);
+    width: 700px;
+    max-width: 100%;
     margin: auto;
 }
 
@@ -30,24 +31,25 @@
         transform: translateX(0);
         transition: transform 250ms cubic-bezier(0.4, 0, 0.2, 1), box-shadow 250ms;
     }
-    [dir=rtl] .md-sidebar--primary_footer{
+    [dir=rtl] .md-sidebar--primary_footer {
         right: -12.1rem;
         left: initial;
     }
-    [data-md-toggle=drawer]:checked~.md-sidebar--primary_footer {
+    [data-md-toggle=drawer]:checked ~ .md-sidebar--primary_footer {
         box-shadow: 0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12), 0 5px 5px -3px rgba(0, 0, 0, 0.4);
         transform: translateX(12.1rem);
     }
-    [dir=rtl] [data-md-toggle=drawer]:checked~.md-sidebar--primary_footer {
-        transform: translateX(-12.1rem)
+    [dir=rtl] [data-md-toggle=drawer]:checked ~ .md-sidebar--primary_footer {
+        transform: translateX(-12.1rem);
     }
     .md-sidebar--primary .md-sidebar__scrollwra {
         overflow: hidden;
     }
 }
+
 @media screen and (max-width: 76.1875em) {
     .md-sidebar--primary__footer {
-        position:absolute;
+        position: absolute;
         top: 0;
         right: 0;
         bottom: 0;
@@ -55,6 +57,6 @@
         margin: 0;
         -webkit-scroll-snap-type: none;
         -ms-scroll-snap-type: none;
-        scroll-snap-type: none
+        scroll-snap-type: none;
     }
 }

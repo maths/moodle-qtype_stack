@@ -115,10 +115,10 @@ script:
   - if [ "$TASK" = 'CODESTYLE' ];      then moodle-plugin-ci validate;    fi
   - if [ "$TASK" = 'CODESTYLE' ];      then moodle-plugin-ci savepoints;  fi
   - if [ "$TASK" = 'CODESTYLE' ];      then moodle-plugin-ci mustache;    fi
+  - if [ "$TASK" = 'CODESTYLE' ];      then moodle-plugin-ci grunt;       fi
 
   # Run all the various code style tests - these ones are konwn to fail.
   # Once we get them passing, move them to the CODESTYLE section above.
-  - if [ "$TASK" = 'CODEKNOWNFAILS' ]; then moodle-plugin-ci grunt;       fi
   - if [ "$TASK" = 'CODEKNOWNFAILS' ]; then moodle-plugin-ci codechecker; fi
   - if [ "$TASK" = 'CODEKNOWNFAILS' ]; then moodle-plugin-ci phpdoc;      fi
   - if [ "$TASK" = 'CODEKNOWNFAILS' ]; then moodle-plugin-ci phpmd;       fi

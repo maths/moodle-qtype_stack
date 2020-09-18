@@ -484,7 +484,7 @@ class stack_inputvalidation_test_data {
             '\prod_{k=1}^{3}{\cos \left( k\cdot x \right)}', '', '')
     );
 
-    protected static $rawdata_units = array(
+    protected static $rawdataunits = array(
         array('123', 'php_true', '123', 'cas_true', '123\,', 'Units_SA_no_units', "Units"),
         array('9.81*m/s^2', 'php_true', '9.81*m/s^2', 'cas_true', '9.81\, {\mathrm{m}}/{\mathrm{s}^2}', '', ""),
         array('9.81*m*s^-2', 'php_true', '9.81*m*s^-2', 'cas_true', '9.81\, {\mathrm{m}}/{\mathrm{s}^2}', '', ""),
@@ -517,7 +517,7 @@ class stack_inputvalidation_test_data {
     }
 
     public static function get_raw_test_data_units() {
-        return self::$rawdata_units;
+        return self::$rawdataunits;
     }
 
     public static function test_from_raw($data, $validationmethod) {
@@ -546,7 +546,7 @@ class stack_inputvalidation_test_data {
         foreach (self::$rawdata as $data) {
             $tests[] = self::test_from_raw($data, 'typeless');
         }
-        foreach (self::$rawdata_units as $data) {
+        foreach (self::$rawdataunits as $data) {
             $tests[] = self::test_from_raw($data, 'units');
         }
         return $tests;

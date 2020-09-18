@@ -609,6 +609,7 @@ $string['stackInstall_testsuite_failingtests'] = 'Tests that failed';
 $string['stackInstall_testsuite_failingupgrades'] = 'Questions which failed on upgrade.';
 $string['stackInstall_testsuite_notests'] = 'Questions with no tests: please add some!';
 $string['stackInstall_testsuite_nogeneralfeedback'] = 'Questions with no general feedback: students really appreciate worked solutions!';
+$string['stackInstall_testsuite_nodeployedseeds'] = 'Questions with random variants, but no deployed seeds';
 $string['stackInstall_testsuite_errors'] = 'This question generated the following errors at runtime.';
 $string['answertest'] = 'Answer test';
 $string['answertest_help'] = 'An answer test is used to compare two expressions to establish whether they satisfy some mathematical criteria.';

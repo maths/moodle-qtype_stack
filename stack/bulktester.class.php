@@ -86,6 +86,7 @@ class stack_bulk_tester  {
         $failingtests = array();
         $notests = array();
         $nogeneralfeedback = array();
+        $nodeployedseeds = array();
         $failingupgrade = array();
 
         $readytostart = true;
@@ -174,6 +175,7 @@ class stack_bulk_tester  {
 
                 if (empty($question->deployedseeds)) {
                     if ($question->has_random_variants()) {
+                        $nodeployedseeds[] = $questionnamelink;;
                         if ($outputmode == 'web') {
                             $questionproblems[] = html_writer::tag('li', stack_string('bulktestnodeployedseeds'));
                         } else {
@@ -270,6 +272,7 @@ class stack_bulk_tester  {
             'failingtests'      => $failingtests,
             'notests'           => $notests,
             'nogeneralfeedback' => $nogeneralfeedback,
+            'nodeployedseeds'   => $nodeployedseeds,
             'failingupgrades'   => $failingupgrade);
         return array($allpassed, $failing);
     }

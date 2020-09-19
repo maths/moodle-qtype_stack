@@ -182,13 +182,14 @@ Here is a proof of the great and wonderful theorem.
  <div class="proof-column">Lines don't need to have <code>proof-num</code> or <code>proof-block</code></div>
  <div class="proof-column">With further comments.</div>
 </div>
+
 <div class="proof-line">
  <div class="proof-column">The proof continues.</div>
  <div class="proof-column-2">With further comments.</div>
 </div>
+
 <div class="proof-line">
  <div class="proof-column">This concludes the proof.</div>
-</div>
 </div>
 
 It is possible to use `proof-column-2` style in the first column, but this looks odd and is not recommended.  The `proof-column-2` style is intended for only the second column.  The `proof-column` style is intended to be used in both columns.

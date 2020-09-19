@@ -350,6 +350,7 @@ class stack_answertest_test_data {
         array('AlgEquiv', '', 'x=1', 'x>1 and x<5', 0, 'ATAlgEquiv_TA_not_equation.', ''),
         array('AlgEquiv', '', 'x<1', 'x>1', 0, 'ATInequality_backwards.', ''),
         array('AlgEquiv', '', '1<x', 'x>1', 1, '', ''),
+        array('AlgEquiv', '', 'a<b', 'b>a', 1, '', ''),
         array('AlgEquiv', '', '2<2*x', 'x>1', 1, '', ''),
         array('AlgEquiv', '', '-2>-2*x', 'x>1', 1, '', ''),
         array('AlgEquiv', '', 'x>1', 'x<=1', 0, 'ATInequality_strict. ATInequality_backwards.', ''),

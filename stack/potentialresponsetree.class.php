@@ -35,7 +35,7 @@ class stack_potentialresponse_tree {
     /** @var bool Should this PRT simplify when its arguments are evaluated? */
     private $simplify;
 
-    /** @var float total amount of fraction available from this PRT. */
+    /** @var float total amount of fraction available from this PRT. Zero is possible for formative PRT questions. */
     private $value;
 
     /** @var stack_cas_session2 Feeback variables. */

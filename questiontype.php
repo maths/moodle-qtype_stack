@@ -471,13 +471,15 @@ class qtype_stack extends question_type {
         }
 
         $totalvalue = 0;
+        $allformative = true;
         foreach ($questiondata->prts as $name => $prtdata) {
             // At this point we do not have the PRT method is_formative() available to us.
             if ($prtdata->feedbackstyle > 0) {
                 $totalvalue += $prtdata->value;
+                $allformative = false;
             }
         }
-        if ($questiondata->prts && $totalvalue < 0.0000001) {
+        if ($questiondata->prts && !$allformative && $totalvalue < 0.0000001) {
             throw new coding_exception('There is an error authoring your question. ' .
                     'The $totalvalue, the marks available for the question, must be positive in question ' .
                     $question->name);
@@ -522,8 +524,12 @@ class qtype_stack extends question_type {
                 $feedbackvariables = null;
             }
 
+            $prtvalue = 0;
+            if (!$allformative) {
+                $prtvalue = $prtdata->value / $totalvalue;
+            }
             $question->prts[$name] = new stack_potentialresponse_tree($name, '',
-                    (bool) $prtdata->autosimplify, $prtdata->value / $totalvalue,
+                    (bool) $prtdata->autosimplify, $prtvalue,
                     $feedbackvariables, $nodes, (string) $prtdata->firstnodename, (int) $prtdata->feedbackstyle);
         }
 

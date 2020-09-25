@@ -5296,6 +5296,10 @@
         "function": "s",
         "variable": "s"
     },
+    "Phi": {
+        "function": "s",
+        "variable": "s"
+    },
     "pi": {
         "constant": "s",
         "aliasvariable": "%pi"

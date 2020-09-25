@@ -267,6 +267,7 @@ class stack_inputvalidation_test_data {
         array('upsilon', 'php_true', 'upsilon', 'cas_true', '\upsilon', '', ""),
         array('phi', 'php_true', 'phi', 'cas_true', '\varphi', '',
                 "Constant, represents the so-called golden mean, \((1 + \sqrt{5})/2\)."),
+        array('phi(n)+Phi(n)', 'php_true', 'phi(n)+Phi(n)', 'cas_true', '\varphi\left(n\right)+\Phi\left(n\right)', '', ""),
         array('chi', 'php_true', 'chi', 'cas_true', '\chi', '', ""),
         array('psi', 'php_true', 'psi', 'cas_true', '\psi', '', "The derivative of \(\log (\gamma (x))\) of order \(n+1\)."),
         array('omega', 'php_true', 'omega', 'cas_true', '\omega', '', ""),

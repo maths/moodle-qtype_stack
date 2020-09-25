@@ -216,27 +216,33 @@
         "operator": "f"
     },
     "Alpha": {
+        "function": "s",
         "variable": "s"
     },
     "AntiDifference": {
         "function": "f"
     },
     "Beta": {
+        "function": "s",
         "variable": "s"
     },
     "Chi": {
+        "function": "s",
         "variable": "s"
     },
     "Delta": {
+        "function": "s",
         "variable": "s"
     },
     "EMPTYCHAR": {
         "variable": "s"
     },
     "Epsilon": {
+        "function": "s",
         "variable": "s"
     },
     "Eta": {
+        "function": "s",
         "variable": "s"
     },
     "GGFCFMAX": {
@@ -246,6 +252,7 @@
         "variable": "f"
     },
     "Gamma": {
+        "function": "s",
         "variable": "s"
     },
     "Gosper": {
@@ -258,15 +265,18 @@
         "variable": "f"
     },
     "Iota": {
+        "function": "s",
         "variable": "s"
     },
     "JF": {
         "function": "f"
     },
     "Kappa": {
+        "function": "s",
         "variable": "s"
     },
     "Lambda": {
+        "function": "s",
         "variable": "s"
     },
     "Lindstedt": {
@@ -279,51 +289,61 @@
         "function": "f"
     },
     "Mu": {
+        "function": "s",
         "variable": "s"
     },
     "Nu": {
+        "function": "s",
         "variable": "s"
     },
     "Omega": {
+        "function": "s",
         "variable": "s"
     },
     "Omicron": {
-        "variable": "s"
-    },
-    "Phi": {
+        "function": "s",
         "variable": "s"
     },
     "Pi": {
+        "function": "s",
         "variable": "s"
     },
     "Psi": {
+        "function": "s",
         "variable": "s"
     },
     "QMCHAR": {
         "variable": "s"
     },
     "Rho": {
+        "function": "s",
         "variable": "s"
     },
     "Sigma": {
+        "function": "s",
         "variable": "s"
     },
     "Tau": {
+        "function": "s",
         "variable": "s"
     },
     "Theta": {
+        "function": "s",
         "variable": "s"
     },
     "Upsilon": {
+        "function": "s",
         "variable": "s"
     },
     "Xi": {
+        "function": "s",
         "variable": "s"
     },
     "Zeilberger": {
         "function": "f"
     },
     "Zeta": {
+        "function": "s",
         "variable": "s"
     },
     "[": {

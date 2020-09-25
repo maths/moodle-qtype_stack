@@ -953,7 +953,7 @@ ol.HELM_parts_inline > li {
 ol.HELM_parts_inline > li::before {
     content: "(" counter(helm-parts, lower-alpha) ")";
     margin-right: 1ex;
-    margin-top: -0d.3rem;
+    margin-top: -0.3rem;
     background: #1e92cc;
     border-radius: 0.2rem;
     color: white;

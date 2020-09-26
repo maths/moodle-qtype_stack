@@ -64,7 +64,7 @@ class stack_cas_text_test extends qtype_stack_testcase {
                 array('\[{@a@}\]', $a1, true, '\[{x^2}\]'),
                 array('{@a@}', $a1, true, '\({x^2}\)'),
                 array('{@sin(x)@}', $a1, true, '\({\sin \left( x \right)}\)'),
-                array('\[{@a*b@}\]', $a1, true, '\[{x^2\cdot \left(x+1\right)^2}\]'),
+                array('\[{@a*b@}\]', $a1, true, '\[{x^2\cdot {\left(x+1\right)}^2}\]'),
                 array('{@', null, false, false),
                 array('{@(x^2@}', null, false, false),
                 array('{@1/0@}', null, true, '1/0'),
@@ -505,8 +505,8 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $at1->get_display_castext();
 
         $this->assertEquals(
-                '\begin{multline*} {\frac{x^2}{\left(x^2+1\right)^3}} \\\\ ' .
-                '{\frac{2\cdot x}{\left(x^2+1\right)^3}-\frac{6\cdot x^3}{\left(x^2+1\right)^4}} \end{multline*}',
+                '\begin{multline*} {\frac{x^2}{{\left(x^2+1\right)}^3}} \\\\ ' .
+                '{\frac{2\cdot x}{{\left(x^2+1\right)}^3}-\frac{6\cdot x^3}{{\left(x^2+1\right)}^4}} \end{multline*}',
                 $at1->get_display_castext());
     }
 

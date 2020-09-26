@@ -102,6 +102,7 @@ class stack_inputvalidation_test_data {
         array('aXy1', 'php_false', 'aXy*1', 'cas_true', '', 'missing_stars | forbiddenVariable', ""),
         // In STACK 4.3, the parser accepts these as functions.
         array('f(x)', 'php_true', 'f(x)', 'cas_true', 'f\left(x\right)', '', "Functions"),
+        array('f(x)^2', 'php_true', 'f(x)^2', 'cas_true', 'f^2\left(x\right)', '', ""),
         array('a(x)', 'php_true', 'a(x)', 'cas_true', 'a\left(x\right)', '', ""),
         array('x(t+1)', 'php_true', 'x(t+1)', 'cas_true', 'x\left(t+1\right)', '', ""),
         // Because we are using x as a variable, we do insert a * here!
@@ -206,7 +207,7 @@ class stack_inputvalidation_test_data {
         "This names the operator sine, which is a valid expression on its own.
         The classic difference between the function \(f\) and the value of the
         function at a point \(f(x)\).  Maybe a 'gocha' for the question author...."),
-        array('(x+y)^z', 'php_true', '(x+y)^z', 'cas_true', '\left(x+y\right)^{z}', '',
+        array('(x+y)^z', 'php_true', '(x+y)^z', 'cas_true', '{\left(x+y\right)}^{z}', '',
         "Check display: brackets only go round operands when strictly necessary, but student validation respects the input."),
         array('x+(y^z)', 'php_true', 'x+(y^z)', 'cas_true', 'x+y^{z}', '', ""),
         array('x-(y+z)', 'php_true', 'x-(y+z)', 'cas_true', 'x-\left(y+z\right)', '', ""),
@@ -344,6 +345,8 @@ class stack_inputvalidation_test_data {
         array('root(x)', 'php_true', 'root(x)', 'cas_true', '\sqrt{x}', '', ''),
         array('root(x,3)', 'php_true', 'root(x,3)', 'cas_true', 'x^{\frac{1}{3}}', '', ''),
         array('root(2,-3)', 'php_true', 'root(2,-3)', 'cas_true', '2^{\frac{1}{-3}}', '', ''),
+        array('conjugate(x)', 'php_true', 'conjugate(x)', 'cas_true', 'x^\star', '', ''),
+        array('conjugate(x)^2', 'php_true', 'conjugate(x)^2', 'cas_true', '{x^\star}^2', '', ''),
         // Parser rules in 4.3, identify cases where known functions (cf) are prefixed with single letter variables.
         array('bsin(t)', 'php_true', 'b*sin(t)', 'cas_true', 'b\cdot \sin \left( t \right)', 'missing_stars', ""),
         // So we have added gcf as a function so it is not g*cf...
@@ -413,6 +416,8 @@ class stack_inputvalidation_test_data {
         array('switch(x,a,y,b,c)', 'php_false', '', '', '', 'forbiddenFunction', ""),
         array('sin(x)', 'php_true', 'sin(x)', 'cas_true', '\sin \left( x \right)', '', "Trig functions"),
         array('cos(x)', 'php_true', 'cos(x)', 'cas_true', '\cos \left( x \right)', '', ""),
+        array('cos(x)^2', 'php_true', 'cos(x)^2', 'cas_true', '\cos ^2x', '', ""),
+        array('cos(x+1)^2', 'php_true', 'cos(x+1)^2', 'cas_true', '\cos ^2\left(x+1\right)', '', ""),
         array('tan(x)', 'php_true', 'tan(x)', 'cas_true', '\tan \left( x \right)', '', ""),
         array('sec(x)', 'php_true', 'sec(x)', 'cas_true', '\sec \left( x \right)', '', ""),
         array('cot(x)', 'php_true', 'cot(x)', 'cas_true', '\cot \left( x \right)', '', ""),
@@ -469,7 +474,7 @@ class stack_inputvalidation_test_data {
         array('a +++ b', 'php_true', 'a+++b', 'cas_true', 'a+b', '', ""),
         array('a --- b', 'php_true', 'a---b', 'cas_true', 'a-\left(-\left(-b\right)\right)', '', ""),
         array('rho*z*V/(4*pi*epsilon[0]*(R^2+z^2)^(3/2))', 'php_true', 'rho*z*V/(4*pi*epsilon[0]*(R^2+z^2)^(3/2))', 'cas_true',
-                '\frac{\rho\cdot z\cdot V}{4\cdot \pi\cdot \varepsilon_{0}\cdot \left(R^2+z^2\right)^{\frac{3}{2}}}',
+                '\frac{\rho\cdot z\cdot V}{4\cdot \pi\cdot \varepsilon_{0}\cdot {\left(R^2+z^2\right)}^{\frac{3}{2}}}',
                 '', "Subscripts"),
         array('a_b', 'php_true', 'a_b', 'cas_true', '{a}_{b}', '', ""),
         array('beta_47', 'php_true', 'beta_47', 'cas_true', '{\beta}_{47}', '', ""),
@@ -637,7 +642,7 @@ class stack_inputvalidation_test_data {
             }
             if ($casdisplay != $test->display) {
                 $passed = false;
-                $errors .= ' '.stack_string('displaymismatch').html_writer::tag('pre', s($test->display));
+                $errors .= ' ' . stack_string('displaymismatch') . html_writer::tag('pre', s($test->display)) . html_writer::tag('pre', s($casdisplay));
             }
         }
 

@@ -525,7 +525,7 @@ class stack_equiv_input_test extends qtype_stack_testcase {
         $this->assertEquals('[x^2+2*a*x,stackeq(x^2+2*a*x+a^2-a^2),stackeq((x+a)^2-a^2)]',
                 $state->contentsmodified);
         $this->assertEquals('\[ \begin{array}{lll} &x^2+2\,a\,x& \cr \color{green}{\checkmark}&=x^2+2\,a\,x+a^2-a^2& '.
-                '\cr \color{green}{\checkmark}&=\left(x+a\right)^2-a^2& \cr \end{array} \]',
+                '\cr \color{green}{\checkmark}&={\left(x+a\right)}^2-a^2& \cr \end{array} \]',
                 $state->contentsdisplayed);
         $this->assertEquals('', $state->note);
     }
@@ -557,7 +557,7 @@ class stack_equiv_input_test extends qtype_stack_testcase {
         $this->assertEquals('[(x-1)^2 = (x-1)*(x-1),stackeq(x^2-2*x+1)]',
                 $state->contentsmodified);
         $this->assertEquals('\[ \begin{array}{lll}\color{green}{\checkmark}&'.
-                '\left(x-1\right)^2=\left(x-1\right)\,\left(x-1\right)& \cr \color{green}{\checkmark}&=x^2-2\,x+1'.
+                '{\left(x-1\right)}^2=\left(x-1\right)\,\left(x-1\right)& \cr \color{green}{\checkmark}&=x^2-2\,x+1'.
                 '& \cr \end{array} \]',
                 $state->contentsdisplayed);
         $this->assertEquals('', $state->note);
@@ -574,7 +574,7 @@ class stack_equiv_input_test extends qtype_stack_testcase {
         $this->assertEquals('[(x-1)^2 = (x-1)*(x-1),stackeq(x^2-2*x+2)]',
                 $state->contentsmodified);
         $this->assertEquals('\[ \begin{array}{lll}\color{green}{\checkmark}&'.
-                '\left(x-1\right)^2=\left(x-1\right)\,\left(x-1\right)& \cr \color{red}{?}&=x^2-2\,x+2& \cr \end{array} \]',
+                '{\left(x-1\right)}^2=\left(x-1\right)\,\left(x-1\right)& \cr \color{red}{?}&=x^2-2\,x+2& \cr \end{array} \]',
                 $state->contentsdisplayed);
         $this->assertEquals('', $state->note);
     }
@@ -589,7 +589,7 @@ class stack_equiv_input_test extends qtype_stack_testcase {
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('[(x-2)^2 = (x-1)*(x-1),stackeq(x^2-2*x+1)]',
                 $state->contentsmodified);
-        $this->assertEquals('\[ \begin{array}{lll}\color{red}{?}&\left(x-2\right)^2=\left(x-1\right)\,\left(x-1\right)& \cr '.
+        $this->assertEquals('\[ \begin{array}{lll}\color{red}{?}&{\left(x-2\right)}^2=\left(x-1\right)\,\left(x-1\right)& \cr '.
                 '\color{green}{\checkmark}&=x^2-2\,x+1& \cr \end{array} \]',
                 $state->contentsdisplayed);
         $this->assertEquals('', $state->note);
@@ -713,7 +713,7 @@ class stack_equiv_input_test extends qtype_stack_testcase {
         $this->assertEquals('', $state->note);
         $this->assertEquals('[(x-a)^2 = 4,x-a = #pm#2,x = a#pm#2]',
                 $state->contentsmodified);
-        $this->assertEquals( '\[ \begin{array}{lll} &\left(x-a\right)^2=4& \cr ' .
+        $this->assertEquals( '\[ \begin{array}{lll} &{\left(x-a\right)}^2=4& \cr ' .
                 '\color{green}{\Leftrightarrow}&x-a= \pm 2& \cr ' .
                 '\color{green}{\Leftrightarrow}&x={a \pm 2}& \cr \end{array} \]',
                 $state->contentsdisplayed);

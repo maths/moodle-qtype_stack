@@ -894,8 +894,8 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         $this->assertEquals('x = (-q#pm#sqrt(q^2-p^3))^(1/3)+(-q#pm#sqrt(q^2-p^3))^(1/3)', $state->contentsmodified);
         $this->assertEquals('', $state->note);
         $this->assertEquals('', $state->errors);
-        $this->assertEquals('\[ x=\left({-q \pm \sqrt{q^2-p^3}}\right)^{\frac{1}{3}}+' .
-            '\left({-q \pm \sqrt{q^2-p^3}}\right)^{\frac{1}{3}} \]', $state->contentsdisplayed);
+        $this->assertEquals('\[ x={\left({-q \pm \sqrt{q^2-p^3}}\right)}^{\frac{1}{3}}+' .
+            '{\left({-q \pm \sqrt{q^2-p^3}}\right)}^{\frac{1}{3}} \]', $state->contentsdisplayed);
     }
 
     public function test_validate_student_response_prefixpm() {

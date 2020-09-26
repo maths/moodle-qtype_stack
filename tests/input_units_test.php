@@ -955,7 +955,7 @@ class stack_units_input_test extends qtype_stack_testcase {
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('', $state->note);
         $this->assertEquals('(1+1/sqrt(2)+3)*N', $state->contentsmodified);
-        $this->assertEquals('\[ \left( 1+1\, \sqrt{2}^ {- 1 }+3\right)\, \mathrm{N} \]', $state->contentsdisplayed);
+        $this->assertEquals('\[ \left( 1+1\, {\sqrt{2}}^ {- 1 }+3\right)\, \mathrm{N} \]', $state->contentsdisplayed);
         $this->assertEquals('', $state->errors);
     }
 

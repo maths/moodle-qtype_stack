@@ -581,10 +581,10 @@ class stack_cas_session2_test extends qtype_stack_testcase {
         $this->assertEquals($s1[2]->get_display(), 'f(x):=x^3');
 
         $this->assertEquals($s1[3]->get_value(), 'gamma_7^3');
-        $this->assertEquals($s1[3]->get_display(), '{\gamma}_{7}^3');
+        $this->assertEquals($s1[3]->get_display(), '{{\gamma}_{7}}^3');
 
         $this->assertEquals($s1[4]->get_value(), 'pi_4^5');
-        $this->assertEquals($s1[4]->get_display(), '{\pi}_{4}^5');
+        $this->assertEquals($s1[4]->get_display(), '{{\pi}_{4}}^5');
     }
 
     public function test_matrix_eigenvalues() {
@@ -1482,7 +1482,7 @@ class stack_cas_session2_test extends qtype_stack_testcase {
         $this->assertEquals('b#pm#a^2', $s1[2]->get_value());
         $this->assertEquals('{b \pm a^2}', $s1[2]->get_display());
         $this->assertEquals('(b#pm#a)^2', $s1[3]->get_value());
-        $this->assertEquals('\left({b \pm a}\right)^2', $s1[3]->get_display());
+        $this->assertEquals('{\left({b \pm a}\right)}^2', $s1[3]->get_display());
         $this->assertEquals('"#pm#"(a)', $s1[4]->get_value());
         $this->assertEquals('\pm a', $s1[4]->get_display());
         $this->assertEquals('"#pm#"(a^2)', $s1[5]->get_value());
@@ -1490,7 +1490,7 @@ class stack_cas_session2_test extends qtype_stack_testcase {
         $this->assertEquals('"#pm#"(sqrt(1-x))', $s1[6]->get_value());
         $this->assertEquals('\pm \sqrt{1-x}', $s1[6]->get_display());
         $this->assertEquals('(a#pm#b)^2', $s1[7]->get_value());
-        $this->assertEquals('\left({a \pm b}\right)^2', $s1[7]->get_display());
+        $this->assertEquals('{\left({a \pm b}\right)}^2', $s1[7]->get_display());
         $this->assertEquals('x = "#pm#"(b)', $s1[8]->get_value());
         $this->assertEquals('x= \pm b', $s1[8]->get_display());
         $this->assertEquals('sin(x#pm#a)^2', $s1[9]->get_value());
@@ -1526,7 +1526,7 @@ class stack_cas_session2_test extends qtype_stack_testcase {
         $this->assertEquals('b#pm#a^2', $s1[2]->get_value());
         $this->assertEquals('{b \pm a^2}', $s1[2]->get_display());
         $this->assertEquals('(b#pm#a)^2', $s1[3]->get_value());
-        $this->assertEquals('\left({b \pm a}\right)^2', $s1[3]->get_display());
+        $this->assertEquals('{\left({b \pm a}\right)}^2', $s1[3]->get_display());
         $this->assertEquals('"#pm#"(a)', $s1[4]->get_value());
         $this->assertEquals('\pm a', $s1[4]->get_display());
         $this->assertEquals('"#pm#"(a^2)', $s1[5]->get_value());
@@ -1534,7 +1534,7 @@ class stack_cas_session2_test extends qtype_stack_testcase {
         $this->assertEquals('"#pm#"(sqrt(1-x))', $s1[6]->get_value());
         $this->assertEquals('\pm \sqrt{1-x}', $s1[6]->get_display());
         $this->assertEquals('(a#pm#b)^2', $s1[7]->get_value());
-        $this->assertEquals('\left({a \pm b}\right)^2', $s1[7]->get_display());
+        $this->assertEquals('{\left({a \pm b}\right)}^2', $s1[7]->get_display());
         $this->assertEquals('x = "#pm#"(b)', $s1[8]->get_value());
         $this->assertEquals('x= \pm b', $s1[8]->get_display());
         $this->assertEquals('sin(x#pm#a)^2', $s1[9]->get_value());

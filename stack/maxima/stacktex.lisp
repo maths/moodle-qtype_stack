@@ -235,6 +235,12 @@
                      '("}"))))
     (append l front back r)))
 
+;; Powers of functions are displayed by tex as f^2(x), not f(x)^2.
+;; This list is an exception, e.g. conjugate(x)^2.
+;; We use this list because tex-mexpt is also defined in stacktex40.lisp for earlier versions of Maxima.
+(defvar tex-mexpt-fnlist '(%sum %product %derivative %integrate %at $conjugate $texsub
+                                         %lsum %limit $pderivop $#pm#))
+
 ;; insert left-angle-brackets for mncexpt. a^<n> is how a^^n looks.
 (defun tex-mexpt (x l r)
   (let((nc (eq (caar x) 'mncexpt))) ; true if a^^b rather than a^b
@@ -257,8 +263,8 @@
                         f ; there is such a function
                         (member (get-first-char f) '(#\% #\$)) ;; insist it is a % or $ function
                         (not (member 'array (cdar fx) :test #'eq)) ; fix for x[i]^2
-                        (not (member f '(%sum %product %derivative %integrate %at $texsub
-                                         %lsum %limit $pderivop $#pm#) :test #'eq)) ;; what else? what a hack...
+                        ;; Unlike core Maxima we have alist of functions.
+                        (not (member f tex-mexpt-fnlist :test #'eq))
                         (or (and (atom expon) (not (numberp expon))) ; f(x)^y is ok
                             (and (atom expon) (numberp expon) (> expon 0))))))
                                         ; f(x)^3 is ok, but not f(x)^-1, which could
@@ -275,7 +281,8 @@
                             (and (numberp (cadr x)) (numneedsparen (cadr x))))
                         ; ACTUALLY THIS TREATMENT IS NEEDED WHENEVER (CAAR X) HAS GREATER BINDING POWER THAN MTIMES ...
                         (tex (cadr x) (append l '("\\left(")) '("\\right)") lop (caar x)))
-                       (t (tex (cadr x) l nil lop (caar x))))
+                       ((atom (cadr x)) (tex (cadr x) l nil lop (caar x)))
+                       (t (tex (cadr x) (append l '("{")) '("}") lop (caar x))))
                r (if (mmminusp (setq x (nformat (caddr x))))
                      ;; the change in base-line makes parens unnecessary
                      (if nc

@@ -735,4 +735,35 @@ class stack_equiv_input_test extends qtype_stack_testcase {
                 '<code>(x-a)^2 = 4</code><br/><code>x-a = +-2</code><br/><code>x = a+-2</code>',
                 $el->get_teacher_answer_display($val, '###'));
     }
+
+    public function test_validate_student_response_forbidwords_lists() {
+        // This input type always returns a list, so if we forbid lists then we need a special case.
+        $options = new stack_options();
+
+        $val = '[x^2=-4,x^2+4=0,{}]';
+        $el = stack_input_factory::make('equiv', 'sans1', $val);
+        $el->set_parameter('forbidWords', 'solve, [, factor');
+        $state = $el->validate_student_response(array('sans1' => "x^2=-4\nx^2+4=0\n[]"), $options,
+                $val, new stack_cas_security());
+        $this->assertEquals(stack_input::INVALID, $state->status);
+        $this->assertEquals('Forbidden operator: <span class="stacksyntaxexample">[</span>.', $state->errors);
+        $this->assertEquals('forbiddenOp', $state->note);
+        $this->assertEquals('[x^2 = -4,x^2+4 = 0,EMPTYCHAR]',
+                $state->contentsmodified);
+        $this->assertEquals('\(\displaystyle x^2=-4 \)<br/>\(\displaystyle x^2+4=0 \)<br/>' .
+                '<span class="stacksyntaxexample">[]</span> Forbidden operator: ' .
+                '<span class="stacksyntaxexample">[</span>.<br/>',
+                $state->contentsdisplayed);
+
+        $ta = $el->get_teacher_answer();
+        $this->assertEquals($ta, $val);
+
+        $cr = $el->get_correct_response($val);
+        $sans1 = "x^2 = -4\nx^2+4 = 0\n{}";
+        $sansv = '[x^2 = -4,x^2+4 = 0,{}]';
+
+        $this->assertEquals($cr['sans1'], $sans1);
+        $this->assertEquals($cr['sans1_val'], $sansv);
+
+    }
 }

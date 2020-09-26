@@ -208,7 +208,7 @@ class stack_matrix_input extends stack_input {
         // Construct one final "answer" as a single maxima object.
         // In the case of matrices (where $caslines are empty) create the object directly here.
         // As this will create a matrix we need to check that 'matrix' is not a forbidden word.
-        // Should it be a forbidden word it gets still aplied to the cells.
+        // Should it be a forbidden word it gets still applied to the cells.
         if (isset(stack_cas_security::list_to_map($this->get_parameter('forbidWords', ''))['matrix'])) {
             $modifiedforbid = str_replace('\,', 'COMMA_TAG', $this->get_parameter('forbidWords', ''));
             $modifiedforbid = explode(',', $modifiedforbid);

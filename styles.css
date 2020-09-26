@@ -1005,7 +1005,8 @@ table.HELM_table th {
     padding-right: 10px;
     border-right: 1px solid black;
 }
-table.HELM_table td:last-child,table.HELM_table th:last-child{
+table.HELM_table td:last-child,
+table.HELM_table th:last-child {
     border-right: 0;
 }
 

@@ -105,6 +105,7 @@ class stack_cas_casstring_units {
         array('K', 'K', 'K', 'Kelvin'),
         array('VA', '(kg*m^2)/(s^3)', 'VA', 'volt-ampere'),
         array('eV', '1.602176634E-19*J', 'eV', 'electronvolt'),
+        array('Ci', 'Ci', 'Ci', 'curie'),
         // @codingStandardsIgnoreStart
         // Celsius conflicts with Coulomb.
         // Add in 'C', 'C', '{}^{o}C', 'Celsius'.
@@ -141,12 +142,12 @@ class stack_cas_casstring_units {
         array('day', '86400*s', 'day', 'day'),
         array('year', '3.156e7*s', 'year', 'year'),
         // Some countries are only inching towards the metric system.  Added by user request.
-        array('hp', 'hp', 'hp', 'horsepower'),
+        array('hp', '746*W', 'hp', 'horsepower'),
         array('in', 'in', 'in', 'inch'),
         array('ft', '12*in', 'ft', 'foot'),
         array('yd', '36*in', 'yd', 'yard'),
         array('mi', '5280*12*in', 'mi', 'mile'),
-        array('lb', 'lb', 'lb', 'pound'),
+        array('lb', '4.4482*N', 'lb', 'pound'),
     );
 
     /* This array keeps a list of synoymns which students are likely to use.

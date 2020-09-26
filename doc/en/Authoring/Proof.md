@@ -182,10 +182,12 @@ Here is a proof of the great and wonderful theorem.
  <div class="proof-column">Lines don't need to have <code>proof-num</code> or <code>proof-block</code></div>
  <div class="proof-column">With further comments.</div>
 </div>
+
 <div class="proof-line">
  <div class="proof-column">The proof continues.</div>
  <div class="proof-column-2">With further comments.</div>
 </div>
+
 <div class="proof-line">
  <div class="proof-column">This concludes the proof.</div>
 </div>

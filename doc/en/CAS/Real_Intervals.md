@@ -16,9 +16,9 @@ Similarly, STACK provides `%intersection` to represent an intersection of interv
 
 Predicate functions
 
-1. `intervalp(ex)` returns true if `ex` is a single simple interval.  Does not check `ex` is variable free, so `oo(a,b)` is a simple interval.
-2. `inintervalp(x, I)`  returns true if `x` is an element of `I` and false otherwise.
-3. `trivialintervalp(ex)` returns true if `ex` is a trivial interval such as \( (a,a)\).
+1. `intervalp(ex)` returns true if `ex` is a single simple interval.  Does not check `ex` is variable free, so `oo(a,b)` is a simple interval.   `{}`, `none`, `all` and singleton sets are not considered "intervals" by this predicate, use `realsetp` instead.  The primary purpose of this predicate is to detect intervals `oo`, `oc` etc within code.
+2. `inintervalp(x, I)`  returns true if `x` is an element of `I` and false otherwise.  `x` must be a real number.  `I` must be a set of numbers or a simple interval of the form `oo(a,b)` etc.
+3. `trivialintervalp(ex)` returns true if `ex` is a trivial interval such as \((a,a)\).
 4. `unionp(ex)` is the operator a union?
 5. `intersectionp(ex)` is the operator an intersection?
 6. `realsetp(ex)` return true if `ex` represents a definite set of real numbers, e.g. a union of intervals.  All end points and set elements must be real numbers, so `oo(a,b)` is not a `realset`.  If you want to permit variables in sets and as endpoints use `realset_soft_p` instead.

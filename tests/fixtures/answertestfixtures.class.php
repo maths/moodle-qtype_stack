@@ -383,7 +383,7 @@ class stack_answertest_test_data {
         array('AlgEquiv', '', '(x < 0 nounor x >= 1) nounand x <= 3', '(x < 0 or x >= 1) and x <= 3', 1,
             'ATLogic_True.', ''),
         array('AlgEquiv', '', '(x < 0 nounor x >= 1) nounand x <= 3', 'x < 0 or (x >= 1 and x <= 3)', 1, 'ATLogic_True.', ''),
-        array('AlgEquiv', '', 'natural_domain(1/x^2)', 'natural_domain(1/x)', 1, '', ''),
+        array('AlgEquiv', '', 'natural_domain(1/x^2)', 'natural_domain(1/x)', 1, 'ATRealSet_true.', ''),
         array('AlgEquiv', '', 'x^4>=0', 'x^2>=0', 1, '', ''),
         array('AlgEquiv', '', 'x^4>=16', 'x^2>=4', 1, '', ''),
         array('AlgEquiv', '', '2*x^2+x>=6', 'x<=-2 or x>=3/2', 1, 'ATLogic_True.', ''),

@@ -1742,7 +1742,6 @@ stack_eval_arg(ex) := block([eqoutcome, eqoutsymb, eqoutnote, res, id, truthargu
              if assume_real then block([FAA, FBB, FGCD, ATres],
                FAA:if equationp(SAP) then lhs(SAP)-rhs(SAP) else SAP,
                FAB:if equationp(SBP) then lhs(SBP)-rhs(SBP) else SBP,
-               if (debug) then print("Checking assume_real with ", FAA, " and ", FAB),
                if (debug) then print("** Checking assume_real with: ", string(FAA), ", ", string(FAB), " **"),
                if (polynomialpsimp(FAA) and polynomialpsimp(FAB) and length(listofvars(FAA))=1 and length(listofvars(FAB))=1) then block(
                   FAA:ev(solve(FAA), simp),

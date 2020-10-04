@@ -432,7 +432,7 @@ class stack_equiv_input_test extends qtype_stack_testcase {
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('[x^4 = 16,x = 2 nounor x = -2 nounor x = 2*i nounor x = -2*i]', $state->contentsmodified);
         $this->assertEquals('\[ \begin{array}{lll}\color{blue}{(\mathbb{R})}&x^4=16& \cr '.
-                '\color{green}{\Leftrightarrow}&x=2\,{\mbox{ or }}\, '.
+                '\color{green}{\Leftrightarrow}\, \color{blue}{(\mathbb{R})}&x=2\,{\mbox{ or }}\, '.
                 'x=-2\,{\mbox{ or }}\, x=2\cdot \mathrm{i}\,{\mbox{ or }}\, x=-2\cdot \mathrm{i}& \cr \end{array} \]',
                 $state->contentsdisplayed);
         $this->assertEquals('', $state->note);
@@ -764,6 +764,5 @@ class stack_equiv_input_test extends qtype_stack_testcase {
 
         $this->assertEquals($cr['sans1'], $sans1);
         $this->assertEquals($cr['sans1_val'], $sansv);
-
     }
 }

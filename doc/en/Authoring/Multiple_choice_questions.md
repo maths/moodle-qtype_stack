@@ -275,6 +275,12 @@ You must protect characters within strings.  E.g. in
 
 We have protected the backslash, and the inequality.
 
+The language strings are not CAStext, they are simply raw strings.  It is possible to construct strings which inlcude variable values using the `stack_disp` function.
+
+    [oc(-inf,a), false, sconcat("The half interval: ", stack_disp(oc(-inf,a),"i"))]
+
+The argument `"i"` here displays the expression "inline", other options are `""` (you are responsible for maths environments), `"d"` (displayed), and `"di"` (inline but using displaystyle).  If you construct strings in this way the display of any equations will not respect the display options in the particular input since variables are typically defined in the question variables and the input options are not available at that point in the code base.
+
 ## Dealing with plots in MCQ ##
 
 It is possible to use plots as the options in a STACK MCQ.  

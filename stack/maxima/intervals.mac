@@ -858,6 +858,8 @@ single_variable_solver_real(ex) := block([v, rs1, rs2],
 single_variable_solver_real_rec(ex, v) := block([r0, r1, r2],
     if atom(ex) then return(ex),
     if intervalp(ex) then return(ex),
+    /* Equations should look real. */
+    if not(freeof(%i,ex)) then return(ex),
 
     if equationp(ex) then return(ev(equation_to_intervals(ex, v), simp)),
     if linear_inequalityp(ex) then return(ev(linear_inequality_to_interval(ex), simp)),

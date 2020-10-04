@@ -169,7 +169,7 @@ class stack_dropdown_input extends stack_input {
                     $ddlvalue['value'] = $value[0];
                     $ddlvalue['display'] = $value[0];
                     if (array_key_exists(2, $value)) {
-                        $ddlvalue['display'] = $value[2];
+                        $ddlvalue['display'] = stack_maxima_latex_tidy($value[2]);
                     }
                     if (trim($value[1]) == 'true') {
                         $ddlvalue['correct'] = true;

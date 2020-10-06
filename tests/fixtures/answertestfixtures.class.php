@@ -511,6 +511,7 @@ class stack_answertest_test_data {
         array('AlgEquiv', '', '"Hello"', 'x^2', 0, 'ATAlgEquiv_SA_not_expression.', ''),
 
         array('SubstEquiv', '', '1/0', 'x^2-2*x+1', -1, 'ATSubstEquiv_STACKERROR_SAns.', ''),
+        array('SubstEquiv', '[1/0]', 'x^2', 'x^2-2*x+1', -1, 'ATSubstEquiv_STACKERROR_Opt.', ''),
         array('SubstEquiv', '', 'x^2+1', 'x^2+1', 1, '', ''),
         array('SubstEquiv', '', 'x^2+1', 'x^3+1', 0, '', ''),
         array('SubstEquiv', '', 'x^2+1', 'x^3+1', 0, '', ''),
@@ -540,6 +541,14 @@ class stack_answertest_test_data {
         array('SubstEquiv', '', '{x^2-1,x^2}', '{A^2+1,A^2}', 0, 'ATSet_wrongentries.', ''),
         array('SubstEquiv', '', '{A+1,B^2,C}', '{B,C+1,A^2}', 1, 'ATSubstEquiv_Subst [A = C,B = A,C = B].', ''),
         array('SubstEquiv', '', '{1,{A,B},C}', '{1,{a,b},C}', 1, 'ATSubstEquiv_Subst [A = a,B = b,C = C].', ''),
+        /* Optional argument to fix some variables within an expression. */
+        array('SubstEquiv', '', 'A*cos(t)+B*sin(t)', 'P*cos(t)+Q*sin(t)', 1, 'ATSubstEquiv_Subst [A = P,B = Q,t = t].', ''),
+        array('SubstEquiv', '', 'A*cos(t)+B*sin(t)', 'P*cos(x)+Q*sin(x)', 1, 'ATSubstEquiv_Subst [A = P,B = Q,t = x].', ''),
+        array('SubstEquiv', '[x]', 'A*cos(t)+B*sin(t)', 'P*cos(x)+Q*sin(x)', 0, '', 'Fix some variables.'),
+        // Fixes variables only in the teacher's answer.
+        array('SubstEquiv', '[t]', 'A*cos(t)+B*sin(t)', 'P*cos(x)+Q*sin(x)', 1, 'ATSubstEquiv_Subst [A = P,B = Q,t = x].', ''),
+        array('SubstEquiv', '[x,t]', 'A*cos(t)*e^x+B*sin(t)*e^x+C*sin(2*x)+D*cos(2*x)',
+            'P*cos(t)*e^x+Q*sin(t)*e^x+R*sin(2*x)+S*cos(2*x)', 1, 'ATSubstEquiv_Subst [A = P,B = Q,C = R,D = S].', ''),
 
         array('EqualComAss', '', '1/0', '0', -1, 'ATEqualComAss_STACKERROR_SAns.', ''),
         array('EqualComAss', '', '0', '1/0', -1, 'ATEqualComAss_STACKERROR_TAns.', ''),

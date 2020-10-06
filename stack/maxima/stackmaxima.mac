@@ -1323,7 +1323,7 @@ ATAlgEquiv(SA,SB) := block([simp:true, ret, newret, SAN],
     ret:ATAlgEquivfun(SA, SB),
     /* Can we find a permutation of the variables? */
     if ret[2]=0 then block([p1],
-        p1:subst_equiv(SAN, SB),
+        p1:subst_equiv(SAN, SB, []),
         /* Actually, at this point 2008/7/7, we don't want to give this feedback.  Just leave an answer note. */
         /* if p1#[] and p1#false then ret:[ret[1], ret[2], StackAddNote(ret[3], concat("ATAlgEquiv_Subst ", string(p1))), StackAddFeedback(ret[4], "Subst", stack_disp(p1, "d"))] */
         if p1#[] and p1#false then ret:[ret[1], ret[2], StackAddNote(ret[3], concat("ATAlgEquiv_Subst ", string(p1))), ret[4]]
@@ -1889,21 +1889,26 @@ ATLowestTerms(SA, SB) := block([simp:false, ret, validity, mark, FeedBack, Answe
     return([validity, mark, AnswerNote, FeedBack])
 )$
 
-ATSubstEquiv(SA,SB) := block([simp:true, ret, SAc, SBc],
+ATSubstEquiv([ex]) := block([simp:true, SA, SB, SC, ret, SAc, SBc],
     /* Turn on simplification and error catch */
-    SA:errcatch(ev(SA, simp, nouns)),
+    SA:errcatch(ev(first(ex), simp, nouns)),
     if is(SA=[STACKERROR]) then return([false, false, StackAddNote("", "ATSubstEquiv_STACKERROR_SAns"), ""]),
     SA:SA[1],
-    SB:errcatch(ev(SB, simp, nouns)),
+    SB:errcatch(ev(second(ex), simp, nouns)),
     if is(SB=[STACKERROR]) then return([false, false, StackAddNote("", "ATSubstEquiv_STACKERROR_TAns"), ""]),
     SB:SB[1],
+    SC:[[]],
+    if length(ex)>2 then
+        SC:errcatch(ev(third(ex), simp, nouns)),
+    if is(SC=[STACKERROR]) then return([false, false, StackAddNote("", "ATSubstEquiv_STACKERROR_Opt"), ""]),
+    SC:SC[1],
     /* Copy SA and SB.  If they are lists or matrices then ATAlgEquivfun potentially colours wrong entries. */
     SAc:copy(SA),
     SBc:copy(SB),
     ret:ATAlgEquivfun(SAc, SBc),
     /* Can we find a permutation of the variables? */
     if ret[2]=false then block([p1],
-        p1:subst_equiv(SA, SB),
+        p1:subst_equiv(SA, SB, SC),
         if p1#[] and p1#false then ret:[true, true, StackAddNote("", concat("ATSubstEquiv_Subst ", string(p1))), StackAddFeedback("", "Subst", stack_disp(p1, "d"))]
     ),
     /* Send back result */

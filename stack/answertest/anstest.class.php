@@ -106,7 +106,9 @@ class stack_anstest {
             $this->options = null;
         }
 
-        $this->atoption = $atoption;
+        if (is_a($atoption, 'stack_ast_container')) {
+            $this->atoption = $atoption;
+        }
     }
 
     /**
@@ -210,15 +212,15 @@ class stack_anstest {
             return '';
         }
         $traceline = $this->get_casfunction() . '(' . $sa . ', ' . $ta . ')';
-        if (stack_ans_test_controller::required_atoptions($this->atname)) {
-            $atopt = '';
-            if ($this->atoption->get_valid()) {
-                $atopt = $this->atoption->ast_to_string(null,
-                    array('logicnoun' => true, 'keyless' => true));
-            }
-            if ($this->atoption->is_correctly_evaluated()) {
-                $atopt = $this->atoption->get_value();
-            }
+        $atopt = '';
+        if ($this->atoption && $this->atoption->get_valid()) {
+            $atopt = $this->atoption->ast_to_string(null,
+                array('logicnoun' => true, 'keyless' => true));
+        }
+        if ($this->atoption && $this->atoption->is_correctly_evaluated()) {
+            $atopt = $this->atoption->get_value();
+        }
+        if ($atopt != '') {
             $traceline = $this->get_casfunction() . '(' . $sa . ', ' . $ta . ', '. $atopt .')';
         }
         if ($includeresult) {

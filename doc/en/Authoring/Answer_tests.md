@@ -68,6 +68,8 @@ Hence, we need quite a number of different answer tests to establish equality in
 | SysEquiv                                          | Do two systems of polynomial equations have the same solutions? 
 | PropLogic                                         | An answer test designed to deal with [propositional logic](../CAS/Propositional_Logic.md). 
 
+`SubstEquiv` accepts an optional argument, which must be a list of variables.  These variables will be excluded from the list of possible comparisons, and so must be "fixed" in the comparison.  Useful if you want to establish that a student has used arbitrary constants in \(A\sin(x)+B\cos(x)\) but make sure \(x\) really stays as \(x\).
+
 ### AlgEquiv {#AlgEquiv}
 
 This is the most commonly used test.  The pseudo code

@@ -512,6 +512,11 @@
         "file":"UpgradeDefaults.md",
         "title":"Upgrading Question Details - STACK Documentation",
         "description":"Information on upgrading question defaults. This may be necessary if you have recently upgraded from an old version of STACK."
+        },
+        {
+        "file":"Website.md",
+        "title":"Updating the Online Docs",
+        "description":"How to manage the online docs at docs.stack-assessment.org"
         }
       ]
       },

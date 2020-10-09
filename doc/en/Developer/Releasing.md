@@ -22,16 +22,16 @@ Check
 * Check version numbers on stackmaxima.mac.
 * Run unit tests.
 * Run code checker.
-* Commit all changes to git, e.g. "Update version number for the 4.3.3 release."
+* Commit all changes to git, e.g. "Update version number for the 4.3.6 release."
 
 ## 2. Create new tag with version name
 
-E.g. "v4.3.4".
+E.g. "v4.3.6".
 
 * Push to GitHub.
 * Push tags to GitHub 
  * Tortoise git: pulldown from push
- * Unix: `git tag -a v4.3.4 -m "Update version number for the 4.3.4 release."`
+ * Unix: `git tag -a v4.3.6 -m "Update version number for the 4.3.6 release."`
  * Unix: `git push`
  * Unix: `git push --tags`
 

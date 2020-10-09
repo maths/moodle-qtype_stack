@@ -16,7 +16,7 @@ The [current state of development](https://github.com/maths/moodle-qtype_stack/b
 
 ## Documentation
 
-The [documentation is here](https://github.com/maths/moodle-qtype_stack/blob/master/doc/en/index.md), including the [installation instructions](https://github.com/maths/moodle-qtype_stack/blob/master/doc/en/Installation/index.md).
+The [documentation is here](https://stack-assessment.org/), including the [installation instructions](https://stack-assessment.org/en/IInstallation/index.md).
 
 ## License
 

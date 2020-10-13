@@ -42,7 +42,7 @@ Internally you can refer to the student's answer using the variable name `ans1` 
 
 ### Model answer ###  {#model_answer}
 
-**This field is compulsory.** Every input must have an answer, although this answer is not necessarily the unique correct answer, or even "correct"!  This value will be available as a question variable named `tans`**`n`** (where **`n`** is 1, 2, ...), and it will be displayed to the student as the correct answer.
+**This field is compulsory.** Every input must have an answer, although this answer is not necessarily the unique correct answer, or even "correct"!  This value be displayed to the student as the correct answer.  We recommend you use a question variable for this field so it can be used in the other parts of the question, e.g. the potential response trees.
 
 ## Input type ##
 

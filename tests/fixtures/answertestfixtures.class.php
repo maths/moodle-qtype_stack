@@ -1030,6 +1030,7 @@ class stack_answertest_test_data {
         array('PartFrac', 'n', '1/(n+1)+1/(1-n)', '1/(n+1)-1/(n-1)', 1, 'ATPartFrac_true.', ''),
         array('PartFrac', 'n', '1/(2*(n-1))-1/(2*(n+1))', '1/((n-1)*(n+1))', 1, 'ATPartFrac_true.', ''),
         array('PartFrac', 'n', '1/(2*(n+1))-1/(2*(n-1))', '1/((n-1)*(n+1))', 0, 'ATPartFrac_ret_expression.', ''),
+        array('PartFrac', 'x', '-9/(x-2) + -9/(x+1)', '-9/(x-2) + -9/(x+1)', 1, 'ATPartFrac_true.', ''),
         array('PartFrac', 'x', '1/(x-1)-(x+1)/(x^2+1)', '2/((x-1)*(x^2+1))', 1, 'ATPartFrac_true.',
             'Irreducible quadratic in denominator'),
         array('PartFrac', 'x', '1/(2*x-2)-(x+1)/(2*(x^2+1))', '1/((x-1)*(x^2+1))', 1, 'ATPartFrac_true.', ''),

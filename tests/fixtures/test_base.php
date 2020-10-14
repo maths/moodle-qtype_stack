@@ -251,6 +251,13 @@ abstract class qtype_stack_walkthrough_test_base extends qbehaviour_walkthrough_
         $this->assertEquals($note, implode(' | ', $result->__get('answernotes')));
     }
 
+    protected function check_response_summary($note) {
+        $question = $this->quba->get_question($this->slot);
+        $attempt  = $this->quba->get_question_attempt($this->slot);
+        $qs = $attempt->get_last_step();
+        $this->assertEquals($note, $qs->get_new_response_summary());
+    }
+
     protected function check_output_contains_text_input($name, $value = null, $enabled = true) {
         $attributes = array(
             'type' => 'text',

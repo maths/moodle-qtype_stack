@@ -251,7 +251,7 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->check_output_contains_input_validation('ans1');
         $this->check_output_contains_prt_feedback('firsttree');
         $this->check_output_does_not_contain_stray_placeholders();
-}   
+    }
 
     public function test_test1_validate_then_submit_right_first_time() {
 

@@ -494,6 +494,17 @@ class stack_numerical_input_test extends qtype_stack_testcase {
                 '<span class="nolink">\( 3 \)</span></span> decimal places.', $state->errors);
     }
 
+    public function test_validate_student_mindp_zero() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('numerical', 'sans1', '3.14159');
+        // With mindp:0 students can enter an integer.
+        $el->set_parameter('options', 'mindp:0, maxdp:3');
+        $state = $el->validate_student_response(array('sans1' => '3'), $options, '10',
+                new stack_cas_security(false, '', '', array('tans')));
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('', $state->errors);
+    }
+
     public function test_render_syntaxhint() {
         $el = stack_input_factory::make('numerical', 'sans1', '[a, b, c]');
         $el->set_parameter('syntaxHint', '?/?');

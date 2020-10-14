@@ -82,14 +82,14 @@ Note that STACK's display functions automatically apply `unary_minus_sort(...)` 
 
 ## If you really insist on a kludge....
 
-In some situations you may find you really do need to work at the display level, construct a string and display this to the student in Maxima.  
+In some situations you may find you really do need to work at the display level, construct a string and display this to the student in Maxima.
 Please avoid doing this!
 
     a:sin(x^2);
     b:1+x^2;
-    f:sconcat("\\frac{",StackDISP(a,""),"}{",StackDISP(b,""),"}");
+    f:sconcat("\\frac{",stack_disp(a,""),"}{",stack_disp(b,""),"}");
 
-Then you can put in `{@f@}` into one of the CASText fields.
+Then you can put in `\({@f@}\)` into one of the CASText fields. Note, you need to add LaTeX maths delimiters, because when the CAS returns a string the command `{@f@}` will just display the contents of the string without maths delimiters.
 
 ## Tips for manipulating expressions
 

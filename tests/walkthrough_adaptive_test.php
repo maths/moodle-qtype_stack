@@ -219,6 +219,40 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->check_output_does_not_contain_stray_placeholders();
     }
 
+    public function test_test0_validate_then_submit_right_first_time_pm() {
+
+        // Create the stack question 'test0'.
+        $q = test_question_maker::make_question('stack', 'test0');
+        $this->start_attempt_at_question($q, 'adaptive', 1);
+
+        // Process a validate request.
+        $this->process_submission(array('ans1' => '4+ -2', '-submit' => 1));
+
+        $this->check_current_state(question_state::$todo);
+        $this->check_current_mark(null);
+        $this->check_prt_score('firsttree', null, null);
+        $this->render();
+        $this->check_output_contains_text_input('ans1', '4+ -2');
+        $this->check_output_contains_input_validation('ans1');
+        // Since the answer is a number there are no variables.
+        $this->check_output_does_not_contain_lang_string('studentValidation_listofvariables',
+                'qtype_stack', '\( \left[ x \right]\)');
+        $this->check_output_does_not_contain_prt_feedback();
+        $this->check_output_does_not_contain_stray_placeholders();
+
+        $this->process_submission(array('ans1' => '4+ -2', 'ans1_val' => '4+ -2', '-submit' => 1));
+
+        // Verify.
+        $this->check_current_state(question_state::$todo);
+        $this->check_current_mark(0);
+        $this->check_prt_score('firsttree', 0, 0.3);
+        $this->render();
+        $this->check_output_contains_text_input('ans1', '4+ -2');
+        $this->check_output_contains_input_validation('ans1');
+        $this->check_output_contains_prt_feedback('firsttree');
+        $this->check_output_does_not_contain_stray_placeholders();
+}   
+
     public function test_test1_validate_then_submit_right_first_time() {
 
         // Create the stack question 'test1'.

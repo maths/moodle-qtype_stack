@@ -948,6 +948,19 @@ class stack_algebra_input_test extends qtype_stack_testcase {
                 $el->get_teacher_answer_display('x #pm# a = y #pm# b', '{x \pm a}={y \pm b}'));
     }
 
+    public function test_validate_student_response_without_pm() {
+        // This has an expression without +- in the input.
+        $options = new stack_options();
+        $el = stack_input_factory::make('algebraic', 'sans1', 'x-3');
+        $state = $el->validate_student_response(array('sans1' => 'x+ -3'),
+                $options, 'x-3', new stack_cas_security(false, '', '', array('tans')));
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('x+ -3', $state->contentsmodified);
+        $this->assertEquals('', $state->note);
+        $this->assertEquals('', $state->errors);
+        $this->assertEquals('\[ x-3 \]', $state->contentsdisplayed);
+    }
+
     public function test_validate_student_response_with_align_right() {
         $options = new stack_options();
         $el = stack_input_factory::make('algebraic', 'sans1', '1/2');

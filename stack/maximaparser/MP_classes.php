@@ -378,7 +378,13 @@ class MP_Operation extends MP_Node {
             }
         }
 
-        return $this->lhs->toString($params) . $op . $this->rhs->toString($params);
+        $rhs = $this->rhs->toString($params);
+        // Make sure unary minus does not become +- later on in a string.
+        if ($op === '+' && substr($rhs, 0, 1) === '-') {
+            $op = '+ ';
+        }
+
+        return $this->lhs->toString($params) . $op . $rhs;
     }
 
     public function remap_position_data(int $offset=0) {

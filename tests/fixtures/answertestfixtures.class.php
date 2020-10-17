@@ -566,6 +566,7 @@ class stack_answertest_test_data {
         array('EqualComAss', '', '2*2^(1/2)', 'sqrt(8)', 0, 'ATEqualComAss (AlgEquiv-true).', ''),
         array('EqualComAss', '', 'sqrt(2)/4', '1/sqrt(8)', 0, 'ATEqualComAss (AlgEquiv-true).', ''),
         array('EqualComAss', '', '1/sqrt(2)', '2^(1/2)/2', 0, 'ATEqualComAss (AlgEquiv-true).', ''),
+        array('EqualComAss', '', '4.0', '4', 0, 'ATEqualComAss (AlgEquiv-true).', ''),
         array('EqualComAss', '', 'X', 'x', 0, 'ATEqualComAss (AlgEquiv-false)ATAlgEquiv_WrongCase.', 'Case sensitivity'),
         array('EqualComAss', '', 'exdowncase(X)', 'x', 1, '', ''),
         array('EqualComAss', '', 'exdowncase((X-1)^2)', 'x^2-2*x+1', 0, 'ATEqualComAss (AlgEquiv-true).', ''),

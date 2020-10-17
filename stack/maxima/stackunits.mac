@@ -26,8 +26,8 @@
 /*  V0.5 August 2016                                            */
 /****************************************************************/
 
-/* This code is commented out as these lists are now defined in the main code and
-  copied over to maximalocal.mac by the install scripts.  This ensures exactly the
+/* This code is commented out as these lists are now defined in the main code in stack/cas/casstring.units.php
+  which are copied over to maximalocal.mac by the install scripts.  This ensures exactly the
   same collections of units are available in PHP and this Maxima code.
 
   stack_unit_si_prefix_code:[y, z, a, f, p, n, u, m, c, d, da, h, k, M, G, T, P, E, Z, Y],

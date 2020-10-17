@@ -216,6 +216,9 @@ texput(dotdotdot, "\\ldots")$
 /* Type predicates                    */
 /* ********************************** */
 
+/* It is very useful to know if we have a "variable". */
+variablep(ex) := atom(ex) and not(real_numberp(ex)) and not(ex=%i) and not(stringp(ex))$
+
 /* Determines if we are using an equation. */
 equationp(ex) := block(
    if atom(ex) then return(false),
@@ -1377,6 +1380,29 @@ factor_bag(ex) := block(
   /* Remove any numbers. */
   ex:sublist(ex, lambda([ex2], ev(not(is(listofvars(ex2)=[])), simp))),
   return(ex)
+)$
+
+/* Terms of the form [a]*v_1, where we have exactly one substantive term which satisfies the predicate p, multiplied by numbers. 
+   Numbers on their own don't count here.
+*/
+linear_term_p(ex, p) := block([ex1],
+   if p(ex) then return(true),
+   if not(safe_op(ex)="*") then return(false),
+   ex1:args(ex),
+   if not(length(sublist(ex1, p))=1) then return(false),
+   ex1:sublist(ex1, lambda([ex2], not(p(ex2)))),
+   return(all_listp(real_numberp, ex1))
+)$
+
+/* Establishes if an expression is a linear combination of terms
+   for which the predicate p is true.
+*/
+linear_combination_p(ex, p) := block(
+   if linear_term_p(ex, p) then return(true),
+   if not(safe_op(ex)="+") then return(false),
+   ex:args(ex),
+   ex:map(lambda([ex1], linear_term_p(ex1, p)), ex),
+   return(apply("and", ex))  
 )$
 
 /****************************/

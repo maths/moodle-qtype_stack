@@ -165,9 +165,9 @@ Currently there is no way to create custom sets of units.  This feature may be a
 
 Add the following to the question variables and feedback variables.
 
-    stack_unit_si_declare(true)
-    declare(diamonds, units)
-    texput(diamonds, "\\diamond")
+    stack_unit_si_declare(true);
+    declare(diamonds, units);
+    texput(diamonds, "\\diamond");
 
 The symbol `diamonds` will then be treated as units in code such as `unitsp(ex)` and displayed with the TeX \(\diamond\) symbol.
 

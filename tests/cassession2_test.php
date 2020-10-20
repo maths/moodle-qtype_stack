@@ -2057,4 +2057,24 @@ class stack_cas_session2_test extends qtype_stack_testcase {
             $this->assertEquals($t[1], $s1[$i]->get_value());
         }
     }
+
+    public function test_stack_rational_numberp() {
+
+        $t1 = array();
+        $t1[] = array('simp:false', 'false');
+        $t1[] = array('l1:[1,-2,2/3,-4/3, 4/16, 9/3]', '[1,-2,2/3,(-4)/3,4/16,9/3]');
+        $t1[] = array('l2:map(rational_numberp, l1);', '[false,false,true,true,true,true]');
+
+        foreach ($t1 as $i => $case) {
+            $s1[] = stack_ast_container::make_from_teacher_source($case[0], '', new stack_cas_security(), array());
+        }
+
+        $options = new stack_options();
+        $s = new stack_cas_session2($s1, $options, 0);
+        $s->instantiate();
+
+        foreach ($t1 as $i => $t) {
+            $this->assertEquals($t[1], $s1[$i]->get_value());
+        }
+    }
 }

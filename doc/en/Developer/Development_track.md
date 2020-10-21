@@ -7,6 +7,10 @@ How to report bugs and make suggestions is described on the [community](../About
 
 ## Version 4.4
 
+Done:
+
+* Make it much easier for colleagues to construct a test case using the "teacher's answer" input values as test case inputs.
+
 ## Maxima side PRTs.
 
 * Move all functions to Maxima.

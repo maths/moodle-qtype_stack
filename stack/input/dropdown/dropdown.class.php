@@ -461,6 +461,13 @@ class stack_dropdown_input extends stack_input {
     }
 
     /**
+     * @return string the teacher's answer, suitable for testcase construction.
+     */
+    public function get_teacher_answer_testcase() {
+        return 'first(mcq_correct(' . $this->teacheranswer . '))';
+    }
+
+    /**
      * Transforms a Maxima expression into an array of raw inputs which are part of a response.
      * Most inputs are very simple, but textarea and matrix need more here.
      * @param array|string $in

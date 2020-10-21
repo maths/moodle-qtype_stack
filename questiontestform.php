@@ -47,6 +47,8 @@ class qtype_stack_question_test_form extends moodleform {
             $input->add_to_moodleform_testinput($mform);
         }
 
+        $mform->addElement('submit', 'teacher', stack_string('teacheranswercase'));
+        $mform->registerNoSubmitButton('teacher');
         $mform->addElement('submit', 'complete', stack_string('completetestcase'));
         $mform->registerNoSubmitButton('complete');
 
@@ -80,6 +82,9 @@ class qtype_stack_question_test_form extends moodleform {
         if ($this->_form->exportValue('complete')) {
             $this->complete_passing_testcase();
         }
+        if ($this->_form->exportValue('teacher')) {
+            $this->complete_teacher_testcase();
+        }
     }
 
     protected function complete_passing_testcase() {
@@ -101,6 +106,18 @@ class qtype_stack_question_test_form extends moodleform {
                     $prtname . 'score'      => $result->score,
                     $prtname . 'penalty'    => $result->penalty,
                     $prtname . 'answernote' => end($answernotes)));
+        }
+    }
+
+    protected function complete_teacher_testcase() {
+
+        $mform = $this->_form;
+        $question = $this->_customdata['question'];
+
+        $inputs = array();
+        foreach ($question->inputs as $inputname => $input) {
+            $ta = $input->get_teacher_answer_testcase();
+            $mform->getElement($inputname)->setValue($ta);
         }
     }
 

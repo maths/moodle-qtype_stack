@@ -465,6 +465,7 @@ $string['addatestcase'] = 'Add a test case...';
 $string['addingatestcase'] = 'Adding a test case to question {$a}';
 $string['alreadydeployed'] = ' A variant matching this Question note is already deployed.';
 $string['completetestcase'] = 'Fill in the rest of the form to make a passing test-case';
+$string['teacheranswercase'] = 'Use the teacher\'s answers as test-case';
 $string['createtestcase'] = 'Create test case';
 $string['currentlyselectedvariant'] = 'This is the variant shown below';
 $string['deletetestcase'] = 'Delete test case {$a->no} for question {$a->question}';

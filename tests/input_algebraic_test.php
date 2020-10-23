@@ -304,6 +304,29 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         $this->assertEquals(stack_input::VALID, $state->status);
     }
 
+    public function test_validate_student_response_subscript_compare() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('algebraic', 'sans1', 'x_1');
+
+        $state = $el->validate_student_response(array('sans1' => 'x_1'),
+                $options, 'x_1', new stack_cas_security(false, '', '', array('tans')));
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('x_1', $state->contentsmodified);
+        $this->assertEquals('\[ {x}_{1} \]', $state->contentsdisplayed);
+
+        $state = $el->validate_student_response(array('sans1' => 'x1'),
+                $options, 'x_1', new stack_cas_security(false, '', '', array('tans')));
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('x1', $state->contentsmodified);
+        $this->assertEquals('\[ {\it x_1} \]', $state->contentsdisplayed);
+
+        $state = $el->validate_student_response(array('sans1' => 'x[1]'),
+                $options, 'x_1', new stack_cas_security(false, '', '', array('tans')));
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('x[1]', $state->contentsmodified);
+        $this->assertEquals('\[ x_{1} \]', $state->contentsdisplayed);
+    }
+
     public function test_validate_student_response_trigexp_1() {
         $options = new stack_options();
         $el = stack_input_factory::make('algebraic', 'sans1', 'sin(ab)^2');

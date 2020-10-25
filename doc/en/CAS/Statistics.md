@@ -14,3 +14,7 @@ These packages are included by default. The Debian package manager currently has
 ## Package: descriptive
 
 Note that the "descriptive" package includes a number of functions to plotting graphs, such as boxplots and scatterplot.  These are not supported by STACK.
+
+## STACK functions
+
+STACK provides the `mode` function which returns the modal value in a list.

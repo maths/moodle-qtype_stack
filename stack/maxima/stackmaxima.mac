@@ -487,6 +487,26 @@ mcq_incorrect(ta):=block(
 )$
 
 /* ********************************** */
+/* Statistics function                */
+/* ********************************** */
+
+/*   ------------------   Mode function   ---------------------   */
+/*  mode(n) returns a list of all the modal elements in the list n */
+mode(n):= block([i,j,count_elements,counts,highest_count,mode_set],
+    count_elements: makelist(0,i,1,length(n)),
+    for i: 1 thru length(n) do 
+        (for j: 1 thru length(n) do 
+            (if n[i]=n[j] then count_elements[i]: count_elements[i]+1)),
+    counts: listify(setify(count_elements)),
+    highest_count:counts[length(counts)],
+    mode_set:{},
+    for i:1 thru length(n) do 
+        (if count_elements[i]=highest_count then mode_set: union(mode_set,{n[i]})),
+    mode_list:listify(mode_set),
+    return(mode_list)
+)$
+
+/* ********************************** */
 /* cassession2 I/O management         */
 /* ********************************** */
 
@@ -3202,18 +3222,3 @@ load(linearalgebra);
 /* maximalocal.mac after additional library loading */
 stackmaximaversion:2020101501$
 
-/*   ------------------   Mode function   ---------------------   */
-/*  mode(n) returns a list of all the modal elements in the list n */
-mode(n):= block([i,j,count_elements,counts,highest_count,mode_set],
-    count_elements: makelist(0,i,1,length(n)),
-    for i: 1 thru length(n) do 
-        (for j: 1 thru length(n) do 
-            (if n[i]=n[j] then count_elements[i]: count_elements[i]+1)),
-    counts: listify(setify(count_elements)),
-    highest_count:counts[length(counts)],
-    mode_set:{},
-    for i:1 thru length(n) do 
-        (if count_elements[i]=highest_count then mode_set: union(mode_set,{n[i]})),
-    mode_list:listify(mode_set),
-    return(mode_list)
-)$

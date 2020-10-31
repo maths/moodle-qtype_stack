@@ -62,6 +62,12 @@
     max-width: 100%;
     resize: both;
 }
+.que.stack input[type=checkbox] {
+    margin-right: 0.4em; 
+}
+.que.stack input[type=radio] {
+    margin-right: 0.4em; 
+}
 .que.stack input[type=text] {
     max-width: 100%;
 }

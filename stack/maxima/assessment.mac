@@ -48,6 +48,8 @@ safe_op(ex) := block([st],
     /* Subtle changes in mapatom, in Maxima 5.42.2, with simp:false. */
     if atom(ex) then return(""),
     if op(ex) = "-" then return("-"),
+    if op(ex) = "/" then return("/"),
+    /* Catch a subscript. */
     if mapatom(ex) then return(""),
     if stringp(op(ex)) then return(op(ex)),
     st:string(op(ex)),
@@ -342,9 +344,10 @@ simp_integerp(ex) := block(
 
 /* Do we have a rational number?  */
 rational_numberp(ex) := block(
+   if safe_op(ex)="-" then return(rational_numberp(first(ex))),
    if safe_op(ex)="/" and simp_integerp(num(ex)) and simp_integerp(denom(ex)) then return(true),
    return(false)
-);
+)$
 
 /* Do we have a real number?  */
 /* Code taken from Stack_Test */

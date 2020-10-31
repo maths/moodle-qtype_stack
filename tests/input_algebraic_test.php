@@ -318,7 +318,7 @@ class stack_algebra_input_test extends qtype_stack_testcase {
                 $options, 'x_1', new stack_cas_security(false, '', '', array('tans')));
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('x1', $state->contentsmodified);
-        $this->assertEquals('\[ {\it x_1} \]', $state->contentsdisplayed);
+        $this->assertEquals('\[ x_{1} \]', $state->contentsdisplayed);
 
         $state = $el->validate_student_response(array('sans1' => 'x[1]'),
                 $options, 'x_1', new stack_cas_security(false, '', '', array('tans')));

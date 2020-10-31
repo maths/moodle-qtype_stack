@@ -2235,10 +2235,11 @@ ATGTE(SA,SB) :=
 /* (3) p is quadratic, the coefficients have no common factors          */
 /*     and p does not factor over the **rational numbers**              */
 
-/* Is p an irreducible term in v, over the rationals Q? */
+/* Is p an irreducible polynomial term in v, over the rationals Q? */
 /* Returns a list, of [true/false, FeedBack, true/false] */
 /* The third argument is the special case when we just have an integer factor to pull out. Needed for PartFrac. */
 irred_Q(p,v) := block([ret,deg,cl,ci],
+  if ev(not(polynomialp(p, [v])), simp) then return([false, StackAddFeedback("", "ATFacForm_notpoly")]),
   deg:ev(hipow(expand(p),v),simp),
   /* Now perform the general test */
   cl:ev(map(second,coeff_list_nz(expand(p),v)),simp),
@@ -2272,7 +2273,7 @@ irred_Q(p,v) := block([ret,deg,cl,ci],
     if is(ev(q#factor(q),simp)) then ret:[false,ret[2],false]
   ),
   return(ret)
-);
+)$
 
 /* Is p a power of an irreducible term in v, over the rationals Q, disregarding the special case of a numerical factor? */
 /* Only used by ATPartFrac */

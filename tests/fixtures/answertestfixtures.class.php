@@ -876,6 +876,7 @@ class stack_answertest_test_data {
         array('FacForm', 'k', '-(6*k*(4*b-k-1))', '6*k*(1+k-4*b)', 1, 'ATFacForm_true.', ''),
         array('FacForm', 'a', '-(6*a*(4*b-a-1))', '6*a*(1+a-4*b)', 1, 'ATFacForm_true.', ''),
         array('FacForm', 'a', '-(6*a*(4*b-a-1))', '6*a*(-(4*b)+a+1)', 1, 'ATFacForm_true.', ''),
+        array('FacForm', 'x', 'x*(x-4+4/x)', 'x^2-4*x+4', 0, 'ATFacForm_notfactored.', ''),
         array('FacForm', 'x', '(2-x)*(3-x)', '(x-2)*(x-3)', 1, 'ATFacForm_true.', 'These are delicate cases!'),
         array('FacForm', 'x', '(1-x)^2', '(x-1)^2', 1, 'ATFacForm_true.', ''),
         array('FacForm', 'x', '-(1-x)^2', '-(x-1)^2', 1, 'ATFacForm_true.', ''),

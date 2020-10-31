@@ -147,8 +147,4 @@ class stack_numerical_input extends stack_input {
         }
         return stack_string('teacheranswershow', array('value' => '<code>'.$value.'</code>', 'display' => $display));
     }
-
-    protected function get_validation_method() {
-        return 'numerical';
-    }
 }

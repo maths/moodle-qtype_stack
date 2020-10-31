@@ -212,7 +212,7 @@ If this option is set to `yes` then unless the student's expression is the same
 [Maxima](../CAS/Maxima.md#Types_of_object) as the teacher's correct answer,
 then the attempt will be rejected as invalid.
 
-This is very useful for ensuring the student has typed in an "equation", such as \(y=mx+c\)
+Type checking here is very simple, basically checking the student's answer is an equation, inequality, list, set, matrix to match that of the teacher.  The intention is not to be completely comprehensive, but to avoid obvious type mismatch.  E.g. this is very useful for ensuring the student has typed in an "equation", such as \(y=mx+c\)
 and not an expression such as \(mx+c\).  Remember, you can't compare an expression with an equation!
 
 Another useful way of avoiding this problem is to put a LaTeX string such as \(y=\) just before the input.  E.g.

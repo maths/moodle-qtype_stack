@@ -850,7 +850,10 @@ stack_validate_listofvars(ex) := block([lvars],
    lvars:ev(sort(listify(lvars)), simp)
 )$
 
-stack_validate(expr, LowestTerms, TAns) := block([simp:false, exs, SameType, fvs, fvs1, fvs2],
+stack_validate(expr, LowestTerms, TAns, fltfmt) := block([simp:false, exs, SameType, fvs, fvs1, fvs2],
+  /* If we have a float format, then use it. */
+  if not(is(fltfmt=false)) then
+    stackfltfmt:fltfmt,
   /* Try to simply the expression to catch CAS errors */
   exs: errcatch(ev(expr, simp)),
   if exs = [] then (

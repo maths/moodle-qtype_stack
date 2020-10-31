@@ -212,6 +212,25 @@ class stack_numerical_input_test extends qtype_stack_testcase {
         $this->assertEquals('Lowest_Terms', $state->note);
     }
 
+    public function test_validate_student_set_1() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('numerical', 'sans1', '3.14');
+        $state = $el->validate_student_response(array('sans1' => '{%pi,1}'), $options, '3.14',
+                new stack_cas_security(false, '', '', array('tans')));
+        $this->assertEquals(stack_input::INVALID, $state->status);
+        $this->assertEquals('SA_not_expression', $state->note);
+    }
+
+    public function test_validate_student_set_2() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('numerical', 'sans1', '3.14');
+        $el->set_parameter('sameType', false);
+        $state = $el->validate_student_response(array('sans1' => '{%pi,1}'), $options, '3.14',
+                new stack_cas_security(false, '', '', array('tans')));
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('', $state->note);
+    }
+
     public function test_validate_student_respect_trainling_zeros() {
         $options = new stack_options();
         $el = stack_input_factory::make('numerical', 'sans1', '0.33');

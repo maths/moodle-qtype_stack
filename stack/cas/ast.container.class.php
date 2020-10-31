@@ -118,15 +118,10 @@ class stack_ast_container extends stack_ast_container_silent implements cas_late
         }
         $validationmethod = $this->validationcontext['validationmethod'];
 
-        $vcmd = 'stack_validate(['.$starredanswer.'], '.$lowestterms.','.$tans.')';
+        $vcmd = 'stack_validate(['.$starredanswer.'], '.$lowestterms.','.$tans.','.$fltfmt.')';
         if ($validationmethod == 'typeless') {
             // Note, we don't pass in the teacher's as this option is ignored by the typeless validation.
             $vcmd = 'stack_validate_typeless(['.$starredanswer.'], '.$lowestterms.', false,'.$fltfmt.')';
-        }
-        if ($validationmethod == 'numerical') {
-            // TODO: What happens here, what are the arguments, is that the correct function?
-            $vcmd = 'stack_validate_typeless(['.$starredanswer.'],'.
-                $lowestterms.', false,'.$fltfmt.')';
         }
         if ($validationmethod == 'equiv') {
             $vcmd = 'stack_validate_typeless(['.$starredanswer.'], '.$lowestterms.', true,'.$fltfmt.')';
@@ -185,9 +180,9 @@ class stack_ast_container extends stack_ast_container_silent implements cas_late
     public function set_cas_validation_context($vname, $lowestterms, $tans, $validationmethod, $simp) {
 
         if (!($validationmethod == 'checktype' || $validationmethod == 'typeless' || $validationmethod == 'units'
-                || $validationmethod == 'unitsnegpow' || $validationmethod == 'equiv' || $validationmethod == 'numerical')) {
+                || $validationmethod == 'unitsnegpow' || $validationmethod == 'equiv')) {
                     throw new stack_exception('stack_ast_container: validationmethod must one of "checktype", "typeless", ' .
-                        '"units" or "unitsnegpow" or "equiv" or "numerical", but received "'.$validationmethod.'".');
+                        '"units" or "unitsnegpow" or "equiv", but received "'.$validationmethod.'".');
         }
         $this->validationcontext = array(
             'vname'            => $vname,

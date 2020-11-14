@@ -518,6 +518,7 @@ class stack_answertest_test_data {
 
         array('SubstEquiv', '', '1/0', 'x^2-2*x+1', -1, 'ATSubstEquiv_STACKERROR_SAns.', ''),
         array('SubstEquiv', '[1/0]', 'x^2', 'x^2-2*x+1', -1, 'ATSubstEquiv_STACKERROR_Opt.', ''),
+        array('SubstEquiv', 'x', 'x^2', 'x^2-2*x+1', -1, 'ATSubstEquiv_Opt_List.', ''),
         array('SubstEquiv', '', 'x^2+1', 'x^2+1', 1, '', ''),
         array('SubstEquiv', '', 'x^2+1', 'x^3+1', 0, '', ''),
         array('SubstEquiv', '', 'x^2+1', 'x^3+1', 0, '', ''),

@@ -142,6 +142,10 @@ Can we find a substitution of the variables of \(ex_2\) into \(ex_1\) which rend
 
 * Because we have to test every possibility, the algorithm is factorial in the number of variables.  For this reason, the test only works for 4 or fewer variables.
 * This test makes a substitution then uses AlgEquiv.
+* If you add an answer test option (not required) in the form of a list of variables, these variables will be "fixed" during the comparison.  E.g.
+  * `ATSubstEquiv(x=A+B, x=a+b)` will match with `[A = a,B = b,x = x]`.
+  * `ATSubstEquiv(x=A+B, x=a+b, [x])` will match with `[A = a,B = b]`.
+  * `ATSubstEquiv(y=A+B, x=a+b, [x])` will not match since `x` in the teacher's answer is fixed here.
 
 ### SysEquiv ###
 

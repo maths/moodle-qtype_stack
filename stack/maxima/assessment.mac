@@ -819,7 +819,7 @@ subst_equiv([ex]):=block([ex1, ex2, l1, lv1, lv2, lvi, lvp, lvs, lve, lvpres, il
  ex2: second(ex),
  l1:[],
  if length(ex)>2 then l1:third(ex),
- 
+ if not(listp(l1)) then error("The third argument to subst_equiv must be a list of variables."),
  simp:true,
  perm_size:4, /* This algorithm is order factorial(perm_size) and so this needs to be small. */
  lv1:setify(listofvars(ex1)),

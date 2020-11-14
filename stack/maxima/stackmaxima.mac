@@ -1925,6 +1925,7 @@ ATSubstEquiv([ex]) := block([simp:true, SA, SB, SC, ret, SAc, SBc],
         SC:errcatch(ev(third(ex), simp, nouns)),
     if is(SC=[STACKERROR]) then return([false, false, StackAddNote("", "ATSubstEquiv_STACKERROR_Opt"), ""]),
     SC:SC[1],
+    if not(listp(SC)) then return([false, false, StackAddNote("", "ATSubstEquiv_Opt_List"), StackAddFeedback("", "ATSubstEquiv_Opt_List")]),
     /* Copy SA and SB.  If they are lists or matrices then ATAlgEquivfun potentially colours wrong entries. */
     SAc:copy(SA),
     SBc:copy(SB),

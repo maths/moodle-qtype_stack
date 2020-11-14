@@ -206,14 +206,9 @@ class stack_ans_test_controller {
 
             case 'String':
             case 'StringSloppy':
+            case 'RegExp':
                 require_once(__DIR__ . '/at_general_cas_preprepare.class.php');
                 $this->at = new stack_answertest_general_cas_preprepare($sans, $tans, $anstest, $options, $casoption);
-                break;
-
-            case 'RegExp':
-                // Don't break everything until people have a chance to edit existing questions.
-                require_once(__DIR__ . '/atstring.class.php');
-                $this->at = new stack_anstest_atstring($sans, $tans, $options, $casoption);
                 break;
 
             default:

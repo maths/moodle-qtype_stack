@@ -1844,6 +1844,9 @@ ATSRegExp(SA, SB) := block([RawMark, FeedBack, AnswerNote, SAsimp, SBsimp, patma
 )$
 
 
+/* Don't break existing questions. */
+ATRegExp(SA, SB) := ATString(SA, SB);
+
 ATString(SA, SB) := block([RawMark, FeedBack, AnswerNote, SAsimp, SBsimp, patmatched],
     RawMark:true, FeedBack:"", AnswerNote:"",
     /* Turn on simplification and error catch. */

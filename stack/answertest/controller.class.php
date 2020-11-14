@@ -107,8 +107,8 @@ class stack_ans_test_controller {
         'LowestTerms'          => array(false, false, false),
         'Diff'                 => array(true, true, false),
         'Int'                  => array(true, true, false),
-        'String'               => array(false, false, null),
-        'StringSloppy'         => array(false, false, null),
+        'String'               => array(false, false, false),
+        'StringSloppy'         => array(false, false, false),
         'SRegExp'              => array(false, false, true),
     );
 
@@ -205,13 +205,9 @@ class stack_ans_test_controller {
                 break;
 
             case 'String':
-                require_once(__DIR__ . '/atstring.class.php');
-                $this->at = new stack_anstest_atstring($sans, $tans, $options, $casoption);
-                break;
-
             case 'StringSloppy':
-                require_once(__DIR__ . '/stringsloppy.class.php');
-                $this->at = new stack_anstest_stringsloppy($sans, $tans, $options, $casoption);
+                require_once(__DIR__ . '/at_general_cas_preprepare.class.php');
+                $this->at = new stack_answertest_general_cas_preprepare($sans, $tans, $anstest, $options, $casoption);
                 break;
 
             case 'RegExp':

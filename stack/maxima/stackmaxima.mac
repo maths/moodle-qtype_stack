@@ -1825,7 +1825,7 @@ ATSets_prepare(S) := ev(map(lambda([ex], ineqprepare(trigreduce(ex)) ), S), simp
 /* Maxima regular expressions. */
 ATSRegExp(SA, SB) := block([RawMark, FeedBack, AnswerNote, SAsimp, SBsimp, patmatched],
     RawMark:true, FeedBack:"", AnswerNote:"",
-    /* Turn on simplification and error catch */
+    /* Turn on simplification and error catch. */
     if (is(_EC(errcatch(SAsimp:ev(SA, simp, nouns)), "") = false)) then
         return([false,false,StackAddNote("","ATSRegExp_STACKERROR_SAns"),""]),
     if (is(_EC(errcatch(SBsimp:ev(SB, simp, nouns)), "") = false)) then
@@ -1842,6 +1842,54 @@ ATSRegExp(SA, SB) := block([RawMark, FeedBack, AnswerNote, SAsimp, SBsimp, patma
 
     return([true, false, AnswerNote, FeedBack])
 )$
+
+
+ATString(SA, SB) := block([RawMark, FeedBack, AnswerNote, SAsimp, SBsimp, patmatched],
+    RawMark:true, FeedBack:"", AnswerNote:"",
+    /* Turn on simplification and error catch. */
+    if (is(_EC(errcatch(SAsimp:ev(SA, simp, nouns)), "") = false)) then
+        return([false,false,StackAddNote("","ATString_STACKERROR_SAns"),""]),
+    if (is(_EC(errcatch(SBsimp:ev(SB, simp, nouns)), "") = false)) then
+        return([false,false,StackAddNote("","ATString_STACKERROR_TAns"),""]),
+    if not(stringp(SB)) then
+        return(StackBasicReturn(false, false, "ATString_SB_not_string")),
+    if not(stringp(SA)) then
+        return(StackBasicReturn(false, false, "ATString_SA_not_string")),
+
+    if SA=SB then
+        return([true, true, AnswerNote, FeedBack]),
+
+    return([true, false, AnswerNote, FeedBack])
+)$
+
+ATStringSloppy(SA, SB) := block([RawMark, FeedBack, AnswerNote, SAsimp, SBsimp, patmatched],
+    RawMark:true, FeedBack:"", AnswerNote:"",
+    /* Turn on simplification and error catch. */
+    if (is(_EC(errcatch(SAsimp:ev(SA, simp, nouns)), "") = false)) then
+        return([false,false,StackAddNote("","ATString_STACKERROR_SAns"),""]),
+    if (is(_EC(errcatch(SBsimp:ev(SB, simp, nouns)), "") = false)) then
+        return([false,false,StackAddNote("","ATString_STACKERROR_TAns"),""]),
+    if not(stringp(SB)) then
+        return(StackBasicReturn(false, false, "ATString_SB_not_string")),
+    if not(stringp(SA)) then
+        return(StackBasicReturn(false, false, "ATString_SA_not_string")),
+
+    SA:sdowncase(SA),
+    SA:sremove(" ", SA),
+    SA:sremove(newline, SA),
+    SA:sremove(tab, SA),
+    SB:sdowncase(SB),
+    SB:sremove(" ", SB),
+    SB:sremove(newline, SB),
+    SB:sremove(tab, SB),
+
+    if SA=SB then
+        return([true, true, AnswerNote, FeedBack]),
+
+    return([true, false, AnswerNote, FeedBack])
+)$
+
+
 /* A wrapper for an all purpose answer test which checks things are of the
    same "type".   Based upon the results of AtAlgEquivfun(SA,SB)
 */

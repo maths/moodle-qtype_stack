@@ -1823,8 +1823,8 @@ class stack_answertest_test_data {
 
         array('StringSloppy', '', 'hello', 'Hello', 1, '', ''),
         // This is a change.  The ast does not have acess to the raw string typed by the student.
-        array('StringSloppy', '', 'hel lo', 'Hello', 0, 'TEST_FAILED:Invalid SA.', ''),
-        array('StringSloppy', '', 'hel lo', 'Hel*lo', 0, 'TEST_FAILED:Invalid SA.', ''),
+        array('StringSloppy', '', 'hel lo', 'Hello', 0, 'ATStringSloppy_STACKERROR_SAns.', ''),
+        array('StringSloppy', '', 'hel lo', 'Hel*lo', 0, 'ATStringSloppy_STACKERROR_SAns.', ''),
         array('StringSloppy', '', 'hello', 'heloo', 0, '', ''),
 
         array('SRegExp', '', '1/0', '"hello"', -1, 'ATSRegExp_STACKERROR_SAns.', ''),

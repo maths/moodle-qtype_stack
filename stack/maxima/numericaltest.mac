@@ -2,6 +2,11 @@
 /* Numerical operations               */
 /* ********************************** */
 
+/* Support for stateful. */
+alias(ATNumSigFigs_CASSigFigsWrapper, ATNumSigFigs)$
+alias(ATSigFigsStrict_CASSigFigsWrapper, ATSigFigsStrict)$
+alias(ATNumDecPlaces_CASDecPlacesWrapper, ATNumDecPlaces)$
+
 ATNumAbsolute(SA, SB, SO) := ATNumerical(SA, SB, SO, "ABSOLUTE")$
 ATNumRelative(SA, SB, SO) := ATNumerical(SA, SB, SO, "RELATIVE")$
 

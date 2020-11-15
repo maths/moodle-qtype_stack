@@ -131,8 +131,8 @@ class stack_answertest_general_cas extends stack_anstest {
             $ops->set_key('STACKOP');
             $command = "result:{$this->casfunction}(STACKSA,STACKTA,STACKOP)";
             if (stack_ans_test_controller::required_raw($this->atname)) {
-                $raw = $this->sanskey->get_inputform(true, 1);
-                $command = "result:{$this->casfunction}(STACKSA,STACKTA,STACKOP,\"{$raw}\")";
+                $raw = stack_utils::php_string_to_maxima_string($this->sanskey->get_inputform(true, 1));
+                $command = "result:{$this->casfunction}(STACKSA,STACKTA,STACKOP,{$raw})";
             }
             $result = stack_ast_container::make_from_teacher_source($command, '', new stack_cas_security());
         }

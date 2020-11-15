@@ -109,7 +109,7 @@ Note that the paths above need to be completed. The following command is useful 
 
 ### Using the answer tests
 
-Please make sure you read the page on [answer tests](../Authoring/Answer_tests.md) first.  Not all the answer tests can be called directly from Maxima.  For example, the string match uses the PHP functions.
+Please make sure you read the page on [answer tests](../Authoring/Answer_tests.md) first.
 
 Informally, the answer tests have the following syntax
 
@@ -134,47 +134,6 @@ Feedback is returned in the form of a language tag which is translated later. Fo
     (%i1) ATInt(x^2,x*(x+1),x);
     (%o1) [true,false,"ATInt_generic. ",
            "stack_trans('ATInt_generic' , !quot!\\[2\\,x+1\\]!quot!  , !quot!\\(x\\)!quot!  , !quot!\\[2\\,x\\]!quot! ); "]
-
-The chart below shows the answer test, whether it is defined in Maxima or PHP and the options it expects.  Some of the tests are called "hybrid".  These require both significant Maxima and PHP code and cannot be easily reproduced in the sandbox.
-
-| Answer test         | Maxima command name   | Maxima/PHP | Option ?
-| ------------------- | --------------------- | ---------- | -------------
-| AlgEquiv            | ATAlgEquiv            | Maxima     |
-| AlgEquivNouns       | ATAlgEquivNouns       | Maxima     |
-| EqualComAss         | ATEqualComAss         | Maxima     |
-| CasEqual            | ATCasEqual            | Maxima     |
-| SameType            | ATSameType            | Maxima     |
-| SubstEquiv          | ATSubstEquiv          | Maxima     |
-| SysEquiv            | ATSysEquiv            | Maxima     |
-| Sets                | ATSets                | Maxima     |
-| Expanded            | ATExpanded            | Maxima     |
-| FacForm             | ATFacForm             | Maxima     | Variable
-| SingleFrac          | ATSingleFrac          | Maxima     |
-| PartFrac            | ATPartFrac            | Maxima     | Variable
-| CompSquare          | ATCompSquare          | Maxima     | Variable
-| PopLogic            | ATPopLogic            | Maxima     |
-| Equiv               | ATEquiv               | Maxima     |
-| EquivFirst          | ATEquivFirst          | Maxima     |
-| Num-GT              | ATGT                  | Maxima     |
-| Num-GTE             | ATGTE                 | Maxima     |
-| NumSigFigs          | ATNumSigFigs          | Maxima     | Number sig figs
-| NumAbsolute         |                       | Hybrid     |
-| NumRelative         |                       | Hybrid     |
-| NumDecPlaces        |                       | Hybrid     |
-| NumDecPlacesWrong   |                       | Hybrid     |
-| LowestTerms         | ATLowestTerms         | Maxima     |
-| UnitsSigFigs        | ATUnitsSigFigs        | Maxima     |  Shares code with NumSigFigs
-| UnitsSigFigs        | ATUnitsStrictSigFigs  | Maxima     |  Shares code with NumSigFigs
-| UnitsAbsolute       | ATUnitsAbsolute       | Maxima     |  Shares code with NumAbsolute
-| UnitsAbsolute       | ATUnitsStrictAbsolute | Maxima     |  Shares code with NumAbsolute
-| UnitsRelative       | ATUnitsRelative       | Maxima     |  Shares code with NumRelative
-| UnitsRelative       | ATUnitsStrictRelative | Maxima     |  Shares code with NumRelative
-| Diff                | ATDiff                | Maxima     | Variable
-| Int                 | ATInt                 | Maxima     | Variable
-| String              |                       | PHP        |
-| StringSloppy        |                       | PHP        |
-| SRegExp             | ATSRegExp             | Maxima     |
-
 
 If you just want to decide if two expressions are considered to be algebraically equivalent, then use
 

@@ -221,8 +221,12 @@ class stack_anstest {
             $atopt = $this->atoption->get_value();
         }
         if ($atopt != '') {
-            $traceline = $this->get_casfunction() . '(' . $sa . ', ' . $ta . ', '. $atopt .')';
+            $traceline = $this->get_casfunction() . '(' . $sa . ', ' . $ta . ', '. $atopt;
         }
+        if (stack_ans_test_controller::required_raw($this->atname)) {
+            $traceline .= ', "'. $sa . '"';
+        }
+        $traceline .= ')';
         if ($includeresult) {
             $traceline .= ' = ['.$this->atmark. ', "' . $this->atansnote .'"];';
         } else {

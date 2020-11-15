@@ -859,7 +859,7 @@ $string['ATFacForm_error_degreeSA']     = 'The CAS could not establish the algeb
 $string['ATFacForm_isfactored']         = 'Your answer is factored, well done. ';  // Needs a space at the end.
 $string['ATFacForm_notfactored']        = 'Your answer is not factored. '; // Needs a space at the end.
 $string['ATFacForm_notpoly']            = 'This term is expected to be a polynomial, but is not.';
-$string['ATFacForm_notalgequiv']        = 'Note that your answer is not algebraically equivalent to the correct answer.  You must have done something wrong. '; // needs a space at the end.
+$string['ATFacForm_notalgequiv']        = 'Note that your answer is not algebraically equivalent to the correct answer.  You must have done something wrong. '; // Needs a space at the end.
 
 $string['ATPartFrac_error_list']        = 'The answer test failed.  Please contact your systems administrator';
 $string['ATPartFrac_true']              = '';
@@ -920,12 +920,12 @@ $string['ATUnits_incompatible_units']     = 'Your units are incompatible with th
 $string['ATUnits_compatible_units']       = 'Your units are different from those used by the teacher, but are compatible with them.  Numerical values are being converted to SI base units for comparison. ';
 $string['ATUnits_correct_numerical']      = 'Please check your units carefully. ';
 
-$string['ATNumDecPlaces_OptNotInt']    = 'For ATNumDecPlaces the test option must be a positive integer, in fact "{$a->opt}" was received. ';
+$string['ATNumDecPlaces_OptNotInt']    = 'For ATNumDecPlaces the test option must be a positive integer, in fact "{$a->m0}" was received. ';
 $string['ATNumDecPlaces_NoDP']         = 'Your answer must be a decimal number, including a decimal point. ';
 $string['ATNumDecPlaces_Wrong_DPs']    = 'Your answer has been given to the wrong number of decimal places.';
 $string['ATNumDecPlaces_Float']        = 'Your answer must be a floating point number, but is not.';
 
-$string['ATNumDecPlacesWrong_OptNotInt']    = 'For ATNumDecPlacesWrong the test option must be a positive integer, in fact "{$a->opt}" was received. ';
+$string['ATNumDecPlacesWrong_OptNotInt']    = 'For ATNumDecPlacesWrong the test option must be a positive integer, in fact "{$a->m0}" was received. ';
 
 $string['ATSysEquiv_SA_not_list']               = 'Your answer should be a list, but it is not!';
 $string['ATSysEquiv_SB_not_list']               = 'The teacher\'s answer is not a list.  Please contact your teacher.';

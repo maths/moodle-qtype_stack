@@ -420,20 +420,22 @@ texput(NULLUNITS, "");
 texput(NULLNUM, "");
 
 /* Units answer tests. */
-ATUnits(SA, SB, SO) := ATUnitsFun(SA, SB, SO, false, "SigFigs")$
-ATUnitsSigFigs(SA, SB, SO) := ATUnitsFun(SA, SB, SO, false, "SigFigs")$
-ATUnitsStrict(SA, SB, SO) := ATUnitsFun(SA, SB, SO, true, "SigFigs")$
-ATUnitsStrictSigFigs(SA, SB, SO) := ATUnitsFun(SA, SB, SO, true, "SigFigs")$
-ATUnitsRelative(SA, SB, SO) := ATUnitsFun(SA, SB, SO, false, "Relative")$
-ATUnitsStrictRelative(SA, SB, SO) := ATUnitsFun(SA, SB, SO, true, "Relative")$
-ATUnitsAbsolute(SA, SB, SO) := ATUnitsFun(SA, SB, SO, false, "Absolute")$
-ATUnitsStrictAbsolute(SA, SB, SO) := ATUnitsFun(SA, SB, SO, true, "Absolute")$
+ATUnits(SA, SB, SO, SR) := ATUnitsFun(SA, SB, SO, SR, false, "SigFigs")$
+ATUnitsSigFigs(SA, SB, SO, SR) := ATUnitsFun(SA, SB, SO, SR, false, "SigFigs")$
+ATUnitsStrict(SA, SB, SO, SR) := ATUnitsFun(SA, SB, SO, SR, true, "SigFigs")$
+ATUnitsStrictSigFigs(SA, SB, SO, SR) := ATUnitsFun(SA, SB, SO, SR, true, "SigFigs")$
+ATUnitsSigFigs_CASSigFigsWrapper(SA, SB, SO, SR, strict) := ATUnitsFun(SA, SB, SO, SR, strict, "SigFigs")$
+ATUnitsRelative(SA, SB, SO) := ATUnitsFun(SA, SB, SO, "", false, "Relative")$
+ATUnitsStrictRelative(SA, SB, SO) := ATUnitsFun(SA, SB, SO, "", true, "Relative")$
+ATUnitsAbsolute(SA, SB, SO) := ATUnitsFun(SA, SB, SO, "", false, "Absolute")$
+ATUnitsStrictAbsolute(SA, SB, SO, SR) := ATUnitsFun(SA, SB, SO, SR, true, "Absolute")$
+
 
 /* This function has two options:
    boolean: strictp determines if the test should be "strict" in requiging exactly the correct units.
    numtest: string Chooses the numerical test applied to the numerical part.
 */
-ATUnitsFun(SA, SB, SO, strictp, numtest) := block([validity, rawmk, sb, ansnote, 
+ATUnitsFun(SA, SB, SO, SR, strictp, numtest) := block([validity, rawmk, sb, ansnote, 
         SAU, SBU, SOU, SAU1, SBU1, SOU1, ol, ret, ret1, ret2],
   validity:true, rawmk:true, fb:"", ansnote:"",
   if (is(_EC(errcatch(SAA:ev(SA, simp, nouns)), "") = false)) then
@@ -442,6 +444,8 @@ ATUnitsFun(SA, SB, SO, strictp, numtest) := block([validity, rawmk, sb, ansnote,
     return([false, false, StackAddNote("", "ATUnits_STACKERROR_TAns"), ""]),
   if (is(_EC(errcatch(SOO:ev(SO, simp, nouns)), "") = false)) then
     return([false, false, StackAddNote("", "ATUnits_STACKERROR_Opt"), ""]),
+  if (is(_EC(errcatch(SRR:ev(SR, simp, nouns)), "") = false)) then
+    return([false, false, StackAddNote("", "ATUnits_STACKERROR_Raw"), ""]),
 
   ol:SO,
 
@@ -498,7 +502,7 @@ ATUnitsFun(SA, SB, SO, strictp, numtest) := block([validity, rawmk, sb, ansnote,
 
   if (numtest = "SigFigs") then
     /* Sigfigs test should not use units in the option. */
-    ret1: ATNumSigFigs(SAU1, SBU1, SO)
+    ret1: ATNumSigFigs(SAU1, SBU1, SO, SR)
   else if (numtest = "Relative") then
     ret1: ATNumRelative(SAU1, SBU1, SO)
   else if (numtest = "Absolute") then
@@ -538,7 +542,7 @@ ATUnitsFun(SA, SB, SO, strictp, numtest) := block([validity, rawmk, sb, ansnote,
   SBU1:ev(float(stack_units_nums(SBU)), simp),
   SOU1:ev(float(stack_units_nums(SOU)), simp),
   if (numtest = "SigFigs") then
-    ret2: ATNumSigFigs(SAU1, SBU1, ol)
+    ret2: ATNumSigFigs(SAU1, SBU1, ol, SR)
   else if (numtest = "Relative") then
     ret2: ATNumRelative(SAU1, SBU1, ol)
   else if (numtest = "Absolute") then

@@ -1,0 +1,460 @@
+/* ********************************** */
+/* Numerical operations               */
+/* ********************************** */
+
+/* Support for stateful. */
+alias(ATNumSigFigs_CASSigFigsWrapper, ATNumSigFigs)$
+alias(ATSigFigsStrict_CASSigFigsWrapper, ATSigFigsStrict)$
+alias(ATNumDecPlaces_CASDecPlacesWrapper, ATNumDecPlaces)$
+
+ATNumAbsolute(SA, SB, SO) := ATNumerical(SA, SB, SO, "ABSOLUTE")$
+ATNumRelative(SA, SB, SO) := ATNumerical(SA, SB, SO, "RELATIVE")$
+
+ATNumerical(SA, SB, SO, numtype) := block([simp:true, RawMark, FeedBack, AnswerNote, ret, SAN, tol],
+    Validity:true, RawMark:false,
+    FeedBack:StackAddFeedback("", "ATNumerical_FAILED"),
+    AnswerNote:StackAddNote("", "ATNumerical_FAILED"),
+    /* Turn on simplification and error catch */
+    SA:errcatch(ev(float(SA), simp, nouns)),
+    if is(SA = [STACKERROR]) then return(StackBasicReturn(false, false, "ATNumerical_STACKERROR_SAns")),
+    SA:SA[1],
+    SAN:copy(SA), /* Need this for when we have lists etc. */
+    SB:errcatch(ev(float(remove_displaydp(SB)), simp, nouns, rat)),
+    if is(SB = [STACKERROR]) then return(StackBasicReturn(false, false, "ATNumerical_STACKERROR_TAns")),
+    SB:SB[1],
+    SO:errcatch(ev(float(SO), simp, nouns, rat)),
+    if is(SO = [STACKERROR]) then return(StackBasicReturn(false, false, "ATNumerical_STACKERROR_Opt")),
+    tol:SO[1],
+    if not(numberp(tol)) then (print("TEST_FAILED"), return(StackBasicReturn(false, false, "ATNumerical_STACKERROR_tol"))),
+
+    if not(elementp(numtype, {"ABSOLUTE", "RELATIVE"})) then (print("TEST_FAILED"), return(StackBasicReturn(false, false, "ATNumerical_testname_invalid"))),
+
+    /* Are we dealing with lists? */
+    if listp(SB) then
+      if listp(SAN)#true then
+        return(StackBasicReturn(false, false, "ATNumerical_SA_not_list"))
+      else
+        return(ATNumerical_list(SA, SB, numtype, tol)),
+
+    /* Are we dealing with sets? */
+    if safe_setp(SB) then
+      if safe_setp(SAN)=false then
+        return(StackBasicReturn(false, false, "ATNumerical_SA_not_set"))
+      else
+        return(ATNumerical_set(SA, SB, numtype, tol)),
+
+    /* Are we dealing with numbers? */
+    if (debug) then print ([SA,SB,tol]),
+    if numberp(SAN) then
+      if numberp(TA) then
+        return(StackBasicReturn(false, false, "ATNumerical_SA_not_number"))
+      else
+        if numtype = "ABSOLUTE" then
+            return([true, numabsolutep(SA, SB, tol), "", ""])
+        else
+            return([true, numrelativep(SA, SB, tol), "", ""]),
+
+    ret:[Validity, RawMark, AnswerNote, FeedBack],
+    return(ret)
+)$
+
+/* We have to define our own working precision. */
+STACK_NUM_TOL:10E-10$
+numabsolutep(sa,ta,tol) :=  if ev(abs(float(sa-ta)), simp) < ev(abs(tol)+STACK_NUM_TOL, simp)  then true else false;
+/* The equality sign below is to accommodate the edge case numrelativep(0.0,0.0,0.0?).  Needed for units tests with things like 0m/s. */
+numrelativep(sa,ta,tol) :=  if ev(abs(float(sa-ta)), simp) <= ev(abs(ta*tol*(1+STACK_NUM_TOL)), simp) then true else false;
+
+ATNumerical_list(SA, SB, numtype, tol) := block([SAl, SBl, cl, res, fb:"", an:""],
+    SAl:length(SA),
+    SBl:length(SB),
+    if (SAl#SBl) then
+        return([true, false, StackAddNote("","ATNumerical_wronglen"), StackAddFeedback("", "ATList_wronglen", stack_disp(SBl, "i"), stack_disp(SAl, "i"))]),
+
+    if numtype = "ABSOLUTE" then
+       cl:zip_with(lambda([ex1,ex2], numabsolutep(ex1, ex2, tol)), SA, SB)
+    else
+       cl:zip_with(lambda([ex1,ex2], numrelativep(ex1, ex2, tol)), SA, SB),
+
+    res:apply("and", cl),
+    if not(res) then block([we],
+        fb:zip_with(lambda([ex1,ex2],if ex1 then ex2 else texcolor("red", ex2)), cl, SA),
+        we:maplist(second, sublist(zip_with("[", cl, SA), lambda([ex], not(first(ex))))),
+        an:StackAddNote("", concat("ATNumerical_wrongentries SA/TA=", string(we))),
+        fb:StackAddFeedback("", "ATList_wrongentries", stack_disp(fb, "d"))
+    ),
+
+    return([true, res, an, fb])
+)$
+
+ATNumerical_set(SA, SB, numtype, tol) := block([SAl, SBl, cl, res, fbl, fb:"", an:""],
+    SAl:length(SA),
+    SBl:length(SB),
+    if (SAl#SBl) then
+        return([true, false, StackAddNote("","ATNumerical_wronglen"), StackAddFeedback("", "ATSet_wrongsz", stack_disp(SBl, "i"), stack_disp(SAl, "i"))]),
+
+    /* Why on earth has listify stopped working...?! */
+    SA:sort(float(args(SA))),
+    SB:sort(float(args(SB))),
+    fbl:num_compare_helper(SA, SB, [], [], tol, numtype),
+    if emptyp(first(fbl)) and emptyp(second(fbl)) then res:true else res:false,
+
+    if not(res) then block(
+        fb:setify(reverse(maplist(lambda([ex], texcolor("red", ex)), second(fbl)))),
+        fb:StackAddFeedback("", "ATList_wrongentries", stack_disp(fb, "d")),
+        an:StackAddNote("", concat("ATNumerical_wrongentries: TA/SA=", string(reverse(first(fbl))), ", SA/TA=", string(reverse(second(fbl)))))
+    ),
+
+    return([true, res, an, fb])
+)$
+
+/***************************************************
+Need a function which identifies which elements of the student's set, fall within "tolerance-balls" of elements of the teacher's set.
+
+Takes various arguments
+(1) student's list
+(2) teacher's list
+(3) numbers in the student's list, not within appropriate tolerance of any in the teacher's list
+(4) numbers in the teacher's list, which do not occur (approximated) in the student's
+(5) tolerance - whether this is absolute or relative to the teacher's answer needs to be sorted out internally to the function.
+(6) type - either "ABSOLUTE" or "RELATIVE"
+
+Returns all of the above + a feedback list.
+
+All arguments 1-2 are ordered lists of floats, smallest to largest.
+
+Want sa to lie between
+(ta-tol,ta+tol) or (ta-ta*tol,ta+ta*tol) depending on "ABSOLUTE" or "RELATIVE" (respectively)
+****************************************************/
+num_compare_helper(sal, tal, missing, excessive, tol, type) := block([sa, ta, f1, f2],
+  /* If we've run out of answers */
+  if emptyp(sal) and emptyp(tal) then return([missing, excessive]),
+  if emptyp(sal) then return([append(tal, missing), excessive]),
+  if emptyp(tal) then return([missing, append(sal, excessive)]),
+  /* Otherwise, we take the first element of the list and calculate */
+  /* if sa<ta-tol,  then f1<0.                                      */
+  /* if abs(sa-ta)<abs(tol), then f2<0.                             */
+  /* We appear to need to calulate f1 & f2 as variables,            */
+  /* otherwise Maxima's is complains "undefined".  Odd...           */
+  sa:first(sal),
+  ta:first(tal),
+  if type="ABSOLUTE" then
+       (f1:ev(float(sa-ta+tol),simp),
+        f2:ev(float(abs(sa-ta)-abs(tol)), simp))
+  else
+       (f1:ev(float(sa-ta*(1-tol)),simp),
+        f2:ev(float(abs(sa-ta)-abs(ta*tol)), simp)),
+  /*print([sa,ta,f1,f2]),*/
+  if is(f1<0) then return(num_compare_helper(rest(sal), tal, missing, append([sa], excessive), tol, type)),
+  if is(f2<0)
+      then return(num_compare_helper(rest(sal), rest(tal), missing, excessive, tol, type)),
+  return(num_compare_helper(sal, rest(tal), append([ta], missing), excessive, tol, type))
+)$
+
+ATNumSigFigs(SA, SB, SO, SR) := block([simp, Validity, RawMark, FeedBack, AnswerNote, ret, ol, nsf, asf, c0, c1, c2, SAA, SBB, SOO],
+    simp:false,
+    Validity:true, RawMark:true, FeedBack:"", AnswerNote:"",
+
+    /* The return value */
+    Validity: true,
+    RawMark: true,
+    FeedBack: "",
+    AnswerNote: "",
+
+    SAA:errcatch(ev(SA, simp, nouns)),
+    if (is(SAA = [STACKERROR]) or is(SAA = [])) then return([false, false, StackAddNote("","ATNumSigFigs_STACKERROR_SAns"), ""]),
+    SBB:errcatch(ev(SB, simp, nouns)),
+    if (is(SBB = [STACKERROR]) or is(SBB = [])) then return([false, false, StackAddNote("","ATNumSigFigs_STACKERROR_TAns"), ""]),
+    SOO:errcatch(ev(SO, simp, nouns)),
+    if (is(SOO = [STACKERROR]) or is(SOO = [])) then return([false, false, StackAddNote("","ATNumSigFigs_STACKERROR_Opt"), ""]),
+    SRR:errcatch(ev(SR, simp, nouns)),
+    if (is(SRR = [STACKERROR]) or is(SRR = [])) then return([false, false, StackAddNote("","ATNumSigFigs_STACKERROR_Raw"), ""]),
+
+    /* First unpack the options. */
+    /*  Note, in this test we first define the required number of significant digits,
+        no more no less, we may also define a second parameter that provides three
+        ways of function.
+
+         First for positive values, it defines the number of those significant digits
+         that need to match the correct ones. Makes no sense for this to be bigger than
+         the number of required digits.
+
+         Second for zero value it means that we do not care about the value only of the
+         form i.e. you can input any digits you want as long as they can be interpreted
+         as the correct number of significant digits.
+
+         Third for the special value of -1 it defines that we allow more significant
+         digits than what we require and that the value must match for those we require.
+    */
+    ol:SO,
+    if listp(ol) then
+          if length(ol)#2 then
+             (print("TEST_FAILED"), return([false, false, StackAddNote("", "ATNumSigFigs_STACKERROR_list_wrong_length"), StackAddFeedback("", "TEST_FAILED_Q")]))
+          else
+             (nsf:ol[1], asf:ol[2])
+       else (nsf:ol, asf:ol),
+    if ev(not(integerp(nsf) and integerp(asf)), simp) then
+             (print("TEST_FAILED"), return([false, false, StackAddNote("", "ATNumSigFigs_STACKERROR_not_integer"), StackAddFeedback("", "TEST_FAILED_Q")])),
+
+
+    requiredsigfigs: 3,
+    requiredaccuracy: -1,
+    allowextra: false,
+    if listp(ol) then (
+        requiredsigfigs: ol[1],
+        requiredaccuracy: ol[2]
+    ) else (
+        requiredsigfigs: ol,
+        requiredaccuracy: ol
+    ),
+
+    if ev(is(requiredaccuracy = -1),simp) then (
+        allowextra: true,
+        requiredaccuracy: requiredsigfigs
+    ),
+
+    /* What if the options do not make sense? */
+    /* Note that the options may now be dynamic and evaluated in CAS. */
+    if requiredsigfigs <= 0 or requiredaccuracy < 0 or not integerp(requiredsigfigs) or not integerp(requiredaccuracy) then (
+        return([false, false, "STACKERROR_OPTION.", ""])
+    ),
+
+    /* Find the number of digits. */
+    digits:sig_figs_from_str(SR),
+
+    if allowextra = true then (
+        if requiredsigfigs > stackmap_get(digits, "upperbound") then (
+            AnswerNote: StackAddNote(AnswerNote, "ATNumSigFigs_WrongDigits"),
+            FeedBack: StackAddFeedback(FeedBack, "ATNumSigFigs_WrongDigits"),
+            RawMark: false
+        ),
+        /* If excessive digits allowed and provided they better be correct. */
+        requiredaccuracy:stackmap_get(digits, "upperbound")
+    ) else (
+        if requiredsigfigs = stackmap_get(digits, "lowerbound") then (
+            RawMark: true
+        ) else if stackmap_get(digits, "lowerbound") <= requiredsigfigs and requiredsigfigs <= stackmap_get(digits, "upperbound") then (
+            AnswerNote: StackAddNote(AnswerNote, "ATNumSigFigs_WithinRange"),
+            RawMark: true
+        ) else (
+            AnswerNote: StackAddNote(AnswerNote, "ATNumSigFigs_WrongDigits"),
+            FeedBack: StackAddFeedback(FeedBack, "ATNumSigFigs_WrongDigits"),
+            RawMark: false
+        )
+    ),
+
+    /* Now that digits are clear continue to check the accuracy. Or not. */
+    if requiredaccuracy = 0 then return([Validity, RawMark, AnswerNote, FeedBack]),
+
+    /* Remove ephemeral forms from teacher's answers. */
+    SB:remove_displaydp(SB),
+    /* SA should be only a number. */
+    if (not(ATNumSigFigs_numberp(SA))) then
+        return([false, false, StackAddNote("", "ATNumSigFigs_NotDecimal"), StackAddFeedback("", "ATNumSigFigs_NotDecimal")]),
+    /* Don't simplify until now. */
+    if is(_EC(errcatch(SA:ev(SA, simp, nouns)), "") = false) then return([false, false, StackAddNote("", "ATNumSigFigs_Error simplifying SAns"),""]),
+    /* In the case of teacher's options [n,0] we ignore the question of numerical accuracy. */
+    if ev(is(asf = 0), simp) then
+        return([Validity, RawMark, AnswerNote, FeedBack]),
+    /* Check answers have the same algebraic sign. */
+    if ev(not(is(sign(SA)=sign(SB))), simp) then block(
+        RawMark:false,
+        FeedBack:StackAddFeedback(FeedBack, "ATNumSigFigs_WrongSign"),
+        AnswerNote:StackAddNote(AnswerNote, "ATNumSigFigs_WrongSign")
+    ),
+    SA:ev(abs(SA), simp),
+    SB:ev(abs(SB), simp),
+    /* Round the teacher's answer to the correct number of significant figures prior to comparison. */
+    SB:significantfigures(SB, nsf),
+    /* Find a power c0 which puts SB*10^c0 between 0 & 1 */
+    if not(is(SB=0) or is(SB=0.0)) then
+      c0:ev(-floor(log(abs(float(rat(SB))))/log(10)+1), simp)
+    else
+      c0:0.0,
+    /* In the case where we have an option [m,-1] we don't need the numerical accuracy to match for more than m significant figures. */
+    if ev(is(asf<0), simp) then block(
+        SA:significantfigures(SA, nsf),
+        asf:nsf
+        ),
+    ev(c2:float(abs(abs(rat(SA)*10^(c0+floor(asf)))-abs(rat(SB)*10^(c0+floor(asf))))), simp),
+    if (debug) then print([SA,SB,c0,asf,c2]),
+    if not(ev(is(c2<(0.5)), simp)) then block(
+        Validity:true,
+        RawMark:false,
+        if ev(is(c2<5), simp) then block(
+            FeedBack:StackAddFeedback(FeedBack, "ATNumSigFigs_Inaccurate"),
+            AnswerNote:StackAddNote(AnswerNote, "ATNumSigFigs_Inaccurate")
+        ) else block(
+            AnswerNote:StackAddNote(AnswerNote, "ATNumSigFigs_VeryInaccurate")
+        )
+    ),
+    ret: [Validity, RawMark, AnswerNote, FeedBack],
+    return(ret)
+)$
+
+ATSigFigsStrict(SA, SB, requiredsigfigs, rawsans) := block([digits,Validity,RawMark,FeedBack,AnswerNote],
+    /* The return value */
+    Validity: true,
+    RawMark: false,
+    FeedBack: "",
+    AnswerNote: "",
+
+    /* What if the options do not make sense? */
+    /* Note that the options may now be dynamic and evaluated in CAS. */
+    if requiredsigfigs <= 0 or not integerp(requiredsigfigs) then (
+        return([false, false, "STACKERROR_OPTION.", ""])
+    ),
+
+    /* Find the number of digits. */
+    digits: sig_figs_from_str(rawsans),
+
+    if requiredsigfigs = stackmap_get(digits, "lowerbound") then (
+        RawMark: true
+    ) else if stackmap_get(digits, "lowerbound") <= requiredsigfigs and requiredsigfigs <= stackmap_get(digits, "upperbound") then (
+        AnswerNote: StackAddNote(AnswerNote, "ATSigFigsStrict_WithinRange")
+    ),
+
+    return([Validity, RawMark, AnswerNote, FeedBack])
+)$
+
+ATNumSigFigs_numberp(ex) := block([ts],
+  ts:ex,
+  if safe_op(ts)="-" then ts:first(args(ts)),
+  if floatnump(ts) or integerp(ts) or scientific_notationp(ts) then return(true),
+  return(false)
+  )$
+
+ATNumDecPlaces(sans,tans,options,rawsans) := block([digits,Validity,RawMark,FeedBack,AnswerNote,required,val],
+    Validity: true,
+    RawMark: true,
+    FeedBack: "",
+    AnswerNote: "",
+
+    SAA:errcatch(ev(sans, simp, nouns)),
+    if (is(SAA = [STACKERROR]) or is(SAA = [])) then return([false, false, StackAddNote("","ATNumDecPlaces_STACKERROR_SAns"), ""]),
+    SBB:errcatch(ev(tans, simp, nouns)),
+    if (is(SBB = [STACKERROR]) or is(SBB = [])) then return([false, false, StackAddNote("","ATNumDecPlaces_STACKERROR_TAns"), ""]),
+    SOO:errcatch(ev(options, simp, nouns)),
+    if (is(SOO = [STACKERROR]) or is(SOO = [])) then return([false, false, StackAddNote("","ATNumDecPlaces_STACKERROR_Opt"), ""]),
+    SRR:errcatch(ev(rawans, simp, nouns)),
+    if (is(SRR = [STACKERROR]) or is(SRR = [])) then return([false, false, StackAddNote("","ATNumDecPlaces_STACKERROR_Raw"), ""]),
+
+    /* First check if the students answer is a float. */
+    if not ev(floatnump(sans),simp) then (
+        AnswerNote: StackAddNote(AnswerNote, "ATNumDecPlaces_SA_Not_num"),
+        FeedBack: StackAddFeedback(FeedBack, "ATNumDecPlaces_Float"),
+        RawMark: false,
+        Validity: false
+    ),
+
+    /* Now many digits needed? */
+    required: ev(options,numer,simp),
+
+    if not integerp(required) or is(required<1) then (
+        AnswerNote: StackAddNote(AnswerNote, "ATNumDecPlaces_OptNotInt"),
+        FeedBack: StackAddFeedback(FeedBack, "ATNumDecPlaces_OptNotInt", stack_disp(options, "i")),
+        RawMark: false,
+        Validity: false
+    ),
+
+    if Validity then (
+        /* Find the number of digits. */
+        digits: sig_figs_from_str(rawsans),
+
+        /* Does it match the number of digits? */
+        if is(stackmap_get(digits, "decimalplaces")=required) then (
+            AnswerNote: StackAddNote(AnswerNote, "ATNumDecPlaces_Correct")
+        ) else (
+            AnswerNote: StackAddNote(AnswerNote, "ATNumDecPlaces_Wrong_DPs"),
+            FeedBack: StackAddFeedback(FeedBack, "ATNumDecPlaces_Wrong_DPs"),
+            RawMark: false
+        ),
+
+        /* Then the actual value. Simply round to required and
+           then check the difference. */
+        val: ev(float(round(sans*10^required)),simp),
+        val: ev(val - ev(float(round(remove_displaydp(tans)*10^required)),simp),simp),
+        val: ev(abs(val),simp),
+        if is(val < 0.1) then (
+            AnswerNote: StackAddNote(AnswerNote, "ATNumDecPlaces_Equiv")
+        ) else (
+            AnswerNote: StackAddNote(AnswerNote, "ATNumDecPlaces_Not_equiv"),
+            RawMark: false
+        )
+    ),
+
+    return([Validity, RawMark, AnswerNote, FeedBack])
+)$
+
+
+ATNumDecPlacesWrong(sans,tans,options) := block([Validity,RawMark,FeedBack,AnswerNote,_sans,_tans,required],
+    Validity: true,
+    RawMark: true,
+    FeedBack: "",
+    AnswerNote: "",
+
+    SAA:errcatch(ev(sans, simp, nouns)),
+    if (is(SAA = [STACKERROR]) or is(SAA = [])) then return([false, false, StackAddNote("","ATNumDecPlacesWrong_STACKERROR_SAns"), ""]),
+    SBB:errcatch(ev(tans, simp, nouns)),
+    if (is(SBB = [STACKERROR]) or is(SBB = [])) then return([false, false, StackAddNote("","ATNumDecPlacesWrong_STACKERROR_TAns"), ""]),
+    SOO:errcatch(ev(options, simp, nouns)),
+    if (is(SOO = [STACKERROR]) or is(SOO = [])) then return([false, false, StackAddNote("","ATNumDecPlacesWrong_STACKERROR_Opt"), ""]),
+
+    /* First check if the students answer is a number. */
+    if not ev(numberp(sans),simp) then (
+        AnswerNote: StackAddNote(AnswerNote, "ATNumDecPlacesWrong_SA_Not_num"),
+        FeedBack: StackAddFeedback(FeedBack, "ATNumDecPlaces_Float"),
+        RawMark: false,
+        Validity: false
+    ),
+    /* Also teachers answer. */
+    if not ev(numberp(remove_displaydp(tans)),simp) then (
+        AnswerNote: StackAddNote(AnswerNote, "ATNumDecPlacesWrong_Tans_Not_Num"),
+        RawMark: false,
+        Validity: false
+    ),
+
+    /* Now many digits needs to match? */
+    required: ev(options,numer,simp),
+
+    if not integerp(required) or is(required<1) then (
+        AnswerNote: StackAddNote(AnswerNote, "ATNumDecPlacesWrong_OptNotInt"),
+        FeedBack: StackAddFeedback(FeedBack, "ATNumDecPlacesWrong_OptNotInt", stack_disp(options, "i")),
+        RawMark: false,
+        Validity: false
+    ),
+
+    if Validity then (
+        /* Shift the values to same range and cut to the required
+           match length. */
+        _sans:ev(sans,numer),
+        _tans:ev(remove_displaydp(tans),numer),
+
+        /* Special case, if either one is 0. */
+        if is(_sans=0) or is(_sans=0.0) or is(_tans=0) or is(_tans=0.0) then (
+            RawMark: ev(is(_sans-_tans < 10^-required),numer,simp),
+            if RawMark then (
+                AnswerNote: StackAddNote(AnswerNote, "ATNumDecPlacesWrong_Correct")
+            ) else (
+                AnswerNote: StackAddNote(AnswerNote, "ATNumDecPlacesWrong_Wrong")
+            ),
+            return([Validity, RawMark, AnswerNote, FeedBack])
+        ),
+
+        /* Now that log(0) has been handled shift the numbers */
+        _sans:ev(_sans*10^floor(-log(abs(_sans))/log(10)+required),numer,simp),
+        _tans:ev(_tans*10^floor(-log(abs(_tans))/log(10)+required),numer,simp),
+
+        /* Truncate extras. */
+        _sans:floor(_sans),
+        _tans:floor(_tans),
+
+        RawMark: ev(is(abs(_sans-_tans) < 0.1),numer,simp),
+        if RawMark then (
+            AnswerNote: StackAddNote(AnswerNote, "ATNumDecPlacesWrong_Correct")
+        ) else (
+            AnswerNote: StackAddNote(AnswerNote, "ATNumDecPlacesWrong_Wrong")
+        )
+    ),
+
+    return([Validity, RawMark, AnswerNote, FeedBack])
+)$

@@ -2741,7 +2741,7 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->check_current_mark(0);
         $this->check_prt_score('firsttree', 0, 0.2);
         $this->render();
-        $expected = 'Seed: 1; ans1: 9.8100*m/s^2 [score]; firsttree: # = 0 | ATUnits_WrongDigits. ' .
+        $expected = 'Seed: 1; ans1: 9.8100*m/s^2 [score]; firsttree: # = 0 | ATNumSigFigs_WrongDigits. ' .
                 'ATUnits_units_match. | firsttree-1-F';
         $this->check_response_summary($expected);
         $this->check_output_contains_text_input('ans1', '9.8100*m/s^2');

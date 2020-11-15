@@ -2038,11 +2038,11 @@ class stack_cas_session2_test extends qtype_stack_testcase {
         }
     }
 
-    public function test_stack_at_units_sigfigs_wrapper() {
+    public function test_stack_at_units_sigfigs() {
 
         $t1 = array();
         $t1[] = array('simp:false', 'false');
-        $t1[] = array('node_result:ATUnitsSigFigs_CASSigFigsWrapper(1*kg,1000*g,[1,3],"1 kg",false)',
+        $t1[] = array('node_result:ATUnitsSigFigs(1*kg,1000*g,[1,3],"1 kg")',
             '[true,true,"ATUnits_compatible_units kg. ",""]');
 
         foreach ($t1 as $i => $case) {

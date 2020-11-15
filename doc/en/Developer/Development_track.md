@@ -10,6 +10,7 @@ How to report bugs and make suggestions is described on the [community](../About
 Done:
 
 * Make it much easier for colleagues to construct a test case using the "teacher's answer" input values as test case inputs.
+* Move all answer tests to Maxima.
 
 ## Maxima side PRTs.
 

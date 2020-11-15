@@ -5,24 +5,11 @@ establish whether they satisfy some mathematical criteria. The
 prototype test is to establish if they are the _same_.  That is
 to say, _algebraically equivalent_.
 
-We expose the exact behaviour of each answer test by giving registered users access to STACK's test suite for STACK Answer tests.  This can be found on a live server at [https://stack-demo.maths.ed.ac.uk/demo/question/type/stack/answertests.php](https://stack-demo.maths.ed.ac.uk/demo/question/type/stack/answertests.php)
-
-This compares pairs of expressions and displays the outcomes
-from each test. Mainly used to ensure STACK is working, it is
-invaluable for understanding what each test really does.  In
-particular it enables authors to see examples of which
-expressions are the same and different together with examples
-of the automatically generated feedback.  This feedback can be
-suppressed using the `quiet` tick-box in the potential response
-tree node.
-
-You can apply functions before applying the tests.  For example, to ignore case sensitivity you can apply the [Maxima commands defined by STACK](../CAS/Maxima.md#Maxima_commands_defined_by_STACK) `exdowncase(ex)` to the arguments, before you apply one of the other answer tests.
-
-# Introduction #
+## Introduction ##
 
 Informally, the answer tests have the following syntax
 
-    [Errors, Result, FeedBack, Note] = AnswerTest(StudentAnswer, TeacherAnswer, Opt)
+    [Errors, Result, FeedBack, Note] = AnswerTest(StudentAnswer, TeacherAnswer, [Opt], [Raw])
 
 Where,
 
@@ -30,10 +17,10 @@ Where,
 | --------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------
 | StudentAnswer   | A CAS expression, assumed to be the student's answer.
 | TeacherAnswer   | A CAS expression, assumed to be the model answer.
-| Opt             | Any options which the specific answer test provides. For example, a variable, the accuracy of the numerical comparison, number of significant figures.
+| Opt             | If needed, any options which the specific answer test provides. For example, a variable, the accuracy of the numerical comparison, number of significant figures.
+| Raw             | If needed, the raw string of the student's input to ensure, e.g. Maxima does not remove trailing zeros when establishing the number of significant figures.
 
-Note that since the tests can provide feedback, tests which appear to be symmetrical,
-e.g. Algebraic Equivalence, really need to assume which expression belongs to the student and which to the teacher.
+Note that since the tests can provide feedback, tests which appear to be symmetrical, e.g. Algebraic Equivalence, really need to assume which expression belongs to the student and which to the teacher.
 
 | Variable  | Description
 | --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -42,9 +29,13 @@ e.g. Algebraic Equivalence, really need to assume which expression belongs to th
 | FeedBack  | This is a text string which is displayed to the student. It is [CASText](CASText.md) which may depend on properties of the student's answer.
 | Note      | This is a text string which is used for [Reporting](Reporting.md). Each answer note is concatenated with the previous notes and any contributions from the branch.
 
-The feedback is only shown to a student if the quiet option is set to 'no'.  If feedback is shown, then examples are given in the answer-test test suite.  Login as the admin user then navigate to
+The feedback is only shown to a student if the quiet option is set to 'no'.  If feedback is shown, then examples are given in the answer-test test suite.
 
-     Home > Site administration > Plugins > Question types > Stack
+We expose the exact behaviour of each answer test by giving registered users access to STACK's test suite for STACK Answer tests.  This can be found on a live server at `.../moodle/question/type/stack/answertests.php`. This script compares pairs of expressions and displays the outcomes from each test. This script is mainly used to ensure STACK is working, but it is invaluable for understanding what each test really does.  In particular it enables question authors to see examples of which expressions are the same and different together with examples of the automatically generated feedback.
+
+## In general ##
+
+You can apply functions before applying the tests.  For example, to ignore case sensitivity you can apply the [Maxima commands defined by STACK](../CAS/Maxima.md#Maxima_commands_defined_by_STACK) `exdowncase(ex)` to the arguments, before you apply one of the other answer tests.
 
 # Equality #
 
@@ -297,21 +288,17 @@ The test cannot cope with some situations.  Please contact the developers when y
 
 # Other #
 
-The following tests do not use Maxima, but instead rely on PHP.
+`String` This is a string match, ignoring leading and trailing white space which are stripped from all answers, using PHP's trim() function.
 
-| Expression     | Description
-| -------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-| String         | This is a string match, ignoring leading and trailing white space which are stripped from all answers, using PHP's trim() function.
-| StringSloppy   | This function first converts both inputs to lower case, then removes all white space from the string and finally performs a strict string comparison.
-| (RegExp)       | **NOTE:** this test was removed in STACK version 4.3.
+`StringSloppy` This function first converts both inputs to lower case, then removes all white space from the string and finally performs a strict string comparison.
+
+`SRegExp` Uses Maxima's regular expression function.
+
+`(RegExp)` **NOTE:** this test was removed in STACK version 4.3.
 
 # Scientific units #
 
 A dedicated answer test for scientific units is described on the [units](../Authoring/Units.md) page.
-
-# Developer #
-
-Adding answer tests is possible, but is a developer task.
 
 # See also
 

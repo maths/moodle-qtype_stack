@@ -59,7 +59,7 @@ In addition to the number of significant figures used to express the number, a t
 
 ### StrictSigFigs ####
 
-This test enforces the strict rules of significant figures.  It does not check for numerical precision.  This test is implemented in PHP (not using computer algebra) and looks only at surface features of the number representation.
+This test enforces the strict rules of significant figures.  It does not check for numerical precision and looks only at surface features of the number representation.
 
 The option is the required number of significant figures.  This must be an integer only.
 

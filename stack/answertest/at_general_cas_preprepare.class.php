@@ -37,20 +37,33 @@ class stack_answertest_general_cas_preprepare extends stack_answertest_general_c
 
         if ($sans->get_valid()) {
             $sa = $sans->get_inputform(true, 1);
+            // Don't wrap strings twice.
+            if (!$sans->is_string()) {
+                $sa = '"' . $sa . '"';
+            }
             if ($sans->is_correctly_evaluated()) {
                 $sa = $sans->get_value();
+                if (!$sans->is_string(true)) {
+                    $sa = '"' . $sa . '"';
+                }
             }
-            $sans = stack_ast_container::make_from_teacher_source('"'.$sa.'"', '', new stack_cas_security());
+            $sans = stack_ast_container::make_from_teacher_source($sa, '', new stack_cas_security());
         } else {
             $this->atansnote    = $this->casfunction.'TEST_FAILED:Invalid SA.';
         }
         $ta = '';
         if ($tans->get_valid()) {
             $ta = $tans->get_inputform(true, 1);
+            if (!$tans->is_string()) {
+                $ta = '"' . $ta . '"';
+            }
             if ($tans->is_correctly_evaluated()) {
                 $ta = $tans->get_value();
+                if (!$tans->is_string(true)) {
+                    $ta = '"' . $ta . '"';
+                }
             }
-            $tans = stack_ast_container::make_from_teacher_source('"'.$ta.'"', '', new stack_cas_security());
+            $tans = stack_ast_container::make_from_teacher_source($ta, '', new stack_cas_security());
         } else {
             $this->atansnote    = $this->casfunction.'TEST_FAILED:Invalid TA.';
         }

@@ -519,4 +519,99 @@ class stack_answertest_general_cas_test extends qtype_stack_testcase {
             '\cr &\mbox{Could be}& \cr &x=\mathrm{i}\,{\mbox{ or }}\, x=-1& \cr \end{array}\]';
         $this->assert_content_with_maths_equals($fbt, $at->get_at_feedback());
     }
+
+    public function test_is_true_for_equal_expressions() {
+        $at = new stack_ans_test_controller('NumDecPlaces',
+                stack_ast_container::make_from_teacher_source('1.01'),
+                stack_ast_container::make_from_teacher_source('1.01'),
+                stack_ast_container::make_from_teacher_source('2'),
+                null);
+        $this->assertTrue($at->do_test());
+        $this->assertEquals(1, $at->get_at_mark());
+        $this->assertTrue(stack_ans_test_controller::required_atoptions('NumDecPlaces'));
+    }
+
+    public function test_is_false_for_unequal_expressions() {
+        $at = new stack_ans_test_controller('NumDecPlaces',
+            stack_ast_container::make_from_teacher_source('2'),
+            stack_ast_container::make_from_teacher_source('1'),
+            stack_ast_container::make_from_teacher_source('4'),
+            null);
+        $this->assertFalse($at->do_test());
+        $this->assertEquals(0, $at->get_at_mark());
+    }
+
+    public function test_is_false_for_unequal_expressions_2() {
+        $at = new stack_ans_test_controller('NumDecPlaces',
+            stack_ast_container::make_from_teacher_source('2.000'),
+            stack_ast_container::make_from_teacher_source('1'),
+            stack_ast_container::make_from_teacher_source('3'),
+            null);
+        $this->assertFalse($at->do_test());
+        $this->assertEquals(0, $at->get_at_mark());
+        $this->assertEquals('ATNumDecPlaces_Correct. ATNumDecPlaces_Not_equiv.', $at->get_at_answernote());
+    }
+
+    public function test_is_true_for_equal_strings() {
+        $at = new stack_ans_test_controller('String',
+            stack_ast_container::make_from_teacher_source('"hello"'),
+            stack_ast_container::make_from_teacher_source('"hello"'));
+        $this->assertTrue($at->do_test());
+        $this->assertEquals(1, $at->get_at_mark());
+        $this->assertEquals('', $at->get_at_answernote());
+    }
+
+    public function test_is_false_for_unequal_strings() {
+        $at = new stack_ans_test_controller('String',
+                stack_ast_container::make_from_teacher_source('"hello"'),
+                stack_ast_container::make_from_teacher_source('"heloo"'),
+                null);
+        $this->assertFalse($at->do_test());
+        $this->assertEquals(0, $at->get_at_mark());
+    }
+
+    public function test_is_false_for_strings_with_different_case() {
+        $at = new stack_ans_test_controller('String',
+                stack_ast_container::make_from_teacher_source('"Hello"'),
+                stack_ast_container::make_from_teacher_source('"hello"'),
+                null);
+        $this->assertFalse($at->do_test());
+        $this->assertEquals(0, $at->get_at_mark());
+    }
+
+    public function test_is_true_for_equal_strings_sloppy() {
+        $at = new stack_ans_test_controller('StringSloppy',
+                stack_ast_container::make_from_teacher_source('"hello"'),
+                stack_ast_container::make_from_teacher_source('"hello"'),
+                null);
+        $this->assertTrue($at->do_test());
+        $this->assertEquals(1, $at->get_at_mark());
+    }
+
+    public function test_is_false_for_unequal_strings_sloppy() {
+        $at = new stack_ans_test_controller('StringSloppy',
+                stack_ast_container::make_from_teacher_source('"hello"'),
+                stack_ast_container::make_from_teacher_source('"heloo"'),
+                null);
+        $this->assertFalse($at->do_test());
+        $this->assertEquals(0, $at->get_at_mark());
+    }
+
+    public function test_is_true_for_strings_with_different_case_sloppy() {
+        $at = new stack_ans_test_controller('StringSloppy',
+                stack_ast_container::make_from_teacher_source('"Hello"'),
+                stack_ast_container::make_from_teacher_source('"hello"'),
+                null);
+        $this->assertTrue($at->do_test());
+        $this->assertEquals(1, $at->get_at_mark());
+    }
+
+    public function test_is_true_for_nearly_equal_strings_sloppy() {
+        $at = new stack_ans_test_controller('StringSloppy',
+                stack_ast_container::make_from_teacher_source('"hel lo"'),
+                stack_ast_container::make_from_teacher_source('"Hello"'),
+                null);
+        $this->assertTrue($at->do_test());
+        $this->assertEquals(1, $at->get_at_mark());
+    }
 }

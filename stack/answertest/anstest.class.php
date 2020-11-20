@@ -211,7 +211,7 @@ class stack_anstest {
         } else {
             return '';
         }
-        $traceline = $this->get_casfunction() . '(' . $sa . ', ' . $ta . ')';
+        $traceline = $this->get_casfunction() . '(' . $sa . ', ' . $ta;
         $atopt = '';
         if ($this->atoption && $this->atoption->get_valid()) {
             $atopt = $this->atoption->ast_to_string(null,

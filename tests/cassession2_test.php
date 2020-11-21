@@ -2098,4 +2098,27 @@ class stack_cas_session2_test extends qtype_stack_testcase {
             $this->assertEquals($t[1], $s1[$i]->get_value());
         }
     }
+
+    public function test_stack_numerical_not_alg_equiv_edge() {
+
+        $s1 = array();
+        $t1 = array();
+        $t1[] = array('numerical_not_alg_equiv(p2/p1,p2/p1)', 'false');
+        $t1[] = array('numerical_not_alg_equiv(2,p1)', 'true');
+        $t1[] = array('numerical_not_alg_equiv(p2,2)', 'true');
+        $t1[] = array('numerical_not_alg_equiv(x,p1)', 'true');
+        $t1[] = array('numerical_not_alg_equiv(p2,x)', 'true');
+        
+        foreach ($t1 as $i => $case) {
+            $s1[] = stack_ast_container::make_from_teacher_source($case[0], '', new stack_cas_security(), array());
+        }
+
+        $options = new stack_options();
+        $s = new stack_cas_session2($s1, $options, 0);
+        $s->instantiate();
+
+        foreach ($t1 as $i => $t) {
+            $this->assertEquals($t[1], $s1[$i]->get_value());
+        }
+    }
 }

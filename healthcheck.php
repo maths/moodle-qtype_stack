@@ -172,7 +172,8 @@ output_cas_text(stack_string('healthcheckconnect'),
 if ($config->platform === 'unix' and $genuinecascall) {
     echo $OUTPUT->heading(stack_string('healthautomaxopt'), 3);
     echo html_writer::tag('p', stack_string('healthautomaxoptintro'));
-    list($message, $debug, $result, $commandline) = stack_connection_helper::stackmaxima_auto_maxima_optimise($genuinedebug);
+    list($message, $debug, $result, $commandline, $rawcommand)
+        = stack_connection_helper::stackmaxima_auto_maxima_optimise($genuinedebug);
     $summary[] = array($result, $message);
     echo html_writer::tag('p', $message);
     echo output_debug(stack_string('debuginfo'), $debug);

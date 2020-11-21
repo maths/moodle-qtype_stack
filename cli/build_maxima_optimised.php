@@ -59,7 +59,8 @@ cli_heading('Trying to generate maxima_opt_auto');
 list($ok, $message) = stack_cas_configuration::create_auto_maxima_image();
 
 if ($ok) {
-    cli_heading($message);
+    cli_heading("DONE.");
+    cli_write($message . "\n");
 } else {
     cli_error($message);
 }

@@ -399,12 +399,12 @@ abstract class stack_connection_helper {
             case 'GCL':
                 $maximacommand = ':lisp (si::save-system "'.$imagename.'")' . "\n";
                 $maximacommand .= 'quit();'."\n";
-                $commandline = stack_utils::convert_slash_paths($imagename . ' -eval \'(cl-user::run)\'');
+                $rawcommand = stack_utils::convert_slash_paths($imagename . ' -eval \'(cl-user::run)\'');
                 break;
 
             case 'SBCL':
                 $maximacommand = ':lisp (sb-ext:save-lisp-and-die "'.$imagename.'" :toplevel #\'run :executable t)' . "\n";
-                $commandline = stack_utils::convert_slash_paths($imagename);
+                $rawcommand = stack_utils::convert_slash_paths($imagename);
                 break;
 
             case 'CLISP':
@@ -418,7 +418,7 @@ abstract class stack_connection_helper {
                     return array($message, '', $success, '');
                 }
                 $lisprun = explode("\n", $lisprun);
-                $commandline = $lisprun[0].' -q -M '.stack_utils::convert_slash_paths($imagename);
+                $rawcommand = $lisprun[0].' -q -M '.stack_utils::convert_slash_paths($imagename);
                 break;
 
             default:
@@ -434,14 +434,14 @@ abstract class stack_connection_helper {
         $success = true;
 
         // Add the timeout command to the message.
-        $commandline = 'timeout --kill-after=10s 10s '.$commandline;
+        $commandline = 'timeout --kill-after=10s 10s '.$rawcommand;
         $message = stack_string('healthautomaxopt_ok', array('command' => $commandline));
         if (!file_exists($imagename)) {
             $success = false;
             $message = stack_string('healthautomaxopt_notok');
         }
 
-        return array($message, $debug, $success, $commandline);
+        return array($message, $debug, $success, $commandline, $rawcommand);
     }
 
 }

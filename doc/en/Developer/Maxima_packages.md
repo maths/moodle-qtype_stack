@@ -26,4 +26,24 @@ Some notes.
 2. Some packages do make Maxima significantly slower to load and run.  We will check this before allowing a particular package.  (This is a good reason to allow question to load packages of course...)
 3. Beware of new global variables, changes/side effects in other functions.
 
+## Maxima graph theory package
 
+For use with STACK, Maxima needs to connect to the web server (PHP scripts) and this is actually done by passing text files back and forward.  So every expression to the CAS, and every result back, must have a simple string format.
+
+Some of the contributed packages, including the very nice graph theory package, have developed their own internal representation for mathematical objects.  For example,
+
+    gf_set_data(2,x^4+x+1);
+
+returns
+
+    "Structure [GF-DATA]"
+
+As of Nov 2020, the STACK developers have not investigated what a "Structure [GF-DATA]" is or how that could be communicated between PHP and Maxima!  By way of contrast a simple polynomial x^4+x+1 has an internal (LISP) tree structure of
+
+    ((MPLUS SIMP) 1 $X ((MEXPT SIMP) $X 4))
+
+which you can read this as
+
+   ((+) 1 x ((^) x 4)
+
+We must have some kind of string like that to communicate and STACK basically uses the Maxima `string` command to do this.  It is very likely that without re-writing the internals of the graph theory package it is not compatible with the way we connect to Maxima.

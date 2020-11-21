@@ -393,7 +393,7 @@ END;
         if ($config->platform == 'win') {
             $errmsg = "Microsoft Windows version cannot be automatically optimised";
             return array(false, $errmsg);
-        } else if ($config->platform != 'unix' && $config->platform != 'unix-optimised') {
+        } else if ($config->platform != 'linux' && $config->platform != 'linux-optimised') {
             $errmsg = "$config->platform version cannot be automatically optimised";
             return array(false, $errmsg);
         }

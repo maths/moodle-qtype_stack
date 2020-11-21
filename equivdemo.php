@@ -252,7 +252,7 @@ if ($debug) {
     $script = stack_cas_configuration::generate_maximalocal_contents();
     $script .= "\n";
     $settings = get_config('qtype_stack');
-    if ($settings->platform == 'unix-optimised') {
+    if ($settings->platform == 'linux-optimised') {
         $script .= 'load("stackmaxima.mac")$'."\n";
     }
     $script .= "simp:false;\n";

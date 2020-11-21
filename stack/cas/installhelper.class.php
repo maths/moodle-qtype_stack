@@ -255,7 +255,7 @@ END;
 
 END;
 
-        if ($this->settings->platform == 'unix-optimised') {
+        if ($this->settings->platform == 'linux-optimised') {
             $contents .= <<<END
 /* We are using an optimised lisp image with maxima and the stack libraries
    pre-loaded. That is why you don't see the familiar load("stackmaxima.mac")$ here.
@@ -398,17 +398,17 @@ END;
             return array(false, $errmsg);
         }
 
-        // Revert to the plain unix platform.  This will genuinely call the CAS, and
+        // Revert to the plain Linux platform.  This will genuinely call the CAS, and
         // as a result create a new image.
         $oldplatform = $config->platform;
-        set_config('platform', 'unix', 'qtype_stack');
-        if ($oldplatform == 'unix-optimised') {
+        set_config('platform', 'linux', 'qtype_stack');
+        if ($oldplatform == 'linux-optimised') {
             // If we have explicitly set a path, or a --use-version = we should respect it here.
             set_config('maximacommand', '', 'qtype_stack');
             self::get_instance()->settings->maximacommand = '';
-            self::get_instance()->settings->platform = 'unix';
+            self::get_instance()->settings->platform = 'linux';
             stack_utils::get_config()->maximacommand = '';
-            stack_utils::get_config()->platform = 'unix';
+            stack_utils::get_config()->platform = 'linux';
         }
 
         // Try to make a new version of the maxima local file.
@@ -436,11 +436,11 @@ END;
             if (!$result) {
                 $errmsg = "Automake failed: $message\n\n$genuinedebug";
             } else {
-                set_config('platform', 'unix-optimised', 'qtype_stack');
+                set_config('platform', 'linux-optimised', 'qtype_stack');
                 set_config('maximacommandopt', $commandline, 'qtype_stack');
-                stack_utils::get_config()->platform = 'unix-optimised';
+                stack_utils::get_config()->platform = 'linux-optimised';
                 stack_utils::get_config()->maximacommandopt = $commandline;
-                self::get_instance()->settings->platform = 'unix-optimised';
+                self::get_instance()->settings->platform = 'linux-optimised';
                 self::get_instance()->settings->maximacommandopt = $commandline;
                 // We need to regenerate this file to supress stackmaxima.mac and libraries being reloaded.
                 self::create_maximalocal();

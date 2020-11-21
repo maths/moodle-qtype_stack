@@ -1,6 +1,6 @@
 # Optimising Maxima
 
-There are several ways to reduce the access and execution time of this CAS which can prove useful for scaling. They have the potential to greatly speed up STACK, and are widely used.  It is particularly important on a Unix system to compile the Maxima code. Please let us know if you try them.
+There are several ways to reduce the access and execution time of this CAS which can prove useful for scaling. They have the potential to greatly speed up STACK, and are widely used.  It is particularly important on a Linux system to compile the Maxima code. Please let us know if you try them.
 
 The instructions for both CLISP and SBCL have been tested and work in STACK 3.  As of November 2015, these are working with Maxima 5.36.1, but some versions of Maxima do have problems.  We now have some code to attempt to automatically generate the LISP images described below.  Beware, however, that when regenerating the image you may have to manually delete the old image which may be write-protected.
 

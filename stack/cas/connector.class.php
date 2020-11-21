@@ -134,9 +134,9 @@ abstract class stack_cas_connection_base implements stack_cas_connection {
         return $this->debug->get_log();
     }
 
-    /* On a Unix system list the versions of maxima available for use. */
+    /* On a Linux system list the versions of maxima available for use. */
     public function get_maxima_available() {
-        if ('unix' != stack_connection_helper::get_platform()) {
+        if ('linux' != stack_connection_helper::get_platform()) {
             return stack_string('healthunabletolistavail');
         }
         $this->command = 'maxima --list-avail';
@@ -175,7 +175,7 @@ abstract class stack_cas_connection_base implements stack_cas_connection {
         $initcommand .= "\n";
 
         $cmd = $settings->maximacommand;
-        if ($settings->platform == 'unix-optimised') {
+        if ($settings->platform == 'linux-optimised') {
             $cmd = $settings->maximacommandopt;
         } else if ($settings->platform == 'server') {
             $cmd = $settings->maximacommandserver;

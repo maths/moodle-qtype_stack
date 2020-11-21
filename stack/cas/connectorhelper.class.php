@@ -58,10 +58,10 @@ abstract class stack_connection_helper {
                 require_once(__DIR__ . '/connector.windows.class.php');
                 $connection = new stack_cas_connection_windows(self::$config, $debuglog);
                 break;
-            case 'unix':
-            case 'unix-optimised':
-                require_once(__DIR__ . '/connector.unix.class.php');
-                $connection = new stack_cas_connection_unix(self::$config, $debuglog);
+            case 'linux':
+            case 'linux-optimised':
+                require_once(__DIR__ . '/connector.linux.class.php');
+                $connection = new stack_cas_connection_linux(self::$config, $debuglog);
                 break;
             case 'server':
                 require_once(__DIR__ . '/connector.server.class.php');
@@ -255,7 +255,7 @@ abstract class stack_connection_helper {
         }
 
         switch (self::$config->platform) {
-            case 'unix-optimised':
+            case 'linux-optimised':
                 $docsurl = new moodle_url('/question/type/stack/doc/doc.php/CAS/Optimising_Maxima.md');
                 $fix = stack_string('healthchecksstackmaximaversionfixoptimised', array('url' => $docsurl->out()));
                 break;

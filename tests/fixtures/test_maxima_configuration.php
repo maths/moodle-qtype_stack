@@ -37,7 +37,7 @@ abstract class qtype_stack_test_config {
         // Either the platform is already non-default (e.g.
         // because auto-optimse worked during install, or
         // settings given in config.php.
-        return get_config('qtype_stack', 'platform') !== 'unix' ||
+        return get_config('qtype_stack', 'platform') !== 'linux' ||
                 defined('QTYPE_STACK_TEST_CONFIG_PLATFORM');
     }
 

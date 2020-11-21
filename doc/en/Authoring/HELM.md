@@ -1,10 +1,10 @@
-# HELM #
+# HELM
 
 During the summer of 2020, we started to convert the [HELM workbooks](https://learn.lboro.ac.uk/archive/olmp/olmp_resources/pages/wbooks_fulllist.html) into STACK quizzes.  The ultimate goal is to create and release one quiz for each of the .pdf workbooks.
 
 To help question authors work in parallel and yet achieve a consistent style we introduced the following style conventions which are now available to any STACK question.
 
-### Key points ### 
+### Key points 
 
 * These appear in boxes in the original HELM workbooks.
 * Do not include the numbers that appear in the PDFs (i.e. use "Key Point" rather than "Key Point 1")
@@ -35,7 +35,7 @@ To help question authors work in parallel and yet achieve a consistent style we 
 </table>
 
 
-### Examples ### 
+### Examples 
 
 * Have a horizontal rule before them. They also have a horizontal rule after them, unless they are last in the text.
 * Do not include the numbers that appear in the PDFs (i.e. use "Example" rather than "Example 1")
@@ -109,7 +109,7 @@ To help question authors work in parallel and yet achieve a consistent style we 
 Hint: If &lt;hr&gt; doesn't work try preceding it with &lt;p&gt;&amp;nbsp;&lt;/p&gt;.
 
 
-### Questions ### 
+### Questions
 
 * Start with heading "Exercise" - see below for styling. Note that these are numbered in the PDFs but do not copy the numbers. The Moodle quiz will take care of numbering the questions.
 

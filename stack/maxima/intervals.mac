@@ -656,6 +656,7 @@ interval_connect(X) := block([Ans, n, x, y, i:1],
 
 /* Given a union of disjoint sets, returns the "canonical form" of this union: */
 interval_tidy(X) := block([A, Ans:[], n, setpart:{}, x, y, i:1],
+    if X=all then return(all),
     if atom(X) then return(Ans:phi),
     if listp(X) then X:apply(%union, X),
     X:ev(X, %intersection=interval_intersect_nary),
@@ -690,6 +691,7 @@ interval_tidy(X) := block([A, Ans:[], n, setpart:{}, x, y, i:1],
                 A:first(A),
             Ans:A
         ),
+        if Ans=oo(-inf,inf) then return(all),
         Ans
 )$
 

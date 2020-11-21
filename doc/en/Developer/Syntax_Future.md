@@ -42,7 +42,8 @@ The value of this option is an integer.  Sum the numbers for each issue you want
 * `1`: Insert `*`s for implied multiplication.  If any patterns are identified as needing `*`s then they will automatically be inserted into the expression quietly.
 * `2`: Allow spaces for implied multiplication.
 * `4`: Assume single character variable names.
-* `8`: Prevent user-defined functions.
+* `8`: Assume single character variable nemes, and assume no Maxima constants.  E.g. `pi` is now `p*i` and not \(\pi\).
+* `16`: Assume no user-defined functions. (If `1` is set the insert stars...)
 
 Therefore, a value of `3` both inserts `*`s for implied multiplication and allow spaces to imply multiplication, but we do not assume single character variable names, and we do not prevent user-defined functions.
 

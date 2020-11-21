@@ -174,9 +174,13 @@ abstract class stack_cas_connection_base implements stack_cas_connection {
         $initcommand = str_replace("\\", "/", $initcommand);
         $initcommand .= "\n";
 
-        if ('' != trim($settings->maximacommand)) {
-            $cmd = $settings->maximacommand;
-        } else {
+        $cmd = $settings->maximacommand;
+        if ($settings->platform == 'unix-optimised') {
+            $cmd = $settings->maximacommandopt;
+        } else if ($settings->platform == 'server') {
+            $cmd = $settings->maximacommandserver;
+        }
+        if ('' === trim($cmd)) {
             $cmd = $this->guess_maxima_command($path);
         }
 

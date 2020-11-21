@@ -158,7 +158,7 @@ abstract class stack_connection_helper {
 
     /**
      * This method checks the version information returned from the STACK-Maxima
-     * libraries agains the version number we expect for this version of
+     * libraries against the version number we expect for this version of
      * qtype_stack.
      * @param array $unpackedresult the result of the CAS call.
      * @return bool whether the CAS call used an compatible library version.
@@ -298,7 +298,7 @@ abstract class stack_connection_helper {
     }
 
     /**
-     * Really exectue a CAS command, regardless of the cache settings.
+     * Really execute a CAS command, regardless of the cache settings.
      */
     public static function stackmaxima_genuine_connect() {
         self::ensure_config_loaded();

@@ -401,7 +401,6 @@ END;
         // Revert to the plain unix platform.  This will genuinely call the CAS, and
         // as a result create a new image.
         $oldplatform = $config->platform;
-        $oldmaximacommand = $config->maximacommand;
         set_config('platform', 'unix', 'qtype_stack');
         if ($oldplatform == 'unix-optimised') {
             // If we have explicitly set a path, or a --use-version = we should respect it here.
@@ -438,11 +437,11 @@ END;
                 $errmsg = "Automake failed: $message\n\n$genuinedebug";
             } else {
                 set_config('platform', 'unix-optimised', 'qtype_stack');
-                set_config('maximacommand', $commandline, 'qtype_stack');
+                set_config('maximacommandopt', $commandline, 'qtype_stack');
                 stack_utils::get_config()->platform = 'unix-optimised';
-                stack_utils::get_config()->maximacommand = $commandline;
+                stack_utils::get_config()->maximacommandopt = $commandline;
                 self::get_instance()->settings->platform = 'unix-optimised';
-                self::get_instance()->settings->maximacommand = $commandline;
+                self::get_instance()->settings->maximacommandopt = $commandline;
                 // We need to regenerate this file to supress stackmaxima.mac and libraries being reloaded.
                 self::create_maximalocal();
 
@@ -463,11 +462,8 @@ END;
 
         if ($revert) {
             set_config('platform', $oldplatform, 'qtype_stack');
-            set_config('maximacommand', $oldmaximacommand , 'qtype_stack');
             stack_utils::get_config()->platform = $oldplatform;
-            stack_utils::get_config()->maximacommand = $oldmaximacommand;
             self::get_instance()->settings->platform = $oldplatform;
-            self::get_instance()->settings->maximacommand = $oldmaximacommand;
             self::create_maximalocal();
             return array(false, $errmsg);
         } else {

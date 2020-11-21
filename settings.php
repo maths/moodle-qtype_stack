@@ -89,6 +89,14 @@ $settings->add(new admin_setting_configtext('qtype_stack/maximacommand',
         get_string('settingplatformmaximacommand', 'qtype_stack'),
         get_string('settingplatformmaximacommand_desc', 'qtype_stack'), null));
 
+$settings->add(new admin_setting_configtext('qtype_stack/maximacommandopt',
+        get_string('settingplatformmaximacommandopt', 'qtype_stack'),
+        get_string('settingplatformmaximacommandopt_desc', 'qtype_stack'), null));
+
+$settings->add(new admin_setting_configtext('qtype_stack/maximacommandserver',
+        get_string('settingplatformmaximacommandserver', 'qtype_stack'),
+        get_string('settingplatformmaximacommandserver_desc', 'qtype_stack'), null));
+
 $settings->add(new admin_setting_configtext('qtype_stack/serveruserpass',
         get_string('settingserveruserpass', 'qtype_stack'),
         get_string('settingserveruserpass_desc', 'qtype_stack'), ''));

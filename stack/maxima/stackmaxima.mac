@@ -1225,10 +1225,17 @@ ATAlgEquivfun(SA, SB) :=  block([SApoly, SBpoly, keepfloat, RawMark, FeedBack, A
     if expressionp(SA)=false then
         return(StackBasicReturn(false, false, "ATAlgEquiv_SA_not_expression")),
     /* Otherwise we have two expressions*/
-    if algebraic_equivalence(SA, SB) then
+    if SA=SB then
        RawMark:true
-    else if algebraic_equivalence(exdowncase(SA), exdowncase(SB)) then
-       AnswerNote:StackAddNote("", "ATAlgEquiv_WrongCase"),
+    else if algebraic_equivalence(SA, SB) then
+       RawMark:true
+    else block([SAd, SBd],
+        /* algebraic_equivalence is not free, so only execute this when we need to do so. */
+        SAd:exdowncase(SA),
+        SBd:exdowncase(SB),
+        if (SAd#SA or SBd#SB) and algebraic_equivalence(SAd, SBd) then
+            AnswerNote:StackAddNote("", "ATAlgEquiv_WrongCase")
+        ),
     ret:[Validity, RawMark, AnswerNote, FeedBack],
     return(ret)
     )$
@@ -3047,5 +3054,5 @@ load(linearalgebra);
 
 /* Stack expects some output with the version number the output happens at */
 /* maximalocal.mac after additional library loading */
-stackmaximaversion:2020101501$
+stackmaximaversion:2020112200$
 

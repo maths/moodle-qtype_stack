@@ -431,7 +431,7 @@ class stack_answertest_test_data {
         array('AlgEquiv', '', 'stackunits(2,m)^2', 'stackunits(4,m^2)', 1, '', ''),
         array('AlgEquiv', '', 'stackunits(2,s)^2', 'stackunits(4,m^2)', 0, '', ''),
         array('AlgEquiv', '', '-inf', 'minf', 0, '', 'Maxima does not simplify -inf (I agree!)'),
-        array('AlgEquiv', '', '2/%i*ln(sqrt((1+z)/2)+%i*sqrt((1-z)/2))', '-%i*ln(z+i*sqrt(1-z^2))', -3,
+        array('AlgEquiv', '', '2/%i*ln(sqrt((1+z)/2)+%i*sqrt((1-z)/2))', '-%i*ln(z+%i*sqrt(1-z^2))', -3,
             '', 'These currently fail'),
         array('AlgEquiv', '', 'abs(x^2-4)/(abs(x-2)*abs(x+2))', '1', -3, '', ''),
         array('AlgEquiv', '', 'abs(x^2-4)', 'abs(x-2)*abs(x+2)', -3, '', ''),

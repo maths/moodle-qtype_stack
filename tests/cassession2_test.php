@@ -1405,7 +1405,7 @@ class stack_cas_session2_test extends qtype_stack_testcase {
         $this->assertTrue($at1->get_valid());
         $at1->instantiate();
 
-        $this->assertEquals('', $at1->get_errors());
+        $this->assertEquals($at1->get_errors(), '');
         // All these tests should work with simp:false.
         foreach ($tests as $key => $c) {
             if ($s1[$key]->is_correctly_evaluated()) {

@@ -131,6 +131,7 @@ class stack_answertest_test_data {
         array('AlgEquiv', '', '1/(4*x-(%pi+sqrt(2)))', '1/(x+1)', 0, '', ''),
         array('AlgEquiv', '', '(x-a)^6000', '(x-a)^6000', 1, '', ''),
         array('AlgEquiv', '', '(a-x)^6000', '(x-a)^6000', 1, '', ''),
+        array('AlgEquiv', '', '(4*a-x)^6000', '(x-4*a)^6000', 1, '', ''),
         array('AlgEquiv', '', '(x-a)^6000', '(x-a)^5999', 0, '', ''),
         array('AlgEquiv', '', '(k+8)/(k^2+4*k-12)', '(k+8)/(k^2+4*k-12)', 1, '', ''),
         array('AlgEquiv', '', '(k+7)/(k^2+4*k-12)', '(k+8)/(k^2+4*k-12)', 0, '', ''),
@@ -488,6 +489,11 @@ class stack_answertest_test_data {
         // Note evaluated functions.
         array('AlgEquiv', '', 'diff(y(x),x)', '0', 0, '', ''),
 
+        array('AlgEquiv', '', '"Hello"', '"Hello"', 1, 'ATAlgEquiv_String', 'Basic support for strings'),
+        array('AlgEquiv', '', '"hello"', '"Hello"', 0, 'ATAlgEquiv_String', ''),
+        array('AlgEquiv', '', 'W', '"Hello"', 0, 'ATAlgEquiv_SA_not_string.', ''),
+        array('AlgEquiv', '', '"Hello"', 'x^2', 0, 'ATAlgEquiv_SA_not_expression.', ''),
+
         array('AlgEquivNouns', '', '1/0', '1', -1, 'ATAlgEquivNouns_STACKERROR_SAns.', ''),
         array('AlgEquivNouns', '', '1', '1/0', -1, 'ATAlgEquivNouns_STACKERROR_TAns.', ''),
         array('AlgEquivNouns', '', '', '(x-1)^2', -1, 'ATAlgEquivNounsTEST_FAILED-Empty SA.', ''),
@@ -510,11 +516,6 @@ class stack_answertest_test_data {
         array('AlgEquivNouns', '', 'y(t)=\'int(s^2,s,0,t)', 'y(t)=nounint(s^2,s,0,t)', 1, 'ATEquation_sides', ''),
         array('AlgEquivNouns', '', 'true nounand false', 'false', 1, 'ATLogic_True.',
                 'Logic nouns are still evaluated'),
-
-        array('AlgEquiv', '', '"Hello"', '"Hello"', 1, 'ATAlgEquiv_String', 'Basic support for strings'),
-        array('AlgEquiv', '', '"hello"', '"Hello"', 0, 'ATAlgEquiv_String', ''),
-        array('AlgEquiv', '', 'W', '"Hello"', 0, 'ATAlgEquiv_SA_not_string.', ''),
-        array('AlgEquiv', '', '"Hello"', 'x^2', 0, 'ATAlgEquiv_SA_not_expression.', ''),
 
         array('SubstEquiv', '', '1/0', 'x^2-2*x+1', -1, 'ATSubstEquiv_STACKERROR_SAns.', ''),
         array('SubstEquiv', '[1/0]', 'x^2', 'x^2-2*x+1', -1, 'ATSubstEquiv_STACKERROR_Opt.', ''),

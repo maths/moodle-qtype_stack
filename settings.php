@@ -71,6 +71,7 @@ $settings->add(new admin_setting_configselect('qtype_stack/maximaversion',
                 array('5.38.1' => '5.38.1', '5.39.0' => '5.39.0',
                       '5.40.0' => '5.40.0', '5.41.0' => '5.41.0', '5.42.0' => '5.42.0',
                       '5.42.1' => '5.42.1', '5.42.2' => '5.42.2',
+                      '5.43.0' => '5.43.1', '5.43.2' => '5.44.0',
                       'default' => 'default')));
 
 $settings->add(new admin_setting_configtext('qtype_stack/castimeout',

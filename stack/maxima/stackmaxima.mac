@@ -35,6 +35,7 @@ stack_reset(not_used) := block(
   exptdispflag: true,
   linsolvewarn: false,
   ratprint: false,
+  factor_max_degree_print_warning:false,
   /* Suppress warnings printed by mtell, e.g. by solve, rat and other functions. */
   stack_mtell_quiet:false,
   fpprintprec: 12,     /* Print only 12 digits. */
@@ -73,6 +74,9 @@ stack_reset_vars(ex) := block(kill(i, j, e, pi, Pi, PI));
 
 /* Execute this command to ensure values have been set. */
 stack_reset(true);
+
+/* Make sure this is at least defined. */
+debug:false;
 
 alias(int,integrate);        /* Allows integrate to be called with int()    */
 alias(cosec,csc);            /* Corresponds to current student expectations */
@@ -145,19 +149,6 @@ matchfix("|", "|");
 /* Does not quite work yet ..... */
 /* load("noninteractive.mac"); */
 
-/*load("sqdnst")*/
-sqrtdenest(a) :=
-  subst("^" = lambda([a, b],
-     block([discr, max, min],
-       if evenp(denom(b)) and not atom(a) and inpart(a, 0) = "+"
-           and (max:max(first(a), rest(a)),
-                   min:a-max,
-                   numberp(discr:sqrt(1-(min/max)^2)))
-      then (sqrt(max*(1+discr)/2)+signum(min)*sqrt(max*(1-discr)/2))^(2*b)
-      else a^b)),
-      a
-)$
-
 /* ********************************** */
 /* Load STACK packages                */
 /* ********************************** */
@@ -171,6 +162,7 @@ load("stackstrings.mac");
 load("sregex");
 /* Ensure back compatability with versions before 5.41.0. */
 if is(MAXIMA_VERSION_NUM<40.1) then load("stacktex40.lisp");
+if is(MAXIMA_VERSION_NUM<44.0) then load("stack44.mac");
 load("utils.mac");
 load("numericaltest.mac");
 load("errortostring.lisp");
@@ -1363,7 +1355,6 @@ ATEquation(SA, SB) := block([keepfloat, RawMark, SA1, SB1, SB2, Rationalex1, Rat
         if algebraic_equivalence(rhs(SA), lhs(SB)) then
              return([true, true, "ATEquation_sides_op", ""])
         else return([true, false, "ATEquation_lhs_notrhs_op", ""]),
-
     /* First try without expanding out the equations */
     Rationalex1:ev(lhs(factor(SA))-rhs(factor(SA)), simp),
     Rationalex2:ev(lhs(factor(SB))-rhs(factor(SB)), simp),

@@ -22,7 +22,7 @@ and then re-start the web server.
 
 ## 1. Set up Moodle.
 
-* Please ensure you have [installed Moodle](http://docs.moodle.org/en/Main_page).  We intend to support STACK within the normal Moodle [release cycle](https://docs.moodle.org/dev/Releases).  STACK 4.3 has been tested on Moodle 3.5, 3.6, 3.7 and 3.8.  STACK is untested on versions before Moodle 3.4.  We intend to support all future Moodle releases. If your version of Moodle is not listed here please contact the developers: we probably simply have not done the testing of future versions yet.  For longer support of older versions of Moodle please contact us, otherwise will will drop them from our list.
+* Please ensure you have [installed Moodle](http://docs.moodle.org/en/Main_page).  We intend to support STACK within the normal Moodle [release cycle](https://docs.moodle.org/dev/Releases).  STACK 4.3 has been tested on Moodle 3.5, 3.6, 3.7 and 3.8.  STACK is untested on versions before Moodle 3.5.  We intend to support all future Moodle releases. If your version of Moodle is not listed here please contact the developers: we probably simply have not done the testing of future versions yet.  For longer support of older versions of Moodle please contact us, otherwise will will drop them from our list.
 * Please ensure LaTeX can be displayed.  We currently support [MathJax](Mathjax.md) through the Moodle MathJax filter.
 
 Consider updating the MathJax settings to wrap long equations. In particular, add
@@ -35,9 +35,9 @@ to `filter_mathjaxloader | mathjaxconfig` in the filter settings: Dashboard > Si
 
 ## 2. Install gnuplot and Maxima
 
-Ensure gcc, gnuplot and [Maxima](http://maxima.sourceforge.net) are installed on your server.  Currently Maxima 5.38.1 to 5.42.2 are supported.  Please contact the developers to request support for other versions.
+Ensure gcc, gnuplot and [Maxima](http://maxima.sourceforge.net) are installed on your server.  Currently Maxima 5.38.1 to 5.44.0 are supported.  Please contact the developers to request support for other versions.  (Newer versions will be supported, and prompts to test them are welcome.)
 
-We currently recommend that you use Maxima 5.38.1.
+We currently recommend that you use Maxima 5.41.1.
 
 Please note 
 

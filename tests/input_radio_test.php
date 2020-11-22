@@ -366,4 +366,29 @@ class stack_radio_input_test extends qtype_stack_walkthrough_test_base {
         $correctresponse = array('ans1' => 2);
         $this->assertEquals($correctresponse, $el->get_correct_response($ta));
     }
+
+    public function test_teacher_answer_protect_string_html() {
+        $options = new stack_options();
+        $ta = '[[notanswered,false,"n/a"],["{",true],["[",false],["(",false]]';
+        $el = stack_input_factory::make('radio', 'ans1', $ta, null, array());
+        $el->adapt_to_model_answer($ta);
+
+        $correctresponse = array('ans1' => 1);
+        $this->assertEquals($correctresponse, $el->get_correct_response($ta));
+        $expected = 'A correct answer is: <ul><li>{</li></ul>';
+        $this->assertEquals($expected, $el->get_teacher_answer_display(false, false));
+
+        $expected = '<div class="answer"><div class="option"><input type="radio" name="stack1__ans1" value="" id="stack1__ans1_" /><label for="stack1__ans1_">n/a</label></div><div class="option"><br /></div><div class="option"><input type="radio" name="stack1__ans1" value="1" id="stack1__ans1_1" checked="checked" /><label for="stack1__ans1_1">{</label></div><div class="option"><input type="radio" name="stack1__ans1" value="2" id="stack1__ans1_2" /><label for="stack1__ans1_2">[</label></div><div class="option"><input type="radio" name="stack1__ans1" value="3" id="stack1__ans1_3" /><label for="stack1__ans1_3">(</label></div></div>';
+        $this->assert_same_select_html($expected, $el->render(new stack_input_state(
+                stack_input::SCORE, array('1'), '', '', '', '', ''), 'stack1__ans1', false, null));
+        $state = $el->validate_student_response(array('ans1' => '1'), $options, '1', new stack_cas_security());
+        $this->assertEquals(stack_input::SCORE, $state->status);
+        $this->assertEquals('"{"', $state->contentsmodified);
+        // The response below is a complete edge case: mismatching curly brackets inside a string!
+        // To fix this we need to dig into how Maxima creates LaTeX, and protects strings.
+        // The place to fix this is in Maxima: tex("{"); gives the wrong result.
+        // This applys to any strings in STACK/Maxima, so this isn't the place to record this failing unit test.
+        // But, I'll ask the Maxima people to fix it and see when this unit test "breaks" to correct behaviour!
+        $this->assertEquals('\[ \mbox{{} \]', $state->contentsdisplayed);
+    }
 }

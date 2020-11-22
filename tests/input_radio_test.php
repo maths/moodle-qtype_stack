@@ -378,7 +378,14 @@ class stack_radio_input_test extends qtype_stack_walkthrough_test_base {
         $expected = 'A correct answer is: <ul><li>{</li></ul>';
         $this->assertEquals($expected, $el->get_teacher_answer_display(false, false));
 
-        $expected = '<div class="answer"><div class="option"><input type="radio" name="stack1__ans1" value="" id="stack1__ans1_" /><label for="stack1__ans1_">n/a</label></div><div class="option"><br /></div><div class="option"><input type="radio" name="stack1__ans1" value="1" id="stack1__ans1_1" checked="checked" /><label for="stack1__ans1_1">{</label></div><div class="option"><input type="radio" name="stack1__ans1" value="2" id="stack1__ans1_2" /><label for="stack1__ans1_2">[</label></div><div class="option"><input type="radio" name="stack1__ans1" value="3" id="stack1__ans1_3" /><label for="stack1__ans1_3">(</label></div></div>';
+        $expected = '<div class="answer"><div class="option"><input type="radio" name="stack1__ans1" ' .
+                'value="" id="stack1__ans1_" /><label for="stack1__ans1_">n/a</label></div><div class="option">' .
+                '<br /></div><div class="option"><input type="radio" name="stack1__ans1" value="1" id="stack1__ans1_1" ' .
+                'checked="checked" /><label for="stack1__ans1_1">{</label></div><div class="option">' .
+                '<input type="radio" name="stack1__ans1" value="2" id="stack1__ans1_2" />' .
+                '<label for="stack1__ans1_2">[</label></div><div class="option">' .
+                '<input type="radio" name="stack1__ans1" value="3" id="stack1__ans1_3" /><label for="stack1__ans1_3">(' .
+                '</label></div></div>';
         $this->assert_same_select_html($expected, $el->render(new stack_input_state(
                 stack_input::SCORE, array('1'), '', '', '', '', ''), 'stack1__ans1', false, null));
         $state = $el->validate_student_response(array('ans1' => '1'), $options, '1', new stack_cas_security());

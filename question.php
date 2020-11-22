@@ -458,6 +458,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
      * teacher's model answers.
      */
     protected function adapt_inputs() {
+        $contextsession = $this->session->get_contextsession();
         foreach ($this->inputs as $name => $input) {
             // TODO: again should we give the whole thing to the input.
             $teacheranswer = '';
@@ -465,6 +466,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
                 $teacheranswer = $this->tas[$name]->get_value();
             }
             $input->adapt_to_model_answer($teacheranswer);
+            $input->add_contextsession($contextsession);
         }
     }
 

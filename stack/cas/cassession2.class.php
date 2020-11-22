@@ -534,6 +534,20 @@ class stack_cas_session2 {
         return trim($keyvals);
     }
 
+    /*
+     * This is used to extract all the expressions for which "blockexternal" is true.
+     * This enables some context variables to communicate between the castext parts and the inputs.
+     */
+    public function get_contextsession() {
+        $contextsession = array();
+        foreach ($this->statements as $statement) {
+            if ($statement->is_blockexternal()) {
+                $contextsession[] = $statement;
+            }
+        }
+        return $contextsession;
+    }
+
     public function get_debuginfo() {
         if (trim($this->timeouterrmessage) !== '') {
             return $this->timeouterrmessage;

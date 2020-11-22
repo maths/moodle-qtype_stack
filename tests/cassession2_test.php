@@ -2108,7 +2108,7 @@ class stack_cas_session2_test extends qtype_stack_testcase {
         $t1[] = array('numerical_not_alg_equiv(p2,2)', 'true');
         $t1[] = array('numerical_not_alg_equiv(x,p1)', 'true');
         $t1[] = array('numerical_not_alg_equiv(p2,x)', 'true');
-        
+
         foreach ($t1 as $i => $case) {
             $s1[] = stack_ast_container::make_from_teacher_source($case[0], '', new stack_cas_security(), array());
         }

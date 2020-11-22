@@ -2121,4 +2121,28 @@ class stack_cas_session2_test extends qtype_stack_testcase {
             $this->assertEquals($t[1], $s1[$i]->get_value());
         }
     }
+
+    public function test_stack_blockexternal() {
+
+        $s1 = array();
+        $t1 = array();
+        // Block external commands, such as ordergreat, are pulled out the front.
+        $t1[] = array('f:x*y*z', 'z*y*x');
+        $t1[] = array('ordergreat(x,y,z)', 'done');
+        $t1[] = array('g:x*y*z', 'z*y*x');
+        $t1[] = array('h:exdowncase(X*Y*Z)', 'z*y*x');
+        $t1[] = array('ATAlgEquiv(exdowncase(x),x)', '[true,true,"",""]');
+
+        foreach ($t1 as $i => $case) {
+            $s1[] = stack_ast_container::make_from_teacher_source($case[0], '', new stack_cas_security(), array());
+        }
+
+        $options = new stack_options();
+        $s = new stack_cas_session2($s1, $options, 0);
+        $s->instantiate();
+
+        foreach ($t1 as $i => $t) {
+            $this->assertEquals($t[1], $s1[$i]->get_value());
+        }
+    }
 }

@@ -5036,13 +5036,15 @@
         "function": "f"
     },
     "ordergreat": {
-        "function": "s"
+        "function": "s",
+        "blockexternal": "true"
     },
     "ordergreatp": {
         "function": "s"
     },
     "orderless": {
-        "function": "s"
+        "function": "s",
+        "blockexternal": "true"
     },
     "orderlessp": {
         "function": "s"
@@ -7478,7 +7480,8 @@
         "function": "?"
     },
     "texput": {
-        "function": "?"
+        "function": "?",
+        "blockexternal": "true"
     },
     "texsub": {
         "function": "s"

@@ -89,6 +89,8 @@ To enable a student to indicate "none of the others", the teacher must add this 
 
 The radio and dropdown types always add a "not answered" option as the first option.  This allows a student to retract their choice, otherwise they will be unable to "uncheck" a radio button, which will be stored, validated and possibly assessed (to their potential detriment).  If you want to remove this then use the extra option `nonotanswered`, but keep in mind the possible effect when using the penalty scheme.
 
+If one of the items in the teacher's answer list is is the special variable name `notanswered`, and then default mesage `(No answer given)` will be replaced by the `display` value.  If no `display` value is given (and it is optional) then the original message will remain.  `notanswered` will not appear in the list of valid choices for a user and `value` for this input is ingored.
+
 
 ## Extra options ##
 
@@ -103,6 +105,7 @@ The way the items are displayed can be controlled by the following options.
 * `LaTeXdisplaystyle` use LaTeX to display the options, using the inline maths environment and the displaystyle option `\(\displaystyle...\)`.
 * `casstring` does not use the LaTeX value, but just prints the casstring value in `<code>...</code>` tags.
 * `nonotanswered` removes the ``Not answered'' option from radio and dropdown.  This is _not recommended_ as it means a student has no opportunity to "uncheck" a radio button once selected.  They may wish not to answer, rather than save an incorrect answer.
+
 
 ## Randomly shuffling the options ##
 

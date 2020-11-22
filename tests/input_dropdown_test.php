@@ -269,4 +269,23 @@ class stack_dropdown_input_test extends qtype_stack_walkthrough_test_base {
         $correctresponse = array('ans1' => 2);
         $this->assertEquals($correctresponse, $el->get_correct_response($ta));
     }
+
+    public function test_teacher_answer_html_notanswered() {
+        $options = new stack_options();
+        $ta = '[[notanswered,false,"n/a"],[A,false],[B,true]]';
+        $el = stack_input_factory::make('dropdown', 'ans1', $ta, null, array());
+        $el->adapt_to_model_answer($ta);
+
+        $expected = '<select id="menustack1__ans1" class="select menustack1__ans1" name="stack1__ans1">' .
+                '<option selected="selected" value="">n/a</option>' .
+                '<option value="1"><code>A</code></option><option value="2"><code>B</code></option></select>';
+        $this->assert_same_select_html($expected, $el->render(new stack_input_state(
+                stack_input::BLANK, array(''), '', '', '', '', ''), 'stack1__ans1', false, null));
+        $state = $el->validate_student_response(array('ans1' => ''), $options, '1', new stack_cas_security());
+        $this->assertEquals(stack_input::BLANK, $state->status);
+        $this->assertEquals(array(), $state->contents);
+        $this->assertEquals('', $state->contentsmodified);
+        $correctresponse = array('ans1' => 2);
+        $this->assertEquals($correctresponse, $el->get_correct_response($ta));
+    }
 }

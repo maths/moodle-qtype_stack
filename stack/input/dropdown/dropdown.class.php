@@ -49,6 +49,11 @@ class stack_dropdown_input extends stack_input {
     protected $nonotanswered = true;
 
     /*
+     * Controls the "not answered" message presented to the students.
+     */
+    protected $notanswered = '';
+
+    /*
      * This holds the value of those
      * entries which the teacher has indicated are correct.
      */
@@ -115,6 +120,7 @@ class stack_dropdown_input extends stack_input {
      */
     public function adapt_to_model_answer($teacheranswer) {
 
+        $this->notanswered = stack_string('notanswered');
         // We need to reset the errors here, now we have a new teacher's answer.
         $this->errors = null;
 
@@ -181,7 +187,19 @@ class stack_dropdown_input extends stack_input {
                         $correctanswer[] = $ddlvalue['value'];
                         $correctanswerdisplay[] = $ddlvalue['display'];
                     }
-                    $ddlvalues[] = $ddlvalue;
+                    if ($ddlvalue['value'] == 'notanswered') {
+                        $notanswered = stack_string('notanswered');
+                        // At this point `display` exists and by default equals the value.
+                        if ($ddlvalue['display'] != 'notanswered') {
+                            $notanswered = $ddlvalue['display'];
+                        }
+                        if (substr($notanswered, 0, 1) == '"' && substr($notanswered, 0, 1) == '"') {
+                            $notanswered = substr($notanswered, 1, strlen($notanswered) - 2);
+                        }
+                        $this->notanswered = $notanswered;
+                    } else {
+                        $ddlvalues[] = $ddlvalue;
+                    }
                 } else {
                     $this->errors[] = stack_string('ddl_badanswer', $teacheranswer);
                 }
@@ -308,7 +326,7 @@ class stack_dropdown_input extends stack_input {
         // potential confusion between keys 0 and ''.
         if ($this->nonotanswered) {
             $values = array_merge(array('' => array('value' => '',
-                'display' => stack_string('notanswered'), 'correct' => false), 0 => null), $values);
+                'display' => $this->notanswered, 'correct' => false), 0 => null), $values);
         } else {
             $values = array_merge(array(0 => null), $values);
         }

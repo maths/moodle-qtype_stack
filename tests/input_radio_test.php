@@ -341,4 +341,29 @@ class stack_radio_input_test extends qtype_stack_walkthrough_test_base {
         $this->assertTrue(is_int(strpos($render,
                 "alt='STACK auto-generated plot of x^3 with parameters [[x,-2,2],[y,-3,3]]'")));
     }
+
+    public function test_teacher_answer_html_notanswered() {
+        $options = new stack_options();
+        $ta = '[[notanswered,false,"n/a"],[A,false],[B,true]]';
+        $el = stack_input_factory::make('radio', 'ans1', $ta, null, array());
+        $el->adapt_to_model_answer($ta);
+
+        $expected = '<div class="answer"><div class="option"><input type="radio" name="stack1__ans1" value="" ' .
+                'id="stack1__ans1_" checked="checked" /><label for="stack1__ans1_">n/a</label></div>' .
+                '<div class="option"><br /></div><div class="option">' .
+                '<input type="radio" name="stack1__ans1" value="1" id="stack1__ans1_1" />' .
+                '<label for="stack1__ans1_1"><span class="filter_mathjaxloader_equation">' .
+                '<span class="nolink">\(A\)</span></span></label></div><div class="option">' .
+                '<input type="radio" name="stack1__ans1" value="2" id="stack1__ans1_2" />' .
+                '<label for="stack1__ans1_2"><span class="filter_mathjaxloader_equation">' .
+                '<span class="nolink">\(B\)</span></span></label></div></div>';
+        $this->assert_same_select_html($expected, $el->render(new stack_input_state(
+                stack_input::BLANK, array(''), '', '', '', '', ''), 'stack1__ans1', false, null));
+        $state = $el->validate_student_response(array('ans1' => ''), $options, '1', new stack_cas_security());
+        $this->assertEquals(stack_input::BLANK, $state->status);
+        $this->assertEquals(array(), $state->contents);
+        $this->assertEquals('', $state->contentsmodified);
+        $correctresponse = array('ans1' => 2);
+        $this->assertEquals($correctresponse, $el->get_correct_response($ta));
+    }
 }

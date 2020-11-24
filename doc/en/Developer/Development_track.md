@@ -17,6 +17,9 @@ Done:
 
 ## Version 4.4
 
+1. Caching validation.
+2. Compiled PRTs.
+3. 4. CASText2.
 
 ## Maxima side PRTs.
 
@@ -30,7 +33,6 @@ Done:
 * Update MCQ to accept units.
 * Add a base N check to the numeric input.
 * Refactor DB of 'insterStars' and remove stack_input_factory::convert_legacy_insert_stars.  Really use new values throughout.  See [Future plans for syntax of answers and STACK](Syntax_Future.md)
-* Refactor numerical answer tests to make proper use of ast.
 
 ## Other
 

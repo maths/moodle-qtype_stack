@@ -171,6 +171,19 @@ class stack_answertest_test_data {
             '(6*cos(6*x)*sin(7*x)-7*sin(6*x)*cos(7*x))/sin(6*x)^2', 0, '', ''),
         array('AlgEquiv', '', '-(7*x^6+4*x^3)/sin(7*y+x^7+x^4+1)^2',
             '-(7*x^6+4*x^3)*csc(7*y+x^7+x^4+1)^2', 1, '', ''),
+        array('AlgEquiv', '', 'sin((2*%pi*n-%pi)/2)', '-cos(n*%pi)', 1, '', ''),
+        array('AlgEquiv', '', 'sin(x/2)/(1+tan(x)*tan(x/2))', 'sin(x/2)*cos(x)', 1, '', ''),
+        array('AlgEquiv', '', '(declare(n,integer),trigrat(sin((2*%pi*n-%pi)/2)))', '-(-1)^n', 1, '', ''),
+        // According to Twitter!  Not sure this is even true, but just for fun!
+        array('AlgEquiv', '', 'cot(%pi/20)+cot(%pi/24)-cot(%pi/10)', 'sqrt(1)+sqrt(2)+sqrt(3)+sqrt(4)+sqrt(5)+sqrt(6)',
+            -3, '', '', ''),
+        array('AlgEquiv', '', 'trigeval(cot(%pi/20)+cot(%pi/24)-cot(%pi/10))', 'sqrt(1)+sqrt(2)+sqrt(3)+sqrt(4)+sqrt(5)+sqrt(6)',
+            1, '', '', ''),
+        array('AlgEquiv', '', 'sin([1/8,1/6, 1/4, 1/3, 1/2, 1]*%pi)', '[sqrt(2-sqrt(2))/2,1/2,1/sqrt(2),sqrt(3)/2,1,0]',
+            -3, '(ATList_wrongentries 1).', '', ''),
+        array('AlgEquiv', '', 'trigeval(sin([1/8,1/6, 1/4, 1/3, 1/2, 1]*%pi))', '[sqrt(2-sqrt(2))/2,1/2,1/sqrt(2),sqrt(3)/2,1,0]',
+            1, '', '', ''),
+
         array('AlgEquiv', '', 'log(a^2*b)', '2*log(a)+log(b)', 1, '', 'Logarithms'),
         array('AlgEquiv', '', '(2*log(2*x)+x)/(2*x)', '(log(2*x)+2)/(2*sqrt(x))', 0, '', ''),
         array('AlgEquiv', '', 'log(abs((x^2-9)))', 'log(abs(x-3))+log(abs(x+3))', 0, '', ''),
@@ -467,9 +480,6 @@ class stack_answertest_test_data {
         // An example due to Gauss.  Just for fun!
         array('AlgEquiv', '', 'cos(2*%pi/17)', '(-1+sqrt(17)+sqrt(34-2*sqrt(17)))/16+' .
             '(2*sqrt(17+3*sqrt(17)-sqrt(34-2*sqrt(17))-2*sqrt(34+2*sqrt(17))))/16', -3, '', '', ''),
-        // According to Twitter!  Not sure this is even true, but just for fun!
-        array('AlgEquiv', '', 'cot(%pi/20)+cot(%pi/24)-cot(%pi/10)', 'sqrt(1)+sqrt(2)+sqrt(3)+sqrt(4)+sqrt(5)+sqrt(6)',
-            -3, '', '', ''),
 
         array('AlgEquiv', '', 'true and false', 'false', 1, 'ATLogic_True.', 'Logical expressions'),
         array('AlgEquiv', '', 'true or false', 'false', 0, '', ''),

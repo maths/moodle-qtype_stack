@@ -415,6 +415,11 @@ class qtype_stack_question extends question_graded_automatically_with_countback
             $this->runtimeerrors[$s] = true;
         }
 
+        $contextsession = $this->session->get_contextsession();
+        foreach ($this->prts as $name => $prt) {
+            $prt->add_contextsession($contextsession);
+        }
+
         // Allow inputs to update themselves based on the model answers.
         $this->adapt_inputs();
         if ($this->runtimeerrors) {

@@ -693,7 +693,8 @@
         "function": "f"
     },
     "assume": {
-        "function": "?"
+        "function": "?",
+        "contextvariable": "true"
     },
     "assume_external_byte_order": {
         "function": "f",
@@ -1653,7 +1654,8 @@
         "function": "s"
     },
     "declare": {
-        "function": "?"
+        "function": "?",
+        "contextvariable": "true"
     },
     "declare_constvalue": {
         "function": "f"
@@ -5037,14 +5039,16 @@
     },
     "ordergreat": {
         "function": "s",
-        "blockexternal": "true"
+        "blockexternal": "true",
+        "contextvariable": "true"
     },
     "ordergreatp": {
         "function": "s"
     },
     "orderless": {
         "function": "s",
-        "blockexternal": "true"
+        "blockexternal": "true",
+        "contextvariable": "true"
     },
     "orderlessp": {
         "function": "s"
@@ -7481,7 +7485,7 @@
     },
     "texput": {
         "function": "?",
-        "blockexternal": "true"
+        "contextvariable": "true"
     },
     "texsub": {
         "function": "s"

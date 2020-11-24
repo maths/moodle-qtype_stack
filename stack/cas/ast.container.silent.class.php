@@ -714,7 +714,7 @@ class stack_ast_container_silent implements cas_evaluatable {
         return false;
     }
 
-    public function is_blockexternal(): bool {
+    public function is_toplevel_property($prop): bool {
         $root = $this->ast;
         if ($root instanceof MP_Root) {
             if (array_key_exists(0, $root->items)) {
@@ -735,7 +735,7 @@ class stack_ast_container_silent implements cas_evaluatable {
         if ($root instanceof MP_FunctionCall) {
             $op = $root->name->value;
         }
-        if (stack_cas_security::get_feature($op, 'blockexternal') !== null) {
+        if (stack_cas_security::get_feature($op, $prop) !== null) {
             return true;
         }
         return false;

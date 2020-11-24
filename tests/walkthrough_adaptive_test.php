@@ -3346,4 +3346,67 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
                 $this->get_no_hint_visible_expectation()
                 );
     }
+
+    public function test_test_contextvars() {
+
+        // Create the stack question 'stringsloppy'.
+        $q = test_question_maker::make_question('stack', 'contextvars');
+        $this->start_attempt_at_question($q, 'adaptive', 1);
+
+        // Check the initial state.
+        $this->check_current_state(question_state::$todo);
+        $this->assertEquals('adaptivemultipart',
+                $this->quba->get_question_attempt($this->slot)->get_behaviour_name());
+        $this->render();
+        $this->check_output_contains_text_input('ans1');
+        $this->check_output_does_not_contain_input_validation();
+        $this->check_output_does_not_contain_prt_feedback();
+        $this->check_output_does_not_contain_stray_placeholders();
+        $this->check_current_output(
+                new question_pattern_expectation('/diamond/'),
+                $this->get_does_not_contain_feedback_expectation(),
+                $this->get_does_not_contain_num_parts_correct(),
+                $this->get_no_hint_visible_expectation()
+                );
+
+        // Process a validate request.
+        $this->process_submission(array('ans1' => 'log(blob)', '-submit' => 1));
+
+        $this->check_current_state(question_state::$todo);
+        $this->check_current_mark(null);
+        $this->check_prt_score('firsttree', null, null);
+        $this->render();
+        $this->check_output_contains_text_input('ans1', 'log(blob)');
+        $this->check_output_contains_input_validation('ans1');
+        $this->check_output_does_not_contain_prt_feedback();
+        $this->check_output_does_not_contain_stray_placeholders();
+
+        // Process a submition of an incorrect answer.
+        $this->process_submission(array('ans1' => 'log(blob)', 'ans1_val' => 'log(blob)', '-submit' => 1));
+        $this->check_current_state(question_state::$todo);
+        $this->check_current_mark(0);
+        $this->check_prt_score('firsttree', 0, 0.35);
+        $this->check_answer_note('firsttree', 'firsttree-1-F');
+
+        // Process the correct answer.  Needs the assumption x>2 for ATAlgEquiv to correctly work.
+        $this->process_submission(array('ans1' => '6*((x-2)^2)^k', '-submit' => 1));
+
+        $this->check_current_state(question_state::$todo);
+        $this->check_current_mark(0);
+        $this->check_prt_score('firsttree', null, null);
+        $this->render();
+        $expected = 'Seed: 1; ans1: 6*((x-2)^2)^k [valid]; firsttree: !';
+        $this->check_response_summary($expected);
+        $this->check_output_contains_text_input('ans1', '6*((x-2)^2)^k');
+        $this->check_output_contains_input_validation('ans1');
+        $this->check_output_does_not_contain_prt_feedback();
+        $this->check_output_does_not_contain_stray_placeholders();
+
+        $this->process_submission(array('ans1' => '6*((x-2)^2)^k', 'ans1_val' => '6*((x-2)^2)^k',
+            '-submit' => 1));
+        $this->check_current_state(question_state::$complete);
+        $this->check_current_mark(0.65);
+        $this->check_prt_score('firsttree', 1, 0);
+        $this->check_answer_note('firsttree', 'firsttree-1-T');
+    }
 }

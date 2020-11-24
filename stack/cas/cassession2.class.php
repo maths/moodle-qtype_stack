@@ -289,7 +289,7 @@ class stack_cas_session2 {
             }
         }
 
-        // We will build the whole command here
+        // We will build the whole command here.
         // No protection in the block.
         $preblock = '';
         $command = 'block([]' .
@@ -328,7 +328,7 @@ class stack_cas_session2 {
             $line .= stack_utils::php_string_to_maxima_string($statement->get_source_context());
             $line .= ')';
 
-            if ($statement->is_blockexternal()) {
+            if ($statement->is_toplevel_property('blockexternal')) {
                 $preblock .= $line . "$\n";
             } else {
                 $command .= self::SEP . $line;
@@ -541,7 +541,7 @@ class stack_cas_session2 {
     public function get_contextsession() {
         $contextsession = array();
         foreach ($this->statements as $statement) {
-            if ($statement->is_blockexternal()) {
+            if ($statement->is_toplevel_property('contextvariable')) {
                 $contextsession[] = $statement;
             }
         }

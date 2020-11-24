@@ -1,7 +1,7 @@
 # Defining variables
 
 There are two fields which allow you to define and manipulate computer algebra system variables.
-These are called the Question Variables and Answer Variables.
+These are called the Question Variables and Feedback variables.
 
 The field is a string which contains a list of assignments of the form
 
@@ -43,8 +43,22 @@ The question variables are evaluated when a variant of a question is created.   
 
 * Teacher's answers in [inputs](Inputs.md) are defined in terms of question variables.
 * [Question note](Question_note.md).
+* General feedback (also known as the worked solution).
 * All fields in each of the [potential response tree](Potential_response_trees.md).
 * Each input when testing the item.
+* Question variables are not available to inputs when a student is validating their answer, unless special ``context variables'' are defined.
+
+### Context variables
+
+If the following commands appear within the question variables they will be available in every part of the question, in particular these commands will affect how students' input is validated.  This enables teachers to affect the display of the student's answer validation, and add assumptions to PRTs.
+
+* `orderless` and `ordergreat`.  These commands may only appear once each in any question.
+* `assume` and `declare`.
+* `texput`.  Only single texput commands are gathered into the context variables, and not other functions defined in the question variables.  So, `texput(blob, "\\diamond")` is fine, but passing a function to texput to display more complex output is not currently supported.
+
+For example, to redefine how the logarithm is displayed, use `texput(log, "\\log ", prefix);`.
+
+(This feature is only available after STACK 4.3.7).
 
 ## Feedback variables {#Feedback_variables}
 
@@ -62,11 +76,7 @@ Before each answer test is applied the following list of variables is assembled 
 
 The values of the evaluated feedback variables can be used as expressions in the answer tests and in the feedback.
 
-Note, you cannot redefine the value of an input as a key in the feedback variables.  e.g. you cannot have something like `ans1:ans1+1`.
-You must use a new variable name.  
-When an answer test is evaluated, if the SA or TA field is exactly the name of an input then the raw student's value is used, and not the value from the feedback variables. 
-This is because some of the answer tests require exactly what is typed (e.g. trailing zeros) and not the value through the CAS.  
-To avoid this problem authors must use new variable names to distinguish between the actual input typed by the student and any calculated value.
+Note, you cannot redefine the value of an input as a key in the feedback variables.  e.g. you cannot have something like `ans1:ans1+1`. You must use a new variable name.  When an answer test is evaluated, if the SA or TA field is exactly the name of an input then the raw student's value is used, and not the value from the feedback variables. This is because some of the answer tests require exactly what is typed (e.g. trailing zeros) and not the value through the CAS.  To avoid this problem authors must use new variable names to distinguish between the actual input typed by the student and any calculated value.
 
 ## Creating variable names ##
 

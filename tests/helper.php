@@ -60,6 +60,7 @@ class qtype_stack_test_helper extends question_test_helper {
             'checkbox_all_empty', // Creates a checkbox input with none checked as the correct answer: edge case.
             'addrow',             // This question has addrows, in an older version.
             'mul',                // This question has mul in the options which is no longer permitted.
+            'contextvars',        // This question makes use of the context variables.
             'stringsloppy',       // Uses the StringSloppy answer test, and string input.
             'sregexp',            // Uses the SRegExp answer test, and string input.
             'feedbackstyle'       // Test the various feedbackstyle options.
@@ -2309,6 +2310,37 @@ class qtype_stack_test_helper extends question_test_helper {
         // Set feedbackstyle=0 to test formative potential response trees.
         $q->prts['prt3'] = new stack_potentialresponse_tree('prt3', '', true, 1,
                $feedbackvars->get_session(), array($node1), '0', 0);
+
+        return $q;
+    }
+
+    /**
+     * @return qtype_stack_question a question which tests context variables.
+     */
+    public static function make_stack_question_contextvars() {
+        $q = self::make_a_stack_question();
+
+        $q->stackversion = '2020112300';
+        $q->name = 'contextvars';
+        $q->questionvariables = "texput(blob, \"\\\\diamond\");\n assume(x>2);\n texput(log, \"\\\\log \", prefix);";
+        $q->questiontext = 'What is {@blob@}? [[input:ans1]] [[validation:ans1]]';
+
+        $q->specificfeedback = '[[feedback:firsttree]]';
+        $q->penalty = 0.35; // Non-zero and not the default.
+
+        $q->inputs['ans1'] = stack_input_factory::make(
+                'algebraic', 'ans1', 'blob', null, array('boxWidth' => 5, 'allowWords' => 'blob'));
+
+        $q->options->questionsimplify = 0;
+
+        $sans = stack_ast_container::make_from_teacher_source('ans1');
+        $sans->get_valid();
+        $tans = stack_ast_container::make_from_teacher_source('6*(x-2)^(2*k)');
+        $tans->get_valid();
+        $node = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv');
+        $node->add_branch(0, '=', 0, $q->penalty, -1, '', FORMAT_HTML, 'firsttree-1-F');
+        $node->add_branch(1, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'firsttree-1-T');
+        $q->prts['firsttree'] = new stack_potentialresponse_tree('firsttree', '', true, 1, null, array($node), '0', 1);
 
         return $q;
     }

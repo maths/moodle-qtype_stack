@@ -31,9 +31,9 @@ E.g. "v4.3.6".
 * Push to GitHub.
 * Push tags to GitHub 
  * Tortoise git: pulldown from push
- * Unix: `git tag -a v4.3.6 -m "Update version number for the 4.3.6 release."`
- * Unix: `git push`
- * Unix: `git push --tags`
+ * Linux: `git tag -a v4.3.6 -m "Update version number for the 4.3.6 release."`
+ * Linux: `git push`
+ * Linux: `git push --tags`
 
 ## 3. Moodle plugins database entry for the plugin
 

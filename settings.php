@@ -60,8 +60,8 @@ $settings->add(new admin_setting_configselect('qtype_stack/platform',
         get_string('settingplatformtype', 'qtype_stack'),
         // Note, install.php tries to auto-detect Windows installs, and set the default appropriately.
         get_string('settingplatformtype_desc', 'qtype_stack'), null, array(
-                'unix'             => get_string('settingplatformtypeunix',                'qtype_stack'),
-                'unix-optimised'   => get_string('settingplatformtypeunixoptimised',       'qtype_stack'),
+                'linux'            => get_string('settingplatformtypelinux',                'qtype_stack'),
+                'linux-optimised'  => get_string('settingplatformtypelinuxoptimised',       'qtype_stack'),
                 'win'              => get_string('settingplatformtypewin',                 'qtype_stack'),
                 'server'           => get_string('settingplatformtypeserver',              'qtype_stack'))));
 
@@ -88,6 +88,14 @@ $settings->add(new admin_setting_configselect('qtype_stack/casresultscache',
 $settings->add(new admin_setting_configtext('qtype_stack/maximacommand',
         get_string('settingplatformmaximacommand', 'qtype_stack'),
         get_string('settingplatformmaximacommand_desc', 'qtype_stack'), null));
+
+$settings->add(new admin_setting_configtext('qtype_stack/maximacommandopt',
+        get_string('settingplatformmaximacommandopt', 'qtype_stack'),
+        get_string('settingplatformmaximacommandopt_desc', 'qtype_stack'), null));
+
+$settings->add(new admin_setting_configtext('qtype_stack/maximacommandserver',
+        get_string('settingplatformmaximacommandserver', 'qtype_stack'),
+        get_string('settingplatformmaximacommandserver_desc', 'qtype_stack'), null));
 
 $settings->add(new admin_setting_configtext('qtype_stack/serveruserpass',
         get_string('settingserveruserpass', 'qtype_stack'),

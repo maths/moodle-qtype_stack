@@ -5,7 +5,7 @@ past development history is documented on [Development history](Development_hist
 
 How to report bugs and make suggestions is described on the [community](../About/Community.md) page.
 
-## Version 4.4
+## Version 4.3.8
 
 Done:
 
@@ -13,12 +13,14 @@ Done:
 * Make it much easier for colleagues to construct a test case using the "teacher's answer" input values as test case inputs.
 * Allow users to modify the `notanswered` message in dropdown and radio inputs.
 * Move all answer tests to Maxima.
+* Separate out Maxima commands in the install process.
+
+## Version 4.4
+
 
 ## Maxima side PRTs.
 
-* Move all functions to Maxima.
 * Change behaviour of UnitsAbsolute in response to discussion of issue #448.
-* Make use of the Maxima function `sig_figs_from_str(strexp)` in utils.mac which returns the number of decimal places/significant figures in a variable (useful when providing feedback).  Needed for the refactoring.
 
 ## For "inputs 2"?
 

@@ -837,6 +837,12 @@ function xmldb_qtype_stack_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2020041400, 'qtype', 'stack');
     }
 
+    if ($oldversion < 2020112100) {
+        if (get_config('qtype_stack', 'platform') == 'unix' || get_config('qtype_stack', 'platform') == 'unix-optimised') {
+            set_config('platform', 'linux', 'qtype_stack');
+        }
+    }
+
     // Add new upgrade blocks just above here.
 
     // Check the version of the Maxima library code that comes with this version
@@ -855,9 +861,18 @@ function xmldb_qtype_stack_upgrade($oldversion) {
     // Update the record of the currently used version.
     set_config('stackmaximaversion', $latestversion, 'qtype_stack');
 
-    // If appropriate, clear the CAS cache.
+    // If appropriate, clear the CAS cache and re-generate the image.
     if ($latestversion != $currentlyusedversion) {
         stack_cas_connection_db_cache::clear_cache($DB);
+        if (QTYPE_STACK_TEST_CONFIG_PLATFORM !== 'server') {
+            $pbar = new progress_bar('healthautomaxopt', 500, true);
+            list($ok, $message) = stack_cas_configuration::create_auto_maxima_image();
+            $pbar->update(500, 500, get_string('healthautomaxopt', 'qtype_stack', array()));
+            if (!$ok) {
+                echo html_writer::div($message, 'adminwarning');
+                echo html_writer::div(get_string('healthautomaxoptintro', 'qtype_stack'), 'adminwarning');
+            }
+        }
     }
 
     return true;

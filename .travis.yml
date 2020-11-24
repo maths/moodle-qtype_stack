@@ -88,11 +88,13 @@ install:
   - moodle-plugin-ci add-plugin maths/moodle-qbehaviour_dfcbmexplicitvaildate
   - moodle-plugin-ci add-plugin maths/moodle-qbehaviour_adaptivemultipart
   - moodle-plugin-ci install
-  - moodle-plugin-ci add-config 'define("QTYPE_STACK_TEST_CONFIG_PLATFORM",        "unix-optimised");'
+  - moodle-plugin-ci add-config 'define("QTYPE_STACK_TEST_CONFIG_PLATFORM",        "linux-optimised");'
   - moodle-plugin-ci add-config 'define("QTYPE_STACK_TEST_CONFIG_MAXIMAVERSION",   "'`maxima --version | sed 's/Maxima //'`'");'
   - moodle-plugin-ci add-config 'define("QTYPE_STACK_TEST_CONFIG_CASTIMEOUT",      "10");'
   - moodle-plugin-ci add-config 'define("QTYPE_STACK_TEST_CONFIG_CASRESULTSCACHE", "db");'
-  - moodle-plugin-ci add-config 'define("QTYPE_STACK_TEST_CONFIG_MAXIMACOMMAND",   "timeout --kill-after=10s 10s /home/travis/build/maxima_opt_auto -eval '\''(cl-user::run)'\''");'
+  - moodle-plugin-ci add-config 'define("QTYPE_STACK_TEST_CONFIG_MAXIMACOMMAND",   "");'
+  - moodle-plugin-ci add-config 'define("QTYPE_STACK_TEST_CONFIG_MAXIMACOMMANDOPT",   "timeout --kill-after=10s 10s /home/travis/build/maxima_opt_auto -eval '\''(cl-user::run)'\''");'
+  - moodle-plugin-ci add-config 'define("QTYPE_STACK_TEST_CONFIG_MAXIMACOMMANDSERVER",   "http://pool.home:8080/MaximaPool/MaximaPool");'
   - moodle-plugin-ci add-config 'define("QTYPE_STACK_TEST_CONFIG_PLOTCOMMAND",     "gnuplot");'
   - moodle-plugin-ci add-config 'define("QTYPE_STACK_TEST_CONFIG_MAXIMALIBRARIES", "stats, distrib, descriptive, simplex");'
   - moodle-plugin-ci add-config 'define("QTYPE_STACK_TEST_CONFIG_CASDEBUGGING",    "0");'

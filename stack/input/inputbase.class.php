@@ -52,7 +52,7 @@ abstract class stack_input {
     protected $name;
 
     /**
-     * Special variables in the question which should be exposed to the inputs.
+     * Special variables in the question which should be exposed to the inputs and answer tests.
      * @var cas_evaluatable[]
      */
     protected $contextsession = array();

@@ -328,7 +328,7 @@ class stack_cas_session2 {
             $line .= stack_utils::php_string_to_maxima_string($statement->get_source_context());
             $line .= ')';
 
-            if ($statement->is_toplevel_property('blockexternal')) {
+            if (method_exists($statement, 'is_toplevel_property') && $statement->is_toplevel_property('blockexternal')) {
                 $preblock .= $line . "$\n";
             } else {
                 $command .= self::SEP . $line;
@@ -532,20 +532,6 @@ class stack_cas_session2 {
             }
         }
         return trim($keyvals);
-    }
-
-    /*
-     * This is used to extract all the expressions for which "blockexternal" is true.
-     * This enables some context variables to communicate between the castext parts and the inputs.
-     */
-    public function get_contextsession() {
-        $contextsession = array();
-        foreach ($this->statements as $statement) {
-            if ($statement->is_toplevel_property('contextvariable')) {
-                $contextsession[] = $statement;
-            }
-        }
-        return $contextsession;
     }
 
     public function get_debuginfo() {

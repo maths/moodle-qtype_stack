@@ -118,6 +118,12 @@ class qtype_stack_question extends question_graded_automatically_with_countback
     protected $session;
 
     /**
+     * Special variables in the question which should be exposed to the inputs and answer tests.
+     * @var cas_evaluatable[]
+     */
+    protected $contextsession;
+
+    /**
      * @var stack_ast_container[] STACK specific: the teacher's answers for each input.
      */
     private $tas;
@@ -415,7 +421,15 @@ class qtype_stack_question extends question_graded_automatically_with_countback
             $this->runtimeerrors[$s] = true;
         }
 
-        $contextsession = $this->session->get_contextsession();
+        // Set up the context session for this question.
+        $contextsession = array();
+        foreach ($this->session->get_session() as $statement) {
+            if (method_exists($statement, 'is_toplevel_property') && $statement->is_toplevel_property('contextvariable')) {
+                $contextsession[] = $statement;
+            }
+        }
+        $this->contextsession = $contextsession;
+
         foreach ($this->prts as $name => $prt) {
             $prt->add_contextsession($contextsession);
         }
@@ -463,7 +477,6 @@ class qtype_stack_question extends question_graded_automatically_with_countback
      * teacher's model answers.
      */
     protected function adapt_inputs() {
-        $contextsession = $this->session->get_contextsession();
         foreach ($this->inputs as $name => $input) {
             // TODO: again should we give the whole thing to the input.
             $teacheranswer = '';
@@ -471,7 +484,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
                 $teacheranswer = $this->tas[$name]->get_value();
             }
             $input->adapt_to_model_answer($teacheranswer);
-            $input->add_contextsession($contextsession);
+            $input->add_contextsession($this->contextsession);
         }
     }
 

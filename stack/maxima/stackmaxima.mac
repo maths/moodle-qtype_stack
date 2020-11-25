@@ -159,6 +159,11 @@ load("intervals.mac");
 load("stackunits.mac");
 load("stacktex.lisp");
 load("stackstrings.mac");
+
+/* This file is a modified core Maxima function with local variable name clashes fixed. */
+load("trigrat.lisp");
+load("trigtools");
+
 load("sregex");
 /* Ensure back compatability with versions before 5.41.0. */
 if is(MAXIMA_VERSION_NUM<40.1) then load("stacktex40.lisp");
@@ -3054,5 +3059,5 @@ load(linearalgebra);
 
 /* Stack expects some output with the version number the output happens at */
 /* maximalocal.mac after additional library loading */
-stackmaximaversion:2020112200$
+stackmaximaversion:2020112400$
 

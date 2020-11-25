@@ -256,7 +256,7 @@ This contains numerous minor bug fixes and improvements.
 4. Support for the stats package added.
 5. Change in the behaviour of the CASEqual answer test.  Now we always assume `simp:false`.
 6. Add support for more AMS mathematics environments, including `\begin{align}...\end{align}`, `\begin{align*}...\end{align*}` etc.
-7. STACK tried to automatically write an optimised image for Linux.  This should help installs where Unix access is difficult.
+7. STACK tried to automatically write an optimised image for Linux.
 
 
 ## Version 3.3

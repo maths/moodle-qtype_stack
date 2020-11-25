@@ -5,19 +5,25 @@ past development history is documented on [Development history](Development_hist
 
 How to report bugs and make suggestions is described on the [community](../About/Community.md) page.
 
-## Version 4.4
+## Version 4.3.8
 
 Done:
 
+* Autoload `trigtools` to provide better simplification options for trig expressions and fix long-standing bug with `trigrat`.
 * Make it much easier for colleagues to construct a test case using the "teacher's answer" input values as test case inputs.
 * Allow users to modify the `notanswered` message in dropdown and radio inputs.
 * Move all answer tests to Maxima.
+* Separate out Maxima commands in the install process.
+
+## Version 4.4
+
+1. Caching validation.
+2. Compiled PRTs.
+3. 4. CASText2.
 
 ## Maxima side PRTs.
 
-* Move all functions to Maxima.
 * Change behaviour of UnitsAbsolute in response to discussion of issue #448.
-* Make use of the Maxima function `sig_figs_from_str(strexp)` in utils.mac which returns the number of decimal places/significant figures in a variable (useful when providing feedback).  Needed for the refactoring.
 
 ## For "inputs 2"?
 
@@ -27,7 +33,6 @@ Done:
 * Update MCQ to accept units.
 * Add a base N check to the numeric input.
 * Refactor DB of 'insterStars' and remove stack_input_factory::convert_legacy_insert_stars.  Really use new values throughout.  See [Future plans for syntax of answers and STACK](Syntax_Future.md)
-* Refactor numerical answer tests to make proper use of ast.
 
 ## Other
 

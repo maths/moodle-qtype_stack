@@ -117,7 +117,7 @@ echo $OUTPUT->heading(stack_string('healthcheckconfig'), 3);
 // Try to list available versions of Maxima (linux only, without the DB).
 if ($config->platform !== 'win') {
     $connection = stack_connection_helper::make();
-    if (is_a($connection, 'stack_cas_connection_unix')) {
+    if (is_a($connection, 'stack_cas_connection_linux')) {
         echo html_writer::tag('pre', $connection->get_maxima_available());
     }
 }
@@ -169,7 +169,7 @@ output_cas_text(stack_string('healthcheckconnect'),
 
 // If we have a linux machine, and we are testing the raw connection then we should
 // attempt to automatically create an optimized maxima image on the system.
-if ($config->platform === 'unix' and $genuinecascall) {
+if ($config->platform === 'linux' and $genuinecascall) {
     echo $OUTPUT->heading(stack_string('healthautomaxopt'), 3);
     echo html_writer::tag('p', stack_string('healthautomaxoptintro'));
     list($message, $debug, $result, $commandline, $rawcommand)

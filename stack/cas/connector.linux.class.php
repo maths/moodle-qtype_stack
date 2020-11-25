@@ -17,16 +17,16 @@
 defined('MOODLE_INTERNAL') || die();
 
 /**
- * Connection to Maxima for unix-like systems.
+ * Connection to Maxima for linux-like systems.
  *
  * @copyright  2012 The University of Birmingham
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class stack_cas_connection_unix extends stack_cas_connection_base {
+class stack_cas_connection_linux extends stack_cas_connection_base {
 
     protected function guess_maxima_command($path) {
         global $CFG;
-        if (stack_connection_helper::get_platform() == 'unix-optimised') {
+        if (stack_connection_helper::get_platform() == 'linux-optimised') {
             // We are trying to use a Lisp snapshot of Maxima with all the
             // STACK libraries loaded.
             $lispimage = $CFG->dataroot . '/stack/maxima-optimised';

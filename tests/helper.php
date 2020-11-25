@@ -40,7 +40,7 @@ class qtype_stack_test_helper extends question_test_helper {
             'test4', // One input, one PRT, not randomised, has a plot. (What is the equation of this graph? x^2.)
             'test5', // Three inputs, three PRTs, one with 4 nodes, randomised. (Three steps, rectangle side length from area.)
             'test6', // Test of the matrix input type.
-            'test7', // 1 input, 1 PRT with 3 nodes. Solving a diff equation, with intersting feedback.
+            'test7', // 1 input, 1 PRT with 3 nodes. Solving a diff equation, with interesting feedback.
             'test8', // 1 input, 1 PRT with 3 nodes. Roots of unity. Input has a syntax hint.
             'test9', // 2 inputs, 1 PRT, randomised, worked solution with CAS & plot. Make function continuous.
             'test_boolean', // 2 inputs, 1 PRT, randomised, worked solution with CAS & plot. Make function continuous.

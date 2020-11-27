@@ -1929,7 +1929,7 @@
         "function": "f"
     },
     "distrib": {
-        "function": "f"
+        "function": "s"
     },
     "distribute_over": {
         "variable": "?"
@@ -2104,7 +2104,7 @@
         "function": "t"
     },
     "elem": {
-        "function": "f"
+        "function": "s"
     },
     "elementp": {
         "function": "s"
@@ -2179,7 +2179,7 @@
         "function": "f"
     },
     "entier": {
-        "function": "f"
+        "function": "s"
     },
     "epsilon": {
         "function": "s",
@@ -2575,7 +2575,7 @@
         "function": "?"
     },
     "fix": {
-        "function": "f"
+        "function": "s"
     },
     "flatten": {
         "function": "s"
@@ -4529,7 +4529,7 @@
         "function": "?"
     },
     "minor": {
-        "function": "f"
+        "function": "s"
     },
     "minpack_lsquares": {
         "function": "?"

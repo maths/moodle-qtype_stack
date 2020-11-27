@@ -423,15 +423,20 @@ class qtype_stack_question extends question_graded_automatically_with_countback
 
         // Set up the context session for this question.
         $contextsession = array();
+        $remainder = array();
         foreach ($this->session->get_session() as $statement) {
-            if (method_exists($statement, 'is_toplevel_property') && $statement->is_toplevel_property('contextvariable')) {
-                $contextsession[] = $statement;
-            }
+            if (method_exists($statement, 'is_toplevel_property') &&
+                    $statement->is_toplevel_property('contextvariable')) {
+                        $contextsession[] = $statement;
+                    } else {
+                        $remainder[] = $statement;
+                    }
         }
         $this->contextsession = $contextsession;
+        $this->session = new stack_cas_session2(array_merge($contextsession, $remainder), $this->options, $this->seed);
 
         foreach ($this->prts as $name => $prt) {
-            $prt->add_contextsession($contextsession);
+            $prt->add_contextsession($prt->add_contextsession);
         }
 
         // Allow inputs to update themselves based on the model answers.

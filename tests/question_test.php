@@ -239,7 +239,7 @@ class qtype_stack_question_test extends qtype_stack_testcase {
         $this->assertEquals('', $q->validate_against_stackversion());
         $q->start_attempt(new question_attempt_step(), 4);
 
-        $expected = "a:3;\nb:9;\nta:y+x;";
+        $expected = "a:3;\nb:9;\nta:x+y;";
         $s = $q->get_session();
         $this->assertEquals($expected, $s->get_keyval_representation(true));
     }

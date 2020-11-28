@@ -38,6 +38,12 @@ class stack_potentialresponse_tree {
     /** @var float total amount of fraction available from this PRT. Zero is possible for formative PRT questions. */
     private $value;
 
+    /**
+     * Special variables in the question which should be exposed to the inputs.
+     * @var cas_evaluatable[]
+     */
+    protected $contextsession = array();
+
     /** @var stack_cas_session2 Feeback variables. */
     private $feedbackvariables;
 
@@ -109,6 +115,13 @@ class stack_potentialresponse_tree {
                     'the specified first node does not exist in the tree.');
         }
         $this->firstnode = $firstnode;
+    }
+
+    /*
+     * Set the contextsession values.
+     */
+    public function add_contextsession($contextsession) {
+        $this->contextsession = $contextsession;
     }
 
     /**
@@ -229,7 +242,8 @@ class stack_potentialresponse_tree {
             }
 
             $visitednodes[$nodekey] = true;
-            $nodekey = $this->nodes[$nodekey]->traverse($results, $nodekey, $cascontext, $answers, $localoptions);
+            $nodekey = $this->nodes[$nodekey]->traverse($results, $nodekey, $cascontext, $answers, $localoptions,
+                    $this->contextsession);
 
             if ($results->_errors) {
                 break;

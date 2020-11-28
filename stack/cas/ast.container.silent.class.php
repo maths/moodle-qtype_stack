@@ -714,6 +714,33 @@ class stack_ast_container_silent implements cas_evaluatable {
         return false;
     }
 
+    public function is_toplevel_property($prop): bool {
+        $root = $this->ast;
+        if ($root instanceof MP_Root) {
+            if (array_key_exists(0, $root->items)) {
+                $root = $root->items[0];
+            }
+        }
+        if ($root instanceof MP_Statement) {
+            if (count($root->flags) > 0) {
+                // No matter what it is if there are flags its not pure anything.
+                return false;
+            }
+            $root = $root->statement;
+        }
+        $op = '';
+        if ($root instanceof MP_Operation) {
+            $op = $root->op;
+        }
+        if ($root instanceof MP_FunctionCall) {
+            $op = $root->name->value;
+        }
+        if (stack_cas_security::get_feature($op, $prop) !== null) {
+            return true;
+        }
+        return false;
+    }
+
     public function is_matrix(bool $evaluated=false): bool {
         $root = $this->ast;
         if ($evaluated) {

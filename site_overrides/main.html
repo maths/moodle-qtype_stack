@@ -12,19 +12,18 @@
   </script>
 {% endblock %}
 
-
-
 <!--Override basic header-->
 {% block header %}
 <header class="md-header" data-md-component="header">
   <nav class="md-header-nav md-grid" aria-label="{{ lang.t('header.title') }}">
-    <a href="{{ config.site_url | default(nav.homepage.url, true) | url }}" title="{{ config.site_name }}" class="md-header-nav__button md-logo" style="width:1.7rem;" aria-label="{{ config.site_name }}">
+    <a href="{{ config.site_url | default(nav.homepage.url, true) | url }}" title="{{ config.site_name }}"
+    class="md-header-nav__button md-logo" style="width:1.7rem;" aria-label="{{ config.site_name }}">
       {% include "partials/logo.html" %}
     </a>
     <label class="md-header-nav__button md-icon" for="__drawer">
       {% include ".icons/material/menu" ~ ".svg" %}
     </label>
-	<!--Make site title permament-->
+    <!--Make site title permament-->
     <div class="md-header-nav__title" data-md-component="header-title">
       <div class="md-header-nav__ellipsis md-ellipsis">
         {{ config.site_name }}
@@ -63,12 +62,23 @@
 <div class="md-content">
 <div class="md-content__inner md-typeset">
     <div class="row">
-		<div class="footerColumn"><a href="https://www.stack-assessment.org"><img src="{{nav.homepage.url | url}}/content/logo_large.png" width="70px" style="margin-top:1.3em;float:left;"><h2 style="color:white;margin-top:1.1em!important;"><b>STACK</b></h2></a></div>
-		<div class="footerColumn"><a href="https://www.stack-assessment.org/About/"><h5 style="color:white;">About STACK</h5></a><a href="https://www.stack-assessment.org/Training_and_events/"><h5 style="color:white;">Training and Events</h5></a><a href="https://www.stack-assessment.org/Case_studies/"><h5 style="color:white;">Case Studies</h5></a><a href="https://stack-demo.maths.ed.ac.uk/demo/"><h5 style="color:white;">Demonstration site</h5><a></div>
-		<div class="footerColumn"><a href="https://www.stack-assessment.org/Legal/PrivacyStatement/"><h5 style="color:white;">Privacy statement</h5></a><a href="https://www.stack-assessment.org/Legal/Licenses/"><h5 style="color:white;">Licenses</h5></a><a href="https://www.stack-assessment.org/Legal/Accessibility/"><h5 style="color:white;">Accessibility</h5></a></div>
-	</div>
+    <div class="footerColumn"><a href="https://www.stack-assessment.org">
+    <img src="{{nav.homepage.url | url}}/content/logo_large.png" width="70px" style="margin-top:1.3em;float:left;">
+    <h2 style="color:white;margin-top:1.1em!important;"><b>STACK</b></h2></a>
+    </div>
+    <div class="footerColumn"><a href="https://www.stack-assessment.org/About/">
+        <h5 style="color:white;">About STACK</h5></a>
+        <a href="https://www.stack-assessment.org/Training_and_events/"><h5 style="color:white;">Training and Events</h5></a>
+        <a href="https://www.stack-assessment.org/Case_studies/"><h5 style="color:white;">Case Studies</h5></a>
+        <a href="https://stack-demo.maths.ed.ac.uk/demo/"><h5 style="color:white;">Demonstration site</h5><a></div>
+    <div class="footerColumn"><a href="https://www.stack-assessment.org/Legal/PrivacyStatement/">
+        <h5 style="color:white;">Privacy statement</h5></a><a href="https://www.stack-assessment.org/Legal/Licenses/">
+        <h5 style="color:white;">Licenses</h5></a><a href="https://www.stack-assessment.org/Legal/Accessibility/">
+        <h5 style="color:white;">Accessibility</h5></a>
+    </div>
+    </div>
 </div>
 </div>
-
-</div></footer>
+</div>
+</footer>
 {% endblock %}

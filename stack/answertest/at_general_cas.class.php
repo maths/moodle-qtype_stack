@@ -39,8 +39,8 @@ class stack_answertest_general_cas extends stack_anstest {
      * @param  string $casoption
      */
     public function __construct(stack_ast_container $sans, stack_ast_container $tans, string $atname,
-            $atoption = null, $options = null) {
-        parent::__construct($sans, $tans, $options, $atoption);
+            $atoption = null, $options = null, $contextsession = array()) {
+        parent::__construct($sans, $tans, $options, $atoption, $contextsession);
 
         $this->casfunction       = 'AT'. $atname;
         $this->atname            = $atname;
@@ -136,7 +136,8 @@ class stack_answertest_general_cas extends stack_anstest {
             }
             $result = stack_ast_container::make_from_teacher_source($command, '', new stack_cas_security());
         }
-        $session = new stack_cas_session2(array($sa, $ta, $ops, $result), $this->options, 0);
+        $svars = array_merge($this->contextsession, array($sa, $ta, $ops, $result));
+        $session = new stack_cas_session2($svars, $this->options, 0);
         if ($session->get_valid()) {
             $session->instantiate();
         }

@@ -131,7 +131,7 @@ class stack_ans_test_controller {
      * @access public
      */
     public function __construct(string $anstest, stack_ast_container $sans, stack_ast_container $tans, $casoption = null,
-            $options = null) {
+            $options = null, $contextsession = array()) {
 
         switch($anstest) {
             case 'AlgEquiv':
@@ -163,15 +163,15 @@ class stack_ans_test_controller {
             case 'UnitsStrict':
             case 'NumDecPlaces':
             case 'NumDecPlacesWrong':
-                $this->at = new stack_answertest_general_cas($sans, $tans, $anstest, $casoption, $options);
+                $this->at = new stack_answertest_general_cas($sans, $tans, $anstest, $casoption, $options, $contextsession);
                 break;
 
             case 'SubstEquiv':
                 if ($casoption === null || '' == $casoption->ast_to_string() || 'null' == $casoption->ast_to_string()) {
                     $opts = stack_ast_container::make_from_teacher_source('[]', '', new stack_cas_security());
-                    $this->at = new stack_answertest_general_cas($sans, $tans, $anstest, $opts, $options);
+                    $this->at = new stack_answertest_general_cas($sans, $tans, $anstest, $opts, $options, $contextsession);
                 } else {
-                    $this->at = new stack_answertest_general_cas($sans, $tans, $anstest, $casoption, $options);
+                    $this->at = new stack_answertest_general_cas($sans, $tans, $anstest, $casoption, $options, $contextsession);
                 }
                 break;
 
@@ -179,9 +179,9 @@ class stack_ans_test_controller {
             case 'EquivFirst':
                 if ($casoption === null || '' == $casoption->ast_to_string()) {
                     $opts = stack_ast_container::make_from_teacher_source('null', '', new stack_cas_security());
-                    $this->at = new stack_answertest_general_cas($sans, $tans, $anstest, $opts, $options);
+                    $this->at = new stack_answertest_general_cas($sans, $tans, $anstest, $opts, $options, $contextsession);
                 } else {
-                    $this->at = new stack_answertest_general_cas($sans, $tans, $anstest, $casoption, $options);
+                    $this->at = new stack_answertest_general_cas($sans, $tans, $anstest, $casoption, $options, $contextsession);
                 }
                 break;
 
@@ -190,7 +190,7 @@ class stack_ans_test_controller {
                 if ($casoption === null || !$casoption->get_valid() || '' == $casoption->ast_to_string()) {
                     $casoption = stack_ast_container::make_from_teacher_source('0.05', '', new stack_cas_security());
                 }
-                $this->at = new stack_answertest_general_cas($sans, $tans, $anstest, $casoption, $options);
+                $this->at = new stack_answertest_general_cas($sans, $tans, $anstest, $casoption, $options, $contextsession);
                 break;
 
             case 'String':

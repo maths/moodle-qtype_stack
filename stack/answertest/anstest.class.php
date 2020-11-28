@@ -57,6 +57,12 @@ class stack_anstest {
     protected $options;
 
     /**
+     * Special variables in the question which should be exposed to the answer test.
+     * @var cas_evaluatable[]
+     */
+    protected $contextsession = array();
+
+    /**
      * @var    float
      */
     protected $atmark;
@@ -92,9 +98,11 @@ class stack_anstest {
      * @param  string $sanskey
      * @param  string $tanskey
      */
-    public function __construct(stack_ast_container $sans, stack_ast_container $tans, $options = null, $atoption = null) {
+    public function __construct(stack_ast_container $sans, stack_ast_container $tans, $options = null, $atoption = null,
+            $contextsession = array()) {
         $this->sanskey = $sans;
         $this->tanskey = $tans;
+        $this->contextsession = $contextsession;
 
         if (!(null === $options || is_a($options, 'stack_options'))) {
             throw new stack_exception('stack_anstest: options must be stack_options or null.');

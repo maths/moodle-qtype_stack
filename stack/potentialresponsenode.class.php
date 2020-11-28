@@ -145,14 +145,14 @@ class stack_potentialresponse_node {
      * @param stack_potentialresponse_tree_state $results
      * @return int the next node to evaluate (or -1 to stop).
      */
-    public function do_test($nsans, $ntans, $ncasopts, $options,
+    public function do_test($nsans, $ntans, $ncasopts, $options, $contextsession,
             stack_potentialresponse_tree_state $results) {
 
         // If an option is required by the answer test, but not processed by the CAS then take the raw value.
         if ($this->required_atoptions() && !$this->process_atoptions()) {
             $ncasopts = $this->atoptions;
         }
-        $at = new stack_ans_test_controller($this->answertest, $nsans, $ntans, $ncasopts, $options);
+        $at = new stack_ans_test_controller($this->answertest, $nsans, $ntans, $ncasopts, $options, $contextsession);
         $at->do_test();
 
         $testpassed = $at->get_at_mark();
@@ -214,9 +214,10 @@ class stack_potentialresponse_node {
      * @param stack_cas_session2 $cascontext the CAS context that holds all the relevant variables.
      * @param array $answers
      * @param stack_options $options
+     * @param cas_evaluatable[] $cascontext
      * @return int the next node to evaluate, or -1 to stop.
      */
-    public function traverse($results, $key, $cascontext, $answers, $options) {
+    public function traverse($results, $key, $cascontext, $answers, $options, $contextsession) {
 
         $errorfree = true;
         if ($cascontext->get_by_key('PRSANS' . $key)->get_errors() !== '') {
@@ -266,7 +267,7 @@ class stack_potentialresponse_node {
             $atopts = null;
         }
 
-        return $this->do_test($sans, $tans, $atopts, $options, $results);
+        return $this->do_test($sans, $tans, $atopts, $options, $contextsession, $results);
     }
 
     /*

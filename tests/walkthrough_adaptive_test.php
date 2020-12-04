@@ -922,7 +922,7 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->assert_content_with_maths_contains('Your answer is not an even function. Look,'
                 .' \[ f(x)-f(-x)={2\\cdot x} \neq 0.\]', $this->currentoutput);
 
-        // Score ans3 => 'x'. (put it an ans1 to validate, to force the creation of a new step.)
+        // Score ans3 => 'x'. Put in an ans1 to validate, to force the creation of a new step.
         $this->process_submission(array('ans3' => 'x', 'ans3_val' => 'x', 'ans1' => 'x', '-submit' => 1));
 
         $this->check_current_mark(0.5);

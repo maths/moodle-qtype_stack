@@ -1984,7 +1984,7 @@ class stack_cas_session2_test extends qtype_stack_testcase {
             $this->assertEquals('true', $test->get_value());
         }
 
-            $truetests = array('3',
+        $truetests = array('3',
                     '-3',
                     '3.1',
                     '3E-5',
@@ -1998,7 +1998,7 @@ class stack_cas_session2_test extends qtype_stack_testcase {
                     '3.3*10^x',
                     '3.3*a^2',
                     '3.3*7^2',
-            );
+        );
 
         $s1 = array();
         foreach ($truetests as $key => $c) {

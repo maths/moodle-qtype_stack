@@ -676,7 +676,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
 
     public function is_complete_response(array $response) {
 
-        // If all PRTs are gradable, then the question is complete. (Optional inputs may be blank.)
+        // If all PRTs are gradable, then the question is complete. Optional inputs may be blank.
         foreach ($this->prts as $index => $prt) {
             // Formative PRTs do not contribute to complete responses.
             if (!$prt->is_formative() && !$this->can_execute_prt($prt, $response, false)) {

@@ -463,7 +463,7 @@ class maxima_corrective_parser {
             $answernote[] = 'finalChar';
         } else if ($foundchar === '!' && ($previouschar === null ||
                 !(ctype_alpha($previouschar) || ctype_digit($previouschar) || $previouschar === ')' || $previouschar === ']'))) {
-            // TODO: Localise... "Operator X without a valid target. Needs something in front of it."
+            // TODO: Localise... "Operator X without a valid target. Needs something in front of it".
             $a = array('op' => stack_maxima_format_casstring('!'));
             $errors[] = stack_string('stackCas_badpostfixop', $a);
             $answernote[] = 'badpostfixop';

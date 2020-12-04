@@ -32,13 +32,13 @@ class qtype_stack_test_helper extends question_test_helper {
 
     public function get_test_questions() {
         return array(
-            'test0', // One input, one PRT, not randomised. (1 + 1 = 2.)
-            'test1', // One input, one PRT, randomised. (Integrate (v - a) ^ n, a, n small random ints.)
-            'test2', // Two inputs, one PRT, not randomises. (Expand (x - 2)(x - 3).)
-            'test3', // Four inputs, four PRTs, not randomised. (Even and odd functions.)
-            'test3_penalty0_1', // Four inputs, four PRTs, not randomised. (Even and odd functions.)
-            'test4', // One input, one PRT, not randomised, has a plot. (What is the equation of this graph? x^2.)
-            'test5', // Three inputs, three PRTs, one with 4 nodes, randomised. (Three steps, rectangle side length from area.)
+            'test0', // One input, one PRT, not randomised. 1 + 1 = 2.
+            'test1', // One input, one PRT, randomised. Integrate (v - a) ^ n, a, n small random ints.
+            'test2', // Two inputs, one PRT, not randomises. Expand (x - 2)(x - 3).
+            'test3', // Four inputs, four PRTs, not randomised. Even and odd functions.
+            'test3_penalty0_1', // Four inputs, four PRTs, not randomised. Even and odd functions.
+            'test4', // One input, one PRT, not randomised, has a plot. What is the equation of this graph? x^2.
+            'test5', // Three inputs, three PRTs, one with 4 nodes, randomised. Three steps, rectangle side length from area.
             'test6', // Test of the matrix input type.
             'test7', // 1 input, 1 PRT with 3 nodes. Solving a diff equation, with interesting feedback.
             'test8', // 1 input, 1 PRT with 3 nodes. Roots of unity. Input has a syntax hint.

@@ -187,7 +187,7 @@ class stack_ast_filter_998_security implements stack_cas_astfilter_parametric {
                         }
                         if (isset($node->position['virtual']) && !$safemap) {
                             // TODO: localise "Function application through mapping
-                            // functions has depth limits as it hides things."
+                            // functions has depth limits as it hides things".
                             $errors[] = trim(stack_string('stackCas_deepmap'));
                             if (array_search('deepmap', $answernotes) === false) {
                                 $answernotes[] = 'deepmap';

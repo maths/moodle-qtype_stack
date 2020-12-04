@@ -2937,39 +2937,44 @@ ATDiff(sa, sb, so) :=
         ),
     simp:old_simp,
     return(ret)
-    )$
+)$
 
-Difffun(SA,SB,v) := block([val,rawmk,ansnote,fb,ret,lSAv,lSBv,mSAv,mSBv],
+Difffun(SA, SB, v) := block([val, rawmk, ansnote, fb, ret, lSAv, lSBv, mSAv, mSBv],
     val:true, rawmk:false, fb:"", ansnote:"",
-    ret:[val,rawmk,ansnote,fb],
-    if algebraic_equivalence(SA,SB) then
-        (rawmk:true, ansnote:StackAddNote("","ATDiff_true"))
+    ret:[val, rawmk, ansnote, fb],
+    if algebraic_equivalence(SA, SB) then
+        (rawmk:true, ansnote:StackAddNote("", "ATDiff_true"))
     else
-        if ev(algebraic_equivalence(diff(SA,v), int(SB,v)), simp) then
-        (rawmk:false, ansnote:StackAddNote("","ATDiff_int"), fb:StackAddFeedback("","ATDiff_int"))
-        else (
+        if ev(algebraic_equivalence(diff(SA,v), int(SB,v)), simp) then (
+            rawmk:false,
+            ansnote:StackAddNote("", "ATDiff_int"),
+            fb:StackAddFeedback("", "ATDiff_int")
+        ) else (
             lSAv:listofvars(SA),
             lSBv:listofvars(SB),
-            mSAv:member(v,lSAv),
-            mSBv:member(v,lSBv),
+            mSAv:member(v, lSAv),
+            mSBv:member(v, lSBv),
             if not(mSBv) then (
                 if mSAv then
-                    ansnote:StackAddNote(ansnote,"ATDiff_var_SA_notSB")
-                else if not(listscontain(lSAv,lSBv,v)) and not(listsoverlap(lSAv,lSBv)) then
-                    ansnote:StackAddNote(ansnote,"ATDiff_var_notSASB_SAnceSB") ) /* not in SA or SB, and no variable common to SA and SB */
+                    ansnote:StackAddNote(ansnote, "ATDiff_var_SA_notSB")
+                else if not(listscontain(lSAv, lSBv, v)) and not(listsoverlap(lSAv, lSBv)) then
+                    ansnote:StackAddNote(ansnote, "ATDiff_var_notSASB_SAnceSB") )
+            /* Not in SA or SB, and no variable common to SA and SB. */
             else if not(mSAv) then (
                 if mSBv then
-                    ansnote:StackAddNote(ansnote,"ATDiff_var_SB_notSA") )  ),
-    ret:[val,rawmk,ansnote,fb],
+                    ansnote:StackAddNote(ansnote, "ATDiff_var_SB_notSA")
+            )
+        ),
+    ret:[val, rawmk, ansnote, fb],
     return(ret)
-    )$
+)$
 
 /* Look over an expression and find all the variables wrt which we are differentiating. */
 ATDiffGetVar(ex):= block(
     if atom(ex) then return([]),
     if safe_op(ex)="diff" then return([second(args(ex))]),
     flatten(map(ATDiffGetVar, args(ex)))
-);
+)$
 
 /* ****************************************************** */
 /*                                                        */
@@ -3059,5 +3064,5 @@ load(linearalgebra);
 
 /* Stack expects some output with the version number the output happens at */
 /* maximalocal.mac after additional library loading */
-stackmaximaversion:2020112400$
+stackmaximaversion:2020113000$
 

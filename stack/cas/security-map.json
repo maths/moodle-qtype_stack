@@ -7080,6 +7080,10 @@
     "ssubstfirst": {
         "function": "?"
     },
+    "stack_reset_vars": {
+        "function": "?",
+        "blockexternal": "true"
+    },
     "stack_validate": {
         "function": "s"
     },

@@ -609,6 +609,7 @@ class stack_cas_security {
                 $r[$key] = $key;
             }
         }
+        // If the security map is still null then the .json is corrupt: there is probably a comma missing in the file.
         foreach (self::$securitymap as $key => $features) {
             if (isset($features[$feature]) && $features[$feature] !== 'f') {
                 $r[$key] = $key;

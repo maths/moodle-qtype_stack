@@ -570,7 +570,7 @@ class stack_answertest_test_data {
         array('SubstEquiv', '', '{x^2-1,x^2}', '{A^2+1,A^2}', 0, 'ATSet_wrongentries.', ''),
         array('SubstEquiv', '', '{A+1,B^2,C}', '{B,C+1,A^2}', 1, 'ATSubstEquiv_Subst [A = C,B = A,C = B].', ''),
         array('SubstEquiv', '', '{1,{A,B},C}', '{1,{a,b},C}', 1, 'ATSubstEquiv_Subst [A = a,B = b,C = C].', ''),
-        /* Optional argument to fix some variables within an expression. */
+        // Optional argument to fix some variables within an expression.
         array('SubstEquiv', '', 'A*cos(t)+B*sin(t)', 'P*cos(t)+Q*sin(t)', 1, 'ATSubstEquiv_Subst [A = P,B = Q,t = t].', ''),
         array('SubstEquiv', '', 'A*cos(t)+B*sin(t)', 'P*cos(x)+Q*sin(x)', 1, 'ATSubstEquiv_Subst [A = P,B = Q,t = x].', ''),
         array('SubstEquiv', '[x]', 'A*cos(t)+B*sin(t)', 'P*cos(x)+Q*sin(x)', 0, '', 'Fix some variables.'),

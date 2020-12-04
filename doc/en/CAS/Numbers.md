@@ -18,7 +18,7 @@ Optionally, depending on the question settings, you have
     i: %i
     j: %i
 
-Sometimes you need to use \(e\), or other constants, as an abstract symbol not a number.  The Maxima solution is to use the `kill()` command, but for security reasons users of STACK are not permitted to use this function. Instead use `stack_reset_vars(true)` in the question variables.  This resets all the special constants defined by STACK so the symbols can be redefined in an individual STACK question.
+Sometimes you need to use \(e\), or other constants, as an abstract symbol not a number.  The Maxima solution is to use the `kill()` command, but for security reasons users of STACK are not permitted to use this function. Instead use `stack_reset_vars(true)` in the question variables.  This resets all the special constants defined by STACK so the symbols can be redefined in an individual STACK question.  (On Maxima 5.42.1 (and possibly others) `stack_reset_vars(true)` also resets `ordergreat`, so if you need to use `stack_reset_vars(true)` it must be the first command the question variables.  Since this has been fixed in Maxima 5.44.0, it was probably a bug in Maxima.)
 
 ## Modular arithmetic ##
 

@@ -834,10 +834,21 @@ numerical_not_alg_equiv(p1, p2):= block([pvars, pval, lv, sz, pnum, stack_mtell_
 /* Are there any user-defined function? */
 recurse_userfunctionp(ex):= block([op1],
   if atom(ex) then return(false),
-  op1:apply(properties,[ev(op(ex))]),
+  op1:ev(op(ex)),
+  /* Functions like li use arrays, e.g. li[2](-x). */
+  /* While this code does not distinguish between the following, we want to reject
+     all arrays 
+     p0:li[2](-2*%e^(2*t));
+     p1:b[1];
+     p2:b[1][2];
+     p3:b[1](x);
+     p4:b[1][2](x);
+  */
+  if arrayp(op1) then while arrayp(op1) do op1:ev(op(op1)),
+  op1:apply(properties,[op1]),
   if emptyp(op1) then return(true),
   apply("or", map(recurse_userfunctionp, args(ex)))
-);
+)$
 
 /* we can try to evaluate matrices here, but anything else is out. */
 numerical_not_expressionp(ex) := block(

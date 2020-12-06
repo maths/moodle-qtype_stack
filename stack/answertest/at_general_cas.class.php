@@ -172,7 +172,11 @@ class stack_answertest_general_cas extends stack_anstest {
             }
         }
 
-        $unpacked = $this->unpack_result($result->get_evaluated());
+        // Guard clause to prevent an exception below and provide error messages to end user.
+        $unpacked = array('answernote' => '', 'feedback' => '');
+        if ($result->is_evaluated()) {
+            $unpacked = $this->unpack_result($result->get_evaluated());
+        }
         $this->atansnote = str_replace("\n", '', trim($unpacked['answernote']));
 
         if ('' != $result->get_errors()) {

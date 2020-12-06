@@ -9,6 +9,7 @@ How to report bugs and make suggestions is described on the [community](../About
 
 Done:
 
+* Introduce "context variables" which propagate throughout a question, enabling `texput` to operate in inputs as well as general castext.
 * Autoload `trigtools` to provide better simplification options for trig expressions and fix long-standing bug with `trigrat`.
 * Make it much easier for colleagues to construct a test case using the "teacher's answer" input values as test case inputs.
 * Allow users to modify the `notanswered` message in dropdown and radio inputs.

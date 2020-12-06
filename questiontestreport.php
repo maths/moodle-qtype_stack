@@ -63,14 +63,9 @@ echo $OUTPUT->heading($question->name, 2);
 $out = html_writer::link($testquestionlink, stack_string('runquestiontests'), array('target' => '_blank'));
 
 // If question has no random variants.
-if ($question->has_random_variants()) {
-    if (empty($question->deployedseeds)) {
-        $out .= stack_string('questionnotdeployedyet');
-    }
-}
 if (empty($question->deployedseeds)) {
     if ($question->has_random_variants()) {
-        $out .= stack_string('questionnotdeployedyet');
+        $out .= ' ' . stack_string('questionnotdeployedyet');
     }
 }
 

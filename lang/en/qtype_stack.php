@@ -516,6 +516,7 @@ $string['questiontestsfor'] = 'Question tests for seed {$a}';
 $string['questiontestspass'] = 'All question tests passed.';
 $string['questiontestsdefault'] = '(Default)';
 $string['runquestiontests'] = 'Question tests & deployed variants';
+$string['runquestiontests_help'] = 'The question tests unit-test the questions to ensure the behaviour matches expectations expressed by the teacher, and deployed variants ensure random versions seen by a student are pre-tested against the question tests. These are tools to help you create and test reliable questions and should be used in all cases a question will be used by students.';
 $string['seethisquestioninthequestionbank'] = 'See this question in the question bank';
 $string['showingundeployedvariant'] = 'Showing undeployed variant: {$a}';
 $string['switchtovariant'] = 'Switch to arbitrary variant';

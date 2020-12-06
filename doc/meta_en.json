@@ -162,6 +162,11 @@
         "description":"This document provides guidelines for making sure a question will work in future updates of STACK or Moodle."
         },
         {
+        "file":"HELM.md",
+        "title":"HELM materials in STACK",
+        "description":"Providing versions of the HELM project materials as moodle quizzes, with materials in STACK format."
+        },
+        {
         "file":"ImportExport.md",
         "title":"Importing and Exporting - STACK Documentation",
         "description":"Information on importing and exporting questions in STACK."

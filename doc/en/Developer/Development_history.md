@@ -2,6 +2,18 @@
 
 For current and future plans, see [Development track](Development_track.md) and [Future plans](Future_plans.md).
 
+## Version 4.3.8
+
+Released December 2020.
+
+* Introduce "context variables" which propagate throughout a question, enabling `texput` to operate in inputs as well as general castext.
+* Autoload `trigtools` to provide better simplification options for trig expressions and fix long-standing bug with `trigrat`.
+* Make it much easier for colleagues to construct a test case using the "teacher's answer" input values as test case inputs.
+* Allow users to modify the `notanswered` message in dropdown and radio inputs.
+* Move all answer tests to Maxima.
+* Separate out Maxima commands in the install process.
+
+
 ## Version 4.3.7
 
 Released October 2020.

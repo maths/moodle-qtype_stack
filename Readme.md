@@ -1,4 +1,4 @@
-# STACK 4.3.7 [![Build Status](https://api.travis-ci.org/maths/moodle-qtype_stack.svg?branch=master)](https://travis-ci.org/github/maths/moodle-qtype_stack/)
+# STACK 4.3.8 [![Build Status](https://api.travis-ci.org/maths/moodle-qtype_stack.svg?branch=master)](https://travis-ci.org/github/maths/moodle-qtype_stack/)
 
 STACK is an assessment system for mathematics, science and related disciplines.  STACK is a question type for the Moodle learning management system, and also the ILIAS learning management system.
 
@@ -8,7 +8,7 @@ STACK is based on continuing research and use at the University of Edinburgh, th
 
 ## Current state of development
 
-STACK 4.3 contains some important re-engineering of core components.  This will enable significant new features in future releases.  STACK 4.3.7 mostly contains minor bug fixes.
+STACK 4.3 contains some important re-engineering of core components.  This will enable significant new features in future releases.  STACK 4.3.8 contains minor bug fixes and minor improvements.
 
 Please continue to report any bugs you find at https://github.com/maths/moodle-qtype_stack/issues.
 

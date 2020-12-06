@@ -264,7 +264,7 @@ class stack_units_input_test extends qtype_stack_testcase {
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals("spaces", $state->note);
         $this->assertEquals('5*10^2*kg', $state->contentsmodified);
-        $this->assertEquals('\[ 5\, 10^2\, \mathrm{k}\mathrm{g} \]', $state->contentsdisplayed);
+        $this->assertEquals('\[ 5\times 10^2\, \mathrm{k}\mathrm{g} \]', $state->contentsdisplayed);
     }
 
     public function test_validate_student_response_student_edgecase() {
@@ -287,7 +287,7 @@ class stack_units_input_test extends qtype_stack_testcase {
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('missing_stars', $state->note);
         $this->assertEquals('9*10^2*m^2', $state->contentsmodified);
-        $this->assertEquals('\[ 9\, 10^2\, \mathrm{m}^2 \]', $state->contentsdisplayed);
+        $this->assertEquals('\[ 9\times 10^2\, \mathrm{m}^2 \]', $state->contentsdisplayed);
     }
 
     public function test_validate_student_response_student_trailingzeros() {
@@ -569,6 +569,17 @@ class stack_units_input_test extends qtype_stack_testcase {
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('9.81*m*s^-2', $state->contentsmodified);
         $this->assertEquals('\[ 9.81\, {\mathrm{m}}/{\mathrm{s}^2} \]', $state->contentsdisplayed);
+    }
+
+    public function test_validate_student_response_display_4() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('units', 'sans1', '1.3410*10^4*m*Hz');
+        $el->set_parameter('insertStars', 1);
+        $state = $el->validate_student_response(array('sans1' => '1.3410*10^4*m*Hz'), $options, '1.3410*10^4*m*Hz',
+            new stack_cas_security(true));
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('1.3410*10^4*m*Hz', $state->contentsmodified);
+        $this->assertEquals('\[ 1.3410\times 10^4\, \mathrm{Hz}\, \mathrm{m} \]', $state->contentsdisplayed);
     }
 
     public function test_validate_student_response_display_negpow_3() {

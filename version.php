@@ -32,7 +32,7 @@ $plugin->maturity  = MATURITY_STABLE;
 $plugin->release   = '4.3.8 for Moodle 3.5+';
 
 $plugin->dependencies = array(
-    'qbehaviour_adaptivemultipart'     => 2018080600,
+    'qbehaviour_adaptivemultipart'     => 2020103000,
     'qbehaviour_dfexplicitvaildate'    => 2018080600,
     'qbehaviour_dfcbmexplicitvaildate' => 2018080600,
 );

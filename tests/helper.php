@@ -1193,7 +1193,8 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->inputs['ans1'] = stack_input_factory::make(
                 'algebraic', 'ans1', '[x+y=1,x-y=1]', null, array('boxWidth' => 25));
 
-        $feedbackvars = new stack_cas_keyval('');
+        // This will generate a runtime error in the feedback variables.
+        $feedbackvars = new stack_cas_keyval('S1:1/(7-rhs(first(ans1)));');
 
         $sans = stack_ast_container::make_from_teacher_source('all_listp(equationp,ans1)');
         $sans->get_valid();

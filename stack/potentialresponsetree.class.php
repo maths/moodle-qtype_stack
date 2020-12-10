@@ -223,6 +223,10 @@ class stack_potentialresponse_tree {
             $tr .= "\n/* ------------------- */";
             $results->add_trace($tr);
         }
+        $er = $fv->get_errors(true);
+        if (trim($er)) {
+            $results->add_fverrors($er);
+        }
 
         // Traverse the tree.
         $nodekey = $this->firstnode;

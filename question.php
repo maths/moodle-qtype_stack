@@ -572,6 +572,12 @@ class qtype_stack_question extends question_graded_automatically_with_countback
             } else {
                 $score = "# = " . $state->score . " | ";
             }
+            if (trim($state->errors) != '') {
+                $score = '[RUNTIME_ERROR] ' . $score;
+            }
+            if (trim($state->fverrors) != '') {
+                $score = '[RUNTIME_FV_ERROR] ' . $score;
+            }
             $bits[] = $name . ": " . $score . $note;
         }
         return implode('; ', $bits);

@@ -15,7 +15,7 @@ Notes:
 
 1. You cannot define a feedback variable with the same name as an input.  For example, if your input is `ans1` then it is tempting to define a feedback variable `ans1:exdowncase(ans1)` to ensure it is in lower case.  Do not do this!  Please use a different variable name.  This is because in some situations the answer test will choose to take the raw value of `ans1` exactly as the student typed it.  Any redefinition will interfere with this process.
 
-2. If one of the feedback variables throws an error then this will not stop the PRT executing.
+2. If one of the feedback variables throws an error then this will not stop the PRT executing.  If there is an error, this will be flagged in the response summary as `[RUNTIME_FV_ERROR]` (fv here means feedback variables).
 
 ## Traversing the tree ##
 
@@ -28,7 +28,7 @@ In each node two expressions are compared using a specified [answer tests](Answe
 3. Generate an "[answer 
 note](Potential_response_trees.md#Answer_note)", used by the teacher for evaluative assessment
 4. Nominate the next node, or end the process.
-5. Any run-time error during traversing the tree will cause an error.  If you have statements likely to throw an error you should evaluate them in the feedback variables first.
+5. Any run-time error during traversing the tree will cause an error.  This error will stop further exectution of the tree, and students will see a runtime error message.  This will be flagged in the response summary as `[RUNTIME_ERROR]`.  If you have statements likely to throw an error you should evaluate them in the feedback variables first.
 
 ## Outcomes  ##
 

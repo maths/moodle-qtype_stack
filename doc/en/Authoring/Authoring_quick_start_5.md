@@ -23,7 +23,7 @@ Testing questions is time consuming and tedious, but important to ensure questio
 
 ## Question testing
 
-Scroll to the top of your question and click on `Question tests & deployed variants`. In the last part we used this window to deploy random variants.
+Scroll to the top of your question in the preview window and click on `Question tests & deployed variants`. In the last part we used this window to deploy random variants.
 
 Click `Add a test case` to add a test to your question. A test case takes a student input. You then specify what the expected outcome is for that input, namely the score, penalty and answer note you expect to land on. Recall from the last part that the `Answer note` is the name for a specific outcome on a potential response tree.
 

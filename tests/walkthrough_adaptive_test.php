@@ -2372,8 +2372,9 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->check_current_mark(0);
         $this->check_prt_score('Result', 0, 0);
         $this->render();
-        // But, we do expect to see that a runtime error has occured in the trace.  This is essential for debugging other people's questions!
-        $expected = 'Seed: 1; ans1: [x=7,2*sin(x)*y=1] [score]; Result: [RUNTIME_FV_ERROR] # = 0 | ATAlgEquiv_SA_not_logic. | Result-0-F';
+        // But, we do expect to see that a runtime error has occured in the trace for debugging other people's questions!
+        $expected = 'Seed: 1; ans1: [x=7,2*sin(x)*y=1] [score]; Result: ' .
+                '[RUNTIME_FV_ERROR] # = 0 | ATAlgEquiv_SA_not_logic. | Result-0-F';
         $this->check_response_summary($expected);
         $this->check_output_contains_text_input('ans1', '[x=7,2*sin(x)*y=1]');
         $this->check_output_contains_input_validation('ans1');

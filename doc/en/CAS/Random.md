@@ -6,10 +6,9 @@ STACK creates pseudo-random numbers from a definite seed.
 This ensures that when a particular student returns they see the same variant of the question.
 (Note to site maintainers: if you upgrade your Maxima version mid-way through an academic cycle, then there is no gurantee that the random numbers will remain the same.  It is unlikley Maxima will change its random number generation between versions, but if it important to you please check first!)
 
-For the purposes of learning and teaching, we do not need an algorithm which is statistically perfect.
-We are much more interested in simplicity, efficiency and reproducibility across platforms.
-Hence, we adopt a linear recurrence method of generating pseudo-random numbers.
+For the purposes of learning and teaching, we do not need an algorithm which is statistically perfect. We are much more interested in simplicity, efficiency and reproducibility across platforms. Hence, we adopt pseudo-random numbers.
 
+It is very important to test each random version a student is likely to see and not to leave this to chance.  To pre-generate and test random variants see the separate documentation on [deploying random variants](../Authoring/Deploying.md).
 
 ## rand() {#rand}
 

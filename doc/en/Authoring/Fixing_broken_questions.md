@@ -51,6 +51,8 @@ Of course, if the question author has created [question tests](Testing.md) in th
 
 ## I forgot to deploy random variants.
 
-Moodle creates a random integer to seed the random number generation.  If you have deployed random variants then the system selects from these.  If you have not deployed random variants then the system uses this integer to seed the random number generator in Maxima and generates a variant on the fly.
+Moodle creates a random integer to seed the random number generation for each question.  The seed is stored in the
+question-attempt and it is picked at the initiation of the quiz either from deployed ones or, if no variants have been deployed, is chosen freely.
 
-It is not at all clear what happens if you deploy random variants half way through a live quiz.  There is a very good chance students who have already taken a question will see a different version when they review their attempt, and so their previous answer will now not correspond to the current question.  This behaviour is not tested for, and we do not document or gurantee how the system "should" behave in this situation.  Please either deploy random variants in advance (recommened) through the [question tests](Testing.md) page or leave it alone for this year.
+Students will therefore have their seed picked at the moment they start their quiz.  The seed remains unchanged regardless of whether any variants are subsequenetly deployed, removed etc.  Hence, deploying or undeploying variants will have no effect on students who already started the quiz.
+

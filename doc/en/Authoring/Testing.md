@@ -2,6 +2,8 @@
 
 This page deals with testing questions and quality control. This is largely done through the question test functionality.
 
+We have separate advice on [fixing broken questions](Fixing_broken_questions.md) in a live quiz.
+
 ## Question authoring checklist ##
 
 High-quality question production needs care at each stage.

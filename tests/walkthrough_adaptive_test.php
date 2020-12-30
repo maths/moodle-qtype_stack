@@ -3397,7 +3397,6 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
 
     public function test_test_contextvars() {
 
-        // Create the stack question 'stringsloppy'.
         $q = test_question_maker::make_question('stack', 'contextvars');
         $this->start_attempt_at_question($q, 'adaptive', 1);
 
@@ -3434,7 +3433,7 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->check_current_state(question_state::$todo);
         $this->check_current_mark(0);
         $this->check_prt_score('firsttree', 0, 0.35);
-        $this->check_answer_note('firsttree', 'firsttree-1-F');
+        $this->check_answer_note('firsttree', 'firsttree-1-F | firsttree-2-F');
 
         // Process the correct answer.  Needs the assumption x>2 for ATAlgEquiv to correctly work.
         $this->process_submission(array('ans1' => '6*((x-2)^2)^k', '-submit' => 1));
@@ -3458,4 +3457,46 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->check_answer_note('firsttree', 'firsttree-1-T');
     }
 
+    public function test_test_contextvars_feedbackvars() {
+
+        // Create a situation which requires contextvars defined only in the feedbackvars.
+        $q = test_question_maker::make_question('stack', 'contextvars');
+        $this->start_attempt_at_question($q, 'adaptive', 1);
+
+        // Check the initial state.
+        $this->check_current_state(question_state::$todo);
+        $this->assertEquals('adaptivemultipart',
+                $this->quba->get_question_attempt($this->slot)->get_behaviour_name());
+        $this->render();
+        $this->check_output_contains_text_input('ans1');
+        $this->check_output_does_not_contain_input_validation();
+        $this->check_output_does_not_contain_prt_feedback();
+        $this->check_output_does_not_contain_stray_placeholders();
+        $this->check_current_output(
+                new question_pattern_expectation('/diamond/'),
+                $this->get_does_not_contain_feedback_expectation(),
+                $this->get_does_not_contain_num_parts_correct(),
+                $this->get_no_hint_visible_expectation()
+                );
+
+        // Process a validate request.
+        $this->process_submission(array('ans1' => '(a^x)^y', '-submit' => 1));
+
+        $this->check_current_state(question_state::$todo);
+        $this->check_current_mark(null);
+        $this->check_prt_score('firsttree', null, null);
+        $this->render();
+        $this->check_output_contains_text_input('ans1', '(a^x)^y');
+        $this->check_output_contains_input_validation('ans1');
+        $this->check_output_does_not_contain_prt_feedback();
+        $this->check_output_does_not_contain_stray_placeholders();
+
+        // Process a submition of an incorrect answer.
+        $this->process_submission(array('ans1' => '(a^x)^y', 'ans1_val' => '(a^x)^y', '-submit' => 1));
+        $this->check_current_state(question_state::$todo);
+        $this->check_current_mark(0.6);
+        $this->check_prt_score('firsttree', 0.6, 0.35);
+        $this->check_answer_note('firsttree', 'firsttree-1-F | firsttree-2-T');
+
+    }
 }

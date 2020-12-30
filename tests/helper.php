@@ -2338,10 +2338,22 @@ class qtype_stack_test_helper extends question_test_helper {
         $sans->get_valid();
         $tans = stack_ast_container::make_from_teacher_source('6*(x-2)^(2*k)');
         $tans->get_valid();
-        $node = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv');
-        $node->add_branch(0, '=', 0, $q->penalty, -1, '', FORMAT_HTML, 'firsttree-1-F');
-        $node->add_branch(1, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'firsttree-1-T');
-        $q->prts['firsttree'] = new stack_potentialresponse_tree('firsttree', '', true, 1, null, array($node), '0', 1);
+        $node1 = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv');
+        $node1->add_branch(0, '=', 0, $q->penalty, 1, '', FORMAT_HTML, 'firsttree-1-F');
+        $node1->add_branch(1, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'firsttree-1-T');
+
+        $sans = stack_ast_container::make_from_teacher_source('ans1');
+        $sans->get_valid();
+        $tans = stack_ast_container::make_from_teacher_source('a^(x*y)');
+        $tans->get_valid();
+        $node2 = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv');
+        $node2->add_branch(0, '=', 0, $q->penalty, -1, '', FORMAT_HTML, 'firsttree-2-F');
+        $node2->add_branch(1, '=', 0.6, $q->penalty, -1, '', FORMAT_HTML, 'firsttree-2-T');
+
+        $feedbackvars = new stack_cas_keyval('assume(a>0);', null, null);
+
+        $q->prts['firsttree'] = new stack_potentialresponse_tree('firsttree', '', true, 1, $feedbackvars->get_session(),
+                array($node1, $node2), '0', 1);
 
         return $q;
     }

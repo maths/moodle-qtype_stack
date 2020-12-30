@@ -209,6 +209,7 @@
 
 ;; Change the display of integrals to be consistent with derivatives.
 ;; Chris Sangwin, 8/6/2015.
+(defprop %int tex-int tex)
 (defprop %integrate tex-int tex)
 (defun tex-int (x l r)
   (let ((s1 (tex (cadr x) nil nil 'mparen 'mparen)) ;;integran, at the request of the OU delims / & d

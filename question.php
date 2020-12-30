@@ -1102,7 +1102,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         $session->add_statements($tmp);
         $session->get_valid();
         $session->instantiate();
-        
+
         // We always want the values when this method is called.
         return $session->get_keyval_representation(true);
     }

@@ -228,12 +228,10 @@ class stack_cas_keyval {
                     'references' => $referenced];
         }
 
-        /**
-         * Now we start from the RAW form as rebuilding the line
-         * references for AST-containers is not a simple thing and as
-         * we plan for the future where we might include logic dealing
-         * with comments as well.
-         */
+        // Now we start from the RAW form as rebuilding the line
+        // references for AST-containers is not a simple thing and as
+        // we plan for the future where we might include logic dealing
+        // with comments as well.
         $str = $this->raw;
         // Similar QMCHAR protection as previously.
         $strings = stack_utils::all_substring_strings($str);
@@ -276,7 +274,8 @@ class stack_cas_keyval {
                 $item = $pipeline->filter($item, $errors, $answernotes, $securitymodel);
 
                 // Render to statement.
-                $scope = stack_utils::php_string_to_maxima_string($contextname . ': ' . $item->position['start'] . '-' . $item->position['end']);
+                $scope = stack_utils::php_string_to_maxima_string($contextname . ': ' .
+                        $item->position['start'] . '-' . $item->position['end']);
                 $statement = '_EC(errcatch(' . $item->toString($tostringparams) . '),' . $scope . ')';
 
                 // Update references.

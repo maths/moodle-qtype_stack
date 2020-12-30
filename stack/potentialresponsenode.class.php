@@ -225,7 +225,7 @@ class stack_potentialresponse_node {
             if (method_exists($statement, 'is_toplevel_property') &&
                     $statement->is_toplevel_property('contextvariable')) {
                         $additionalcontext[] = $statement;
-                    }
+            }
         }
         $contextsession = array_merge($contextsession, $additionalcontext);
 

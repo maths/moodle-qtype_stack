@@ -2353,7 +2353,7 @@ class qtype_stack extends question_type {
      *  'castext-...' for the model-solution and prtpartiallycorrect etc.
      *  'prt' the compiled PRT-logics in an array.
      *  'security-config' extended logic for cas-security, e.g. custom-units.
-     * 
+     *
      * @param string the questionvariables
      * @param array inputs as objects, keyed by input name
      * @param array PRTs as objects
@@ -2361,15 +2361,12 @@ class qtype_stack extends question_type {
      * @return array a dictionary of things that might be expensive to generate.
      */
     public static function compile($questionvariables, $inputs, $prts, $options) {
-        /**
-         * NOTE! We do not compile during question save as the would make
-         * import actions slow, we could compile during fromform-validation
-         * but we really should look at refactoring that to better interleave
-         * the compilation.
-         *
-         * As we currently complie at the first use things start slower than 
-         * they could.
-         */
+        // NOTE! We do not compile during question save as the would make
+        // import actions slow, we could compile during fromform-validation
+        // but we really should look at refactoring that to better interleave
+        // the compilation.
+        //
+        // As we currently complie at the first use things start slower than they could.
 
         // The cache will be a dictionary with many things.
         $cc = [];
@@ -2384,7 +2381,7 @@ class qtype_stack extends question_type {
         } else {
             $kv = new stack_cas_keyval($questionvariables, $options);
             if (!$kv->get_valid()) {
-                throw new stack_exception('Error(s) in question-variables: ' . implode('; ',$kv->get_errors()));
+                throw new stack_exception('Error(s) in question-variables: ' . implode('; ', $kv->get_errors()));
             }
             $c = $kv->compile('question-variables');
             // Store the pre-validated statement representing the whole qv.
@@ -2414,11 +2411,9 @@ class qtype_stack extends question_type {
             // TODO: compile PRTs.
         }
 
-        /**
-         * Note that instead of just adding the unit loading to the 'preamble-qv'
-         * and forgetting about units we do keep this bit of information stored
-         * as it may be used in input configuration at some later time.
-         */
+        // Note that instead of just adding the unit loading to the 'preamble-qv'
+        // and forgetting about units we do keep this bit of information stored
+        // as it may be used in input configuration at some later time.
         $cc['units'] = $units;
         $cc['forbiddenkeys'] = $forbiddenkeys;
 

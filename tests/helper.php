@@ -94,6 +94,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->prtincorrectformat = FORMAT_HTML;
         $q->generalfeedback = '';
         $q->variantsselectionseed = '';
+        $q->compiledcache = '';
 
         $q->inputs = array();
         $q->prts = array();
@@ -1326,6 +1327,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $qdata->options->logicsymbol               = 'lang';
         $qdata->options->matrixparens              = '[';
         $qdata->options->variantsselectionseed     = '';
+        $qdata->options->compiledcache             = '';
 
         $input = new stdClass();
         $input->name               = 'ans1';
@@ -1450,6 +1452,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $qdata->options->logicsymbol               = 'lang';
         $qdata->options->matrixparens              = '[';
         $qdata->options->variantsselectionseed     = '';
+        $qdata->options->compiledcache             = '';
 
         $input = new stdClass();
         $input->name               = 'ans1';

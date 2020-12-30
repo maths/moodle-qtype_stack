@@ -514,7 +514,7 @@ class stack_cas_session2 {
         $keyvals = '';
         foreach ($this->statements as $statement) {
             if ($evaluatedvalues) {
-                if ($statement->is_correctly_evaluated()) {
+                if (is_a($statement, 'stack_ast_container') && $statement->is_correctly_evaluated()) {
                     // Only print out variables with a key, to display their values.
                     $key = trim($statement->get_key());
                     if ($key !== '') {

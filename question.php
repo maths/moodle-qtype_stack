@@ -1276,7 +1276,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
     private function get_cached(string $key) {
         global $DB;
         // Do we have that particular thing in the cache?
-        if (!array_key_exists($key, $this->compiledcache)) {
+        if ($this->compiledcache === null || !array_key_exists($key, $this->compiledcache)) {
             // If not do the compilation.
             try {
                 $this->compiledcache = qtype_stack::compile($this->questionvariables, $this->inputs, $this->prts, $this->options);

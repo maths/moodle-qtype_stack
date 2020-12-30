@@ -146,13 +146,9 @@ class qtype_stack extends question_type {
         $options->logicsymbol               = $fromform->logicsymbol;
         $options->matrixparens              = $fromform->matrixparens;
         $options->variantsselectionseed     = $fromform->variantsselectionseed;
-        $options->compiledcache             = $fromform->compiledcache;
 
-        if (!is_string($options->compiledcache)) {
-            // Should this form come from somewhere unexpected.
-            // We need to turn any dictionarys to JSON-strings.
-            $options->compiledcache = json_encode($options->compiledcache);
-        }
+        // We will not have the values for this.
+        $options->compiledcache             = '{}';
 
         $DB->update_record('qtype_stack_options', $options);
 

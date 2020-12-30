@@ -3,7 +3,7 @@
 <!-- question: 0  -->
   <question type="category">
     <category>
-      <text>top/Default for Scratch/Input Samples</text>
+      <text>$course$/top/Default for Scratch/Input Samples</text>
     </category>
     <info format="moodle_auto_format">
       <text></text>
@@ -11,7 +11,7 @@
     <idnumber></idnumber>
   </question>
 
-<!-- question: 3932  -->
+<!-- question: 4872  -->
   <question type="description">
     <name>
       <text>Style check: HELM</text>
@@ -63,7 +63,7 @@
     <idnumber></idnumber>
   </question>
 
-<!-- question: 3931  -->
+<!-- question: 4873  -->
   <question type="description">
     <name>
       <text>Style check: proof.</text>
@@ -343,7 +343,7 @@ Consider the following proof by induction. \(P(n)\)
     <idnumber></idnumber>
   </question>
 
-<!-- question: 3905  -->
+<!-- question: 4874  -->
   <question type="stack">
     <name>
       <text>Algebraic input</text>
@@ -353,14 +353,14 @@ Consider the following proof by induction. \(P(n)\)
 <p>(Note, this assumes single variable variable names)</p>]]></text>
     </questiontext>
     <generalfeedback format="html">
-      <text></text>
+      <text>There are various options for typing in multiplication within STACK.</text>
     </generalfeedback>
     <defaultgrade>1.0000000</defaultgrade>
     <penalty>0.1000000</penalty>
     <hidden>0</hidden>
     <idnumber></idnumber>
     <stackversion>
-      <text>2020012700</text>
+      <text>2020123000</text>
     </stackversion>
     <questionvariables>
       <text>ta:a*b</text>
@@ -469,7 +469,7 @@ Consider the following proof by induction. \(P(n)\)
     </qtest>
   </question>
 
-<!-- question: 3906  -->
+<!-- question: 4875  -->
   <question type="stack">
     <name>
       <text>Algebraic input (align to the right)</text>
@@ -608,7 +608,7 @@ Consider the following proof by induction. \(P(n)\)
     </qtest>
   </question>
 
-<!-- question: 3907  -->
+<!-- question: 4876  -->
   <question type="stack">
     <name>
       <text>Algebraic input (answer box sizes test)</text>
@@ -905,7 +905,7 @@ Consider the following proof by induction. \(P(n)\)
     </qtest>
   </question>
 
-<!-- question: 3908  -->
+<!-- question: 4877  -->
   <question type="stack">
     <name>
       <text>Algebraic input (compact)</text>
@@ -1031,7 +1031,7 @@ Consider the following proof by induction. \(P(n)\)
     </qtest>
   </question>
 
-<!-- question: 3909  -->
+<!-- question: 4878  -->
   <question type="stack">
     <name>
       <text>Algebraic input (empty answer permitted)</text>
@@ -1232,7 +1232,7 @@ Consider the following proof by induction. \(P(n)\)
     </qtest>
   </question>
 
-<!-- question: 3910  -->
+<!-- question: 4879  -->
   <question type="stack">
     <name>
       <text>Algebraic input (with simplification)</text>
@@ -1372,7 +1372,7 @@ Consider the following proof by induction. \(P(n)\)
     </qtest>
   </question>
 
-<!-- question: 3911  -->
+<!-- question: 4880  -->
   <question type="stack">
     <name>
       <text>Checkbox</text>
@@ -1504,7 +1504,7 @@ ta:append(ta,[tao]);]]></text>
     </qtest>
   </question>
 
-<!-- question: 3912  -->
+<!-- question: 4881  -->
   <question type="stack">
     <name>
       <text>Checkbox (no body LaTeX)</text>
@@ -1607,6 +1607,7 @@ ta:append(ta,[tao]);]]></text>
         </falsefeedback>
       </node>
     </prt>
+    <deployedseed>972840190</deployedseed>
     <qtest>
       <testcase>1</testcase>
       <testinput>
@@ -1635,7 +1636,7 @@ ta:append(ta,[tao]);]]></text>
     </qtest>
   </question>
 
-<!-- question: 3913  -->
+<!-- question: 4882  -->
   <question type="stack">
     <name>
       <text>Checkbox (plots in options)</text>
@@ -1653,7 +1654,7 @@ ta:append(ta,[tao]);]]></text>
     <hidden>0</hidden>
     <idnumber></idnumber>
     <stackversion>
-      <text>2020020101</text>
+      <text>2020123000</text>
     </stackversion>
     <questionvariables>
       <text><![CDATA[cfn1:x^3;
@@ -1810,6 +1811,8 @@ incorr1:mcq_incorrect(ta1);]]></text>
         </falsefeedback>
       </node>
     </prt>
+    <deployedseed>473610050</deployedseed>
+    <deployedseed>808241651</deployedseed>
     <qtest>
       <testcase>1</testcase>
       <testinput>
@@ -1855,7 +1858,7 @@ incorr1:mcq_incorrect(ta1);]]></text>
     </tags>
   </question>
 
-<!-- question: 3914  -->
+<!-- question: 4883  -->
   <question type="stack">
     <name>
       <text>Checkbox (Show teacher's answer)</text>
@@ -1873,7 +1876,7 @@ incorr1:mcq_incorrect(ta1);]]></text>
     <hidden>0</hidden>
     <idnumber></idnumber>
     <stackversion>
-      <text>2020020301</text>
+      <text>2020123000</text>
     </stackversion>
     <questionvariables>
       <text><![CDATA[ta1:[A, true, "Integration by parts"];
@@ -1963,7 +1966,7 @@ ta:[ta1,ta2,ta3,ta4,ta0];]]></text>
       <testcase>1</testcase>
       <testinput>
         <name>ans1</name>
-        <value>[2*cos(2*x)]</value>
+        <value>mcq_correct(ta)</value>
       </testinput>
       <expected>
         <name>prt1</name>
@@ -1987,7 +1990,7 @@ ta:[ta1,ta2,ta3,ta4,ta0];]]></text>
     </qtest>
   </question>
 
-<!-- question: 3915  -->
+<!-- question: 4884  -->
   <question type="stack">
     <name>
       <text>Dropdown (shuffle)</text>
@@ -2003,7 +2006,7 @@ ta:[ta1,ta2,ta3,ta4,ta0];]]></text>
     <hidden>0</hidden>
     <idnumber></idnumber>
     <stackversion>
-      <text>2018080600</text>
+      <text>2020123000</text>
     </stackversion>
     <questionvariables>
       <text><![CDATA[/* Create a list of potential answers. */
@@ -2093,6 +2096,8 @@ ta:append(ta,[tao]);]]></text>
         </falsefeedback>
       </node>
     </prt>
+    <deployedseed>1859965311</deployedseed>
+    <deployedseed>526091359</deployedseed>
     <qtest>
       <testcase>1</testcase>
       <testinput>
@@ -2134,7 +2139,7 @@ ta:append(ta,[tao]);]]></text>
     </qtest>
   </question>
 
-<!-- question: 3916  -->
+<!-- question: 4885  -->
   <question type="stack">
     <name>
       <text>Equiv input test (compact)</text>
@@ -2248,7 +2253,7 @@ ta:[p,x=(4-7)/3,x=-1]</text>
     </qtest>
   </question>
 
-<!-- question: 3917  -->
+<!-- question: 4886  -->
   <question type="stack">
     <name>
       <text>Equiv input test (let, or +-)</text>
@@ -2387,7 +2392,7 @@ p:first(tal);</text>
     </qtest>
   </question>
 
-<!-- question: 3918  -->
+<!-- question: 4887  -->
   <question type="stack">
     <name>
       <text>Matrix</text>
@@ -2512,7 +2517,7 @@ p:first(tal);</text>
     </qtest>
   </question>
 
-<!-- question: 3919  -->
+<!-- question: 4888  -->
   <question type="stack">
     <name>
       <text>Matrix (varmatrix)</text>
@@ -2740,7 +2745,7 @@ sz2:matrix_size(ans2);</text>
     </qtest>
   </question>
 
-<!-- question: 3920  -->
+<!-- question: 4889  -->
   <question type="stack">
     <name>
       <text>Matrix-multi</text>
@@ -2894,7 +2899,7 @@ M2:matrix([a,b],[c,d]);</text>
     </qtest>
   </question>
 
-<!-- question: 3921  -->
+<!-- question: 4890  -->
   <question type="stack">
     <name>
       <text>Notes</text>
@@ -3006,7 +3011,7 @@ M2:matrix([a,b],[c,d]);</text>
     </qtest>
   </question>
 
-<!-- question: 3922  -->
+<!-- question: 4891  -->
   <question type="stack">
     <name>
       <text>Numerical input (min sf)</text>
@@ -3131,7 +3136,7 @@ M2:matrix([a,b],[c,d]);</text>
     </qtest>
   </question>
 
-<!-- question: 3923  -->
+<!-- question: 4892  -->
   <question type="stack">
     <name>
       <text>Radio</text>
@@ -3250,7 +3255,7 @@ ta:append(ta,[tao]);]]></text>
     </qtest>
   </question>
 
-<!-- question: 3924  -->
+<!-- question: 4893  -->
   <question type="stack">
     <name>
       <text>Radio (compact)</text>
@@ -3369,7 +3374,7 @@ ta:append(ta,[tao]);]]></text>
     </qtest>
   </question>
 
-<!-- question: 3925  -->
+<!-- question: 4894  -->
   <question type="stack">
     <name>
       <text>Single char</text>
@@ -3494,7 +3499,7 @@ ta:append(ta,[tao]);]]></text>
     </qtest>
   </question>
 
-<!-- question: 3926  -->
+<!-- question: 4895  -->
   <question type="stack">
     <name>
       <text>String input</text>
@@ -3631,7 +3636,7 @@ This input is not, perhaps it is used to store JSXGraph state?
     </qtest>
   </question>
 
-<!-- question: 3927  -->
+<!-- question: 4896  -->
   <question type="stack">
     <name>
       <text>Textarea test</text>
@@ -3743,7 +3748,7 @@ This input is not, perhaps it is used to store JSXGraph state?
     </qtest>
   </question>
 
-<!-- question: 3928  -->
+<!-- question: 4897  -->
   <question type="stack">
     <name>
       <text>Textarea test (compact)</text>
@@ -3855,7 +3860,7 @@ This input is not, perhaps it is used to store JSXGraph state?
     </qtest>
   </question>
 
-<!-- question: 3929  -->
+<!-- question: 4898  -->
   <question type="stack">
     <name>
       <text>True/false</text>
@@ -3980,7 +3985,7 @@ This input is not, perhaps it is used to store JSXGraph state?
     </qtest>
   </question>
 
-<!-- question: 3930  -->
+<!-- question: 4899  -->
   <question type="stack">
     <name>
       <text>Units</text>
@@ -3996,7 +4001,7 @@ This input is not, perhaps it is used to store JSXGraph state?
     <hidden>0</hidden>
     <idnumber></idnumber>
     <stackversion>
-      <text>2018080600</text>
+      <text>2020123000</text>
     </stackversion>
     <questionvariables>
       <text>ta:9.81*m*s^-2</text>
@@ -4005,7 +4010,7 @@ This input is not, perhaps it is used to store JSXGraph state?
       <text>[[feedback:prt1]]</text>
     </specificfeedback>
     <questionnote>
-      <text></text>
+      <text>This question just calls for factual recall, but with scientific units attached!</text>
     </questionnote>
     <questionsimplify>1</questionsimplify>
     <assumepositive>0</assumepositive>

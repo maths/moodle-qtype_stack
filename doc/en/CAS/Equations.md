@@ -7,8 +7,7 @@ It is quite common to ask students to solve an algebraic equation.  The student'
 
 The best way to do (1) is *not* to check algebraic equivalence with the list/set of correct answers!  Instead, substitute the student's answer into the equation and see if it works.
 
-We proceed by example.  Imagine the teacher has asked the student to solve the following equation defined in the "question variables".
-
+We proceed by example.  Imagine the teacher has asked the student to solve `p=0` in the equation defined in the following "question variables".
 
     p:2*x^2+11*x-5/4;
     ta:solve(p,x);
@@ -28,34 +27,34 @@ In the feedback variables we create a new list called "listans" as follows, assu
 
 The values of `listans` are what we get when we substitute in each of the students' answers into the equation.   We could also simplify this, but it isn't strictly necessary.
 
-    /* "Simplify" the result (not strictly necessary) */
+    /* "Simplify" the result (not strictly necessary). */
     listans:maplist(fullratsimp, listans);
 
 Now we have a list of numbers.  We need to compare this with something, but the student's list may have a different number of entries than of the teacher's solution!
 
     /* Generate something to compare this list with. */
     zl:makelist(0,length(listans));
-    setify(append(first(ta)+1, rest(ta))
 
 In the potential response tree, compare `listans` with `zl` using the AlgEquiv answer test and the `quiet=yes` option to suppress all feedback.
 
-Now we want to work out which answers are wrong.
+Next, assume we want to work out which answers in the student's list are wrong.
 
     /* To decide which answers in a list are equivalent. */
     /* Pick out the wrong answers. */
     we:sublist(sans, lambda([ex], not(algebraic_equivalence(ev(p,x=ex),0))));
 
-To use this, we could put the following in the `false` branch feedback.
+To use this, we could put the following in the `false` branch feedback of the first node.
 
     The following answers you entered do not satisfy the equation
     \[ {@we@}. \]
 
-To check (2) you need to make sure that the length of the student's answer is the same as the length of the teacher's.  
-This can be done with the following two tests, one with numerical GE.  
-If the student has too many they have repeated solutions.  If they have too few they have missed some.   
+The above test only makes sure that everything typed in by the student satisfies the equation.  In particular, the empty set `{}` will pass this test!  So, we now need to separately check that the student has all the solutions to the equation. To establish this you can check that the length of the teacher's answer is greater than the length of the student's. This can be done with the following test (i.e. the "greater than" test).
 
-    length(fullratsimp(sans))
-    length(ta)
+    ATGT(length(ta), length(fullratsimp(sans)))
+
+If this test is true, then the student has missed some solutions.
+
+The point really here is that we are not seeking equivalence with a particular set of numbers, rather we are establishing correctness (all things identified by the student are solutions) and completeness (all the solutions are identified by the student) as separate mathematical properties.
 
 ## Randomly generated variables
 

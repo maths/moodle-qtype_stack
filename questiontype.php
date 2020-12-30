@@ -864,7 +864,7 @@ class qtype_stack extends question_type {
         }
 
         // If someone plays with input names we need to clear compiledcache.
-        $sql = 'UPDATE {qtype_stateful_options} SET compiledcache = ? WHERE questionid = ?';
+        $sql = 'UPDATE {qtype_stack_options} SET compiledcache = ? WHERE questionid = ?';
         $params[] = '{}';
         $params[] = $questionid;
         $DB->execute($sql, $params);
@@ -909,7 +909,7 @@ class qtype_stack extends question_type {
                 array('questionid' => $questionid, 'name' => $from));
 
         // If someone plays with PRT names we need to clear compiledcache.
-        $sql = 'UPDATE {qtype_stateful_options} SET compiledcache = ? WHERE questionid = ?';
+        $sql = 'UPDATE {qtype_stack_options} SET compiledcache = ? WHERE questionid = ?';
         $params[] = '{}';
         $params[] = $questionid;
         $DB->execute($sql, $params);
@@ -947,7 +947,7 @@ class qtype_stack extends question_type {
                 array('questionid' => $questionid, 'name' => $prtname, 'firstnodename' => $from));
 
         // If someone plays with PRT node names we need to clear compiledcache.
-        $sql = 'UPDATE {qtype_stateful_options} SET compiledcache = ? WHERE questionid = ?';
+        $sql = 'UPDATE {qtype_stack_options} SET compiledcache = ? WHERE questionid = ?';
         $params[] = '{}';
         $params[] = $questionid;
         $DB->execute($sql, $params);

@@ -111,6 +111,8 @@ class stack_answertest_test_data {
         array('AlgEquiv', '', '2^((1/5.1)*t)', '2^((1/5.1)*t)', 1, '', ''),
         array('AlgEquiv', '', '2^((1/5.1)*t)', '2^(0.196078431373*t)', 0, '', ''),
         array('AlgEquiv', '', 'a^b*a^c', 'a^(b+c)', 1, '', ''),
+        array('AlgEquiv', '', '(a^b)^c', 'a^(b*c)', 0, '', ''),
+        array('AlgEquiv', '', '(assume(a>0),(a^b)^c)', 'a^(b*c)', 1, '', ''),
         array('AlgEquiv', '', '(assume(x>2),6*((x-2)^2)^k)', '6*(x-2)^(2*k)', 1, '', ''),
         array('AlgEquiv', '', '6*((x-2)^3)^k', '6*(x-2)^(3*k)', 1, '', ''),
         array('AlgEquiv', '', '(4*sqrt(3)*%i+4)^(1/5)', '6^(1/5)*cos(%pi/15)-6^(1/5)*%i*sin(%pi/15)', 0, '', ''),

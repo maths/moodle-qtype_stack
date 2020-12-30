@@ -2361,12 +2361,12 @@ class qtype_stack extends question_type {
      * @return array a dictionary of things that might be expensive to generate.
      */
     public static function compile($questionvariables, $inputs, $prts, $options) {
-        // NOTE! We do not compile during question save as the would make
-        // import actions slow, we could compile during fromform-validation
+        // NOTE! We do not compile during question save as that would make
+        // import actions slow. We could compile during fromform-validation
         // but we really should look at refactoring that to better interleave
         // the compilation.
         //
-        // As we currently complie at the first use things start slower than they could.
+        // As we currently compile at the first use things start slower than they could.
 
         // The cache will be a dictionary with many things.
         $cc = [];

@@ -56,6 +56,10 @@ class stack_input_factory {
      * @return string corresponding class name.
      */
     protected static function class_for_type($type) {
+        static $cache = [];
+        if (isset($cache[$type])) {
+            return $cache[$type];
+        }
         $typelc = strtolower($type);
         $file = __DIR__ . "/{$typelc}/{$typelc}.class.php";
         $class = "stack_{$typelc}_input";
@@ -69,6 +73,7 @@ class stack_input_factory {
             throw new stack_exception('stack_input_factory: input type ' . $type .
                     ' does not define the expected class ' . $class);
         }
+        $cache[$type] = $class;
         return $class;
     }
 
@@ -77,7 +82,10 @@ class stack_input_factory {
      */
     public static function get_available_types() {
         $ignored = array('CVS', '_vti_cnf', 'tests', 'yui', 'phpunit');
-        $types = array();
+        static $types = null;
+        if ($types !== null) {
+            return $types;
+        }
 
         $types = array();
         foreach (new DirectoryIterator(__DIR__) as $item) {

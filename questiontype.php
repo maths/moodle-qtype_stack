@@ -146,6 +146,14 @@ class qtype_stack extends question_type {
         $options->logicsymbol               = $fromform->logicsymbol;
         $options->matrixparens              = $fromform->matrixparens;
         $options->variantsselectionseed     = $fromform->variantsselectionseed;
+        $options->compiledcache             = $fromform->compiledcache;
+
+        if (!is_string($options->compiledcache)) {
+            // Should this form come from somewhere unexpected.
+            // We need to turn any dictionarys to JSON-strings.
+            $options->compiledcache = json_encode($options->compiledcache);
+        }
+
         $DB->update_record('qtype_stack_options', $options);
 
         $inputnames = array_keys($this->get_input_names_from_question_text_lang($fromform->questiontext));
@@ -429,6 +437,15 @@ class qtype_stack extends question_type {
         $question->prtincorrect              = $questiondata->options->prtincorrect;
         $question->prtincorrectformat        = $questiondata->options->prtincorrectformat;
         $question->variantsselectionseed     = $questiondata->options->variantsselectionseed;
+        $question->compiledcache             = $questiondata->options->compiledcache;
+
+        // Parse the cache in advance.
+        if (is_string($question->compiledcache)) {
+            $question->compiledcache = json_decode($question->compiledcache, true);
+        } else if ($question->compiledcache === null) {
+            // If someone has done nulling through the database.
+            $question->compiledcache = [];
+        }
 
         $question->options = new stack_options();
         $question->options->set_option('multiplicationsign', $questiondata->options->multiplicationsign);
@@ -850,6 +867,12 @@ class qtype_stack extends question_type {
             }
         }
 
+        // If someone plays with input names we need to clear compiledcache.
+        $sql = 'UPDATE {qtype_stateful_options} SET compiledcache = ? WHERE questionid = ?';
+        $params[] = '{}';
+        $params[] = $questionid;
+        $DB->execute($sql, $params);
+
         $transaction->allow_commit();
         $this->notify_question_edited($questionid);
     }
@@ -889,6 +912,12 @@ class qtype_stack extends question_type {
         $DB->set_field('qtype_stack_prts', 'name', $to,
                 array('questionid' => $questionid, 'name' => $from));
 
+        // If someone plays with PRT names we need to clear compiledcache.
+        $sql = 'UPDATE {qtype_stateful_options} SET compiledcache = ? WHERE questionid = ?';
+        $params[] = '{}';
+        $params[] = $questionid;
+        $DB->execute($sql, $params);
+
         $transaction->allow_commit();
         $this->notify_question_edited($questionid);
     }
@@ -920,6 +949,12 @@ class qtype_stack extends question_type {
         // PRT first node link.
         $DB->set_field('qtype_stack_prts', 'firstnodename', $to,
                 array('questionid' => $questionid, 'name' => $prtname, 'firstnodename' => $from));
+
+        // If someone plays with PRT node names we need to clear compiledcache.
+        $sql = 'UPDATE {qtype_stateful_options} SET compiledcache = ? WHERE questionid = ?';
+        $params[] = '{}';
+        $params[] = $questionid;
+        $DB->execute($sql, $params);
 
         $transaction->allow_commit();
         $this->notify_question_edited($questionid);
@@ -2301,5 +2336,96 @@ class qtype_stack extends question_type {
         $potentialresponsetree = new stack_potentialresponse_tree(
                 '', '', false, 0, $feedbackvariables->get_session(), $prtnodes, (string) $prt->firstnodename, 1);
         return $potentialresponsetree->get_required_variables($inputkeys);
+    }
+
+    /**
+     * Helper method for "compiling" a question, validates and finds all the things
+     * that do not change unless the question changes and stores them in a dictionary.
+     *
+     * Note that does throw exceptions about validation details.
+     *
+     * Currently the cache contaisn the following keys:
+     *  'units' for declaring the units-mode.
+     *  'forbiddenkeys' for the lsit of those.
+     *  'statement-qv' the pre-validated question-variables.
+     *  'preamble-qv' the matching blockexternals.
+     *  'required' the lists of inputs required by given PRTs an array by PRT-name.
+     *
+     * In the future expect the following:
+     *  'castext-qt' for the question-text as compiled CASText2.
+     *  'castext-qn' for the question-note as compiled CASText2.
+     *  'castext-...' for the model-solution and prtpartiallycorrect etc.
+     *  'prt' the compiled PRT-logics in an array.
+     *  'security-config' extended logic for cas-security, e.g. custom-units.
+     * 
+     * @param string the questionvariables
+     * @param array inputs as objects, keyed by input name
+     * @param array PRTs as objects
+     * @param stack_options the options in use, if they would ever matter
+     * @return array a dictionary of things that might be expensive to generate.
+     */
+    public static function compile($questionvariables, $inputs, $prts, $options) {
+        /**
+         * NOTE! We do not compile during question save as the would make
+         * import actions slow, we could compile during fromform-validation
+         * but we really should look at refactoring that to better interleave
+         * the compilation.
+         *
+         * As we currently complie at the first use things start slower than 
+         * they could.
+         */
+
+        // The cache will be a dictionary with many things.
+        $cc = [];
+        // Some details are globals built from many sources.
+        $units = false;
+        $forbiddenkeys = [];
+
+        // First handle the question variables.
+        if ($questionvariables === null || trim($questionvariables) === '') {
+            $cc['statement-qv'] = null;
+            $cc['preamble-qv'] = null;
+        } else {
+            $kv = new stack_cas_keyval($questionvariables, $options);
+            if (!$kv->get_valid()) {
+                throw new stack_exception('Error(s) in question-variables: ' . implode('; ',$kv->get_errors()));
+            }
+            $c = $kv->compile('question-variables');
+            // Store the pre-validated statement representing the whole qv.
+            $cc['statement-qv'] = $c['statement'];
+            // Store the possible block external features.
+            $cc['preamble-qv'] = $c['blockexternal'];
+            // Finally extend the forbidden keys set if we saw any variables written.
+            if (isset($c['references']['write'])) {
+                $forbiddenkeys = array_merge($forbiddenkeys, $c['references']['write']);
+            }
+        }
+
+        // Then do some basic detail collection related to the inputs and PRTs.
+        foreach ($inputs as $input) {
+            if (is_a($input, 'stack_units_input')) {
+                $units = true;
+                break;
+            }
+        }
+        $cc['required'] = [];
+        foreach ($prts as $prt) {
+            if ($prt->has_units()) {
+                $units = true;
+            }
+            // This is surprisingly expensive to do, simpler to extract from compiled.
+            $cc['required'][$prt->get_name()] = $prt->get_required_variables(array_keys($inputs));
+            // TODO: compile PRTs.
+        }
+
+        /**
+         * Note that instead of just adding the unit loading to the 'preamble-qv'
+         * and forgetting about units we do keep this bit of information stored
+         * as it may be used in input configuration at some later time.
+         */
+        $cc['units'] = $units;
+        $cc['forbiddenkeys'] = $forbiddenkeys;
+
+        return $cc;
     }
 }

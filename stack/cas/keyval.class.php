@@ -195,4 +195,126 @@ class stack_cas_keyval {
         $this->session->test_clean();
         return true;
     }
+
+    /**
+     * Compiles the keyval to a single statement with substatement
+     * error tracking wrappings. The wrappings can contain a context-name
+     * so that one can read the error messages with references like:
+     *     "question-variables line 4".
+     *
+     * Returns the statement as well as a listing of referenced
+     * variables and functions for other tasks to use. Also splits
+     * out so called "blockexternals".
+     *
+     * Note that one must have done validation in advance.
+     */
+    public function compile(string $contextname): array {
+        $bestatements = [];
+        $statements = [];
+
+        $referenced = ['read' => [], 'write' => [], 'calls' => []];
+
+        if (null === $this->valid) {
+            throw new stack_exception('stack_cas_keyval: must validate before compiling.');
+        }
+        if (false === $this->valid) {
+            throw new stack_exception('stack_cas_keyval: must validate true before compiling.');
+        }
+
+        if (count($this->statements) == 0) {
+            // If nothing return nothing, the logic outside will deal with null.
+            return ['blockexternal' => null,
+                    'statement' => null,
+                    'references' => $referenced];
+        }
+
+        /**
+         * Now we start from the RAW form as rebuilding the line
+         * references for AST-containers is not a simple thing and as
+         * we plan for the future where we might include logic dealing
+         * with comments as well.
+         */
+        $str = $this->raw;
+        // Similar QMCHAR protection as previously.
+        $strings = stack_utils::all_substring_strings($str);
+        foreach ($strings as $key => $string) {
+            $str = str_replace('"'.$string.'"', '[STR:'.$key.']', $str);
+        }
+
+        $str = str_replace('?', 'QMCHAR', $str);
+
+        foreach ($strings as $key => $string) {
+            $str = str_replace('[STR:'.$key.']', '"' .$string . '"', $str);
+        }
+
+        // And then the parsing.
+        $ast = maxima_parser_utils::parse_and_insert_missing_semicolons($str);
+
+        // As this was already validated no need to check for parse errors.
+        // However we want to change positioning so that exceptions make sense.
+        if (isset($ast->position['fixedsemicolons'])) {
+            $ast = maxima_parser_utils::position_remap($ast, $ast->position['fixedsemicolons']);
+        } else {
+            $ast = maxima_parser_utils::position_remap($ast, $str);
+        }
+
+        // Then we will build the normal filter chain for the syntax-candy. Repeat security checks just in case.
+        $errors = [];
+        $answernotes = [];
+        $filteroptions = ['998_security' => ['security' => 't']];
+        $pipeline = stack_parsing_rule_factory::get_filter_pipeline(['998_security', '999_strict'], $filteroptions, true);
+        $tostringparams = ['nosemicolon' => true, 'pmchar' => 1];
+        $securitymodel = new stack_cas_security();
+
+        // Process the AST.
+        foreach ($ast->items as $item) {
+            if ($item instanceof MP_Statement) {
+                // Here we could process comments or do other rewriting.
+                // Probably the first use will be extracting units realted details for cas-security configuration.
+
+                // Apply the normal filters.
+                $item = $pipeline->filter($item, $errors, $answernotes, $securitymodel);
+
+                // Render to statement.
+                $scope = stack_utils::php_string_to_maxima_string($contextname . ': ' . $item->position['start'] . '-' . $item->position['end']);
+                $statement = '_EC(errcatch(' . $item->toString($tostringparams) . '),' . $scope . ')';
+
+                // Update references.
+                $referenced = maxima_parser_utils::variable_usage_finder($item, $referenced);
+
+                // Check if it is one of the block externals.
+                $op = '';
+                if ($item->statement instanceof MP_Operation) {
+                    $op = $item->statement->op;
+                }
+                if ($item->statement instanceof MP_FunctionCall) {
+                    $op = $item->statement->name->value;
+                }
+                if (stack_cas_security::get_feature($op, 'blockexternal') !== null) {
+                    $bestatements[] = $statement;
+                } else {
+                    $statements[] = $statement;
+                }
+            }
+        }
+
+        // Construct the return value.
+        if (count($bestatements) == 0) {
+            $bestatements = null;
+        } else {
+            // These statement groups always end with a 'true' to ensure minimal output.
+            $bestatements = '(' . implode(',', $bestatements) . ',true)';
+        }
+        if (count($statements) == 0) {
+            $statements = null;
+        } else {
+            // These statement groups always end with a 'true' to ensure minimal output.
+            $statements = '(' . implode(',', $statements) . ',true)';
+        }
+
+        // Now output them for use elsewhere.
+        return ['blockexternal' => $bestatements,
+            'statement' => $statements,
+            'references' => $referenced];
+    }
 }

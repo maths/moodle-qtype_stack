@@ -248,14 +248,6 @@ class stack_cas_keyval {
         // And then the parsing.
         $ast = maxima_parser_utils::parse_and_insert_missing_semicolons($str);
 
-        // As this was already validated no need to check for parse errors.
-        // However we want to change positioning so that exceptions make sense.
-        if (isset($ast->position['fixedsemicolons'])) {
-            $ast = maxima_parser_utils::position_remap($ast, $ast->position['fixedsemicolons']);
-        } else {
-            $ast = maxima_parser_utils::position_remap($ast, $str);
-        }
-
         // Then we will build the normal filter chain for the syntax-candy. Repeat security checks just in case.
         $errors = [];
         $answernotes = [];
@@ -267,6 +259,14 @@ class stack_cas_keyval {
         // Process the AST.
         foreach ($ast->items as $item) {
             if ($item instanceof MP_Statement) {
+                // As this was already validated no need to check for parse errors.
+                // However we want to change positioning so that exceptions make sense.
+                if (isset($ast->position['fixedsemicolons'])) {
+                    $item = maxima_parser_utils::position_remap($item, $ast->position['fixedsemicolons']);
+                } else {
+                    $item = maxima_parser_utils::position_remap($item, $str);
+                }
+
                 // Here we could process comments or do other rewriting.
                 // Probably the first use will be extracting units realted details for cas-security configuration.
 

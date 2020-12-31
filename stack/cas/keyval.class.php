@@ -211,6 +211,7 @@ class stack_cas_keyval {
     public function compile(string $contextname): array {
         $bestatements = [];
         $statements = [];
+        $contextvariables = [];
 
         $referenced = ['read' => [], 'write' => [], 'calls' => []];
 
@@ -291,6 +292,8 @@ class stack_cas_keyval {
                 }
                 if (stack_cas_security::get_feature($op, 'blockexternal') !== null) {
                     $bestatements[] = $statement;
+                } else if (stack_cas_security::get_feature($op, 'contextvariable') !== null) {
+                    $contextvariables[] = $statement;
                 } else {
                     $statements[] = $statement;
                 }
@@ -310,10 +313,17 @@ class stack_cas_keyval {
             // These statement groups always end with a 'true' to ensure minimal output.
             $statements = '(' . implode(',', $statements) . ',true)';
         }
+        if (count($contextvariables) == 0) {
+            $contextvariables = null;
+        } else {
+            // These statement groups always end with a 'true' to ensure minimal output.
+            $contextvariables = '(' . implode(',', $contextvariables) . ',true)';
+        }
 
         // Now output them for use elsewhere.
         return ['blockexternal' => $bestatements,
             'statement' => $statements,
+            'contextvariables' => $contextvariables,
             'references' => $referenced];
     }
 }

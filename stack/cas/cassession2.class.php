@@ -96,6 +96,17 @@ class stack_cas_session2 {
         return $this->statements;
     }
 
+    public function get_contextvariables(): array {
+        $ret = array();
+        foreach ($this->statements as $statement) {
+            if (method_exists($statement, 'is_toplevel_property') &&
+                $statement->is_toplevel_property('contextvariable')) {
+                    $ret[] = $statement;
+            }
+        }
+        return $ret;
+    }
+
     public function get_options(): stack_options {
         return $this->options;
     }

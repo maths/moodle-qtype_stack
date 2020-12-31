@@ -219,16 +219,6 @@ class stack_potentialresponse_node {
      */
     public function traverse($results, $key, $cascontext, $answers, $options, $contextsession) {
 
-        // Context variables could also be defined in the feedback variables.  These are needed by answer tests.
-        $additionalcontext = array();
-        foreach ($cascontext->get_session() as $statement) {
-            if (method_exists($statement, 'is_toplevel_property') &&
-                    $statement->is_toplevel_property('contextvariable')) {
-                        $additionalcontext[] = $statement;
-            }
-        }
-        $contextsession = array_merge($contextsession, $additionalcontext);
-
         $errorfree = true;
         if ($cascontext->get_by_key('PRSANS' . $key)->get_errors() !== '') {
             $results->_errors .= $cascontext->get_by_key('PRSANS' . $key)->get_errors();

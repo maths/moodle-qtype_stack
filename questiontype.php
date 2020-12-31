@@ -2343,6 +2343,7 @@ class qtype_stack extends question_type {
      * Currently the cache contaisn the following keys:
      *  'units' for declaring the units-mode.
      *  'forbiddenkeys' for the lsit of those.
+     *  'contextvariable-qv' the pre-validated question-variables which are context variables.
      *  'statement-qv' the pre-validated question-variables.
      *  'preamble-qv' the matching blockexternals.
      *  'required' the lists of inputs required by given PRTs an array by PRT-name.
@@ -2378,6 +2379,7 @@ class qtype_stack extends question_type {
         if ($questionvariables === null || trim($questionvariables) === '') {
             $cc['statement-qv'] = null;
             $cc['preamble-qv'] = null;
+            $cc['contextvariable-qv'] = null;
         } else {
             $kv = new stack_cas_keyval($questionvariables, $options);
             if (!$kv->get_valid()) {
@@ -2386,6 +2388,8 @@ class qtype_stack extends question_type {
             $c = $kv->compile('question-variables');
             // Store the pre-validated statement representing the whole qv.
             $cc['statement-qv'] = $c['statement'];
+            // Store any contextvariables, e.g. assume statements.
+            $cc['contextvariables-qv'] = $c['contextvariables'];
             // Store the possible block external features.
             $cc['preamble-qv'] = $c['blockexternal'];
             // Finally extend the forbidden keys set if we saw any variables written.

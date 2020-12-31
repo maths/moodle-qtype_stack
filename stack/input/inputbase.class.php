@@ -53,7 +53,6 @@ abstract class stack_input {
 
     /**
      * Special variables in the question which should be exposed to the inputs and answer tests.
-     * @var cas_evaluatable[]
      */
     protected $contextsession = array();
 
@@ -393,7 +392,10 @@ abstract class stack_input {
      * Set the contextsession values.
      */
     public function add_contextsession($contextsession) {
-        $this->contextsession = $contextsession;
+        if ($contextsession != null) {
+            // Always make this the start of an array.
+            $this->contextsession = array($contextsession);
+        }
     }
 
     /**

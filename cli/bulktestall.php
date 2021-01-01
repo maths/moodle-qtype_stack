@@ -35,6 +35,8 @@ require_once(__DIR__ . '/../locallib.php');
 require_once(__DIR__ . '/../stack/utils.class.php');
 require_once(__DIR__ . '/../stack/bulktester.class.php');
 
+$start = microtime(true);
+
 // Get cli options.
 list($options, $unrecognized) = cli_get_params(array('help' => false, 'id' => false), array('h' => 'help'));
 
@@ -117,4 +119,11 @@ foreach ($contexts as $contextid => $numstackquestions) {
 }
 
 echo "\n\n";
+
+$took = (microtime(true) - $start);
+$rtook = round($took, 5);
+
+echo "Time taken: " . $rtook;
+echo "\n\n";
+
 exit(0);

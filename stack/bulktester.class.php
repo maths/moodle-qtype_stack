@@ -140,7 +140,16 @@ class stack_bulk_tester  {
             }
 
             foreach ($questionids as $questionid => $name) {
-                $question = question_bank::load_question($questionid);
+                try {
+                    $question = question_bank::load_question($questionid);
+                } catch (Exception $e) {
+                    $message = $questionid . ', ' . format_string($name) . 
+                        ': ' . stack_string('errors') . ' : ' . $e;
+                    $allpassed = false;
+                    $failingupgrade[] = $message;
+                    continue;
+                }
+
                 if ($outputmode == 'web') {
                     $questionname = format_string($name);
                     $questionnamelink = html_writer::link(new moodle_url($questiontestsurl,

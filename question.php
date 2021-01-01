@@ -1258,13 +1258,6 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         return implode(' ', $errors);
     }
 
-    /*
-     * Used for unit testing of question states.
-     */
-    public function get_session() {
-        return $this->session;
-    }
-
     /**
      * Cache management.
      *

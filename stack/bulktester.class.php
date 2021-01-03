@@ -396,6 +396,12 @@ class stack_bulk_tester  {
         $workedsolution = $qu->get_generalfeedback_castext();
         $workedsolution->get_display_castext();
         $questionote = $qu->get_question_summary();
+
+        // As we cloned the question any and all updates to the cache will not sync.
+        // So lets do that ourselves.
+        if ($qu->compiledcache !== $question->compiledcache) {
+            $question->compiledcache = $qu->compiledcache;
+        }
     }
 
     /**

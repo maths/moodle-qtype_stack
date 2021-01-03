@@ -31,6 +31,8 @@ require_once(__DIR__ . '/stack/cas/cassecurity.class.php');
 require_once(__DIR__ . '/stack/potentialresponsetree.class.php');
 require_once($CFG->dirroot . '/question/behaviour/adaptivemultipart/behaviour.php');
 require_once(__DIR__ . '/locallib.php');
+require_once(__DIR__ . '/questiontype.php');
+require_once(__DIR__ . '/stack/cas/secure_loader.class.php');
 
 /**
  * Represents a Stack question.
@@ -118,12 +120,6 @@ class qtype_stack_question extends question_graded_automatically_with_countback
     protected $session;
 
     /**
-     * Special variables in the question which should be exposed to the inputs and answer tests.
-     * @var cas_evaluatable[]
-     */
-    protected $contextsession;
-
-    /**
      * @var stack_ast_container[] STACK specific: the teacher's answers for each input.
      */
     private $tas;
@@ -202,6 +198,11 @@ class qtype_stack_question extends question_graded_automatically_with_countback
      * @var array prt name => result of evaluate_response, if known.
      */
     protected $prtresults = array();
+
+    /**
+     * @var array set of expensive to evaluate but static things.
+     */
+    public $compiledcache = [];
 
     /**
      * Make sure the cache is valid for the current response. If not, clear it.
@@ -311,41 +312,31 @@ class qtype_stack_question extends question_graded_automatically_with_countback
     public function initialise_question_from_seed() {
         // Build up the question session out of all the bits that need to go into it.
         // 1. question variables.
-        $questionvars = new stack_cas_keyval($this->questionvariables, $this->options, $this->seed);
-        $session = $questionvars->get_session();
-        if ($questionvars->get_errors()) {
-            $s = implode(' ', $questionvars->get_errors());
-            $s = stack_string('runtimefielderr',
-                array('field' => stack_string('questionvariables'), 'err' => $s));
-            $this->runtimeerrors[$s] = true;
+
+        $session = new stack_cas_session2([], $this->options, $this->seed);
+        if ($this->get_cached('preamble-qv') !== null) {
+            $session->add_statement(new stack_secure_loader($this->get_cached('preamble-qv'), 'preamble'));
+        }
+        // Context variables should be first.
+        if ($this->get_cached('contextvariables-qv') !== null) {
+            $session->add_statement(new stack_secure_loader($this->get_cached('contextvariables-qv'), 'qv'));
+        }
+        if ($this->get_cached('statement-qv') !== null) {
+            $session->add_statement(new stack_secure_loader($this->get_cached('statement-qv'), 'qv'));
         }
 
         // Construct the security object.
-        $units = false;
-        // Units are in use if there exists even one units*-test or input.
-        foreach ($this->inputs as $input) {
-            if (is_a($input, 'stack_units_input')) {
-                $units = true;
-                break;
-            }
-        }
-        if (!$units) {
-            foreach ($this->prts as $prt) {
-                if ($prt->has_units()) {
-                    $units = true;
-                    break;
-                }
-            }
-        }
+        $units = (boolean) $this->get_cached('units');
+
         // If we have units we might as well include the units declaration in the session.
         // To simplify authors work and remove the need to call that long function.
+        // TODO: Maybe add this to the preable to save lines, but for now documented here.
         if ($units) {
             $session->add_statement(stack_ast_container_silent::make_from_teacher_source('stack_unit_si_declare(true)',
                     'automatic unit declaration'), false);
         }
 
         // Note that at this phase the security object has no "words".
-        $usage = $session->get_variable_usage();
         // The student's answer may not contain any of the variable names with which
         // the teacher has defined question variables. Otherwise when it is evaluated
         // in a PRT, the student's answer will take these values.   If the teacher defines
@@ -353,7 +344,10 @@ class qtype_stack_question extends question_graded_automatically_with_countback
 
         // TODO: shouldn't we also protect variables used in PRT logic? Feedback vars
         // and so on?
-        $forbiddenkeys = isset($usage['write']) ? $usage['write'] : array();
+        $forbiddenkeys = array();
+        if ($this->get_cached('forbiddenkeys') !== null) {
+            $forbiddenkeys = $this->get_cached('forbiddenkeys');
+        }
         $this->security = new stack_cas_security($units, '', '', $forbiddenkeys);
 
         // The session to keep. Note we do not need to reinstantiate the teachers answers.
@@ -421,22 +415,10 @@ class qtype_stack_question extends question_graded_automatically_with_countback
             $this->runtimeerrors[$s] = true;
         }
 
-        // Set up the context session for this question.
-        $contextsession = array();
-        $remainder = array();
-        foreach ($this->session->get_session() as $statement) {
-            if (method_exists($statement, 'is_toplevel_property') &&
-                $statement->is_toplevel_property('contextvariable')) {
-                    $contextsession[] = $statement;
-            } else {
-                $remainder[] = $statement;
+        if ($this->get_cached('contextvariables-qv') !== null) {
+            foreach ($this->prts as $name => $prt) {
+                $prt->add_contextsession(new stack_secure_loader($this->get_cached('contextvariables-qv'), 'qv'));
             }
-        }
-        $this->contextsession = $contextsession;
-        $this->session = new stack_cas_session2(array_merge($contextsession, $remainder), $this->options, $this->seed);
-
-        foreach ($this->prts as $name => $prt) {
-            $prt->add_contextsession($contextsession);
         }
 
         // Allow inputs to update themselves based on the model answers.
@@ -489,7 +471,10 @@ class qtype_stack_question extends question_graded_automatically_with_countback
                 $teacheranswer = $this->tas[$name]->get_value();
             }
             $input->adapt_to_model_answer($teacheranswer);
-            $input->add_contextsession($this->contextsession);
+            if ($this->get_cached('contextvariables-qv') !== null) {
+                $input->add_contextsession(new stack_secure_loader($this->get_cached('contextvariables-qv'), 'qv'));
+            }
+
         }
     }
 
@@ -767,7 +752,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
     }
 
     protected function is_same_prt_input($index, $prtinput1, $prtinput2) {
-        foreach ($this->prts[$index]->get_required_variables(array_keys($this->inputs)) as $name) {
+        foreach ($this->get_cached('required')[$this->prts[$index]->get_name()] as $name) {
             if (!question_utils::arrays_same_at_key_missing_is_blank($prtinput1, $prtinput2, $name)) {
                 return false;
             }
@@ -877,7 +862,12 @@ class qtype_stack_question extends question_graded_automatically_with_countback
      */
     protected function has_necessary_prt_inputs(stack_potentialresponse_tree $prt, $response, $acceptvalid) {
 
-        foreach ($prt->get_required_variables(array_keys($this->inputs)) as $name) {
+        // Some kind of time-time error in the question, so bail here.
+        if ($this->get_cached('required') === null) {
+            return false;
+        }
+
+        foreach ($this->get_cached('required')[$prt->get_name()] as $name) {
             $status = $this->get_input_state($name, $response)->status;
             if (!(stack_input::SCORE == $status || ($acceptvalid && stack_input::VALID == $status))) {
                 return false;
@@ -920,7 +910,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         }
         $prt = $this->prts[$index];
         $prtinput = array();
-        foreach ($prt->get_required_variables(array_keys($this->inputs)) as $name) {
+        foreach ($this->get_cached('required')[$prt->get_name()] as $name) {
             $state = $this->get_input_state($name, $response);
             if (stack_input::SCORE == $state->status || ($acceptvalid && stack_input::VALID == $state->status)) {
                 $val = $state->contentsmodified;
@@ -1097,8 +1087,22 @@ class qtype_stack_question extends question_graded_automatically_with_countback
      * the same results as if you recreate the whole session from $this->questionvariables.
      */
     public function get_question_session_keyval_representation() {
+        // After the cached compilation update the session no longer returns these.
+        // So we will build another session just for this.
+        // First we replace the compiled statements with the raw keyval statements.
+        $tmp = $this->session->get_session();
+        $tmp = array_filter($tmp, function($v) {
+            return method_exists($v, 'is_correctly_evaluated');
+        });
+        $kv = new stack_cas_keyval($this->questionvariables, $this->options, $this->seed);
+        $kv->get_valid();
+        $session = $kv->get_session();
+        $session->add_statements($tmp);
+        $session->get_valid();
+        $session->instantiate();
+
         // We always want the values when this method is called.
-        return $this->session->get_keyval_representation(true);
+        return $session->get_keyval_representation(true);
     }
 
     /**
@@ -1259,5 +1263,48 @@ class qtype_stack_question extends question_graded_automatically_with_countback
      */
     public function get_session() {
         return $this->session;
+    }
+
+    /**
+     * Cache management.
+     *
+     * Returns named items from the cache and rebuilds it if the cache
+     * has been cleared.
+     */
+    private function get_cached(string $key) {
+        global $DB;
+        // Do we have that particular thing in the cache?
+        if ($this->compiledcache === null || !array_key_exists($key, $this->compiledcache)) {
+            // If not do the compilation.
+            try {
+                $this->compiledcache = qtype_stack::compile($this->questionvariables, $this->inputs, $this->prts, $this->options);
+
+                // Invalidate Moodle question-cache and add there.
+                if (is_integer($this->id) || is_numeric($this->id)) {
+                    // Save to DB. If the question is there.
+                    // Could not be in some API situations.
+                    $sql = 'UPDATE {qtype_stack_options} SET compiledcache = ? WHERE questionid = ?';
+                    $params[] = json_encode($this->compiledcache);
+                    $params[] = $this->id;
+                    $DB->execute($sql, $params);
+
+                    // Invalidate the question definition cache.
+                    // First from the next sessions.
+                    cache::make('core', 'questiondata')->delete($this->id);
+                }
+            } catch (exception $e) {
+                // TODO: what exactly do we use here as the key
+                // and what sort of errors does the compilation generate.
+                $this->runtimeerrors[$e->getMessage()] = true;
+            }
+        }
+
+        // A run-time error means we don't have the $key in the cache.
+        // We don't want an error here, we want to degrade gracefully.
+        $ret = null;
+        if (is_array($this->compiledcache) && array_key_exists($key, $this->compiledcache)) {
+            $ret = $this->compiledcache[$key];
+        }
+        return $ret;
     }
 }

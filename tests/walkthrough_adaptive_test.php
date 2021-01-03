@@ -2397,7 +2397,7 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->render();
 
         $rte = implode(' ', array_keys($q->runtimeerrors));
-        $err = 'The field ""Question variables"" generated the following error: Expected "#pm#", "%not ", "\'", "\'\'", ' .
+        $err = 'Error(s) in question-variables: Expected "#pm#", "%not ", "\'", "\'\'", ' .
                 '"(", "+", "+-", "-", "? ", "?", "?? ", "[", "do", "for", "from", "if", "in", "next", "not ", "not", ' .
                 '"nounnot ", "nounnot", "step", "thru", "unless", "while", "{", "|", boolean, comment, end of input, float, ' .
                 'identifier, integer, string or whitespace but ")" found. (At about line 1 character 11.)';
@@ -3491,7 +3491,8 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->check_output_does_not_contain_prt_feedback();
         $this->check_output_does_not_contain_stray_placeholders();
 
-        // Process a submition of an incorrect answer.
+        // Process a submition of an answer which is only partially correct
+        // because of an assume in the feedback variables.
         $this->process_submission(array('ans1' => '(a^x)^y', 'ans1_val' => '(a^x)^y', '-submit' => 1));
         $this->check_current_state(question_state::$todo);
         $this->check_current_mark(0.6);

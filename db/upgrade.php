@@ -850,6 +850,19 @@ function xmldb_qtype_stack_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2020112100, 'qtype', 'stack');
     }
 
+    if ($oldversion < 2021010100) {
+
+        $table = new xmldb_table('qtype_stack_options');
+        $field = new xmldb_field('compiledcache', XMLDB_TYPE_TEXT, null, null, false, null, null);
+
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // Qtype stack savepoint reached.
+        upgrade_plugin_savepoint(true, 2021010100, 'qtype', 'stack');
+    }
+
     // Add new upgrade blocks just above here.
 
     // Check the version of the Maxima library code that comes with this version
@@ -880,6 +893,8 @@ function xmldb_qtype_stack_upgrade($oldversion) {
                 echo html_writer::div(get_string('healthautomaxoptintro', 'qtype_stack'), 'adminwarning');
             }
         }
+        // For every update we clear the compile caches.
+        $DB->execute('UPDATE {qtype_stack_options} SET compiledcache = ?', ['{}']);
     }
 
     return true;

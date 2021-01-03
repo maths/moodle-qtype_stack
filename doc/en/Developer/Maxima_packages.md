@@ -1,5 +1,7 @@
 # Adding support for Maxima packages
 
+Local code, or links to local libraries, can be placed in `maxima\local.mac`.
+
 Maxima has a very wide range of optional packages.  Some of these write to the server file system, and so we do not permit question authors to load arbitrary packages into Maxima.  Instead the developers maintain a "whitelist" of packages.
 
 There is currently no support for a question by question loading of packages.  This may be included in the future, subject to demand/need.  Currently there is a site-wide option to load packages.

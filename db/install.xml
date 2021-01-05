@@ -29,6 +29,7 @@
         <FIELD NAME="logicsymbol" TYPE="char" LENGTH="8" NOTNULL="true" DEFAULT="lang" SEQUENCE="false" COMMENT="How logical symbols should be displayed. The valid values are lang or symbol."/>
         <FIELD NAME="matrixparens" TYPE="char" LENGTH="8" NOTNULL="true" DEFAULT="[" SEQUENCE="false" COMMENT="The parentheses used to surround matrices."/>
         <FIELD NAME="variantsselectionseed" TYPE="char" LENGTH="255" NOTNULL="false" SEQUENCE="false" COMMENT="If set, used to control the random seed in a deterministic way, so different questions in the quiz can use the same random variable values."/>
+        <FIELD NAME="compiledcache" TYPE="text" NOTNULL="false" SEQUENCE="false" COMMENT="The prevalidated CAS expressions used for processing various things. Stored as JSON. Thrown away every time the question is changed / saved or the question type is updated."/>
       </FIELDS>
       <KEYS>
         <KEY NAME="primary" TYPE="primary" FIELDS="id"/>

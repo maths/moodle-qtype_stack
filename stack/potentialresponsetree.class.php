@@ -40,7 +40,6 @@ class stack_potentialresponse_tree {
 
     /**
      * Special variables in the question which should be exposed to the inputs.
-     * @var cas_evaluatable[]
      */
     protected $contextsession = array();
 
@@ -85,13 +84,15 @@ class stack_potentialresponse_tree {
         if (is_a($feedbackvariables, 'stack_cas_session2') || null === $feedbackvariables) {
             $this->feedbackvariables = $feedbackvariables;
             if ($this->feedbackvariables === null) {
-                // Using an empty session here makes life so much more simpler.
+                // Using an empty session here makes life so much simpler.
                 $this->feedbackvariables = new stack_cas_session2(array());
             }
         } else {
             throw new stack_exception('stack_potentialresponse_tree: __construct: ' .
                     'expects $feedbackvariables to be null or a stack_cas_session.');
         }
+
+        $this->contextsession = $this->feedbackvariables->get_contextvariables();
 
         if ($nodes === null) {
             $nodes = array();
@@ -121,7 +122,11 @@ class stack_potentialresponse_tree {
      * Set the contextsession values.
      */
     public function add_contextsession($contextsession) {
-        $this->contextsession = $contextsession;
+        if ($contextsession != null) {
+            // Always make this the start of an array.
+            // We may already have some context from the feedback variables.
+            $this->contextsession = array_merge(array($contextsession), $this->contextsession);
+        }
     }
 
     /**

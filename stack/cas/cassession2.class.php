@@ -96,6 +96,17 @@ class stack_cas_session2 {
         return $this->statements;
     }
 
+    public function get_contextvariables(): array {
+        $ret = array();
+        foreach ($this->statements as $statement) {
+            if (method_exists($statement, 'is_toplevel_property') &&
+                $statement->is_toplevel_property('contextvariable')) {
+                    $ret[] = $statement;
+            }
+        }
+        return $ret;
+    }
+
     public function get_options(): stack_options {
         return $this->options;
     }
@@ -514,7 +525,7 @@ class stack_cas_session2 {
         $keyvals = '';
         foreach ($this->statements as $statement) {
             if ($evaluatedvalues) {
-                if ($statement->is_correctly_evaluated()) {
+                if (is_a($statement, 'stack_ast_container') && $statement->is_correctly_evaluated()) {
                     // Only print out variables with a key, to display their values.
                     $key = trim($statement->get_key());
                     if ($key !== '') {

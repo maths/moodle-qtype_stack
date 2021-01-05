@@ -19,7 +19,7 @@ ATNumerical(SA, SB, SO, numtype) := block([simp:true, RawMark, FeedBack, AnswerN
     if is(SA = [STACKERROR]) then return(StackBasicReturn(false, false, "ATNumerical_STACKERROR_SAns")),
     SA:SA[1],
     SAN:copy(SA), /* Need this for when we have lists etc. */
-    SB:errcatch(ev(float(remove_displaydp(SB)), simp, nouns, rat)),
+    SB:errcatch(ev(float(remove_numerical_inert(SB)), simp, nouns, rat)),
     if is(SB = [STACKERROR]) then return(StackBasicReturn(false, false, "ATNumerical_STACKERROR_TAns")),
     SB:SB[1],
     SO:errcatch(ev(float(SO), simp, nouns, rat)),
@@ -46,13 +46,15 @@ ATNumerical(SA, SB, SO, numtype) := block([simp:true, RawMark, FeedBack, AnswerN
     /* Are we dealing with numbers? */
     if (debug) then print ([SA,SB,tol]),
     if numberp(SAN) then
-      if numberp(TA) then
-        return(StackBasicReturn(false, false, "ATNumerical_SA_not_number"))
-      else
+      if numberp(SB) then
         if numtype = "ABSOLUTE" then
             return([true, numabsolutep(SA, SB, tol), "", ""])
         else
-            return([true, numrelativep(SA, SB, tol), "", ""]),
+            return([true, numrelativep(SA, SB, tol), "", ""])
+      else
+        return(StackBasicReturn(false, false, "ATNumerical_SB_not_number"))
+    else
+      return(StackBasicReturn(false, false, "ATNumerical_SA_not_number")),
 
     ret:[Validity, RawMark, AnswerNote, FeedBack],
     return(ret)
@@ -246,7 +248,7 @@ ATNumSigFigs(SA, SB, SO, SR) := block([simp, Validity, RawMark, FeedBack, Answer
     if requiredaccuracy = 0 then return([Validity, RawMark, AnswerNote, FeedBack]),
 
     /* Remove ephemeral forms from teacher's answers. */
-    SB:remove_displaydp(SB),
+    SB:remove_numerical_inert(SB),
     /* SA should be only a number. */
     if (not(ATNumSigFigs_numberp(SA))) then
         return([false, false, StackAddNote("", "ATNumSigFigs_NotDecimal"), StackAddFeedback("", "ATNumSigFigs_NotDecimal")]),
@@ -407,7 +409,7 @@ ATNumDecPlacesWrong(sans,tans,options) := block([Validity,RawMark,FeedBack,Answe
         Validity: false
     ),
     /* Also teachers answer. */
-    if not ev(numberp(remove_displaydp(tans)),simp) then (
+    if not ev(numberp(remove_numerical_inert(tans)), simp) then (
         AnswerNote: StackAddNote(AnswerNote, "ATNumDecPlacesWrong_Tans_Not_Num"),
         RawMark: false,
         Validity: false
@@ -427,7 +429,7 @@ ATNumDecPlacesWrong(sans,tans,options) := block([Validity,RawMark,FeedBack,Answe
         /* Shift the values to same range and cut to the required
            match length. */
         _sans:ev(sans,numer),
-        _tans:ev(remove_displaydp(tans),numer),
+        _tans:ev(remove_numerical_inert(tans),numer),
 
         /* Special case, if either one is 0. */
         if is(_sans=0) or is(_sans=0.0) or is(_tans=0) or is(_tans=0.0) then (

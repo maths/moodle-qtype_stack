@@ -8,6 +8,7 @@ How to report bugs and make suggestions is described on the [community](../About
 ## Version 4.3.9
 
 * Done: Add in additional cache `compiledcache` to reduce validation overheads by compiling questions.
+* Done. Add in local.mac for site specific code.
 
 ## Version 4.4
 

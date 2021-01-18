@@ -739,7 +739,8 @@ class MP_Identifier extends MP_Atom {
                         return false;
                     }
                 }
-                return true;
+                // If it is an argument for a function it is not being globally written.
+                return $this->is_global();
             } else if ($this->parentnode != null && $this->parentnode instanceof MP_List) {
                 // Multi assignment.
                 if ($this->parentnode->parentnode != null &&

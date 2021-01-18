@@ -729,6 +729,16 @@ class MP_Identifier extends MP_Atom {
             // Direct assignment.
             if ($this->parentnode != null && $this->parentnode instanceof MP_Operation
                     && $this->parentnode->op === ':' && $this->parentnode->lhs === $this) {
+                // Except in ev(foo,x:y) where x is not being written to.
+                if ($this->parentnode->parentnode != null
+                        && $this->parentnode->parentnode instanceof MP_FunctionCall
+                        && $this->parentnode->parentnode->name->toString() === 'ev') {
+                    // Assuming that we are not the first argument.
+                    $i = array_search($this->parentnode, $this->parentnode->parentnode->arguments);
+                    if ($i > 0) {
+                        return false;
+                    }
+                }
                 return true;
             } else if ($this->parentnode != null && $this->parentnode instanceof MP_List) {
                 // Multi assignment.

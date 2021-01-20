@@ -746,7 +746,7 @@ class MP_Identifier extends MP_Atom {
                 if ($this->parentnode->parentnode != null &&
                         $this->parentnode->parentnode instanceof MP_Operation &&
                         $this->parentnode->parentnode->lhs === $this->parentnode) {
-                    return $this->parentnode->parentnode->op === ':';
+                    return $this->parentnode->parentnode->op === ':' && $this->is_global();
                 }
             } else if ($this->parentnode != null &&
                        $this->parentnode instanceof MP_FunctionCall &&
@@ -756,7 +756,7 @@ class MP_Identifier extends MP_Atom {
                 $indices = stack_cas_security::get_feature($this->parentnode->name->toString(),
                     'writesto');
                 if ($indices !== null && array_search($i, $indices) !== false) {
-                    return true;
+                    return $this->is_global();
                 }
             }
             return false;

@@ -591,7 +591,7 @@ _CS2dvv(_k,_v) := (_CS2v(_k,_v),_CS2dv(_k,_v),0)$
 stack_disp(expr, exprm) := block([str:"", expru],
     /* LaTeX display */
     if OPT_OUTPUT = "LaTeX" then
-        if not(ev(elementp(exprm, {"", "i", "d", "id"}), simp)) then print(concat("ERROR: illegal delimiter option found: ", exprm)),
+        if not(ev(elementp(exprm, {"", "i", "d", "id", "i{", "{"}), simp)) then print(concat("ERROR: illegal delimiter option found: ", exprm)),
     /* Fine tune display, e.g. sort out display of atoms like theta0. */
     expru: expr,
     if not(stack_disp_control_structurep(expr)) then block(
@@ -602,6 +602,8 @@ stack_disp(expr, exprm) := block([str:"", expru],
         ld: "",
         rd: "",
         if exprm = "i" then block(ld: "\\(", rd:"\\)"),
+        if exprm = "i{" then block(ld: "\\({", rd:"}\\)"),
+        if exprm = "{" then block(ld: "{", rd:"}"),
         if exprm = "id" then block(ld: "\\(\\displaystyle ", rd:"\\)"),
         if exprm = "d" then block(ld: "\\[", rd:"\\]"),
         mminusbp100(true),
@@ -3067,5 +3069,5 @@ load(linearalgebra);
 
 /* Stack expects some output with the version number the output happens at */
 /* maximalocal.mac after additional library loading */
-stackmaximaversion:2021010100$
+stackmaximaversion:2021012000$
 

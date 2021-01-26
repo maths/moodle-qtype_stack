@@ -38,7 +38,7 @@ class qtype_stack_renderer extends qtype_renderer {
 
         $response = $qa->get_last_qt_data();
 
-        $questiontext = $question->questiontextinstantiated;
+        $questiontext = $question->questiontextinstantiated->get_rendered();
         // Replace inputs.
         $inputstovaldiate = array();
 
@@ -193,7 +193,7 @@ class qtype_stack_renderer extends qtype_renderer {
     protected function stack_specific_feedback_errors_only(question_attempt $qa) {
         $question = $qa->get_question();
         $response = $qa->get_last_qt_data();
-        $feedbacktext = $question->specificfeedbackinstantiated;
+        $feedbacktext = $question->specificfeedbackinstantiated->get_rendered();
         if (!$feedbacktext) {
             return '';
         }
@@ -233,7 +233,7 @@ class qtype_stack_renderer extends qtype_renderer {
 
         $question = $qa->get_question();
         $response = $qa->get_last_qt_data();
-        $feedbacktext = $question->specificfeedbackinstantiated;
+        $feedbacktext = $question->specificfeedbackinstantiated->get_rendered();
         if (!$feedbacktext) {
             return '';
         }
@@ -426,7 +426,7 @@ class qtype_stack_renderer extends qtype_renderer {
         $format = 'prt' . $class . 'format';
         if ($question->$field) {
             return html_writer::tag('div', $question->format_text(
-                    stack_maths::process_display_castext($question->$field, $this),
+                    stack_maths::process_display_castext($question->$field->get_rendered(), $this),
                     $question->$format, $qa, 'qtype_stack', $field, $question->id), array('class' => $class));
         }
         return '';
@@ -475,7 +475,7 @@ class qtype_stack_renderer extends qtype_renderer {
         $hinttext = $qa->get_question()->get_hint_castext($hint);
 
         $newhint = new question_hint($hint->id,
-                stack_maths::process_display_castext($hinttext->get_display_castext(), $this),
+                stack_maths::process_display_castext($hinttext->get_rendered(), $this),
                 $hint->hintformat);
 
         return html_writer::nonempty_tag('div',
@@ -494,7 +494,7 @@ class qtype_stack_renderer extends qtype_renderer {
         }
 
         return $qa->get_question()->format_text(stack_maths::process_display_castext(
-                $question->get_generalfeedback_castext()->get_display_castext(), $this),
+                $question->get_generalfeedback_castext()->get_rendered(), $this),
                 $question->generalfeedbackformat, $qa, 'question', 'generalfeedback', $question->id);
     }
 

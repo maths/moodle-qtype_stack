@@ -19,6 +19,7 @@ defined('MOODLE_INTERNAL') || die();
 require_once(__DIR__ . '/../maximaparser/utils.php');
 require_once(__DIR__ . '/../maximaparser/MP_classes.php');
 require_once(__DIR__ . '/cassession2.class.php');
+require_once(__DIR__ . '/castext2/utils.php');
 
 /**
  * Class to parse user-entered data into CAS sessions.
@@ -257,6 +258,46 @@ class stack_cas_keyval {
         $tostringparams = ['nosemicolon' => true, 'pmchar' => 1];
         $securitymodel = new stack_cas_security();
 
+
+        // Special rewrites filtter, might be a real AST-filter at some point.
+        $rewrite = function($node) use (&$errors) {
+            if ($node instanceof MP_FunctionCall) {
+                if ($node->name instanceof MP_Identifier && $node->name->value === 'castext') {
+                    // The very special case of seeing the castext-function inside castext.
+                    if (count($node->arguments) == 1 && !($node->arguments[0] instanceof MP_String)) {
+                        $errors[] = 'Keyval castext()-compiler, wrong argument. Only works with one direct raw string. And possibly format descriptor.';
+                        $node->position['invalid'] = true;
+                        return true;
+                    } else if (count($node->arguments) == 2 && (!($node->arguments[0] instanceof MP_String) || !($node->arguments[1] instanceof MP_Identifier))) {
+                        $errors[] = 'Keyval castext()-compiler, wrong argument. Only works with one direct raw string. And possibly format descriptor.';
+                        $node->position['invalid'] = true;
+                        return true;
+                    } else if (count($node->arguments) == 0 || count($node->arguments) > 2) {
+                        $errors[] = 'Keyval castext()-compiler, wrong argument. Only works with one direct raw string. And possibly format descriptor.';
+                        $node->position['invalid'] = true;
+                        return true;
+                    }
+                    $format = castext2_parser_utils::RAWFORMAT;
+                    // Special handling for generating fragments to be injected in Markdown formated contexts.
+                    if (count($node->arguments) == 2 && strtolower($node->arguments[1]->value) === 'md') {
+                        $format = castext2_parser_utils::MDFORMAT;
+                    }
+                    $compiled = castext2_parser_utils::compile($node->arguments[0]->value);
+                    $compiled = maxima_parser_utils::parse($compiled);
+                    if ($compiled instanceof MP_Root) {
+                        $compiled = $compiled->items[0];
+                    }
+                    if ($compiled instanceof MP_Statement) {
+                        $compiled = $compiled->statement;
+                    }
+                    $node->parentnode->replace($node, $compiled);
+                    return false;
+                }
+            }
+            return true;
+        };
+
+
         // Process the AST.
         foreach ($ast->items as $item) {
             if ($item instanceof MP_Statement) {
@@ -268,8 +309,8 @@ class stack_cas_keyval {
                     $item = maxima_parser_utils::position_remap($item, $str);
                 }
 
-                // Here we could process comments or do other rewriting.
-                // Probably the first use will be extracting units realted details for cas-security configuration.
+                // Filter the AST. For now do the inline CASText2 compile.
+                while ($item->callbackRecurse($rewrite, true) !== true) {}
 
                 // Apply the normal filters.
                 $item = $pipeline->filter($item, $errors, $answernotes, $securitymodel);

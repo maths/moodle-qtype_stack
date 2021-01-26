@@ -29,7 +29,7 @@ require_once($CFG->libdir . '/questionlib.php');
 require_once(__DIR__ . '/stack/input/factory.class.php');
 require_once(__DIR__ . '/stack/answertest/controller.class.php');
 require_once(__DIR__ . '/stack/cas/keyval.class.php');
-require_once(__DIR__ . '/stack/cas/castext.class.php');
+require_once(__DIR__ . '/stack/cas/castext2/castext2_evaluatable.class.php');
 require_once(__DIR__ . '/stack/questiontest.php');
 require_once(__DIR__ . '/stack/graphlayout/graph.php');
 require_once(__DIR__ . '/lang/multilang.php');
@@ -1775,7 +1775,10 @@ class qtype_stack extends question_type {
             $errors[$fieldname][] = stack_string('forbiddendoubledollars');
         }
 
-        $castext = new stack_cas_text($value, $session, $this->seed);
+        // The castext2_evaluatable-class is much simpelr for validation use.
+        // Could ask the utils class directly for the internal casstrings,
+        // but why when the evaluatable-class already does that.
+        $castext = castext2_evaluatable::make_from_source($value, 'validation');
         if (!$castext->get_valid()) {
             $errors[$fieldname][] = $castext->get_errors();
             return $errors;
@@ -2359,9 +2362,21 @@ class qtype_stack extends question_type {
      * @param array inputs as objects, keyed by input name
      * @param array PRTs as objects
      * @param stack_options the options in use, if they would ever matter
+     * @param string question-text
+     * @param string question-text format
+     * @param string question-note
+     * @param string general-feedback
+     * @param string general-feedback format...
      * @return array a dictionary of things that might be expensive to generate.
      */
-    public static function compile($questionvariables, $inputs, $prts, $options) {
+    public static function compile($questionvariables, $inputs, $prts, $options,
+        $questiontext, $questiontextformat,
+        $questionnote,
+        $generalfeedback, $generalfeedbackformat,
+        $specificfeedback, $specificfeedbackformat,
+        $prtcorrect, $prtcorrectformat,
+        $prtpartiallycorrect, $prtpartiallycorrectformat,
+        $prtincorrect, $prtincorrectformat) {
         // NOTE! We do not compile during question save as that would make
         // import actions slow. We could compile during fromform-validation
         // but we really should look at refactoring that to better interleave
@@ -2420,6 +2435,58 @@ class qtype_stack extends question_type {
         // as it may be used in input configuration at some later time.
         $cc['units'] = $units;
         $cc['forbiddenkeys'] = $forbiddenkeys;
+
+        // Compile the castext fragments.
+        $ctoptions = ['bound-vars' => $forbiddenkeys, 'prt-names' => array_flip(array_keys($prts))];
+
+        $ct = castext2_evaluatable::make_from_source($questiontext, 'question-text');
+        if (!$ct->get_valid($questiontextformat, $ctoptions)) {
+            throw new stack_exception('Error(s) in question-text: ' . implode('; ', $ct->get_errors()));
+        } else {
+            $cc['castext-qt'] = $ct->get_evaluationform();
+        }
+
+        $ct = castext2_evaluatable::make_from_source($questionnote, 'question-note');
+        if (!$ct->get_valid(FORMAT_HTML, $ctoptions)) {
+            throw new stack_exception('Error(s) in question-note: ' . implode('; ', $ct->get_errors()));
+        } else {
+            $cc['castext-qn'] = $ct->get_evaluationform();
+        }
+
+        $ct = castext2_evaluatable::make_from_source($generalfeedback, 'general-feedback');
+        if (!$ct->get_valid($generalfeedbackformat, $ctoptions)) {
+            throw new stack_exception('Error(s) in general-feedback: ' . implode('; ', $ct->get_errors()));
+        } else {
+            $cc['castext-gf'] = $ct->get_evaluationform();
+        }
+
+        $ct = castext2_evaluatable::make_from_source($specificfeedback, 'specific-feedback');
+        if (!$ct->get_valid($specificfeedbackformat, $ctoptions)) {
+            throw new stack_exception('Error(s) in specific-feedback: ' . implode('; ', $ct->get_errors()));
+        } else {
+            $cc['castext-sf'] = $ct->get_evaluationform();
+        }
+
+        $ct = castext2_evaluatable::make_from_source($prtcorrect, 'specific-feedback');
+        if (!$ct->get_valid($prtcorrectformat, $ctoptions)) {
+            throw new stack_exception('Error(s) in PRT-correct message: ' . implode('; ', $ct->get_errors()));
+        } else {
+            $cc['castext-prt-c'] = $ct->get_evaluationform();
+        }
+
+        $ct = castext2_evaluatable::make_from_source($prtpartiallycorrect, 'specific-feedback');
+        if (!$ct->get_valid($prtpartiallycorrectformat, $ctoptions)) {
+            throw new stack_exception('Error(s) in PRT-partially correct message: ' . implode('; ', $ct->get_errors()));
+        } else {
+            $cc['castext-prt-pc'] = $ct->get_evaluationform();
+        }
+
+        $ct = castext2_evaluatable::make_from_source($prtincorrect, 'specific-feedback');
+        if (!$ct->get_valid($prtincorrectformat, $ctoptions)) {
+            throw new stack_exception('Error(s) in PRT-incorrect message: ' . implode('; ', $ct->get_errors()));
+        } else {
+            $cc['castext-prt-ic'] = $ct->get_evaluationform();
+        }
 
         return $cc;
     }

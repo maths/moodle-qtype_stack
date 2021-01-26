@@ -171,7 +171,7 @@ foreach ($questions as $id) {
         try {
             if (trim($question->generalfeedback) !== '') {
                 $workedsolution = $question->get_generalfeedback_castext();
-                $workedsolution->get_display_castext();
+                $workedsolution->get_rendered();
             }
         } catch (Exception $erendersolution) {
             cli_writeln(' Solution render issues in ' . $id->id . ': ' . $question->name);

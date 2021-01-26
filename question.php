@@ -26,7 +26,7 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/stack/input/factory.class.php');
 require_once(__DIR__ . '/stack/cas/keyval.class.php');
-require_once(__DIR__ . '/stack/cas/castext.class.php');
+require_once(__DIR__ . '/stack/cas/castext2/castext2_evaluatable.class.php');
 require_once(__DIR__ . '/stack/cas/cassecurity.class.php');
 require_once(__DIR__ . '/stack/potentialresponsetree.class.php');
 require_once($CFG->dirroot . '/question/behaviour/adaptivemultipart/behaviour.php');
@@ -134,36 +134,43 @@ class qtype_stack_question extends question_graded_automatically_with_countback
     private $security;
 
     /**
-     * @var stack_cas_session2 STACK specific: session of variables.
+     * @var castext2_evaluatable STACK specific: variant specifying castext fragment.
      */
     protected $questionnoteinstantiated;
 
     /**
-     * @var string instantiated version of questiontext.
+     * @var castext2_evaluatable instantiated version of questiontext.
      * Initialised in start_attempt / apply_attempt_state.
      */
     public $questiontextinstantiated;
 
     /**
-     * @var string instantiated version of specificfeedback.
+     * @var castext2_evaluatable instantiated version of specificfeedback.
      * Initialised in start_attempt / apply_attempt_state.
      */
     public $specificfeedbackinstantiated;
 
     /**
-     * @var string instantiated version of prtcorrect.
+     * @var castext2_evaluatable instantiated version of generalfeedback.
+     * Init depends of config.
+     */
+    private $generalfeedbackinstantiated = null;
+
+    /**
+     * @var castext2_evaluatable instantiated version of prtcorrect.
      * Initialised in start_attempt / apply_attempt_state.
+     * NOTE: used in rederer.php:standard_prt_feedback() in an uncommon way.
      */
     public $prtcorrectinstantiated;
 
     /**
-     * @var string instantiated version of prtpartiallycorrect.
+     * @var castext2_evaluatable instantiated version of prtpartiallycorrect.
      * Initialised in start_attempt / apply_attempt_state.
      */
     public $prtpartiallycorrectinstantiated;
 
     /**
-     * @var string instantiated version of prtincorrect.
+     * @var castext2_evaluatable instantiated version of prtincorrect.
      * Initialised in start_attempt / apply_attempt_state.
      */
     public $prtincorrectinstantiated;
@@ -314,6 +321,18 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         // 1. question variables.
 
         $session = new stack_cas_session2([], $this->options, $this->seed);
+
+        // Construct the security object. But first units declaration into the session.
+        $units = (boolean) $this->get_cached('units');
+
+        // If we have units we might as well include the units declaration in the session.
+        // To simplify authors work and remove the need to call that long function.
+        // TODO: Maybe add this to the preable to save lines, but for now documented here.
+        if ($units) {
+            $session->add_statement(new stack_secure_loader('stack_unit_si_declare(true)',
+                    'automatic unit declaration'), false);
+        }
+
         if ($this->get_cached('preamble-qv') !== null) {
             $session->add_statement(new stack_secure_loader($this->get_cached('preamble-qv'), 'preamble'));
         }
@@ -323,17 +342,6 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         }
         if ($this->get_cached('statement-qv') !== null) {
             $session->add_statement(new stack_secure_loader($this->get_cached('statement-qv'), 'qv'));
-        }
-
-        // Construct the security object.
-        $units = (boolean) $this->get_cached('units');
-
-        // If we have units we might as well include the units declaration in the session.
-        // To simplify authors work and remove the need to call that long function.
-        // TODO: Maybe add this to the preable to save lines, but for now documented here.
-        if ($units) {
-            $session->add_statement(stack_ast_container_silent::make_from_teacher_source('stack_unit_si_declare(true)',
-                    'automatic unit declaration'), false);
         }
 
         // Note that at this phase the security object has no "words".
@@ -362,18 +370,36 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         }
 
         // 3. CAS bits inside the question text.
-        $questiontext = $this->prepare_cas_text($this->questiontext, $session);
+        $questiontext = castext2_evaluatable::make_from_compiled($this->get_cached('castext-qt'), 'question-text');
+        if ($questiontext->requires_evaluation()) {
+            $session->add_statement($questiontext);
+        }
 
         // 4. CAS bits inside the specific feedback.
-        $feedbacktext = $this->prepare_cas_text($this->specificfeedback, $session);
+        $feedbacktext = castext2_evaluatable::make_from_compiled($this->get_cached('castext-sf'), 'specific-feedback');
+        if ($feedbacktext->requires_evaluation()) {
+            $session->add_statement($feedbacktext);
+        }
 
         // 5. CAS bits inside the question note.
-        $notetext = $this->prepare_cas_text($this->questionnote, $session);
+        $notetext = castext2_evaluatable::make_from_compiled($this->get_cached('castext-qn'), 'question-note');
+        if ($notetext->requires_evaluation()) {
+            $session->add_statement($notetext);
+        }
 
         // 6. The standard PRT feedback.
-        $prtcorrect          = $this->prepare_cas_text($this->prtcorrect, $session);
-        $prtpartiallycorrect = $this->prepare_cas_text($this->prtpartiallycorrect, $session);
-        $prtincorrect        = $this->prepare_cas_text($this->prtincorrect, $session);
+        $prtcorrect          = castext2_evaluatable::make_from_compiled($this->get_cached('castext-prt-c'), 'prt-msg');
+        $prtpartiallycorrect = castext2_evaluatable::make_from_compiled($this->get_cached('castext-prt-pc'), 'prt-msg');
+        $prtincorrect        = castext2_evaluatable::make_from_compiled($this->get_cached('castext-prt-ic'), 'prt-msg');
+        if ($prtcorrect->requires_evaluation()) {
+            $session->add_statement($prtcorrect);
+        }
+        if ($prtpartiallycorrect->requires_evaluation()) {
+            $session->add_statement($prtpartiallycorrect);
+        }
+        if ($prtincorrect->requires_evaluation()) {
+            $session->add_statement($prtincorrect);
+        }
 
         // Now instantiate the session.
         if ($session->get_valid()) {
@@ -387,27 +413,27 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         }
 
         // Finally, store only those values really needed for later.
-        $this->questiontextinstantiated        = $questiontext->get_display_castext();
+        $this->questiontextinstantiated        = $questiontext;
         if ($questiontext->get_errors()) {
             $s = stack_string('runtimefielderr',
                 array('field' => stack_string('questiontext'), 'err' => $questiontext->get_errors()));
             $this->runtimeerrors[$s] = true;
         }
-        $this->specificfeedbackinstantiated    = $feedbacktext->get_display_castext();
+        $this->specificfeedbackinstantiated    = $feedbacktext;
         if ($feedbacktext->get_errors()) {
             $s = stack_string('runtimefielderr',
                 array('field' => stack_string('specificfeedback'), 'err' => $feedbacktext->get_errors()));
             $this->runtimeerrors[$s] = true;
         }
-        $this->questionnoteinstantiated        = $notetext->get_display_castext();
+        $this->questionnoteinstantiated        = $notetext;
         if ($notetext->get_errors()) {
             $s = stack_string('runtimefielderr',
                 array('field' => stack_string('questionnote'), 'err' => $notetext->get_errors()));
             $this->runtimeerrors[$s] = true;
         }
-        $this->prtcorrectinstantiated          = $prtcorrect->get_display_castext();
-        $this->prtpartiallycorrectinstantiated = $prtpartiallycorrect->get_display_castext();
-        $this->prtincorrectinstantiated        = $prtincorrect->get_display_castext();
+        $this->prtcorrectinstantiated          = $prtcorrect;
+        $this->prtpartiallycorrectinstantiated = $prtpartiallycorrect;
+        $this->prtincorrectinstantiated        = $prtincorrect;
         $this->session = $sessiontokeep;
         if ($sessiontokeep->get_errors()) {
             $s = stack_string('runtimefielderr',
@@ -440,20 +466,6 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         }
     }
 
-    /**
-     * Helper method used by initialise_question_from_seed.
-     * @param string $text a textual part of the question that is CAS text.
-     * @param stack_cas_session2 $session the question's CAS session.
-     * @return stack_cas_text the CAS text version of $text.
-     */
-    protected function prepare_cas_text($text, $session) {
-        $castext = new stack_cas_text($text, $session, $this->seed);
-        if ($castext->get_errors()) {
-            $this->runtimeerrors[$castext->get_errors()] = true;
-        }
-        return $castext;
-    }
-
     public function apply_attempt_state(question_attempt_step $step) {
         $this->seed = (int) $step->get_qt_var('_seed');
         $this->initialise_question_from_seed();
@@ -484,7 +496,18 @@ class qtype_stack_question extends question_graded_automatically_with_countback
      * @return stack_cas_text the castext.
      */
     public function get_hint_castext(question_hint $hint) {
-        $hinttext = new stack_cas_text($hint->hint, $this->session, $this->seed);
+        // TODO: These are not currently cached as compiled fragments, maybe they should be.
+
+        $hinttext = castext2_evaluatable::make_from_source($hint, 'hint');
+
+        $session = null;
+        if ($this->session === null) {
+            $session = new stack_cas_session2([], $this->options, $this->seed);
+        } else {
+            $session = new stack_cas_session2($this->session->get_session(), $this->options, $this->seed);
+        }
+        $session->add_statement($hinttext);
+        $session->instantiate();
 
         if ($hinttext->get_errors()) {
             $this->runtimeerrors[$hinttext->get_errors()] = true;
@@ -498,13 +521,38 @@ class qtype_stack_question extends question_graded_automatically_with_countback
      * @return stack_cas_text the castext.
      */
     public function get_generalfeedback_castext() {
-        $gftext = new stack_cas_text($this->generalfeedback, $this->session, $this->seed);
-
-        if ($gftext->get_errors()) {
-            $this->runtimeerrors[$gftext->get_errors()] = true;
+        // Could be that this is instantiated already.
+        if ($this->generalfeedbackinstantiated !== null) {
+            return $this->generalfeedbackinstantiated->get_rendered();
         }
 
-        return $gftext;
+        $this->generalfeedbackinstantiated = castext2_evaluatable::make_from_compiled($this->get_cached('castext-gf'), 'general-feedback');
+        // Might not require any evaluation anyway.
+        if (!$this->generalfeedbackinstantiated->requires_evaluation()) {
+            return $this->generalfeedbackinstantiated;
+        }
+
+        // Init a session with question-variables ant the related details.
+        $session = new stack_cas_session2([], $this->options, $this->seed);
+        if ($this->get_cached('preamble-qv') !== null) {
+            $session->add_statement(new stack_secure_loader($this->get_cached('preamble-qv'), 'preamble'));
+        }
+        if ($this->get_cached('contextvariables-qv') !== null) {
+            $session->add_statement(new stack_secure_loader($this->get_cached('contextvariables-qv'), 'qv'));
+        }
+        if ($this->get_cached('statement-qv') !== null) {
+            $session->add_statement(new stack_secure_loader($this->get_cached('statement-qv'), 'qv'));
+        }
+
+        // Then add the general-feedback code.
+        $session->add_statement($this->generalfeedbackinstantiated);
+        $session->instantiate();
+
+        if ($this->generalfeedbackinstantiated->get_errors()) {
+            $this->runtimeerrors[$this->generalfeedbackinstantiated->get_errors()] = true;
+        }
+
+        return $this->generalfeedbackinstantiated;
     }
 
     /**
@@ -514,7 +562,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
      */
     public function format_correct_response($qa) {
         $feedback = '';
-        $inputs = stack_utils::extract_placeholders($this->questiontextinstantiated, 'input');
+        $inputs = stack_utils::extract_placeholders($this->questiontextinstantiated->get_rendered(), 'input');
         foreach ($inputs as $name) {
             $input = $this->inputs[$name];
             $feedback .= html_writer::tag('p', $input->get_teacher_answer_display($this->tas[$name]->get_dispvalue(),
@@ -532,8 +580,9 @@ class qtype_stack_question extends question_graded_automatically_with_countback
     }
 
     public function get_question_summary() {
-        if ('' !== $this->questionnoteinstantiated) {
-            return $this->questionnoteinstantiated;
+        if ($this->questionnoteinstantiated !== null &&
+            '' !== $this->questionnoteinstantiated->get_rendered()) {
+            return $this->questionnoteinstantiated->get_rendered();
         }
         return parent::get_question_summary();
     }
@@ -1270,7 +1319,14 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         if ($this->compiledcache === null || !array_key_exists($key, $this->compiledcache)) {
             // If not do the compilation.
             try {
-                $this->compiledcache = qtype_stack::compile($this->questionvariables, $this->inputs, $this->prts, $this->options);
+                $this->compiledcache = qtype_stack::compile($this->questionvariables, $this->inputs, $this->prts, $this->options, $this->questiontext, 
+                    $this->questiontextformat,
+                    $this->questionnote,
+                    $this->generalfeedback, $this->generalfeedbackformat,
+                    $this->specificfeedback, $this->specificfeedbackformat,
+                    $this->prtcorrect, $this->prtcorrectformat,
+                    $this->prtpartiallycorrect, $this->prtpartiallycorrectformat,
+                    $this->prtincorrect, $this->prtincorrectformat);
 
                 // Invalidate Moodle question-cache and add there.
                 if (is_integer($this->id) || is_numeric($this->id)) {

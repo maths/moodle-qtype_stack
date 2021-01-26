@@ -18,9 +18,15 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/../locallib.php');
 require_once(__DIR__ . '/fixtures/test_base.php');
-require_once(__DIR__ . '/../stack/cas/castext.class.php');
+require_once(__DIR__ . '/../stack/cas/castext2/castext2_evaluatable.class.php');
 
 // Unit tests for {@link stack_cas_text}.
+
+// Note there is no stack_cas_text class in castext2, in castext2
+// castext is a CAS-statement like any other and the focus is on
+// generating/compiling it from the source castext-code and then
+// post-processing the response from CAS to turn it to a string.
+// The closest to the original is the castext2_evaluatable class.
 
 /**
  * @group qtype_stack
@@ -31,8 +37,7 @@ class stack_cas_text_exception_test extends basic_testcase {
      * @expectedException TypeError
      */
     public function test_exception_1() {
-        $session = new stack_cas_session2(null);
-        $at1 = new stack_cas_text(array(), null, null);
+        $at1 = castext2_evaluatable::make_from_source(array(), null);
         $at1->get_valid();
     }
 
@@ -40,8 +45,7 @@ class stack_cas_text_exception_test extends basic_testcase {
      * @expectedException TypeError
      */
     public function test_exception_2() {
-        $session = new stack_cas_session2(null);
-        $at1 = new stack_cas_text("Hello world", array(1), null);
+        $at1 = castext2_evaluatable::make_from_source("Hello world", array(1));
         $at1->get_valid();
     }
 
@@ -50,7 +54,7 @@ class stack_cas_text_exception_test extends basic_testcase {
      */
     public function test_exception_3() {
         $session = new stack_cas_session2(null);
-        $at1 = new stack_cas_text("Hello world", $session, "abc");
+        $at1 = castext2_evaluatable::make_from_source("Hello world", $session);
         $at1->get_valid();
     }
 }

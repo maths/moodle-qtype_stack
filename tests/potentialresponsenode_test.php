@@ -17,7 +17,6 @@
 defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/../stack/potentialresponsetree.class.php');
-require_once(__DIR__ . '/../stack/cas/castext.class.php');
 require_once(__DIR__ . '/../locallib.php');
 require_once(__DIR__ . '/fixtures/test_base.php');
 

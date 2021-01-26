@@ -302,8 +302,10 @@ class stack_potentialresponse_node {
     }
 
     public function get_variable_usage(array $updatearray = array()): array {
-        $ct = new stack_cas_text($this->branches[0]['feedback'] . $this->branches[1]['feedback']);
-        $updatearray = $ct->get_variable_usage($updatearray);
+        $cvars = castext2_parser_utils::get_casstrings($this->branches[0]['feedback'] . $this->branches[1]['feedback']);
+        foreach ($cvars as $cs) {
+            $updatearray = $cs->get_variable_usage($updatearray);
+        }
         $updatearray = $this->sans->get_variable_usage($updatearray);
         $updatearray = $this->tans->get_variable_usage($updatearray);
 

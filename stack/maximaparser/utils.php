@@ -248,4 +248,48 @@ class maxima_parser_utils {
         return $output;
     }
 
+
+    // Turns MP_Nodes to raw PHP objects like strings/numbers arrays...
+    // Note that this identifies stackmaps by default.
+    // Also after this has done its thing you will not be able to separate strings from identifiers.
+    // Intended for processing complex return values from CAS using PHP methods.
+    public static function mp_to_php(
+        MP_Node $in,
+        bool $stackmaps = true
+    ) {
+        if ($in instanceof MP_Atom) {
+            return $in->value;
+        }
+        if ($in instanceof MP_Root) {
+            return self::mp_to_php($in->items[0]);
+        }
+        if ($in instanceof MP_Statement) {
+            return self::mp_to_php($in->statement);
+        }
+        if ($in instanceof MP_Set || ($in instanceof MP_List && !$stackmaps)) {
+            $r = [];
+            foreach ($in->items as $item) {
+                $r[] = self::mp_to_php($item);
+            }
+            return $r;
+        }
+        if ($in instanceof MP_List) {
+            $r = [];
+            foreach ($in->items as $item) {
+                $r[] = self::mp_to_php($item);
+            }
+            if (count($r) > 0 && $r[0] === 'stack_map') {
+                $m = [];
+                for ($i = 1; $i < count($r); $i++) {
+                    $m[$r[$i][0]] = $r[$i][1];
+                }
+                return $m;
+            } else {
+                return $r;
+            }
+        }
+
+        throw new stack_exception(
+            'Tried to convert something not fully evaluated to PHP object.');
+    }
 }

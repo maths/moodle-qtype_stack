@@ -328,7 +328,7 @@ class stack_bulk_tester  {
         // These lines are to seed the cache and to generate any runtime errors.
         $notused = $question->get_question_summary();
         $generalfeedback = $question->get_generalfeedback_castext();
-        $notused = $generalfeedback->get_display_castext();
+        $notused = $generalfeedback->get_rendered();
 
         if (!empty($question->runtimeerrors)) {
             $ok = false;
@@ -394,7 +394,7 @@ class stack_bulk_tester  {
         // This involves instantiation, which seeds the CAS cache in the cases when we have no tests.
         $renderquestion = $quba->render_question($slot, $options);
         $workedsolution = $qu->get_generalfeedback_castext();
-        $workedsolution->get_display_castext();
+        $workedsolution->get_rendered();
         $questionote = $qu->get_question_summary();
 
         // As we cloned the question any and all updates to the cache will not sync.

@@ -3050,7 +3050,6 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
 
     public function test_checkbox_empty() {
 
-        // Create the stack question 'equiv_quad'.
         $q = test_question_maker::make_question('stack', 'checkbox_all_empty');
 
         $this->start_attempt_at_question($q, 'adaptive', 1);
@@ -3064,6 +3063,7 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->check_output_does_not_contain_stray_placeholders();
         $this->check_current_output(
                 new question_pattern_expectation('/Which of/'),
+                new question_pattern_expectation('/diamond/'),
                 $this->get_does_not_contain_feedback_expectation(),
                 $this->get_does_not_contain_num_parts_correct(),
                 $this->get_no_hint_visible_expectation()

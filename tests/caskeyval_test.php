@@ -221,4 +221,33 @@ class stack_cas_keyval_test extends qtype_stack_testcase {
                     "coef1:a21/a11;\ncoef2:a31/a11;\ncoef3:B[3,2]/B[2,2];";
         $this->assertEquals($expected, $s->get_keyval_representation());
     }
+
+    public function test_usage() {
+        // Notes, for global variable usage:
+        // The ev case where both : and = work as the definition of values.
+        // The block case where some variables may be listed as locals.
+        // The function definition case where the arguments are locals.
+        // The multiple assing case where more than one is written.
+        // Evaluation-flags.
+        // By refrence function like push.
+        $kv = new stack_cas_keyval("foo:ev(bar,x:y,z=y);" .
+            "f(x,y):=block([bar],bar:1+x,[y,x]);" .
+            "g(x,y):=(x:1+x,[y,x]:[x,y]);" .
+            "[baz,T]:f(x,y);" .
+            "g(1,2),x=3,y:4" .
+            "push(x,V);" .
+            "block([bar],push(x,bar));");
+        $this->assertTrue($kv->get_valid());
+        $usage = $kv->get_variable_usage();
+        // x, y, z, and bar are never globally written.
+        $this->assertFalse(isset($usage['write']['x']));
+        $this->assertFalse(isset($usage['write']['y']));
+        $this->assertFalse(isset($usage['write']['z']));
+        $this->assertFalse(isset($usage['write']['bar']));
+        // foo, baz, and T are being written globally.
+        $this->assertTrue(isset($usage['write']['foo']));
+        $this->assertTrue(isset($usage['write']['baz']));
+        $this->assertTrue(isset($usage['write']['T']));
+        $this->assertTrue(isset($usage['write']['V']));
+    }
 }

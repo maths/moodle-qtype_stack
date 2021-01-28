@@ -729,13 +729,24 @@ class MP_Identifier extends MP_Atom {
             // Direct assignment.
             if ($this->parentnode != null && $this->parentnode instanceof MP_Operation
                     && $this->parentnode->op === ':' && $this->parentnode->lhs === $this) {
-                return true;
+                // Except in ev(foo,x:y) where x is not being written to.
+                if ($this->parentnode->parentnode != null
+                        && $this->parentnode->parentnode instanceof MP_FunctionCall
+                        && $this->parentnode->parentnode->name->toString() === 'ev') {
+                    // Assuming that we are not the first argument.
+                    $i = array_search($this->parentnode, $this->parentnode->parentnode->arguments);
+                    if ($i > 0) {
+                        return false;
+                    }
+                }
+                // If it is an argument for a function it is not being globally written.
+                return $this->is_global();
             } else if ($this->parentnode != null && $this->parentnode instanceof MP_List) {
                 // Multi assignment.
                 if ($this->parentnode->parentnode != null &&
                         $this->parentnode->parentnode instanceof MP_Operation &&
                         $this->parentnode->parentnode->lhs === $this->parentnode) {
-                    return $this->parentnode->parentnode->op === ':';
+                    return $this->parentnode->parentnode->op === ':' && $this->is_global();
                 }
             } else if ($this->parentnode != null &&
                        $this->parentnode instanceof MP_FunctionCall &&
@@ -745,7 +756,7 @@ class MP_Identifier extends MP_Atom {
                 $indices = stack_cas_security::get_feature($this->parentnode->name->toString(),
                     'writesto');
                 if ($indices !== null && array_search($i, $indices) !== false) {
-                    return true;
+                    return $this->is_global();
                 }
             }
             return false;

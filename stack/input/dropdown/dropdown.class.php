@@ -257,7 +257,7 @@ class stack_dropdown_input extends stack_input {
         }
 
         // If we are displaying LaTeX we need to connect to the CAS to generate LaTeX from the displayed values.
-        $csvs = array();
+        $csvs = $this->contextsession;
         foreach ($ddlvalues as $key => $value) {
             // We use the display term here because it might differ explicitly from the above "value".
             // So, we send the display form to LaTeX, and then replace it with the LaTeX below.

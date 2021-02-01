@@ -2,26 +2,19 @@
 
 /* Takes a Maxima string and converts everything that could cause trouble in a HTML/XML document to entities.
    Note that if the string already contains entities even them are converted and thus broken. */
-str_to_html(string_to_escape) := block([tmp],
-    tmp: ssubst("&amp;", "&", string_to_escape),
-    tmp: ssubst("&#39;", "'", tmp), /* &apos; is for XHTML, we need to still deal with HTML. */
-    tmp: ssubst("&quot;", "\"", tmp),
-    tmp: ssubst("&gt;", ">", tmp),
-    tmp: ssubst("&lt;", "<", tmp),
-    return(tmp)
+str_to_html(string_to_escape) := block([f,tmp],
+    f(c) := if c = "&" then "&amp;" else if c = "'" then "&#39;" else if c = "\"" then "&quot;" 
+       else if c = ">" then "&gt;" else if c = "<" then "&lt;" else c,
+    return(simplode(map(f,charlist(string_to_escape))))
 )$
 
 /* Same for generating ECMAScript strings. */
-str_to_js(string_to_escape) := block([tmp,lines],
-    tmp: ssubst("\\\\", "\\", string_to_escape),
-    tmp: ssubst("\\\"", "\"", tmp),
-    tmp: ssubst("\\'", "'", tmp),
-    tmp: ssubst("\\b", ascii(8), tmp),
-    tmp: ssubst("\\t", ascii(9), tmp),
-    tmp: ssubst("\\n", ascii(10), tmp),
-    tmp: ssubst("\\v", ascii(11), tmp),
-    tmp: ssubst("\\r", ascii(13), tmp), /* \b\t\v\r might as well set to "" but maybe someone uses them to do magic. */
-    return(tmp)
+str_to_js(string_to_escape) := block([f],
+    f(c) := if c = "\\" then "\\\\" else if c = "\"" then "\\\"" else if c = "'" then "\\'" 
+       else if c = ascii( 8) then "\\b" else if c = ascii( 9) then "\\t" 
+       else if c = ascii(10) then "\\n" else if c = ascii(12) then "\\f" 
+       else if c = ascii(13) then "\\r" else c,
+    return(simplode(map(f,charlist(string_to_escape))))
 )$
 
 /* Defintion of characters to escape in Markdown. */

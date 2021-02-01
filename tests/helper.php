@@ -2080,7 +2080,11 @@ class qtype_stack_test_helper extends question_test_helper {
         $q = self::make_a_stack_question();
 
         $q->name = 'test-checkbox-empty';
-        $q->questionvariables = '';
+        $q->questionvariables =
+            'texput(olor, lambda([z], block([a,b], [a,b]:args(z), sconcat("\\left(",tex1(a),",",tex1(b),"\\right)"))));' .
+            // A silly example but brackets mess up the regular expression in the test construction.
+            // This is just to make sure the texput gets into the checkbox input mechanism with a function.
+            'texput(clcr, lambda([z], block([a,b], [a,b]:args(z), sconcat("{\\diamond}",tex1(a),",",tex1(b)))));';
         $q->questiontext = 'Which of these are true? [[input:ans1]]
                            [[validation:ans1]]';
 
@@ -2088,7 +2092,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->penalty = 0.3; // Non-zero and not the default.
 
         $q->inputs['ans1'] = stack_input_factory::make(
-                'checkbox', 'ans1', '[[x^2+1<0,false],[A,false,"Generalizations are false"]]', null, null);
+                'checkbox', 'ans1', '[[x^2+1<0,false],[A,false,"Generalizations are false"],[clcr(a,b), false]]', null, null);
 
         $q->options->questionsimplify = 0;
 

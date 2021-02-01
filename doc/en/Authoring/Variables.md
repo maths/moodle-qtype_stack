@@ -54,9 +54,17 @@ If the following commands appear within the question variables they will be avai
 
 * `orderless` and `ordergreat`.  These commands may only appear once each in any question.
 * `assume` and `declare`.
-* `texput`.  Only single texput commands are gathered into the context variables, and not other functions defined in the question variables.  So, `texput(blob, "\\diamond")` is fine, but passing a function to texput to display more complex output is not currently supported.
+* `texput`, see notes directly below.
+
+Only single texput commands are gathered into the context variables, and not other functions defined in the question variables.  So, `texput(blob, "\\diamond")` is fine, but passing a function to texput to display more complex output is not currently supported.
 
 For example, to redefine how the logarithm is displayed, use `texput(log, "\\log ", prefix);`.
+
+It is possible to use an unnamed `lambda` function.  E.g. if you have a function `tup` then
+
+    texput(tup,  lambda([z], block([a,b], [a,b]:args(z), sconcat("\\left[",tex1(a),",",tex1(b),"\\right)")))); 
+
+will display `tup(a,b)` as \( \left[a,b\right) \).
 
 (This feature is only available after STACK 4.3.7).
 

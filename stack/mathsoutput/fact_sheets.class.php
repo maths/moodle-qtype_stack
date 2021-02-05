@@ -37,7 +37,7 @@ abstract class stack_fact_sheets {
                     'calc_diff_linearity_rule', 'calc_product_rule', 'calc_quotient_rule',
                     'calc_chain_rule', 'calc_rules', 'calc_int_standard_integrals',
                     'calc_int_linearity_rule', 'calc_int_methods_substitution',
-                    'calc_int_methods_parts');
+                    'calc_int_methods_parts', 'calc_int_methods_parts_indefinite');
 
     /**
      * Check each facts tag actually corresponds to a valid fact sheet.

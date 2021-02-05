@@ -197,7 +197,7 @@ class stack_cas_session2 {
      * This includes errors validating castrings prior to instantiation.
      * And it includes any runtime errors, specifically if we get nothing back.
      */
-    public function get_errors($implode = true) {
+    public function get_errors($implode = true, $withcontext = true) {
         $errors = array();
         $this->timeouterrmessage = trim($this->timeouterrmessage);
         foreach ($this->statements as $num => $statement) {
@@ -236,7 +236,11 @@ class stack_cas_session2 {
             foreach ($statementerrors as $value) {
                 // Element [0] is the list of errors.
                 // Element [1] is the context information.
-                $r[] = implode(' ', $value[0]);
+                if ($withcontext) {
+                    $r[] = implode(' ', $value[1] . ': ' .$value[0]);
+                } else {
+                    $r[] = implode(' ', $value[0]);
+                }
             }
         }
         return implode(' ', $r);
@@ -461,7 +465,11 @@ class stack_cas_session2 {
                             // The first element is a list of errors declared
                             // at a given position in the logic.
                             // There can be errors from multiple positions.
-                            $err = array_merge($err, $errs[0]);
+                            // TODO: fix the tests again, I want these context details out.
+                            // $err = array_merge($err, $errs[0]);
+                            foreach ($errs[0] as $er) {
+                                $err[] = $errs[1] . ': ' . $er;
+                            }
                         }
                     }
                 }

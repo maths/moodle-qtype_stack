@@ -227,7 +227,8 @@ class stack_cas_keyval {
             // If nothing return nothing, the logic outside will deal with null.
             return ['blockexternal' => null,
                     'statement' => null,
-                    'references' => $referenced];
+                    'references' => $referenced,
+                    'contextvariables' => null];
         }
 
         // Now we start from the RAW form as rebuilding the line

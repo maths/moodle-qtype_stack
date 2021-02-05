@@ -57,7 +57,7 @@ class qtype_stack_question_test_form extends moodleform {
 
         $allinputs = array_keys($question->inputs);
         foreach ($question->prts as $prtname => $prt) {
-            $inputsused = $prt->get_required_variables($allinputs);
+            $inputsused = array_keys($question->get_cached('required')[$prtname]);
             $inputsused = ': [' . implode(', ' , $inputsused) . ']';
 
             $elements = array(

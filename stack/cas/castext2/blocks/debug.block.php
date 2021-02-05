@@ -38,15 +38,13 @@ class stack_cas_castext2_debug extends stack_cas_castext2_block {
             $castext = '| [[commonstring key="castext_debug_header_key"/]] | [[commonstring key="castext_debug_header_value_simp"/]] | [[commonstring key="castext_debug_header_value_no_simp"/]] | [[commonstring key="castext_debug_header_disp_simp"/]] | [[commonstring key="castext_debug_header_disp_no_simp"/]] |';
             $castext .= "\n| --- | --- | --- | --- | --- |";
 
-            foreach ($bounds as $key) {
+            foreach ($bounds as $key => $ignore) {
                 $castext .= "\n| `$key` | `{#$key,simp#}` | `{#$key,simp=false#}` | {@$key,simp@} | {@$key,simp=false@} |";
             }
-
-            $castext .= "\n| --- | --- | --- | --- | --- |\n";
         } else {
             $castext = '<table><thead><td><th>[[commonstring key="castext_debug_header_key"/]]</th><th>[[commonstring key="castext_debug_header_value_simp"/]]</th><th>[[commonstring key="castext_debug_header_value_no_simp"/]]</th><th>[[commonstring key="castext_debug_header_disp_simp"/]]</th><th>[[commonstring key="castext_debug_header_disp_no_simp"/]]</th></td></thead>';
             $castext .= '<tbody>';
-            foreach ($bounds as $key) {
+            foreach ($bounds as $key => $ignore) {
                 $castext .= "<tr><td><code>$key</code></td><td><code>{#$key,simp#}</code></td><td><code>{#$key,simp=false#}</code></td><td>{@$key,simp@}</td><td>{@$key,simp=false@}</td></tr>";
             }
             $castext .= "</tbody></table>\n";

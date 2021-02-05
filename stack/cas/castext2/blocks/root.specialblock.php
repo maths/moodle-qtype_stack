@@ -25,6 +25,8 @@ require_once(__DIR__ . '/../../../utils.class.php');
 require_once(__DIR__ . '/ioblock.specialblock.php');
 require_once(__DIR__ . '/raw.specialblock.php');
 require_once(__DIR__ . '/stack_translate.specialblock.php');
+require_once(__DIR__ . '/demarkdown.block.php');
+require_once(__DIR__ . '/demoodle.block.php');
 
 class stack_cas_castext2_special_root extends stack_cas_castext2_block {
     public function compile($format, $options):  ? string{
@@ -59,7 +61,7 @@ class stack_cas_castext2_special_root extends stack_cas_castext2_block {
         // possible that there are sconcats in play with overt number 
         // of arguments and we may need to turn them to reduce-calls
         // to deal with GCL-limits.
-        $simplifier = function($node) {
+        $simplifier = function($node) use ($options) {
             if ($node instanceof MP_FunctionCall) {
                 if ($node->name instanceof MP_Identifier && $node->name->value === 'sconcat') {
                     if (count($node->arguments) == 0) {
@@ -118,15 +120,50 @@ class stack_cas_castext2_special_root extends stack_cas_castext2_block {
                 $newitems = castext2_parser_utils::string_list_reduce($node->items, true);
                 if (count($newitems) < count($node->items)) {
                     if (count($newitems) === 2) {
-                        // The second term is somethign evaluating to
+                        // The second term is something evaluating to
                         // string.
-                        $node->parentnode->replace($node, $newargs[1]);
+                        $node->parentnode->replace($node, $newitems[1]);
                         return false;
                     }
 
                     $node->items = $newitems;
                     return false;
                 }
+            }
+            if ($node instanceof MP_List && count($node->items) > 0 && 
+                $node->items[0] instanceof MP_String && 
+                $node->items[0]->value === 'ioblock') {
+                // If this is pre-input2 system we do not need to keep ioblocks as parsed objects.
+                // If turned to strings will simplify the expression.
+                if (!isset($options['ioblocks-for-postprocessing']) || !$options['ioblocks-for-postprocessing']) {
+                    $params = [$node->items[0]->value, $node->items[1]->value, $node->items[2]->value];
+                    $proc = new stack_cas_castext2_special_ioblock([]);
+                    $node->parentnode->replace($node, new MP_String($proc->postprocess($params)));
+                    return false;
+                }
+            }
+            if ($node instanceof MP_List && count($node->items) == 2 && 
+                $node->items[0] instanceof MP_String && 
+                $node->items[1] instanceof MP_String && 
+                $node->items[0]->value === 'demarkdown') {
+                // If we have simplified it down to a string and we still have a markdown 
+                // postprocessing step we can do that as well and see if we can simplify 
+                // further, might lead to full simplify to string and thus allow skipping
+                // the whole CAS-evaluation.
+                $params = [$node->items[0]->value, $node->items[1]->value];
+                $proc = new stack_cas_castext2_demarkdown([]);
+                $node->parentnode->replace($node, new MP_String($proc->postprocess($params)));
+                return false;
+            }
+            if ($node instanceof MP_List && count($node->items) == 2 && 
+                $node->items[0] instanceof MP_String && 
+                $node->items[1] instanceof MP_String && 
+                $node->items[0]->value === 'demoodle') {
+                // Same for Moodle auto-format
+                $params = [$node->items[0]->value, $node->items[1]->value];
+                $proc = new stack_cas_castext2_demoodle([]);
+                $node->parentnode->replace($node, new MP_String($proc->postprocess($params)));
+                return false;
             }
 
             return true;

@@ -31,6 +31,7 @@ require_once(__DIR__ . '/stack/answertest/controller.class.php');
 require_once(__DIR__ . '/stack/cas/keyval.class.php');
 require_once(__DIR__ . '/stack/cas/castext2/castext2_evaluatable.class.php');
 require_once(__DIR__ . '/stack/questiontest.php');
+require_once(__DIR__ . '/stack/prt.class.php');
 require_once(__DIR__ . '/stack/graphlayout/graph.php');
 require_once(__DIR__ . '/lang/multilang.php');
 
@@ -500,50 +501,7 @@ class qtype_stack extends question_type {
 
         $prtnames = array_keys($this->get_prt_names_from_question($question->questiontext, $question->specificfeedback));
         foreach ($prtnames as $name) {
-            $prtdata = $questiondata->prts[$name];
-            $nodes = array();
-            foreach ($prtdata->nodes as $key => $nodedata) {
-                $sans = stack_ast_container::make_from_teacher_source('PRSANS' . $key . ':' . $nodedata->sans,
-                        '', new stack_cas_security());
-                $tans = stack_ast_container::make_from_teacher_source('PRTANS' . $key . ':' . $nodedata->tans,
-                        '', new stack_cas_security());
-
-                if (is_null($nodedata->falsepenalty) || $nodedata->falsepenalty === '') {
-                    $falsepenalty = $questiondata->penalty;
-                } else {
-                    $falsepenalty = $nodedata->falsepenalty;
-                }
-                if (is_null($nodedata->truepenalty) || $nodedata->truepenalty === '') {
-                    $truepenalty = $questiondata->penalty;
-                } else {
-                    $truepenalty = $nodedata->truepenalty;
-                }
-
-                $node = new stack_potentialresponse_node($sans, $tans,
-                        $nodedata->answertest, $nodedata->testoptions, (bool) $nodedata->quiet, '', $nodedata->id);
-                $node->add_branch(0, $nodedata->falsescoremode, $nodedata->falsescore,
-                        $falsepenalty, $nodedata->falsenextnode,
-                        $nodedata->falsefeedback, $nodedata->falsefeedbackformat, $nodedata->falseanswernote);
-                $node->add_branch(1, $nodedata->truescoremode, $nodedata->truescore,
-                        $truepenalty, $nodedata->truenextnode,
-                        $nodedata->truefeedback, $nodedata->truefeedbackformat, $nodedata->trueanswernote);
-                $nodes[$nodedata->nodename] = $node;
-            }
-
-            if ($prtdata->feedbackvariables) {
-                $feedbackvariables = new stack_cas_keyval($prtdata->feedbackvariables);
-                $feedbackvariables = $feedbackvariables->get_session();
-            } else {
-                $feedbackvariables = null;
-            }
-
-            $prtvalue = 0;
-            if (!$allformative) {
-                $prtvalue = $prtdata->value / $totalvalue;
-            }
-            $question->prts[$name] = new stack_potentialresponse_tree($name, '',
-                    (bool) $prtdata->autosimplify, $prtvalue,
-                    $feedbackvariables, $nodes, (string) $prtdata->firstnodename, (int) $prtdata->feedbackstyle);
+            $question->prts[$name] = new stack_potentialresponse_tree_lite($questiondata->prts[$name]);
         }
 
         $question->deployedseeds = array_values($questiondata->deployedseeds);
@@ -2367,6 +2325,7 @@ class qtype_stack extends question_type {
      * @param string question-note
      * @param string general-feedback
      * @param string general-feedback format...
+     * @param defaultpenalty
      * @return array a dictionary of things that might be expensive to generate.
      */
     public static function compile($questionvariables, $inputs, $prts, $options,
@@ -2376,7 +2335,7 @@ class qtype_stack extends question_type {
         $specificfeedback, $specificfeedbackformat,
         $prtcorrect, $prtcorrectformat,
         $prtpartiallycorrect, $prtpartiallycorrectformat,
-        $prtincorrect, $prtincorrectformat) {
+        $prtincorrect, $prtincorrectformat, $defaultpenalty) {
         // NOTE! We do not compile during question save as that would make
         // import actions slow. We could compile during fromform-validation
         // but we really should look at refactoring that to better interleave
@@ -2421,13 +2380,22 @@ class qtype_stack extends question_type {
             }
         }
         $cc['required'] = [];
-        foreach ($prts as $prt) {
-            if ($prt->has_units()) {
-                $units = true;
+        $cc['prt-preamble'] = [];
+        $cc['prt-contextvariables'] = [];
+        $cc['prt-signature'] = [];
+        $cc['prt-definition'] = [];
+        foreach ($prts as $name => $prt) {
+            $R = $prt->compile($inputs, $forbiddenkeys, $defaultpenalty);
+            $cc['required'][$name] = $R['required'];
+            if ($R['be'] !== null && $R['be'] !== '') {
+                $cc['prt-preamble'][$name] = $R['be'];
             }
-            // This is surprisingly expensive to do, simpler to extract from compiled.
-            $cc['required'][$prt->get_name()] = $prt->get_required_variables(array_keys($inputs));
-            // TODO: compile PRTs.
+            if ($R['cv'] !== null && $R['cv'] !== '') {
+                $cc['prt-contextvariables'][$name] = $R['cv'];
+            }
+            $cc['prt-signature'][$name] = $R['sig'];
+            $cc['prt-definition'][$name] = $R['def'];
+            $units = $units || $R['units'];
         }
 
         // Note that instead of just adding the unit loading to the 'preamble-qv'
@@ -2438,7 +2406,6 @@ class qtype_stack extends question_type {
 
         // Compile the castext fragments.
         $ctoptions = ['bound-vars' => $forbiddenkeys, 'prt-names' => array_flip(array_keys($prts))];
-
         $ct = castext2_evaluatable::make_from_source($questiontext, 'question-text');
         if (!$ct->get_valid($questiontextformat, $ctoptions)) {
             throw new stack_exception('Error(s) in question-text: ' . implode('; ', $ct->get_errors()));

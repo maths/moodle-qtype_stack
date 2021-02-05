@@ -43,7 +43,7 @@ class stack_cas_castext2_special_ioblock extends stack_cas_castext2_block {
     }
 
     // Might seem odd to postprocess this but this is a hook that others connect to.
-    public function postprocess(array $params, castext2_processor $processor): string {
+    public function postprocess(array $params, castext2_processor $processor=null): string {
         return '[[' . $params[1] . ':' . $params[2] . ']]';
     }
 

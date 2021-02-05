@@ -1276,3 +1276,9 @@ d}x}\left\{\int g(x){\rm d}x\right\}{\rm d}x.\]';
 $string['Illegal_singleton_power'] = 'This input requires a numeric value presented in one of the following forms: <code>{$a->forms}</code>';
 $string['Illegal_singleton_floats'] = 'This input does not accept decimal numbers in the given form. This input requires a numeric value presented in one of the following forms: <code>{$a->forms}</code>';
 $string['Illegal_singleton_integer'] = 'This input does not accept integer values. This input requires a numeric value presented in one of the following forms: <code>{$a->forms}</code>';
+
+$string['castext_debug_header_key'] = 'Variable name';
+$string['castext_debug_header_value_simp'] = 'Simplified value';
+$string['castext_debug_header_value_no_simp'] = 'Value';
+$string['castext_debug_header_disp_simp'] = 'Simplified displayed value';
+$string['castext_debug_header_disp_no_simp'] = 'Displayed value';

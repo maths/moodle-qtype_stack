@@ -120,7 +120,7 @@ class castext2_parser_utils {
     public static function math_paint(
         CTP_Root $ast,
         string $code,
-        $format // In MD-mode we need double slashes.
+        $format // In MD-mode we need double and triple slashes.
     ): CTP_Root {
         // These are the environments considered mathmode.
         static $mathmodeenvs = ['align', 'align*', 'alignat', 'alignat*',
@@ -198,6 +198,7 @@ class castext2_parser_utils {
         $i         = 0;
         $lastslash = false;
         $doubleslash = false; // This for MD.
+        $tripleslash = false; // This for MD.
         // Then the scan
         while ($i < $len) {
             if (isset($skipmap[$i])) {
@@ -209,48 +210,58 @@ class castext2_parser_utils {
                         if ($doubleslash) {
                             $lastslash = !$lastslash;
                             $doubleslash = false;
-                        } else {
+                            $tripleslash = true;
+                        } else if ($lastslash) {
+                            $lastslash = false;
                             $doubleslash = true;
+                        } else if (!$tripleslash) {
+                            $lastslash = true;
                         }
                     } else {
                         $lastslash = !$lastslash;
                     }
                 }
 
-                if ($lastslash && $c !== '\\') {
+                if ((($lastslash && $format !== self::MDFORMAT) || ($format === self::MDFORMAT && ($doubleslash || $tripleslash))) && $c !== '\\') {
+                    if (($lastslash && $format !== self::MDFORMAT) || ($format === self::MDFORMAT && $tripleslash)) {
+                        if ($c === '[' || $c === '(') {
+                            $mathmode = true;
+                        }
+                        if ($c === ']' || $c === ')') {
+                            $mathmode = false;
+                        }
+                    }
+                    if (($lastslash && $format !== self::MDFORMAT) || ($format === self::MDFORMAT && $doubleleslash)) {
+                        if ($c === 'b') {
+                            // So do we have a \begin{ here?
+                            $slice = mb_substr($skipped, $j);
+                            if (mb_strpos($slice, 'begin{') === 0) {
+                                foreach ($mathmodeenvs as $envname) {
+                                    if (mb_strpos($slice, 'begin{' .
+                                        $envname . '}') === 0) {
+                                        $mathmode = true;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                        if ($c === 'e') {
+                            // So do we have an \end{ here?
+                            $slice = mb_substr($skipped, $j);
+                            if (mb_strpos($slice, 'end{') === 0) {
+                                foreach ($mathmodeenvs as $envname) {
+                                    if (mb_strpos($slice, 'end{' . $envname
+                                        . '}') === 0) {
+                                        $mathmode = false;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                    }
                     $lastslash = false;
-                    if ($c === '[' || $c === '(') {
-                        $mathmode = true;
-                    }
-                    if ($c === ']' || $c === ')') {
-                        $mathmode = false;
-                    }
-                    if ($c === 'b') {
-                        // So do we have a \begin{ here?
-                        $slice = mb_substr($skipped, $j);
-                        if (mb_strpos($slice, 'begin{') === 0) {
-                            foreach ($mathmodeenvs as $envname) {
-                                if (mb_strpos($slice, 'begin{' .
-                                    $envname . '}') === 0) {
-                                    $mathmode = true;
-                                    break;
-                                }
-                            }
-                        }
-                    }
-                    if ($c === 'e') {
-                        // So do we have an \end{ here?
-                        $slice = mb_substr($skipped, $j);
-                        if (mb_strpos($slice, 'end{') === 0) {
-                            foreach ($mathmodeenvs as $envname) {
-                                if (mb_strpos($slice, 'end{' . $envname
-                                    . '}') === 0) {
-                                    $mathmode = false;
-                                    break;
-                                }
-                            }
-                        }
-                    }
+                    $doubleslash = false;
+                    $tripleslash = false;
                 }
 
                 $mathmodes[$i] = $mathmode;

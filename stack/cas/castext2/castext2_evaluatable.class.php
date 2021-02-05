@@ -54,6 +54,13 @@ class castext2_evaluatable implements cas_raw_value_extractor {
         $r = new castext2_evaluatable();
         $r->source = $source;
         $r->context = $context;
+
+        if ($source === '' || $source === null) {
+            // This case is common enough to skip.
+            $r->compiled = '""';
+            $r->valid = true;
+        }
+
         return $r;
     }
 
@@ -63,12 +70,36 @@ class castext2_evaluatable implements cas_raw_value_extractor {
 
     // Format and options here are for the optional compilation.
     // Basically when compiling we need to know if Markdown is in use and
-    // some blocks may need details.
+    // some blocks may need details. Note though that if you give this
+    // Markdown or other types of formated stuff it will do the formating
+    // and the rendered output will be FORMAT_HTML.
     public function get_valid($format=null, $options=null): bool {
         if ($this->valid !== null) {
             return $this->valid;
         }
         $ast = null;
+        switch ($format) {
+            case FORMAT_HTML:
+            case castext2_parser_utils::RAWFORMAT:
+                // We do nothing to this.
+                break;
+            case FORMAT_MARKDOWN:
+            case castext2_parser_utils::MDFORMAT:
+                // We want to process it down to HTML.
+                $this->source = '[[demarkdown]]' . $this->source . '[[/demarkdown]]';
+                break;
+            case FORMAT_MOODLE:
+                // We want to process it down to HTML.
+                $this->source = '[[demoodle]]' . $this->source . '[[/demoodle]]';
+                break;
+            case FORMAT_PLAIN:
+                // TODO... We need to have something more complex for this
+                // as the formating logic will need to also stop filtering for 
+                // this. Check /lib/weblib.php in Moodle.
+                break;
+        }
+
+
         // If not already valid then not compiled either.
         try {
             $ast = castext2_parser_utils::parse($this->source);
@@ -117,7 +148,7 @@ class castext2_evaluatable implements cas_raw_value_extractor {
     public function get_evaluationform(): string {
         if ($this->compiled === null) {
             if (!$this->get_valid()) {
-                throw new stateful_exception('trying to get evaluation form of invalid castext');
+                throw new stack_exception('trying to get evaluation form of invalid castext');
             }
         }
         return $this->compiled;
@@ -156,8 +187,7 @@ class castext2_evaluatable implements cas_raw_value_extractor {
         return true;
     }
 
-    // Functional features start from here.
-    public function get_rendered(): string {
+    public function get_rendered(castext2_processor $processor = null): string {
         if ($this->evaluated === null) {
             // Do the simpler parse of the value. The full MaximaParser
             // would obviously work but would be more expensive.
@@ -169,7 +199,7 @@ class castext2_evaluatable implements cas_raw_value_extractor {
             } else {
                 $value = castext2_parser_utils::string_to_list($this->value, true);
                 $value = castext2_parser_utils::unpack_maxima_strings($value);
-                $this->evaluated = castext2_parser_utils::postprocess_parsed($value);
+                $this->evaluated = castext2_parser_utils::postprocess_parsed($value, $processor);
             }
             
         }

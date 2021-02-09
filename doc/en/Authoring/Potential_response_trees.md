@@ -105,7 +105,7 @@ The `[Generic feedback]` is a question level option, e.g. "Standard feedback for
 How PRT feedback is displayed is controlled by the PRT option `feedbackstyle` as follows.  Note the Generic feedback might include the symbol, if you retain the default.
 
 Value | Options      | Symbol | Generic feedback | Errors | PRT feedback | Score ? 
----------------------|--------|------------------|--------|--------------|------------------------------------------
+------|--------------|--------|------------------|--------|--------------|------------------------------------------
   0   | Formative    |  No    |  No              |  Yes   |  Yes         | No (PRT does not contribute to score)
   1   | Standard     |  No    |  Yes             |  Yes   |  Yes         | Respects quiz setting
   2   | Compact      |  Yes   |  No              |  Yes   |  Yes         | No

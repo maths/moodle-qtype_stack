@@ -457,3 +457,4 @@
 
 (defprop $true  "\\mathbf{!BOOLTRUE!}"  texword)
 (defprop $false "\\mathbf{!BOOLFALSE!}" texword)
+

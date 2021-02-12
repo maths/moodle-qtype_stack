@@ -6783,6 +6783,9 @@
     "signum": {
         "function": "s"
     },
+    "sgn": {
+        "function": "s"
+    },
     "similaritytransform": {
         "function": "f"
     },

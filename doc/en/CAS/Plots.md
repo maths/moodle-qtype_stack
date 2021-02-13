@@ -176,6 +176,20 @@ Hence, STACK does not currently support implicit plots.
 
 Note also that images can be included as HTML.  It is easiest to place your image somewhere on the internet and include a URL in the body of your STACK question.
 
+## Bode plots
+
+Maxima has a very basic package for bode diagrams, try `load(bode)` in a Maxima session.  This is not a supported package, so instead you can create Bode diagrams directly with code such as the following.
+
+    /* Define two functions to do the plotting */
+    bose_gain(f,r):=block([p,w], p:plot(20*log(abs( apply(f,[%i*w]) ))/log(10), [w, r[2],r[3]], [logx]), return(p) );
+    bose_phase(f,r):=block([p,w], p:plot(  carg(  apply(f,[%i*w]))*180/%pi, [w, r[2],r[3]], [logx]), return(p) );
+    /* Define a transfer function */
+    H(s):=100*(1+s)/((s+10)*(s+100));
+
+    /* Produce the graphs */
+    gain: bose_gain(H,[w,1/1000,1000]);
+    phase:bose_phase(H,[w,1/1000,1000]);
+
 ## See also
 
 [Maxima reference topics](index.md#reference)

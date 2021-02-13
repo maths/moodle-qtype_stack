@@ -33,6 +33,8 @@ The feedback is only shown to a student if the quiet option is set to 'no'.  If 
 
 We expose the exact behaviour of each answer test by giving registered users access to STACK's test suite for STACK Answer tests.  This can be found on a live server at `.../moodle/question/type/stack/answertests.php`. This script compares pairs of expressions and displays the outcomes from each test. This script is mainly used to ensure STACK is working, but it is invaluable for understanding what each test really does.  In particular it enables question authors to see examples of which expressions are the same and different together with examples of the automatically generated feedback.
 
+We provide a static page giving the outcome of all [answer test results](Answer_tests_results.md).
+
 ## In general ##
 
 You can apply functions before applying the tests.  For example, to ignore case sensitivity you can apply the [Maxima commands defined by STACK](../CAS/Maxima.md#Maxima_commands_defined_by_STACK) `exdowncase(ex)` to the arguments, before you apply one of the other answer tests.

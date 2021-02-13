@@ -998,6 +998,9 @@ $string['stackDoc_siteMap_en']          = 'English site map';
 $string['stackDoc_404message']          = 'File not found.';
 $string['stackDoc_directoryStructure']  = 'Directory structure';
 $string['stackDoc_version']             = 'Your site is running STACK version {$a}.';
+$string['stackDoc_AnswerTestResults']   = '# Answer test results
+
+This page exposes the results of running answer tests on STACK test cases.  This page is automatically generated from the STACK unit tests and is designed to show question authors what answer tests actually do.  This includes cases where answer tests currentl fail, which gives a negative expected mark.  Comments and further test cases are very welcome.';
 
 // Fact sheets.
 $string['greek_alphabet_name'] = 'The Greek Alphabet';

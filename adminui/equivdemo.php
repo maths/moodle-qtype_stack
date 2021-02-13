@@ -19,19 +19,19 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-require_once(__DIR__.'/../../../config.php');
+require_once(__DIR__.'/../../../../config.php');
 
 require_once($CFG->libdir . '/questionlib.php');
-require_once(__DIR__ . '/locallib.php');
-require_once(__DIR__ . '/stack/utils.class.php');
-require_once(__DIR__ . '/stack/options.class.php');
-require_once(__DIR__ . '/stack/cas/castext.class.php');
-require_once(__DIR__ . '/stack/cas/keyval.class.php');
-require_once(__DIR__ . '/stack/cas/installhelper.class.php');
-require_once(__DIR__ . '/stack/input/inputbase.class.php');
-require_once(__DIR__ . '/stack/input/factory.class.php');
-require_once(__DIR__ . '/stack/input/equiv/equiv.class.php');
-require_once(__DIR__ . '/tests/fixtures/equivfixtures.class.php');
+require_once(__DIR__ . '/../locallib.php');
+require_once(__DIR__ . '/../stack/utils.class.php');
+require_once(__DIR__ . '/../stack/options.class.php');
+require_once(__DIR__ . '/../stack/cas/castext.class.php');
+require_once(__DIR__ . '/../stack/cas/keyval.class.php');
+require_once(__DIR__ . '/../stack/cas/installhelper.class.php');
+require_once(__DIR__ . '/../stack/input/inputbase.class.php');
+require_once(__DIR__ . '/../stack/input/factory.class.php');
+require_once(__DIR__ . '/../stack/input/equiv/equiv.class.php');
+require_once(__DIR__ . '/../tests/fixtures/equivfixtures.class.php');
 
 // Get the parameters from the URL.
 $questionid = optional_param('questionid', null, PARAM_INT);

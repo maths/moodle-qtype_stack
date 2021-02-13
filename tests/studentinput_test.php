@@ -22,7 +22,7 @@ require_once(__DIR__ . '/../stack/options.class.php');
 require_once(__DIR__ . '/fixtures/test_base.php');
 require_once(__DIR__ . '/fixtures/inputfixtures.class.php');
 
-// Add in all the tests from studentinput.php into the unit testing framework.
+// Add in all the tests from studentinputs.php into the unit testing framework.
 // These are exposed to users as documentation and the Travis integration should also run all the tests.
 //
 // @copyright 2016 The University of Edinburgh.

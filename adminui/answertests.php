@@ -25,16 +25,16 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-require_once(__DIR__.'/../../../config.php');
+require_once(__DIR__.'/../../../../config.php');
 require_once($CFG->dirroot .'/course/lib.php');
 require_once($CFG->libdir . '/questionlib.php');
 require_once($CFG->libdir .'/filelib.php');
 require_once($CFG->libdir .'/tablelib.php');
 
-require_once(__DIR__ . '/locallib.php');
-require_once(__DIR__ . '/stack/options.class.php');
-require_once(__DIR__ . '/stack/answertest/controller.class.php');
-require_once(__DIR__ . '/tests/fixtures/answertestfixtures.class.php');
+require_once(__DIR__ . '/../locallib.php');
+require_once(__DIR__ . '/../stack/options.class.php');
+require_once(__DIR__ . '/../stack/answertest/controller.class.php');
+require_once(__DIR__ . '/../tests/fixtures/answertestfixtures.class.php');
 
 
 // Get the parameters from the URL.
@@ -48,7 +48,7 @@ require_capability('qtype/stack:usediagnostictools', context_system::instance())
 
 // Set up the page object.
 $PAGE->set_context(context_system::instance());
-$PAGE->set_url('/question/type/stack/answertests.php');
+$PAGE->set_url('/question/type/stack/adminui/answertests.php');
 $title = stack_string('stackInstall_testsuite_title');
 $PAGE->set_pagelayout('report');
 $PAGE->set_title($title);

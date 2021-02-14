@@ -4297,7 +4297,8 @@
         "function": "s"
     },
     "matchdeclare": {
-        "function": "?"
+        "function": "?",
+        "contextvariable": "true"
     },
     "matchfix": {
         "function": "?"
@@ -7432,10 +7433,12 @@
         "function": "?"
     },
     "tellsimp": {
-        "function": "s"
+        "function": "?",
+        "contextvariable": "true"
     },
     "tellsimpafter": {
-        "function": "s"
+        "function": "?",
+        "contextvariable": "true"
     },
     "tensorkill": {
         "variable": "f"

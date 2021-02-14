@@ -1320,6 +1320,10 @@ displaypmtex(ex):=block([al],
   );
 texput(STACKpmOPT, displaypmtex);
 
+matchdeclare(pmpatex1,true);
+matchdeclare(pmpatex2,true);
+tellsimpafter(-(pmpatex1 #pm# pmpatex2),(-pmpatex1) #pm# pmpatex2);
+
 /* Count the occurance of an operator. */
 count_op(ex, ops):= block([count],
     if atom(ex) then return(0),

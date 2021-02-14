@@ -494,6 +494,7 @@ class stack_answertest_test_data {
         array('AlgEquiv', '', 'A and (B and C)', 'A and B and C', 1, 'ATLogic_True.', ''),
         array('AlgEquiv', '', 'A and (B or C)', 'A and (B or C)', 1, 'ATLogic_True.', ''),
         array('AlgEquiv', '', '(A and B) or (A and C)', 'A and (B or C)', 1, 'ATLogic_True.', ''),
+        array('AlgEquiv', '', '-(b#pm#sqrt(b^2-4*a*c))', '-b#pm#sqrt(b^2-4*a*c)', 1, 'ATLogic_True.', ''),
         array('AlgEquiv', '', 'x=-b#pm#c^2', 'x=c^2-b or x=-c^2-b', 1, 'ATLogic_True.', ''),
         array('AlgEquiv', '', 'not(A) and not(B)', 'not(A or B)', 1, 'ATLogic_True.', ''),
         array('AlgEquiv', '', 'not(A) and not(B)', 'not(A and B)', 0, '', ''),

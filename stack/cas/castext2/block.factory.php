@@ -63,6 +63,8 @@ class castext2_block_factory {
                 $types[$blockname] = $class;
             }
         }
+        // Add some specials, not all of them.
+        $types['pfs'] = 'stack_cas_castext2_special_rewrite_pluginfile_urls';
         return $types;
     }
 }

@@ -33,20 +33,32 @@ class stack_cas_castext2_special_rewrite_pluginfile_urls extends stack_cas_caste
 
     public function __construct($params, $children=array(), $mathmode=false, $value='') {
         parent::__construct($params, $children, $mathmode);
+        if (count($params) == 0) {
+            return; // The processor instantiates without params.
+        }
         $this->filearea = $params['filearea'];
         $this->itemid = $params['itemid'];
         if (isset($params['component'])) {
         	// For times when this library is in use on the other side.
         	$this->component = $params['component'];
+        } else {
+            $this->component = 'qtype_stack'; // Just in case.
         }
     }
 
     public function compile($format, $options): ?string {
-        $r = '["%pfs",' . stack_utils::php_string_to_maxima_string($this->filearea) .
+        // Now we might actually do the rewrite before everything else but
+        // for now we prefer to leave it as a latter step, just in case someone
+        // has managed to construct urls with parameters.
+        $r = '["%pfs",' . stack_utils::php_string_to_maxima_string($this->component) .
         	',' . stack_utils::php_string_to_maxima_string($this->filearea) .
-        	',' . stack_utils::php_string_to_maxima_string($this->component);
+        	',' . stack_utils::php_string_to_maxima_string($this->itemid) . ',';
 
-        $flat = $this->is_flat;
+        $flat = true;
+        foreach ($this->children as $child) {
+            $flat = $flat && $child->is_flat();
+        }
+
         if (!$flat) {
             $r .= '["%root",';
         } else {
@@ -73,15 +85,7 @@ class stack_cas_castext2_special_rewrite_pluginfile_urls extends stack_cas_caste
     }
 
     public function is_flat(): bool {
-        // Now then the problem here is that the flatness depends on the flatness of 
-        // the blocks contents. If they all generate strings then we are flat but if not...
-        $flat = true;
-
-        foreach ($this->children as $child) {
-            $flat = $flat && $child->is_flat();
-        }
-
-        return $flat;
+        return false;
     }
 
     public function postprocess(array $params, castext2_processor $processor): string {
@@ -97,7 +101,7 @@ class stack_cas_castext2_special_rewrite_pluginfile_urls extends stack_cas_caste
 
         // Then do the rewrite. Note we expect the processor used to have access to the relevant details.
         // You will need a parametric processor to do this.
-        $content = $processor->qa->rewrite_pluginfile_urls($content, $params[3], $params[1], $params[2]);
+        $content = $processor->qa->rewrite_pluginfile_urls($content, $params[1], $params[2], $params[3]);
         return $content;
     }
 

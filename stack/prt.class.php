@@ -424,31 +424,34 @@ class stack_potentialresponse_tree_lite {
                 if (!$p->get_valid()) {
                    throw new stack_exception('Error in ' . $context . ' true-penalty.');
                 }
-                $p = '_EC(errcatch(%_TMP:' . $p->get_evaluationform() . '),' . stack_utils::php_string_to_maxima_string($context . 'truepenalty') . ')';
+                $p = '_EC(errcatch(%PRT_PENALTY:' . $p->get_evaluationform() . '),' . stack_utils::php_string_to_maxima_string($context . 'truepenalty') . ')';
             } else {
-                $p = '%_TMP:' . $p;
+                $p = '%PRT_PENALTY:' . $p;
             }
             // Now the score mode based logic, I wonder why both score and penalty use the same.
             // TODO: trace the original logic and check how these are tied to each other.
             switch ($node->truescoremode) {
                 case '+':
-                    $body .= $s . ',%PRT_SCORE:%PRT_SCORE+%_TMP,' . $p . ',%PRT_PENALTY:%PRT_PENALTY+%_TMP';
+                    $body .= $s . ',%PRT_SCORE:%PRT_SCORE+%_TMP,' . $p;
                     break;
                 case '-':
-                    $body .= $s . ',%PRT_SCORE:%PRT_SCORE-%_TMP,' . $p . ',%PRT_PENALTY:%PRT_PENALTY-%_TMP';
+                    $body .= $s . ',%PRT_SCORE:%PRT_SCORE-%_TMP,' . $p;
                     break;
-                case '*': // Just for fun, though makes even less sense with penalties. Also if that 
-                    // %PRT_SCORE variable is accessible and one can write scores as expressions
-                    // one can just use the `=` mode and modify in any way one wishes.
-                    $body .= $s . ',%PRT_SCORE:%PRT_SCORE*%_TMP,' . $p . ',%PRT_PENALTY:%PRT_PENALTY*%_TMP';
+                case '*':
+                    $body .= $s . ',%PRT_SCORE:%PRT_SCORE*%_TMP,' . $p;
                     break;
                 default: # '='
-                    $body .= $s . ',%PRT_SCORE:%_TMP,' . $p . ',%PRT_PENALTY:%_TMP';
+                    $body .= $s . ',%PRT_SCORE:%_TMP,' . $p;
                     break;
             }
         }
 		
     	if ($node->truefeedback !== null && trim($node->truefeedback) !== '') {
+            $feedback = $node->truefeedback;
+            if (strpos($feedback, '@@PLUGINFILE@@') !== false) {
+                $feedback = '[[pfs component="qtype_stack" filearea="prtnodetruefeedback" itemid="' . $node->id . '"]]' .
+                                $feedback . '[[/pfs]]';
+            }
             if (substr($body, -1) !== '(') { // Depends on whether the score math was done.
                 $body .= ','; 
             }
@@ -458,7 +461,7 @@ class stack_potentialresponse_tree_lite {
 	    	} else {
 	    		$body .= 'simp:false,';
 	    	}
-	    	$ct = castext2_evaluatable::make_from_source($node->truefeedback, $context . 'truefeedback');
+	    	$ct = castext2_evaluatable::make_from_source($feedback, $context . 'truefeedback');
             if(!$ct->get_valid($node->truefeedbackformat, [])) {
                throw new stack_exception('Error in ' . $context . ' true-feedback.');
             }
@@ -494,29 +497,34 @@ class stack_potentialresponse_tree_lite {
                 if (!$p->get_valid()) {
                    throw new stack_exception('Error in ' . $context . ' false-penalty.');
                 }
-                $p = '_EC(errcatch(%_TMP:' . $p->get_evaluationform() . '),' . stack_utils::php_string_to_maxima_string($context . 'falsepenalty') . ')';
+                $p = '_EC(errcatch(%PRT_PENALTY:' . $p->get_evaluationform() . '),' . stack_utils::php_string_to_maxima_string($context . 'falsepenalty') . ')';
             } else {
-                $p = '%_TMP:' . $p;
+                $p = '%PRT_PENALTY:' . $p;
             }
             // Now the score mode based logic, I wonder why both score and penalty use the same.
             // TODO: trace the original logic and check how these are tied to each other.
             switch ($node->falsescoremode) {
                 case '+':
-                    $body .= $s . ',%PRT_SCORE:%PRT_SCORE+%_TMP,' . $p . ',%PRT_PENALTY:%PRT_PENALTY+%_TMP';
+                    $body .= $s . ',%PRT_SCORE:%PRT_SCORE+%_TMP,' . $p;
                     break;
                 case '-':
-                    $body .= $s . ',%PRT_SCORE:%PRT_SCORE-%_TMP,' . $p . ',%PRT_PENALTY:%PRT_PENALTY-%_TMP';
+                    $body .= $s . ',%PRT_SCORE:%PRT_SCORE-%_TMP,' . $p;
                     break;
                 case '*':
-                    $body .= $s . ',%PRT_SCORE:%PRT_SCORE*%_TMP,' . $p . ',%PRT_PENALTY:%PRT_PENALTY*%_TMP';
+                    $body .= $s . ',%PRT_SCORE:%PRT_SCORE*%_TMP,' . $p;
                     break;
                 default: # '='
-                    $body .= $s . ',%PRT_SCORE:%_TMP,' . $p . ',%PRT_PENALTY:%_TMP';
+                    $body .= $s . ',%PRT_SCORE:%_TMP,' . $p;
                     break;
             }
 		}
 
     	if ($node->falsefeedback !== null && trim($node->falsefeedback) !== '') {
+            $feedback = $node->falsefeedback;
+            if (strpos($feedback, '@@PLUGINFILE@@') !== false) {
+                $feedback = '[[pfs component="qtype_stack" filearea="prtnodefalsefeedback" itemid="' . $node->id . '"]]' .
+                                $feedback . '[[/pfs]]';
+            }
             if (substr($body, -1) !== '(') { // Depends on whether the score math was done.
                 $body .= ','; 
             }
@@ -527,7 +535,7 @@ class stack_potentialresponse_tree_lite {
 	    		$body .= 'simp:false,';
 	    	}
 	    	// TODO: consider the format to be used here.
-            $ct = castext2_evaluatable::make_from_source($node->falsefeedback, $context . 'falsefeedback');
+            $ct = castext2_evaluatable::make_from_source($feedback, $context . 'falsefeedback');
             if (!$ct->get_valid($node->falsefeedbackformat, [])) {
                 throw new stack_exception('Error in ' . $context . ' false-feedback.');
             }

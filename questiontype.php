@@ -2316,6 +2316,7 @@ class qtype_stack extends question_type {
      *  'prt' the compiled PRT-logics in an array.
      *  'security-config' extended logic for cas-security, e.g. custom-units.
      *
+     * @param int the identifier of this question fot use if we have pluginfiles
      * @param string the questionvariables
      * @param array inputs as objects, keyed by input name
      * @param array PRTs as objects
@@ -2328,7 +2329,7 @@ class qtype_stack extends question_type {
      * @param defaultpenalty
      * @return array a dictionary of things that might be expensive to generate.
      */
-    public static function compile($questionvariables, $inputs, $prts, $options,
+    public static function compile($id, $questionvariables, $inputs, $prts, $options,
         $questiontext, $questiontextformat,
         $questionnote,
         $generalfeedback, $generalfeedbackformat,
@@ -2403,6 +2404,20 @@ class qtype_stack extends question_type {
         // as it may be used in input configuration at some later time.
         $cc['units'] = $units;
         $cc['forbiddenkeys'] = $forbiddenkeys;
+
+        // Do some pluginfile mapping. Note that the PRT-nodes are mapped in PRT-compiler.
+        if (strpos($questiontext, '@@PLUGINFILE@@') !== false) {
+            $questiontext = '[[pfs component="question" filearea="questiontext" itemid="' . $id . '"]]' .
+                            $questiontext . '[[/pfs]]';
+        }
+        if (strpos($generalfeedback, '@@PLUGINFILE@@') !== false) {
+            $generalfeedback = '[[pfs component="question" filearea="generalfeedback" itemid="' . $id . '"]]' .
+                            $generalfeedback . '[[/pfs]]';
+        }
+        if (strpos($specificfeedback, '@@PLUGINFILE@@') !== false) {
+            $specificfeedback = '[[pfs component="qtype_stack" filearea="specificfeedback" itemid="' . $id . '"]]' .
+                            $specificfeedback . '[[/pfs]]';
+        }
 
         // Compile the castext fragments.
         $ctoptions = ['bound-vars' => $forbiddenkeys, 'prt-names' => array_flip(array_keys($prts))];

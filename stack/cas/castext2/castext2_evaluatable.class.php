@@ -201,7 +201,6 @@ class castext2_evaluatable implements cas_raw_value_extractor {
                 $value = castext2_parser_utils::unpack_maxima_strings($value);
                 $this->evaluated = castext2_parser_utils::postprocess_parsed($value, $processor);
             }
-            
         }
         return $this->evaluated;
     }

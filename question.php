@@ -1432,7 +1432,9 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         if ($this->compiledcache === null || !array_key_exists($key, $this->compiledcache)) {
             // If not do the compilation.
             try {
-                $this->compiledcache = qtype_stack::compile($this->questionvariables, $this->inputs, $this->prts, $this->options, $this->questiontext, 
+                $this->compiledcache = qtype_stack::compile($this->id,
+                    $this->questionvariables, $this->inputs, $this->prts,
+                    $this->options, $this->questiontext, 
                     $this->questiontextformat,
                     $this->questionnote,
                     $this->generalfeedback, $this->generalfeedbackformat,

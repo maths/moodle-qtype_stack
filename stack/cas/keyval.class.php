@@ -116,6 +116,20 @@ class stack_cas_keyval {
         foreach ($ast->items as $item) {
             $cs = stack_ast_container::make_from_teacher_ast($item, '',
                     new stack_cas_security());
+            if ($item instanceof MP_Statement) {
+                $op = '';
+                if ($item->statement instanceof MP_Operation) {
+                    $op = $item->statement->op;
+                }
+                if ($item->statement instanceof MP_FunctionCall) {
+                    $op = $item->statement->name->value;
+                }
+                // Context variables should always be silent.  We might need a separate feature "silent" in future.
+                if (stack_cas_security::get_feature($op, 'contextvariable') !== null) {
+                    $cs = stack_ast_container_silent::make_from_teacher_ast($item, '',
+                            new stack_cas_security());
+                }
+            }
             $this->valid = $this->valid && $cs->get_valid();
             $this->errors = array_merge($this->errors, $cs->get_errors(true));
             $this->statements[] = $cs;

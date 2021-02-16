@@ -4297,7 +4297,8 @@
         "function": "s"
     },
     "matchdeclare": {
-        "function": "?"
+        "function": "?",
+        "contextvariable": "true"
     },
     "matchfix": {
         "function": "?"
@@ -6783,6 +6784,9 @@
     "signum": {
         "function": "s"
     },
+    "sgn": {
+        "function": "s"
+    },
     "similaritytransform": {
         "function": "f"
     },
@@ -7429,10 +7433,12 @@
         "function": "?"
     },
     "tellsimp": {
-        "function": "s"
+        "function": "?",
+        "contextvariable": "true"
     },
     "tellsimpafter": {
-        "function": "s"
+        "function": "?",
+        "contextvariable": "true"
     },
     "tensorkill": {
         "variable": "f"

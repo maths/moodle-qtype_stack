@@ -210,11 +210,6 @@ class stack_ast_filter_auto_gen_541_no_unknown_functions_testcase extends qtype_
                       array('unknownFunction'),
                       false, true);
 
-        $this->expect('sgn(x)',
-                      'sgn(x)',
-                      array('unknownFunction'),
-                      false, true);
-
         $this->expect('sim(x)',
                       'sim(x)',
                       array('unknownFunction'),
@@ -463,11 +458,6 @@ class stack_ast_filter_auto_gen_541_no_unknown_functions_testcase extends qtype_
 
         $this->expect('plot2d(x^2,[x,-1,1])',
                       'plot2d(x^2,[x,-1,1])',
-                      array('unknownFunction'),
-                      false, true);
-
-        $this->expect('sgn(x)',
-                      'sgn(x)',
                       array('unknownFunction'),
                       false, true);
 
@@ -1549,6 +1539,11 @@ class stack_ast_filter_auto_gen_541_no_unknown_functions_testcase extends qtype_
 
         $this->expect('set(x, y, z)',
                       'set(x,y,z)',
+                      array(),
+                      true, false);
+
+        $this->expect('sgn(x)',
+                      'sgn(x)',
                       array(),
                       true, false);
 
@@ -3025,6 +3020,11 @@ class stack_ast_filter_auto_gen_541_no_unknown_functions_testcase extends qtype_
 
         $this->expect('set(x, y, z)',
                       'set(x,y,z)',
+                      array(),
+                      true, false);
+
+        $this->expect('sgn(x)',
+                      'sgn(x)',
                       array(),
                       true, false);
 

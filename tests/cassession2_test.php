@@ -2145,4 +2145,17 @@ class stack_cas_session2_test extends qtype_stack_testcase {
             $this->assertEquals($t[1], $s1[$i]->get_value());
         }
     }
+
+    public function test_silent_tellsimp() {
+
+        $qv = "matchdeclare(pmpatex1,true);\nmatchdeclare(pmpatex2,true);" .
+            "tellsimpafter((pmpatex1 #pm# pmpatex2)!,(pmpatex1^2) #pm# pmpatex2);\n" .
+            "p1:(b #pm# c)!;";
+        $qv = new stack_cas_keyval($qv, null, 123);
+
+        $at1 = $qv->get_session();
+        $at1->instantiate();
+        $cs = $at1->get_by_key('p1');
+        $this->assertEquals("b^2#pm#c", $cs->get_value());
+    }
 }

@@ -185,11 +185,6 @@ class stack_ast_filter_auto_gen_998_security_testcase extends qtype_stack_ast_te
                       array('forbiddenFunction'),
                       false, true);
 
-        $this->expect('sgn(x)',
-                      'sgn(x)',
-                      array('forbiddenFunction'),
-                      false, true);
-
         $this->expect('sim(x)',
                       'sim(x)',
                       array('forbiddenFunction'),
@@ -553,11 +548,6 @@ class stack_ast_filter_auto_gen_998_security_testcase extends qtype_stack_ast_te
 
         $this->expect('set(x, y, z)',
                       'set(x,y,z)',
-                      array('forbiddenFunction'),
-                      false, true);
-
-        $this->expect('sgn(x)',
-                      'sgn(x)',
                       array('forbiddenFunction'),
                       false, true);
 
@@ -1554,6 +1544,11 @@ class stack_ast_filter_auto_gen_998_security_testcase extends qtype_stack_ast_te
 
         $this->expect('sech(x)',
                       'sech(x)',
+                      array(),
+                      true, false);
+
+        $this->expect('sgn(x)',
+                      'sgn(x)',
                       array(),
                       true, false);
 
@@ -3035,6 +3030,11 @@ class stack_ast_filter_auto_gen_998_security_testcase extends qtype_stack_ast_te
 
         $this->expect('sech(x)',
                       'sech(x)',
+                      array(),
+                      true, false);
+
+        $this->expect('sgn(x)',
+                      'sgn(x)',
                       array(),
                       true, false);
 

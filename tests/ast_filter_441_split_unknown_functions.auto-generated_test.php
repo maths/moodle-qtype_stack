@@ -195,11 +195,6 @@ class stack_ast_filter_auto_gen_441_split_unknown_functions_testcase extends qty
                       array(),
                       true, false);
 
-        $this->expect('sgn(x)',
-                      'sgn*(x)',
-                      array(),
-                      true, false);
-
         $this->expect('sim(x)',
                       'sim*(x)',
                       array(),
@@ -423,11 +418,6 @@ class stack_ast_filter_auto_gen_441_split_unknown_functions_testcase extends qty
 
         $this->expect('plot2d(x^2,[x,-1,1])',
                       'plot2d*(x^2,[x,-1,1])',
-                      array(),
-                      true, false);
-
-        $this->expect('sgn(x)',
-                      'sgn*(x)',
                       array(),
                       true, false);
 
@@ -1514,6 +1504,11 @@ class stack_ast_filter_auto_gen_441_split_unknown_functions_testcase extends qty
 
         $this->expect('set(x, y, z)',
                       'set(x,y,z)',
+                      array(),
+                      true, false);
+
+        $this->expect('sgn(x)',
+                      'sgn(x)',
                       array(),
                       true, false);
 
@@ -3015,6 +3010,11 @@ class stack_ast_filter_auto_gen_441_split_unknown_functions_testcase extends qty
 
         $this->expect('set(x, y, z)',
                       'set(x,y,z)',
+                      array(),
+                      true, false);
+
+        $this->expect('sgn(x)',
+                      'sgn(x)',
                       array(),
                       true, false);
 

@@ -106,6 +106,9 @@ class prt_evaluatable implements cas_raw_value_extractor {
         // Do the simpler parse of the value. The full MaximaParser
         // would obviously work but would be more expensive.
         $value = castext2_parser_utils::string_to_list($this->evaluated, true);
+        if (count($value) < 4) {
+            return;
+        }
         $this->path      = $value[0];
         $this->score     = stack_utils::fix_to_continued_fraction($value[1], 4);
         $this->penalty   = stack_utils::fix_to_continued_fraction($value[2], 4);
@@ -176,7 +179,7 @@ class prt_evaluatable implements cas_raw_value_extractor {
     public function get_answernotes() {
     	$path = $this->get_path();
     	$notes = [];
-        if ($path === null) {
+        if ($path === null || !is_array($path)) {
             return $notes;
         }
         $i = 0;

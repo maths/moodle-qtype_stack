@@ -31,6 +31,12 @@ class stack_cas_castext2_special_ioblock extends stack_cas_castext2_block {
     }
 
     public function compile($format, $options): ?string {
+        // If used before input2 we do not need to maintain the parsed structure.
+        // If we do not need the structure we can cut down on processign and compile
+        // directly to a string.
+        if (isset($options['io-blocks-as-raw'])) {
+            return stack_utils::php_string_to_maxima_string('[[' . $this->channel . ':' . $this->variable . ']]');
+        }
         return '["ioblock","' . $this->channel . '","' . $this->variable . '"]';
     }
 

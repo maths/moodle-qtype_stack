@@ -130,18 +130,6 @@ class stack_cas_castext2_special_root extends stack_cas_castext2_block {
                     return false;
                 }
             }
-            if ($node instanceof MP_List && count($node->items) > 0 && 
-                $node->items[0] instanceof MP_String && 
-                $node->items[0]->value === 'ioblock') {
-                // If this is pre-input2 system we do not need to keep ioblocks as parsed objects.
-                // If turned to strings will simplify the expression.
-                if (!isset($options['ioblocks-for-postprocessing']) || !$options['ioblocks-for-postprocessing']) {
-                    $params = [$node->items[0]->value, $node->items[1]->value, $node->items[2]->value];
-                    $proc = new stack_cas_castext2_special_ioblock([]);
-                    $node->parentnode->replace($node, new MP_String($proc->postprocess($params)));
-                    return false;
-                }
-            }
             if ($node instanceof MP_List && count($node->items) == 2 && 
                 $node->items[0] instanceof MP_String && 
                 $node->items[1] instanceof MP_String && 

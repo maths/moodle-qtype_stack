@@ -2420,7 +2420,11 @@ class qtype_stack extends question_type {
         }
 
         // Compile the castext fragments.
-        $ctoptions = ['bound-vars' => $forbiddenkeys, 'prt-names' => array_flip(array_keys($prts))];
+        $ctoptions = [
+            'bound-vars' => $forbiddenkeys, 
+            'prt-names' => array_flip(array_keys($prts)),
+            'io-blocks-as-raw' => 'pre-input2'
+        ];
         $ct = castext2_evaluatable::make_from_source($questiontext, 'question-text');
         if (!$ct->get_valid($questiontextformat, $ctoptions)) {
             throw new stack_exception('Error(s) in question-text: ' . implode('; ', $ct->get_errors()));

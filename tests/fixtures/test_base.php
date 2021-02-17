@@ -46,7 +46,7 @@ abstract class qtype_stack_testcase extends advanced_testcase {
      */
     protected $lisp = 'SBCL';
 
-    public function setUp() {
+    public function setUp() :void {
         parent::setUp();
 
         stack_utils::clear_config_cache();
@@ -196,7 +196,7 @@ abstract class qtype_stack_testcase extends advanced_testcase {
 abstract class qtype_stack_walkthrough_test_base extends qbehaviour_walkthrough_test_base {
     protected $currentoutput = null;
 
-    public function setUp() {
+    public function setUp() :void {
         parent::setUp();
         qtype_stack_testcase::setup_test_maxima_connection($this);
         $this->resetAfterTest();

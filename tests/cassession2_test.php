@@ -146,7 +146,7 @@ class stack_cas_session2_test extends qtype_stack_testcase {
         $this->assertEquals('"foo"', $foo->get_value());
         $this->assertEquals('"f-o-o"', $bar->get_value());
         $this->assertTrue(count($divzero->get_errors(true)) > 0);
-        $this->assertContains('Division by zero.', $divzero->get_errors(true));
+        $this->assertEquals(array('Division by zero.'), $divzero->get_errors(true));
     }
 
     public function test_feedback() {
@@ -162,7 +162,7 @@ class stack_cas_session2_test extends qtype_stack_testcase {
         $session->instantiate();
         $this->assertTrue($session->is_instantiated());
 
-        $this->assertContains('lowest terms', $validation->get_feedback());
+        $this->assertStringContainsString('lowest terms', $validation->get_feedback());
     }
 
     public function test_answertest_usage() {

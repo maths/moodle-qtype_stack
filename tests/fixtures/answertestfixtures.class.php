@@ -290,7 +290,6 @@ class stack_answertest_test_data {
         array('AlgEquiv', '', 'Ia*(R1+R2+R3)-Ib*R3=0', '-Ia*(R1+R2+R3)+Ib*R3=0', 1, '', ''),
         array('AlgEquiv', '', 'a=0 or b=0', 'a*b=0', 1, 'ATEquation_sides', ''),
         array('AlgEquiv', '', 'a*b=0', 'a=0 or b=0', 1, 'ATEquation_sides', ''),
-        array('AlgEquiv', '', 'a*b=0', 'a=0 or b=0', 1, 'ATEquation_sides', ''),
         // Notice here that Maxima does not know anything about a, so you can't cancel it!
         array('AlgEquiv', '', 'a*x=a*y', 'x=y', 0, 'ATEquation_default', ''),
         array('AlgEquiv', '', 'a*x=a*y', 'a=0 or x=y', 1, 'ATEquation_ratio', ''),

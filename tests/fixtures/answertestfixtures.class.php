@@ -1812,6 +1812,7 @@ class stack_answertest_test_data {
         array('UnitsRelative', '0.01', '0.0*km/s', '0.0*m/s', 1, 'ATUnits_compatible_units m/s.', ''),
         array('UnitsRelative', '0.01', '0.0*m', '0.0*m/s', 0, 'ATUnits_incompatible_units. ATUnits_correct_numerical.', ''),
         array('UnitsRelative', '0.01', '0.0', '0.0*m/s', 0, 'ATUnits_SA_no_units.', ''),
+        array('UnitsRelative', '0.002', '0.0*kVA', '0.0*kVA', 1, 'ATUnits_units_match.', ''),
 
         array('UnitsStrictRelative', '0.01', '12.3*m/s', '12.3*m/s', 1, 'ATUnits_units_match.', ''),
         array('UnitsStrictRelative', '0.01', '12*m/s', '12.3*m/s', 0, 'ATUnits_units_match.', ''),

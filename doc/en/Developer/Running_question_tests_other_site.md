@@ -1,3 +1,11 @@
+# Bulk testing on your site
+
+You can bulk test all question tests on all variants of all question by using the bulk-test script.  This is available from the quetion setting page or from the "adminui" page
+
+    [...]/question/type/stack/adminui/index.php
+
+User require capability `qtype/stack:usediagnostictools`.
+
 # Running question tests for questions on other sites
 
 When you upgrade to a new version of STACK, it would be reassuring to know beforehand

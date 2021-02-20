@@ -25,16 +25,16 @@
 
 define('NO_OUTPUT_BUFFERING', true);
 
-require_once(__DIR__.'/../../../config.php');
+require_once(__DIR__.'/../../../../config.php');
 require_once($CFG->dirroot .'/course/lib.php');
 require_once($CFG->libdir .'/filelib.php');
 
-require_once(__DIR__ . '/locallib.php');
-require_once(__DIR__ . '/stack/utils.class.php');
-require_once(__DIR__ . '/stack/options.class.php');
-require_once(__DIR__ . '/stack/cas/castext.class.php');
-require_once(__DIR__ . '/stack/cas/connector.dbcache.class.php');
-require_once(__DIR__ . '/stack/cas/installhelper.class.php');
+require_once(__DIR__ . '/../locallib.php');
+require_once(__DIR__ . '/../stack/utils.class.php');
+require_once(__DIR__ . '/../stack/options.class.php');
+require_once(__DIR__ . '/../stack/cas/castext.class.php');
+require_once(__DIR__ . '/../stack/cas/connector.dbcache.class.php');
+require_once(__DIR__ . '/../stack/cas/installhelper.class.php');
 
 
 // Check permissions.
@@ -44,7 +44,7 @@ require_capability('moodle/site:config', $context);
 
 // Set up page.
 $PAGE->set_context($context);
-$PAGE->set_url('/question/type/stack/healthcheck.php');
+$PAGE->set_url('/question/type/stack/adminui/healthcheck.php');
 $title = stack_string('healthcheck');
 $PAGE->set_title($title);
 

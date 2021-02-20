@@ -522,7 +522,7 @@ $chatparams['simp'] = $simp;
 $chatparams['cas'] = $question->generalfeedback;
 // We've chosen not to send a specific seed since it is helpful
 // to test the general feedback in a random context.
-echo $OUTPUT->single_button(new moodle_url('/question/type/stack/caschat.php', $chatparams), stack_string('chat'));
+echo $OUTPUT->single_button(new moodle_url('/question/type/stack/adminui/caschat.php', $chatparams), stack_string('chat'));
 
 if ($question->stackversion == null) {
     echo html_writer::tag('p', stack_string('stackversionnone'));

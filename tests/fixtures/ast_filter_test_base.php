@@ -72,7 +72,10 @@ abstract class qtype_stack_ast_testcase extends basic_testcase {
                                           $filternotes, $this->security);
 
         // What notes we expect there to be.
-        $this->assertArraySubset($notes, $filternotes);
+        foreach ($notes as $key => $value) {
+            $this->assertArrayHasKey($key, $filternotes);
+            $this->assertSame($value, $filternotes[$key]);
+        }
 
         // If it is supposed to become invalid.
         if ($valid === true) {

@@ -33,28 +33,23 @@ require_once(__DIR__ . '/../stack/cas/castext2/castext2_evaluatable.class.php');
  */
 class stack_cas_text_exception_test extends basic_testcase {
 
-    /**
-     * @expectedException TypeError
-     */
     public function test_exception_1() {
         $at1 = castext2_evaluatable::make_from_source(array(), null);
+        $session = new stack_cas_session2(array());
+        $this->expectException(stack_exception::class);
         $at1->get_valid();
     }
 
-    /**
-     * @expectedException TypeError
-     */
     public function test_exception_2() {
         $at1 = castext2_evaluatable::make_from_source("Hello world", array(1));
+        $this->expectException(stack_exception::class);
         $at1->get_valid();
     }
 
-    /**
-     * @expectedException TypeError
-     */
     public function test_exception_3() {
         $session = new stack_cas_session2(null);
         $at1 = castext2_evaluatable::make_from_source("Hello world", $session);
+        $this->expectException(stack_exception::class);
         $at1->get_valid();
     }
 }

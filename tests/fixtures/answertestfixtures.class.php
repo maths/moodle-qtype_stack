@@ -290,6 +290,9 @@ class stack_answertest_test_data {
         array('AlgEquiv', '', 'Ia*(R1+R2+R3)-Ib*R3=0', '-Ia*(R1+R2+R3)+Ib*R3=0', 1, '', ''),
         array('AlgEquiv', '', 'a=0 or b=0', 'a*b=0', 1, 'ATEquation_sides', ''),
         array('AlgEquiv', '', 'a*b=0', 'a=0 or b=0', 1, 'ATEquation_sides', ''),
+        // Notice here that Maxima does not know anything about a, so you can't cancel it!
+        array('AlgEquiv', '', 'a*x=a*y', 'x=y', 0, 'ATEquation_default', ''),
+        array('AlgEquiv', '', 'a*x=a*y', 'a=0 or x=y', 1, 'ATEquation_ratio', ''),
 
         array('AlgEquiv', '', '1', 'stackeq(1)', 1, '', 'Unary Equations'),
         array('AlgEquiv', '', 'stackeq(1)', '1', 1, '', ''),
@@ -496,6 +499,8 @@ class stack_answertest_test_data {
         array('AlgEquiv', '', '(A and B) or (A and C)', 'A and (B or C)', 1, 'ATLogic_True.', ''),
         array('AlgEquiv', '', '-(b#pm#sqrt(b^2-4*a*c))', '-b#pm#sqrt(b^2-4*a*c)', 1, 'ATLogic_True.', ''),
         array('AlgEquiv', '', 'x=-b#pm#c^2', 'x=c^2-b or x=-c^2-b', 1, 'ATLogic_True.', ''),
+        array('AlgEquiv', '', 'x#pm#a = y#pm#b', 'x#pm#a = y#pm#b', 1, 'ATEquation_sides', ''),
+        array('AlgEquiv', '', 'x#pm#a = y#pm#b', 'x#pm#a = y#pm#c', 0, 'ATEquation_lhs_notrhs', ''),
         array('AlgEquiv', '', 'not(A) and not(B)', 'not(A or B)', 1, 'ATLogic_True.', ''),
         array('AlgEquiv', '', 'not(A) and not(B)', 'not(A and B)', 0, '', ''),
         array('AlgEquiv', '', 'not(A) or B', 'boolean_form(A implies B)', 1, '', ''),
@@ -1809,6 +1814,7 @@ class stack_answertest_test_data {
         array('UnitsRelative', '0.01', '0.0*km/s', '0.0*m/s', 1, 'ATUnits_compatible_units m/s.', ''),
         array('UnitsRelative', '0.01', '0.0*m', '0.0*m/s', 0, 'ATUnits_incompatible_units. ATUnits_correct_numerical.', ''),
         array('UnitsRelative', '0.01', '0.0', '0.0*m/s', 0, 'ATUnits_SA_no_units.', ''),
+        array('UnitsRelative', '0.002', '0.0*kVA', '0.0*kVA', 1, 'ATUnits_units_match.', ''),
 
         array('UnitsStrictRelative', '0.01', '12.3*m/s', '12.3*m/s', 1, 'ATUnits_units_match.', ''),
         array('UnitsStrictRelative', '0.01', '12*m/s', '12.3*m/s', 0, 'ATUnits_units_match.', ''),

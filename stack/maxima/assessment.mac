@@ -719,6 +719,12 @@ algebraic_equivalence_zero(ex) := algebraic_equivalence(ex, 0)$
 
 algebraic_equivalence(SA, SB) :=
     block([keepfloat, trigexpand, logexpand, ex, vi],
+
+    if SA=SB then return(true),
+    /* Remove +- if we can early. */
+    SA:pm_replace(SA),
+    SB:pm_replace(SB),
+
     /* Reject obviously different expressions.  These can be very time consuming in the tests below. */
     if numerical_not_alg_equiv(SA, SB) then return(false),
     trigexpand:false,
@@ -858,7 +864,7 @@ recurse_userfunctionp(ex):= block([op1],
   apply("or", map(recurse_userfunctionp, args(ex)))
 )$
 
-/* we can try to evaluate matrices here, but anything else is out. */
+/* We can try to evaluate matrices here, but anything else is out. */
 numerical_not_expressionp(ex) := block(
  /* Noun calculus operations get evaluated, which throws an erros. */
  if listp(ex) or equationp(ex) or inequalityp(ex) or safe_setp(ex) or functionp(ex) or logicp(ex) or stringp(ex) or calculusp(ex) then

@@ -143,7 +143,7 @@ class stack_bulk_tester  {
                 try {
                     $question = question_bank::load_question($questionid);
                 } catch (Exception $e) {
-                    $message = $questionid . ', ' . format_string($name) . 
+                    $message = $questionid . ', ' . format_string($name) .
                         ': ' . stack_string('errors') . ' : ' . $e;
                     $allpassed = false;
                     $failingupgrade[] = $message;

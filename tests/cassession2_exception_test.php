@@ -27,40 +27,30 @@ require_once(__DIR__ . '/../stack/cas/cassession2.class.php');
  */
 class stack_cas_session2_exception_test extends qtype_stack_testcase {
 
-    /**
-     * @expectedException TypeError
-     */
     public function test_exception_1() {
+        $this->expectException(TypeError::class);
         $at1 = new stack_cas_session2("x=1", false, false);
     }
 
-    /**
-     * @expectedException stack_exception
-     */
     public function test_exception_2() {
+        $this->expectException(stack_exception::class);
         $at1 = new stack_cas_session2(array(), null, false);
         $at1->get_valid();
     }
 
-    /**
-     * @expectedException stack_exception
-     */
     public function test_exception_3() {
+        $this->expectException(stack_exception::class);
         $at1 = new stack_cas_session2(array(1, 2, 3), null, false);
     }
 
-    /**
-     * @expectedException TypeError
-     */
     public function test_exception_4() {
+        $this->expectException(TypeError::class);
         $at1 = new stack_cas_session2(null, 123, false);
     }
 
-    /**
-     * @expectedException TypeError
-     */
     public function test_exception_5() {
         $pref = new stack_options();
+        $this->expectException(TypeError::class);
         $at1 = new stack_cas_session2(null, $pref, 'abc');
     }
 }

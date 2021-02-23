@@ -326,8 +326,8 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $cs2->instantiate();
         $output = stack_maths::process_display_castext($at1->get_rendered());
 
-        $this->assertContains(stack_string('calc_diff_linearity_rule_name'), $output);
-        $this->assertContains(stack_string('calc_diff_linearity_rule_fact'), $output);
+        $this->assertStringContainsString(stack_string('calc_diff_linearity_rule_name'), $output);
+        $this->assertStringContainsString(stack_string('calc_diff_linearity_rule_fact'), $output);
     }
 
     public function test_assignmatrixelements() {

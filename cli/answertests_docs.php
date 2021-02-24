@@ -145,6 +145,25 @@ $table->finish_output();
 
 $output = ob_get_clean( );
 
+// This is to break up the resulting single line in the text file.
+// Otherwise editors, git, etc. have a miserable time.
+$output = str_replace('<td class=', "\n  <td class=", $output);
+$output = str_replace('<tr class=', "\n<tr class=", $output);
+$output = str_replace("</tr>", "\n</tr>", $output);
+$output = str_replace(",EQUIVCHAR", ", EQUIVCHAR", $output);
+$output = str_replace(",EMPTYCHAR", ", EMPTYCHAR", $output);
+$output = str_replace(",CHECKMARK", ", CHECKMARK", $output);
+// If we don't strip id tags the whole file will change everytime we add a test!
+// String too long for a single regular expression match.
+$lines = explode("\n", $output);
+$pat = array('/\sid="stack_answertests_r\d+_c\d+"/',
+             '/\sid="stack_answertests_r\d+"/');
+$ret = array('', '');
+foreach ($lines as $key => $line) {
+    $lines[$key] = preg_replace($pat, $rep, $line);
+}
+$output = implode("\n", $lines);
+//var_dump($output);
 $output = stack_string('stackDoc_AnswerTestResults') . "\n\n" . $output;
 
 // Add the Maxima version at the end of the table for reference.

@@ -52,6 +52,11 @@
         "description":"Documentation for question authors using STACK, including a quick start guide and how to use common STACK features."
         },
         {
+        "file":"Answer_tests_results.md",
+        "title":"Answer test results",
+        "description":"This page, automatically generated from the STACK unit tests, helps teachers understand what the answer tests actually consiser to be the same and different."
+        },
+        {
         "file":"Actuarial.md",
         "title":"Actuarial Notation - STACK Documentation",
         "description":"An overview of using actuarial notation in STACK."

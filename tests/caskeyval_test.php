@@ -239,12 +239,12 @@ class stack_cas_keyval_test extends qtype_stack_testcase {
             "block([bar],push(x,bar));");
         $this->assertTrue($kv->get_valid());
         $usage = $kv->get_variable_usage();
-        // x, y, z, and bar are never globally written.
+        // Variables x, y, z, and bar are never globally written.
         $this->assertFalse(isset($usage['write']['x']));
         $this->assertFalse(isset($usage['write']['y']));
         $this->assertFalse(isset($usage['write']['z']));
         $this->assertFalse(isset($usage['write']['bar']));
-        // foo, baz, and T are being written globally.
+        // Functions foo, baz, and T are being written globally.
         $this->assertTrue(isset($usage['write']['foo']));
         $this->assertTrue(isset($usage['write']['baz']));
         $this->assertTrue(isset($usage['write']['T']));

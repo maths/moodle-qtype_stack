@@ -350,6 +350,39 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         }
         $this->security = new stack_cas_security($units, '', '', $forbiddenkeys);
 
+        // Add the context to the security, needs some unpacking of the cached.
+        if ($this->get_cached('security-context') === null || count($this->get_cached('security-context')) === 0) {
+            $this->security->set_context([]);
+        } else {
+            // Combine to a single statement to keep the parser cache small.
+            // We need to turn a set of code-fragments into ASTs.
+            $tmp = '[';
+            foreach ($this->get_cached('security-context') as $key => $values) {
+                $tmp .= '[';
+                $tmp .= implode(',', $values);
+                $tmp .= '],';
+            }
+            $tmp = mb_substr($tmp, 0, -1);
+            $tmp .= ']';
+            $ast = maxima_parser_utils::parse($tmp)->items[0]->statement->items;
+            $ctx = [];
+            $i = 0;
+            foreach ($this->get_cached('security-context') as $key => $values) {
+                $ctx[$key] = [];
+                $j = 0;
+                foreach ($values as $k) {
+                    $ctx[$key][$k] = $ast[$i]->items[$j];
+                    $j = $j + 1;
+                    if ($k === -1) {
+                        $ctx[$key][$k] = -1;
+                    }
+                }
+                $i = $i + 1;
+            }
+            $this->security->set_context($ctx);
+        }
+
+
         // The session to keep. Note we do not need to reinstantiate the teachers answers.
         $sessiontokeep = new stack_cas_session2($session->get_session(), $this->options, $this->seed);
 

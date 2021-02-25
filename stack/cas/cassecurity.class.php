@@ -42,7 +42,10 @@ class stack_cas_security {
 
     /** @var array typically the teacher side variable identifiers. Used to cut
              down the student allowed identifiers set. */
-    private $forbiddenkeys = array();
+    private $forbiddenkeys = [];
+
+    /** @var array contextual variables. Knowledge shared between statements. */
+    private $context = [];
 
     /**
      * These lists are used by question authors for groups of words.
@@ -154,6 +157,15 @@ class stack_cas_security {
         $this->forbiddenwords = $forbiddenwords;
         $this->forbiddenwordsasmap = null;
     }
+
+    public function set_context(array $context) {
+        $this->context = $context;
+    }
+
+    public function get_context(): array {
+        return $this->context;
+    }
+
 
     public function set_forbiddenkeys(array $forbiddenkeys) {
         $this->forbiddenkeys  = $forbiddenkeys;

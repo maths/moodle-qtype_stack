@@ -2380,6 +2380,7 @@ class qtype_stack extends question_type {
             $cc['statement-qv'] = null;
             $cc['preamble-qv'] = null;
             $cc['contextvariable-qv'] = null;
+            $cc['security-context'] = [];
         } else {
             $kv = new stack_cas_keyval($questionvariables, $options);
             if (!$kv->get_valid()) {
@@ -2396,6 +2397,15 @@ class qtype_stack extends question_type {
             if (isset($c['references']['write'])) {
                 $forbiddenkeys = array_merge($forbiddenkeys, $c['references']['write']);
             }
+            // Collect type information and condense it.
+            $ti = $kv->get_security()->get_context();
+            $si = [];
+            foreach ($ti as $key => $value) {
+                // We should not directly serialize the ASTs they have too much context in them.
+                // Unfortunately that means we need to parse them back on every init.
+                $si[$key] = array_keys($value);
+            }
+            $cc['security-context'] = $si;
         }
 
         // Then do some basic detail collection related to the inputs and PRTs.

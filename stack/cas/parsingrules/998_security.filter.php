@@ -137,9 +137,17 @@ class stack_ast_filter_998_security implements stack_cas_astfilter_parametric {
         // Now loop over the initially found things of interest. Note that
         // the list may grow as we go forward and unwrap things.
         $i = 0;
+        $processedfuns = []; // To stop specific loops.
         while ($i < count($ofinterest)) {
             $node = $ofinterest[$i];
             $i = $i + 1;
+
+            // Add a limit, hiding behing nested mappings and definitions can be used as DOS.
+            if ($i > 5000) {
+                $errors[] = trim(stack_string('stackCas_overrecursivesignatures'));
+                $valid = false;
+                break;
+            }
 
             if ($node instanceof MP_Operation || $node instanceof MP_PrefixOp || $node instanceof MP_PostfixOp) {
                 // We could just strip these out in the recurse but maybe we want
@@ -164,35 +172,45 @@ class stack_ast_filter_998_security implements stack_cas_astfilter_parametric {
                         switch ($node->name->value) {
                             case 'apply':
                             case 'funmake':
+                                // Note that we do not allow even constructing the function call as
+                                // it might eventtually get called.
+                                if ($node->arguments[0] instanceof MP_String) {
+                                    $errors[] = trim(stack_string('stackCas_applyfunmakestring',
+                                                      array('type' => $node->name->value)));
+                                }
                                 $safemap = true;
-
-                                // TODO: add errors about applying to wrong types
-                                // of things and check them. For the other map
-                                // functions to allow more to be done.
 
                             default:
                                 // NOTE: this is a correct virtual form for only
                                 // 'apply' and 'funmake' others will need to be
-                                // written out as multiplce calls. And are
-                                // therefore still unsafe atleast untill we do
-                                // the writing out...
+                                // written out as multiple calls. And are
+                                // therefore somewhat inaccurate, but good enough 
+                                // approximations.
                                 $fname = $node->arguments[0];
                                 if ($fname instanceof MP_PrefixOp && $fname->op === "'") {
                                     $fname = $fname->rhs;
                                 }
                                 $virtualfunction = new MP_FunctionCall($fname, array_slice($node->arguments, 1));
                                 $virtualfunction->position['virtual'] = true;
-                                $ofinterest[] = $virtualfunction;
+                                if (!isset($processedfuns[$virtualfunction->toString()])) {
+                                    $ofinterest[] = $virtualfunction;
+                                    $processedfuns[$virtualfunction->toString()] = true;
+                                }
                                 break;
                         }
                         if (isset($node->position['virtual']) && !$safemap) {
-                            // TODO: localise "Function application through mapping
-                            // functions has depth limits as it hides things".
                             $errors[] = trim(stack_string('stackCas_deepmap'));
                             if (array_search('deepmap', $answernotes) === false) {
                                 $answernotes[] = 'deepmap';
                             }
                             $valid = false;
+                        }
+                        // Check for masking.
+                        if ($node->arguments[0] instanceof MP_Identifier and !$node->arguments[0]->is_global()) {
+                            $node->position['invalid'] = true;
+                            $valid = false;
+                            $errors[] = trim(stack_string('stackCas_applyingnonobviousfunction',
+                                             array('problem' => $node->arguments[0]->toString())));
                         }
                     }
 
@@ -201,10 +219,35 @@ class stack_ast_filter_998_security implements stack_cas_astfilter_parametric {
                         foreach (stack_cas_security::get_feature($node->name->value, 'argumentasfunction') as $ind) {
                             $virtualfunction = new MP_FunctionCall($node->arguments[$ind], array($node->arguments[0]));
                             $virtualfunction->position['virtual'] = true;
-                            $ofinterest[] = $virtualfunction;
+                            if (!isset($processedfuns[$virtualfunction->toString()])) {
+                                $ofinterest[] = $virtualfunction;
+                                $processedfuns[$virtualfunction->toString()] = true;
+                            }
                         }
                     }
 
+                    // Redefined & indirect ones.
+                    if (isset($identifierrules->get_context()[$node->name->value])) {
+                        foreach ($identifierrules->get_context()[$node->name->value] as $key => $value) {
+                            if ($key !== -1) { // -1 is a custom function, its contents have been vetted elsewhere.
+                                if (isset($functionnames[$key]) && !$identifierrules->has_feature($key, 'mapfunction')) {
+                                    // Also don't regenerate calls. Unless map functions.
+                                    continue;
+                                }
+                                // We might have something like `lcm:lcm(...)` this is
+                                // a common enough pattern to be skipped specially.
+                                if ($value instanceof MP_FunctionCall and $value->name->toString() === $node->name->value) {
+                                    continue;
+                                }
+                                $virtualfunction = new MP_FunctionCall(clone $value, $node->arguments);
+                                $virtualfunction->position['virtual'] = true;
+                                if (!isset($processedfuns[$virtualfunction->toString()])) {
+                                    $ofinterest[] = $virtualfunction;
+                                    $processedfuns[$virtualfunction->toString()] = true;
+                                }
+                            }
+                        }
+                    }
                 } else if ($node->name instanceof MP_FunctionCall) {
                     $outter = $node->name;
                     if (($outter->name instanceof MP_Identifier || $outter->name instanceof MP_String)
@@ -223,7 +266,10 @@ class stack_ast_filter_998_security implements stack_cas_astfilter_parametric {
                             // Name can be whatever the iteration will react to unsuitable things on the later loops.
                             $virtualfunction = new MP_FunctionCall($name, $node->arguments);
                             $virtualfunction->position['virtual'] = true;
-                            $ofinterest[] = $virtualfunction;
+                            if (!isset($processedfuns[$virtualfunction->toString()])) {
+                                $ofinterest[] = $virtualfunction;
+                                $processedfuns[$virtualfunction->toString()] = true;
+                            }
                         }
                     } else {
                         // Calling the result of a function that is not lambda.
@@ -252,13 +298,19 @@ class stack_ast_filter_998_security implements stack_cas_astfilter_parametric {
                             $notsafe = false;
                             $virtualfunction = new MP_FunctionCall($node->name->target->items[$ind], $node->arguments);
                             $virtualfunction->position['virtual'] = true;
-                            $ofinterest[] = $virtualfunction;
+                            if (!isset($processedfuns[$virtualfunction->toString()])) {
+                                $ofinterest[] = $virtualfunction;
+                                $processedfuns[$virtualfunction->toString()] = true;
+                            }
                         } else {
                             $notsafe = false;
                             foreach ($node->name->target->items as $id) {
                                 $virtualfunction = new MP_FunctionCall($id, $node->arguments);
                                 $virtualfunction->position['virtual'] = true;
-                                $ofinterest[] = $virtualfunction;
+                                if (!isset($processedfuns[$virtualfunction->toString()])) {
+                                    $ofinterest[] = $virtualfunction;
+                                    $processedfuns[$virtualfunction->toString()] = true;
+                                }
                             }
                         }
                     }

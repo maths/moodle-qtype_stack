@@ -40,6 +40,9 @@ class stack_cas_keyval {
     /** @var array of error messages that can be displayed to the user. */
     private $errors;
 
+    /** @var stack_cas_security shared security to use for validation */
+    private $security;
+
     // For those using keyvals as a generator for sessions.
     private $options;
     private $seed;
@@ -50,6 +53,7 @@ class stack_cas_keyval {
         $this->errors       = array();
         $this->options      = $options;
         $this->seed         = $seed;
+        $this->security     = new stack_cas_security();
 
         if (!is_string($raw)) {
             throw new stack_exception('stack_cas_keyval: raw must be a string.');
@@ -110,11 +114,14 @@ class stack_cas_keyval {
 
         $ast = maxima_parser_utils::strip_comments($ast);
 
+        // Update the types and values for future insert-stars and other logic.
+        $vallist = maxima_parser_utils::identify_identifier_values($ast, $this->security->get_context());
+        $this->security->set_context($vallist);
+
         $this->valid   = true;
         $this->statements   = array();
         foreach ($ast->items as $item) {
-            $cs = stack_ast_container::make_from_teacher_ast($item, '',
-                    new stack_cas_security());
+            $cs = stack_ast_container::make_from_teacher_ast($item, '', $this->security);
             if ($item instanceof MP_Statement) {
                 $op = '';
                 if ($item->statement instanceof MP_Operation) {
@@ -126,7 +133,7 @@ class stack_cas_keyval {
                 // Context variables should always be silent.  We might need a separate feature "silent" in future.
                 if (stack_cas_security::get_feature($op, 'contextvariable') !== null) {
                     $cs = stack_ast_container_silent::make_from_teacher_ast($item, '',
-                            new stack_cas_security());
+                            $this->security);
                 }
             }
             $this->valid = $this->valid && $cs->get_valid();
@@ -148,6 +155,17 @@ class stack_cas_keyval {
 
         return $this->valid;
     }
+
+    /** Specify non default security, do this before validation. */
+    public function set_security(stack_cas_security $security) {
+        $this->security = clone $security;
+    }
+
+    /** Extract a security object with type related context information, do this after validation. */
+    public function get_security(): stack_cas_security {
+        return $this->security;
+    }
+
 
     /*
      * @array $inputs Holds an array of the input names which are forbidden as keys.
@@ -269,7 +287,7 @@ class stack_cas_keyval {
         $filteroptions = ['998_security' => ['security' => 't']];
         $pipeline = stack_parsing_rule_factory::get_filter_pipeline(['998_security', '999_strict'], $filteroptions, true);
         $tostringparams = ['nosemicolon' => true, 'pmchar' => 1];
-        $securitymodel = new stack_cas_security();
+        $securitymodel = $this->security;
 
         // Process the AST.
         foreach ($ast->items as $item) {

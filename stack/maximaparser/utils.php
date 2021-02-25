@@ -227,6 +227,9 @@ class maxima_parser_utils {
         if (!array_key_exists('calls', $output)) {
             $output['calls'] = array();
         }
+        if (!array_key_exists('declares', $output)) {
+            $output['declares'] = array();
+        }
         $recursion = function($node) use(&$output) {
             // Feel free to expand this to track any other types of usages,
             // like functions and their definitions.
@@ -239,11 +242,51 @@ class maxima_parser_utils {
                     }
                 } else if (!$node->parentnode->is_definition()) {
                     $output['calls'][$node->value] = true;
+                } else {
+                    $output['declares'][$node->value] = true;
                 }
             }
             return true;
         };
         $ast->callbackRecurse($recursion);
+
+        return $output;
+    }
+
+    // Tool to build an estimate of the identifiers and their types and values
+    // for future insert-stars logic. The map will describe the values as follows,
+    // there will be an array of the values it receives the array will include:
+    //   1. -1 if the value is a custom function definition
+    //   2. ASTs of all the values assigned.
+    //   3. will be empty if no assings happen but is still used.
+    // For insert-stars purposes if the identifier has count=1 items in the array and
+    // the only key present is -1 then the identifier is a function defined in 
+    // the question and should be used as such.
+    public static function identify_identifier_values($ast, $expand=[]): array {
+        $output = array_merge($expand, []);
+        $recursion = function($node) use(&$output) {
+            if ($node instanceof MP_Identifier) {
+                if (!isset($output[$node->value])) {
+                    $output[$node->value] = [];
+                }
+            }
+            if ($node instanceof MP_Operation) {
+                if ($node->op === ':' && $node->lhs instanceof MP_Identifier) {
+                    $str = $node->rhs->toString();
+                    if (isset($output[$node->lhs->value])) {
+                        $output[$node->lhs->value][$str] = $node->rhs;
+                    } else {
+                        $output[$node->lhs->value] = [$str => $node->rhs];
+                    }
+                }
+                if ($node->op === ':=' && $node->lhs instanceof MP_FunctionCall) {
+                    $output[$node->lhs->name->value][-1] = -1;
+                }
+            }
+            return true;
+        };
+        $ast->callbackRecurse($recursion);
+
 
         return $output;
     }

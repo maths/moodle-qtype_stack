@@ -697,6 +697,7 @@ $string['stackCas_callingasfunction']       = 'Calling the result of a function 
 $string['stackCas_applyfunmakestring']      = 'The name of the function cannot be a string in <code>{$a->type}</code>.';
 $string['stackCas_badpostfixop']            = 'You have a bad "postfix" operator in your expression.';
 $string['stackCas_overrecursivesignatures'] = 'The question code includes too many functions defined through mapping';
+$string['stackCas_studentInputAsFunction']  = 'Use of student input as the name of a function is not permitted.';
 
 // Used in cassession.class.php.
 $string['stackCas_CASError']                = 'The CAS returned the following error(s):';

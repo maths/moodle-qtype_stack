@@ -2405,6 +2405,14 @@ class qtype_stack extends question_type {
                 // Unfortunately that means we need to parse them back on every init.
                 $si[$key] = array_keys($value);
             }
+
+            // Mark all inputs. To let us know that they have special types.
+            foreach ($inputs as $key => $value) {
+                if (!isset($si[$key])) {
+                    $si[$key] = [];    
+                } 
+                $si[$key][-2] = -2;
+            }
             $cc['security-context'] = $si;
         }
 

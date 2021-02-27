@@ -229,7 +229,7 @@ class stack_ast_filter_998_security implements stack_cas_astfilter_parametric {
                     // Redefined & indirect ones.
                     if (isset($identifierrules->get_context()[$node->name->value])) {
                         foreach ($identifierrules->get_context()[$node->name->value] as $key => $value) {
-                            if ($key !== -1) { // -1 is a custom function, its contents have been vetted elsewhere.
+                            if ($key !== -1 && $key !== -2) { // -1 is a custom function, its contents have been vetted elsewhere. -2 is an input and such should never be here.
                                 if (isset($functionnames[$key]) && !$identifierrules->has_feature($key, 'mapfunction')) {
                                     // Also don't regenerate calls. Unless map functions.
                                     continue;
@@ -379,6 +379,10 @@ class stack_ast_filter_998_security implements stack_cas_astfilter_parametric {
                 if (array_search('forbiddenFunction', $answernotes) === false) {
                     $answernotes[] = 'forbiddenFunction';
                 }
+                $valid = false;
+            }
+            if (isset($identifierrules->get_context()[$name]) && isset($identifierrules->get_context()[$name][-2])) {
+                $errors[] = trim(stack_string('stackCas_studentInputAsFunction'));
                 $valid = false;
             }
         }

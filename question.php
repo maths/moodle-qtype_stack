@@ -373,8 +373,8 @@ class qtype_stack_question extends question_graded_automatically_with_countback
                 foreach ($values as $k) {
                     $ctx[$key][$k] = $ast[$i]->items[$j];
                     $j = $j + 1;
-                    if ($k === -1) {
-                        $ctx[$key][$k] = -1;
+                    if ($k === -1 || $k === -2) {
+                        $ctx[$key][$k] = $k;
                     }
                 }
                 $i = $i + 1;

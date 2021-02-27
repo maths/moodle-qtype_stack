@@ -116,6 +116,15 @@ class stack_cas_keyval {
 
         // Update the types and values for future insert-stars and other logic.
         $vallist = maxima_parser_utils::identify_identifier_values($ast, $this->security->get_context());
+        // Mark inputs as specific type
+        if (is_array($inputs)) {
+            foreach ($inputs as $name) {
+                if (!isset($vallist[$name])) {
+                    $vallist[$name] = [];   
+                } 
+                $vallist[$name][-2] = -2;
+            }
+        }
         $this->security->set_context($vallist);
 
         $this->valid   = true;

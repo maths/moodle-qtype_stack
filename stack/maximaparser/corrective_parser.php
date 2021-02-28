@@ -151,7 +151,7 @@ class maxima_corrective_parser {
         // kill floats it can do it later after the parsing.
         static $starpatterns = array(
                 '/(\))([0-9A-Za-z])/',                               // E.g. )a, or )3. But not underscores )_.
-                '/([^0-9A-Za-z_][0-9]+)([A-DF-Za-df-z_]+|[eE][^\+\-0-9]+)/', // +3z(, -2ee+ not *4e-2 or /1e3
+                '/([^0-9A-Za-z_][0-9]+)([A-DF-Za-df-z_]+|[eE][^\+\-0-9]+)/', // E.g. +3z(, -2ee+ not *4e-2 or /1e3.
                 '/^([\+\-]?[0-9]+)([A-DF-Za-df-z_]+|[eE][^\+\-0-9]+)/',      // Same but start of line.
                 '/([^0-9A-Za-z_][0-9]+)(\()/',                               // Pattern such as -124().
                 '/^([\+\-]?[0-9]+)(\()/',                                    // Same but start of line.

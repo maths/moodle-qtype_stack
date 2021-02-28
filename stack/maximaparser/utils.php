@@ -256,11 +256,11 @@ class maxima_parser_utils {
     // Tool to build an estimate of the identifiers and their types and values
     // for future insert-stars logic. The map will describe the values as follows,
     // there will be an array of the values it receives the array will include:
-    //   1. -1 if the value is a custom function definition
-    //   2. ASTs of all the values assigned.
-    //   3. will be empty if no assings happen but is still used.
+    // 1. -1 if the value is a custom function definition.
+    // 2. ASTs of all the values assigned.
+    // 3. will be empty if no assings happen but is still used.
     // For insert-stars purposes if the identifier has count=1 items in the array and
-    // the only key present is -1 then the identifier is a function defined in 
+    // the only key present is -1 then the identifier is a function defined in
     // the question and should be used as such.
     public static function identify_identifier_values($ast, $expand=[]): array {
         $output = array_merge($expand, []);
@@ -286,7 +286,6 @@ class maxima_parser_utils {
             return true;
         };
         $ast->callbackRecurse($recursion);
-
 
         return $output;
     }

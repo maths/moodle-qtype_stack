@@ -168,4 +168,32 @@ class stack_string_input_test extends qtype_stack_testcase {
         $this->assertEquals('""', $state->contentsmodified);
         $this->assertEquals('\[ \mbox{ } \]', $state->contentsdisplayed);
     }
+
+    public function test_validate_student_response_xss_4() {
+        $options = new stack_options();
+        $ta = '"Hello world"';
+        $el = stack_input_factory::make('string', 'sans1', '"A random string"');
+
+        $sa = '"<div onclick=\'dosuchandsuch\'></div>"';
+        $cm = '"\"&lt;&#8203;div on&#0;click&#0;=\'dosuchandsuch\'>&lt;&#8203;/div&gt;\""';
+        $cd = '\[ \mbox{"\&lt;\&#8203;div on\&#0;click\&#0;=\'dosuchandsuch\'>\&lt;\&#8203;/div\&gt;"} \]';
+        $state = $el->validate_student_response(array('sans1' => $sa), $options, $ta,
+            new stack_cas_security(false, '', '', array('ta')));
+        $this->assertEquals($state->status, stack_input::VALID);
+        $this->assertEquals('', $state->note);
+        $this->assertEquals('', $state->errors);
+        $this->assertEquals($cm, $state->contentsmodified);
+        $this->assertEquals($cd, $state->contentsdisplayed);
+
+        $sa = '"<div onmousemove     =\'dosuchandsuch\'></div>"';
+        $cm = '"\"&lt;&#8203;div on&#0;mousemove     &#0;=\'dosuchandsuch\'>&lt;&#8203;/div&gt;\""';
+        $cd = '\[ \mbox{"\&lt;\&#8203;div on\&#0;mousemove \&#0;=\'dosuchandsuch\'>\&lt;\&#8203;/div\&gt;"} \]';
+        $state = $el->validate_student_response(array('sans1' => $sa), $options, $ta,
+            new stack_cas_security(false, '', '', array('ta')));
+        $this->assertEquals($state->status, stack_input::VALID);
+        $this->assertEquals('', $state->note);
+        $this->assertEquals('', $state->errors);
+        $this->assertEquals($cm, $state->contentsmodified);
+        $this->assertEquals($cd, $state->contentsdisplayed);
+    }
 }

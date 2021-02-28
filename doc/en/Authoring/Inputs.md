@@ -103,6 +103,7 @@ Notes
 
 1.  There is no way whatsoever to parse the student's string into a Maxima expression.  If you accept a string, then it will always remain a string! You can't later check for algebraic equivalence. The only tests available will be simple string matches, etc.
 2.  An empty answer will be blank unless you use the `allowempty` option in which case the answer will be interpreted as an empty string, i.e. `""` rather than `EMPTYANSWER` as would be the case with other inputs.
+3.  STACK does some sanitation on students' input within strings to stop students typing in HTML code.  For example, you may find that a string <code>"a<b"</code> actually ends up in Maxima with the less-than sign inside the string changed into an html entity <code>&amp;lt;</code>, so your string inside Maxima becomes <code>"a&amp;lt;b"</code>.  In cases where string matches unexpectedly fail, look at the testing page to see what is actually being compared within the PRT and re-build the teacher's answer to match.
 
 #### Notes input ####
 

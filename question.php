@@ -382,7 +382,6 @@ class qtype_stack_question extends question_graded_automatically_with_countback
             $this->security->set_context($ctx);
         }
 
-
         // The session to keep. Note we do not need to reinstantiate the teachers answers.
         $sessiontokeep = new stack_cas_session2($session->get_session(), $this->options, $this->seed);
 

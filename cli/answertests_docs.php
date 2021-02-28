@@ -163,7 +163,6 @@ foreach ($lines as $key => $line) {
     $lines[$key] = preg_replace($pat, $rep, $line);
 }
 $output = implode("\n", $lines);
-//var_dump($output);
 $output = stack_string('stackDoc_AnswerTestResults') . "\n\n" . $output;
 
 // Add the Maxima version at the end of the table for reference.

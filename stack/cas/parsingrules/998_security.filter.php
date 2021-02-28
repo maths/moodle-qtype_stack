@@ -184,7 +184,7 @@ class stack_ast_filter_998_security implements stack_cas_astfilter_parametric {
                                 // NOTE: this is a correct virtual form for only
                                 // 'apply' and 'funmake' others will need to be
                                 // written out as multiple calls. And are
-                                // therefore somewhat inaccurate, but good enough 
+                                // therefore somewhat inaccurate, but good enough
                                 // approximations.
                                 $fname = $node->arguments[0];
                                 if ($fname instanceof MP_PrefixOp && $fname->op === "'") {
@@ -229,7 +229,9 @@ class stack_ast_filter_998_security implements stack_cas_astfilter_parametric {
                     // Redefined & indirect ones.
                     if (isset($identifierrules->get_context()[$node->name->value])) {
                         foreach ($identifierrules->get_context()[$node->name->value] as $key => $value) {
-                            if ($key !== -1 && $key !== -2) { // -1 is a custom function, its contents have been vetted elsewhere. -2 is an input and such should never be here.
+                            // We use -1 for a custom function, its contents have been vetted elsewhere.
+                            // We use -2 for an input and such should never be here.
+                            if ($key !== -1 && $key !== -2) {
                                 if (isset($functionnames[$key]) && !$identifierrules->has_feature($key, 'mapfunction')) {
                                     // Also don't regenerate calls. Unless map functions.
                                     continue;

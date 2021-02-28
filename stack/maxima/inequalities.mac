@@ -42,14 +42,15 @@ ineqprepare(ex) := block([op2, ex2],
 
 /* Turn a single variable polynomial expression into a +1/-1 monic polynomial.
    This is used with inequalities. */
-make_monic(ex) := block([v,vc],
+make_monic(ex) := block([v,vc,nc],
     if mapatom(ex) then return(ex),
     if not(polynomialpsimp(ex)) then return(ex),
     ex:expand(ex),
     v:listofvars(ex),
     if v=[] then return(ex),
-    /* Divide by the numerical coefficient of the leading term, without losing the minus sign. */
-    ev(expand(ex/abs(numerical_coeff(ex))), simp)
+    /* Divide by the numerical coefficient of the leading term, without losing the minus sign, where possible. */
+    nc:numerical_coeff(ex),
+    if is(nc=0) then ex else ev(expand(ex/abs(nc)), simp)
 )$
 
 /* Return the numerical coefficient of the leading term in expression. */

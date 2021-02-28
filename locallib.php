@@ -176,6 +176,16 @@ function stack_string_sanitise($str) {
     $str = str_ireplace('</iframe>', '&lt;&#8203;/iframe&gt;', $str);
     $str = str_ireplace('<style', '&lt;&#8203;style', $str);
     $str = str_ireplace('</style>', '&lt;&#8203;/style&gt;', $str);
+    $str = str_ireplace('<div', '&lt;&#8203;div', $str);
+    $str = str_ireplace('</div>', '&lt;&#8203;/div&gt;', $str);
+    $str = str_ireplace('/>', '/&gt;', $str);
+    $str = str_ireplace('</', '&lt;/', $str);
+    $str = str_ireplace('<!--', '&lt;!--', $str);
+    $str = str_ireplace('-->', '--&gt;', $str);
+
+    $pat = array('/(on)([a-z]+[ ]*)(=)/');
+    $rep = array('on&#0;$2&#0;=');
+    $str = preg_replace($pat, $rep, $str);
     return $str;
 }
 

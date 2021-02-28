@@ -158,7 +158,7 @@ $output = str_replace(",CHECKMARK", ", CHECKMARK", $output);
 $lines = explode("\n", $output);
 $pat = array('/\sid="stack_answertests_r\d+_c\d+"/',
              '/\sid="stack_answertests_r\d+"/');
-$ret = array('', '');
+$rep = array('', '');
 foreach ($lines as $key => $line) {
     $lines[$key] = preg_replace($pat, $rep, $line);
 }

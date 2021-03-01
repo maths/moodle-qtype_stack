@@ -134,9 +134,6 @@ function stack_docs_render_markdown($page) {
 
     // Put in links to images etc.
     $page = stack_maths::pre_process_docs_page($page);
-    if (strpos($page, '[[ALL_FACTS]]') > 0) {
-        $page = str_replace('[[ALL_FACTS]]', stack_fact_sheets::generate_docs(), $page);
-    }
     $page = format_text($page, FORMAT_MARKDOWN, array('filter' => false, 'noclean' => true));
     $page = stack_maths::post_process_docs_page($page);
     return $page;

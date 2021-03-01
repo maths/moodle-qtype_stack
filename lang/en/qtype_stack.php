@@ -1006,37 +1006,51 @@ $string['stackDoc_AnswerTestResults']   = '# Answer test results
 This page exposes the results of running answer tests on STACK test cases.  This page is automatically generated from the STACK unit tests and is designed to show question authors what answer tests actually do.  This includes cases where answer tests currentl fail, which gives a negative expected mark.  Comments and further test cases are very welcome.';
 
 // Fact sheets.
+
+$string['fact_sheet_preamble'] = '# Hints
+
+STACK contains a "formula sheet" of useful fragments which a teacher may wish to include in a consistent way.  This is achieved through the "hints" system.
+
+Hints can be included in any [CASText](CASText.md).
+
+To include a hint, use the syntax
+
+    [[facts:tag]]
+
+The "tag" is chosen from the list below.
+
+## All supported fact sheets
+
+';
+
 $string['greek_alphabet_name'] = 'The Greek Alphabet';
-$string['greek_alphabet_fact'] = '
-<center>
-<table>
-<tr><td>
- Upper case, \(\quad\) </td><td>  lower case, \(\quad\) </td><td>  name </td> </tr>   <tr> <td>
- \(A\)  </td><td>  \(\alpha\)  </td><td>  alpha  </td> </tr>   <tr> <td>
- \(B\)  </td><td>  \(\beta\)  </td><td>  beta </td> </tr>   <tr> <td>
- \(\Gamma\)  </td><td>  \(\gamma\)  </td><td>  gamma </td> </tr>   <tr> <td>
- \(\Delta\)  </td><td>  \(\delta\)  </td><td>  delta </td> </tr>   <tr> <td>
- \(E\)  </td><td>  \(\epsilon\)  </td><td>  epsilon </td> </tr>   <tr> <td>
- \(Z\)  </td><td>  \(\zeta\)  </td><td>  zeta </td> </tr>   <tr> <td>
- \(H\)  </td><td>  \(\eta\)  </td><td>  eta </td> </tr>   <tr> <td>
- \(\Theta\)  </td><td>  \(\theta\)  </td><td>  theta </td> </tr>   <tr> <td>
- \(K\)  </td><td>  \(\kappa\)  </td><td>  kappa </td> </tr>   <tr> <td>
- \(M\)  </td><td>  \(\mu\)  </td><td>  mu </td> </tr>   <tr> <td>
- \(N\)  </td><td>  \( u\)  </td><td>  nu </td> </tr>   <tr> <td>
- \(\Xi\)  </td><td>  \(\xi\)  </td><td>  xi </td> </tr>   <tr> <td>
- \(O\)  </td><td>  \(o\)  </td><td>  omicron </td> </tr>   <tr> <td>
- \(\Pi\)  </td><td>  \(\pi\)  </td><td>  pi </td> </tr>   <tr> <td>
- \(I\)  </td><td>  \(\iota\)  </td><td>  iota </td> </tr>   <tr> <td>
- \(P\)  </td><td>  \(\rho\) </td><td>  rho </td> </tr>   <tr> <td>
- \(\Sigma\)  </td><td>  \(\sigma\)  </td><td>  sigma </td> </tr>   <tr> <td>
- \(\Lambda\)  </td><td>  \(\lambda\)  </td><td>  lambda </td> </tr>   <tr> <td>
- \(T\)  </td><td>  \(\tau\)  </td><td>  tau </td> </tr>   <tr> <td>
- \(\Upsilon\)  </td><td>  \(\upsilon\)  </td><td>  upsilon </td> </tr>   <tr> <td>
- \(\Phi\)  </td><td>  \(\phi\)  </td><td>  phi </td> </tr>   <tr> <td>
- \(X\)  </td><td>  \(\chi\)  </td><td>  chi </td> </tr>   <tr> <td>
- \(\Psi\)  </td><td>  \(\psi\)  </td><td> psi </td> </tr>   <tr> <td>
- \(\Omega\)  </td><td>  \(\omega\)  </td><td>  omega </td></tr>
-</table></center>';
+$string['greek_alphabet_fact'] = '||||
+|--- |--- |--- |
+|Upper case, \(\quad\)|lower case, \(\quad\)|name|
+|\(A\)|\(\alpha\)|alpha|
+|\(B\)|\(\beta\)|beta|
+|\(\Gamma\)|\(\gamma\)|gamma|
+|\(\Delta\)|\(\delta\)|delta|
+|\(E\)|\(\epsilon\)|epsilon|
+|\(Z\)|\(\zeta\)|zeta|
+|\(H\)|\(\eta\)|eta|
+|\(\Theta\)|\(\theta\)|theta|
+|\(K\)|\(\kappa\)|kappa|
+|\(M\)|\(\mu\)|mu|
+|\(N\)|\( u\)|nu|
+|\(\Xi\)|\(\xi\)|xi|
+|\(O\)|\(o\)|omicron|
+|\(\Pi\)|\(\pi\)|pi|
+|\(I\)|\(\iota\)|iota|
+|\(P\)|\(\rho\)|rho|
+|\(\Sigma\)|\(\sigma\)|sigma|
+|\(\Lambda\)|\(\lambda\)|lambda|
+|\(T\)|\(\tau\)|tau|
+|\(\Upsilon\)|\(\upsilon\)|upsilon|
+|\(\Phi\)|\(\phi\)|phi|
+|\(X\)|\(\chi\)|chi|
+|\(\Psi\)|\(\psi\)|psi|
+|\(\Omega\)|\(\omega\)|omega|';
 
 $string['alg_inequalities_name'] = 'Inequalities';
 $string['alg_inequalities_fact'] = '\[a>b \hbox{ means } a \hbox{ is greater than } b.\]
@@ -1077,25 +1091,18 @@ $string['alg_partial_fractions_name'] = 'Partial Fractions';
 $string['alg_partial_fractions_fact'] = 'Proper fractions occur with \[{\frac{P(x)}{Q(x)}}\]
 when \(P\) and \(Q\) are polynomials with the degree of \(P\) less than the degree of \(Q\).  This this case, we proceed
 as follows: write \(Q(x)\) in factored form,
-<ul>
-<li>
-a <em>linear factor</em> \(ax+b\) in the denominator produces a partial fraction of the form \[{\frac{A}{ax+b}}.\]
-</li>
-<li>
-a <em>repeated linear factors</em> \((ax+b)^2\) in the denominator
+
+* a <em>linear factor</em> \(ax+b\) in the denominator produces a partial fraction of the form \[{\frac{A}{ax+b}}.\]
+* a <em>repeated linear factors</em> \((ax+b)^2\) in the denominator
 produce partial fractions of the form \[{A\over ax+b}+{B\over (ax+b)^2}.\]
-</li>
-<li>
-a <em>quadratic factor</em> \(ax^2+bx+c\)
+* a <em>quadratic factor</em> \(ax^2+bx+c\)
 in the denominator produces a partial fraction of
 the form \[{Ax+B\over ax^2+bx+c}\]
-</li>
-<li>
-<em>Improper fractions}</em> require an additional
+* <em>Improper fractions</em> require an additional
 term which is a polynomial of degree \(n-d\) where \(n\) is
 the degree of the numerator (i.e. \(P(x)\)) and \(d\) is the degree of
 the denominator (i.e. \(Q(x)\)).
-</li></ul>';
+';
 
 $string['trig_degrees_radians_name'] = 'Degrees and Radians';
 $string['trig_degrees_radians_fact'] = '\[
@@ -1162,28 +1169,25 @@ $string['hyp_inverse_functions_fact'] = '\[\cosh^{-1}(x)=\ln\left(x+\sqrt{x^2-1}
 
 $string['calc_diff_standard_derivatives_name'] = 'Standard Derivatives';
 $string['calc_diff_standard_derivatives_fact'] = 'The following table displays the derivatives of some standard functions.  It is useful to learn these standard derivatives as they are used frequently in calculus.
-<center>
-<table>
-<tr><th>\(f(x)\)               </th><th> \(f\'(x)\)</th></tr>
-<tr>
-<td>\(k\), constant           </td> <td> \(0\) </td> </tr> <tr> <td>
-\(x^n\), any constant \(n\) </td> <td> \(nx^{n-1}\)</td> </tr> <tr> <td>
-\(e^x\)                   </td> <td> \(e^x\)</td> </tr> <tr> <td>
-\(\ln(x)=\log_{\rm e}(x)\)              </td> <td> \(\frac{1}{x}\)                </td> </tr> <tr> <td>
-\(\sin(x)\)                             </td> <td> \(\cos(x)\)                    </td> </tr> <tr> <td>
-\(\cos(x)\)                             </td> <td> \(-\sin(x)\)                   </td> </tr> <tr> <td>
-\(\tan(x) = \frac{\sin(x)}{\cos(x)}\)   </td> <td>   \(\sec^2(x)\)                </td> </tr> <tr> <td>
-\(cosec(x)=\frac{1}{\sin(x)}\)         </td> <td>   \(-cosec(x)\cot(x)\)        </td> </tr> <tr> <td>
-\(\sec(x)=\frac{1}{\cos(x)}\)           </td> <td>   \(\sec(x)\tan(x)\)           </td> </tr> <tr> <td>
-\(\cot(x)=\frac{\cos(x)}{\sin(x)}\)     </td> <td>   \(-cosec^2(x)\)             </td> </tr> <tr> <td>
-\(\cosh(x)\)                            </td> <td>   \(\sinh(x)\)                 </td> </tr> <tr> <td>
-\(\sinh(x)\)                            </td> <td>   \(\cosh(x)\)                 </td> </tr> <tr> <td>
-\(\tanh(x)\)                            </td> <td>   \(sech^2(x)\)               </td> </tr> <tr> <td>
-\(sech(x)\)                            </td> <td>   \(-sech(x)\tanh(x)\)        </td> </tr> <tr> <td>
-\(cosech(x)\)                          </td> <td>   \(-cosech(x)\coth(x)\)      </td> </tr> <tr> <td>
-\(coth(x)\)                            </td> <td>   \(-cosech^2(x)\)            </td> </tr>
-</table>
-</center>
+
+|\(f(x)\)|\(f\'(x)\)|
+|--- |--- |
+|\(k\), constant|\(0\)|
+|\(x^n\), any constant \(n\)|\(nx^{n-1}\)|
+|\(e^x\)|\(e^x\)|
+|\(\ln(x)=\log_{\rm e}(x)\)|\(\frac{1}{x}\)|
+|\(\sin(x)\)|\(\cos(x)\)|
+|\(\cos(x)\)|\(-\sin(x)\)|
+|\(\tan(x) = \frac{\sin(x)}{\cos(x)}\)|\(\sec^2(x)\)|
+|\(cosec(x)=\frac{1}{\sin(x)}\)|\(-cosec(x)\cot(x)\)|
+|\(\sec(x)=\frac{1}{\cos(x)}\)|\(\sec(x)\tan(x)\)|
+|\(\cot(x)=\frac{\cos(x)}{\sin(x)}\)|\(-cosec^2(x)\)|
+|\(\cosh(x)\)|\(\sinh(x)\)|
+|\(\sinh(x)\)|\(\cosh(x)\)|
+|\(\tanh(x)\)|\(sech^2(x)\)|
+|\(sech(x)\)|\(-sech(x)\tanh(x)\)|
+|\(cosech(x)\)|\(-cosech(x)\coth(x)\)|
+|\(coth(x)\)|\(-cosech^2(x)\)|
 
  \[ \frac{d}{dx}\left(\sin^{-1}(x)\right) =  \frac{1}{\sqrt{1-x^2}}\]
  \[ \frac{d}{dx}\left(\cos^{-1}(x)\right) =  \frac{-1}{\sqrt{1-x^2}}\]
@@ -1233,31 +1237,30 @@ $string['calc_int_standard_integrals_fact'] = '
 
 \[\int k\ dx = kx +c, \mbox{ where k is constant.}\]
 \[\int x^n\ dx  = \frac{x^{n+1}}{n+1}+c, \quad (n\ne -1)\]
-\[\int x^{-1}\ dx = \int {\frac{1}{x}}\ dx = \ln(|x|)+c = \ln(k*|x|) = \left\{\matrix{\ln(x)+c & x>0\cr
+\[\int x^{-1}\ dx = \int {\frac{1}{x}}\ dx = \ln(|x|)+c = \ln(k|x|) = \left\{\matrix{\ln(x)+c & x>0\cr
 \ln(-x)+c & x<0\cr}\right.\]
 
-<center>
-<table>
-<tr><th>\(f(x)\)</th><th> \(\int f(x)\ dx\)</th></tr>
-<tr><td>\(e^x\) </td> <td>  \(e^x+c\)</td> <td> </td> </tr>
-<tr><td>\(\cos(x)\) </td> <td>  \(\sin(x)+c\)   </td> <td> </td> </tr>
-<tr><td>\(\sin(x)\) </td> <td>  \(-\cos(x)+c\)  </td> <td> </td> </tr>
-<tr><td>\(\tan(x)\) </td> <td>  \(\ln(\sec(x))+c\) </td> <td>\(-\frac{\pi}{2} < x < \frac{\pi}{2}\)</td> </tr>
-<tr><td>\(\sec x\)  </td> <td>  \(\ln (\sec(x)+\tan(x))+c\) </td> <td> \( -{\pi\over 2}< x < {\pi\over 2}\)</td> </tr>
-<tr><td>cosec\(\, x\) </td> <td>  \(\ln ($cosec$(x)-\cot(x))+c\) </td> <td>\(0 < x < \pi\)</td> </tr>
-<tr><td>cot\(\,x\) </td> <td>  \(\ln(\sin(x))+c\) </td> <td>  \(0< x< \pi\) </td> </tr>
-<tr><td>\(\cosh(x)\) </td> <td>  \(\sinh(x)+c\)</td> <td></td> </tr>
-<tr><td>\(\sinh(x)\) </td> <td>  \(\cosh(x) + c\) </td> <td> </td> </tr>
-<tr><td>\(\tanh(x)\) </td> <td>  \(\ln(\cosh(x))+c\)</td> <td> </td> </tr>
-<tr><td>coth\((x)\) </td> <td>  \(\ln(\sinh(x))+c \)</td> <td>   \(x>0\)</td> </tr>
-<tr><td>\({1\over x^2+a^2}\) </td> <td>  \({1\over a}\tan^{-1}{x\over a}+c\)</td> <td> \(a>0\)</td> </tr>
-<tr><td>\({1\over x^2-a^2}\) </td> <td>  \({1\over 2a}\ln{x-a\over x+a}+c\) </td> <td>  \(|x|>a>0\)</td> </tr>
-<tr><td>\({1\over a^2-x^2}\) </td> <td>  \({1\over 2a}\ln{a+x\over a-x}+c\) </td> <td>   \(|x|<a\)</td> </tr>
-<tr><td>\({1\over \sqrt{x^2+a^2}}\) </td> <td>  \(\sinh^{-1}\left(\frac{x}{a}\right) + c\) </td> <td> \(a>0\) </td> </tr>
-<tr><td>\({1\over \sqrt{x^2-a^2}}\) </td> <td>  \(\cosh^{-1}\left(\frac{x}{a}\right) + c\) </td> <td>  \(x\geq a > 0\) </td> </tr>
-<tr><td>\({1\over \sqrt{x^2+k}}\) </td> <td>  \(\ln (x+\sqrt{x^2+k})+c\)</td> <td> </td> </tr>
-<tr><td>\({1\over \sqrt{a^2-x^2}}\) </td> <td>  \(\sin^{-1}\left(\frac{x}{a}\right)+c\)</td> <td>  \(-a\leq x\leq a\)  </td> </tr>
-</table></center>';
+|\(f(x)\)|\(\int f(x)\ dx\)||
+|--- |--- |--- |
+|\(e^x\)|\(e^x+c\)||
+|\(\cos(x)\)|\(\sin(x)+c\)||
+|\(\sin(x)\)|\(-\cos(x)+c\)||
+|\(\tan(x)\)|\(\ln(\sec(x))+c\)|\(-\frac{\pi}{2} < x < \frac{\pi}{2}\)|
+|\(\sec x\)|\(\ln (\sec(x)+\tan(x))+c\)|\( -{\pi\over 2}< x < {\frac{\pi}{2}}\)|
+|\(\mbox{cosec}(x)\)|\(\ln (\mbox{cose}c(x)-\cot(x))+c\quad\)   |\(0 < x < \pi\)|
+|cot\(\,x\)|\(\ln(\sin(x))+c\)|\(0< x< \pi\)|
+|\(\cosh(x)\)|\(\sinh(x)+c\)||
+|\(\sinh(x)\)|\(\cosh(x) + c\)||
+|\(\tanh(x)\)|\(\ln(\cosh(x))+c\)||
+|\(\mbox{coth}(x)\)|\(\ln(\sinh(x))+c \)|\(x>0\)|
+|\({1\over x^2+a^2}\)|\({1\over a}\tan^{-1}{x\over a}+c\)|\(a>0\)|
+|\({1\over x^2-a^2}\)|\({1\over 2a}\ln{x-a\over x+a}+c\)|\(|x|>a>0\)|
+|\({1\over a^2-x^2}\)|\({1\over 2a}\ln{a+x\over a-x}+c\)|\(|x|\)|
+|\(\frac{1}{\sqrt{x^2+a^2}}\)|\(\sinh^{-1}\left(\frac{x}{a}\right) + c\)|\(a>0\)|
+|\({1\over \sqrt{x^2-a^2}}\)|\(\cosh^{-1}\left(\frac{x}{a}\right) + c\)|\(x\geq a > 0\)|
+|\({1\over \sqrt{x^2+k}}\)|\(\ln (x+\sqrt{x^2+k})+c\)||
+|\({1\over \sqrt{a^2-x^2}}\)|\(\sin^{-1}\left(\frac{x}{a}\right)+c\)|\(-a\leq x\leq a\)|
+';
 
 $string['calc_int_linearity_rule_name'] = 'The Linearity Rule for Integration';
 $string['calc_int_linearity_rule_fact'] = '\[\int \left(af(x)+bg(x)\right){\rm d}x = a\int\!\!f(x)\,{\rm d}x

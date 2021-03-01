@@ -1335,9 +1335,9 @@ class stack_algebra_input_test extends qtype_stack_testcase {
                 'picture-in-picture" allowfullscreen="" width="0" height="0" frameborder="0"></iframe>}$$';
         $ta = '<span class="stacksyntaxexample">$&#8203;$ \unicode{&lt;&#8203;script>eval(atob("ZG9jdW1lb' .
                 'nQuZ2V0RWxlbWVudHNCeVRhZ05hbWUoInAiKVswXS5pbm5lckhUTUwgPSAiQSIucmVwZWF0KDY2Nik"))&lt;&#8' .
-                '203;/script&gt;&lt;&#8203;iframe src="https://www.youtube.com/embed/IB3d1UthDrk?autoplay' .
-                '=1&amp;loop=1;con&#0;trols&#0;=0"<https://www.youtube.com/embed/IB3d1UthDrk?autoplay=1&amp;' .
-                'loop=1;con&#0;trols&#0;=0> allow="accelerometer; autoplay; encrypted-media; gyroscope; ' .
+                '203;/script&gt;&lt;&#8203;iframe src&#0;&#61;"https://www.youtube.com/embed/IB3d1UthDrk?autoplay' .
+                '=1&amp;loop=1;con&#0;trols&#0;&#61;0"<https://www.youtube.com/embed/IB3d1UthDrk?autoplay=1&amp;' .
+                'loop=1;con&#0;trols&#0;&#61;0> allow="accelerometer; autoplay; encrypted-media; gyroscope; ' .
                 'picture-in-picture" allowfullscreen="" width="0" height="0" frameborder="0">&lt;&#8203;' .
                 '/iframe&gt;}$&#8203;$</span>';
         // We don't require intervals to have real numbers in them.
@@ -1359,12 +1359,12 @@ class stack_algebra_input_test extends qtype_stack_testcase {
                 'hDrk?autoplay=1\" allow=\"autoplay\" allowfullscreen=\"\" width=\"0\" height=\"0\" framebor' .
                 'der=\"0\"></iframe>}"';
         $ta = '1+"unicode{&lt;&#8203;script>eval(atob(\"ZG9jdW1lbnQuZ2V0RWxlbWVudHNCeVRhZ05hbWUoInAiKVswXS5p' .
-                'bm5lckhUTUwgPSAiQSIucmVwZWF0KDY2Nik\"))&lt;&#8203;/script&gt;&lt;&#8203;iframe src=\"https:' .
+                'bm5lckhUTUwgPSAiQSIucmVwZWF0KDY2Nik\"))&lt;&#8203;/script&gt;&lt;&#8203;iframe src&#0;&#61;\"https:' .
                 '//www.youtube.com/embed/IB3d1UthDrk?autoplay=1\" allow=\"autoplay\" allowfullscreen=\"\" wi' .
                 'dth=\"0\" height=\"0\" frameborder=\"0\">&lt;&#8203;/iframe&gt;}"';
         $ua = '\[ 1+\mbox{unicode{\&lt;\&#8203;script>eval(atob("ZG9jdW1lbnQuZ2V0RWxlbWVudHNCeVRhZ05hbWUoInA' .
                 'iKVswXS5pbm5lckhUTUwgPSAiQSIucmVwZWF0KDY2Nik"))\&lt;\&#8203;/script\&gt;\&lt;\&#8203;iframe' .
-                ' src="https://www.youtube.com/embed/IB3d1UthDrk?autoplay=1" allow="autoplay" allowfullscreen' .
+                ' src\&#0;\&#61;"https://www.youtube.com/embed/IB3d1UthDrk?autoplay=1" allow="autoplay" allowfullscreen' .
                 '="" width="0" height="0" frameborder="0">\&lt;\&#8203;/iframe\&gt;}} \]';
         $state = $el->validate_student_response(array('sans1' => $sa), $options, '1+x^2',
                 new stack_cas_security(false, '', '', array('ta')));
@@ -1385,15 +1385,35 @@ class stack_algebra_input_test extends qtype_stack_testcase {
                 'k&quest;autoplay=1\"allow=\"autoplay\" allowfullscreen=\"\" width=\"0\" height=\"0\" framebo' .
                 'rder=\"0\"></iframe>}"';
         $ta = '1+"unicode{&lt;&#8203;script>eval(atob(\"ZG9jdW1lbnQuZ2V0RWxlbWVudHNCeVRhZ05hbWUoInAiKVswXS5pb' .
-                'm5lckhUTUwgPSAiQSIucmVwZWF0KDY2Nik\"))&lt;&#8203;/script&gt;&lt;&#8203;iframesrc=\"https://w' .
+                'm5lckhUTUwgPSAiQSIucmVwZWF0KDY2Nik\"))&lt;&#8203;/script&gt;&lt;&#8203;iframesrc&#0;&#61;\"https://w' .
                 'ww.youtube.com/embed/IB3d1UthDrk&quest;autoplay=1\"allow=\"autoplay\" allowfullscreen=\"\" w' .
                 'idth=\"0\" height=\"0\" frameborder=\"0\">&lt;&#8203;/iframe&gt;}"';
         $ua = '\[ 1+\mbox{unicode{\&lt;\&#8203;script>eval(atob("ZG9jdW1lbnQuZ2V0RWxlbWVudHNCeVRhZ05hbWUoInAi' .
                 'KVswXS5pbm5lckhUTUwgPSAiQSIucmVwZWF0KDY2Nik"))\&lt;\&#8203;/script\&gt;\&lt;\&#8203;iframesr' .
-                'c="https://www.youtube.com/embed/IB3d1UthDrk\&quest;autoplay=1"allow="autoplay" allowfullscr' .
+                'c\&#0;\&#61;"https://www.youtube.com/embed/IB3d1UthDrk\&quest;autoplay=1"allow="autoplay" allowfullscr' .
                 'een="" width="0" height="0" frameborder="0">\&lt;\&#8203;/iframe\&gt;}} \]';
         $state = $el->validate_student_response(array('sans1' => $sa), $options, '1+x^2',
                 new stack_cas_security(false, '', '', array('ta')));
+        $this->assertEquals($state->status, stack_input::VALID);
+        $this->assertEquals('', $state->note);
+        $this->assertEquals('', $state->errors);
+        $this->assertEquals($ta, $state->contentsmodified);
+        $this->assertEquals($ua, $state->contentsdisplayed);
+
+        $sa = '1+"\\unicode{<script>eval(atob(\"ZG9jdW1lbnQuZ2V0RWxlbWVudHNCeVRhZ05hbWUoInAiKVswXS5pbm5lckhUT' .
+            'UwgPSAiQSIucmVwZWF0KDY2Nik\"))</script><iframe src=\"https://www.youtube.com/embed/IB3d1UthDr' .
+            'k&quest;autoplay=1\"allow=\"autoplay\" allowfullscreen=\"\" width=\"0\" height=\"0\" framebo' .
+            'rder=\"0\"></iframe>}"';
+        $ta = '1+"unicode{&lt;&#8203;script>eval(atob(\"ZG9jdW1lbnQuZ2V0RWxlbWVudHNCeVRhZ05hbWUoInAiKVswXS5pb' .
+            'm5lckhUTUwgPSAiQSIucmVwZWF0KDY2Nik\"))&lt;&#8203;/script&gt;&lt;&#8203;iframe src&#0;&#61;\"https://w' .
+            'ww.youtube.com/embed/IB3d1UthDrk&quest;autoplay=1\"allow=\"autoplay\" allowfullscreen=\"\" w' .
+            'idth=\"0\" height=\"0\" frameborder=\"0\">&lt;&#8203;/iframe&gt;}"';
+        $ua = '\[ 1+\mbox{unicode{\&lt;\&#8203;script>eval(atob("ZG9jdW1lbnQuZ2V0RWxlbWVudHNCeVRhZ05hbWUoInAi' .
+            'KVswXS5pbm5lckhUTUwgPSAiQSIucmVwZWF0KDY2Nik"))\&lt;\&#8203;/script\&gt;\&lt;\&#8203;iframe sr' .
+            'c\&#0;\&#61;"https://www.youtube.com/embed/IB3d1UthDrk\&quest;autoplay=1"allow="autoplay" allowfullscr' .
+            'een="" width="0" height="0" frameborder="0">\&lt;\&#8203;/iframe\&gt;}} \]';
+        $state = $el->validate_student_response(array('sans1' => $sa), $options, '1+x^2',
+            new stack_cas_security(false, '', '', array('ta')));
         $this->assertEquals($state->status, stack_input::VALID);
         $this->assertEquals('', $state->note);
         $this->assertEquals('', $state->errors);
@@ -1440,8 +1460,8 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         $this->assertEquals($cd, $state->contentsdisplayed);
 
         $sa = '"<div onclick=\'dosuchandsuch\'></div>"';
-        $cm = '"&lt;&#8203;div on&#0;click&#0;=\'dosuchandsuch\'>&lt;&#8203;/div&gt;"';
-        $cd = '\[ \&lt;\&#8203;div on\&#0;click\&#0;=\'dosuchandsuch\'>\&lt;\&#8203;/div\&gt; \]';
+        $cm = '"&lt;&#8203;div on&#0;click&#0;&#61;\'dosuchandsuch\'>&lt;&#8203;/div&gt;"';
+        $cd = '\[ \&lt;\&#8203;div on\&#0;click\&#0;\&#61;\'dosuchandsuch\'>\&lt;\&#8203;/div\&gt; \]';
         $state = $el->validate_student_response(array('sans1' => $sa), $options, $ta,
             new stack_cas_security(false, '', '', array('ta')));
         $this->assertEquals($state->status, stack_input::VALID);
@@ -1451,8 +1471,30 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         $this->assertEquals($cd, $state->contentsdisplayed);
 
         $sa = '"<div onmousemove     =\'dosuchandsuch\'></div>"';
-        $cm = '"&lt;&#8203;div on&#0;mousemove     &#0;=\'dosuchandsuch\'>&lt;&#8203;/div&gt;"';
-        $cd = '\[ \&lt;\&#8203;div on\&#0;mousemove \&#0;=\'dosuchandsuch\'>\&lt;\&#8203;/div\&gt; \]';
+        $cm = '"&lt;&#8203;div on&#0;mousemove     &#0;&#61;\'dosuchandsuch\'>&lt;&#8203;/div&gt;"';
+        $cd = '\[ \&lt;\&#8203;div on\&#0;mousemove \&#0;\&#61;\'dosuchandsuch\'>\&lt;\&#8203;/div\&gt; \]';
+        $state = $el->validate_student_response(array('sans1' => $sa), $options, $ta,
+            new stack_cas_security(false, '', '', array('ta')));
+        $this->assertEquals($state->status, stack_input::VALID);
+        $this->assertEquals('', $state->note);
+        $this->assertEquals('', $state->errors);
+        $this->assertEquals($cm, $state->contentsmodified);
+        $this->assertEquals($cd, $state->contentsdisplayed);
+
+        $sa = '"<img src=\'picture\' />"';
+        $cm = '"<img src&#0;&#61;\'picture\' /&gt;"';
+        $cd = '\[ \mbox{<img src\&#0;\&#61;\'picture\' /\&gt;} \]';
+        $state = $el->validate_student_response(array('sans1' => $sa), $options, $ta,
+            new stack_cas_security(false, '', '', array('ta')));
+        $this->assertEquals($state->status, stack_input::VALID);
+        $this->assertEquals('', $state->note);
+        $this->assertEquals('', $state->errors);
+        $this->assertEquals($cm, $state->contentsmodified);
+        $this->assertEquals($cd, $state->contentsdisplayed);
+
+        $sa = '"<a href=\'link\' />I do not think so.</a>"';
+        $cm = '"<a href&#0;&#61;\'link\' /&gt;I do not think so.&lt;/a>"';
+        $cd = '\[ \mbox{<a href\&#0;\&#61;\'link\' /\&gt;I do not think so.\&lt;/a>} \]';
         $state = $el->validate_student_response(array('sans1' => $sa), $options, $ta,
             new stack_cas_security(false, '', '', array('ta')));
         $this->assertEquals($state->status, stack_input::VALID);

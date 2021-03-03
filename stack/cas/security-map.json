@@ -369,34 +369,44 @@
       "variable": "f"
   },
   "_APPEND_ERR": {
-      "function": "f"
+      "function": "f",
+      "built-in": true
   },
   "_APPEND_FEEDBACK": {
-      "function": "f"
+      "function": "f",
+      "built-in": true
   },
   "_APPEND_NOTE": {
-      "function": "f"
+      "function": "f",
+      "built-in": true
   },
   "_CS2dv": {
-      "function": "f"
+      "function": "f",
+      "built-in": true
   },
   "_CS2dvv": {
-      "function": "f"
+      "function": "f",
+      "built-in": true
   },
   "_CS2l": {
-      "function": "f"
+      "function": "f",
+      "built-in": true
   },
   "_CS2v": {
-      "function": "f"
+      "function": "f",
+      "built-in": true
   },
   "_EC": {
-      "function": "f"
+      "function": "f",
+      "built-in": true
   },
   "_RESET_FEEDBACK": {
-      "function": "f"
+      "function": "f",
+      "built-in": true
   },
   "_RESET_NOTES": {
-      "function": "f"
+      "function": "f",
+      "built-in": true
   },
   "__": {
       "globalyforbiddenvariable": true,
@@ -603,7 +613,8 @@
       "function": "s"
   },
   "append": {
-      "function": "?"
+      "function": "?",
+      "built-in": true
   },
   "appendfile": {
       "function": "f",
@@ -611,7 +622,8 @@
   },
   "apply": {
       "function": "?",
-      "mapfunction": true
+      "mapfunction": true,
+      "built-in": true
   },
   "apply1": {
       "function": "?"
@@ -977,7 +989,8 @@
       "variable": "s"
   },
   "block": {
-      "function": "?"
+      "function": "?",
+      "built-in": true
   },
   "blockmatrixp": {
       "function": "s"
@@ -2113,7 +2126,8 @@
       "function": "s"
   },
   "elementp": {
-      "function": "s"
+      "function": "s",
+      "built-in": true
   },
   "elevation": {
       "variable": "f"
@@ -2722,11 +2736,13 @@
   },
   "fullmap": {
       "function": "s",
-      "mapfunction": true
+      "mapfunction": true,
+      "built-in": true
   },
   "fullmapl": {
       "function": "s",
-      "mapfunction": true
+      "mapfunction": true,
+      "built-in": true
   },
   "fullratsimp": {
       "evfun": "s",
@@ -2758,7 +2774,8 @@
   "funmake": {
       "function": "f",
       "globalyforbiddenfunction": true,
-      "mapfunction": true
+      "mapfunction": true,
+      "built-in": true
   },
   "funp": {
       "function": "s"
@@ -3871,7 +3888,8 @@
       "function": "f"
   },
   "length": {
-      "function": "s"
+      "function": "s",
+      "built-in": true
   },
   "let": {
       "function": "f"
@@ -3909,7 +3927,8 @@
       "variable": "?"
   },
   "lhs": {
-      "function": "s"
+      "function": "s",
+      "built-in": true
   },
   "li": {
       "function": "f"
@@ -4006,7 +4025,8 @@
       "variable": "?"
   },
   "listify": {
-      "function": "s"
+      "function": "s",
+      "built-in": true
   },
   "listoftens": {
       "function": "f"
@@ -4015,7 +4035,8 @@
       "function": "?"
   },
   "listp": {
-      "function": "?"
+      "function": "?",
+      "built-in": true
   },
   "lmax": {
       "function": "s"
@@ -4046,7 +4067,8 @@
       "variable": "f"
   },
   "local": {
-      "function": "?"
+      "function": "?",
+      "built-in": true
   },
   "locate_matrix_entry": {
       "function": "s"
@@ -4267,7 +4289,8 @@
   },
   "map": {
       "function": "s",
-      "mapfunction": true
+      "mapfunction": true,
+      "built-in": true
   },
   "mapatom": {
       "function": "s"
@@ -4277,7 +4300,8 @@
   },
   "maplist": {
       "function": "s",
-      "mapfunction": true
+      "mapfunction": true,
+      "built-in": true
   },
   "mapprint": {
       "variable": "?"
@@ -4311,7 +4335,8 @@
       "function": "?"
   },
   "matrix": {
-      "function": "s"
+      "function": "s",
+      "built-in": true
   },
   "matrix_element_add": {
       "variable": "s"
@@ -4330,7 +4355,8 @@
   },
   "matrixmap": {
       "function": "s",
-      "mapfunction": true
+      "mapfunction": true,
+      "built-in": true
   },
   "matrixp": {
       "function": "s"
@@ -4339,7 +4365,8 @@
       "function": "s"
   },
   "max": {
-      "function": "s"
+      "function": "s",
+      "built-in": true
   },
   "max_clique": {
       "function": "?"
@@ -4506,7 +4533,8 @@
       "function": "?"
   },
   "min": {
-      "function": "s"
+      "function": "s",
+      "built-in": true
   },
   "min_degree": {
       "function": "?"
@@ -5082,7 +5110,8 @@
   },
   "outermap": {
       "function": "s",
-      "mapfunction": true
+      "mapfunction": true,
+      "built-in": true
   },
   "outofpois": {
       "function": "f"
@@ -6462,7 +6491,8 @@
       "variable": "s"
   },
   "return": {
-      "function": "?"
+      "function": "?",
+      "built-in": true
   },
   "rev": {
       "variable": "s"
@@ -6487,7 +6517,8 @@
       "variable": "s"
   },
   "rhs": {
-      "function": "s"
+      "function": "s",
+      "built-in": true
   },
   "ric": {
       "variable": "s"
@@ -6618,7 +6649,8 @@
   },
   "scanmap": {
       "function": "s",
-      "mapfunction": true
+      "mapfunction": true,
+      "built-in": true
   },
   "scatterplot": {
       "function": "f",
@@ -6634,7 +6666,8 @@
       "function": "s"
   },
   "sconcat": {
-      "function": "?"
+      "function": "?",
+      "built-in": true
   },
   "scopy": {
       "function": "?"
@@ -6666,7 +6699,8 @@
       "function": "s"
   },
   "set": {
-      "function": "?"
+      "function": "?",
+      "built-in": true
   },
   "set_alt_display": {
       "function": "?"
@@ -6720,7 +6754,8 @@
       "function": "s"
   },
   "setify": {
-      "function": "s"
+      "function": "s",
+      "built-in": true
   },
   "setp": {
       "function": "s"
@@ -7088,6 +7123,22 @@
   "ssubstfirst": {
       "function": "?"
   },
+  "stack_complex_expression": {
+      "function": "t",
+      "built-in": true
+  },
+  "stack_disp": {
+      "function": "t",
+      "built-in": true
+  },
+  "stack_dispvalue": {
+      "function": "t",
+      "built-in": true
+  },
+  "stack_randseed": {
+      "function": "f",
+      "built-in": true
+  },
   "stack_reset_vars": {
       "function": "?",
       "blockexternal": "true"
@@ -7115,6 +7166,26 @@
   "stack_unit_si_declare": {
       "function": "s",
       "contextvariable": "true"
+  },
+  "stackmap_set": {
+      "function": "t",
+      "built-in": true
+  },
+  "stackmap_unset": {
+      "function": "t",
+      "built-in": true
+  },
+  "stackmap_get": {
+      "function": "t",
+      "built-in": true
+  },
+  "stackmap_has_key": {
+      "function": "t",
+      "built-in": true
+  },
+  "stackjson_stringify": {
+      "function": "t",
+      "built-in": true
   },
   "stackvector": {
       "function": "s"
@@ -7255,7 +7326,8 @@
       "function": "?"
   },
   "string": {
-      "function": "?"
+      "function": "?",
+      "built-in": true
   },
   "string_to_octets": {
       "function": "?"
@@ -7970,6 +8042,10 @@
   },
   "var_weibull": {
       "function": "s"
+  },
+  "vconcat": {
+      "function": "?",
+      "built-in": true
   },
   "vect_cross": {
       "variable": "s"

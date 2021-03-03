@@ -94,6 +94,16 @@ class stack_ast_filter_998_security implements stack_cas_astfilter_parametric {
                 }
             }
 
+            if ($node instanceof MP_Statement && count($node->flags) > 0) {
+                $tmp = new MP_FunctionCall(new MP_Identifier('ev'), [clone $node->statement]);
+                foreach ($node->flags as $flag) {
+                    if ($flag->name instanceof MP_Identifier) {
+                        $tmp->arguments[] = new MP_Operation(':', clone $flag->name, clone $flag->value);
+                    }
+                }
+                $ofinterest[] = $tmp;
+            }
+
             return true;
         };
         // We can actually skip the invalid portions as in most
@@ -138,6 +148,27 @@ class stack_ast_filter_998_security implements stack_cas_astfilter_parametric {
         // the list may grow as we go forward and unwrap things.
         $i = 0;
         $processedfuns = []; // To stop specific loops.
+
+        // Some focusing to avoid pointles checks.
+        $ctx1 = $identifierrules->get_context();
+        $ctx = [];
+        foreach ($ctx1 as $key => $values) {
+            foreach ($values as $k => $value) {
+                if (!is_integer($k)) {
+                    if ($value instanceof MP_Integer || $value instanceof MP_Float || $value instanceof MP_Boolean || ($value instanceof MP_PrefixOp && ($value->rhs instanceof MP_Integer || $value->rhs instanceof MP_Float))) {
+                        continue;
+                    }
+                    if ($value instanceof MP_Operation && $value->op !== '*') {
+                        continue;
+                    }
+                }
+                if (!isset($ctx[$key])) {
+                    $ctx[$key] = [];
+                }
+                $ctx[$key][$k] = $value;
+            }
+        }
+
         while ($i < count($ofinterest)) {
             $node = $ofinterest[$i];
             $i = $i + 1;
@@ -153,6 +184,15 @@ class stack_ast_filter_998_security implements stack_cas_astfilter_parametric {
                 // We could just strip these out in the recurse but maybe we want
                 // to check something in the future.
                 $operators[$node->op] = true;
+                if ($node->op == ':=' && $node->lhs instanceof MP_FunctionCall) {
+                    if ($node->lhs->name instanceof MP_String || $node->lhs->name instanceof MP_Identifier) {
+                        if ($identifierrules->has_feature($node->lhs->name->value, 'built-in')) {
+                            $node->position['invalid'] = true;
+                            $errors[] = trim(stack_string('stackCas_redefine_built_in', ['name' => $node->lhs->name->value]));
+                            $valid = false;
+                        }
+                    }
+                }
             } else if ($node instanceof MP_Identifier && !$node->is_function_name()) {
                 $variables[$node->value] = true;
                 if ($node->is_being_written_to()) {
@@ -214,10 +254,64 @@ class stack_ast_filter_998_security implements stack_cas_astfilter_parametric {
                         }
                     }
 
+                    // Map types over substitutions.
+                    if ($node->name->value === 'subst') {
+                        $virtualfunction = new MP_FunctionCall(new MP_Identifier('ev'),[]);
+                        if ($node->arguments[0] instanceof MP_List && count($node->arguments) >= 2) {
+                            $virtualfunction->arguments[] = clone $node->arguments[1];
+                            foreach ($node->arguments[0]->items as $value) {
+                                $virtualfunction->arguments[] = clone $value;
+                            }
+                        } else if ($node->arguments[0] instanceof MP_Operation && count($node->arguments) >= 2) {
+                            $virtualfunction->arguments[] = clone $node->arguments[1];
+                            $virtualfunction->arguments[] = clone $node->arguments[0];
+                        } else if (count($node->arguments) >= 3) {
+                            $virtualfunction->arguments[] = clone $node->arguments[2];
+                            $virtualfunction->arguments[] = new MP_Operation('=', clone $node->arguments[1], clone $node->arguments[0]);
+                        }
+                        $virtualfunction->position['virtual'] = true;
+                        if (!isset($processedfuns[$virtualfunction->toString()])) {
+                            $ofinterest[] = $virtualfunction;
+                            $processedfuns[$virtualfunction->toString()] = true;
+                        }
+                    }
+                    if ($node->name->value === 'ev') {
+                        if (count($node->arguments) === 1) {
+                            // Only pick function calls from this if any exist.
+                            $funs = function($node) use (&$ofinterest, &$processedfuns) {
+                                if ($node instanceof MP_FunctionCall) {
+                                    if (!isset($processedfuns[$node->toString()])) {
+                                        $ofinterest[] = clone $node;
+                                        $processedfuns[$node->toString()] = true;
+                                    }               
+                                }
+                                return true;
+                            };
+                            (new MP_Group([$node->arguments[0]]))->callbackRecurse($funs);
+                        } else {
+                            $node = clone $node;
+                            $val = array_pop($node->arguments);
+                            if ($val instanceof MP_Operation && ($val->op === ':' || $val->op === '=')) {
+                                $id = $val->lhs->toString();
+                                $val = $val->rhs;
+                                $replace = function($node) use (&$id, &$val) {
+                                    if ($node instanceof MP_Identifier && $node->value === $id) {
+                                        $node->parentnode->replace($node, clone $val);
+                                    }
+                                    return true;
+                                };
+                                $tmp = new MP_Group([clone $node->arguments[0]]);
+                                $tmp->callbackRecurse($replace);
+                                $node->arguments[0] = $tmp->items[0];
+                            }
+                            $ofinterest[] = $node;
+                        }
+                    }
+
                     // The sublist case.
                     if ($identifierrules->has_feature($node->name->value, 'argumentasfunction')) {
                         foreach (stack_cas_security::get_feature($node->name->value, 'argumentasfunction') as $ind) {
-                            $virtualfunction = new MP_FunctionCall($node->arguments[$ind], array($node->arguments[0]));
+                            $virtualfunction = new MP_FunctionCall(clone $node->arguments[$ind], array(clone $node->arguments[0]));
                             $virtualfunction->position['virtual'] = true;
                             if (!isset($processedfuns[$virtualfunction->toString()])) {
                                 $ofinterest[] = $virtualfunction;
@@ -227,25 +321,23 @@ class stack_ast_filter_998_security implements stack_cas_astfilter_parametric {
                     }
 
                     // Redefined & indirect ones.
-                    if (isset($identifierrules->get_context()[$node->name->value])) {
-                        foreach ($identifierrules->get_context()[$node->name->value] as $key => $value) {
+                    if (isset($ctx[$node->name->value])) {
+                        foreach ($ctx[$node->name->value] as $key => $value) {
                             // We use -1 for a custom function, its contents have been vetted elsewhere.
                             // We use -2 for an input and such should never be here.
                             if ($key !== -1 && $key !== -2) {
-                                if (isset($functionnames[$key]) && !$identifierrules->has_feature($key, 'mapfunction')) {
+                                if ((isset($functionnames[$key]) && !$identifierrules->has_feature($key, 'mapfunction')) || ($value instanceof MP_FunctionCall and $value->name->toString() === $node->name->value)) {
                                     // Also don't regenerate calls. Unless map functions.
-                                    continue;
-                                }
-                                // We might have something like `lcm:lcm(...)` this is
-                                // a common enough pattern to be skipped specially.
-                                if ($value instanceof MP_FunctionCall and $value->name->toString() === $node->name->value) {
-                                    continue;
-                                }
-                                $virtualfunction = new MP_FunctionCall(clone $value, $node->arguments);
-                                $virtualfunction->position['virtual'] = true;
-                                if (!isset($processedfuns[$virtualfunction->toString()])) {
-                                    $ofinterest[] = $virtualfunction;
-                                    $processedfuns[$virtualfunction->toString()] = true;
+                                    // We might have something like `lcm:lcm(...)` this is
+                                    // a common enough pattern to be skipped specially.
+                                } else {
+                                    $tmp = clone $node;
+                                    $virtualfunction = new MP_FunctionCall(clone $value, $tmp->arguments);
+                                    $virtualfunction->position['virtual'] = true;
+                                    if (!isset($processedfuns[$virtualfunction->toString()])) {
+                                        $ofinterest[] = $virtualfunction;
+                                        $processedfuns[$virtualfunction->toString()] = true;
+                                    }
                                 }
                             }
                         }
@@ -316,6 +408,9 @@ class stack_ast_filter_998_security implements stack_cas_astfilter_parametric {
                             }
                         }
                     }
+                } else if ($node->name instanceof MP_Integer || $node->name instanceof MP_Float || $node->name instanceof MP_Boolea) {
+                    // Some substitutions do lead to interesting results.
+                    $notsafe = false;
                 }
                 if ($notsafe) {
                     // As in not safe identification of the function to be called.
@@ -383,7 +478,7 @@ class stack_ast_filter_998_security implements stack_cas_astfilter_parametric {
                 }
                 $valid = false;
             }
-            if (isset($identifierrules->get_context()[$name]) && isset($identifierrules->get_context()[$name][-2])) {
+            if (isset($ctx[$name]) && isset($ctx[$name][-2])) {
                 $errors[] = trim(stack_string('stackCas_studentInputAsFunction'));
                 $valid = false;
             }

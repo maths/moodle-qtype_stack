@@ -264,19 +264,48 @@ class maxima_parser_utils {
     // the question and should be used as such.
     public static function identify_identifier_values($ast, $expand=[]): array {
         $output = array_merge($expand, []);
-        $recursion = function($node) use(&$output) {
+        $statement = null;
+        // I know this is not well documentted... we'll get to that.
+        $sec = new stack_cas_security();
+        $recursion = function($node) use(&$output, &$statement, $sec) {
             if ($node instanceof MP_Identifier) {
                 if (!isset($output[$node->value])) {
                     $output[$node->value] = [];
                 }
             }
+            if ($node instanceof MP_Statement) {
+                // Track the statement we are in.
+                $statement = $node;
+                if (!$statement->statement instanceof MP_Operation || ($statement->statement !== ':' && $statement->statement !== ':=')) {
+                    if ($statement->flags !== null) {
+                        foreach ($statement->flags as $flag) {
+                            if ($flag->name instanceof MP_Identifier) {
+                                if (!isset($output[$flag->name->value])) {
+                                    $output[$flag->name->value] = [];
+                                }
+                                $str = $flag->value->toString();
+                                $output[$flag->name->value][$str] = clone $flag->value;
+                            }
+                        }
+                    }
+                }
+            }
             if ($node instanceof MP_Operation) {
-                if ($node->op === ':' && $node->lhs instanceof MP_Identifier) {
-                    $str = $node->rhs->toString();
+                if ($node->op === ':' && $node->lhs instanceof MP_Identifier && !(
+                    $node->rhs instanceof MP_Operation && $node->rhs->op === ':=')) {
+                    $v = clone $node->rhs;
+                    if ($statement->flags !== null && count($statement->flags) > 0) {
+                        $flags = [];
+                        foreach ($statement->flags as $flag) {
+                            $flags[] = new MP_Operation(':', clone $flag->name, clone $flag->value);
+                        }
+                        $v = new MP_FunctionCall(new MP_Identifier('ev'), array_merge([$v], $flags));
+                    }
+                    $str = $v->toString();
                     if (isset($output[$node->lhs->value])) {
-                        $output[$node->lhs->value][$str] = $node->rhs;
+                        $output[$node->lhs->value][$str] = $v;
                     } else {
-                        $output[$node->lhs->value] = [$str => $node->rhs];
+                        $output[$node->lhs->value] = [$str => $v];
                     }
                 }
                 if ($node->op === ':=' && $node->lhs instanceof MP_FunctionCall) {
@@ -287,7 +316,244 @@ class maxima_parser_utils {
         };
         $ast->callbackRecurse($recursion);
 
-        return $output;
+        // Now we have the definitions of all the bound variables, lets expand
+        // them out to figure out of which unbound variables they are made of.
+        // Note that the end result should tell us which are static values.
+        $trg = null;
+        $val = null;
+        $replace = function($node) use(&$trg, &$val) {
+            if ($node instanceof MP_Identifier && $node->value === $trg && !$node->is_being_written_to()) {
+                $node->parentnode->replace($node, clone $val);
+            }
+            return true;
+        };
+        $clean = [];
+        $unclean = [];
+        $simp = function($node) {
+            if ($node instanceof MP_Group && count($node->items) > 1) {
+                $node->items = [end($node->items)];
+                return false;
+            }
+            if ($node instanceof MP_Group && count($node->items) == 1 && $node->items[0] instanceof MP_Atom) {
+                $node->parentnode->replace($node, $node->items[0]);
+                return false;
+            }
+            return true;
+        };
+        foreach ($output as $key => $values) {
+            $clean[$key] = [];
+            if (count($values) === 0) {
+                $clean[$key] = $values;
+            } else {
+                foreach ($values as $str => $value) {
+                    if (is_integer($str)) {
+                        $clean[$key][$str] = $value;
+                    } else {
+                        if (!isset($unclean[$key])) {
+                            $unclean[$key] = [$str => $value];
+                        } else {
+                            $unclean[$key][$str] = $value;
+                        }
+                    }
+                }
+            }
+        }
+        // Remove cleans.
+        $clear1 = [1];
+        while (count($clear1) > 0) {
+            $clear1 = [];
+            foreach ($unclean as $key => $values) {
+                $clear2 = [];
+                foreach ($values as $vk => $value) {
+                    $usage = self::variable_usage_finder($value);
+                    // Now if it uses none of the uncleans it is clean.
+                    $good = true;
+                    foreach ($usage['read'] as $k => $v) {
+                        if ($key !== $k && isset($unclean[$k])) {
+                            $good = false;
+                            break;
+                        }
+                    }
+                    foreach ($usage['calls'] as $k => $v) {
+                        if ($key !== $k && isset($unclean[$k])) {
+                            $good = false;
+                            break;
+                        }
+                    }
+                    if ($good) {
+                        $clear2[] = $vk;
+                        $clean[$key][$vk] = $value;
+                    }
+                }
+                foreach ($clear2 as $k) {
+                    unset($values[$k]);
+                }
+                if (count($values) === 0) {
+                    $clear1[] = $key;
+                }
+            }
+            foreach ($clear1 as $k) {
+                unset($unclean[$k]);
+            }
+        }
+
+        while (count($unclean) > 0) {
+            // Remove cleans.
+            $clear1 = [];
+            foreach ($unclean as $key => $values) {
+                $clear2 = [];
+                foreach ($values as $vk => $value) {
+                    $usage = self::variable_usage_finder(new MP_Group([$value]));
+                    // Now if it uses none of the uncleans it is clean.
+                    $good = true;
+                    foreach ($usage['read'] as $k => $v) {
+                        if ($key !== $k && isset($unclean[$k])) {
+                            $good = false;
+                            break;
+                        }
+                    }
+                    foreach ($usage['calls'] as $k => $v) {
+                        if ($key !== $k && isset($unclean[$k])) {
+                            $good = false;
+                            break;
+                        }
+                    }
+                    if ($good) {
+                        $clear2[] = $vk;
+                        $clean[$key][$vk] = $value;
+                    }
+                }
+                foreach ($clear2 as $k) {
+                    unset($values[$k]);
+                }
+                if (count($values) === 0) {
+                    $clear1[] = $key;
+                }
+            }
+            foreach ($clear1 as $k) {
+                unset($unclean[$k]);
+            }
+            foreach (array_keys($unclean) as $key) {
+                $trg = $key;
+                foreach ($unclean as $k => $values) {
+                    if ($key !== $k) {
+                        $clear1 = [];
+                        $adds = [];
+                        foreach ($values as $vk => $value) {
+                            if (mb_strpos($vk, $key) !== false) {
+                                foreach ($unclean[$key] as $alt) {
+                                    $tmp = new MP_Group([$alt]);
+                                    $val = new MP_Identifier('rec ' . $key);
+                                    $tmp->callbackRecurse($replace);
+                                    $val = $tmp->items[0];
+                                    $tmp = new MP_Group([clone $value]);
+                                    $tmp->callbackRecurse($replace);
+                                    while (!$tmp->callbackRecurse($simp)){};
+                                    if ($vk !== $tmp->items[0]->toString()) {
+                                        $clear1[$vk] = $vk;
+                                        $adds[$tmp->items[0]->toString()] = $tmp->items[0];
+                                    }
+                                }
+                            }
+                        }
+                        foreach ($adds as $k3 => $v3) {
+                            $unclean[$k][$k3] = $v3;
+                        }
+                        foreach ($clear1 as $k2) {
+                           unset($unclean[$k][$k2]);
+                        }
+                    }
+                }
+            }
+        }
+        // Then substitutions.
+        $subst = function($node) use(&$trg, &$val, &$clean, &$replace, &$simp)  {
+            if ($node instanceof MP_FunctionCall && ($node->name instanceof MP_Identifier || $node->name instanceof MP_String)) {
+                if ($node->name->value === 'ev' && count($node->arguments) >= 2) {
+                    $tmp = new MP_Group([$node->arguments[0]]);
+                    foreach (array_slice($node->arguments, 1) as $arg) {
+                        if ($arg instanceof MP_Operation && ($arg->op === ':' || $arg->op === '=')) {
+                            $trg = $arg->lhs->toString();
+                            $val = $arg->rhs;
+                            $clean[$trg][$val->toString()] = $val;
+                            $tmp->callbackRecurse($replace);
+                            while (!$tmp->callbackRecurse($simp)){};
+                        }
+                    }
+                    $node->parentnode->replace($node, $tmp->items[0]);
+                    return false;
+                } else if ($node->name->value === 'subst' && count($node->arguments) >= 3) {
+                    $tmp = new MP_Group([$node->arguments[2]]);
+                    $trg = $node->arguments[1]->toString();
+                    $val = $node->arguments[0];
+                    $clean[$trg][$val->toString()] = $val;
+                    $tmp->callbackRecurse($replace);
+                    while (!$tmp->callbackRecurse($simp)){};
+                    $node->parentnode->replace($node, $tmp->items[0]);
+                    return false;
+                } else if ($node->name->value === 'subst' && count($node->arguments) == 2 && $node->arguments[0] instanceof MP_List) {
+                    $node->name->value = 'ev';
+                    $node->arguments = array_merge([$node->arguments[1]], $node->arguments[0]->items);
+                    return false;
+                } else if ($node->name->value === 'subst' && count($node->arguments) == 2 && $node->arguments[0] instanceof MP_Operation) {
+                    $node->name->value = 'ev';
+                    $node->arguments = [$node->arguments[1], $node->arguments[0]];
+                    return false;
+                }
+            }
+            return true;
+        };
+        $revert = function($node) {
+            if ($node instanceof MP_Identifier && strpos($node->value, 'rec ') === 0) {
+                $node->value = mb_substr($node->value, 4);
+            }
+            return true;
+        };
+        $output = [];
+        foreach ($clean as $key => $values) {
+            $output1[$key] = [];
+            foreach ($values as $kv => $value) {
+                if (!is_integer($kv) && (mb_strpos($kv, 'ev(') !== false || mb_strpos($kv, 'subst(') !== false)) {
+                    $tmp = new MP_Group([$value]);
+                    while (!$tmp->callbackRecurse($subst)){};
+                    while (!$tmp->callbackRecurse($simp)){};
+                    $tmp->callbackRecurse($revert);
+                    $output[$key][$tmp->items[0]->toString()] = $tmp->items[0];
+                } else {
+                    if ($value instanceof MP_Node) {
+                        $tmp = new MP_Group([$value]);
+                        $tmp->callbackRecurse($revert);
+                        $output[$key][$tmp->items[0]->toString()] = $tmp->items[0];
+                    } else {
+                        $output[$key][$kv] = $value;
+                    }
+                }
+            }
+        }
+        // Final filter, if the expression is overly complex we will note it with
+        // this. This should be handled as unidentifiable. Note that while we can 
+        // generate this parsing it back from the cache is the problem.
+        $outputf = [];
+        foreach ($output as $key => $values) {
+            $outputf[$key] = [];
+            foreach ($values as $kv => $value) {
+                if (is_integer($kv) || mb_strlen($kv) < 200) {
+                    $outputf[$key][$kv] = $value;
+                } else {
+                    $usage = self::variable_usage_finder(new MP_Group([$value]));
+                    $tmp = new MP_FunctionCall(new MP_Identifier('stack_complex_expression'), []);
+                    $usage = array_merge($usage['read'], $usage['calls']);
+                    ksort($usage);
+                    foreach ($usage as $k => $v) {
+                        $tmp->arguments[] = new MP_Identifier($k);
+                    }
+                    $outputf[$key][$tmp->toString()] = $tmp;
+                }
+            }
+        }
+
+
+        return $outputf;
     }
 
 }

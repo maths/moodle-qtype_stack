@@ -698,6 +698,7 @@ $string['stackCas_applyfunmakestring']      = 'The name of the function cannot b
 $string['stackCas_badpostfixop']            = 'You have a bad "postfix" operator in your expression.';
 $string['stackCas_overrecursivesignatures'] = 'The question code includes too many functions defined through mapping';
 $string['stackCas_studentInputAsFunction']  = 'Use of student input as the name of a function is not permitted.';
+$string['stackCas_redefine_built_in']       = 'Redefining a built in function "{$a->name}" is forbidden.';
 
 // Used in cassession.class.php.
 $string['stackCas_CASError']                = 'The CAS returned the following error(s):';

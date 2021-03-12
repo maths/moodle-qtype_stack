@@ -12,6 +12,21 @@ If you cannot apply a patch, then create a copy of the question and put it in a 
 
 It is possible to change the weight of an individual question within a live quiz and re-grade. If the live question is impossible to fix you do have the option to disregard the question by assigning it a mark of \(0\) in the quiz.
 
+## Fixing broken MathJax and Javascript
+
+A relatively common problem is that MathJax stops working half way through a question resulting in an equation showing up as a `[Math Error]` or similar error message, (or just showing the source).
+
+MathJax is a javascript library, and sometimes when it encounters malformed HTML it gives up.
+
+The first place to look is to check the integrity of the HTML in your question.  Do not use the WYSIWYG editors in Moodle.  The editors cut and paste all sorts of HTML formatting into LaTeX equations, e.g. "span" tags, which break MathJax.
+
+1. Choose the Moodle "plain textarea" editor from the user preferences.
+2. Edit your question and carefully tidy up your html.  Things to look for:
+  * span tags inside LaTeX equations.  Make sure your LaTeX has no HTML inside it, (entities like `&lt;` are fine).
+  * the `[[input:....]]` and other tags should not be inside random span tags either.
+
+If your javascript code, e.g. JSXGraph, also stops working this is almost certainly because it has been edited with a WYSIWYG editor which has "protected" your code and so broken it.  Check with the plain textarea editor.
+
 ## Sorting out broken random versions.
 
 __Do not change anything which alters the randomisation of variants.__

@@ -154,9 +154,6 @@ class qtype_stack_renderer extends qtype_renderer {
         }
 
         $urlparams['seed'] = $question->seed;
-        $links[] = html_writer::link(
-                $question->qtype->get_question_test_url($question),
-                stack_string('runquestiontests'));
 
         // Quite honestly fellow developers I'm getting fed up of fixing live questions written by colleagues!
         // Especially when the questions do not have tests or deployed variants which would have revealed the problem.
@@ -167,7 +164,11 @@ class qtype_stack_renderer extends qtype_renderer {
             count($testscases) == 0) {
             $links[] = html_writer::link(
                 $question->qtype->get_question_test_url($question),
-                stack_string('runquestiontests_alert'));
+                stack_string_error('runquestiontests_alert'));
+        } else {
+            $links[] = html_writer::link(
+                    $question->qtype->get_question_test_url($question),
+                    stack_string('runquestiontests'));
         }
 
         return html_writer::tag('div', implode(' | ', $links), array('class' => 'questiontestslink'));

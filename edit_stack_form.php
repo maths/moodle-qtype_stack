@@ -209,7 +209,7 @@ class qtype_stack_edit_form extends question_edit_form {
             $out = stack_string('runquestiontests');
             if (empty($this->question->deployedseeds) &&
                     qtype_stack_question::random_variants_check($this->question->options->questionvariables)) {
-                $out = stack_string('questionnotdeployedyet');
+                $out = stack_string_error('questionnotdeployedyet');
             }
             $qtestlink = html_writer::link($qtype->get_question_test_url($this->question),
                     $out, array('target' => '_blank'));

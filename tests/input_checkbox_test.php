@@ -92,9 +92,12 @@ class stack_checkbox_input_test extends qtype_stack_walkthrough_test_base {
     public function test_bad_teacheranswer() {
         $el = $this->make_checkbox();
         $el->adapt_to_model_answer('[x]');
-        $expected = '<div class="error"><p>The input has generated the following runtime error which prevents you from answering.'
-                . ' Please contact your teacher.</p><p>The model answer field for this input is malformed: <code>[x]</code>.'
-                . '</p></div>';
+        $expected = '<div class="error"><p><i class="icon fa fa-exclamation-circle text-danger fa-fw " title="The input has ' .
+                  'generated the following runtime error which prevents you from answering. Please contact your teacher." ' .
+                  'aria-label="The input has generated the following runtime error which prevents you from answering. Please ' .
+                  'contact your teacher."></i>The input has generated the following runtime error which prevents you from ' .
+                  'answering. Please contact your teacher.</p>' .
+                  '<p>The model answer field for this input is malformed: <code>[x]</code>.</p></div>';
         $this->assertEquals($expected, $el->render(new stack_input_state(
                 stack_input::SCORE, array('2'), '', '', '', '', ''), 'stack1__ans1', false, null));
     }
@@ -104,9 +107,12 @@ class stack_checkbox_input_test extends qtype_stack_walkthrough_test_base {
         $el = stack_input_factory::make('checkbox', 'ans1', '[[1,true],[2,false]]', null, array());
         $el->adapt_to_model_answer('[[1,true],[1,false]]');
         // @codingStandardsIgnoreEnd
-        $expected = '<div class="error"><p>The input has generated the following runtime error which prevents you from answering.'
-                .' Please contact your teacher.</p><p>Duplicate values have been found when generating the input options.</p>'
-                .'</div>';
+        $expected = '<div class="error"><p><i class="icon fa fa-exclamation-circle text-danger fa-fw " title="The input has ' .
+                  'generated the following runtime error which prevents you from answering. Please contact your teacher." ' .
+                  'aria-label="The input has generated the following runtime error which prevents you from answering. Please ' .
+                  'contact your teacher."></i>The input has generated the following runtime error which prevents you from ' .
+                  'answering. Please contact your teacher.</p>' .
+                  '<p>Duplicate values have been found when generating the input options.</p></div>';
          $this->assertEquals($expected, $el->render(new stack_input_state(
                 stack_input::SCORE, array('2'), '', '', '', '', ''), 'stack1__ans1', false, null));
     }

@@ -1166,7 +1166,7 @@ abstract class stack_input {
         if ($errors) {
             $errors = implode(' ', $errors);
         }
-        $result = html_writer::tag('p', stack_string('ddl_runtime'));
+        $result = html_writer::tag('p', stack_string_error('ddl_runtime'));
         $result .= html_writer::tag('p', $errors);
         return html_writer::tag('div', $result, array('class' => 'error'));
     }

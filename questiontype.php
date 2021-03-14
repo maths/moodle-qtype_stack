@@ -1540,6 +1540,13 @@ class qtype_stack extends question_type {
             }
         }
 
+        // Check multi-language versions all have the same languages.
+        $ml = new stack_multilang();
+        $qlangs = $ml->languages_used($fromform['questiontext']['text']);
+        if ($qlangs != array()) {
+            $warnings['questiontext'] = stack_string('questiontextlanguages', implode(', ', $qlangs));
+        }
+
         // Check input placholders appear with the correct number of times in the question text.
         foreach ($inputs as $inputname => $counts) {
             list($numinputs, $numvalidations) = $counts;

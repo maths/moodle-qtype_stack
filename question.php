@@ -1290,6 +1290,24 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         return implode(' ', $errors);
     }
 
+    /*
+     * Unfortunately, "errors" stop a question being saved.  So, we have a parallel warning mechanism.
+     * Warnings need to be addressed but should not stop a question being saved.
+     */
+    public function validate_warnings() {
+
+        $warnings = array();
+
+        // Check multi-language versions all have the same languages.
+        $ml = new stack_multilang();
+        $qlangs = $ml->languages_used($this->questiontext);
+        if ($qlangs != array()) {
+            $warnings['questiontext'] = stack_string('questiontextlanguages', implode(', ', $qlangs));
+        }
+
+        return implode(' ', $warnings);
+
+    }
     /**
      * Cache management.
      *

@@ -1460,7 +1460,6 @@ class qtype_stack extends question_type {
      * @return array($errors, $warnings).
      */
     public function validate_fromform($fromform, $errors) {
-        $warnings = array();
 
         $fixingdollars = array_key_exists('fixdollars', $fromform);
 
@@ -1538,13 +1537,6 @@ class qtype_stack extends question_type {
             if ($failed) {
                 $errors['questiontext'][] = stack_string('inputlanguageproblems');
             }
-        }
-
-        // Check multi-language versions all have the same languages.
-        $ml = new stack_multilang();
-        $qlangs = $ml->languages_used($fromform['questiontext']['text']);
-        if ($qlangs != array()) {
-            $warnings['questiontext'] = stack_string('questiontextlanguages', implode(', ', $qlangs));
         }
 
         // Check input placholders appear with the correct number of times in the question text.
@@ -1736,7 +1728,7 @@ class qtype_stack extends question_type {
             }
         }
 
-        return array($errors, $warnings);
+        return $errors;
     }
 
     /**

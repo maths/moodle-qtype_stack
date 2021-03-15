@@ -60,9 +60,6 @@ class qtype_stack_edit_form extends question_edit_form {
     /** @var array the set of choices used for the score mode of all PRT branches. */
     protected $scoremodechoices;
 
-    /** @var array any warnings generated at validation time. */
-    protected $warnings = array();
-
     /** Patch up data from the database before a user edits it in the form. */
     public function set_data($question) {
         if (!empty($question->questiontext)) {
@@ -187,6 +184,9 @@ class qtype_stack_edit_form extends question_edit_form {
                     '-' => '-',
         );
 
+        $question = question_bank::load_question($this->question->id);
+        $warnings = $question->validate_warnings();
+
         $qtype = new qtype_stack();
         // Note, the following methods have side-effects in $qtype stack, setting up internal data.
         $inputnames = $qtype->get_input_names_from_question_text($this->get_current_question_text());
@@ -228,9 +228,8 @@ class qtype_stack_edit_form extends question_edit_form {
         $mform->addHelpButton('variantsselectionseed', 'variantsselectionseed', 'qtype_stack');
 
         // Question warnings, if there are any.
-        $warnmessage = implode('', $this->warnings);
-        if ('' != trim($warnmessage)) {
-            $qwarn = $mform->createElement('static', 'questionwarnings', '', $warnmessage);
+        if ('' != $warnings) {
+            $qwarn = $mform->createElement('static', 'questionwarnings', '', $warnings);
             $mform->insertElementBefore($qwarn, 'questiontext');
             $mform->addHelpButton('questionwarnings', 'questionwarnings', 'qtype_stack');
         }
@@ -773,11 +772,7 @@ class qtype_stack_edit_form extends question_edit_form {
         $errors = parent::validation($fromform, $files);
 
         $qtype = new qtype_stack();
-        list($errors, $warnings) = $qtype->validate_fromform($fromform, $errors);
-
-        $this->warnings = $warnings;
-
-        return $errors;
+        return $qtype->validate_fromform($fromform, $errors);
     }
 
     public function qtype() {

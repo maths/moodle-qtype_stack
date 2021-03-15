@@ -931,6 +931,29 @@ class stack_astcontainer_test extends qtype_stack_testcase {
         $this->assertEquals('ntuple(x,y)', $at1->get_evaluationform());
         $this->assertEquals('(x,y)', $at1->get_inputform(true, 0, true));
 
+        // Nested tuples are fine (if a bit odd....).
+        $filterstoapply = array('601_insert_tuples_for_groups');
+        $s = '(a,(x,y))';
+        $at1 = stack_ast_container::make_from_student_source($s, '', new stack_cas_security(), $filterstoapply);
+        $this->assertTrue($at1->get_valid());
+
+        $expected = '([FunctionCall: ([Id] ntuple)] ([Id] a),([FunctionCall: ([Id] ntuple)] ([Id] x),([Id] y)))';
+        $this->assertEquals($expected, $at1->ast_to_string(null, array('flattree' => true)));
+
+        $this->assertEquals('ntuple(a,ntuple(x,y))', $at1->get_evaluationform());
+        $this->assertEquals('(a,(x,y))', $at1->get_inputform(true, 0, true));
+
+        $filterstoapply = array('601_insert_tuples_for_groups');
+        $s = '((x,y),a)';
+        $at1 = stack_ast_container::make_from_student_source($s, '', new stack_cas_security(), $filterstoapply);
+        $this->assertTrue($at1->get_valid());
+
+        $expected = '([FunctionCall: ([Id] ntuple)] ([FunctionCall: ([Id] ntuple)] ([Id] x),([Id] y)),([Id] a))';
+        $this->assertEquals($expected, $at1->ast_to_string(null, array('flattree' => true)));
+
+        $this->assertEquals('ntuple(ntuple(x,y),a)', $at1->get_evaluationform());
+        $this->assertEquals('((x,y),a)', $at1->get_inputform(true, 0, true));
+
     }
 
 }

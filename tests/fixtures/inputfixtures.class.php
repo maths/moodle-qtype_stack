@@ -145,6 +145,8 @@ class stack_inputvalidation_test_data {
         array('(a,b,c)', 'php_true', 'ntuple(a,b,c)', 'cas_true', '\left(a, b, c\right)', '',
         "In Maxima this syntax is a programme block which we turn into an inert function for student's input."),
         array('{(x,y),(b,c)}', 'php_true', '{ntuple(x,y),ntuple(b,c)}', 'cas_true', '\left \{\left(x, y\right) , \left(b, c\right) \right \}', '', ""),
+        array('((x,y),a)', 'php_true', 'ntuple(ntuple(x,y),a)', 'cas_true', '\left(\left(x, y\right), a\right)', '', ""),
+        array('((x,y)/2,a)', 'php_true', 'ntuple((x,y)/2,a)', 'cas_true', '\left(\frac{y}{2}, a\right)', '', ""),
         array('0..1', 'php_false', '', '', '', 'spuriousop',
         "Ranges and logical operations are currently not supported by Maxima or STACK
         - this is on our wish list. It will result in the ability to deal with systems of inequalities, e.g. \(x<1\ and\ x>-4\)."),

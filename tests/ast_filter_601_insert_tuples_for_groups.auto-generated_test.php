@@ -35,6 +35,21 @@ class stack_ast_filter_auto_gen_601_insert_tuples_for_groups_testcase extends qt
                       array(),
                       true, false);
 
+        $this->expect('((a,b),c)',
+                      'ntuple(ntuple(a,b),c)',
+                      array(),
+                      true, false);
+
+        $this->expect('(a,(b,c))',
+                      'ntuple(a,ntuple(b,c))',
+                      array(),
+                      true, false);
+
+        $this->expect('{(a,b),(x,y)}',
+                      '{ntuple(a,b),ntuple(x,y)}',
+                      array(),
+                      true, false);
+
     }
 
     public function test_affected_units() {
@@ -43,6 +58,21 @@ class stack_ast_filter_auto_gen_601_insert_tuples_for_groups_testcase extends qt
 
         $this->expect('(a,b,c)',
                       'ntuple(a,b,c)',
+                      array(),
+                      true, false);
+
+        $this->expect('((a,b),c)',
+                      'ntuple(ntuple(a,b),c)',
+                      array(),
+                      true, false);
+
+        $this->expect('(a,(b,c))',
+                      'ntuple(a,ntuple(b,c))',
+                      array(),
+                      true, false);
+
+        $this->expect('{(a,b),(x,y)}',
+                      '{ntuple(a,b),ntuple(x,y)}',
                       array(),
                       true, false);
 
@@ -1534,6 +1564,11 @@ class stack_ast_filter_auto_gen_601_insert_tuples_for_groups_testcase extends qt
 
         $this->expect('x-(y+z)',
                       'x-(y+z)',
+                      array(),
+                      true, false);
+
+        $this->expect('x/(y+z)',
+                      'x/(y+z)',
                       array(),
                       true, false);
 
@@ -3255,6 +3290,11 @@ class stack_ast_filter_auto_gen_601_insert_tuples_for_groups_testcase extends qt
 
         $this->expect('x-(y+z)',
                       'x-(y+z)',
+                      array(),
+                      true, false);
+
+        $this->expect('x/(y+z)',
+                      'x/(y+z)',
                       array(),
                       true, false);
 

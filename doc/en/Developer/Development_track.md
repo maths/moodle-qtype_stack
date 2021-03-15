@@ -12,6 +12,7 @@ Mostly minor bug fixes.
 * Done: Add in additional cache `compiledcache` to reduce validation overheads by compiling questions.
 * Done. Add in local.mac for site specific code.
 * Done. Move STACK admin UI scripts to `adminui`.
+* Done. Filter student's input so groups are turned into `ntuple` inert functions.  At last students can type in coordinates as `(x,y)` as input!
 
 ## Version 4.4
 

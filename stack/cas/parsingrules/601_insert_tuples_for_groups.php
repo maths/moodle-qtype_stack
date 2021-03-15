@@ -26,15 +26,24 @@ class stack_ast_filter_601_insert_tuples_for_groups implements stack_cas_astfilt
     public function filter(MP_Node $ast, array &$errors, array &$answernotes, stack_cas_security $identifierrules): MP_Node {
 
         $insettuples = function($node) use (&$answernotes, &$errors) {
-            if ($node instanceof MP_Group && count($node->items) > 1
-                    && !($node->is_in_operation()) && !($node->parentnode instanceof MP_FunctionCall)) {
+            if ($node instanceof MP_Group && count($node->items) > 1 && !($node->is_in_operation())) {
+                // Guard clause to allow nested tuples, but not other function calls.
+                if ($node->parentnode instanceof MP_FunctionCall) {
+                    if (!$node->parentnode->name->toString() == 'ntuple') {
+                        return false;
+                    }
+                }
                 $nop = new MP_FunctionCall(new MP_Identifier('ntuple'), $node->getChildren());
                 $node->parentnode->replace($node, $nop);
+                return false;
             }
             return true;
         };
 
-        $ast->callbackRecurse($insettuples);
+        // @codingStandardsIgnoreStart
+        while ($ast->callbackRecurse($insettuples) !== true) {
+        }
+        // @codingStandardsIgnoreEnd
         return $ast;
     }
 }

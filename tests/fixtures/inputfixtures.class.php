@@ -146,7 +146,9 @@ class stack_inputvalidation_test_data {
         "In Maxima this syntax is a programme block which we turn into an inert function for student's input."),
         array('{(x,y),(b,c)}', 'php_true', '{ntuple(x,y),ntuple(b,c)}', 'cas_true', '\left \{\left(x, y\right) , \left(b, c\right) \right \}', '', ""),
         array('((x,y),a)', 'php_true', 'ntuple(ntuple(x,y),a)', 'cas_true', '\left(\left(x, y\right), a\right)', '', ""),
-        array('((x,y)/2,a)', 'php_true', 'ntuple((x,y)/2,a)', 'cas_true', '\left(\frac{y}{2}, a\right)', '', ""),
+        array('((x,y)/2,a)', 'php_false', 'ntuple((x,y)/2,a)', 'cas_true', '', 'Illegal_groups', ""),
+        array('(x,y)+3', 'php_false', 'ntuple(x,y)+3', 'cas_true', '', 'Illegal_groups', ""),
+        array('f((x,y),2)', 'php_true', 'f(ntuple(x,y),2)', 'cas_true', 'f\left(\left(x, y\right) , 2\right)', '', ""),
         array('0..1', 'php_false', '', '', '', 'spuriousop',
         "Ranges and logical operations are currently not supported by Maxima or STACK
         - this is on our wish list. It will result in the ability to deal with systems of inequalities, e.g. \(x<1\ and\ x>-4\)."),
@@ -593,7 +595,8 @@ class stack_inputvalidation_test_data {
         $filterstoapply[] = '406_split_implied_variable_names';
 
         $filterstoapply[] = '502_replace_pm';
-        $filterstoapply[] = '601_insert_tuples_for_groups';
+        $filterstoapply[] = '504_insert_tuples_for_groups';
+        $filterstoapply[] = '505_no_evaluation_groups';
 
         // We want to apply this as our "insert stars" but not spaces...
         $filterstoapply[] = '990_no_fixing_spaces';

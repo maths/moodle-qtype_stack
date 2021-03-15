@@ -863,7 +863,9 @@ abstract class stack_input {
         $filterstoapply[] = '502_replace_pm';
 
         // Replace evaluation groups with tuples.
-        $filterstoapply[] = '601_insert_tuples_for_groups';
+        $filterstoapply[] = '504_insert_tuples_for_groups';
+        // Then ban the rest.
+        $filterstoapply[] = '505_no_evaluation_groups';
 
         // Remove scripts and other related things from string-values.
         $filterstoapply[] = '997_string_security';

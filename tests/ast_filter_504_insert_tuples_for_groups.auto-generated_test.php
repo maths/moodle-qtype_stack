@@ -24,11 +24,11 @@ require_once(__DIR__ . '/../tests/fixtures/ast_filter_test_base.php');
  * @group qtype_stack_ast_filters
  */
 
-class stack_ast_filter_auto_gen_601_insert_tuples_for_groups_testcase extends qtype_stack_ast_testcase {
+class stack_ast_filter_auto_gen_504_insert_tuples_for_groups_testcase extends qtype_stack_ast_testcase {
 
     public function test_affected_no_units() {
         $this->security = new stack_cas_security(false);
-        $this->filter = stack_parsing_rule_factory::get_by_common_name('601_insert_tuples_for_groups');
+        $this->filter = stack_parsing_rule_factory::get_by_common_name('504_insert_tuples_for_groups');
 
         $this->expect('(a,b,c)',
                       'ntuple(a,b,c)',
@@ -54,7 +54,7 @@ class stack_ast_filter_auto_gen_601_insert_tuples_for_groups_testcase extends qt
 
     public function test_affected_units() {
         $this->security = new stack_cas_security(true);
-        $this->filter = stack_parsing_rule_factory::get_by_common_name('601_insert_tuples_for_groups');
+        $this->filter = stack_parsing_rule_factory::get_by_common_name('504_insert_tuples_for_groups');
 
         $this->expect('(a,b,c)',
                       'ntuple(a,b,c)',
@@ -80,7 +80,7 @@ class stack_ast_filter_auto_gen_601_insert_tuples_for_groups_testcase extends qt
 
     public function test_non_affected_units() {
         $this->security = new stack_cas_security(true);
-        $this->filter = stack_parsing_rule_factory::get_by_common_name('601_insert_tuples_for_groups');
+        $this->filter = stack_parsing_rule_factory::get_by_common_name('504_insert_tuples_for_groups');
 
         $this->expect('"+"(a,b)',
                       '"+"(a,b)',
@@ -1806,7 +1806,7 @@ class stack_ast_filter_auto_gen_601_insert_tuples_for_groups_testcase extends qt
 
     public function test_non_affected_no_units() {
         $this->security = new stack_cas_security(false);
-        $this->filter = stack_parsing_rule_factory::get_by_common_name('601_insert_tuples_for_groups');
+        $this->filter = stack_parsing_rule_factory::get_by_common_name('504_insert_tuples_for_groups');
 
         $this->expect('"+"(a,b)',
                       '"+"(a,b)',

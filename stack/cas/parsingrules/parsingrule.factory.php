@@ -47,11 +47,11 @@ require_once(__DIR__ . '/441_split_unknown_functions.filter.php');
 require_once(__DIR__ . '/442_split_all_functions.filter.php');
 require_once(__DIR__ . '/450_split_floats.filter.php');
 require_once(__DIR__ . '/502_replace_pm.filter.php');
+require_once(__DIR__ . '/504_insert_tuples_for_groups.php');
 require_once(__DIR__ . '/505_no_evaluation_groups.filter.php');
 require_once(__DIR__ . '/520_no_equality_with_logic.filter.php');
 require_once(__DIR__ . '/541_no_unknown_functions.filter.php');
 require_once(__DIR__ . '/542_no_functions_at_all.filter.php');
-require_once(__DIR__ . '/601_insert_tuples_for_groups.php');
 require_once(__DIR__ . '/801_singleton_numeric.filter.php');
 require_once(__DIR__ . '/802_singleton_units.filter.php');
 require_once(__DIR__ . '/910_inert_float_for_display.filter.php');
@@ -130,6 +130,8 @@ class stack_parsing_rule_factory {
                 return new stack_ast_filter_450_split_floats();
             case '502_replace_pm':
                 return new stack_ast_filter_502_replace_pm();
+            case '504_insert_tuples_for_groups':
+                return new stack_ast_filter_504_insert_tuples_for_groups();
             case '505_no_evaluation_groups':
                 return new stack_ast_filter_505_no_evaluation_groups();
             case '520_no_equality_with_logic':
@@ -138,8 +140,6 @@ class stack_parsing_rule_factory {
                 return new stack_ast_filter_541_no_unknown_functions();
             case '542_no_functions_at_all':
                 return new stack_ast_filter_542_no_functions_at_all();
-            case '601_insert_tuples_for_groups':
-                return new stack_ast_filter_601_insert_tuples_for_groups();
             case '801_singleton_numeric':
                 return new stack_ast_filter_801_singleton_numeric();
             case '802_singleton_units':
@@ -181,10 +181,10 @@ class stack_parsing_rule_factory {
                            '410_single_char_vars', '441_split_unknown_functions',
                            '442_split_all_functions', '450_split_floats',
                            '502_replace_pm',
+                           '504_insert_tuples_for_groups',
                            '505_no_evaluation_groups',
                            '520_no_equality_with_logic',
                            '541_no_unknown_functions', '542_no_functions_at_all',
-                           '601_insert_tuples_for_groups',
                            '801_singleton_numeric', '802_singleton_units',
                            '910_inert_float_for_display',
                            '990_no_fixing_spaces', '991_no_fixing_stars',

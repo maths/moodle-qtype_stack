@@ -286,7 +286,7 @@ class stack_ast_container_silent implements cas_evaluatable {
     }
 
     // This returns the fully filtered AST as it should be inputted were it inputted perfectly.
-    public function get_inputform(bool $keyless = false, $nounify = null): string {
+    public function get_inputform(bool $keyless = false, $nounify = null, $nontuples = false): string {
         if (!($nounify === null || is_int($nounify))) {
             throw new stack_exception('stack_ast_container: nounify must be null or an integer.');
         }
@@ -296,7 +296,8 @@ class stack_ast_container_silent implements cas_evaluatable {
                 'nosemicolon' => true,
                 'keyless' => $keyless,
                 'dealias' => false, // This is needed to stop pi->%pi etc.
-                'nounify' => $nounify
+                'nounify' => $nounify,
+                'nontuples' => $nontuples
                 );
         return $this->ast_to_string($this->ast, $params);
     }

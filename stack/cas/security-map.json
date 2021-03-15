@@ -4881,6 +4881,9 @@
   "ntics": {
       "variable": "s"
   },
+  "ntuple": {
+      "function": "s"
+  },
   "nu": {
       "function": "s",
       "variable": "s"

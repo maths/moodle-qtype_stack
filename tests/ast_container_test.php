@@ -908,4 +908,29 @@ class stack_astcontainer_test extends qtype_stack_testcase {
         $this->assertTrue($at1->get_valid());
         $this->assertEquals("matrix([a,b])\na b", $at1->ast_to_string(null, array('varmatrix' => true)));
     }
+
+    public function test_ntuple() {
+        $s = '(x,y)';
+        $at1 = stack_ast_container::make_from_student_source($s, '', new stack_cas_security());
+        $this->assertTrue($at1->get_valid());
+
+        $expected = '([Group] ([Id] x),([Id] y))';
+        $this->assertEquals($expected, $at1->ast_to_string(null, array('flattree' => true)));
+
+        $this->assertEquals('(x,y)', $at1->get_evaluationform());
+        $this->assertEquals('(x,y)', $at1->get_inputform(true, 0, true));
+
+        $filterstoapply = array('601_insert_tuples_for_groups');
+        $s = '(x,y)';
+        $at1 = stack_ast_container::make_from_student_source($s, '', new stack_cas_security(), $filterstoapply);
+        $this->assertTrue($at1->get_valid());
+
+        $expected = '([FunctionCall: ([Id] ntuple)] ([Id] x),([Id] y))';
+        $this->assertEquals($expected, $at1->ast_to_string(null, array('flattree' => true)));
+
+        $this->assertEquals('ntuple(x,y)', $at1->get_evaluationform());
+        $this->assertEquals('(x,y)', $at1->get_inputform(true, 0, true));
+
+    }
+
 }

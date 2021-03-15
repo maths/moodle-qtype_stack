@@ -1022,9 +1022,15 @@ class MP_FunctionCall extends MP_Node {
             return '([FunctionCall: ' . $n .'] ' . implode(',', $ar) . ')';
         }
 
+        if ($params !== null && isset($params['nontuples'])) {
+            if ($n == 'ntuple' && $params['nontuples']) {
+                $n = '';
+            }
+        }
+
         // Two cases we need to consider.
         // We want the inputform with nouns, e.g. to store.
-        // We want the input form without nouns, e.g. "the teacher's answer is..." situation.
+        // We want the inputform without nouns, e.g. "the teacher's answer is..." situation.
         if (isset($params['inputform']) && $params['inputform'] === true &&
                 isset($params['nounify']) && $params['nounify'] === 0) {
             $prefix = stack_cas_security::get_feature($this->name->value, 'prefixinputform');

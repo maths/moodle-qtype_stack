@@ -390,6 +390,17 @@ class stack_potentialresponse_tree {
     }
 
     /**
+     * @return array Languages used in the feedback.
+     */
+    public function get_feedback_languages() {
+        $langs = array();
+        foreach ($this->nodes as $key => $node) {
+            $langs[$key] = $node->get_feedback_languages();
+        }
+        return $langs;
+    }
+
+    /**
      * @return boolean whether this PRT contains any tests that use units.
      */
     public function has_units(): bool {

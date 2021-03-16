@@ -184,8 +184,12 @@ class qtype_stack_edit_form extends question_edit_form {
                     '-' => '-',
         );
 
-        $question = question_bank::load_question($this->question->id);
-        $warnings = $question->validate_warnings();
+        // Test materials don't have an id.
+        $warnings = '';
+        if (isset($this->question->id)) {
+            $question = question_bank::load_question($this->question->id);
+            $warnings = implode("<br />", $question->validate_warnings());
+        }
 
         $qtype = new qtype_stack();
         // Note, the following methods have side-effects in $qtype stack, setting up internal data.

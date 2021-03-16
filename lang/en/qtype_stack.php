@@ -295,7 +295,6 @@ $string['questiontextonlycontain'] = 'The question text should only contain the 
 $string['questiontextplaceholderswhitespace'] = 'Placeholders may not contain whitespace.  This one appears to do so: \'{$a}\'.';
 $string['questiontextfeedbackonlycontain'] = 'The question text combined with the specific feedback should only contain the token \'{$a}\' once.';
 $string['questiontextfeedbacklanguageproblems'] = 'There are inconsistencies in the feedback tags between languages.';
-$string['questiontextlanguages'] = 'The language tags found in your question are: {$a}.';
 $string['questionvalue'] = 'Question value';
 $string['questionvaluepostive'] = 'Question value must be non-negative.';
 $string['questionvariables'] = 'Question variables';
@@ -391,6 +390,10 @@ $string['teacheranswershow_mcq']  = 'A correct answer is: {$a->display}';
 $string['teacheranswershownotes'] = 'A correct answer is not provided for this input.';
 $string['teacheranswerempty']     = 'This input can be left blank.';
 
+$string['questiontextlanguages']   = 'The language tags found in your question are: {$a}.';
+$string['languageproblemsexist']   = 'There are potential language problems in your question.';
+$string['languageproblemsmissing'] = 'The language tag {$a->lang} is missing from the following: {$a->missing}.';
+$string['languageproblemsextra']   = 'The field {$a->field} has the following languages not in the question text: {$a->langs}.';
 
 // Admin settings.
 $string['settingajaxvalidation'] = 'Instant validation';

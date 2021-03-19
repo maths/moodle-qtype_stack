@@ -279,6 +279,36 @@ class stack_checkbox_input_test extends qtype_stack_walkthrough_test_base {
         $this->assertEquals($expected, $el->get_teacher_answer_display(false, false));
     }
 
+    public function test_calculus_casstring() {
+        $options = new stack_options();
+        $ta = '[[3*noundiff(y,x)+y=0,true],[3*noundiff(y,x,2)+y=0,false],[nounint(y,x)+1=0,false],[7*\'diff(y,x,3)+5*y=0,false]]';
+
+        $el = stack_input_factory::make('checkbox', 'ans1', $ta, null, array());
+        $el->adapt_to_model_answer($ta);
+        $expected = '<div class="answer"><div class="option">' .
+                '<input type="checkbox" name="stack1__ans1_1" value="1" id="stack1__ans1_1" /><label for="stack1__ans1_1">' .
+                '<span class="filter_mathjaxloader_equation">' .
+                '<span class="nolink">\(3\cdot \left(\frac{\mathrm{d} y}{\mathrm{d} x}\right)+y=0\)</span></span></label></div>' .
+                '<div class="option"><input type="checkbox" name="stack1__ans1_2" value="2" id="stack1__ans1_2" />' .
+                '<label for="stack1__ans1_2"><span class="filter_mathjaxloader_equation">' .
+                '<span class="nolink">\(3\cdot \left(\frac{\mathrm{d}^2 y}{\mathrm{d} x^2}\right)+y=0\)</span></span></label>' .
+                '</div><div class="option"><input type="checkbox" name="stack1__ans1_3" value="3" ' .
+                'id="stack1__ans1_3" checked="checked" /><label for="stack1__ans1_3"><span class="filter_mathjaxloader_equation">' .
+                '<span class="nolink">\(\int {y}{\;\mathrm{d}x}+1=0\)</span></span></label></div>' .
+                '<div class="option"><input type="checkbox" name="stack1__ans1_4" value="4" id="stack1__ans1_4" />' .
+                '<label for="stack1__ans1_4"><span class="filter_mathjaxloader_equation">' .
+                '<span class="nolink">\(7\cdot {\it noundiff}\left(y , x , 3\right)+5\cdot y=0\)</span></span></label></div></div>';
+        $this->assertEquals($expected, $el->render(new stack_input_state(
+                stack_input::SCORE, array('3'), '', '', '', '', ''), 'stack1__ans1', false, null));
+        $state = $el->validate_student_response(array('ans1_3' => '3'), $options, '2', new stack_cas_security());
+        $this->assertEquals(stack_input::SCORE, $state->status);
+        $this->assertEquals(array('3'), $state->contents);
+        $this->assertEquals('[nounint(y,x)+1 = 0]', $state->contentsmodified);
+        $expected = 'A correct answer is: <ul><li><span class="filter_mathjaxloader_equation"><span class="nolink">' .
+                '\(3\cdot \left(\frac{\mathrm{d} y}{\mathrm{d} x}\right)+y=0\)</span></span></li></ul>';
+        $this->assertEquals($expected, $el->get_teacher_answer_display(false, false));
+    }
+
     public function test_logic_latex() {
         $options = new stack_options();
         $el = stack_input_factory::make('checkbox', 'ans1', '[[x=1 nounor x=2,true],[x=1 nounand x=2,false],[x=1 nounor x=3,false]]',

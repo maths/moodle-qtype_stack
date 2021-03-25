@@ -916,6 +916,7 @@ class stack_answertest_test_data {
         array('FacForm', 'x', 'x*(x-4+4/x)', 'x^2-4*x+4', 0, 'ATFacForm_notfactored.', ''),
         array('FacForm', 'x', '(2-x)*(3-x)', '(x-2)*(x-3)', 1, 'ATFacForm_true.', 'These are delicate cases!'),
         array('FacForm', 'x', '(1-x)^2', '(x-1)^2', 1, 'ATFacForm_true.', ''),
+        array('FacForm', 'x', '-(1-x)^2', '-(x-1)^2', 1, 'ATFacForm_true.', ''),
         array('FacForm', 'x', '-3*(x-4)*(x+1)', '-3*x^2+9*x+12', 1, 'ATFacForm_true.', ''),
         array('FacForm', 'x', '3*(-x+4)*(x+1)', '-3*x^2+9*x+12', 1, 'ATFacForm_true.', ''),
         array('FacForm', 'x', '3*(4-x)*(x+1)', '-3*x^2+9*x+12', 1, 'ATFacForm_true.', ''),

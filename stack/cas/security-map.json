@@ -2774,7 +2774,8 @@
       "variable": "s"
   },
   "gamma_expand": {
-      "variable": "?"
+      "variable": "t",
+      "contextvariable": "true"
   },
   "gamma_greek": {
       "function": "?"

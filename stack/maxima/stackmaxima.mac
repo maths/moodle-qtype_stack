@@ -147,6 +147,7 @@ matchfix("|", "|");
 /* ********************************** */
 
 load("assessment.mac");
+load("noun_simp.mac");
 load("inequalities.mac");
 load("intervals.mac");
 load("stackunits.mac");

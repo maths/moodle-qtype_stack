@@ -1,9 +1,15 @@
 # Answer tests
 
-An _answer test_ is used to compare two expressions to
-establish whether they satisfy some mathematical criteria. The
-prototype test is to establish if they are the _same_.  That is
-to say, _algebraically equivalent_.
+An _answer test_ is used to compare two expressions to establish whether they satisfy some mathematical criteria. The
+prototype test is to establish if they are _algebraically equivalent_.  Answer tests are grouped as follows:
+
+1. Equivalence, e.g. "algebraic equivalence" (many variations).
+2. Syntactic form, e.g. "is in factored form".
+3. [Numerical accuracy](Answer_tests_numerical.md), e.g. "is written to 3 decimal places".
+4. [Scientific](../Authoring/Units.md), e.g. for dealing with dimensional numerical quantities.
+5. Specific subject tests, e.g. sets, logical expressions, calculus (where tests provide feedback automatically in common situations such as a missing constant of integration).
+
+We also provide string match tests.  However, the whole point of STACK is that teachers should seek to establish mathematical properties and the string match tests are provided for completeness (and because they are trivial to implement).  Experienced question authors almost never use the string match tests.  If you find yourself needing to use the string match tests for something mathematical please contact the developers.
 
 ## Introduction ##
 
@@ -32,16 +38,16 @@ Note that since the tests can provide feedback, tests which appear to be symmetr
 The feedback is only shown to a student if the quiet option is set to 'no'.  If feedback is shown, then examples are given in the answer-test test suite.
 
 We expose the exact behaviour of each answer test by giving registered users access to STACK's test suite for STACK Answer tests.  This can be found on a live server at `.../moodle/question/type/stack/answertests.php`. This script compares pairs of expressions and displays the outcomes from each test. This script is mainly used to ensure STACK is working, but it is invaluable for understanding what each test really does.  In particular it enables question authors to see examples of which expressions are the same and different together with examples of the automatically generated feedback.
-
 We provide a static page giving the outcome of all [answer test results](Answer_tests_results.md).
+
 
 ## In general ##
 
-You can apply functions before applying the tests.  For example, to ignore case sensitivity you can apply the [Maxima commands defined by STACK](../CAS/Maxima.md#Maxima_commands_defined_by_STACK) `exdowncase(ex)` to the arguments, before you apply one of the other answer tests.
+You can apply functions before applying the tests using the feedback variables.  For example, to ignore case sensitivity you can apply the [Maxima commands defined by STACK](../CAS/Maxima.md#Maxima_commands_defined_by_STACK) `exdowncase(ex)` to the arguments, before you apply one of the other answer tests.
 
-# Equality #
+# Equivalence #
 
-A crucial component in the assessment process the ability to decide if two expressions are equal.
+A crucial component in the assessment process the ability to decide if two expressions are equivalent.  It turns out there are many useful senses when trying to assess students' answers.
 
 Let us assume a teacher has asked a student to expand out \((x+1)^2\) and the response they have from one student is \(x^2+x+x+1\).
 This is "correct" in the sense that it is algebraically equivalent to \((x+1)^2\) and is in expanded form
@@ -50,18 +56,17 @@ What about a response \(2x+x^2+1\)?  This is, arguably, better in the sense that
 but the student here did not _order_ the terms to write their expression in canonical form.
 Hence, we need quite a number of different answer tests to establish equality in various senses of the word.
 
+This list is in approximate order of the size of the equivalence classes from most to least restrictive.
+
 | Test                                              | Description (see below for more details)
 | ------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------
 | CasEqual                                          | Are the parse trees of the two expressions equal?  
-| [EqualComAss](Answer_tests.md#EqualComAss)        | Are they equal up to commutativity and associativity of addition and multiplication, together with their inverses minus and division? 
-| [AlgEquiv](Answer_tests.md#AlgEquiv)              | Are they _algebraically equivalent_?
+| [EqualComAss](Answer_tests_rules_based.md)        | Are they equal up to commutativity and associativity of addition and multiplication, together with their inverses minus and division? 
+| [EqualComAssRules](Answer_tests_rules_based.md)   | Are they equal up to commutativity, associativity and with optional rules? 
 | AlgEquivNouns                                     | Are they _algebraically equivalent_, preserving noun forms of operators, e.g. `diff`?
+| [AlgEquiv](Answer_tests.md#AlgEquiv)              | Are they _algebraically equivalent_?
 | SubstEquiv                                        | Can we find a substitution of the variables of \(ex_2\) into \(ex_1\) which renders \(ex_1\) algebraically equivalent to \(ex_2\)?
-| SameType                                          | Are the two expressions of the same [types_of_object](../CAS/Maxima.md#Types_of_object)?  Note that this test works recursively over the entire expression.
-| SysEquiv                                          | Do two systems of polynomial equations have the same solutions? 
-| PropLogic                                         | An answer test designed to deal with [propositional logic](../CAS/Propositional_Logic.md). 
-
-`SubstEquiv` accepts an optional argument, which must be a list of variables.  These variables will be excluded from the list of possible comparisons, and so must be "fixed" in the comparison.  Useful if you want to establish that a student has used arbitrary constants in \(A\sin(x)+B\cos(x)\) but make sure \(x\) really stays as \(x\).
+| SameType                                          | Are the two expressions of the same [types of object](../CAS/Maxima.md#Types_of_object)?  Note that this test works recursively over the entire expression.
 
 ### AlgEquiv {#AlgEquiv}
 
@@ -98,24 +103,17 @@ There are also some cases which Maxima can't establish as being equivalent.  For
 
 This is Cardano's example from Ars Magna, but currently the AlgEquiv test cannot establish these are equivalent.  There are some other examples in the test suite which fail for mathematical reasons.  In cases like this, where you know you have a number, you may need to supplement the AlgEquiv test with another numerical test.
 
+### EqualComAss ###
+
+A particularly useful test is to establish that two expressions are equal up to commutativity and associativity of addition and multiplication, together with their inverses minus and division.  For example, under this test
+\( x+y = y+x \mbox{ but } x+x \neq 2x\).
+Please see the [separate documentation](Answer_tests_rules_based.md).
+
 ### AlgEquivNouns ###
 
 Algebraic equivalence evaluates as much as possible, to try to establish equivalence.  This means, e.g. that `diff(y,x)` is always evaluated to \(0\).  If you use AlgEquivNouns then noun forms of operators are not evaluated, so `diff(y,x)` will be evaluated but `'diff(y,x)` and `noundiff(y,x)` will not.
 
 Note, however that logic nouns such as `nounand` are still evaluated by this test!  Sorry, but logical noun functions are dealt with internally in a very different way than Maxima noun functions such as `'diff(y,x)` and the parallel `noundiff`.  Use a different test, such as `EqualComAss`.
-
-### EqualComAss: Equality up to Associativity and Commutativity ### {#EqualComAss}
-
-Are they equal up to commutativity and associativity of addition and multiplication, together with their inverses minus and division? For example \[a+b=b+a\mbox{,}\] but \[x+x\neq 2x\mbox{.}\] This is very useful in elementary algebra, where we want the form of the answer exactly. Simplification is automatically switched off when this test is applied, otherwise it makes no sense. This test seeks to establish whether two expressions are the same when the basic operations of arithmetic addition/multiplication and Boolean and/or are assumed to be nouns but are commutative and associative.  Hence, \(2x+y=y+2x\) but \(x+x+y\neq 2x+y\).  The unary minus commutes with multiplication in a way natural to establishing the required form of equivalence.
-
-This is a particularly useful test for checking that an answer is written in a particular form, e.g. "simplified".
-
-Notes 
-
-1. This test does not include laws of indices, so \(x\times x \neq x^2\). Since we are dealing only with nouns \(-\times -\) does not simplify to \(1\). E.g. \(-x\times -x \neq x\times x \neq x^2\).  This also means that \(\sqrt{x}\) is not considered to be equivalent to \(x^{\frac{1}{2}}\) under this test.  In many situations this notation is taken mean the same thing, but internally in Maxima they are represented by different functions and not converted to a canonical form by the test.  Extra re-write rules could be added to achieve this, which would change the equivalence classes.
-2. By design, addition commutes with subtraction, so \( -1+2\equiv 2-1\) and multiplication commutes with division, so \( (ab)/c\equiv a(b/c) \).
-3. By design \(-1/4x \neq -x/4\) since we do not have the rule \( 1\times x \rightarrow x\).  To establish this equivalence we would need a different answer test.
-4. This test can also be used to establish \(\{4,4\} \neq \{4\}\), but \(\{1,2\} = \{2,1\}\) since the arguments of the set constructor function are commutative.  Sets are not associative, so \(\{1,2\} \neq \{\{1\},2\}\).  (See Maxima's `flatten` command.)
 
 ### CasEqual ###
 
@@ -140,56 +138,16 @@ Can we find a substitution of the variables of \(ex_2\) into \(ex_1\) which rend
   * `ATSubstEquiv(x=A+B, x=a+b, [x])` will match with `[A = a,B = b]`.
   * `ATSubstEquiv(y=A+B, x=a+b, [x])` will not match since `x` in the teacher's answer is fixed here.
 
-### SysEquiv ###
+The optional argument, which must be a list of variables, is useful if you want to establish that a student has used arbitrary constants in \(A\sin(x)+B\cos(x)\) but make sure \(x\) really stays as \(x\).
 
-The SysEquiv (system equivalence) test takes in two lists of polynomial equations in any number of variables and determines whether the two systems have the same set of solutions.
-This is done using the theory of Grobner bases to determine whether the ideals generated by the two systems are equal.
-As the test allows for polynomials in several variables, it can cope with the intersections of the conic sections, as well as a large number of geometrically interesting curves.
-
-* This test does not check if the student actually "fully solved" the equations!  E.g. \[ [x^2=1] \equiv [(x-1)\cdot (x+1)=0] \] under this test.
-* This test disregards whether [simplification](../CAS/Simplification.md) is switched on, it only simplifies its arguments where required.
-This allows the test to list equations in feedback that the student has erroneously included in their system.
-* You can allow the student to include "redundant assignments".  For example, if you have `[90=v*t,90=(v+5)*(t-1/4)]` but the student has `[d=90,d=v*t,d=(v+5)*(t-1/4)])` then the systems are not equivalent, becuase the student has an extra variable.  Use `stack_eval_assignments` to eliminate explicit assignments of the form `var=num` and evaluate the other expression in this context.
-
-### Sets ###
-
-This test deals with equality of sets.  The algebraic equivalence functions give very minimal feedback.  This test is designed to give much more detailed feedback on what is and _is not_ included in the student's answer.  Hence, this essentially tells the student what is missing.  This is kind of feedback is tedious to generate without this test.
-
-The test simplifies both sets, and does a comparison based on the simplified versions.  The comparison relies on `ev(..., simp, nouns)` to undertake the simplification.  If you need stronger simplification (e.g. trig) then you will need to add this to the arguments of the function first.
-
-### Equiv and EquivFirstLast ###
-
-These answer tests are used with [equivalence reasoning](../CAS/Equivalence_reasoning.md).  See the separate documentation.
-
-### SRegExp ###
-
-This test uses Maxima's `regex_match` function.
-
-* Both arguments to the test must be Maxima strings.  If you have a general expression, turn it into a string in the feedback variables with Maxima's `string` function.
-* The first argument should be the string, and the second argument should be the pattern to match.
-* Don't forget to escape within the pattern strings as needed. Note that there is a function `string_to_regex()` that will handle escaping of characters that would otherwise have meaning in the pattern. Also remember that you need to escape the backslashes like normal in Maxima-strings.
-* One can read more about the patterns posible from [here](http://ds26gte.github.io/pregexp/index.html). Case-insensitivity may be something worth noting there.
-
-STACK also provides a helper function `regex_match_exactp(regex, str)` to check if the string equals the pattern matched by the regular expression.
-
-    Regex           String      Result
-    (aaa)*(b|d)c    aaaaaabc    true
-    (aaa)*(b|d)c    dc          true
-    (aaa)*(b|d)c    aaaaaaabc   false
-    (aaa)*(b|d)c    cca         false
-
-Currently this is not provided as a separate answer test so you will need to use this predicate in the question variables and check the result against the expected value, or supply the predicate as an argument to an answer test.
-
-# Form {#Form}
+# Syntactic Form {#Form}
 
 Often, we wish to establish if the student's expression has the correct _form_.
 For example, consider the following various written forms of \(x^2-4x+4\).
 
 \[(x-2)(x-2),\quad (x-2)^2,\quad  (2-x)^2,\quad  4\left(1-\frac{x}{2}\right)^2.\]
 
-Each of these might be considered to be factored.  **Establishing `ex` is factored is not the same as comparing it with**
-
-    factor(ex)
+Each of these might be considered to be factored.  **Establishing `ex` is factored is not the same as comparing it with** `factor(ex)`.
 
 Related tests establish that an expression is _expanded_ or in _partial_ fraction form.
 
@@ -204,7 +162,7 @@ Related tests establish that an expression is _expanded_ or in _partial_ fractio
 | PartFrac          | This test checks (i) that SAns is algebraically equivalent to TAns , and (ii) that SAns is in "partial fraction form". The option must be the variable.
 | CompletedSquare   | This test checks (i) that SAns is algebraically equivalent to TAns , and (ii) that SAns is in "completed square form". The option must be the variable.
 
-## Single fractions {#SingleFrac}
+### Single fractions ### {#SingleFrac}
 
 This test checks (i) that SAns is algebraically equivalent to TAns , and (ii) that SAns is written as a single fraction. Notes
 
@@ -212,7 +170,7 @@ This test checks (i) that SAns is algebraically equivalent to TAns , and (ii) th
 * if you also want this expression written in lowest terms, then this is quite a separate test.  You need to first confirm you have a single fraction then add a new potential response. One way is to use the [../CAS/Predicate functions](../CAS/Predicate_functions.md) `lowesttermsp(ex)` and compare the result with `true` with the AlgEquiv test.
 * The algebraic equivalence check is for convenience.  If you only want to check an expression is a single fraction make \(SAns=TAns\), i.e. ATSingleFrac(ex,ex) will do.
 
-## Factorisation of polynomials {#FacPoly}
+### Factorisation of polynomials ### {#FacPoly} 
 
 An expression is said to be factored if it is written as a product of powers of distinct irreducible factors.
 Strictly speaking, in establishing that an expression is in factored form, we might not even care whether the terms in the product are fully simplified, as long as they are irreducible.
@@ -233,7 +191,7 @@ The FacForm test establishes that the expression is factored over the rational n
 
 It is also possible a student will do something which is just plain odd, e.g. \(x^2-4x+4\) can be rewritten as \(x(x-4+4/x)\) which is a "product of powers of distinct irreducible factors" but not acceptable to most teachers.  The student's answer must also be a polynomial in the variable (using `polynomialp` as the test predicate).
 
-# Factorisation of integers
+### Factorisation of integers ###
 
 If you would like to ask a student to factor a polynomial, then do not use the FacForm answer test.  The FacForm answer test is designed to use with polynomials.
 
@@ -249,13 +207,42 @@ Note however that EqualComAss does not think that `2^2*3` and `2*2*3` are the sa
 
 These tests deal with the precision of numbers.  See dedicated page on [numerical answer tests](Answer_tests_numerical.md).
 
-# Calculus #
+# Scientific units #
 
-### Diff ###
+A dedicated answer test for scientific units is described on the [units](../Authoring/Units.md) page.
+
+# Tests for specific subject areas
+
+### SysEquiv ###
+
+The SysEquiv (system equivalence) test takes in two lists of polynomial equations in any number of variables and determines whether the two systems have the same set of solutions.
+This is done using the theory of Grobner bases to determine whether the ideals generated by the two systems are equal.
+As the test allows for polynomials in several variables, it can cope with the intersections of the conic sections, as well as a large number of geometrically interesting curves.
+
+* This test does not check if the student actually "fully solved" the equations!  E.g. \[ [x^2=1] \equiv [(x-1)\cdot (x+1)=0] \] under this test.
+* This test disregards whether [simplification](../CAS/Simplification.md) is switched on, it only simplifies its arguments where required.
+This allows the test to list equations in feedback that the student has erroneously included in their system.
+* You can allow the student to include "redundant assignments".  For example, if you have `[90=v*t,90=(v+5)*(t-1/4)]` but the student has `[d=90,d=v*t,d=(v+5)*(t-1/4)])` then the systems are not equivalent, becuase the student has an extra variable.  Use `stack_eval_assignments` to eliminate explicit assignments of the form `var=num` and evaluate the other expression in this context.
+
+### Sets ###
+
+This test deals with equality of sets.  The algebraic equivalence functions give very minimal feedback.  This test is designed to give much more detailed feedback on what is and _is not_ included in the student's answer.  Hence, this essentially tells the student what is missing.  This is kind of feedback is tedious to generate without this test.
+
+The test simplifies both sets, and does a comparison based on the simplified versions.  The comparison relies on `ev(..., simp, nouns)` to undertake the simplification.  If you need stronger simplification (e.g. trig) then you will need to operate on the expressions first.
+
+### Equiv and EquivFirstLast ###
+
+These answer tests are used with [equivalence reasoning](../CAS/Equivalence_reasoning.md).  See the separate documentation.
+
+### PropLogic ###
+
+An answer test designed to deal with [propositional logic](../CAS/Propositional_Logic.md).  See the separate documentation.
+
+### Calculus: Diff ###
 
 This test is a general differentiation test: it is passed if the arguments are algebraically equivalent, but gives feedback if it looks like the student has integrated instead of differentiated. The first argument is the student's answer. The second argument is the model answer. The answer test option must be the variable with respect to which differentiation is assumed to take place.
 
-### Int ### {#Int}
+### Calculus: Int ### {#Int}
 
 This test is designed for a general indefinite integration question: it is passed if both the arguments are indefinite integrals of the same expression. The first argument is the student's answer.
 The second argument is the model answer. The answer test option needs to be the variable with respect to which integration is assumed to take place, or a list (see below).
@@ -288,19 +275,32 @@ In many cases simply differentiating the teacher's answer is fine, in which case
 
 The test cannot cope with some situations.  Please contact the developers when you find some of these.  This test is already rather overloaded, so please don't expect every request to be accommodated! 
 
-# Other #
+# String match #
 
 `String` This is a string match, ignoring leading and trailing white space which are stripped from all answers, using PHP's trim() function.
 
 `StringSloppy` This function first converts both inputs to lower case, then removes all white space from the string and finally performs a strict string comparison.
 
-`SRegExp` Uses Maxima's regular expression function.
+### SRegExp ###
+
+This test uses Maxima's `regex_match` function.
+
+* Both arguments to the test must be Maxima strings.  If you have a general expression, turn it into a string in the feedback variables with Maxima's `string` function.
+* The first argument should be the string, and the second argument should be the pattern to match.
+* Don't forget to escape within the pattern strings as needed. Note that there is a function `string_to_regex()` that will handle escaping of characters that would otherwise have meaning in the pattern. Also remember that you need to escape the backslashes like normal in Maxima-strings.
+* One can read more about the patterns posible from [here](http://ds26gte.github.io/pregexp/index.html). Case-insensitivity may be something worth noting there.
+
+STACK also provides a helper function `regex_match_exactp(regex, str)` to check if the string equals the pattern matched by the regular expression.
+
+    Regex           String      Result
+    (aaa)*(b|d)c    aaaaaabc    true
+    (aaa)*(b|d)c    dc          true
+    (aaa)*(b|d)c    aaaaaaabc   false
+    (aaa)*(b|d)c    cca         false
+
+Currently this is not provided as a separate answer test so you will need to use this predicate in the question variables and check the result against the expected value, or supply the predicate as an argument to an answer test.
 
 `(RegExp)` **NOTE:** this test was removed in STACK version 4.3.
-
-# Scientific units #
-
-A dedicated answer test for scientific units is described on the [units](../Authoring/Units.md) page.
 
 # See also
 

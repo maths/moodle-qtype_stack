@@ -32,6 +32,7 @@ class stack_ans_test_controller {
               'AlgEquiv'             => 'stackOptions_AnsTest_values_AlgEquiv',
               'AlgEquivNouns'        => 'stackOptions_AnsTest_values_AlgEquivNouns',
               'EqualComAss'          => 'stackOptions_AnsTest_values_EqualComAss',
+              'EqualComAssRules'     => 'stackOptions_AnsTest_values_EqualComAssRules',
               'CasEqual'             => 'stackOptions_AnsTest_values_CasEqual',
               'SameType'             => 'stackOptions_AnsTest_values_SameType',
               'SubstEquiv'           => 'stackOptions_AnsTest_values_SubstEquiv',
@@ -78,6 +79,7 @@ class stack_ans_test_controller {
         'AlgEquiv'             => array(false, false, true, false),
         'AlgEquivNouns'        => array(false, false, false, false),
         'EqualComAss'          => array(false, false, false, false),
+        'EqualComAssRules'     => array(true, true, false, false),
         'CasEqual'             => array(false, false, false, false),
         'SameType'             => array(false, false, true, false),
         'SubstEquiv'           => array(false, true, true, false),
@@ -137,6 +139,7 @@ class stack_ans_test_controller {
             case 'AlgEquiv':
             case 'AlgEquivNouns':
             case 'EqualComAss':
+            case 'EqualComAssRules':
             case 'CasEqual':
             case 'SameType':
             case 'Sets':

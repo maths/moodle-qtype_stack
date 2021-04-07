@@ -12,6 +12,7 @@ Mostly minor bug fixes.
 * Done: Add in additional cache `compiledcache` to reduce validation overheads by compiling questions.
 * Done. Add in local.mac for site specific code.
 * Done. Move STACK admin UI scripts to `adminui`.
+* Done. Add in ATEqualComAssRules
 
 ## Version 4.4
 

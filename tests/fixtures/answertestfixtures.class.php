@@ -754,6 +754,7 @@ class stack_answertest_test_data {
         array('EqualComAssRules', 'ID_TRANS', '0-1*i', '-i', 1, '', ''),
         array('EqualComAssRules', 'ID_TRANS', '0-i', '-i', 1, '', ''),
         array('EqualComAssRules', 'ID_TRANS', '2+1*i', '2+i', 1, '', ''),
+        array('EqualComAssRules', 'ID_TRANS', 'x^0+x^1/1+x^2/2+x^3/3!+x^4/4!', '1+x+x^2/2+x^3/3!+x^4/4!', 1, '', ''),
         // This one is tricky.  1-1 is not literally zero here, so the rule zeroPow applies.
         // Try transl(0^(1-1),ID_TRANS); in the Maxima sandbox.
         // The answer test avoids this by throwing a Maxima error before the rules generate a problem.

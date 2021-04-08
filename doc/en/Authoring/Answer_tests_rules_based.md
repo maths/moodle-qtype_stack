@@ -24,7 +24,7 @@ Notes
 
 In order to understand how the tests work it is essential to understand how we represent unary minus and division internally.
 
-Without simplification, Maxima has a unary minus function.  Litterally `minus(x)`.  This is transformed into `UNARY_MINUS noun* ex`  The use of multiplication here allows `-` to commute with other multiplication, so we can spot things like \(-x \times -y = --xy<) using associativity and commutativity.
+Without simplification, Maxima has a unary minus function.  Litterally `minus(x)`.  This is transformed into `UNARY_MINUS noun* ex`  The use of multiplication here allows `-` to commute with other multiplication, so we can spot things like \(-x \times -y = --xy\) using associativity and commutativity.
 
 Similarly, we replace division \(a/b\) with `a noun* UNARY_RECIP(b)`.  This means that `UNARY_RECIP(b)` is not automatically the same as `1 noun* UNARY_RECIP(b)`, without an additional rule.
 

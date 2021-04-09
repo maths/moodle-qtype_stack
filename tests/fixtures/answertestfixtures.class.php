@@ -759,6 +759,8 @@ class stack_answertest_test_data {
         // Try transl(0^(1-1),ID_TRANS); in the Maxima sandbox.
         // The answer test avoids this by throwing a Maxima error before the rules generate a problem.
         array('EqualComAssRules', 'ID_TRANS', '0^(1-1)', '0', 0, 'ATEqualComAssRules_STACKERROR_SAns.', ''),
+        array('EqualComAssRules', 'delete(zeroMul, ID_TRANS)', '0*a', '0', 0,
+            'ATEqualComAssRules: [0 noun* a,0].', ''),
         array('EqualComAssRules', '[negNeg]', '-(-a)', 'a', 1, '', ''),
         array('EqualComAssRules', '[negNeg]', '-(-(-a))', '-a', 1, '', ''),
         array('EqualComAssRules', '[negNeg]', '-(-(-a))', 'a', 0, 'ATEqualComAssRules (AlgEquiv-false).', ''),

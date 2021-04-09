@@ -71,7 +71,11 @@ The teacher must supply an option consisting of a list of the following rule nam
 
 For convenience sets of rules can be specificed.  E.g. you can use the name `ID_TRANS` in place of the list `[zeroAdd,zeroMul,oneMul,oneDiv,onePow,idPow,zeroPow,zPow]` to include all of the basic identity operators.
 
-The test takes the student's answer and teacher's answer and repeatedly applys the rules in turn until the expressions remain the same.  The rules are designed to always shorten the expression, so the process is guranteed to terminate.  Once the expression is written in final form, the test compares the two expression trees.
+If you want to remove tests from a list you can use code such as
+
+    delete(zeroAdd, ID_TRANS)
+
+The test takes the student's answer and teacher's answer and repeatedly applies the rules in turn until the expressions remain the same.  The rules are designed to always shorten the expression, so the process is guranteed to terminate.  Once the expression is written in final form, the test compares the two expression trees.
 
 Note that we do not gurantee the simplification is mathematically correct!  E.g. if you are unlucky enough to try the rule `zeroPow` on the expression `0^(1-1)` then since `1-1` is not equal to zero (taken literally) then the rule applies and you have failed to spot a potential `0^0` error.
 

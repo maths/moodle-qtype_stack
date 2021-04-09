@@ -8569,6 +8569,19 @@ This page exposes the results of running answer tests on STACK test cases.  This
 <tr class="pass">
   <td class="cell c0">EqualComAssRules</td>
   <td class="cell c1">Pass</td>
+  <td class="cell c2">x^0+x^1/1+x^2/2+x^3/3!+x^4/4!</td>
+  <td class="cell c3">1+x+x^2/2+x^3/3!+x^4/4!</td>
+  <td class="cell c4">ID_TRANS</td>
+  <td class="cell c5"></td>
+  <td class="cell c6">1</td>
+  <td class="cell c7">1</td>
+  <td class="cell c8"></td>
+  <td class="cell c9"></td>
+  <td class="cell c10"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">EqualComAssRules</td>
+  <td class="cell c1">Pass</td>
   <td class="cell c2">0^(1-1)</td>
   <td class="cell c3">0</td>
   <td class="cell c4">ID_TRANS</td>
@@ -8577,6 +8590,19 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c7">0</td>
   <td class="cell c8"></td>
   <td class="cell c9">ATEqualComAssRules_STACKERROR_SAns.</td>
+  <td class="cell c10"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">EqualComAssRules</td>
+  <td class="cell c1">Pass</td>
+  <td class="cell c2">0*a</td>
+  <td class="cell c3">0</td>
+  <td class="cell c4">delete(zeroMul, ID_TRANS)</td>
+  <td class="cell c5"></td>
+  <td class="cell c6">0</td>
+  <td class="cell c7">0</td>
+  <td class="cell c8"></td>
+  <td class="cell c9">ATEqualComAssRules: [0 noun* a,0].</td>
   <td class="cell c10"></td>
 </tr>
 <tr class="pass">

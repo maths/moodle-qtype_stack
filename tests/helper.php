@@ -63,7 +63,8 @@ class qtype_stack_test_helper extends question_test_helper {
             'contextvars',        // This question makes use of the context variables.
             'stringsloppy',       // Uses the StringSloppy answer test, and string input.
             'sregexp',            // Uses the SRegExp answer test, and string input.
-            'feedbackstyle'       // Test the various feedbackstyle options.
+            'feedbackstyle',      // Test the various feedbackstyle options.
+            'multilang'           // Check for mismatching languages.
         );
     }
 
@@ -2361,6 +2362,59 @@ class qtype_stack_test_helper extends question_test_helper {
 
         $q->prts['firsttree'] = new stack_potentialresponse_tree('firsttree', '', true, 1, $feedbackvars->get_session(),
                 array($node1, $node2), '0', 1);
+
+        return $q;
+    }
+
+    /**
+     * @return qtype_stack_question a question which tests mismatched languages.
+     */
+    public static function make_stack_question_multilang() {
+        $q = self::make_a_stack_question();
+
+        $q->stackversion = '2020112300';
+        $q->name = 'multilang';
+        $q->questionvariables = "mat1:matrix([1,2],[3,4]);\nmat2:matrix([-2,0],[5,7]);\nta:mat1+mat2;";
+        $en = '<p>Let \[ A = {@mat1@} \quad \textrm{and} \quad B = {@mat2@}. \]</p>'
+            . '<p>Compute the sum \(C = A + B\).</p>';
+        $fi = '<p>Olkoot \[ A = {@mat1@} \quad \textrm{ja} \quad B = {@mat2@}. \]'
+            . '</p><p>Laske summa \(C = A + B\).</p>';
+        $enfi = '  <span lang="en" class="multilang">' . $en . '</span>'
+            . '<span lang="fi" class="multilang">' . $fi . '</span>'
+            . '<p>[[input:ans1]]</p><div>[[validation:ans1]]</div>';
+
+        $q->questiontext = $enfi;
+
+        $q->specificfeedback = '[[feedback:firsttree]]';
+        $q->penalty = 0.35; // Non-zero and not the default.
+
+        $q->inputs['ans1'] = stack_input_factory::make(
+            'matrix', 'ans1', 'ta', new stack_options(),
+            array('boxWidth' => 5, 'allowWords' => 'blob'));
+
+        $q->options->questionsimplify = 0;
+
+        $sans = stack_ast_container::make_from_teacher_source('ans1');
+        $sans->get_valid();
+        $tans = stack_ast_container::make_from_teacher_source('ta');
+        $tans->get_valid();
+        $node1 = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv');
+        $enfb = '  <span lang="en" class="multilang">Looks good to me.</span>';
+        $node1->add_branch(0, '=', 0, $q->penalty, 1, $enfb, FORMAT_HTML, 'firsttree-1-F');
+        $node1->add_branch(1, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'firsttree-1-T');
+
+        $sans = stack_ast_container::make_from_teacher_source('ans1');
+        $sans->get_valid();
+        $tans = stack_ast_container::make_from_teacher_source('mat1.mat2');
+        $tans->get_valid();
+        $node2 = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv');
+        $node2->add_branch(0, '=', 0, $q->penalty, -1, '', FORMAT_HTML, 'firsttree-2-F');
+        $node2->add_branch(1, '=', 0.6, $q->penalty, -1, '', FORMAT_HTML, 'firsttree-2-T');
+
+        $feedbackvars = new stack_cas_keyval('assume(a>0);', null, null);
+
+        $q->prts['firsttree'] = new stack_potentialresponse_tree('firsttree', '', true, 1, $feedbackvars->get_session(),
+            array($node1, $node2), '0', 1);
 
         return $q;
     }

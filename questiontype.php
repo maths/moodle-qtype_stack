@@ -1460,7 +1460,6 @@ class qtype_stack extends question_type {
      * @return array($errors, $warnings).
      */
     public function validate_fromform($fromform, $errors) {
-        $warnings = array();
 
         $fixingdollars = array_key_exists('fixdollars', $fromform);
 
@@ -1729,7 +1728,7 @@ class qtype_stack extends question_type {
             }
         }
 
-        return array($errors, $warnings);
+        return $errors;
     }
 
     /**

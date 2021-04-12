@@ -1287,9 +1287,98 @@ class qtype_stack_question extends question_graded_automatically_with_countback
             }
         }
 
+        // Add in any warnings.
+        $errors = array_merge($errors, $this->validate_warnings(true));
+
         return implode(' ', $errors);
     }
 
+    /*
+     * Unfortunately, "errors" stop a question being saved.  So, we have a parallel warning mechanism.
+     * Warnings need to be addressed but should not stop a question being saved.
+     */
+    public function validate_warnings($errors = false) {
+
+        $warnings = array();
+
+        // Put language warning checks last (see guard clause below).
+        // Check multi-language versions all have the same languages.
+        $ml = new stack_multilang();
+        $qlangs = $ml->languages_used($this->questiontext);
+        asort($qlangs);
+        if ($qlangs != array() && !$errors) {
+            $warnings['questiontext'] = stack_string('questiontextlanguages', implode(', ', $qlangs));
+        }
+
+        // Language tags don't exist.
+        if ($qlangs == array()) {
+            return $warnings;
+        }
+
+        $problems = false;
+        $missinglang = array();
+        $extralang = array();
+        $fields = array('specificfeedback', 'generalfeedback');
+        foreach ($fields as $field) {
+            $text = $this->$field;
+            // Strip out feedback tags (to help non-trivial content check)..
+            foreach ($this->prts as $prt) {
+                $text = str_replace('[[feedback:' . $prt->get_name() . ']]', '', $text);
+            }
+
+            if ($ml->non_trivial_content_for_check($text)) {
+
+                $langs = $ml->languages_used($text);
+                foreach ($qlangs as $expectedlang) {
+                    if (!in_array($expectedlang, $langs)) {
+                        $problems = true;
+                        $missinglang[$expectedlang][] = stack_string($field);
+                    }
+                }
+                foreach ($langs as $lang) {
+                    if (!in_array($lang, $qlangs)) {
+                        $problems = true;
+                        $extralang[stack_string($field)][] = $lang;
+                    }
+                }
+
+            }
+        }
+
+        foreach ($this->prts as $prt) {
+            foreach ($prt->get_feedback_languages() as $nodes) {
+                // The nodekey is really the answernote from one branch of the node.
+                foreach ($nodes as $nodekey => $langs) {
+                    foreach ($qlangs as $expectedlang) {
+                        if (!in_array($expectedlang, $langs)) {
+                            $problems = true;
+                            $missinglang[$expectedlang][] = $nodekey;
+                        }
+                    }
+                    foreach ($langs as $lang) {
+                        if (!in_array($lang, $qlangs)) {
+                            $problems = true;
+                            $extralang[$nodekey][] = $lang;
+                        }
+                    }
+                }
+            }
+        }
+
+        if ($problems) {
+            $warnings[] = stack_string_error('languageproblemsexist');
+        }
+        foreach ($missinglang as $lang => $missing) {
+            $warnings[] = stack_string('languageproblemsmissing',
+                array('lang' => $lang, 'missing' => implode(', ', $missing)));
+        }
+        foreach ($extralang as $field => $langs) {
+            $warnings[] = stack_string('languageproblemsextra',
+                array('field' => $field, 'langs' => implode(', ', $langs)));
+        }
+        return $warnings;
+
+    }
     /**
      * Cache management.
      *

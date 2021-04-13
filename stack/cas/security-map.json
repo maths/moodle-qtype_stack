@@ -2774,7 +2774,8 @@
       "variable": "s"
   },
   "gamma_expand": {
-      "variable": "?"
+      "variable": "t",
+      "contextvariable": "true"
   },
   "gamma_greek": {
       "function": "?"
@@ -4880,6 +4881,9 @@
   },
   "ntics": {
       "variable": "s"
+  },
+  "ntuple": {
+      "function": "s"
   },
   "nu": {
       "function": "s",

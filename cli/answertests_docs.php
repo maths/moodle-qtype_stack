@@ -21,6 +21,7 @@ define('CLI_SCRIPT', true);
 
 require(__DIR__ . '/../../../../config.php');
 require_once($CFG->libdir . '/clilib.php');
+require_once(__DIR__ . '/../stack/mathsoutput/fact_sheets.class.php');
 
 require_once($CFG->dirroot .'/course/lib.php');
 require_once($CFG->libdir . '/questionlib.php');
@@ -174,3 +175,9 @@ $vstr = $settings->version . ' (' . $libs . ')';
 $output .= '<br/>'.stack_string('stackDoc_version', $vstr);
 
 file_put_contents('../doc/en/Authoring/Answer_tests_results.md', $output);
+
+// Output the factsheet.
+
+$page = get_string('fact_sheet_preamble', 'qtype_stack');
+$page .= stack_fact_sheets::generate_docs();
+file_put_contents('../doc/en/Authoring/Fact_sheets.md', $page);

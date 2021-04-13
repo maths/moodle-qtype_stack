@@ -212,6 +212,21 @@ class stack_ast_filter_auto_gen_404_split_at_number_letter_number_boundary_testc
                       array(),
                       true, false);
 
+        $this->expect('((a,b),c)',
+                      '((a,b),c)',
+                      array(),
+                      true, false);
+
+        $this->expect('(a,(b,c))',
+                      '(a,(b,c))',
+                      array(),
+                      true, false);
+
+        $this->expect('{(a,b),(x,y)}',
+                      '{(a,b),(x,y)}',
+                      array(),
+                      true, false);
+
         $this->expect('(a-b)-c',
                       '(a-b)-c',
                       array(),
@@ -1574,6 +1589,11 @@ class stack_ast_filter_auto_gen_404_split_at_number_letter_number_boundary_testc
 
         $this->expect('x-(y+z)',
                       'x-(y+z)',
+                      array(),
+                      true, false);
+
+        $this->expect('x/(y+z)',
+                      'x/(y+z)',
                       array(),
                       true, false);
 
@@ -1898,6 +1918,21 @@ class stack_ast_filter_auto_gen_404_split_at_number_letter_number_boundary_testc
                       array(),
                       true, false);
 
+        $this->expect('((a,b),c)',
+                      '((a,b),c)',
+                      array(),
+                      true, false);
+
+        $this->expect('(a,(b,c))',
+                      '(a,(b,c))',
+                      array(),
+                      true, false);
+
+        $this->expect('{(a,b),(x,y)}',
+                      '{(a,b),(x,y)}',
+                      array(),
+                      true, false);
+
         $this->expect('(a-b)-c',
                       '(a-b)-c',
                       array(),
@@ -3260,6 +3295,11 @@ class stack_ast_filter_auto_gen_404_split_at_number_letter_number_boundary_testc
 
         $this->expect('x-(y+z)',
                       'x-(y+z)',
+                      array(),
+                      true, false);
+
+        $this->expect('x/(y+z)',
+                      'x/(y+z)',
                       array(),
                       true, false);
 

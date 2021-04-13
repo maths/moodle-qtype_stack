@@ -15224,6 +15224,19 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c9">ATInt_true_equiv.</td>
   <td class="cell c10"></td>
 </tr>
+<tr class="pass">
+  <td class="cell c0">Int</td>
+  <td class="cell c1">Pass</td>
+  <td class="cell c2">ln(abs(x+3))/2+c</td>
+  <td class="cell c3">ln(abs(2*x+6))/2+c</td>
+  <td class="cell c4">x</td>
+  <td class="cell c5"></td>
+  <td class="cell c6">0</td>
+  <td class="cell c7">-3</td>
+  <td class="cell c8"><div class="text_to_html">The formal derivative of your answer does equal the expression that you were asked to integrate. However, your answer differs from the correct answer in a significant way, that is to say not just, e.g., a constant of integration. Please ask your teacher about this.</div></td>
+  <td class="cell c9">ATInt_EqFormalDiff.</td>
+  <td class="cell c10"></td>
+</tr>
 <tr class="notes">
   <td class="cell c0">Two logs</td>
   <td class="cell c1"></td>

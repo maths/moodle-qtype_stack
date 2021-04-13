@@ -122,7 +122,7 @@ class stack_dropdown_input extends stack_input {
 
         $this->notanswered = stack_string('notanswered');
         // We need to reset the errors here, now we have a new teacher's answer.
-        $this->errors = null;
+        $this->errors = array();
 
         /*
          * Sort out the ddlvalues.
@@ -262,6 +262,7 @@ class stack_dropdown_input extends stack_input {
             // We use the display term here because it might differ explicitly from the above "value".
             // So, we send the display form to LaTeX, and then replace it with the LaTeX below.
             $csv = stack_ast_container::make_from_teacher_source('val'.$key.':'.$value['display']);
+            $csv->set_nounify(1);
             $csvs[] = $csv;
         }
 

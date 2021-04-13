@@ -2,20 +2,23 @@
 
 /* Takes a Maxima string and converts everything that could cause trouble in a HTML/XML document to entities.
    Note that if the string already contains entities even them are converted and thus broken. */
-str_to_html(string_to_escape) := block([f,tmp],
-    f(c) := if c = "&" then "&amp;" else if c = "'" then "&#39;" else if c = "\"" then "&quot;" 
-       else if c = ">" then "&gt;" else if c = "<" then "&lt;" else c,
-    return(simplode(map(f,charlist(string_to_escape))))
-)$
+
+str_to_html_char(c) := if c = "&" then "&amp;"
+                  else if c = "'" then "&#39;" /* &apos; is for XHTML, we need to still deal with HTML. */
+                  else if c = "\"" then "&quot;"
+                  else if c = ">" then "&gt;"
+                  else if c = "<" then "&lt;"
+                  else c$
+str_to_html(string_to_escape) := simplode(map(str_to_html_char, charlist(string_to_escape)))$
 
 /* Same for generating ECMAScript strings. */
-str_to_js(string_to_escape) := block([f],
-    f(c) := if c = "\\" then "\\\\" else if c = "\"" then "\\\"" else if c = "'" then "\\'" 
-       else if c = ascii( 8) then "\\b" else if c = ascii( 9) then "\\t" 
-       else if c = ascii(10) then "\\n" else if c = ascii(12) then "\\f" 
-       else if c = ascii(13) then "\\r" else c,
-    return(simplode(map(f,charlist(string_to_escape))))
-)$
+str_to_js_char(c) := if c = "\\" then "\\\\"
+                else if c = "\"" then "\\\""
+                else if c = "'" then "\\'"
+                else if c = ascii( 8) then "\\b" else if c = ascii( 9) then "\\t"
+                else if c = ascii(10) then "\\n" else if c = ascii(12) then "\\f"
+                else if c = ascii(13) then "\\r" else c$
+str_to_js(string_to_escape) := simplode(map(str_to_js_char, charlist(string_to_escape)))$
 
 /* Split a Maxima timestamp (seconds from Jan 1 1900) to numbers representing a date.
    The returned list consists of integers [year, month, day, weekday] where Sunday is 7 (ISO 8601). */

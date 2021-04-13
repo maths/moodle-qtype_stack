@@ -776,7 +776,7 @@ abstract class stack_input {
         if ($valid && $answerd->is_correctly_evaluated()) {
             $interpretedanswer = $answerd->get_evaluationform();
         } else {
-            $interpretedanswer = $answerd->get_inputform(true, 1);
+            $interpretedanswer = $answerd->get_inputform(true, 1, false);
         }
         // TODO: apply a filter to check the ast!
         if (!(strpos($interpretedanswer, '?') === false) ||
@@ -862,7 +862,9 @@ abstract class stack_input {
 
         $filterstoapply[] = '502_replace_pm';
 
-        // Block use of evaluation groups.
+        // Replace evaluation groups with tuples.
+        $filterstoapply[] = '504_insert_tuples_for_groups';
+        // Then ban the rest.
         $filterstoapply[] = '505_no_evaluation_groups';
 
         // Remove scripts and other related things from string-values.
@@ -1166,7 +1168,7 @@ abstract class stack_input {
         if ($errors) {
             $errors = implode(' ', $errors);
         }
-        $result = html_writer::tag('p', stack_string('ddl_runtime'));
+        $result = html_writer::tag('p', stack_string_error('ddl_runtime'));
         $result .= html_writer::tag('p', $errors);
         return html_writer::tag('div', $result, array('class' => 'error'));
     }

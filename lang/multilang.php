@@ -117,4 +117,16 @@ class stack_multilang {
         }
         return implode("\n", $filtered);
     }
+
+    /*
+     * Check for non-trivial content.
+     */
+    public function non_trivial_content_for_check($text) {
+        $text = trim(strip_tags($text));
+        // TODO: remove all equations.
+        if ('' == $text) {
+            return false;
+        }
+        return true;
+    }
 }

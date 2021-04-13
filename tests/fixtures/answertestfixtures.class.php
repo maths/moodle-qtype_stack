@@ -143,6 +143,15 @@ class stack_answertest_test_data {
         array('AlgEquiv', '', '-(2*k+6)/(k^2+4*k-12)', '-(2*k+6)/(k^2+4*k-12)', 1, '', ''),
         array('AlgEquiv', '', '1/n-1/(n+1)', '1/(n*(n+1))', 1, '', ''),
         array('AlgEquiv', '', '0.5*x^2+3*x-1', 'x^2/2+3*x-1', 1, '', ''),
+        array('AlgEquiv', '', '14336000000*x^13+250265600000*x^12+1862860800000*x^11+7623925760000*x^10+' .
+            '18290677760000*x^9+24744757985280*x^8+14567212351488*x^7-3267871272960*x^6-6408053107200*x^5+' .
+            '670406720000*x^4+1179708800000*x^3-429244800000*x^2+56696000000*x-2680000000',
+            '512*(2*x+5)^7*(5*x-1)^5*(70*x+67)', 1, '', ''),
+        array('AlgEquiv', '', '14336000000*x^13+250265600000*x^12+1862860800000*x^11+7623925760000*x^10+' .
+                '18290677760000*x^9+24744757985280*x^8+14567212351488*x^7-3267871272960*x^6-6408053107200*x^5+' .
+                '670406720000*x^4+1179708800000*x^3-429244800000*x^2+56696000000*x-2680000001',
+                '512*(2*x+5)^7*(5*x-1)^5*(70*x+67)', 0, '', ''),
+        array('AlgEquiv', '', '14336000000*x^13', '512*(2*x+5)^7*(5*x-1)^5*(70*x+67)', 0, '', ''),
 
         array('AlgEquiv', '', 'cos(x)', 'cos(-x)', 1, '', 'Trig functions'),
         array('AlgEquiv', '', 'cos(x)^2+sin(x)^2', '1', 1, '', ''),
@@ -473,21 +482,15 @@ class stack_answertest_test_data {
         array('AlgEquiv', '', 'sqrt(2*x*sqrt(x^2+1)+2*x^2+1)-sqrt(x^2+1)-x', '0', -3, '', ''),
         array('AlgEquiv', '', '(77+20*sqrt(13))^(1/6)-(77-20*sqrt(13))^(1/6)', '1', -3, '', ''),
         array('AlgEquiv', '', '(930249+416020*sqrt(5))^(1/30)-(930249-416020*sqrt(5))^(1/30)', '1', -3, '', ''),
-        array('AlgEquiv', '', '14336000000*x^13+250265600000*x^12+1862860800000*x^11+7623925760000*x^10+' .
-            '18290677760000*x^9+24744757985280*x^8+14567212351488*x^7-3267871272960*x^6-6408053107200*x^5+' .
-            '670406720000*x^4+1179708800000*x^3-429244800000*x^2+56696000000*x-2680000000',
-            '512*(2*x+5)^7*(5*x-1)^5*(70*x+67)', 1, '', ''),
-        array('AlgEquiv', '', '14336000000*x^13+250265600000*x^12+1862860800000*x^11+7623925760000*x^10+' .
-            '18290677760000*x^9+24744757985280*x^8+14567212351488*x^7-3267871272960*x^6-6408053107200*x^5+' .
-            '670406720000*x^4+1179708800000*x^3-429244800000*x^2+56696000000*x-2680000001',
-            '512*(2*x+5)^7*(5*x-1)^5*(70*x+67)', 0, '', ''),
-        array('AlgEquiv', '', '14336000000*x^13', '512*(2*x+5)^7*(5*x-1)^5*(70*x+67)', 0, '', ''),
-        array('AlgEquiv', '', 'a*(1+sqrt(2))=b', 'a=b*(sqrt(2)-1)/3', -3, 'ATEquation_default', ''),
-        array('AlgEquiv', '', 'atan(1/2)', '%pi/2-atan(2)', -3, '', 'This is only equivalent for x>=0...', ''),
-        array('AlgEquiv', '', 'asinh(x)', 'ln(x+sqrt(x^2+1))', -3, '', 'This is true for all x...', ''),
         // An example due to Gauss.  Just for fun!
         array('AlgEquiv', '', 'cos(2*%pi/17)', '(-1+sqrt(17)+sqrt(34-2*sqrt(17)))/16+' .
             '(2*sqrt(17+3*sqrt(17)-sqrt(34-2*sqrt(17))-2*sqrt(34+2*sqrt(17))))/16', -3, '', '', ''),
+        array('AlgEquiv', '', '(41-sqrt(511))/2', '(sqrt((4*(cos((1/2*(acos((61/1040*sqrt(130)))-atan(11/3)))))^(2))+21)' .
+            '-(2*cos((1/2*(acos((61/1040*sqrt(130)))-atan(11 / 3))))))^(2)', -3, '', '', ''),
+
+        array('AlgEquiv', '', 'a*(1+sqrt(2))=b', 'a=b*(sqrt(2)-1)/3', -3, 'ATEquation_default', ''),
+        array('AlgEquiv', '', 'atan(1/2)', '%pi/2-atan(2)', -3, '', 'This is only equivalent for x>=0...', ''),
+        array('AlgEquiv', '', 'asinh(x)', 'ln(x+sqrt(x^2+1))', -3, '', 'This is true for all x...', ''),
 
         array('AlgEquiv', '', 'true and false', 'false', 1, 'ATLogic_True.', 'Logical expressions'),
         array('AlgEquiv', '', 'true or false', 'false', 0, '', ''),
@@ -993,8 +996,13 @@ class stack_answertest_test_data {
         array('FacForm', 'x', 'x*(x-4+4/x)', 'x^2-4*x+4', 0, 'ATFacForm_notfactored.', ''),
         array('FacForm', 'x', '(2-x)*(3-x)', '(x-2)*(x-3)', 1, 'ATFacForm_true.', 'These are delicate cases!'),
         array('FacForm', 'x', '(1-x)^2', '(x-1)^2', 1, 'ATFacForm_true.', ''),
+        array('FacForm', 'x', '(1-x)*(1-x)', '(x-1)^2', 1, 'ATFacForm_true.', ''),
         array('FacForm', 'x', '-(1-x)^2', '-(x-1)^2', 1, 'ATFacForm_true.', ''),
+        array('FacForm', 'x', '(1-x)^2', '(x-1)^2', 1, 'ATFacForm_true.', ''),
         array('FacForm', 'x', '4*(1-x/2)^2', '(x-2)^2', 1, 'ATFacForm_default_true.', ''),
+        array('FacForm', 'x', '-3*(x-4)*(x+1)', '-3*x^2+9*x+12', 1, 'ATFacForm_true.', ''),
+        array('FacForm', 'x', '3*(-x+4)*(x+1)', '-3*x^2+9*x+12', 1, 'ATFacForm_true.', ''),
+        array('FacForm', 'x', '3*(4-x)*(x+1)', '-3*x^2+9*x+12', 1, 'ATFacForm_true.', ''),
         array('FacForm', 'x', '(x-1)*(x^2+x+1)', 'x^3-1', 1, 'ATFacForm_true.', 'Cubics'),
         array('FacForm', 'x', 'x^3-x+1', 'x^3-x+1', 1, 'ATFacForm_true.', ''),
         array('FacForm', 'x', '7*x^3-7*x+7', '7*(x^3-x+1)', 0, 'ATFacForm_notfactored.', ''),
@@ -1282,6 +1290,8 @@ class stack_answertest_test_data {
         array('Int', 'x', 'log(x)^2-2*log(c)*log(x)+k', 'ln(c/x)^2', 0, 'ATInt_EqFormalDiff.', ''),
         array('Int', 'x', 'log(x)^2-2*log(c)*log(x)+k', 'ln(abs(c/x))^2', 0, 'ATInt_generic.', ''),
         array('Int', 'x', 'c-(log(2)-log(x))^2/2', '-1/2*log(2/x)^2', 1, 'ATInt_true_equiv.', ''),
+        // This one fails.
+        array('Int', 'x', 'ln(abs(x+3))/2+c', 'ln(abs(2*x+6))/2+c', -3, 'ATInt_EqFormalDiff.', ''),
         // In these examples there are two logarihtms.  The student should be *consistent*
         // in their use, or not, of absolute value.
         array('Int', 'x', 'log(abs(x-3))+log(abs(x+3))', 'log(abs(x-3))+log(abs(x+3))', 0, 'ATInt_const.', 'Two logs'),

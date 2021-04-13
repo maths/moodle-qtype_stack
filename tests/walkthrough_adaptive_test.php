@@ -3500,4 +3500,33 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->check_answer_note('firsttree', 'firsttree-1-F | firsttree-2-T');
 
     }
+
+    public function test_multilang() {
+
+        $q = test_question_maker::make_question('stack', 'multilang');
+
+        $this->start_attempt_at_question($q, 'adaptive', 1);
+        // Check the initial state.
+        $this->check_current_state(question_state::$todo);
+        $this->assertEquals('adaptivemultipart',
+            $this->quba->get_question_attempt($this->slot)->get_behaviour_name());
+        $this->render();
+        $this->check_output_does_not_contain_input_validation();
+        $this->check_output_does_not_contain_prt_feedback();
+        $this->check_output_does_not_contain_stray_placeholders();
+        $this->check_current_output(
+            new question_pattern_expectation('/Compute the sum/'),
+            $this->get_does_not_contain_feedback_expectation(),
+            $this->get_does_not_contain_num_parts_correct(),
+            $this->get_no_hint_visible_expectation()
+            );
+
+        $expected = array('questiontext' => 'The language tags found in your question are: en, fi.',
+            0 => '<i class="icon fa fa-exclamation-circle text-danger fa-fw " title="There are potential '
+                . 'language problems in your question." aria-label="There are potential language problems '
+                . 'in your question."></i>There are potential language problems in your question.',
+            1 => 'The language tag fi is missing from the following: firsttree-1-F.');
+        $warnings = $q->validate_warnings();
+        $this->assertEquals($expected, $warnings);
+    }
 }

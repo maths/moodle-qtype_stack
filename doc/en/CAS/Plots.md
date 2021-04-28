@@ -98,8 +98,14 @@ The following CASText gives representative examples of the plot2d features suppo
     <h3>Discrete plots</h3>
     Basic discrete plot.
     {@plot([discrete,[[0,0],[1,1],[0,2]]])@}
+    Points: by default the points are too large!
+    {@plot([discrete,[[0,0], [1,1], [1.5,(1.5)^2]]],[x,-2,2],[style, [points]],[point_type, bullet])@}
+    {@plot([discrete,[[0,0], [1,1], [1.5,(1.5)^2]]],[x,-2,2],[style, [points, 1]],[point_type, bullet])@}
+    Notice the size of the points is controlled by the second argument in the list `[points, 1]`.  This is documented in Maxima under "Plot option: style".  A more complicated example is below.
+    {@plot([[discrete,[[0,0], [1,1], [1.5,(1.5)^2]]],[discrete,[[0,0.1], [0.75,1], [1.25,1.5]]]],[style, [points, 1, red, 1 ], [points, 1.5, blue, 1]])@}
     Combination of discrete plots with normal plots.
     {@plot([x^2, [discrete,[ [0,0], [1,1], [0,2]]]],[x,-2,2])@}
+    {@plot([x^2, [discrete,[ [0,0], [1,1], [1.5,(1.5)^2]]]],[x,-2,2],[style, lines, [points, 1]],[point_type, bullet])@}
     {@plot([[discrete,[[30,7]]], -0.4*x+19],[x,0,60],[y,0,20],[style, points, lines], [color, red, blue],[point_type, asterisk])@}
     {@plot([[discrete,[[10, 0.6], [20, 0.9], [30, 1.1], [40, 1.3], [50, 1.4]]], 2*%pi*sqrt(l/980)], [l,0,50],[style, points, lines], [color, red, blue],[point_type, asterisk])@}
     Using different point styles.

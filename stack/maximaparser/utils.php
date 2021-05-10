@@ -478,8 +478,6 @@ class maxima_parser_utils {
         $output = array_merge($expand, []);
         $sec = new stack_cas_security(); // For access to the type map.
 
-        $time = microtime(true);
-
         // First rewrite evaluation-flags to evs. And pick up all the statements.
         $workset1 = [];
         $seek1 = function($node) use(&$workset1, &$output) {
@@ -537,10 +535,6 @@ class maxima_parser_utils {
             // If we have nothing then exit.
             return $expand;
         }
-
-        $time2 = microtime(true);
-        print($time2-$time);
-        print("\n");
 
         // Some rewrites are done with intermediate symbols.
         // These symbols will be removed from the output.
@@ -769,17 +763,12 @@ class maxima_parser_utils {
                                 return false;
                         }
                     }
-                } else if ($node->name->value === 'delete' && isset($node->arguments[1])) {
-                    if ($node->arguments[0] instanceof MP_Integer || $node->arguments[0] instanceof MP_Float) {
-                        if ($node->arguments[1] instanceof MP_FunctionCall && $node->arguments[1]->name instanceof MP_Identifier) {
-                            switch ($node->arguments[1]->name->value) {
-                                case 'stack_float_list':
-                                case 'stack_integer_list':
-                                case 'stack_expression_list':
-                                    $node->parentnode->replace($node, $node->arguments[1]);
-                                    return false;
-                            }
-                        }
+                } else if ($node->name->value === 'delete') {
+                    // Just ignore the deletion. If the term is not complex.
+                    $types = $node->arguments[0]->type_count();
+                    if (!isset($types['ops'][':']) && !isset($types['funs']['ev']) && !isset($types['funs']['subst']) && !isset($types['funs']['solve']) && !isset($types['funs']['at'])) {
+                        $node->parentnode->replace($node, $node->arguments[1]);
+                        return false;    
                     }
                 } else if ($node->name->value === 'sconcat') {
                     $strings = [];
@@ -1151,10 +1140,6 @@ class maxima_parser_utils {
         }
         unset($workset1); // No need for this anymore
 
-        $time3 = microtime(true);
-        print($time3-$time2);
-        print("\n");
-
         // Do some cross assingments in the context.
         $output = self::mergeclasses($output, [$open1, $scalarelimination]);
 
@@ -1176,10 +1161,6 @@ class maxima_parser_utils {
             }
             $output[$key] = $vb;
         }
-
-        $time4 = microtime(true);
-        print($time4-$time3);
-        print("\n");
 
         // Reduce program-flow statements down to simpler things.
         $pfreduce = function($node) use(&$out) {
@@ -1313,11 +1294,6 @@ class maxima_parser_utils {
         }
         unset($workset2);
 
-        $time5 = microtime(true);
-        print($time5-$time4);
-        print("\n");
-
-
         // Some rewrites may have moved more substs and other interesting objects to the ouput in advance.
         foreach ($output as $key => $values) {
             $vb = [];
@@ -1396,10 +1372,6 @@ class maxima_parser_utils {
             }
         }
         unset($workset3);
-
-        $time6 = microtime(true);
-        print($time6-$time5);
-        print("\n");
 
         // Workset 4 should mainly contain statements that include subst or ev
         // the arguments of these functions are to be fully expanded
@@ -1572,12 +1544,6 @@ class maxima_parser_utils {
         // Do some cross assingments in the context.
         $output = self::mergeclasses($output, [$open1], true);
 
-        $time7 = microtime(true);
-        print($time7-$time6);
-        print("\n");
-        print($time7-$time);
-        print("\n");
-
         // Drop the fakes.
         foreach ($fakesym as $key) {
             if (isset($output[$key])) {
@@ -1594,6 +1560,9 @@ class maxima_parser_utils {
 
 
         foreach ($output as $key => $values) {
+            if (isset($values[$key])) {
+                unset($values[$key]); // Clean self-references.
+            }
             $values2 = [];
             $values1 = [];
             foreach ($values as $k => $value) {
@@ -1661,6 +1630,9 @@ class maxima_parser_utils {
                 $sce = new MP_FunctionCall(new MP_Identifier('stack_complex_expression'), array_values($terms));
                 $values3[$sce->toString()] = $sce;
             }
+            if (isset($values3[$key])) {
+                unset($values3[$key]); // Clean self-references.
+            }
 
             // Keep the integers.
             foreach ($values2 as $value) {
@@ -1713,7 +1685,7 @@ class maxima_parser_utils {
             }   
         }
 
-        /*      
+        /*    
         print("\n\n");
         foreach ($output as $key => $values) {
             print($key . ":\n");

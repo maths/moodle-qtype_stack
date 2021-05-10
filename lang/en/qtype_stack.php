@@ -698,7 +698,10 @@ $string['stackCas_applyfunmakestring']      = 'The name of the function cannot b
 $string['stackCas_badpostfixop']            = 'You have a bad "postfix" operator in your expression.';
 $string['stackCas_overrecursivesignatures'] = 'The question code includes too many functions defined through mapping';
 $string['stackCas_studentInputAsFunction']  = 'Use of student input as the name of a function is not permitted.';
+$string['stackCas_unknownSubstitutionPotenttiallyMaskingAFunctionName'] = 'The function name "{$a->name}" is potentially redefined in unclear substitutions.';
+$string['stackCas_functionNameSubstitutionToForbiddenOne'] = 'The function name "{$a->name}" is potentially mapped, using substitutions, to "{$a->trg}" which is a forbidden one.';
 $string['stackCas_redefine_built_in']       = 'Redefining a built in function "{$a->name}" is forbidden.';
+$string['stackCas_nested_function_declaration'] = 'Definition of a function inside another function is now forbidden, use renaming of the function if you need to switch function definitions from within another function.';
 
 // Used in cassession.class.php.
 $string['stackCas_CASError']                = 'The CAS returned the following error(s):';

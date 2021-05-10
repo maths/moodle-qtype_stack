@@ -273,6 +273,105 @@ class MP_Node {
         return null;
     }
     */
+   
+   /** 
+    * Generates an array listing the types of nodes present in this subtree.
+    * Including this node. Keyed with class-name and includes some specific 
+    * predefined special cases like `ops` and `has control flow`
+    */
+   public function type_count(): array {
+        $r = ['has control flow' => false, 'ops' => [], 'ids' => [], 'strings' => [], 'vars' => [], 'funs' => [], 'totalnodes' => 0];
+        $prevparent = $this->parentnode; // We do a parent replace in the recurse.
+
+        $count = function($node) use (&$r) {
+            $c = get_class($node);
+            if (!isset($r[$c])) {
+                $r[$c] = 1;
+            } else {
+                $r[$c] = $r[$c] + 1;
+            }
+            $r['totalnodes'] = $r['totalnodes'] + 1;
+            switch ($c) {
+                case 'MP_If':
+                case 'MP_Loop':
+                    $r['has control flow'] = true;
+                    break;
+                case 'MP_Identifier':
+                    if (!isset($r['ids'][$node->value])) {
+                        $r['ids'][$node->value] = 1;
+                    } else {
+                        $r['ids'][$node->value] = $r['ids'][$node->value] + 1;
+                    }
+                    if ($node->is_function_name()) {
+                        if (!isset($r['funs'][$node->value])) {
+                            $r['funs'][$node->value] = 1;
+                        } else {
+                            $r['funs'][$node->value] = $r['funs'][$node->value] + 1;
+                        }
+                    } else {
+                        if (!isset($r['vars'][$node->value])) {
+                            $r['vars'][$node->value] = 1;
+                        } else {
+                            $r['vars'][$node->value] = $r['vars'][$node->value] + 1;
+                        }
+                    }
+                    break;
+                case 'MP_String':
+                    if (!isset($r['strings'][$node->value])) {
+                        $r['strings'][$node->value] = 1;
+                    } else {
+                        $r['strings'][$node->value] = $r['strings'][$node->value] + 1;
+                    }
+                    if ($node->parentnode instanceof MP_FunctionCall && $node->parentnode->name === $node) {
+                        if (!isset($r['funs'][$node->value])) {
+                            $r['funs'][$node->value] = 1;
+                        } else {
+                            $r['funs'][$node->value] = $r['funs'][$node->value] + 1;
+                        }
+                    }
+                    break;
+                case 'MP_Operation':
+                case 'MP_PrefixOp':
+                case 'MP_PostfixOp':
+                    if (!isset($r['ops'][$node->op])) {
+                        $r['ops'][$node->op] = 1;
+                    } else {
+                        $r['ops'][$node->op] = $r['ops'][$node->op] + 1;
+                    }
+                    break;
+            }
+
+            return true;
+        };
+        $tmp = new MP_Group([$this]);
+        $tmp->callbackRecurse($count);
+
+        $this->parentnode = $prevparent;
+        return $r;
+   }
+
+   /** 
+    * Checks if this node has a call for a given function in its ancestry.
+    * Returns false if not otherwise tells the index of the arguments of 
+    * that function call that includes this.
+    * @param  string $funname Name of the function we are intersted of
+    * @return false or index.
+    */
+   public function argument_of($funname) {
+        $i = $this;
+        while ($i !== null) {
+            if ($i->parentnode instanceof MP_FunctionCall && ($i->parentnode->name instanceof MP_Identifier || $i->parentnode->name instanceof MP_String)) {
+                if ($i->parentnode->name->value === $funname) {
+                    $k = array_search($i, $i->parentnode->arguments);
+                    if ($k !== false) {
+                        return $k;
+                    }
+                }
+            }
+            $i = $i->parentnode;
+        }
+        return false;
+   }
 }
 
 class MP_Operation extends MP_Node {
@@ -572,6 +671,9 @@ class MP_Integer extends MP_Atom {
 
         if ($this->raw !== null) {
             return $this->raw;
+        } else if ($this->value === null) {
+            // This is a special output case for type-inference caching.
+            return 'stack_unknown_integer';
         }
 
         return '' . $this->value;
@@ -608,6 +710,9 @@ class MP_Float extends MP_Atom {
 
         if ($this->raw !== null) {
             return strtoupper($this->raw);
+        } else if ($this->value === null) {
+            // This is a special output case for type-inference caching.
+            return 'stack_unknown_float';
         }
 
         return strtoupper('' . $this->value);

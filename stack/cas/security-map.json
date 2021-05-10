@@ -672,7 +672,8 @@
       "function": "?"
   },
   "ascii": {
-      "function": "s"
+      "function": "s",
+      "built-in": true
   },
   "asec": {
       "function": "s",
@@ -732,7 +733,8 @@
       "function": "?"
   },
   "at": {
-      "function": "?"
+      "function": "t",
+      "built-in": true
   },
   "atan": {
       "function": "s",
@@ -1257,7 +1259,7 @@
       "function": "s"
   },
   "chdir": {
-      "function": "?"
+      "function": "f"
   },
   "chebyshev_t": {
       "function": "f"
@@ -1762,7 +1764,8 @@
       "variable": "f"
   },
   "delete": {
-      "function": "s"
+      "function": "s",
+      "built-in": true
   },
   "delete_file": {
       "function": "?"
@@ -2267,7 +2270,8 @@
       "function": "s"
   },
   "ev": {
-      "function": "s"
+      "function": "s",
+      "built-in": true
   },
   "ev_point": {
       "variable": "f"
@@ -4039,10 +4043,12 @@
       "built-in": true
   },
   "lmax": {
-      "function": "s"
+      "function": "s",
+      "built-in": true
   },
   "lmin": {
-      "function": "s"
+      "function": "s",
+      "built-in": true
   },
   "lmxchar": {
       "variable": "?"
@@ -4573,7 +4579,7 @@
       "function": "?"
   },
   "mkdir": {
-      "function": "?"
+      "function": "f"
   },
   "mmHg": {
       "variable": "s"
@@ -4582,7 +4588,8 @@
       "function": "f"
   },
   "mod": {
-      "function": "s"
+      "function": "s",
+      "built-in": true
   },
   "mod_big_prime": {
       "variable": "f"
@@ -6501,7 +6508,8 @@
       "function": "?"
   },
   "reverse": {
-      "function": "s"
+      "function": "s",
+      "built-in": true
   },
   "revert": {
       "function": "f"
@@ -6997,7 +7005,8 @@
       "function": "?"
   },
   "solve": {
-      "function": "s"
+      "function": "s",
+      "built-in": true
   },
   "solve_rec": {
       "function": "f"
@@ -7124,6 +7133,52 @@
       "function": "?"
   },
   "stack_complex_expression": {
+      "function": "t",
+      "built-in": true
+  },
+  "stack_unknown_integer": {
+      "variable": "t"
+  },
+  "stack_unknown_float": {
+      "variable": "t"
+  },
+  "stack_integer_set": {
+      "function": "t",
+      "built-in": true
+  },
+  "stack_float_set": {
+      "function": "t",
+      "built-in": true
+  },
+  "stack_expression_set": {
+      "function": "t",
+      "built-in": true
+  },
+  "stack_integer_list": {
+      "function": "t",
+      "built-in": true
+  },
+  "stack_float_list": {
+      "function": "t",
+      "built-in": true
+  },
+  "stack_expression_list": {
+      "function": "t",
+      "built-in": true
+  },
+  "stack_integer_matrix": {
+      "function": "t",
+      "built-in": true
+  },
+  "stack_float_matrix": {
+      "function": "t",
+      "built-in": true
+  },
+  "stack_complex_unknown": {
+      "function": "f",
+      "built-in": true
+  },
+  "stack_expression_matrix": {
       "function": "t",
       "built-in": true
   },
@@ -7388,7 +7443,8 @@
       "function": "s"
   },
   "subst": {
-      "function": "s"
+      "function": "t",
+      "built-in": true
   },
   "subst_parallel": {
       "function": "?"

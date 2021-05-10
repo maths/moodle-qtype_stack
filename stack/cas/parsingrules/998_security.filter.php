@@ -61,6 +61,7 @@ class stack_ast_filter_998_security implements stack_cas_astfilter_parametric {
         $brackets = false;
         $braces = false;
         $evflags = false;
+        $nestedfunction = false;
         $extraction = function($node) use (&$ofinterest, &$commas, &$parenthesis, &$brackets, &$braces, &$evflags, $protected){
             if ($node instanceof MP_Identifier ||
                 $node instanceof MP_FunctionCall ||
@@ -93,17 +94,12 @@ class stack_ast_filter_998_security implements stack_cas_astfilter_parametric {
                     $evflags = true;
                 }
             }
-
-            if ($node instanceof MP_Statement && count($node->flags) > 0) {
-                $tmp = new MP_FunctionCall(new MP_Identifier('ev'), [clone $node->statement]);
-                foreach ($node->flags as $flag) {
-                    if ($flag->name instanceof MP_Identifier) {
-                        $tmp->arguments[] = new MP_Operation(':', clone $flag->name, clone $flag->value);
-                    }
+            if ($node instanceof MP_Operation && $node->op === ':=') {
+                $types = $node->rhs->type_count();
+                if (isset($types['ops'][':='])) {
+                    $nestedfunction = true;
                 }
-                $ofinterest[] = $tmp;
             }
-
             return true;
         };
         // We can actually skip the invalid portions as in most
@@ -117,6 +113,14 @@ class stack_ast_filter_998_security implements stack_cas_astfilter_parametric {
             $valid = false;
             $answernotes[] = 'unencapsulated_comma';
             $errors[] = stack_string('stackCas_unencpsulated_comma');
+        }
+
+        // Nested function declarations are now forbidden. If you need to switch 
+        // functions on the fly rename them.
+        if ($nestedfunction) {
+            $valid = false;
+            $answernotes[] = 'nested_function_declaration';
+            $errors[] = stack_string('stackCas_nested_function_declaration');   
         }
 
         // Separate the identifiers we meet for latter use. Not the nodes
@@ -254,60 +258,6 @@ class stack_ast_filter_998_security implements stack_cas_astfilter_parametric {
                         }
                     }
 
-                    // Map types over substitutions.
-                    if ($node->name->value === 'subst') {
-                        $virtualfunction = new MP_FunctionCall(new MP_Identifier('ev'),[]);
-                        if ($node->arguments[0] instanceof MP_List && count($node->arguments) >= 2) {
-                            $virtualfunction->arguments[] = clone $node->arguments[1];
-                            foreach ($node->arguments[0]->items as $value) {
-                                $virtualfunction->arguments[] = clone $value;
-                            }
-                        } else if ($node->arguments[0] instanceof MP_Operation && count($node->arguments) >= 2) {
-                            $virtualfunction->arguments[] = clone $node->arguments[1];
-                            $virtualfunction->arguments[] = clone $node->arguments[0];
-                        } else if (count($node->arguments) >= 3) {
-                            $virtualfunction->arguments[] = clone $node->arguments[2];
-                            $virtualfunction->arguments[] = new MP_Operation('=', clone $node->arguments[1], clone $node->arguments[0]);
-                        }
-                        $virtualfunction->position['virtual'] = true;
-                        if (!isset($processedfuns[$virtualfunction->toString()])) {
-                            $ofinterest[] = $virtualfunction;
-                            $processedfuns[$virtualfunction->toString()] = true;
-                        }
-                    }
-                    if ($node->name->value === 'ev') {
-                        if (count($node->arguments) === 1) {
-                            // Only pick function calls from this if any exist.
-                            $funs = function($node) use (&$ofinterest, &$processedfuns) {
-                                if ($node instanceof MP_FunctionCall) {
-                                    if (!isset($processedfuns[$node->toString()])) {
-                                        $ofinterest[] = clone $node;
-                                        $processedfuns[$node->toString()] = true;
-                                    }               
-                                }
-                                return true;
-                            };
-                            (new MP_Group([$node->arguments[0]]))->callbackRecurse($funs);
-                        } else {
-                            $node = clone $node;
-                            $val = array_pop($node->arguments);
-                            if ($val instanceof MP_Operation && ($val->op === ':' || $val->op === '=')) {
-                                $id = $val->lhs->toString();
-                                $val = $val->rhs;
-                                $replace = function($node) use (&$id, &$val) {
-                                    if ($node instanceof MP_Identifier && $node->value === $id) {
-                                        $node->parentnode->replace($node, clone $val);
-                                    }
-                                    return true;
-                                };
-                                $tmp = new MP_Group([clone $node->arguments[0]]);
-                                $tmp->callbackRecurse($replace);
-                                $node->arguments[0] = $tmp->items[0];
-                            }
-                            $ofinterest[] = $node;
-                        }
-                    }
-
                     // The sublist case.
                     if ($identifierrules->has_feature($node->name->value, 'argumentasfunction')) {
                         foreach (stack_cas_security::get_feature($node->name->value, 'argumentasfunction') as $ind) {
@@ -316,29 +266,6 @@ class stack_ast_filter_998_security implements stack_cas_astfilter_parametric {
                             if (!isset($processedfuns[$virtualfunction->toString()])) {
                                 $ofinterest[] = $virtualfunction;
                                 $processedfuns[$virtualfunction->toString()] = true;
-                            }
-                        }
-                    }
-
-                    // Redefined & indirect ones.
-                    if (isset($ctx[$node->name->value])) {
-                        foreach ($ctx[$node->name->value] as $key => $value) {
-                            // We use -1 for a custom function, its contents have been vetted elsewhere.
-                            // We use -2 for an input and such should never be here.
-                            if ($key !== -1 && $key !== -2) {
-                                if ((isset($functionnames[$key]) && !$identifierrules->has_feature($key, 'mapfunction')) || ($value instanceof MP_FunctionCall and $value->name->toString() === $node->name->value)) {
-                                    // Also don't regenerate calls. Unless map functions.
-                                    // We might have something like `lcm:lcm(...)` this is
-                                    // a common enough pattern to be skipped specially.
-                                } else {
-                                    $tmp = clone $node;
-                                    $virtualfunction = new MP_FunctionCall(clone $value, $tmp->arguments);
-                                    $virtualfunction->position['virtual'] = true;
-                                    if (!isset($processedfuns[$virtualfunction->toString()])) {
-                                        $ofinterest[] = $virtualfunction;
-                                        $processedfuns[$virtualfunction->toString()] = true;
-                                    }
-                                }
                             }
                         }
                     }
@@ -408,7 +335,7 @@ class stack_ast_filter_998_security implements stack_cas_astfilter_parametric {
                             }
                         }
                     }
-                } else if ($node->name instanceof MP_Integer || $node->name instanceof MP_Float || $node->name instanceof MP_Boolea) {
+                } else if ($node->name instanceof MP_Integer || $node->name instanceof MP_Float || $node->name instanceof MP_Boolean) {
                     // Some substitutions do lead to interesting results.
                     $notsafe = false;
                 }
@@ -478,9 +405,25 @@ class stack_ast_filter_998_security implements stack_cas_astfilter_parametric {
                 }
                 $valid = false;
             }
-            if (isset($ctx[$name]) && isset($ctx[$name][-2])) {
-                $errors[] = trim(stack_string('stackCas_studentInputAsFunction'));
-                $valid = false;
+            if (isset($ctx[$name])) {
+                foreach ($ctx[$name] as $key => $value) {
+                    if ($key === -2) {
+                        $errors[] = trim(stack_string('stackCas_studentInputAsFunction'));
+                        $valid = false;
+                    }
+                    if ($key === -3) {
+                        $errors[] = trim(stack_string('stackCas_unknownSubstitutionPotenttiallyMaskingAFunctionName', ['name' => $name]));
+                        $valid = false;
+                    }
+                    if (($value instanceof MP_Identifier || $value instanceof MP_String) &&
+                        !$identifierrules->is_allowed_to_call($this->source, $value->value)) {
+                        $errors[] = trim(stack_string('stackCas_functionNameSubstitutionToForbiddenOne', ['name' => $name, 'trg' => $value->value]));
+                        $valid = false;
+                    } else if ($value instanceof MP_FunctionCall && $value->name->toString() === 'stack_complex_unknown') {
+                        $errors[] = trim(stack_string('stackCas_unknownSubstitutionPotenttiallyMaskingAFunctionName', ['name' => $name]));
+                        $valid = false;
+                    }
+                }
             }
         }
 

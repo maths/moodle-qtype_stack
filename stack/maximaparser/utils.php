@@ -287,6 +287,17 @@ class maxima_parser_utils {
         $opmode = false;
         $replacetrivial = function($node) use (&$trg, &$value, &$opmode) {
             if ($node instanceof MP_Identifier && $node->value === $trg) {
+                // Never replace function name or indexing target with an integer or a float.
+                if ($value instanceof MP_Integer || $value instanceof MP_Float) {
+                    if ($node->is_function_name() || ($node->parentnode instanceof MP_Indexing && $node->parentnode->target === $node)) {
+                        return true;
+                    }
+                }
+                if ($node->parentnode instanceof MP_List && $node->parentnode->parentnode instanceof MP_FunctionCall && $node->parentnode->parentnode->name instanceof MP_Atom && $node->parentnode->parentnode->name->value === 'lambda') {
+                    // Do not touch these.
+                    return true;
+                }
+
                 if ($opmode && !$node->is_function_name()) {
                     return true;
                 }
@@ -394,6 +405,16 @@ class maxima_parser_utils {
         // We use the position array to paint the nodes with the replacement marker.
         $replace = function($node) use ($substs) {
             if ($node instanceof MP_Identifier && isset($subst[$node->value])) {
+                // Never replace function name or indexing target with an integer or a float.
+                if ($subst[$node->value] instanceof MP_Integer || $subst[$node->value] instanceof MP_Float) {
+                    if ($node->is_function_name() || ($node->parentnode instanceof MP_Indexing && $node->parentnode->target === $node)) {
+                        return true;
+                    }
+                }
+                if ($node->parentnode instanceof MP_List && $node->parentnode->parentnode instanceof MP_FunctionCall && $node->parentnode->parentnode->name instanceof MP_Atom && $node->parentnode->parentnode->name->value === 'lambda') {
+                    // Do not touch these.
+                    return true;
+                }
                 // First skip the ones that should not be modified.
                 if ($node->is_being_written_to()) {
                     return true;
@@ -471,6 +492,7 @@ class maxima_parser_utils {
     // 4. -2 might be predefined in the given list to signal an input indentifier
     // 5. -3 signals something that might have a value from unclear substitutions and
     //    thus the type would be unknown
+    // 6. -4 if the identifier is ever called as a function.
     // For insert-stars purposes if the identifier has count=1 items in the array and
     // the only key present is -1 then the identifier is a function defined in
     // the question and should be used as such.
@@ -495,9 +517,10 @@ class maxima_parser_utils {
                         $v = new MP_FunctionCall(new MP_Identifier('ev'), array_merge([clone $node->statement], $flags));
                     }
                     
-                    $workset1[] = $v;
+                    $workset1[$v->toString()] = $v;
                 } else {
-                    $workset1[] = clone $node->statement;
+                    // Only uniques so that repeated definitions do not cause issues.
+                    $workset1[$node->statement->toString()] = clone $node->statement;
                 }
             }
             if ($node instanceof MP_Operation && $node->op === ':=') {
@@ -509,12 +532,38 @@ class maxima_parser_utils {
                     }
                 }
             }
+            if ($node instanceof MP_Identifier && $node->is_function_name()) {
+                if (!isset($output[$node->value])) {
+                    $output[$node->value] = [-4 => -4];
+                } else {
+                    $output[$node->value][-4] = -4;
+                }
+            }
             return true;
         };
         $ast->callbackRecurse($seek1);
 
-        // Turn lambdas to functions, for now dont bother with argument mapping if it is dynamic.
-        $lambdas = function($node) use(&$output) {
+
+
+        if (count($workset1) === 0) {
+            // If we have nothing then exit.
+            return $expand;
+        }
+
+        // Some rewrites are done with intermediate symbols.
+        // These symbols will be removed from the output.
+        // These are also used to disconnect block-variables and function arguments.
+        $fakesym = 1;
+        $fakes = []; // Keep track of the assigned ones.
+        while (isset($output['%fake' . $fakesym])) {
+            $fakesym = $fakesym + 1;
+        }
+        $funargs = [];
+
+        // Turn lambdas into functions, for now don't bother with argument mapping if it is dynamic.
+        // Also do the block-local and argument disconnect.
+        $workset2 = [];
+        $lambdas = function($node) use(&$output, &$fakesym, &$fakes, &$workset2, &$funargs) {
             if ($node instanceof MP_Operation && $node->op === ':' && $node->rhs instanceof MP_FunctionCall && $node->rhs->name instanceof MP_Atom && $node->rhs->name->value === 'lambda' && $node->lhs instanceof MP_Identifier) {
                 if (!isset($output[$node->lhs->value])) {
                     $output[$node->lhs->value] = [-1 => -1];
@@ -528,26 +577,166 @@ class maxima_parser_utils {
                 $node->parentnode->replace($node, $r);
                 return false;
             }
+            if ($node instanceof MP_FunctionCall && $node->name instanceof MP_Atom && $node->name->value === 'block') {
+                // Do this for the innermost block.
+                $types = $node->type_count();
+                if ($types['funs']['block'] > 1) {
+                    return true;
+                }
+                if (isset($types['funs']['lamda'])) {
+                    return true;
+                }
+                $vars = [];
+                if (count($node->arguments) > 0 && $node->arguments[0] instanceof MP_List) {
+                    foreach ($node->arguments[0]->items as $arg) {
+                        while (isset($output['%fake' . $fakesym])) {
+                            $fakesym = $fakesym + 1;
+                        }
+                        $vars[$arg->toString()] = new MP_Identifier('%fake' . $fakesym);
+                        $fakes[] = '%fake' . $fakesym;
+                        $output['%fake' . $fakesym] = [];
+                    }
+                } else if (count($node->arguments) > 0 && $node->arguments[0] instanceof MP_FunctionCall && $node->arguments[0]->name instanceof MP_Atom && $node->arguments[0]->name->value === 'local') {
+                    foreach ($node->arguments[0]->arguments as $arg) {
+                        while (isset($output['%fake' . $fakesym])) {
+                            $fakesym = $fakesym + 1;
+                        }
+                        $vars[$arg->toString()] = new MP_Identifier('%fake' . $fakesym);
+                        $fakes[] = '%fake' . $fakesym;
+                        $output['%fake' . $fakesym] = [];
+                    }
+                }
+                $repl = null;
+                if (count($vars) > 0) {
+                    $repl = new MP_Group(array_slice($node->arguments, 1));
+                    $repl = self::substitute_in_parallel($repl, $vars);
+                } else {
+                    $repl = new MP_Group($node->arguments);
+                }
+                $node->parentnode->replace($node, $repl);
+                return false;
+            }
+            if ($node instanceof MP_FunctionCall && $node->name instanceof MP_Atom && $node->name->value === 'lambda') {
+                // Do this for the innermost lambda.
+                $types = $node->type_count();
+                if ($types['funs']['lambda'] > 1) {
+                    return true;
+                }
+                if (isset($types['funs']['block'])) {
+                    return true;
+                }
+                $vars = [];
+                $args = [];
+                $offset = 1;
+            
+                // The first one msut always be a list.
+                if ($node->arguments[0] instanceof MP_List) {
+                    foreach ($node->arguments[0]->items as $arg) {
+                        while (isset($output['%fake' . $fakesym])) {
+                            $fakesym = $fakesym + 1;
+                        }
+                        $vars[$arg->toString()] = new MP_Identifier('%fake' . $fakesym);
+                        $args[$arg->toString()] = new MP_Identifier('%fake' . $fakesym);
+                        $fakes[] = '%fake' . $fakesym;
+                        $output['%fake' . $fakesym] = [];
+                    }
+                }
+                if (count($node->arguments) > 2 && $node->arguments[1] instanceof MP_FunctionCall && $node->arguments[1]->name instanceof MP_Atom && $node->arguments[1]->name->value === 'local') {
+                    $offset = 2;
+                    foreach ($node->arguments[1]->arguments as $arg) {
+                        while (isset($output['%fake' . $fakesym])) {
+                            $fakesym = $fakesym + 1;
+                        }
+                        $vars[$arg->toString()] = new MP_Identifier('%fake' . $fakesym);
+                        $fakes[] = '%fake' . $fakesym;
+                        $output['%fake' . $fakesym] = [];
+                    }
+                }
+            
+                // Fake fun.
+                while (isset($output['%fake' . $fakesym])) {
+                    $fakesym = $fakesym + 1;
+                }
+                $fakes[] = '%fake' . $fakesym;
+                $output['%fake' . $fakesym] = [-1 => -1];
+
+                $repl = new MP_Group(array_slice($node->arguments, $offset));
+                $repl = self::substitute_in_parallel($repl, $vars);
+            
+                $funargs['%fake' . $fakesym] = [];
+                foreach ($args as $arg) {
+                    $funargs['%fake' . $fakesym][] = $arg->toString();
+                }
+
+                $fun = new MP_Operation(':=', new MP_FunctionCall(new MP_Identifier('%fake' . $fakesym), array_values($args)), $repl);
+                $fun->position['disconnected'] = true;
+                $workset2[$fun->toString()] = $fun;
+
+                $node->parentnode->replace($node, new MP_Identifier('%fake' . $fakesym));
+                return false;
+            }
+            // Then normal functions.
+            if ($node instanceof MP_Operation && $node->op === ':=' && !isset($node->position['disconnected']) && $node->lhs instanceof MP_FunctionCall) {
+                // Only after these have been handled.
+                $types = $node->type_count();
+                if (isset($types['funs']['block']) || isset($types['funs']['lambda'])) {
+                    return true;
+                }
+                $vars = [];
+                foreach ($node->lhs->arguments as $arg) {
+                    while (isset($output['%fake' . $fakesym])) {
+                        $fakesym = $fakesym + 1;
+                    }
+                    $vars[$arg->toString()] = new MP_Identifier('%fake' . $fakesym);
+                    $fakes[] = '%fake' . $fakesym;
+                    $output['%fake' . $fakesym] = [];
+                }
+                $fname = $node->lhs->name->toString();
+                $funargs[$fname] = [];
+                foreach ($args as $arg) {
+                    $funargs[$fname][] = $arg->toString();
+                }
+                $repl = self::substitute_in_parallel($node, $vars);
+                // Make sure we will never need to deal with this again.
+                $repl->position['disconnected'] = true;
+                $node->parentnode->replace($node, $repl);
+                return false;
+            }
             return true;
         };
 
-        if (count($workset1) === 0) {
-            // If we have nothing then exit.
-            return $expand;
-        }
+        // Local function args. i,e. pick up the values that these functions are called with.
+        // Also build the importance mapping.
+        $usedinops = [];
+        $localfun = function($node) use (&$output, &$funargs, &$usedasfun, &$usedinops) {
+            if ($node instanceof MP_FunctionCall && $node->name instanceof MP_Atom && !isset($node->position['arg extracted']) && isset($funargs[$node->name->value]) && !$node->is_definition()) {
+                $node->position['arg extracted'] = true;
+                
+                foreach ($funargs[$node->name->value] as $i => $name) {
+                    if (!isset($output[$name])) {
+                        $output[$name] = [];
+                    }
+                    if (isset($node->arguments[$i])) {
+                        $output[$name][$node->arguments[$i]->toString()] = clone $node->arguments[$i];
+                    }
+                }
+            }
+            if ($node instanceof MP_Operation && $node->lhs instanceof MP_Identifier && $node->rhs instanceof MP_Identifier) {
+                if (!isset($usedinops[$node->lhs->value])) {
+                    $usedinops[$node->lhs->value] = [];
+                }
+                $usedinops[$node->lhs->value][$node->rhs->value] = true;
+            }
 
-        // Some rewrites are done with intermediate symbols.
-        // These symbols will be removed from the output.
-        $fakesym = 1;
-        $fakes = []; // Keep track of the assigned ones.
-        while (isset($output['%fake' . $fakesym])) {
-            $fakesym = $fakesym + 1;
-        }
+            return true;
+        };
+
 
         // Do initial simplification, write open static bits.
         // Replace sub-structures with a placeholder functions. Try to cut down the number of
         // nodes in the AST as much as possible, but not so much that side effects get lost.
-        $open1 = function($node) use (&$sec) {
+        $mergelimit = 50;
+        $open1 = function($node) use (&$sec, &$mergelimit) {
             if ($node instanceof MP_FunctionCall && $node->name instanceof MP_Atom) {
                 if ($node->name->value === 'ascii') {
                     // This is a relic from the pre UTF days and for castext1.
@@ -798,6 +987,11 @@ class maxima_parser_utils {
                     }
                     $node->parentnode->arguments = array_values($newargs);
                     return false;
+                } else if ($node->name->value === 'makelist' && count($node->arguments) >= 4) {
+                    if ($node->arguments[2] instanceof MP_Integer && $node->arguments[3] instanceof MP_Integer && $node->arguments[0]->toString() === $node->arguments[1]->toString()) {
+                        $node->parentnode->replace($node, new MP_FunctionCall(new MP_Identifier('stack_integer_list'), []));
+                        return false;
+                    }
                 }
             }
             if (($node instanceof MP_List && (!($node->parentnode instanceof MP_Indexing) || $node->parentnode->target === $node)) || $node instanceof MP_Set) {
@@ -1059,7 +1253,7 @@ class maxima_parser_utils {
             // Catch all large, this will lead to missing some nuances.
             if (!isset($node->position['open1 groupped'])) {
                 $types = $node->type_count();
-                if (!isset($types['MP_Statement']) && $types['totalnodes'] > 40 && !isset($types['ops'][':']) && !isset($types['ops']['=']) && !isset($types['funs']['subst']) && !isset($types['funs']['ev']) && !isset($types['funs']['solve']) && !isset($types['funs']['at'])) {
+                if (!isset($types['MP_Statement']) && $types['totalnodes'] > $mergelimit && !isset($types['ops'][':']) && !isset($types['ops']['=']) && !isset($types['funs']['subst']) && !isset($types['funs']['ev']) && !isset($types['funs']['solve']) && !isset($types['funs']['at'])) {
                     $ids = [];
                     foreach ($types['vars'] as $key => $value) {
                         $ids[] = new MP_Identifier($key);
@@ -1075,21 +1269,44 @@ class maxima_parser_utils {
         };
 
         // A special thing happening only after the first writing open step.
-        $randexpand = function($node) use (&$sec, &$output, &$fakesym) {
+        $randexpand = function($node) use (&$sec, &$output, &$fakesym, &$fakes, &$usedinops) {
             if ($node instanceof MP_FunctionCall && $node->name instanceof MP_Atom && $node->name->value === 'rand') {
                 if ($node->arguments[0] instanceof MP_List && count($node->arguments[0]->items) > 0) {
-                    // What this does is it writes open the variants, this exists to deal with
-                    // cases where we have randomisation between sets of parameters.
-                    while (isset($output['%fake' . $fakesym])) {
-                        $fakesym = $fakesym + 1;
+                    $needsexpansion = false;
+                    // There are types of lists present in these rands that we really do not need 
+                    // to branch on. So lets check if this is one of the types we might want to 
+                    // expand on.
+                    $types = $node->arguments[0]->type_count();
+                    foreach ($types['ids'] as $id) {
+                        if (isset($usedinops[$id]) || (isset($output[$id]) && isset($output[$id][-4]))) {
+                            $needsexpansion = true;
+                            break;
+                        }
                     }
-                    $fakes[] = '%fake' . $fakesym;
-                    $output['%fake' . $fakesym] = [];
-                    foreach ($node->arguments[0]->items as $item) {
-                        $output['%fake' . $fakesym][$item->toString()] = $item;
+                    if (!$needsexpansion) {
+                        // Some special cases need to be handled, e.g. the rand between sets of params.
+                        foreach ($node->arguments[0]->items as $item) {
+                            if ($item instanceof MP_List) {
+                                $needsexpansion = true;
+                                break;
+                            }
+                        }
                     }
-                    $node->parentnode->replace($node, new MP_Identifier('%fake' . $fakesym));
-                    return false;
+
+                    if ($needsexpansion) {
+                        // What this does is it writes open the variants, this exists to deal with
+                        // cases where we have randomisation between sets of parameters.
+                        while (isset($output['%fake' . $fakesym])) {
+                            $fakesym = $fakesym + 1;
+                        }
+                        $fakes[] = '%fake' . $fakesym;
+                        $output['%fake' . $fakesym] = [];
+                        foreach ($node->arguments[0]->items as $item) {
+                            $output['%fake' . $fakesym][$item->toString()] = $item;
+                        }
+                        $node->parentnode->replace($node, new MP_Identifier('%fake' . $fakesym));
+                        return false;
+                    }
                 }
             }
             return true;
@@ -1116,10 +1333,10 @@ class maxima_parser_utils {
             return true;
         };
 
-        $workset2 = [];
         foreach ($workset1 as $value) {
             $tmp = new MP_Group([$value]);
             while (!$tmp->callbackRecurse($lambdas)){};
+            while (!$tmp->callbackRecurse($localfun)){};
             while (!$tmp->callbackRecurse($open1)){};
             while (!$tmp->callbackRecurse($randexpand)){};
             while (!$tmp->callbackRecurse($open1)){};
@@ -1140,6 +1357,17 @@ class maxima_parser_utils {
         }
         unset($workset1); // No need for this anymore
 
+        // Some things skip logic...
+        if (count($workset2) > 0) {
+            $ws2 = [];
+            foreach ($workset2 as $value) {
+                $tmp = new MP_Group([$value]);
+                while (!$tmp->callbackRecurse($localfun)){};
+                $ws2[$tmp->items[0]->toString()] = $tmp->items[0];
+            }
+            $workset2 = $ws2;
+        }
+
         // Do some cross assingments in the context.
         $output = self::mergeclasses($output, [$open1, $scalarelimination]);
 
@@ -1152,7 +1380,7 @@ class maxima_parser_utils {
                     continue;
                 }
                 $types = $value->type_count();
-                if ($types['has control flow'] || isset($types['funs']['solve']) || isset($types['funs']['ev']) || isset($types['funs']['subst']) || isset($types['funs']['at'])) {
+                if ($types['has control flow'] || isset($types['funs']['solve']) || isset($types['funs']['ev']) || isset($types['funs']['subst']) || isset($types['funs']['at']) || isset($types['ops'][':'])) {
                     $t = new MP_Operation(':', new MP_Identifier($key), $value);
                     $workset2[$t->toString()] = $t;
                 } else {
@@ -1292,6 +1520,7 @@ class maxima_parser_utils {
                 $workset3[$tmp->items[0]->toString()] = $tmp->items[0];    
             }
         }
+        $mergelimit = 30;
         unset($workset2);
 
         // Some rewrites may have moved more substs and other interesting objects to the ouput in advance.
@@ -1541,11 +1770,13 @@ class maxima_parser_utils {
             }
         }
 
+        $mergelimit = 20;
+
         // Do some cross assingments in the context.
         $output = self::mergeclasses($output, [$open1], true);
 
         // Drop the fakes.
-        foreach ($fakesym as $key) {
+        foreach ($fakes as $key) {
             if (isset($output[$key])) {
                 unset($output[$key]);
             }

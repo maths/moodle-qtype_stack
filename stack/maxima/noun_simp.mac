@@ -241,6 +241,9 @@ ATEqualComAssRules(sa, sb, so) :=
     if not(all_listp(lambda([ex], ev(elementp(ex, setify(ALL_TRANS)),simp) ), so)) then
         return([false,false,StackAddNote("", "ATEqualComAssRules_Opt_Wrong"), StackAddFeedback("", "ATEqualComAssRules_Opt_List")]),
 
+    if any_listp(lambda([ex], ev(subsetp(ex, setify(so)),simp) ), INCOMPATIBLE_TRANS) then
+        return([false,false,StackAddNote("", "ATEqualComAssRules_Opt_Incompatible"), StackAddFeedback("", "ATEqualComAssRules_Opt_Incompatible")]),
+
     sa:remove_stackeq(sa),
     sb:remove_stackeq(sb),
 
@@ -273,11 +276,11 @@ ATEqualComAssRules(sa, sb, so) :=
 /* List of all available rules. */
 ALG_TRANS:[assAdd, assMul, comAdd, comMul]$
 ID_TRANS:[zeroAdd, zeroMul, oneMul, onePow, idPow, zeroPow, zPow, oneDiv]$
-NEG_TRANS:[negNeg, negDiv]$
+NEG_TRANS:[negNeg, negDiv, negOrd]$
 INT_ARITH:[intAdd, intMul, intPow]$
-DIV_TRANS:[recipMul, divDiv]$
+DIV_TRANS:[recipMul, divDiv, divCancel]$
 
-ALL_TRANS:append(ALG_TRANS, ID_TRANS, NEG_TRANS, DIV_TRANS, INT_ARITH)$
+ALL_TRANS:append(ALG_TRANS, ID_TRANS, NEG_TRANS, DIV_TRANS, INT_ARITH, [intFac])$
 
 /* Set up a hash table of functions and their corresponding predicate. */
 ALL_TRANSP[assAdd] : assAddp$
@@ -293,19 +296,25 @@ ALL_TRANSP[idPow] : idPowp$
 ALL_TRANSP[zeroPow] : zeroPowp$
 ALL_TRANSP[zPow] : zPowp$
 ALL_TRANSP[oneDiv] : oneDivp$
+
 ALL_TRANSP[recipMul] : recipMulp$
 ALL_TRANSP[divDiv] : divDivp$
+ALL_TRANSP[divCancel] : divCancelp$
 
 ALL_TRANSP[negNeg] : negNegp$
 ALL_TRANSP[negDiv] : negDivp$
+ALL_TRANSP[negOrd] : negOrdp$
 
 ALL_TRANSP[intAdd] : intAddp$
 ALL_TRANSP[intMul] : intMulp$
 ALL_TRANSP[intPow] : intPowp$
+ALL_TRANSP[intFac] : intFacp$
 
-/* This rules is not included in ALL_TRANS, see below. */
+/* These rules are not included in ALL_TRANS. */
 ALL_TRANSP[mminusInt] : mminusIntp$
 
+/* Sets of incompatible rules. */
+INCOMPATIBLE_TRANS : [{intFac, intMul}]$
 
 /*******************************************/
 /* Top level transformations using rules   */
@@ -327,7 +336,7 @@ transr(ex, rl) := block(
 
 /* Apply a list of rules recursively, in order, until the expression stops changing. */
 transl(ex,rll) := block([ex2],
-    if atom(ex) or not(listp(rll)) or emptyp(rll) then return(ex),
+    if not(listp(rll)) or emptyp(rll) then return(ex),
     ex2:transl(transr(ex, first(rll)), rest(rll)),
     if ex=ex2 then return(ex),
     return(transl(ex2,rll))
@@ -527,6 +536,27 @@ divDiv(ex) := block([ex2,ex3,exo,exl],
      if length(exl)=1 then first(exl) else flatten(apply(exo,exl))
 )$
 
+/* We have a product containing a division. */
+/* This rule implicitly assumes recipMul, i.e. it takes everything in the product. */
+/* This rule will also cancel NEG tokens as needed.                                */
+divCancelp(ex) := if (safe_op(ex)="*" or safe_op(ex)="noun*") and length(sublist(args(ex), lambda([ex2], safe_op(ex2)="UNARY_RECIP")))>0 then true else false$
+
+divCancel(ex) := block([ex1, ex2, ex3],
+  if not(divCancelp(ex)) then return(ex),
+  ex1:sublist(args(ex), lambda([l1], not(safe_op(l1)="UNARY_RECIP"))),
+  ex2:flatten(map(args, sublist(args(ex), lambda([l1], safe_op(l1)="UNARY_RECIP")))),
+  ex2:flatten(map(lambda([ex3],  if (safe_op(ex3)="*" or safe_op(ex3)="noun*") then args(ex3) else ex3), ex2)),
+  /* At this point ex1 is a list of factors in the numerator, and ex2 is a list of factors in the denominator. */
+  ex3:list_cancel([ex1,ex2]),
+  ex1:first(ex3),
+  ex2:second(ex3),
+  if emptyp(ex1) and emptyp(ex2) then return(1),
+  if length(ex2)=1 then ex1:append(ex1,[UNARY_RECIP(first(ex2))]),
+  if length(ex2)>1 then ex1:append(ex1,[UNARY_RECIP(apply("noun*", ex2))]),
+  if length(ex1)=1 then return(first(ex1)),
+  return(apply("noun*", ex1))
+)$ 
+
 /*******************************************/
 noun_simp_integerp(ex) := if atom(ex) then integerp(ex) else
                       if (safe_op(ex)="*" or safe_op(ex)="noun*") and part(ex, 1)=UNARY_MINUS and atom(part(ex, 2)) and integerp(part(ex, 2)) then true else false$
@@ -568,4 +598,10 @@ intPowp(ex):= block(
 intPow(ex) := block([a1, a2], 
     if intPowp(ex)=false then return(ex),
     ev(ex, simp)
+)$
+
+intFacp(ex):= integerp(ex)$
+intFac(ex) := block([a1], 
+    if intFacp(ex)=false then return(ex),
+    noun_arith(factor(ex))
 )$

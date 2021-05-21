@@ -840,6 +840,7 @@ $string['Subst']                        = 'Your answer would be correct if you u
 $string['ATSubstEquiv_Opt_List']        = 'The option to this answer test must be a list.  This is an error.  Please contact your teacher. ';
 
 $string['ATEqualComAssRules_Opt_List']  = 'The option to this answer test must be a non-empty list of supported rules.  This is an error.  Please contact your teacher. ';
+$string['ATEqualComAssRules_Opt_Incompatible']  = 'The option to this answer test contains incompatible rules.  This is an error.  Please contact your teacher. ';
 
 $string['ATSets_SA_not_set']            = 'Your answer should be a set, but is not.  Note that the syntax to enter a set is to enclose the comma separated values with curly brackets. ';
 $string['ATSets_SB_not_set']            = 'The "Sets" answer test expects its second argument to be a set.  This is an error.  Please contact your teacher.';

@@ -169,9 +169,21 @@ listscontain(a, b, v) := elementp(v, intersection(setify(a), setify(b)))$
 
 /* Removes the first occurance of ex from the list l. */
 removeonce(ex, l) := block(
- if listp(l)#true or emptyp(l) then return([]),
- if first(l)=ex then return(rest(l)),
- append([first(l)], removeonce(ex,rest(l)))
+  if listp(l)#true or emptyp(l) then return([]),
+  if first(l)=ex then return(rest(l)),
+  append([first(l)], removeonce(ex,rest(l)))
+)$
+
+/* Remove any common elements from [l1,l2], with duplication. */
+list_cancel(ex) := block([l1, l2, l3],
+  l1:first(ex),
+  l2:second(ex),
+  if not(listp(l1)) or not(listp(l2)) then error("Arguments of list_cancel must be lists."),
+  if emptyp(l1) then return([l1, l2]),
+  if emptyp(l2) then return([l1, l2]),
+  if element_listp(first(l2), l1) then return(list_cancel([removeonce(first(l2), l1), rest(l2)])), 
+  l3:list_cancel([l1, rest(l2)]),
+  return([first(l3),append([first(l2)], second((l3)))])
 )$
 
 /* This function applies the binary function zf to two lists a and b returning a list

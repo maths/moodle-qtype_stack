@@ -745,6 +745,7 @@ class stack_answertest_test_data {
         array('EqualComAssRules', '', '0+a', 'a', -1, 'STACKERROR_OPTION.', ''),
         array('EqualComAssRules', 'x', '0+a', 'a', -1, 'ATEqualComAssRules_Opt_List.', ''),
         array('EqualComAssRules', '[x]', '0+a', 'a', -1, 'ATEqualComAssRules_Opt_Wrong.', ''),
+        array('EqualComAssRules', '[intMul,intFac]', '0+a', 'a', -1, 'ATEqualComAssRules_Opt_Incompatible.', ''),
         array('EqualComAssRules', '[zeroAdd]', '1+1', '3', 0, 'ATEqualComAssRules (AlgEquiv-false).', 'Basic cases'),
         array('EqualComAssRules', '[zeroAdd]', '1+1', '2', 0, 'ATEqualComAssRules: [1 noun+ 1,2].', ''),
         array('EqualComAssRules', '[zeroAdd]', '0+a', 'a', 1, '', ''),
@@ -819,6 +820,7 @@ class stack_answertest_test_data {
             'ATEqualComAssRules: [A noun* C noun* (UNARY_RECIP B) noun* UNARY_RECIP D,' .
                                  'A noun* C noun* UNARY_RECIP B noun* D].', ''),
         array('EqualComAssRules', '[ID_TRANS,divDiv,recipMul]', 'A/(B/(C/D))', 'A*C/(B*D)', 1, '', ''),
+        array('EqualComAssRules', '[intFac]', '18', '2*3^2', 1, '', ''),
 
         array('CasEqual', '', '1/0', 'x^2-2*x+1', -1, 'ATCASEqual_STACKERROR_SAns.', ''),
         array('CasEqual', '', 'x', '1/0', -1, 'ATCASEqual_STACKERROR_TAns.', ''),

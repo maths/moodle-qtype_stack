@@ -140,6 +140,11 @@ intPow(2^x);
 intPow(0^0);
 0^0;
 
+intFac(7);
+7$
+intFac(18);
+2 noun\* 3 noun\^ 2$
+
 equals_commute_prepare((a/b)/c);
 a noun* (UNARY_RECIP(b)) noun* (UNARY_RECIP(c))$
 equals_commute_prepare(a/(b/c));
@@ -175,3 +180,15 @@ divDiv(UNARY_RECIP(b));
 UNARY_RECIP(b)$
 divDiv(UNARY_RECIP(b noun* c));
 UNARY_RECIP(b noun* c)$
+
+divCancel(a noun* b noun* UNARY_RECIP(a noun* c));
+b noun* UNARY_RECIP(c)$
+divCancel(a noun* UNARY_RECIP(a noun* c));
+UNARY_RECIP(c)$
+divCancel((a noun+ b) noun* UNARY_RECIP(a noun+ c));
+(a noun+ b) noun* UNARY_RECIP(a noun+ c)$
+divCancel(A noun* (a noun+ b) noun* UNARY_RECIP(a noun+ b));
+A$
+divCancel(UNARY_MINUS noun* a noun* UNARY_RECIP(UNARY_MINUS noun* b));
+a noun* UNARY_RECIP(b)$
+

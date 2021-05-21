@@ -60,14 +60,21 @@ The teacher must supply an option consisting of a list of the following rule nam
 | (`NEG_TRANS`)     |                                                                                        |
 | `negNeg`          | \(-(-x) \rightarrow x\)                                                                |
 | `negDiv`          | \( y/(-x) \rightarrow -y/x \)  (Note, this assumes `UNARY_RECIP` and `UNARY_MINUS`)    |
+| `negOrd`          | Order summands so that the leading coefficient is not negative (see notes below).      |
 | (`DIV_TRANS`)     |                                                                                        |
 | `recipMul`        | \( x/a\times y/b \rightarrow (x\,y)/(a\,b) \)                                          |
 | `divDiv`          | \( a/(b/c) \rightarrow a\,c/b \)                                                       |
 |                   | Note \( a/b/c \) is interpreted as  \( (a/b)/c=a/(b\,c) \) in Maxima.                  |
+| `divCancel`       | Cancel common factors in numerator and denominator.                                    |
 | (`INT_ARITH`)     |                                                                                        |
 | `intAdd`          | Perform addition on integers                                                           |
 | `intMul`          | Perform multiplication on integers                                                     |
 | `intPow`          | Perform exponentiation when both arguments are integers                                |
+| Other             |                                                                                        |
+| `intFac`          | Factor integers (incompatible with `intMul`)                                           |
+
+The rule `negOrd` deserves comment.  Ultimately we only compare parse trees exactly, and so we need to order terms in sums and products (commutativity).
+However \(y-x\) is never ordered as \(-x+y\).  Furthermore, \(-(x-y) \neq -x+y\).  We need to factor out the unary minus and ensure that the coefficient of the leading term is not negative.
 
 For convenience sets of rules can be specificed.  E.g. you can use the name `ID_TRANS` in place of the list `[zeroAdd,zeroMul,oneMul,oneDiv,onePow,idPow,zeroPow,zPow]` to include all of the basic identity operators.
 

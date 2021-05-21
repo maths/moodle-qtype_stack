@@ -232,7 +232,9 @@ class stack_anstest {
             $traceline = $this->get_casfunction() . '(' . $sa . ', ' . $ta . ', '. $atopt;
         }
         if (stack_ans_test_controller::required_raw($this->atname)) {
-            $traceline .= ', "'. $sa . '"';
+            // This code is copied from the at_general_cas.class, rather than just using $sa above.
+            $raw = stack_utils::php_string_to_maxima_string($this->sanskey->get_inputform(true, 1));
+            $traceline .= ', '. $raw;
         }
         $traceline .= ')';
         if ($includeresult) {

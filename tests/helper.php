@@ -47,6 +47,7 @@ class qtype_stack_test_helper extends question_test_helper {
             'divide',       // One input, one PRT, tests 1 / ans1 - useful for testing CAS errors like divide by 0.
             'numsigfigs',   // One input, one PRT, tests 1 / ans1 - uses the NumSigFigs test.
             'numsigfigszeros',  // One input, one PRT, tests 1 / ans1 - uses the NumSigFigs test with trailing zeros.
+            'numdpsfeedbackvars',   // Two numerical inputs, one PRT, uses ATNumDPs and feedback variables (illustrates problem).
             '1input2prts',  // Contrived example with one input, 2 prts, all feedback in the specific feedback area.
             'information',  // Neither inputs nor PRTs.
             'survey',       // Inputs, but no PRTs.
@@ -968,6 +969,44 @@ class qtype_stack_test_helper extends question_test_helper {
         $node->add_branch(0, '=', 0, $q->penalty, -1, '', FORMAT_HTML, 'firsttree-1-F');
         $node->add_branch(1, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'firsttree-1-T');
         $q->prts['firsttree'] = new stack_potentialresponse_tree('firsttree', '', false, 1, null, array($node), '0', 1);
+
+        return $q;
+    }
+
+    /**
+     * @return qtype_stack_question the question which uses numerical precision feedback variables.
+     */
+    public static function make_stack_question_numdpsfeedbackvars() {
+        $q = self::make_a_stack_question();
+
+        $q->stackversion = '2021052100';
+        $q->name = 'numdpsfeedbackvars';
+        $q->questiontext = '<p>Give me two random numbers to 3 decimal places.</p>
+                            <p>[[input:ans1]] [[validation:ans1]]</p>
+                            <p>[[input:ans2]] [[validation:ans2]]</p>';
+
+        $q->specificfeedback = '[[feedback:prt1]]';
+        $q->penalty = 0.3;
+
+        $q->inputs['ans1'] = stack_input_factory::make(
+            'numerical', 'ans1', '0.356', null, array('boxWidth' => 5));
+        $q->inputs['ans2'] = stack_input_factory::make(
+            'numerical', 'ans2', '3.14', null, array('boxWidth' => 5));
+
+        $feedbackvars = new stack_cas_keyval('sa:min(ans1,ans2);', null, null);
+
+        // Check if the smallest of the two random numbers is within 3dps of pi.
+        $sans = stack_ast_container::make_from_teacher_source('sa');
+        $sans->get_valid();
+        $tans = stack_ast_container::make_from_teacher_source('3.14');
+        $tans->get_valid();
+        $node = new stack_potentialresponse_node($sans, $tans, 'NumDecPlaces', '3');
+        $node->add_branch(0, '=', 0, $q->penalty, -1, 'Your answer was received as {@sa@}.',
+            FORMAT_HTML, 'prt1-1-F');
+        $node->add_branch(1, '=', 1, $q->penalty, -1, 'You are within 3 dps of pi! Was that random?!',
+            FORMAT_HTML, 'prt1-1-T');
+        $q->prts['prt1'] = new stack_potentialresponse_tree('prt1', '', true, 1,
+            $feedbackvars->get_session(), array($node), '0', 1);
 
         return $q;
     }

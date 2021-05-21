@@ -822,7 +822,7 @@ $string['AT_MissingOptions']        = 'Missing option when executing the test. '
 $string['AT_InvalidOptions']        = 'Option field is invalid. {$a->errors}';
 $string['AT_EmptySA']               = 'Attempted to execute an answer test with an empty student answer, probably a CAS validation problem when authoring the question.';
 $string['AT_EmptyTA']               = 'Attempted to execute an answer test with an empty teacher answer, probably a CAS validation problem when authoring the question.';
-
+$string['AT_raw_sans_needed']       = 'Some answer tests rely on the raw input from a student, and so the "SAns" field of the node should be the name of a question input.  Please check the following (prt.node) which looks like a calculated value instead: {$a->prt}';
 
 $string['ATAlgEquiv_SA_not_expression'] = 'Your answer should be an expression, not an equation, inequality, list, set or matrix. ';
 $string['ATAlgEquiv_SA_not_matrix']     = 'Your answer should be a matrix, but is not. ';

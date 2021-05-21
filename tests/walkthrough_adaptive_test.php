@@ -1959,6 +1959,10 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->check_output_contains_input_validation('ans1');
         $this->check_output_contains_prt_feedback('firsttree');
         $this->check_output_does_not_contain_stray_placeholders();
+
+        $question = $this->quba->get_question($this->slot);
+        $expected = array();
+        $this->assertEquals($expected, $question->validate_warnings());
     }
 
     public function test_numdpsfeedbackvars_basic() {
@@ -2092,6 +2096,11 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $expected = 'Your answer was received as \({3.14}\).';
         $this->assert_content_with_maths_contains($expected, $this->currentoutput);
 
+        $question = $this->quba->get_question($this->slot);
+        $expected = array('Some answer tests rely on the raw input from a student, ' .
+            'and so the "SAns" field of the node should be the name of a question input.  ' .
+            'Please check the following (prt.node) which looks like a calculated value instead: prt1-1');
+        $this->assertEquals($expected, $question->validate_warnings());
     }
 
     public function test_test0_save_does_validate_but_does_not_submit() {

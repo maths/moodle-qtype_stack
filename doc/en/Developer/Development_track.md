@@ -14,6 +14,7 @@ Mostly minor bug fixes.
 * Done. Move STACK admin UI scripts to `adminui`.
 * Done. Filter student's input so groups are turned into `ntuple` inert functions.  At last students can type in coordinates as `(x,y)` as input!
 * Done. Add in warnings of language mismatch in parts of a question.
+* Done. Add in warnings where the answer test needs a raw input but appears to get a calculated value.
 
 ## Version 4.4
 

@@ -408,20 +408,50 @@ class stack_ast_filter_998_security implements stack_cas_astfilter_parametric {
             if (isset($ctx[$name])) {
                 foreach ($ctx[$name] as $key => $value) {
                     if ($key === -2) {
-                        $errors[] = trim(stack_string('stackCas_studentInputAsFunction'));
+                        if ($this->source === 's') {
+                            $errors[] = trim(stack_string('stackCas_reserved_function', ['name' => $name]));    
+                        } else {
+                            $errors[] = trim(stack_string('stackCas_studentInputAsFunction'));
+                        }
                         $valid = false;
                     }
                     if ($key === -3) {
-                        $errors[] = trim(stack_string('stackCas_unknownSubstitutionPotenttiallyMaskingAFunctionName', ['name' => $name]));
+                        if ($this->source === 's') {
+                            $errors[] = trim(stack_string('stackCas_reserved_function', ['name' => $name]));    
+                        } else {
+                            $errors[] = trim(stack_string('stackCas_unknownSubstitutionPotenttiallyMaskingAFunctionName', ['name' => $name]));
+                        }
                         $valid = false;
                     }
                     if (($value instanceof MP_Identifier || $value instanceof MP_String) &&
                         !$identifierrules->is_allowed_to_call($this->source, $value->value)) {
-                        $errors[] = trim(stack_string('stackCas_functionNameSubstitutionToForbiddenOne', ['name' => $name, 'trg' => $value->value]));
+                        if ($this->source === 's') {
+                            $errors[] = trim(stack_string('stackCas_reserved_function', ['name' => $name]));    
+                        } else {
+                            $errors[] = trim(stack_string('stackCas_functionNameSubstitutionToForbiddenOne', ['name' => $name, 'trg' => $value->value]));
+                        }
                         $valid = false;
                     } else if ($value instanceof MP_FunctionCall && $value->name->toString() === 'stack_complex_unknown') {
-                        $errors[] = trim(stack_string('stackCas_unknownSubstitutionPotenttiallyMaskingAFunctionName', ['name' => $name]));
+                        if ($this->source === 's') {
+                            $errors[] = trim(stack_string('stackCas_reserved_function', ['name' => $name]));    
+                        } else {
+                            $errors[] = trim(stack_string('stackCas_unknownSubstitutionPotenttiallyMaskingAFunctionName', ['name' => $name]));
+                        }
                         $valid = false;
+                    } else if ($value instanceof MP_FunctionCall && $value->name->toString() === 'stack_complex_expression') {
+                        $tmp = $value->type_count();
+                        $tmp = array_merge(array_keys($tmp['strings']), array_keys($tmp['vars']));
+                        foreach ($tmp as $arg) {
+                            if (!$identifierrules->is_allowed_to_call($this->source, $arg)) {
+                                $valid = false;
+                                if ($this->source === 's') {
+                                    $errors[] = trim(stack_string('stackCas_reserved_function', ['name' => $name]));
+                                    break;
+                                } else {
+                                    $errors[] = trim(stack_string('stackCas_functionNameSubstitutionToForbiddenOne', ['name' => $name, 'trg' => $arg]));
+                                }
+                            }
+                        }
                     }
                 }
             }

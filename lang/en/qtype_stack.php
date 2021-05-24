@@ -700,6 +700,7 @@ $string['stackCas_overrecursivesignatures'] = 'The question code includes too ma
 $string['stackCas_studentInputAsFunction']  = 'Use of student input as the name of a function is not permitted.';
 $string['stackCas_unknownSubstitutionPotenttiallyMaskingAFunctionName'] = 'The function name "{$a->name}" is potentially redefined in unclear substitutions.';
 $string['stackCas_functionNameSubstitutionToForbiddenOne'] = 'The function name "{$a->name}" is potentially mapped, using substitutions, to "{$a->trg}" which is a forbidden one.';
+$string['stackCas_reserved_function']       = 'The function name "{$a->name}" is forbidden in this question. Try another one?';
 $string['stackCas_redefine_built_in']       = 'Redefining a built in function "{$a->name}" is forbidden.';
 $string['stackCas_nested_function_declaration'] = 'Definition of a function inside another function is now forbidden, use renaming of the function if you need to switch function definitions from within another function.';
 

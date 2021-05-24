@@ -931,7 +931,8 @@
       "function": "s"
   },
   "bfloatp": {
-      "function": "s"
+      "function": "s",
+      "built-in": true
   },
   "bfpsi": {
       "function": "f"
@@ -1253,7 +1254,8 @@
       "function": "s"
   },
   "charp": {
-      "function": "s"
+      "function": "s",
+      "built-in": true
   },
   "charpoly": {
       "function": "s"
@@ -1440,7 +1442,8 @@
       "function": "?"
   },
   "cons": {
-      "function": "s"
+      "function": "s",
+      "built-in": true
   },
   "constant": {
       "keyword": "?",
@@ -1448,7 +1451,8 @@
       "specialallowvariable": true
   },
   "constantp": {
-      "function": "?"
+      "function": "?",
+      "built-in": true
   },
   "constituent": {
       "function": "s"
@@ -2175,7 +2179,8 @@
       "function": "?"
   },
   "emptyp": {
-      "function": "s"
+      "function": "s",
+      "built-in": true
   },
   "encode_time": {
       "function": "?"
@@ -2215,7 +2220,8 @@
       "function": "s"
   },
   "equalp": {
-      "function": "s"
+      "function": "s",
+      "built-in": true
   },
   "equiv_classes": {
       "function": "s"
@@ -2291,7 +2297,8 @@
       "property": "?"
   },
   "evenp": {
-      "function": "s"
+      "function": "s",
+      "built-in": true
   },
   "every": {
       "function": "s"
@@ -2462,7 +2469,8 @@
       "function": "s"
   },
   "factorp": {
-      "function": "s"
+      "function": "s",
+      "built-in": true
   },
   "factors_only": {
       "variable": "?"
@@ -2593,10 +2601,12 @@
       "function": "f"
   },
   "first": {
-      "function": "s"
+      "function": "s",
+      "built-in": true
   },
   "firstn": {
-      "function": "?"
+      "function": "?",
+      "built-in": true
   },
   "fix": {
       "function": "s"
@@ -2614,16 +2624,19 @@
   "float": {
       "evflag": "?",
       "function": "s",
-      "variable": "?"
+      "variable": "?",
+      "built-in": true
   },
   "float2bf": {
       "variable": "s"
   },
   "floatnump": {
-      "function": "?"
+      "function": "?",
+      "built-in": true
   },
   "floor": {
-      "function": "s"
+      "function": "s",
+      "built-in": true
   },
   "flower_snark": {
       "function": "?"
@@ -2698,7 +2711,8 @@
       "function": "s"
   },
   "fourth": {
-      "function": "s"
+      "function": "s",
+      "built-in": true
   },
   "fposition": {
       "function": "f",
@@ -2714,7 +2728,8 @@
       "function": "f"
   },
   "freeof": {
-      "function": "s"
+      "function": "s",
+      "built-in": true
   },
   "freshline": {
       "function": "f",
@@ -2782,7 +2797,8 @@
       "built-in": true
   },
   "funp": {
-      "function": "s"
+      "function": "s",
+      "built-in": true
   },
   "fv": {
       "function": "?"
@@ -3425,7 +3441,8 @@
       "function": "s"
   },
   "integerp": {
-      "function": "?"
+      "function": "?",
+      "built-in": true
   },
   "integervalued": {
       "property": "?"
@@ -3545,7 +3562,8 @@
       "property": "?"
   },
   "is": {
-      "function": "?"
+      "function": "?",
+      "built-in": true
   },
   "is_biconnected": {
       "function": "?"
@@ -3820,7 +3838,8 @@
   },
   "lambda": {
       "function": "s",
-      "variable": "s"
+      "variable": "s",
+      "built-in": true
   },
   "lambert_w": {
       "function": "s"
@@ -3835,10 +3854,12 @@
       "property": "f"
   },
   "last": {
-      "function": "s"
+      "function": "s",
+      "built-in": true
   },
   "lastn": {
-      "function": "?"
+      "function": "?",
+      "built-in": true
   },
   "lbfgs": {
       "function": "f"
@@ -4080,7 +4101,8 @@
       "function": "s"
   },
   "log": {
-      "function": "s"
+      "function": "s",
+      "built-in": true
   },
   "log10": {
       "function": "s"
@@ -4278,7 +4300,8 @@
       "argumentmapstovariable": [
           1
       ],
-      "function": "s"
+      "function": "s",
+      "built-in": true
   },
   "makeset": {
       "function": "s"
@@ -4365,7 +4388,8 @@
       "built-in": true
   },
   "matrixp": {
-      "function": "s"
+      "function": "s",
+      "built-in": true
   },
   "mattrace": {
       "function": "s"
@@ -4945,7 +4969,8 @@
       "function": "f"
   },
   "numberp": {
-      "function": "s"
+      "function": "s",
+      "built-in": true
   },
   "numer": {
       "variable": "s"
@@ -4994,7 +5019,8 @@
       "property": "?"
   },
   "oddp": {
-      "function": "s"
+      "function": "s",
+      "built-in": true
   },
   "ode2": {
       "function": "t"
@@ -5047,7 +5073,8 @@
       "globalyforbiddenfunction": true
   },
   "operatorp": {
-      "function": "s"
+      "function": "s",
+      "built-in": true
   },
   "opproperties": {
       "variable": "?"
@@ -5652,7 +5679,8 @@
       "function": "s"
   },
   "polynomialp": {
-      "function": "s"
+      "function": "s",
+      "built-in": true
   },
   "polytocompanion": {
       "function": "s"
@@ -5694,7 +5722,8 @@
       "function": "?"
   },
   "primep": {
-      "function": "s"
+      "function": "s",
+      "built-in": true
   },
   "primep_number_of_tests": {
       "variable": "f"
@@ -5982,7 +6011,8 @@
   },
   "random": {
       "function": "f",
-      "random": true
+      "random": true,
+      "built-in": true
   },
   "random_subset": {
       "function": "f",
@@ -6207,7 +6237,8 @@
       "function": "s"
   },
   "ratnump": {
-      "function": "s"
+      "function": "s",
+      "built-in": true
   },
   "ratp": {
       "function": "s"
@@ -6638,7 +6669,8 @@
       "variable": "s"
   },
   "scalarp": {
-      "function": "s"
+      "function": "s",
+      "built-in": true
   },
   "scale_lp": {
       "variable": "?"
@@ -6698,7 +6730,8 @@
       "trigfun": true
   },
   "second": {
-      "function": "s"
+      "function": "s",
+      "built-in": true
   },
   "sequal": {
       "function": "s"
@@ -6753,7 +6786,8 @@
       "variable": "f"
   },
   "setdifference": {
-      "function": "s"
+      "function": "s",
+      "built-in": true
   },
   "setelmx": {
       "function": "?"
@@ -6766,7 +6800,8 @@
       "built-in": true
   },
   "setp": {
-      "function": "s"
+      "function": "s",
+      "built-in": true
   },
   "setunits": {
       "function": "f"
@@ -7100,7 +7135,8 @@
       "function": "s"
   },
   "sqrt": {
-      "function": "s"
+      "function": "s",
+      "built-in": true
   },
   "sqrtdenest": {
       "function": "f"
@@ -7137,10 +7173,16 @@
       "built-in": true
   },
   "stack_unknown_integer": {
-      "variable": "t"
+      "variable": "t",
+      "built-in": true
   },
   "stack_unknown_float": {
-      "variable": "t"
+      "variable": "t",
+      "built-in": true
+  },
+  "stack_cyclic": {
+      "variable": "f",
+      "built-in": true
   },
   "stack_integer_set": {
       "function": "t",
@@ -7395,7 +7437,8 @@
       "globalyforbiddenfunction": true
   },
   "stringp": {
-      "function": "?"
+      "function": "?",
+      "built-in": true
   },
   "strong_components": {
       "function": "?"
@@ -7422,7 +7465,8 @@
       "argumentasfunction": [
           1
       ],
-      "function": "s"
+      "function": "s",
+      "built-in": true
   },
   "sublist_indices": {
       "function": "s"
@@ -7440,7 +7484,8 @@
       "function": "s"
   },
   "subsetp": {
-      "function": "s"
+      "function": "s",
+      "built-in": true
   },
   "subst": {
       "function": "t",
@@ -7491,7 +7536,8 @@
       "variable": "f"
   },
   "symbolp": {
-      "function": "s"
+      "function": "s",
+      "built-in": true
   },
   "symmdifference": {
       "function": "s"
@@ -7631,17 +7677,20 @@
   },
   "texput": {
       "function": "?",
-      "contextvariable": "true"
+      "contextvariable": "true",
+      "built-in": true
   },
   "texsub": {
-      "function": "s"
+      "function": "s",
+      "built-in": true
   },
   "theta": {
       "function": "s",
       "variable": "s"
   },
   "third": {
-      "function": "s"
+      "function": "s",
+      "built-in": true
   },
   "throw": {
       "function": "f",
@@ -7930,7 +7979,8 @@
       "nounfunction": "%union"
   },
   "unique": {
-      "function": "s"
+      "function": "s",
+      "built-in": true
   },
   "unit_step": {
       "function": "f"
@@ -7942,7 +7992,8 @@
       "function": "f"
   },
   "unitp": {
-      "function": "?"
+      "function": "?",
+      "built-in": true
   },
   "units": {
       "function": "?"

@@ -184,6 +184,13 @@ class qtype_stack_edit_form extends question_edit_form {
                     '-' => '-',
         );
 
+        // Test materials don't have an id.
+        $warnings = '';
+        if (isset($this->question->id)) {
+            $question = question_bank::load_question($this->question->id);
+            $warnings = implode("<br />", $question->validate_warnings());
+        }
+
         $qtype = new qtype_stack();
         // Note, the following methods have side-effects in $qtype stack, setting up internal data.
         $inputnames = $qtype->get_input_names_from_question_text($this->get_current_question_text());
@@ -209,7 +216,7 @@ class qtype_stack_edit_form extends question_edit_form {
             $out = stack_string('runquestiontests');
             if (empty($this->question->deployedseeds) &&
                     qtype_stack_question::random_variants_check($this->question->options->questionvariables)) {
-                $out = stack_string('questionnotdeployedyet');
+                $out = stack_string_error('questionnotdeployedyet');
             }
             $qtestlink = html_writer::link($qtype->get_question_test_url($this->question),
                     $out, array('target' => '_blank'));
@@ -223,6 +230,13 @@ class qtype_stack_edit_form extends question_edit_form {
         $mform->insertElementBefore($seed, 'questiontext');
         $mform->setType('variantsselectionseed', PARAM_RAW);
         $mform->addHelpButton('variantsselectionseed', 'variantsselectionseed', 'qtype_stack');
+
+        // Question warnings, if there are any.
+        if ('' != $warnings) {
+            $qwarn = $mform->createElement('static', 'questionwarnings', '', $warnings);
+            $mform->insertElementBefore($qwarn, 'questiontext');
+            $mform->addHelpButton('questionwarnings', 'questionwarnings', 'qtype_stack');
+        }
 
         $sf = $mform->createElement('editor', 'specificfeedback',
                 get_string('specificfeedback', 'question'), array('rows' => 10), $this->editoroptions);
@@ -762,9 +776,7 @@ class qtype_stack_edit_form extends question_edit_form {
         $errors = parent::validation($fromform, $files);
 
         $qtype = new qtype_stack();
-        list($errors, $warnings) = $qtype->validate_fromform($fromform, $errors);
-
-        return $errors;
+        return $qtype->validate_fromform($fromform, $errors);
     }
 
     public function qtype() {

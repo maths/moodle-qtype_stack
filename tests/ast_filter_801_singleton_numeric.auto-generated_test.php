@@ -120,6 +120,21 @@ class stack_ast_filter_auto_gen_801_singleton_numeric_testcase extends qtype_sta
                       array('Illegal_form'),
                       false, true);
 
+        $this->expect('((a,b),c)',
+                      '((a,b),c)',
+                      array('Illegal_form'),
+                      false, true);
+
+        $this->expect('(a,(b,c))',
+                      '(a,(b,c))',
+                      array('Illegal_form'),
+                      false, true);
+
+        $this->expect('{(a,b),(x,y)}',
+                      '{(a,b),(x,y)}',
+                      array('Illegal_form'),
+                      false, true);
+
         $this->expect('(a-b)-c',
                       '(a-b)-c',
                       array('Illegal_form'),
@@ -1447,6 +1462,11 @@ class stack_ast_filter_auto_gen_801_singleton_numeric_testcase extends qtype_sta
 
         $this->expect('x-(y+z)',
                       'x-(y+z)',
+                      array('Illegal_form'),
+                      false, true);
+
+        $this->expect('x/(y+z)',
+                      'x/(y+z)',
                       array('Illegal_form'),
                       false, true);
 
@@ -1776,6 +1796,21 @@ class stack_ast_filter_auto_gen_801_singleton_numeric_testcase extends qtype_sta
                       array('Illegal_form'),
                       false, true);
 
+        $this->expect('((a,b),c)',
+                      '((a,b),c)',
+                      array('Illegal_form'),
+                      false, true);
+
+        $this->expect('(a,(b,c))',
+                      '(a,(b,c))',
+                      array('Illegal_form'),
+                      false, true);
+
+        $this->expect('{(a,b),(x,y)}',
+                      '{(a,b),(x,y)}',
+                      array('Illegal_form'),
+                      false, true);
+
         $this->expect('(a-b)-c',
                       '(a-b)-c',
                       array('Illegal_form'),
@@ -3103,6 +3138,11 @@ class stack_ast_filter_auto_gen_801_singleton_numeric_testcase extends qtype_sta
 
         $this->expect('x-(y+z)',
                       'x-(y+z)',
+                      array('Illegal_form'),
+                      false, true);
+
+        $this->expect('x/(y+z)',
+                      'x/(y+z)',
                       array('Illegal_form'),
                       false, true);
 

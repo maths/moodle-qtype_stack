@@ -92,9 +92,12 @@ class stack_checkbox_input_test extends qtype_stack_walkthrough_test_base {
     public function test_bad_teacheranswer() {
         $el = $this->make_checkbox();
         $el->adapt_to_model_answer('[x]');
-        $expected = '<div class="error"><p>The input has generated the following runtime error which prevents you from answering.'
-                . ' Please contact your teacher.</p><p>The model answer field for this input is malformed: <code>[x]</code>.'
-                . '</p></div>';
+        $expected = '<div class="error"><p><i class="icon fa fa-exclamation-circle text-danger fa-fw " title="The input has ' .
+                  'generated the following runtime error which prevents you from answering. Please contact your teacher." ' .
+                  'aria-label="The input has generated the following runtime error which prevents you from answering. Please ' .
+                  'contact your teacher."></i>The input has generated the following runtime error which prevents you from ' .
+                  'answering. Please contact your teacher.</p>' .
+                  '<p>The model answer field for this input is malformed: <code>[x]</code>.</p></div>';
         $this->assertEquals($expected, $el->render(new stack_input_state(
                 stack_input::SCORE, array('2'), '', '', '', '', ''), 'stack1__ans1', false, null));
     }
@@ -104,9 +107,12 @@ class stack_checkbox_input_test extends qtype_stack_walkthrough_test_base {
         $el = stack_input_factory::make('checkbox', 'ans1', '[[1,true],[2,false]]', null, array());
         $el->adapt_to_model_answer('[[1,true],[1,false]]');
         // @codingStandardsIgnoreEnd
-        $expected = '<div class="error"><p>The input has generated the following runtime error which prevents you from answering.'
-                .' Please contact your teacher.</p><p>Duplicate values have been found when generating the input options.</p>'
-                .'</div>';
+        $expected = '<div class="error"><p><i class="icon fa fa-exclamation-circle text-danger fa-fw " title="The input has ' .
+                  'generated the following runtime error which prevents you from answering. Please contact your teacher." ' .
+                  'aria-label="The input has generated the following runtime error which prevents you from answering. Please ' .
+                  'contact your teacher."></i>The input has generated the following runtime error which prevents you from ' .
+                  'answering. Please contact your teacher.</p>' .
+                  '<p>Duplicate values have been found when generating the input options.</p></div>';
          $this->assertEquals($expected, $el->render(new stack_input_state(
                 stack_input::SCORE, array('2'), '', '', '', '', ''), 'stack1__ans1', false, null));
     }
@@ -270,6 +276,36 @@ class stack_checkbox_input_test extends qtype_stack_walkthrough_test_base {
         $this->assertEquals(array('3'), $state->contents);
         $this->assertEquals('[x = 1 nounor x = 3]', $state->contentsmodified);
         $expected = 'A correct answer is: <code>[x = 1 or x = 2]</code>';
+        $this->assertEquals($expected, $el->get_teacher_answer_display(false, false));
+    }
+
+    public function test_calculus_casstring() {
+        $options = new stack_options();
+        $ta = '[[3*noundiff(y,x)+y=0,true],[3*noundiff(y,x,2)+y=0,false],[nounint(y,x)+1=0,false],[7*\'diff(y,x,3)+5*y=0,false]]';
+
+        $el = stack_input_factory::make('checkbox', 'ans1', $ta, null, array());
+        $el->adapt_to_model_answer($ta);
+        $expected = '<div class="answer"><div class="option">' .
+                '<input type="checkbox" name="stack1__ans1_1" value="1" id="stack1__ans1_1" /><label for="stack1__ans1_1">' .
+                '<span class="filter_mathjaxloader_equation">' .
+                '<span class="nolink">\(3\cdot \left(\frac{\mathrm{d} y}{\mathrm{d} x}\right)+y=0\)</span></span></label></div>' .
+                '<div class="option"><input type="checkbox" name="stack1__ans1_2" value="2" id="stack1__ans1_2" />' .
+                '<label for="stack1__ans1_2"><span class="filter_mathjaxloader_equation">' .
+                '<span class="nolink">\(3\cdot \left(\frac{\mathrm{d}^2 y}{\mathrm{d} x^2}\right)+y=0\)</span></span></label>' .
+                '</div><div class="option"><input type="checkbox" name="stack1__ans1_3" value="3" ' .
+                'id="stack1__ans1_3" checked="checked" /><label for="stack1__ans1_3"><span class="filter_mathjaxloader_equation">' .
+                '<span class="nolink">\(\int {y}{\;\mathrm{d}x}+1=0\)</span></span></label></div>' .
+                '<div class="option"><input type="checkbox" name="stack1__ans1_4" value="4" id="stack1__ans1_4" />' .
+                '<label for="stack1__ans1_4"><span class="filter_mathjaxloader_equation">' .
+                '<span class="nolink">\(7\cdot {\it noundiff}\left(y , x , 3\right)+5\cdot y=0\)</span></span></label></div></div>';
+        $this->assertEquals($expected, $el->render(new stack_input_state(
+                stack_input::SCORE, array('3'), '', '', '', '', ''), 'stack1__ans1', false, null));
+        $state = $el->validate_student_response(array('ans1_3' => '3'), $options, '2', new stack_cas_security());
+        $this->assertEquals(stack_input::SCORE, $state->status);
+        $this->assertEquals(array('3'), $state->contents);
+        $this->assertEquals('[nounint(y,x)+1 = 0]', $state->contentsmodified);
+        $expected = 'A correct answer is: <ul><li><span class="filter_mathjaxloader_equation"><span class="nolink">' .
+                '\(3\cdot \left(\frac{\mathrm{d} y}{\mathrm{d} x}\right)+y=0\)</span></span></li></ul>';
         $this->assertEquals($expected, $el->get_teacher_answer_display(false, false));
     }
 

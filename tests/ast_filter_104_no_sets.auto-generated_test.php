@@ -30,6 +30,11 @@ class stack_ast_filter_auto_gen_104_no_sets_testcase extends qtype_stack_ast_tes
         $this->security = new stack_cas_security(false);
         $this->filter = stack_parsing_rule_factory::get_by_common_name('104_no_sets');
 
+        $this->expect('{(a,b),(x,y)}',
+                      '{(a,b),(x,y)}',
+                      array('Illegal_sets'),
+                      false, true);
+
         $this->expect('{1,2,3.4}',
                       '{1,2,3.4}',
                       array('Illegal_sets'),
@@ -55,6 +60,11 @@ class stack_ast_filter_auto_gen_104_no_sets_testcase extends qtype_stack_ast_tes
     public function test_affected_units() {
         $this->security = new stack_cas_security(true);
         $this->filter = stack_parsing_rule_factory::get_by_common_name('104_no_sets');
+
+        $this->expect('{(a,b),(x,y)}',
+                      '{(a,b),(x,y)}',
+                      array('Illegal_sets'),
+                      false, true);
 
         $this->expect('{1,2,3.4}',
                       '{1,2,3.4}',
@@ -169,6 +179,16 @@ class stack_ast_filter_auto_gen_104_no_sets_testcase extends qtype_stack_ast_tes
 
         $this->expect('(a,b,c)',
                       '(a,b,c)',
+                      array(),
+                      true, false);
+
+        $this->expect('((a,b),c)',
+                      '((a,b),c)',
+                      array(),
+                      true, false);
+
+        $this->expect('(a,(b,c))',
+                      '(a,(b,c))',
                       array(),
                       true, false);
 
@@ -1569,6 +1589,11 @@ class stack_ast_filter_auto_gen_104_no_sets_testcase extends qtype_stack_ast_tes
 
         $this->expect('x-(y+z)',
                       'x-(y+z)',
+                      array(),
+                      true, false);
+
+        $this->expect('x/(y+z)',
+                      'x/(y+z)',
                       array(),
                       true, false);
 
@@ -1878,6 +1903,16 @@ class stack_ast_filter_auto_gen_104_no_sets_testcase extends qtype_stack_ast_tes
                       array(),
                       true, false);
 
+        $this->expect('((a,b),c)',
+                      '((a,b),c)',
+                      array(),
+                      true, false);
+
+        $this->expect('(a,(b,c))',
+                      '(a,(b,c))',
+                      array(),
+                      true, false);
+
         $this->expect('(a-b)-c',
                       '(a-b)-c',
                       array(),
@@ -3275,6 +3310,11 @@ class stack_ast_filter_auto_gen_104_no_sets_testcase extends qtype_stack_ast_tes
 
         $this->expect('x-(y+z)',
                       'x-(y+z)',
+                      array(),
+                      true, false);
+
+        $this->expect('x/(y+z)',
+                      'x/(y+z)',
                       array(),
                       true, false);
 

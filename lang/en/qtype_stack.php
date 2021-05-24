@@ -282,6 +282,8 @@ $string['questionnotempty'] = 'The question note cannot be empty when rand() app
 $string['questionsimplify'] = 'Question-level simplify';
 $string['questionsimplify_help'] = 'Sets the global variable "simp" within Maxima for the whole question.';
 $string['questionsimplify_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/CAS/Maxima.md#Simplification';
+$string['questionwarnings'] = 'Question warnings';
+$string['questionwarnings_help'] = 'Question warnings are issues you might want to address, but which are not outright errors.';
 $string['questiontext'] = 'Question text';
 // @codingStandardsIgnoreStart
 $string['questiontext_help'] = 'The question text is CASText.  This is the "question" which the student actually sees.  You must put input elements, and the validation strings, in this field, and only in this field.  For example, using `[[input:ans1]] [[validation:ans1]]`.';
@@ -316,7 +318,7 @@ $string['score'] = 'Score';
 $string['scoreerror'] = 'The score must be a numeric value between 0 and 1.';
 $string['scoremode'] = 'Mod';
 $string['specificfeedback'] = 'Specific feedback';
-$string['specificfeedback_help'] = 'By default, feedback for each potential response tree will be shown in this block.  It can be moved to the question text, in which case Moodle will have less control over when it is displayed by various behaviours.  Note, this block is not CASText.';
+$string['specificfeedback_help'] = 'By default, feedback for each potential response tree will be shown in this block.  It can be moved to the question text, in which case Moodle will have less control over when it is displayed by various behaviours.';
 $string['specificfeedbacktags'] = 'Specific feedback must not contain the token(s) \'{$a}\'.';
 $string['sqrtsign'] = 'Surd for square root';
 $string['sqrtsign_help'] = 'Controls how surds are displayed.';
@@ -388,6 +390,10 @@ $string['teacheranswershow_mcq']  = 'A correct answer is: {$a->display}';
 $string['teacheranswershownotes'] = 'A correct answer is not provided for this input.';
 $string['teacheranswerempty']     = 'This input can be left blank.';
 
+$string['questiontextlanguages']   = 'The language tags found in your question are: {$a}.';
+$string['languageproblemsexist']   = 'There are potential language problems in your question.';
+$string['languageproblemsmissing'] = 'The language tag {$a->lang} is missing from the following: {$a->missing}.';
+$string['languageproblemsextra']   = 'The field {$a->field} has the following languages not in the question text: {$a->langs}.';
 
 // Admin settings.
 $string['settingajaxvalidation'] = 'Instant validation';
@@ -517,7 +523,7 @@ $string['questiontestspass'] = 'All question tests passed.';
 $string['questiontestsdefault'] = '(Default)';
 $string['runquestiontests'] = 'Question tests & deployed variants';
 $string['runquestiontests_help'] = 'The question tests unit-test the questions to ensure the behaviour matches expectations expressed by the teacher, and deployed variants ensure random versions seen by a student are pre-tested against the question tests. These are tools to help you create and test reliable questions and should be used in all cases a question will be used by students.';
-$string['runquestiontests_alert'] = '<i class="icon fa fa-exclamation-circle text-danger fa-fw " title="Question is missing tests or variants" aria-label="Question is missing tests or variants"></i>';
+$string['runquestiontests_alert'] = 'Question is missing tests or variants.';
 $string['seethisquestioninthequestionbank'] = 'See this question in the question bank';
 $string['showingundeployedvariant'] = 'Showing undeployed variant: {$a}';
 $string['switchtovariant'] = 'Switch to arbitrary variant';
@@ -821,7 +827,7 @@ $string['AT_MissingOptions']        = 'Missing option when executing the test. '
 $string['AT_InvalidOptions']        = 'Option field is invalid. {$a->errors}';
 $string['AT_EmptySA']               = 'Attempted to execute an answer test with an empty student answer, probably a CAS validation problem when authoring the question.';
 $string['AT_EmptyTA']               = 'Attempted to execute an answer test with an empty teacher answer, probably a CAS validation problem when authoring the question.';
-
+$string['AT_raw_sans_needed']       = 'Some answer tests rely on the raw input from a student, and so the "SAns" field of the node should be the name of a question input.  Please check the following (prt.node) which looks like a calculated value instead: {$a->prt}';
 
 $string['ATAlgEquiv_SA_not_expression'] = 'Your answer should be an expression, not an equation, inequality, list, set or matrix. ';
 $string['ATAlgEquiv_SA_not_matrix']     = 'Your answer should be a matrix, but is not. ';

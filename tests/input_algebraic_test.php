@@ -1515,4 +1515,21 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         $this->assertEquals('\[ \left[ x^3 \right] \]', $state->contentsdisplayed);
         $this->assertEquals('', $el->get_teacher_answer_display("[SOME JSON]", "\[ \mbox{[SOME MORE JSON]} \]"));
     }
+
+    public function test_validate_student_response_ntuple() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('algebraic', 'sans1', 'ntuple(1,-1)');
+        $el->set_parameter('sameType', true);
+        $state = $el->validate_student_response(array('sans1' => '(1,2)'), $options, 'ntuple(1,-1)',
+                new stack_cas_security(false, '', '', array('ta')));
+        $this->assertEquals($state->status, stack_input::VALID);
+        $this->assertEquals($state->contentsmodified, 'ntuple(1,2)');
+        $this->assertEquals($state->contentsdisplayed,
+                '\[ \left(1, 2\right) \]');
+        $this->assertEquals('', $state->note);
+
+        $this->assertEquals('A correct answer is <span class="filter_mathjaxloader_equation">'
+                . '<span class="nolink">\( \left(1, -1\right) \)</span></span>, which can be typed in as follows: '
+                . '<code>(1,-1)</code>', $el->get_teacher_answer_display('ntuple(1,-1)', '\left(1, -1\right)'));
+    }
 }

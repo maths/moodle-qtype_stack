@@ -51,6 +51,19 @@ function stack_string($key, $a = null) {
 }
 
 /**
+ * Equivalent to get_string($key, 'qtype_stack', $a), but this method ensure that
+ * any equations in the string are displayed properly and that this message is formatted as an error.
+ * @param string $key the string name.
+ * @param mixed $a (optional) any values to interpolate into the string.
+ * @return string the language string
+ */
+function stack_string_error($key, $a = null) {
+    $key = stack_maths::process_lang_string(get_string($key, 'qtype_stack', $a));
+    return '<i class="icon fa fa-exclamation-circle text-danger fa-fw " title="' . $key . '" aria-label="' .
+            $key . '"></i>' . $key;
+}
+
+/**
  * Private helper used by the next function.
  *
  * @return array search => replace strings.

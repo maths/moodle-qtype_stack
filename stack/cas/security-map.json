@@ -435,27 +435,33 @@
   },
   "acos": {
       "function": "s",
-      "trigfun": true
+      "trigfun": true,
+      "built-in": true
   },
   "acosh": {
       "function": "s",
-      "trigfun": true
+      "trigfun": true,
+      "built-in": true
   },
   "acot": {
       "function": "s",
-      "trigfun": true
+      "trigfun": true,
+      "built-in": true
   },
   "acoth": {
       "function": "s",
-      "trigfun": true
+      "trigfun": true,
+      "built-in": true
   },
   "acsc": {
       "function": "s",
-      "trigfun": true
+      "trigfun": true,
+      "built-in": true
   },
   "acsch": {
       "function": "s",
-      "trigfun": true
+      "trigfun": true,
+      "built-in": true
   },
   "activate": {
       "function": "f"
@@ -677,19 +683,23 @@
   },
   "asec": {
       "function": "s",
-      "trigfun": true
+      "trigfun": true,
+      "built-in": true
   },
   "asech": {
       "function": "s",
-      "trigfun": true
+      "trigfun": true,
+      "built-in": true
   },
   "asin": {
       "function": "s",
-      "trigfun": true
+      "trigfun": true,
+      "built-in": true
   },
   "asinh": {
       "function": "s",
-      "trigfun": true
+      "trigfun": true,
+      "built-in": true
   },
   "askexp": {
       "variable": "?"
@@ -738,14 +748,16 @@
   },
   "atan": {
       "function": "s",
-      "trigfun": true
+      "trigfun": true,
+      "built-in": true
   },
   "atan2": {
       "function": "s"
   },
   "atanh": {
       "function": "s",
-      "trigfun": true
+      "trigfun": true,
+      "built-in": true
   },
   "atensimp": {
       "function": "f"
@@ -1525,30 +1537,36 @@
   },
   "cos": {
       "function": "s",
-      "trigfun": true
+      "trigfun": true,
+      "built-in": true
   },
   "cosec": {
       "function": "s",
-      "trigfun": true
+      "trigfun": true,
+      "built-in": true
   },
   "cosech": {
       "function": "s",
-      "trigfun": true
+      "trigfun": true,
+      "built-in": true
   },
   "cosh": {
       "function": "s",
-      "trigfun": true
+      "trigfun": true,
+      "built-in": true
   },
   "cosnpiflag": {
       "variable": "?"
   },
   "cot": {
       "function": "s",
-      "trigfun": true
+      "trigfun": true,
+      "built-in": true
   },
   "coth": {
       "function": "s",
-      "trigfun": true
+      "trigfun": true,
+      "built-in": true
   },
   "cov": {
       "function": "?"
@@ -1579,11 +1597,13 @@
   },
   "csc": {
       "function": "s",
-      "trigfun": true
+      "trigfun": true,
+      "built-in": true
   },
   "csch": {
       "function": "s",
-      "trigfun": true
+      "trigfun": true,
+      "built-in": true
   },
   "csetup": {
       "function": "f"
@@ -3472,7 +3492,8 @@
   },
   "intersection": {
       "function": "s",
-      "nounfunction": "%intersection"
+      "nounfunction": "%intersection",
+      "built-in": true
   },
   "intervalp": {
       "function": "s"
@@ -6727,11 +6748,13 @@
   },
   "sec": {
       "function": "s",
-      "trigfun": true
+      "trigfun": true,
+      "built-in": true
   },
   "sech": {
       "function": "s",
-      "trigfun": true
+      "trigfun": true,
+      "built-in": true
   },
   "second": {
       "function": "s",
@@ -6917,11 +6940,13 @@
   },
   "sin": {
       "function": "s",
-      "trigfun": true
+      "trigfun": true,
+      "built-in": true
   },
   "sinh": {
       "function": "s",
-      "trigfun": true
+      "trigfun": true,
+      "built-in": true
   },
   "sinnpiflag": {
       "variable": "s"
@@ -7078,7 +7103,8 @@
       "function": "f"
   },
   "sort": {
-      "function": "s"
+      "function": "s",
+      "built-in": true
   },
   "space": {
       "variable": "s"
@@ -7567,11 +7593,13 @@
   },
   "tan": {
       "function": "s",
-      "trigfun": true
+      "trigfun": true,
+      "built-in": true
   },
   "tanh": {
       "function": "s",
-      "trigfun": true
+      "trigfun": true,
+      "built-in": true
   },
   "tau": {
       "function": "s",
@@ -7980,7 +8008,8 @@
   },
   "union": {
       "function": "s",
-      "nounfunction": "%union"
+      "nounfunction": "%union",
+      "built-in": true
   },
   "unique": {
       "function": "s",

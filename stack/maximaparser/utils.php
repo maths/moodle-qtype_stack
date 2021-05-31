@@ -286,7 +286,15 @@ class maxima_parser_utils {
         $value = null;
         $opmode = false;
         $replacetrivial = function($node) use (&$trg, &$value, &$opmode) {
-            if ($node instanceof MP_Identifier && $node->value === $trg) {
+            $replacepaint = false;
+            $i = $node;
+            while ($i !== null && !$replacepaint) {
+                if (isset($i->position['replace paint']) && isset($i->position['replace paint'][$node->value])) {
+                    $replacepaint = true;
+                }
+                $i = $i->parentnode;
+            }
+            if ($node instanceof MP_Identifier && $node->value === $trg && !$replacepaint) {
                 // Never replace function name or indexing target with an integer or a float.
                 if ($value instanceof MP_Integer || $value instanceof MP_Float) {
                     if ($node->is_function_name() || ($node->parentnode instanceof MP_Indexing && $node->parentnode->target === $node)) {
@@ -349,7 +357,9 @@ class maxima_parser_utils {
                     return true;
                 }
                 // Return true after replace so that we do repeat the loop.
-                $node->parentnode->replace($node, clone $value);
+                $v = clone $value;
+                $v->position['replace paint'] = true;
+                $node->parentnode->replace($node, $v);
                 return true;
             }
             if ($opmode && $node instanceof MP_Operation && $node->op === $trg) {
@@ -482,6 +492,19 @@ class maxima_parser_utils {
         return $tmp->items[0];
     }
 
+    // Does blind replacement with no care about usage context.
+    public static function id_replace(MP_Node $ast, array $ids): MP_Node {
+        $replace = function($node) use(&$ids) {
+            if ($node instanceof MP_Identifier && isset($ids[$node->value])) {
+                $node->value = $ids[$node->value];
+            }
+            return true;
+        };
+        $tmp = new MP_Group([clone $ast]);
+        $tmp->callbackRecurse($replace);
+        return $tmp->items[0];
+    }
+
 
     // Tool to build an estimate of the identifiers and their types and values
     // for future insert-stars logic. The map will describe the values as follows,
@@ -496,9 +519,18 @@ class maxima_parser_utils {
     // For insert-stars purposes if the identifier has count=1 items in the array and
     // the only key present is -1 then the identifier is a function defined in
     // the question and should be used as such.
-    public static function identify_identifier_values($ast, $expand=[]): array {
+    
+    // Includes a timeout logic that will stop exploring after a time if we time out 
+    // a special key '% TIMEOUT %' will have a value. 
+    public static function identify_identifier_values($ast, $expand=[], $timeout=20): array {
+        $timelimit = microtime(true) + $timeout;
         $output = array_merge($expand, []);
         $sec = new stack_cas_security(); // For access to the type map.
+
+        if ($timelimit < microtime(true)) {
+            $output['% TIMEOUT %'] = true;
+            return $output;    
+        }
 
         // First rewrite evaluation-flags to evs. And pick up all the statements.
         $workset1 = [];
@@ -542,8 +574,6 @@ class maxima_parser_utils {
             return true;
         };
         $ast->callbackRecurse($seek1);
-
-
 
         if (count($workset1) === 0) {
             // If we have nothing then exit.
@@ -592,7 +622,7 @@ class maxima_parser_utils {
                         while (isset($output['%fake' . $fakesym])) {
                             $fakesym = $fakesym + 1;
                         }
-                        $vars[$arg->toString()] = new MP_Identifier('%fake' . $fakesym);
+                        $vars[$arg->toString()] = '%fake' . $fakesym;
                         $fakes[] = '%fake' . $fakesym;
                         $output['%fake' . $fakesym] = [];
                     }
@@ -601,7 +631,7 @@ class maxima_parser_utils {
                         while (isset($output['%fake' . $fakesym])) {
                             $fakesym = $fakesym + 1;
                         }
-                        $vars[$arg->toString()] = new MP_Identifier('%fake' . $fakesym);
+                        $vars[$arg->toString()] = '%fake' . $fakesym;
                         $fakes[] = '%fake' . $fakesym;
                         $output['%fake' . $fakesym] = [];
                     }
@@ -609,7 +639,7 @@ class maxima_parser_utils {
                 $repl = null;
                 if (count($vars) > 0) {
                     $repl = new MP_Group(array_slice($node->arguments, 1));
-                    $repl = self::substitute_in_parallel($repl, $vars);
+                    $repl = self::id_replace($repl, $vars);
                 } else {
                     $repl = new MP_Group($node->arguments);
                 }
@@ -629,13 +659,13 @@ class maxima_parser_utils {
                 $args = [];
                 $offset = 1;
             
-                // The first one msut always be a list.
+                // The first one must always be a list.
                 if ($node->arguments[0] instanceof MP_List) {
                     foreach ($node->arguments[0]->items as $arg) {
                         while (isset($output['%fake' . $fakesym])) {
                             $fakesym = $fakesym + 1;
                         }
-                        $vars[$arg->toString()] = new MP_Identifier('%fake' . $fakesym);
+                        $vars[$arg->toString()] = '%fake' . $fakesym;
                         $args[$arg->toString()] = new MP_Identifier('%fake' . $fakesym);
                         $fakes[] = '%fake' . $fakesym;
                         $output['%fake' . $fakesym] = [];
@@ -647,7 +677,7 @@ class maxima_parser_utils {
                         while (isset($output['%fake' . $fakesym])) {
                             $fakesym = $fakesym + 1;
                         }
-                        $vars[$arg->toString()] = new MP_Identifier('%fake' . $fakesym);
+                        $vars[$arg->toString()] = '%fake' . $fakesym;
                         $fakes[] = '%fake' . $fakesym;
                         $output['%fake' . $fakesym] = [];
                     }
@@ -661,7 +691,7 @@ class maxima_parser_utils {
                 $output['%fake' . $fakesym] = [-1 => -1];
 
                 $repl = new MP_Group(array_slice($node->arguments, $offset));
-                $repl = self::substitute_in_parallel($repl, $vars);
+                $repl = self::id_replace($repl, $vars);
             
                 $funargs['%fake' . $fakesym] = [];
                 foreach ($args as $arg) {
@@ -687,7 +717,7 @@ class maxima_parser_utils {
                     while (isset($output['%fake' . $fakesym])) {
                         $fakesym = $fakesym + 1;
                     }
-                    $vars[$arg->toString()] = new MP_Identifier('%fake' . $fakesym);
+                    $vars[$arg->toString()] = '%fake' . $fakesym;
                     $fakes[] = '%fake' . $fakesym;
                     $output['%fake' . $fakesym] = [];
                 }
@@ -696,7 +726,8 @@ class maxima_parser_utils {
                 foreach ($args as $arg) {
                     $funargs[$fname][] = $arg->toString();
                 }
-                $repl = self::substitute_in_parallel($node, $vars);
+
+                $repl = self::id_replace($node, $vars);
                 // Make sure we will never need to deal with this again.
                 $repl->position['disconnected'] = true;
                 $node->parentnode->replace($node, $repl);
@@ -936,10 +967,10 @@ class maxima_parser_utils {
                     } 
                 } else if ($node->name->value === 'rand_with_step') {
                     if ($node->arguments[0] instanceof MP_Integer && $node->arguments[2] instanceof MP_Integer) {
-                        $node->parentnode->replace($node, new MP_Integer(null));
+                        $node->parentnode->replace($node, new MP_Integer(null, null));
                         return false;
                     } else {
-                        $node->parentnode->replace($node, new MP_Float(null));
+                        $node->parentnode->replace($node, new MP_Float(null, null));
                         return false;
                     }
                 } else if ($node->name->value === 'reverse' && count($node->arguments) === 1) {
@@ -1076,7 +1107,7 @@ class maxima_parser_utils {
                 $node->parentnode->replace($node, new MP_Float(null, null));
                 return false;
             }
-            if ($node instanceof MP_Indexing && count($node->indices) === 1) {
+            if ($node instanceof MP_Indexing && count($node->indices) === 1 && !($node->parentnode instanceof MP_Operation && $node->parentnode->lhs === $node && $node->op === ':')) {
                 $indexl = $node->indices[0];
                 $i = null;
                 $r = null;
@@ -1111,8 +1142,11 @@ class maxima_parser_utils {
                     } 
                     if ($mergelimit < 30) {
                         if ($i === null) {
-                            $node->parentnode->replace($node, self::to_sce($node, $sec));
-                            return false;
+                        $sce = self::to_sce($node, $sec);
+                            if ($sce->toString() !== $node->toString()) {
+                                $node->parentnode->replace($node, $sce);
+                                return false;
+                            }
                         } else {
                             $node->parentnode->replace($node, $node->target);
                             return false;
@@ -1134,8 +1168,11 @@ class maxima_parser_utils {
                         }
                     }
                     if ($mergelimit < 30) {
-                        $node->parentnode->replace($node, self::to_sce($node, $sec));
-                        return false;
+                        $sce = self::to_sce($node, $sec);
+                        if ($sce->toString() !== $node->toString()) {
+                            $node->parentnode->replace($node, $sce);
+                            return false;
+                        }
                     }
                 }
 
@@ -1255,42 +1292,15 @@ class maxima_parser_utils {
             if ($node instanceof MP_FunctionCall && $node->name instanceof MP_Atom && $node->name->value === 'stack_complex_expression') {
                 $clean = true;
                 foreach ($node->arguments as $arg) {
-                    if ($arg instanceof MP_PrefixOp || $arg instanceof MP_Integer || $arg instanceof MP_Float) {
+                    if ($arg instanceof MP_PrefixOp || $arg instanceof MP_Integer || $arg instanceof MP_Float || ($arg instanceof MP_FunctionCall && $arg->name->toString() === 'stack_complex_expression')) {
                         $clean = false;
                         break;
                     }
                 }
                 if (!$clean) {
                     // Combine and sort the terms.
-                    $terms = [];
-                    foreach ($node->arguments as $arg) {
-                        if ($arg instanceof MP_Atom) {
-                            if ($arg instanceof MP_Identifier || $arg instanceof MP_String) {
-                                $terms[$arg->toString()] = $arg;
-                            }
-                        } else {
-                            $types = $arg->type_count();
-                            foreach ($types['vars'] as $var) {
-                                $terms[$var] = new MP_Identifier($var);
-                            }
-                            if (isset($types['ops'][':']) || isset($types['funs']['ev']) || isset($types['funs']['subst']) || isset($types['funs']['solve']) || isset($types['funs']['at'])) {
-                                $seek2 = function($node) use(&$terms, &$sec) {
-                                    if ($node instanceof MP_Operation && $node->op === ':') {
-                                        $terms[$node->toString()] = $node;
-                                    } else if ($node instanceof MP_FunctionCall && $node->name instanceof MP_Atom && ($node->name->value === 'subst' || $node->name->value === 'ev' || $node->name->value === 'solve') || isset($types['funs']['at'])) {
-                                        if (!$sec->has_feature($node->name->value, 'built-in')) {
-                                            $terms[$node->toString()] = $node;
-                                        }
-                                    }
-                                    return true;
-                                };
-                                (new MP_Group([$node]))->callbackRecurse($seel2);
-                            }
-                        }
-                    }
-                    ksort($terms);
-                    $r = new MP_FunctionCall(new MP_Identifier('stack_complex_expression'), array_values($terms));
-                    $node->parentnode->replace($node, $r);
+                    $sce = self::to_sce($node, $sec);
+                    $node->parentnode->replace($node, $sce);
                     return false;
                 }
             }
@@ -1298,7 +1308,7 @@ class maxima_parser_utils {
             // Catch all large, this will lead to missing some nuances.
             if (!isset($node->position['open1 groupped'])) {
                 $types = $node->type_count();
-                if (!isset($types['MP_Statement']) && $types['totalnodes'] > $mergelimit && !isset($types['ops'][':']) && !isset($types['ops']['=']) && !isset($types['funs']['subst']) && !isset($types['funs']['ev']) && !isset($types['funs']['solve']) && !isset($types['funs']['at'])) {
+                if (!isset($types['MP_Statement']) && $types['totalnodes'] > $mergelimit && count($types['vars']) + 1 < $mergelimit && !isset($types['ops'][':']) && !isset($types['ops']['=']) && !isset($types['funs']['subst']) && !isset($types['funs']['ev']) && !isset($types['funs']['solve']) && !isset($types['funs']['at'])) {
                     $ids = [];
                     foreach ($types['vars'] as $key => $value) {
                         $ids[] = new MP_Identifier($key);
@@ -1400,6 +1410,12 @@ class maxima_parser_utils {
                 $workset2[$tmp->items[0]->toString()] = $tmp->items[0];    
             }
         }
+
+        if ($timelimit < microtime(true)) {
+            $output['% TIMEOUT %'] = true;
+            return $output;    
+        }
+
         unset($workset1); // No need for this anymore
 
         // Some things skip logic...
@@ -1414,7 +1430,7 @@ class maxima_parser_utils {
         }
 
         // Do some cross assingments in the context.
-        $output = self::mergeclasses($output, [$open1, $scalarelimination]);
+        $output = self::mergeclasses($output, [$open1, $scalarelimination], $sec);
 
         // The rand expand may have moved some substs, evs or solves to the output prematurely so bring them back.
         foreach ($output as $key => $values) {
@@ -1433,6 +1449,11 @@ class maxima_parser_utils {
                 }
             }
             $output[$key] = $vb;
+        }
+
+        if ($timelimit < microtime(true)) {
+            $output['% TIMEOUT %'] = true;
+            return $output;    
         }
 
         // Reduce program-flow statements down to simpler things.
@@ -1646,6 +1667,12 @@ class maxima_parser_utils {
                 $workset3[$tmp->items[0]->toString()] = $tmp->items[0];    
             }
         }
+
+        if ($timelimit < microtime(true)) {
+            $output['% TIMEOUT %'] = true;
+            return $output;    
+        }
+
         $mergelimit = 30;
         unset($workset2);
 
@@ -1669,7 +1696,7 @@ class maxima_parser_utils {
         }
 
         // Do some cross assingments in the context.
-        $output = self::mergeclasses($output, [$open1, $scalarelimination]);
+        $output = self::mergeclasses($output, [$open1, $scalarelimination], $sec);
         
         $solve = function ($node) {
             if ($node instanceof MP_FunctionCall && $node->name instanceof MP_Atom) {
@@ -1720,6 +1747,7 @@ class maxima_parser_utils {
                     while (!$val->callbackRecurse($open1)){};
                     while (!$val->callbackRecurse($solve)){};
                     while (!$val->callbackRecurse($pickassings)){};
+                    while (!$val->callbackRecurse($open1)){};
                     $workset4[$val->items[0]->toString()] = $val->items[0];
                 }
             } else if (isset($types['funs']['subst']) || isset($types['funs']['ev']) || isset($types['funs']['at'])) {
@@ -1732,7 +1760,7 @@ class maxima_parser_utils {
         // the arguments of these functions are to be fully expanded
         // before the final processing.
         
-        $output = self::mergeclasses($output, [$open1], true);
+        $output = self::mergeclasses($output, [$open1], $sec, true);
 
         $evsandsubsts = function($node) use (&$output, &$sec) {
             if ($node instanceof MP_FunctionCall && $node->name instanceof MP_Atom) {
@@ -1892,14 +1920,18 @@ class maxima_parser_utils {
                     while (!$val->callbackRecurse($open1)){};
                     while (!$val->callbackRecurse($pickassings)){};
                 }
-                $output = self::mergeclasses($output, [$open1], true);
+                $output = self::mergeclasses($output, [$open1], $sec, true);
+                if ($timelimit < microtime(true)) {
+                    $output['% TIMEOUT %'] = true;
+                    return $output;    
+                }
             }
         }
 
         $mergelimit = 20;
 
         // Do some cross assingments in the context.
-        $output = self::mergeclasses($output, [$open1], true);
+        $output = self::mergeclasses($output, [$open1], $sec, true);
 
         // Drop the fakes.
         foreach ($fakes as $key) {
@@ -1912,7 +1944,7 @@ class maxima_parser_utils {
     }
 
     /* Common merge actions for type struct fixing */
-    private static function mergeclasses(array $data, array $funcs, bool $merge = false): array {
+    private static function mergeclasses(array $data, array $funcs, stack_cas_security $sec, bool $merge = false): array {
         $output = $data;
 
         foreach ($output as $key => $values) {
@@ -1933,6 +1965,7 @@ class maxima_parser_utils {
             $values = self::substitute_in_sequence($values1, $cc);
             $values3 = [];
             $intmerge = [];
+            $listmerge = [];
             $floatmerge = [];
             $sce = [];
             foreach ($values as $value) {
@@ -1949,11 +1982,23 @@ class maxima_parser_utils {
                     $floatmerge[$tmp->items[0]->toString()] = $tmp->items[0];
                 } else if ($tmp->items[0] instanceof MP_FunctionCall && $tmp->items[0]->name instanceof MP_Atom && $tmp->items[0]->name->value === 'stack_complex_expression') {
                     $sce[$tmp->items[0]->toString()] = $tmp->items[0];
+                } else if ($tmp->items[0] instanceof MP_List) {
+                    $listmerge[$tmp->items[0]->toString()] = $tmp->items[0];
                 } else {
                     $values3[$tmp->items[0]->toString()] = $tmp->items[0];
                 }
             }
             // Execute datatype specific merges.
+            if (count($listmerge) > 5) {
+                $tmp = new MP_Group(array_values($listmerge));
+                $tmp = self::to_sce($tmp, $sec);
+                $sce[$tmp->toString()] = $tmp;
+            } else {
+                foreach($listmerge as $k => $v) {
+                    $values3[$k] = $v;
+                }
+            }
+            
             if (count($intmerge) === 1 && count($sce) === 0) {
                 $int = array_pop($intmerge);
                 $values3[$int->toString()] = $int;
@@ -2018,20 +2063,10 @@ class maxima_parser_utils {
                     }
                 }
                 if (count($values1) > 1) {
-                    $list = [];
-                    foreach ($values1 as $value) {
-                        if ($value instanceof MP_Indexing && $value->target instanceof MP_List && $value->indices[0] instanceof MP_List && $value->indices[0]->items[0] instanceof MP_Integer && $value->indices[0]->items[0]->value === null) {
-                            foreach ($value->target->items as $v) {
-                                $list[$v->toString()] = clone $v;
-                            }
-                        } else {
-                            $list[$value->toString()] = clone $value;
-                        }
-                    }
-                    $list = new MP_List(array_values($list));
-                    $indexl = new MP_List([new MP_Integer(null)]);
-                    $indx = new MP_Indexing($list, [$indexl]);
-                    $tmp = new MP_Group([$indx]);
+                    $tmp = new MP_Group(array_values($values1));
+                    $tmp = self::to_sce($tmp, $sec);
+
+                    $tmp = new MP_Group([$tmp]);
                     foreach ($funcs as $fun) {
                         while (!$tmp->callbackRecurse($fun)){};
                     }
@@ -2050,7 +2085,7 @@ class maxima_parser_utils {
             }   
         }
 
-        /*    
+          /*
         print("\n\n");
         foreach ($output as $key => $values) {
             print($key . ":\n");
@@ -2069,7 +2104,7 @@ class maxima_parser_utils {
         $terms = [];
         $seek2 = function($n) use (&$terms, &$sec) {
             if ($n instanceof MP_FunctionCall) {
-                if (!($n->name instanceof MP_Atom) || !$sec->has_feature($n->name->value, 'built-in')) {
+                if (!($n->name instanceof MP_Atom) || !$sec->has_feature($n->name->value, 'built-in') || $n->name->value === 'subst' || $n->name->value === 'ev' || $n->name->value === 'at') {
                     $terms[$n->toString()] = clone $n;
                 }
             } else if ($n instanceof MP_Identifier && !$n->is_function_name()) {

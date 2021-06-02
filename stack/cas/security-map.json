@@ -422,7 +422,8 @@
       "function": "f"
   },
   "abs": {
-      "function": "s"
+      "function": "s",
+      "built-in": true
   },
   "absboxchar": {
       "variable": "f"
@@ -1891,7 +1892,8 @@
   },
   "diff": {
       "function": "s",
-      "nounfunction": "noundiff"
+      "nounfunction": "noundiff",
+      "built-in": true
   },
   "digitcharp": {
       "function": "s"
@@ -2785,7 +2787,8 @@
   },
   "fullratsimp": {
       "evfun": "s",
-      "function": "s"
+      "function": "s",
+      "built-in": true
   },
   "fullratsubst": {
       "function": "s"
@@ -3450,7 +3453,8 @@
       "nounfunction": "nounint",
       "aliasfunctions": [
           "integrate"
-      ]
+      ],
+      "built-in": true
   },
   "intanalysis": {
       "variable": "?"
@@ -4097,7 +4101,8 @@
       "variable": "?"
   },
   "ln": {
-      "function": "s"
+      "function": "s",
+      "built-in": true
   },
   "load": {
       "function": "f",
@@ -6165,7 +6170,8 @@
   },
   "random_permutation": {
       "function": "?",
-      "random": true
+      "random": true,
+      "built-in": true
   },
   "random_poisson": {
       "function": "s",
@@ -6288,7 +6294,8 @@
   },
   "ratsimp": {
       "evfun": "s",
-      "function": "s"
+      "function": "s",
+      "built-in": true
   },
   "ratsimpexpons": {
       "evflag": "s",
@@ -6913,7 +6920,8 @@
       "variable": "f"
   },
   "simplify": {
-      "function": "s"
+      "function": "s",
+      "built-in": true
   },
   "simplify_products": {
       "variable": "f"
@@ -7937,7 +7945,8 @@
       "variable": "s"
   },
   "trigsimp": {
-      "function": "s"
+      "function": "s",
+      "built-in": true
   },
   "trivial_solutions": {
       "variable": "f"

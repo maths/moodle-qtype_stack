@@ -176,8 +176,6 @@ STACK also provides a helper function `regex_match_exactp(regex, str)` to check 
     (aaa)*(b|d)c    aaaaaaabc   false
     (aaa)*(b|d)c    cca         false
 
-Currently this is not provided as a separate answer test so you will need to use this predicate in the question variables and check the result against the expected value, or supply the predicate as an argument to an answer test.
-
 # Form {#Form}
 
 Often, we wish to establish if the student's expression has the correct _form_.

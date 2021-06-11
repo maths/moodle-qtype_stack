@@ -2011,7 +2011,8 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->check_current_mark(0);
         $this->check_prt_score('prt1', 0, 0.3);
         $this->render();
-        $expected = 'Seed: 1; ans1: 0.04 [score]; ans2: 3.14 [score]; prt1: # = 0 | ATNumDecPlaces_Wrong_DPs. ATNumDecPlaces_Not_equiv. | prt1-1-F';
+        $expected = 'Seed: 1; ans1: 0.04 [score]; ans2: 3.14 [score]; prt1: # = 0 | ' .
+            'ATNumDecPlaces_Wrong_DPs. ATNumDecPlaces_Not_equiv. | prt1-1-F';
         $this->check_response_summary($expected);
         $this->check_output_contains_text_input('ans1', '0.04');
         $this->check_output_contains_text_input('ans2', '3.14');
@@ -2045,7 +2046,8 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->check_current_mark(0);
         $this->check_prt_score('prt1', 0, 0.3);
         $this->render();
-        $expected = 'Seed: 1; ans1: 7.04 [score]; ans2: 3.14 [score]; prt1: # = 0 | ATNumDecPlaces_Wrong_DPs. ATNumDecPlaces_Equiv. | prt1-1-F';
+        $expected = 'Seed: 1; ans1: 7.04 [score]; ans2: 3.14 [score]; prt1: # = 0 | ' .
+            'ATNumDecPlaces_Wrong_DPs. ATNumDecPlaces_Equiv. | prt1-1-F';
         $this->check_response_summary($expected);
         $this->check_output_contains_text_input('ans1', '7.04');
         $this->check_output_contains_text_input('ans2', '3.14');
@@ -2082,7 +2084,8 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->check_current_mark(0);
         $this->check_prt_score('prt1', 0, 0.3);
         $this->render();
-        $expected = 'Seed: 1; ans1: 7.04 [score]; ans2: 3.140 [score]; prt1: # = 0 | ATNumDecPlaces_Wrong_DPs. ATNumDecPlaces_Equiv. | prt1-1-F';
+        $expected = 'Seed: 1; ans1: 7.04 [score]; ans2: 3.140 [score]; prt1: # = 0 | ' .
+            'ATNumDecPlaces_Wrong_DPs. ATNumDecPlaces_Equiv. | prt1-1-F';
         $this->check_response_summary($expected);
         $this->check_output_contains_text_input('ans1', '7.04');
         // Note, the trailing zero is in the validation feedback (numerical input type).

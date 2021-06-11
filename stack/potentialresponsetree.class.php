@@ -407,7 +407,7 @@ class stack_potentialresponse_tree {
         $sans = array();
         foreach ($this->nodes as $key => $node) {
             if (stack_ans_test_controller::required_raw($node->get_test())) {
-                $name = (string) $this->get_name() . '-' . ($key+1);
+                $name = (string) $this->get_name() . '-' . ($key + 1);
                 $sans[$name] = $node->sans->get_inputform(true, 1);
             }
         }

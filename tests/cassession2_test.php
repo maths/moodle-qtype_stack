@@ -826,7 +826,7 @@ class stack_cas_session2_test extends qtype_stack_testcase {
         $at1 = new stack_cas_session2($s1, null, 0);
         $at1->instantiate();
         $this->assertEquals('a', $s1[0]->get_value());
-        $this->assertEquals('rand_selection error: first argument must be a list.', $s1[0]->get_errors());
+        $this->assertEquals('rand_selection error: first argument must be a list or set.', $s1[0]->get_errors());
     }
 
     public function test_rand_selection_err_2() {
@@ -837,11 +837,21 @@ class stack_cas_session2_test extends qtype_stack_testcase {
         $at1 = new stack_cas_session2($s1, null, 0);
         $at1->instantiate();
         $this->assertEquals('a', $s1[0]->get_value());
-        $this->assertEquals('rand_selection error: insuffient elements in the list.', $s1[0]->get_errors());
+        $this->assertEquals('rand_selection error: insuffient elements in the list/set.', $s1[0]->get_errors());
     }
 
     public function test_rand_selection() {
         $cs = array('a:rand_selection([a,b,c,d], 4)', 'b:sort(a)');
+        foreach ($cs as $s) {
+            $s1[] = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security(), array());
+        }
+        $at1 = new stack_cas_session2($s1, null, 0);
+        $at1->instantiate();
+        $this->assertEquals('[a,b,c,d]', $s1[1]->get_value());
+    }
+
+    public function test_rand_selection_set() {
+        $cs = array('a:rand_selection({a,b,c,d}, 4)', 'b:sort(a)');
         foreach ($cs as $s) {
             $s1[] = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security(), array());
         }

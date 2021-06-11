@@ -1301,7 +1301,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
 
         $warnings = array();
 
-        // (1) Answer tests which require raw inputs actually have SAns a calculated value.
+        // 1. Answer tests which require raw inputs actually have SAns a calculated value.
         foreach ($this->prts as $prt) {
             foreach ($prt->get_raw_sans_used() as $key => $sans) {
                 if (!array_key_exists(trim($sans), $this->inputs)) {
@@ -1310,7 +1310,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
             }
         }
 
-        // (2) Language warning checks.
+        // 2. Language warning checks.
         // Put language warning checks last (see guard clause below).
         // Check multi-language versions all have the same languages.
         $ml = new stack_multilang();

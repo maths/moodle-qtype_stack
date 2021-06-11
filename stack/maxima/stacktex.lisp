@@ -275,7 +275,7 @@
                      (setq l (tex `((mexpt) ,f ,expon) l nil 'mparen 'mparen))
                      (if (and (null (cdr bascdr))
                               (eq (get f 'tex) 'tex-prefix))
-                         (setq r (tex (car bascdr) nil r f 'mparen))
+                         (setq r (tex (cons '(mprogn) bascdr) nil r f 'mparen))
                          (setq r (tex (cons '(mprogn) bascdr) nil r 'mparen 'mparen))))
                     (t nil))))) ; won't doit. fall through
       (t (setq l (cond ((or ($bfloatp (cadr x))

@@ -1,0 +1,182 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% A simple paper-based syntax tutorial for students.
+%
+% First authored by Jonathan Watkins
+% March 2013, University of Birmingham
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[a4paper]{article}
+\usepackage{amsmath}
+\usepackage{color}
+
+\usepackage{fullpage}
+\usepackage[margin=.5in,landscape]{geometry}
+\usepackage{float}
+\usepackage{multicol}
+
+\setlength{\parindent}{0in}
+\newcommand{\stack}[1]{{\color{red}\tt #1}}
+\pagestyle{empty}
+
+\begin{document}
+
+\begin{multicols}{2}
+\section*{STACK syntax Tutorial}
+This tutorial is designed to provide information and syntax required to get full use out of STACK. Questions in STACK may ask for answers in a number of different ways:
+\begin{itemize}
+\item Numerical Values.
+\item Algebraic Expressions.
+\item Matrices.
+\end{itemize}
+Each question will have one or more answer boxes for you to input your answer.  In some cases a matrix grid will be provided.
+
+\section*{Numbers}
+You should type in numbers without spaces or using commas to group digits.  Unless otherwise told, always use fractions as opposed to decimals (e.g., use (1/4) instead of 0.25).
+\begin{itemize}
+\item $\pi$ is entered as either \stack{pi} or \stack{\%pi}.
+\item The base of the natural logarithms, ($e \approx 2.718 \dots$) is entered as either \stack{e} or \stack{\%e}.
+\item The imaginary unit $i=\sqrt{-1}$ is entered as either \stack{i} or \stack{\%i}. You could also use \stack{sqrt(-1)}, or \stack{(-1)$^{\wedge}$(1/2)}, being careful with the brackets.
+\item You may also be able to use scientific notation for large numbers, e.g. $1000$ can be entered as \stack{1E+3}.
+     {\em Note:} do this only if the question tells you that it is allowed, as floating point representations of numbers are usually not permitted
+\end{itemize}
+
+\section*{Addition, Subtraction, Multiplication and Division}
+\begin{itemize}
+\item To express a sum of two quantities, use the $+$ sign, e.g., \stack{x+y}.
+\item To express a subtraction of one quantity from another, use the $-$ sign, e.g., $x-y$.
+\item Use a star for multiplication. Forgetting this is by far the most common source of syntax errors. For example,
+\begin{itemize}
+\item You should enter $3x$ as \stack{3*x}.
+\item You should enter $x(ax+1)(x-1)$ as \stack{x*(a*x+1)*(x-1)}.
+\end{itemize}
+\item STACK does sometimes try to insert stars for you where there is no ambiguity, e.g.~\stack{2x} or \stack{(x+1)(x-1)}. This guessing cannot be perfect since traditional mathematical notation is sometimes ambiguous! Compare $f(x+1)$ and $x(t+1)$. It is therefore good practice to always use stars for multiplication.
+\item Make sure to use correct orders of precedence. The acronym BODMAS (Brackets, pOwers, Division, Multiplication, Addition, Subtraction) is a helpful reminder of the normal order.
+\end{itemize}
+
+\section*{Powers}
+Use a caret ($^{\wedge}$) for raising something to a power: for example, $x^2$ should be entered as \stack{x$^{\wedge}$2}. You can get a caret by holding down the SHIFT key and pressing the 6 key on most keyboards. Negative or fractional powers need brackets:
+\begin{itemize}
+\item $x^{-2}$ should be entered as \stack{x$^{\wedge}$(-2)}.
+\item $x^{\frac{1}{3}}$ should be entered as \stack{x$^{\wedge}$(1/3)}.
+\item Take care with negative numbers, e.g. \stack{(-4)$^{\wedge}$2}.
+\end{itemize}
+
+\section*{Brackets}
+Brackets are important to group terms in an expression. This is particularly the case in STACK since we use a one dimensional input rather than traditional written mathematics. Try to consciously develop a sense of when you need brackets and avoid putting in too many. For example,
+\begin{itemize}
+\item $\frac{a+b}{c+d}$ should be entered as \stack{(a+b)/(c+d)}.
+\item If you type \stack{a+b/(c+d)}, then STACK will think that you mean $a + \frac{b}{c+d}$.
+\item If you type \stack{(a+b)/c+d}, then STACK will think that you mean $\frac{a+b}{c} + d$.
+\item If you type \stack{a+b/c+d}, then STACK will think that you mean $a + \frac{b}{c} + d$.
+\end{itemize}
+
+\section*{Matrices}
+Matrices can be tricky to input correctly. You can input any size $m\times n$ matrix.
+\begin{itemize}
+\item You must first initialise a matrix by typing \stack{matrix()}. Whatever is inside the brackets will specify all the information in the matrix. Each row is expressed within a square bracket \stack{[ ]}, with each term being separated by a comma. Each row must be separated by a comma, e.g.~\stack{[ ],[ ]}. This will fully specify a matrix in Maxima.
+\item \stack{matrix([a,b,c],[d,e,f],[g,h,i])} will give you the matrix shown below.
+\begin{displaymath}
+\left( \begin{array}{ccc} a & b & c \\ d & e & f \\ g & h & i \\ \end{array} \right)
+\end{displaymath}
+\end{itemize}
+\section*{Functions}
+Standard functions: Functions, such as $\sin$, $\cos$, $\tan$, $\exp$, $\log$ and so on can be entered using their usual names. However, the argument must always be enclosed in brackets: $\sin{(x^2 + 1)}$ should be entered as \stack{sin(x$^{\wedge}$2 + 1)}, $\ln{(3+y)}$ should be entered as \stack{ln(3+y)} and so on.
+
+\section*{Logarithms}
+You can use \stack{log(x)} for the natural logarithm of $x$. Note this starts with a lower case l, not a capital L. Currently in STACK both \stack{ln} and \stack{log} are the natural logarithms with base ($e \approx 2.718 \dots$).
+
+\section*{Exponential function}
+You should always write \stack{exp(x)} for $e^x$. (Typing \stack{e$^{\wedge}$x} should work in STACK, but gets you into bad habits when you try other forms of programming later!)
+
+\section*{Modulus function}
+The modulus function, sometimes called the {\em absolute value of $x$}, is written as $|x|$ in traditional notation. This must be entered as \stack{abs(x)}.
+
+\section*{Trigonometric and Hyperbolic functions}
+STACK uses radians for angles, not degrees!
+\begin{itemize}
+\item The function \(\frac{1}{\sin(x)}\) must be written to as \stack{csc(x)} rather than cosec(x) (or you can just call it \stack{1/sin(x)} if you prefer).
+\item $\sin^2{x}$ should be entered as \stack{(sin(x))$^{\wedge}$2} (which is what it really means, after all). Similarly for $\tan^2{x}$, $\sinh^2{x}$) and so on.
+\item Recall that $\sin^{-1}{x}$ traditionally means the number $t$ such that $\sin(t) = x$, which is of course completely different from the number $(\sin{x})^{-1} = \frac{1}{\sin{x}}$. This traditional notation is really rather unfortunate and is not used by STACK; instead, $\sin^{-1}{x}$ should be entered as \stack{asin(x)}. Similarly, $\tan^{-1}{x}$ should be entered as \stack{atan(x)} and so on. The inverse $\sin$, asin (or arcsin in full), is a much better way to write inverse trigonometric functions as it removes any doubt as to what one is trying to express!
+\end{itemize}
+
+%\newpage
+
+\section*{Symbols}
+Symbols are often used in mathematics and physics, and as such, you may be expected to use them in your answers. Most often, Greek letters will need to be used. Maxima requires you to literally write in the letter, without any precursor. For example, the letter $\omega$ can be entered by typing \stack{omega} and the letter $\Omega$ can be imputed by typing \stack{Omega}. If you want the capital version of a letter, capitalize the first letter of its spelling. A full list of Greek letters and spellings have been supplied for your convenience.
+\begin{table}[H]
+\begin{minipage}{0.22\linewidth}
+\centering
+\begin{tabular}{|c|c|c|} \hline
+A & $\alpha$ & Alpha\\ \hline
+B & $\beta$ & Beta\\ \hline
+$\Gamma$ & $\gamma$ & Gamma \\ \hline
+$\Delta$ & $\delta$ & Delta \\ \hline
+E & $\epsilon$ & Epsilon \\ \hline
+Z & $\zeta$ & Zeta \\ \hline
+\end{tabular}
+\end{minipage}
+\hspace{0.2cm}
+\begin{minipage}{0.22\linewidth}
+\centering
+\begin{tabular}{|c|c|c|} \hline
+H & $\eta$ & Eta \\ \hline
+$\Theta$ & $\theta$ & Theta \\ \hline
+I & $\iota$ & Iota \\ \hline
+K & $\kappa$ & Kappa \\ \hline
+$\Lambda$ & $\lambda$ & Lambda \\ \hline
+M & $\mu$ & Mu \\ \hline
+\end{tabular}
+\end{minipage}
+\hspace{0.2cm}
+\begin{minipage}{0.22\linewidth}
+\centering
+\begin{tabular}{|c|c|c|} \hline
+N & $\nu$ & Nu \\ \hline
+$\Xi$ & $\xi$ & Xi \\ \hline
+O & o & Omicron \\ \hline
+$\Pi$ & $\pi$ & Pi \\ \hline
+P & $\rho$ & Rho \\ \hline
+$\Sigma$ & $\sigma$ & Sigma \\ \hline
+\end{tabular}
+\end{minipage}
+\hspace{0.2cm}
+\begin{minipage}{0.22\linewidth}
+\centering
+\begin{tabular}{|c|c|c|} \hline
+T & $\tau$ & Tau \\ \hline
+$\Upsilon$ & $\upsilon$ & Upsilon \\ \hline
+$\Phi$ & $\phi$ & Phi \\ \hline
+X & $\chi$ & Chi \\ \hline
+$\Phi$ & $\phi$ & Psi \\ \hline
+$\Omega$ & $\omega$ & Omega \\ \hline
+\end{tabular}
+\end{minipage}
+\end{table}
+
+\section*{Sets and Lists}
+\begin{itemize}
+\item To enter a set such as ({1,2,3}) in Maxima you could use the function \stack{set(1,2,3)}, or use curly brackets and type \stack{\{1,2,3\}}.
+\item Lists can be entered using square brackets. For example, to enter the list 1,2,2,3 type \stack{[1,2,2,3]}.
+\end{itemize}
+
+\section*{Equations and Inequalities}
+Equations can be entered using the equals sign. For example, to enter the equation $y=x^2-2x+1$ type \stack{y=x$^{\wedge}$2-2*x+1}.
+
+Inequalities can be entered as follows:
+\begin{center}
+\begin{tabular}{l|l|l|l|l}
+Symbol & $<$ & $>$ & $\geq$ & $\leq$\\
+\hline
+Syntax & \stack{<} & \stack{>} & \stack{<=} & \stack{<=}
+\end{tabular}
+\end{center}
+
+Note there is no space between these symbols, and the equality must come second when it is used.
+
+You can also combine inequalities using logical operations.  To enter the set of numbers $1\leq x <5$ type in \stack{1<=x and x<5}.
+\end{multicols}
+
+$~$\hfill{\tiny \today}
+
+\end{document}

@@ -1,0 +1,2330 @@
+<!-- Ensures this only extends, not overrides, the theme. -->
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="canonical" href="https://docs.stack-assessment.org/en/Authoring/Answer_tests/">
+      
+      <link rel="icon" href="../../../content/logo_sm.png">
+      <meta name="generator" content="mkdocs-1.2.1, mkdocs-material-7.1.8">
+    
+    
+      
+        <title>Answer tests - STACK Docs</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.ca7ac06f.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.f1a3b89f.min.css">
+        
+          
+          
+          <meta name="theme-color" content="#ffffff">
+        
+      
+    
+    
+    
+      
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>:root{--md-text-font-family:"Roboto";--md-code-font-family:"Roboto Mono"}</style>
+      
+    
+    
+    
+      <link rel="stylesheet" href="../../../custom.css">
+    
+      <link rel="stylesheet" href="https://combinatronics.com/maths/moodle-qtype_stack/master/styles.css">
+    
+    
+      
+
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="white" data-md-color-accent="">
+  
+    
+    <script>function __prefix(e){return new URL("../../..",location).pathname+"."+e}function __get(e,t=localStorage){return JSON.parse(t.getItem(__prefix(e)))}</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#answer-tests" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="STACK Docs" 
+	class="md-header__button md-logo" aria-label="STACK Docs" data-md-component="logo">
+      <!-- Set the logo. -->
+
+  <img src="../../../content/logo_large.png" alt="logo" style="width:2rem;height:0.95rem;">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <!--Make site title permament-->
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis md-header__topic md-ellipsis">
+        STACK Docs
+      </div>
+    </div>
+     
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" data-md-state="active" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+  </nav>
+</header>
+
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="STACK Docs" class="md-nav__button md-logo" aria-label="STACK Docs" data-md-component="logo">
+      <!-- Set the logo. -->
+
+  <img src="../../../content/logo_large.png" alt="logo" style="width:2rem;height:0.95rem;">
+
+    </a>
+    STACK Docs
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+    
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    
+    
+      
+      
+      
+
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../" class="md-nav__link">
+        STACK
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_1-2" type="checkbox" id="__nav_1-2" >
+      
+      <label class="md-nav__link" for="__nav_1-2">
+        About
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="About" data-md-level="2">
+        <label class="md-nav__title" for="__nav_1-2">
+          <span class="md-nav__icon md-icon"></span>
+          About
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../About/" class="md-nav__link">
+        About the STACK Project
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../About/Community/" class="md-nav__link">
+        Community
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../About/Credits/" class="md-nav__link">
+        Contributors to the STACK Project
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../About/Logo/" class="md-nav__link">
+        The mathematics of the STACK logo
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../About/Publications/" class="md-nav__link">
+        Publications
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../About/The_philosophy_of_STACK/" class="md-nav__link">
+        Philosophy of STACK
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_1-3" type="checkbox" id="__nav_1-3" checked>
+      
+      <label class="md-nav__link" for="__nav_1-3">
+        Authoring
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Authoring" data-md-level="2">
+        <label class="md-nav__title" for="__nav_1-3">
+          <span class="md-nav__icon md-icon"></span>
+          Authoring
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../" class="md-nav__link">
+        Authoring
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../Actuarial/" class="md-nav__link">
+        Notation used in actuarial work
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+    
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Answer tests
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        Answer tests
+      </a>
+      
+        
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#introduction" class="md-nav__link">
+    Introduction
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#in-general" class="md-nav__link">
+    In general
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../Answer_tests_numerical/" class="md-nav__link">
+        Numerical answer tests
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../Author_FAQ/" class="md-nav__link">
+        Author FAQ
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../Authoring_quick_start/" class="md-nav__link">
+        Authoring quick start 1: a minimal working question
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../Authoring_quick_start_2/" class="md-nav__link">
+        Authoring quick start 2: question variables
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../Authoring_quick_start_3/" class="md-nav__link">
+        Authoring quick start 3: improving feedback
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../Authoring_quick_start_4/" class="md-nav__link">
+        Authoring quick start 4: randomisation
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../Authoring_quick_start_5/" class="md-nav__link">
+        Authoring quick start 5: question tests
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../Authoring_quick_start_6/" class="md-nav__link">
+        Authoring quick start 6: multipart questions
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../Authoring_quick_start_7/" class="md-nav__link">
+        Authoring quick start 7: turning simplification off
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../Authoring_quick_start_8/" class="md-nav__link">
+        Authoring quick start 8: setting up a quiz
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../CASText/" class="md-nav__link">
+        CASText
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../Curve_sketching/" class="md-nav__link">
+        Curve sketching
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../Deploying/" class="md-nav__link">
+        Deploying
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../Equivalence_reasoning/" class="md-nav__link">
+        Getting started with equivalence reasoning
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../Fact_sheets/" class="md-nav__link">
+        Hints
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../Feedback/" class="md-nav__link">
+        Feedback
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../Fixing_broken_questions/" class="md-nav__link">
+        I have a misbehaving STACK question in a live Moodle quiz.  What should I do?
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../Future_proof/" class="md-nav__link">
+        Guidelines for ensuring that a question works in the future
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../HELM/" class="md-nav__link">
+        HELM
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../ImportExport/" class="md-nav__link">
+        Import and Export of STACK questions
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../Inputs/" class="md-nav__link">
+        Inputs
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../JSXGraph/" class="md-nav__link">
+        JSXGraph
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../Languages/" class="md-nav__link">
+        Producing multilingual content
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../Multiple_choice_questions/" class="md-nav__link">
+        Multiple choice questions
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../Numerical_input/" class="md-nav__link">
+        Numerical input
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../Options/" class="md-nav__link">
+        Options
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../Potential_response_trees/" class="md-nav__link">
+        Potential response trees
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../Proof/" class="md-nav__link">
+        Assessment of proof
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../Question_bank/" class="md-nav__link">
+        How do I find the Moodle question bank?
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../Question_blocks/" class="md-nav__link">
+        Question blocks
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../Question_note/" class="md-nav__link">
+        Question note
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../Reporting/" class="md-nav__link">
+        Reporting
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../Sample_questions/" class="md-nav__link">
+        Sample Questions
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../Semi-automatic_Marking/" class="md-nav__link">
+        Semi-automatic Marking
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../Tables/" class="md-nav__link">
+        Tables
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../Testing/" class="md-nav__link">
+        Testing, debugging and quality control
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../Units/" class="md-nav__link">
+        Scientific Units
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../Variables/" class="md-nav__link">
+        Defining variables
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_1-4" type="checkbox" id="__nav_1-4" >
+      
+      <label class="md-nav__link" for="__nav_1-4">
+        CAS
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="CAS" data-md-level="2">
+        <label class="md-nav__title" for="__nav_1-4">
+          <span class="md-nav__icon md-icon"></span>
+          CAS
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../CAS/" class="md-nav__link">
+        Maxima and computer algebra use in STACK
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../CAS/Buggy_rules/" class="md-nav__link">
+        Buggy rules
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../CAS/CAS/" class="md-nav__link">
+        Computer Algebra Systems
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../CAS/Differential_equations/" class="md-nav__link">
+        Differential Equations
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../CAS/Discrete_mathematics/" class="md-nav__link">
+        Discrete mathematics and graph theory.
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../CAS/Equations/" class="md-nav__link">
+        Asking students to solve equations
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../CAS/Equivalence_reasoning/" class="md-nav__link">
+        Reasoning by equivalence
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../CAS/Greek/" class="md-nav__link">
+        The Greek Alphabet
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../CAS/Inequalities/" class="md-nav__link">
+        Inequalities
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../CAS/Linear_algebra/" class="md-nav__link">
+        Setting linear algebra questions in STACK
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../CAS/Matrix/" class="md-nav__link">
+        Matrices and vectors in STACK
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../CAS/Maxima/" class="md-nav__link">
+        Introduction to Maxima for STACK users
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../CAS/Numbers/" class="md-nav__link">
+        Numbers in STACK
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../CAS/Optimising_Maxima/" class="md-nav__link">
+        Optimising Maxima
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../CAS/Permutations/" class="md-nav__link">
+        Writing a permutation as a product of disjoint cycles
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../CAS/Plots/" class="md-nav__link">
+        Plots and graphics in STACK questions.
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../CAS/Predicate_functions/" class="md-nav__link">
+        Predicate functions
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../CAS/Propositional_Logic/" class="md-nav__link">
+        Propositional Logic
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../CAS/Random/" class="md-nav__link">
+        Random objects
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../CAS/Real_Intervals/" class="md-nav__link">
+        Real intervals and sets of real numbers
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../CAS/STACK-Maxima_sandbox/" class="md-nav__link">
+        STACK Sandbox
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../CAS/Simplification/" class="md-nav__link">
+        Simplification & ordering
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../CAS/Statistics/" class="md-nav__link">
+        Statistics support in STACK.
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_1-5" type="checkbox" id="__nav_1-5" >
+      
+      <label class="md-nav__link" for="__nav_1-5">
+        Developer
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Developer" data-md-level="2">
+        <label class="md-nav__title" for="__nav_1-5">
+          <span class="md-nav__icon md-icon"></span>
+          Developer
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../Developer/" class="md-nav__link">
+        Developers
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../Developer/CAS_evaluatable/" class="md-nav__link">
+        The family tree of cas_evaluatables.
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../Developer/Census/" class="md-nav__link">
+        Maxima identifier census
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../Developer/Creating_an_input_type/" class="md-nav__link">
+        Creating a new Input type
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../Developer/Development_history/" class="md-nav__link">
+        STACK Development History
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../Developer/Development_track/" class="md-nav__link">
+        Development track for STACK
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../Developer/Documentation/" class="md-nav__link">
+        STACK User Documentation
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../Developer/Future_input_processing/" class="md-nav__link">
+        Description of one possible future input processing pipeline
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../Developer/Future_plans/" class="md-nav__link">
+        Future plans
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../Developer/Language_packs/" class="md-nav__link">
+        Translation of the STACK Project
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../Developer/Local_Usage/" class="md-nav__link">
+        Local Usage
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../Developer/Maxima_packages/" class="md-nav__link">
+        Adding support for Maxima packages
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../Developer/PHP-CAS/" class="md-nav__link">
+        PHP interface with the CAS
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../Developer/Parser/" class="md-nav__link">
+        Building the parser
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../Developer/Question_state_caching/" class="md-nav__link">
+        Question state caching
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../Developer/Releasing/" class="md-nav__link">
+        STACK release process notes
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../Developer/Running_question_tests_other_site/" class="md-nav__link">
+        Running question tests for questions on other sites
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../Developer/Security_map/" class="md-nav__link">
+        Security map
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../Developer/Syntax_Future/" class="md-nav__link">
+        Future plans for syntax of answers and STACK.
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../Developer/Unit_tests/" class="md-nav__link">
+        Unit tests
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../Developer/UpgradeDefaults/" class="md-nav__link">
+        Upgrading question defaults
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../Developer/Website/" class="md-nav__link">
+        Updating the Online Docs
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_1-6" type="checkbox" id="__nav_1-6" >
+      
+      <label class="md-nav__link" for="__nav_1-6">
+        Installation
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Installation" data-md-level="2">
+        <label class="md-nav__title" for="__nav_1-6">
+          <span class="md-nav__icon md-icon"></span>
+          Installation
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../Installation/" class="md-nav__link">
+        Installation instructions.
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../Installation/LTI/" class="md-nav__link">
+        About LTI
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../Installation/Mathjax/" class="md-nav__link">
+        Displaying mathematics for STACK in Moodle
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../Installation/Maxima/" class="md-nav__link">
+        Compiling Maxima from source.
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../Installation/Testing_installation/" class="md-nav__link">
+        Testing Installation
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_1-7" type="checkbox" id="__nav_1-7" >
+      
+      <label class="md-nav__link" for="__nav_1-7">
+        Students
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Students" data-md-level="2">
+        <label class="md-nav__title" for="__nav_1-7">
+          <span class="md-nav__icon md-icon"></span>
+          Students
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../Students/" class="md-nav__link">
+        Information for students
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../Students/Accessibility/" class="md-nav__link">
+        Accessibility
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../Students/Answer_assessment/" class="md-nav__link">
+        Answer assessment
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../Students/Answer_input/" class="md-nav__link">
+        Answer input
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../Students/Equivalence_reasoning/" class="md-nav__link">
+        Reasoning by Equivalence
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../Students/FAQ/" class="md-nav__link">
+        Frequently asked questions
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+<!--Keep the rest the same-->
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#introduction" class="md-nav__link">
+    Introduction
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#in-general" class="md-nav__link">
+    In general
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                
+                <h1 id="answer-tests">Answer tests</h1>
+<p>An <em>answer test</em> is used to compare two expressions to
+establish whether they satisfy some mathematical criteria. The
+prototype test is to establish if they are the <em>same</em>.  That is
+to say, <em>algebraically equivalent</em>.</p>
+<h2 id="introduction">Introduction</h2>
+<p>Informally, the answer tests have the following syntax</p>
+<pre><code>[Errors, Result, FeedBack, Note] = AnswerTest(StudentAnswer, TeacherAnswer, [Opt], [Raw])
+</code></pre>
+<p>Where,</p>
+<table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>StudentAnswer</td>
+<td>A CAS expression, assumed to be the student's answer.</td>
+</tr>
+<tr>
+<td>TeacherAnswer</td>
+<td>A CAS expression, assumed to be the model answer.</td>
+</tr>
+<tr>
+<td>Opt</td>
+<td>If needed, any options which the specific answer test provides. For example, a variable, the accuracy of the numerical comparison, number of significant figures.</td>
+</tr>
+<tr>
+<td>Raw</td>
+<td>If needed, the raw string of the student's input to ensure, e.g. Maxima does not remove trailing zeros when establishing the number of significant figures.</td>
+</tr>
+</tbody>
+</table>
+<p>Note that since the tests can provide feedback, tests which appear to be symmetrical, e.g. Algebraic Equivalence, really need to assume which expression belongs to the student and which to the teacher.</p>
+<table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Errors</td>
+<td>Hopefully this will be empty!</td>
+</tr>
+<tr>
+<td>Result</td>
+<td>is either <code>true</code>, <code>false</code>, or <code>fail</code> (which indicates a failure of the test).  This determines which branch of the tree is traversed.</td>
+</tr>
+<tr>
+<td>FeedBack</td>
+<td>This is a text string which is displayed to the student. It is <a href="../CASText/">CASText</a> which may depend on properties of the student's answer.</td>
+</tr>
+<tr>
+<td>Note</td>
+<td>This is a text string which is used for <a href="../Reporting/">Reporting</a>. Each answer note is concatenated with the previous notes and any contributions from the branch.</td>
+</tr>
+</tbody>
+</table>
+<p>The feedback is only shown to a student if the quiet option is set to 'no'.  If feedback is shown, then examples are given in the answer-test test suite.</p>
+<p>We expose the exact behaviour of each answer test by giving registered users access to STACK's test suite for STACK Answer tests.  This can be found on a live server at <code>.../moodle/question/type/stack/answertests.php</code>. This script compares pairs of expressions and displays the outcomes from each test. This script is mainly used to ensure STACK is working, but it is invaluable for understanding what each test really does.  In particular it enables question authors to see examples of which expressions are the same and different together with examples of the automatically generated feedback.</p>
+<h2 id="in-general">In general</h2>
+<p>You can apply functions before applying the tests.  For example, to ignore case sensitivity you can apply the <a href="../../CAS/Maxima/#Maxima_commands_defined_by_STACK">Maxima commands defined by STACK</a> <code>exdowncase(ex)</code> to the arguments, before you apply one of the other answer tests.</p>
+<h1 id="equality">Equality</h1>
+<p>A crucial component in the assessment process the ability to decide if two expressions are equal.</p>
+<p>Let us assume a teacher has asked a student to expand out <script type="math/tex">(x+1)^2</script> and the response they have from one student is <script type="math/tex">x^2+x+x+1</script>.
+This is "correct" in the sense that it is algebraically equivalent to <script type="math/tex">(x+1)^2</script> and is in expanded form
+(actually two separate mathematical properties) but "incorrect" in the sense that the student has not <em>gathered like terms</em> by performing an addition <script type="math/tex">x+x</script>.
+What about a response <script type="math/tex">2x+x^2+1</script>?  This is, arguably, better in the sense that the terms are gathered,
+but the student here did not <em>order</em> the terms to write their expression in canonical form.
+Hence, we need quite a number of different answer tests to establish equality in various senses of the word.</p>
+<table>
+<thead>
+<tr>
+<th>Test</th>
+<th>Description (see below for more details)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CasEqual</td>
+<td>Are the parse trees of the two expressions equal?</td>
+</tr>
+<tr>
+<td><a href="./#EqualComAss">EqualComAss</a></td>
+<td>Are they equal up to commutativity and associativity of addition and multiplication, together with their inverses minus and division?</td>
+</tr>
+<tr>
+<td><a href="./#AlgEquiv">AlgEquiv</a></td>
+<td>Are they <em>algebraically equivalent</em>?</td>
+</tr>
+<tr>
+<td>AlgEquivNouns</td>
+<td>Are they <em>algebraically equivalent</em>, preserving noun forms of operators, e.g. <code>diff</code>?</td>
+</tr>
+<tr>
+<td>SubstEquiv</td>
+<td>Can we find a substitution of the variables of <script type="math/tex">ex_2</script> into <script type="math/tex">ex_1</script> which renders <script type="math/tex">ex_1</script> algebraically equivalent to <script type="math/tex">ex_2</script>?</td>
+</tr>
+<tr>
+<td>SameType</td>
+<td>Are the two expressions of the same <a href="../../CAS/Maxima/#Types_of_object">types_of_object</a>?  Note that this test works recursively over the entire expression.</td>
+</tr>
+<tr>
+<td>SysEquiv</td>
+<td>Do two systems of polynomial equations have the same solutions?</td>
+</tr>
+<tr>
+<td>PropLogic</td>
+<td>An answer test designed to deal with <a href="../../CAS/Propositional_Logic/">propositional logic</a>.</td>
+</tr>
+</tbody>
+</table>
+<p><code>SubstEquiv</code> accepts an optional argument, which must be a list of variables.  These variables will be excluded from the list of possible comparisons, and so must be "fixed" in the comparison.  Useful if you want to establish that a student has used arbitrary constants in <script type="math/tex">A\sin(x)+B\cos(x)</script> but make sure <script type="math/tex">x</script> really stays as <script type="math/tex">x</script>.</p>
+<h3 id="AlgEquiv">AlgEquiv</h3>
+<p>This is the most commonly used test.  The pseudo code</p>
+<pre><code>If
+  simplify(ex1-ex2) = 0
+then
+  true
+else
+  false.
+</code></pre>
+<p>This test will work with a variety of <a href="../../CAS/Maxima/#Types_of_object">types of object</a> of mathematical objects, including lists, sets, equations, inequalities and matrices.</p>
+<ul>
+<li>This test disregards whether <a href="../../CAS/Simplification/">simplification</a> is switched on, it always fully simplifies all its arguments.</li>
+<li>Use <code>AlgEquiv(predicate(ex),true)</code> with <a href="../../CAS/Predicate_functions/">predicate functions</a>.</li>
+</ul>
+<p>Note: exactly what it does depends on what objects are given to it.  In particular the pseudo code above only applies to expressions.  We cannot subtract one list or set from another, so we have to use other tests.</p>
+<p>For sets, the CAS tries to write the expression in a canonical form.  It then compares the string representations these forms to remove duplicate elements and compare sets.  This is subtly different from trying to simplify the difference of two expressions to zero.  For example, imagine we have <script type="math/tex">\{(x-a)^{6000}\}</script> and <script type="math/tex">\{(a-x)^{6000}\}</script>.  One canonical form is to expand out both sides.  While this work in principal, in practice this is much too slow for assessment. </p>
+<p>Currently we do check multiplicity of roots, so that <script type="math/tex"> (x-2)^2=0</script> and <script type="math/tex"> x=2</script> are not considered to be equivalent.  Similarly <script type="math/tex">a^3b^3=0</script> is not <script type="math/tex">a=0 \mbox{ or } b=0</script>.  This is a long-standing issue and we would need a separate test to ignore multiplicity of roots.</p>
+<p>Currently, <script type="math/tex">\{-\frac{\sqrt{2}}{\sqrt{3}}\}</script> and <script type="math/tex">\{-\frac{2}{\sqrt{6}}\}</script> are considered to be different.  If you want these to be considered the same, you need to write them in a canonical form.   Instead of passing in just the sets, use the answer test to compare the following.</p>
+<pre><code>ev(radcan({-sqrt(2)/sqrt(3)}),simp);
+ev(radcan({-2/sqrt(6)}),simp);
+</code></pre>
+<p>Why doesn't the test automatically apply <code>radcan</code>?  If we always did this, then <script type="math/tex">\{(x-a)^{6000}\}</script> and <script type="math/tex">\{(a-x)^{6000}\}</script> would be expanded out, which would break the system.  Since, in a given situation, we know a lot about what a student is likely to answer we can apply an appropriate form.   There isn't one rule which will work here, unfortunately.</p>
+<p>There are also some cases which Maxima can't establish as being equivalent.  For example <script type="math/tex; mode=display"> \sqrt[3]{\sqrt{108}+10}-\sqrt[3]{\sqrt{108}-10} = 2.</script>  As Maxima code</p>
+<pre><code>(sqrt(108)+10)^(1/3)-(sqrt(108)-10)^(1/3)
+</code></pre>
+<p>This is Cardano's example from Ars Magna, but currently the AlgEquiv test cannot establish these are equivalent.  There are some other examples in the test suite which fail for mathematical reasons.  In cases like this, where you know you have a number, you may need to supplement the AlgEquiv test with another numerical test.</p>
+<h3 id="algequivnouns">AlgEquivNouns</h3>
+<p>Algebraic equivalence evaluates as much as possible, to try to establish equivalence.  This means, e.g. that <code>diff(y,x)</code> is always evaluated to <script type="math/tex">0</script>.  If you use AlgEquivNouns then noun forms of operators are not evaluated, so <code>diff(y,x)</code> will be evaluated but <code>'diff(y,x)</code> and <code>noundiff(y,x)</code> will not.</p>
+<p>Note, however that logic nouns such as <code>nounand</code> are still evaluated by this test!  Sorry, but logical noun functions are dealt with internally in a very different way than Maxima noun functions such as <code>'diff(y,x)</code> and the parallel <code>noundiff</code>.  Use a different test, such as <code>EqualComAss</code>.</p>
+<h3 id="EqualComAss">EqualComAss: Equality up to Associativity and Commutativity</h3>
+<p>Are they equal up to commutativity and associativity of addition and multiplication, together with their inverses minus and division? For example <script type="math/tex; mode=display">a+b=b+a\mbox{,}</script> but <script type="math/tex; mode=display">x+x\neq 2x\mbox{.}</script> This is very useful in elementary algebra, where we want the form of the answer exactly. Simplification is automatically switched off when this test is applied, otherwise it makes no sense. This test seeks to establish whether two expressions are the same when the basic operations of arithmetic addition/multiplication and Boolean and/or are assumed to be nouns but are commutative and associative.  Hence, <script type="math/tex">2x+y=y+2x</script> but <script type="math/tex">x+x+y\neq 2x+y</script>.  The unary minus commutes with multiplication in a way natural to establishing the required form of equivalence.</p>
+<p>This is a particularly useful test for checking that an answer is written in a particular form, e.g. "simplified".</p>
+<p>Notes </p>
+<ol>
+<li>This test does not include laws of indices, so <script type="math/tex">x\times x \neq x^2</script>. Since we are dealing only with nouns <script type="math/tex">-\times -</script> does not simplify to <script type="math/tex">1</script>. E.g. <script type="math/tex">-x\times -x \neq x\times x \neq x^2</script>.  This also means that <script type="math/tex">\sqrt{x}</script> is not considered to be equivalent to <script type="math/tex">x^{\frac{1}{2}}</script> under this test.  In many situations this notation is taken mean the same thing, but internally in Maxima they are represented by different functions and not converted to a canonical form by the test.  Extra re-write rules could be added to achieve this, which would change the equivalence classes.</li>
+<li>By design, addition commutes with subtraction, so <script type="math/tex"> -1+2\equiv 2-1</script> and multiplication commutes with division, so <script type="math/tex"> (ab)/c\equiv a(b/c) </script>.</li>
+<li>By design <script type="math/tex">-1/4x \neq -x/4</script> since we do not have the rule <script type="math/tex"> 1\times x \rightarrow x</script>.  To establish this equivalence we would need a different answer test.</li>
+<li>This test can also be used to establish <script type="math/tex">\{4,4\} \neq \{4\}</script>, but <script type="math/tex">\{1,2\} = \{2,1\}</script> since the arguments of the set constructor function are commutative.  Sets are not associative, so <script type="math/tex">\{1,2\} \neq \{\{1\},2\}</script>.  (See Maxima's <code>flatten</code> command.)</li>
+</ol>
+<h3 id="casequal">CasEqual</h3>
+<p>The CAS returns the result of the simple Maxima command</p>
+<pre><code>if StudentAnswer=TeacherAnswer then true else false.
+</code></pre>
+<p>There is no explicit simplification here (unlike AlgEquiv).
+This test always assumes <a href="../../CAS/Simplification/">simplification</a> is off, i.e. <code>simp:false</code>, regardless of any question settings.  If this is too strict, use <code>ev(ex,simp)</code> in the arguments to simplify them explicitly first.
+When simplification is off this test effectively tests whether the parse trees are identical. </p>
+<p>Please note, the behaviour of this test relies on the internal representation of expressions by Maxima, rather than an explicit mathematical property such as "equivalence".  Explicit properties should be tested in preference to using this test!</p>
+<h3 id="substequiv">SubstEquiv</h3>
+<p>Can we find a substitution of the variables of <script type="math/tex">ex_2</script> into <script type="math/tex">ex_1</script> which renders <script type="math/tex">ex_1</script> algebraically equivalent to <script type="math/tex">ex_2</script>?</p>
+<ul>
+<li>Because we have to test every possibility, the algorithm is factorial in the number of variables.  For this reason, the test only works for 4 or fewer variables.</li>
+<li>This test makes a substitution then uses AlgEquiv.</li>
+<li>If you add an answer test option (not required) in the form of a list of variables, these variables will be "fixed" during the comparison.  E.g.</li>
+<li><code>ATSubstEquiv(x=A+B, x=a+b)</code> will match with <code>[A = a,B = b,x = x]</code>.</li>
+<li><code>ATSubstEquiv(x=A+B, x=a+b, [x])</code> will match with <code>[A = a,B = b]</code>.</li>
+<li><code>ATSubstEquiv(y=A+B, x=a+b, [x])</code> will not match since <code>x</code> in the teacher's answer is fixed here.</li>
+</ul>
+<h3 id="sysequiv">SysEquiv</h3>
+<p>The SysEquiv (system equivalence) test takes in two lists of polynomial equations in any number of variables and determines whether the two systems have the same set of solutions.
+This is done using the theory of Grobner bases to determine whether the ideals generated by the two systems are equal.
+As the test allows for polynomials in several variables, it can cope with the intersections of the conic sections, as well as a large number of geometrically interesting curves.</p>
+<ul>
+<li>This test does not check if the student actually "fully solved" the equations!  E.g. <script type="math/tex; mode=display"> [x^2=1] \equiv [(x-1)\cdot (x+1)=0] </script> under this test.</li>
+<li>This test disregards whether <a href="../../CAS/Simplification/">simplification</a> is switched on, it only simplifies its arguments where required.
+This allows the test to list equations in feedback that the student has erroneously included in their system.</li>
+<li>You can allow the student to include "redundant assignments".  For example, if you have <code>[90=v*t,90=(v+5)*(t-1/4)]</code> but the student has <code>[d=90,d=v*t,d=(v+5)*(t-1/4)])</code> then the systems are not equivalent, becuase the student has an extra variable.  Use <code>stack_eval_assignments</code> to eliminate explicit assignments of the form <code>var=num</code> and evaluate the other expression in this context.</li>
+</ul>
+<h3 id="sets">Sets</h3>
+<p>This test deals with equality of sets.  The algebraic equivalence functions give very minimal feedback.  This test is designed to give much more detailed feedback on what is and <em>is not</em> included in the student's answer.  Hence, this essentially tells the student what is missing.  This is kind of feedback is tedious to generate without this test.</p>
+<p>The test simplifies both sets, and does a comparison based on the simplified versions.  The comparison relies on <code>ev(..., simp, nouns)</code> to undertake the simplification.  If you need stronger simplification (e.g. trig) then you will need to add this to the arguments of the function first.</p>
+<h3 id="equiv-and-equivfirstlast">Equiv and EquivFirstLast</h3>
+<p>These answer tests are used with <a href="../../CAS/Equivalence_reasoning/">equivalence reasoning</a>.  See the separate documentation.</p>
+<h3 id="sregexp">SRegExp</h3>
+<p>This test uses Maxima's <code>regex_match</code> function.</p>
+<ul>
+<li>It yields true if the pattern is matched anywhere within the student answer and false otherwise. Testing for full equality of the answer string can be achieved via regex anchoring by use of <code>^</code> or <code>$</code>.</li>
+<li>Both arguments to the test must be Maxima strings.  If you have a general expression, turn it into a string in the feedback variables with Maxima's <code>string</code> function.</li>
+<li>The first argument should be the string, and the second argument should be the pattern to match.</li>
+<li>Don't forget to escape within the pattern strings as needed. Note that there is a function <code>string_to_regex()</code> that will handle escaping of characters that would otherwise have meaning in the pattern. Also remember that you need to escape the backslashes like normal in Maxima-strings.</li>
+<li>One can read more about the patterns posible from <a href="http://ds26gte.github.io/pregexp/index.html">here</a>. Case-insensitivity may be something worth noting there.</li>
+</ul>
+<p>STACK also provides a helper function <code>regex_match_exactp(regex, str)</code> to check if the string equals the pattern matched by the regular expression.</p>
+<pre><code>Regex           String      Result
+(aaa)*(b|d)c    aaaaaabc    true
+(aaa)*(b|d)c    dc          true
+(aaa)*(b|d)c    aaaaaaabc   false
+(aaa)*(b|d)c    cca         false
+</code></pre>
+<h1 id="Form">Form</h1>
+<p>Often, we wish to establish if the student's expression has the correct <em>form</em>.
+For example, consider the following various written forms of <script type="math/tex">x^2-4x+4</script>.</p>
+<p>
+<script type="math/tex; mode=display">(x-2)(x-2),\quad (x-2)^2,\quad  (2-x)^2,\quad  4\left(1-\frac{x}{2}\right)^2.</script>
+</p>
+<p>Each of these might be considered to be factored.  <strong>Establishing <code>ex</code> is factored is not the same as comparing it with</strong></p>
+<pre><code>factor(ex)
+</code></pre>
+<p>Related tests establish that an expression is <em>expanded</em> or in <em>partial</em> fraction form.</p>
+<table>
+<thead>
+<tr>
+<th>Expression</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>LowestTerms</td>
+<td>This test checks that all numbers written in the first expression are in lowest terms and that the denominator is clear of surds and complex numbers.  Notes</td>
+</tr>
+<tr>
+<td></td>
+<td>* if you want to check whether a rational polynomial is written in lowest terms, this is not the test to use.  Instead, apply the <a href="../../CAS/Predicate_functions/">predicate functions</a>  <code>lowesttermsp</code> to the expression.</td>
+</tr>
+<tr>
+<td></td>
+<td>* the second argument to this function is ignored, i.e. this test does not confirm algebraic equivalence.  You might as well use 0 here.</td>
+</tr>
+<tr>
+<td>SingleFrac</td>
+<td>This test checks that SAns written as a "single fraction". See below.</td>
+</tr>
+<tr>
+<td>Expanded</td>
+<td>Confirms SAns is equal to <code>expand(SAns)</code>.  Note, the second argument to this answer test is not used (but must be non-empty).  Note with this test that an expression such as <script type="math/tex">x^2-(a+b)x+ab</script> is not considered to be expanded, and this test will return false.</td>
+</tr>
+<tr>
+<td>FacForm</td>
+<td>This test checks (i) that SAns is algebraically equivalent to TAns , and (ii) that SAns is "factored" over the rational numbers. See below for more details.  The answer test expects the option to be the variable, which is needed to generate feedback. If the answer is incorrect, quite detailed feedback is provided.</td>
+</tr>
+<tr>
+<td>PartFrac</td>
+<td>This test checks (i) that SAns is algebraically equivalent to TAns , and (ii) that SAns is in "partial fraction form". The option must be the variable.</td>
+</tr>
+<tr>
+<td>CompletedSquare</td>
+<td>This test checks (i) that SAns is algebraically equivalent to TAns , and (ii) that SAns is in "completed square form". The option must be the variable.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="SingleFrac">Single fractions</h2>
+<p>This test checks (i) that SAns is algebraically equivalent to TAns , and (ii) that SAns is written as a single fraction. Notes</p>
+<ul>
+<li>This test works at the top level, making sure the expression as a whole is a single fraction.</li>
+<li>if you also want this expression written in lowest terms, then this is quite a separate test.  You need to first confirm you have a single fraction then add a new potential response. One way is to use the <a href="../../CAS/Predicate_functions/">../CAS/Predicate functions</a> <code>lowesttermsp(ex)</code> and compare the result with <code>true</code> with the AlgEquiv test.</li>
+<li>The algebraic equivalence check is for convenience.  If you only want to check an expression is a single fraction make <script type="math/tex">SAns=TAns</script>, i.e. ATSingleFrac(ex,ex) will do.</li>
+</ul>
+<h2 id="FacPoly">Factorisation of polynomials</h2>
+<p>An expression is said to be factored if it is written as a product of powers of distinct irreducible factors.
+Strictly speaking, in establishing that an expression is in factored form, we might not even care whether the terms in the product are fully simplified, as long as they are irreducible.</p>
+<p>Irreducibility on the other hand means we can't find further factors, but here we need some care.</p>
+<p>Consider <script type="math/tex">x^8+16x^4+48</script>.</p>
+<ol>
+<li>Any non-trivial factorization, e.g. <script type="math/tex">(x^4+4)(x^4+12)</script>.</li>
+<li>A factorization into irreducible factors over the integers/rational numbers, i.e. <script type="math/tex">(x^2+2x+x)(x^2-2x+2)(x^4+12)</script>.</li>
+<li>A factorization into terms irreducible over the reals, i.e. <script type="math/tex">(x^2+2x+x)(x^2-2x+2)(x^2+2\sqrt[4]{3}x+2\sqrt[4]{3})(x^2-2\sqrt[4]{3}x+2\sqrt[4]{3})</script>.</li>
+<li>A factorization into irreducible polynomials over the Gaussian integers, with <script type="math/tex">i</script> allowed, i.e. <script type="math/tex">(x+1+i)(x+1-i)(x-1+i)(x-1-i)(x^4+12)</script>.</li>
+<li>A factorization over the complex numbers, where the factor <script type="math/tex">(x^4+12)</script> would also be split into the four terms <script type="math/tex">x\pm\sqrt[4]{3}(1\pm i)</script>.</li>
+</ol>
+<p>In elementary teaching, meaning 4. is unlikely to occur. Indeed, we might take this example to represent factoring over any extension field of the rational numbers.  We normally seek to establish that the factors are irreducible over the integers (which is equivalent to irreducibility over the rational numbers) or the reals.  But, unlike a canonical form, we are not particularly interested in the order of the terms in this product, or the order of summands inside these terms.</p>
+<p>The FacForm test establishes that the expression is factored over the rational numbers.  If the coefficients of the polynomial are all real, at worst you will have quadratic irreducible terms.  There are some delicate cases such as: <script type="math/tex">(2-x)(3-x)</script> vs  <script type="math/tex">(x-2)(x-3)</script>  and <script type="math/tex">(1-x)^2</script> vs <script type="math/tex">(x-1)^2</script>, which this test will cope with.</p>
+<p>It is also possible a student will do something which is just plain odd, e.g. <script type="math/tex">x^2-4x+4</script> can be rewritten as <script type="math/tex">x(x-4+4/x)</script> which is a "product of powers of distinct irreducible factors" but not acceptable to most teachers.  The student's answer must also be a polynomial in the variable (using <code>polynomialp</code> as the test predicate).</p>
+<h1 id="factorisation-of-integers">Factorisation of integers</h1>
+<p>If you would like to ask a student to factor a polynomial, then do not use the FacForm answer test.  The FacForm answer test is designed to use with polynomials.</p>
+<p>Instead, switch off simplification and define</p>
+<pre><code>ta:factor(12);
+</code></pre>
+<p>and use EqualComAss as the answer test.</p>
+<p>Note however that EqualComAss does not think that <code>2^2*3</code> and <code>2*2*3</code> are the same!</p>
+<h1 id="Precision">Numerical Precision</h1>
+<p>These tests deal with the precision of numbers.  See dedicated page on <a href="../Answer_tests_numerical/">numerical answer tests</a>.</p>
+<h1 id="calculus">Calculus</h1>
+<h3 id="diff">Diff</h3>
+<p>This test is a general differentiation test: it is passed if the arguments are algebraically equivalent, but gives feedback if it looks like the student has integrated instead of differentiated. The first argument is the student's answer. The second argument is the model answer. The answer test option must be the variable with respect to which differentiation is assumed to take place.</p>
+<h3 id="Int">Int</h3>
+<p>This test is designed for a general indefinite integration question: it is passed if both the arguments are indefinite integrals of the same expression. The first argument is the student's answer.
+The second argument is the model answer. The answer test option needs to be the variable with respect to which integration is assumed to take place, or a list (see below).</p>
+<p>Getting this test to work in a general setting is a very difficult challenge.
+In particular, the test assumes that the constant of integration is expressed in a form similar to +c, although which variable used is not important.</p>
+<p>The issue of <script type="math/tex"> \int \frac{1}{x} dx = \log(x)+c</script> vs  <script type="math/tex"> \int \frac{1}{x} dx 
+= \log(|x|)+c</script> is a particular challenge.  The test is currently defined in 
+such a way that if the teacher uses <script type="math/tex"> \log(|x|)+c </script> in their answer, then 
+they would expect the student to do so.  If they don't use the absolute value 
+function, then they don't expect students to but will accept this in an 
+answer.   It is, after all, not "wrong".  However, in the case of partial 
+fractions where there are more than one term of the form <script type="math/tex">\log(x-a)</script> then 
+we insist the student is at least consistent.  If the teacher has <em>any</em> 
+<script type="math/tex">\log(|x-a|)</script> then the student must use <script type="math/tex">|...|</script> in <em>all</em> of them.  If the 
+teacher has no <script type="math/tex">\log(|x-a|)</script> (i.e. just things like <script type="math/tex">\log(x-a)</script>) then the 
+student must have all or none. </p>
+<p>The Int test has various additional options.</p>
+<p>The question author must supply these options in the form of a list <code>[var, opt1, ...]</code>.  The first argument of this list must be the variable with respect to which integration is taking place.  </p>
+<p>If one of the <code>opt?</code> is exactly the token <code>NOCONST</code> then the test will condone a lack of constant of integration.  That is, if a student has missed off a constant of integration, or the answers differ by a numerical constant, then full marks will be awarded.  Weird constants (e.g. <script type="math/tex">+c^2</script>) will still be flagged up.</p>
+<p>The answer test architecture only passes in the <em>answer</em> to the test.  The question is not available at that point; however, the answer test has to infer exactly which expression, including the algebraic form, the teacher has set in the question. This includes stripping off constants of integration and constants of integration may occur in a number of ways, e.g. in logarithms.
+In many cases simply differentiating the teacher's answer is fine, in which case the question author need not worry.  Where this does not work, the question author will need to supply the expression from the question in the right form as an option to the answer test.  This is done simply by adding it to the list of options.</p>
+<pre><code>[x, x*exp(5*x+7)]
+</code></pre>
+<p>The test cannot cope with some situations.  Please contact the developers when you find some of these.  This test is already rather overloaded, so please don't expect every request to be accommodated! </p>
+<h1 id="other">Other</h1>
+<p><code>String</code> This is a string match, ignoring leading and trailing white space which are stripped from all answers, using PHP's trim() function.</p>
+<p><code>StringSloppy</code> This function first converts both inputs to lower case, then removes all white space from the string and finally performs a strict string comparison.</p>
+<p><code>SRegExp</code> Uses Maxima's regular expression function.</p>
+<p><code>(RegExp)</code> <strong>NOTE:</strong> this test was removed in STACK version 4.3.</p>
+<h1 id="scientific-units">Scientific units</h1>
+<p>A dedicated answer test for scientific units is described on the <a href="../Units/">units</a> page.</p>
+<h1 id="see-also">See also</h1>
+<ul>
+<li><a href="../../CAS/Maxima/">Maxima</a></li>
+</ul>
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+        
+      </main>
+      
+<footer class="md-footer">
+<div class ="md-main__inner md-grid">
+<!--Copy of primary sidebar, which collapses-->
+<div class="md-sidebar md-sidebar--primary_footer">
+
+</div>
+<!--Copy of secondary sidebar, which collapses-->
+<div class ="md-sidebar md-sidebar--secondary">
+</div>
+
+<!--Footer-->
+<div class="md-content">
+<div class="md-content__inner md-typeset">
+    <div class="row">
+    <div class="footerColumn"><a href="https://www.stack-assessment.org">
+    <img src="../../../content/logo_large.png" width="70px" style="margin-top:1.3em;float:left;">
+    <h2 style="color:white;margin-top:1.1em!important;"><b>STACK</b></h2></a>
+    </div>
+    <div class="footerColumn"><a href="https://www.stack-assessment.org/About/">
+        <h5 style="color:white;">About STACK</h5></a>
+        <a href="https://www.stack-assessment.org/Training_and_events/"><h5 style="color:white;">Training and Events</h5></a>
+        <a href="https://www.stack-assessment.org/Case_studies/"><h5 style="color:white;">Case Studies</h5></a>
+        <a href="https://stack-demo.maths.ed.ac.uk/demo/"><h5 style="color:white;">Demonstration site</h5><a></div>
+    <div class="footerColumn"><a href="https://www.stack-assessment.org/Legal/PrivacyStatement/">
+        <h5 style="color:white;">Privacy statement</h5></a><a href="https://www.stack-assessment.org/Legal/Licenses/">
+        <h5 style="color:white;">Licenses</h5></a><a href="https://www.stack-assessment.org/Legal/Accessibility/">
+        <h5 style="color:white;">Accessibility</h5></a>
+    </div>
+    </div>
+</div>
+</div>
+</div>
+</footer>
+
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+  <script id="__config" type="application/json">{"base": "../../..", "features": [], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../../../assets/javascripts/workers/search.b0710199.min.js", "version": null}</script>
+    
+  <script>
+    var __search = {
+      transform: function(query) {
+        return query
+      }
+    }
+  </script>
+
+    
+      <script src="../../../assets/javascripts/bundle.76f349be.min.js"></script>
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      
+    
+  </body>
+</html>

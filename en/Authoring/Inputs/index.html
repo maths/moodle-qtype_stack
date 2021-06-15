@@ -1,0 +1,3104 @@
+<!-- Ensures this only extends, not overrides, the theme. -->
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="canonical" href="https://docs.stack-assessment.org/en/Authoring/Inputs/">
+      
+      <link rel="icon" href="../../../content/logo_sm.png">
+      <meta name="generator" content="mkdocs-1.2.1, mkdocs-material-7.1.8">
+    
+    
+      
+        <title>Inputs - STACK Docs</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.ca7ac06f.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.f1a3b89f.min.css">
+        
+          
+          
+          <meta name="theme-color" content="#ffffff">
+        
+      
+    
+    
+    
+      
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>:root{--md-text-font-family:"Roboto";--md-code-font-family:"Roboto Mono"}</style>
+      
+    
+    
+    
+      <link rel="stylesheet" href="../../../custom.css">
+    
+      <link rel="stylesheet" href="https://combinatronics.com/maths/moodle-qtype_stack/master/styles.css">
+    
+    
+      
+
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="white" data-md-color-accent="">
+  
+    
+    <script>function __prefix(e){return new URL("../../..",location).pathname+"."+e}function __get(e,t=localStorage){return JSON.parse(t.getItem(__prefix(e)))}</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#inputs" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="STACK Docs" 
+	class="md-header__button md-logo" aria-label="STACK Docs" data-md-component="logo">
+      <!-- Set the logo. -->
+
+  <img src="../../../content/logo_large.png" alt="logo" style="width:2rem;height:0.95rem;">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <!--Make site title permament-->
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis md-header__topic md-ellipsis">
+        STACK Docs
+      </div>
+    </div>
+     
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" data-md-state="active" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+  </nav>
+</header>
+
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="STACK Docs" class="md-nav__button md-logo" aria-label="STACK Docs" data-md-component="logo">
+      <!-- Set the logo. -->
+
+  <img src="../../../content/logo_large.png" alt="logo" style="width:2rem;height:0.95rem;">
+
+    </a>
+    STACK Docs
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+    
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    
+    
+      
+      
+      
+
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../" class="md-nav__link">
+        STACK
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_1-2" type="checkbox" id="__nav_1-2" >
+      
+      <label class="md-nav__link" for="__nav_1-2">
+        About
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="About" data-md-level="2">
+        <label class="md-nav__title" for="__nav_1-2">
+          <span class="md-nav__icon md-icon"></span>
+          About
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../About/" class="md-nav__link">
+        About the STACK Project
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../About/Community/" class="md-nav__link">
+        Community
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../About/Credits/" class="md-nav__link">
+        Contributors to the STACK Project
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../About/Logo/" class="md-nav__link">
+        The mathematics of the STACK logo
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../About/Publications/" class="md-nav__link">
+        Publications
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../About/The_philosophy_of_STACK/" class="md-nav__link">
+        Philosophy of STACK
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_1-3" type="checkbox" id="__nav_1-3" checked>
+      
+      <label class="md-nav__link" for="__nav_1-3">
+        Authoring
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Authoring" data-md-level="2">
+        <label class="md-nav__title" for="__nav_1-3">
+          <span class="md-nav__icon md-icon"></span>
+          Authoring
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../" class="md-nav__link">
+        Authoring
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../Actuarial/" class="md-nav__link">
+        Notation used in actuarial work
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../Answer_tests/" class="md-nav__link">
+        Answer tests
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../Answer_tests_numerical/" class="md-nav__link">
+        Numerical answer tests
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../Author_FAQ/" class="md-nav__link">
+        Author FAQ
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../Authoring_quick_start/" class="md-nav__link">
+        Authoring quick start 1: a minimal working question
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../Authoring_quick_start_2/" class="md-nav__link">
+        Authoring quick start 2: question variables
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../Authoring_quick_start_3/" class="md-nav__link">
+        Authoring quick start 3: improving feedback
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../Authoring_quick_start_4/" class="md-nav__link">
+        Authoring quick start 4: randomisation
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../Authoring_quick_start_5/" class="md-nav__link">
+        Authoring quick start 5: question tests
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../Authoring_quick_start_6/" class="md-nav__link">
+        Authoring quick start 6: multipart questions
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../Authoring_quick_start_7/" class="md-nav__link">
+        Authoring quick start 7: turning simplification off
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../Authoring_quick_start_8/" class="md-nav__link">
+        Authoring quick start 8: setting up a quiz
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../CASText/" class="md-nav__link">
+        CASText
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../Curve_sketching/" class="md-nav__link">
+        Curve sketching
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../Deploying/" class="md-nav__link">
+        Deploying
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../Equivalence_reasoning/" class="md-nav__link">
+        Getting started with equivalence reasoning
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../Fact_sheets/" class="md-nav__link">
+        Hints
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../Feedback/" class="md-nav__link">
+        Feedback
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../Fixing_broken_questions/" class="md-nav__link">
+        I have a misbehaving STACK question in a live Moodle quiz.  What should I do?
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../Future_proof/" class="md-nav__link">
+        Guidelines for ensuring that a question works in the future
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../HELM/" class="md-nav__link">
+        HELM
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../ImportExport/" class="md-nav__link">
+        Import and Export of STACK questions
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+    
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Inputs
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        Inputs
+      </a>
+      
+        
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#basic-options" class="md-nav__link">
+    Basic options
+  </a>
+  
+    <nav class="md-nav" aria-label="Basic options">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#Answer_Key" class="md-nav__link">
+    Student's Answer Key
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#model_answer" class="md-nav__link">
+    Model answer
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#input-type" class="md-nav__link">
+    Input type
+  </a>
+  
+    <nav class="md-nav" aria-label="Input type">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#algebraic-input" class="md-nav__link">
+    Algebraic input
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#numerical" class="md-nav__link">
+    Numerical
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#scientific-units" class="md-nav__link">
+    Scientific units
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#matrix" class="md-nav__link">
+    Matrix
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#text-area" class="md-nav__link">
+    Text area
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#equivalence-reasoning-input" class="md-nav__link">
+    Equivalence reasoning input
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#truefalse" class="md-nav__link">
+    True/False
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dropdowncheckboxradio" class="md-nav__link">
+    Dropdown/Checkbox/Radio
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#string-input" class="md-nav__link">
+    String input
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#notes-input" class="md-nav__link">
+    Notes input
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#single-character" class="md-nav__link">
+    Single Character
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#options" class="md-nav__link">
+    Options
+  </a>
+  
+    <nav class="md-nav" aria-label="Options">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#Box_Size" class="md-nav__link">
+    Input Box Size
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#Insert_Stars" class="md-nav__link">
+    Insert Stars
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#Syntax_Hint" class="md-nav__link">
+    Syntax Hint
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#Forbidden_Words" class="md-nav__link">
+    Forbidden words
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#Allowed_Words" class="md-nav__link">
+    Allowed words
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#Forbid_Floats" class="md-nav__link">
+    Forbid Floats
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#Require_lowest_terms" class="md-nav__link">
+    Require lowest terms
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#Check_Type" class="md-nav__link">
+    Check Students answer's type
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#Student_must_verify" class="md-nav__link">
+    Student must verify
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#Show_validation" class="md-nav__link">
+    Show validation
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#extra-option-hideanswer" class="md-nav__link">
+    Extra option: hideanswer
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#extra-option-allowempty" class="md-nav__link">
+    Extra option: allowempty
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#extra-option-simp" class="md-nav__link">
+    Extra option: simp
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#extra-option-align" class="md-nav__link">
+    Extra option: align
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#extra-option-nounits" class="md-nav__link">
+    Extra option: nounits
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#extra-options" class="md-nav__link">
+    Extra options
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#input-tips-and-tricks" class="md-nav__link">
+    Input tips and tricks
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#options-summary-table" class="md-nav__link">
+    Options summary table
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#other-input-types" class="md-nav__link">
+    Other input types
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../JSXGraph/" class="md-nav__link">
+        JSXGraph
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../Languages/" class="md-nav__link">
+        Producing multilingual content
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../Multiple_choice_questions/" class="md-nav__link">
+        Multiple choice questions
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../Numerical_input/" class="md-nav__link">
+        Numerical input
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../Options/" class="md-nav__link">
+        Options
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../Potential_response_trees/" class="md-nav__link">
+        Potential response trees
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../Proof/" class="md-nav__link">
+        Assessment of proof
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../Question_bank/" class="md-nav__link">
+        How do I find the Moodle question bank?
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../Question_blocks/" class="md-nav__link">
+        Question blocks
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../Question_note/" class="md-nav__link">
+        Question note
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../Reporting/" class="md-nav__link">
+        Reporting
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../Sample_questions/" class="md-nav__link">
+        Sample Questions
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../Semi-automatic_Marking/" class="md-nav__link">
+        Semi-automatic Marking
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../Tables/" class="md-nav__link">
+        Tables
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../Testing/" class="md-nav__link">
+        Testing, debugging and quality control
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../Units/" class="md-nav__link">
+        Scientific Units
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../Variables/" class="md-nav__link">
+        Defining variables
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_1-4" type="checkbox" id="__nav_1-4" >
+      
+      <label class="md-nav__link" for="__nav_1-4">
+        CAS
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="CAS" data-md-level="2">
+        <label class="md-nav__title" for="__nav_1-4">
+          <span class="md-nav__icon md-icon"></span>
+          CAS
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../CAS/" class="md-nav__link">
+        Maxima and computer algebra use in STACK
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../CAS/Buggy_rules/" class="md-nav__link">
+        Buggy rules
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../CAS/CAS/" class="md-nav__link">
+        Computer Algebra Systems
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../CAS/Differential_equations/" class="md-nav__link">
+        Differential Equations
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../CAS/Discrete_mathematics/" class="md-nav__link">
+        Discrete mathematics and graph theory.
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../CAS/Equations/" class="md-nav__link">
+        Asking students to solve equations
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../CAS/Equivalence_reasoning/" class="md-nav__link">
+        Reasoning by equivalence
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../CAS/Greek/" class="md-nav__link">
+        The Greek Alphabet
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../CAS/Inequalities/" class="md-nav__link">
+        Inequalities
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../CAS/Linear_algebra/" class="md-nav__link">
+        Setting linear algebra questions in STACK
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../CAS/Matrix/" class="md-nav__link">
+        Matrices and vectors in STACK
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../CAS/Maxima/" class="md-nav__link">
+        Introduction to Maxima for STACK users
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../CAS/Numbers/" class="md-nav__link">
+        Numbers in STACK
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../CAS/Optimising_Maxima/" class="md-nav__link">
+        Optimising Maxima
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../CAS/Permutations/" class="md-nav__link">
+        Writing a permutation as a product of disjoint cycles
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../CAS/Plots/" class="md-nav__link">
+        Plots and graphics in STACK questions.
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../CAS/Predicate_functions/" class="md-nav__link">
+        Predicate functions
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../CAS/Propositional_Logic/" class="md-nav__link">
+        Propositional Logic
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../CAS/Random/" class="md-nav__link">
+        Random objects
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../CAS/Real_Intervals/" class="md-nav__link">
+        Real intervals and sets of real numbers
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../CAS/STACK-Maxima_sandbox/" class="md-nav__link">
+        STACK Sandbox
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../CAS/Simplification/" class="md-nav__link">
+        Simplification & ordering
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../CAS/Statistics/" class="md-nav__link">
+        Statistics support in STACK.
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_1-5" type="checkbox" id="__nav_1-5" >
+      
+      <label class="md-nav__link" for="__nav_1-5">
+        Developer
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Developer" data-md-level="2">
+        <label class="md-nav__title" for="__nav_1-5">
+          <span class="md-nav__icon md-icon"></span>
+          Developer
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../Developer/" class="md-nav__link">
+        Developers
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../Developer/CAS_evaluatable/" class="md-nav__link">
+        The family tree of cas_evaluatables.
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../Developer/Census/" class="md-nav__link">
+        Maxima identifier census
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../Developer/Creating_an_input_type/" class="md-nav__link">
+        Creating a new Input type
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../Developer/Development_history/" class="md-nav__link">
+        STACK Development History
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../Developer/Development_track/" class="md-nav__link">
+        Development track for STACK
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../Developer/Documentation/" class="md-nav__link">
+        STACK User Documentation
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../Developer/Future_input_processing/" class="md-nav__link">
+        Description of one possible future input processing pipeline
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../Developer/Future_plans/" class="md-nav__link">
+        Future plans
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../Developer/Language_packs/" class="md-nav__link">
+        Translation of the STACK Project
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../Developer/Local_Usage/" class="md-nav__link">
+        Local Usage
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../Developer/Maxima_packages/" class="md-nav__link">
+        Adding support for Maxima packages
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../Developer/PHP-CAS/" class="md-nav__link">
+        PHP interface with the CAS
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../Developer/Parser/" class="md-nav__link">
+        Building the parser
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../Developer/Question_state_caching/" class="md-nav__link">
+        Question state caching
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../Developer/Releasing/" class="md-nav__link">
+        STACK release process notes
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../Developer/Running_question_tests_other_site/" class="md-nav__link">
+        Running question tests for questions on other sites
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../Developer/Security_map/" class="md-nav__link">
+        Security map
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../Developer/Syntax_Future/" class="md-nav__link">
+        Future plans for syntax of answers and STACK.
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../Developer/Unit_tests/" class="md-nav__link">
+        Unit tests
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../Developer/UpgradeDefaults/" class="md-nav__link">
+        Upgrading question defaults
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../Developer/Website/" class="md-nav__link">
+        Updating the Online Docs
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_1-6" type="checkbox" id="__nav_1-6" >
+      
+      <label class="md-nav__link" for="__nav_1-6">
+        Installation
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Installation" data-md-level="2">
+        <label class="md-nav__title" for="__nav_1-6">
+          <span class="md-nav__icon md-icon"></span>
+          Installation
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../Installation/" class="md-nav__link">
+        Installation instructions.
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../Installation/LTI/" class="md-nav__link">
+        About LTI
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../Installation/Mathjax/" class="md-nav__link">
+        Displaying mathematics for STACK in Moodle
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../Installation/Maxima/" class="md-nav__link">
+        Compiling Maxima from source.
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../Installation/Testing_installation/" class="md-nav__link">
+        Testing Installation
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_1-7" type="checkbox" id="__nav_1-7" >
+      
+      <label class="md-nav__link" for="__nav_1-7">
+        Students
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Students" data-md-level="2">
+        <label class="md-nav__title" for="__nav_1-7">
+          <span class="md-nav__icon md-icon"></span>
+          Students
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../Students/" class="md-nav__link">
+        Information for students
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../Students/Accessibility/" class="md-nav__link">
+        Accessibility
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../Students/Answer_assessment/" class="md-nav__link">
+        Answer assessment
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../Students/Answer_input/" class="md-nav__link">
+        Answer input
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../Students/Equivalence_reasoning/" class="md-nav__link">
+        Reasoning by Equivalence
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+
+<!--Skip first level in the navigation bar, i.e. the "En" level-->
+  
+    <li class="md-nav__item">
+      <a href="../../Students/FAQ/" class="md-nav__link">
+        Frequently asked questions
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+<!--Keep the rest the same-->
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#basic-options" class="md-nav__link">
+    Basic options
+  </a>
+  
+    <nav class="md-nav" aria-label="Basic options">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#Answer_Key" class="md-nav__link">
+    Student's Answer Key
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#model_answer" class="md-nav__link">
+    Model answer
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#input-type" class="md-nav__link">
+    Input type
+  </a>
+  
+    <nav class="md-nav" aria-label="Input type">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#algebraic-input" class="md-nav__link">
+    Algebraic input
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#numerical" class="md-nav__link">
+    Numerical
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#scientific-units" class="md-nav__link">
+    Scientific units
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#matrix" class="md-nav__link">
+    Matrix
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#text-area" class="md-nav__link">
+    Text area
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#equivalence-reasoning-input" class="md-nav__link">
+    Equivalence reasoning input
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#truefalse" class="md-nav__link">
+    True/False
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dropdowncheckboxradio" class="md-nav__link">
+    Dropdown/Checkbox/Radio
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#string-input" class="md-nav__link">
+    String input
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#notes-input" class="md-nav__link">
+    Notes input
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#single-character" class="md-nav__link">
+    Single Character
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#options" class="md-nav__link">
+    Options
+  </a>
+  
+    <nav class="md-nav" aria-label="Options">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#Box_Size" class="md-nav__link">
+    Input Box Size
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#Insert_Stars" class="md-nav__link">
+    Insert Stars
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#Syntax_Hint" class="md-nav__link">
+    Syntax Hint
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#Forbidden_Words" class="md-nav__link">
+    Forbidden words
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#Allowed_Words" class="md-nav__link">
+    Allowed words
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#Forbid_Floats" class="md-nav__link">
+    Forbid Floats
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#Require_lowest_terms" class="md-nav__link">
+    Require lowest terms
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#Check_Type" class="md-nav__link">
+    Check Students answer's type
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#Student_must_verify" class="md-nav__link">
+    Student must verify
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#Show_validation" class="md-nav__link">
+    Show validation
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#extra-option-hideanswer" class="md-nav__link">
+    Extra option: hideanswer
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#extra-option-allowempty" class="md-nav__link">
+    Extra option: allowempty
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#extra-option-simp" class="md-nav__link">
+    Extra option: simp
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#extra-option-align" class="md-nav__link">
+    Extra option: align
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#extra-option-nounits" class="md-nav__link">
+    Extra option: nounits
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#extra-options" class="md-nav__link">
+    Extra options
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#input-tips-and-tricks" class="md-nav__link">
+    Input tips and tricks
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#options-summary-table" class="md-nav__link">
+    Options summary table
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#other-input-types" class="md-nav__link">
+    Other input types
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                
+                <h1 id="inputs">Inputs</h1>
+<p>Inputs are the points at which the student interacts with the question.<br />
+The default (and prototype) is an HTML input box into which a student is expected to type an algebraic expression.</p>
+<ul>
+<li>Only the <a href="../CASText/#question_text">question text</a> may have inputs.</li>
+<li>Inputs are not required. Hence it is possible for the teacher to make a statement which asks for no response from the student, i.e. a rhetorical question.</li>
+<li>A question may have as many inputs as needed.</li>
+<li>Inputs can be positioned anywhere within the <a href="../CASText/#question_text">question text</a>. MathJax does not currently support the inclusion of inputs within equations.</li>
+<li>All inputs return a Maxima expression.  This might be just the student's answer (in the case of an algebraic input).  MCQ inputs also return a valid Maxima expression.</li>
+<li>In a multi-part question avoid having inputs which differ only by case sensitivity.  E.g. do not have <code>[[input:a]]</code> and <code>[[input:A]]</code> in the same question.  (Some database defaults have case insensitive unique keys (!) and in that case this will cause a database error.  See the <a href="../../Installation/">installation instructions</a>).</li>
+</ul>
+<p>The position of an input in the <a href="../CASText/#question_text">question text</a> is denoted by</p>
+<pre><code>[[input:ans1]]
+</code></pre>
+<p>Here <code>ans1</code> is the name of a <a href="../../CAS/Maxima/">Maxima</a> variable to which the student's answer is to be assigned.
+This must only be letters followed (optionally) by numbers, as in this example. No special characters are permitted.
+The input name cannot be more than 18 characters long.</p>
+<p>Feedback as to the syntactic validity of a response is positioned using a corresponding tag</p>
+<pre><code>[[validation:ans1]]
+</code></pre>
+<p>This tag must be included even if validation is suppressed with an option (see below) and is automatically generated after the input if it does not exist.</p>
+<p>We expose the exact behaviour of the validation by giving registered users access to STACK's test suite validation of student's answers.  This can be found on a live server at https://stack-demo.maths.ed.ac.uk/demo/question/type/stack/studentinputs.php</p>
+<p>Each input may have a number of options and this is potentially complex area with a large range of possibilities.</p>
+<p>The basic idea is to reject things as "invalid" to stop students being penalized on a technicality.  This might be requiring an equation, or making floating-point numbers within an expression forbidden.</p>
+<h2 id="basic-options">Basic options</h2>
+<h3 id="Answer_Key">Student's Answer Key</h3>
+<p>Every input must have a unique answer key.  This is set in the Question text using the following tag, where <code>ans1</code> is the variable name to which the student's answer is assigned.</p>
+<pre><code>[[input:ans1]]
+</code></pre>
+<p>Internally you can refer to the student's answer using the variable name <code>ans1</code> in the potential response tree, feedback variables and feedback text. The worked solution (general feedback) may not depend on the inputs.</p>
+<h3 id="model_answer">Model answer</h3>
+<p><strong>This field is compulsory.</strong> Every input must have an answer, although this answer is not necessarily the unique correct answer, or even "correct"!  This value be displayed to the student as the correct answer.  We recommend you use a question variable for this field so it can be used in the other parts of the question, e.g. the potential response trees.</p>
+<h2 id="input-type">Input type</h2>
+<p>Currently STACK supports the following kinds of inputs.  These have a variety of options, as explained below.</p>
+<h4 id="algebraic-input">Algebraic input</h4>
+<p>The default: a form box into which a student is expected to type an algebraic expression.</p>
+<h4 id="numerical">Numerical</h4>
+<p>This input type <em>requires</em> the student to type in a number of some kind.  Any expression with a variable will be rejected as invalid.</p>
+<p>Note, some things (like forbid floats) can be applied to any numbers in an algebraic input; other tests (like require n decimal places) cannot and can only be applied to a single number in this input type.</p>
+<p>See the specific documentation for more information:  <a href="../Numerical_input/">Numerical input</a>.</p>
+<h4 id="scientific-units">Scientific units</h4>
+<p>The support for scientific units includes an input type which enables teachers to check units as valid/invalid. See the separate documentation for <a href="../Units/">units</a>.</p>
+<h4 id="matrix">Matrix</h4>
+<p>The size of the matrix is inferred from the model answer.
+STACK then adds an appropriate grid of boxes (of size Box Size) for the student to fill in.
+This is easier than typing in <a href="../../CAS/Maxima/">Maxima</a>'s matrix command, but does give the game away about the size of the required matrix.</p>
+<p><em>The student may not fill in part of a matrix.</em>  If they do so, the remaining entries will be completed with <code>?</code> characters which render the attempt invalid. STACK cannot cope with empty boxes here.</p>
+<p>We cannot use the <code>EMPTYANSWER</code> tag for the teacher's answer with the matrix input, because the size of the matrix is inferred from the model answer.  If a teacher really wants a correct answer to be empty inputs then they must use a correctly formatted matrix with <code>null</code> values</p>
+<pre><code>ta:transpose(matrix([null,null,null]));
+</code></pre>
+<h4 id="text-area">Text area</h4>
+<p>Enter algebraic expressions on multiple lines.  STACK passes the result to <a href="../../CAS/Maxima/">Maxima</a> as a list.
+Note, the teacher's answer and any syntax hint must be a list!  If you just pass in an expression strange behaviour may result.</p>
+<h4 id="equivalence-reasoning-input">Equivalence reasoning input</h4>
+<p>The purpose of this input type is to enable students to work line by line and reason by equivalence.  See the specific documentation for more information:  <a href="../../CAS/Equivalence_reasoning/">Equivalence reasoning</a>.
+Note, the teacher's answer and any syntax hint must be a list!  If you just pass in an expression strange behaviour may result.</p>
+<h4 id="truefalse">True/False</h4>
+<p>Simple drop down. A Boolean value is assigned to the variable name.</p>
+<p>If the teacher's correct answer should leave this blank (e.g. not answered at all) then use the tag <code>EMPTYANSWER</code>. (There are some edge cases where only some inputs are used in the correct answer to a question, so not answering is correct here).  If you use the extra option <code>allowempty</code> then empty answers are considered valid, and the value of this input is <code>EMPTYANSWER</code>.</p>
+<h4 id="dropdowncheckboxradio">Dropdown/Checkbox/Radio</h4>
+<p>The dropdown, checkbox and radio input types enable teachers to create <a href="../Multiple_choice_questions/">multiple-choice</a> questions.  See the separate documentation.</p>
+<h4 id="string-input">String input</h4>
+<p>This is a normal input into which students may type whatever they choose.  It is always converted into a Maxima string internally.
+Note that there is no way whatsoever to parse the student's string into a Maxima expression.  If you accept a string, then it will always remain a string! You can't later check for algebraic equivalence. The only tests available will be simple string matches, etc.</p>
+<h4 id="notes-input">Notes input</h4>
+<p>This input is a text area into which students may type whatever they choose.  It can be used to gather their notes or "working".  However, this input is always considered as "invalid", so that any potential response tree which relies on this input will never get evaluated!</p>
+<p>This input type can be used for</p>
+<ol>
+<li>surveys;</li>
+<li>answers which are not automatically marked, contributing to <a href="../Semi-automatic_Marking/">semi-automatic marking</a>.</li>
+</ol>
+<p>The notes input has a special extra option <code>manualgraded</code>, and the default option value is <code>manualgraded:false</code>.  If you specify <code>manualgraded:true</code> then the <em>whole STACK quesion</em> will require manual grading!</p>
+<h4 id="single-character">Single Character</h4>
+<p>A single letter can be entered.  This is useful for creating multiple-choice questions, but is not used regularly.</p>
+<h2 id="options">Options</h2>
+<h3 id="Box_Size">Input Box Size</h3>
+<p>The width of the input box.</p>
+<h3 id="Insert_Stars">Insert Stars</h3>
+<p>Insert Stars affect the way STACK treats the validation of CAS strings.</p>
+<p>Some patterns must always be wrong.  For example  <code>)(</code> must be missing a star, and so this pattern is always included.</p>
+<p>There are six options.</p>
+<ul>
+<li>Don't insert stars:  This does not insert <code>*</code> characters automatically.  If there are any pattern identified the result will be an invalid expression.</li>
+<li>Insert <code>*</code>s for implied multiplication.  If any patterns are identified as needing <code>*</code>s then they will automatically be inserted into the expression quietly.</li>
+<li>Insert <code>*</code>s assuming single character variable names.  In many situations we know that a student will only have single character variable names.  Identify variables in the student's answer made up of more than one character then replace these with the product of the letters.</li>
+<li>Note, the student's formula is interpreted and variables identified, so <script type="math/tex">\sin(ax)</script> will not end up as <code>s*i*n*(a*x)</code> but as <code>sin(a*x)</code>.</li>
+<li>Note, in interpreting the student's formula we build an internal tree in order to identify variable names and function names.  Hence <script type="math/tex">xe^x</script> is interpreted as <script type="math/tex"> (xe)^x </script>.  We then identify the variable name <code>xe</code> and replace this as <code>x*e</code>.  Hence, using this option we have <code>xe^x</code> is interpreted as <code>(x*e)^x</code> NOT as <code>x*e^x</code> which you might expect.  </li>
+</ul>
+<p>There are also additional options to insert multiplication signs for spaces.</p>
+<ul>
+<li>Insert stars for spaces only</li>
+<li>Insert stars for implied multiplication and for spaces</li>
+<li>Insert stars assuming single-character variable names and for spaces</li>
+</ul>
+<p>If a space is taken for multiplication what should we do with <script type="math/tex">\sin\ x</script>?  Currently this is transformed to <script type="math/tex">\sin \times x</script> and then rejected as invalid as you can't multiply the function name by its argument.  Use these latter options with caution: in the long run students are likely to need to use a strict syntax with machines, and letting them use spaces now might be a disservice.</p>
+<p>It is often very important to have some on-screen representation of multiplication, e.g. as a dot, so the student can see at the validation that <code>xe^x</code> is interpreted </p>
+<ol>
+<li>as <script type="math/tex"> (x\cdot e)^x</script> if we assume single character variable names, and</li>
+<li>as <script type="math/tex"> xe^x</script> if we just "Insert <code>*</code>s for implied multiplication".  The absence of the dot here is key.</li>
+</ol>
+<h3 id="Syntax_Hint">Syntax Hint</h3>
+<p>A syntax hint allows the teacher to give the student a pro-forma in the input box.
+This can include '?' characters.
+The syntax hint will appear in the answer box whenever this is left blank by the student.
+For example, rather than having to type</p>
+<pre><code>matrix([1,2],[3,4])
+</code></pre>
+<p>the teacher may want to provide an answer box which already contains the string</p>
+<pre><code>matrix([?,?],[?,?])
+</code></pre>
+<p>instead. The student then need only to edit this, to replace ?s with their values.
+This helps reduce syntax error problems with more difficult syntax issues.
+The ? may also be used to give partial credit. Of course it could also be used for general expressions such as:</p>
+<pre><code>x^2+?*x+1
+</code></pre>
+<h3 id="Forbidden_Words">Forbidden words</h3>
+<p>This is a comma-separated list of text strings which are forbidden in a student's answer.  If one of these strings is present then the student's attempt will be considered invalid, and no penalties will be given. This is an unsophisticated string match.</p>
+<p>Note, any question variable names used in the question variables are automatically forbidden (otherwise the student could potentially use the variable name you have defined, which might be the correct answer).  If you want to allow question variables, you must explicitly use the allowed words field, see below.</p>
+<p>Note that the string <code>*</code> is literally taken as <code>*</code> and is not a wild card.  Teachers may ask a student to calculate <code>2*3</code> and hence need to forbid multiplication in an answer.</p>
+<p>If you wish to forbid commas, then escape it with a backslash.</p>
+<p>There are groups of common keywords which you can forbid simply as</p>
+<ul>
+<li><code>[[BASIC-ALGEBRA]]</code> common algebraic operations such as <code>simplify</code>, <code>factor</code>, <code>expand</code>, <code>solve</code>, etc.</li>
+<li><code>[[BASIC-CALCULUS]]</code> common calculus operations such as <code>int</code>, <code>diff</code>, <code>taylor</code>, etc.</li>
+<li><code>[[BASIC-MATRIX]]</code> common matrix operations such as <code>transpose</code>, <code>invert</code>, <code>charpoly</code>, etc.</li>
+</ul>
+<p>If you have suggestions for more lists, or additional operations which should be added to the existing lists, please contact the developers.</p>
+<h3 id="Allowed_Words">Allowed words</h3>
+<p>By default, arbitrary function or variable names of more than two characters in length are not permitted.  This is a comma-separated list of function or variable names which are permitted in a student's answer.</p>
+<p>Note the allowed words permit the teacher to override some (but not all) of the strings which are considered to be invalid by default for student input.  For example, <code>Sin</code> (capital "S") has specific feedback.  If you need this in a question you have to allow it here.  Similarly <code>In</code> ("India November") is mistakenly used by students for the natural logarithm rather than <code>ln</code> ("Lima November").  Hence by default this triggers specific feedback.  You can allow <code>In</code> here.</p>
+<h3 id="Forbid_Floats">Forbid Floats</h3>
+<p>If set to <code>yes</code>, then any answer of the student which has a floating-point number
+will be rejected as invalid. Students sometimes use floating-point numbers when
+they should use fractions. This option prevents problems with approximations being used.</p>
+<h3 id="Require_lowest_terms">Require lowest terms</h3>
+<p>When this option is set to <code>yes</code>, any coefficients or other rational numbers in an
+expression, must be written in lowest terms.  Otherwise the answer is rejected as "invalid".
+This enables the teacher to reject answers, and not consider them further.  Note that at most one number
+can have a minus sign and two unary minus signs are considered to be something which should be cancelled.</p>
+<h3 id="Check_Type">Check Students answer's type</h3>
+<p>If this option is set to <code>yes</code> then unless the student's expression is the same
+<a href="../../CAS/Maxima/#Types_of_object">Maxima</a> as the teacher's correct answer,
+then the attempt will be rejected as invalid.</p>
+<p>Type checking here is very simple, basically checking the student's answer is an equation, inequality, list, set, matrix to match that of the teacher.  The intention is not to be completely comprehensive, but to avoid obvious type mismatch.  E.g. this is very useful for ensuring the student has typed in an "equation", such as <script type="math/tex">y=mx+c</script>
+and not an expression such as <script type="math/tex">mx+c</script>.  Remember, you can't compare an expression with an equation!</p>
+<p>Another useful way of avoiding this problem is to put a LaTeX string such as <script type="math/tex">y=</script> just before the input.  E.g.</p>
+<pre><code>\(y=\)[[input:ans1]].
+</code></pre>
+<h3 id="Student_must_verify">Student must verify</h3>
+<p>Specifies whether the student's input is presented back to them before scoring as part of a two-step validation process.<br />
+Typically the student's mathematical expression is displayed in traditional form.<br />
+This is useful for complex algebraic expressions but not needed for constrained input like <code>yes</code>/<code>no</code>.</p>
+<p>Experience strongly supports the use of this two-step verification process.<br />
+Errors will always be displayed and expressions with errors rejected as invalid. 
+Potential response trees will not execute with invalid input.</p>
+<p>The next option controls how the validation feedback is displayed. 
+Note, it is not possible to require a two-step validation but not show some validation feedback.</p>
+<h3 id="Show_validation">Show validation</h3>
+<p>Feedback to students is in two forms.</p>
+<ul>
+<li>feedback tied to inputs, in particular if the answer is invalid.</li>
+<li>feedback tied to each potential response tree.</li>
+</ul>
+<p>Setting this option displays any feedback from this input, including echoing back their expression in traditional two-dimensional notation.  Generally, feedback and verification are used in conjunction.  Errors will always be displayed.  In addition to simply displaying the student's expression, the teacher can display the list of variables which occurs in the expression.  From experience, this is helpful in letting students understand the idea of variable and to spot case insensitivity or wrong variable problems.</p>
+<p>The "compact" version removes most of the styling.  This is needed when the answer is part of a table.</p>
+<h3 id="extra-option-hideanswer">Extra option: hideanswer</h3>
+<p>Users are increasingly using inputs to store <em>state</em>, which makes no sense for a user to see.  For example, when using <a href="../JSXGraph/">JSXGraph</a> users transfer the configuration of the diagram into an input via JavaScript.  In many situations, it makes no sense for the student to see anything about this input.  The validation can be switched off with the regular "show validation" option, the input box itself can be hidden with JavaScript/CSS.  Putting <code>hideanswer</code> in the extra options stops displaying the "teacher's answer", e.g. at the end of the process.</p>
+<p>Do not use this option in questions in place of the normal quiz settings.  For this reason it is only supported in the string input type.</p>
+<h3 id="extra-option-allowempty">Extra option: allowempty</h3>
+<p>Normally a <em>blank</em>, i.e. empty, answer has a special status and are not considered "valid".  Hence, a PRT relying on an input left blank will not be traversed.  Answers consisting only of whitespace are also considered as empty.  The extra option <code>allowempty</code> allows the input to be empty.  Internally an empty answer will be replaced by the Maxima atom <code>EMPTYANSWER</code>.  Internally it is essential that the variable name of the input, (e.g. <code>ans1</code>) is really assigned a specific value. The teacher will need to deal with <code>EMPTYANSWER</code> tags in the PRT.</p>
+<p>We strongly recommend (with many years of experience) that teachers do not use this option without very careful thought!</p>
+<p>For example, if you don't want to give away how many answers you expect, then ask the student to provide a <em>set</em> of answers.  Another option is to use the "TextArea" input type.  Each line of the TextArea is validated separately, and the resulting mathematical expression is a list.  The student is therefore free to choose how many expressions to type in, as the circumstances require, without a pre-defined number of input boxes.  By design, it is better to use these methods than trying to combine separate inputs, some of which are empty, in the PRT later.</p>
+<p>Our experience strongly suggests this option should only be used for edge cases, and not for routine use.</p>
+<p>If you use this option when students navigate away from a page the system will "validate" the inputs, and hence any empty boxes will be considered an active empty choice by the student and will be assessed.  If you use this option there is no way to distinguish between an active empty answer choice, and a student who deletes their answer.  (The same problem occurs with radio buttons....)</p>
+<p>There are (unfortunately) some edge cases where it is useful to permit the execution of a PRT without all the inputs containing significant content.  </p>
+<p>Assume you have three inputs <code>ans1</code>, <code>ans2</code>, <code>ans3</code> contributing to a PRT, all of which have the <code>allowempty</code> option set because you don't want to tell the student which might be empty.  Assume the correct answer has at least one entry non-empty.  Then, make the first node of the PRT check</p>
+<pre><code>ATAlgEquiv({ans1,ans2,ans3},{EMPTYANSWER})
+</code></pre>
+<p>This checks if all inputs are empty, so if true set the score and the penalty to be zero and stop.  This prevents the student accruing a penalty if they navigate away with all the boxes empty, but the PRT will still execute an "attempt".</p>
+<p>If a teacher has three inputs <code>ans1</code>, <code>ans2</code>, <code>ans3</code>, then they can define a set in the feedback variables as follows</p>
+<pre><code>sa:setdifference({ans1,ans2,ans3},{EMPTYANSWER})
+</code></pre>
+<p>The variable <code>sa</code> will be a set containing the non-empty answers (if any).  </p>
+<p>The teacher can use the <code>EMPTYANSWER</code> tag as a "correct answer".</p>
+<h3 id="extra-option-simp">Extra option: simp</h3>
+<p>Actually simplify the student's answer during the validation process.  This will allow students to type in something like</p>
+<pre><code>makelist(k^2,k,1,8)
+</code></pre>
+<p>If teacher's want this kind of thing, then a syntax hint is probably in order as well.</p>
+<p>You may need to <code>ev(ans1,simp)</code> explicitly in any potential response tree.</p>
+<p>It makes no sense to simplify the equivalence reasoning input type, so this has been omitted.</p>
+<h3 id="extra-option-align">Extra option: align</h3>
+<p>Controls if the student's answer is aligned 'left' or 'right' within the input box.</p>
+<h3 id="extra-option-nounits">Extra option: nounits</h3>
+<p>As of STACK 4.3, if units are declared in a question then the whole question will use a units context for parsing inputs.  For example, in a multi-part question you may use a matrix input.  If you do so, and use variable names, then these will be parsed expecting them to be usits.  To prevent this in a particular input, use the <code>nounits</code> option</p>
+<h2 id="extra-options">Extra options</h2>
+<p>In the future we are likely to add additional functionality via the <em>extra options</em> fields.  This is because the form-based support becomes ever more complex, intimidating and difficult to navigate.</p>
+<h2 id="input-tips-and-tricks">Input tips and tricks</h2>
+<p>It is often sensible to use a prefix just in front of the form box.  For example</p>
+<pre><code>\(f(x)=\) [[input:ans1]].
+</code></pre>
+<p>This avoids all kinds of problems with students also trying to enter the prefix themselves.<br />
+You could also specify units afterwards, but you might also want the student to type these in!</p>
+<p>In Maxima the input <code>(a,b,c)</code> is a programmatic block element (see Maxima's manual for <code>block</code>). 
+Hence we cannot use this directly for the input of coordinates.  Instead, have the students type in an unnamed function like</p>
+<pre><code>P(x,y)
+</code></pre>
+<p>This technique can be used to enter a set of points</p>
+<pre><code>{A(1,2), B(2,3)}
+</code></pre>
+<p>as an answer.  The <code>op</code> command can be used to filter out a particular point, and the <code>args</code> command becomes a list of coordinates.</p>
+<h2 id="options-summary-table">Options summary table</h2>
+<p>This table lists all options, and which inputs use/respect them.  The <code>.</code> means the option is ignored.</p>
+<table>
+<thead>
+<tr>
+<th>Options</th>
+<th>Alg</th>
+<th>Num</th>
+<th>Units</th>
+<th>Matrix</th>
+<th>Check</th>
+<th>Radio</th>
+<th>Drop</th>
+<th>T/F</th>
+<th>TextArea</th>
+<th>Equiv</th>
+<th>String</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Box size</td>
+<td>Y</td>
+<td>Y</td>
+<td>Y</td>
+<td>Y</td>
+<td>.</td>
+<td>.</td>
+<td>.</td>
+<td>.</td>
+<td>Y</td>
+<td>Y</td>
+<td>Y</td>
+<td>Y</td>
+</tr>
+<tr>
+<td>Strict Syn</td>
+<td>Y</td>
+<td>(1)</td>
+<td>(1)</td>
+<td>Y</td>
+<td>.</td>
+<td>.</td>
+<td>.</td>
+<td>.</td>
+<td>Y</td>
+<td>Y</td>
+<td>.</td>
+<td>.</td>
+</tr>
+<tr>
+<td>Insert stars</td>
+<td>Y</td>
+<td>Y</td>
+<td>Y</td>
+<td>Y</td>
+<td>.</td>
+<td>.</td>
+<td>.</td>
+<td>.</td>
+<td>Y</td>
+<td>Y</td>
+<td>.</td>
+<td>.</td>
+</tr>
+<tr>
+<td>Syntax hint</td>
+<td>Y</td>
+<td>Y</td>
+<td>Y</td>
+<td>Y</td>
+<td>.</td>
+<td>.</td>
+<td>.</td>
+<td>.</td>
+<td>Y</td>
+<td>Y</td>
+<td>Y</td>
+<td>Y</td>
+</tr>
+<tr>
+<td>Hint att</td>
+<td>Y</td>
+<td>Y</td>
+<td>Y</td>
+<td>Y</td>
+<td>.</td>
+<td>.</td>
+<td>.</td>
+<td>.</td>
+<td>Y</td>
+<td>Y</td>
+<td>Y</td>
+<td>Y</td>
+</tr>
+<tr>
+<td>Forbidden words</td>
+<td>Y</td>
+<td>Y</td>
+<td>Y</td>
+<td>Y</td>
+<td>.</td>
+<td>.</td>
+<td>.</td>
+<td>.</td>
+<td>Y</td>
+<td>Y</td>
+<td>.</td>
+<td>.</td>
+</tr>
+<tr>
+<td>Allowed words</td>
+<td>Y</td>
+<td>Y</td>
+<td>Y</td>
+<td>Y</td>
+<td>.</td>
+<td>.</td>
+<td>.</td>
+<td>.</td>
+<td>Y</td>
+<td>Y</td>
+<td>.</td>
+<td>.</td>
+</tr>
+<tr>
+<td>Forbid float</td>
+<td>Y</td>
+<td>Y</td>
+<td>Y</td>
+<td>Y</td>
+<td>.</td>
+<td>.</td>
+<td>.</td>
+<td>.</td>
+<td>Y</td>
+<td>Y</td>
+<td>.</td>
+<td>.</td>
+</tr>
+<tr>
+<td>Lowest terms</td>
+<td>Y</td>
+<td>Y</td>
+<td>Y</td>
+<td>Y</td>
+<td>.</td>
+<td>.</td>
+<td>.</td>
+<td>.</td>
+<td>Y</td>
+<td>Y</td>
+<td>.</td>
+<td>.</td>
+</tr>
+<tr>
+<td>Check type</td>
+<td>Y</td>
+<td>Y</td>
+<td>Y</td>
+<td>Y</td>
+<td>.</td>
+<td>.</td>
+<td>.</td>
+<td>.</td>
+<td>.</td>
+<td>.</td>
+<td>.</td>
+<td>.</td>
+</tr>
+<tr>
+<td>Must verify</td>
+<td>Y</td>
+<td>Y</td>
+<td>Y</td>
+<td>Y</td>
+<td>Y</td>
+<td>Y</td>
+<td>Y</td>
+<td>Y</td>
+<td>Y</td>
+<td>Y</td>
+<td>Y</td>
+<td>.</td>
+</tr>
+<tr>
+<td>Show validation</td>
+<td>Y</td>
+<td>Y</td>
+<td>Y</td>
+<td>Y</td>
+<td>Y</td>
+<td>Y</td>
+<td>Y</td>
+<td>Y</td>
+<td>Y</td>
+<td>Y</td>
+<td>Y</td>
+<td>.</td>
+</tr>
+<tr>
+<td><strong>Extra options:</strong></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>rationalize</code></td>
+<td>Y</td>
+<td>Y</td>
+<td>.</td>
+<td>.</td>
+<td>.</td>
+<td>.</td>
+<td>.</td>
+<td>.</td>
+<td>.</td>
+<td>.</td>
+<td>.</td>
+<td>.</td>
+</tr>
+<tr>
+<td>min/max sf/dp</td>
+<td>.</td>
+<td>Y</td>
+<td>Y</td>
+<td>.</td>
+<td>.</td>
+<td>.</td>
+<td>.</td>
+<td>.</td>
+<td>.</td>
+<td>.</td>
+<td>.</td>
+<td>.</td>
+</tr>
+<tr>
+<td><code>floatnum</code></td>
+<td>.</td>
+<td>Y</td>
+<td>.</td>
+<td>.</td>
+<td>.</td>
+<td>.</td>
+<td>.</td>
+<td>.</td>
+<td>.</td>
+<td>.</td>
+<td>.</td>
+<td>.</td>
+</tr>
+<tr>
+<td><code>intnum</code></td>
+<td>.</td>
+<td>Y</td>
+<td>.</td>
+<td>.</td>
+<td>.</td>
+<td>.</td>
+<td>.</td>
+<td>.</td>
+<td>.</td>
+<td>.</td>
+<td>.</td>
+<td>.</td>
+</tr>
+<tr>
+<td><code>rationalnum</code></td>
+<td>.</td>
+<td>Y</td>
+<td>.</td>
+<td>.</td>
+<td>.</td>
+<td>.</td>
+<td>.</td>
+<td>.</td>
+<td>.</td>
+<td>.</td>
+<td>.</td>
+<td>.</td>
+</tr>
+<tr>
+<td><code>negpow</code></td>
+<td>.</td>
+<td>.</td>
+<td>Y</td>
+<td>.</td>
+<td>.</td>
+<td>.</td>
+<td>.</td>
+<td>.</td>
+<td>.</td>
+<td>.</td>
+<td>.</td>
+<td>.</td>
+</tr>
+<tr>
+<td><code>allowempty</code></td>
+<td>Y</td>
+<td>Y</td>
+<td>Y</td>
+<td>Y</td>
+<td>.</td>
+<td>.</td>
+<td>.</td>
+<td>Y</td>
+<td>.</td>
+<td>.</td>
+<td>Y</td>
+<td>.</td>
+</tr>
+<tr>
+<td><code>hideanswer</code></td>
+<td>Y</td>
+<td>Y</td>
+<td>.</td>
+<td>.</td>
+<td>.</td>
+<td>.</td>
+<td>.</td>
+<td>Y</td>
+<td>.</td>
+<td>.</td>
+<td>Y</td>
+<td>Y</td>
+</tr>
+<tr>
+<td><code>simp</code></td>
+<td>Y</td>
+<td>Y</td>
+<td>Y</td>
+<td>Y</td>
+<td>.</td>
+<td>.</td>
+<td>.</td>
+<td>.</td>
+<td>Y</td>
+<td>.</td>
+<td>.</td>
+<td>.</td>
+</tr>
+<tr>
+<td><code>align</code></td>
+<td>Y</td>
+<td>Y</td>
+<td>Y</td>
+<td>.</td>
+<td>.</td>
+<td>.</td>
+<td>.</td>
+<td>.</td>
+<td>.</td>
+<td>.</td>
+<td>.</td>
+<td>.</td>
+</tr>
+<tr>
+<td><code>nounits</code></td>
+<td>Y</td>
+<td>Y</td>
+<td>Y</td>
+<td>Y</td>
+<td>Y</td>
+<td>Y</td>
+<td>Y</td>
+<td>.</td>
+<td>.</td>
+<td>Y</td>
+<td>.</td>
+<td>.</td>
+</tr>
+</tbody>
+</table>
+<p>For documentation about the various options not documented on this page look at the pages for the specific inputs in which each option is used.</p>
+<p>Notes:</p>
+<ol>
+<li>The numerical and units input type ignore the strict syntax option and always assume strict syntax is "true".<br />
+Otherwise patterns for scientific numbers such as <code>2.23e4</code> will have multiplication characters inserted.</li>
+</ol>
+<h2 id="other-input-types">Other input types</h2>
+<p>Adding new inputs, or options for existing inputs, is a job for the developers.<br />
+The only essential requirement is that the result is a valid CAS expression, which includes of course a string data type, or a list.</p>
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+        
+      </main>
+      
+<footer class="md-footer">
+<div class ="md-main__inner md-grid">
+<!--Copy of primary sidebar, which collapses-->
+<div class="md-sidebar md-sidebar--primary_footer">
+
+</div>
+<!--Copy of secondary sidebar, which collapses-->
+<div class ="md-sidebar md-sidebar--secondary">
+</div>
+
+<!--Footer-->
+<div class="md-content">
+<div class="md-content__inner md-typeset">
+    <div class="row">
+    <div class="footerColumn"><a href="https://www.stack-assessment.org">
+    <img src="../../../content/logo_large.png" width="70px" style="margin-top:1.3em;float:left;">
+    <h2 style="color:white;margin-top:1.1em!important;"><b>STACK</b></h2></a>
+    </div>
+    <div class="footerColumn"><a href="https://www.stack-assessment.org/About/">
+        <h5 style="color:white;">About STACK</h5></a>
+        <a href="https://www.stack-assessment.org/Training_and_events/"><h5 style="color:white;">Training and Events</h5></a>
+        <a href="https://www.stack-assessment.org/Case_studies/"><h5 style="color:white;">Case Studies</h5></a>
+        <a href="https://stack-demo.maths.ed.ac.uk/demo/"><h5 style="color:white;">Demonstration site</h5><a></div>
+    <div class="footerColumn"><a href="https://www.stack-assessment.org/Legal/PrivacyStatement/">
+        <h5 style="color:white;">Privacy statement</h5></a><a href="https://www.stack-assessment.org/Legal/Licenses/">
+        <h5 style="color:white;">Licenses</h5></a><a href="https://www.stack-assessment.org/Legal/Accessibility/">
+        <h5 style="color:white;">Accessibility</h5></a>
+    </div>
+    </div>
+</div>
+</div>
+</div>
+</footer>
+
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+  <script id="__config" type="application/json">{"base": "../../..", "features": [], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../../../assets/javascripts/workers/search.b0710199.min.js", "version": null}</script>
+    
+  <script>
+    var __search = {
+      transform: function(query) {
+        return query
+      }
+    }
+  </script>
+
+    
+      <script src="../../../assets/javascripts/bundle.76f349be.min.js"></script>
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      
+    
+  </body>
+</html>

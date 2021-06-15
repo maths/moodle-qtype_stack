@@ -1,0 +1,62 @@
+/* Container for footer. */
+.container-flexible {
+    display: grid;
+    width: 700px;
+    max-width: 100%;
+    margin: auto;
+}
+
+.footerColumn {
+    float: left;
+    width: 33.33%;
+    padding: 10px;
+}
+/* Responsive layout - makes the three columns stack on top of each other instead of next to each other when close. */
+@media screen and (max-width: 605px) {
+    .footerColumn {
+        width: 100%;
+    }
+}
+
+/*Copy md-sidebar--primary into md-sidebar--primary_footer for the left block in the footer.*/
+@media screen and (max-width: 76.1875em) {
+    .md-sidebar--primary_footer {
+        position: fixed;
+        top: 0;
+        left: -12.1rem;
+        z-index: 3;
+        width: 12.1rem;
+        height: 100%;
+        background-color: var(--md-default-bg-color);
+        transform: translateX(0);
+        transition: transform 250ms cubic-bezier(0.4, 0, 0.2, 1), box-shadow 250ms;
+    }
+    [dir=rtl] .md-sidebar--primary_footer {
+        right: -12.1rem;
+        left: initial;
+    }
+    [data-md-toggle=drawer]:checked ~ .md-sidebar--primary_footer {
+        box-shadow: 0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12), 0 5px 5px -3px rgba(0, 0, 0, 0.4);
+        transform: translateX(12.1rem);
+    }
+    [dir=rtl] [data-md-toggle=drawer]:checked ~ .md-sidebar--primary_footer {
+        transform: translateX(-12.1rem);
+    }
+    .md-sidebar--primary .md-sidebar__scrollwra {
+        overflow: hidden;
+    }
+}
+
+@media screen and (max-width: 76.1875em) {
+    .md-sidebar--primary__footer {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        margin: 0;
+        -webkit-scroll-snap-type: none;
+        -ms-scroll-snap-type: none;
+        scroll-snap-type: none;
+    }
+}

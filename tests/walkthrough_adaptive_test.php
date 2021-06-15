@@ -3673,4 +3673,55 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $warnings = $q->validate_warnings();
         $this->assertEquals($expected, $warnings);
     }
+
+    public function test_block_locals() {
+
+        $q = test_question_maker::make_question('stack', 'block_locals');
+
+        $this->start_attempt_at_question($q, 'adaptive', 1);
+        // Check the initial state.
+        $this->check_current_state(question_state::$todo);
+        $this->assertEquals('adaptivemultipart',
+                $this->quba->get_question_attempt($this->slot)->get_behaviour_name());
+        $this->render();
+        $this->check_output_does_not_contain_input_validation();
+        $this->check_output_does_not_contain_prt_feedback();
+        $this->check_output_does_not_contain_stray_placeholders();
+        $this->check_current_output(
+                new question_pattern_expectation('/with input/'),
+                $this->get_does_not_contain_feedback_expectation(),
+                $this->get_does_not_contain_num_parts_correct(),
+                $this->get_no_hint_visible_expectation()
+                );
+
+        $this->process_submission(array('ans1' => 'p^2+p+1', '-submit' => 1));
+
+        $this->check_current_state(question_state::$todo);
+        $this->check_current_mark(null);
+        $this->check_prt_score('firsttree', null, null);
+        $this->render();
+        $this->check_output_contains_text_input('ans1', 'p^2+p+1');
+        $this->check_output_contains_input_validation('ans1');
+
+        $this->check_output_does_not_contain_prt_feedback();
+        $this->check_output_does_not_contain_stray_placeholders();
+        $expected = 'Seed: 1; ans1: p^2+p+1 [valid]; PotResTree_1: !';
+        $this->check_response_summary($expected);
+
+        // Process a submit of the correct answer.
+        $this->process_submission(array('ans1' => 'p^2+p+1', 'ans1_val' => 'p^2+p+1', '-submit' => 1));
+
+        // Verify.
+        $this->check_current_state(question_state::$complete);
+        $this->check_current_mark(1);
+        $this->check_prt_score('PotResTree_1', 1, 0);
+        $this->render();
+        $this->check_output_contains_text_input('ans1', 'p^2+p+1');
+        $this->check_output_contains_input_validation('ans1');
+        $this->check_output_contains_prt_feedback('PotResTree_1');
+        $this->check_output_does_not_contain_stray_placeholders();
+        $expected = 'Seed: 1; ans1: p^2+p+1 [score]; PotResTree_1: # = 1 | PotResTree_1-0-1';
+        $this->check_response_summary($expected);
+
+    }
 }

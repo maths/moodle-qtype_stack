@@ -65,7 +65,8 @@ class qtype_stack_test_helper extends question_test_helper {
             'stringsloppy',       // Uses the StringSloppy answer test, and string input.
             'sregexp',            // Uses the SRegExp answer test, and string input.
             'feedbackstyle',      // Test the various feedbackstyle options.
-            'multilang'           // Check for mismatching languages.
+            'multilang',          // Check for mismatching languages.
+            'block_locals'        // Make sure local variables within a block are still permitted student input.
         );
     }
 
@@ -2454,6 +2455,39 @@ class qtype_stack_test_helper extends question_test_helper {
 
         $q->prts['firsttree'] = new stack_potentialresponse_tree('firsttree', '', true, 1, $feedbackvars->get_session(),
             array($node1, $node2), '0', 1);
+
+        return $q;
+    }
+
+    /**
+     * @return qtype_stack_question.
+     */
+    public static function make_stack_question_block_locals() {
+        $q = self::make_a_stack_question();
+
+        $q->name = 'test-1';
+        // We need to check that local variable names within the block are not invalid for student's input
+        $q->questionvariables = 'tmpf(a):=block([p,q,r],p:a,q:a,r:p+q,return(r)); cans1:p^2+p+1;';
+        $q->questiontext = 'Answer {@cans1@} with input p^2+p+1.'
+                . '<p>[[input:ans1]]</p><div>[[validation:ans1]]</div>';
+        $q->generalfeedback = '';
+        $q->questionnote = '';
+
+        $q->specificfeedback = '[[feedback:PotResTree_1]]';
+        $q->penalty = 0.25; // Non-zero and not the default.
+
+        $q->inputs['ans1'] = stack_input_factory::make(
+                'algebraic', 'ans1', 'p^2+p+1', null,
+                array('boxWidth' => 20, 'forbidWords' => '', 'allowWords' => ''));
+
+        $sans = stack_ast_container::make_from_teacher_source('ans1');
+        $sans->get_valid();
+        $tans = stack_ast_container::make_from_teacher_source('cans1');
+        $tans->get_valid();
+        $node = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv', 'x');
+        $node->add_branch(0, '=', 0, $q->penalty, -1, '', FORMAT_HTML, 'PotResTree_1-0-0');
+        $node->add_branch(1, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'PotResTree_1-0-1');
+        $q->prts['PotResTree_1'] = new stack_potentialresponse_tree('PotResTree_1', '', true, 1, null, array($node), '0', 1);
 
         return $q;
     }

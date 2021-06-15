@@ -3,8 +3,9 @@
 
 <!--Sets search to basic MkDocs search-->
 {% block config %}
+  {{ super() }}
   <script>
-    var search = {
+    var __search = {
       transform: function(query) {
         return query
       }

@@ -1,4 +1,5 @@
 site_name: STACK Docs
+site_url: https://docs.stack-assessment.org/
 extra_javascript: 
     - 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML'
 

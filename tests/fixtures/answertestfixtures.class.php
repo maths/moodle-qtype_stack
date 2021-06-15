@@ -1149,6 +1149,8 @@ class stack_answertest_test_data {
         array('Diff', 'x', 'x^2-2*x+1', 'y^2-2*y+1', 0, 'ATDiff_var_SA_notSB.', ''),
         array('Diff', 'z', 'y^2+2*y+1', 'x^2-2*x+1', 0, 'ATDiff_var_notSASB_SAnceSB.', ''),
         array('Diff', 'y', 'x^4/4', '3*x^2', 0, '', ''),
+        array('Diff', 'x', 'e^x+c', 'e^x', 0, 'ATDiff_int.', 'Edge cases'),
+        array('Diff', 'x', 'e^x+2', 'e^x', 0, 'ATDiff_int.', ''),
 
         array('Int', '', '1/0', '1', -1, 'STACKERROR_OPTION.', ''),
         array('Int', 'x', '1/0', '1', -1, 'ATInt_STACKERROR_SAns.', ''),

@@ -250,6 +250,8 @@ These tests deal with the precision of numbers.  See dedicated page on [numerica
 
 # Calculus #
 
+These two answer tests are designed for use with common calculus problems.  Both tests provide feedback, where the test tries to establish if the student has made a common mistake.  E.g. "It looks like you have integrated instead".  There are edge cases, particularly with \(e^x\) where differentiation is indistinguishable from integration.  You may need to use the "quiet" option in these cases.
+
 ### Diff ###
 
 This test is a general differentiation test: it is passed if the arguments are algebraically equivalent, but gives feedback if it looks like the student has integrated instead of differentiated. The first argument is the student's answer. The second argument is the model answer. The answer test option must be the variable with respect to which differentiation is assumed to take place.

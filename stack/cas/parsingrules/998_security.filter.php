@@ -115,12 +115,11 @@ class stack_ast_filter_998_security implements stack_cas_astfilter_parametric {
             $errors[] = stack_string('stackCas_unencpsulated_comma');
         }
 
-        // Nested function declarations are now forbidden. If you need to switch 
-        // functions on the fly rename them.
+        // Nested function declarations are now forbidden. If you need to switch functions on the fly rename them.
         if ($nestedfunction) {
             $valid = false;
             $answernotes[] = 'nested_function_declaration';
-            $errors[] = stack_string('stackCas_nested_function_declaration');   
+            $errors[] = stack_string('stackCas_nested_function_declaration');
         }
 
         // Separate the identifiers we meet for latter use. Not the nodes
@@ -159,7 +158,10 @@ class stack_ast_filter_998_security implements stack_cas_astfilter_parametric {
         foreach ($ctx1 as $key => $values) {
             foreach ($values as $k => $value) {
                 if (!is_integer($k)) {
-                    if ($value instanceof MP_Integer || $value instanceof MP_Float || $value instanceof MP_Boolean || ($value instanceof MP_PrefixOp && ($value->rhs instanceof MP_Integer || $value->rhs instanceof MP_Float))) {
+                    if ($value instanceof MP_Integer || $value instanceof MP_Float
+                            || $value instanceof MP_Boolean
+                            || ($value instanceof MP_PrefixOp
+                                    && ($value->rhs instanceof MP_Integer || $value->rhs instanceof MP_Float))) {
                         continue;
                     }
                     if ($value instanceof MP_Operation && $value->op !== '*') {
@@ -335,7 +337,9 @@ class stack_ast_filter_998_security implements stack_cas_astfilter_parametric {
                             }
                         }
                     }
-                } else if ($node->name instanceof MP_Integer || $node->name instanceof MP_Float || $node->name instanceof MP_Boolean) {
+                } else if ($node->name instanceof MP_Integer
+                        || $node->name instanceof MP_Float
+                        || $node->name instanceof MP_Boolean) {
                     // Some substitutions do lead to interesting results.
                     $notsafe = false;
                 }
@@ -409,7 +413,7 @@ class stack_ast_filter_998_security implements stack_cas_astfilter_parametric {
                 foreach ($ctx[$name] as $key => $value) {
                     if ($key === -2) {
                         if ($this->source === 's') {
-                            $errors[] = trim(stack_string('stackCas_reserved_function', ['name' => $name]));    
+                            $errors[] = trim(stack_string('stackCas_reserved_function', ['name' => $name]));
                         } else {
                             $errors[] = trim(stack_string('stackCas_studentInputAsFunction'));
                         }
@@ -417,25 +421,28 @@ class stack_ast_filter_998_security implements stack_cas_astfilter_parametric {
                     }
                     if ($key === -3) {
                         if ($this->source === 's') {
-                            $errors[] = trim(stack_string('stackCas_reserved_function', ['name' => $name]));    
+                            $errors[] = trim(stack_string('stackCas_reserved_function', ['name' => $name]));
                         } else {
-                            $errors[] = trim(stack_string('stackCas_unknownSubstitutionPotenttiallyMaskingAFunctionName', ['name' => $name]));
+                            $errors[] = trim(stack_string('stackCas_unknownSubstitutionPotenttiallyMaskingAFunctionName',
+                                    ['name' => $name]));
                         }
                         $valid = false;
                     }
                     if (($value instanceof MP_Identifier || $value instanceof MP_String) &&
                         !$identifierrules->is_allowed_to_call($this->source, $value->value)) {
                         if ($this->source === 's') {
-                            $errors[] = trim(stack_string('stackCas_reserved_function', ['name' => $name]));    
+                            $errors[] = trim(stack_string('stackCas_reserved_function', ['name' => $name]));
                         } else {
-                            $errors[] = trim(stack_string('stackCas_functionNameSubstitutionToForbiddenOne', ['name' => $name, 'trg' => $value->value]));
+                            $errors[] = trim(stack_string('stackCas_functionNameSubstitutionToForbiddenOne',
+                                    ['name' => $name, 'trg' => $value->value]));
                         }
                         $valid = false;
                     } else if ($value instanceof MP_FunctionCall && $value->name->toString() === 'stack_complex_unknown') {
                         if ($this->source === 's') {
-                            $errors[] = trim(stack_string('stackCas_reserved_function', ['name' => $name]));    
+                            $errors[] = trim(stack_string('stackCas_reserved_function', ['name' => $name]));
                         } else {
-                            $errors[] = trim(stack_string('stackCas_unknownSubstitutionPotenttiallyMaskingAFunctionName', ['name' => $name]));
+                            $errors[] = trim(stack_string('stackCas_unknownSubstitutionPotenttiallyMaskingAFunctionName',
+                                    ['name' => $name]));
                         }
                         $valid = false;
                     } else if ($value instanceof MP_FunctionCall && $value->name->toString() === 'stack_complex_expression') {
@@ -448,7 +455,8 @@ class stack_ast_filter_998_security implements stack_cas_astfilter_parametric {
                                     $errors[] = trim(stack_string('stackCas_reserved_function', ['name' => $name]));
                                     break;
                                 } else {
-                                    $errors[] = trim(stack_string('stackCas_functionNameSubstitutionToForbiddenOne', ['name' => $name, 'trg' => $arg]));
+                                    $errors[] = trim(stack_string('stackCas_functionNameSubstitutionToForbiddenOne',
+                                            ['name' => $name, 'trg' => $arg]));
                                 }
                             }
                         }

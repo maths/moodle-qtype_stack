@@ -521,7 +521,9 @@ class maxima_parser_utils {
 
             return true;
         };
+        // @codingStandardsIgnoreStart
         while (!$tmp->callbackRecurse($replace)) {};
+        // @codingStandardsIgnoreEnd
 
         return $tmp->items[0];
     }
@@ -1476,11 +1478,14 @@ class maxima_parser_utils {
 
         foreach ($workset1 as $value) {
             $tmp = new MP_Group([$value]);
+            // @codingStandardsIgnoreStart
             while (!$tmp->callbackRecurse($lambdas)) {};
             while (!$tmp->callbackRecurse($localfun)) {};
             while (!$tmp->callbackRecurse($open1)) {};
             while (!$tmp->callbackRecurse($randexpand)) {};
             while (!$tmp->callbackRecurse($open1)) {};
+            // @codingStandardsIgnoreEnd
+
             if ($tmp->items[0] instanceof MP_Operation && $tmp->items[0]->op === ':'
                     && $tmp->items[0]->lhs instanceof MP_Identifier
                     && $tmp->items[0]->rhs instanceof MP_Atom) {
@@ -1512,7 +1517,9 @@ class maxima_parser_utils {
             $ws2 = [];
             foreach ($workset2 as $value) {
                 $tmp = new MP_Group([$value]);
-                while (!$tmp->callbackRecurse($localfun)){};
+                // @codingStandardsIgnoreStart
+                while (!$tmp->callbackRecurse($localfun)) {};
+                // @codingStandardsIgnoreEnd
                 $ws2[$tmp->items[0]->toString()] = $tmp->items[0];
             }
             $workset2 = $ws2;
@@ -1733,9 +1740,12 @@ class maxima_parser_utils {
         foreach ($workset2 as $value) {
             $tmp = new MP_Group([$value]);
             $out = [];
+            // @codingStandardsIgnoreStart
             while (!$tmp->callbackRecurse($pfreduce)) {};
             while (!$tmp->callbackRecurse($open1)) {};
             while (!$tmp->callbackRecurse($pickassings)) {};
+            // @codingStandardsIgnoreEnd
+
             if (count($out) > 0) {
                 foreach ($out as $item) {
                     if ($item instanceof MP_Operation && $item->op === ':'
@@ -1843,11 +1853,14 @@ class maxima_parser_utils {
             if (isset($types['funs']['solve'])) {
                 $rs = self::substitute_in_sequence([$value->toString() => new MP_Group([$value])], $output);
                 foreach ($rs as $val) {
+                    // @codingStandardsIgnoreStart
                     while (!$val->callbackRecurse($pfreduce)) {};
                     while (!$val->callbackRecurse($open1)) {};
                     while (!$val->callbackRecurse($solve)) {};
                     while (!$val->callbackRecurse($pickassings)) {};
                     while (!$val->callbackRecurse($open1)) {};
+                    // @codingStandardsIgnoreEnd
+
                     $workset4[$val->items[0]->toString()] = $val->items[0];
                 }
             } else if (isset($types['funs']['subst']) || isset($types['funs']['ev']) || isset($types['funs']['at'])) {
@@ -1887,9 +1900,7 @@ class maxima_parser_utils {
                             if ($arg instanceof MP_Operation && ($arg->op === '=' || $arg->op === ':')
                                     && $arg->lhs instanceof MP_Identifier) {
                                 $repl[$arg->lhs->value] = clone $arg->rhs;
-                            } else {
-                                // TODO: is this reachable? If so tag everything as unknown.
-                            }
+                            } // TODO: is this else condition reachable? If so tag everything as unknown.
                         }
                         foreach ($repl as $key => $value) {
                             if (!isset($output[$key])) {
@@ -2020,12 +2031,14 @@ class maxima_parser_utils {
                     if (is_integer($val)) {
                         continue;
                     }
+                    // @codingStandardsIgnoreStart
                     while (!$val->callbackRecurse($pfreduce)) {};
                     while (!$val->callbackRecurse($open1)) {};
                     while (!$val->callbackRecurse($solve)) {};
                     while (!$val->callbackRecurse($evsandsubsts)) {};
                     while (!$val->callbackRecurse($open1)) {};
                     while (!$val->callbackRecurse($pickassings)) {};
+                    // @codingStandardsIgnoreEnd
                 }
                 $output = self::mergeclasses($output, [$open1], $sec, true);
                 if ($timelimit < microtime(true)) {
@@ -2086,7 +2099,9 @@ class maxima_parser_utils {
                 }
                 $tmp = new MP_Group([$value]);
                 foreach ($funcs as $fun) {
-                    while (!$tmp->callbackRecurse($fun)){};
+                    // @codingStandardsIgnoreStart
+                    while (!$tmp->callbackRecurse($fun)) {};
+                    // @codingStandardsIgnoreEnd
                 }
                 if ($tmp->items[0] instanceof MP_Integer) {
                     $intmerge[$tmp->items[0]->toString()] = $tmp->items[0];
@@ -2182,7 +2197,9 @@ class maxima_parser_utils {
 
                     $tmp = new MP_Group([$tmp]);
                     foreach ($funcs as $fun) {
+                        // @codingStandardsIgnoreStart
                         while (!$tmp->callbackRecurse($fun)) {};
+                        // @codingStandardsIgnoreEnd
                     }
                     $values3[$tmp->items[0]->toString()] = $tmp->items[0];
                 } else if (count($values1) > 0) {

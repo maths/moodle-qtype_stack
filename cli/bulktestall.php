@@ -38,7 +38,8 @@ require_once(__DIR__ . '/../stack/bulktester.class.php');
 $start = microtime(true);
 
 // Get cli options.
-list($options, $unrecognized) = cli_get_params(array('help' => false, 'id' => false), array('h' => 'help'));
+list($options, $unrecognized) = cli_get_params(array('help' => false, 'id' => false, 'remote' => false),
+    array('h' => 'help'));
 
 if ($unrecognized) {
     $unrecognized = implode("\n  ", $unrecognized);
@@ -51,6 +52,13 @@ questions in all contexts in the Moodle site. This is intended for regression
 testing, before you release a new version of STACK to your site.\n
 Use with --id=n to start generation from question id is n.\n";
     exit(0);
+}
+
+if ($options['remote']) {
+    if (!$DB = moodle_database::get_driver_instance($CFG->dbtype, $CFG->dblibrary)) {
+        throw new dml_exception('dbdriverproblem', "Unknown driver $CFG->dblibrary/$CFG->dbtype");
+    }
+    //$DB->connect('live.database.host.name', 'read_only_user', 'pa55w0rd', 'live_database_name', 'mdl_', $CFG->dboptions);
 }
 
 $context = context_system::instance();

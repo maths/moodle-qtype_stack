@@ -6,7 +6,22 @@ You can bulk test all question tests on all variants of all question by using th
 
 User require capability `qtype/stack:usediagnostictools`.
 
-# Running question tests for questions on other sites
+# Running question tests for questions on other sites (command line)
+
+
+You can bulk test all question tests on all variants of all question by using the command line bulk-test script contained in the `cli` directory as follows:
+
+    php bulktestall.php
+
+Since you have command line access to the development server you will need to edit this line
+
+    $DB->connect('live.database.host.name', 'read_only_user', 'pa55w0rd', 'live_database_name', 'mdl_', $CFG->dboptions);
+
+to specify the remote database.  Then run the command line script (perhaps using something like screen to allow this to run in the background while you logout) with the `remote` option.
+
+    php bulktestall.php --remote
+
+# Running question tests for questions on other sites (web)
 
 When you upgrade to a new version of STACK, it would be reassuring to know beforehand
 whether there is any change in behaviour in STACK which will affect your existing questions.

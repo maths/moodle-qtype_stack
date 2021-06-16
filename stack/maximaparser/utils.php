@@ -289,7 +289,8 @@ class maxima_parser_utils {
             $replacepaint = false;
             $i = $node;
             while ($i !== null && !$replacepaint) {
-                if (isset($i->position['replace paint']) && isset($i->position['replace paint'][$node->value])) {
+                if (isset($i->position['replace paint']) && property_exists($node, 'value')
+                        && isset($i->position['replace paint'][$node->value])) {
                     $replacepaint = true;
                 }
                 $i = $i->parentnode;
@@ -764,10 +765,7 @@ class maxima_parser_utils {
                     $output['%fake' . $fakesym] = [];
                 }
                 $fname = $node->lhs->name->toString();
-                $funargs[$fname] = [];
-                foreach ($funargs as $arg) {
-                    $funargs[$fname][] = $arg->toString();
-                }
+                $funargs[$fname] = array_values($vars);
 
                 $repl = self::id_replace($node, $vars);
                 // Make sure we will never need to deal with this again.
@@ -1168,7 +1166,8 @@ class maxima_parser_utils {
                 return false;
             }
             if ($node instanceof MP_Indexing && count($node->indices) === 1
-                    && !($node->parentnode instanceof MP_Operation && $node->parentnode->lhs === $node && $node->op === ':')) {
+                    && !($node->parentnode instanceof MP_Operation && $node->parentnode->lhs === $node &&
+                            $node->parentnode->op === ':')) {
                 $indexl = $node->indices[0];
                 $i = null;
                 $r = null;
@@ -1627,9 +1626,10 @@ class maxima_parser_utils {
                     $node->parentnode->replace($node, $node->lhs);
                     return false;
                 } else if ($node->lhs instanceof MP_List) {
+                    $sce = self::to_sce($node->rhs, $sec);
+                    $i = 0;
+                    $group = [];
                     if ($node->rhs instanceof MP_List) {
-                        $i = 0;
-                        $group = [];
                         foreach ($node->lhs->items as $key) {
                             if ($key instanceof MP_Identifier) {
                                 $output[$key->toString()][$sce->toString()] = clone $node->rhs->items[$i];
@@ -1646,9 +1646,6 @@ class maxima_parser_utils {
                         }
                         return false;
                     } else {
-                        $sce = self::to_sce($node->rhs, $sec);
-                        $group = [];
-                        $i = 0;
                         foreach ($node->lhs->items as $key) {
                             if ($key instanceof MP_Identifier) {
                                 $output[$key->toString()][$sce->toString()] = clone $sce;

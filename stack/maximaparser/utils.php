@@ -765,7 +765,7 @@ class maxima_parser_utils {
                 }
                 $fname = $node->lhs->name->toString();
                 $funargs[$fname] = [];
-                foreach ($args as $arg) {
+                foreach ($funargs as $arg) {
                     $funargs[$fname][] = $arg->toString();
                 }
 

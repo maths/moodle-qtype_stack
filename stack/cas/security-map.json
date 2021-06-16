@@ -6031,6 +6031,10 @@
       "function": "t",
       "random": true
   },
+  "rand_selection_with_replacement": {
+      "function": "t",
+      "random": true
+  },
   "rand_with_phobib": {
       "function": "t",
       "random": true

@@ -17,11 +17,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 /**
- * This script runs the answers tests and verifies the results.
- *
- * This serves two purposes. First, it verifies that the answer tests are working
- * correctly, and second it serves to document the expected behaviour of answer
- * tests, which is useful for learning how they work.
+ * This script checks display of subscript elements.
  *
  * @copyright  2012 University of Birmingham
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later

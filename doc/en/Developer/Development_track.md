@@ -15,6 +15,7 @@ Mostly minor bug fixes.
 * Done. Filter student's input so groups are turned into `ntuple` inert functions.  At last students can type in coordinates as `(x,y)` as input!
 * Done. Add in warnings of language mismatch in parts of a question.
 * Done. Add in warnings where the answer test needs a raw input but appears to get a calculated value.
+* Done. Expand `rand` to accept sets and make a random selection from sets.  Add `rand_selection_with_replacement`.
 
 ## Version 4.4
 

@@ -428,7 +428,7 @@ class stack_inputvalidation_test_data {
         array('switch(x,a,y,b,c)', 'php_false', '', '', '', 'forbiddenFunction', ""),
         array('sin(x)', 'php_true', 'sin(x)', 'cas_true', '\sin \left( x \right)', '', "Trig functions"),
         array('cos(x)', 'php_true', 'cos(x)', 'cas_true', '\cos \left( x \right)', '', ""),
-        array('cos(x)^2', 'php_true', 'cos(x)^2', 'cas_true', '\cos ^2x', '', ""),
+        array('cos(x)^2', 'php_true', 'cos(x)^2', 'cas_true', '\cos ^2\left(x\right)', '', ""),
         array('cos(x+1)^2', 'php_true', 'cos(x+1)^2', 'cas_true', '\cos ^2\left(x+1\right)', '', ""),
         array('tan(x)', 'php_true', 'tan(x)', 'cas_true', '\tan \left( x \right)', '', ""),
         array('sec(x)', 'php_true', 'sec(x)', 'cas_true', '\sec \left( x \right)', '', ""),

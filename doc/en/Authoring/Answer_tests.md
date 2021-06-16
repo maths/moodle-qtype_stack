@@ -165,6 +165,7 @@ These answer tests are used with [equivalence reasoning](../CAS/Equivalence_reas
 
 This test uses Maxima's `regex_match` function.
 
+* It yields true if the pattern is matched anywhere within the student answer and false otherwise. Testing for full equality of the answer string can be achieved via regex anchoring by use of `^` or `$`.
 * Both arguments to the test must be Maxima strings.  If you have a general expression, turn it into a string in the feedback variables with Maxima's `string` function.
 * The first argument should be the string, and the second argument should be the pattern to match.
 * Don't forget to escape within the pattern strings as needed. Note that there is a function `string_to_regex()` that will handle escaping of characters that would otherwise have meaning in the pattern. Also remember that you need to escape the backslashes like normal in Maxima-strings.
@@ -177,8 +178,6 @@ STACK also provides a helper function `regex_match_exactp(regex, str)` to check 
     (aaa)*(b|d)c    dc          true
     (aaa)*(b|d)c    aaaaaaabc   false
     (aaa)*(b|d)c    cca         false
-
-Currently this is not provided as a separate answer test so you will need to use this predicate in the question variables and check the result against the expected value, or supply the predicate as an argument to an answer test.
 
 # Form {#Form}
 
@@ -250,6 +249,8 @@ Note however that EqualComAss does not think that `2^2*3` and `2*2*3` are the sa
 These tests deal with the precision of numbers.  See dedicated page on [numerical answer tests](Answer_tests_numerical.md).
 
 # Calculus #
+
+These two answer tests are designed for use with common calculus problems.  Both tests provide feedback, where the test tries to establish if the student has made a common mistake.  E.g. "It looks like you have integrated instead".  There are edge cases, particularly with \(e^x\) where differentiation is indistinguishable from integration.  You may need to use the "quiet" option in these cases.
 
 ### Diff ###
 

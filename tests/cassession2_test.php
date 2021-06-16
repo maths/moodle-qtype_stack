@@ -391,6 +391,45 @@ class stack_cas_session2_test extends qtype_stack_testcase {
         $this->assertEquals('x\times y\times z', $s1[3]->get_display());
     }
 
+    public function test_function_power_display() {
+
+        $cs = array('A:f(0)', 'B:f(0)^5', 'C:f(x)', 'D:f(x)^3', 'E:f(x+1)', 'F:f(x+1)^30');
+        $s1 = array();
+        foreach ($cs as $s) {
+            $s1[] = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security(), array());
+        }
+
+        $options = new stack_options();
+        $at1 = new stack_cas_session2($s1, $options, 0);
+        $at1->instantiate();
+
+        $this->assertEquals('f\left(0\right)', $s1[0]->get_display());
+        $this->assertEquals('f^5\left(0\right)', $s1[1]->get_display());
+        $this->assertEquals('f\left(x\right)', $s1[2]->get_display());
+        $this->assertEquals('f^3\left(x\right)', $s1[3]->get_display());
+        $this->assertEquals('f\left(x+1\right)', $s1[4]->get_display());
+        $this->assertEquals('f^{30}\left(x+1\right)', $s1[5]->get_display());
+
+        $cs = array('A:sin(1)', 'B:sin(1)^5', 'C:sin(x)', 'D:sin(x)^3', 'E:sin(x+1)', 'F:sin(x+1)^30', 'G:sin^50');
+        $s1 = array();
+        foreach ($cs as $s) {
+            $s1[] = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security(), array());
+        }
+
+        $options = new stack_options();
+        $at1 = new stack_cas_session2($s1, $options, 0);
+        $at1->instantiate();
+
+        $this->assertEquals('\sin \left( 1 \right)', $s1[0]->get_display());
+        $this->assertEquals('\sin ^5\left(1\right)', $s1[1]->get_display());
+        // The test below is the odd one out, and required attention June 2021.
+        $this->assertEquals('\sin \left( x \right)', $s1[2]->get_display());
+        $this->assertEquals('\sin ^3\left(x\right)', $s1[3]->get_display());
+        $this->assertEquals('\sin \left( x+1 \right)', $s1[4]->get_display());
+        $this->assertEquals('\sin ^{30}\left(x+1\right)', $s1[5]->get_display());
+        $this->assertEquals('\sin ^{50}', $s1[6]->get_display());
+    }
+
     public function test_acos_option_cosmone() {
 
         $cs = array('a:acos(x)', 'b:asin(x)', 'c:asinh(x)', 'd:asin(x)^3', 'e:asin(x^2+1)^30');
@@ -406,7 +445,7 @@ class stack_cas_session2_test extends qtype_stack_testcase {
         $this->assertEquals('\cos^{-1}\left( x \right)', $s1[0]->get_display());
         $this->assertEquals('\sin^{-1}\left( x \right)', $s1[1]->get_display());
         $this->assertEquals('{\rm sinh}^{-1}\left( x \right)', $s1[2]->get_display());
-        $this->assertEquals('\sin^{-1}^3x', $s1[3]->get_display());
+        $this->assertEquals('\sin^{-1}^3\left(x\right)', $s1[3]->get_display());
         // Note, the LaTeX below will break MathJax.
         // But if you are willing to have inverses and powers with the same notation then you deserve to break things!
         $this->assertEquals('\sin^{-1}^{30}\left(x^2+1\right)', $s1[4]->get_display());
@@ -428,7 +467,7 @@ class stack_cas_session2_test extends qtype_stack_testcase {
         $this->assertEquals('{\rm acos}\left( x \right)', $s1[0]->get_display());
         $this->assertEquals('{\rm asin}\left( x \right)', $s1[1]->get_display());
         $this->assertEquals('{\rm asinh}\left( x \right)', $s1[2]->get_display());
-        $this->assertEquals('{\rm asin}^3x', $s1[3]->get_display());
+        $this->assertEquals('{\rm asin}^3\left(x\right)', $s1[3]->get_display());
         $this->assertEquals('{\rm asin}^{30}\left(x^2+1\right)', $s1[4]->get_display());
     }
 
@@ -447,7 +486,7 @@ class stack_cas_session2_test extends qtype_stack_testcase {
         $this->assertEquals('\arccos \left( x \right)', $s1[0]->get_display());
         $this->assertEquals('\arcsin \left( x \right)', $s1[1]->get_display());
         $this->assertEquals('{\rm arcsinh}\left( x \right)', $s1[2]->get_display());
-        $this->assertEquals('\arcsin ^3x', $s1[3]->get_display());
+        $this->assertEquals('\arcsin ^3\left(x\right)', $s1[3]->get_display());
         $this->assertEquals('\arcsin ^{30}\left(x^2+1\right)', $s1[4]->get_display());
     }
 
@@ -826,7 +865,7 @@ class stack_cas_session2_test extends qtype_stack_testcase {
         $at1 = new stack_cas_session2($s1, null, 0);
         $at1->instantiate();
         $this->assertEquals('a', $s1[0]->get_value());
-        $this->assertEquals('rand_selection error: first argument must be a list.', $s1[0]->get_errors());
+        $this->assertEquals('rand_selection error: first argument must be a list or set.', $s1[0]->get_errors());
     }
 
     public function test_rand_selection_err_2() {
@@ -837,11 +876,21 @@ class stack_cas_session2_test extends qtype_stack_testcase {
         $at1 = new stack_cas_session2($s1, null, 0);
         $at1->instantiate();
         $this->assertEquals('a', $s1[0]->get_value());
-        $this->assertEquals('rand_selection error: insuffient elements in the list.', $s1[0]->get_errors());
+        $this->assertEquals('rand_selection error: insuffient elements in the list/set.', $s1[0]->get_errors());
     }
 
     public function test_rand_selection() {
         $cs = array('a:rand_selection([a,b,c,d], 4)', 'b:sort(a)');
+        foreach ($cs as $s) {
+            $s1[] = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security(), array());
+        }
+        $at1 = new stack_cas_session2($s1, null, 0);
+        $at1->instantiate();
+        $this->assertEquals('[a,b,c,d]', $s1[1]->get_value());
+    }
+
+    public function test_rand_selection_set() {
+        $cs = array('a:rand_selection({a,b,c,d}, 4)', 'b:sort(a)');
         foreach ($cs as $s) {
             $s1[] = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security(), array());
         }

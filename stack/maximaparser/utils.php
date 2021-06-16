@@ -254,10 +254,10 @@ class maxima_parser_utils {
     }
 
 
-    /** 
+    /**
      * Takes an array of ASTs and an array of identifier keyed lists of replacements and
      * replaces said identifiers including operators in the targets one at a time
-     * in the order given in a separate list, if the list is not given will replace in 
+     * in the order given in a separate list, if the list is not given will replace in
      * the order the replacements were given.
      * Returns all distinct results in a toString keyed array of ASTs.
      *
@@ -297,11 +297,14 @@ class maxima_parser_utils {
             if ($node instanceof MP_Identifier && $node->value === $trg && !$replacepaint) {
                 // Never replace function name or indexing target with an integer or a float.
                 if ($value instanceof MP_Integer || $value instanceof MP_Float) {
-                    if ($node->is_function_name() || ($node->parentnode instanceof MP_Indexing && $node->parentnode->target === $node)) {
+                    if ($node->is_function_name()
+                            || ($node->parentnode instanceof MP_Indexing && $node->parentnode->target === $node)) {
                         return true;
                     }
                 }
-                if ($node->parentnode instanceof MP_List && $node->parentnode->parentnode instanceof MP_FunctionCall && $node->parentnode->parentnode->name instanceof MP_Atom && $node->parentnode->parentnode->name->value === 'lambda') {
+                if ($node->parentnode instanceof MP_List && $node->parentnode->parentnode instanceof MP_FunctionCall
+                        && $node->parentnode->parentnode->name instanceof MP_Atom
+                        && $node->parentnode->parentnode->name->value === 'lambda') {
                     // Do not touch these.
                     return true;
                 }
@@ -309,44 +312,60 @@ class maxima_parser_utils {
                 if ($opmode && !$node->is_function_name()) {
                     return true;
                 }
-                if ($node->parentnode instanceof MP_Operation && $node->parentnode->op === ':' && $node->parentnode->lhs === $node) {
+                if ($node->parentnode instanceof MP_Operation && $node->parentnode->op === ':'
+                        && $node->parentnode->lhs === $node) {
                     return true; // Not for direct assings.
                 }
-                if ($node->parentnode instanceof MP_List && $node->parentnode->parentnode instanceof MP_Operation && $node->parentnode->parentnode->op === ':' && $node->parentnode->parentnode->lhs === $node->parentnode) {
-                    return true; // Not for multi assings.   
+                if ($node->parentnode instanceof MP_List && $node->parentnode->parentnode instanceof MP_Operation
+                        && $node->parentnode->parentnode->op === ':'
+                        && $node->parentnode->parentnode->lhs === $node->parentnode) {
+                    return true; // Not for multi assings.
                 }
 
                 // Solve needs the arguments after the first to be protected.
-                if ($node->parentnode instanceof MP_FunctionCall && $node->parentnode->name instanceof MP_Atom && $node->parentnode->name->value === 'solve') {
+                if ($node->parentnode instanceof MP_FunctionCall && $node->parentnode->name instanceof MP_Atom
+                        && $node->parentnode->name->value === 'solve') {
                     if ($node->parentnode->arguments[0] !== $node) {
                         return true;
                     }
                 }
-                // We very specially do not replace the LHS of `=`-op if it is in
-                // the first argument of a subst.
-                if ($node->parentnode instanceof MP_Operation && $node->parentnode->op === '=' && $node->parentnode->lhs === $node) {
-                    if ($node->parentnode->parentnode instanceof MP_FunctionCall && $node->parentnode->parentnode->arguments[0] === $node->parentnode && $node->parentnode->parentnode->name instanceof MP_Atom && $node->parentnode->parentnode->name->value === 'subst') {
-                        // No list case
+                // We very specially do not replace the LHS of `=`-op if it is in the first argument of a subst.
+                if ($node->parentnode instanceof MP_Operation && $node->parentnode->op === '='
+                        && $node->parentnode->lhs === $node) {
+                    if ($node->parentnode->parentnode instanceof MP_FunctionCall
+                            && $node->parentnode->parentnode->arguments[0] === $node->parentnode
+                            && $node->parentnode->parentnode->name instanceof MP_Atom
+                            && $node->parentnode->parentnode->name->value === 'subst') {
+                        // No list case.
                         return true;
                     }
-                    if ($node->parentnode->parentnode instanceof MP_List && $node->parentnode->parentnode->parentnode instanceof MP_FunctionCall && $node->parentnode->parentnode->parentnode->arguments[0] === $node->parentnode->parentnode && $node->parentnode->parentnode->parentnode->name instanceof MP_Atom && $node->parentnode->parentnode->parentnode->name->value === 'subst') {
-                        // The lsit case.
+                    if ($node->parentnode->parentnode instanceof MP_List
+                            && $node->parentnode->parentnode->parentnode instanceof MP_FunctionCall
+                            && $node->parentnode->parentnode->parentnode->arguments[0] === $node->parentnode->parentnode
+                            && $node->parentnode->parentnode->parentnode->name instanceof MP_Atom
+                            && $node->parentnode->parentnode->parentnode->name->value === 'subst') {
+                        // The list case.
                         return true;
                     }
                 }
                 // The target of substitution in the three arg case.
-                if ($node->parentnode instanceof MP_FunctionCall && $node->parentnode->name instanceof MP_Atom && $node->parentnode->name->value === 'subst' && count($node->parentnode->arguments) === 3 && $node->parentnode->arguments[1] === $node) {
+                if ($node->parentnode instanceof MP_FunctionCall && $node->parentnode->name instanceof MP_Atom
+                        && $node->parentnode->name->value === 'subst'
+                        && count($node->parentnode->arguments) === 3
+                        && $node->parentnode->arguments[1] === $node) {
                     return true;
                 }
                 // Similarily for `:` and `=` in the case of ev and not the first argument.
-                if ($node->parentnode instanceof MP_Operation && ($node->parentnode->op === '=' || $node->parentnode->op === ':') && $node->parentnode->lhs === $node) {
+                if ($node->parentnode instanceof MP_Operation && ($node->parentnode->op === '=' || $node->parentnode->op === ':')
+                        && $node->parentnode->lhs === $node) {
                     $i = $node->argument_of('ev');
                     if ($i !== false && $i > 0) {
                         return true;
                     }
                 }
                 // The second argument of at is also secure.
-                if ($node->parentnode instanceof MP_Operation && ($node->parentnode->op === '=' || $node->parentnode->op === ':') && $node->parentnode->lhs === $node) {
+                if ($node->parentnode instanceof MP_Operation && ($node->parentnode->op === '=' || $node->parentnode->op === ':')
+                        && $node->parentnode->lhs === $node) {
                     $i = $node->argument_of('at');
                     if ($i !== false && $i === 1) {
                         return true;
@@ -381,10 +400,10 @@ class maxima_parser_utils {
             $value = $val;
             if (is_integer($val)) {
                 continue;
-            } 
+            }
             $gotany = true;
             foreach ($asts as $src) {
-                if (mb_strpos($src->toString(), $trg) !== false) {                    
+                if (mb_strpos($src->toString(), $trg) !== false) {
                     $tmp = new MP_Group([clone $src]);
                     $tmp->callbackRecurse($replacetrivial);
                     $out[$tmp->items[0]->toString()] = $tmp->items[0];
@@ -406,7 +425,7 @@ class maxima_parser_utils {
      * options for the values. Will replace identifiers present as keys in the substs
      * array with the values from that array as long as no parent-node of the identifier
      * has been replaced with the same identifier. Note this does not do operator replacements.
-     * 
+     *
      * Returns a cloned version of the input with the replacements.
      */
     public static function substitute_in_parallel(MP_Node $ast, array $substs): MP_Node {
@@ -417,11 +436,14 @@ class maxima_parser_utils {
             if ($node instanceof MP_Identifier && isset($subst[$node->value])) {
                 // Never replace function name or indexing target with an integer or a float.
                 if ($subst[$node->value] instanceof MP_Integer || $subst[$node->value] instanceof MP_Float) {
-                    if ($node->is_function_name() || ($node->parentnode instanceof MP_Indexing && $node->parentnode->target === $node)) {
+                    if ($node->is_function_name()
+                            || ($node->parentnode instanceof MP_Indexing && $node->parentnode->target === $node)) {
                         return true;
                     }
                 }
-                if ($node->parentnode instanceof MP_List && $node->parentnode->parentnode instanceof MP_FunctionCall && $node->parentnode->parentnode->name instanceof MP_Atom && $node->parentnode->parentnode->name->value === 'lambda') {
+                if ($node->parentnode instanceof MP_List && $node->parentnode->parentnode instanceof MP_FunctionCall
+                        && $node->parentnode->parentnode->name instanceof MP_Atom
+                        && $node->parentnode->parentnode->name->value === 'lambda') {
                     // Do not touch these.
                     return true;
                 }
@@ -430,36 +452,48 @@ class maxima_parser_utils {
                     return true;
                 }
                 // Solve needs the arguments after the first to be protected.
-                if ($node->parentnode instanceof MP_FunctionCall && $node->parentnode->name instanceof MP_Atom && ($node->parentnode->name->value === 'solve')) {
+                if ($node->parentnode instanceof MP_FunctionCall && $node->parentnode->name instanceof MP_Atom
+                        && ($node->parentnode->name->value === 'solve')) {
                     if ($node->parentnode->arguments[0] !== $node) {
                         return true;
                     }
                 }
-                // We very specially do not replace the LHS of `=`-op if it is in
-                // the first argument of a subst.
-                if ($node->parentnode instanceof MP_Operation && $node->parentnode->op === '=' && $node->parentnode->lhs === $node) {
-                    if ($node->parentnode->parentnode instanceof MP_FunctionCall && $node->parentnode->parentnode->arguments[0] === $node->parentnode && $node->parentnode->parentnode->name instanceof MP_Atom && $node->parentnode->parentnode->name->value === 'subst') {
-                        // No list case
+                // We very specially do not replace the LHS of `=`-op if it is in the first argument of a subst.
+                if ($node->parentnode instanceof MP_Operation && $node->parentnode->op === '='
+                        && $node->parentnode->lhs === $node) {
+                    if ($node->parentnode->parentnode instanceof MP_FunctionCall
+                            && $node->parentnode->parentnode->arguments[0] === $node->parentnode
+                            && $node->parentnode->parentnode->name instanceof MP_Atom
+                            && $node->parentnode->parentnode->name->value === 'subst') {
+                        // No list case.
                         return true;
                     }
-                    if ($node->parentnode->parentnode instanceof MP_List && $node->parentnode->parentnode->parentnode instanceof MP_FunctionCall && $node->parentnode->parentnode->parentnode->arguments[0] === $node->parentnode->parentnode && $node->parentnode->parentnode->parentnode->name instanceof MP_Atom && $node->parentnode->parentnode->parentnode->name->value === 'subst') {
-                        // The lsit case.
+                    if ($node->parentnode->parentnode instanceof MP_List
+                            && $node->parentnode->parentnode->parentnode instanceof MP_FunctionCall
+                            && $node->parentnode->parentnode->parentnode->arguments[0] === $node->parentnode->parentnode
+                            && $node->parentnode->parentnode->parentnode->name instanceof MP_Atom
+                            && $node->parentnode->parentnode->parentnode->name->value === 'subst') {
+                        // The list case.
                         return true;
                     }
                 }
                 // The target of substitution in the three arg case.
-                if ($node->parentnode instanceof MP_FunctionCall && $node->parentnode->name instanceof MP_Atom && $node->parentnode->name->value === 'subst' && count($node->parentnode->arguments) === 3 && $node->parentnode->arguments[1] === $node) {
+                if ($node->parentnode instanceof MP_FunctionCall && $node->parentnode->name instanceof MP_Atom
+                        && $node->parentnode->name->value === 'subst' && count($node->parentnode->arguments) === 3
+                        && $node->parentnode->arguments[1] === $node) {
                     return true;
                 }
                 // Similarily for `:` and `=` in the case of ev and not the first argument.
-                if ($node->parentnode instanceof MP_Operation && ($node->parentnode->op === '=' || $node->parentnode->op === ':') && $node->parentnode->lhs === $node) {
+                if ($node->parentnode instanceof MP_Operation && ($node->parentnode->op === '=' || $node->parentnode->op === ':')
+                        && $node->parentnode->lhs === $node) {
                     $i = $node->argument_of('ev');
                     if ($i !== false && $i > 0) {
                         return true;
                     }
                 }
                 // The second argument of at is also secure.
-                if ($node->parentnode instanceof MP_Operation && ($node->parentnode->op === '=' || $node->parentnode->op === ':') && $node->parentnode->lhs === $node) {
+                if ($node->parentnode instanceof MP_Operation && ($node->parentnode->op === '=' || $node->parentnode->op === ':')
+                        && $node->parentnode->lhs === $node) {
                     $i = $node->argument_of('at');
                     if ($i !== false && $i === 1) {
                         return true;
@@ -487,7 +521,7 @@ class maxima_parser_utils {
 
             return true;
         };
-        while (!$tmp->callbackRecurse($replace)){};
+        while (!$tmp->callbackRecurse($replace)) {};
 
         return $tmp->items[0];
     }
@@ -505,23 +539,21 @@ class maxima_parser_utils {
         return $tmp->items[0];
     }
 
-
     // Tool to build an estimate of the identifiers and their types and values
     // for future insert-stars logic. The map will describe the values as follows,
     // there will be an array of the values it receives the array will include:
     // 1. -1 if the value is a custom function definition.
     // 2. ASTs of all the values assigned.
     // 3. will be empty if no assings happen but is still used.
-    // 4. -2 might be predefined in the given list to signal an input indentifier
-    // 5. -3 signals something that might have a value from unclear substitutions and
-    //    thus the type would be unknown
+    // 4. -2 might be predefined in the given list to signal an input indentifier.
+    // 5. -3 signals something that might have a value from unclear substitutions and thus the type would be unknown.
     // 6. -4 if the identifier is ever called as a function.
     // For insert-stars purposes if the identifier has count=1 items in the array and
     // the only key present is -1 then the identifier is a function defined in
     // the question and should be used as such.
-    
-    // Includes a timeout logic that will stop exploring after a time if we time out 
-    // a special key '% TIMEOUT %' will have a value. 
+
+    // Includes a timeout logic that will stop exploring after a time if we time out
+    // a special key '% TIMEOUT %' will have a value.
     public static function identify_identifier_values($ast, $expand=[], $timeout=20): array {
         $timelimit = microtime(true) + $timeout;
         $output = array_merge($expand, []);
@@ -529,7 +561,7 @@ class maxima_parser_utils {
 
         if ($timelimit < microtime(true)) {
             $output['% TIMEOUT %'] = true;
-            return $output;    
+            return $output;
         }
 
         // First rewrite evaluation-flags to evs. And pick up all the statements.
@@ -544,11 +576,12 @@ class maxima_parser_utils {
                     $v = null;
                     // Now ev-flags apply to the rhs of an assingment but not the left.
                     if ($node->statement instanceof MP_Operation && ($node->op === ':' || $node->op === ':=')) {
-                        $v = new MP_Operation($node->op, clone $node->lhs, new MP_FunctionCall(new MP_Identifier('ev'), array_merge([clone $node->rhs], $flags)));
+                        $v = new MP_Operation($node->op, clone $node->lhs, new MP_FunctionCall(new MP_Identifier('ev'),
+                                array_merge([clone $node->rhs], $flags)));
                     } else {
                         $v = new MP_FunctionCall(new MP_Identifier('ev'), array_merge([clone $node->statement], $flags));
                     }
-                    
+
                     $workset1[$v->toString()] = $v;
                 } else {
                     // Only uniques so that repeated definitions do not cause issues.
@@ -594,13 +627,16 @@ class maxima_parser_utils {
         // Also do the block-local and argument disconnect.
         $workset2 = [];
         $lambdas = function($node) use(&$output, &$fakesym, &$fakes, &$workset2, &$funargs) {
-            if ($node instanceof MP_Operation && $node->op === ':' && $node->rhs instanceof MP_FunctionCall && $node->rhs->name instanceof MP_Atom && $node->rhs->name->value === 'lambda' && $node->lhs instanceof MP_Identifier) {
+            if ($node instanceof MP_Operation && $node->op === ':' && $node->rhs instanceof MP_FunctionCall
+                    && $node->rhs->name instanceof MP_Atom && $node->rhs->name->value === 'lambda'
+                    && $node->lhs instanceof MP_Identifier) {
                 if (!isset($output[$node->lhs->value])) {
                     $output[$node->lhs->value] = [-1 => -1];
                 } else {
                     $output[$node->lhs->value][-1] = -1;
                 }
-                $r = new MP_Operation(':=', new MP_FunctionCall($node->lhs, []), new MP_Group(array_slice($node->rhs->arguments, 1)));
+                $r = new MP_Operation(':=', new MP_FunctionCall($node->lhs, []),
+                        new MP_Group(array_slice($node->rhs->arguments, 1)));
                 if ($node->rhs->arguments[0] instanceof MP_List) {
                     $r->lhs->arguments = $node->rhs->arguments[0]->items;
                 }
@@ -626,7 +662,8 @@ class maxima_parser_utils {
                         $fakes[] = '%fake' . $fakesym;
                         $output['%fake' . $fakesym] = [];
                     }
-                } else if (count($node->arguments) > 0 && $node->arguments[0] instanceof MP_FunctionCall && $node->arguments[0]->name instanceof MP_Atom && $node->arguments[0]->name->value === 'local') {
+                } else if (count($node->arguments) > 0 && $node->arguments[0] instanceof MP_FunctionCall
+                        && $node->arguments[0]->name instanceof MP_Atom && $node->arguments[0]->name->value === 'local') {
                     foreach ($node->arguments[0]->arguments as $arg) {
                         while (isset($output['%fake' . $fakesym])) {
                             $fakesym = $fakesym + 1;
@@ -658,7 +695,7 @@ class maxima_parser_utils {
                 $vars = [];
                 $args = [];
                 $offset = 1;
-            
+
                 // The first one must always be a list.
                 if ($node->arguments[0] instanceof MP_List) {
                     foreach ($node->arguments[0]->items as $arg) {
@@ -671,7 +708,8 @@ class maxima_parser_utils {
                         $output['%fake' . $fakesym] = [];
                     }
                 }
-                if (count($node->arguments) > 2 && $node->arguments[1] instanceof MP_FunctionCall && $node->arguments[1]->name instanceof MP_Atom && $node->arguments[1]->name->value === 'local') {
+                if (count($node->arguments) > 2 && $node->arguments[1] instanceof MP_FunctionCall
+                        && $node->arguments[1]->name instanceof MP_Atom && $node->arguments[1]->name->value === 'local') {
                     $offset = 2;
                     foreach ($node->arguments[1]->arguments as $arg) {
                         while (isset($output['%fake' . $fakesym])) {
@@ -682,7 +720,7 @@ class maxima_parser_utils {
                         $output['%fake' . $fakesym] = [];
                     }
                 }
-            
+
                 // Fake fun.
                 while (isset($output['%fake' . $fakesym])) {
                     $fakesym = $fakesym + 1;
@@ -692,13 +730,14 @@ class maxima_parser_utils {
 
                 $repl = new MP_Group(array_slice($node->arguments, $offset));
                 $repl = self::id_replace($repl, $vars);
-            
+
                 $funargs['%fake' . $fakesym] = [];
                 foreach ($args as $arg) {
                     $funargs['%fake' . $fakesym][] = $arg->toString();
                 }
 
-                $fun = new MP_Operation(':=', new MP_FunctionCall(new MP_Identifier('%fake' . $fakesym), array_values($args)), $repl);
+                $fun = new MP_Operation(':=',
+                        new MP_FunctionCall(new MP_Identifier('%fake' . $fakesym), array_values($args)), $repl);
                 $fun->position['disconnected'] = true;
                 $workset2[$fun->toString()] = $fun;
 
@@ -706,7 +745,8 @@ class maxima_parser_utils {
                 return false;
             }
             // Then normal functions.
-            if ($node instanceof MP_Operation && $node->op === ':=' && !isset($node->position['disconnected']) && $node->lhs instanceof MP_FunctionCall) {
+            if ($node instanceof MP_Operation && $node->op === ':=' && !isset($node->position['disconnected'])
+                    && $node->lhs instanceof MP_FunctionCall) {
                 // Only after these have been handled.
                 $types = $node->type_count();
                 if (isset($types['funs']['block']) || isset($types['funs']['lambda'])) {
@@ -740,9 +780,12 @@ class maxima_parser_utils {
         // Also build the importance mapping.
         $usedinops = [];
         $localfun = function($node) use (&$output, &$funargs, &$usedasfun, &$usedinops) {
-            if ($node instanceof MP_FunctionCall && $node->name instanceof MP_Atom && !isset($node->position['arg extracted']) && isset($funargs[$node->name->value]) && !$node->is_definition()) {
+            if ($node instanceof MP_FunctionCall && $node->name instanceof MP_Atom
+                    && !isset($node->position['arg extracted'])
+                    && isset($funargs[$node->name->value])
+                    && !$node->is_definition()) {
                 $node->position['arg extracted'] = true;
-                
+
                 foreach ($funargs[$node->name->value] as $i => $name) {
                     if (!isset($output[$name])) {
                         $output[$name] = [];
@@ -762,12 +805,12 @@ class maxima_parser_utils {
             return true;
         };
 
-
         // Do initial simplification, write open static bits.
         // Replace sub-structures with a placeholder functions. Try to cut down the number of
         // nodes in the AST as much as possible, but not so much that side effects get lost.
         $mergelimit = 50;
-        // Mergelimit controls the size of an expression that will be merged down to SCE it also controls some rules like indexing evaluation.
+        // Mergelimit controls the size of an expression that will be merged down to SCE
+        // it also controls some rules like indexing evaluation.
         $open1 = function($node) use (&$sec, &$mergelimit) {
             if ($node instanceof MP_FunctionCall && $node->name instanceof MP_Atom) {
                 if ($node->name->value === 'ascii') {
@@ -843,15 +886,17 @@ class maxima_parser_utils {
                     }
                 } else if ($node->name->value === 'subst') {
                     // Subst can be mapped to evs, note though that we only do that here for
-                    // The list or direct relation case if we see the expected thing and 
-                    // the three argument case as we see what we do in those cases, others 
+                    // The list or direct relation case if we see the expected thing and
+                    // the three argument case as we see what we do in those cases, others
                     // stay 'unevaluated' for now.
                     if (count($node->arguments) === 3) {
-                        $r = new MP_FunctionCall(new MP_Identifier('ev'), [$node->arguments[2], new MP_Operation('=', $node->arguments[1], $node->arguments[0])]);
+                        $r = new MP_FunctionCall(new MP_Identifier('ev'), [$node->arguments[2],
+                            new MP_Operation('=', $node->arguments[1], $node->arguments[0])]);
                         $node->parentnode->replace($node, $r);
-                        return false;   
+                        return false;
                     } else if (count($node->arguments) === 2) {
-                        if ($node->arguments[0] instanceof MP_Operation && $node->arguments[0]->op === '=' && $node->arguments[0]->lhs instanceof MP_Identifier) {
+                        if ($node->arguments[0] instanceof MP_Operation && $node->arguments[0]->op === '='
+                                && $node->arguments[0]->lhs instanceof MP_Identifier) {
                             $r = new MP_FunctionCall(new MP_Identifier('ev'), [$node->arguments[1], $node->arguments[0]]);
                             $node->parentnode->replace($node, $r);
                             return false;
@@ -859,7 +904,10 @@ class maxima_parser_utils {
                             // This is for recursions sake.
                             $node->parentnode->replace($node, $node->arguments[1]);
                             return false;
-                        } else if ($node->arguments[0] instanceof MP_List && $node->arguments[0]->items[0] instanceof MP_Operation && $node->arguments[0]->items[0]->op === '=' && $node->arguments[0]->items[0]->lhs instanceof MP_Identifier) {
+                        } else if ($node->arguments[0] instanceof MP_List
+                                && $node->arguments[0]->items[0] instanceof MP_Operation
+                                && $node->arguments[0]->items[0]->op === '='
+                                && $node->arguments[0]->items[0]->lhs instanceof MP_Identifier) {
                             // We extract the last substitution out to be executed last.
                             $t = array_pop($node->arguments[0]->items);
                             $r = new MP_FunctionCall(new MP_Identifier('ev'), [$node, $t]);
@@ -964,7 +1012,7 @@ class maxima_parser_utils {
                     } else if ($node->arguments[0] instanceof MP_Float) {
                         $node->parentnode->replace($node, new MP_Float(null, null));
                         return false;
-                    } 
+                    }
                 } else if ($node->name->value === 'rand_with_step') {
                     if ($node->arguments[0] instanceof MP_Integer && $node->arguments[2] instanceof MP_Integer) {
                         $node->parentnode->replace($node, new MP_Integer(null, null));
@@ -981,7 +1029,7 @@ class maxima_parser_utils {
                         $node->arguments[0]->lhs = $tmp;
                         $node->parentnode->replace($node, $node->arguments[0]);
                         return false;
-                    }              
+                    }
                 } else if ($node->name->value === 'length' && isset($node->arguments[0])) {
                     if ($node->arguments[0] instanceof MP_FunctionCall && $node->arguments[0]->name instanceof MP_Identifier) {
                         switch ($node->arguments[0]->name->value) {
@@ -998,9 +1046,11 @@ class maxima_parser_utils {
                 } else if ($node->name->value === 'delete') {
                     // Just ignore the deletion. If the term is not complex.
                     $types = $node->arguments[0]->type_count();
-                    if (!isset($types['ops'][':']) && !isset($types['funs']['ev']) && !isset($types['funs']['subst']) && !isset($types['funs']['solve']) && !isset($types['funs']['at'])) {
+                    if (!isset($types['ops'][':']) && !isset($types['funs']['ev'])
+                            && !isset($types['funs']['subst']) && !isset($types['funs']['solve'])
+                            && !isset($types['funs']['at'])) {
                         $node->parentnode->replace($node, $node->arguments[1]);
-                        return false;    
+                        return false;
                     }
                 } else if ($node->name->value === 'sconcat') {
                     $strings = [];
@@ -1017,7 +1067,9 @@ class maxima_parser_utils {
                         $node->parentnode->replace($node, new MP_String(implode('', $strings)));
                         return false;
                     }
-                } else if ($node->name->value === 'stack_complex_expression' && $node->parentnode instanceof MP_FunctionCall && $node->parentnode->name->toString() === 'stack_complex_expression') {
+                } else if ($node->name->value === 'stack_complex_expression'
+                        && $node->parentnode instanceof MP_FunctionCall
+                        && $node->parentnode->name->toString() === 'stack_complex_expression') {
                     // These can be merged together, do unique at the same time.
                     $newargs = [];
                     foreach ($node->parentnode->arguments as $arg) {
@@ -1026,23 +1078,27 @@ class maxima_parser_utils {
                         }
                     }
                     foreach ($node->arguments as $arg) {
-                        $newargs[$arg->toString()] = $arg;    
+                        $newargs[$arg->toString()] = $arg;
                     }
                     $node->parentnode->arguments = array_values($newargs);
                     return false;
                 } else if ($node->name->value === 'makelist' && count($node->arguments) >= 4) {
-                    if ($node->arguments[2] instanceof MP_Integer && $node->arguments[3] instanceof MP_Integer && $node->arguments[0]->toString() === $node->arguments[1]->toString()) {
+                    if ($node->arguments[2] instanceof MP_Integer
+                            && $node->arguments[3] instanceof MP_Integer
+                            && $node->arguments[0]->toString() === $node->arguments[1]->toString()) {
                         $node->parentnode->replace($node, new MP_FunctionCall(new MP_Identifier('stack_integer_list'), []));
                         return false;
                     }
                 }
             }
-            if (($node instanceof MP_List && (!($node->parentnode instanceof MP_Indexing) || $node->parentnode->target === $node)) || $node instanceof MP_Set) {
+            if (($node instanceof MP_List && (!($node->parentnode instanceof MP_Indexing)
+                    || $node->parentnode->target === $node)) || $node instanceof MP_Set) {
                 // This aims to cut down rands and matrices present in the AST.
                 // Note that while stack_expression_list is a thing we do not create
                 // them here.
                 $types = $node->type_count();
-                if (!isset($types['MP_Identifier']) && !isset($types['MP_String']) && !isset($types['MP_FunctionCall']) && !(isset($types['ops']) && isset($types['ops'][':']))) {
+                if (!isset($types['MP_Identifier']) && !isset($types['MP_String']) && !isset($types['MP_FunctionCall'])
+                        && !(isset($types['ops']) && isset($types['ops'][':']))) {
                     if (!isset($types['MP_Float'])) {
                         if ($node instanceof MP_List) {
                             $node->parentnode->replace($node, new MP_FunctionCall(new MP_Identifier('stack_integer_list'), []));
@@ -1060,7 +1116,8 @@ class maxima_parser_utils {
                     }
                 }
             }
-            if ($node instanceof MP_PrefixOp && ($node->rhs instanceof MP_Integer || $node->rhs instanceof MP_Float) && $node->op === '-') {
+            if ($node instanceof MP_PrefixOp && ($node->rhs instanceof MP_Integer || $node->rhs instanceof MP_Float)
+                    && $node->op === '-') {
                 if ($node->rhs->value !== null) {
                     $node->rhs->value = -$node->rhs->value;
                     if ($node->rhs->raw !== null) {
@@ -1070,7 +1127,8 @@ class maxima_parser_utils {
                 $node->parentnode->replace($node, $node->rhs);
                 return false;
             }
-            if ($node instanceof MP_Operation && ($node->rhs instanceof MP_Integer || $node->rhs instanceof MP_Float) && ($node->lhs instanceof MP_Integer || $node->lhs instanceof MP_Float)) {
+            if ($node instanceof MP_Operation && ($node->rhs instanceof MP_Integer || $node->rhs instanceof MP_Float)
+                    && ($node->lhs instanceof MP_Integer || $node->lhs instanceof MP_Float)) {
                 if ($node->rhs instanceof MP_Integer && $node->lhs instanceof MP_Integer) {
                     $val = null;
                     if ($node->rhs->value !== null && $node->lhs->value !== null) {
@@ -1107,7 +1165,8 @@ class maxima_parser_utils {
                 $node->parentnode->replace($node, new MP_Float(null, null));
                 return false;
             }
-            if ($node instanceof MP_Indexing && count($node->indices) === 1 && !($node->parentnode instanceof MP_Operation && $node->parentnode->lhs === $node && $node->op === ':')) {
+            if ($node instanceof MP_Indexing && count($node->indices) === 1
+                    && !($node->parentnode instanceof MP_Operation && $node->parentnode->lhs === $node && $node->op === ':')) {
                 $indexl = $node->indices[0];
                 $i = null;
                 $r = null;
@@ -1139,12 +1198,12 @@ class maxima_parser_utils {
                             $node->parentnode->replace($node, array_pop($terms));
                             return false;
                         }
-                    } 
+                    }
                     if ($mergelimit < 30) {
                         if ($i === null) {
-                        $sce = self::to_sce($node, $sec);
+                            $sce = self::to_sce($node, $sec);
                             if ($sce->toString() !== $node->toString()) {
-                                $node->parentnode->replace($node, $sce);
+                                    $node->parentnode->replace($node, $sce);
                                 return false;
                             }
                         } else {
@@ -1160,8 +1219,11 @@ class maxima_parser_utils {
                         $c = $indexl->items[1]->value;
                     }
                     if (!($r === null || $c === null || $c < 1 || $r < 1)) {
-                        if ($node->target instanceof MP_FunctionCall && $node->target->name instanceof MP_Atom && $node->target->name->value === 'matrix' && count($node->target->arguments) >= $r) {
-                            if ($node->target->arguments[$r - 1] instanceof MP_List && count($node->target->arguments[$r - 1]->items) >= $c) {
+                        if ($node->target instanceof MP_FunctionCall
+                                && $node->target->name instanceof MP_Atom
+                                && $node->target->name->value === 'matrix' && count($node->target->arguments) >= $r) {
+                            if ($node->target->arguments[$r - 1] instanceof MP_List
+                                    && count($node->target->arguments[$r - 1]->items) >= $c) {
                                 $node->parentnode->replace($node, $node->target->arguments[$r - 1]->items[$c - 1]);
                                 return false;
                             }
@@ -1175,26 +1237,29 @@ class maxima_parser_utils {
                         }
                     }
                 }
-            } 
+            }
 
-            // Special constants...
-            if ($node instanceof MP_Identifier && ($node->value === 'pi' || $node->value === '%pi' || $node->value === '%e' || $node->value === '%phi' || $node->value === 'inf' || $node->value === 'minf' || $node->value === 'infinity' || $node->value === '%gamma')) {
+            // Special constants.
+            if ($node instanceof MP_Identifier && ($node->value === 'pi' || $node->value === '%pi'
+                    || $node->value === '%e' || $node->value === '%phi'
+                    || $node->value === 'inf' || $node->value === 'minf' || $node->value === 'infinity'
+                    || $node->value === '%gamma')) {
                 $node->parentnode->replace($node, new MP_Float(null, null));
                 return false;
             }
 
-            // Double unary minus... these are generated by tracing through examples of odd and even functions.
+            // Double unary minus. These are generated by tracing through examples of odd and even functions.
             if ($node instanceof MP_PrefixOp && $node->op === '-' && $node->rhs instanceof MP_PrefixOp && $node->rhs->op === '-') {
                 $node->parentnode->replace($node, $node->rhs->rhs);
                 return false;
             }
-            // Ignore all evaluation ops...
+            // Ignore all evaluation ops.
             if ($node instanceof MP_PrefixOp && $node->op === "'") {
                 $node->parentnode->replace($node, $node->rhs);
                 return false;
             }
 
-            // Clean up some extra groupings. Saves on storage size...
+            // Clean up some extra groupings. Saves on storage size.
             if ($node instanceof MP_Group && count($node->items) === 1 && (
                 $node->parentnode instanceof MP_Group ||
                 $node->parentnode instanceof MP_Set ||
@@ -1205,7 +1270,7 @@ class maxima_parser_utils {
                 return false;
             }
             if ($node instanceof MP_Group && count($node->items) === 1 && (
-                $node->items[0] instanceof MP_FunctionCall || 
+                $node->items[0] instanceof MP_FunctionCall ||
                 $node->items[0] instanceof MP_Atom ||
                 $node->items[0] instanceof MP_List ||
                 $node->items[0] instanceof MP_Set)) {
@@ -1232,9 +1297,10 @@ class maxima_parser_utils {
             // Arithmetic with complex expressions.
             if ($node instanceof MP_Operation && $node->op !== '=' && $node->op !== ':=' && $node->op !== ':') {
                 if ($node->rhs instanceof MP_FunctionCall && $node->rhs->name instanceof MP_Atom &&
-                    ($node->rhs->name->value === 'stack_complex_expression' || $node->rhs->name->value === 'stack_complex_unknown') &&
-                    $node->lhs instanceof MP_FunctionCall && $node->lhs->name instanceof MP_Atom && 
-                    ($node->lhs->name->value === 'stack_complex_expression' || $node->lhs->name->value === 'stack_complex_unknown')) {
+                    ($node->rhs->name->value === 'stack_complex_expression' || $node->rhs->name->value === 'stack_complex_unknown')
+                        && $node->lhs instanceof MP_FunctionCall && $node->lhs->name instanceof MP_Atom
+                        && ($node->lhs->name->value === 'stack_complex_expression'
+                                || $node->lhs->name->value === 'stack_complex_unknown')) {
                     $terms = [];
                     // Unique them.
                     foreach ($node->rhs->arguments as $value) {
@@ -1252,10 +1318,13 @@ class maxima_parser_utils {
 
             }
             if ($node instanceof MP_Operation && $node->op !== '=' && $node->op !== ':=' && $node->op !== ':') {
-                if (($node->rhs instanceof MP_FunctionCall && $node->rhs->name instanceof MP_Atom &&
-                    ($node->rhs->name->value === 'stack_complex_expression' || $node->rhs->name->value === 'stack_complex_unknown') ||
-                    $node->lhs instanceof MP_FunctionCall && $node->lhs->name instanceof MP_Atom && 
-                    ($node->lhs->name->value === 'stack_complex_expression' || $node->lhs->name->value === 'stack_complex_unknown')) && ($node->rhs instanceof MP_Atom || $node->lhs instanceof MP_Atom)) {
+                if (($node->rhs instanceof MP_FunctionCall && $node->rhs->name instanceof MP_Atom
+                        && ($node->rhs->name->value === 'stack_complex_expression'
+                                || $node->rhs->name->value === 'stack_complex_unknown')
+                        || $node->lhs instanceof MP_FunctionCall && $node->lhs->name instanceof MP_Atom
+                        && ($node->lhs->name->value === 'stack_complex_expression'
+                                || $node->lhs->name->value === 'stack_complex_unknown'))
+                        && ($node->rhs instanceof MP_Atom || $node->lhs instanceof MP_Atom)) {
                     $terms = [];
                     // Unique them.
                     if ($node->rhs instanceof MP_Atom) {
@@ -1281,7 +1350,6 @@ class maxima_parser_utils {
                     $node->parentnode->replace($node, $r);
                     return false;
                 }
-
             }
 
             // Assumptions about single argument functions apply.
@@ -1303,12 +1371,13 @@ class maxima_parser_utils {
                 return false;
             }
 
-
             // Check that a complex expression is still clean.
-            if ($node instanceof MP_FunctionCall && $node->name instanceof MP_Atom && $node->name->value === 'stack_complex_expression') {
+            if ($node instanceof MP_FunctionCall && $node->name instanceof MP_Atom
+                    && $node->name->value === 'stack_complex_expression') {
                 $clean = true;
                 foreach ($node->arguments as $arg) {
-                    if ($arg instanceof MP_PrefixOp || $arg instanceof MP_Integer || $arg instanceof MP_Float || ($arg instanceof MP_FunctionCall && $arg->name->toString() === 'stack_complex_expression')) {
+                    if ($arg instanceof MP_PrefixOp || $arg instanceof MP_Integer || $arg instanceof MP_Float
+                            || ($arg instanceof MP_FunctionCall && $arg->name->toString() === 'stack_complex_expression')) {
                         $clean = false;
                         break;
                     }
@@ -1324,7 +1393,10 @@ class maxima_parser_utils {
             // Catch all large, this will lead to missing some nuances.
             if (!isset($node->position['open1 groupped'])) {
                 $types = $node->type_count();
-                if (!isset($types['MP_Statement']) && $types['totalnodes'] > $mergelimit && count($types['vars']) + 1 < $mergelimit && !isset($types['ops'][':']) && !isset($types['ops']['=']) && !isset($types['funs']['subst']) && !isset($types['funs']['ev']) && !isset($types['funs']['solve']) && !isset($types['funs']['at'])) {
+                if (!isset($types['MP_Statement']) && $types['totalnodes'] > $mergelimit
+                        && count($types['vars']) + 1 < $mergelimit && !isset($types['ops'][':'])
+                        && !isset($types['ops']['=']) && !isset($types['funs']['subst'])
+                        && !isset($types['funs']['ev']) && !isset($types['funs']['solve']) && !isset($types['funs']['at'])) {
                     $ids = [];
                     foreach ($types['vars'] as $key => $value) {
                         $ids[] = new MP_Identifier($key);
@@ -1344,9 +1416,8 @@ class maxima_parser_utils {
             if ($node instanceof MP_FunctionCall && $node->name instanceof MP_Atom && $node->name->value === 'rand') {
                 if ($node->arguments[0] instanceof MP_List && count($node->arguments[0]->items) > 0) {
                     $needsexpansion = false;
-                    // There are types of lists present in these rands that we really do not need 
-                    // to branch on. So lets check if this is one of the types we might want to 
-                    // expand on.
+                    // There are types of lists present in these rands that we really do not need
+                    // to branch on. So lets check if this is one of the types we might want to expand on.
                     $types = $node->arguments[0]->type_count();
                     foreach ($types['ids'] as $id) {
                         if (isset($usedinops[$id]) || (isset($output[$id]) && isset($output[$id][-4]))) {
@@ -1383,8 +1454,7 @@ class maxima_parser_utils {
             return true;
         };
 
-        // Remove basic ops by scalars they have no effect on
-        // the type of the result.
+        // Remove basic ops by scalars they have no effect on the type of the result.
         $scalarelimination = function($node) {
             if ($node instanceof MP_Operation && ($node->op === '*' || $node->op === '-' || $node->op === '+')) {
                 if ($node->lhs instanceof MP_Integer) {
@@ -1406,15 +1476,18 @@ class maxima_parser_utils {
 
         foreach ($workset1 as $value) {
             $tmp = new MP_Group([$value]);
-            while (!$tmp->callbackRecurse($lambdas)){};
-            while (!$tmp->callbackRecurse($localfun)){};
-            while (!$tmp->callbackRecurse($open1)){};
-            while (!$tmp->callbackRecurse($randexpand)){};
-            while (!$tmp->callbackRecurse($open1)){};
-            if ($tmp->items[0] instanceof MP_Operation && $tmp->items[0]->op === ':' && $tmp->items[0]->lhs instanceof MP_Identifier && $tmp->items[0]->rhs instanceof MP_Atom)  {
+            while (!$tmp->callbackRecurse($lambdas)) {};
+            while (!$tmp->callbackRecurse($localfun)) {};
+            while (!$tmp->callbackRecurse($open1)) {};
+            while (!$tmp->callbackRecurse($randexpand)) {};
+            while (!$tmp->callbackRecurse($open1)) {};
+            if ($tmp->items[0] instanceof MP_Operation && $tmp->items[0]->op === ':'
+                    && $tmp->items[0]->lhs instanceof MP_Identifier
+                    && $tmp->items[0]->rhs instanceof MP_Atom) {
                 // Start building the output. By picking atoms out of the set.
                 $output[$tmp->items[0]->lhs->value][$tmp->items[0]->rhs->toString()] = clone $tmp->items[0]->rhs;
-            } else if ($tmp->items[0] instanceof MP_Operation && $tmp->items[0]->op === ':' && $tmp->items[0]->lhs instanceof MP_Identifier) {
+            } else if ($tmp->items[0] instanceof MP_Operation && $tmp->items[0]->op === ':'
+                    && $tmp->items[0]->lhs instanceof MP_Identifier) {
                 // If not an atom it might still be an expression free of flow-control and function-calls.
                 $types = $tmp->items[0]->type_count();
                 if (!$types['has control flow'] && !isset($types['MP_FunctionCall']) && $types['ops'][':'] === 1) {
@@ -1423,16 +1496,16 @@ class maxima_parser_utils {
                     $workset2[$tmp->items[0]->toString()] = $tmp->items[0];
                 }
             } else {
-                $workset2[$tmp->items[0]->toString()] = $tmp->items[0];    
+                $workset2[$tmp->items[0]->toString()] = $tmp->items[0];
             }
         }
 
         if ($timelimit < microtime(true)) {
             $output['% TIMEOUT %'] = true;
-            return $output;    
+            return $output;
         }
 
-        unset($workset1); // No need for this anymore
+        unset($workset1); // No need for this anymore.
 
         // Some things skip logic...
         if (count($workset2) > 0) {
@@ -1457,7 +1530,8 @@ class maxima_parser_utils {
                     continue;
                 }
                 $types = $value->type_count();
-                if ($types['has control flow'] || isset($types['funs']['solve']) || isset($types['funs']['ev']) || isset($types['funs']['subst']) || isset($types['funs']['at']) || isset($types['ops'][':'])) {
+                if ($types['has control flow'] || isset($types['funs']['solve']) || isset($types['funs']['ev'])
+                        || isset($types['funs']['subst']) || isset($types['funs']['at']) || isset($types['ops'][':'])) {
                     $t = new MP_Operation(':', new MP_Identifier($key), $value);
                     $workset2[$t->toString()] = $t;
                 } else {
@@ -1469,7 +1543,7 @@ class maxima_parser_utils {
 
         if ($timelimit < microtime(true)) {
             $output['% TIMEOUT %'] = true;
-            return $output;    
+            return $output;
         }
 
         // Reduce program-flow statements down to simpler things.
@@ -1489,15 +1563,16 @@ class maxima_parser_utils {
                 }
                 // So we are the only flow thing in the subtree this is good.
                 // Extract all used variables and functions called.
-                // Also spot all assingments present and construct values 
-                // for them.
+                // Also spot all assingments present and construct values for them.
                 $vars = [];
                 $strings = [];
                 $funs = [];
                 $assings = [];
                 $seek2 = function($n) use (&$vars, &$funs, &$assings, &$sec) {
                     if ($n instanceof MP_FunctionCall) {
-                        if (!($n->name instanceof MP_Atom) || !$sec->has_feature($n->name->value, 'built-in') || $n->name->value === 'ev' || $n->name->value === 'at' || $n->name->value === 'subst') {
+                        if (!($n->name instanceof MP_Atom)
+                                || !$sec->has_feature($n->name->value, 'built-in') || $n->name->value === 'ev'
+                                || $n->name->value === 'at' || $n->name->value === 'subst') {
                             $funs[$n->toString()] = clone $n;
                         }
                     } else if ($n instanceof MP_Identifier && !$n->is_function_name()) {
@@ -1510,7 +1585,8 @@ class maxima_parser_utils {
                     return true;
                 };
                 $node->callbackRecurse($seek2);
-                $r = new MP_FunctionCall(new MP_Identifier('stack_complex_expression'), array_merge(array_values($vars), array_values($funs), array_values($strings)));
+                $r = new MP_FunctionCall(new MP_Identifier('stack_complex_expression'),
+                        array_merge(array_values($vars), array_values($funs), array_values($strings)));
                 // Intentionally not cloning that.
                 $node->parentnode->replace($node, $r);
                 foreach ($assings as $value) {
@@ -1525,9 +1601,11 @@ class maxima_parser_utils {
             }
             return true;
         };
-        
+
         $pickassings = function($node) use(&$output, &$sec) {
-            if ($node instanceof MP_Operation && $node->op === ':' && !($node->parentnode instanceof MP_FunctionCall && $node->parentnode->name instanceof MP_Atom && $node->parentnode->name->value === 'ev')) {
+            if ($node instanceof MP_Operation && $node->op === ':'
+                    && !($node->parentnode instanceof MP_FunctionCall && $node->parentnode->name instanceof MP_Atom
+                            && $node->parentnode->name->value === 'ev')) {
                 // Ensure that this is the innermost assing.
                 $types = $node->type_count();
                 if ($types['ops'][':'] > 1) {
@@ -1626,9 +1704,9 @@ class maxima_parser_utils {
                                 for ($j = 0; $j < $r - 1; $j++) {
                                     $list = [];
                                     if ($r === $j + 1) {
-                                        for ($k =0; $k < $c - 1; $k++) {
+                                        for ($k = 0; $k < $c - 1; $k++) {
                                             $list[] = new MP_Integer(null);
-                                        }   
+                                        }
                                         $list[] = $node->rhs;
                                     }
                                     $rows[] = new MP_List($list);
@@ -1655,23 +1733,26 @@ class maxima_parser_utils {
         foreach ($workset2 as $value) {
             $tmp = new MP_Group([$value]);
             $out = [];
-            while (!$tmp->callbackRecurse($pfreduce)){};
-            while (!$tmp->callbackRecurse($open1)){};
-            while (!$tmp->callbackRecurse($pickassings)){};
+            while (!$tmp->callbackRecurse($pfreduce)) {};
+            while (!$tmp->callbackRecurse($open1)) {};
+            while (!$tmp->callbackRecurse($pickassings)) {};
             if (count($out) > 0) {
                 foreach ($out as $item) {
-                    if ($item instanceof MP_Operation && $item->op === ':' && $item->lhs instanceof MP_Identifier && $item->rhs instanceof MP_Atom)  {
+                    if ($item instanceof MP_Operation && $item->op === ':'
+                            && $item->lhs instanceof MP_Identifier && $item->rhs instanceof MP_Atom) {
                         // Start building the output. By picking atoms out of the set.
                         $output[$item->lhs->value][$item->rhs->toString()] = clone $item->rhs;
                     } else {
-                        $workset3[$item->toString()] = $item;    
+                        $workset3[$item->toString()] = $item;
                     }
                 }
             }
-            if ($tmp->items[0] instanceof MP_Operation && $tmp->items[0]->op === ':' && $tmp->items[0]->lhs instanceof MP_Identifier && $tmp->items[0]->rhs instanceof MP_Atom)  {
+            if ($tmp->items[0] instanceof MP_Operation && $tmp->items[0]->op === ':'
+                    && $tmp->items[0]->lhs instanceof MP_Identifier && $tmp->items[0]->rhs instanceof MP_Atom) {
                 // Again remove the simplest ones from the set.
                 $output[$tmp->items[0]->lhs->value][$tmp->items[0]->rhs->toString()] = clone $tmp->items[0]->rhs;
-            } else if ($tmp->items[0] instanceof MP_Operation && $tmp->items[0]->op === ':' && $tmp->items[0]->lhs instanceof MP_Identifier) {
+            } else if ($tmp->items[0] instanceof MP_Operation && $tmp->items[0]->op === ':'
+                            && $tmp->items[0]->lhs instanceof MP_Identifier) {
                 // If not an atom it might still be an expression free of flow-control and function-calls.
                 $types = $tmp->items[0]->type_count();
                 if (!$types['has control flow'] && !isset($types['MP_FunctionCall']) && $types['ops'][':'] === 1) {
@@ -1680,13 +1761,13 @@ class maxima_parser_utils {
                     $workset3[$tmp->items[0]->toString()] = $tmp->items[0];
                 }
             } else if (!($tmp->items[0] instanceof MP_Identifier)) {
-                $workset3[$tmp->items[0]->toString()] = $tmp->items[0];    
+                $workset3[$tmp->items[0]->toString()] = $tmp->items[0];
             }
         }
 
         if ($timelimit < microtime(true)) {
             $output['% TIMEOUT %'] = true;
-            return $output;    
+            return $output;
         }
 
         $mergelimit = 30;
@@ -1701,7 +1782,8 @@ class maxima_parser_utils {
                     continue;
                 }
                 $types = $value->type_count();
-                if ($types['has control flow'] || isset($types['funs']['solve']) || isset($types['funs']['ev']) || isset($types['funs']['subst']) || isset($types['funs']['at'])) {
+                if ($types['has control flow'] || isset($types['funs']['solve']) || isset($types['funs']['ev'])
+                        || isset($types['funs']['subst']) || isset($types['funs']['at'])) {
                     $t = new MP_Operation(':', new MP_Identifier($key), $value);
                     $workset3[$t->toString()] = $t;
                 } else {
@@ -1713,7 +1795,7 @@ class maxima_parser_utils {
 
         // Do some cross assingments in the context.
         $output = self::mergeclasses($output, [$open1, $scalarelimination], $sec);
-        
+
         $solve = function ($node) {
             if ($node instanceof MP_FunctionCall && $node->name instanceof MP_Atom) {
                 if ($node->name->value === 'solve') {
@@ -1724,7 +1806,8 @@ class maxima_parser_utils {
                         $usage = self::variable_usage_finder(new MP_Group([$node->arguments[0]]));
                         $repl = new MP_List([]);
                         if (count($usage['read']) > 0) {
-                            $repl->items[] = new MP_Operation('=', new MP_Identifier(array_keys($usage['read'])[0]), new MP_FunctionCall(new MP_Identifier('stack_complex_unknown'),[]));
+                            $repl->items[] = new MP_Operation('=', new MP_Identifier(array_keys($usage['read'])[0]),
+                                    new MP_FunctionCall(new MP_Identifier('stack_complex_unknown'), []));
                         }
                         $node->parentnode->replace($node, $repl);
                         return false;
@@ -1732,10 +1815,12 @@ class maxima_parser_utils {
                         // Then the single or multivariate cases with declared identifiers.
                         $repl = new MP_List([]);
                         if ($node->arguments[1] instanceof MP_Identifier) {
-                            $repl->items[] = new MP_Operation('=', clone $node->arguments[1], new MP_FunctionCall(new MP_Identifier('stack_complex_unknown'),[]));
+                            $repl->items[] = new MP_Operation('=', clone $node->arguments[1],
+                                    new MP_FunctionCall(new MP_Identifier('stack_complex_unknown'), []));
                         } else if ($node->arguments[1] instanceof MP_List) {
                             foreach ($node->arguments[1]->items as $value) {
-                                $repl->items[] = new MP_Operation('=', clone $value, new MP_FunctionCall(new MP_Identifier('stack_complex_unknown'),[]));
+                                $repl->items[] = new MP_Operation('=', clone $value,
+                                        new MP_FunctionCall(new MP_Identifier('stack_complex_unknown'), []));
                             }
                             if (count($node->arguments[1]->items) > 1) {
                                 // In the multivariate case we need to wrap the list.
@@ -1751,19 +1836,18 @@ class maxima_parser_utils {
         };
 
         // Workset 3 the phase where we handle the special substitutions
-        // before substitutions to substs. Currently only `solve` is a thing 
-        // belonging to this.
+        // before substitutions to substs. Currently only `solve` is a thing belonging to this.
         $workset4 = [];
         foreach ($workset3 as $value) {
             $types = $value->type_count();
             if (isset($types['funs']['solve'])) {
                 $rs = self::substitute_in_sequence([$value->toString() => new MP_Group([$value])], $output);
                 foreach ($rs as $val) {
-                    while (!$val->callbackRecurse($pfreduce)){};
-                    while (!$val->callbackRecurse($open1)){};
-                    while (!$val->callbackRecurse($solve)){};
-                    while (!$val->callbackRecurse($pickassings)){};
-                    while (!$val->callbackRecurse($open1)){};
+                    while (!$val->callbackRecurse($pfreduce)) {};
+                    while (!$val->callbackRecurse($open1)) {};
+                    while (!$val->callbackRecurse($solve)) {};
+                    while (!$val->callbackRecurse($pickassings)) {};
+                    while (!$val->callbackRecurse($open1)) {};
                     $workset4[$val->items[0]->toString()] = $val->items[0];
                 }
             } else if (isset($types['funs']['subst']) || isset($types['funs']['ev']) || isset($types['funs']['at'])) {
@@ -1773,9 +1857,8 @@ class maxima_parser_utils {
         unset($workset3);
 
         // Workset 4 should mainly contain statements that include subst or ev
-        // the arguments of these functions are to be fully expanded
-        // before the final processing.
-        
+        // the arguments of these functions are to be fully expanded before the final processing.
+
         $output = self::mergeclasses($output, [$open1], $sec, true);
 
         $evsandsubsts = function($node) use (&$output, &$sec) {
@@ -1801,7 +1884,8 @@ class maxima_parser_utils {
                     if ($node->name->value === 'ev') {
                         $repl = [];
                         foreach (array_slice($node->arguments, 1) as $arg) {
-                            if ($arg instanceof MP_Operation && ($arg->op === '=' || $arg->op === ':') && $arg->lhs instanceof MP_Identifier) {
+                            if ($arg instanceof MP_Operation && ($arg->op === '=' || $arg->op === ':')
+                                    && $arg->lhs instanceof MP_Identifier) {
                                 $repl[$arg->lhs->value] = clone $arg->rhs;
                             } else {
                                 // TODO: is this reachable? If so tag everything as unknown.
@@ -1819,17 +1903,19 @@ class maxima_parser_utils {
                     } else if ($node->name->value === 'at') {
                         $repl = [];
                         $unknown = true;
-                        if ($node->arguments[1] instanceof MP_Operation && ($node->arguments[1]->op === '=' || $node->arguments[1]->op === ':') && $node->arguments[1]->lhs instanceof MP_Identifier) {
+                        if ($node->arguments[1] instanceof MP_Operation && ($node->arguments[1]->op === '='
+                                || $node->arguments[1]->op === ':') && $node->arguments[1]->lhs instanceof MP_Identifier) {
                             $repl[$node->arguments[1]->lhs->value] = clone $node->arguments[1]->rhs;
                             $unknown = false;
                         } else if ($node->arguments[1] instanceof MP_List) {
                             $unknown = false;
                             foreach ($node->arguments[1]->items as $arg) {
-                                if ($arg instanceof MP_Operation && ($arg->op === '=' || $arg->op === ':') && $arg->lhs instanceof MP_Identifier) {
+                                if ($arg instanceof MP_Operation && ($arg->op === '=' || $arg->op === ':')
+                                        && $arg->lhs instanceof MP_Identifier) {
                                     $repl[$arg->lhs->value] = clone $arg->rhs;
                                 } else {
                                     $unknown = true;
-                                }      
+                                }
                             }
                         }
                         foreach ($repl as $key => $value) {
@@ -1878,14 +1964,18 @@ class maxima_parser_utils {
                                 } else {
                                     $unknown = false;
                                     foreach ($node->arguments[0]->items as $eq) {
-                                        if ($eq instanceof MP_Operation && $eq->op === '=' && ($eq->lhs instanceof MP_Identifier || $eq->lhs instanceof MP_String)) {
+                                        if ($eq instanceof MP_Operation && $eq->op === '='
+                                                && ($eq->lhs instanceof MP_Identifier || $eq->lhs instanceof MP_String)) {
                                             $repl[$eq->lhs->value] = [clone $eq->rhs];
                                         } else {
                                             $unknown = true;
                                         }
                                     }
                                 }
-                            } else if ($node->arguments[0] instanceof MP_Operation && $node->arguments[0]->op === '=' && ($node->arguments[0]->lhs instanceof MP_Identifier || $node->arguments[0]->lhs instanceof MP_String)) {
+                            } else if ($node->arguments[0] instanceof MP_Operation
+                                    && $node->arguments[0]->op === '='
+                                    && ($node->arguments[0]->lhs instanceof MP_Identifier
+                                            || $node->arguments[0]->lhs instanceof MP_String)) {
                                 $repl[$node->arguments[0]->lhs->value] = [clone $node->arguments[0]->rhs];
                                 $unknown = false;
                             }
@@ -1920,6 +2010,7 @@ class maxima_parser_utils {
             }
             return true;
         };
+
         foreach ($workset4 as $value) {
             $types = $value->type_count();
             if (isset($types['funs']['subst']) || isset($types['funs']['ev']) || isset($types['funs']['at'])) {
@@ -1929,17 +2020,17 @@ class maxima_parser_utils {
                     if (is_integer($val)) {
                         continue;
                     }
-                    while (!$val->callbackRecurse($pfreduce)){};
-                    while (!$val->callbackRecurse($open1)){};
-                    while (!$val->callbackRecurse($solve)){};
-                    while (!$val->callbackRecurse($evsandsubsts)){};
-                    while (!$val->callbackRecurse($open1)){};
-                    while (!$val->callbackRecurse($pickassings)){};
+                    while (!$val->callbackRecurse($pfreduce)) {};
+                    while (!$val->callbackRecurse($open1)) {};
+                    while (!$val->callbackRecurse($solve)) {};
+                    while (!$val->callbackRecurse($evsandsubsts)) {};
+                    while (!$val->callbackRecurse($open1)) {};
+                    while (!$val->callbackRecurse($pickassings)) {};
                 }
                 $output = self::mergeclasses($output, [$open1], $sec, true);
                 if ($timelimit < microtime(true)) {
                     $output['% TIMEOUT %'] = true;
-                    return $output;    
+                    return $output;
                 }
             }
         }
@@ -1959,7 +2050,7 @@ class maxima_parser_utils {
         return $output;
     }
 
-    /* Common merge actions for type struct fixing */
+    /* Common merge actions for type struct fixing. */
     private static function mergeclasses(array $data, array $funcs, stack_cas_security $sec, bool $merge = false): array {
         $output = $data;
 
@@ -2001,7 +2092,9 @@ class maxima_parser_utils {
                     $intmerge[$tmp->items[0]->toString()] = $tmp->items[0];
                 } else if ($tmp->items[0] instanceof MP_Float) {
                     $floatmerge[$tmp->items[0]->toString()] = $tmp->items[0];
-                } else if ($tmp->items[0] instanceof MP_FunctionCall && $tmp->items[0]->name instanceof MP_Atom && $tmp->items[0]->name->value === 'stack_complex_expression') {
+                } else if ($tmp->items[0] instanceof MP_FunctionCall
+                        && $tmp->items[0]->name instanceof MP_Atom
+                        && $tmp->items[0]->name->value === 'stack_complex_expression') {
                     $sce[$tmp->items[0]->toString()] = $tmp->items[0];
                 } else if ($tmp->items[0] instanceof MP_List) {
                     $listmerge[$tmp->items[0]->toString()] = $tmp->items[0];
@@ -2015,11 +2108,11 @@ class maxima_parser_utils {
                 $tmp = self::to_sce($tmp, $sec);
                 $sce[$tmp->toString()] = $tmp;
             } else {
-                foreach($listmerge as $k => $v) {
+                foreach ($listmerge as $k => $v) {
                     $values3[$k] = $v;
                 }
             }
-            
+
             if (count($intmerge) === 1 && count($sce) === 0) {
                 $int = array_pop($intmerge);
                 $values3[$int->toString()] = $int;
@@ -2043,7 +2136,7 @@ class maxima_parser_utils {
                     foreach ($sc->arguments as $arg) {
                         if ($arg instanceof MP_Atom) {
                             if ($arg instanceof MP_Identifier || $arg instanceof MP_String) {
-                                $terms[$arg->toString()] = $arg;    
+                                $terms[$arg->toString()] = $arg;
                             }
                         } else {
                             $terms[$arg->toString()] = $arg;
@@ -2078,7 +2171,7 @@ class maxima_parser_utils {
                             $values1[$k] = $value;
                         } else {
                             $values3[$k] = $value;
-                        } 
+                        }
                     } else {
                         $values3[$k] = $value;
                     }
@@ -2089,13 +2182,13 @@ class maxima_parser_utils {
 
                     $tmp = new MP_Group([$tmp]);
                     foreach ($funcs as $fun) {
-                        while (!$tmp->callbackRecurse($fun)){};
+                        while (!$tmp->callbackRecurse($fun)) {};
                     }
-                    $values3[$tmp->items[0]->toString()] = $tmp->items[0];       
+                    $values3[$tmp->items[0]->toString()] = $tmp->items[0];
                 } else if (count($values1) > 0) {
                     foreach ($values1 as $k => $value) {
                         $values3[$k] = $value;
-                    }    
+                    }
                 }
 
                 // Keep the integers.
@@ -2103,7 +2196,7 @@ class maxima_parser_utils {
                     $values3[$value] = $value;
                 }
                 $output[$key] = $values3;
-            }   
+            }
         }
 
           /*
@@ -2116,16 +2209,18 @@ class maxima_parser_utils {
         }
         print("\n\n");
         */
-       
+
         return $output;
     }
 
-    /* Turn a subtree to `stack_complex_expression` */
+    /* Turn a subtree to `stack_complex_expression`. */
     private static function to_sce(MP_Node $ast, stack_cas_security $sec): MP_Node {
         $terms = [];
         $seek2 = function($n) use (&$terms, &$sec) {
             if ($n instanceof MP_FunctionCall) {
-                if (!($n->name instanceof MP_Atom) || !$sec->has_feature($n->name->value, 'built-in') || $n->name->value === 'subst' || $n->name->value === 'ev' || $n->name->value === 'at') {
+                if (!($n->name instanceof MP_Atom)
+                        || !$sec->has_feature($n->name->value, 'built-in')
+                        || $n->name->value === 'subst' || $n->name->value === 'ev' || $n->name->value === 'at') {
                     $terms[$n->toString()] = clone $n;
                 }
             } else if ($n instanceof MP_Identifier && !$n->is_function_name()) {

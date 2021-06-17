@@ -2136,7 +2136,7 @@ class maxima_parser_utils {
                 $float = array_pop($floatmerge);
                 $values3[$float->toString()] = $float;
             } else if (count($floatmerge) > 1 && count($sce) === 0) {
-                $f = new MP_Float(null);
+                $f = new MP_Float(null, '');
                 $values3[$f->toString()] = $f;
             }
             if (count($sce) === 1) {

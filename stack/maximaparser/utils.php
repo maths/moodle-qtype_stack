@@ -330,6 +330,13 @@ class maxima_parser_utils {
                         return true;
                     }
                 }
+                // Algsys needs the list contents protected.
+                if ($node->parentnode instanceof MP_List && $node->parentnode->parentnode !== null && $node->parentnode->parentnode instanceof MP_FunctionCall && $node->parentnode->parentnode->name instanceof MP_Atom
+                        && $node->parentnode->parentnode->name->value === 'algsys') {
+                    if ($node->argument_of('algsys') === 1) {
+                        return true;
+                    }
+                }
                 // We very specially do not replace the LHS of `=`-op if it is in the first argument of a subst.
                 if ($node->parentnode instanceof MP_Operation && $node->parentnode->op === '='
                         && $node->parentnode->lhs === $node) {
@@ -456,6 +463,13 @@ class maxima_parser_utils {
                 if ($node->parentnode instanceof MP_FunctionCall && $node->parentnode->name instanceof MP_Atom
                         && ($node->parentnode->name->value === 'solve')) {
                     if ($node->parentnode->arguments[0] !== $node) {
+                        return true;
+                    }
+                }
+                // Algsys needs the list contents protected.
+                if ($node->parentnode instanceof MP_List && $node->parentnode->parentnode !== null && $node->parentnode->parentnode instanceof MP_FunctionCall && $node->parentnode->parentnode->name instanceof MP_Atom
+                        && $node->parentnode->parentnode->name->value === 'algsys') {
+                    if ($node->argument_of('algsys') === 1) {
                         return true;
                     }
                 }
@@ -1156,6 +1170,12 @@ class maxima_parser_utils {
                 }
                 return false;
             }
+            // Matrix multiplication is a very common place to merge all sorts of things.
+            if ($node instanceof MP_Operation && $node->op === '.' && $node->lhs instanceof MP_FunctionCall) {
+                $node->parentnode->replace($node, self::to_sce($node, $sec));
+                return false;
+            }
+
             // There two make sure that serialised previous values can be reused.
             if ($node instanceof MP_Identifier && $node->value === 'stack_unknown_integer') {
                 $node->parentnode->replace($node, new MP_Integer(null, null));
@@ -1238,6 +1258,9 @@ class maxima_parser_utils {
                         }
                     }
                 }
+            } else if ($node instanceof MP_Indexing) {
+                $node->parentnode->replace($node, self::to_sce($node, $sec));
+                return false;
             }
 
             // Special constants.
@@ -1397,7 +1420,7 @@ class maxima_parser_utils {
                 if (!isset($types['MP_Statement']) && $types['totalnodes'] > $mergelimit
                         && count($types['vars']) + 1 < $mergelimit && !isset($types['ops'][':'])
                         && !isset($types['ops']['=']) && !isset($types['funs']['subst'])
-                        && !isset($types['funs']['ev']) && !isset($types['funs']['solve']) && !isset($types['funs']['at'])) {
+                        && !isset($types['funs']['ev']) && !isset($types['funs']['solve']) && !isset($types['funs']['algsys']) && !isset($types['funs']['at'])) {
                     $ids = [];
                     foreach ($types['vars'] as $key => $value) {
                         $ids[] = new MP_Identifier($key);
@@ -1536,7 +1559,7 @@ class maxima_parser_utils {
                     continue;
                 }
                 $types = $value->type_count();
-                if ($types['has control flow'] || isset($types['funs']['solve']) || isset($types['funs']['ev'])
+                if ($types['has control flow'] || isset($types['funs']['solve']) || isset($types['funs']['algsys']) || isset($types['funs']['ev'])
                         || isset($types['funs']['subst']) || isset($types['funs']['at']) || isset($types['ops'][':'])) {
                     $t = new MP_Operation(':', new MP_Identifier($key), $value);
                     $workset2[$t->toString()] = $t;
@@ -1789,7 +1812,7 @@ class maxima_parser_utils {
                     continue;
                 }
                 $types = $value->type_count();
-                if ($types['has control flow'] || isset($types['funs']['solve']) || isset($types['funs']['ev'])
+                if ($types['has control flow'] || isset($types['funs']['solve']) || isset($types['funs']['algsys']) || isset($types['funs']['ev'])
                         || isset($types['funs']['subst']) || isset($types['funs']['at'])) {
                     $t = new MP_Operation(':', new MP_Identifier($key), $value);
                     $workset3[$t->toString()] = $t;
@@ -1803,7 +1826,7 @@ class maxima_parser_utils {
         // Do some cross assingments in the context.
         $output = self::mergeclasses($output, [$open1, $scalarelimination], $sec);
 
-        $solve = function ($node) {
+        $solve = function ($node) use(&$sec) {
             if ($node instanceof MP_FunctionCall && $node->name instanceof MP_Atom) {
                 if ($node->name->value === 'solve') {
                     // Solve returns lists of equalities. We want to see it as such a list.
@@ -1838,6 +1861,18 @@ class maxima_parser_utils {
                         return false;
                     }
                 }
+                if ($node->name->value === 'algsys') {
+                    // In the case of algsys we need to make all the identifiers of the second argument
+                    // tied to the first argument.
+                    $sce = self::to_sce($node->arguments[0], $sec);
+                    $usage = self::variable_usage_finder(new MP_Group([$node->arguments[1]]));
+                    $repl = new MP_List([]);
+                    foreach ($usage['read'] as $k => $v) {
+                        $repl->items[] = new MP_Operation('=', new MP_Identifier($k), clone $sce);
+                    }
+                    $node->parentnode->replace($node, $repl);
+                    return false;
+                }
             }
             return true;
         };
@@ -1847,7 +1882,7 @@ class maxima_parser_utils {
         $workset4 = [];
         foreach ($workset3 as $value) {
             $types = $value->type_count();
-            if (isset($types['funs']['solve'])) {
+            if (isset($types['funs']['solve']) || isset($types['funs']['algsys'])) {
                 $rs = self::substitute_in_sequence([$value->toString() => new MP_Group([$value])], $output);
                 foreach ($rs as $val) {
                     // @codingStandardsIgnoreStart
@@ -2213,7 +2248,7 @@ class maxima_parser_utils {
             }
         }
 
-          /*
+        /*
         print("\n\n");
         foreach ($output as $key => $values) {
             print($key . ":\n");

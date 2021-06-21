@@ -549,7 +549,8 @@
       "variable": "?"
   },
   "algsys": {
-      "function": "?"
+      "function": "?",
+      "built-in": true
   },
   "alias": {
       "function": "f",
@@ -7514,7 +7515,8 @@
       "function": "s"
   },
   "submatrix": {
-      "function": "s"
+      "function": "s",
+      "built-in": true
   },
   "subnumsimp": {
       "variable": "?"
@@ -7902,7 +7904,8 @@
       "variable": "f"
   },
   "transpose": {
-      "function": "s"
+      "function": "s",
+      "built-in": true
   },
   "transrun": {
       "globalyforbiddenvariable": true,
@@ -7921,7 +7924,8 @@
       "function": "f"
   },
   "triangularize": {
-      "function": "s"
+      "function": "s",
+      "built-in": true
   },
   "trigexpand": {
       "evflag": "?",

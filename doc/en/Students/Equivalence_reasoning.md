@@ -69,7 +69,7 @@ To avoid this problem use the *difference of two squares* in the following way.
 Sometimes you will have an equation with no solutions.  You can express the fact there are no solutions in the following ways
 
 1. `false`.  This is because sometimes you end up with a contradiction such as \(1=2\), since this equation is false you can type that as the final line in your argument.
-2. `none`.  The special keyword `none` is used to signify that any values of the variables satisfy the equation.
+2. `none`.  The special keyword `none` is used to signify that no values of the variables satisfy the equation.
 2. `{}`.  The empty set indicates there are no solutions.
 
 Sometimes you will have an equation in which every number is a solution, such as \(x=x\).  You can express the fact every number is a solution in the following ways

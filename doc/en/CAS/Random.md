@@ -18,6 +18,7 @@ STACK provides its own function `rand()`.
 * `rand(n.0)` generates a floating point number between \(0\) and \(n\).  It is probably more useful to use something like a=float(rand(1000)/1000)
   to obtain an accurate number of decimal places.  An alternative is to use the [Maxima](Maxima.md) function `round()`
 * `rand([a,b,...,z])` makes a random selection from a list.
+* `rand({a,b,...,z})` makes a random selection from a set.
 * `rand(matrix(..))` applies rand to each element of the matrix.
 
 It is probably much better **not** to use conditional statements when creating random objects.
@@ -71,7 +72,11 @@ This can be used with matrices, to generate a matrix with non-zero entries for e
 
 ### rand_selection(ex, n) ###
 
-Returns a list containing a random selection of `n` different items from the list `ex`.  If `ex` contains duplicates, then the result may also contain duplicates.
+Returns a list containing a random selection of `n` different items from the list/set `ex`.  If `ex` contains duplicates, then the result may also contain duplicates.
+
+### rand_selection_with_replacement(ex, n) ###
+
+Returns a list containing a random selection of `n` items from the list/set `ex`.
 
 ## Generating random polynomials
 

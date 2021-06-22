@@ -250,7 +250,12 @@ class stack_bulk_tester  {
                                 $qdotoutput = 0;
                             }
                         }
-                        $this->qtype_stack_seed_cache($question, $seed);
+                        try {
+                            $this->qtype_stack_seed_cache($question, $seed);
+                        } catch (stack_exception $e) {
+                            $ok = false;
+                            $message = stack_string('errors') . ' : ' . $e;
+                        }
                         $previewurl->param('seed', $seed);
                         if ($outputmode == 'web') {
                             $questionnamelink = html_writer::link($previewurl, stack_string('seedx', $seed));
@@ -382,7 +387,11 @@ class stack_bulk_tester  {
         }
 
         $slot = $quba->add_question($qu, $qu->defaultmark);
-        $quba->start_question($slot);
+        try {
+            $quba->start_question($slot);
+        } catch (stack_exception $e) {
+            return false;
+        }
 
         // Prepare the display options.
         $options = new question_display_options();

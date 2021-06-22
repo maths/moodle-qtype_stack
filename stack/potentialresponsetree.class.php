@@ -401,6 +401,20 @@ class stack_potentialresponse_tree {
     }
 
     /**
+     * @return array All the "sans" strings used in the nodes with test requiring a raw input.
+     */
+    public function get_raw_sans_used() {
+        $sans = array();
+        foreach ($this->nodes as $key => $node) {
+            if (stack_ans_test_controller::required_raw($node->get_test())) {
+                $name = (string) $this->get_name() . '-' . ($key + 1);
+                $sans[$name] = $node->sans->get_inputform(true, 1);
+            }
+        }
+        return $sans;
+    }
+
+    /**
      * @return boolean whether this PRT contains any tests that use units.
      */
     public function has_units(): bool {

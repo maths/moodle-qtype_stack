@@ -13,6 +13,6 @@ jobs:
           python-version: 3.x
       - run: pip install mkdocs-material
       - run: pip install https://github.com/mitya57/python-markdown-math/archive/master.zip
-      - run: pip install pip install mkdocs-exclude
+      - run: pip install mkdocs-exclude
       - run: pip install mkdocs-redirects
       - run: mkdocs gh-deploy --force

@@ -280,7 +280,7 @@ NEG_TRANS:[negNeg, negDiv, negOrd]$
 INT_ARITH:[intAdd, intMul, intPow]$
 DIV_TRANS:[recipMul, divDiv, divCancel]$
 
-ALL_TRANS:append(ALG_TRANS, ID_TRANS, NEG_TRANS, DIV_TRANS, INT_ARITH, [intFac])$
+ALL_TRANS:append(ALG_TRANS, ID_TRANS, NEG_TRANS, DIV_TRANS, INT_ARITH, [intFac, negDist])$
 
 /* Set up a hash table of functions and their corresponding predicate. */
 ALL_TRANSP[assAdd] : assAddp$
@@ -300,6 +300,7 @@ ALL_TRANSP[oneDiv] : oneDivp$
 ALL_TRANSP[recipMul] : recipMulp$
 ALL_TRANSP[divDiv] : divDivp$
 ALL_TRANSP[divCancel] : divCancelp$
+ALL_TRANSP[negDist] : negDistp$
 
 ALL_TRANSP[negNeg] : negNegp$
 ALL_TRANSP[negDiv] : negDivp$
@@ -314,7 +315,7 @@ ALL_TRANSP[intFac] : intFacp$
 ALL_TRANSP[mminusInt] : mminusIntp$
 
 /* Sets of incompatible rules. */
-INCOMPATIBLE_TRANS : [{intFac, intMul}]$
+INCOMPATIBLE_TRANS : [{intFac, intMul}, {negOrd, negDist}]$
 
 /*******************************************/
 /* Top level transformations using rules   */
@@ -488,8 +489,23 @@ negDiv(ex) := block([ex0, ex1, ex2],
     return (ex1 noun* UNARY_RECIP(ex2))
 )$
 
-/* a/(b/c)-> a*(c/b) */
+/* Distribute negation over addition. (Assumes unary minus has been replaced by products of UNARY_MINUS */ 
+negDistp(ex):= block(
+    if not(safe_op(ex)="noun*" or safe_op(ex)="*") then return(false),
+    if length(sublist(args(ex), lambda([ex2], is(ex2=UNARY_MINUS))))=0 then return(false),
+    if length(sublist(args(ex), lambda([ex2], is(safe_op(ex2)="noun+" or safe_op(ex2)="+"))))=0 then return(false),
+    return(true)
+)$
+negDist(ex) := block([ex0,ex1,ex2,ex3],
+    if not(negDistp(ex)) then return(ex),
+    ex1:sublist(args(ex), lambda([ex0], is(ex0=UNARY_MINUS))),
+    ex2:sublist(args(ex), lambda([ex0], is(safe_op(ex0)="noun+" or safe_op(ex0)="+"))),
+    ex3:sublist(args(ex), lambda([ex0], not(is(ex0=UNARY_MINUS)) and not(is(safe_op(ex0)="noun+" or safe_op(ex0)="+")))),
+    ex0:apply(op(first(ex2)),map(lambda([ex4],apply(op(ex),[UNARY_MINUS,ex4])),args(first(ex2)))),
+    apply(op(ex),append(rest(ex1),rest(ex2),[ex0],ex3))
+)$
 
+/* a/(b/c)-> a*(c/b) */
 /* Helper which establishes an expression is "UNARY_RECIP" or a product which contains at least one "UNARY_RECIP" */
 divDivProdp(ex):= block(
     if safe_op(ex)="UNARY_RECIP" then return(true),

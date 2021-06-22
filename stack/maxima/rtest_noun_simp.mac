@@ -192,3 +192,6 @@ A$
 divCancel(UNARY_MINUS noun* a noun* UNARY_RECIP(UNARY_MINUS noun* b));
 a noun* UNARY_RECIP(b)$
 
+negDist(UNARY_MINUS noun* x noun* (UNARY_MINUS noun* x noun+ 1));
+(UNARY_MINUS noun* (UNARY_MINUS noun* x) noun+ UNARY_MINUS noun* 1) noun* x$
+

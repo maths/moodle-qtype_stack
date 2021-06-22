@@ -72,9 +72,11 @@ The teacher must supply an option consisting of a list of the following rule nam
 | `intPow`          | Perform exponentiation when both arguments are integers                                |
 | Other             |                                                                                        |
 | `intFac`          | Factor integers (incompatible with `intMul`)                                           |
+| `negDist`         | Distribute only `UNARY_MINUS` over a sum.                                              |
 
 The rule `negOrd` deserves comment.  Ultimately we only compare parse trees exactly, and so we need to order terms in sums and products (commutativity).
 However \(y-x\) is never ordered as \(-x+y\).  Furthermore, \(-(x-y) \neq -x+y\).  We need to factor out the unary minus and ensure that the coefficient of the leading term is not negative.
+Since `negOrd` is a factor command, it is incompatible with `negDist`.
 
 For convenience sets of rules can be specificed.  E.g. you can use the name `ID_TRANS` in place of the list `[zeroAdd,zeroMul,oneMul,oneDiv,onePow,idPow,zeroPow,zPow]` to include all of the basic identity operators.
 

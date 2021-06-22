@@ -650,7 +650,8 @@
       "globalyforbiddenfunction": true
   },
   "args": {
-      "function": "?"
+      "function": "?",
+      "built-in": true
   },
   "arit_amortization": {
       "function": "?"
@@ -765,7 +766,8 @@
       "function": "f"
   },
   "atom": {
-      "function": "?"
+      "function": "?",
+      "built-in": true
   },
   "atomgrad": {
       "property": "f"
@@ -1374,7 +1376,8 @@
       "variable": "f"
   },
   "columnop": {
-      "function": "s"
+      "function": "s",
+      "built-in": true
   },
   "columns": {
       "variable": "f"
@@ -1383,10 +1386,12 @@
       "function": "s"
   },
   "columnswap": {
-      "function": "s"
+      "function": "s",
+      "built-in": true
   },
   "columnvector": {
-      "function": "?"
+      "function": "?",
+      "built-in": true
   },
   "combination": {
       "function": "f"
@@ -1580,7 +1585,8 @@
       "function": "f"
   },
   "covect": {
-      "function": "s"
+      "function": "s",
+      "built-in": true
   },
   "covers": {
       "function": "f"
@@ -1595,7 +1601,8 @@
       "argumentmapstovariable": [
           1
       ],
-      "function": "s"
+      "function": "s",
+      "built-in": true
   },
   "csc": {
       "function": "s",
@@ -1813,7 +1820,8 @@
       "variable": "?"
   },
   "denom": {
-      "function": "s"
+      "function": "s",
+      "built-in": true
   },
   "dependencies": {
       "function": "f",
@@ -2209,7 +2217,8 @@
       "function": "?"
   },
   "endcons": {
-      "function": "s"
+      "function": "s",
+      "built-in": true
   },
   "engineering_format_floats": {
       "variable": "?"
@@ -4063,6 +4072,10 @@
   "list_nc_monomials": {
       "function": "f"
   },
+  "list_remove": {
+      "function": "f",
+      "built-in": true
+  },
   "listarith": {
       "evflag": "?",
       "variable": "?"
@@ -4985,7 +4998,8 @@
       "function": "s"
   },
   "num": {
-      "function": "s"
+      "function": "s",
+      "built-in": true
   },
   "num_distinct_partitions": {
       "function": "s"
@@ -5729,7 +5743,8 @@
       "function": "s"
   },
   "power_mod": {
-      "function": "s"
+      "function": "s",
+      "built-in": true
   },
   "powerdisp": {
       "variable": "s"
@@ -6216,7 +6231,8 @@
       "property": "s"
   },
   "rat": {
-      "function": "s"
+      "function": "s",
+      "built-in": true
   },
   "ratalgdenom": {
       "evflag": "s",
@@ -6663,13 +6679,16 @@
       "function": "s"
   },
   "row": {
-      "function": "s"
+      "function": "s",
+      "built-in": true
   },
   "rowop": {
-      "function": "s"
+      "function": "s",
+      "built-in": true
   },
   "rowswap": {
-      "function": "s"
+      "function": "s",
+      "built-in": true
   },
   "rpm": {
       "variable": "s"
@@ -6698,6 +6717,10 @@
   },
   "saving": {
       "function": "?"
+  },
+  "safe_op": {
+      "function": "?",
+      "built-in": true
   },
   "scalar": {
       "property": "?"
@@ -7716,7 +7739,8 @@
       "globalyforbiddenfunction": true
   },
   "tex1": {
-      "function": "?"
+      "function": "?",
+      "built-in": true
   },
   "tex_display": {
       "function": "?"
@@ -8018,10 +8042,12 @@
       "function": "f"
   },
   "unicode": {
-      "function": "?"
+      "function": "?",
+      "built-in": true
   },
   "unicode_to_utf8": {
-      "function": "?"
+      "function": "?",
+      "built-in": true
   },
   "union": {
       "function": "s",
@@ -8474,10 +8500,12 @@
       "function": "s"
   },
   "zeromatrix": {
-      "function": "s"
+      "function": "s",
+      "built-in": true
   },
   "zeromatrixp": {
-      "function": "s"
+      "function": "s",
+      "built-in": true
   },
   "zeta": {
       "function": "s",

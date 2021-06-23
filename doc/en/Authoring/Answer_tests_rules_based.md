@@ -34,12 +34,11 @@ This is an advanced test.
 
 This test allows question authors to create equivalence classes based on equality up to associativity and commutativity with the addition of optional rules. For example, the teacher can include the identity operations of addition and multiplication: \(0+ x\rightarrow x\) and \(1\times x\rightarrow x\).  This makes it much easier to establish things like \(0-1\times i\) is equivalent to \(-i\).  However, more general integer arithmatic is still not automatically included so \(2\times 3 \neq 6\).
 
-
-Note, this test always assumes associativity and commutativity of addition and multiplication.  Without this assumption we would need all sorts of additional rules, such as \(x+0 \rightarrow x\), since without commutativity this would not be captured by the rule `zeroAdd`, i.e. \(0+x \rightarrow x\).  Furthermore, the way `EqualComAss` deals with unary minus and division make associativity and commutativity difficult to add in their pure form.
+This test always assumes associativity and commutativity of addition and multiplication.  Essentially this test extends the `EqualComAss` test by adding in additional rules. Without assumptions of commutativity and associativity we would need all sorts of additional rules, such as \(x+0 \rightarrow x\), since without commutativity this would not be captured by the rule `zeroAdd`, i.e. \(0+x \rightarrow x\).  Furthermore, the way `EqualComAss` deals with unary minus and division make associativity and commutativity difficult to add in their pure form.
 
 Each rule is a named function in Maxima, and each rule has an associated predicate function to decide if the rule is applicable at the top level of an expression.   E.g. `zeroAddp(0+x)` would return `true` and `zeroAdd(0+x)` would return `x`.
 
-The teacher must supply an option consisting of a list of the following rule names,.
+The teacher must supply an option consisting of a list of the following rule names.
 
 | Name              | Rule                                                                                   |
 |-------------------|----------------------------------------------------------------------------------------|
@@ -72,17 +71,16 @@ The teacher must supply an option consisting of a list of the following rule nam
 | `intPow`          | Perform exponentiation when both arguments are integers                                |
 | Other             |                                                                                        |
 | `intFac`          | Factor integers (incompatible with `intMul`)                                           |
-| `negDist`         | Distribute only `UNARY_MINUS` over a sum.                                              |
+| `negDist`         | Distribute only `UNARY_MINUS` over a sum (incompatible with `negOrd`)                  |
 
 The rule `negOrd` deserves comment.  Ultimately we only compare parse trees exactly, and so we need to order terms in sums and products (commutativity).
 However \(y-x\) is never ordered as \(-x+y\).  Furthermore, \(-(x-y) \neq -x+y\).  We need to factor out the unary minus and ensure that the coefficient of the leading term is not negative.
+Factoring out is better than distributing here, since in a produce such as \(-(x-y)(x-z)\) it is not clear which term in the product the inital minus sign will end up in.
 Since `negOrd` is a factor command, it is incompatible with `negDist`.
 
 For convenience sets of rules can be specificed.  E.g. you can use the name `ID_TRANS` in place of the list `[zeroAdd,zeroMul,oneMul,oneDiv,onePow,idPow,zeroPow,zPow]` to include all of the basic identity operators.
 
-If you want to remove tests from a list you can use code such as
-
-    delete(zeroAdd, ID_TRANS)
+If you want to remove tests from a list you can use code such as `delete(zeroAdd, ID_TRANS)`.
 
 The test takes the student's answer and teacher's answer and repeatedly applies the rules in turn until the expressions remain the same.  The rules are designed to always shorten the expression, so the process is guranteed to terminate.  Once the expression is written in final form, the test compares the two expression trees.
 
@@ -94,7 +92,7 @@ This functionality was introduced in April 2021.  It is essential that the rules
 
 The rules names are Maxima functions, but they assume `simp:false` and that the expression has noun forms e.g. `noun+` instead of `+`.  You can use `equals_commute_prepare(ex)` to change an expression into this noun form.  The goal of this code is to create reliable equivalence classes of expressions, not perform algebraic manipulation as we traditionally know it. In particular the way unary minus is transformed into multiplication with a special tag `UNARY_MINUS` is likely to cause confusion to students if an expression is manipulated using these rules and then shown to a student.  The transoformation is designed to go in one direction only, and we do not support displaying the resulting manipulated expressions in traditional form.
 
-__As of April 2021, these rules are not intended as an end-user simplifier.__
+__As of June 2021, these rules are not intended as an end-user simplifier and we do not currently support user-defined rules (sorry!).__
 
 # See also
 

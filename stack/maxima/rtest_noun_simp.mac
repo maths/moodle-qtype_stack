@@ -201,5 +201,8 @@ a + UNARY_MINUS noun\* b$
 negOrd(b+UNARY_MINUS noun* a);
 UNARY_MINUS noun* (UNARY_MINUS noun* b+a)$
 
+negOrd(b+UNARY_MINUS noun* 3 noun* a);
+b+UNARY_MINUS noun\* 3 noun\* a$
+
 negOrd(b+UNARY_MINUS noun* a+c);
 UNARY_MINUS noun\* (UNARY_MINUS noun\* b+a+UNARY_MINUS noun\* c)$

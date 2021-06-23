@@ -53,8 +53,6 @@ Note, where the feature is listed as "(done)" means we have prototype code in th
 
 ## Answer tests
 
-Refactor answer tests so they are all in Maxima.
-
 * Answer tests should be like inputs. We should return an answer test object, not a controller object.
 * at->get_at_mark() really ought to be at->matches(), since that is how it is used.
 * Use `defstruct` in Maxima for the return objects. (Note to self: `@` is the element access operator).

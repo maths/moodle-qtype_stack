@@ -27,7 +27,7 @@ Once you have executed
 
 you need to edit the config.php file to add the following configuration
 information near the end, but before the `require_once(dirname(__FILE__) . '/lib/setup.php');`.
-Other options for the platform are `unix` and `unix-optimised`.
+Other options for the platform are `linux` and `linux-optimised`.
 
     define('QTYPE_STACK_TEST_CONFIG_PLATFORM',        'linux');
     /* It is essential that the MAXIMAVERSION and MAXIMACOMMAND match.
@@ -36,7 +36,9 @@ Other options for the platform are `unix` and `unix-optimised`.
        dependent.  Do not use default.  */
     define('QTYPE_STACK_TEST_CONFIG_MAXIMAVERSION',   '5.42.0');
     define('QTYPE_STACK_TEST_CONFIG_MAXIMACOMMAND',   'maxima --use-version=5.42.0');
-    define('QTYPE_STACK_TEST_CONFIG_CASTIMEOUT',      '1');
+    define('QTYPE_STACK_TEST_CONFIG_MAXIMACOMMANDOPT',   '');
+    define('QTYPE_STACK_TEST_CONFIG_MAXIMACOMMANDSERVER',   'http://pool.home:8080/MaximaPool/MaximaPool');
+    define('QTYPE_STACK_TEST_CONFIG_CASTIMEOUT',      '5');
     define('QTYPE_STACK_TEST_CONFIG_MAXIMALIBRARIES', 'stats, distrib, descriptive, simplex');
     define('QTYPE_STACK_TEST_CONFIG_CASDEBUGGING',    '0');
     define('QTYPE_STACK_TEST_CONFIG_PLOTCOMMAND',     '');

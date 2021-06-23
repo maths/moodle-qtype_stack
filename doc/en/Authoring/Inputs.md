@@ -24,7 +24,7 @@ Feedback as to the syntactic validity of a response is positioned using a corres
 
 This tag must be included even if validation is suppressed with an option (see below) and is automatically generated after the input if it does not exist.
 
-We expose the exact behaviour of the validation by giving registered users access to STACK's test suite validation of student's answers.  This can be found on a live server at https://stack-demo.maths.ed.ac.uk/demo/question/type/stack/studentinputs.php
+We expose the exact behaviour of the validation by giving registered users access to STACK's test suite validation of student's answers.  This can be found on a live server at `https://stack-demo.maths.ed.ac.uk/demo/question/type/stack/adminui/studentinputs.php`
 
 Each input may have a number of options and this is potentially complex area with a large range of possibilities.
 
@@ -42,7 +42,7 @@ Internally you can refer to the student's answer using the variable name `ans1` 
 
 ### Model answer ###  {#model_answer}
 
-**This field is compulsory.** Every input must have an answer, although this answer is not necessarily the unique correct answer, or even "correct"!  This value will be available as a question variable named `tans`**`n`** (where **`n`** is 1, 2, ...), and it will be displayed to the student as the correct answer.
+**This field is compulsory.** Every input must have an answer, although this answer is not necessarily the unique correct answer, or even "correct"!  This value be displayed to the student as the correct answer.  We recommend you use a question variable for this field so it can be used in the other parts of the question, e.g. the potential response trees.
 
 ## Input type ##
 
@@ -99,7 +99,11 @@ The dropdown, checkbox and radio input types enable teachers to create [multiple
 #### String input ####
 
 This is a normal input into which students may type whatever they choose.  It is always converted into a Maxima string internally.
-Note that there is no way whatsoever to parse the student's string into a Maxima expression.  If you accept a string, then it will always remain a string! You can't later check for algebraic equivalence. The only tests available will be simple string matches, etc.
+Notes
+
+1.  There is no way whatsoever to parse the student's string into a Maxima expression.  If you accept a string, then it will always remain a string! You can't later check for algebraic equivalence. The only tests available will be simple string matches, etc.
+2.  An empty answer will be blank unless you use the `allowempty` option in which case the answer will be interpreted as an empty string, i.e. `""` rather than `EMPTYANSWER` as would be the case with other inputs.
+3.  STACK does some sanitation on students' input within strings to stop students typing in HTML code.  For example, you may find that a string <code>"a<b"</code> actually ends up in Maxima with the less-than sign inside the string changed into an html entity <code>&amp;lt;</code>, so your string inside Maxima becomes <code>"a&amp;lt;b"</code>.  In cases where string matches unexpectedly fail, look at the testing page to see what is actually being compared within the PRT and re-build the teacher's answer to match.
 
 #### Notes input ####
 
@@ -212,7 +216,7 @@ If this option is set to `yes` then unless the student's expression is the same
 [Maxima](../CAS/Maxima.md#Types_of_object) as the teacher's correct answer,
 then the attempt will be rejected as invalid.
 
-This is very useful for ensuring the student has typed in an "equation", such as \(y=mx+c\)
+Type checking here is very simple, basically checking the student's answer is an equation, inequality, list, set, matrix to match that of the teacher.  The intention is not to be completely comprehensive, but to avoid obvious type mismatch.  E.g. this is very useful for ensuring the student has typed in an "equation", such as \(y=mx+c\)
 and not an expression such as \(mx+c\).  Remember, you can't compare an expression with an equation!
 
 Another useful way of avoiding this problem is to put a LaTeX string such as \(y=\) just before the input.  E.g.

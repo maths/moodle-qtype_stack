@@ -33,17 +33,17 @@ $links = array(
     get_string('stackDoc_docs_desc', 'qtype_stack',
             array('link' => (string) new moodle_url('/question/type/stack/doc/doc.php/'))),
     get_string('healthcheck_desc', 'qtype_stack',
-            array('link' => (string) new moodle_url('/question/type/stack/healthcheck.php'))),
+            array('link' => (string) new moodle_url('/question/type/stack/adminui/healthcheck.php'))),
     get_string('chat_desc', 'qtype_stack',
-            array('link' => (string) new moodle_url('/question/type/stack/caschat.php'))),
+            array('link' => (string) new moodle_url('/question/type/stack/adminui/caschat.php'))),
     get_string('stackInstall_testsuite_title_desc', 'qtype_stack',
-            array('link' => (string) new moodle_url('/question/type/stack/answertests.php'))),
+            array('link' => (string) new moodle_url('/question/type/stack/adminui/answertests.php'))),
     get_string('stackInstall_input_title_desc', 'qtype_stack',
-            array('link' => (string) new moodle_url('/question/type/stack/studentinputs.php'))),
+            array('link' => (string) new moodle_url('/question/type/stack/adminui/studentinputs.php'))),
     get_string('bulktestindexintro_desc', 'qtype_stack',
-            array('link' => (string) new moodle_url('/question/type/stack/bulktestindex.php'))),
+            array('link' => (string) new moodle_url('/question/type/stack/adminui/bulktestindex.php'))),
     get_string('stackInstall_replace_dollars_desc', 'qtype_stack',
-            array('link' => (string) new moodle_url('/question/type/stack/replacedollarsindex.php'))),
+            array('link' => (string) new moodle_url('/question/type/stack/adminui/replacedollarsindex.php'))),
 );
 $settings->add(new admin_setting_heading('docs',
         get_string('settingusefullinks', 'qtype_stack'),
@@ -60,8 +60,8 @@ $settings->add(new admin_setting_configselect('qtype_stack/platform',
         get_string('settingplatformtype', 'qtype_stack'),
         // Note, install.php tries to auto-detect Windows installs, and set the default appropriately.
         get_string('settingplatformtype_desc', 'qtype_stack'), null, array(
-                'unix'             => get_string('settingplatformtypeunix',                'qtype_stack'),
-                'unix-optimised'   => get_string('settingplatformtypeunixoptimised',       'qtype_stack'),
+                'linux'            => get_string('settingplatformtypelinux',                'qtype_stack'),
+                'linux-optimised'  => get_string('settingplatformtypelinuxoptimised',       'qtype_stack'),
                 'win'              => get_string('settingplatformtypewin',                 'qtype_stack'),
                 'server'           => get_string('settingplatformtypeserver',              'qtype_stack'))));
 
@@ -71,7 +71,8 @@ $settings->add(new admin_setting_configselect('qtype_stack/maximaversion',
                 array('5.38.1' => '5.38.1', '5.39.0' => '5.39.0',
                       '5.40.0' => '5.40.0', '5.41.0' => '5.41.0', '5.42.0' => '5.42.0',
                       '5.42.1' => '5.42.1', '5.42.2' => '5.42.2',
-                      'default' => 'default')));
+                      '5.43.0' => '5.43.0', '5.43.1' => '5.43.1', '5.43.2' => '5.43.2',
+                      '5.44.0' => '5.44.0', 'default' => 'default')));
 
 $settings->add(new admin_setting_configtext('qtype_stack/castimeout',
         get_string('settingcastimeout', 'qtype_stack'),
@@ -87,6 +88,14 @@ $settings->add(new admin_setting_configselect('qtype_stack/casresultscache',
 $settings->add(new admin_setting_configtext('qtype_stack/maximacommand',
         get_string('settingplatformmaximacommand', 'qtype_stack'),
         get_string('settingplatformmaximacommand_desc', 'qtype_stack'), null));
+
+$settings->add(new admin_setting_configtext('qtype_stack/maximacommandopt',
+        get_string('settingplatformmaximacommandopt', 'qtype_stack'),
+        get_string('settingplatformmaximacommandopt_desc', 'qtype_stack'), null));
+
+$settings->add(new admin_setting_configtext('qtype_stack/maximacommandserver',
+        get_string('settingplatformmaximacommandserver', 'qtype_stack'),
+        get_string('settingplatformmaximacommandserver_desc', 'qtype_stack'), null));
 
 $settings->add(new admin_setting_configtext('qtype_stack/serveruserpass',
         get_string('settingserveruserpass', 'qtype_stack'),

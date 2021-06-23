@@ -94,7 +94,7 @@ An example:
 
 ## Compatibility with the online docs {#Website}
 
-The STACK docs are made available online on [docs.stack-assessment.org](https://docs.stack-assessment.org). For more information on how this is achieved, see the [Website documentation](../Website.md). However this places certain limitations on the sort of elements that can be included in the documentation:
+The STACK docs are made available online on [docs.stack-assessment.org](https://docs.stack-assessment.org). For more information on how this is achieved, see the [Website documentation](Website.md). However this places certain limitations on the sort of elements that can be included in the documentation:
 
 * You can only have relative links to files within the `doc` directory. This means you should not link relatively to, for example, one of the stack .php files. If you want to demonstrate a behaviour of one of STACKs files, it is better to do a direct link to that file on GitHub or on the STACK demo.
 * You cannot use HTML text areas to display LaTeX Math, as that will display poorly. Please use multiline code blocks instead.

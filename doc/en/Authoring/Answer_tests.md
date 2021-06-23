@@ -5,24 +5,11 @@ establish whether they satisfy some mathematical criteria. The
 prototype test is to establish if they are the _same_.  That is
 to say, _algebraically equivalent_.
 
-We expose the exact behaviour of each answer test by giving registered users access to STACK's test suite for STACK Answer tests.  This can be found on a live server at [https://stack-demo.maths.ed.ac.uk/demo/question/type/stack/answertests.php](https://stack-demo.maths.ed.ac.uk/demo/question/type/stack/answertests.php)
-
-This compares pairs of expressions and displays the outcomes
-from each test. Mainly used to ensure STACK is working, it is
-invaluable for understanding what each test really does.  In
-particular it enables authors to see examples of which
-expressions are the same and different together with examples
-of the automatically generated feedback.  This feedback can be
-suppressed using the `quiet` tick-box in the potential response
-tree node.
-
-You can apply functions before applying the tests.  For example, to ignore case sensitivity you can apply the [Maxima commands defined by STACK](../CAS/Maxima.md#Maxima_commands_defined_by_STACK) `exdowncase(ex)` to the arguments, before you apply one of the other answer tests.
-
-# Introduction #
+## Introduction ##
 
 Informally, the answer tests have the following syntax
 
-    [Errors, Result, FeedBack, Note] = AnswerTest(StudentAnswer, TeacherAnswer, Opt)
+    [Errors, Result, FeedBack, Note] = AnswerTest(StudentAnswer, TeacherAnswer, [Opt], [Raw])
 
 Where,
 
@@ -30,10 +17,10 @@ Where,
 | --------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------
 | StudentAnswer   | A CAS expression, assumed to be the student's answer.
 | TeacherAnswer   | A CAS expression, assumed to be the model answer.
-| Opt             | Any options which the specific answer test provides. For example, a variable, the accuracy of the numerical comparison, number of significant figures.
+| Opt             | If needed, any options which the specific answer test provides. For example, a variable, the accuracy of the numerical comparison, number of significant figures.
+| Raw             | If needed, the raw string of the student's input to ensure, e.g. Maxima does not remove trailing zeros when establishing the number of significant figures.
 
-Note that since the tests can provide feedback, tests which appear to be symmetrical,
-e.g. Algebraic Equivalence, really need to assume which expression belongs to the student and which to the teacher.
+Note that since the tests can provide feedback, tests which appear to be symmetrical, e.g. Algebraic Equivalence, really need to assume which expression belongs to the student and which to the teacher.
 
 | Variable  | Description
 | --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -42,9 +29,15 @@ e.g. Algebraic Equivalence, really need to assume which expression belongs to th
 | FeedBack  | This is a text string which is displayed to the student. It is [CASText](CASText.md) which may depend on properties of the student's answer.
 | Note      | This is a text string which is used for [Reporting](Reporting.md). Each answer note is concatenated with the previous notes and any contributions from the branch.
 
-The feedback is only shown to a student if the quiet option is set to 'no'.  If feedback is shown, then examples are given in the answer-test test suite.  Login as the admin user then navigate to
+The feedback is only shown to a student if the quiet option is set to 'no'.  If feedback is shown, then examples are given in the answer-test test suite.
 
-     Home > Site administration > Plugins > Question types > Stack
+We expose the exact behaviour of each answer test by giving registered users access to STACK's test suite for STACK Answer tests.  This can be found on a live server at `.../moodle/question/type/stack/answertests.php`. This script compares pairs of expressions and displays the outcomes from each test. This script is mainly used to ensure STACK is working, but it is invaluable for understanding what each test really does.  In particular it enables question authors to see examples of which expressions are the same and different together with examples of the automatically generated feedback.
+
+We provide a static page giving the outcome of all [answer test results](Answer_tests_results.md).
+
+## In general ##
+
+You can apply functions before applying the tests.  For example, to ignore case sensitivity you can apply the [Maxima commands defined by STACK](../CAS/Maxima.md#Maxima_commands_defined_by_STACK) `exdowncase(ex)` to the arguments, before you apply one of the other answer tests.
 
 # Equality #
 
@@ -67,6 +60,8 @@ Hence, we need quite a number of different answer tests to establish equality in
 | SameType                                          | Are the two expressions of the same [types_of_object](../CAS/Maxima.md#Types_of_object)?  Note that this test works recursively over the entire expression.
 | SysEquiv                                          | Do two systems of polynomial equations have the same solutions? 
 | PropLogic                                         | An answer test designed to deal with [propositional logic](../CAS/Propositional_Logic.md). 
+
+`SubstEquiv` accepts an optional argument, which must be a list of variables.  These variables will be excluded from the list of possible comparisons, and so must be "fixed" in the comparison.  Useful if you want to establish that a student has used arbitrary constants in \(A\sin(x)+B\cos(x)\) but make sure \(x\) really stays as \(x\).
 
 ### AlgEquiv {#AlgEquiv}
 
@@ -140,6 +135,10 @@ Can we find a substitution of the variables of \(ex_2\) into \(ex_1\) which rend
 
 * Because we have to test every possibility, the algorithm is factorial in the number of variables.  For this reason, the test only works for 4 or fewer variables.
 * This test makes a substitution then uses AlgEquiv.
+* If you add an answer test option (not required) in the form of a list of variables, these variables will be "fixed" during the comparison.  E.g.
+  * `ATSubstEquiv(x=A+B, x=a+b)` will match with `[A = a,B = b,x = x]`.
+  * `ATSubstEquiv(x=A+B, x=a+b, [x])` will match with `[A = a,B = b]`.
+  * `ATSubstEquiv(y=A+B, x=a+b, [x])` will not match since `x` in the teacher's answer is fixed here.
 
 ### SysEquiv ###
 
@@ -166,6 +165,7 @@ These answer tests are used with [equivalence reasoning](../CAS/Equivalence_reas
 
 This test uses Maxima's `regex_match` function.
 
+* It yields true if the pattern is matched anywhere within the student answer and false otherwise. Testing for full equality of the answer string can be achieved via regex anchoring by use of `^` or `$`.
 * Both arguments to the test must be Maxima strings.  If you have a general expression, turn it into a string in the feedback variables with Maxima's `string` function.
 * The first argument should be the string, and the second argument should be the pattern to match.
 * Don't forget to escape within the pattern strings as needed. Note that there is a function `string_to_regex()` that will handle escaping of characters that would otherwise have meaning in the pattern. Also remember that you need to escape the backslashes like normal in Maxima-strings.
@@ -178,8 +178,6 @@ STACK also provides a helper function `regex_match_exactp(regex, str)` to check 
     (aaa)*(b|d)c    dc          true
     (aaa)*(b|d)c    aaaaaaabc   false
     (aaa)*(b|d)c    cca         false
-
-Currently this is not provided as a separate answer test so you will need to use this predicate in the question variables and check the result against the expected value, or supply the predicate as an argument to an answer test.
 
 # Form {#Form}
 
@@ -232,6 +230,8 @@ In elementary teaching, meaning 4. is unlikely to occur. Indeed, we might take t
 
 The FacForm test establishes that the expression is factored over the rational numbers.  If the coefficients of the polynomial are all real, at worst you will have quadratic irreducible terms.  There are some delicate cases such as: \((2-x)(3-x)\) vs  \((x-2)(x-3)\)  and \((1-x)^2\) vs \((x-1)^2\), which this test will cope with.
 
+It is also possible a student will do something which is just plain odd, e.g. \(x^2-4x+4\) can be rewritten as \(x(x-4+4/x)\) which is a "product of powers of distinct irreducible factors" but not acceptable to most teachers.  The student's answer must also be a polynomial in the variable (using `polynomialp` as the test predicate).
+
 # Factorisation of integers
 
 If you would like to ask a student to factor a polynomial, then do not use the FacForm answer test.  The FacForm answer test is designed to use with polynomials.
@@ -249,6 +249,8 @@ Note however that EqualComAss does not think that `2^2*3` and `2*2*3` are the sa
 These tests deal with the precision of numbers.  See dedicated page on [numerical answer tests](Answer_tests_numerical.md).
 
 # Calculus #
+
+These two answer tests are designed for use with common calculus problems.  Both tests provide feedback, where the test tries to establish if the student has made a common mistake.  E.g. "It looks like you have integrated instead".  There are edge cases, particularly with \(e^x\) where differentiation is indistinguishable from integration.  You may need to use the "quiet" option in these cases.
 
 ### Diff ###
 
@@ -289,21 +291,17 @@ The test cannot cope with some situations.  Please contact the developers when y
 
 # Other #
 
-The following tests do not use Maxima, but instead rely on PHP.
+`String` This is a string match, ignoring leading and trailing white space which are stripped from all answers, using PHP's trim() function.
 
-| Expression     | Description
-| -------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-| String         | This is a string match, ignoring leading and trailing white space which are stripped from all answers, using PHP's trim() function.
-| StringSloppy   | This function first converts both inputs to lower case, then removes all white space from the string and finally performs a strict string comparison.
-| (RegExp)       | **NOTE:** this test was removed in STACK version 4.3.
+`StringSloppy` This function first converts both inputs to lower case, then removes all white space from the string and finally performs a strict string comparison.
+
+`SRegExp` Uses Maxima's regular expression function.
+
+`(RegExp)` **NOTE:** this test was removed in STACK version 4.3.
 
 # Scientific units #
 
 A dedicated answer test for scientific units is described on the [units](../Authoring/Units.md) page.
-
-# Developer #
-
-Adding answer tests is possible, but is a developer task.
 
 # See also
 

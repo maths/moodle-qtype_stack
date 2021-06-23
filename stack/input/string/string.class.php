@@ -79,6 +79,10 @@ class stack_string_input extends stack_algebraic_input {
 
         $contents = array();
         if (array_key_exists($this->name, $response)) {
+            // Don't turn an empty string into an empty string.
+            if (trim($response[$this->name]) === '' && !$this->extraoptions['allowempty']) {
+                return $contents;
+            }
             // Protect any other quotes etc.
             $converted = stack_utils::php_string_to_maxima_string($response[$this->name]);
             // Finally make sure we actually have a Maxima string!

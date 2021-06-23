@@ -55,6 +55,7 @@ To place another potential response tree in the question just choose a sensible 
 * Tags can be moved anywhere within the question text.
 * Do **not** place feedback tags within LaTeX equations!
 * PRTs are created and deleted by adding appropriate tags to the question text.  Therefore, beware if you delete the tags as this will also delete the PRT from the question, which may result in lost work.
+* Some sites use a database which is not case sensitive (!), so please ensure tags differ by more than case sensitivity.  E.g. avoid `[[input:ans_m]]` and `[[input:ans_M]]` in questions.  Similarly with feedback tags.  Because most databases are case sensitive we do not check for this issue.
 
 ## General feedback/Worked solution {#general_feedback}
 

@@ -46,7 +46,7 @@ abstract class qtype_stack_testcase extends advanced_testcase {
      */
     protected $lisp = 'SBCL';
 
-    public function setUp() {
+    public function setUp() :void {
         parent::setUp();
 
         stack_utils::clear_config_cache();
@@ -137,7 +137,7 @@ abstract class qtype_stack_testcase extends advanced_testcase {
      * @param string $actual the actual output, as processed by the default Maths filter that STACK uses.
      */
     protected function assert_content_with_maths_contains($expected, $actual) {
-        $this->assertContains($expected, self::prepare_actual_maths($actual));
+        $this->assertStringContainsString($expected, self::prepare_actual_maths($actual));
     }
 
     /**
@@ -196,7 +196,7 @@ abstract class qtype_stack_testcase extends advanced_testcase {
 abstract class qtype_stack_walkthrough_test_base extends qbehaviour_walkthrough_test_base {
     protected $currentoutput = null;
 
-    public function setUp() {
+    public function setUp() :void {
         parent::setUp();
         qtype_stack_testcase::setup_test_maxima_connection($this);
         $this->resetAfterTest();
@@ -249,6 +249,13 @@ abstract class qtype_stack_walkthrough_test_base extends qbehaviour_walkthrough_
         $result   = $question->get_prt_result($index, $qa, false);
 
         $this->assertEquals($note, implode(' | ', $result->__get('answernotes')));
+    }
+
+    protected function check_response_summary($note) {
+        $question = $this->quba->get_question($this->slot);
+        $attempt  = $this->quba->get_question_attempt($this->slot);
+        $qs = $attempt->get_last_step();
+        $this->assertEquals($note, $qs->get_new_response_summary());
     }
 
     protected function check_output_contains_text_input($name, $value = null, $enabled = true) {
@@ -355,13 +362,13 @@ abstract class qtype_stack_walkthrough_test_base extends qbehaviour_walkthrough_
 
     protected function check_output_contains_lang_string($identifier, $component = '', $a = null) {
         $string = get_string($identifier, $component, $a);
-        $this->assertContains($string, $this->currentoutput,
+        $this->assertStringContainsString($string, $this->currentoutput,
                 'Expected string ' . $string . ' not found in ' . $this->currentoutput);
     }
 
     protected function check_output_does_not_contain_lang_string($identifier, $component = '', $a = null) {
         $string = get_string($identifier, $component, $a);
-        $this->assertNotContains($string, $this->currentoutput,
+        $this->assertStringNotContainsString($string, $this->currentoutput,
                 'The string ' . $string . ' should not be present in ' . $this->currentoutput);
     }
 
@@ -386,7 +393,7 @@ abstract class qtype_stack_walkthrough_test_base extends qbehaviour_walkthrough_
      * @param string $actual the actual output, as processed by the default Maths filter that STACK uses.
      */
     protected function assert_content_with_maths_contains($expected, $actual) {
-        $this->assertContains($expected, qtype_stack_testcase::prepare_actual_maths($actual));
+        $this->assertStringContainsString($expected, qtype_stack_testcase::prepare_actual_maths($actual));
     }
 
     /**

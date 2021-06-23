@@ -49,9 +49,11 @@ This is a job for a developer.  Please contact us.
 
 ## How can I use subscripts in STACK ##
 
-Note that normally a maxima atom `theta2` is displayed by Maxima as `{\it theta_2}`. This is problematic as the Greek letter is not rendered as LaTeX `\theta`, and the subscript is in italic which is wrong.
+Note there is a subtle (and perhaps confusing) difference between atoms in Maxima.  The strings `a1` and `a_1` are both atoms in Maxima, and are different.  However, the display is very similar, using subscripts.  A further confusion arises since list elements are also displayed subscripted.  E.g. `a[1]` will also be displayed with a subscript.
 
-Maxima "atoms" with a subscript will be displayed using subscripts.  For example
+The atoms `a1` and `a_1` are not considered to be algebraically equivalent.
+
+Normally an atom `theta2` is displayed by Maxima as `{\it theta_2}`. This is problematic as the Greek letter is not rendered as LaTeX `\theta`, and the subscript is in italic which is wrong.  We have fixed this in STACK. Maxima "atoms" with a subscript will be displayed using subscripts.  For example
 
     theta_2
 
@@ -66,8 +68,6 @@ is typeset as \({a}_{b}\) i.e. `{a}_{b}` in LaTeX.  This enables subscripts to b
     texsub(F,1-2)
 
 with simplification off will be displayed as \({F}_{1-2}\).  The complex expression in the subscript cannot form an atomic Maxima expression.
-
-Note however there is a subtle (and perhaps confusing) difference in the display between the Maxima atoms `a1` and `a_1` in STACK.  The atom `a1` will follow the Maxima default and generate the LaTeX `{\it a_1}` and so the numeral 1 will be in italic, which some people consider incorrect.  The atom `a_1` will use the `texsub` function as an intermediate and generate the LaTeX `{a}_{1}` and so the normal LaTeX rules will render the numeral 1 in Roman, which is correct.  
 
 Note that the process of converting `theta_07` into the intermediate `texsub` form internally results in the `texsub(theta,7)` which removes the leading zero.  This is a known issue, for which a workaround is to directly use `texsub(theta,"07")`.  This does not produce optimal LaTeX.
 

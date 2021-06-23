@@ -137,6 +137,7 @@ oo_interval_tex(ex) := block([a, b],
 texput(oo, oo_interval_tex)$
 
 realset_tex(ex) := block([a, b, c],
+    if not(length(args(ex))=2) then error("realset: this function must have two arguments."),
     a:first(args(ex)),
     b:second(args(ex)),
     c:ev(interval_complement(b), simp),
@@ -215,7 +216,7 @@ realsetp(ex) := block(
     if is(ex=none) then return(true),
     if atom(ex) then return(false),
     if safe_setp(ex) then return(all_listp(real_numberp, args(ex))),
-    if intervalp(ex) then return(all_listp(real_numberp, args(ex))),
+    if intervalp(ex) then return(all_listp(extended_real_numberp, args(ex))),
     if op(ex)=%union then return(all_listp(realsetp, args(ex))),
     if op(ex)=%intersection then return(all_listp(realsetp, args(ex))),
     return(false)
@@ -228,6 +229,7 @@ realset_soft_p(ex) := block(
     if atom(ex) then return(false),
     if safe_setp(ex) then return(true),
     if intervalp(ex) then return(true),
+    if op(ex)=realset then return(true),
     if op(ex)=%union then return(all_listp(realset_soft_p, args(ex))),
     if op(ex)=%intersection then return(all_listp(realset_soft_p, args(ex))),
     return(false)
@@ -255,6 +257,7 @@ realsetmake(v, ex) := block(
     if is(ex=all) or is(ex=none) or is(ex=unknown) then return(ex),
     if atom(ex) then return(ex),
     if is(safe_op(ex)="realset") then return(ex),
+    if not(realset_soft_p(ex)) then error("realsetmake: second argument must appear to be a real set."), 
     return(realset(v, ex))
 )$
 
@@ -264,6 +267,8 @@ trivialintervalp(ex) := block(
     if safe_setp(ex) and ex={} then return(true),
     if not(intervalp(ex)) then return(false),
     if safe_op(ex)="oo" and first(ex)=second(ex) then return(true),
+    if safe_op(ex)="oc" and first(ex)=second(ex) then return(true),
+    if safe_op(ex)="co" and first(ex)=second(ex) then return(true),
     if first(ex)=inf then return(true),
     if second(ex)=-inf then return(true),
     return(false)
@@ -282,11 +287,15 @@ interval_count_components(ex) := block(
 interval_simple_union(X,Y) := block([A:X, B:Y, Ans, x1, x2, y1, y2, Args1, Args2, Aset, swap:false, setAns:[], cc:cc(0,1), oo:oo(0,1), co:co(0,1), oc:oc(0,1), i:1, j:1, n],
         cc:op(cc), oo:op(oo), co:op(co), oc:op(oc),
 
-        if atom(A) then
-            Ans:B
-        elseif atom(B) then
-            Ans:A
-        elseif safe_setp(A) then (
+        if A=all then return(all),
+        if B=all then return(all),
+        if A=none or A={} then return(B),
+        if B=none or B={} then return(A),
+
+        if atom(A) then error("interval_simple_union: invalid first argument"),
+        if atom(B) then error("interval_simple_union: invalid second argument"),
+
+        if safe_setp(A) then (
             if safe_setp(B) then
                 Ans:union(A,B)
             else (
@@ -413,8 +422,9 @@ interval_simple_union(X,Y) := block([A:X, B:Y, Ans, x1, x2, y1, y2, Args1, Args2
 interval_simple_intersect(X,Y) := block([A:X, B:Y, Ans, x1, x2, y1, y2, Args1, Args2, Aset, swap:false, lopen:false, ropen:false, setAns:[], cc:cc(0,1), oo:oo(0,1), co:co(0,1), oc:oc(0,1), i:1, n],
         cc:op(cc), oo:op(oo), co:op(co), oc:op(oc),
 
-        if atom(A) then return({}),
-        if atom(B) then return({}),
+        if not(realsetp(X)) then error("interval_simple_intersect expects its first argument to be a real set."),
+        if not(realsetp(Y)) then error("interval_simple_intersect expects its second argument to be a real set."),
+
         if safe_setp(A) and safe_setp(B) then return(intersect(A,B)),
         /* A & B are not both sets. */
         if safe_setp(B) then (
@@ -646,6 +656,7 @@ interval_connect(X) := block([Ans, n, x, y, i:1],
 
 /* Given a union of disjoint sets, returns the "canonical form" of this union: */
 interval_tidy(X) := block([A, Ans:[], n, setpart:{}, x, y, i:1],
+    if X=all then return(all),
     if atom(X) then return(Ans:phi),
     if listp(X) then X:apply(%union, X),
     X:ev(X, %intersection=interval_intersect_nary),
@@ -680,6 +691,7 @@ interval_tidy(X) := block([A, Ans:[], n, setpart:{}, x, y, i:1],
                 A:first(A),
             Ans:A
         ),
+        if Ans=oo(-inf,inf) then return(all),
         Ans
 )$
 
@@ -832,13 +844,12 @@ single_variable_solver_real(ex) := block([v, rs1, rs2],
         rs1:ev(sublist(args(ex), realset_soft_p), simp),
         rs2:ev(sublist(args(ex), lambda([ex2], not realset_soft_p(ex2))), simp),
         if is(length(rs1)=1) then rs1:first(rs1),
-        rs1:realsetmake(v, rs1),
         if is(rs1=none) then
             ex:apply("%or", rs2)
         else if is(rs1=all) then
             ex:all
         else
-            ex:realsetmake(v, rs1) %or apply("%or", rs2)
+            ex:(if realset_soft_p(rs1) then realsetmake(v, rs1) else rs1) %or apply("%or", rs2)
     ),
     if safe_op(ex)="%union" or safe_setp(ex) then
         ex:realsetmake(v, ex),
@@ -849,6 +860,8 @@ single_variable_solver_real(ex) := block([v, rs1, rs2],
 single_variable_solver_real_rec(ex, v) := block([r0, r1, r2],
     if atom(ex) then return(ex),
     if intervalp(ex) then return(ex),
+    /* Equations should look real. */
+    if not(freeof(%i,ex)) then return(ex),
 
     if equationp(ex) then return(ev(equation_to_intervals(ex, v), simp)),
     if linear_inequalityp(ex) then return(ev(linear_inequality_to_interval(ex), simp)),
@@ -899,7 +912,8 @@ natural_domain(ex) := block([v, ex2],
     v:first(v),
     /* Recurse using true/false instead of all/none, then convert. */
     ex2:natural_domain_rec(ex),
-    realsetmake(v, ex2)
+    if realset_soft_p(ex2) then ex2:realsetmake(v, ex2),
+    ex2
 )$
 
 /* Calculate the natural domain of a single-variable term.  */

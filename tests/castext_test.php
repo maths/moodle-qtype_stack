@@ -64,7 +64,7 @@ class stack_cas_text_test extends qtype_stack_testcase {
                 array('\[{@a@}\]', $a1, true, '\[{x^2}\]'),
                 array('{@a@}', $a1, true, '\({x^2}\)'),
                 array('{@sin(x)@}', $a1, true, '\({\sin \left( x \right)}\)'),
-                array('\[{@a*b@}\]', $a1, true, '\[{x^2\cdot \left(x+1\right)^2}\]'),
+                array('\[{@a*b@}\]', $a1, true, '\[{x^2\cdot {\left(x+1\right)}^2}\]'),
                 array('{@', null, false, false),
                 array('{@(x^2@}', null, false, false),
                 array('{@1/0@}', null, true, '1/0'),
@@ -298,8 +298,8 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $at1 = new stack_cas_text("[[facts:calc_diff_linearity_rule]]", $cs2, 0);
         $output = stack_maths::process_display_castext($at1->get_display_castext());
 
-        $this->assertContains(stack_string('calc_diff_linearity_rule_name'), $output);
-        $this->assertContains(stack_string('calc_diff_linearity_rule_fact'), $output);
+        $this->assertStringContainsString(stack_string('calc_diff_linearity_rule_name'), $output);
+        $this->assertStringContainsString(stack_string('calc_diff_linearity_rule_fact'), $output);
     }
 
     public function test_assignmatrixelements() {
@@ -505,8 +505,8 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $at1->get_display_castext();
 
         $this->assertEquals(
-                '\begin{multline*} {\frac{x^2}{\left(x^2+1\right)^3}} \\\\ ' .
-                '{\frac{2\cdot x}{\left(x^2+1\right)^3}-\frac{6\cdot x^3}{\left(x^2+1\right)^4}} \end{multline*}',
+                '\begin{multline*} {\frac{x^2}{{\left(x^2+1\right)}^3}} \\\\ ' .
+                '{\frac{2\cdot x}{{\left(x^2+1\right)}^3}-\frac{6\cdot x^3}{{\left(x^2+1\right)}^4}} \end{multline*}',
                 $at1->get_display_castext());
     }
 

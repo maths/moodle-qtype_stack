@@ -58,10 +58,10 @@ abstract class stack_connection_helper {
                 require_once(__DIR__ . '/connector.windows.class.php');
                 $connection = new stack_cas_connection_windows(self::$config, $debuglog);
                 break;
-            case 'unix':
-            case 'unix-optimised':
-                require_once(__DIR__ . '/connector.unix.class.php');
-                $connection = new stack_cas_connection_unix(self::$config, $debuglog);
+            case 'linux':
+            case 'linux-optimised':
+                require_once(__DIR__ . '/connector.linux.class.php');
+                $connection = new stack_cas_connection_linux(self::$config, $debuglog);
                 break;
             case 'server':
                 require_once(__DIR__ . '/connector.server.class.php');
@@ -158,7 +158,7 @@ abstract class stack_connection_helper {
 
     /**
      * This method checks the version information returned from the STACK-Maxima
-     * libraries agains the version number we expect for this version of
+     * libraries against the version number we expect for this version of
      * qtype_stack.
      * @param array $unpackedresult the result of the CAS call.
      * @return bool whether the CAS call used an compatible library version.
@@ -255,7 +255,7 @@ abstract class stack_connection_helper {
         }
 
         switch (self::$config->platform) {
-            case 'unix-optimised':
+            case 'linux-optimised':
                 $docsurl = new moodle_url('/question/type/stack/doc/doc.php/CAS/Optimising_Maxima.md');
                 $fix = stack_string('healthchecksstackmaximaversionfixoptimised', array('url' => $docsurl->out()));
                 break;
@@ -298,7 +298,7 @@ abstract class stack_connection_helper {
     }
 
     /**
-     * Really exectue a CAS command, regardless of the cache settings.
+     * Really execute a CAS command, regardless of the cache settings.
      */
     public static function stackmaxima_genuine_connect() {
         self::ensure_config_loaded();
@@ -399,12 +399,12 @@ abstract class stack_connection_helper {
             case 'GCL':
                 $maximacommand = ':lisp (si::save-system "'.$imagename.'")' . "\n";
                 $maximacommand .= 'quit();'."\n";
-                $commandline = stack_utils::convert_slash_paths($imagename . ' -eval \'(cl-user::run)\'');
+                $rawcommand = stack_utils::convert_slash_paths($imagename . ' -eval \'(cl-user::run)\'');
                 break;
 
             case 'SBCL':
                 $maximacommand = ':lisp (sb-ext:save-lisp-and-die "'.$imagename.'" :toplevel #\'run :executable t)' . "\n";
-                $commandline = stack_utils::convert_slash_paths($imagename);
+                $rawcommand = stack_utils::convert_slash_paths($imagename);
                 break;
 
             case 'CLISP':
@@ -418,7 +418,7 @@ abstract class stack_connection_helper {
                     return array($message, '', $success, '');
                 }
                 $lisprun = explode("\n", $lisprun);
-                $commandline = $lisprun[0].' -q -M '.stack_utils::convert_slash_paths($imagename);
+                $rawcommand = $lisprun[0].' -q -M '.stack_utils::convert_slash_paths($imagename);
                 break;
 
             default:
@@ -434,14 +434,14 @@ abstract class stack_connection_helper {
         $success = true;
 
         // Add the timeout command to the message.
-        $commandline = 'timeout --kill-after=10s 10s '.$commandline;
+        $commandline = 'timeout --kill-after=10s 10s '.$rawcommand;
         $message = stack_string('healthautomaxopt_ok', array('command' => $commandline));
         if (!file_exists($imagename)) {
             $success = false;
             $message = stack_string('healthautomaxopt_notok');
         }
 
-        return array($message, $debug, $success, $commandline);
+        return array($message, $debug, $success, $commandline, $rawcommand);
     }
 
 }

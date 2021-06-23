@@ -32,6 +32,7 @@ The following type predicates are defined by STACK.
 
 | Function                   | Predicate
 | -------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+| `variablep(ex)`            | Determines if \(ex\) is avariable, that is an atom but not a real numberm, \(i\) or a string.
 | `equationp(ex)`            | Determines if \(ex\) is an equation.
 | `functionp(ex)`            | Determines if \(ex\) is a function definition, using the operator `:=`.
 | `inequalityp(ex)`          | Determines if \(ex\) is an inequality.
@@ -68,6 +69,31 @@ The following are defined by STACK.
 | `diffp(ex,v,xp,[n]) `     | true if \(ex\) is (optionally \(n\) times) differentiable with respect to \(v\) at \(xp\) (unreliable).
 
 The last two functions rely on Maxima's `limit` command and hence are not robust.
+
+# Establishing form #
+
+A lot of what teachers do is try to establish if a student's answer "looks right" that is, in an appropriate form.
+
+`linear_term_p(ex, p)` establishes that the expression `ex` is a simple product of one expression for which the predicate `p` is true and zero or more real numbers.
+
+`linear_combination_p(ex, p)` establishes that the expression `ex` is a linear combination of terms for which `p` is true.
+
+The teacher can then use this function to build more complex predicates such as the following
+
+    fouriertermp(ex) := if ((safe_op(ex)="cos" or safe_op(ex)="sin") and linear_term_p(first(args(ex)), variablep)) then true else false$
+
+This predicate function decides if we have a term of the form \(\sin(n\, v)\) or \(\cos(n\, v)\) where \(n\) is any product of real numbers (e.g. \(3\pi/2\)) and \(v\) is any variable.  A teacher might prefer to specify a particular variable.
+
+    fouriertermp(ex) := if ((safe_op(ex)="cos" or safe_op(ex)="sin") and linear_term_p(first(args(ex)), lambda([ex2], ex2=t))) then true else false$
+
+So, if you want to decide if the student's answer looks like \( \sum_{k=1}{n} a_k\cos(k\pi t) + a_k\cos(k\pi t) \) the combined predicate `linear_combination_p(ex, fouriertermp)` can be used.
+
+Testing for form in this way is probably more reliable that the `substequiv` answer test which fails to match up expressions like \(A\sin(t)+B\cos(t)\) with \(A\sin(t)-B\cos(t)\).  As every, the minus sign is a problem.  However, the following predicate will work.
+
+    simpletrigp(ex) := if (ex=cos(t) or ex=sin(t)) then true else false$
+
+and the test `linear_combination_p(ex, simpletrigp)` will be able to do this.
+
 
 # Related functions #
 

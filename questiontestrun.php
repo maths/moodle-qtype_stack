@@ -145,7 +145,8 @@ if (!$question->has_random_variants()) {
 
 if (empty($question->deployedseeds)) {
     if ($question->has_random_variants()) {
-        echo html_writer::tag('p', stack_string('questionnotdeployedyet').' '.
+        echo html_writer::tag('p', stack_string_error('runquestiontests_alert') . ' ' .
+                stack_string('questionnotdeployedyet') . ' ' .
                 $OUTPUT->action_icon(question_preview_url($questionid, null, null, null, null, $context),
                     new pix_icon('t/preview', get_string('preview'))));
     }
@@ -319,12 +320,12 @@ foreach ($testscases as $key => $testcase) {
 // Display the test results.
 $addlabel = stack_string('addanothertestcase', 'qtype_stack');
 if (empty($testresults)) {
-    echo html_writer::tag('p', stack_string('notestcasesyet'));
+    echo html_writer::tag('p', stack_string_error('runquestiontests_alert') . ' ' . stack_string('notestcasesyet'));
     $addlabel = stack_string('addatestcase', 'qtype_stack');
 } else if ($allpassed) {
     echo html_writer::tag('p', stack_string('stackInstall_testsuite_pass'), array('class' => 'overallresult pass'));
 } else {
-    echo html_writer::tag('p', stack_string('stackInstall_testsuite_fail'), array('class' => 'overallresult fail'));
+    echo html_writer::tag('p', stack_string_error('stackInstall_testsuite_fail'), array('class' => 'overallresult fail'));
 }
 
 if ($canedit) {
@@ -521,7 +522,7 @@ $chatparams['simp'] = $simp;
 $chatparams['cas'] = $question->generalfeedback;
 // We've chosen not to send a specific seed since it is helpful
 // to test the general feedback in a random context.
-echo $OUTPUT->single_button(new moodle_url('/question/type/stack/caschat.php', $chatparams), stack_string('chat'));
+echo $OUTPUT->single_button(new moodle_url('/question/type/stack/adminui/caschat.php', $chatparams), stack_string('chat'));
 
 if ($question->stackversion == null) {
     echo html_writer::tag('p', stack_string('stackversionnone'));

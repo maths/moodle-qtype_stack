@@ -450,7 +450,7 @@ class stack_utils {
         foreach ($delimiters as $d) {
             $pos = strpos($text, $d, $offset);
             if ($pos !== false) { // Found one.
-                if (($at === false || $pos <= $at)) {// take earliest ($$ taken over $)
+                if (($at === false || $pos <= $at)) {// Take earliest ($$ taken over $).
                     $at = $pos; // Take earliest.
                 }
             }

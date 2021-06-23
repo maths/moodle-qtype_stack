@@ -56,13 +56,19 @@ class stack_matrix_input_test extends qtype_stack_testcase {
         $el->adapt_to_model_answer('[[1,0],[0,1]]');
 
         $versionused = get_config('qtype_stack', 'maximaversion');
-        $errmsg = '<div class="error"><p>The input has generated the following runtime error which prevents you '.
-                'from answering. Please contact your teacher.</p>' .
+        $errmsg = '<div class="error"><p><i class="icon fa fa-exclamation-circle text-danger fa-fw " title="The input has ' .
+                      'generated the following runtime error which prevents you from answering. Please contact your teacher." ' .
+                      'aria-label="The input has generated the following runtime error which prevents you from answering. Please ' .
+                      'contact your teacher."></i>The input has generated the following runtime error which prevents you from ' .
+                      'answering. Please contact your teacher.</p>' .
                 '<p>The "$first" argument of the function "$matrix_size" must be a matrix</p></div>';
         if ($this->adapt_to_new_maxima('5.42.3')) {
-            $errmsg = '<div class="error"><p>The input has generated the following runtime error which prevents you '.
-                    'from answering. Please contact your teacher.</p>' .
-                    '<p>The first argument of the function matrix_size must be a matrix</p></div>';
+            $errmsg = '<div class="error"><p><i class="icon fa fa-exclamation-circle text-danger fa-fw " title="The input has ' .
+                      'generated the following runtime error which prevents you from answering. Please contact your teacher." ' .
+                      'aria-label="The input has generated the following runtime error which prevents you from answering. Please ' .
+                      'contact your teacher."></i>The input has generated the following runtime error which prevents you from ' .
+                      'answering. Please contact your teacher.</p>' .
+                      '<p>The first argument of the function matrix_size must be a matrix</p></div>';
         }
         $this->assertEquals($errmsg, $el->render(new stack_input_state(stack_input::VALID, array(), '', '', '', '', ''),
                         'ans1', false, null));

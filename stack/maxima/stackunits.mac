@@ -26,8 +26,8 @@
 /*  V0.5 August 2016                                            */
 /****************************************************************/
 
-/* This code is commented out as these lists are now defined in the main code and
-  copied over to maximalocal.mac by the install scripts.  This ensures exactly the
+/* This code is commented out as these lists are now defined in the main code in stack/cas/casstring.units.php
+  which are copied over to maximalocal.mac by the install scripts.  This ensures exactly the
   same collections of units are available in PHP and this Maxima code.
 
   stack_unit_si_prefix_code:[y, z, a, f, p, n, u, m, c, d, da, h, k, M, G, T, P, E, Z, Y],
@@ -53,18 +53,18 @@ tellsimpafter(stackunits(STACKNUM1, STACKUNITS1)+stackunits(STACKNUM2, STACKUNIT
 tellsimpafter(stackunits(STACKNUM1, STACKUNITS1)+stackunits(STACKNUM2, STACKUNITS1)+STACKANY, stackunits(STACKNUM1+STACKNUM2, STACKUNITS1)+STACKANY);
 
 
-unitsp(ex) := featurep(ex, units)$
+unitsp(ex) := featurep(ex, 'units)$
 
 /* List all variables *not* considered to be not units. */
 listofnonunits(ex) := block(
-  if not(member(units, features)) then
+  if not(member('units, features)) then
       stack_unit_si_declare(true),
   sublist(listofvars(ex), lambda([ex2], not(unitsp(ex2))))
 )$
 
 /* List all variables considered to be units.  */
 listofunits(ex) := block(
-  if not(member(units, features)) then
+  if not(member('units, features)) then
     stack_unit_si_declare(true),
   sublist(listofvars(ex), unitsp)
 )$
@@ -75,7 +75,7 @@ listofunits(ex) := block(
 stack_unit_si_declare(mode) := block([pfi, ui, simp],
   /* Use Maxima's feature system to declare a range of units.  */
   /* Whether units is a feature can be used to check if this function has been called. */
-  /* Check with member(units, features); */
+  /* Check with member('units, features); */
   declare(units, feature),
   simp:true,
   for ui:1 thru length(stack_unit_si_unit_code) do
@@ -83,14 +83,14 @@ stack_unit_si_declare(mode) := block([pfi, ui, simp],
     for pfi:1 thru length(stack_unit_si_prefix_code) do
       (
         apply('texput, [vconcat(stack_unit_si_prefix_code[pfi],stack_unit_si_unit_code[ui]), sconcat(stack_unit_si_prefix_tex[pfi], stack_unit_si_unit_tex[ui])]),
-        apply('declare, [vconcat(stack_unit_si_prefix_code[pfi],stack_unit_si_unit_code[ui]), units])
+        apply('declare, [vconcat(stack_unit_si_prefix_code[pfi],stack_unit_si_unit_code[ui]), 'units])
       ),
         apply('texput, [stack_unit_si_unit_code[ui], stack_unit_si_unit_tex[ui]]),
-        apply('declare, [stack_unit_si_unit_code[ui], units])
+        apply('declare, [stack_unit_si_unit_code[ui], 'units])
     ),
     for ui:1 thru length(stack_unit_other_unit_code) do (
         apply('texput, [stack_unit_other_unit_code[ui], stack_unit_other_unit_tex[ui]]),
-        apply('declare, [stack_unit_other_unit_code[ui], units])
+        apply('declare, [stack_unit_other_unit_code[ui], 'units])
     )
 )$
 
@@ -168,7 +168,7 @@ stack_unit_si_present(value,target) := block([conversionfactor, va, vb, simp, be
 /* Splits off the units from the end of a product. */
 stackunits_make(ex) := block([oldsimp, exn, exu, exl],
   if (debug) then (print("stackunits_make: "), print(ex)),
-  if not(member(units, features)) then
+  if not(member('units, features)) then
     stack_unit_si_declare(true),
   oldsimp:simp,
   simp:false,
@@ -387,13 +387,12 @@ stack_validate_units(expr, LowestTerms, TAns, fracdisp, fltfmt) := block( [simp:
   /* Add in an option to control the display of the units. */
   expr:SAU,
   if (debug) then (print("stack_validate_units has: "), print(expr)),
-  if fracdisp = "inline" then
-    (
+  if fracdisp = "inline" then block(
     stack_disp_fractions("i"),
     if stack_units_errp(SAU) then
-      expr:stackunits(stack_units_nums(SAU), ev(stack_units_units(SAU),simp), ev(stack_units_err(SAU),simp))
+      expr:stackunits(stack_units_nums(SAU), ev(stack_units_units(SAU), simp), ev(stack_units_err(SAU),simp))
     else
-      expr:stackunits(stack_units_nums(SAU), ev(stack_units_units(SAU),simp))
+      expr:stackunits(stack_units_nums(SAU), ev(stack_units_units(SAU), simp))
     ),
   if (debug) then (print(expr)),
   expr:detexcolor(expr),
@@ -404,7 +403,9 @@ stack_validate_units(expr, LowestTerms, TAns, fracdisp, fltfmt) := block( [simp:
 stackunitstex(ex) := block ([a, b, c, astr],
   a:first(args(ex)),
   b:second(args(ex)),
+  if scientific_notationp(a) then make_multsgn("cross"),
   astr:tex1(a),
+  if scientific_notationp(a) then make_multsgn("blank"),
   if not(atom(a)) and safe_op(a)="+" and not(is(b=NULLUNITS)) then 
     astr:sconcat("\\left( ", astr, "\\right)"),
   if length(args(ex))=3 then
@@ -420,20 +421,22 @@ texput(NULLUNITS, "");
 texput(NULLNUM, "");
 
 /* Units answer tests. */
-ATUnits(SA, SB, SO) := ATUnitsFun(SA, SB, SO, false, "SigFigs")$
-ATUnitsSigFigs(SA, SB, SO) := ATUnitsFun(SA, SB, SO, false, "SigFigs")$
-ATUnitsStrict(SA, SB, SO) := ATUnitsFun(SA, SB, SO, true, "SigFigs")$
-ATUnitsStrictSigFigs(SA, SB, SO) := ATUnitsFun(SA, SB, SO, true, "SigFigs")$
-ATUnitsRelative(SA, SB, SO) := ATUnitsFun(SA, SB, SO, false, "Relative")$
-ATUnitsStrictRelative(SA, SB, SO) := ATUnitsFun(SA, SB, SO, true, "Relative")$
-ATUnitsAbsolute(SA, SB, SO) := ATUnitsFun(SA, SB, SO, false, "Absolute")$
-ATUnitsStrictAbsolute(SA, SB, SO) := ATUnitsFun(SA, SB, SO, true, "Absolute")$
+ATUnits(SA, SB, SO, SR) := ATUnitsFun(SA, SB, SO, SR, false, "SigFigs")$
+ATUnitsSigFigs(SA, SB, SO, SR) := ATUnitsFun(SA, SB, SO, SR, false, "SigFigs")$
+ATUnitsStrict(SA, SB, SO, SR) := ATUnitsFun(SA, SB, SO, SR, true, "SigFigs")$
+ATUnitsStrictSigFigs(SA, SB, SO, SR) := ATUnitsFun(SA, SB, SO, SR, true, "SigFigs")$
+ATUnitsSigFigs_CASSigFigsWrapper(SA, SB, SO, SR, strict) := ATUnitsFun(SA, SB, SO, SR, strict, "SigFigs")$
+ATUnitsRelative(SA, SB, SO) := ATUnitsFun(SA, SB, SO, "", false, "Relative")$
+ATUnitsStrictRelative(SA, SB, SO) := ATUnitsFun(SA, SB, SO, "", true, "Relative")$
+ATUnitsAbsolute(SA, SB, SO) := ATUnitsFun(SA, SB, SO, "", false, "Absolute")$
+ATUnitsStrictAbsolute(SA, SB, SO, SR) := ATUnitsFun(SA, SB, SO, SR, true, "Absolute")$
+
 
 /* This function has two options:
    boolean: strictp determines if the test should be "strict" in requiging exactly the correct units.
    numtest: string Chooses the numerical test applied to the numerical part.
 */
-ATUnitsFun(SA, SB, SO, strictp, numtest) := block([validity, rawmk, sb, ansnote, 
+ATUnitsFun(SA, SB, SO, SR, strictp, numtest) := block([validity, rawmk, sb, ansnote, 
         SAU, SBU, SOU, SAU1, SBU1, SOU1, ol, ret, ret1, ret2],
   validity:true, rawmk:true, fb:"", ansnote:"",
   if (is(_EC(errcatch(SAA:ev(SA, simp, nouns)), "") = false)) then
@@ -442,6 +445,8 @@ ATUnitsFun(SA, SB, SO, strictp, numtest) := block([validity, rawmk, sb, ansnote,
     return([false, false, StackAddNote("", "ATUnits_STACKERROR_TAns"), ""]),
   if (is(_EC(errcatch(SOO:ev(SO, simp, nouns)), "") = false)) then
     return([false, false, StackAddNote("", "ATUnits_STACKERROR_Opt"), ""]),
+  if (is(_EC(errcatch(SRR:ev(SR, simp, nouns)), "") = false)) then
+    return([false, false, StackAddNote("", "ATUnits_STACKERROR_Raw"), ""]),
 
   ol:SO,
 
@@ -458,7 +463,7 @@ ATUnitsFun(SA, SB, SO, strictp, numtest) := block([validity, rawmk, sb, ansnote,
     return([false, false, StackAddNote("", "ATUnits_SA_no_units"), StackAddFeedback("", "ATUnits_SA_no_units")]),
 
   /* Load and setup units. */
-  if not(member(units, features)) then
+  if not(member('units, features)) then
     stack_unit_si_declare(true),
 
   if (debug) then (print("ATUnitsFun: raw input: "), print(SA), print(SB)),
@@ -498,7 +503,7 @@ ATUnitsFun(SA, SB, SO, strictp, numtest) := block([validity, rawmk, sb, ansnote,
 
   if (numtest = "SigFigs") then
     /* Sigfigs test should not use units in the option. */
-    ret1: ATNumSigFigs(SAU1, SBU1, SO)
+    ret1: ATNumSigFigs(SAU1, SBU1, SO, SR)
   else if (numtest = "Relative") then
     ret1: ATNumRelative(SAU1, SBU1, SO)
   else if (numtest = "Absolute") then
@@ -538,7 +543,7 @@ ATUnitsFun(SA, SB, SO, strictp, numtest) := block([validity, rawmk, sb, ansnote,
   SBU1:ev(float(stack_units_nums(SBU)), simp),
   SOU1:ev(float(stack_units_nums(SOU)), simp),
   if (numtest = "SigFigs") then
-    ret2: ATNumSigFigs(SAU1, SBU1, ol)
+    ret2: ATNumSigFigs(SAU1, SBU1, ol, SR)
   else if (numtest = "Relative") then
     ret2: ATNumRelative(SAU1, SBU1, ol)
   else if (numtest = "Absolute") then

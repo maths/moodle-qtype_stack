@@ -102,6 +102,7 @@ class stack_inputvalidation_test_data {
         array('aXy1', 'php_false', 'aXy*1', 'cas_true', '', 'missing_stars | forbiddenVariable', ""),
         // In STACK 4.3, the parser accepts these as functions.
         array('f(x)', 'php_true', 'f(x)', 'cas_true', 'f\left(x\right)', '', "Functions"),
+        array('f(x)^2', 'php_true', 'f(x)^2', 'cas_true', 'f^2\left(x\right)', '', ""),
         array('a(x)', 'php_true', 'a(x)', 'cas_true', 'a\left(x\right)', '', ""),
         array('x(t+1)', 'php_true', 'x(t+1)', 'cas_true', 'x\left(t+1\right)', '', ""),
         // Because we are using x as a variable, we do insert a * here!
@@ -123,7 +124,7 @@ class stack_inputvalidation_test_data {
         array('[[1,2],[3,4]]', 'php_true', '[[1,2],[3,4]]', 'cas_true',
                 '\left[ \left[ 1 , 2 \right] , \left[ 3 , 4 \right] \right]', '', ""),
         array('{}', 'php_true', '{}', 'cas_true', '\left \{ \right \}', '', "Sets"),
-        array('{1}', 'php_true', '{1}', 'cas_true', '\left \{1 \right \}', '', ""),
+        array('{1}', 'php_true', '{1}', 'cas_true', '\left \{1 \right \}', '', ""),        
         array('{1,2,3.4}', 'php_true', '{1,2,3.4}', 'cas_true', '\left \{1 , 2 , 3.4 \right \}', '', ""),
         array('{x, y, z }', 'php_true', '{x,y,z}', 'cas_true', '\left \{x , y , z \right \}', '', ""),
         array('set(x, y, z)', 'php_false', '', '', '', 'forbiddenFunction', ""),
@@ -141,8 +142,13 @@ class stack_inputvalidation_test_data {
         array('a[2]', 'php_true', 'a[2]', 'cas_true', 'a_{2}', '', "Maxima arrays"),
         array('a[n+1]', 'php_true', 'a[n+1]', 'cas_true', 'a_{n+1}', '', ""),
         array('a[1,2]', 'php_true', 'a[1,2]', 'cas_true', 'a_{1,2}', '', ""),
-        array('(a,b,c)', 'php_true', '(a,b,c)', 'cas_true', 'c', '',
-        "In Maxima this syntax is a programme block which returns its last element."),
+        array('(a,b,c)', 'php_true', 'ntuple(a,b,c)', 'cas_true', '\left(a, b, c\right)', '',
+        "In Maxima this syntax is a programme block which we turn into an inert function for student's input."),
+        array('{(x,y),(b,c)}', 'php_true', '{ntuple(x,y),ntuple(b,c)}', 'cas_true', '\left \{\left(x, y\right) , \left(b, c\right) \right \}', '', ""),
+        array('((x,y),a)', 'php_true', 'ntuple(ntuple(x,y),a)', 'cas_true', '\left(\left(x, y\right), a\right)', '', ""),
+        array('((x,y)/2,a)', 'php_false', 'ntuple((x,y)/2,a)', 'cas_true', '', 'Illegal_groups', ""),
+        array('(x,y)+3', 'php_false', 'ntuple(x,y)+3', 'cas_true', '', 'Illegal_groups', ""),
+        array('f((x,y),2)', 'php_true', 'f(ntuple(x,y),2)', 'cas_true', 'f\left(\left(x, y\right) , 2\right)', '', ""),
         array('0..1', 'php_false', '', '', '', 'spuriousop',
         "Ranges and logical operations are currently not supported by Maxima or STACK
         - this is on our wish list. It will result in the ability to deal with systems of inequalities, e.g. \(x<1\ and\ x>-4\)."),
@@ -206,7 +212,7 @@ class stack_inputvalidation_test_data {
         "This names the operator sine, which is a valid expression on its own.
         The classic difference between the function \(f\) and the value of the
         function at a point \(f(x)\).  Maybe a 'gocha' for the question author...."),
-        array('(x+y)^z', 'php_true', '(x+y)^z', 'cas_true', '\left(x+y\right)^{z}', '',
+        array('(x+y)^z', 'php_true', '(x+y)^z', 'cas_true', '{\left(x+y\right)}^{z}', '',
         "Check display: brackets only go round operands when strictly necessary, but student validation respects the input."),
         array('x+(y^z)', 'php_true', 'x+(y^z)', 'cas_true', 'x+y^{z}', '', ""),
         array('x-(y+z)', 'php_true', 'x-(y+z)', 'cas_true', 'x-\left(y+z\right)', '', ""),
@@ -344,16 +350,19 @@ class stack_inputvalidation_test_data {
         array('root(x)', 'php_true', 'root(x)', 'cas_true', '\sqrt{x}', '', ''),
         array('root(x,3)', 'php_true', 'root(x,3)', 'cas_true', 'x^{\frac{1}{3}}', '', ''),
         array('root(2,-3)', 'php_true', 'root(2,-3)', 'cas_true', '2^{\frac{1}{-3}}', '', ''),
+        array('conjugate(x)', 'php_true', 'conjugate(x)', 'cas_true', 'x^\star', '', ''),
+        array('conjugate(x)^2', 'php_true', 'conjugate(x)^2', 'cas_true', '{x^\star}^2', '', ''),
         // Parser rules in 4.3, identify cases where known functions (cf) are prefixed with single letter variables.
         array('bsin(t)', 'php_true', 'b*sin(t)', 'cas_true', 'b\cdot \sin \left( t \right)', 'missing_stars', ""),
         // So we have added gcf as a function so it is not g*cf...
         array('gcf(x,y)', 'php_true', 'gcf(x,y)', 'cas_true', '{\it gcf}\left(x , y\right)', '', ""),
         array('gcd(x,y)', 'php_true', 'gcd(x,y)', 'cas_true', '1', '',
                 "Don't understand why this is evaluated by Maxima..."),
-        array('sgn(x)', 'php_false', '', '', '', 'forbiddenFunction', ""),
         array('sign(x)', 'php_true', 'sign(x)', 'cas_true', '{\it pnz}', '', ""),
         array('len(x)', 'php_false', '', '', '', 'forbiddenFunction', ""),
         array('abs(x)', 'php_true', 'abs(x)', 'cas_true', '\left| x\right|', '', ""),
+        array('signum(x)', 'php_true', 'signum(x)', 'cas_true', '\mathrm{sgn}\left(x\right)', '', ""),
+        array('sgn(x)', 'php_true', 'sgn(x)', 'cas_true', '\mathrm{sgn}\left(x\right)', '', ""),
         array('|x|', 'php_true', 'abs(x)', 'cas_true', '\left| x\right|', '', ""),
         array('length(x)', 'php_true', 'length(x)', 'cas_false', '',
                 'CASError: length: argument cannot be a symbol; found x', ""),
@@ -408,11 +417,19 @@ class stack_inputvalidation_test_data {
         array('partialdiff(x,y,1)', 'php_false', '', '', '', 'missing_stars | forbiddenVariable', ""),
         array('limit(y,x,3)', 'php_true', 'limit(y,x,3)', 'cas_true', '\lim_{x\rightarrow 3}{y}', '', ""),
         array('mod(x,y)', 'php_true', 'mod(x,y)', 'cas_true', 'x \rm{mod} y', '', ""),
+        array('binomial(n,m)', 'php_true', 'binomial(n,m)', 'cas_true', '{{n}\choose{m}}', '', ""),
+        array('binomial(8,4)', 'php_true', 'binomial(8,4)', 'cas_true', '{{8}\choose{4}}', '', ""),
+//        array('pdf_binomial(n,m,p)', 'php_true', 'pdf_binomial(n,m,p)', 'cas_true',
+//            '{{m}\choose{n}}\cdot p^{n}\cdot {\left(1-p\right)}^{m-n}', '', ""),
+//        array('pdf_binomial(2,6,0.07)', 'php_true', 'pdf_binomial(6,2,0.07)', 'cas_true',
+//            '{{6}\choose{2}}\cdot 0.07^{2}\cdot {\left(1-0.07\right)}^{6-2}', '', ""),
         array('perm(x,y)', 'php_false', '', '', '', 'forbiddenFunction', ""),
         array('comb(x,y)', 'php_false', '', '', '', 'forbiddenFunction', ""),
         array('switch(x,a,y,b,c)', 'php_false', '', '', '', 'forbiddenFunction', ""),
         array('sin(x)', 'php_true', 'sin(x)', 'cas_true', '\sin \left( x \right)', '', "Trig functions"),
         array('cos(x)', 'php_true', 'cos(x)', 'cas_true', '\cos \left( x \right)', '', ""),
+        array('cos(x)^2', 'php_true', 'cos(x)^2', 'cas_true', '\cos ^2\left(x\right)', '', ""),
+        array('cos(x+1)^2', 'php_true', 'cos(x+1)^2', 'cas_true', '\cos ^2\left(x+1\right)', '', ""),
         array('tan(x)', 'php_true', 'tan(x)', 'cas_true', '\tan \left( x \right)', '', ""),
         array('sec(x)', 'php_true', 'sec(x)', 'cas_true', '\sec \left( x \right)', '', ""),
         array('cot(x)', 'php_true', 'cot(x)', 'cas_true', '\cot \left( x \right)', '', ""),
@@ -455,6 +472,7 @@ class stack_inputvalidation_test_data {
         array('log_10(x)', 'php_true', 'lg(x,10)', 'cas_true', '\log_{10}\left(x\right)', 'logsubs', ""),
         array('log_2(a)', 'php_true', 'lg(a,2)', 'cas_true', '\log_{2}\left(a\right)', 'logsubs', ""),
         array('log_x(1/(x+b))', 'php_true', 'lg(1/(x+b),x)', 'cas_true', '\log_{x}\left(\frac{1}{x+b}\right)', 'logsubs', ""),
+        array('log_2(a)^3', 'php_true', 'lg(a,2)^3', 'cas_true', '{\log_{2}\left(a\right)}^3', 'logsubs', ""),
         array('2+log_x(1/(x+b))*x^2', 'php_true', '2+lg(1/(x+b),x)*x^2', 'cas_true',
             '2+\log_{x}\left(\frac{1}{x+b}\right)\cdot x^2', 'logsubs', ""),
         array('log_a(b)*log_b(c)', 'php_true', 'lg(b,a)*lg(c,b)', 'cas_true',
@@ -462,6 +480,8 @@ class stack_inputvalidation_test_data {
         array('lg(x)', 'php_true', 'lg(x)', 'cas_true', '\log_{10}\left(x\right)', '', "Logarithm to the base \(10\)."),
         array('lg(10^3)', 'php_true', 'lg(10^3)', 'cas_true', '\log_{10}\left(10^3\right)', '', ""),
         array('lg(x,a)', 'php_true', 'lg(x,a)', 'cas_true', '\log_{a}\left(x\right)', '', ""),
+        array('lg(x,2)+lg(x,2)^3', 'php_true', 'lg(x,2)+lg(x,2)^3', 'cas_true',
+            '\log_{2}\left(x\right)+{\log_{2}\left(x\right)}^3', '', ""),
         array('log(2x)/x+1/2', 'php_true', 'log(2*x)/x+1/2', 'cas_true',
                 '\frac{\ln \left( 2\cdot x \right)}{x}+\frac{1}{2}', 'missing_stars', ""),
         array('a++b', 'php_true', 'a++b', 'cas_true', 'a+b', '',
@@ -469,7 +489,7 @@ class stack_inputvalidation_test_data {
         array('a +++ b', 'php_true', 'a+++b', 'cas_true', 'a+b', '', ""),
         array('a --- b', 'php_true', 'a---b', 'cas_true', 'a-\left(-\left(-b\right)\right)', '', ""),
         array('rho*z*V/(4*pi*epsilon[0]*(R^2+z^2)^(3/2))', 'php_true', 'rho*z*V/(4*pi*epsilon[0]*(R^2+z^2)^(3/2))', 'cas_true',
-                '\frac{\rho\cdot z\cdot V}{4\cdot \pi\cdot \varepsilon_{0}\cdot \left(R^2+z^2\right)^{\frac{3}{2}}}',
+                '\frac{\rho\cdot z\cdot V}{4\cdot \pi\cdot \varepsilon_{0}\cdot {\left(R^2+z^2\right)}^{\frac{3}{2}}}',
                 '', "Subscripts"),
         array('a_b', 'php_true', 'a_b', 'cas_true', '{a}_{b}', '', ""),
         array('beta_47', 'php_true', 'beta_47', 'cas_true', '{\beta}_{47}', '', ""),
@@ -575,6 +595,8 @@ class stack_inputvalidation_test_data {
         $filterstoapply[] = '406_split_implied_variable_names';
 
         $filterstoapply[] = '502_replace_pm';
+        $filterstoapply[] = '504_insert_tuples_for_groups';
+        $filterstoapply[] = '505_no_evaluation_groups';
 
         // We want to apply this as our "insert stars" but not spaces...
         $filterstoapply[] = '990_no_fixing_spaces';
@@ -637,7 +659,7 @@ class stack_inputvalidation_test_data {
             }
             if ($casdisplay != $test->display) {
                 $passed = false;
-                $errors .= ' '.stack_string('displaymismatch').html_writer::tag('pre', s($test->display));
+                $errors .= ' ' . stack_string('displaymismatch') . html_writer::tag('pre', s($test->display)) . html_writer::tag('pre', s($casdisplay));
             }
         }
 

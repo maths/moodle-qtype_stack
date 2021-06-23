@@ -286,7 +286,7 @@ class stack_ast_container_silent implements cas_evaluatable {
     }
 
     // This returns the fully filtered AST as it should be inputted were it inputted perfectly.
-    public function get_inputform(bool $keyless = false, $nounify = null): string {
+    public function get_inputform(bool $keyless = false, $nounify = null, $nontuples = false): string {
         if (!($nounify === null || is_int($nounify))) {
             throw new stack_exception('stack_ast_container: nounify must be null or an integer.');
         }
@@ -296,7 +296,8 @@ class stack_ast_container_silent implements cas_evaluatable {
                 'nosemicolon' => true,
                 'keyless' => $keyless,
                 'dealias' => false, // This is needed to stop pi->%pi etc.
-                'nounify' => $nounify
+                'nounify' => $nounify,
+                'nontuples' => $nontuples
                 );
         return $this->ast_to_string($this->ast, $params);
     }
@@ -709,6 +710,33 @@ class stack_ast_container_silent implements cas_evaluatable {
             $root = $root->rhs;
         }
         if ($root instanceof MP_Set) {
+            return true;
+        }
+        return false;
+    }
+
+    public function is_toplevel_property($prop): bool {
+        $root = $this->ast;
+        if ($root instanceof MP_Root) {
+            if (array_key_exists(0, $root->items)) {
+                $root = $root->items[0];
+            }
+        }
+        if ($root instanceof MP_Statement) {
+            if (count($root->flags) > 0) {
+                // No matter what it is if there are flags its not pure anything.
+                return false;
+            }
+            $root = $root->statement;
+        }
+        $op = '';
+        if ($root instanceof MP_Operation) {
+            $op = $root->op;
+        }
+        if ($root instanceof MP_FunctionCall) {
+            $op = $root->name->value;
+        }
+        if (stack_cas_security::get_feature($op, $prop) !== null) {
             return true;
         }
         return false;

@@ -154,9 +154,22 @@ class qtype_stack_renderer extends qtype_renderer {
         }
 
         $urlparams['seed'] = $question->seed;
-        $links[] = html_writer::link(
+
+        // Quite honestly fellow developers I'm getting fed up of fixing live questions written by colleagues!
+        // Especially when the questions do not have tests or deployed variants which would have revealed the problem.
+        // Make these problems more obvious to authors, who don't yet understand what tests/variants are for.
+        // Alert a teacher to questions without tests or deployed variants.
+        $testscases = question_bank::get_qtype('stack')->load_question_tests($question->id);
+        if (($question->has_random_variants() and count($question->deployedseeds) == 0) ||
+            count($testscases) == 0) {
+            $links[] = html_writer::link(
                 $question->qtype->get_question_test_url($question),
-                stack_string('runquestiontests'));
+                stack_string_error('runquestiontests_alert'));
+        } else {
+            $links[] = html_writer::link(
+                    $question->qtype->get_question_test_url($question),
+                    stack_string('runquestiontests'));
+        }
 
         return html_writer::tag('div', implode(' | ', $links), array('class' => 'questiontestslink'));
     }

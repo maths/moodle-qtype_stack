@@ -24,12 +24,12 @@
 
 define('NO_OUTPUT_BUFFERING', true);
 
-require_once(__DIR__.'/../../../config.php');
+require_once(__DIR__.'/../../../../config.php');
 
 require_once($CFG->libdir . '/questionlib.php');
-require_once(__DIR__ . '/locallib.php');
-require_once(__DIR__ . '/stack/utils.class.php');
-require_once(__DIR__ . '/stack/bulktester.class.php');
+require_once(__DIR__ . '/../locallib.php');
+require_once(__DIR__ . '/../stack/utils.class.php');
+require_once(__DIR__ . '/../stack/bulktester.class.php');
 
 $skippreviouspasses = optional_param('skippreviouspasses', false, PARAM_BOOL);
 $urlparams = [];
@@ -41,7 +41,7 @@ if ($skippreviouspasses) {
 $context = context_system::instance();
 require_login();
 require_capability('qtype/stack:usediagnostictools', $context);
-$PAGE->set_url('/question/type/stack/bulktestindex.php', $urlparams);
+$PAGE->set_url('/question/type/stack/adminui/bulktestindex.php', $urlparams);
 $PAGE->set_context($context);
 $PAGE->set_title(stack_string('bulktestindextitle'));
 
@@ -57,7 +57,7 @@ echo $OUTPUT->heading(stack_string('replacedollarsindex'));
 echo html_writer::start_tag('ul');
 foreach ($bulktester->get_stack_questions_by_context() as $contextid => $numstackquestions) {
     echo html_writer::tag('li', html_writer::link(
-            new moodle_url('/question/type/stack/bulktest.php',
+            new moodle_url('/question/type/stack/adminui/bulktest.php',
                     $urlparams + ['contextid' => $contextid]),
             context::instance_by_id($contextid)->get_context_name(true, true) . ' (' . $numstackquestions . ')'));
 }
@@ -65,7 +65,7 @@ echo html_writer::end_tag('ul');
 
 if (has_capability('moodle/site:config', context_system::instance())) {
     echo html_writer::tag('p', html_writer::link(
-            new moodle_url('/question/type/stack/bulktestall.php', $urlparams),
+            new moodle_url('/question/type/stack/adminui/bulktestall.php', $urlparams),
             stack_string('bulktestrun')));
 }
 

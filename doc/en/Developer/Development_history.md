@@ -2,6 +2,30 @@
 
 For current and future plans, see [Development track](Development_track.md) and [Future plans](Future_plans.md).
 
+## Version 4.3.8
+
+Released December 2020.
+
+* Introduce "context variables" which propagate throughout a question, enabling `texput` to operate in inputs as well as general castext.
+* Autoload `trigtools` to provide better simplification options for trig expressions and fix long-standing bug with `trigrat`.
+* Make it much easier for colleagues to construct a test case using the "teacher's answer" input values as test case inputs.
+* Allow users to modify the `notanswered` message in dropdown and radio inputs.
+* Move all answer tests to Maxima.
+* Separate out Maxima commands in the install process.
+
+
+## Version 4.3.7
+
+Released October 2020.
+
+Bug fixes and minor improvements.
+
+## Version 4.3.6
+
+Released October 2020.
+
+Bug fixes and minor improvements.
+
 ## Version 4.3.5
 
 * Add in the [HELM](../Authoring/HELM.md) styles.
@@ -244,7 +268,7 @@ This contains numerous minor bug fixes and improvements.
 4. Support for the stats package added.
 5. Change in the behaviour of the CASEqual answer test.  Now we always assume `simp:false`.
 6. Add support for more AMS mathematics environments, including `\begin{align}...\end{align}`, `\begin{align*}...\end{align*}` etc.
-7. STACK tried to automatically write an optimised image for Linux.  This should help installs where Unix access is difficult.
+7. STACK tried to automatically write an optimised image for Linux.
 
 
 ## Version 3.3

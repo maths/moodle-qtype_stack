@@ -304,6 +304,22 @@ class stack_equiv_input_test extends qtype_stack_testcase {
         $this->assertEquals('', $state->note);
     }
 
+    public function test_validate_student_response_with_firstline_neg() {
+        // This test case has some minus signs which were causing problems on older systems.
+        $options = new stack_options();
+        $el = stack_input_factory::make('equiv', 'sans1', '[2*x-2+4 = -6,2*x+2 = -6,2*x = -8,x = -4]');
+        $el->set_parameter('options', 'firstline');
+        $el->set_parameter('insertStars', 1);
+        $state = $el->validate_student_response(array('sans1' => "2x-2+4=-6"), $options,
+                '[2*x-2+4 = -6,2*x+2 = -6,2*x = -8,x = -4]',
+                new stack_cas_security());
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('[2*x-2+4 = -6]', $state->contentsmodified);
+        $this->assertEquals('\[ \begin{array}{lll} &2\cdot x-2+4=-6& \cr \end{array} \]',
+                $state->contentsdisplayed);
+        $this->assertEquals('missing_stars', $state->note);
+    }
+
     public function test_validate_student_response_with_firstline_false() {
         $options = new stack_options();
         $el = stack_input_factory::make('equiv', 'sans1', '[x^2=4,x=2 nounor x=-2]');
@@ -432,7 +448,7 @@ class stack_equiv_input_test extends qtype_stack_testcase {
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('[x^4 = 16,x = 2 nounor x = -2 nounor x = 2*i nounor x = -2*i]', $state->contentsmodified);
         $this->assertEquals('\[ \begin{array}{lll}\color{blue}{(\mathbb{R})}&x^4=16& \cr '.
-                '\color{green}{\Leftrightarrow}&x=2\,{\mbox{ or }}\, '.
+                '\color{green}{\Leftrightarrow}\, \color{blue}{(\mathbb{R})}&x=2\,{\mbox{ or }}\, '.
                 'x=-2\,{\mbox{ or }}\, x=2\cdot \mathrm{i}\,{\mbox{ or }}\, x=-2\cdot \mathrm{i}& \cr \end{array} \]',
                 $state->contentsdisplayed);
         $this->assertEquals('', $state->note);
@@ -525,7 +541,7 @@ class stack_equiv_input_test extends qtype_stack_testcase {
         $this->assertEquals('[x^2+2*a*x,stackeq(x^2+2*a*x+a^2-a^2),stackeq((x+a)^2-a^2)]',
                 $state->contentsmodified);
         $this->assertEquals('\[ \begin{array}{lll} &x^2+2\,a\,x& \cr \color{green}{\checkmark}&=x^2+2\,a\,x+a^2-a^2& '.
-                '\cr \color{green}{\checkmark}&=\left(x+a\right)^2-a^2& \cr \end{array} \]',
+                '\cr \color{green}{\checkmark}&={\left(x+a\right)}^2-a^2& \cr \end{array} \]',
                 $state->contentsdisplayed);
         $this->assertEquals('', $state->note);
     }
@@ -557,7 +573,7 @@ class stack_equiv_input_test extends qtype_stack_testcase {
         $this->assertEquals('[(x-1)^2 = (x-1)*(x-1),stackeq(x^2-2*x+1)]',
                 $state->contentsmodified);
         $this->assertEquals('\[ \begin{array}{lll}\color{green}{\checkmark}&'.
-                '\left(x-1\right)^2=\left(x-1\right)\,\left(x-1\right)& \cr \color{green}{\checkmark}&=x^2-2\,x+1'.
+                '{\left(x-1\right)}^2=\left(x-1\right)\,\left(x-1\right)& \cr \color{green}{\checkmark}&=x^2-2\,x+1'.
                 '& \cr \end{array} \]',
                 $state->contentsdisplayed);
         $this->assertEquals('', $state->note);
@@ -574,7 +590,7 @@ class stack_equiv_input_test extends qtype_stack_testcase {
         $this->assertEquals('[(x-1)^2 = (x-1)*(x-1),stackeq(x^2-2*x+2)]',
                 $state->contentsmodified);
         $this->assertEquals('\[ \begin{array}{lll}\color{green}{\checkmark}&'.
-                '\left(x-1\right)^2=\left(x-1\right)\,\left(x-1\right)& \cr \color{red}{?}&=x^2-2\,x+2& \cr \end{array} \]',
+                '{\left(x-1\right)}^2=\left(x-1\right)\,\left(x-1\right)& \cr \color{red}{?}&=x^2-2\,x+2& \cr \end{array} \]',
                 $state->contentsdisplayed);
         $this->assertEquals('', $state->note);
     }
@@ -589,7 +605,7 @@ class stack_equiv_input_test extends qtype_stack_testcase {
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('[(x-2)^2 = (x-1)*(x-1),stackeq(x^2-2*x+1)]',
                 $state->contentsmodified);
-        $this->assertEquals('\[ \begin{array}{lll}\color{red}{?}&\left(x-2\right)^2=\left(x-1\right)\,\left(x-1\right)& \cr '.
+        $this->assertEquals('\[ \begin{array}{lll}\color{red}{?}&{\left(x-2\right)}^2=\left(x-1\right)\,\left(x-1\right)& \cr '.
                 '\color{green}{\checkmark}&=x^2-2\,x+1& \cr \end{array} \]',
                 $state->contentsdisplayed);
         $this->assertEquals('', $state->note);
@@ -713,7 +729,7 @@ class stack_equiv_input_test extends qtype_stack_testcase {
         $this->assertEquals('', $state->note);
         $this->assertEquals('[(x-a)^2 = 4,x-a = #pm#2,x = a#pm#2]',
                 $state->contentsmodified);
-        $this->assertEquals( '\[ \begin{array}{lll} &\left(x-a\right)^2=4& \cr ' .
+        $this->assertEquals( '\[ \begin{array}{lll} &{\left(x-a\right)}^2=4& \cr ' .
                 '\color{green}{\Leftrightarrow}&x-a= \pm 2& \cr ' .
                 '\color{green}{\Leftrightarrow}&x={a \pm 2}& \cr \end{array} \]',
                 $state->contentsdisplayed);
@@ -734,5 +750,35 @@ class stack_equiv_input_test extends qtype_stack_testcase {
                 '<span class="nolink">\( ### \)</span></span>, which can be typed in as follows: <br/>' .
                 '<code>(x-a)^2 = 4</code><br/><code>x-a = +-2</code><br/><code>x = a+-2</code>',
                 $el->get_teacher_answer_display($val, '###'));
+    }
+
+    public function test_validate_student_response_forbidwords_lists() {
+        // This input type always returns a list, so if we forbid lists then we need a special case.
+        $options = new stack_options();
+
+        $val = '[x^2=-4,x^2+4=0,{}]';
+        $el = stack_input_factory::make('equiv', 'sans1', $val);
+        $el->set_parameter('forbidWords', 'solve, [, factor');
+        $state = $el->validate_student_response(array('sans1' => "x^2=-4\nx^2+4=0\n[]"), $options,
+                $val, new stack_cas_security());
+        $this->assertEquals(stack_input::INVALID, $state->status);
+        $this->assertEquals('Forbidden operator: <span class="stacksyntaxexample">[</span>.', $state->errors);
+        $this->assertEquals('forbiddenOp', $state->note);
+        $this->assertEquals('[x^2 = -4,x^2+4 = 0,EMPTYCHAR]',
+                $state->contentsmodified);
+        $this->assertEquals('\(\displaystyle x^2=-4 \)<br/>\(\displaystyle x^2+4=0 \)<br/>' .
+                '<span class="stacksyntaxexample">[]</span> Forbidden operator: ' .
+                '<span class="stacksyntaxexample">[</span>.<br/>',
+                $state->contentsdisplayed);
+
+        $ta = $el->get_teacher_answer();
+        $this->assertEquals($ta, $val);
+
+        $cr = $el->get_correct_response($val);
+        $sans1 = "x^2 = -4\nx^2+4 = 0\n{}";
+        $sansv = '[x^2 = -4,x^2+4 = 0,{}]';
+
+        $this->assertEquals($cr['sans1'], $sans1);
+        $this->assertEquals($cr['sans1_val'], $sansv);
     }
 }

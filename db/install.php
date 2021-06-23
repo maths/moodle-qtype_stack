@@ -43,8 +43,8 @@ function xmldb_qtype_stack_install() {
     // any defaults there overwrite anything set here. Since there cannot be a default in settings.php,
     // we have to set all those values here.
 
-    // Make an reasonable guess at the OS. (It defaults to 'unix' in settings.php.
-    $platform = 'unix';
+    // Make an reasonable guess at the OS. (It defaults to 'linux' in settings.php.
+    $platform = 'linux';
     if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
         // See http://stackoverflow.com/questions/1482260/how-to-get-the-os-on-which-php-is-running
         // and http://stackoverflow.com/questions/738823/possible-values-for-php-os.
@@ -61,6 +61,8 @@ function xmldb_qtype_stack_install() {
         set_config('castimeout', 10, 'qtype_stack');
         set_config('casresultscache', 'db', 'qtype_stack');
         set_config('maximacommand', '', 'qtype_stack');
+        set_config('maximacommandopt', '', 'qtype_stack');
+        set_config('maximacommandserver', '', 'qtype_stack');
         set_config('serveruserpass', '', 'qtype_stack');
         set_config('plotcommand', '', 'qtype_stack');
         // @codingStandardsIgnoreStart

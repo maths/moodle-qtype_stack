@@ -15,6 +15,7 @@ Check
 * Readme.md
 * Check docs 
  * development `history/track`.
+ * Execute `cli/answertests_docs.php` to update the static docs about answertests.
  * Execute `doc/maintenance.php` to search for broken links etc.
 * version.php
  * check both the Moodle versions, and the required number. (https://docs.moodle.org/dev/Releases)
@@ -22,18 +23,18 @@ Check
 * Check version numbers on stackmaxima.mac.
 * Run unit tests.
 * Run code checker.
-* Commit all changes to git, e.g. "Update version number for the 4.3.3 release."
+* Commit all changes to git, e.g. "Update version number for the 4.3.6 release."
 
 ## 2. Create new tag with version name
 
-E.g. "v4.3.4".
+E.g. "v4.3.6".
 
 * Push to GitHub.
 * Push tags to GitHub 
  * Tortoise git: pulldown from push
- * Unix: `git tag -a v4.3.4 -m "Update version number for the 4.3.4 release."`
- * Unix: `git push`
- * Unix: `git push --tags`
+ * Linux: `git tag -a v4.3.6 -m "Update version number for the 4.3.6 release."`
+ * Linux: `git push`
+ * Linux: `git push --tags`
 
 ## 3. Moodle plugins database entry for the plugin
 

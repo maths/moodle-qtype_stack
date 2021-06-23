@@ -10,7 +10,7 @@ Instructions for updating the main website [www.stack-assessment.org](https://ww
 
 The website is built using [MkDocs](https://www.mkdocs.org/), a static site generator which converts STACK documentation, within the `/doc` directory, into HTML files and pushes them to the `gh-pages` branch. The website structure mirrors the file structure: the file `doc/en/Authoring/Answer_tests.md` will be available on `docs.stack-assessment.org/en/Authoring/Answer_tests/`. Every sub-folder has an `index.md` file that will take that folder's name on the website: `doc/en/Authoring/index.md` will be available on `docs.stack-assessment.org/en/Authoring/`.
 
-MkDocs is configured in the `mkdocs.yml` file. MkDocs has a full list of [available configuration options](https://www.mkdocs.org/user-guide/configuration/). MkDocs can either generate the navigation bar automatically, or accept a custom navigation configuration in the `nav` variable. The online docs uses the first option. The advantage is that new files are automatically added to the navigation bar when they are added to the repository. The disadvantage is that we cannot tweak the navigation bar manually. The online docs get around this with a number of [workarounds](#Workarounds).
+MkDocs is configured in the `mkdocs.yml` file. MkDocs has a full list of [available configuration options](https://www.mkdocs.org/user-guide/configuration/). MkDocs can either generate the navigation bar automatically, or accept a custom navigation configuration in the `nav` variable. The online docs uses the first option. The advantage is that new files are automatically added to the navigation bar when they are added to the repository. The disadvantage is that we cannot tweak the navigation bar manually. The online docs get around this with a number of workarounds.
 
 MkDocs cannot display MathJax out-of-the-box, so we use the markdown extension [mdx_math](https://github.com/mitya57/python-markdown-math), specified in `mkdocs.yml`, with the variable `extra_javascript` set to include MathJax.
 
@@ -40,7 +40,7 @@ The online docs make a number of custom changes to the Material theme.
 
 ## Updating the documentation
 
-When you change the documentation, the website automatically updates as well. This introduces some new limitations to the sort of elements that can be included in the documentation. This is documented in the [Documentation](../Documentation.md/#Website) file.
+When you change the documentation, the website automatically updates as well. This introduces some new limitations to the sort of elements that can be included in the documentation. This is documented in the [Documentation](Documentation.md) file.
 
 ### Updating the style
 
@@ -53,7 +53,7 @@ You can also edit the theme directly. Any file in the `site_overrides` folder wi
 Before adding major style changes to the online docs, you are encouraged to test your changes locally. For this, you will need to install MkDocs and all the required extensions.
 
 1. [Install MkDocs](https://www.mkdocs.org/), including its requirements.
-2. Install Bootstrap with `pip install mkdocs-bootstrap`
+2. Install Material with `pip install mkdocs-material`
 3. Install the markdown extension with `pip install https://github.com/mitya57/python-markdown-math/archive/master.zip`
 4. Install the exclude plugin with `pip install mkdocs-exclude`
 5. Install the redirect plugin with `pip install mkdocs-redirects`

@@ -100,8 +100,8 @@ class qtype_stack_restore_logic_testcase extends advanced_testcase {
         $restoreplugin = new testable_restore_qtype_stack_plugin();
         $restoreplugin->after_execute_question();
 
-        $this->assertContains('The PRT named "oddeven" is malformed', $restoreplugin->get_log());
-        $this->assertContains('Question name "test-3"', $restoreplugin->get_log());
-        $this->assertContains('Node 8 is not in the graph', $restoreplugin->get_log());
+        $this->assertStringContainsString('The PRT named "oddeven" is malformed', $restoreplugin->get_log());
+        $this->assertStringContainsString('Question name "test-3"', $restoreplugin->get_log());
+        $this->assertStringContainsString('Node 8 is not in the graph', $restoreplugin->get_log());
     }
 }

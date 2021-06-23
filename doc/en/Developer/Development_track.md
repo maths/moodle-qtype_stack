@@ -5,13 +5,27 @@ past development history is documented on [Development history](Development_hist
 
 How to report bugs and make suggestions is described on the [community](../About/Community.md) page.
 
+## Version 4.3.9
+
+Mostly minor bug fixes.
+
+* Done: Add in additional cache `compiledcache` to reduce validation overheads by compiling questions.
+* Done. Add in local.mac for site specific code.
+* Done. Move STACK admin UI scripts to `adminui`.
+* Done. Filter student's input so groups are turned into `ntuple` inert functions.  At last students can type in coordinates as `(x,y)` as input!
+* Done. Add in warnings of language mismatch in parts of a question.
+* Done. Add in warnings where the answer test needs a raw input but appears to get a calculated value.
+* Done. Expand `rand` to accept sets and make a random selection from sets.  Add `rand_selection_with_replacement`.
+
 ## Version 4.4
+
+1. Caching validation.
+2. Compiled PRTs.
+3. CASText2.
 
 ## Maxima side PRTs.
 
-* Move all functions to Maxima.
 * Change behaviour of UnitsAbsolute in response to discussion of issue #448.
-* Make use of the Maxima function `sig_figs_from_str(strexp)` in utils.mac which returns the number of decimal places/significant figures in a variable (useful when providing feedback).  Needed for the refactoring.
 
 ## For "inputs 2"?
 
@@ -21,7 +35,6 @@ How to report bugs and make suggestions is described on the [community](../About
 * Update MCQ to accept units.
 * Add a base N check to the numeric input.
 * Refactor DB of 'insterStars' and remove stack_input_factory::convert_legacy_insert_stars.  Really use new values throughout.  See [Future plans for syntax of answers and STACK](Syntax_Future.md)
-* Refactor numerical answer tests to make proper use of ast.
 
 ## Other
 

@@ -378,7 +378,13 @@ class MP_Operation extends MP_Node {
             }
         }
 
-        return $this->lhs->toString($params) . $op . $this->rhs->toString($params);
+        $rhs = $this->rhs->toString($params);
+        // Make sure unary minus does not become +- later on in a string.
+        if ($op === '+' && substr($rhs, 0, 1) === '-') {
+            $op = '+ ';
+        }
+
+        return $this->lhs->toString($params) . $op . $rhs;
     }
 
     public function remap_position_data(int $offset=0) {
@@ -723,13 +729,24 @@ class MP_Identifier extends MP_Atom {
             // Direct assignment.
             if ($this->parentnode != null && $this->parentnode instanceof MP_Operation
                     && $this->parentnode->op === ':' && $this->parentnode->lhs === $this) {
-                return true;
+                // Except in ev(foo,x:y) where x is not being written to.
+                if ($this->parentnode->parentnode != null
+                        && $this->parentnode->parentnode instanceof MP_FunctionCall
+                        && $this->parentnode->parentnode->name->toString() === 'ev') {
+                    // Assuming that we are not the first argument.
+                    $i = array_search($this->parentnode, $this->parentnode->parentnode->arguments);
+                    if ($i > 0) {
+                        return false;
+                    }
+                }
+                // If it is an argument for a function it is not being globally written.
+                return $this->is_global();
             } else if ($this->parentnode != null && $this->parentnode instanceof MP_List) {
                 // Multi assignment.
                 if ($this->parentnode->parentnode != null &&
                         $this->parentnode->parentnode instanceof MP_Operation &&
                         $this->parentnode->parentnode->lhs === $this->parentnode) {
-                    return $this->parentnode->parentnode->op === ':';
+                    return $this->parentnode->parentnode->op === ':' && $this->is_global();
                 }
             } else if ($this->parentnode != null &&
                        $this->parentnode instanceof MP_FunctionCall &&
@@ -739,7 +756,7 @@ class MP_Identifier extends MP_Atom {
                 $indices = stack_cas_security::get_feature($this->parentnode->name->toString(),
                     'writesto');
                 if ($indices !== null && array_search($i, $indices) !== false) {
-                    return true;
+                    return $this->is_global();
                 }
             }
             return false;
@@ -1005,9 +1022,15 @@ class MP_FunctionCall extends MP_Node {
             return '([FunctionCall: ' . $n .'] ' . implode(',', $ar) . ')';
         }
 
+        if ($params !== null && isset($params['nontuples'])) {
+            if ($n == 'ntuple' && $params['nontuples']) {
+                $n = '';
+            }
+        }
+
         // Two cases we need to consider.
         // We want the inputform with nouns, e.g. to store.
-        // We want the input form without nouns, e.g. "the teacher's answer is..." situation.
+        // We want the inputform without nouns, e.g. "the teacher's answer is..." situation.
         if (isset($params['inputform']) && $params['inputform'] === true &&
                 isset($params['nounify']) && $params['nounify'] === 0) {
             $prefix = stack_cas_security::get_feature($this->name->value, 'prefixinputform');

@@ -1,5 +1,17 @@
 # Simplification & ordering
 
+## Algebraic equivalence
+
+Is \((a^x)^y \equiv a^{x\,y}\)?  Well, it depends!  In particular you can easily derive the contradiction
+\[ -1 = (-1)^1 = (-1)^{2\times \frac{1}{2}} \]
+and using our rule \((a^x)^y \equiv a^{x\,y}\)
+\[ = \left({(-1)^{2}}\right)^{\frac{1}{2}} = 1^{\frac{1}{2}} = 1.\]
+To avoid problems like this we therefore have decided that
+
+    ATAlgEquiv((a^x)^y, a^(x*y)) = [0, ""]
+
+If you are teaching rules of indices to students for the first time this might come as a surprise!  If you would like STACK to implement this rule, then you need to also `assume(a>0)`.  This can be done in the feedback variables.  This is a design decision and not a bug (and is recorded in the system unit tests)!
+
 ## Ordering terms
 
 Maxima chooses an order in which to write terms in an expression.  
@@ -82,14 +94,14 @@ Note that STACK's display functions automatically apply `unary_minus_sort(...)` 
 
 ## If you really insist on a kludge....
 
-In some situations you may find you really do need to work at the display level, construct a string and display this to the student in Maxima.  
+In some situations you may find you really do need to work at the display level, construct a string and display this to the student in Maxima.
 Please avoid doing this!
 
     a:sin(x^2);
     b:1+x^2;
-    f:sconcat("\\frac{",StackDISP(a,""),"}{",StackDISP(b,""),"}");
+    f:sconcat("\\frac{",stack_disp(a,""),"}{",stack_disp(b,""),"}");
 
-Then you can put in `{@f@}` into one of the CASText fields.
+Then you can put in `\({@f@}\)` into one of the CASText fields. Note, you need to add LaTeX maths delimiters, because when the CAS returns a string the command `{@f@}` will just display the contents of the string without maths delimiters.
 
 ## Tips for manipulating expressions
 

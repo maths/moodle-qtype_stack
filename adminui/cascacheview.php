@@ -22,13 +22,13 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-require_once(__DIR__.'/../../../config.php');
+require_once(__DIR__.'/../../../../config.php');
 
 require_once($CFG->libdir . '/questionlib.php');
-require_once(__DIR__ . '/locallib.php');
-require_once(__DIR__ . '/stack/utils.class.php');
-require_once(__DIR__ . '/stack/options.class.php');
-require_once(__DIR__ . '/stack/maximaparser/utils.php');
+require_once(__DIR__ . '/../locallib.php');
+require_once(__DIR__ . '/../stack/utils.class.php');
+require_once(__DIR__ . '/../stack/options.class.php');
+require_once(__DIR__ . '/../stack/maximaparser/utils.php');
 
 
 require_login();
@@ -39,7 +39,7 @@ $urlparams = array();
 
 $context = context_system::instance();
 $PAGE->set_context($context);
-$PAGE->set_url('/question/type/stack/caschat.php', $urlparams);
+$PAGE->set_url('/question/type/stack/adminui/cascacheview.php', $urlparams);
 $title = 'Cache debug';
 $PAGE->set_title($title);
 

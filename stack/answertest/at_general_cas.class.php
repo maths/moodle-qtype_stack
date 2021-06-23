@@ -39,8 +39,8 @@ class stack_answertest_general_cas extends stack_anstest {
      * @param  string $casoption
      */
     public function __construct(stack_ast_container $sans, stack_ast_container $tans, string $atname,
-            $atoption = null, $options = null) {
-        parent::__construct($sans, $tans, $options, $atoption);
+            $atoption = null, $options = null, $contextsession = array()) {
+        parent::__construct($sans, $tans, $options, $atoption, $contextsession);
 
         $this->casfunction       = 'AT'. $atname;
         $this->atname            = $atname;
@@ -129,10 +129,15 @@ class stack_answertest_general_cas extends stack_anstest {
                 $ops = clone $this->atoption;
             }
             $ops->set_key('STACKOP');
-            $result = stack_ast_container::make_from_teacher_source("result:{$this->casfunction}(STACKSA,STACKTA,STACKOP)", '',
-                new stack_cas_security());
+            $command = "result:{$this->casfunction}(STACKSA,STACKTA,STACKOP)";
+            if (stack_ans_test_controller::required_raw($this->atname)) {
+                $raw = stack_utils::php_string_to_maxima_string($this->sanskey->get_inputform(true, 1));
+                $command = "result:{$this->casfunction}(STACKSA,STACKTA,STACKOP,{$raw})";
+            }
+            $result = stack_ast_container::make_from_teacher_source($command, '', new stack_cas_security());
         }
-        $session = new stack_cas_session2(array($sa, $ta, $ops, $result), $this->options, 0);
+        $svars = array_merge($this->contextsession, array($sa, $ta, $ops, $result));
+        $session = new stack_cas_session2($svars, $this->options, 0);
         if ($session->get_valid()) {
             $session->instantiate();
         }
@@ -167,7 +172,11 @@ class stack_answertest_general_cas extends stack_anstest {
             }
         }
 
-        $unpacked = $this->unpack_result($result->get_evaluated());
+        // Guard clause to prevent an exception below and provide error messages to end user.
+        $unpacked = array('answernote' => '', 'feedback' => '');
+        if ($result->is_evaluated()) {
+            $unpacked = $this->unpack_result($result->get_evaluated());
+        }
         $this->atansnote = str_replace("\n", '', trim($unpacked['answernote']));
 
         if ('' != $result->get_errors()) {

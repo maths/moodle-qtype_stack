@@ -25,16 +25,16 @@
 
 define('NO_OUTPUT_BUFFERING', true);
 
-require_once(__DIR__.'/../../../config.php');
+require_once(__DIR__.'/../../../../config.php');
 require_once($CFG->dirroot .'/course/lib.php');
 require_once($CFG->libdir .'/filelib.php');
 
-require_once(__DIR__ . '/locallib.php');
-require_once(__DIR__ . '/stack/utils.class.php');
-require_once(__DIR__ . '/stack/options.class.php');
-require_once(__DIR__ . '/stack/cas/castext.class.php');
-require_once(__DIR__ . '/stack/cas/connector.dbcache.class.php');
-require_once(__DIR__ . '/stack/cas/installhelper.class.php');
+require_once(__DIR__ . '/../locallib.php');
+require_once(__DIR__ . '/../stack/utils.class.php');
+require_once(__DIR__ . '/../stack/options.class.php');
+require_once(__DIR__ . '/../stack/cas/castext.class.php');
+require_once(__DIR__ . '/../stack/cas/connector.dbcache.class.php');
+require_once(__DIR__ . '/../stack/cas/installhelper.class.php');
 
 
 // Check permissions.
@@ -44,7 +44,7 @@ require_capability('moodle/site:config', $context);
 
 // Set up page.
 $PAGE->set_context($context);
-$PAGE->set_url('/question/type/stack/healthcheck.php');
+$PAGE->set_url('/question/type/stack/adminui/healthcheck.php');
 $title = stack_string('healthcheck');
 $PAGE->set_title($title);
 
@@ -117,7 +117,7 @@ echo $OUTPUT->heading(stack_string('healthcheckconfig'), 3);
 // Try to list available versions of Maxima (linux only, without the DB).
 if ($config->platform !== 'win') {
     $connection = stack_connection_helper::make();
-    if (is_a($connection, 'stack_cas_connection_unix')) {
+    if (is_a($connection, 'stack_cas_connection_linux')) {
         echo html_writer::tag('pre', $connection->get_maxima_available());
     }
 }
@@ -169,10 +169,11 @@ output_cas_text(stack_string('healthcheckconnect'),
 
 // If we have a linux machine, and we are testing the raw connection then we should
 // attempt to automatically create an optimized maxima image on the system.
-if ($config->platform === 'unix' and $genuinecascall) {
+if ($config->platform === 'linux' and $genuinecascall) {
     echo $OUTPUT->heading(stack_string('healthautomaxopt'), 3);
     echo html_writer::tag('p', stack_string('healthautomaxoptintro'));
-    list($message, $debug, $result, $commandline) = stack_connection_helper::stackmaxima_auto_maxima_optimise($genuinedebug);
+    list($message, $debug, $result, $commandline, $rawcommand)
+        = stack_connection_helper::stackmaxima_auto_maxima_optimise($genuinedebug);
     $summary[] = array($result, $message);
     echo html_writer::tag('p', $message);
     echo output_debug(stack_string('debuginfo'), $debug);

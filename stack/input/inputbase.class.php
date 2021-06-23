@@ -52,6 +52,11 @@ abstract class stack_input {
     protected $name;
 
     /**
+     * Special variables in the question which should be exposed to the inputs and answer tests.
+     */
+    protected $contextsession = array();
+
+    /**
      * @var string Every input must have a non-empty "teacher's answer".
      * This is assumed to be a valid Maxima string in inputform.
      */
@@ -383,6 +388,16 @@ abstract class stack_input {
         // By default, do nothing.
     }
 
+    /*
+     * Set the contextsession values.
+     */
+    public function add_contextsession($contextsession) {
+        if ($contextsession != null) {
+            // Always make this the start of an array.
+            $this->contextsession = array($contextsession);
+        }
+    }
+
     /**
      * @param string $param a settings parameter name.
      * @return bool whether this input type uses this parameter.
@@ -542,6 +557,13 @@ abstract class stack_input {
     }
 
     /**
+     * @return string the teacher's answer, suitable for testcase construction.
+     */
+    public function get_teacher_answer_testcase() {
+        return $this->teacheranswer;
+    }
+
+    /**
      * @return string the teacher's answer, displayed to the student in the general feedback.
      */
     public function get_teacher_answer_display($value, $display) {
@@ -616,8 +638,6 @@ abstract class stack_input {
         }
 
         $secrules = clone $basesecurity;
-        $secrules->set_allowedwords($this->get_parameter('allowWords', ''));
-        $secrules->set_forbiddenwords($this->get_parameter('forbidWords', ''));
         // Are we operating in a units context we should ignore?
         if ($this->get_extra_option('nounits', false)) {
             // Logic reversed: nounits means we don't have them.
@@ -652,7 +672,7 @@ abstract class stack_input {
         }
         $lvarsdisp   = '';
         $note        = '';
-        $sessionvars = array();
+        $sessionvars = $this->contextsession;
 
         // Clone answer so we can get the displayed form without the set validation context function, which simplifies.
         $answerd = clone $answer;
@@ -752,11 +772,11 @@ abstract class stack_input {
 
         // Answers may not contain the ? character.  CAS-strings may, but answers may not.
         // It is very useful for teachers to be able to add in syntax hints.
-        // We make sure +- -> #pm# here so that +- can be interpreted as +(-....).
-        if ($valid) {
+        // We make sure +- -> #pm# here so that +- can be interpreted at +(-....).
+        if ($valid && $answerd->is_correctly_evaluated()) {
             $interpretedanswer = $answerd->get_evaluationform();
         } else {
-            $interpretedanswer = $answerd->get_inputform(true, 1);
+            $interpretedanswer = $answerd->get_inputform(true, 1, false);
         }
         // TODO: apply a filter to check the ast!
         if (!(strpos($interpretedanswer, '?') === false) ||
@@ -842,7 +862,9 @@ abstract class stack_input {
 
         $filterstoapply[] = '502_replace_pm';
 
-        // Block use of evaluation groups.
+        // Replace evaluation groups with tuples.
+        $filterstoapply[] = '504_insert_tuples_for_groups';
+        // Then ban the rest.
         $filterstoapply[] = '505_no_evaluation_groups';
 
         // Remove scripts and other related things from string-values.
@@ -1146,7 +1168,7 @@ abstract class stack_input {
         if ($errors) {
             $errors = implode(' ', $errors);
         }
-        $result = html_writer::tag('p', stack_string('ddl_runtime'));
+        $result = html_writer::tag('p', stack_string_error('ddl_runtime'));
         $result .= html_writer::tag('p', $errors);
         return html_writer::tag('div', $result, array('class' => 'error'));
     }
@@ -1251,7 +1273,7 @@ abstract class stack_input {
      * @param array|string $in
      * @return string
      */
-    protected function caslines_to_answer($caslines) {
+    protected function caslines_to_answer($caslines, $secrules = false) {
         if (array_key_exists(0, $caslines)) {
             return $caslines[0];
         }

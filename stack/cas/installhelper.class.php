@@ -255,7 +255,7 @@ END;
 
 END;
 
-        if ($this->settings->platform == 'unix-optimised') {
+        if ($this->settings->platform == 'linux-optimised') {
             $contents .= <<<END
 /* We are using an optimised lisp image with maxima and the stack libraries
    pre-loaded. That is why you don't see the familiar load("stackmaxima.mac")$ here.
@@ -393,23 +393,22 @@ END;
         if ($config->platform == 'win') {
             $errmsg = "Microsoft Windows version cannot be automatically optimised";
             return array(false, $errmsg);
-        } else if ($config->platform != 'unix' && $config->platform != 'unix-optimised') {
+        } else if ($config->platform != 'linux' && $config->platform != 'linux-optimised') {
             $errmsg = "$config->platform version cannot be automatically optimised";
             return array(false, $errmsg);
         }
 
-        // Revert to the plain unix platform.  This will genuinely call the CAS, and
+        // Revert to the plain Linux platform.  This will genuinely call the CAS, and
         // as a result create a new image.
         $oldplatform = $config->platform;
-        $oldmaximacommand = $config->maximacommand;
-        set_config('platform', 'unix', 'qtype_stack');
-        if ($oldplatform == 'unix-optimised') {
+        set_config('platform', 'linux', 'qtype_stack');
+        if ($oldplatform == 'linux-optimised') {
             // If we have explicitly set a path, or a --use-version = we should respect it here.
             set_config('maximacommand', '', 'qtype_stack');
             self::get_instance()->settings->maximacommand = '';
-            self::get_instance()->settings->platform = 'unix';
+            self::get_instance()->settings->platform = 'linux';
             stack_utils::get_config()->maximacommand = '';
-            stack_utils::get_config()->platform = 'unix';
+            stack_utils::get_config()->platform = 'linux';
         }
 
         // Try to make a new version of the maxima local file.
@@ -431,18 +430,18 @@ END;
 
         } else {
             // Try to auto make the optimised image.
-            list($message, $genuinedebug, $result, $commandline)
+            list($message, $genuinedebug, $result, $commandline, $rawcommand)
                     = stack_connection_helper::stackmaxima_auto_maxima_optimise($genuinedebug);
 
             if (!$result) {
                 $errmsg = "Automake failed: $message\n\n$genuinedebug";
             } else {
-                set_config('platform', 'unix-optimised', 'qtype_stack');
-                set_config('maximacommand', $commandline, 'qtype_stack');
-                stack_utils::get_config()->platform = 'unix-optimised';
-                stack_utils::get_config()->maximacommand = $commandline;
-                self::get_instance()->settings->platform = 'unix-optimised';
-                self::get_instance()->settings->maximacommand = $commandline;
+                set_config('platform', 'linux-optimised', 'qtype_stack');
+                set_config('maximacommandopt', $commandline, 'qtype_stack');
+                stack_utils::get_config()->platform = 'linux-optimised';
+                stack_utils::get_config()->maximacommandopt = $commandline;
+                self::get_instance()->settings->platform = 'linux-optimised';
+                self::get_instance()->settings->maximacommandopt = $commandline;
                 // We need to regenerate this file to supress stackmaxima.mac and libraries being reloaded.
                 self::create_maximalocal();
 
@@ -463,15 +462,12 @@ END;
 
         if ($revert) {
             set_config('platform', $oldplatform, 'qtype_stack');
-            set_config('maximacommand', $oldmaximacommand , 'qtype_stack');
             stack_utils::get_config()->platform = $oldplatform;
-            stack_utils::get_config()->maximacommand = $oldmaximacommand;
             self::get_instance()->settings->platform = $oldplatform;
-            self::get_instance()->settings->maximacommand = $oldmaximacommand;
             self::create_maximalocal();
             return array(false, $errmsg);
         } else {
-            return array(true, "DONE.");
+            return array(true, $rawcommand);
         }
     }
 }

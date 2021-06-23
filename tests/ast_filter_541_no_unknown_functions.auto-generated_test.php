@@ -210,11 +210,6 @@ class stack_ast_filter_auto_gen_541_no_unknown_functions_testcase extends qtype_
                       array('unknownFunction'),
                       false, true);
 
-        $this->expect('sgn(x)',
-                      'sgn(x)',
-                      array('unknownFunction'),
-                      false, true);
-
         $this->expect('sim(x)',
                       'sim(x)',
                       array('unknownFunction'),
@@ -466,11 +461,6 @@ class stack_ast_filter_auto_gen_541_no_unknown_functions_testcase extends qtype_
                       array('unknownFunction'),
                       false, true);
 
-        $this->expect('sgn(x)',
-                      'sgn(x)',
-                      array('unknownFunction'),
-                      false, true);
-
         $this->expect('sim(x)',
                       'sim(x)',
                       array('unknownFunction'),
@@ -624,6 +614,21 @@ class stack_ast_filter_auto_gen_541_no_unknown_functions_testcase extends qtype_
 
         $this->expect('(a,b,c)',
                       '(a,b,c)',
+                      array(),
+                      true, false);
+
+        $this->expect('((a,b),c)',
+                      '((a,b),c)',
+                      array(),
+                      true, false);
+
+        $this->expect('(a,(b,c))',
+                      '(a,(b,c))',
+                      array(),
+                      true, false);
+
+        $this->expect('{(a,b),(x,y)}',
+                      '{(a,b),(x,y)}',
                       array(),
                       true, false);
 
@@ -1552,6 +1557,11 @@ class stack_ast_filter_auto_gen_541_no_unknown_functions_testcase extends qtype_
                       array(),
                       true, false);
 
+        $this->expect('sgn(x)',
+                      'sgn(x)',
+                      array(),
+                      true, false);
+
         $this->expect('sigma',
                       'sigma',
                       array(),
@@ -1804,6 +1814,11 @@ class stack_ast_filter_auto_gen_541_no_unknown_functions_testcase extends qtype_
 
         $this->expect('x-(y+z)',
                       'x-(y+z)',
+                      array(),
+                      true, false);
+
+        $this->expect('x/(y+z)',
+                      'x/(y+z)',
                       array(),
                       true, false);
 
@@ -2103,6 +2118,21 @@ class stack_ast_filter_auto_gen_541_no_unknown_functions_testcase extends qtype_
                       array(),
                       true, false);
 
+        $this->expect('((a,b),c)',
+                      '((a,b),c)',
+                      array(),
+                      true, false);
+
+        $this->expect('(a,(b,c))',
+                      '(a,(b,c))',
+                      array(),
+                      true, false);
+
+        $this->expect('{(a,b),(x,y)}',
+                      '{(a,b),(x,y)}',
+                      array(),
+                      true, false);
+
         $this->expect('(a-b)-c',
                       '(a-b)-c',
                       array(),
@@ -3028,6 +3058,11 @@ class stack_ast_filter_auto_gen_541_no_unknown_functions_testcase extends qtype_
                       array(),
                       true, false);
 
+        $this->expect('sgn(x)',
+                      'sgn(x)',
+                      array(),
+                      true, false);
+
         $this->expect('sigma',
                       'sigma',
                       array(),
@@ -3280,6 +3315,11 @@ class stack_ast_filter_auto_gen_541_no_unknown_functions_testcase extends qtype_
 
         $this->expect('x-(y+z)',
                       'x-(y+z)',
+                      array(),
+                      true, false);
+
+        $this->expect('x/(y+z)',
+                      'x/(y+z)',
                       array(),
                       true, false);
 

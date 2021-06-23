@@ -17,11 +17,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 /**
- * This script runs the answers tests and verifies the results.
- *
- * This serves two purposes. First, it verifies that the answer tests are working
- * correctly, and second it serves to document the expected behaviour of answer
- * tests, which is useful for learning how they work.
+ * This script checks display of subscript elements.
  *
  * @copyright  2012 University of Birmingham
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -47,8 +43,8 @@ class stack_subscripts_test_data {
         array('Delta*v_xi', 'Delta*v_xi', '!', '\Delta\,{v}_{\xi}', '!', 'xi is a Greek letter...'),
         array('v_0', 'v_0', '!', '{v}_{0}', '!'),
         array('v_y0', 'v_y0', '!', '{v}_{y_{0}}', '!'),
-        array('v_x0^2', 'v_x0^2', '!', '{v}_{x_{0}}^2', '!'),
-        array('v_1^2', 'v_1^2', '!', '{v}_{1}^2', '!'),
+        array('v_x0^2', 'v_x0^2', '!', '{{v}_{x_{0}}}^2', '!'),
+        array('v_1^2', 'v_1^2', '!', '{{v}_{1}}^2', '!'),
         array('v_s', 'v_s', '!', '{v}_{s}', '!'),
         array('m_a', 'm_a', '!', '{m}_{a}', '!'),
         array('a_x', 'a_x', '!', '{a}_{x}', '!'),
@@ -67,9 +63,9 @@ class stack_subscripts_test_data {
                 'but in general studnets are only permitted to add known tokens with two letters.'),
         array('omega_a', 'omega_a', '!', '{\omega}_{a}', '!'),
         array('omega_0', 'omega_0', '!', '{\omega}_{0}', '!'),
-        array('omega_0^2', 'omega_0^2', '!', '{\omega}_{0}^2', '!'),
+        array('omega_0^2', 'omega_0^2', '!', '{{\omega}_{0}}^2', '!'),
         array('r_1', 'r_1', '!', '{r}_{1}', '!'),
-        array('r_1^2', 'r_1^2', '!', '{r}_{1}^2', '!'),
+        array('r_1^2', 'r_1^2', '!', '{{r}_{1}}^2', '!'),
         array('r_01', 'r_01', '!', '{r}_{1}', '!',
                 'Multiplication by zero here removes the leading zero.'),
         array('texsub(r,0*1)', 'texsub(r,0*1)', 'texsub(r,0)', '{r}_{0\,1}', '{r}_{0}'),
@@ -109,8 +105,8 @@ class stack_subscripts_test_data {
         array('Delta*v_xi', 'Delta*v_xi', '!', '\Delta\,{v}_{\xi}', '!', 'xi is a Greek letter...'),
         array('v_0', 'v_0', '!', '{v}_{0}', '!'),
         array('v_y0', 'v_y0', '!', '{v}_{{\it y_0}}', '!'),
-        array('v_x0^2', 'v_x0^2', '!', '{v}_{{\it x_0}}^2', '!'),
-        array('v_1^2', 'v_1^2', '!', '{v}_{1}^2', '!'),
+        array('v_x0^2', 'v_x0^2', '!', '{{v}_{{\it x_0}}}^2', '!'),
+        array('v_1^2', 'v_1^2', '!', '{{v}_{1}}^2', '!'),
         array('v_s', 'v_s', '!', '{v}_{s}', '!'),
         array('m_a', 'm_a', '!', '{m}_{a}', '!'),
         array('a_x', 'a_x', '!', '{a}_{x}', '!'),
@@ -129,9 +125,9 @@ class stack_subscripts_test_data {
             'but in general studnets are only permitted to add known tokens with two letters.'),
         array('omega_a', 'omega_a', '!', '{\omega}_{a}', '!'),
         array('omega_0', 'omega_0', '!', '{\omega}_{0}', '!'),
-        array('omega_0^2', 'omega_0^2', '!', '{\omega}_{0}^2', '!'),
+        array('omega_0^2', 'omega_0^2', '!', '{{\omega}_{0}}^2', '!'),
         array('r_1', 'r_1', '!', '{r}_{1}', '!'),
-        array('r_1^2', 'r_1^2', '!', '{r}_{1}^2', '!'),
+        array('r_1^2', 'r_1^2', '!', '{{r}_{1}}^2', '!'),
         array('r_01', 'r_01', '!', '{r}_{1}', '!',
             'Multiplication by zero here removes the leading zero.'),
         array('texsub(r,0*1)', 'texsub(r,0*1)', 'texsub(r,0)', '{r}_{0\,1}', '{r}_{0}'),

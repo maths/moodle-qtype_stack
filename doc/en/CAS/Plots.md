@@ -98,8 +98,14 @@ The following CASText gives representative examples of the plot2d features suppo
     <h3>Discrete plots</h3>
     Basic discrete plot.
     {@plot([discrete,[[0,0],[1,1],[0,2]]])@}
+    Points: by default the points are too large!
+    {@plot([discrete,[[0,0], [1,1], [1.5,(1.5)^2]]],[x,-2,2],[style, [points]],[point_type, bullet])@}
+    {@plot([discrete,[[0,0], [1,1], [1.5,(1.5)^2]]],[x,-2,2],[style, [points, 1]],[point_type, bullet])@}
+    Notice the size of the points is controlled by the second argument in the list `[points, 1]`.  This is documented in Maxima under "Plot option: style".  A more complicated example is below.
+    {@plot([[discrete,[[0,0], [1,1], [1.5,(1.5)^2]]],[discrete,[[0,0.1], [0.75,1], [1.25,1.5]]]],[style, [points, 1, red, 1 ], [points, 1.5, blue, 1]])@}
     Combination of discrete plots with normal plots.
     {@plot([x^2, [discrete,[ [0,0], [1,1], [0,2]]]],[x,-2,2])@}
+    {@plot([x^2, [discrete,[ [0,0], [1,1], [1.5,(1.5)^2]]]],[x,-2,2],[style, lines, [points, 1]],[point_type, bullet])@}
     {@plot([[discrete,[[30,7]]], -0.4*x+19],[x,0,60],[y,0,20],[style, points, lines], [color, red, blue],[point_type, asterisk])@}
     {@plot([[discrete,[[10, 0.6], [20, 0.9], [30, 1.1], [40, 1.3], [50, 1.4]]], 2*%pi*sqrt(l/980)], [l,0,50],[style, points, lines], [color, red, blue],[point_type, asterisk])@}
     Using different point styles.
@@ -176,32 +182,19 @@ Hence, STACK does not currently support implicit plots.
 
 Note also that images can be included as HTML.  It is easiest to place your image somewhere on the internet and include a URL in the body of your STACK question.
 
-## Google charts  {#google}
+## Bode plots
 
-__Note that Google deprecated the API in 2012 with guaranteed availability until April 2015.__
+Maxima has a very basic package for bode diagrams, try `load(bode)` in a Maxima session.  This is not a supported package, so instead you can create Bode diagrams directly with code such as the following.
 
-You can dynamically generate a URL for
-[Google charts](http://code.google.com/apis/chart/) and in this way include randomly generated diagrams.
+    /* Define two functions to do the plotting */
+    bose_gain(f,r):=block([p,w], p:plot(20*log(abs( apply(f,[%i*w]) ))/log(10), [w, r[2],r[3]], [logx]), return(p) );
+    bose_phase(f,r):=block([p,w], p:plot(  carg(  apply(f,[%i*w]))*180/%pi, [w, r[2],r[3]], [logx]), return(p) );
+    /* Define a transfer function */
+    H(s):=100*(1+s)/((s+10)*(s+100));
 
-An example question is included as
-
-    test-venn.xml
-
-This includes the code in the question variables to create [random objects](Random.md#rand).
-
-    a : 30 + rand(20);
-    b : 40 + rand(50);
-    anb : 5 + rand(20);
-    aub : a+b-anb;
-
-Then, in the question stem we have the HTML which uses this.  Note the way the values of variables are inserted here using the `{#...#}` syntax that outputs raw values instead of LaTeX representations.
-
-    <img src="http://chart.apis.google.com/chart?cht=v&chs=200x100&chd=t:{#a#},{#b#},0,{#anb#},0,0&chdl=A|B">
-
-This should look like the following, with in this case \(a=33\), \(b=65\), \(a\cap b=18\).
-
-<img src="http://chart.apis.google.com/chart?cht=v&chs=200x100&chd=t:33,65,0,18,0,0&chdl=A|B">
-
+    /* Produce the graphs */
+    gain: bose_gain(H,[w,1/1000,1000]);
+    phase:bose_phase(H,[w,1/1000,1000]);
 
 ## See also
 

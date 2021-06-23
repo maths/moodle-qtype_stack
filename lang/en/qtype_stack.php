@@ -93,7 +93,7 @@ $string['defaultprtincorrectfeedback'] = 'Incorrect answer.';
 $string['defaultprtpartiallycorrectfeedback'] = 'Your answer is partially correct.';
 $string['symbolicprtcorrectfeedback'] = '<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span>';
 $string['symbolicprtincorrectfeedback'] = '<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span>';
-$string['symbolicprtpartiallycorrectfeedback'] = '<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i>';
+$string['symbolicprtpartiallycorrectfeedback'] = '<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span>';
 $string['branchfeedback'] = 'Node branch feedback';
 $string['branchfeedback_help'] = 'This is CASText which may depend on any of the question variables, input elements or the feedback variables. This is evaluated and displayed to the student if they pass down this branch.';
 $string['inputtest'] = 'Input test';
@@ -282,6 +282,8 @@ $string['questionnotempty'] = 'The question note cannot be empty when rand() app
 $string['questionsimplify'] = 'Question-level simplify';
 $string['questionsimplify_help'] = 'Sets the global variable "simp" within Maxima for the whole question.';
 $string['questionsimplify_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/CAS/Maxima.md#Simplification';
+$string['questionwarnings'] = 'Question warnings';
+$string['questionwarnings_help'] = 'Question warnings are issues you might want to address, but which are not outright errors.';
 $string['questiontext'] = 'Question text';
 // @codingStandardsIgnoreStart
 $string['questiontext_help'] = 'The question text is CASText.  This is the "question" which the student actually sees.  You must put input elements, and the validation strings, in this field, and only in this field.  For example, using `[[input:ans1]] [[validation:ans1]]`.';
@@ -316,7 +318,7 @@ $string['score'] = 'Score';
 $string['scoreerror'] = 'The score must be a numeric value between 0 and 1.';
 $string['scoremode'] = 'Mod';
 $string['specificfeedback'] = 'Specific feedback';
-$string['specificfeedback_help'] = 'By default, feedback for each potential response tree will be shown in this block.  It can be moved to the question text, in which case Moodle will have less control over when it is displayed by various behaviours.  Note, this block is not CASText.';
+$string['specificfeedback_help'] = 'By default, feedback for each potential response tree will be shown in this block.  It can be moved to the question text, in which case Moodle will have less control over when it is displayed by various behaviours.';
 $string['specificfeedbacktags'] = 'Specific feedback must not contain the token(s) \'{$a}\'.';
 $string['sqrtsign'] = 'Surd for square root';
 $string['sqrtsign_help'] = 'Controls how surds are displayed.';
@@ -388,6 +390,10 @@ $string['teacheranswershow_mcq']  = 'A correct answer is: {$a->display}';
 $string['teacheranswershownotes'] = 'A correct answer is not provided for this input.';
 $string['teacheranswerempty']     = 'This input can be left blank.';
 
+$string['questiontextlanguages']   = 'The language tags found in your question are: {$a}.';
+$string['languageproblemsexist']   = 'There are potential language problems in your question.';
+$string['languageproblemsmissing'] = 'The language tag {$a->lang} is missing from the following: {$a->missing}.';
+$string['languageproblemsextra']   = 'The field {$a->field} has the following languages not in the question text: {$a->langs}.';
 
 // Admin settings.
 $string['settingajaxvalidation'] = 'Instant validation';
@@ -418,12 +424,16 @@ $string['settingparsercacheinputlength'] = 'Cache parsed expressions longer than
 $string['settingparsercacheinputlength_desc'] = 'The expression parser gets quite slow on long expressions (for example complicated question variables). Therefore we cache the result of parsing expressions longer than a this limit. Ideally, this setting should be set to a value where doign the cache lookup takes about as long as doing the parsing. 50 characters is an educated guess at this. If set to 0, the cache is disabled.';
 $string['settingplatformtype'] = 'Platform type';
 $string['settingplatformtype_desc'] = 'STACK needs to know what sort of operating system it is running on. The "Server" option gives better performance at the cost of having to set up an additional server. The option "Linux (optimised)" is explained on the Optimising Maxima page in the documentation.';
-$string['settingplatformtypeunix'] = 'Linux';
-$string['settingplatformtypeunixoptimised'] = 'Linux (optimised)';
+$string['settingplatformtypelinux'] = 'Linux';
+$string['settingplatformtypelinuxoptimised'] = 'Linux (optimised)';
 $string['settingplatformtypewin']  = 'Windows';
 $string['settingplatformtypeserver'] = 'Server';
 $string['settingplatformmaximacommand'] = 'Maxima command';
-$string['settingplatformmaximacommand_desc'] = 'For Platform type: Server, this is must be set to the URL of the Maxima Pool servlet. For other platform types, if this is blank, STACK will make an educated guess as to where to find Maxima. If that fails, this should be set to the full path of the maxima or maxima-optimised executable.  Consider using the timeout command on unix based systems. E.g. timeout --kill-after=10s 10s maxima';
+$string['settingplatformmaximacommand_desc'] = 'If this is blank, STACK will make an educated guess as to where to find Maxima. If that fails, this should be set to the full path of the maxima or maxima-optimised executable.  Use for development and debugging only. Do not use on a production system: use optimised, or better, the Maxima Pool option.';
+$string['settingplatformmaximacommandopt'] = 'Optimised Maxima command';
+$string['settingplatformmaximacommandopt_desc'] = 'This should be set to the full path of the maxima-optimised executable.  Consider using the timeout command on linux based systems. E.g. timeout --kill-after=10s 10s maxima';
+$string['settingplatformmaximacommandserver'] = 'URL of the Maxima Pool';
+$string['settingplatformmaximacommandserver_desc'] = 'For Platform type: Server, this is must be set to the URL of the Maxima Pool servlet.';
 $string['settingplatformplotcommand'] = 'Plot command';
 $string['settingplatformplotcommand_desc'] = 'Normally this can be left blank, but if graph plotting is not working, you may need to supply the full path to the gnuplot command here.';
 $string['settingreplacedollars'] = 'Replace <code>$</code> and <code>$$</code>';
@@ -465,6 +475,7 @@ $string['addatestcase'] = 'Add a test case...';
 $string['addingatestcase'] = 'Adding a test case to question {$a}';
 $string['alreadydeployed'] = ' A variant matching this Question note is already deployed.';
 $string['completetestcase'] = 'Fill in the rest of the form to make a passing test-case';
+$string['teacheranswercase'] = 'Use the teacher\'s answers as test-case';
 $string['createtestcase'] = 'Create test case';
 $string['currentlyselectedvariant'] = 'This is the variant shown below';
 $string['deletetestcase'] = 'Delete test case {$a->no} for question {$a->question}';
@@ -511,6 +522,8 @@ $string['questiontestsfor'] = 'Question tests for seed {$a}';
 $string['questiontestspass'] = 'All question tests passed.';
 $string['questiontestsdefault'] = '(Default)';
 $string['runquestiontests'] = 'Question tests & deployed variants';
+$string['runquestiontests_help'] = 'The question tests unit-test the questions to ensure the behaviour matches expectations expressed by the teacher, and deployed variants ensure random versions seen by a student are pre-tested against the question tests. These are tools to help you create and test reliable questions and should be used in all cases a question will be used by students.';
+$string['runquestiontests_alert'] = 'Question is missing tests or variants.';
 $string['seethisquestioninthequestionbank'] = 'See this question in the question bank';
 $string['showingundeployedvariant'] = 'Showing undeployed variant: {$a}';
 $string['switchtovariant'] = 'Switch to arbitrary variant';
@@ -537,7 +550,7 @@ $string['basicreportinputsummary'] = 'Raw inputs, regardless of which variant wa
 $string['equivnocomments'] = 'You are not permitted to use comments in this input type.  Please just work line by line.';
 $string['equivfirstline'] = 'You have used the wrong first line in your argument!';
 
-// Support scripts (CAS chat, healthcheck, etc.)
+// Support scripts: CAS chat, healthcheck, etc.
 $string['all'] = 'All';
 $string['chat'] = 'Send to the CAS';
 $string['castext'] = 'CAS text';
@@ -588,9 +601,9 @@ $string['healthuncachedstack_CAS_not'] = 'CAS returned some data as expected, bu
 $string['healthuncachedstack_CAS_version'] = 'Expected Maxima version : "{$a->expected}".  Actual Maxima version: {$a->actual}.';
 $string['healthuncachedstack_CAS_versionnotchecked'] = 'You have chosen the "default" version of Maxima, so no Maxima version checking is being done.  Your raw connection is actually using version {$a->actual}.';
 $string['healthuncachedstack_CAS_calculation'] = 'Expected CAS calculation : {$a->expected}.  Actual CAS calculation: {$a->actual}.';
-$string['healthunabletolistavail'] = 'Platform type not currently set to "unix", so unable to list available versions of Maxima.';
+$string['healthunabletolistavail'] = 'Platform type not currently set to "linux", so unable to list available versions of Maxima.';
 $string['healthautomaxopt'] = 'Automatically create an optimised Maxima image';
-$string['healthautomaxoptintro'] = 'For best performance we need to optimize maxima on a linux machine.  See the <a href="doc/doc.php/CAS/Optimising_Maxima.md">documentation</a> on this issue.';
+$string['healthautomaxoptintro'] = 'For best performance we need to optimize maxima on a linux machine.  Use the plugin "healthcheck" page and see the documentation on this issue.';
 $string['healthautomaxopt_succeeded'] = 'Create Optimised Maxima Image SUCCEEDED';
 $string['healthautomaxopt_failed'] = 'Create Optimised Maxima Image FAILED : [{$a->errmsg}]';
 $string['healthautomaxopt_ok'] = 'Maxima image created at: <tt>{$a->command}</tt>';
@@ -687,7 +700,10 @@ $string['stackCas_unitssynonym']            = 'You appear to have units {$a->for
 $string['stackCas_unknownUnitsCase']        = 'Input of units is case sensitive:  {$a->forbid} is an unknown unit. Did you mean one from the following list {$a->unit}?';
 $string['stackCas_applyingnonobviousfunction'] = 'This function call {$a->problem} does not appear to have an easily visible function name. Due to security reasons you may need to simplify the call so that the validator can see the function name.';
 $string['stackCas_callingasfunction']       = 'Calling the result of a function call is forbidden {$a->problem}, lambdas are still allowed.';
+$string['stackCas_applyfunmakestring']      = 'The name of the function cannot be a string in <code>{$a->type}</code>.';
 $string['stackCas_badpostfixop']            = 'You have a bad "postfix" operator in your expression.';
+$string['stackCas_overrecursivesignatures'] = 'The question code includes too many functions defined through mapping';
+$string['stackCas_studentInputAsFunction']  = 'Use of student input as the name of a function is not permitted.';
 
 // Used in cassession.class.php.
 $string['stackCas_CASError']                = 'The CAS returned the following error(s):';
@@ -806,7 +822,7 @@ $string['AT_MissingOptions']        = 'Missing option when executing the test. '
 $string['AT_InvalidOptions']        = 'Option field is invalid. {$a->errors}';
 $string['AT_EmptySA']               = 'Attempted to execute an answer test with an empty student answer, probably a CAS validation problem when authoring the question.';
 $string['AT_EmptyTA']               = 'Attempted to execute an answer test with an empty teacher answer, probably a CAS validation problem when authoring the question.';
-
+$string['AT_raw_sans_needed']       = 'Some answer tests rely on the raw input from a student, and so the "SAns" field of the node should be the name of a question input.  Please check the following (prt.node) which looks like a calculated value instead: {$a->prt}';
 
 $string['ATAlgEquiv_SA_not_expression'] = 'Your answer should be an expression, not an equation, inequality, list, set or matrix. ';
 $string['ATAlgEquiv_SA_not_matrix']     = 'Your answer should be a matrix, but is not. ';
@@ -820,6 +836,8 @@ $string['ATAlgEquiv_SA_not_inequality'] = 'Your answer should be an inequality, 
 $string['ATAlgEquiv_SA_not_function']   = 'Your answer should be a function, defined using the operator <tt>:=</tt>, but is not. ';
 $string['ATAlgEquiv_SA_not_string']     = 'Your answer should be a string, but is not. ';
 $string['Subst']                        = 'Your answer would be correct if you used the following substitution of variables. {$a->m0} ';
+
+$string['ATSubstEquiv_Opt_List']        = 'The option to this answer test must be a list.  This is an error.  Please contact your teacher. ';
 
 $string['ATSets_SA_not_set']            = 'Your answer should be a set, but is not.  Note that the syntax to enter a set is to enclose the comma separated values with curly brackets. ';
 $string['ATSets_SB_not_set']            = 'The "Sets" answer test expects its second argument to be a set.  This is an error.  Please contact your teacher.';
@@ -855,7 +873,8 @@ $string['ATFacForm_error_list']         = 'The answer test failed.  Please conta
 $string['ATFacForm_error_degreeSA']     = 'The CAS could not establish the algebraic degree of your answer.';
 $string['ATFacForm_isfactored']         = 'Your answer is factored, well done. ';  // Needs a space at the end.
 $string['ATFacForm_notfactored']        = 'Your answer is not factored. '; // Needs a space at the end.
-$string['ATFacForm_notalgequiv']        = 'Note that your answer is not algebraically equivalent to the correct answer.  You must have done something wrong. '; // needs a space at the end.
+$string['ATFacForm_notpoly']            = 'This term is expected to be a polynomial, but is not.';
+$string['ATFacForm_notalgequiv']        = 'Note that your answer is not algebraically equivalent to the correct answer.  You must have done something wrong. '; // Needs a space at the end.
 
 $string['ATPartFrac_error_list']        = 'The answer test failed.  Please contact your systems administrator';
 $string['ATPartFrac_true']              = '';
@@ -894,6 +913,7 @@ $string['ATDiff_int']               = 'It looks like you have integrated instead
 $string['ATNumerical_SA_not_list']       = 'Your answer should be a list, but is not.  Note that the syntax to enter a list is to enclose the comma separated values with square brackets. ';
 $string['ATNumerical_SA_not_set']        = 'Your answer should be a set, but is not.  Note that the syntax to enter a set is to enclose the comma separated values with curly brackets. ';
 $string['ATNumerical_SA_not_number']     = 'Your answer should be a floating point number, but is not. ';
+$string['ATNumerical_SB_not_number']     = 'The value supplied for the teacher\'s answer should be a floating point number, but is not. This is an internal error with the test.  Please ask your teacher about this. ';
 $string['ATNumerical_FAILED']            = 'Your answer should be a floating point number, or a list or set of numbers.  It is not. ';
 $string['ATNumerical_STACKERROR_tol']    = 'The numerical tolerance for ATNumerical should be a floating point number, but is not.  This is an internal error with the test.  Please ask your teacher about this. ';
 
@@ -916,12 +936,12 @@ $string['ATUnits_incompatible_units']     = 'Your units are incompatible with th
 $string['ATUnits_compatible_units']       = 'Your units are different from those used by the teacher, but are compatible with them.  Numerical values are being converted to SI base units for comparison. ';
 $string['ATUnits_correct_numerical']      = 'Please check your units carefully. ';
 
-$string['ATNumDecPlaces_OptNotInt']    = 'For ATNumDecPlaces the test option must be a positive integer, in fact "{$a->opt}" was received. ';
+$string['ATNumDecPlaces_OptNotInt']    = 'For ATNumDecPlaces the test option must be a positive integer, in fact "{$a->m0}" was received. ';
 $string['ATNumDecPlaces_NoDP']         = 'Your answer must be a decimal number, including a decimal point. ';
 $string['ATNumDecPlaces_Wrong_DPs']    = 'Your answer has been given to the wrong number of decimal places.';
 $string['ATNumDecPlaces_Float']        = 'Your answer must be a floating point number, but is not.';
 
-$string['ATNumDecPlacesWrong_OptNotInt']    = 'For ATNumDecPlacesWrong the test option must be a positive integer, in fact "{$a->opt}" was received. ';
+$string['ATNumDecPlacesWrong_OptNotInt']    = 'For ATNumDecPlacesWrong the test option must be a positive integer, in fact "{$a->m0}" was received. ';
 
 $string['ATSysEquiv_SA_not_list']               = 'Your answer should be a list, but it is not!';
 $string['ATSysEquiv_SB_not_list']               = 'The teacher\'s answer is not a list.  Please contact your teacher.';
@@ -979,7 +999,7 @@ $string['Interval_illegal_entries']             = 'The following should not appe
 // Documentation strings.
 $string['stackDoc_404']                 = 'Error 404';
 $string['stackDoc_docs']                = 'STACK Documentation';
-$string['stackDoc_docs_desc']           = '<a href="{$a->link}">Documentation for STACK</a>: a local static wiki.';
+$string['stackDoc_docs_desc']           = '<a href="{$a->link}">Documentation for STACK</a>: a local static wiki documenting the code you actually have running on your server.';
 $string['stackDoc_home']                = 'Documentation home';
 $string['stackDoc_index']               = 'Category index';
 $string['stackDoc_siteMap']             = 'Site map';
@@ -987,39 +1007,56 @@ $string['stackDoc_siteMap_en']          = 'English site map';
 $string['stackDoc_404message']          = 'File not found.';
 $string['stackDoc_directoryStructure']  = 'Directory structure';
 $string['stackDoc_version']             = 'Your site is running STACK version {$a}.';
+$string['stackDoc_AnswerTestResults']   = '# Answer test results
+
+This page exposes the results of running answer tests on STACK test cases.  This page is automatically generated from the STACK unit tests and is designed to show question authors what answer tests actually do.  This includes cases where answer tests currentl fail, which gives a negative expected mark.  Comments and further test cases are very welcome.';
 
 // Fact sheets.
+
+$string['fact_sheet_preamble'] = '# Hints
+
+STACK contains a "formula sheet" of useful fragments which a teacher may wish to include in a consistent way.  This is achieved through the "hints" system.
+
+Hints can be included in any [CASText](CASText.md).
+
+To include a hint, use the syntax
+
+    [[facts:tag]]
+
+The "tag" is chosen from the list below.
+
+## All supported fact sheets
+
+';
+
 $string['greek_alphabet_name'] = 'The Greek Alphabet';
-$string['greek_alphabet_fact'] = '
-<center>
-<table>
-<tr><td>
- Upper case, \(\quad\) </td><td>  lower case, \(\quad\) </td><td>  name </td> </tr>   <tr> <td>
- \(A\)  </td><td>  \(\alpha\)  </td><td>  alpha  </td> </tr>   <tr> <td>
- \(B\)  </td><td>  \(\beta\)  </td><td>  beta </td> </tr>   <tr> <td>
- \(\Gamma\)  </td><td>  \(\gamma\)  </td><td>  gamma </td> </tr>   <tr> <td>
- \(\Delta\)  </td><td>  \(\delta\)  </td><td>  delta </td> </tr>   <tr> <td>
- \(E\)  </td><td>  \(\epsilon\)  </td><td>  epsilon </td> </tr>   <tr> <td>
- \(Z\)  </td><td>  \(\zeta\)  </td><td>  zeta </td> </tr>   <tr> <td>
- \(H\)  </td><td>  \(\eta\)  </td><td>  eta </td> </tr>   <tr> <td>
- \(\Theta\)  </td><td>  \(\theta\)  </td><td>  theta </td> </tr>   <tr> <td>
- \(K\)  </td><td>  \(\kappa\)  </td><td>  kappa </td> </tr>   <tr> <td>
- \(M\)  </td><td>  \(\mu\)  </td><td>  mu </td> </tr>   <tr> <td>
- \(N\)  </td><td>  \( u\)  </td><td>  nu </td> </tr>   <tr> <td>
- \(\Xi\)  </td><td>  \(\xi\)  </td><td>  xi </td> </tr>   <tr> <td>
- \(O\)  </td><td>  \(o\)  </td><td>  omicron </td> </tr>   <tr> <td>
- \(\Pi\)  </td><td>  \(\pi\)  </td><td>  pi </td> </tr>   <tr> <td>
- \(I\)  </td><td>  \(\iota\)  </td><td>  iota </td> </tr>   <tr> <td>
- \(P\)  </td><td>  \(\rho\) </td><td>  rho </td> </tr>   <tr> <td>
- \(\Sigma\)  </td><td>  \(\sigma\)  </td><td>  sigma </td> </tr>   <tr> <td>
- \(\Lambda\)  </td><td>  \(\lambda\)  </td><td>  lambda </td> </tr>   <tr> <td>
- \(T\)  </td><td>  \(\tau\)  </td><td>  tau </td> </tr>   <tr> <td>
- \(\Upsilon\)  </td><td>  \(\upsilon\)  </td><td>  upsilon </td> </tr>   <tr> <td>
- \(\Phi\)  </td><td>  \(\phi\)  </td><td>  phi </td> </tr>   <tr> <td>
- \(X\)  </td><td>  \(\chi\)  </td><td>  chi </td> </tr>   <tr> <td>
- \(\Psi\)  </td><td>  \(\psi\)  </td><td> psi </td> </tr>   <tr> <td>
- \(\Omega\)  </td><td>  \(\omega\)  </td><td>  omega </td></tr>
-</table></center>';
+$string['greek_alphabet_fact'] = '||||
+|--- |--- |--- |
+|Upper case, \(\quad\)|lower case, \(\quad\)|name|
+|\(A\)|\(\alpha\)|alpha|
+|\(B\)|\(\beta\)|beta|
+|\(\Gamma\)|\(\gamma\)|gamma|
+|\(\Delta\)|\(\delta\)|delta|
+|\(E\)|\(\epsilon\)|epsilon|
+|\(Z\)|\(\zeta\)|zeta|
+|\(H\)|\(\eta\)|eta|
+|\(\Theta\)|\(\theta\)|theta|
+|\(K\)|\(\kappa\)|kappa|
+|\(M\)|\(\mu\)|mu|
+|\(N\)|\( u\)|nu|
+|\(\Xi\)|\(\xi\)|xi|
+|\(O\)|\(o\)|omicron|
+|\(\Pi\)|\(\pi\)|pi|
+|\(I\)|\(\iota\)|iota|
+|\(P\)|\(\rho\)|rho|
+|\(\Sigma\)|\(\sigma\)|sigma|
+|\(\Lambda\)|\(\lambda\)|lambda|
+|\(T\)|\(\tau\)|tau|
+|\(\Upsilon\)|\(\upsilon\)|upsilon|
+|\(\Phi\)|\(\phi\)|phi|
+|\(X\)|\(\chi\)|chi|
+|\(\Psi\)|\(\psi\)|psi|
+|\(\Omega\)|\(\omega\)|omega|';
 
 $string['alg_inequalities_name'] = 'Inequalities';
 $string['alg_inequalities_fact'] = '\[a>b \hbox{ means } a \hbox{ is greater than } b.\]
@@ -1060,25 +1097,18 @@ $string['alg_partial_fractions_name'] = 'Partial Fractions';
 $string['alg_partial_fractions_fact'] = 'Proper fractions occur with \[{\frac{P(x)}{Q(x)}}\]
 when \(P\) and \(Q\) are polynomials with the degree of \(P\) less than the degree of \(Q\).  This this case, we proceed
 as follows: write \(Q(x)\) in factored form,
-<ul>
-<li>
-a <em>linear factor</em> \(ax+b\) in the denominator produces a partial fraction of the form \[{\frac{A}{ax+b}}.\]
-</li>
-<li>
-a <em>repeated linear factors</em> \((ax+b)^2\) in the denominator
+
+* a <em>linear factor</em> \(ax+b\) in the denominator produces a partial fraction of the form \[{\frac{A}{ax+b}}.\]
+* a <em>repeated linear factors</em> \((ax+b)^2\) in the denominator
 produce partial fractions of the form \[{A\over ax+b}+{B\over (ax+b)^2}.\]
-</li>
-<li>
-a <em>quadratic factor</em> \(ax^2+bx+c\)
+* a <em>quadratic factor</em> \(ax^2+bx+c\)
 in the denominator produces a partial fraction of
 the form \[{Ax+B\over ax^2+bx+c}\]
-</li>
-<li>
-<em>Improper fractions}</em> require an additional
+* <em>Improper fractions</em> require an additional
 term which is a polynomial of degree \(n-d\) where \(n\) is
 the degree of the numerator (i.e. \(P(x)\)) and \(d\) is the degree of
 the denominator (i.e. \(Q(x)\)).
-</li></ul>';
+';
 
 $string['trig_degrees_radians_name'] = 'Degrees and Radians';
 $string['trig_degrees_radians_fact'] = '\[
@@ -1145,28 +1175,25 @@ $string['hyp_inverse_functions_fact'] = '\[\cosh^{-1}(x)=\ln\left(x+\sqrt{x^2-1}
 
 $string['calc_diff_standard_derivatives_name'] = 'Standard Derivatives';
 $string['calc_diff_standard_derivatives_fact'] = 'The following table displays the derivatives of some standard functions.  It is useful to learn these standard derivatives as they are used frequently in calculus.
-<center>
-<table>
-<tr><th>\(f(x)\)               </th><th> \(f\'(x)\)</th></tr>
-<tr>
-<td>\(k\), constant           </td> <td> \(0\) </td> </tr> <tr> <td>
-\(x^n\), any constant \(n\) </td> <td> \(nx^{n-1}\)</td> </tr> <tr> <td>
-\(e^x\)                   </td> <td> \(e^x\)</td> </tr> <tr> <td>
-\(\ln(x)=\log_{\rm e}(x)\)              </td> <td> \(\frac{1}{x}\)                </td> </tr> <tr> <td>
-\(\sin(x)\)                             </td> <td> \(\cos(x)\)                    </td> </tr> <tr> <td>
-\(\cos(x)\)                             </td> <td> \(-\sin(x)\)                   </td> </tr> <tr> <td>
-\(\tan(x) = \frac{\sin(x)}{\cos(x)}\)   </td> <td>   \(\sec^2(x)\)                </td> </tr> <tr> <td>
-\(cosec(x)=\frac{1}{\sin(x)}\)         </td> <td>   \(-cosec(x)\cot(x)\)        </td> </tr> <tr> <td>
-\(\sec(x)=\frac{1}{\cos(x)}\)           </td> <td>   \(\sec(x)\tan(x)\)           </td> </tr> <tr> <td>
-\(\cot(x)=\frac{\cos(x)}{\sin(x)}\)     </td> <td>   \(-cosec^2(x)\)             </td> </tr> <tr> <td>
-\(\cosh(x)\)                            </td> <td>   \(\sinh(x)\)                 </td> </tr> <tr> <td>
-\(\sinh(x)\)                            </td> <td>   \(\cosh(x)\)                 </td> </tr> <tr> <td>
-\(\tanh(x)\)                            </td> <td>   \(sech^2(x)\)               </td> </tr> <tr> <td>
-\(sech(x)\)                            </td> <td>   \(-sech(x)\tanh(x)\)        </td> </tr> <tr> <td>
-\(cosech(x)\)                          </td> <td>   \(-cosech(x)\coth(x)\)      </td> </tr> <tr> <td>
-\(coth(x)\)                            </td> <td>   \(-cosech^2(x)\)            </td> </tr>
-</table>
-</center>
+
+|\(f(x)\)|\(f\'(x)\)|
+|--- |--- |
+|\(k\), constant|\(0\)|
+|\(x^n\), any constant \(n\)|\(nx^{n-1}\)|
+|\(e^x\)|\(e^x\)|
+|\(\ln(x)=\log_{\rm e}(x)\)|\(\frac{1}{x}\)|
+|\(\sin(x)\)|\(\cos(x)\)|
+|\(\cos(x)\)|\(-\sin(x)\)|
+|\(\tan(x) = \frac{\sin(x)}{\cos(x)}\)|\(\sec^2(x)\)|
+|\(cosec(x)=\frac{1}{\sin(x)}\)|\(-cosec(x)\cot(x)\)|
+|\(\sec(x)=\frac{1}{\cos(x)}\)|\(\sec(x)\tan(x)\)|
+|\(\cot(x)=\frac{\cos(x)}{\sin(x)}\)|\(-cosec^2(x)\)|
+|\(\cosh(x)\)|\(\sinh(x)\)|
+|\(\sinh(x)\)|\(\cosh(x)\)|
+|\(\tanh(x)\)|\(sech^2(x)\)|
+|\(sech(x)\)|\(-sech(x)\tanh(x)\)|
+|\(cosech(x)\)|\(-cosech(x)\coth(x)\)|
+|\(coth(x)\)|\(-cosech^2(x)\)|
 
  \[ \frac{d}{dx}\left(\sin^{-1}(x)\right) =  \frac{1}{\sqrt{1-x^2}}\]
  \[ \frac{d}{dx}\left(\cos^{-1}(x)\right) =  \frac{-1}{\sqrt{1-x^2}}\]
@@ -1216,31 +1243,30 @@ $string['calc_int_standard_integrals_fact'] = '
 
 \[\int k\ dx = kx +c, \mbox{ where k is constant.}\]
 \[\int x^n\ dx  = \frac{x^{n+1}}{n+1}+c, \quad (n\ne -1)\]
-\[\int x^{-1}\ dx = \int {\frac{1}{x}}\ dx = \ln(|x|)+c = \ln(k*|x|) = \left\{\matrix{\ln(x)+c & x>0\cr
+\[\int x^{-1}\ dx = \int {\frac{1}{x}}\ dx = \ln(|x|)+c = \ln(k|x|) = \left\{\matrix{\ln(x)+c & x>0\cr
 \ln(-x)+c & x<0\cr}\right.\]
 
-<center>
-<table>
-<tr><th>\(f(x)\)</th><th> \(\int f(x)\ dx\)</th></tr>
-<tr><td>\(e^x\) </td> <td>  \(e^x+c\)</td> <td> </td> </tr>
-<tr><td>\(\cos(x)\) </td> <td>  \(\sin(x)+c\)   </td> <td> </td> </tr>
-<tr><td>\(\sin(x)\) </td> <td>  \(-\cos(x)+c\)  </td> <td> </td> </tr>
-<tr><td>\(\tan(x)\) </td> <td>  \(\ln(\sec(x))+c\) </td> <td>\(-\frac{\pi}{2} < x < \frac{\pi}{2}\)</td> </tr>
-<tr><td>\(\sec x\)  </td> <td>  \(\ln (\sec(x)+\tan(x))+c\) </td> <td> \( -{\pi\over 2}< x < {\pi\over 2}\)</td> </tr>
-<tr><td>cosec\(\, x\) </td> <td>  \(\ln ($cosec$(x)-\cot(x))+c\) </td> <td>\(0 < x < \pi\)</td> </tr>
-<tr><td>cot\(\,x\) </td> <td>  \(\ln(\sin(x))+c\) </td> <td>  \(0< x< \pi\) </td> </tr>
-<tr><td>\(\cosh(x)\) </td> <td>  \(\sinh(x)+c\)</td> <td></td> </tr>
-<tr><td>\(\sinh(x)\) </td> <td>  \(\cosh(x) + c\) </td> <td> </td> </tr>
-<tr><td>\(\tanh(x)\) </td> <td>  \(\ln(\cosh(x))+c\)</td> <td> </td> </tr>
-<tr><td>coth\((x)\) </td> <td>  \(\ln(\sinh(x))+c \)</td> <td>   \(x>0\)</td> </tr>
-<tr><td>\({1\over x^2+a^2}\) </td> <td>  \({1\over a}\tan^{-1}{x\over a}+c\)</td> <td> \(a>0\)</td> </tr>
-<tr><td>\({1\over x^2-a^2}\) </td> <td>  \({1\over 2a}\ln{x-a\over x+a}+c\) </td> <td>  \(|x|>a>0\)</td> </tr>
-<tr><td>\({1\over a^2-x^2}\) </td> <td>  \({1\over 2a}\ln{a+x\over a-x}+c\) </td> <td>   \(|x|<a\)</td> </tr>
-<tr><td>\({1\over \sqrt{x^2+a^2}}\) </td> <td>  \(\sinh^{-1}\left(\frac{x}{a}\right) + c\) </td> <td> \(a>0\) </td> </tr>
-<tr><td>\({1\over \sqrt{x^2-a^2}}\) </td> <td>  \(\cosh^{-1}\left(\frac{x}{a}\right) + c\) </td> <td>  \(x\geq a > 0\) </td> </tr>
-<tr><td>\({1\over \sqrt{x^2+k}}\) </td> <td>  \(\ln (x+\sqrt{x^2+k})+c\)</td> <td> </td> </tr>
-<tr><td>\({1\over \sqrt{a^2-x^2}}\) </td> <td>  \(\sin^{-1}\left(\frac{x}{a}\right)+c\)</td> <td>  \(-a\leq x\leq a\)  </td> </tr>
-</table></center>';
+|\(f(x)\)|\(\int f(x)\ dx\)||
+|--- |--- |--- |
+|\(e^x\)|\(e^x+c\)||
+|\(\cos(x)\)|\(\sin(x)+c\)||
+|\(\sin(x)\)|\(-\cos(x)+c\)||
+|\(\tan(x)\)|\(\ln(\sec(x))+c\)|\(-\frac{\pi}{2} < x < \frac{\pi}{2}\)|
+|\(\sec x\)|\(\ln (\sec(x)+\tan(x))+c\)|\( -{\pi\over 2}< x < {\frac{\pi}{2}}\)|
+|\(\mbox{cosec}(x)\)|\(\ln (\mbox{cose}c(x)-\cot(x))+c\quad\)   |\(0 < x < \pi\)|
+|cot\(\,x\)|\(\ln(\sin(x))+c\)|\(0< x< \pi\)|
+|\(\cosh(x)\)|\(\sinh(x)+c\)||
+|\(\sinh(x)\)|\(\cosh(x) + c\)||
+|\(\tanh(x)\)|\(\ln(\cosh(x))+c\)||
+|\(\mbox{coth}(x)\)|\(\ln(\sinh(x))+c \)|\(x>0\)|
+|\({1\over x^2+a^2}\)|\({1\over a}\tan^{-1}{x\over a}+c\)|\(a>0\)|
+|\({1\over x^2-a^2}\)|\({1\over 2a}\ln{x-a\over x+a}+c\)|\(|x|>a>0\)|
+|\({1\over a^2-x^2}\)|\({1\over 2a}\ln{a+x\over a-x}+c\)|\(|x|\)|
+|\(\frac{1}{\sqrt{x^2+a^2}}\)|\(\sinh^{-1}\left(\frac{x}{a}\right) + c\)|\(a>0\)|
+|\({1\over \sqrt{x^2-a^2}}\)|\(\cosh^{-1}\left(\frac{x}{a}\right) + c\)|\(x\geq a > 0\)|
+|\({1\over \sqrt{x^2+k}}\)|\(\ln (x+\sqrt{x^2+k})+c\)||
+|\({1\over \sqrt{a^2-x^2}}\)|\(\sin^{-1}\left(\frac{x}{a}\right)+c\)|\(-a\leq x\leq a\)|
+';
 
 $string['calc_int_linearity_rule_name'] = 'The Linearity Rule for Integration';
 $string['calc_int_linearity_rule_fact'] = '\[\int \left(af(x)+bg(x)\right){\rm d}x = a\int\!\!f(x)\,{\rm d}x
@@ -1261,6 +1287,12 @@ $string['calc_int_methods_parts_fact'] = '\[
 or alternatively: \[\int_a^bf(x)g(x)\,{\rm d}x=\left[f(x)\,\int
 g(x){\rm d}x\right]_a^b -\int_a^b{{\rm d}f\over {\rm
 d}x}\left\{\int g(x){\rm d}x\right\}{\rm d}x.\]';
+
+$string['calc_int_methods_parts_indefinite_name'] = 'Integration by Parts';
+$string['calc_int_methods_parts_indefinite_fact'] = '\[
+\int u{{\rm d}v\over {\rm d}x}{\rm d}x=uv- \int{{\rm d}u\over {\rm d}x}v\,{\rm d}x\]
+or alternatively: \[\int f(x)g(x)\,{\rm d}x=f(x)\,\int
+g(x){\rm d}x -\int {{\rm d}f\over {\rm d}x}\left\{\int g(x){\rm d}x\right\}{\rm d}x.\]';
 
 $string['Illegal_singleton_power'] = 'This input requires a numeric value presented in one of the following forms: <code>{$a->forms}</code>';
 $string['Illegal_singleton_floats'] = 'This input does not accept decimal numbers in the given form. This input requires a numeric value presented in one of the following forms: <code>{$a->forms}</code>';

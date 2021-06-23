@@ -38,6 +38,11 @@ class stack_potentialresponse_tree {
     /** @var float total amount of fraction available from this PRT. Zero is possible for formative PRT questions. */
     private $value;
 
+    /**
+     * Special variables in the question which should be exposed to the inputs.
+     */
+    protected $contextsession = array();
+
     /** @var stack_cas_session2 Feeback variables. */
     private $feedbackvariables;
 
@@ -79,13 +84,15 @@ class stack_potentialresponse_tree {
         if (is_a($feedbackvariables, 'stack_cas_session2') || null === $feedbackvariables) {
             $this->feedbackvariables = $feedbackvariables;
             if ($this->feedbackvariables === null) {
-                // Using an empty session here makes life so much more simpler.
+                // Using an empty session here makes life so much simpler.
                 $this->feedbackvariables = new stack_cas_session2(array());
             }
         } else {
             throw new stack_exception('stack_potentialresponse_tree: __construct: ' .
                     'expects $feedbackvariables to be null or a stack_cas_session.');
         }
+
+        $this->contextsession = $this->feedbackvariables->get_contextvariables();
 
         if ($nodes === null) {
             $nodes = array();
@@ -109,6 +116,17 @@ class stack_potentialresponse_tree {
                     'the specified first node does not exist in the tree.');
         }
         $this->firstnode = $firstnode;
+    }
+
+    /*
+     * Set the contextsession values.
+     */
+    public function add_contextsession($contextsession) {
+        if ($contextsession != null) {
+            // Always make this the start of an array.
+            // We may already have some context from the feedback variables.
+            $this->contextsession = array_merge(array($contextsession), $this->contextsession);
+        }
     }
 
     /**
@@ -210,6 +228,10 @@ class stack_potentialresponse_tree {
             $tr .= "\n/* ------------------- */";
             $results->add_trace($tr);
         }
+        $er = $fv->get_errors(true);
+        if (trim($er)) {
+            $results->add_fverrors($er);
+        }
 
         // Traverse the tree.
         $nodekey = $this->firstnode;
@@ -229,7 +251,8 @@ class stack_potentialresponse_tree {
             }
 
             $visitednodes[$nodekey] = true;
-            $nodekey = $this->nodes[$nodekey]->traverse($results, $nodekey, $cascontext, $answers, $localoptions);
+            $nodekey = $this->nodes[$nodekey]->traverse($results, $nodekey, $cascontext, $answers, $localoptions,
+                    $this->contextsession);
 
             if ($results->_errors) {
                 break;
@@ -364,6 +387,31 @@ class stack_potentialresponse_tree {
             return '';
         }
         return $this->feedbackvariables->get_keyval_representation();
+    }
+
+    /**
+     * @return array Languages used in the feedback.
+     */
+    public function get_feedback_languages() {
+        $langs = array();
+        foreach ($this->nodes as $key => $node) {
+            $langs[$key] = $node->get_feedback_languages();
+        }
+        return $langs;
+    }
+
+    /**
+     * @return array All the "sans" strings used in the nodes with test requiring a raw input.
+     */
+    public function get_raw_sans_used() {
+        $sans = array();
+        foreach ($this->nodes as $key => $node) {
+            if (stack_ans_test_controller::required_raw($node->get_test())) {
+                $name = (string) $this->get_name() . '-' . ($key + 1);
+                $sans[$name] = $node->sans->get_inputform(true, 1);
+            }
+        }
+        return $sans;
     }
 
     /**

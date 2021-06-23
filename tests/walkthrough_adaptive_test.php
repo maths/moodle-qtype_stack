@@ -41,6 +41,7 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->assertEquals('adaptivemultipart',
                 $this->quba->get_question_attempt($this->slot)->get_behaviour_name());
         $this->render();
+
         $this->check_output_contains_text_input('ans1');
         $this->check_output_does_not_contain_input_validation();
         $this->check_output_does_not_contain_prt_feedback();
@@ -59,6 +60,9 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->check_current_mark(null);
         $this->check_prt_score('firsttree', null, null);
         $this->render();
+
+        $expected = 'Seed: 1; ans1: 2 [valid]; firsttree: !';
+        $this->check_response_summary($expected);
         $this->check_output_contains_text_input('ans1', '2');
         $this->check_output_contains_input_validation('ans1');
         // Since the answer is a number there are no variables.
@@ -75,6 +79,9 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->check_current_mark(1);
         $this->check_prt_score('firsttree', 1, 0);
         $this->render();
+
+        $expected = 'Seed: 1; ans1: 2 [score]; firsttree: # = 1 | firsttree-1-T';
+        $this->check_response_summary($expected);
         $this->check_output_contains_text_input('ans1', '2');
         $this->check_output_contains_input_validation('ans1');
         $this->check_output_contains_prt_feedback('firsttree');
@@ -95,6 +102,7 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->assertEquals('adaptivemultipart',
                 $this->quba->get_question_attempt($this->slot)->get_behaviour_name());
         $this->render();
+
         $this->check_output_contains_text_input('ans1');
         $this->check_output_does_not_contain_input_validation();
         $this->check_output_does_not_contain_prt_feedback();
@@ -113,6 +121,9 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->check_current_mark(null);
         $this->check_prt_score('firsttree', null, null);
         $this->render();
+
+        $expected = 'Seed: 1; ans1: 2 [valid]; firsttree: !';
+        $this->check_response_summary($expected);
         $this->check_output_contains_text_input('ans1', '2');
         $this->check_output_contains_input_validation('ans1');
         // Since the answer is a number there are no variables.
@@ -129,6 +140,9 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->check_current_mark(1);
         $this->check_prt_score('firsttree', 1, 0);
         $this->render();
+
+        $expected = 'Seed: 1; ans1: 2 [score]; firsttree: # = 1 | firsttree-1-T';
+        $this->check_response_summary($expected);
         $this->check_output_contains_text_input('ans1', '2');
         $this->check_output_contains_input_validation('ans1');
         $this->check_output_contains_prt_feedback('firsttree');
@@ -151,6 +165,8 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->check_prt_score('firsttree', null, null);
 
         $this->render();
+        $expected = 'Seed: 1; ans1: 3 [valid]; firsttree: !';
+        $this->check_response_summary($expected);
         $this->check_output_contains_text_input('ans1', '3');
         $this->check_output_contains_input_validation('ans1');
         $this->check_output_does_not_contain_prt_feedback();
@@ -164,6 +180,9 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->check_current_mark(0);
         $this->check_prt_score('firsttree', 0, 0.3);
         $this->render();
+
+        $expected = 'Seed: 1; ans1: 3 [score]; firsttree: # = 0 | ATEqualComAss (AlgEquiv-false). | firsttree-1-F';
+        $this->check_response_summary($expected);
         $this->check_output_contains_text_input('ans1', '3');
         $this->check_output_contains_input_validation('ans1');
         $this->check_output_contains_prt_feedback('firsttree');
@@ -185,6 +204,9 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->check_current_mark(null);
         $this->check_prt_score('firsttree', null, null);
         $this->render();
+
+        $expected = 'Seed: 1; ans1: sin(x) [valid]; firsttree: !';
+        $this->check_response_summary($expected);
         $this->check_output_contains_text_input('ans1', 'sin(x)');
         $expectedvarlist = get_string('studentValidation_listofvariables',
                 'qtype_stack', '\( \left[ x \right]\)');
@@ -200,6 +222,9 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->check_current_mark(null);
         $this->check_prt_score('firsttree', null, null);
         $this->render();
+
+        $expected = 'Seed: 1; ans1: 1+1 [valid]; firsttree: !';
+        $this->check_response_summary($expected);
         $this->check_output_contains_text_input('ans1', '1+1');
         $this->check_output_contains_input_validation('ans1');
         $this->check_output_does_not_contain_prt_feedback();
@@ -213,7 +238,46 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->check_current_mark(0);
         $this->check_prt_score('firsttree', 0, 0.3);
         $this->render();
+
+        $expected = 'Seed: 1; ans1: 1+1 [score]; firsttree: # = 0 | ATEqualComAss (AlgEquiv-true). | firsttree-1-F';
+        $this->check_response_summary($expected);
         $this->check_output_contains_text_input('ans1', '1+1');
+        $this->check_output_contains_input_validation('ans1');
+        $this->check_output_contains_prt_feedback('firsttree');
+        $this->check_output_does_not_contain_stray_placeholders();
+    }
+
+    public function test_test0_validate_then_submit_check_pm() {
+
+        // Create the stack question 'test0'.
+        $q = test_question_maker::make_question('stack', 'test0');
+        $this->start_attempt_at_question($q, 'adaptive', 1);
+
+        // Process a validate request.
+        $this->process_submission(array('ans1' => '4+ -2', '-submit' => 1));
+
+        $this->check_current_state(question_state::$todo);
+        $this->check_current_mark(null);
+        $this->check_prt_score('firsttree', null, null);
+        $this->render();
+        $this->check_output_contains_text_input('ans1', '4+ -2');
+        $this->check_output_contains_input_validation('ans1');
+        // Since the answer is a number there are no variables.
+        $this->check_output_does_not_contain_lang_string('studentValidation_listofvariables',
+                'qtype_stack', '\( \left[ x \right]\)');
+        $this->check_output_does_not_contain_prt_feedback();
+        $this->check_output_does_not_contain_stray_placeholders();
+
+        $this->process_submission(array('ans1' => '4+ -2', 'ans1_val' => '4+ -2', '-submit' => 1));
+
+        // Verify.
+        $this->check_current_state(question_state::$todo);
+        $this->check_current_mark(0);
+        $this->check_prt_score('firsttree', 0, 0.3);
+        $this->render();
+        $expected = 'Seed: 1; ans1: 4+ -2 [score]; firsttree: # = 0 | ATEqualComAss (AlgEquiv-true). | firsttree-1-F';
+        $this->check_response_summary($expected);
+        $this->check_output_contains_text_input('ans1', '4+ -2');
         $this->check_output_contains_input_validation('ans1');
         $this->check_output_contains_prt_feedback('firsttree');
         $this->check_output_does_not_contain_stray_placeholders();
@@ -271,6 +335,9 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->check_current_mark(null);
         $this->check_prt_score('PotResTree_1', null, null);
         $this->render();
+
+        $expected = 'Seed: 1; ans1: (x-7)^4/4+c [valid]; PotResTree_1: !';
+        $this->check_response_summary($expected);
         $this->check_output_contains_text_input('ans1', $sa);
         $this->check_output_contains_input_validation('ans1');
         $this->check_output_does_not_contain_prt_feedback();
@@ -284,6 +351,9 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->check_current_mark(1);
         $this->check_prt_score('PotResTree_1', 1, 0);
         $this->render();
+
+        $expected = 'Seed: 1; ans1: (x-7)^4/4+c [score]; PotResTree_1: # = 1 | ATInt_true. | PotResTree_1-0-1';
+        $this->check_response_summary($expected);
         $this->check_output_contains_text_input('ans1', $sa);
         $this->check_output_contains_input_validation('ans1');
         $this->check_output_contains_prt_feedback('PotResTree_1');
@@ -319,6 +389,9 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->check_current_mark(null);
         $this->check_prt_score('PotResTree_1', null, null);
         $this->render();
+
+        $expected = 'Seed: 1; ans1: (x-7)^4/4 [valid]; PotResTree_1: !';
+        $this->check_response_summary($expected);
         $this->check_output_contains_text_input('ans1', $sa);
         $this->check_output_contains_input_validation('ans1');
         $this->check_output_does_not_contain_prt_feedback();
@@ -330,6 +403,9 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->check_current_mark(null);
         $this->check_prt_score('PotResTree_1', null, null);
         $this->render();
+
+        $expected = 'Seed: 1; ans1: (x-7)^4/4+c [valid]; PotResTree_1: !';
+        $this->check_response_summary($expected);
         $this->check_output_contains_text_input('ans1', $sa . '+c');
         $this->check_output_contains_input_validation('ans1');
         $this->check_output_does_not_contain_prt_feedback();
@@ -342,6 +418,9 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->check_current_mark(1);
         $this->check_prt_score('PotResTree_1', 1, 0);
         $this->render();
+
+        $expected = 'Seed: 1; ans1: (x-7)^4/4+c [score]; PotResTree_1: # = 1 | ATInt_true. | PotResTree_1-0-1';
+        $this->check_response_summary($expected);
         $this->check_output_contains_text_input('ans1', $sa . '+c');
         $this->check_output_contains_input_validation('ans1');
         $this->check_output_contains_prt_feedback('PotResTree_1');
@@ -378,6 +457,9 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->check_current_mark(null);
         $this->check_prt_score('PotResTree_1', null, null);
         $this->render();
+
+        $expected = 'Seed: 1; ans1: ((x-7)^4 [invalid]; PotResTree_1: !';
+        $this->check_response_summary($expected);
         $this->check_output_contains_text_input('ans1', $ia);
         $this->check_output_contains_input_validation('ans1');
         $this->check_output_does_not_contain_prt_feedback();
@@ -395,6 +477,9 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->check_current_mark(null);
         $this->check_prt_score('PotResTree_1', null, null);
         $this->render();
+
+        $expected = 'Seed: 1; ans1: 3*(x-7)^2 [valid]; PotResTree_1: !';
+        $this->check_response_summary($expected);
         $this->check_output_contains_text_input('ans1', $sa);
         $this->check_output_contains_input_validation('ans1');
         $this->check_output_does_not_contain_prt_feedback();
@@ -406,6 +491,9 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->check_current_mark(0);
         $this->check_prt_score('PotResTree_1', 0, 0.25);
         $this->render();
+
+        $expected = 'Seed: 1; ans1: 3*(x-7)^2 [score]; PotResTree_1: # = 0 | ATInt_diff. | PotResTree_1-0-0';
+        $this->check_response_summary($expected);
         $this->check_output_contains_text_input('ans1', $sa);
         $this->check_output_contains_input_validation('ans1');
         $this->check_output_contains_prt_feedback('PotResTree_1');
@@ -444,6 +532,9 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->check_current_mark(null);
         $this->check_prt_score('PotResTree_1', null, null);
         $this->render();
+
+        $expected = 'Seed: 1; ans1: ta [invalid]; PotResTree_1: !';
+        $this->check_response_summary($expected);
         $this->check_output_contains_text_input('ans1', 'ta');
         $this->check_output_contains_input_validation('ans1');
         $this->check_output_does_not_contain_prt_feedback();
@@ -457,6 +548,9 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->check_current_mark(null);
         $this->check_prt_score('PotResTree_1', null, null);
         $this->render();
+
+        $expected = 'Seed: 1; ans1: ta1 [invalid]; PotResTree_1: !';
+        $this->check_response_summary($expected);
         $this->check_output_contains_text_input('ans1', 'ta1');
         $this->check_output_contains_input_validation('ans1');
         $this->check_output_does_not_contain_prt_feedback();
@@ -496,6 +590,9 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->check_current_mark(null);
         $this->check_prt_score('firsttree', null, null);
         $this->render();
+
+        $expected = 'Seed: 1; ans1: a [invalid]; firsttree: !';
+        $this->check_response_summary($expected);
         $this->check_output_contains_text_input('ans1', 'a');
         $this->check_output_contains_input_validation('ans1');
         $this->check_output_does_not_contain_prt_feedback();
@@ -537,6 +634,9 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->check_current_mark(null);
         $this->check_prt_score('firsttree', null, null);
         $this->render();
+
+        $expected = 'Seed: 1; ans1: a [valid]; firsttree: !';
+        $this->check_response_summary($expected);
         $this->check_output_contains_text_input('ans1', 'a');
         $this->check_output_contains_input_validation('ans1');
         $this->check_output_does_not_contain_prt_feedback();
@@ -578,6 +678,9 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->check_current_mark(null);
         $this->check_prt_score('PotResTree_1', null, null);
         $this->render();
+
+        $expected = 'Seed: 1; ans1: int((x-6)^4,x) [invalid]; PotResTree_1: !';
+        $this->check_response_summary($expected);
         $this->check_output_contains_text_input('ans1', 'int((x-6)^4,x)');
         $this->check_output_contains_input_validation('ans1');
         $this->check_output_does_not_contain_prt_feedback();
@@ -615,6 +718,9 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->check_current_mark(null);
         $this->check_prt_score('PotResTree_1', null, null);
         $this->render();
+
+        $expected = 'Seed: 1; ans1: solve((x-6)^4,x) [invalid]; PotResTree_1: !';
+        $this->check_response_summary($expected);
         $this->check_output_contains_text_input('ans1', 'solve((x-6)^4,x)');
         $this->check_output_contains_input_validation('ans1');
         $this->check_output_does_not_contain_prt_feedback();
@@ -652,6 +758,9 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->check_current_mark(null);
         $this->check_prt_score('PotResTree_1', null, null);
         $this->render();
+
+        $expected = 'Seed: 1; ans1: popup(x^2+c) [valid]; PotResTree_1: !';
+        $this->check_response_summary($expected);
         $this->check_output_contains_text_input('ans1', 'popup(x^2+c)');
         $this->check_output_contains_input_validation('ans1');
         $this->check_output_does_not_contain_prt_feedback();
@@ -665,6 +774,9 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->check_current_mark(0);
         $this->check_prt_score('PotResTree_1', 0, 0.25);
         $this->render();
+
+        $expected = 'Seed: 1; ans1: popup(x^2+c) [score]; PotResTree_1: # = 0 | ATInt_generic. | PotResTree_1-0-0';
+        $this->check_response_summary($expected);
         $this->check_output_contains_text_input('ans1', 'popup(x^2+c)');
         $this->check_output_contains_input_validation('ans1');
         $this->check_output_contains_prt_feedback('PotResTree_1');
@@ -713,6 +825,9 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->check_current_mark(null);
         $this->check_prt_score('PotResTree_1', null, null);
         $this->render();
+
+        $expected = 'Seed: 1; ans1: Sin(x^2+c) [valid]; PotResTree_1: !';
+        $this->check_response_summary($expected);
         $this->check_output_contains_text_input('ans1', 'Sin(x^2+c)');
         $this->check_output_contains_input_validation('ans1');
         $this->check_output_does_not_contain_prt_feedback();
@@ -726,6 +841,9 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->check_current_mark(0);
         $this->check_prt_score('PotResTree_1', 0, 0.25);
         $this->render();
+
+        $expected = 'Seed: 1; ans1: Sin(x^2+c) [score]; PotResTree_1: # = 0 | ATInt_generic. | PotResTree_1-0-0';
+        $this->check_response_summary($expected);
         $this->check_output_contains_text_input('ans1', 'Sin(x^2+c)');
         $this->check_output_contains_input_validation('ans1');
         $this->check_output_contains_prt_feedback('PotResTree_1');
@@ -778,6 +896,9 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->check_prt_score('oddeven', null, null);
         $this->assertNull($this->quba->get_question_attempt($this->slot)->get_last_step()->get_behaviour_var('_tries_oddeven'));
         $this->render();
+
+        $expected = 'Seed: 1; ans3: x [valid]; odd: !; even: !; oddeven: !; unique: !';
+        $this->check_response_summary($expected);
         $this->check_output_contains_text_input('ans3', 'x');
         $this->check_output_contains_input_validation('ans3');
         $this->check_output_does_not_contain_prt_feedback();
@@ -791,6 +912,9 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->assertEquals(1, $this->quba->get_question_attempt(
                 $this->slot)->get_last_step()->get_behaviour_var('_tries_oddeven'));
         $this->render();
+
+        $expected = 'Seed: 1; ans3: x [score]; odd: !; even: !; oddeven: # = 0.5 | oddeven-0-1 | oddeven-1-0; unique: !';
+        $this->check_response_summary($expected);
         $this->check_output_contains_text_input('ans3', 'x');
         $this->check_output_contains_input_validation('ans3');
         $this->check_output_contains_prt_feedback('oddeven');
@@ -798,7 +922,7 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->assert_content_with_maths_contains('Your answer is not an even function. Look,'
                 .' \[ f(x)-f(-x)={2\\cdot x} \neq 0.\]', $this->currentoutput);
 
-        // Score ans3 => 'x'. (put it an ans1 to validate, to force the creation of a new step.)
+        // Score ans3 => 'x'. Put in an ans1 to validate, to force the creation of a new step.
         $this->process_submission(array('ans3' => 'x', 'ans3_val' => 'x', 'ans1' => 'x', '-submit' => 1));
 
         $this->check_current_mark(0.5);
@@ -806,6 +930,10 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->assertNull($this->quba->get_question_attempt(
                 $this->slot)->get_last_step()->get_behaviour_var('_tries_oddeven'));
         $this->render();
+
+        $expected = 'Seed: 1; ans1: x [valid]; ans3: x [score]; odd: !; even: !; ' .
+            'oddeven: # = 0.5 | oddeven-0-1 | oddeven-1-0; unique: !';
+        $this->check_response_summary($expected);
         $this->check_output_contains_text_input('ans3', 'x');
         $this->check_output_contains_input_validation('ans3');
         $this->check_output_contains_prt_feedback('oddeven');
@@ -845,6 +973,9 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->assertNull($this->quba->get_question_attempt(
                 $this->slot)->get_last_step()->get_behaviour_var('_tries_oddeven'));
         $this->render();
+
+        $expected = 'Seed: 1; ans3: x [valid]; odd: !; even: !; oddeven: !; unique: !';
+        $this->check_response_summary($expected);
         $this->check_output_contains_text_input('ans3', 'x');
         $this->check_output_contains_input_validation('ans3');
         $this->check_output_does_not_contain_prt_feedback();
@@ -858,6 +989,9 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->assertEquals(3, $this->quba->get_question_attempt(
                 $this->slot)->get_last_step()->get_behaviour_var('_tries_oddeven'));
         $this->render();
+
+        $expected = 'Seed: 1; ans3: x [score]; odd: !; even: !; oddeven: # = 0.5 | oddeven-0-1 | oddeven-1-0; unique: !';
+        $this->check_response_summary($expected);
         $this->check_output_contains_text_input('ans3', 'x');
         $this->check_output_contains_input_validation('ans3');
         $this->check_output_contains_prt_feedback('oddeven');
@@ -871,6 +1005,9 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->assertNull($this->quba->get_question_attempt(
                 $this->slot)->get_last_step()->get_behaviour_var('_tries_oddeven'));
         $this->render();
+
+        $expected = 'Seed: 1; ans3: 0 [valid]; odd: !; even: !; oddeven: !; unique: !';
+        $this->check_response_summary($expected);
         $this->check_output_contains_text_input('ans3', '0');
         $this->check_output_contains_input_validation('ans3');
         $this->check_output_does_not_contain_prt_feedback();
@@ -884,6 +1021,9 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->assertEquals(4, $this->quba->get_question_attempt(
                 $this->slot)->get_last_step()->get_behaviour_var('_tries_oddeven'));
         $this->render();
+
+        $expected = 'Seed: 1; ans3: 0 [score]; odd: !; even: !; oddeven: # = 1 | oddeven-0-1 | oddeven-1-1; unique: !';
+        $this->check_response_summary($expected);
         $this->check_output_contains_text_input('ans3', '0');
         $this->check_output_contains_input_validation('ans3');
         $this->check_output_contains_prt_feedback('oddeven');
@@ -927,6 +1067,9 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->check_prt_score('oddeven', null, null);
         $this->check_prt_score('unique', null, null);
         $this->render();
+
+        $expected = '';
+        $this->check_response_summary($expected);
         $this->check_output_contains_text_input('ans1', 'x^3');
         $this->check_output_contains_text_input('ans2', 'x^2');
         $this->check_output_contains_text_input('ans3', 'x');
@@ -954,6 +1097,9 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->check_prt_score('oddeven', 0.5, 0.4, true);
         $this->check_prt_score('unique', null, null, true);
         $this->render();
+
+        $expected = 'Seed: 1; ans1: x^3 [valid]; ans2: x^2 [valid]; ans3: x [valid]; odd: !; even: !; oddeven: !; unique: !';
+        $this->check_response_summary($expected);
         $this->check_output_contains_text_input('ans1', 'x^3', false);
         $this->check_output_contains_text_input('ans2', 'x^2', false);
         $this->check_output_contains_text_input('ans3', 'x', false);
@@ -1005,6 +1151,10 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->check_current_state(question_state::$todo);
         $this->check_current_mark(0);
         $this->render();
+
+        $expected = 'Seed: 1; ans1: x^2 [valid]; ans2: x^3 [valid]; ans3: 1+x^3 [valid]; ans4: false [score]; ' .
+            'odd: !; even: !; oddeven: !; unique: # = 0 | unique-0-0';
+        $this->check_response_summary($expected);
         $this->check_output_contains_text_input('ans1', 'x^2');
         $this->check_output_contains_text_input('ans2', 'x^3');
         $this->check_output_contains_text_input('ans3', '1+x^3');
@@ -1030,6 +1180,10 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->check_current_state(question_state::$todo);
         $this->check_current_mark(0);
         $this->render();
+
+        $expected = 'Seed: 1; ans1: x^2 [score]; ans2: x^3 [score]; ans3: 1+x^3 [score]; ans4: false [score]; odd: # = 0 | ' .
+            'odd-0-0; even: # = 0 | even-0-0; oddeven: # = 0 | oddeven-0-0 | oddeven-1-0; unique: # = 0 | unique-0-0';
+        $this->check_response_summary($expected);
         $this->check_output_contains_input_validation('ans1');
         $this->check_output_contains_input_validation('ans2');
         $this->check_output_contains_input_validation('ans3');
@@ -1084,6 +1238,10 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->check_current_state(question_state::$invalid);
         $this->check_current_mark(1.0);
         $this->render();
+
+        $expected = 'Seed: 1; ans1: x^3 [valid]; ans2: (x + [invalid]; ans3: 0 [valid]; ans4: true [score]; odd: !; ' .
+                'even: !; oddeven: !; unique: # = 1 | ATLogic_True. | unique-0-1';
+        $this->check_response_summary($expected);
         $this->check_output_contains_text_input('ans1', 'x^3');
         $this->check_output_contains_text_input('ans2', '(x +');
         $this->check_output_contains_text_input('ans3', '0');
@@ -1110,6 +1268,10 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->check_current_state(question_state::$invalid);
         $this->check_current_mark(3.0);
         $this->render();
+
+        $expected = 'Seed: 1; ans1: x^3 [score]; ans2: (x + [invalid]; ans3: 0 [score]; ans4: true [score]; odd: # = 1 | ' .
+                'odd-0-1; even: !; oddeven: # = 1 | oddeven-0-1 | oddeven-1-1; unique: # = 1 | ATLogic_True. | unique-0-1';
+        $this->check_response_summary($expected);
         $this->check_output_contains_text_input('ans1', 'x^3');
         $this->check_output_contains_text_input('ans2', '(x +');
         $this->check_output_contains_text_input('ans3', '0');
@@ -1136,6 +1298,10 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->check_current_state(question_state::$todo);
         $this->check_current_mark(3.0);
         $this->render();
+
+        $expected = 'Seed: 1; ans1: x^3 [score]; ans2: x^2 [valid]; ans3: 0 [score]; ans4: true [score]; odd: # = 1 | ' .
+                'odd-0-1; even: !; oddeven: # = 1 | oddeven-0-1 | oddeven-1-1; unique: # = 1 | ATLogic_True. | unique-0-1';
+        $this->check_response_summary($expected);
         $this->check_output_contains_text_input('ans1', 'x^3');
         $this->check_output_contains_text_input('ans2', 'x^2');
         $this->check_output_contains_text_input('ans3', '0');
@@ -1162,6 +1328,11 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->check_current_state(question_state::$complete);
         $this->check_current_mark(4.0);
         $this->render();
+
+        $expected = 'Seed: 1; ans1: x^3 [score]; ans2: x^2 [score]; ans3: 0 [score]; ans4: true [score]; odd: # = 1 | ' .
+                'odd-0-1; even: # = 1 | even-0-1; oddeven: # = 1 | oddeven-0-1 | oddeven-1-1; unique: # = 1 | ' .
+                'ATLogic_True. | unique-0-1';
+        $this->check_response_summary($expected);
         $this->check_output_contains_text_input('ans1', 'x^3');
         $this->check_output_contains_text_input('ans2', 'x^2');
         $this->check_output_contains_text_input('ans3', '0');
@@ -1186,6 +1357,11 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->check_current_state(question_state::$gradedright);
         $this->check_current_mark(4.0);
         $this->render();
+
+        $expected = 'Seed: 1; ans1: x^3 [score]; ans2: x^2 [score]; ans3: 0 [score]; ans4: true [score]; odd: # = 1 | ' .
+                'odd-0-1; even: # = 1 | even-0-1; oddeven: # = 1 | oddeven-0-1 | oddeven-1-1; unique: # = 1 | ' .
+                'ATLogic_True. | unique-0-1';
+        $this->check_response_summary($expected);
         $this->check_output_contains_text_input('ans1', 'x^3', false);
         $this->check_output_contains_text_input('ans2', 'x^2', false);
         $this->check_output_contains_text_input('ans3', '0', false);
@@ -1259,6 +1435,7 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->check_current_state(question_state::$todo);
         $this->check_current_mark(null);
         $this->render();
+
         $this->check_output_contains_text_input('ans1', 'x^3');
         $this->check_output_contains_text_input('ans2', '');
         $this->check_output_contains_text_input('ans3', 'x');
@@ -1371,6 +1548,8 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->check_current_state(question_state::$todo);
         $this->check_current_mark(1.5);
         $this->render();
+        $expected = 'Seed: 1; ans1: x^2 [valid]; ans2: x [valid]; ans3: x^5 [valid]; odd: !; even: !; oddeven: !; unique: !';
+        $this->check_response_summary($expected);
         $this->check_output_contains_text_input('ans1', 'x^2');
         $this->check_output_contains_text_input('ans2', 'x');
         $this->check_output_contains_text_input('ans3', 'x^5');
@@ -1597,6 +1776,8 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->check_current_mark(null);
         $this->check_prt_score('prt1', null, null);
         $this->render();
+        $expected = 'Seed: 1; ans1: 0 [valid]; prt1: !';
+        $this->check_response_summary($expected);
         $this->check_output_contains_text_input('ans1', '0');
         $this->check_output_contains_input_validation('ans1');
         $this->check_output_does_not_contain_prt_feedback();
@@ -1609,6 +1790,8 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->check_current_mark(null);
         $this->check_prt_score('prt1', null, null);
         $this->render();
+        $expected = 'Seed: 1; ans1: 0 [score]; prt1: [RUNTIME_ERROR] !';
+        $this->check_response_summary($expected);
         $this->check_output_contains_text_input('ans1', '0');
         $this->check_output_contains_input_validation('ans1');
         $this->check_output_contains_prt_feedback('prt1');
@@ -1639,6 +1822,8 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->check_current_mark(1); // No penalties applied.
         $this->check_prt_score('prt1', 1, 0);
         $this->render();
+        $expected = 'Seed: 1; ans1: 1/2 [score]; prt1: # = 1 | prt1-1-T';
+        $this->check_response_summary($expected);
         $this->check_output_contains_text_input('ans1', '1/2');
         $this->check_output_contains_input_validation('ans1');
         $this->check_output_contains_prt_feedback('prt1');
@@ -1675,6 +1860,8 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->check_current_mark(null);
         $this->check_prt_score('firsttree', null, null);
         $this->render();
+        $expected = 'Seed: 1; ans1: 3.14 [valid]; firsttree: !';
+        $this->check_response_summary($expected);
         $this->check_output_contains_text_input('ans1', '3.14');
         $this->check_output_contains_input_validation('ans1');
         $this->check_output_does_not_contain_prt_feedback();
@@ -1687,6 +1874,8 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->check_current_mark(1);
         $this->check_prt_score('firsttree', 1, 0);
         $this->render();
+        $expected = 'Seed: 1; ans1: 3.14 [score]; firsttree: # = 1 | firsttree-1-T';
+        $this->check_response_summary($expected);
         $this->check_output_contains_text_input('ans1', '3.14');
         $this->check_output_contains_input_validation('ans1');
         $this->check_output_contains_prt_feedback('firsttree');
@@ -1695,7 +1884,6 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
 
     public function test_numsigfigs_trailing_zero() {
 
-        // Create the stack question 'test0'.
         $q = test_question_maker::make_question('stack', 'numsigfigszeros');
         $this->start_attempt_at_question($q, 'adaptive', 1);
 
@@ -1722,6 +1910,8 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->check_current_mark(null);
         $this->check_prt_score('firsttree', null, null);
         $this->render();
+        $expected = 'Seed: 1; ans1: 0.04 [valid]; firsttree: !';
+        $this->check_response_summary($expected);
         $this->check_output_contains_text_input('ans1', '0.04');
         $this->check_output_contains_input_validation('ans1');
         $this->check_output_does_not_contain_prt_feedback();
@@ -1734,6 +1924,8 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->check_current_mark(0);
         $this->check_prt_score('firsttree', 0, 0.2);
         $this->render();
+        $expected = 'Seed: 1; ans1: 0.04 [score]; firsttree: # = 0 | ATNumSigFigs_WrongDigits. | firsttree-1-F';
+        $this->check_response_summary($expected);
         $this->check_output_contains_text_input('ans1', '0.04');
         $this->check_output_contains_input_validation('ans1');
         $this->check_output_contains_prt_feedback('firsttree');
@@ -1745,6 +1937,8 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->check_current_state(question_state::$todo);
         $this->check_current_mark(0);
         $this->render();
+        $expected = 'Seed: 1; ans1: 0.040 [valid]; firsttree: !';
+        $this->check_response_summary($expected);
         $this->check_output_contains_text_input('ans1', '0.040');
         $this->check_output_contains_input_validation('ans1');
 
@@ -1759,10 +1953,157 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->check_current_mark(0.8);
         $this->check_prt_score('firsttree', 1, 0);
         $this->render();
+        $expected = 'Seed: 1; ans1: 0.040 [score]; firsttree: # = 1 | firsttree-1-T';
+        $this->check_response_summary($expected);
         $this->check_output_contains_text_input('ans1', '0.040');
         $this->check_output_contains_input_validation('ans1');
         $this->check_output_contains_prt_feedback('firsttree');
         $this->check_output_does_not_contain_stray_placeholders();
+
+        $question = $this->quba->get_question($this->slot);
+        $expected = array();
+        $this->assertEquals($expected, $question->validate_warnings());
+    }
+
+    public function test_numdpsfeedbackvars_basic() {
+
+        $q = test_question_maker::make_question('stack', 'numdpsfeedbackvars');
+        $this->start_attempt_at_question($q, 'adaptive', 1);
+
+        // Check the initial state.
+        $this->check_current_state(question_state::$todo);
+        $this->assertEquals('adaptivemultipart',
+            $this->quba->get_question_attempt($this->slot)->get_behaviour_name());
+        $this->render();
+        $this->check_output_contains_text_input('ans1');
+        $this->check_output_contains_text_input('ans2');
+        $this->check_output_does_not_contain_input_validation();
+        $this->check_output_does_not_contain_prt_feedback();
+        $this->check_output_does_not_contain_stray_placeholders();
+        $this->check_current_output(
+            new question_pattern_expectation('/Give me two random numbers/'),
+            $this->get_does_not_contain_feedback_expectation(),
+            $this->get_does_not_contain_num_parts_correct(),
+            $this->get_no_hint_visible_expectation()
+            );
+
+        // Process a validate request.
+        $this->process_submission(array('ans1' => '0.04', 'ans2' => '3.14', '-submit' => 1));
+
+        $this->check_current_state(question_state::$todo);
+        $this->check_current_mark(null);
+        $this->check_prt_score('firsttree', null, null);
+        $this->render();
+        $expected = 'Seed: 1; ans1: 0.04 [valid]; ans2: 3.14 [valid]; prt1: !';
+        $this->check_response_summary($expected);
+        $this->check_output_contains_text_input('ans1', '0.04');
+        $this->check_output_contains_text_input('ans2', '3.14');
+        $this->check_output_contains_input_validation('ans1');
+        $this->check_output_contains_input_validation('ans2');
+        $this->check_output_does_not_contain_prt_feedback();
+        $this->check_output_does_not_contain_stray_placeholders();
+
+        // Process a submit of the answer.
+        $this->process_submission(array('ans1' => '0.04', 'ans1_val' => '0.04',
+                                        'ans2' => '3.14', 'ans2_val' => '3.14', '-submit' => 1));
+
+        $this->check_current_state(question_state::$todo);
+        $this->check_current_mark(0);
+        $this->check_prt_score('prt1', 0, 0.3);
+        $this->render();
+        $expected = 'Seed: 1; ans1: 0.04 [score]; ans2: 3.14 [score]; prt1: # = 0 | ' .
+            'ATNumDecPlaces_Wrong_DPs. ATNumDecPlaces_Not_equiv. | prt1-1-F';
+        $this->check_response_summary($expected);
+        $this->check_output_contains_text_input('ans1', '0.04');
+        $this->check_output_contains_text_input('ans2', '3.14');
+        $this->check_output_contains_input_validation('ans1');
+        $this->check_output_contains_input_validation('ans2');
+        $this->check_output_contains_prt_feedback('prt1');
+        $this->check_output_does_not_contain_stray_placeholders();
+
+        // Process a validate request.
+        $this->process_submission(array('ans1' => '7.04', 'ans1_val' => '0.04',
+                                        'ans2' => '3.14', 'ans2_val' => '3.14', '-submit' => 1));
+
+        $this->check_current_state(question_state::$todo);
+        $this->check_current_mark(0);
+        $this->check_prt_score('firsttree', null, null);
+        $this->render();
+        $expected = 'Seed: 1; ans1: 7.04 [valid]; ans2: 3.14 [score]; prt1: !';
+        $this->check_response_summary($expected);
+        $this->check_output_contains_text_input('ans1', '7.04');
+        $this->check_output_contains_text_input('ans2', '3.14');
+        $this->check_output_contains_input_validation('ans1');
+        $this->check_output_contains_input_validation('ans2');
+        $this->check_output_does_not_contain_prt_feedback();
+        $this->check_output_does_not_contain_stray_placeholders();
+
+        // Process a submit of the answer.
+        $this->process_submission(array('ans1' => '7.04', 'ans1_val' => '7.04',
+                                        'ans2' => '3.14', 'ans2_val' => '3.14', '-submit' => 1));
+
+        $this->check_current_state(question_state::$todo);
+        $this->check_current_mark(0);
+        $this->check_prt_score('prt1', 0, 0.3);
+        $this->render();
+        $expected = 'Seed: 1; ans1: 7.04 [score]; ans2: 3.14 [score]; prt1: # = 0 | ' .
+            'ATNumDecPlaces_Wrong_DPs. ATNumDecPlaces_Equiv. | prt1-1-F';
+        $this->check_response_summary($expected);
+        $this->check_output_contains_text_input('ans1', '7.04');
+        $this->check_output_contains_text_input('ans2', '3.14');
+        $this->check_output_contains_input_validation('ans1');
+        $this->check_output_contains_input_validation('ans2');
+        $this->check_output_contains_prt_feedback('prt1');
+        $this->check_output_does_not_contain_stray_placeholders();
+
+        // Process a validate request.
+        $this->process_submission(array('ans1' => '7.04', 'ans1_val' => '7.04',
+                                        'ans2' => '3.140', 'ans2_val' => '3.14', '-submit' => 1));
+
+        $this->check_current_state(question_state::$todo);
+        $this->check_current_mark(0);
+        $this->check_prt_score('firsttree', null, null);
+        $this->render();
+        $expected = 'Seed: 1; ans1: 7.04 [score]; ans2: 3.140 [valid]; prt1: !';
+        $this->check_response_summary($expected);
+        $this->check_output_contains_text_input('ans1', '7.04');
+        $this->check_output_contains_text_input('ans2', '3.140');
+        $this->check_output_contains_input_validation('ans1');
+        $this->check_output_contains_input_validation('ans2');
+        $this->check_output_does_not_contain_prt_feedback();
+        $this->check_output_does_not_contain_stray_placeholders();
+
+        // Process a submit of the answer.
+        $this->process_submission(array('ans1' => '7.04', 'ans1_val' => '7.04',
+                                        'ans2' => '3.140', 'ans2_val' => '3.140', '-submit' => 1));
+
+        // At this point the answer of 3.140 should be correct! It has 3 decimal places.
+        // The tests below pass (erroneously) because of the "min" function in the feedbackvariables.
+        // The trailing zero has been stripped off.
+        $this->check_current_state(question_state::$todo);
+        $this->check_current_mark(0);
+        $this->check_prt_score('prt1', 0, 0.3);
+        $this->render();
+        $expected = 'Seed: 1; ans1: 7.04 [score]; ans2: 3.140 [score]; prt1: # = 0 | ' .
+            'ATNumDecPlaces_Wrong_DPs. ATNumDecPlaces_Equiv. | prt1-1-F';
+        $this->check_response_summary($expected);
+        $this->check_output_contains_text_input('ans1', '7.04');
+        // Note, the trailing zero is in the validation feedback (numerical input type).
+        $this->check_output_contains_text_input('ans2', '3.140');
+        $this->check_output_contains_input_validation('ans1');
+        $this->check_output_contains_input_validation('ans2');
+        $this->check_output_contains_prt_feedback('prt1');
+        $this->check_output_does_not_contain_stray_placeholders();
+
+        // We can really see this, as the SAns argument of the answer test is displayed in the feedback.
+        $expected = 'Your answer was received as \({3.14}\).';
+        $this->assert_content_with_maths_contains($expected, $this->currentoutput);
+
+        $question = $this->quba->get_question($this->slot);
+        $expected = array('Some answer tests rely on the raw input from a student, ' .
+            'and so the "SAns" field of the node should be the name of a question input.  ' .
+            'Please check the following (prt.node) which looks like a calculated value instead: prt1-1');
+        $this->assertEquals($expected, $question->validate_warnings());
     }
 
     public function test_test0_save_does_validate_but_does_not_submit() {
@@ -1838,6 +2179,8 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->check_prt_score('firsttree', 0, 0.3);
         $this->check_current_mark(0);
         $this->render();
+        $expected = 'Seed: 1; ans1: false [score]; firsttree: # = 0 | firsttree-1-F';
+        $this->check_response_summary($expected);
         $this->check_output_does_not_contain_input_validation();
         $this->check_output_contains_prt_feedback('firsttree');
         $this->check_output_does_not_contain_stray_placeholders();
@@ -1850,6 +2193,8 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->check_prt_score('firsttree', 1, 0);
         $this->check_current_mark(0.7);
         $this->render();
+        $expected = 'Seed: 1; ans1: true [score]; firsttree: # = 1 | ATLogic_True. | firsttree-1-T';
+        $this->check_response_summary($expected);
         $this->check_output_does_not_contain_input_validation();
         $this->check_output_contains_prt_feedback('firsttree');
         $this->check_output_does_not_contain_stray_placeholders();
@@ -1883,6 +2228,8 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->check_current_state(question_state::$complete);
         $this->check_current_mark(1);
         $this->render();
+        $expected = 'Seed: 1; ans1: 12 [score]; prt1: # = 1 | prt1-0-1; prt2: # = 1 | prt2-0-1';
+        $this->check_response_summary($expected);
         $this->check_output_contains_text_input('ans1', '12');
         $this->check_output_contains_input_validation('ans1');
         $this->check_output_contains_prt_feedback('prt1');
@@ -1924,6 +2271,8 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->check_current_mark(0);
         $this->check_prt_score('firsttree', 0, 0.3);
         $this->render();
+        $expected = 'Seed: 1; ans1: 1 [score]; firsttree: # = 0 | ATEqualComAss (AlgEquiv-false). | firsttree-1-F';
+        $this->check_response_summary($expected);
         $this->check_output_contains_text_input('ans1', '1');
         $this->check_output_contains_input_validation('ans1');
         $this->check_output_contains_prt_feedback('firsttree');
@@ -1937,6 +2286,8 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->check_current_mark(1);
         $this->check_prt_score('firsttree', 1, 0);
         $this->render();
+        $expected = 'Seed: 1; ans1: 2 [score]; firsttree: # = 1 | firsttree-1-T';
+        $this->check_response_summary($expected);
         $this->check_output_contains_text_input('ans1', '2');
         $this->check_output_contains_input_validation('ans1');
         $this->check_output_contains_prt_feedback('firsttree');
@@ -1950,6 +2301,8 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->check_current_mark(1);
         $this->check_prt_score('firsttree', 1, 0);
         $this->render();
+        $expected = 'Seed: 1; ans1: 2 [score]; firsttree: # = 1 | firsttree-1-T';
+        $this->check_response_summary($expected);
         $this->check_output_contains_text_input('ans1', '2');
         $this->check_output_contains_input_validation('ans1');
         $this->check_output_contains_prt_feedback('firsttree');
@@ -1972,6 +2325,8 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->check_current_mark(null);
         $this->check_prt_score('firsttree', null, null);
         $this->render();
+        $expected = 'Seed: 1; ans1: sin(x) [valid]; firsttree: !';
+        $this->check_response_summary($expected);
         $this->check_output_contains_text_input('ans1', 'sin(x)');
         $this->check_output_contains_input_validation('ans1');
         $this->check_output_does_not_contain_prt_feedback();
@@ -1985,6 +2340,8 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->check_current_mark(0);
         $this->check_prt_score('firsttree', 0, 0.3);
         $this->render();
+        $expected = 'Seed: 1; ans1: sin(x) [score]; firsttree: # = 0 | firsttree-1-F';
+        $this->check_response_summary($expected);
         $this->check_output_contains_text_input('ans1', 'sin(x)');
         $this->check_output_contains_input_validation('ans1');
         $this->check_output_contains_prt_feedback('firsttree');
@@ -1998,6 +2355,8 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->check_current_mark(0);
         $this->check_prt_score('firsttree', null, null);
         $this->render();
+        $expected = 'Seed: 1; ans1: sin(xy) [valid]; firsttree: !';
+        $this->check_response_summary($expected);
         $this->check_output_contains_text_input('ans1', 'sin(xy)');
         $this->check_output_contains_input_validation('ans1');
         $this->check_output_does_not_contain_prt_feedback();
@@ -2011,6 +2370,8 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->check_current_mark(0.7);
         $this->check_prt_score('firsttree', 1, 0);
         $this->render();
+        $expected = 'Seed: 1; ans1: sin(xy) [score]; firsttree: # = 1 | firsttree-1-T';
+        $this->check_response_summary($expected);
         $this->check_output_contains_text_input('ans1', 'sin(xy)');
         $this->check_output_contains_input_validation('ans1');
         $this->check_output_contains_prt_feedback('firsttree');
@@ -2044,6 +2405,8 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->check_current_mark(0);
         $this->check_prt_score('Result', 0, 0);
         $this->render();
+        $expected = 'Seed: 1; ans1: [3*x+1+5] [score]; Result: # = 0 | Result-0-F';
+        $this->check_response_summary($expected);
         $this->check_output_contains_text_input('ans1', '[3*x+1+5]');
         $this->check_output_contains_input_validation('ans1');
         $this->check_output_contains_prt_feedback('Result');
@@ -2057,6 +2420,8 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->check_current_mark(0);
         $this->check_prt_score('Result', null, null);
         $this->render();
+        $expected = 'Seed: 1; ans1: [3*x+1=5] [valid]; Result: !';
+        $this->check_response_summary($expected);
         $this->check_output_contains_text_input('ans1', '[3*x+1=5]');
         $this->check_output_contains_input_validation('ans1');
         $this->check_output_does_not_contain_prt_feedback();
@@ -2069,6 +2434,9 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->check_current_mark(0);
         $this->check_prt_score('Result', 0, 0.1);
         $this->render();
+        $expected = 'Seed: 1; ans1: [3*x+1=5] [score]; Result: # = 0 | ATLogic_True. | Result-0-T | ' .
+                'ATList_wronglen. | Result-1-F';
+        $this->check_response_summary($expected);
         $this->check_output_contains_text_input('ans1', '[3*x+1=5]');
         $this->check_output_contains_input_validation('ans1');
         $this->check_output_contains_prt_feedback('Result');
@@ -2102,6 +2470,8 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->check_current_mark(null);
         $this->check_prt_score('Result', null, null);
         $this->render();
+        $expected = 'Seed: 1; ans1: [2*sin(x)*y=1,x+y=1] [score]; Result: [RUNTIME_ERROR] # =  | ATLogic_True. | Result-0-T';
+        $this->check_response_summary($expected);
         $this->check_output_contains_text_input('ans1', '[2*sin(x)*y=1,x+y=1]');
         $this->check_output_contains_input_validation('ans1');
         $this->check_output_contains_prt_feedback('Result');
@@ -2116,6 +2486,54 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         );
     }
 
+    public function test_runtime_err_feedback_variables() {
+
+        $q = test_question_maker::make_question('stack', 'runtime_prt_err');
+        $this->start_attempt_at_question($q, 'adaptive', 1);
+
+        $this->render();
+
+        // Process a validate request.
+        $this->process_submission(array('ans1' => '[x=7,2*sin(x)*y=1]', '-submit' => 1));
+
+        $this->check_current_state(question_state::$todo);
+        $this->check_current_mark(null);
+        $this->check_prt_score('Result', null, null);
+        $this->render();
+        $this->check_output_contains_text_input('ans1', '[x=7,2*sin(x)*y=1]');
+        $this->check_output_contains_input_validation('ans1');
+        $this->check_output_does_not_contain_prt_feedback();
+        $this->check_output_does_not_contain_stray_placeholders();
+
+        // Process a submit of the incorrect answer.
+        $this->process_submission(array('ans1' => '[x=7,2*sin(x)*y=1]', 'ans1_val' => '[x=7,2*sin(x)*y=1]', '-submit' => 1));
+
+        // Note, errors in the feedback variables themselves do not cause an invalid request, or stop the PRT.
+        // That is the intended behaviour, unlike entries to PRT nodes themselves which must be error free.
+
+        // Verify.
+        $this->check_current_state(question_state::$todo);
+        $this->check_current_mark(0);
+        $this->check_prt_score('Result', 0, 0);
+        $this->render();
+        // But, we do expect to see that a runtime error has occured in the trace for debugging other people's questions!
+        $expected = 'Seed: 1; ans1: [x=7,2*sin(x)*y=1] [score]; Result: ' .
+                '[RUNTIME_FV_ERROR] # = 0 | ATAlgEquiv_SA_not_logic. | Result-0-F';
+        $this->check_response_summary($expected);
+        $this->check_output_contains_text_input('ans1', '[x=7,2*sin(x)*y=1]');
+        $this->check_output_contains_input_validation('ans1');
+        $this->check_output_contains_prt_feedback('Result');
+        $this->check_output_does_not_contain_stray_placeholders();
+        // Note from version 5.37.0 of Maxima the precise form of the error message changed.
+
+        $this->check_current_output(
+                // Some inconsistencey in Maxima error messages, so shortening search string.
+                new question_pattern_expectation('/Division by zero./'),
+                $this->get_does_not_contain_num_parts_correct(),
+                $this->get_no_hint_visible_expectation()
+                );
+    }
+
     public function test_runtime_error_session() {
 
         $q = test_question_maker::make_question('stack', 'runtime_ses_err');
@@ -2123,7 +2541,7 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->render();
 
         $rte = implode(' ', array_keys($q->runtimeerrors));
-        $err = 'The field ""Question variables"" generated the following error: Expected "#pm#", "%not ", "\'", "\'\'", ' .
+        $err = 'Error(s) in question-variables: Expected "#pm#", "%not ", "\'", "\'\'", ' .
                 '"(", "+", "+-", "-", "? ", "?", "?? ", "[", "do", "for", "from", "if", "in", "next", "not ", "not", ' .
                 '"nounnot ", "nounnot", "step", "thru", "unless", "while", "{", "|", boolean, comment, end of input, float, ' .
                 'identifier, integer, string or whitespace but ")" found. (At about line 1 character 11.)';
@@ -2176,6 +2594,8 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->check_prt_score('firsttree', null, null);
 
         $this->render();
+        $expected = 'Seed: 1; ans1: 3 [valid]; firsttree: !';
+        $this->check_response_summary($expected);
         $this->check_output_contains_text_input('ans1', '3');
         $this->check_output_contains_input_validation('ans1');
         $this->check_output_does_not_contain_prt_feedback();
@@ -2189,6 +2609,9 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->check_answer_note('firsttree', 'ATEqualComAss (AlgEquiv-false). | firsttree-1-F | firsttree-2-T');
         $this->check_prt_score('firsttree', 0.5, 0.3);
         $this->render();
+        $expected = 'Seed: 1; ans1: 3 [score]; firsttree: # = 0.5 | ATEqualComAss (AlgEquiv-false). | firsttree-1-F | ' .
+                'firsttree-2-T';
+        $this->check_response_summary($expected);
         $this->check_output_contains_text_input('ans1', '3');
         $this->check_output_contains_input_validation('ans1');
         $this->check_output_contains_prt_feedback('firsttree');
@@ -2207,6 +2630,8 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->check_answer_note('firsttree', 'firsttree-1-T');
         $this->check_prt_score('firsttree', 1, 0);
         $this->render();
+        $expected = 'Seed: 1; ans1: 2 [score]; firsttree: # = 1 | firsttree-1-T';
+        $this->check_response_summary($expected);
         $this->check_output_contains_text_input('ans1', '2');
         $this->check_output_contains_input_validation('ans1');
         $this->check_output_contains_prt_feedback('firsttree');
@@ -2238,6 +2663,8 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->check_prt_score('firsttree', null, null);
 
         $this->render();
+        $expected = 'Seed: 1; ans1: 3 [valid]; firsttree: !';
+        $this->check_response_summary($expected);
         $this->check_output_contains_text_input('ans1', '3');
         $this->check_output_contains_input_validation('ans1');
         $this->check_output_does_not_contain_prt_feedback();
@@ -2251,6 +2678,8 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->check_current_mark(0);
         $this->check_prt_score('firsttree', 0, 0.1);
         $this->render();
+        $expected = 'Seed: 1; ans1: 3 [score]; firsttree: # = 0 | ATEqualComAss (AlgEquiv-false). | firsttree-1-F';
+        $this->check_response_summary($expected);
         $this->check_output_contains_text_input('ans1', '3');
         $this->check_output_contains_input_validation('ans1');
         $this->check_output_contains_prt_feedback('firsttree');
@@ -2267,6 +2696,8 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->check_current_mark(0.9);
         $this->check_prt_score('firsttree', 1, 0);
         $this->render();
+        $expected = 'Seed: 1; ans1: 2 [score]; firsttree: # = 1 | firsttree-1-T';
+        $this->check_response_summary($expected);
         $this->check_output_contains_text_input('ans1', '2');
         $this->check_output_contains_input_validation('ans1');
         $this->check_output_contains_prt_feedback('firsttree');
@@ -2307,6 +2738,8 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->check_prt_score('firsttree', null, null);
 
         $this->render();
+        $expected = 'Seed: 1; ans1: 3 [valid]; firsttree: !';
+        $this->check_response_summary($expected);
         $this->check_output_contains_text_input('ans1', '3');
         $this->check_output_contains_input_validation('ans1');
         $this->check_output_does_not_contain_prt_feedback();
@@ -2321,6 +2754,9 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         // This is the point of the test: we expect a zero penalty here in the 3rd argument.
         $this->check_prt_score('firsttree', 0.5, 0);
         $this->render();
+        $expected = 'Seed: 1; ans1: 3 [score]; firsttree: # = 0.5 | ATEqualComAss (AlgEquiv-false). ' .
+                '| firsttree-1-F | firsttree-2-T';
+        $this->check_response_summary($expected);
         $this->check_output_contains_text_input('ans1', '3');
         $this->check_output_contains_input_validation('ans1');
         $this->check_output_contains_prt_feedback('firsttree');
@@ -2339,6 +2775,8 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->check_answer_note('firsttree', 'firsttree-1-T');
         $this->check_prt_score('firsttree', 1, 0);
         $this->render();
+        $expected = 'Seed: 1; ans1: 2 [score]; firsttree: # = 1 | firsttree-1-T';
+        $this->check_response_summary($expected);
         $this->check_output_contains_text_input('ans1', '2');
         $this->check_output_contains_input_validation('ans1');
         $this->check_output_contains_prt_feedback('firsttree');
@@ -2379,6 +2817,8 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->check_prt_score('firsttree', null, null);
 
         $this->render();
+        $expected = 'Seed: 1; ans1: 4 [valid]; firsttree: !';
+        $this->check_response_summary($expected);
         $this->check_output_contains_text_input('ans1', '4');
         $this->check_output_contains_input_validation('ans1');
         $this->check_output_does_not_contain_prt_feedback();
@@ -2393,6 +2833,9 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
                 'ATEqualComAss (AlgEquiv-false). | firsttree-1-F | ATEqualComAss (AlgEquiv-false). | firsttree-2-F');
         $this->check_prt_score('firsttree', 0, 0.2);
         $this->render();
+        $expected = 'Seed: 1; ans1: 4 [score]; firsttree: # = 0 | ATEqualComAss (AlgEquiv-false). | firsttree-1-F | ' .
+                'ATEqualComAss (AlgEquiv-false). | firsttree-2-F';
+        $this->check_response_summary($expected);
         $this->check_output_contains_text_input('ans1', '4');
         $this->check_output_contains_input_validation('ans1');
         $this->check_output_contains_prt_feedback('firsttree');
@@ -2420,6 +2863,9 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         // This is the point of the test: we expect a zero penalty here in the 3rd argument.
         $this->check_prt_score('firsttree', 0.5, 0);
         $this->render();
+        $expected = 'Seed: 1; ans1: 3 [score]; firsttree: # = 0.5 | ATEqualComAss (AlgEquiv-false). | ' .
+                'firsttree-1-F | firsttree-2-T';
+        $this->check_response_summary($expected);
         $this->check_output_contains_text_input('ans1', '3');
         $this->check_output_contains_input_validation('ans1');
         $this->check_output_contains_prt_feedback('firsttree');
@@ -2438,6 +2884,8 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->check_answer_note('firsttree', 'firsttree-1-T');
         $this->check_prt_score('firsttree', 1, 0);
         $this->render();
+        $expected = 'Seed: 1; ans1: 2 [score]; firsttree: # = 1 | firsttree-1-T';
+        $this->check_response_summary($expected);
         $this->check_output_contains_text_input('ans1', '2');
         $this->check_output_contains_input_validation('ans1');
         $this->check_output_contains_prt_feedback('firsttree');
@@ -2472,6 +2920,8 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->check_current_mark(null);
         $this->check_prt_score('firsttree', null, null);
         $this->render();
+        $expected = 'Seed: 1; ans1: 9.8100*m/s^2 [valid]; firsttree: !';
+        $this->check_response_summary($expected);
         $this->check_output_contains_text_input('ans1', '9.8100*m/s^2');
         $this->check_output_contains_input_validation('ans1');
         $this->check_output_does_not_contain_prt_feedback();
@@ -2483,6 +2933,9 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->check_current_mark(0);
         $this->check_prt_score('firsttree', 0, 0.2);
         $this->render();
+        $expected = 'Seed: 1; ans1: 9.8100*m/s^2 [score]; firsttree: # = 0 | ATNumSigFigs_WrongDigits. ' .
+                'ATUnits_units_match. | firsttree-1-F';
+        $this->check_response_summary($expected);
         $this->check_output_contains_text_input('ans1', '9.8100*m/s^2');
         $this->check_output_contains_input_validation('ans1');
         $this->check_output_contains_prt_feedback('firsttree');
@@ -2494,6 +2947,8 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->check_current_mark(0);
         $this->check_prt_score('firsttree', null, null);
         $this->render();
+        $expected = 'Seed: 1; ans1: 9.81*m/s^2 [valid]; firsttree: !';
+        $this->check_response_summary($expected);
         $this->check_output_contains_text_input('ans1', '9.81*m/s^2');
         $this->check_output_contains_input_validation('ans1');
         $this->check_output_does_not_contain_prt_feedback();
@@ -2505,6 +2960,8 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->check_current_mark(0.8);
         $this->check_prt_score('firsttree', 1, 0);
         $this->render();
+        $expected = 'Seed: 1; ans1: 9.81*m/s^2 [score]; firsttree: # = 1 | ATUnits_units_match. | firsttree-1-T';
+        $this->check_response_summary($expected);
         $this->check_output_contains_text_input('ans1', '9.81*m/s^2');
         $this->check_output_contains_input_validation('ans1');
         $this->check_output_contains_prt_feedback('firsttree');
@@ -2537,6 +2994,8 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->check_current_mark(null);
         $this->check_prt_score('firsttree', null, null);
         $this->render();
+        $expected = 'Seed: 1; ans1: [x^2-3*x+2=0] [valid]; firsttree: !';
+        $this->check_response_summary($expected);
         $this->check_output_contains_textarea_input('ans1', 'x^2-3*x+2=0');
         $this->check_output_does_not_contain_prt_feedback();
         $this->check_output_does_not_contain_stray_placeholders();
@@ -2546,6 +3005,8 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->check_current_mark(null);
         $this->check_prt_score('firsttree', null, null);
         $this->render();
+        $expected = 'Seed: 1; ans1: [x^2-3*x+2=0,(x-2)*(x-1)=0] [valid]; firsttree: !';
+        $this->check_response_summary($expected);
         $this->check_output_contains_textarea_input('ans1', "x^2-3*x+2=0\n(x-2)*(x-1)=0");
         $this->check_output_does_not_contain_prt_feedback();
         $this->check_output_does_not_contain_stray_placeholders();
@@ -2555,6 +3016,8 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->check_current_mark(null);
         $this->check_prt_score('firsttree', null, null);
         $this->render();
+        $expected = 'Seed: 1; ans1: [x^2-3*x+2=0,(x-2)*(x-1)=0,x=-1 and x=-2] [valid]; firsttree: !';
+        $this->check_response_summary($expected);
         $this->check_output_contains_textarea_input('ans1', "x^2-3*x+2=0\n(x-2)*(x-1)=0\nx=-1 and x=-2");
         $this->check_output_does_not_contain_prt_feedback();
         $this->check_output_does_not_contain_stray_placeholders();
@@ -2580,6 +3043,8 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->check_current_mark(0);
         $this->check_prt_score('firsttree', null, null);
         $this->render();
+        $expected = 'Seed: 1; ans1: [x^2-3*x+2=0,(x-2)*(x-1)=0,x=1 or x=2] [valid]; firsttree: !';
+        $this->check_response_summary($expected);
         $this->check_output_contains_textarea_input('ans1', "x^2-3*x+2=0\n(x-2)*(x-1)=0\nx=1 or x=2");
         $this->check_output_does_not_contain_prt_feedback();
         $this->check_output_does_not_contain_stray_placeholders();
@@ -2597,6 +3062,9 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->check_prt_score('firsttree', 1, 0);
         $this->check_answer_note('firsttree', '[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR] | firsttree-1-T');
         $this->render();
+        $expected = 'Seed: 1; ans1: [x^2-3*x+2=0,(x-2)*(x-1)=0,x=1 or x=2] [score]; firsttree: # = 1 | ' .
+                '[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR] | firsttree-1-T';
+        $this->check_response_summary($expected);
         $this->check_output_contains_textarea_input('ans1', "x^2-3*x+2=0\n(x-2)*(x-1)=0\nx=1 or x=2");
         $this->check_output_does_not_contain_stray_placeholders();
         $expectedvalidation = '\\[ \\begin{array}{lll} &x^2-3\\cdot x+2=0& \\cr '.
@@ -2638,6 +3106,8 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->check_current_mark(null);
         $this->check_prt_score('firsttree', null, null);
         $this->render();
+        $expected = 'Seed: 1; ans1: [x^2-3*x+1=0] [invalid]; firsttree: !';
+        $this->check_response_summary($expected);
         $this->check_output_contains_textarea_input('ans1', 'x^2-3*x+1=0');
         $this->check_output_does_not_contain_prt_feedback();
         $this->check_output_does_not_contain_stray_placeholders();
@@ -2648,6 +3118,8 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->check_current_mark(null);
         $this->check_prt_score('firsttree', null, null);
         $this->render();
+        $expected = 'Seed: 1; ans1: [x^2-3*x+2=0] [valid]; firsttree: !';
+        $this->check_response_summary($expected);
         $this->check_output_contains_textarea_input('ans1', 'x^2-3*x+2=0');
         $this->check_output_does_not_contain_prt_feedback();
         $this->check_output_does_not_contain_stray_placeholders();
@@ -2658,6 +3130,8 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->check_current_mark(null);
         $this->check_prt_score('firsttree', null, null);
         $this->render();
+        $expected = 'Seed: 1; ans1: [2+x^2-3*x=0] [valid]; firsttree: !';
+        $this->check_response_summary($expected);
         $this->check_output_contains_textarea_input('ans1', '2+x^2-3*x=0');
         $this->check_output_does_not_contain_prt_feedback();
         $this->check_output_does_not_contain_stray_placeholders();
@@ -2668,6 +3142,8 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->check_current_mark(null);
         $this->check_prt_score('firsttree', null, null);
         $this->render();
+        $expected = 'Seed: 1; ans1: [(x-1)*(x-2)=0] [invalid]; firsttree: !';
+        $this->check_response_summary($expected);
         $this->check_output_contains_textarea_input('ans1', '(x-1)*(x-2)=0');
         $this->check_output_does_not_contain_prt_feedback();
         $this->check_output_does_not_contain_stray_placeholders();
@@ -2705,6 +3181,8 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->check_current_mark(null);
         $this->check_prt_score('firsttree', null, null);
         $this->render();
+        $expected = 'Seed: 1; ans1: [x^2-3*x+2=0,(x-2)*(x-1)=0] [valid]; firsttree: !';
+        $this->check_response_summary($expected);
         $this->check_output_contains_textarea_input('ans1', "x^2-3*x+2=0\n(x-2)*(x-1)=0");
         $this->check_output_does_not_contain_prt_feedback();
         $this->check_output_does_not_contain_stray_placeholders();
@@ -2716,7 +3194,6 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
 
     public function test_checkbox_empty() {
 
-        // Create the stack question 'equiv_quad'.
         $q = test_question_maker::make_question('stack', 'checkbox_all_empty');
 
         $this->start_attempt_at_question($q, 'adaptive', 1);
@@ -2730,6 +3207,7 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->check_output_does_not_contain_stray_placeholders();
         $this->check_current_output(
                 new question_pattern_expectation('/Which of/'),
+                new question_pattern_expectation('/diamond/'),
                 $this->get_does_not_contain_feedback_expectation(),
                 $this->get_does_not_contain_num_parts_correct(),
                 $this->get_no_hint_visible_expectation()
@@ -2783,6 +3261,8 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
 
         $this->displayoptions->marks = question_display_options::MARK_AND_MAX;
         $this->render();
+        $expected = 'Seed: 1; ans1: 3 [score]; firsttree: # = 0 | ATEqualComAss (AlgEquiv-false). | firsttree-1-F';
+        $this->check_response_summary($expected);
         $this->check_output_contains_text_input('ans1', '3');
         $this->check_output_contains_input_validation('ans1');
         $this->check_output_contains_prt_feedback('firsttree');
@@ -2793,6 +3273,8 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         // Change the display options.
         $this->displayoptions->marks = question_display_options::MAX_ONLY;
         $this->render();
+        $expected = 'Seed: 1; ans1: 3 [score]; firsttree: # = 0 | ATEqualComAss (AlgEquiv-false). | firsttree-1-F';
+        $this->check_response_summary($expected);
         $this->check_output_contains_text_input('ans1', '3');
         $this->check_output_contains_input_validation('ans1');
         $this->check_output_contains_prt_feedback('firsttree');
@@ -2852,6 +3334,8 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->check_current_mark(0);
         $this->check_prt_score('firsttree', null, null);
         $this->render();
+        $expected = 'Seed: 1; ans1: "Pythagoras\' Theorem" [valid]; firsttree: !';
+        $this->check_response_summary($expected);
         $this->check_output_contains_text_input('ans1', 'Pythagoras\' Theorem');
         $this->check_output_contains_input_validation('ans1');
         $this->check_output_does_not_contain_prt_feedback();
@@ -2871,6 +3355,8 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->check_current_mark(0.6);
         $this->check_prt_score('firsttree', null, null);
         $this->render();
+        $expected = 'Seed: 1; ans1: "pythagoras\' theorem" [valid]; firsttree: !';
+        $this->check_response_summary($expected);
         $this->check_output_contains_text_input('ans1', 'pythagoras\' theorem');
         $this->check_output_contains_input_validation('ans1');
         $this->check_output_does_not_contain_prt_feedback();
@@ -2913,6 +3399,8 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->check_current_mark(null);
         $this->check_prt_score('firsttree', null, null);
         $this->render();
+        $expected = 'Seed: 1; ans1: "acde" [valid]; firsttree: !';
+        $this->check_response_summary($expected);
         $this->check_output_contains_text_input('ans1', 'acde');
         $this->check_output_contains_input_validation('ans1');
         // Since the answer is a number there are no variables.
@@ -2935,6 +3423,8 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->check_current_mark(0);
         $this->check_prt_score('firsttree', null, null);
         $this->render();
+        $expected = 'Seed: 1; ans1: "ccccb" [valid]; firsttree: !';
+        $this->check_response_summary($expected);
         $this->check_output_contains_text_input('ans1', 'ccccb');
         $this->check_output_contains_input_validation('ans1');
         $this->check_output_does_not_contain_prt_feedback();
@@ -2979,6 +3469,8 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->check_prt_score('prt2', null, null);
         $this->check_prt_score('prt3', null, null);
         $this->render();
+        $expected = 'Seed: 1; ans1: x^2 [valid]; ans2: x^4 [valid]; prt1: !; prt2: !; prt3: !';
+        $this->check_response_summary($expected);
         $this->check_output_contains_text_input('ans1', 'x^2');
         $this->check_output_contains_text_input('ans2', 'x^4');
         $this->check_output_contains_input_validation_compact('ans1');
@@ -3006,6 +3498,9 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->check_prt_score('prt3', 0.5, 0.2);
         $this->check_answer_note('prt3', 'ATLogic_True. | prt3-1-T');
         $this->render();
+        $expected = 'Seed: 1; ans1: x^2 [score]; ans2: x^4 [score]; prt1: # = 0 | prt1-1-F; prt2: # = 0 | ' .
+                'prt2-1-F; prt3: # = 0.5 | ATLogic_True. | prt3-1-T';
+        $this->check_response_summary($expected);
         $this->check_current_output(
                 new question_pattern_expectation('/Give two examples of odd functions./'),
                 // The first PRT is "Compact", so the feedback is there.
@@ -3029,6 +3524,9 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->check_prt_score('prt3', 0.4, 0.2);
         $this->check_answer_note('prt3', 'prt3-1-F');
         $this->render();
+        $expected = 'Seed: 1; ans1: x^3 [score]; ans2: sin(x) [score]; prt1: # = 1 | prt1-1-T; prt2: # = 1 | ' .
+                'prt2-1-T; prt3: # = 0.4 | prt3-1-F';
+        $this->check_response_summary($expected);
         $this->check_output_contains_text_input('ans1', 'x^3');
         $this->check_output_contains_text_input('ans2', 'sin(x)');
         $this->check_output_contains_input_validation_compact('ans1');
@@ -3039,5 +3537,191 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
                 new question_pattern_expectation('/Non-polynomials included./'),
                 $this->get_no_hint_visible_expectation()
                 );
+    }
+
+    public function test_test_contextvars() {
+
+        $q = test_question_maker::make_question('stack', 'contextvars');
+        $this->start_attempt_at_question($q, 'adaptive', 1);
+
+        // Check the initial state.
+        $this->check_current_state(question_state::$todo);
+        $this->assertEquals('adaptivemultipart',
+                $this->quba->get_question_attempt($this->slot)->get_behaviour_name());
+        $this->render();
+        $this->check_output_contains_text_input('ans1');
+        $this->check_output_does_not_contain_input_validation();
+        $this->check_output_does_not_contain_prt_feedback();
+        $this->check_output_does_not_contain_stray_placeholders();
+        $this->check_current_output(
+                new question_pattern_expectation('/diamond/'),
+                $this->get_does_not_contain_feedback_expectation(),
+                $this->get_does_not_contain_num_parts_correct(),
+                $this->get_no_hint_visible_expectation()
+                );
+
+        // Process a validate request.
+        $this->process_submission(array('ans1' => 'log(blob)', '-submit' => 1));
+
+        $this->check_current_state(question_state::$todo);
+        $this->check_current_mark(null);
+        $this->check_prt_score('firsttree', null, null);
+        $this->render();
+        $this->check_output_contains_text_input('ans1', 'log(blob)');
+        $this->check_output_contains_input_validation('ans1');
+        $this->check_output_does_not_contain_prt_feedback();
+        $this->check_output_does_not_contain_stray_placeholders();
+
+        // Process a submition of an incorrect answer.
+        $this->process_submission(array('ans1' => 'log(blob)', 'ans1_val' => 'log(blob)', '-submit' => 1));
+        $this->check_current_state(question_state::$todo);
+        $this->check_current_mark(0);
+        $this->check_prt_score('firsttree', 0, 0.35);
+        $this->check_answer_note('firsttree', 'firsttree-1-F | firsttree-2-F');
+
+        // Process the correct answer.  Needs the assumption x>2 for ATAlgEquiv to correctly work.
+        $this->process_submission(array('ans1' => '6*((x-2)^2)^k', '-submit' => 1));
+
+        $this->check_current_state(question_state::$todo);
+        $this->check_current_mark(0);
+        $this->check_prt_score('firsttree', null, null);
+        $this->render();
+        $expected = 'Seed: 1; ans1: 6*((x-2)^2)^k [valid]; firsttree: !';
+        $this->check_response_summary($expected);
+        $this->check_output_contains_text_input('ans1', '6*((x-2)^2)^k');
+        $this->check_output_contains_input_validation('ans1');
+        $this->check_output_does_not_contain_prt_feedback();
+        $this->check_output_does_not_contain_stray_placeholders();
+
+        $this->process_submission(array('ans1' => '6*((x-2)^2)^k', 'ans1_val' => '6*((x-2)^2)^k',
+            '-submit' => 1));
+        $this->check_current_state(question_state::$complete);
+        $this->check_current_mark(0.65);
+        $this->check_prt_score('firsttree', 1, 0);
+        $this->check_answer_note('firsttree', 'firsttree-1-T');
+    }
+
+    public function test_test_contextvars_feedbackvars() {
+
+        // Create a situation which requires contextvars defined only in the feedbackvars.
+        $q = test_question_maker::make_question('stack', 'contextvars');
+        $this->start_attempt_at_question($q, 'adaptive', 1);
+
+        // Check the initial state.
+        $this->check_current_state(question_state::$todo);
+        $this->assertEquals('adaptivemultipart',
+                $this->quba->get_question_attempt($this->slot)->get_behaviour_name());
+        $this->render();
+        $this->check_output_contains_text_input('ans1');
+        $this->check_output_does_not_contain_input_validation();
+        $this->check_output_does_not_contain_prt_feedback();
+        $this->check_output_does_not_contain_stray_placeholders();
+        $this->check_current_output(
+                new question_pattern_expectation('/diamond/'),
+                $this->get_does_not_contain_feedback_expectation(),
+                $this->get_does_not_contain_num_parts_correct(),
+                $this->get_no_hint_visible_expectation()
+                );
+
+        // Process a validate request.
+        $this->process_submission(array('ans1' => '(a^x)^y', '-submit' => 1));
+
+        $this->check_current_state(question_state::$todo);
+        $this->check_current_mark(null);
+        $this->check_prt_score('firsttree', null, null);
+        $this->render();
+        $this->check_output_contains_text_input('ans1', '(a^x)^y');
+        $this->check_output_contains_input_validation('ans1');
+        $this->check_output_does_not_contain_prt_feedback();
+        $this->check_output_does_not_contain_stray_placeholders();
+
+        // Process a submition of an answer which is only partially correct
+        // because of an assume in the feedback variables.
+        $this->process_submission(array('ans1' => '(a^x)^y', 'ans1_val' => '(a^x)^y', '-submit' => 1));
+        $this->check_current_state(question_state::$todo);
+        $this->check_current_mark(0.6);
+        $this->check_prt_score('firsttree', 0.6, 0.35);
+        $this->check_answer_note('firsttree', 'firsttree-1-F | firsttree-2-T');
+
+    }
+
+    public function test_multilang() {
+
+        $q = test_question_maker::make_question('stack', 'multilang');
+
+        $this->start_attempt_at_question($q, 'adaptive', 1);
+        // Check the initial state.
+        $this->check_current_state(question_state::$todo);
+        $this->assertEquals('adaptivemultipart',
+            $this->quba->get_question_attempt($this->slot)->get_behaviour_name());
+        $this->render();
+        $this->check_output_does_not_contain_input_validation();
+        $this->check_output_does_not_contain_prt_feedback();
+        $this->check_output_does_not_contain_stray_placeholders();
+        $this->check_current_output(
+            new question_pattern_expectation('/Compute the sum/'),
+            $this->get_does_not_contain_feedback_expectation(),
+            $this->get_does_not_contain_num_parts_correct(),
+            $this->get_no_hint_visible_expectation()
+            );
+
+        $expected = array('questiontext' => 'The language tags found in your question are: en, fi.',
+            0 => '<i class="icon fa fa-exclamation-circle text-danger fa-fw " title="There are potential '
+                . 'language problems in your question." aria-label="There are potential language problems '
+                . 'in your question."></i>There are potential language problems in your question.',
+            1 => 'The language tag fi is missing from the following: firsttree-1-F.');
+        $warnings = $q->validate_warnings();
+        $this->assertEquals($expected, $warnings);
+    }
+
+    public function test_block_locals() {
+
+        $q = test_question_maker::make_question('stack', 'block_locals');
+
+        $this->start_attempt_at_question($q, 'adaptive', 1);
+        // Check the initial state.
+        $this->check_current_state(question_state::$todo);
+        $this->assertEquals('adaptivemultipart',
+                $this->quba->get_question_attempt($this->slot)->get_behaviour_name());
+        $this->render();
+        $this->check_output_does_not_contain_input_validation();
+        $this->check_output_does_not_contain_prt_feedback();
+        $this->check_output_does_not_contain_stray_placeholders();
+        $this->check_current_output(
+                new question_pattern_expectation('/with input/'),
+                $this->get_does_not_contain_feedback_expectation(),
+                $this->get_does_not_contain_num_parts_correct(),
+                $this->get_no_hint_visible_expectation()
+                );
+
+        $this->process_submission(array('ans1' => 'p^2+p+1', '-submit' => 1));
+
+        $this->check_current_state(question_state::$todo);
+        $this->check_current_mark(null);
+        $this->check_prt_score('firsttree', null, null);
+        $this->render();
+        $this->check_output_contains_text_input('ans1', 'p^2+p+1');
+        $this->check_output_contains_input_validation('ans1');
+
+        $this->check_output_does_not_contain_prt_feedback();
+        $this->check_output_does_not_contain_stray_placeholders();
+        $expected = 'Seed: 1; ans1: p^2+p+1 [valid]; PotResTree_1: !';
+        $this->check_response_summary($expected);
+
+        // Process a submit of the correct answer.
+        $this->process_submission(array('ans1' => 'p^2+p+1', 'ans1_val' => 'p^2+p+1', '-submit' => 1));
+
+        // Verify.
+        $this->check_current_state(question_state::$complete);
+        $this->check_current_mark(1);
+        $this->check_prt_score('PotResTree_1', 1, 0);
+        $this->render();
+        $this->check_output_contains_text_input('ans1', 'p^2+p+1');
+        $this->check_output_contains_input_validation('ans1');
+        $this->check_output_contains_prt_feedback('PotResTree_1');
+        $this->check_output_does_not_contain_stray_placeholders();
+        $expected = 'Seed: 1; ans1: p^2+p+1 [score]; PotResTree_1: # = 1 | PotResTree_1-0-1';
+        $this->check_response_summary($expected);
+
     }
 }

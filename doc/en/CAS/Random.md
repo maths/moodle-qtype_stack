@@ -6,10 +6,9 @@ STACK creates pseudo-random numbers from a definite seed.
 This ensures that when a particular student returns they see the same variant of the question.
 (Note to site maintainers: if you upgrade your Maxima version mid-way through an academic cycle, then there is no gurantee that the random numbers will remain the same.  It is unlikley Maxima will change its random number generation between versions, but if it important to you please check first!)
 
-For the purposes of learning and teaching, we do not need an algorithm which is statistically perfect.
-We are much more interested in simplicity, efficiency and reproducibility across platforms.
-Hence, we adopt a linear recurrence method of generating pseudo-random numbers.
+For the purposes of learning and teaching, we do not need an algorithm which is statistically perfect. We are much more interested in simplicity, efficiency and reproducibility across platforms. Hence, we adopt pseudo-random numbers.
 
+It is very important to test each random version a student is likely to see and not to leave this to chance.  To pre-generate and test random variants see the separate documentation on [deploying random variants](../Authoring/Deploying.md).
 
 ## rand() {#rand}
 
@@ -19,6 +18,7 @@ STACK provides its own function `rand()`.
 * `rand(n.0)` generates a floating point number between \(0\) and \(n\).  It is probably more useful to use something like a=float(rand(1000)/1000)
   to obtain an accurate number of decimal places.  An alternative is to use the [Maxima](Maxima.md) function `round()`
 * `rand([a,b,...,z])` makes a random selection from a list.
+* `rand({a,b,...,z})` makes a random selection from a set.
 * `rand(matrix(..))` applies rand to each element of the matrix.
 
 It is probably much better **not** to use conditional statements when creating random objects.
@@ -72,7 +72,11 @@ This can be used with matrices, to generate a matrix with non-zero entries for e
 
 ### rand_selection(ex, n) ###
 
-Returns a list containing a random selection of `n` different items from the list `ex`.  If `ex` contains duplicates, then the result may also contain duplicates.
+Returns a list containing a random selection of `n` different items from the list/set `ex`.  If `ex` contains duplicates, then the result may also contain duplicates.
+
+### rand_selection_with_replacement(ex, n) ###
+
+Returns a list containing a random selection of `n` items from the list/set `ex`.
 
 ## Generating random polynomials
 

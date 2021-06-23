@@ -174,6 +174,13 @@ class stack_checkbox_input extends stack_dropdown_input {
     }
 
     /**
+     * @return string the teacher's answer, suitable for testcase construction.
+     */
+    public function get_teacher_answer_testcase() {
+        return 'mcq_correct(' . $this->teacheranswer . ')';
+    }
+
+    /**
      * Decide if the contents of this attempt is blank.
      *
      * @param array $contents a non-empty array of the student's input as a split array of raw strings.

@@ -49,6 +49,11 @@ class stack_dropdown_input extends stack_input {
     protected $nonotanswered = true;
 
     /*
+     * Controls the "not answered" message presented to the students.
+     */
+    protected $notanswered = '';
+
+    /*
      * This holds the value of those
      * entries which the teacher has indicated are correct.
      */
@@ -115,8 +120,9 @@ class stack_dropdown_input extends stack_input {
      */
     public function adapt_to_model_answer($teacheranswer) {
 
+        $this->notanswered = stack_string('notanswered');
         // We need to reset the errors here, now we have a new teacher's answer.
-        $this->errors = null;
+        $this->errors = array();
 
         /*
          * Sort out the ddlvalues.
@@ -169,7 +175,7 @@ class stack_dropdown_input extends stack_input {
                     $ddlvalue['value'] = $value[0];
                     $ddlvalue['display'] = $value[0];
                     if (array_key_exists(2, $value)) {
-                        $ddlvalue['display'] = $value[2];
+                        $ddlvalue['display'] = stack_maxima_latex_tidy($value[2]);
                     }
                     if (trim($value[1]) == 'true') {
                         $ddlvalue['correct'] = true;
@@ -181,7 +187,19 @@ class stack_dropdown_input extends stack_input {
                         $correctanswer[] = $ddlvalue['value'];
                         $correctanswerdisplay[] = $ddlvalue['display'];
                     }
-                    $ddlvalues[] = $ddlvalue;
+                    if ($ddlvalue['value'] == 'notanswered') {
+                        $notanswered = stack_string('notanswered');
+                        // At this point `display` exists and by default equals the value.
+                        if ($ddlvalue['display'] != 'notanswered') {
+                            $notanswered = $ddlvalue['display'];
+                        }
+                        if (substr($notanswered, 0, 1) == '"' && substr($notanswered, 0, 1) == '"') {
+                            $notanswered = substr($notanswered, 1, strlen($notanswered) - 2);
+                        }
+                        $this->notanswered = $notanswered;
+                    } else {
+                        $ddlvalues[] = $ddlvalue;
+                    }
                 } else {
                     $this->errors[] = stack_string('ddl_badanswer', $teacheranswer);
                 }
@@ -239,11 +257,12 @@ class stack_dropdown_input extends stack_input {
         }
 
         // If we are displaying LaTeX we need to connect to the CAS to generate LaTeX from the displayed values.
-        $csvs = array();
+        $csvs = $this->contextsession;
         foreach ($ddlvalues as $key => $value) {
             // We use the display term here because it might differ explicitly from the above "value".
             // So, we send the display form to LaTeX, and then replace it with the LaTeX below.
             $csv = stack_ast_container::make_from_teacher_source('val'.$key.':'.$value['display']);
+            $csv->set_nounify(1);
             $csvs[] = $csv;
         }
 
@@ -308,7 +327,7 @@ class stack_dropdown_input extends stack_input {
         // potential confusion between keys 0 and ''.
         if ($this->nonotanswered) {
             $values = array_merge(array('' => array('value' => '',
-                'display' => stack_string('notanswered'), 'correct' => false), 0 => null), $values);
+                'display' => $this->notanswered, 'correct' => false), 0 => null), $values);
         } else {
             $values = array_merge(array(0 => null), $values);
         }
@@ -458,6 +477,13 @@ class stack_dropdown_input extends stack_input {
     public function get_correct_response($in) {
         $this->adapt_to_model_answer($in);
         return $this->maxima_to_response_array($this->teacheranswervalue);
+    }
+
+    /**
+     * @return string the teacher's answer, suitable for testcase construction.
+     */
+    public function get_teacher_answer_testcase() {
+        return 'first(mcq_correct(' . $this->teacheranswer . '))';
     }
 
     /**

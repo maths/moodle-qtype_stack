@@ -146,7 +146,7 @@ class stack_cas_session2_test extends qtype_stack_testcase {
         $this->assertEquals('"foo"', $foo->get_value());
         $this->assertEquals('"f-o-o"', $bar->get_value());
         $this->assertTrue(count($divzero->get_errors(true)) > 0);
-        $this->assertContains('Division by zero.', $divzero->get_errors(true));
+        $this->assertEquals(array('Division by zero.'), $divzero->get_errors(true));
     }
 
     public function test_feedback() {
@@ -162,7 +162,7 @@ class stack_cas_session2_test extends qtype_stack_testcase {
         $session->instantiate();
         $this->assertTrue($session->is_instantiated());
 
-        $this->assertContains('lowest terms', $validation->get_feedback());
+        $this->assertStringContainsString('lowest terms', $validation->get_feedback());
     }
 
     public function test_answertest_usage() {
@@ -391,6 +391,45 @@ class stack_cas_session2_test extends qtype_stack_testcase {
         $this->assertEquals('x\times y\times z', $s1[3]->get_display());
     }
 
+    public function test_function_power_display() {
+
+        $cs = array('A:f(0)', 'B:f(0)^5', 'C:f(x)', 'D:f(x)^3', 'E:f(x+1)', 'F:f(x+1)^30');
+        $s1 = array();
+        foreach ($cs as $s) {
+            $s1[] = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security(), array());
+        }
+
+        $options = new stack_options();
+        $at1 = new stack_cas_session2($s1, $options, 0);
+        $at1->instantiate();
+
+        $this->assertEquals('f\left(0\right)', $s1[0]->get_display());
+        $this->assertEquals('f^5\left(0\right)', $s1[1]->get_display());
+        $this->assertEquals('f\left(x\right)', $s1[2]->get_display());
+        $this->assertEquals('f^3\left(x\right)', $s1[3]->get_display());
+        $this->assertEquals('f\left(x+1\right)', $s1[4]->get_display());
+        $this->assertEquals('f^{30}\left(x+1\right)', $s1[5]->get_display());
+
+        $cs = array('A:sin(1)', 'B:sin(1)^5', 'C:sin(x)', 'D:sin(x)^3', 'E:sin(x+1)', 'F:sin(x+1)^30', 'G:sin^50');
+        $s1 = array();
+        foreach ($cs as $s) {
+            $s1[] = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security(), array());
+        }
+
+        $options = new stack_options();
+        $at1 = new stack_cas_session2($s1, $options, 0);
+        $at1->instantiate();
+
+        $this->assertEquals('\sin \left( 1 \right)', $s1[0]->get_display());
+        $this->assertEquals('\sin ^5\left(1\right)', $s1[1]->get_display());
+        // The test below is the odd one out, and required attention June 2021.
+        $this->assertEquals('\sin \left( x \right)', $s1[2]->get_display());
+        $this->assertEquals('\sin ^3\left(x\right)', $s1[3]->get_display());
+        $this->assertEquals('\sin \left( x+1 \right)', $s1[4]->get_display());
+        $this->assertEquals('\sin ^{30}\left(x+1\right)', $s1[5]->get_display());
+        $this->assertEquals('\sin ^{50}', $s1[6]->get_display());
+    }
+
     public function test_acos_option_cosmone() {
 
         $cs = array('a:acos(x)', 'b:asin(x)', 'c:asinh(x)', 'd:asin(x)^3', 'e:asin(x^2+1)^30');
@@ -406,11 +445,11 @@ class stack_cas_session2_test extends qtype_stack_testcase {
         $this->assertEquals('\cos^{-1}\left( x \right)', $s1[0]->get_display());
         $this->assertEquals('\sin^{-1}\left( x \right)', $s1[1]->get_display());
         $this->assertEquals('{\rm sinh}^{-1}\left( x \right)', $s1[2]->get_display());
-        $this->assertEquals('\sin^{-1}^3x', $s1[3]->get_display());
+        $this->assertEquals('\sin^{-1}^3\left(x\right)', $s1[3]->get_display());
         // Note, the LaTeX below will break MathJax.
         // But if you are willing to have inverses and powers with the same notation then you deserve to break things!
         $this->assertEquals('\sin^{-1}^{30}\left(x^2+1\right)', $s1[4]->get_display());
-        // Babbage moaned about this and people still use this notation!
+        // Babbage comlained around 1820 about people using this notation and people still use this notation!
     }
 
     public function test_acos_option_acos() {
@@ -428,7 +467,7 @@ class stack_cas_session2_test extends qtype_stack_testcase {
         $this->assertEquals('{\rm acos}\left( x \right)', $s1[0]->get_display());
         $this->assertEquals('{\rm asin}\left( x \right)', $s1[1]->get_display());
         $this->assertEquals('{\rm asinh}\left( x \right)', $s1[2]->get_display());
-        $this->assertEquals('{\rm asin}^3x', $s1[3]->get_display());
+        $this->assertEquals('{\rm asin}^3\left(x\right)', $s1[3]->get_display());
         $this->assertEquals('{\rm asin}^{30}\left(x^2+1\right)', $s1[4]->get_display());
     }
 
@@ -447,7 +486,7 @@ class stack_cas_session2_test extends qtype_stack_testcase {
         $this->assertEquals('\arccos \left( x \right)', $s1[0]->get_display());
         $this->assertEquals('\arcsin \left( x \right)', $s1[1]->get_display());
         $this->assertEquals('{\rm arcsinh}\left( x \right)', $s1[2]->get_display());
-        $this->assertEquals('\arcsin ^3x', $s1[3]->get_display());
+        $this->assertEquals('\arcsin ^3\left(x\right)', $s1[3]->get_display());
         $this->assertEquals('\arcsin ^{30}\left(x^2+1\right)', $s1[4]->get_display());
     }
 
@@ -584,10 +623,10 @@ class stack_cas_session2_test extends qtype_stack_testcase {
         $this->assertEquals($s1[2]->get_display(), 'f(x):=x^3');
 
         $this->assertEquals($s1[3]->get_value(), 'gamma_7^3');
-        $this->assertEquals($s1[3]->get_display(), '{\gamma}_{7}^3');
+        $this->assertEquals($s1[3]->get_display(), '{{\gamma}_{7}}^3');
 
         $this->assertEquals($s1[4]->get_value(), 'pi_4^5');
-        $this->assertEquals($s1[4]->get_display(), '{\pi}_{4}^5');
+        $this->assertEquals($s1[4]->get_display(), '{{\pi}_{4}}^5');
     }
 
     public function test_matrix_eigenvalues() {
@@ -826,7 +865,7 @@ class stack_cas_session2_test extends qtype_stack_testcase {
         $at1 = new stack_cas_session2($s1, null, 0);
         $at1->instantiate();
         $this->assertEquals('a', $s1[0]->get_value());
-        $this->assertEquals('rand_selection error: first argument must be a list.', $s1[0]->get_errors());
+        $this->assertEquals('rand_selection error: first argument must be a list or set.', $s1[0]->get_errors());
     }
 
     public function test_rand_selection_err_2() {
@@ -837,11 +876,21 @@ class stack_cas_session2_test extends qtype_stack_testcase {
         $at1 = new stack_cas_session2($s1, null, 0);
         $at1->instantiate();
         $this->assertEquals('a', $s1[0]->get_value());
-        $this->assertEquals('rand_selection error: insuffient elements in the list.', $s1[0]->get_errors());
+        $this->assertEquals('rand_selection error: insuffient elements in the list/set.', $s1[0]->get_errors());
     }
 
     public function test_rand_selection() {
         $cs = array('a:rand_selection([a,b,c,d], 4)', 'b:sort(a)');
+        foreach ($cs as $s) {
+            $s1[] = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security(), array());
+        }
+        $at1 = new stack_cas_session2($s1, null, 0);
+        $at1->instantiate();
+        $this->assertEquals('[a,b,c,d]', $s1[1]->get_value());
+    }
+
+    public function test_rand_selection_set() {
+        $cs = array('a:rand_selection({a,b,c,d}, 4)', 'b:sort(a)');
         foreach ($cs as $s) {
             $s1[] = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security(), array());
         }
@@ -1405,7 +1454,7 @@ class stack_cas_session2_test extends qtype_stack_testcase {
         $this->assertTrue($at1->get_valid());
         $at1->instantiate();
 
-        $this->assertEquals('', $at1->get_errors());
+        $this->assertEquals($at1->get_errors(), '');
         // All these tests should work with simp:false.
         foreach ($tests as $key => $c) {
             if ($s1[$key]->is_correctly_evaluated()) {
@@ -1485,7 +1534,7 @@ class stack_cas_session2_test extends qtype_stack_testcase {
         $this->assertEquals('b#pm#a^2', $s1[2]->get_value());
         $this->assertEquals('{b \pm a^2}', $s1[2]->get_display());
         $this->assertEquals('(b#pm#a)^2', $s1[3]->get_value());
-        $this->assertEquals('\left({b \pm a}\right)^2', $s1[3]->get_display());
+        $this->assertEquals('{\left({b \pm a}\right)}^2', $s1[3]->get_display());
         $this->assertEquals('"#pm#"(a)', $s1[4]->get_value());
         $this->assertEquals('\pm a', $s1[4]->get_display());
         $this->assertEquals('"#pm#"(a^2)', $s1[5]->get_value());
@@ -1493,7 +1542,7 @@ class stack_cas_session2_test extends qtype_stack_testcase {
         $this->assertEquals('"#pm#"(sqrt(1-x))', $s1[6]->get_value());
         $this->assertEquals('\pm \sqrt{1-x}', $s1[6]->get_display());
         $this->assertEquals('(a#pm#b)^2', $s1[7]->get_value());
-        $this->assertEquals('\left({a \pm b}\right)^2', $s1[7]->get_display());
+        $this->assertEquals('{\left({a \pm b}\right)}^2', $s1[7]->get_display());
         $this->assertEquals('x = "#pm#"(b)', $s1[8]->get_value());
         $this->assertEquals('x= \pm b', $s1[8]->get_display());
         $this->assertEquals('sin(x#pm#a)^2', $s1[9]->get_value());
@@ -1529,7 +1578,7 @@ class stack_cas_session2_test extends qtype_stack_testcase {
         $this->assertEquals('b#pm#a^2', $s1[2]->get_value());
         $this->assertEquals('{b \pm a^2}', $s1[2]->get_display());
         $this->assertEquals('(b#pm#a)^2', $s1[3]->get_value());
-        $this->assertEquals('\left({b \pm a}\right)^2', $s1[3]->get_display());
+        $this->assertEquals('{\left({b \pm a}\right)}^2', $s1[3]->get_display());
         $this->assertEquals('"#pm#"(a)', $s1[4]->get_value());
         $this->assertEquals('\pm a', $s1[4]->get_display());
         $this->assertEquals('"#pm#"(a^2)', $s1[5]->get_value());
@@ -1537,7 +1586,7 @@ class stack_cas_session2_test extends qtype_stack_testcase {
         $this->assertEquals('"#pm#"(sqrt(1-x))', $s1[6]->get_value());
         $this->assertEquals('\pm \sqrt{1-x}', $s1[6]->get_display());
         $this->assertEquals('(a#pm#b)^2', $s1[7]->get_value());
-        $this->assertEquals('\left({a \pm b}\right)^2', $s1[7]->get_display());
+        $this->assertEquals('{\left({a \pm b}\right)}^2', $s1[7]->get_display());
         $this->assertEquals('x = "#pm#"(b)', $s1[8]->get_value());
         $this->assertEquals('x= \pm b', $s1[8]->get_display());
         $this->assertEquals('sin(x#pm#a)^2', $s1[9]->get_value());
@@ -1965,7 +2014,7 @@ class stack_cas_session2_test extends qtype_stack_testcase {
                 '-3*10^2',
                 '-3.1*10^2',
                 '-3*10^-2',
-                /* Special edge case. */
+                // Special edge case.
                 '3.3*10',
         );
 
@@ -1984,7 +2033,7 @@ class stack_cas_session2_test extends qtype_stack_testcase {
             $this->assertEquals('true', $test->get_value());
         }
 
-            $truetests = array('3',
+        $truetests = array('3',
                     '-3',
                     '3.1',
                     '3E-5',
@@ -1998,7 +2047,7 @@ class stack_cas_session2_test extends qtype_stack_testcase {
                     '3.3*10^x',
                     '3.3*a^2',
                     '3.3*7^2',
-            );
+        );
 
         $s1 = array();
         foreach ($truetests as $key => $c) {
@@ -2038,11 +2087,11 @@ class stack_cas_session2_test extends qtype_stack_testcase {
         }
     }
 
-    public function test_stack_at_units_sigfigs_wrapper() {
+    public function test_stack_at_units_sigfigs() {
 
         $t1 = array();
         $t1[] = array('simp:false', 'false');
-        $t1[] = array('node_result:ATUnitsSigFigs_CASSigFigsWrapper(1*kg,1000*g,[1,3],"1 kg",false)',
+        $t1[] = array('node_result:ATUnitsSigFigs(1*kg,1000*g,[1,3],"1 kg")',
             '[true,true,"ATUnits_compatible_units kg. ",""]');
 
         foreach ($t1 as $i => $case) {
@@ -2056,5 +2105,106 @@ class stack_cas_session2_test extends qtype_stack_testcase {
         foreach ($t1 as $i => $t) {
             $this->assertEquals($t[1], $s1[$i]->get_value());
         }
+    }
+
+    public function test_stack_rational_numberp() {
+
+        $s1 = array();
+        $t1 = array();
+        $t1[] = array('simp:false', 'false');
+        $t1[] = array('l0:safe_op(2/3)', '"/"');
+        $t1[] = array('l1:[1,-2,2/3,-4/3, 4/16, 9/3]', '[1,-2,2/3,(-4)/3,4/16,9/3]');
+        $t1[] = array('l2:map(rational_numberp, l1);', '[false,false,true,true,true,true]');
+
+        foreach ($t1 as $i => $case) {
+            $s1[] = stack_ast_container::make_from_teacher_source($case[0], '', new stack_cas_security(), array());
+        }
+
+        $options = new stack_options();
+        $s = new stack_cas_session2($s1, $options, 0);
+        $s->instantiate();
+
+        foreach ($t1 as $i => $t) {
+            $this->assertEquals($t[1], $s1[$i]->get_value());
+        }
+
+        $s1 = array();
+        $t1 = array();
+        $t1[] = array('simp:true', 'true');
+        $t1[] = array('l0:safe_op(2/3)', '"/"');
+        $t1[] = array('l1:[1,-2,2/3,-4/3, 4/16, 9/3]', '[1,-2,2/3,-(4/3),1/4,3]');
+        $t1[] = array('l2:map(rational_numberp, l1);', '[false,false,true,true,true,false]');
+
+        foreach ($t1 as $i => $case) {
+            $s1[] = stack_ast_container::make_from_teacher_source($case[0], '', new stack_cas_security(), array());
+        }
+
+        $options = new stack_options();
+        $s = new stack_cas_session2($s1, $options, 0);
+        $s->instantiate();
+
+        foreach ($t1 as $i => $t) {
+            $this->assertEquals($t[1], $s1[$i]->get_value());
+        }
+    }
+
+    public function test_stack_numerical_not_alg_equiv_edge() {
+
+        $s1 = array();
+        $t1 = array();
+        $t1[] = array('numerical_not_alg_equiv(p2/p1,p2/p1)', 'false');
+        $t1[] = array('numerical_not_alg_equiv(2,p1)', 'true');
+        $t1[] = array('numerical_not_alg_equiv(p2,2)', 'true');
+        $t1[] = array('numerical_not_alg_equiv(x,p1)', 'true');
+        $t1[] = array('numerical_not_alg_equiv(p2,x)', 'true');
+
+        foreach ($t1 as $i => $case) {
+            $s1[] = stack_ast_container::make_from_teacher_source($case[0], '', new stack_cas_security(), array());
+        }
+
+        $options = new stack_options();
+        $s = new stack_cas_session2($s1, $options, 0);
+        $s->instantiate();
+
+        foreach ($t1 as $i => $t) {
+            $this->assertEquals($t[1], $s1[$i]->get_value());
+        }
+    }
+
+    public function test_stack_blockexternal() {
+
+        $s1 = array();
+        $t1 = array();
+        // Block external commands, such as ordergreat, are pulled out the front.
+        $t1[] = array('f:x*y*z', 'z*y*x');
+        $t1[] = array('ordergreat(x,y,z)', 'done');
+        $t1[] = array('g:x*y*z', 'z*y*x');
+        $t1[] = array('h:exdowncase(X*Y*Z)', 'z*y*x');
+        $t1[] = array('ATAlgEquiv(exdowncase(x),x)', '[true,true,"",""]');
+
+        foreach ($t1 as $i => $case) {
+            $s1[] = stack_ast_container::make_from_teacher_source($case[0], '', new stack_cas_security(), array());
+        }
+
+        $options = new stack_options();
+        $s = new stack_cas_session2($s1, $options, 0);
+        $s->instantiate();
+
+        foreach ($t1 as $i => $t) {
+            $this->assertEquals($t[1], $s1[$i]->get_value());
+        }
+    }
+
+    public function test_silent_tellsimp() {
+
+        $qv = "matchdeclare(pmpatex1,true);\nmatchdeclare(pmpatex2,true);" .
+            "tellsimpafter((pmpatex1 #pm# pmpatex2)!,(pmpatex1^2) #pm# pmpatex2);\n" .
+            "p1:(b #pm# c)!;";
+        $qv = new stack_cas_keyval($qv, null, 123);
+
+        $at1 = $qv->get_session();
+        $at1->instantiate();
+        $cs = $at1->get_by_key('p1');
+        $this->assertEquals("b^2#pm#c", $cs->get_value());
     }
 }

@@ -96,6 +96,17 @@ class stack_cas_session2 {
         return $this->statements;
     }
 
+    public function get_contextvariables(): array {
+        $ret = array();
+        foreach ($this->statements as $statement) {
+            if (method_exists($statement, 'is_toplevel_property') &&
+                $statement->is_toplevel_property('contextvariable')) {
+                    $ret[] = $statement;
+            }
+        }
+        return $ret;
+    }
+
     public function get_options(): stack_options {
         return $this->options;
     }
@@ -289,8 +300,9 @@ class stack_cas_session2 {
             }
         }
 
-        // We will build the whole command here
+        // We will build the whole command here.
         // No protection in the block.
+        $preblock = '';
         $command = 'block([]' .
                 self::SEP . 'stack_randseed(' . $this->seed . ')';
         // The options.
@@ -312,7 +324,7 @@ class stack_cas_session2 {
         foreach ($this->statements as $num => $statement) {
             $command .= self::SEP . '%stmt:' . stack_utils::php_string_to_maxima_string('s' . $num);
             $ef = $statement->get_evaluationform();
-            $line = self::SEP . '_EC(errcatch(' . $ef . '),';
+            $line = '_EC(errcatch(' . $ef . '),';
             $key = null;
             if (($statement instanceof cas_value_extractor ||
                     $statement instanceof cas_raw_value_extractor) ||
@@ -321,13 +333,17 @@ class stack_cas_session2 {
                 // One of those that need to be collected later.
                 if (($key = $statement->get_key()) === '') {
                     $key = '__s' . $num;
-                    $line = self::SEP . '_EC(errcatch(__s' . $num . ':' . $ef . '),';
+                    $line = '_EC(errcatch(__s' . $num . ':' . $ef . '),';
                 }
             }
             $line .= stack_utils::php_string_to_maxima_string($statement->get_source_context());
             $line .= ')';
 
-            $command .= $line;
+            if (method_exists($statement, 'is_toplevel_property') && $statement->is_toplevel_property('blockexternal')) {
+                $preblock .= $line . "$\n";
+            } else {
+                $command .= self::SEP . $line;
+            }
 
             // If this is something that needs its LaTeX value collect it.
             // Now while the settings are correct. Only the last statements.
@@ -374,6 +390,9 @@ class stack_cas_session2 {
         $command .= self::SEP . 'print(stackjson_stringify(_RESPONSE))';
         $command .= self::SEP . 'print("<STACK-OUTPUT-ENDS")';
         $command .= "\n)$\n";
+
+        // Prepend those statements which should be outside the block.
+        $command = $preblock . $command;
 
         // Send it to CAS.
         $connection = stack_connection_helper::make();
@@ -506,7 +525,7 @@ class stack_cas_session2 {
         $keyvals = '';
         foreach ($this->statements as $statement) {
             if ($evaluatedvalues) {
-                if ($statement->is_correctly_evaluated()) {
+                if (is_a($statement, 'stack_ast_container') && $statement->is_correctly_evaluated()) {
                     // Only print out variables with a key, to display their values.
                     $key = trim($statement->get_key());
                     if ($key !== '') {

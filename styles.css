@@ -62,6 +62,12 @@
     max-width: 100%;
     resize: both;
 }
+.que.stack input[type=checkbox] {
+    margin-right: 0.4em;
+}
+.que.stack input[type=radio] {
+    margin-right: 0.4em;
+}
 .que.stack input[type=text] {
     max-width: 100%;
 }
@@ -1005,7 +1011,8 @@ table.HELM_table th {
     padding-right: 10px;
     border-right: 1px solid black;
 }
-table.HELM_table td:last-child,table.HELM_table th:last-child{
+table.HELM_table td:last-child,
+table.HELM_table th:last-child {
     border-right: 0;
 }
 

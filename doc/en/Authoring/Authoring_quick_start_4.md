@@ -3,7 +3,6 @@
 [1 - First question](Authoring_quick_start.md) | [2 - Question variables](Authoring_quick_start_2.md) | [3 - Feedback](Authoring_quick_start_3.md) | 4 - Randomisation | [5 - Question tests](Authoring_quick_start_5.md) | [6 - Multipart questions](Authoring_quick_start_6.md) | [7 - Simplification](Authoring_quick_start_7.md) | [8 - Quizzes](Authoring_quick_start_8.md)
 
 
-
 This part of the authoring quick start guide deals with randomisation. The following video explains the process:
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/8FTqZ1fTmgs" frameborder="0" allowfullscreen></iframe>
@@ -49,7 +48,7 @@ Two question variants are considered to be the same if and only if the question 
 
 ## Deploying random variants
 
-Before a student sees the questions, it is sensible to deploy random variants.  This controls exactly which variants are shown to a student and lets you check that the randomisation is sensible. Scroll to the top of your question and click on `Question tests & deployed variants`. 
+Before a student sees the questions, it is sensible to deploy random variants.  This controls exactly which variants are shown to a student and lets you check that the randomisation is sensible. Scroll to the top of your question and click on the link `No variants of this question have been deployed yet`. This link might say `Question tests & deployed variants` in older versions of STACK, and once you have deployed some variants.
 
 To ask STACK to generate a number of question variants, you need `Attempt to automatically deploy the following number of variants:`. Select, for example, `10` and press `Go`.  You should then be able to see 10 random variants of the question. Now students will only be shown one of these.
 

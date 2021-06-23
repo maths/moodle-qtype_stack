@@ -37,7 +37,7 @@ abstract class qtype_stack_test_config {
         // Either the platform is already non-default (e.g.
         // because auto-optimse worked during install, or
         // settings given in config.php.
-        return get_config('qtype_stack', 'platform') !== 'unix' ||
+        return get_config('qtype_stack', 'platform') !== 'linux' ||
                 defined('QTYPE_STACK_TEST_CONFIG_PLATFORM');
     }
 
@@ -66,17 +66,19 @@ abstract class qtype_stack_test_config {
             return;
         }
 
-        set_config('platform',        QTYPE_STACK_TEST_CONFIG_PLATFORM,        'qtype_stack');
-        set_config('maximaversion',   QTYPE_STACK_TEST_CONFIG_MAXIMAVERSION,   'qtype_stack');
-        set_config('castimeout',      QTYPE_STACK_TEST_CONFIG_CASTIMEOUT,      'qtype_stack');
-        set_config('casresultscache', QTYPE_STACK_TEST_CONFIG_CASRESULTSCACHE, 'qtype_stack');
-        set_config('maximacommand',   QTYPE_STACK_TEST_CONFIG_MAXIMACOMMAND,   'qtype_stack');
-        set_config('plotcommand',     QTYPE_STACK_TEST_CONFIG_PLOTCOMMAND,     'qtype_stack');
-        set_config('maximalibraries', QTYPE_STACK_TEST_CONFIG_MAXIMALIBRARIES, 'qtype_stack');
-        set_config('casdebugging',    QTYPE_STACK_TEST_CONFIG_CASDEBUGGING,    'qtype_stack');
-        set_config('mathsdisplay',    'mathjax',                               'qtype_stack');
-        set_config('replacedollars',  0,                                       'qtype_stack');
-        set_config('stackmaximaversion', QTYPE_STACK_EXPECTED_VERSION,         'qtype_stack');
+        set_config('platform',            QTYPE_STACK_TEST_CONFIG_PLATFORM,            'qtype_stack');
+        set_config('maximaversion',       QTYPE_STACK_TEST_CONFIG_MAXIMAVERSION,       'qtype_stack');
+        set_config('castimeout',          QTYPE_STACK_TEST_CONFIG_CASTIMEOUT,          'qtype_stack');
+        set_config('casresultscache',     QTYPE_STACK_TEST_CONFIG_CASRESULTSCACHE,     'qtype_stack');
+        set_config('maximacommand',       QTYPE_STACK_TEST_CONFIG_MAXIMACOMMAND,       'qtype_stack');
+        set_config('maximacommandopt',    QTYPE_STACK_TEST_CONFIG_MAXIMACOMMANDOPT,    'qtype_stack');
+        set_config('maximacommandserver', QTYPE_STACK_TEST_CONFIG_MAXIMACOMMANDSERVER, 'qtype_stack');
+        set_config('plotcommand',         QTYPE_STACK_TEST_CONFIG_PLOTCOMMAND,         'qtype_stack');
+        set_config('maximalibraries',     QTYPE_STACK_TEST_CONFIG_MAXIMALIBRARIES,     'qtype_stack');
+        set_config('casdebugging',        QTYPE_STACK_TEST_CONFIG_CASDEBUGGING,        'qtype_stack');
+        set_config('mathsdisplay',    'mathjax',                                       'qtype_stack');
+        set_config('replacedollars',  0,                                               'qtype_stack');
+        set_config('stackmaximaversion',  QTYPE_STACK_EXPECTED_VERSION,                'qtype_stack');
 
         if (QTYPE_STACK_TEST_CONFIG_CASRESULTSCACHE == 'otherdb') {
             set_config('cascachedbtype',    QTYPE_STACK_TEST_CONFIG_CASCACHEDBTYPE,    'qtype_stack');

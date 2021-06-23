@@ -2,6 +2,8 @@
 
 This page deals with testing questions and quality control. This is largely done through the question test functionality.
 
+We have separate advice on [fixing broken questions](Fixing_broken_questions.md) in a live quiz.
+
 ## Question authoring checklist ##
 
 High-quality question production needs care at each stage.
@@ -14,8 +16,8 @@ __Minimal requirements__
    * Could a "syntax hint" or message in the question help?
    * Can "validation" help, e.g. by telling students how many significant figures are expected? (See the "numbers" input type.)
 4. Use question variable stubs throughout, to enable efficient random generation.  (E.g. define the correct answer in question variables, rather than hard-wiring a specific expression).
-5. Always make sure the question marks the correct answer as correct!
-6. Add question tests for one correct and at least one incorrect variant. (See below.)
+5. Add a meaingful question note which will make sense later, not just a list of randomly generated numbers.  This could be an abreviated form of the question together with the answer.
+6. Add question tests for one correct and at least one incorrect variant. (See below.) Always make sure the question marks the correct answer as correct!
 7. Check all options in the question, inputs and PRTs.
 
 __Phase 1__
@@ -36,8 +38,7 @@ Use data obtained from one cycle of attempts by students.
 
 ## Testing for quality control  ##
 
-It is important to test questions to ensure they work correctly.  One approach would be for the teacher
-to repeatedly test them with various random numbers and inputs.  But this is inefficient and unreliable.
+It is important to test questions to ensure they work correctly.  One approach would be for the teacher to repeatedly test them with various random numbers and inputs.  But this is inefficient and unreliable.
 
 Question Tests provide an automated mechanism through which the author may establish with confidence that
 the Potential Response Trees are processing the student answer as expected. They are based on the concept of "unit testing" from software development.
@@ -64,30 +65,34 @@ In this way, the teacher can record, within the question itself, how they expect
 1. Author and save your question.
 2. From the Question bank, choose the _Preview_ option.
 3. The _Preview question_ window will open.  If you have authority to edit the question, then the top right of the question window will contain a link to _question tests and deployed variants..._.  Follow this link.
-4. This page manages both question tests and deployed variants.  Initially you will have no tests or deployed variants.  At the bottom of this page choose _Add a test case..._
+4. This page manages both question tests and deployed variants.  Initially you will have no tests or deployed variants.  Choose _Add a test case..._
 5. Specify values for each input.  This may use the question variables.  The values of these variables will be used for any random variants.
 6. Specify the expected outcomes for each potential response tree.  This includes the score, penalty and answer note.  _Note_: currently only the last Answer Note, not the whole path through the potential response tree, is examined.  This is a limitation.
 7. Once you have added the test case, STACK will automatically validate and submit these responses and display the outcomes.
-8. You may add as many test cases are you need.  It is sensible to add in
-    1. The correct response
+8. You may add as many test cases are you need.  It is sensible to add in the following.
+    1. The correct response.  There is a button which will copy the expression used as the "Teacher's answer" in the input as a basis for a test case to help create this test.
     2. One example of each distinction you wish to make, i.e. if you have added specific feedback then provide an answer you expect to trigger this.
     3. Some "invalid" responses, especially if these are syntactically-valid expressions.  E.g. If the answer is an equation such as \(y=2x+1\), then \(2x+1\) might be invalid if you have chosen the input option "check types".  Adding a test case is useful to confirm this potential problem is caught by the question.  Leave the fields empty and the answer note `NULL` to indicate this.
     4. Add a totally incorrect answer.
+9. If you leave the penalty field blank it will assume you mean the default penalty for the question.
 
-Just above the "Question tests" section of this page is a "Send to CAS" button.  Pressing this sends the question variables and general feedback to a special page which enables more efficient authoring of the feedback in the context of the values of the variables.  You still need to copy this by hand into the question edit form when you are satisfied.
+On the question testing page is a "Send to CAS" button.  Pressing this sends the question variables and general feedback to a special page which enables more efficient authoring of the feedback in the context of the values of the variables.  You still need to copy this by hand into the question edit form when you are satisfied.
 
-A Moodle administrator can run all of the questions tests within a particular course, or across the whole site
-by following the links on the STACK admin page.
+A Moodle administrator can run all of the questions tests within a particular course, or across the whole site by following the links on the STACK admin page.  It is useful do to this after upgrading the STACK code on the server to identify any test cases which have changed.
 
-## Maxima evaluation
+## Test case construction and Maxima evaluation
 
-Note, that while we use `simp:false` Maxima must "evaluate" the expression prior to the result being used by an input as a test case.
+Test cases are always written assuming `simp:false` regardless of the option set elsewhere.  If you want to construct a simplified test case then wrap this in `ev(... , simp)` to simplify the expression generating the test case.  This behaviour is required to enable construction of unsimplified test cases.
 
-If the raw testcase expression cannot be sent to the CAS, e.g. a missing bracket, then this invalidity will be tested.
+You can (and should) constuct test cases based on invalid expressions.  If the raw testcase expression cannot be sent to the CAS, e.g. a missing bracket, then this invalidity will be tested.
 
-However, some evaluations in Maxima do actually more than just replace existing variables with the values from the question variables.
+While test case construction uses `simp:false` Maxima must "evaluate" the expression prior to the result being used by an input as a test case.  This will replace variables by their values.  E.g. the typical case is to define a variable such as `ta` as the teacher's answer in the question variables field and use this throughout the question.  This answer will either be simplified, or not, when the question variables are evaluated.  To construct a test case using the teacher's answer use `ta` as the test case input.
 
-For example, in Maxima try
+It is easier to create a number of variables in the question variables field for wrong answers, e.g. `wa1`, `wa2`, and construct the test cases in the question variables in advance.
+
+For matrix inputs the test case must be a correct Maxima statement, e.g. `matrix([1,2],[2,3])`.  There is currently no option to construct test cases by filling in individual input boxes here, which restricts the ability to create test cases of individual syntactically invalid matrix entries.  Similarly, for the textarea and equivalence reasoning input types the test case should be constructed as a list, just as the teacher's answer field is constructed.
+
+Some evaluations in Maxima do actually more than just replace existing variables with the values from the question variables. For example, in Maxima try
 
     simp:false;
     f:x*sin(1/x);
@@ -95,11 +100,27 @@ For example, in Maxima try
 
 Notice here, that while `simp:false` the limit is still evaluated.  This is not "simplification".  For the full story, please refer to the Maxima docs on the `ev` command.
 
-In this case, you can prevent evaluation of limits by using an apostrophie in the test case.
+In this case, you can prevent evaluation of limits by using an apostrophie in the test case construction to prevent evaluation.
 
     simp:false;
     f:x*sin(1/x);
     'limit(f,x,0);
+
+### Test case construction and MCQ
+
+Remember that MCQ input types return a CAS expression.  However, you must ensure each testcase actually corresponds to an option provided to the student, otherwise STACK will generate a run-time error.  Hence you cannot construct a test case from the list provided as the "Teacher's answer" in these input types!
+
+It is sensible to use the helper functions.  E.g. for a radio/dropdown use
+
+    tc1:first(mcq_correct(ta));
+
+For the checkbox type you will need the whole list.
+
+    tc1:mcq_correct(ta);
+
+### Test case construction and numerical precision.
+
+You can construct test cases using the functions such as `dispdp` to create a test-case input with trailing zeros.  This is neeeded if the input, or answer test, is testing for a minimum number of decimal places or significant figures.
 
 
 ## STACK-Maxima sandbox ##

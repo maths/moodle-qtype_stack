@@ -35,6 +35,7 @@ stack_reset(not_used) := block(
   exptdispflag: true,
   linsolvewarn: false,
   ratprint: false,
+  factor_max_degree_print_warning:false,
   /* Suppress warnings printed by mtell, e.g. by solve, rat and other functions. */
   stack_mtell_quiet:false,
   fpprintprec: 12,     /* Print only 12 digits. */
@@ -74,12 +75,8 @@ stack_reset_vars(ex) := block(kill(i, j, e, pi, Pi, PI));
 /* Execute this command to ensure values have been set. */
 stack_reset(true);
 
-alias(int,integrate);        /* Allows integrate to be called with int()    */
-alias(cosec,csc);            /* Corresponds to current student expectations */
-alias(cosech,csch);          /* Corresponds to current student expectations */
-
-simplify(ex) := ev(fullratsimp(ex), simp);      /* Allows simplify to be something. */
-degree(ex,v) := ev(hipow(expand(ex), v), simp); /* See notes on hipow.              */
+/* Make sure this is at least defined. */
+debug:false;
 
 /* TODO: remove this from install process.                               */
 /* ********************************************************************* */
@@ -145,19 +142,6 @@ matchfix("|", "|");
 /* Does not quite work yet ..... */
 /* load("noninteractive.mac"); */
 
-/*load("sqdnst")*/
-sqrtdenest(a) :=
-  subst("^" = lambda([a, b],
-     block([discr, max, min],
-       if evenp(denom(b)) and not atom(a) and inpart(a, 0) = "+"
-           and (max:max(first(a), rest(a)),
-                   min:a-max,
-                   numberp(discr:sqrt(1-(min/max)^2)))
-      then (sqrt(max*(1+discr)/2)+signum(min)*sqrt(max*(1-discr)/2))^(2*b)
-      else a^b)),
-      a
-)$
-
 /* ********************************** */
 /* Load STACK packages                */
 /* ********************************** */
@@ -168,18 +152,37 @@ load("intervals.mac");
 load("stackunits.mac");
 load("stacktex.lisp");
 load("stackstrings.mac");
+
+/* This file is a modified core Maxima function with local variable name clashes fixed. */
+load("trigrat.lisp");
+load("trigtools");
+
 load("sregex");
 /* Ensure back compatability with versions before 5.41.0. */
 if is(MAXIMA_VERSION_NUM<40.1) then load("stacktex40.lisp");
+if is(MAXIMA_VERSION_NUM<44.0) then load("stack44.mac");
 load("utils.mac");
-load("casanswertest.mac");
+load("numericaltest.mac");
 load("errortostring.lisp");
+
+load("local.mac");
 
 /* Breaks on older versions of Maxima. */
 if is(MAXIMA_VERSION_NUM>30.0) then compile(scientific_notation)$
 
 texput(QMCHAR, "\\color{red}{?}");
 texput(theta, "\\theta");
+
+int([ex]) := apply(integrate, ex); /* Allows integrate to be called with int().  Avoid alias to allow nouns to work. */
+alias(cosec,csc);                  /* Corresponds to current student expectations. */
+alias(cosech,csch);                /* Corresponds to current student expectations. */
+
+alias(sgn,signum);                 /* Corresponds to current student expectations. */
+texput(signum, "\\mathrm{sgn}");
+
+simplify(ex) := ev(fullratsimp(ex), simp);      /* Allows simplify to be something. */
+degree(ex,v) := ev(hipow(expand(ex), v), simp); /* See notes on hipow.              */
+
 
 make_complexJ(OPT_COMPLEXJ) := block(
   if OPT_COMPLEXJ = "i" then
@@ -316,6 +319,7 @@ stack_randseed(s) := block(RANDOM_STATE:make_random_state(s), errcatch(ev(set_ra
 
 /* The top level function */
 rand(ex) := block(
+  if setp(ex) then ex:listify(ex),
   ex:ev(ex, simp),
   if (integerp(ex)) then return(random(ex)),
   if (floatnump(ex)) then return(random(ex)),
@@ -353,11 +357,34 @@ rand_with_prohib(lower, upper, list) := block([currents, retVal, kloop],
    return(retVal)
 )$
 
-/* Make a random selection of n different items from the list ex. */
+/* CJS, 11/6/2021                                                  */
+rand_selection_with_replacement(ex, n) := block(
+  if setp(ex) then ex:listify(ex),
+  if not(listp(ex)) then (
+      error("rand_selection_with_replacement error: first argument must be a list."),
+      return([])
+      ),
+  if not(integerp(n)) then (
+      error("rand_selection_with_replacement error: second argument must be an integer."),
+      return([])
+      ),
+  return(rand_selection_with_replacement_fun(ex, n))
+)$
+
+/* We can't use makelist here because of the simp:false requirement.
+rand_selection_with_replacement_fun(ex, n) := makelist(rand(ex), k, 1, n)$
+*/
+rand_selection_with_replacement_fun(ex, n) := block(
+   if is(n<=0) then return([]),
+   append([rand(ex)], rand_selection_with_replacement_fun(ex, ev(n-1,simp)))
+)$
+
+/* Make a random selection of n different items from the list, or set ex. */
 /* CJS, 7/6/2016                                                  */
 rand_selection(ex, n) := block(
+  if setp(ex) then ex:listify(ex),
   if not(listp(ex)) then (
-      error("rand_selection error: first argument must be a list."),
+      error("rand_selection error: first argument must be a list or set."),
       return([])
       ),
   if not(integerp(n)) then (
@@ -365,7 +392,7 @@ rand_selection(ex, n) := block(
       return([])
       ),
   if is(n>length(ex)) then (
-      error("rand_selection error: insuffient elements in the list."),
+      error("rand_selection error: insuffient elements in the list/set."),
       return([])
       ),
   return(rand_selection_fun(ex, n))
@@ -484,6 +511,26 @@ mcq_incorrect(ta):=block(
     if not(all_listp(listp, ta)) then error("mcq_incorrect: all list elements must be lists, but was passed: ", string(ta)),
     if not(all_listp(lambda([ex], is(length(ex)>=2)), ta)) then error("mcq_incorrect: all list elements must be lists of length at least 2, but was passed: ", string(ta)),
     maplist(first, sublist(ta, lambda([ex], not(second(ex)))))
+)$
+
+/* ********************************** */
+/* Statistics function                */
+/* ********************************** */
+
+/*   ------------------   Mode function   ---------------------   */
+/*  mode(n) returns a list of all the modal elements in the list n */
+mode(n):= block([i,j,count_elements,counts,highest_count,mode_set],
+    count_elements: makelist(0,i,1,length(n)),
+    for i: 1 thru length(n) do 
+        (for j: 1 thru length(n) do 
+            (if n[i]=n[j] then count_elements[i]: count_elements[i]+1)),
+    counts: listify(setify(count_elements)),
+    highest_count:counts[length(counts)],
+    mode_set:{},
+    for i:1 thru length(n) do 
+        (if count_elements[i]=highest_count then mode_set: union(mode_set,{n[i]})),
+    mode_list:listify(mode_set),
+    return(mode_list)
 )$
 
 /* ********************************** */
@@ -830,7 +877,10 @@ stack_validate_listofvars(ex) := block([lvars],
    lvars:ev(sort(listify(lvars)), simp)
 )$
 
-stack_validate(expr, LowestTerms, TAns) := block([simp:false, exs, SameType, fvs, fvs1, fvs2],
+stack_validate(expr, LowestTerms, TAns, fltfmt) := block([simp:false, exs, SameType, fvs, fvs1, fvs2],
+  /* If we have a float format, then use it. */
+  if not(is(fltfmt=false)) then
+    stackfltfmt:fltfmt,
   /* Try to simply the expression to catch CAS errors */
   exs: errcatch(ev(expr, simp)),
   if exs = [] then (
@@ -1084,226 +1134,6 @@ set output ", afn),
     return(ufn)
 )$
 
-/* ********************************** */
-/* Numerical operations               */
-/* ********************************** */
-
-ATNumAbsolute(SA, SB, SO) := ATNumerical(SA, SB, SO, "ABSOLUTE")$
-ATNumRelative(SA, SB, SO) := ATNumerical(SA, SB, SO, "RELATIVE")$
-
-
-ATNumerical(SA, SB, SO, numtype) := block([simp:true, RawMark, FeedBack, AnswerNote, ret, SAN, tol],
-    Validity:true, RawMark:false,
-    FeedBack:StackAddFeedback("", "ATNumerical_FAILED"),
-    AnswerNote:StackAddNote("", "ATNumerical_FAILED"),
-    /* Turn on simplification and error catch */
-    SA:errcatch(ev(float(SA), simp, nouns)),
-    if is(SA = [STACKERROR]) then return(StackBasicReturn(false, false, "ATNumerical_STACKERROR_SAns")),
-    SA:SA[1],
-    SAN:copy(SA), /* Need this for when we have lists etc. */
-    SB:errcatch(ev(float(remove_displaydp(SB)), simp, nouns, rat)),
-    if is(SB = [STACKERROR]) then return(StackBasicReturn(false, false, "ATNumerical_STACKERROR_TAns")),
-    SB:SB[1],
-    SO:errcatch(ev(float(SO), simp, nouns, rat)),
-    if is(SO = [STACKERROR]) then return(StackBasicReturn(false, false, "ATNumerical_STACKERROR_Opt")),
-    tol:SO[1],
-    if not(numberp(tol)) then (print("TEST_FAILED"), return(StackBasicReturn(false, false, "ATNumerical_STACKERROR_tol"))),
-
-    if not(elementp(numtype, {"ABSOLUTE", "RELATIVE"})) then (print("TEST_FAILED"), return(StackBasicReturn(false, false, "ATNumerical_testname_invalid"))),
-
-    /* Are we dealing with lists? */
-    if listp(SB) then
-      if listp(SAN)#true then
-        return(StackBasicReturn(false, false, "ATNumerical_SA_not_list"))
-      else
-        return(ATNumerical_list(SA, SB, numtype, tol)),
-
-    /* Are we dealing with sets? */
-    if safe_setp(SB) then
-      if safe_setp(SAN)=false then
-        return(StackBasicReturn(false, false, "ATNumerical_SA_not_set"))
-      else
-        return(ATNumerical_set(SA, SB, numtype, tol)),
-
-    /* Are we dealing with numbers? */
-    if (debug) then print ([SA,SB,tol]),
-    if numberp(SAN) then
-      if numberp(TA) then
-        return(StackBasicReturn(false, false, "ATNumerical_SA_not_number"))
-      else
-        if numtype = "ABSOLUTE" then
-            return([true, numabsolutep(SA, SB, tol), "", ""])
-        else
-            return([true, numrelativep(SA, SB, tol), "", ""]),
-
-    ret:[Validity, RawMark, AnswerNote, FeedBack],
-    return(ret)
-)$
-
-/* We have to define our own working precision. */
-STACK_NUM_TOL:10E-10$
-numabsolutep(sa,ta,tol) :=  if ev(abs(float(sa-ta)), simp) < ev(abs(tol)+STACK_NUM_TOL, simp)  then true else false;
-/* The equality sign below is to accommodate the edge case numrelativep(0.0,0.0,0.0?).  Needed for units tests with things like 0m/s. */
-numrelativep(sa,ta,tol) :=  if ev(abs(float(sa-ta)), simp) <= ev(abs(ta*tol*(1+STACK_NUM_TOL)), simp) then true else false;
-
-ATNumerical_list(SA, SB, numtype, tol) := block([SAl, SBl, cl, res, fb:"", an:""],
-    SAl:length(SA),
-    SBl:length(SB),
-    if (SAl#SBl) then
-        return([true, false, StackAddNote("","ATNumerical_wronglen"), StackAddFeedback("", "ATList_wronglen", stack_disp(SBl, "i"), stack_disp(SAl, "i"))]),
-
-    if numtype = "ABSOLUTE" then
-       cl:zip_with(lambda([ex1,ex2], numabsolutep(ex1, ex2, tol)), SA, SB)
-    else
-       cl:zip_with(lambda([ex1,ex2], numrelativep(ex1, ex2, tol)), SA, SB),
-
-    res:apply("and", cl),
-    if not(res) then block([we],
-        fb:zip_with(lambda([ex1,ex2],if ex1 then ex2 else texcolor("red", ex2)), cl, SA),
-        we:maplist(second, sublist(zip_with("[", cl, SA), lambda([ex], not(first(ex))))),
-        an:StackAddNote("", concat("ATNumerical_wrongentries SA/TA=", string(we))),
-        fb:StackAddFeedback("", "ATList_wrongentries", stack_disp(fb, "d"))
-    ),
-
-    return([true, res, an, fb])
-)$
-
-ATNumerical_set(SA, SB, numtype, tol) := block([SAl, SBl, cl, res, fbl, fb:"", an:""],
-    SAl:length(SA),
-    SBl:length(SB),
-    if (SAl#SBl) then
-        return([true, false, StackAddNote("","ATNumerical_wronglen"), StackAddFeedback("", "ATSet_wrongsz", stack_disp(SBl, "i"), stack_disp(SAl, "i"))]),
-
-    /* Why on earth has listify stopped working...?! */
-    SA:sort(float(args(SA))),
-    SB:sort(float(args(SB))),
-    fbl:num_compare_helper(SA, SB, [], [], tol, numtype),
-    if emptyp(first(fbl)) and emptyp(second(fbl)) then res:true else res:false,
-
-    if not(res) then block(
-        fb:setify(reverse(maplist(lambda([ex], texcolor("red", ex)), second(fbl)))),
-        fb:StackAddFeedback("", "ATList_wrongentries", stack_disp(fb, "d")),
-        an:StackAddNote("", concat("ATNumerical_wrongentries: TA/SA=", string(reverse(first(fbl))), ", SA/TA=", string(reverse(second(fbl)))))
-    ),
-
-    return([true, res, an, fb])
-)$
-
-/***************************************************
-Need a function which identifies which elements of the student's set, fall within "tolerance-balls" of elements of the teacher's set.
-
-Takes various arguments
-(1) student's list
-(2) teacher's list
-(3) numbers in the student's list, not within appropriate tolerance of any in the teacher's list
-(4) numbers in the teacher's list, which do not occur (approximated) in the student's
-(5) tolerance - whether this is absolute or relative to the teacher's answer needs to be sorted out internally to the function.
-(6) type - either "ABSOLUTE" or "RELATIVE"
-
-Returns all of the above + a feedback list.
-
-All arguments 1-2 are ordered lists of floats, smallest to largest.
-
-Want sa to lie between
-(ta-tol,ta+tol) or (ta-ta*tol,ta+ta*tol) depending on "ABSOLUTE" or "RELATIVE" (respectively)
-****************************************************/
-num_compare_helper(sal, tal, missing, excessive, tol, type) := block([sa, ta, f1, f2],
-  /* If we've run out of answers */
-  if emptyp(sal) and emptyp(tal) then return([missing, excessive]),
-  if emptyp(sal) then return([append(tal, missing), excessive]),
-  if emptyp(tal) then return([missing, append(sal, excessive)]),
-  /* Otherwise, we take the first element of the list and calculate */
-  /* if sa<ta-tol,  then f1<0.                                      */
-  /* if abs(sa-ta)<abs(tol), then f2<0.                             */
-  /* We appear to need to calulate f1 & f2 as variables,            */
-  /* otherwise Maxima's is complains "undefined".  Odd...           */
-  sa:first(sal),
-  ta:first(tal),
-  if type="ABSOLUTE" then
-       (f1:ev(float(sa-ta+tol),simp),
-        f2:ev(float(abs(sa-ta)-abs(tol)), simp))
-  else
-       (f1:ev(float(sa-ta*(1-tol)),simp),
-        f2:ev(float(abs(sa-ta)-abs(ta*tol)), simp)),
-  /*print([sa,ta,f1,f2]),*/
-  if is(f1<0) then return(num_compare_helper(rest(sal), tal, missing, append([sa], excessive), tol, type)),
-  if is(f2<0)
-      then return(num_compare_helper(rest(sal), rest(tal), missing, excessive, tol, type)),
-  return(num_compare_helper(sal, rest(tal), append([ta], missing), excessive, tol, type))
-)$
-
-ATNumSigFigs(SA, SB, SO) := block([simp, Validity, RawMark, FeedBack, AnswerNote, ret, ol, nsf, asf, c0, c1, c2, SAA, SBB, SOO],
-    simp:false,
-    Validity:true, RawMark:true, FeedBack:"", AnswerNote:"",
-
-    SAA:errcatch(ev(SA, simp, nouns)),
-    if (is(SAA = [STACKERROR]) or is(SAA = [])) then return([false, false, StackAddNote("","ATNumSigFigs_STACKERROR_SAns"), ""]),
-    SBB:errcatch(ev(SB, simp, nouns)),
-    if (is(SBB = [STACKERROR]) or is(SBB = [])) then return([false, false, StackAddNote("","ATNumSigFigs_STACKERROR_TAns"), ""]),
-    SOO:errcatch(ev(SO, simp, nouns)),
-    if (is(SOO = [STACKERROR]) or is(SOO = [])) then return([false, false, StackAddNote("","ATNumSigFigs_STACKERROR_Opt"), ""]),
-
-    ol:SO,
-    if listp(ol) then
-          if length(ol)#2 then
-             (print("TEST_FAILED"), return([false, false, StackAddNote("", "ATNumSigFigs_STACKERROR_list_wrong_length"), StackAddFeedback("", "TEST_FAILED_Q")]))
-          else
-             (nsf:ol[1], asf:ol[2])
-       else (nsf:ol, asf:ol),
-    if ev(not(integerp(nsf) and integerp(asf)), simp) then
-             (print("TEST_FAILED"), return([false, false, StackAddNote("", "ATNumSigFigs_STACKERROR_not_integer"), StackAddFeedback("", "TEST_FAILED_Q")])),
-    /* Remove ephemeral forms from teacher's answers. */
-    SB:remove_displaydp(SB),
-    /* SA should be only a number. */
-    if (not(ATNumSigFigs_numberp(SA))) then
-        return([false, false, StackAddNote("", "ATNumSigFigs_NotDecimal"), StackAddFeedback("", "ATNumSigFigs_NotDecimal")]),
-    /* Don't simplify until now. */
-    if is(_EC(errcatch(SA:ev(SA, simp, nouns)), "") = false) then return([false, false, StackAddNote("", "ATNumSigFigs_Error simplifying SAns"),""]),
-    /* In the case of teacher's options [n,0] we ignore the question of numerical accuracy. */
-    if ev(is(asf = 0), simp) then
-        return([Validity, RawMark, AnswerNote, FeedBack]),
-    /* Check answers have the same algebraic sign. */
-    if ev(not(is(sign(SA)=sign(SB))), simp) then block(
-        RawMark:false,
-        FeedBack:StackAddFeedback(FeedBack, "ATNumSigFigs_WrongSign"),
-        AnswerNote:StackAddNote(AnswerNote, "ATNumSigFigs_WrongSign")
-    ),
-    SA:ev(abs(SA), simp),
-    SB:ev(abs(SB), simp),
-    /* Round the teacher's answer to the correct number of significant figures prior to comparison. */
-    SB:significantfigures(SB, nsf),
-    /* Find a power c0 which puts SB*10^c0 between 0 & 1 */
-    if not(is(SB=0) or is(SB=0.0)) then
-      c0:ev(-floor(log(abs(float(rat(SB))))/log(10)+1), simp)
-    else
-      c0:0.0,
-    /* In the case where we have an option [m,-1] we don't need the numerical accuracy to match for more than m significant figures. */
-    if ev(is(asf<0), simp) then block(
-        SA:significantfigures(SA, nsf),
-        asf:nsf
-        ),
-    ev(c2:float(abs(abs(rat(SA)*10^(c0+floor(asf)))-abs(rat(SB)*10^(c0+floor(asf))))), simp),
-    if (debug) then print([SA,SB,c0,asf,c2]),
-    if not(ev(is(c2<(0.5)), simp)) then block(
-        Validity:true,
-        RawMark:false,
-        if ev(is(c2<5), simp) then block(
-            FeedBack:StackAddFeedback(FeedBack, "ATNumSigFigs_Inaccurate"),
-            AnswerNote:StackAddNote(AnswerNote, "ATNumSigFigs_Inaccurate")
-        ) else block(
-            AnswerNote:StackAddNote(AnswerNote, "ATNumSigFigs_VeryInaccurate")
-        )
-    ),
-    ret: [Validity, RawMark, AnswerNote, FeedBack],
-    return(ret)
-)$
-
-ATNumSigFigs_numberp(ex) := block([ts],
-  ts:ex,
-  if safe_op(ts)="-" then ts:first(args(ts)),
-  if floatnump(ts) or integerp(ts) or scientific_notationp(ts) then return(true),
-  return(false)
-  )$
 
 /* ********************************** */
 /* Algebraic tests                    */
@@ -1323,7 +1153,7 @@ ATAlgEquiv(SA,SB) := block([simp:true, ret, newret, SAN],
     ret:ATAlgEquivfun(SA, SB),
     /* Can we find a permutation of the variables? */
     if ret[2]=0 then block([p1],
-        p1:subst_equiv(SAN, SB),
+        p1:subst_equiv(SAN, SB, []),
         /* Actually, at this point 2008/7/7, we don't want to give this feedback.  Just leave an answer note. */
         /* if p1#[] and p1#false then ret:[ret[1], ret[2], StackAddNote(ret[3], concat("ATAlgEquiv_Subst ", string(p1))), StackAddFeedback(ret[4], "Subst", stack_disp(p1, "d"))] */
         if p1#[] and p1#false then ret:[ret[1], ret[2], StackAddNote(ret[3], concat("ATAlgEquiv_Subst ", string(p1))), ret[4]]
@@ -1430,10 +1260,17 @@ ATAlgEquivfun(SA, SB) :=  block([SApoly, SBpoly, keepfloat, RawMark, FeedBack, A
     if expressionp(SA)=false then
         return(StackBasicReturn(false, false, "ATAlgEquiv_SA_not_expression")),
     /* Otherwise we have two expressions*/
-    if algebraic_equivalence(SA, SB) then
+    if SA=SB then
        RawMark:true
-    else if algebraic_equivalence(exdowncase(SA), exdowncase(SB)) then
-       AnswerNote:StackAddNote("", "ATAlgEquiv_WrongCase"),
+    else if algebraic_equivalence(SA, SB) then
+       RawMark:true
+    else block([SAd, SBd],
+        /* algebraic_equivalence is not free, so only execute this when we need to do so. */
+        SAd:exdowncase(SA),
+        SBd:exdowncase(SB),
+        if (SAd#SA or SBd#SB) and algebraic_equivalence(SAd, SBd) then
+            AnswerNote:StackAddNote("", "ATAlgEquiv_WrongCase")
+        ),
     ret:[Validity, RawMark, AnswerNote, FeedBack],
     return(ret)
     )$
@@ -1560,7 +1397,6 @@ ATEquation(SA, SB) := block([keepfloat, RawMark, SA1, SB1, SB2, Rationalex1, Rat
         if algebraic_equivalence(rhs(SA), lhs(SB)) then
              return([true, true, "ATEquation_sides_op", ""])
         else return([true, false, "ATEquation_lhs_notrhs_op", ""]),
-
     /* First try without expanding out the equations */
     Rationalex1:ev(lhs(factor(SA))-rhs(factor(SA)), simp),
     Rationalex2:ev(lhs(factor(SB))-rhs(factor(SB)), simp),
@@ -1802,7 +1638,7 @@ ATSets_prepare(S) := ev(map(lambda([ex], ineqprepare(trigreduce(ex)) ), S), simp
 /* Maxima regular expressions. */
 ATSRegExp(SA, SB) := block([RawMark, FeedBack, AnswerNote, SAsimp, SBsimp, patmatched],
     RawMark:true, FeedBack:"", AnswerNote:"",
-    /* Turn on simplification and error catch */
+    /* Turn on simplification and error catch. */
     if (is(_EC(errcatch(SAsimp:ev(SA, simp, nouns)), "") = false)) then
         return([false,false,StackAddNote("","ATSRegExp_STACKERROR_SAns"),""]),
     if (is(_EC(errcatch(SBsimp:ev(SB, simp, nouns)), "") = false)) then
@@ -1819,6 +1655,57 @@ ATSRegExp(SA, SB) := block([RawMark, FeedBack, AnswerNote, SAsimp, SBsimp, patma
 
     return([true, false, AnswerNote, FeedBack])
 )$
+
+
+/* Don't break existing questions. */
+ATRegExp(SA, SB) := ATString(SA, SB);
+
+ATString(SA, SB) := block([RawMark, FeedBack, AnswerNote, SAsimp, SBsimp, patmatched],
+    RawMark:true, FeedBack:"", AnswerNote:"",
+    /* Turn on simplification and error catch. */
+    if (is(_EC(errcatch(SAsimp:ev(SA, simp, nouns)), "") = false)) then
+        return([false,false,StackAddNote("","ATString_STACKERROR_SAns"),""]),
+    if (is(_EC(errcatch(SBsimp:ev(SB, simp, nouns)), "") = false)) then
+        return([false,false,StackAddNote("","ATString_STACKERROR_TAns"),""]),
+    if not(stringp(SB)) then
+        return(StackBasicReturn(false, false, "ATString_SB_not_string")),
+    if not(stringp(SA)) then
+        return(StackBasicReturn(false, false, "ATString_SA_not_string")),
+
+    if SA=SB then
+        return([true, true, AnswerNote, FeedBack]),
+
+    return([true, false, AnswerNote, FeedBack])
+)$
+
+ATStringSloppy(SA, SB) := block([RawMark, FeedBack, AnswerNote, SAsimp, SBsimp, patmatched],
+    RawMark:true, FeedBack:"", AnswerNote:"",
+    /* Turn on simplification and error catch. */
+    if (is(_EC(errcatch(SAsimp:ev(SA, simp, nouns)), "") = false)) then
+        return([false,false,StackAddNote("","ATString_STACKERROR_SAns"),""]),
+    if (is(_EC(errcatch(SBsimp:ev(SB, simp, nouns)), "") = false)) then
+        return([false,false,StackAddNote("","ATString_STACKERROR_TAns"),""]),
+    if not(stringp(SB)) then
+        return(StackBasicReturn(false, false, "ATString_SB_not_string")),
+    if not(stringp(SA)) then
+        return(StackBasicReturn(false, false, "ATString_SA_not_string")),
+
+    SA:sdowncase(SA),
+    SA:sremove(" ", SA),
+    SA:sremove(newline, SA),
+    SA:sremove(tab, SA),
+    SB:sdowncase(SB),
+    SB:sremove(" ", SB),
+    SB:sremove(newline, SB),
+    SB:sremove(tab, SB),
+
+    if SA=SB then
+        return([true, true, AnswerNote, FeedBack]),
+
+    return([true, false, AnswerNote, FeedBack])
+)$
+
+
 /* A wrapper for an all purpose answer test which checks things are of the
    same "type".   Based upon the results of AtAlgEquivfun(SA,SB)
 */
@@ -1889,21 +1776,27 @@ ATLowestTerms(SA, SB) := block([simp:false, ret, validity, mark, FeedBack, Answe
     return([validity, mark, AnswerNote, FeedBack])
 )$
 
-ATSubstEquiv(SA,SB) := block([simp:true, ret, SAc, SBc],
+ATSubstEquiv([ex]) := block([simp:true, SA, SB, SC, ret, SAc, SBc],
     /* Turn on simplification and error catch */
-    SA:errcatch(ev(SA, simp, nouns)),
+    SA:errcatch(ev(first(ex), simp, nouns)),
     if is(SA=[STACKERROR]) then return([false, false, StackAddNote("", "ATSubstEquiv_STACKERROR_SAns"), ""]),
     SA:SA[1],
-    SB:errcatch(ev(SB, simp, nouns)),
+    SB:errcatch(ev(second(ex), simp, nouns)),
     if is(SB=[STACKERROR]) then return([false, false, StackAddNote("", "ATSubstEquiv_STACKERROR_TAns"), ""]),
     SB:SB[1],
+    SC:[[]],
+    if length(ex)>2 then
+        SC:errcatch(ev(third(ex), simp, nouns)),
+    if is(SC=[STACKERROR]) then return([false, false, StackAddNote("", "ATSubstEquiv_STACKERROR_Opt"), ""]),
+    SC:SC[1],
+    if not(listp(SC)) then return([false, false, StackAddNote("", "ATSubstEquiv_Opt_List"), StackAddFeedback("", "ATSubstEquiv_Opt_List")]),
     /* Copy SA and SB.  If they are lists or matrices then ATAlgEquivfun potentially colours wrong entries. */
     SAc:copy(SA),
     SBc:copy(SB),
     ret:ATAlgEquivfun(SAc, SBc),
     /* Can we find a permutation of the variables? */
     if ret[2]=false then block([p1],
-        p1:subst_equiv(SA, SB),
+        p1:subst_equiv(SA, SB, SC),
         if p1#[] and p1#false then ret:[true, true, StackAddNote("", concat("ATSubstEquiv_Subst ", string(p1))), StackAddFeedback("", "Subst", stack_disp(p1, "d"))]
     ),
     /* Send back result */
@@ -2207,10 +2100,11 @@ ATGTE(SA,SB) :=
 /* (3) p is quadratic, the coefficients have no common factors          */
 /*     and p does not factor over the **rational numbers**              */
 
-/* Is p an irreducible term in v, over the rationals Q? */
+/* Is p an irreducible polynomial term in v, over the rationals Q? */
 /* Returns a list, of [true/false, FeedBack, true/false] */
 /* The third argument is the special case when we just have an integer factor to pull out. Needed for PartFrac. */
 irred_Q(p,v) := block([ret,deg,cl,ci],
+  if ev(not(polynomialp(p, [v])), simp) then return([false, StackAddFeedback("", "ATFacForm_notpoly")]),
   deg:ev(hipow(expand(p),v),simp),
   /* Now perform the general test */
   cl:ev(map(second,coeff_list_nz(expand(p),v)),simp),
@@ -2244,7 +2138,7 @@ irred_Q(p,v) := block([ret,deg,cl,ci],
     if is(ev(q#factor(q),simp)) then ret:[false,ret[2],false]
   ),
   return(ret)
-);
+)$
 
 /* Is p a power of an irreducible term in v, over the rationals Q, disregarding the special case of a numerical factor? */
 /* Only used by ATPartFrac */
@@ -3073,39 +2967,44 @@ ATDiff(sa, sb, so) :=
         ),
     simp:old_simp,
     return(ret)
-    )$
+)$
 
-Difffun(SA,SB,v) := block([val,rawmk,ansnote,fb,ret,lSAv,lSBv,mSAv,mSBv],
+Difffun(SA, SB, v) := block([val, rawmk, ansnote, fb, ret, lSAv, lSBv, mSAv, mSBv],
     val:true, rawmk:false, fb:"", ansnote:"",
-    ret:[val,rawmk,ansnote,fb],
-    if algebraic_equivalence(SA,SB) then
-        (rawmk:true, ansnote:StackAddNote("","ATDiff_true"))
+    ret:[val, rawmk, ansnote, fb],
+    if algebraic_equivalence(SA, SB) then
+        (rawmk:true, ansnote:StackAddNote("", "ATDiff_true"))
     else
-        if ev(algebraic_equivalence(diff(SA,v), int(SB,v)), simp) then
-        (rawmk:false, ansnote:StackAddNote("","ATDiff_int"), fb:StackAddFeedback("","ATDiff_int"))
-        else (
+        if ev(algebraic_equivalence(diff(SA,v), int(SB,v)), simp) then (
+            rawmk:false,
+            ansnote:StackAddNote("", "ATDiff_int"),
+            fb:StackAddFeedback("", "ATDiff_int")
+        ) else (
             lSAv:listofvars(SA),
             lSBv:listofvars(SB),
-            mSAv:member(v,lSAv),
-            mSBv:member(v,lSBv),
+            mSAv:member(v, lSAv),
+            mSBv:member(v, lSBv),
             if not(mSBv) then (
                 if mSAv then
-                    ansnote:StackAddNote(ansnote,"ATDiff_var_SA_notSB")
-                else if not(listscontain(lSAv,lSBv,v)) and not(listsoverlap(lSAv,lSBv)) then
-                    ansnote:StackAddNote(ansnote,"ATDiff_var_notSASB_SAnceSB") ) /* not in SA or SB, and no variable common to SA and SB */
+                    ansnote:StackAddNote(ansnote, "ATDiff_var_SA_notSB")
+                else if not(listscontain(lSAv, lSBv, v)) and not(listsoverlap(lSAv, lSBv)) then
+                    ansnote:StackAddNote(ansnote, "ATDiff_var_notSASB_SAnceSB") )
+            /* Not in SA or SB, and no variable common to SA and SB. */
             else if not(mSAv) then (
                 if mSBv then
-                    ansnote:StackAddNote(ansnote,"ATDiff_var_SB_notSA") )  ),
-    ret:[val,rawmk,ansnote,fb],
+                    ansnote:StackAddNote(ansnote, "ATDiff_var_SB_notSA")
+            )
+        ),
+    ret:[val, rawmk, ansnote, fb],
     return(ret)
-    )$
+)$
 
 /* Look over an expression and find all the variables wrt which we are differentiating. */
 ATDiffGetVar(ex):= block(
     if atom(ex) then return([]),
     if safe_op(ex)="diff" then return([second(args(ex))]),
     flatten(map(ATDiffGetVar, args(ex)))
-);
+)$
 
 /* ****************************************************** */
 /*                                                        */
@@ -3195,4 +3094,5 @@ load(linearalgebra);
 
 /* Stack expects some output with the version number the output happens at */
 /* maximalocal.mac after additional library loading */
-stackmaximaversion:2020081700$
+stackmaximaversion:2021010100$
+

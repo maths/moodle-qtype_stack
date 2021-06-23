@@ -573,7 +573,7 @@ class stack_cas_castext_parser_test extends qtype_stack_testcase {
         $expected = '([Root] ([Op: +] ([Op: *] ([Id] a), ([Id] b)), ([Op: +] ([Op: *] ([Id] c), ([Id] d)), ' .
             '([Op: *] ([PrefixOp: -] ([Id] A)), ([Id] B)))))';
         $this->assertEquals($expected, $ast->toString(array('flattree' => true)));
-        $this->assertEquals($s, $ast->toString(array('nosemicolon' => true)));
+        $this->assertEquals('a*b+c*d+ -A*B', $ast->toString(array('nosemicolon' => true)));
         $this->assertEquals($errors, array());
         $this->assertEquals($answernotes, array());
 

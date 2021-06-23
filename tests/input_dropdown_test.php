@@ -72,8 +72,12 @@ class stack_dropdown_input_test extends qtype_stack_walkthrough_test_base {
         // @codingStandardsIgnoreStart
         $el = stack_input_factory::make('dropdown', 'ans1', '[[1,false],[2,false]]', null, array());
         // @codingStandardsIgnoreEnd
-        $expected = '<div class="error"><p>The input has generated the following runtime error which prevents you from answering.'
-                .' Please contact your teacher.</p><p>The teacher did not indicate at least one correct answer.</p></div>';
+        $expected = '<div class="error"><p><i class="icon fa fa-exclamation-circle text-danger fa-fw " title="The input has ' .
+                  'generated the following runtime error which prevents you from answering. Please contact your teacher." ' .
+                  'aria-label="The input has generated the following runtime error which prevents you from answering. Please ' .
+                  'contact your teacher."></i>The input has generated the following runtime error which prevents you from ' .
+                  'answering. Please contact your teacher.</p>' .
+                  '<p>The teacher did not indicate at least one correct answer.</p></div>';
         $this->assertEquals($expected, $el->render(new stack_input_state(
                 stack_input::SCORE, array('2'), '', '', '', '', ''), 'stack1__ans1', false, null));
     }
@@ -81,9 +85,13 @@ class stack_dropdown_input_test extends qtype_stack_walkthrough_test_base {
     public function test_bad_teacheranswer() {
         $el = $this->make_dropdown();
         $el->adapt_to_model_answer('[x]');
-        $expected = '<div class="error"><p>The input has generated the following runtime error which prevents you from answering.'
-                .' Please contact your teacher.</p><p>The model answer field for this input is malformed: <code>[x]</code>.'
-                .' The teacher did not indicate at least one correct answer.</p></div>';
+        $expected = '<div class="error"><p><i class="icon fa fa-exclamation-circle text-danger fa-fw " title="The input has ' .
+                  'generated the following runtime error which prevents you from answering. Please contact your teacher." ' .
+                  'aria-label="The input has generated the following runtime error which prevents you from answering. Please ' .
+                  'contact your teacher."></i>The input has generated the following runtime error which prevents you from ' .
+                  'answering. Please contact your teacher.</p>' .
+                  '<p>The model answer field for this input is malformed: <code>[x]</code>.' .
+                  ' The teacher did not indicate at least one correct answer.</p></div>';
         $this->assertEquals($expected, $el->render(new stack_input_state(
                 stack_input::SCORE, array('2'), '', '', '', '', ''), 'stack1__ans1', false, null));
     }
@@ -93,9 +101,12 @@ class stack_dropdown_input_test extends qtype_stack_walkthrough_test_base {
         $el = stack_input_factory::make('dropdown', 'ans1', '[[1,true],[2,false]]', null, array());
         $el->adapt_to_model_answer('[[1,true],[1,false]]');
         // @codingStandardsIgnoreEnd
-        $expected = '<div class="error"><p>The input has generated the following runtime error which prevents you from answering.'
-                .' Please contact your teacher.</p><p>Duplicate values have been found when generating the input options.</p>'
-                .'</div>';
+        $expected = '<div class="error"><p><i class="icon fa fa-exclamation-circle text-danger fa-fw " title="The input has ' .
+                  'generated the following runtime error which prevents you from answering. Please contact your teacher." ' .
+                  'aria-label="The input has generated the following runtime error which prevents you from answering. Please ' .
+                  'contact your teacher."></i>The input has generated the following runtime error which prevents you from ' .
+                  'answering. Please contact your teacher.</p>' .
+                  '<p>Duplicate values have been found when generating the input options.</p></div>';
         $this->assertEquals($expected, $el->render(new stack_input_state(
                 stack_input::SCORE, array('2'), '', '', '', '', ''), 'stack1__ans1', false, null));
     }
@@ -266,6 +277,25 @@ class stack_dropdown_input_test extends qtype_stack_walkthrough_test_base {
         $this->assertEquals(stack_input::SCORE, $state->status);
         $this->assertEquals(array('1'), $state->contents);
         $this->assertEquals('A', $state->contentsmodified);
+        $correctresponse = array('ans1' => 2);
+        $this->assertEquals($correctresponse, $el->get_correct_response($ta));
+    }
+
+    public function test_teacher_answer_html_notanswered() {
+        $options = new stack_options();
+        $ta = '[[notanswered,false,"n/a"],[A,false],[B,true]]';
+        $el = stack_input_factory::make('dropdown', 'ans1', $ta, null, array());
+        $el->adapt_to_model_answer($ta);
+
+        $expected = '<select id="menustack1__ans1" class="select menustack1__ans1" name="stack1__ans1">' .
+                '<option selected="selected" value="">n/a</option>' .
+                '<option value="1"><code>A</code></option><option value="2"><code>B</code></option></select>';
+        $this->assert_same_select_html($expected, $el->render(new stack_input_state(
+                stack_input::BLANK, array(''), '', '', '', '', ''), 'stack1__ans1', false, null));
+        $state = $el->validate_student_response(array('ans1' => ''), $options, '1', new stack_cas_security());
+        $this->assertEquals(stack_input::BLANK, $state->status);
+        $this->assertEquals(array(), $state->contents);
+        $this->assertEquals('', $state->contentsmodified);
         $correctresponse = array('ans1' => 2);
         $this->assertEquals($correctresponse, $el->get_correct_response($ta));
     }

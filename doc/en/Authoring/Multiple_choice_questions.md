@@ -81,23 +81,16 @@ even if they have only chosen one option.
 
 If, when authoring a question, you switch from radio/dropdown to checkboxes or back, you will probably break a PRT because of mismatched types.
 
-For the select and radio types the first option on the list will always be "Not answered".  
-This enables a student to retract an answer and return a "blank" response.
+For the select and radio types the first option on the list will always be "Not answered".  This enables a student to retract an answer and return a "blank" response.
 
-For the checkbox type there is a fundamental ambiguity between a blank response and actively not selecting any of the provided choices, 
-which indicates "none of the others".  
-Internally STACK has a number of "states" for a student's answer, including `BLANK`, `VALID`, `INVALID`, `SCORE` etc.  
-A student who has not answered will be considered `BLANK`. 
-This is not invalid, and potential response trees which rely on this input type will not activate.  
-To enable a student to indicate "none of the others", the teacher must add this as an explicit option.  
-Note, this will not return an empty list as the answer as might be expected: it will be the `value` of that selection and you 
-could give this option the value of `null`, for example, which is a Maxima atom.  
-For the radio and dropdown types STACK always adds a "not answered" option as the first option.  
-This allows a student to retract their choice, otherwise they will be unable to "uncheck" a radio button, which will be stored, 
-validated and possibly assessed (to their potential detriment).
+For the checkbox type there is a fundamental ambiguity between a blank response and actively not selecting any of the provided choices, which indicates "none of the others".  Internally STACK has a number of "states" for a student's answer, including `blank`, `valid`, `invalid`, `score` etc.  A student who has not answered will be considered `blank`, which is different from invalid.  Potential response trees which rely on this input type will not activate until the state is `score`.
 
-We did not add support for a special internal "none of the others" because the teacher still needs to indicate whether 
-this is the true or false answer to the question.  To support randomisation, this needs to be done as an option in the teacher's answer list.
+To enable a student to indicate "none of the others", the teacher must add this as an explicit option in all MCQ types.  If you add an option "none of the others" then it will return the `value` of that selection: you could give this the value of `null`, for example, which is a Maxima atom.  We did not add support for a special internal "none of the others" because the teacher still needs to indicate whether this is the true or false answer to the question.  To support randomisation, this needs to be done as an option in the teacher's answer list.
+
+The radio and dropdown types always add a "not answered" option as the first option.  This allows a student to retract their choice, otherwise they will be unable to "uncheck" a radio button, which will be stored, validated and possibly assessed (to their potential detriment).  If you want to remove this then use the extra option `nonotanswered`, but keep in mind the possible effect when using the penalty scheme.
+
+If one of the items in the teacher's answer list is is the special variable name `notanswered`, and then default mesage `(No answer given)` will be replaced by the `display` value.  If no `display` value is given (and it is optional) then the original message will remain.  `notanswered` will not appear in the list of valid choices for a user and `value` for this input is ingored.
+
 
 ## Extra options ##
 
@@ -112,6 +105,7 @@ The way the items are displayed can be controlled by the following options.
 * `LaTeXdisplaystyle` use LaTeX to display the options, using the inline maths environment and the displaystyle option `\(\displaystyle...\)`.
 * `casstring` does not use the LaTeX value, but just prints the casstring value in `<code>...</code>` tags.
 * `nonotanswered` removes the ``Not answered'' option from radio and dropdown.  This is _not recommended_ as it means a student has no opportunity to "uncheck" a radio button once selected.  They may wish not to answer, rather than save an incorrect answer.
+
 
 ## Randomly shuffling the options ##
 
@@ -274,6 +268,12 @@ You must protect characters within strings.  E.g. in
     [A, true, "A. There exists \\(M\\) such that \\( |a_n| &lt; M \\)."]
 
 We have protected the backslash, and the inequality.
+
+The language strings are not CAStext, they are simply raw strings.  It is possible to construct strings which inlcude variable values using the `stack_disp` function.
+
+    [oc(-inf,a), false, sconcat("The half interval: ", stack_disp(oc(-inf,a),"i"))]
+
+The argument `"i"` here displays the expression "inline", other options are `""` (you are responsible for maths environments), `"d"` (displayed), and `"di"` (inline but using displaystyle).  If you construct strings in this way the display of any equations will not respect the display options in the particular input since variables are typically defined in the question variables and the input options are not available at that point in the code base.
 
 ## Dealing with plots in MCQ ##
 

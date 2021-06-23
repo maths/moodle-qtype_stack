@@ -52,6 +52,11 @@
         "description":"Documentation for question authors using STACK, including a quick start guide and how to use common STACK features."
         },
         {
+        "file":"Answer_tests_results.md",
+        "title":"Answer test results",
+        "description":"This page, automatically generated from the STACK unit tests, helps teachers understand what the answer tests actually consiser to be the same and different."
+        },
+        {
         "file":"Actuarial.md",
         "title":"Actuarial Notation - STACK Documentation",
         "description":"An overview of using actuarial notation in STACK."
@@ -160,6 +165,11 @@
         "file":"Future_proof.md",
         "title":"Ensuring a Question Works in the Future - STACK Documentation",
         "description":"This document provides guidelines for making sure a question will work in future updates of STACK or Moodle."
+        },
+        {
+        "file":"HELM.md",
+        "title":"HELM materials in STACK",
+        "description":"Providing versions of the HELM project materials as moodle quizzes, with materials in STACK format."
         },
         {
         "file":"ImportExport.md",
@@ -512,6 +522,11 @@
         "file":"UpgradeDefaults.md",
         "title":"Upgrading Question Details - STACK Documentation",
         "description":"Information on upgrading question defaults. This may be necessary if you have recently upgraded from an old version of STACK."
+        },
+        {
+        "file":"Website.md",
+        "title":"Updating the Online Docs",
+        "description":"How to manage the online docs at docs.stack-assessment.org"
         }
       ]
       },

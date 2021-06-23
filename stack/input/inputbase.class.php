@@ -752,7 +752,7 @@ abstract class stack_input {
 
         // Answers may not contain the ? character.  CAS-strings may, but answers may not.
         // It is very useful for teachers to be able to add in syntax hints.
-        // We make sure +- -> #pm# here so that +- can be interpreted at +(-....).
+        // We make sure +- -> #pm# here so that +- can be interpreted as +(-....).
         if ($valid) {
             $interpretedanswer = $answerd->get_evaluationform();
         } else {

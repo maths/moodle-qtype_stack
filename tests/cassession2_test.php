@@ -407,7 +407,10 @@ class stack_cas_session2_test extends qtype_stack_testcase {
         $this->assertEquals('\sin^{-1}\left( x \right)', $s1[1]->get_display());
         $this->assertEquals('{\rm sinh}^{-1}\left( x \right)', $s1[2]->get_display());
         $this->assertEquals('\sin^{-1}^3x', $s1[3]->get_display());
+        // Note, the LaTeX below will break MathJax.
+        // But if you are willing to have inverses and powers with the same notation then you deserve to break things!
         $this->assertEquals('\sin^{-1}^{30}\left(x^2+1\right)', $s1[4]->get_display());
+        // Babbage moaned about this and people still use this notation!
     }
 
     public function test_acos_option_acos() {

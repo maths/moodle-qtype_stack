@@ -489,6 +489,25 @@ negDiv(ex) := block([ex0, ex1, ex2],
     return (ex1 noun* UNARY_RECIP(ex2))
 )$
 
+negOrdp(ex) := block([ex2,ex3],
+    if not(safe_op(ex)="+" or safe_op(ex)="noun+") then return(false),
+    /* Order the terms in the sum, strip off any UNARY_MINUS, and compare the leading term. */
+    ex2:elsort(args(ex)),
+    ex3:map(lambda([ex0], if not(safe_op(ex0)="*" or safe_op(ex0)="noun*") then ex0 
+            else block([a1], a1:sublist(args(ex0), lambda([ex1], not(ex1=UNARY_MINUS))), if length(a1)=1 then first(a1) else apply(op(ex0), a1) )), ex2),
+    ex3:elsort(ex3),
+    not(is(first(ex2)=first(ex3)))
+)$
+negOrd(ex) := block([ex0],
+    if not(negOrdp(ex)) then return(ex),
+    /* We use commutativity of multiplication to pull UNARY_MINUS to the front. */
+    ex0:map(comMul, args(ex)),
+    ex0:map(lambda([ex1], if (atom(ex1) or not(safe_op(ex1)="*" or safe_op(ex1)="noun*")) then (UNARY_MINUS noun* ex1) 
+            else if not(first(args(ex1))=UNARY_MINUS) then (UNARY_MINUS noun* ex1) 
+            else if length(rest(args(ex1)))=1 then first(rest(args(ex1))) else apply(op(ex1), rest(args(ex1)))), ex0),
+    return(UNARY_MINUS noun* (apply(op(ex), ex0)))
+)$
+
 /* Distribute negation over addition. (Assumes unary minus has been replaced by products of UNARY_MINUS */ 
 negDistp(ex):= block(
     if not(safe_op(ex)="noun*" or safe_op(ex)="*") then return(false),

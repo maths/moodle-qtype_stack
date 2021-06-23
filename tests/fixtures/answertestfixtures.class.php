@@ -772,13 +772,20 @@ class stack_answertest_test_data {
             'ATEqualComAssRules: [3 noun* UNARY_RECIP UNARY_MINUS noun* x,UNARY_MINUS noun* 3 noun* UNARY_RECIP x].', ''),
         array('EqualComAssRules', '[negDist]', '-x*(x+1)', 'x*(-x-1)', 1, '', ''),
         array('EqualComAssRules', 'NEG_TRANS', '-x*(x-1)', 'x*(1-x)', 1, '', ''),
-        array('EqualComAssRules', '[negDist,negNeg]', '-x*(x-1)', 'x*(1-x)', 1, '', ''),
-        array('EqualComAssRules', '[negDist,negNeg]', '-5*x*(3-x)', '5*x*(x-3)', 1, '', ''),
-        array('EqualComAssRules', '[negDist,negNeg]', '-x*(x-1)*(x+1)', 'x*(x-1)*(-x-1)', 1, '', ''),
+        array('EqualComAssRules', 'NEG_TRANS', '-x*(x-1)', 'x*(1-x)', 1, '', ''),
+        array('EqualComAssRules', 'NEG_TRANS', '-5*x*(3-x)', '5*x*(x-3)', 1, '', ''),
+        array('EqualComAssRules', 'NEG_TRANS', '-x*(x-1)*(x+1)', 'x*(x-1)*(-x-1)', 1, '', ''),
+        array('EqualComAssRules', 'NEG_TRANS', '-x*(x-1)*(x+1)', 'x*(1-x)*(x+1)', 1, '', ''),
+        array('EqualComAssRules', 'NEG_TRANS', '-x*(y-1)*(x-1)', 'x*(1-x)*(y-1)', 1, '', ''),
+        array('EqualComAssRules', 'NEG_TRANS', '-x*(y-1)*(x-1)', 'x*(x-1)*(1-y)', 1, '', ''),
+        array('EqualComAssRules', 'NEG_TRANS', '(x-y)*(y-x)', '-(x-y)*(x-y)', 1, '', ''),
+        array('EqualComAssRules', 'NEG_TRANS', '(x-y)*(y-x)', '-(x-y)^2', 0,
+            'ATEqualComAssRules: [UNARY_MINUS noun* (x noun+ UNARY_MINUS noun* y) noun* ' .
+            '(x noun+ UNARY_MINUS noun* y),UNARY_MINUS noun* (x noun+ UNARY_MINUS noun* y) noun^ 2].', ''),
+        // These examples illustrate the problem with distribution (which is not confluent) and factoring (which is)!
         array('EqualComAssRules', '[negDist,negNeg]', '-x*(x-1)*(x+1)', 'x*(1-x)*(x+1)', 0,
             'ATEqualComAssRules: [x noun* (UNARY_MINUS noun* 1 noun+ UNARY_MINUS noun* x) noun* ' .
             '(x noun+ UNARY_MINUS noun* 1),x noun* (1 noun+ UNARY_MINUS noun* x) noun* (1 noun+ x)].', ''),
-        array('EqualComAssRules', '[negDist,negNeg]', '-x*(y-1)*(x-1)', 'x*(1-x)*(y-1)', 1, '', ''),
         array('EqualComAssRules', '[negDist,negNeg]', '-x*(y-1)*(x-1)', 'x*(x-1)*(1-y)', 0,
             'ATEqualComAssRules: [x noun* (1 noun+ UNARY_MINUS noun* x) noun* (y noun+ UNARY_MINUS noun* 1),' .
             'x noun* (1 noun+ UNARY_MINUS noun* y) noun* (x noun+ UNARY_MINUS noun* 1)].', ''),

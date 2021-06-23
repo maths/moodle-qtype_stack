@@ -195,3 +195,11 @@ a noun* UNARY_RECIP(b)$
 negDist(UNARY_MINUS noun* x noun* (UNARY_MINUS noun* x noun+ 1));
 (UNARY_MINUS noun* (UNARY_MINUS noun* x) noun+ UNARY_MINUS noun* 1) noun* x$
 
+negOrd(a+UNARY_MINUS noun* b);
+a + UNARY_MINUS noun\* b$
+
+negOrd(b+UNARY_MINUS noun* a);
+UNARY_MINUS noun* (UNARY_MINUS noun* b+a)$
+
+negOrd(b+UNARY_MINUS noun* a+c);
+UNARY_MINUS noun\* (UNARY_MINUS noun\* b+a+UNARY_MINUS noun\* c)$

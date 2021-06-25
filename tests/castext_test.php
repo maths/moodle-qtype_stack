@@ -800,6 +800,9 @@ class stack_cas_text_test extends qtype_stack_testcase {
         // On old Maxima, you get back \(9.999999999999999e-7\).
         $this->skip_if_old_maxima('5.32.1');
 
+        // For some reason 5.41.0 returns \(9.999999999999999e-7\) too.
+        $this->skip_if_new_maxima('5.40.0');
+
         $st = 'Decimal number {@0.000001@}.';
 
         $a2 = array('stackfltfmt:"~e"');

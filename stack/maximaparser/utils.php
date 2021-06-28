@@ -1031,7 +1031,7 @@ class maxima_parser_utils {
                     if ($node->arguments[0] instanceof MP_Integer && $node->arguments[2] instanceof MP_Integer) {
                         $node->parentnode->replace($node, new MP_Integer(null, null));
                         return false;
-                    } else {
+                    } else if ($node->arguments[0] instanceof MP_Float || $node->arguments[2] instanceof MP_Float) {
                         $node->parentnode->replace($node, new MP_Float(null, null));
                         return false;
                     }

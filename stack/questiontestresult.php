@@ -68,6 +68,11 @@ class stack_question_test_result {
     public $questionpenalty;
 
     /**
+     * @bool Store whether this looks like a trivial empty test case.
+     */
+    public $emptytestcase;
+
+    /**
      * Constructor
      * @param stack_question_test $testcase the testcase this is the results for.
      */
@@ -204,6 +209,9 @@ class stack_question_test_result {
      * @return bool whether the test passed successfully.
      */
     public function passed() {
+        if ($this->emptytestcase) {
+            return false;
+        }
         foreach ($this->get_prt_states() as $state) {
             if (!$state->testoutcome) {
                 return false;

@@ -342,6 +342,9 @@ foreach ($testresults as $key => $result) {
     echo $OUTPUT->heading(stack_string('testcasexresult',
             array('no' => $key, 'result' => $outcome)), 3);
 
+    if ($result->emptytestcase) {
+        echo html_writer::tag('p', stack_string_error('questiontestempty'));
+    }
     // Display the information about the inputs.
     $inputstable = new html_table();
     $inputstable->head = array(

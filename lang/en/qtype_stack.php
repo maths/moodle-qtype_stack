@@ -521,6 +521,7 @@ $string['prtname'] = 'PRT name';
 $string['questiondoesnotuserandomisation'] = 'This question does not use randomisation.';
 $string['questionnotdeployedyet'] = 'No variants of this question have been deployed yet.';
 $string['questionpreview'] = 'Question preview';
+$string['questiontestempty'] = 'Empty question tests are not permitted!';
 $string['questiontests'] = 'Question tests';
 $string['questiontestsfor'] = 'Question tests for seed {$a}';
 $string['questiontestspass'] = 'All question tests passed.';

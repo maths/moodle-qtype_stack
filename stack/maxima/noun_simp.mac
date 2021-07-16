@@ -218,7 +218,7 @@ alias(ATEqual_com_ass, ATEqualComAss)$
 
 /* An answer test in the context of commutative+associative addition and multiplication, with identities. */
 ATEqualComAssRules(sa, sb, so) :=
-    block([Validity, RawMark, FeedBack, AnswerNote, ret, SAA, SBB, SOO],
+    block([Validity, RawMark, FeedBack, AnswerNote, ret, SAA, SBB, SOO, debugtest],
     oldsimp:simp,
     simp:false,
     Validity:true, RawMark:true, FeedBack:"", AnswerNote:"",
@@ -238,10 +238,15 @@ ATEqualComAssRules(sa, sb, so) :=
 
     /* Make sure commutativity and associativity are always in, and tidy up the options. */
     so:ev(listify(setify(flatten(append(so, ALG_TRANS)))), simp),
-    if not(all_listp(lambda([ex], ev(elementp(ex, setify(ALL_TRANS)),simp) ), so)) then
+    if ev(elementp(testdebug, setify(so)), simp) then block(
+        debugtest:true,
+        so:delete(testdebug, so)
+    ) else debugtest:false,
+
+    if not(all_listp(lambda([ex], ev(elementp(ex, setify(ALL_TRANS)), simp) ), so)) then
         return([false,false,StackAddNote("", "ATEqualComAssRules_Opt_Wrong"), StackAddFeedback("", "ATEqualComAssRules_Opt_List")]),
 
-    if any_listp(lambda([ex], ev(subsetp(ex, setify(so)),simp) ), INCOMPATIBLE_TRANS) then
+    if any_listp(lambda([ex], ev(subsetp(ex, setify(so)), simp) ), INCOMPATIBLE_TRANS) then
         return([false,false,StackAddNote("", "ATEqualComAssRules_Opt_Incompatible"), StackAddFeedback("", "ATEqualComAssRules_Opt_Incompatible")]),
 
     sa:remove_stackeq(sa),
@@ -265,11 +270,13 @@ ATEqualComAssRules(sa, sb, so) :=
     sa:transl(sa, so),
     sb:transl(sb, so),
 
+    AnswerNote:"",
+    if debugtest then AnswerNote:StackAddNote("ATEqualComAssRules: ", string([sa, sb])),
     /* Now actually apply this test */
     if is(sa=sb) then
-        (RawMark:true, AnswerNote:"")
+        RawMark:true
     else
-        (RawMark:false, AnswerNote:StackAddNote("ATEqualComAssRules: ", string([sa, sb]))),
+        RawMark:false,
     return([Validity, RawMark, AnswerNote, FeedBack])
 )$
 

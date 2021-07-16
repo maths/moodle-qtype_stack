@@ -86,6 +86,8 @@ The test takes the student's answer and teacher's answer and repeatedly applies 
 
 Note that we do not gurantee the simplification is mathematically correct!  E.g. if you are unlucky enough to try the rule `zeroPow` on the expression `0^(1-1)` then since `1-1` is not equal to zero (taken literally) then the rule applies and you have failed to spot a potential `0^0` error.
 
+If you add the rule `testdebug` then you will see both expressions in the answer note.  This is useful for debugging, but would clutter up things in a production setting.
+
 ## Developer notes
 
 This functionality was introduced in April 2021.  It is essential that the rules, and any combination of the rules, can only proceed in a single direction and that no infinite loops are created.  So, `intAdd` is fine because adding together two integers will make an expression _simpler_ which in this case is shorter.  For this reason we do not have expanding out (i.e. distribution) rules in the above set, and no rules of indices (which readily lead to mathemtical errors).  Use Maxima's simplifier if you want to include such rules.

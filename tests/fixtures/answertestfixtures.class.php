@@ -803,6 +803,9 @@ class stack_answertest_test_data {
         // The following passes because the (-1) is parsed as ,1 noun* UNARY_MINUS.
         array('EqualComAssRules', '[negDiv]', '1/(-x)', '(-1)/x', 1, '', ''),
         array('EqualComAssRules', '[negDiv]', '1/(-x)', 'ev(-1,simp)/x', 1, '', ''),
+        array('EqualComAssRules', '[negDiv]', '(2/-3)*(x-y)', '-(2/3)*(x-y)', 1, '', ''),
+        array('EqualComAssRules', '[negDiv]', '(2/-3)*(x-y)', '(2/3)*(y-x)', 0, '', ''),
+        array('EqualComAssRules', '[negDiv,negOrd]', '(2/-3)*(x-y)', '(2/3)*(y-x)', 1, '', ''),
         array('EqualComAssRules', '[testdebug,negDiv]', '-2/(1-x)', '2/(x-1)', 0,
             'ATEqualComAssRules: [UNARY_MINUS noun* 2 noun* UNARY_RECIP (1 noun+ UNARY_MINUS noun* x),' .
                                  '2 noun* UNARY_RECIP (x noun+ UNARY_MINUS noun* 1)].', ''),
@@ -811,6 +814,7 @@ class stack_answertest_test_data {
         array('EqualComAssRules', '[ID_TRANS,recipMul]', '1/2*3/x', '3/(2*x)', 1, '', ''),
         array('EqualComAssRules', '[testdebug,ID_TRANS,recipMul]', '5/2*3/x', '15/(2*x)', 0,
             'ATEqualComAssRules: [3 noun* 5 noun* UNARY_RECIP 2 noun* x,15 noun* UNARY_RECIP 2 noun* x].', ''),
+        array('EqualComAssRules', '[negOrd]', '-(x-y)', 'y-x', 1, '', ''),
         array('EqualComAssRules', '[ID_TRANS,recipMul,intMul]', '5/2*3/x', '15/(2*x)', 1, '', ''),
         array('EqualComAssRules', '[ID_TRANS,intAdd]', '(3+2)*x+x', '5*x+x', 1, '', ''),
         array('EqualComAssRules', '[ID_TRANS,intAdd]', '(3-5)*x+x', '-2*x+x', 1, '', ''),

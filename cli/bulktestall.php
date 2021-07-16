@@ -110,15 +110,16 @@ foreach ($contexts as $contextid => $numstackquestions) {
         list($passed, $failing) = $bulktester->run_all_tests_for_context($testcontext, 'cli', false);
     }
 
+    $allpassed = $allpassed && $passed;
+
     echo "\n";
-    if ($allpassed) {
+    if ($passed) {
         echo "** " . stack_string('stackInstall_testsuite_pass');
     } else {
         echo "** " . stack_string('stackInstall_testsuite_fail');
     }
     echo "\n";
 
-    $allpassed = $allpassed && $passed;
     echo "\n";
     foreach ($failing as $key => $arrvals) {
         if ($arrvals !== array()) {
@@ -129,6 +130,13 @@ foreach ($contexts as $contextid => $numstackquestions) {
 }
 
 echo "\n\n";
+
+if ($allpassed) {
+    echo "** " . stack_string('stackInstall_testsuite_pass');
+} else {
+    echo "** " . stack_string('stackInstall_testsuite_fail');
+}
+echo "\n";
 
 $took = (microtime(true) - $start);
 $rtook = round($took, 5);

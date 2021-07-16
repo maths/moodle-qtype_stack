@@ -12,6 +12,7 @@ Mostly minor bug fixes.
 * Done: Add in additional cache `compiledcache` to reduce validation overheads by compiling questions.
 * Done. Add in local.mac for site specific code.
 * Done. Move STACK admin UI scripts to `adminui`.
+* Done. Add in ATEqualComAssRules
 * Done. Filter student's input so groups are turned into `ntuple` inert functions.  At last students can type in coordinates as `(x,y)` as input!
 * Done. Add in warnings of language mismatch in parts of a question.
 * Done. Add in warnings where the answer test needs a raw input but appears to get a calculated value.

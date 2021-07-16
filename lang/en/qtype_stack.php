@@ -782,6 +782,7 @@ $string['stackBlock_jsxgraph_param']       = 'The jsxgraph-block supports only t
 $string['stackOptions_AnsTest_values_AlgEquiv']            = "AlgEquiv";
 $string['stackOptions_AnsTest_values_AlgEquivNouns']       = "AlgEquivNouns";
 $string['stackOptions_AnsTest_values_EqualComAss']         = "EqualComAss";
+$string['stackOptions_AnsTest_values_EqualComAssRules']    = "EqualComAssRules";
 $string['stackOptions_AnsTest_values_CasEqual']            = "CasEqual";
 $string['stackOptions_AnsTest_values_SameType']            = "SameType";
 $string['stackOptions_AnsTest_values_SubstEquiv']          = "SubstEquiv";
@@ -839,6 +840,9 @@ $string['ATAlgEquiv_SA_not_string']     = 'Your answer should be a string, but i
 $string['Subst']                        = 'Your answer would be correct if you used the following substitution of variables. {$a->m0} ';
 
 $string['ATSubstEquiv_Opt_List']        = 'The option to this answer test must be a list.  This is an error.  Please contact your teacher. ';
+
+$string['ATEqualComAssRules_Opt_List']  = 'The option to this answer test must be a non-empty list of supported rules.  This is an error.  Please contact your teacher. ';
+$string['ATEqualComAssRules_Opt_Incompatible']  = 'The option to this answer test contains incompatible rules.  This is an error.  Please contact your teacher. ';
 
 $string['ATSets_SA_not_set']            = 'Your answer should be a set, but is not.  Note that the syntax to enter a set is to enclose the comma separated values with curly brackets. ';
 $string['ATSets_SB_not_set']            = 'The "Sets" answer test expects its second argument to be a set.  This is an error.  Please contact your teacher.';
@@ -957,7 +961,6 @@ $string['ATSysEquiv_SA_system_underdetermined'] = 'The equations in your system 
 $string['ATSysEquiv_SA_system_overdetermined']  = 'The entries underlined in red below are those that are incorrect. {$a->m0} ';
 
 $string['ATRegEx_missing_option']               = 'Missing regular expression in CAS Option field.';
-
 
 $string['ATSRegExp_SB_not_string']              = 'The second argument to the SRegExp answer test must be a string. The test failed. Please contact your teacher.';
 $string['ATSRegExp_SA_not_string']              = 'The first argument to the SRegExp answer test must be a string. The test failed. Please contact your teacher.';
@@ -1093,7 +1096,6 @@ $string['alg_quadratic_formula_fact'] = 'If we have a quadratic equation of the 
 then the solution(s) to that equation given by the quadratic formula are:
 \[x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}.\]';
 
-
 $string['alg_partial_fractions_name'] = 'Partial Fractions';
 $string['alg_partial_fractions_fact'] = 'Proper fractions occur with \[{\frac{P(x)}{Q(x)}}\]
 when \(P\) and \(Q\) are polynomials with the degree of \(P\) less than the degree of \(Q\).  This this case, we proceed
@@ -1173,7 +1175,6 @@ $string['hyp_inverse_functions_fact'] = '\[\cosh^{-1}(x)=\ln\left(x+\sqrt{x^2-1}
  \[\sinh^{-1}(x)=\ln\left(x+\sqrt{x^2+1}\right)\]
  \[\tanh^{-1}(x) = \frac{1}{2}\ln\left({1+x\over 1-x}\right) \quad \mbox{ for } -1< x < 1\]';
 
-
 $string['calc_diff_standard_derivatives_name'] = 'Standard Derivatives';
 $string['calc_diff_standard_derivatives_fact'] = 'The following table displays the derivatives of some standard functions.  It is useful to learn these standard derivatives as they are used frequently in calculus.
 
@@ -1203,8 +1204,6 @@ $string['calc_diff_standard_derivatives_fact'] = 'The following table displays t
  \[ \frac{d}{dx}\left(\sinh^{-1}(x)\right) =  \frac{1}{\sqrt{x^2+1}}\]
  \[ \frac{d}{dx}\left(\tanh^{-1}(x)\right) =  \frac{1}{1-x^2}\]
 ';
-
-
 
 $string['calc_diff_linearity_rule_name'] = 'The Linearity Rule for Differentiation';
 $string['calc_diff_linearity_rule_fact'] = '\[{{\rm d}\,\over {\rm d}x}\big(af(x)+bg(x)\big)=a{{\rm d}f(x)\over {\rm d}x}+b{{\rm d}g(x)\over {\rm d}x}\quad a,b {\rm\  constant.}\]';

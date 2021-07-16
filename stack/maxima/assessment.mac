@@ -173,6 +173,25 @@ listsoverlap(a, b) := not(emptyp(intersection(setify(a), setify(b))))$
 /* Returns true iff a and b are lists (not necessarily same length) and contain the common element v */
 listscontain(a, b, v) := elementp(v, intersection(setify(a), setify(b)))$
 
+/* Removes the first occurance of ex from the list l. */
+removeonce(ex, l) := block(
+  if listp(l)#true or emptyp(l) then return([]),
+  if first(l)=ex then return(rest(l)),
+  append([first(l)], removeonce(ex,rest(l)))
+)$
+
+/* Remove any common elements from [l1,l2], with duplication. */
+list_cancel(ex) := block([l1, l2, l3],
+  l1:first(ex),
+  l2:second(ex),
+  if not(listp(l1)) or not(listp(l2)) then error("Arguments of list_cancel must be lists."),
+  if emptyp(l1) then return([l1, l2]),
+  if emptyp(l2) then return([l1, l2]),
+  if element_listp(first(l2), l1) then return(list_cancel([removeonce(first(l2), l1), rest(l2)])), 
+  l3:list_cancel([l1, rest(l2)]),
+  return([first(l3),append([first(l2)], second((l3)))])
+)$
+
 /* This function applies the binary function zf to two lists a and b returning a list
 [ zf(a[1],b[1]), zf(a[2],b[2]), ... ] zip_with quietly gives up when one of the list runs out of elements.
    Actually, we can achieve some of this with map(zf, a, b) but this does not give up quietly
@@ -948,62 +967,10 @@ STACK_assoc(ex, oplist) := block(
   apply(op(ex), map(lambda([ex3], STACK_assoc(ex3, oplist)), args(ex)))
 )$
 
-/* ********************************** */
-/* Noun arithmetic                    */
-/* ********************************** */
 
-/* ** Noun forms of the arithmetic functions ** */
-
-/* These function define arithmetic functions which do
-   not perform their actual mathematical functions. That is to say
-   noun forms of the standard arithmetic functions. This is to
-   give much finer control over the simplification of very elementary
-   expressions.
-
-   Chris Sangwin 21 Oct 2005.
-   Chris Sangwin 7 Nov 2009, with help from JHD.
-*/
-
-/* Create noun forms of the functions of +, -, *, / and ^
-   as follows.
-   + noun+
-   - noun-
-   * noun*
-   / noun/
-   ^ noun^
-*/
-
-/* For each of these we do the following.
-   (1) They are defined as infix and nary operators in Maxima
-       with the binding precedences of their namesakes.
-   (2) The tex() function is modified to display them exactly as
-       their namesakes.  This should work with a *mix* of noun and
-       active operators.
-   (3) verb_arith(expr) which will replace noun versions with their
-       active counterparts.
-   (4) noun_arith(expr) which will replace arithmetic operators with their
-       noun counterparts.
-*/
-
-/* (1) */
-nary("noun=", 150);
-nary("noun+", 100);
-prefix("noun-", 100);
-nary("noun*", 120);
-infix("noun/", 122, 123);
-infix("noun^", 140, 139);
-prefix("UNARY_RECIP", 100);
-
-declare("noun*", commutative);
-declare("noun+", commutative);
-
-/* (2) */
-load("noun_arith.lisp");
-
-/* (3) */
-declare("noun=", commutative);
-declare("noun=", lassociative);
-declare("noun=", rassociative);
+/****************************************************************/
+/*  Define noun versions of logical "and" and "or".             */
+/****************************************************************/
 
 noun_logic_remove(ex) := block([rex],
     rex:opsubst("and", "nounand", ex),
@@ -1018,137 +985,6 @@ noun_logic(ex) := block([rex],
     rex:subst("nounnot", "not", rex),
     rex
 )$
-
-verb_arith(ex) := block([a],
-    ex:subst("=", "noun=", ex),
-    ex:subst("+", "noun+", ex),
-    ex:subst("*", "noun*", ex),
-    ex:subst("-", "noun-", ex),
-    ex:subst("/", "noun/", ex),
-    ex:subst("^", "noun^", ex),
-    define(UNARY_RECIP a, a^(-1)),
-    ex:ev(ex, UNARY_MINUS=-1),
-    remfunction("noun+", "noun*", "noun/", "noun^", "noun-", "UNARY_RECIP"),
-    ex
-)$
-
-/* (4) */
-noun_arith(ex) := block([a],
-    ex:subst("noun=", "=", ex),
-    ex:subst("noun+", "+", ex),
-    ex:subst("noun*", "*", ex),
-    /* Unary minus really communtes with multiplication. */
-    ex:subst(lambda([ex], UNARY_MINUS noun* ex), "-", ex),
-    /* Turn 1/x into x^(-1), in a special form */
-    ex:subst(lambda([ex1, ex2], ex1 noun* (UNARY_RECIP ex2)), "/", ex),
-    define(UNARY_RECIP a, a noun^ (-1)),
-    ex:ev(subst("noun^", "^", ex)),
-    remfunction("UNARY_RECIP"),
-    ev(ex)
-)$
-
-/* (5) Assumes we are working in the context of noun operators. */
-gather_reduce(ex) := block(
-    ex:subst("=", "noun=", ex),
-    ex:subst("+", "noun+", ex),
-    ex:subst("*", "noun*", ex),
-    ex:subst("-", "noun-", ex),
-    ex:ev(flatten(ex), simp),
-    ex:subst("noun=", "=", ex),
-    ex:subst("noun+", "+", ex),
-    ex:subst("noun*", "*", ex), --
-    ex:subst("noun-", "-", ex),
-    ex
-)$
-
-/* This function recursively applies flatten, i.e. this implements nary simplification. */
-flatten_recurse_nouns(ex) := block(
-    if atom(ex) then return(ex),
-    if op(ex)="noun+" or op(ex)="noun*" then
-        return(flatten(apply(op(ex), maplist(flatten_recurse_nouns, args(ex))))),
-    if safe_op(ex)="nounset" then
-        return((apply(op(ex), maplist(flatten_recurse_nouns, sort(args(ex)))))),
-    apply(op(ex), maplist(flatten_recurse_nouns, args(ex)))
-)$
-
-sort_nouns(ex) := block([exl],
-    if atom(ex) then return(ex),
-    exl:maplist(sort_nouns, args(ex)),
-    if safe_op(ex)="noun=" or safe_op(ex)="nounand" or safe_op(ex)="nounor" or safe_op(ex)="nounnot" or safe_op(ex)="nounset" or op(ex)="noun+" or op(ex)="noun*" then
-        exl:sort(exl),
-    apply(op(ex), exl)
-)$
-
-/* Rule which takes (a^n)^-1 when n is an integer to a^-n */
-flatten_pow_minus_one(ex):= block(
-   if not(safe_op(ex)="noun^") then return(ex),
-   if not(second(args(ex))=-1) then return(ex),
-   if safe_op(first(args(ex)))="noun^" and integerp(second(args(first(args(ex))))) then return("noun^"(first(args(first(args(ex)))),-second(args(first(args(ex)))))),
-   ex
-);
-
-/* Recursive rule which takes UNARY_MINUS noun* n, where n is an integer to -n */
-unary_minus_remove(ex):= block(
-   if atom(ex) then return(ex),
-   if safe_op(ex)="noun*" and is(first(args(ex))=UNARY_MINUS) and integerp(second(args(ex))) then return(-second(args(ex))),
-   apply(op(ex), maplist(unary_minus_remove, args(ex)))
-);
-
-/*  (7)  */
-/* Returns true iff ex1 and ex2 are equal up to commutativity and associativity. */
-equals_commute_associate(ex1, ex2) := block([oldsimp, ret, ex1n, ex2n],
-    oldsimp:simp,
-    simp:false,
-    ret:false,
-    ex1n:subst(nounset,set,ex1),
-    ex2n:subst(nounset,set,ex2),
-    ex1n:noun_arith(ex1n),
-    ex2n:noun_arith(ex2n),
-    ex1n:flatten_recurse_nouns(ex1n),
-    ex2n:flatten_recurse_nouns(ex2n),
-    ex1n:sort_nouns(ex1n),
-    ex2n:sort_nouns(ex2n),
-    if is(ex1n=ex2n) then ret:true,
-    simp:oldsimp,
-    return(ret)
-)$
-
-/* An answer test in the context of commutative+associative addition and multiplication. */
-ATEqualComAss(sa, sb) :=
-    block([Validity, RawMark, FeedBack, AnswerNote, ret, SAA, SBB],
-    Validity:true, RawMark:true, FeedBack:"", AnswerNote:"",
-
-    SAA:errcatch(ev(sa, simp, nouns)),
-    if (is(SAA=[STACKERROR]) or is(SAA=[])) then
-        return([false, false, StackAddNote("", "ATEqualComAss_STACKERROR_SAns"), ""]),
-    SBB:errcatch(ev(sb, simp, nouns)),
-    if (is(SBB=[STACKERROR]) or is(SBB=[])) then
-        return([false,false,StackAddNote("", "ATEqualComAss_STACKERROR_TAns"), ""]),
-
-    sa:remove_stackeq(sa),
-    sb:remove_stackeq(sb),
-
-    /* We need to check things are of the same type */
-    ret:ATSameTypefun(sa,sb),
-    if ret[2]=false then
-        (ret[3]:StackAddNote("ATEqualComAss ", StackTrimNote(ret[3])), return([false, ret[2], ret[3], ret[4]]) ),
-    ret:block([simp:true, ret], ATAlgEquiv(sa, sb)),
-    if ret[2]=false then
-        (ret[3]:StackAddNote("ATEqualComAss (AlgEquiv-false)", StackTrimNote(ret[3])), return([false, ret[2], ret[3], ""])),
-    /* Now actually apply this test */
-    if equals_commute_associate(sa, sb) then
-        (RawMark:true, AnswerNote:"")
-    else
-        (RawMark:false, AnswerNote:StackAddNote("","ATEqualComAss (AlgEquiv-true)")),
-    return([Validity, RawMark, AnswerNote, FeedBack])
-)$
-
-/* Legacy support for direct access to this function.  */
-alias(ATEqual_com_ass, ATEqualComAss)$
-
-/****************************************************************/
-/*  Define noun versions of logical "and" and "or".             */
-/****************************************************************/
 
 nary("nounand", 65)$
 nary("nounor", 61)$

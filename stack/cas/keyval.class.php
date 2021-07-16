@@ -19,6 +19,7 @@ defined('MOODLE_INTERNAL') || die();
 require_once(__DIR__ . '/../maximaparser/utils.php');
 require_once(__DIR__ . '/../maximaparser/MP_classes.php');
 require_once(__DIR__ . '/cassession2.class.php');
+require_once(__DIR__ . '/../utils.class.php');
 
 /**
  * Class to parse user-entered data into CAS sessions.
@@ -114,8 +115,12 @@ class stack_cas_keyval {
 
         $ast = maxima_parser_utils::strip_comments($ast);
 
+        $vallist = array();
         // Update the types and values for future insert-stars and other logic.
-        $vallist = maxima_parser_utils::identify_identifier_values($ast, $this->security->get_context());
+        $config = stack_utils::get_config();
+        if ($config->caspreparse == 'true') {
+            $vallist = maxima_parser_utils::identify_identifier_values($ast, $this->security->get_context());
+        }
         if (isset($vallist['% TIMEOUT %'])) {
             $this->errors[] = stack_string('stackCas_overlyComplexSubstitutionGraphOrRandomisation');
             $this->valid = false;

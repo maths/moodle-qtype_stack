@@ -44,6 +44,7 @@ Other options for the platform are `linux` and `linux-optimised`.
     define('QTYPE_STACK_TEST_CONFIG_PLOTCOMMAND',     '');
 
     define('QTYPE_STACK_TEST_CONFIG_CASRESULTSCACHE', 'db');
+    define('QTYPE_STACK_TEST_CONFIG_CASPREPARSE', 'true');
 
 You should probably copy the settings from Admin -> Plugins -> Question types -> STACK.
 However, you can use the flexibility to have different configurations of STACK

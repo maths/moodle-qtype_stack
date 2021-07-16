@@ -331,7 +331,9 @@ class maxima_parser_utils {
                     }
                 }
                 // Algsys needs the list contents protected.
-                if ($node->parentnode instanceof MP_List && $node->parentnode->parentnode !== null && $node->parentnode->parentnode instanceof MP_FunctionCall && $node->parentnode->parentnode->name instanceof MP_Atom
+                if ($node->parentnode instanceof MP_List && $node->parentnode->parentnode !== null
+                        && $node->parentnode->parentnode instanceof MP_FunctionCall
+                        && $node->parentnode->parentnode->name instanceof MP_Atom
                         && $node->parentnode->parentnode->name->value === 'algsys') {
                     if ($node->argument_of('algsys') === 1) {
                         return true;
@@ -467,7 +469,9 @@ class maxima_parser_utils {
                     }
                 }
                 // Algsys needs the list contents protected.
-                if ($node->parentnode instanceof MP_List && $node->parentnode->parentnode !== null && $node->parentnode->parentnode instanceof MP_FunctionCall && $node->parentnode->parentnode->name instanceof MP_Atom
+                if ($node->parentnode instanceof MP_List && $node->parentnode->parentnode !== null
+                        && $node->parentnode->parentnode instanceof MP_FunctionCall
+                        && $node->parentnode->parentnode->name instanceof MP_Atom
                         && $node->parentnode->parentnode->name->value === 'algsys') {
                     if ($node->argument_of('algsys') === 1) {
                         return true;
@@ -1420,7 +1424,8 @@ class maxima_parser_utils {
                 if (!isset($types['MP_Statement']) && $types['totalnodes'] > $mergelimit
                         && count($types['vars']) + 1 < $mergelimit && !isset($types['ops'][':'])
                         && !isset($types['ops']['=']) && !isset($types['funs']['subst'])
-                        && !isset($types['funs']['ev']) && !isset($types['funs']['solve']) && !isset($types['funs']['algsys']) && !isset($types['funs']['at'])) {
+                        && !isset($types['funs']['ev']) && !isset($types['funs']['solve'])
+                        && !isset($types['funs']['algsys']) && !isset($types['funs']['at'])) {
                     $ids = [];
                     foreach ($types['vars'] as $key => $value) {
                         $ids[] = new MP_Identifier($key);
@@ -1559,7 +1564,8 @@ class maxima_parser_utils {
                     continue;
                 }
                 $types = $value->type_count();
-                if ($types['has control flow'] || isset($types['funs']['solve']) || isset($types['funs']['algsys']) || isset($types['funs']['ev'])
+                if ($types['has control flow'] || isset($types['funs']['solve']) || isset($types['funs']['algsys'])
+                        || isset($types['funs']['ev'])
                         || isset($types['funs']['subst']) || isset($types['funs']['at']) || isset($types['ops'][':'])) {
                     $t = new MP_Operation(':', new MP_Identifier($key), $value);
                     $workset2[$t->toString()] = $t;
@@ -1812,7 +1818,8 @@ class maxima_parser_utils {
                     continue;
                 }
                 $types = $value->type_count();
-                if ($types['has control flow'] || isset($types['funs']['solve']) || isset($types['funs']['algsys']) || isset($types['funs']['ev'])
+                if ($types['has control flow'] || isset($types['funs']['solve']) || isset($types['funs']['algsys'])
+                        || isset($types['funs']['ev'])
                         || isset($types['funs']['subst']) || isset($types['funs']['at'])) {
                     $t = new MP_Operation(':', new MP_Identifier($key), $value);
                     $workset3[$t->toString()] = $t;

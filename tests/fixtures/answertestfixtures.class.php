@@ -1252,6 +1252,8 @@ class stack_answertest_test_data {
         array('Diff', 'y', 'x^4/4', '3*x^2', 0, '', ''),
         array('Diff', 'x', 'e^x+c', 'e^x', 0, 'ATDiff_int.', 'Edge cases'),
         array('Diff', 'x', 'e^x+2', 'e^x', 0, 'ATDiff_int.', ''),
+        array('Diff', 'x', 'n*x^n', 'n*x^(n-1)', -1, 'ATDiff_STACKERROR_SAns.', ''),
+        array('Diff', 'x', 'n*x^n', '(assume(n>0), n*x^(n-1))', 0, '', ''),
 
         array('Int', '', '1/0', '1', -1, 'STACKERROR_OPTION.', ''),
         array('Int', 'x', '1/0', '1', -1, 'ATInt_STACKERROR_SAns.', ''),
@@ -1286,6 +1288,8 @@ class stack_answertest_test_data {
         array('Int', '[x,NOCONST]', 'x^2/2-2*x+2', '(x-2)^2/2+k', 1, 'ATInt_const_condone.', ''),
         array('Int', '[x,NOCONST]', 'x^3/3+1', 'x^3/3', 1, 'ATInt_const_int_condone.', ''),
         array('Int', '[x,NOCONST]', 'x^3/3+c^2', 'x^3/3', 0, 'ATInt_weirdconst.', ''),
+        array('Int', 'x', 'n*x^n', 'n*x^(n-1)', -1, 'ATDiff_STACKERROR_SAns.', ''),
+        array('Int', 'x', 'n*x^n', '(assume(n>0), n*x^(n-1))', 0, '', ''),
         array('Int', 'x', 'exp(x)+c', 'exp(x)', 1, 'ATInt_true.', 'Special case'),
         array('Int', 'x', 'exp(x)', 'exp(x)', 0, 'ATInt_const.', ''),
         array('Int', '[x,NOCONST]', 'exp(x)', 'exp(x)', 1, 'ATInt_const_condone.', ''),

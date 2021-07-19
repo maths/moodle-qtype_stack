@@ -60,6 +60,7 @@ function xmldb_qtype_stack_install() {
         set_config('maximaversion', 'default', 'qtype_stack');
         set_config('castimeout', 10, 'qtype_stack');
         set_config('casresultscache', 'db', 'qtype_stack');
+        set_config('caspreparse', 'true', 'qtype_stack');
         set_config('maximacommand', '', 'qtype_stack');
         set_config('maximacommandopt', '', 'qtype_stack');
         set_config('maximacommandserver', '', 'qtype_stack');

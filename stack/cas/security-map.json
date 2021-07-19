@@ -369,34 +369,44 @@
       "variable": "f"
   },
   "_APPEND_ERR": {
-      "function": "f"
+      "function": "f",
+      "built-in": true
   },
   "_APPEND_FEEDBACK": {
-      "function": "f"
+      "function": "f",
+      "built-in": true
   },
   "_APPEND_NOTE": {
-      "function": "f"
+      "function": "f",
+      "built-in": true
   },
   "_CS2dv": {
-      "function": "f"
+      "function": "f",
+      "built-in": true
   },
   "_CS2dvv": {
-      "function": "f"
+      "function": "f",
+      "built-in": true
   },
   "_CS2l": {
-      "function": "f"
+      "function": "f",
+      "built-in": true
   },
   "_CS2v": {
-      "function": "f"
+      "function": "f",
+      "built-in": true
   },
   "_EC": {
-      "function": "f"
+      "function": "f",
+      "built-in": true
   },
   "_RESET_FEEDBACK": {
-      "function": "f"
+      "function": "f",
+      "built-in": true
   },
   "_RESET_NOTES": {
-      "function": "f"
+      "function": "f",
+      "built-in": true
   },
   "__": {
       "globalyforbiddenvariable": true,
@@ -412,7 +422,8 @@
       "function": "f"
   },
   "abs": {
-      "function": "s"
+      "function": "s",
+      "built-in": true
   },
   "absboxchar": {
       "variable": "f"
@@ -425,27 +436,33 @@
   },
   "acos": {
       "function": "s",
-      "trigfun": true
+      "trigfun": true,
+      "built-in": true
   },
   "acosh": {
       "function": "s",
-      "trigfun": true
+      "trigfun": true,
+      "built-in": true
   },
   "acot": {
       "function": "s",
-      "trigfun": true
+      "trigfun": true,
+      "built-in": true
   },
   "acoth": {
       "function": "s",
-      "trigfun": true
+      "trigfun": true,
+      "built-in": true
   },
   "acsc": {
       "function": "s",
-      "trigfun": true
+      "trigfun": true,
+      "built-in": true
   },
   "acsch": {
       "function": "s",
-      "trigfun": true
+      "trigfun": true,
+      "built-in": true
   },
   "activate": {
       "function": "f"
@@ -532,7 +549,8 @@
       "variable": "?"
   },
   "algsys": {
-      "function": "?"
+      "function": "?",
+      "built-in": true
   },
   "alias": {
       "function": "f",
@@ -603,7 +621,8 @@
       "function": "s"
   },
   "append": {
-      "function": "?"
+      "function": "?",
+      "built-in": true
   },
   "appendfile": {
       "function": "f",
@@ -611,7 +630,8 @@
   },
   "apply": {
       "function": "?",
-      "mapfunction": true
+      "mapfunction": true,
+      "built-in": true
   },
   "apply1": {
       "function": "?"
@@ -630,7 +650,8 @@
       "globalyforbiddenfunction": true
   },
   "args": {
-      "function": "?"
+      "function": "?",
+      "built-in": true
   },
   "arit_amortization": {
       "function": "?"
@@ -660,23 +681,28 @@
       "function": "?"
   },
   "ascii": {
-      "function": "s"
+      "function": "s",
+      "built-in": true
   },
   "asec": {
       "function": "s",
-      "trigfun": true
+      "trigfun": true,
+      "built-in": true
   },
   "asech": {
       "function": "s",
-      "trigfun": true
+      "trigfun": true,
+      "built-in": true
   },
   "asin": {
       "function": "s",
-      "trigfun": true
+      "trigfun": true,
+      "built-in": true
   },
   "asinh": {
       "function": "s",
-      "trigfun": true
+      "trigfun": true,
+      "built-in": true
   },
   "askexp": {
       "variable": "?"
@@ -720,24 +746,28 @@
       "function": "?"
   },
   "at": {
-      "function": "?"
+      "function": "t",
+      "built-in": true
   },
   "atan": {
       "function": "s",
-      "trigfun": true
+      "trigfun": true,
+      "built-in": true
   },
   "atan2": {
       "function": "s"
   },
   "atanh": {
       "function": "s",
-      "trigfun": true
+      "trigfun": true,
+      "built-in": true
   },
   "atensimp": {
       "function": "f"
   },
   "atom": {
-      "function": "?"
+      "function": "?",
+      "built-in": true
   },
   "atomgrad": {
       "property": "f"
@@ -917,7 +947,8 @@
       "function": "s"
   },
   "bfloatp": {
-      "function": "s"
+      "function": "s",
+      "built-in": true
   },
   "bfpsi": {
       "function": "f"
@@ -977,7 +1008,8 @@
       "variable": "s"
   },
   "block": {
-      "function": "?"
+      "function": "?",
+      "built-in": true
   },
   "blockmatrixp": {
       "function": "s"
@@ -1238,13 +1270,14 @@
       "function": "s"
   },
   "charp": {
-      "function": "s"
+      "function": "s",
+      "built-in": true
   },
   "charpoly": {
       "function": "s"
   },
   "chdir": {
-      "function": "?"
+      "function": "f"
   },
   "chebyshev_t": {
       "function": "f"
@@ -1343,7 +1376,8 @@
       "variable": "f"
   },
   "columnop": {
-      "function": "s"
+      "function": "s",
+      "built-in": true
   },
   "columns": {
       "variable": "f"
@@ -1352,10 +1386,12 @@
       "function": "s"
   },
   "columnswap": {
-      "function": "s"
+      "function": "s",
+      "built-in": true
   },
   "columnvector": {
-      "function": "?"
+      "function": "?",
+      "built-in": true
   },
   "combination": {
       "function": "f"
@@ -1425,7 +1461,8 @@
       "function": "?"
   },
   "cons": {
-      "function": "s"
+      "function": "s",
+      "built-in": true
   },
   "constant": {
       "keyword": "?",
@@ -1433,7 +1470,8 @@
       "specialallowvariable": true
   },
   "constantp": {
-      "function": "?"
+      "function": "?",
+      "built-in": true
   },
   "constituent": {
       "function": "s"
@@ -1506,30 +1544,36 @@
   },
   "cos": {
       "function": "s",
-      "trigfun": true
+      "trigfun": true,
+      "built-in": true
   },
   "cosec": {
       "function": "s",
-      "trigfun": true
+      "trigfun": true,
+      "built-in": true
   },
   "cosech": {
       "function": "s",
-      "trigfun": true
+      "trigfun": true,
+      "built-in": true
   },
   "cosh": {
       "function": "s",
-      "trigfun": true
+      "trigfun": true,
+      "built-in": true
   },
   "cosnpiflag": {
       "variable": "?"
   },
   "cot": {
       "function": "s",
-      "trigfun": true
+      "trigfun": true,
+      "built-in": true
   },
   "coth": {
       "function": "s",
-      "trigfun": true
+      "trigfun": true,
+      "built-in": true
   },
   "cov": {
       "function": "?"
@@ -1541,7 +1585,8 @@
       "function": "f"
   },
   "covect": {
-      "function": "s"
+      "function": "s",
+      "built-in": true
   },
   "covers": {
       "function": "f"
@@ -1556,15 +1601,18 @@
       "argumentmapstovariable": [
           1
       ],
-      "function": "s"
+      "function": "s",
+      "built-in": true
   },
   "csc": {
       "function": "s",
-      "trigfun": true
+      "trigfun": true,
+      "built-in": true
   },
   "csch": {
       "function": "s",
-      "trigfun": true
+      "trigfun": true,
+      "built-in": true
   },
   "csetup": {
       "function": "f"
@@ -1749,7 +1797,8 @@
       "variable": "f"
   },
   "delete": {
-      "function": "s"
+      "function": "s",
+      "built-in": true
   },
   "delete_file": {
       "function": "?"
@@ -1771,7 +1820,8 @@
       "variable": "?"
   },
   "denom": {
-      "function": "s"
+      "function": "s",
+      "built-in": true
   },
   "dependencies": {
       "function": "f",
@@ -1851,7 +1901,8 @@
   },
   "diff": {
       "function": "s",
-      "nounfunction": "noundiff"
+      "nounfunction": "noundiff",
+      "built-in": true
   },
   "digitcharp": {
       "function": "s"
@@ -2113,7 +2164,8 @@
       "function": "s"
   },
   "elementp": {
-      "function": "s"
+      "function": "s",
+      "built-in": true
   },
   "elevation": {
       "variable": "f"
@@ -2158,13 +2210,15 @@
       "function": "?"
   },
   "emptyp": {
-      "function": "s"
+      "function": "s",
+      "built-in": true
   },
   "encode_time": {
       "function": "?"
   },
   "endcons": {
-      "function": "s"
+      "function": "s",
+      "built-in": true
   },
   "engineering_format_floats": {
       "variable": "?"
@@ -2198,7 +2252,8 @@
       "function": "s"
   },
   "equalp": {
-      "function": "s"
+      "function": "s",
+      "built-in": true
   },
   "equiv_classes": {
       "function": "s"
@@ -2253,7 +2308,8 @@
       "function": "s"
   },
   "ev": {
-      "function": "s"
+      "function": "s",
+      "built-in": true
   },
   "ev_point": {
       "variable": "f"
@@ -2273,7 +2329,8 @@
       "property": "?"
   },
   "evenp": {
-      "function": "s"
+      "function": "s",
+      "built-in": true
   },
   "every": {
       "function": "s"
@@ -2444,7 +2501,8 @@
       "function": "s"
   },
   "factorp": {
-      "function": "s"
+      "function": "s",
+      "built-in": true
   },
   "factors_only": {
       "variable": "?"
@@ -2575,10 +2633,12 @@
       "function": "f"
   },
   "first": {
-      "function": "s"
+      "function": "s",
+      "built-in": true
   },
   "firstn": {
-      "function": "?"
+      "function": "?",
+      "built-in": true
   },
   "fix": {
       "function": "s"
@@ -2596,16 +2656,19 @@
   "float": {
       "evflag": "?",
       "function": "s",
-      "variable": "?"
+      "variable": "?",
+      "built-in": true
   },
   "float2bf": {
       "variable": "s"
   },
   "floatnump": {
-      "function": "?"
+      "function": "?",
+      "built-in": true
   },
   "floor": {
-      "function": "s"
+      "function": "s",
+      "built-in": true
   },
   "flower_snark": {
       "function": "?"
@@ -2680,7 +2743,8 @@
       "function": "s"
   },
   "fourth": {
-      "function": "s"
+      "function": "s",
+      "built-in": true
   },
   "fposition": {
       "function": "f",
@@ -2696,7 +2760,8 @@
       "function": "f"
   },
   "freeof": {
-      "function": "s"
+      "function": "s",
+      "built-in": true
   },
   "freshline": {
       "function": "f",
@@ -2722,15 +2787,18 @@
   },
   "fullmap": {
       "function": "s",
-      "mapfunction": true
+      "mapfunction": true,
+      "built-in": true
   },
   "fullmapl": {
       "function": "s",
-      "mapfunction": true
+      "mapfunction": true,
+      "built-in": true
   },
   "fullratsimp": {
       "evfun": "s",
-      "function": "s"
+      "function": "s",
+      "built-in": true
   },
   "fullratsubst": {
       "function": "s"
@@ -2758,10 +2826,12 @@
   "funmake": {
       "function": "f",
       "globalyforbiddenfunction": true,
-      "mapfunction": true
+      "mapfunction": true,
+      "built-in": true
   },
   "funp": {
-      "function": "s"
+      "function": "s",
+      "built-in": true
   },
   "fv": {
       "function": "?"
@@ -3393,7 +3463,8 @@
       "nounfunction": "nounint",
       "aliasfunctions": [
           "integrate"
-      ]
+      ],
+      "built-in": true
   },
   "intanalysis": {
       "variable": "?"
@@ -3405,7 +3476,8 @@
       "function": "s"
   },
   "integerp": {
-      "function": "?"
+      "function": "?",
+      "built-in": true
   },
   "integervalued": {
       "property": "?"
@@ -3434,7 +3506,8 @@
   },
   "intersection": {
       "function": "s",
-      "nounfunction": "%intersection"
+      "nounfunction": "%intersection",
+      "built-in": true
   },
   "intervalp": {
       "function": "s"
@@ -3525,7 +3598,8 @@
       "property": "?"
   },
   "is": {
-      "function": "?"
+      "function": "?",
+      "built-in": true
   },
   "is_biconnected": {
       "function": "?"
@@ -3800,7 +3874,8 @@
   },
   "lambda": {
       "function": "s",
-      "variable": "s"
+      "variable": "s",
+      "built-in": true
   },
   "lambert_w": {
       "function": "s"
@@ -3815,10 +3890,12 @@
       "property": "f"
   },
   "last": {
-      "function": "s"
+      "function": "s",
+      "built-in": true
   },
   "lastn": {
-      "function": "?"
+      "function": "?",
+      "built-in": true
   },
   "lbfgs": {
       "function": "f"
@@ -3872,7 +3949,8 @@
       "function": "f"
   },
   "length": {
-      "function": "s"
+      "function": "s",
+      "built-in": true
   },
   "let": {
       "function": "f"
@@ -3910,7 +3988,8 @@
       "variable": "?"
   },
   "lhs": {
-      "function": "s"
+      "function": "s",
+      "built-in": true
   },
   "li": {
       "function": "f"
@@ -3993,6 +4072,10 @@
   "list_nc_monomials": {
       "function": "f"
   },
+  "list_remove": {
+      "function": "f",
+      "built-in": true
+  },
   "listarith": {
       "evflag": "?",
       "variable": "?"
@@ -4007,7 +4090,8 @@
       "variable": "?"
   },
   "listify": {
-      "function": "s"
+      "function": "s",
+      "built-in": true
   },
   "listoftens": {
       "function": "f"
@@ -4016,19 +4100,23 @@
       "function": "?"
   },
   "listp": {
-      "function": "?"
+      "function": "?",
+      "built-in": true
   },
   "lmax": {
-      "function": "s"
+      "function": "s",
+      "built-in": true
   },
   "lmin": {
-      "function": "s"
+      "function": "s",
+      "built-in": true
   },
   "lmxchar": {
       "variable": "?"
   },
   "ln": {
-      "function": "s"
+      "function": "s",
+      "built-in": true
   },
   "load": {
       "function": "f",
@@ -4047,13 +4135,15 @@
       "variable": "f"
   },
   "local": {
-      "function": "?"
+      "function": "?",
+      "built-in": true
   },
   "locate_matrix_entry": {
       "function": "s"
   },
   "log": {
-      "function": "s"
+      "function": "s",
+      "built-in": true
   },
   "log10": {
       "function": "s"
@@ -4251,7 +4341,8 @@
       "argumentmapstovariable": [
           1
       ],
-      "function": "s"
+      "function": "s",
+      "built-in": true
   },
   "makeset": {
       "function": "s"
@@ -4268,7 +4359,8 @@
   },
   "map": {
       "function": "s",
-      "mapfunction": true
+      "mapfunction": true,
+      "built-in": true
   },
   "mapatom": {
       "function": "s"
@@ -4278,7 +4370,8 @@
   },
   "maplist": {
       "function": "s",
-      "mapfunction": true
+      "mapfunction": true,
+      "built-in": true
   },
   "mapprint": {
       "variable": "?"
@@ -4312,7 +4405,8 @@
       "function": "?"
   },
   "matrix": {
-      "function": "s"
+      "function": "s",
+      "built-in": true
   },
   "matrix_element_add": {
       "variable": "s"
@@ -4331,16 +4425,19 @@
   },
   "matrixmap": {
       "function": "s",
-      "mapfunction": true
+      "mapfunction": true,
+      "built-in": true
   },
   "matrixp": {
-      "function": "s"
+      "function": "s",
+      "built-in": true
   },
   "mattrace": {
       "function": "s"
   },
   "max": {
-      "function": "s"
+      "function": "s",
+      "built-in": true
   },
   "max_clique": {
       "function": "?"
@@ -4507,7 +4604,8 @@
       "function": "?"
   },
   "min": {
-      "function": "s"
+      "function": "s",
+      "built-in": true
   },
   "min_degree": {
       "function": "?"
@@ -4546,7 +4644,7 @@
       "function": "?"
   },
   "mkdir": {
-      "function": "?"
+      "function": "f"
   },
   "mmHg": {
       "variable": "s"
@@ -4555,7 +4653,8 @@
       "function": "f"
   },
   "mod": {
-      "function": "s"
+      "function": "s",
+      "built-in": true
   },
   "mod_big_prime": {
       "variable": "f"
@@ -4899,7 +4998,8 @@
       "function": "s"
   },
   "num": {
-      "function": "s"
+      "function": "s",
+      "built-in": true
   },
   "num_distinct_partitions": {
       "function": "s"
@@ -4914,7 +5014,8 @@
       "function": "f"
   },
   "numberp": {
-      "function": "s"
+      "function": "s",
+      "built-in": true
   },
   "numer": {
       "variable": "s"
@@ -4963,7 +5064,8 @@
       "property": "?"
   },
   "oddp": {
-      "function": "s"
+      "function": "s",
+      "built-in": true
   },
   "ode2": {
       "function": "t"
@@ -5016,7 +5118,8 @@
       "globalyforbiddenfunction": true
   },
   "operatorp": {
-      "function": "s"
+      "function": "s",
+      "built-in": true
   },
   "opproperties": {
       "variable": "?"
@@ -5086,7 +5189,8 @@
   },
   "outermap": {
       "function": "s",
-      "mapfunction": true
+      "mapfunction": true,
+      "built-in": true
   },
   "outofpois": {
       "function": "f"
@@ -5620,7 +5724,8 @@
       "function": "s"
   },
   "polynomialp": {
-      "function": "s"
+      "function": "s",
+      "built-in": true
   },
   "polytocompanion": {
       "function": "s"
@@ -5638,7 +5743,8 @@
       "function": "s"
   },
   "power_mod": {
-      "function": "s"
+      "function": "s",
+      "built-in": true
   },
   "powerdisp": {
       "variable": "s"
@@ -5662,7 +5768,8 @@
       "function": "?"
   },
   "primep": {
-      "function": "s"
+      "function": "s",
+      "built-in": true
   },
   "primep_number_of_tests": {
       "variable": "f"
@@ -5954,7 +6061,8 @@
   },
   "random": {
       "function": "f",
-      "random": true
+      "random": true,
+      "built-in": true
   },
   "random_subset": {
       "function": "f",
@@ -6082,7 +6190,8 @@
   },
   "random_permutation": {
       "function": "?",
-      "random": true
+      "random": true,
+      "built-in": true
   },
   "random_poisson": {
       "function": "s",
@@ -6122,7 +6231,8 @@
       "property": "s"
   },
   "rat": {
-      "function": "s"
+      "function": "s",
+      "built-in": true
   },
   "ratalgdenom": {
       "evflag": "s",
@@ -6179,7 +6289,8 @@
       "function": "s"
   },
   "ratnump": {
-      "function": "s"
+      "function": "s",
+      "built-in": true
   },
   "ratp": {
       "function": "s"
@@ -6204,7 +6315,8 @@
   },
   "ratsimp": {
       "evfun": "s",
-      "function": "s"
+      "function": "s",
+      "built-in": true
   },
   "ratsimpexpons": {
       "evflag": "s",
@@ -6470,7 +6582,8 @@
       "variable": "s"
   },
   "return": {
-      "function": "?"
+      "function": "?",
+      "built-in": true
   },
   "rev": {
       "variable": "s"
@@ -6479,7 +6592,8 @@
       "function": "?"
   },
   "reverse": {
-      "function": "s"
+      "function": "s",
+      "built-in": true
   },
   "revert": {
       "function": "f"
@@ -6495,7 +6609,8 @@
       "variable": "s"
   },
   "rhs": {
-      "function": "s"
+      "function": "s",
+      "built-in": true
   },
   "ric": {
       "variable": "s"
@@ -6564,13 +6679,16 @@
       "function": "s"
   },
   "row": {
-      "function": "s"
+      "function": "s",
+      "built-in": true
   },
   "rowop": {
-      "function": "s"
+      "function": "s",
+      "built-in": true
   },
   "rowswap": {
-      "function": "s"
+      "function": "s",
+      "built-in": true
   },
   "rpm": {
       "variable": "s"
@@ -6600,6 +6718,10 @@
   "saving": {
       "function": "?"
   },
+  "safe_op": {
+      "function": "?",
+      "built-in": true
+  },
   "scalar": {
       "property": "?"
   },
@@ -6607,7 +6729,8 @@
       "variable": "s"
   },
   "scalarp": {
-      "function": "s"
+      "function": "s",
+      "built-in": true
   },
   "scale_lp": {
       "variable": "?"
@@ -6626,7 +6749,8 @@
   },
   "scanmap": {
       "function": "s",
-      "mapfunction": true
+      "mapfunction": true,
+      "built-in": true
   },
   "scatterplot": {
       "function": "f",
@@ -6642,7 +6766,8 @@
       "function": "s"
   },
   "sconcat": {
-      "function": "?"
+      "function": "?",
+      "built-in": true
   },
   "scopy": {
       "function": "?"
@@ -6658,14 +6783,17 @@
   },
   "sec": {
       "function": "s",
-      "trigfun": true
+      "trigfun": true,
+      "built-in": true
   },
   "sech": {
       "function": "s",
-      "trigfun": true
+      "trigfun": true,
+      "built-in": true
   },
   "second": {
-      "function": "s"
+      "function": "s",
+      "built-in": true
   },
   "sequal": {
       "function": "s"
@@ -6674,7 +6802,8 @@
       "function": "s"
   },
   "set": {
-      "function": "?"
+      "function": "?",
+      "built-in": true
   },
   "set_alt_display": {
       "function": "?"
@@ -6719,7 +6848,8 @@
       "variable": "f"
   },
   "setdifference": {
-      "function": "s"
+      "function": "s",
+      "built-in": true
   },
   "setelmx": {
       "function": "?"
@@ -6728,10 +6858,12 @@
       "function": "s"
   },
   "setify": {
-      "function": "s"
+      "function": "s",
+      "built-in": true
   },
   "setp": {
-      "function": "s"
+      "function": "s",
+      "built-in": true
   },
   "setunits": {
       "function": "f"
@@ -6816,7 +6948,8 @@
       "variable": "f"
   },
   "simplify": {
-      "function": "s"
+      "function": "s",
+      "built-in": true
   },
   "simplify_products": {
       "variable": "f"
@@ -6843,11 +6976,13 @@
   },
   "sin": {
       "function": "s",
-      "trigfun": true
+      "trigfun": true,
+      "built-in": true
   },
   "sinh": {
       "function": "s",
-      "trigfun": true
+      "trigfun": true,
+      "built-in": true
   },
   "sinnpiflag": {
       "variable": "s"
@@ -6970,7 +7105,8 @@
       "function": "?"
   },
   "solve": {
-      "function": "s"
+      "function": "s",
+      "built-in": true
   },
   "solve_rec": {
       "function": "f"
@@ -7003,7 +7139,8 @@
       "function": "f"
   },
   "sort": {
-      "function": "s"
+      "function": "s",
+      "built-in": true
   },
   "space": {
       "variable": "s"
@@ -7064,7 +7201,8 @@
       "function": "s"
   },
   "sqrt": {
-      "function": "s"
+      "function": "s",
+      "built-in": true
   },
   "sqrtdenest": {
       "function": "f"
@@ -7096,6 +7234,74 @@
   "ssubstfirst": {
       "function": "?"
   },
+  "stack_complex_expression": {
+      "function": "t",
+      "built-in": true
+  },
+  "stack_unknown_integer": {
+      "variable": "t",
+      "built-in": true
+  },
+  "stack_unknown_float": {
+      "variable": "t",
+      "built-in": true
+  },
+  "stack_cyclic": {
+      "variable": "f",
+      "built-in": true
+  },
+  "stack_integer_set": {
+      "function": "t",
+      "built-in": true
+  },
+  "stack_float_set": {
+      "function": "t",
+      "built-in": true
+  },
+  "stack_expression_set": {
+      "function": "t",
+      "built-in": true
+  },
+  "stack_integer_list": {
+      "function": "t",
+      "built-in": true
+  },
+  "stack_float_list": {
+      "function": "t",
+      "built-in": true
+  },
+  "stack_expression_list": {
+      "function": "t",
+      "built-in": true
+  },
+  "stack_integer_matrix": {
+      "function": "t",
+      "built-in": true
+  },
+  "stack_float_matrix": {
+      "function": "t",
+      "built-in": true
+  },
+  "stack_complex_unknown": {
+      "function": "f",
+      "built-in": true
+  },
+  "stack_expression_matrix": {
+      "function": "t",
+      "built-in": true
+  },
+  "stack_disp": {
+      "function": "t",
+      "built-in": true
+  },
+  "stack_dispvalue": {
+      "function": "t",
+      "built-in": true
+  },
+  "stack_randseed": {
+      "function": "f",
+      "built-in": true
+  },
   "stack_reset_vars": {
       "function": "?",
       "blockexternal": "true"
@@ -7123,6 +7329,26 @@
   "stack_unit_si_declare": {
       "function": "s",
       "contextvariable": "true"
+  },
+  "stackmap_set": {
+      "function": "t",
+      "built-in": true
+  },
+  "stackmap_unset": {
+      "function": "t",
+      "built-in": true
+  },
+  "stackmap_get": {
+      "function": "t",
+      "built-in": true
+  },
+  "stackmap_has_key": {
+      "function": "t",
+      "built-in": true
+  },
+  "stackjson_stringify": {
+      "function": "t",
+      "built-in": true
   },
   "stackvector": {
       "function": "s"
@@ -7263,7 +7489,8 @@
       "function": "?"
   },
   "string": {
-      "function": "?"
+      "function": "?",
+      "built-in": true
   },
   "string_to_octets": {
       "function": "?"
@@ -7276,7 +7503,8 @@
       "globalyforbiddenfunction": true
   },
   "stringp": {
-      "function": "?"
+      "function": "?",
+      "built-in": true
   },
   "strong_components": {
       "function": "?"
@@ -7303,13 +7531,15 @@
       "argumentasfunction": [
           1
       ],
-      "function": "s"
+      "function": "s",
+      "built-in": true
   },
   "sublist_indices": {
       "function": "s"
   },
   "submatrix": {
-      "function": "s"
+      "function": "s",
+      "built-in": true
   },
   "subnumsimp": {
       "variable": "?"
@@ -7321,10 +7551,12 @@
       "function": "s"
   },
   "subsetp": {
-      "function": "s"
+      "function": "s",
+      "built-in": true
   },
   "subst": {
-      "function": "s"
+      "function": "t",
+      "built-in": true
   },
   "subst_parallel": {
       "function": "?"
@@ -7371,7 +7603,8 @@
       "variable": "f"
   },
   "symbolp": {
-      "function": "s"
+      "function": "s",
+      "built-in": true
   },
   "symmdifference": {
       "function": "s"
@@ -7397,11 +7630,13 @@
   },
   "tan": {
       "function": "s",
-      "trigfun": true
+      "trigfun": true,
+      "built-in": true
   },
   "tanh": {
       "function": "s",
-      "trigfun": true
+      "trigfun": true,
+      "built-in": true
   },
   "tau": {
       "function": "s",
@@ -7504,24 +7739,28 @@
       "globalyforbiddenfunction": true
   },
   "tex1": {
-      "function": "?"
+      "function": "?",
+      "built-in": true
   },
   "tex_display": {
       "function": "?"
   },
   "texput": {
       "function": "?",
-      "contextvariable": "true"
+      "contextvariable": "true",
+      "built-in": true
   },
   "texsub": {
-      "function": "s"
+      "function": "s",
+      "built-in": true
   },
   "theta": {
       "function": "s",
       "variable": "s"
   },
   "third": {
-      "function": "s"
+      "function": "s",
+      "built-in": true
   },
   "throw": {
       "function": "f",
@@ -7689,7 +7928,8 @@
       "variable": "f"
   },
   "transpose": {
-      "function": "s"
+      "function": "s",
+      "built-in": true
   },
   "transrun": {
       "globalyforbiddenvariable": true,
@@ -7708,7 +7948,8 @@
       "function": "f"
   },
   "triangularize": {
-      "function": "s"
+      "function": "s",
+      "built-in": true
   },
   "trigexpand": {
       "evflag": "?",
@@ -7736,7 +7977,8 @@
       "variable": "s"
   },
   "trigsimp": {
-      "function": "s"
+      "function": "s",
+      "built-in": true
   },
   "trivial_solutions": {
       "variable": "f"
@@ -7800,17 +8042,21 @@
       "function": "f"
   },
   "unicode": {
-      "function": "?"
+      "function": "?",
+      "built-in": true
   },
   "unicode_to_utf8": {
-      "function": "?"
+      "function": "?",
+      "built-in": true
   },
   "union": {
       "function": "s",
-      "nounfunction": "%union"
+      "nounfunction": "%union",
+      "built-in": true
   },
   "unique": {
-      "function": "s"
+      "function": "s",
+      "built-in": true
   },
   "unit_step": {
       "function": "f"
@@ -7822,7 +8068,8 @@
       "function": "f"
   },
   "unitp": {
-      "function": "?"
+      "function": "?",
+      "built-in": true
   },
   "units": {
       "function": "?"
@@ -7978,6 +8225,10 @@
   },
   "var_weibull": {
       "function": "s"
+  },
+  "vconcat": {
+      "function": "?",
+      "built-in": true
   },
   "vect_cross": {
       "variable": "s"
@@ -8249,10 +8500,12 @@
       "function": "s"
   },
   "zeromatrix": {
-      "function": "s"
+      "function": "s",
+      "built-in": true
   },
   "zeromatrixp": {
-      "function": "s"
+      "function": "s",
+      "built-in": true
   },
   "zeta": {
       "function": "s",

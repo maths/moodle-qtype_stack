@@ -85,6 +85,13 @@ $settings->add(new admin_setting_configselect('qtype_stack/casresultscache',
             'db' => get_string('settingcasresultscache_db', 'qtype_stack'),
         )));
 
+$settings->add(new admin_setting_configselect('qtype_stack/caspreparse',
+        get_string('settingcaspreparse', 'qtype_stack'),
+        get_string('settingcaspreparse_desc', 'qtype_stack'), 'true', array(
+            'true' => get_string('settingcaspreparse_true', 'qtype_stack'),
+            'false' => get_string('settingcaspreparse_false', 'qtype_stack'),
+        )));
+
 $settings->add(new admin_setting_configtext('qtype_stack/maximacommand',
         get_string('settingplatformmaximacommand', 'qtype_stack'),
         get_string('settingplatformmaximacommand_desc', 'qtype_stack'), null));

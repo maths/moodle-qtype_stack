@@ -17,6 +17,8 @@ Mostly minor bug fixes.
 * Done. Add in warnings of language mismatch in parts of a question.
 * Done. Add in warnings where the answer test needs a raw input but appears to get a calculated value.
 * Done. Expand `rand` to accept sets and make a random selection from sets.  Add `rand_selection_with_replacement`.
+* Done. Improve checking of teacher's code for better security, this requires a new admin setting `caspreparse` for back compatibility.
+
 
 ## Version 4.4
 

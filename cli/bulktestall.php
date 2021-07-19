@@ -58,7 +58,9 @@ if ($options['remote']) {
     if (!$DB = moodle_database::get_driver_instance($CFG->dbtype, $CFG->dblibrary)) {
         throw new dml_exception('dbdriverproblem', "Unknown driver $CFG->dblibrary/$CFG->dbtype");
     }
+    // @codingStandardsIgnoreStart
     //$DB->connect('live.database.host.name', 'read_only_user', 'pa55w0rd', 'live_database_name', 'mdl_', $CFG->dboptions);
+    // @codingStandardsIgnoreEnd
 }
 
 $context = context_system::instance();
